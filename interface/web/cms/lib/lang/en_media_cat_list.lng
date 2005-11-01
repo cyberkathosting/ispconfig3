@@ -1,4 +1,0 @@
-<?php
-$wb["list_head_txt"] = 'Category';
-$wb["name_txt"] = 'Name';
-?>

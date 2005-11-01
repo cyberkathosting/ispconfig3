@@ -1,5 +1,0 @@
-<?php
-$wb["list_head_txt"] = 'Medien Dateien';
-$wb["media_name_txt"] = 'Dateiname';
-$wb["media_type_txt"] = 'Dateityp';
-?>

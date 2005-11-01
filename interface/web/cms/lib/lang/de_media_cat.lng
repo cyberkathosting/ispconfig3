@@ -1,7 +1,0 @@
-<?php
-$wb["name_txt"] = 'name';
-$wb["name_err"] = 'name_err';
-$wb["parent_txt"] = 'parent';
-$wb["sort_txt"] = 'sort';
-$wb["active_txt"] = 'active';
-?>
