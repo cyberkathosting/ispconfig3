@@ -1,0 +1,72 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='media_profile_id_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="media_profile_id" class="text">
+			{tmpl_var name='media_profile_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='media_cat_id_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="media_cat_id" class="text">
+			{tmpl_var name='media_cat_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='media_name_txt'}:</td>
+    <td width="366" class="frmText11"><input name="media_name" type="text" class="text" value="{tmpl_var name='media_name'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='media_type_txt'}:</td>
+    <td width="366" class="frmText11"><input name="media_type" type="text" class="text" value="{tmpl_var name='media_type'}" size="15" maxlength="30"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='media_size_txt'}:</td>
+    <td width="366" class="frmText11"><input name="media_size" type="text" class="text" value="{tmpl_var name='media_size'}" size="15" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='media_format_txt'}:</td>
+    <td width="366" class="frmText11"><input name="media_format" type="text" class="text" value="{tmpl_var name='media_format'}" size="15" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='thumbnail_txt'}:</td>
+    <td width="366" class="frmText11">{tmpl_var name='thumbnail'}</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='path0_txt'}:</td>
+    <td width="366" class="frmText11"><input name="path0" type="text" class="text" value="{tmpl_var name='path0'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='path1_txt'}:</td>
+    <td width="366" class="frmText11"><input name="path1" type="text" class="text" value="{tmpl_var name='path1'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='path2_txt'}:</td>
+    <td width="366" class="frmText11"><input name="path2" type="text" class="text" value="{tmpl_var name='path2'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='path3_txt'}:</td>
+    <td width="366" class="frmText11"><input name="path3" type="text" class="text" value="{tmpl_var name='path3'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='path4_txt'}:</td>
+    <td width="366" class="frmText11"><input name="path4" type="text" class="text" value="{tmpl_var name='path4'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='path5_txt'}:</td>
+    <td width="366" class="frmText11"><input name="path5" type="text" class="text" value="{tmpl_var name='path5'}" size="30" maxlength="255"></td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="Speichern" type="submit" class="button" value="Speichern">
+      <input name="Abbrechen" type="button" class="button" value="Abbrechen" onClick="self.location.href='media_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

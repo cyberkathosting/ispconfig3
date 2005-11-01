@@ -1,0 +1,31 @@
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<form action="index.php" method="post" name="login" target="_self" id="login">
+<table width="248" border="0" align="center" cellpadding="4" cellspacing="0">
+  <tr>
+    <td height="20" colspan="2" class="tblHead">Login</td>
+  </tr>
+  <tmpl_if name="error">
+  <tr>
+    <td height="46" colspan="2"><tmpl_var name="error"></td>
+  </tr>
+  </tmpl_if>  
+  <tr>
+    <td width="109" class="frmText11">Username</td>
+    <td width="159"><input name="username" type="text" id="username" class="text"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">Passwort</td>
+    <td><input name="passwort" type="password" id="passwort" class="text"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="Submit" value="Login" class="button"></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+</table>
+</form>

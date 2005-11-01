@@ -1,0 +1,29 @@
+<form name="myform" action="dbsync_list.php" method="POST">
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="tblHead"><tmpl_var name="jobname_txt"></td>
+    <td class="tblHead"><tmpl_var name="db_host_txt"></td>
+    <td class="tblHead"><tmpl_var name="db_name_txt"></td>
+    <td class="tblHead">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="frmText11"><input type="text" name="search_jobname" value="{tmpl_var name='search_jobname'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_db_host" value="{tmpl_var name='search_db_host'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_db_name" value="{tmpl_var name='search_db_name'}" class="text" /></td>
+    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="Filter"></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+    <td class="frmText11"><a href="dbsync_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="jobname"}</a></td>
+    <td class="frmText11"><a href="dbsync_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="db_host"}</a></td>
+    <td class="frmText11"><a href="dbsync_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="db_name"}</a></td>
+    <td class="frmText11" align="right">[<a href="javascript: del_record('dbsync_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">Löschen</a>]</td>
+  </tr>
+  </tmpl_loop>
+
+  <tr>
+  	<td colspan="4" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
+  </tr>
+</table>
+</form>

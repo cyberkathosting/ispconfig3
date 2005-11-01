@@ -1,0 +1,80 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='KD_Nr_txt'}:</td>
+    <td width="366" class="frmText11"><input name="KD_Nr" type="text" class="text" value="{tmpl_var name='KD_Nr'}" size="15" maxlength="15"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='PLZ_Index_txt'}:</td>
+    <td width="366" class="frmText11"><input name="PLZ_Index" type="text" class="text" value="{tmpl_var name='PLZ_Index'}" size="5" maxlength="5"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Typ_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="Typ" class="text">
+			{tmpl_var name='Typ'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Name1_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Name1" type="text" class="text" value="{tmpl_var name='Name1'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Name2_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Name2" type="text" class="text" value="{tmpl_var name='Name2'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Strasse_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Strasse" type="text" class="text" value="{tmpl_var name='Strasse'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Ort_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Ort" type="text" class="text" value="{tmpl_var name='Ort'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Telefon_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Telefon" type="text" class="text" value="{tmpl_var name='Telefon'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Fax_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Fax" type="text" class="text" value="{tmpl_var name='Fax'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='email_txt'}:</td>
+    <td width="366" class="frmText11"><input name="email" type="text" class="text" value="{tmpl_var name='email'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Internet_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Internet" type="text" class="text" value="{tmpl_var name='Internet'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Verkauft_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Verkauft" type="text" class="text" value="{tmpl_var name='Verkauft'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='bem_txt'}:</td>
+    <td width="366" class="frmText11"><textarea name='bem' cols='40' rows='5'>{tmpl_var name='bem'}</textarea></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='Region_txt'}:</td>
+    <td width="366" class="frmText11"><input name="Region" type="text" class="text" value="{tmpl_var name='Region'}" size="40" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='LK_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="LK" class="text">
+			{tmpl_var name='LK'}
+		</select>
+	</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="Speichern" type="submit" class="button" value="Speichern">
+      <input name="Abbrechen" type="button" class="button" value="Abbrechen" onClick="self.location.href='haendler_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

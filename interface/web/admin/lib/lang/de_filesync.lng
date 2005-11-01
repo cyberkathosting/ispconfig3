@@ -1,0 +1,12 @@
+<?php
+$wb["jobname_txt"] = 'Name';
+$wb["jobname_err"] = 'Es wurde kein Name für diese Aufgabe angegeben.';
+$wb["sync_interval_minutes_txt"] = 'Intervall (Min.)';
+$wb["ftp_host_txt"] = 'FTP Host';
+$wb["ftp_path_txt"] = 'FTP Pfad';
+$wb["ftp_username_txt"] = 'FTP User';
+$wb["ftp_password_txt"] = 'FTP Passwort';
+$wb["local_path_txt"] = 'Lokaler Pfad';
+$wb["wput_options_txt"] = 'Wput Optionen';
+$wb["active_txt"] = 'Aktiv';
+?>

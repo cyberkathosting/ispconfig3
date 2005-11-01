@@ -1,0 +1,24 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='default_group_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="default_group" class="text">
+			{tmpl_var name='default_group'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='groups_txt'}:</td>
+    <td width="366" class="frmText11">{tmpl_var name='groups'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="Speichern" type="submit" class="button" value="Speichern">
+      <input name="Abbrechen" type="button" class="button" value="Abbrechen" onClick="self.location.href='users_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

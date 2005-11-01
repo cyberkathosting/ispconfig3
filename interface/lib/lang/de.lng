@@ -1,0 +1,14 @@
+<?php
+
+// Globale Error Messages
+$wb[301] = 'Modul für User nicht erlaubt.';
+$wb[302] = 'Modul ungültig.';
+// Satz für deutsche Reiterkarten
+$wb[303] = '&nbsp;';
+// Satz für englische Reiterkarten
+$wb[304] = ' Dieses Formular dient zum Anlegen eines englischsprachigen Eintrags zusätzlich zu Ihrem deutschen Eintrag. Bitte vervollständigen Sie die Daten, soweit erforderlich, in Englisch - die Inhalte aus den Drop-Down-Menüs werden automatisch übersetzt:';
+
+
+
+
+?>

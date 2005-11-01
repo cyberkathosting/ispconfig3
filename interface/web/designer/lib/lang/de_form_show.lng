@@ -1,0 +1,17 @@
+<?php
+$wb["header_txt"] = 'Formulareditor';
+$wb["title_txt"] = 'Formulartitel';
+$wb["name_txt"] = 'Formularname';
+$wb["delete_txt"] = 'Löschen';
+$wb["properties_txt"] = 'Eigenschaften';
+$wb["new_tab_txt"] = 'Reiter neu';
+$wb["edit_txt"] = 'Bearbeiten';
+$wb["delete_txt"] = 'X';
+$wb["new_txt"] = 'Neu';
+$wb["up_txt"] = '^';
+$wb["down_txt"] = 'v';
+$wb["module_txt"] = 'Modul';
+$wb["form_txt"] = 'Formular';
+$wb["description_txt"] = 'Beschreibung';
+
+?>

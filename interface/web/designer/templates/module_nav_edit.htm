@@ -1,0 +1,26 @@
+<form method="POST" action="module_nav_edit.php">
+<div class="frmTextHead"><tmpl_var name="header_txt"></div><br />
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11"><tmpl_var name="title_txt">:</td>
+    <td width="366" class="frmText11"><input name="nav[title]" type="text" class="text" value="{tmpl_var name='title'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="frmText11">&nbsp;<inp</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="Speichern" type="submit" class="button" value="{tmpl_var name='save_txt'}">
+      <input name="Abbrechen" type="button" class="button" value="{tmpl_var name='cancel_txt'}" onClick="self.location.href='module_list.php';">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="frmText11"><tmpl_var name="description_txt"></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="frmText11">&nbsp;</td>
+  </tr>
+</table>
+<input type="hidden" name="nav_id" value="{tmpl_var name='nav_id'}">
+<input type="hidden" name="module_name" value="{tmpl_var name='module_name'}">
+</form>

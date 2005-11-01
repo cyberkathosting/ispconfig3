@@ -1,0 +1,21 @@
+<?php
+$wb["KD_Nr_txt"] = 'KD_Nr';
+$wb["kdnr_err"] = 'kdnr_err';
+$wb["PLZ_Index_txt"] = 'PLZ_Index';
+$wb["Name1_txt"] = 'Name1';
+$wb["Name2_txt"] = 'Name2';
+$wb["Strasse_txt"] = 'Strasse';
+$wb["Ort_txt"] = 'Ort';
+$wb["Telefon_txt"] = 'Telefon';
+$wb["Fax_txt"] = 'Fax';
+$wb["email_txt"] = 'email';
+$wb["Internet_txt"] = 'Internet';
+$wb["Verkauft_txt"] = 'Verkauft';
+$wb["bem_txt"] = 'Bemerkungen';
+$wb["Typ_txt"] = 'Typ';
+$wb["Land_lt_Haendler_txt"] = 'Land laut Händler';
+$wb["Land_dt_txt"] = 'Land (de)';
+$wb["Land_int_txt"] = 'Land (int)';
+$wb["LK_txt"] = 'Länderkürzel';
+$wb["Region_txt"] = 'Region';
+?>

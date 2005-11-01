@@ -1,0 +1,4 @@
+<?php
+$wb["list_head_txt"] = 'Kategorie';
+$wb["name_txt"] = 'Name';
+?>

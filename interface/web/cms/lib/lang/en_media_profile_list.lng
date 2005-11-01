@@ -1,0 +1,4 @@
+<?php
+$wb["list_head_txt"] = 'media_profile';
+$wb["profile_name_txt"] = 'profile_name';
+?>

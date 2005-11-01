@@ -1,0 +1,8 @@
+<?php
+$wb["title_txt"] = 'Überschrift';
+$wb["target_txt"] = 'Target';
+$wb["link_txt"] = 'Link';
+$wb["header_txt"] = 'Navigation Eigenschaften';
+$wb["save_txt"] = 'Speichern';
+$wb["cancel_txt"] = 'Abbrechen';
+?>

@@ -1,0 +1,24 @@
+<?php
+$wb["media_cat_id_txt"] = 'media_cat_id';
+$wb["profile_name_txt"] = 'profile_name';
+$wb["profile_name_err"] = 'profile_name_err';
+$wb["profile_description_txt"] = 'profile_description';
+$wb["thumbnail_txt"] = 'thumbnail';
+$wb["original_txt"] = 'original';
+$wb["path0_txt"] = 'path0';
+$wb["path1_txt"] = 'path1';
+$wb["resize1_txt"] = 'resize1';
+$wb["options1_txt"] = 'options1';
+$wb["path2_txt"] = 'path2';
+$wb["resize2_txt"] = 'resize2';
+$wb["options2_txt"] = 'options2';
+$wb["path3_txt"] = 'path3';
+$wb["resize3_txt"] = 'resize3';
+$wb["options3_txt"] = 'options3';
+$wb["path4_txt"] = 'path4';
+$wb["resize4_txt"] = 'resize4';
+$wb["options4_txt"] = 'options4';
+$wb["path5_txt"] = 'path5';
+$wb["resize5_txt"] = 'resize5';
+$wb["options5_txt"] = 'options5';
+?>

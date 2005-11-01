@@ -1,0 +1,77 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='company_txt'}:</td>
+    <td width="366" class="frmText11"><input name="company" type="text" class="text" value="{tmpl_var name='company'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='title_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="title" class="text">
+			{tmpl_var name='title'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='firstname_txt'}:</td>
+    <td width="366" class="frmText11"><input name="firstname" type="text" class="text" value="{tmpl_var name='firstname'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='surname_txt'}:</td>
+    <td width="366" class="frmText11"><input name="surname" type="text" class="text" value="{tmpl_var name='surname'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='street_txt'}:</td>
+    <td width="366" class="frmText11"><input name="street" type="text" class="text" value="{tmpl_var name='street'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='zip_txt'}:</td>
+    <td width="366" class="frmText11"><input name="zip" type="text" class="text" value="{tmpl_var name='zip'}" size="10" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='city_txt'}:</td>
+    <td width="366" class="frmText11"><input name="city" type="text" class="text" value="{tmpl_var name='city'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='country_txt'}:</td>
+    <td width="366" class="frmText11"><input name="country" type="text" class="text" value="{tmpl_var name='country'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='telephone_txt'}:</td>
+    <td width="366" class="frmText11"><input name="telephone" type="text" class="text" value="{tmpl_var name='telephone'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='mobile_txt'}:</td>
+    <td width="366" class="frmText11"><input name="mobile" type="text" class="text" value="{tmpl_var name='mobile'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='fax_txt'}:</td>
+    <td width="366" class="frmText11"><input name="fax" type="text" class="text" value="{tmpl_var name='fax'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='email_txt'}:</td>
+    <td width="366" class="frmText11"><input name="email" type="text" class="text" value="{tmpl_var name='email'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='internet_txt'}:</td>
+    <td width="366" class="frmText11"><input name="internet" type="text" class="text" value="{tmpl_var name='internet'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='icq_txt'}:</td>
+    <td width="366" class="frmText11"><input name="icq" type="text" class="text" value="{tmpl_var name='icq'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='notes_txt'}:</td>
+    <td width="366" class="frmText11"><textarea name='notes' cols='30' rows='5'>{tmpl_var name='notes'}</textarea></td>
+  </tr>
+  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="submit" class="button" value="{tmpl_var name='btn_save_txt'}">
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="self.location.href='reseller_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

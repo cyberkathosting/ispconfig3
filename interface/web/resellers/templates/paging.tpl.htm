@@ -1,0 +1,9 @@
+[ <a href='{tmpl_var name="list_file"}?page=0{tmpl_var name="page_params"}'>|<< </a>]
+<tmpl_if name="show_page_back">
+	[<< <a href='{tmpl_var name="list_file"}?page={tmpl_var name="last_page"}{tmpl_var name="page_params"}'>{tmpl_var name="page_back_txt"}</a>] 
+</tmpl_if>
+  {tmpl_var name="page_txt"} {tmpl_var name="next_page"} {tmpl_var name="page_of_txt"} {tmpl_var name="max_pages"}
+<tmpl_if name="show_page_next">
+   [<a href='{tmpl_var name="list_file"}?page={tmpl_var name="next_page"}{tmpl_var name="page_params"}'>{tmpl_var name="page_next_txt"} >></a>]  
+</tmpl_if>
+ [<a href='{tmpl_var name="list_file"}?page={tmpl_var name="pages"}{tmpl_var name="page_params"}'> >>| </a>]

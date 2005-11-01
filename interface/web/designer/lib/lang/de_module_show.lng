@@ -1,0 +1,17 @@
+<?php
+$wb["header_txt"] = 'Menüeditor';
+$wb["title_txt"] = 'Titel';
+$wb["name_txt"] = 'Modul';
+$wb["delete_txt"] = 'Löschen';
+$wb["properties_txt"] = 'Eigenschaften';
+$wb["new_menu_txt"] = 'Menü neu';
+$wb["edit_txt"] = 'Bearbeiten';
+$wb["delete_txt"] = 'Löschen';
+$wb["new_txt"] = 'Neu';
+$wb["up_txt"] = 'Up';
+$wb["down_txt"] = 'Down';
+$wb["module_txt"] = 'Modul';
+$wb["module_del_txt"] = "Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse löschen?";
+$wb["menu_del_txt"] = "Wollen Sie das Menü mit allen Untereinträgen löschen?";
+$wb["item_del_txt"] = "Wollen Sie den Menüeintrag löschen?";
+?>
