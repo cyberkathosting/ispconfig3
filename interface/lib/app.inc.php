@@ -136,9 +136,11 @@ class app {
       }
 	  
 	  function tpl_defaults() {
+		global $conf;
 		
 		$this->tpl->setVar('theme',$_SESSION["s"]["theme"]);
 		$this->tpl->setVar('phpsessid',session_id());
+		$this->tpl->setVar('html_content_encoding',$conf["html_content_encoding"]);
 	  	
 	  }
 

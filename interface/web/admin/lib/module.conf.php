@@ -41,6 +41,23 @@ $module["nav"][] = array(	'title'	=> 'Groups',
 // aufräumen
 unset($items);
 
+$items[] = array( 'title' 	=> "Add server",
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/server_edit.php');
+
+$items[] = array( 'title' 	=> "Edit server",
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/server_list.php');
+
+				  
+$module["nav"][] = array(	'title'	=> 'Servers',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+
+// aufräumen
+unset($items);
+
 $items[] = array( 'title' 	=> "Add user",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/dbsync_edit.php');

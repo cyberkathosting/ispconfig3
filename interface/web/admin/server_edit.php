@@ -27,56 +27,30 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-ini_set('register_globals',0);
 
-$conf["rootpath"] 		= "D:\\www\\ispconfig3\\interface";
-//$conf["rootpath"] 		= "D:\\www\\ispconfig3\\interface";
-//$conf["rootpath"] 		= "/home/www/ispconfig3/web/cms";
+/******************************************
+* Begin Form configuration
+******************************************/
 
-$conf["fs_div"] 		= "\\"; // File system divider, \\ on windows and / on linux and unix
-$conf["classpath"] 		= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"] 		= $conf["rootpath"].$conf["fs_div"]."temp";
+$tform_def_file = "form/server.tform.php";
 
+/******************************************
+* End Form configuration
+******************************************/
 
-/*
-	Database Settings
-*/
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
 
+// Checking module permissions
+if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
+	header("Location: ../index.php");
+	exit;
+}
 
-$conf["db_type"] 		= 'mysql';
-$conf["db_host"] 		= 'localhost';
-$conf["db_database"] 	= 'ispconfig3';
-$conf["db_user"] 		= 'root';
-$conf["db_password"] 	= '';
+// Loading classes
+$app->uses('tpl,tform,tform_actions');
 
-
-/*
-	External programs
-*/
-
-//$conf["programs"]["convert"]		= "/usr/bin/convert";
-$conf["programs"]["wput"]			= $conf["rootpath"]."\\tools\\wput\\wput.exe";
-
-
-/*
-	Themes
-*/
-
-$conf["theme"] 					= 'default';
-$conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
-
-/*
-	Default Language
-*/
-
-$conf['language']		= 'en';
-
-
-/*
-	Auto Load Modules
-*/
-
-$conf["start_db"] 		= true;
-$conf["start_session"] 	= true;
+// let tform_actions handle the page
+$app->tform_actions->onLoad();
 
 ?>

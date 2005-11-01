@@ -153,7 +153,7 @@ class tform_tpl_generator {
 		// ansonsten wird sie angelegt
 		$tables = $app->db->getTables();
 		
-		if(!in_array($formDef['db_table'],$tables)) {
+		if(!@in_array($formDef['db_table'],$tables)) {
 			// Datenbank noch nicht vorhanden
 			
 			$columns = array();
@@ -171,6 +171,52 @@ class tform_tpl_generator {
 					
 			$columns[] = $col;
 			$app->db->show_error_messages = true;
+			
+			if($formDef["auth"] == 'yes') {
+				
+				$col = array(	'action' 		=> 'add',
+								'name'			=> 'sys_userid',
+								'type'			=> 'int32',
+								'typeValue'		=> '',
+								'defaultValue'	=> '',
+								'notNull'		=> true
+							);
+				$columns[] = $col;
+				$col = array(	'action' 		=> 'add',
+								'name'			=> 'sys_groupid',
+								'type'			=> 'int32',
+								'typeValue'		=> '',
+								'defaultValue'	=> '',
+								'notNull'		=> true
+							);
+				$columns[] = $col;
+				$col = array(	'action' 		=> 'add',
+								'name'			=> 'sys_perm_user',
+								'type'			=> 'varchar',
+								'typeValue'		=> '5',
+								'defaultValue'	=> '',
+								'notNull'		=> true
+							);
+				$columns[] = $col;
+				$col = array(	'action' 		=> 'add',
+								'name'			=> 'sys_perm_group',
+								'type'			=> 'varchar',
+								'typeValue'		=> '5',
+								'defaultValue'	=> '',
+								'notNull'		=> true
+							);
+				$columns[] = $col;
+				$col = array(	'action' 		=> 'add',
+								'name'			=> 'sys_perm_other',
+								'type'			=> 'varchar',
+								'typeValue'		=> '5',
+								'defaultValue'	=> '',
+								'notNull'		=> true
+							);
+				$columns[] = $col;
+			
+			}
+			
 			
 			foreach($formDef['tabs'] as $tab) {
 				foreach($tab["fields"] as $name => $field) {
