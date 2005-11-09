@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 01. November 2005 um 23:57
+# Erstellungszeit: 09. November 2005 um 23:22
 # Server Version: 4.0.23
 # PHP-Version: 5.0.3
 # Datenbank: `ispconfig3`
@@ -35,10 +35,17 @@ CREATE TABLE mail_blacklist (
 DROP TABLE IF EXISTS mail_domain;
 CREATE TABLE mail_domain (
   domain_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
   server_id int(11) NOT NULL default '0',
   domain varchar(255) NOT NULL default '',
-  type enum('local','relay','manual_relay') NOT NULL default 'local',
+  type enum('local','relay','manual_relay','alias') NOT NULL default 'local',
   relay_host varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  active tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (domain_id),
   KEY server_id (server_id,domain,type)
 ) TYPE=MyISAM;
@@ -47,6 +54,7 @@ CREATE TABLE mail_domain (
 # Daten für Tabelle `mail_domain`
 #
 
+INSERT INTO mail_domain VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.de', 'local', '', '', 1);
 # --------------------------------------------------------
 
 #
@@ -399,5 +407,5 @@ CREATE TABLE sys_user (
 # Daten für Tabelle `sys_user`
 #
 
-INSERT INTO sys_user VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,clients,designer,resellers,sites', 'admin', 'default', 'admin', 1, '', 'Administrator', '', '', '', '', '', '', '', '', '', 'en', '1,2', 0);
+INSERT INTO sys_user VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,designer,sites', 'admin', 'default', 'admin', 1, '', 'Administrator', '', '', '', '', '', '', '', '', '', 'en', '1,2', 0);
 

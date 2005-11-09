@@ -1,0 +1,44 @@
+<form name="myform" action="server_list.php" method="POST">
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="tblHead"><tmpl_var name="server_name_txt"></td>
+    <td class="tblHead"><tmpl_var name="mail_server_txt"></td>
+    <td class="tblHead"><tmpl_var name="web_server_txt"></td>
+    <td class="tblHead"><tmpl_var name="dns_server_txt"></td>
+    <td class="tblHead"><tmpl_var name="file_server_txt"></td>
+    <td class="tblHead"><tmpl_var name="mysql_server_txt"></td>
+    <td class="tblHead"><tmpl_var name="postgresql_server_txt"></td>
+    <td class="tblHead"><tmpl_var name="firebird_server_txt"></td>
+    <td class="tblHead">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="frmText11"><input type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_mail_server" value="{tmpl_var name='search_mail_server'}" class="text" size="2" /></td>
+    <td class="frmText11"><input type="text" name="search_web_server" value="{tmpl_var name='search_web_server'}" class="text" size="2" /></td>
+    <td class="frmText11"><input type="text" name="search_dns_server" value="{tmpl_var name='search_dns_server'}" class="text" size="2" /></td>
+    <td class="frmText11"><input type="text" name="search_file_server" value="{tmpl_var name='search_file_server'}" class="text" size="2" /></td>
+    <td class="frmText11"><input type="text" name="search_mysql_server" value="{tmpl_var name='search_mysql_server'}" class="text" size="2" /></td>
+    <td class="frmText11"><input type="text" name="search_postgresql_server" value="{tmpl_var name='search_postgresql_server'}" class="text" size="2" /></td>
+    <td class="frmText11"><input type="text" name="search_firebird_server" value="{tmpl_var name='search_firebird_server'}" class="text" size="2" /></td>
+    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="server_name"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="mail_server"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="web_server"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="dns_server"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="file_server"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="mysql_server"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="postgresql_server"}</a></td>
+    <td class="frmText11"><a href="server_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="firebird_server"}</a></td>
+    <td class="frmText11" align="right">[<a href="javascript: del_record('server_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
+  </tr>
+  </tmpl_loop>
+
+  <tr>
+  	<td colspan="9" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
+  </tr>
+</table>
+</form>

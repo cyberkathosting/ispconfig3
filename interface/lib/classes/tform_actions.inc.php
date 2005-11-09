@@ -105,6 +105,7 @@ class tform_actions {
 		$sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'UPDATE',$this->id,$ext_where);
 		if($app->tform->errorMessage == '') {
 			$app->db->query($sql);
+			if($app->db->errorMessage != '') die($app->db->errorMessage);
 			
 			// Call plugin
 			foreach($this->plugins as $plugin) {
@@ -133,6 +134,7 @@ class tform_actions {
 		$sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'INSERT',$this->id,$ext_where);
 		if($app->tform->errorMessage == '') {
 			$app->db->query($sql);
+			if($app->db->errorMessage != '') die($app->db->errorMessage);
 			$this->id = $app->db->insertID();
 			
 			// Call plugin

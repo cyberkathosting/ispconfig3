@@ -1,0 +1,30 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='server_id_txt'}:</td>
+    <td width="366" class="frmText11">
+		<select name="server_id" class="text">
+			{tmpl_var name='server_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='domain_txt'}:</td>
+    <td width="366" class="frmText11"><input name="domain" type="text" class="text" value="{tmpl_var name='domain'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">{tmpl_var name='active'} &nbsp; {tmpl_var name='active_txt'}</td>
+  </tr>
+  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="submit" class="button" value="{tmpl_var name='btn_save_txt'}">
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="self.location.href='mail_domain_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+<input type="hidden" name="type" value="local">

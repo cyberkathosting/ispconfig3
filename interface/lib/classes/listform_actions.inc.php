@@ -50,6 +50,11 @@ class listform_actions {
 		// Load list definition
 		$app->listform->loadListDef($list_def_file);
 		
+		if(!is_file('templates/'.$app->listform->listDef["name"].'_list.htm')) {
+			$app->uses('listform_tpl_generator');
+			$app->listform_tpl_generator->buildHTML($app->listform->listDef);
+		}
+		
 		$app->tpl->newTemplate("form.tpl.htm");
 		$app->tpl->setInclude('content_tpl','templates/'.$app->listform->listDef["name"].'_list.htm');
 

@@ -218,6 +218,7 @@ class tform {
 			
 			// Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);
+			if($app->db->errorMessage != '') die($app->db->errorMessage);
 			if(is_array($tmp_records)) {
 				$key_field = $field["datasource"]["keyfield"];
 				$value_field = $field["datasource"]["valuefield"];
@@ -239,6 +240,8 @@ class tform {
 				$this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
 			}
 		}
+		
+		return $values;
 		
 	}
 	
@@ -354,6 +357,12 @@ class tform {
 		} else {
 			// Action: NEW
 			foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
+				
+				// If Datasource is set, get the data from there
+				if(is_array($field['datasource'])) {
+					$field["value"] = $this->getDatasourceData($field, $record);
+				}
+				
 				switch ($field['formtype']) {
 				case 'SELECT':
 					if(is_array($field['value'])) {

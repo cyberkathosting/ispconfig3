@@ -16,7 +16,7 @@ $items[] = array( 'title' 	=> "Edit user",
 				  'link'	=> 'admin/users_list.php');
 
 				  
-$module["nav"][] = array(	'title'	=> 'Users',
+$module["nav"][] = array(	'title'	=> 'CP Users',
 							'open' 	=> 1,
 							'items'	=> $items);
 
