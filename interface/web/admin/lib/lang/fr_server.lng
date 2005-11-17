@@ -1,0 +1,13 @@
+<?php
+$wb["server_name_txt"] = 'Nom du serveur';
+$wb["mail_server_txt"] = 'Serveur Mail';
+$wb["web_server_txt"] = 'Serveur Web';
+$wb["dns_server_txt"] = 'Serveur DNS';
+$wb["file_server_txt"] = 'Serveur de fichier';
+$wb["mysql_server_txt"] = 'Serveur MySQL';
+$wb["postgresql_server_txt"] = 'Serveur PostgreSQL';
+$wb["firebird_server_txt"] = 'Serveur Firebird';
+$wb["active_txt"] = 'Actif';
+$wb["btn_save_txt"] = 'Sauver';
+$wb["btn_cancel_txt"] = 'Annuler';
+?>

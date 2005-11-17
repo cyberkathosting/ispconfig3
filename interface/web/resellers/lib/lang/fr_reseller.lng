@@ -1,0 +1,37 @@
+<?php
+$wb["company_txt"] = 'Société';
+$wb["title_txt"] = 'Titre';
+$wb["firstname_txt"] = 'Prénom';
+$wb["surname_txt"] = 'Nom';
+$wb["street_txt"] = 'Rue';
+$wb["zip_txt"] = 'Code Postal';
+$wb["city_txt"] = 'Ville';
+$wb["country_txt"] = 'Pays';
+$wb["telephone_txt"] = 'Téléphone';
+$wb["mobile_txt"] = 'Mobile';
+$wb["fax_txt"] = 'Fax';
+$wb["email_txt"] = 'E-mail';
+$wb["internet_txt"] = 'Internet';
+$wb["icq_txt"] = 'ICQ';
+$wb["limit_client_txt"] = 'limit_client';
+$wb["limit_domain_txt"] = 'limit_domaine';
+$wb["limit_subdomain_txt"] = 'limit_sousdomaine';
+$wb["limit_mailbox_txt"] = 'limit_boitemail';
+$wb["limit_mailalias_txt"] = 'limit_aliasmail';
+$wb["limit_webquota_txt"] = 'limit_quotaweb';
+$wb["limit_mailquota_txt"] = 'limit_quotamail';
+$wb["limit_database_txt"] = 'limit_basededonnées';
+$wb["ip_address_txt"] = 'ip_adresse';
+$wb["notes_txt"] = 'Notes';
+$wb["btn_save_txt"] = 'Sauver';
+$wb["btn_cancel_txt"] = 'Annuler';
+
+// Error Messages
+$wb['limit_client_error_notint'] = 'La limite Client doit être en chiffre.';
+$wb['firstname_error_empty'] = 'Le prénom est vide.';
+$wb['surname_error_empty'] = 'Le nom est vide.';
+
+
+
+
+?>

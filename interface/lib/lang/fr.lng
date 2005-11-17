@@ -1,0 +1,7 @@
+<?php
+
+// Messages d'erreur Globaux
+$wb[301] = 'Module interdit pour l'utilisateur courant.';
+$wb[302] = 'Module invalide.';
+
+?>

@@ -1,0 +1,14 @@
+<?php
+$wb["jobname_txt"] = 'Nom';
+$wb["jobname_err"] = 'Le champ "Nom" est vide.';
+$wb["sync_interval_minutes_txt"] = 'Intervalle (Min.)';
+$wb["db_type_txt"] = 'Type de BDD';
+$wb["db_host_txt"] = 'Nom d\'hôte BDD';
+$wb["db_name_txt"] = 'Nom de la BDD';
+$wb["db_username_txt"] = 'Utilisateur BDD';
+$wb["db_password_txt"] = 'Mot de passe BDD';
+$wb["db_tables_txt"] = 'Tables';
+$wb["empty_datalog_txt"] = 'Effacer le datalog après synchro.';
+$wb["sync_datalog_external_txt"] = 'Remplir le datalog externe.';
+$wb["active_txt"] = 'actif';
+?>

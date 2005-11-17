@@ -1,0 +1,17 @@
+<?php
+$wb["list_head_txt"] = 'Serveur';
+$wb["server_name_txt"] = 'Nom';
+$wb["mail_server_txt"] = 'Mail';
+$wb["web_server_txt"] = 'Web';
+$wb["dns_server_txt"] = 'DNS';
+$wb["file_server_txt"] = 'Fichier';
+$wb["mysql_server_txt"] = 'MySQL';
+$wb["postgresql_server_txt"] = 'PostgreSQL';
+$wb["firebird_server_txt"] = 'Firebird';
+$wb["page_txt"] = 'Page';
+$wb["page_of_txt"] = 'de';
+$wb["page_next_txt"] = 'Suivant';
+$wb["page_back_txt"] = 'Précedent';
+$wb["delete_txt"] = 'Effacer';
+$wb["filter_txt"] = 'Filtrer';
+?>
