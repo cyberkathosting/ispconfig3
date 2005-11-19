@@ -1,0 +1,16 @@
+<?php
+
+$wb[1001]	= "Användarnamn eller Lösenord är tomt.";
+$wb[1002]	= "Felaktigt Användarnamn eller Lösenord.";
+$wb[1003]	= "Användaren är spärrad.";
+
+
+
+
+
+
+
+
+
+
+?>

@@ -1,0 +1,7 @@
+<?php
+
+// Globale Error Messages
+$wb[301] = 'Modulen är ej tillåten för nuvarande användare.';
+$wb[302] = 'Modulen är ogiltig.';
+
+?>

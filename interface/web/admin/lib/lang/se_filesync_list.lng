@@ -1,0 +1,6 @@
+<?php
+$wb["list_head_txt"] = 'Fil Synkronisering';
+$wb["jobname_txt"] = 'Jobbnamn';
+$wb["ftp_host_txt"] = 'FTP Server';
+$wb["local_path_txt"] = 'Lokal Sökväg';
+?>

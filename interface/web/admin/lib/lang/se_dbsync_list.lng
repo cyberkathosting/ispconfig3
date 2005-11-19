@@ -1,0 +1,13 @@
+<?php
+$wb["list_head_txt"] = 'Databas Synkronisering';
+$wb["jobname_txt"] = 'Jobbnamn';
+$wb["db_host_txt"] = 'DB Värd';
+$wb["db_name_txt"] = 'DB Namn';
+
+$wb["page_txt"] = 'Sida';
+$wb["page_of_txt"] = 'av';
+$wb["page_next_txt"] = 'Nästa';
+$wb["page_back_txt"] = 'Tillbaka';
+$wb["delete_txt"] = 'Ta bort';
+$wb["filter_txt"] = 'Filter';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domän';
+$wb["type_txt"] = 'Typ';
+$wb["active_txt"] = 'Aktiv';
+$wb["btn_save_txt"] = 'Spara';
+$wb["btn_cancel_txt"] = 'Avbryt';
+?>

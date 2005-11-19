@@ -1,0 +1,17 @@
+<?php
+$wb["header_txt"] = 'Meny redigerare';
+$wb["title_txt"] = 'Titel';
+$wb["name_txt"] = 'Modul';
+$wb["delete_txt"] = 'Ta bort';
+$wb["properties_txt"] = 'Egenskaper';
+$wb["new_menu_txt"] = 'Ny Meny';
+$wb["edit_txt"] = 'Editera';
+$wb["delete_txt"] = 'Ta bort';
+$wb["new_txt"] = 'Ny';
+$wb["up_txt"] = 'Upp';
+$wb["down_txt"] = 'Ner';
+$wb["module_txt"] = 'Modul';
+$wb["module_del_txt"] = "Ta bort modulen och alla undermappar?";
+$wb["menu_del_txt"] = "Ta bort meny och allt menyinnehåll?";
+$wb["item_del_txt"] = "Ta bort menyinnehåll?";
+?>

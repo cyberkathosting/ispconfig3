@@ -1,0 +1,37 @@
+<?php
+$wb["company_txt"] = 'Företag';
+$wb["title_txt"] = 'Titel';
+$wb["firstname_txt"] = 'Förnamn';
+$wb["surname_txt"] = 'Efternamn';
+$wb["street_txt"] = 'Gata';
+$wb["zip_txt"] = 'Postadress';
+$wb["city_txt"] = 'Stad';
+$wb["country_txt"] = 'Land';
+$wb["telephone_txt"] = 'Telefon';
+$wb["mobile_txt"] = 'Mobil';
+$wb["fax_txt"] = 'Fax';
+$wb["email_txt"] = 'Epost';
+$wb["internet_txt"] = 'Internet';
+$wb["icq_txt"] = 'ICQ';
+$wb["limit_client_txt"] = 'begränsning_kund';
+$wb["limit_domain_txt"] = 'begränsning_domän';
+$wb["limit_subdomain_txt"] = 'begränsning_subdomän';
+$wb["limit_mailbox_txt"] = 'begränsning_epostlåda';
+$wb["limit_mailalias_txt"] = 'begränsning_epostalias';
+$wb["limit_webquota_txt"] = 'begränsning_webbkvot';
+$wb["limit_mailquota_txt"] = 'begränsning_epostkvot';
+$wb["limit_database_txt"] = 'begränsning_databas';
+$wb["ip_address_txt"] = 'ip_adress';
+$wb["notes_txt"] = 'Notering';
+$wb["btn_save_txt"] = 'Spara';
+$wb["btn_cancel_txt"] = 'Avbryt';
+
+// Error Messages
+$wb['limit_client_error_notint'] = 'Kund Begränsning är inget nummer.';
+$wb['firstname_error_empty'] = 'Förnamnet är ej inskrivet.';
+$wb['surname_error_empty'] = 'Efternamnet är ej inskrivet.';
+
+
+
+
+?>

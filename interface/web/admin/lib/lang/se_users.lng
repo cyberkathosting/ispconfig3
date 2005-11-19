@@ -1,0 +1,24 @@
+<?php
+$wb["username_txt"] = 'Användarnamn';
+$wb["username_err"] = 'användarnamn_fel';
+$wb["passwort_txt"] = 'Lösenord';
+$wb["modules_txt"] = 'Modul';
+$wb["startmodule_txt"] = 'Startmodul';
+$wb["app_theme_txt"] = 'Design';
+$wb["typ_txt"] = 'Typ';
+$wb["active_txt"] = 'Aktiv';
+$wb["language_txt"] = 'Språk';
+$wb["name_txt"] = 'Namn';
+$wb["vorname_txt"] = 'Förnamn';
+$wb["unternehmen_txt"] = 'Företag';
+$wb["strasse_txt"] = 'Gata';
+$wb["ort_txt"] = 'Stad';
+$wb["plz_txt"] = 'Postnr';
+$wb["land_txt"] = 'Land';
+$wb["email_txt"] = 'Epost';
+$wb["url_txt"] = 'Url';
+$wb["telefon_txt"] = 'Telefon';
+$wb["fax_txt"] = 'Fax';
+$wb["groups_txt"] = 'Grupp';
+$wb["default_group_txt"] = 'Standard Grupp';
+?>

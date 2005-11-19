@@ -1,0 +1,6 @@
+<?php
+
+$wb[1001]	= "Användarnamnet eller lösenordet är tomt.";
+$wb[1002]	= "Felaktigt användarnamn eller lösenord.";
+
+?>
