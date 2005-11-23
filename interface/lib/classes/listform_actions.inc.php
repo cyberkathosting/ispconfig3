@@ -40,6 +40,7 @@ class listform_actions {
 	var $id;
 	var $idx_key;
 	var $DataRowColor;
+	var $SQLExtWhere = '';
 	
 	function onLoad() {
 		global $app, $conf, $list_def_file;
@@ -98,9 +99,9 @@ class listform_actions {
 		// Generate the search sql
 		if($app->listform->listDef["auth"] != 'no') {
 			if($_SESSION["s"]["user"]["typ"] == "admin") {
-				$sql_where = "";
+				$sql_where = $this->SQLExtWhere;
 			} else {
-				$sql_where = $app->tform->getAuthSQL('r')." and";
+				$sql_where = $this->SQLExtWhere ." ". $app->tform->getAuthSQL('r')." and";
 			}
 		}
 

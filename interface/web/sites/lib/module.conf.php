@@ -24,7 +24,7 @@ $module = array (
         array (
           'title' => 'Domain Alias',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_domain_alias_list.php',
         ),
         2 => 
         array (
