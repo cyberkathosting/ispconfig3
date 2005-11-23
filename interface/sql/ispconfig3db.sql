@@ -3,9 +3,9 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 09. November 2005 um 23:22
-# Server Version: 4.0.23
-# PHP-Version: 5.0.3
+# Erstellungszeit: 23. November 2005 um 17:27
+# Server Version: 4.0.22
+# PHP-Version: 5.0.2
 # Datenbank: `ispconfig3`
 # --------------------------------------------------------
 
@@ -13,7 +13,6 @@
 # Tabellenstruktur für Tabelle `mail_blacklist`
 #
 
-DROP TABLE IF EXISTS mail_blacklist;
 CREATE TABLE mail_blacklist (
   blacklist_id int(11) NOT NULL auto_increment,
   server_id int(11) NOT NULL default '0',
@@ -29,84 +28,18 @@ CREATE TABLE mail_blacklist (
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_domain`
+# Tabellenstruktur für Tabelle `mail_box`
 #
 
-DROP TABLE IF EXISTS mail_domain;
-CREATE TABLE mail_domain (
-  domain_id int(11) NOT NULL auto_increment,
+CREATE TABLE mail_box (
+  mailbox_id int(11) NOT NULL auto_increment,
   sys_userid int(11) NOT NULL default '0',
   sys_groupid int(11) NOT NULL default '0',
   sys_perm_user varchar(5) NOT NULL default '',
   sys_perm_group varchar(5) NOT NULL default '',
   sys_perm_other varchar(5) NOT NULL default '',
   server_id int(11) NOT NULL default '0',
-  domain varchar(255) NOT NULL default '',
-  type enum('local','relay','manual_relay','alias') NOT NULL default 'local',
-  relay_host varchar(255) NOT NULL default '',
-  destination varchar(255) NOT NULL default '',
-  active tinyint(4) NOT NULL default '1',
-  PRIMARY KEY  (domain_id),
-  KEY server_id (server_id,domain,type)
-) TYPE=MyISAM;
-
-#
-# Daten für Tabelle `mail_domain`
-#
-
-INSERT INTO mail_domain VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.de', 'local', '', '', 1);
-# --------------------------------------------------------
-
-#
-# Tabellenstruktur für Tabelle `mail_domain_alias`
-#
-
-DROP TABLE IF EXISTS mail_domain_alias;
-CREATE TABLE mail_domain_alias (
-  domain_alias_id int(11) NOT NULL auto_increment,
-  server_id int(11) NOT NULL default '0',
-  domain varchar(255) NOT NULL default '',
-  destination varchar(255) NOT NULL default '',
-  PRIMARY KEY  (domain_alias_id),
-  KEY server_id (server_id,domain)
-) TYPE=MyISAM;
-
-#
-# Daten für Tabelle `mail_domain_alias`
-#
-
-# --------------------------------------------------------
-
-#
-# Tabellenstruktur für Tabelle `mail_domain_catchall`
-#
-
-DROP TABLE IF EXISTS mail_domain_catchall;
-CREATE TABLE mail_domain_catchall (
-  virtual_default_id int(11) NOT NULL auto_increment,
-  server_id int(11) NOT NULL default '0',
-  domain varchar(255) NOT NULL default '',
-  dest varchar(255) NOT NULL default '',
-  PRIMARY KEY  (virtual_default_id),
-  KEY server_id (server_id,domain)
-) TYPE=MyISAM;
-
-#
-# Daten für Tabelle `mail_domain_catchall`
-#
-
-# --------------------------------------------------------
-
-#
-# Tabellenstruktur für Tabelle `mail_email`
-#
-
-DROP TABLE IF EXISTS mail_email;
-CREATE TABLE mail_email (
-  mailbox_id int(11) NOT NULL auto_increment,
-  server_id int(11) NOT NULL default '0',
   email varchar(255) NOT NULL default '',
-  type enum('mailbox','alias') NOT NULL default 'mailbox',
   cryptpwd varchar(128) NOT NULL default '',
   clearpwd varchar(128) NOT NULL default '',
   name varchar(128) NOT NULL default '',
@@ -127,7 +60,55 @@ CREATE TABLE mail_email (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_email`
+# Daten für Tabelle `mail_box`
+#
+
+# --------------------------------------------------------
+
+#
+# Tabellenstruktur für Tabelle `mail_domain`
+#
+
+CREATE TABLE mail_domain (
+  domain_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  type enum('local','relay','alias') NOT NULL default 'local',
+  relay_host varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (domain_id),
+  KEY server_id (server_id,domain,type)
+) TYPE=MyISAM;
+
+#
+# Daten für Tabelle `mail_domain`
+#
+
+INSERT INTO mail_domain VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.de', 'local', '', '', 1);
+INSERT INTO mail_domain VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'test2.de', 'alias', '', 'test.de', 1);
+# --------------------------------------------------------
+
+#
+# Tabellenstruktur für Tabelle `mail_domain_catchall`
+#
+
+CREATE TABLE mail_domain_catchall (
+  virtual_default_id int(11) NOT NULL auto_increment,
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  dest varchar(255) NOT NULL default '',
+  PRIMARY KEY  (virtual_default_id),
+  KEY server_id (server_id,domain)
+) TYPE=MyISAM;
+
+#
+# Daten für Tabelle `mail_domain_catchall`
 #
 
 # --------------------------------------------------------
@@ -136,7 +117,6 @@ CREATE TABLE mail_email (
 # Tabellenstruktur für Tabelle `mail_greylist`
 #
 
-DROP TABLE IF EXISTS mail_greylist;
 CREATE TABLE mail_greylist (
   greylist_id int(11) NOT NULL auto_increment,
   relay_ip varchar(64) default NULL,
@@ -158,7 +138,6 @@ CREATE TABLE mail_greylist (
 # Tabellenstruktur für Tabelle `mail_mailman_domain`
 #
 
-DROP TABLE IF EXISTS mail_mailman_domain;
 CREATE TABLE mail_mailman_domain (
   mailman_id int(11) NOT NULL auto_increment,
   server_id int(11) NOT NULL default '0',
@@ -177,10 +156,35 @@ CREATE TABLE mail_mailman_domain (
 # --------------------------------------------------------
 
 #
+# Tabellenstruktur für Tabelle `mail_redirect`
+#
+
+CREATE TABLE mail_redirect (
+  email_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  email varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  type enum('alias','forward') NOT NULL default 'alias',
+  enabled enum('yes','no') NOT NULL default 'yes',
+  PRIMARY KEY  (email_id),
+  KEY server_id (server_id,email)
+) TYPE=MyISAM;
+
+#
+# Daten für Tabelle `mail_redirect`
+#
+
+# --------------------------------------------------------
+
+#
 # Tabellenstruktur für Tabelle `mail_whitelist`
 #
 
-DROP TABLE IF EXISTS mail_whitelist;
 CREATE TABLE mail_whitelist (
   whitelist_id int(11) NOT NULL auto_increment,
   server_id int(11) NOT NULL default '0',
@@ -199,7 +203,6 @@ CREATE TABLE mail_whitelist (
 # Tabellenstruktur für Tabelle `reseller`
 #
 
-DROP TABLE IF EXISTS reseller;
 CREATE TABLE reseller (
   reseller_id bigint(20) NOT NULL auto_increment,
   sys_userid int(11) NOT NULL default '0',
@@ -244,7 +247,6 @@ CREATE TABLE reseller (
 # Tabellenstruktur für Tabelle `server`
 #
 
-DROP TABLE IF EXISTS server;
 CREATE TABLE server (
   server_id bigint(20) NOT NULL auto_increment,
   sys_userid int(11) NOT NULL default '0',
@@ -275,7 +277,6 @@ INSERT INTO server VALUES (1, 1, 1, 'riud', 'riud', '', 'Server 1', 1, 0, 0, 0, 
 # Tabellenstruktur für Tabelle `sys_datalog`
 #
 
-DROP TABLE IF EXISTS sys_datalog;
 CREATE TABLE sys_datalog (
   datalog_id bigint(20) NOT NULL auto_increment,
   dbtable varchar(255) NOT NULL default '',
@@ -291,13 +292,15 @@ CREATE TABLE sys_datalog (
 # Daten für Tabelle `sys_datalog`
 #
 
+INSERT INTO sys_datalog VALUES (1, 'mail_domain', 'domain_id:0', 'i', 1132758298, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:8:"hallo.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
+INSERT INTO sys_datalog VALUES (2, 'mail_domain', 'domain_id:2', 'u', 1132759303, 'admin', 'a:1:{s:6:"domain";a:2:{s:3:"old";s:7:"test.de";s:3:"new";s:8:"test2.de";}}');
+INSERT INTO sys_datalog VALUES (3, 'mail_domain', 'domain_id:2', 'u', 1132759328, 'admin', 'a:1:{s:11:"destination";a:2:{s:3:"old";s:8:"hallo.de";s:3:"new";s:7:"test.de";}}');
 # --------------------------------------------------------
 
 #
 # Tabellenstruktur für Tabelle `sys_dbsync`
 #
 
-DROP TABLE IF EXISTS sys_dbsync;
 CREATE TABLE sys_dbsync (
   id bigint(20) NOT NULL auto_increment,
   jobname varchar(255) NOT NULL default '',
@@ -326,7 +329,6 @@ CREATE TABLE sys_dbsync (
 # Tabellenstruktur für Tabelle `sys_filesync`
 #
 
-DROP TABLE IF EXISTS sys_filesync;
 CREATE TABLE sys_filesync (
   id bigint(20) NOT NULL auto_increment,
   jobname varchar(255) NOT NULL default '',
@@ -351,7 +353,6 @@ CREATE TABLE sys_filesync (
 # Tabellenstruktur für Tabelle `sys_group`
 #
 
-DROP TABLE IF EXISTS sys_group;
 CREATE TABLE sys_group (
   groupid int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
@@ -371,7 +372,6 @@ INSERT INTO sys_group VALUES (2, 'user', 'Users Group');
 # Tabellenstruktur für Tabelle `sys_user`
 #
 
-DROP TABLE IF EXISTS sys_user;
 CREATE TABLE sys_user (
   userid int(11) NOT NULL auto_increment,
   sys_userid int(11) NOT NULL default '0',
