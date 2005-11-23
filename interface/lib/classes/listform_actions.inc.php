@@ -99,10 +99,14 @@ class listform_actions {
 		// Generate the search sql
 		if($app->listform->listDef["auth"] != 'no') {
 			if($_SESSION["s"]["user"]["typ"] == "admin") {
-				$sql_where = $this->SQLExtWhere;
+				$sql_where = "";
 			} else {
-				$sql_where = $this->SQLExtWhere ." ". $app->tform->getAuthSQL('r')." and";
+				$sql_where = $app->tform->getAuthSQL('r')." and";
 			}
+		}
+		
+		if($this->SQLExtWhere != '') {
+			$sql_where .= " ".$this->SQLExtWhere." and";
 		}
 
 		$sql_where = $app->listform->getSearchSQL($sql_where);

@@ -28,19 +28,31 @@ $module = array (
         ),
         2 => 
         array (
-          'title' => 'Email Mailbox',
+          'title' => 'Domain Relay',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_domain_relay_list.php',
         ),
         3 => 
         array (
-          'title' => 'Email Forward',
+          'title' => 'Email Mailbox',
           'target' => 'content',
           'link' => '',
         ),
         4 => 
         array (
-          'title' => 'Domain Catchall',
+          'title' => 'Email Alias',
+          'target' => 'content',
+          'link' => '',
+        ),
+        5 => 
+        array (
+          'title' => 'Email Forward',
+          'target' => 'content',
+          'link' => '',
+        ),
+        6 => 
+        array (
+          'title' => 'Email Catchall',
           'target' => 'content',
           'link' => '',
         ),

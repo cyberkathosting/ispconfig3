@@ -1,0 +1,27 @@
+<form name="myform" action="mail_domain_relay_list.php" method="POST">
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<input type="button" value="{tmpl_var name="add_new_record_txt"}" onClick="location.href='mail_domain_relay_edit.php'" /><br /><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="tblHead"><tmpl_var name="server_id_txt"></td>
+    <td class="tblHead"><tmpl_var name="domain_txt"></td>
+    <td class="tblHead">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="frmText11"><input type="text" name="search_server_id" value="{tmpl_var name='search_server_id'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" class="text" /></td>
+    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+    <td class="frmText11"><a href="mail_domain_relay_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="server_id"}</a></td>
+    <td class="frmText11"><a href="mail_domain_relay_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="domain"}</a></td>
+    <td class="frmText11" align="right">[<a href="javascript: del_record('mail_domain_relay_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
+  </tr>
+  </tmpl_loop>
+
+  <tr>
+  	<td colspan="3" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
+  </tr>
+</table>
+</form>

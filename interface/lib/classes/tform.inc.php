@@ -107,6 +107,7 @@ class tform {
     var $formDef;
 	var $wordbook;
 	var $module;
+	var $primary_id;
 	
 	/**
 	* Laden der Tabellendefinition
@@ -535,14 +536,15 @@ class tform {
 					}
 				break;
 				case 'UNIQUE':
-					$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
 					if($this->action == 'NEW') {
+						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
 						if($num_rec["number"] > 0) {
 							$errmsg = $validator['errmsg'];
 							$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
 						}
 					} else {
-						if($num_rec["number"] > 1) {
+						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."' AND ".$this->formDef['db_table_idx']." != ".$this->primary_id); 
+						if($num_rec["number"] > 0) {
 							$errmsg = $validator['errmsg'];
 							$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
 						}
@@ -610,6 +612,7 @@ class tform {
 		}
 		
 		$this->action = $action;
+		$this->primary_id = $primary_id;
 		
 		$record = $this->encode($record,$tab);
 		$sql_insert_key = '';

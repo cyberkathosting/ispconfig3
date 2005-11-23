@@ -42,7 +42,7 @@ $form["db_table_idx"]	= "domain_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "domain";
 $form["list_default"]	= "mail_domain_alias_list.php";
-$form["auth"]			= 'no';
+$form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -87,8 +87,6 @@ $form["tabs"]['domain'] = array (
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'destination_error_empty'),
-										1 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'destination_error_unique'),
 									),
 			'default'	=> '',
 			'value'		=> '',
