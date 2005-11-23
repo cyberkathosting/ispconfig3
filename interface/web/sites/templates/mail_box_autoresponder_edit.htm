@@ -1,0 +1,21 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='autoresponder_txt'}:</td>
+    <td width="366" class="frmText11">{tmpl_var name='autoresponder'}</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11">{tmpl_var name='autoresponder_text_txt'}:</td>
+    <td width="366" class="frmText11"><textarea name='autoresponder_text' cols='30' rows='15'>{tmpl_var name='autoresponder_text'}</textarea></td>
+  </tr>
+  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="submit" class="button" value="{tmpl_var name='btn_save_txt'}">
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="self.location.href='mail_box_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

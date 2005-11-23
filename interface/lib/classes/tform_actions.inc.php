@@ -71,6 +71,7 @@ class tform_actions {
 		$this->id = intval($_REQUEST["id"]);
 
 		if(count($_POST) > 1) {
+			$this->dataRecord = $_POST;
 			$this->onSubmit();
 		} else {
 			$this->onShow();
@@ -83,8 +84,6 @@ class tform_actions {
 	
 	function onSubmit() {
 		global $app, $conf;
-		
-		$this->dataRecord = $_POST;
 		
 		// Calling the action functions
 		if($this->id > 0) {

@@ -101,7 +101,7 @@ class tform {
 	* der Variablen mit Regex
 	* @var errorMessage
 	*/
-	var $errorMessage;
+	var $errorMessage = '';
 	
 	var $dateformat = "d.m.Y";
     var $formDef;
@@ -456,7 +456,7 @@ class tform {
 	function encode($record,$tab) {
 		
 		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
-		$this->errorMessage = '';
+		//$this->errorMessage = '';
 		
 		if(is_array($record)) {
 			foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
@@ -556,14 +556,12 @@ class tform {
 						$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
 					}
 				break;
-				/*
 				case 'ISEMAIL':
-					if(!preg_match("", $field_value)) {
+					if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,4}$/i", $field_value)) {
 						$errmsg = $validator['errmsg'];
 						$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
 					}
 				break;
-				*/
 				case 'ISINT':
 					$tmpval = intval($field_value);
 					if($tmpval === 0 and !empty($field_value)) {
@@ -631,14 +629,22 @@ class tform {
 					if($action == "INSERT") {
 						if($field['formtype'] == 'PASSWORD') {
 							$sql_insert_key .= "`$key`, ";
-							$sql_insert_val .= "md5('".$record[$key]."'), ";
+							if($field['encryption'] == 'CRYPT') {
+								$sql_insert_val .= "'".crypt($record[$key])."', ";
+							} else {
+								$sql_insert_val .= "md5('".$record[$key]."'), ";
+							}
 						} else {
 							$sql_insert_key .= "`$key`, ";
 							$sql_insert_val .= "'".$record[$key]."', ";
 						}
 					} else {
 						if($field['formtype'] == 'PASSWORD') {
-							$sql_update .= "`$key` = md5('".$record[$key]."'), ";
+							if($field['encryption'] == 'CRYPT') {
+								$sql_update .= "`$key` = '".crypt($record[$key])."', ";
+							} else {
+								$sql_update .= "`$key` = md5('".$record[$key]."'), ";
+							}
 						} else {
 							$sql_update .= "`$key` = '".$record[$key]."', ";
 						}
@@ -835,8 +841,11 @@ class tform {
 		} else {
 			$result = false;
 			if($this->formDef["auth_preset"]["userid"] == $_SESSION["s"]["user"]["userid"] && stristr($perm,$this->formDef["auth_preset"]["perm_user"])) $result = true;
-			if($this->formDef["auth_preset"]["userid"] == $_SESSION["s"]["user"]["groupid"] && stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
+			if($this->formDef["auth_preset"]["groupid"] == $_SESSION["s"]["user"]["groupid"] && stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
 			if(@stristr($perm,$this->formDef["auth_preset"]["perm_other"])) $result = true;
+			
+			// if preset == 0, everyone can insert a record of this type
+			if($this->formDef["auth_preset"]["userid"] == 0 AND $this->formDef["auth_preset"]["groupid"] == 0) $result = true;
 			
 			return $result;
 			

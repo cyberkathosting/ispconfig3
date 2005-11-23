@@ -36,7 +36,7 @@ $module = array (
         array (
           'title' => 'Email Mailbox',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_box_list.php',
         ),
         4 => 
         array (

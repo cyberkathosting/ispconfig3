@@ -1,0 +1,13 @@
+<?php
+$wb["email_txt"] = 'Email';
+$wb["cryptpwd_txt"] = 'Password';
+$wb["active_txt"] = 'Active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["email_error_isemail"] = 'Emailaddress is empty.';
+$wb["email_error_unique"] = 'Duplicate Emailaddress.';
+$wb["autoresponder_text_txt"] = 'Text';
+$wb["autoresponder_txt"] = 'Autoresponder';
+$wb["no_domain_perm"] = "You have no permission for this domain.";
+$wb["error_no_pwd"] = "Password is empty.";
+?>

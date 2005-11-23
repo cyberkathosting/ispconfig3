@@ -53,16 +53,24 @@ $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d =
 $form["tabs"]['mailbox'] = array (
 	'title' 	=> "Mailbox",
 	'width' 	=> 100,
-	'template' 	=> "templates/mail_box_edit.htm",
+	'template' 	=> "templates/mail_box_mailbox_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
 	##################################
+		'server_id' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'email' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'email_error_empty'),
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
+														'errmsg'=> 'email_error_isemail'),
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'email_error_unique'),
 									),
@@ -74,12 +82,41 @@ $form["tabs"]['mailbox'] = array (
 		'cryptpwd' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
+			'encryption'=> 'CRYPT',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
 		'active' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> '1',
+			'value'		=> '1'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+$form["tabs"]['autoresponder'] = array (
+	'title' 	=> "Autoresponder",
+	'width' 	=> 100,
+	'template' 	=> "templates/mail_box_autoresponder_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'autoresponder_text' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '15'
+		),
+		'autoresponder' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '1',
