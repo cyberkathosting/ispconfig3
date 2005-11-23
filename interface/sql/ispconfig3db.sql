@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 23. November 2005 um 17:27
+# Erstellungszeit: 23. November 2005 um 18:15
 # Server Version: 4.0.22
 # PHP-Version: 5.0.2
 # Datenbank: `ispconfig3`
@@ -51,7 +51,7 @@ CREATE TABLE mail_box (
   forward varchar(50) NOT NULL default '',
   autoresponder enum('yes','no') NOT NULL default 'no',
   autoresponder_text tinytext NOT NULL,
-  enabled enum('yes','no') NOT NULL default 'yes',
+  active enum('0','1') NOT NULL default '1',
   antivirus enum('yes','no') NOT NULL default 'no',
   spamscan enum('yes','no') NOT NULL default 'no',
   spamdelete enum('yes','no') NOT NULL default 'no',

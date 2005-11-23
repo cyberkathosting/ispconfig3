@@ -33,15 +33,15 @@
 
 */
 
-$form["title"] 			= "Mail Domain";
+$form["title"] 			= "Mailbox";
 $form["description"] 	= "";
-$form["name"] 			= "mail_domain";
-$form["action"]			= "mail_domain_edit.php";
-$form["db_table"]		= "mail_domain";
-$form["db_table_idx"]	= "domain_id";
+$form["name"] 			= "mail_box";
+$form["action"]			= "mail_box_edit.php";
+$form["db_table"]		= "mail_box";
+$form["db_table_idx"]	= "mailbox_id";
 $form["db_history"]		= "yes";
-$form["tab_default"]	= "domain";
-$form["list_default"]	= "mail_domain_list.php";
+$form["tab_default"]	= "mailbox";
+$form["list_default"]	= "mail_box_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -50,43 +50,34 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['domain'] = array (
-	'title' 	=> "Domain",
+$form["tabs"]['mailbox'] = array (
+	'title' 	=> "Mailbox",
 	'width' 	=> 100,
-	'template' 	=> "templates/mail_domain_edit.htm",
+	'template' 	=> "templates/mail_box_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
 	##################################
-		'server_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE 1 ORDER BY server_name',
-										'keyfield'=> 'server_id',
-										'valuefield'=> 'server_name'
-									 ),
-			'value'		=> ''
-		),
-		'domain' => array (
+		'email' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'domain_error_empty'),
+														'errmsg'=> 'email_error_empty'),
 										1 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'domain_error_unique'),
+														'errmsg'=> 'email_error_unique'),
 									),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'type' => array (
+		'cryptpwd' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
+			'formtype'	=> 'PASSWORD',
 			'default'	=> '',
-			'value'		=> array('local' => 'local','relay'=>'relay','manual_relay'=>'manual Relay')
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
 		'active' => array (
 			'datatype'	=> 'INTEGER',

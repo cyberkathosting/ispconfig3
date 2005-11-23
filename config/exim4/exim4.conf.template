@@ -147,7 +147,7 @@ begin routers
 
 fail_router:
   driver = redirect
-  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND enabled='no'}{$value}}
+  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND active='0'}{$value}}
   data = ":fail:"
   allow_fail
 
@@ -204,6 +204,10 @@ mysql_email_alias:
    allow_fail
    allow_defer
    data = ${lookup mysql{ SELECT destination FROM mail_redirect WHERE email='${local_part}@${domain}' AND type = 'alias'}}
+
+mysql_email_forward:
+   driver = redirect
+   data = ${lookup mysql{ SELECT destination FROM mail_redirect WHERE email='${local_part}@${domain}' AND type = 'forward'}}
 
 #spamcheck_router:
 #  driver = manualroute
@@ -400,20 +404,20 @@ begin authenticators
 fixed_plain:
   driver = plaintext
   public_name = PLAIN
-  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$2}' AND cryptpwd=encrypt('${quote_mysql:$3}', cryptpwd)}{1}fail}
+  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$2}' AND cryptpwd=encrypt('${quote_mysql:$3}' AND active = '1', cryptpwd)}{1}fail}
   server_set_id = $2
 
 fixed_login:
   driver = plaintext
   public_name = LOGIN
   server_prompts = "Username:: : Password::"
-  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$1}' AND cryptpwd=encrypt('${quote_mysql:$2}', cryptpwd)}{1}fail}
+  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$1}' AND cryptpwd=encrypt('${quote_mysql:$2}' AND active = '1', cryptpwd)}{1}fail}
   server_set_id = $1
   
 cram:
   driver = cram_md5
   public_name = CRAM-MD5
-  server_secret = "${lookup mysql {SELECT clearpwd FROM mail_box WHERE email = '${sg {$1}{'}{}}' AND is_enabled = 'yes'} {$value} fail}"
+  server_secret = "${lookup mysql {SELECT clearpwd FROM mail_box WHERE email = '${sg {$1}{'}{}}' AND active = '1'} {$value} fail}"
   server_set_id = $1
 
 
