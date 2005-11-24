@@ -16,6 +16,8 @@ class plugin_listview extends plugin_base {
 		$app->uses('listform');
 		$app->listform->loadListDef($this->options["listdef"]);
 		
+		//$app->listform->SQLExtWhere = "type = 'alias'";
+		
 		$listTpl = new tpl;
 		$listTpl->newTemplate('templates/'.$app->listform->listDef["name"].'_list.htm');
 		
@@ -31,6 +33,10 @@ class plugin_listview extends plugin_base {
 			} else {
 				$sql_where = $app->tform->getAuthSQL('r')." and";
 			}
+		}
+		
+		if($this->options["sqlextwhere"] != '') {
+			$sql_where .= " ".$this->options["sqlextwhere"]." and";
 		}
 
 		$sql_where = $app->listform->getSearchSQL($sql_where);
