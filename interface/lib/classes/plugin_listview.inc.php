@@ -73,6 +73,13 @@ class plugin_listview extends plugin_base {
 		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
 		include($lng_file);
 		$listTpl->setVar($wb);
+		
+		// Setting Returnto information in the session
+		$list_name = $app->listform->listDef["name"];
+		$_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
+		$_SESSION["s"]["list"][$list_name]["parent_tab"] = $_SESSION["s"]["form"]["tab"];
+		$_SESSION["s"]["list"][$list_name]["parent_script"] = $app->tform->formDef["action"];
+		$_SESSION["s"]["form"]["return_to"] = $list_name;
 
 		return $listTpl->grab();
 		

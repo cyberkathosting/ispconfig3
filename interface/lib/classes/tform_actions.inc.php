@@ -115,7 +115,14 @@ class tform_actions {
 			}
 			
 			if($_REQUEST["next_tab"] == '') {
-    			header("Location: ".$app->tform->formDef['list_default']);
+				if($_SESSION["s"]["form"]["return_to"] != '') {
+					$list_name = $_SESSION["s"]["form"]["return_to"];
+					$redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
+					unset($_SESSION["s"]["form"]["return_to"]);
+					header($redirect);
+				} else {
+    				header("Location: ".$app->tform->formDef['list_default']);
+				}
         		exit;
     		} else {
 				$this->onShow();
@@ -145,7 +152,14 @@ class tform_actions {
 			}
 			
 			if($_REQUEST["next_tab"] == '') {
-    			header("Location: ".$app->tform->formDef['list_default']);
+    			if($_SESSION["s"]["form"]["return_to"] != '') {
+					$list_name = $_SESSION["s"]["form"]["return_to"];
+					$redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
+					unset($_SESSION["s"]["form"]["return_to"]);
+					header($redirect);
+				} else {
+    				header("Location: ".$app->tform->formDef['list_default']);
+				}
         		exit;
     		} else {
 				$this->onShow();

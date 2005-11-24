@@ -51,6 +51,8 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
+die(print_r($_SESSION));
+
 class page_action extends tform_actions {
 	
 	function onShowEnd() {
