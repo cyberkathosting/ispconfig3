@@ -115,8 +115,8 @@ class tform_actions {
                         }
 
                         if($_REQUEST["next_tab"] == '') {
-                                if($_SESSION["s"]["form"]["return_to"] != '') {
-                                        $list_name = $_SESSION["s"]["form"]["return_to"];
+                                $list_name = $_SESSION["s"]["form"]["return_to"];
+								if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
                                         $redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
                                         $_SESSION["s"]["form"]["return_to"] = '';
                                         session_write_close();
@@ -153,8 +153,8 @@ class tform_actions {
                         }
 
                         if($_REQUEST["next_tab"] == '') {
-                            if($_SESSION["s"]["form"]["return_to"] != '') {
-                                        $list_name = $_SESSION["s"]["form"]["return_to"];
+                            $list_name = $_SESSION["s"]["form"]["return_to"];
+								if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
                                         $redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
                                         $_SESSION["s"]["form"]["return_to"] = '';
                                         session_write_close();
@@ -236,8 +236,8 @@ class tform_actions {
                 }
 
                 //header("Location: ".$liste["file"]."?PHPSESSID=".$_SESSION["s"]["id"]);
-                if($_SESSION["s"]["form"]["return_to"] != '') {
-                        $list_name = $_SESSION["s"]["form"]["return_to"];
+                $list_name = $_SESSION["s"]["form"]["return_to"];
+				if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
                         $redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
                         $_SESSION["s"]["form"]["return_to"] = '';
                         session_write_close();
