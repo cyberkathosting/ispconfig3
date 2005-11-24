@@ -151,11 +151,11 @@ class listform {
 	
 	function getPagingHTML($vars) {
 		global $app;
-		$content = '[ <a href="'.$vars["list_file"].'?page=0'.$vars["page_params"].'">|<< </a>]';
+		$content = '[ <a href="'.$vars["list_file"].'?page=0'.$vars["page_params"].'">|&lt;&lt; </a>]';
 		if($vars["show_page_back"] == 1) $content .= '[<< <a href="'.$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"].'">'.$app->lng('Back').'</a>] ';
 		$content .= ' '.$app->lng('Page').' '.$vars["next_page"].' '.$app->lng('of').' '.$vars["max_pages"].' ';
 		if($vars["show_page_next"] == 1) $content .= '[<a href="'.$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"].'">'.$app->lng('Next').' >></a>] ';
-		$content .= '[<a href="'.$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"].'> >>| </a>]';
+		$content .= '[<a href="'.$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"].'"> &gt;&gt;| </a>]';
 		
 		return $content;
 	}
