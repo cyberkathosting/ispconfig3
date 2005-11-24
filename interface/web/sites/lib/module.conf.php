@@ -42,19 +42,19 @@ $module = array (
         array (
           'title' => 'Email Alias',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_alias_list.php',
         ),
         5 => 
         array (
           'title' => 'Email Forward',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_forward_list.php',
         ),
         6 => 
         array (
           'title' => 'Email Catchall',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_catchall_list.php',
         ),
       ),
     ),
@@ -68,13 +68,13 @@ $module = array (
         array (
           'title' => 'Email Whitelist',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_whitelist_list.php',
         ),
         1 => 
         array (
           'title' => 'Email Blacklist',
           'target' => 'content',
-          'link' => '',
+          'link' => 'sites/mail_blacklist_list.php',
         ),
       ),
     ),

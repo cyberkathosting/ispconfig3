@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/mail_box.tform.php";
+$tform_def_file = "form/mail_alias.tform.php";
 
 /******************************************
 * End Form configuration
@@ -79,12 +79,7 @@ class page_action extends tform_actions {
 		// Check if Domain belongs to user
 		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
-		
-		// if its an insert, check for password
-		if($this->id == 0 and $_POST["cryptpwd"] == '') {
-			$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
-		}
-		
+		 		
 		// compose the email field
 		$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
 		// Set the server id of the mailbox = server ID of mail domain.

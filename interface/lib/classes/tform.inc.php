@@ -216,6 +216,7 @@ class tform {
 			$querystring = str_replace("{GROUPS}",$_SESSION["s"]["user"]["groups"],$querystring);
 			$table_idx = $this->formDef['db_table_idx'];
 			$querystring = str_replace("{RECORDID}",$record[$table_idx],$querystring);
+			$querystring = str_replace("{AUTHSQL}",$this->getAuthSQL('r'),$querystring);
 			
 			// Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);
