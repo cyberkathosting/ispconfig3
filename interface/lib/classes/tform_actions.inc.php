@@ -103,8 +103,11 @@ class tform_actions {
 		$ext_where = '';
 		$sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'UPDATE',$this->id,$ext_where);
 		if($app->tform->errorMessage == '') {
-			$app->db->query($sql);
-			if($app->db->errorMessage != '') die($app->db->errorMessage);
+			
+			if(!empty($sql)) {
+				$app->db->query($sql);
+				if($app->db->errorMessage != '') die($app->db->errorMessage);
+			}
 			
 			// Call plugin
 			foreach($this->plugins as $plugin) {

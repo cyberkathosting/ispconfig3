@@ -435,7 +435,7 @@ class tform {
 				break;
 				
 				default:
-					$new_record[$key] = htmlspecialchars($field['value']);
+					$new_record[$key] = htmlspecialchars($field['default']);
 				}
 			}
 		
@@ -600,6 +600,9 @@ class tform {
 		
 		global $app;
 		
+		// If there are no data records on the tab, return empty sql string
+		if(count($this->formDef['tabs'][$tab]['fields']) == 0) return '';
+		
 		// checking permissions
 		if($this->formDef['auth'] == 'yes') {
 			if($action == "INSERT") {
@@ -652,6 +655,7 @@ class tform {
 				}
 			}
         }
+		
 		
 		// Füge Backticks nur bei unvollständigen Tabellennamen ein
 		if(stristr($this->formDef['db_table'],'.')) {
