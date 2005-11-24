@@ -1,0 +1,7 @@
+<?php
+$wb["email_txt"] = 'Email';
+$wb["destination_txt"] = 'Destination Email';
+$wb["active_txt"] = 'Active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+?>

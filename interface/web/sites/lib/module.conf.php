@@ -54,7 +54,7 @@ $module = array (
         array (
           'title' => 'Email Catchall',
           'target' => 'content',
-          'link' => 'sites/mail_catchall_list.php',
+          'link' => 'sites/mail_domain_catchall_list.php',
         ),
       ),
     ),

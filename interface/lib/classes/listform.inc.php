@@ -77,7 +77,7 @@ class listform {
 				if(is_array($i['value'])) {
 					$out = '<option value=""></option>';
 					foreach($i['value'] as $k => $v) {
-						$selected = ($k == $_SESSION["search"][$list_name][$search_prefix.$field])?' SELECTED':'';
+						$selected = ($k == $_SESSION["search"][$list_name][$search_prefix.$field] && $_SESSION["search"][$list_name][$search_prefix.$field] != '')?' SELECTED':'';
 						$out .= "<option value='$k'$selected>$v</option>\r\n";
 					}
 				}

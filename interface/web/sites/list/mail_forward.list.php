@@ -13,7 +13,7 @@
 
 
 // Name of the list
-$liste["name"] 				= "mail_alias";
+$liste["name"] 				= "mail_forward";
 
 // Database table
 $liste["table"] 			= "mail_redirect";
@@ -28,13 +28,13 @@ $liste["search_prefix"] 	= "search_";
 $liste["records_per_page"] 	= 15;
 
 // Script File of the list
-$liste["file"]				= "mail_alias_list.php";
+$liste["file"]				= "mail_forward_list.php";
 
 // Script file of the edit form
-$liste["edit_file"]			= "mail_alias_edit.php";
+$liste["edit_file"]			= "mail_forward_edit.php";
 
 // Script File of the delete script
-$liste["delete_file"]		= "mail_alias_del.php";
+$liste["delete_file"]		= "mail_forward_del.php";
 
 // Paging Template
 $liste["paging_tpl"]		= "templates/paging.tpl.htm";

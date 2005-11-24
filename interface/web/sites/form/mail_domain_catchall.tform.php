@@ -33,15 +33,15 @@
 
 */
 
-$form["title"] 			= "Email Alias";
+$form["title"] 			= "Email Catchall";
 $form["description"] 	= "";
-$form["name"] 			= "mail_alias";
-$form["action"]			= "mail_alias_edit.php";
-$form["db_table"]		= "mail_redirect";
-$form["db_table_idx"]	= "redirect_id";
+$form["name"] 			= "mail_domain_catchall";
+$form["action"]			= "mail_domain_catchall_edit.php";
+$form["db_table"]		= "mail_domain_catchall";
+$form["db_table_idx"]	= "domain_catchall_id";
 $form["db_history"]		= "yes";
-$form["tab_default"]	= "alias";
-$form["list_default"]	= "mail_alias_list.php";
+$form["tab_default"]	= "catchall";
+$form["list_default"]	= "mail_domain_catchall_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -50,28 +50,31 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['alias'] = array (
-	'title' 	=> "Email alias",
-	'width' 	=> 100,
-	'template' 	=> "templates/mail_alias_edit.htm",
+$form["tabs"]['catchall'] = array (
+	'title' 	=> "Domain Catchall",
+	'width' 	=> 150,
+	'template' 	=> "templates/mail_domain_catchall_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
 	##################################
 		'server_id' => array (
 			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
+			'formtype'	=> 'VARCHAR',
 			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'value'		=> ''
 		),
-		'email' => array (
+		'domain' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
-														'errmsg'=> 'email_error_isemail'),
+			'formtype'	=> 'SELECT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
+														'errmsg'=> 'domain_error_unique'),
 									),
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT domain FROM mail_domain WHERE type = 'local' ORDER BY domain",
+										'keyfield'=> 'domain',
+										'valuefield'=> 'domain'
+									 ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -79,20 +82,11 @@ $form["tabs"]['alias'] = array (
 		),
 		'destination' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
+			'formtype'	=> 'TEXT',
 			'default'	=> '',
-			'datasource'	=> array ( 	'type'			=> 'SQL',
-										'querystring' 	=> 'SELECT email FROM mail_box WHERE {AUTHSQL} ORDER BY email',
-										'keyfield'		=> 'email',
-										'valuefield'	=> 'email'
-									 ),
-			'value'		=> ''
-		),
-		'type' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'value'		=> array('alias' => 'Alias','forward'=>'Forward')
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
 		'active' => array (
 			'datatype'	=> 'INTEGER',
@@ -105,7 +99,6 @@ $form["tabs"]['alias'] = array (
 	##################################
 	)
 );
-
 
 
 ?>

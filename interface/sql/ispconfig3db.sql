@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 24. November 2005 um 00:31
+# Erstellungszeit: 24. November 2005 um 23:49
 # Server Version: 4.0.23
 # PHP-Version: 5.0.3
 # Datenbank: `ispconfig3`
@@ -104,11 +104,16 @@ INSERT INTO mail_domain VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'test2.de', 'ali
 
 DROP TABLE IF EXISTS mail_domain_catchall;
 CREATE TABLE mail_domain_catchall (
-  virtual_default_id int(11) NOT NULL auto_increment,
+  domain_catchall_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
   server_id int(11) NOT NULL default '0',
   domain varchar(255) NOT NULL default '',
-  dest varchar(255) NOT NULL default '',
-  PRIMARY KEY  (virtual_default_id),
+  destination varchar(255) NOT NULL default '',
+  PRIMARY KEY  (domain_catchall_id),
   KEY server_id (server_id,domain)
 ) TYPE=MyISAM;
 
@@ -168,7 +173,7 @@ CREATE TABLE mail_mailman_domain (
 
 DROP TABLE IF EXISTS mail_redirect;
 CREATE TABLE mail_redirect (
-  email_id int(11) NOT NULL auto_increment,
+  redirect_id int(11) NOT NULL auto_increment,
   sys_userid int(11) NOT NULL default '0',
   sys_groupid int(11) NOT NULL default '0',
   sys_perm_user varchar(5) NOT NULL default '',
@@ -178,8 +183,8 @@ CREATE TABLE mail_redirect (
   email varchar(255) NOT NULL default '',
   destination varchar(255) NOT NULL default '',
   type enum('alias','forward') NOT NULL default 'alias',
-  enabled enum('yes','no') NOT NULL default 'yes',
-  PRIMARY KEY  (email_id),
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (redirect_id),
   KEY server_id (server_id,email)
 ) TYPE=MyISAM;
 
@@ -187,6 +192,8 @@ CREATE TABLE mail_redirect (
 # Daten für Tabelle `mail_redirect`
 #
 
+INSERT INTO mail_redirect VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'tom@test.de', 'till@test.de', 'alias', '1');
+INSERT INTO mail_redirect VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'hallo@test.de', 't.brehm@ensign.de', 'forward', '1');
 # --------------------------------------------------------
 
 #
@@ -332,6 +339,8 @@ INSERT INTO sys_datalog VALUES (25, 'mail_box', 'mailbox_id:1', 'u', 1132787761,
 INSERT INTO sys_datalog VALUES (26, 'mail_box', 'mailbox_id:0', 'i', 1132787775, 'admin', 'a:3:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:12:"test@test.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
 INSERT INTO sys_datalog VALUES (27, 'mail_box', 'mailbox_id:1', 'u', 1132788121, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
 INSERT INTO sys_datalog VALUES (28, 'mail_box', 'mailbox_id:1', 'u', 1132788482, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
+INSERT INTO sys_datalog VALUES (29, 'mail_redirect', 'redirect_id:0', 'i', 1132859789, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:11:"tom@test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:12:"till@test.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
+INSERT INTO sys_datalog VALUES (30, 'mail_redirect', 'redirect_id:0', 'i', 1132868928, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:13:"hallo@test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:17:"t.brehm@ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:7:"forward";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
 # --------------------------------------------------------
 
 #
