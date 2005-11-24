@@ -1,0 +1,10 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domän';
+$wb["active_txt"] = 'aktiv';
+$wb["btn_save_txt"] = 'Spara';
+$wb["btn_cancel_txt"] = 'Avbryt';
+$wb["domain_error_empty"] = 'Domänen är tom.';
+$wb["domain_error_unique"] = 'Dubbel Domän.';
+$wb["destination_error_empty"] = 'Målet är tomt.';
+?>
