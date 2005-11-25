@@ -29,54 +29,67 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ini_set('register_globals',0);
 
-$conf["rootpath"] 		= "D:\\www\\ispconfig3\\interface";
-//$conf["rootpath"] 		= "D:\\www\\ispconfig3\\interface";
-//$conf["rootpath"] 		= "/home/www/ispconfig3/web/cms";
+$conf["rootpath"]                 = "D:\\www\\ispconfig3\\interface";
+//$conf["rootpath"]                 = "D:\\www\\ispconfig3\\interface";
+//$conf["rootpath"]                 = "/home/www/ispconfig3/web/cms";
 
-$conf["fs_div"] 		= "\\"; // File system divider, \\ on windows and / on linux and unix
-$conf["classpath"] 		= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"] 		= $conf["rootpath"].$conf["fs_div"]."temp";
-
-
-/*
-	Database Settings
-*/
-
-
-$conf["db_type"] 		= 'mysql';
-$conf["db_host"] 		= 'localhost';
-$conf["db_database"] 	= 'ispconfig3';
-$conf["db_user"] 		= 'root';
-$conf["db_password"] 	= '';
+$conf["fs_div"]                 = "\\"; // File system divider, \\ on windows and / on linux and unix
+$conf["classpath"]                 = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
+$conf["temppath"]                 = $conf["rootpath"].$conf["fs_div"]."temp";
 
 
 /*
-	External programs
+        Database Settings
 */
 
-//$conf["programs"]["convert"]		= "/usr/bin/convert";
-$conf["programs"]["wput"]			= $conf["rootpath"]."\\tools\\wput\\wput.exe";
+
+$conf["db_type"]                 = 'mysql';
+$conf["db_host"]                 = 'localhost';
+$conf["db_database"]         = 'ispconfig3';
+$conf["db_user"]                 = 'root';
+$conf["db_password"]         = '';
 
 
 /*
-	Themes
+        External programs
 */
 
-$conf["theme"] 					= 'default';
-$conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
-
-/*
-	Default Language
-*/
-
-$conf['language']		= 'en';
+//$conf["programs"]["convert"]                = "/usr/bin/convert";
+$conf["programs"]["wput"]                        = $conf["rootpath"]."\\tools\\wput\\wput.exe";
 
 
 /*
-	Auto Load Modules
+        Themes
 */
 
-$conf["start_db"] 		= true;
-$conf["start_session"] 	= true;
+$conf["theme"]                                         = 'default';
+$conf["html_content_encoding"]        = 'text/html; charset=iso-8859-1';
+
+/*
+        Default Language
+*/
+
+$conf['language']                = 'en';
+
+
+/*
+        Auto Load Modules
+*/
+
+$conf["start_db"]                 = true;
+$conf["start_session"]         = true;
+
+/*
+        DNS Settings
+*/
+
+$conf['auto_create_ptr'] = 1; // Automatically create PTR records?
+$conf['default_ns'] = 'ns1.example.com.'; // must be set if $conf['auto_create_ptr'] is 1. Don't forget the trailing dot!
+$conf['default_mbox'] = 'admin.example.com.'; // Admin email address. Must be set if $conf['auto_create_ptr'] is 1. Replace "@" with ".". Don't forget the trailing dot!
+$conf['default_ttl'] = 86400;
+$conf['default_refresh'] = 28800;
+$conf['default_retry'] = 7200;
+$conf['default_expire'] = 604800;
+$conf['default_minimum_ttl'] = 86400;
 
 ?>

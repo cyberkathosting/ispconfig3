@@ -1,0 +1,10 @@
+<?php
+$wb["zone_txt"] = 'zone';
+$wb["name_txt"] = 'name';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'data';
+$wb["aux_txt"] = 'aux';
+$wb["ttl_txt"] = 'ttl';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+?>

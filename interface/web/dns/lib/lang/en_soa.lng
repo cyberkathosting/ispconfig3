@@ -1,0 +1,15 @@
+<?php
+$wb["origin_txt"] = 'origin';
+$wb["ns_txt"] = 'ns';
+$wb["mbox_txt"] = 'mbox';
+$wb["serial_txt"] = 'serial';
+$wb["refresh_txt"] = 'refresh';
+$wb["retry_txt"] = 'retry';
+$wb["expire_txt"] = 'expire';
+$wb["minimum_txt"] = 'minimum';
+$wb["ttl_txt"] = 'ttl';
+$wb["active_txt"] = 'active';
+$wb["xfer_txt"] = 'xfer';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+?>
