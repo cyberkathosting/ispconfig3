@@ -49,8 +49,27 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
 
-// let tform_actions handle the page
+class page_action extends tform_actions {
+	
+	function onSubmit() {
+		global $app, $conf;
+		
+		// Check if Domain belongs to user
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["domain"])."' AND ".$app->tform->getAuthSQL('r'));
+		if($domain["domain"] != $_POST["domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+		
+		// Set the server id of the catchall = server ID of mail domain.
+		$this->dataRecord["server_id"] = $domain["server_id"];
+		
+		parent::onSubmit();
+	}
+	
+}
+
+$app->tform_actions = new page_action;
 $app->tform_actions->onLoad();
+
 
 ?>

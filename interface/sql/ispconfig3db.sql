@@ -3,9 +3,9 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 24. November 2005 um 23:49
-# Server Version: 4.0.23
-# PHP-Version: 5.0.3
+# Erstellungszeit: 25. November 2005 um 17:03
+# Server Version: 4.0.22
+# PHP-Version: 5.0.2
 # Datenbank: `ispconfig3`
 # --------------------------------------------------------
 
@@ -16,8 +16,14 @@
 DROP TABLE IF EXISTS mail_blacklist;
 CREATE TABLE mail_blacklist (
   blacklist_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
   server_id int(11) NOT NULL default '0',
   address varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
   PRIMARY KEY  (blacklist_id),
   KEY server_id (server_id,address)
 ) TYPE=MyISAM;
@@ -26,6 +32,7 @@ CREATE TABLE mail_blacklist (
 # Daten für Tabelle `mail_blacklist`
 #
 
+INSERT INTO mail_blacklist VALUES (1, 1, 1, 'riud', 'riud', '', 1, 'test@du.com', '1');
 # --------------------------------------------------------
 
 #
@@ -113,6 +120,7 @@ CREATE TABLE mail_domain_catchall (
   server_id int(11) NOT NULL default '0',
   domain varchar(255) NOT NULL default '',
   destination varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
   PRIMARY KEY  (domain_catchall_id),
   KEY server_id (server_id,domain)
 ) TYPE=MyISAM;
@@ -121,6 +129,7 @@ CREATE TABLE mail_domain_catchall (
 # Daten für Tabelle `mail_domain_catchall`
 #
 
+INSERT INTO mail_domain_catchall VALUES (1, 1, 1, 'riud', 'riud', '', 1, 'test.de', 'info@ensign.de', '1');
 # --------------------------------------------------------
 
 #
@@ -197,14 +206,47 @@ INSERT INTO mail_redirect VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'hallo@test.de
 # --------------------------------------------------------
 
 #
+# Tabellenstruktur für Tabelle `mail_transport`
+#
+
+DROP TABLE IF EXISTS mail_transport;
+CREATE TABLE mail_transport (
+  whitelist_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (whitelist_id),
+  KEY server_id (server_id,destination),
+  KEY server_id_2 (server_id,domain)
+) TYPE=MyISAM;
+
+#
+# Daten für Tabelle `mail_transport`
+#
+
+# --------------------------------------------------------
+
+#
 # Tabellenstruktur für Tabelle `mail_whitelist`
 #
 
 DROP TABLE IF EXISTS mail_whitelist;
 CREATE TABLE mail_whitelist (
   whitelist_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
   server_id int(11) NOT NULL default '0',
   address varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
   PRIMARY KEY  (whitelist_id),
   KEY server_id (server_id,address)
 ) TYPE=MyISAM;
@@ -341,6 +383,10 @@ INSERT INTO sys_datalog VALUES (27, 'mail_box', 'mailbox_id:1', 'u', 1132788121,
 INSERT INTO sys_datalog VALUES (28, 'mail_box', 'mailbox_id:1', 'u', 1132788482, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
 INSERT INTO sys_datalog VALUES (29, 'mail_redirect', 'redirect_id:0', 'i', 1132859789, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:11:"tom@test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:12:"till@test.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
 INSERT INTO sys_datalog VALUES (30, 'mail_redirect', 'redirect_id:0', 'i', 1132868928, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:13:"hallo@test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:17:"t.brehm@ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:7:"forward";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
+INSERT INTO sys_datalog VALUES (31, 'mail_domain_catchall', 'domain_catchall_id:0', 'i', 1132930015, 'admin', 'a:3:{s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:14:"info@ensign.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
+INSERT INTO sys_datalog VALUES (32, 'mail_domain_catchall', 'domain_catchall_id:0', 'i', 1132930049, 'admin', 'a:3:{s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:14:"info@ensign.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
+INSERT INTO sys_datalog VALUES (33, 'mail_domain_catchall', 'domain_catchall_id:1', 'u', 1132930357, 'admin', 'a:1:{s:9:"server_id";a:2:{s:3:"old";s:1:"0";s:3:"new";i:1;}}');
+INSERT INTO sys_datalog VALUES (34, 'mail_blacklist', 'blacklist_id:0', 'i', 1132932985, 'admin', 'a:3:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:7:"address";a:2:{s:3:"old";N;s:3:"new";s:11:"test@du.com";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
 # --------------------------------------------------------
 
 #

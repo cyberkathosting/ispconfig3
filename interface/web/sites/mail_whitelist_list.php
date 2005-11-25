@@ -6,7 +6,7 @@ require_once('../../lib/app.inc.php');
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/mail_domain_catchall.list.php";
+$list_def_file = "list/mail_whitelist.list.php";
 
 /******************************************
 * End Form configuration

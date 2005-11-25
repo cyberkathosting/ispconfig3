@@ -71,7 +71,7 @@ $form["tabs"]['catchall'] = array (
 														'errmsg'=> 'domain_error_unique'),
 									),
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT domain FROM mail_domain WHERE type = 'local' ORDER BY domain",
+										'querystring' => "SELECT domain FROM mail_domain WHERE type = 'local' AND {AUTHSQL} ORDER BY domain",
 										'keyfield'=> 'domain',
 										'valuefield'=> 'domain'
 									 ),

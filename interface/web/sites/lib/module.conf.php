@@ -56,6 +56,12 @@ $module = array (
           'target' => 'content',
           'link' => 'sites/mail_domain_catchall_list.php',
         ),
+        7 => 
+        array (
+          'title' => 'Email Routing',
+          'target' => 'content',
+          'link' => '',
+        ),
       ),
     ),
     1 => 
