@@ -7,7 +7,7 @@ MYSQL_SERVER=localhost
 MYSQL_USER=root
 MYSQL_PASSWORD=matze
 MYSQL_DB=mailserver
-MYSQL_EMAILTABLE=mail_email
+MYSQL_EMAILTABLE=mail_box
 MYSQL_DOMAINTABLE=mail_domain
 MYSQL_WHITETABLE=mail_whitelist
 MYSQL_BLACKTABLE=mail_blacklist
@@ -42,8 +42,8 @@ hide mysql_servers = "MYSQL_SERVER/MYSQL_DB/MYSQL_USER/MYSQL_PASSWORD"
 
 primary_hostname = MAILSERVER_HOSTNAME
 
-domainlist local_domains = mysql;SELECT DISTINCT domain FROM MYSQL_DOMAINTABLE WHERE domain='${quote_mysql:$domain}' AND (type = 'local' OR type = 'alias')
-domainlist relay_to_domains = mysql;SELECT DISTINCT domain FROM MYSQL_DOMAINTABLE WHERE domain='${quote_mysql:$domain}' AND type = 'relay'
+domainlist local_domains = mysql;SELECT DISTINCT domain FROM MYSQL_DOMAINTABLE WHERE domain='${quote_mysql:$domain}' AND type = 'local'
+domainlist relay_to_domains = mysql;SELECT DISTINCT domain FROM MYSQL_DOMAINTABLE WHERE domain='${quote_mysql:$domain}' AND (type = 'relay' OR type = 'alias')
 hostlist   relay_from_hosts = 127.0.0.1
 domainlist mmdomains = ${lookup mysql {SELECT domain FROM mail_mailman_domain}}
 
@@ -151,6 +151,11 @@ fail_router:
   data = ":fail:"
   allow_fail
 
+domain_aliases:
+   driver=redirect
+   domains=${lookup mysql{SELECT domain FROM mail_domain WHERE domain='${domain}' AND type = 'alias'}}
+   data=$local_part@${lookup mysql{SELECT destination FROM mail_domain WHERE domain='${domain}'}}
+
 mailman_router:
    driver = accept
    domains = +mmdomains
@@ -171,14 +176,9 @@ dnslookup:
   ignore_target_hosts = 0.0.0.0 : 127.0.0.0/8
   no_more
 
-domain_aliases:
-   driver=redirect
-   domains=${lookup mysql{SELECT domain FROM mail_domain WHERE type = 'alias'}}
-   data=$local_part@${lookup mysql{SELECT destination FROM mail_domain WHERE domain='${domain}'}}
-
 blacklist_router:
   driver = manualroute
-  senders = ${lookup mysql {SELECT DISTINCT MYSQL_BLACKTABLE.address FROM MYSQL_BLACKTABLE WHERE '${quote_mysql:$sender_address}' LIKE MYSQL_BLACKTABLE.address}{$value}}
+  senders = ${lookup mysql {SELECT DISTINCT address FROM MYSQL_BLACKTABLE WHERE '${quote_mysql:$sender_address}' LIKE address}{$value}}
   condition = "${if !def:h_X-Spam-Flag: {1}{0}}"
   headers_add = X-Spam-Flag: YES
   route_list = * localhost
@@ -222,13 +222,15 @@ mysql_email_forward:
 #  transport = spamcheck
 #  verify = false
 
-#spampurge_router:
-#  driver = manualroute
-#  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND spampurge='yes'}{$value}}
-#  condition = "${if eq{$h_X-Spam-Flag:}{YES} {1}{0}}"
-#  route_list = "* localhost byname"
-#  transport = devnull_transport
-#  verify = false
+spamdelete_router:
+  driver = manualroute
+  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND spamdelete = '1'}{$value}}
+  # condition = "${if eq{$h_X-Spam-Flag:}{YES} {1}{0}}"
+  condition = "${if match{$h_X-Spam-Flag}{YES} {1}{0}}"
+  route_list = "* localhost byname"
+  transport = devnull_transport
+  verify = false
+
 
 autoresponder_router:
   driver = accept
@@ -247,12 +249,12 @@ forward_router:
 
 local_mailbox_router:
   driver = accept
-  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND maildir != ''}{$value}}
+  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND maildir != '' AND active = '1'}{$value}}
   transport = local_delivery
   
-mysql_default_router:
+mysql_catchall_router:
    driver=redirect
-   data=${lookup mysql{ SELECT dest FROM mail_virtual_default WHERE domain='${domain}'}}
+   data=${lookup mysql{ SELECT destination FROM mail_domain_catchall WHERE domain='${domain}'}}
    allow_fail
    allow_defer
 
@@ -404,14 +406,14 @@ begin authenticators
 fixed_plain:
   driver = plaintext
   public_name = PLAIN
-  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$2}' AND cryptpwd=encrypt('${quote_mysql:$3}' AND active = '1', cryptpwd)}{1}fail}
+  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$2}' AND cryptpwd=encrypt('${quote_mysql:$3}', cryptpwd) AND active = '1'}{1}fail}
   server_set_id = $2
 
 fixed_login:
   driver = plaintext
   public_name = LOGIN
   server_prompts = "Username:: : Password::"
-  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$1}' AND cryptpwd=encrypt('${quote_mysql:$2}' AND active = '1', cryptpwd)}{1}fail}
+  server_condition = ${lookup mysql{SELECT email FROM MYSQL_EMAILTABLE WHERE email='${quote_mysql:$1}' AND cryptpwd=encrypt('${quote_mysql:$2}', cryptpwd) AND active = '1'}{1}fail}
   server_set_id = $1
   
 cram:
