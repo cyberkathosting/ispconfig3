@@ -1,0 +1,9 @@
+<?php
+$wb["domain_txt"] = 'Domän';
+$wb["destination_txt"] = 'Mål';
+$wb["active_txt"] = 'Aktiv';
+$wb["btn_save_txt"] = 'Spara';
+$wb["btn_cancel_txt"] = 'Avbryt';
+$wb["domain_error_unique"] = "Det finns alla redan en Catchall för denna domänen.";
+$wb["no_domain_perm"] = "Du har inga rättigheter för denna domänen.";
+?>
