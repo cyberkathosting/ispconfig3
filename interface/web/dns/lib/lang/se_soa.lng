@@ -1,0 +1,25 @@
+<?php
+$wb["origin_txt"] = 'Ursprung';
+$wb["ns_txt"] = 'Namn Server';
+$wb["mbox_txt"] = 'Admin Epost';
+$wb["serial_txt"] = 'Serial No.';
+$wb["refresh_txt"] = Uppdatera';
+$wb["retry_txt"] = 'Nytt försök';
+$wb["expire_txt"] = 'Förfaller';
+$wb["minimum_txt"] = 'Minimum TTL';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktiv';
+$wb["xfer_txt"] = 'Zon Överföring';
+$wb["btn_save_txt"] = 'Spara';
+$wb["btn_cancel_txt"] = 'Avbryt';
+$wb["soa_error_empty"] = 'Ursprunget kan ej vara tomt!';
+$wb["soa_error_unique"] = 'Detta ursprung finns alla redan! Ursprunget måste vara unikt!';
+$wb["ns_error_empty"] = 'Namn server kan ej vara tomt!';
+$wb["mbox_error_empty"] = 'Admin epost adressen kan ej vara tomt!';
+$wb["serial_error_notpositive"] = 'Serienumret måste vara ett positivt värde!';
+$wb["refresh_error_notpositive"] = 'Uppdateringsvärdet måste vara positivt!';
+$wb["retry_error_notpositive"] = 'Värdet på Nytt försök måste vara positivt!';
+$wb["expire_error_notpositive"] = 'Förfallovärdet måste vara positivt!';
+$wb["minimum_error_notpositive"] = 'Minsta TTL värdet måste vara positivt!';
+$wb["ttl_error_notpositive"] = 'TTL värdet måste vara positivt!';
+?>

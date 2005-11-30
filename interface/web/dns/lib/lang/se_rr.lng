@@ -1,0 +1,13 @@
+<?php
+$wb["zone_txt"] = 'Zon';
+$wb["name_txt"] = 'Namn';
+$wb["type_txt"] = 'Typ';
+$wb["data_txt"] = 'Data';
+$wb["aux_txt"] = 'Förinställt/Prioritet';
+$wb["ttl_txt"] = 'TTL';
+$wb["btn_save_txt"] = 'Spara';
+$wb["btn_cancel_txt"] = 'Avbryt';
+$wb["rr_data_error_empty"] = 'Data fältet får inte vara tomt!';
+$wb["rr_aux_error_noint"] = 'Förinställt/Prioritet värdet måste vara integer!';
+$wb["rr_ttl_error_notpositive"] = 'TTL värdet måste vara positivt!';
+?>

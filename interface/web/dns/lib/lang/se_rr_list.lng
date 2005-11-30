@@ -1,0 +1,15 @@
+<?php
+$wb["list_head_txt"] = 'Inlägg';
+$wb["name_txt"] = 'Namn';
+$wb["type_txt"] = 'Typ';
+$wb["data_txt"] = 'Data';
+$wb["aux_txt"] = 'Förinställt/Prioritet';
+$wb["ttl_txt"] = 'TTL';
+$wb["page_txt"] = 'Sida';
+$wb["page_of_txt"] = 'av';
+$wb["page_next_txt"] = 'Nästa';
+$wb["page_back_txt"] = 'Tillbaka';
+$wb["delete_txt"] = 'Ta bort';
+$wb["filter_txt"] = 'Filter';
+$wb["add_new_record_txt"] = 'Lägg till Nytt Inlägg';
+?>
