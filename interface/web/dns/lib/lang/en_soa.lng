@@ -1,15 +1,25 @@
 <?php
-$wb["origin_txt"] = 'origin';
-$wb["ns_txt"] = 'ns';
-$wb["mbox_txt"] = 'mbox';
-$wb["serial_txt"] = 'serial';
-$wb["refresh_txt"] = 'refresh';
-$wb["retry_txt"] = 'retry';
-$wb["expire_txt"] = 'expire';
-$wb["minimum_txt"] = 'minimum';
-$wb["ttl_txt"] = 'ttl';
-$wb["active_txt"] = 'active';
-$wb["xfer_txt"] = 'xfer';
+$wb["origin_txt"] = 'Origin';
+$wb["ns_txt"] = 'Name Server';
+$wb["mbox_txt"] = 'Admin Email';
+$wb["serial_txt"] = 'Serial No.';
+$wb["refresh_txt"] = 'Refresh';
+$wb["retry_txt"] = 'Retry';
+$wb["expire_txt"] = 'Expire';
+$wb["minimum_txt"] = 'Minimum TTL';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["xfer_txt"] = 'Zone Transfers';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
+$wb["soa_error_empty"] = 'The origin must not be empty!';
+$wb["soa_error_unique"] = 'This origin does already exist! The origin must be unique!';
+$wb["ns_error_empty"] = 'The name server must not be empty!';
+$wb["mbox_error_empty"] = 'The admin email address must not be empty!';
+$wb["serial_error_notpositive"] = 'The serial no. must be positive!';
+$wb["refresh_error_notpositive"] = 'The refresh must be positive!';
+$wb["retry_error_notpositive"] = 'The retry must be positive!';
+$wb["expire_error_notpositive"] = 'The expire must be positive!';
+$wb["minimum_error_notpositive"] = 'The minimum TTL must be positive!';
+$wb["ttl_error_notpositive"] = 'The TTL must be positive!';
 ?>

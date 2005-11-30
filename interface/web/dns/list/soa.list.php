@@ -65,6 +65,7 @@ $liste["item"][] = array(        'field'                => "ns",
                                                         'width'                => "",
                                                         'value'                => "");
 
+/*
 $liste["item"][] = array(        'field'                => "mbox",
                                                         'datatype'        => "VARCHAR",
                                                         'formtype'        => "TEXT",
@@ -118,6 +119,7 @@ $liste["item"][] = array(        'field'                => "minimum",
                                                         'suffix'        => "",
                                                         'width'                => "",
                                                         'value'                => "");
+*/
 
 $liste["item"][] = array(        'field'                => "ttl",
                                                         'datatype'        => "INTEGER",
@@ -137,6 +139,7 @@ $liste["item"][] = array(        'field'                => "active",
                                                         'width'                => "",
                                                         'value'                => "");
 
+/*
 $liste["item"][] = array(        'field'                => "xfer",
                                                         'datatype'        => "VARCHAR",
                                                         'formtype'        => "TEXT",
@@ -145,6 +148,6 @@ $liste["item"][] = array(        'field'                => "xfer",
                                                         'suffix'        => "%",
                                                         'width'                => "",
                                                         'value'                => "");
-
+*/
 
 ?>

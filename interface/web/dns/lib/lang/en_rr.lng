@@ -1,10 +1,12 @@
 <?php
-$wb["zone_txt"] = 'zone';
-$wb["name_txt"] = 'name';
-$wb["type_txt"] = 'type';
-$wb["data_txt"] = 'data';
-$wb["aux_txt"] = 'aux';
-$wb["ttl_txt"] = 'ttl';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Name';
+$wb["type_txt"] = 'Type';
+$wb["data_txt"] = 'Data';
+$wb["aux_txt"] = 'Preference/Priority';
+$wb["ttl_txt"] = 'TTL';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
+$wb["rr_data_error_empty"] = 'The data field must not be empty!';
+$wb["rr_ttl_error_notpositive"] = 'The TTL must be positive!';
 ?>
