@@ -110,6 +110,9 @@ $form["tabs"]['rr'] = array (
                 'aux' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        'validators'      => array (0 => array ('type' => 'ISINT',
+                                                                'errmsg'=> 'rr_aux_error_noint'),
+                                                   ),
                         'default'        => '',
                         'value'                => '',
                         'width'                => '30',

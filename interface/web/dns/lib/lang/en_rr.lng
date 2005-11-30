@@ -8,5 +8,6 @@ $wb["ttl_txt"] = 'TTL';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
 $wb["rr_data_error_empty"] = 'The data field must not be empty!';
+$wb["rr_aux_error_noint"] = 'Preference/priority must be an integer!';
 $wb["rr_ttl_error_notpositive"] = 'The TTL must be positive!';
 ?>
