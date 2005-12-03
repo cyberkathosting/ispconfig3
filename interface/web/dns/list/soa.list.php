@@ -42,7 +42,6 @@ $liste["paging_tpl"]                = "templates/paging.tpl.htm";
 // Enable auth
 $liste["auth"]                                = "yes";
 
-
 /*****************************************************
 * Suchfelder
 *****************************************************/
@@ -132,12 +131,12 @@ $liste["item"][] = array(        'field'                => "ttl",
 
 $liste["item"][] = array(        'field'                => "active",
                                                         'datatype'        => "VARCHAR",
-                                                        'formtype'        => "TEXT",
+                                                        'formtype'        => "SELECT",
                                                         'op'                => "=",
                                                         'prefix'        => "",
                                                         'suffix'        => "",
                                                         'width'                => "",
-                                                        'value'                => "");
+                                                        'value'                => array('Y' => 'Yes', 'N' => 'No'));
 
 /*
 $liste["item"][] = array(        'field'                => "xfer",
@@ -149,5 +148,4 @@ $liste["item"][] = array(        'field'                => "xfer",
                                                         'width'                => "",
                                                         'value'                => "");
 */
-
 ?>

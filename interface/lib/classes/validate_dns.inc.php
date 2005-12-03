@@ -197,6 +197,7 @@ function validate_rr(&$rr){
     break;
   case "MX":
     $error .= $this->validate_field($rr['data'], 'Data', $rr['zone'], 0);
+    $error .= $this->is_integer($rr['aux'], $app->tform->wordbook['aux_txt'], 1);
     break;
   case "NS":
     $error .= $this->validate_field($rr['data'], 'Data', $rr['zone'], 0);
@@ -210,12 +211,11 @@ function validate_rr(&$rr){
     break;
   case "SRV":
     $error .= $this->validate_srv_data($rr['data'], $rr['zone']);
+    $error .= $this->is_integer($rr['aux'], $app->tform->wordbook['aux_txt'], 1);
     break;
   case "TXT":
     break;
   }
-
-  $error .= $this->is_integer($rr['aux'], $app->tform->wordbook['aux_txt'], 1);
 
   $error .= $this->is_integer($rr['ttl'], $app->tform->wordbook['ttl_txt']);
 
@@ -255,6 +255,23 @@ function validate_soa(&$soa){
   $error .= $this->is_integer($soa['minimum'], $app->tform->wordbook['minimum_txt']);
 
   return $error;
+}
+
+function increase_serial($serial){
+  global $app, $conf;
+
+  // increase serial
+  $serial_date = substr($serial, 0, 8);
+  $count = intval(substr($serial, 8, 2));
+  $current_date = date("Ymd");
+  if($serial_date == $current_date){
+    $count += 1;
+    $count = str_pad($count, 2, "0", STR_PAD_LEFT);
+    $new_serial = $current_date.$count;
+  } else {
+    $new_serial = $current_date.'01';
+  }
+  return $new_serial;
 }
 
 }

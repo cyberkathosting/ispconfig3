@@ -59,77 +59,56 @@ class page_action extends tform_actions {
                 $app->uses('validate_dns');
                 $app->tform->errorMessage .= $app->validate_dns->validate_soa($this->dataRecord);
 
+                $increased_serials[] = -1;
                 // update serial
                 $soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$this->dataRecord["id"]);
                 $serial = $soa['serial'];
                 $update = 0;
-                if($old_record = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$this->dataRecord["id"])){
-                  foreach($old_record as $key => $val){
+                if($soa){
+                  foreach($soa as $key => $val){
                     if($this->dataRecord[$key] != $val && $key != 'active') $update += 1;
                   }
                 } else { // new record
                   $update = 1;
                 }
                 if($update > 0){
-                  $serial_date = substr($serial, 0, 8);
-                  $count = intval(substr($serial, 8, 2));
-                  $current_date = date("Ymd");
-                  if($serial_date == $current_date){
-                    $count += 1;
-                    $count = str_pad($count, 2, "0", STR_PAD_LEFT);
-                    $new_serial = $current_date.$count;
-                  } else {
-                    $new_serial = $current_date.'01';
-                  }
+                  $new_serial = $app->validate_dns->increase_serial($serial);
+                  $increased_serials[] = $soa['id'];
                   $this->dataRecord["serial"] = $new_serial;
                 }
 
-                // update rr if origin has changed
-                if($soa['origin'] != $this->dataRecord['origin']){
-                /*
-                  if($rrs = $app->db->queryAllRecords("SELECT * FROM rr WHERE zone = ".$soa['id'])){
-                    foreach($rrs as $rr){
-                      if(substr($rr['name'], -(strlen($this->dataRecord['origin']))) != $this->dataRecord['origin']) $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE id = ".$rr['id']);
-                      if(substr($rr['data'], -(strlen($this->dataRecord['origin']))) != $this->dataRecord['origin']) $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE id = ".$rr['id']);
-                    }
-                  }
-                */
-                  if($rrs = $app->db->queryAllRecords("SELECT * FROM rr")){
-                    $update_soas = array();
-                    foreach($rrs as $rr){
-                      if($soa['origin'] == substr($rr['name'], -(strlen($soa['origin']))) || $soa['origin'] == substr($rr['data'], -(strlen($soa['origin'])))) $update_soas[] = $rr['zone'];
-                      //$update_soas[] = $app->db->queryAllRecords("SELECT DISTINCT zone FROM rr WHERE name LIKE '%".$soa['origin']."' OR data LIKE '%".$soa['origin']."'");
+                if($soa){
+                  // update rr if origin has changed
+                  if($soa['origin'] != $this->dataRecord['origin']){
 
-                      $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type != 'PTR'");
-                      $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type != 'PTR'");
+                    if($rrs = $app->db->queryAllRecords("SELECT * FROM rr")){
+                      $update_soas = array();
+                      foreach($rrs as $rr){
+                        if($soa['origin'] == substr($rr['name'], -(strlen($soa['origin']))) || $soa['origin'] == substr($rr['data'], -(strlen($soa['origin'])))) $update_soas[] = $rr['zone'];
+                        //$update_soas[] = $app->db->queryAllRecords("SELECT DISTINCT zone FROM rr WHERE name LIKE '%".$soa['origin']."' OR data LIKE '%".$soa['origin']."'");
 
-                      if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
-                        $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type = 'PTR'");
-                        $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type = 'PTR'");
-                      }
-                    }
+                        $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type != 'PTR'");
+                        $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type != 'PTR'");
 
-                    // increase serial
-                    if(!empty($update_soas)){
-                    //print_r($update_soas);
-                    //die();
-                      $update_soas = array_unique($update_soas);
-                      foreach($update_soas as $update_soa){
-                        $u_soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$update_soa);
-                        $serial_date = substr($u_soa['serial'], 0, 8);
-                        $count = intval(substr($u_soa['serial'], 8, 2));
-                        $current_date = date("Ymd");
-                        if($serial_date == $current_date){
-                          $count += 1;
-                          $count = str_pad($count, 2, "0", STR_PAD_LEFT);
-                          $new_serial = $current_date.$count;
-                        } else {
-                          $new_serial = $current_date.'01';
-                        }
                         if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
-                          $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa);
-                        } else {
-                          $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa." AND origin NOT LIKE '%.in-addr.arpa.'");
+                          $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type = 'PTR'");
+                          $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type = 'PTR'");
+                        }
+                      }
+
+                      // increase serial
+                      if(!empty($update_soas)){
+                        $update_soas = array_unique($update_soas);
+                        foreach($update_soas as $update_soa){
+                          $u_soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$update_soa);
+                          if(!in_array($u_soa['id'], $increased_serials)){
+                            $new_serial = $app->validate_dns->increase_serial($u_soa['serial']);
+                            if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
+                              $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa);
+                            } else {
+                              $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa." AND origin NOT LIKE '%.in-addr.arpa.'");
+                            }
+                          }
                         }
                       }
                     }
