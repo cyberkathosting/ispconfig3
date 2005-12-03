@@ -110,9 +110,11 @@ $form["tabs"]['rr'] = array (
                 'aux' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ('type' => 'ISINT',
                                                                 'errmsg'=> 'rr_aux_error_noint'),
                                                    ),
+                        */
                         'default'        => '',
                         'value'                => '',
                         'width'                => '30',
@@ -121,9 +123,11 @@ $form["tabs"]['rr'] = array (
                 'ttl' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ('type' => 'ISPOSITIVE',
                                                                 'errmsg'=> 'rr_ttl_error_notpositive'),
                                                    ),
+                        */
                         'default'        => '86400',
                         'value'                => '86400',
                         'width'                => '30',

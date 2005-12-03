@@ -56,6 +56,9 @@ class page_action extends tform_actions {
         function onSubmit() {
                 global $app, $conf;
 
+                $app->uses('validate_dns');
+                $app->tform->errorMessage .= $app->validate_dns->validate_soa($this->dataRecord);
+
                 // update serial
                 $soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$this->dataRecord["id"]);
                 $serial = $soa['serial'];

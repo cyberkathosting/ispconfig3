@@ -74,11 +74,9 @@ $form["tabs"]['soa'] = array (
                 'origin' => array (
                         'datatype'        => 'VARCHAR',
                         'formtype'        => 'TEXT',
-                        'validators'      => array (0 => array ( 'type'        => 'NOTEMPTY',
-                                                                   'errmsg'=> 'soa_error_empty'),
-                                                      1 => array ( 'type'        => 'UNIQUE',
+                        'validators'      => array (0 => array ( 'type'        => 'UNIQUE',
                                                                    'errmsg'=> 'soa_error_unique'),
-                                                                        ),
+                                                   ),
                         'default'         => '',
                         'value'           => '',
                         'width'           => '30',
@@ -87,9 +85,11 @@ $form["tabs"]['soa'] = array (
                 'ns' => array (
                         'datatype'        => 'VARCHAR',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'NOTEMPTY',
                                                                    'errmsg'=> 'ns_error_empty'),
                                                     ),
+                        */
                         'default'         => $conf['default_ns'],
                         'value'           => $conf['default_ns'],
                         'width'           => '30',
@@ -98,9 +98,11 @@ $form["tabs"]['soa'] = array (
                 'mbox' => array (
                         'datatype'        => 'VARCHAR',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'NOTEMPTY',
                                                                    'errmsg'=> 'mbox_error_empty'),
                                                     ),
+                        */
                         'default'         => $conf['default_mbox'],
                         'value'           => $conf['default_mbox'],
                         'width'           => '30',
@@ -109,9 +111,11 @@ $form["tabs"]['soa'] = array (
                 'serial' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'ISPOSITIVE',
                                                                    'errmsg'=> 'serial_error_notpositive'),
                                                     ),
+                        */
                         'default'         => date("Ymd").'01',
                         'value'           => date("Ymd").'01',
                         'width'           => '30',
@@ -120,9 +124,11 @@ $form["tabs"]['soa'] = array (
                 'refresh' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'ISPOSITIVE',
                                                                    'errmsg'=> 'refresh_error_notpositive'),
                                                     ),
+                        */
                         'default'         => $conf['default_refresh'],
                         'value'           => $conf['default_refresh'],
                         'width'           => '30',
@@ -131,9 +137,11 @@ $form["tabs"]['soa'] = array (
                 'retry' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'ISPOSITIVE',
                                                                    'errmsg'=> 'retry_error_notpositive'),
                                                    ),
+                        */
                         'default'         => $conf['default_retry'],
                         'value'           => $conf['default_retry'],
                         'width'           => '30',
@@ -142,9 +150,11 @@ $form["tabs"]['soa'] = array (
                 'expire' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'ISPOSITIVE',
                                                                    'errmsg'=> 'expire_error_notpositive'),
                                                    ),
+                        */
                         'default'         => $conf['default_expire'],
                         'value'           => $conf['default_expire'],
                         'width'           => '30',
@@ -153,9 +163,11 @@ $form["tabs"]['soa'] = array (
                 'minimum' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'ISPOSITIVE',
                                                                    'errmsg'=> 'minimum_error_notpositive'),
                                                    ),
+                        */
                         'default'         => $conf['default_minimum_ttl'],
                         'value'           => $conf['default_minimum_ttl'],
                         'width'           => '30',
@@ -164,9 +176,11 @@ $form["tabs"]['soa'] = array (
                 'ttl' => array (
                         'datatype'        => 'INTEGER',
                         'formtype'        => 'TEXT',
+                        /*
                         'validators'      => array (0 => array ( 'type'        => 'ISPOSITIVE',
                                                                    'errmsg'=> 'ttl_error_notpositive'),
                                                    ),
+                        */
                         'default'         => $conf['default_ttl'],
                         'value'           => $conf['default_ttl'],
                         'width'           => '30',

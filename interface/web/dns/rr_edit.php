@@ -58,6 +58,9 @@ class page_action extends tform_actions {
 
                 $this->dataRecord["zone"] = $_SESSION['s']['list']['rr']['parent_id'];
 
+                $app->uses('validate_dns');
+                $app->tform->errorMessage .= $app->validate_dns->validate_rr($this->dataRecord);
+
                 // update serial
                 $soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$this->dataRecord["zone"]);
                 $serial = $soa['serial'];
