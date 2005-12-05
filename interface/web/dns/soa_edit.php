@@ -108,9 +108,63 @@ class page_action extends tform_actions {
                             } else {
                               $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa." AND origin NOT LIKE '%.in-addr.arpa.'");
                             }
+                            $increased_serials[] = $u_soa['id'];
                           }
                         }
                       }
+                    }
+                  }
+
+
+                  // PTR
+                  if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
+
+                    if($soa['active'] = 'Y' && $this->dataRecord['active'][0] == 'N'){
+
+                      if($soa_rrs = $app->db->queryAllRecords("SELECT * FROM rr WHERE zone = ".$this->dataRecord['id']." AND type = 'A'")){
+                        foreach($soa_rrs as $soa_rr){
+                          if(substr($soa_rr['name'], -1) == '.'){
+                            $fqdn = $soa_rr['name'];
+                          } else {
+                            $fqdn = $soa_rr['name'].(trim($soa_rr['name']) == '' ? '' : '.').$this->dataRecord['origin'];
+                          }
+                          list($a, $b, $c, $d) = explode('.', $soa_rr['data']);
+                          $ptr_soa = $c.'.'.$b.'.'.$a.'.in-addr.arpa.';
+                          if($ptr = $app->db->queryOneRecord("SELECT soa.id, soa.serial FROM soa, rr WHERE rr.type = 'PTR' AND rr.data = '".$fqdn."' AND rr.zone = soa.id AND soa.origin = '".$ptr_soa."'")){
+                            ############
+                            if($a_rr_with_same_ip = $app->db->queryOneRecord("SELECT rr.*, soa.origin FROM rr, soa WHERE rr.type = 'A' AND rr.data = '".$soa_rr['data']."' AND rr.zone = soa.id AND soa.active = 'Y' AND rr.id != ".$soa_rr["id"]." AND rr.zone != '".$soa_rr['zone']."'")){
+                              if(substr($a_rr_with_same_ip['name'], -1) == '.'){
+                                $new_ptr_soa_rr_data = $a_rr_with_same_ip['name'];
+                              } else {
+                                $new_ptr_soa_rr_data = $a_rr_with_same_ip['name'].(trim($a_rr_with_same_ip['name']) == '' ? '' : '.').$a_rr_with_same_ip['origin'];
+                              }
+                              $app->db->query("UPDATE rr SET data = '".$new_ptr_soa_rr_data."' WHERE zone = '".$ptr['id']."' AND name = '".$d."' AND type = 'PTR'");
+                            } else {
+                              $app->db->query("DELETE FROM rr WHERE zone = '".$ptr['id']."' AND name = '".$d."' AND type = 'PTR'");
+
+                              if(!$app->db->queryOneRecord("SELECT * FROM rr WHERE zone = '".$ptr['id']."'")){
+                                $app->db->query("DELETE FROM soa WHERE id = ".$ptr['id']);
+                              } else {
+                                // increase serial
+                                if(!in_array($ptr['id'], $increased_serials)){
+                                  $new_serial = $app->validate_dns->increase_serial($ptr['serial']);
+                                  $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$ptr['id']);
+                                  $increased_serials[] = $ptr['id'];
+                                }
+                              }
+                            }
+                            ############
+                          }
+                        }
+                      }
+
+                     /* */
+
+
+                    }
+
+                    if($soa['active'] = 'N' && $this->dataRecord['active'][0] == 'Y'){
+
                     }
                   }
                 }

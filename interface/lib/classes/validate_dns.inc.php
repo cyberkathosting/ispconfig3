@@ -76,8 +76,11 @@ function validate_field($field, $area, $zoneid, $wildcard_allowed = 1){
 
   $parts = explode(".", $field);
   $i = 0;
+  $empty = 0;
   foreach ($parts as $part){
     $i++;
+
+    if(trim($part) == '') $empty += 1;
 
     if(strlen($part) > 63) $error .= $desc." ".$app->tform->wordbook['error_63_characters']."<br>\r\n";
 
@@ -95,6 +98,12 @@ function validate_field($field, $area, $zoneid, $wildcard_allowed = 1){
         $error .= $desc." ".$app->tform->wordbook['error_no_wildcard_allowed']."<br>\r\n";
       }
     }
+  }
+
+  if(substr($field, -1) == '.'){
+    if($i > 2 && $empty > 1) $error .= $desc." ".$app->tform->wordbook['error_invalid_characters']."<br>\r\n";
+  } else {
+    if($empty > 0) $error .= $desc." ".$app->tform->wordbook['error_invalid_characters']."<br>\r\n";
   }
 
   if(substr($field, -1) == '.' && $area == 'Name'){
@@ -176,7 +185,7 @@ function validate_rr(&$rr){
     } else {
       for($n = 0; $n < 4; $n++){
         $q = $ip_parts[$n];
-        if(!is_numeric($q) || (int)$q < 0 || (int)$q > 255) $error .= $app->tform->wordbook['data_txt']." ".$app->tform->wordbook['error_a']."<br>\r\n";
+        if(!is_numeric($q) || (int)$q < 0 || (int)$q > 255 || trim($q) !== $q) $error .= $app->tform->wordbook['data_txt']." ".$app->tform->wordbook['error_a']."<br>\r\n";
       }
     }
     $rr['data'] = (int)$ip_parts[0].".".(int)$ip_parts[1].".".(int)$ip_parts[2].".".(int)$ip_parts[3];
