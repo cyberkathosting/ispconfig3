@@ -113,6 +113,8 @@ class tform_actions {
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
                         }
+						
+						$this->onAfterUpdate();
 
                         if($_REQUEST["next_tab"] == '') {
                                 $list_name = $_SESSION["s"]["form"]["return_to"];
@@ -151,6 +153,8 @@ class tform_actions {
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
                         }
+						
+						$this->onAfterInsert();
 
                         if($_REQUEST["next_tab"] == '') {
                             $list_name = $_SESSION["s"]["form"]["return_to"];
@@ -170,6 +174,15 @@ class tform_actions {
                         $this->onError();
                 }
         }
+		
+		function onAfterUpdate() {
+			global $app, $conf;
+		}
+		
+		function onAfterInsert() {
+			global $app, $conf;
+		}
+		
 
         /**
         * Function called on data insert or update error
