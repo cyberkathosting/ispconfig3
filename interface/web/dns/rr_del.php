@@ -56,7 +56,10 @@ class page_action extends tform_actions {
         function onDelete() {
                 global $app, $conf;
 
-                $rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']);
+                $app->uses('tform');
+                if(!$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error('not allowed');
+
+                //$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']);
                 $zone_id = $rr['zone'];
 
                 // update serial

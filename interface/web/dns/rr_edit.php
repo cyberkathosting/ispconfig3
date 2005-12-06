@@ -53,8 +53,15 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+
         function onSubmit() {
                 global $app, $conf;
+
+                if($this->dataRecord['id'] > 0){
+                  if(!$app->tform->checkPerm($this->dataRecord['id'],'u')) $app->error('not allowed');
+                } else {
+                  if(!$app->tform->checkPerm($this->dataRecord['id'],'i')) $app->error('not allowed');
+                }
 
                 $this->dataRecord["zone"] = $_SESSION['s']['list']['rr']['parent_id'];
 

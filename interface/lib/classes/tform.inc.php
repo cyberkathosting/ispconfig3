@@ -855,10 +855,10 @@ class tform {
                         $result = false;
                         if($this->formDef["auth_preset"]["userid"] == $_SESSION["s"]["user"]["userid"] && stristr($perm,$this->formDef["auth_preset"]["perm_user"])) $result = true;
                         if($this->formDef["auth_preset"]["groupid"] == $_SESSION["s"]["user"]["groupid"] && stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
-                        if(@stristr($perm,$this->formDef["auth_preset"]["perm_other"])) $result = true;
+                        if(@stristr($this->formDef["auth_preset"]["perm_other"],$perm)) $result = true;
 
                         // if preset == 0, everyone can insert a record of this type
-                        if($this->formDef["auth_preset"]["userid"] == 0 AND $this->formDef["auth_preset"]["groupid"] == 0 AND (@stristr($perm,$this->formDef["auth_preset"]["perm_user"] OR @stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
+                        if($this->formDef["auth_preset"]["userid"] == 0 AND $this->formDef["auth_preset"]["groupid"] == 0 AND (@stristr($this->formDef["auth_preset"]["perm_user"],$perm) OR @stristr($this->formDef["auth_preset"]["perm_group"],$perm))) $result = true;
 
                         return $result;
 

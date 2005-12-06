@@ -56,6 +56,12 @@ class page_action extends tform_actions {
         function onSubmit() {
                 global $app, $conf;
 
+                if($this->dataRecord['id'] > 0){
+                  if(!$app->tform->checkPerm($this->dataRecord['id'],'u')) $app->error('not allowed');
+                } else {
+                  if(!$app->tform->checkPerm($this->dataRecord['id'],'i')) $app->error('not allowed');
+                }
+
                 $app->uses('validate_dns');
                 $app->tform->errorMessage .= $app->validate_dns->validate_soa($this->dataRecord);
 

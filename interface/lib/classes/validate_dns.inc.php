@@ -103,7 +103,7 @@ function validate_field($field, $area, $zoneid, $wildcard_allowed = 1){
   if(substr($field, -1) == '.'){
     if($i > 2 && $empty > 1) $error .= $desc." ".$app->tform->wordbook['error_invalid_characters']."<br>\r\n";
   } else {
-    if($empty > 0) $error .= $desc." ".$app->tform->wordbook['error_invalid_characters']."<br>\r\n";
+    if($empty > 0 && $field != '') $error .= $desc." ".$app->tform->wordbook['error_invalid_characters']."<br>\r\n";
   }
 
   if(substr($field, -1) == '.' && $area == 'Name'){

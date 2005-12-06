@@ -56,9 +56,12 @@ class page_action extends tform_actions {
         function onDelete() {
                 global $app, $conf;
 
+                $app->uses('tform');
+                if(!$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error('not allowed');
+
                 // PTR
                 if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
-                  $soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$_REQUEST['id']);
+                  //$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$_REQUEST['id']);
                   $rrs = $app->db->queryAllRecords("SELECT * FROM rr WHERE zone = '".$_REQUEST['id']."' AND (type = 'A' OR type = 'AAAA')");
                   if(!empty($rrs)){
                     foreach($rrs as $rr){
