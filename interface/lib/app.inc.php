@@ -110,11 +110,12 @@ class app {
 	 2 = ERROR
 	*/
 	
-	function error($msg, $priority = 2) {
+	function error($msg, $next_link = '', $stop = true, $priority = 1) {
 		//$this->uses("error");
 		//$this->error->message($msg, $priority);
 		echo $msg;
-		if($priority == 2) exit;
+		if($next_link != "") echo "<a href='$next_link'>Next</a>";
+		if($stop == true) die();
 	}
 	
 	function lng($text)
