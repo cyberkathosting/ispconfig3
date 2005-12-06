@@ -38,4 +38,5 @@ $wb["error_out_of_zone"] = 'är utanför zonen!';
 $wb["error_invalid_rp"] = 'har felaktigt format. Det korrekta formatet är <i>mbox</i> (en DNS-kodad epost adress), ett mellanslag, sedan <i>txtref</i>, vilket borde innehålla antingen en värd för TXT uppsökning eller en punkt!';
 $wb["error_invalid_srv"] = 'har felaktigt format.  Det korrekta formatet är <i>viktning</i> (0-65535), ett mellanslag, sedan <i>port</i> (0-65535), ett mellanslag, efter dete <i>target</i>!';
 $wb["error_srv_out_of_range"] = 'för SRV inlägget är utanför gränserna!';
+$wb["error_no_permission"] = 'Du har ej behörighet att utföra denna åtgärd!';
 ?>
