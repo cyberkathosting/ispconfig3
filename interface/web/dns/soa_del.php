@@ -57,7 +57,7 @@ class page_action extends tform_actions {
                 global $app, $conf;
 
                 $app->uses('tform');
-                if(!$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error('not allowed');
+                if(!$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error($app->tform->wordbook['error_no_permission']);
 
                 // PTR
                 if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){

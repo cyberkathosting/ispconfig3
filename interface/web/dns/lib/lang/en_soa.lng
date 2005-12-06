@@ -45,4 +45,5 @@ $wb["error_wildcard_non_initial_part"] = 'contains a wildcard in a non-initial p
 $wb["error_wildcard_mix"] = 'contains a part mixing a wildcard character with other data!';
 $wb["error_no_wildcard_allowed"] = 'must not contain wildcards!';
 $wb["error_out_of_zone"] = 'is out of zone!';
+$wb["error_no_permission"] = 'You do not have the right permissions to perform the action!';
 ?>

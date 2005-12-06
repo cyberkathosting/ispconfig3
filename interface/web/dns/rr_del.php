@@ -57,7 +57,7 @@ class page_action extends tform_actions {
                 global $app, $conf;
 
                 $app->uses('tform');
-                if(!$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error('not allowed');
+                if(!$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error($app->tform->wordbook['error_no_permission']);
 
                 //$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']);
                 $zone_id = $rr['zone'];

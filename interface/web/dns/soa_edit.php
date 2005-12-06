@@ -57,9 +57,9 @@ class page_action extends tform_actions {
                 global $app, $conf;
 
                 if($this->dataRecord['id'] > 0){
-                  if(!$app->tform->checkPerm($this->dataRecord['id'],'u')) $app->error('not allowed');
+                  if(!$app->tform->checkPerm($this->dataRecord['id'],'u')) $app->error($app->tform->wordbook['error_no_permission']);
                 } else {
-                  if(!$app->tform->checkPerm($this->dataRecord['id'],'i')) $app->error('not allowed');
+                  if(!$app->tform->checkPerm($this->dataRecord['id'],'i')) $app->error($app->tform->wordbook['error_no_permission']);
                 }
 
                 $app->uses('validate_dns');

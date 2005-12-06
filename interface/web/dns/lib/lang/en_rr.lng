@@ -38,4 +38,5 @@ $wb["error_out_of_zone"] = 'is out of zone!';
 $wb["error_invalid_rp"] = 'has invalid format. The correct format is the <i>mbox</i> (a DNS-encoded email address), then a space, then the <i>txtref</i>, which should contain either a host for TXT lookup or a dot!';
 $wb["error_invalid_srv"] = 'has invalid format.  The correct format is the <i>weight</i> (0-65535), then a space, then the <i>port</i> (0-65535), then a space, then the <i>target</i>!';
 $wb["error_srv_out_of_range"] = 'for SRV record is out of range!';
+$wb["error_no_permission"] = 'You do not have the right permissions to perform the action!';
 ?>
