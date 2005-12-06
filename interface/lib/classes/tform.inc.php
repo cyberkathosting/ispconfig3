@@ -858,7 +858,7 @@ class tform {
                         if(@stristr($perm,$this->formDef["auth_preset"]["perm_other"])) $result = true;
 
                         // if preset == 0, everyone can insert a record of this type
-                        if($this->formDef["auth_preset"]["userid"] == 0 AND $this->formDef["auth_preset"]["groupid"] == 0) $result = true;
+                        if($this->formDef["auth_preset"]["userid"] == 0 AND $this->formDef["auth_preset"]["groupid"] == 0 AND (@stristr($perm,$this->formDef["auth_preset"]["perm_user"] OR @stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
 
                         return $result;
 
