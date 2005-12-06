@@ -30,95 +30,115 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ob_start("ob_gzhandler");
 
 class app {
-	
-	var $_language_inc = 0;
-	var $_wb;
-	
-	function app() {
-		
-		global $conf;
-		
-		if($conf["start_db"] == true) {
-			$this->load('db_'.$conf["db_type"]);
-			$this->db = new db;
-		}
-		
-		if($conf["start_session"] == true) {
-			session_start();
-			$_SESSION["s"]['id'] = session_id();
-			if($_SESSION["s"]["theme"] == '') $_SESSION["s"]['theme'] = $conf['theme'];
-			if($_SESSION["s"]["language"] == '') $_SESSION["s"]['language'] = $conf['language'];
-		}
-	
-	}
-	
-	function uses($classes) {
-		global $conf;
-		
-		$cl = explode(',',$classes);
-		if(is_array($cl)) {
-			foreach($cl as $classname) {
-				if(!is_object($this->$classname)) {
-					include_once($conf['classpath'] . "/".$classname.".inc.php");
-					$this->$classname = new $classname;
-				}
-			}
-		}
-		
-	}
-	
-	function load($files) {
-		
-		global $conf;
-		$fl = explode(',',$files);
-		if(is_array($fl)) {
-			foreach($fl as $file) {
-				include_once($conf['classpath'] . "/".$file.".inc.php");
-			}
-		}
-		
-	}
-	
-	/*
-	 0 = DEBUG
-	 1 = WARNING
-	 2 = ERROR
-	*/
-	
-	function log($msg, $priority = 0) {
-		
-		if($priority >= $conf["log_priority"]) {
-			if (is_writable($conf["log_file"])) {
 
-    			if (!$fp = fopen ($conf["log_file"], "a")) {
-        			$this->error("Logfile konnte nicht geöffnet werden.");
-    			}
-    			if (!fwrite($fp, date("d.m.Y-H:i")." - ". $msg."\r\n")) {
-        			$this->error("Schreiben in Logfile nicht möglich.");
-    			}
-    			fclose($fp);
+        var $_language_inc = 0;
+        var $_wb;
 
-			} else {
-    			$this->error("Logfile ist nicht beschreibbar.");
-			}
-		} // if
-	} // func
-	
-	/*
-	 0 = DEBUG
-	 1 = WARNING
-	 2 = ERROR
-	*/
-	
-	function error($msg, $next_link = '', $stop = true, $priority = 1) {
-		//$this->uses("error");
-		//$this->error->message($msg, $priority);
-		echo $msg;
-		if($next_link != "") echo "<a href='$next_link'>Next</a>";
-		if($stop == true) die();
-	}
-	
-	function lng($text)
+        function app() {
+
+                global $conf;
+
+                if($conf["start_db"] == true) {
+                        $this->load('db_'.$conf["db_type"]);
+                        $this->db = new db;
+                }
+
+                if($conf["start_session"] == true) {
+                        session_start();
+                        $_SESSION["s"]['id'] = session_id();
+                        if($_SESSION["s"]["theme"] == '') $_SESSION["s"]['theme'] = $conf['theme'];
+                        if($_SESSION["s"]["language"] == '') $_SESSION["s"]['language'] = $conf['language'];
+                }
+
+        }
+
+        function uses($classes) {
+                global $conf;
+
+                $cl = explode(',',$classes);
+                if(is_array($cl)) {
+                        foreach($cl as $classname) {
+                                if(!is_object($this->$classname)) {
+                                        include_once($conf['classpath'] . "/".$classname.".inc.php");
+                                        $this->$classname = new $classname;
+                                }
+                        }
+                }
+
+        }
+
+        function load($files) {
+
+                global $conf;
+                $fl = explode(',',$files);
+                if(is_array($fl)) {
+                        foreach($fl as $file) {
+                                include_once($conf['classpath'] . "/".$file.".inc.php");
+                        }
+                }
+
+        }
+
+        /*
+         0 = DEBUG
+         1 = WARNING
+         2 = ERROR
+        */
+
+        function log($msg, $priority = 0) {
+
+                if($priority >= $conf["log_priority"]) {
+                        if (is_writable($conf["log_file"])) {
+
+                            if (!$fp = fopen ($conf["log_file"], "a")) {
+                                $this->error("Logfile konnte nicht geöffnet werden.");
+                            }
+                            if (!fwrite($fp, date("d.m.Y-H:i")." - ". $msg."\r\n")) {
+                                $this->error("Schreiben in Logfile nicht möglich.");
+                            }
+                            fclose($fp);
+
+                        } else {
+                            $this->error("Logfile ist nicht beschreibbar.");
+                        }
+                } // if
+        } // func
+
+        /*
+         0 = DEBUG
+         1 = WARNING
+         2 = ERROR
+        */
+
+        function error($msg, $next_link = '', $stop = true, $priority = 1) {
+                //$this->uses("error");
+                //$this->error->message($msg, $priority);
+                if($stop == true){
+                  $msg = '<html>
+<head>
+<title>Error</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../themes/default/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<br><br><br>
+<table width="100%" border="0" cellspacing="0" cellpadding="2">
+<tr>
+<td class="error"><b>Error:</b><br>'.$msg;
+                  if($next_link != "") $msg .= '<a href="'.$next_link.'">Next</a><br>';
+                  $msg .= '</td>
+</tr>
+</table>
+</body>
+</html>';
+                  die($msg);
+                } else {
+                  echo $msg;
+                  if($next_link != "") echo "<a href='$next_link'>Next</a>";
+                }
+        }
+
+        function lng($text)
       {
         global $conf;
         if($this->_language_inc != 1) {
@@ -128,22 +148,22 @@ class app {
             $this->_wb = $wb;
             $this->_language_inc = 1;
         }
-        
+
         if(!empty($this->_wb[$text])) {
             $text = $this->_wb[$text];
         }
-        
+
         return $text;
       }
-	  
-	  function tpl_defaults() {
-		global $conf;
-		
-		$this->tpl->setVar('theme',$_SESSION["s"]["theme"]);
-		$this->tpl->setVar('phpsessid',session_id());
-		$this->tpl->setVar('html_content_encoding',$conf["html_content_encoding"]);
-	  	
-	  }
+
+          function tpl_defaults() {
+                global $conf;
+
+                $this->tpl->setVar('theme',$_SESSION["s"]["theme"]);
+                $this->tpl->setVar('phpsessid',session_id());
+                $this->tpl->setVar('html_content_encoding',$conf["html_content_encoding"]);
+
+          }
 
 }
 
