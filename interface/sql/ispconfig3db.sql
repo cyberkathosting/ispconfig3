@@ -1,20 +1,20 @@
 -- phpMyAdmin SQL Dump
 -- version 2.6.2-Debian-3sarge1
 -- http://www.phpmyadmin.net
--- 
+--
 -- Host: localhost
 -- Erstellungszeit: 25. November 2005 um 19:28
 -- Server Version: 4.0.24
 -- PHP-Version: 4.3.10-16
--- 
+--
 -- Datenbank: `mailserver`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_blacklist`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_blacklist`;
 CREATE TABLE `mail_blacklist` (
@@ -31,16 +31,16 @@ CREATE TABLE `mail_blacklist` (
   KEY `server_id` (`server_id`,`address`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Daten für Tabelle `mail_blacklist`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_box`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_box`;
 CREATE TABLE `mail_box` (
@@ -71,17 +71,17 @@ CREATE TABLE `mail_box` (
   KEY `server_id` (`server_id`,`email`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Daten für Tabelle `mail_box`
--- 
+--
 
 INSERT INTO `mail_box` (`mailbox_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `cryptpwd`, `clearpwd`, `name`, `uid`, `gid`, `maildir`, `quota`, `cc`, `forward`, `autoresponder`, `autoresponder_text`, `active`, `antivirus`, `spamscan`, `spamdelete`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', '$1$tRlfKeOB$iHJgCn8mH8x/dh/XWy6v0/', '', '', 0, 0, '/var/spool/mail/till', '100', '', '', '0', '', '1', 'no', 'no', '1');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_domain`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_domain`;
 CREATE TABLE `mail_domain` (
@@ -101,9 +101,9 @@ CREATE TABLE `mail_domain` (
   KEY `server_id` (`server_id`,`domain`,`type`)
 ) TYPE=MyISAM AUTO_INCREMENT=7 ;
 
--- 
+--
 -- Daten für Tabelle `mail_domain`
--- 
+--
 
 INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.int', 'local', '', '', 1);
 INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'test2.int', 'alias', '', 'test.int', 1);
@@ -111,9 +111,9 @@ INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_u
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_domain_catchall`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_domain_catchall`;
 CREATE TABLE `mail_domain_catchall` (
@@ -131,17 +131,17 @@ CREATE TABLE `mail_domain_catchall` (
   KEY `server_id` (`server_id`,`domain`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Daten für Tabelle `mail_domain_catchall`
--- 
+--
 
 INSERT INTO `mail_domain_catchall` (`domain_catchall_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `destination`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 1, 'test.int', 'till@test.int', '1');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_greylist`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_greylist`;
 CREATE TABLE `mail_greylist` (
@@ -155,16 +155,16 @@ CREATE TABLE `mail_greylist` (
   PRIMARY KEY  (`greylist_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `mail_greylist`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_mailman_domain`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_mailman_domain`;
 CREATE TABLE `mail_mailman_domain` (
@@ -178,16 +178,16 @@ CREATE TABLE `mail_mailman_domain` (
   PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `mail_mailman_domain`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_redirect`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_redirect`;
 CREATE TABLE `mail_redirect` (
@@ -206,17 +206,17 @@ CREATE TABLE `mail_redirect` (
   KEY `server_id` (`server_id`,`email`)
 ) TYPE=MyISAM AUTO_INCREMENT=4 ;
 
--- 
+--
 -- Daten für Tabelle `mail_redirect`
--- 
+--
 
 INSERT INTO `mail_redirect` (`redirect_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `destination`, `type`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'tom@test.int', 'till@test.int', 'alias', '1');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_transport`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_transport`;
 CREATE TABLE `mail_transport` (
@@ -235,16 +235,16 @@ CREATE TABLE `mail_transport` (
   KEY `server_id_2` (`server_id`,`domain`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `mail_transport`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `mail_whitelist`
--- 
+--
 
 DROP TABLE IF EXISTS `mail_whitelist`;
 CREATE TABLE `mail_whitelist` (
@@ -261,16 +261,16 @@ CREATE TABLE `mail_whitelist` (
   KEY `server_id` (`server_id`,`address`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `mail_whitelist`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `reseller`
--- 
+--
 
 DROP TABLE IF EXISTS `reseller`;
 CREATE TABLE `reseller` (
@@ -307,16 +307,16 @@ CREATE TABLE `reseller` (
   PRIMARY KEY  (`reseller_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `reseller`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `server`
--- 
+--
 
 DROP TABLE IF EXISTS `server`;
 CREATE TABLE `server` (
@@ -338,17 +338,17 @@ CREATE TABLE `server` (
   PRIMARY KEY  (`server_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Daten für Tabelle `server`
--- 
+--
 
 INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `mysql_server`, `postgresql_server`, `firebird_server`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Server 1', 1, 0, 0, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `sys_datalog`
--- 
+--
 
 DROP TABLE IF EXISTS `sys_datalog`;
 CREATE TABLE `sys_datalog` (
@@ -362,9 +362,9 @@ CREATE TABLE `sys_datalog` (
   PRIMARY KEY  (`datalog_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=48 ;
 
--- 
+--
 -- Daten für Tabelle `sys_datalog`
--- 
+--
 
 INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (1, 'mail_domain', 'domain_id:0', 'i', 1132758298, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:8:"hallo.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
 INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (2, 'mail_domain', 'domain_id:2', 'u', 1132759303, 'admin', 'a:1:{s:6:"domain";a:2:{s:3:"old";s:7:"test.de";s:3:"new";s:8:"test2.de";}}');
@@ -416,9 +416,9 @@ INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`,
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `sys_dbsync`
--- 
+--
 
 DROP TABLE IF EXISTS `sys_dbsync`;
 CREATE TABLE `sys_dbsync` (
@@ -439,16 +439,16 @@ CREATE TABLE `sys_dbsync` (
   KEY `last_datalog_id` (`last_datalog_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `sys_dbsync`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `sys_filesync`
--- 
+--
 
 DROP TABLE IF EXISTS `sys_filesync`;
 CREATE TABLE `sys_filesync` (
@@ -465,16 +465,16 @@ CREATE TABLE `sys_filesync` (
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Daten für Tabelle `sys_filesync`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `sys_group`
--- 
+--
 
 DROP TABLE IF EXISTS `sys_group`;
 CREATE TABLE `sys_group` (
@@ -484,18 +484,18 @@ CREATE TABLE `sys_group` (
   PRIMARY KEY  (`groupid`)
 ) TYPE=MyISAM AUTO_INCREMENT=3 ;
 
--- 
+--
 -- Daten für Tabelle `sys_group`
--- 
+--
 
 INSERT INTO `sys_group` (`groupid`, `name`, `description`) VALUES (1, 'admin', 'Administrators group');
 INSERT INTO `sys_group` (`groupid`, `name`, `description`) VALUES (2, 'user', 'Users Group');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `sys_user`
--- 
+--
 
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
@@ -529,8 +529,71 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY  (`userid`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Daten für Tabelle `sys_user`
--- 
+--
 
 INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `name`, `vorname`, `unternehmen`, `strasse`, `ort`, `plz`, `land`, `email`, `url`, `telefon`, `fax`, `language`, `groups`, `default_group`) VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,designer,sites', 'admin', 'default', 'admin', 1, '', 'Administrator', '', '', '', '', '', '', '', '', '', 'en', '1,2', 0);
+
+--
+-- Table structure for table `rr`
+--
+
+DROP TABLE IF EXISTS `rr`;
+CREATE TABLE `rr` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `zone` int(10) unsigned NOT NULL default '0',
+  `name` varchar(64) NOT NULL default '',
+  `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NS','PTR','RP','SRV','TXT') default NULL,
+  `data` varchar(128) NOT NULL default '',
+  `aux` int(10) unsigned NOT NULL default '0',
+  `ttl` int(10) unsigned NOT NULL default '86400',
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `rr` (`zone`,`name`,`type`,`data`)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table `rr`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `soa`
+--
+
+DROP TABLE IF EXISTS `soa`;
+CREATE TABLE `soa` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `origin` varchar(255) NOT NULL default '',
+  `ns` varchar(255) NOT NULL default '',
+  `mbox` varchar(255) NOT NULL default '',
+  `serial` int(10) unsigned NOT NULL default '1',
+  `refresh` int(10) unsigned NOT NULL default '28800',
+  `retry` int(10) unsigned NOT NULL default '7200',
+  `expire` int(10) unsigned NOT NULL default '604800',
+  `minimum` int(10) unsigned NOT NULL default '86400',
+  `ttl` int(10) unsigned NOT NULL default '86400',
+  `active` enum('Y','N') NOT NULL default 'Y',
+  `xfer` varchar(255) NOT NULL default '',
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `origin` (`origin`),
+  KEY `active` (`active`)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table `soa`
+--
+
+-- --------------------------------------------------------
