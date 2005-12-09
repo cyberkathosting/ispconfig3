@@ -87,6 +87,14 @@ class listform_actions {
 		$this->DataRowColor = ($this->DataRowColor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
 		$rec["bgcolor"] = $this->DataRowColor;
 		
+		// substitute value for select fields
+		foreach($app->listform->listDef["item"] as $field) {
+			$key = $field["field"];
+			if($field['formtype'] == "SELECT") {
+				$rec[$key] = $field['value'][$rec[$key]];
+			}
+		}
+		
 		// The variable "id" contains always the index variable
 		$rec["id"] = $rec[$this->idx_key];
 		
