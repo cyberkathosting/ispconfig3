@@ -136,7 +136,7 @@ $liste["item"][] = array(        'field'                => "active",
                                                         'prefix'        => "",
                                                         'suffix'        => "",
                                                         'width'                => "",
-                                                        'value'                => array('Y' => 'Yes', 'N' => 'No'));
+                                                        'value'                => array('Y' => $app->lng('Yes'), 'N' => $app->lng('No')));
 
 /*
 $liste["item"][] = array(        'field'                => "xfer",

@@ -144,7 +144,7 @@ class app {
         if($this->_language_inc != 1) {
             // loading global and module Wordbook
             @include_once($conf["rootpath"]."/lib/lang/".$_SESSION["s"]["language"].".lng");
-            @include_once($conf["rootpath"]."/web/".$_SESSION["s"]["module"]["name"]."/lib/lang/".$_SESSION["s"]["language"].".lng");
+            @include_once($conf["rootpath"]."/web/".$_SESSION["s"]["module"]["name"]."/lib/lang/".$_SESSION["s"]["language"].".lng"); 
             $this->_wb = $wb;
             $this->_language_inc = 1;
         }

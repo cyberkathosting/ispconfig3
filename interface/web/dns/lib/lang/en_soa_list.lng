@@ -17,7 +17,7 @@ $wb["page_next_txt"] = 'Next';
 $wb["page_back_txt"] = 'Back';
 $wb["delete_txt"] = 'Delete';
 $wb["filter_txt"] = 'Filter';
-$wb["Y"] = 'Yes';
-$wb["N"] = 'No';
+$wb["Yes"] = 'Yes';
+$wb["No"] = 'No';
 $wb["add_new_record_txt"] = 'Add New Zone';
 ?>
