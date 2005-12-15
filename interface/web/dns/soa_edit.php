@@ -56,6 +56,11 @@ class page_action extends tform_actions {
         function onSubmit() {
                 global $app, $conf;
 
+                if($app->tform->getCurrentTab() == 'rr'){
+                  parent::onSubmit();
+                  return true;
+                }
+
                 if($this->dataRecord['id'] > 0){
                   if(!$app->tform->checkPerm($this->dataRecord['id'],'u')) $app->error($app->tform->wordbook['error_no_permission']);
                 } else {

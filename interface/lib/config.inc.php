@@ -29,9 +29,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ini_set('register_globals',0);
 
-$conf["rootpath"] 		= "F:\\server\\www\\ispconfig3\\interface";
-//$conf["rootpath"] 		= "D:\\www\\ispconfig3\\interface";
-//$conf["rootpath"] 		= "/home/www/ispconfig3/web/cms";
+$conf["rootpath"]                 = "F:\\server\\www\\ispconfig3\\interface";
+//$conf["rootpath"]                 = "D:\\www\\ispconfig3\\interface";
+//$conf["rootpath"]                 = "/home/www/ispconfig3/web/cms";
 
 $conf["fs_div"]                 = "\\"; // File system divider, \\ on windows and / on linux and unix
 $conf["classpath"]                 = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
@@ -64,6 +64,7 @@ $conf["programs"]["wput"]                        = $conf["rootpath"]."\\tools\\w
 
 $conf["theme"]                                         = 'default';
 $conf["html_content_encoding"]        = 'text/html; charset=iso-8859-1';
+$conf["logo"] = 'themes/default/images/mydns_config_logo.png';
 
 /*
         Default Language

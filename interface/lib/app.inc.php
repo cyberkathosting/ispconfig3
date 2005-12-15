@@ -144,7 +144,7 @@ class app {
         if($this->_language_inc != 1) {
             // loading global and module Wordbook
             @include_once($conf["rootpath"]."/lib/lang/".$_SESSION["s"]["language"].".lng");
-            @include_once($conf["rootpath"]."/web/".$_SESSION["s"]["module"]["name"]."/lib/lang/".$_SESSION["s"]["language"].".lng"); 
+            @include_once($conf["rootpath"]."/web/".$_SESSION["s"]["module"]["name"]."/lib/lang/".$_SESSION["s"]["language"].".lng");
             $this->_wb = $wb;
             $this->_language_inc = 1;
         }
@@ -162,6 +162,11 @@ class app {
                 $this->tpl->setVar('theme',$_SESSION["s"]["theme"]);
                 $this->tpl->setVar('phpsessid',session_id());
                 $this->tpl->setVar('html_content_encoding',$conf["html_content_encoding"]);
+                if($conf["logo"] != '' && @is_file($conf["logo"])){
+                  $this->tpl->setVar('logo', '<img src="'.$conf["logo"].'" border="0" alt="">');
+                } else {
+                  $this->tpl->setVar('logo', '&nbsp;');
+                }
 
           }
 
