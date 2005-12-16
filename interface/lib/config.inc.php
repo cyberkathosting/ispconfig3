@@ -29,6 +29,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ini_set('register_globals',0);
 
+$conf['app_title'] = "MyDNSConfig";
+$conf["app_version"] = "1.0.0";
+
 $conf["rootpath"]                 = "F:\\server\\www\\ispconfig3\\interface";
 //$conf["rootpath"]                 = "D:\\www\\ispconfig3\\interface";
 //$conf["rootpath"]                 = "/home/www/ispconfig3/web/cms";

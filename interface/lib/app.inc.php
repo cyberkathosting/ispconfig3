@@ -167,6 +167,7 @@ class app {
                 } else {
                   $this->tpl->setVar('logo', '&nbsp;');
                 }
+                $this->tpl->setVar('app_title',$conf["app_title"]);
 
           }
 
