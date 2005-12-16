@@ -67,7 +67,7 @@ $conf["programs"]["wput"]                        = $conf["rootpath"]."\\tools\\w
 
 $conf["theme"]                                         = 'default';
 $conf["html_content_encoding"]        = 'text/html; charset=iso-8859-1';
-$conf["logo"] = 'themes/default/images/mydns_config_logo.png';
+$conf["logo"] = 'themes/default/images/mydnsconfig_logo.gif';
 
 /*
         Default Language
