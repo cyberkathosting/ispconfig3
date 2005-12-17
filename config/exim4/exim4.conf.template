@@ -5,7 +5,7 @@
 # MySQL defines
 MYSQL_SERVER=localhost
 MYSQL_USER=root
-MYSQL_PASSWORD=matze
+MYSQL_PASSWORD=
 MYSQL_DB=mailserver
 MYSQL_EMAILTABLE=mail_box
 MYSQL_DOMAINTABLE=mail_domain
