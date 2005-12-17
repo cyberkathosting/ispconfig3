@@ -12,9 +12,9 @@
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_blacklist`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_blacklist`;
 CREATE TABLE `mail_blacklist` (
@@ -25,22 +25,24 @@ CREATE TABLE `mail_blacklist` (
   `sys_perm_group` varchar(5) NOT NULL default '',
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) NOT NULL default '0',
-  `address` varchar(255) NOT NULL default '',
+  `address` varchar(200) NOT NULL default '',
+  `recipient` varchar(200) NOT NULL default '',
   `active` enum('0','1') NOT NULL default '1',
   PRIMARY KEY  (`blacklist_id`),
-  KEY `server_id` (`server_id`,`address`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+  KEY `server_id` (`server_id`,`address`,`recipient`)
+) TYPE=MyISAM AUTO_INCREMENT=3 ;
 
---
+-- 
 -- Daten für Tabelle `mail_blacklist`
---
+-- 
 
+INSERT INTO `mail_blacklist` (`blacklist_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `address`, `recipient`, `active`) VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', 'till@test.int', '0');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_box`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_box`;
 CREATE TABLE `mail_box` (
@@ -64,24 +66,21 @@ CREATE TABLE `mail_box` (
   `autoresponder` enum('0','1') NOT NULL default '0',
   `autoresponder_text` tinytext NOT NULL,
   `active` enum('0','1') NOT NULL default '1',
-  `antivirus` enum('yes','no') NOT NULL default 'no',
-  `spamscan` enum('yes','no') NOT NULL default 'no',
-  `spamdelete` enum('1','0') NOT NULL default '0',
   PRIMARY KEY  (`mailbox_id`),
   KEY `server_id` (`server_id`,`email`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
---
+-- 
 -- Daten für Tabelle `mail_box`
---
+-- 
 
-INSERT INTO `mail_box` (`mailbox_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `cryptpwd`, `clearpwd`, `name`, `uid`, `gid`, `maildir`, `quota`, `cc`, `forward`, `autoresponder`, `autoresponder_text`, `active`, `antivirus`, `spamscan`, `spamdelete`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', '$1$tRlfKeOB$iHJgCn8mH8x/dh/XWy6v0/', '', '', 0, 0, '/var/spool/mail/till', '100', '', '', '0', '', '1', 'no', 'no', '1');
+INSERT INTO `mail_box` (`mailbox_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `cryptpwd`, `clearpwd`, `name`, `uid`, `gid`, `maildir`, `quota`, `cc`, `forward`, `autoresponder`, `autoresponder_text`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', '$1$tRlfKeOB$iHJgCn8mH8x/dh/XWy6v0/', '', '', 0, 0, '/var/spool/mail/till', '100', '', '', '0', '', '1');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_domain`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_domain`;
 CREATE TABLE `mail_domain` (
@@ -101,9 +100,9 @@ CREATE TABLE `mail_domain` (
   KEY `server_id` (`server_id`,`domain`,`type`)
 ) TYPE=MyISAM AUTO_INCREMENT=7 ;
 
---
+-- 
 -- Daten für Tabelle `mail_domain`
---
+-- 
 
 INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.int', 'local', '', '', 1);
 INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'test2.int', 'alias', '', 'test.int', 1);
@@ -111,9 +110,9 @@ INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_u
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_domain_catchall`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_domain_catchall`;
 CREATE TABLE `mail_domain_catchall` (
@@ -131,17 +130,17 @@ CREATE TABLE `mail_domain_catchall` (
   KEY `server_id` (`server_id`,`domain`)
 ) TYPE=MyISAM AUTO_INCREMENT=2 ;
 
---
+-- 
 -- Daten für Tabelle `mail_domain_catchall`
---
+-- 
 
 INSERT INTO `mail_domain_catchall` (`domain_catchall_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `destination`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 1, 'test.int', 'till@test.int', '1');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_greylist`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_greylist`;
 CREATE TABLE `mail_greylist` (
@@ -155,16 +154,16 @@ CREATE TABLE `mail_greylist` (
   PRIMARY KEY  (`greylist_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
---
+-- 
 -- Daten für Tabelle `mail_greylist`
---
+-- 
 
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_mailman_domain`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_mailman_domain`;
 CREATE TABLE `mail_mailman_domain` (
@@ -178,16 +177,16 @@ CREATE TABLE `mail_mailman_domain` (
   PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
---
+-- 
 -- Daten für Tabelle `mail_mailman_domain`
---
+-- 
 
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_redirect`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_redirect`;
 CREATE TABLE `mail_redirect` (
@@ -206,17 +205,49 @@ CREATE TABLE `mail_redirect` (
   KEY `server_id` (`server_id`,`email`)
 ) TYPE=MyISAM AUTO_INCREMENT=4 ;
 
---
+-- 
 -- Daten für Tabelle `mail_redirect`
---
+-- 
 
 INSERT INTO `mail_redirect` (`redirect_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `destination`, `type`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'tom@test.int', 'till@test.int', 'alias', '1');
 
 -- --------------------------------------------------------
 
---
+-- 
+-- Tabellenstruktur für Tabelle `mail_spamfilter`
+-- 
+
+DROP TABLE IF EXISTS `mail_spamfilter`;
+CREATE TABLE `mail_spamfilter` (
+  `spamfilter_id` int(11) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  `server_id` int(11) NOT NULL default '0',
+  `email` varchar(255) NOT NULL default '',
+  `spam_rewrite_score_int` int(11) NOT NULL default '0',
+  `spam_delete_score_int` int(11) NOT NULL default '0',
+  `spam_redirect_score_int` int(11) NOT NULL default '0',
+  `spam_rewrite_subject` varchar(50) NOT NULL default '***SPAM***',
+  `spam_redirect_maildir` varchar(255) NOT NULL default '',
+  `active` enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (`spamfilter_id`),
+  KEY `server_id` (`server_id`,`email`)
+) TYPE=MyISAM AUTO_INCREMENT=2 ;
+
+-- 
+-- Daten für Tabelle `mail_spamfilter`
+-- 
+
+INSERT INTO `mail_spamfilter` (`spamfilter_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `spam_rewrite_score_int`, `spam_delete_score_int`, `spam_redirect_score_int`, `spam_rewrite_subject`, `spam_redirect_maildir`, `active`) VALUES (1, 0, 0, '', '', '', 1, 'till@test.int', 100, 100, 1, '***SPAM mag ich nicht***', '/var/spool/mail/spam', '1');
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `mail_transport`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_transport`;
 CREATE TABLE `mail_transport` (
@@ -235,16 +266,16 @@ CREATE TABLE `mail_transport` (
   KEY `server_id_2` (`server_id`,`domain`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
---
+-- 
 -- Daten für Tabelle `mail_transport`
---
+-- 
 
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Tabellenstruktur für Tabelle `mail_whitelist`
---
+-- 
 
 DROP TABLE IF EXISTS `mail_whitelist`;
 CREATE TABLE `mail_whitelist` (
@@ -261,9 +292,11 @@ CREATE TABLE `mail_whitelist` (
   KEY `server_id` (`server_id`,`address`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
---
+-- 
 -- Daten für Tabelle `mail_whitelist`
---
+-- 
+
+        
 
 
 -- --------------------------------------------------------
@@ -365,54 +398,6 @@ CREATE TABLE `sys_datalog` (
 --
 -- Daten für Tabelle `sys_datalog`
 --
-
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (1, 'mail_domain', 'domain_id:0', 'i', 1132758298, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:8:"hallo.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (2, 'mail_domain', 'domain_id:2', 'u', 1132759303, 'admin', 'a:1:{s:6:"domain";a:2:{s:3:"old";s:7:"test.de";s:3:"new";s:8:"test2.de";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (3, 'mail_domain', 'domain_id:2', 'u', 1132759328, 'admin', 'a:1:{s:11:"destination";a:2:{s:3:"old";s:8:"hallo.de";s:3:"new";s:7:"test.de";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (4, 'mail_box', 'mailbox_id:0', 'i', 1132775402, 'admin', 'a:3:{s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:12:"till@test.de";}s:8:"cryptpwd";a:2:{s:3:"old";N;s:3:"new";s:5:"hallo";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (5, 'mail_box', 'mailbox_id:1', 'u', 1132775575, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (6, 'mail_box', 'mailbox_id:1', 'u', 1132775587, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (7, 'mail_box', 'mailbox_id:1', 'u', 1132775898, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (8, 'mail_box', 'mailbox_id:1', 'u', 1132775901, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (9, 'mail_box', 'mailbox_id:1', 'u', 1132777011, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (10, 'mail_box', 'mailbox_id:1', 'u', 1132777757, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (11, 'mail_box', 'mailbox_id:1', 'u', 1132777760, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (12, 'mail_box', 'mailbox_id:1', 'u', 1132777764, 'admin', 'a:2:{s:5:"email";a:2:{s:3:"old";s:12:"till@test.de";s:3:"new";s:13:"till2@test.de";}s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (13, 'mail_box', 'mailbox_id:1', 'u', 1132777768, 'admin', 'a:2:{s:5:"email";a:2:{s:3:"old";s:13:"till2@test.de";s:3:"new";s:12:"till@test.de";}s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (14, 'mail_box', 'mailbox_id:1', 'u', 1132778380, 'admin', 'a:2:{s:9:"server_id";a:2:{s:3:"old";s:1:"0";s:3:"new";i:1;}s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (15, 'mail_box', 'mailbox_id:1', 'u', 1132784990, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (16, 'mail_box', 'mailbox_id:0', 'i', 1132785424, 'admin', 'a:3:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:8:"@test.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (17, 'mail_box', 'mailbox_id:1', 'u', 1132786068, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (18, 'mail_box', 'mailbox_id:1', 'u', 1132786083, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (19, 'mail_box', 'mailbox_id:1', 'u', 1132786772, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (20, 'mail_box', 'mailbox_id:1', 'u', 1132786777, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:32:"598d4c200461b81522a3328565c25f7c";s:3:"new";s:4:"test";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (21, 'mail_box', 'mailbox_id:1', 'u', 1132786796, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:0:"";s:3:"new";s:4:"test";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (22, 'mail_box', 'mailbox_id:1', 'u', 1132786860, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:0:"";s:3:"new";s:4:"test";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (23, 'mail_box', 'mailbox_id:1', 'u', 1132787252, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:0:"";s:3:"new";s:4:"test";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (24, 'mail_box', 'mailbox_id:1', 'u', 1132787548, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (25, 'mail_box', 'mailbox_id:1', 'u', 1132787761, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (26, 'mail_box', 'mailbox_id:0', 'i', 1132787775, 'admin', 'a:3:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:12:"test@test.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (27, 'mail_box', 'mailbox_id:1', 'u', 1132788121, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (28, 'mail_box', 'mailbox_id:1', 'u', 1132788482, 'admin', 'a:1:{s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:0:"";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (29, 'mail_redirect', 'redirect_id:0', 'i', 1132859789, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:11:"tom@test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:12:"till@test.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (30, 'mail_redirect', 'redirect_id:0', 'i', 1132868928, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:13:"hallo@test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:17:"t.brehm@ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:7:"forward";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (31, 'mail_domain_catchall', 'domain_catchall_id:0', 'i', 1132930015, 'admin', 'a:3:{s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:14:"info@ensign.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (32, 'mail_domain_catchall', 'domain_catchall_id:0', 'i', 1132930049, 'admin', 'a:3:{s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:7:"test.de";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:14:"info@ensign.de";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (33, 'mail_domain_catchall', 'domain_catchall_id:1', 'u', 1132930357, 'admin', 'a:1:{s:9:"server_id";a:2:{s:3:"old";s:1:"0";s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (34, 'mail_blacklist', 'blacklist_id:0', 'i', 1132932985, 'admin', 'a:3:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:7:"address";a:2:{s:3:"old";N;s:3:"new";s:11:"test@du.com";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (35, 'mail_domain', 'domain_id:1', 'u', 1129060359, 'admin', 'a:1:{s:6:"domain";a:2:{s:3:"old";s:7:"test.de";s:3:"new";s:8:"test.int";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (36, 'mail_box', 'mailbox_id:1', 'u', 1129060368, 'admin', 'a:2:{s:5:"email";a:2:{s:3:"old";s:12:"till@test.de";s:3:"new";s:13:"till@test.int";}s:8:"cryptpwd";a:2:{s:3:"old";s:34:"$1$ye3.TQ1.$v/RvqbuU.Gh7UrLlA6HqX/";s:3:"new";s:4:"test";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (37, 'mail_domain', 'domain_id:2', 'u', 1129061030, 'admin', 'a:2:{s:6:"domain";a:2:{s:3:"old";s:8:"test2.de";s:3:"new";s:9:"test2.int";}s:11:"destination";a:2:{s:3:"old";s:7:"test.de";s:3:"new";s:8:"test.int";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (38, 'mail_domain', 'domain_id:0', 'i', 1129061071, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:10:"ensign.int";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:9:"ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (39, 'mail_domain', 'domain_id:0', 'i', 1129061096, 'admin', 'a:4:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:9:"ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"relay";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (40, 'mail_domain', 'domain_id:3', 'u', 1129061354, 'admin', 'a:1:{s:11:"destination";a:2:{s:3:"old";s:9:"ensign.de";s:3:"new";s:8:"test.int";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (41, 'mail_domain', 'domain_id:0', 'i', 1129061553, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:10:"ensign.int";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:9:"ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"alias";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (42, 'mail_redirect', 'redirect_id:1', 'u', 1129061645, 'admin', 'a:2:{s:5:"email";a:2:{s:3:"old";s:11:"tom@test.de";s:3:"new";s:12:"tom@test.int";}s:11:"destination";a:2:{s:3:"old";s:12:"till@test.de";s:3:"new";s:13:"till@test.int";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (43, 'mail_domain', 'domain_id:0', 'i', 1129061671, 'admin', 'a:4:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:6:"domain";a:2:{s:3:"old";N;s:3:"new";s:9:"ensign.de";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:5:"relay";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (44, 'mail_redirect', 'redirect_id:2', 'u', 1129061890, 'admin', 'a:1:{s:5:"email";a:2:{s:3:"old";s:13:"hallo@test.de";s:3:"new";s:13:"till@test.int";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (45, 'mail_redirect', 'redirect_id:0', 'i', 1129061918, 'admin', 'a:5:{s:9:"server_id";a:2:{s:3:"old";N;s:3:"new";i:1;}s:5:"email";a:2:{s:3:"old";N;s:3:"new";s:13:"till@test.int";}s:11:"destination";a:2:{s:3:"old";N;s:3:"new";s:13:"till@test.int";}s:4:"type";a:2:{s:3:"old";N;s:3:"new";s:7:"forward";}s:6:"active";a:2:{s:3:"old";N;s:3:"new";i:1;}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (46, 'mail_domain_catchall', 'domain_catchall_id:1', 'u', 1129061999, 'admin', 'a:2:{s:6:"domain";a:2:{s:3:"old";s:7:"test.de";s:3:"new";s:8:"test.int";}s:11:"destination";a:2:{s:3:"old";s:14:"info@ensign.de";s:3:"new";s:13:"till@test.int";}}');
-INSERT INTO `sys_datalog` (`datalog_id`, `dbtable`, `dbidx`, `action`, `tstamp`, `user`, `data`) VALUES (47, 'mail_blacklist', 'blacklist_id:1', 'u', 1132941485, 'admin', 'a:1:{s:7:"address";a:2:{s:3:"old";s:11:"test@du.com";s:3:"new";s:13:"till@test.int";}}');
 
 -- --------------------------------------------------------
 

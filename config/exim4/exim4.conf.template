@@ -15,6 +15,7 @@ MYSQL_BLACKTABLE=mail_blacklist
 # Server ID for Multiserver Setups
 MAILSERVER_ID=1
 MAILSERVER_HOSTNAME=mail.
+MAILSERVER_IP=192.168.0.108
 MAILSERVER_EXIM_BINARY=/usr/sbin/exim4
 MAILSERVER_SPAMC_BINARY=/usr/bin/spamc
 
@@ -47,7 +48,7 @@ domainlist relay_to_domains = mysql;SELECT DISTINCT domain FROM MYSQL_DOMAINTABL
 hostlist   relay_from_hosts = 127.0.0.1
 domainlist mmdomains = ${lookup mysql {SELECT domain FROM mail_mailman_domain}}
 
-acl_smtp_rcpt = acl_check_rcpt
+# acl_smtp_rcpt = acl_check_rcpt
 
 qualify_domain = 
 # qualify_recipient =
@@ -92,7 +93,17 @@ tls_advertise_hosts = *
 # Require auth over SSL only.
 # auth_over_tls_hosts = *
 
+helo_try_verify_hosts = !+relay_from_hosts
+
+av_scanner = clamd:/var/run/clamav/clamd.ctl
 spamd_address = 127.0.0.1 783
+
+acl_smtp_rcpt = acl_check_rcpt
+#acl_smtp_mail = acl_check_sender
+acl_smtp_connect = acl_check_host
+acl_smtp_data = acl_check_data
+acl_smtp_helo = acl_check_helo
+
 
 ######################################################################
 #                       ACL CONFIGURATION                            #
@@ -102,36 +113,94 @@ spamd_address = 127.0.0.1 783
 begin acl
 
 acl_check_rcpt:
+
   accept  hosts = :
+
   deny    domains       = +local_domains
           local_parts   = ^[.] : ^.*[@%!/|]
+
   deny    domains       = !+local_domains
           local_parts   = ^[./|] : ^.*[@%!] : ^.*/\\.\\./
+
   accept  local_parts   = postmaster
           domains       = +local_domains
+
   require verify        = sender
+
+  # Blacklist management
+  deny    senders = ${lookup mysql {SELECT DISTINCT address FROM MYSQL_BLACKTABLE WHERE '${quote_mysql:$sender_address}' LIKE address \
+                                    AND (recipient = '' OR recipient = '${quote_mysql:$domain}' OR recipient = '${quote_mysql:$local_part}@${quote_mysql:$domain}') \
+                                    AND active = '1' AND server_id = 'MAILSERVER_ID'}{$value}}
+         log_message     = Blacklisted. Sender: <$sender_address> Recipient: <$local_part@$domain>
+
   accept  domains       = +local_domains
           endpass
           verify        = recipient
+
   accept  domains       = +relay_to_domains
           endpass
           verify        = recipient
+
   accept  hosts         = +relay_from_hosts
+
   accept  authenticated = *
+
   deny    message       = relay not permitted
 
-acl_check_data:
-  warn  message = X-Spam-Score: $spam_score ($spam_bar)
-        spam = nobody:true
-  warn  message = X-Spam-Report: $spam_report
-        spam = nobody:true
-  warn  message = Subject: *SPAM* $h_Subject
-        spam = nobody
 
-  # reject spam at high scores (> 12)
-  deny   message = This message scored $spam_score spam points.
-         spam = nobody:true
-         condition = ${if >{$spam_score_int}{120}{1}{0}}
+acl_check_host:
+        accept
+                hosts = +relay_from_hosts
+        #deny    
+        #        log_message = match host_reject.list
+        #        hosts = /etc/exim4/filters/host_reject.list
+
+        accept
+
+acl_check_helo:
+        accept  hosts = +relay_from_hosts
+	# If the HELO pretend to be this host
+	deny	condition = ${if or { \
+					{eq {${lc:$sender_helo_name}}{MAILSERVER_HOSTNAME}} \
+					{eq {${lc:$sender_helo_name}}{MAILSERVER_IP}} \
+				    } {true}{false} }
+        # by default we accept
+        accept
+
+
+acl_check_data:
+
+        accept  hosts = +relay_from_hosts
+
+        # if there is a windows executable as attachment then we reject
+        deny    message = This message contains an attachment of a type which we do not accept (.$found_extension) 
+                demime = bat:btm:cmd:com:cpl:dll:exe:lnk:msi:pif:prf:reg:scr:vbs:url
+
+        # spamassassin
+        warn    message = X-SA-Score: $spam_score 
+                spam = nobody:true
+
+        warn    message = X-SA-Report: $spam_report 
+                spam = nobody:true
+
+                condition = ${if >{$spam_score_int}{0}{true}{false}}
+        warn    message = X-SA-Status: Yes 
+                spam = nobody:true
+                condition = ${if >{$spam_score_int}{50}{true}{false}}
+
+        deny    message = This message scored $spam_score spam points. 
+                spam = nobody:true 
+                condition = ${if >{$spam_score_int}{70}{true}{false}}
+
+        # clamav
+        deny    message = This message contains a virus or other harmful content ($malware_name)
+                demime = * 
+                malware = *
+                log_message = Virus found in Message
+
+        # accept by default
+        accept
+
 
 
 
@@ -176,13 +245,16 @@ dnslookup:
   ignore_target_hosts = 0.0.0.0 : 127.0.0.0/8
   no_more
 
-blacklist_router:
-  driver = manualroute
-  senders = ${lookup mysql {SELECT DISTINCT address FROM MYSQL_BLACKTABLE WHERE '${quote_mysql:$sender_address}' LIKE address}{$value}}
-  condition = "${if !def:h_X-Spam-Flag: {1}{0}}"
-  headers_add = X-Spam-Flag: YES
-  route_list = * localhost
-  self = pass
+# Blacklists werden jetzt in den ACL geprüft
+#blacklist_router:
+#  driver = manualroute
+#  senders = ${lookup mysql {SELECT DISTINCT address FROM MYSQL_BLACKTABLE WHERE '${quote_mysql:$sender_address}' LIKE address AND recipient = '${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}
+#  # condition = "${if !def:h_X-Spam-Flag: {1}{0}}"
+#  # headers_add = X-Spam-Flag: YES
+#  route_list = * localhost
+#  # self = pass
+#  transport = devnull_transport
+#  verify = false
 
 #system_aliases:
 #  driver = redirect
@@ -203,11 +275,11 @@ mysql_email_alias:
    driver = redirect
    allow_fail
    allow_defer
-   data = ${lookup mysql{ SELECT destination FROM mail_redirect WHERE email='${local_part}@${domain}' AND type = 'alias'}}
+   data = ${lookup mysql{ SELECT destination FROM mail_redirect WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}' AND type = 'alias'}}
 
 mysql_email_forward:
    driver = redirect
-   data = ${lookup mysql{ SELECT destination FROM mail_redirect WHERE email='${local_part}@${domain}' AND type = 'forward'}}
+   data = ${lookup mysql{ SELECT destination FROM mail_redirect WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}' AND type = 'forward'}}
 
 #spamcheck_router:
 #  driver = manualroute
@@ -222,15 +294,52 @@ mysql_email_forward:
 #  transport = spamcheck
 #  verify = false
 
+#spamdelete_router:
+#  driver = manualroute
+#  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND spamdelete = '1'}{$value}}
+#  # condition = "${if eq{$h_X-Spam-Flag:}{YES} {1}{0}}"
+#  condition = "${if match{$h_X-Spam-Flag}{YES} {1}{0}}"
+#  route_list = "* localhost byname"
+#  transport = devnull_transport
+#  verify = false
+
+
+spamrewrite_router:
+  driver = manualroute
+  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}
+  senders = ! ${lookup mysql {SELECT DISTINCT MYSQL_WHITETABLE.address FROM MYSQL_WHITETABLE WHERE '${quote_mysql:$sender_address}' LIKE MYSQL_WHITETABLE.address}{$value}}
+  condition = ${if and { \
+    {>{$spam_score_int}{${lookup mysql {SELECT spam_rewrite_score_int FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}}}\
+    {!eq {$received_protocol}{spam-rewrite}} \
+    {!eq {$received_protocol}{local}} \
+    }{true}{false}}
+  headers_remove = Subject
+  headers_add = Subject: ${lookup mysql {SELECT spam_rewrite_subject FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}} $header_subject
+  route_list = "* localhost byname"
+  transport = spamrewrite_transport
+  verify = false
+
+spamredirect_router:
+  driver = manualroute
+  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}
+  senders = ! ${lookup mysql {SELECT DISTINCT MYSQL_WHITETABLE.address FROM MYSQL_WHITETABLE WHERE '${quote_mysql:$sender_address}' LIKE MYSQL_WHITETABLE.address}{$value}}
+  condition = ${if >{$spam_score_int}{${lookup mysql {SELECT spam_redirect_score_int FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}}{true}{false}}
+  route_list = "* localhost byname"
+  transport = spamredirect_transport
+  verify = false
+
 spamdelete_router:
   driver = manualroute
-  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND spamdelete = '1'}{$value}}
-  # condition = "${if eq{$h_X-Spam-Flag:}{YES} {1}{0}}"
-  condition = "${if match{$h_X-Spam-Flag}{YES} {1}{0}}"
+  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}
+  senders = ! ${lookup mysql {SELECT DISTINCT MYSQL_WHITETABLE.address FROM MYSQL_WHITETABLE WHERE '${quote_mysql:$sender_address}' LIKE MYSQL_WHITETABLE.address}{$value}}
+  condition = ${if and { \
+    {>{$spam_score_int}{${lookup mysql {SELECT spam_delete_score_int FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}}}\
+    {!eq {$received_protocol}{spam-rewrite}} \
+    {!eq {$received_protocol}{local}} \
+    }{true}{false}}
   route_list = "* localhost byname"
   transport = devnull_transport
   verify = false
-
 
 autoresponder_router:
   driver = accept
@@ -257,11 +366,6 @@ mysql_catchall_router:
    data=${lookup mysql{ SELECT destination FROM mail_domain_catchall WHERE domain='${domain}'}}
    allow_fail
    allow_defer
-
-#domain_catchall_director:
-#  driver = redirect
-#  domains = ${lookup mysql {SELECT SUBSTRING_INDEX(email,'@',-1) FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@') AND forward != ''}{$value}}
-#  data = ${lookup mysql {SELECT forward FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@') AND forward != ''}{$value}}
       
 ######################################################################
 #                      TRANSPORTS CONFIGURATION                      #
@@ -272,26 +376,16 @@ mysql_catchall_router:
 
 begin transports
 
+########################
+# Remote smtp transport
+########################
+
 remote_smtp:
   driver = smtp
 
-devnull_delivery:
-  driver = appendfile
-  file = /dev/null
-  group = mail
-
-address_pipe:
-  driver = pipe
-  return_output
-
-address_file:
-  driver = appendfile
-  delivery_date_add
-  envelope_to_add
-  return_path_add
-
-address_reply:
-  driver = autoreply
+###################
+# Mailman transport
+###################
 
 mailman_transport:
    driver = pipe
@@ -305,11 +399,15 @@ mailman_transport:
    user = ${lookup mysql{SELECT mm_user FROM mail_mailman_domain WHERE domain='${domain}'}}
    group = ${lookup mysql{SELECT mm_group FROM mail_mailman_domain WHERE domain='${domain}'}}
 
-spamcheck:
+
+#################################################################################
+# This transport is only for rewriting the header of the message with ***SPAM***
+#################################################################################
+
+spamrewrite_transport:
   driver = pipe
-  command = MAILSERVER_EXIM_BINARY -oMr spam-scanned -bS
+  command = MAILSERVER_EXIM_BINARY -oMr spam-rewrite -bS
   use_bsmtp = true
-  transport_filter = MAILSERVER_SPAMC_BINARY
   home_directory = "/tmp"
   current_directory = "/tmp"
   user = mail
@@ -320,6 +418,23 @@ spamcheck:
   message_prefix =
   message_suffix =
 
+######################################################
+# This transport is only for redirecting SPAM messages
+######################################################
+
+spamredirect_transport:
+  driver = appendfile
+  directory = ${lookup mysql {SELECT concat(spam_redirect_maildir,'/Maildir') FROM mail_spamfilter WHERE email='${quote_mysql:$local_part}@${quote_mysql:$domain}'}{$value}}
+  maildir_format
+  user = mail
+  group = mail
+  mode = 0660
+  directory_mode = 0770
+
+##########################
+# Local delivery transport
+##########################
+
 local_delivery:
   driver = appendfile
   directory = ${lookup mysql {SELECT concat(maildir,'/Maildir') FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}')}{$value}}
@@ -328,7 +443,8 @@ local_delivery:
   group = mail
   quota = ${lookup mysql{select quota from MYSQL_EMAILTABLE where email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}')}{${value}M}}
   quota_is_inclusive = false
-  #quota_size_regex = ,S=(\d+):
+  maildir_tag = ,S=$message_size
+  quota_size_regex = ,S=(\d+):
   quota_warn_threshold = 75%
   maildir_use_size_file = false
   quota_warn_message = "To: $local_part@$domain\n\
@@ -340,20 +456,10 @@ local_delivery:
 			Please take note of this and remove unwanted mail from your mailbox.\n"
   mode = 0660
   directory_mode = 0770
-  
-#mysql_delivery:
-#   driver = appendfile
-#   maildir_format
-#   directory = \
-#      ${lookup mysql{SELECT maildir FROM passwd \
-#      WHERE email='${local_part}@${domain}'}}
-#   user = \
-#      ${lookup mysql{SELECT uid FROM passwd \
-#      WHERE email='${local_part}@${domain}'}}
-#   group = \
-#      ${lookup mysql{SELECT gid FROM passwd \
-#      WHERE email='${local_part}@${domain}'}}
 
+##########################
+# autoresponder transport
+##########################
 
 autoresponder_transport:
   driver = autoreply
@@ -362,10 +468,15 @@ autoresponder_transport:
   subject = "Autoresponder: ${local_part}@${domain}"
   text = ${lookup mysql {SELECT autoresponder_text FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}')}{$value}}
 
+##########################
+# devnull transport
+##########################
+
 devnull_transport:
   driver = appendfile
   file = /dev/null
   user = mail
+
 
 ######################################################################
 #                      RETRY CONFIGURATION                           #
