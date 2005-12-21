@@ -17,7 +17,7 @@ $wb["page_next_txt"] = 'Nästa';
 $wb["page_back_txt"] = 'Tillbaka';
 $wb["delete_txt"] = 'Ta bort';
 $wb["filter_txt"] = 'Filter';
-$wb["Y"] = 'Ja';
-$wb["N"] = 'Nej';
+$wb["Yes"] = 'Ja';
+$wb["No"] = 'Nej';
 $wb["add_new_record_txt"] = 'Lägg till Ny Zon';
 ?>

@@ -12,4 +12,5 @@ $wb["page_back_txt"] = 'Tillbaka';
 $wb["delete_txt"] = 'Ta bort';
 $wb["filter_txt"] = 'Filter';
 $wb["add_new_record_txt"] = 'Lägg till Nytt Inlägg';
+$wb['delete_confirmation'] = 'Vill du verkligen ta bort detta inlägg?';
 ?>

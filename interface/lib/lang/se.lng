@@ -4,13 +4,13 @@
 $wb[301] = 'Modulen är ej tillåten för nuvarande användare.';
 $wb[302] = 'Modulen är ogiltig.';
 
-$wb[1001] = 'The username and password must not be empty!';
-$wb[1002] = 'The username and/or password are not correct!';
-$wb[1003] = 'The username is deactivated!';
+$wb[1001] = 'Användarnamn och lösenord får ej vara tomma!';
+$wb[1002] = 'Användarnamnet och/eller lösenordet är felaktigt!';
+$wb[1003] = 'Detta användarnamn är deaktiverat!';
 
-$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+$wb['delete_confirmation'] = 'Vill du verkligen ta bort detta inlägg?';
 
-$wb['error_no_view_permission'] = 'You don\'t have the permission to view this record or this record does not exist!';
-$wb['error_no_delete_permission'] = 'You don\'t have the permission to delete this record!';
+$wb['error_no_view_permission'] = 'Du har ej behörighet att se detta inlägg eller så existerar den ej!';
+$wb['error_no_delete_permission'] = 'Du har ej behörighet att ta bort detta inlägg!';
 
 ?>
