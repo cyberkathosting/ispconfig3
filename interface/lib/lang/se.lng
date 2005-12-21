@@ -4,4 +4,13 @@
 $wb[301] = 'Modulen är ej tillåten för nuvarande användare.';
 $wb[302] = 'Modulen är ogiltig.';
 
+$wb[1001] = 'The username and password must not be empty!';
+$wb[1002] = 'The username and/or password are not correct!';
+$wb[1003] = 'The username is deactivated!';
+
+$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+
+$wb['error_no_view_permission'] = 'You don\'t have the permission to view this record or this record does not exist!';
+$wb['error_no_delete_permission'] = 'You don\'t have the permission to delete this record!';
+
 ?>

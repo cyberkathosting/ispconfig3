@@ -1,0 +1,23 @@
+<?php
+$wb["list_head_txt"] = 'Zonen (SOA)';
+$wb["origin_txt"] = 'Ursprung';
+$wb["ns_txt"] = 'Nameserver';
+$wb["mbox_txt"] = 'Admin-Email';
+$wb["serial_txt"] = 'Seriennr.';
+$wb["refresh_txt"] = 'Refresh';
+$wb["retry_txt"] = 'Retry';
+$wb["expire_txt"] = 'Expire';
+$wb["minimum_txt"] = 'Minimum TTL';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktiv';
+$wb["xfer_txt"] = 'Zonen-Transfer';
+$wb["page_txt"] = 'Seite';
+$wb["page_of_txt"] = 'von';
+$wb["page_next_txt"] = 'Weiter';
+$wb["page_back_txt"] = 'Zurück';
+$wb["delete_txt"] = 'Löschen';
+$wb["filter_txt"] = 'Filter';
+$wb["Yes"] = 'Ja';
+$wb["No"] = 'Nein';
+$wb["add_new_record_txt"] = 'Neue Zone erstellen';
+?>

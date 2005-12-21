@@ -57,7 +57,7 @@ class page_action extends tform_actions {
                 global $app, $conf;
 
                 $app->uses('tform');
-                if(!$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error($app->tform->wordbook['error_no_permission']);
+                if(!$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']." AND ".$app->tform->getAuthSQL('d'))) $app->error($app->lng('error_no_permission'));
 
                 //$rr = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$_REQUEST['id']);
                 $zone_id = $rr['zone'];
@@ -102,7 +102,7 @@ class page_action extends tform_actions {
                           } else {
                             $other_ptr_soa_rr_data = $other_rr['name'].(trim($other_rr['name']) == '' ? '' : '.').$other_soa['origin'];
                           }
-                          $app->db->query("INSERT INTO rr (zone, name, type, data, aux, ttl) VALUES ('".$ptr_soa_exist['id']."', '".$d."', 'PTR', '".$other_ptr_soa_rr_data."', '0', '".$conf['default_ttl']."')");
+                          $app->db->query("INSERT INTO rr (zone, name, type, data, aux, ttl, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa_exist['id']."', '".$d."', 'PTR', '".$other_ptr_soa_rr_data."', '0', '".$conf['default_ttl']."', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
                         }
 
                         // if no more records exist for the ptr_soa, delete it

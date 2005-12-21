@@ -36,37 +36,44 @@ $app->tpl->newTemplate("form.tpl.htm");
 // Login Formular wurde abgesandt
 if(count($_POST) > 0) {
 
-	// importiere Variablen
-	$username = $app->db->quote($_POST["username"]);
-	$passwort = $app->db->quote($_POST["passwort"]);
+        // importiere Variablen
+        $username = $app->db->quote($_POST["username"]);
+        $passwort = $app->db->quote($_POST["passwort"]);
 
-	if($username != '' and $passwort != '') {
-		$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
-		if($user = $app->db->queryOneRecord($sql)) {
-			if($user["active"] == 1) {
-				$user = $app->db->toLower($user);
-				$_SESSION = array();
-				$_SESSION["s"]["user"] = $user;
-				$_SESSION["s"]["user"]["theme"] = $user["app_theme"];
-				$_SESSION["s"]["language"] = $user["language"];
-				
-				$site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
-				$_SESSION["s"]["site"] = $site;
-				
-				header("Location: ../capp.php?mod=".$user["startmodule"]."&phpsessid=".$_SESSION["s"]["id"]);
-				exit;
-			} else {
-				$error = $app->lng(1003);
-			}
-		} else {
-			// Username oder Passwort falsch
-			$error = $app->lng(1002);
-			if($app->db->errorMessage != '') $error .= "<br>".$app->db->errorMessage != '';
-		}
-	} else {
-		// Username oder Passwort leer
-		$error = $app->lng(1001);
-	}
+        if($username != '' and $passwort != '') {
+                $sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
+                if($user = $app->db->queryOneRecord($sql)) {
+                        if($user["active"] == 1) {
+                                $user = $app->db->toLower($user);
+                                $_SESSION = array();
+                                $_SESSION["s"]["user"] = $user;
+                                $_SESSION["s"]["user"]["theme"] = $user["app_theme"];
+                                $_SESSION["s"]["language"] = $user["language"];
+
+                                $site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
+                                $_SESSION["s"]["site"] = $site;
+
+                                header("Location: ../capp.php?mod=".$user["startmodule"]."&phpsessid=".$_SESSION["s"]["id"]);
+                                exit;
+                        } else {
+                                $error = $app->lng(1003);
+                        }
+                } else {
+                        // Username oder Passwort falsch
+                        $error = $app->lng(1002);
+                        if($app->db->errorMessage != '') $error .= "<br>".$app->db->errorMessage != '';
+                }
+        } else {
+                // Username oder Passwort leer
+                $error = $app->lng(1001);
+        }
+}
+if($error != ''){
+  $error = '<table width="100%" border="0" cellspacing="0" cellpadding="2">
+<tr>
+<td class="error"><b>Error:</b><br>'.$error.'</td>
+</tr>
+</table>';
 }
 
 $app->tpl->setVar('error',$error);

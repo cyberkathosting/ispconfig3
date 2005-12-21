@@ -8,8 +8,8 @@
 <!--
 
 function del_record(link) {
-  if(window.confirm("Wollen Sie den Datensatz löschen?")) {
-  	location.href = link;
+  if(window.confirm("<tmpl_var name='delete_confirmation'>")) {
+          location.href = link;
   }
 }
 

@@ -113,12 +113,12 @@ class tform_actions {
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
                         }
-						
-						$this->onAfterUpdate();
+
+                                                $this->onAfterUpdate();
 
                         if($_REQUEST["next_tab"] == '') {
                                 $list_name = $_SESSION["s"]["form"]["return_to"];
-								if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
+                                                                if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
                                         $redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
                                         $_SESSION["s"]["form"]["return_to"] = '';
                                         session_write_close();
@@ -153,12 +153,12 @@ class tform_actions {
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
                         }
-						
-						$this->onAfterInsert();
+
+                                                $this->onAfterInsert();
 
                         if($_REQUEST["next_tab"] == '') {
                             $list_name = $_SESSION["s"]["form"]["return_to"];
-								if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
+                                                                if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
                                         $redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
                                         $_SESSION["s"]["form"]["return_to"] = '';
                                         session_write_close();
@@ -174,15 +174,15 @@ class tform_actions {
                         $this->onError();
                 }
         }
-		
-		function onAfterUpdate() {
-			global $app, $conf;
-		}
-		
-		function onAfterInsert() {
-			global $app, $conf;
-		}
-		
+
+                function onAfterUpdate() {
+                        global $app, $conf;
+                }
+
+                function onAfterInsert() {
+                        global $app, $conf;
+                }
+
 
         /**
         * Function called on data insert or update error
@@ -218,7 +218,7 @@ class tform_actions {
 
                         // checking permissions
                         if($app->tform->formDef['auth'] == 'yes') {
-                                if($app->tform->checkPerm($this->id,'d') == false) die("Deletion denied.<br>\r\n");
+                                if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
                         }
 
                         $record_old = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
@@ -250,7 +250,7 @@ class tform_actions {
 
                 //header("Location: ".$liste["file"]."?PHPSESSID=".$_SESSION["s"]["id"]);
                 $list_name = $_SESSION["s"]["form"]["return_to"];
-				if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
+                                if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_id"] != $this->id && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
                         $redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
                         $_SESSION["s"]["form"]["return_to"] = '';
                         session_write_close();
@@ -326,7 +326,7 @@ class tform_actions {
                         } else {
                                 $sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('u');
                         }
-                        if(!$record = $app->db->queryOneRecord($sql)) die("You dont have the permission to view this record or this record does not exist.");
+                        if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
                 } else {
                         $record = $app->tform->encode($_POST,$this->active_tab);
                 }
