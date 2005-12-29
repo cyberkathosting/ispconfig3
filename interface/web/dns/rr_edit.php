@@ -76,13 +76,13 @@ class page_action extends tform_actions {
                   $update = 0;
                   if($old_record = $app->db->queryOneRecord("SELECT * FROM rr WHERE id = ".$this->dataRecord["id"])){
                     foreach($old_record as $key => $val){
-                      if($this->dataRecord[$key] != $val) $update += 1;
+                      if($this->dataRecord[$key] != $val && isset($this->dataRecord[$key])) $update += 1;
                     }
                   } else { // new record
                     $update = 1;
                   }
 
-                  if($update > 0){
+                  if($update > 0 && !in_array($soa['id'], $increased_serials)){
                     $new_serial = $app->validate_dns->increase_serial($serial);
                     $increased_serials[] = $soa['id'];
                     $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$this->dataRecord["zone"]);
@@ -119,24 +119,38 @@ class page_action extends tform_actions {
                       // if IP address changes, delete/change old PTR record
                       if(!empty($old_record)){
                         list($oa, $ob, $oc, $od) = explode('.', $old_record['data']);
-                        if($a_rr_with_same_ip = $app->db->queryOneRecord("SELECT rr.*, soa.origin FROM rr, soa WHERE rr.type = 'A' AND rr.data = '".$old_record['data']."' AND rr.zone = soa.id AND soa.active = 'Y' AND rr.id != ".$this->dataRecord["id"])){
+
+                        if($old_record['data'] == $this->dataRecord['data']){
+                          $a_rr_with_same_ip = $this->dataRecord;
+                          $a_rr_with_same_ip['origin'] = $soa['origin'];
+                        } else {
+                          $a_rr_with_same_ip = $app->db->queryOneRecord("SELECT rr.*, soa.origin FROM rr, soa WHERE rr.type = 'A' AND rr.data = '".$old_record['data']."' AND rr.zone = soa.id AND soa.active = 'Y' AND rr.id != ".$this->dataRecord["id"]);
+                        }
+                        $old_ptr_soa = $oc.'.'.$ob.'.'.$oa.'.in-addr.arpa.';
+                        $old_ptr_soa_exist = $app->db->queryOneRecord("SELECT * FROM soa WHERE origin = '".$old_ptr_soa."'");
+
+                        if($a_rr_with_same_ip){
                           if(substr($a_rr_with_same_ip['name'], -1) == '.'){
                             $new_ptr_soa_rr_data = $a_rr_with_same_ip['name'];
                           } else {
                             $new_ptr_soa_rr_data = $a_rr_with_same_ip['name'].(trim($a_rr_with_same_ip['name']) == '' ? '' : '.').$a_rr_with_same_ip['origin'];
                           }
-                          $app->db->query("UPDATE rr SET data = '".$new_ptr_soa_rr_data."' WHERE zone = '".$ptr_soa_exist['id']."' AND name = '".$od."' AND type = 'PTR'");
+                          $app->db->query("UPDATE rr SET data = '".$new_ptr_soa_rr_data."' WHERE zone = '".$old_ptr_soa_exist['id']."' AND name = '".$od."' AND type = 'PTR'");
+                          // increase serial
+                          if(!in_array($old_ptr_soa_exist['id'], $increased_serials)){
+                            $new_serial = $app->validate_dns->increase_serial($old_ptr_soa_exist['serial']);
+                            $increased_serials[] = $old_ptr_soa_exist['id'];
+                            $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$old_ptr_soa_exist['id']);
+                          }
                         } else {
-                          $old_ptr_soa = $oc.'.'.$ob.'.'.$oa.'.in-addr.arpa.';
-                          $old_ptr_soa_exist = $app->db->queryOneRecord("SELECT * FROM soa WHERE origin = '".$old_ptr_soa."'");
                           $app->db->query("DELETE FROM rr WHERE zone = '".$old_ptr_soa_exist['id']."' AND name = '".$od."' AND type = 'PTR'");
-                          //die("DELETE FROM rr WHERE zone = '".$old_record['zone']."' AND name = '".$od."' AND type = 'PTR'");
                           if(!$app->db->queryOneRecord("SELECT * FROM rr WHERE zone = '".$old_ptr_soa_exist['id']."'")){
                             $app->db->query("DELETE FROM soa WHERE id = ".$old_ptr_soa_exist['id']);
                           } else {
                             // increase serial
                             if(!in_array($old_ptr_soa_exist['id'], $increased_serials)){
                               $new_serial = $app->validate_dns->increase_serial($old_ptr_soa_exist['serial']);
+                              $increased_serials[] = $old_ptr_soa_exist['id'];
                               $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$old_ptr_soa_exist['id']);
                             }
                           }

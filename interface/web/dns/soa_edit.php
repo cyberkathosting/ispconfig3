@@ -77,7 +77,7 @@ class page_action extends tform_actions {
                 $update = 0;
                 if($soa){
                   foreach($soa as $key => $val){
-                    if($this->dataRecord[$key] != $val && $key != 'active') $update += 1;
+                    if($this->dataRecord[$key] != $val && $key != 'active' && isset($this->dataRecord[$key])) $update += 1;
                   }
                 } else { // new record
                   $update = 1;
