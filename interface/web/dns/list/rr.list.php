@@ -40,7 +40,7 @@ $liste["delete_file"]                = "rr_del.php";
 $liste["paging_tpl"]                = "templates/paging.tpl.htm";
 
 // Enable auth
-$liste["auth"]                                = "no";
+$liste["auth"]                                = "yes";
 
 
 /*****************************************************

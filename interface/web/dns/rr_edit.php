@@ -118,7 +118,22 @@ class page_action extends tform_actions {
 
                       // if IP address changes, delete/change old PTR record
                       if(!empty($old_record)){
+
+
+
+
                         list($oa, $ob, $oc, $od) = explode('.', $old_record['data']);
+                        $old_ptr_soa = $oc.'.'.$ob.'.'.$oa.'.in-addr.arpa.';
+                        $old_ptr_soa_exist = $app->db->queryOneRecord("SELECT * FROM soa WHERE origin = '".$old_ptr_soa."'");
+                        if(substr($old_record['name'], -1) == '.'){
+                          $old_ptr_soa_rr_data = $old_record['name'];
+                        } else {
+                          $old_ptr_soa_rr_data = $old_record['name'].(trim($old_record['name']) == '' ? '' : '.').$soa['origin'];
+                        }
+                        if(!$app->db->queryOneRecord("SELECT * FROM rr WHERE zone = '".$old_ptr_soa_exist['id']."' AND name = '".$od."' AND type = 'PTR' AND data = '".$old_ptr_soa_rr_data."'")){
+                          parent::onSubmit();
+                          return true;
+                        }
 
                         if($old_record['data'] == $this->dataRecord['data']){
                           $a_rr_with_same_ip = $this->dataRecord;
@@ -126,8 +141,6 @@ class page_action extends tform_actions {
                         } else {
                           $a_rr_with_same_ip = $app->db->queryOneRecord("SELECT rr.*, soa.origin FROM rr, soa WHERE rr.type = 'A' AND rr.data = '".$old_record['data']."' AND rr.zone = soa.id AND soa.active = 'Y' AND rr.id != ".$this->dataRecord["id"]);
                         }
-                        $old_ptr_soa = $oc.'.'.$ob.'.'.$oa.'.in-addr.arpa.';
-                        $old_ptr_soa_exist = $app->db->queryOneRecord("SELECT * FROM soa WHERE origin = '".$old_ptr_soa."'");
 
                         if($a_rr_with_same_ip){
                           if(substr($a_rr_with_same_ip['name'], -1) == '.'){
