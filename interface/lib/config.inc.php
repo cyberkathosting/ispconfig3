@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ini_set('register_globals',0);
 
-$conf['app_title'] = "MyDNSConfig";
+$conf["app_title"] = "MyDNSConfig";
 $conf["app_version"] = "1.0.0";
 
 $conf["rootpath"]                 = "F:\\server\\www\\ispconfig3\\interface";
@@ -73,7 +73,7 @@ $conf["logo"] = 'themes/default/images/mydnsconfig_logo.gif';
         Default Language
 */
 
-$conf['language']                = 'en';
+$conf["language"]                = 'en';
 
 
 /*
@@ -87,13 +87,13 @@ $conf["start_session"]         = true;
         DNS Settings
 */
 
-$conf['auto_create_ptr'] = 1; // Automatically create PTR records?
-$conf['default_ns'] = 'ns1.example.com.'; // must be set if $conf['auto_create_ptr'] is 1. Don't forget the trailing dot!
-$conf['default_mbox'] = 'admin.example.com.'; // Admin email address. Must be set if $conf['auto_create_ptr'] is 1. Replace "@" with ".". Don't forget the trailing dot!
-$conf['default_ttl'] = 86400;
-$conf['default_refresh'] = 28800;
-$conf['default_retry'] = 7200;
-$conf['default_expire'] = 604800;
-$conf['default_minimum_ttl'] = 86400;
+$conf["auto_create_ptr"] = 1; // Automatically create PTR records?
+$conf["default_ns"] = 'ns1.example.com.'; // must be set if $conf['auto_create_ptr'] is 1. Don't forget the trailing dot!
+$conf["default_mbox"] = 'admin.example.com.'; // Admin email address. Must be set if $conf['auto_create_ptr'] is 1. Replace "@" with ".". Don't forget the trailing dot!
+$conf["default_ttl"] = 86400;
+$conf["default_refresh"] = 28800;
+$conf["default_retry"] = 7200;
+$conf["default_expire"] = 604800;
+$conf["default_minimum_ttl"] = 86400;
 
 ?>
