@@ -22,11 +22,11 @@ function del_record(link) {
   </tr>
   <tr>
     <td class="frmText11"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" class="text" /></td>
-    <td class="frmText11"><select name="search_type" onChange="document.myform.submit();">{tmpl_var name='search_type'}</select></td>
+    <td class="frmText11"><select name="search_type" onChange="changeTab('rr');">{tmpl_var name='search_type'}</select></td>
     <td class="frmText11"><input type="text" name="search_data" value="{tmpl_var name='search_data'}" class="text" /></td>
     <td class="frmText11"><input type="text" name="search_aux" value="{tmpl_var name='search_aux'}" class="text" /></td>
     <td class="frmText11"><input type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" class="text" /></td>
-    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
+    <td class="frmText11" align="right"><input name="Filter" type="button" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="changeTab('rr');"></td>
   </tr>
   <tmpl_loop name="records">
   <tr bgcolor="{tmpl_var name="bgcolor"}">
