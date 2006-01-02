@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2005, Till Brehm, Falko Timme, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
