@@ -1,0 +1,13 @@
+<?php
+$wb["list_head_txt"] = 'Relay Domain';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["page_txt"] = 'Page';
+$wb["page_of_txt"] = 'of';
+$wb["page_next_txt"] = 'Next';
+$wb["page_back_txt"] = 'Back';
+$wb["delete_txt"] = 'Delete';
+$wb["filter_txt"] = 'Filter';
+$wb["add_new_record_txt"] = 'Add new Relay Domain';
+$wb["active_txt"] = 'Active';
+?>

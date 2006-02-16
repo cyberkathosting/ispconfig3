@@ -1,305 +1,231 @@
--- phpMyAdmin SQL Dump
--- version 2.6.2-Debian-3sarge1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Erstellungszeit: 25. November 2005 um 19:28
--- Server Version: 4.0.24
--- PHP-Version: 4.3.10-16
---
--- Datenbank: `mailserver`
---
+# phpMyAdmin MySQL-Dump
+# version 2.4.0-rc1
+# http://www.phpmyadmin.net/ (download page)
+#
+# Host: localhost
+# Erstellungszeit: 16. Februar 2006 um 22:34
+# Server Version: 4.0.23
+# PHP-Version: 5.0.3
+# Datenbank: `ispconfig3`
+# --------------------------------------------------------
 
--- --------------------------------------------------------
+#
+# Tabellenstruktur für Tabelle `mail_blacklist`
+#
 
--- 
--- Tabellenstruktur für Tabelle `mail_blacklist`
--- 
+DROP TABLE IF EXISTS mail_blacklist;
+CREATE TABLE mail_blacklist (
+  blacklist_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  address varchar(200) NOT NULL default '',
+  recipient varchar(200) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (blacklist_id),
+  KEY server_id (server_id,address,recipient)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
-DROP TABLE IF EXISTS `mail_blacklist`;
-CREATE TABLE `mail_blacklist` (
-  `blacklist_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `address` varchar(200) NOT NULL default '',
-  `recipient` varchar(200) NOT NULL default '',
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`blacklist_id`),
-  KEY `server_id` (`server_id`,`address`,`recipient`)
-) TYPE=MyISAM AUTO_INCREMENT=3 ;
+#
+# Tabellenstruktur für Tabelle `mail_box`
+#
 
--- 
--- Daten für Tabelle `mail_blacklist`
--- 
+DROP TABLE IF EXISTS mail_box;
+CREATE TABLE mail_box (
+  mailbox_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  email varchar(255) NOT NULL default '',
+  cryptpwd varchar(128) NOT NULL default '',
+  clearpwd varchar(128) NOT NULL default '',
+  name varchar(128) NOT NULL default '',
+  uid int(10) unsigned NOT NULL default '0',
+  gid int(10) unsigned NOT NULL default '0',
+  maildir varchar(255) NOT NULL default '',
+  quota varchar(255) NOT NULL default '',
+  autoresponder enum('0','1') NOT NULL default '0',
+  autoresponder_text tinytext NOT NULL,
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (mailbox_id),
+  KEY server_id (server_id,email)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
-INSERT INTO `mail_blacklist` (`blacklist_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `address`, `recipient`, `active`) VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', 'till@test.int', '0');
+#
+# Tabellenstruktur für Tabelle `mail_domain`
+#
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS mail_domain;
+CREATE TABLE mail_domain (
+  domain_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  type enum('local','relay','alias') NOT NULL default 'local',
+  destination varchar(255) NOT NULL default '',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (domain_id),
+  KEY server_id (server_id,domain,type)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
--- 
--- Tabellenstruktur für Tabelle `mail_box`
--- 
+#
+# Tabellenstruktur für Tabelle `mail_domain_catchall`
+#
 
-DROP TABLE IF EXISTS `mail_box`;
-CREATE TABLE `mail_box` (
-  `mailbox_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `email` varchar(255) NOT NULL default '',
-  `cryptpwd` varchar(128) NOT NULL default '',
-  `clearpwd` varchar(128) NOT NULL default '',
-  `name` varchar(128) NOT NULL default '',
-  `uid` int(10) unsigned NOT NULL default '0',
-  `gid` int(10) unsigned NOT NULL default '0',
-  `maildir` varchar(255) NOT NULL default '',
-  `quota` varchar(255) NOT NULL default '',
-  `cc` varchar(50) NOT NULL default '',
-  `forward` varchar(50) NOT NULL default '',
-  `autoresponder` enum('0','1') NOT NULL default '0',
-  `autoresponder_text` tinytext NOT NULL,
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`mailbox_id`),
-  KEY `server_id` (`server_id`,`email`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+DROP TABLE IF EXISTS mail_domain_catchall;
+CREATE TABLE mail_domain_catchall (
+  domain_catchall_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (domain_catchall_id),
+  KEY server_id (server_id,domain)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
--- 
--- Daten für Tabelle `mail_box`
--- 
+#
+# Tabellenstruktur für Tabelle `mail_greylist`
+#
 
-INSERT INTO `mail_box` (`mailbox_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `cryptpwd`, `clearpwd`, `name`, `uid`, `gid`, `maildir`, `quota`, `cc`, `forward`, `autoresponder`, `autoresponder_text`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', '$1$tRlfKeOB$iHJgCn8mH8x/dh/XWy6v0/', '', '', 0, 0, '/var/spool/mail/till', '100', '', '', '0', '', '1');
+DROP TABLE IF EXISTS mail_greylist;
+CREATE TABLE mail_greylist (
+  greylist_id int(11) NOT NULL auto_increment,
+  relay_ip varchar(64) default NULL,
+  from_domain varchar(255) default NULL,
+  block_expires datetime NOT NULL default '0000-00-00 00:00:00',
+  record_expires datetime NOT NULL default '0000-00-00 00:00:00',
+  origin_type enum('MANUAL','AUTO') NOT NULL default 'AUTO',
+  create_time datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (greylist_id)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
--- --------------------------------------------------------
+#
+# Tabellenstruktur für Tabelle `mail_mailman_domain`
+#
 
--- 
--- Tabellenstruktur für Tabelle `mail_domain`
--- 
+DROP TABLE IF EXISTS mail_mailman_domain;
+CREATE TABLE mail_mailman_domain (
+  mailman_id int(11) NOT NULL auto_increment,
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  mm_home varchar(255) NOT NULL default '',
+  mm_wrap varchar(255) NOT NULL default '',
+  mm_user varchar(50) NOT NULL default '',
+  mm_group varchar(50) NOT NULL default '',
+  PRIMARY KEY  (mailman_id,server_id,domain)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
-DROP TABLE IF EXISTS `mail_domain`;
-CREATE TABLE `mail_domain` (
-  `domain_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `domain` varchar(255) NOT NULL default '',
-  `type` enum('local','relay','alias') NOT NULL default 'local',
-  `relay_host` varchar(255) NOT NULL default '',
-  `destination` varchar(255) NOT NULL default '',
-  `active` tinyint(4) NOT NULL default '1',
-  PRIMARY KEY  (`domain_id`),
-  KEY `server_id` (`server_id`,`domain`,`type`)
-) TYPE=MyISAM AUTO_INCREMENT=7 ;
+#
+# Tabellenstruktur für Tabelle `mail_redirect`
+#
 
--- 
--- Daten für Tabelle `mail_domain`
--- 
+DROP TABLE IF EXISTS mail_redirect;
+CREATE TABLE mail_redirect (
+  redirect_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  email varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  type enum('alias','forward') NOT NULL default 'alias',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (redirect_id),
+  KEY server_id (server_id,email)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
-INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.int', 'local', '', '', 1);
-INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'test2.int', 'alias', '', 'test.int', 1);
-INSERT INTO `mail_domain` (`domain_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `type`, `relay_host`, `destination`, `active`) VALUES (5, 1, 0, 'riud', 'riud', '', 1, 'ensign.int', 'alias', '', 'ensign.de', 1);
+#
+# Tabellenstruktur für Tabelle `mail_spamfilter`
+#
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS mail_spamfilter;
+CREATE TABLE mail_spamfilter (
+  spamfilter_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  email varchar(255) NOT NULL default '',
+  spam_rewrite_score_int int(11) NOT NULL default '0',
+  spam_delete_score_int int(11) NOT NULL default '0',
+  spam_redirect_score_int int(11) NOT NULL default '0',
+  spam_rewrite_subject varchar(50) NOT NULL default '***SPAM***',
+  spam_redirect_maildir varchar(255) NOT NULL default '',
+  spam_redirect_maildir_purge int(11) NOT NULL default '7',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (spamfilter_id),
+  KEY server_id (server_id,email)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
--- 
--- Tabellenstruktur für Tabelle `mail_domain_catchall`
--- 
+#
+# Tabellenstruktur für Tabelle `mail_transport`
+#
 
-DROP TABLE IF EXISTS `mail_domain_catchall`;
-CREATE TABLE `mail_domain_catchall` (
-  `domain_catchall_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `domain` varchar(255) NOT NULL default '',
-  `destination` varchar(255) NOT NULL default '',
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`domain_catchall_id`),
-  KEY `server_id` (`server_id`,`domain`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+DROP TABLE IF EXISTS mail_transport;
+CREATE TABLE mail_transport (
+  whitelist_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  domain varchar(255) NOT NULL default '',
+  destination varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (whitelist_id),
+  KEY server_id (server_id,destination),
+  KEY server_id_2 (server_id,domain)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
--- 
--- Daten für Tabelle `mail_domain_catchall`
--- 
+#
+# Tabellenstruktur für Tabelle `mail_whitelist`
+#
 
-INSERT INTO `mail_domain_catchall` (`domain_catchall_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `destination`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 1, 'test.int', 'till@test.int', '1');
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `mail_greylist`
--- 
-
-DROP TABLE IF EXISTS `mail_greylist`;
-CREATE TABLE `mail_greylist` (
-  `greylist_id` int(11) NOT NULL auto_increment,
-  `relay_ip` varchar(64) default NULL,
-  `from_domain` varchar(255) default NULL,
-  `block_expires` datetime NOT NULL default '0000-00-00 00:00:00',
-  `record_expires` datetime NOT NULL default '0000-00-00 00:00:00',
-  `origin_type` enum('MANUAL','AUTO') NOT NULL default 'AUTO',
-  `create_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`greylist_id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `mail_greylist`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `mail_mailman_domain`
--- 
-
-DROP TABLE IF EXISTS `mail_mailman_domain`;
-CREATE TABLE `mail_mailman_domain` (
-  `mailman_id` int(11) NOT NULL auto_increment,
-  `server_id` int(11) NOT NULL default '0',
-  `domain` varchar(255) NOT NULL default '',
-  `mm_home` varchar(255) NOT NULL default '',
-  `mm_wrap` varchar(255) NOT NULL default '',
-  `mm_user` varchar(50) NOT NULL default '',
-  `mm_group` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `mail_mailman_domain`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `mail_redirect`
--- 
-
-DROP TABLE IF EXISTS `mail_redirect`;
-CREATE TABLE `mail_redirect` (
-  `redirect_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `email` varchar(255) NOT NULL default '',
-  `destination` varchar(255) NOT NULL default '',
-  `type` enum('alias','forward') NOT NULL default 'alias',
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`redirect_id`),
-  KEY `server_id` (`server_id`,`email`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
-
--- 
--- Daten für Tabelle `mail_redirect`
--- 
-
-INSERT INTO `mail_redirect` (`redirect_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `destination`, `type`, `active`) VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'tom@test.int', 'till@test.int', 'alias', '1');
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `mail_spamfilter`
--- 
-
-DROP TABLE IF EXISTS `mail_spamfilter`;
-CREATE TABLE `mail_spamfilter` (
-  `spamfilter_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `email` varchar(255) NOT NULL default '',
-  `spam_rewrite_score_int` int(11) NOT NULL default '0',
-  `spam_delete_score_int` int(11) NOT NULL default '0',
-  `spam_redirect_score_int` int(11) NOT NULL default '0',
-  `spam_rewrite_subject` varchar(50) NOT NULL default '***SPAM***',
-  `spam_redirect_maildir` varchar(255) NOT NULL default '',
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`spamfilter_id`),
-  KEY `server_id` (`server_id`,`email`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
-
--- 
--- Daten für Tabelle `mail_spamfilter`
--- 
-
-INSERT INTO `mail_spamfilter` (`spamfilter_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `spam_rewrite_score_int`, `spam_delete_score_int`, `spam_redirect_score_int`, `spam_rewrite_subject`, `spam_redirect_maildir`, `active`) VALUES (1, 0, 0, '', '', '', 1, 'till@test.int', 100, 100, 1, '***SPAM mag ich nicht***', '/var/spool/mail/spam', '1');
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `mail_transport`
--- 
-
-DROP TABLE IF EXISTS `mail_transport`;
-CREATE TABLE `mail_transport` (
-  `whitelist_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `domain` varchar(255) NOT NULL default '',
-  `destination` varchar(255) NOT NULL default '',
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`whitelist_id`),
-  KEY `server_id` (`server_id`,`destination`),
-  KEY `server_id_2` (`server_id`,`domain`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `mail_transport`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `mail_whitelist`
--- 
-
-DROP TABLE IF EXISTS `mail_whitelist`;
-CREATE TABLE `mail_whitelist` (
-  `whitelist_id` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_id` int(11) NOT NULL default '0',
-  `address` varchar(255) NOT NULL default '',
-  `active` enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (`whitelist_id`),
-  KEY `server_id` (`server_id`,`address`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `mail_whitelist`
--- 
-
-        
-
-
--- --------------------------------------------------------
+DROP TABLE IF EXISTS mail_whitelist;
+CREATE TABLE mail_whitelist (
+  whitelist_id int(11) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_id int(11) NOT NULL default '0',
+  address varchar(255) NOT NULL default '',
+  recipient varchar(255) NOT NULL default '',
+  active enum('0','1') NOT NULL default '1',
+  PRIMARY KEY  (whitelist_id),
+  KEY server_id (server_id,address)
+) TYPE=MyISAM;
+# --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `reseller`
@@ -351,25 +277,26 @@ CREATE TABLE `reseller` (
 -- Tabellenstruktur für Tabelle `server`
 --
 
-DROP TABLE IF EXISTS `server`;
-CREATE TABLE `server` (
-  `server_id` bigint(20) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `server_name` varchar(255) NOT NULL default '',
-  `mail_server` int(11) NOT NULL default '0',
-  `web_server` int(11) NOT NULL default '0',
-  `dns_server` int(11) NOT NULL default '0',
-  `file_server` int(11) NOT NULL default '0',
-  `mysql_server` int(11) NOT NULL default '0',
-  `postgresql_server` int(11) NOT NULL default '0',
-  `firebird_server` int(11) NOT NULL default '0',
-  `active` int(11) NOT NULL default '1',
-  PRIMARY KEY  (`server_id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+DROP TABLE IF EXISTS server;
+CREATE TABLE server (
+  server_id bigint(20) NOT NULL auto_increment,
+  sys_userid int(11) NOT NULL default '0',
+  sys_groupid int(11) NOT NULL default '0',
+  sys_perm_user varchar(5) NOT NULL default '',
+  sys_perm_group varchar(5) NOT NULL default '',
+  sys_perm_other varchar(5) NOT NULL default '',
+  server_name varchar(255) NOT NULL default '',
+  mail_server int(11) NOT NULL default '0',
+  web_server int(11) NOT NULL default '0',
+  dns_server int(11) NOT NULL default '0',
+  file_server int(11) NOT NULL default '0',
+  mysql_server int(11) NOT NULL default '0',
+  postgresql_server int(11) NOT NULL default '0',
+  firebird_server int(11) NOT NULL default '0',
+  config text NOT NULL,
+  active int(11) NOT NULL default '1',
+  PRIMARY KEY  (server_id)
+) TYPE=MyISAM;
 
 --
 -- Daten für Tabelle `server`

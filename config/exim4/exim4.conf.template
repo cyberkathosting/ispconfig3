@@ -126,8 +126,11 @@ acl_check_rcpt:
           domains       = +local_domains
 
   require verify        = sender
+  
+  # Whitelist
+  
 
-  # Blacklist management
+  # Blacklist
   deny    senders = ${lookup mysql {SELECT DISTINCT address FROM MYSQL_BLACKTABLE WHERE '${quote_mysql:$sender_address}' LIKE address \
                                     AND (recipient = '' OR recipient = '${quote_mysql:$domain}' OR recipient = '${quote_mysql:$local_part}@${quote_mysql:$domain}') \
                                     AND active = '1' AND server_id = 'MAILSERVER_ID'}{$value}}
@@ -159,11 +162,11 @@ acl_check_host:
 
 acl_check_helo:
         accept  hosts = +relay_from_hosts
-	# If the HELO pretend to be this host
-	deny	condition = ${if or { \
-					{eq {${lc:$sender_helo_name}}{MAILSERVER_HOSTNAME}} \
-					{eq {${lc:$sender_helo_name}}{MAILSERVER_IP}} \
-				    } {true}{false} }
+		# If the HELO pretend to be this host
+		deny	condition = ${if or { \
+						{eq {${lc:$sender_helo_name}}{MAILSERVER_HOSTNAME}} \
+						{eq {${lc:$sender_helo_name}}{MAILSERVER_IP}} \
+				    	} {true}{false} }
         # by default we accept
         accept
 
@@ -182,9 +185,9 @@ acl_check_data:
 
         warn    message = X-SA-Report: $spam_report 
                 spam = nobody:true
-
                 condition = ${if >{$spam_score_int}{0}{true}{false}}
-        warn    message = X-SA-Status: Yes 
+        
+		warn    message = X-SA-Status: Yes 
                 spam = nobody:true
                 condition = ${if >{$spam_score_int}{50}{true}{false}}
 
@@ -261,7 +264,7 @@ dnslookup:
 #  allow_fail
 #  allow_defer
 #  data = ${lookup{$local_part}lsearch{/etc/aliases}}
-# user = exim
+#  user = exim
 #  file_transport = address_file
 #  pipe_transport = address_pipe
 
@@ -347,14 +350,14 @@ autoresponder_router:
   transport = autoresponder_transport
   unseen  
 
-cc_router:
-  driver = redirect
-  data = ${lookup mysql {SELECT cc FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}')}{$value}}
-  unseen
+# cc_router:
+#   driver = redirect
+#   data = ${lookup mysql {SELECT cc FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}')}{$value}}
+#   unseen
 
-forward_router:
-  driver = redirect
-  data = ${lookup mysql {SELECT forward FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND forward != ''}{$value}}
+# forward_router:
+#   driver = redirect
+#   data = ${lookup mysql {SELECT forward FROM MYSQL_EMAILTABLE WHERE email=CONCAT('${quote_mysql:$local_part}','@','${quote_mysql:$domain}') AND forward != ''}{$value}}
 
 local_mailbox_router:
   driver = accept

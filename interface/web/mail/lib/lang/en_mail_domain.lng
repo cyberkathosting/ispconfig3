@@ -1,0 +1,12 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["type_txt"] = 'Type';
+$wb["active_txt"] = 'Active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["domain_error_empty"] = 'Domain is empty.';
+$wb["domain_error_unique"] = 'Duplicate Domain.';
+$wb["domain_error_regex"] = 'Invalid domain name.';
+
+?>

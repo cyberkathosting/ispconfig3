@@ -1,0 +1,30 @@
+<form name="myform" action="mail_spamfilter_list.php" method="POST">
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<input type="button" value="{tmpl_var name="add_new_record_txt"}" onClick="location.href='mail_spamfilter_edit.php'" /><br /><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="tblHead"><tmpl_var name="active_txt"></td>
+    <td class="tblHead"><tmpl_var name="server_id_txt"></td>
+    <td class="tblHead"><tmpl_var name="email_txt"></td>
+    <td class="tblHead">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="frmText11"><select name="search_active" onChange="document.myform.submit();">{tmpl_var name='search_active'}</select></td>
+	<td class="frmText11"><select name="search_server_id" onChange="document.myform.submit();">{tmpl_var name='search_server_id'}</select></td>
+    <td class="frmText11"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" class="text" /></td>
+    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+    <td class="frmText11"><a href="mail_spamfilter_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="active"}</a></td>
+    <td class="frmText11"><a href="mail_spamfilter_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="server_id"}</a></td>
+    <td class="frmText11"><a href="mail_spamfilter_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="email"}</a></td>
+    <td class="frmText11" align="right">[<a href="javascript: del_record('mail_spamfilter_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
+  </tr>
+  </tmpl_loop>
+
+  <tr>
+  	<td colspan="4" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
+  </tr>
+</table>
+</form>

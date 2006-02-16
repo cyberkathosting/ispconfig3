@@ -196,7 +196,7 @@ class tform {
         /**
         * Get the key => value array of a form filed from a datasource definitiom
         *
-        * @param field = NEW oder EDIT
+        * @param field = array with field definition
         * @param record = Dataset as array
         * @return key => value array for the value field of a form
         */
@@ -560,7 +560,7 @@ class tform {
                                         }
                                 break;
                                 case 'ISEMAIL':
-                                        if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,4}$/i", $field_value)) {
+                                        if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
                                         }

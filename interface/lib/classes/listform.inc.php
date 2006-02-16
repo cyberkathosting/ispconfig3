@@ -53,7 +53,71 @@ class listform {
                 include_once($file);
                 $this->listDef = $liste;
                 $this->module = $module;
+				
+				// Fill datasources
+				foreach($this->listDef["item"] as $key => $field) {
+					if(is_array($field['datasource'])) {
+                    	$this->listDef["item"][$key]["value"] = $this->getDatasourceData($field);
+                    }
+				}
+				
                 return true;
+        }
+		
+		/**
+        * Get the key => value array of a form filed from a datasource definitiom
+        *
+        * @param field = array with field definition
+        * @param record = Dataset as array
+        * @return key => value array for the value field of a form
+        */
+
+        function getDatasourceData($field) {
+                global $app;
+
+                $values = array();
+
+                if($field["datasource"]["type"] == 'SQL') {
+
+                        // Preparing SQL string. We will replace some
+                        // common placeholders
+                        $querystring = $field["datasource"]["querystring"];
+                        $querystring = str_replace("{USERID}",$_SESSION["s"]["user"]["userid"],$querystring);
+                        $querystring = str_replace("{GROUPID}",$_SESSION["s"]["user"]["default_group"],$querystring);
+                        $querystring = str_replace("{GROUPS}",$_SESSION["s"]["user"]["groups"],$querystring);
+                        $table_idx = $this->formDef['db_table_idx'];
+                        //$querystring = str_replace("{RECORDID}",$record[$table_idx],$querystring);
+						$app->uses("tform");
+                        $querystring = str_replace("{AUTHSQL}",$app->tform->getAuthSQL('r'),$querystring);
+
+                        // Getting the records
+                        $tmp_records = $app->db->queryAllRecords($querystring);
+                        if($app->db->errorMessage != '') die($app->db->errorMessage);
+                        if(is_array($tmp_records)) {
+                                $key_field = $field["datasource"]["keyfield"];
+                                $value_field = $field["datasource"]["valuefield"];
+                                foreach($tmp_records as $tmp_rec) {
+                                        $tmp_id = $tmp_rec[$key_field];
+                                        $values[$tmp_id] = $tmp_rec[$value_field];
+                                }
+                        }
+                }
+
+                if($field["datasource"]["type"] == 'CUSTOM') {
+                        // Calls a custom class to validate this record
+                        if($field["datasource"]['class'] != '' and $field["datasource"]['function'] != '') {
+                                $datasource_class = $field["datasource"]['class'];
+                                $datasource_function = $field["datasource"]['function'];
+                                $app->uses($datasource_class);
+								$record = array();
+                                $values = $app->$datasource_class->$datasource_function($field, $record);
+                        } else {
+                                $this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
+                        }
+                }
+
+                return $values;
+
         }
 
         function getSearchSQL($sql_where = "") {

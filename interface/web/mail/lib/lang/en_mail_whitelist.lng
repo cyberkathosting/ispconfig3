@@ -1,0 +1,9 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["address_txt"] = 'Witelist Address';
+$wb["recipient_txt"] = 'Recipient';
+$wb["active_txt"] = 'Active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["address_error_notempty"] = 'Address is empty.';
+?>

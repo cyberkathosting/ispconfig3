@@ -29,16 +29,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ini_set('register_globals',0);
 
-$conf["app_title"] = "MyDNSConfig";
-$conf["app_version"] = "1.0.0";
+$conf["app_title"] = "ISPConfig";
+$conf["app_version"] = "3.0.0";
 
-$conf["rootpath"]                 = "F:\\server\\www\\ispconfig3\\interface";
-//$conf["rootpath"]                 = "D:\\www\\ispconfig3\\interface";
-//$conf["rootpath"]                 = "/home/www/ispconfig3/web/cms";
+//$conf["rootpath"]			= "F:\\server\\www\\ispconfig3\\interface";
+$conf["rootpath"]			= "D:\\www\\ispconfig3\\interface";
+//$conf["rootpath"]			= "/home/www/ispconfig3/web/cms";
 
-$conf["fs_div"]                 = "\\"; // File system divider, \\ on windows and / on linux and unix
-$conf["classpath"]                 = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"]                 = $conf["rootpath"].$conf["fs_div"]."temp";
+$conf["fs_div"]				= "\\"; // File system divider, \\ on windows and / on linux and unix
+$conf["classpath"]			= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
+$conf["temppath"]			= $conf["rootpath"].$conf["fs_div"]."temp";
 
 
 /*
@@ -46,28 +46,28 @@ $conf["temppath"]                 = $conf["rootpath"].$conf["fs_div"]."temp";
 */
 
 
-$conf["db_type"]                 = 'mysql';
-$conf["db_host"]                 = 'localhost';
-$conf["db_database"]         = 'ispconfig3';
-$conf["db_user"]                 = 'root';
-$conf["db_password"]         = '';
+$conf["db_type"]			= 'mysql';
+$conf["db_host"]			= 'localhost';
+$conf["db_database"]		= 'ispconfig3';
+$conf["db_user"]			= 'root';
+$conf["db_password"]		= '';
 
 
 /*
         External programs
 */
 
-//$conf["programs"]["convert"]                = "/usr/bin/convert";
-$conf["programs"]["wput"]                        = $conf["rootpath"]."\\tools\\wput\\wput.exe";
+//$conf["programs"]["convert"]	= "/usr/bin/convert";
+$conf["programs"]["wput"]		= $conf["rootpath"]."\\tools\\wput\\wput.exe";
 
 
 /*
         Themes
 */
 
-$conf["theme"]                                         = 'default';
-$conf["html_content_encoding"]        = 'text/html; charset=iso-8859-1';
-$conf["logo"] = 'themes/default/images/mydnsconfig_logo.gif';
+$conf["theme"]					= 'default';
+$conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
+$conf["logo"] 					= 'themes/default/images/mydnsconfig_logo.gif';
 
 /*
         Default Language
@@ -80,8 +80,8 @@ $conf["language"]                = 'en';
         Auto Load Modules
 */
 
-$conf["start_db"]                 = true;
-$conf["start_session"]         = true;
+$conf["start_db"]		= true;
+$conf["start_session"]	= true;
 
 /*
         DNS Settings
