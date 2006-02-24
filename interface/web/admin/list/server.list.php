@@ -92,7 +92,7 @@ $liste["item"][] = array(	'field'		=> "file_server",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "mysql_server",
+$liste["item"][] = array(	'field'		=> "db_server",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -102,7 +102,7 @@ $liste["item"][] = array(	'field'		=> "mysql_server",
 							'value'		=> "");
 
 
-$liste["item"][] = array(	'field'		=> "postgresql_server",
+$liste["item"][] = array(	'field'		=> "vserver_server",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -111,13 +111,4 @@ $liste["item"][] = array(	'field'		=> "postgresql_server",
 							'width'		=> "",
 							'value'		=> "");
 
-
-$liste["item"][] = array(	'field'		=> "firebird_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
 ?>

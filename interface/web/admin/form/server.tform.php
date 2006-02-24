@@ -90,23 +90,23 @@ $form["tabs"]['services'] = array (
 			'default'	=> '0',
 			'value'		=> '1'
 		),
-		'mysql_server' => array (
+		'db_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
 			'value'		=> '1'
 		),
-		'postgresql_server' => array (
+		'vserver_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
 			'value'		=> '1'
 		),
-		'firebird_server' => array (
+		'update' => array (
 			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> '1'
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'value'		=> array(0 => 'No', 1 => 'Yes')
 		),
 		'active' => array (
 			'datatype'	=> 'INTEGER',

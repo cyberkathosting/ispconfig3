@@ -805,13 +805,16 @@ class tform {
                                 }
                         }
                 }
+				
+				// Insert the server_id, if the record has a server_id
+				$server_id = ($record_old["server_id"] > 0)?$record_old["server_id"]:0;
 
                 if(count($diffrec) > 0) {
                         $diffstr = $app->db->quote(serialize($diffrec));
                         $username = $app->db->quote($_SESSION["s"]["user"]["username"]);
                         $dbidx = $this->formDef['db_table_idx'].":".$primary_id;
                         $action = ($action == 'INSERT')?'i':'u';
-                        $sql = "INSERT INTO sys_datalog (dbtable,dbidx,action,tstamp,user,data) VALUES ('".$this->formDef['db_table']."','$dbidx','$action','".time()."','$username','$diffstr')";
+                        $sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$this->formDef['db_table']."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
                         $app->db->query($sql);
                 }
 
