@@ -47,6 +47,7 @@ class listform_actions {
 		
 		if(!is_object($app->tpl)) $app->uses('tpl');
 		if(!is_object($app->listform)) $app->uses('listform');
+		if(!is_object($app->tform)) $app->uses('tform');
 		
 		// Load list definition
 		$app->listform->loadListDef($list_def_file);
