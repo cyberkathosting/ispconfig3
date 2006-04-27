@@ -156,7 +156,8 @@ class listform {
 
                 foreach($this->listDef["item"] as $i) {
                         $field = $i["field"];
-                        if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
+                        //if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
+						if($_SESSION["search"][$list_name][$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_SESSION["search"][$list_name][$search_prefix.$field].$i["suffix"]."' and";
                 }
 
                 if($sql_where != '') {
@@ -203,7 +204,7 @@ class listform {
 
 
                 if($_SESSION["search"][$list_name]["page"] > 0) $vars["show_page_back"] = 1;
-                if($_SESSION["search"][$list_name]["page"] <= $seiten - 1) $vars["show_page_next"] = 1;
+                if($_SESSION["search"][$list_name]["page"] <= $vars["pages"] - 1) $vars["show_page_next"] = 1;
 
                 $this->pagingValues = $vars;
                 $this->pagingHTML = $this->getPagingHTML($vars);
