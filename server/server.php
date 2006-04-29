@@ -68,27 +68,45 @@ $conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_
 
 // Run the configuration modules
 if($server_db_record["mail_server"] == 1) {
-	$app->uses('mod_mail_'.$conf["serverconfig"]["mail"]["module"]);
+	$app->load('mod_mail_base');
+	$mail_module_name = 'mod_mail_'.$conf["serverconfig"]["mail"]["module"];
+	$app->uses($mail_module_name);
+	$app->$mail_module_name->write_config();
 }
 
 if($server_db_record["web_server"] == 1) {
-	$app->uses('mod_web_'.$conf["serverconfig"]["web"]["module"]);
+	$app->load('mod_web_base');
+	$web_module_name = 'mod_web_'.$conf["serverconfig"]["web"]["module"];
+	$app->uses($web_module_name);
+	$app->$web_module_name->write_config();
 }
 
 if($server_db_record["dns_server"] == 1) {
-	$app->uses('mod_dns_'.$conf["serverconfig"]["dns"]["module"]);
+	$app->load('mod_dns_base');
+	$dns_module_name = 'mod_dns_'.$conf["serverconfig"]["dns"]["module"];
+	$app->uses($dns_module_name);
+	$app->$dns_module_name->write_config();
 }
 
 if($server_db_record["file_server"] == 1) {
-	$app->uses('mod_file_'.$conf["serverconfig"]["file"]["module"]);
+	$app->load('mod_file_base');
+	$file_module_name = 'mod_file_'.$conf["serverconfig"]["file"]["module"];
+	$app->uses($file_module_name);
+	$app->$file_module_name->write_config();
 }
 
 if($server_db_record["db_server"] == 1) {
-	$app->uses('mod_db_'.$conf["serverconfig"]["db"]["module"]);
+	$app->load('mod_db_base');
+	$db_module_name = 'mod_db_'.$conf["serverconfig"]["db"]["module"];
+	$app->uses($db_module_name);
+	$app->$db_module_name->write_config();
 }
 
 if($server_db_record["vserver_server"] == 1) {
-	$app->uses('mod_vserver_'.$conf["serverconfig"]["vserver"]["module"]);
+	$app->load('mod_vserver_base');
+	$vserver_module_name = 'mod_vserver_'.$conf["serverconfig"]["vserver"]["module"];
+	$app->uses($vserver_module_name);
+	$app->$vserver_module_name->write_config();
 }
 
 // Remove lock

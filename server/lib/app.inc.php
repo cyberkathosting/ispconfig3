@@ -41,18 +41,19 @@ class app {
         }
 
         function uses($classes) {
-                global $conf;
+			global $conf;
 
-                $cl = explode(',',$classes);
-                if(is_array($cl)) {
-                        foreach($cl as $classname) {
-                                if(!is_object($this->$classname)) {
-                                        include_once($conf['classpath'] . "/".$classname.".inc.php");
-                                        $this->$classname = new $classname;
-                                }
-                        }
-                }
-
+			$cl = explode(',',$classes);
+			if(is_array($cl)) {
+				foreach($cl as $classname) {
+					if(!is_object($this->$classname)) {
+						if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
+							include_once($conf['classpath'] . "/".$classname.".inc.php");
+							$this->$classname = new $classname;
+						}
+					}
+				}
+			}
         }
 
         function load($files) {
@@ -61,7 +62,9 @@ class app {
                 $fl = explode(',',$files);
                 if(is_array($fl)) {
                         foreach($fl as $file) {
+							if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
                                 include_once($conf['classpath'] . "/".$file.".inc.php");
+							}
                         }
                 }
 

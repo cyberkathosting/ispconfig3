@@ -810,7 +810,12 @@ class tform {
 				$server_id = ($record_old["server_id"] > 0)?$record_old["server_id"]:0;
 
                 if(count($diffrec) > 0) {
-                        $diffstr = $app->db->quote(serialize($diffrec));
+                        
+						// We need the full records in ISPConfig, not only the diffs
+						$diffrec = array(	'old' => $record_old,
+											'new' => $record_new);
+						
+						$diffstr = $app->db->quote(serialize($diffrec));
                         $username = $app->db->quote($_SESSION["s"]["user"]["username"]);
                         $dbidx = $this->formDef['db_table_idx'].":".$primary_id;
                         $action = ($action == 'INSERT')?'i':'u';
