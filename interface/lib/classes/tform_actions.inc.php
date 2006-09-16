@@ -53,21 +53,8 @@ class tform_actions {
 
                 // Load table definition from file
                 $app->tform->loadFormDef($tform_def_file);
-
-                // loading plugins
-                $next_tab = $app->tform->getNextTab();
-                if(is_array($app->tform->formDef["tabs"][$next_tab]["plugins"])) {
-                        $app->load('plugin_base');
-                        foreach($app->tform->formDef["tabs"][$next_tab]["plugins"] as $plugin_name => $plugin_settings) {
-                                $plugin_class = $plugin_settings["class"];
-                                $app->load($plugin_class);
-                                $this->plugins[$plugin_name] = new $plugin_class;
-                                $this->plugins[$plugin_name]->setOptions($plugin_name,$plugin_settings['options']);
-                                $this->plugins[$plugin_name]->onLoad();
-                        }
-                }
-
-                // Importing ID
+				
+				// Importing ID
                 $this->id = intval($_REQUEST["id"]);
 
                 if(count($_POST) > 1) {
@@ -108,6 +95,10 @@ class tform_actions {
                                 $app->db->query($sql);
                             if($app->db->errorMessage != '') die($app->db->errorMessage);
                         }
+						
+						// loading plugins
+						$next_tab = $app->tform->getCurrentTab();
+                		$this->loadPlugins($next_tab);
 
                         // Call plugin
                         foreach($this->plugins as $plugin) {
@@ -148,7 +139,11 @@ class tform_actions {
                         $app->db->query($sql);
                         if($app->db->errorMessage != '') die($app->db->errorMessage);
                         $this->id = $app->db->insertID();
-
+						
+						// loading plugins
+						$next_tab = $app->tform->getCurrentTab();
+                		$this->loadPlugins($next_tab);
+						
                         // Call plugin
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
@@ -241,7 +236,12 @@ class tform_actions {
                         }
 
                         $app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
-
+						
+						// loading plugins
+						$next_tab = $app->tform->getCurrentTab();
+                		$this->loadPlugins($next_tab);
+						
+						
                         // Call plugin
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
@@ -283,6 +283,10 @@ class tform_actions {
 
                 // Setting default values
                 $app->tpl_defaults();
+				
+				// loading plugins
+				//$next_tab = $app->tform->getNextTab();
+                $this->loadPlugins($this->active_tab);
 
                 // Calling the Plugin onShow Events and set the data in the
                 // plugins placeholder in the template
@@ -346,6 +350,20 @@ class tform_actions {
                 // Template parsen
                 $app->tpl->pparse();
         }
+		
+		function loadPlugins($next_tab) {
+			global $app;
+			if(is_array($app->tform->formDef["tabs"][$next_tab]["plugins"])) {
+                 $app->load('plugin_base');
+                 foreach($app->tform->formDef["tabs"][$next_tab]["plugins"] as $plugin_name => $plugin_settings) {
+                      $plugin_class = $plugin_settings["class"];
+                      $app->load($plugin_class);
+                      $this->plugins[$plugin_name] = new $plugin_class;
+                      $this->plugins[$plugin_name]->setOptions($plugin_name,$plugin_settings['options']);
+                      $this->plugins[$plugin_name]->onLoad();
+                  }
+             }
+		}
 
 
 }
