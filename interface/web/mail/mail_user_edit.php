@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/mail_box.tform.php";
+$tform_def_file = "form/mail_user.tform.php";
 
 /******************************************
 * End Form configuration
@@ -61,14 +61,20 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email_local_part",$email_parts[0]);
 		
 		// Getting Domains of the user
-		$sql = "SELECT domain FROM mail_domain WHERE type = 'local' AND ".$app->tform->getAuthSQL('r');
+		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r');
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
-		foreach( $domains as $domain) {
-			$selected = ($domain["domain"] == $email_parts[1])?'SELECTED':'';
-			$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+		if(is_array($domains)) {
+			foreach( $domains as $domain) {
+				$selected = ($domain["domain"] == $email_parts[1])?'SELECTED':'';
+				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+			}
 		}
 		$app->tpl->setVar("email_domain",$domain_select);
+		
+		// Convert quota from Bytes to MB
+		$app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024);
+		
 		
 		parent::onShowEnd();
 	}
@@ -81,7 +87,7 @@ class page_action extends tform_actions {
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		
 		// if its an insert, check for password
-		if($this->id == 0 and $_POST["cryptpwd"] == '') {
+		if($this->id == 0 and $_POST["password"] == '') {
 			$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
 		}
 		
@@ -93,12 +99,18 @@ class page_action extends tform_actions {
 		unset($this->dataRecord["email_local_part"]);
 		unset($this->dataRecord["email_domain"]);
 		
-		// setting Maildir
+		// Convert quota from MB to Bytes
+		$this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024;
+		
+		// setting Maildir, Homedir, UID and GID
 		$app->uses('getconf');
 		$mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
 		$maildir = str_replace("[domain]",$domain["domain"],$mail_config["maildir_path"]);
 		$maildir = str_replace("[localpart]",$_POST["email_local_part"],$maildir);
 		$this->dataRecord["maildir"] = $maildir;
+		$this->dataRecord["homedir"] = $mail_config["homedir_path"];
+		$this->dataRecord["uid"] = $mail_config["mailuser_uid"];
+		$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
 		
 		parent::onSubmit();
 	}

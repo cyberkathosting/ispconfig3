@@ -10,14 +10,14 @@
   </tr>
   <tr>
     <td class="frmText11"><select name="search_active" onChange="document.myform.submit();">{tmpl_var name='search_active'}</select></td>
-    <td class="frmText11"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_source" value="{tmpl_var name='search_source'}" class="text" /></td>
     <td class="frmText11"><input type="text" name="search_destination" value="{tmpl_var name='search_destination'}" class="text" /></td>
     <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
   </tr>
   <tmpl_loop name="records">
   <tr bgcolor="{tmpl_var name="bgcolor"}">
     <td class="frmText11"><a href="mail_alias_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="active"}</a></td>
-    <td class="frmText11"><a href="mail_alias_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="email"}</a></td>
+    <td class="frmText11"><a href="mail_alias_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="source"}</a></td>
     <td class="frmText11"><a href="mail_alias_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="destination"}</a></td>
     <td class="frmText11" align="right">[<a href="javascript: del_record('mail_alias_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
   </tr>

@@ -35,13 +35,13 @@
 
 $form["title"] 			= "Mailbox";
 $form["description"] 	= "";
-$form["name"] 			= "mail_box";
-$form["action"]			= "mail_box_edit.php";
-$form["db_table"]		= "mail_box";
-$form["db_table_idx"]	= "mailbox_id";
+$form["name"] 			= "mail_user";
+$form["action"]			= "mail_user_edit.php";
+$form["db_table"]		= "mail_user";
+$form["db_table_idx"]	= "mailuser_id";
 $form["db_history"]		= "yes";
-$form["tab_default"]	= "mailbox";
-$form["list_default"]	= "mail_box_list.php";
+$form["tab_default"]	= "mailuser";
+$form["list_default"]	= "mail_user_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -50,10 +50,10 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['mailbox'] = array (
+$form["tabs"]['mailuser'] = array (
 	'title' 	=> "Mailbox",
 	'width' 	=> 100,
-	'template' 	=> "templates/mail_box_mailbox_edit.htm",
+	'template' 	=> "templates/mail_user_mailbox_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
@@ -79,7 +79,7 @@ $form["tabs"]['mailbox'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'cryptpwd' => array (
+		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
 			'encryption'=> 'CRYPT',
@@ -107,7 +107,37 @@ $form["tabs"]['mailbox'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'active' => array (
+		'homedir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'uid' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10'
+		),
+		'gid' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10'
+		),
+		'postfix' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> '1',
+			'value'		=> '1'
+		),
+		'access' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '1',
@@ -122,7 +152,7 @@ $form["tabs"]['mailbox'] = array (
 $form["tabs"]['autoresponder'] = array (
 	'title' 	=> "Autoresponder",
 	'width' 	=> 100,
-	'template' 	=> "templates/mail_box_autoresponder_edit.htm",
+	'template' 	=> "templates/mail_user_autoresponder_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields

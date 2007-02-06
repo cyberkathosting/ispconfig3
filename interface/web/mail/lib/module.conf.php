@@ -20,23 +20,11 @@ $module = array (
           'target' => 'content',
           'link' => 'mail/mail_domain_list.php',
         ),
-        1 => 
-        array (
-          'title' => 'Domain Alias',
-          'target' => 'content',
-          'link' => 'mail/mail_domain_alias_list.php',
-        ),
-        2 => 
-        array (
-          'title' => 'Domain Relay',
-          'target' => 'content',
-          'link' => 'mail/mail_domain_relay_list.php',
-        ),
         3 => 
         array (
           'title' => 'Email Mailbox',
           'target' => 'content',
-          'link' => 'mail/mail_box_list.php',
+          'link' => 'mail/mail_user_list.php',
         ),
         4 => 
         array (

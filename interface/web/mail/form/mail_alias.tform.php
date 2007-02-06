@@ -37,8 +37,8 @@ $form["title"] 			= "Email Alias";
 $form["description"] 	= "";
 $form["name"] 			= "mail_alias";
 $form["action"]			= "mail_alias_edit.php";
-$form["db_table"]		= "mail_redirect";
-$form["db_table_idx"]	= "redirect_id";
+$form["db_table"]		= "mail_forwarding";
+$form["db_table_idx"]	= "forwarding_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "alias";
 $form["list_default"]	= "mail_alias_list.php";
@@ -66,7 +66,7 @@ $form["tabs"]['alias'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'email' => array (
+		'source' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
@@ -82,7 +82,7 @@ $form["tabs"]['alias'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'			=> 'SQL',
-										'querystring' 	=> 'SELECT email FROM mail_box WHERE {AUTHSQL} ORDER BY email',
+										'querystring' 	=> 'SELECT email FROM mail_user WHERE {AUTHSQL} ORDER BY email',
 										'keyfield'		=> 'email',
 										'valuefield'	=> 'email'
 									 ),

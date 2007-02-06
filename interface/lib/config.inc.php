@@ -32,8 +32,9 @@ ini_set('register_globals',0);
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
 
-//$conf["rootpath"]			= "F:\\server\\www\\ispconfig3\\interface";
-$conf["rootpath"]			= "D:\\www\\ispconfig3\\interface";
+
+$conf["rootpath"]			= "D:\\server\\www\\ispconfig3\\interface";
+//$conf["rootpath"]			= "D:\\www\\ispconfig3\\interface";
 //$conf["rootpath"]			= "/home/www/ispconfig3/web/cms";
 
 $conf["fs_div"]				= "\\"; // File system divider, \\ on windows and / on linux and unix
@@ -41,9 +42,22 @@ $conf["classpath"]			= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."
 $conf["temppath"]			= $conf["rootpath"].$conf["fs_div"]."temp";
 
 
+define("DIR_TRENNER","\\");
+define("SERVER_ROOT","D:\\server\\www\\ispconfig3\\interface");
+define("INCLUDE_ROOT",SERVER_ROOT.DIR_TRENNER."lib");
+define("CLASSES_ROOT",INCLUDE_ROOT.DIR_TRENNER."classes");
+
 /*
         Database Settings
 */
+
+define("DB_TYPE","mysql");
+define("DB_HOST","localhost");
+define("DB_DATABASE","ispconfig3");
+define("DB_USER","root");
+define("DB_PASSWORD","");
+
+
 
 
 $conf["db_type"]			= 'mysql';
@@ -65,9 +79,9 @@ $conf["programs"]["wput"]		= $conf["rootpath"]."\\tools\\wput\\wput.exe";
         Themes
 */
 
-$conf["theme"]					= 'default';
+$conf["theme"]									= 'default';
 $conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
-$conf["logo"] 					= 'themes/default/images/mydnsconfig_logo.gif';
+$conf["logo"] 									= 'themes/default/images/mydnsconfig_logo.gif';
 
 /*
         Default Language
@@ -80,7 +94,7 @@ $conf["language"]                = 'en';
         Auto Load Modules
 */
 
-$conf["start_db"]		= true;
+$conf["start_db"]				= true;
 $conf["start_session"]	= true;
 
 /*

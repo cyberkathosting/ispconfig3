@@ -1,13 +1,14 @@
 [global]
 webserver=apache
-mailserver=exim
+mailserver=postfix
 dnsserver=mydns
 
 [mail]
-module=exim_mysql
-maildir_path=/var/spool/mail/[domain]/[localpart]
-mailuser_uid=0
-mailuser_gid=0
+module=postfix_mysql
+maildir_path=/var/spool/mail/[domain]/[localpart]/
+homedir_path=/var/spool/mail/[domain]/[localpart]/
+mailuser_uid=5000
+mailuser_gid=5000
 
 [web]
 module=generic
