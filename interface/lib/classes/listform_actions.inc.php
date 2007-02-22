@@ -41,6 +41,7 @@ class listform_actions {
 	var $idx_key;
 	var $DataRowColor;
 	var $SQLExtWhere = '';
+	var $SQLOrderBy = '';
 	
 	function onLoad() {
 		global $app, $conf, $list_def_file;
@@ -48,6 +49,9 @@ class listform_actions {
 		if(!is_object($app->tpl)) $app->uses('tpl');
 		if(!is_object($app->listform)) $app->uses('listform');
 		if(!is_object($app->tform)) $app->uses('tform');
+		
+		// Clear session variable that is used when lists are embedded with the listview plugin
+		$_SESSION["s"]["form"]["return_to"] = '';
 		
 		// Load list definition
 		$app->listform->loadListDef($list_def_file);
@@ -57,7 +61,7 @@ class listform_actions {
 			$app->listform_tpl_generator->buildHTML($app->listform->listDef);
 		}
 		
-		$app->tpl->newTemplate("form.tpl.htm");
+		$app->tpl->newTemplate("listpage.tpl.htm");
 		$app->tpl->setInclude('content_tpl','templates/'.$app->listform->listDef["name"].'_list.htm');
 
 		// Getting Datasets from DB
@@ -120,12 +124,14 @@ class listform_actions {
 
 		$sql_where = $app->listform->getSearchSQL($sql_where);
 		$app->tpl->setVar($app->listform->searchValues);
+		
+		$order_by_sql = $this->SQLOrderBy;
 
 		// Generate SQL for paging
 		$limit_sql = $app->listform->getPagingSQL($sql_where);
 		$app->tpl->setVar("paging",$app->listform->pagingHTML);
 
-		return "SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $limit_sql";
+		return "SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $order_by_sql $limit_sql";
 		
 	}
 	

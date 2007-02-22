@@ -147,6 +147,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			return mysql_num_rows($this->queryId);
 		}
 		
+		function affectedRows()
+		{
+			return mysql_affected_rows($this->linkId);
+		}
+		
 		// returns mySQL insert id
 		function insertID()
 		{
@@ -256,12 +261,23 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        foreach($columns as $col){
             $sql .= $col["name"]." ".$this->mapType($col["type"],$col["typeValue"])." ";
        
-            if($col["defaultValue"] != "") $sql .= "DEFAULT '".$col["defaultValue"]."' ";
-            if($col["notNull"] == true) {
-                $sql .= "NOT NULL ";
-            } else {
-                $sql .= "NULL ";
-            }
+            if($col["defaultValue"] != "") {
+				if($col["defaultValue"] == "NULL" or $col["defaultValue"] == "NOT NULL") {
+					$sql .= "DEFAULT ".$col["defaultValue"]." ";
+				} else {
+					$sql .= "DEFAULT '".$col["defaultValue"]."' ";
+				}
+				
+			} elseif($col["defaultValue"] != false) {
+				$sql .= "DEFAULT '' ";
+			}
+			if($col["defaultValue"] != "NULL" && $col["defaultValue"] != "NOT NULL") {
+            	if($col["notNull"] == true) {
+                	$sql .= "NOT NULL ";
+            	} else {
+                	$sql .= "NULL ";
+            	}
+			}
             if($col["autoInc"] == true) $sql .= "auto_increment ";
             $sql.= ",";
             // key Definitionen

@@ -4,6 +4,7 @@ class plugin_base {
 	
 	var $plugin_name;
 	var $options;
+	var $form;
 	
 	function onLoad() {
 	

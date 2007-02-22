@@ -56,7 +56,11 @@ class listform_tpl_generator {
   
   		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
-			$html .= "    <td class=\"frmText11\"><input type=\"text\" name=\"".$listDef["search_prefix"].$key."\" value=\"{tmpl_var name='".$listDef["search_prefix"].$key."'}\" class=\"text\" /></td>\r\n";
+			if($field["formtype"] == 'SELECT') {
+				$html .= "    <td class=\"frmText11\"><select name=\"".$listDef["search_prefix"].$key."\" onChange=\"document.myform.submit();\">{tmpl_var name='".$listDef["search_prefix"].$key."'}</select></td>\r\n";
+			} else {
+				$html .= "    <td class=\"frmText11\"><input type=\"text\" name=\"".$listDef["search_prefix"].$key."\" value=\"{tmpl_var name='".$listDef["search_prefix"].$key."'}\" class=\"text\" /></td>\r\n";
+			}
 		}
 		
 		$html .= '    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
@@ -112,10 +116,10 @@ class listform_tpl_generator {
     }
 	
 	function lng_add($lang,$listDef,$module = '') {
-		global $go_api, $go_info;
+		global $go_api, $go_info,$conf;
 		
 		if($module == '') {
-			$lng_file = "lib/lang/en_".$listDef['name']."_list.lng";
+			$lng_file = "lib/lang/".$conf["language"]."_".$listDef['name']."_list.lng";
 		} else {
 			$lng_file = '../'.$module."/lib/lang/en_".$listDef['name']."_list.lng";
 		}

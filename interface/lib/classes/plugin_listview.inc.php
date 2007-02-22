@@ -20,10 +20,13 @@ class plugin_listview extends plugin_base {
 
                 $listTpl = new tpl;
                 $listTpl->newTemplate('templates/'.$app->listform->listDef["name"].'_list.htm');
+				
+				//die(print_r($app->tform_actions));
 
                 // Changing some of the list values to reflect that the list is called within a tform page
                 $app->listform->listDef["file"] = $app->tform->formDef["action"];
-                $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
+                // $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
+				$app->listform->listDef["page_params"] = "&id=".$_REQUEST["id"]."&next_tab=".$_SESSION["s"]["form"]["tab"];
 
 
                 // Generate the SQL for searching
@@ -45,6 +48,8 @@ class plugin_listview extends plugin_base {
                 // Generate SQL for paging
                 $limit_sql = $app->listform->getPagingSQL($sql_where);
                 $listTpl->setVar("paging",$app->listform->pagingHTML);
+				
+				
 
                 // Get the data
                 $records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $limit_sql");
@@ -59,6 +64,14 @@ class plugin_listview extends plugin_base {
                                 // Change of color
                                 $bgcolor = ($bgcolor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
                                 $rec["bgcolor"] = $bgcolor;
+								
+								// substitute value for select fields
+								foreach($app->listform->listDef["item"] as $field) {
+									$key = $field["field"];
+									if($field['formtype'] == "SELECT") {
+										$rec[$key] = $field['value'][$rec[$key]];
+									}
+								}
 
                                 // The variable "id" contains always the index field
                                 $rec["id"] = $rec[$idx_key];

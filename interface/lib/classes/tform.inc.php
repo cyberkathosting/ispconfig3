@@ -483,7 +483,9 @@ class tform {
                                         if($record[$key] > 0) {
                                                 list($tag,$monat,$jahr) = explode('.',$record[$key]);
                                                 $new_record[$key] = mktime(0,0,0,$monat,$tag,$jahr);
-                                        }
+                                        } else {
+											$new_record[$key] = 0;
+										}
                                 break;
                                 case 'INTEGER':
                                         $new_record[$key] = intval($record[$key]);
@@ -526,7 +528,7 @@ class tform {
         function validateField($field_name, $field_value, $validators) {
 
                 global $app;
-
+				
                 // loop trough the validators
                 foreach($validators as $validator) {
 
@@ -543,39 +545,63 @@ class tform {
                                                 $num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
-                                                        $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+														if(isset($this->wordbook[$errmsg])) {
+                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+														} else {
+															$this->errorMessage .= $errmsg."<br>\r\n";
+														}
                                                 }
                                         } else {
                                                 $num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."' AND ".$this->formDef['db_table_idx']." != ".$this->primary_id);
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
-                                                        $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                        if(isset($this->wordbook[$errmsg])) {
+                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+														} else {
+															$this->errorMessage .= $errmsg."<br>\r\n";
+														}
                                                 }
                                         }
                                 break;
                                 case 'NOTEMPTY':
                                         if(empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
-                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                if(isset($this->wordbook[$errmsg])) {
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+												} else {
+													$this->errorMessage .= $errmsg."<br>\r\n";
+												}
                                         }
                                 break;
                                 case 'ISEMAIL':
                                         if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $field_value)) {
                                                 $errmsg = $validator['errmsg'];
-                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                if(isset($this->wordbook[$errmsg])) {
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+												} else {
+													$this->errorMessage .= $errmsg."<br>\r\n";
+												}
                                         }
                                 break;
                                 case 'ISINT':
                                         $tmpval = intval($field_value);
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
-                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                if(isset($this->wordbook[$errmsg])) {
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+												} else {
+													$this->errorMessage .= $errmsg."<br>\r\n";
+												}
                                         }
                                 break;
                                 case 'ISPOSITIVE':
                                         if(!is_numeric($field_value) || $field_value <= 0){
                                           $errmsg = $validator['errmsg'];
-                                          $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                          if(isset($this->wordbook[$errmsg])) {
+                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+										  } else {
+											 $this->errorMessage .= $errmsg."<br>\r\n";
+										  }
                                         }
                                 break;
                                 case 'CUSTOM':
@@ -589,6 +615,9 @@ class tform {
                                                 $this->errorMessage .= "Custom validator class or function is empty<br>\r\n";
                                         }
                                 break;
+								default:
+									$this->errorMessage .= "Unknown Validator: ".$validator['type'];
+								break;
                         }
 
 
@@ -703,7 +732,7 @@ class tform {
 
                 // Daten in History tabelle speichern
                 if($this->errorMessage == '' and $this->formDef['db_history'] == 'yes') $this->datalogSave($action,$primary_id,$record);
-
+				// die($sql);
                 return $sql;
         }
 
@@ -820,7 +849,7 @@ class tform {
                         $dbidx = $this->formDef['db_table_idx'].":".$primary_id;
                         $action = ($action == 'INSERT')?'i':'u';
                         $sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$this->formDef['db_table']."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
-                        $app->db->query($sql);
+						$app->db->query($sql);
                 }
 
                 return true;

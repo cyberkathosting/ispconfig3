@@ -31,12 +31,12 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
 * Listenbehandlung
 *
-* @package listform
+* @package searchform
 * @author Till Brehm
 * @version 1.1
 */
 
-class listform {
+class searchform {
 
         var $debug = 0;
         var $errorMessage;
@@ -46,7 +46,6 @@ class listform {
         var $pagingValues;
         var $searchChanged = 0;
         var $module;
-		var $dateformat = 'd.m.Y';
 
     function loadListDef($file,$module = '') {
                 global $app,$conf;
@@ -252,6 +251,30 @@ class listform {
 
                 return $sql_sort;
         }
+		
+		function saveSearchSettings($searchresult_name) {
+			global $app, $conf;
+			
+			$list_name = $this->listDef["name"];
+			$settings = $_SESSION["search"][$list_name];
+			unset($settings["page"]);
+			$data = addslashes(serialize($settings));
+			
+			$userid = $_SESSION["s"]["user"]["userid"];
+			$groupid = $_SESSION["s"]["user"]["default_group"];
+			$sys_perm_user = 'riud';
+			$sys_perm_group = 'r';
+			$sys_perm_other = '';
+			$module = $_SESSION["s"]["module"]["name"];
+			$searchform = $this->listDef["name"];
+			$title = $searchresult_name;
+			
+			$sql = " INSERT INTO `searchform` ( `sys_userid` , `sys_groupid` , `sys_perm_user` , `sys_perm_group` , `sys_perm_other` , `module` , `searchform` , `title` , `data` )
+						VALUES ('$userid', '$groupid', '$sys_perm_user', '$sys_perm_group', '$sys_perm_other', '$module', '$searchform', '$title', '$data')";
+			
+			//die($sql);
+			$app->db->query($sql);
+		}
 
         function decode($record) {
                 if(is_array($record)) {
@@ -267,11 +290,9 @@ class listform {
                                 break;
 
                                 case 'DATE':
-                                        if($record[$key] > 0) {
+                                        if($val > 0) {
                                                 $record[$key] = date($this->dateformat,$record[$key]);
-                                        } else {
-											$record[$key] = '';
-										}
+                                        }
                                 break;
 
                                 case 'INTEGER':
@@ -289,7 +310,6 @@ class listform {
                                 default:
                                         $record[$key] = stripslashes($record[$key]);
                                 }
-								
                         }
 
                 }

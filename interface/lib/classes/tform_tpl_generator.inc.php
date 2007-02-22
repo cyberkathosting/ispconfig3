@@ -43,22 +43,22 @@ class tform_tpl_generator {
 				case 'TEXT':
 					$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\"><input name=\"".$key."\" type=\"text\" class=\"text\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"></td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\"><input name=\"".$key."\" type=\"text\" class=\"text\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"></td>
   </tr>";
 				break;
 				case 'TEXTAREA':
 					$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\"><textarea name='$key' cols='".$field['cols']."' rows='".$field['rows']."'>{tmpl_var name='".$key."'}</textarea></td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\"><textarea name='$key' cols='".$field['cols']."' rows='".$field['rows']."'>{tmpl_var name='".$key."'}</textarea></td>
   </tr>";
 				break;
 				case 'SELECT':
 				$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\">
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\">
 		<select name=\"".$key."\" class=\"text\">
 			{tmpl_var name='".$key."'}
 		</select>
@@ -68,8 +68,8 @@ class tform_tpl_generator {
 				case 'MULTIPLE':
 				$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\">
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\">
 		<select name=\"".$key."\" class=\"text\" size=\"".$field['rows']."\" multiple>
 			{tmpl_var name='".$key."'}
 		</select>
@@ -79,29 +79,29 @@ class tform_tpl_generator {
 				case 'PASSWORD':
 				$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\"><input name=\"".$key."\" type=\"password\" class=\"text\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"></td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\"><input name=\"".$key."\" type=\"password\" class=\"text\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"></td>
   </tr>";
 				break;
 				case 'CHECKBOX':
 				$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\">{tmpl_var name='".$key."'}</td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."'}</td>
   </tr>";
 				break;
 				case 'CHECKBOXARRAY':
 				$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\">{tmpl_var name='".$key."'}</td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."'}</td>
   </tr>";
 				break;
 				case 'RADIO':
 				$html .= "
   <tr>
-    <td width=\"126\" class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td width=\"366\" class=\"frmText11\">{tmpl_var name='".$key."'}</td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
+    <td class=\"frmText11\">{tmpl_var name='".$key."'}</td>
   </tr>";
 				break;
 			}
@@ -163,7 +163,7 @@ class tform_tpl_generator {
 							'name'			=> $formDef["db_table_idx"],
 							'type'			=> 'int64',
 							'typeValue'		=> '',
-							'defaultValue'	=> '',
+							'defaultValue'	=> false,
 							'notNull'		=> true,
 							'autoInc'		=> true,
 							'option'		=> 'primary'
@@ -178,7 +178,7 @@ class tform_tpl_generator {
 								'name'			=> 'sys_userid',
 								'type'			=> 'int32',
 								'typeValue'		=> '',
-								'defaultValue'	=> '',
+								'defaultValue'	=> '0',
 								'notNull'		=> true
 							);
 				$columns[] = $col;
@@ -186,7 +186,7 @@ class tform_tpl_generator {
 								'name'			=> 'sys_groupid',
 								'type'			=> 'int32',
 								'typeValue'		=> '',
-								'defaultValue'	=> '',
+								'defaultValue'	=> '0',
 								'notNull'		=> true
 							);
 				$columns[] = $col;
@@ -194,7 +194,7 @@ class tform_tpl_generator {
 								'name'			=> 'sys_perm_user',
 								'type'			=> 'varchar',
 								'typeValue'		=> '5',
-								'defaultValue'	=> '',
+								'defaultValue'	=> 'NULL',
 								'notNull'		=> true
 							);
 				$columns[] = $col;
@@ -202,7 +202,7 @@ class tform_tpl_generator {
 								'name'			=> 'sys_perm_group',
 								'type'			=> 'varchar',
 								'typeValue'		=> '5',
-								'defaultValue'	=> '',
+								'defaultValue'	=> 'NULL',
 								'notNull'		=> true
 							);
 				$columns[] = $col;
@@ -210,7 +210,7 @@ class tform_tpl_generator {
 								'name'			=> 'sys_perm_other',
 								'type'			=> 'varchar',
 								'typeValue'		=> '5',
-								'defaultValue'	=> '',
+								'defaultValue'	=> 'NULL',
 								'notNull'		=> true
 							);
 				$columns[] = $col;
@@ -237,26 +237,33 @@ class tform_tpl_generator {
 						case 'INTEGER':
 							$type = 'int32';
 							$typevalue = '';
+							$defaultValue	= ($field["default"] != '')?$field["default"]:'0';
 						break;
 						case 'DOUBLE':
 							$type = 'double';
 							$typevalue = '';
+							$defaultValue	= ($field["default"] != '')?$field["default"]:'0';
 						break;
 						case 'CURRENCY':
 							$type = 'double';
 							$typevalue = '';
+							$defaultValue	= ($field["default"] != '')?$field["default"]:'0';
 						break;
 						case 'VARCHAR':
 							$type = 'varchar';
 							$typeValue = ($field["maxlength"] > 0 and $field["maxlength"] <= 256)?$field["maxlength"]:255;
+							// $defaultValue	= ($field["default"] != '')?$field["default"]:'NOT NULL';
+							$defaultValue	= ($field["default"] != '')?$field["default"]:'NULL';
 						break;
 						case 'TEXT':
 							$type = 'text';
 							$typevalue = '';
+							$defaultValue = 'NULL';
 						break;
 						case 'DATE':
 							$type = 'int64';
 							$typevalue = '';
+							$defaultValue	= ($field["default"] != '')?$field["default"]:'0';
 						break;
 					}
 					
@@ -265,7 +272,7 @@ class tform_tpl_generator {
 									'name'			=> $name,
 									'type'			=> $type,
 									'typeValue'		=> $typeValue,
-									'defaultValue'	=> $field["default"],
+									'defaultValue'	=> $defaultValue,
 									'notNull'		=> true
 									);
 					
@@ -279,9 +286,9 @@ class tform_tpl_generator {
     }
 	
 	function lng_add($lang,$formDef) {
-		global $go_api, $go_info;
+		global $go_api, $go_info,$conf;
 		
-		$lng_file = "lib/lang/en_".$formDef['name'].".lng";
+		$lng_file = "lib/lang/".$conf["language"]."_".$formDef['name'].".lng";
 		if(is_file($lng_file)) {
 			include($lng_file);
 		} else {
