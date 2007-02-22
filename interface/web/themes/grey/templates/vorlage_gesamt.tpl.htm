@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>42go</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../style.css" rel="stylesheet" type="text/css">
+<script language= "JavaScript">
+function breakout()
+{
+if (window.top != window.self)
+ {
+ window.top.location="index.php"
+ }
+}
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" leftmargin=0 topmargin=0 marginwidth=0 marginheight=0 onload="breakout()">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#7F99A6">
+    <td height="30" colspan="2" align="center" valign="top"><table width="100%" height="30" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="left" valign="top"><img src="../images/mb_logo.gif" width="149" height="23"></td>
+        <td align="right" valign="top"><img src="../images/nav_de_en.gif" width="125" height="23"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td height="1" colspan="2" align="center" valign="bottom"><img src="../images/x.gif" width="1" height="1"></td>
+  </tr>
+  <tr>
+    <td width="128" height="18" align="left" valign="middle" bgcolor="#003050"><img src="../images/login_logout.gif" width="109" height="18"><br>
+    </td>
+    <td height="18" align="left" valign="bottom" bgcolor="#003050">
+        <table width="100%" height="18" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <tmpl_loop name="nav_top">
+        <tmpl_if name="active">
+        <td width="100" class="navTopSelected"><a href="#" class="txtNavTopSelected"><tmpl_var name="title"></a></td>
+        <td width="2" class="navTop">&nbsp;</td>
+        <tmpl_else>
+        <td width="100" class="navTopDefault"><a href="capp.php?mod=<tmpl_var name='module'>&phpsessid=<tmpl_var name='phpsessid'>" class="txtNavTopDefault"><tmpl_var name="title"></a></td>
+        <td width="2" class="navTop">&nbsp;</td>
+        </tmpl_if>
+        </tmpl_loop>
+        <td align="right" valign="middle" class="navTop"><img src="../images/mp_logo.gif" width="111" height="18"> </td>
+          </tr>
+    </table>
+    </td>
+  </tr>
+  <!-- BEGIN MODULE -->
+  <tr>
+    <td width="128" height="26" background="themes/{tmpl_var name="theme"}/images/nav_top_bg.gif">&nbsp;</td>
+    <td rowspan="3" class="mainContent">
+		<table width="100%" height="100%" border="0" cellpadding="20" cellspacing="0">
+			<tr>
+        		<td><iframe height="100%" width="100%" frameborder="0" name="content" src="{tmpl_var name="startpage"}"></iframe></td>
+      		</tr>
+    	</table>
+	</td>
+  </tr>
+  <tr>
+    <td width="128" align="right" valign="top" bgcolor="#EEEEEE"><table width="115" border="0" cellspacing="0" cellpadding="2">
+      <tr>
+        <td height="34">&nbsp;</td>
+      </tr>
+	  <tmpl_loop name="nav_left">
+      <tr>
+        <td class="navLeftHead"><tmpl_var name="title"></td>
+        </tr>
+      <tr>
+        <td>
+		  <tmpl_loop name="items">
+		  <a href="<tmpl_var name='link'>" class="navLeftItem" target="<tmpl_var name='target'>"><tmpl_var name="title"></a><br>
+		  </tmpl_loop>
+		</td>
+      </tr>
+	  </tmpl_loop>
+    </table></td>
+  </tr>
+  <tr>
+    <td align="left" valign="bottom" bgcolor="#EEEEEE"><img src="../images/ipr_logo.gif" width="121" height="53"></td>
+  </tr>
+  <!-- END MODULE -->
+</table>
+</body>
+</html>

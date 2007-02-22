@@ -79,7 +79,7 @@ $conf["programs"]["wput"]		= $conf["rootpath"]."\\tools\\wput\\wput.exe";
         Themes
 */
 
-$conf["theme"]									= 'default';
+$conf["theme"]									= 'grey';
 $conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
 $conf["logo"] 									= 'themes/default/images/mydnsconfig_logo.gif';
 
