@@ -60,16 +60,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"]                         = "Record";
-$form["description"]         = "";
-$form["name"]                         = "rr";
-$form["action"]                        = "rr_edit.php";
-$form["db_table"]                = "rr";
-$form["db_table_idx"]        = "id";
-$form["db_history"]                = "yes";
-$form["tab_default"]        = "rr";
-$form["list_default"]        = "rr_list.php";
-$form["auth"]                        = 'yes';  // yes / no
+$form["title"]          = "Record";
+$form["description"]    = "";
+$form["name"]           = "rr";
+$form["action"]         = "rr_edit.php";
+$form["db_table"]       = "dns_rr";
+$form["db_table_idx"]   = "id";
+$form["db_history"]     = "yes";
+$form["tab_default"]    = "rr";
+$form["list_default"]   = "rr_list.php";
+$form["auth"]           = 'yes';  // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user

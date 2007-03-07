@@ -16,10 +16,10 @@
 $liste["name"] 				= "mail_domain_catchall";
 
 // Database table
-$liste["table"] 			= "mail_domain_catchall";
+$liste["table"] 			= "mail_forwarding";
 
 // Index index field of the database table
-$liste["table_idx"]			= "domain_catchall_id";
+$liste["table_idx"]			= "forwarding_id";
 
 // Search Field Prefix
 $liste["search_prefix"] 	= "search_";
@@ -54,18 +54,9 @@ $liste["item"][] = array(	'field'		=> "active",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('1' => "Yes",'0' => "No"));
+							'value'		=> array('y' => "Yes",'n' => "No"));
 
-$liste["item"][] = array(	'field'		=> "server_id",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
-
-$liste["item"][] = array(	'field'		=> "domain",
+$liste["item"][] = array(	'field'		=> "source",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -82,4 +73,6 @@ $liste["item"][] = array(	'field'		=> "destination",
 							'suffix'	=> "%",
 							'width'		=> "",
 							'value'		=> "");
+
+
 ?>

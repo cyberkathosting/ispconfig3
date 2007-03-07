@@ -55,7 +55,7 @@ $liste["item"][] = array(	'field'		=> "active",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('1' => "Yes",'0' => "No"));
+							'value'		=> array('y' => "Yes",'n' => "No"));
 
 
 $liste["item"][] = array(	'field'		=> "server_id",

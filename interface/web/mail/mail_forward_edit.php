@@ -56,12 +56,12 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 		
-		$email = $this->dataRecord["email"];
+		$email = $this->dataRecord["source"];
 		$email_parts = explode("@",$email);
 		$app->tpl->setVar("email_local_part",$email_parts[0]);
 		
 		// Getting Domains of the user
-		$sql = "SELECT domain FROM mail_domain WHERE type = 'local' AND ".$app->tform->getAuthSQL('r');
+		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r');
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		foreach( $domains as $domain) {
@@ -81,7 +81,7 @@ class page_action extends tform_actions {
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		 		
 		// compose the email field
-		$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
+		$this->dataRecord["source"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
 		// Set the server id of the mailbox = server ID of mail domain.
 		$this->dataRecord["server_id"] = $domain["server_id"];
 		

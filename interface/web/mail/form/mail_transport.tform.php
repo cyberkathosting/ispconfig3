@@ -33,15 +33,15 @@
 
 */
 
-$form["title"] 			= "Email Forward";
+$form["title"] 			= "Email Routing";
 $form["description"] 	= "";
-$form["name"] 			= "mail_forward";
-$form["action"]			= "mail_forward_edit.php";
-$form["db_table"]		= "mail_forwarding";
-$form["db_table_idx"]	= "forwarding_id";
+$form["name"] 			= "mail_transport";
+$form["action"]			= "mail_transport_edit.php";
+$form["db_table"]		= "mail_transport";
+$form["db_table_idx"]	= "transport_id";
 $form["db_history"]		= "yes";
-$form["tab_default"]	= "forward";
-$form["list_default"]	= "mail_forward_list.php";
+$form["tab_default"]	= "transport";
+$form["list_default"]	= "mail_transport_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -50,34 +50,37 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['forward'] = array (
-	'title' 	=> "Email forward",
+$form["tabs"]['transport'] = array (
+	'title' 	=> "Email transport",
 	'width' 	=> 100,
-	'template' 	=> "templates/mail_forward_edit.htm",
+	'template' 	=> "templates/mail_transport_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
 	##################################
 		'server_id' => array (
 			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
+			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
+									 ),
+			'value'		=> ''
 		),
-		'source' => array (
+		'domain' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
-														'errmsg'=> 'email_error_isemail'),
+			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
+														'errmsg'=> 'domain_error_unique'),
 									),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'destination' => array (
+		'transport' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
@@ -85,11 +88,11 @@ $form["tabs"]['forward'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'type' => array (
-			'datatype'	=> 'VARCHAR',
+		'sort_order' => array (
+			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'value'		=> array('forward'=>'Forward','alias' => 'Alias')
+			'default'	=> 5,
+			'value'		=> array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10)
 		),
 		'active' => array (
 			'datatype'	=> 'VARCHAR',

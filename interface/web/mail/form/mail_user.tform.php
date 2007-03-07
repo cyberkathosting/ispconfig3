@@ -132,16 +132,16 @@ $form["tabs"]['mailuser'] = array (
 			'maxlength'	=> '10'
 		),
 		'postfix' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> '1'
+			'default'	=> 'y',
+			'value'		=> array(1 => 'y',0 => 'n')
 		),
 		'access' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '1',
-			'value'		=> '1'
+			'value'		=> array(1 => 'y',0 => 'n')
 		),
 	##################################
 	# ENDE Datatable fields

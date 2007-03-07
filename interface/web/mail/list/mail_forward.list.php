@@ -16,10 +16,10 @@
 $liste["name"] 				= "mail_forward";
 
 // Database table
-$liste["table"] 			= "mail_redirect";
+$liste["table"] 			= "mail_forwarding";
 
 // Index index field of the database table
-$liste["table_idx"]			= "redirect_id";
+$liste["table_idx"]			= "forwarding_id";
 
 // Search Field Prefix
 $liste["search_prefix"] 	= "search_";
@@ -54,9 +54,9 @@ $liste["item"][] = array(	'field'		=> "active",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('1' => "Yes",'0' => "No"));
+							'value'		=> array('y' => "Yes",'n' => "No"));
 
-$liste["item"][] = array(	'field'		=> "email",
+$liste["item"][] = array(	'field'		=> "source",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",

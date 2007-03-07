@@ -1,4 +1,5 @@
 <?php
+
 /*
 Copyright (c) 2005, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -27,12 +28,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 /******************************************
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/mail_blacklist.tform.php";
+$list_def_file = "list/mail_transport.list.php";
+$tform_def_file = "form/mail_transport.tform.php";
 
 /******************************************
 * End Form configuration
@@ -41,22 +42,13 @@ $tform_def_file = "form/mail_blacklist.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking module permissions
+// Checke Berechtigungen für Modul
 if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
 	header("Location: ../index.php");
 	exit;
 }
 
-// Loading classes
-$app->uses('tpl,tform,tform_actions');
-$app->load('tform_actions');
-
-class page_action extends tform_actions {
-	
-}
-
-$app->tform_actions = new page_action;
-$app->tform_actions->onLoad();
-
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
 ?>

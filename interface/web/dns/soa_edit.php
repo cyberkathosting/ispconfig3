@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 
                 $increased_serials[] = -1;
                 // update serial
-                $soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$this->dataRecord["id"]);
+                $soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$this->dataRecord["id"]);
                 $serial = $soa['serial'];
                 $update = 0;
                 if($soa){
@@ -96,20 +96,20 @@ class page_action extends tform_actions {
                   // update rr if origin has changed
                   if($soa['origin'] != $this->dataRecord['origin']){
 
-                    if($rrs = $app->db->queryAllRecords("SELECT * FROM rr")){
+                    if($rrs = $app->db->queryAllRecords("SELECT * FROM dns_rr")){
                       $update_soas = array();
                       foreach($rrs as $rr){
                         if($soa['origin'] == substr($rr['name'], -(strlen($soa['origin']))) || $soa['origin'] == substr($rr['data'], -(strlen($soa['origin'])))) $update_soas[] = $rr['zone'];
                         //$update_soas[] = $app->db->queryAllRecords("SELECT DISTINCT zone FROM rr WHERE name LIKE '%".$soa['origin']."' OR data LIKE '%".$soa['origin']."'");
 
-                        $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type != 'PTR' AND id = ".$rr['id']);
+                        $app->db->query("UPDATE dns_rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type != 'PTR' AND id = ".$rr['id']);
 
-                        $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type != 'PTR' AND id = ".$rr['id']);
+                        $app->db->query("UPDATE dns_rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type != 'PTR' AND id = ".$rr['id']);
 
                         if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
-                          $app->db->query("UPDATE rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type = 'PTR' AND id = ".$rr['id']);
+                          $app->db->query("UPDATE dns_rr SET name = '".substr($rr['name'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE name LIKE '%".$soa['origin']."' AND type = 'PTR' AND id = ".$rr['id']);
 
-                          $app->db->query("UPDATE rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type = 'PTR' AND id = ".$rr['id']);
+                          $app->db->query("UPDATE dns_rr SET data = '".substr($rr['data'], 0, -(strlen($this->dataRecord['origin']))).$this->dataRecord['origin']."' WHERE data LIKE '%".$soa['origin']."' AND type = 'PTR' AND id = ".$rr['id']);
 
                         }
                       }
@@ -118,13 +118,13 @@ class page_action extends tform_actions {
                       if(!empty($update_soas)){
                         $update_soas = array_unique($update_soas);
                         foreach($update_soas as $update_soa){
-                          $u_soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$update_soa);
+                          $u_soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$update_soa);
                           if(!in_array($u_soa['id'], $increased_serials)){
                             $new_serial = $app->validate_dns->increase_serial($u_soa['serial']);
                             if($conf['auto_create_ptr'] == 1 && trim($conf['default_ns']) != '' && trim($conf['default_mbox']) != ''){
-                              $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa);
+                              $app->db->query("UPDATE dns_soa SET serial = '".$new_serial."' WHERE id = ".$update_soa);
                             } else {
-                              $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$update_soa." AND origin NOT LIKE '%.in-addr.arpa.'");
+                              $app->db->query("UPDATE dns_soa SET serial = '".$new_serial."' WHERE id = ".$update_soa." AND origin NOT LIKE '%.in-addr.arpa.'");
                             }
                             $increased_serials[] = $u_soa['id'];
                           }
@@ -139,7 +139,7 @@ class page_action extends tform_actions {
 
                     if($soa['active'] = 'Y' && $this->dataRecord['active'][0] == 'N'){
 
-                      if($soa_rrs = $app->db->queryAllRecords("SELECT * FROM rr WHERE zone = ".$this->dataRecord['id']." AND type = 'A'")){
+                      if($soa_rrs = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$this->dataRecord['id']." AND type = 'A'")){
                         foreach($soa_rrs as $soa_rr){
                           if(substr($soa_rr['name'], -1) == '.'){
                             $fqdn = $soa_rr['name'];
@@ -148,25 +148,25 @@ class page_action extends tform_actions {
                           }
                           list($a, $b, $c, $d) = explode('.', $soa_rr['data']);
                           $ptr_soa = $c.'.'.$b.'.'.$a.'.in-addr.arpa.';
-                          if($ptr = $app->db->queryOneRecord("SELECT soa.id, soa.serial FROM soa, rr WHERE rr.type = 'PTR' AND rr.data = '".$fqdn."' AND rr.zone = soa.id AND soa.origin = '".$ptr_soa."'")){
+                          if($ptr = $app->db->queryOneRecord("SELECT dns_soa.id, dns_soa.serial FROM dns_soa, dns_rr WHERE dns_rr.type = 'PTR' AND dns_rr.data = '".$fqdn."' AND dns_rr.zone = dns_soa.id AND dns_soa.origin = '".$ptr_soa."'")){
                             ############
-                            if($a_rr_with_same_ip = $app->db->queryOneRecord("SELECT rr.*, soa.origin FROM rr, soa WHERE rr.type = 'A' AND rr.data = '".$soa_rr['data']."' AND rr.zone = soa.id AND soa.active = 'Y' AND rr.id != ".$soa_rr["id"]." AND rr.zone != '".$this->dataRecord['zone']."'")){
+                            if($a_rr_with_same_ip = $app->db->queryOneRecord("SELECT dns_rr.*, dns_soa.origin FROM dns_rr, dns_soa WHERE dns_rr.type = 'A' AND dns_rr.data = '".$soa_rr['data']."' AND dns_rr.zone = dns_soa.id AND dns_soa.active = 'Y' AND dns_rr.id != ".$soa_rr["id"]." AND dns_rr.zone != '".$this->dataRecord['zone']."'")){
                               if(substr($a_rr_with_same_ip['name'], -1) == '.'){
                                 $new_ptr_soa_rr_data = $a_rr_with_same_ip['name'];
                               } else {
                                 $new_ptr_soa_rr_data = $a_rr_with_same_ip['name'].(trim($a_rr_with_same_ip['name']) == '' ? '' : '.').$a_rr_with_same_ip['origin'];
                               }
-                              $app->db->query("UPDATE rr SET data = '".$new_ptr_soa_rr_data."' WHERE zone = '".$ptr['id']."' AND name = '".$d."' AND type = 'PTR'");
+                              $app->db->query("UPDATE dns_rr SET data = '".$new_ptr_soa_rr_data."' WHERE zone = '".$ptr['id']."' AND name = '".$d."' AND type = 'PTR'");
                             } else {
-                              $app->db->query("DELETE FROM rr WHERE zone = '".$ptr['id']."' AND name = '".$d."' AND type = 'PTR'");
+                              $app->db->query("DELETE FROM dns_rr WHERE zone = '".$ptr['id']."' AND name = '".$d."' AND type = 'PTR'");
 
-                              if(!$app->db->queryOneRecord("SELECT * FROM rr WHERE zone = '".$ptr['id']."'")){
-                                $app->db->query("DELETE FROM soa WHERE id = ".$ptr['id']);
+                              if(!$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = '".$ptr['id']."'")){
+                                $app->db->query("DELETE FROM dns_soa WHERE id = ".$ptr['id']);
                               } else {
                                 // increase serial
                                 if(!in_array($ptr['id'], $increased_serials)){
                                   $new_serial = $app->validate_dns->increase_serial($ptr['serial']);
-                                  $app->db->query("UPDATE soa SET serial = '".$new_serial."' WHERE id = ".$ptr['id']);
+                                  $app->db->query("UPDATE dns_soa SET serial = '".$new_serial."' WHERE id = ".$ptr['id']);
                                   $increased_serials[] = $ptr['id'];
                                 }
                               }
@@ -183,7 +183,7 @@ class page_action extends tform_actions {
 
                     if($soa['active'] = 'N' && $this->dataRecord['active'][0] == 'Y'){
 
-                      if($soa_rrs = $app->db->queryAllRecords("SELECT * FROM rr WHERE zone = ".$this->dataRecord['id']." AND type = 'A'")){
+                      if($soa_rrs = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$this->dataRecord['id']." AND type = 'A'")){
                         foreach($soa_rrs as $soa_rr){
                           #################
                           list($a, $b, $c, $d) = explode('.', $soa_rr['data']);
@@ -194,19 +194,19 @@ class page_action extends tform_actions {
                             $ptr_soa_rr_data = $soa_rr['name'].(trim($soa_rr['name']) == '' ? '' : '.').$this->dataRecord['origin'];
                           }
 
-                          if(!$ptr_soa_exist = $app->db->queryOneRecord("SELECT * FROM soa WHERE origin = '".$ptr_soa."'")){
-                            $app->db->query("INSERT INTO soa (origin, ns, mbox, serial, refresh, retry, expire, minimum, ttl, active, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa."', '".trim($conf['default_ns'])."', '".trim($conf['default_mbox'])."', '".date("Ymd").'01'."', '".$conf['default_refresh']."', '".$conf['default_retry']."', '".$conf['default_expire']."', '".$conf['default_minimum_ttl']."', '".$conf['default_ttl']."', 'Y', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
+                          if(!$ptr_soa_exist = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE origin = '".$ptr_soa."'")){
+                            $app->db->query("INSERT INTO dns_soa (origin, ns, mbox, serial, refresh, retry, expire, minimum, ttl, active, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa."', '".trim($conf['default_ns'])."', '".trim($conf['default_mbox'])."', '".date("Ymd").'01'."', '".$conf['default_refresh']."', '".$conf['default_retry']."', '".$conf['default_expire']."', '".$conf['default_minimum_ttl']."', '".$conf['default_ttl']."', 'Y', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
                             $ptr_soa_id = $app->db->insertID();
-                            $app->db->query("INSERT INTO rr (zone, name, type, data, aux, ttl, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa_id."', '".$d."', 'PTR', '".$ptr_soa_rr_data."', '0', '".$conf['default_ttl']."', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
+                            $app->db->query("INSERT INTO dns_rr (zone, name, type, data, aux, ttl, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa_id."', '".$d."', 'PTR', '".$ptr_soa_rr_data."', '0', '".$conf['default_ttl']."', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
                           } else {
-                            if($ptr_soa_exist['active'] != 'Y') $app->db->query("UPDATE soa SET active = 'Y' WHERE id = ".$ptr_soa_exist['id']);
-                            if(!$ptr_soa_rr_exist = $app->db->queryOneRecord("SELECT * FROM rr WHERE zone = '".$ptr_soa_exist['id']."' AND name = '".$d."' AND type = 'PTR'")){
-                              $app->db->query("INSERT INTO rr (zone, name, type, data, aux, ttl, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa_exist['id']."', '".$d."', 'PTR', '".$ptr_soa_rr_data."', '0', '".$conf['default_ttl']."', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
+                            if($ptr_soa_exist['active'] != 'Y') $app->db->query("UPDATE dns_soa SET active = 'Y' WHERE id = ".$ptr_soa_exist['id']);
+                            if(!$ptr_soa_rr_exist = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = '".$ptr_soa_exist['id']."' AND name = '".$d."' AND type = 'PTR'")){
+                              $app->db->query("INSERT INTO dns_rr (zone, name, type, data, aux, ttl, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other) VALUES ('".$ptr_soa_exist['id']."', '".$d."', 'PTR', '".$ptr_soa_rr_data."', '0', '".$conf['default_ttl']."', '".$_SESSION['s']['user']['sys_userid']."', '".$_SESSION['s']['user']['sys_groupid']."', '".$_SESSION['s']['user']['sys_perm_user']."', '".$_SESSION['s']['user']['sys_perm_group']."', '".$_SESSION['s']['user']['sys_perm_other']."')");
                               // increase serial of PTR SOA
                               if(!in_array($ptr_soa_exist['id'], $increased_serials)){
                                 $ptr_soa_new_serial = $app->validate_dns->increase_serial($ptr_soa_exist['serial']);
                                 $increased_serials[] = $ptr_soa_exist['id'];
-                                $app->db->query("UPDATE soa SET serial = '".$ptr_soa_new_serial."' WHERE id = ".$ptr_soa_exist['id']);
+                                $app->db->query("UPDATE dns_soa SET serial = '".$ptr_soa_new_serial."' WHERE id = ".$ptr_soa_exist['id']);
                               }
                             }
                           }

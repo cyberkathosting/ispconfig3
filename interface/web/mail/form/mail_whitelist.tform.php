@@ -37,8 +37,8 @@ $form["title"] 			= "Email Whitelist";
 $form["description"] 	= "";
 $form["name"] 			= "mail_whitelist";
 $form["action"]			= "mail_whitelist_edit.php";
-$form["db_table"]		= "mail_whitelist";
-$form["db_table_idx"]	= "whitelist_id";
+$form["db_table"]		= "mail_access";
+$form["db_table_idx"]	= "access_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "whitelist";
 $form["list_default"]	= "mail_whitelist_list.php";
@@ -69,30 +69,36 @@ $form["tabs"]['whitelist'] = array (
 									 ),
 			'value'		=> ''
 		),
-		'address' => array (
+		'source' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'address_error_notempty'),
-									),
 			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'source_error_notempty'),
+									),
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'recipient' => array (
+		'access' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> '',
+			'default'	=> 'OK',
+			'value'		=> 'OK',
 			'width'		=> '30',
 			'maxlength'	=> '255'
+		),
+		'type' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'y',
+			'value'		=> array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client')
 		),
 		'active' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> '1'
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
 		),
 	##################################
 	# ENDE Datatable fields

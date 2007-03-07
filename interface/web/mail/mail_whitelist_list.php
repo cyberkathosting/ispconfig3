@@ -19,6 +19,7 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 }
 
 $app->uses('listform_actions');
+$app->listform_actions->SQLExtWhere = "access = 'OK'";
 
 $app->listform_actions->onLoad();
 

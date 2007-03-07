@@ -48,7 +48,7 @@ $module = array (
         array (
           'title' => 'Email Routing',
           'target' => 'content',
-          'link' => '',
+          'link' => 'mail/mail_transport_list.php',
         ),
       ),
     ),
@@ -72,9 +72,15 @@ $module = array (
         ),
         2 => 
         array (
-          'title' => 'Spamfilter',
+          'title' => 'Users',
           'target' => 'content',
-          'link' => 'mail/mail_spamfilter_list.php',
+          'link' => 'mail/spamfilter_user_list.php',
+        ),
+        3 => 
+        array (
+          'title' => 'Policys',
+          'target' => 'content',
+          'link' => 'mail/spamfilter_policy_list.php',
         ),
       ),
     ),

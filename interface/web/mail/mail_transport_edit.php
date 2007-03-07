@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/mail_blacklist.tform.php";
+$tform_def_file = "form/mail_transport.tform.php";
 
 /******************************************
 * End Form configuration
@@ -49,14 +49,8 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
-$app->load('tform_actions');
 
-class page_action extends tform_actions {
-	
-}
-
-$app->tform_actions = new page_action;
+// let tform_actions handle the page
 $app->tform_actions->onLoad();
-
 
 ?>

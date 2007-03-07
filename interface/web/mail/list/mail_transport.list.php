@@ -13,13 +13,13 @@
 
 
 // Name of the list
-$liste["name"] 				= "mail_whitelist";
+$liste["name"] 				= "mail_transport";
 
 // Database table
-$liste["table"] 			= "mail_access";
+$liste["table"] 			= "mail_transport";
 
 // Index index field of the database table
-$liste["table_idx"]			= "access_id";
+$liste["table_idx"]			= "transport_id";
 
 // Search Field Prefix
 $liste["search_prefix"] 	= "search_";
@@ -28,13 +28,13 @@ $liste["search_prefix"] 	= "search_";
 $liste["records_per_page"] 	= 15;
 
 // Script File of the list
-$liste["file"]				= "mail_whitelist_list.php";
+$liste["file"]				= "mail_transport_list.php";
 
 // Script file of the edit form
-$liste["edit_file"]			= "mail_whitelist_edit.php";
+$liste["edit_file"]			= "mail_transport_edit.php";
 
 // Script File of the delete script
-$liste["delete_file"]		= "mail_whitelist_del.php";
+$liste["delete_file"]		= "mail_transport_del.php";
 
 // Paging Template
 $liste["paging_tpl"]		= "templates/paging.tpl.htm";
@@ -46,6 +46,7 @@ $liste["auth"]				= "yes";
 /*****************************************************
 * Suchfelder
 *****************************************************/
+
 
 $liste["item"][] = array(	'field'		=> "active",
 							'datatype'	=> "VARCHAR",
@@ -71,8 +72,7 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'width'		=> "",
 							'value'		=> "");
 
-
-$liste["item"][] = array(	'field'		=> "source",
+$liste["item"][] = array(	'field'		=> "domain",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -81,14 +81,24 @@ $liste["item"][] = array(	'field'		=> "source",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "type",
+
+$liste["item"][] = array(	'field'		=> "transport",
 							'datatype'	=> "VARCHAR",
-							'formtype'	=> "SELECT",
+							'formtype'	=> "TEXT",
+							'op'		=> "like",
+							'prefix'	=> "%",
+							'suffix'	=> "%",
+							'width'		=> "",
+							'value'		=> "");
+
+
+$liste["item"][] = array(	'field'		=> "sort_order",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "TEXT",
 							'op'		=> "=",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client'));
-
+							'value'		=> "");
 
 ?>

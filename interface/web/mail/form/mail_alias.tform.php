@@ -98,10 +98,10 @@ $form["tabs"]['alias'] = array (
 			'value'		=> array('alias' => 'Alias','forward'=>'Forward')
 		),
 		'active' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> '1'
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
 		),
 	##################################
 	# ENDE Datatable fields

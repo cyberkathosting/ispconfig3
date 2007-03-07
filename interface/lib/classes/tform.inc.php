@@ -313,8 +313,8 @@ class tform {
                                         break;
 
                                         case 'CHECKBOX':
-                                                $checked = (empty($val))?'':' CHECKED';
-                                                $new_record[$key] = "<input name=\"".$key."\" type=\"checkbox\" value=\"".$field['value']."\" $checked>\r\n";
+                                                $checked = ($val == $field['value'][1])?' CHECKED':'';
+                                                $new_record[$key] = "<input name=\"".$key."\" type=\"checkbox\" value=\"".$field['value'][1]."\" $checked>\r\n";
                                         break;
 
                                         case 'CHECKBOXARRAY':
@@ -397,8 +397,9 @@ class tform {
                                 break;
 
                                 case 'CHECKBOX':
-                                        $checked = (empty($field["default"]))?'':' CHECKED';
-                                        $new_record[$key] = "<input name=\"".$key."\" type=\"checkbox\" value=\"".$field['value']."\" $checked>\r\n";
+                                        // $checked = (empty($field["default"]))?'':' CHECKED';
+										$checked = ($field["default"] == $field['value'][1])?' CHECKED':'';
+                                        $new_record[$key] = "<input name=\"".$key."\" type=\"checkbox\" value=\"".$field['value'][1]."\" $checked>\r\n";
                                 break;
 
                                 case 'CHECKBOXARRAY':
@@ -675,6 +676,13 @@ class tform {
                                                         } else {
                                                                 $sql_insert_val .= "md5('".$record[$key]."'), ";
                                                         }
+                                                } elseif ($field['formtype'] == 'CHECKBOX') {
+                                                        $sql_insert_key .= "`$key`, ";
+														if($record[$key] == '') {
+															$sql_insert_val .= "'".$field['value'][0]."', ";
+														} else {
+															$sql_insert_val .= "'".$record[$key]."', ";
+														}
                                                 } else {
                                                         $sql_insert_key .= "`$key`, ";
                                                         $sql_insert_val .= "'".$record[$key]."', ";
@@ -686,6 +694,12 @@ class tform {
                                                         } else {
                                                                 $sql_update .= "`$key` = md5('".$record[$key]."'), ";
                                                         }
+                                                } elseif ($field['formtype'] == 'CHECKBOX') {
+														if($record[$key] == '') {
+															$sql_update .= "`$key` = '".$field['value'][0]."', ";
+														} else {
+															$sql_update .= "`$key` = '".$record[$key]."', ";
+														}
                                                 } else {
                                                         $sql_update .= "`$key` = '".$record[$key]."', ";
                                                 }
@@ -732,7 +746,6 @@ class tform {
 
                 // Daten in History tabelle speichern
                 if($this->errorMessage == '' and $this->formDef['db_history'] == 'yes') $this->datalogSave($action,$primary_id,$record);
-				// die($sql);
                 return $sql;
         }
 

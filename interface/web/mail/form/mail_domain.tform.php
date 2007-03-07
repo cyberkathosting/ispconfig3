@@ -85,17 +85,11 @@ $form["tabs"]['domain'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'type' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'value'		=> array('local' => 'local','relay'=>'relay','manual_relay'=>'manual Relay')
-		),
 		'active' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> '1'
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
 		),
 	##################################
 	# ENDE Datatable fields

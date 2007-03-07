@@ -37,8 +37,8 @@ $form["title"] 			= "Email Catchall";
 $form["description"] 	= "";
 $form["name"] 			= "mail_domain_catchall";
 $form["action"]			= "mail_domain_catchall_edit.php";
-$form["db_table"]		= "mail_domain_catchall";
-$form["db_table_idx"]	= "domain_catchall_id";
+$form["db_table"]		= "mail_forwarding";
+$form["db_table_idx"]	= "forwarding_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "catchall";
 $form["list_default"]	= "mail_domain_catchall_list.php";
@@ -51,8 +51,8 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['catchall'] = array (
-	'title' 	=> "Domain Catchall",
-	'width' 	=> 150,
+	'title' 	=> "Email catchall",
+	'width' 	=> 100,
 	'template' 	=> "templates/mail_domain_catchall_edit.htm",
 	'fields' 	=> array (
 	##################################
@@ -60,24 +60,23 @@ $form["tabs"]['catchall'] = array (
 	##################################
 		'server_id' => array (
 			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
 			'default'	=> '',
-			'value'		=> ''
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
-		'domain' => array (
+		'source' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'domain_error_empty'),
+										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'domain_error_unique'),
-										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{2,64}\.[a-zA-Z]{2,10}$/',
+										2 => array (	'type'	=> 'REGEX',
+														'regex' => '/^\@[\w\.\-]{2,64}\.[a-zA-Z]{2,10}$/',
 														'errmsg'=> 'domain_error_regex'),
 									),
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT domain FROM mail_domain WHERE type = 'local' AND {AUTHSQL} ORDER BY domain",
-										'keyfield'=> 'domain',
-										'valuefield'=> 'domain'
-									 ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -85,23 +84,36 @@ $form["tabs"]['catchall'] = array (
 		),
 		'destination' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
+			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datasource'	=> array ( 	'type'			=> 'SQL',
+										'querystring' 	=> 'SELECT email FROM mail_user WHERE {AUTHSQL} ORDER BY email',
+										'keyfield'		=> 'email',
+										'valuefield'	=> 'email'
+									 ),
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
+														'errmsg'=> 'destination_error_isemail'),
+									),
+			'value'		=> ''
+		),
+		'type' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('alias' => 'Alias','forward'=>'Forward','catchall'=>'Catchall')
 		),
 		'active' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> '1'
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
 		),
 	##################################
 	# ENDE Datatable fields
 	##################################
 	)
 );
+
 
 
 ?>

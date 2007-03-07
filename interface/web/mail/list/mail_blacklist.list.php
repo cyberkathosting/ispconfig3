@@ -16,10 +16,10 @@
 $liste["name"] 				= "mail_blacklist";
 
 // Database table
-$liste["table"] 			= "mail_blacklist";
+$liste["table"] 			= "mail_access";
 
 // Index index field of the database table
-$liste["table_idx"]			= "blacklist_id";
+$liste["table_idx"]			= "access_id";
 
 // Search Field Prefix
 $liste["search_prefix"] 	= "search_";
@@ -54,7 +54,7 @@ $liste["item"][] = array(	'field'		=> "active",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('1' => "Yes",'0' => "No"));
+							'value'		=> array('y' => "Yes",'n' => "No"));
 
 
 $liste["item"][] = array(	'field'		=> "server_id",
@@ -71,7 +71,7 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "address",
+$liste["item"][] = array(	'field'		=> "source",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -81,13 +81,14 @@ $liste["item"][] = array(	'field'		=> "address",
 							'value'		=> "");
 
 
-$liste["item"][] = array(	'field'		=> "recipient",
+$liste["item"][] = array(	'field'		=> "type",
 							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> "");
+							'value'		=> array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client'));
+
 
 ?>
