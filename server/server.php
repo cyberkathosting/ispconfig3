@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2006, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -62,52 +62,30 @@ if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
 @touch($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
 $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock");
 
+// Load required base-classes
+$this->uses('ini_parser,modules,plugins');
+
 // Get server configuration
-$this->uses('ini_parser');
 $conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
 
-// Run the configuration modules
-if($server_db_record["mail_server"] == 1) {
-	$app->load('mod_mail_base');
-	$mail_module_name = 'mod_mail_'.$conf["serverconfig"]["mail"]["module"];
-	$app->uses($mail_module_name);
-	$app->$mail_module_name->write_config();
-}
+/*
+ Load the modules that are im the mods-enabled folder
+*/
 
-if($server_db_record["web_server"] == 1) {
-	$app->load('mod_web_base');
-	$web_module_name = 'mod_web_'.$conf["serverconfig"]["web"]["module"];
-	$app->uses($web_module_name);
-	$app->$web_module_name->write_config();
-}
+$this->modules->loadModules();
 
-if($server_db_record["dns_server"] == 1) {
-	$app->load('mod_dns_base');
-	$dns_module_name = 'mod_dns_'.$conf["serverconfig"]["dns"]["module"];
-	$app->uses($dns_module_name);
-	$app->$dns_module_name->write_config();
-}
 
-if($server_db_record["file_server"] == 1) {
-	$app->load('mod_file_base');
-	$file_module_name = 'mod_file_'.$conf["serverconfig"]["file"]["module"];
-	$app->uses($file_module_name);
-	$app->$file_module_name->write_config();
-}
+/*
+ Load the plugins that are in the plugins-enabled folder
+*/
 
-if($server_db_record["db_server"] == 1) {
-	$app->load('mod_db_base');
-	$db_module_name = 'mod_db_'.$conf["serverconfig"]["db"]["module"];
-	$app->uses($db_module_name);
-	$app->$db_module_name->write_config();
-}
+$this->plugins->loadPlugins();
 
-if($server_db_record["vserver_server"] == 1) {
-	$app->load('mod_vserver_base');
-	$vserver_module_name = 'mod_vserver_'.$conf["serverconfig"]["vserver"]["module"];
-	$app->uses($vserver_module_name);
-	$app->$vserver_module_name->write_config();
-}
+/*
+ Go trough the sys_datalog table and call the processing functions
+ in the modules that are hooked on to the table actions
+*/
+$this->modules->processDatalog();
 
 // Remove lock
 @unlink($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
