@@ -412,7 +412,7 @@ $form["tabs"]['groups'] = array (
 			'regex'		=> '',
 			'errmsg'	=> '',
 			'default'	=> '',
-			'value'		=> array_merge(array(0=>''),$groups_list),
+			'value'		=> $groups_list,
 			'separator'	=> ',',
 			'width'		=> '30',
 			'maxlength'	=> '255',
