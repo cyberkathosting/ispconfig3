@@ -1,0 +1,72 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='policy_name_txt'}:</td>
+    <td class="frmText11"><input name="policy_name" type="text" class="text" value="{tmpl_var name='policy_name'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='virus_lover_txt'}:</td>
+    <td class="frmText11">
+		<select name="virus_lover" class="text">
+			{tmpl_var name='virus_lover'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='spam_lover_txt'}:</td>
+    <td class="frmText11">
+		<select name="spam_lover" class="text">
+			{tmpl_var name='spam_lover'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='banned_files_lover_txt'}:</td>
+    <td class="frmText11">
+		<select name="banned_files_lover" class="text">
+			{tmpl_var name='banned_files_lover'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='bad_header_lover_txt'}:</td>
+    <td class="frmText11">
+		<select name="bad_header_lover" class="text">
+			{tmpl_var name='bad_header_lover'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='bypass_virus_checks_txt'}:</td>
+    <td class="frmText11">
+		<select name="bypass_virus_checks" class="text">
+			{tmpl_var name='bypass_virus_checks'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='bypass_banned_checks_txt'}:</td>
+    <td class="frmText11">
+		<select name="bypass_banned_checks" class="text">
+			{tmpl_var name='bypass_banned_checks'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='bypass_header_checks_txt'}:</td>
+    <td class="frmText11">
+		<select name="bypass_header_checks" class="text">
+			{tmpl_var name='bypass_header_checks'}
+		</select>
+	</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="submit" class="button" value="{tmpl_var name='btn_save_txt'}">
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="self.location.href='spamfilter_policy_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

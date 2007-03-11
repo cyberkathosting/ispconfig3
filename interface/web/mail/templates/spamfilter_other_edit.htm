@@ -1,0 +1,80 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='addr_extension_virus_txt'}:</td>
+    <td class="frmText11"><input name="addr_extension_virus" type="text" class="text" value="{tmpl_var name='addr_extension_virus'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='addr_extension_spam_txt'}:</td>
+    <td class="frmText11"><input name="addr_extension_spam" type="text" class="text" value="{tmpl_var name='addr_extension_spam'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='addr_extension_banned_txt'}:</td>
+    <td class="frmText11"><input name="addr_extension_banned" type="text" class="text" value="{tmpl_var name='addr_extension_banned'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='addr_extension_bad_header_txt'}:</td>
+    <td class="frmText11"><input name="addr_extension_bad_header" type="text" class="text" value="{tmpl_var name='addr_extension_bad_header'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='warnvirusrecip_txt'}:</td>
+    <td class="frmText11">
+		<select name="warnvirusrecip" class="text">
+			{tmpl_var name='warnvirusrecip'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='warnbannedrecip_txt'}:</td>
+    <td class="frmText11">
+		<select name="warnbannedrecip" class="text">
+			{tmpl_var name='warnbannedrecip'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='warnbadhrecip_txt'}:</td>
+    <td class="frmText11">
+		<select name="warnbadhrecip" class="text">
+			{tmpl_var name='warnbadhrecip'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='newvirus_admin_txt'}:</td>
+    <td class="frmText11"><input name="newvirus_admin" type="text" class="text" value="{tmpl_var name='newvirus_admin'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='virus_admin_txt'}:</td>
+    <td class="frmText11"><input name="virus_admin" type="text" class="text" value="{tmpl_var name='virus_admin'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='banned_admin_txt'}:</td>
+    <td class="frmText11"><input name="banned_admin" type="text" class="text" value="{tmpl_var name='banned_admin'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='bad_header_admin_txt'}:</td>
+    <td class="frmText11"><input name="bad_header_admin" type="text" class="text" value="{tmpl_var name='bad_header_admin'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='spam_admin_txt'}:</td>
+    <td class="frmText11"><input name="spam_admin" type="text" class="text" value="{tmpl_var name='spam_admin'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='message_size_limit_txt'}:</td>
+    <td class="frmText11"><input name="message_size_limit" type="text" class="text" value="{tmpl_var name='message_size_limit'}" size="10" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='banned_rulenames_txt'}:</td>
+    <td class="frmText11"><input name="banned_rulenames" type="text" class="text" value="{tmpl_var name='banned_rulenames'}" size="30" maxlength="255"></td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="submit" class="button" value="{tmpl_var name='btn_save_txt'}">
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="self.location.href='spamfilter_policy_list.php';">
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

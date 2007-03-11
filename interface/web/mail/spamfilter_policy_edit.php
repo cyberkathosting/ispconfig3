@@ -1,5 +1,4 @@
 <?php
-
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -28,12 +27,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+
 /******************************************
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/spamfilter_whitelist.list.php";
-$tform_def_file = "form/spamfilter_whitelist.tform.php";
+$tform_def_file = "form/spamfilter_policy.tform.php";
 
 /******************************************
 * End Form configuration
@@ -42,13 +41,22 @@ $tform_def_file = "form/spamfilter_whitelist.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checke Berechtigungen für Modul
+// Checking module permissions
 if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
 	header("Location: ../index.php");
 	exit;
 }
 
-$app->uses("tform_actions");
-$app->tform_actions->onDelete();
+// Loading classes
+$app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
+
+class page_action extends tform_actions {
+	
+}
+
+$app->tform_actions = new page_action;
+$app->tform_actions->onLoad();
+
 
 ?>

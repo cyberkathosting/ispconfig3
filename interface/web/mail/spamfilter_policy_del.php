@@ -32,8 +32,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/spamfilter_whitelist.list.php";
-$tform_def_file = "form/spamfilter_whitelist.tform.php";
+$list_def_file = "list/spamfilter_policy.list.php";
+$tform_def_file = "form/spamfilter_policy.tform.php";
 
 /******************************************
 * End Form configuration
