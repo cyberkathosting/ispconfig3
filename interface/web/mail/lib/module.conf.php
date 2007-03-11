@@ -94,7 +94,7 @@ $module = array (
         array (
           'title' => 'User',
           'target' => 'content',
-          'link' => 'mail/spamfilter_user_list.php',
+          'link' => 'mail/spamfilter_users_list.php',
         ),
         3 => 
         array (

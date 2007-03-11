@@ -1,5 +1,5 @@
 <?php
-$wb["email_txt"] = 'email';
+$wb["email_txt"] = 'Email';
 $wb["cryptpwd_txt"] = 'Password';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';
