@@ -70,21 +70,41 @@ $module = array (
           'target' => 'content',
           'link' => 'mail/mail_blacklist_list.php',
         ),
+      ),
+    ),
+    2 => 
+    array (
+      'title' => 'Spamfilter',
+      'open' => 1,
+      'items' => 
+      array (
+        0 => 
+        array (
+          'title' => 'Whitelist',
+          'target' => 'content',
+          'link' => 'mail/spamfilter_whitelist_list.php',
+        ),
+        1 => 
+        array (
+          'title' => 'Blacklist',
+          'target' => 'content',
+          'link' => 'mail/spamfilter_blacklist_list.php',
+        ),
         2 => 
         array (
-          'title' => 'Users',
+          'title' => 'User',
           'target' => 'content',
           'link' => 'mail/spamfilter_user_list.php',
         ),
         3 => 
         array (
-          'title' => 'Policys',
+          'title' => 'Policy',
           'target' => 'content',
           'link' => 'mail/spamfilter_policy_list.php',
         ),
       ),
     ),
-    2 => 
+    3 => 
     array (
       'title' => 'Fetchmail',
       'open' => 1,
