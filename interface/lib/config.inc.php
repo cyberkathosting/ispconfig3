@@ -27,13 +27,17 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+Header("Pragma: no-cache");
+Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+Header("Content-Type: text/html");
+
 ini_set('register_globals',0);
 
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
 
 
-$conf["rootpath"]			= "D:\\server\\www\\ispconfig3\\interface";
+$conf["rootpath"]			= "D:\\server\\www\\ispconfig3_ajax\\interface";
 //$conf["rootpath"]			= "D:\\www\\ispconfig3\\interface";
 //$conf["rootpath"]			= "/home/www/ispconfig3/web/cms";
 
@@ -43,7 +47,7 @@ $conf["temppath"]			= $conf["rootpath"].$conf["fs_div"]."temp";
 
 
 define("DIR_TRENNER","\\");
-define("SERVER_ROOT","D:\\server\\www\\ispconfig3\\interface");
+define("SERVER_ROOT","D:\\server\\www\\ispconfig3_ajax\\interface");
 define("INCLUDE_ROOT",SERVER_ROOT.DIR_TRENNER."lib");
 define("CLASSES_ROOT",INCLUDE_ROOT.DIR_TRENNER."classes");
 
@@ -79,7 +83,7 @@ $conf["programs"]["wput"]		= $conf["rootpath"]."\\tools\\wput\\wput.exe";
         Themes
 */
 
-$conf["theme"]									= 'grey';
+$conf["theme"]									= 'default';
 $conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
 $conf["logo"] 									= 'themes/default/images/mydnsconfig_logo.gif';
 

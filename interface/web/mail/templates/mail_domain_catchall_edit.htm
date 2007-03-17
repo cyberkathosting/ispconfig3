@@ -20,8 +20,8 @@
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><input name="btn_save" type="submit" class="button" value="{tmpl_var name='btn_save_txt'}">
-      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="self.location.href='mail_alias_list.php';">
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_domain_catchall_edit.php');"><div class="buttonEnding"></div>
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_domain_catchall_list.php');"><div class="buttonEnding"></div>
     </td>
   </tr>
 </table>

@@ -1,6 +1,7 @@
 <?php
+
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -26,18 +27,20 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
 
 /******************************************
 * Begin Form configuration
 ******************************************/
 
 $list_def_file = "list/groups.list.php";
+$tform_def_file = "form/groups.tform.php";
 
 /******************************************
 * End Form configuration
 ******************************************/
+
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
 
 // Checke Berechtigungen für Modul
 if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
@@ -45,20 +48,7 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 	exit;
 }
 
-include_once($list_def_file);
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
-// ID importieren
-$id = intval($_REQUEST["id"]);
-
-if($id > 0) {
-	if($_SESSION["s"]["user"]["typ"] == "admin") {
-		$app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = $id");
-	} else {
-		$app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = $id and userid = ".$_SESSION["s"]["user"]["userid"]);
-	}
-}
-
-
-header("Location: ".$liste["file"]."?PHPSESSID=".$_SESSION["s"]["id"]);
-exit;
 ?>

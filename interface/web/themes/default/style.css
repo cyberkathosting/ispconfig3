@@ -166,6 +166,7 @@ textarea,input.text,select,option{
 	text-decoration: none;
 
 }
+/*
 .button {
 	border-color : #666699 #666699 #666699 #666699;
 	border-width : 1 1 1 1; color : Black; 
@@ -173,6 +174,7 @@ textarea,input.text,select,option{
 	height : 19px; 
 	font-size : 12px; 
 }
+*/
 
 .frmTab {
 	border-top: 1px none #999999;
@@ -253,9 +255,30 @@ textarea,input.text,select,option{
 }
 INPUT {
 	border: 1px solid #BFCBD9;
+	/*
+	height: 26px;
+	font-size:20px;
+	*/
 }
 TEXTAREA {
 	border: 1px solid #BFCBD9;
+}
+
+.button {
+    border: 0;
+    background: #fff url("../../themes/default/images/button_bg.gif") no-repeat;
+    height: 26px;
+	font-size:14px;
+    /* used to catch the buttonEnding */
+    position: relative;
+}
+
+.buttonEnding {
+    position: absolute;
+    display: inline;
+    width: 2px;
+    height: 26px;
+    background: url("../../themes/default/images/button_end.gif") no-repeat;
 }
 
 

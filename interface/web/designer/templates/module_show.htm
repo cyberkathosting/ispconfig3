@@ -1,24 +1,3 @@
-<script language="JavaScript">
-<!--
-function del_module(link) {
-  if(window.confirm("{tmpl_var name='module_del_txt'}")) {
-  	location.href = link;
-  }
-}
-function del_menu(link) {
-  if(window.confirm("{tmpl_var name='menu_del_txt'}")) {
-  	location.href = link;
-  }
-}
-function del_menuitem(link) {
-  if(window.confirm("{tmpl_var name='item_del_txt'}")) {
-  	location.href = link;
-  }
-}
-
-//-->
-</script>
-<form name="myform" action="module_show.php" method="POST">
 <div class="frmTextHead"><tmpl_var name="header_txt"></div><br />
 <fieldset style="width:250px;"><legend class="frmText11"><b>{tmpl_var name='module_txt'}</b></legend>
 <table border="0" cellspacing="0" cellpadding="2">
@@ -35,9 +14,9 @@ function del_menuitem(link) {
   </tr>
   <tr>
     <td colspan="2" class="frmText11">
-	  <input type="button" name="ed1" value="{tmpl_var name='properties_txt'}" onClick="location.href='module_edit.php?id={tmpl_var name='name'}'" class="button" />
-	  <input type="button" name="ed2" value="{tmpl_var name='delete_txt'}" onClick="del_module('module_del.php?id={tmpl_var name='name'}');" class="button" />
-	  <input type="button" name="ed3" value="{tmpl_var name='new_menu_txt'}" onClick="location.href='module_nav_edit.php?module_name={tmpl_var name='name'}'" class="button" /></td>
+	  <input type="button" name="ed1" value="{tmpl_var name='properties_txt'}" onClick="loadContent('designer/module_edit.php?id={tmpl_var name='name'}')" class="button" /><div class="buttonEnding"></div>
+	  <input type="button" name="ed2" value="{tmpl_var name='delete_txt'}" onClick="del_record('designer/module_del.php?id={tmpl_var name='name'}');" class="button" /><div class="buttonEnding"></div>
+	  <input type="button" name="ed3" value="{tmpl_var name='new_menu_txt'}" onClick="loadContent('designer/module_nav_edit.php?module_name={tmpl_var name='name'}')" class="button" /><div class="buttonEnding"></div></td>
   </tr>
 </table>
 </fieldset>
@@ -50,4 +29,3 @@ function del_menuitem(link) {
     <td colspan="2" class="frmText11">&nbsp;</td>
   </tr>
 </table>
-</form>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title><tmpl_var name="app_title"></title>
+<meta http-equiv="Content-Type" content="{tmpl_var name='html_content_encoding'}">
+<link href="themes/{tmpl_var name="theme"}/style.css" rel="stylesheet" type="text/css">
+<script language= "JavaScript">
+function breakout()
+{
+if (window.top != window.self)
+ {
+ window.top.location="index.php"
+ }
+}
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" leftmargin=0 topmargin=0 marginwidth=0 marginheight=0 onLoad="breakout()">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#496FA8">
+    <td height="30" colspan="2" align="right" valign="top" background="themes/{tmpl_var name="theme"}/images/bg_nav_1.png"><img src="themes/grey/images/left_logo_1.png" style="float:left;"><a href="login/logout.php?phpsessid=<tmpl_var name='phpsessid'>"><img src="themes/grey/images/logout.png" style="float:right;" border="0"></a></td>
+  </tr>
+  <tr>
+    <td width="128" height="18" align="left" valign="middle" background="themes/{tmpl_var name="theme"}/images/nav_top_bg_2.png" ><img src="themes/grey/images/left_logo_2.png" style="float:left;"><br>
+    </td>
+    <td height="18" align="left" valign="bottom" bgcolor="#E3E3E3">
+        <table width="100%" height="18" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <tmpl_loop name="nav_top">
+        <tmpl_if name="active">
+        <td width="{tmpl_var name='tab_width'}" class="navTopSelected"><a href="#" class="txtNavTopSelected"><tmpl_var name="title"></a></td>
+        <tmpl_else>
+        <td width="{tmpl_var name='tab_width'}" class="navTopDefault"><a href="capp.php?mod=<tmpl_var name='module'>&phpsessid=<tmpl_var name='phpsessid'>" class="txtNavTopDefault"><tmpl_var name="title"></a></td>
+        </tmpl_if>
+        </tmpl_loop>
+        <td align="right" valign="middle" class="navTop" background="themes/{tmpl_var name="theme"}/images/bg_nav_2.png"><img src="themes/{tmpl_var name="theme"}/images/x.gif" width="123" height="1"> </td>
+          </tr>
+    </table>
+    </td>
+  </tr>
+  <tmpl_dyninclude name="module_tpl">
+</table>
+<map name="Map">
+<area shape="rect" coords="68,2,108,20" href="login/logout.php?phpsessid=<tmpl_var name='phpsessid'>">
+<area shape="rect" coords="8,2,50,7" href="help/index.php?phpsessid=<tmpl_var name='phpsessid'>" target="content">
+</map>
+</body>
+</html>

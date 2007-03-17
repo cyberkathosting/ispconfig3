@@ -2,7 +2,6 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<form action="index.php" method="post" name="login" target="_self" id="login">
 <table width="248" border="0" align="center" cellpadding="4" cellspacing="0">
   <tr>
     <td height="20" colspan="2" class="tblHead">Login</td>
@@ -18,14 +17,16 @@
   </tr>
   <tr>
     <td class="frmText11">Passwort</td>
-    <td><input name="passwort" type="password" id="passwort" class="text"></td>
+    <td><input name="passwort" type="password" id="passwort" class="text" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm');};"></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><input type="submit" name="Submit" value="Login" class="button"></td>
+    <td><input type="button" name="submit" id="submit" value="   Login   " class="button" onclick="submitLoginForm('pageForm');" ><div class="buttonEnding"></div>
+	</td>
   </tr>
   <tr>
     <td colspan="2">&nbsp;</td>
   </tr>
 </table>
-</form>
+<input type="hidden" name="s_mod" value="login" />
+<input type="hidden" name="s_pg" value="index" />

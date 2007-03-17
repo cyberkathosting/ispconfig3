@@ -194,7 +194,7 @@ class listform {
                 $pages = intval(($record_count["anzahl"] - 1) / $records_per_page);
 
 
-                $vars["list_file"] = $this->listDef["file"];
+                $vars["list_file"] = $_SESSION["s"]["module"]["name"].'/'.$this->listDef["file"];
                 $vars["page"] = $_SESSION["search"][$list_name]["page"];
                 $vars["last_page"] = $_SESSION["search"][$list_name]["page"] - 1;
                 $vars["next_page"] = $_SESSION["search"][$list_name]["page"] + 1;
@@ -202,6 +202,7 @@ class listform {
                 $vars["max_pages"] = $pages + 1;
                 $vars["records_gesamt"] = $record_count["anzahl"];
                 $vars["page_params"] = $this->listDef["page_params"];
+				//$vars["module"] = $_SESSION["s"]["module"]["name"];
 
 
                 if($_SESSION["search"][$list_name]["page"] > 0) $vars["show_page_back"] = 1;
@@ -217,11 +218,11 @@ class listform {
 
         function getPagingHTML($vars) {
                 global $app;
-                $content = '<a href="'.$vars["list_file"].'?page=0'.$vars["page_params"].'"><img src="../themes/grey/images/btn_left.png" border="0"></a> &nbsp; ';
-                if($vars["show_page_back"] == 1) $content .= '<a href="'.$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"].'"><img src="../themes/grey/images/btn_back.png" border="0"></a> ';
+                $content = '<a href="'."javascript:loadContent('".$vars["list_file"].'?page=0'.$vars["page_params"]."');".'"><img src="themes/grey/images/btn_left.png" border="0"></a> &nbsp; ';
+                if($vars["show_page_back"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_back.png" border="0"></a> ';
                 $content .= ' '.$app->lng('Page').' '.$vars["next_page"].' '.$app->lng('of').' '.$vars["max_pages"].' ';
-                if($vars["show_page_next"] == 1) $content .= '<a href="'.$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"].'"><img src="../themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
-                $content .= '<a href="'.$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"].'"> <img src="../themes/grey/images/btn_right.png" border="0"></a>';
+                if($vars["show_page_next"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
+                $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"]."');".'"> <img src="themes/grey/images/btn_right.png" border="0"></a>';
 
                 return $content;
         }

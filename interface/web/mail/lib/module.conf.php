@@ -4,7 +4,7 @@ $module = array (
   'title' => 'Email',
   'template' => 'module.tpl.htm',
   'navframe_page' => '',
-  'startpage' => 'mail/index.php',
+  'startpage' => 'mail/mail_domain_list.php',
   'tab_width' => '',
   'nav' => 
   array (

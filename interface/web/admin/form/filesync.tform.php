@@ -189,7 +189,7 @@ $form["tabs"]['filesync'] = array (
 			'regex'		=> '',
 			'errmsg'	=> '',
 			'default'	=> '1',
-			'value'		=> '1',
+			'value'		=> array(0 => 0,1 => 1),
 			'separator'	=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255',

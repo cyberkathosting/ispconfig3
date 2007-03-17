@@ -88,7 +88,7 @@ if($nav_id != '') {
 	
 	
 	// zu Liste springen
-   	header("Location: module_show.php?id=$module_name");
+   	echo "HEADER_REDIRECT:designer/module_show.php?id=$module_name";
     exit;
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 /*
 Copyright (c) 2005, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -27,15 +28,29 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+//
 
-$app->uses('tpl');
-$app->tpl->newTemplate("form.tpl.htm");
+class login_index {
 
-// Login Formular wurde abgesandt
-if(count($_POST) > 0) {
+	var $status = '';
+	var $target = '';
 
+function render() {
+	
+	if(is_array($_SESSION["s"]["user"]) && is_array($_SESSION["s"]["module"])) {
+		die('HEADER_REDIRECT:'.$_SESSION["s"]["module"]["startpage"]);
+	}
+	
+	global $app;
+
+	$app->uses('tpl');
+	$app->tpl->newTemplate("form.tpl.htm");
+
+
+
+	// Login Formular wurde abgesandt
+	if(count($_POST) > 0) {
+	//die('Hier');
         // importiere Variablen
         $username = $app->db->quote($_POST["username"]);
         $passwort = $app->db->quote($_POST["passwort"]);
@@ -49,11 +64,27 @@ if(count($_POST) > 0) {
                                 $_SESSION["s"]["user"] = $user;
                                 $_SESSION["s"]["user"]["theme"] = $user["app_theme"];
                                 $_SESSION["s"]["language"] = $user["language"];
+								
+								if(is_file($_SESSION["s"]["user"]["startmodule"]."/lib/module.conf.php")) {
+									include_once($_SESSION["s"]["user"]["startmodule"]."/lib/module.conf.php");
+									$_SESSION["s"]["module"] = $module;
+								}
 
-                                $site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
-                                $_SESSION["s"]["site"] = $site;
-
-                                header("Location: ../capp.php?mod=".$user["startmodule"]."&phpsessid=".$_SESSION["s"]["id"]);
+                                //$site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
+                                //$_SESSION["s"]["site"] = $site;
+																
+								//header ("HTTP/1.0 307 Temporary redirect");
+								//header("Location: http://localhost:8080/ispconfig3_export/interface/web/admin/index.php");
+																
+                                /*header("Location: ../capp.php?mod=".$user["startmodule"]."&phpsessid=".$_SESSION["s"]["id"]);*/
+								//header('Content-type: text/javascript');
+								/*echo "<script language=\"javascript\" type=\"text/javascript\">loadContent('admin/users_list.php','')</script>";*/
+								//$this->status = 'REDIRECT';
+								//$this->target = 'admin:index';
+								//return '';
+								
+								echo 'HEADER_REDIRECT:'.$_SESSION["s"]["module"]["startpage"];
+								//echo 'HEADER_REDIRECT:content.php?s_mod=admin&s_pg=index';
                                 exit;
                         } else {
                                 $error = $app->lng(1003);
@@ -67,18 +98,28 @@ if(count($_POST) > 0) {
                 // Username oder Passwort leer
                 $error = $app->lng(1001);
         }
-}
-if($error != ''){
-  $error = '<table width="100%" border="0" cellspacing="0" cellpadding="2">
-<tr>
-<td class="error"><b>Error:</b><br>'.$error.'</td>
-</tr>
-</table>';
-}
+	}
+	if($error != ''){
+  		$error = '<table width="100%" border="0" cellspacing="0" cellpadding="2">
+		<tr>
+		<td class="error"><b>Error:</b><br>'.$error.'</td>
+		</tr>
+		</table>';
+	}
 
-$app->tpl->setVar('error',$error);
-$app->tpl->setInclude('content_tpl','templates/index.htm');
-$app->tpl_defaults();
-$app->tpl->pparse();
+
+
+	$app->tpl->setVar('error',$error);
+	$app->tpl->setInclude('content_tpl','login/templates/index.htm');
+	$app->tpl_defaults();
+	//$app->tpl->pparse();
+	
+	$this->status = 'OK';
+	
+	return $app->tpl->grab();
+	
+	}
+
+}
 
 ?>

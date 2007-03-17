@@ -1,0 +1,26 @@
+<script language="JavaScript">
+<!--
+
+function del_record(link) {
+  if(window.confirm("")) {
+          location.href = link;
+  }
+}
+
+//-->
+</script>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<form action="index.php" method="post" name="login" target="_self" id="login">
+<table width="288" border="0" align="center" cellpadding="4" cellspacing="0">
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;Admin</td>
+  </tr>
+</table>
+</form>

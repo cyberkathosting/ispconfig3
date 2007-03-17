@@ -34,6 +34,7 @@ require_once('../lib/app.inc.php');
 $app->uses('tpl');
 $app->tpl->newTemplate("main.tpl.htm");
 
+/*
 
 // Checke User Login and current module
 if(!is_array($_SESSION["s"]['user']) or !is_array($_SESSION["s"]["module"])) {
@@ -90,6 +91,8 @@ $app->tpl->setLoop('nav_left',$nav_translated);
 // Setting startpage
 $app->tpl->setVar('startpage',$_SESSION["s"]["module"]["startpage"]);
 $app->tpl->setVar('navframe_page',$_SESSION["s"]["module"]["navframe_page"]);
+
+*/
 
 $app->tpl_defaults();
 $app->tpl->pparse();

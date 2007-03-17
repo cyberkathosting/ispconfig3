@@ -35,10 +35,12 @@ class listform_tpl_generator {
 		
 		global $app;
 		
+		if($module == '') $module = $_SESSION["s"]["module"]["name"];
+		
 		$lang = array();
-		$html = '<form name="myform" action="'.$listDef["file"].'" method="POST">
-<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
+		$html = '<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<input type="button" value="{tmpl_var name="add_new_record_txt"}" class="button" onClick="'."loadContent('".$module."/".$listDef["edit_file"]."');".'" /><div class="buttonEnding"></div><br /><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4" class="listTable">
   <tr>
 ';
 		
@@ -57,13 +59,13 @@ class listform_tpl_generator {
   		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
 			if($field["formtype"] == 'SELECT') {
-				$html .= "    <td class=\"frmText11\"><select name=\"".$listDef["search_prefix"].$key."\" onChange=\"document.myform.submit();\">{tmpl_var name='".$listDef["search_prefix"].$key."'}</select></td>\r\n";
+				$html .= "    <td class=\"frmText11\"><select name=\"".$listDef["search_prefix"].$key."\" onChange=\"submitForm('pageForm','".$module."/".$listDef["file"]."');\">{tmpl_var name='".$listDef["search_prefix"].$key."'}</select></td>\r\n";
 			} else {
 				$html .= "    <td class=\"frmText11\"><input type=\"text\" name=\"".$listDef["search_prefix"].$key."\" value=\"{tmpl_var name='".$listDef["search_prefix"].$key."'}\" class=\"text\" /></td>\r\n";
 			}
 		}
 		
-		$html .= '    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
+		$html .= '    <td class="frmText11" align="right"><input name="Filter" type="button" id="Filter" value="{tmpl_var name="filter_txt"}" class="button" onClick="'."submitForm('pageForm','".$module."/".$listDef["file"]."');".'"><div class="buttonEnding"></div></td>
   </tr>
   <tmpl_loop name="records">
   <tr bgcolor="{tmpl_var name="bgcolor"}">
@@ -71,10 +73,10 @@ class listform_tpl_generator {
 		
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
-			$html .= "    <td class=\"frmText11\"><a href=\"".$listDef["edit_file"]."?id={tmpl_var name='id'}\" class=\"frmText11\">{tmpl_var name=\"".$key."\"}</a></td>\r\n";
+			$html .= "    <td class=\"frmText11\"><a href=\"#\" onClick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\" class=\"frmText11\">{tmpl_var name=\"".$key."\"}</a></td>\r\n";
 		}
 		
-		$html .= "    <td class=\"frmText11\" align=\"right\">[<a href=\"javascript: del_record('".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');\" class=\"frmText11\">{tmpl_var name='delete_txt'}</a>]</td>
+		$html .= "    <td class=\"frmText11\" align=\"right\">[<a href=\"javascript: del_record('".$module."/".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');\" class=\"frmText11\">{tmpl_var name='delete_txt'}</a>]</td>
   </tr>
   </tmpl_loop>
 ";
@@ -82,8 +84,7 @@ class listform_tpl_generator {
   <tr>
   	<td colspan="'.(count($listDef["item"])+1).'" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
   </tr>
-</table>
-</form>';
+</table>';
 		
 		if($module == '') {
 			$filename = 'templates/'.$listDef["name"].'_list.htm';
@@ -130,7 +131,7 @@ class listform_tpl_generator {
 			$wb = array();
 		}
 		
-		$wb_out = array_merge($wb,$lang);
+		$wb_out = array_merge($lang,$wb);
 		
 		if(is_array($wb_out)) {
 			$fp = fopen ($lng_file, "w");

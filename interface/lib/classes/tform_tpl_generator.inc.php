@@ -35,6 +35,8 @@ class tform_tpl_generator {
 		
 		global $app;
 		
+		$module = $_SESSION["s"]["module"]["name"];
+		
 		$html = '<table width="500" border="0" cellspacing="0" cellpadding="2">';
 		$lang = array();
 		
@@ -124,8 +126,8 @@ class tform_tpl_generator {
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><input name=\"btn_save\" type=\"submit\" class=\"button\" value=\"{tmpl_var name='btn_save_txt'}\">
-      <input name=\"btn_cancel\" type=\"button\" class=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" onClick=\"self.location.href='".$formDef["list_default"]."';\">
+    <td><input name=\"btn_save\" type=\"button\" class=\"button\" value=\"{tmpl_var name='btn_save_txt'}\" onClick=\"submitForm('pageForm','".$module."/".$formDef["action"]."');\"><div class=\"buttonEnding\"></div>&nbsp;
+      <input name=\"btn_cancel\" type=\"button\" class=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" onClick=\"loadContent('".$module."/".$formDef["list_default"]."');\"><div class=\"buttonEnding\"></div>
     </td>
   </tr>";
 		
@@ -295,7 +297,7 @@ class tform_tpl_generator {
 			$wb = array();
 		}
 		
-		$wb_out = array_merge($wb,$lang);
+		$wb_out = array_merge($lang,$wb);
 		
 		if(is_array($wb_out)) {
 			$fp = fopen ($lng_file, "w");

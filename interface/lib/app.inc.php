@@ -169,6 +169,7 @@ class app {
                 }
                 $this->tpl->setVar('app_title',$conf["app_title"]);
                 $this->tpl->setVar('delete_confirmation',$this->lng('delete_confirmation'));
+				$this->tpl->setVar('app_module',$_SESSION["s"]["module"]["name"]);
 
           }
 

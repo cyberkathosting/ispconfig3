@@ -70,44 +70,46 @@ $form["tabs"]['services'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
-			'value'		=> '1'
+			'value'		=> array(0 => 0,1 => 1)
 		),
 		'web_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
-			'value'		=> '1'
+			'value'		=> array(0 => 0,1 => 1)
 		),
 		'dns_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
-			'value'		=> '1'
+			'value'		=> array(0 => 0,1 => 1)
 		),
 		'file_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
-			'value'		=> '1'
+			'value'		=> array(0 => 0,1 => 1)
 		),
 		'db_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
-			'value'		=> '1'
+			'value'		=> array(0 => 0,1 => 1)
 		),
 		'vserver_server' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '0',
-			'value'		=> '1'
+			'value'		=> array(0 => 0,1 => 1)
 		),
+		/*
 		'update' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
 			'value'		=> array(0 => 'No', 1 => 'Yes')
 		),
+		*/
 		'active' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',

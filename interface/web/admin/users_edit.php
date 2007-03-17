@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -26,8 +26,7 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+
 
 /******************************************
 * Begin Form configuration
@@ -39,98 +38,19 @@ $tform_def_file = "form/users.tform.php";
 * End Form configuration
 ******************************************/
 
-// Checke Berechtigungen für Modul
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
+
+// Checking module permissions
 if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
 	header("Location: ../index.php");
 	exit;
 }
 
-// Lade Template
-$app->uses('tpl,tform');
-$app->tpl->newTemplate("tabbed_form.tpl.htm");
+// Loading classes
+$app->uses('tpl,tform,tform_actions');
 
-// Tabellendefinition und Formdefinition laden
-$app->tform->loadFormDef($tform_def_file);
-
-// ID importieren
-$id = intval($_REQUEST["id"]);
-
-if(count($_POST) > 1) {
-
-	// Bestimme aktion
-	if($id > 0) {
-		$action = 'UPDATE';
-	} else {
-		$action = 'INSERT';
-	}
-
-	$sql = $app->tform->getSQL($_POST,$_SESSION["s"]["form"]["tab"],$action,$id,$ext_where);
-	if($app->tform->errorMessage == '') {
-		$app->db->query($sql);
-		if($action == "INSERT") $id = $app->db->insertID();
-			
-		// Liste anzeigen, wenn speichern geklickt wurde
-    	if($_REQUEST["next_tab"] == '') {
-    		header("Location: ".$app->tform->formDef['list_default']);
-        	exit;
-    	}
-			
-	} else {
-		$app->tpl->setVar("error","<b>Fehler:</b><br>".$app->tform->errorMessage);
-		$app->tpl->setVar($_POST);
-	}
-}
-
-// Welcher Tab wird angezeigt
-if($app->tform->errorMessage == '') {
-    // wenn kein Fehler vorliegt
-	if($_REQUEST["next_tab"] != '') {
-		// wenn nächster Tab bekannt
-		$active_tab = $_REQUEST["next_tab"];
-    } else {
-        // ansonsten ersten tab nehmen
-        $active_tab = $app->tform->formDef['tab_default'];
-    }
-} else {
-    // bei Fehlern den gleichen Tab nochmal anzeigen
-    $active_tab = $_SESSION["s"]["form"]["tab"];
-}
-
-
-if($id > 0) {
-	// bestehenden Datensatz anzeigen
-	if($app->tform->errorMessage == '') {
-		if($app->tform->formDef['auth'] == 'no') {
-			$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = $id";
-		} else {
-			$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = $id AND ".$app->tform->getAuthSQL('u');
-		}
-		if(!$record = $app->db->queryOneRecord($sql)) die("You dont have the permission to view this record or this record does not exist.");
-	} else {
-		$record = $app->tform->encode($_POST,$active_tab);
-	}
-	
-    // Userdaten umwandeln
-	$record = $app->tform->getHTML($record, $active_tab,'EDIT');
-	$record['id'] = $id;
-} else {
-	if($app->tform->errorMessage == '') {
-		$record = array();
-		$record = $app->tform->getHTML($record, $app->tform->formDef['tab_default'],'NEW');
-	} else {
-		$record = $app->tform->getHTML($app->tform->encode($_POST,$active_tab),$active_tab,'EDIT');
-	}
-}
-
-$app->tpl->setVar($record);
-
-// Formular und Tabs erzeugen
-$app->tform->showForm();
-
-// Defaultwerte setzen
-$app->tpl_defaults();
-
-// Template parsen
-$app->tpl->pparse();
+// let tform_actions handle the page
+$app->tform_actions->onLoad();
 
 ?>

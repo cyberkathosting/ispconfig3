@@ -10,21 +10,35 @@ $module = array (
   array (
     0 => 
     array (
+      'title' => 'tespanel',
+      'open' => 1,
+      'items' => 
+      array (
+        0 => 
+        array (
+          'title' => 'Halloooo',
+          'target' => 'content',
+          'link' => 'test/hallo.php',
+        ),
+      ),
+    ),
+    1 => 
+    array (
       'title' => 'm333',
       'open' => 1,
       'items' => 
       array (
         0 => 
         array (
-          'title' => 'add',
-          'target' => '_top',
-          'link' => 'http://webmail.ensign.de',
-        ),
-        1 => 
-        array (
           'title' => 'edit',
           'target' => 'content',
           'link' => 'resellers/reseller_list.php',
+        ),
+        1 => 
+        array (
+          'title' => 'add',
+          'target' => '_top',
+          'link' => 'http://webmail.ensign.de',
         ),
         2 => 
         array (
@@ -32,14 +46,6 @@ $module = array (
           'target' => 'content',
           'link' => 'test/link.php',
         ),
-      ),
-    ),
-    1 => 
-    array (
-      'title' => 't3',
-      'open' => 1,
-      'items' => 
-      array (
       ),
     ),
     2 => 
@@ -52,16 +58,10 @@ $module = array (
     ),
     3 => 
     array (
-      'title' => 'tespanel',
+      'title' => 't3',
       'open' => 1,
       'items' => 
       array (
-        0 => 
-        array (
-          'title' => 'Halloooo',
-          'target' => 'content',
-          'link' => 'test/hallo.php',
-        ),
       ),
     ),
   ),

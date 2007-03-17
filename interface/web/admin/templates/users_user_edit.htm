@@ -1,47 +1,51 @@
 <table width="500" border="0" cellspacing="0" cellpadding="2">
   <tr>
-    <td width="126" class="frmText11">{tmpl_var name='username_txt'}:</td>
-    <td width="366" class="frmText11"><input name="username" type="text" class="text" value="{tmpl_var name='username'}" size="15" maxlength="30"></td>
+    <td class="frmText11">{tmpl_var name='username_txt'}:</td>
+    <td class="frmText11"><input name="username" type="text" class="text" value="{tmpl_var name='username'}" size="15" maxlength="30"></td>
   </tr>
   <tr>
-    <td width="126" class="frmText11">{tmpl_var name='passwort_txt'}:</td>
-    <td width="366" class="frmText11"><input name="passwort" type="password" class="text" value="{tmpl_var name='passwort'}" size="15" maxlength="100"></td>
+    <td class="frmText11">{tmpl_var name='passwort_txt'}:</td>
+    <td class="frmText11"><input name="passwort" type="password" class="text" value="{tmpl_var name='passwort'}" size="15" maxlength="100"></td>
   </tr>
   <tr>
-    <td width="126" class="frmText11">{tmpl_var name='modules_txt'}:</td>
-    <td width="366" class="frmText11">{tmpl_var name='modules'}</td>
+    <td class="frmText11">{tmpl_var name='modules_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='modules'}</td>
   </tr>
   <tr>
-    <td width="126" class="frmText11">{tmpl_var name='startmodule_txt'}:</td>
-    <td width="366" class="frmText11">
+    <td class="frmText11">{tmpl_var name='startmodule_txt'}:</td>
+    <td class="frmText11">
 		<select name="startmodule" class="text">
 			{tmpl_var name='startmodule'}
 		</select>
 	</td>
   </tr>
   <tr>
-    <td width="126" class="frmText11" valign="top">{tmpl_var name='app_theme_txt'}:</td>
-    <td width="366" class="frmText11">{tmpl_var name='app_theme'}</td>
+    <td class="frmText11">{tmpl_var name='app_theme_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='app_theme'}</td>
   </tr>
   <tr>
-    <td width="126" class="frmText11" valign="top">{tmpl_var name='typ_txt'}:</td>
-    <td width="366" class="frmText11">{tmpl_var name='typ'}</td>
+    <td class="frmText11">{tmpl_var name='typ_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='typ'}</td>
   </tr>
   <tr>
-    <td width="126" class="frmText11">{tmpl_var name='active_txt'}:</td>
-    <td width="366" class="frmText11">{tmpl_var name='active'}</td>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
   </tr>
   <tr>
-    <td width="126" class="frmText11">{tmpl_var name='language_txt'}:</td>
-    <td width="366" class="frmText11">
+    <td class="frmText11">{tmpl_var name='language_txt'}:</td>
+    <td class="frmText11">
 		<select name="language" class="text">
 			{tmpl_var name='language'}
 		</select>
 	</td>
-  </tr><tr>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
     <td>&nbsp;</td>
-    <td><input name="Speichern" type="submit" class="button" value="Speichern">
-      <input name="Abbrechen" type="button" class="button" value="Abbrechen" onClick="self.location.href='users_list.php';">
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/users_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/users_list.php');"><div class="buttonEnding"></div>
     </td>
   </tr>
 </table>

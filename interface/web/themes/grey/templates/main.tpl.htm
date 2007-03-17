@@ -1,48 +1,145 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><tmpl_var name="app_title"></title>
-<meta http-equiv="Content-Type" content="{tmpl_var name='html_content_encoding'}">
-<link href="themes/{tmpl_var name="theme"}/style.css" rel="stylesheet" type="text/css">
+<title>ISPConfig</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="themes/default/style.css" rel="stylesheet" type="text/css">
+<script src="js/prototype.js"></script>
 <script language= "JavaScript">
-function breakout()
-{
-if (window.top != window.self)
- {
- window.top.location="index.php"
- }
+
+function capp(module) {
+	
+	// getting
+	
+	
+	
 }
+
+function submitForm(formname) {
+	var params = Form.serialize($('pageForm'));
+	var req1 = new Ajax.Request( 
+		'content.php', 
+		{
+			method:'post',
+			asynchronous: false, 
+			parameters: params,
+			onFailure: reportError,
+			onComplete: showResponse
+		}
+	); 
+}
+
+function showResponse(request) {
+	$('pageContent').innerHTML = request.responseText;
+}
+
+
+/*
+function showResponse(request) {
+	if(request.responseText.indexOf("HEADER_REDIRECT:") > -1) {
+		var parts = request.responseText.split(":");
+		//alert(parts[1]);
+		loadContent2(parts[1],'');
+	} else {
+		$('pageContent').innerHTML = request.responseText;
+	}
+}
+*/
+
+function loadContent2(pagename,params) {
+	
+	var req1 = new Ajax.Request( 
+		'admin/index.php', 
+		{
+			method:'post',
+			asynchronous: false, 
+			parameters: params,
+			onFailure: reportError,
+			onComplete: showResponse
+		}
+	); 
+
+}
+
+function loadContent(pagename,params) {
+	
+	var contentAjax = new Ajax.Updater(
+			'pageContent', 
+			pagename, 
+			{
+				method: 'post', 
+				parameters: parameters,
+				asynchronous: false,
+				onFailure: reportError
+			});
+
+}
+
+function loadInitContent() {
+	
+	var contentAjax = new Ajax.Updater(
+			'pageContent', 
+			'content.php?s_mod=login&s_pg=index', 
+			{
+				method: 'get', 
+				parameters: '',
+				onFailure: reportError
+			});
+	
+	var sideNavAjax = new Ajax.Updater(
+			'sideNav', 
+			'nav.php', 
+			{
+				method: 'get', 
+				parameters: 'nav=side',
+				onFailure: reportError
+			});
+	
+	var topNavAjax = new Ajax.Updater(
+			'topNav', 
+			'nav.php', 
+			{
+				method: 'get', 
+				parameters: 'nav=top',
+				onFailure: reportError
+			});
+
+}
+
+function reportError(request)
+	{
+		alert('Sorry. There was an error.');
+	}
+
 </script>
 </head>
-
-<body bgcolor="#FFFFFF" leftmargin=0 topmargin=0 marginwidth=0 marginheight=0 onLoad="breakout()">
+<body bgcolor="#FFFFFF" leftmargin=0 topmargin=0 marginwidth=0 marginheight=0 onLoad="loadInitContent()"><form method="post" action="" id="pageForm" enctype="multipart/form-data" style="margin:0px;">
 <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
   <tr bgcolor="#496FA8">
-    <td height="30" colspan="2" align="right" valign="top" background="themes/{tmpl_var name="theme"}/images/bg_nav_1.png"><img src="themes/grey/images/left_logo_1.png" style="float:left;"><a href="login/logout.php?phpsessid=<tmpl_var name='phpsessid'>"><img src="themes/grey/images/logout.png" style="float:right;" border="0"></a></td>
+    <td height="30" colspan="2" align="right" valign="top" background="themes/default/images/bg_nav_1.jpg"><img src="themes/default/images/mydnsconfig_logo.gif" border="0" alt=""></td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+    <td height="1" colspan="2" align="center" valign="bottom"><img src="themes/default/images/x.gif" width="1" height="1"></td>
   </tr>
   <tr>
-    <td width="128" height="18" align="left" valign="middle" background="themes/{tmpl_var name="theme"}/images/nav_top_bg_2.png" ><img src="themes/grey/images/left_logo_2.png" style="float:left;"><br>
+    <td width="128" height="18" align="left" valign="middle" bgcolor="#496FA8"><img src="themes/default/images/login_logout.gif" width="115" height="10" border="0" usemap="#Map"><br>
     </td>
-    <td height="18" align="left" valign="bottom" bgcolor="#E3E3E3">
-        <table width="100%" height="18" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <tmpl_loop name="nav_top">
-        <tmpl_if name="active">
-        <td width="{tmpl_var name='tab_width'}" class="navTopSelected"><a href="#" class="txtNavTopSelected"><tmpl_var name="title"></a></td>
-        <tmpl_else>
-        <td width="{tmpl_var name='tab_width'}" class="navTopDefault"><a href="capp.php?mod=<tmpl_var name='module'>&phpsessid=<tmpl_var name='phpsessid'>" class="txtNavTopDefault"><tmpl_var name="title"></a></td>
-        </tmpl_if>
-        </tmpl_loop>
-        <td align="right" valign="middle" class="navTop" background="themes/{tmpl_var name="theme"}/images/bg_nav_2.png"><img src="themes/{tmpl_var name="theme"}/images/x.gif" width="123" height="1"> </td>
-          </tr>
-    </table>
-    </td>
+    <td height="18" align="left" valign="bottom" bgcolor="#496FA8"><div id="topNav">&nbsp;</div></td>
   </tr>
-  <tmpl_dyninclude name="module_tpl">
-</table>
+  <tr>
+    <td width="128" height="26" background="themes/default/images/nav_top_bg.gif">&nbsp;</td>
+    <td rowspan="3" class="mainContent"><div id="pageContent" style="width:100%; height:100%;"></div></td>
+  </tr>
+  <tr>
+    <td width="128" align="right" valign="top" bgcolor="#DEE4F2"><div id="sideNav">&nbsp;</div></td>
+  </tr>
+  <tr>
+    <td align="left" valign="bottom" bgcolor="#DEE4F2">&nbsp;</td>
+  </tr>
+</table></form>
 <map name="Map">
-<area shape="rect" coords="68,2,108,20" href="login/logout.php?phpsessid=<tmpl_var name='phpsessid'>">
-<area shape="rect" coords="8,2,50,7" href="help/index.php?phpsessid=<tmpl_var name='phpsessid'>" target="content">
+  <area shape="rect" coords="66,1,106,19" href="login/logout.php?phpsessid=d4307711e9e4905b0bf590198a1fc4a5">
+  <area shape="rect" coords="5,1,50,10" href="help/index.php?phpsessid=d4307711e9e4905b0bf590198a1fc4a5" target="content">
 </map>
 </body>
 </html>

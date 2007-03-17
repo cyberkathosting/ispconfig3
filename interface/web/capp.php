@@ -46,32 +46,8 @@ if(!in_array($mod,$user_modules)) $app->error($app->lng(301));
 if(is_file($mod."/lib/module.conf.php")) {
 	include_once($mod."/lib/module.conf.php");
 	$_SESSION["s"]["module"] = $module;
+	echo "HEADER_REDIRECT:".$_SESSION["s"]["module"]["startpage"];
 } else {
 	$app->error($app->lng(302));
 }
-
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>42go</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language= "JavaScript">
-  <!--Break out of frames
-  function breakout() {
-    if (top.frames.length > 0)
-	{
-    	top.location='index.php?phpsessid=<? echo $_SESSION["s"]["id"]?>';
-	}
-	else
-	{
-		window.location='index.php?phpsessid=<? echo $_SESSION["s"]["id"]?>';
-	}
-  }
-  //-->
-</script>
-</head>
-
-<body onLoad="breakout()">
-</body>
-</html>

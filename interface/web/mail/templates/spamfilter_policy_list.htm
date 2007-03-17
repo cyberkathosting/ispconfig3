@@ -1,7 +1,6 @@
-<form name="myform" action="spamfilter_policy_list.php" method="POST">
 <div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
-<input type="button" value="{tmpl_var name="add_new_record_txt"}" onClick="location.href='spamfilter_policy_edit.php'" /><br /><br />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
+<input type="button" value="{tmpl_var name="add_new_record_txt"}" class="button" onClick="loadContent('mail/spamfilter_policy_edit.php');" /><div class="buttonEnding"></div><br /><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4" class="listTable">
   <tr>
     <td class="tblHead"><tmpl_var name="policy_name_txt"></td>
     <td class="tblHead"><tmpl_var name="virus_lover_txt"></td>
@@ -12,20 +11,20 @@
   </tr>
   <tr>
     <td class="frmText11"><input type="text" name="search_policy_name" value="{tmpl_var name='search_policy_name'}" class="text" /></td>
-    <td class="frmText11"><select name="search_virus_lover" onChange="document.myform.submit();">{tmpl_var name='search_virus_lover'}</select></td>
-    <td class="frmText11"><select name="search_spam_lover" onChange="document.myform.submit();">{tmpl_var name='search_spam_lover'}</select></td>
-    <td class="frmText11"><select name="search_banned_files_lover" onChange="document.myform.submit();">{tmpl_var name='search_banned_files_lover'}</select></td>
-    <td class="frmText11"><select name="search_bad_header_lover" onChange="document.myform.submit();">{tmpl_var name='search_bad_header_lover'}</select></td>
-    <td class="frmText11" align="right"><input name="Filter" type="submit" id="Filter" value="{tmpl_var name="filter_txt"}"></td>
+    <td class="frmText11"><select name="search_virus_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_virus_lover'}</select></td>
+    <td class="frmText11"><select name="search_spam_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_spam_lover'}</select></td>
+    <td class="frmText11"><select name="search_banned_files_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_banned_files_lover'}</select></td>
+    <td class="frmText11"><select name="search_bad_header_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_bad_header_lover'}</select></td>
+    <td class="frmText11" align="right"><input name="Filter" type="button" id="Filter" value="{tmpl_var name="filter_txt"}" class="button" onClick="submitForm('pageForm','mail/spamfilter_policy_list.php');"><div class="buttonEnding"></div></td>
   </tr>
   <tmpl_loop name="records">
   <tr bgcolor="{tmpl_var name="bgcolor"}">
-    <td class="frmText11"><a href="spamfilter_policy_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="policy_name"}</a></td>
-    <td class="frmText11"><a href="spamfilter_policy_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="virus_lover"}</a></td>
-    <td class="frmText11"><a href="spamfilter_policy_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="spam_lover"}</a></td>
-    <td class="frmText11"><a href="spamfilter_policy_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="banned_files_lover"}</a></td>
-    <td class="frmText11"><a href="spamfilter_policy_edit.php?id={tmpl_var name='id'}" class="frmText11">{tmpl_var name="bad_header_lover"}</a></td>
-    <td class="frmText11" align="right">[<a href="javascript: del_record('spamfilter_policy_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
+    <td class="frmText11"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="policy_name"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="virus_lover"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="spam_lover"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="banned_files_lover"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="bad_header_lover"}</a></td>
+    <td class="frmText11" align="right">[<a href="javascript: del_record('mail/spamfilter_policy_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
   </tr>
   </tmpl_loop>
 
@@ -33,4 +32,3 @@
   	<td colspan="6" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
   </tr>
 </table>
-</form>
