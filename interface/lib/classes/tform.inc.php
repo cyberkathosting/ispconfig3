@@ -672,7 +672,8 @@ class tform {
                                                 if($field['formtype'] == 'PASSWORD') {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
-                                                                $sql_insert_val .= "encrypt('".$record[$key]."'), ";
+                                                                // $sql_insert_val .= "encrypt('".$record[$key]."'), ";
+																$sql_insert_val .= "'".crypt($record[$key],substr(md5(time()),0,2))."', ";
                                                         } else {
                                                                 $sql_insert_val .= "md5('".$record[$key]."'), ";
                                                         }
@@ -690,7 +691,8 @@ class tform {
                                         } else {
                                                 if($field['formtype'] == 'PASSWORD') {
                                                         if($field['encryption'] == 'CRYPT') {
-                                                                $sql_update .= "`$key` = encrypt('".$record[$key]."'), ";
+                                                                // $sql_update .= "`$key` = encrypt('".$record[$key]."'), ";
+																$sql_update .= "`$key` = '".crypt($record[$key],substr(md5(time()),0,2))."', ";
                                                         } else {
                                                                 $sql_update .= "`$key` = md5('".$record[$key]."'), ";
                                                         }
