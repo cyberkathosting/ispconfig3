@@ -1,0 +1,63 @@
+#
+# Import variables
+#
+
+LOGNAME=tolower("$LOGNAME")
+EXTENSION="$1"
+RECIPIENT=tolower("$2")
+USER="$3"
+HOST="$4"
+SENDER="$5"
+DEFAULT="{dist_postfix_vmail_mailbox_base}/$HOST/$USER/."
+
+if ( "$EXTENSION" ne "" )
+{
+  DELIMITER="+"
+}
+
+if (!$SENDER)
+{
+  SENDER = "<>"
+}
+
+#
+# Autocreate maildir, if not existant
+#
+
+`test -e {dist_postfix_vmail_mailbox_base}/$HOST`
+if ( $RETURNCODE != 0 )
+{
+  `mkdir {dist_postfix_vmail_mailbox_base}/$HOST`
+}
+
+`test -e {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
+if ( $RETURNCODE != 0 )
+{
+  `maildirmake {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
+  `chmod -R 0700 {dist_postfix_vmail_mailbox_base}/$HOST`
+}
+
+#
+# Check that user has his own maildrop include,
+# if not available, check if $DEFAULT is set
+# (newer maildrop get's that from the DB and updates
+# it) and deliver or fail temporarily if not available
+#
+
+`test -f {dist_postfix_vmail_mailbox_base}/mailfilters/$LOGNAME`
+if ( $RETURNCODE == 0 )
+{
+  include "{dist_postfix_vmail_mailbox_base}/mailfilters/$LOGNAME"
+}
+else
+{
+  if ( "$DEFAULT" ne "" )
+  {
+    to "$DEFAULT"
+  }
+  else
+  {
+    EXITCODE=75
+    exit
+  }
+}

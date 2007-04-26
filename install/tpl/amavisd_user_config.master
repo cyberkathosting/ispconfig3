@@ -1,0 +1,55 @@
+use strict;
+
+#
+# Place your configuration directives here.  They will override those in
+# earlier files.
+#
+# See /usr/share/doc/amavisd-new/ for documentation and examples of
+# the directives you can use in this file
+#
+
+@bypass_virus_checks_maps = (
+   \%bypass_virus_checks, \@bypass_virus_checks_acl, \$bypass_virus_checks_re);
+
+@bypass_spam_checks_maps = (
+   \%bypass_spam_checks, \@bypass_spam_checks_acl, \$bypass_spam_checks_re);
+
+#   
+# Database connection settings
+#
+
+@lookup_sql_dsn =
+   ( ['DBI:mysql:database={mysql_server_database};host={mysql_server_ip};port={mysql_server_port}', '{mysql_server_ispconfig_user}', '{mysql_server_ispconfig_password}'] );
+
+# @storage_sql_dsn = @lookup_sql_dsn;  # none, same, or separate database
+#$sql_select_policy = 'SELECT "Y" as local FROM mail_domain WHERE CONCAT("@",domain) IN (%k)';
+# $banned_files_quarantine_method = 'sql';
+# $spam_quarantine_method         = 'sql';
+
+#
+# SQL Select statements
+#
+
+$sql_select_policy =
+   'SELECT *,spamfilter_users.id'.
+   ' FROM spamfilter_users LEFT JOIN spamfilter_policy ON spamfilter_users.policy_id=spamfilter_policy.id'.
+   ' WHERE spamfilter_users.email IN (%k) ORDER BY spamfilter_users.priority DESC';
+
+
+$sql_select_white_black_list = 'SELECT wb FROM spamfilter_wblist'.
+    ' WHERE (spamfilter_wblist.rid=?) AND (spamfilter_wblist.email IN (%k))' .
+    ' ORDER BY spamfilter_wblist.priority DESC';
+
+
+#
+# Enable Logging
+#
+
+$DO_SYSLOG = 1;
+$LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
+
+$log_level = 5;                # (defaults to 0)
+
+
+#------------ Do not modify anything below this line -------------
+1;  # insure a defined return

@@ -1,0 +1,8 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+table        = mail_access
+select_field = access
+where_field  = source
+additional_conditions = and type = 'client' and active = 'y'
+hosts = {mysql_server_ip}

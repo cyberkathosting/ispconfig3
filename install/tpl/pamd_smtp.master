@@ -1,0 +1,2 @@
+auth    required   pam_mysql.so user={mysql_server_ispconfig_user} passwd={mysql_server_ispconfig_password} host={mysql_server_ip} db={mysql_server_database} table=mail_user usercolumn=email passwdcolumn=password crypt=1
+account sufficient pam_mysql.so user={mysql_server_ispconfig_user} passwd={mysql_server_ispconfig_password} host={mysql_server_ip} db={mysql_server_database} table=mail_user usercolumn=email passwdcolumn=password crypt=1
