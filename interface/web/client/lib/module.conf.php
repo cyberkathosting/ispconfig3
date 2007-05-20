@@ -1,30 +1,30 @@
 <?php
 $module = array (
-  'name' => 'resellers',
-  'title' => 'Resellers',
+  'name' => 'client',
+  'title' => 'Client',
   'template' => 'module.tpl.htm',
   'navframe_page' => '',
-  'startpage' => 'resellers/reseller_list.php',
+  'startpage' => 'client/client_list.php',
   'tab_width' => '',
   'nav' => 
   array (
     0 => 
     array (
-      'title' => 'Resellers',
+      'title' => 'Clients',
       'open' => 1,
       'items' => 
       array (
         0 => 
         array (
-          'title' => 'Add Reseller',
+          'title' => 'Add Client',
           'target' => 'content',
-          'link' => 'resellers/reseller_edit.php',
+          'link' => 'client/client_edit.php',
         ),
         1 => 
         array (
-          'title' => 'Edit Reseller',
+          'title' => 'Edit Client',
           'target' => 'content',
-          'link' => 'resellers/reseller_list.php',
+          'link' => 'client/client_list.php',
         ),
       ),
     ),

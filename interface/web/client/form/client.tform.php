@@ -33,15 +33,15 @@
 
 */
 
-$form["title"] 			= "Reseller";
+$form["title"] 			= "Client";
 $form["description"] 	= "";
-$form["name"] 			= "reseller";
-$form["action"]			= "reseller_edit.php";
-$form["db_table"]		= "reseller";
-$form["db_table_idx"]	= "reseller_id";
+$form["name"] 			= "client";
+$form["action"]			= "client_edit.php";
+$form["db_table"]		= "client";
+$form["db_table_idx"]	= "client_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "address";
-$form["list_default"]	= "reseller_list.php";
+$form["list_default"]	= "client_list.php";
 $form["auth"]			= 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -53,12 +53,12 @@ $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d =
 $form["tabs"]['address'] = array (
 	'title' 	=> "Address",
 	'width' 	=> 100,
-	'template' 	=> "templates/reseller_edit_address.htm",
+	'template' 	=> "templates/client_edit_address.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
 	##################################
-		'company' => array (
+		'company_name' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
@@ -69,36 +69,11 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
-		'title' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'value'		=> array('Mrs.' => 'Mrs.','Mr.'=>'Mr.','Company'=>'Company'),
-			'separator'	=> '',
-			'width'		=> '',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'firstname' => array (
+		'contact_name' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'firstname_error_empty'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'surname' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'surname_error_empty'),
+														'errmsg'=> 'contact_error_empty'),
 										),
 			'default'	=> '',
 			'value'		=> '',
@@ -131,6 +106,17 @@ $form["tabs"]['address'] = array (
 			'cols'		=> ''
 		),
 		'city' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'state' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
@@ -230,7 +216,7 @@ $form["tabs"]['address'] = array (
 			'cols'		=> '30'
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
@@ -238,44 +224,16 @@ $form["tabs"]['address'] = array (
 $form["tabs"]['limits'] = array (
 	'title' 	=> "Limits",
 	'width' 	=> 80,
-	'template' 	=> "templates/reseller_edit_limits.htm",
+	'template' 	=> "templates/client_edit_limits.htm",
 	'fields' 	=> array (
 	##################################
-	# Beginn Datatable fields
+	# Begin Datatable fields
 	##################################
-		'limit_client' => array (
+		'limit_maildomain' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
-														'errmsg'=> 'limit_client_error_notint'),
-									),
-			'default'	=> '-1',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '10',
-			'maxlength'	=> '10',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'limit_domain' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
-														'errmsg'=> 'limit_domain_error_notint'),
-									),
-			'default'	=> '-1',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '10',
-			'maxlength'	=> '10',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'limit_subdomain' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
-														'errmsg'=> 'limit_client_subdomain_notint'),
+														'errmsg'=> 'limit_maildomain_error_notint'),
 									),
 			'default'	=> '-1',
 			'value'		=> '',
@@ -313,11 +271,53 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
-		'limit_webquota' => array (
+		'limit_mailcatchall' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
-														'errmsg'=> 'limit_webquota_error_notint'),
+														'errmsg'=> 'limit_mailcatchall_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_mailrouting' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_mailrouting_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_mailfilter' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_mailfilter_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_fetchmail' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_mailfetchmail_error_notint'),
 									),
 			'default'	=> '-1',
 			'value'		=> '',
@@ -341,51 +341,75 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
-		'limit_database' => array (
-			'datatype'	=> 'INTEGER',
+	##################################
+	# END Datatable fields
+	##################################
+	)
+);
+
+$form["tabs"]['login'] = array (
+	'title' 	=> "Login",
+	'width' 	=> 100,
+	'template' 	=> "templates/client_edit_login.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'username' => array (
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
-														'errmsg'=> 'limit_database_error_notint'),
-									),
-			'default'	=> '-1',
+			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',
-			'width'		=> '10',
-			'maxlength'	=> '10',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'password' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'PASSWORD',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'language' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> $conf["language"],
+			'value'		=> array('en' => 'en'),
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'theme' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'default',
+			'value'		=> array('default' => 'default'),
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
 			'rows'		=> '',
 			'cols'		=> ''
 		),
 	##################################
-	# ENDE Datatable fields
-	##################################
-	)
-);
-
-$form["tabs"]['users'] = array (
-	'title' 	=> "CP Users",
-	'width' 	=> 100,
-	'template' 	=> "templates/reseller_edit_users.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datatable fields
-	##################################
-		
-	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	),
-	'plugins' => array ( 
-		'cpuser_list' => array (
-			'class' 		=> 'plugin_listview',
-			'options'		=> array('listdef' => 'list/users.list.php')
-		)
-	)
 );
 
+/*
 $form["tabs"]['ipaddress'] = array (
 	'title' 	=> "IP Addresses",
 	'width' 	=> 100,
-	'template' 	=> "templates/reseller_edit_ipaddress.htm",
+	'template' 	=> "templates/client_edit_ipaddress.htm",
 	'fields' 	=> array (
 	##################################
 	# Beginn Datatable fields
@@ -402,7 +426,7 @@ $form["tabs"]['ipaddress'] = array (
 	##################################
 	)
 );
-
+*/
 
 
 ?>

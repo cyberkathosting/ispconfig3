@@ -32,8 +32,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/reseller.list.php";
-$tform_def_file = "form/reseller.tform.php";
+$list_def_file = "list/client.list.php";
+$tform_def_file = "form/client.tform.php";
 
 /******************************************
 * End Form configuration

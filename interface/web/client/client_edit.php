@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/reseller.tform.php";
+$tform_def_file = "form/client.tform.php";
 
 /******************************************
 * End Form configuration

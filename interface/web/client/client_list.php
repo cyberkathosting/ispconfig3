@@ -6,7 +6,7 @@ require_once('../../lib/app.inc.php');
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/reseller.list.php";
+$list_def_file = "list/client.list.php";
 
 /******************************************
 * End Form configuration

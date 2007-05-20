@@ -16,8 +16,12 @@
 
 }
 .navTopDefault {
-	background-color: #496FA8;
-	border: 1px solid #BFCBD9;
+	background-color: #DEE4F2;
+	/*border: 1px solid #FFFFFF;*/
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px none #FFFFFF;
+	border-bottom: 0px none #BFCBD9;
+	border-left: 1px solid #FFFFFF;
 	text-align: center;
 
 
@@ -38,7 +42,7 @@
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	font-weight: bold;
-	color: #FFFFFF;
+	color: #496FA8;
 	text-decoration: none;
 }
 .txtNavTopSelected {

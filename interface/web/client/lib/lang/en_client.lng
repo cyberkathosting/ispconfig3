@@ -13,6 +13,9 @@ $wb["fax_txt"] = 'Fax';
 $wb["email_txt"] = 'Email';
 $wb["internet_txt"] = 'Internet';
 $wb["icq_txt"] = 'ICQ';
+$wb["notes_txt"] = 'Notes';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
 $wb["limit_client_txt"] = 'limit_client';
 $wb["limit_domain_txt"] = 'limit_domain';
 $wb["limit_subdomain_txt"] = 'limit_subdomain';
@@ -22,16 +25,7 @@ $wb["limit_webquota_txt"] = 'limit_webquota';
 $wb["limit_mailquota_txt"] = 'limit_mailquota';
 $wb["limit_database_txt"] = 'limit_database';
 $wb["ip_address_txt"] = 'ip_address';
-$wb["notes_txt"] = 'Notes';
-$wb["btn_save_txt"] = 'Save';
-$wb["btn_cancel_txt"] = 'Cancel';
-
-// Error Messages
-$wb['limit_client_error_notint'] = 'Client Limit is not a number.';
-$wb['firstname_error_empty'] = 'Firstname is empty.';
-$wb['surname_error_empty'] = 'Surname is empty.';
-
-
-
-
+$wb["limit_client_error_notint"] = 'Client Limit is not a number.';
+$wb["firstname_error_empty"] = 'Firstname is empty.';
+$wb["surname_error_empty"] = 'Surname is empty.';
 ?>

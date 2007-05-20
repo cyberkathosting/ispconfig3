@@ -1,0 +1,31 @@
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<input type="button" value="{tmpl_var name="add_new_record_txt"}" class="button" onClick="loadContent('client/client_edit.php');" /><div class="buttonEnding"></div><br /><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4" class="listTable">
+  <tr>
+    <td class="tblHead"><tmpl_var name="company_txt"></td>
+    <td class="tblHead"><tmpl_var name="firstname_txt"></td>
+    <td class="tblHead"><tmpl_var name="surname_txt"></td>
+    <td class="tblHead"><tmpl_var name="city_txt"></td>
+    <td class="tblHead">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="frmText11"><input type="text" name="search_company" value="{tmpl_var name='search_company'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_firstname" value="{tmpl_var name='search_firstname'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_surname" value="{tmpl_var name='search_surname'}" class="text" /></td>
+    <td class="frmText11"><input type="text" name="search_city" value="{tmpl_var name='search_city'}" class="text" /></td>
+    <td class="frmText11" align="right"><input name="Filter" type="button" id="Filter" value="{tmpl_var name="filter_txt"}" class="button" onClick="submitForm('pageForm','client/client_list.php');"><div class="buttonEnding"></div></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+    <td class="frmText11"><a href="#" onClick="loadContent('client/client_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="company"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('client/client_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="firstname"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('client/client_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="surname"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('client/client_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="city"}</a></td>
+    <td class="frmText11" align="right">[<a href="javascript: del_record('client/client_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
+  </tr>
+  </tmpl_loop>
+
+  <tr>
+  	<td colspan="5" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
+  </tr>
+</table>

@@ -13,13 +13,13 @@
 
 
 // Name of the list
-$liste["name"] 				= "resellers";
+$liste["name"] 				= "clients";
 
 // Database table
-$liste["table"] 			= "reseller";
+$liste["table"] 			= "client";
 
 // Index index field of the database table
-$liste["table_idx"]			= "reseller_id";
+$liste["table_idx"]			= "client_id";
 
 // Search Field Prefix
 $liste["search_prefix"] 	= "search_";
@@ -28,13 +28,13 @@ $liste["search_prefix"] 	= "search_";
 $liste["records_per_page"] 	= 15;
 
 // Script File of the list
-$liste["file"]				= "reseller_list.php";
+$liste["file"]				= "client_list.php";
 
 // Script file of the edit form
-$liste["edit_file"]			= "reseller_edit.php";
+$liste["edit_file"]			= "client_edit.php";
 
 // Script File of the delete script
-$liste["delete_file"]		= "reseller_del.php";
+$liste["delete_file"]		= "client_del.php";
 
 // Paging Template
 $liste["paging_tpl"]		= "templates/paging.tpl.htm";
