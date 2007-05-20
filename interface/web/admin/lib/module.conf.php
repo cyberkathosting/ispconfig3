@@ -79,6 +79,7 @@ $module["nav"][] = array(	'title'	=> 'DB Sync.',
 // aufräumen
 unset($items);
 
+/*
 $items[] = array( 'title' 	=> "Add user",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/filesync_edit.php');
@@ -95,7 +96,7 @@ $module["nav"][] = array(	'title'	=> 'File Sync.',
 
 // aufräumen
 unset($items);
-
+*/
 
 
 // Getting the admin options from other modules

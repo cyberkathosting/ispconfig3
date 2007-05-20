@@ -28,7 +28,8 @@ $module = array (
         ),
       ),
     ),
-    1 => 
+    /*
+	1 => 
     array (
       'title' => 'Formulare',
       'open' => '1',
@@ -88,6 +89,7 @@ $module = array (
         ),
       ),
     ),
+	*/
   ),
 )
 ?>
