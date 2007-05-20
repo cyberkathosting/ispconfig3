@@ -104,10 +104,11 @@ class tform {
         var $errorMessage = '';
 
         var $dateformat = "d.m.Y";
-    var $formDef;
+    	var $formDef;
         var $wordbook;
         var $module;
         var $primary_id;
+		var $diffrec = array();
 
         /**
         * Laden der Tabellendefinition
@@ -611,7 +612,7 @@ class tform {
                                                 $validator_class = $validator['class'];
                                                 $validator_function = $validator['function'];
                                                 $app->uses($validator_class);
-                                                $this->errorMessage .= $app->$validator_class->$validator_function($validator);
+                                                $this->errorMessage .= $app->$validator_class->$validator_function($field_name, $field_value, $validator);
                                         } else {
                                                 $this->errorMessage .= "Custom validator class or function is empty<br>\r\n";
                                         }
@@ -852,6 +853,8 @@ class tform {
 				
 				// Insert the server_id, if the record has a server_id
 				$server_id = ($record_old["server_id"] > 0)?$record_old["server_id"]:0;
+				
+				$this->diffrec = $diffrec;
 
                 if(count($diffrec) > 0) {
                         

@@ -1,0 +1,44 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11" width="280">{tmpl_var name='limit_maildomain_txt'}:</td>
+    <td class="frmText11" width="220"><input name="limit_maildomain" type="text" class="text" value="{tmpl_var name='limit_maildomain'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailbox_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailbox" type="text" class="text" value="{tmpl_var name='limit_mailbox'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailalias_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailalias" type="text" class="text" value="{tmpl_var name='limit_mailalias'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailcatchall_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailcatchall" type="text" class="text" value="{tmpl_var name='limit_mailcatchall'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailrouting_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailrouting" type="text" class="text" value="{tmpl_var name='limit_mailrouting'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailfilter_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailfilter" type="text" class="text" value="{tmpl_var name='limit_mailfilter'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_fetchmail_txt'}:</td>
+    <td class="frmText11"><input name="limit_fetchmail" type="text" class="text" value="{tmpl_var name='limit_fetchmail'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailquota_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailquota" type="text" class="text" value="{tmpl_var name='limit_mailquota'}" size="10" maxlength="10"> MB</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/client_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/client_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
