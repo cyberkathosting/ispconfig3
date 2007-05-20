@@ -47,7 +47,7 @@ $liste["auth"]				= "yes";
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(	'field'		=> "company",
+$liste["item"][] = array(	'field'		=> "company_name",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -56,16 +56,7 @@ $liste["item"][] = array(	'field'		=> "company",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "firstname",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
-
-$liste["item"][] = array(	'field'		=> "surname",
+$liste["item"][] = array(	'field'		=> "contact_name",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -82,5 +73,15 @@ $liste["item"][] = array(	'field'		=> "city",
 							'suffix'	=> "%",
 							'width'		=> "",
 							'value'		=> "");
+
+$liste["item"][] = array(	'field'		=> "country",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "TEXT",
+							'op'		=> "like",
+							'prefix'	=> "%",
+							'suffix'	=> "%",
+							'width'		=> "",
+							'value'		=> "");
+
 
 ?>

@@ -388,11 +388,11 @@ $form["tabs"]['login'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
-		'theme' => array (
+		'usertheme' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'default',
-			'value'		=> array('default' => 'default'),
+			'value'		=> array('default' => 'default','grey' => 'grey'),
 			'separator'	=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255',
