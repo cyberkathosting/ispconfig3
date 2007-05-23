@@ -100,7 +100,9 @@ class page_action extends tform_actions {
 		// password changed
 		if($this->dataRecord["password"] != '') {
 			$password = addslashes($this->dataRecord["password"]);
+			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET passwort = md5('$password') WHERE client_id = $client_id";
+			$app->db->query($sql);
 		}
 		
 		

@@ -96,6 +96,8 @@ class tform_actions {
 
         function onUpdate() {
                 global $app, $conf;
+				
+				$this->onBeforeUpdate();
 
                 $ext_where = '';
                 $sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'UPDATE',$this->id,$ext_where);
@@ -153,6 +155,8 @@ class tform_actions {
 
         function onInsert() {
                 global $app, $conf;
+				
+				$this->onBeforeInsert();
 
                 $ext_where = '';
                 $sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'INSERT',$this->id,$ext_where);
@@ -199,13 +203,21 @@ class tform_actions {
                 }
         }
 
-                function onAfterUpdate() {
-                        global $app, $conf;
-                }
+        function onBeforeUpdate() {
+            global $app, $conf;
+        }
 
-                function onAfterInsert() {
-                        global $app, $conf;
-                }
+        function onBeforeInsert() {
+            global $app, $conf;
+        }
+		
+		function onAfterUpdate() {
+            global $app, $conf;
+        }
+
+        function onAfterInsert() {
+            global $app, $conf;
+        }
 
 
         /**
@@ -480,7 +492,8 @@ class tform_actions {
                         }
                         if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
                 } else {
-                        $record = $app->tform->encode($_POST,$this->active_tab);
+                        // $record = $app->tform->encode($_POST,$this->active_tab);
+						$record = $app->tform->encode($this->dataRecord,$this->active_tab);
                 }
 
                 $this->dataRecord = $record;

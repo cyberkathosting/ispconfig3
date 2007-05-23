@@ -8,5 +8,6 @@ $wb["btn_cancel_txt"] = 'Cancel';
 $wb["domain_error_empty"] = 'Domain is empty.';
 $wb["domain_error_unique"] = 'Duplicate Domain.';
 $wb["domain_error_regex"] = 'Invalid domain name.';
+$wb["client_txt"] = 'Client';
 
 ?>

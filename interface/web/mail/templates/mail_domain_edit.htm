@@ -1,4 +1,5 @@
 <table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tmpl_if name="is_admin">
   <tr>
     <td class="frmText11">{tmpl_var name='server_id_txt'}:</td>
     <td class="frmText11">
@@ -7,6 +8,15 @@
 		</select>
 	</td>
   </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='client_txt'}:</td>
+    <td class="frmText11">
+		<select name="client_group_id" class="text">
+			{tmpl_var name='client_group_id'}
+		</select>
+	</td>
+  </tr>
+  </tmpl_if>
   <tr>
     <td class="frmText11">{tmpl_var name='domain_txt'}:</td>
     <td class="frmText11"><input name="domain" type="text" class="text" value="{tmpl_var name='domain'}" size="30" maxlength="255"></td>

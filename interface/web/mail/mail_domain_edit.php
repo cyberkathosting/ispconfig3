@@ -49,8 +49,56 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
 
-// let tform_actions handle the page
-$app->tform_actions->onLoad();
+class page_action extends tform_actions {
+
+	function onShowEnd() {
+		global $app, $conf;
+		
+		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+			// Getting Domains of the user
+			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			$clients = $app->db->queryAllRecords($sql);
+			$client_select = "<option value='0'></option>";
+			if(is_array($clients)) {
+				foreach( $clients as $client) {
+					$selected = ($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+				}
+			}
+		$app->tpl->setVar("client_group_id",$client_select);
+		}
+		
+		parent::onShowEnd();
+	}
+	
+	function onSubmit() {
+		if($_SESSION["s"]["user"]["typ"] != 'admin') unset($this->dataRecord["client_group_id"]);
+		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+		
+		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id WHERE domain_id = ".$this->id);
+		}
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id WHERE domain_id = ".$this->id);
+		}
+	}
+	
+}
+
+$page = new page_action;
+$page->onLoad();
 
 ?>

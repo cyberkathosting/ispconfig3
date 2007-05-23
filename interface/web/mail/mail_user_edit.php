@@ -53,6 +53,29 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_mailbox FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another mailbox.
+			if($client["limit_mailbox"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_mailbox"]) {
+					$app->error($app->tform->wordbook["limit_mailbox_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onShowEnd() {
 		global $app, $conf;
 		
@@ -75,22 +98,54 @@ class page_action extends tform_actions {
 		// Convert quota from Bytes to MB
 		$app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024);
 		
-		
 		parent::onShowEnd();
 	}
 	
 	function onSubmit() {
 		global $app, $conf;
 		
+		// Get the limits of the client
+		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client = $app->db->queryOneRecord("SELECT limit_mailbox, limit_mailquota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		
 		// Check if Domain belongs to user
 		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		
-		// if its an insert, check for password
-		if($this->id == 0 and $_POST["password"] == '') {
-			$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
+		// if its an insert
+		if($this->id == 0) {
+			
+			// check for password
+			if($_POST["password"] == '') {
+				$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
+			}
+			
+			// Check if the user may add another mailbox.
+			if($client["limit_mailbox"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_mailbox"]) {
+					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailbox_txt"]."<br>";
+				}
+				unset($tmp);
+			}
+		} // end if insert
+		
+		// Check the quota and adjust
+		if($client["limit_mailquota"] >= 0) {
+			$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".intval($this->id)." AND sys_groupid = $client_group_id");
+			$mailquota = $tmp["mailquota"] / 1024;
+			$new_mailbox_quota = intval($this->dataRecord["quota"]);
+			if($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) {
+				$max_free_quota = $client["limit_mailquota"] - $mailquota;
+				$app->tform->errorMessage .= $app->tform->wordbook["limit_mailquota_txt"].": ".$max_free_quota."<br>";
+				// Set the quota field to the max free space
+				$this->dataRecord["quota"] = $max_free_quota;
+			}
+			unset($tmp);
+			unset($tmp_quota);
 		}
 		
+
 		// compose the email field
 		$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
 		// Set the server id of the mailbox = server ID of mail domain.
@@ -111,8 +166,25 @@ class page_action extends tform_actions {
 		$this->dataRecord["homedir"] = $mail_config["homedir_path"];
 		$this->dataRecord["uid"] = $mail_config["mailuser_uid"];
 		$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
+
 		
 		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+		
+		// Set the domain owner as mailbox owner
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+		$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		// Set the domain owner as mailbox owner
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+		$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
 	}
 	
 }
