@@ -7,4 +7,5 @@ $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
 $wb["source_error_notempty"] = 'Address is empty.';
 $wb["type_txt"] = 'Type';
+$wb["limit_mailfilter_txt"] = 'The max. number of email filters for your account is reached.';
 ?>

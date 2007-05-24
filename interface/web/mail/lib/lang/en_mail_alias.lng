@@ -8,4 +8,5 @@ $wb["email_error_isemail"] = 'Email address is invalid.';
 $wb["email_error_unique"] = 'Duplicate Emailaddress.';
 $wb["no_domain_perm"] = "You have no permission for this domain.";
 $wb["destination_error_isemail"] = 'Destination Emailaddress is invalid.';
+$wb["limit_mailalias_txt"] = 'The max. number of email aliases for your account is reached.';
 ?>

@@ -6,4 +6,5 @@ $wb["sort_order_txt"] = 'Sort by';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
+$wb["limit_mailrouting_txt"] = 'The max. number of routes for your account is reached.';
 ?>

@@ -47,10 +47,60 @@ if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"]))
 	exit;
 }
 
+
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
 
-// let tform_actions handle the page
-$app->tform_actions->onLoad();
+class page_action extends tform_actions {
+	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_mailrouting FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another mailbox.
+			if($client["limit_mailrouting"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(transport_id) as number FROM mail_transport WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_mailrouting"]) {
+					$app->error($app->tform->wordbook["limit_mailrouting_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
+	function onSubmit() {
+		global $app, $conf;
+				
+		// Check the client limits, if user is not the admin
+		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_mailrouting FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			// Check if the user may add another mailbox.
+			if($this->id == 0 && $client["limit_mailrouting"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(transport_id) as number FROM mail_transport WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_mailrouting"]) {
+					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailrouting_txt"]."<br>";
+				}
+				unset($tmp);
+			}
+		} // end if user is not admin
+		
+		parent::onSubmit();
+	}
+	
+}
+
+$page = new page_action;
+$page->onLoad();
 
 ?>

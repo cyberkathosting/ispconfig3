@@ -280,6 +280,17 @@ $form["tabs"]['limits'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+		'default_mailserver' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
+									 ),
+			'value'		=> ''
+		),
 		'limit_maildomain' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -322,6 +333,20 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'limit_mailforward' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_mailforward_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 		'limit_mailcatchall' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -342,7 +367,7 @@ $form["tabs"]['limits'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'limit_mailrouting_error_notint'),
 									),
-			'default'	=> '-1',
+			'default'	=> '0',
 			'value'		=> '',
 			'separator'	=> '',
 			'width'		=> '10',
@@ -383,6 +408,48 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'limit_mailquota_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_spamfilter_wblist' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_spamfilter_wblist_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_spamfilter_user' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_spamfilter_user_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_spamfilter_policy' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_spamfilter_policy_error_notint'),
 									),
 			'default'	=> '-1',
 			'value'		=> '',

@@ -253,7 +253,7 @@ class tform_actions {
                 if($this->id > 0) {
 
                         // checking permissions
-                        if($app->tform->formDef['auth'] == 'yes') {
+                        if($app->tform->formDef['auth'] == 'yes' && $_SESSION["s"]["user"]["typ"] != 'admin') {
                                 if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
                         }
 

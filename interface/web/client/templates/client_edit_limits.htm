@@ -1,5 +1,16 @@
 <table width="500" border="0" cellspacing="0" cellpadding="2">
   <tr>
+    <td><h2>Email</h2></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='default_mailserver_txt'}:</td>
+    <td class="frmText11">
+		<select name="default_mailserver" class="text">
+			{tmpl_var name='default_mailserver'}
+		</select>
+	</td>
+  </tr>
+  <tr>
     <td class="frmText11" width="280">{tmpl_var name='limit_maildomain_txt'}:</td>
     <td class="frmText11" width="220"><input name="limit_maildomain" type="text" class="text" value="{tmpl_var name='limit_maildomain'}" size="10" maxlength="10"></td>
   </tr>
@@ -10,6 +21,10 @@
   <tr>
     <td class="frmText11">{tmpl_var name='limit_mailalias_txt'}:</td>
     <td class="frmText11"><input name="limit_mailalias" type="text" class="text" value="{tmpl_var name='limit_mailalias'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_mailforward_txt'}:</td>
+    <td class="frmText11"><input name="limit_mailforward" type="text" class="text" value="{tmpl_var name='limit_mailforward'}" size="10" maxlength="10"></td>
   </tr>
   <tr>
     <td class="frmText11">{tmpl_var name='limit_mailcatchall_txt'}:</td>
@@ -30,7 +45,23 @@
   <tr>
     <td class="frmText11">{tmpl_var name='limit_mailquota_txt'}:</td>
     <td class="frmText11"><input name="limit_mailquota" type="text" class="text" value="{tmpl_var name='limit_mailquota'}" size="10" maxlength="10"> MB</td>
-  </tr>  <tr>
+  </tr>
+  <tr>
+    <td><h2>Spamfilter</h2></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_spamfilter_wblist_txt'}:</td>
+    <td class="frmText11"><input name="limit_spamfilter_wblist" type="text" class="text" value="{tmpl_var name='limit_spamfilter_wblist'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_spamfilter_user_txt'}:</td>
+    <td class="frmText11"><input name="limit_spamfilter_user" type="text" class="text" value="{tmpl_var name='limit_spamfilter_user'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='limit_spamfilter_policy_txt'}:</td>
+    <td class="frmText11"><input name="limit_spamfilter_policy" type="text" class="text" value="{tmpl_var name='limit_spamfilter_policy'}" size="10" maxlength="10"></td>
+  </tr>
+  <tr>
     <td class="frmText11">&nbsp;</td>
     <td class="frmText11">&nbsp;</td>
   </tr>

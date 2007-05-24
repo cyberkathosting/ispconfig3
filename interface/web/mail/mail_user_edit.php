@@ -104,46 +104,47 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 		
-		// Get the limits of the client
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
-		$client = $app->db->queryOneRecord("SELECT limit_mailbox, limit_mailquota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-		
 		// Check if Domain belongs to user
 		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		
-		// if its an insert
-		if($this->id == 0) {
+		
+		// if its an insert, check that the password is not empty
+		if($this->id == 0 && $_POST["password"] == '') {
+			$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
+		}
+		
+		// Ccheck the client limits, if user is not the admin
+		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_mailbox, limit_mailquota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
-			// check for password
-			if($_POST["password"] == '') {
-				$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
-			}
-			
+
 			// Check if the user may add another mailbox.
-			if($client["limit_mailbox"] >= 0) {
+			if($this->id == 0 && $client["limit_mailbox"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE sys_groupid = $client_group_id");
 				if($tmp["number"] >= $client["limit_mailbox"]) {
 					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailbox_txt"]."<br>";
 				}
 				unset($tmp);
 			}
-		} // end if insert
-		
-		// Check the quota and adjust
-		if($client["limit_mailquota"] >= 0) {
-			$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".intval($this->id)." AND sys_groupid = $client_group_id");
-			$mailquota = $tmp["mailquota"] / 1024;
-			$new_mailbox_quota = intval($this->dataRecord["quota"]);
-			if($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) {
-				$max_free_quota = $client["limit_mailquota"] - $mailquota;
-				$app->tform->errorMessage .= $app->tform->wordbook["limit_mailquota_txt"].": ".$max_free_quota."<br>";
-				// Set the quota field to the max free space
-				$this->dataRecord["quota"] = $max_free_quota;
+			
+			// Check the quota and adjust
+			if($client["limit_mailquota"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".intval($this->id)." AND sys_groupid = $client_group_id");
+				$mailquota = $tmp["mailquota"] / 1024;
+				$new_mailbox_quota = intval($this->dataRecord["quota"]);
+				if($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) {
+					$max_free_quota = $client["limit_mailquota"] - $mailquota;
+					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailquota_txt"].": ".$max_free_quota."<br>";
+					// Set the quota field to the max free space
+					$this->dataRecord["quota"] = $max_free_quota;
+				}
+				unset($tmp);
+				unset($tmp_quota);
 			}
-			unset($tmp);
-			unset($tmp_quota);
-		}
+		} // end if user is not admin
 		
 
 		// compose the email field

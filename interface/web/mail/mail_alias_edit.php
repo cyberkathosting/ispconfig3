@@ -53,6 +53,28 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_mailalias FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another mailbox.
+			if($client["limit_mailalias"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = $client_group_id and type = 'alias'");
+				if($tmp["number"] >= $client["limit_mailalias"]) {
+					$app->error($app->tform->wordbook["limit_mailalias_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onShowEnd() {
 		global $app, $conf;
 		
@@ -81,6 +103,23 @@ class page_action extends tform_actions {
 		// Check if Domain belongs to user
 		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+		
+		// Check the client limits, if user is not the admin
+		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_mailalias FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			// Check if the user may add another mailbox.
+			if($this->id == 0 && $client["limit_mailalias"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = $client_group_id AND type = 'alias'");
+				if($tmp["number"] >= $client["limit_mailalias"]) {
+					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailalias_txt"]."<br>";
+				}
+				unset($tmp);
+			}
+		} // end if user is not admin
+		
 		 		
 		// compose the email field
 		$this->dataRecord["source"] = $_POST["email_local_part"]."@".$_POST["email_domain"];

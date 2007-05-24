@@ -52,7 +52,29 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-
+	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_maildomain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another maildomain.
+			if($client["limit_maildomain"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_maildomain"]) {
+					$app->error($app->tform->wordbook["limit_maildomain_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onShowEnd() {
 		global $app, $conf;
 		
@@ -74,13 +96,43 @@ class page_action extends tform_actions {
 	}
 	
 	function onSubmit() {
-		if($_SESSION["s"]["user"]["typ"] != 'admin') unset($this->dataRecord["client_group_id"]);
+		global $app, $conf;
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// When the record is updated
+			if($this->id > 0) {
+				// restore the server ID if the user is not admin and record is edited
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain_id = ".intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
+				unset($tmp);
+			// When the record is inserted
+			} else {
+				// set the server ID to the default mailserver of the client
+				$this->dataRecord["server_id"] = $client["default_mailserver"];
+				
+				// Check if the user may add another mail_domain
+				if($client["limit_maildomain"] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
+					if($tmp["number"] >= $client["limit_maildomain"]) {
+						$app->error($app->tform->wordbook["limit_maildomain_txt"]);
+					}
+				}
+			}
+			
+			// Clients may not set the client_group_id, so we unset them if user is not a admin
+			unset($this->dataRecord["client_group_id"]);
+		}
 		parent::onSubmit();
 	}
 	
 	function onAfterInsert() {
 		global $app, $conf;
 		
+		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id WHERE domain_id = ".$this->id);
