@@ -644,11 +644,11 @@ class tform {
                 if(count($this->formDef['tabs'][$tab]['fields']) == 0) return '';
 
                 // checking permissions
-                if($this->formDef['auth'] == 'yes') {
+                if($this->formDef['auth'] == 'yes' && $_SESSION["s"]["user"]["typ"] != 'admin') {
                         if($action == "INSERT") {
                                 if(!$this->checkPerm($primary_id,'i')) $this->errorMessage .= "Insert denied.<br>\r\n";
                         } else {
-                                if(!$this->checkPerm($primary_id,'u')) $this->errorMessage .= "Insert denied.<br>\r\n";
+                                if(!$this->checkPerm($primary_id,'u')) $this->errorMessage .= "Update denied.<br>\r\n";
                         }
                 }
 

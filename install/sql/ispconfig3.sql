@@ -3,11 +3,62 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 19. April 2007 um 12:05
+-- Erstellungszeit: 26. Mai 2007 um 18:33
 -- Server Version: 5.0.24
 -- PHP-Version: 5.1.4
 -- 
 -- Datenbank: `ispconfig3`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `client`
+-- 
+
+CREATE TABLE `client` (
+  `client_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `company_name` varchar(255) default NULL,
+  `contact_name` varchar(255) default NULL,
+  `street` varchar(255) default NULL,
+  `zip` varchar(255) default NULL,
+  `city` varchar(255) default NULL,
+  `state` varchar(255) default NULL,
+  `country` varchar(255) default NULL,
+  `telephone` varchar(255) default NULL,
+  `mobile` varchar(255) default NULL,
+  `fax` varchar(255) default NULL,
+  `email` varchar(255) default NULL,
+  `internet` varchar(255) NOT NULL default 'http://',
+  `icq` varchar(255) default NULL,
+  `notes` text,
+  `default_mailserver` int(11) NOT NULL default '1',
+  `limit_maildomain` int(11) NOT NULL default '-1',
+  `limit_mailbox` int(11) NOT NULL default '-1',
+  `limit_mailalias` int(11) NOT NULL default '-1',
+  `limit_mailforward` int(11) NOT NULL default '-1',
+  `limit_mailcatchall` int(11) NOT NULL default '-1',
+  `limit_mailrouting` int(11) NOT NULL default '0',
+  `limit_mailfilter` int(11) NOT NULL default '-1',
+  `limit_fetchmail` int(11) NOT NULL default '-1',
+  `limit_mailquota` int(11) NOT NULL default '-1',
+  `limit_spamfilter_wblist` int(11) NOT NULL default '0',
+  `limit_spamfilter_user` int(11) NOT NULL default '0',
+  `limit_spamfilter_policy` int(11) NOT NULL default '0',
+  `username` varchar(255) default NULL,
+  `password` varchar(255) default NULL,
+  `language` varchar(255) NOT NULL default 'en',
+  `usertheme` varchar(255) NOT NULL default 'default',
+  PRIMARY KEY  (`client_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+-- 
+-- Daten für Tabelle `client`
 -- 
 
 -- --------------------------------------------------------
@@ -92,7 +143,7 @@ CREATE TABLE `mail_access` (
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`access_id`),
   KEY `server_id` (`server_id`,`source`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- 
 -- Daten für Tabelle `mail_access`
@@ -116,11 +167,12 @@ CREATE TABLE `mail_domain` (
   `active` enum('y','n') NOT NULL,
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- 
 -- Daten für Tabelle `mail_domain`
 -- 
+
 
 -- --------------------------------------------------------
 
@@ -142,7 +194,7 @@ CREATE TABLE `mail_forwarding` (
   `active` enum('y','n') NOT NULL,
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- 
 -- Daten für Tabelle `mail_forwarding`
@@ -213,7 +265,7 @@ CREATE TABLE `mail_transport` (
   PRIMARY KEY  (`transport_id`),
   KEY `server_id` (`server_id`,`transport`),
   KEY `server_id_2` (`server_id`,`domain`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- 
 -- Daten für Tabelle `mail_transport`
@@ -247,56 +299,11 @@ CREATE TABLE `mail_user` (
   `access` enum('y','n') NOT NULL,
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- 
 -- Daten für Tabelle `mail_user`
 -- 
-
--- --------------------------------------------------------
-
--- 
--- Tabellenstruktur für Tabelle `reseller`
--- 
-
-CREATE TABLE `reseller` (
-  `reseller_id` bigint(20) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
-  `sys_perm_other` varchar(5) NOT NULL default '',
-  `company` varchar(255) NOT NULL default '',
-  `title` varchar(255) NOT NULL default '',
-  `firstname` varchar(255) NOT NULL default '',
-  `surname` varchar(255) NOT NULL default '',
-  `street` varchar(255) NOT NULL default '',
-  `zip` varchar(255) NOT NULL default '',
-  `city` varchar(255) NOT NULL default '',
-  `country` varchar(255) NOT NULL default '',
-  `telephone` varchar(255) NOT NULL default '',
-  `mobile` varchar(255) NOT NULL default '',
-  `fax` varchar(255) NOT NULL default '',
-  `email` varchar(255) NOT NULL default '',
-  `internet` varchar(255) NOT NULL default '',
-  `icq` varchar(255) NOT NULL default '',
-  `notes` text NOT NULL,
-  `limit_client` int(11) NOT NULL default '-1',
-  `limit_domain` int(11) NOT NULL default '-1',
-  `limit_subdomain` int(11) NOT NULL default '-1',
-  `limit_mailbox` int(11) NOT NULL default '-1',
-  `limit_mailalias` int(11) NOT NULL default '-1',
-  `limit_webquota` int(11) NOT NULL default '-1',
-  `limit_mailquota` int(11) NOT NULL default '-1',
-  `limit_database` int(11) NOT NULL default '-1',
-  `ip_address` text NOT NULL,
-  PRIMARY KEY  (`reseller_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `reseller`
--- 
-
 
 -- --------------------------------------------------------
 
@@ -328,8 +335,7 @@ CREATE TABLE `server` (
 -- Daten für Tabelle `server`
 -- 
 
-INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES 
-(1, 1, 1, 'riud', 'riud', '', 'Server 1', 1, 1, 1, 1, 1, 1, '[global]\r\nwebserver=apache\r\nmailserver=exim\r\ndnsserver=mydns\r\n\r\n[mail]\r\nmodule=postfix_mysql\r\nmaildir_path=/home/vmail/[domain]/[localpart]/\r\nhomedir_path=/home/vmail/\r\nmailuser_uid=5000\r\nmailuser_gid=5000', 0, 1);
+INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 1, 'riud', 'riud', 'r', 'Server 1', 1, 1, 1, 1, 1, 1, '[global]\r\nwebserver=apache\r\nmailserver=exim\r\ndnsserver=mydns\r\n\r\n[mail]\r\nmodule=postfix_mysql\r\nmaildir_path=/home/vmail/[domain]/[localpart]/\r\nhomedir_path=/home/vmail/\r\nmailuser_uid=5000\r\nmailuser_gid=5000', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -388,19 +394,18 @@ CREATE TABLE `spamfilter_policy` (
 -- Daten für Tabelle `spamfilter_policy`
 -- 
 
-INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES 
-(1, 0, 0, '', '', '', 'Non-paying', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 7, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 0, 0, '', '', '', 'Uncensored', 'Y', 'Y', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 999, 999, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 0, 0, '', '', '', 'Wants all spam', 'N', 'Y', 'N', 'N', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 999, 999, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 0, 0, '', '', '', 'Wants viruses', 'Y', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.9, 6.9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 0, 0, '', '', '', 'Normal', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.9, 6.9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 0, 0, '', '', '', 'Trigger happy', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 5, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 0, 0, '', '', '', 'Permissive', 'N', 'N', 'N', 'Y', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 10, 20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 0, 0, '', '', '', '6.5/7.8', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.5, 7.8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 0, 0, '', '', '', 'userB', 'N', 'N', 'N', 'Y', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.3, 6.3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 0, 0, '', '', '', 'userC', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 0, 0, '', '', '', 'userD', 'Y', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 7, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 1, 0, 'riud', 'riud', '', 'test', 'Y', 'Y', 'N', 'N', 'N', NULL, 'N', 'N', 'N', '', '', '', '', '', '', 0.7, 0, 0, 0, 0, '', '', '', '', 'N', 'N', 'N', '', '', '', '', '', '', '', 0, '');
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (1, 1, 0, 'riud', 'riud', '', 'Non-paying', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'Y', '', '', '', '', '', '', 3, 7, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (2, 1, 0, 'riud', 'riud', '', 'Uncensored', 'Y', 'Y', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 999, 999, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (3, 1, 0, 'riud', 'riud', '', 'Wants all spam', 'N', 'Y', 'N', 'N', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 999, 999, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (4, 1, 0, 'riud', 'riud', '', 'Wants viruses', 'Y', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.9, 6.9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (5, 1, 0, 'riud', 'riud', '', 'Normal', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.9, 6.9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (6, 1, 0, 'riud', 'riud', '', 'Trigger happy', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 5, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (7, 1, 0, 'riud', 'riud', '', 'Permissive', 'N', 'N', 'N', 'Y', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 10, 20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (8, 1, 0, 'riud', 'riud', '', '6.5/7.8', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.5, 7.8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (9, 1, 0, 'riud', 'riud', '', 'userB', 'N', 'N', 'N', 'Y', 'N', 'N', 'N', 'N', 'Y', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6.3, 6.3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (10, 1, 0, 'riud', 'riud', '', 'userC', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (11, 1, 0, 'riud', 'riud', '', 'userD', 'Y', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 7, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (12, 1, 0, 'riud', 'riud', '', 'test', 'Y', 'Y', 'N', 'N', 'N', NULL, 'N', 'N', 'N', '', '', '', '', '', '', 0.7, 0, 0, 0, 0, '', '', '', '', 'N', 'N', 'N', '', '', '', '', '', '', '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -428,28 +433,6 @@ CREATE TABLE `spamfilter_users` (
 -- 
 -- Daten für Tabelle `spamfilter_users`
 -- 
-
-INSERT INTO `spamfilter_users` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) VALUES 
-(1, 0, 0, '', '', '', 0, 9, 5, 'user1+foo@y.example.com', 'Name1 Surname1', 'Y'),
-(2, 0, 0, '', '', '', 0, 7, 5, 'user1@y.example.com', 'Name1 Surname1', 'Y'),
-(3, 0, 0, '', '', '', 0, 7, 2, 'user2@y.example.com', 'Name2 Surname2', 'Y'),
-(4, 0, 0, '', '', '', 0, 7, 7, 'user3@z.example.com', 'Name3 Surname3', 'Y'),
-(5, 0, 0, '', '', '', 0, 7, 7, 'user4@example.com', 'Name4 Surname4', 'Y'),
-(6, 0, 0, '', '', '', 0, 7, 1, 'user5@example.com', 'Name5 Surname5', 'Y'),
-(7, 0, 0, '', '', '', 0, 5, 0, '@sub1.example.com', NULL, 'Y'),
-(8, 0, 0, '', '', '', 0, 5, 7, '@sub2.example.com', NULL, 'Y'),
-(9, 0, 0, '', '', '', 0, 5, 5, '@example.com', NULL, 'Y'),
-(10, 0, 0, '', '', '', 0, 3, 8, 'userA', 'NameA SurnameA anywhere', 'Y'),
-(11, 0, 0, '', '', '', 0, 3, 9, 'userB', 'NameB SurnameB', 'Y'),
-(12, 0, 0, '', '', '', 0, 3, 10, 'userC', 'NameC SurnameC', 'Y'),
-(13, 0, 0, '', '', '', 0, 3, 11, 'userD', 'NameD SurnameD', 'Y'),
-(14, 0, 0, '', '', '', 0, 3, 0, '@sub1.example.net', NULL, 'Y'),
-(15, 0, 0, '', '', '', 0, 3, 7, '@sub2.example.net', NULL, 'Y'),
-(16, 0, 0, '', '', '', 0, 3, 5, '@example.net', NULL, 'Y'),
-(17, 0, 0, '', '', '', 0, 7, 5, 'u1@example.org', 'u1', 'Y'),
-(18, 0, 0, '', '', '', 0, 7, 6, 'u2@example.org', 'u2', 'Y'),
-(19, 0, 0, '', '', '', 0, 7, 3, 'u3@example.org', 'u3', 'Y'),
-(20, 1, 0, 'riud', 'riud', '', 1, 5, 0, '@ensign.de', 'ensign all', 'N');
 
 -- --------------------------------------------------------
 
@@ -497,6 +480,7 @@ CREATE TABLE `sys_datalog` (
 -- 
 -- Daten für Tabelle `sys_datalog`
 -- 
+
 
 -- --------------------------------------------------------
 
@@ -562,16 +546,16 @@ CREATE TABLE `sys_group` (
   `groupid` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `description` text NOT NULL,
+  `client_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`groupid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- 
 -- Daten für Tabelle `sys_group`
 -- 
 
-INSERT INTO `sys_group` (`groupid`, `name`, `description`) VALUES 
-(1, 'admin', 'Administrators group'),
-(2, 'user', 'Users Group');
+INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (1, 'admin', 'Administrators group', 0);
+INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (2, 'user', 'Users Group', 0);
 
 -- --------------------------------------------------------
 
@@ -581,10 +565,10 @@ INSERT INTO `sys_group` (`groupid`, `name`, `description`) VALUES
 
 CREATE TABLE `sys_user` (
   `userid` int(11) NOT NULL auto_increment,
-  `sys_userid` int(11) NOT NULL default '0',
-  `sys_groupid` int(11) NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL default '',
-  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_userid` int(11) NOT NULL default '1',
+  `sys_groupid` int(11) NOT NULL default '1',
+  `sys_perm_user` varchar(5) NOT NULL default 'riud',
+  `sys_perm_group` varchar(5) NOT NULL default 'riud',
   `sys_perm_other` varchar(5) NOT NULL default '',
   `username` varchar(100) NOT NULL default '',
   `passwort` varchar(100) NOT NULL default '',
@@ -593,26 +577,15 @@ CREATE TABLE `sys_user` (
   `app_theme` varchar(100) NOT NULL default 'default',
   `typ` varchar(20) NOT NULL default 'user',
   `active` tinyint(4) NOT NULL default '1',
-  `name` varchar(100) NOT NULL default '',
-  `vorname` varchar(100) NOT NULL default '',
-  `unternehmen` varchar(100) NOT NULL default '',
-  `strasse` varchar(100) NOT NULL default '',
-  `ort` varchar(100) NOT NULL default '',
-  `plz` varchar(10) NOT NULL default '',
-  `land` varchar(50) NOT NULL default '',
-  `email` varchar(100) NOT NULL default '',
-  `url` varchar(255) NOT NULL default '',
-  `telefon` varchar(100) NOT NULL default '',
-  `fax` varchar(100) NOT NULL default '',
   `language` varchar(10) NOT NULL default 'de',
   `groups` varchar(255) NOT NULL default '',
   `default_group` int(11) NOT NULL default '0',
+  `client_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`userid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- 
 -- Daten für Tabelle `sys_user`
 -- 
 
-INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `name`, `vorname`, `unternehmen`, `strasse`, `ort`, `plz`, `land`, `email`, `url`, `telefon`, `fax`, `language`, `groups`, `default_group`) VALUES 
-(1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,designer,mail', 'mail', 'default', 'admin', 1, '', 'Administrator', '', '', '', '', '', '', '', '', '', 'en', '1,2', 1);
+INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `language`, `groups`, `default_group`, `client_id`) VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,client,designer,mail', 'mail', 'default', 'admin', 1, 'en', '1,2', 1, 0);

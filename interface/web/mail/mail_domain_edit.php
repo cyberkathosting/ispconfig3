@@ -133,18 +133,21 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id WHERE domain_id = ".$this->id);
+			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
 	}
 	
 	function onAfterUpdate() {
 		global $app, $conf;
 		
+		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id WHERE domain_id = ".$this->id);
+			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
 	}
 	
