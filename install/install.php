@@ -60,7 +60,7 @@ include_once('lib/mysql.lib.php');
 $inst->db = new db();
 
 // Create the mysql database
-//$inst->configure_database();
+$inst->configure_database();
 
 // Configure postfix
 $inst->configure_postfix();

@@ -332,7 +332,7 @@ postfix check
 		
 		$configfile = 'sasl_smtpd.conf';
 		if(is_file($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf')) copy($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf',$conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~');
-		exec('chmod 400 '.$conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~');
+		if(is_file($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
@@ -351,7 +351,7 @@ postfix check
 		// configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'pamd_smtp';
 		if(is_file('/etc/pam.d/smtp')) copy('/etc/pam.d/smtp','/etc/pam.d/smtp~');
-		exec('chmod 400 /etc/pam.d/smtp~');
+		if(is_file('/etc/pam.d/smtp~')) exec('chmod 400 /etc/pam.d/smtp~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
@@ -387,7 +387,7 @@ postfix check
 		// amavisd user config file
 		$configfile = 'amavisd_user_config';
 		if(is_file($conf["dist_amavis_config_dir"].'/50-user')) copy($conf["dist_amavis_config_dir"].'/50-user',$conf["dist_courier_config_dir"].'/50-user~');
-		exec('chmod 400 '.$conf["dist_courier_config_dir"].'/50-user~');
+		if(is_file($conf["dist_amavis_config_dir"].'/50-user~')) exec('chmod 400 '.$conf["dist_amavis_config_dir"].'/50-user~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
