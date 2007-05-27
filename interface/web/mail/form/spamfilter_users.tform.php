@@ -112,7 +112,7 @@ $form["tabs"]['users'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'Y',
-			'value'		=> array('N' => 'No','Y' => 'Yes')
+			'value'		=> array('Y' => 'Yes','N' => 'No')
 		),
 		
 	##################################

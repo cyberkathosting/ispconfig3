@@ -386,14 +386,15 @@ postfix check
 		
 		// amavisd user config file
 		$configfile = 'amavisd_user_config';
-		if(is_file($conf["dist_amavis_config_dir"].'/50-user')) copy($conf["dist_amavis_config_dir"].'/50-user',$conf["dist_courier_config_dir"].'/50-user~');
-		if(is_file($conf["dist_amavis_config_dir"].'/50-user~')) exec('chmod 400 '.$conf["dist_amavis_config_dir"].'/50-user~');
+		if(is_file($conf["dist_amavis_config_dir"].'/conf.d/50-user')) copy($conf["dist_amavis_config_dir"].'/conf.d/50-user',$conf["dist_courier_config_dir"].'/50-user~');
+		if(is_file($conf["dist_amavis_config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["dist_amavis_config_dir"].'/conf.d/50-user~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
+		$content = str_replace('{mysql_server_port}',$conf["mysql_server_port"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
-		wf($conf["dist_amavis_config_dir"].'/50-user',$content);
+		wf($conf["dist_amavis_config_dir"].'/conf.d/50-user',$content);
 		
 		// TODO: chmod and chown on the config file
 		

@@ -239,7 +239,7 @@ $form["tabs"]['users'] = array (
 	##################################
 	)
 );
-
+/*
 $form["tabs"]['address'] = array (
 	'title' 	=> "Address",
 	'width' 	=> 80,
@@ -397,6 +397,7 @@ $form["tabs"]['address'] = array (
 	##################################
 	)
 );
+*/
 
 $form["tabs"]['groups'] = array (
 	'title' 	=> "Groups",
