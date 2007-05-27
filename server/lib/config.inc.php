@@ -66,4 +66,9 @@ $conf["start_db"]			= true;
 $conf["load_server_config"]	= true;
 
 
+
+define("LOGLEVEL_DEBUG",0);
+define("LOGLEVEL_WARN",1);
+define("LOGLEVEL_ERROR",2);
+
 ?>

@@ -28,34 +28,35 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class modules {
+class plugins {
 	
-	var $notification_hooks = array();
+	var $notification_events = array();
 	
 	/*
-	 This function is called to load the modules from the mods-available folder
+	 This function is called to load the plugins from the plugins-available folder
 	*/
 	
-	function loadModules() {
-		global $app, $conf;
+	function loadPlugins() {
+		global $app,$conf;
 		
-		$modules_dir = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."mods-enabled".$conf["fs_div"]
+		$plugins_dir = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."plugins-enabled".$conf["fs_div"]
 		
-		if (is_dir($modules_dir)) {
+		if (is_dir($plugins_dir)) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..') {
-						$module_name = substr($file,0,-8);
-						include_once($modules_dir.$file);
-						$app->log("Loading Module: $module_name",LOGLEVEL_DEBUG);
-						$app->modules[$module_name] = new $module_name;
-						$app->modules[$module_name]->onLoad();
+						$plugin_name = substr($file,0,-8);
+						include_once($plugins_dir.$file);
+						$app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
+						$app->plugins[$plugin_name] = new $module_name;
+						$app->plugins[$plugin_name]->onLoad();
 					}
 				}
 			}
 		} else {
-			$app->log("Modules directory missing: $modules_dir",LOGLEVEL_ERROR);
+			$app->log("Plugin directory missing: $plugins_dir",LOGLEVEL_ERROR);
 		}
+		
 	}
 	
 	/*
@@ -63,46 +64,29 @@ class modules {
 	 table change notification
 	*/
 	
-	function registerTableHook($table_name,$module_name,$function_name) {
-		$this->notification_hooks[$table_name][] = array('module' => $module_name, 'function' => $function_name);
+	function registerEvent($event_name,$plugin_name,$function_name) {
+		$this->notification_events[$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
 	}
 	
-	/*
-	 This function goes through all new records in the
-	 sys_datalog table and and calls the function in the
-	 modules that hooked on to the table change.
-	*/
 	
-	function processDatalog() {
-		global $app;
-		
-		// TODO: process only new entries.
-		$sql = "SELECT * FROM sys_datalog WHERE 1";
-		$records = $app->db->queryAllRecords($sql);
-		foreach($records as $rec) {
-			$data = unserialize(stripslashes($rec["data"]));
-			$this->raiseTableHook($rec["dbtable"],$rec["action"],$data);
-		}
-	}
-	
-	function raiseTableHook($table_name,$action,$data) {
+	function raiseEvent($event_name,$data) {
 		global $app;
 		
 		// Get the hooks for this table
-		$hooks = $this->notification_hooks[$table_name];
+		$events = $this->notification_hevents[$event_name];
 		
-		if(is_array($hooks)) {
-			foreach($hooks as $hook) {
-				$module_name = $hook["module"];
-				$function_name = $hook["function"];
+		if(is_array($events)) {
+			foreach($events as $event) {
+				$plugin_name = $event["plugin"];
+				$function_name = $event["function"];
 				// Claa the processing function of the module
-				call_user_method($function_name,$app->modules[$module_name],$table_name,$action,$data);
-				unset($module_name);
+				call_user_method($function_name,$app->plugins[$plugin_name],$event_name,$data);
+				unset($plugin_name);
 				unset($function_name);
 			}
 		}
-		unset($hook);
-		unset($hooks);
+		unset($event);
+		unset($events);
 	}
 	
 }

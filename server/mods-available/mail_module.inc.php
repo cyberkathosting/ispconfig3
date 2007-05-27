@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class mail_module {
 	
-	var $module_name = 'mail';
+	var $module_name = 'mail_module';
 	var $class_name = 'mail_module';
 	var $actions_available = array(	'mail_domain_insert',
 									'mail_domain_update',

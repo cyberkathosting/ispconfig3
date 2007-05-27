@@ -28,8 +28,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class app {
-
-        function app() {
+		
+		var modules = array();
+		var plugins = array();
+        
+		function app() {
 
                 global $conf;
 
@@ -104,7 +107,7 @@ class app {
                             fclose($fp);
 
                         } else {
-                            $this->error("Logfile ist nicht beschreibbar.");
+                            $this->error("Unable to write to logfile.");
                         }
                 } // if
         } // func
