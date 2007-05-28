@@ -1,6 +1,7 @@
 <?php
+
 /*
-Copyright (c) 2006, Till Brehm, Falko Timme, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,46 +28,27 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$conf["server_id"] 		= "1";
-$conf["app_version"] 	= "3.0.0";
+/******************************************
+* Begin Form configuration
+******************************************/
 
+$list_def_file = "list/mail_get.list.php";
+$tform_def_file = "form/mail_get.tform.php";
 
+/******************************************
+* End Form configuration
+******************************************/
 
-$conf["rootpath"]		= "D:\\server\\www\\ispconfig3\\server";
-//$conf["rootpath"]		= "/home/www/ispconfig3/web/cms";
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
 
-$conf["fs_div"]			= "/"; // File system divider, \\ on windows and / on linux and unix
-$conf["classpath"]		= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"]		= $conf["rootpath"].$conf["fs_div"]."temp";
+// Checke Berechtigungen für Modul
+if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
+	header("Location: ../index.php");
+	exit;
+}
 
-/*
-		Logging
-*/
-
-$conf["log_file"]		= $conf["rootpath"].$conf["fs_div"]."ispconfig.log";
-$conf["log_priority"]	= 0; // 0 = Debug, 1 = Warning, 2 = Error
-
-/*
-        Database Settings
-*/
-
-$conf["db_type"]		= 'mysql';
-$conf["db_host"]		= 'localhost';
-$conf["db_database"]	= 'ispconfig3';
-$conf["db_user"]		= 'root';
-$conf["db_password"]	= '';
-
-/*
-        Auto Load Modules
-*/
-
-$conf["start_db"]			= true;
-$conf["load_server_config"]	= true;
-
-
-
-define("LOGLEVEL_DEBUG",0);
-define("LOGLEVEL_WARN",1);
-define("LOGLEVEL_ERROR",2);
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
 ?>

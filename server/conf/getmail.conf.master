@@ -1,0 +1,15 @@
+[options]
+message_log = /var/log/getmail.log
+delete = {DELETE}
+
+[retriever]
+type = {TYPE}
+server = {SERVER}
+username = {USERNAME}
+password = {PASSWORD}
+
+[destination]
+type = MDA_external
+path = /usr/sbin/sendmail
+arguments = ("-bm", "{DESTINATION}")
+unixfrom = true

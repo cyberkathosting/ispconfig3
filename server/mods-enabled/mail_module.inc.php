@@ -46,20 +46,24 @@ class mail_module {
 									'mail_forwarding_delete',
 									'mail_transport_insert',
 									'mail_transport_update',
-									'mail_transport_delete');
+									'mail_transport_delete',
+									'mail_get_insert',
+									'mail_get_update',
+									'mail_get_delete');
 	
 	/*
 	 	This function is called when the module is loaded
 	*/
 	
 	function onLoad() {
+		global $app;
 		
 		/*
 		Annonce the actions that where provided by this module, so plugins 
 		can register on them.
 		*/
 		
-		$app->plugins->registerEvents($this->module_name,$this->actions_available);
+		$app->plugins->announceEvents($this->module_name,$this->actions_available);
 		
 		/*
 		As we want to get notified of any changes on several database tables,
@@ -76,6 +80,7 @@ class mail_module {
 		$app->modules->registerTableHook('mail_forwarding','mail_module','process');
 		$app->modules->registerTableHook('mail_transport','mail_module','process');
 		$app->modules->registerTableHook('mail_user','mail_module','process');
+		$app->modules->registerTableHook('mail_get','mail_module','process');
 		
 	}
 	
@@ -112,6 +117,11 @@ class mail_module {
 				if($action == 'i') $app->plugins->raiseEvent('mail_user_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('mail_user_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('mail_user_delete',$data);
+			break;
+			case 'mail_get':
+				if($action == 'i') $app->plugins->raiseEvent('mail_get_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('mail_get_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('mail_get_delete',$data);
 			break;
 		} // end switch
 	} // end function

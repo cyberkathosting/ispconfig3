@@ -1,0 +1,56 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='server_id_txt'}:</td>
+    <td class="frmText11">
+		<select name="server_id" class="text">
+			{tmpl_var name='server_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='type_txt'}:</td>
+    <td class="frmText11">
+		<select name="type" class="text">
+			{tmpl_var name='type'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='source_server_txt'}:</td>
+    <td class="frmText11"><input name="source_server" type="text" class="text" value="{tmpl_var name='source_server'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='source_username_txt'}:</td>
+    <td class="frmText11"><input name="source_username" type="text" class="text" value="{tmpl_var name='source_username'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='source_password_txt'}:</td>
+    <td class="frmText11"><input name="source_password" type="text" class="text" value="{tmpl_var name='source_password'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='source_delete_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='source_delete'}</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='destination_txt'}:</td>
+    <td class="frmText11">
+		<select name="destination" class="text">
+			{tmpl_var name='destination'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_get_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_get_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

@@ -39,23 +39,25 @@ class modules {
 	function loadModules() {
 		global $app, $conf;
 		
-		$modules_dir = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."mods-enabled".$conf["fs_div"]
 		
+		
+		$modules_dir = $conf["rootpath"].$conf["fs_div"]."mods-enabled".$conf["fs_div"];
 		if (is_dir($modules_dir)) {
-			if ($dh = opendir($dir)) {
+			if ($dh = opendir($modules_dir)) {
 				while (($file = readdir($dh)) !== false) {
-					if($file != '.' && $file != '..') {
+					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
 						$module_name = substr($file,0,-8);
 						include_once($modules_dir.$file);
 						$app->log("Loading Module: $module_name",LOGLEVEL_DEBUG);
-						$app->modules[$module_name] = new $module_name;
-						$app->modules[$module_name]->onLoad();
+						$app->loaded_modules[$module_name] = new $module_name;
+						$app->loaded_modules[$module_name]->onLoad();
 					}
 				}
 			}
 		} else {
 			$app->log("Modules directory missing: $modules_dir",LOGLEVEL_ERROR);
 		}
+		
 	}
 	
 	/*
@@ -64,7 +66,9 @@ class modules {
 	*/
 	
 	function registerTableHook($table_name,$module_name,$function_name) {
+		global $app;
 		$this->notification_hooks[$table_name][] = array('module' => $module_name, 'function' => $function_name);
+		$app->log("Registered TableHook '$table_name' in module '$module_name' for processing function '$function_name'",LOGLEVEL_DEBUG);
 	}
 	
 	/*
@@ -90,13 +94,15 @@ class modules {
 		
 		// Get the hooks for this table
 		$hooks = $this->notification_hooks[$table_name];
+		$app->log("Raised TableHook for table: '$table_name'",LOGLEVEL_DEBUG);
 		
 		if(is_array($hooks)) {
 			foreach($hooks as $hook) {
 				$module_name = $hook["module"];
 				$function_name = $hook["function"];
 				// Claa the processing function of the module
-				call_user_method($function_name,$app->modules[$module_name],$table_name,$action,$data);
+				$app->log("Call function '$function_name' in module '$module_name' raised by TableHook '$table_name'.",LOGLEVEL_DEBUG);
+				call_user_method($function_name,$app->loaded_modules[$module_name],$table_name,$action,$data);
 				unset($module_name);
 				unset($function_name);
 			}

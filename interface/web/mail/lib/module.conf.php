@@ -112,9 +112,9 @@ $module = array (
       array (
         0 => 
         array (
-          'title' => 'Fetchmail Accounts',
+          'title' => 'Fetchmail',
           'target' => 'content',
-          'link' => 'mail/fetchmail_list.php',
+          'link' => 'mail/mail_get_list.php',
         ),
       ),
     ),

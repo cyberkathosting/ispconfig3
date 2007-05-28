@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2006, Till Brehm, Falko Timme, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,46 +27,36 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$conf["server_id"] 		= "1";
-$conf["app_version"] 	= "3.0.0";
 
+/******************************************
+* Begin Form configuration
+******************************************/
 
+$tform_def_file = "form/mail_get.tform.php";
 
-$conf["rootpath"]		= "D:\\server\\www\\ispconfig3\\server";
-//$conf["rootpath"]		= "/home/www/ispconfig3/web/cms";
+/******************************************
+* End Form configuration
+******************************************/
 
-$conf["fs_div"]			= "/"; // File system divider, \\ on windows and / on linux and unix
-$conf["classpath"]		= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"]		= $conf["rootpath"].$conf["fs_div"]."temp";
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
 
-/*
-		Logging
-*/
+// Checking module permissions
+if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
+	header("Location: ../index.php");
+	exit;
+}
 
-$conf["log_file"]		= $conf["rootpath"].$conf["fs_div"]."ispconfig.log";
-$conf["log_priority"]	= 0; // 0 = Debug, 1 = Warning, 2 = Error
+// Loading classes
+$app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
 
-/*
-        Database Settings
-*/
+class page_action extends tform_actions {
+	
+	
+}
 
-$conf["db_type"]		= 'mysql';
-$conf["db_host"]		= 'localhost';
-$conf["db_database"]	= 'ispconfig3';
-$conf["db_user"]		= 'root';
-$conf["db_password"]	= '';
-
-/*
-        Auto Load Modules
-*/
-
-$conf["start_db"]			= true;
-$conf["load_server_config"]	= true;
-
-
-
-define("LOGLEVEL_DEBUG",0);
-define("LOGLEVEL_WARN",1);
-define("LOGLEVEL_ERROR",2);
+$page = new page_action;
+$page->onLoad();
 
 ?>

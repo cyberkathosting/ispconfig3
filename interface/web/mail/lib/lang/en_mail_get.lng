@@ -1,0 +1,12 @@
+<?php
+$wb["server_id_txt"] = 'server_id';
+$wb["type_txt"] = 'type';
+$wb["source_server_txt"] = 'source_server';
+$wb["source_username_txt"] = 'source_username';
+$wb["source_password_txt"] = 'source_password';
+$wb["source_delete_txt"] = 'source_delete';
+$wb["destination_txt"] = 'destination';
+$wb["active_txt"] = 'active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+?>

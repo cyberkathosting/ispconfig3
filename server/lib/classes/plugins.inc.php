@@ -30,7 +30,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class plugins {
 	
-	var $notification_events = array();
+	var $available_events = array();
+	var $subscribed_events = array();
 	
 	/*
 	 This function is called to load the plugins from the plugins-available folder
@@ -39,17 +40,17 @@ class plugins {
 	function loadPlugins() {
 		global $app,$conf;
 		
-		$plugins_dir = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."plugins-enabled".$conf["fs_div"]
+		$plugins_dir = $conf["rootpath"].$conf["fs_div"]."plugins-enabled".$conf["fs_div"];
 		
 		if (is_dir($plugins_dir)) {
-			if ($dh = opendir($dir)) {
+			if ($dh = opendir($plugins_dir)) {
 				while (($file = readdir($dh)) !== false) {
-					if($file != '.' && $file != '..') {
+					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
 						$plugin_name = substr($file,0,-8);
 						include_once($plugins_dir.$file);
 						$app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
-						$app->plugins[$plugin_name] = new $module_name;
-						$app->plugins[$plugin_name]->onLoad();
+						$app->loaded_plugins[$plugin_name] = new $plugin_name;
+						$app->loaded_plugins[$plugin_name]->onLoad();
 					}
 				}
 			}
@@ -60,27 +61,47 @@ class plugins {
 	}
 	
 	/*
-	 This function is called by the modules to register for a specific
-	 table change notification
+		This function is used by the modules to announce which events they provide
+	*/
+	
+	function announceEvents($module_name,$events) {
+		global $app;
+		foreach($events as $event_name) {
+			$this->available_events[$event_name] = $module_name;
+			$app->log("Announced event: $event_name",LOGLEVEL_DEBUG);
+		}
+	}
+	
+	
+	/*
+	 This function is called by the plugin to register for an event
 	*/
 	
 	function registerEvent($event_name,$plugin_name,$function_name) {
-		$this->notification_events[$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
+		global $app;
+		if(!isset($this->available_events[$event_name])) {
+			$app->log("Unable to register the function '$function_name' in the plugin '$plugin_name' for event '$event_name'",LOGLEVEL_DEBUG);
+		} else {
+			$this->subscribed_events[$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
+			$app->log("Registered the function '$function_name' in the plugin '$plugin_name' for event '$event_name'.",LOGLEVEL_DEBUG);
+		}
 	}
 	
 	
 	function raiseEvent($event_name,$data) {
 		global $app;
 		
-		// Get the hooks for this table
-		$events = $this->notification_hevents[$event_name];
+		// Get the subscriptions for this event
+		$events = $this->subscribed_events[$event_name];
+		$app->log("Raised event: '$event_name'",LOGLEVEL_DEBUG);
 		
 		if(is_array($events)) {
 			foreach($events as $event) {
 				$plugin_name = $event["plugin"];
 				$function_name = $event["function"];
-				// Claa the processing function of the module
-				call_user_method($function_name,$app->plugins[$plugin_name],$event_name,$data);
+				// Call the processing function of the plugin
+				$app->log("Call function '$function_name' in plugin '$plugin_name' raised by event '$event_name'.",LOGLEVEL_DEBUG);
+				call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
 				unset($plugin_name);
 				unset($function_name);
 			}

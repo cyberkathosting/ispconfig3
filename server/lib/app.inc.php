@@ -29,8 +29,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class app {
 		
-		var modules = array();
-		var plugins = array();
+		var $loaded_modules = array();
+		var $loaded_plugins = array();
         
 		function app() {
 
@@ -59,18 +59,19 @@ class app {
 			}
         }
 
-        function load($files) {
+        function load($classes) {
 
-                global $conf;
-                $fl = explode(',',$files);
-                if(is_array($fl)) {
-                        foreach($fl as $file) {
-							if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
-                                include_once($conf['classpath'] . "/".$file.".inc.php");
-							}
-                        }
-                }
-
+            global $conf;
+            $cl = explode(',',$classes);
+			if(is_array($cl)) {
+				foreach($cl as $classname) {
+					if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
+						include_once($conf['classpath'] . "/".$classname.".inc.php");
+					} else {
+						die('Unable to load: '.$conf['classpath'] . "/".$classname.".inc.php");
+					}
+				}
+			}
         }
 
         /*
@@ -84,19 +85,18 @@ class app {
 				global $conf;
 				
                 if($priority >= $conf["log_priority"]) {
-                        if (is_writable($conf["log_file"])) {
-
+                        //if (is_writable($conf["log_file"])) {
                             if (!$fp = fopen ($conf["log_file"], "a")) {
                                 die("Unable to open Logfile.");
                             }
 							switch ($priority) {
-								case: 0;
+								case 0:
 									$priority_txt = "DEBUG";
 								break;
-								case: 1;
+								case 1:
 									$priority_txt = "WARNING";
 								break;
-								case: 2;
+								case 2:
 									$priority_txt = "ERROR";
 								break;
 							}
@@ -104,11 +104,12 @@ class app {
                             if (!fwrite($fp, date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."\r\n")) {
                                 die("Unable to write to logfile.");
                             }
+							echo date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."<br>";
                             fclose($fp);
 
-                        } else {
-                            $this->error("Unable to write to logfile.");
-                        }
+                        //} else {
+                        //    die("Unable to write to logfile.");
+                        //}
                 } // if
         } // func
 
@@ -120,7 +121,7 @@ class app {
 
         function error($msg) {
         	$this->log($msg,3);
-			die();
+			die($msg);
         }
 
 }

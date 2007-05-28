@@ -36,8 +36,9 @@ set_time_limit(0);
 // make sure server_id is always an int
 $conf["server_id"] = intval($conf["server_id"]);
 
+/*
 // Get server record, if updates where available for this server
-$server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE update = 1 AND server_id = ".$conf["server_id"])
+$server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE update = 1 AND server_id = ".$conf["server_id"]);
 if($server_db_record == false) {
 	$app->log("Nothing to update for server_id ".$conf["server_id"]);
 	die();
@@ -46,7 +47,9 @@ if($server_db_record == false) {
 	$app->db->query("UPDATE server SET update = 0 WHERE server_id = ".$conf["server_id"]);
 	$app->log("Begin update.");
 }
+*/
 
+/*
 // Check if another process is running
 if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
   clearstatcache();
@@ -60,34 +63,51 @@ if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
 
 // Set Lockfile
 @touch($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
-$app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock");
-
-// Load required base-classes
-$this->uses('ini_parser,modules,plugins');
-
-// Get server configuration
-$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
-
-/*
- Load the modules that are im the mods-enabled folder
+$app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGLEVEL_DEBUG);
 */
 
-$this->modules->loadModules();
+// Check if there is anything to update
+$tmp_rec = $app->db->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE server_id = ".$conf["server_id"]);
+$tmp_num_records = $tmp_rec["number"];
+unset($tmp_rec);
 
+if($tmp_num_records > 0) {
+	
+	$app->log("Found $tmp_num_records changes, starting update process.",LOGLEVEL_DEBUG);
+	
+	// Load required base-classes
+	$app->uses('ini_parser,modules,plugins');
+	
+	
+	// Get server configuration
+	$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
+
+	/*
+	 Load the modules that are im the mods-enabled folder
+	*/
+
+	$app->modules->loadModules();
+
+	/*
+	 Load the plugins that are in the plugins-enabled folder
+	*/
+
+	$app->plugins->loadPlugins();
+
+	/*
+	 Go trough the sys_datalog table and call the processing functions
+	 in the modules that are hooked on to the table actions
+	*/
+	$app->modules->processDatalog();
+} else {
+	$app->log('Nothing to Update.',LOGLEVEL_DEBUG);
+}
 
 /*
- Load the plugins that are in the plugins-enabled folder
-*/
-
-$this->plugins->loadPlugins();
-
-/*
- Go trough the sys_datalog table and call the processing functions
- in the modules that are hooked on to the table actions
-*/
-$this->modules->processDatalog();
-
 // Remove lock
 @unlink($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
-$app->log("Remove Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock");
+$app->log("Remove Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock",LOGLEVEL_DEBUG);
+*/
+
+die('finished.');
 ?>
