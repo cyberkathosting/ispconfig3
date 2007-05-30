@@ -442,7 +442,10 @@ postfix check
 	function configure_getmail() {
 		global $conf;
 		
-		$command = "useradd -b /etc/getmail -d /etc/getmail getmail";
+		$command = "useradd -d /etc/getmail getmail";
+		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		
+		$command = "chown -R getmail /etc/getmail";
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
 		
 		$command = "chmod -R 700 /etc/getmail";

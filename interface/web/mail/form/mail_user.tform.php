@@ -140,7 +140,7 @@ $form["tabs"]['mailuser'] = array (
 		'access' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
+			'default'	=> 'y',
 			'value'		=> array(1 => 'y',0 => 'n')
 		),
 	##################################

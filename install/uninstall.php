@@ -32,7 +32,7 @@ require("/usr/local/ispconfig/server/lib/config.inc.php");
 require("/usr/local/ispconfig/server/lib/app.inc.php");
 
 // Delete the ISPConfig database
-$app->db->query('DROP DATABASE '.$conf["db_database"]);
+$app->db->query("DROP DATABASE '".$conf["db_database"]."'");
 
 // Deleting the symlink in /var/www
 unlink("/var/www/ispconfig");
