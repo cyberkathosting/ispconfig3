@@ -86,7 +86,11 @@ $inst->configure_spamassassin();
 swriteln('Configuring Amavisd');
 $inst->configure_amavis();
 
-// Configure Amavis
+// Configure Getmail
+swriteln('Configuring Getmail');
+$inst->configure_getmail();
+
+// Configure ISPConfig
 swriteln('Installing ISPConfig');
 $inst->install_ispconfig();
 
@@ -101,10 +105,18 @@ postfix
 amavisd
 calmd
 spamd
-
-
-
 */
+
+exec("/etc/init.d/mysql restart");
+exec("/etc/init.d/postfix restart");
+exec("/etc/init.d/saslauthd restart");
+exec("/etc/init.d/amavis restart");
+exec("/etc/init.d/clamav-daemon restart");
+exec("/etc/init.d/courier-authdaemon restart");
+exec("/etc/init.d/courier-imap restart");
+exec("/etc/init.d/courier-imap-ssl restart");
+exec("/etc/init.d/courier-pop restart");
+exec("/etc/init.d/courier-pop-ssl restart");
 
 
 echo "Installation finished.\n";

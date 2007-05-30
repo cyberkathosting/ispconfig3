@@ -96,7 +96,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email_domain",$domain_select);
 		
 		// Convert quota from Bytes to MB
-		$app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024);
+		$app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024/ 1024);
 		
 		parent::onShowEnd();
 	}
@@ -133,7 +133,7 @@ class page_action extends tform_actions {
 			// Check the quota and adjust
 			if($client["limit_mailquota"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".intval($this->id)." AND sys_groupid = $client_group_id");
-				$mailquota = $tmp["mailquota"] / 1024;
+				$mailquota = $tmp["mailquota"] / 1024 / 1024;
 				$new_mailbox_quota = intval($this->dataRecord["quota"]);
 				if($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) {
 					$max_free_quota = $client["limit_mailquota"] - $mailquota;
@@ -156,7 +156,7 @@ class page_action extends tform_actions {
 		unset($this->dataRecord["email_domain"]);
 		
 		// Convert quota from MB to Bytes
-		$this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024;
+		$this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024 * 1024;
 		
 		// setting Maildir, Homedir, UID and GID
 		$app->uses('getconf');

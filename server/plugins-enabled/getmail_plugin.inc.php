@@ -34,7 +34,7 @@ class getmail_plugin {
 	var $class_name = 'getmail_plugin';
 	
 	
-	var $getmail_config_dir = '/etc/getmail';
+	var $getmail_config_dir = '';
 	
 	/*
 	 	This function is called when the plugin is loaded
@@ -51,6 +51,8 @@ class getmail_plugin {
 		$app->plugins->registerEvent('mail_get_update','getmail_plugin','update');
 		$app->plugins->registerEvent('mail_get_delete','getmail_plugin','delete');
 		
+		
+		
 	}
 	
 	function insert($event_name,$data) {
@@ -62,6 +64,11 @@ class getmail_plugin {
 	
 	function update($event_name,$data) {
 		global $app, $conf;
+		
+		// load the server specific configuration options for getmail
+		$app->uses("getconf");
+		$getmail_config = $app->getconf->get_server_config($conf["server_id"], 'getmail');
+		$this->getmail_config_dir = $getmail_config["getmail_config_dir"];
 		
 		// Check if the config directory exists.
 		if(!is_dir($this->getmail_config_dir)) {
@@ -79,7 +86,7 @@ class getmail_plugin {
 			}
 
 			
-			if($data["new"]["source_active"] == 'y') {
+			if($data["new"]["active"] == 'y') {
 				// Open master template
 				$tpl = file_get_contents($conf["rootpath"].'/conf/getmail.conf.master');
 			
@@ -101,7 +108,7 @@ class getmail_plugin {
 				$tpl = str_replace('{SERVER}',$data["new"]["source_server"],$tpl);
 				$tpl = str_replace('{USERNAME}',$data["new"]["source_username"],$tpl);
 				$tpl = str_replace('{PASSWORD}',$data["new"]["source_password"],$tpl);
-				$tpl = str_replace('{DESTINATION}',$data["new"]["source_destination"],$tpl);
+				$tpl = str_replace('{DESTINATION}',$data["new"]["destination"],$tpl);
 				
 				// Write the config file.
 				file_put_contents($config_file_path,$tpl);

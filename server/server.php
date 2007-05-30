@@ -109,5 +109,5 @@ if($tmp_num_records > 0) {
 $app->log("Remove Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock",LOGLEVEL_DEBUG);
 */
 
-die('finished.');
+die("finished.\n");
 ?>

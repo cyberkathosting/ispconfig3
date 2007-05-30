@@ -439,6 +439,16 @@ postfix check
 		wf($configfile,$content);
 	}
 	
+	function configure_getmail() {
+		global $conf;
+		
+		$command = "useradd -b /etc/getmail -d /etc/getmail getmail";
+		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		
+		$command = "chmod -R 700 /etc/getmail";
+		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+	}
+	
 	
 	function install_ispconfig() {
 		global $conf;
@@ -466,7 +476,7 @@ postfix check
 		$command = "ln -s ".$conf["ispconfig_install_dir"]."/interface/web/ /var/www/ispconfig";
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
 		
-		// Create the config file for ISPConfig
+		// Create the config file for ISPConfig interface
 		$configfile = 'config.inc.php';
 		if(is_file($conf["ispconfig_install_dir"].'/interface/lib/'.$configfile)) copy($conf["ispconfig_install_dir"].'/interface/lib/'.$configfile,$conf["ispconfig_install_dir"].'/interface/lib/'.$configfile.'~');
 		$content = rf("tpl/".$configfile.".master");
@@ -475,6 +485,17 @@ postfix check
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_host}',$conf["mysql_server_host"],$content);
 		wf($conf["ispconfig_install_dir"].'/interface/lib/'.$configfile,$content);
+		
+		// Create the config file for ISPConfig server
+		$configfile = 'config.inc.php';
+		if(is_file($conf["ispconfig_install_dir"].'/server/lib/'.$configfile)) copy($conf["ispconfig_install_dir"].'/server/lib/'.$configfile,$conf["ispconfig_install_dir"].'/interface/lib/'.$configfile.'~');
+		$content = rf("tpl/".$configfile.".master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
+		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
+		$content = str_replace('{mysql_server_host}',$conf["mysql_server_host"],$content);
+		wf($conf["ispconfig_install_dir"].'/server/lib/'.$configfile,$content);
+		
 		
 		// Chmod the files
 		$command = "chmod -R 750 ".$conf["ispconfig_install_dir"];
@@ -491,6 +512,9 @@ postfix check
 		$command = "adduser www-data ispconfig";
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
 		
+		// Make the shell scripts executable
+		$command = "chmod +x ".$conf["ispconfig_install_dir"]."/server/scripts/*.sh";
+		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
 		
 	}
 	

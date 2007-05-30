@@ -35,6 +35,7 @@ ini_set('register_globals',0);
 
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
+$conf["server_id"] 	= "1";
 
 
 /*
@@ -70,6 +71,13 @@ define("DB_USER",$conf["db_user"]);
 define("DB_PASSWORD",$conf["db_password"]);
 
 /*
+		Logging
+*/
+
+$conf["log_file"]		= $conf["rootpath"].$conf["fs_div"]."ispconfig.log";
+$conf["log_priority"]	= 0; // 0 = Debug, 1 = Warning, 2 = Error
+
+/*
         Themes
 */
 
@@ -103,5 +111,9 @@ $conf["default_refresh"] 	 = 28800;
 $conf["default_retry"] 		 = 7200;
 $conf["default_expire"] 	 = 604800;
 $conf["default_minimum_ttl"] = 86400;
+
+define("LOGLEVEL_DEBUG",0);
+define("LOGLEVEL_WARN",1);
+define("LOGLEVEL_ERROR",2);
 
 ?>

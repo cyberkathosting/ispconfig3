@@ -123,4 +123,29 @@ $form["tabs"]['services'] = array (
 );
 
 
+$form["tabs"]['config'] = array (
+	'title' 	=> "Config",
+	'width' 	=> 100,
+	'template' 	=> "templates/server_edit_config.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'config' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '',
+			'cols'		=> '40',
+			'rows'		=> '20',
+			'maxlength'	=> ''
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+
 ?>
