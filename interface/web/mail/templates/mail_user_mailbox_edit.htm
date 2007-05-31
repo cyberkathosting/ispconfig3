@@ -12,6 +12,14 @@
     <td width="366" class="frmText11"><input name="quota" type="text" class="text" value="{tmpl_var name='quota'}" size="5" maxlength="5"> MB</td>
   </tr>
   <tr>
+    <td class="frmText11">{tmpl_var name='policy_txt'}:</td>
+    <td class="frmText11">
+		<select name="policy" class="text">
+			{tmpl_var name='policy'}
+		</select>
+	</td>
+  </tr>
+  <tr>
     <td width="126" class="frmText11">{tmpl_var name='postfix_txt'}:</td>
     <td width="366" class="frmText11">{tmpl_var name='postfix'}</td>
   </tr>

@@ -31,6 +31,10 @@ $conf["dist_postfix_vmail_groupid"] = "5000";
 $conf["dist_postfix_vmail_groupname"] = "vmail";
 $conf["dist_postfix_vmail_mailbox_base"] = "/home/vmail";
 
+// Getmail
+$conf["dist_getmail_config_dir"] = "/etc/getmail";
+$conf["dist_getmail_program"] = "/usr/bin/getmail";
+
 // Courier
 $conf["dist_courier_config_dir"] = "/etc/courier";
 

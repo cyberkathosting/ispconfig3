@@ -78,15 +78,17 @@ class modules {
 	*/
 	
 	function processDatalog() {
-		global $app;
+		global $app,$conf;
 		
 		// TODO: process only new entries.
-		$sql = "SELECT * FROM sys_datalog WHERE 1";
+		$sql = "SELECT * FROM sys_datalog WHERE server_id = ".$conf["server_id"];
 		$records = $app->db->queryAllRecords($sql);
 		foreach($records as $rec) {
 			$data = unserialize(stripslashes($rec["data"]));
 			$this->raiseTableHook($rec["dbtable"],$rec["action"],$data);
 		}
+		$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
+		$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
 	}
 	
 	function raiseTableHook($table_name,$action,$data) {

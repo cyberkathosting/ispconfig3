@@ -17,6 +17,10 @@ $wb["password_txt"] = 'password';
 $wb["maildir_txt"] = 'maildir';
 $wb["postfix_txt"] = 'Enable Receiving';
 $wb["access_txt"] = 'Enable Access';
+$wb["policy_txt"] = 'Spamfilter';
+$wb["no_policy"] = '- not enabled -';
 $wb["limit_mailbox_txt"] = 'The max. number of mailboxes for your account is reached.';
 $wb["limit_mailquota_txt"] = 'The max space for mailboxes is reached. The max. available space in MB is';
+$wb["welcome_mail_subject"] = "Welcome to your new email account.";
+$wb["welcome_mail_message"] = "Welcome to your new email account.\r\n \r\n Your webmaster.";
 ?>

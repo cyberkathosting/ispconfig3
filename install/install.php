@@ -94,6 +94,10 @@ $inst->configure_getmail();
 swriteln('Installing ISPConfig');
 $inst->install_ispconfig();
 
+// Configure ISPConfig
+swriteln('Installing Crontab');
+$inst->install_crontab();
+
 
 /*
 Restart services:

@@ -853,6 +853,7 @@ class tform {
 				
 				// Insert the server_id, if the record has a server_id
 				$server_id = ($record_old["server_id"] > 0)?$record_old["server_id"]:0;
+				if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
 				
 				$this->diffrec = $diffrec;
 

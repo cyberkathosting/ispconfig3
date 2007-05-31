@@ -94,11 +94,11 @@ unset($items);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
-	$items[] = array( 'title' 	=> "Whitelist",
+	$items[] = array( 'title' 	=> "Postfix Whitelist",
 				  	'target' 	=> 'content',
 				  	'link'	=> 'mail/mail_whitelist_list.php');
 
-	$items[] = array( 'title' 	=> "Blacklist",
+	$items[] = array( 'title' 	=> "Postfix Blacklist",
 				 	 'target' 	=> 'content',
 				  	 'link'	=> 'mail/mail_blacklist_list.php');
 
