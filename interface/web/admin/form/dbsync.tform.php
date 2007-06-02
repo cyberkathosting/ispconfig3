@@ -97,7 +97,7 @@ unset($form);
 
 
 $form["title"] 			= "DB sync";
-$form["description"] 	= "Formular zum Anlegen von Datenbank-Synchronisierungen.";
+$form["description"] 	= "ISPConfig database snchronisation tool.";
 $form["name"] 			= "dbsync";
 $form["action"]			= "dbsync_edit.php";
 $form["db_table"]		= "sys_dbsync";
