@@ -114,6 +114,7 @@ class getmail_plugin {
 				file_put_contents($config_file_path,$tpl);
 				$app->log("Writing Getmail config file: $config_file_path",LOGLEVEL_DEBUG);
 				exec("chmod 400 $config_file_path");
+				exec("chown getmail $config_file_path");
 				unset($tpl);
 				unset($config_file_path);
 				

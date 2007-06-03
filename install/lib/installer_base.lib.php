@@ -264,6 +264,14 @@ maildrop  unix  -       n       n       -       -       pipe
 		$command = "chmod 755  /var/run/courier/authdaemon/";
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
 		
+		// Changing maildrop lines in posfix master.cf
+		if(is_file($conf["dist_postfix_config_dir"].'/master.cf')) copy($conf["dist_postfix_config_dir"].'/master.cf',$conf["dist_postfix_config_dir"].'/master.cf~');
+		if(is_file($conf["dist_postfix_config_dir"].'/master.cf~')) exec('chmod 400 '.$conf["dist_postfix_config_dir"].'/master.cf~');
+		$configfile = $conf["dist_postfix_config_dir"].'/master.cf';
+		$content = rf($configfile);
+		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}','  flags=R user='.$conf["dist_postfix_vmail_username"].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',$content);
+		wf($configfile,$content);
+		
 		// Writing the Maildrop mailfilter file
 		$configfile = 'mailfilter';
 		if(is_file($conf["dist_postfix_vmail_mailbox_base"].'/.'.$configfile)) copy($conf["dist_postfix_vmail_mailbox_base"].'/.'.$configfile,$conf["dist_postfix_vmail_mailbox_base"].'/.'.$configfile.'~');
@@ -289,47 +297,7 @@ maildrop  unix  -       n       n       -       -       pipe
 	function configure_saslauthd() {
 		global $conf;
 		
-		/*
-		
-		TODO: The example below is for Ubuntu 6.10
-		
-		mkdir -p /var/spool/postfix/var/run/saslauthd
-
-Edit /etc/default/saslauthd. Remove the # in front of START=yes and add the line PARAMS="-m /var/spool/postfix/var/run/saslauthd -r". 
-
-vi /etc/default/saslauthd
-
-The file should then look like this:
-
-# This needs to be uncommented before saslauthd will be run automatically
-START=yes
-
-# You must specify the authentication mechanisms you wish to use.
-# This defaults to "pam" for PAM support, but may also include
-# "shadow" or "sasldb", like this:
-# MECHANISMS="pam shadow"
-
-MECHANISMS="pam"
-PARAMS="-m /var/spool/postfix/var/run/saslauthd -r"
-
-We must also edit /etc/init.d/saslauthd and change the location of saslauthd's PID file. 
-
-vi /etc/init.d/saslauthd
-
-Change the value of PIDFILE to /var/spool/postfix/var/run/${NAME}/saslauthd.pid:
-
-PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"
-
-
-Then restart Postfix and Saslauthd:
-
-/etc/init.d/postfix restart
-postfix check
-/etc/init.d/saslauthd restart
-		
-		
-		*/
-		
+	
 		$configfile = 'sasl_smtpd.conf';
 		if(is_file($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf')) copy($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf',$conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~');
 		if(is_file($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["dist_postfix_config_dir"].'/sasl/smtpd.conf~');
@@ -341,6 +309,26 @@ postfix check
 		wf($conf["dist_postfix_config_dir"].'/sasl/smtpd.conf',$content);
 		
 		// TODO: Chmod and chown on the config file
+		
+		
+		
+		// Create the spool directory
+		exec("mkdir -p /var/spool/postfix/var/run/saslauthd");
+		
+		// Edit the file /etc/default/saslauthd
+		$configfile = '/etc/default/saslauthd';
+		if(is_file($configfile)) copy($configfile,$configfile.'~');
+		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'/~');
+		$content = rf($configfile);
+		$content = str_replace('START=no','START=yes',$content);
+		$content = str_replace('OPTIONS="-c"','OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"',$content);
+		wf($configfile,$content);
+		
+		// Edit the file /etc/default/saslauthd
+		$configfile = '/etc/init.d/saslauthd';
+		$content = rf($configfile);
+		$content = str_replace('PIDFILE=$RUN_DIR/saslauthd.pid','PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"',$content);
+		wf($configfile,$content);
 		
 		
 	}
@@ -379,6 +367,16 @@ postfix check
 		
 		exec('chmod 660 '.$conf["dist_courier_config_dir"].'/'.$configfile);
 		exec('chown daemon:daemon '.$conf["dist_courier_config_dir"].'/'.$configfile);
+		
+		//authdaemonrc
+		$configfile = $conf["dist_courier_config_dir"].'/authdaemonrc';
+		if(is_file($configfile)) copy($configfile,$configfile.'~');
+		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'/~');
+		$content = rf($configfile);
+		$content = str_replace('authmodulelist="authpam"','authmodulelist="authmysql"',$content);
+		wf($configfile,$content);
+		
+		
 	}
 	
 	function configure_amavis() {
@@ -539,7 +537,7 @@ postfix check
 		unlink('crontab.txt');
 		
 		// Getmail crontab
-		exec("crontab -u root -l > crontab.txt");
+		exec("crontab -u getmail -l > crontab.txt");
 		$existing_cron_jobs = file('crontab.txt');
 		
 		$cron_jobs = array('*/5 * * * * '.$conf["dist_getmail_program"].' -g '.$conf["dist_getmail_config_dir"].' -r '.$conf["dist_getmail_config_dir"].'/*.conf &> /dev/null');
@@ -549,7 +547,7 @@ postfix check
 			}
 		}
 		file_put_contents('crontab.txt',$existing_cron_jobs);
-		exec("crontab -u root crontab.txt &> /dev/null");
+		exec("crontab -u getmail crontab.txt &> /dev/null");
 		unlink('crontab.txt');
 		
 	}
