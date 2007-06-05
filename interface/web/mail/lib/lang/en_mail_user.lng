@@ -1,9 +1,10 @@
 <?php
+$wb["custom_mailfilter_txt"] = 'custom_mailfilter';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
 $wb["email_txt"] = 'Email';
 $wb["cryptpwd_txt"] = 'Password';
 $wb["active_txt"] = 'Active';
-$wb["btn_save_txt"] = 'Save';
-$wb["btn_cancel_txt"] = 'Cancel';
 $wb["email_error_isemail"] = 'Email address is invalid.';
 $wb["email_error_unique"] = 'Duplicate Emailaddress.';
 $wb["autoresponder_text_txt"] = 'Text';
@@ -21,6 +22,8 @@ $wb["policy_txt"] = 'Spamfilter';
 $wb["no_policy"] = '- not enabled -';
 $wb["limit_mailbox_txt"] = 'The max. number of mailboxes for your account is reached.';
 $wb["limit_mailquota_txt"] = 'The max space for mailboxes is reached. The max. available space in MB is';
-$wb["welcome_mail_subject"] = "Welcome to your new email account.";
-$wb["welcome_mail_message"] = "Welcome to your new email account.\r\n \r\n Your webmaster.";
+$wb["welcome_mail_subject"] = 'Welcome to your new email account.';
+$wb["welcome_mail_message"] = 'Welcome to your new email account.
+ 
+ Your webmaster.';
 ?>

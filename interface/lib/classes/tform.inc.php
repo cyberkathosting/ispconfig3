@@ -673,15 +673,23 @@ class tform {
                                                 if($field['formtype'] == 'PASSWORD') {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
-                                                                // $sql_insert_val .= "encrypt('".$record[$key]."'), ";
-																$sql_insert_val .= "'".crypt($record[$key],substr(md5(time()),0,2))."', ";
+                                                                $salt="$1$";
+																for ($n=0;$n<8;$n++) {
+																	$salt.=chr(mt_rand(64,126));
+																}
+																$salt.="$";
+																// $salt = substr(md5(time()),0,2);
+																$record[$key] = crypt($record[$key],$salt);
                                                         } else {
-                                                                $sql_insert_val .= "md5('".$record[$key]."'), ";
+                                                                $record[$key] = md5($record[$key]);
                                                         }
+														$sql_insert_val .= "'".$record[$key]."', ";
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
                                                         $sql_insert_key .= "`$key`, ";
 														if($record[$key] == '') {
+															// if a checkbox is not set, we set it to the unchecked value
 															$sql_insert_val .= "'".$field['value'][0]."', ";
+															$record[$key] = $field['value'][0];
 														} else {
 															$sql_insert_val .= "'".$record[$key]."', ";
 														}
@@ -691,15 +699,23 @@ class tform {
                                                 }
                                         } else {
                                                 if($field['formtype'] == 'PASSWORD') {
-                                                        if($field['encryption'] == 'CRYPT') {
-                                                                // $sql_update .= "`$key` = encrypt('".$record[$key]."'), ";
-																$sql_update .= "`$key` = '".crypt($record[$key],substr(md5(time()),0,2))."', ";
+														if($field['encryption'] == 'CRYPT') {
+                                                                $salt="$1$";
+																for ($n=0;$n<8;$n++) {
+																	$salt.=chr(mt_rand(64,126));
+																}
+																$salt.="$";
+																// $salt = substr(md5(time()),0,2);
+																$record[$key] = crypt($record[$key],$salt);
                                                         } else {
-                                                                $sql_update .= "`$key` = md5('".$record[$key]."'), ";
+                                                                $record[$key] = md5($record[$key]);
                                                         }
+                                                        $sql_update .= "`$key` = '".$record[$key]."', ";
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
 														if($record[$key] == '') {
+															// if a checkbox is not set, we set it to the unchecked value
 															$sql_update .= "`$key` = '".$field['value'][0]."', ";
+															$record[$key] = $field['value'][0];
 														} else {
 															$sql_update .= "`$key` = '".$record[$key]."', ";
 														}
@@ -707,7 +723,11 @@ class tform {
                                                         $sql_update .= "`$key` = '".$record[$key]."', ";
                                                 }
                                         }
-                                }
+                                } else {
+									// we unset the password filed, if empty to tell the datalog function 
+									// that the password has not been changed
+								    unset($record[$key]);
+								}
                         }
         }
 
@@ -840,30 +860,46 @@ class tform {
                 }
 
                 $diffrec = array();
-
+				
                 if(is_array($record_new)) {
                         foreach($record_new as $key => $val) {
                                 if($record_old[$key] != $val) {
-                                        // Datensatz hat sich geändert
+										// Record has changed
                                         $diffrec[$key] = array('old' => $record_old[$key],
-                                                                           'new' => $val);
+                                                               'new' => $val);
                                 }
                         }
                 }
+				$this->diffrec = $diffrec;
+				
+				// Full diff records for ISPConfig, they have a different format then the simple diffrec
+				$diffrec_full = array();
+
+                if(is_array($record_old)) {
+                        foreach($record_old as $key => $val) {
+                                if(isset($record_new[$key]) && $record_new[$key] != $val) {
+                                    // Record has changed
+									$diffrec_full['old'][$key] = $val;
+									$diffrec_full['new'][$key] = $record_new[$key];
+                                } else {
+									$diffrec_full['old'][$key] = $val;
+									$diffrec_full['new'][$key] = $val;
+								}
+                        }
+                }
+				
+				/*
+				echo "<pre>";
+				print_r($diffrec_full);
+				echo "</pre>";
+				*/
 				
 				// Insert the server_id, if the record has a server_id
 				$server_id = ($record_old["server_id"] > 0)?$record_old["server_id"]:0;
 				if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
-				
-				$this->diffrec = $diffrec;
 
-                if(count($diffrec) > 0) {
-                        
-						// We need the full records in ISPConfig, not only the diffs
-						$diffrec = array(	'old' => $record_old,
-											'new' => $record_new);
-						
-						$diffstr = $app->db->quote(serialize($diffrec));
+                if(count($this->diffrec) > 0) {
+						$diffstr = $app->db->quote(serialize($diffrec_full));
                         $username = $app->db->quote($_SESSION["s"]["user"]["username"]);
                         $dbidx = $this->formDef['db_table_idx'].":".$primary_id;
                         $action = ($action == 'INSERT')?'i':'u';

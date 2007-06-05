@@ -318,7 +318,7 @@ maildrop  unix  -       n       n       -       -       pipe
 		// Edit the file /etc/default/saslauthd
 		$configfile = '/etc/default/saslauthd';
 		if(is_file($configfile)) copy($configfile,$configfile.'~');
-		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'/~');
+		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'~');
 		$content = rf($configfile);
 		$content = str_replace('START=no','START=yes',$content);
 		$content = str_replace('OPTIONS="-c"','OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"',$content);
@@ -371,7 +371,7 @@ maildrop  unix  -       n       n       -       -       pipe
 		//authdaemonrc
 		$configfile = $conf["dist_courier_config_dir"].'/authdaemonrc';
 		if(is_file($configfile)) copy($configfile,$configfile.'~');
-		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'/~');
+		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'~');
 		$content = rf($configfile);
 		$content = str_replace('authmodulelist="authpam"','authmodulelist="authmysql"',$content);
 		wf($configfile,$content);

@@ -121,7 +121,7 @@ exec("/etc/init.d/courier-imap restart");
 exec("/etc/init.d/courier-imap-ssl restart");
 exec("/etc/init.d/courier-pop restart");
 exec("/etc/init.d/courier-pop-ssl restart");
-
+exec("/etc/init.d/apache2 restart");
 
 echo "Installation finished.\n";
 

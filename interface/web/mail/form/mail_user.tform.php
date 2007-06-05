@@ -166,16 +166,42 @@ $form["tabs"]['autoresponder'] = array (
 			'rows'		=> '15'
 		),
 		'autoresponder' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> '1'
+			'default'	=> 'n',
+			'value'		=> array(1 => 'y',0 => 'n')
 		),
 	##################################
 	# ENDE Datatable fields
 	##################################
 	)
 );
+
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+
+$form["tabs"]['mailfilter'] = array (
+	'title' 	=> "Mailfilter",
+	'width' 	=> 100,
+	'template' 	=> "templates/mail_user_mailfilter_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'custom_mailfilter' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '15'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+}
 
 
 ?>
