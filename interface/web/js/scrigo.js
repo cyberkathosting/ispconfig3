@@ -1,5 +1,20 @@
 redirect = '';
 
+function loadContentRefresh(pagename) {
+	var pageContentCallbackRefresh = {
+		success: function(o) {
+			document.getElementById('pageContent').innerHTML = o.responseText;
+		},
+		failure: function(o) {
+			alert('Ajax Request was not successful.');
+		}
+	}
+	
+  if(document.getElementById('refreshinterval').value > 0) {
+  	var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename+"&refresh="+document.getElementById('refreshinterval').value, pageContentCallbackRefresh);
+  	setTimeout( "loadContentRefresh('"+pagename+"&refresh="+document.getElementById('refreshinterval').value+"')", document.getElementById('refreshinterval').value*1000 );
+  }
+}
 
 function capp(module) {
 	var cappCallback = {

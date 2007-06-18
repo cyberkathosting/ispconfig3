@@ -285,4 +285,10 @@ TEXTAREA {
     background: url("../../themes/default/images/button_end.gif") no-repeat;
 }
 
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight:bold;
+}
+
 
