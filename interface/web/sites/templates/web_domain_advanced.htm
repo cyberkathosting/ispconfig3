@@ -1,0 +1,24 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='document_root_txt'}:</td>
+    <td class="frmText11"><input name="document_root" type="text" class="text" value="{tmpl_var name='document_root'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='system_user_txt'}:</td>
+    <td class="frmText11"><input name="system_user" type="text" class="text" value="{tmpl_var name='system_user'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='system_group_txt'}:</td>
+    <td class="frmText11"><input name="system_group" type="text" class="text" value="{tmpl_var name='system_group'}" size="30" maxlength="255"></td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

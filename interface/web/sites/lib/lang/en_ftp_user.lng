@@ -1,0 +1,18 @@
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'Directory';
+$wb["quota_files_txt"] = 'Filequota';
+$wb["ul_ratio_txt"] = 'Uploadratio';
+$wb["dl_ratio_txt"] = 'Downloadratio';
+$wb["ul_bandwidth_txt"] = 'Uploadbandwidth';
+$wb["dl_bandwidth_txt"] = 'Downloadbandwidth';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["quota_size_txt"] = 'Harddisk-Quota';
+$wb["active_txt"] = 'Active';
+?>

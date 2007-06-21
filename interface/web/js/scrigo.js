@@ -195,3 +195,17 @@ function reportError(request)
           loadContent(link);
   }
 }
+
+function loadContentInto(elementid,pagename) {
+	var itemContentCallback = {
+		success: function(o) {
+			document.getElementById(elementid).innerHTML = o.responseText;
+		},
+		failure: function(o) {
+			alert('Ajax Request was not successful.');
+		}
+	}
+	
+
+  var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);
+}

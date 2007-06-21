@@ -1,0 +1,25 @@
+NameVirtualHost *:80
+
+<VirtualHost <tmpl_var name='ip_address'>:80>
+    DocumentRoot <tmpl_var name='document_root'>
+    ServerName <tmpl_var name='domain'>
+    
+	<tmpl_if name='cgi'>
+	
+	</tmpl_if>
+	<tmpl_if name='ssi'>
+	
+	</tmpl_if>
+	<tmpl_if name='suexec'>
+	
+	</tmpl_if>
+	<tmpl_if name='php' op='==' value='mod'>
+	
+	</tmpl_if>
+	<tmpl_if name='php' op='==' value='suphp'>
+	
+	</tmpl_if>
+	<tmpl_if name='php' op='==' value='cgi'>
+	
+	</tmpl_if>
+</VirtualHost>

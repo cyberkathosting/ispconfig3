@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/client.tform.php";
+$tform_def_file = "form/web_subdomain.tform.php";
 
 /******************************************
 * End Form configuration
@@ -42,7 +42,7 @@ require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 // Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
+if(!stristr($_SESSION["s"]["user"]["modules"],'sites')) {
 	header("Location: ../index.php");
 	exit;
 }
@@ -53,62 +53,33 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
-	/*
-	 This function is called automatically right after
-	 the data was successful inserted in the database.
-	*/
-	function onAfterInsert() {
-		global $app;
-		// Create the group for the client
-		$sql = "INSERT INTO sys_group (name,description,client_id) VALUES ('".addslashes($this->dataRecord["username"])."','',".$this->id.")";
-		$app->db->query($sql);
-		$groupid = $app->db->insertID();
+	function onShowEnd() {
+		global $app, $conf;
 		
-		$username = addslashes($this->dataRecord["username"]);
-		$password = addslashes($this->dataRecord["password"]);
-		$modules = 'mail,sites';
-		$startmodule = 'mail';
-		$usertheme = addslashes($this->dataRecord["usertheme"]);
-		$type = 'user';
-		$active = 1;
-		$language = addslashes($this->dataRecord["language"]);
+		// Get the record of the parent domain
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
 		
-		// Create the controlpaneluser for the client
-		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
-		VALUES ('$username',md5('$password'),'$modules','$startmodule','$usertheme','$type','$active','$language',$groupid,$groupid,".$this->id.")";
-		$app->db->query($sql);
-	}
-	
-	
-	/*
-	 This function is called automatically right after
-	 the data was successful updated in the database.
-	*/
-	function onAfterUpdate() {
-		global $app;
+		$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"],'',$this->dataRecord["domain"]);
+		$app->tpl->setVar("domain",$this->dataRecord["domain"]);
 		
-		// username changed
-		if(isset($app->tform->diffrec['username'])) {
-			$username = addslashes($this->dataRecord["username"]);
-			$client_id = $this->id;
-			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
-			$app->db->query($sql);
-			$sql = "UPDATE sys_group SET name = '$username' WHERE client_id = $client_id";
-			$app->db->query($sql);
-		}
-		
-		// password changed
-		if($this->dataRecord["password"] != '') {
-			$password = addslashes($this->dataRecord["password"]);
-			$client_id = $this->id;
-			$sql = "UPDATE sys_user SET passwort = md5('$password') WHERE client_id = $client_id";
-			$app->db->query($sql);
-		}
-		
-		
+		parent::onShowEnd();
 		
 	}
-	
+
+	function onSubmit() {
+		global $app, $conf;
+		
+		// Get the record of the parent domain
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+		
+		// Set a few fixed values
+		$this->dataRecord["type"] = 'subdomain';
+		$this->dataRecord["server_id"] = $parent_domain["server_id"];
+		$this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
+		
+		
+		parent::onSubmit();
+	}
 	
 }
 

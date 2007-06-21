@@ -760,7 +760,7 @@ class tform {
                 } else {
                         if($primary_id != 0) {
                                 $sql_update = substr($sql_update,0,-2);
-                                $sql = "UPDATE ".$escape.$this->formDef['db_table'].$escape." SET ".$sql_update." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+                                $sql = "UPDATE ".$escape.$this->formDef['db_table'].$escape." SET ".$sql_update." WHERE ".$this->getAuthSQL('u')." AND ".$this->formDef['db_table_idx']." = ".$primary_id;
                                 if($sql_ext_where != '') $sql .= " and ".$sql_ext_where;
                         } else {
                                 $app->error("Primary ID fehlt!");
@@ -796,20 +796,21 @@ class tform {
         // definiere Tabs
         foreach( $this->formDef["tabs"] as $key => $tab) {
 
-                        $tab['name'] = $key;
+            $tab['name'] = $key;
             if($tab['name'] == $active_tab) {
 
-                                // Wenn Modul gesetzt, dann setzte template pfad relativ zu modul.
-                                if($this->module != '') $tab["template"] = "../".$this->module."/".$tab["template"];
+                // Wenn Modul gesetzt, dann setzte template pfad relativ zu modul.
+                if($this->module != '') $tab["template"] = "../".$this->module."/".$tab["template"];
 
-                                // überprüfe, ob das Template existiert, wenn nicht
-                                // dann generiere das Template
-                                if(!is_file($tab["template"])) {
-                                        $app->uses('tform_tpl_generator');
-                                        $app->tform_tpl_generator->buildHTML($this->formDef,$tab['name']);
-                                }
+                // überprüfe, ob das Template existiert, wenn nicht
+                // dann generiere das Template
+								
+                if(!is_file($tab["template"])) {
+                     $app->uses('tform_tpl_generator');
+                     $app->tform_tpl_generator->buildHTML($this->formDef,$tab['name']);
+                }
 
-                    $app->tpl->setInclude('content_tpl',$tab["template"]);
+                $app->tpl->setInclude('content_tpl',$tab["template"]);
                 $tab["active"] = 1;
                 $_SESSION["s"]["form"]["tab"] = $tab['name'];
             } else {

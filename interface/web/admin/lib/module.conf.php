@@ -49,7 +49,15 @@ $items[] = array( 'title' 	=> "Edit server",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_list.php');
 
-				  
+$items[] = array( 'title' 	=> "Add Server IP",
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/server_ip_edit.php');
+
+$items[] = array( 'title' 	=> "Edit Server IP",
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/server_ip_list.php');				  
+
+
 $module["nav"][] = array(	'title'	=> 'Servers',
 							'open' 	=> 1,
 							'items'	=> $items);

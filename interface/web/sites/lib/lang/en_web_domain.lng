@@ -1,0 +1,23 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["type_txt"] = 'Type';
+$wb["parent_domain_id_txt"] = 'Parent Website';
+$wb["redirect_type_txt"] = 'Redirect Type';
+$wb["redirect_path_txt"] = 'Redirect Path';
+$wb["active_txt"] = 'Active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["document_root_txt"] = 'Documentroot';
+$wb["system_user_txt"] = 'Linux User';
+$wb["system_group_txt"] = 'Linux Group';
+$wb["ip_address_txt"] = 'IP-Address';
+$wb["vhost_type_txt"] = 'VHost Type';
+$wb["hd_quota_txt"] = 'Harddisk Quota';
+$wb["traffic_quota_txt"] = 'Traffic Quaota';
+$wb["cgi_txt"] = 'CGI';
+$wb["ssi_txt"] = 'SSI';
+$wb["suexec_txt"] = 'SuEXEC';
+$wb["php_txt"] = 'PHP';
+$wb["client_txt"] = 'Client';
+?>
