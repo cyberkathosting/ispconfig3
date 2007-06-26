@@ -1,0 +1,27 @@
+
+######################################################
+# This virtual host contains the configuration
+# for the ISPConfig controlpanel
+######################################################
+
+Listen 8080
+NameVirtualHost *:8080
+
+<VirtualHost _default_:8080>
+	ServerAdmin webmaster@localhost
+    DocumentRoot /usr/local/ispconfig/interface/web/
+	
+	<IfModule mod_php5.c>
+  		AddType application/x-httpd-php .php
+	</IfModule>
+	
+	<Directory /usr/local/ispconfig/interface/web/>
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	
+	ErrorLog /var/log/apache2/error.log
+	CustomLog /var/log/apache2/access.log combined
+    ServerSignature Off
+	
+</VirtualHost>

@@ -451,6 +451,26 @@ maildrop  unix  -       n       n       -       -       pipe
 	}
 	
 	
+	function configure_pureftpd() {
+		global $conf;
+		
+		// configure pam for SMTP authentication agains the ispconfig database
+		$configfile = 'mysql.conf';
+		if(is_file($conf["dist_pureftpd_config_dir"].'/'.$configfile)) copy($conf["dist_pureftpd_config_dir"].'/'.$configfile,$conf["dist_pureftpd_config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["dist_pureftpd_config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["dist_pureftpd_config_dir"].'/'.$configfile.'~');
+		$content = rf("tpl/pureftpd_".$configfile.".master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
+		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
+		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
+		wf($conf["dist_pureftpd_config_dir"].'/'.$configfile,$content);
+		exec('chmod 600 '.$conf["dist_pureftpd_config_dir"].'/'.$configfile);
+		exec('chown root:root '.$conf["dist_pureftpd_config_dir"].'/'.$configfile);
+	
+	}
+	
+	
 	function install_ispconfig() {
 		global $conf;
 		
@@ -495,6 +515,7 @@ maildrop  unix  -       n       n       -       -       pipe
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_host}',$conf["mysql_server_host"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["ispconfig_install_dir"].'/server/lib/'.$configfile,$content);
 		
 		
@@ -516,6 +537,11 @@ maildrop  unix  -       n       n       -       -       pipe
 		// Make the shell scripts executable
 		$command = "chmod +x ".$conf["ispconfig_install_dir"]."/server/scripts/*.sh";
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		
+		// Copy the ISPConfig vhost for the controlpanel
+		copy('tpl/apache_ispconfig.vhost.master',$conf["dist_apache_vhost_conf_dir"].'/ispconfig.vhost');
+		// and create the symlink
+		exec('ln -s '.$conf["dist_apache_vhost_conf_dir"].'/ispconfig.vhost '.$conf["dist_apache_vhost_conf_enabled_dir"].'/ispconfig.vhost');
 		
 	}
 	

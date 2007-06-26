@@ -333,7 +333,7 @@ function show_services ()
     $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
     }
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">BIND-Server:</font></td>
+       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">DNS-Server:</font></td>
        <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
      </tr>';
 

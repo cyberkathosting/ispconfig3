@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 30. Mai 2007 um 16:57
+-- Erstellungszeit: 26. Juni 2007 um 13:47
 -- Server Version: 5.0.24
 -- PHP-Version: 5.1.4
 -- 
@@ -50,6 +50,8 @@ CREATE TABLE `client` (
   `limit_spamfilter_wblist` int(11) NOT NULL default '0',
   `limit_spamfilter_user` int(11) NOT NULL default '0',
   `limit_spamfilter_policy` int(11) NOT NULL default '0',
+  `default_webserver` int(11) NOT NULL,
+  `limit_web_ip` text NOT NULL,
   `username` varchar(255) default NULL,
   `password` varchar(255) default NULL,
   `language` varchar(255) NOT NULL default 'en',
@@ -60,6 +62,7 @@ CREATE TABLE `client` (
 -- 
 -- Daten für Tabelle `client`
 -- 
+
 
 -- --------------------------------------------------------
 
@@ -126,6 +129,41 @@ CREATE TABLE `dns_soa` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `ftp_user`
+-- 
+
+CREATE TABLE `ftp_user` (
+  `ftp_user_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) NOT NULL default '0',
+  `parent_domain_id` int(11) NOT NULL default '0',
+  `username` varchar(255) default NULL,
+  `password` varchar(255) default NULL,
+  `quota_size` int(11) NOT NULL default '-1',
+  `active` varchar(255) NOT NULL default 'y',
+  `uid` int(11) NOT NULL default '0',
+  `gid` int(11) NOT NULL default '0',
+  `dir` varchar(255) default NULL,
+  `quota_files` int(11) NOT NULL default '-1',
+  `ul_ratio` int(11) NOT NULL default '-1',
+  `dl_ratio` int(11) NOT NULL default '-1',
+  `ul_bandwidth` int(11) NOT NULL default '-1',
+  `dl_bandwidth` int(11) NOT NULL default '-1',
+  PRIMARY KEY  (`ftp_user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+
+-- 
+-- Daten für Tabelle `ftp_user`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `mail_access`
 -- 
 
@@ -143,11 +181,13 @@ CREATE TABLE `mail_access` (
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`access_id`),
   KEY `server_id` (`server_id`,`source`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `mail_access`
 -- 
+
+
 -- --------------------------------------------------------
 
 -- 
@@ -172,6 +212,7 @@ CREATE TABLE `mail_domain` (
 -- Daten für Tabelle `mail_domain`
 -- 
 
+
 -- --------------------------------------------------------
 
 -- 
@@ -192,11 +233,12 @@ CREATE TABLE `mail_forwarding` (
   `active` enum('y','n') NOT NULL,
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `mail_forwarding`
 -- 
+
 
 -- --------------------------------------------------------
 
@@ -226,6 +268,7 @@ CREATE TABLE `mail_get` (
 -- Daten für Tabelle `mail_get`
 -- 
 
+
 -- --------------------------------------------------------
 
 -- 
@@ -241,7 +284,7 @@ CREATE TABLE `mail_greylist` (
   `origin_type` enum('MANUAL','AUTO') NOT NULL default 'AUTO',
   `create_time` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`greylist_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 ;
 
 -- 
 -- Daten für Tabelle `mail_greylist`
@@ -263,7 +306,7 @@ CREATE TABLE `mail_mailman_domain` (
   `mm_user` varchar(50) NOT NULL default '',
   `mm_group` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 ;
 
 -- 
 -- Daten für Tabelle `mail_mailman_domain`
@@ -296,7 +339,6 @@ CREATE TABLE `mail_transport` (
 -- 
 -- Daten für Tabelle `mail_transport`
 -- 
-
 -- --------------------------------------------------------
 
 -- 
@@ -321,6 +363,7 @@ CREATE TABLE `mail_user` (
   `homedir` varchar(255) NOT NULL,
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_text` tinytext NOT NULL,
+  `custom_mailfilter` text,
   `postfix` enum('y','n') NOT NULL,
   `access` enum('y','n') NOT NULL,
   PRIMARY KEY  (`mailuser_id`),
@@ -361,7 +404,28 @@ CREATE TABLE `server` (
 -- Daten für Tabelle `server`
 -- 
 
-INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 1, 'riud', 'riud', 'r', 'Server 1', 1, 1, 1, 1, 1, 1, '[global]\nwebserver=apache\nmailserver=postfix\ndnsserver=mydns\n\n[mail]\nmodule=postfix_mysql\nmaildir_path=/home/vmail/[domain]/[localpart]/\nhomedir_path=/home/vmail/\nmailuser_uid=5000\nmailuser_gid=5000\n\n[getmail]\ngetmail_config_dir=/etc/getmail\n', 0, 1);
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `server_ip`
+-- 
+
+CREATE TABLE `server_ip` (
+  `server_ip_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(10) unsigned NOT NULL default '0',
+  `ip_address` varchar(15) default NULL,
+  `virtualhost` char(1) NOT NULL default 'y',
+  PRIMARY KEY  (`server_ip_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+
+-- 
+-- Daten für Tabelle `server_ip`
+-- 
 
 -- --------------------------------------------------------
 
@@ -487,7 +551,6 @@ CREATE TABLE `spamfilter_wblist` (
 
 -- --------------------------------------------------------
 
-
 -- 
 -- Tabellenstruktur für Tabelle `sys_datalog`
 -- 
@@ -530,7 +593,7 @@ CREATE TABLE `sys_dbsync` (
   `last_datalog_id` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `last_datalog_id` (`last_datalog_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1  ;
 
 -- 
 -- Daten für Tabelle `sys_dbsync`
@@ -583,7 +646,6 @@ CREATE TABLE `sys_group` (
 INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (1, 'admin', 'Administrators group', 0);
 INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (2, 'user', 'Users Group', 0);
 
-
 -- --------------------------------------------------------
 
 -- 
@@ -615,4 +677,42 @@ CREATE TABLE `sys_user` (
 -- Daten für Tabelle `sys_user`
 -- 
 
-INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `language`, `groups`, `default_group`, `client_id`) VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,client,mail', 'mail', 'default', 'admin', 1, 'en', '1,2', 1, 0);
+INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `language`, `groups`, `default_group`, `client_id`) VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,client,mail,monitor,sites', 'mail', 'default', 'admin', 1, 'en', '1,2', 1, 0);
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `web_domain`
+-- 
+
+CREATE TABLE `web_domain` (
+  `domain_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) NOT NULL default '0',
+  `ip_address` varchar(15) default NULL,
+  `domain` varchar(255) default NULL,
+  `type` varchar(255) NOT NULL default 'y',
+  `parent_domain_id` int(11) NOT NULL default '0',
+  `vhost_type` varchar(255) default NULL,
+  `document_root` varchar(255) default NULL,
+  `system_user` varchar(255) default NULL,
+  `system_group` varchar(255) default NULL,
+  `hd_quota` int(11) NOT NULL default '0',
+  `traffic_quota` int(11) NOT NULL default '0',
+  `cgi` varchar(255) NOT NULL default 'y',
+  `ssi` varchar(255) NOT NULL default 'y',
+  `suexec` varchar(255) NOT NULL default 'y',
+  `php` varchar(255) NOT NULL default 'y',
+  `redirect_type` varchar(255) NOT NULL default 'y',
+  `redirect_path` varchar(255) default NULL,
+  `active` varchar(255) NOT NULL default 'y',
+  PRIMARY KEY  (`domain_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+
+-- 
+-- Daten für Tabelle `web_domain`
+-- 

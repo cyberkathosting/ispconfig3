@@ -33,7 +33,6 @@ class apache2_plugin {
 	var $plugin_name = 'apache2_plugin';
 	var $class_name = $this->plugin_name;
 	
-	
 		
 	/*
 	 	This function is called when the plugin is loaded

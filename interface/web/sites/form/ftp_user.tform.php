@@ -173,9 +173,6 @@ $form["tabs"]['advanced'] = array (
 		'quota_files' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'quota_files_error_empty'),
-									),
 			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '7',
@@ -184,9 +181,6 @@ $form["tabs"]['advanced'] = array (
 		'ul_ratio' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'ul_ratio_error_empty'),
-									),
 			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '7',
@@ -195,9 +189,6 @@ $form["tabs"]['advanced'] = array (
 		'dl_ratio' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'qdl_ratio_error_empty'),
-									),
 			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '7',
@@ -206,9 +197,6 @@ $form["tabs"]['advanced'] = array (
 		'ul_bandwidth' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'ul_bandwidth_error_empty'),
-									),
 			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '7',
@@ -217,9 +205,6 @@ $form["tabs"]['advanced'] = array (
 		'dl_bandwidth' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'dl_bandwidth_error_empty'),
-									),
 			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '7',

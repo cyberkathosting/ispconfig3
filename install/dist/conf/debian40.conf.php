@@ -5,6 +5,7 @@ $conf["distname"] = "debian40";
 $conf["hostname"] = "server1.example.com"; // Full hostname
 $conf["ispconfig_install_dir"] = "/usr/local/ispconfig";
 $conf["ispconfig_config_dir"] = "/usr/local/ispconfig";
+$conf["server_id"] = 1;
 
 /*
 	Distribution specific settings
@@ -20,6 +21,8 @@ $conf["dist_apache_user"] = "www-data";
 $conf["dist_apache_group"] = "www-data";
 $conf["dist_apache_init_script"] = "apache2";
 $conf["dist_apache_version"] = "2.2";
+$conf["dist_apache_vhost_conf_dir"] = "/etc/apache2/sites-available";
+$conf["dist_apache_vhost_conf_enabled_dir"] = "/etc/apache2/sites-enabled";
 
 // Postfix
 $conf["dist_postfix_config_dir"] = "/etc/postfix";
@@ -40,6 +43,9 @@ $conf["dist_courier_config_dir"] = "/etc/courier";
 
 // Amavisd
 $conf["dist_amavis_config_dir"] = "/etc/amavis";
+
+// Pureftpd
+$conf["dist_pureftpd_config_dir"] = "/etc/pure-ftpd/db";
 
 /*
 	MySQL Database settings

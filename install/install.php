@@ -90,6 +90,10 @@ $inst->configure_amavis();
 swriteln('Configuring Getmail');
 $inst->configure_getmail();
 
+// Configure Getmail
+swriteln('Configuring Pureftpd');
+$inst->configure_pureftpd();
+
 // Configure ISPConfig
 swriteln('Installing ISPConfig');
 $inst->install_ispconfig();

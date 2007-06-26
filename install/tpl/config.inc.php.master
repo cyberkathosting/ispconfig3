@@ -35,7 +35,7 @@ ini_set('register_globals',0);
 
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
-$conf["server_id"] 	= "1";
+$conf["server_id"] 	= "{server_id}";
 
 
 /*

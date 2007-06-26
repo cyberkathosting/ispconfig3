@@ -54,6 +54,26 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 	
 	
+	function onAfterInsert() {
+		global $app, $conf;
+		
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+		$server_id = $web["server_id"];
+		$dir = $web["document_root"];
+		$uid = $web["system_user"];
+		$gid = $web["system_group"];
+		
+		$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid' WHERE ftp_user_id = ".$this->id;
+		$app->db->query($sql);
+		
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		
+	}
+	
 }
 
 $page = new page_action;
