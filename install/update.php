@@ -91,7 +91,7 @@ foreach($db_tables as $table) {
 exec("mysql -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] $conf[mysql_server_database] < existing_db.sql  &> /dev/null");
 
 // Configure postfix
-$inst->configure_postfix();
+$inst->configure_postfix('dont-create-certs');
 
 // Configure saslauthd
 swriteln('Configuring SASL');
