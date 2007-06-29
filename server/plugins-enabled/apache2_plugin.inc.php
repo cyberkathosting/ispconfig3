@@ -31,7 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class apache2_plugin {
 	
 	var $plugin_name = 'apache2_plugin';
-	var $class_name = $this->plugin_name;
+	var $class_name = 'apache2_plugin';
 	
 		
 	/*
@@ -54,7 +54,8 @@ class apache2_plugin {
 	function insert($event_name,$data) {
 		global $app, $conf;
 		
-		
+		// just run the update function
+		$this->update($event_name,$data);
 		
 		
 	}
@@ -67,12 +68,100 @@ class apache2_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 		
+		if($data["new"]["document_root"] == '') {
+			$app->log("document_root not set",LOGLEVEL_WARN);
+			return 0;
+		}
+		
+		//print_r($data);
+		
+		// Check if the directories are there and create them if nescessary.
+		if(!is_dir($data["new"]["document_root"]."/web")) exec("mkdir -p ".$data["new"]["document_root"]."/web");
+		if(!is_dir($data["new"]["document_root"]."/log")) exec("mkdir -p ".$data["new"]["document_root"]."/log");
+		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
+		if(!is_dir($data["new"]["document_root"]."/cgi-bin")) exec("mkdir -p ".$data["new"]["document_root"]."/cgi-bin");
+		
+		// TODO: Create the symlinks
+		
+		
+		// Create group and user, if not exist
+		$app->uses("system");
+		
+		$groupname = escapeshellcmd($data["new"]["system_group"]);
+		if($data["new"]["system_group"] != '' && !$app->system->is_group($data["new"]["system_group"])) {
+			exec("groupadd $groupname");
+			$app->log("Adding the group: $groupname",LOGLEVEL_DEBUG);
+		}
+		
+		$username = escapeshellcmd($data["new"]["system_user"]);
+		if($data["new"]["system_user"] != '' && !$app->system->is_user($data["new"]["system_user"])) {
+			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname $username");
+			$app->log("Adding the user: $username",LOGLEVEL_DEBUG);
+		}
+		
+		// Chown and chmod the directories
+		exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
+		
+		// Create the vhost config file
+		$app->load('tpl');
+		
+		$tpl = new tpl();
+		$tpl->newTemplate("vhost.conf.master");
+		
+		$vhost_data = $data["new"];
+		$vhost_data["document_root"] = $data["new"]["document_root"]."/web";
+		$tpl->setVar($vhost_data);
+		
+		// get alias domains
+		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]);
+		$server_alias = '';
+		foreach($aliases as $alias) {
+			$server_alias .= $alias["domain"].' ';
+		}
+		$tpl->setVar('alias',trim($server_alias));
+		
+		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["new"]["domain"].'.vhost');
+		file_put_contents($vhost_file,$tpl->grab());
+		$app->log("Writing the vhost file: $vhost_file",LOGLEVEL_DEBUG);
+		unset($tpl);
+		
+		// Set the symlink to enable the vhost
+		$vhost_symlink = escapeshellcmd($web_config["vhost_conf_enabled_dir"].'/'.$data["new"]["domain"].'.vhost');
+		if($data["new"]["active"] == 'y' && !is_link($vhost_symlink)) {
+			symlink($vhost_file,$vhost_symlink);
+			$app->log("Creating the symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
+		}
+		
+		// Remove the symlink, if site is inactive
+		if($data["new"]["active"] == 'n' && is_link($vhost_symlink)) {
+			unlink($vhost_symlink);
+			$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
+		}
+		
+		// request a httpd reload when all records have been processed
+		$app->services->restartServiceDelayed('httpd','reload');
 		
 	}
 	
 	function delete($event_name,$data) {
 		global $app, $conf;
 		
+		// load the server configuration options
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
+		// Deleting the vhost file, symlink and the data directory
+		$vhost_symlink = escapeshellcmd($web_config["vhost_conf_enabled_dir"].'/'.$data["old"]["domain"].'.vhost');
+		unlink($vhost_symlink);
+		$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
+		
+		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["old"]["domain"].'.vhost');
+		unlink($vhost_file);
+		$app->log("Removing vhost file: $vhost_file",LOGLEVEL_DEBUG);
+		
+		$docroot = escapeshellcmd($data["old"]["document_root"]);
+		if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
+		$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
 		
 	}
 	

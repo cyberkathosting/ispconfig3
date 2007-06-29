@@ -167,7 +167,8 @@ class page_action extends tform_actions {
 		
 		// Get configuration for the web system
 		$app->uses("getconf");
-		$web_config = $app->getconf->get_server_config(intval($this->dataRecord["server_id"]),'web');
+		$web_rec = $app->tform->getDataRecord($this->id);
+		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
 		
 		// get the ID of the client
@@ -202,7 +203,8 @@ class page_action extends tform_actions {
 		
 		// Get configuration for the web system
 		$app->uses("getconf");
-		$web_config = $app->getconf->get_server_config(intval($this->dataRecord["server_id"]),'web');
+		$web_rec = $app->tform->getDataRecord($this->id);
+		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
 		
 		// get the ID of the client
@@ -211,7 +213,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$client_id = intval($client["client_id"]);
 		} else {
-			$client_id = intval($this->dataRecord["client_group_id"]);
+			$client_id = intval($web_rec["client_group_id"]);
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($this->dataRecord["client_group_id"]));
 			$client_id = intval($client["client_id"]);
 		}

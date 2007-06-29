@@ -467,6 +467,8 @@ maildrop  unix  -       n       n       -       -       pipe
 		wf($conf["dist_pureftpd_config_dir"].'/'.$configfile,$content);
 		exec('chmod 600 '.$conf["dist_pureftpd_config_dir"].'/'.$configfile);
 		exec('chown root:root '.$conf["dist_pureftpd_config_dir"].'/'.$configfile);
+		// enable chrooting
+		exec('echo "yes" > /etc/pure-ftpd/conf/ChrootEveryone');
 	
 	}
 	

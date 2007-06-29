@@ -60,7 +60,10 @@ class web_module {
  		class that contains the function functionname.
 		*/
 		
-		$app->modules->registerTableHook('web_domain','mail_module','process');
+		$app->modules->registerTableHook('web_domain','web_module','process');
+		
+		// Register service
+		$app->services->registerService('httpd','web_module','restartHttpd');
 		
 	}
 	
@@ -80,6 +83,18 @@ class web_module {
 			break;
 		} // end switch
 	} // end function
+	
+	
+	// This function is used
+	function restartHttpd($action = 'restart') {
+		global $app;
+		if($action == 'restart') {
+			exec('/etc/init.d/apache2 restart');
+		} else {
+			exec('/etc/init.d/apache2 reload');
+		}
+		
+	}
 
 } // end class
 

@@ -40,16 +40,25 @@ require_once('lib/installer_base.lib.php');
 
 $distname = get_distname();
 
+include_once("/usr/local/ispconfig/server/lib/config.inc.php");
+$conf_old = $conf;
+unset $conf;
+
 // Include the distribution specific installer class library
 // and configuration
 include_once('dist/lib/'.$distname.'.lib.php');
 include_once('dist/conf/'.$distname.'.conf.php');
 
+// Set the mysql login information
+$conf["mysql_server_host"] = $conf_old["db_host"];
+$conf["mysql_server_database"] = $conf_old["db_database"];
+$conf["mysql_server_ispconfig_user"] = $conf_old["db_user"];
+$conf["mysql_server_ispconfig_password"] = $conf_old["db_password"];
+
 $inst = new installer();
 
 
-
-echo "This application will install ISPConfig 3 on your server.\n";
+echo "This application will update ISPConfig 3 on your server.\n";
 
 // $conf["language"] = $inst->request_language();
 
@@ -59,8 +68,27 @@ echo "This application will install ISPConfig 3 on your server.\n";
 include_once('lib/mysql.lib.php');
 $inst->db = new db();
 
+// Database update is a bit brute force and should be rebuild later ;)
+
+// export the current database data
+exec("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] -c -t --add-drop-table --add-locks --all --quick --lock-tables $conf[mysql_server_database] > existing_db.sql  &> /dev/null");
+
+// Delete the old database
+exec("/etc/init.d/mysql stop");
+exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
+exec("/etc/init.d/mysql start");
+
 // Create the mysql database
 $inst->configure_database();
+
+// empty all databases
+$db_tables = $inst->db->getTables();
+foreach($db_tables as $table) {
+	$inst->db->query("TRUNCATE $table");
+}
+
+// load old data back into database
+exec("mysql -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] $conf[mysql_server_database] < existing_db.sql  &> /dev/null");
 
 // Configure postfix
 $inst->configure_postfix();
@@ -105,14 +133,6 @@ $inst->install_crontab();
 
 /*
 Restart services:
-
-saslauthd
-all courier
-apache2
-postfix
-amavisd
-calmd
-spamd
 */
 
 swriteln('Restarting services ...');
@@ -129,7 +149,7 @@ system("/etc/init.d/courier-pop-ssl restart");
 system("/etc/init.d/apache2 restart");
 system("/etc/init.d/pure-ftpd-mysql restart");
 
-echo "Installation finished.\n";
+echo "Update finished.\n";
 
 
 ?>

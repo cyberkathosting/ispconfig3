@@ -99,6 +99,7 @@ $form["tabs"]['ftp'] = array (
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
+			'encryption' => 'CRYPT',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -138,26 +139,26 @@ $form["tabs"]['advanced'] = array (
 	# Begin Datatable fields
 	##################################
 		'uid' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'uid_error_empty'),
 									),
 			'default'	=> '0',
 			'value'		=> '',
-			'width'		=> '5',
-			'maxlength'	=> '5'
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
 		'gid' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'uid_error_empty'),
 									),
 			'default'	=> '0',
 			'value'		=> '',
-			'width'		=> '5',
-			'maxlength'	=> '5'
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
 		'dir' => array (
 			'datatype'	=> 'VARCHAR',

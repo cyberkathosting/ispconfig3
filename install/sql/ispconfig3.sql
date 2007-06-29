@@ -404,6 +404,8 @@ CREATE TABLE `server` (
 -- Daten für Tabelle `server`
 -- 
 
+INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 1, 'riud', 'riud', 'r', 'Server 1', 1, 1, 1, 1, 1, 1, '[global]\nwebserver=apache\nmailserver=postfix\ndnsserver=mydns\n\n[mail]\nmodule=postfix_mysql\nmaildir_path=/home/vmail/[domain]/[localpart]/\nhomedir_path=/home/vmail/\nmailuser_uid=5000\nmailuser_gid=5000\nmailuser_name=vmail\nmailuser_group=vmail\n\n[getmail]\ngetmail_config_dir=/etc/getmail\n\n[web]\nwebsite_path=/var/clients/client[client_id]/web[website_id]\nwebsite_symlinks=/var/www/[website_domain]/:/var/clients/client[client_id]/[website_domain]/\n\n', 0, 1);
+
 -- --------------------------------------------------------
 
 -- 

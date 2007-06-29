@@ -102,9 +102,13 @@ class tform_actions {
                 $ext_where = '';
                 $sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'UPDATE',$this->id,$ext_where);
                 if($app->tform->errorMessage == '') {
+						
+						if($app->tform->formDef['db_history'] == 'yes') {
+							$old_data_record = $app->tform->getDataRecord($this->id);
+						}
 
                         if(!empty($sql)) {
-                                $app->db->query($sql);
+                            $app->db->query($sql);
                             if($app->db->errorMessage != '') die($app->db->errorMessage);
                         }
 						
@@ -118,6 +122,14 @@ class tform_actions {
                         }
 
                         $this->onAfterUpdate();
+						
+						// Write data history (sys_datalog)
+						if($app->tform->formDef['db_history'] == 'yes') {
+							$new_data_record = $app->tform->getDataRecord($this->id);
+							$app->tform->datalogSave('UPDATE',$this->id,$old_data_record,$new_data_record);
+							unset($new_data_record);
+							unset($old_data_record);
+						}
 
                         if($_REQUEST["next_tab"] == '') {
                            $list_name = $_SESSION["s"]["form"]["return_to"];
@@ -175,6 +187,13 @@ class tform_actions {
                         }
 
                         $this->onAfterInsert();
+						
+						// Write data history (sys_datalog)
+						if($app->tform->formDef['db_history'] == 'yes') {
+							$new_data_record = $app->tform->getDataRecord($this->id);
+							$app->tform->datalogSave('INSERT',$this->id,array(),$new_data_record);
+							unset($new_data_record);
+						}
 						
 
                      if($_REQUEST["next_tab"] == '') {
@@ -260,20 +279,10 @@ class tform_actions {
                         $record_old = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
 
                         // Saving record to datalog when db_history enabled
-                        if($form["db_history"] == 'yes') {
-                                $diffrec = array();
-
-                                foreach($record_old as $key => $val) {
-                                        // Record has changed
-                                        $diffrec[$key] = array('old' => $val,
-                                                                                           'new' => '');
-                                }
-
-                                $diffstr = $app->db->quote(serialize($diffrec));
-                                $username = $app->db->quote($_SESSION["s"]["user"]["username"]);
-                                $dbidx = $app->tform->formDef['db_table_idx'].":".$this->id;
-                                $sql = "INSERT INTO sys_datalog (dbtable,dbidx,action,tstamp,user,data) VALUES ('".$app->tform->formDef['db_table']."','$dbidx','d','".time()."','$username','$diffstr')";
-                                $app->db->query($sql);
+                        if($app->tform->formDef["db_history"] == 'yes') {
+							$old_data_record = $app->tform->getDataRecord($this->id);
+							$app->tform->datalogSave('DELETE',$this->id,$old_data_record,array());
+							unset($old_data_record);
                         }
 
                         $app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);

@@ -766,9 +766,7 @@ class tform {
                                 $app->error("Primary ID fehlt!");
                         }
                 }
-
-                // Daten in History tabelle speichern
-                if($this->errorMessage == '' and $this->formDef['db_history'] == 'yes') $this->datalogSave($action,$primary_id,$record);
+                
                 return $sql;
         }
 
@@ -839,11 +837,16 @@ class tform {
                 // Set Wordbook for this form
 
                 $app->tpl->setVar($this->wordbook);
-    }
+    	}
 
+		function getDataRecord($primary_id) {
+			global $app;
+			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+            return $app->db->queryOneRecord($sql);
+		}
+		
 
-
-        function datalogSave($action,$primary_id,$record_new) {
+        function datalogSave($action,$primary_id, $record_old, $record_new) {
                 global $app,$conf;
 
                 // Füge Backticks nur bei unvollständigen Tabellennamen ein
@@ -852,17 +855,19 @@ class tform {
                 } else {
                         $escape = '`';
                 }
-
-                if($action == "UPDATE") {
+				
+				/*
+                if($action == "UPDATE" or $action == "DELETE") {
                         $sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
                         $record_old = $app->db->queryOneRecord($sql);
                 } else {
                         $record_old = array();
                 }
+				*/
 
                 $diffrec = array();
 				
-                if(is_array($record_new)) {
+                if(is_array($record_new) && count($record_new) > 0) {
                         foreach($record_new as $key => $val) {
                                 if($record_old[$key] != $val) {
 										// Record has changed
@@ -870,13 +875,22 @@ class tform {
                                                                'new' => $val);
                                 }
                         }
+                } elseif(is_array($record_old)) {
+                        foreach($record_old as $key => $val) {
+                                if($record_new[$key] != $val) {
+										// Record has changed
+                                        $diffrec[$key] = array('new' => $record_new[$key],
+                                                               'old' => $val);
+                                }
+                        }
                 }
 				$this->diffrec = $diffrec;
+				
 				
 				// Full diff records for ISPConfig, they have a different format then the simple diffrec
 				$diffrec_full = array();
 
-                if(is_array($record_old)) {
+                if(is_array($record_old) && count($record_old) > 0) {
                         foreach($record_old as $key => $val) {
                                 if(isset($record_new[$key]) && $record_new[$key] != $val) {
                                     // Record has changed
@@ -885,6 +899,17 @@ class tform {
                                 } else {
 									$diffrec_full['old'][$key] = $val;
 									$diffrec_full['new'][$key] = $val;
+								}
+                        }
+                } elseif(is_array($record_new)) {
+                        foreach($record_new as $key => $val) {
+                                if(isset($record_new[$key]) && $record_old[$key] != $val) {
+                                    // Record has changed
+									$diffrec_full['new'][$key] = $val;
+									$diffrec_full['old'][$key] = $record_old[$key];
+                                } else {
+									$diffrec_full['new'][$key] = $val;
+									$diffrec_full['old'][$key] = $val;
 								}
                         }
                 }
@@ -903,7 +928,11 @@ class tform {
 						$diffstr = $app->db->quote(serialize($diffrec_full));
                         $username = $app->db->quote($_SESSION["s"]["user"]["username"]);
                         $dbidx = $this->formDef['db_table_idx'].":".$primary_id;
-                        $action = ($action == 'INSERT')?'i':'u';
+                        // $action = ($action == 'INSERT')?'i':'u';
+						
+						if($action == 'INSERT') $action = 'i';
+						if($action == 'UPDATE') $action = 'u';
+						if($action == 'DELETE') $action = 'd';
                         $sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$this->formDef['db_table']."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
 						$app->db->query($sql);
                 }

@@ -76,7 +76,7 @@ if($tmp_num_records > 0) {
 	$app->log("Found $tmp_num_records changes, starting update process.",LOGLEVEL_DEBUG);
 	
 	// Load required base-classes
-	$app->uses('ini_parser,modules,plugins');
+	$app->uses('ini_parser,modules,plugins,file,services');
 	
 	
 	// Get server configuration
@@ -99,8 +99,15 @@ if($tmp_num_records > 0) {
 	 in the modules that are hooked on to the table actions
 	*/
 	$app->modules->processDatalog();
+	
+	/*
+	 Restart services that need to be restarted after configuration
+	*/
+	$app->services->processDelayedActions();
+	
+	
 } else {
-	$app->log('Nothing to Update.',LOGLEVEL_DEBUG);
+	$app->log('No Updated records found.',LOGLEVEL_DEBUG);
 }
 
 /*
