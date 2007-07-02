@@ -104,7 +104,7 @@ class installer_base {
 		Create postfix configuration files
 	*/
 	
-	function configure_postfix($options = '';) {
+	function configure_postfix($options = '') {
 		global $conf;
 		
 		if(!is_dir($conf["dist_postfix_config_dir"])) $this->error("The postfix configuration directory ".$conf["dist_postfix_config_dir"]." does not exist.");
@@ -248,7 +248,7 @@ maildrop  unix  -       n       n       -       -       pipe
   flags=R user=vmail argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}
 		
 		*/
-		if(stristr($options,'dont-create-certs') {
+		if(stristr($options,'dont-create-certs')) {
 			// Create the SSL certificate
 			$command = "cd ".$conf["dist_postfix_config_dir"]."; openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 365 -x509";
 			exec($command);

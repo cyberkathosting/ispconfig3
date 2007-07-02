@@ -42,7 +42,7 @@ $distname = get_distname();
 
 include_once("/usr/local/ispconfig/server/lib/config.inc.php");
 $conf_old = $conf;
-unset $conf;
+unset($conf);
 
 // Include the distribution specific installer class library
 // and configuration
@@ -75,7 +75,7 @@ exec("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user
 
 // Delete the old database
 exec("/etc/init.d/mysql stop");
-exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
+if($conf["mysql_server_database"] != '') exec("rm -rf /var/lib/mysql/".$conf["mysql_server_database"]);
 exec("/etc/init.d/mysql start");
 
 // Create the mysql database
