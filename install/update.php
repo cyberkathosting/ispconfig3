@@ -71,7 +71,7 @@ $inst->db = new db();
 // Database update is a bit brute force and should be rebuild later ;)
 
 // export the current database data
-system("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] -c -t --add-drop-table --add-locks --all --quick --lock-tables $conf[mysql_server_database] > existing_db.sql");
+system("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] -c -t --add-drop-table --all --quick $conf[mysql_server_database] > existing_db.sql");
 
 // Delete the old database
 exec("/etc/init.d/mysql stop");
