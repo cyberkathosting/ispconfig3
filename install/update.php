@@ -71,12 +71,14 @@ $inst->db = new db();
 // Database update is a bit brute force and should be rebuild later ;)
 
 // export the current database data
-exec("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] -c -t --add-drop-table --add-locks --all --quick --lock-tables $conf[mysql_server_database] > existing_db.sql  &> /dev/null");
+system("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] -c -t --add-drop-table --add-locks --all --quick --lock-tables $conf[mysql_server_database] > existing_db.sql");
 
 // Delete the old database
 exec("/etc/init.d/mysql stop");
+sleep(3);
 if($conf["mysql_server_database"] != '') exec("rm -rf /var/lib/mysql/".$conf["mysql_server_database"]);
 exec("/etc/init.d/mysql start");
+sleep(5);
 
 // Create the mysql database
 $inst->configure_database();
@@ -88,7 +90,7 @@ foreach($db_tables as $table) {
 }
 
 // load old data back into database
-exec("mysql -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] $conf[mysql_server_database] < existing_db.sql  &> /dev/null");
+system("mysql -h $conf[mysql_server_host] -u $conf[mysql_server_ispconfig_user] -p$conf[mysql_server_ispconfig_password] $conf[mysql_server_database] < existing_db.sql");
 
 // Configure postfix
 $inst->configure_postfix('dont-create-certs');
