@@ -3,9 +3,10 @@
 <VirtualHost <tmpl_var name='ip_address'>:80>
     DocumentRoot <tmpl_var name='web_document_root'>
     ServerName <tmpl_var name='domain'>
+
+<tmpl_if name='alias'>
     ServerAlias <tmpl_var name='alias'>
-    RewriteEngine on
-    
+</tmpl_if>
 <tmpl_if name='cgi'>
     # cgi enabled
     ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
@@ -18,7 +19,7 @@
     AddOutputFilter INCLUDES .shtml
 </tmpl_if>
 <tmpl_if name='suexec'>
-	# suexec enabled
+    # suexec enabled
     SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='mod'>
@@ -37,10 +38,12 @@
     AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
 
-
+<tmpl_if name="rewrite_enabled">
+    RewriteEngine on
 <tmpl_loop name="redirects">
     RewriteCond %{HTTP_HOST}   ^<tmpl_var name='rewrite_domain'> [NC]
     RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  [<tmpl_var name='rewrite_type'>]
 </tmpl_loop>
+</tmpl_if>
 
 </VirtualHost>

@@ -165,6 +165,11 @@ class apache2_plugin {
 			}
 		}
 		$tpl->setVar('alias',trim($server_alias));
+		if(count($rewrite_rules) > 0) {
+			$tpl->setVar('rewrite_enabled',1);
+		} else {
+			$tpl->setVar('rewrite_enabled',0);
+		}
 		$tpl->setLoop('redirects',$rewrite_rules);
 		
 		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["new"]["domain"].'.vhost');
