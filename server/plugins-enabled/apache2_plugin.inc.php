@@ -64,12 +64,26 @@ class apache2_plugin {
 	function update($event_name,$data) {
 		global $app, $conf;
 		
+		
+		if($data["new"]["type"] != "vhost" && $data["new"]["parent_domain_id"] > 0) {
+			// This is not a vhost, so we need to update the parent record instead.
+			$parent_domain_id = intval($data["new"]["parent_domain_id"]);
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$parent_domain_id);
+			$data["new"] = $tmp;
+			$data["old"] = $tmp;
+		}
+		
+		
 		// load the server configuration options
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 		
 		if($data["new"]["document_root"] == '') {
 			$app->log("document_root not set",LOGLEVEL_WARN);
+			return 0;
+		}
+		if($data["new"]["system_user"] == 'root' or $data["new"]["system_group"] == 'root') {
+			$app->log("Websites can not be owned by the root user or group.",LOGLEVEL_WARN);
 			return 0;
 		}
 		
@@ -99,6 +113,20 @@ class apache2_plugin {
 			$app->log("Adding the user: $username",LOGLEVEL_DEBUG);
 		}
 		
+		// Set the quota for the user
+		if($username != '' && $app->system->is_user($username)) {
+			if($data["new"]["hd_quota"] > 0){
+    			$blocks_soft = $data["new"]["hd_quota"] * 1024;
+    			$blocks_hard = $blocks_soft + 1024;
+  			} else {
+    			$blocks_soft = $blocks_hard = 0;
+  			}
+			exec("setquota -u $username $blocks_soft $blocks_hard 0 0 -a &> /dev/null");
+			exec("setquota -T -u $username 604800 604800 -a &> /dev/null");
+		}
+		
+		
+		
 		// Chown and chmod the directories
 		exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
 		
@@ -109,16 +137,35 @@ class apache2_plugin {
 		$tpl->newTemplate("vhost.conf.master");
 		
 		$vhost_data = $data["new"];
-		$vhost_data["document_root"] = $data["new"]["document_root"]."/web";
+		$vhost_data["web_document_root"] = $data["new"]["document_root"]."/web";
+		//$vhost_data["document_root"] = $data["new"]["document_root"]."/web";
 		$tpl->setVar($vhost_data);
 		
-		// get alias domains
+		// Rewrite rules
+		$rewrite_rules = array();
+		if($data["new"]["redirect_type"] != '') {
+			$rewrite_rules[] = array(	'rewrite_domain' 	=> $data["new"]["domain"],
+										'rewrite_type' 		=> $data["new"]["redirect_type"],
+										'rewrite_target' 	=> $data["new"]["redirect_path"]);
+		}
+		
+		// get alias domains (co-domains and subdomains)
 		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]);
 		$server_alias = '';
-		foreach($aliases as $alias) {
-			$server_alias .= $alias["domain"].' ';
+		if(is_array($aliases)) {
+			foreach($aliases as $alias) {
+				$server_alias .= $alias["domain"].' ';
+				$app->log("Add server alias: $alias[domain]",LOGLEVEL_DEBUG);
+				// Rewriting
+				if($alias["redirect_type"] != '') {
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias["domain"],
+												'rewrite_type' 		=> $alias["redirect_type"],
+												'rewrite_target' 	=> $alias["redirect_path"]);
+				}
+			}
 		}
 		$tpl->setVar('alias',trim($server_alias));
+		$tpl->setLoop('redirects',$rewrite_rules);
 		
 		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["new"]["domain"].'.vhost');
 		file_put_contents($vhost_file,$tpl->grab());

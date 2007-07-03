@@ -50,7 +50,7 @@ if(!stristr($_SESSION["s"]["user"]["modules"],'sites')) {
 $app->uses('listform_actions');
 
 // Limit the results to alias domains
-// $app->listform_actions->SQLExtWhere = "type = 'local'";
+$app->listform_actions->SQLExtWhere = "type = 'vhost'";
 
 $app->listform_actions->onLoad();
 

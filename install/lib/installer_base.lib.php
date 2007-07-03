@@ -544,7 +544,9 @@ maildrop  unix  -       n       n       -       -       pipe
 		// Copy the ISPConfig vhost for the controlpanel
 		copy('tpl/apache_ispconfig.vhost.master',$conf["dist_apache_vhost_conf_dir"].'/ispconfig.vhost');
 		// and create the symlink
-		exec('ln -s '.$conf["dist_apache_vhost_conf_dir"].'/ispconfig.vhost '.$conf["dist_apache_vhost_conf_enabled_dir"].'/ispconfig.vhost');
+		if(!is_link($conf["dist_apache_vhost_conf_enabled_dir"].'/ispconfig.vhost')) {
+			exec('ln -s '.$conf["dist_apache_vhost_conf_dir"].'/ispconfig.vhost '.$conf["dist_apache_vhost_conf_enabled_dir"].'/ispconfig.vhost');
+		}
 		
 	}
 	

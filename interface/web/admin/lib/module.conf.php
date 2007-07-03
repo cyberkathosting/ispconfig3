@@ -40,19 +40,19 @@ $module["nav"][] = array(	'title'	=> 'Groups',
 
 // aufräumen
 unset($items);
-
+/*
 $items[] = array( 'title' 	=> "Add server",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_edit.php');
-
+*/
 $items[] = array( 'title' 	=> "Edit server",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_list.php');
-
+/*
 $items[] = array( 'title' 	=> "Add Server IP",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_ip_edit.php');
-
+*/
 $items[] = array( 'title' 	=> "Edit Server IP",
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_ip_list.php');				  

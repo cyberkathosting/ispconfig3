@@ -1,26 +1,46 @@
 # NameVirtualHost *:80
 
 <VirtualHost <tmpl_var name='ip_address'>:80>
-    DocumentRoot <tmpl_var name='document_root'>
+    DocumentRoot <tmpl_var name='web_document_root'>
     ServerName <tmpl_var name='domain'>
-	ServerAlias <tmpl_var name='alias'>
+    ServerAlias <tmpl_var name='alias'>
+    RewriteEngine on
     
 <tmpl_if name='cgi'>
-	# cgi enabled
+    # cgi enabled
+    ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
+    AddHandler cgi-script .cgi
+    AddHandler cgi-script .pl
 </tmpl_if>
 <tmpl_if name='ssi'>
-	# ssi enabled
+    # ssi enabled
+    AddType text/html .shtml
+    AddOutputFilter INCLUDES .shtml
 </tmpl_if>
 <tmpl_if name='suexec'>
 	# suexec enabled
+    SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='mod'>
-	# mod_php enabled
+    # mod_php enabled
+    AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
 <tmpl_if name='php' op='==' value='suphp'>
-	# suphp enabled
+    # suphp enabled
+    suPHP_Engine on
+    suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    AddHandler x-httpd-php .php .php3 .php4 .php5
+    suPHP_AddHandler x-httpd-php
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
-	# php as cgi enabled
+    # php as cgi enabled
+    AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
+
+
+<tmpl_loop name="redirects">
+    RewriteCond %{HTTP_HOST}   ^<tmpl_var name='rewrite_domain'> [NC]
+    RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  [<tmpl_var name='rewrite_type'>]
+</tmpl_loop>
+
 </VirtualHost>
