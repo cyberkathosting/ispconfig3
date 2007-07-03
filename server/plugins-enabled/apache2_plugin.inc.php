@@ -68,7 +68,7 @@ class apache2_plugin {
 		if($data["new"]["type"] != "vhost" && $data["new"]["parent_domain_id"] > 0) {
 			// This is not a vhost, so we need to update the parent record instead.
 			$parent_domain_id = intval($data["new"]["parent_domain_id"]);
-			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$parent_domain_id);
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$parent_domain_id." AND active = 'y'");
 			$data["new"] = $tmp;
 			$data["old"] = $tmp;
 		}
@@ -150,7 +150,7 @@ class apache2_plugin {
 		}
 		
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]);
+		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]." AND active = 'y'");
 		$server_alias = '';
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {

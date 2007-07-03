@@ -53,12 +53,35 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_web_subdomain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another maildomain.
+			if($client["limit_web_subdomain"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM web_domain WHERE sys_groupid = $client_group_id and type = 'subdomain'");
+				if($tmp["number"] >= $client["limit_web_subdomain"]) {
+					$app->error($app->tform->wordbook["limit_web_subdomain_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onShowEnd() {
 		global $app, $conf;
 		
 		// Get the record of the parent domain
 		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
 		
+		// remove the parent domain part of the domain name before we show it in the text field.
 		$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"],'',$this->dataRecord["domain"]);
 		$app->tpl->setVar("domain",$this->dataRecord["domain"]);
 		

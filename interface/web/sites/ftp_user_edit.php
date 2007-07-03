@@ -53,6 +53,27 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_ftp_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another maildomain.
+			if($client["limit_ftp_user"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(ftp_user_id) as number FROM ftp_user WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_ftp_user"]) {
+					$app->error($app->tform->wordbook["limit_ftp_user_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
 	
 	function onAfterInsert() {
 		global $app, $conf;

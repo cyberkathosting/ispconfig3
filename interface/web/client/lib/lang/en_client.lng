@@ -45,4 +45,10 @@ $wb["ip_address_txt"] = 'ip_address';
 $wb["limit_client_error_notint"] = 'Client Limit is not a number.';
 $wb["firstname_error_empty"] = 'Firstname is empty.';
 $wb["contact_error_empty"] = 'Contact name is empty.';
+$wb["default_webserver_txt"] = 'Default Webserver';
+$wb["limit_web_domain_txt"] = 'Max. number of web domains';
+$wb["limit_web_aliasdomain_txt"] = 'Max. number of web aliasdomains';
+$wb["limit_web_subdomain_txt"] = 'Max. number of web subdomains';
+$wb["limit_ftp_user_txt"] = 'Max. number of FTP users';
+
 ?>

@@ -15,4 +15,5 @@ $wb["username_txt"] = 'Username';
 $wb["password_txt"] = 'Password';
 $wb["quota_size_txt"] = 'Harddisk-Quota';
 $wb["active_txt"] = 'Active';
+$wb["limit_ftp_user_txt"] = 'The max. number of FTP users for your account is reached.';
 ?>

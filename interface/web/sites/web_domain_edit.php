@@ -53,6 +53,28 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_web_domain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another maildomain.
+			if($client["limit_web_domain"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM web_domain WHERE sys_groupid = $client_group_id and type = 'vhost'");
+				if($tmp["number"] >= $client["limit_web_domain"]) {
+					$app->error($app->tform->wordbook["limit_web_domain_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onShowEnd() {
 		global $app, $conf;
 		
@@ -123,7 +145,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// When the record is updated
 			if($this->id > 0) {
@@ -136,15 +158,15 @@ class page_action extends tform_actions {
 				// set the server ID to the default mailserver of the client
 				$this->dataRecord["server_id"] = $client["default_webserver"];
 				
-				/*
-				// Check if the user may add another mail_domain
-				if($client["limit_maildomain"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
-					if($tmp["number"] >= $client["limit_maildomain"]) {
-						$app->error($app->tform->wordbook["limit_webdomain_txt"]);
+				
+				// Check if the user may add another web_domain
+				if($client["limit_web_domain"] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM web_domain WHERE sys_groupid = $client_group_id and type = 'vhost'");
+					if($tmp["number"] >= $client["limit_web_domain"]) {
+						$app->error($app->tform->wordbook["limit_web_domain_txt"]);
 					}
 				}
-				*/
+				
 			}
 			
 			// Clients may not set the client_group_id, so we unset them if user is not a admin
