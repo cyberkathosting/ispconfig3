@@ -250,6 +250,24 @@ class page_action extends tform_actions {
 		
 	}
 	
+	function onAfterDelete() {
+		global $app, $conf;
+		
+		// Delete the sub and alias domains
+		$child_domains = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$this->id);
+		foreach($child_domains as $d) {
+			// Saving record to datalog when db_history enabled
+            if($app->tform->formDef["db_history"] == 'yes') {
+				$app->tform->datalogSave('DELETE',$d["domain_id"],$d,array());
+            }
+
+            $app->db->query("DELETE FROM web_domain WHERE domain_id = ".$d["domain_id"]." LIMIT 0,1");
+		}
+		unset($child_domains);
+		unset($d);
+		
+	}
+	
 }
 
 $page = new page_action;

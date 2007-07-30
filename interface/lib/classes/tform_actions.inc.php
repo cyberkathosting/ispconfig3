@@ -276,16 +276,16 @@ class tform_actions {
                                 if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
                         }
 
-                        $record_old = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
+                        //$this->dataRecord = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
+						$this->dataRecord = $app->tform->getDataRecord($this->id);
 
                         // Saving record to datalog when db_history enabled
                         if($app->tform->formDef["db_history"] == 'yes') {
-							$old_data_record = $app->tform->getDataRecord($this->id);
-							$app->tform->datalogSave('DELETE',$this->id,$old_data_record,array());
-							unset($old_data_record);
+							//$old_data_record = $app->tform->getDataRecord($this->id);
+							$app->tform->datalogSave('DELETE',$this->id,$this->dataRecord,array());
                         }
 
-                        $app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
+                        $app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id." LIMIT 0,1");
 						
 						// loading plugins
 						$next_tab = $app->tform->getCurrentTab();
@@ -296,6 +296,8 @@ class tform_actions {
                         foreach($this->plugins as $plugin) {
                                 $plugin->onDelete();
                         }
+						
+						$this->onAfterDelete();
                 }
 
                 		//header("Location: ".$liste["file"]."?PHPSESSID=".$_SESSION["s"]["id"]);
@@ -310,6 +312,10 @@ class tform_actions {
                 }
                 exit;
 
+        }
+		
+		function onAfterDelete() {
+            global $app, $conf;
         }
 		
 		/**
