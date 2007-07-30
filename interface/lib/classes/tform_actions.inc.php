@@ -141,19 +141,19 @@ class tform_actions {
                                 $_SESSION["s"]["form"]["return_to"] = '';
                                 session_write_close();
                                 header($redirect);
-						// When a returnto variable is set
-						} elseif ($_SESSION["s"]["form"]["return_to_url"] != '') {
-							$redirect = $_SESSION["s"]["form"]["return_to_url"];
-							$_SESSION["s"]["form"]["return_to_url"] = '';
-							session_write_close();
-							header("Location: ".$redirect);
-							exit;
-						// Use the default list of the form
-                        } else {
-                            header("Location: ".$app->tform->formDef['list_default']);
-                        }
-                        exit;
-                    } else {
+							// When a returnto variable is set
+							} elseif ($_SESSION["s"]["form"]["return_to_url"] != '') {
+								$redirect = $_SESSION["s"]["form"]["return_to_url"];
+								$_SESSION["s"]["form"]["return_to_url"] = '';
+								session_write_close();
+								header("Location: ".$redirect);
+								exit;
+								// Use the default list of the form
+                        	} else {
+                            	header("Location: ".$app->tform->formDef['list_default']);
+                        	}
+                        	exit;
+                    	} else {
                                 $this->onShow();
                         }
                 } else {

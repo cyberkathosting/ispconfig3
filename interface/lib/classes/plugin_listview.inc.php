@@ -26,8 +26,8 @@ class plugin_listview extends plugin_base {
                 // Changing some of the list values to reflect that the list is called within a tform page
                 $app->listform->listDef["file"] = $app->tform->formDef["action"];
                 // $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
-				$app->listform->listDef["page_params"] = "&id=".$_REQUEST["id"]."&next_tab=".$_SESSION["s"]["form"]["tab"];
-
+				$app->listform->listDef["page_params"] = "&id=".$this->form->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
+				$listTpl->setVar('parent_id',$this->form->id);
 
                 // Generate the SQL for searching
                 if($app->listform->listDef["auth"] != 'no') {
@@ -89,11 +89,13 @@ class plugin_listview extends plugin_base {
 
                 // Setting Returnto information in the session
                 $list_name = $app->listform->listDef["name"];
-                $_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
+                // $_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
+				$_SESSION["s"]["list"][$list_name]["parent_id"] = $this->form->id;
 				$_SESSION["s"]["list"][$list_name]["parent_name"] = $app->tform->formDef["name"];
                 $_SESSION["s"]["list"][$list_name]["parent_tab"] = $_SESSION["s"]["form"]["tab"];
                 $_SESSION["s"]["list"][$list_name]["parent_script"] = $app->tform->formDef["action"];
                 $_SESSION["s"]["form"]["return_to"] = $list_name;
+				//die(print_r($_SESSION["s"]["list"][$list_name]));
 
                 return $listTpl->grab();
 

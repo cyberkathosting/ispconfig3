@@ -1,10 +1,10 @@
 <?php
 $module = array (
-  'name' => 'dns',
-  'title' => 'DNS',
+  'name' => 'dns_old',
+  'title' => 'DNS OLD',
   'template' => 'module.tpl.htm',
   'navframe_page' => '',
-  'startpage' => 'dns/soa_list.php',
+  'startpage' => 'dns_old/soa_list.php',
   'tab_width' => '',
   'nav' => 
   array (
@@ -18,7 +18,7 @@ $module = array (
         array (
           'title' => 'SOA',
           'target' => 'content',
-          'link' => 'dns/soa_list.php',
+          'link' => 'dns_old/soa_list.php',
         ),
       ),
     ),

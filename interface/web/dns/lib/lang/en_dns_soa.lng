@@ -1,0 +1,16 @@
+<?php
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zone (SOA)';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["serial_txt"] = 'Serial';
+$wb["refresh_txt"] = 'Refresh';
+$wb["retry_txt"] = 'Retry';
+$wb["expire_txt"] = 'Expire';
+$wb["minimum_txt"] = 'Minimum';
+$wb["ttl_txt"] = 'TTL';
+$wb["xfer_txt"] = 'Xfer (IP)';
+$wb["active_txt"] = 'Active';
+?>
