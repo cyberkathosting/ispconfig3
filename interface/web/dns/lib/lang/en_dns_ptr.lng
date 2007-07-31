@@ -1,9 +1,9 @@
 <?php
 $wb["server_id_txt"] = 'Server';
 $wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Hostname';
+$wb["name_txt"] = 'Name';
 $wb["type_txt"] = 'type';
-$wb["data_txt"] = 'IP-Address';
+$wb["data_txt"] = 'Canonical Hostname';
 $wb["ttl_txt"] = 'TTL';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';

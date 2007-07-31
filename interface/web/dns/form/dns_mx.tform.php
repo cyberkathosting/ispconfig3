@@ -80,7 +80,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'name_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{1,64}$/',
+														'regex' => '/^[\w\.\-]{1,255}$/',
 														'errmsg'=> 'name_error_regex'),
 									),
 			'default'	=> '',
@@ -91,7 +91,7 @@ $form["tabs"]['dns'] = array (
 		'type' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> 'A',
+			'default'	=> 'MX',
 			'value'		=> '',
 			'width'		=> '5',
 			'maxlength'	=> '5'
@@ -102,7 +102,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'data_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9\.]{10,15}$/',
+														'regex' => '/^[\w\.\-]{1,255}$/',
 														'errmsg'=> 'data_error_regex'),
 									),
 			'default'	=> '',
@@ -110,16 +110,16 @@ $form["tabs"]['dns'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		/*
+		
 		'aux' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'default'	=> '0',
+			'default'	=> '10',
 			'value'		=> '',
 			'width'		=> '10',
 			'maxlength'	=> '10'
 		),
-		*/
+		
 		'ttl' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',

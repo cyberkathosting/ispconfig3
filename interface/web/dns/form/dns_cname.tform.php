@@ -91,7 +91,7 @@ $form["tabs"]['dns'] = array (
 		'type' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> 'A',
+			'default'	=> 'CNAME',
 			'value'		=> '',
 			'width'		=> '5',
 			'maxlength'	=> '5'
@@ -102,7 +102,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'data_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9\.]{10,15}$/',
+														'regex' => '/^[\w\.\-]{1,64}$/',
 														'errmsg'=> 'data_error_regex'),
 									),
 			'default'	=> '',

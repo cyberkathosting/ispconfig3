@@ -201,7 +201,8 @@ $form["tabs"]['dns_records'] = array (
          	'class'   => 'plugin_listview',
      		'options' => array(
 				'listdef' => 'list/dns_a.list.php',
-				'sqlextwhere' => "zone = ".intval($_REQUEST['id'])
+				'sqlextwhere' => "zone = ".intval($_REQUEST['id']),
+				'sql_order_by' => "ORDER BY type, name"
 			)
         )
 	)

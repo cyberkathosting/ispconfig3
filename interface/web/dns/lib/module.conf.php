@@ -14,10 +14,11 @@ $module["tab_width"]    = '';
 $items[] = array( 'title' 	=> "Zones",
 				  'target' 	=> 'content',
 				  'link'	=> 'dns/dns_soa_list.php');
-
+/*
 $items[] = array( 'title' 	=> "A-Records",
 				  'target' 	=> 'content',
 				  'link'	=> 'dns/dns_a_list.php');
+*/
 
 
 $module["nav"][] = array(	'title'	=> 'DNS',

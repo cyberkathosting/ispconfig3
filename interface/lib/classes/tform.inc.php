@@ -539,7 +539,11 @@ class tform {
                                         $validator['regex'] .= 's';
                                         if(!preg_match($validator['regex'], $field_value)) {
                                                 $errmsg = $validator['errmsg'];
-                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                if(isset($this->wordbook[$errmsg])) {
+                                                	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+												} else {
+													$this->errorMessage .= $errmsg."<br>\r\n";
+												}
                                         }
                                 break;
                                 case 'UNIQUE':

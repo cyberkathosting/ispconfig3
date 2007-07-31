@@ -285,7 +285,8 @@ class tform_actions {
 							$app->tform->datalogSave('DELETE',$this->id,$this->dataRecord,array());
                         }
 
-                        $app->db->query("DELETE FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id." LIMIT 0,1");
+                        $app->db->query("DELETE FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." LIMIT 1");
+						
 						
 						// loading plugins
 						$next_tab = $app->tform->getCurrentTab();

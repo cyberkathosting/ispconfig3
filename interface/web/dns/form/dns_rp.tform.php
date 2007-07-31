@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['dns'] = array (
-	'title' 	=> "DNS rp",
+	'title' 	=> "DNS RP",
 	'width' 	=> 100,
 	'template' 	=> "templates/dns_rp_edit.htm",
 	'fields' 	=> array (
@@ -91,7 +91,7 @@ $form["tabs"]['dns'] = array (
 		'type' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> 'A',
+			'default'	=> 'RP',
 			'value'		=> '',
 			'width'		=> '5',
 			'maxlength'	=> '5'

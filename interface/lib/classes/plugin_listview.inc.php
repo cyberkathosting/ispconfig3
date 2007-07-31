@@ -49,10 +49,14 @@ class plugin_listview extends plugin_base {
                 $limit_sql = $app->listform->getPagingSQL($sql_where);
                 $listTpl->setVar("paging",$app->listform->pagingHTML);
 				
+				$sql_order_by = '';
+				if(isset($this->options["sql_order_by"])) {
+					$sql_order_by = $this->options["sql_order_by"];
+				}
 				
 
                 // Get the data
-                $records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $limit_sql");
+                $records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $sql_order_by $limit_sql");
 
                 $bgcolor = "#FFFFFF";
                 if(is_array($records)) {
@@ -71,6 +75,8 @@ class plugin_listview extends plugin_base {
 									if($field['formtype'] == "SELECT") {
 										$rec[$key] = $field['value'][$rec[$key]];
 									}
+									// Create a lowercase version of every item
+									$rec[$key.'_lowercase'] = strtolower($rec[$key]);
 								}
 
                                 // The variable "id" contains always the index field
