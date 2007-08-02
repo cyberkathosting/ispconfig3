@@ -53,11 +53,52 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another mailbox.
+			if($client["limit_dns_record"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_dns_record"]) {
+					$app->error($app->tform->wordbook["limit_dns_record_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onSubmit() {
 		global $app, $conf;
 		
 		// Get the parent soa record of the domain
 		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = '".intval($_POST["zone"])."' AND ".$app->tform->getAuthSQL('r'));
+
+		// Check if Domain belongs to user
+		if($soa["id"] != $_POST["zone"]) $app->tform->errorMessage .= $app->tform->wordbook["no_zone_perm"];
+		
+		// Check the client limits, if user is not the admin
+		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another mailbox.
+			if($client["limit_dns_record"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_dns_record"]) {
+					$app->error($app->tform->wordbook["limit_dns_record_txt"]);
+				}
+			}
+		} // end if user is not admin
+		
 		
 		// Set the server ID of the rr record to the same server ID as the parent record.
 		$this->dataRecord["server_id"] = $soa["server_id"];

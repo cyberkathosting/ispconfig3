@@ -9,4 +9,6 @@ $wb["ttl_txt"] = 'TTL';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
 ?>

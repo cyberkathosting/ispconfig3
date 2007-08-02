@@ -13,4 +13,7 @@ $wb["minimum_txt"] = 'Minimum';
 $wb["ttl_txt"] = 'TTL';
 $wb["xfer_txt"] = 'Xfer (IP)';
 $wb["active_txt"] = 'Active';
+$wb["limit_dns_zone_txt"] = 'The max. number of DNS zones for your account is reached.';
+$wb["client_txt"] = 'Client';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
 ?>

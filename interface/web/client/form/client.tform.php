@@ -285,7 +285,7 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
 										'keyfield'=> 'server_id',
 										'valuefield'=> 'server_name'
 									 ),
@@ -464,7 +464,7 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND {AUTHSQL} ORDER BY server_name',
 										'keyfield'=> 'server_id',
 										'valuefield'=> 'server_name'
 									 ),
@@ -517,6 +517,45 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'limit_ftp_user_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'default_dnsserver' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
+									 ),
+			'value'		=> ''
+		),
+		'limit_dns_zone' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_dns_zone_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_dns_record' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_dns_zone_error_notint'),
 									),
 			'default'	=> '-1',
 			'value'		=> '',

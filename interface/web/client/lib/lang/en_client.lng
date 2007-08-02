@@ -50,5 +50,9 @@ $wb["limit_web_domain_txt"] = 'Max. number of web domains';
 $wb["limit_web_aliasdomain_txt"] = 'Max. number of web aliasdomains';
 $wb["limit_web_subdomain_txt"] = 'Max. number of web subdomains';
 $wb["limit_ftp_user_txt"] = 'Max. number of FTP users';
+$wb["default_dnsserver_txt"] = 'Default DNS Server';
+$wb["limit_dns_zone_txt"] = 'Max. number of DNS zones';
+$wb["limit_dns_record_txt"] = 'Max. number DNS records';
+
 
 ?>

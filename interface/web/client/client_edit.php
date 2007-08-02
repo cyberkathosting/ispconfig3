@@ -66,7 +66,7 @@ class page_action extends tform_actions {
 		
 		$username = addslashes($this->dataRecord["username"]);
 		$password = addslashes($this->dataRecord["password"]);
-		$modules = 'mail,sites';
+		$modules = 'mail,sites,dns';
 		$startmodule = 'mail';
 		$usertheme = addslashes($this->dataRecord["usertheme"]);
 		$type = 'user';

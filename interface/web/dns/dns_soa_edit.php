@@ -53,13 +53,104 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_dns_zone FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another maildomain.
+			if($client["limit_dns_zone"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_dns_zone"]) {
+					$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
+				}
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
+	function onShowEnd() {
+		global $app, $conf;
+		
+		// If user is admin, we will allow him to select to whom this record belongs
+		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+			// Getting Domains of the user
+			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			$clients = $app->db->queryAllRecords($sql);
+			$client_select = "<option value='0'></option>";
+			if(is_array($clients)) {
+				foreach( $clients as $client) {
+					$selected = ($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+				}
+			}
+		$app->tpl->setVar("client_group_id",$client_select);
+		}
+		
+		parent::onShowEnd();
+	}
+	
 	function onSubmit() {
 		global $app, $conf;
+		
+		// Get the limits of the client
+		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client = $app->db->queryOneRecord("SELECT limit_dns_zone, default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+		// When the record is updated
+		if($this->id > 0) {
+			// restore the server ID if the user is not admin and record is edited
+			$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".intval($this->id));
+			$this->dataRecord["server_id"] = $tmp["server_id"];
+			unset($tmp);
+		// When the record is inserted
+		} else {
+			// set the server ID to the default mailserver of the client
+			$this->dataRecord["server_id"] = $client["default_dnsserver"];
+				
+			// Check if the user may add another maildomain.
+			if($client["limit_dns_zone"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_dns_zone"]) {
+					$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
+				}
+			}
+		}
 		
 		// Set the serial
 		$this->dataRecord["serial"] = time();
 		
 		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+		
+		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id WHERE id = ".$this->id);
+			// And we want to update all rr records too, that belong to this record
+			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+		}
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id WHERE id = ".$this->id);
+			// And we want to update all rr records too, that belong to this record
+			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+		}
 	}
 	
 }
