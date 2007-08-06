@@ -99,26 +99,28 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 		
-		// Get the limits of the client
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
-		$client = $app->db->queryOneRecord("SELECT limit_dns_zone, default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
-		// When the record is updated
-		if($this->id > 0) {
-			// restore the server ID if the user is not admin and record is edited
-			$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".intval($this->id));
-			$this->dataRecord["server_id"] = $tmp["server_id"];
-			unset($tmp);
-		// When the record is inserted
-		} else {
-			// set the server ID to the default mailserver of the client
-			$this->dataRecord["server_id"] = $client["default_dnsserver"];
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		
+			// When the record is updated
+			if($this->id > 0) {
+				// restore the server ID if the user is not admin and record is edited
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
+				unset($tmp);
+			// When the record is inserted
+			} else {
+				// set the server ID to the default mailserver of the client
+				$this->dataRecord["server_id"] = $client["default_dnsserver"];
 				
-			// Check if the user may add another maildomain.
-			if($client["limit_dns_zone"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
-				if($tmp["number"] >= $client["limit_dns_zone"]) {
-					$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
+				// Check if the user may add another maildomain.
+				if($client["limit_dns_zone"] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
+					if($tmp["number"] >= $client["limit_dns_zone"]) {
+						$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
+					}
 				}
 			}
 		}
