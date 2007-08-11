@@ -14,7 +14,7 @@
 
                                 # DATABASE INFORMATION
 
-db-host = {mysql_server_ip}             # SQL server hostname
+db-host = {mysql_server_host}             # SQL server hostname
 db-user = {mysql_server_ispconfig_user}             # SQL server username
 db-password = {mysql_server_ispconfig_password}         # SQL server password
 database = {mysql_server_database}          # MyDNS database name

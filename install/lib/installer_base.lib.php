@@ -52,12 +52,13 @@ class installer_base {
 		$finished = false;
 		do {
 			$answers_str = implode(",",$answers);
-			swriteln($this->lng($query).' ('.$answers_str.') ['.$default.']:');
+			swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
 			$input = sread();
 			
 			// Stop the installation
 			if($input == 'quit') {
-				die($this->lng('Installation interrupted.'));
+				swriteln($this->lng('Installation interrupted.'));
+				die();
 			}
 			
 			// Select the default
@@ -72,26 +73,30 @@ class installer_base {
 			}
 			
 		} while ($finished == false);
+		swriteln();
 		return $answer;
 	}
 	
 	function free_query($query,$default) {
 		global $conf;
 		
-		$answers_str = implode(",",$answers);
-		swriteln($this->lng($query).' ['.$default.']:');
+		swrite($this->lng($query).' ['.$default.']: ');
 		$input = sread();
 			
 		// Stop the installation
 		if($input == 'quit') {
-			die($this->lng('Installation interrupted.'));
+			swriteln($this->lng('Installation interrupted.'));
+			die();
 		}
 			
 		// Select the default
 		if($input == '') {
 			$answer = $default;
+		} else {
+			$answer = $input;
 		}
-			
+		swriteln();
+		
 		return $answer;
 	}
 	
@@ -534,7 +539,7 @@ maildrop  unix  -       n       n       -       -       pipe
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{mysql_server_host}',$conf["mysql_server_host"],$content);
 		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_mydns_config_dir"].'/'.$configfile,$content);
 		exec('chmod 600 '.$conf["dist_mydns_config_dir"].'/'.$configfile);

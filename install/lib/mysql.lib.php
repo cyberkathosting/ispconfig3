@@ -73,6 +73,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			if($this->linkId == 0)
 			{
 				$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
+
 				if(!$this->linkId)
 				{
 					$this->updateError('DB::connect()<br />mysql_connect');

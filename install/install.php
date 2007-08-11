@@ -53,7 +53,7 @@ $inst = new installer();
 
 
 
-swriteln($inst->lng("This application will install ISPConfig 3 on your server.");
+swriteln($inst->lng("This application will install ISPConfig 3 on your server."));
 
 // Select the language
 $conf["language"] = $inst->simple_query('Select language',array('en','de'),'en');
@@ -70,20 +70,27 @@ unset($tmp_out);
 
 
 // Get MySQL root password
-include_once('lib/mysql.lib.php');
 $finished = false;
 do {
-	$conf["mysql_server_admin_password"] = $inst->free_query('MySQL root password','');
+	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname',$conf["mysql_server_host"]);
+	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username',$conf["mysql_server_admin_user"]);
+	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password',$conf["mysql_server_admin_password"]);
+	
 	// Initialize the MySQL server connection
-	$inst->db = new db();
-	if($inst->db->connect() == false) {
-		swriteln($inst->db->errorMessage);
-	} else {
+	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+		$conf["mysql_server_host"] = $tmp_mysql_server_host;
+		$conf["mysql_server_admin_user"] = $tmp_mysql_server_admin_user;
+		$conf["mysql_server_admin_password"] = $tmp_mysql_server_admin_password;
 		$finished = true;
+	} else {
+		swriteln($inst->lng("Unable to connect to mysql server").' '.mysql_error());
 	}
 } while ($finished == false);
+unset($finished);
 
-
+// initializing database connection
+include_once('lib/mysql.lib.php');
+$inst->db = new db();
 
 // Begin with standard or expert installation
 if($install_mode == 'Standard') {

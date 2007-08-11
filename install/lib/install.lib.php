@@ -49,11 +49,11 @@ function sread() {
     return rtrim($input);
 }
 
-function swrite($text) {
+function swrite($text = '') {
 	echo $text;
 }
 
-function swriteln($text) {
+function swriteln($text = '') {
 	echo $text."\n";
 }
 
