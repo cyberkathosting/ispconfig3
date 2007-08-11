@@ -49,7 +49,10 @@ class mail_module {
 									'mail_transport_delete',
 									'mail_get_insert',
 									'mail_get_update',
-									'mail_get_delete');
+									'mail_get_delete',
+									'mail_content_filter_insert',
+									'mail_content_filter_update',
+									'mail_content_filter_delete');
 	
 	/*
 	 	This function is called when the module is loaded
@@ -81,6 +84,7 @@ class mail_module {
 		$app->modules->registerTableHook('mail_transport','mail_module','process');
 		$app->modules->registerTableHook('mail_user','mail_module','process');
 		$app->modules->registerTableHook('mail_get','mail_module','process');
+		$app->modules->registerTableHook('mail_content_filter','mail_module','process');
 		
 	}
 	
@@ -122,6 +126,11 @@ class mail_module {
 				if($action == 'i') $app->plugins->raiseEvent('mail_get_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('mail_get_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('mail_get_delete',$data);
+			break;
+			case 'mail_content_filter':
+				if($action == 'i') $app->plugins->raiseEvent('mail_content_filter_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('mail_content_filter_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('mail_content_filter_delete',$data);
 			break;
 		} // end switch
 	} // end function

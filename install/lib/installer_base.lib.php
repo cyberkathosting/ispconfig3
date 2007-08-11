@@ -284,8 +284,19 @@ class installer_base {
 			'smtpd_client_restrictions = check_client_access mysql:'.$conf["dist_postfix_config_dir"].'/mysql-virtual_client.cf',
 			'maildrop_destination_concurrency_limit = 1',
 			'maildrop_destination_recipient_limit   = 1',
-			'virtual_transport = maildrop'
+			'virtual_transport = maildrop',
+			'header_checks = regexp:/etc/postfix/header_checks',
+			'mime_header_checks = regexp:/etc/postfix/mime_header_checks',
+			'nested_header_checks = regexp:/etc/postfix/nested_header_checks',
+			'body_checks = regexp:/etc/postfix/body_checks'
 		);
+		
+		// Create the header ynd body check files
+		touch('/etc/postfix/header_checks');
+		touch('/etc/postfix/mime_header_checks');
+		touch('/etc/postfix/nested_header_checks');
+		touch('/etc/postfix/body_checks');
+		
 		
 		// Make a backup copy of the main.cf file
 		copy($conf["dist_postfix_config_dir"].'/main.cf',$conf["dist_postfix_config_dir"].'/main.cf~');

@@ -35,6 +35,7 @@ ini_set('register_globals',0);
 
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
+$conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
 
 
 /*

@@ -35,6 +35,12 @@ ini_set('register_globals',0);
 
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
+$conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
+
+/*
+	Server variables
+*/
+
 $conf["server_id"] 	= "{server_id}";
 
 
@@ -100,17 +106,8 @@ $conf["start_db"]		= true;
 $conf["start_session"]	= true;
 
 /*
-        DNS Settings
+	Constants
 */
-
-$conf["auto_create_ptr"] 	 = 1; // Automatically create PTR records?
-$conf["default_ns"] 		 = 'ns1.example.com.'; // must be set if $conf['auto_create_ptr'] is 1. Don't forget the trailing dot!
-$conf["default_mbox"] 		 = 'admin.example.com.'; // Admin email address. Must be set if $conf['auto_create_ptr'] is 1. Replace "@" with ".". Don't forget the trailing dot!
-$conf["default_ttl"] 		 = 86400;
-$conf["default_refresh"] 	 = 28800;
-$conf["default_retry"] 		 = 7200;
-$conf["default_expire"] 	 = 604800;
-$conf["default_minimum_ttl"] = 86400;
 
 define("LOGLEVEL_DEBUG",0);
 define("LOGLEVEL_WARN",1);

@@ -101,6 +101,10 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	$items[] = array( 'title' 	=> "Postfix Blacklist",
 				 	 'target' 	=> 'content',
 				  	 'link'	=> 'mail/mail_blacklist_list.php');
+	
+	$items[] = array( 'title' 	=> "Content Filter",
+				 	 'target' 	=> 'content',
+				  	 'link'	=> 'mail/mail_content_filter_list.php');
 
 	$module["nav"][] = array(	'title'	=> 'Global Filters',
 								'open' 	=> 1,
