@@ -47,6 +47,9 @@ $conf["dist_amavis_config_dir"] = "/etc/amavis";
 // Pureftpd
 $conf["dist_pureftpd_config_dir"] = "/etc/pure-ftpd/db";
 
+// MyDNS
+$conf["dist_mydns_config_dir"] = "/etc";
+
 /*
 	MySQL Database settings
 */
