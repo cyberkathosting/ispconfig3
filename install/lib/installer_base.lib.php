@@ -38,13 +38,63 @@ class installer_base {
 	
 	*/
 	
-	function lng() {
-		
+	function lng($text) {
+		return $text;
 	}
 	
 	function error($msg) {
 		die("ERROR: ".$msg."\n");
 	}
+	
+	function simple_query($query,$answers,$default) {
+		global $conf;
+		
+		$finished = false;
+		do {
+			$answers_str = implode(",",$answers);
+			swriteln($this->lng($query).' ('.$answers_str.') ['.$default.']:');
+			$input = sread();
+			
+			// Stop the installation
+			if($input == 'quit') {
+				die($this->lng('Installation interrupted.'));
+			}
+			
+			// Select the default
+			if($input == '') {
+				$answer = $default;
+				$finished = true;
+			}
+			
+			if(in_array($input,$answers)) {
+				$answer = $input;
+				$finished = true;
+			}
+			
+		} while ($finished == false);
+		return $answer;
+	}
+	
+	function free_query($query,$default) {
+		global $conf;
+		
+		$answers_str = implode(",",$answers);
+		swriteln($this->lng($query).' ['.$default.']:');
+		$input = sread();
+			
+		// Stop the installation
+		if($input == 'quit') {
+			die($this->lng('Installation interrupted.'));
+		}
+			
+		// Select the default
+		if($input == '') {
+			$answer = $default;
+		}
+			
+		return $answer;
+	}
+	
 	
 	function request_language() {
 		

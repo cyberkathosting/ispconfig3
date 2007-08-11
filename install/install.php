@@ -32,6 +32,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	ISPConfig 3 installer.
 */
 
+// Check for existing installation
+//if(is_dir("/usr/local/ispconfig")) die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
+
+
 // Include the library with the basic installer functions
 require_once('lib/install.lib.php');
 
@@ -49,90 +53,180 @@ $inst = new installer();
 
 
 
-echo "This application will install ISPConfig 3 on your server.\n";
+swriteln($inst->lng("This application will install ISPConfig 3 on your server.");
 
-// $conf["language"] = $inst->request_language();
+// Select the language
+$conf["language"] = $inst->simple_query('Select language',array('en','de'),'en');
 
-// TODO: all other queries, for testing I will setup everything in $conf
+// Select installation mode
+$install_mode = $inst->simple_query('Installation mode',array('Standard','Expert'),'Standard');
 
-// Initialize the MySQL server connection
+// Get the hostname
+$tmp_out = array();
+exec("hostname -f",$tmp_out);
+$conf["hostname"] = $inst->free_query('Full qualified hostname (FQDN) of the server',$tmp_out[0]);
+unset($tmp_out);
+
+
+
+// Get MySQL root password
 include_once('lib/mysql.lib.php');
-$inst->db = new db();
-
-// Create the mysql database
-$inst->configure_database();
-
-// Configure postfix
-$inst->configure_postfix();
-
-// Configure saslauthd
-swriteln('Configuring SASL');
-$inst->configure_saslauthd();
-
-
-// Configure PAM
-swriteln('Configuring PAM');
-$inst->configure_pam();
-
-// Configure courier
-swriteln('Configuring Courier');
-$inst->configure_courier();
-
-// Configure Spamasassin
-swriteln('Configuring Spamassassin');
-$inst->configure_spamassassin();
-
-// Configure Amavis
-swriteln('Configuring Amavisd');
-$inst->configure_amavis();
-
-// Configure Getmail
-swriteln('Configuring Getmail');
-$inst->configure_getmail();
-
-// Configure Pureftpd
-swriteln('Configuring Pureftpd');
-$inst->configure_pureftpd();
-
-// Configure MyDNS
-swriteln('Configuring MyDNS');
-$inst->configure_mydns();
-
-// Configure ISPConfig
-swriteln('Installing ISPConfig');
-$inst->install_ispconfig();
-
-// Configure ISPConfig
-swriteln('Installing Crontab');
-$inst->install_crontab();
+$finished = false;
+do {
+	$conf["mysql_server_admin_password"] = $inst->free_query('MySQL root password','');
+	// Initialize the MySQL server connection
+	$inst->db = new db();
+	if($inst->db->connect() == false) {
+		swriteln($inst->db->errorMessage);
+	} else {
+		$finished = true;
+	}
+} while ($finished == false);
 
 
-/*
-Restart services:
 
-saslauthd
-all courier
-apache2
-postfix
-amavisd
-calmd
-spamd
-*/
+// Begin with standard or expert installation
+if($install_mode == 'Standard') {
+	
+	// Create the mysql database
+	$inst->configure_database();
 
-swriteln('Restarting services ...');
-system("/etc/init.d/mysql restart");
-system("/etc/init.d/postfix restart");
-system("/etc/init.d/saslauthd restart");
-system("/etc/init.d/amavis restart");
-system("/etc/init.d/clamav-daemon restart");
-system("/etc/init.d/courier-authdaemon restart");
-system("/etc/init.d/courier-imap restart");
-system("/etc/init.d/courier-imap-ssl restart");
-system("/etc/init.d/courier-pop restart");
-system("/etc/init.d/courier-pop-ssl restart");
-system("/etc/init.d/apache2 restart");
-system("/etc/init.d/pure-ftpd-mysql restart");
-system("/etc/init.d/mydns restart");
+	// Configure postfix
+	$inst->configure_postfix();
+
+	// Configure saslauthd
+	swriteln('Configuring SASL');
+	$inst->configure_saslauthd();
+
+	// Configure PAM
+	swriteln('Configuring PAM');
+	$inst->configure_pam();
+
+	// Configure courier
+	swriteln('Configuring Courier');
+	$inst->configure_courier();
+
+	// Configure Spamasassin
+	swriteln('Configuring Spamassassin');
+	$inst->configure_spamassassin();
+
+	// Configure Amavis
+	swriteln('Configuring Amavisd');
+	$inst->configure_amavis();
+
+	// Configure Getmail
+	swriteln('Configuring Getmail');
+	$inst->configure_getmail();
+	
+
+	// Configure Pureftpd
+	swriteln('Configuring Pureftpd');
+	$inst->configure_pureftpd();
+
+	// Configure MyDNS
+	swriteln('Configuring MyDNS');
+	$inst->configure_mydns();
+
+	// Configure ISPConfig
+	swriteln('Installing ISPConfig');
+	$inst->install_ispconfig();
+
+	// Configure ISPConfig
+	swriteln('Installing Crontab');
+	$inst->install_crontab();
+	
+	swriteln('Restarting services ...');
+	system("/etc/init.d/mysql restart");
+	system("/etc/init.d/postfix restart");
+	system("/etc/init.d/saslauthd restart");
+	system("/etc/init.d/amavis restart");
+	system("/etc/init.d/clamav-daemon restart");
+	system("/etc/init.d/courier-authdaemon restart");
+	system("/etc/init.d/courier-imap restart");
+	system("/etc/init.d/courier-imap-ssl restart");
+	system("/etc/init.d/courier-pop restart");
+	system("/etc/init.d/courier-pop-ssl restart");
+	system("/etc/init.d/apache2 restart");
+	system("/etc/init.d/pure-ftpd-mysql restart");
+	system("/etc/init.d/mydns restart");
+	
+} else {
+	
+	// Get Server ID
+	$conf["server_id"] = $inst->free_query('Unique Numeric ID of the server','1');
+	
+	if(strtolower($inst->simple_query('Create Database',array('y','n'),'y')) == 'y') {
+		// Create the mysql database
+		$inst->configure_database();
+		system("/etc/init.d/mysql restart");
+	}
+	
+	if(strtolower($inst->simple_query('Configure Mail',array('y','n'),'y')) == 'y') {
+		
+		// Configure Postfix
+		swriteln('Configuring Postfix');
+		$inst->configure_postfix();
+		
+		// Configure PAM
+		swriteln('Configuring PAM');
+		$inst->configure_pam();
+
+		// Configure courier
+		swriteln('Configuring Courier');
+		$inst->configure_courier();
+
+		// Configure Spamasassin
+		swriteln('Configuring Spamassassin');
+		$inst->configure_spamassassin();
+
+		// Configure Amavis
+		swriteln('Configuring Amavisd');
+		$inst->configure_amavis();
+
+		// Configure Getmail
+		swriteln('Configuring Getmail');
+		$inst->configure_getmail();
+		
+		system("/etc/init.d/postfix restart");
+		system("/etc/init.d/saslauthd restart");
+		system("/etc/init.d/amavis restart");
+		system("/etc/init.d/clamav-daemon restart");
+		system("/etc/init.d/courier-authdaemon restart");
+		system("/etc/init.d/courier-imap restart");
+		system("/etc/init.d/courier-imap-ssl restart");
+		system("/etc/init.d/courier-pop restart");
+		system("/etc/init.d/courier-pop-ssl restart");
+	}
+	
+	if(strtolower($inst->simple_query('Configure FTP Server',array('y','n'),'y')) == 'y') {
+		// Configure Pureftpd
+		swriteln('Configuring Pureftpd');
+		$inst->configure_pureftpd();
+		system("/etc/init.d/pure-ftpd-mysql restart");
+	}
+	
+	if(strtolower($inst->simple_query('Configure DNS Server',array('y','n'),'y')) == 'y') {
+		// Configure MyDNS
+		swriteln('Configuring MyDNS');
+		$inst->configure_mydns();
+		system("/etc/init.d/mydns restart");
+	}
+	
+	if(strtolower($inst->simple_query('Install ISPConfig',array('y','n'),'y')) == 'y') {
+		// Configure ISPConfig
+		swriteln('Installing ISPConfig');
+		$inst->install_ispconfig();
+
+		// Configure ISPConfig
+		swriteln('Installing Crontab');
+		$inst->install_crontab();
+		
+		system("/etc/init.d/apache2 restart");
+	}
+	
+	
+}
+
 
 echo "Installation finished.\n";
 

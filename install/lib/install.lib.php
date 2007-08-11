@@ -41,7 +41,6 @@ function get_distname() {
 	return $distname;
 }
 
-
 function sread() {
     $fp=fopen("/dev/stdin", "r");
     $input=fgets($fp, 255);
