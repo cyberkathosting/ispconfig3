@@ -77,20 +77,17 @@ CREATE TABLE `dns_rr` (
   `sys_perm_user` varchar(5) NOT NULL,
   `sys_perm_group` varchar(5) NOT NULL,
   `sys_perm_other` varchar(5) NOT NULL,
+  `server_id` int(11) NOT NULL default '1',
   `zone` int(10) unsigned NOT NULL,
   `name` char(64) NOT NULL,
-  `type` enum('A','AAAA','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
+  `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
   `data` char(128) NOT NULL,
-  `aux` int(10) unsigned NOT NULL,
+  `aux` int(10) unsigned NOT NULL default '0',
   `ttl` int(10) unsigned NOT NULL default '86400',
+  `active` enum('N','Y') NOT NULL default 'Y',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `rr` (`zone`,`name`,`type`,`data`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `dns_rr`
--- 
-
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -105,6 +102,7 @@ CREATE TABLE `dns_soa` (
   `sys_perm_user` varchar(5) NOT NULL,
   `sys_perm_group` varchar(5) NOT NULL,
   `sys_perm_other` varchar(5) NOT NULL,
+  `server_id` int(11) NOT NULL default '1',
   `origin` char(255) NOT NULL,
   `ns` char(255) NOT NULL,
   `mbox` char(255) NOT NULL,
@@ -119,11 +117,8 @@ CREATE TABLE `dns_soa` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `origin` (`origin`),
   KEY `active` (`active`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `dns_soa`
--- 
 
 
 -- --------------------------------------------------------

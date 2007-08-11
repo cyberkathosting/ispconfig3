@@ -105,6 +105,25 @@ class page_action extends tform_actions {
 		
 		parent::onSubmit();
 	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+		
+		// Update the serial number of the SOA record
+		$soa_id = intval($_POST["zone"]);
+		$serial = time();
+		$app->db->query("UPDATE dns_soa SET serial = $serial WHERE id = $soa_id");
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		// Update the serial number of the SOA record
+		$soa_id = intval($_POST["zone"]);
+		$serial = time();
+		$app->db->query("UPDATE dns_soa SET serial = $serial WHERE id = $soa_id");
+	}
+	
 }
 
 $page = new page_action;
