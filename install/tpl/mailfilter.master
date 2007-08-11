@@ -45,6 +45,9 @@ if ( $RETURNCODE == 0 )
   include "{dist_postfix_vmail_mailbox_base}/mailfilters/$HOST/$USER/.autoresponder"
 }
 
+# Create a mailsize file
+`echo $SIZE >> {dist_postfix_vmail_mailbox_base}/$HOST/$USER/.ispconfig_mailsize`
+
 
 #
 # Check that user has his own maildrop include,

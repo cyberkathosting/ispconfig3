@@ -615,6 +615,10 @@ maildrop  unix  -       n       n       -       -       pipe
 		$command = "chown -R ispconfig:ispconfig ".$conf["ispconfig_install_dir"];
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
 		
+		// make sure that the server config file (not the interface one) is only readable by the root user
+		exec('chmod 600 '.$conf["ispconfig_install_dir"].'/server/lib/'.$configfile);
+		exec('chown root:root '.$conf["ispconfig_install_dir"].'/server/lib/'.$configfile);
+		
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
