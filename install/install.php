@@ -90,9 +90,13 @@ $inst->configure_amavis();
 swriteln('Configuring Getmail');
 $inst->configure_getmail();
 
-// Configure Getmail
+// Configure Pureftpd
 swriteln('Configuring Pureftpd');
 $inst->configure_pureftpd();
+
+// Configure MyDNS
+swriteln('Configuring MyDNS');
+$inst->configure_mydns();
 
 // Configure ISPConfig
 swriteln('Installing ISPConfig');
@@ -128,6 +132,7 @@ system("/etc/init.d/courier-pop restart");
 system("/etc/init.d/courier-pop-ssl restart");
 system("/etc/init.d/apache2 restart");
 system("/etc/init.d/pure-ftpd-mysql restart");
+system("/etc/init.d/mydns restart");
 
 echo "Installation finished.\n";
 

@@ -473,6 +473,25 @@ maildrop  unix  -       n       n       -       -       pipe
 	
 	}
 	
+	function configure_mydns() {
+		global $conf;
+		
+		// configure pam for SMTP authentication agains the ispconfig database
+		$configfile = 'mydns.conf';
+		if(is_file($conf["dist_mydns_config_dir"].'/'.$configfile)) copy($conf["dist_mydns_config_dir"].'/'.$configfile,$conf["dist_mydns_config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["dist_mydns_config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["dist_mydns_config_dir"].'/'.$configfile.'~');
+		$content = rf("tpl/".$configfile.".master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql_server_ispconfig_user"],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
+		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
+		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
+		wf($conf["dist_mydns_config_dir"].'/'.$configfile,$content);
+		exec('chmod 600 '.$conf["dist_mydns_config_dir"].'/'.$configfile);
+		exec('chown root:root '.$conf["dist_mydns_config_dir"].'/'.$configfile);
+	
+	}
+	
 	
 	function install_ispconfig() {
 		global $conf;
