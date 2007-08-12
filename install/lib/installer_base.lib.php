@@ -172,6 +172,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_forwardings.cf
@@ -182,6 +183,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_mailboxes.cf
@@ -192,6 +194,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_email2email.cf
@@ -202,6 +205,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_transports.cf
@@ -212,6 +216,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_recipient.cf
@@ -222,6 +227,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_sender.cf
@@ -232,6 +238,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// mysql-virtual_client.cf
@@ -242,6 +249,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql_server_ispconfig_password"],$content);
 		$content = str_replace('{mysql_server_database}',$conf["mysql_server_database"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf["mysql_server_ip"],$content);
+		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist_postfix_config_dir"].'/'.$configfile,$content);
 		
 		// Changing mode and group of the new created config files.
