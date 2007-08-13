@@ -133,6 +133,10 @@ if($install_mode == 'Standard') {
 	// Configure MyDNS
 	swriteln('Configuring MyDNS');
 	$inst->configure_mydns();
+	
+	// Configure Apache
+	swriteln('Configuring Apache');
+	$inst->configure_apache();
 
 	// Configure ISPConfig
 	swriteln('Installing ISPConfig');
@@ -217,6 +221,12 @@ if($install_mode == 'Standard') {
 		swriteln('Configuring MyDNS');
 		$inst->configure_mydns();
 		system("/etc/init.d/mydns restart");
+	}
+	
+	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {
+		// Configure Apache
+		swriteln('Configuring Apache');
+		$inst->configure_apache();
 	}
 	
 	if(strtolower($inst->simple_query('Install ISPConfig',array('y','n'),'y')) == 'y') {

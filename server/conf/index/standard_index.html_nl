@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>Welkom!</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" leftMargin=0 topMargin=0 rightMargin=0 marginheight="0" marginwidth="0">
+<CENTER>
+<TABLE BORDER="0" WIDTH="100%" CELLSPACING="0">
+  <TR>
+    <TD BGCOLOR="#025CCA" ALIGN="CENTER">
+    <HR SIZE="1" COLOR="#FFFFFF">
+    <TABLE>
+      <TR>
+            <TD><FONT SIZE="3" COLOR="#FFFFFF" FACE="Helvetica, Arial"><B>Welkom
+              op 
+              <!--ADRESSE//-->
+              uw website!
+              <!--ADRESSE//-->
+              </B></FONT></TD>
+      </TR>
+    </TABLE>
+    <HR SIZE="1" COLOR="#FFFFFF">
+    </TD>
+  </TR>
+  <TR>
+    <TD BGCOLOR="#FFFFFF">
+    <BR><BR><CENTER>
+        <FONT COLOR="#000000" SIZE="2" FACE="Helvetica, Arial">
+				Dit is de standaard indexpagina van uw website. 
+				U kunt deze op eenvoudige wijze verwijderen en vervangen door een ander bestand.<br>
+				Dit is het <b>index.html</b> bestand in de <B>web</B> directorie.
+        <P>
+				Voor vragen of problemen kunt u contact opnemen met de beheerder van de server.</FONT> </CENTER>
+          <BR>
+
+        <HR SIZE="1" WIDTH="90%">
+      <CENTER>
+<FONT SIZE="1" COLOR="#000000" FACE="Verdana, Arial">powered by <A HREF="http://www.ispconfig.org">ISPConfig</A></FONT>
+      </CENTER>
+    </TD>
+  </TR>
+</TABLE>
+</CENTER>
+</BODY>
+</HTML>

@@ -25,3 +25,12 @@ NameVirtualHost *:8080
     ServerSignature Off
 	
 </VirtualHost>
+
+###########################################
+# Logfile configuration for vlogger
+###########################################
+
+LogFormat "%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
+CustomLog "| /usr/sbin/vlogger -s access.log /var/log/ispconfig/httpd" combined_ispconfig
+
+

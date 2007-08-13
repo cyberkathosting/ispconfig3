@@ -3,6 +3,16 @@
 <VirtualHost <tmpl_var name='ip_address'>:80>
     DocumentRoot <tmpl_var name='web_document_root'>
     ServerName <tmpl_var name='domain'>
+	ServerAdmin webmaster@<tmpl_var name='domain'>
+	ErrorLog <tmpl_var name='document_root'>/log/error.log
+	
+	ErrorDocument 400 /error/invalidSyntax.html
+	ErrorDocument 401 /error/authorizationRequired.html
+	ErrorDocument 403 /error/forbidden.html
+	ErrorDocument 404 /error/fileNotFound.html
+	ErrorDocument 405 /error/methodNotAllowed.html
+	ErrorDocument 500 /error/internalServerError.html
+	ErrorDocument 503 /error/overloaded.html
 
 <tmpl_if name='alias'>
     ServerAlias <tmpl_var name='alias'>

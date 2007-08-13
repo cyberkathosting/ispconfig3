@@ -566,6 +566,14 @@ maildrop  unix  -       n       n       -       -       pipe
 	
 	}
 	
+	function configure_apache() {
+		global $conf;
+		
+		// Create the logging directory for the vhost logfiles
+		exec("mkdir -p /var/log/ispconfig/httpd");
+		
+	}
+	
 	
 	function install_ispconfig() {
 		global $conf;

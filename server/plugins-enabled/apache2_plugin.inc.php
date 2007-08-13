@@ -91,12 +91,19 @@ class apache2_plugin {
 		
 		// Check if the directories are there and create them if nescessary.
 		if(!is_dir($data["new"]["document_root"]."/web")) exec("mkdir -p ".$data["new"]["document_root"]."/web");
-		if(!is_dir($data["new"]["document_root"]."/log")) exec("mkdir -p ".$data["new"]["document_root"]."/log");
+		if(!is_dir($data["new"]["document_root"]."/web/error")) exec("mkdir -p ".$data["new"]["document_root"]."/web/error");
+		//if(!is_dir($data["new"]["document_root"]."/log")) exec("mkdir -p ".$data["new"]["document_root"]."/log");
 		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
 		if(!is_dir($data["new"]["document_root"]."/cgi-bin")) exec("mkdir -p ".$data["new"]["document_root"]."/cgi-bin");
 		
+		// Create the symlink for the logfiles
+		if(!is_link($data["new"]["document_root"]."/log")) exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
+		
 		// TODO: Create the symlinks
 		
+		// Copy the error pages
+		$error_page_path = escapeshellcmd($data["new"]["web_document_root"])."/web/error/";
+		exec("copy /usr/local/ispconfig/server/conf/error/".escapeshellcmd($conf["language"])."/* ".$error_page_path);
 		
 		// Create group and user, if not exist
 		$app->uses("system");

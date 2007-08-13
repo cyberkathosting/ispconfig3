@@ -136,6 +136,10 @@ $inst->configure_pureftpd();
 swriteln('Configuring MyDNS');
 $inst->configure_mydns();
 
+// Configure Apache
+swriteln('Configuring Apache');
+$inst->configure_apache();
+
 // Configure ISPConfig
 swriteln('Installing ISPConfig');
 $inst->install_ispconfig();
