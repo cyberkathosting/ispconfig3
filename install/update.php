@@ -38,6 +38,8 @@ require_once('lib/install.lib.php');
 // Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
 
+include_once("options.conf.php");
+$conf['dist'] = $dist;
 $distname = get_distname();
 
 include_once("/usr/local/ispconfig/server/lib/config.inc.php");
@@ -50,10 +52,10 @@ include_once('dist/lib/'.$distname.'.lib.php');
 include_once('dist/conf/'.$distname.'.conf.php');
 
 // Set the mysql login information
-$conf["mysql_server_host"] = $conf_old["db_host"];
-$conf["mysql_server_database"] = $conf_old["db_database"];
-$conf["mysql_server_ispconfig_user"] = $conf_old["db_user"];
-$conf["mysql_server_ispconfig_password"] = $conf_old["db_password"];
+$conf["mysql"]["host"] = $conf_old["db_host"];
+$conf["mysql"]["database"] = $conf_old["db_database"];
+$conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
+$conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 
 $inst = new installer();
 
@@ -71,7 +73,7 @@ $inst->db = new db();
 // Database update is a bit brute force and should be rebuild later ;)
 
 // export the current database data
-if($conf["mysql_server_admin_password"] != '') {
+if($conf["mysql"]["admin_password"] != '') {
 	system("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_admin_user] -p$conf[mysql_server_admin_password] -c -t --add-drop-table --all --quick $conf[mysql_server_database] > existing_db.sql");
 } else {
 	system("mysqldump -h $conf[mysql_server_host] -u $conf[mysql_server_admin_user] -c -t --add-drop-table --all --quick $conf[mysql_server_database] > existing_db.sql");
@@ -81,7 +83,7 @@ if($conf["mysql_server_admin_password"] != '') {
 // Delete the old database
 exec("/etc/init.d/mysql stop");
 sleep(3);
-if($conf["mysql_server_database"] != '') exec("rm -rf /var/lib/mysql/".$conf["mysql_server_database"]);
+if($conf["mysql"]["database"] != '') exec("rm -rf /var/lib/mysql/".$conf["mysql"]["database"]);
 exec("/etc/init.d/mysql start");
 sleep(5);
 
@@ -95,7 +97,7 @@ foreach($db_tables as $table) {
 }
 
 // load old data back into database
-if($conf["mysql_server_admin_password"] != '') {
+if($conf["mysql"]["admin_password"] != '') {
 	system("mysql -h $conf[mysql_server_host] -u $conf[mysql_server_admin_user] -p$conf[mysql_server_admin_password] $conf[mysql_server_database] < existing_db.sql");
 } else {
 	system("mysql -h $conf[mysql_server_host] -u $conf[mysql_server_admin_user] $conf[mysql_server_database] < existing_db.sql");

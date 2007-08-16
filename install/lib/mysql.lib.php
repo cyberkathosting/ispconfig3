@@ -48,10 +48,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		{
 			
 			global $conf;
-			$this->dbHost = $conf["mysql_server_host"];
-			//$this->dbName = $conf["mysql_server_database"];
-			$this->dbUser = $conf["mysql_server_admin_user"];
-			$this->dbPass = $conf["mysql_server_admin_password"];
+			$this->dbHost = $conf["mysql"]["host"];
+			//$this->dbName = $conf["mysql"]["database"];
+			$this->dbUser = $conf["mysql"]["admin_user"];
+			$this->dbPass = $conf["mysql"]["admin_password"];
 			//$this->connect();
 		}
 

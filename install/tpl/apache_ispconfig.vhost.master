@@ -18,6 +18,8 @@ NameVirtualHost *:8080
 	<Directory /usr/local/ispconfig/interface/web/>
 		Options FollowSymLinks
 		AllowOverride None
+		Order allow,deny
+		Allow from all
 	</Directory>
 	
 	ErrorLog /var/log/apache2/error.log

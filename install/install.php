@@ -42,12 +42,15 @@ require_once('lib/install.lib.php');
 // Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
 
+include_once('options.conf.php');
 $distname = get_distname();
 
 // Include the distribution specific installer class library
 // and configuration
-include_once('dist/lib/'.$distname.'.lib.php');
-include_once('dist/conf/'.$distname.'.conf.php');
+include_once('dist/lib/'.$conf['distname'].'.lib.php');
+include_once('dist/conf/'.$conf['distname'].'.conf.php');
+
+$conf['dist'] = $dist;
 
 $inst = new installer();
 
@@ -72,15 +75,15 @@ unset($tmp_out);
 // Get MySQL root password
 $finished = false;
 do {
-	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname',$conf["mysql_server_host"]);
-	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username',$conf["mysql_server_admin_user"]);
-	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password',$conf["mysql_server_admin_password"]);
+	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname',$conf["mysql"]["host"]);
+	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username',$conf["mysql"]["admin_user"]);
+	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password',$conf["mysql"]["admin_password"]);
 	
 	// Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
-		$conf["mysql_server_host"] = $tmp_mysql_server_host;
-		$conf["mysql_server_admin_user"] = $tmp_mysql_server_admin_user;
-		$conf["mysql_server_admin_password"] = $tmp_mysql_server_admin_password;
+		$conf["mysql"]["host"] = $tmp_mysql_server_host;
+		$conf["mysql"]["admin_user"] = $tmp_mysql_server_admin_user;
+		$conf["mysql"]["admin_password"] = $tmp_mysql_server_admin_password;
 		$finished = true;
 	} else {
 		swriteln($inst->lng("Unable to connect to mysql server").' '.mysql_error());
@@ -147,19 +150,19 @@ if($install_mode == 'Standard') {
 	$inst->install_crontab();
 	
 	swriteln('Restarting services ...');
-	system("/etc/init.d/mysql restart");
-	system("/etc/init.d/postfix restart");
-	system("/etc/init.d/saslauthd restart");
-	system("/etc/init.d/amavis restart");
-	system("/etc/init.d/clamav-daemon restart");
-	system("/etc/init.d/courier-authdaemon restart");
-	system("/etc/init.d/courier-imap restart");
-	system("/etc/init.d/courier-imap-ssl restart");
-	system("/etc/init.d/courier-pop restart");
-	system("/etc/init.d/courier-pop-ssl restart");
-	system("/etc/init.d/apache2 restart");
-	system("/etc/init.d/pure-ftpd-mysql restart");
-	system("/etc/init.d/mydns restart");
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['mysql']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['postfix']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['saslauthd']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['amavis']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['clamav']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-authdaemon'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-imap'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-imap-ssl'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-pop'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-pop-ssl'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['apache']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['pureftpd']['init_script'].' restart');
+	system($conf['dist']["init_scripts"].'/'.$conf['dist']['mydns']['init_script'].' restart');
 	
 } else {
 	
@@ -198,29 +201,29 @@ if($install_mode == 'Standard') {
 		swriteln('Configuring Getmail');
 		$inst->configure_getmail();
 		
-		system("/etc/init.d/postfix restart");
-		system("/etc/init.d/saslauthd restart");
-		system("/etc/init.d/amavis restart");
-		system("/etc/init.d/clamav-daemon restart");
-		system("/etc/init.d/courier-authdaemon restart");
-		system("/etc/init.d/courier-imap restart");
-		system("/etc/init.d/courier-imap-ssl restart");
-		system("/etc/init.d/courier-pop restart");
-		system("/etc/init.d/courier-pop-ssl restart");
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['postfix']['init_script'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['saslauthd']['init_script'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['amavis']['init_script'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['clamav']['init_script'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-authdaemon'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-imap'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-imap-ssl'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-pop'].' restart');
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['courier']['courier-pop-ssl'].' restart');
 	}
 	
 	if(strtolower($inst->simple_query('Configure FTP Server',array('y','n'),'y')) == 'y') {
 		// Configure Pureftpd
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
-		system("/etc/init.d/pure-ftpd-mysql restart");
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['pureftpd']['init_script'].' restart');
 	}
 	
 	if(strtolower($inst->simple_query('Configure DNS Server',array('y','n'),'y')) == 'y') {
 		// Configure MyDNS
 		swriteln('Configuring MyDNS');
 		$inst->configure_mydns();
-		system("/etc/init.d/mydns restart");
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['mydns']['init_script'].' restart');
 	}
 	
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {
@@ -237,8 +240,7 @@ if($install_mode == 'Standard') {
 		// Configure ISPConfig
 		swriteln('Installing Crontab');
 		$inst->install_crontab();
-		
-		system("/etc/init.d/apache2 restart");
+		system($conf['dist']["init_scripts"].'/'.$conf['dist']['apache']['init_script'].' restart');	
 	}
 	
 	

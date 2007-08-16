@@ -15,12 +15,12 @@ $dist["pam"] = "/etc/pam.d";
 $dist["mysql"]["init_script"] = "mysql";
 
 // Apache
-$dist["apache"]["user"] = "www-data";
-$dist["apache"]["group"] = "www-data";
+$dist["apache"]["user"] = "apache";
+$dist["apache"]["group"] = "apache";
 $dist["apache"]["init_script"] = "apache2";
 $dist["apache"]["version"] = "2.2";
-$dist["apache"]["vhost_dist_dir"] = "/etc/apache2/sites-available";
-$dist["apache"]["vhost_dist_enabled_dir"] = "/etc/apache2/sites-enabled";
+$dist["apache"]["vhost_dist_dir"] = "/etc/apache2/vhosts.d";
+$dist["apache"]["vhost_dist_enabled_dir"] = "/etc/apache2/vhosts.d";
 
 // Postfix
 $dist["postfix"]["config_dir"] = "/etc/postfix";
@@ -39,11 +39,11 @@ $dist["getmail"]["program"] = "/usr/bin/getmail";
 
 // Courier
 $dist["courier"]["config_dir"] = "/etc/courier";
-$dist["courier"]["courier-authdaemon"] = "courier-authdaemon";
-$dist["courier"]["courier-imap"] = "courier-imap";
-$dist["courier"]["courier-imap-ssl"] = "courier-imap-ssl";
-$dist["courier"]["courier-pop"] = "courier-pop";
-$dist["courier"]["courier-pop-ssl"] = "courier-pop-ssl";
+$dist["courier"]["courier-authdaemon"] = "courier-authlib";
+$dist["courier"]["courier-imap"] = "courier-imapd";
+$dist["courier"]["courier-imap-ssl"] = "courier-imapd-ssl";
+$dist["courier"]["courier-pop"] = "courier-pop3d";
+$dist["courier"]["courier-pop-ssl"] = "courier-pop3d-ssl";
 
 // SASL
 $dist["saslauthd"]["config"] = "/etc/default/saslauthd";
@@ -51,14 +51,14 @@ $dist["saslauthd"]["init_script"] = "saslauthd";
 
 // Amavisd
 $dist["amavis"]["config_dir"] = "/etc/amavis";
-$dist["amavis"]["init_script"] = "amavis";
+$dist["amavis"]["init_script"] = "amavisd";
 
 // ClamAV
-$dist["clamav"]["init_script"] = "clamav-daemon";
+$dist["clamav"]["init_script"] = "clamd";
 
 // Pureftpd
 $dist["pureftpd"]["config_dir"] = "/etc/pure-ftpd";
-$dist["pureftpd"]["init_script"] = "pure-ftpd-mysql";
+$dist["pureftpd"]["init_script"] = "pure-ftpd";
 
 // MyDNS
 $dist["mydns"]["config_dir"] = "/etc";

@@ -36,7 +36,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function get_distname() {
 	
-	$distname = 'debian40';
+	$distname = $conf['distname'];
 	
 	return $distname;
 }
