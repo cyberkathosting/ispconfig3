@@ -1,7 +1,0 @@
-<?php
-
-$wb["Yes"] = 'Ja';
-$wb["No"] = 'Nej';
-$wb["error_no_permission"] = 'Du har ej behörighet att utföra denna åtgärd!';
-
-?>
