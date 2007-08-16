@@ -949,9 +949,10 @@ class tform {
 				if($_SESSION["s"]["user"]["typ"] == 'admin') {
 					return '1';
 				} else {
-                	$sql = '(';
+                	$groups = ( $_SESSION["s"]["user"]["groups"] ) ? $_SESSION["s"]["user"]["groups"] : 0;
+					$sql = '(';
                 	$sql .= "(sys_userid = ".$_SESSION["s"]["user"]["userid"]." AND sys_perm_user like '%$perm%') OR  ";
-                	$sql .= "(sys_groupid IN (".$_SESSION["s"]["user"]["groups"].") AND sys_perm_group like '%$perm%') OR ";
+                	$sql .= "(sys_groupid IN (".$groups.") AND sys_perm_group like '%$perm%') OR ";
                 	$sql .= "sys_perm_other like '%$perm%'";
                 	$sql .= ')';
 
