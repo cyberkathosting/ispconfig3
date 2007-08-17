@@ -32,7 +32,7 @@ Mail module
 DNS module
 --------------------------------------
 
-- Add some kind of whizard to create DNS records easily. The idea is to have some
+- Add some kind of wizard to create DNS records easily. The idea is to have some
   kind of template(s) to create all needed A and MX records defined in the template
   with one click and the user has just to enter IP, domain, nameserver and select the
   template that he wants to use.
@@ -43,7 +43,7 @@ Administration module
 
 - Add a firewall configuration form. Any suggestions for a good firewall
   script that runs on many linux distributions, or shall we stay with bastille
-  firewall thet is used in ISPConfig 2?
+  firewall that is used in ISPConfig 2?
 
 
 Clients module

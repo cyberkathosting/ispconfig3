@@ -44,12 +44,11 @@ class app {
 		}
 
 		if($conf['start_session'] == true) {
-				session_start();
-				$_SESSION['s']['id'] = session_id();
-				if(!isset($_SESSION['s']['theme']) || $_SESSION['s']['theme'] == ''){
-					 $_SESSION['s']['theme'] = $conf['theme'];
-				}
-				if($_SESSION['s']['language'] == '') $_SESSION['s']['language'] = $conf['language'];
+			session_start();
+            //* Initialise vars if session is not set
+            if( !isset($_SESSION['s']['id']) ){
+                $_SESSION['s'] = array('id' => session_id(), 'theme' => $conf['theme'], 'language' => $conf['language']);
+            }
 		}
 	}
 
