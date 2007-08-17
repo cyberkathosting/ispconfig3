@@ -329,6 +329,25 @@ CREATE TABLE `mail_mailman_domain` (
 -- Daten für Tabelle `mail_mailman_domain`
 -- 
 
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `mail_traffic`
+-- 
+
+CREATE TABLE `mail_traffic` (
+  `traffic_id` int(10) unsigned NOT NULL auto_increment,
+  `mailuser_id` int(10) unsigned NOT NULL,
+  `month` char(7) NOT NULL,
+  `traffic` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY  (`traffic_id`),
+  KEY `mailuser_id` (`mailuser_id`,`month`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+-- 
+-- Daten für Tabelle `mail_traffic`
+-- 
+
 
 -- --------------------------------------------------------
 
