@@ -1,0 +1,77 @@
+
+---------------------------------------
+- ISPConfig 3 ToDo list
+---------------------------------------
+
+Please feel free to edit this file, add new tasks,
+remove done tasks or assign yourself to a task.
+
+
+Installer
+--------------------------------------
+
+- Add a cronjob that runs the script server/cron_daily.php once every
+  night during installation to the root crontab.
+
+
+Server
+--------------------------------------
+
+- Add a backend plugin to configure network card settings. The IP address settings
+  are stored in the server_ip table.
+
+
+Mail module
+--------------------------------------
+
+- Show mail statistics in the interface. the mail statistics are stored
+  in the database table mail_traffic and are collected by the file
+  server/cron_daily.php
+
+
+DNS module
+--------------------------------------
+
+- Add some kind of whizard to create DNS records easily. The idea is to have some
+  kind of template(s) to create all needed A and MX records defined in the template
+  with one click and the user has just to enter IP, domain, nameserver and select the
+  template that he wants to use.
+
+
+Administration module
+--------------------------------------
+
+- Add a firewall configuration form. Any suggestions for a good firewall
+  script that runs on many linux distributions, or shall we stay with bastille
+  firewall thet is used in ISPConfig 2?
+
+
+Clients module
+--------------------------------------
+
+- Add the ability that Clients can add clients (Reseller functionality)
+  Task assigned to: Till
+
+
+Sites (web) module
+--------------------------------------
+
+- Add a function to the Sites module to create SSL certificates or upload
+  existing SSL certs and SSL chain files. It might be a good idea to add
+  this as a new tab named "SSL" to the exiting domain settings form.
+  
+- Add a "httpd includes" field to the options tab of the domain settings form
+  like it is implemented in ISPConfig 2. 
+
+
+BE-Designer module
+--------------------------------------
+
+WARNING: Please do not use the BE Designer at the moment, the serializing function
+of the module editor may break some of the existing modules.
+
+
+General tasks
+--------------------------------------
+
+- Add, extend or modify comments in PEAR syntax so that they can be read with phpdocumentor.
