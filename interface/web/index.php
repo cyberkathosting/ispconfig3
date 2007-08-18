@@ -32,7 +32,7 @@ require_once('../lib/config.inc.php');
 require_once('../lib/app.inc.php');
 
 $app->uses('tpl');
-$app->tpl->newTemplate("main.tpl.htm");
+$app->tpl->newTemplate('main.tpl.htm');
 
 /*
 
