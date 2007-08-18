@@ -27,21 +27,17 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-Header("Pragma: no-cache");
-Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-Header("Content-Type: text/html");
-
-ini_set('register_globals',0);
-
-$conf["app_title"] = "ISPConfig";
-$conf["app_version"] = "3.0.0";
-$conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
+Header('Pragma: no-cache');
+Header('Cache-Control: no-store, no-cache, max-age=0, must-revalidate');
+Header('Content-Type: text/html');
 
 
-/*
-        Database Settings
-*/
+//** Key paramaters
+$conf['app_title'] = 'ISPConfig';
+$conf['app_version'] = '3.0.0';
+$conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
 
+//** Database Settings
 $conf["db_type"]			= 'mysql';
 $conf["db_host"]			= 'localhost';
 $conf["db_database"]		= 'ispconfig3';
