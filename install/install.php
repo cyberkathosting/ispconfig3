@@ -36,14 +36,19 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //if(is_dir("/usr/local/ispconfig")) die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
 
 error_reporting(E_ALL|E_STRICT);
-echo ' _   _____   _____   _____   _____   __   _   _____   _   _____  
-| | /  ___/ |  _  \ /  ___| /  _  \ |  \ | | |  ___| | | /  ___| 
-| | | |___  | |_| | | |     | | | | |   \| | | |__   | | | |     
-| | \___  \ |  ___/ | |     | | | | | |\   | |  __|  | | | |  _  
-| |  ___| | | |     | |___  | |_| | | | \  | | |     | | | |_| | 
-|_| /_____/ |_|     \_____| \_____/ |_|  \_| |_|     |_| \_____/ ';
 
-echo "\n# Setup routine started...\n";
+//** The banner on the command line
+echo "\n\n".str_repeat('-',80)."\n";
+echo " _____ ___________   _____              __ _       
+|_   _/  ___| ___ \ /  __ \            / _(_)      
+  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _ 
+  | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |
+ _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| |
+ \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
+                                              __/ |
+                                             |___/ ";
+
+echo "\n\n>> sInitial configuration  \n\n";
 
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
@@ -63,7 +68,7 @@ $conf['dist'] = $dist;
 
 //** Lets go !
 $inst = new installer();
-swriteln($inst->lng('This application will install ISPConfig 3 on your server.'));
+swriteln($inst->lng('Following will be a few questions for primary configuration so be careful please',"\n\n"));
 
 //** Select the language
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
@@ -80,9 +85,9 @@ unset($tmp_out);
 //** Get MySQL root credentials
 $finished = false;
 do {
-	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname',$conf['mysql']['host']);
-	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username',$conf['mysql']['admin_user']);
-	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password',$conf['mysql']['admin_password']);
+	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname', $conf['mysql']['host']);
+	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user']);
+	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
 	
 	//* Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
