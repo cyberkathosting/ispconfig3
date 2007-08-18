@@ -34,18 +34,37 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+
+
+/*
+Comments to completion forever ;-)
+commandline arguments
+$argv[1]
+
+
+<?
+echo "Total argument passed are : $argc \n";
+for( $i = 0 ; $i <= $argc -1 ;$i++)
+{
+echo "Argument $i : $argv[$i] \n";
+}
+?> 
+
+*/
+error_reporting(E_ALL|E_STRICT);
+
+
+$FILE = realpath('../install.php');
+
 function get_distname() {
-	
 	$distname = $conf['distname'];
-	
 	return $distname;
 }
 
 function sread() {
-    $fp=fopen("/dev/stdin", "r");
+    $fp=fopen('/dev/stdin', 'r');
     $input=fgets($fp, 255);
     fclose($fp);
-
     return rtrim($input);
 }
 
@@ -57,151 +76,154 @@ function swriteln($text = '') {
 	echo $text."\n";
 }
 
-$FILE = realpath("../install.php");
-
 function ilog($msg){
-  $logfile = "/var/log/ispconfig_install.log";
-  exec("echo `date` \"- [ISPConfig] - \"".$msg." >> ".$logfile);
+	$logfile = '/var/log/ispconfig_install.log';
+  	exec("echo `date` \"- [ISPConfig] - \"".$msg." >> ".$logfile);
 }
 
 function error($msg){
-  ilog($msg);
-  die($msg."\n");
+	ilog($msg);
+	die($msg."\n");
 }
 
 function caselog($command, $file = '', $line = '', $success = '', $failure = ''){
-  exec($command,$arr,$ret_val);
-  $arr = NULL;
-  if(!empty($file) && !empty($line)){
-    $pre = $file.", Line ".$line.": ";
-  } else {
-    $pre = "";
-  }
-  if($ret_val != 0){
-    if($failure == "") $failure = "could not ".$command;
-    ilog($pre."WARNING: ".$failure);
-  } else {
-    if($success == "") $success = $command;
-    ilog($pre.$success);
-  }
+	exec($command,$arr,$ret_val);
+	$arr = NULL;
+	if(!empty($file) && !empty($line)){
+		$pre = $file.', Line '.$line.': ';
+	} else {
+		$pre = '';
+	}
+	if($ret_val != 0){
+		if($failure == '') $failure = 'could not '.$command;
+		ilog($pre.'WARNING: '.$failure);
+	} else {
+		if($success == '') $success = $command;
+		ilog($pre.$success);
+	}
 }
 
 function phpcaselog($ret_val, $msg, $file = '', $line = ''){
-  if(!empty($file) && !empty($line)){
-    $pre = $file.", Line ".$line.": ";
-  } else {
-    $pre = "";
-  }
-  if($ret_val == true){
-    ilog($pre.$msg);
-  } else {
-    ilog($pre."WARNING: could not ".$msg);
-  }
-  return $ret_val;
+	if(!empty($file) && !empty($line)){
+		$pre = $file.', Line '.$line.': ';
+	} else {
+		$pre = '';
+	}
+	if($ret_val == true){
+		ilog($pre.$msg);
+	} else {
+		ilog($pre.'WARNING: could not '.$msg);
+	}
+	return $ret_val;
 }
 
 function mkdirs($strPath, $mode = '0755'){
-  if(isset($strPath) && $strPath != ""){
-    // Verzeichnisse rekursiv erzeugen
-    if(is_dir($strPath)) return true;
-    $pStrPath = dirname($strPath);
-    if(!mkdirs($pStrPath, $mode)) return false;
-    $old_umask = umask(0);
-    $ret_val = mkdir($strPath, octdec($mode));
-    umask($old_umask);
-    return $ret_val;
-  } else {
-    return false;
-  }
+	if(isset($strPath) && $strPath != ""){
+		//* Verzeichnisse rekursiv erzeugen
+		if(is_dir($strPath)){
+			return true;
+		}
+		$pStrPath = dirname($strPath);
+		if(!mkdirs($pStrPath, $mode)){
+			return false;
+		}
+		$old_umask = umask(0);
+		$ret_val = mkdir($strPath, octdec($mode));
+		umask($old_umask);
+		return $ret_val;
+	}
+	return false;
 }
 
 function rf($file){
-  clearstatcache();
-  if(!$fp = fopen ($file, "rb")) ilog("WARNING: could not open file ".$file);
-  if(filesize($file) > 0){
-    $content = fread($fp, filesize($file));
-  } else {
-    $content = "";
-  }
-  fclose($fp);
-  return $content;
+	clearstatcache();
+	if(!$fp = fopen ($file, 'rb')){
+		ilog('WARNING: could not open file '.$file);
+	}
+	return filesize($file) > 0 ? fread($fp, filesize($file)) : '';
 }
 
 function wf($file, $content){
-  mkdirs(dirname($file));
-  if(!$fp = fopen ($file, "wb")) ilog("WARNING: could not open file ".$file);
-  fwrite($fp,$content);
-  fclose($fp);
+	mkdirs(dirname($file));
+	if(!$fp = fopen ($file, 'wb')){
+		ilog('WARNING: could not open file '.$file);
+	}
+	fwrite($fp, $content);
+	fclose($fp);
 }
 
 function af($file, $content){
-  mkdirs(dirname($file));
-  if(!$fp = fopen ($file, "ab")) ilog("WARNING: could not open file ".$file);
-  fwrite($fp,$content);
-  fclose($fp);
+	mkdirs(dirname($file));
+	if(!$fp = fopen ($file, 'ab')){
+		ilog('WARNING: could not open file '.$file);
+	}
+	fwrite($fp,$content);
+	fclose($fp);
 }
 
 function aftsl($file, $content){
-  if(!$fp = fopen ($file, "ab")) ilog("WARNING: could not open file ".$file);
-  fwrite($fp,$content);
-  fclose($fp);
+	if(!$fp = fopen ($file, 'ab')){
+		ilog('WARNING: could not open file '.$file);
+	}
+	fwrite($fp,$content);
+	fclose($fp);
 }
 
 function unix_nl($input){
-  $output = str_replace("\r\n", "\n", $input);
-  $output = str_replace("\r", "\n", $output);
-  return $output;
+	$output = str_replace("\r\n", "\n", $input);
+	$output = str_replace("\r", "\n", $output);
+	return $output;
 }
 
 function remove_blank_lines($input, $file = 1){
-  //Leerzeilen l�schen
-  if($file){
-    $content = unix_nl(rf($input));
-  } else {
-    $content = $input;
-  }
-  $lines = explode("\n", $content);
-  if(!empty($lines)){
-    foreach($lines as $line){
-      if(trim($line) != "") $new_lines[] = $line;
-    }
-  }
-  if(is_array($new_lines)){
-    $content = implode("\n", $new_lines);
-  } else {
-    $content = "";
-  }
-  if($file){
-    wf($input, $content);
-  } else {
-    return $content;
-  }
+	//TODO ? Leerzeilen l�schen
+	if($file){
+		$content = unix_nl(rf($input)); // WTF -pedro !
+	}else{
+		$content = $input;
+	}
+	$lines = explode("\n", $content);
+	if(!empty($lines)){
+		foreach($lines as $line){
+			if(trim($line) != '') $new_lines[] = $line;
+		}
+	}
+	if(is_array($new_lines)){
+		$content = implode("\n", $new_lines);
+	} else {
+		$content = '';
+	}
+	if($file){
+		wf($input, $content);
+	}else{
+		return $content;
+	}
 }
 
 function no_comments($file, $comment = '#'){
-  $content = unix_nl(rf($file));
-  $lines = explode("\n", $content);
-  if(!empty($lines)){
-    foreach($lines as $line){
-      if(strstr($line, $comment)){
-        $pos = strpos($line, $comment);
-        if($pos != 0){
-          $new_lines[] = substr($line,0,$pos);
-        } else {
-          $new_lines[] = "";
-        }
-      } else {
-        $new_lines[] = $line;
-      }
-    }
-  }
-  if(is_array($new_lines)){
-    $content_without_comments = implode("\n", $new_lines);
-    $new_lines = NULL;
-    return $content_without_comments;
-  } else {
-    return "";
-  }
+	$content = unix_nl(rf($file));
+	$lines = explode("\n", $content);
+	if(!empty($lines)){
+		foreach($lines as $line){
+			if(strstr($line, $comment)){
+				$pos = strpos($line, $comment);
+				if($pos != 0){
+					$new_lines[] = substr($line,0,$pos);
+				}else{
+					$new_lines[] = '';
+				}
+			}else{
+				$new_lines[] = $line;
+			}
+		}
+	}
+	if(is_array($new_lines)){
+		$content_without_comments = implode("\n", $new_lines);
+		$new_lines = NULL;
+		return $content_without_comments;
+	} else {
+		return '';
+	}
 }
 
 function find_includes($file){
@@ -260,25 +282,28 @@ function find_includes($file){
 }
 
 function comment_out($file, $string){
-  $inhalt = no_comments($file);
-  $gesamt_inhalt = rf($file);
-  $modules = explode(",",$string);
-  foreach($modules as $val){
-    $val = trim($val);
-    if(strstr($inhalt, $val)){
-      $gesamt_inhalt = str_replace($val, "##ISPConfig INSTALL## ".$val, $gesamt_inhalt);
-    }
-  }
-  wf($file, $gesamt_inhalt);
+	$inhalt = no_comments($file);
+	$gesamt_inhalt = rf($file);
+	$modules = explode(',', $string);
+	foreach($modules as $val){
+		$val = trim($val);
+		if(strstr($inhalt, $val)){
+			$gesamt_inhalt = str_replace($val, '##ISPConfig INSTALL## '.$val, $gesamt_inhalt);
+		}
+	}
+	wf($file, $gesamt_inhalt);
 }
 
 function is_word($string, $text, $params = ''){
-  // params: i
+  //* params: i ??
+  return preg_match("/\b$string\b/$params", $text);
+  /*
   if(preg_match("/\b$string\b/$params", $text)) {
     return true;
   } else {
     return false;
   }
+  */
 }
 
 function grep($content, $string, $params = ''){
@@ -327,55 +352,36 @@ function grep($content, $string, $params = ''){
 }
 
 function edit_xinetd_conf($service){
-  $xinetd_conf = "/etc/xinetd.conf";
-  $contents = unix_nl(rf($xinetd_conf));
-  $lines = explode("\n", $contents);
-  $j = sizeof($lines);
-  for($i=0;$i<sizeof($lines);$i++){
-    if(grep($lines[$i], $service, "w")){
-      $fundstelle_anfang = $i;
-      $j = $i;
-      $parts = explode($lines[$i], $contents);
-    }
-    if($j < sizeof($lines)){
-      if(strstr($lines[$i], "}")){
-        $fundstelle_ende = $i;
-        $j = sizeof($lines);
-      }
-    }
-  }
-  if(isset($fundstelle_anfang) && isset($fundstelle_ende)){
-    for($i=$fundstelle_anfang;$i<=$fundstelle_ende;$i++){
-      if(strstr($lines[$i], "disable")){
-        $disable = explode("=", $lines[$i]);
-        $disable[1] = " yes";
-        $lines[$i] = implode("=", $disable);
-      }
-    }
-  }
-  $fundstelle_anfang = NULL;
-  $fundstelle_ende = NULL;
-  $contents = implode("\n", $lines);
-  wf($xinetd_conf, $contents);
+	$xinetd_conf = '/etc/xinetd.conf';
+	$contents = unix_nl(rf($xinetd_conf));
+	$lines = explode("\n", $contents);
+	$j = sizeof($lines);
+	for($i=0;$i<sizeof($lines);$i++){
+		if(grep($lines[$i], $service, 'w')){
+			$fundstelle_anfang = $i;
+			$j = $i;
+			$parts = explode($lines[$i], $contents);
+		}
+		if($j < sizeof($lines)){
+			if(strstr($lines[$i], '}')){
+				$fundstelle_ende = $i;
+				$j = sizeof($lines);
+			}
+		}
+	}
+	if(isset($fundstelle_anfang) && isset($fundstelle_ende)){
+		for($i=$fundstelle_anfang;$i<=$fundstelle_ende;$i++){
+			if(strstr($lines[$i], 'disable')){
+				$disable = explode('=', $lines[$i]);
+				$disable[1] = ' yes';
+				$lines[$i] = implode('=', $disable);
+			}
+		}
+	}
+	$fundstelle_anfang = NULL;
+	$fundstelle_ende = NULL;
+	$contents = implode("\n", $lines);
+	wf($xinetd_conf, $contents);
 }
-
-
-/*
-
-commandline arguments
-$argv[1]
-
-
-<?
-echo "Total argument passed are : $argc \n";
-for( $i = 0 ; $i <= $argc -1 ;$i++)
-{
-echo "Argument $i : $argv[$i] \n";
-}
-?> 
-
-*/
-
-
 
 ?>

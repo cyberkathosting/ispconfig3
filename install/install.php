@@ -35,6 +35,15 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //** Check for existing installation
 //if(is_dir("/usr/local/ispconfig")) die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
 
+error_reporting(E_ALL|E_STRICT);
+echo ' _   _____   _____   _____   _____   __   _   _____   _   _____  
+| | /  ___/ |  _  \ /  ___| /  _  \ |  \ | | |  ___| | | /  ___| 
+| | | |___  | |_| | | |     | | | | |   \| | | |__   | | | |     
+| | \___  \ |  ___/ | |     | | | | | |\   | |  __|  | | | |  _  
+| |  ___| | | |     | |___  | |_| | | | \  | | |     | | | |_| | 
+|_| /_____/ |_|     \_____| \_____/ |_|  \_| |_|     |_| \_____/ ';
+
+echo "# Setup routine started...\n";
 
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
