@@ -1,0 +1,88 @@
+Some guidelines for web development with php.
+-----------------------------------------------------
+Unix Line Breaks Only, NO windows breaks please.
+
+Tabs set at 4 spaces either as tabs or spaces.
+
+Pear coding guiidelines
+
+//*****************************************************************************
+// Commenting style
+//*****************************************************************************
+phpdoc is used for creating and autogenerating the documentation, this means that
+some of the comments can be formatted to be included in documentation.
+ie the source files are scanned then processed and html docs are created. 
+
+The comments break down into the following types
+// is uses for removing lines and debug dev etc
+//** and //* are used as "sub comments"
+/* 
+    is used to comment out blocks
+*/
+/** is used to create documentaion
+* thats over 
+* lines
+*/
+
+If you need to block out a section then use
+/*
+function redundant_code(){
+    something here
+}
+*/
+
+To block out single lines use // and all // are assumed to be redundant test code and NOT comments
+
+// print_r($foo);
+
+For incline comment use //** and //* eg
+
+//** Decide what do do
+switch($decide){
+    //* blow it up
+    case 'baloon':
+        $foo->gas(+1);
+        // test_pressure(); << inline comment
+        break;
+
+    //* Do default action
+    default:
+        do_land();
+        get_gps();
+        //* following grant greaceful exit
+        //basket_exit_crash();
+        basket_exit();
+
+}
+
+Do not use the phpdoc on every function, eg 
+
+/**
+* Login an user
+* @param string user  username
+* @param string password of user
+*/
+>>
+function login($user, $pass){
+.......
+}
+<<
+as this function explains its self, the followinf clean code will suffice
+>>
+function login($user, $pass){
+.......
+}
+
+If you do need to explain a function then put un the summary syntax eg
+
+/** Pass an array of values where third param is bar
+* $foo['bar'] = 1; // allow an user
+* $foo['bar'] = 2; // destroy user
+* $foo['bar'] = -1; // recreate
+*/
+public function do_something($x, $y, $foo){
+... do something interesting    
+}
+
+
+
