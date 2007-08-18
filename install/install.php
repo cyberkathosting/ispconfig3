@@ -43,7 +43,7 @@ echo ' _   _____   _____   _____   _____   __   _   _____   _   _____
 | |  ___| | | |     | |___  | |_| | | | \  | | |     | | | |_| | 
 |_| /_____/ |_|     \_____| \_____/ |_|  \_| |_|     |_| \_____/ ';
 
-echo "# Setup routine started...\n";
+echo "\n# Setup routine started...\n";
 
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
@@ -58,6 +58,7 @@ $distname = get_distname();
 include_once('dist/lib/'.$conf['distname'].'.lib.php');
 include_once('dist/conf/'.$conf['distname'].'.conf.php');
 
+//TODO: this is not there ????
 $conf['dist'] = $dist;
 
 //** Lets go !

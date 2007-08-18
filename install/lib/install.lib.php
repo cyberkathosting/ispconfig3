@@ -57,14 +57,15 @@ error_reporting(E_ALL|E_STRICT);
 $FILE = realpath('../install.php');
 
 function get_distname() {
+	global $conf; // TODO wtf ?
 	$distname = $conf['distname'];
 	return $distname;
 }
 
 function sread() {
-    $fp=fopen('/dev/stdin', 'r');
-    $input=fgets($fp, 255);
-    fclose($fp);
+    $f = fopen('/dev/stdin', 'r');
+    $input = fgets($f, 255);
+    fclose($f);
     return rtrim($input);
 }
 
