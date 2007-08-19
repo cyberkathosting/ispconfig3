@@ -38,35 +38,34 @@ $conf['app_version'] = '3.0.0';
 $conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
 
 
-//** Future Code  - pedro comments
+//** Future Code  - pedro - rfc
 /* Database connection
-	The only time its needed is to connectm otherwise it not needed as 
-	variables aronf the application. Connected and done.
+	The only time paramaters are needed is to connect, otherwise its not needed  
+	variables "around" the application. ie Connected and done.
 	Prefered is an array as $DB in capitals, ie
 	$DB['host'] = 'type'; 
 	$DB['host'] = 'ip';
 	$DB['user'] = 'me';
 	$DB['password'] = 'secret';
-	$DB['database'] = 'persistent_data_stash';
+	$DB['database'] = 'db_name';
 	
 	The connection paramaters are all contained within one array structure
 	With this array structure the connection can be passed around, to functions
-	However it can also leak. and be destroyed eg
-	$db->connect($DB);
+	However it can also leak so it can be destroyed eg
+	$dbClass->connect($DB);
 	unset($DB); // only the paranoid survive
 		
 	Also there is a scenario where we are devloping and using this file
-	and the database paramaters might leak.
+	and the database paramaters might leak into svn etc.
+    (This idea is borrowed from the tikiwiki.org project)
 	To resolve this there is a file called db_local.php.skel which is not detected
-	rename this to db_local.php and edit the paramaters
+	rename this to db_local.php and edit the paramaters.
 	
 	$DB['type']			= 'mysql';
 	$DB['host']			= 'localhost';
 	$DB['database']		= 'ispconfig3';
 	$DB['user']			= 'root';
 	$DB['password']		= '';
-
-	
 */
 
 //** Detect for local database setting or set and load default params
@@ -92,7 +91,7 @@ $conf['rootpath']			= substr(dirname(__FILE__),0,-4);
 $conf['fs_div']				= '/'; // File system divider, \\ on windows and / on linux and unix
 $conf['classpath']			= $conf['rootpath'].$conf['fs_div'].'lib'.$conf['fs_div'].'classes';
 $conf['temppath']			= $conf['rootpath'].$conf['fs_div'].'temp';
-
+//$conf['cache_dir']           = $conf['rootpath'].$conf['fs_div'].'FOOtemp';
 
 define('DIR_TRENNER', $conf['fs_div']);
 define('SERVER_ROOT', $conf['rootpath']);
@@ -100,17 +99,15 @@ define('INCLUDE_ROOT', SERVER_ROOT.DIR_TRENNER.'lib');
 define('CLASSES_ROOT', INCLUDE_ROOT.DIR_TRENNER.'classes');
 
 /* pedro notes ? this stuff is REALLY not necessay */
-/*
 define('DB_TYPE', $conf['db_type']);
 define('DB_HOST', $conf['db_host']);
 define('DB_DATABASE',$conf['db_database']);
 define('DB_USER', $conf['db_user']);
 define('DB_PASSWORD', $conf['db_password']);
-*/
+
 
 //**  External programs
 //$conf["programs"]["convert"]	= "/usr/bin/convert";
-// ?? WTF ?? pedro
 $conf['programs']['wput']		= $conf['rootpath']."\\tools\\wput\\wput.exe";
 
 
@@ -120,7 +117,7 @@ $conf['html_content_encoding']	= 'text/html; charset=iso-8859-1';
 $conf['logo'] 					= 'themes/default/images/mydnsconfig_logo.gif';
 
 //** Default Language
-$conf["language"]                = 'en';
+$conf['language']       = 'en';
 
 //**  Auto Load Modules
 $conf['start_db']		= true;

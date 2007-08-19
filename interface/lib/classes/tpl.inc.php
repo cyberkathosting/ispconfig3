@@ -1,4 +1,12 @@
 <?php
+/**
+ * Template Class
+ * 
+ * @author Kelvin Jones <kelvin@kelvinjones.co.uk>   
+ * @copyright  2002 Active Fish Group 
+ * @version 1.1
+ * @package ISPConfig
+ */
 
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
@@ -14,7 +22,7 @@
 // check to avoid multiple including of class
 if (!defined('vlibTemplateClassLoaded')) {
     define('vlibTemplateClassLoaded', 1);
-
+    global $conf;
    	include_once ($conf['classpath'].'/tpl_error.inc.php');
    	include_once ($conf['classpath'].'/tpl_ini.inc.php');
 
