@@ -55,15 +55,15 @@ class tform_actions {
                 $app->tform->loadFormDef($tform_def_file);
 				
 				// Importing ID
-                $this->id = intval($_REQUEST["id"]);
+                $this->id = (isset($_REQUEST["id"]))?intval($_REQUEST["id"]):0;
 				
 				// show print version of the form
-				if($_GET["print_form"] == 1) {
+				if(isset($_GET["print_form"]) && $_GET["print_form"] == 1) {
 					$this->onPrintForm();
 				}
 				
 				// send this form by email
-				if($_GET["send_form_by_mail"] == 1) {
+				if(isset($_GET["send_form_by_mail"]) && $_GET["send_form_by_mail"] == 1) {
 					$this->onMailSendForm();
 				}
 
@@ -449,7 +449,7 @@ class tform_actions {
                 $app->tpl_defaults();
 				
 				// Show the navigation bar of the form
-				if($app->tform->formDef['navibar'] == 'yes') {
+				if(isset($app->tform->formDef['navibar']) && $app->tform->formDef['navibar'] == 'yes') {
 					$navibar = '';
 					if($app->tform->formDef['template_print'] != '') {
 						$navibar .= '<a href="'.$app->tform->formDef['action'].'?id='.$this->id.'&print_form=1" target="_blank"><img src="../themes/iprg/icons/printer.png" border="0" alt="Drucken" /></a> &nbsp;';
@@ -530,7 +530,7 @@ class tform_actions {
 		
 		function loadPlugins($next_tab) {
 			global $app;
-			if(is_array($app->tform->formDef["tabs"][$next_tab]["plugins"])) {
+			if(@is_array($app->tform->formDef["tabs"][$next_tab]["plugins"])) {
                  $app->load('plugin_base');
                  foreach($app->tform->formDef["tabs"][$next_tab]["plugins"] as $plugin_name => $plugin_settings) {
                       $plugin_class = $plugin_settings["class"];

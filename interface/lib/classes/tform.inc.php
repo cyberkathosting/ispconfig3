@@ -156,7 +156,8 @@ class tform {
         */
         function decode($record,$tab) {
                 if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
-                if(is_array($record)) {
+                $new_record = '';
+				if(is_array($record)) {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
@@ -191,6 +192,7 @@ class tform {
                         }
 
                 }
+				
         return $new_record;
         }
 
@@ -216,7 +218,11 @@ class tform {
                         $querystring = str_replace("{GROUPID}",$_SESSION["s"]["user"]["default_group"],$querystring);
                         $querystring = str_replace("{GROUPS}",$_SESSION["s"]["user"]["groups"],$querystring);
                         $table_idx = $this->formDef['db_table_idx'];
-                        $querystring = str_replace("{RECORDID}",$record[$table_idx],$querystring);
+						
+						$tmp_recordid = (isset($record[$table_idx]))?$record[$table_idx]:0;
+                        $querystring = str_replace("{RECORDID}",$tmp_recordid,$querystring);
+						unset($tmp_recordid);
+						
                         $querystring = str_replace("{AUTHSQL}",$this->getAuthSQL('r'),$querystring);
 
                         // Getting the records
@@ -273,14 +279,14 @@ class tform {
                                         $val = $record[$key];
 
                                         // If Datasource is set, get the data from there
-                                        if(is_array($field['datasource'])) {
+                                        if(isset($field['datasource']) && is_array($field['datasource'])) {
                                                 $field["value"] = $this->getDatasourceData($field, $record);
                                         }
 
                                         switch ($field['formtype']) {
                                         case 'SELECT':
+												$out = '';
                                                 if(is_array($field['value'])) {
-                                                        $out = '';
                                                         foreach($field['value'] as $k => $v) {
                                                                 $selected = ($k == $val)?' SELECTED':'';
                                                                 $out .= "<option value='$k'$selected>$v</option>\r\n";
@@ -362,7 +368,7 @@ class tform {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
 
                                 // If Datasource is set, get the data from there
-                                if(is_array($field['datasource'])) {
+                                if(@is_array($field['datasource'])) {
                                         $field["value"] = $this->getDatasourceData($field, $record);
                                 }
 
@@ -371,8 +377,9 @@ class tform {
                                         if(is_array($field['value'])) {
                                                 $out = '';
                                                 foreach($field['value'] as $k => $v) {
-                                                        $selected = ($k == $val)?' SELECTED':'';
-                                                        $out .= "<option value='$k'$selected>$v</option>\r\n";
+                                                    //$selected = ($k == $val)?' SELECTED':'';
+													$selected = '';
+                                                    $out .= "<option value='$k'$selected>$v</option>\r\n";
                                                 }
                                         }
                                         $new_record[$key] = $out;
@@ -464,12 +471,12 @@ class tform {
                 if(is_array($record)) {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
 
-                                if(is_array($field['validators'])) $this->validateField($key, $record[$key], $field['validators']);
+                                if(isset($field['validators']) && is_array($field['validators'])) $this->validateField($key, (isset($record[$key]))?$record[$key]:'', $field['validators']);
 
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
-                                        if(!is_array($record[$key])) {
-                                                $new_record[$key] = addslashes($record[$key]);
+                                        if(!@is_array($record[$key])) {
+                                                $new_record[$key] = (isset($record[$key]))?addslashes($record[$key]):'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
@@ -490,7 +497,7 @@ class tform {
 										}
                                 break;
                                 case 'INTEGER':
-                                        $new_record[$key] = intval($record[$key]);
+                                        $new_record[$key] = (isset($record[$key]))?intval($record[$key]):0;
                                         //if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
@@ -503,7 +510,7 @@ class tform {
                                 }
 
                                 // The use of the field value is deprecated, use validators instead
-                                if($field['regex'] != '') {
+                                if(isset($field['regex']) && $field['regex'] != '') {
                                         // Enable that "." matches also newlines
                                         $field['regex'] .= 's';
                                         if(!preg_match($field['regex'], $record[$key])) {
@@ -530,6 +537,8 @@ class tform {
         function validateField($field_name, $field_value, $validators) {
 
                 global $app;
+				
+				$escape = '`';
 				
                 // loop trough the validators
                 foreach($validators as $validator) {
@@ -845,6 +854,7 @@ class tform {
 
 		function getDataRecord($primary_id) {
 			global $app;
+			$escape = '`';
 			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
             return $app->db->queryOneRecord($sql);
 		}
@@ -925,7 +935,7 @@ class tform {
 				*/
 				
 				// Insert the server_id, if the record has a server_id
-				$server_id = ($record_old["server_id"] > 0)?$record_old["server_id"]:0;
+				$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
 				if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
 
                 if(count($this->diffrec) > 0) {
@@ -1000,7 +1010,7 @@ class tform {
                 // Welcher Tab wird angezeigt
                 if($this->errorMessage == '') {
                     // wenn kein Fehler vorliegt
-                        if($_REQUEST["next_tab"] != '') {
+                    if(isset($_REQUEST["next_tab"]) && $_REQUEST["next_tab"] != '') {
                                 // wenn nächster Tab bekannt
                                 $active_tab = $_REQUEST["next_tab"];
                     } else {
