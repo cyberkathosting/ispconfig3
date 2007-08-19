@@ -32,42 +32,41 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class login_index {
 
-	var $status = '';
-	var $target = '';
+public $status = '';
+private $target = '';
 
-function render() {
-	
-	if(is_array($_SESSION["s"]["user"]) && is_array($_SESSION["s"]["module"])) {
-		die('HEADER_REDIRECT:'.$_SESSION["s"]["module"]["startpage"]);
+public function render() {
+	if(isset($_SESSION['s']['user']) && is_array($_SESSION['s']['user']) && is_array($_SESSION['s']['module'])) {
+		die('HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage']);
 	}
 	
 	global $app;
-
 	$app->uses('tpl');
-	$app->tpl->newTemplate("form.tpl.htm");
+	$app->tpl->newTemplate('form.tpl.htm');
+    
+    $error = '';    
 
 
-
-	// Login Formular wurde abgesandt
+	//* Login Formular wurde abgesandt
 	if(count($_POST) > 0) {
 	//die('Hier');
         // importiere Variablen
-        $username = $app->db->quote($_POST["username"]);
-        $passwort = $app->db->quote($_POST["passwort"]);
+        $username = $app->db->quote($_POST['username']);
+        $passwort = $app->db->quote($_POST['passwort']);
 
         if($username != '' and $passwort != '') {
                 $sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
                 if($user = $app->db->queryOneRecord($sql)) {
-                        if($user["active"] == 1) {
+                        if($user['active'] == 1) {
                                 $user = $app->db->toLower($user);
                                 $_SESSION = array();
-                                $_SESSION["s"]["user"] = $user;
-                                $_SESSION["s"]["user"]["theme"] = $user["app_theme"];
-                                $_SESSION["s"]["language"] = $user["language"];
+                                $_SESSION['s']['user'] = $user;
+                                $_SESSION['s']['user']['theme'] = $user['app_theme'];
+                                $_SESSION['s']['language'] = $user['language'];
 								
-								if(is_file($_SESSION["s"]["user"]["startmodule"]."/lib/module.conf.php")) {
-									include_once($_SESSION["s"]["user"]["startmodule"]."/lib/module.conf.php");
-									$_SESSION["s"]["module"] = $module;
+								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
+									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
+									$_SESSION['s']['module'] = $module;
 								}
 
                                 //$site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
@@ -83,7 +82,7 @@ function render() {
 								//$this->target = 'admin:index';
 								//return '';
 								
-								echo 'HEADER_REDIRECT:'.$_SESSION["s"]["module"]["startpage"];
+								echo 'HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 								//echo 'HEADER_REDIRECT:content.php?s_mod=admin&s_pg=index';
                                 exit;
                         } else {
@@ -92,7 +91,7 @@ function render() {
                 } else {
                         // Username oder Passwort falsch
                         $error = $app->lng(1002);
-                        if($app->db->errorMessage != '') $error .= "<br>".$app->db->errorMessage != '';
+                        if($app->db->errorMessage != '') $error .= '<br>'.$app->db->errorMessage != '';
                 }
         } else {
                 // Username oder Passwort leer
@@ -109,7 +108,7 @@ function render() {
 
 
 
-	$app->tpl->setVar('error',$error);
+	$app->tpl->setVar('error', $error);
 	$app->tpl->setInclude('content_tpl','login/templates/index.htm');
 	$app->tpl_defaults();
 	//$app->tpl->pparse();
@@ -118,8 +117,8 @@ function render() {
 	
 	return $app->tpl->grab();
 	
-	}
+} // << end function
 
-}
+} // << end class
 
 ?>
