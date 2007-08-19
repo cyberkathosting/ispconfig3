@@ -5,14 +5,14 @@
 //*************************************************************************************
 
 $tables['sys_datalog'] = "
-datalog_id bigint(20) NOTNULL AUTO PRIMARY,
+datalog_id I8 NOTNULL AUTO PRIMARY,
+server_id I NOTNULL,
 dbtable C(255) NOTNULL DEFAULT '',
 dbidx C(255) NOTNULL DEFAULT '',
-server_id I NOTNULL DEFAULT '0',
 action char(1) NOTNULL DEFAULT '',
-tstamp bigint(20) NOTNULL DEFAULT '0',
+tstamp I8 NOTNULL DEFAULT '0',
 user C(255) NOTNULL DEFAULT '',
-data text NOTNULL
+data X NOTNULL
 ";
 
 $tables['sys_dbsync'] = "
