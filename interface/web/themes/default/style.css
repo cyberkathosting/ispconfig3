@@ -1,3 +1,9 @@
+body{
+    margin: 0px auto;
+    background-color: #ffffff;
+    font-family: sans-serif;    
+}
+
 .navTopSelected {
 	background-color: #FFFFFF;
 	border-top: 1px solid #BFCBD9;
@@ -88,6 +94,26 @@
 	color: #FFFFFF;
 	text-decoration: none;
 }
+
+/* Listing table  */
+table.table{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+table.table th{
+    color: #496FA8;
+    font-size: 10pt;
+    text-align: left;
+    background-color: #DEE4F2;
+    border: 1px solid #C0CCDA;
+    padding: 2px 2px 2px 5px;
+}
+
+table.table td{
+    font-size: 8pt;
+    padding: 3px;
+}
+
 .tblHead {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
