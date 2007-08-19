@@ -62,7 +62,7 @@ public function render() {
                                 $user = $app->db->toLower($user);
                                 $_SESSION = array();
                                 $_SESSION['s']['user'] = $user;
-                                $_SESSION['s']['user']['theme'] = $user['app_theme'];
+                                $_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
                                 $_SESSION['s']['language'] = $user['language'];
 								//print_r($_SESSION);
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {

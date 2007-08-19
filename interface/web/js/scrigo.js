@@ -61,7 +61,7 @@ function submitLoginForm(formname) {
     var userNameObj = frm.username;
     if(userNameObj.value == ''){
         userNameObj.focus();
-        return;
+        return;q
     }
     var passwordObj = frm.passwort;
     if(passwordObj.value == ''){
@@ -110,9 +110,8 @@ function submitForm(formname,target) {
 function loadContent(pagename) {
 	var pageContentCallback2 = {
 		success: function(o) {
-			alert(o.responseText);
-			if(o.responseText.indexOf("HEADER_REDIRECT:") > -1) {
-				var parts = o.responseText.split(":");
+				if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+				var parts = o.responseText.split(':');
 				loadContent(parts[1]);
 			} else {
 				document.getElementById('pageContent').innerHTML = o.responseText;
@@ -132,7 +131,7 @@ function loadInitContent() {
 
   var pageContentCallback = {
 		success: function(o) {
-			if(o.responseText.indexOf("HEADER_REDIRECT:") > -1) {
+			if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 				var parts = o.responseText.split(":");
 				loadContent(parts[1]);
 			} else {
