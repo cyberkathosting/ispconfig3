@@ -20,8 +20,8 @@ function capp(module) {
 	var cappCallback = {
 		success: function(o) {
 			if(o.responseText != '') {
-				if(o.responseText.indexOf("HEADER_REDIRECT:") > -1) {
-					var parts = o.responseText.split(":");
+				if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+					var parts = o.responseText.split(':');
 					loadContent(parts[1]);
 				} else {
 					alert(o.responseText);
@@ -40,8 +40,8 @@ function submitLoginForm(formname) {
 	
 	var submitFormCallback = {
 		success: function(o) {
-			if(o.responseText.indexOf("HEADER_REDIRECT:") > -1) {
-				var parts = o.responseText.split(":");
+			if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+				var parts = o.responseText.split(':');
 				//alert(parts[1]);
 				loadContent(parts[1]);
 				//redirect = parts[1];
@@ -56,6 +56,18 @@ function submitLoginForm(formname) {
 		}
 	}
 	
+    //* Validate form. TODO: username and password with strip();
+    var frm = document.getElementById(formname);
+    var userNameObj = frm.username;
+    if(userNameObj.value == ''){
+        userNameObj.focus();
+        return;
+    }
+    var passwordObj = frm.passwort;
+    if(passwordObj.value == ''){
+        passwordObj.focus();
+        return;
+    }   
 	YAHOO.util.Connect.setForm(formname);
 	var submitFormObj = YAHOO.util.Connect.asyncRequest('POST', 'content.php', submitFormCallback);
 	/*
@@ -70,8 +82,8 @@ function submitForm(formname,target) {
 	
 	var submitFormCallback = {
 		success: function(o) {
-			if(o.responseText.indexOf("HEADER_REDIRECT:") > -1) {
-				var parts = o.responseText.split(":");
+			if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+				var parts = o.responseText.split(':');
 				//alert(parts[1]);
 				loadContent(parts[1]);
 				//redirect = parts[1];
@@ -98,7 +110,7 @@ function submitForm(formname,target) {
 function loadContent(pagename) {
 	var pageContentCallback2 = {
 		success: function(o) {
-			//alert(o.responseText);
+			alert(o.responseText);
 			if(o.responseText.indexOf("HEADER_REDIRECT:") > -1) {
 				var parts = o.responseText.split(":");
 				loadContent(parts[1]);
