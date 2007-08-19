@@ -47,10 +47,7 @@ class listform_actions {
     {
 		global $app, $conf, $list_def_file;
 		
-        //TODO: this is_object checking should be in the $appobject - pedro notes
-		if(!@is_object($app->tpl)) $app->uses('tpl');
-		if(!@is_object($app->listform)) $app->uses('listform');
-		if(!@is_object($app->tform)) $app->uses('tform');
+		$app->uses('tpl,listform,tform');
 		
 		//* Clear session variable that is used when lists are embedded with the listview plugin
 		$_SESSION['s']['form']['return_to'] = '';
