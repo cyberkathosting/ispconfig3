@@ -67,9 +67,10 @@ class app {
 
 	public function uses($classes)
     {	
-		$cl = explode(', ',$classes);
+		$cl = explode(',',$classes);
 		if(is_array($cl)) {
 			foreach($cl as $classname){
+				$classname = trim($classname);
 				if(!array_key_exists($classname, $this->_loaded_classes)){
 					require_once($this->_conf['classpath'] . '/'.$classname.'.inc.php');
 					$this->$classname = new $classname();
@@ -84,6 +85,7 @@ class app {
 		$fl = explode(',', $files);
 		if(is_array($fl)) {
 			foreach($fl as $file){
+				$file = trim($file);
 				include_once($this->_conf['classpath'] . '/'.$file.'.inc.php');
 			}
 		}

@@ -181,7 +181,7 @@ class listform {
                 $table                                 = $this->listDef["table"];
 
                 // setze page auf null, wenn in session nicht gesetzt
-                if($_SESSION["search"][$list_name]["page"] == '') $_SESSION["search"][$list_name]["page"] = 0;
+                if(!isset($_SESSION["search"][$list_name]["page"]) || $_SESSION["search"][$list_name]["page"] == '') $_SESSION["search"][$list_name]["page"] = 0;
 
                 // setze page auf wert der request variablen "page"
                 if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = $_REQUEST["page"];
