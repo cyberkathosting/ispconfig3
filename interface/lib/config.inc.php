@@ -27,6 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+error_reporting(E_ALL|E_STRICT);
+
 header('Pragma: no-cache');
 header('Cache-Control: no-store, no-cache, max-age=0, must-revalidate');
 header('Content-Type: text/html');
@@ -69,20 +71,20 @@ $conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
 */
 
 //** Detect for local database setting or set and load default params
-if( file_exists('db_local.php') ){
-	require_once('db_local.php');
+if(file_exists(dirname(__FILE__).'/db_local.php')){
+	require_once(dirname(__FILE__).'/db_local.php');
 	$conf['db_type']			= $DB['type'];
 	$conf['db_host']			= $DB['host'];
-	$conf['db_database']		= $DB['database'];
 	$conf['db_user']			= $DB['user'];
 	$conf['db_password']		= $DB['password'];	
+    $conf['db_database']        = $DB['database'];
 }else{
 	//** Database Settings
 	$conf['db_type']			= 'mysql';
 	$conf['db_host']			= 'localhost';
-	$conf['db_database']		= 'ispconfig3';
 	$conf['db_user']			= 'root';
 	$conf['db_password']		= '';
+    $conf['db_database']        = 'ispconfig3';
 }
 
 
