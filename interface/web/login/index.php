@@ -69,6 +69,7 @@ public function render() {
 									$_SESSION['s']['module'] = $module;
 								}
 
+                                // TODO: What is all this - pedro
                                 //$site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
                                 //$_SESSION["s"]["site"] = $site;
 																
@@ -89,19 +90,19 @@ public function render() {
                                 $error = $app->lng(1003);
                         }
                 } else {
-                        // Username oder Passwort falsch
+                        //* Incorrect login - Username and password incorrect
                         $error = $app->lng(1002);
                         if($app->db->errorMessage != '') $error .= '<br>'.$app->db->errorMessage != '';
                 }
         } else {
-                // Username oder Passwort leer
+                //* Username or password empty
                 $error = $app->lng(1001);
         }
 	}
 	if($error != ''){
-  		$error = '<table width="100%" border="0" cellspacing="0" cellpadding="2">
+  		$error = '<table class="error">
 		<tr>
-		<td class="error"><b>Error:</b><br>'.$error.'</td>
+		<td><strong>Error:</strong><br>'.$error.'</td>
 		</tr>
 		</table>';
 	}

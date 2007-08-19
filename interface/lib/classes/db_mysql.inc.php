@@ -47,7 +47,7 @@ class db
     private $autoCommit = 1;    // Autocommit Transactions
 	private $currentRow;		// current row number
 	private $errorNumber = 0;	// last error number
-	private $errorMessage = '';	// last error message
+	public $errorMessage = '';	// last error message
 	private $errorLocation = '';// last error location
 	private $show_error_messages = false;
 
