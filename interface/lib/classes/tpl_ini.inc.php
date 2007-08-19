@@ -89,8 +89,8 @@ if (!defined('vlibIniClassLoaded')) {
 
 
                         /* the following are only used by the vlibTemplateCache class. */
-                        // TODO: triggers a notice as its not set
-                        'CACHE_DIRECTORY' => $conf['template']['cache_dir'],
+                        // pedro notes:: triggers a notice as its not set - was $conf['template']['cache_dir'],
+                        'CACHE_DIRECTORY' => $conf['cache_dir'],
                                                                    // Directory where the cached filesystem
                                                                    // will be set up (full path, and must be writable)
                                                                    // '/' or '\' off the end of the directory.

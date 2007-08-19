@@ -91,7 +91,8 @@ $conf['rootpath']			= substr(dirname(__FILE__),0,-4);
 $conf['fs_div']				= '/'; // File system divider, \\ on windows and / on linux and unix
 $conf['classpath']			= $conf['rootpath'].$conf['fs_div'].'lib'.$conf['fs_div'].'classes';
 $conf['temppath']			= $conf['rootpath'].$conf['fs_div'].'temp';
-//$conf['cache_dir']           = $conf['rootpath'].$conf['fs_div'].'FOOtemp';
+// predro notes: not sure this is the right thing ?
+$conf['cache_dir']          = $conf['rootpath'].$conf['fs_div'].'/cache';
 
 define('DIR_TRENNER', $conf['fs_div']);
 define('SERVER_ROOT', $conf['rootpath']);
