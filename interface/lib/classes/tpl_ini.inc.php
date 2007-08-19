@@ -1,4 +1,15 @@
 <?php
+    /**
+     * vlibIni is a class used to store configuration parameters
+     * for the vLIB library.
+     *
+     * @since 21/07/2002
+     * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
+     * @copyright 2002 Active Fish Group 
+     * @package vLIB
+     * @access private
+     */
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
@@ -30,24 +41,16 @@
 if (!defined('vlibIniClassLoaded')) {
     define('vlibIniClassLoaded', 1);
 
-    /**
-     * vlibIni is a class used to store configuration parameters
-     * for the vLIB library.
-     *
-     * @since 21/07/2002
-     * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
-     * @package vLIB
-     * @access private
-     */
 
-    class vlibIni {
+
+    class vlibIni{
 
         /** config vars for vlibTemplate */
-        function vlibTemplate () {
+        public static function vlibTemplate () {
         	
         	global $conf;
-			
-			$tpl_dir = $conf["rootpath"]."/web/themes/".$_SESSION["s"]["theme"]."/templates";
+
+			$tpl_dir = $conf['rootpath'].'/web/themes/'.$_SESSION['s']['theme'].'/templates';
 			
             return array(
 
@@ -102,15 +105,12 @@ if (!defined('vlibIniClassLoaded')) {
 
 
         /** config vars for vlibDate */
-        function vlibDate () {
-
-            return array(
-                        'DEFAULT_LANG' => 'de'                     // default language for the date displays
-                    );
-
-        }// << end function vlibDate
+        public function vlibDate()
+        {
+            return array( 'DEFAULT_LANG' => 'de' ); //* default language for the date displays
+        }
 
 
     }// << end class vlibIni
-}
+} // << if Defined
 ?>
