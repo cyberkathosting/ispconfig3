@@ -61,7 +61,7 @@ function submitLoginForm(formname) {
     var userNameObj = frm.username;
     if(userNameObj.value == ''){
         userNameObj.focus();
-        return;q
+        return;
     }
     var passwordObj = frm.passwort;
     if(passwordObj.value == ''){

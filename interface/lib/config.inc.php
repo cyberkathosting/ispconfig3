@@ -27,7 +27,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-error_reporting(E_ALL|E_STRICT);
+error_reporting(E_ALL|E_NOTICE);
 
 header('Pragma: no-cache');
 header('Cache-Control: no-store, no-cache, max-age=0, must-revalidate');

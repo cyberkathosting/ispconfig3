@@ -36,11 +36,12 @@ public $status = '';
 private $target = '';
 
 public function render() {
+	
 	if(isset($_SESSION['s']['user']) && is_array($_SESSION['s']['user']) && is_array($_SESSION['s']['module'])) {
 		die('HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage']);
 	}
 	
-	global $app;
+	global $app, $conf;
 	$app->uses('tpl');
 	$app->tpl->newTemplate('form.tpl.htm');
     
@@ -64,14 +65,14 @@ public function render() {
                                 $_SESSION['s']['user'] = $user;
                                 $_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
                                 $_SESSION['s']['language'] = $user['language'];
-								//print_r($_SESSION);
+								$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
+								
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 									$_SESSION['s']['module'] = $module;
 								}
-								
 								echo 'HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage'];
-								//echo 'HEADER_REDIRECT:content.php?s_mod=admin&s_pg=index';
+								
                                 exit;
                         } else {
                                 $error = $app->lng(1003);

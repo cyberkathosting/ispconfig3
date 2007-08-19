@@ -53,15 +53,15 @@ class app {
 				$this->load('db_'.$this->_conf['db_type']);
 				$this->db = new db;
 		}
-		if($this->_conf['start_session'] == true) {
+		
+		//* Start the session
+		if($conf["start_session"] == true) {
 			session_start();
-            //* Initialise vars if session is not set
-            if( !isset($_SESSION['s']['id']) ){
-                $_SESSION['s'] = array( 'id' => session_id(), 
-                                        'theme' => $this->_conf['theme'], 
-                                        'language' => $this->_conf['language']
-                                        );
-            }
+			
+			//* Initialize session variables
+			if(!isset($_SESSION['s']['id']) ) $_SESSION["s"]['id'] = session_id();
+			if(empty($_SESSION["s"]["theme"])) $_SESSION["s"]['theme'] = $conf['theme'];
+			if(empty($_SESSION["s"]["language"])) $_SESSION["s"]['language'] = $conf['language'];
 		}
 	}
 

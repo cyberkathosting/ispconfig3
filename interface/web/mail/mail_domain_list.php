@@ -12,8 +12,9 @@ $list_def_file = "list/mail_domain.list.php";
 * End Form configuration
 ******************************************/
 
+
 // Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
+if(!stristr($_SESSION["s"]["user"]["modules"],'mail')) {
 	header("Location: ../index.php");
 	exit;
 }
