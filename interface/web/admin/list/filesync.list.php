@@ -1,71 +1,67 @@
 <?php
-
 /*
-	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
-	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
-	- VARCHAR (kein weiterer Format Check)
-	- TEXT (kein weiterer Format Check)
-	- DATE (Datumsformat, Timestamp Umwandlung)
+    Datatypes:
+    - INTEGER
+    - DOUBLE
+    - CURRENCY
+    - VARCHAR
+    - TEXT
+    - DATE
 */
 
+//* Name of list
+$liste['name'] 				= 'filesync';
 
+//* Database table
+$liste['table'] 			= 'sys_filesync';
 
-// Name der Liste
-$liste["name"] 				= "filesync";
+//*  Primary index column
+$liste['table_idx']			= 'id';
 
-// Datenbank Tabelle
-$liste["table"] 			= "sys_filesync";
+//* Search Field Prefix
+$liste['search_prefix'] 	= 'search_';
 
-// Index Feld der datenbank
-$liste["table_idx"]			= "id";
+//* Records per page
+$liste['records_per_page'] 	= 15;
 
-// Search Field Prefix
-$liste["search_prefix"] 	= "search_";
+//* Script file for listing
+$liste['file']				= 'filesync_list.php';
 
-// Einträge pro Seite
-$liste["records_per_page"] 	= 15;
+//* Script file for editing
+$liste['edit_file']			= 'filesync_edit.php';
 
-// Script File der Liste
-$liste["file"]				= "filesync_list.php";
+//* Script file for deleting
+$liste['delete_file']		= 'filesync_del.php';
 
-// Script File der Liste
-$liste["edit_file"]			= "filesync_edit.php";
+//*  Paging Template
+$liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-// Script File der Liste
-$liste["delete_file"]		= "filesync_del.php";
-
-// Paging Template
-$liste["paging_tpl"]		= "templates/paging.tpl.htm";
-
-// Script File der Liste
-$liste["auth"]				= "no";
+//*  Script File der Liste?s
+$liste['auth']				= 'no';
 
 
 /*****************************************************
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(	'field'		=> "jobname",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'jobname',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "ftp_host",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'ftp_host',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "local_path",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");  
-
+$liste['item'][] = array(	'field'		=> 'local_path',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');  
 ?>

@@ -1,71 +1,68 @@
 <?php
-
 /*
-	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
-	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
-	- VARCHAR (kein weiterer Format Check)
-	- TEXT (kein weiterer Format Check)
-	- DATE (Datumsformat, Timestamp Umwandlung)
+    Datatypes:
+    - INTEGER
+    - DOUBLE
+    - CURRENCY
+    - VARCHAR
+    - TEXT
+    - DATE
 */
 
+//* Name of list
+$liste['name'] 				= 'dbsync';
 
+//* Database table
+$liste['table'] 			= 'sys_dbsync';
 
-// Name der Liste
-$liste["name"] 				= "dbsync";
+//* Primary index column
+$liste['table_idx']			= 'id';
 
-// Datenbank Tabelle
-$liste["table"] 			= "sys_dbsync";
+//* Search Field Prefix
+$liste['search_prefix'] 	= 'search_';
 
-// Index Feld der datenbank
-$liste["table_idx"]			= "id";
+//* Records per page
+$liste['records_per_page'] 	= 15;
 
-// Search Field Prefix
-$liste["search_prefix"] 	= "search_";
+//* Script file for listing
+$liste['file']				= 'dbsync_list.php';
 
-// Einträge pro Seite
-$liste["records_per_page"] 	= 15;
+//* Script file for editing
+$liste['edit_file']			= 'dbsync_edit.php';
 
-// Script File der Liste
-$liste["file"]				= "dbsync_list.php";
+//* Script file for deleting
+$liste['delete_file']		= 'dbsync_del.php';
 
-// Script File der Liste
-$liste["edit_file"]			= "dbsync_edit.php";
+//* Paging Template
+$liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-// Script File der Liste
-$liste["delete_file"]		= "dbsync_del.php";
-
-// Paging Template
-$liste["paging_tpl"]		= "templates/paging.tpl.htm";
-
-// Script File der Liste
-$liste["auth"]				= "no";
+//* Script File der Liste ?
+$liste['auth']				= 'no';
 
 
 /*****************************************************
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(	'field'		=> "jobname",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'jobname',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "db_host",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'db_host',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "db_name",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");  
+$liste['item'][] = array(	'field'		=> 'db_name',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');  
 
 ?>

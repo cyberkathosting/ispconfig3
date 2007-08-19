@@ -1,66 +1,61 @@
 <?php
-
 /*
-	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
-	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
-	- VARCHAR (kein weiterer Format Check)
-	- TEXT (kein weiterer Format Check)
-	- DATE (Datumsformat, Timestamp Umwandlung)
+    Datatypes:
+    - INTEGER
+    - DOUBLE
+    - CURRENCY
+    - VARCHAR
+    - TEXT
+    - DATE
 */
 
+//* Name of list
+$liste['name'] 				= 'groups';
 
+//* Database table
+$liste['table'] 			= 'sys_group';
 
-// Name der Liste
-$liste["name"] 				= "groups";
+//* Primarty index column
+$liste['table_idx']			= 'groupid';
 
-// Datenbank Tabelle
-$liste["table"] 			= "sys_group";
+//* Search Field Prefix
+$liste['search_prefix'] 	= 'search_';
 
-// Index Feld der datenbank
-$liste["table_idx"]			= "groupid";
+//* Records per page
+$liste['records_per_page'] 	= 15;
 
-// Search Field Prefix
-$liste["search_prefix"] 	= "search_";
+//* Script file for listing
+$liste['file']				= 'groups_list.php';
 
-// Einträge pro Seite
-$liste["records_per_page"] 	= 15;
+//* Script file to edit
+$liste['edit_file']			= 'groups_edit.php';
 
-// Script File der Liste
-$liste["file"]				= "groups_list.php";
+//* Script file for deleting
+$liste['delete_file']		= 'groups_del.php';
 
-// Script File der Liste
-$liste["edit_file"]			= "groups_edit.php";
+//* Paging Template
+$liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-// Script File der Liste
-$liste["delete_file"]		= "groups_del.php";
-
-// Paging Template
-$liste["paging_tpl"]		= "templates/paging.tpl.htm";
-
-// Script File der Liste
-$liste["auth"]				= "no";
+// Script File der Liste ?
+$liste['auth']				= 'no';
 
 
 /*****************************************************
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(	'field'		=> "name",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'name',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "description",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");  
-
-
+$liste['item'][] = array(	'field'		=> 'description',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');  
 
 ?>

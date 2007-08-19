@@ -1,78 +1,75 @@
 <?php
-
 /*
-	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
-	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
-	- VARCHAR (kein weiterer Format Check)
-	- TEXT (kein weiterer Format Check)
-	- DATE (Datumsformat, Timestamp Umwandlung)
+    Datatypes:
+    - INTEGER
+    - DOUBLE
+    - CURRENCY
+    - VARCHAR
+    - TEXT
+    - DATE
 */
 
+//* Name of the list
+$liste['name'] 				= 'users';
 
+//* Database table
+$liste['table'] 			= 'sys_user';
 
-// Name der Liste
-$liste["name"] 				= "users";
+//* Primary index column
+$liste['table_idx']			= 'userid';
 
-// Datenbank Tabelle
-$liste["table"] 			= "sys_user";
+//* Search column prefix
+$liste['search_prefix'] 	= 'search_';
 
-// Index Feld der datenbank
-$liste["table_idx"]			= "userid";
+//* Records per page
+$liste['records_per_page'] 	= 15;
 
-// Search Field Prefix
-$liste["search_prefix"] 	= "search_";
+//* Script file for list
+$liste['file']				= 'users_list.php';
 
-// Einträge pro Seite
-$liste["records_per_page"] 	= 15;
+//* Script file to edit
+$liste['edit_file']			= 'users_edit.php';
 
-// Script File der Liste
-$liste["file"]				= "users_list.php";
+//* Script file to delete
+$liste['delete_file']		= 'users_del.php';
 
-// Script File der Liste
-$liste["edit_file"]			= "users_edit.php";
+//* Paging template
+$liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-// Script File der Liste
-$liste["delete_file"]		= "users_del.php";
-
-// Paging Template
-$liste["paging_tpl"]		= "templates/paging.tpl.htm";
-
-// Script File der Liste
-$liste["auth"]				= "no";
+//* Enable auth
+$liste['auth']				= 'no';
 
 
 /*****************************************************
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(	'field'		=> "username",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'username',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "vorname",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'vorname',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
-$liste["item"][] = array(	'field'		=> "name",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");  
+$liste['item'][] = array(	'field'		=> 'name',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');  
 
-$liste["item"][] = array(	'field'		=> "ort",
-							'datatype'	=> "VARCHAR",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "");
+$liste['item'][] = array(	'field'		=> 'ort',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '');
 
 ?>

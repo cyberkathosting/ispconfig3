@@ -1,5 +1,4 @@
 <?php
-
 /*
 	Datatypes:
 	- INTEGER
@@ -10,105 +9,103 @@
 	- DATE
 */
 
+//* Name of the list
+$liste['name'] 				= 'server';
 
+//* Database table
+$liste['table'] 			= 'server';
 
-// Name of the list
-$liste["name"] 				= "server";
+//* Index index field of the database table
+$liste['table_idx']			= 'server_id';
 
-// Database table
-$liste["table"] 			= "server";
+//* Search Field Prefix
+$liste['search_prefix'] 	= 'search_';
 
-// Index index field of the database table
-$liste["table_idx"]			= "server_id";
+//* Records per page
+$liste['records_per_page'] 	= 15;
 
-// Search Field Prefix
-$liste["search_prefix"] 	= "search_";
+//* Script File of the list
+$liste['file']				= 'server_list.php';
 
-// Records per page
-$liste["records_per_page"] 	= 15;
+//* Script file of the edit form
+$liste['edit_file']			= 'server_edit.php';
 
-// Script File of the list
-$liste["file"]				= "server_list.php";
+//* Script File of the delete script
+$liste['delete_file']		= 'server_del.php';
 
-// Script file of the edit form
-$liste["edit_file"]			= "server_edit.php";
+//* Paging Template
+$liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-// Script File of the delete script
-$liste["delete_file"]		= "server_del.php";
-
-// Paging Template
-$liste["paging_tpl"]		= "templates/paging.tpl.htm";
-
-// Enable authe
-$liste["auth"]				= "yes";
+//* Enable auth
+$liste['auth']				= 'yes';
 
 
 /*****************************************************
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(	'field'		=> "server_name",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
+$liste['item'][] = array(	'field'		=> 'server_name',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');
 
-$liste["item"][] = array(	'field'		=> "mail_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
+$liste['item'][] = array(	'field'		=> 'mail_server',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');
 
-$liste["item"][] = array(	'field'		=> "web_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");  
+$liste['item'][] = array(	'field'		=> 'web_server',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');  
 
-$liste["item"][] = array(	'field'		=> "dns_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
+$liste['item'][] = array(	'field'		=> 'dns_server',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');
 
-$liste["item"][] = array(	'field'		=> "file_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
+$liste['item'][] = array(	'field'		=> 'file_server',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');
 
-$liste["item"][] = array(	'field'		=> "db_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
+$liste['item'][] = array(	'field'		=> 'db_server',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');
 
 
-$liste["item"][] = array(	'field'		=> "vserver_server",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
-							'width'		=> "",
-							'value'		=> "");
+$liste['item'][] = array(	'field'		=> 'vserver_server',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'TEXT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'width'		=> '',
+							'value'		=> '');
 
 ?>
