@@ -47,10 +47,10 @@ public function render() {
     $error = '';    
 
 
-	//* Login Formular wurde abgesandt
+	//* Login Form was send
 	if(count($_POST) > 0) {
-	//die('Hier');
-        // importiere Variablen
+
+        // iporting variables
         $username = $app->db->quote($_POST['username']);
         $passwort = $app->db->quote($_POST['passwort']);
 
@@ -69,20 +69,6 @@ public function render() {
 									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 									$_SESSION['s']['module'] = $module;
 								}
-
-                                // TODO: What is all this - pedro
-                                //$site = $app->db->queryOneRecord("SELECT * FROM mb_sites WHERE name = '".$user["site_preset"]."'");
-                                //$_SESSION["s"]["site"] = $site;
-																
-								//header ("HTTP/1.0 307 Temporary redirect");
-								//header("Location: http://localhost:8080/ispconfig3_export/interface/web/admin/index.php");
-																
-                                /*header("Location: ../capp.php?mod=".$user["startmodule"]."&phpsessid=".$_SESSION["s"]["id"]);*/
-								//header('Content-type: text/javascript');
-								/*echo "<script language=\"javascript\" type=\"text/javascript\">loadContent('admin/users_list.php','')</script>";*/
-								//$this->status = 'REDIRECT';
-								//$this->target = 'admin:index';
-								//return '';
 								
 								echo 'HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 								//echo 'HEADER_REDIRECT:content.php?s_mod=admin&s_pg=index';
@@ -113,7 +99,6 @@ public function render() {
 	$app->tpl->setVar('error', $error);
 	$app->tpl->setInclude('content_tpl','login/templates/index.htm');
 	$app->tpl_defaults();
-	//$app->tpl->pparse();
 	
 	$this->status = 'OK';
 	
