@@ -41,11 +41,11 @@ $conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
 
 
 //** Future Code  - pedro - rfc
-/* Database connection
-	The only time paramaters are needed is to connect, otherwise its not needed  
-	variables "around" the application. ie Connected and done.
+/*  Database connection
+	The only time paramaters are needed is to connect, otherwise the variables
+	are not required "around" the application. ie Connected and done.
 	Prefered is an array as $DB in capitals, ie
-	$DB['host'] = 'type'; 
+	$DB['engine'] = 'type'; 
 	$DB['host'] = 'ip';
 	$DB['user'] = 'me';
 	$DB['password'] = 'secret';
@@ -62,15 +62,10 @@ $conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
     (This idea is borrowed from the tikiwiki.org project)
 	To resolve this there is a file called db_local.php.skel which is not detected
 	rename this to db_local.php and edit the paramaters.
-	
-	$DB['type']			= 'mysql';
-	$DB['host']			= 'localhost';
-	$DB['database']		= 'ispconfig3';
-	$DB['user']			= 'root';
-	$DB['password']		= '';
 */
 
-//** Detect for local database setting or set and load default params
+//* Detect the local database settings ie $DB array()
+//* Copy db_local.php.skel for and change for local development
 if(file_exists(dirname(__FILE__).'/db_local.php')){
 	require_once(dirname(__FILE__).'/db_local.php');
 	$conf['db_type']			= $DB['type'];
