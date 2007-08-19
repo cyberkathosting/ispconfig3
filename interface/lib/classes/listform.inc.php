@@ -57,7 +57,7 @@ class listform {
 				
 				// Fill datasources
 				foreach($this->listDef["item"] as $key => $field) {
-					if(is_array($field['datasource'])) {
+					if(@is_array($field['datasource'])) {
                     	$this->listDef["item"][$key]["value"] = $this->getDatasourceData($field);
                     }
 				}
@@ -86,7 +86,7 @@ class listform {
                         $querystring = str_replace("{USERID}",$_SESSION["s"]["user"]["userid"],$querystring);
                         $querystring = str_replace("{GROUPID}",$_SESSION["s"]["user"]["default_group"],$querystring);
                         $querystring = str_replace("{GROUPS}",$_SESSION["s"]["user"]["groups"],$querystring);
-                        $table_idx = $this->formDef['db_table_idx'];
+                        //$table_idx = $this->formDef['db_table_idx'];
                         //$querystring = str_replace("{RECORDID}",$record[$table_idx],$querystring);
 						$app->uses("tform");
                         $querystring = str_replace("{AUTHSQL}",$app->tform->getAuthSQL('r'),$querystring);
@@ -142,13 +142,13 @@ class listform {
                                 if(is_array($i['value'])) {
                                         $out = '<option value=""></option>';
                                         foreach($i['value'] as $k => $v) {
-                                                $selected = ($k == $_SESSION["search"][$list_name][$search_prefix.$field] && $_SESSION["search"][$list_name][$search_prefix.$field] != '')?' SELECTED':'';
+                                                $selected = (isset($_SESSION["search"][$list_name][$search_prefix.$field]) && $k == $_SESSION["search"][$list_name][$search_prefix.$field] && $_SESSION["search"][$list_name][$search_prefix.$field] != '')?' SELECTED':'';
                                                 $out .= "<option value='$k'$selected>$v</option>\r\n";
                                         }
                                 }
                                 $this->searchValues[$search_prefix.$field] = $out;
                         } else {
-                                $this->searchValues[$search_prefix.$field] = $_SESSION["search"][$list_name][$search_prefix.$field];
+                                if(isset($_SESSION["search"][$list_name][$search_prefix.$field])) $this->searchValues[$search_prefix.$field] = $_SESSION["search"][$list_name][$search_prefix.$field];
                         }
                 }
 
@@ -158,7 +158,7 @@ class listform {
                 foreach($this->listDef["item"] as $i) {
                         $field = $i["field"];
                         //if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
-						if($_SESSION["search"][$list_name][$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_SESSION["search"][$list_name][$search_prefix.$field].$i["suffix"]."' and";
+						if(isset($_SESSION["search"][$list_name][$search_prefix.$field]) && $_SESSION["search"][$list_name][$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_SESSION["search"][$list_name][$search_prefix.$field].$i["suffix"]."' and";
                 }
 
                 if($sql_where != '') {
@@ -201,7 +201,7 @@ class listform {
                 $vars["pages"] = $pages;
                 $vars["max_pages"] = $pages + 1;
                 $vars["records_gesamt"] = $record_count["anzahl"];
-                $vars["page_params"] = $this->listDef["page_params"];
+                $vars["page_params"] = (isset($this->listDef["page_params"]))? $this->listDef["page_params"]:'';
 				//$vars["module"] = $_SESSION["s"]["module"]["name"];
 
 
@@ -219,9 +219,9 @@ class listform {
         function getPagingHTML($vars) {
                 global $app;
                 $content = '<a href="'."javascript:loadContent('".$vars["list_file"].'?page=0'.$vars["page_params"]."');".'"><img src="themes/grey/images/btn_left.png" border="0"></a> &nbsp; ';
-                if($vars["show_page_back"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_back.png" border="0"></a> ';
+                if(isset($vars["show_page_back"]) && $vars["show_page_back"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_back.png" border="0"></a> ';
                 $content .= ' '.$app->lng('Page').' '.$vars["next_page"].' '.$app->lng('of').' '.$vars["max_pages"].' ';
-                if($vars["show_page_next"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
+                if(isset($vars["show_page_next"]) && $vars["show_page_next"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
                 $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"]."');".'"> <img src="themes/grey/images/btn_right.png" border="0"></a>';
 
                 return $content;

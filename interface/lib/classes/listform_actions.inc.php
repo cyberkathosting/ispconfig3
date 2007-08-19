@@ -46,9 +46,9 @@ class listform_actions {
 	function onLoad() {
 		global $app, $conf, $list_def_file;
 		
-		if(!is_object($app->tpl)) $app->uses('tpl');
-		if(!is_object($app->listform)) $app->uses('listform');
-		if(!is_object($app->tform)) $app->uses('tform');
+		if(!@is_object($app->tpl)) $app->uses('tpl');
+		if(!@is_object($app->listform)) $app->uses('listform');
+		if(!@is_object($app->tform)) $app->uses('tform');
 		
 		// Clear session variable that is used when lists are embedded with the listview plugin
 		$_SESSION["s"]["form"]["return_to"] = '';
@@ -69,6 +69,7 @@ class listform_actions {
 
 
 		$this->DataRowColor = "#FFFFFF";
+		$records_new = '';
 		if(is_array($records)) {
 			$this->idx_key = $app->listform->listDef["table_idx"]; 
 			foreach($records as $rec) {
