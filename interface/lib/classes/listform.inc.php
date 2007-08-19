@@ -38,307 +38,306 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class listform {
 
-        var $debug = 0;
-        var $errorMessage;
-    var $listDef;
-        var $searchValues;
-        var $pagingHTML;
-        var $pagingValues;
-        var $searchChanged = 0;
-        var $module;
-		var $dateformat = 'd.m.Y';
+    private $debug = 0;
+    private $errorMessage;
+    public  $listDef;
+    public  $searchValues;
+    public  $pagingHTML;
+    private $pagingValues;
+    private $searchChanged = 0;
+    private $module;
+	private $dateformat = 'd.m.Y';
 
-    function loadListDef($file,$module = '') {
-                global $app,$conf;
-                if(!is_file($file)) die("List-Definition: $file not found.");
-                include_once($file);
-                $this->listDef = $liste;
-                $this->module = $module;
-				
-				// Fill datasources
-				foreach($this->listDef["item"] as $key => $field) {
-					if(@is_array($field['datasource'])) {
-                    	$this->listDef["item"][$key]["value"] = $this->getDatasourceData($field);
+    public function loadListDef($file,$module = '')
+    {
+        global $app,$conf;
+        if(!is_file($file)) die("List-Definition: $file not found.");
+        require_once($file);
+        $this->listDef = $liste;
+        $this->module = $module;
+		
+		//* Fill datasources
+		foreach($this->listDef['item'] as $key => $field) {
+			if(@is_array($field['datasource'])) {
+                $this->listDef['item'][$key]['value'] = $this->getDatasourceData($field);
+            }
+		}
+        return true;
+    }
+		
+	/**
+    * Get the key => value array of a form filed from a datasource definitiom
+    *
+    * @param field = array with field definition
+    * @param record = Dataset as array
+    * @return array key => value array for the value field of a form
+    */
+    private function getDatasourceData($field)
+    {
+        global $app;
+        $values = array();
+
+        if($field['datasource']['type'] == 'SQL') {
+
+            //** Preparing SQL string. We will replace some common placeholders
+            $querystring = $field['datasource']['querystring'];
+            $querystring = str_replace('{USERID}', $_SESSION['s']['user']['userid'], $querystring);
+            $querystring = str_replace('{GROUPID}', $_SESSION['s']['user']['default_group'], $querystring);
+            $querystring = str_replace('{GROUPS}', $_SESSION['s']['user']['groups'], $querystring);
+            //TODO:
+            //$table_idx = $this->formDef['db_table_idx'];
+            //$querystring = str_replace("{RECORDID}",$record[$table_idx],$querystring);
+			$app->uses('tform');
+            $querystring = str_replace("{AUTHSQL}",$app->tform->getAuthSQL('r'),$querystring);
+
+            //* Getting the records
+            $tmp_records = $app->db->queryAllRecords($querystring);
+            if($app->db->errorMessage != '') die($app->db->errorMessage);
+            if(is_array($tmp_records)) {
+                $key_field = $field['datasource']['keyfield'];
+                $value_field = $field['datasource']['valuefield'];
+                foreach($tmp_records as $tmp_rec) {
+                    $tmp_id = $tmp_rec[$key_field];
+                    $values[$tmp_id] = $tmp_rec[$value_field];
+                }
+            }
+        }
+
+        if($field['datasource']['type'] == 'CUSTOM') {
+            //* Calls a custom class to validate this record
+            if($field['datasource']['class'] != '' and $field['datasource']['function'] != '') {
+                $datasource_class = $field['datasource']['class'];
+                $datasource_function = $field['datasource']['function'];
+                $app->uses($datasource_class);
+				$record = array();
+                $values = $app->$datasource_class->$datasource_function($field, $record);
+            } else {
+                $this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
+            }
+        }
+        return $values;
+    }
+
+    public function getSearchSQL($sql_where = '') 
+    {
+        global $db;
+
+        //* Get config variable
+        $list_name = $this->listDef['name'];
+        $search_prefix = $this->listDef['search_prefix'];
+
+        //* store retrieval query
+        foreach($this->listDef['item'] as $i) {
+            $field = $i['field'];
+
+            //*TODO: comment =  hat sich die suche geï¿½ndert
+            if(isset($_REQUEST[$search_prefix.$field]) and $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
+                    $this->searchChanged = 1;
+            }
+
+            //* Store field in session
+            if(isset($_REQUEST[$search_prefix.$field])){
+                $_SESSION['search'][$list_name][$search_prefix.$field] = $_REQUEST[$search_prefix.$field];
+            }
+
+            if(isset($i['formtype']) && $i['formtype'] == 'SELECT'){
+                if(is_array($i['value'])) {
+                    $out = '<option value=""></option>';
+                    foreach($i['value'] as $k => $v) {
+                        // TODO: this could be more elegant
+                        $selected = (isset($_SESSION['search'][$list_name][$search_prefix.$field]) 
+                                        && $k == $_SESSION['search'][$list_name][$search_prefix.$field] 
+                                        && $_SESSION['search'][$list_name][$search_prefix.$field] != '')
+                                        ? ' SELECTED' : '';
+                        $out .= "<option value='$k'$selected>$v</option>\r\n";
                     }
-				}
-				
-                return true;
+                }
+                    $this->searchValues[$search_prefix.$field] = $out;
+            } else {
+                if(isset($_SESSION['search'][$list_name][$search_prefix.$field])){
+                    $this->searchValues[$search_prefix.$field] = $_SESSION['search'][$list_name][$search_prefix.$field];
+                }
+            }
         }
+
+        //* Store variables in object | $this->searchValues = $_SESSION["search"][$list_name];
+        foreach($this->listDef['item'] as $i) {
+            $field = $i['field'];
+            // if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
+		    if(isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_SESSION['search'][$list_name][$search_prefix.$field] != ''){
+                $sql_where .= " $field ".$i['op']." '".$i['prefix'].$_SESSION['search'][$list_name][$search_prefix.$field].$i['suffix']."' and";
+            }
+        }
+
+        return ( $sql_where != '' ) ? $sql_where = substr($sql_where,0,-3) : '1';
+    }
+
+    public function getPagingSQL($sql_where = '1') 
+    {
+        global $app, $conf;
+
+        //* Get Config variables
+        $list_name          = $this->listDef['name'];
+        $search_prefix      = $this->listDef['search_prefix'];
+        $records_per_page   = $this->listDef['records_per_page'];
+        $table              = $this->listDef['table'];
+
+        //* set PAGE to zero, if in session not set
+        if(!isset($_SESSION['search'][$list_name]['page']) || $_SESSION['search'][$list_name]['page'] == ''){
+            $_SESSION['search'][$list_name]['page'] = 0;
+        }
+
+        //* set PAGE to worth request variable "PAGE" - ? setze page auf wert der request variablen "page"
+        if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = $_REQUEST["page"];
+
+        //* PAGE to 0 set, if look for themselves ?  page auf 0 setzen, wenn suche sich geï¿½ndert hat.
+        if($this->searchChanged == 1) $_SESSION['search'][$list_name]['page'] = 0;
+
+        $sql_von = $_SESSION['search'][$list_name]['page'] * $records_per_page;
+        $record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table WHERE $sql_where");
+        $pages = intval(($record_count['anzahl'] - 1) / $records_per_page);
+
+
+        $vars['list_file']      = $_SESSION['s']['module']['name'].'/'.$this->listDef['file'];
+        $vars['page']           = $_SESSION['search'][$list_name]['page'];
+        $vars['last_page']      = $_SESSION['search'][$list_name]['page'] - 1;
+        $vars['next_page']      = $_SESSION['search'][$list_name]['page'] + 1;
+        $vars['pages']          = $pages;
+        $vars['max_pages']      = $pages + 1;
+        $vars['records_gesamt'] = $record_count['anzahl'];
+        $vars['page_params']    = (isset($this->listDef['page_params'])) ? $this->listDef['page_params'] : '';
+        //$vars['module'] = $_SESSION['s']['module']['name'];
+
+        if($_SESSION['search'][$list_name]['page'] > 0) $vars['show_page_back'] = 1;
+        if($_SESSION['search'][$list_name]['page'] <= $vars['pages'] - 1) $vars['show_page_next'] = 1;
+
+        $this->pagingValues = $vars;
+        $this->pagingHTML = $this->getPagingHTML($vars);
+
+        //* Return limit sql
+        return "LIMIT $sql_von, $records_per_page";
+    }
+
+    public function getPagingHTML($vars)
+    {
+        global $app;
+        $content = '<a href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'">'
+                    .'<img src="themes/grey/images/btn_left.png" border="0"></a> &nbsp; ';
+        //* Show Back 
+        if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
+            $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
+                        .'<img src="themes/grey/images/btn_back.png" border="0"></a> ';
+        }
+        $content .= ' '.$app->lng('Page').' '.$vars['next_page'].' '.$app->lng('of').' '.$vars['max_pages'].' ';
+        //* Show Next
+        if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
+            $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
+                        .'<img src="themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
+        }
+        $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'">'
+                    .'<img src="themes/grey/images/btn_right.png" border="0"></a>';
+        return $content;
+    }
 		
-		/**
-        * Get the key => value array of a form filed from a datasource definitiom
-        *
-        * @param field = array with field definition
-        * @param record = Dataset as array
-        * @return key => value array for the value field of a form
-        */
-
-        function getDatasourceData($field) {
-                global $app;
-
-                $values = array();
-
-                if($field["datasource"]["type"] == 'SQL') {
-
-                        // Preparing SQL string. We will replace some
-                        // common placeholders
-                        $querystring = $field["datasource"]["querystring"];
-                        $querystring = str_replace("{USERID}",$_SESSION["s"]["user"]["userid"],$querystring);
-                        $querystring = str_replace("{GROUPID}",$_SESSION["s"]["user"]["default_group"],$querystring);
-                        $querystring = str_replace("{GROUPS}",$_SESSION["s"]["user"]["groups"],$querystring);
-                        //$table_idx = $this->formDef['db_table_idx'];
-                        //$querystring = str_replace("{RECORDID}",$record[$table_idx],$querystring);
-						$app->uses("tform");
-                        $querystring = str_replace("{AUTHSQL}",$app->tform->getAuthSQL('r'),$querystring);
-
-                        // Getting the records
-                        $tmp_records = $app->db->queryAllRecords($querystring);
-                        if($app->db->errorMessage != '') die($app->db->errorMessage);
-                        if(is_array($tmp_records)) {
-                                $key_field = $field["datasource"]["keyfield"];
-                                $value_field = $field["datasource"]["valuefield"];
-                                foreach($tmp_records as $tmp_rec) {
-                                        $tmp_id = $tmp_rec[$key_field];
-                                        $values[$tmp_id] = $tmp_rec[$value_field];
-                                }
-                        }
-                }
-
-                if($field["datasource"]["type"] == 'CUSTOM') {
-                        // Calls a custom class to validate this record
-                        if($field["datasource"]['class'] != '' and $field["datasource"]['function'] != '') {
-                                $datasource_class = $field["datasource"]['class'];
-                                $datasource_function = $field["datasource"]['function'];
-                                $app->uses($datasource_class);
-								$record = array();
-                                $values = $app->$datasource_class->$datasource_function($field, $record);
-                        } else {
-                                $this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
-                        }
-                }
-
-                return $values;
-
+	public function getPagingHTMLasTXT($vars)
+    {
+        global $app;
+        $content = '[<a href="'.$vars['list_file'].'?page=0'.$vars['page_params'].'">|&lt;&lt; </a>]';
+        if($vars['show_page_back'] == 1){
+            $content .= '[<< <a href="'.$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params'].'">'.$app->lng('Back').'</a>] ';
         }
-
-        function getSearchSQL($sql_where = "") {
-                global $db;
-
-                // Hole Config Variablen
-                $list_name = $this->listDef["name"];
-                $search_prefix = $this->listDef["search_prefix"];
-
-                // speichere Suchanfrage
-                foreach($this->listDef["item"] as $i) {
-                        $field = $i["field"];
-
-                        // hat sich die suche geändert
-                        if(isset($_REQUEST[$search_prefix.$field]) and $_REQUEST[$search_prefix.$field] != $_SESSION["search"][$list_name][$search_prefix.$field]) $this->searchChanged = 1;
-
-                        // suchfeld in session speichern.
-                        if(isset($_REQUEST[$search_prefix.$field])) $_SESSION["search"][$list_name][$search_prefix.$field] = $_REQUEST[$search_prefix.$field];
-
-                        if($i["formtype"] == "SELECT") {
-                                if(is_array($i['value'])) {
-                                        $out = '<option value=""></option>';
-                                        foreach($i['value'] as $k => $v) {
-                                                $selected = (isset($_SESSION["search"][$list_name][$search_prefix.$field]) && $k == $_SESSION["search"][$list_name][$search_prefix.$field] && $_SESSION["search"][$list_name][$search_prefix.$field] != '')?' SELECTED':'';
-                                                $out .= "<option value='$k'$selected>$v</option>\r\n";
-                                        }
-                                }
-                                $this->searchValues[$search_prefix.$field] = $out;
-                        } else {
-                                if(isset($_SESSION["search"][$list_name][$search_prefix.$field])) $this->searchValues[$search_prefix.$field] = $_SESSION["search"][$list_name][$search_prefix.$field];
-                        }
-                }
-
-                // Speichere Variablen in Objekt zum späteren einparsen in Template
-                // $this->searchValues = $_SESSION["search"][$list_name];
-
-                foreach($this->listDef["item"] as $i) {
-                        $field = $i["field"];
-                        //if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
-						if(isset($_SESSION["search"][$list_name][$search_prefix.$field]) && $_SESSION["search"][$list_name][$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_SESSION["search"][$list_name][$search_prefix.$field].$i["suffix"]."' and";
-                }
-
-                if($sql_where != '') {
-                        $sql_where = substr($sql_where,0,-3);
-                } else {
-                        $sql_where = "1";
-                }
-
-
-                return $sql_where;
+        $content .= ' '.$app->lng('Page').' '.$vars['next_page'].' '.$app->lng('of').' '.$vars['max_pages'].' ';
+        if($vars['show_page_next'] == 1){
+            $content .= '[<a href="'.$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params'].'">'.$app->lng('Next').' >></a>] ';
         }
+        $content .= '[<a href="'.$vars['list_file'].'?page='.$vars['pages'].$vars['page_params'].'"> &gt;&gt;|</a>]';
+        return $content;
+    }
 
-        function getPagingSQL($sql_where = "1") {
-                global $app, $conf;
+    public function getSortSQL()
+    {
+        global $app, $conf;
+        //* Get config vars
+        $sort_field = $this->listDef['sort_field'];
+        $sort_direction = $this->listDef['sort_direction'];
+        return ($sort_field != '' && $sort_direction != '') ? "ORDER BY $sort_field $sort_direction" : '';
+    }
 
-                // Hole Config Variablen
-                $list_name                         = $this->listDef["name"];
-                $search_prefix                 = $this->listDef["search_prefix"];
-                $records_per_page         = $this->listDef["records_per_page"];
-                $table                                 = $this->listDef["table"];
+    public function decode($record) 
+    {
+        if(is_array($record)) {
+            foreach($this->listDef['item'] as $field){
+                $key = $field['field'];
+                switch ($field['datatype']){
 
-                // setze page auf null, wenn in session nicht gesetzt
-                if(!isset($_SESSION["search"][$list_name]["page"]) || $_SESSION["search"][$list_name]["page"] == '') $_SESSION["search"][$list_name]["page"] = 0;
+                    case 'VARCHAR':
+                    case 'TEXT':
+                        $record[$key] = stripslashes($record[$key]);
+                         break;
 
-                // setze page auf wert der request variablen "page"
-                if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = $_REQUEST["page"];
+                    case 'DATE':
+                        $record[$key] = ($record[$key] > 0) ? date($this->dateformat,$record[$key]) : '';
+                        break;
 
-                // page auf 0 setzen, wenn suche sich geändert hat.
-                if($this->searchChanged == 1) $_SESSION["search"][$list_name]["page"] = 0;
+                    case 'INTEGER':
+                        $record[$key] = intval($record[$key]);
+                        break;
 
-                $sql_von = $_SESSION["search"][$list_name]["page"] * $records_per_page;
-                $record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table WHERE $sql_where");
-                $pages = intval(($record_count["anzahl"] - 1) / $records_per_page);
+                    case 'DOUBLE':
+                        $record[$key] = $record[$key];
+                        break;
 
+                    case 'CURRENCY':
+                        $record[$key] = number_format($record[$key], 2, ',', '');
+                        break;
 
-                $vars["list_file"] = $_SESSION["s"]["module"]["name"].'/'.$this->listDef["file"];
-                $vars["page"] = $_SESSION["search"][$list_name]["page"];
-                $vars["last_page"] = $_SESSION["search"][$list_name]["page"] - 1;
-                $vars["next_page"] = $_SESSION["search"][$list_name]["page"] + 1;
-                $vars["pages"] = $pages;
-                $vars["max_pages"] = $pages + 1;
-                $vars["records_gesamt"] = $record_count["anzahl"];
-                $vars["page_params"] = (isset($this->listDef["page_params"]))? $this->listDef["page_params"]:'';
-				//$vars["module"] = $_SESSION["s"]["module"]["name"];
-
-
-                if($_SESSION["search"][$list_name]["page"] > 0) $vars["show_page_back"] = 1;
-                if($_SESSION["search"][$list_name]["page"] <= $vars["pages"] - 1) $vars["show_page_next"] = 1;
-
-                $this->pagingValues = $vars;
-                $this->pagingHTML = $this->getPagingHTML($vars);
-
-                $limit_sql = "LIMIT $sql_von, $records_per_page";
-
-                return $limit_sql;
+                    default:
+                        $record[$key] = stripslashes($record[$key]);
+                }	
+            }
         }
-
-        function getPagingHTML($vars) {
-                global $app;
-                $content = '<a href="'."javascript:loadContent('".$vars["list_file"].'?page=0'.$vars["page_params"]."');".'"><img src="themes/grey/images/btn_left.png" border="0"></a> &nbsp; ';
-                if(isset($vars["show_page_back"]) && $vars["show_page_back"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_back.png" border="0"></a> ';
-                $content .= ' '.$app->lng('Page').' '.$vars["next_page"].' '.$app->lng('of').' '.$vars["max_pages"].' ';
-                if(isset($vars["show_page_next"]) && $vars["show_page_next"] == 1) $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"]."');".'"><img src="themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
-                $content .= '<a href="'."javascript:loadContent('".$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"]."');".'"> <img src="themes/grey/images/btn_right.png" border="0"></a>';
-
-                return $content;
-        }
-		
-		function getPagingHTMLasTXT($vars) {
-                global $app;
-                $content = '[<a href="'.$vars["list_file"].'?page=0'.$vars["page_params"].'">|&lt;&lt; </a>]';
-                if($vars["show_page_back"] == 1) $content .= '[<< <a href="'.$vars["list_file"].'?page='.$vars["last_page"].$vars["page_params"].'">'.$app->lng('Back').'</a>] ';
-                $content .= ' '.$app->lng('Page').' '.$vars["next_page"].' '.$app->lng('of').' '.$vars["max_pages"].' ';
-                if($vars["show_page_next"] == 1) $content .= '[<a href="'.$vars["list_file"].'?page='.$vars["next_page"].$vars["page_params"].'">'.$app->lng('Next').' >></a>] ';
-                $content .= '[<a href="'.$vars["list_file"].'?page='.$vars["pages"].$vars["page_params"].'"> &gt;&gt;|</a>]';
-
-                return $content;
-        }
-
-        function getSortSQL() {
-                global $app, $conf;
-
-                // Hole Config Variablen
-                $sort_field = $this->listDef["sort_field"];
-                $sort_direction = $this->listDef["sort_direction"];
-
-                $sql_sort = '';
-
-                if($sort_field != '' && $sort_direction != '') {
-                        $sql_sort = "ORDER BY $sort_field $sort_direction";
-                }
-
-                return $sql_sort;
-        }
-
-        function decode($record) {
-                if(is_array($record)) {
-                        foreach($this->listDef["item"] as $field) {
-                                $key = $field["field"];
-                                switch ($field['datatype']) {
-                                case 'VARCHAR':
-                                        $record[$key] = stripslashes($record[$key]);
-                                break;
-
-                                case 'TEXT':
-                                        $record[$key] = stripslashes($record[$key]);
-                                break;
-
-                                case 'DATE':
-                                        if($record[$key] > 0) {
-                                                $record[$key] = date($this->dateformat,$record[$key]);
-                                        } else {
-											$record[$key] = '';
-										}
-                                break;
-
-                                case 'INTEGER':
-                                        $record[$key] = intval($record[$key]);
-                                break;
-
-                                case 'DOUBLE':
-                                        $record[$key] = $record[$key];
-                                break;
-
-                                case 'CURRENCY':
-                                        $record[$key] = number_format($record[$key], 2, ',', '');
-                                break;
-
-                                default:
-                                        $record[$key] = stripslashes($record[$key]);
-                                }
-								
-                        }
-
-                }
         return $record;
-        }
+    }
 
+    public function encode($record)
+    {
+        if(is_array($record)) {
+            foreach($this->listDef['item'] as $field){
+                $key = $field['field'];
+                switch($field['datatype']){
 
-        function encode($record) {
-
-                if(is_array($record)) {
-                        foreach($this->listDef["item"] as $field) {
-                                $key = $field["field"];
-                                switch ($field['datatype']) {
-                                case 'VARCHAR':
-                                        if(!is_array($record[$key])) {
-                                                $record[$key] = addslashes($record[$key]);
-                                        } else {
-                                                $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
-                                        }
-                                break;
-                                case 'TEXT':
-                                        if(!is_array($record[$key])) {
-                                                $record[$key] = addslashes($record[$key]);
-                                        } else {
-                                                $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
-                                        }
-                                break;
-                                case 'DATE':
-                                        if($record[$key] > 0) {
-                                                list($tag,$monat,$jahr) = explode('.',$record[$key]);
-                                                $record[$key] = mktime(0,0,0,$monat,$tag,$jahr);
-                                        }
-                                break;
-                                case 'INTEGER':
-                                        $record[$key] = intval($record[$key]);
-                                break;
-                                case 'DOUBLE':
-                                        $record[$key] = addslashes($record[$key]);
-                                break;
-                                case 'CURRENCY':
-                                        $record[$key] = str_replace(",",".",$record[$key]);
-                                break;
-                                }
-
+                    case 'VARCHAR':
+                    case 'TEXT':
+                        if(!is_array($record[$key])) {
+                            $record[$key] = addslashes($record[$key]);
+                        } else {
+                            $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
                         }
+                        break;
+                    
+                    case 'DATE':
+                        if($record[$key] > 0) {
+                            list($tag,$monat,$jahr) = explode('.',$record[$key]);
+                            $record[$key] = mktime(0,0,0,$monat,$tag,$jahr);
+                        }
+                        break;
+
+                    case 'INTEGER':
+                        $record[$key] = intval($record[$key]);
+                        break;
+
+                    case 'DOUBLE':
+                        $record[$key] = addslashes($record[$key]);
+                        break;
+
+                    case 'CURRENCY':
+                        $record[$key] = str_replace(',', '.', $record[$key]);
+                        break;
                 }
-                return $record;
+            }
         }
+        return $record;
+    }
 
 }
 

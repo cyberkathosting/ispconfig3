@@ -37,21 +37,23 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class listform_actions {
 	
-	var $id;
-	var $idx_key;
-	var $DataRowColor;
-	var $SQLExtWhere = '';
-	var $SQLOrderBy = '';
+	private $id;
+	private $idx_key;
+	private $DataRowColor;
+	private $SQLExtWhere = '';
+	private $SQLOrderBy = '';
 	
-	function onLoad() {
+	public function onLoad()
+    {
 		global $app, $conf, $list_def_file;
 		
+        //TODO: this is_object checking should be in the $appobject - pedro notes
 		if(!@is_object($app->tpl)) $app->uses('tpl');
 		if(!@is_object($app->listform)) $app->uses('listform');
 		if(!@is_object($app->tform)) $app->uses('tform');
 		
-		// Clear session variable that is used when lists are embedded with the listview plugin
-		$_SESSION["s"]["form"]["return_to"] = '';
+		//* Clear session variable that is used when lists are embedded with the listview plugin
+		$_SESSION['s']['form']['return_to'] = '';
 		
 		// Load list definition
 		$app->listform->loadListDef($list_def_file);
@@ -84,43 +86,43 @@ class listform_actions {
 		
 	}
 	
-	function prepareDataRow($rec) {
+	private function prepareDataRow($rec)
+    {
 		global $app;
 		
 		$rec = $app->listform->decode($rec);
 
-		// Alternating datarow colors
-		$this->DataRowColor = ($this->DataRowColor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
-		$rec["bgcolor"] = $this->DataRowColor;
+		//* Alternating datarow colors
+		$this->DataRowColor = ($this->DataRowColor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
+		$rec['bgcolor'] = $this->DataRowColor;
 		
-		// substitute value for select fields
-		foreach($app->listform->listDef["item"] as $field) {
-			$key = $field["field"];
-			if($field['formtype'] == "SELECT") {
+		//* substitute value for select fields
+		foreach($app->listform->listDef['item'] as $field) {
+			$key = $field['field'];
+			if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
 				$rec[$key] = $field['value'][$rec[$key]];
 			}
 		}
 		
-		// The variable "id" contains always the index variable
-		$rec["id"] = $rec[$this->idx_key];
-		
+		//* The variable "id" contains always the index variable
+		$rec['id'] = $rec[$this->idx_key];
 		return $rec;
 	}
 	
-	function getQueryString() {
+	private function getQueryString() {
 		global $app;
-		
-		// Generate the search sql
-		if($app->listform->listDef["auth"] != 'no') {
-			if($_SESSION["s"]["user"]["typ"] == "admin") {
-				$sql_where = "";
+		$sql_where = '';
+
+		//* Generate the search sql
+		if($app->listform->listDef['auth'] != 'no') {
+			if($_SESSION['s']['user']['typ'] == "admin") {
+				$sql_where = '';
 			} else {
-				$sql_where = $app->tform->getAuthSQL('r')." and";
+				$sql_where = $app->tform->getAuthSQL('r').' and';
 			}
-		}
-		
+		}		
 		if($this->SQLExtWhere != '') {
-			$sql_where .= " ".$this->SQLExtWhere." and";
+			$sql_where .= ' '.$this->SQLExtWhere.' and';
 		}
 
 		$sql_where = $app->listform->getSearchSQL($sql_where);
@@ -128,31 +130,31 @@ class listform_actions {
 		
 		$order_by_sql = $this->SQLOrderBy;
 
-		// Generate SQL for paging
+		//* Generate SQL for paging
 		$limit_sql = $app->listform->getPagingSQL($sql_where);
-		$app->tpl->setVar("paging",$app->listform->pagingHTML);
+		$app->tpl->setVar('paging',$app->listform->pagingHTML);
 
-		return "SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $order_by_sql $limit_sql";
-		
+		return 'SELECT * FROM '.$app->listform->listDef['table']." WHERE $sql_where $order_by_sql $limit_sql";
 	}
 	
 	
-	function onShow() {
+	private function onShow()
+    {
 		global $app;
 		
-		// Language File setzen
-		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
+		//* Set Language File
+		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$app->listform->listDef['name'].'_list.lng';
 		include($lng_file);
 		$app->tpl->setVar($wb);
-		$app->tpl->setVar("form_action",$app->listform->listDef["file"]);
+		$app->tpl->setVar('form_action', $app->listform->listDef['file']);
 		
-		// Parse the templates and send output to the browser
+		//* Parse the templates and send output to the browser
 		$this->onShowEnd();
 	}
 	
-	function onShowEnd() {
+	private function onShowEnd()
+    {
 		global $app;
-		
 		$app->tpl_defaults();
 		$app->tpl->pparse();
 	}
