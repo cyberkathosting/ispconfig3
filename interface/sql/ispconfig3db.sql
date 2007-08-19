@@ -10,7 +10,7 @@
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_blacklist`
+# Tabellenstruktur fï¿½r Tabelle `mail_blacklist`
 #
 
 DROP TABLE IF EXISTS mail_blacklist;
@@ -30,14 +30,14 @@ CREATE TABLE mail_blacklist (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_blacklist`
+# Daten fï¿½r Tabelle `mail_blacklist`
 #
 
 INSERT INTO mail_blacklist VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'till@test.int', 'till@test.int', '0');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_box`
+# Tabellenstruktur fï¿½r Tabelle `mail_box`
 #
 
 DROP TABLE IF EXISTS mail_box;
@@ -65,7 +65,7 @@ CREATE TABLE mail_box (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_box`
+# Daten fï¿½r Tabelle `mail_box`
 #
 
 INSERT INTO mail_box VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'tt@test.int', '$1$tRlfKeOB$iHJgCn8mH8x/dh/XWy6v0/', '', '', 0, 0, '/var/spool/mail/till', '100', '0', '', '1');
@@ -73,7 +73,7 @@ INSERT INTO mail_box VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'moin@test.int', '$
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_domain`
+# Tabellenstruktur fï¿½r Tabelle `mail_domain`
 #
 
 DROP TABLE IF EXISTS mail_domain;
@@ -94,7 +94,7 @@ CREATE TABLE mail_domain (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_domain`
+# Daten fï¿½r Tabelle `mail_domain`
 #
 
 INSERT INTO mail_domain VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'test.int', 'local', '', 1);
@@ -102,7 +102,7 @@ INSERT INTO mail_domain VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'test2.int', 'al
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_domain_catchall`
+# Tabellenstruktur fï¿½r Tabelle `mail_domain_catchall`
 #
 
 DROP TABLE IF EXISTS mail_domain_catchall;
@@ -122,14 +122,14 @@ CREATE TABLE mail_domain_catchall (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_domain_catchall`
+# Daten fï¿½r Tabelle `mail_domain_catchall`
 #
 
 INSERT INTO mail_domain_catchall VALUES (1, 1, 1, 'riud', 'riud', '', 1, 'test.int', 'till@test.int', '1');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_greylist`
+# Tabellenstruktur fï¿½r Tabelle `mail_greylist`
 #
 
 DROP TABLE IF EXISTS mail_greylist;
@@ -145,13 +145,13 @@ CREATE TABLE mail_greylist (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_greylist`
+# Daten fï¿½r Tabelle `mail_greylist`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_mailman_domain`
+# Tabellenstruktur fï¿½r Tabelle `mail_mailman_domain`
 #
 
 DROP TABLE IF EXISTS mail_mailman_domain;
@@ -167,13 +167,13 @@ CREATE TABLE mail_mailman_domain (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_mailman_domain`
+# Daten fï¿½r Tabelle `mail_mailman_domain`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_redirect`
+# Tabellenstruktur fï¿½r Tabelle `mail_redirect`
 #
 
 DROP TABLE IF EXISTS mail_redirect;
@@ -194,14 +194,14 @@ CREATE TABLE mail_redirect (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_redirect`
+# Daten fï¿½r Tabelle `mail_redirect`
 #
 
 INSERT INTO mail_redirect VALUES (1, 1, 0, 'riud', 'riud', '', 1, 'tom@test.int', 'tt@test.int', 'alias', '1');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_spamfilter`
+# Tabellenstruktur fï¿½r Tabelle `mail_spamfilter`
 #
 
 DROP TABLE IF EXISTS mail_spamfilter;
@@ -226,7 +226,7 @@ CREATE TABLE mail_spamfilter (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_spamfilter`
+# Daten fï¿½r Tabelle `mail_spamfilter`
 #
 
 INSERT INTO mail_spamfilter VALUES (1, 0, 0, '', '', '', 1, 'till@test.int', 100, 100, 1, '***SPAM mag ich nicht***', '/var/spool/mail/spam', 0, '1');
@@ -234,7 +234,7 @@ INSERT INTO mail_spamfilter VALUES (2, 1, 0, 'riud', 'riud', '', 1, 'till2@test.
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_transport`
+# Tabellenstruktur fï¿½r Tabelle `mail_transport`
 #
 
 DROP TABLE IF EXISTS mail_transport;
@@ -255,13 +255,13 @@ CREATE TABLE mail_transport (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_transport`
+# Daten fï¿½r Tabelle `mail_transport`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mail_whitelist`
+# Tabellenstruktur fï¿½r Tabelle `mail_whitelist`
 #
 
 DROP TABLE IF EXISTS mail_whitelist;
@@ -281,13 +281,13 @@ CREATE TABLE mail_whitelist (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `mail_whitelist`
+# Daten fï¿½r Tabelle `mail_whitelist`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `reseller`
+# Tabellenstruktur fï¿½r Tabelle `reseller`
 #
 
 DROP TABLE IF EXISTS reseller;
@@ -326,13 +326,13 @@ CREATE TABLE reseller (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `reseller`
+# Daten fï¿½r Tabelle `reseller`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rr`
+# Tabellenstruktur fï¿½r Tabelle `rr`
 #
 
 DROP TABLE IF EXISTS rr;
@@ -354,7 +354,7 @@ CREATE TABLE rr (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rr`
+# Daten fï¿½r Tabelle `rr`
 #
 
 INSERT INTO rr VALUES (1, 2, '1', 'PTR', 'www.ensign.de.', 0, 86400, 1, 0, 'riud', 'riud', '');
@@ -363,7 +363,7 @@ INSERT INTO rr VALUES (3, 1, 'ensign.de', 'A', '192.168.0.1', 0, 86400, 1, 0, 'r
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `server`
+# Tabellenstruktur fï¿½r Tabelle `server`
 #
 
 DROP TABLE IF EXISTS server;
@@ -382,20 +382,20 @@ CREATE TABLE server (
   db_server tinyint(4) NOT NULL default '0',
   vserver_server tinyint(4) NOT NULL default '0',
   config text NOT NULL,
-  update tinyint(4) NOT NULL default '0',
+  `update` tinyint(4) NOT NULL default '0',
   active tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (server_id)
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `server`
+# Daten fï¿½r Tabelle `server`
 #
 
 INSERT INTO server VALUES (1, 1, 1, 'riud', 'riud', '', 'Server 1', 1, 0, 0, 0, 0, 0, '[global]\r\nwebserver=apache\r\nmailserver=exim\r\ndnsserver=mydns\r\n\r\n[mail]\r\nmodule=exim_mysql\r\nmaildir_path=/var/spool/mail/[domain]/[localpart]\r\nmailuser_uid=0\r\nmailuser_gid=0', 0, 1);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `soa`
+# Tabellenstruktur fï¿½r Tabelle `soa`
 #
 
 DROP TABLE IF EXISTS soa;
@@ -423,7 +423,7 @@ CREATE TABLE soa (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `soa`
+# Daten fï¿½r Tabelle `soa`
 #
 
 INSERT INTO soa VALUES (1, 'ensign.de.', 'ns1.example.com.', 'admin.example.com.', 2006012103, 28800, 7200, 604800, 86400, 86400, 'Y', '', 1, 0, 'riud', 'riud', '');
@@ -431,7 +431,7 @@ INSERT INTO soa VALUES (2, '0.168.192.in-addr.arpa.', 'ns1.example.com.', 'admin
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `sys_datalog`
+# Tabellenstruktur fï¿½r Tabelle `sys_datalog`
 #
 
 DROP TABLE IF EXISTS sys_datalog;
@@ -448,13 +448,13 @@ CREATE TABLE sys_datalog (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `sys_datalog`
+# Daten fï¿½r Tabelle `sys_datalog`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `sys_dbsync`
+# Tabellenstruktur fï¿½r Tabelle `sys_dbsync`
 #
 
 DROP TABLE IF EXISTS sys_dbsync;
@@ -477,13 +477,13 @@ CREATE TABLE sys_dbsync (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `sys_dbsync`
+# Daten fï¿½r Tabelle `sys_dbsync`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `sys_filesync`
+# Tabellenstruktur fï¿½r Tabelle `sys_filesync`
 #
 
 DROP TABLE IF EXISTS sys_filesync;
@@ -502,13 +502,13 @@ CREATE TABLE sys_filesync (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `sys_filesync`
+# Daten fï¿½r Tabelle `sys_filesync`
 #
 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `sys_group`
+# Tabellenstruktur fï¿½r Tabelle `sys_group`
 #
 
 DROP TABLE IF EXISTS sys_group;
@@ -520,7 +520,7 @@ CREATE TABLE sys_group (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `sys_group`
+# Daten fï¿½r Tabelle `sys_group`
 #
 
 INSERT INTO sys_group VALUES (1, 'admin', 'Administrators group');
@@ -528,7 +528,7 @@ INSERT INTO sys_group VALUES (2, 'user', 'Users Group');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `sys_user`
+# Tabellenstruktur fï¿½r Tabelle `sys_user`
 #
 
 DROP TABLE IF EXISTS sys_user;
@@ -564,7 +564,7 @@ CREATE TABLE sys_user (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `sys_user`
+# Daten fï¿½r Tabelle `sys_user`
 #
 
 INSERT INTO sys_user VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,designer,mail,dns', 'admin', 'default', 'admin', 1, '', 'Administrator', '', '', '', '', '', '', '', '', '', 'en', '1,2', 0);

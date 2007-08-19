@@ -1,8 +1,14 @@
 Some guidelines for web development with php.
 -----------------------------------------------------
-Unix Line Breaks Only, NO windows breaks please.
+* Unix Line Breaks Only, NO windows breaks please.
+* Tabs set at 4 spaces either as tabs or spaces.
+* no accidental _<?php space before, within or after a file
+* every php file starts and end with <?php ?> no spaces before or after
+* error_reporting(E_ALL|E_STRICT) , yep php5
+* Magic quotes is gone in php6, get used to it now. config = magic_quotes_gpc() Everything must be quoted
 
-Tabs set at 4 spaces either as tabs or spaces.
+please mark any section that nned review or work on with
+// TODO 
 
 Pear coding guiidelines
 

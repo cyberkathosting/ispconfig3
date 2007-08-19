@@ -56,14 +56,15 @@ public function render() {
 
         if($username != '' and $passwort != '') {
                 $sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
-                if($user = $app->db->queryOneRecord($sql)) {
+                $user = $app->db->queryOneRecord($sql);
+                  if($user) {
                         if($user['active'] == 1) {
                                 $user = $app->db->toLower($user);
                                 $_SESSION = array();
                                 $_SESSION['s']['user'] = $user;
                                 $_SESSION['s']['user']['theme'] = $user['app_theme'];
                                 $_SESSION['s']['language'] = $user['language'];
-								
+								//print_r($_SESSION);
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 									$_SESSION['s']['module'] = $module;
