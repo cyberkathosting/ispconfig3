@@ -148,12 +148,9 @@ if (!defined('vlibTemplateClassLoaded')) {
 		    
 		
         /**
-         * FUNCTION: newTemplate
-         *
          * Usually called by the class constructor.
          * Stores the filename in $this->_tmplfilename.
          * Raises an error if the template file is not found.
-         *
          * @param string $tmplfile full path to template file
          * @return boolean true
          * @access public
@@ -179,12 +176,9 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: setVar
-         *
          * Sets variables to be used by the template
          * If $k is an array, then it will treat it as an associative array
          * using the keys as variable names and the values as variable values.
-         *
          * @param mixed $k key to define variable name
          * @param mixed $v variable to assign to $k
          * @return boolean true/false
@@ -211,12 +205,9 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
         
         /**
-         * FUNCTION: setInclude
-         *
          * Sets dynamic includes to be used by the template
          * If $k is an array, then it will treat it as an associative array
          * using the keys as variable names and the values as variable values.
-         *
          * @param mixed $k key to define variable name
          * @param mixed $v variable to assign to $k
          * @return boolean true/false
@@ -235,11 +226,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		}
 
         /**
-         * FUNCTION: unsetVar
-         *
          * Unsets a variable which has already been set
          * Parse in all vars wanted for deletion in seperate parametres
-         *
          * @param string var name to remove use: vlibTemplate::unsetVar(var[, var..])
          * @return boolean true/false returns true unless called with 0 params
          * @access public
@@ -259,10 +247,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: getVars
-         *
          * Gets all vars currently set in global namespace.
-         *
          * @return array
          * @access public
          */
@@ -273,10 +258,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: getVar
-         *
          * Gets a single var from the global namespace
-         *
          * @return var
          * @access public
          */
@@ -288,10 +270,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: setContextVars
-         *
          * sets the GLOBAL_CONTEXT_VARS
-         *
          * @return true
          * @access public
          */
@@ -312,10 +291,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: setLoop
-         *
          * Builds the loop construct for use with <TMPL_LOOP>.
-         *
          * @param string $k string to define loop name
          * @param array $v array to assign to $k
          * @return boolean true/false
@@ -335,10 +311,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: setDbLoop [** EXPERIMENTAL **]
-         *
+         * [** EXPERIMENTAL **]
          * Function to create a loop from a Db result resource link.
-         *
          * @param string $loopname to commit loop. If not set, will use last loopname set using newLoop()
          * @param string $result link to a Db result resource
          * @param string $db_type, type of db that the result resource belongs to.
@@ -475,10 +449,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: newLoop
-         *
          * Sets the name for the curent loop in the 3 step loop process.
-         *
          * @param string $name string to define loop name
          * @return boolean true/false
          * @access public
@@ -495,10 +466,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: addRow
-         *
          * Adds a row to the current loop in the 3 step loop process.
-         *
          * @param array $row loop row to add to current loop
          * @param string $loopname loop to which you want to add row, if not set will use last loop set using newLoop().
          * @return boolean true/false
@@ -521,11 +489,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: addLoop
-         *
          * Completes the 3 step loop process. This assigns the rows and resets
          * the variables used.
-         *
          * @param string $loopname to commit loop. If not set, will use last loopname set using newLoop()
          * @return boolean true/false
          * @access public
@@ -554,11 +519,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: unsetLoop
-         *
          * Unsets a loop which has already been set.
          * Can only unset top level loops.
-         *
          * @param string loop to remove use: vlibTemplate::unsetLoop(loop[, loop..])
          * @return boolean true/false returns true unless called with 0 params
          * @access public
@@ -578,11 +540,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: reset
-         *
          * Resets the vlibTemplate object. After using vlibTemplate::reset() you must
          * use vlibTemplate::newTemplate(tmpl) to reuse, not passing in the options array.
-         *
          * @return boolean true
          * @access public
          */
@@ -604,10 +563,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: clearVars
-         *
          * Unsets all variables in the template
-         *
          * @return boolean true
          * @access public
          */
@@ -618,10 +574,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: clearLoops
-         *
          * Unsets all loops in the template
-         *
          * @return boolean true
          * @access public
          */
@@ -634,10 +587,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: clearAll
-         *
          * Unsets all variables and loops set using setVar/Loop()
-         *
          * @return boolean true
          * @access public
          */
@@ -649,11 +599,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: unknownsExist
-         *
          * Returns true if unknowns were found after parsing.
          * Function MUST be called AFTER one of the parsing functions to have any relevance.
-         *
          * @return boolean true/false
          * @access public
          */
@@ -663,10 +610,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: unknowns
-         *
          * Alias for unknownsExist.
-         *
          * @access public
          */
         public function unknowns()
@@ -675,11 +619,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: getUnknowns
-         *
          * Returns an array of all unknown vars found when parsing.
          * This function is only relevant after parsing a document.
-         *
          * @return array
          * @access public
          */
@@ -689,11 +630,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: setUnknowns
-         *
-         * Sets how you want to handle variables that were found in the
+          * Sets how you want to handle variables that were found in the
          * template but not set in vlibTemplate using vlibTemplate::setVar().
-         *
          * @param  string $arg ignore, remove, print, leave or comment
          * @return boolean
          * @access public
@@ -709,8 +647,6 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: setPath
-         *
          * function sets the paths to use when including files.
          * Use of this function: vlibTemplate::setPath(string path [, string path, ..]);
          * i.e. if $tmpl is your template object do: $tmpl->setPath('/web/htdocs/templates','/web/htdocs/www');
@@ -736,8 +672,6 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: getParseTime
-         *
          * After using one of the parse functions, this will allow you
          * access the time taken to parse the template.
          * see OPTION 'TIME_PARSE'.
@@ -755,8 +689,6 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
         /**
-         * FUNCTION: fastPrint
-         *
          * Identical to pparse() except that it uses output buffering w/ gz compression thus
          * printing the output directly and compressed if poss.
          * Will possibly if parsing a huge template.
@@ -773,10 +705,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
         /**
-         * FUNCTION: pparse
-         *
          * Calls parse, and then prints out $this->_tmploutput
-         *
          * @access public
          * @return boolean true/false
          */
@@ -788,10 +717,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: pprint
-         *
          * Alias for pparse()
-         *
          * @access public
          */
         public function pprint()
@@ -801,8 +727,6 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
         /**
-         * FUNCTION: grab
-         *
          * Returns the parsed output, ready for printing, passing to mail() ...etc.
          * Invokes $this->_parse() if template has not yet been parsed.
          *
@@ -820,11 +744,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         \-----------------------------------------------------------------------------*/
 
         /**
-         * FUNCTION: vlibTemplate
-         *
          * vlibTemplate constructor.
          * if $tmplfile has been passed to it, it will send to $this->newTemplate()
-         *
          * @param string $tmplfile full path to template file
          * @param array $options see above
          * @return boolean true/false
@@ -860,8 +781,7 @@ if (!defined('vlibTemplateClassLoaded')) {
             return true;
         }
 
-        /** FUNCTION: _getData
-         *
+        /**
          * function returns the text from the file, or if we're using cache, the text
          * from the cache file. MUST RETURN DATA.
          * @param string tmplfile contains path to template file
@@ -945,10 +865,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _fileSearch
-         *
          * Searches for all possible instances of file { $file }
-         *
          * @param string $file path of file we're looking for
          * @access private
          * @return mixed fullpath to file or boolean false
@@ -1002,12 +919,9 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _arrayBuild
-         *
          * Modifies the array $arr to add Template variables, __FIRST__, __LAST__ ..etc
          * if $this->OPTIONS['LOOP_CONTEXT_VARS'] is true.
          * Used by $this->setloop().
-         *
          * @param array $arr
          * @return array new look array
          * @access private
@@ -1045,9 +959,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _parseIf
          * returns a string used for parsing in tmpl_if statements.
-         *
          * @param string $varname
          * @param string $value
          * @param string $op
@@ -1102,9 +1014,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
         /**
-         * FUNCTION: _parseLoop
          * returns a string used for parsing in tmpl_loop statements.
-         *
          * @param string $varname
          * @access private
          * @return string used for eval'ing
@@ -1122,10 +1032,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _parseVar
-         *
          * returns a string used for parsing in tmpl_var statements.
-         *
          * @param string $wholetag
          * @param string $tag
          * @param string $varname
@@ -1208,7 +1115,6 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _parseTag
          * takes values from preg_replace in $this->_intparse() and determines
          * the replace string.
          *
@@ -1304,8 +1210,6 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _intParse
-         *
          * Parses $this->_tmplfile into correct format for eval() to work
          * Called by $this->_parse(), or $this->fastPrint, this replaces all <tmpl_*> references
          * with their correct php representation, i.e. <tmpl_var title> becomes $this->vars['title']
@@ -1324,8 +1228,6 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _parse
-         *
          * Calls _intParse, and eval()s $this->tmplfilep
          * and outputs the results to $this->tmploutput
          *
@@ -1362,8 +1264,6 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _setOption
-         *
          * Sets one or more of the boolean options 1/0, that control certain actions in the template.
          * Use of this function:
          * either: vlibTemplate::_setOptions(string option_name, bool option_val [, string option_name, bool option_val ..]);
@@ -1413,11 +1313,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _setUnknown
-         *
          * Used during parsing, this function sets an unknown var checking to see if it
          * has been previously set.
-         *
          * @param string var
          * @access private
          */
@@ -1427,9 +1324,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _getMicrotime
          * Returns microtime as a float number
-         *
          * @return float microtime
          * @access private
          */
@@ -1440,9 +1335,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         }
 
         /**
-         * FUNCTION: _escape_hex
          * Returns str encoded to hex code.
-         *
          * @param string str to be encoded
          * @param bool true/false specify whether to use hex_entity
          * @return string encoded in hex
