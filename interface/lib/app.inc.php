@@ -124,7 +124,7 @@ class app {
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
 <td class="error"><b>Error:</b><br>'.$msg;
-		if($next_link != "") $msg .= '<a href="'.$next_link.'">Next</a><br>';
+		if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a><br>';
 		$msg .= '</td>
 </tr>
 </table>
@@ -165,6 +165,8 @@ class app {
 		}
 		$this->tpl->setVar('app_title', $this->_conf['app_title']);
 		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
+        //TODO: Silence this notice
+        //print_r($_SESSION);
 		$this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
 			$this->tpl->setVar('is_admin', 1);

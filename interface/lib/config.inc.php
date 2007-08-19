@@ -40,7 +40,9 @@ $conf['app_version'] = '3.0.0';
 $conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
 
 
-//** Future Code  - pedro - rfc
+//********************************************************************************
+//** Future Code idea  - pedro - rfc
+//** >>>>
 /*  Database connection
 	The only time paramaters are needed is to connect, otherwise the variables
 	are not required "around" the application. ie Connected and done.
@@ -82,8 +84,30 @@ if(file_exists(dirname(__FILE__).'/db_local.php')){
     $conf['db_database']        = 'ispconfig3';
 }
 
+/*  Dynamic constants are another technique as well as key files as constants.
+    The base root directory is the interface/ directory which is the top level for php
+    From this eveything else is be defined underneath as constants
+    The constants are directory paths with no trailing /
+    This should do away with the $conf['rootpath'] etc
+    The $conf['fs_div'] is unnecessary if only / is used, will work on windoze also
+    
+*/
+//** The main ROOT is the parent directory to this file, ie interface
+define('ISPC_ROOT', realpath('../'));
+define('ISPC_CLASS_PATH', ISPC_ROOT.'/lib/classes');
+define('ISPC_TEMP_PATH', ISPC_ROOT.'/temp');
+define('ISPC_CACHE_PATH', ISPC_ROOT.'/cache');
+//<< End pedro rfc block
 
-//** Path Settings (Do not change!)
+//** Database Settings
+/* See above
+$conf['db_type']            = 'mysql';
+$conf['db_host']            = 'localhost';
+$conf['db_user']            = 'root';
+$conf['db_password']        = '';
+$conf['db_database']        = 'ispconfig3';
+*/
+
 $conf['rootpath']			= substr(dirname(__FILE__),0,-4);
 $conf['fs_div']				= '/'; // File system divider, \\ on windows and / on linux and unix
 $conf['classpath']			= $conf['rootpath'].$conf['fs_div'].'lib'.$conf['fs_div'].'classes';
@@ -96,7 +120,7 @@ define('SERVER_ROOT', $conf['rootpath']);
 define('INCLUDE_ROOT', SERVER_ROOT.DIR_TRENNER.'lib');
 define('CLASSES_ROOT', INCLUDE_ROOT.DIR_TRENNER.'classes');
 
-/* pedro notes ? this stuff is REALLY not necessay */
+/* pedro notes ? this stuff is REALLY not necessay, can leak everywhere */
 define('DB_TYPE', $conf['db_type']);
 define('DB_HOST', $conf['db_host']);
 define('DB_DATABASE',$conf['db_database']);
