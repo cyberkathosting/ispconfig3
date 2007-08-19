@@ -1,4 +1,13 @@
 <?php
+/**
+ * Application Class
+ * 
+ * @author Till Brehm
+ * @copyright  2005, Till Brehm, projektfarm Gmbh
+ * @version 0.1
+ * @package ISPConfig
+ */
+
 /*
 Copyright (c) 2005, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -31,35 +40,38 @@ ob_start('ob_gzhandler');
 
 class app {
 
-	private  $_language_inc = 0;
+	private $_language_inc = 0;
 	private $_wb;
 	private $_loaded_classes = array();
+    private $_conf;
 
-	public function __construct() {
+	public function __construct()
+    {
 		global $conf;
-		
-		if($conf['start_db'] == true) {
-				$this->load('db_'.$conf['db_type']);
+		$this->_conf = $conf;
+		if($this->_conf['start_db'] == true) {
+				$this->load('db_'.$this->_conf['db_type']);
 				$this->db = new db;
 		}
-
-		if($conf['start_session'] == true) {
+		if($this->_conf['start_session'] == true) {
 			session_start();
             //* Initialise vars if session is not set
             if( !isset($_SESSION['s']['id']) ){
-                $_SESSION['s'] = array('id' => session_id(), 'theme' => $conf['theme'], 'language' => $conf['language']);
+                $_SESSION['s'] = array( 'id' => session_id(), 
+                                        'theme' => $this->_conf['theme'], 
+                                        'language' => $this->_conf['language']
+                                        );
             }
 		}
 	}
 
-	public function uses($classes) {
-		global $conf;
-		
+	public function uses($classes)
+    {	
 		$cl = explode(',',$classes);
 		if(is_array($cl)) {
 			foreach($cl as $classname){
 				if(!array_key_exists($classname, $this->_loaded_classes)){
-					include_once($conf['classpath'] . '/'.$classname.'.inc.php');
+					include_once($this->_conf['classpath'] . '/'.$classname.'.inc.php');
 					$this->$classname = new $classname;
 					$this->_loaded_classes[$classname] = true;
 				}
@@ -67,28 +79,22 @@ class app {
 		}
 	}
 
-	public function load($files) {
-		global $conf;
-		
+	public function load($files)
+    {	
 		$fl = explode(',',$files);
 		if(is_array($fl)) {
 			foreach($fl as $file) {
-				include_once($conf['classpath'] . '/'.$file.'.inc.php');
+				include_once($this->_conf['classpath'] . '/'.$file.'.inc.php');
 			}
 		}
 	}
 
-	/*
-		0 = DEBUG
-		1 = WARNING
-		2 = ERROR
-	*/
-	public function log($msg, $priority = 0) {
-		global $conf;
-		
-		if($priority >= $conf['log_priority']) {
-			if (is_writable($conf['log_file'])) {
-				if (!$fp = fopen ($conf['log_file'], 'a')) {
+	/** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
+	public function log($msg, $priority = 0)
+    {	
+		if($priority >= $this->_conf['log_priority']) {
+			if (is_writable($this->_conf['log_file'])) {
+				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
 					$this->error('Logfile konnte nicht ge�ffnet werden.');
 				}
 				if (!fwrite($fp, date('d.m.Y-H:i').' - '. $msg."\r\n")) {
@@ -101,12 +107,9 @@ class app {
 		} 
 	} 
 
-	/*
-		0 = DEBUG
-		1 = WARNING
-		2 = ERROR
-	*/
-	public function error($msg, $next_link = '', $stop = true, $priority = 1) {
+    /** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
+	public function error($msg, $next_link = '', $stop = true, $priority = 1)
+    {
 		//$this->uses("error");
 		//$this->error->message($msg, $priority);
 		if($stop == true){
@@ -134,48 +137,44 @@ class app {
 		}
 	}
 
-    public function lng($text){
-		global $conf;
-		
+    /** Loads language */
+    public function lng($text)
+    {
 		if($this->_language_inc != 1) {
 			//* loading global and module Wordbook
-			@include_once($conf['rootpath'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
-			@include_once($conf['rootpath'].'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			@include_once($this->_conf['rootpath'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			@include_once($this->_conf['rootpath'].'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
 			$this->_wb = $wb;
 			$this->_language_inc = 1;
-		}
-		
+		}		
 		if(!empty($this->_wb[$text])) {
 			$text = $this->_wb[$text];
 		}
-		
 		return $text;
 	}
 
-    public function tpl_defaults() {
-		global $conf;
-	
-		$this->tpl->setVar('theme',$_SESSION['s']['theme']);
-		$this->tpl->setVar('phpsessid',session_id());
-		$this->tpl->setVar('html_content_encoding',$conf['html_content_encoding']);
-		if($conf['logo'] != '' && @is_file($conf['logo'])){
-			$this->tpl->setVar('logo', '<img src="'.$conf['logo'].'" border="0" alt="">');
+    public function tpl_defaults()
+    {	
+		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
+		$this->tpl->setVar('phpsessid', session_id());
+		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
+		if($this->_conf['logo'] != '' && @is_file($this->_conf['logo'])){
+			$this->tpl->setVar('logo', '<img src="'.$this->_conf['logo'].'" border="0" alt="">');
 		} else {
 			$this->tpl->setVar('logo', '&nbsp;');
 		}
-		$this->tpl->setVar('app_title',$conf["app_title"]);
-		$this->tpl->setVar('delete_confirmation',$this->lng('delete_confirmation'));
-		$this->tpl->setVar('app_module',$_SESSION['s']['module']['name']);
+		$this->tpl->setVar('app_title', $this->_conf['app_title']);
+		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
+		$this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
-			$this->tpl->setVar('is_admin',1);
+			$this->tpl->setVar('is_admin', 1);
 		}
     }
     
 } // end class
 
-/*
- Initialize application (app) object
-*/
-$app = new app(); // new app($conf);
+//** Initialize application (app) object
+//* possible future =  new app($conf);
+$app = new app();
 
 ?>
