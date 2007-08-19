@@ -6,4 +6,4 @@ $DB['host']     = 'localhost';
 $DB['user']     = 'root';
 $DB['password'] = 'mash';
 $DB['database'] = 'ispconfig';
-?>  
+?>
