@@ -15,7 +15,7 @@ $liste['name'] 				= 'filesync';
 //* Database table
 $liste['table'] 			= 'sys_filesync';
 
-//*  Primary index column
+//* Primary index column
 $liste['table_idx']			= 'id';
 
 //* Search Field Prefix
@@ -36,7 +36,7 @@ $liste['delete_file']		= 'filesync_del.php';
 //*  Paging Template
 $liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-//*  Script File der Liste?s
+//* Enable auth
 $liste['auth']				= 'no';
 
 
@@ -64,4 +64,5 @@ $liste['item'][] = array(	'field'		=> 'local_path',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '');  
+
 ?>

@@ -15,7 +15,7 @@ $liste['name'] 				= 'groups';
 //* Database table
 $liste['table'] 			= 'sys_group';
 
-//* Primarty index column
+//* Primary index column
 $liste['table_idx']			= 'groupid';
 
 //* Search Field Prefix
@@ -36,7 +36,7 @@ $liste['delete_file']		= 'groups_del.php';
 //* Paging Template
 $liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-// Script File der Liste ?
+//* Enable auth
 $liste['auth']				= 'no';
 
 

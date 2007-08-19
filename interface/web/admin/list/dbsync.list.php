@@ -36,7 +36,7 @@ $liste['delete_file']		= 'dbsync_del.php';
 //* Paging Template
 $liste['paging_tpl']		= 'templates/paging.tpl.htm';
 
-//* Script File der Liste ?
+//* Enable auth
 $liste['auth']				= 'no';
 
 
