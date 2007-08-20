@@ -119,7 +119,7 @@ function phpcaselog($ret_val, $msg, $file = '', $line = ''){
 }
 
 function mkdirs($strPath, $mode = '0755'){
-	if(isset($strPath) && $strPath != ""){
+	if(isset($strPath) && $strPath != ''){
 		//* Verzeichnisse rekursiv erzeugen
 		if(is_dir($strPath)){
 			return true;
@@ -236,17 +236,17 @@ function find_includes($file){
     $lines = explode("\n", $inhalt);
     if(!empty($lines)){
       foreach($lines as $line){
-        if(stristr($line, "include ")){
-          $include_file = str_replace("\n", "", trim(shell_exec("echo \"$line\" | awk '{print \$2}'")));
-          if(substr($include_file,0,1) != "/"){
-            $include_file = $httpd_root."/".$include_file;
+        if(stristr($line, 'include ')){
+          $include_file = str_replace("\n", '', trim(shell_exec("echo \"$line\" | awk '{print \$2}'")));
+          if(substr($include_file,0,1) != '/'){
+            $include_file = $httpd_root.'/'.$include_file;
           }
           if(is_file($include_file)){
             if($further_includes = find_includes($include_file)){
               $includes = array_merge($includes, $further_includes);
             }
           } else {
-            if(strstr($include_file, "*")){
+            if(strstr($include_file, '*')){
               $more_files = explode("\n", shell_exec("ls -l $include_file | awk '{print \$9}'"));
               if(!empty($more_files)){
                 foreach($more_files as $more_file){
