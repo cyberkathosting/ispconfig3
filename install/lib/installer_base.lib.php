@@ -34,9 +34,8 @@ class installer_base {
 	var $language = 'en';
 	var $db;
 	private $conf;
-	/*
-	
-	*/
+
+
     public function __construct()
     {
         global $conf; //TODO: maybe $conf  should be passed to constructor
@@ -113,7 +112,6 @@ class installer_base {
 		} while (!$this->check_break($lang) or $this-> 
 		*/
 		
-		
 	}
 	
 	/** Create the database for ISPConfig */ 
@@ -159,10 +157,8 @@ class installer_base {
 		}
 	}
 	
-	/*
-		Create postfix configuration files
-	*/
 
+    //** writes postfix configuration files
     private function process_postfix_config($configfile)
     {
         $config_dir = $this->conf['dist']['postfix']['config_dir'].'/';
@@ -180,7 +176,7 @@ class installer_base {
         wf($full_file_name, $content);
     }
 
-	
+
 	public function configure_postfix($options = '')
     {
         $cf = $this->conf['dist']['postfix'];
@@ -344,10 +340,10 @@ class installer_base {
 		if(is_file($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf')) copy($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf',$conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf~');
 		if(is_file($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf~');
 		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_ip}',$this->conf['mysql']['ip'],$content);
 		wf($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf',$content);
 		
 		// TODO: Chmod and chown on the config file
@@ -375,50 +371,55 @@ class installer_base {
 		
 	}
 	
-	function configure_pam() {
-		global $conf;
-		
-		// configure pam for SMTP authentication agains the ispconfig database
+	public function configure_pam()
+    {
+		$pam = $this->conf['dist']['pam'];
+		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'pamd_smtp';
-		if(is_file($conf['dist']['pam'].'/smtp')) copy($conf['dist']['pam'].'/smtp',$conf['dist']['pam'].'/smtp~');
-		if(is_file($conf['dist']['pam'].'/smtp~')) exec('chmod 400 '.$conf['dist']['pam'].'/smtp~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		wf($conf['dist']['pam'].'/smtp',$content);
-		exec('chmod 660 '.$conf['dist']['pam'].'/smtp');
-		exec('chown daemon:daemon '.$conf['dist']['pam'].'/smtp');
+		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
+		if(is_file("$pam/smtp~"))   exec("chmod 400 $pam/smtp~");
+
+		$content = rf("tpl/$configfile.master");
+		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_ip}', $this->conf['mysql']['ip'], $content);
+		wf("$pam/smtp", $content);
+		exec("chmod 660 $pam/smtp");
+		exec("chown daemon:daemon $pam/smtp");
 	
 	}
 	
-	function configure_courier() {
-		global $conf;
-		
-		// authmysqlrc
+	public function configure_courier()
+    {
+		$config_dir = $this->conf['dist']['courier']['config_dir'];
+		//* authmysqlrc
 		$configfile = 'authmysqlrc';
-		if(is_file($conf["dist"]["courier"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["courier"]["config_dir"].'/'.$configfile,$conf["dist"]["courier"]["config_dir"].'/'.$configfile.'~');
-		exec('chmod 400 '.$conf["dist"]["courier"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
-		wf($conf["dist"]["courier"]["config_dir"].'/'.$configfile,$content);
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		exec("chmod 400 $config_dir/$configfile~");
+		$content = rf("tpl/$configfile.master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_host}',$this->conf['mysql']['host'],$content);
+		wf("$config_dir/$configfile", $content);
 		
-		exec('chmod 660 '.$conf["dist"]["courier"]["config_dir"].'/'.$configfile);
-		exec('chown daemon:daemon '.$conf["dist"]["courier"]["config_dir"].'/'.$configfile);
+		exec("chmod 660 $config_dir/$configfile");
+		exec("chown daemon:daemon $config_dir/$configfile");
 		
-		//authdaemonrc
-		$configfile = $conf["dist"]["courier"]["config_dir"].'/authdaemonrc';
-		if(is_file($configfile)) copy($configfile,$configfile.'~');
-		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'~');
+		//* authdaemonrc
+		$configfile = $this->conf['dist']['courier']['config_dir'].'/authdaemonrc';
+		if(is_file($configfile)){
+            copy($configfile, $configfile.'~');
+        }
+		if(is_file($configfile.'~')){
+            exec('chmod 400 '.$configfile.'~');
+        }
 		$content = rf($configfile);
-		$content = str_replace('authmodulelist="authpam"','authmodulelist="authmysql"',$content);
-		wf($configfile,$content);
-		
-		
+		$content = str_replace('authmodulelist="authpam"', 'authmodulelist="authmysql"', $content);
+		wf($configfile, $content);
 	}
 	
 	function configure_amavis() {
@@ -429,11 +430,11 @@ class installer_base {
 		if(is_file($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user',$conf["dist"]["courier"]["config_dir"].'/50-user~');
 		if(is_file($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user~');
 		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_port}',$conf["mysql"]["port"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
+		$content = str_replace('{mysql_server_ip}',$this->conf['mysql']['ip'],$content);
 		wf($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user',$content);
 		
 		// TODO: chmod and chown on the config file
@@ -470,53 +471,59 @@ class installer_base {
 	
 	public function configure_spamassassin()
     {
-		//* Enable spamasasssin in debian and ubuntu
+		//* Enable spamasasssin on debian and ubuntu
 		$configfile = '/etc/default/spamassassin';
 		if(is_file($configfile)){
-            copy($configfile,$configfile.'~');
+            copy($configfile, $configfile.'~');
         }
 		$content = rf($configfile);
 		$content = str_replace('ENABLED=0', 'ENABLED=1', $content);
 		wf($configfile, $content);
 	}
 	
-	function configure_getmail() {
-		global $conf;
+	public function configure_getmail()
+    {
+		$config_dir = $this->conf['dist']['getmail']['config_dir'];
+
+		$command = "useradd -d $config_dir getmail";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		$command = 'useradd -d '.$conf["dist"]["getmail"]["config_dir"].' getmail';
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = "chown -R getmail $config_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		$command = 'chown -R getmail '.$conf["dist"]["getmail"]["config_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
-		$command = 'chmod -R 700 '.$conf["dist"]["getmail"]["config_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = "chmod -R 700 $config_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 	}
 	
 	
-	function configure_pureftpd() {
-		global $conf;
-		
-		// configure pam for SMTP authentication agains the ispconfig database
+	public function configure_pureftpd()
+    {
+		$config_dir = $this->conf['dist']['pureftpd']['config_dir'];
+
+		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'db/mysql.conf';
-		if(is_file($conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile,$conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile.'~');
-		if(is_file($conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/pureftpd_mysql.conf.master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile,$content);
-		exec('chmod 600 '.$conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile);
-		exec('chown root:root '.$conf["dist"]["pureftpd"]["config_dir"].'/'.$configfile);
-		// enable chrooting
-		exec('mkdir -p '.$conf["dist"]["pureftpd"]["config_dir"].'/conf/ChrootEveryone');
-		exec('echo "yes" > '.$conf["dist"]["pureftpd"]["config_dir"].'/conf/ChrootEveryone');
-	
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		if(is_file("$config_dir/$configfile~")){
+            exec("chmod 400 $config_dir/$configfile~");
+        }
+		$content = rf('tpl/pureftpd_mysql.conf.master');
+		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf["mysql"]["ispconfig_user"], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $this->conf["mysql"]["ispconfig_password"], $content);
+		$content = str_replace('{mysql_server_database}', $this->conf["mysql"]["database"], $content);
+		$content = str_replace('{mysql_server_ip}', $this->conf["mysql"]["ip"], $content);
+		$content = str_replace('{server_id}', $this->conf["server_id"], $content);
+		wf("$config_dir/$configfile", $content);
+		exec("chmod 600 $config_dir/$configfile");
+		exec("chown root:root $config_dir/$configfile");
+		// **enable chrooting
+		exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
+		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
 	}
 	
-	function configure_mydns() {
+	public function configure_mydns()
+    {
 		global $conf;
 		
 		// configure pam for SMTP authentication agains the ispconfig database
@@ -524,9 +531,9 @@ class installer_base {
 		if(is_file($conf["dist"]["mydns"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["mydns"]["config_dir"].'/'.$configfile,$conf["dist"]["mydns"]["config_dir"].'/'.$configfile.'~');
 		if(is_file($conf["dist"]["mydns"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["dist"]["mydns"]["config_dir"].'/'.$configfile.'~');
 		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
 		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["dist"]["mydns"]["config_dir"].'/'.$configfile,$content);
