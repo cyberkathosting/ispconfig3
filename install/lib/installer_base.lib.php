@@ -33,13 +33,14 @@ class installer_base {
 	var $wb = array();
 	var $language = 'en';
 	var $db;
-	
+	private $conf;
 	/*
 	
 	*/
-    function contstruct()
+    function __construct()
     {
-        die('ere');
+        global $conf; //TODO: maybe $conf  should be passed to constructor
+        $this->conf = $conf;
     }
 
 	

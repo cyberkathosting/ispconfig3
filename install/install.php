@@ -100,13 +100,14 @@ do {
 	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname', $conf['mysql']['host']);
 	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user']);
 	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
-    //TODO: it does not ask for which database ?
+    $tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database']);
 	
 	//* Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
 		$conf['mysql']['host'] = $tmp_mysql_server_host;
 		$conf['mysql']['admin_user'] = $tmp_mysql_server_admin_user;
 		$conf['mysql']['admin_password'] = $tmp_mysql_server_admin_password;
+        $conf['mysql']['database'] = $tmp_mysql_server_database;
 		$finished = true;
 	} else {
 		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
