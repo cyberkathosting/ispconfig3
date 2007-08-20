@@ -37,6 +37,11 @@ class installer_base {
 	/*
 	
 	*/
+    function contstruct()
+    {
+        die('ere');
+    }
+
 	
 	function lng($text) {
 		return $text;
