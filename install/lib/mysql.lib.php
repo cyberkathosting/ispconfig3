@@ -349,18 +349,20 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        return $this->query($sql);
        }
        
-       // gibt Array mit Tabellennamen zurück
+       // gibt Array mit Tabellennamen zurï¿½ck
        function getTables($database_name = '') {
 	   	
-			if($database_name == '') $database_name = $this->dbName;
-            $result = mysql_list_tables($database_name);
+			if($database_name == ''){
+                $database_name = $this->dbName;
+            }
+            $result = mysql_query("SHOW TABLES FROM `$database_name`");
             for ($i = 0; $i < mysql_num_rows($result); $i++) {
                 $tb_names[$i] = mysql_tablename($result, $i);
             }
             return $tb_names;       
        }
        
-       // gibt Feldinformationen zur Tabelle zurück
+       // gibt Feldinformationen zur Tabelle zurï¿½ck
        /*
        $columns = array(action =>   add | alter | drop
                         name =>     Spaltenname
@@ -482,7 +484,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             return 'char';
        break;
        case 'varchar':
-            if($typeValue < 1) die("Datenbank Fehler: Für diesen Datentyp ist eine Längenangabe notwendig.");
+            if($typeValue < 1) die("Datenbank Fehler: Fï¿½r diesen Datentyp ist eine Lï¿½ngenangabe notwendig.");
             return 'varchar('.$typeValue.')';
        break;
        case 'text':
