@@ -1,0 +1,10 @@
+
+WARNING
+---------------------------------------------------------------------------------
+
+The SQL dump in this directory is deprecated and is not maintained for a while.
+It does  not contain the latest database tables. The ispconfig3db.sql file 
+in this directory and the directory interface/sql/ will be removed. The latest 
+SQL dump is availabe in the directory install/sql/ispconfig3.sql
+
+Please move any installer related code to the installer/... tree.
