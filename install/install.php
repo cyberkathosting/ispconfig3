@@ -47,8 +47,8 @@ echo " _____ ___________   _____              __ _
  \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
                                               __/ |
                                              |___/ ";
-
-echo "\n\n>> sInitial configuration  \n\n";
+echo "\n".str_repeat('-',80)."\n";
+echo "\n\n>> Initial configuration  \n\n";
 
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
@@ -68,7 +68,8 @@ $conf['dist'] = $dist;
 
 //** Lets go !
 $inst = new installer();
-swriteln($inst->lng('Following will be a few questions for primary configuration so be careful please',"\n\n"));
+swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
+swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>'."\n\n"));
 
 //** Select the language
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
@@ -79,7 +80,7 @@ $install_mode = $inst->simple_query('Installation mode', array('Standard','Exper
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server', $tmp_out[0]);
+$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg foo.example.com ', $tmp_out[0]);
 unset($tmp_out);
 
 //** Get MySQL root credentials
