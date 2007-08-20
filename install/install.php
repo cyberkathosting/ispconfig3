@@ -66,6 +66,8 @@ include_once('dist/conf/'.$conf['distname'].'.conf.php');
 //TODO: this is not there ????
 $conf['dist'] = $dist;
 
+define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
+
 //****************************************************************************************************
 //** Installer Interface 
 //****************************************************************************************************
@@ -74,11 +76,16 @@ swriteln($inst->lng('    Following will be a few questions for primary configura
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
 swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));
 
+if(!is_writable(ISPC_LOG_FILE)){
+    die("ERROR: Cannot write to the log file '".ISPC_LOG_FILE."'. Are you root ?\n\n");
+}
+
 //** Select the language
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
 
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('Standard','Expert'), 'Standard');
+
 
 //** Get the hostname
 $tmp_out = array();

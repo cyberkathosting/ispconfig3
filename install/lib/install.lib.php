@@ -78,8 +78,7 @@ function swriteln($text = '') {
 }
 
 function ilog($msg){
-	$logfile = '/var/log/ispconfig_install.log';
-  	exec("echo `date` \"- [ISPConfig] - \"".$msg." >> ".$logfile);
+  	exec("echo `date` \"- [ISPConfig] - \"".$msg." >> ".ISPC_LOG_FILE);
 }
 
 function error($msg){

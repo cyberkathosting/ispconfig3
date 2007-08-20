@@ -142,14 +142,14 @@ class installer_base {
 		//* Load the database dump into the database, if database contains no tables
 		$db_tables = $this->db->getTables();
 		if(count($db_tables) > 0) {
-			$this->error('Stopped: Database contains already some tables.');
+			$this->error('Stopped: Database already contains some tables.');
 		} else {
 			if($cf['admin_password'] == '') {
 				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
-                        $FILE, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+                        __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			} else {
 				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' -p'".$cf['admin_password']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
-                        $FILE, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+                        __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			}
 			$db_tables = $this->db->getTables();
 			if(count($db_tables) == 0) {
