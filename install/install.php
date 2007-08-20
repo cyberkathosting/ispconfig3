@@ -76,8 +76,9 @@ swriteln($inst->lng('    Following will be a few questions for primary configura
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
 swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));
 
+//** Check log file is writable (probably not root or sudo)
 if(!is_writable(ISPC_LOG_FILE)){
-    die("ERROR: Cannot write to the log file '".ISPC_LOG_FILE."'. Are you root ?\n\n");
+    die("ERROR: Cannot write to the log file '".ISPC_LOG_FILE."'. Are you root or sudo ?\n\n");
 }
 
 //** Select the language
