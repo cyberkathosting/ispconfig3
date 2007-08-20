@@ -356,6 +356,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 $database_name = $this->dbName;
             }
             $result = mysql_query("SHOW TABLES FROM `$database_name`");
+            $tb_names = array();
             for ($i = 0; $i < mysql_num_rows($result); $i++) {
                 $tb_names[$i] = mysql_tablename($result, $i);
             }

@@ -115,38 +115,41 @@ class installer_base {
 		
 	}
 	
-	/*
-		This function creates the database for ISPConfig
-	*/
-	
-	function configure_database() {
+	/** Create the database for ISPConfig */ 
+	public function configure_database()
+    {
 		global $conf;
-		
-		// Create the database
-		if(!$this->db->query("CREATE DATABASE IF NOT EXISTS ".$conf["mysql"]["database"])) {
-			$this->error('Unable to create MySQL database: '.$conf["mysql"]["database"].';');
+		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
+		//** Create the database
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$cf['database'])) {
+			$this->error('Unable to create MySQL database: '.$cf['database'].'.');
 		}
 		
-		// Create the ISPConfig database user
-		if(!$this->db->query("GRANT SELECT, INSERT, UPDATE, DELETE ON ".$conf["mysql"]["database"].".* TO '".$conf["mysql"]["ispconfig_user"]."'@'".$conf["mysql"]["host"]."' IDENTIFIED BY '".$conf["mysql"]["ispconfig_password"]."';")) {
-			$this->error('Unable to create database user: '.$conf["mysql"]["ispconfig_user"]);
+		//* Create the ISPConfig database user
+        $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
+                ."TO '".$cf['ispconfig_user']."'@'".$cf['host']."' "
+                ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
+		if(!$this->db->query($query)) {
+			$this->error('Unable to create database user: '.$cf['ispconfig_user']);
 		}
 		
-		// Reload database priveliges
+		//* Reload database privelages
 		$this->db->query('FLUSH PRIVILEGES;');
 		
-		// Set the database name in the DB library
-		$this->db->dbName = $conf["mysql"]["database"];
+		//* Set the database name in the DB library
+		$this->db->dbName = $cf['database'];
 		
-		// loading the database dump into the database, if database is empty
+		//* Load the database dump into the database, if database contains no tables
 		$db_tables = $this->db->getTables();
 		if(count($db_tables) > 0) {
 			$this->error('Stopped: Database contains already some tables.');
 		} else {
-			if($conf["mysql"]["admin_password"] == '') {
-				caselog("mysql -h '".$conf["mysql"]["host"]."' -u '".$conf["mysql"]["admin_user"]."' '".$conf["mysql"]["database"]."' < 'sql/ispconfig3.sql' &> /dev/null", $FILE, __LINE__,"read in ispconfig3.sql","could not read in ispconfig3.sql");
+			if($cf['admin_password'] == '') {
+				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
+                        $FILE, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			} else {
-				caselog("mysql -h '".$conf["mysql"]["host"]."' -u '".$conf["mysql"]["admin_user"]."' -p'".$conf["mysql"]["admin_password"]."' '".$conf["mysql"]["database"]."' < 'sql/ispconfig3.sql' &> /dev/null", $FILE, __LINE__,"read in ispconfig3.sql","could not read in ispconfig3.sql");
+				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' -p'".$cf['admin_password']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
+                        $FILE, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			}
 			$db_tables = $this->db->getTables();
 			if(count($db_tables) == 0) {

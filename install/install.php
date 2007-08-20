@@ -66,10 +66,13 @@ include_once('dist/conf/'.$conf['distname'].'.conf.php');
 //TODO: this is not there ????
 $conf['dist'] = $dist;
 
-//** Lets go !
+//****************************************************************************************************
+//** Installer Interface 
+//****************************************************************************************************
 $inst = new installer();
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
-swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>'."\n\n"));
+swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
+swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));
 
 //** Select the language
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
@@ -89,6 +92,7 @@ do {
 	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname', $conf['mysql']['host']);
 	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user']);
 	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
+    //TODO: it does not ask for which database ?
 	
 	//* Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
