@@ -162,101 +162,59 @@ class installer_base {
 	/*
 		Create postfix configuration files
 	*/
+
+    private function process_postfix_config($configfile)
+    {
+        //$configfile = 'mysql-virtual_domains.cf';
+        $config_dir = $this->conf['dist']['postfix']['config_dir'].'/';
+        $full_file_name = $config_dir.$configfile; 
+        //* Backup exiting file
+        if(is_file($full_file_name)){
+            copy($full_file_name, $config_dir.$configfile.'~');
+        }
+        $content = rf('tpl/'.$configfile.'.master');
+        $content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
+        $content = str_replace('{mysql_server_ispconfig_password}', $this->conf['mysql']['ispconfig_password'], $content);
+        $content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
+        $content = str_replace('{mysql_server_ip}', $this->conf['mysql']['ip'], $content);
+        $content = str_replace('{server_id}', $this->conf['server_id'], $content);
+        wf($full_file_name, $content);
+    }
+
 	
-	function configure_postfix($options = '') {
+	public function configure_postfix($options = '')
+    {
 		global $conf;
-		
-		if(!is_dir($conf["dist"]["postfix"]["config_dir"])) $this->error("The postfix configuration directory ".$conf["dist"]["postfix"]["config_dir"]." does not exist.");
-		
-		// mysql-virtual_domains.cf
-		$configfile = 'mysql-virtual_domains.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_forwardings.cf
-		$configfile = 'mysql-virtual_forwardings.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_mailboxes.cf
-		$configfile = 'mysql-virtual_mailboxes.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_email2email.cf
-		$configfile = 'mysql-virtual_email2email.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_transports.cf
-		$configfile = 'mysql-virtual_transports.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_recipient.cf
-		$configfile = 'mysql-virtual_recipient.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_sender.cf
-		$configfile = 'mysql-virtual_sender.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// mysql-virtual_client.cf
-		$configfile = 'mysql-virtual_client.cf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$conf["dist"]["postfix"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf["mysql"]["ip"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/'.$configfile,$content);
-		
-		// Changing mode and group of the new created config files.
+		$config_dir = $this->conf['dist']['postfix']['config_dir'];
+		if(!is_dir($config_dir)){
+            $this->error("The postfix configuration directory '$config_dir' does not exist.");
+        }
+        
+		//* mysql-virtual_domains.cf
+        $this->process_postfix_config('mysql-virtual_domains.cf');
+
+		//* mysql-virtual_forwardings.cf
+        $this->process_postfix_config('mysql-virtual_forwardings.cf');
+
+		//* mysql-virtual_mailboxes.cf
+        $this->process_postfix_config('mysql-virtual_mailboxes.cf');
+
+		//* mysql-virtual_email2email.cf
+        $this->process_postfix_config('mysql-virtual_email2email.cf');
+
+		//* mysql-virtual_transports.cf
+        $this->process_postfix_config('mysql-virtual_transports.cf');
+
+		//* mysql-virtual_recipient.cf
+        $this->process_postfix_config('mysql-virtual_recipient.cf');
+
+		//* mysql-virtual_sender.cf
+        $this->process_postfix_config('mysql-virtual_sender.cf');
+
+		//* mysql-virtual_client.cf
+        $this->process_postfix_config('mysql-virtual_client.cf');
+
+		//* Changing mode and group of the new created config files.
 		caselog("chmod o= ".$conf["dist"]["postfix"]["config_dir"]."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chmod on mysql-virtual_*.cf*","chmod on mysql-virtual_*.cf* failed");
 		caselog("chgrp ".$conf["dist"]["postfix"]["groupname"]." ".$conf["dist"]["postfix"]["config_dir"]."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chgrp on mysql-virtual_*.cf*","chgrp on mysql-virtual_*.cf* failed");
 		
