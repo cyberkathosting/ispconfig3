@@ -183,8 +183,9 @@ class installer_base {
 	
 	public function configure_postfix($options = '')
     {
-		global $conf;
-		$config_dir = $this->conf['dist']['postfix']['config_dir'];
+        $cf = $this->conf['dist']['postfix'];
+		$config_dir = $cf['config_dir'];
+        
 		if(!is_dir($config_dir)){
             $this->error("The postfix configuration directory '$config_dir' does not exist.");
         }
@@ -214,27 +215,29 @@ class installer_base {
         $this->process_postfix_config('mysql-virtual_client.cf');
 
 		//* Changing mode and group of the new created config files.
-		caselog("chmod o= ".$config_dir."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chmod on mysql-virtual_*.cf*","chmod on mysql-virtual_*.cf* failed");
-		caselog("chgrp ".$conf["dist"]["postfix"]["group"]." ".$config_dir."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chgrp on mysql-virtual_*.cf*","chgrp on mysql-virtual_*.cf* failed");
+		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
+                 __FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
+		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null', 
+                __FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
 		
-		// Creating virtual mail user and group
-		$command = "groupadd -g ".$conf["dist"]["postfix"]["vmail_groupid"]." ".$conf["dist"]["postfix"]["vmail_groupname"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		$command = "useradd -g ".$conf["dist"]["postfix"]["vmail_groupname"]." -u ".$conf["dist"]["postfix"]["vmail_userid"]." ".$conf["dist"]["postfix"]["vmail_username"]." -d ".$conf["dist"]["postfix"]["vmail_mailbox_base"]." -m";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);		
+		//* Creating virtual mail user and group
+		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
+		caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
 
 		$postconf_commands = array (
-			'myhostname = '.$conf["hostname"],
-			'mydestination = '.$conf["hostname"].', localhost, localhost.localdomain',
+			'myhostname = '.$this->conf['hostname'],
+			'mydestination = '.$this->conf['hostname'].', localhost, localhost.localdomain',
 			'mynetworks = 127.0.0.0/8',
 			'virtual_alias_domains =',
 			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
 			'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
-			'virtual_mailbox_maps = proxy:mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_mailboxes.cf',
-			'virtual_mailbox_base = '.$conf["dist"]["postfix"]["vmail_mailbox_base"],
-			'virtual_uid_maps = static:'.$conf["dist"]["postfix"]["vmail_userid"],
-			'virtual_gid_maps = static:'.$conf["dist"]["postfix"]["vmail_groupid"],
+			'virtual_mailbox_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailboxes.cf',
+			'virtual_mailbox_base = '.$cf['vmail_mailbox_base'],
+			'virtual_uid_maps = static:'.$cf['vmail_userid'],
+			'virtual_gid_maps = static:'.$cf['vmail_groupid'],
 			'smtpd_sasl_auth_enable = yes',
 			'broken_sasl_auth_clients = yes',
 			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
@@ -279,9 +282,8 @@ class installer_base {
 		// TODO: Change the master.cf file
 		/*
 		Add:
-maildrop  unix  -       n       n       -       -       pipe
-  flags=R user=vmail argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}
-		
+        maildrop  unix  -       n       n       -       -       pipe
+        flags=R user=vmail argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}
 		*/
 		if(!stristr($options,'dont-create-certs')) {
 			//* Create the SSL certificate
@@ -294,11 +296,7 @@ maildrop  unix  -       n       n       -       -       pipe
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 		
-		/*
-		We have to change the permissions of the courier authdaemon directory
-		to make it accessible for maildrop.
-		*/
-		
+		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
 		$command = 'chmod 755  /var/run/courier/authdaemon/';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		
@@ -311,27 +309,30 @@ maildrop  unix  -       n       n       -       -       pipe
         }
 		$configfile = $config_dir.'/master.cf';
 		$content = rf($configfile);
-		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}', '  flags=R user='.$conf["dist"]["postfix"]["vmail_username"].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}', $content);
-		wf($configfile,$content);
+		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}', 
+                   '  flags=R user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
+                     $content);
+		wf($configfile, $content);
 		
 		//* Writing the Maildrop mailfilter file
 		$configfile = 'mailfilter';
-		if(is_file($conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile)) copy($conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile,$conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{dist_postfix_vmail_mailbox_base}',$conf["dist"]["postfix"]["vmail_mailbox_base"],$content);
-		wf($conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile,$content);
+		if(is_file($cf['vmail_mailbox_base'].'/.'.$configfile)){
+            copy($cf['vmail_mailbox_base'].'/.'.$configfile, $cf['vmail_mailbox_base'].'/.'.$configfile.'~');
+        }
+		$content = rf("tpl/$configfile.master");
+		$content = str_replace('{dist_postfix_vmail_mailbox_base}', $cf['vmail_mailbox_base'], $content);
+		wf($cf['vmail_mailbox_base'].'/.'.$configfile, $content);
 		
-		// Create the directory for the custom mailfilters
-		$command = "mkdir ".$conf["dist"]["postfix"]["vmail_mailbox_base"]."/mailfilters";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		//* Create the directory for the custom mailfilters
+		$command = 'mkdir '.$cf['vmail_mailbox_base'].'/mailfilters';
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		// Chmod and chown the .mailfilter file
-		$command = "chown -R ".$conf["dist"]["postfix"]["vmail_username"].":".$conf["dist"]["postfix"]["vmail_groupname"]." ".$conf["dist"]["postfix"]["vmail_mailbox_base"]."/.mailfilter";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		//* Chmod and chown the .mailfilter file
+		$command = 'chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		$command = "chmod -R 600 ".$conf["dist"]["postfix"]["vmail_mailbox_base"]."/.mailfilter";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
+		$command = 'chmod -R 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 	}
 	
@@ -467,15 +468,16 @@ maildrop  unix  -       n       n       -       -       pipe
 		
 	}
 	
-	function configure_spamassassin() {
-		global $conf;
-		
-		// Enable spamasasssin in debian and ubunti
+	public function configure_spamassassin()
+    {
+		//* Enable spamasasssin in debian and ubuntu
 		$configfile = '/etc/default/spamassassin';
-		if(is_file($configfile)) copy($configfile,$configfile.'~');
+		if(is_file($configfile)){
+            copy($configfile,$configfile.'~');
+        }
 		$content = rf($configfile);
-		$content = str_replace('ENABLED=0','ENABLED=1',$content);
-		wf($configfile,$content);
+		$content = str_replace('ENABLED=0', 'ENABLED=1', $content);
+		wf($configfile, $content);
 	}
 	
 	function configure_getmail() {
