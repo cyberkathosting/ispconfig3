@@ -52,18 +52,19 @@ echo "\n\n>> Initial configuration  \n\n";
 
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
+require_once('options.conf.php');
+
 
 //** Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
-
-include_once('options.conf.php');
-$distname = get_distname();
 
 //** Include the distribution specific installer class library and configuration
 include_once('dist/lib/'.$conf['distname'].'.lib.php');
 include_once('dist/conf/'.$conf['distname'].'.conf.php');
 
-//TODO: this is not there ????
+
+$distname = get_distname();
+//** Copt the $dist created in dist/conf/foo to global var
 $conf['dist'] = $dist;
 
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');

@@ -165,7 +165,6 @@ class installer_base {
 
     private function process_postfix_config($configfile)
     {
-        //$configfile = 'mysql-virtual_domains.cf';
         $config_dir = $this->conf['dist']['postfix']['config_dir'].'/';
         $full_file_name = $config_dir.$configfile; 
         //* Backup exiting file
@@ -215,8 +214,8 @@ class installer_base {
         $this->process_postfix_config('mysql-virtual_client.cf');
 
 		//* Changing mode and group of the new created config files.
-		caselog("chmod o= ".$conf["dist"]["postfix"]["config_dir"]."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chmod on mysql-virtual_*.cf*","chmod on mysql-virtual_*.cf* failed");
-		caselog("chgrp ".$conf["dist"]["postfix"]["groupname"]." ".$conf["dist"]["postfix"]["config_dir"]."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chgrp on mysql-virtual_*.cf*","chgrp on mysql-virtual_*.cf* failed");
+		caselog("chmod o= ".$config_dir."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chmod on mysql-virtual_*.cf*","chmod on mysql-virtual_*.cf* failed");
+		caselog("chgrp ".$conf["dist"]["postfix"]["group"]." ".$config_dir."/mysql-virtual_*.cf* &> /dev/null", __FILE__, __LINE__,"chgrp on mysql-virtual_*.cf*","chgrp on mysql-virtual_*.cf* failed");
 		
 		// Creating virtual mail user and group
 		$command = "groupadd -g ".$conf["dist"]["postfix"]["vmail_groupid"]." ".$conf["dist"]["postfix"]["vmail_groupname"];
@@ -230,51 +229,51 @@ class installer_base {
 			'mydestination = '.$conf["hostname"].', localhost, localhost.localdomain',
 			'mynetworks = 127.0.0.0/8',
 			'virtual_alias_domains =',
-			'virtual_alias_maps = proxy:mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_forwardings.cf, mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_email2email.cf',
-			'virtual_mailbox_domains = proxy:mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_domains.cf',
+			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
+			'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
 			'virtual_mailbox_maps = proxy:mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_mailboxes.cf',
 			'virtual_mailbox_base = '.$conf["dist"]["postfix"]["vmail_mailbox_base"],
 			'virtual_uid_maps = static:'.$conf["dist"]["postfix"]["vmail_userid"],
 			'virtual_gid_maps = static:'.$conf["dist"]["postfix"]["vmail_groupid"],
 			'smtpd_sasl_auth_enable = yes',
 			'broken_sasl_auth_clients = yes',
-			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_recipient.cf, reject_unauth_destination',
+			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
 			'smtpd_use_tls = yes',
-			'smtpd_tls_cert_file = '.$conf["dist"]["postfix"]["config_dir"].'/smtpd.cert',
-			'smtpd_tls_key_file = '.$conf["dist"]["postfix"]["config_dir"].'/smtpd.key',
-			'transport_maps = proxy:mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_transports.cf',
+			'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',
+			'smtpd_tls_key_file = '.$config_dir.'/smtpd.key',
+			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
 			'virtual_create_maildirsize = yes',
 			'virtual_mailbox_extended = yes',
-			'virtual_mailbox_limit_maps = proxy:mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_mailbox_limit_maps.cf',
+			'virtual_mailbox_limit_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailbox_limit_maps.cf',
 			'virtual_mailbox_limit_override = yes',
 			'virtual_maildir_limit_message = "The user you are trying to reach is over quota."',
 			'virtual_overquota_bounce = yes',
 			'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps',
-			'smtpd_sender_restrictions = check_sender_access mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_sender.cf',
-			'smtpd_client_restrictions = check_client_access mysql:'.$conf["dist"]["postfix"]["config_dir"].'/mysql-virtual_client.cf',
+			'smtpd_sender_restrictions = check_sender_access mysql:'.$config_dir.'/mysql-virtual_sender.cf',
+			'smtpd_client_restrictions = check_client_access mysql:'.$config_dir.'/mysql-virtual_client.cf',
 			'maildrop_destination_concurrency_limit = 1',
 			'maildrop_destination_recipient_limit   = 1',
 			'virtual_transport = maildrop',
-			'header_checks = regexp:'.$conf["dist"]["postfix"]["config_dir"].'/header_checks',
-			'mime_header_checks = regexp:'.$conf["dist"]["postfix"]["config_dir"].'/mime_header_checks',
-			'nested_header_checks = regexp:'.$conf["dist"]["postfix"]["config_dir"].'/nested_header_checks',
-			'body_checks = regexp:'.$conf["dist"]["postfix"]["config_dir"].'/body_checks'
+			'header_checks = regexp:'.$config_dir.'/header_checks',
+			'mime_header_checks = regexp:'.$config_dir.'/mime_header_checks',
+			'nested_header_checks = regexp:'.$config_dir.'/nested_header_checks',
+			'body_checks = regexp:'.$config_dir.'/body_checks'
 		);
 		
-		// Create the header ynd body check files
-		touch($conf["dist"]["postfix"]["config_dir"].'/header_checks');
-		touch($conf["dist"]["postfix"]["config_dir"].'/mime_header_checks');
-		touch($conf["dist"]["postfix"]["config_dir"].'/nested_header_checks');
-		touch($conf["dist"]["postfix"]["config_dir"].'/body_checks');
+		//* Create the header and body check files
+		touch($config_dir.'/header_checks');
+		touch($config_dir.'/mime_header_checks');
+		touch($config_dir.'/nested_header_checks');
+		touch($config_dir.'/body_checks');
 		
 		
-		// Make a backup copy of the main.cf file
-		copy($conf["dist"]["postfix"]["config_dir"].'/main.cf',$conf["dist"]["postfix"]["config_dir"].'/main.cf~');
+		//* Make a backup copy of the main.cf file
+		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
 		
-		// Executing the postconf commands
+		//* Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
 			$command = "postconf -e '$cmd'";
-			caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+			caselog($command." &> /dev/null", __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 		
 		// TODO: Change the master.cf file
@@ -285,12 +284,14 @@ maildrop  unix  -       n       n       -       -       pipe
 		
 		*/
 		if(!stristr($options,'dont-create-certs')) {
-			// Create the SSL certificate
-			$command = "cd ".$conf["dist"]["postfix"]["config_dir"]."; openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 365 -x509";
+			//* Create the SSL certificate
+			$command = 'cd '.$config_dir.'; '
+                      .'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout '
+                      .'smtpd.key -keyform PEM -days 365 -x509';
 			exec($command);
 		
-			$command = "chmod o= ".$conf["dist"]["postfix"]["config_dir"]."/smtpd.key";
-			caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+			$command = 'chmod o= '.$config_dir.'/smtpd.key';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 		
 		/*
@@ -298,18 +299,22 @@ maildrop  unix  -       n       n       -       -       pipe
 		to make it accessible for maildrop.
 		*/
 		
-		$command = "chmod 755  /var/run/courier/authdaemon/";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		$command = 'chmod 755  /var/run/courier/authdaemon/';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		
-		// Changing maildrop lines in posfix master.cf
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/master.cf')) copy($conf["dist"]["postfix"]["config_dir"].'/master.cf',$conf["dist"]["postfix"]["config_dir"].'/master.cf~');
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/master.cf~')) exec('chmod 400 '.$conf["dist"]["postfix"]["config_dir"].'/master.cf~');
-		$configfile = $conf["dist"]["postfix"]["config_dir"].'/master.cf';
+		//* Changing maildrop lines in posfix master.cf
+		if(is_file($config_dir.'/master.cf')){
+            copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
+        }
+		if(is_file($config_dir.'/master.cf~')){
+            exec('chmod 400 '.$config_dir.'/master.cf~');
+        }
+		$configfile = $config_dir.'/master.cf';
 		$content = rf($configfile);
-		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}','  flags=R user='.$conf["dist"]["postfix"]["vmail_username"].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',$content);
+		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}', '  flags=R user='.$conf["dist"]["postfix"]["vmail_username"].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}', $content);
 		wf($configfile,$content);
 		
-		// Writing the Maildrop mailfilter file
+		//* Writing the Maildrop mailfilter file
 		$configfile = 'mailfilter';
 		if(is_file($conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile)) copy($conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile,$conf["dist"]["postfix"]["vmail_mailbox_base"].'/.'.$configfile.'~');
 		$content = rf("tpl/".$configfile.".master");
@@ -326,7 +331,6 @@ maildrop  unix  -       n       n       -       -       pipe
 		
 		$command = "chmod -R 600 ".$conf["dist"]["postfix"]["vmail_mailbox_base"]."/.mailfilter";
 		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
 		
 		
 	}
