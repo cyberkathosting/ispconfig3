@@ -630,40 +630,36 @@ class installer_base {
 	}
 	
 	public function install_crontab()
-    {
-		global $conf;
-		
-		// Root Crontab
-		exec("crontab -u root -l > crontab.txt");
+    {		
+		//* Root Crontab
+		exec('crontab -u root -l > crontab.txt');
 		$existing_root_cron_jobs = file('crontab.txt');
 		
 		$root_cron_jobs = array('* * * * * /usr/bin/php -q /usr/local/ispconfig/server/server.php &> /dev/null');
 		foreach($root_cron_jobs as $cron_job) {
-			if(!in_array($cron_job."\n",$existing_root_cron_jobs)) {
+			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
 				$existing_root_cron_jobs[] = $cron_job."\n";
 			}
 		}
-		file_put_contents('crontab.txt',$existing_root_cron_jobs);
-		exec("crontab -u root crontab.txt &> /dev/null");
+		file_put_contents('crontab.txt', $existing_root_cron_jobs);
+		exec('crontab -u root crontab.txt &> /dev/null');
 		unlink('crontab.txt');
 		
-		// Getmail crontab
-		exec("crontab -u getmail -l > crontab.txt");
+		//* Getmail crontab
+        $cf = $this->conf['dist']['getmail'];
+		exec('crontab -u getmail -l > crontab.txt');
 		$existing_cron_jobs = file('crontab.txt');
 		
-		$cron_jobs = array('*/5 * * * * '.$conf["dist"]["getmail"]["program"].' -g '.$conf["dist"]["getmail"]["config_dir"].' -r '.$conf["dist"]["getmail"]["config_dir"].'/*.conf &> /dev/null');
+		$cron_jobs = array('*/5 * * * * '.$cf['program'].' -g '.$cf['config_dir'].' -r '.$cf['config_dir'].'/*.conf &> /dev/null');
 		foreach($cron_jobs as $cron_job) {
-			if(!in_array($cron_job."\n",$existing_cron_jobs)) {
+			if(!in_array($cron_job."\n", $existing_cron_jobs)) {
 				$existing_cron_jobs[] = $cron_job."\n";
 			}
 		}
-		file_put_contents('crontab.txt',$existing_cron_jobs);
-		exec("crontab -u getmail crontab.txt &> /dev/null");
+		file_put_contents('crontab.txt', $existing_cron_jobs);
+		exec('crontab -u getmail crontab.txt &> /dev/null');
 		unlink('crontab.txt');
-		
 	}
-	
-	
 	
 }
 
