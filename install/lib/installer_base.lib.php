@@ -451,7 +451,7 @@ class installer_base {
 		// Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
 			$command = "postconf -e '$cmd'";
-			caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		
 		// Append the configuration for amavisd to the master.cf file
@@ -484,13 +484,13 @@ class installer_base {
 		global $conf;
 		
 		$command = 'useradd -d '.$conf["dist"]["getmail"]["config_dir"].' getmail';
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		$command = 'chown -R getmail '.$conf["dist"]["getmail"]["config_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		$command = 'chmod -R 700 '.$conf["dist"]["getmail"]["config_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 	}
 	
 	
@@ -535,96 +535,102 @@ class installer_base {
 	
 	}
 	
-	function configure_apache() {
-		global $conf;
-		
-		// Create the logging directory for the vhost logfiles
-		exec("mkdir -p /var/log/ispconfig/httpd");
+	public function configure_apache()
+    {	
+		//* Create the logging directory for the vhost logfiles
+		exec('mkdir -p /var/log/ispconfig/httpd');
 		
 	}
 	
 	
-	function install_ispconfig() {
-		global $conf;
-		
-		// Create the ISPConfig installation directory
-		$command = "mkdir ".$conf["ispconfig_install_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		// Create a ISPConfig user and group
-		$command = "groupadd ispconfig";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		$command = "useradd -g ispconfig -d ".$conf["ispconfig_install_dir"]." ispconfig";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		// copy the ISPConfig interface part
-		$command = "cp -rf ../interface ".$conf["ispconfig_install_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		// copy the ISPConfig server part
-		$command = "cp -rf ../server ".$conf["ispconfig_install_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		// Create a symlink, so ISPConfig is accessible via web
-		$command = "ln -s ".$conf["ispconfig_install_dir"]."/interface/web/ /var/www/ispconfig";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		// Create the config file for ISPConfig interface
-		$configfile = 'config.inc.php';
-		if(is_file($conf["ispconfig_install_dir"].'/interface/lib/'.$configfile)) copy($conf["ispconfig_install_dir"].'/interface/lib/'.$configfile,$conf["ispconfig_install_dir"].'/interface/lib/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
-		wf($conf["ispconfig_install_dir"].'/interface/lib/'.$configfile,$content);
-		
-		// Create the config file for ISPConfig server
-		$configfile = 'config.inc.php';
-		if(is_file($conf["ispconfig_install_dir"].'/server/lib/'.$configfile)) copy($conf["ispconfig_install_dir"].'/server/lib/'.$configfile,$conf["ispconfig_install_dir"].'/interface/lib/'.$configfile.'~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf["mysql"]["ispconfig_user"],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf["mysql"]["ispconfig_password"],$content);
-		$content = str_replace('{mysql_server_database}',$conf["mysql"]["database"],$content);
-		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
-		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["ispconfig_install_dir"].'/server/lib/'.$configfile,$content);
-		
-		
-		// Chmod the files
-		$command = "chmod -R 750 ".$conf["ispconfig_install_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+	public function install_ispconfig()
+    {
+		$install_dir = $this->conf['ispconfig_install_dir'];
 
-		// chown the files to the ispconfig user and group
-		$command = "chown -R ispconfig:ispconfig ".$conf["ispconfig_install_dir"];
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		//* Create the ISPConfig installation directory
+		$command = "mkdir $install_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		// make sure that the server config file (not the interface one) is only readable by the root user
-		exec('chmod 600 '.$conf["ispconfig_install_dir"].'/server/lib/'.$configfile);
-		exec('chown root:root '.$conf["ispconfig_install_dir"].'/server/lib/'.$configfile);
+		//* Create a ISPConfig user and group
+		$command = 'groupadd ispconfig';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		$command = "useradd -g ispconfig -d $install_dir ispconfig";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* copy the ISPConfig interface part
+		$command = "cp -rf ../interface $install_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* copy the ISPConfig server part
+		$command = "cp -rf ../server $install_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Create a symlink, so ISPConfig is accessible via web
+		$command = "ln -s $install_dir/interface/web/ /var/www/ispconfig";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Create the config file for ISPConfig interface
+		$configfile = 'config.inc.php';
+		if(is_file($install_dir.'/interface/lib/'.$configfile)){
+            copy("$install_dir/interface/lib/$configfile", "$install_dir/interface/lib/$configfile~");
+        }
+		$content = rf("tpl/$configfile.master");
+		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_host}', $this->conf['mysql']['host'], $content);
+		wf("$install_dir/interface/lib/$configfile", $content);
+		
+		//* Create the config file for ISPConfig server
+		$configfile = 'config.inc.php';
+		if(is_file($install_dir.'/server/lib/'.$configfile)){
+            copy("$install_dir/server/lib/$configfile", "$install_dir/interface/lib/$configfile~");
+        }
+		$content = rf("tpl/$configfile.master");
+		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $this->conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_host}', $this->conf['mysql']['host'], $content);
+		$content = str_replace('{server_id}', $this->conf['server_id'], $content);
+		wf("$install_dir/server/lib/$configfile", $content);
+		
+		
+		//* Chmod the files
+		$command = "chmod -R 750 $install_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		//* chown the files to the ispconfig user and group
+		$command = "chown -R ispconfig:ispconfig $install_dir";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* make sure that the server config file (not the interface one) is only readable by the root user
+		exec("chmod 600 $install_dir/server/lib/$configfile");
+		exec("chown root:root $install_dir/server/lib/$configfile");
 		
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
+		$command = 'adduser www-data ispconfig';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		$command = "adduser www-data ispconfig";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
+		//* Make the shell scripts executable
+		$command = "chmod +x $install_dir/server/scripts/*.sh";
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		// Make the shell scripts executable
-		$command = "chmod +x ".$conf["ispconfig_install_dir"]."/server/scripts/*.sh";
-		caselog($command." &> /dev/null", __FILE__, __LINE__,"EXECUTED: ".$command,"Failed to execute the command ".$command);
-		
-		// Copy the ISPConfig vhost for the controlpanel
-		copy('tpl/apache_ispconfig.vhost.master',$conf["dist"]["apache"]["vhost_conf_dir"].'/ispconfig.vhost');
-		// and create the symlink
-		if(!is_link($conf["dist"]["apache"]["vhost_conf_enabled_dir"].'/ispconfig.vhost')) {
-			exec('ln -s '.$conf["dist"]["apache"]["vhost_conf_dir"].'/ispconfig.vhost '.$conf["dist"]["apache"]["vhost_conf_enabled_dir"].'/ispconfig.vhost');
+		//* Copy the ISPConfig vhost for the controlpanel
+        //TODO These are missing! should they be "vhost_dist_*_dir" ?
+        $vhost_conf_dir = $this->conf['dist']['apache']['vhost_conf_dir'];
+        $vhost_conf_enabled_dir = $this->conf['dist']['apache']['vhost_conf_enabled_dir'];
+		copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+		//* and create the symlink
+		if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
+			exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");
 		}
-		
 	}
 	
-	function install_crontab() {
+	public function install_crontab()
+    {
 		global $conf;
 		
 		// Root Crontab
