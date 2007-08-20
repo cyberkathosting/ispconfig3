@@ -37,43 +37,45 @@ class installer_base {
 	/*
 	
 	*/
-    function __construct()
+    public function __construct()
     {
         global $conf; //TODO: maybe $conf  should be passed to constructor
         $this->conf = $conf;
     }
-
 	
-	function lng($text) {
+    //TODO  uh ?
+	public function lng($text)
+    {
 		return $text;
 	}
 	
-	function error($msg) {
+	public function error($msg)
+    {
 		die("ERROR: ".$msg."\n");
 	}
 	
-	function simple_query($query,$answers,$default) {
-		global $conf;
-		
+	public function simple_query($query, $answers, $default)
+    {		
 		$finished = false;
 		do {
-			$answers_str = implode(",",$answers);
+			$answers_str = implode(',', $answers);
 			swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
 			$input = sread();
 			
-			// Stop the installation
+			//* Stop the installation
 			if($input == 'quit') {
-				swriteln($this->lng('Installation interrupted.'));
+				swriteln($this->lng("Installation terminated by user.\n"));
 				die();
 			}
 			
-			// Select the default
+			//* Select the default
 			if($input == '') {
 				$answer = $default;
 				$finished = true;
 			}
 			
-			if(in_array($input,$answers)) {
+            //* Set answer id valid
+			if(in_array($input, $answers)) {
 				$answer = $input;
 				$finished = true;
 			}
@@ -83,31 +85,24 @@ class installer_base {
 		return $answer;
 	}
 	
-	function free_query($query,$default) {
-		global $conf;
-		
+	public function free_query($query,$default)
+    {		
 		swrite($this->lng($query).' ['.$default.']: ');
 		$input = sread();
 			
-		// Stop the installation
+		//* Stop the installation
 		if($input == 'quit') {
-			swriteln($this->lng('Installation interrupted.'));
-			die();
+            swriteln($this->lng("Installation terminated by user.\n"));
+            die();
 		}
 			
-		// Select the default
-		if($input == '') {
-			$answer = $default;
-		} else {
-			$answer = $input;
-		}
+        $answer =  ($input == '') ? $default : $input;
 		swriteln();
-		
 		return $answer;
 	}
 	
-	
-	function request_language() {
+	// TODO: this function is not used atmo I think - pedro
+	function request_language(){
 		
 		swriteln(lng('Enter your language'));
 		swriteln(lng('de, en'));
