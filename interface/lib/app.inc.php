@@ -67,13 +67,13 @@ class app {
 
 	public function uses($classes)
     {	
-        $cl = explode(',',$classes);
+        $cl = explode(',', $classes);
 		if(is_array($cl)) {
 			foreach($cl as $classname){
 				$classname = trim($classname);
                 //* Class is not loaded so load it
 				if(!array_key_exists($classname, $this->_loaded_classes)){
-					require_once($this->_conf['classpath'] . '/'.$classname.'.inc.php');
+					include_once(ISPC_CLASS_PATH."/$classname.inc.php");
 					$this->$classname = new $classname();
 					$this->_loaded_classes[$classname] = true;
 				}
@@ -87,7 +87,7 @@ class app {
 		if(is_array($fl)) {
 			foreach($fl as $file){
 				$file = trim($file);
-				include_once($this->_conf['classpath'] . '/'.$file.'.inc.php');
+				include_once(ISPC_CLASS_PATH."/$file.inc.php");
 			}
 		}
 	}
@@ -145,8 +145,9 @@ class app {
     {
 		if($this->_language_inc != 1) {
 			//* loading global and module Wordbook
-			@include_once($this->_conf['rootpath'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
-			@include_once($this->_conf['rootpath'].'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+            // TODO: this need to be made clearer somehow - pedro
+			@include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			@include_once(ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
 			$this->_wb = $wb;
 			$this->_language_inc = 1;
 		}		

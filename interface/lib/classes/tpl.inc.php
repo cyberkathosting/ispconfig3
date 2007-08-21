@@ -22,12 +22,12 @@
 //
 // $Id: class.tpl.inc.php,v 1.1 2003/07/08 12:31:10 platinum Exp $
 
-//** check to avoid multiple including of class
+//** check and avoid multiple loading of class
 if (!defined('vlibTemplateClassLoaded')) {
+
     define('vlibTemplateClassLoaded', 1);
-    global $conf;
-   	include_once ($conf['classpath'].'/tpl_error.inc.php');
-   	include_once ($conf['classpath'].'/tpl_ini.inc.php');
+   	include_once (ISPC_CLASS_PATH.'/tpl_error.inc.php');
+   	include_once (ISPC_CLASS_PATH.'/tpl_ini.inc.php');
 
     class tpl{
     
@@ -1361,8 +1361,8 @@ if (!defined('vlibTemplateClassLoaded')) {
         function setCacheExtension() {vlibTemplateError::raiseError('VT_WARNING_NOT_CACHE_OBJ', WARNING, 'setCacheExtension()');}
     } // << end class Def
 
-    //include_once ($conf['classpath'].'/vlibTemplate/debug.php');
-    include_once ($conf['classpath'].'/tpl_cache.inc.php');
+    //include_once (ISPC_CLASS_PATH.'/vlibTemplate/debug.php');
+    include_once (ISPC_CLASS_PATH.'/tpl_cache.inc.php');
 
 } // << end if(!defined())..
 ?>

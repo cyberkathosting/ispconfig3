@@ -10,10 +10,10 @@
 //
 // $Id: error.php,v 1.1 2003/07/08 12:32:06 platinum Exp $
 
-define('FATAL', E_USER_ERROR);
+define('FATAL',   E_USER_ERROR);
 define('WARNING', E_USER_WARNING);
-define('NOTICE', E_USER_NOTICE);
-define('KILL',   -1); // used for killing inside parsing.
+define('NOTICE',  E_USER_NOTICE);
+define('KILL',    -1); // used for killing inside parsing.
 
 /**
  * Class is used by vlibTemplate.
