@@ -88,11 +88,14 @@ if(file_exists(dirname(__FILE__).'/db_local.php')){
 
 
 //** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
-define('ISPC_ROOT_PATH',  realpath(dirname(__FILE__).'/../'));
-define('ISPC_LIB_PATH',   ISPC_ROOT_PATH.'/lib');
-define('ISPC_CLASS_PATH', ISPC_ROOT_PATH.'/lib/classes');
-define('ISPC_TEMP_PATH',  ISPC_ROOT_PATH.'/temp');
-define('ISPC_CACHE_PATH', ISPC_ROOT_PATH.'/cache');
+define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
+define('ISPC_LIB_PATH',    ISPC_ROOT_PATH.'/lib');
+define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
+define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
+define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
+
+define('ISPC_TEMP_PATH',   ISPC_ROOT_PATH.'/temp');
+define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
 
 
 //** Database Settings
@@ -104,11 +107,10 @@ $conf['db_password']        = '';
 $conf['db_database']        = 'ispconfig3';
 */
 
-$conf['rootpath']			= substr(dirname(__FILE__),0,-4);
+//$conf['rootpath']			= substr(dirname(__FILE__),0,-4);
 $conf['fs_div']				= '/'; // File system divider, \\ on windows and / on linux and unix
-$conf['temppath']			= $conf['rootpath'].$conf['fs_div'].'temp';
 // predro notes: not sure this is the right thing ?
-$conf['cache_dir']          = $conf['rootpath'].$conf['fs_div'].'/cache';
+$conf['cache_dir']          = ISPC_ROOT_PATH.'/cache';
 
 
 /* pedro notes ? this stuff is REALLY not necessay, can leak everywhere 
@@ -122,7 +124,7 @@ define('DB_PASSWORD', $conf['db_password']);
 
 //**  External programs
 //$conf["programs"]["convert"]	= "/usr/bin/convert";
-$conf['programs']['wput']		= $conf['rootpath']."\\tools\\wput\\wput.exe";
+$conf['programs']['wput']		= ISPC_ROOT_PATH."\\tools\\wput\\wput.exe";
 
 
 //** Themes

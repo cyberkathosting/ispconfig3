@@ -30,49 +30,45 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking permissions for the module
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
+//* Check permissions for the module
+if(!stristr($_SESSION['s']['user']['modules'],$_SESSION['s']['module']['name'])) {
+	header('Location: ../index.php');
 	exit;
 }
 
 $app->uses('tpl');
 
-$app->tpl->newTemplate("form.tpl.htm");
+$app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl','templates/module_list.htm');
 
-// lese Module aus
-$bgcolor = "#FFFFFF";
+//* Pick out modules
+$bgcolor = '#FFFFFF';
 $modules_list = array();
-$handle = @opendir($conf["rootpath"]."/web"); 
+$handle = @opendir(ISPC_WEB_PATH); 
 while ($file = @readdir ($handle)) { 
-    if ($file != "." && $file != "..") {
-        if(@is_dir($conf["rootpath"]."/web/".$file)) {
-            if(is_file($conf["rootpath"]."/web/".$file."/lib/module.conf.php") and $file != 'login') {
-				include_once($conf["rootpath"]."/web/".$file."/lib/module.conf.php");
-				
-				// Farbwechsel
-				$bgcolor = ($bgcolor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
-				
-				$modules_list[] = array( 	'module' => $module["name"],
-											'title' => $module["title"],
-											'bgcolor' => $bgcolor);
+    if ($file != '.' && $file != '..') {
+        if(@is_dir(ISPC_WEB_PATH."/$file")) {
+            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
+				include_once(ISPC_WEB_PATH."/$file/lib/module.conf.php");
+				$bgcolor = ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
+				$modules_list[] = array( 	'module' =>   $module['name'],
+											'title' =>    $module['title'],
+											'bgcolor' =>  $bgcolor
+                                        );
 			}
         }
 	}
 }
 
-
-$app->tpl->setLoop('records',$modules_list);
+$app->tpl->setLoop('records', $modules_list);
 
 // loading language file 
-$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_module_list.lng";
+$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_module_list.lng';
 include($lng_file);
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();
 $app->tpl->pparse();
-
 
 
 ?>

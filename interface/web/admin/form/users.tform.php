@@ -16,7 +16,7 @@ are permitted provided that the following conditions are met:
       may be used to endorse or promote products derived from this software without
       specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
@@ -34,9 +34,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	Tabellendefinition
 
 	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
+	- INTEGER (Wandelt Ausdrï¿½cke in Int um)
 	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
+	- CURRENCY (Formatiert Zahlen nach Wï¿½hrungsnotation)
 	- VARCHAR (kein weiterer Format Check)
 	- TEXT (kein weiterer Format Check)
 	- DATE (Datumsformat, Timestamp Umwandlung)
@@ -55,77 +55,80 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	- Wert oder Array
 
 	Hinweis:
-	Das ID-Feld ist nicht bei den Table Values einzufügen.
+	Das ID-Feld ist nicht bei den Table Values einzufï¿½gen.
 
 
 */
 
-$form["title"] 			= "Users";
-$form["description"] 	= "Form to edit systemusers.";
-$form["name"] 			= "users";
-$form["action"]			= "users_edit.php";
-$form["db_table"]		= "sys_user";
-$form["db_table_idx"]	= "userid";
-$form["tab_default"]	= "users";
-$form["list_default"]	= "users_list.php";
-$form["auth"]			= 'yes';
+$form['title'] 			= 'Users';
+$form['description'] 	= 'Form to edit systemusers.';
+$form['name'] 			= 'users';
+$form['action']			= 'users_edit.php';
+$form['db_table']		= 'sys_user';
+$form['db_table_idx']	= 'userid';
+$form['tab_default']	= 'users';
+$form['list_default']	= 'users_list.php';
+$form['auth']			= 'yes';
 
-$form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
-$form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
-$form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, d = delete
-$form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
-$form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
+//* 0 = id of the user, > 0 id must match with id of current user
+$form['auth_preset']['userid']  = 0; 
+//* 0 = default groupid of the user, > 0 id must match with groupid of current user
+$form['auth_preset']['groupid'] = 0; 
 
-// lese Module aus
+//** Permissions are: r = read, i = insert, u = update, d = delete
+$form['auth_preset']['perm_user'] = 'riud';
+$form['auth_preset']['perm_group'] = 'riud'; //r = read, i = insert, u = update, d = delete
+$form['auth_preset']['perm_other'] = ''; //r = read, i = insert, u = update, d = delete
+
+//* Pick out modules
 $modules_list = array();
-$handle = @opendir($conf["rootpath"]."/web"); 
+$handle = @opendir(ISPC_WEB_PATH); 
 while ($file = @readdir ($handle)) { 
-    if ($file != "." && $file != "..") {
-        if(@is_dir($conf["rootpath"]."/web/".$file)) {
-            if(is_file($conf["rootpath"]."/web/".$file."/lib/module.conf.php") and $file != 'login') {
+    if ($file != '.' && $file != '..') {
+        if(@is_dir(ISPC_WEB_PATH."/$file")) {
+            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
 				$modules_list[$file] = $file;
 			}
         }
 	}
 }
 
-// lese Themes aus
+//* Load themes
 $themes_list = array();
-$handle = @opendir($conf["rootpath"]."/web/themes"); 
+$handle = @opendir(ISPC_THEMES_PATH); 
 while ($file = @readdir ($handle)) { 
-    if (substr($file,0,1) != '.') {
-        if(@is_dir($conf["rootpath"]."/web/themes/".$file)) {
+    if (substr($file, 0, 1) != '.') {
+        if(@is_dir(ISPC_THEMES_PATH."/$file")) {
 			$themes_list[$file] = $file;
         }
 	}
 }
 
-// lese verfügbare Sprachen aus
+//* Languages
 $language_list = array();
-$handle = @opendir($conf["rootpath"]."/lib/lang"); 
+$handle = @opendir(ISPC_ROOT_PATH.'/lib/lang'); 
 while ($file = @readdir ($handle)) { 
-    if ($file != "." && $file != "..") {
-        if(@is_file($conf["rootpath"]."/lib/lang/".$file) and substr($file,-4,4) == '.lng') {
-			$tmp = substr($file,0,2);
+    if ($file != '.' && $file != '..') {
+        if(@is_file(ISPC_ROOT_PATH.'/lib/lang/'.$file) and substr($file,-4,4) == '.lng') {
+			$tmp = substr($file, 0, 2);
 			$language_list[$tmp] = $tmp;
         }
 	}
 }
 
-// lese verfügbare Gruppen aus.
+//* Pick out groups
 $groups_list = array();
-$tmp_records = $app->db->queryAllRecords("SELECT groupid, name FROM sys_group ORDER BY name");
+$tmp_records = $app->db->queryAllRecords('SELECT groupid, name FROM sys_group ORDER BY name');
 if(is_array($tmp_records)) {
 	foreach($tmp_records as $tmp_rec) {
-		$tmp_id = $tmp_rec["groupid"];
-		$groups_list[$tmp_id] = $tmp_rec["name"];
+		$groups_list[$tmp_rec['groupid']] = $tmp_rec['name'];
 	}
 }
 
-$form["tabs"]['users'] = array (
-	'title' 	=> "Users",
+$form['tabs']['users'] = array (
+	'title' 	=> 'Users',
 	'width' 	=> 80,
-	'template' 	=> "templates/users_user_edit.htm",
+	'template' 	=> 'templates/users_user_edit.htm',
 	'fields' 	=> array (
 	##################################
 	# Beginn Datenbankfelder
@@ -240,10 +243,10 @@ $form["tabs"]['users'] = array (
 	)
 );
 /*
-$form["tabs"]['address'] = array (
-	'title' 	=> "Address",
+$form['tabs']['address'] = array (
+	'title' 	=> 'Address',
 	'width' 	=> 80,
-	'template' 	=> "templates/users_address_edit.htm",
+	'template' 	=> 'templates/users_address_edit.htm',
 	'fields' 	=> array (
 	##################################
 	# Beginn Datenbankfelder
@@ -399,10 +402,10 @@ $form["tabs"]['address'] = array (
 );
 */
 
-$form["tabs"]['groups'] = array (
-	'title' 	=> "Groups",
+$form['tabs']['groups'] = array (
+	'title' 	=> 'Groups',
 	'width' 	=> 80,
-	'template' 	=> "templates/users_groups_edit.htm",
+	'template' 	=> 'templates/users_groups_edit.htm',
 	'fields' 	=> array (
 	##################################
 	# Beginn Datenbankfelder

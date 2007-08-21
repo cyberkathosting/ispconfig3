@@ -110,12 +110,12 @@ unset($items);
 
 
 // Getting the admin options from other modules
-$modules = explode(',',$_SESSION['s']['user']['modules']);
+$modules = explode(',', $_SESSION['s']['user']['modules']);
 if(is_array($modules)) {
 	foreach($modules as $mt) {
 		if(is_file($mt.'/lib/admin.conf.php')) {
 			$options = array();
-			include_once($conf['rootpath'].'/web/'.$mt.'/lib/admin.conf.php');
+			include_once(ISPC_WEB_PATH."/$mt/lib/admin.conf.php");
 			if(is_array($options)) {
 				foreach($options as $opt) {
 					$module['nav'][] = $opt;

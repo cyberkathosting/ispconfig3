@@ -51,8 +51,7 @@ if (!defined('vlibIniClassLoaded')) {
         	
         	global $conf;
 
-			$tpl_dir = $conf['rootpath'].'/web/themes/'.$_SESSION['s']['theme'].'/templates';
-			
+			$tpl_dir = ISPC_THEMES_PATH.'/'.$_SESSION['s']['theme'].'/templates';
             return array(
 
                         'TEMPLATE_DIR' => $tpl_dir,   // Default directory for your template files (full path)
