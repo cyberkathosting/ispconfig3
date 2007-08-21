@@ -41,6 +41,16 @@ define('ISPC_APP_VERSION', '3.0.0');
 $conf['app_version'] = '3.0.0';
 $conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
 
+//** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
+define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
+define('ISPC_LIB_PATH',    ISPC_ROOT_PATH.'/lib');
+define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
+define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
+define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
+
+define('ISPC_TEMP_PATH',   ISPC_ROOT_PATH.'/temp');
+define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
+
 
 //********************************************************************************
 //** Future Code idea  - pedro - rfc
@@ -86,18 +96,6 @@ if(file_exists(dirname(__FILE__).'/db_local.php')){
     $conf['db_database']        = 'ispconfig3';
 }
 
-
-//** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
-define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
-define('ISPC_LIB_PATH',    ISPC_ROOT_PATH.'/lib');
-define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
-define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
-define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
-
-define('ISPC_TEMP_PATH',   ISPC_ROOT_PATH.'/temp');
-define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
-
-
 //** Database Settings
 /* See above
 $conf['db_type']            = 'mysql';
@@ -107,18 +105,6 @@ $conf['db_password']        = '';
 $conf['db_database']        = 'ispconfig3';
 */
 
-
-$conf['cache_dir']          = ISPC_ROOT_PATH.'/cache';
-
-
-/* pedro notes ? this stuff is REALLY not necessay, can leak everywhere 
-   Don think this lot is being used so commented out
-define('DB_TYPE', $conf['db_type']);
-define('DB_HOST', $conf['db_host']);
-define('DB_DATABASE',$conf['db_database']);
-define('DB_USER', $conf['db_user']);
-define('DB_PASSWORD', $conf['db_password']);
-*/
 
 //**  External programs
 //$conf["programs"]["convert"]	= "/usr/bin/convert";

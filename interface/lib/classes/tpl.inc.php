@@ -157,7 +157,9 @@ if (!defined('vlibTemplateClassLoaded')) {
          */
         public function newTemplate($tmplfile)
         {
-            if (!$tfile = $this->_fileSearch($tmplfile)) vlibTemplateError::raiseError('VT_ERROR_NOFILE',KILL,$tmplfile);
+            if (!$tfile = $this->_fileSearch($tmplfile)){
+                vlibTemplateError::raiseError('VT_ERROR_NOFILE', KILL, $tmplfile);
+            }
 
             //* make sure that any parsing vars are cleared for the new template
             $this->_tmplfile = null;
@@ -169,8 +171,9 @@ if (!defined('vlibTemplateClassLoaded')) {
             $this->_totalparsetime = null;
 
             //* reset debug module
-            if ($this->_debug) $this->_debugReset();
-
+            if ($this->_debug){
+                $this->_debugReset();
+            }
             $this->_tmplfilename = $tfile;
             return true;
         }
@@ -253,8 +256,7 @@ if (!defined('vlibTemplateClassLoaded')) {
          */
         public function getVars()
         {
-            if (empty($this->_vars)) return false;
-            return $this->_vars;
+            return empty($this->_vars) ? false : $this->_vars;
         }
 
         /**
@@ -265,8 +267,7 @@ if (!defined('vlibTemplateClassLoaded')) {
         public function getVar($var)
         {
             if ($this->OPTIONS['CASELESS']) $var = strtolower($var);
-            if (empty($var) || !isset($this->_vars[$var])) return false;
-            return $this->_vars[$var];
+            return (empty($var) || !isset($this->_vars[$var])) ? false : $this->_vars[$var];
         }
 
         /**
@@ -304,7 +305,7 @@ if (!defined('vlibTemplateClassLoaded')) {
                 $this->_arrvars[$k] = array();
                 if ($this->OPTIONS['SET_LOOP_VAR'] && !empty($v)) $this->setvar($k, 1);
                 if (($this->_arrvars[$k] = $this->_arrayBuild($v)) == false) {
-                    vlibTemplateError::raiseError('VT_WARNING_INVALID_ARR',WARNING,$k);
+                    vlibTemplateError::raiseError('VT_WARNING_INVALID_ARR', WARNING, $k);
                 }
             }
             return true;
@@ -323,16 +324,17 @@ if (!defined('vlibTemplateClassLoaded')) {
         {
             $db_type = strtoupper($db_type);
             if (!in_array($db_type, $this->allowed_loop_dbs)) {
-                vlibTemplateError::raiseError('VT_WARNING_INVALID_LOOP_DB',WARNING, $db_type);
+                vlibTemplateError::raiseError('VT_WARNING_INVALID_LOOP_DB', WARNING, $db_type);
                 return false;
             }
 
             $loop_arr = array();
+            // TODO: Are all these necessary as were onyl using mysql and possible postgres ? - pedro
             switch ($db_type) {
 
                 case 'MYSQL':
                     if (get_resource_type($result) != 'mysql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = mysql_fetch_assoc($result)) {
@@ -342,7 +344,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'POSTGRESQL':
                     if (get_resource_type($result) != 'pgsql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
 
@@ -355,7 +357,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'INFORMIX':
                     if (!$result) {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = ifx_fetch_row($result, 'NEXT')) {
@@ -365,7 +367,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'INTERBASE':
                     if (get_resource_type($result) != 'interbase result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = ibase_fetch_row($result)) {
@@ -375,7 +377,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'INGRES':
                     if (!$result) {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = ingres_fetch_array(INGRES_ASSOC, $result)) {
@@ -385,7 +387,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'MSSQL':
                     if (get_resource_type($result) != 'mssql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = mssql_fetch_array($result)) {
@@ -395,7 +397,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'MSQL':
                     if (get_resource_type($result) != 'msql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = msql_fetch_array($result, MSQL_ASSOC)) {
@@ -405,7 +407,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'OCI8':
                     if (get_resource_type($result) != 'oci8 statement') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while(OCIFetchInto($result, &$r, OCI_ASSOC+OCI_RETURN_LOBS)) {
@@ -415,7 +417,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'ORACLE':
                     if (get_resource_type($result) != 'oracle Cursor') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while(ora_fetch_into($result, &$r, ORA_FETCHINTO_ASSOC)) {
@@ -425,7 +427,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'OVRIMOS':
                     if (!$result) {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while(ovrimos_fetch_into($result, &$r, 'NEXT')) {
@@ -435,7 +437,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
                 case 'SYBASE':
                     if (get_resource_type($result) != 'sybase-db result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
 
@@ -477,7 +479,7 @@ if (!defined('vlibTemplateClassLoaded')) {
             if (!$loopname) $loopname = $this->_currloopname[(count($this->_currloopname)-1)];
 
             if (!isset($this->_currloop[$loopname]) || empty($this->_currloopname)) {
-                vlibTemplateError::raiseError('VT_WARNING_LOOP_NOT_SET',WARNING);
+                vlibTemplateError::raiseError('VT_WARNING_LOOP_NOT_SET', WARNING);
                 return false;
             }
             if (is_array($row)) {
@@ -795,7 +797,9 @@ if (!defined('vlibTemplateClassLoaded')) {
             if ($this->_includedepth > $this->OPTIONS['MAX_INCLUDES'] || $tmplfile == false) {
                 return;
             } else {
-                if ($this->_debug) array_push ($this->_debugIncludedfiles, $tmplfile);
+                if ($this->_debug){
+                    array_push ($this->_debugIncludedfiles, $tmplfile);
+                }
                 if ($do_eval) {
                     array_push($this->_currentincludedir, dirname($tmplfile));
                     $this->_includedepth++;

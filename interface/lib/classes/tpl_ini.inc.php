@@ -48,8 +48,6 @@ if (!defined('vlibIniClassLoaded')) {
         /** Returns $array of config vars for vlibTemplate */
         public static function vlibTemplate()
         {
-        	
-        	global $conf;
 
 			$tpl_dir = ISPC_THEMES_PATH.'/'.$_SESSION['s']['theme'].'/templates';
             return array(
@@ -89,7 +87,7 @@ if (!defined('vlibIniClassLoaded')) {
 
                         /* the following are only used by the vlibTemplateCache class. */
                         // pedro notes:: triggers a notice as its not set - was $conf['template']['cache_dir'],
-                        'CACHE_DIRECTORY' => $conf['cache_dir'],
+                        'CACHE_DIRECTORY' => ISPC_CACHE_PATH,
                                                                    // Directory where the cached filesystem
                                                                    // will be set up (full path, and must be writable)
                                                                    // '/' or '\' off the end of the directory.
