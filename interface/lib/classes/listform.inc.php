@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -133,7 +133,7 @@ class listform {
             $field = $i['field'];
 
             //*TODO: comment =  hat sich die suche ge�ndert
-            if(isset($_REQUEST[$search_prefix.$field]) and $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
+            if(isset($_REQUEST[$search_prefix.$field]) && isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
                     $this->searchChanged = 1;
             }
 
