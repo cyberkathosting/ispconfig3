@@ -1,4 +1,12 @@
 <?php
+/**
+ * ini parser 
+ * 
+ * @author Till Brehm
+ * @copyright  2005, Till Brehm, projektfarm Gmbh
+ * @version 0.1
+ * @package ISPConfig
+ */
 
 /*
 Copyright (c) 2006, Till Brehm, projektfarm Gmbh
@@ -28,18 +36,16 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class ini_parser {
+class ini_parser{
 
-	var $config;
+	private $config;
 
-	function parse_ini_string($ini) {
-		$ini = str_replace("\r\n","\n",$ini);
-		$lines = explode("\n",$ini);
-		
+	public function parse_ini_string($ini) {
+		$ini = str_replace("\r\n", "\n", $ini);
+		$lines = explode("\n", $ini);
 		foreach($lines as $line) {
-			
+            $line = trim($line);                
 			if($line != '') {
-				$line = trim($line);
 				if(preg_match("/^\[([\w\d_]+)\]$/", $line, $matches)) {
 					$section = strtolower($matches[1]);
 				} elseif(preg_match("/^([\w\d_]+)=(.*)$/", $line, $matches) && $section != null) {
@@ -53,12 +59,14 @@ class ini_parser {
 
 
 
-	function get_ini_string($file) {
+	public function get_ini_string($file) {
 		$content = '';
 		foreach($this->config as $section => $data) {
 			$content .= "[$section]\n";
 			foreach($data as $item => $value) {
-				if($value != '') $content .= "$item=$value\n";
+				if($value != ''){
+                    $content .= "$item=$value\n";
+                }
 			}
 		}
 		return $content;
