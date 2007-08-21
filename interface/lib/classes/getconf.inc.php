@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * getconf class
+ * 
+ * @author Till Brehm
+ * @copyright  2005, Till Brehm, projektfarm Gmbh
+ * @version 0.1
+ * @package ISPConfig
+ */
 /*
 Copyright (c) 2006, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -30,31 +37,24 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class getconf {
 
-	var $config;
+	private $config;
 	
-	function get_server_config($server_id, $section = '') {
+	public function get_server_config($server_id, $section = '') {
 		global $app;
-		
+	
 		if(!is_array($this->config[$server_id])) {
 			$app->uses('ini_parser');
 			$server_id = intval($server_id);
 			$server = $app->db->queryOneRecord("SELECT config FROM server WHERE server_id = $server_id");
 			$this->config[$server_id] = $app->ini_parser->parse_ini_string(stripslashes($server["config"]));
 		}
-		
-		if($section == '') {
-			return $this->config[$server_id];
-		} else {
-			return $this->config[$server_id][$section];
-		}
+		return ($section == '') ? $this->config[$server_id] : $this->config[$server_id][$section];
 	}
 	
-	function get_global_config() {
+	public function get_global_config() {
 		
 		die("not yet implemented");
-		
 	}
-	
 }
 
 ?>

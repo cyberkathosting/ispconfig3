@@ -57,8 +57,6 @@ class ini_parser{
 		return $this->config;
 	}
 
-
-
 	public function get_ini_string($file) {
 		$content = '';
 		foreach($this->config as $section => $data) {
@@ -71,7 +69,6 @@ class ini_parser{
 		}
 		return $content;
 	}
-
 }
 
 ?>

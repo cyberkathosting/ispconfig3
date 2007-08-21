@@ -29,16 +29,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class nodetree {
-var $childs;
-var $btext;
-var $id;
+    public $childs;
+    public $btext;
+    public $id;
 }
 
 class cmstree
 {
-var $_table;
+    //TODO is this used ?? - pedro
+    //var $_table;
 
-    // $vars enthält:
+    // $vars enthï¿½lt:
     // - parent     :id des Elternelementes
     // - type       :n = node, i = item
     // - doctype_id :id des Dokumententyps, wenn nicht im content Feld
@@ -46,25 +47,25 @@ var $_table;
     // - status     :1 = ok, d = delete
     // - icon       :icon im node-tree, optional
     // - modul      :modul des Eintrages, noch nicht verwendet
-    // - doc_id     :id des zugehörigen Dokumentes
+    // - doc_id     :id des zugehï¿½rigen Dokumentes
     
-    function node_list()
+    public function node_list()
     {
-    global $app;
+        global $app;
     
-	    $nodes = $app->db->queryAllRecords("SELECT * FROM media_cat order by sort, name");
+	    $nodes = $app->db->queryAllRecords('SELECT * FROM media_cat order by sort, name');
         
         $optionlist = array();
         $my0 = new nodetree();
 
         foreach($nodes as $row) {
 
-            $id = "my".$row["media_cat_id"];
-            $btext = $row["name"];
-            $ordner = 'my'.$row["parent"];
+            $id = 'my'.$row['media_cat_id'];
+            $btext = $row['name'];
+            $ordner = 'my'.$row['parent'];
             if(!is_object($$id)) $$id = new nodetree();
             $$id->btext = $btext;
-            $$id->id = $row["media_cat_id"];
+            $$id->id = $row['media_cat_id'];
 
             if(is_object($$ordner)) {
                  $$ordner->childs[] = &$$id;
@@ -74,21 +75,16 @@ var $_table;
             }
         }
        
-        $this->ptree($my0,0,$optionlist);       
-        
-        if(is_array($nodes)){
-			return $optionlist;
-		} else {
-			return false;
-		}
+        $this->ptree($my0, 0, $optionlist);       
+        return is_array($nodes) ?  $optionlist : false;
     }
     
-    function ptree($myobj, $tiefe, &$optionlist){
+    private function ptree($myobj, $tiefe, &$optionlist){
      	global $_SESSION;
 		$tiefe += 1;
 		$id = $myobj->id;
 
-        if(is_array($myobj->childs) and ($_SESSION["s"]["cat_open"][$id] == 1 or $tiefe <= 1)) {
+        if(is_array($myobj->childs) and ($_SESSION['s']['cat_open'][$id] == 1 or $tiefe <= 1)) {
         	foreach($myobj->childs as $val) {
 				// kategorie 		=> str_repeat('- &nbsp;',$tiefe) . $val->btext,
 				
@@ -103,12 +99,11 @@ var $_table;
 				}
 				*/
 				$val_id = $val->id;
-				if($_SESSION["s"]["cat_open"][$val_id] == 1) {
+				if($_SESSION['s']['cat_open'][$val_id] == 1) {
 					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onClick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder.png' border='0'> ".$val->btext."</a></div>";
 				} else {
 					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onClick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder_closed.png' border='0'> ".$val->btext."</a></div>";
 				}
-				
 				
 				$optionlist[] = array( 	media_cat 		=> $kategorie,
                                    		media_cat_id 	=> $val->id,
