@@ -107,9 +107,7 @@ $conf['db_password']        = '';
 $conf['db_database']        = 'ispconfig3';
 */
 
-//$conf['rootpath']			= substr(dirname(__FILE__),0,-4);
-$conf['fs_div']				= '/'; // File system divider, \\ on windows and / on linux and unix
-// predro notes: not sure this is the right thing ?
+
 $conf['cache_dir']          = ISPC_ROOT_PATH.'/cache';
 
 

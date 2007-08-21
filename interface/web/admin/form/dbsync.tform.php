@@ -34,9 +34,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	Tabellendefinition
 
 	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
+	- INTEGER (Wandelt Ausdrï¿½cke in Int um)
 	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
+	- CURRENCY (Formatiert Zahlen nach Wï¿½hrungsnotation)
 	- VARCHAR (kein weiterer Format Check)
 	- TEXT (kein weiterer Format Check)
 	- DATE (Datumsformat, Timestamp Umwandlung)
@@ -55,18 +55,18 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	- Wert oder Array
 
 	Hinweis:
-	Das ID-Feld ist nicht bei den Table Values einzufügen.
+	Das ID-Feld ist nicht bei den Table Values einzufï¿½gen.
 
 
 */
 
-// lese Module aus
+//* Load modules
 $modules_list = array();
-$handle = @opendir($conf["rootpath"]."/web"); 
+$handle = @opendir(ISPC_WEB_PATH); 
 while ($file = @readdir ($handle)) { 
     if ($file != "." && $file != "..") {
-        if(@is_dir($conf["rootpath"]."/web/".$file)) {
-            if(is_file($conf["rootpath"]."/web/".$file."/lib/module.conf.php") and $file != 'login') {
+        if(@is_dir(ISPC_WEB_PATH."/$file")) {
+            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
 				$modules_list[$file] = $file;
 			}
         }
@@ -74,197 +74,191 @@ while ($file = @readdir ($handle)) {
 }
 closedir($handle);
 
-// lese Datenbanken mit aktivierter db_history ein.
+//* read data bases in with more activated db_history.
 $db_tables = array();
 foreach($modules_list as $md) {
-	$handle = @opendir($conf["rootpath"]."/web/".$md."/form"); 
+	$handle = @opendir(ISPC_WEB_PATH."/$md/form"); 
 	while ($file = @readdir ($handle)) { 
-    	if ($file != "." && $file != ".." && substr($file,0,1) != '.') {
-        	include_once($conf["rootpath"]."/web/".$md."/form/".$file);
-			if($form["db_history"] == "yes") {
-				$tmp_id = $form["db_table"];
-				$db_tables[$tmp_id] = $form["db_table"];
+    	if ($file != '.' && $file != '..' && substr($file, 0, 1) != '.') {
+        	include_once(ISPC_WEB_PATH."/$md/form/$file");
+			if($form['db_history'] == 'yes') {
+				$tmp_id = $form['db_table'];
+				$db_tables[$tmp_id] = $form['db_table'];
 			}
 			unset($form);
 		}
 	}
 	closedir($handle);
 }
-
 unset($form);
 
 
+$form['title']          = 'DB sync';
+$form['description']    = 'ISPConfig database snchronisation tool.';
+$form['name']           = 'dbsync';
+$form['action']         = 'dbsync_edit.php';
+$form['db_table']       = 'sys_dbsync';
+$form['db_table_idx']   = 'id';
+$form['tab_default']    = 'dbsync';
+$form['list_default']   = 'dbsync_list.php';
+$form['auth']           = 'no';
 
 
-$form["title"] 			= "DB sync";
-$form["description"] 	= "ISPConfig database snchronisation tool.";
-$form["name"] 			= "dbsync";
-$form["action"]			= "dbsync_edit.php";
-$form["db_table"]		= "sys_dbsync";
-$form["db_table_idx"]	= "id";
-$form["tab_default"]	= "dbsync";
-$form["list_default"]	= "dbsync_list.php";
-$form["auth"]			= 'no';
-
-
-
-
-
-$form["tabs"]['dbsync'] = array (
-	'title' 	=> "DB sync",
-	'width' 	=> 80,
-	'template' 	=> "templates/dbsync_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
-		'jobname' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '/^.{1,30}$/',
-			'errmsg'	=> 'jobname_err',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '15',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'sync_interval_minutes' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '15',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'db_type' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> array('mysql' => 'mysql'),
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'db_host' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'db_name' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'db_username' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'db_password' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'db_tables' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'CHECKBOXARRAY',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> 'admin,forms',
-			'value'		=> $db_tables,
-			'separator'	=> ',',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'empty_datalog' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> array(0 => 0,1 => 1),
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'sync_datalog_external' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> array(0 => 0,1 => 1),
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
-		'active' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '1',
-			'value'		=> array(0 => 0,1 => 1),
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
-		)
-	##################################
-	# ENDE Datenbankfelder
-	##################################
-	)
+$form['tabs']['dbsync'] = array (
+    'title'     => 'DB sync',
+    'width'     => 80,
+    'template'  => 'templates/dbsync_edit.htm',
+    'fields'    => array (
+    ##################################
+    # Beginn Datenbankfelder
+    ##################################
+        'jobname' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'regex'     => '/^.{1,30}$/',
+            'errmsg'    => 'jobname_err',
+            'default'   => '',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '15',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'sync_interval_minutes' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '15',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'db_type' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'SELECT',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => array('mysql' => 'mysql'),
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'db_host' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'db_name' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'db_username' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'db_password' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'db_tables' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'CHECKBOXARRAY',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => 'admin,forms',
+            'value'     => $db_tables,
+            'separator' => ',',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'empty_datalog' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'CHECKBOX',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => array(0 => 0,1 => 1),
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'sync_datalog_external' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'CHECKBOX',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '',
+            'value'     => array(0 => 0,1 => 1),
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'active' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'CHECKBOX',
+            'regex'     => '',
+            'errmsg'    => '',
+            'default'   => '1',
+            'value'     => array(0 => 0,1 => 1),
+            'separator' => '',
+            'width'     => '30',
+            'maxlength' => '255',
+            'rows'      => '',
+            'cols'      => ''
+        )
+    ##################################
+    # ENDE Datenbankfelder
+    ##################################
+    )
 );
 
 ?>

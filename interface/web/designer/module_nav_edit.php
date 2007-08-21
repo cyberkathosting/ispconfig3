@@ -30,126 +30,120 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-if($_SESSION["s"]["user"]["typ"] != "admin") die("Admin permissions required.");
+//* Securoty checkpoint
+if($_SESSION['s']['user']['typ'] != 'admin'){
+    die('Admin permissions required.');
+}
 
-// Checke Berechtigungen für Modul
+// Checke Berechtigungen fï¿½r Modul
 if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
 	header("Location: ../index.php");
 	exit;
 }
 
-// Lade Template
+//* Load template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/module_nav_edit.htm');
 
 // TODO: Check module and nav_id for malicius chars, nav_id can be empty or any number, even 0
-$module_name = $_REQUEST["module_name"];
-$nav_id = $_REQUEST["nav_id"];
+$module_name = $_REQUEST['module_name'];
+$nav_id = $_REQUEST['nav_id'];
 
-if(!preg_match('/^[A-Za-z0-9_]{1,50}$/',$module_name)) die("module_name contains invalid chars.");
-if(!preg_match('/^[A-Za-z0-9_]{0,50}$/',$nav_id)) die("nav_id contains invalid chars.");
-
-if(empty($module_name)) die("module is empty.");
+//** Sanity checks of module
+if(!preg_match('/^[A-Za-z0-9_]{1,50}$/', $module_name)){
+    die('module_name contains invalid chars.');
+}
+if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $nav_id)){
+    die('nav_id contains invalid chars.');
+}
+if(empty($module_name)){
+    die('module is empty.');
+}
 
 if(count($_POST) > 0) {
-	// Bestimme aktion
-	if($nav_id != '') {
-		$action = 'UPDATE';
-	} else {
-		$action = 'INSERT';
-	}
-	
+	//* Determine Action
+	$action = ($nav_id != '') ? 'UPDATE' : 'INSERT';
 	$error = '';
 	
 	// TODO: Check variables
-
 	
 	if($error == '') {
 	
-		$filename = "../".$module_name."/lib/module.conf.php";
+		$filename = "../$module_name/lib/module.conf.php";
 		
-		if(!@is_file($filename)) die("File not found: $filename");
+		if(!@is_file($filename)){
+            die("File not found: $filename");
+        }
 		include_once($filename);
 		
-		if($action == 'UPDATE') {
-			$items = $module["nav"][$nav_id]["items"];
-		} else {
-			$items = array();
-		}
+        $items = ($action == 'UPDATE') ?  $module['nav'][$nav_id]['items'] : array();
 		
-		$tmp = array('title' =>$_POST["nav"]["title"],
-					 'open' => 1,
+		$tmp = array('title' => $_POST['nav']['title'],
+					 'open' =>  1,
 					 'items' => $items);
-		
+        
 		if($action == 'UPDATE') {
-			$module["nav"][$nav_id] = $tmp;
+			$module['nav'][$nav_id] = $tmp;
 		} else {
-			$module["nav"][] = $tmp;
+			$module['nav'][] = $tmp;
 		}
 		
 		$m = "<?php\r\n".'$module = '.var_export($module,true)."\r\n?>";
 				
-		// writing module.conf
+		//* writing module.conf
 		if (!$handle = fopen($filename, 'w')) { 
-			print "Cannot open file ($filename)"; 
-			exit; 
+			die("Cannot open file ($filename)"); 
 		} 
 
 		if (!fwrite($handle, $m)) { 
-			print "Cannot write to file ($filename)"; 
-			exit; 
+			die("Cannot write to file ($filename)"); 
 		} 
     
 		fclose($handle);
 		
 		
-		// zu Liste springen
+		//* Jump to list
     	header("Location: module_show.php?id=$module_name");
         exit;
 			
 	} else {
-		$app->tpl->setVar("error","<b>Fehler:</b><br>".$error);
+		$app->tpl->setVar('error', '<b>Fehler:</b><br>'.$error);
 		$app->tpl->setVar($_POST);
 	}
 }
 
 if($nav_id != '') {
-// Datensatz besteht bereits
-	// bestehenden Datensatz anzeigen
+    //* Data record exists
 	if($error == '') {
-		// es liegt ein Fehler vor
-		include_once("../".$module_name."/lib/module.conf.php");
-		$record = $module["nav"][$nav_id];
+		include_once("../$module_name/lib/module.conf.php");
+		$record = $module['nav'][$nav_id];
 	} else {
-		// ein Fehler
+		//* error
 		$record = $_POST;
 	}
 	//$record["readonly"] = 'style="background-color: #EEEEEE;" readonly';
 } else {
-// neuer datensatz
+    //* New data record
 	if($error == '') {
-		// es liegt kein Fehler vor
+		//* es liegt kein Fehler vor
 	} else {
-		// ein Fehler
+		//* error
 		$record = $_POST;
 		
 	}
 	//$record["readonly"] = '';
 }
 
-$record["nav_id"] = $nav_id;
-$record["module_name"] = $module_name;
+$record['nav_id'] = $nav_id;
+$record['module_name'] = $module_name;
 
 $app->tpl->setVar($record);
 
-include_once("lib/lang/".$_SESSION["s"]["language"]."_module_nav_edit.lng");
+include_once('lib/lang/'.$_SESSION['s']['language'].'_module_nav_edit.lng');
 $app->tpl->setVar($wb);
 
-// Defaultwerte setzen
 $app->tpl_defaults();
-
-// Template parsen
 $app->tpl->pparse();
 
 ?>

@@ -76,9 +76,9 @@ $form['auth_preset']['userid']  = 0;
 $form['auth_preset']['groupid'] = 0; 
 
 //** Permissions are: r = read, i = insert, u = update, d = delete
-$form['auth_preset']['perm_user'] = 'riud';
-$form['auth_preset']['perm_group'] = 'riud'; //r = read, i = insert, u = update, d = delete
-$form['auth_preset']['perm_other'] = ''; //r = read, i = insert, u = update, d = delete
+$form['auth_preset']['perm_user']  = 'riud';
+$form['auth_preset']['perm_group'] = 'riud';
+$form['auth_preset']['perm_other'] = ''; 
 
 //* Pick out modules
 $modules_list = array();

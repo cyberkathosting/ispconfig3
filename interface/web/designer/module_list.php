@@ -50,10 +50,9 @@ while ($file = @readdir ($handle)) {
         if(@is_dir(ISPC_WEB_PATH."/$file")) {
             if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
 				include_once(ISPC_WEB_PATH."/$file/lib/module.conf.php");
-				$bgcolor = ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 				$modules_list[] = array( 	'module' =>   $module['name'],
 											'title' =>    $module['title'],
-											'bgcolor' =>  $bgcolor
+											'bgcolor' =>  ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF'
                                         );
 			}
         }
@@ -62,13 +61,12 @@ while ($file = @readdir ($handle)) {
 
 $app->tpl->setLoop('records', $modules_list);
 
-// loading language file 
+//* loading language file 
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_module_list.lng';
 include($lng_file);
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();
 $app->tpl->pparse();
-
 
 ?>
