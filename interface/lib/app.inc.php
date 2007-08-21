@@ -55,7 +55,7 @@ class app {
 		}
 		
 		//* Start the session
-		if($conf["start_session"] == true) {
+		if($this->_conf['start_session'] == true) {
 			session_start();
 			
 			//* Initialize session variables
