@@ -593,6 +593,27 @@ CREATE TABLE `spamfilter_wblist` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `support_message`
+-- 
+
+CREATE TABLE `support_message` (
+  `support_message_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `recipient_id` int(11) NOT NULL default '0',
+  `sender_id` int(11) NOT NULL default '0',
+  `subject` varchar(255) default NULL,
+  `message` varchar(255) default NULL,
+  `tstamp` int(11) NOT NULL default '1187707778',
+  PRIMARY KEY  (`support_message_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `sys_datalog`
 -- 
 

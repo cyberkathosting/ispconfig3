@@ -1,0 +1,11 @@
+<?php
+$wb["list_head_txt"] = 'support_message';
+$wb["sender_id_txt"] = 'sender_id';
+$wb["subject_txt"] = 'subject';
+$wb["page_txt"] = 'Page';
+$wb["page_of_txt"] = 'of';
+$wb["page_next_txt"] = 'Next';
+$wb["page_back_txt"] = 'Back';
+$wb["delete_txt"] = 'Delete';
+$wb["filter_txt"] = 'Filter';
+?>
