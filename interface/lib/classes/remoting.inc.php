@@ -63,7 +63,7 @@ class remoting {
 			return false;
 		}
 		
-		$session_id = $app->db->quote($session_id);
+		$session_id = $this->app->db->quote($session_id);
 		
 		$sql = "DELETE FROM remote_session WHERE remote_session = '$session_id'";
 		$this->app->db->query($sql);
