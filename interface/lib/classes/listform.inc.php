@@ -48,10 +48,12 @@ class listform {
     private $module;
 	private $dateformat = 'd.m.Y';
 
-    public function loadListDef($file,$module = '')
+    public function loadListDef($file, $module = '')
     {
         global $app,$conf;
-        if(!is_file($file)) die("List-Definition: $file not found.");
+        if(!is_file($file)){
+            die("List-Definition: $file not found.");
+        }
         require_once($file);
         $this->listDef = $liste;
         $this->module = $module;

@@ -1,9 +1,9 @@
 <?php
-$wb["recipient_id_txt"] = 'recipient_id';
-$wb["sender_id_txt"] = 'sender_id';
-$wb["subject_txt"] = 'subject';
-$wb["message_txt"] = 'message';
-$wb["tstamp_txt"] = 'tstamp';
-$wb["btn_save_txt"] = 'Save';
-$wb["btn_cancel_txt"] = 'Cancel';
+$wb['recipient_id_txt'] = 'recipient_id';
+$wb['sender_id_txt'] = 'sender_id';
+$wb['subject_txt'] = 'subject';
+$wb['message_txt'] = 'message';
+$wb['tstamp_txt'] = 'tstamp';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>
