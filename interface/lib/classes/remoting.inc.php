@@ -6,16 +6,17 @@ class remoting {
 	private $session_timeout = 600;
 	
 	//* remote login function
-	public function login($username, $password) {
-		global $app,$conf,$server;
+	public function login($username, $password)
+    {
+		global $app, $conf, $server;
 		
 		if(empty($username)) {
-			$server->fault('login_username_empty','The login username is empty');
+			$server->fault('login_username_empty', 'The login username is empty');
 			return false;
 		}
 		
 		if(empty($password)) {
-			$server->fault('login_password_empty','The login password is empty');
+			$server->fault('login_password_empty', 'The login password is empty');
 			return false;
 		}
 		
@@ -35,7 +36,7 @@ class remoting {
 			$app->db->query($sql);
 			return $remote_session;
 		} else {
-			$server->fault('login_failed','The login failed. Username or password wrong.');
+			$server->fault('login_failed', 'The login failed. Username or password wrong.');
 			return false;
 		}
 		
@@ -43,11 +44,12 @@ class remoting {
 	
 	
 	//* remote logout function
-	public function logout($session_id) {
-		global $app,$conf,$server;
+	public function logout($session_id)
+    {
+		global $app, $conf, $server;
 		
 		if(empty($session_id)) {
-			$server->fault('session_id_empty','The SessionID is empty.');
+			$server->fault('session_id_empty', 'The SessionID is empty.');
 			return false;
 		}
 		
@@ -62,10 +64,11 @@ class remoting {
 		}
 	}
 	
-	public function mail_domain_add($session_id, $params) {
-		global $app,$conf,$server;
+	public function mail_domain_add($session_id, $params)
+    {
+		global $app, $conf, $server;
 		
-		if(!$this->checkPerm($session_id,'mail_domain_add')) {
+		if(!$this->checkPerm($session_id, 'mail_domain_add')) {
 			$server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
@@ -83,31 +86,27 @@ class remoting {
 	
 	
 	
-	//* private functions -----------------------------------------------------------------------------------
+	//** private functions -----------------------------------------------------------------------------------
 	
-	private function updateQuery($formdef,$params) {
+	private function updateQuery($formdef, $params)
+    {
 	
 	}
 	
 	
-	private function checkPerm($session_id,$function_name) {
-		
+	private function checkPerm($session_id, $function_name)
+    {
 		$session = $this->getSession($session_id);
-		if($session) {
-			$remote_functions = explode(',',$session['remote_functions']);
-			if(in_array($function_name,$remote_functions)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+        if(!$session){
+            return false;
+        }
+		return in_array($function_name, explode(',', $session['remote_functions']) );
 	}
 	
 	
-	private function getSession($session_id) {
-		global $app,$conf,$server;
+	private function getSession($session_id)
+    {
+		global $app, $conf, $server;
 		
 		if(empty($session_id)) {
 			$server->fault('session_id_empty','The SessionID is empty.');
@@ -125,10 +124,7 @@ class remoting {
 			$server->fault('session_does_not_exist','The Session is expired or does not exist.');
 			return false;
 		}
-	
 	}
-	
-	
 }
 
 ?>
