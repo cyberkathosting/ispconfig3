@@ -1,5 +1,12 @@
 <?
-
+/**
+ * cmstree Class
+ * 
+ * @author Till Brehm
+ * @copyright  2005, Till Brehm, projektfarm Gmbh
+ * @version 0.1
+ * @package ISPConfig
+ */
 /*
 Copyright (c) 2005, Till Brehm, projektfarm Gmbh
 All rights reserved.
