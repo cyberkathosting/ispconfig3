@@ -30,21 +30,21 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-//* Securoty checkpoint
+//* Security checkpoint
 if($_SESSION['s']['user']['typ'] != 'admin'){
     die('Admin permissions required.');
 }
 
-// Checke Berechtigungen f�r Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
+//* Check permissions for module
+if(!stristr($_SESSION['s']['user']['modules'],$_SESSION['s']['module']['name'])) {
+	header('Location: ../index.php');
 	exit;
 }
 
 //* Load template
 $app->uses('tpl');
-$app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/module_nav_edit.htm');
+$app->tpl->newTemplate('form.tpl.htm');
+$app->tpl->setInclude('content_tpl', 'templates/module_nav_edit.htm');
 
 // TODO: Check module and nav_id for malicius chars, nav_id can be empty or any number, even 0
 $module_name = $_REQUEST['module_name'];
@@ -70,7 +70,7 @@ if(count($_POST) > 0) {
 	
 	if($error == '') {
 	
-		$filename = "../$module_name/lib/module.conf.php";
+		$filename = '../'.$module_name.'/lib/module.conf.php';
 		
 		if(!@is_file($filename)){
             die("File not found: $filename");
@@ -104,7 +104,7 @@ if(count($_POST) > 0) {
 		
 		
 		//* Jump to list
-    	header("Location: module_show.php?id=$module_name");
+    	header('Location: module_show.php?id='.urlencode($module_name));
         exit;
 			
 	} else {
@@ -116,7 +116,7 @@ if(count($_POST) > 0) {
 if($nav_id != '') {
     //* Data record exists
 	if($error == '') {
-		include_once("../$module_name/lib/module.conf.php");
+		include_once('../'.$module_name.'/lib/module.conf.php');
 		$record = $module['nav'][$nav_id];
 	} else {
 		//* error
