@@ -416,6 +416,46 @@ CREATE TABLE `mail_user` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `remote_session`
+-- 
+
+CREATE TABLE `remote_session` (
+  `remote_session` varchar(50) NOT NULL,
+  `remote_userid` int(11) NOT NULL,
+  `remote_functions` text NOT NULL,
+  `tstamp` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`remote_session`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- 
+-- Daten für Tabelle `remote_session`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `remote_user`
+-- 
+
+CREATE TABLE `remote_user` (
+  `remote_userid` int(11) NOT NULL auto_increment,
+  `remote_username` varchar(255) NOT NULL,
+  `remote_password` varchar(255) NOT NULL,
+  `remote_functions` text NOT NULL,
+  PRIMARY KEY  (`remote_userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `remote_user`
+-- 
+
+
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `server`
 -- 
 
