@@ -268,8 +268,8 @@ class listform {
         if(is_array($record)) {
             foreach($this->listDef['item'] as $field){
                 $key = $field['field'];
-                switch ($field['datatype']){
-
+				if(isset($record[$key])) {
+                	switch ($field['datatype']){
                     case 'VARCHAR':
                     case 'TEXT':
                         $record[$key] = stripslashes($record[$key]);
@@ -293,7 +293,8 @@ class listform {
 
                     default:
                         $record[$key] = stripslashes($record[$key]);
-                }	
+                	}
+				}
             }
         }
         return $record;

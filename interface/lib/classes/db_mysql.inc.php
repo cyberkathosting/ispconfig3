@@ -49,7 +49,7 @@ class db
 	private $errorNumber = 0;	// last error number
 	public $errorMessage = '';	// last error message
 	private $errorLocation = '';// last error location
-	private $show_error_messages = false;
+	public $show_error_messages = false;
 
 	public function __construct()
     {
@@ -252,7 +252,7 @@ class db
         foreach($columns as $col){
             $sql .= $col['name'].' '.$this->mapType($col['type'], $col['typeValue']).' ';
             //* Set default value
-            if($col['defaultValue'] != '') {
+            if(isset($col['defaultValue']) && $col['defaultValue'] != '') {
 			    if($col['defaultValue'] == 'NULL' or $col['defaultValue'] == 'NOT NULL') {
 				    $sql .= 'DEFAULT '.$col['defaultValue'].' ';
 			    } else {
@@ -261,19 +261,19 @@ class db
 		    } elseif($col['defaultValue'] != false) {
 			    $sql .= "DEFAULT '' ";
 		    }
-		    if($col['defaultValue'] != 'NULL' && $col['defaultValue'] != 'NOT NULL') {
+		    if(isset($col['defaultValue']) && $col['defaultValue'] != 'NULL' && $col['defaultValue'] != 'NOT NULL') {
                 if($col['notNull'] == true) {
                     $sql .= 'NOT NULL ';
                 } else {
                     $sql .= 'NULL ';
                 }
 		    }
-            if($col['autoInc'] == true){ $sql .= 'auto_increment '; }
+            if(isset($col['autoInc']) && $col['autoInc'] == true){ $sql .= 'auto_increment '; }
             $sql.= ',';
             //* Index Definitions
-            if($col['option'] == 'primary'){ $index .= 'PRIMARY KEY ('.$col['name'].'),'; }
-            if($col['option'] == 'index'){   $index .= 'INDEX ('.$col['name'].'),'; }
-            if($col['option'] == 'unique'){  $index .= 'UNIQUE ('.$col['name'].'),'; }
+            if(isset($col['option']) && $col['option'] == 'primary'){ $index .= 'PRIMARY KEY ('.$col['name'].'),'; }
+            if(isset($col['option']) && $col['option'] == 'index'){   $index .= 'INDEX ('.$col['name'].'),'; }
+            if(isset($col['option']) && $col['option'] == 'unique'){  $index .= 'UNIQUE ('.$col['name'].'),'; }
         }
        $sql .= $index;
        $sql = substr($sql,0,-1);

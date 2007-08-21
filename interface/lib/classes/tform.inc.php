@@ -135,10 +135,16 @@ class tform {
                 $this->formDef = $form;
 
                 $this->module = $module;
+				$wb = array();
+				
                 if($module == '') {
+					if(is_file("lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng")) {
                         include_once("lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng");
+					}
                 } else {
+					if(is_file("../$module/lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng")) {
                         include_once("../$module/lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng");
+					}
                 }
                 $this->wordbook = $wb;
 

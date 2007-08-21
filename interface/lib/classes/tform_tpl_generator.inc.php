@@ -112,7 +112,7 @@ class tform_tpl_generator {
 			$lang[$key."_txt"] = $key;
 			
 			// language File Eintrag, für error-Text anlegen
-			if($field["errmsg"] != '') {
+			if(isset($field["errmsg"]) && $field["errmsg"] != '') {
 				$errmsg = $field["errmsg"];
 				$lang[$errmsg] = $errmsg;
 			}
