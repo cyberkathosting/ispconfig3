@@ -40,8 +40,8 @@ class listform_actions {
 	private $id;
 	private $idx_key;
 	private $DataRowColor;
-	private $SQLExtWhere = '';
-	private $SQLOrderBy = '';
+	public  $SQLExtWhere = '';
+	public  $SQLOrderBy = '';
 	
 	public function onLoad()
     {
