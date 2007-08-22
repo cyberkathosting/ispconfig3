@@ -5,21 +5,31 @@ class remoting {
 	//* remote session timeout in seconds
 	private $session_timeout = 600;
 	
-    private $app;
+	private $server;
+	
+	/*
+	These variables shall stay global. 
+	Please do not make them private variables.
+    
+	private $app;
     private $conf;
-    private $server;
+    */
 
     public function __construct()
     {
-        global $app, $conf, $server;
+        global $server;
         $this->server = $server;
+		/*
         $this->app = $app;
         $this->conf = $conf;
+		*/
     }
 
 	//* remote login function
 	public function login($username, $password)
     {
+		global $app, $conf, $server;
+		
 		if(empty($username)) {
 			$this->server->fault('login_username_empty', 'The login username is empty');
 			return false;
@@ -30,11 +40,11 @@ class remoting {
 			return false;
 		}
 		
-		$username = $this->app->db->quote($username);
-		$password = $this->app->db->quote($password);
+		$username = $app->db->quote($username);
+		$password = $app->db->quote($password);
 		
 		$sql = "SELECT * FROM remote_user WHERE remote_username = '$username' and remote_password = md5('$password')";
-		$remote_user = $this->app->db->queryOneRecord($sql);
+		$remote_user = $app->db->queryOneRecord($sql);
 		if($remote_user['remote_userid'] > 0) {
 			//* Create a remote user session
 			srand ((double)microtime()*1000000);
@@ -45,7 +55,7 @@ class remoting {
 			$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
                    .') VALUES ('
                    ." '$remote_session',$remote_userid,'$remote_functions',$tstamp)";
-			$this->app->db->query($sql);
+			$app->db->query($sql);
 			return $remote_session;
 		} else {
 			$this->server->fault('login_failed', 'The login failed. Username or password wrong.');
@@ -54,44 +64,117 @@ class remoting {
 		
 	}
 	
-	
 	//* remote logout function
 	public function logout($session_id)
     {		
+		global $app;
+		
 		if(empty($session_id)) {
 			$this->server->fault('session_id_empty', 'The SessionID is empty.');
 			return false;
 		}
 		
-		$session_id = $this->app->db->quote($session_id);
+		$session_id = $app->db->quote($session_id);
 		
 		$sql = "DELETE FROM remote_session WHERE remote_session = '$session_id'";
-		$this->app->db->query($sql);
-        return ($this->app->db->affectedRows() == 1);
+		$app->db->query($sql);
+        return ($app->db->affectedRows() == 1);
 	}
 	
-	public function mail_domain_add($session_id, $params)
+	
+	public function mail_domain_add($session_id, $client_id, $params)
     {
 		if(!$this->checkPerm($session_id, 'mail_domain_add')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		
-		//* Form definition file, that is used for this table in the interafce
-		$formdef = '../mail/form/mail_domain.tform.php';
-		
-		//* check the variables against the form definition and build the sql query automatically.
-		// I will use a modified version of the tform class for this.
-		
+		$domain_id = $this->insertQuery('../mail/form/mail_domain.tform.php',$client_id,$params);
+		return $domain_id;
+	}
+	
+	public function mail_domain_update($session_id, $client_id, $domain_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'mail_domain_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$domain_id = $this->updateQuery('../mail/form/mail_domain.tform.php',$client_id,$domain_id,$params);
+		return $domain_id;
 	}
 	
 	
 	
 	//** private functions -----------------------------------------------------------------------------------
 	
-	private function updateQuery($formdef, $params)
+	private function updateQuery($formdef_file, $client_id, $primary_id, $params)
     {
+		global $app;
+		
+		$app->uses('remoting_lib');
+		
+		//* Load the form definition
+		$app->remoting_lib->loadFormDef($formdef_file);
+		
+		//* load the user profile of the client
+		$app->remoting_lib->loadUserProfile($client_id);
+		
+		//* Get the SQL query
+		$sql = $app->remoting_lib->getSQL($params,'UPDATE',$primary_id);
+		if($app->remoting_lib->errorMessage != '') {
+			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
+			return false;
+		}
+		
+		$app->db->query($sql);
+		
+		if($app->db->errorMessage != '') {
+			$this->server->fault('database_error', $app->db->errorMessage . ' '.$sql);
+			return false;
+		}
+		
+		$affected_rows = $app->db->affectedRows();
+		
+		//* TODO: Save changes to Datalog
+		
+		
+		
+		return $affected_rows;
+	}
 	
+	private function insertQuery($formdef_file, $client_id, $params)
+    {
+		global $app;
+		
+		$app->uses('remoting_lib');
+		
+		//* Load the form definition
+		$app->remoting_lib->loadFormDef($formdef_file);
+		
+		//* load the user profile of the client
+		$app->remoting_lib->loadUserProfile($client_id);
+		
+		//* Get the SQL query
+		$sql = $app->remoting_lib->getSQL($params,'INSERT',0);
+		if($app->remoting_lib->errorMessage != '') {
+			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
+			return false;
+		}
+		
+		$app->db->query($sql);
+		
+		if($app->db->errorMessage != '') {
+			$this->server->fault('database_error', $app->db->errorMessage . ' '.$sql);
+			return false;
+		}
+		
+		$insert_id = $app->db->insertID();
+		
+		//* TODO: Save changes to Datalog
+		
+		
+		
+		
+		return $insert_id
 	}
 	
 	
@@ -107,16 +190,18 @@ class remoting {
 	
 	private function getSession($session_id)
     {	
+		global $app;
+		
 		if(empty($session_id)) {
 			$this->server->fault('session_id_empty','The SessionID is empty.');
 			return false;
 		}
 		
-		$session_id = $this->app->db->quote($session_id);
+		$session_id = $app->db->quote($session_id);
 		
 		$now = time();
 		$sql = "SELECT * FROM remote_session WHERE remote_session = '$session_id' AND tstamp >= $now";
-		$session = $this->app->db->queryOneRecord($sql);
+		$session = $app->db->queryOneRecord($sql);
 		if($session['remote_userid'] > 0) {
 			return $session;
 		} else {
