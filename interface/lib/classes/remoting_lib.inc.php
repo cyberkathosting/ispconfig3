@@ -584,6 +584,18 @@ class remoting_lib {
                 
                 return $sql;
         }
+		
+		function getDeleteSQL($primary_id) {
+			
+			if(stristr($this->formDef['db_table'],'.')) {
+				$escape = '';
+			} else {
+				$escape = '`';
+			}
+			
+			$sql = "DELETE FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+			return $sql;
+		}
 
 
 		function getDataRecord($primary_id) {
