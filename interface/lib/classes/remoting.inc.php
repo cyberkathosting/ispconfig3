@@ -174,7 +174,7 @@ class remoting {
 		
 		
 		
-		return $insert_id
+		return $insert_id;
 	}
 	
 	
