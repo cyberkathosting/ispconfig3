@@ -32,6 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	ISPConfig 3 installer.
 */
 
+
 // Include the library with the basic installer functions
 require_once('lib/install.lib.php');
 

@@ -27,15 +27,37 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-Header("Pragma: no-cache");
-Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-Header("Content-Type: text/html");
+//** Web-only
+if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 
-ini_set('register_globals',0);
+	Header("Pragma: no-cache");
+	Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+	Header("Content-Type: text/html");
+
+	ini_set('register_globals',0);
+}
 
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
 $conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
+
+//** Key paramaters
+define('ISPC_APP_TITLE', 'ISPConfig');
+$conf['app_title'] = 'ISPConfig';
+define('ISPC_APP_VERSION', '3.0.0');
+$conf['app_version'] = '3.0.0';
+$conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
+
+//** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
+define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
+define('ISPC_LIB_PATH',    ISPC_ROOT_PATH.'/lib');
+define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
+define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
+define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
+
+define('ISPC_TEMP_PATH',   ISPC_ROOT_PATH.'/temp');
+define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
+
 
 /*
 	Server variables
