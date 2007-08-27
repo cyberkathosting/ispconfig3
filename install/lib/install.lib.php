@@ -56,9 +56,22 @@ error_reporting(E_ALL|E_STRICT);
 
 $FILE = realpath('../install.php');
 
+//** Get distribution identifier
 function get_distname() {
-	global $conf; // TODO wtf ?
-	$distname = $conf['distname'];
+	
+	//** Debian
+	if(file_exists('/etc/debian_version')) {
+	
+		if(trim(file_get_contents('/etc/debian_version')) == '4.0') {
+			$distname = 'debian40';
+		}
+	}
+	
+	//** Redhat
+	elseif(file_exists("/etc/redhat_release")) {
+	
+	}
+	
 	return $distname;
 }
 

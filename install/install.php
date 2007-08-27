@@ -52,21 +52,18 @@ echo "\n\n>> Initial configuration  \n\n";
 
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
-require_once('options.conf.php');
-
 
 //** Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
 
-//** Include the distribution specific installer class library and configuration
-include_once('dist/lib/'.$conf['distname'].'.lib.php');
-include_once('dist/conf/'.$conf['distname'].'.conf.php');
-
-
+//** Get distribution identifier
 $distname = get_distname();
-//** Copt the $dist created in dist/conf/foo to global var
-$conf['dist'] = $dist;
 
+//** Include the distribution specific installer class library and configuration
+include_once('dist/lib/'.$distname.'.lib.php');
+include_once('dist/conf/'.$distname.'.conf.php');
+
+//** Install logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
 
 //****************************************************************************************************
@@ -78,8 +75,8 @@ swriteln($inst->lng('    Default values are in [brackets] and can be accepted wi
 swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));
 
 //** Check log file is writable (probably not root or sudo)
-if(!is_writable(ISPC_LOG_FILE)){
-    die("ERROR: Cannot write to the log file '".ISPC_LOG_FILE."'. Are you root or sudo ?\n\n");
+if(!is_writable(dirname(ISPC_LOG_FILE))){
+    die("ERROR: Cannot write to the directory ".dirname(ISPC_LOG_FILE).". Are you root or sudo ?\n\n");
 }
 
 //** Select the language
@@ -92,7 +89,7 @@ $install_mode = $inst->simple_query('Installation mode', array('Standard','Exper
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg foo.example.com ', $tmp_out[0]);
+$inst->conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg foo.example.com ', $tmp_out[0]);
 unset($tmp_out);
 
 //** Get MySQL root credentials
@@ -175,19 +172,19 @@ if($install_mode == 'Standard') {
 	$inst->install_crontab();
 	
 	swriteln('Restarting services ...');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['mysql']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['postfix']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['saslauthd']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['amavis']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['clamav']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-authdaemon'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-imap'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-imap-ssl'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-pop'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-pop-ssl'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['apache']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['pureftpd']['init_script'].' restart');
-	system($conf['dist']['init_scripts'].'/'.$conf['dist']['mydns']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['mysql']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
+	system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart');
 	
 }else{
 
@@ -226,29 +223,29 @@ if($install_mode == 'Standard') {
 		swriteln('Configuring Getmail');
 		$inst->configure_getmail();
 		
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['postfix']['init_script'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['saslauthd']['init_script'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['amavis']['init_script'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['clamav']['init_script'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-authdaemon'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-imap'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-imap-ssl'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-pop'].' restart');
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['courier']['courier-pop-ssl'].' restart');
+		system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
+		system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
+		system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
+		system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
+		system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
+		system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
+		system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
+		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
+		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 	}
 	
 	//** Configure Pureftpd
 	if(strtolower($inst->simple_query('Configure FTP Server', array('y','n'),'y') ) == 'y') {	
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['pureftpd']['init_script'].' restart');
+		system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	}
 	
 	//** Configure MyDNS
 	if(strtolower($inst->simple_query('Configure DNS Server',array('y','n'),'y')) == 'y') {
 		swriteln('Configuring MyDNS');
 		$inst->configure_mydns();
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['mydns']['init_script'].' restart');
+		system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart');
 	}
 	
 	//** Configure Apache
@@ -265,7 +262,7 @@ if($install_mode == 'Standard') {
 		//* Configure ISPConfig
 		swriteln('Installing Crontab');
 		$inst->install_crontab();
-		system($conf['dist']['init_scripts'].'/'.$conf['dist']['apache']['init_script'].' restart');	
+		system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');	
 	}
 	
 } //* << $install_mode / 'Standard' or Genius

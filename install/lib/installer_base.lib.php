@@ -33,7 +33,7 @@ class installer_base {
 	var $wb = array();
 	var $language = 'en';
 	var $db;
-	private $conf;
+	public $conf;
 
 
     public function __construct()
@@ -161,7 +161,7 @@ class installer_base {
     //** writes postfix configuration files
     private function process_postfix_config($configfile)
     {
-        $config_dir = $this->conf['dist']['postfix']['config_dir'].'/';
+        $config_dir = $this->conf['postfix']['config_dir'].'/';
         $full_file_name = $config_dir.$configfile; 
         //* Backup exiting file
         if(is_file($full_file_name)){
@@ -179,7 +179,7 @@ class installer_base {
 
 	public function configure_postfix($options = '')
     {
-        $cf = $this->conf['dist']['postfix'];
+        $cf = $this->conf['postfix'];
 		$config_dir = $cf['config_dir'];
         
 		if(!is_dir($config_dir)){
@@ -337,14 +337,14 @@ class installer_base {
 		
 	
 		$configfile = 'sasl_smtpd.conf';
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf')) copy($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf',$conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf~');
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf~');
+		if(is_file($conf["postfix"]["config_dir"].'/sasl/smtpd.conf')) copy($conf["postfix"]["config_dir"].'/sasl/smtpd.conf',$conf["postfix"]["config_dir"].'/sasl/smtpd.conf~');
+		if(is_file($conf["postfix"]["config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["postfix"]["config_dir"].'/sasl/smtpd.conf~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_ip}',$this->conf['mysql']['ip'],$content);
-		wf($conf["dist"]["postfix"]["config_dir"].'/sasl/smtpd.conf',$content);
+		wf($conf["postfix"]["config_dir"].'/sasl/smtpd.conf',$content);
 		
 		// TODO: Chmod and chown on the config file
 		
@@ -354,7 +354,7 @@ class installer_base {
 		exec('mkdir -p /var/spool/postfix/var/run/saslauthd');
 		
 		// Edit the file /etc/default/saslauthd
-		$configfile = $conf['dist']["saslauthd"]["config"];
+		$configfile = $conf["saslauthd"]["config"];
 		if(is_file($configfile)) copy($configfile,$configfile.'~');
 		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'~');
 		$content = rf($configfile);
@@ -363,7 +363,7 @@ class installer_base {
 		wf($configfile,$content);
 		
 		// Edit the file /etc/init.d/saslauthd
-		$configfile = $conf["dist"]["init_scripts"].'/'.$conf["dist"]["saslauthd"]["init_script"];
+		$configfile = $conf["init_scripts"].'/'.$conf["saslauthd"]["init_script"];
 		$content = rf($configfile);
 		$content = str_replace('PIDFILE=$RUN_DIR/saslauthd.pid','PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"',$content);
 		wf($configfile,$content);
@@ -373,7 +373,7 @@ class installer_base {
 	
 	public function configure_pam()
     {
-		$pam = $this->conf['dist']['pam'];
+		$pam = $this->conf['pam'];
 		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'pamd_smtp';
 		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
@@ -392,7 +392,7 @@ class installer_base {
 	
 	public function configure_courier()
     {
-		$config_dir = $this->conf['dist']['courier']['config_dir'];
+		$config_dir = $this->conf['courier']['config_dir'];
 		//* authmysqlrc
 		$configfile = 'authmysqlrc';
 		if(is_file("$config_dir/$configfile")){
@@ -410,7 +410,7 @@ class installer_base {
 		exec("chown daemon:daemon $config_dir/$configfile");
 		
 		//* authdaemonrc
-		$configfile = $this->conf['dist']['courier']['config_dir'].'/authdaemonrc';
+		$configfile = $this->conf['courier']['config_dir'].'/authdaemonrc';
 		if(is_file($configfile)){
             copy($configfile, $configfile.'~');
         }
@@ -427,15 +427,15 @@ class installer_base {
 		
 		// amavisd user config file
 		$configfile = 'amavisd_user_config';
-		if(is_file($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user',$conf["dist"]["courier"]["config_dir"].'/50-user~');
-		if(is_file($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user~');
+		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["amavis"]["config_dir"].'/conf.d/50-user',$conf["courier"]["config_dir"].'/50-user~');
+		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/conf.d/50-user~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_port}',$conf["mysql"]["port"],$content);
 		$content = str_replace('{mysql_server_ip}',$this->conf['mysql']['ip'],$content);
-		wf($conf["dist"]["amavis"]["config_dir"].'/conf.d/50-user',$content);
+		wf($conf["amavis"]["config_dir"].'/conf.d/50-user',$content);
 		
 		// TODO: chmod and chown on the config file
 		
@@ -447,7 +447,7 @@ class installer_base {
 		);
 		
 		// Make a backup copy of the main.cf file
-		copy($conf["dist"]["postfix"]["config_dir"].'/main.cf',$conf["dist"]["postfix"]["config_dir"].'/main.cf~2');
+		copy($conf["postfix"]["config_dir"].'/main.cf',$conf["postfix"]["config_dir"].'/main.cf~2');
 		
 		// Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
@@ -456,11 +456,11 @@ class installer_base {
 		}
 		
 		// Append the configuration for amavisd to the master.cf file
-		if(is_file($conf["dist"]["postfix"]["config_dir"].'/master.cf')) copy($conf["dist"]["postfix"]["config_dir"].'/master.cf',$conf["dist"]["postfix"]["config_dir"].'/master.cf~');
+		if(is_file($conf["postfix"]["config_dir"].'/master.cf')) copy($conf["postfix"]["config_dir"].'/master.cf',$conf["postfix"]["config_dir"].'/master.cf~');
 		$content = rf("tpl/master_cf_amavis.master");
 		// Only add the content if we had not addded it before
 		if(!stristr("127.0.0.1:10025 inet n - - - - smtpd",$content)) {
-			af($conf["dist"]["postfix"]["config_dir"].'/master.cf',$content);
+			af($conf["postfix"]["config_dir"].'/master.cf',$content);
 		}
 		
 		// Add the clamav user to the amavis group
@@ -483,7 +483,7 @@ class installer_base {
 	
 	public function configure_getmail()
     {
-		$config_dir = $this->conf['dist']['getmail']['config_dir'];
+		$config_dir = $this->conf['getmail']['config_dir'];
 
 		$command = "useradd -d $config_dir getmail";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -498,7 +498,7 @@ class installer_base {
 	
 	public function configure_pureftpd()
     {
-		$config_dir = $this->conf['dist']['pureftpd']['config_dir'];
+		$config_dir = $this->conf['pureftpd']['config_dir'];
 
 		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'db/mysql.conf';
@@ -528,17 +528,17 @@ class installer_base {
 		
 		// configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'mydns.conf';
-		if(is_file($conf["dist"]["mydns"]["config_dir"].'/'.$configfile)) copy($conf["dist"]["mydns"]["config_dir"].'/'.$configfile,$conf["dist"]["mydns"]["config_dir"].'/'.$configfile.'~');
-		if(is_file($conf["dist"]["mydns"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["dist"]["mydns"]["config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["mydns"]["config_dir"].'/'.$configfile)) copy($conf["mydns"]["config_dir"].'/'.$configfile,$conf["mydns"]["config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["mydns"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["mydns"]["config_dir"].'/'.$configfile.'~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
 		$content = str_replace('{server_id}',$conf["server_id"],$content);
-		wf($conf["dist"]["mydns"]["config_dir"].'/'.$configfile,$content);
-		exec('chmod 600 '.$conf["dist"]["mydns"]["config_dir"].'/'.$configfile);
-		exec('chown root:root '.$conf["dist"]["mydns"]["config_dir"].'/'.$configfile);
+		wf($conf["mydns"]["config_dir"].'/'.$configfile,$content);
+		exec('chmod 600 '.$conf["mydns"]["config_dir"].'/'.$configfile);
+		exec('chown root:root '.$conf["mydns"]["config_dir"].'/'.$configfile);
 	
 	}
 	
@@ -627,8 +627,8 @@ class installer_base {
 		
 		//* Copy the ISPConfig vhost for the controlpanel
         //TODO These are missing! should they be "vhost_dist_*_dir" ?
-        $vhost_conf_dir = $this->conf['dist']['apache']['vhost_conf_dir'];
-        $vhost_conf_enabled_dir = $this->conf['dist']['apache']['vhost_conf_enabled_dir'];
+        $vhost_conf_dir = $this->conf['apache']['vhost_conf_dir'];
+        $vhost_conf_enabled_dir = $this->conf['apache']['vhost_conf_enabled_dir'];
 		copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
 		if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
@@ -653,7 +653,7 @@ class installer_base {
 		unlink('crontab.txt');
 		
 		//* Getmail crontab
-        $cf = $this->conf['dist']['getmail'];
+        $cf = $this->conf['getmail'];
 		exec('crontab -u getmail -l > crontab.txt');
 		$existing_cron_jobs = file('crontab.txt');
 		
