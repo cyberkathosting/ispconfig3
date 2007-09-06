@@ -11,7 +11,7 @@
   <tmpl_loop name="records">
   <tr bgcolor="{tmpl_var name="bgcolor"}">
     <td class="frmText11"><a href="#" onClick="loadContent('mail/spamfilter_config_edit.php?id={tmpl_var name='id'}');" class="frmText11">{tmpl_var name="server_name"}</a></td>
-    <td class="frmText11" align="right">[<a href="javascript: del_record('mail/spamfilter_config_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');" class="frmText11">{tmpl_var name='delete_txt'}</a>]</td>
+    <td class="frmText11" align="right">[<a href="#" onClick="loadContent('mail/spamfilter_config_edit.php?id={tmpl_var name='id'}');" class="frmText11">Edit</a>]</td>
   </tr>
   </tmpl_loop>
 

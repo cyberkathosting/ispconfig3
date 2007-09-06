@@ -40,7 +40,7 @@ $form["action"]			= "spamfilter_config_edit.php";
 $form["db_table"]		= "server";
 $form["db_table_idx"]	= "server_id";
 $form["db_history"]		= "yes";
-$form["tab_default"]	= "mail";
+$form["tab_default"]	= "server";
 $form["list_default"]	= "spamfilter_config_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
@@ -50,8 +50,77 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+$form["tabs"]['server'] = array (
+	'title' 	=> "Server",
+	'width' 	=> 100,
+	'template' 	=> "templates/spamfilter_config_server_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'ip_address' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '192.168.0.100',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'ip_address_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '15',
+			'maxlength'	=> '255'
+		),
+		'netmask' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '255.255.255.0',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'netmask_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '15',
+			'maxlength'	=> '255'
+		),
+		'gateway' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '192.168.0.1',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'gateway_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '15',
+			'maxlength'	=> '255'
+		),
+		'hostname' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> 'server1.example.com',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'hostname_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'nameservers' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '192.168.0.1,192.168.0.2',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'nameservers_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
 $form["tabs"]['mail'] = array (
-	'title' 	=> "Mailserver",
+	'title' 	=> "Mail",
 	'width' 	=> 100,
 	'template' 	=> "templates/spamfilter_config_mail_edit.htm",
 	'fields' 	=> array (
@@ -175,6 +244,32 @@ $form["tabs"]['mail'] = array (
 	##################################
 	)
 );
+
+$form["tabs"]['getmail'] = array (
+	'title' 	=> "Getmail",
+	'width' 	=> 100,
+	'template' 	=> "templates/spamfilter_config_getmail_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'getmail_config_dir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'getmail_config_dir_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
 
 
 ?>
