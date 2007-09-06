@@ -65,6 +65,7 @@ $form["name"] 			= "groups";
 $form["action"]			= "groups_edit.php";
 $form["db_table"]		= "sys_group";
 $form["db_table_idx"]	= "groupid";
+$form["db_history"]		= "no";
 $form["tab_default"]	= "groups";
 $form["list_default"]	= "groups_list.php";
 $form["auth"]			= 'no';

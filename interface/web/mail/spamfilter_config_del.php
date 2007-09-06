@@ -1,15 +1,7 @@
 <?php
-/**
- * ini parser 
- * 
- * @author Till Brehm
- * @copyright  2005, Till Brehm, projektfarm Gmbh
- * @version 0.1
- * @package ISPConfig
- */
 
 /*
-Copyright (c) 2006, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -36,48 +28,27 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class ini_parser{
+/******************************************
+* Begin Form configuration
+******************************************/
 
-	private $config;
-	
-	//* Converts a ini string to array
-	public function parse_ini_string($ini) {
-		$ini = str_replace("\r\n", "\n", $ini);
-		$lines = explode("\n", $ini);
-		foreach($lines as $line) {
-            $line = trim($line);                
-			if($line != '') {
-				if(preg_match("/^\[([\w\d_]+)\]$/", $line, $matches)) {
-					$section = strtolower($matches[1]);
-				} elseif(preg_match("/^([\w\d_]+)=(.*)$/", $line, $matches) && $section != null) {
-					$item = trim($matches[1]);
-					$this->config[$section][$item] = trim($matches[2]);
-				}
-			}
-		}
-		return $this->config;
-	}
-	
-	
-	//* Converts a config array to a string
-	public function get_ini_string($config_array = '') {
-		if($config_array == '') $config_array = $this->config;
-		$content = '';
-		foreach($config_array as $section => $data) {
-			$content .= "[$section]\n";
-			foreach($data as $item => $value) {
-				if($item != ''){
-                    $content .= "$item=$value\n";
-                }
-			}
-			$content .= "\n";
-		}
-		return $content;
-	}
-	
-	
-	
-	
+$list_def_file = "list/spamfilter_config.list.php";
+$tform_def_file = "form/spamfilter_config.tform.php";
+
+/******************************************
+* End Form configuration
+******************************************/
+
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
+
+// Checke Berechtigungen für Modul
+if(!stristr($_SESSION["s"]["user"]["modules"],'mail')) {
+	header("Location: ../index.php");
+	exit;
 }
+
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
 ?>

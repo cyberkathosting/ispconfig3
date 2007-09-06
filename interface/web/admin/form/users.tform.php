@@ -66,6 +66,7 @@ $form['name'] 			= 'users';
 $form['action']			= 'users_edit.php';
 $form['db_table']		= 'sys_user';
 $form['db_table_idx']	= 'userid';
+$form["db_history"]		= "no";
 $form['tab_default']	= 'users';
 $form['list_default']	= 'users_list.php';
 $form['auth']			= 'yes';

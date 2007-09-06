@@ -98,7 +98,7 @@ class tform_actions {
                 global $app, $conf;
 				
 				$this->onBeforeUpdate();
-
+				
                 $ext_where = '';
                 $sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'UPDATE',$this->id,$ext_where);
                 if($app->tform->errorMessage == '') {
@@ -106,11 +106,9 @@ class tform_actions {
 						if($app->tform->formDef['db_history'] == 'yes') {
 							$old_data_record = $app->tform->getDataRecord($this->id);
 						}
-
-                        if(!empty($sql)) {
-                            $app->db->query($sql);
-                            if($app->db->errorMessage != '') die($app->db->errorMessage);
-                        }
+						
+						// Save record in database
+						$this->onUpdateSave($sql);
 						
 						// loading plugins
 						$next_tab = $app->tform->getCurrentTab();
@@ -160,6 +158,19 @@ class tform_actions {
                         $this->onError();
                 }
         }
+		
+		/*
+		 Save record in database
+		*/
+		
+		function onUpdateSave($sql) {
+			global $app;
+			if(!empty($sql)) {
+				$app->db->query($sql);
+				if($app->db->errorMessage != '') die($app->db->errorMessage);
+			}
+		}
+		
 
         /**
         * Function called on data insert
@@ -173,9 +184,8 @@ class tform_actions {
                 $ext_where = '';
                 $sql = $app->tform->getSQL($this->dataRecord,$app->tform->getCurrentTab(),'INSERT',$this->id,$ext_where);
                 if($app->tform->errorMessage == '') {
-                        $app->db->query($sql);
-                        if($app->db->errorMessage != '') die($app->db->errorMessage);
-                        $this->id = $app->db->insertID();
+						
+						$this->id = $this->onInsertSave($sql);
 						
 						// loading plugins
 						$next_tab = $app->tform->getCurrentTab();
@@ -221,6 +231,17 @@ class tform_actions {
                         $this->onError();
                 }
         }
+		
+		/*
+		 Save record in database
+		*/
+		
+		function onInsertSave($sql) {
+			global $app, $conf;
+			$app->db->query($sql);
+            if($app->db->errorMessage != '') die($app->db->errorMessage);
+            return $app->db->insertID();
+		}
 
         function onBeforeUpdate() {
             global $app, $conf;

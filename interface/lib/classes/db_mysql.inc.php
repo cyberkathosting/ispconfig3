@@ -341,10 +341,10 @@ class db
 		if($database_name == ''){
             $database_name = $this->dbName;
         }
-        $result = mysql_list_tables($database_name);
+        $result = @mysql_list_tables($database_name);
         $tb_names = array();
-        for ($i = 0; $i < mysql_num_rows($result); $i++) {
-            $tb_names[$i] = mysql_tablename($result, $i);
+        for ($i = 0; $i < @mysql_num_rows($result); $i++) {
+            $tb_names[$i] = @mysql_tablename($result, $i);
         }
         return $tb_names;       
     }

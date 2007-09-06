@@ -97,7 +97,7 @@ class listform_actions {
 		foreach($app->listform->listDef['item'] as $field) {
 			$key = $field['field'];
 			if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
-				$rec[$key] = $field['value'][$rec[$key]];
+				$rec[$key] = @$field['value'][$rec[$key]];
 			}
 		}
 		

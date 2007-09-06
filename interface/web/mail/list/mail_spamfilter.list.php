@@ -16,10 +16,10 @@
 $liste["name"] 				= "mail_spamfilter";
 
 // Database table
-$liste["table"] 			= "mail_spamfilter";
+$liste["table"] 			= "server";
 
 // Index index field of the database table
-$liste["table_idx"]			= "spamfilter_id";
+$liste["table_idx"]			= "server_id";
 
 // Search Field Prefix
 $liste["search_prefix"] 	= "search_";
@@ -54,7 +54,7 @@ $liste["item"][] = array(	'field'		=> "active",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('y' => "Yes",'n' => "No"));
+							'value'		=> array('1' => "Yes",'0' => "No"));
 
 
 $liste["item"][] = array(	'field'		=> "server_id",
@@ -71,7 +71,7 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "email",
+$liste["item"][] = array(	'field'		=> "server_name",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",

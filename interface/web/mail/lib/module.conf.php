@@ -58,6 +58,10 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	$items[] = array( 	'title' 	=> 'Policy',
 				  		'target' 	=> 'content',
 				  		'link'	    => 'mail/spamfilter_policy_list.php');
+						
+	$items[] = array( 	'title' 	=> 'Server Settings',
+				  		'target' 	=> 'content',
+				  		'link'	    => 'mail/spamfilter_config_list.php');
 }
 
 $module['nav'][] = array(	'title'	=> 'Spamfilter',
