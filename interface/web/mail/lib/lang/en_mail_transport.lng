@@ -1,7 +1,9 @@
 <?php
 $wb["server_id_txt"] = 'Server';
 $wb["domain_txt"] = 'Domain';
-$wb["transport_txt"] = 'Transport';
+$wb["destination_txt"] = 'Destination';
+$wb["type_txt"] = 'Type';
+$wb["mx_txt"] = 'No MX lookup';
 $wb["sort_order_txt"] = 'Sort by';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';

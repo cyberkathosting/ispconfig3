@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -42,7 +42,7 @@ require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 // Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
+if(!stristr($_SESSION["s"]["user"]["modules"],'mail')) {
 	header("Location: ../index.php");
 	exit;
 }
@@ -64,7 +64,7 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_mailrouting FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
-			// Check if the user may add another mailbox.
+			// Check if the user may add another transport.
 			if($client["limit_mailrouting"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(transport_id) as number FROM mail_transport WHERE sys_groupid = $client_group_id");
 				if($tmp["number"] >= $client["limit_mailrouting"]) {
@@ -76,6 +76,39 @@ class page_action extends tform_actions {
 		parent::onShowNew();
 	}
 	
+	function onShowEnd() {
+		global $app, $conf;
+		
+		$tmp_parts = explode(":",$this->dataRecord["transport"]);
+		if(empty($this->id) && empty($tmp_parts[0])) {
+			$rec["type"] = 'smtp';
+		} else {
+			$rec["type"] = $tmp_parts[0];
+		}
+		if(@substr($tmp_parts[1],0,1) == '[') {
+			$rec["mx"] = 'checked="CHECKED"';
+			$rec["destination"] = @substr($tmp_parts[1],1,-1);
+		} else {
+			$rec["mx"] = '';
+			$rec["destination"] = @$tmp_parts[1];
+		}
+		
+		$types = array('smtp' => 'smtp','uucp' => 'uucp','slow' => 'slow', 'error' => 'error', '' => 'null');
+		$type_select = '';
+		if(is_array($types)) {
+			foreach( $types as $key => $val) {
+				$selected = ($key == $rec["type"])?'SELECTED':'';
+				$type_select .= "<option value='$key' $selected>$val</option>\r\n";
+			}
+		}
+		$rec["type"] = $type_select;
+		$app->tpl->setVar($rec);
+		unset($type);
+		unset($types);
+		
+		parent::onShowEnd();
+	}
+	
 	function onSubmit() {
 		global $app, $conf;
 				
@@ -85,7 +118,7 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_mailrouting FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
-			// Check if the user may add another mailbox.
+			// Check if the user may add another transport.
 			if($this->id == 0 && $client["limit_mailrouting"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(transport_id) as number FROM mail_transport WHERE sys_groupid = $client_group_id");
 				if($tmp["number"] >= $client["limit_mailrouting"]) {
@@ -94,6 +127,17 @@ class page_action extends tform_actions {
 				unset($tmp);
 			}
 		} // end if user is not admin
+		
+		//* Compose transport field
+		if($this->dataRecord["mx"] == 'y') {
+			$transport = '['.$this->dataRecord["destination"].']';
+		} else {
+			$transport = $this->dataRecord["destination"];
+		}
+		$this->dataRecord["transport"] = $this->dataRecord["type"].':'.$transport;
+		unset($this->dataRecord["type"]);
+		unset($this->dataRecord["mx"]);
+		unset($this->dataRecord["destination"]);
 		
 		parent::onSubmit();
 	}
