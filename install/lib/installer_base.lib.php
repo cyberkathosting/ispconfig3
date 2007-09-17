@@ -209,6 +209,9 @@ class installer_base {
 
 		//* mysql-virtual_client.cf
         $this->process_postfix_config('mysql-virtual_client.cf');
+		
+		//* mysql-virtual_relaydomains.cf
+        $this->process_postfix_config('mysql-virtual_relaydomains.cf');
 
 		//* Changing mode and group of the new created config files.
 		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
@@ -241,6 +244,7 @@ class installer_base {
 			'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',
 			'smtpd_tls_key_file = '.$config_dir.'/smtpd.key',
 			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
+			'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
 			'virtual_create_maildirsize = yes',
 			'virtual_mailbox_extended = yes',
 			'virtual_mailbox_limit_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailbox_limit_maps.cf',

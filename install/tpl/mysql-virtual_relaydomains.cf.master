@@ -1,0 +1,8 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+table = mail_transport
+select_field = domain
+where_field = domain
+additional_conditions = and active = 'y' and server_id = {server_id}
+hosts = {mysql_server_ip}
