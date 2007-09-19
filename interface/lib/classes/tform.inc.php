@@ -889,9 +889,9 @@ class tform {
 				
                 if(is_array($record_new) && count($record_new) > 0) {
                         foreach($record_new as $key => $val) {
-                                if($record_old[$key] != $val) {
+                                if(@$record_old[$key] != $val) {
 										// Record has changed
-                                        $diffrec[$key] = array('old' => $record_old[$key],
+                                        $diffrec[$key] = array('old' => @$record_old[$key],
                                                                'new' => $val);
                                 }
                         }

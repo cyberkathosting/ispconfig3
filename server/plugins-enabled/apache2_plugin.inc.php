@@ -97,6 +97,7 @@ class apache2_plugin {
 		if(!is_dir($data["new"]["document_root"]."/cgi-bin")) exec("mkdir -p ".$data["new"]["document_root"]."/cgi-bin");
 		
 		// Create the symlink for the logfiles
+		if(!is_dir('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data["new"]["domain"]);
 		if(!is_link($data["new"]["document_root"]."/log")) exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
 		
 		// TODO: Create the symlinks

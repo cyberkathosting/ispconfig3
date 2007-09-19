@@ -122,7 +122,7 @@ class page_action extends tform_actions {
 			$client_select = "<option value='0'></option>";
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
-					$selected = ($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$selected = @($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}
@@ -235,8 +235,8 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$client_id = intval($client["client_id"]);
 		} else {
-			$client_id = intval($web_rec["client_group_id"]);
-			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($this->dataRecord["client_group_id"]));
+			$client_id = intval(@$web_rec["client_group_id"]);
+			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval(@$this->dataRecord["client_group_id"]));
 			$client_id = intval($client["client_id"]);
 		}
 		
