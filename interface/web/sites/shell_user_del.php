@@ -1,4 +1,5 @@
 <?php
+
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -27,12 +28,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 /******************************************
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/ftp_user.tform.php";
+$list_def_file = "list/shell_user.list.php";
+$tform_def_file = "form/shell_user.tform.php";
 
 /******************************************
 * End Form configuration
@@ -41,63 +42,13 @@ $tform_def_file = "form/ftp_user.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking module permissions
+// Checke Berechtigungen für Modul
 if(!stristr($_SESSION["s"]["user"]["modules"],'sites')) {
 	header("Location: ../index.php");
 	exit;
 }
 
-// Loading classes
-$app->uses('tpl,tform,tform_actions');
-$app->load('tform_actions');
-
-class page_action extends tform_actions {
-	
-	function onShowNew() {
-		global $app, $conf;
-		
-		// we will check only users, not admins
-		if($_SESSION["s"]["user"]["typ"] == 'user') {
-			
-			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_ftp_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
-			// Check if the user may add another ftp user.
-			if($client["limit_ftp_user"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(ftp_user_id) as number FROM ftp_user WHERE sys_groupid = $client_group_id");
-				if($tmp["number"] >= $client["limit_ftp_user"]) {
-					$app->error($app->tform->wordbook["limit_ftp_user_txt"]);
-				}
-			}
-		}
-		
-		parent::onShowNew();
-	}
-	
-	function onAfterInsert() {
-		global $app, $conf;
-		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-		$server_id = $web["server_id"];
-		$dir = $web["document_root"];
-		$uid = $web["system_user"];
-		$gid = $web["system_group"];
-		
-		$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid' WHERE ftp_user_id = ".$this->id;
-		$app->db->query($sql);
-		
-	}
-	
-	function onAfterUpdate() {
-		global $app, $conf;
-		
-		
-	}
-	
-}
-
-$page = new page_action;
-$page->onLoad();
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
 ?>

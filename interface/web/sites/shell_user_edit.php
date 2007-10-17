@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/ftp_user.tform.php";
+$tform_def_file = "form/shell_user.tform.php";
 
 /******************************************
 * End Form configuration
@@ -63,11 +63,11 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_ftp_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
-			// Check if the user may add another ftp user.
-			if($client["limit_ftp_user"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(ftp_user_id) as number FROM ftp_user WHERE sys_groupid = $client_group_id");
-				if($tmp["number"] >= $client["limit_ftp_user"]) {
-					$app->error($app->tform->wordbook["limit_ftp_user_txt"]);
+			// Check if the user may add another shell user.
+			if($client["limit_shell_user"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(shell_user_id) as number FROM shell_user WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_shell_user"]) {
+					$app->error($app->tform->wordbook["limit_shell_user_txt"]);
 				}
 			}
 		}
@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		$uid = $web["system_user"];
 		$gid = $web["system_group"];
 		
-		$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid' WHERE ftp_user_id = ".$this->id;
+		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid' WHERE shell_user_id = ".$this->id;
 		$app->db->query($sql);
 		
 	}

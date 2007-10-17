@@ -28,7 +28,7 @@ $module["nav"][] = array(	'title'	=> 'Websites',
 							'open' 	=> 1,
 							'items'	=> $items);
 
-// aufräumen
+// clean up
 unset($items);
 
 /*
@@ -44,7 +44,23 @@ $module["nav"][] = array(	'title'	=> 'FTP',
 							'open' 	=> 1,
 							'items'	=> $items);
 
-// aufräumen
+// clean up
+unset($items);
+
+/*
+	FTP User menu
+*/
+
+$items[] = array( 'title' 	=> "Shell-User",
+				  'target' 	=> 'content',
+				  'link'	=> 'sites/shell_user_list.php');
+
+
+$module["nav"][] = array(	'title'	=> 'Shell',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+// clean up
 unset($items);
 
 

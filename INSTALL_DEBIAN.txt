@@ -34,6 +34,14 @@ a2enmod rewrite
 
 apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
 
+Edit the file /etc/default/pure-ftpd-common
+
+vi /etc/default/pure-ftpd-common
+
+and change the start mode from inetd to standalone. Then execute:
+
+/etc/init.d/openbsd-inetd restart
+
 
 5) Install mydns
 

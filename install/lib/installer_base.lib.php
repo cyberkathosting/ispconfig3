@@ -522,7 +522,7 @@ class installer_base {
 		exec("chmod 600 $config_dir/$configfile");
 		exec("chown root:root $config_dir/$configfile");
 		// **enable chrooting
-		exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
+		//exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
 		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
 	}
 	

@@ -1,0 +1,44 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='server_id_txt'}:</td>
+    <td class="frmText11">
+		<select name="server_id" class="text">
+			{tmpl_var name='server_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='parent_domain_id_txt'}:</td>
+    <td class="frmText11">
+		<select name="parent_domain_id" class="text">
+			{tmpl_var name='parent_domain_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='username_txt'}:</td>
+    <td class="frmText11"><input name="username" type="text" class="text" value="{tmpl_var name='username'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='password_txt'}:</td>
+    <td class="frmText11"><input name="password" type="password" class="text" value="{tmpl_var name='password'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='quota_size_txt'}:</td>
+    <td class="frmText11"><input name="quota_size" type="text" class="text" value="{tmpl_var name='quota_size'}" size="7" maxlength="7"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/shell_user_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/shell_user_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

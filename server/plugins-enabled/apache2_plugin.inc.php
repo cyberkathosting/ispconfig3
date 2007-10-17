@@ -49,6 +49,10 @@ class apache2_plugin {
 		$app->plugins->registerEvent('web_domain_update',$this->plugin_name,'update');
 		$app->plugins->registerEvent('web_domain_delete',$this->plugin_name,'delete');
 		
+		$app->plugins->registerEvent('server_ip_insert',$this->plugin_name,'server_ip');
+		$app->plugins->registerEvent('server_ip_update',$this->plugin_name,'server_ip');
+		$app->plugins->registerEvent('server_ip_delete',$this->plugin_name,'server_ip');
+		
 	}
 	
 	function insert($event_name,$data) {
@@ -104,7 +108,7 @@ class apache2_plugin {
 		
 		// Copy the error pages
 		$error_page_path = escapeshellcmd($data["new"]["web_document_root"])."/web/error/";
-		exec("copy /usr/local/ispconfig/server/conf/error/".escapeshellcmd($conf["language"])."/* ".$error_page_path);
+		exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
 		
 		// Create group and user, if not exist
 		$app->uses("system");
@@ -222,6 +226,16 @@ class apache2_plugin {
 		$docroot = escapeshellcmd($data["old"]["document_root"]);
 		if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
 		$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
+		
+	}
+	
+	//* This function is called when a IP on the server is inserted, updated or deleted
+	function server_ip($event_name,$data) {
+		global $app, $conf;
+		
+		// Here we write the name virtualhost directives
+		// NameVirtualHost IP:80
+		// NameVirtualHost IP:443
 		
 	}
 	
