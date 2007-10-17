@@ -56,6 +56,7 @@ CREATE TABLE `client` (
   `limit_web_subdomain` int(11) NOT NULL default '-1',
   `limit_web_aliasdomain` int(11) NOT NULL default '-1',
   `limit_ftp_user` int(11) NOT NULL default '-1',
+  `limit_shell_user` int(11) NOT NULL default '0',
   `default_dnsserver` int(10) unsigned NOT NULL default '1',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
@@ -514,6 +515,33 @@ CREATE TABLE `server_ip` (
 
 -- 
 -- Daten für Tabelle `server_ip`
+-- 
+
+-- --------------------------------------------------------
+
+
+CREATE TABLE `shell_user` (
+  `shell_user_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) NOT NULL default '0',
+  `parent_domain_id` int(11) NOT NULL default '0',
+  `username` varchar(255) default NULL,
+  `password` varchar(255) default NULL,
+  `quota_size` int(11) NOT NULL default '-1',
+  `active` varchar(255) NOT NULL default 'y',
+  `uid` varchar(255) NOT NULL default '0',
+  `gid` varchar(255) NOT NULL default '0',
+  `shell` varchar(255) NOT NULL default '/bin/bash',
+  `dir` varchar(255) default NULL,
+  PRIMARY KEY  (`shell_user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+-- 
+-- Daten für Tabelle `shell_user`
 -- 
 
 
