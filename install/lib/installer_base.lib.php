@@ -646,7 +646,7 @@ class installer_base {
 		exec('crontab -u root -l > crontab.txt');
 		$existing_root_cron_jobs = file('crontab.txt');
 		
-		$root_cron_jobs = array('* * * * * /usr/bin/php -q /usr/local/ispconfig/server/server.sh &> /dev/null');
+		$root_cron_jobs = array('* * * * * /usr/local/ispconfig/server/server.sh &> /dev/null');
 		foreach($root_cron_jobs as $cron_job) {
 			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
 				$existing_root_cron_jobs[] = $cron_job."\n";
