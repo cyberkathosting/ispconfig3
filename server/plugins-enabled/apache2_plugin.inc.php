@@ -104,7 +104,19 @@ class apache2_plugin {
 		if(!is_dir('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data["new"]["domain"]);
 		if(!is_link($data["new"]["document_root"]."/log")) exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
 		
-		// TODO: Create the symlinks
+		// Create the symlinks for the sites
+		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
+		$client_id = intval($client["client_id"]);
+		unset($client);
+		$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
+		foreach($tmp_symlinks_array as $tmp_symlink) {
+			$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
+			$tmp_symlink = str_replace("[website_domain]",$data["new"]["domain"],$tmp_symlink);
+			if(!is_link($tmp_symlink)) {
+				exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
+				$app->log("Creating Symlink: ln -s ".$data["new"]["document_root"]."/ ".$tmp_symlink,LOGLEVEL_DEBUG);
+			}
+		}
 		
 		// Copy the error pages
 		$error_page_path = escapeshellcmd($data["new"]["web_document_root"])."/web/error/";

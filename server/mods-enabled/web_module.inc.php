@@ -34,7 +34,13 @@ class web_module {
 	var $class_name = 'web_module';
 	var $actions_available = array(	'web_domain_insert',
 									'web_domain_update',
-									'web_domain_delete');
+									'web_domain_delete',
+									'ftp_user_insert',
+									'ftp_user_update',
+									'ftp_user_delete',
+									'shell_user_insert',
+									'shell_user_update',
+									'shell_user_delete');
 	
 	/*
 	 	This function is called when the module is loaded
@@ -80,6 +86,16 @@ class web_module {
 				if($action == 'i') $app->plugins->raiseEvent('web_domain_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('web_domain_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('web_domain_delete',$data);
+			break;
+			case 'ftp_user':
+				if($action == 'i') $app->plugins->raiseEvent('ftp_user_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('ftp_user_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('ftp_user_delete',$data);
+			break;
+			case 'shell_user':
+				if($action == 'i') $app->plugins->raiseEvent('shell_user_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('shell_user_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('shell_user_delete',$data);
 			break;
 		} // end switch
 	} // end function
