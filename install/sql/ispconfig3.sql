@@ -840,15 +840,26 @@ CREATE TABLE `web_domain` (
   `system_group` varchar(255) default NULL,
   `hd_quota` int(11) NOT NULL default '0',
   `traffic_quota` int(11) NOT NULL default '0',
-  `cgi` varchar(255) NOT NULL default 'y',
-  `ssi` varchar(255) NOT NULL default 'y',
-  `suexec` varchar(255) NOT NULL default 'y',
+  `cgi` char(1) NOT NULL default 'y',
+  `ssi` char(1) NOT NULL default 'y',
+  `suexec` char(1) NOT NULL default 'y',
   `php` varchar(255) NOT NULL default 'y',
   `redirect_type` varchar(255) default NULL,
   `redirect_path` varchar(255) default NULL,
+  `ssl` enum('n','y') NOT NULL default 'n',
+  `ssl_state` varchar(255) NOT NULL,
+  `ssl_locality` varchar(255) NOT NULL,
+  `ssl_organisation` varchar(255) NOT NULL,
+  `ssl_organisation_unit` varchar(255) NOT NULL,
+  `ssl_country` varchar(255) NOT NULL,
+  `ssl_request` mediumtext NOT NULL,
+  `ssl_cert` mediumtext NOT NULL,
+  `ssl_bundle` mediumtext NOT NULL,
+  `ssl_action` varchar(10) NOT NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`domain_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 
 -- 
 -- Daten für Tabelle `web_domain`

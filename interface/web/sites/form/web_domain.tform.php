@@ -159,6 +159,12 @@ $form["tabs"]['domain'] = array (
 			'default'	=> 'y',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
+		'ssl' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 		'php' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
@@ -177,6 +183,7 @@ $form["tabs"]['domain'] = array (
 	)
 );
 
+
 $form["tabs"]['redirect'] = array (
 	'title' 	=> "Redirect",
 	'width' 	=> 100,
@@ -188,7 +195,7 @@ $form["tabs"]['redirect'] = array (
 		'redirect_type' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
-			'default'	=> 'y',
+			'default'	=> '',
 			'value'		=> array('' => 'No redirect', 'R' => 'R', 'L' => 'L')
 		),
 		'redirect_path' => array (
@@ -198,6 +205,90 @@ $form["tabs"]['redirect'] = array (
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+$form["tabs"]['ssl'] = array (
+	'title' 	=> "SSL",
+	'width' 	=> 100,
+	'template' 	=> "templates/web_domain_ssl.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'ssl_state' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'ssl_locality' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'ssl_organisation' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'ssl_organisation_unit' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'ssl_country' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'ssl_request' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '10'
+		),
+		'ssl_cert' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '10'
+		),
+		'ssl_bundle' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '10'
+		),
+		'ssl_action' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('' => 'None', 'save' => 'Save Certificate', 'create' => 'Create Certificate')
 		),
 	##################################
 	# ENDE Datatable fields

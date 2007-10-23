@@ -1,4 +1,3 @@
-# NameVirtualHost *:80
 
 <VirtualHost <tmpl_var name='ip_address'>:80>
     DocumentRoot <tmpl_var name='web_document_root'>
@@ -57,3 +56,70 @@
 </tmpl_if>
 
 </VirtualHost>
+
+
+
+<tmpl_if name='ssl' op='==' value='y'>
+###########################################################
+# SSL Vhost
+###########################################################
+
+<VirtualHost <tmpl_var name='ip_address'>:443>
+    DocumentRoot <tmpl_var name='web_document_root'>
+    ServerName <tmpl_var name='domain'>
+	ServerAdmin webmaster@<tmpl_var name='domain'>
+	ErrorLog <tmpl_var name='document_root'>/log/error.log
+	
+	ErrorDocument 400 /error/invalidSyntax.html
+	ErrorDocument 401 /error/authorizationRequired.html
+	ErrorDocument 403 /error/forbidden.html
+	ErrorDocument 404 /error/fileNotFound.html
+	ErrorDocument 405 /error/methodNotAllowed.html
+	ErrorDocument 500 /error/internalServerError.html
+	ErrorDocument 503 /error/overloaded.html
+
+<tmpl_if name='alias'>
+    ServerAlias <tmpl_var name='alias'>
+</tmpl_if>
+<tmpl_if name='cgi'>
+    # cgi enabled
+    ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
+    AddHandler cgi-script .cgi
+    AddHandler cgi-script .pl
+</tmpl_if>
+<tmpl_if name='ssi'>
+    # ssi enabled
+    AddType text/html .shtml
+    AddOutputFilter INCLUDES .shtml
+</tmpl_if>
+<tmpl_if name='suexec'>
+    # suexec enabled
+    SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+</tmpl_if>
+<tmpl_if name='php' op='==' value='mod'>
+    # mod_php enabled
+    AddType application/x-httpd-php .php .php3 .php4 .php5
+</tmpl_if>
+<tmpl_if name='php' op='==' value='suphp'>
+    # suphp enabled
+    suPHP_Engine on
+    suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    AddHandler x-httpd-php .php .php3 .php4 .php5
+    suPHP_AddHandler x-httpd-php
+</tmpl_if>
+<tmpl_if name='php' op='==' value='cgi'>
+    # php as cgi enabled
+    AddType application/x-httpd-php .php .php3 .php4 .php5
+</tmpl_if>
+
+<tmpl_if name="rewrite_enabled">
+    RewriteEngine on
+<tmpl_loop name="redirects">
+    RewriteCond %{HTTP_HOST}   ^<tmpl_var name='rewrite_domain'> [NC]
+    RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  [<tmpl_var name='rewrite_type'>]
+</tmpl_loop>
+</tmpl_if>
+
+</VirtualHost>
+
+</tmpl_if>

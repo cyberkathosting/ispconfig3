@@ -1,0 +1,52 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_state_txt'}:</td>
+    <td class="frmText11"><input name="ssl_state" type="text" class="text" value="{tmpl_var name='ssl_state'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_locality_txt'}:</td>
+    <td class="frmText11"><input name="ssl_locality" type="text" class="text" value="{tmpl_var name='ssl_locality'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_organisation_txt'}:</td>
+    <td class="frmText11"><input name="ssl_organisation" type="text" class="text" value="{tmpl_var name='ssl_organisation'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_organisation_unit_txt'}:</td>
+    <td class="frmText11"><input name="ssl_organisation_unit" type="text" class="text" value="{tmpl_var name='ssl_organisation_unit'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_country_txt'}:</td>
+    <td class="frmText11"><input name="ssl_country" type="text" class="text" value="{tmpl_var name='ssl_country'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_request_txt'}:</td>
+    <td class="frmText11"><textarea name='ssl_request' cols='30' rows='10'>{tmpl_var name='ssl_request'}</textarea></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_cert_txt'}:</td>
+    <td class="frmText11"><textarea name='ssl_cert' cols='30' rows='10'>{tmpl_var name='ssl_cert'}</textarea></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_bundle_txt'}:</td>
+    <td class="frmText11"><textarea name='ssl_bundle' cols='30' rows='10'>{tmpl_var name='ssl_bundle'}</textarea></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ssl_action_txt'}:</td>
+    <td class="frmText11">
+		<select name="ssl_action" class="text">
+			{tmpl_var name='ssl_action'}
+		</select>
+	</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

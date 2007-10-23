@@ -45,6 +45,12 @@ class apache2_plugin {
 		Register for the events
 		*/
 		
+		
+		
+		$app->plugins->registerEvent('web_domain_insert',$this->plugin_name,'ssl');
+		$app->plugins->registerEvent('web_domain_update',$this->plugin_name,'ssl');
+		$app->plugins->registerEvent('web_domain_delete',$this->plugin_name,'ssl');
+		
 		$app->plugins->registerEvent('web_domain_insert',$this->plugin_name,'insert');
 		$app->plugins->registerEvent('web_domain_update',$this->plugin_name,'update');
 		$app->plugins->registerEvent('web_domain_delete',$this->plugin_name,'delete');
@@ -54,6 +60,100 @@ class apache2_plugin {
 		$app->plugins->registerEvent('server_ip_delete',$this->plugin_name,'server_ip');
 		
 	}
+	
+	// Handle the creation of SSL certificates
+	function ssl($event_name,$data) {
+		global $app, $conf;
+		
+		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
+		$ssl_dir = $data["new"]["document_root"]."/ssl";
+		$domain = $data["new"]["domain"];
+		$key_file = $ssl_dir.'/'.$domain.".key.org";
+  		$key_file2 = $ssl_dir.'/'.$domain.".key";
+  		$csr_file = $ssl_dir.'/'.$domain.".csr";
+  		$crt_file = $ssl_dir.'/'.$domain.".crt";
+		
+		//* Create a SSL Certificate
+		if($data["new"]["ssl_action"] == 'create') {
+			$rand_file = $ssl_dir."/random_file";
+    		$rand_data = md5(uniqid(microtime(),1));
+    		for($i=0; $i<1000; $i++){
+    			$rand_data .= md5(uniqid(microtime(),1));
+    			$rand_data .= md5(uniqid(microtime(),1));
+    			$rand_data .= md5(uniqid(microtime(),1));
+    			$rand_data .= md5(uniqid(microtime(),1));
+    		}
+    		file_put_contents($rand_file, $rand_data);
+
+    		$ssl_password = substr(md5(uniqid(microtime(),1)), 0, 15);
+			
+			$ssl_cnf = "        RANDFILE               = $rand_file
+
+        [ req ]
+        default_bits           = 1024
+        default_keyfile        = keyfile.pem
+        distinguished_name     = req_distinguished_name
+        attributes             = req_attributes
+        prompt                 = no
+        output_password        = $ssl_password
+
+        [ req_distinguished_name ]
+        C                      = $data[new][ssl_country]
+        ST                     = $data[new][ssl_state]
+        L                      = $data[new][ssl_locality]
+        O                      = $data[new][ssl_organisation]
+        OU                     = $data[new][ssl_organisation_unit]
+        CN                     = $domain
+        emailAddress           = webmatser@$data[new][domain]
+
+        [ req_attributes ]
+        challengePassword              = A challenge password";
+			
+			$ssl_cnf_file = $ssl_dir."/openssl.conf";
+			file_get_contents($ssl_cnf_file,$ssl_cnf);
+			
+			$rand_file = escapeshellcmd($rand_file);
+			$key_file = escapeshellcmd($key_file);
+			$key_file2 = escapeshellcmd($key_file2);
+			$ssl_days = 3650;
+			$csr_file = escapeshellcmd($csr_file);
+			$config_file = escapeshellcmd($config_file);
+			$crt_file escapeshellcmd($crt_file);
+
+        	if(is_file($ssl_cnf_file)){
+          		exec("openssl genrsa -des3 -rand $rand_file \
+				-passout pass:$ssl_password \
+				-out $key_file 1024 \
+				&& openssl req -new -passin pass:$ssl_password \
+				-passout pass:$ssl_password -key $key_file \
+				-out $csr_file -days $ssl_days \
+				-config $config_file \
+				&& openssl req -x509 -passin pass:$ssl_password \
+				-passout pass:$ssl_password \
+				-key $key_file -in $csr_file \
+				-out $crt_file -days $ssl_days \
+				-config $config_file \
+				&& openssl rsa -passin pass:$ssl_password \
+				-in $key_file \
+				-out $key_file2");
+        	}
+
+    		exec("chmod 400 $key_file2");
+    		exec("rm -f $config_file");
+    		exec("rm -f $rand_file");
+    		$ssl_request = file_get_contents($csr_file);
+    		$ssl_cert = file_get_contents($crt_file);
+    		$mod->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
+		}
+		
+		//* Save a SSL certificate to disk
+		if($data["new"]["ssl_action"] == 'save') {
+			
+		}
+		
+		
+	}
+	
 	
 	function insert($event_name,$data) {
 		global $app, $conf;
@@ -109,12 +209,17 @@ class apache2_plugin {
 		$client_id = intval($client["client_id"]);
 		unset($client);
 		$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
-		foreach($tmp_symlinks_array as $tmp_symlink) {
-			$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
-			$tmp_symlink = str_replace("[website_domain]",$data["new"]["domain"],$tmp_symlink);
-			if(!is_link($tmp_symlink)) {
-				exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
-				$app->log("Creating Symlink: ln -s ".$data["new"]["document_root"]."/ ".$tmp_symlink,LOGLEVEL_DEBUG);
+		if(is_array($tmp_symlinks_array)) {
+			foreach($tmp_symlinks_array as $tmp_symlink) {
+				$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
+				$tmp_symlink = str_replace("[website_domain]",$data["new"]["domain"],$tmp_symlink);
+				// Remove trailing slash
+				if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
+				// create the symlinks, if not exist
+				if(!is_link($tmp_symlink)) {
+					exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
+					$app->log("Creating Symlink: ln -s ".$data["new"]["document_root"]."/ ".$tmp_symlink,LOGLEVEL_DEBUG);
+				}
 			}
 		}
 		
@@ -238,6 +343,26 @@ class apache2_plugin {
 		$docroot = escapeshellcmd($data["old"]["document_root"]);
 		if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
 		$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
+		
+		// Delete the symlinks for the sites
+		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["old"]["sys_groupid"]));
+		$client_id = intval($client["client_id"]);
+		unset($client);
+		$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
+		if(is_array($tmp_symlinks_array)) {
+			foreach($tmp_symlinks_array as $tmp_symlink) {
+				$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
+				$tmp_symlink = str_replace("[website_domain]",$data["old"]["domain"],$tmp_symlink);
+				// Remove trailing slash
+				if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
+				// create the symlinks, if not exist
+				if(is_link($tmp_symlink)) {
+					unlink($tmp_symlink));
+					$app->log("Removing symlink: ".$tmp_symlink,LOGLEVEL_DEBUG);
+				}
+			}
+		}
+		// end removing symlinks
 		
 	}
 	
