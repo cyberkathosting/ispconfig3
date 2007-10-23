@@ -98,19 +98,19 @@ class apache2_plugin {
         output_password        = $ssl_password
 
         [ req_distinguished_name ]
-        C                      = $data[new][ssl_country]
-        ST                     = $data[new][ssl_state]
-        L                      = $data[new][ssl_locality]
-        O                      = $data[new][ssl_organisation]
-        OU                     = $data[new][ssl_organisation_unit]
+        C                      = ".$data['new']['ssl_country']."
+        ST                     = ".$data['new']['ssl_state']."
+        L                      = ".$data['new']['ssl_locality']."
+        O                      = ".$data['new']['ssl_organisation']."
+        OU                     = ".$data['new']['ssl_organisation_unit']."
         CN                     = $domain
-        emailAddress           = webmatser@$data[new][domain]
+        emailAddress           = webmatser@".$data['new']['domain']."
 
         [ req_attributes ]
         challengePassword              = A challenge password";
 			
 			$ssl_cnf_file = $ssl_dir."/openssl.conf";
-			file_get_contents($ssl_cnf_file,$ssl_cnf);
+			file_put_contents($ssl_cnf_file,$ssl_cnf);
 			
 			$rand_file = escapeshellcmd($rand_file);
 			$key_file = escapeshellcmd($key_file);
@@ -118,34 +118,20 @@ class apache2_plugin {
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
 			$config_file = escapeshellcmd($ssl_cnf_file);
-			$crt_file escapeshellcmd($crt_file);
+			$crt_file = escapeshellcmd($crt_file);
 
         	if(is_file($ssl_cnf_file)){
-          		exec("openssl genrsa -des3 -rand $rand_file \
-				-passout pass:$ssl_password \
-				-out $key_file 1024 \
-				&& openssl req -new -passin pass:$ssl_password \
-				-passout pass:$ssl_password -key $key_file \
-				-out $csr_file -days $ssl_days \
-				-config $config_file \
-				&& openssl req -x509 -passin pass:$ssl_password \
-				-passout pass:$ssl_password \
-				-key $key_file -in $csr_file \
-				-out $crt_file -days $ssl_days \
-				-config $config_file \
-				&& openssl rsa -passin pass:$ssl_password \
-				-in $key_file \
-				-out $key_file2");
-				
+          		exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 1024 && openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file && openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file && openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
 				$app->log("Creating SSL Cert for: $domain",LOGLEVEL_DEBUG);
         	}
 
     		exec("chmod 400 $key_file2");
-    		unlink($config_file);
-    		unlink($rand_file);
+    		@unlink($config_file);
+    		@unlink($rand_file);
     		$ssl_request = file_get_contents($csr_file);
     		$ssl_cert = file_get_contents($crt_file);
-    		$mod->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
+    		$app->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
 		}
 		
 		//* Save a SSL certificate to disk
@@ -158,6 +144,7 @@ class apache2_plugin {
 			file_put_contents($csr_file,$data["new"]["ssl_request"]);
 			file_put_contents($crt_file,$data["new"]["ssl_cert"]);
 			if(trim($data["new"]["ssl_bundle"]) != '') file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->log("Saving SSL Cert for: $domain",LOGLEVEL_DEBUG);
 		}
 		
@@ -171,6 +158,7 @@ class apache2_plugin {
 			unlink($csr_file);
 			unlink($crt_file);
 			unlink($bundle_file);
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->log("Deleting SSL Cert for: $domain",LOGLEVEL_DEBUG);
 		}
 		
@@ -298,7 +286,7 @@ class apache2_plugin {
   		$crt_file = $ssl_dir.'/'.$domain.".crt";
 		$bundle_file = $ssl_dir.'/'.$domain.".bundle";
 		
-		if($data["new"]["ssl"] == 'y' && @is_file($crt_file) && @is_file($key_file) {
+		if($data["new"]["ssl"] == 'y' && @is_file($crt_file) && @is_file($key_file)) {
 			$vhost_data["ssl_enabled"] = 1;
 			$app->log("Enable SSL for: $domain",LOGLEVEL_DEBUG);
 		} else {
@@ -398,7 +386,7 @@ class apache2_plugin {
 				if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
 				// create the symlinks, if not exist
 				if(is_link($tmp_symlink)) {
-					unlink($tmp_symlink));
+					unlink($tmp_symlink);
 					$app->log("Removing symlink: ".$tmp_symlink,LOGLEVEL_DEBUG);
 				}
 			}

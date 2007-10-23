@@ -28,10 +28,10 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class apache2_plugin {
+class shelluser_plugin {
 	
-	var $plugin_name = 'apache2_plugin';
-	var $class_name = 'apache2_plugin';
+	var $plugin_name = 'shelluser_plugin';
+	var $class_name = 'shelluser_plugin';
 	
 		
 	/*
@@ -45,9 +45,9 @@ class apache2_plugin {
 		Register for the events
 		*/
 		
-		$app->plugins->registerEvent('web_domain_insert',$this->plugin_name,'insert');
-		$app->plugins->registerEvent('web_domain_update',$this->plugin_name,'update');
-		$app->plugins->registerEvent('web_domain_delete',$this->plugin_name,'delete');
+		$app->plugins->registerEvent('shell_user_insert',$this->plugin_name,'insert');
+		$app->plugins->registerEvent('shell_user_update',$this->plugin_name,'update');
+		$app->plugins->registerEvent('shell_user_delete',$this->plugin_name,'delete');
 
 		
 	}

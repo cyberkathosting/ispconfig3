@@ -257,8 +257,8 @@ $form["tabs"]['ssl'] = array (
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
 			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'width'		=> '2',
+			'maxlength'	=> '2'
 		),
 		'ssl_request' => array (
 			'datatype'	=> 'TEXT',
