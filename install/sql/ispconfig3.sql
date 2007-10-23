@@ -533,12 +533,12 @@ CREATE TABLE `shell_user` (
   `password` varchar(255) default NULL,
   `quota_size` int(11) NOT NULL default '-1',
   `active` varchar(255) NOT NULL default 'y',
-  `uid` varchar(255) NOT NULL default '0',
-  `gid` varchar(255) NOT NULL default '0',
+  `puser` varchar(255) default NULL,
+  `pgroup` varchar(255) default NULL,
   `shell` varchar(255) NOT NULL default '/bin/bash',
   `dir` varchar(255) default NULL,
   PRIMARY KEY  (`shell_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `shell_user`

@@ -138,7 +138,7 @@ $form["tabs"]['advanced'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
-		'uid' => array (
+		'puser' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
@@ -149,7 +149,7 @@ $form["tabs"]['advanced'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		'gid' => array (
+		'pgroup' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',

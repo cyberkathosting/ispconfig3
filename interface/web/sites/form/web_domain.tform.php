@@ -288,7 +288,7 @@ $form["tabs"]['ssl'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('' => 'None', 'save' => 'Save Certificate', 'create' => 'Create Certificate')
+			'value'		=> array('' => 'None', 'save' => 'Save Certificate', 'create' => 'Create Certificate','del' => 'Delete Certificate')
 		),
 	##################################
 	# ENDE Datatable fields

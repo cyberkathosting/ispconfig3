@@ -117,7 +117,7 @@ class apache2_plugin {
 			$key_file2 = escapeshellcmd($key_file2);
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
-			$config_file = escapeshellcmd($config_file);
+			$config_file = escapeshellcmd($ssl_cnf_file);
 			$crt_file escapeshellcmd($crt_file);
 
         	if(is_file($ssl_cnf_file)){
@@ -136,11 +136,13 @@ class apache2_plugin {
 				&& openssl rsa -passin pass:$ssl_password \
 				-in $key_file \
 				-out $key_file2");
+				
+				$app->log("Creating SSL Cert for: $domain",LOGLEVEL_DEBUG);
         	}
 
     		exec("chmod 400 $key_file2");
-    		exec("rm -f $config_file");
-    		exec("rm -f $rand_file");
+    		unlink($config_file);
+    		unlink($rand_file);
     		$ssl_request = file_get_contents($csr_file);
     		$ssl_cert = file_get_contents($crt_file);
     		$mod->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
@@ -148,7 +150,28 @@ class apache2_plugin {
 		
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
-			
+			$ssl_dir = $data["new"]["document_root"]."/ssl";
+			$domain = $data["new"]["domain"];
+  			$csr_file = $ssl_dir.'/'.$domain.".csr";
+  			$crt_file = $ssl_dir.'/'.$domain.".crt";
+			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
+			file_put_contents($csr_file,$data["new"]["ssl_request"]);
+			file_put_contents($crt_file,$data["new"]["ssl_cert"]);
+			if(trim($data["new"]["ssl_bundle"]) != '') file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
+			$app->log("Saving SSL Cert for: $domain",LOGLEVEL_DEBUG);
+		}
+		
+		//* Delete a SSL certificate
+		if($data["new"]["ssl_action"] == 'del') {
+			$ssl_dir = $data["new"]["document_root"]."/ssl";
+			$domain = $data["new"]["domain"];
+  			$csr_file = $ssl_dir.'/'.$domain.".csr";
+  			$crt_file = $ssl_dir.'/'.$domain.".crt";
+			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
+			unlink($csr_file);
+			unlink($crt_file);
+			unlink($bundle_file);
+			$app->log("Deleting SSL Cert for: $domain",LOGLEVEL_DEBUG);
 		}
 		
 		
@@ -267,6 +290,24 @@ class apache2_plugin {
 		
 		$vhost_data = $data["new"];
 		$vhost_data["web_document_root"] = $data["new"]["document_root"]."/web";
+		
+		// Check if a SSL cert exists
+		$ssl_dir = $data["new"]["document_root"]."/ssl";
+		$domain = $data["new"]["domain"];
+  		$key_file = $ssl_dir.'/'.$domain.".key";
+  		$crt_file = $ssl_dir.'/'.$domain.".crt";
+		$bundle_file = $ssl_dir.'/'.$domain.".bundle";
+		
+		if($data["new"]["ssl"] == 'y' && @is_file($crt_file) && @is_file($key_file) {
+			$vhost_data["ssl_enabled"] = 1;
+			$app->log("Enable SSL for: $domain",LOGLEVEL_DEBUG);
+		} else {
+			$vhost_data["ssl_enabled"] = 0;
+			$app->log("Disable SSL for: $domain",LOGLEVEL_DEBUG);
+		}
+		
+		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
+		
 		//$vhost_data["document_root"] = $data["new"]["document_root"]."/web";
 		$tpl->setVar($vhost_data);
 		

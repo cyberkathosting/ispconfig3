@@ -59,7 +59,9 @@
 
 
 
-<tmpl_if name='ssl' op='==' value='y'>
+<tmpl_if name='ssl_enabled'>
+
+<IfModule mod_ssl.c>
 ###########################################################
 # SSL Vhost
 ###########################################################
@@ -77,6 +79,13 @@
 	ErrorDocument 405 /error/methodNotAllowed.html
 	ErrorDocument 500 /error/internalServerError.html
 	ErrorDocument 503 /error/overloaded.html
+	
+	SSLEngine on
+	SSLCertificateFile <tmpl_var name='document_root'>/<tmpl_var name='domain'>.crt
+	SSLCertificateKeyFile <tmpl_var name='document_root'>/<tmpl_var name='domain'>.key
+<tmpl_if name='has_bundle_cert'>
+	SSLCACertificateFile <tmpl_var name='document_root'>/<tmpl_var name='domain'>.bundle
+</tmpl_if>
 
 <tmpl_if name='alias'>
     ServerAlias <tmpl_var name='alias'>
@@ -121,5 +130,6 @@
 </tmpl_if>
 
 </VirtualHost>
+</IfModule>
 
 </tmpl_if>
