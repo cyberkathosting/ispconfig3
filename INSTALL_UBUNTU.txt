@@ -1,0 +1,108 @@
+Installation
+-----------
+
+It is recommended to use a clean (fresh) Ubuntu 7.10 (Gutsy Gibbon) install where you selected no additional packages or servers during setup. Then follow the steps below to setup your server with ISPConfig 3:
+
+Now become root user by executing:
+
+sudo su
+
+and entering the password of the user that you created during setup.
+
+Edit the file /etc/apt/sources.list and comment out the line beginning with "deb cdrom:....", then run:
+
+apt-get update
+apt-get -u upgrade
+
+
+1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
+
+apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl postfix-tls libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4
+
+Answer the questions from the package manager as follows.
+
+Create directories for web-based administration ? <-- No
+General type of configuration? <-- Internet site
+Mail name? <-- server1.mydomain.tld
+ SSL certificate required <-- Ok
+
+...use your own domain name of course ;)
+
+2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
+
+apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip
+
+
+3) Install apache, PHP5 and phpmyadmin (1 line!):
+
+apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli
+
+Then run the following to enable the Apache modules:
+
+a2enmod suexec
+a2enmod rewrite
+
+4) Install pure-ftpd and quota
+
+apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
+
+Edit the file /etc/default/pure-ftpd-common
+
+vi /etc/default/pure-ftpd-common
+
+and change the start mode from inetd to standalone. Then execute:
+
+/etc/init.d/openbsd-inetd restart
+
+
+5) Install mydns
+
+apt-get install mydns-mysql
+
+The mydns installer is a bit tricky, you will have to select to create a new database for mydns and use a existing mysql user, e.g. the mysql root user. This database is only to fullfill the requirements for the debian pacakge during installation and will not be used by ISPConfig later. ISPConfig will automatically change the mydns configuration files to use the ISPConfig database.
+
+
+6) Install vlogger and webalizer
+
+apt-get install vlogger webalizer
+
+
+7) Install ISPConfig 3
+
+There are two possile scenarios, but not both:
+1) Install the latest alpha 
+2) Install directly from SVN
+
+apt-get install php5-cli
+
+1) Installation of alpha 3
+
+  cd /tmp
+  wget http://www.ispconfig.org/downloads/ISPConfig_3.0.0.3-alpha.tar.gz
+  tar xvfz ISPConfig_3.0.0.2-alpha.tar.gz
+  cd ISPConfig_3.0.0.2-alpha/install/
+
+2) Installation from SVN
+
+  apt-get install subversion
+  cd /tmp
+  svn export svn://svn.ispconfig.org/ispconfig3/trunk/
+  cd trunk/install
+
+
+1+2) Now proceed with the ISPConfig installation.
+
+Now start the installation process by executing:
+
+php -q install.php
+
+The installer will configure all services like postfix, sasl, courier, etc. for you. A manual setup as required for ISPConfig 2 (perfect setup guides) is not nescessary. To login to the ISPConfig controlpanel, open the following URL in your browser (replace the IP to match your settings!):
+
+http://192.168.0.100:8080/
+
+the default login is:
+
+user: admin
+password: admin
+
+In case you get a permission denied error from apache, please restart the apache webserver process.

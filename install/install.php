@@ -59,6 +59,8 @@ require_once('lib/installer_base.lib.php');
 //** Get distribution identifier
 $distname = get_distname();
 
+if($distname == '') die('Linux Dustribution or Version not recognized.');
+
 //** Include the distribution specific installer class library and configuration
 include_once('dist/lib/'.$distname.'.lib.php');
 include_once('dist/conf/'.$distname.'.conf.php');

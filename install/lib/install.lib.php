@@ -59,11 +59,18 @@ $FILE = realpath('../install.php');
 //** Get distribution identifier
 function get_distname() {
 	
-	//** Debian
+	$distname = '';
+	
+	//** Debian or Ubuntu
 	if(file_exists('/etc/debian_version')) {
 	
 		if(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 			$distname = 'debian40';
+			swriteln('Operating System: Debian 4.0 or compatible');
+		}
+		if(trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
+			$distname = 'debian40';
+			swriteln('Operating System: Debian Lenny/Sid or compatible');
 		}
 	}
 	
