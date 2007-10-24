@@ -44,16 +44,14 @@ a2enmod rewrite
 
 4) Install pure-ftpd and quota
 
+First we have to make sure that the capability module is loaded in the kernel
+
+modprobe capability
+echo 'capability' >> /etc/modules
+
+Then we install pureftpd and quota.
+
 apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
-
-Edit the file /etc/default/pure-ftpd-common
-
-vi /etc/default/pure-ftpd-common
-
-and change the start mode from inetd to standalone. Then execute:
-
-/etc/init.d/openbsd-inetd restart
-
 
 5) Install mydns
 

@@ -66,11 +66,11 @@ function get_distname() {
 	
 		if(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 			$distname = 'debian40';
-			swriteln('Operating System: Debian 4.0 or compatible');
+			swriteln("Operating System: Debian 4.0 or compatible\n");
 		}
 		if(trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
 			$distname = 'debian40';
-			swriteln('Operating System: Debian Lenny/Sid or compatible');
+			swriteln("Operating System: Debian Lenny/Sid or compatible\n");
 		}
 	}
 	

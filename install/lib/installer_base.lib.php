@@ -488,6 +488,8 @@ class installer_base {
 	public function configure_getmail()
     {
 		$config_dir = $this->conf['getmail']['config_dir'];
+		
+		if(!is_dir($config_dir)) exec("mkdir -p ".escapeshellcmd($config_dir));
 
 		$command = "useradd -d $config_dir getmail";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
