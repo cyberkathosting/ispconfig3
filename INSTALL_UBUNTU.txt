@@ -30,7 +30,7 @@ Mail name? <-- server1.mydomain.tld
 
 2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
 
-apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip
+apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl
 
 
 3) Install apache, PHP5 and phpmyadmin (1 line!):
@@ -52,6 +52,8 @@ echo 'capability' >> /etc/modules
 Then we install pureftpd and quota.
 
 apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
+
+echo 'yes' > /etc/pure-ftpd/conf/DontResolve
 
 5) Install mydns
 

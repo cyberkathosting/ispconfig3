@@ -83,9 +83,7 @@ function get_distname() {
 }
 
 function sread() {
-    $f = fopen('/dev/stdin', 'r');
-    $input = fgets($f, 255);
-    fclose($f);
+    $input = fgets(STDIN);
     return rtrim($input);
 }
 
