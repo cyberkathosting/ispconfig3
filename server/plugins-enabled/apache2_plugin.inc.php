@@ -33,6 +33,9 @@ class apache2_plugin {
 	var $plugin_name = 'apache2_plugin';
 	var $class_name = 'apache2_plugin';
 	
+	// private variables
+	var $action = '';
+	
 		
 	/*
 	 	This function is called when the plugin is loaded
@@ -169,6 +172,7 @@ class apache2_plugin {
 	function insert($event_name,$data) {
 		global $app, $conf;
 		
+		$this->action = 'insert';
 		// just run the update function
 		$this->update($event_name,$data);
 		
@@ -179,6 +183,7 @@ class apache2_plugin {
 	function update($event_name,$data) {
 		global $app, $conf;
 		
+		if($this->action != 'insert') $this->action = 'update';
 		
 		if($data["new"]["type"] != "vhost" && $data["new"]["parent_domain_id"] > 0) {
 			// This is not a vhost, so we need to update the parent record instead.
@@ -234,12 +239,14 @@ class apache2_plugin {
 			}
 		}
 		
-		// Copy the error pages
-		$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
-		exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+		if($this->action == 'insert') {
+			// Copy the error pages
+			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
+			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
 		
-		// copy the standard index page
-		exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/");
+			// copy the standard index page
+			exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
+		}
 		
 		// Create group and user, if not exist
 		$app->uses("system");
