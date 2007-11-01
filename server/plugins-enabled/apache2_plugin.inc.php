@@ -235,8 +235,11 @@ class apache2_plugin {
 		}
 		
 		// Copy the error pages
-		$error_page_path = escapeshellcmd($data["new"]["web_document_root"])."/web/error/";
+		$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
 		exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+		
+		// copy the standard index page
+		exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/");
 		
 		// Create group and user, if not exist
 		$app->uses("system");

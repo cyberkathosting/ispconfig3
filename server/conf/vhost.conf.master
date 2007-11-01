@@ -81,10 +81,10 @@
 	ErrorDocument 503 /error/overloaded.html
 	
 	SSLEngine on
-	SSLCertificateFile <tmpl_var name='document_root'>/<tmpl_var name='domain'>.crt
-	SSLCertificateKeyFile <tmpl_var name='document_root'>/<tmpl_var name='domain'>.key
+	SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.crt
+	SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.key
 <tmpl_if name='has_bundle_cert'>
-	SSLCACertificateFile <tmpl_var name='document_root'>/<tmpl_var name='domain'>.bundle
+	SSLCACertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.bundle
 </tmpl_if>
 
 <tmpl_if name='alias'>

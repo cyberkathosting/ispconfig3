@@ -63,7 +63,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT limit_spamfilter_wblist FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Check if the user may add another mailbox.
-			if($client["limit_limit_spamfilter_wblist"] >= 0) {
+			if($client["limit_spamfilter_wblist"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(wblist_id) as number FROM spamfilter_wblist WHERE sys_groupid = $client_group_id");
 				if($tmp["number"] >= $client["limit_spamfilter_wblist"]) {
 					$app->error($app->tform->wordbook["limit_spamfilter_wblist_txt"]);
