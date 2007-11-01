@@ -10,9 +10,6 @@ remove done tasks or assign yourself to a task.
 Installer
 --------------------------------------
 
-- Add a cronjob that runs the script server/cron_daily.php once every
-  night during installation to the root crontab.
-
 
 Server
 --------------------------------------
