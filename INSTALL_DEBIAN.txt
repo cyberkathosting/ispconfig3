@@ -39,7 +39,15 @@ Edit the file /etc/default/pure-ftpd-common
 
 vi /etc/default/pure-ftpd-common
 
-and change the start mode from inetd to standalone. Then execute:
+and change the start mode from inetd to standalone. 
+
+Edit the file /etc/inetd.conf  vi /etc/inted.conf
+
+and comment out the line for the FTP service, so it looks like this:
+
+# ftp   stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper
+
+Then execute:
 
 /etc/init.d/openbsd-inetd restart
 
@@ -59,19 +67,19 @@ apt-get install vlogger webalizer
 7) Install ISPConfig 3
 
 There are two possile scenarios, but not both:
-1) Install the latest alpha 
-2) Install directly from SVN
+7.1) Install the latest alpha 
+7.2) Install directly from SVN
 
 apt-get install php5-cli
 
-1) Installation of alpha 3
+7.1) Installation of alpha 3 from tar.gz
 
   cd /tmp
   wget http://www.ispconfig.org/downloads/ISPConfig_3.0.0.3-alpha.tar.gz
   tar xvfz ISPConfig_3.0.0.2-alpha.tar.gz
   cd ISPConfig_3.0.0.2-alpha/install/
 
-2) Installation from SVN
+7.2) Installation from SVN
 
   apt-get install subversion
   cd /tmp
@@ -79,7 +87,7 @@ apt-get install php5-cli
   cd trunk/install
 
 
-1+2) Now proceed with the ISPConfig installation.
+7.1+7.2) Now proceed with the ISPConfig installation.
 
 Now start the installation process by executing:
 
