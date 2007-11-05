@@ -80,8 +80,8 @@ apt-get install php5-cli
 
   cd /tmp
   wget http://www.ispconfig.org/downloads/ISPConfig_3.0.0.3-alpha.tar.gz
-  tar xvfz ISPConfig_3.0.0.2-alpha.tar.gz
-  cd ISPConfig_3.0.0.2-alpha/install/
+  tar xvfz ISPConfig_3.0.0.3-alpha.tar.gz
+  cd ispconfig3_install/install/
 
 2) Installation from SVN
 
