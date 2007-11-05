@@ -75,3 +75,4 @@ General tasks
 
 - Add a function to prevent brute force password attacks to the login script. E.g. by
   logging all login attempts and allowing only 5 logins every 15 minutes.
+  Task assigned to: BPSsoft
