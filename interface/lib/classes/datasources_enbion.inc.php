@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class datasources_enbion {
 	
-	function get_employees() {
+	public function get_employees() {
 		global $app, $conf;
 		
 		$out = array();

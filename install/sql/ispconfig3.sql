@@ -864,3 +864,13 @@ CREATE TABLE `web_domain` (
 -- 
 -- Daten für Tabelle `web_domain`
 -- 
+
+--
+-- Table for attempts login 
+--
+
+CREATE TABLE `attempts_login` (
+  `ip` varchar(12) NOT NULL,
+  `times` tinyint(1) NOT NULL default '1',
+  `login_time` timestamp NOT NULL default '0000-00-00 00:00:00'
+);

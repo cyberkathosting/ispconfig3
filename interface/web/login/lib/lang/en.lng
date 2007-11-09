@@ -1,0 +1,17 @@
+<?php
+
+$wb[1001]	= "Username or Password empty.";
+$wb[1002]	= "Username or Password wrong.";
+$wb[1003]	= "User is blocked.";
+$wb[1004]	= "To many wrong login's, Please retry it after 15 minutes";
+
+
+
+
+
+
+
+
+
+
+?>

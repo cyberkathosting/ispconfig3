@@ -7,8 +7,10 @@ Some guidelines for web development with php.
 * error_reporting(E_ALL|E_STRICT) , yep php5
 * Magic quotes is gone in php6, get used to it now. config = magic_quotes_gpc() Everything must be quoted
 
-please mark any section that nned review or work on with
+please mark any section that need review or work on with
 // TODO 
+* Add documentation about access levels (public, private, protected).
+* Make function / var names on the following way, first word lower, next word(s) first letter upper like. getFirstResult();
 
 Pear coding guiidelines
 
