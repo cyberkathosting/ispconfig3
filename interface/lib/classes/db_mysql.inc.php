@@ -217,10 +217,21 @@ class db
        
     public function closeConn()
     {
+    	if($this->linkId)
+    	{
+    		mysql_close($this->linkId);
+    		return true;
+    	} else { return false; }
     }
        
-    public function freeResult() 
+    public function freeResult($query) 
     {
+    	if(mysql_free_result($query))
+    	{
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
        
     public function delete()
