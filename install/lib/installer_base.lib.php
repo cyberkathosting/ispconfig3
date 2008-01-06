@@ -623,7 +623,7 @@ class installer_base {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..') {
-						symlink($install_dir.'/server/plugins-enabled/'.$file,$install_dir.'/server/plugins-available/'.$file)
+						symlink($install_dir.'/server/plugins-enabled/'.$file,$install_dir.'/server/plugins-available/'.$file);
 					}
 				}
 				closedir($dh);
