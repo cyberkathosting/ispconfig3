@@ -50,7 +50,7 @@ if ( $RETURNCODE == 0 )
 
 
 #
-# Check that user has his own maildrop include,
+# Test if the user has his own maildrop include,
 # if not available, check if $DEFAULT is set
 # (newer maildrop get's that from the DB and updates
 # it) and deliver or fail temporarily if not available

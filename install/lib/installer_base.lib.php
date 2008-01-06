@@ -42,7 +42,7 @@ class installer_base {
         $this->conf = $conf;
     }
 	
-    //TODO  uh ?
+    //: TODO  Implement the translation function and langauge files for the installer.
 	public function lng($text)
     {
 		return $text;
@@ -100,19 +100,15 @@ class installer_base {
 		return $answer;
 	}
 	
+	/*
 	// TODO: this function is not used atmo I think - pedro
 	function request_language(){
 		
 		swriteln(lng('Enter your language'));
 		swriteln(lng('de, en'));
 		
-		/*
-		do {
-			$lang = sread(2);
-		} while (!$this->check_break($lang) or $this-> 
-		*/
-		
 	}
+	*/
 	
 	/** Create the database for ISPConfig */ 
 	public function configure_database()
@@ -608,6 +604,31 @@ class installer_base {
 		$content = str_replace('{server_id}', $this->conf['server_id'], $content);
 		wf("$install_dir/server/lib/$configfile", $content);
 		
+		//* Enable the server modules and plugins.
+		// TODO: Implement a selector which modules and plugins shall be enabled.
+		$dir = $install_dir.'/server/mods-available/';
+		if (is_dir($dir)) {
+			if ($dh = opendir($dir)) {
+				while (($file = readdir($dh)) !== false) {
+					if($file != '.' && $file != '..') {
+						symlink($install_dir.'/server/mods-enabled/'.$file,$install_dir.'/server/mods-available/'.$file)
+					}
+				}
+				closedir($dh);
+			}
+		}
+		
+		$dir = $install_dir.'/server/plugins-available/';
+		if (is_dir($dir)) {
+			if ($dh = opendir($dir)) {
+				while (($file = readdir($dh)) !== false) {
+					if($file != '.' && $file != '..') {
+						symlink($install_dir.'/server/plugins-enabled/'.$file,$install_dir.'/server/plugins-available/'.$file)
+					}
+				}
+				closedir($dh);
+			}
+		}
 		
 		//* Chmod the files
 		$command = "chmod -R 750 $install_dir";
@@ -632,7 +653,7 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* Copy the ISPConfig vhost for the controlpanel
-        //TODO These are missing! should they be "vhost_dist_*_dir" ?
+        // TODO: These are missing! should they be "vhost_dist_*_dir" ?
         $vhost_conf_dir = $this->conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $this->conf['apache']['vhost_conf_enabled_dir'];
 		copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
