@@ -54,5 +54,6 @@ $wb["default_dnsserver_txt"] = 'Default DNS Server';
 $wb["limit_dns_zone_txt"] = 'Max. number of DNS zones';
 $wb["limit_dns_record_txt"] = 'Max. number DNS records';
 $wb["limit_shell_user_txt"] = 'Max. number of Shell users';
+$wb["limit_client_txt"] = 'Max. number of Clients';
 
 ?>

@@ -63,10 +63,12 @@ class page_action extends tform_actions {
 		$sql = "INSERT INTO sys_group (name,description,client_id) VALUES ('".addslashes($this->dataRecord["username"])."','',".$this->id.")";
 		$app->db->query($sql);
 		$groupid = $app->db->insertID();
+		$groups = $groupid;
 		
 		$username = addslashes($this->dataRecord["username"]);
 		$password = addslashes($this->dataRecord["password"]);
-		$modules = 'mail,sites,dns';
+		$modules = ISPC_INTERFACE_MODULES_ENABLED;
+		if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
 		$startmodule = 'mail';
 		$usertheme = addslashes($this->dataRecord["usertheme"]);
 		$type = 'user';
@@ -75,8 +77,17 @@ class page_action extends tform_actions {
 		
 		// Create the controlpaneluser for the client
 		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
-		VALUES ('$username',md5('$password'),'$modules','$startmodule','$usertheme','$type','$active','$language',$groupid,$groupid,".$this->id.")";
+		VALUES ('$username',md5('$password'),'$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,".$this->id.")";
 		$app->db->query($sql);
+		
+		//* If the user who inserted the client is a reseller (not admin), we will have to add this new client group 
+		//* to his groups, so he can administrate the records of this client.
+		if($_SESSION['s']['user']['typ'] == 'user') {
+			$app->auth->add_group_to_user($_SESSION['s']['user']['userid'],$groupid);
+			$app->db->query("UPDATE client SET parent_client_id = ".intval($_SESSION['s']['user']['client_id'])." WHERE client_id = ".$this->id);
+		}
+		
+		
 	}
 	
 	
@@ -105,8 +116,15 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		
-		
-		
+		// reseller status changed
+		if(isset($this->dataRecord["limit_client"])) {
+			$modules = ISPC_INTERFACE_MODULES_ENABLED;
+			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
+			$modules = addslashes($modules);
+			$client_id = $this->id;
+			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
+			$app->db->query($sql);
+		}
 	}
 	
 	

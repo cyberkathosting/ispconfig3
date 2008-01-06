@@ -79,11 +79,12 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// If user is admin, we will allow him to select to whom this record belongs
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			// Getting Domains of the user
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
 			$clients = $app->db->queryAllRecords($sql);
-			$client_select = "<option value='0'></option>";
+			$client_select = '';
+			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = ($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
@@ -134,8 +135,14 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id WHERE id = ".$this->id);
+			// And we want to update all rr records too, that belong to this record
+			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+		}
+		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id WHERE id = ".$this->id);
 			// And we want to update all rr records too, that belong to this record
@@ -146,8 +153,14 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 		
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id WHERE id = ".$this->id);
+			// And we want to update all rr records too, that belong to this record
+			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+		}
+		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id WHERE id = ".$this->id);
 			// And we want to update all rr records too, that belong to this record

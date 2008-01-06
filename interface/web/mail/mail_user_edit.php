@@ -89,7 +89,7 @@ class page_action extends tform_actions {
 		$domain_select = '';
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
-				$selected = ($domain["domain"] == $email_parts[1])?'SELECTED':'';
+				$selected = ($domain["domain"] == @$email_parts[1])?'SELECTED':'';
 				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
 			}
 		}

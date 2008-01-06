@@ -46,9 +46,6 @@ Administration module
 Clients module
 --------------------------------------
 
-- Add the ability that Clients can add clients (Reseller functionality)
-  Task assigned to: Till
-
 
 Sites (web) module
 --------------------------------------

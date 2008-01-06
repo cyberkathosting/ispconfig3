@@ -78,11 +78,12 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 		
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			// Getting Domains of the user
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
 			$clients = $app->db->queryAllRecords($sql);
-			$client_select = "<option value='0'></option>";
+			$client_select = '';
+			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = ($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
@@ -140,7 +141,7 @@ class page_action extends tform_actions {
 			}
 			
 			// Clients may not set the client_group_id, so we unset them if user is not a admin
-			unset($this->dataRecord["client_group_id"]);
+			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
 		}
 		parent::onSubmit();
 	}
@@ -148,11 +149,15 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+		}
+		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
 		
 		// Spamfilter policy
@@ -177,11 +182,15 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 		
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// make sure that the record belongs to the clinet group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+		}
+		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
 		
 		// Spamfilter policy

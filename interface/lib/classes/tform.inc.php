@@ -718,7 +718,7 @@ class tform {
                                                 }
                                         } else {
                                                 if($field['formtype'] == 'PASSWORD') {
-														if($field['encryption'] == 'CRYPT') {
+														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
 																for ($n=0;$n<8;$n++) {
 																	$salt.=chr(mt_rand(64,126));
@@ -999,8 +999,8 @@ class tform {
                         }
                 } else {
                         $result = false;
-                        if($this->formDef["auth_preset"]["userid"] == $_SESSION["s"]["user"]["userid"] && stristr($perm,$this->formDef["auth_preset"]["perm_user"])) $result = true;
-                        if($this->formDef["auth_preset"]["groupid"] == $_SESSION["s"]["user"]["groupid"] && stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
+                        if(@$this->formDef["auth_preset"]["userid"] == $_SESSION["s"]["user"]["userid"] && stristr($perm,$this->formDef["auth_preset"]["perm_user"])) $result = true;
+                        if(@$this->formDef["auth_preset"]["groupid"] == $_SESSION["s"]["user"]["groupid"] && stristr($perm,$this->formDef["auth_preset"]["perm_group"])) $result = true;
                         if(@stristr($this->formDef["auth_preset"]["perm_other"],$perm)) $result = true;
 
                         // if preset == 0, everyone can insert a record of this type

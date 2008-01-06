@@ -78,11 +78,11 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 		
-		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
@@ -90,6 +90,35 @@ class page_action extends tform_actions {
 			unset($tmp);
 			
 			// Fill the IP select field with the IP addresses that are allowed for this client
+			$ip_select = "<option value='*'>*</option>";
+			$app->tpl->setVar("ip_address",$ip_select);
+			
+		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Set the webserver to the default server of the client
+			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
+			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
+			unset($tmp);
+			
+			// Fill the client select field
+			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			$clients = $app->db->queryAllRecords($sql);
+			$client_select = '';
+			if(is_array($clients)) {
+				foreach( $clients as $client) {
+					$selected = @($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("client_group_id",$client_select);
+			
+			// Fill the IP select field with the IP addresses that are allowed for this client
+			$ip_select = "<option value='*'>*</option>";
+			$app->tpl->setVar("ip_address",$ip_select);
 			
 		} else {
 			
@@ -169,8 +198,8 @@ class page_action extends tform_actions {
 				
 			}
 			
-			// Clients may not set the client_group_id, so we unset them if user is not a admin
-			unset($this->dataRecord["client_group_id"]);
+			// Clients may not set the client_group_id, so we unset them if user is not a admin and the client is not a reseller
+			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
 		}
 		
 		
@@ -185,6 +214,10 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+		}
+		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
 		
 		// Get configuration for the web system
@@ -222,6 +255,10 @@ class page_action extends tform_actions {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
+		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
+		}
 		
 		// Get configuration for the web system
 		$app->uses("getconf");
@@ -230,7 +267,7 @@ class page_action extends tform_actions {
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
 		
 		// get the ID of the client
-		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$client_id = intval($client["client_id"]);

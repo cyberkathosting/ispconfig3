@@ -104,6 +104,7 @@ $form["tabs"]['address'] = array (
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
+			'encryption'=> 'MD5',
 			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',
@@ -572,6 +573,20 @@ $form["tabs"]['limits'] = array (
 														'errmsg'=> 'limit_dns_zone_error_notint'),
 									),
 			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'limit_client' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_client_error_notint'),
+									),
+			'default'	=> '0',
 			'value'		=> '',
 			'separator'	=> '',
 			'width'		=> '10',

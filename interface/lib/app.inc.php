@@ -63,6 +63,8 @@ class app {
 			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
+		
+		$this->uses('auth');
 	}
 
 	public function uses($classes)
@@ -175,6 +177,9 @@ class app {
 		}
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
 			$this->tpl->setVar('is_admin', 1);
+		}
+		if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$this->tpl->setVar('is_reseller', 1);
 		}
     }
     

@@ -51,6 +51,7 @@ define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
 define('ISPC_TEMP_PATH',   ISPC_ROOT_PATH.'/temp');
 define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
 
+define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns');
 
 //********************************************************************************
 //** Future Code idea  - pedro - rfc

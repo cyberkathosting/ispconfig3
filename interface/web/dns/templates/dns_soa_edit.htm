@@ -17,6 +17,16 @@
 	</td>
   </tr>
   </tmpl_if>
+  <tmpl_if name="is_reseller">
+  <tr>
+    <td class="frmText11">{tmpl_var name='client_txt'}:</td>
+    <td class="frmText11">
+		<select name="client_group_id" class="text">
+			{tmpl_var name='client_group_id'}
+		</select>
+	</td>
+  </tr>
+  </tmpl_if>
   <tr>
     <td class="frmText11">{tmpl_var name='origin_txt'}:</td>
     <td class="frmText11"><input name="origin" type="text" class="text" value="{tmpl_var name='origin'}" size="30" maxlength="255"> e.g. mydomain.com.</td>
