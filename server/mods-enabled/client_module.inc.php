@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -28,7 +28,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class web_module {
+class client_module {
 	
 	var $module_name = 'client_module';
 	var $class_name = 'client_module';

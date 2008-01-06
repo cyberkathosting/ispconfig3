@@ -57,7 +57,7 @@ class mail_plugin {
 		global $app, $conf;
 		
 		// Create the maildir, if it does not exist
-		if(!is_dir($data['new']['maildir']) {
+		if(!is_dir($data['new']['maildir'])) {
 			mkdir($data['new']['maildir']);
 			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
@@ -73,7 +73,7 @@ class mail_plugin {
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 		
 		// Create the maildir, if it does not exist
-		if(!is_dir($data['new']['maildir']) {
+		if(!is_dir($data['new']['maildir'])) {
 			mkdir($data['new']['maildir']);
 			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
