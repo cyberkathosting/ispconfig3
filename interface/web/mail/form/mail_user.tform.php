@@ -94,7 +94,7 @@ $form["tabs"]['mailuser'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'quota_error_isint'),
 									),
-			'default'	=> '',
+			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'

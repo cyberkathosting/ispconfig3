@@ -875,15 +875,6 @@ class tform {
                 } else {
                         $escape = '`';
                 }
-				
-				/*
-                if($action == "UPDATE" or $action == "DELETE") {
-                        $sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
-                        $record_old = $app->db->queryOneRecord($sql);
-                } else {
-                        $record_old = array();
-                }
-				*/
 
                 $diffrec = array();
 				
@@ -933,12 +924,6 @@ class tform {
 								}
                         }
                 }
-				
-				/*
-				echo "<pre>";
-				print_r($diffrec_full);
-				echo "</pre>";
-				*/
 				
 				// Insert the server_id, if the record has a server_id
 				$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;

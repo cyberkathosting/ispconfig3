@@ -407,7 +407,7 @@ CREATE TABLE `mail_user` (
   `uid` int(10) unsigned NOT NULL default '5000',
   `gid` int(10) unsigned NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
-  `quota` int(11) NOT NULL,
+  `quota` int(11) NOT NULL default '0',
   `homedir` varchar(255) NOT NULL,
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_text` tinytext NOT NULL,

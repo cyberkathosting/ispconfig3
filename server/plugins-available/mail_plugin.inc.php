@@ -48,7 +48,7 @@ class mail_plugin {
 		$app->plugins->registerEvent('mail_user_insert',$this->plugin_name,'user_insert');
 		$app->plugins->registerEvent('mail_user_update',$this->plugin_name,'user_update');
 		$app->plugins->registerEvent('mail_user_delete',$this->plugin_name,'user_delete');
-
+		
 		
 	}
 	
@@ -58,7 +58,7 @@ class mail_plugin {
 		
 		// Create the maildir, if it does not exist
 		if(!is_dir($data['new']['maildir'])) {
-			mkdir($data['new']['maildir']);
+			exec('mkdir -p '.escapeshellcmd($data['new']['maildir']));
 			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
@@ -74,15 +74,16 @@ class mail_plugin {
 		
 		// Create the maildir, if it does not exist
 		if(!is_dir($data['new']['maildir'])) {
-			mkdir($data['new']['maildir']);
+			exec('mkdir -p '.escapeshellcmd($data['new']['maildir']));
 			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 		
 		// Move mailbox, if domain has changed and delete old mailbox
 		if($data['new']['maildir'] != $data['old']['maildir'] && is_dir($data['old']['maildir'])) {
-			exec('mv -f'.escapeshellcmd($data['old']['maildir']).'* '.escapeshellcmd($data['new']['maildir']));
-			unlink($data['old']['maildir']);
+			exec('mv -f '.escapeshellcmd($data['old']['maildir']).'* '.escapeshellcmd($data['new']['maildir']));
+			if(is_file($data['old']['maildir'].'.ispconfig_mailsize'))exec('mv -f '.escapeshellcmd($data['old']['maildir']).'.ispconfig_mailsize '.escapeshellcmd($data['new']['maildir']));
+			rmdir($data['old']['maildir']);
 			$app->log('Moved Maildir from: '.$data['old']['maildir'].' to '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 		
@@ -93,7 +94,7 @@ class mail_plugin {
 		
 		$old_maildir_path = escapeshellcmd($data['old']['maildir']);
 		if(!stristr($old_maildir_path,'..') && !stristr($old_maildir_path,'*') && strlen($old_maildir_path) >= 10) {
-			exec('rm -rf '.$old_maildir_path);
+			exec('rm -rf '.escapeshellcmd($old_maildir_path));
 			$app->log('Deleted the Maildir: '.$data['old']['maildir'],LOGLEVEL_DEBUG);
 		} else {
 			$app->log('Possible security violation when deleting the maildir: '.$data['old']['maildir'],LOGLEVEL_ERROR);

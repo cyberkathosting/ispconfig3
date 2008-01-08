@@ -41,6 +41,7 @@ class tform_actions {
         var $activeTab;
         var $dataRecord;
         var $plugins = array();
+		var $oldDataRecord; // This array is only filled during updates and when db_history is enabled.
 
         function onLoad() {
                 global $app, $conf, $tform_def_file;
@@ -104,7 +105,7 @@ class tform_actions {
                 if($app->tform->errorMessage == '') {
 						
 						if($app->tform->formDef['db_history'] == 'yes') {
-							$old_data_record = $app->tform->getDataRecord($this->id);
+							$this->oldDataRecord = $app->tform->getDataRecord($this->id);
 						}
 						
 						// Save record in database
@@ -124,7 +125,7 @@ class tform_actions {
 						// Write data history (sys_datalog)
 						if($app->tform->formDef['db_history'] == 'yes') {
 							$new_data_record = $app->tform->getDataRecord($this->id);
-							$app->tform->datalogSave('UPDATE',$this->id,$old_data_record,$new_data_record);
+							$app->tform->datalogSave('UPDATE',$this->id,$this->oldDataRecord,$new_data_record);
 							unset($new_data_record);
 							unset($old_data_record);
 						}
