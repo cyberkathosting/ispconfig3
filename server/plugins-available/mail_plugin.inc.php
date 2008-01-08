@@ -45,10 +45,15 @@ class mail_plugin {
 		Register for the events
 		*/
 		
+		//* Mailboxes
 		$app->plugins->registerEvent('mail_user_insert',$this->plugin_name,'user_insert');
 		$app->plugins->registerEvent('mail_user_update',$this->plugin_name,'user_update');
 		$app->plugins->registerEvent('mail_user_delete',$this->plugin_name,'user_delete');
 		
+		//* Mail Domains
+		//$app->plugins->registerEvent('mail_domain_insert',$this->plugin_name,'domain_insert');
+		//$app->plugins->registerEvent('mail_domain_update',$this->plugin_name,'domain_update');
+		//$app->plugins->registerEvent('mail_domain_delete',$this->plugin_name,'domain_delete');
 		
 	}
 	
@@ -62,7 +67,6 @@ class mail_plugin {
 			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
-		
 	}
 	
 	function user_update($event_name,$data) {
@@ -86,7 +90,6 @@ class mail_plugin {
 			rmdir($data['old']['maildir']);
 			$app->log('Moved Maildir from: '.$data['old']['maildir'].' to '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
-		
 	}
 	
 	function user_delete($event_name,$data) {
@@ -99,7 +102,6 @@ class mail_plugin {
 		} else {
 			$app->log('Possible security violation when deleting the maildir: '.$data['old']['maildir'],LOGLEVEL_ERROR);
 		}
-		
 	}
 	
 	

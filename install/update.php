@@ -30,6 +30,18 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 //** ISPConfig 3 installer.
+//** The banner on the command line
+echo "\n\n".str_repeat('-',80)."\n";
+echo " _____ ___________   _____              __ _       
+|_   _/  ___| ___ \ /  __ \            / _(_)      
+  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _ 
+  | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |
+ _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| |
+ \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
+                                              __/ |
+                                             |___/ ";
+echo "\n".str_repeat('-',80)."\n";
+echo "\n\n>> Update  \n\n";
 
 
 //** Include the library with the basic installer functions

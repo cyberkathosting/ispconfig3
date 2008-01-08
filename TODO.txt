@@ -10,6 +10,8 @@ remove done tasks or assign yourself to a task.
 Installer
 --------------------------------------
 
+- Load and update system config from file into sql database during installation.
+
 
 Server
 --------------------------------------
@@ -55,7 +57,9 @@ Sites (web) module
   this as a new tab named "SSL" to the exiting domain settings form.
   
 - Add a "httpd includes" field to the options tab of the domain settings form
-  like it is implemented in ISPConfig 2. 
+  like it is implemented in ISPConfig 2.
+
+- Make sure that changes in the domain name do not break the configuration.
 
 
 BE-Designer module
@@ -63,6 +67,19 @@ BE-Designer module
 
 WARNING: Please do not use the BE Designer at the moment, the serializing function
 of the module editor may break some of the existing modules.
+
+
+Remoting framework
+--------------------------------------
+
+
+
+Interface
+--------------------------------------
+
+- Enhance the list function to allow soorting by column
+
+- Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
 
 
 General tasks
