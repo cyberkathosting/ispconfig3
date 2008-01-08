@@ -221,6 +221,8 @@ class page_action extends tform_actions {
 		if($this->oldDataRecord['domain'] != $this->dataRecord['domain']) {
 			$app->uses('getconf');
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"],'mail');
+			
+			//* Update the mailboxes
 			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".addslashes($this->oldDataRecord['domain'])."'");
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
@@ -229,11 +231,21 @@ class page_action extends tform_actions {
 					$maildir = str_replace("[domain]",$this->dataRecord['domain'],$mail_config["maildir_path"]);
 					$maildir = str_replace("[localpart]",$mail_parts[0],$maildir);
 					$maildir = addslashes($maildir);
-					//$app->db->query("UPDATE mail_user SET maildir = '$maildir' WHERE mailuser_id = ".$rec['mailuser_id']);
-					//$rec_new = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = ".$rec['mailuser_id']);
-					$app->db->datalogUpdate('mail_user', "maildir = '$maildir'", 'mailuser_id', $rec['mailuser_id']);
+					$email = addslashes($mail_parts[0].'@'.$this->dataRecord['domain']);
+					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email'", 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
+			
+			//* Update the aliases
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".addslashes($this->oldDataRecord['domain'])."' OR destination like '%@".addslashes($this->oldDataRecord['domain'])."'");
+			if(is_array($forwardings)) {
+				foreach($forwardings as $rec) {
+					$destination = addslashes(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
+					$source = addslashes(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
+					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination'", 'forwarding_id', $rec['forwarding_id']);
+				}
+			}
+			
 		} // end if domain name changed
 		
 	}
