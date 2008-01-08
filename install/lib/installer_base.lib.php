@@ -611,7 +611,7 @@ class installer_base {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..') {
-						symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
+						if(!is_link($install_dir.'/server/mods-enabled/'.$file)) symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
 					}
 				}
 				closedir($dh);
