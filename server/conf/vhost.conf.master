@@ -55,6 +55,8 @@
 </tmpl_loop>
 </tmpl_if>
 
+<tmpl_var name='apache_directives'>
+
 </VirtualHost>
 
 

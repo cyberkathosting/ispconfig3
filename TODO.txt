@@ -11,6 +11,7 @@ Installer
 --------------------------------------
 
 - Load and update system config from file into sql database during installation.
+- Add a function to let a server join a existing installation.
 
 
 Server
@@ -55,9 +56,6 @@ Sites (web) module
 - Add a function to the Sites module to create SSL certificates or upload
   existing SSL certs and SSL chain files. It might be a good idea to add
   this as a new tab named "SSL" to the exiting domain settings form.
-  
-- Add a "httpd includes" field to the options tab of the domain settings form
-  like it is implemented in ISPConfig 2.
 
 - Make sure that changes in the domain name do not break the configuration.
 
@@ -67,6 +65,8 @@ BE-Designer module
 
 WARNING: Please do not use the BE Designer at the moment, the serializing function
 of the module editor may break some of the existing modules.
+
+- Add a language file editor.
 
 
 Remoting framework
@@ -78,8 +78,9 @@ Interface
 --------------------------------------
 
 - Enhance the list function to allow soorting by column
-
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
+- Use graphical Icons in the lists for on / off columns.
+- Add a graphical delete button to the lists.
 
 
 General tasks

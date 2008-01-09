@@ -858,6 +858,7 @@ CREATE TABLE `web_domain` (
   `ssl_cert` mediumtext NULL,
   `ssl_bundle` mediumtext NULL,
   `ssl_action` varchar(10) NULL,
+  `apache_directives` text,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

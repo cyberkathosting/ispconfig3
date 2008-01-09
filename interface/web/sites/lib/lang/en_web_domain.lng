@@ -33,4 +33,5 @@ $wb["client_txt"] = 'Client';
 $wb["limit_web_domain_txt"] = 'The max. number of web domains for your account is reached.';
 $wb["limit_web_aliasdomain_txt"] = 'The max. number of aliasdomains for your account is reached.';
 $wb["limit_web_subdomain_txt"] = 'The max. number of web subdomains for your account is reached.';
+$wb["apache_directives_txt"] = 'Apache directives';
 ?>
