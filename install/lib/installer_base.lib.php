@@ -604,6 +604,7 @@ class installer_base {
 		$content = str_replace('{server_id}', $this->conf['server_id'], $content);
 		wf("$install_dir/server/lib/$configfile", $content);
 		
+		
 		//* Enable the server modules and plugins.
 		// TODO: Implement a selector which modules and plugins shall be enabled.
 		$dir = $install_dir.'/server/mods-available/';
@@ -637,6 +638,25 @@ class installer_base {
 		//* chown the files to the ispconfig user and group
 		$command = "chown -R ispconfig:ispconfig $install_dir";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Make the global language file directory group writable
+		exec("chmod -R 660 $install_dir/interface/lib/lang");
+		
+		//* Make all interface language file directories group writable
+		$handle = @opendir($install_dir.'/interface/web');
+		while ($file = @readdir ($handle)) { 
+	   		if ($file != '.' && $file != '..') {
+	        	if(@is_dir($install_dir.'/interface/web'.'/'.$file.'/lib/lang')) {
+					$handle2 = opendir($install_dir.'/interface/web'.'/'.$file.'/lib/lang');
+					chmod($install_dir.'/interface/web'.'/'.$file.'/lib/lang',0660);
+					while ($lang_file = @readdir ($handle2)) {
+						if ($lang_file != '.' && $lang_file != '..') {
+							chmod($install_dir.'/interface/web'.'/'.$file.'/lib/lang/'.$lang_file,0660);
+						}
+					}
+				}
+			}
+		}
 		
 		//* make sure that the server config file (not the interface one) is only readable by the root user
 		exec("chmod 600 $install_dir/server/lib/$configfile");
