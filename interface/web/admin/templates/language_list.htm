@@ -1,0 +1,17 @@
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<p class="frmText11"><tmpl_var name="language_select_txt">: <select name="lng_select" onChange="submitForm('pageForm','admin/language_list.php');">{tmpl_var name='language_option'}</select></p>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="tblHead"><tmpl_var name="module_txt"></td>
+    <td class="tblHead"><tmpl_var name="lang_file_txt"></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+    <td class="frmText11"><a href="#" onClick="loadContent('admin/language_edit.php?module={tmpl_var name="module"}&lang_file={tmpl_var name="lang_file"}&lang={tmpl_var name="lang"}');" class="frmText11">{tmpl_var name="module"}</a></td>
+    <td class="frmText11"><a href="#" onClick="loadContent('admin/language_edit.php?module={tmpl_var name="module"}&lang_file={tmpl_var name="lang_file"}&lang={tmpl_var name="lang"}');" class="frmText11">{tmpl_var name="lang_file"}</a></td>
+  </tr>
+  </tmpl_loop>
+  <tr>
+  	<td colspan="2" height="40" align="center" class="tblFooter"><tmpl_var name="paging"></td>
+  </tr>
+</table>

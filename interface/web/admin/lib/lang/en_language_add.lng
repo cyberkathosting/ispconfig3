@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Add new language';
+$wb["language_select_txt"] = 'Select language basis';
+$wb["language_new_txt"] = 'New language';
+$wb['btn_save_txt'] = 'Create new language file set';
+$wb['btn_cancel_txt'] = 'Back';
+?>
