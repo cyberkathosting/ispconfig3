@@ -640,7 +640,7 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* Make the global language file directory group writable
-		exec("chmod -R 660 $install_dir/interface/lib/lang");
+		exec("chmod -R 770 $install_dir/interface/lib/lang");
 		
 		//* Make all interface language file directories group writable
 		$handle = @opendir($install_dir.'/interface/web');
@@ -648,10 +648,10 @@ class installer_base {
 	   		if ($file != '.' && $file != '..') {
 	        	if(@is_dir($install_dir.'/interface/web'.'/'.$file.'/lib/lang')) {
 					$handle2 = opendir($install_dir.'/interface/web'.'/'.$file.'/lib/lang');
-					chmod($install_dir.'/interface/web'.'/'.$file.'/lib/lang',0660);
+					chmod($install_dir.'/interface/web'.'/'.$file.'/lib/lang',0770);
 					while ($lang_file = @readdir ($handle2)) {
 						if ($lang_file != '.' && $lang_file != '..') {
-							chmod($install_dir.'/interface/web'.'/'.$file.'/lib/lang/'.$lang_file,0660);
+							chmod($install_dir.'/interface/web'.'/'.$file.'/lib/lang/'.$lang_file,0770);
 						}
 					}
 				}
