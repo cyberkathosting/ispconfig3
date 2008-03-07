@@ -23,7 +23,7 @@ $module['nav'][] = array(	'title'	=> 'CP Users',
 							'items'	=> $items);
 
 
-// aufr�umen
+// cleanup
 unset($items);
 
 $items[] = array( 'title' 	=> 'Add group',
@@ -40,7 +40,7 @@ $module['nav'][] = array(	'title'	=> 'Groups',
 							'items'	=> $items);
 
 
-// aufr�umen
+// cleanup
 unset($items);
 /*
 $items[] = array( 'title' 	=> 'Add server',
@@ -65,7 +65,7 @@ $module['nav'][] = array(	'title'	=> 'Servers',
 							'items'	=> $items);
 
 
-// aufr�umen
+// cleanup
 unset($items);
 
 $items[] = array( 'title' 	=> 'Add user',
@@ -82,6 +82,32 @@ $items[] = array( 'title' 	=> 'Sync. Now',
 				  'link'	=> 'admin/dbsync_cron.php');
 
 $module['nav'][] = array(	'title'	=> 'DB Sync.',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+
+// cleanup
+unset($items);
+
+
+
+$items[] = array( 'title' 	=> 'Languages',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/language_list.php');
+
+$items[] = array( 'title' 	=> 'New Language',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/language_add.php');
+				  
+$items[] = array( 'title' 	=> 'Export',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/language_export.php');
+
+$items[] = array( 'title' 	=> 'Import',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/language_import.php');
+
+$module['nav'][] = array(	'title'	=> 'Language Editor',
 							'open' 	=> 1,
 							'items'	=> $items);
 

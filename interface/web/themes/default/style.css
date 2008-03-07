@@ -283,6 +283,14 @@ textarea,input.text,select,option{
 	text-decoration: none;
 
 }
+.msg {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	border: 1px solid #00CC00;
+	text-decoration: none;
+
+}
 INPUT {
 	border: 1px solid #BFCBD9;
 	/*

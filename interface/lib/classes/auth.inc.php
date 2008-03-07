@@ -30,6 +30,14 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class auth {
 	
+	public function is_admin() {
+		if($_SESSION['s']['user']['typ'] == 'admin') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public function has_clients($userid) {
 		global $app, $conf;
 		

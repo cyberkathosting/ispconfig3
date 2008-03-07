@@ -1,14 +1,14 @@
 <?php
-$wb["jobname_txt"] = 'Name';
-$wb["jobname_err"] = 'Es wurde kein Name für diese Aufgabe angegeben.';
-$wb["sync_interval_minutes_txt"] = 'Intervall (Min.)';
-$wb["db_type_txt"] = 'DB Typ';
-$wb["db_host_txt"] = 'DB Host';
-$wb["db_name_txt"] = 'DB Name';
-$wb["db_username_txt"] = 'DB User';
-$wb["db_password_txt"] = 'DB Passwort';
-$wb["db_tables_txt"] = 'Tabellen';
-$wb["empty_datalog_txt"] = 'Datalog nach Synchronistaion löschen.';
-$wb["sync_datalog_external_txt"] = 'Externes Datalog füllen.';
-$wb["active_txt"] = 'active';
+$wb['jobname_txt'] = 'Name';
+$wb['jobname_err'] = 'Es wurde kein Name fÃ¼r diese Aufgabe angegeben.';
+$wb['sync_interval_minutes_txt'] = 'Intervall (Min.)';
+$wb['db_type_txt'] = 'DB Typ';
+$wb['db_host_txt'] = 'DB Host';
+$wb['db_name_txt'] = 'DB Name';
+$wb['db_username_txt'] = 'DB User';
+$wb['db_password_txt'] = 'DB Passwort';
+$wb['db_tables_txt'] = 'Tabellen';
+$wb['empty_datalog_txt'] = 'Datalog nach Synchronistaion lÃ¶schen.';
+$wb['sync_datalog_external_txt'] = 'Externes Datalog fÃ¼llen.';
+$wb['active_txt'] = 'active';
 ?>
