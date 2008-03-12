@@ -49,6 +49,8 @@ $language_option = '';
 $error = '';
 $msg = '';
 $selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'],0,2):'en';
+if(!preg_match("/^[a-z]{2}$/i", $selected_language)) die('unallowed characters in selected language name.');
+
 $handle = opendir(ISPC_ROOT_PATH.'/lib/lang/'); 
 while ($file = readdir ($handle)) { 
     if ($file != '.' && $file != '..') {
@@ -68,6 +70,7 @@ if(isset($_POST['lng_new']) && strlen($_POST['lng_new']) == 2 && $error == '') {
 	if(!preg_match("/^[a-z]{2}$/i", $lng_new)) die('unallowed characters in language name.');
 	
 	//* Make a copy of every language file
+	copy(ISPC_WEB_PATH."/$module/lib/lang/$selected_language.lng",ISPC_WEB_PATH."/$module/lib/lang/$lng_new.lng");
 	$bgcolor = '#FFFFFF';
 	$language_files_list = array();
 	$handle = @opendir(ISPC_WEB_PATH); 

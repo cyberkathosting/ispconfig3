@@ -44,6 +44,8 @@ $app->uses('tpl');
 $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/language_list.htm');
 
+$language_files_list = array();
+$bgcolor = '#FFFFFF';
 
 //* reading languages
 $language_option = '';
@@ -55,6 +57,16 @@ while ($file = readdir ($handle)) {
 		if($tmp_lng !='') {
 			$selected = ($tmp_lng == $selected_language)?'SELECTED':'';
 			$language_option .= "<option value='$tmp_lng' $selected>$tmp_lng</option>";
+			
+			//$bgcolor = ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
+			if($file == $selected_language.'.lng') {
+			$language_files_list[] = array(	'module' => 'global',
+											'lang_file' => $file,
+											'bgcolor'  => $bgcolor,
+											'lang' => $selected_language);
+			}
+			
+			
 		}
 	}
 }
@@ -62,8 +74,6 @@ $app->tpl->setVar('language_option',$language_option);
 // $app->tpl->setLoop('records', $language_list);
 
 //* list all language files of the selected language
-$bgcolor = '#FFFFFF';
-$language_files_list = array();
 $handle = @opendir(ISPC_WEB_PATH); 
 while ($file = @readdir ($handle)) { 
     if ($file != '.' && $file != '..') {

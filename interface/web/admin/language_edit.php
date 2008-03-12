@@ -65,13 +65,21 @@ if(isset($_POST['records']) && is_array($_POST['records'])) {
 		$msg = 'File saved.';
 	}
 	$file_content .= "?>\n";
-	file_put_contents(ISPC_WEB_PATH."/$module/lib/lang/$lang_file" ,$file_content);
+	if($module == 'global') {
+		file_put_contents(ISPC_LIB_PATH."/lang/$lang_file" ,$file_content);
+	} else {
+		file_put_contents(ISPC_WEB_PATH."/$module/lib/lang/$lang_file" ,$file_content);
+	}
 }
 
 
 $app->tpl->setVar(array('module' => $module,'lang_file' => $lang_file, 'lang' => $lang, 'msg' => $msg));
 
-include(ISPC_WEB_PATH."/$module/lib/lang/$lang_file");
+if($module == 'global') {
+	include(ISPC_LIB_PATH."/lang/$lang_file");
+} else {
+	include(ISPC_WEB_PATH."/$module/lib/lang/$lang_file");
+}
 
 $keyword_list = array();
 if(isset($wb) && is_array($wb)) {

@@ -1,21 +1,12 @@
 <?php
-
-// Globale Error Messages
-$wb[301] = 'Modul für User nicht erlaubt.';
-$wb[302] = 'Modul ungültig.';
-// Satz für deutsche Reiterkarten
-$wb[303] = '&nbsp;';
-// Satz für englische Reiterkarten
-$wb[304] = ' Dieses Formular dient zum Anlegen eines englischsprachigen Eintrags zusätzlich zu Ihrem deutschen Eintrag. Bitte vervollständigen Sie die Daten, soweit erforderlich, in Englisch - die Inhalte aus den Drop-Down-Menüs werden automatisch übersetzt:';
-
-$wb[1001] = 'Der Benutzername und das Passwort dürfen nicht leer sein!';
-$wb[1002] = 'Der Benutzername und/oder das Passwort sind nicht korrekt!';
-$wb[1003] = 'Der Benutzername ist deaktiviert!';
-
-$wb['delete_confirmation'] = 'Wollen Sie den Datensatz wirklich löschen?';
-
+$wb['301'] = 'Modul fÃ¼r User nicht erlaubt.';
+$wb['302'] = 'Modul ungï¿½ltig.';
+$wb['303'] = ' ';
+$wb['304'] = ' Dieses Formular dient zum Anlegen eines englischsprachigen Eintrags zusï¿½tzlich zu Ihrem deutschen Eintrag. Bitte vervollstï¿½ndigen Sie die Daten, soweit erforderlich, in Englisch - die Inhalte aus den Drop-Down-Menï¿½s werden automatisch ï¿½bersetzt:';
+$wb['1001'] = 'Der Benutzername und das Passwort dï¿½rfen nicht leer sein!';
+$wb['1002'] = 'Der Benutzername und/oder das Passwort sind nicht korrekt!';
+$wb['1003'] = 'Der Benutzername ist deaktiviert!';
+$wb['delete_confirmation'] = 'Wollen Sie den Datensatz wirklich lï¿½schen?';
 $wb['error_no_view_permission'] = 'Sie haben nicht die Berechtigung, den Datensatz zu lesen, oder der Datensatz existiert nicht!';
-$wb['error_no_delete_permission'] = 'Sie haben nicht die Berechtigung, den Datensatz zu löschen!';
-
-
+$wb['error_no_delete_permission'] = 'Sie haben nicht die Berechtigung, den Datensatz zu lï¿½schen!';
 ?>
