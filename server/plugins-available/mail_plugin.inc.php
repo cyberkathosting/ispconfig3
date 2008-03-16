@@ -67,9 +67,10 @@ class mail_plugin {
 		
 		// Create the maildir, if it does not exist
 		if(!is_dir($data['new']['maildir'])) {
-			exec('mkdir -p '.escapeshellcmd($data['new']['maildir']));
-			exec('maildirmake '.escapeshellcmd($data['new']['maildir']));
-			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
+			exec("su -c 'mkdir -p ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
+			exec("su -c 'maildirmake ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
+			//exec('maildirmake '.escapeshellcmd($data['new']['maildir']));
+			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 	}
