@@ -106,7 +106,7 @@ define("DB_PASSWORD",$conf["db_password"]);
 */
 
 $conf["log_file"]		= $conf["rootpath"].$conf["fs_div"]."ispconfig.log";
-$conf["log_priority"]	= 0; // 0 = Debug, 1 = Warning, 2 = Error
+$conf["log_priority"]	= 2; // 0 = Debug, 1 = Warning, 2 = Error
 
 /*
         Themes

@@ -41,7 +41,9 @@ vi /etc/default/pure-ftpd-common
 
 and change the start mode from inetd to standalone. 
 
-Edit the file /etc/inetd.conf  vi /etc/inted.conf
+Edit the file /etc/inetd.conf
+
+vi /etc/inetd.conf
 
 and comment out the line for the FTP service, so it looks like this:
 
@@ -103,6 +105,22 @@ user: admin
 password: admin
 
 In case you get a permission denied error from apache, please restart the apache webserver process.
+
+Optional:
+
+Install a webbased FTP Client
+
+apt-get install squirrelmail
+ln -s /usr/share/squirrelmail/ /var/www/webmail
+
+Access squirrelmail:
+
+http://192.168.0.100/webmail
+
+
+To configure squirrelmail, run:
+
+/usr/sbin/squirrelmail-configure
 
 ----------------------------------------------------------------------------------------------------------
 

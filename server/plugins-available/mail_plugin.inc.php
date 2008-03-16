@@ -61,9 +61,14 @@ class mail_plugin {
 	function user_insert($event_name,$data) {
 		global $app, $conf;
 		
+		// get the config
+		$app->uses("getconf");
+		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+		
 		// Create the maildir, if it does not exist
 		if(!is_dir($data['new']['maildir'])) {
 			exec('mkdir -p '.escapeshellcmd($data['new']['maildir']));
+			exec('maildirmake '.escapeshellcmd($data['new']['maildir']));
 			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
