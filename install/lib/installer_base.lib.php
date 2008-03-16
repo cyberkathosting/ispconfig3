@@ -681,6 +681,10 @@ class installer_base {
 		if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
 			exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");
 		}
+		
+		// Make the Clamav log files readable by ISPConfig
+		exec('chmod +r /var/log/clamav/clamav.log');
+		exec('chmod +r /var/log/clamav/freshclam.log');
 	}
 	
 	public function install_crontab()
