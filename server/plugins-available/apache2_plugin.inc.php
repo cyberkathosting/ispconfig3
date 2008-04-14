@@ -219,7 +219,7 @@ class apache2_plugin {
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) exec('rm -rf /var/log/ispconfig/httpd/'.$data["old"]["domain"]);
-			if(is_link($data["new"]["document_root"]."/log")) exec("rm -f ".$data["new"]["document_root"]."/log");
+			if(is_link($data["old"]["document_root"]."/log")) exec("rm -f ".$data["old"]["document_root"]."/log");
 		}
 		
 		// Create the symlink for the logfiles
@@ -389,11 +389,14 @@ class apache2_plugin {
 			$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
 		}
 		
-		// remove old symlink, if domain name of the site has changed
+		// remove old symlink and vhost file, if domain name of the site has changed
 		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
 			$vhost_symlink = escapeshellcmd($web_config["vhost_conf_enabled_dir"].'/'.$data["old"]["domain"].'.vhost');
 			unlink($vhost_symlink);
 			$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
+			$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["old"]["domain"].'.vhost');
+			unlink($vhost_file);
+			$app->log("Removing File $vhost_file",LOGLEVEL_DEBUG);
 		}
 		
 		// request a httpd reload when all records have been processed
