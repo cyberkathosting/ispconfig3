@@ -300,6 +300,8 @@ class tform_actions {
 
                         //$this->dataRecord = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
 						$this->dataRecord = $app->tform->getDataRecord($this->id);
+						
+						$this->onBeforeDelete();
 
                         // Saving record to datalog when db_history enabled
                         if($app->tform->formDef["db_history"] == 'yes') {
@@ -335,6 +337,10 @@ class tform_actions {
                 }
                 exit;
 
+        }
+		
+		function onBeforeDelete() {
+            global $app, $conf;
         }
 		
 		function onAfterDelete() {

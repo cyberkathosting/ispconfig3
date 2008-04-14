@@ -4,7 +4,7 @@
  * 
  * @author Till Brehm
  * @copyright  2005, Till Brehm, projektfarm Gmbh
- * @version 0.1
+ * @version 0.2
  * @package ISPConfig
  */
 /*
@@ -183,7 +183,8 @@ class db
 	    return $out;
 	}
        
-       
+    // deprecated
+	/*
     public function insert($tablename, $form, $debug = 0)
     {
         if(is_array($form)){
@@ -200,7 +201,8 @@ class db
             if($debug == 1){ echo 'mySQL Error Message: '.$this->errorMessage; }
         }
     }
-       
+    
+	// Deprecated
     public function update($tablename, $form, $bedingung, $debug = 0)
     {
 	    if(is_array($form)){
@@ -214,6 +216,7 @@ class db
             if($debug == 1){ echo 'mySQL Error Message: '.$this->errorMessage; }
         }
     }
+	*/
 	
 	//** Function to fill the datalog with a full differential record.
 	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new) {
@@ -231,7 +234,7 @@ class db
 
 		if(is_array($record_old) && count($record_old) > 0) {
 			foreach($record_old as $key => $val) {
-				if(isset($record_new[$key]) && $record_new[$key] != $val) {
+				if(!isset($record_new[$key]) || $record_new[$key] != $val) {
 					// Record has changed
 					$diffrec_full['old'][$key] = $val;
 					$diffrec_full['new'][$key] = $record_new[$key];
@@ -258,6 +261,7 @@ class db
 		// Insert the server_id, if the record has a server_id
 		$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
 		if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
+		
 
 		if($diff_num > 0) {
 			$diffstr = $app->db->quote(serialize($diffrec_full));
@@ -274,7 +278,20 @@ class db
 		return true;
 	}
 	
-	//** Updates a record and saves the cahnges into the datalog
+	//** Updates a record and saves the changes into the datalog
+	public function datalogInsert($tablename, $insert_data, $index_field) {
+		global $app;
+		
+		$old_rec = array();
+		$this->query("INSERT INTO $tablename $insert_data");
+		$index_value = $this->insertID();
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
+		
+		return true;
+	}
+	
+	//** Updates a record and saves the changes into the datalog
 	public function datalogUpdate($tablename, $update_data, $index_field, $index_value) {
 		global $app;
 		
@@ -285,6 +302,20 @@ class db
 		
 		return true;
 	}
+	
+	//** Deletes a record and saves the changes into the datalog
+	public function datalogDelete($tablename, $index_field, $index_value) {
+		global $app;
+		
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->query("DELETE FROM $tablename WHERE $index_field = '$index_value'");
+		$new_rec = array();
+		$this->datalogSave($tablename, 'DELETE', $index_field, $index_value, $old_rec, $new_rec);
+		
+		return true;
+	}
+	
+	
        
     public function closeConn()
     {
@@ -304,15 +335,19 @@ class db
     		return false;
     	}
     }
-       
+    
+	/*
     public function delete()
     {
     }
-       
+	*/
+    
+	/*
     public function Transaction($action)
     {
         //action = begin, commit oder rollback
     }
+	*/
     
     /** Creates a database table with the following format for the $columns array   
     * <code>
@@ -327,6 +362,8 @@ class db
     *                  option =>   unique | primary | index)
     * </code>   
     */
+	
+	
     public function createTable($table_name, $columns)
     {
         $index = '';
