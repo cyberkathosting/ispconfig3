@@ -216,14 +216,41 @@ class apache2_plugin {
 		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
 		if(!is_dir($data["new"]["document_root"]."/cgi-bin")) exec("mkdir -p ".$data["new"]["document_root"]."/cgi-bin");
 		
+		// Remove the symlink for the site, if site is renamed
+		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
+			if(is_dir('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) exec('rm -rf /var/log/ispconfig/httpd/'.$data["old"]["domain"]);
+			if(is_link($data["new"]["document_root"]."/log")) exec("rm -f ".$data["new"]["document_root"]."/log");
+		}
+		
 		// Create the symlink for the logfiles
 		if(!is_dir('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data["new"]["domain"]);
 		if(!is_link($data["new"]["document_root"]."/log")) exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
 		
-		// Create the symlinks for the sites
+		
+		// Get the client ID
 		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
 		$client_id = intval($client["client_id"]);
 		unset($client);
+		
+		// Remove old symlinks, if site is renamed
+		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
+			$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
+			if(is_array($tmp_symlinks_array)) {
+				foreach($tmp_symlinks_array as $tmp_symlink) {
+					$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
+					$tmp_symlink = str_replace("[website_domain]",$data["new"]["domain"],$tmp_symlink);
+					// Remove trailing slash
+					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
+					// create the symlinks, if not exist
+					if(!is_link($tmp_symlink)) {
+						exec("rm -f ".escapeshellcmd($tmp_symlink));
+						$app->log("Removed Symlink: rm -f ".$tmp_symlink,LOGLEVEL_DEBUG);
+					}
+				}
+			}
+		}
+		
+		// Create the symlinks for the sites
 		$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
 		if(is_array($tmp_symlinks_array)) {
 			foreach($tmp_symlinks_array as $tmp_symlink) {
@@ -238,6 +265,7 @@ class apache2_plugin {
 				}
 			}
 		}
+		
 		
 		if($this->action == 'insert') {
 			// Copy the error pages
