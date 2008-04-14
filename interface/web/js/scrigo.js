@@ -107,6 +107,46 @@ function submitForm(formname,target) {
 	*/
 }
 
+function submitUploadForm(formname,target) {
+	
+	var submitFormCallback = {
+		success: function(o) {
+			if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+				var parts = o.responseText.split(':');
+				//alert(parts[1]);
+				loadContent(parts[1]);
+				//redirect = parts[1];
+				//window.setTimeout('loadContent(redirect)', 1000);
+			} else {
+				document.getElementById('pageContent').innerHTML = o.responseText;
+			}
+		},
+		upload: function(o) {
+        	if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+				var parts = o.responseText.split(':');
+				//alert(parts[1]);
+				loadContent(parts[1]);
+				//redirect = parts[1];
+				//window.setTimeout('loadContent(redirect)', 1000);
+			} else {
+				document.getElementById('pageContent').innerHTML = o.responseText;
+			}
+        },
+		failure: function(o) {
+			alert('Ajax Request was not successful. 1');
+		}
+	}
+	
+	YAHOO.util.Connect.setForm(formname,true);
+	var submitFormObj = YAHOO.util.Connect.asyncRequest('POST', target, submitFormCallback);
+	/*
+	if(redirect != '') {
+		loadContent(redirect);
+		redirect = '';
+	}
+	*/
+}
+
 function loadContent(pagename) {
 	var pageContentCallback2 = {
 		success: function(o) {

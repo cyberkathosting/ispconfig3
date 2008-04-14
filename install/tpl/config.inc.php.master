@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007, Till Brehm, Falko Timme, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, Falko Timme, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -55,7 +55,7 @@ define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
 define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
 define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
 
-define('ISPC_TEMP_PATH',   ISPC_ROOT_PATH.'/temp');
+define('ISPC_WEB_TEMP_PATH',   ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
 define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
 
 //** Interface settings

@@ -1,6 +1,6 @@
 <?php
 $wb['301'] = 'Modul für User nicht erlaubt.';
-$wb['302'] = 'Modul ung�ltig.';
+$wb['302'] = 'Modul ungültig.';
 $wb['303'] = ' ';
 $wb['304'] = ' Dieses Formular dient zum Anlegen eines englischsprachigen Eintrags zus�tzlich zu Ihrem deutschen Eintrag. Bitte vervollst�ndigen Sie die Daten, soweit erforderlich, in Englisch - die Inhalte aus den Drop-Down-Men�s werden automatisch �bersetzt:';
 $wb['1001'] = 'Der Benutzername und das Passwort d�rfen nicht leer sein!';
