@@ -243,9 +243,11 @@ class apache2_plugin {
 			// Copy the error pages
 			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
 			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+			exec("chmod -R +r ".$error_page_path);
 		
 			// copy the standard index page
 			exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
+			exec("chmod +r ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
 		}
 		
 		// Create group and user, if not exist
@@ -279,6 +281,7 @@ class apache2_plugin {
 		
 		// Chown and chmod the directories
 		exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
+		
 		
 		// Create the vhost config file
 		$app->load('tpl');
