@@ -238,7 +238,7 @@ class apache2_plugin {
 			if(is_array($tmp_symlinks_array)) {
 				foreach($tmp_symlinks_array as $tmp_symlink) {
 					$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
-					$tmp_symlink = str_replace("[website_domain]",$data["new"]["domain"],$tmp_symlink);
+					$tmp_symlink = str_replace("[website_domain]",$data["old"]["domain"],$tmp_symlink);
 					// Remove trailing slash
 					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
 					// create the symlinks, if not exist
@@ -385,6 +385,13 @@ class apache2_plugin {
 		
 		// Remove the symlink, if site is inactive
 		if($data["new"]["active"] == 'n' && is_link($vhost_symlink)) {
+			unlink($vhost_symlink);
+			$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
+		}
+		
+		// remove old symlink, if domain name of the site has changed
+		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
+			$vhost_symlink = escapeshellcmd($web_config["vhost_conf_enabled_dir"].'/'.$data["old"]["domain"].'.vhost');
 			unlink($vhost_symlink);
 			$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
 		}
