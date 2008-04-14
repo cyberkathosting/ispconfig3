@@ -219,12 +219,15 @@ class apache2_plugin {
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) exec('rm -rf /var/log/ispconfig/httpd/'.$data["old"]["domain"]);
-			if(is_link($data["old"]["document_root"]."/log")) exec("rm -f ".$data["old"]["document_root"]."/log");
+			if(is_link($data["old"]["document_root"]."/log")) unlink($data["old"]["document_root"]."/log");
 		}
 		
 		// Create the symlink for the logfiles
 		if(!is_dir('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data["new"]["domain"]);
-		if(!is_link($data["new"]["document_root"]."/log")) exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
+		if(!is_link($data["new"]["document_root"]."/log")) {
+			exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
+			$app->log("Creating Symlink: ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log",LOGLEVEL_DEBUG);
+		}
 		
 		
 		// Get the client ID
