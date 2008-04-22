@@ -16,10 +16,27 @@ Mail name? <-- server1.mydomain.tld
 
 ...use your own domain name of course ;)
 
+Edite the file /etc/mysql/my.cnf
+
+vi /etc/mysql/my.cnf
+
+and comment out the line
+
+bind-address          = 127.0.0.1
+
+then restart mysql
+
+/etc/init.d/mysql restart
+
+Set the mysql database password:
+
+mysqladmin -u root password yourrootsqlpassword
+mysqladmin -h ispconfig.local -u root password yourrootsqlpassword
+
+
 2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
 
 apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl
-
 
 3) Install apache, PHP5 and phpmyadmin (1 line!):
 
@@ -57,6 +74,15 @@ Then execute:
 5) Install mydns
 
 apt-get install mydns-mysql
+
+-> localhost
+-> mydns
+Would you like to set up the database and tables automatically? -> yes
+What is the username of the MySQL administrator? -> root
+Enter the MySQL administrator password -> yourrootsqlpassword
+Confirm this password -> yourrootsqlpassword
+What is the MyDNS username? -> mydns
+What is the MyDNS user password? -> mydnspassword
 
 The mydns installer is a bit tricky, you will have to select to create a new database for mydns and use a existing mysql user, e.g. the mysql root user. This database is only to fullfill the requirements for the debian pacakge during installation and will not be used by ISPConfig later. ISPConfig will automatically change the mydns configuration files to use the ISPConfig database.
 
