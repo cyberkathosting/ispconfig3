@@ -53,6 +53,11 @@ require_once('lib/installer_base.lib.php');
 //** Installer/updater logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
 
+//** Check for ISPConfig 2.x versions
+if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
+	die('This software can not be installed on a server wich runs ISPConfig 2.x.');
+}
+
 //** Get distribution identifier
 $distname = get_distname();
 

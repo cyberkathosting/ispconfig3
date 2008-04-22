@@ -81,6 +81,10 @@ if(!is_writable(dirname(ISPC_LOG_FILE))){
     die("ERROR: Cannot write to the directory ".dirname(ISPC_LOG_FILE).". Are you root or sudo ?\n\n");
 }
 
+if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
+	die('This software can not be installed on a server wich runs ISPConfig 2.x.');
+}
+
 //** Select the language
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
 
