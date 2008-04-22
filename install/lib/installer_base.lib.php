@@ -153,6 +153,17 @@ class installer_base {
 		}
 	}
 	
+	//** Create a recors in the
+	public function add_database_server_record() {
+		
+		$server_ini = rf("tpl/server.ini.master");
+		$server_ini = addslashes($server_ini_content);
+		
+		$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', 'Server 1', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+		$this->db->query($sql);
+		$this->conf['server_id'] = $this->db->insertID();
+	}
+	
 
     //** writes postfix configuration files
     private function process_postfix_config($configfile)

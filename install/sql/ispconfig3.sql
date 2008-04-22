@@ -493,9 +493,6 @@ CREATE TABLE `server` (
 -- Daten für Tabelle `server`
 -- 
 
-INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES 
-(1, 1, 1, 'riud', 'riud', 'r', 'Server 1', 1, 1, 1, 1, 1, 1, '[global]\nwebserver=apache\nmailserver=postfix\ndnsserver=mydns\n\n[server]\nip_address=192.168.0.105\nnetmask=255.255.255.0\ngateway=192.168.0.1\nhostname=server1.example.com\nnameservers=193.174.32.18,145.253.2.75\n\n[mail]\nmodule=postfix_mysql\nmaildir_path=/home/vmail/[domain]/[localpart]/\nhomedir_path=/home/vmail/\nmailuser_uid=5000\nmailuser_gid=5000\nmailuser_name=vmail\nmailuser_group=vmail\nrelayhost=\nrelayhost_user=\nrelayhost_password=\nmailbox_size_limit=0\nmessage_size_limit=0\n\n[getmail]\ngetmail_config_dir=/etc/getmail\n\n[web]\nwebsite_path=/var/clients/client[client_id]/web[website_id]\nwebsite_symlinks=/var/www/[website_domain]/:/var/clients/client[client_id]/[website_domain]/\nvhost_conf_dir=/etc/apache2/sites-available\nvhost_conf_enabled_dir=/etc/apache2/sites-enabled\n\n', 0, 1);
-
 -- --------------------------------------------------------
 
 -- 
