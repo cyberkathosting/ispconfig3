@@ -693,7 +693,7 @@ class tform {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
-																for ($n=0;$n<8;$n++) {
+																for ($n=0;$n<11;$n++) {
 																	$salt.=chr(mt_rand(64,126));
 																}
 																$salt.="$";
@@ -702,7 +702,7 @@ class tform {
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
                                                         }
-														$sql_insert_val .= "'".$record[$key]."', ";
+														$sql_insert_val .= "'".addslashes($record[$key])."', ";
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
                                                         $sql_insert_key .= "`$key`, ";
 														if($record[$key] == '') {
@@ -720,7 +720,7 @@ class tform {
                                                 if($field['formtype'] == 'PASSWORD') {
 														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
-																for ($n=0;$n<8;$n++) {
+																for ($n=0;$n<11;$n++) {
 																	$salt.=chr(mt_rand(64,126));
 																}
 																$salt.="$";
@@ -729,7 +729,7 @@ class tform {
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
                                                         }
-                                                        $sql_update .= "`$key` = '".$record[$key]."', ";
+                                                        $sql_update .= "`$key` = '".addslashes($record[$key])."', ";
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
 														if($record[$key] == '') {
 															// if a checkbox is not set, we set it to the unchecked value
