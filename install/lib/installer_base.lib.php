@@ -587,8 +587,9 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* Create a symlink, so ISPConfig is accessible via web
-		$command = "ln -s $install_dir/interface/web/ /var/www/ispconfig";
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		// Replaced by a separate vhost definition for port 8080
+		// $command = "ln -s $install_dir/interface/web/ /var/www/ispconfig";
+		// caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* Create the config file for ISPConfig interface
 		$configfile = 'config.inc.php';
