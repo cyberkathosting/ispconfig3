@@ -75,8 +75,8 @@ Then execute:
 
 apt-get install mydns-mysql
 
--> localhost
--> mydns
+What is the hostname of the machine on which the database will run? -> localhost
+What is the database name for the MyDNS database? -> mydns
 Would you like to set up the database and tables automatically? -> yes
 What is the username of the MySQL administrator? -> root
 Enter the MySQL administrator password -> yourrootsqlpassword
