@@ -1,0 +1,27 @@
+<?php
+$wb["username_txt"] = 'Nome utente';
+$wb["username_err"] = 'username_err';
+$wb["passwort_txt"] = 'Password';
+$wb["modules_txt"] = 'Modulo';
+$wb["startmodule_txt"] = 'Startmodul';
+$wb["app_theme_txt"] = 'Design';
+$wb["typ_txt"] = 'Type';
+$wb["active_txt"] = 'Aktive';
+$wb["language_txt"] = 'Lingua';
+$wb["name_txt"] = 'Nome';
+$wb["vorname_txt"] = 'Cognome';
+$wb["unternehmen_txt"] = 'Company';
+$wb["strasse_txt"] = 'Street';
+$wb["ort_txt"] = 'City';
+$wb["plz_txt"] = 'ZIP';
+$wb["land_txt"] = 'Country';
+$wb["email_txt"] = 'Email';
+$wb["url_txt"] = 'Url';
+$wb["telefon_txt"] = 'Telephone';
+$wb["fax_txt"] = 'Fax';
+$wb["groups_txt"] = 'Groups';
+$wb["default_group_txt"] = 'Default Group';
+$wb["active_txt"] = 'Attivo';
+$wb["btn_save_txt"] = 'Salva';
+$wb["btn_cancel_txt"] = 'Annulla';
+?>

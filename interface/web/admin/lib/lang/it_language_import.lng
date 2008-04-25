@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Importa file di lingua';
+$wb["language_import_txt"] = 'Seleziona file di lingua';
+$wb['btn_save_txt'] = 'Importa i file della lingua selezionata';
+$wb["language_overwrite_txt"] = 'Sovrascrivi file se esistenti.';
+$wb['btn_cancel_txt'] = 'Indietro';
+?>

@@ -1,0 +1,14 @@
+<?php
+$wb["jobname_txt"] = 'Nome';
+$wb["jobname_err"] = 'Il campo "Nome" è vuoto.';
+$wb["sync_interval_minutes_txt"] = 'Intervallo (Min.)';
+$wb["db_type_txt"] = 'Tipo DB';
+$wb["db_host_txt"] = 'Host DB';
+$wb["db_name_txt"] = 'Nome DB';
+$wb["db_username_txt"] = 'Utente DB';
+$wb["db_password_txt"] = 'Password DB';
+$wb["db_tables_txt"] = 'Tabelle';
+$wb["empty_datalog_txt"] = 'Cancella datalog dopo sincronizzazione.';
+$wb["sync_datalog_external_txt"] = 'Compilare datalog esterno.';
+$wb["active_txt"] = 'attivo';
+?>

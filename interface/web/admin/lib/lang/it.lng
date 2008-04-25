@@ -1,0 +1,6 @@
+<?php
+
+$wb[1001]	= "Nome utente o password vuoti.";
+$wb[1002]	= "Nome utente o password non corretti.";
+
+?>

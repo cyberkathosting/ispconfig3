@@ -1,0 +1,7 @@
+<?php
+$wb["description_txt"] = 'Descrizione';
+$wb["name_txt"] = 'Gruppo';
+$wb["name_err"] = 'Il gruppo deve essere minimo 1 caratteri, massimo 30.';
+$wb["btn_save_txt"] = 'Salva';
+$wb["btn_cancel_txt"] = 'Annulla'
+?>
