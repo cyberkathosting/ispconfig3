@@ -1,0 +1,10 @@
+<?php
+$wb['301'] = 'Modulo non permesso per l`utente corrente.';
+$wb['302'] = 'Modulo non valido.';
+$wb['1001'] = 'Nome utente e password non possono essere vuoti!';
+$wb['1002'] = 'Il nome utente e/o la password non sono corretti!';
+$wb['1003'] = 'Questo utento non è attivo!';
+$wb['delete_confirmation'] = 'Sei sicuro di voler cancellare questo record?';
+$wb['error_no_view_permission'] = 'Non hai il permesso di visualizzare questo record o non esiste!';
+$wb['error_no_delete_permission'] = 'Non hai il permesso per cancellare questo record!';
+?>
