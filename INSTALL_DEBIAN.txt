@@ -103,8 +103,8 @@ apt-get install php5-cli
 7.1) Installation of alpha 3 from tar.gz
 
   cd /tmp
-  wget http://www.ispconfig.org/downloads/ISPConfig_3.0.0.3-alpha.tar.gz
-  tar xvfz ISPConfig_3.0.0.3-alpha.tar.gz
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.4-beta.tar.gz
+  tar xvfz ISPConfig-3.0.0.4-beta.tar.gz
   cd ispconfig3_install/install/
 
 7.2) Installation from SVN
