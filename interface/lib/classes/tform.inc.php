@@ -388,7 +388,7 @@ class tform {
                                                     $out .= "<option value='$k'$selected>$v</option>\r\n";
                                                 }
                                         }
-                                        $new_record[$key] = $out;
+                                        if(isset($out)) $new_record[$key] = $out;
                                 break;
                                 case 'MULTIPLE':
                                                 if(is_array($field['value'])) {

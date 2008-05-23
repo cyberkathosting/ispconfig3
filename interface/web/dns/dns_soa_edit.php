@@ -87,7 +87,7 @@ class page_action extends tform_actions {
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
-					$selected = ($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$selected = ($client["groupid"] == @$this->dataRecord["sys_groupid"])?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}

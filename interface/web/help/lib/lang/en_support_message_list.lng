@@ -1,11 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'support_message';
-$wb['sender_id_txt'] = 'sender_id';
-$wb['subject_txt'] = 'subject';
+$wb['list_head_txt'] = 'Support Messages';
+$wb['sender_id_txt'] = 'Sender';
+$wb['subject_txt'] = 'Subject';
 $wb['page_txt'] = 'Page';
 $wb['page_of_txt'] = 'of';
 $wb['page_next_txt'] = 'Next';
 $wb['page_back_txt'] = 'Back';
 $wb['delete_txt'] = 'Delete';
 $wb['filter_txt'] = 'Filter';
+$wb["add_new_record_txt"] = 'Create new support message';
 ?>
