@@ -79,8 +79,6 @@ $inst = new installer();
 
 echo "This application will update ISPConfig 3 on your server.\n";
 
-//** TODO: all other queries, for testing I will setup everything in $conf
-
 //** Initialize the MySQL server connection
 include_once('lib/mysql.lib.php');
 
@@ -130,68 +128,78 @@ if( !empty($conf["mysql"]["admin_password"]) ) {
 	system("mysql -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." ".$conf['mysql']['database']." < existing_db.sql");
 }
 
-//** Configure postfix
-$inst->configure_postfix('dont-create-certs');
+//** Shall the services be reconfigured during update
+$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', 'yes,no','yes');
 
-//** Configure saslauthd
-swriteln('Configuring SASL');
-$inst->configure_saslauthd();
+if($reconfigure_services_answer == 'yes') {
+	//** Configure postfix
+	$inst->configure_postfix('dont-create-certs');
 
-//** Configure PAM
-swriteln('Configuring PAM');
-$inst->configure_pam();
+	//** Configure saslauthd
+	swriteln('Configuring SASL');
+	$inst->configure_saslauthd();
+	
+	//** Configure PAM
+	swriteln('Configuring PAM');
+	$inst->configure_pam();
 
-//** Configure courier
-swriteln('Configuring Courier');
-$inst->configure_courier();
+	//** Configure courier
+	swriteln('Configuring Courier');
+	$inst->configure_courier();
 
-//** Configure Spamasassin
-swriteln('Configuring Spamassassin');
-$inst->configure_spamassassin();
+	//** Configure Spamasassin
+	swriteln('Configuring Spamassassin');
+	$inst->configure_spamassassin();
 
-//** Configure Amavis
-swriteln('Configuring Amavisd');
-$inst->configure_amavis();
+	//** Configure Amavis
+	swriteln('Configuring Amavisd');
+	$inst->configure_amavis();
 
-//** Configure Getmail
-swriteln('Configuring Getmail');
-$inst->configure_getmail();
+	//** Configure Getmail
+	swriteln('Configuring Getmail');
+	$inst->configure_getmail();
 
-//** Configure Pureftpd
-swriteln('Configuring Pureftpd');
-$inst->configure_pureftpd();
+	//** Configure Pureftpd
+	swriteln('Configuring Pureftpd');
+	$inst->configure_pureftpd();
 
-//** Configure MyDNS
-swriteln('Configuring MyDNS');
-$inst->configure_mydns();
+	//** Configure MyDNS
+	swriteln('Configuring MyDNS');
+	$inst->configure_mydns();
 
-//** Configure Apache
-swriteln('Configuring Apache');
-$inst->configure_apache();
+	//** Configure Apache
+	swriteln('Configuring Apache');
+	$inst->configure_apache();
+}
 
 //** Configure ISPConfig
-swriteln('Installing ISPConfig');
+swriteln('Updating ISPConfig');
 $inst->install_ispconfig();
 
-//** Configure ISPConfig
-swriteln('Installing Crontab');
-$inst->install_crontab();
+//** Configure Crontab
+$update_crontab_answer = $inst->simple_query('Reconfigure Services?', 'yes,no','yes');
+if($update_crontab_answer == 'yes') {
+	swriteln('Updating Crontab');
+	$inst->install_crontab();
+}
 
 //** Restart services:
-swriteln('Restarting services ...');
-system("/etc/init.d/mysql restart");
-system("/etc/init.d/postfix restart");
-system("/etc/init.d/saslauthd restart");
-system("/etc/init.d/amavis restart");
-system("/etc/init.d/clamav-daemon restart");
-system("/etc/init.d/courier-authdaemon restart");
-system("/etc/init.d/courier-imap restart");
-system("/etc/init.d/courier-imap-ssl restart");
-system("/etc/init.d/courier-pop restart");
-system("/etc/init.d/courier-pop-ssl restart");
-system("/etc/init.d/apache2 restart");
-system("/etc/init.d/pure-ftpd-mysql restart");
-system("/etc/init.d/mydns restart");
+if($reconfigure_services_answer == 'yes') {
+	swriteln('Restarting services ...');
+	system("/etc/init.d/mysql restart");
+	system("/etc/init.d/postfix restart");
+	system("/etc/init.d/saslauthd restart");
+	system("/etc/init.d/amavis restart");
+	system("/etc/init.d/clamav-daemon restart");
+	system("/etc/init.d/courier-authdaemon restart");
+	system("/etc/init.d/courier-imap restart");
+	system("/etc/init.d/courier-imap-ssl restart");
+	system("/etc/init.d/courier-pop restart");
+	system("/etc/init.d/courier-pop-ssl restart");
+	system("/etc/init.d/apache2 restart");
+	system("/etc/init.d/pure-ftpd-mysql restart");
+	system("/etc/init.d/mydns restart");
+}
 
 echo "Update finished.\n";
 
