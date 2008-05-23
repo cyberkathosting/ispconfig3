@@ -224,20 +224,20 @@ class listform {
     {
         global $app;
         $content = '<a href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'">'
-                    .'<img src="themes/grey/images/btn_left.png" border="0"></a> &nbsp; ';
+                    .'<img src="themes/'.$_SESSION['s']['theme'].'/images/btn_left.png" border="0"></a> &nbsp; ';
         //* Show Back 
         if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
             $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
-                        .'<img src="themes/grey/images/btn_back.png" border="0"></a> ';
+                        .'<img src="themes/'.$_SESSION['s']['theme'].'/images/btn_back.png" border="0"></a> ';
         }
         $content .= ' '.$app->lng('Page').' '.$vars['next_page'].' '.$app->lng('of').' '.$vars['max_pages'].' ';
         //* Show Next
         if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
             $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
-                        .'<img src="themes/grey/images/btn_next.png" border="0"></a> &nbsp; ';
+                        .'<img src="themes/'.$_SESSION['s']['theme'].'/images/btn_next.png" border="0"></a> &nbsp; ';
         }
         $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'">'
-                    .'<img src="themes/grey/images/btn_right.png" border="0"></a>';
+                    .'<img src="themes/'.$_SESSION['s']['theme'].'/images/btn_right.png" border="0"></a>';
         return $content;
     }
 		
