@@ -177,7 +177,7 @@ swriteln('Updating ISPConfig');
 $inst->install_ispconfig();
 
 //** Configure Crontab
-$update_crontab_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
+$update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes','no'),'yes');
 if($update_crontab_answer == 'yes') {
 	swriteln('Updating Crontab');
 	$inst->install_crontab();
