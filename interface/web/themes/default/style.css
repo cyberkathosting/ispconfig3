@@ -315,6 +315,7 @@ TEXTAREA {
 	font-size:14px;
     /* used to catch the buttonEnding */
     position: relative;
+	margin-right:0px
 }
 
 .buttonEnding {
