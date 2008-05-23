@@ -96,7 +96,7 @@ if(is_array($records)) {
 	}
 }
 
-$app->tpl->setLoop('records',$records_new);
+@$app->tpl->setLoop('records',$records_new);
 
 // Language File setzen
 $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
