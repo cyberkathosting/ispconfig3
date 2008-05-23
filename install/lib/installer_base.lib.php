@@ -700,6 +700,12 @@ class installer_base {
 		// Make the Clamav log files readable by ISPConfig
 		exec('chmod +r /var/log/clamav/clamav.log');
 		exec('chmod +r /var/log/clamav/freshclam.log');
+		
+		//* Install the SVN update script
+		exec('cp ../helper_scripts/update_from_svn.sh /usr/local/bin/ispconfig_update_from_svn.sh');
+		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
+		exec('chmod 700 /usr/local/bin/ispconfig_update_from_svn.sh');
+		
 	}
 	
 	public function install_crontab()
