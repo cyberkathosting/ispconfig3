@@ -66,7 +66,6 @@ class listform_actions {
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString());
 
-
 		$this->DataRowColor = "#FFFFFF";
 		$records_new = '';
 		if(is_array($records)) {
@@ -139,7 +138,12 @@ class listform_actions {
     {
 		global $app;
 		
-		//* Set Language File
+		//* Set global Language File
+		$lng_file = ISPC_LIB_PATH.'/lang/'.$_SESSION['s']['language'].'.lng';
+		include($lng_file);
+		$app->tpl->setVar($wb);
+		
+		//* Set local Language File
 		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$app->listform->listDef['name'].'_list.lng';
 		include($lng_file);
 		$app->tpl->setVar($wb);

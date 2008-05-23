@@ -241,8 +241,8 @@ function reportError(request)
 		alert('Sorry. There was an error.');
 	}
 	
-	function del_record(link) {
-  if(window.confirm("<tmpl_var name='delete_confirmation'>")) {
+function del_record(link,confirmation) {
+  if(window.confirm(confirmation)) {
           loadContent(link);
   }
 }

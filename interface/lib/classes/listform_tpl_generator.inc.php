@@ -76,7 +76,7 @@ class listform_tpl_generator {
 			$html .= "    <td class=\"frmText11\"><a href=\"#\" onClick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\" class=\"frmText11\">{tmpl_var name=\"".$key."\"}</a></td>\r\n";
 		}
 		
-		$html .= "    <td class=\"frmText11\" align=\"right\">[<a href=\"javascript: del_record('".$module."/".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');\" class=\"frmText11\">{tmpl_var name='delete_txt'}</a>]</td>
+		$html .= "    <td class=\"frmText11\" align=\"right\">[<a href=\"javascript: del_record('".$module."/".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');\" class=\"frmText11\">{tmpl_var name='delete_txt'}</a>]</td>
   </tr>
   </tmpl_loop>
 ";
