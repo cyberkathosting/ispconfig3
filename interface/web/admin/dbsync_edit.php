@@ -53,7 +53,7 @@ $app->tpl->newTemplate("tabbed_form.tpl.htm");
 $app->tform->loadFormDef($tform_def_file);
 
 // ID importieren
-$id = intval($_REQUEST["id"]);
+$id = @intval($_REQUEST["id"]);
 
 if(count($_POST) > 1) {
 
@@ -84,7 +84,7 @@ if(count($_POST) > 1) {
 // Welcher Tab wird angezeigt
 if($app->tform->errorMessage == '') {
     // wenn kein Fehler vorliegt
-	if($_REQUEST["next_tab"] != '') {
+	if(isset($_REQUEST["next_tab"]) && $_REQUEST["next_tab"] != '') {
 		// wenn nächster Tab bekannt
 		$active_tab = $_REQUEST["next_tab"];
     } else {

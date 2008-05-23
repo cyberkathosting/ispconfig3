@@ -81,7 +81,7 @@ foreach($modules_list as $md) {
 	while ($file = @readdir ($handle)) { 
     	if ($file != '.' && $file != '..' && substr($file, 0, 1) != '.') {
         	include_once(ISPC_WEB_PATH."/$md/form/$file");
-			if($form['db_history'] == 'yes') {
+			if(isset($form['db_history']) && $form['db_history'] == 'yes') {
 				$tmp_id = $form['db_table'];
 				$db_tables[$tmp_id] = $form['db_table'];
 			}
