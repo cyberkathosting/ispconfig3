@@ -129,7 +129,7 @@ if( !empty($conf["mysql"]["admin_password"]) ) {
 }
 
 //** Shall the services be reconfigured during update
-$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', 'yes,no','yes');
+$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
 
 if($reconfigure_services_answer == 'yes') {
 	//** Configure postfix
@@ -177,7 +177,7 @@ swriteln('Updating ISPConfig');
 $inst->install_ispconfig();
 
 //** Configure Crontab
-$update_crontab_answer = $inst->simple_query('Reconfigure Services?', 'yes,no','yes');
+$update_crontab_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
 if($update_crontab_answer == 'yes') {
 	swriteln('Updating Crontab');
 	$inst->install_crontab();
