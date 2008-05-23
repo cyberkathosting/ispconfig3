@@ -123,8 +123,10 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Check if Domain belongs to user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
-		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+		if(isset($_POST["email_domain"])) {
+			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+			if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+		}
 		
 		
 		// if its an insert, check that the password is not empty
@@ -166,25 +168,28 @@ class page_action extends tform_actions {
 		
 
 		// compose the email field
-		$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
-		// Set the server id of the mailbox = server ID of mail domain.
-		$this->dataRecord["server_id"] = $domain["server_id"];
+		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
+			$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
 		
-		unset($this->dataRecord["email_local_part"]);
-		unset($this->dataRecord["email_domain"]);
+			// Set the server id of the mailbox = server ID of mail domain.
+			$this->dataRecord["server_id"] = $domain["server_id"];
 		
-		// Convert quota from MB to Bytes
-		$this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024 * 1024;
+			unset($this->dataRecord["email_local_part"]);
+			unset($this->dataRecord["email_domain"]);
 		
-		// setting Maildir, Homedir, UID and GID
-		$app->uses('getconf');
-		$mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
-		$maildir = str_replace("[domain]",$domain["domain"],$mail_config["maildir_path"]);
-		$maildir = str_replace("[localpart]",$_POST["email_local_part"],$maildir);
-		$this->dataRecord["maildir"] = $maildir;
-		$this->dataRecord["homedir"] = $mail_config["homedir_path"];
-		$this->dataRecord["uid"] = $mail_config["mailuser_uid"];
-		$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
+			// Convert quota from MB to Bytes
+			$this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024 * 1024;
+		
+			// setting Maildir, Homedir, UID and GID
+			$app->uses('getconf');
+			$mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
+			$maildir = str_replace("[domain]",$domain["domain"],$mail_config["maildir_path"]);
+			$maildir = str_replace("[localpart]",$_POST["email_local_part"],$maildir);
+			$this->dataRecord["maildir"] = $maildir;
+			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
+			$this->dataRecord["uid"] = $mail_config["mailuser_uid"];
+			$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
+		}
 
 		
 		parent::onSubmit();
@@ -222,30 +227,32 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Set the domain owner as mailbox owner
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
+		if(isset($_POST["email_domain"])) {
+			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+			$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
 		
-		// Spamfilter policy
-		$policy_id = intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".addslashes($this->dataRecord["email"])."'");
-		if($policy_id > 0) {
-			if($tmp_user["id"] > 0) {
-				// There is already a record that we will update
-				$sql = "UPDATE spamfilter_users SET policy_id = $policy_id WHERE id = ".$tmp_user["id"];
-				$app->db->query($sql);
-			} else {
-				// We create a new record
-				$sql = "INSERT INTO `spamfilter_users` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 1, ".$policy_id.", '".addslashes($this->dataRecord["email"])."', '".addslashes($this->dataRecord["email"])."', 'Y')";
-				$app->db->query($sql);
-			}
-		}else {
-			if($tmp_user["id"] > 0) {
-				// There is already a record but the user shall have no policy, so we delete it
-				$sql = "DELETE FROM spamfilter_users WHERE id = ".$tmp_user["id"];
-				$app->db->query($sql);
-			}
-		} // endif spamfilter policy
+			// Spamfilter policy
+			$policy_id = intval($this->dataRecord["policy"]);
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".addslashes($this->dataRecord["email"])."'");
+			if($policy_id > 0) {
+				if($tmp_user["id"] > 0) {
+					// There is already a record that we will update
+					$sql = "UPDATE spamfilter_users SET policy_id = $policy_id WHERE id = ".$tmp_user["id"];
+					$app->db->query($sql);
+				} else {
+					// We create a new record
+					$sql = "INSERT INTO `spamfilter_users` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
+				        	VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 1, ".$policy_id.", '".addslashes($this->dataRecord["email"])."', '".addslashes($this->dataRecord["email"])."', 'Y')";
+					$app->db->query($sql);
+				}
+			}else {
+				if($tmp_user["id"] > 0) {
+					// There is already a record but the user shall have no policy, so we delete it
+					$sql = "DELETE FROM spamfilter_users WHERE id = ".$tmp_user["id"];
+					$app->db->query($sql);
+				}
+			} // endif spamfilter policy
+		}
 		
 	}
 	
