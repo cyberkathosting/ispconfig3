@@ -191,7 +191,8 @@ textarea,input.text,select,option{
 	font-size: 18px;
 	color: #496FA8;
 	text-decoration: none;
-
+	display:inline-block;
+	margin-bottom:10px;
 }
 
 .frmTextSubHead {
