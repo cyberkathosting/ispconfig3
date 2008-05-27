@@ -16,18 +16,18 @@
 <tmpl_if name='alias'>
     ServerAlias <tmpl_var name='alias'>
 </tmpl_if>
-<tmpl_if name='cgi'>
+<tmpl_if name='cgi' op='==' value='y'>
     # cgi enabled
     ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
     AddHandler cgi-script .cgi
     AddHandler cgi-script .pl
 </tmpl_if>
-<tmpl_if name='ssi'>
+<tmpl_if name='ssi' op='==' value='y'>
     # ssi enabled
     AddType text/html .shtml
     AddOutputFilter INCLUDES .shtml
 </tmpl_if>
-<tmpl_if name='suexec'>
+<tmpl_if name='suexec' op='==' value='y'>
     # suexec enabled
     SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 </tmpl_if>

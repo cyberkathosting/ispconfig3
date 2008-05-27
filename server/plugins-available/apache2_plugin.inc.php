@@ -447,6 +447,11 @@ class apache2_plugin {
 		}
 		// end removing symlinks
 		
+		// Delete the log file directory
+		$vhost_logfile_dir = escapeshellcmd('/var/log/ispconfig/httpd/'.$data["old"]["domain"]);
+		if($data["old"]["domain"] != '' && !stristr($vhost_logfile_dir,'..')) exec("rm -rf $vhost_logfile_dir");
+		$app->log("Removing website logfile directory: $vhost_logfile_dir",LOGLEVEL_DEBUG);
+		
 	}
 	
 	//* This function is called when a IP on the server is inserted, updated or deleted
