@@ -96,6 +96,11 @@ class listform_actions {
 		foreach($app->listform->listDef['item'] as $field) {
 			$key = $field['field'];
 			if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
+				if($rec[$key] == 'y' or $rec[$key] == 'n') {
+					// Set a additional image variable for bolean fields
+					$rec['_'.$key.'_'] = ($rec[$key] == 'y')?'list_icon_true.png':'list_icon_false.png';
+				}
+				//* substitute value for select field
 				$rec[$key] = @$field['value'][$rec[$key]];
 			}
 		}

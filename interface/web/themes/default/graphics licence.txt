@@ -1,0 +1,1 @@
+The icons and graphics in this theme may only be used for ISPConfig 3 software. The graphic files are not licensed under BSD license and may not be copied or used for other projects.
