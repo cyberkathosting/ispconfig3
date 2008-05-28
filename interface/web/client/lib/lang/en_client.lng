@@ -55,5 +55,27 @@ $wb["limit_dns_zone_txt"] = 'Max. number of DNS zones';
 $wb["limit_dns_record_txt"] = 'Max. number DNS records';
 $wb["limit_shell_user_txt"] = 'Max. number of Shell users';
 $wb["limit_client_txt"] = 'Max. number of Clients';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["limit_maildomain_error_notint"] = 'The email domain limit must be a number.';
+$wb["limit_mailbox_error_notint"] = 'The mailbox limit must be a number.';
+$wb["limit_mailalias_error_notint"] = 'The email alias limit must be a number.';
+$wb["limit_mailforward_error_notint"] = 'The email forward limit must be a number.';
+$wb["limit_mailcatchall_error_notint"] = 'The email catchall limit must be a number.';
+$wb["limit_mailrouting_error_notint"] = 'The email routing limit must be a number.';
+$wb["limit_mailfilter_error_notint"] = 'The email filter limit must be a number.';
+$wb["limit_mailfetchmail_error_notint"] = 'The fetchmail limit must be a number.';
+$wb["limit_mailquota_error_notint"] = 'The email quota limit must be a number.';
+$wb["limit_spamfilter_wblist_error_notint"] = 'The spamfilter white / blacklist limit must be a number.';
+$wb["limit_spamfilter_user_error_notint"] = 'The spamfilter user limit must be a number.';
+$wb["limit_spamfilter_policy_error_notint"] = 'The spamfilter policy limit must be a number.';
+$wb["limit_web_domain_error_notint"] = 'The website limit must be a number.';
+$wb["limit_web_aliasdomain_error_notint"] = 'The website alias domain limit must be a number.';
+$wb["limit_web_subdomain_error_notint"] = 'The website subdomain limit must be a number.';
+$wb["limit_ftp_user_error_notint"] = 'The ftp user limit must be a number.';
+$wb["limit_shell_user_error_notint"] = 'The shell user limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns zone limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns record limit must be a number.';
+$wb["limit_client_error_notint"] = 'The sub client limit must be a number.';
 
 ?>

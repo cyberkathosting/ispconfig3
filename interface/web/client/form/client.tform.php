@@ -570,7 +570,7 @@ $form["tabs"]['limits'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
-														'errmsg'=> 'limit_dns_zone_error_notint'),
+														'errmsg'=> 'limit_dns_record_error_notint'),
 									),
 			'default'	=> '-1',
 			'value'		=> '',

@@ -10,4 +10,8 @@ $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
 $wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
 $wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Host information empty';
+$wb["data_error_regex"] = 'Host Information format invalid';
 ?>

@@ -35,7 +35,7 @@
 
 $form["title"] 			= "Web Domain";
 $form["description"] 	= "";
-$form["name"] 			= "web_domain";
+$form["name"] 			= "web_subdomain";
 $form["action"]			= "web_subdomain_edit.php";
 $form["db_table"]		= "web_domain";
 $form["db_table_idx"]	= "domain_id";
