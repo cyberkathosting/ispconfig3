@@ -83,7 +83,7 @@ $module['nav'][] = array(	'title'	=> 'Fetchmail',
 //**** Statistics menu
 $items = array();
 
-$items[] = array( 'title' 	=> 'Mailboxes',
+$items[] = array( 'title' 	=> 'Mailbox traffic',
 				  'target' 	=> 'content',
 				  'link'	=> 'mail/mail_user_stats.php');
 

@@ -85,6 +85,10 @@ body{
 	border-left-color: #999999;
 	text-align: left;
 }
+.navLeftHead a {
+	text-decoration: none;
+	color: #4E70A7;
+}
 .navLeftItem {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
