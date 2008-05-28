@@ -80,7 +80,19 @@ $module['nav'][] = array(	'title'	=> 'Fetchmail',
 							'open' 	=> 1,
 							'items'	=> $items);
 
+//**** Statistics menu
+$items = array();
 
+$items[] = array( 'title' 	=> 'Mailboxes',
+				  'target' 	=> 'content',
+				  'link'	=> 'mail/mail_user_stats.php');
+
+
+$module['nav'][] = array(	'title'	=> 'Statistics',
+							'open' 	=> 1,
+							'items'	=> $items);
+							
+							
 //**** Global filters menu
 $items = array();
 if($_SESSION['s']['user']['typ'] == 'admin') {

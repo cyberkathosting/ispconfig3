@@ -38,8 +38,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class listform_actions {
 	
 	private $id;
-	private $idx_key;
-	private $DataRowColor;
+	public $idx_key;
+	public $DataRowColor;
 	public  $SQLExtWhere = '';
 	public  $SQLOrderBy = '';
 	
@@ -82,7 +82,7 @@ class listform_actions {
 		
 	}
 	
-	private function prepareDataRow($rec)
+	public function prepareDataRow($rec)
     {
 		global $app;
 		
