@@ -201,14 +201,15 @@ if($install_mode == 'Standard') {
 	// $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
 	// Server ID is an autoInc value of the mysql database now
 	
-	if(strtolower($inst->simple_query('Create Database',array('y','n'),'y')) == 'y') {
+	if(strtolower($inst->simple_query('Shall this server join a existing ISPConfig installation? If not, we will create a new database now',array('y','n'),'y')) == 'n') {
 		//* Create the mysql database
 		$inst->configure_database();
 		system('/etc/init.d/mysql restart');
-		
-		//* Insert the Server record into the database
-		$inst->add_database_server_record();
 	}
+		
+	//* Insert the Server record into the database
+	$inst->add_database_server_record();
+
 	
 	if(strtolower($inst->simple_query('Configure Mail', array('y','n') ,'y') ) == 'y') {
 		
