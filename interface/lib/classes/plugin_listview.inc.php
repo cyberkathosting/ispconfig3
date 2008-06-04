@@ -86,7 +86,7 @@ class plugin_listview extends plugin_base {
                         }
                 }
 
-                $listTpl->setLoop('records',$records_new);
+                $listTpl->setLoop('records',@$records_new);
 
                 // Loading language field
                 $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
