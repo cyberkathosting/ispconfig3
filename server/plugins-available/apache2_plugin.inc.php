@@ -374,6 +374,43 @@ class apache2_plugin {
 		}
 		$tpl->setLoop('redirects',$rewrite_rules);
 		
+		/** 
+		 * install fast-cgi starter script and add script aliasd config 
+		 * first we create the script directory if not already created, then copy over the starter script
+		 * settings are copied over from the server ini config for now
+		 * TODO: Create form for fastcgi configs per site.
+		 */
+		
+		if ($data["new"]["php"] == "fast-cgi")
+		{
+			$fastcgi_starter_path = str_replace("[system_user]",$data["new"]["system_user"],$web_config["fastcgi_starter_path"]);
+			if (!is_dir($fastcgi_starter_path))
+			{
+				exec("mkdir $fastcgi_starter_path");
+				exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." $fastcgi_starter_path");
+			}
+			
+			$fcgi_tpl = new tpl();
+			$fcgi_tpl->newTemplate("php-fcgi-starter.master");
+				
+			$fcgi_tpl->setVar('php_ini_path',$web_config["fastcgi_phpini_path"]);
+			$fcgi_tpl->setVar('document_root',$data["new"]["document_root"]);
+			$fcgi_tpl->setVar('php_fcgi_children',$web_config["fastcgi_children"]);
+			$fcgi_tpl->setVar('php_fcgi_max_requests',$web_config["fastcgi_max_requests"]);
+			$fcgi_tpl->setVar('php_fcgi_bin',$web_config["fastcgi_bin"]);
+				
+			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path."/".$web_config["fastcgi_starter_script"]);
+			file_put_contents($fcgi_starter_script,$fcgi_tpl->grab());
+			unset($fcgi_tpl);
+			
+			exec("chmod 755 $fcgi_starter_script");
+			exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." $fcgi_starter_script");
+
+			$tpl->setVar('fastcgi_alias',$web_config["fastcgi_alias"]);
+			$tpl->setVar('fastcgi_starter_path',$fastcgi_starter_path);
+			
+		}
+		
 		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["new"]["domain"].'.vhost');
 		file_put_contents($vhost_file,$tpl->grab());
 		$app->log("Writing the vhost file: $vhost_file",LOGLEVEL_DEBUG);

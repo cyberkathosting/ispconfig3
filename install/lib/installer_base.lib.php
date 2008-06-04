@@ -691,7 +691,17 @@ class installer_base {
         // TODO: These are missing! should they be "vhost_dist_*_dir" ?
         $vhost_conf_dir = $this->conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $this->conf['apache']['vhost_conf_enabled_dir'];
-		copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+        
+        
+        // Dont just copy over the virtualhost template but add some custom settings
+         
+        $content = rf("tpl/apache_ispconfig.vhost.master");
+		$content = str_replace('{vhost_port}', $this->conf['apache']['vhost_port'], $content);
+		$content = str_replace('{vhost_cgi_alias}', $this->conf['apache']['vhost_cgi_alias'], $content);
+		
+		wf("$vhost_conf_dir/ispconfig.vhost", $content);
+		
+		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
 		if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
 			exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");

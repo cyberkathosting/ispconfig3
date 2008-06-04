@@ -46,6 +46,12 @@
     # php as cgi enabled
     AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
+<tmpl_if name='php' op='==' value='fast-cgi'>
+    # php as fast-cgi enabled
+    AddType application/x-httpd-php .php .php3 .php4 .php5
+
+    ScriptAlias <tmpl_var name='fastcgi_alias'> <tmpl_var name='fastcgi_starter_path'>
+</tmpl_if>
 
 <tmpl_if name="rewrite_enabled">
     RewriteEngine on
