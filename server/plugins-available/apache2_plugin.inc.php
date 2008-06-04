@@ -292,7 +292,7 @@ class apache2_plugin {
 		
 		$username = escapeshellcmd($data["new"]["system_user"]);
 		if($data["new"]["system_user"] != '' && !$app->system->is_user($data["new"]["system_user"])) {
-			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname $username");
+			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname $username -s /bin/false");
 			$app->log("Adding the user: $username",LOGLEVEL_DEBUG);
 		}
 		

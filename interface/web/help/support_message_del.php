@@ -38,11 +38,8 @@ $tform_def_file = 'form/support_message.tform.php';
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Check module permissions
-if(!stristr($_SESSION['s']['user']['modules'], 'help')) {
-	header('Location: ../index.php');
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('help');
 
 //* Load the form
 $app->uses('tform_actions');

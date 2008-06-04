@@ -90,6 +90,16 @@ class auth {
 			return false;
 		}
 	}
+	
+	public function check_module_permissions($module) {
+		// Check if the current user has the permissions to access this module
+		if(!stristr($_SESSION["s"]["user"]["modules"],$module)) {
+			header("Location: ../index.php");
+			exit;
+		}
+	}
+	
+	
 }
 
 ?>

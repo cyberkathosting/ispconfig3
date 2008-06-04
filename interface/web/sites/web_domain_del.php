@@ -42,11 +42,8 @@ $tform_def_file = "form/web_domain.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checke Berechtigungen für Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],'sites')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('sites');
 
 $app->uses("tform_actions");
 $app->tform_actions->onDelete();

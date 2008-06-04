@@ -32,11 +32,8 @@ require_once('../../lib/app.inc.php');
 
 if($_SESSION["s"]["user"]["typ"] != "admin") die("Admin permissions required.");
 
-// Checke Berechtigungen für Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('designer');
 
 // Lade Template
 $app->uses('tpl');

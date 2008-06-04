@@ -31,11 +31,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],'sites')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('sites');
 
 $server_id = intval($_GET["server_id"]);
 

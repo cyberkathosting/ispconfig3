@@ -41,11 +41,8 @@ $list_def_file = "list/web_aliasdomain.list.php";
 * End Form configuration
 ******************************************/
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],'sites')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('sites');
 
 $app->uses('listform_actions');
 

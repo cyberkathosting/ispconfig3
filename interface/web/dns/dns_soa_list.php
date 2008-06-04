@@ -12,11 +12,8 @@ $list_def_file = "list/dns_soa.list.php";
 * End Form configuration
 ******************************************/
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],'dns')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('dns');
 
 $app->uses('listform_actions');
 // $app->listform_actions->SQLExtWhere = "access = 'REJECT'";

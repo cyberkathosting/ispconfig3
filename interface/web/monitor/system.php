@@ -31,11 +31,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checke Berechtigungen für Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],'monitor')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('monitor');
 
 $mod = $_GET["mod"];
 $output = '';

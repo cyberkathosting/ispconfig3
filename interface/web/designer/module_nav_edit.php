@@ -36,10 +36,7 @@ if($_SESSION['s']['user']['typ'] != 'admin'){
 }
 
 //* Check permissions for module
-if(!stristr($_SESSION['s']['user']['modules'],$_SESSION['s']['module']['name'])) {
-	header('Location: ../index.php');
-	exit;
-}
+$app->auth->check_module_permissions('designer');
 
 //* Load template
 $app->uses('tpl');

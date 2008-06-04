@@ -39,11 +39,7 @@ $list_def_file = "list/dbsync.list.php";
 * End Form configuration
 ******************************************/
 
-// Checke Berechtigungen für Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
-	exit;
-}
+$app->auth->check_module_permissions('admin');
 
 include_once($list_def_file);
 

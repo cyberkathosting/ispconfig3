@@ -41,11 +41,8 @@ $list_def_file = "list/groups.list.php";
 * End Form configuration
 ******************************************/
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('admin');
 
 $app->uses('listform_actions');
 $app->listform_actions->onLoad();

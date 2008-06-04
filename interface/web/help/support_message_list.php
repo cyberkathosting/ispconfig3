@@ -5,11 +5,8 @@ require_once('../../lib/app.inc.php');
 //* Path to the list definition file
 $list_def_file = "list/support_message.list.php";
 
-//* Check the module permissions
-if(!stristr($_SESSION['s']['user']["modules"], 'help')) {
-	header('Location: ../index.php');
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('help');
 
 //* Loading the class
 $app->uses('listform_actions');

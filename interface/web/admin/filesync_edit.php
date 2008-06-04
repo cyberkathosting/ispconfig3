@@ -39,11 +39,8 @@ $tform_def_file = "form/filesync.tform.php";
 * End Form configuration
 ******************************************/
 
-// Checke Berechtigungen für Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('admin');
 
 // Lade Template
 $app->uses('tpl,tform');

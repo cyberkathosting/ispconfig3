@@ -30,11 +30,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking permissions for the module
-if(!stristr($_SESSION['s']['user']['modules'],'admin')) {
-	header('Location: ../index.php');
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('admin');
 
 //* This is only allowed for administrators
 if(!$app->auth->is_admin()) die('only allowed for administrators.');

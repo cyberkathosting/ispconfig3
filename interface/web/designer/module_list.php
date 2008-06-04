@@ -30,11 +30,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-//* Check permissions for the module
-if(!stristr($_SESSION['s']['user']['modules'],$_SESSION['s']['module']['name'])) {
-	header('Location: ../index.php');
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('designer');
 
 $app->uses('tpl');
 

@@ -41,11 +41,8 @@ $tform_def_file = "form/mail_content_filter.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],'mail')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('mail');
 
 if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('These Filters are only for Admins.');
 

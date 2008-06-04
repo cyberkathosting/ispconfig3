@@ -13,11 +13,8 @@ $list_def_file = "list/mail_domain.list.php";
 ******************************************/
 
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],'mail')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('mail');
 
 $app->uses('listform_actions');
 

@@ -41,11 +41,8 @@ $tform_def_file = "form/mail_domain.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checking module permissions
-if(!stristr($_SESSION["s"]["user"]["modules"],$_SESSION["s"]["module"]["name"])) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('mail');
 
 // Loading classes
 $app->uses('tpl,tform,tform_actions');

@@ -42,11 +42,8 @@ $tform_def_file = "form/spamfilter_config.tform.php";
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
-// Checke Berechtigungen für Modul
-if(!stristr($_SESSION["s"]["user"]["modules"],'mail')) {
-	header("Location: ../index.php");
-	exit;
-}
+//* Check permissions for module
+$app->auth->check_module_permissions('mail');
 
 $app->uses("tform_actions");
 $app->tform_actions->onDelete();
