@@ -1,0 +1,10 @@
+#!/bin/sh
+PHPRC="<tmpl_var name='php_ini_path'>"
+export PHPRC
+PHP_DOCUMENT_ROOT="<tmpl_var name='document_root'>"
+export PHP_DOCUMENT_ROOT
+PHP_FCGI_CHILDREN=<tmpl_var name='php_fcgi_children'>
+export PHP_FCGI_CHILDREN
+PHP_FCGI_MAX_REQUESTS=<tmpl_var name='php_fcgi_max_requests'>
+export PHP_FCGI_MAX_REQUESTS
+exec <tmpl_var name='php_fcgi_bin'> $1
