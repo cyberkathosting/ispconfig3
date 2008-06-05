@@ -125,4 +125,4 @@ MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND ser
 # avoid races. Leave this commented if you are using the
 # traditionnal MyIsam databases or old (< 3.23.x) MySQL versions.
 
-# MySQLTransactions On
+MySQLTransactions On
