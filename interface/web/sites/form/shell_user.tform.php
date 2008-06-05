@@ -105,6 +105,12 @@ $form["tabs"]['shell'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'chroot' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('' => 'None', 'jailkit' => 'Jailkit', 'ssh-chroot' => 'SSH Chroot')
+		),
 		'quota_size' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',

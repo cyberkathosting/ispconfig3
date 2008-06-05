@@ -218,18 +218,17 @@ class apache2_plugin {
 		
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
-			if(is_dir('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) exec('rm -rf /var/log/ispconfig/httpd/'.$data["old"]["domain"]);
-			if(is_link($data["old"]["document_root"]."/log")) unlink($data["old"]["document_root"]."/log");
+			if(is_dir($data["old"]["document_root"]."/log")) exec('rm -rf '.$data["old"]["document_root"]."/log");
+			if(is_link('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) unlink('/var/log/ispconfig/httpd/'.$data["old"]["domain"]);
 		}
 		
 		// Create the symlink for the logfiles
-		if(!is_dir('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data["new"]["domain"]);
-		if(!is_link($data["new"]["document_root"]."/log")) {
-			exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
-			$app->log("Creating Symlink: ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log",LOGLEVEL_DEBUG);
+		if(!is_dir($data["new"]["document_root"]."/log")) exec('mkdir -p '.$data["new"]["document_root"]."/log");
+		if(!is_link('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) {
+			exec("ln -s ".$data["new"]["document_root"]."/log /var/log/ispconfig/httpd/".$data["new"]["domain"]);
+			$app->log("Creating Symlink: ln -s ".$data["new"]["document_root"]."/log /var/log/ispconfig/httpd/".$data["new"]["domain"],LOGLEVEL_DEBUG);
 		}
-		
-		
+	
 		// Get the client ID
 		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
 		$client_id = intval($client["client_id"]);
@@ -462,6 +461,17 @@ class apache2_plugin {
 		
 		$docroot = escapeshellcmd($data["old"]["document_root"]);
 		if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
+		
+		//remove the php fastgi starter script if available
+		if ($data["old"]["php"] == "fast-cgi")
+		{
+			$fastcgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["fastcgi_starter_path"]);
+			if (is_dir($fastcgi_starter_path))
+			{
+					exec("rm -rf $fastcgi_starter_path");
+			}
+		}
+		
 		$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
 		
 		// Delete the symlinks for the sites

@@ -524,7 +524,6 @@ CREATE TABLE `server_ip` (
 
 -- --------------------------------------------------------
 
-
 CREATE TABLE `shell_user` (
   `shell_user_id` bigint(20) NOT NULL auto_increment,
   `sys_userid` int(11) NOT NULL default '0',
@@ -542,8 +541,10 @@ CREATE TABLE `shell_user` (
   `pgroup` varchar(255) default NULL,
   `shell` varchar(255) NOT NULL default '/bin/bash',
   `dir` varchar(255) default NULL,
+  `chroot` varchar(255) NOT NULL,
   PRIMARY KEY  (`shell_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
 
 -- 
 -- Daten für Tabelle `shell_user`
