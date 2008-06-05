@@ -462,6 +462,7 @@ class apache2_plugin {
 		$docroot = escapeshellcmd($data["old"]["document_root"]);
 		if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
 		
+		
 		//remove the php fastgi starter script if available
 		if ($data["old"]["php"] == "fast-cgi")
 		{
