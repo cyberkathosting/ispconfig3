@@ -16,6 +16,8 @@
 -- Tabellenstruktur für Tabelle `client`
 -- 
 
+SET FOREIGN_KEY_CHECKS = 0;
+
 CREATE TABLE `client` (
   `client_id` bigint(20) NOT NULL auto_increment,
   `sys_userid` int(11) NOT NULL default '0',
@@ -158,8 +160,12 @@ CREATE TABLE `ftp_user` (
   `dl_ratio` int(11) NOT NULL default '-1',
   `ul_bandwidth` int(11) NOT NULL default '-1',
   `dl_bandwidth` int(11) NOT NULL default '-1',
-  PRIMARY KEY  (`ftp_user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  PRIMARY KEY  (`ftp_user_id`),
+  KEY `active` (`active`),
+  KEY `server_id` (`server_id`),
+  KEY `username` (`username`),
+  KEY `quota_files` (`quota_files`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `ftp_user`
@@ -874,3 +880,5 @@ CREATE TABLE `attempts_login` (
   `times` tinyint(1) NOT NULL default '1',
   `login_time` timestamp NOT NULL default '0000-00-00 00:00:00'
 );
+
+SET FOREIGN_KEY_CHECKS = 1;
