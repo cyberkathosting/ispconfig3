@@ -180,12 +180,15 @@ swriteln('Updating ISPConfig');
 //** TODO: Don't always ask for this somehow ? 
 $fast_cgi = $inst->simple_query('CGI PHP Enabled Server?', array('yes','no'),'no');
 
+
 if($fast_cgi == 'yes') {
 	 $alias = $inst->free_query('Script Alias', '/php/');
 	 $path = $inst->free_query('Script Alias Path', '/path/to/cgi/bin');
 	 $inst->conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
+	 $inst->conf['apache']['vhost_cgi_alias_path'] = $path;
 } else {
 	 $inst->conf['apache']['vhost_cgi_alias'] = "";
+	 $inst->conf['apache']['vhost_cgi_alias_path'] = "";
 }
 
 

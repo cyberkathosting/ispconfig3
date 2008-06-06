@@ -32,6 +32,8 @@ website_path=/var/clients/client[client_id]/web[website_id]
 website_symlinks=/var/www/[website_domain]/:/var/clients/client[client_id]/[website_domain]/
 vhost_conf_dir=/etc/apache2/sites-available
 vhost_conf_enabled_dir=/etc/apache2/sites-enabled
+
+[fastcgi]
 fastcgi_starter_path=/var/www/php-fcgi-scripts/[system_user]/
 fastcgi_starter_script=.php-fcgi-starter
 fastcgi_alias=/php/
@@ -39,3 +41,8 @@ fastcgi_phpini_path=/etc/php5/cgi/
 fastcgi_children=8
 fastcgi_max_requests=5000
 fastcgi_bin=/usr/bin/php-cgi
+
+[jailkit]
+jailkit_chroot_home=/home/[username]
+jailkit_chroot_app_sections=basicshell editors extendedshell netutils ssh sftp scp groups jk_lsh
+jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico

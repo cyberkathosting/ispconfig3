@@ -80,9 +80,8 @@ class page_action extends tform_actions {
 		$dir = $web["document_root"];
 		$puser = $web["system_user"];
 		$pgroup = $web["system_group"];
-		$chroot = $web["chroot"];
 		
-		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$puser', pgroup = '$pgroup' chroot='$chroot' WHERE shell_user_id = ".$this->id;
+		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$puser', pgroup = '$pgroup' WHERE shell_user_id = ".$this->id;
 		$app->db->query($sql);
 		
 	}

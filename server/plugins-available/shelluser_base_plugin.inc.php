@@ -28,10 +28,10 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class shelluser_plugin {
+class shelluser_base_plugin {
 	
-	var $plugin_name = 'shelluser_plugin';
-	var $class_name = 'shelluser_plugin';
+	var $plugin_name = 'shelluser_base_plugin';
+	var $class_name = 'shelluser_base_plugin';
 	
 		
 	/*
@@ -102,7 +102,6 @@ class shelluser_plugin {
 		} else {
 			$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
 		}
-		
 	}
 	
 	function delete($event_name,$data) {

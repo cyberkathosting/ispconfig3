@@ -382,30 +382,38 @@ class apache2_plugin {
 		
 		if ($data["new"]["php"] == "fast-cgi")
 		{
-			$fastcgi_starter_path = str_replace("[system_user]",$data["new"]["system_user"],$web_config["fastcgi_starter_path"]);
+			$fastcgi_config = $app->getconf->get_server_config($conf["server_id"], 'fastcgi');
+			
+			$fastcgi_starter_path = str_replace("[system_user]",$data["new"]["system_user"],$fastcgi_config["fastcgi_starter_path"]);
 			if (!is_dir($fastcgi_starter_path))
 			{
-				exec("mkdir $fastcgi_starter_path");
+				exec("mkdir -p $fastcgi_starter_path");
 				exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." $fastcgi_starter_path");
+				
+				
+				$app->log("Creating fastcgi starter script directory: $fastcgi_starter_path",LOGLEVEL_DEBUG);
 			}
 			
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate("php-fcgi-starter.master");
 				
-			$fcgi_tpl->setVar('php_ini_path',$web_config["fastcgi_phpini_path"]);
+			$fcgi_tpl->setVar('php_ini_path',$fastcgi_config["fastcgi_phpini_path"]);
 			$fcgi_tpl->setVar('document_root',$data["new"]["document_root"]);
-			$fcgi_tpl->setVar('php_fcgi_children',$web_config["fastcgi_children"]);
-			$fcgi_tpl->setVar('php_fcgi_max_requests',$web_config["fastcgi_max_requests"]);
-			$fcgi_tpl->setVar('php_fcgi_bin',$web_config["fastcgi_bin"]);
+			$fcgi_tpl->setVar('php_fcgi_children',$fastcgi_config["fastcgi_children"]);
+			$fcgi_tpl->setVar('php_fcgi_max_requests',$fastcgi_config["fastcgi_max_requests"]);
+			$fcgi_tpl->setVar('php_fcgi_bin',$fastcgi_config["fastcgi_bin"]);
 				
-			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path."/".$web_config["fastcgi_starter_script"]);
+			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path."/".$fastcgi_config["fastcgi_starter_script"]);
 			file_put_contents($fcgi_starter_script,$fcgi_tpl->grab());
 			unset($fcgi_tpl);
+			
+			$app->log("Creating fastcgi starter script: $fcgi_starter_script",LOGLEVEL_DEBUG);
+			
 			
 			exec("chmod 755 $fcgi_starter_script");
 			exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." $fcgi_starter_script");
 
-			$tpl->setVar('fastcgi_alias',$web_config["fastcgi_alias"]);
+			$tpl->setVar('fastcgi_alias',$fastcgi_config["fastcgi_alias"]);
 			$tpl->setVar('fastcgi_starter_path',$fastcgi_starter_path);
 			
 		}
@@ -500,6 +508,10 @@ class apache2_plugin {
 		if($data["old"]["domain"] != '' && !stristr($vhost_logfile_dir,'..')) exec("rm -rf $vhost_logfile_dir");
 		$app->log("Removing website logfile directory: $vhost_logfile_dir",LOGLEVEL_DEBUG);
 		
+		//delete the web user
+		$command = 'userdel';
+		$command .= ' '.$data["old"]["system_user"];			
+		exec($command);
 	}
 	
 	//* This function is called when a IP on the server is inserted, updated or deleted
