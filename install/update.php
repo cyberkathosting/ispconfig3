@@ -134,7 +134,11 @@ $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', arra
 if($reconfigure_services_answer == 'yes') {
 	//** Configure postfix
 	$inst->configure_postfix('dont-create-certs');
-
+	
+	//* Configure postfix
+	swriteln('Configuring Jailkit');
+	$inst->configure_jailkit();
+	
 	//** Configure saslauthd
 	swriteln('Configuring SASL');
 	$inst->configure_saslauthd();

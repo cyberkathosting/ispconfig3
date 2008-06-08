@@ -76,4 +76,9 @@ $conf['pureftpd']['init_script'] = 'pure-ftpd-mysql';
 $conf['mydns']['config_dir'] = '/etc';
 $conf['mydns']['init_script'] = 'mydns';
 
+//* Jailkit
+$conf['jailkit']['config_dir'] = '/etc/jailkit';
+$conf['jailkit']['jk_init'] = 'jk_init.ini';
+$conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
+
 ?>

@@ -385,10 +385,12 @@ class apache2_plugin {
 			$fastcgi_config = $app->getconf->get_server_config($conf["server_id"], 'fastcgi');
 			
 			$fastcgi_starter_path = str_replace("[system_user]",$data["new"]["system_user"],$fastcgi_config["fastcgi_starter_path"]);
+			$fastcgi_starter_path = str_replace("[client_id]",$client_id,$fastcgi_starter_path);
+			
 			if (!is_dir($fastcgi_starter_path))
 			{
-				exec("mkdir -p $fastcgi_starter_path");
-				exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." $fastcgi_starter_path");
+				exec("mkdir -p ".escapeshellcmd($fastcgi_starter_path));
+				exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." ".escapeshellcmd($fastcgi_starter_path));
 				
 				
 				$app->log("Creating fastcgi starter script directory: $fastcgi_starter_path",LOGLEVEL_DEBUG);
@@ -403,7 +405,7 @@ class apache2_plugin {
 			$fcgi_tpl->setVar('php_fcgi_max_requests',$fastcgi_config["fastcgi_max_requests"]);
 			$fcgi_tpl->setVar('php_fcgi_bin',$fastcgi_config["fastcgi_bin"]);
 				
-			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path."/".$fastcgi_config["fastcgi_starter_script"]);
+			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path.$fastcgi_config["fastcgi_starter_script"]);
 			file_put_contents($fcgi_starter_script,$fcgi_tpl->grab());
 			unset($fcgi_tpl);
 			

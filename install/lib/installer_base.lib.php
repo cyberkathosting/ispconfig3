@@ -183,7 +183,24 @@ class installer_base {
         wf($full_file_name, $content);
     }
 
-
+	public function configure_jailkit()
+    {
+        $cf = $this->conf['jailkit'];
+		$config_dir = $cf['config_dir'];
+		$jk_init = $cf['jk_init'];
+		$jk_chrootsh = $cf['jk_chrootsh'];
+		
+		if (!is_dir($config_dir))
+		{
+			copy($config_dir.'/'.$jk_init, $config_dir.'/'.$jk_init.'~');
+			copy($config_dir.'/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh.'~');
+			
+			copy('tpl/'.$jk_init.".master", $config_dir.'/'.$jk_init);
+			copy('tpl/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh);
+		}
+		
+    }
+        
 	public function configure_postfix($options = '')
     {
         $cf = $this->conf['postfix'];

@@ -134,6 +134,10 @@ if($install_mode == 'Standard') {
 
 	//* Configure postfix
 	$inst->configure_postfix();
+	
+	//* Configure postfix
+	swriteln('Configuring Jailkit');
+	$inst->configure_jailkit();
 
 	//* Configure saslauthd
 	swriteln('Configuring SASL');

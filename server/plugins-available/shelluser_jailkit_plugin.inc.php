@@ -100,6 +100,9 @@ class shelluser_jailkit_plugin {
 	}
 	
 	//* This function is called, when a shell user is deleted in the database
+	/**
+	 * TODO: Remove chroot user home and from the chroot passwd file
+	 */ 
 	function delete($event_name,$data) {
 		global $app, $conf;
 		
@@ -110,7 +113,8 @@ class shelluser_jailkit_plugin {
 			
 			$jailkit_chroot_userhome = $this->_get_home_dir($data['old']['username']);
 			
-			exec('rm -rf '.$data['old']['dir'].$jailkit_chroot_userhome);
+			//commented out proved to be dangerous on config errors
+			//exec('rm -rf '.$data['old']['dir'].$jailkit_chroot_userhome);
 			
 			
 			$app->log("Jalikit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
@@ -135,6 +139,36 @@ class shelluser_jailkit_plugin {
 				
 				$this->_add_jailkit_programs();
 				
+				//add bash.bashrc script
+				//we need to collect the domain name to be used as the HOSTNAME in the bashrc script
+				$web = $this->app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".intval($this->data['new']["parent_domain_id"]));
+				
+				$this->app->load('tpl');
+		
+				$tpl = new tpl();
+				$tpl->newTemplate("bash.bashrc.master");
+				
+				$tpl->setVar('jailkit_chroot',true);
+				$tpl->setVar('domain',$web['domain']);
+				$tpl->setVar('home_dir',$this->_get_home_dir(""));
+				
+				$bashrc = escapeshellcmd($this->data['new']['dir']).'/etc/bash.bashrc';
+				exec('rm '.$bashrc);
+				
+				file_put_contents($bashrc,$tpl->grab());
+				unset($tpl);
+				
+				$this->app->log("Added bashrc scrpt : ".$bashrc,LOGLEVEL_DEBUG);
+				
+				$tpl = new tpl();
+				$tpl->newTemplate("motd.master");
+				
+				$tpl->setVar('domain',$web['domain']);
+				
+				$motd = escapeshellcmd($this->data['new']['dir']).'/var/run/motd';
+				exec('rm '.$motd);
+				
+				file_put_contents($motd,$tpl->grab());
 				
 			}
 	}
@@ -174,15 +208,16 @@ class shelluser_jailkit_plugin {
 				
 				$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
-				exec("mkdir -p ".$this->data['new']['dir'].$jailkit_chroot_userhome);
-				exec("chown ".$this->data['new']['username'].":".$this->data['new']['pgroup']." ".$this->data['new']['dir'].$jailkit_chroot_userhome);
+				exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
+				exec("chown ".$this->data['new']['username'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
 				
 				$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 				
-				exec("mkdir -p ".$this->data['new']['dir'].$jailkit_chroot_puserhome);
-				exec("chown ".$this->data['new']['puser'].":".$this->data['new']['pgroup']." ".$this->data['new']['dir'].$jailkit_chroot_puserhome);
+				exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
+				exec("chown ".$this->data['new']['puser'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
 				
 				$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
+				
 			}	
 	}
 	

@@ -62,4 +62,9 @@ $dist['pureftpd']['init_script'] = 'pure-ftpd';
 $dist['mydns']['config_dir'] = '/etc';
 $dist['mydns']['init_script'] = 'mydns';
 
+//* Jailkit
+$conf['jailkit']['config_dir'] = '/etc/jailkit';
+$conf['jailkit']['jk_init'] = 'jk_init.ini';
+$conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
+
 ?>
