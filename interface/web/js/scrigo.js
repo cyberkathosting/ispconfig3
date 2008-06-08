@@ -46,6 +46,9 @@ function submitLoginForm(formname) {
 				loadContent(parts[1]);
 				//redirect = parts[1];
 				//window.setTimeout('loadContent(redirect)', 1000);
+			} else if (o.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
+				// Go to the login page
+				document.location.href = 'index.php';
 			} else {
 				document.getElementById('pageContent').innerHTML = o.responseText;
 			}
