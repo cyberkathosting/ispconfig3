@@ -697,8 +697,6 @@ class installer_base {
          
         $content = rf("tpl/apache_ispconfig.vhost.master");
 		$content = str_replace('{vhost_port}', $this->conf['apache']['vhost_port'], $content);
-		$content = str_replace('{vhost_cgi_alias}', $this->conf['apache']['vhost_cgi_alias'], $content);
-		
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
@@ -716,6 +714,8 @@ class installer_base {
 		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
 		exec('chmod 700 /usr/local/bin/ispconfig_update_from_svn.sh');
 		
+		//set the fast cgi starter script to executable
+		exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');
 	}
 	
 	public function install_crontab()

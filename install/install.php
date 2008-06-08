@@ -175,19 +175,6 @@ if($install_mode == 'Standard') {
 	//* Configure ISPConfig
 	swriteln('Installing ISPConfig');
 	
-	//** We want to check if the server is a module or cgi based php enabled server
-	//** TODO: Don't always ask for this somehow ? 
-	$fast_cgi = $inst->simple_query('CGI PHP Enabled Server?', array('yes','no'),'no');
-
-	if($fast_cgi == 'yes') {
-	 	$alias = $inst->free_query('Script Alias', '/php/');
-	 	$path = $inst->free_query('Script Alias Path', '/path/to/cgi/bin');
-	 	$inst->conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
-	} else {
-	 	$inst->conf['apache']['vhost_cgi_alias'] = "";
-	}
-
-
 	//** Customise the port ISPConfig runs on
 	$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 

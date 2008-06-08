@@ -11,7 +11,24 @@ NameVirtualHost *:{vhost_port}
 	ServerAdmin webmaster@localhost
     DocumentRoot /usr/local/ispconfig/interface/web/
 	
-	{vhost_cgi_alias}
+	<IfModule mod_fastcgi.c>
+		<Location /php/php-fcgi>
+                	Options ExecCGI        
+                	SetHandler fastcgi-script
+       		</Location>
+
+        	Action php-fastcgi /php/php-fcgi
+
+		ScriptAlias /php/ /usr/local/ispconfig/interface/bin/
+
+		<Directory "/usr/local/ispconfig/interface/bin/">
+                        AllowOverride None
+                        Options +ExecCGI -MultiViews -Indexes
+                        Order allow,deny
+                        Allow from all                              
+        	</Directory>
+	</IfModule>
+
 	<IfModule mod_php5.c>
   		AddType application/x-httpd-php .php
 	</IfModule>
