@@ -28,6 +28,7 @@ class plugin_listview extends plugin_base {
                 // $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
 				$app->listform->listDef["page_params"] = "&id=".$this->form->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
 				$listTpl->setVar('parent_id',$this->form->id);
+				$listTpl->setVar('theme', $_SESSION['s']['theme']);
 
                 // Generate the SQL for searching
                 if($app->listform->listDef["auth"] != 'no') {
@@ -73,6 +74,11 @@ class plugin_listview extends plugin_base {
 								foreach($app->listform->listDef["item"] as $field) {
 									$key = $field["field"];
 									if($field['formtype'] == "SELECT") {
+										if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
+											// Set a additional image variable for bolean fields
+											$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'list_icon_true.png':'list_icon_false.png';
+										}
+										//* substitute value for select field
 										$rec[$key] = $field['value'][$rec[$key]];
 									}
 									// Create a lowercase version of every item
