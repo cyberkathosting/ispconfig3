@@ -192,8 +192,8 @@ class installer_base {
 		
 		if (is_dir($config_dir))
 		{
-			copy($config_dir.'/'.$jk_init, $config_dir.'/'.$jk_init.'~');
-			copy($config_dir.'/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh.'~');
+			if(is_file($config_dir.'/'.$jk_init)) copy($config_dir.'/'.$jk_init, $config_dir.'/'.$jk_init.'~');
+			if(is_file($config_dir.'/'.$jk_chrootsh.".master")) copy($config_dir.'/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh.'~');
 			
 			copy('tpl/'.$jk_init.".master", $config_dir.'/'.$jk_init);
 			copy('tpl/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh);
