@@ -190,7 +190,7 @@ class installer_base {
 		$jk_init = $cf['jk_init'];
 		$jk_chrootsh = $cf['jk_chrootsh'];
 		
-		if (!is_dir($config_dir))
+		if (is_dir($config_dir))
 		{
 			copy($config_dir.'/'.$jk_init, $config_dir.'/'.$jk_init.'~');
 			copy($config_dir.'/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh.'~');
