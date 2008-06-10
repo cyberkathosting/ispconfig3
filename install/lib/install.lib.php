@@ -423,7 +423,7 @@ function ini_to_array($ini) {
 	
 	
 //* Converts a config array to a string
-public function array_to_ini($config_array = '') {
+function array_to_ini($config_array = '') {
 	if($config_array == '') $config_array = $this->config;
 	$content = '';
 	foreach($config_array as $section => $data) {
