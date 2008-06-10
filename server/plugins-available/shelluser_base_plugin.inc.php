@@ -89,15 +89,16 @@ class shelluser_base_plugin {
 			$command = 'usermod';
 			$command .= ' --home '.escapeshellcmd($data['new']['dir']);
 			$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
-			$command .= ' --non-unique ';
+			// $command .= ' --non-unique ';
 			$command .= ' --password '.escapeshellcmd($data['new']['password']);
 			$command .= ' --shell '.escapeshellcmd($data['new']['shell']);
-			$command .= ' --uid '.escapeshellcmd($uid);
+			// $command .= ' --uid '.escapeshellcmd($uid);
 			$command .= ' --login '.escapeshellcmd($data['new']['username']);
 			$command .= ' '.escapeshellcmd($data['old']['username']);
 			
 			exec($command);
-			$app->log("Updated shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
+			// $app->log("Updated shelluser: $command ",LOGLEVEL_DEBUG);
+			$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
 			
 		} else {
 			$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
