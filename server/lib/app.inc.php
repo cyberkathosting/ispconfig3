@@ -104,7 +104,7 @@ class app {
                             if (!fwrite($fp, date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."\r\n")) {
                                 die("Unable to write to logfile.");
                             }
-							echo date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."<br>\n";
+							echo date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."\n";
                             fclose($fp);
 
                         //} else {

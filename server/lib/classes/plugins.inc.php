@@ -41,18 +41,29 @@ class plugins {
 		global $app,$conf;
 		
 		$plugins_dir = $conf["rootpath"].$conf["fs_div"]."plugins-enabled".$conf["fs_div"];
+		$tmp_plugins = array();
 		
 		if (is_dir($plugins_dir)) {
 			if ($dh = opendir($plugins_dir)) {
+				//** Go trough all files in the plugin dir
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
 						$plugin_name = substr($file,0,-8);
-						include_once($plugins_dir.$file);
-						$app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
-						$app->loaded_plugins[$plugin_name] = new $plugin_name;
-						$app->loaded_plugins[$plugin_name]->onLoad();
+						$tmp_plugins[$plugin_name] = $file;
 					}
 				}
+				//** sort the plugins by name
+				ksort($tmp_plugins);
+				
+				//** load the plugins
+				foreach($tmp_plugins as $plugin_name => $file) {
+					include_once($plugins_dir.$file);
+					$app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
+					$app->loaded_plugins[$plugin_name] = new $plugin_name;
+					$app->loaded_plugins[$plugin_name]->onLoad();
+				}
+			} else {
+				$app->log("Unable to open the plugin directory: $plugins_dir",LOGLEVEL_ERROR);
 			}
 		} else {
 			$app->log("Plugin directory missing: $plugins_dir",LOGLEVEL_ERROR);

@@ -144,25 +144,25 @@ $form["tabs"]['domain'] = array (
 		'cgi' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
+			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 		'ssi' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
+			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 		'suexec' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
+			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 		'ssl' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
+			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 		'php' => array (
