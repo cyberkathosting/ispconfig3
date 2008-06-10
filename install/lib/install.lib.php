@@ -402,4 +402,42 @@ function edit_xinetd_conf($service){
 	wf($xinetd_conf, $contents);
 }
 
+//* Converts a ini string to array
+function ini_to_array($ini) {
+	$config = '';
+	$ini = str_replace("\r\n", "\n", $ini);
+	$lines = explode("\n", $ini);
+	foreach($lines as $line) {
+        $line = trim($line);                
+		if($line != '') {
+			if(preg_match("/^\[([\w\d_]+)\]$/", $line, $matches)) {
+				$section = strtolower($matches[1]);
+			} elseif(preg_match("/^([\w\d_]+)=(.*)$/", $line, $matches) && $section != null) {
+				$item = trim($matches[1]);
+				$config[$section][$item] = trim($matches[2]);
+			}
+		}
+	}
+	return $config;
+}
+	
+	
+//* Converts a config array to a string
+public function array_to_ini($config_array = '') {
+	if($config_array == '') $config_array = $this->config;
+	$content = '';
+	foreach($config_array as $section => $data) {
+		$content .= "[$section]\n";
+		foreach($data as $item => $value) {
+			if($item != ''){
+                $content .= "$item=$value\n";
+            }
+		}
+		$content .= "\n";
+	}
+	return $content;
+}
+
+
+
 ?>

@@ -42,7 +42,7 @@ class installer_base {
         $this->conf = $conf;
     }
 	
-    //: TODO  Implement the translation function and langauge files for the installer.
+    //: TODO  Implement the translation function and language files for the installer.
 	public function lng($text)
     {
 		return $text;
@@ -153,7 +153,7 @@ class installer_base {
 		}
 	}
 	
-	//** Create a recors in the
+	//** Create the server record in the database
 	public function add_database_server_record() {
 		
 		$server_ini_content = rf("tpl/server.ini.master");

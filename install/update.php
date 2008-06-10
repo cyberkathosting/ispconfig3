@@ -75,6 +75,8 @@ $conf["mysql"]["database"] = $conf_old["db_database"];
 $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 
+$conf['server_id'] = $conf_old["server_id"];
+
 $inst = new installer();
 
 echo "This application will update ISPConfig 3 on your server.\n";
@@ -127,6 +129,26 @@ if( !empty($conf["mysql"]["admin_password"]) ) {
 
 	system("mysql -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." ".$conf['mysql']['database']." < existing_db.sql");
 }
+
+//** Update server ini
+$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
+$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
+unset($tmp_server_rec);
+$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
+
+// update the new template with the old values
+foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
+	foreach($tmp_section_content as $tmp_var_name => $tmp_var_content) {
+		$tpl_ini_array[$tmp_section_name][$tmp_var_name] = $tmp_var_content;
+	}
+}
+
+$new_ini = array_to_ini($tpl_ini_array);
+$inst->db->query("UPDATE server SET config = '".addslashes($new_ini)."' WHERE server_id = ".$conf['server_id']);
+unset($old_ini_array);
+unset($tpl_ini_array);
+unset($new_ini);
+
 
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
