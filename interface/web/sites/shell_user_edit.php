@@ -72,6 +72,17 @@ class page_action extends tform_actions {
 		parent::onShowNew();
 	}
 	
+	function onBeforeInsert() {
+		global $app, $conf;
+		
+		// check if the username is not blacklisted
+		$blacklist = file(ISPC_LIB_PATH.'/shelluser_blacklist');
+		foreach($blacklist as $line) {
+			if(strtolower(trim($line)) == strtolower(trim($this->dataRecord['username']))) $app->tform->errorMessage .= 'The username is not allowed.';
+		}
+		unset($blacklist);
+	}
+	
 	function onAfterInsert() {
 		global $app, $conf;
 		
@@ -84,6 +95,17 @@ class page_action extends tform_actions {
 		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$puser', pgroup = '$pgroup' WHERE shell_user_id = ".$this->id;
 		$app->db->query($sql);
 		
+	}
+	
+	function onBeforeUpdate() {
+		global $app, $conf;
+		
+		// check if the username is not blacklisted
+		$blacklist = file(ISPC_LIB_PATH.'/shelluser_blacklist');
+		foreach($blacklist as $line) {
+			if(strtolower(trim($line)) == strtolower(trim($this->dataRecord['username']))) $app->tform->errorMessage .= 'The username is not allowed.';
+		}
+		unset($blacklist);
 	}
 	
 	function onAfterUpdate() {
