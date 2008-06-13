@@ -432,6 +432,30 @@ CREATE TABLE `mail_user` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `mail_user_filter`
+-- 
+
+CREATE TABLE `mail_user_filter` (
+  `filter_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `mailuser_id` int(11) NOT NULL default '0',
+  `rulename` varchar(255) default NULL,
+  `source` varchar(255) default NULL,
+  `searchterm` varchar(255) default NULL,
+  `op` varchar(255) default NULL,
+  `action` varchar(255) default NULL,
+  `target` varchar(255) default NULL,
+  `active` varchar(255) NOT NULL default 'y',
+  PRIMARY KEY  (`filter_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `remote_session`
 -- 
 
