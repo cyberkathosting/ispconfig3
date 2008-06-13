@@ -1,0 +1,42 @@
+<table width="600" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='rulename_txt'}:</td>
+    <td class="frmText11"><input name="rulename" type="text" class="text" value="{tmpl_var name='rulename'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='source_txt'}:</td>
+    <td class="frmText11">
+		<select name="source" class="text">
+			{tmpl_var name='source'}
+		</select>
+		<select name="op" class="text">
+			{tmpl_var name='op'}
+		</select>
+		<input name="searchterm" type="text" class="text" value="{tmpl_var name='searchterm'}" size="30" maxlength="255">
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='action_txt'}:</td>
+    <td class="frmText11">
+		<select name="action" class="text">
+			{tmpl_var name='action'}
+		</select>
+		<input name="target" type="text" class="text" value="{tmpl_var name='target'}" size="30" maxlength="255">
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_filter_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+<input name="mailuser_id" type="hidden" value="{tmpl_var name='mailuser_id'}">

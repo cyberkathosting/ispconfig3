@@ -177,12 +177,37 @@ $form["tabs"]['autoresponder'] = array (
 	)
 );
 
+$form["tabs"]['filter_records'] = array (
+	'title' 	=> "Mail Filter",
+	'width' 	=> 100,
+	'template' 	=> "templates/mail_user_mailfilter_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		
+	##################################
+	# ENDE Datatable fields
+	##################################
+	),
+	'plugins' => array (
+     	'filter_records' => array (
+         	'class'   => 'plugin_listview',
+     		'options' => array(
+				'listdef' => 'list/mail_user_filter.list.php',
+				'sqlextwhere' => "mailuser_id = ".@intval(@$_REQUEST['id']),
+				'sql_order_by' => "ORDER BY rulename"
+			)
+        )
+	)
+);
+
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 $form["tabs"]['mailfilter'] = array (
-	'title' 	=> "Mailfilter",
+	'title' 	=> "Custom Rules",
 	'width' 	=> 100,
-	'template' 	=> "templates/mail_user_mailfilter_edit.htm",
+	'template' 	=> "templates/mail_user_custom_rules_edit.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
