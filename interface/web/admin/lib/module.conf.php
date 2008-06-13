@@ -50,6 +50,11 @@ $items[] = array( 'title' 	=> 'Add server',
 $items[] = array( 'title' 	=> 'Edit server',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_list.php');
+
+$items[] = array( 'title' 	=> 'Server Config',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/server_config_list.php');
+
 /*
 $items[] = array( 'title' 	=> 'Add Server IP',
 				  'target' 	=> 'content',
