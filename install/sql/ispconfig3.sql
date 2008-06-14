@@ -62,6 +62,8 @@ CREATE TABLE `client` (
   `default_dnsserver` int(10) unsigned NOT NULL default '1',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
+  `default_dbserver` int(10) unsigned NOT NULL default '1',
+  `limit_database` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
   `parent_client_id` int(10) unsigned NOT NULL default '0',
   `username` varchar(255) default NULL,
@@ -895,6 +897,35 @@ CREATE TABLE `web_domain` (
 -- 
 -- Daten für Tabelle `web_domain`
 -- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `web_database`
+-- 
+
+CREATE TABLE `web_database` (
+  `database_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) NOT NULL default '0',
+  `type` varchar(255) NOT NULL default 'y',
+  `database_name` varchar(255) default NULL,
+  `database_user` varchar(255) default NULL,
+  `database_password` varchar(255) default NULL,
+  `remote_access` varchar(255) NOT NULL default 'y',
+  `active` varchar(255) NOT NULL default 'y',
+  PRIMARY KEY  (`database_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `web_database`
+-- 
+
+-- --------------------------------------------------------
 
 --
 -- Table for attempts login 

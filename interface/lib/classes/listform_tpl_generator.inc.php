@@ -111,6 +111,7 @@ class listform_tpl_generator {
 		$lang["page_back_txt"] = 'Back';
 		$lang["delete_txt"] = 'Delete';
 		$lang["filter_txt"] = 'Filter';
+		$lang["add_new_record_txt"] = 'Add new record';
 		
 		// speichere language Datei
 		$this->lng_add($lang,$listDef,$module);

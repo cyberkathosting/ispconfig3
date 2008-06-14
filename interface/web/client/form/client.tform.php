@@ -594,6 +594,31 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'default_dbserver' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
+									 ),
+			'value'		=> ''
+		),
+		'limit_database' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_database_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 	##################################
 	# END Datatable fields
 	##################################

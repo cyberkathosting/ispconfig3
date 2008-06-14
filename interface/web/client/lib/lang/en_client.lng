@@ -77,5 +77,7 @@ $wb["limit_shell_user_error_notint"] = 'The shell user limit must be a number.';
 $wb["limit_dns_zone_error_notint"] = 'The dns zone limit must be a number.';
 $wb["limit_dns_zone_error_notint"] = 'The dns record limit must be a number.';
 $wb["limit_client_error_notint"] = 'The sub client limit must be a number.';
-
+$wb["default_dbserver_txt"] = 'Default Database Server';
+$wb["limit_database_txt"] = 'Max. number of Databases';
+$wb["limit_database_error_notint"] = 'The database limit must be a number.';
 ?>

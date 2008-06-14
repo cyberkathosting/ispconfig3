@@ -113,6 +113,21 @@
     <td class="frmText11" width="280">{tmpl_var name='limit_dns_record_txt'}:</td>
     <td class="frmText11" width="220"><input name="limit_dns_record" type="text" class="text" value="{tmpl_var name='limit_dns_record'}" size="10" maxlength="10"></td>
   </tr>
+  <tr>
+    <td><h2>Database</h2></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='default_dbserver_txt'}:</td>
+    <td class="frmText11">
+		<select name="default_dbserver" class="text">
+			{tmpl_var name='default_dbserver'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11" width="280">{tmpl_var name='limit_database_txt'}:</td>
+    <td class="frmText11" width="220"><input name="limit_database" type="text" class="text" value="{tmpl_var name='limit_database'}" size="10" maxlength="10"></td>
+  </tr>
   <tmpl_if name='is_reseller' op='!=' value='1'>
   <tr>
     <td><h2>Clients</h2></td>
