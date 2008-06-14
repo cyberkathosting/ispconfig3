@@ -138,6 +138,31 @@ CREATE TABLE `dns_soa` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `firewall`
+-- 
+
+CREATE TABLE `firewall` (
+  `firewall_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) NOT NULL default '0',
+  `tcp_port` varchar(255) default NULL,
+  `udp_port` varchar(255) default NULL,
+  `active` varchar(255) NOT NULL default 'y',
+  PRIMARY KEY  (`firewall_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `firewall`
+
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `ftp_user`
 -- 
 
