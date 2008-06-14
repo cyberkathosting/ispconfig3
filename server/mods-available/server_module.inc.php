@@ -37,7 +37,10 @@ class server_module {
 									'server_delete',
 									'server_ip_insert',
 									'server_ip_update',
-									'server_ip_delete');
+									'server_ip_delete',
+									'firewall_insert',
+									'firewall_update',
+									'firewall_delete');
 	
 	/*
 	 	This function is called when the module is loaded
@@ -65,6 +68,7 @@ class server_module {
 		
 		$app->modules->registerTableHook('server','server_module','process');
 		$app->modules->registerTableHook('server_ip','server_module','process');
+		$app->modules->registerTableHook('firewall','server_module','process');
 		
 		// Register service
 		//$app->services->registerService('httpd','web_module','restartHttpd');
@@ -89,6 +93,11 @@ class server_module {
 				if($action == 'i') $app->plugins->raiseEvent('server_ip_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('server_ip_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('server_ip_delete',$data);
+			break;
+			case 'firewall':
+				if($action == 'i') $app->plugins->raiseEvent('firewall_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('firewall_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('firewall_delete',$data);
 			break;
 		} // end switch
 	} // end function

@@ -68,6 +68,18 @@ $items[] = array( 'title' 	=> 'Edit Server IP',
 $module['nav'][] = array(	'title'	=> 'Servers',
 							'open' 	=> 1,
 							'items'	=> $items);
+// cleanup
+unset($items);
+
+
+$items[] = array( 'title' 	=> 'Firewall',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/firewall_list.php');				  
+
+
+$module['nav'][] = array(	'title'	=> 'Firewall',
+							'open' 	=> 1,
+							'items'	=> $items);
 
 
 // cleanup
@@ -117,7 +129,7 @@ $module['nav'][] = array(	'title'	=> 'Language Editor',
 							'items'	=> $items);
 
 
-// aufr�umen
+// cleanup
 unset($items);
 
 /*
@@ -135,7 +147,7 @@ $module['nav'][] = array(	'title'	=> 'File Sync.',
 							'items'	=> $items);
 
 
-// aufr�umen
+// cleanup
 unset($items);
 */
 

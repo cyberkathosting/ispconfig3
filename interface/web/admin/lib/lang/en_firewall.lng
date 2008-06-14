@@ -1,0 +1,11 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["tcp_port_txt"] = 'Open TCP ports';
+$wb["udp_port_txt"] = 'Open UDP ports';
+$wb["tcp_port_help_txt"] = 'Separated by comma';
+$wb["udp_port_help_txt"] = 'Separated by comma';
+$wb["active_txt"] = 'Active';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb["firewall_error_unique"] = 'There is already a firewall record for this server.';
+?>
