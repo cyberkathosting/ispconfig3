@@ -1,0 +1,17 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'Type';
+$wb["data_txt"] = 'Host Informatie';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'U heeft geen permissies om een record aan deze DNS zone toe te voegen.';
+$wb["name_error_empty"] = 'De hostnaam is niet ingevuld.';
+$wb["name_error_regex"] = 'De hostnaam heeft een fout format.';
+$wb["data_error_empty"] = 'Host informatie is niet ingevuld';
+$wb["data_error_regex"] = 'Host Informatie formaat ongeldig';
+?>

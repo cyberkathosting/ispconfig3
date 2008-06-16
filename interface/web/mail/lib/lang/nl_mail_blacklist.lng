@@ -1,0 +1,11 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Blacklist adres';
+$wb["recipient_txt"] = 'Ontvanger';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["source_error_notempty"] = 'Adres is niet ingevuld.';
+$wb["type_txt"] = 'Type';
+$wb["limit_mailfilter_txt"] = 'Het max. aantal email filters voor uw account is bereikt.';
+?>

@@ -1,0 +1,17 @@
+<?php
+
+$wb[1001]	= "Gebruikersnaam of wachtwoord is niet ingevuld.";
+$wb[1002]	= "Gebruikersnaam of wachtwoord onjuist.";
+$wb[1003]	= "Gebruiker is geblokkeerd.";
+$wb[1004]	= "Teveel onjuiste login pogingen, probeer het na 15 minuten opnieuw.";
+
+
+
+
+
+
+
+
+
+
+?>

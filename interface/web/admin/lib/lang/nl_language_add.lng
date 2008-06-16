@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Toevoegen nieuwe taal';
+$wb["language_select_txt"] = 'Selecteer basis voor nieuwe taal';
+$wb["language_new_txt"] = 'Nieuwe taal';
+$wb['btn_save_txt'] = 'Aanmaken nieuwe set taalbestanden';
+$wb['btn_cancel_txt'] = 'terug';
+?>

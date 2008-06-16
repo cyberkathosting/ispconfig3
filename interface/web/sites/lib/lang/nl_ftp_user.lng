@@ -1,0 +1,26 @@
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'Directorie';
+$wb["quota_files_txt"] = 'Bestandquota';
+$wb["ul_ratio_txt"] = 'Uploadratio';
+$wb["dl_ratio_txt"] = 'Downloadratio';
+$wb["ul_bandwidth_txt"] = 'Uploadbandbreedte';
+$wb["dl_bandwidth_txt"] = 'Downloadbandbreedte';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Gebruiikersnaam';
+$wb["password_txt"] = 'Wachtwoord';
+$wb["quota_size_txt"] = 'Harddisk-qQuota';
+$wb["active_txt"] = 'Aktief';
+$wb["limit_ftp_user_txt"] = 'Het max. aantal FTP gebruikers voor uw account is bereikt.';
+$wb["username_error_empty"] = 'Username is niet ingevuld.';
+$wb["username_error_unique"] = 'De gebruikersnaam moet uniek zijn.';
+$wb["username_error_regex"] = 'De gebruikersnaam bevat ongeldige karakters.';
+$wb["quota_size_error_empty"] = 'Quota is niet ingevuld.';
+$wb["uid_error_empty"] = 'UID is niet ingevuld.';
+$wb["uid_error_empty"] = 'GID is niet ingevuld.';
+$wb["directory_error_empty"] = 'Directorie is niet ingevuld.';
+?>

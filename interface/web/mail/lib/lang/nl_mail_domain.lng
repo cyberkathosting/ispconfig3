@@ -1,0 +1,15 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domein';
+$wb["type_txt"] = 'Type';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["domain_error_empty"] = 'Domein is niet ingevuld.';
+$wb["domain_error_unique"] = 'Duplicaat domein.';
+$wb["domain_error_regex"] = 'Ongeldige domeinnaam.';
+$wb["client_txt"] = 'Klant';
+$wb["limit_maildomain_txt"] = 'Het max. aantal aan emaildomeinen voor uw account is bereikt.';
+$wb["policy_txt"] = 'Spamfilter';
+$wb["no_policy"] = '- niet toegestaan -';
+?>

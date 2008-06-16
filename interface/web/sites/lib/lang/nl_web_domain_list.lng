@@ -1,0 +1,13 @@
+<?php
+$wb["list_head_txt"] = 'Websites';
+$wb["active_txt"] = 'Aktief';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domein';
+$wb["page_txt"] = 'Pagina';
+$wb["page_of_txt"] = 'van';
+$wb["page_next_txt"] = 'Volgende';
+$wb["page_back_txt"] = 'terug';
+$wb["delete_txt"] = 'Verwijderen';
+$wb["filter_txt"] = 'Filter';
+$wb["add_new_record_txt"] = 'Toevoegen nieuwe website';
+?>

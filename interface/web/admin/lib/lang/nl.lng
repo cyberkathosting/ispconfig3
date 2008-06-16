@@ -1,0 +1,6 @@
+<?php
+
+$wb[1001]	= "Gebruikersnaam of wachtwoord is niet ingevuld.";
+$wb[1002]	= "Gebruikersnaam of wachtwoord onjuist.";
+
+?>

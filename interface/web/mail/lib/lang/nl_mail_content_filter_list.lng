@@ -1,0 +1,14 @@
+<?php
+$wb["list_head_txt"] = 'Postfix header en body checks';
+$wb["active_txt"] = 'Aktief';
+$wb["server_id_txt"] = 'Server';
+$wb["pattern_txt"] = 'Patroon';
+$wb["action_txt"] = 'Aktie';
+$wb["page_txt"] = 'Pagina';
+$wb["page_of_txt"] = 'van';
+$wb["page_next_txt"] = 'Volgende';
+$wb["page_back_txt"] = 'Terug';
+$wb["delete_txt"] = 'Verwijderen';
+$wb["filter_txt"] = 'Filter';
+$wb["add_new_record_txt"] = 'Toevoegen nieuw content filter';
+?>

@@ -1,0 +1,12 @@
+<?php
+$wb["email_txt"] = 'Email';
+$wb["destination_txt"] = 'Bestemming';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["email_error_isemail"] = 'Emailadres is ongeldig.';
+$wb["email_error_unique"] = 'Duplicaat emailadres.';
+$wb["no_domain_perm"] = "U heeft geen toestemming voor dit domain.";
+$wb["destination_error_isemail"] = 'Emailadres geadresseerde is ongeldig.';
+$wb["limit_mailalias_txt"] = 'Het max. aantal mailaliassen voor uw account account is bereikt.';
+?>

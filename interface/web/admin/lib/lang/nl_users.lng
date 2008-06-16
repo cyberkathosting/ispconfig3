@@ -1,0 +1,27 @@
+<?php
+$wb["username_txt"] = 'Gebruikersnaam';
+$wb["username_err"] = 'Foutieve gebruikersnaam';
+$wb["passwort_txt"] = 'Wachtwoord';
+$wb["modules_txt"] = 'Module';
+$wb["startmodule_txt"] = 'Startmodule';
+$wb["app_theme_txt"] = 'Ontwerp';
+$wb["typ_txt"] = 'Type';
+$wb["active_txt"] = 'Aktief';
+$wb["language_txt"] = 'Taal';
+$wb["name_txt"] = 'Naam';
+$wb["vorname_txt"] = 'Voornaam';
+$wb["unternehmen_txt"] = 'Bedrijf';
+$wb["strasse_txt"] = 'Straat';
+$wb["ort_txt"] = 'Plaatsnaam';
+$wb["plz_txt"] = 'ZIP';
+$wb["land_txt"] = 'Land';
+$wb["email_txt"] = 'Email';
+$wb["url_txt"] = 'Url';
+$wb["telefon_txt"] = 'Telefoon';
+$wb["fax_txt"] = 'Fax';
+$wb["groups_txt"] = 'Groepen';
+$wb["default_group_txt"] = 'Standaard groep';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+?>

@@ -1,0 +1,11 @@
+<?php
+$wb['301'] = 'Module niet toegestaan voor de huidige gebruiker.';
+$wb['302'] = 'Ongeldige module.';
+$wb['1001'] = 'De gebruikersnaam en wachtwoord kunnen niet leeg zijn!';
+$wb['1002'] = 'De gebruikersnaam en/of wachtwoord zijn onjuist!';
+$wb['1003'] = 'De gebruikersnaam wordt gedeactiveerd!';
+$wb['delete_confirmation'] = 'Wilt u dit record echt verwijderen?';
+$wb['error_no_view_permission'] = 'U heeft geen toestemming om dit record te bekijken of dit record bestaat niet!';
+$wb['error_no_delete_permission'] = 'U heeft geen toestemming om dit record te verwijderen!';
+?>
+

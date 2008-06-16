@@ -1,0 +1,19 @@
+<?php
+$wb["header_txt"] = 'Formeditor';
+$wb["title_txt"] = 'Formuliertitel';
+$wb["name_txt"] = 'Formuliernaam';
+$wb["delete_txt"] = 'Verwijderen';
+$wb["properties_txt"] = 'Eigenschappen';
+$wb["new_tab_txt"] = 'Tab nieuw';
+$wb["edit_txt"] = 'Muteren';
+$wb["delete_txt"] = 'X';
+$wb["new_txt"] = 'Nieuw';
+$wb["up_txt"] = '^';
+$wb["down_txt"] = 'v';
+$wb["module_txt"] = 'Module';
+$wb["form_txt"] = 'Formulier';
+$wb["description_txt"] = 'Omschrijving';
+$wb["module_del_txt"] = "Verwijder de module en alle subdirectories?";
+$wb["menu_del_txt"] = "Verwijder menu met alle menuitems?";
+$wb["item_del_txt"] = "Verwijder menuitem?";
+?>

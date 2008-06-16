@@ -1,0 +1,14 @@
+<?php
+$wb["list_head_txt"] = 'Reseller';
+$wb["company_txt"] = 'Organisatie';
+$wb["firstname_txt"] = 'Voornaam';
+$wb["surname_txt"] = 'Achternaam';
+$wb["city_txt"] = 'Plaatsnaam';
+
+$wb["page_txt"] = 'Pagina';
+$wb["page_of_txt"] = 'van';
+$wb["page_next_txt"] = 'Volgende';
+$wb["page_back_txt"] = 'Terug';
+$wb["delete_txt"] = 'Verwijderen';
+$wb["filter_txt"] = 'Filter';
+?>

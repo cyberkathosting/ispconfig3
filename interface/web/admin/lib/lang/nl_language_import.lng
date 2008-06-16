@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Import taalbestand';
+$wb["language_import_txt"] = 'Selecteer taalbestand';
+$wb['btn_save_txt'] = 'Import het geselecteerde taalbestand';
+$wb["language_overwrite_txt"] = 'Overschrijf bestand, als het al bestaat.';
+$wb['btn_cancel_txt'] = 'Terug';
+?>

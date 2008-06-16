@@ -1,0 +1,8 @@
+<?php
+$wb["email_txt"] = 'Email';
+$wb["destination_txt"] = 'Emailadres geadresseerde';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["limit_mailforward_txt"] = 'Het max. aantal email forwarders voor uw account is bereikt.';
+?>

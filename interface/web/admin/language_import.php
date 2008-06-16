@@ -66,17 +66,17 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 							$error .= "File exists, not written: $langfile_path<br />";
 						} else {
 							$msg .= "File written: $langfile_path<br />";
-							// file_put_contents($langfile_path,$buffer);
+							file_put_contents($langfile_path,$buffer);
 						}
 					}
 					// empty buffer and set variables
 					$buffer = '';
-					$module_name = $parts[1];
-					$selected_language = $parts[2];
-					$file_name = $parts[3];
-					if(!preg_match("/^[a-z]{2}$/i", $selected_language)) die('unallowed characters in selected language name.');
+					$module_name = trim($parts[1]);
+					$selected_language = trim($parts[2]);
+					$file_name = trim($parts[3]);
+					if(!preg_match("/^[a-z]{2}$/i", $selected_language)) die("unallowed characters in selected language name: $selected_language");
 					if(!preg_match("/^[a-z_]+$/i", $module_name)) die('unallowed characters in module name.');
-					if(!preg_match("/^[a-z\._]+$/i", $file_name) || stristr($file_name,'..')) die('unallowed characters in language file name.');
+					if(!preg_match("/^[a-z\._]+$/i", $file_name) || stristr($file_name,'..')) die("unallowed characters in language file name: '$file_name'");
 					if($module_name == 'global') {
 						$langfile_path = trim(ISPC_LIB_PATH."/lang/".$selected_language.".lng");
 					} else {

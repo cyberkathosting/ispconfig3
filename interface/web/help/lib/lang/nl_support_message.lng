@@ -1,0 +1,10 @@
+<?php
+$wb['recipient_id_txt'] = 'Ontvanger ID';
+$wb['sender_id_txt'] = 'Afzender ID';
+$wb['subject_txt'] = 'Onderwerp';
+$wb['message_txt'] = 'Bericht';
+$wb['tstamp_txt'] = 'Tijdstempel';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Annuleren';
+?>
+

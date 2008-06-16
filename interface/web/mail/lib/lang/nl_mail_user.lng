@@ -1,0 +1,28 @@
+<?php
+$wb["custom_mailfilter_txt"] = 'custom_mailfilter';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleer';
+$wb["email_txt"] = 'Email';
+$wb["cryptpwd_txt"] = 'Wachtwoord';
+$wb["active_txt"] = 'Aktief';
+$wb["email_error_isemail"] = 'Email address is ongeldig.';
+$wb["email_error_unique"] = 'Duplicaat emailadres.';
+$wb["autoresponder_text_txt"] = 'Tekst';
+$wb["autoresponder_txt"] = 'Autoresponder';
+$wb["no_domain_perm"] = 'U heeft geen toestemming voor dit domein.';
+$wb["error_no_pwd"] = 'Wachtwoord is niet ingevuld.';
+$wb["quota_error_isint"] = 'Mailboxgrootte moet een numerieke waarde zijn.';
+$wb["quota_txt"] = 'quota';
+$wb["server_id_txt"] = 'server ID';
+$wb["password_txt"] = 'Wachtwoord';
+$wb["maildir_txt"] = 'maildir';
+$wb["postfix_txt"] = 'Sta ontvangen toe';
+$wb["access_txt"] = 'Sta toegang toe';
+$wb["policy_txt"] = 'Spamfilter';
+$wb["no_policy"] = '- niet toegestaan -';
+$wb["limit_mailbox_txt"] = 'Het max. aantal mailboxen voor uw account is bereikt.';
+$wb["limit_mailquota_txt"] = 'The max. ruimte voor mailboxen is bereikt. De max. beschikbare ruimte in MB is';
+$wb["welcome_mail_subject"] = 'Welkom bij uw nieuwe email account.';
+$wb["welcome_mail_message"] = 'Welkom bij uw nieuwe emailaccount.\n\nUw webmaster.';
+$wb['custom_mailfilter_txt'] = 'Custom mailfilter recept';
+?>

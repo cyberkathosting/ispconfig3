@@ -1,0 +1,10 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["wb_txt"] = 'wb';
+$wb["rid_txt"] = 'Gebruiker';
+$wb["email_txt"] = 'Email';
+$wb["priority_txt"] = 'Prioriteit';
+$wb["active_txt"] = 'Aktief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+?>
