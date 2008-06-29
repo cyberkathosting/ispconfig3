@@ -278,7 +278,7 @@ if($install_mode == 'Standard') {
 	}
 	
 	//** Configure ISPConfig :-)
-	if(strtolower($inst->simple_query('Install ISPConfig',array('y','n'),'y')) == 'y') {
+	if(strtolower($inst->simple_query('Install ISPConfig Web-Interface',array('y','n'),'y')) == 'y') {
 		swriteln('Installing ISPConfig');
 		
 		//** We want to check if the server is a module or cgi based php enabled server
@@ -296,16 +296,22 @@ if($install_mode == 'Standard') {
 		*/
 
 		//** Customise the port ISPConfig runs on
-		$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
+		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 		
-		
-		$inst->install_ispconfig();
-		
-		//* Configure ISPConfig
-		swriteln('Installing Crontab');
-		$inst->install_crontab();
-		system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');	
+		$inst->install_ispconfig_interface = true;
+			
+	} else {
+		$inst->install_ispconfig_interface = false;
 	}
+	
+	$inst->install_ispconfig();
+		
+	//* Configure ISPConfig
+	swriteln('Installing Crontab');
+	$inst->install_crontab();
+	system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+	
+	
 	
 } //* << $install_mode / 'Standard' or Genius
 

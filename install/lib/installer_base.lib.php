@@ -34,6 +34,7 @@ class installer_base {
 	var $language = 'en';
 	var $db;
 	public $conf;
+	public install_ispconfig_interface = true;
 
 
     public function __construct()
@@ -148,9 +149,15 @@ class installer_base {
 		global $conf;
 		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
 		
+		if($cf['host'] == 'localhost') {
+			$from_host = 'localhost';
+		} else {
+			$from_host = $inst->conf['hostname'];
+		}
+		
 		//* Create the ISPConfig database user
         $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
-                ."TO '".$cf['ispconfig_user']."'@'".$cf['host']."' "
+                ."TO '".$cf['ispconfig_user']."'@'".$from_host."' "
                 ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
 		if(!$this->db->query($query)) {
 			$this->error('Unable to create database user: '.$cf['ispconfig_user']);
@@ -729,8 +736,10 @@ class installer_base {
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
-		if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
-			exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");
+		if($this->install_ispconfig_interface == true) {
+			if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
+				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");
+			}
 		}
 		
 		// Make the Clamav log files readable by ISPConfig
