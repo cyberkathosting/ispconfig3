@@ -217,6 +217,7 @@ if($install_mode == 'Standard') {
 		
 	//* Insert the Server record into the database
 	swriteln('Adding ISPConfig server record to database.');
+	swriteln('');
 	$inst->add_database_server_record();
 
 	
