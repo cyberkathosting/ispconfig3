@@ -216,6 +216,7 @@ if($install_mode == 'Standard') {
 	}
 		
 	//* Insert the Server record into the database
+	swriteln('Adding ISPConfig server record to database.');
 	$inst->add_database_server_record();
 
 	
@@ -281,7 +282,8 @@ if($install_mode == 'Standard') {
 		swriteln('Installing ISPConfig');
 		
 		//** We want to check if the server is a module or cgi based php enabled server
-		//** TODO: Don't always ask for this somehow ? 
+		//** TODO: Don't always ask for this somehow ?
+		/*
 		$fast_cgi = $inst->simple_query('CGI PHP Enabled Server?', array('yes','no'),'no');
 
 		if($fast_cgi == 'yes') {
@@ -291,6 +293,7 @@ if($install_mode == 'Standard') {
 		} else {
 	 		$inst->conf['apache']['vhost_cgi_alias'] = "";
 		}
+		*/
 
 		//** Customise the port ISPConfig runs on
 		$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
