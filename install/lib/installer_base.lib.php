@@ -120,17 +120,6 @@ class installer_base {
 			$this->error('Unable to create MySQL database: '.$cf['database'].'.');
 		}
 		
-		//* Create the ISPConfig database user
-        $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
-                ."TO '".$cf['ispconfig_user']."'@'".$cf['host']."' "
-                ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
-		if(!$this->db->query($query)) {
-			$this->error('Unable to create database user: '.$cf['ispconfig_user']);
-		}
-		
-		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES;');
-		
 		//* Set the database name in the DB library
 		$this->db->dbName = $cf['database'];
 		
@@ -155,6 +144,21 @@ class installer_base {
 	
 	//** Create the server record in the database
 	public function add_database_server_record() {
+		
+		global $conf;
+		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
+		
+		//* Create the ISPConfig database user
+        $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
+                ."TO '".$cf['ispconfig_user']."'@'".$cf['host']."' "
+                ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
+		if(!$this->db->query($query)) {
+			$this->error('Unable to create database user: '.$cf['ispconfig_user']);
+		}
+		
+		//* Reload database privelages
+		$this->db->query('FLUSH PRIVILEGES;');
+		
 		
 		$server_ini_content = rf("tpl/server.ini.master");
 		$server_ini_content = addslashes($server_ini_content);
@@ -528,6 +532,8 @@ class installer_base {
 	
 	public function configure_pureftpd()
     {
+		global $conf;
+		
 		$config_dir = $this->conf['pureftpd']['config_dir'];
 
 		//* configure pam for SMTP authentication agains the ispconfig database
@@ -539,11 +545,11 @@ class installer_base {
             exec("chmod 400 $config_dir/$configfile~");
         }
 		$content = rf('tpl/pureftpd_mysql.conf.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf["mysql"]["ispconfig_user"], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $this->conf["mysql"]["ispconfig_password"], $content);
-		$content = str_replace('{mysql_server_database}', $this->conf["mysql"]["database"], $content);
-		$content = str_replace('{mysql_server_ip}', $this->conf["mysql"]["ip"], $content);
-		$content = str_replace('{server_id}', $this->conf["server_id"], $content);
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf["mysql"]["ispconfig_user"], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf["mysql"]["ispconfig_password"], $content);
+		$content = str_replace('{mysql_server_database}', $conf["mysql"]["database"], $content);
+		$content = str_replace('{mysql_server_ip}', $conf["mysql"]["ip"], $content);
+		$content = str_replace('{server_id}', $conf["server_id"], $content);
 		wf("$config_dir/$configfile", $content);
 		exec("chmod 600 $config_dir/$configfile");
 		exec("chown root:root $config_dir/$configfile");
@@ -561,9 +567,9 @@ class installer_base {
 		if(is_file($conf["mydns"]["config_dir"].'/'.$configfile)) copy($conf["mydns"]["config_dir"].'/'.$configfile,$conf["mydns"]["config_dir"].'/'.$configfile.'~');
 		if(is_file($conf["mydns"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["mydns"]["config_dir"].'/'.$configfile.'~');
 		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
 		$content = str_replace('{server_id}',$conf["server_id"],$content);
 		wf($conf["mydns"]["config_dir"].'/'.$configfile,$content);
@@ -582,6 +588,8 @@ class installer_base {
 	
 	public function install_ispconfig()
     {
+		global $conf;
+		
 		$install_dir = $this->conf['ispconfig_install_dir'];
 
 		//* Create the ISPConfig installation directory
@@ -614,10 +622,10 @@ class installer_base {
             copy("$install_dir/interface/lib/$configfile", "$install_dir/interface/lib/$configfile~");
         }
 		$content = rf("tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_host}', $this->conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
 		//* Create the config file for ISPConfig server
@@ -626,11 +634,11 @@ class installer_base {
             copy("$install_dir/server/lib/$configfile", "$install_dir/interface/lib/$configfile~");
         }
 		$content = rf("tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_host}', $this->conf['mysql']['host'], $content);
-		$content = str_replace('{server_id}', $this->conf['server_id'], $content);
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf("$install_dir/server/lib/$configfile", $content);
 		
 		
@@ -713,7 +721,7 @@ class installer_base {
         // Dont just copy over the virtualhost template but add some custom settings
          
         $content = rf("tpl/apache_ispconfig.vhost.master");
-		$content = str_replace('{vhost_port}', $this->conf['apache']['vhost_port'], $content);
+		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
