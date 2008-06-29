@@ -152,7 +152,7 @@ class installer_base {
 		if($cf['host'] == 'localhost') {
 			$from_host = 'localhost';
 		} else {
-			$from_host = $inst->conf['hostname'];
+			$from_host = $this->conf['hostname'];
 		}
 		
 		//* Create the ISPConfig database user
