@@ -296,7 +296,7 @@ if($install_mode == 'Standard') {
 		*/
 
 		//** Customise the port ISPConfig runs on
-		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
+		$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 		
 		$inst->install_ispconfig_interface = true;
 			

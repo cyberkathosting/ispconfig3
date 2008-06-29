@@ -731,7 +731,7 @@ class installer_base {
         // Dont just copy over the virtualhost template but add some custom settings
          
         $content = rf("tpl/apache_ispconfig.vhost.master");
-		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
+		$content = str_replace('{vhost_port}', $this->conf['apache']['vhost_port'], $content);
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
