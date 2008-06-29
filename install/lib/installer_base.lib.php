@@ -34,7 +34,7 @@ class installer_base {
 	var $language = 'en';
 	var $db;
 	public $conf;
-	public install_ispconfig_interface = true;
+	public $install_ispconfig_interface = true;
 
 
     public function __construct()
