@@ -19,6 +19,7 @@ $dist['apache']['init_script'] = 'apache2';
 $dist['apache']['version'] = '2.2';
 $dist['apache']['vhost_dist_dir'] = '/etc/apache2/vhosts.d';
 $dist['apache']['vhost_dist_enabled_dir'] = '/etc/apache2/vhosts.d';
+$conf['apache']['vhost_port'] = '8080';
 
 //* Postfix
 $dist['postfix']['config_dir'] = '/etc/postfix';
