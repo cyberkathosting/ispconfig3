@@ -1,0 +1,7 @@
+<?php
+
+$clientdb_host			= 'localhost';
+$clientdb_user			= '{username}';
+$clientdb_password		= '{password}';
+
+?>

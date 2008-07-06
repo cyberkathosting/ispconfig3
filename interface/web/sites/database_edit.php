@@ -189,6 +189,20 @@ class page_action extends tform_actions {
 		parent::onSubmit();
 	}
 	
+	function onUpdate() {
+		global $app, $conf;
+		
+		//* Prevent that the database name is changed
+		$old_record = $app->tform->getDataRecord($this->id);
+		if($old_record["database_name"] != $this->dataRecord["database_name"]) {
+			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
+		}
+		unset($old_record);
+		
+		parent::onUpdate();
+		
+	}
+	
 	function onAfterInsert() {
 		global $app, $conf;
 		

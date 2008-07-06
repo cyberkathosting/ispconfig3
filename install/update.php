@@ -196,6 +196,10 @@ if($reconfigure_services_answer == 'yes') {
 	//** Configure Apache
 	swriteln('Configuring Apache');
 	$inst->configure_apache();
+	
+	//* Configure DBServer
+	swriteln('Configuring DBServer');
+	$inst->configure_dbserver();
 }
 
 //** Configure ISPConfig

@@ -183,6 +183,10 @@ if($install_mode == 'Standard') {
 	$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 
 	$inst->install_ispconfig();
+	
+	//* Configure DBServer
+	swriteln('Configuring DBServer');
+	$inst->configure_dbserver();
 
 	//* Configure ISPConfig
 	swriteln('Installing Crontab');
@@ -306,6 +310,10 @@ if($install_mode == 'Standard') {
 	}
 	
 	$inst->install_ispconfig();
+	
+	//* Configure DBServer
+	swriteln('Configuring DBServer');
+	$inst->configure_dbserver();
 		
 	//* Configure ISPConfig
 	swriteln('Installing Crontab');

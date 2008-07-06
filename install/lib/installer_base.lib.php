@@ -755,6 +755,30 @@ class installer_base {
 		exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');
 	}
 	
+	public function configure_dbserver()
+	{
+		global $conf;
+		
+		//* If this server shall act as database server for client DB's, we configure this here
+		$install_dir = $this->conf['ispconfig_install_dir'];
+		
+		// Create a file with the database login details which 
+		// are used to create the client databases.
+		
+		if(!is_dir("$install_dir/server/lib")) {
+			$command = "mkdir $install_dir/server/lib";
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		
+		$content = rf("tpl/mysql_clientdb.conf.master");
+		$content = str_replace('{username}',$conf['mysql']['admin_user'],$content);
+		$content = str_replace('{password}',$conf['mysql']['admin_password'], $content);
+		wf("$install_dir/server/lib/mysql_clientdb.conf",$content);
+		exec('chmod 600 '."$install_dir/server/lib/mysql_clientdb.conf");
+		exec('chown root:root '."$install_dir/server/lib/mysql_clientdb.conf");
+		
+	}
+	
 	public function install_crontab()
     {		
 		//* Root Crontab

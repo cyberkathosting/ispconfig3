@@ -16,4 +16,5 @@ $wb["database_user_error_empty"] = 'Database user is empty.';
 $wb["database_user_error_unique"] = 'There is already a database user with this name on the server. To get a unique name, e.g. prepend your domain name to the username.';
 $wb["database_user_error_regex"] = 'Invalid database user name. The username may contain these characters: a-z, A-Z, 0-9 and the underscore. Length: 2 - 64 characters.';
 $wb["limit_database_txt"] = 'The max. number of databases is reached.';
+$wb["database_name_change_txt"] = 'The database name can not be changed';
 ?>
