@@ -5,6 +5,7 @@ $wb["database_name_txt"] = 'Database name';
 $wb["database_user_txt"] = 'Database user';
 $wb["database_password_txt"] = 'Database password';
 $wb["remote_access_txt"] = 'Remote Access';
+$wb["client_txt"] = 'Client';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
