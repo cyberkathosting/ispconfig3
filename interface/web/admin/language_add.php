@@ -66,8 +66,10 @@ if(isset($_POST['lng_new']) && strlen($_POST['lng_new']) == 2 && $error == '') {
 	$lng_new = $_POST['lng_new'];
 	if(!preg_match("/^[a-z]{2}$/i", $lng_new)) die('unallowed characters in language name.');
 	
+	//* Copy the main language file
+	copy(ISPC_LIB_PATH."/lang/$selected_language.lng",ISPC_LIB_PATH."/lang/$lng_new.lng");
+	
 	//* Make a copy of every language file
-	copy(ISPC_WEB_PATH."/$module/lib/lang/$selected_language.lng",ISPC_WEB_PATH."/$module/lib/lang/$lng_new.lng");
 	$bgcolor = '#FFFFFF';
 	$language_files_list = array();
 	$handle = @opendir(ISPC_WEB_PATH); 
