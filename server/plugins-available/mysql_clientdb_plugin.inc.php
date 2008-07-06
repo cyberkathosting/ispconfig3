@@ -28,10 +28,10 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class mysql_clientdb {
+class mysql_clientdb_plugin {
 	
-	var $plugin_name = 'mysql_clientdb';
-	var $class_name  = 'mysql_clientdb';
+	var $plugin_name = 'mysql_clientdb_plugin';
+	var $class_name  = 'mysql_clientdb_plugin';
 	
 		
 	/*
@@ -66,10 +66,11 @@ class mysql_clientdb {
 			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+				return;
 			}
 		
 			//* Create the new database
-			if (mysql_create_db($data["new"]["database_name"]),$link) {
+			if (mysql_query('CREATE DATABASE '.addslashes($data["new"]["database_name"]),$link)) {
 				$app->log('Created MySQL database: '.$data["new"]["database_name"],LOGLEVEL_DEBUG);
 			} else {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
@@ -82,7 +83,8 @@ class mysql_clientdb {
 				$db_host = 'localhost';
 			}
 			
-			mysql_query("GRANT ALL ON ".addslashes($data["new"]["database_name"])." TO '".addslashes($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".addslashes($data["new"]["database_password"])."';",$link);
+			mysql_query("GRANT ALL ON ".addslashes($data["new"]["database_name"]).".* TO '".addslashes($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".addslashes($data["new"]["database_password"])."';",$link);
+			//echo "GRANT ALL ON ".addslashes($data["new"]["database_name"]).".* TO '".addslashes($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".addslashes($data["new"]["database_password"])."';";
 			
 			mysql_query("FLUSH PRIVILEGES;",$link);
 			mysql_close($link);
@@ -95,6 +97,7 @@ class mysql_clientdb {
 		if($data["new"]["type"] == 'mysql') {
 			if(!include_once(ISPC_LIB_PATH.'/mysql_clientdb.conf')) {
 				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
+				return;
 			}
 		
 			//* Connect to the database
@@ -113,8 +116,10 @@ class mysql_clientdb {
 			if($data["new"]["remote_access"] != $data["old"]["remote_access"]) {
 				if($data["new"]["remote_access"] == 'y') {
 					mysql_query("UPDATE mysql.user SET Host = '%' WHERE User = '".addslashes($data["new"]["database_user"])."' and Host = 'localhost';",$link);
+					mysql_query("UPDATE mysql.db SET Host = '%' WHERE User = '".addslashes($data["new"]["database_user"])."' and Host = 'localhost';",$link);
 				} else {
 					mysql_query("UPDATE mysql.user SET Host = 'localhost' WHERE User = '".addslashes($data["new"]["database_user"])."' and Host = '%';",$link);
+					mysql_query("UPDATE mysql.db SET Host = 'localhost' WHERE User = '".addslashes($data["new"]["database_user"])."' and Host = '%';",$link);
 				}
 				$app->log('Changing mysql remote access priveliges for database: '.$data["new"]["database_name"],LOGLEVEL_DEBUG);
 			}
@@ -148,9 +153,10 @@ class mysql_clientdb {
 	function db_delete($event_name,$data) {
 		global $app, $conf;
 		
-		if($data["new"]["type"] == 'mysql') {
+		if($data["old"]["type"] == 'mysql') {
 			if(!include_once(ISPC_LIB_PATH.'/mysql_clientdb.conf')) {
 				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
+				return;
 			}
 		
 			//* Connect to the database
@@ -159,10 +165,17 @@ class mysql_clientdb {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
 			}
 			
-			mysql_query("DROP USER '".addslashes($data["old"]["database_user"])."';",$link);
+			//* Get the db host setting for the access priveliges
+			if($data["old"]["remote_access"] == 'y') {
+			 	$db_host = '%';
+			} else {
+				$db_host = 'localhost';
+			}
+			
+			mysql_query("DROP USER '".addslashes($data["old"]["database_user"])."'@'$db_host';",$link);
 			$app->log('Dropping mysql user: '.$data["old"]["database_user"],LOGLEVEL_DEBUG);
 			
-			mysql_drop_db($data["old"]["database_name"],$link);
+			mysql_query('DROP DATABASE '.addslashes($data["old"]["database_name"]),$link);
 			$app->log('Dropping mysql database: '.$data["old"]["database_name"],LOGLEVEL_DEBUG);
 			
 			

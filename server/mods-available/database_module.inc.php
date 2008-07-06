@@ -61,7 +61,7 @@ class database_module {
  		class that contains the function functionname.
 		*/
 		
-		$app->modules->registerTableHook('web_database','server_module','process');
+		$app->modules->registerTableHook('web_database','database_module','process');
 		
 		// Register service
 		//$app->services->registerService('httpd','web_module','restartHttpd');

@@ -711,6 +711,10 @@ class installer_base {
 		//* make sure that the server config file (not the interface one) is only readable by the root user
 		exec("chmod 600 $install_dir/server/lib/$configfile");
 		exec("chown root:root $install_dir/server/lib/$configfile");
+		if(@is_file("$install_dir/server/lib/mysql_clientdb.conf") {
+			exec("chmod 600 $install_dir/server/lib/mysql_clientdb.conf");
+			exec("chown root:root $install_dir/server/lib/mysql_clientdb.conf");
+		}
 		
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
