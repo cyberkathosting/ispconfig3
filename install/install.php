@@ -175,6 +175,10 @@ if($install_mode == 'Standard') {
 	//* Configure Apache
 	swriteln('Configuring Apache');
 	$inst->configure_apache();
+	
+	//* Configure Firewall
+	swriteln('Configuring Firewall');
+	$inst->configure_firewall();
 
 	//* Configure ISPConfig
 	swriteln('Installing ISPConfig');
@@ -280,6 +284,12 @@ if($install_mode == 'Standard') {
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
 		swriteln('Configuring Apache');
 		$inst->configure_apache();
+	}
+	
+	//** Configure Firewall
+	if(strtolower($inst->simple_query('Configure Firewall Server',array('y','n'),'y')) == 'y') {	
+		swriteln('Configuring Firewall');
+		$inst->configure_firewall();
 	}
 	
 	//** Configure ISPConfig :-)

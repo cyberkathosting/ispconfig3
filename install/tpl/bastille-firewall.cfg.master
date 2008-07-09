@@ -1,0 +1,320 @@
+#
+# /etc/bastille-firewall.cfg
+#
+# Configuration file for both 2.2/ipchains and 2.4/netfilter scripts
+#
+# $Source: /cvsroot/bastille-linux/dev/working_tree/Bastille/bastille-firewall.cfg,v $
+# Modified by: $Author: peterw $
+# $Date: 2002/01/04 13:34:18 $
+# $Revision: 1.7 $
+#
+# Copyright (C) 1999-2001 Peter Watkins
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# Thanks to David Ranch, Brad A, Don G, and others for their suggestions
+
+# the configuration values should be whitespace-delimited lists of
+# appropriate values, e.g.
+#         TCP_PUBLIC_SERVICES="80 smtp ssh"
+# lists Web (port 80), SMTP mail, and Secure Shell ports
+#
+# This script is suitable for workstations or simple NAT firewalls;
+# you may want to add more "output" restrictions for serious servers
+
+# 0) DNS servers (Linux 2.2/ipchains only)
+#        You must list your DNS servers here so that
+#        the firewall will allow them to service your lookup requests
+#
+# List of DNS servers/networks to allow "domain" responses from
+# This _could_ be nameservers as a list of <ip-address>/32 entries
+#DNS_SERVERS="a.b.c.d/32 e.f.g.h/32"
+# If you are running a caching nameserver, you'll need to allow from
+# "0.0.0.0/0" so named can query any arbitrary nameserver
+# (To enable a caching nameserver, you will also probably need to
+#  add "domain" to the TCP and UDP public service lists.)
+#DNS_SERVERS="0.0.0.0/0"
+#
+# To have the DNS servers parsed from /etc/resolv.conf at runtime,
+# as normal workstations will want, make this variable empty
+#DNS_SERVERS=""
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+DNS_SERVERS="{DNS_SERVERS}"
+
+
+# 1) define your interfaces (all systems)
+#        Note a "+" acts as a wildcard, e.g. ppp+ would match any PPP
+#        interface
+#
+# list internal/trusted interfaces
+# traffic from these interfaces will be allowed
+# through the firewall, no restrictions
+#TRUSTED_IFACES="lo"                                        # MINIMAL/SAFEST
+#
+# list external/untrusted interfaces
+#PUBLIC_IFACES="eth+ ppp+ slip+"                        # SAFEST
+#
+# list internal/partially-trusted interfaces
+# e.g. if this acts as a NAT/IP Masq server and you
+# don't want clients on those interfaces having
+# full network access to services running on this
+# server (as the TRUSTED_IFACES allows)
+#INTERNAL_IFACES=""                                # SAFEST
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+TRUSTED_IFACES="lo"                                        # MINIMAL/SAFEST
+PUBLIC_IFACES="eth+ ppp+ slip+ venet+"                        # SAFEST
+INTERNAL_IFACES=""                                # SAFEST
+
+
+# 2) services for which we want to log access attempts to syslog (all systems)
+#        Note this only audits connection attempts from public interfaces
+#
+#        Also see item 12, LOG_FAILURES
+#
+#TCP_AUDIT_SERVICES="telnet ftp imap pop3 finger sunrpc exec login linuxconf ssh"
+# anyone probing for BackOrifice?
+#UDP_AUDIT_SERVICES="31337"
+# how about ICMP?
+#ICMP_AUDIT_TYPES=""
+#ICMP_AUDIT_TYPES="echo-request"        # ping/MS tracert
+#
+# To enable auditing, you must have syslog configured to log "kern"
+# messages of "info" level; typically you'd do this with a line in
+# syslog.conf like
+#   kern.info                                /var/log/messages
+# though the Bastille port monitor will normally want these messages
+# logged to a named pipe instead, and the Bastille script normally
+# configures syslog for "kern.*" which catches these messages
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+#TCP_AUDIT_SERVICES="telnet ftp imap pop3 finger sunrpc exec login linuxconf ssh"
+#UDP_AUDIT_SERVICES="31337"
+#ICMP_AUDIT_TYPES=""
+
+
+# 3) services we allow connections to (all systems)
+#
+# FTP note:
+#        To allow your machine to service "passive" FTP clients,
+#        you will need to make allowances for the passive data
+#        ports; Bastille users should read README.FTP for more
+#        information
+#
+# "public" interfaces:
+# TCP services that "public" hosts should be allowed to connect to
+#TCP_PUBLIC_SERVICES=""                                        # MINIMAL/SAFEST
+#
+# UDP services that "public" hosts should be allowed to connect to
+#UDP_PUBLIC_SERVICES=""                                        # MINIMAL/SAFEST
+#
+# "internal" interfaces:
+# (NB: you will need to repeat the "public" services if you want
+#      to allow "internal" hosts to reach those services, too.)
+# TCP services that internal clients can connect to
+#TCP_INTERNAL_SERVICES=""                                # MINIMAL/SAFEST
+#
+# UDP services that internal clients can connect to
+#UDP_INTERNAL_SERVICES=""                                # MINIMAL/SAFEST
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+TCP_PUBLIC_SERVICES="{TCP_PUBLIC_SERVICES}"                                        # MINIMAL/SAFEST
+UDP_PUBLIC_SERVICES="{UDP_PUBLIC_SERVICES}"                                        # MINIMAL/SAFEST
+TCP_INTERNAL_SERVICES=""                                # MINIMAL/SAFEST
+UDP_INTERNAL_SERVICES=""                                # MINIMAL/SAFEST
+
+# 4) passive/active FTP (Linux 2.2/ipchains only)
+#        FTP is a firewall nightmare; if you allow "normal" FTP connections,
+#        you must be careful to block any TCP services that are listening
+#        on high ports; it's safer to require your FTP clients to use
+#        "passive" mode.
+#
+#        Note this will also force clients on machines
+#        that use this one for NAT/IP Masquerading to use passive mode
+#        for connections that go through this server (e.g. from the
+#        internal network to public Internet machines
+#
+#        For more information about FTP, see the Bastille README.FTP doc
+#
+#FORCE_PASV_FTP="N"
+#FORCE_PASV_FTP="Y"                                        # SAFEST
+#
+FORCE_PASV_FTP="Y"                                        # SAFEST
+
+
+# 5) Services to explicitly block. (Linux 2.2/ipchains only)
+#        See FTP note above
+#        Note that ranges of ports are specified with colons, and you
+#        can specify an open range by using only one number, e.g.
+#        1024: means ports >= 1024 and :6000 means ports <= 6000
+#
+# TCP services on high ports that should be blocked if not forcing passive FTP
+# This should include X (6000:6010) and anything else revealed by 'netstat -an'
+#  (this does not matter unless you're not forcing "passive" FTP)
+#TCP_BLOCKED_SERVICES="6000:6020"
+#
+# UDP services to block: this should be UDP services on high ports.
+# Your only vulnerability from public interfaces are the DNS and
+# NTP servers/networks (those with 0.0.0.0 for DNS servers should
+# obviously be very careful here!)
+#UDP_BLOCKED_SERVICES="2049"
+#
+# types of ICMP packets to allow
+#ICMP_ALLOWED_TYPES="destination-unreachable"                # MINIMAL/SAFEST
+# the following allows you to ping/traceroute outbound
+#ICMP_ALLOWED_TYPES="destination-unreachable echo-reply time-exceeded"
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+TCP_BLOCKED_SERVICES="6000:6020"
+UDP_BLOCKED_SERVICES="2049"
+ICMP_ALLOWED_TYPES="destination-unreachable echo-reply time-exceeded echo-request"
+
+
+# 6) Source Address Verification (all Linux systems)
+#        This helps prevent "IP Spoofing" attacks
+#
+ENABLE_SRC_ADDR_VERIFY="Y"                                # SAFEST
+
+
+# 7) IP Masquerading / NAT. (all systems)
+#        List your internal/masq'ed networks here
+#
+#        Also see item 4, FORCE_PASV_FTP, as that setting affects
+#        clients using IP Masquerading through this machine
+#
+# Set this variable if you're using IP Masq / NAT for a local network
+#IP_MASQ_NETWORK=""                                        # DISABLE/SAFEST
+#IP_MASQ_NETWORK="10.0.0.0/8"                                # example
+#IP_MASQ_NETWORK="192.168.0.0/16"                        # example
+#
+# Have lots of masq hosts? uncomment the following six lines
+#  and list the hosts/networks in /etc/firewall-masqhosts
+#  the script assumes any address without a "/" netmask afterwards
+#  is an individual address (netmask /255.255.255.255):
+#if [ -f /etc/firewall-masqhosts ]; then
+#  echo "Reading list of masq hosts from /etc/firewall-masqhosts"
+#  # Read the file, but use 'awk' to strip comments
+#  # Note the sed bracket phrase includes a space and tab char
+#  IP_MASQ_NETWORK=`cat /etc/firewall-masqhosts | awk -F\# '/\// {print $1; next} /[0-9]/ {print $1"/32"}' |sed 's:[         ]*::g'`
+#fi
+#
+# Masq modules
+# NB: The script will prepend "ip_masq_" to each module name
+#IP_MASQ_MODULES="cuseeme ftp irc quake raudio vdolive"        # ALL (?)
+#IP_MASQ_MODULES="ftp raudio vdolive"                        # RECOMMENDED
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+IP_MASQ_NETWORK=""                                        # DISABLE/SAFEST
+IP_MASQ_MODULES="ftp raudio vdolive"                        # RECOMMENDED
+
+
+# 8) How to react to disallowed packets (all systems)
+# whether to "REJECT" or "DROP" disallowed packets; if you're running any
+# public services, you probably ought to use "REJECT"; if in serious stealth
+# mode, choose "DROP" so simple probes don't know if there's anything out there
+#        NOTE: disallowed ICMP packets are discarded with "DROP", as
+#                it would not make sense to "reject" the packet if you're
+#                trying to disallow ping/traceroute
+#        NOTE: the scripts that set up the filter rules will interpret these
+#                keywords as needed, e.g. "DROP" becomes "DENY" for Linux 2.2/ipchains
+#
+REJECT_METHOD="DROP"
+
+
+# 9) DHCP (Linux 2.2/ipchains only)
+#    In case your server needs to get a DHCP address from some other
+#    machine (e.g. cable modem)
+#DHCP_IFACES="eth0"                        # example, to allow you to query on eth0
+#DHCP_IFACES=""                                # DISABLED
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+DHCP_IFACES=""                                # DISABLED
+
+
+# 10) NTP servers (Linux 2.2/ipchains only)
+#        more UDP fun. List IP addresses or network space of NTP servers
+#
+#NTP_SERVERS=""                                # DISABLE NTP QUERIES / SAFEST
+#NTP_SERVERS="a.b.c.d/32 e.f.g.h/32"        # example, to allow querying 2 servers
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+NTP_SERVERS=""                                # DISABLE NTP QUERIES / SAFEST
+
+
+# 11) more ICMP. (Linux 2.2/ipchains only)
+#        Control the outbound ICMP to make yourself invisible to
+#        traceroute probes
+#
+#ICMP_OUTBOUND_DISABLED_TYPES="destination-unreachable time-exceeded"
+#
+# Please make sure variable assignments are on single lines; do NOT
+# use the "\" continuation character (so Bastille can change the
+# values if it is run more than once)
+ICMP_OUTBOUND_DISABLED_TYPES="destination-unreachable time-exceeded"
+
+
+# 12) Logging (all systems)
+#        With this enabled, ipchains will log all blocked packets.
+#                 ** this could generate huge logs **
+#        This is primarily intended for the port mointoring system;
+#        also note that you probably do not want to "AUDIT" any services
+#        that you are not allowing, as doing so would mean duplicate
+#        logging
+LOG_FAILURES="N"                                # do not log blocked packets
+
+# 13) Block fragmented packets (all systems)
+#       There's no good reason to allow these
+#ALLOW_FRAGMENTS="N"                                # safest
+ALLOW_FRAGMENTS="Y"                                # old behavior
+
+# 14) Prevent SMB broadcasts from leaking out NAT setup (all systems)
+#        Windows machines will poll teh net with SMB broadcasts,
+#        basically advertising their existence. Most folks agree
+#        that this traffic should be dropped
+#DROP_SMB_NAT_BCAST="N"                # allow them (are you sure?)
+DROP_SMB_NAT_BCAST="Y"                # drop those packets
+
+# 15) Log level (iptables/netfilter/Linux 2.4 only)
+#        Control what level of logging is used when the firewall logs
+#        information. Default is warning (4). Lowest priority is
+#        debug (7); highest is emergency (0). To prevent syslog
+#        from copying iptables error messages to the console, set
+#        this to 6 (7 would also work, but 6 is recommended)
+#        You can also stop syslogd/klogd from printing kernel
+#        messages to the console by issuing the command
+#          setterm -msg off
+#IP_LOG_LEVEL=6                        # level used in 2.2/ipchains
+IP_LOG_LEVEL=4                        # iptables/netfilter default
+
+# 16) Always attempt to use stateful features for inbound connections
+#        Always using state will allow the firewall to reject invalid
+#        packets sent to otherwise open TCP services, e.g. XMAS, NULL
+#        and SIN/FYN scans. The downside to choosing this behavior is that
+#        services may become unreachable if the packet filter's state
+#        table becomes full.
+IP_ALWAYS_USE_STATE="N"                # default, ensures services remain available
+#IP_ALWAYS_USE_STATE="Y"        # disallow invalid packets

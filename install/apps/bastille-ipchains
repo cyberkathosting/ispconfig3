@@ -1,0 +1,654 @@
+#!/bin/sh
+#
+# /sbin/bastille-ipchains		Load/unload ipchains rulesets
+#
+# $Source: /cvsroot/bastille-linux/dev/working_tree/Bastille/bastille-ipchains,v $ 
+# Modified by: $Author: peterw $
+# $Date: 2001/08/18 15:38:31 $
+# $Revision: 1.18 $
+#
+# Copyright (C) 1999-2001 Peter Watkins 
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# Thanks to David Ranch, Brad A, Don G, and others for their suggestions
+#
+# This script is designed to be called BY a SysV-style init script.
+#
+# It should be run with a "start" argument
+#	1) BY an rc?.d "S" script, _before_ the "network" script
+#	   (normally via the "bastille-firewall" init script; 
+#	    as of 2001/02/14, the only purpose of bastille-firewall
+#	    is to start this script)
+#	2) any time an interface is brought up or changed, e.g.
+#	   establishing a PPP conection or renewing a DHCP lease
+# [also copy 'bastille-firewall-reset', 'bastille-firewall-schedule' and
+#  'ifup-local' to /sbin/ (in addition to the bastille-firewall init script]
+#
+#   Normally you Do Not _Ever_ Want to run this with a "stop" argument!
+#
+# Note that running this with "stop" will disable the firewall and open
+# your system to all network traffic; if you make changes to these rules,
+# apply them by running the script again with a "start" argument.
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+IPCHAINS=/sbin/ipchains
+CONFIG=/etc/Bastille/bastille-firewall.cfg
+
+if [ ! -f ${CONFIG} ]; then
+	echo "ERROR: unable to read configuration file \"${CONFIG}\""
+	exit 1
+fi
+
+# source the configuration file, which will set environment variables
+. ${CONFIG}
+
+if [ -z "${TRUSTED_IFACES}" ]; then
+        echo "ERROR: no trusted interfaces specified! Exiting!"
+        exit 1
+fi
+
+#
+# Computed values
+# 
+# These things should be queried/computed at run time
+#
+# LOCAL_ADDRESSES
+#
+# LOCAL_ADDRESSES lists all IP addresses for this server 
+#  (for the INTERNAL_SERVICES rules); if you have virtual 
+#  network devices, you may want to hand-code this, e.g.
+# LOCAL_ADDRESSES="127.0.0.0/8"
+#
+# The following makes a list of all current IP addresses
+LOCAL_ADDRESSES=`ifconfig | grep "inet addr" | awk '{print $2}' | awk -F: '{print $2"/32"}' | sed s:127\.0\.0\.1/32:127.0.0.1/8: `
+#
+#
+# INTERNAL_NETWORKS
+#
+# INTERNAL_NETWORKS lists the masked networks for the INT_INTERFACES
+# e.g. INTERNAL_NETWORKS="10.0.0.0/255.0.0.0"
+# The following makes a list of all current internal IP addresses _with netmasks_
+for i in ${INTERNAL_IFACES} ; do
+	INTERNAL_NETWORKS="${INTERNAL_NETWORKS} `ifconfig ${i} 2>/dev/null| grep "inet addr" | awk '{print $2":"$4}' | awk -F: '{print $2"/"$4}' | sed 's:127\.0\.0\.1/$:127.0.0.1/8:'`"
+done
+#
+#
+# DNS_SERVERS
+#
+# Derive this from /etc/resolv.conf if it's not set already
+# Note we only take the first three as most systems' resolvers
+# can only use three nameservers; see MAXNS in resolv.h for details
+MAXNS=3
+if [ -z "${DNS_SERVERS}" ]; then
+	DNS_SERVERS=`grep nameserver /etc/resolv.conf | awk -F\# '{print $1}' | grep '^nameserver' | awk '{print $2"/32"}' | head -${MAXNS}`
+fi
+#
+#
+# LOG_FLAG
+# 
+# Flag to add to ${REJECT_METHOD} rules to force logging
+if [ "${LOG_FAILURES}" = "Y" ]; then
+	LOG_FLAG="-l"
+else
+	LOG_FLAG=""
+fi
+#
+#
+# CALLED_METHOD
+#
+# Variable to hold $1, for use in functions (which have their own $1 vars)
+CALLED_METHOD="$1"
+#
+#
+# REJECT_METHOD
+# Convert netfilter/DROP to ipchains/DENY
+if [ "${REJECT_METHOD}" = "DROP" ]; then
+        REJECT_METHOD="DENY"
+fi
+#
+#
+# NTP_SERVERS
+#
+# Do hostname lookups for any names in NTP_SERVERS
+#
+ntp_server_addrs=""
+for n in ${NTP_SERVERS}; do
+	ip=`echo ${n} | egrep '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'`
+	if [ -n "${ip}" ]; then
+		# looks like an IP address, use it as-is
+		ntp_server_addrs="${ntp_server_addrs} ${ip}"
+	else
+		# use 'host' t resolve address
+		ip=`host ${n} 2>/dev/null| awk '/ has address / { print $4 }' | head -1`
+		ntp_server_addrs="${ntp_server_addrs} ${ip}"
+	fi
+done
+
+
+#
+# Shell functions
+#
+# include_supplemental
+# source supplemental (plug-in) firewall scripts
+include_supplemental()
+{
+        # args: $1 = nickname for the supplemental phase
+        nickname="$1"
+        if [ -e /etc/Bastille/firewall.d/${nickname}.sh ]; then
+                cd /etc/Bastille/firewall.d && . ./${nickname}.sh
+        fi
+        if [ -d /etc/Bastille/firewall.d/${nickname}.d ]; then
+                for s in `ls /etc/Bastille/firewall.d/${nickname}.d/*.sh`; do
+                        cd /etc/Bastille/firewall.d/${nickname}.d && \
+                        . ${s}
+                done
+        fi
+}
+#
+# do_masq_mods
+# Function to load/unload "ip_masq_*" kernel modules
+do_masq_mods()
+{
+	# args: $1 = "load" or "unload"
+	#
+	# find the currently loaded modules
+	masq_mods=`lsmod | awk '{print $1}' | grep '^ip_masq_'`
+	#
+	# Step 1: unload unwanted modules
+	for m in ${masq_mods} ; do
+		UNLOAD_THIS_MOD=Y
+		for normal_mod in ${IP_MASQ_MODULES} ; do
+			if [ "ip_masq_${normal_mod}" = $m ]; then
+				# this module is _supposed_ to be loaded
+				UNLOAD_THIS_MOD=N
+			fi
+		done
+		if [ "${CALLED_METHOD}" = "stop" -o -z "${IP_MASQ_NETWORK}" ]; then
+			# we're either disabling the firewall or we've disabled masquerading,
+			# so we should unload _all_ masq modules
+			UNLOAD_THIS_MOD=Y
+		fi
+		if [ $UNLOAD_THIS_MOD = "Y" -a $1 = "unload" ]; then
+			rmmod $m || echo "Error unloading ${m} module"
+		fi
+	done
+	# Step 2: load wanted modules that are not already loaded
+	if [ $1 = "load" ]; then
+		for normal_mod in ${IP_MASQ_MODULES} ; do
+			MOD_LOADED=N
+			for m in ${masq_mods} ; do
+				if [ "ip_masq_${normal_mod}" = ${m} ]; then
+					MOD_LOADED=Y
+				fi
+			done
+			if [ $MOD_LOADED = "N" ]; then
+				insmod "ip_masq_${normal_mod}" || echo "Error loading ip_masq_${normal_mod} module"
+			fi
+		done
+	fi
+}
+
+# See how we were called.
+case "$1" in
+  start|reload|restart)
+	#
+        # anything to do before resetting?
+        include_supplemental pre-reset
+	#
+	# For Red Hat users, let's ensure that its firewalls are disabled
+	rhtest_ipchains=`chkconfig --list ipchains 2>/dev/null | grep :on`
+	rhtest_iptables=`chkconfig --list iptables 2>/dev/null | grep :on`
+	bftest=`chkconfig --list bastille-firewall 2>/dev/null | grep :on`
+	if [ \( -n "${rhtest_ipchains}" -o -n "${rhtest_iptables}" \) -a -n "${bftest}" ]; then
+		echo
+		echo "bastille-firewall conflicts with Red Hat 7.1's 'ipchains'"
+		echo "and 'iptables' firewalls. We are disabling Red Hat's firewalls."
+		[ -n "${rhtest_ipchains}" ] && chkconfig --level 0123456 ipchains off
+		[ -n "${rhtest_iptables}" ] && chkconfig --level 0123456 iptables off
+		echo
+	fi
+	# load the IPCHAINS compatibilty module if we're using a 2.4 kernel
+	if [ -n "$(uname -r | awk -F. ' $1 == 2 && $2 > 2 {print}')" ]; then
+		echo "Loading ipchains compatibility module"
+		modprobe ipchains 
+	fi
+	#
+	# we set defaults to DENY now to minimize possible interruptions
+	# if this script is re-run to reset rules
+	#
+	# set default policy to disallow forwarding
+	${IPCHAINS} -P forward DENY
+	# flush rules
+	${IPCHAINS} -F forward
+	# default is to disallow incoming traffic	
+	${IPCHAINS} -P input DENY
+	# flush rules 
+	${IPCHAINS} -F input
+	# disallow outbound until we set up the explicit outbound rules
+	${IPCHAINS} -P output DENY
+	# flush rules 
+	${IPCHAINS} -F output
+
+	# Run our "early" custom script if it exists
+	[ -f /etc/Bastille/bastille-firewall-early.sh ] && . /etc/Bastille/bastille-firewall-early.sh
+
+        # any new-style "early" plugins?
+        include_supplemental early
+
+	# always allow MTU discovery packets
+	${IPCHAINS} -A input -p icmp --icmp-type fragmentation-needed -j ACCEPT
+	${IPCHAINS} -A output -p icmp --icmp-type fragmentation-needed -j ACCEPT
+
+        include_supplemental pre-local-block
+
+	# Block any non-local attempts to get localhost addresses
+	# per woody@thebunker.net's bugtraq post
+	${IPCHAINS} -A input -d 127.0.0.0/8 ! -i lo -j ${REJECT_METHOD} ${LOG_FLAG}
+
+	# Fragments
+	if [ "${ALLOW_FRAGMENTS}" = "N" ]; then
+		${IPCHAINS} -A input -f -j ${REJECT_METHOD}
+	fi 
+
+	# from the ipchains HOWTO, I think
+	if [ "${ENABLE_SRC_ADDR_VERIFY}" = "Y" ]; then
+		if [ -e /proc/sys/net/ipv4/conf/all/rp_filter ]; then
+        		echo -n "Setting up IP spoofing protection..."
+		        for f in /proc/sys/net/ipv4/conf/*/rp_filter; do
+            		echo 1 > $f
+        		done
+        		echo " done."
+		else
+        		echo "WARNING: errors encountered while trying to enable IP spoofing protection!"
+		fi
+	fi
+
+	include_supplemental pre-trusted
+
+	# Allow all traffic from trusted interfaces
+	echo -n "Allowing traffic from trusted interfaces..."
+	for t_iface in ${TRUSTED_IFACES} ; do	
+		${IPCHAINS} -A input -i ${t_iface} -d 0.0.0.0/0 -j ACCEPT
+	done
+	echo " done. "
+
+	# If you have networks that route traffic to each other through this
+	# server, you may want to add some forwarding rules, here, e.g.
+	# one way, 192.168.*.* -> 10.*.*.* with 192.168.*.* on "eth0"
+	#${IPCHAINS} -A forward -i eth0 -s 192.168.0.0/16 -d 10.0.0.0/8 -j ACCEPT	
+	# the other direction, 10.*.*.* -> 192.168.*.* with 10.*.*.* on "eth1"
+	#${IPCHAINS} -A forward -i eth1 -d 192.168.0.0/16 -s 10.0.0.0/8 -j ACCEPT	
+
+	include_supplemental pre-mcast-block
+
+	# No packets with multicast source addresses (Joshua K, RFC 1122)
+	${IPCHAINS} -A input -s 224.0.0.0/4 -j ${REJECT_METHOD} ${LOG_FLAG}
+
+	# Forwarding
+
+	include_supplemental pre-nat
+
+	# IP Masquerading/forwarding
+	#
+	# Unload masq modules (maybe we're disabling masquerading, maybe we changed the module list)
+	do_masq_mods unload
+	#
+	if [ -n "${IP_MASQ_NETWORK}" ]; then
+		echo -n "Setting up masquerading rules..."	
+		# since we've set the default forwarding policy to
+		# reject, we can enable forwarding now
+		echo 1 > /proc/sys/net/ipv4/ip_forward
+		# set up rules for masqueraded networks
+		for net in ${IP_MASQ_NETWORK} ; do
+			if [ "${DROP_SMB_NAT_BCAST}" = "Y" ]; then
+				# NetBIOS
+				${IPCHAINS} -A forward -p tcp -s ${net} -d 0.0.0.255/0.0.0.255 137:139 -j ${REJECT_METHOD} ${LOG_FLAG}
+				${IPCHAINS} -A forward -p udp -s ${net} -d 0.0.0.255/0.0.0.255 137:139 -j ${REJECT_METHOD} ${LOG_FLAG}
+			fi
+			for pub in ${PUBLIC_IFACES} ; do
+				# NAT should be one-way, deny traffic from public
+				# interfaces that is addresses to masq'ed networks
+				${IPCHAINS} -A input -d ${net} -i ${pub} -j ${REJECT_METHOD} ${LOG_FLAG}
+				# spoofed addreses from outside
+				${IPCHAINS} -A input -s ${net} -i ${pub} -j ${REJECT_METHOD} ${LOG_FLAG}
+				# enable forwarding
+				${IPCHAINS} -A forward -s ${net} -i ${pub} -j MASQ
+			done
+		done
+		echo " done."
+		echo -n "Loading masquerading modules..."	
+		do_masq_mods load
+		echo " done."
+	fi
+	
+	echo -n "Setting up chains for public/internal interface traffic..."	
+
+	# make a public input chain
+	${IPCHAINS} -N PUB_IN 2> /dev/null
+	${IPCHAINS} -F PUB_IN
+	# as close to setting policy as we can get
+	${IPCHAINS} -A PUB_IN -j DENY
+	# make a public output chain
+	${IPCHAINS} -N PUB_OUT 2> /dev/null
+	${IPCHAINS} -F PUB_OUT
+	# as close to setting policy as we can get
+	${IPCHAINS} -A PUB_OUT -j DENY
+
+	# make an "INTERNAL" input chain
+	${IPCHAINS} -N INT_IN 2> /dev/null
+	${IPCHAINS} -F INT_IN
+	# as close to setting policy as we can get
+	${IPCHAINS} -A INT_IN -j DENY
+	# make an "INTERNAL" output chain
+	${IPCHAINS} -N INT_OUT 2> /dev/null
+	${IPCHAINS} -F INT_OUT
+	# as close to setting policy as we can get
+	${IPCHAINS} -A INT_OUT -j DENY
+
+	include_supplemental pre-chain-split
+
+	# direct packets to the INTERNAL_* chains
+	for iface in ${INTERNAL_IFACES} ; do
+		${IPCHAINS} -A input -i ${iface} -j INT_IN
+		${IPCHAINS} -A output -i ${iface} -j INT_OUT
+		NON_LOOPBACK_SEEN=N
+		for net in ${LOCAL_ADDRESSES} ; do
+			if [ ${net} != "127.0.0.1/8" ]; then
+				NON_LOOPBACK_SEEN=Y
+			fi
+		done	
+		# complain if no local addresses
+		if [ ${NON_LOOPBACK_SEEN} = "N" ]; then
+			echo "WARNING: no non-loopback local addresses; protection from INTERNAL_IFACES not enabled!"
+		fi
+	done
+
+	# Direct PUBLIC interface traffic to the proper chain
+	for iface in ${PUBLIC_IFACES} ; do
+		${IPCHAINS} -A input -i ${iface} -j PUB_IN
+		${IPCHAINS} -A output -i ${iface} -j PUB_OUT
+	done
+
+	include_supplemental pre-audit
+
+	# Auditing must be set up before these packets are blocked!
+	#
+	for service in ${TCP_AUDIT_SERVICES} ; do
+		${IPCHAINS} -A PUB_IN -p tcp -d 0.0.0.0/0 ${service} -y  -l
+	done   
+	for service in ${UDP_AUDIT_SERVICES} ; do
+		${IPCHAINS} -A PUB_IN -p udp -d 0.0.0.0/0 ${service} -l
+	done   
+	for type in ${ICMP_AUDIT_TYPES} ; do
+		${IPCHAINS} -A PUB_IN -p icmp --icmp-type ${type} -d 0.0.0.0/0 -l 
+	done
+
+	# disallow any attempts to get to internal interfaces from outside
+	# not good if this is supposed to route between normal networks
+	for int in ${INTERNAL_NETWORKS} ; do
+		# deny traffic from public
+		# interfaces that is addressed to internal networks
+		${IPCHAINS} -A PUB_IN -d ${int} -j ${REJECT_METHOD} ${LOG_FLAG}
+		# spoofed addreses from outside
+		${IPCHAINS} -A PUB_IN -s ${int} -j ${REJECT_METHOD} ${LOG_FLAG}
+	done
+	
+	echo " done. "
+		
+	echo -n "Setting up general rules..."	
+
+	include_supplemental pre-dhcp
+
+	# Allow response from DHCP servers
+	for iface in ${DHCP_IFACES} ; do
+		for chain in input PUB_IN INT_IN ; do
+			# allow UDP responses
+			${IPCHAINS} -A ${chain} -p udp -s 0.0.0.0/0 bootps -d 255.255.255.255/0 bootpc -j ACCEPT 		
+			# normally we allow TCP data returns so this is redundant
+			# ${IPCHAINS} -A ${chain} -p tcp -s 0.0.0.0/0 bootps -d 255.255.255.255/0 bootpc -j ACCEPT 		
+		done
+		# make link so dhcpcd runs firewall when IP changes (if no such file already)
+		[ ! -d /etc/dhcpc ] && mkdir /etc/dhcpc -m 0750
+		if [ -x /sbin/bastille-firewall-reset -a ! -L /etc/dhcpc/dhcpcd-${iface}.exe ]; then
+			ln -s /sbin/bastille-firewall-reset /etc/dhcpc/dhcpcd-${iface}.exe
+		fi
+	done
+
+	include_supplemental pre-internal
+
+	# internal interface rules
+	for net in ${LOCAL_ADDRESSES} ; do
+		# Allow accessses to TCP services on this system
+		for serv in ${TCP_INTERNAL_SERVICES} ; do
+			${IPCHAINS} -A INT_IN -p tcp -d ${net} ${serv} -j ACCEPT 		
+		done
+		${IPCHAINS} -A INT_IN -p tcp -d ${net} ${serv} \! -y -j ACCEPT
+		# UDP services
+		for serv in ${UDP_INTERNAL_SERVICES} ; do
+			${IPCHAINS} -A INT_IN -p udp -d ${net} ${serv} -j ACCEPT 
+		done
+	done
+	# ICMP
+	# hopefully you don't care about hiding from internal hosts!
+	${IPCHAINS} -A INT_IN -p icmp -d 0.0.0.0/0 -j ACCEPT 
+	${IPCHAINS} -A INT_OUT -p icmp -d 0.0.0.0/0 -j ACCEPT 
+	# ...but if you do... try this... (and see the PUB_IN rules below)
+	#for type in ${ICMP_ALLOWED_TYPES} ; do
+	#	${IPCHAINS} -A INT_IN -p icmp --icmp-type ${type} -d 0.0.0.0/0 -j ACCEPT 
+	#done
+	#for type in ${ICMP_OUTBOUND_DISABLED_TYPES} ; do
+	#	${IPCHAINS} -A INT_OUT -p icmp --icmp-type ${type} -j REJECT
+	#done
+        
+	# input rules
+	#
+	# public interfaces
+
+	include_supplemental pre-input
+
+	# --------------------- ICMP --------------------------
+	for type in ${ICMP_ALLOWED_TYPES} ; do
+		${IPCHAINS} -A PUB_IN -p icmp --icmp-type ${type} -d 0.0.0.0/0 -j ACCEPT 
+	done
+
+	# --------------------- TCP --------------------------
+	for serv in ${TCP_PUBLIC_SERVICES} ; do
+		${IPCHAINS} -A PUB_IN -p tcp -d 0.0.0.0/0 ${serv} -j ACCEPT 		
+	done
+
+	# if you're disallowing ICMP, you may be trying to look 
+	# invisible/disable ping, so let's just drop these attempts
+	${IPCHAINS} -A PUB_IN -p icmp -d 0.0.0.0/0 -j DENY ${LOG_FLAG}
+
+	for chain in PUB_IN INT_IN ; do
+		if [ ${FORCE_PASV_FTP} != "Y" ]; then
+			# no point explicitly blocking TCP services unless active FTP is enabled
+			# Step 1: block the high port TCP services
+			for serv in ${TCP_BLOCKED_SERVICES} ; do
+				# only block -y initial connects; in case the port was needlessly
+				# specified, this should still enable it to be used as a source
+				# port for non-FTP connecions from this host or machines using it as a gateway
+				${IPCHAINS} -A ${chain} -p tcp -d 0.0.0.0/0 ${serv} -y -j ${REJECT_METHOD} ${LOG_FLAG}
+			done
+			# FEATURE: check bound high TCP and complain?
+			# Step 2: allow the ftp-data connections
+			${IPCHAINS} -A ${chain} -p tcp -d 0.0.0.0/0 1024: -s 0.0.0.0/0 ftp-data -j ACCEPT
+		fi
+
+		# general response to my TCP requests
+		${IPCHAINS} -A ${chain} -p tcp \! -y -j ACCEPT
+	
+		# no TCP requests to other ports (redundant)
+		# ${IPCHAINS} -A ${chain} -p tcp -j ${REJECT_METHOD} ${LOG_FLAG}
+	
+		# --------------------- UDP --------------------------
+		for serv in ${UDP_PUBLIC_SERVICES} ; do
+			${IPCHAINS} -A PUB_IN -p udp -d 0.0.0.0/0 ${serv} -j ACCEPT 		
+		done
+
+		# This isn't necessary unless you have DNS_SERVERS or NTP_SERVERS
+		# but who wouldn't have DNS servers configured?
+		for serv in ${UDP_BLOCKED_SERVICES} ; do
+			${IPCHAINS} -A ${chain} -p udp -d 0.0.0.0/0 ${serv} -j ${REJECT_METHOD} ${LOG_FLAG}
+		done
+
+		for dns_net in ${DNS_SERVERS} ; do
+			${IPCHAINS} -A ${chain} -p udp -s ${dns_net} domain -d 0.0.0.0/0 1024: -j ACCEPT
+		done
+
+		for ntp_net in ${ntp_server_addrs} ; do
+			# this allows unprivileged queries, e.g. 'ntpdate'
+			${IPCHAINS} -A ${chain} -p udp -s ${ntp_net} ntp -d 0.0.0.0/0 1024: -j ACCEPT
+			# this allows you to run an ntp daemon to maintain 
+			# system time nore gracefully than with 'ntpdate'
+			${IPCHAINS} -A ${chain} -p udp -s ${ntp_net} ntp -d 0.0.0.0/0 ntp -j ACCEPT
+		done
+		# Reject other UDP (redundant)
+		#${IPCHAINS} -A ${chain} -p udp -j ${REJECT_METHOD} ${LOG_FLAG}
+	done
+
+	
+	# end of loop through public interfaces for input rules
+
+	if [ ${FORCE_PASV_FTP} != "Y" -a \( -n "${PUBLIC_IFACES}" -o -n "${INTERNAL_IFACES}" \) ]; then
+		# warning
+		echo
+		echo "WARNING: allowing \"active\" FTP; any unknown TCP services running"
+		echo "on high ports will be vulnerable; blocking too many high TCP ports"
+		echo "may affect various TCP _clients_ running on this machine or using"
+		echo "this machine as a gateway."
+	fi
+
+	# now we can deny the attempts from the internal interfaces to this host
+	for tnet in ${LOCAL_ADDRESSES} ; do
+		for chain in PUB_IN INT_IN ; do
+			${IPCHAINS} -A ${chain} -d ${tnet} -j ${REJECT_METHOD} ${LOG_FLAG}
+		done
+	done
+	# now that we've blocked attempts from the internal interfaces
+	# to the IP's on this server, we need to accept other connections
+	# so the IP Masq / NAT will function
+	for net in ${IP_MASQ_NETWORK} ; do
+		for chain in PUB_IN INT_IN ; do
+			${IPCHAINS} -A ${chain} -s ${net} -j ACCEPT
+		done
+	done
+
+	# --------------------- catch-all --------------------------
+	# Reject all other traffic (redundant if not logging)
+	if [ ${LOG_FAILURES} = "Y" ]; then
+		for chain in input forward PUB_IN INT_IN ; do
+ 			${IPCHAINS} -A ${chain} -j ${REJECT_METHOD} ${LOG_FLAG}
+ 		done
+ 	fi
+
+	#
+       	echo " done."
+
+	echo -n "Setting up outbound rules..."	
+
+	include_supplemental pre-output
+
+	# block outbound ICMP types (usu. to hide from traceroute)
+	for type in ${ICMP_OUTBOUND_DISABLED_TYPES} ; do
+		# ** The following will limit ICMP on public and internal interfaces:
+		# for chain in PUB_OUT INT_OUT ; do
+		# ** but our default is to only limit outbound ICMP on public interfaces
+		for chain in PUB_OUT ; do
+			${IPCHAINS} -A ${chain} -p icmp --icmp-type ${type} -j REJECT ${LOG_FLAG}
+		done
+	done
+	# 
+	# Here you might really lock things down if this is a server,
+	# e.g., to keep it from doing anything but connecting to
+	# SMTP servers and responding to Web requests, or whatever
+	# the specific requirements are. 
+	#
+	# Such lockdowns are recommended if the situation affords you
+	# that flexibility.
+	#
+	# default is to enable outbound traffic
+	# (again, here, for a server you might default to ${REJECT_METHOD} )
+	${IPCHAINS} -P output ACCEPT
+
+	include_supplemental pre-policy-reset
+	
+	# Now that all rules are set, we can change the policies
+	# to the user preference safely
+	${IPCHAINS} -P forward ${REJECT_METHOD}
+	${IPCHAINS} -P input ${REJECT_METHOD}
+	# to set default "policies" for PUB_* and INT_* chains, add a final rule
+	if [ ${LOG_FAILURES} != "Y" ]; then
+		# if LOG_FAILURES were set, we would have already done this
+		for chain in PUB_IN INT_IN ; do
+			${IPCHAINS} -A ${chain} -j ${REJECT_METHOD} ${LOG_FLAG}
+		done
+	fi
+	for chain in PUB_OUT INT_OUT ; do
+		${IPCHAINS} -A ${chain} -j ACCEPT
+	done
+	# rule 1 in all of these chains is a deny rule; remove it so other rules work
+	for chain in PUB_IN INT_IN PUB_OUT INT_OUT ; do
+		${IPCHAINS} -D ${chain} -j DENY
+	done
+
+	include_supplemental post-rule-setup
+	
+	echo " done."
+
+	;;
+  stop)
+	include_supplemental pre-drop-rules
+	echo
+	echo "WARNING: reverting to default settings (dropping firewall)"
+	# We should disable NAT/forwarding even if not set to restore defaults
+	echo -n "disabling IP forwarding..."	
+	echo 0 > /proc/sys/net/ipv4/ip_forward
+	echo " done."
+	echo -n "unloading masquerading modules..."	
+	do_masq_mods unload
+	echo " done."
+	# flushing seems to leave the default input at ${REJECT_METHOD}
+	echo -n "resetting default input rules to accept..."
+	${IPCHAINS} -P input ACCEPT
+	echo " done."
+	echo -n "resetting default output rule to accept..."
+	${IPCHAINS} -P output ACCEPT
+	echo " done."
+	#  We disabled forwarding with the /proc interface, but we
+	#  reset FORWARD to ACCEPT because that;s the normal default
+	echo -n "resetting default forward rule to accept..."
+	${IPCHAINS} -P forward ACCEPT
+	echo " done."
+	for chain in input output forward ; do
+		echo -n "flushing ${chain} rules..."	
+		${IPCHAINS} -F ${chain}
+		echo " done."
+	done
+	# flush and delete the user-defined chains
+	echo -n "removing user-defined chains..."	
+	for chain in PUB_IN PUB_OUT INT_IN INT_OUT ; do
+		${IPCHAINS} -F ${chain}
+		${IPCHAINS} -X ${chain}
+	done
+	include_supplemental post-drop-rules
+	echo " done."
+	;;
+  status)
+	${IPCHAINS} -L -v -n
+	;;
+  *)
+	echo "Usage: $0 {start|restart|reload|stop|status}"
+	exit 1
+esac
+
+exit 0
+

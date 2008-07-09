@@ -200,6 +200,12 @@ if($reconfigure_services_answer == 'yes') {
 	//* Configure DBServer
 	swriteln('Configuring DBServer');
 	$inst->configure_dbserver();
+	
+	if(@is_dir('/etc/Bastille')) {
+		//* Configure Firewall
+		swriteln('Configuring Firewall');
+		$inst->configure_firewall();
+	}
 }
 
 //** Configure ISPConfig

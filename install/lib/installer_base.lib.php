@@ -595,6 +595,58 @@ class installer_base {
 		
 	}
 	
+	public function configure_firewall()
+	{
+		global $conf;
+		
+		$dist_init_scripts = $conf['init_scripts'];
+  		
+		if(is_dir("/etc/Bastille")) caselog("mv -f /etc/Bastille /etc/Bastille.backup", $FILE, __LINE__);
+  		@mkdir("/etc/Bastille", octdec($directory_mode));
+  		if(is_dir("/etc/Bastille.backup/firewall.d")) caselog("cp -pfr /etc/Bastille.backup/firewall.d /etc/Bastille/", $FILE, __LINE__);
+  		caselog("cp -f tpl/bastille-firewall.cfg.master /etc/Bastille/bastille-firewall.cfg", $FILE, __LINE__);
+  		caselog("chmod 644 /etc/Bastille/bastille-firewall.cfg", $FILE, __LINE__);
+  		$content = rf("/etc/Bastille/bastille-firewall.cfg");
+  		$content = str_replace("{DNS_SERVERS}", "", $content);
+
+  		$tcp_public_services = '';
+  		$udp_public_services = '';
+		
+		$row = $this->db->queryOneRecord("SELECT * FROM firewall WHERE server_id = ".intval($this->conf['server_id']));
+		
+  		if(trim($row["tcp_port"]) != '' || trim($row["udp_port"]) != ''){
+    		$tcp_public_services = trim(str_replace(',',' ',$row["tcp_port"]));
+    		$udp_public_services = trim(str_replace(',',' ',$row["udp_port"]));
+  		} else {
+    		$tcp_public_services = '21 22 25 53 80 110 443 8080 10000';
+    		$udp_public_services = '53';
+  		}
+  		$content = str_replace("{TCP_PUBLIC_SERVICES}", $tcp_public_services, $content);
+  		$content = str_replace("{UDP_PUBLIC_SERVICES}", $udp_public_services, $content);
+
+  		wf("/etc/Bastille/bastille-firewall.cfg", $content);
+
+  		if(is_file($dist_init_scripts."/bastille-firewall")) caselog("mv -f $dist_init_scripts/bastille-firewall $dist_init_scripts/bastille-firewall.backup_".date("m_d_Y__H_i_s", $current_date), $FILE, __LINE__);
+  		caselog("cp -f apps/bastille-firewall $dist_init_scripts", $FILE, __LINE__);
+  		caselog("chmod 700 $dist_init_scripts/bastille-firewall", $FILE, __LINE__);
+
+  		if(is_file("/sbin/bastille-ipchains")) caselog("mv -f /sbin/bastille-ipchains /sbin/bastille-ipchains.backup", $FILE, __LINE__);
+  		caselog("cp -f apps/bastille-ipchains /sbin", $FILE, __LINE__);
+  		caselog("chmod 700 /sbin/bastille-ipchains", $FILE, __LINE__);
+
+  		if(is_file("/sbin/bastille-netfilter")) caselog("mv -f /sbin/bastille-netfilter /sbin/bastille-netfilter.backup", $FILE, __LINE__);
+  		caselog("cp -f apps/bastille-netfilter /sbin", $FILE, __LINE__);
+  		caselog("chmod 700 /sbin/bastille-netfilter", $FILE, __LINE__);
+
+  		exec("which ipchains &> /dev/null", $ipchains_location, $ret_val);
+  		if(!is_file("/sbin/ipchains") && !is_link("/sbin/ipchains") && $ret_val == 0) phpcaselog(@symlink(shell_exec("which ipchains"), "/sbin/ipchains"), 'create symlink', $FILE, __LINE__);
+  		unset($ipchains_location);
+  		exec("which iptables &> /dev/null", $iptables_location, $ret_val);
+  		if(!is_file("/sbin/iptables") && !is_link("/sbin/iptables") && $ret_val == 0) phpcaselog(@symlink(trim(shell_exec("which iptables")), "/sbin/iptables"), 'create symlink', $FILE, __LINE__);
+  		unset($iptables_location);
+
+	}
+	
 	
 	public function install_ispconfig()
     {
@@ -711,7 +763,7 @@ class installer_base {
 		//* make sure that the server config file (not the interface one) is only readable by the root user
 		exec("chmod 600 $install_dir/server/lib/$configfile");
 		exec("chown root:root $install_dir/server/lib/$configfile");
-		if(@is_file("$install_dir/server/lib/mysql_clientdb.conf") {
+		if(@is_file("$install_dir/server/lib/mysql_clientdb.conf")) {
 			exec("chmod 600 $install_dir/server/lib/mysql_clientdb.conf");
 			exec("chown root:root $install_dir/server/lib/mysql_clientdb.conf");
 		}

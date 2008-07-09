@@ -1,0 +1,93 @@
+#!/bin/sh
+#
+# bastille-firewall		Load/unload ipchains rulesets
+#
+# do not rename this file unless you edit /sbin/bastille-firewall-reset
+#
+# chkconfig: 2345 5 98
+# description: A firewall/packet-filter script for Linux systems \
+# that allows the machine to be used as a gateway system
+#
+# $Id: bastille-firewall,v 1.6 2002/02/24 17:19:14 peterw Exp $
+# Copyright (c) 1999-2002 Peter Watkins 
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# Thanks to David Ranch, Brad A, Don G, and others for their suggestions
+#
+# This script is designed to be used as a SysV-style init script.
+#
+# It should be run with a "start" argument
+#	1) as an rc?.d "S" script, _before_ the "network" script
+# [copy this to /etc/rc.d/init.d/bastille-firewall (or your equivalent of 
+#  /etc/rc.d/init.d) and run 'chkconfig -add bastille-firewall' ]
+#	2) any time an interface is brought up or changed, e.g.
+#	   establishing a PPP conection or renewing a DHCP lease
+# [copy 'bastille-firewall-reset', 'bastille-firewall-schedule'
+#  and 'ifup-local' to /sbin/]
+#
+#   Normally you Do Not _Ever_ Want to run this with a "stop" argument!
+#
+# Note that running this with "stop" will disable the firewall and open
+# your system to all network traffic; if you make changes to these rules,
+# apply them by running the script again with a "start" argument.
+#
+# ** As of 0.99-beta1, this script merely kicks off the real script,
+#    either /sbin/bastille-ipchains or /sbin/bastille-netfilter
+
+# Default is to use the 'ipchains' script, which will load the
+# ipchains compatibility module if you're using a 2.4 kernel
+REALSCRIPT=/sbin/bastille-ipchains
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# exit function to be called in place of regular Bourne exit
+clean_exit()
+{
+  rmdir /var/lock/bastille-firewall 2>/dev/null
+  exit $1
+}
+
+[ ! -d /var/lock ] && mkdir -m 0755 /var/lock
+
+mkdir -m 0700 /var/lock/bastille-firewall 2>/dev/null
+if [ $? -ne 0 ]; then
+  if [ -n "${BASTILLE_FWALL_QUIET_FAIL}" ]; then exit 0; fi
+  echo "ERROR: bastille-firewall currently being reset or lock is stuck."
+  echo "To un-stick, remove the directory /var/lock/bastille-firewall"
+  exit 1
+fi
+
+if [ -n "$(uname -r | awk -F. ' $1 == 2 && $2 > 2 {print}')" ]; then
+	# We are using Linux 2.3 or newer; use the netfilter script if available
+	if [ -x /sbin/bastille-netfilter ]; then
+		REALSCRIPT=/sbin/bastille-netfilter
+	fi
+fi
+
+if [ ! -x ${REALSCRIPT} ]; then
+	echo "ERROR: \"${REALSCRIPT}\" not available!"
+	clean_exit 1
+fi
+
+${REALSCRIPT} "$1"
+bretval=$?
+
+# Use "subsys" locks to indicate our status
+case "$1" in 
+  start|restart|reload)
+    if [ $bretval -eq 0 ]; then touch /var/lock/subsys/bastille-firewall; fi
+    ;;
+  stop)
+    rm -f /var/lock/subsys/bastille-firewall
+    ;;
+esac
+
+clean_exit $bretval
+

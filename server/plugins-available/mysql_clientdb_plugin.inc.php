@@ -60,6 +60,7 @@ class mysql_clientdb_plugin {
 		if($data["new"]["type"] == 'mysql') {
 			if(!include_once(ISPC_LIB_PATH.'/mysql_clientdb.conf')) {
 				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
+				return;
 			}
 		
 			//* Connect to the database
