@@ -105,6 +105,7 @@ class mysql_clientdb_plugin {
 			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+				return;
 			}
 			
 			//* Rename User
@@ -164,6 +165,7 @@ class mysql_clientdb_plugin {
 			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+				return;
 			}
 			
 			//* Get the db host setting for the access priveliges

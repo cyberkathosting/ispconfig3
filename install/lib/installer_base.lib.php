@@ -657,8 +657,10 @@ class installer_base {
 		$install_dir = $this->conf['ispconfig_install_dir'];
 
 		//* Create the ISPConfig installation directory
-		$command = "mkdir $install_dir";
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if(!@is_dir($install_dir)) {
+			$command = "mkdir $install_dir";
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
 		
 		//* Create a ISPConfig user and group
 		$command = 'groupadd ispconfig';
@@ -795,7 +797,7 @@ class installer_base {
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
 		if($this->install_ispconfig_interface == true) {
-			if(!is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
+			if(!@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
 				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");
 			}
 		}
