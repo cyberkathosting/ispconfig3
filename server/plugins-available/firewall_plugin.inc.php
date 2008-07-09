@@ -96,7 +96,7 @@ class firewall_plugin {
 		$app->log('Writing firewall configuration /etc/Bastille/bastille-firewall.cfg',LOGLEVEL_DEBUG);
 		unset($tpl);
 		
-		if($data["new"]["active"] == 'y')) {
+		if($data["new"]["active"] == 'y') {
 			exec('/etc/init.d/bastille-firewall restart');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d bastille-firewall defaults');
 			$app->log('Restarting the firewall',LOGLEVEL_DEBUG);

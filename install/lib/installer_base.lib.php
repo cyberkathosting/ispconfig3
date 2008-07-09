@@ -601,11 +601,11 @@ class installer_base {
 		
 		$dist_init_scripts = $conf['init_scripts'];
   		
-		if(is_dir("/etc/Bastille")) caselog("mv -f /etc/Bastille /etc/Bastille.backup", $FILE, __LINE__);
+		if(is_dir("/etc/Bastille")) caselog("mv -f /etc/Bastille /etc/Bastille.backup", __FILE__, __LINE__);
   		@mkdir("/etc/Bastille", octdec($directory_mode));
-  		if(is_dir("/etc/Bastille.backup/firewall.d")) caselog("cp -pfr /etc/Bastille.backup/firewall.d /etc/Bastille/", $FILE, __LINE__);
-  		caselog("cp -f tpl/bastille-firewall.cfg.master /etc/Bastille/bastille-firewall.cfg", $FILE, __LINE__);
-  		caselog("chmod 644 /etc/Bastille/bastille-firewall.cfg", $FILE, __LINE__);
+  		if(is_dir("/etc/Bastille.backup/firewall.d")) caselog("cp -pfr /etc/Bastille.backup/firewall.d /etc/Bastille/", __FILE__, __LINE__);
+  		caselog("cp -f tpl/bastille-firewall.cfg.master /etc/Bastille/bastille-firewall.cfg", __FILE__, __LINE__);
+  		caselog("chmod 644 /etc/Bastille/bastille-firewall.cfg", __FILE__, __LINE__);
   		$content = rf("/etc/Bastille/bastille-firewall.cfg");
   		$content = str_replace("{DNS_SERVERS}", "", $content);
 
@@ -626,23 +626,25 @@ class installer_base {
 
   		wf("/etc/Bastille/bastille-firewall.cfg", $content);
 
-  		if(is_file($dist_init_scripts."/bastille-firewall")) caselog("mv -f $dist_init_scripts/bastille-firewall $dist_init_scripts/bastille-firewall.backup_".date("m_d_Y__H_i_s", $current_date), $FILE, __LINE__);
-  		caselog("cp -f apps/bastille-firewall $dist_init_scripts", $FILE, __LINE__);
-  		caselog("chmod 700 $dist_init_scripts/bastille-firewall", $FILE, __LINE__);
+  		if(is_file($dist_init_scripts."/bastille-firewall")) caselog("mv -f $dist_init_scripts/bastille-firewall $dist_init_scripts/bastille-firewall.backup_".date("m_d_Y__H_i_s", $current_date), __FILE__, __LINE__);
+  		caselog("cp -f apps/bastille-firewall $dist_init_scripts", __FILE__, __LINE__);
+  		caselog("chmod 700 $dist_init_scripts/bastille-firewall", __FILE__, __LINE__);
 
-  		if(is_file("/sbin/bastille-ipchains")) caselog("mv -f /sbin/bastille-ipchains /sbin/bastille-ipchains.backup", $FILE, __LINE__);
-  		caselog("cp -f apps/bastille-ipchains /sbin", $FILE, __LINE__);
-  		caselog("chmod 700 /sbin/bastille-ipchains", $FILE, __LINE__);
+  		if(is_file("/sbin/bastille-ipchains")) caselog("mv -f /sbin/bastille-ipchains /sbin/bastille-ipchains.backup", __FILE__, __LINE__);
+  		caselog("cp -f apps/bastille-ipchains /sbin", __FILE__, __LINE__);
+  		caselog("chmod 700 /sbin/bastille-ipchains", __FILE__, __LINE__);
 
-  		if(is_file("/sbin/bastille-netfilter")) caselog("mv -f /sbin/bastille-netfilter /sbin/bastille-netfilter.backup", $FILE, __LINE__);
-  		caselog("cp -f apps/bastille-netfilter /sbin", $FILE, __LINE__);
-  		caselog("chmod 700 /sbin/bastille-netfilter", $FILE, __LINE__);
+  		if(is_file("/sbin/bastille-netfilter")) caselog("mv -f /sbin/bastille-netfilter /sbin/bastille-netfilter.backup", __FILE__, __LINE__);
+  		caselog("cp -f apps/bastille-netfilter /sbin", __FILE__, __LINE__);
+  		caselog("chmod 700 /sbin/bastille-netfilter", __FILE__, __LINE__);
+		
+		if(!@is_dir('/var/lock/subsys')) caselog("mkdir /var/lock/subsys", __FILE__, __LINE__);
 
   		exec("which ipchains &> /dev/null", $ipchains_location, $ret_val);
-  		if(!is_file("/sbin/ipchains") && !is_link("/sbin/ipchains") && $ret_val == 0) phpcaselog(@symlink(shell_exec("which ipchains"), "/sbin/ipchains"), 'create symlink', $FILE, __LINE__);
+  		if(!is_file("/sbin/ipchains") && !is_link("/sbin/ipchains") && $ret_val == 0) phpcaselog(@symlink(shell_exec("which ipchains"), "/sbin/ipchains"), 'create symlink', __FILE__, __LINE__);
   		unset($ipchains_location);
   		exec("which iptables &> /dev/null", $iptables_location, $ret_val);
-  		if(!is_file("/sbin/iptables") && !is_link("/sbin/iptables") && $ret_val == 0) phpcaselog(@symlink(trim(shell_exec("which iptables")), "/sbin/iptables"), 'create symlink', $FILE, __LINE__);
+  		if(!is_file("/sbin/iptables") && !is_link("/sbin/iptables") && $ret_val == 0) phpcaselog(@symlink(trim(shell_exec("which iptables")), "/sbin/iptables"), 'create symlink', __FILE__, __LINE__);
   		unset($iptables_location);
 
 	}
