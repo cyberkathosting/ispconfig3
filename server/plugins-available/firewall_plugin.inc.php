@@ -85,7 +85,7 @@ class firewall_plugin {
 		}
 		$udp_ports = trim($udp_ports);
 		
-		
+		$app->load('tpl');
 		$tpl = new tpl();
 		$tpl->newTemplate("bastille-firewall.cfg.master");
 		
