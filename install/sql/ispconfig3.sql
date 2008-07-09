@@ -265,7 +265,8 @@ CREATE TABLE `mail_domain` (
   `domain` varchar(255) NOT NULL default '',
   `active` enum('y','n') NOT NULL,
   PRIMARY KEY  (`domain_id`),
-  KEY `server_id` (`server_id`,`domain`)
+  KEY `server_id` (`server_id`,`domain`),
+  KEY `domain_active` (`domain`,`active`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
@@ -448,7 +449,8 @@ CREATE TABLE `mail_user` (
   `postfix` enum('y','n') NOT NULL,
   `access` enum('y','n') NOT NULL,
   PRIMARY KEY  (`mailuser_id`),
-  KEY `server_id` (`server_id`,`email`)
+  KEY `server_id` (`server_id`,`email`),
+  KEY `email_access` (`email`,`access`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
