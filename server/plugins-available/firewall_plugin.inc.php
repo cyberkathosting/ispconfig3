@@ -102,7 +102,7 @@ class firewall_plugin {
 			$app->log('Restarting the firewall',LOGLEVEL_DEBUG);
 		} else {
 			exec('/etc/init.d/bastille-firewall stop');
-			if(@is_file('/etc/debian_version')) exec('update-rc.d bastille-firewall remove');
+			if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 			$app->log('Stopping the firewall',LOGLEVEL_DEBUG);
 		}
 		
@@ -113,7 +113,7 @@ class firewall_plugin {
 		global $app, $conf;
 		
 		exec('/etc/init.d/bastille-firewall stop');
-		if(@is_file('/etc/debian_version')) exec('update-rc.d bastille-firewall remove');
+		if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 		$app->log('Stopping the firewall',LOGLEVEL_DEBUG);
 		
 	}
