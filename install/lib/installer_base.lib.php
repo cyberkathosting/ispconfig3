@@ -692,6 +692,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
 		//* Create the config file for ISPConfig server
