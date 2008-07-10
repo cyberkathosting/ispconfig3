@@ -87,6 +87,7 @@ class plugin_listview extends plugin_base {
 
                                 // The variable "id" contains always the index field
                                 $rec["id"] = $rec[$idx_key];
+								$rec["delete_confirmation"] = $app->lng('delete_confirmation');
 
                                 $records_new[] = $rec;
                         }
