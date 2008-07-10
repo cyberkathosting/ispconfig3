@@ -218,6 +218,20 @@ class apache2_plugin {
 		
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
+			if(is_dir('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) exec('rm -rf /var/log/ispconfig/httpd/'.$data["old"]["domain"]);
+			if(is_link($data["old"]["document_root"]."/log")) unlink($data["old"]["document_root"]."/log");
+		}
+		
+		// Create the symlink for the logfiles
+		if(!is_dir('/var/log/ispconfig/httpd/'.$data["new"]["domain"])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data["new"]["domain"]);
+		if(!is_link($data["new"]["document_root"]."/log")) {
+			exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
+			$app->log("Creating Symlink: ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log",LOGLEVEL_DEBUG);
+		}
+		/*
+		// Create the symlink for the logfiles
+		// This does not work as vlogger can not log trogh symlinks.
+		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
 			if(is_dir($data["old"]["document_root"]."/log")) exec('rm -rf '.$data["old"]["document_root"]."/log");
 			if(is_link('/var/log/ispconfig/httpd/'.$data["old"]["domain"])) unlink('/var/log/ispconfig/httpd/'.$data["old"]["domain"]);
 		}
@@ -228,6 +242,7 @@ class apache2_plugin {
 			exec("ln -s ".$data["new"]["document_root"]."/log /var/log/ispconfig/httpd/".$data["new"]["domain"]);
 			$app->log("Creating Symlink: ln -s ".$data["new"]["document_root"]."/log /var/log/ispconfig/httpd/".$data["new"]["domain"],LOGLEVEL_DEBUG);
 		}
+		*/
 	
 		// Get the client ID
 		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
