@@ -104,6 +104,7 @@ $log = nl2br($log);
 
 $app->tpl->setVar("log",$log);
 $app->tpl->setVar("logfile",$logfile);
+$app->tpl->setVar("logfile_id",$logfile_id);
 
 
 $app->tpl_defaults();

@@ -6,7 +6,7 @@ function loadContentRefresh(pagename) {
 			document.getElementById('pageContent').innerHTML = o.responseText;
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			alert('Ajax Request was not successful.'+pagename);
 		}
 	}
 	
