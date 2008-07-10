@@ -69,6 +69,12 @@ unset($conf);
 include_once('dist/lib/'.$distname.'.lib.php');
 include_once('dist/conf/'.$distname.'.conf.php');
 
+//** Get hostname
+exec('hostname -f', $tmp_out);
+$conf['hostname'] = $tmp_out[0];
+unset($tmp_out);
+
+
 //** Set the mysql login information
 $conf["mysql"]["host"] = $conf_old["db_host"];
 $conf["mysql"]["database"] = $conf_old["db_database"];
