@@ -82,6 +82,7 @@ $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 
 $conf['server_id'] = $conf_old["server_id"];
+$conf['ispconfig_log_priority'] = $conf_old["ispconfig_log_priority"];
 
 $inst = new installer();
 

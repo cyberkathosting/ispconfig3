@@ -175,11 +175,17 @@ class mysql_clientdb_plugin {
 				$db_host = 'localhost';
 			}
 			
-			mysql_query("DROP USER '".addslashes($data["old"]["database_user"])."'@'$db_host';",$link);
-			$app->log('Dropping mysql user: '.$data["old"]["database_user"],LOGLEVEL_DEBUG);
+			if(mysql_query("DROP USER '".addslashes($data["old"]["database_user"])."'@'$db_host';",$link)) {
+				$app->log('Dropping mysql user: '.$data["old"]["database_user"],LOGLEVEL_DEBUG);
+			} else {
+				$app->log('Error while dropping mysql user: '.$data["old"]["database_user"].' '.mysql_error($link),LOGLEVEL_ERROR);
+			}
 			
-			mysql_query('DROP DATABASE '.addslashes($data["old"]["database_name"]),$link);
-			$app->log('Dropping mysql database: '.$data["old"]["database_name"],LOGLEVEL_DEBUG);
+			if(mysql_query('DROP DATABASE '.addslashes($data["old"]["database_name"]),$link)) {
+				$app->log('Dropping mysql database: '.$data["old"]["database_name"],LOGLEVEL_DEBUG);
+			} else {
+				$app->log('Error while dropping mysql database: '.$data["old"]["database_name"].' '.mysql_error($link),LOGLEVEL_ERROR);
+			}
 			
 			
 			mysql_query("FLUSH PRIVILEGES;",$link);

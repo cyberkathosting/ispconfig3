@@ -8,6 +8,7 @@ $conf['distname'] = 'debian40';
 $conf['hostname'] = 'server1.example.com'; // Full hostname
 $conf['ispconfig_install_dir'] = '/usr/local/ispconfig';
 $conf['ispconfig_config_dir'] = '/usr/local/ispconfig';
+$conf['ispconfig_log_priority'] = 2;  // 0 = Debug, 1 = Warning, 2 = Error
 $conf['server_id'] = 1;
 $conf['init_scripts'] = '/etc/init.d';
 $conf['runlevel'] = '/etc';

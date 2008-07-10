@@ -705,6 +705,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
+		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		wf("$install_dir/server/lib/$configfile", $content);
 		
 		
