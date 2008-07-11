@@ -815,6 +815,14 @@ class installer_base {
 		
 		//set the fast cgi starter script to executable
 		exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');
+		
+		//* Make the logs readable for the ispconfig user
+		if(@is_file('/var/log/mail.log')) exec('chmod +r /var/log/mail.log');
+		if(@is_file('/var/log/mail.warn')) exec('chmod +r /var/log/mail.warn');
+		if(@is_file('/var/log/mail.err')) exec('chmod +r /var/log/mail.err');
+		if(@is_file('/var/log/messages')) exec('chmod +r /var/log/messages');
+		
+		
 	}
 	
 	public function configure_dbserver()
