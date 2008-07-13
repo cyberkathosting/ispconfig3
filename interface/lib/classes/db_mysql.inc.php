@@ -278,7 +278,7 @@ class db
 		return true;
 	}
 	
-	//** Updates a record and saves the changes into the datalog
+	//** Inserts a record and saves the changes into the datalog
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
 		

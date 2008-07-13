@@ -28,7 +28,7 @@ $liste["search_prefix"] 	= "search_";
 $liste["records_per_page"] 	= 15;
 
 // Script File of the list
-$liste["file"]				= "mail_user_filter_list.php";
+$liste["file"]				= "mail_user_list.php";
 
 // Script file of the edit form
 $liste["edit_file"]			= "mail_user_filter_edit.php";

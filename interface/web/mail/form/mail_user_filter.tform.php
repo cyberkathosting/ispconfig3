@@ -39,7 +39,7 @@ $form["name"] 			= "mail_user_filter";
 $form["action"]			= "mail_user_filter_edit.php";
 $form["db_table"]		= "mail_user_filter";
 $form["db_table_idx"]	= "filter_id";
-$form["db_history"]		= "yes";
+$form["db_history"]		= "no";
 $form["tab_default"]	= "filter";
 $form["list_default"]	= "mail_user_filter_list.php";
 $form["auth"]			= 'yes'; // yes / no
@@ -81,7 +81,7 @@ $form["tabs"]['filter'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('Subject' => 'Subject','From'=>'From','To'=>'To','Header'=>'Custom Header')
+			'value'		=> array('Subject' => 'Subject','From'=>'From','To'=>'To')
 		),
 		'op' => array (
 			'datatype'	=> 'VARCHAR',

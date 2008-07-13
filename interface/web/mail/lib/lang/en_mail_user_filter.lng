@@ -7,4 +7,5 @@ $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
 $wb["rulename_error_empty"] = 'Name is empty.';
 $wb["searchterm_is_empty"] = 'Search term is empty.';
+$wb["source_txt"] = 'Source';
 ?>
