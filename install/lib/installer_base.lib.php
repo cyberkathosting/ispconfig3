@@ -657,7 +657,7 @@ class installer_base {
 		$install_dir = $this->conf['ispconfig_install_dir'];
 
 		//* Create the ISPConfig installation directory
-		if(!@is_dir($install_dir)) {
+		if(!@is_dir("$install_dir")) {
 			$command = "mkdir $install_dir";
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
