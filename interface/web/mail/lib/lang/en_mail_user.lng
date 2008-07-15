@@ -23,5 +23,5 @@ $wb["no_policy"] = '- not enabled -';
 $wb["limit_mailbox_txt"] = 'The max. number of mailboxes for your account is reached.';
 $wb["limit_mailquota_txt"] = 'The max space for mailboxes is reached. The max. available space in MB is';
 $wb["welcome_mail_subject"] = 'Welcome to your new email account.';
-$wb["welcome_mail_message"] = 'Welcome to your new email account.\n\nYour webmaster.';
+$wb["welcome_mail_message"] = "Welcome to your new email account.\n\nYour webmaster.";
 ?>
