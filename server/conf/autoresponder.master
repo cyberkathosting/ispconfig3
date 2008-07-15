@@ -1,14 +1,19 @@
-# cc $DEFAULT
-xfilter "reformail -r -t -I 'From: $LOGNAME'"
-/^To:.*/
-getaddr{$MATCH}=~ /^.*/;
-MATCH=tolower${MATCH}
-flock "{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lock" {
-        `fgrep -iqx "$MATCH" {vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst 2>/dev/null || { \
-               echo "$MATCH" >> {vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst ; \
-               exit 1 ; \
-         } `
+`test -f {vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg && exit 1 || exit 0`
+if ($RETURNCODE==1)
+{
+       {
+       if (!/^List-Unsubscribe:.*/:h )
+       {
+               if (!/^X-Spam-Flag: YES/:h )
+               {
+                      RESPOND="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg"
+                      RESPONDDB="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst"
+
+                      # The following must be one contiguous line
+                      cc "| mailbot -t $RESPOND -d $RESPONDDB -D 1 \
+                      -A 'From: $RECIPIENT' -s 'Auto Response: from $RECIPIENT' \
+                      /usr/sbin/sendmail -t -f ''"
+               }
+       }
+       }
 }
-if ( $RETURNCODE == 0 )
-    exit
-cc "| (cat - ; echo ''; cat {vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg) | $SENDMAIL -t"

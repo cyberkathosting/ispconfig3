@@ -119,7 +119,7 @@ if ( ".'$RETURNCODE'." != 0 )
 {
   `maildirmake -f ".$this->dataRecord["target"].' $DEFAULT'."`
   `chmod -R 0700 ".'$DEFAULT/'.$this->dataRecord["target"]."`
-  `echo INBOX.".$this->dataRecord["target"]." >> ".'$MAILDIR'."/courierimapsubscribed`
+  `echo INBOX.".$this->dataRecord["target"]." >> ".'$DEFAULT'."/courierimapsubscribed`
 }
 ";		
 		}
