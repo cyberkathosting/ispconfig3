@@ -45,7 +45,37 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-$app->uses("tform_actions");
-$app->tform_actions->onDelete();
+$app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
+
+class page_action extends tform_actions {
+
+	function onBeforeDelete() {
+		global $app; $conf;
+		
+		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
+		
+		// Delete all records that belog to this zone.
+		$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE parent_domain_id = '".intval($this->id)."' AND type != 'vhost'");
+		foreach($records as $rec) {
+			$app->db->datalogDelete('web_domain','domain_id',$rec['domain_id']);
+		}
+		
+		// Delete all records that belog to this zone.
+		$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = '".intval($this->id)."'");
+		foreach($records as $rec) {
+			$app->db->datalogDelete('ftp_user','ftp_user_id',$rec['ftp_user_id']);
+		}
+		
+		// Delete all records that belog to this zone.
+		$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = '".intval($this->id)."'");
+		foreach($records as $rec) {
+			$app->db->datalogDelete('shell_user','shell_user_id',$rec['shell_user_id']);
+		}
+	}
+}
+
+$page = new page_action;
+$page->onDelete();
 
 ?>

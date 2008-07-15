@@ -114,11 +114,12 @@ class page_action extends tform_actions {
 		if($this->dataRecord["action"] == 'move') {
 		
 			$content .= "
-`test -e ".'$DEFAULT/'.$this->dataRecord["target"]."`
+`test -e ".'$DEFAULT/.'.$this->dataRecord["target"]."`
 if ( ".'$RETURNCODE'." != 0 )
 {
   `maildirmake -f ".$this->dataRecord["target"].' $DEFAULT'."`
   `chmod -R 0700 ".'$DEFAULT/'.$this->dataRecord["target"]."`
+  `echo INBOX.".$this->dataRecord["target"]." >> ".'$MAILDIR'."/courierimapsubscribed`
 }
 ";		
 		}
@@ -139,7 +140,7 @@ if ( ".'$RETURNCODE'." != 0 )
 		$content .= "exception {\n";
 		
 		if($this->dataRecord["action"] == 'move') {
-			$content .= 'to $DEFAULT/'.$this->dataRecord["target"]."/\n";
+			$content .= 'to $DEFAULT/.'.$this->dataRecord["target"]."/\n";
 		} else {
 			$content .= "to /dev/null\n";
 		}

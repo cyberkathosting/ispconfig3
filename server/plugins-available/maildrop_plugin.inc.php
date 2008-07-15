@@ -67,67 +67,81 @@ class maildrop_plugin {
 		
 		// Check if the config directory exists.
 		if(!is_dir($this->mailfilter_config_dir)) {
-			$app->log("Mailfilter config directory '".$this->mailfilter_config_dir."' does not exist.",LOGLEVEL_ERROR);
+			$app->log("Mailfilter config directory '".$this->mailfilter_config_dir."' does not exist. Creating it now.",LOGLEVEL_WARN);
+			mkdir($this->mailfilter_config_dir);
+			exec("chown vmail ".$this->mailfilter_config_dir);
+			exec("chmod 770 ".$this->mailfilter_config_dir);
+		}
+		
+		if(isset($data["new"]["email"])) {
+			$email_parts = explode("@",$data["new"]["email"]);
 		} else {
-			// Check if something has been changed regarding the autoresponders
-			if($data["old"]["autoresponder_text"] != $data["new"]["autoresponder_text"] 
+			$email_parts = explode("@",$data["old"]["email"]);
+		}
+		
+		// make sure that the config directories exist
+		if(!is_dir($this->mailfilter_config_dir.'/'.$email_parts[1])) {
+			mkdir($this->mailfilter_config_dir.'/'.$email_parts[1]);
+			exec("chown vmail ".$this->mailfilter_config_dir.'/'.$email_parts[1]);
+			exec("chmod 770 ".$this->mailfilter_config_dir.'/'.$email_parts[1]);
+		}
+		if(!is_dir($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0])) {
+			mkdir($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
+			exec("chown vmail ".$this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
+			exec("chmod 770 ".$this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
+		}
+		
+		
+		// Check if something has been changed regarding the autoresponders
+		if($data["old"]["autoresponder_text"] != $data["new"]["autoresponder_text"] 
 			    or $data["old"]["autoresponder"] != $data["new"]["autoresponder"]
 			    or (isset($data["new"]["email"]) and $data["old"]["email"] != $data["new"]["email"])) {
 			   		
-					// We delete the old autoresponder, if it exists
-					$email_parts = explode("@",$data["old"]["email"]);
-					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lock';
-					if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
-					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lst';
-					if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
-					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
-					if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
-					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
-					if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+			// We delete the old autoresponder, if it exists
+			$email_parts = explode("@",$data["old"]["email"]);
+			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lock';
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lst';
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
 			   		
-					//Now we create the new autoresponder, if it is enabled
-					if($data["new"]["autoresponder"] == 'y') {
-						if(isset($data["new"]["email"])) {
-							$email_parts = explode("@",$data["new"]["email"]);
-						} else {
-							$email_parts = explode("@",$data["old"]["email"]);
-						}
+			//Now we create the new autoresponder, if it is enabled
+			if($data["new"]["autoresponder"] == 'y') {
+				if(isset($data["new"]["email"])) {
+					$email_parts = explode("@",$data["new"]["email"]);
+				} else {
+					$email_parts = explode("@",$data["old"]["email"]);
+				}
 						
-						// make sure that the config directories exist
-						if(!is_dir($this->mailfilter_config_dir.'/'.$email_parts[1])) {
-							mkdir($this->mailfilter_config_dir.'/'.$email_parts[1]);
-							exec("chown vmail ".$this->mailfilter_config_dir.'/'.$email_parts[1]);
-							exec("chmod 400 ".$this->mailfilter_config_dir.'/'.$email_parts[1]);
-						}
-						if(!is_dir($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0])) {
-							mkdir($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
-							exec("chown vmail ".$this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
-							exec("chmod 400 ".$this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
-						}
+				// Load the master template
+				$tpl = file_get_contents($conf["rootpath"].'/conf/autoresponder.master');
+				$tpl = str_replace('{vmail_mailbox_base}',$mail_config["homedir_path"],$tpl);
+				// Write the config file.
+				$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
+				file_put_contents($config_file_path,$tpl);
+				$app->log("Writing Autoresponder mailfilter file: $config_file_path",LOGLEVEL_DEBUG);
+				exec("chmod 770 $config_file_path");
+				exec("chown vmail $config_file_path");
+				unset($tpl);
+				unset($config_file_path);
 						
-						// Load the master template
-						$tpl = file_get_contents($conf["rootpath"].'/conf/autoresponder.master');
-						$tpl = str_replace('{vmail_mailbox_base}',$mail_config["homedir_path"],$tpl);
-						// Write the config file.
-						$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
-						file_put_contents($config_file_path,$tpl);
-						$app->log("Writing Autoresponder mailfilter file: $config_file_path",LOGLEVEL_DEBUG);
-						exec("chmod 400 $config_file_path");
-						exec("chown vmail $config_file_path");
-						unset($tpl);
-						unset($config_file_path);
-						
-						// Write the autoresponder message file
-						$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
-						file_put_contents($config_file_path,$data["new"]["autoresponder_text"]);
-						exec("chmod 400 $config_file_path");
-						exec("chown vmail $config_file_path");
-						$app->log("Writing Autoresponder message file: $config_file_path",LOGLEVEL_DEBUG);
-			   		}
+				// Write the autoresponder message file
+				$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
+				file_put_contents($config_file_path,$data["new"]["autoresponder_text"]);
+				exec("chmod 770 $config_file_path");
+				exec("chown vmail $config_file_path");
+				$app->log("Writing Autoresponder message file: $config_file_path",LOGLEVEL_DEBUG);
 			}
+		}
+			
+			$app->log("HERE",LOGLEVEL_DEBUG);
 			
 			// Write the custom mailfilter script, if mailfilter recipe has changed
 			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]) {
+				$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
 				if(trim($data["new"]["custom_mailfilter"]) != '') {
 					// Delete the old filter recipe
 					$email_parts = explode("@",$data["old"]["email"]);
@@ -142,7 +156,8 @@ class maildrop_plugin {
 					}
 					$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
 					file_put_contents($config_file_path,$data["new"]["custom_mailfilter"]);
-					exec("chmod 400 $config_file_path");
+					$app->log("Writing new custom Mailfiter".$config_file_path,LOGLEVEL_DEBUG);
+					exec("chmod 770 $config_file_path");
 					exec("chown vmail $config_file_path");
 					unset($config_file_path);
 				} else {
@@ -150,8 +165,9 @@ class maildrop_plugin {
 					$email_parts = explode("@",$data["old"]["email"]);
 					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
 					if(is_file($file)) unlink($file)  or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+					$app->log("Deleting custom Mailfiter".$file,LOGLEVEL_DEBUG);
 				}
-			}
+			//}
 		}
 	}
 	
