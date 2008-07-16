@@ -159,3 +159,17 @@ for CAP in CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CH
 do
   vzctl set $VPSID --capability ${CAP}:on --save
 done
+
+----------------------------------------------------------------------------------------------------------
+
+Installing Jailkit:
+
+apt-get install build-essential autoconf automake1.9 libtool flex bison
+cd /tmp
+wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
+tar xvfz jailkit-2.5.tar.gz
+cd jailkit-2.5
+./configure
+make
+make install
+rm -rf jailkit-2.5*
