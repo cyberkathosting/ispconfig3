@@ -626,7 +626,7 @@ class installer_base {
 
   		wf("/etc/Bastille/bastille-firewall.cfg", $content);
 
-  		if(is_file($dist_init_scripts."/bastille-firewall")) caselog("mv -f $dist_init_scripts/bastille-firewall $dist_init_scripts/bastille-firewall.backup_".date("m_d_Y__H_i_s", $current_date), __FILE__, __LINE__);
+  		if(is_file($dist_init_scripts."/bastille-firewall")) caselog("mv -f $dist_init_scripts/bastille-firewall $dist_init_scripts/bastille-firewall.backup", __FILE__, __LINE__);
   		caselog("cp -f apps/bastille-firewall $dist_init_scripts", __FILE__, __LINE__);
   		caselog("chmod 700 $dist_init_scripts/bastille-firewall", __FILE__, __LINE__);
 
