@@ -1,7 +1,7 @@
 <?php
 $wb["domain_txt"] = 'Domein';
 $wb["destination_txt"] = 'Bestemming';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["btn_save_txt"] = 'Opslaan';
 $wb["btn_cancel_txt"] = 'Annuleren';
 $wb["domain_error_unique"] = "Er is al een Catchall record voor dit domein.";

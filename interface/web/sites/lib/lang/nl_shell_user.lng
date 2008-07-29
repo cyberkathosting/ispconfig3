@@ -1,22 +1,22 @@
 <?php
-$wb["uid_txt"] = 'Web gebruikersnaam';
+$wb["uid_txt"] = 'Web Gebruikersnaam';
 $wb["gid_txt"] = 'Groep';
 $wb["shell_txt"] = 'Shell';
 $wb["dir_txt"] = 'Dir';
 $wb["btn_save_txt"] = 'Opslaan';
-$wb["btn_cancel_txt"] = 'Annuleer';
+$wb["btn_cancel_txt"] = 'Annuleren';
 $wb["server_id_txt"] = 'Server';
 $wb["parent_domain_id_txt"] = 'Site';
 $wb["username_txt"] = 'Gebruikersnaam';
 $wb["password_txt"] = 'Wachtwoord';
-$wb["chroot_txt"] = 'Chroot shell';
+$wb["chroot_txt"] = 'Chroot Shell';
 $wb["quota_size_txt"] = 'Quota';
-$wb["active_txt"] = 'Aktief';
-$wb["username_error_empty"] = 'Gebruikersnaam is niet ingevuld.';
+$wb["active_txt"] = 'Actief';
+$wb["username_error_empty"] = 'Gebruikersnaam is leeg.';
 $wb["username_error_unique"] = 'De gebruikersnaam moet uniek zijn.';
-$wb["username_error_regex"] = 'De gebruikersnaam bevat ongeldige karakters.';
-$wb["quota_size_error_empty"] = 'Quota is niet ingevuld.';
-$wb["uid_error_empty"] = 'UID is niet ingevuld.';
-$wb["uid_error_empty"] = 'GID is niet ingevuld.';
-$wb["directory_error_empty"] = 'Directory is niet ingevuld.';
+$wb["username_error_regex"] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
+$wb["quota_size_error_empty"] = 'Quota is leeg.';
+$wb["uid_error_empty"] = 'UID leeg.';
+$wb["uid_error_empty"] = 'GID leeg.';
+$wb["directory_error_empty"] = 'Directorie leeg.';
 ?>

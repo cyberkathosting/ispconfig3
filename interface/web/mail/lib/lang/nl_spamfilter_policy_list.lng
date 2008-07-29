@@ -1,10 +1,10 @@
 <?php
 $wb["list_head_txt"] = 'Spamfilter Policy';
 $wb["policy_name_txt"] = 'Naam';
-$wb["virus_lover_txt"] = 'Virus minnar';
-$wb["spam_lover_txt"] = 'Spam minnar';
-$wb["banned_files_lover_txt"] = 'Banned Files minnaar';
-$wb["bad_header_lover_txt"] = 'Bad Header minnaar';
+$wb["virus_lover_txt"] = 'Virus liefhebber';
+$wb["spam_lover_txt"] = 'Spam liefhebber';
+$wb["banned_files_lover_txt"] = 'Banned Files liefhebber';
+$wb["bad_header_lover_txt"] = 'Bad Header liefhebber';
 $wb["page_txt"] = 'Pagina';
 $wb["page_of_txt"] = 'van';
 $wb["page_next_txt"] = 'Volgende';

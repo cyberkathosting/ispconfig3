@@ -1,9 +1,9 @@
 <?php
 $wb["list_head_txt"] = 'Postfix header en body checks';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["server_id_txt"] = 'Server';
 $wb["pattern_txt"] = 'Patroon';
-$wb["action_txt"] = 'Aktie';
+$wb["action_txt"] = 'Actie';
 $wb["page_txt"] = 'Pagina';
 $wb["page_of_txt"] = 'van';
 $wb["page_next_txt"] = 'Volgende';

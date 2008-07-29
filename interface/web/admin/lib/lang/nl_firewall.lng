@@ -1,0 +1,11 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["tcp_port_txt"] = 'Open TCP poorten';
+$wb["udp_port_txt"] = 'Open UDP poorten';
+$wb["tcp_port_help_txt"] = 'Gescheiden door komma';
+$wb["udp_port_help_txt"] = 'Gescheiden door komma';
+$wb["active_txt"] = 'Actief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["firewall_error_unique"] = 'Er bestaat al een firewall record voor deze server.';
+?>

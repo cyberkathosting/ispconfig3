@@ -1,12 +1,10 @@
 <?php
-$wb["list_head_txt"] = 'Mailbox';
-$wb["email_txt"] = 'Email';
-$wb["autoresponder_txt"] = 'Autoresponder';
+$wb["rulename_txt"] = 'Naam';
 $wb["page_txt"] = 'Pagina';
 $wb["page_of_txt"] = 'van';
 $wb["page_next_txt"] = 'Volgende';
 $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe mailbox';
+$wb["add_new_record_txt"] = 'Toevoegen Filter';
 ?>

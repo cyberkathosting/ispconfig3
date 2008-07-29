@@ -1,11 +1,11 @@
 <?php
-$wb["custom_mailfilter_txt"] = 'custom_mailfilter';
+$wb["custom_mailfilter_txt"] = 'Custom mailfilter';
 $wb["btn_save_txt"] = 'Opslaan';
 $wb["btn_cancel_txt"] = 'Annuleer';
 $wb["email_txt"] = 'Email';
 $wb["cryptpwd_txt"] = 'Wachtwoord';
-$wb["active_txt"] = 'Aktief';
-$wb["email_error_isemail"] = 'Email address is ongeldig.';
+$wb["active_txt"] = 'Actief';
+$wb["email_error_isemail"] = 'Emailadres is ongeldig.';
 $wb["email_error_unique"] = 'Duplicaat emailadres.';
 $wb["autoresponder_text_txt"] = 'Tekst';
 $wb["autoresponder_txt"] = 'Autoresponder';

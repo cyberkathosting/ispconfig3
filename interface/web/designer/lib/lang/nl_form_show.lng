@@ -1,5 +1,5 @@
 <?php
-$wb["header_txt"] = 'Formeditor';
+$wb["header_txt"] = 'Formuliereditor';
 $wb["title_txt"] = 'Formuliertitel';
 $wb["name_txt"] = 'Formuliernaam';
 $wb["delete_txt"] = 'Verwijderen';

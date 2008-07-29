@@ -1,6 +1,6 @@
 <?php
 $wb["list_head_txt"] = 'Advanced email routing';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["server_id_txt"] = 'Server';
 $wb["domain_txt"] = 'Domein';
 $wb["transport_txt"] = 'Transport';
@@ -11,5 +11,5 @@ $wb["page_next_txt"] = 'Volgende';
 $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'AToevoegen nieuw transport';
+$wb["add_new_record_txt"] = 'Toevoegen nieuw transport';
 ?>

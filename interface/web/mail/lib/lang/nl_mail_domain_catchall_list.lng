@@ -1,6 +1,6 @@
 <?php
 $wb["list_head_txt"] = 'Email Catchall';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["source_txt"] = 'bron';
 $wb["destination_txt"] = 'Emailadres geadresseerde';
 $wb["page_txt"] = 'Pagina';

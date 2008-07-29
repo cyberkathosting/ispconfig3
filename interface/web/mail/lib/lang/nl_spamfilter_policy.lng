@@ -1,9 +1,9 @@
 <?php
 $wb["policy_name_txt"] = 'Policy Naam';
-$wb["virus_lover_txt"] = 'Virusl minnaar';
-$wb["spam_lover_txt"] = 'SPAM minnaar';
-$wb["banned_files_lover_txt"] = 'Banned bestand minnaar';
-$wb["bad_header_lover_txt"] = 'Bad header minnaar';
+$wb["virus_lover_txt"] = 'Virusl liefhebber';
+$wb["spam_lover_txt"] = 'SPAM liefhebber';
+$wb["banned_files_lover_txt"] = 'Banned bestand liefhebber';
+$wb["bad_header_lover_txt"] = 'Bad header liefhebber';
 $wb["bypass_virus_checks_txt"] = 'Omleiding virus checks';
 $wb["bypass_banned_checks_txt"] = 'Omleiding banned checks';
 $wb["bypass_header_checks_txt"] = 'Omleiding header checks';

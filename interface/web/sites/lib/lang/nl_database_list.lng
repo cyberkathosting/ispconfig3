@@ -1,14 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Email alias';
+$wb["list_head_txt"] = 'Database';
 $wb["active_txt"] = 'Actief';
-$wb["source_txt"] = 'Bron';
-$wb["destination_txt"] = 'Bestemming';
+$wb["remote_access_txt"] = 'Remote Access';
+$wb["server_id_txt"] = 'Server';
+$wb["database_name_txt"] = 'Databasenaam';
 $wb["page_txt"] = 'Pagina';
 $wb["page_of_txt"] = 'van';
 $wb["page_next_txt"] = 'Volgende';
 $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
-$wb["email_txt"] = 'Email';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe email alias';
+$wb["add_new_record_txt"] = 'Nieuwe database toevoegen';
 ?>

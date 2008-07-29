@@ -1,0 +1,20 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["type_txt"] = 'Type';
+$wb["database_name_txt"] = 'Databasenaam';
+$wb["database_user_txt"] = 'Database gebruiker';
+$wb["database_password_txt"] = 'Database wachtwoord';
+$wb["remote_access_txt"] = 'Remote Access';
+$wb["client_txt"] = 'Klant';
+$wb["active_txt"] = 'Actief';
+$wb["btn_save_txt"] = 'Opslaan';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb["database_name_error_empty"] = 'Databasenaam is leeg.';
+$wb["database_name_error_unique"] = 'Er bestaat al een database gebruiker met deze naam op de server. Om een unieke naam te verkrijgen, kunt u bijv. uw domeinnaam als gebruikersnaam gebruiken.';
+$wb["database_name_error_regex"] = 'Ongeldige database gebruikersnaam. De gebruikersnaam bevat deze karakters: a-z, A-Z, 0-9 en de underscore. Lengte: 2 - 64 karakters.';
+$wb["database_user_error_empty"] = 'Database gebruiker is leeg.';
+$wb["database_user_error_unique"] = 'Er bestaat al een database gebruiker met deze naam op de server. Om een unieke naam te verkrijgen, kunt u bijv. uw domeinnaam als gebruikersnaam gebruiken.';
+$wb["database_user_error_regex"] = 'Ongeldige database gebruikersnaam. De gebruikersnaam bevat deze karakters: a-z, A-Z, 0-9 en de underscore. Lengte: 2 - 64 karakters.';
+$wb["limit_database_txt"] = 'The max. aantal databases is bereikt.';
+$wb["database_name_change_txt"] = 'De databasenaam kan niet worden gewijzigd.';
+?>

@@ -2,7 +2,7 @@
 $wb["server_id_txt"] = 'Server';
 $wb["domain_txt"] = 'Domein';
 $wb["type_txt"] = 'Type';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["btn_save_txt"] = 'Opslaan';
 $wb["btn_cancel_txt"] = 'Annuleren';
 $wb["domain_error_empty"] = 'Domein is niet ingevuld.';

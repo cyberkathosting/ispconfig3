@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"] = 'Email blacklist';
-$wb["active_txt"] = 'Aktief';
+$wb["list_head_txt"] = 'Email Blacklist';
+$wb["active_txt"] = 'Actief';
 $wb["server_id_txt"] = 'Server';
 $wb["source_txt"] = 'Blacklisted adres';
 $wb["type_txt"] = 'Type';
@@ -11,6 +11,6 @@ $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
 $wb["recipient_txt"] = 'Ontvanger';
-$wb["add_new_record_txt"] = 'Toevoegen nieuw blacklist record';
+$wb["add_new_record_txt"] = 'Toevoegen nieuw Blacklist record';
 $wb["access_txt"] = 'toegang';
 ?>

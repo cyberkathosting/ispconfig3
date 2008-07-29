@@ -6,7 +6,7 @@ $wb["modules_txt"] = 'Module';
 $wb["startmodule_txt"] = 'Startmodule';
 $wb["app_theme_txt"] = 'Ontwerp';
 $wb["typ_txt"] = 'Type';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["language_txt"] = 'Taal';
 $wb["name_txt"] = 'Naam';
 $wb["vorname_txt"] = 'Voornaam';
@@ -21,7 +21,7 @@ $wb["telefon_txt"] = 'Telefoon';
 $wb["fax_txt"] = 'Fax';
 $wb["groups_txt"] = 'Groepen';
 $wb["default_group_txt"] = 'Standaard groep';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["btn_save_txt"] = 'Opslaan';
 $wb["btn_cancel_txt"] = 'Annuleren';
 ?>

@@ -9,5 +9,5 @@ $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
 $wb["add_new_record_txt"] = 'Toevoegen nieuw domein';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 ?>

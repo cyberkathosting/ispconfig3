@@ -1,6 +1,6 @@
 <?php
 $wb["list_head_txt"] = 'Alias domein';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 $wb["server_id_txt"] = 'Server';
 $wb["parent_domain_id_txt"] = 'Website';
 $wb["domain_txt"] = 'Alias domein';
@@ -11,7 +11,7 @@ $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
 $wb["add_new_record_txt"] = 'Toevoegen nieuw alias domein';
-$wb["domain_error_empty"] = 'Domein is niet ingevuld.';
+$wb["domain_error_empty"] = 'Domein is leeg.';
 $wb["domain_error_unique"] = 'Domein moet uniek zijn.';
 $wb["domain_error_regex"] = 'Domeinnaam is ongeldig.';
 ?>

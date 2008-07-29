@@ -7,5 +7,5 @@ $wb["page_next_txt"] = 'Volgende';
 $wb["page_back_txt"] = 'Terug';
 $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
-$wb["server_id_txt"] = 'server_id';
+$wb["server_id_txt"] = 'server ID';
 ?>

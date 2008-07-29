@@ -8,5 +8,5 @@ $wb["ftp_username_txt"] = 'FTP gebruiker';
 $wb["ftp_password_txt"] = 'FTP wachtwoord';
 $wb["local_path_txt"] = 'Lokaal pad';
 $wb["wput_options_txt"] = 'Wput opties';
-$wb["active_txt"] = 'Aktief';
+$wb["active_txt"] = 'Actief';
 ?>
