@@ -82,12 +82,17 @@ class page_action extends tform_actions {
 		} else {
 			$rec["type"] = $tmp_parts[0];
 		}
-		if(@substr($tmp_parts[1],0,1) == '[') {
+		if(@$tmp_parts[2] != '') {
+			$dest = @$tmp_parts[1].':'.@$tmp_parts[2];
+		} else {
+			$dest = $tmp_parts[1];
+		}
+		if(@substr($dest,0,1) == '[') {
 			$rec["mx"] = 'checked="CHECKED"';
-			$rec["destination"] = @substr($tmp_parts[1],1,-1);
+			$rec["destination"] = @str_replace(']','',@str_replace('[','',$dest));
 		} else {
 			$rec["mx"] = '';
-			$rec["destination"] = @$tmp_parts[1];
+			$rec["destination"] = @$dest;
 		}
 		
 		$types = array('smtp' => 'smtp','uucp' => 'uucp','slow' => 'slow', 'error' => 'error', '' => 'null');
@@ -127,7 +132,12 @@ class page_action extends tform_actions {
 		
 		//* Compose transport field
 		if($this->dataRecord["mx"] == 'y') {
-			$transport = '['.$this->dataRecord["destination"].']';
+			if(stristr($this->dataRecord["destination"],':')) {
+				$tmp_parts = explode(":",$this->dataRecord["destination"]);
+				$transport = '['.$tmp_parts[0].']:'.$tmp_parts[1];
+			} else {
+				$transport = '['.$this->dataRecord["destination"].']';
+			}
 		} else {
 			$transport = $this->dataRecord["destination"];
 		}
