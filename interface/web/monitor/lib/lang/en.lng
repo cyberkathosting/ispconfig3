@@ -1,0 +1,9 @@
+<?php
+
+$wb["Server Online seit"] = "Online since";
+$wb["User Online"] = "User Online";
+$wb["System Load 1 Minute"] = "System Load 1 Minute";
+$wb["System Load 5 Minuten"] = "System Load 5 Minutes";
+$wb["System Load 15 Minuten"] = "System Load 15 Minutes";
+
+?>
