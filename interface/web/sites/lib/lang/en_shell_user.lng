@@ -19,4 +19,5 @@ $wb["quota_size_error_empty"] = 'Quota is empty.';
 $wb["uid_error_empty"] = 'UID empty.';
 $wb["uid_error_empty"] = 'GID empty.';
 $wb["directory_error_empty"] = 'Directory empty.';
+$wb["limit_shell_user_txt"] = 'The max number of shell users is reached.';
 ?>

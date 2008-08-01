@@ -58,7 +58,7 @@ class page_action extends tform_actions {
 			
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_ftp_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_shell_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Check if the user may add another shell user.
 			if($client["limit_shell_user"] >= 0) {
