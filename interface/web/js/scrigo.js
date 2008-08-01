@@ -202,6 +202,7 @@ function loadInitContent() {
   var pageContentObject = YAHOO.util.Connect.asyncRequest('GET', 'content.php?s_mod=login&s_pg=index', pageContentCallback);
   
   loadMenus();
+  keepalive();
 
 }
 
@@ -262,4 +263,18 @@ function loadContentInto(elementid,pagename) {
 	
 
   var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);
+}
+
+function keepalive() {
+	var pageContentCallbackKeepalive = {
+		success: function(o) {
+			setTimeout( keepalive, 1000000 );
+		},
+		failure: function(o) {
+			alert('Sorry. There was an error.');
+		}
+	}
+	
+  	var pageContentObject3 = YAHOO.util.Connect.asyncRequest('GET', 'keepalive.php', pageContentCallbackKeepalive);
+  	//setTimeout( keepalive, 1000000 );
 }
