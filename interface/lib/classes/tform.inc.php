@@ -821,6 +821,9 @@ class tform {
 
                 // überprüfe, ob das Template existiert, wenn nicht
                 // dann generiere das Template
+				
+				// Translate the title of the tab
+				$tab['title'] = $this->lng($tab['title']);
 								
                 if(!is_file($tab["template"])) {
                      $app->uses('tform_tpl_generator');
@@ -849,8 +852,8 @@ class tform {
                 $app->tpl->setVar('form_active_tab',$active_tab);
 
                 // Set form title
-                $form_hint = '<b>'.$this->formDef["title"].'</b>';
-                if($this->formDef["description"] != '') $form_hint .= '<br><br>'.$this->formDef["description"];
+                $form_hint = '<b>'.$this->lng($this->formDef["title"]).'</b>';
+                if($this->formDef["description"] != '') $form_hint .= '<br><br>'.$this->lng($this->formDef["description"]);
                 $app->tpl->setVar('form_hint',$form_hint);
 
                 // Set Wordbook for this form
@@ -1020,6 +1023,19 @@ class tform {
         function getCurrentTab() {
                 return $_SESSION["s"]["form"]["tab"];
         }
+		
+		
+		// translation function for forms, tries the form wordbook first and if this fails, it tries the global wordbook
+		function lng($msg) {
+			global $app;
+			
+			if(isset($this->wordbook[$msg])) {
+				return $this->wordbook[$msg];
+			} else {
+				return $app->lng($msg);
+			}
+			
+		}
 
 }
 

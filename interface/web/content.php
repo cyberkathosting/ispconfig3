@@ -35,7 +35,7 @@ $module = $_REQUEST["s_mod"];
 $page = $_REQUEST["s_pg"];
 
 if(!preg_match("/^[a-z]{0,20}$/i", $module)) die('module name contains unallowed chars.');
-if(!preg_match("/^[a-z]{0,20}$/i", $page)) die('module name contains unallowed chars.');
+if(!preg_match("/^[a-z]{0,20}$/i", $page)) die('page name contains unallowed chars.');
 
 if(is_file("$module/$page.php")) {
 	
@@ -52,7 +52,7 @@ if(is_file("$module/$page.php")) {
 		$module = $target_parts[0];
 		$page = $target_parts[1];
 		if(!preg_match("/^[a-z]{2,20}$/i", $module)) die('target module name contains unallowed chars.');
-		if(!preg_match("/^[a-z]{2,20}$/i", $page)) die('target module name contains unallowed chars.');
+		if(!preg_match("/^[a-z]{2,20}$/i", $page)) die('target page name contains unallowed chars.');
 		
 		if(is_file("$module/$page.php")) {
 			include_once("$module/$page.php");
