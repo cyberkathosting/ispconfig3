@@ -77,7 +77,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($_POST['passwort'] != $_POST['passwort2']) {
-			$app->tform->errorMessage = 'The passwords in the second password field does not match the first password.';
+			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}
 		
 	}
