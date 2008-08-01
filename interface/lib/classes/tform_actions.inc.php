@@ -60,11 +60,13 @@ class tform_actions {
 				
 				// show print version of the form
 				if(isset($_GET["print_form"]) && $_GET["print_form"] == 1) {
+					die('Function disabled.');
 					$this->onPrintForm();
 				}
 				
 				// send this form by email
 				if(isset($_GET["send_form_by_mail"]) && $_GET["send_form_by_mail"] == 1) {
+					die('Function disabled.');
 					$this->onMailSendForm();
 				}
 

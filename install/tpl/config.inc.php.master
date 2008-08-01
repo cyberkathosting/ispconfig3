@@ -59,7 +59,7 @@ define('ISPC_WEB_TEMP_PATH',   ISPC_WEB_PATH.'/temp'); // Path for downloads, ac
 define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
 
 //** Interface settings
-define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns');
+define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
 
 
 /*

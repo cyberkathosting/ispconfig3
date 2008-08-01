@@ -1,0 +1,6 @@
+<?php
+$wb["passwort_txt"] = 'Passwort';
+$wb["language_txt"] = 'Language';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
+?>
