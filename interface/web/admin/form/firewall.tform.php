@@ -79,7 +79,7 @@ $form["tabs"]['firewall'] = array (
 														'regex' => '/^[\s0-9\,]{0,255}$/',
 														'errmsg'=> 'tcp_ports_error_regex'),
 									),
-			'default'	=> '21,22,25,53,80,110,443,8080,10000',
+			'default'	=> '20,21,22,25,53,80,110,443,8080,10000',
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'

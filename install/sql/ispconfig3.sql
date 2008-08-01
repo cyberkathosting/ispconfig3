@@ -448,6 +448,8 @@ CREATE TABLE `mail_user` (
   `custom_mailfilter` text,
   `postfix` enum('y','n') NOT NULL,
   `access` enum('y','n') NOT NULL,
+  `disableimap` enum('0','1') NOT NULL default '0',
+  `disablepop3` enum('0','1') NOT NULL default '0',
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`),
   KEY `email_access` (`email`,`access`)
