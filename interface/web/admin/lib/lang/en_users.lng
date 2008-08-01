@@ -1,6 +1,8 @@
 <?php
 $wb["username_txt"] = 'Username';
-$wb["username_err"] = 'username_err';
+$wb["username_err"] = 'The username is too long or contains invalid characters.';
+$wb["username_empty"] = 'The username is empty.';
+$wb["username_unique"] = 'There is already a user with this username.';
 $wb["passwort_txt"] = 'Password';
 $wb["modules_txt"] = 'Module';
 $wb["startmodule_txt"] = 'Startmodule';
@@ -24,4 +26,5 @@ $wb["default_group_txt"] = 'Default Group';
 $wb["active_txt"] = 'Active';
 $wb["btn_save_txt"] = 'Save';
 $wb["btn_cancel_txt"] = 'Cancel';
+$wb["startmodule_err"] = 'Start module is not within modules.';
 ?>

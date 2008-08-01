@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -46,8 +46,21 @@ $app->auth->check_module_permissions('admin');
 
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
 
-// let tform_actions handle the page
-$app->tform_actions->onLoad();
+class page_action extends tform_actions {
+	
+	function onBeforeInsert() {
+		global $app, $conf;
+		
+		if(!in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
+			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
+		}
+	}
+
+}
+
+$page = new page_action;
+$page->onLoad();
 
 ?>
