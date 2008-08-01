@@ -45,7 +45,39 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
 
-$app->uses("tform_actions");
-$app->tform_actions->onDelete();
+// Loading classes
+$app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
+
+class page_action extends tform_actions {
+	
+	function onAfterDelete() {
+		global $app, $conf;
+		
+		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
+		$skip = false;
+		$lines = explode("\n",$mailuser['custom_mailfilter']);
+		$out = '';
+		
+		foreach($lines as $line) {
+			$line = trim($line);
+			if($line == '### BEGIN FILTER_ID:'.$this->id) {
+				$skip = true;
+			}
+			if($skip == false && $line != '') $out .= $line ."\n";
+			if($line == '### END FILTER_ID:'.$this->id) {
+				$skip = false;
+			}
+		}
+		
+		$out = addslashes($out);
+		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
+	
+	}
+	
+}
+
+$page = new page_action;
+$page->onDelete();
 
 ?>
