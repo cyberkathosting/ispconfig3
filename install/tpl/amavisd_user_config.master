@@ -50,6 +50,15 @@ $final_banned_destiny = D_BOUNCE;
 $final_bad_header_destiny = D_DISCARD;
 
 #
+# Disable spam and virus notifications for the admin user.
+# Can be overridden by the policies in mysql
+#
+
+$virus_admin = undef;
+$spam_admin = undef;
+
+
+#
 # Enable Logging
 #
 
