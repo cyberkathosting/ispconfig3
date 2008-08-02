@@ -664,10 +664,10 @@ class installer_base {
 		
 		//* Create a ISPConfig user and group
 		$command = 'groupadd ispconfig';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		$command = "useradd -g ispconfig -d $install_dir ispconfig";
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* copy the ISPConfig interface part
 		$command = "cp -rf ../interface $install_dir";
