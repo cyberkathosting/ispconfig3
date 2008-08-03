@@ -58,6 +58,12 @@ $form["tabs"]['server'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+		'auto_network_configuration' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 		'ip_address' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

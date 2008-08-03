@@ -4,6 +4,7 @@ mailserver=postfix
 dnsserver=mydns
 
 [server]
+auto_network_configuration=n
 ip_address=192.168.0.105
 netmask=255.255.255.0
 gateway=192.168.0.1
