@@ -75,6 +75,9 @@ switch($logfile_id) {
 	case 'clamav':
 		$logfile = '/var/log/clamav/clamav.log';
 	break;
+	case 'ispconfig':
+		$logfile = '/var/log/ispconfig/ispconfig.log';
+	break;
 	default:
 		$logfile = '';
 	break;

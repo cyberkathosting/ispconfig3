@@ -66,6 +66,10 @@ $items[] = array( 'title' 	=> "Clamav",
 				  'target' 	=> 'content',
 				  'link'	=> 'monitor/logview.php?log=clamav');
 
+$items[] = array( 'title' 	=> "ISPConfig",
+				  'target' 	=> 'content',
+				  'link'	=> 'monitor/logview.php?log=ispconfig');
+
 
 $module["nav"][] = array(	'title'	=> 'Logfiles',
 							'open' 	=> 1,
