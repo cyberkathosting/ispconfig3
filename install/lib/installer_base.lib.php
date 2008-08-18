@@ -115,6 +115,7 @@ class installer_base {
 	public function configure_database()
     {
 		global $conf;
+		
 		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
 		//** Create the database
 		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$cf['database'])) {
@@ -147,6 +148,7 @@ class installer_base {
 	public function add_database_server_record() {
 		
 		global $conf;
+		
 		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
 		
 		if($cf['host'] == 'localhost') {
@@ -181,7 +183,9 @@ class installer_base {
 
     //** writes postfix configuration files
     private function process_postfix_config($configfile)
-    {
+    {	
+		global $conf;
+		
         $config_dir = $conf['postfix']['config_dir'].'/';
         $full_file_name = $config_dir.$configfile; 
         //* Backup exiting file
@@ -199,7 +203,9 @@ class installer_base {
 
 	public function configure_jailkit()
     {
-        $cf = $conf['jailkit'];
+        global $conf;
+		
+		$cf = $conf['jailkit'];
 		$config_dir = $cf['config_dir'];
 		$jk_init = $cf['jk_init'];
 		$jk_chrootsh = $cf['jk_chrootsh'];
