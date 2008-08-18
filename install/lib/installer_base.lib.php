@@ -536,6 +536,8 @@ class installer_base {
 	
 	public function configure_getmail()
     {
+		global $conf;
+		
 		$config_dir = $conf['getmail']['config_dir'];
 		
 		if(!is_dir($config_dir)) exec("mkdir -p ".escapeshellcmd($config_dir));
@@ -601,6 +603,8 @@ class installer_base {
 	
 	public function configure_apache()
     {	
+		global $conf;
+		
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
 		
@@ -612,6 +616,7 @@ class installer_base {
 		
 		$dist_init_scripts = $conf['init_scripts'];
   		
+		if(is_dir("/etc/Bastille.backup")) caselog("rm -rf /etc/Bastille.backup", __FILE__, __LINE__);
 		if(is_dir("/etc/Bastille")) caselog("mv -f /etc/Bastille /etc/Bastille.backup", __FILE__, __LINE__);
   		@mkdir("/etc/Bastille", octdec($directory_mode));
   		if(is_dir("/etc/Bastille.backup/firewall.d")) caselog("cp -pfr /etc/Bastille.backup/firewall.d /etc/Bastille/", __FILE__, __LINE__);
