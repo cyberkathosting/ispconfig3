@@ -284,7 +284,7 @@ class apache2_plugin {
 		}
 		
 		
-		if($this->action == 'insert') {
+		if($this->action == 'insert' && $data["new"]["type"] == 'vhost') {
 			// Copy the error pages
 			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
 			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
