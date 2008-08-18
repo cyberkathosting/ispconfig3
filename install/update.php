@@ -81,6 +81,9 @@ $conf["mysql"]["database"] = $conf_old["db_database"];
 $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 
+// Resolve the IP address of the mysql hostname.
+if(!$conf['mysql']['ip'] = gethostbyname($conf['mysql']['host'])) die('Unable to resolve hostname'.$conf['mysql']['host']);
+
 $conf['server_id'] = $conf_old["server_id"];
 $conf['ispconfig_log_priority'] = $conf_old["log_priority"];
 
@@ -220,7 +223,7 @@ swriteln('Updating ISPConfig');
 
 
 //** Customise the port ISPConfig runs on
-$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
+$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 
 $inst->install_ispconfig();
 

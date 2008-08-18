@@ -40,7 +40,7 @@ class installer_base {
     public function __construct()
     {
         global $conf; //TODO: maybe $conf  should be passed to constructor
-        $this->conf = $conf;
+        //$this->conf = $conf;
     }
 	
     //: TODO  Implement the translation function and language files for the installer.
@@ -152,7 +152,7 @@ class installer_base {
 		if($cf['host'] == 'localhost') {
 			$from_host = 'localhost';
 		} else {
-			$from_host = $this->conf['hostname'];
+			$from_host = $conf['hostname'];
 		}
 		
 		//* Create the ISPConfig database user
@@ -172,34 +172,34 @@ class installer_base {
 		$server_ini_content = rf("tpl/server.ini.master");
 		$server_ini_content = addslashes($server_ini_content);
 		
-		$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$this->conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+		$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
 		$this->db->query($sql);
 		$conf['server_id'] = $this->db->insertID();
-		$this->conf['server_id'] = $conf['server_id'];
+		$conf['server_id'] = $conf['server_id'];
 	}
 	
 
     //** writes postfix configuration files
     private function process_postfix_config($configfile)
     {
-        $config_dir = $this->conf['postfix']['config_dir'].'/';
+        $config_dir = $conf['postfix']['config_dir'].'/';
         $full_file_name = $config_dir.$configfile; 
         //* Backup exiting file
         if(is_file($full_file_name)){
             copy($full_file_name, $config_dir.$configfile.'~');
         }
         $content = rf('tpl/'.$configfile.'.master');
-        $content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
-        $content = str_replace('{mysql_server_ispconfig_password}', $this->conf['mysql']['ispconfig_password'], $content);
-        $content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
-        $content = str_replace('{mysql_server_ip}', $this->conf['mysql']['ip'], $content);
-        $content = str_replace('{server_id}', $this->conf['server_id'], $content);
+        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+        $content = str_replace('{server_id}', $conf['server_id'], $content);
         wf($full_file_name, $content);
     }
 
 	public function configure_jailkit()
     {
-        $cf = $this->conf['jailkit'];
+        $cf = $conf['jailkit'];
 		$config_dir = $cf['config_dir'];
 		$jk_init = $cf['jk_init'];
 		$jk_chrootsh = $cf['jk_chrootsh'];
@@ -217,7 +217,8 @@ class installer_base {
         
 	public function configure_postfix($options = '')
     {
-        $cf = $this->conf['postfix'];
+        global $conf;
+		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
         
 		if(!is_dir($config_dir)){
@@ -265,8 +266,8 @@ class installer_base {
 		caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
 
 		$postconf_commands = array (
-			'myhostname = '.$this->conf['hostname'],
-			'mydestination = '.$this->conf['hostname'].', localhost, localhost.localdomain',
+			'myhostname = '.$conf['hostname'],
+			'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
 			'mynetworks = 127.0.0.0/8',
 			'virtual_alias_domains =',
 			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
@@ -382,10 +383,10 @@ class installer_base {
 		if(is_file($conf["postfix"]["config_dir"].'/sasl/smtpd.conf')) copy($conf["postfix"]["config_dir"].'/sasl/smtpd.conf',$conf["postfix"]["config_dir"].'/sasl/smtpd.conf~');
 		if(is_file($conf["postfix"]["config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["postfix"]["config_dir"].'/sasl/smtpd.conf~');
 		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
-		$content = str_replace('{mysql_server_ip}',$this->conf['mysql']['ip'],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
 		wf($conf["postfix"]["config_dir"].'/sasl/smtpd.conf',$content);
 		
 		// TODO: Chmod and chown on the config file
@@ -415,17 +416,18 @@ class installer_base {
 	
 	public function configure_pam()
     {
-		$pam = $this->conf['pam'];
+		global $conf;
+		$pam = $conf['pam'];
 		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'pamd_smtp';
 		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
 		if(is_file("$pam/smtp~"))   exec("chmod 400 $pam/smtp~");
 
 		$content = rf("tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $this->conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $this->conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $this->conf['mysql']['ip'], $content);
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		wf("$pam/smtp", $content);
 		exec("chmod 660 $pam/smtp");
 		exec("chown daemon:daemon $pam/smtp");
@@ -434,7 +436,8 @@ class installer_base {
 	
 	public function configure_courier()
     {
-		$config_dir = $this->conf['courier']['config_dir'];
+		global $conf;
+		$config_dir = $conf['courier']['config_dir'];
 		//* authmysqlrc
 		$configfile = 'authmysqlrc';
 		if(is_file("$config_dir/$configfile")){
@@ -442,17 +445,17 @@ class installer_base {
         }
 		exec("chmod 400 $config_dir/$configfile~");
 		$content = rf("tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
-		$content = str_replace('{mysql_server_host}',$this->conf['mysql']['host'],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_host}',$conf['mysql']['host'],$content);
 		wf("$config_dir/$configfile", $content);
 		
 		exec("chmod 660 $config_dir/$configfile");
 		exec("chown daemon:daemon $config_dir/$configfile");
 		
 		//* authdaemonrc
-		$configfile = $this->conf['courier']['config_dir'].'/authdaemonrc';
+		$configfile = $conf['courier']['config_dir'].'/authdaemonrc';
 		if(is_file($configfile)){
             copy($configfile, $configfile.'~');
         }
@@ -472,11 +475,11 @@ class installer_base {
 		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["amavis"]["config_dir"].'/conf.d/50-user',$conf["courier"]["config_dir"].'/50-user~');
 		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/conf.d/50-user~');
 		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$this->conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$this->conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$this->conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_port}',$conf["mysql"]["port"],$content);
-		$content = str_replace('{mysql_server_ip}',$this->conf['mysql']['ip'],$content);
+		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
 		wf($conf["amavis"]["config_dir"].'/conf.d/50-user',$content);
 		
 		// TODO: chmod and chown on the config file
@@ -513,6 +516,8 @@ class installer_base {
 	
 	public function configure_spamassassin()
     {
+		global $conf;
+		
 		//* Enable spamasasssin on debian and ubuntu
 		$configfile = '/etc/default/spamassassin';
 		if(is_file($configfile)){
@@ -525,7 +530,7 @@ class installer_base {
 	
 	public function configure_getmail()
     {
-		$config_dir = $this->conf['getmail']['config_dir'];
+		$config_dir = $conf['getmail']['config_dir'];
 		
 		if(!is_dir($config_dir)) exec("mkdir -p ".escapeshellcmd($config_dir));
 
@@ -544,7 +549,7 @@ class installer_base {
     {
 		global $conf;
 		
-		$config_dir = $this->conf['pureftpd']['config_dir'];
+		$config_dir = $conf['pureftpd']['config_dir'];
 
 		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'db/mysql.conf';
@@ -612,7 +617,7 @@ class installer_base {
   		$tcp_public_services = '';
   		$udp_public_services = '';
 		
-		$row = $this->db->queryOneRecord("SELECT * FROM firewall WHERE server_id = ".intval($this->conf['server_id']));
+		$row = $this->db->queryOneRecord("SELECT * FROM firewall WHERE server_id = ".intval($conf['server_id']));
 		
   		if(trim($row["tcp_port"]) != '' || trim($row["udp_port"]) != ''){
     		$tcp_public_services = trim(str_replace(',',' ',$row["tcp_port"]));
@@ -654,7 +659,7 @@ class installer_base {
     {
 		global $conf;
 		
-		$install_dir = $this->conf['ispconfig_install_dir'];
+		$install_dir = $conf['ispconfig_install_dir'];
 
 		//* Create the ISPConfig installation directory
 		if(!@is_dir("$install_dir")) {
@@ -786,14 +791,14 @@ class installer_base {
 		
 		//* Copy the ISPConfig vhost for the controlpanel
         // TODO: These are missing! should they be "vhost_dist_*_dir" ?
-        $vhost_conf_dir = $this->conf['apache']['vhost_conf_dir'];
-        $vhost_conf_enabled_dir = $this->conf['apache']['vhost_conf_enabled_dir'];
+        $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
+        $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
         
         
         // Dont just copy over the virtualhost template but add some custom settings
          
         $content = rf("tpl/apache_ispconfig.vhost.master");
-		$content = str_replace('{vhost_port}', $this->conf['apache']['vhost_port'], $content);
+		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
@@ -830,7 +835,7 @@ class installer_base {
 		global $conf;
 		
 		//* If this server shall act as database server for client DB's, we configure this here
-		$install_dir = $this->conf['ispconfig_install_dir'];
+		$install_dir = $conf['ispconfig_install_dir'];
 		
 		// Create a file with the database login details which 
 		// are used to create the client databases.
@@ -851,6 +856,8 @@ class installer_base {
 	
 	public function install_crontab()
     {		
+		global $conf;
+		
 		//* Root Crontab
 		exec('crontab -u root -l > crontab.txt');
 		$existing_root_cron_jobs = file('crontab.txt');
@@ -869,7 +876,7 @@ class installer_base {
 		unlink('crontab.txt');
 		
 		//* Getmail crontab
-        $cf = $this->conf['getmail'];
+        $cf = $conf['getmail'];
 		exec('crontab -u getmail -l > crontab.txt');
 		$existing_cron_jobs = file('crontab.txt');
 		

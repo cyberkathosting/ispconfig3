@@ -95,7 +95,7 @@ $install_mode = $inst->simple_query('Installation mode', array('Standard','Exper
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$inst->conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg foo.example.com ', $tmp_out[0]);
+$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg foo.example.com ', $tmp_out[0]);
 unset($tmp_out);
 
 //** Get MySQL root credentials
@@ -118,6 +118,10 @@ do {
 	}
 } while ($finished == false);
 unset($finished);
+
+// Resolve the IP address of the mysql hostname.
+if(!$conf['mysql']['ip'] = gethostbyname($conf['mysql']['host'])) die('Unable to resolve hostname'.$conf['mysql']['host']);
+
 
 //** initializing database connection
 include_once('lib/mysql.lib.php');
@@ -184,7 +188,7 @@ if($install_mode == 'Standard') {
 	swriteln('Installing ISPConfig');
 	
 	//** Customise the port ISPConfig runs on
-	$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
+	$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 
 	$inst->install_ispconfig();
 	
@@ -304,14 +308,14 @@ if($install_mode == 'Standard') {
 		if($fast_cgi == 'yes') {
 	 		$alias = $inst->free_query('Script Alias', '/php/');
 	 		$path = $inst->free_query('Script Alias Path', '/path/to/cgi/bin');
-	 		$inst->conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
+	 		$conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
 		} else {
-	 		$inst->conf['apache']['vhost_cgi_alias'] = "";
+	 		$conf['apache']['vhost_cgi_alias'] = "";
 		}
 		*/
 
 		//** Customise the port ISPConfig runs on
-		$inst->conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
+		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 		
 		$inst->install_ispconfig_interface = true;
 			
