@@ -33,6 +33,9 @@ require("/usr/local/ispconfig/server/lib/app.inc.php");
 
 // Delete the ISPConfig database
 // $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
+$app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
+
+
 exec("/etc/init.d/mysql stop");
 exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
 exec("/etc/init.d/mysql start");
