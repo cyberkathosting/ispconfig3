@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -38,7 +38,8 @@ exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
 exec("/etc/init.d/mysql start");
 
 // Deleting the symlink in /var/www
-unlink("/var/www/ispconfig");
+unlink("/etc/apache2/sites-enabled/ispconfig.vhost");
+unlink("/etc/apache2/sites-available/ispconfig.vhost");
 
 // Delete the ispconfig files
 exec('rm -rf /usr/local/ispconfig');
