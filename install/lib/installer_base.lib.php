@@ -162,7 +162,12 @@ class installer_base {
                 ."TO '".$cf['ispconfig_user']."'@'".$from_host."' "
                 ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
 		if(!$this->db->query($query)) {
-			$this->error('Unable to create database user: '.$cf['ispconfig_user']);
+			$tmp = $this->db->queryOneRecord("SELECT * from mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'")
+			if($tmp["User"] == $cf['ispconfig_user'])) {
+				$this->db->query("UPDATE mysql.user SET `password` = PASSWORD('".$cf['ispconfig_password']."') WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'");
+			} else {
+				$this->error('Unable to create database user: '.$cf['ispconfig_user']);
+			}
 		}
 		
 		//* Reload database privelages
