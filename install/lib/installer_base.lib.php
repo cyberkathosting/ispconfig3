@@ -162,7 +162,7 @@ class installer_base {
                 ."TO '".$cf['ispconfig_user']."'@'".$from_host."' "
                 ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
 		if(!$this->db->query($query)) {
-			$tmp = $this->db->queryOneRecord("SELECT * from mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'")
+			$tmp = $this->db->queryOneRecord("SELECT * from mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'");
 			if($tmp["User"] == $cf['ispconfig_user'])) {
 				$this->db->query("UPDATE mysql.user SET `password` = PASSWORD('".$cf['ispconfig_password']."') WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'");
 			} else {
