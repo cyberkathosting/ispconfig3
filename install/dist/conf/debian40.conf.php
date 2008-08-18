@@ -25,7 +25,7 @@ $conf['mysql']['database'] = 'dbispconfig';
 $conf['mysql']['admin_user'] = 'root';
 $conf['mysql']['admin_password'] = '';
 $conf['mysql']['ispconfig_user'] = 'ispconfig';
-$conf['mysql']['ispconfig_password'] = '5sDrewBhk';
+$conf['mysql']['ispconfig_password'] = md5 (uniqid (rand()));
 
 //* Apache
 $conf['apache']['user'] = 'www-data';

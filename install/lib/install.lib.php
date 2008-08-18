@@ -438,6 +438,38 @@ function array_to_ini($config_array = '') {
 	return $content;
 }
 
+function is_user($user){
+  global $mod;
+  $user_datei = '/etc/passwd';
+  $users = no_comments($user_datei);
+  $lines = explode("\n", $users);
+  if(is_array($lines)){
+    foreach($lines as $line){
+      if(trim($line) != ""){
+        list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(":", $line);
+        if($f1 == $user) return true;
+      }
+    }
+  }
+  return false;
+}
+
+function is_group($group){
+  global $mod;
+  $group_datei = '/etc/group';
+  $groups = no_comments($group_datei);
+  $lines = explode("\n", $groups);
+  if(is_array($lines)){
+    foreach($lines as $line){
+      if(trim($line) != ""){
+        list($f1, $f2, $f3, $f4) = explode(":", $line);
+        if($f1 == $group) return true;
+      }
+    }
+  }
+  return false;
+}
+
 
 
 ?>
