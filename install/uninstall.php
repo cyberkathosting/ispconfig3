@@ -33,7 +33,7 @@ require("/usr/local/ispconfig/server/lib/app.inc.php");
 
 // Delete the ISPConfig database
 // $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
-$app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
+// $app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
 
 
 exec("/etc/init.d/mysql stop");
@@ -46,6 +46,8 @@ unlink("/etc/apache2/sites-available/ispconfig.vhost");
 
 // Delete the ispconfig files
 exec('rm -rf /usr/local/ispconfig');
+
+echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
 
 echo "Finished.\n";
 

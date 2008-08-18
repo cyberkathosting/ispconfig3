@@ -224,7 +224,7 @@ if($install_mode == 'Standard') {
 	if(strtolower($inst->simple_query('Create a new database? (We do not want to join a existing ISPConfig server setup)',array('y','n'),'y')) == 'y') {
 		//* Create the mysql database
 		$inst->configure_database();
-		system('/etc/init.d/mysql restart');
+		//system('/etc/init.d/mysql restart');
 	}
 		
 	//* Insert the Server record into the database

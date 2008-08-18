@@ -157,17 +157,17 @@ class installer_base {
 			$from_host = $conf['hostname'];
 		}
 		
+		// Delete ISPConfig user, in case that it exists
+		$this->db->query("DELETE FROM mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '".$from_host."';");
+		$this->db->query("DELETE FROM mysql.db WHERE Db = '".$cf['database']."' AND Host = '".$from_host."';");
+		$this->db->query('FLUSH PRIVILEGES;');
+		
 		//* Create the ISPConfig database user
         $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
                 ."TO '".$cf['ispconfig_user']."'@'".$from_host."' "
                 ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
 		if(!$this->db->query($query)) {
-			$tmp = $this->db->queryOneRecord("SELECT * from mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'");
-			if($tmp["User"] == $cf['ispconfig_user']) {
-				$this->db->query("UPDATE mysql.user SET `password` = PASSWORD('".$cf['ispconfig_password']."') WHERE User = '".$cf['ispconfig_user']."' AND Host = '$from_host'");
-			} else {
-				$this->error('Unable to create database user: '.$cf['ispconfig_user']);
-			}
+			$this->error('Unable to create database user: '.$cf['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
 		
 		//* Reload database privelages
