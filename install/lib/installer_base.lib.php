@@ -510,7 +510,7 @@ class installer_base {
 		if(is_file($conf["postfix"]["config_dir"].'/master.cf')) copy($conf["postfix"]["config_dir"].'/master.cf',$conf["postfix"]["config_dir"].'/master.cf~');
 		$content = rf("tpl/master_cf_amavis.master");
 		// Only add the content if we had not addded it before
-		if(!stristr("127.0.0.1:10025",$content)) {
+		if(!stristr($content,"127.0.0.1:10025")) {
 			af($conf["postfix"]["config_dir"].'/master.cf',$content);
 		}
 		
