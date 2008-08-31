@@ -5,5 +5,18 @@ $wb["User Online"] = "User Online";
 $wb["System Load 1 Minute"] = "System Load 1 Minute";
 $wb["System Load 5 Minuten"] = "System Load 5 Minutes";
 $wb["System Load 15 Minuten"] = "System Load 15 Minutes";
+$wb['Load'] = 'Load';
+$wb['Harddisk'] = 'Harddisk';
+$wb['Memory usage'] = 'Memory usage';
+$wb['CPU'] = 'CPU';
+$wb['Services'] = 'Services';
+$wb['System'] = 'System';
+$wb['Mail log'] = 'Mail log';
+$wb['Mail warn'] = 'Mail warn';
+$wb['Mail err'] = 'Mail err';
+$wb['Messages'] = 'Messages';
+$wb['Freshclam'] = 'Freshclam';
+$wb['Clamav'] = 'Clamav';
+$wb['ISPConfig'] = 'ISPConfig';
 
 ?>

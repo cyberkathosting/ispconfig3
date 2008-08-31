@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"] 			= "Groups";
-$form["description"] 	= "Form to edit systemuser groups.";
+$form["description"] 	= "groups_description";
 $form["name"] 			= "groups";
 $form["action"]			= "groups_edit.php";
 $form["db_table"]		= "sys_group";

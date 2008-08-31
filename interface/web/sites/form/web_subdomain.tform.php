@@ -33,7 +33,7 @@
 
 */
 
-$form["title"] 			= "Web Domain";
+$form["title"] 			= "Subdomain";
 $form["description"] 	= "";
 $form["name"] 			= "web_subdomain";
 $form["action"]			= "web_subdomain_edit.php";

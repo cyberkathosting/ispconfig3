@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['mailget'] = array (
-	'title' 	=> "Get email",
+	'title' 	=> "Get Email",
 	'width' 	=> 100,
 	'template' 	=> "templates/mail_get_edit.htm",
 	'fields' 	=> array (

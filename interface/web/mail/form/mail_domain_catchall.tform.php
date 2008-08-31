@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['catchall'] = array (
-	'title' 	=> "Email catchall",
+	'title' 	=> "Email Catchall",
 	'width' 	=> 100,
 	'template' 	=> "templates/mail_domain_catchall_edit.htm",
 	'fields' 	=> array (

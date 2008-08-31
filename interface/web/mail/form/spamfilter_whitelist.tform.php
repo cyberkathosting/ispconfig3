@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['whitelist'] = array (
-	'title' 	=> "Witelist",
+	'title' 	=> "Whitelist",
 	'width' 	=> 100,
 	'template' 	=> "templates/spamfilter_whitelist_edit.htm",
 	'fields' 	=> array (

@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['forward'] = array (
-	'title' 	=> "Email forward",
+	'title' 	=> "Email Forward",
 	'width' 	=> 100,
 	'template' 	=> "templates/mail_forward_edit.htm",
 	'fields' 	=> array (

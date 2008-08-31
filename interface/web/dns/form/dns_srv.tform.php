@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['dns'] = array (
-	'title' 	=> "DNS srv",
+	'title' 	=> "DNS SRV",
 	'width' 	=> 100,
 	'template' 	=> "templates/dns_srv_edit.htm",
 	'fields' 	=> array (
