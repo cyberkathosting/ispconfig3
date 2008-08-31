@@ -1024,6 +1024,14 @@ class tform {
                 return $_SESSION["s"]["form"]["tab"];
         }
 		
+		function isReadonlyTab($tab) {
+			if(isset($this->formDef['tabs'][$tab]['readonly']) && $this->formDef['tabs'][$tab]['readonly'] == true) {
+				return true;
+			} else {
+				return false;
+			}
+        }
+		
 		
 		// translation function for forms, tries the form wordbook first and if this fails, it tries the global wordbook
 		function lng($msg) {

@@ -168,7 +168,7 @@ class tform_actions {
 		
 		function onUpdateSave($sql) {
 			global $app;
-			if(!empty($sql)) {
+			if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab())) {
 				$app->db->query($sql);
 				if($app->db->errorMessage != '') die($app->db->errorMessage);
 			}

@@ -50,10 +50,19 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+// Clients may not change the website basic settings if they are not resellers
+if($app->auth->has_clients($_SESSION['s']['user']['userid']) || $app->auth->is_admin()) {
+	$web_domain_edit_readonly = false;
+} else {
+	$web_domain_edit_readonly = true;
+}
+
+
 $form["tabs"]['domain'] = array (
 	'title' 	=> "Domain",
 	'width' 	=> 100,
 	'template' 	=> "templates/web_domain_edit.htm",
+	'readonly'	=> $web_domain_edit_readonly,
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
@@ -188,6 +197,7 @@ $form["tabs"]['redirect'] = array (
 	'title' 	=> "Redirect",
 	'width' 	=> 100,
 	'template' 	=> "templates/web_domain_redirect.htm",
+	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
@@ -216,6 +226,7 @@ $form["tabs"]['ssl'] = array (
 	'title' 	=> "SSL",
 	'width' 	=> 100,
 	'template' 	=> "templates/web_domain_ssl.htm",
+	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
@@ -302,6 +313,7 @@ $form["tabs"]['advanced'] = array (
 	'title' 	=> "Options",
 	'width' 	=> 100,
 	'template' 	=> "templates/web_domain_advanced.htm",
+	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
