@@ -47,12 +47,16 @@
     AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
-    # php as fast-cgi enabled
-    AddType application/x-httpd-php .php .php3 .php4 .php5
-
-    ScriptAlias <tmpl_var name='fastcgi_alias'> <tmpl_var name='fastcgi_starter_path'>
+     # php as fast-cgi enabled
+    <Directory /var/www/<tmpl_var name='domain'>/web>
+        AddHandler fcgid-script .php .php3 .php4 .php5
+        FCGIWrapper <tmpl_var name='fastcgi_starter_path'>/<tmpl_var name='fastcgi_starter_script'> .php
+        Options FollowSymLinks +ExecCGI Indexes
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
 </tmpl_if>
-
 <tmpl_if name="rewrite_enabled">
     RewriteEngine on
 <tmpl_loop name="redirects">
