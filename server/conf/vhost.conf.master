@@ -12,6 +12,13 @@
 	ErrorDocument 405 /error/methodNotAllowed.html
 	ErrorDocument 500 /error/internalServerError.html
 	ErrorDocument 503 /error/overloaded.html
+	
+    <Directory <tmpl_var name='web_document_root'>/>
+        Options None
+        AllowOverride Indexes AuthConfig Limit FileInfo
+        Order allow,deny
+        Allow from all
+    </Directory>
 
 <tmpl_if name='alias'>
     ServerAlias <tmpl_var name='alias'>

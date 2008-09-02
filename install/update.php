@@ -249,7 +249,7 @@ if($reconfigure_services_answer == 'yes') {
 	system("/etc/init.d/courier-pop-ssl restart");
 	system("/etc/init.d/apache2 restart");
 	system("/etc/init.d/pure-ftpd-mysql restart");
-	system("/etc/init.d/mydns restart");
+	system("/etc/init.d/mydns restart &> /dev/null");
 }
 
 echo "Update finished.\n";

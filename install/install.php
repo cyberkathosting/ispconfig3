@@ -213,7 +213,7 @@ if($install_mode == 'Standard') {
 	system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 	system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
 	system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
-	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 	
 }else{
 

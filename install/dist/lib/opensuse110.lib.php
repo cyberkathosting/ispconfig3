@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -28,205 +28,9 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class installer_base {
+class installer extends installer_base {
 	
-	var $wb = array();
-	var $language = 'en';
-	var $db;
-	public $conf;
-	public $install_ispconfig_interface = true;
-
-
-    public function __construct()
-    {
-        global $conf; //TODO: maybe $conf  should be passed to constructor
-        //$this->conf = $conf;
-    }
-	
-    //: TODO  Implement the translation function and language files for the installer.
-	public function lng($text)
-    {
-		return $text;
-	}
-	
-	public function error($msg)
-    {
-		die("ERROR: ".$msg."\n");
-	}
-	
-	public function simple_query($query, $answers, $default)
-    {		
-		$finished = false;
-		do {
-			$answers_str = implode(',', $answers);
-			swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
-			$input = sread();
-			
-			//* Stop the installation
-			if($input == 'quit') {
-				swriteln($this->lng("Installation terminated by user.\n"));
-				die();
-			}
-			
-			//* Select the default
-			if($input == '') {
-				$answer = $default;
-				$finished = true;
-			}
-			
-            //* Set answer id valid
-			if(in_array($input, $answers)) {
-				$answer = $input;
-				$finished = true;
-			}
-			
-		} while ($finished == false);
-		swriteln();
-		return $answer;
-	}
-	
-	public function free_query($query,$default)
-    {		
-		swrite($this->lng($query).' ['.$default.']: ');
-		$input = sread();
-			
-		//* Stop the installation
-		if($input == 'quit') {
-            swriteln($this->lng("Installation terminated by user.\n"));
-            die();
-		}
-			
-        $answer =  ($input == '') ? $default : $input;
-		swriteln();
-		return $answer;
-	}
-	
-	/*
-	// TODO: this function is not used atmo I think - pedro
-	function request_language(){
-		
-		swriteln(lng('Enter your language'));
-		swriteln(lng('de, en'));
-		
-	}
-	*/
-	
-	/** Create the database for ISPConfig */ 
-	public function configure_database()
-    {
-		global $conf;
-		
-		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
-		//** Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$cf['database'])) {
-			$this->error('Unable to create MySQL database: '.$cf['database'].'.');
-		}
-		
-		//* Set the database name in the DB library
-		$this->db->dbName = $cf['database'];
-		
-		//* Load the database dump into the database, if database contains no tables
-		$db_tables = $this->db->getTables();
-		if(count($db_tables) > 0) {
-			$this->error('Stopped: Database already contains some tables.');
-		} else {
-			if($cf['admin_password'] == '') {
-				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
-                        __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
-			} else {
-				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' -p'".$cf['admin_password']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
-                        __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
-			}
-			$db_tables = $this->db->getTables();
-			if(count($db_tables) == 0) {
-				$this->error('Unable to load SQL-Dump into database table.');
-			}
-		}
-	}
-	
-	//** Create the server record in the database
-	public function add_database_server_record() {
-		
-		global $conf;
-		
-		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
-		
-		if($cf['host'] == 'localhost') {
-			$from_host = 'localhost';
-		} else {
-			$from_host = $conf['hostname'];
-		}
-		
-		// Delete ISPConfig user, in case that it exists
-		$this->db->query("DELETE FROM mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '".$from_host."';");
-		$this->db->query("DELETE FROM mysql.db WHERE Db = '".$cf['database']."' AND Host = '".$from_host."';");
-		$this->db->query('FLUSH PRIVILEGES;');
-		
-		//* Create the ISPConfig database user
-        $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
-                ."TO '".$cf['ispconfig_user']."'@'".$from_host."' "
-                ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
-		if(!$this->db->query($query)) {
-			$this->error('Unable to create database user: '.$cf['ispconfig_user'].' Error: '.$this->db->errorMessage);
-		}
-		
-		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES;');
-		
-		//* Set the database name in the DB library
-		$this->db->dbName = $cf['database'];
-		
-		$server_ini_content = rf("tpl/server.ini.master");
-		$server_ini_content = addslashes($server_ini_content);
-		
-		$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
-		$this->db->query($sql);
-		$conf['server_id'] = $this->db->insertID();
-		$conf['server_id'] = $conf['server_id'];
-	}
-	
-
-    //** writes postfix configuration files
-    public function process_postfix_config($configfile)
-    {	
-		global $conf;
-		
-        $config_dir = $conf['postfix']['config_dir'].'/';
-        $full_file_name = $config_dir.$configfile; 
-        //* Backup exiting file
-        if(is_file($full_file_name)){
-            copy($full_file_name, $config_dir.$configfile.'~');
-        }
-        $content = rf('tpl/'.$configfile.'.master');
-        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-        $content = str_replace('{server_id}', $conf['server_id'], $content);
-        wf($full_file_name, $content);
-    }
-
-	public function configure_jailkit()
-    {
-        global $conf;
-		
-		$cf = $conf['jailkit'];
-		$config_dir = $cf['config_dir'];
-		$jk_init = $cf['jk_init'];
-		$jk_chrootsh = $cf['jk_chrootsh'];
-		
-		if (is_dir($config_dir))
-		{
-			if(is_file($config_dir.'/'.$jk_init)) copy($config_dir.'/'.$jk_init, $config_dir.'/'.$jk_init.'~');
-			if(is_file($config_dir.'/'.$jk_chrootsh.".master")) copy($config_dir.'/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh.'~');
-			
-			copy('tpl/'.$jk_init.".master", $config_dir.'/'.$jk_init);
-			copy('tpl/'.$jk_chrootsh.".master", $config_dir.'/'.$jk_chrootsh);
-		}
-		
-    }
-        
-	public function configure_postfix($options = '')
+	function configure_postfix($options = '')
     {
         global $conf;
 		$cf = $conf['postfix'];
@@ -310,7 +114,8 @@ class installer_base {
 			'header_checks = regexp:'.$config_dir.'/header_checks',
 			'mime_header_checks = regexp:'.$config_dir.'/mime_header_checks',
 			'nested_header_checks = regexp:'.$config_dir.'/nested_header_checks',
-			'body_checks = regexp:'.$config_dir.'/body_checks'
+			'body_checks = regexp:'.$config_dir.'/body_checks',
+			'inet_interfaces = all'
 		);
 		
 		//* Create the header and body check files
@@ -341,7 +146,7 @@ class installer_base {
 		}
 		
 		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755  /var/run/courier/authdaemon/';
+		$command = 'chmod 755  /var/run/authdaemon.courier-imap';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		
 		//* Changing maildrop lines in posfix master.cf
@@ -383,21 +188,22 @@ class installer_base {
 	public function configure_saslauthd() {
 		global $conf;
 		
-	
+		/*
 		$configfile = 'sasl_smtpd.conf';
-		if(is_file($conf["postfix"]["config_dir"].'/sasl/smtpd.conf')) copy($conf["postfix"]["config_dir"].'/sasl/smtpd.conf',$conf["postfix"]["config_dir"].'/sasl/smtpd.conf~');
-		if(is_file($conf["postfix"]["config_dir"].'/sasl/smtpd.conf~')) exec('chmod 400 '.$conf["postfix"]["config_dir"].'/sasl/smtpd.conf~');
+		if(is_file('/etc/sasl2/smtpd.conf')) copy('/etc/sasl2/smtpd.conf','/etc/sasl2/smtpd.conf~');
+		if(is_file('/etc/sasl2/smtpd.conf~')) exec('chmod 400 '.'/etc/sasl2/smtpd.conf~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
-		wf($conf["postfix"]["config_dir"].'/sasl/smtpd.conf',$content);
+		wf('/etc/sasl2/smtpd.conf',$content);
+		*/
 		
 		// TODO: Chmod and chown on the config file
 		
 		
-		
+		/*
 		// Create the spool directory
 		exec('mkdir -p /var/spool/postfix/var/run/saslauthd');
 		
@@ -409,12 +215,14 @@ class installer_base {
 		$content = str_replace('START=no','START=yes',$content);
 		$content = str_replace('OPTIONS="-c"','OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"',$content);
 		wf($configfile,$content);
+		*/
 		
 		// Edit the file /etc/init.d/saslauthd
 		$configfile = $conf["init_scripts"].'/'.$conf["saslauthd"]["init_script"];
 		$content = rf($configfile);
-		$content = str_replace('PIDFILE=$RUN_DIR/saslauthd.pid','PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"',$content);
+		$content = str_replace('/sbin/startproc $AUTHD_BIN -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1','/sbin/startproc $AUTHD_BIN -r -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1',$content);
 		wf($configfile,$content);
+		
 		
 		
 	}
@@ -434,8 +242,8 @@ class installer_base {
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		wf("$pam/smtp", $content);
-		exec("chmod 660 $pam/smtp");
-		exec("chown daemon:daemon $pam/smtp");
+		//exec("chmod 660 $pam/smtp");
+		//exec("chown root:root $pam/smtp");
 	
 	}
 	
@@ -457,7 +265,7 @@ class installer_base {
 		wf("$config_dir/$configfile", $content);
 		
 		exec("chmod 660 $config_dir/$configfile");
-		exec("chown daemon:daemon $config_dir/$configfile");
+		exec("chown root:root $config_dir/$configfile");
 		
 		//* authdaemonrc
 		$configfile = $conf['courier']['config_dir'].'/authdaemonrc';
@@ -468,7 +276,7 @@ class installer_base {
             exec('chmod 400 '.$configfile.'~');
         }
 		$content = rf($configfile);
-		$content = str_replace('authmodulelist="authpam"', 'authmodulelist="authmysql"', $content);
+		$content = str_replace('authmodulelist=', 'authmodulelist="authmysql"', $content);
 		wf($configfile, $content);
 	}
 	
@@ -476,18 +284,16 @@ class installer_base {
 		global $conf;
 		
 		// amavisd user config file
-		$configfile = 'amavisd_user_config';
-		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["amavis"]["config_dir"].'/conf.d/50-user',$conf["courier"]["config_dir"].'/50-user~');
-		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/conf.d/50-user~');
+		$configfile = 'opensuse_amavisd_conf';
+		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["courier"]["config_dir"].'/amavisd.conf~');
+		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_port}',$conf["mysql"]["port"],$content);
 		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
-		wf($conf["amavis"]["config_dir"].'/conf.d/50-user',$content);
-		
-		// TODO: chmod and chown on the config file
+		wf($conf["amavis"]["config_dir"].'/amavisd.conf',$content);
 		
 		
 		// Adding the amavisd commands to the postfix configuration
@@ -516,8 +322,8 @@ class installer_base {
 		}
 		unset($content);
 		
-		// Add the clamav user to the amavis group
-		exec('adduser clamav amavis');
+		// Add the clamav user to the vscan group
+		exec('groupmod --add-user clamav vscan');
 		
 		
 	}
@@ -527,6 +333,7 @@ class installer_base {
 		global $conf;
 		
 		//* Enable spamasasssin on debian and ubuntu
+		/*
 		$configfile = '/etc/default/spamassassin';
 		if(is_file($configfile)){
             copy($configfile, $configfile.'~');
@@ -534,6 +341,7 @@ class installer_base {
 		$content = rf($configfile);
 		$content = str_replace('ENABLED=0', 'ENABLED=1', $content);
 		wf($configfile, $content);
+		*/
 	}
 	
 	public function configure_getmail()
@@ -578,9 +386,10 @@ class installer_base {
 		wf("$config_dir/$configfile", $content);
 		exec("chmod 600 $config_dir/$configfile");
 		exec("chown root:root $config_dir/$configfile");
-		// **enable chrooting
-		//exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
-		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
+		
+		// copy our customized copy of pureftpd.conf to the pure-ftpd config directory
+		exec("cp tpl/opensuse_pureftpd_conf.master $config_dir/pure-ftpd.conf");
+		
 	}
 	
 	public function configure_mydns()
@@ -609,6 +418,16 @@ class installer_base {
 		
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
+		
+		// Sites enabled and avaulable dirs
+		exec('mkdir -p '.$conf['apache']['vhost_conf_enabled_dir']);
+		exec('mkdir -p '.$conf['apache']['vhost_conf_dir']);
+		
+		$content = rf('/etc/apache2/httpd.conf');
+		if(!stristr($content,'Include /etc/apache2/sites-enabled/')) {
+			af('/etc/apache2/httpd.conf',"\nInclude /etc/apache2/sites-enabled/\n\n");
+		}
+		unset($content);
 		
 	}
 	
@@ -795,7 +614,7 @@ class installer_base {
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
-		$command = 'adduser www-data ispconfig';
+		$command = 'groupmod --add-user wwwrun ispconfig';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* Make the shell scripts executable
@@ -823,8 +642,8 @@ class installer_base {
 		}
 		
 		// Make the Clamav log files readable by ISPConfig
-		exec('chmod +r /var/log/clamav/clamav.log');
-		exec('chmod +r /var/log/clamav/freshclam.log');
+		//exec('chmod +r /var/log/clamav/clamav.log');
+		//exec('chmod +r /var/log/clamav/freshclam.log');
 		
 		//* Install the SVN update script
 		exec('cp ../helper_scripts/update_from_svn.sh /usr/local/bin/ispconfig_update_from_svn.sh');
@@ -839,6 +658,11 @@ class installer_base {
 		if(@is_file('/var/log/mail.warn')) exec('chmod +r /var/log/mail.warn');
 		if(@is_file('/var/log/mail.err')) exec('chmod +r /var/log/mail.err');
 		if(@is_file('/var/log/messages')) exec('chmod +r /var/log/messages');
+		
+		//To enable apache to read the directories
+		exec('chmod a+rx /usr/local/ispconfig');
+		exec('chmod -R 751 /usr/local/ispconfig/interface');
+		exec('chmod a+rx /usr/local/ispconfig/interface/web');
 		
 		
 	}
@@ -903,7 +727,7 @@ class installer_base {
 		exec('crontab -u getmail crontab.txt &> /dev/null');
 		unlink('crontab.txt');
 	}
-	
+
 }
 
 ?>

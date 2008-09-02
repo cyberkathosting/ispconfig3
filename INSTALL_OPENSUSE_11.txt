@@ -1,0 +1,212 @@
+Installation
+-----------
+
+It is recommended to use a clean (fresh) OpenSUSE installatiom where you selected to install just the minimal packages. A Gnome or KDE desktop is not needed and will just slow down the server. Then follow the steps below to setup your server with ISPConfig 3:
+
+Install some basic packes and the compilers that we need later
+
+yast2 -i findutils readline libgcc glibc-devel findutils-locate gcc flex lynx compat-readline4 db-devel wget gcc-c++ make vim telnet cron iptables iputils man man-pages
+
+1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
+
+yast2 -i postfix postfix-mysql mysql mysql-client phpMyAdmin courier-imap courier-authlib courier-authlib-mysql python cron cyrus-sasl cyrus-sasl-crammd5 cyrus-sasl-digestmd5 cyrus-sasl-gssapi cyrus-sasl-otp cyrus-sasl-plain cyrus-sasl-saslauthd libmysqlclient-devel
+
+chkconfig --add mysql
+/etc/init.d/mysql start
+
+chkconfig --add postfix
+/etc/init.d/postfix start
+
+chkconfig --add saslauthd
+/etc/init.d/saslauthd start
+
+chkconfig --add saslauthd
+/etc/init.d/saslauthd start
+
+chkconfig --add fam
+chkconfig --add courier-authdaemon
+chkconfig --add courier-pop
+chkconfig --add courier-imap
+/etc/init.d/courier-pop start
+/etc/init.d/courier-imap start
+chkconfig --add courier-pop-ssl
+chkconfig --add courier-imap-ssl
+/etc/init.d/courier-pop-ssl start
+/etc/init.d/courier-imap-ssl start
+
+cd /tmp
+wget http://download.opensuse.org/repositories/server:/mail/openSUSE_11.0/i586/getmail-4.7.6-1.4.i586.rpm
+rpm -i getmail-4.7.6-1.4.i586.rpm
+
+// Warnings like "warning: getmail-4.7.6-1.4.i586.rpm: Header V3 DSA signature: NOKEY, key ID 367fe7fc" can be ignored.
+
+// Install maildrop
+rpm --force -i http://download.opensuse.org/repositories/home%3A/cboltz/openSUSE_10.3/i586/maildrop-2.0.3-16.1.i586.rpm
+
+// Install pam_mysql
+
+yast2 -i pam-devel
+cd /tmp
+wget http://heanet.dl.sourceforge.net/sourceforge/pam-mysql/pam_mysql-0.7RC1.tar.gz
+tar xvfz pam_mysql-0.7RC1.tar.gz
+cd pam_mysql-0.7RC1
+./configure
+make
+make install
+rm -rf pam_mysql-0.7RC1
+rm pam_mysql-0.7RC1.tar.gz
+
+// Set the mysql database password:
+
+mysqladmin -u root password yourrootsqlpassword
+mysqladmin -h ispconfig.local -u root password yourrootsqlpassword
+
+
+2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
+
+yast2 -i amavisd-new clamav clamav-db zoo unzip unrar bzip2 unarj perl-DBD-mysql
+
+chkconfig --add amavis
+chkconfig --add clamd
+/etc/init.d/amavis start
+/etc/init.d/clamd start
+
+3) Install PHP5 modules (1 line!):
+
+yast2 -i php5-bcmath php5-bz2 php5-calendar php5-ctype php5-curl php5-dbase php5-dom php5-ftp php5-gd php5-gettext php5-gmp php5-iconv php5-imap php5-ldap php5-mbstring php5-mcrypt php5-mysql php5-ncurses php5-odbc php5-openssl php5-pcntl php5-pgsql php5-posix php5-shmop php5-snmp php5-soap php5-sockets php5-sqlite php5-sysvsem php5-tokenizer php5-wddx php5-xmlrpc php5-xsl php5-zlib php5-exif php5-fastcgi php5-pear php5-sysvmsg php5-sysvshm ImageMagick curl
+
+Then run the following to enable the Apache modules:
+
+a2enmod suexec
+a2enmod rewrite
+a2enmod ssl
+
+chkconfig --add apache2
+/etc/init.d/apache2 start
+
+4) Install pure-ftpd and quota
+
+yast2 -i pure-ftpd quota
+
+// The current pure-ftpd package from SuSE is unstable and segfaults when a file is uploaded, 
+// we will replace it with a manually compiled package now:
+
+cd /tmp
+wget http://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-1.0.21.tar.gz
+tar xvfz pure-ftpd-1.0.21.tar.gz
+cd pure-ftpd-1.0.21/
+./configure --sysconfdir=/etc/pure-ftpd --with-everything --with-mysql
+make
+make install
+mv /usr/sbin/pure-ftpd /usr/sbin/pure-ftpd.suse
+ln -s /usr/local/sbin/pure-ftpd /usr/sbin/pure-ftpd
+rm -rf pure-ftpd-1.0.21
+rm -f pure-ftpd-1.0.21.tar.gz
+
+chkconfig --add pure-ftpd
+/etc/init.d/pure-ftpd start
+
+
+5) Install mydns
+
+cd /tmp
+wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/server:/dns/SUSE_Factory/i586/mydns-mysql-1.1.0-3.72.i586.rpm
+wget ftp://ftp.pbone.net/mirror/ftp5.gwdg.de/pub/opensuse/repositories/server:/dns/SUSE_Factory/i586/mydns-1.1.0-3.72.i586.rpm
+rpm -i mydns*.rpm
+rm -rf /tmp/mydns*
+
+chkconfig --add mydns
+
+6) Install vlogger and webalizer
+
+cd /tmp
+wget http://n0rp.chemlab.org/vlogger/vlogger-1.3.tar.gz
+tar xvfz vlogger-1.3.tar.gz
+mv vlogger-1.3/vlogger /usr/sbin/
+rm -rf vlogger*
+
+
+yast2 -i webalizer perl-DateManip
+
+
+7) Install ISPConfig 3
+
+There are two possile scenarios, but not both:
+7.1) Install the latest released version 
+7.2) Install directly from SVN
+
+apt-get install php5-cli
+
+7.1) Installation of beta 3 from tar.gz
+
+  cd /tmp
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.6-beta.tar.gz
+  tar xvfz ISPConfig-3.0.0.6-beta.tar.gz
+  cd ispconfig3_install/install/
+
+7.2) Installation from SVN
+
+  apt-get install subversion
+  cd /tmp
+  svn export svn://svn.ispconfig.org/ispconfig3/trunk/
+  cd trunk/install
+
+
+7.1+7.2) Now proceed with the ISPConfig installation.
+
+Now start the installation process by executing:
+
+php -q install.php
+
+The installer will configure all services like postfix, sasl, courier, etc. for you. A manual setup as required for ISPConfig 2 (perfect setup guides) is not nescessary. To login to the ISPConfig controlpanel, open the following URL in your browser (replace the IP to match your settings!):
+
+http://192.168.0.100:8080/
+
+the default login is:
+
+user: admin
+password: admin
+
+In case you get a permission denied error from apache, please restart the apache webserver process.
+
+Optional:
+
+Install a webbased FTP Client
+
+apt-get install squirrelmail
+ln -s /usr/share/squirrelmail/ /var/www/webmail
+
+Access squirrelmail:
+
+http://192.168.0.100/webmail
+
+
+To configure squirrelmail, run:
+
+/usr/sbin/squirrelmail-configure
+
+----------------------------------------------------------------------------------------------------------
+
+Hints:
+
+debian 4.0 under openvz:
+
+VPSID=101
+for CAP in CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CHROOT SYS_NICE CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CHROOT SYS_NICE
+do
+  vzctl set $VPSID --capability ${CAP}:on --save
+done
+
+----------------------------------------------------------------------------------------------------------
+
+Installing Jailkit:
+
+apt-get install build-essential autoconf automake1.9 libtool flex bison
+cd /tmp
+wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
+tar xvfz jailkit-2.5.tar.gz
+cd jailkit-2.5
+./configure
+make
+make install
+rm -rf jailkit-2.5*

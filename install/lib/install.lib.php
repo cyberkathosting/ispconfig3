@@ -74,9 +74,20 @@ function get_distname() {
 		}
 	}
 	
+	//** OpenSuSE
+	elseif(file_exists("/etc/SuSE-release")) {
+		if(stristr(file_get_contents('/etc/SuSE-release'),'11.0')) {
+			$distname = 'opensuse110';
+			swriteln("Operating System: openSUSE 11.0 or compatible\n");
+		}
+	}
+	
+	
 	//** Redhat
 	elseif(file_exists("/etc/redhat_release")) {
 	
+	} else {
+		die('unrecognized linux distribution');
 	}
 	
 	return $distname;
