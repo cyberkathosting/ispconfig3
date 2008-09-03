@@ -59,15 +59,18 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 }
 
 //** Get distribution identifier
-$distname = get_distname();
+$dist = get_distname();
 
 include_once("/usr/local/ispconfig/server/lib/config.inc.php");
 $conf_old = $conf;
 unset($conf);
 
+if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
+
 //** Include the distribution specific installer class library and configuration
-include_once('dist/lib/'.$distname.'.lib.php');
-include_once('dist/conf/'.$distname.'.conf.php');
+if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
+include_once('dist/lib/'.$dist['id'].'.lib.php');
+include_once('dist/conf/'.$dist['id'].'.conf.php');
 
 //** Get hostname
 exec('hostname -f', $tmp_out);

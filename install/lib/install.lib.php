@@ -68,12 +68,14 @@ function get_distname() {
 			$distname = 'Debian';
 			$distver = '4.0';
 			$distid = 'debian40';
+			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 4.0 or compatible\n");
 		}
 		if(trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
 			$distname = 'Debian';
 			$distver = 'Lenny/Sid';
 			$distid = 'debian40';
+			$distbaseid = 'debian';
 			swriteln("Operating System: Debian Lenny/Sid or compatible\n");
 		}
 	}
@@ -84,6 +86,7 @@ function get_distname() {
 			$distname = 'openSUSE';
 			$distver = '11.0';
 			$distid = 'opensuse110';
+			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.0 or compatible\n");
 		}
 	}
@@ -98,6 +101,7 @@ function get_distname() {
 			$distname = 'Fedora';
 			$distver = '9';
 			$distid = 'fedora9';
+			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 9 or compatible\n");
 		}
 		
@@ -106,7 +110,7 @@ function get_distname() {
 		die('unrecognized linux distribution');
 	}
 	
-	return array('name' => $distname, 'version' => $distver, 'id' => $distid);
+	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
 }
 
 function sread() {

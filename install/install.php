@@ -62,7 +62,7 @@ $dist = get_distname();
 if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
 
 //** Include the distribution specific installer class library and configuration
-if(is_file('dist/lib/'.strtolower($dist['name']).'.lib.php')) include_once('dist/lib/'.strtolower($dist['name']).'.lib.php');
+if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
 include_once('dist/lib/'.$dist['id'].'.lib.php');
 include_once('dist/conf/'.$dist['id'].'.conf.php');
 
