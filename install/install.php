@@ -57,13 +57,14 @@ require_once('lib/install.lib.php');
 require_once('lib/installer_base.lib.php');
 
 //** Get distribution identifier
-$distname = get_distname();
+$dist = get_distname();
 
-if($distname == '') die('Linux Dustribution or Version not recognized.');
+if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
 
 //** Include the distribution specific installer class library and configuration
-include_once('dist/lib/'.$distname.'.lib.php');
-include_once('dist/conf/'.$distname.'.conf.php');
+if(is_file('dist/lib/'.strtolower($dist['name']).'.lib.php')) include_once('dist/lib/'.strtolower($dist['name']).'.lib.php');
+include_once('dist/lib/'.$dist['id'].'.lib.php');
+include_once('dist/conf/'.$dist['id'].'.conf.php');
 
 //** Install logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
