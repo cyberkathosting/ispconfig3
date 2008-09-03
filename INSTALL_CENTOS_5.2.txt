@@ -1,7 +1,7 @@
 Installation
 -----------
 
-It is recommended to use a clean (fresh) Fedora install. Then follow the steps below to setup your server with ISPConfig 3:
+It is recommended to use a clean (fresh) CentOS 5.2 install. Then follow the steps below to setup your server with ISPConfig 3:
 
 Installation of some basic requirements:
 
@@ -12,18 +12,23 @@ yum groupinstall 'Development Libraries'
 
 You should disable selinux now, as some programs will not start when selinux is enabled:
 
-vi /etc/selinux/config
-
-and set:
-
-SELINUX=disabled
+system-config-securitylevel-tui
 
 then reboot the server.
 
 
 1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
 
-yum install ntp httpd mysql-server php php-mysql php-mbstring rpm-build gcc mysql-devel openssl-devel cyrus-sasl-devel pkgconfig zlib-devel phpMyAdmin pcre-devel openldap-devel postgresql-devel expect libtool-ltdl-devel openldap-servers libtool gdbm-devel pam-devel gamin-devel getmail
+yum install ntp httpd mysql-server php php-mysql php-mbstring rpm-build gcc mysql-devel openssl-devel cyrus-sasl-devel pkgconfig zlib-devel phpMyAdmin pcre-devel openldap-devel postgresql-devel expect libtool-ltdl-devel openldap-servers libtool gdbm-devel pam-devel gamin-devel postfix
+
+rpm --import http://dag.wieers.com/rpm/packages/RPM-GPG-KEY.dag.txt
+
+cd /tmp
+wget http://packages.sw.be/rpmforge-release/rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+rpm -i rpmforge-release-0.3.6-1.el5.rf.i386.rpm
+yum update
+
+yum install getmail
 
 useradd -m -s /bin/bash compileuser
 passwd compileuser
@@ -54,21 +59,19 @@ wget http://prdownloads.sourceforge.net/courier/maildrop-2.0.4.tar.bz2
 
 sudo rpmbuild -ta courier-authlib-0.61.0.tar.bz2
 
-sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-authlib-0.61.0-1.fc9.i386.rpm
-sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-authlib-mysql-0.61.0-1.fc9.i386.rpm
-sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-authlib-devel-0.61.0-1.fc9.i386.rpm
+sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-authlib-0.61.0-1.i386.rpm
+sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-authlib-mysql-0.61.0-1.i386.rpm
+sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-authlib-devel-0.61.0-1.i386.rpm
 
 rpmbuild -ta courier-imap-4.4.1.tar.bz2
 
-sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-imap-4.4.1-1.9.i386.rpm
+sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/courier-imap-4.4.1-1.i386.rpm
 
 sudo rpmbuild -ta maildrop-2.0.4.tar.bz2
 
-sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/maildrop-2.0.4-1.9.i386.rpm
+sudo rpm -ivh /home/compileuser/rpm/RPMS/i386/maildrop-2.0.4-1.i386.rpm
 
 exit
-
-yum install postfix
 
 chkconfig --levels 235 mysqld on
 /etc/init.d/mysqld start
@@ -99,13 +102,13 @@ mysqladmin -h ispconfig.local -u root password yourrootsqlpassword
 
 2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
 
-yum install amavisd-new spamassassin clamav clamav-data clamav-server clamav-update unzip bzip2 unrar
+yum install amavisd-new spamassassin clamav clamd clamav-data clamav-server clamav-update unzip bzip2 unrar
 
 chkconfig --levels 235 amavisd on
-chkconfig --levels 235 clamd.amavisd on
+chkconfig --levels 235 clamd on
 /usr/bin/freshclam
 /etc/init.d/amavisd start
-/etc/init.d/clamd.amavisd start
+/etc/init.d/clamd start
 
 3) Install apache, PHP5 and phpmyadmin (1 line!):
 
@@ -114,13 +117,19 @@ yum install php php-devel php-gd php-imap php-ldap php-mysql php-odbc php-pear p
 
 4) Install pure-ftpd and quota
 
-yum install pure-ftpd quota
+cd /tmp
+wget http://centos.karan.org/el5/extras/testing/i386/RPMS/pure-ftpd-1.0.21-15.el5.kb.i386.rpm
+rpm -i pure-ftpd-1.0.21-15.el5.kb.i386.rpm
+
+yum install quota
 
 chkconfig --levels 235 pure-ftpd on
+/etc/init.d/pure-ftpd start
 
 5) Install mydns
 
-rpm -i http://mydns.bboy.net/download/mydns-mysql-1.1.0-1.i386.rpm
+wget http://mydns.bboy.net/download/mydns-mysql-1.1.0-1.i386.rpm
+rpm -ivh mydns-mysql-1.1.0-1.i386.rpm
 
 chkconfig --levels 235 mydns on
 
@@ -134,29 +143,24 @@ tar xvfz vlogger-1.3.tar.gz
 mv vlogger-1.3/vlogger /usr/sbin/
 rm -rf vlogger*
 
-7) Configure the firewall
+7) Install ISPConfig 3
 
-Now you should switch off the firewall by running:
+Disable the firewall:
 
-system-config-firewall-tui
-
-ISPConfig comes with a iptables bsed firewall script that can be meneged from within the ispconfig interface.
-
-
-8) Install ISPConfig 3
+system-config-securitylevel-tui
 
 There are two possile scenarios, but not both:
-8.1) Install the latest released version 
-8.2) Install directly from SVN
+7.1) Install the latest released version 
+7.2) Install directly from SVN
 
-8.1) Installation of beta 3 from tar.gz
+7.1) Installation of beta 3 from tar.gz
 
   cd /tmp
   wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.6-beta.tar.gz
   tar xvfz ISPConfig-3.0.0.6-beta.tar.gz
   cd ispconfig3_install/install/
 
-8.2) Installation from SVN
+7.2) Installation from SVN
 
   yum install subversion
   cd /tmp
@@ -164,7 +168,7 @@ There are two possile scenarios, but not both:
   cd trunk/install
 
 
-8.1+8.2) Now proceed with the ISPConfig installation.
+7.1+7.2) Now proceed with the ISPConfig installation.
 
 Now start the installation process by executing:
 

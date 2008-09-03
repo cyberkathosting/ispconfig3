@@ -105,6 +105,14 @@ function get_distname() {
 			swriteln("Operating System: Fedora 9 or compatible\n");
 		}
 		
+		if(stristr($content,'CentOS release 5.2 (Final)')) {
+			$distname = 'CentOS';
+			$distver = '5.2';
+			$distid = 'centos52';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 5.2 or compatible\n");
+		}
+		
 		
 	} else {
 		die('unrecognized linux distribution');
@@ -502,7 +510,7 @@ function is_group($group){
 }
 
 function replaceLine($filename,$search_pattern,$new_line,$strict = 0) {
-		$lines = file($filename);
+	if($lines = @file($filename)) {
 		$out = '';
 		$found = 0;
 		foreach($lines as $line) {
@@ -526,10 +534,11 @@ function replaceLine($filename,$search_pattern,$new_line,$strict = 0) {
 			$out .= $new_line."\n";
 		}
 		file_put_contents($filename,$out);
+	}
 }
 	
 function removeLine($filename,$search_pattern,$strict = 0) {
-		$lines = file($filename);
+	if($lines = @file($filename)) {
 		$out = '';
 		foreach($lines as $line) {
 			if($strict == 0) {
@@ -543,6 +552,7 @@ function removeLine($filename,$search_pattern,$strict = 0) {
 			}
 		}
 		file_put_contents($filename,$out);
+	}
 }
 
 
