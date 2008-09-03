@@ -105,10 +105,18 @@ class web_module {
 	// This function is used
 	function restartHttpd($action = 'restart') {
 		global $app;
-		if($action == 'restart') {
-			exec('/etc/init.d/apache2 restart');
+		
+		$command = '';
+		if(is_file('/etc/init.d/httpd')) {
+			$command = '/etc/init.d/httpd';
 		} else {
-			exec('/etc/init.d/apache2 reload');
+			$command = '/etc/init.d/apache2';
+		}
+		
+		if($action == 'restart') {
+			exec($command.' restart');
+		} else {
+			exec($command.' reload');
 		}
 		
 	}

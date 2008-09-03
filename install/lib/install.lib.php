@@ -84,8 +84,16 @@ function get_distname() {
 	
 	
 	//** Redhat
-	elseif(file_exists("/etc/redhat_release")) {
-	
+	elseif(file_exists("/etc/redhat-release")) {
+		
+		$content = file_get_contents('/etc/redhat-release');
+		
+		if(stristr($content,'Fedora release 9 (Sulphur)')) {
+			$distname = 'fedora9';
+			swriteln("Operating System: Fedora 9 or compatible\n");
+		}
+		
+		
 	} else {
 		die('unrecognized linux distribution');
 	}
@@ -479,6 +487,50 @@ function is_group($group){
     }
   }
   return false;
+}
+
+function replaceLine($filename,$search_pattern,$new_line,$strict = 0) {
+		$lines = file($filename);
+		$out = '';
+		$found = 0;
+		foreach($lines as $line) {
+			if($strict == 0) {
+				if(stristr($line,$search_pattern)) {
+					$out .= $new_line."\n";
+					$found = 1;
+				} else {
+					$out .= $line;
+				}
+			} else {
+				if(trim($line) == $search_pattern) {
+					$out .= $new_line."\n";
+					$found = 1;
+				} else {
+					$out .= $line;
+				}
+			}
+		}
+		if($found == 0) {
+			$out .= $new_line."\n";
+		}
+		file_put_contents($filename,$out);
+}
+	
+function removeLine($filename,$search_pattern,$strict = 0) {
+		$lines = file($filename);
+		$out = '';
+		foreach($lines as $line) {
+			if($strict == 0) {
+				if(!stristr($line,$search_pattern)) {
+					$out .= $line;
+				}
+			} else {
+				if(!trim($line) == $search_pattern) {
+					$out .= $line;
+				}
+			}
+		}
+		file_put_contents($filename,$out);
 }
 
 

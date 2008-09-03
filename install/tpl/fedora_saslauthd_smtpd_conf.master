@@ -1,0 +1,4 @@
+pwcheck_method: authdaemond
+log_level: 3
+mech_list: PLAIN LOGIN
+authdaemond_path:/var/spool/authdaemon/socket

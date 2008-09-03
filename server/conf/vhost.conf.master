@@ -57,7 +57,7 @@
      # php as fast-cgi enabled
     <Directory /var/www/<tmpl_var name='domain'>/web>
         AddHandler fcgid-script .php .php3 .php4 .php5
-        FCGIWrapper <tmpl_var name='fastcgi_starter_path'>/<tmpl_var name='fastcgi_starter_script'> .php
+        FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
         Options FollowSymLinks +ExecCGI Indexes
         AllowOverride None
         Order allow,deny
