@@ -237,19 +237,19 @@ if($update_crontab_answer == 'yes') {
 //** Restart services:
 if($reconfigure_services_answer == 'yes') {
 	swriteln('Restarting services ...');
-	system("/etc/init.d/mysql restart");
-	system("/etc/init.d/postfix restart");
-	system("/etc/init.d/saslauthd restart");
-	system("/etc/init.d/amavis restart");
-	system("/etc/init.d/clamav-daemon restart");
-	system("/etc/init.d/courier-authdaemon restart");
-	system("/etc/init.d/courier-imap restart");
-	system("/etc/init.d/courier-imap-ssl restart");
-	system("/etc/init.d/courier-pop restart");
-	system("/etc/init.d/courier-pop-ssl restart");
-	system("/etc/init.d/apache2 restart");
-	system("/etc/init.d/pure-ftpd-mysql restart");
-	system("/etc/init.d/mydns restart &> /dev/null");
+	system($conf['init_scripts'].'/'.$conf['mysql']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
+	system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
+	system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
+	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 }
 
 echo "Update finished.\n";
