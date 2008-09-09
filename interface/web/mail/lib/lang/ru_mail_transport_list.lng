@@ -1,0 +1,15 @@
+<?php
+$wb["list_head_txt"] = 'Advanced Email Routing';
+$wb["active_txt"] = 'Активный';
+$wb["server_id_txt"] = 'Сервер';
+$wb["domain_txt"] = 'Домен';
+$wb["transport_txt"] = 'Transport';
+$wb["sort_order_txt"] = 'Сортировать по';
+$wb["page_txt"] = 'Страница';
+$wb["page_of_txt"] = 'из';
+$wb["page_next_txt"] = 'Дальше';
+$wb["page_back_txt"] = 'Назад';
+$wb["delete_txt"] = 'Удалить';
+$wb["filter_txt"] = 'Фильтр';
+$wb["add_new_record_txt"] = 'Добавить новый transport';
+?>

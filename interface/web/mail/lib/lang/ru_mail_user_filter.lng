@@ -1,0 +1,11 @@
+<?php
+$wb["rulename_txt"] = 'Имя';
+$wb["action_txt"] = 'Action';
+$wb["target_txt"] = 'Каталог';
+$wb["active_txt"] = 'Активный';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить';
+$wb["rulename_error_empty"] = 'Имя пустое.';
+$wb["searchterm_is_empty"] = 'Поле поиска пустое.';
+$wb["source_txt"] = 'Источник';
+?>

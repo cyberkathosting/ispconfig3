@@ -1,0 +1,8 @@
+<?php
+$wb["email_txt"] = 'Email';
+$wb["destination_txt"] = 'Получатель Email';
+$wb["active_txt"] = 'Активный';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить';
+$wb["limit_mailforward_txt"] = 'Максимальное число forwarders достигнуто.';
+?>

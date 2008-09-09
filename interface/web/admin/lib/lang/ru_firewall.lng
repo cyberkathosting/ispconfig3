@@ -1,0 +1,11 @@
+<?php
+$wb["server_id_txt"] = 'Сервер';
+$wb["tcp_port_txt"] = 'Open TCP ports';
+$wb["udp_port_txt"] = 'Open UDP ports';
+$wb["tcp_port_help_txt"] = 'Перечислить через запятую';
+$wb["udp_port_help_txt"] = 'Перечислить через запятую';
+$wb["active_txt"] = 'Активный';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить';
+$wb["firewall_error_unique"] = 'Уже есть записи firewall для этого сервера.';
+?>

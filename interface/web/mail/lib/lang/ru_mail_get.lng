@@ -1,0 +1,13 @@
+<?php
+$wb["server_id_txt"] = 'Сервер';
+$wb["type_txt"] = 'Тип';
+$wb["source_server_txt"] = 'Pop3/Imap Сервер';
+$wb["source_username_txt"] = 'Пользовательname';
+$wb["source_password_txt"] = 'Пароль';
+$wb["source_delete_txt"] = 'Удалить emails after retrieval';
+$wb["destination_txt"] = 'Получатель';
+$wb["active_txt"] = 'Активный';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить';
+$wb["limit_fetchmail_txt"] = 'Максимальное число Fetchmail записей, достигнуто.';
+?>

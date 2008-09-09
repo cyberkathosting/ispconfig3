@@ -1,0 +1,27 @@
+<?php
+$wb["username_txt"] = 'Имя пользователя';
+$wb["username_err"] = 'username_err';
+$wb["passwort_txt"] = 'Пароль';
+$wb["modules_txt"] = 'Модуль';
+$wb["startmodule_txt"] = 'Начальный модуль';
+$wb["app_theme_txt"] = 'Дизайн';
+$wb["typ_txt"] = 'Тип';
+$wb["active_txt"] = 'Активный';
+$wb["language_txt"] = 'Язык';
+$wb["name_txt"] = 'Имя';
+$wb["vorname_txt"] = 'Forename';
+$wb["unternehmen_txt"] = 'Компания';
+$wb["strasse_txt"] = 'Улица';
+$wb["ort_txt"] = 'Город';
+$wb["plz_txt"] = 'ZIP';
+$wb["land_txt"] = 'Страна';
+$wb["email_txt"] = 'Email';
+$wb["url_txt"] = 'Url';
+$wb["telefon_txt"] = 'Телефон';
+$wb["fax_txt"] = 'Факс';
+$wb["groups_txt"] = 'Группа';
+$wb["default_group_txt"] = 'Группа по умолчанию';
+$wb["active_txt"] = 'Активный';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить';
+?>

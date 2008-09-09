@@ -1,0 +1,14 @@
+<?php
+$wb["list_head_txt"] = 'FTP-Пользователь';
+$wb["active_txt"] = 'Активный';
+$wb["server_id_txt"] = 'Сервер';
+$wb["parent_domain_id_txt"] = 'Веб сайт';
+$wb["username_txt"] = 'Пользователь';
+$wb["page_txt"] = 'Страница';
+$wb["page_of_txt"] = 'из';
+$wb["page_next_txt"] = 'Дальше';
+$wb["page_back_txt"] = 'Назад';
+$wb["delete_txt"] = 'Удалить';
+$wb["filter_txt"] = 'Фильтр';
+$wb["add_new_record_txt"] = 'Добавить нового FTP-Пользователя';
+?>

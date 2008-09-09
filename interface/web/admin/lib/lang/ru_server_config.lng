@@ -1,0 +1,36 @@
+<?php
+$wb["jailkit_chroot_home_txt"] = 'Jailkit chroot home';
+$wb["jailkit_chroot_app_sections_txt"] = 'Jailkit chroot app sections';
+$wb["jailkit_chroot_app_programs_txt"] = 'Jailkit chrooted applications';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить';
+$wb["website_path_txt"] = 'Website path';
+$wb["website_symlinks_txt"] = 'Website symlinks';
+$wb["vhost_conf_dir_txt"] = 'Vhost config dir';
+$wb["vhost_conf_enabled_dir_txt"] = 'Vhost config enabled dir';
+$wb["getmail_config_dir_txt"] = 'Getmail config dir';
+$wb["fastcgi_starter_path_txt"] = 'FastCGI starter path';
+$wb["fastcgi_starter_script_txt"] = 'FastCGI starter script';
+$wb["fastcgi_alias_txt"] = 'FastCGI Alias';
+$wb["fastcgi_phpini_path_txt"] = 'FastCGI php.ini Path';
+$wb["fastcgi_children_txt"] = 'FastCGI Children';
+$wb["fastcgi_max_requests_txt"] = 'FastCGI max. Requests';
+$wb["fastcgi_bin_txt"] = 'FastCGI Bin';
+$wb["module_txt"] = 'Модуль';
+$wb["maildir_path_txt"] = 'Maildir Path';
+$wb["homedir_path_txt"] = 'Homedir Path';
+$wb["mailuser_uid_txt"] = 'Mailuser UID';
+$wb["mailuser_gid_txt"] = 'Mailuser GID';
+$wb["mailuser_name_txt"] = 'Mailuser Name';
+$wb["mailuser_group_txt"] = 'Mailuser Group';
+$wb["relayhost_txt"] = 'Relayhost';
+$wb["relayhost_user_txt"] = 'Relayhost пользователь';
+$wb["relayhost_password_txt"] = 'Relayhost пароль';
+$wb["mailbox_size_limit_txt"] = 'Mailbox Size Limit';
+$wb["message_size_limit_txt"] = 'Message Size Limit';
+$wb["ip_address_txt"] = 'IP Address';
+$wb["netmask_txt"] = 'Сетевая маска';
+$wb["gateway_txt"] = 'Шлюз';
+$wb["hostname_txt"] = 'Имя узла';
+$wb["nameservers_txt"] = 'Nameservers';
+?>

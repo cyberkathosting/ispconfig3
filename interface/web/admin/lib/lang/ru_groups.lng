@@ -1,0 +1,7 @@
+<?php
+$wb["description_txt"] = 'Описание';
+$wb["name_txt"] = 'Группа';
+$wb["name_err"] = 'Группа должна иметь от 1 до 30 символов.';
+$wb["btn_save_txt"] = 'Сохранить';
+$wb["btn_cancel_txt"] = 'Закончить'
+?>

@@ -1,0 +1,19 @@
+<?php
+$wb["header_txt"] = 'Formeditor';
+$wb["title_txt"] = 'Formtitle';
+$wb["name_txt"] = 'Formname';
+$wb["delete_txt"] = 'Удалить';
+$wb["properties_txt"] = 'Properties';
+$wb["new_tab_txt"] = 'Tab new';
+$wb["edit_txt"] = 'Edit';
+$wb["delete_txt"] = 'X';
+$wb["new_txt"] = 'Neu';
+$wb["up_txt"] = '^';
+$wb["down_txt"] = 'v';
+$wb["module_txt"] = 'Модуль';
+$wb["form_txt"] = 'Form';
+$wb["description_txt"] = 'Описание';
+$wb["module_del_txt"] = "Удалить модули и подкаталоги?";
+$wb["menu_del_txt"] = "Удалить меню и подменю?";
+$wb["item_del_txt"] = "Delete menuitem?";
+?>

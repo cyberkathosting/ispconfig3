@@ -1,0 +1,17 @@
+<?php
+$wb["header_txt"] = 'Menu editor';
+$wb["title_txt"] = 'Заголовок';
+$wb["name_txt"] = 'Модуль';
+$wb["delete_txt"] = 'Удалить';
+$wb["properties_txt"] = 'Свойства';
+$wb["new_menu_txt"] = 'Menu new';
+$wb["edit_txt"] = 'Edit';
+$wb["delete_txt"] = 'Удалить';
+$wb["new_txt"] = 'Новый';
+$wb["up_txt"] = 'Up';
+$wb["down_txt"] = 'Down';
+$wb["module_txt"] = 'Модуль';
+$wb["module_del_txt"] = "Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse l�schen?";
+$wb["menu_del_txt"] = "Wollen Sie das Men� mit allen Untereintr�gen l�schen?";
+$wb["item_del_txt"] = "Wollen Sie den Men�eintrag l�schen?";
+?>

@@ -1,0 +1,14 @@
+<?php
+$wb["list_head_txt"] = 'Реселлер';
+$wb["company_txt"] = 'Компания';
+$wb["firstname_txt"] = 'Firstname';
+$wb["surname_txt"] = 'Surname';
+$wb["city_txt"] = 'Город';
+
+$wb["page_txt"] = 'Страница';
+$wb["page_of_txt"] = 'из';
+$wb["page_next_txt"] = 'Дальше';
+$wb["page_back_txt"] = 'Назад';
+$wb["delete_txt"] = 'Удалить';
+$wb["filter_txt"] = 'Фильтр';
+?>
