@@ -45,7 +45,7 @@
 <tmpl_if name='php' op='==' value='suphp'>
     # suphp enabled
     suPHP_Engine on
-    suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
     AddHandler x-httpd-php .php .php3 .php4 .php5
     suPHP_AddHandler x-httpd-php
 </tmpl_if>
