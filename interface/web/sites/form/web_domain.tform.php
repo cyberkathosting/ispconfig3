@@ -318,6 +318,7 @@ $form["tabs"]['advanced'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+	/*
 		'document_root' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
@@ -351,6 +352,7 @@ $form["tabs"]['advanced'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		*/
 		'apache_directives' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXT',
