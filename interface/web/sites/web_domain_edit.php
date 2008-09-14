@@ -273,6 +273,7 @@ class page_action extends tform_actions {
 			$client_id = intval($client["client_id"]);
 		}
 		
+		/*
 		// Set the values for document_root, system_user and system_group
 		$system_user = 'web'.$this->id;
 		$system_group = 'client'.$client_id;
@@ -280,6 +281,7 @@ class page_action extends tform_actions {
 		
 		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 		$app->db->query($sql);
+		*/
 		
 	}
 	
