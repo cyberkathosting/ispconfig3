@@ -191,6 +191,7 @@ class apache2_plugin {
 			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$parent_domain_id." AND active = 'y'");
 			$data["new"] = $tmp;
 			$data["old"] = $tmp;
+			$this->action = 'update';
 		}
 		
 		
