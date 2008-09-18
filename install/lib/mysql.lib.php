@@ -171,7 +171,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		// Check der variablen
         function quote($formfield)
         {
-            return addslashes($formfield);
+            return mysql_real_escape_string($formfield);
         }
 		
 		// Check der variablen

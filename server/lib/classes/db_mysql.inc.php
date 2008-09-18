@@ -163,7 +163,12 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		// Check der variablen
         function quote($formfield)
         {
-            return addslashes($formfield);
+            if(!$this->connect()){
+				$this->updateError('WARNING: mysql_connect: Used addslashes instead of mysql_real_escape_string');
+				return addslashes($formfield);
+			}
+			
+			return mysql_real_escape_string($formfield);
         }
 		
 		// Check der variablen

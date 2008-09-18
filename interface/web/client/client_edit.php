@@ -57,20 +57,20 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 		// Create the group for the client
-		$sql = "INSERT INTO sys_group (name,description,client_id) VALUES ('".addslashes($this->dataRecord["username"])."','',".$this->id.")";
+		$sql = "INSERT INTO sys_group (name,description,client_id) VALUES ('".mysql_real_escape_string($this->dataRecord["username"])."','',".$this->id.")";
 		$app->db->query($sql);
 		$groupid = $app->db->insertID();
 		$groups = $groupid;
 		
-		$username = addslashes($this->dataRecord["username"]);
-		$password = addslashes($this->dataRecord["password"]);
+		$username = mysql_real_escape_string($this->dataRecord["username"]);
+		$password = mysql_real_escape_string($this->dataRecord["password"]);
 		$modules = ISPC_INTERFACE_MODULES_ENABLED;
 		if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
 		$startmodule = 'mail';
-		$usertheme = addslashes($this->dataRecord["usertheme"]);
+		$usertheme = mysql_real_escape_string($this->dataRecord["usertheme"]);
 		$type = 'user';
 		$active = 1;
-		$language = addslashes($this->dataRecord["language"]);
+		$language = mysql_real_escape_string($this->dataRecord["language"]);
 		
 		// Create the controlpaneluser for the client
 		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
@@ -97,7 +97,7 @@ class page_action extends tform_actions {
 		
 		// username changed
 		if(isset($app->tform->diffrec['username'])) {
-			$username = addslashes($this->dataRecord["username"]);
+			$username = mysql_real_escape_string($this->dataRecord["username"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
 			$app->db->query($sql);
@@ -107,7 +107,7 @@ class page_action extends tform_actions {
 		
 		// password changed
 		if(isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
-			$password = addslashes($this->dataRecord["password"]);
+			$password = mysql_real_escape_string($this->dataRecord["password"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET passwort = md5('$password') WHERE client_id = $client_id";
 			$app->db->query($sql);
@@ -117,7 +117,7 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord["limit_client"])) {
 			$modules = ISPC_INTERFACE_MODULES_ENABLED;
 			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
-			$modules = addslashes($modules);
+			$modules = mysql_real_escape_string($modules);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
 			$app->db->query($sql);

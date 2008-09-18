@@ -160,10 +160,14 @@ class db
         return $this->quote($formfield);
     }
 		
-	/** Escapes quotes in variable. addslashes() */
+	/** Escapes quotes in variable. mysql_real_escape_string() */
     public function quote($formfield)
-    {
-        return addslashes($formfield);
+    {	
+		if(!$this->connect()){
+			$this->updateError('WARNING: mysql_connect: Used addslashes instead of mysql_real_escape_string');
+			return addslashes($formfield);
+		}
+        return mysql_real_escape_string($formfield, $this->linkId);
     }
 		
 	/** Unquotes a variable, strip_slashes() */

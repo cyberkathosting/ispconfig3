@@ -609,6 +609,50 @@ CREATE TABLE `shell_user` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `software_repo`
+-- 
+
+CREATE TABLE `software_repo` (
+  `software_repo_id` bigint(20) NOT NULL auto_increment,
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `repo_name` varchar(40) default NULL,
+  `repo_url` varchar(40) default NULL,
+  `repo_username` varchar(30) default NULL,
+  `repo_password` varchar(30) default NULL,
+  `active` varchar(255) NOT NULL default 'y',
+  PRIMARY KEY  (`software_repo_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `software_update`
+-- 
+
+CREATE TABLE `software_update` (
+  `software_update_id` int(11) NOT NULL auto_increment,
+  `software_repo_id` int(11) NOT NULL,
+  `update_url` varchar(255) NOT NULL,
+  `update_md5` varchar(255) NOT NULL,
+  `install` char(1) NOT NULL,
+  `depenencies` varchar(255) NOT NULL,
+  `update_title` varchar(255) NOT NULL,
+  PRIMARY KEY  (`software_update_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `software_update`
+-- 
+
+
+-- --------------------------------------------------------
+
+
+-- 
 -- Tabellenstruktur für Tabelle `spamfilter_policy`
 -- 
 

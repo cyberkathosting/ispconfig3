@@ -157,7 +157,7 @@ foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
 }
 
 $new_ini = array_to_ini($tpl_ini_array);
-$inst->db->query("UPDATE server SET config = '".addslashes($new_ini)."' WHERE server_id = ".$conf['server_id']);
+$inst->db->query("UPDATE server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id']);
 unset($old_ini_array);
 unset($tpl_ini_array);
 unset($new_ini);

@@ -312,7 +312,7 @@ class listform {
                     case 'VARCHAR':
                     case 'TEXT':
                         if(!is_array($record[$key])) {
-                            $record[$key] = addslashes($record[$key]);
+                            $record[$key] = mysql_real_escape_string($record[$key]);
                         } else {
                             $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
                         }
@@ -330,7 +330,7 @@ class listform {
                         break;
 
                     case 'DOUBLE':
-                        $record[$key] = addslashes($record[$key]);
+                        $record[$key] = mysql_real_escape_string($record[$key]);
                         break;
 
                     case 'CURRENCY':

@@ -205,7 +205,7 @@ class page_action extends tform_actions {
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".addslashes($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".mysql_real_escape_string($this->dataRecord["email"])."'");
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
 				$sql = "UPDATE spamfilter_users SET policy_id = $ploicy_id WHERE id = ".$tmp_user["id"];
@@ -213,7 +213,7 @@ class page_action extends tform_actions {
 			} else {
 				// We create a new record
 				$sql = "INSERT INTO `spamfilter_users` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 1, ".$policy_id.", '".addslashes($this->dataRecord["email"])."', '".addslashes($this->dataRecord["email"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 1, ".$policy_id.", '".mysql_real_escape_string($this->dataRecord["email"])."', '".mysql_real_escape_string($this->dataRecord["email"])."', 'Y')";
 				$app->db->query($sql);
 			}
 		}  // endif spamfilter policy
@@ -230,7 +230,7 @@ class page_action extends tform_actions {
 		
 			// Spamfilter policy
 			$policy_id = intval($this->dataRecord["policy"]);
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".addslashes($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".mysql_real_escape_string($this->dataRecord["email"])."'");
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {
 					// There is already a record that we will update
@@ -239,7 +239,7 @@ class page_action extends tform_actions {
 				} else {
 					// We create a new record
 					$sql = "INSERT INTO `spamfilter_users` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        	VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 1, ".$policy_id.", '".addslashes($this->dataRecord["email"])."', '".addslashes($this->dataRecord["email"])."', 'Y')";
+				        	VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 1, ".$policy_id.", '".mysql_real_escape_string($this->dataRecord["email"])."', '".mysql_real_escape_string($this->dataRecord["email"])."', 'Y')";
 					$app->db->query($sql);
 				}
 			}else {

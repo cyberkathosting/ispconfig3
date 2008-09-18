@@ -482,14 +482,14 @@ class tform {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         if(!@is_array($record[$key])) {
-                                                $new_record[$key] = (isset($record[$key]))?addslashes($record[$key]):'';
+                                                $new_record[$key] = (isset($record[$key]))?mysql_real_escape_string($record[$key]):'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
                                 break;
                                 case 'TEXT':
                                         if(!is_array($record[$key])) {
-                                                $new_record[$key] = addslashes($record[$key]);
+                                                $new_record[$key] = mysql_real_escape_string($record[$key]);
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
@@ -508,7 +508,7 @@ class tform {
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
                                 case 'DOUBLE':
-                                        $new_record[$key] = addslashes($record[$key]);
+                                        $new_record[$key] = mysql_real_escape_string($record[$key]);
                                 break;
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);
@@ -699,10 +699,16 @@ class tform {
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
 																$record[$key] = crypt($record[$key],$salt);
+																$sql_insert_val .= "'".mysql_real_escape_string($record[$key])."', ";
+														} elseif ($field['encryption'] == 'MYSQL') {
+																$sql_insert_val .= "PASSWORD('".mysql_real_escape_string($record[$key])."'), ";
+														} elseif ($field['encryption'] == 'CLEARTEXT') {
+																$sql_insert_val .= "'".mysql_real_escape_string($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
+																$sql_insert_val .= "'".mysql_real_escape_string($record[$key])."', ";
                                                         }
-														$sql_insert_val .= "'".addslashes($record[$key])."', ";
+														
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
                                                         $sql_insert_key .= "`$key`, ";
 														if($record[$key] == '') {
@@ -726,10 +732,16 @@ class tform {
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
 																$record[$key] = crypt($record[$key],$salt);
+																$sql_update .= "`$key` = '".mysql_real_escape_string($record[$key])."', ";
+														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
+																$sql_update .= "`$key` = PASSWORD('".mysql_real_escape_string($record[$key])."'), ";
+														} elseif (isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') {
+																$sql_update .= "`$key` = '".mysql_real_escape_string($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
+																$sql_update .= "`$key` = '".mysql_real_escape_string($record[$key])."', ";
                                                         }
-                                                        $sql_update .= "`$key` = '".addslashes($record[$key])."', ";
+                                                        
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
 														if($record[$key] == '') {
 															// if a checkbox is not set, we set it to the unchecked value

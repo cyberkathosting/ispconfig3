@@ -252,7 +252,7 @@ class searchform {
 		$list_name = $this->listDef['name'];
 		$settings = $_SESSION['search'][$list_name];
 		unset($settings['page']);
-		$data = addslashes(serialize($settings));
+		$data = mysql_real_escape_string(serialize($settings));
 		
 		$userid = $_SESSION['s']['user']['userid'];
 		$groupid = $_SESSION['s']['user']['default_group'];
@@ -317,7 +317,7 @@ class searchform {
                     case 'VARCHAR':
                     case 'TEXT':
                         if(!is_array($record[$key])) {
-                            $record[$key] = addslashes($record[$key]);
+                            $record[$key] = mysql_real_escape_string($record[$key]);
                         } else {
                             $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
                         }
@@ -335,7 +335,7 @@ class searchform {
                         break;
 
                     case 'DOUBLE':
-                        $record[$key] = addslashes($record[$key]);
+                        $record[$key] = mysql_real_escape_string($record[$key]);
                         break;
 
                     case 'CURRENCY':

@@ -160,7 +160,7 @@ class page_action extends tform_actions {
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".addslashes($this->dataRecord["domain"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->dataRecord["domain"])."'");
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
 				$sql = "UPDATE spamfilter_users SET policy_id = $ploicy_id WHERE id = ".$tmp_user["id"];
@@ -169,7 +169,7 @@ class page_action extends tform_actions {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
 				$sql = "INSERT INTO `spamfilter_users` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".addslashes($this->dataRecord["domain"])."', '@".addslashes($this->dataRecord["domain"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".mysql_real_escape_string($this->dataRecord["domain"])."', '@".mysql_real_escape_string($this->dataRecord["domain"])."', 'Y')";
 				$app->db->query($sql);
 				unset($tmp_domain);
 			}
@@ -192,7 +192,7 @@ class page_action extends tform_actions {
 		
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".addslashes($this->dataRecord["domain"])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->dataRecord["domain"])."'");
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
@@ -202,7 +202,7 @@ class page_action extends tform_actions {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
 				$sql = "INSERT INTO `spamfilter_users` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".addslashes($this->dataRecord["domain"])."', '@".addslashes($this->dataRecord["domain"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".mysql_real_escape_string($this->dataRecord["domain"])."', '@".mysql_real_escape_string($this->dataRecord["domain"])."', 'Y')";
 				$app->db->query($sql);
 				unset($tmp_domain);
 			}
@@ -220,25 +220,25 @@ class page_action extends tform_actions {
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"],'mail');
 			
 			//* Update the mailboxes
-			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".addslashes($this->oldDataRecord['domain'])."'");
+			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
 					// setting Maildir, Homedir, UID and GID
 					$mail_parts = explode("@",$rec['email']);
 					$maildir = str_replace("[domain]",$this->dataRecord['domain'],$mail_config["maildir_path"]);
 					$maildir = str_replace("[localpart]",$mail_parts[0],$maildir);
-					$maildir = addslashes($maildir);
-					$email = addslashes($mail_parts[0].'@'.$this->dataRecord['domain']);
+					$maildir = mysql_real_escape_string($maildir);
+					$email = mysql_real_escape_string($mail_parts[0].'@'.$this->dataRecord['domain']);
 					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email'", 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
 			
 			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".addslashes($this->oldDataRecord['domain'])."' OR destination like '%@".addslashes($this->oldDataRecord['domain'])."'");
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."' OR destination like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = addslashes(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
-					$source = addslashes(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
+					$destination = mysql_real_escape_string(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
+					$source = mysql_real_escape_string(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
 					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination'", 'forwarding_id', $rec['forwarding_id']);
 				}
 			}

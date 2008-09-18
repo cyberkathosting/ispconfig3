@@ -291,14 +291,14 @@ class remoting_lib {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         if(!@is_array($record[$key])) {
-                                                $new_record[$key] = (isset($record[$key]))?addslashes($record[$key]):'';
+                                                $new_record[$key] = (isset($record[$key]))?mysql_real_escape_string($record[$key]):'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
                                 break;
                                 case 'TEXT':
                                         if(!is_array($record[$key])) {
-                                                $new_record[$key] = addslashes($record[$key]);
+                                                $new_record[$key] = mysql_real_escape_string($record[$key]);
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
@@ -317,7 +317,7 @@ class remoting_lib {
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
                                 case 'DOUBLE':
-                                        $new_record[$key] = addslashes($record[$key]);
+                                        $new_record[$key] = mysql_real_escape_string($record[$key]);
                                 break;
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);

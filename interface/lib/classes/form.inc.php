@@ -293,7 +293,7 @@ class form {
 				switch ($this->tableDef[$key]['datatype']) {
 				case 'VARCHAR':
 					if(!is_array($val)) {
-						$new_record[$key] = addslashes($val);
+						$new_record[$key] = mysql_real_escape_string($val);
 					} else {
 						$new_record[$key] = implode($this->tableDef[$key]['separator'],$val);
 					}
@@ -308,7 +308,7 @@ class form {
 					$new_record[$key] = intval($val);
 				break;
 				case 'DOUBLE':
-					$new_record[$key] = addslashes($val);
+					$new_record[$key] = mysql_real_escape_string($val);
 				break;
 				case 'CURRENCY':
 					$new_record[$key] = str_replace(",",".",$val);

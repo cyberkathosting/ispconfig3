@@ -101,7 +101,7 @@ class page_action extends tform_actions {
 			$out .= $this->getRule();
 		}
 		
-		$out = addslashes($out);
+		$out = mysql_real_escape_string($out);
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
 	
 	}
