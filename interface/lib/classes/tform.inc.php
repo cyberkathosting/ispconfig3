@@ -470,7 +470,8 @@ class tform {
         * @return record
         */
         function encode($record,$tab) {
-
+			global $app;
+			
                 if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
                 //$this->errorMessage = '';
 
@@ -482,14 +483,14 @@ class tform {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         if(!@is_array($record[$key])) {
-                                                $new_record[$key] = (isset($record[$key]))?mysql_real_escape_string($record[$key]):'';
+                                                $new_record[$key] = (isset($record[$key]))?$app->db->quote($record[$key]):'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
                                 break;
                                 case 'TEXT':
                                         if(!is_array($record[$key])) {
-                                                $new_record[$key] = mysql_real_escape_string($record[$key]);
+                                                $new_record[$key] = $app->db->quote($record[$key]);
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
@@ -508,7 +509,7 @@ class tform {
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
                                 case 'DOUBLE':
-                                        $new_record[$key] = mysql_real_escape_string($record[$key]);
+                                        $new_record[$key] = $app->db->quote($record[$key]);
                                 break;
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);
@@ -699,14 +700,14 @@ class tform {
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
 																$record[$key] = crypt($record[$key],$salt);
-																$sql_insert_val .= "'".mysql_real_escape_string($record[$key])."', ";
+																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 														} elseif ($field['encryption'] == 'MYSQL') {
-																$sql_insert_val .= "PASSWORD('".mysql_real_escape_string($record[$key])."'), ";
+																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
 														} elseif ($field['encryption'] == 'CLEARTEXT') {
-																$sql_insert_val .= "'".mysql_real_escape_string($record[$key])."', ";
+																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
-																$sql_insert_val .= "'".mysql_real_escape_string($record[$key])."', ";
+																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         }
 														
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
@@ -732,14 +733,14 @@ class tform {
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
 																$record[$key] = crypt($record[$key],$salt);
-																$sql_update .= "`$key` = '".mysql_real_escape_string($record[$key])."', ";
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-																$sql_update .= "`$key` = PASSWORD('".mysql_real_escape_string($record[$key])."'), ";
+																$sql_update .= "`$key` = PASSWORD('".$app->db->quote($record[$key])."'), ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') {
-																$sql_update .= "`$key` = '".mysql_real_escape_string($record[$key])."', ";
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
-																$sql_update .= "`$key` = '".mysql_real_escape_string($record[$key])."', ";
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         }
                                                         
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
