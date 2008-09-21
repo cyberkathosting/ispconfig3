@@ -1,0 +1,12 @@
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<p class="frmText11">
+  <tmpl_var name="language_select_txt">: <select name="lng_select">{tmpl_var name='language_option'}</select>
+</p>
+<tmpl_if name="msg">
+  <p class="msg" ><tmpl_var name="msg"></p>
+</tmpl_if>
+<tmpl_if name="error">
+  <p class="error" ><tmpl_var name="error"></p>
+</tmpl_if>
+<input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/language_complete.php');"><div class="buttonEnding"></div>
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><div class="buttonEnding"></div>

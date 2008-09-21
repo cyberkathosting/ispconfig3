@@ -136,6 +136,10 @@ $items[] = array( 'title' 	=> 'New Language',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/language_add.php');
 				  
+$items[] = array( 'title' 	=> 'Merge',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/language_complete.php');
+
 $items[] = array( 'title' 	=> 'Export',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/language_export.php');
