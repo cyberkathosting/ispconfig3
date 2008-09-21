@@ -407,7 +407,10 @@ class installer_base {
 		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'~');
 		$content = rf($configfile);
 		$content = str_replace('START=no','START=yes',$content);
+		// Debian
 		$content = str_replace('OPTIONS="-c"','OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"',$content);
+		// Ubuntu
+		$content = str_replace('OPTIONS="-c -m /var/run/saslauthd"','OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd -r"',$content);
 		wf($configfile,$content);
 		
 		// Edit the file /etc/init.d/saslauthd
@@ -415,6 +418,9 @@ class installer_base {
 		$content = rf($configfile);
 		$content = str_replace('PIDFILE=$RUN_DIR/saslauthd.pid','PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"',$content);
 		wf($configfile,$content);
+		
+		// add the postfix user to the sasl group (at least nescessary for ubuntu 8.04 and most likely debian lenny too.
+		exec('adduser postfix sasl');
 		
 		
 	}
@@ -611,7 +617,7 @@ class installer_base {
 		exec('mkdir -p /var/log/ispconfig/httpd');
 		
 		if(is_file('/etc/suphp/suphp.conf')) {
-			replaceLine('/etc/suphp/suphp.conf','php=php:/usr/bin/php-cgi','x-httpd-suphp=php:/usr/bin/php-cgi',0);
+			replaceLine('/etc/suphp/suphp.conf','php=php:/usr/bin','x-httpd-suphp=php:/usr/bin/php-cgi',0);
 			replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
 		}
 		

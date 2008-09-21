@@ -49,6 +49,13 @@ $final_spam_destiny = D_DISCARD;
 $final_banned_destiny = D_BOUNCE;
 $final_bad_header_destiny = D_DISCARD;
 
+# Default settings, we st this very high to not filter aut emails accidently
+$sa_spam_subject_tag = '***SPAM*** ';
+$sa_tag_level_deflt  = 20.0;  # add spam info headers if at, or above that level
+$sa_tag2_level_deflt = 60.0; # add 'spam detected' headers at that level
+$sa_kill_level_deflt = 60.0; # triggers spam evasive actions
+$sa_dsn_cutoff_level = 100;   # spam level beyond which a DSN is not sent
+
 #
 # Disable spam and virus notifications for the admin user.
 # Can be overridden by the policies in mysql
@@ -65,7 +72,8 @@ $spam_admin = undef;
 $DO_SYSLOG = 1;
 $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 
-$log_level = 5;                # (defaults to 0)
+# Set the log_level to 5 for debugging
+$log_level = 0;                # (defaults to 0)
 
 
 #------------ Do not modify anything below this line -------------
