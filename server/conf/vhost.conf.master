@@ -49,12 +49,12 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='suphp'>
     <Directory {tmpl_var name='web_document_root'}>
-    # suphp enabled
-    suPHP_Engine on
-    # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
-    AddHandler x-httpd-suphp .php .php3 .php4 .php5
-    suPHP_AddHandler x-httpd-suphp
-	</Directory>
+        # suphp enabled
+        suPHP_Engine on
+        # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+        AddHandler x-httpd-suphp .php .php3 .php4 .php5
+        suPHP_AddHandler x-httpd-suphp
+    </Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
     # php as cgi enabled
