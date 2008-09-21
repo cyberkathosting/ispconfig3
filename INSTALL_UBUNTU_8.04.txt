@@ -17,10 +17,11 @@ apt-get -u upgrade
 
 1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
 
-apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl postfix-tls libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4
+apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4
 
 Answer the questions from the package manager as follows.
 
+Enter the mysql root password.
 Create directories for web-based administration ? <-- No
 General type of configuration? <-- Internet site
 Mail name? <-- server1.mydomain.tld
@@ -43,6 +44,25 @@ a2enmod suexec
 a2enmod rewrite
 a2enmod ssl
 
+Optional: Install SuPHP
+
+apt-get install libapache2-mod-suphp
+
+vi /etc/suphp/suphp.conf
+
+set docroot to:
+
+docroot=/var/clients
+
+Change:
+
+application/x-httpd-php=php:/usr/bin/php-cgi
+
+to:
+
+x-httpd-php=php:/usr/bin/php-cgi
+
+
 4) Install pure-ftpd and quota
 
 First we have to make sure that the capability module is loaded in the kernel
@@ -61,9 +81,9 @@ echo 'yes' > /etc/pure-ftpd/conf/DontResolve
 apt-get install g++ libc6 gcc gawk make texinfo libmysqlclient15-dev
 
 cd /tmp
-wget http://mydns.bboy.net/download/mydns-1.1.0.tar.gz
-tar xvfz mydns-1.1.0.tar.gz
-cd mydns-1.1.0
+wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.4.tar.gz
+tar xvfz mydns-1.2.8.4.tar.gz
+cd mydns-1.2.8
 ./configure
 make
 make install
@@ -87,7 +107,7 @@ and enter the following lines (between the ----- lines):
 set -e
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/sbin/mydns
+DAEMON=/usr/local/sbin/mydns
 NAME=mydns
 DESC="DNS server"
 

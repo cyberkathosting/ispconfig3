@@ -85,6 +85,25 @@ $module['nav'][] = array(	'title'	=> 'Firewall',
 // cleanup
 unset($items);
 
+
+$items[] = array( 'title' 	=> 'Repositories',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/software_repo_list.php');
+
+
+
+$module['nav'][] = array(	'title'	=> 'Software',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+
+// cleanup
+unset($items);
+
+
+
+
+/*
 $items[] = array( 'title' 	=> 'Add user',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/dbsync_edit.php');
@@ -105,6 +124,7 @@ $module['nav'][] = array(	'title'	=> 'DB Sync.',
 
 // cleanup
 unset($items);
+*/
 
 
 

@@ -1,6 +1,11 @@
 
 <VirtualHost <tmpl_var name='ip_address'>:80>
-    DocumentRoot <tmpl_var name='web_document_root'>
+	<tmpl_if name='php' op='==' value='suphp'>
+	DocumentRoot <tmpl_var name='web_document_root'>
+	</tmpl_else>
+	DocumentRoot <tmpl_var name='web_document_root_www'>
+	</tmpl_if>
+    
     ServerName <tmpl_var name='domain'>
 	ServerAdmin webmaster@<tmpl_var name='domain'>
 	ErrorLog <tmpl_var name='document_root'>/log/error.log
@@ -13,7 +18,7 @@
 	ErrorDocument 500 /error/internalServerError.html
 	ErrorDocument 503 /error/overloaded.html
 	
-    <Directory <tmpl_var name='web_document_root'>/>
+    <Directory {tmpl_var name='web_document_root_www'}>
         Options None
         AllowOverride Indexes AuthConfig Limit FileInfo
         Order allow,deny
@@ -43,12 +48,12 @@
     AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
 <tmpl_if name='php' op='==' value='suphp'>
-    <Directory <tmpl_var name='web_document_root'>/>
+    <Directory {tmpl_var name='web_document_root'}>
     # suphp enabled
     suPHP_Engine on
     # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
-    AddHandler x-httpd-php .php .php3 .php4 .php5
-    suPHP_AddHandler x-httpd-php
+    AddHandler x-httpd-suphp .php .php3 .php4 .php5
+    suPHP_AddHandler x-httpd-suphp
 	</Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
@@ -57,7 +62,7 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
      # php as fast-cgi enabled
-    <Directory /var/www/<tmpl_var name='domain'>/web>
+    <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
         FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
         Options FollowSymLinks +ExecCGI Indexes

@@ -337,6 +337,7 @@ class apache2_plugin {
 		
 		$vhost_data = $data["new"];
 		$vhost_data["web_document_root"] = $data["new"]["document_root"]."/web";
+		$vhost_data["web_document_root_www"] = "/var/www/".$data["new"]["domain"]."/web";
 		
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";

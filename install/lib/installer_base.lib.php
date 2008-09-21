@@ -610,6 +610,11 @@ class installer_base {
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
 		
+		if(is_file('/etc/suphp/suphp.conf')) {
+			replaceLine('/etc/suphp/suphp.conf','application/x-httpd-php=php:/usr/bin/php-cgi','x-httpd-suphp=php:/usr/bin/php-cgi',0);
+			replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
+		}
+		
 	}
 	
 	public function configure_firewall()

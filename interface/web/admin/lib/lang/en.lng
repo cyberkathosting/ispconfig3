@@ -31,5 +31,7 @@ $wb['New Language'] = 'New Language';
 $wb['Export'] = 'Export';
 $wb['Import'] = 'Import';
 $wb['Language Editor'] = 'Language Editor';
+$wb['Software'] = 'Software';
+$wb['Repositories'] = 'Repositories';
 
 ?>
