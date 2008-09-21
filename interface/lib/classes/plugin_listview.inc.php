@@ -79,7 +79,7 @@ class plugin_listview extends plugin_base {
 											$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'list_icon_true.png':'list_icon_false.png';
 										}
 										//* substitute value for select field
-										$rec[$key] = $field['value'][$rec[$key]];
+										@$rec[$key] = $field['value'][$rec[$key]];
 									}
 									// Create a lowercase version of every item
 									$rec[$key.'_lowercase'] = strtolower($rec[$key]);

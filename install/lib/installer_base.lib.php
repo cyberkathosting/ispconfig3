@@ -368,8 +368,10 @@ class installer_base {
 		wf($cf['vmail_mailbox_base'].'/.'.$configfile, $content);
 		
 		//* Create the directory for the custom mailfilters
-		$command = 'mkdir '.$cf['vmail_mailbox_base'].'/mailfilters';
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if(!is_dir($cf['vmail_mailbox_base'].'/mailfilters')) {
+			$command = 'mkdir '.$cf['vmail_mailbox_base'].'/mailfilters';
+			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
 		
 		//* Chmod and chown the .mailfilter file
 		$command = 'chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';

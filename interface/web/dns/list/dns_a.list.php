@@ -104,6 +104,15 @@ $liste["item"][] = array(	'field'		=> "data",
 							'width'		=> "",
 							'value'		=> "");
 
+$liste["item"][] = array(	'field'		=> "aux",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "TEXT",
+							'op'		=> "like",
+							'prefix'	=> "%",
+							'suffix'	=> "%",
+							'width'		=> "",
+							'value'		=> "");
+
 
 $liste["item"][] = array(	'field'		=> "type",
 							'datatype'	=> "VARCHAR",
