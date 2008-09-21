@@ -169,7 +169,7 @@ In case you get a permission denied error from apache, please restart the apache
 
 Optional:
 
-Install a webbased FTP Client
+Install a webbased Email Client
 
 yast2 -i squirrelmail
 
