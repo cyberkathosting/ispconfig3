@@ -1,14 +1,14 @@
 <?php
-$wb["name_txt"] = 'Modulname';
-$wb["title_txt"] = 'Modulbezeichnung';
-$wb["template_txt"] = 'Template';
-$wb["navframe_txt"] = 'NaviFrame';
-$wb["startpage_txt"] = 'Startseite';
-$wb["tab_width_txt"] = 'Reiterkartenbreite';
-$wb["save_txt"] = 'Speichern';
-$wb["cancel_txt"] = 'Abbrechen';
-$wb["header_txt"] = 'Modul Eigenschaften';
-$wb["description_txt"] = '
+$wb['name_txt'] = 'Modulname';
+$wb['title_txt'] = 'Modulbezeichnung';
+$wb['template_txt'] = 'Template';
+$wb['navframe_txt'] = 'NaviFrame';
+$wb['startpage_txt'] = 'Startseite';
+$wb['tab_width_txt'] = 'Reiterkartenbreite';
+$wb['save_txt'] = 'Speichern';
+$wb['cancel_txt'] = 'Abbrechen';
+$wb['header_txt'] = 'Modul Eigenschaften';
+$wb['description_txt'] = '
 <b>Beschreibung</b>
 <br><br>
 <b>Modulname:</b> Name des Modulverzeichnisses. Es sind nur Buchstaben, Zahlen und der Unterstrich erlaubt.<br>
@@ -19,5 +19,4 @@ $wb["description_txt"] = '
 <b>Reiterkartenbreite:</b> Breite der Reiterkarte in der oberen Navigationsleiste. Das Feld ist standardmäßig leer, es kann aber ein absoluter Wert (z.B. 80) oder ein Wert in Prozent (z.B. 20%) angegeben werden.<br>
 <b>Hinweis:</b> Alle Pfade sind relativ zum Verzeichnis web anzugeben.
 ';
-
 ?>

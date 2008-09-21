@@ -1,0 +1,11 @@
+<?php
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Active';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['domain_error_unique'] = 'There is already a Catchall record for this domain.';
+$wb['no_domain_perm'] = 'You have no permission for this domain.';
+$wb['domain_error_regex'] = 'Invalid domain name od domain contains invalid characters.';
+$wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts for your account is reached.';
+?>

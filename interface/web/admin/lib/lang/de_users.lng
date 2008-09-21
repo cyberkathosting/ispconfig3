@@ -21,4 +21,9 @@ $wb['telefon_txt'] = 'Telefon';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Gruppen';
 $wb['default_group_txt'] = 'Standard Gruppe';
+$wb['username_empty'] = 'The username is empty.';
+$wb['username_unique'] = 'There is already a user with this username.';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['startmodule_err'] = 'Start module is not within modules.';
 ?>

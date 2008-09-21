@@ -1,6 +1,6 @@
 <?php
-$wb["title_txt"] = 'Überschrift';
-$wb["header_txt"] = 'Navigation Eigenschaften';
-$wb["save_txt"] = 'Speichern';
-$wb["cancel_txt"] = 'Abbrechen';
+$wb['title_txt'] = 'Überschrift';
+$wb['header_txt'] = 'Navigation Eigenschaften';
+$wb['save_txt'] = 'Speichern';
+$wb['cancel_txt'] = 'Abbrechen';
 ?>

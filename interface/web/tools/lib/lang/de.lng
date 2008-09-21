@@ -1,0 +1,4 @@
+<?php
+$wb['User Settings'] = 'User Settings';
+$wb['Settings'] = 'Settings';
+?>
