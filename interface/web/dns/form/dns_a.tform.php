@@ -80,7 +80,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'name_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{1,64}$/',
+														'regex' => '/^[\w\.\-\*]{1,64}$/',
 														'errmsg'=> 'name_error_regex'),
 									),
 			'default'	=> '',
