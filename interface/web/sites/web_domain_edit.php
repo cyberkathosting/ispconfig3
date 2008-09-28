@@ -229,7 +229,7 @@ class page_action extends tform_actions {
 			$client_id = intval($client["client_id"]);
 		} else {
 			//$client_id = intval($this->dataRecord["client_group_id"]);
-			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($this->dataRecord["sys_groupid"]));
+			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($this->dataRecord["client_group_id"]));
 			$client_id = intval($client["client_id"]);
 		}
 		
