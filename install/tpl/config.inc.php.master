@@ -109,6 +109,13 @@ $conf["log_file"]		= '/var/log/ispconfig/ispconfig.log';
 $conf["log_priority"]	= {ispconfig_log_priority}; // 0 = Debug, 1 = Warning, 2 = Error
 
 /*
+		Allow software package installations
+*/
+
+$conf['software_updates_enabled'] = false;
+
+
+/*
         Themes
 */
 

@@ -104,7 +104,8 @@ if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] !=
 	$server_id = intval($_GET['server_id']);
 	$software_update_id = intval($_GET['id']);
 	
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
+	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
+	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
 	
 }

@@ -74,7 +74,8 @@ if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] !=
 	$tmp = $app->db->queryOneRecord($sql);
 	$software_update_id = $tmp['software_update_id'];
 	
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
+	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
+	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
 	
 }
