@@ -40,6 +40,7 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 $conf["app_title"] = "ISPConfig";
 $conf["app_version"] = "3.0.0";
 $conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
+$conf["interface_logout_url"] 	= "";
 
 //** Key paramaters
 define('ISPC_APP_TITLE', 'ISPConfig');
@@ -128,6 +129,12 @@ $conf["logo"] 					= 'themes/default/images/mydnsconfig_logo.gif';
 */
 
 $conf["language"]                = 'en';
+
+/*
+        Misc.
+*/
+
+$conf["interface_logout_url"] 	= ""; // example: http://www.domain.tld/
 
 
 /*

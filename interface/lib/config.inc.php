@@ -124,6 +124,12 @@ $conf['language']       = 'en';
 $conf['start_db']		= true;
 $conf['start_session']	= true;
 
+/*
+        Misc.
+*/
+
+$conf["interface_logout_url"] 	= ""; // example: http://www.domain.tld/
+
 
 //** DNS Settings
 

@@ -39,7 +39,11 @@ $_SESSION["s"]["module"] = null;
 if($_SESSION["s"]["site"]["logout"] != '') {
 	header("Location: ".$_SESSION["s"]["site"]["logout"]);
 } else {
-	header("Location: ../index.php");
+	if($conf["interface_logout_url"] != '') {
+		header("Location: ".$conf["interface_logout_url"]);
+	} else {
+		header("Location: ../index.php");
+	}
 }
 exit;
 ?>
