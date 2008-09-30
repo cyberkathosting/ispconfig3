@@ -58,7 +58,7 @@ class software_update_plugin {
 		global $app, $conf;
 		
 		if(!$conf['software_updates_enabled'] == true) {
-			$app->log('Software Updates not eanbled on this server. To enable updates, set $conf["software_updates_enabled"] = true; in config.inc.php',LOGLEVEL_ERROR);
+			$app->log('Software Updates not enabled on this server. To enable updates, set $conf["software_updates_enabled"] = true; in config.inc.php',LOGLEVEL_ERROR);
 			return false;
 		}
 		
@@ -89,6 +89,8 @@ class software_update_plugin {
 				exec("rm -rf $temp_dir");
 				$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
 				return false;
+			} else {
+				$app->log("md5sum of the downloaded file is verified.",LOGLEVEL_DEBUG);
 			}
 			
 			
