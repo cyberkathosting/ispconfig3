@@ -73,19 +73,85 @@ Then execute:
 
 5) Install mydns
 
-apt-get install mydns-mysql
+apt-get install g++ libc6 gcc gawk make texinfo libmysqlclient15-dev
 
-What is the hostname of the machine on which the database will run? -> localhost
-What is the database name for the MyDNS database? -> mydns
-Would you like to set up the database and tables automatically? -> yes
-What is the username of the MySQL administrator? -> root
-Enter the MySQL administrator password -> yourrootsqlpassword
-Confirm this password -> yourrootsqlpassword
-What is the MyDNS username? -> mydns
-What is the MyDNS user password? -> mydnspassword
+cd /tmp
+wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.4.tar.gz
+tar xvfz mydns-1.2.8.4.tar.gz
+cd mydns-1.2.8
+./configure
+make
+make install
 
-The mydns installer is a bit tricky, you will have to select to create a new database for mydns and use a existing mysql user, e.g. the mysql root user. This database is only to fullfill the requirements for the debian pacakge during installation and will not be used by ISPConfig later. ISPConfig will automatically change the mydns configuration files to use the ISPConfig database.
+Now create the start / stop script for mydns:
 
+vi /etc/init.d/mydns
+
+and enter the following lines (between the ----- lines):
+
+------------------------------------------------------
+#! /bin/sh
+#
+# mydns         Start the MyDNS server
+#
+# Author:       Philipp Kern <phil@philkern.de>.
+#               Based upon skeleton 1.9.4 by Miquel van Smoorenburg
+#               <miquels@cistron.nl> and Ian Murdock <imurdock@gnu.ai.mit.edu>.
+#
+
+set -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/sbin/mydns
+NAME=mydns
+DESC="DNS server"
+
+SCRIPTNAME=/etc/init.d/$NAME
+
+# Gracefully exit if the package has been removed.
+test -x $DAEMON || exit 0
+
+case "$1" in
+  start)
+        echo -n "Starting $DESC: $NAME"
+        start-stop-daemon --start --quiet \
+                --exec $DAEMON -- -b
+        echo "."
+        ;;
+  stop)
+        echo -n "Stopping $DESC: $NAME"
+        start-stop-daemon --stop --oknodo --quiet \
+                --exec $DAEMON
+        echo "."
+        ;;
+  reload|force-reload)
+        echo -n "Reloading $DESC configuration..."
+        start-stop-daemon --stop --signal HUP --quiet \
+                --exec $DAEMON
+        echo "done."
+        ;;
+  restart)
+        echo -n "Restarting $DESC: $NAME"
+        start-stop-daemon --stop --quiet --oknodo \
+                --exec $DAEMON
+        sleep 1
+        start-stop-daemon --start --quiet \
+                --exec $DAEMON -- -b
+        echo "."
+        ;;
+  *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+---------------------------------------------------------------------------
+
+now execute:
+
+chmod +x /etc/init.d/mydns
+update-rc.d mydns defaults
 
 6) Install vlogger and webalizer
 
