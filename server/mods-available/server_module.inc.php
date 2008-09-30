@@ -40,7 +40,10 @@ class server_module {
 									'server_ip_delete',
 									'firewall_insert',
 									'firewall_update',
-									'firewall_delete');
+									'firewall_delete',
+									'software_update_inst_insert',
+									'software_update_inst_update',
+									'software_update_inst_delete');
 	
 	/*
 	 	This function is called when the module is loaded
@@ -69,6 +72,7 @@ class server_module {
 		$app->modules->registerTableHook('server','server_module','process');
 		$app->modules->registerTableHook('server_ip','server_module','process');
 		$app->modules->registerTableHook('firewall','server_module','process');
+		$app->modules->registerTableHook('software_update_inst','server_module','process');
 		
 		// Register service
 		//$app->services->registerService('httpd','web_module','restartHttpd');
@@ -98,6 +102,11 @@ class server_module {
 				if($action == 'i') $app->plugins->raiseEvent('firewall_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('firewall_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('firewall_delete',$data);
+			break;
+			case 'software_update_inst':
+				if($action == 'i') $app->plugins->raiseEvent('software_update_inst_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('software_update_inst_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('software_update_inst_delete',$data);
 			break;
 		} // end switch
 	} // end function

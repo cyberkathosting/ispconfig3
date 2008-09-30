@@ -1,0 +1,18 @@
+<div class="frmTextHead"><tmpl_var name="list_head_txt"></div><br />
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="tblHead"><tmpl_var name="installed_txt"></td>
+    <td class="tblHead"><tmpl_var name="package_title_txt"></td>
+    <td class="tblHead"><tmpl_var name="package_description_txt"></td>
+  </tr>
+  <tmpl_loop name="records">
+  <tr bgcolor="{tmpl_var name="bgcolor"}">
+  	<td class="frmText11">{tmpl_var name="installed"}</td>
+    <td class="frmText11">{tmpl_var name="package_title"}</td>
+    <td class="frmText11">{tmpl_var name="package_description"}</td>
+  </tr>
+  </tmpl_loop>
+  <tr>
+  	<td colspan="3" height="40" align="center" class="tblFooter">&nbsp;</td>
+  </tr>
+</table>

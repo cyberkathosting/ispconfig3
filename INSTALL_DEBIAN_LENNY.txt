@@ -40,7 +40,7 @@ apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 ar
 
 3) Install apache, PHP5 and phpmyadmin (1 line!):
 
-apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli
+apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli libapache2-mod-fcgid apache2-suexec
 
 Then run the following to enable the Apache modules:
 

@@ -250,10 +250,10 @@ class db
 			}
 		} elseif(is_array($record_new)) {
 			foreach($record_new as $key => $val) {
-				if(isset($record_new[$key]) && $record_old[$key] != $val) {
+				if(isset($record_new[$key]) && @$record_old[$key] != $val) {
 					// Record has changed
 					$diffrec_full['new'][$key] = $val;
-					$diffrec_full['old'][$key] = $record_old[$key];
+					$diffrec_full['old'][$key] = @$record_old[$key];
 					$diff_num++;
 				} else {
 					$diffrec_full['new'][$key] = $val;

@@ -609,6 +609,27 @@ CREATE TABLE `shell_user` (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `software_package`
+-- 
+
+CREATE TABLE `software_package` (
+  `package_id` int(11) NOT NULL auto_increment,
+  `software_repo_id` int(11) NOT NULL,
+  `package_name` varchar(100) NOT NULL,
+  `package_title` varchar(255) NOT NULL,
+  `package_description` text,
+  `package_version` varchar(255) default NULL,
+  PRIMARY KEY  (`package_id`),
+  UNIQUE KEY `package_name` (`package_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- 
+-- Daten für Tabelle `software_package`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `software_repo`
 -- 
 
@@ -625,7 +646,13 @@ CREATE TABLE `software_repo` (
   `repo_password` varchar(30) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`software_repo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- 
+-- Daten für Tabelle `software_repo`
+-- 
+
+INSERT INTO `software_repo` (`software_repo_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `repo_name`, `repo_url`, `repo_username`, `repo_password`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 'ISPConfig Addons', 'http://repo.ispconfig.org/addons/', '', '', 'n');
 
 -- --------------------------------------------------------
 
@@ -636,16 +663,41 @@ CREATE TABLE `software_repo` (
 CREATE TABLE `software_update` (
   `software_update_id` int(11) NOT NULL auto_increment,
   `software_repo_id` int(11) NOT NULL,
+  `package_name` varchar(255) NOT NULL,
   `update_url` varchar(255) NOT NULL,
   `update_md5` varchar(255) NOT NULL,
-  `install` char(1) NOT NULL,
-  `depenencies` varchar(255) NOT NULL,
+  `update_dependencies` varchar(255) NOT NULL,
   `update_title` varchar(255) NOT NULL,
+  `v1` tinyint(4) NOT NULL default '0',
+  `v2` tinyint(4) NOT NULL default '0',
+  `v3` tinyint(4) NOT NULL default '0',
+  `v4` tinyint(4) NOT NULL default '0',
+  `type` enum('full','update') NOT NULL default 'full',
   PRIMARY KEY  (`software_update_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- 
 -- Daten für Tabelle `software_update`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `software_update_inst`
+-- 
+
+CREATE TABLE `software_update_inst` (
+  `software_update_inst_id` int(10) unsigned NOT NULL auto_increment,
+  `software_update_id` int(11) NOT NULL default '0',
+  `package_name` varchar(255) NOT NULL,
+  `server_id` int(11) NOT NULL,
+  `status` enum('none','installing','installed','deleting') NOT NULL default 'none',
+  PRIMARY KEY  (`software_update_inst_id`),
+  UNIQUE KEY `software_update_id` (`software_update_id`,`package_name`,`server_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- 
+-- Daten für Tabelle `software_update_inst`
 -- 
 
 

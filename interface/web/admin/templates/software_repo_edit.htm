@@ -1,0 +1,32 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='repo_name_txt'}:</td>
+    <td class="frmText11"><input name="repo_name" type="text" class="text" value="{tmpl_var name='repo_name'}" size="40" maxlength="40"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='repo_url_txt'}:</td>
+    <td class="frmText11"><input name="repo_url" type="text" class="text" value="{tmpl_var name='repo_url'}" size="40" maxlength="40"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='repo_username_txt'}:</td>
+    <td class="frmText11"><input name="repo_username" type="text" class="text" value="{tmpl_var name='repo_username'}" size="30" maxlength="30"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='repo_password_txt'}:</td>
+    <td class="frmText11"><input name="repo_password" type="password" class="text" value="{tmpl_var name='repo_password'}" size="30" maxlength="30"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/software_repo_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/software_repo_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

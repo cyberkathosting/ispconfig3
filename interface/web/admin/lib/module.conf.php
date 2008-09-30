@@ -90,7 +90,13 @@ $items[] = array( 'title' 	=> 'Repositories',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/software_repo_list.php');
 
+$items[] = array( 'title' 	=> 'Packages',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/software_package_list.php');
 
+$items[] = array( 'title' 	=> 'Updates',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/software_update_list.php');
 
 $module['nav'][] = array(	'title'	=> 'Software',
 							'open' 	=> 1,
