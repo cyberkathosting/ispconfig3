@@ -26,6 +26,7 @@ $wb["hd_quota_txt"] = 'Harddisk Quota';
 $wb["traffic_quota_txt"] = 'Traffic Quota';
 $wb["cgi_txt"] = 'CGI';
 $wb["ssi_txt"] = 'SSI';
+$wb["errordocs_txt"] = 'Own Error-Documents';
 $wb["ssl_txt"] = 'SSL';
 $wb["suexec_txt"] = 'SuEXEC';
 $wb["php_txt"] = 'PHP';
