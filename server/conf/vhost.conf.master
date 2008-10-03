@@ -86,8 +86,8 @@
 
   php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
   #php_admin_value open_basedir <tmpl_var name='web_document_root'>:/usr/share/php5
-  php_admin_value upload_tmp_dir <tmpl_var name='web_document_root'>/tmp
-  php_admin_value session.save_path <tmpl_var name='web_document_root'>/tmp
+  #php_admin_value upload_tmp_dir <tmpl_var name='web_document_root'>/tmp
+  #php_admin_value session.save_path <tmpl_var name='web_document_root'>/tmp
 </tmpl_if>
 <tmpl_var name='apache_directives'>
 </VirtualHost>
