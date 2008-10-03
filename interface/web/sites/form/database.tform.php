@@ -115,6 +115,12 @@ $form["tabs"]['database'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'database_charset' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'y',
+			'value'		=> array('' => 'MySQL Default','latin1' => 'Latin 1','utf8' => 'UTF-8')
+		),
 		'remote_access' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',

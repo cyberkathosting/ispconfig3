@@ -4,6 +4,7 @@ $wb["type_txt"] = 'Type';
 $wb["database_name_txt"] = 'Databasenaam';
 $wb["database_user_txt"] = 'Database gebruiker';
 $wb["database_password_txt"] = 'Database wachtwoord';
+$wb["database_charset_txt"] = 'Database charset';
 $wb["remote_access_txt"] = 'Remote Access';
 $wb["client_txt"] = 'Klant';
 $wb["active_txt"] = 'Actief';
@@ -17,4 +18,5 @@ $wb["database_user_error_unique"] = 'Er bestaat al een database gebruiker met de
 $wb["database_user_error_regex"] = 'Ongeldige database gebruikersnaam. De gebruikersnaam bevat deze karakters: a-z, A-Z, 0-9 en de underscore. Lengte: 2 - 64 karakters.';
 $wb["limit_database_txt"] = 'The max. aantal databases is bereikt.';
 $wb["database_name_change_txt"] = 'De databasenaam kan niet worden gewijzigd.';
+$wb["database_charset_change_txt"] = 'The database charset can not be changed';
 ?>

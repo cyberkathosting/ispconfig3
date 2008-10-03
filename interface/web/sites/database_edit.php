@@ -192,10 +192,13 @@ class page_action extends tform_actions {
 	function onUpdate() {
 		global $app, $conf;
 		
-		//* Prevent that the database name is changed
+		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
 		if($old_record["database_name"] != $this->dataRecord["database_name"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
+		}
+		if($old_record["database_charset"] != $this->dataRecord["database_charset"]) {
+			$app->tform->errorMessage .= $app->tform->wordbook["database_charset_change_txt"].'<br />';
 		}
 		unset($old_record);
 		

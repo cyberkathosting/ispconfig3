@@ -69,9 +69,16 @@ class mysql_clientdb_plugin {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
 				return;
 			}
-		
+
+			// Charset for the new table
+			if($data["new"]["database_charset"] != '') {
+        $query_charset_table = ' DEFAULT CHARACTER SET '.$data["new"]["database_charset"];
+			} else {
+        $query_charset_table = '';
+			}
+
 			//* Create the new database
-			if (mysql_query('CREATE DATABASE '.mysql_real_escape_string($data["new"]["database_name"]),$link)) {
+			if (mysql_query('CREATE DATABASE '.mysql_real_escape_string($data["new"]["database_name"]).$query_charset_table,$link)) {
 				$app->log('Created MySQL database: '.$data["new"]["database_name"],LOGLEVEL_DEBUG);
 			} else {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);

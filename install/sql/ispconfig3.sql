@@ -1041,6 +1041,7 @@ CREATE TABLE `web_database` (
   `database_name` varchar(255) default NULL,
   `database_user` varchar(255) default NULL,
   `database_password` varchar(255) default NULL,
+  `database_charset` varchar(64) default NULL,
   `remote_access` varchar(255) NOT NULL default 'y',
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`database_id`)

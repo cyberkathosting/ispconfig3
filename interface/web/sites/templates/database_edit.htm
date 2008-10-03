@@ -48,6 +48,14 @@
     <td class="frmText11"><input name="database_password" type="password" class="text" value="{tmpl_var name='database_password'}" size="30" maxlength="255"></td>
   </tr>
   <tr>
+    <td class="frmText11">{tmpl_var name='database_charset_txt'}:</td>
+    <td class="frmText11">
+		<select name="database_charset" class="text">
+			{tmpl_var name='database_charset'}
+		</select>
+	</td>
+  </tr>
+  <tr>
     <td class="frmText11">{tmpl_var name='remote_access_txt'}:</td>
     <td class="frmText11">{tmpl_var name='remote_access'}</td>
   </tr>
