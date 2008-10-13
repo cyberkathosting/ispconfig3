@@ -19,10 +19,11 @@ $wb["maildir_txt"] = 'maildir';
 $wb["postfix_txt"] = 'Sta ontvangen toe';
 $wb["access_txt"] = 'Sta toegang toe';
 $wb["policy_txt"] = 'Spamfilter';
-$wb["no_policy"] = '- niet toegestaan -';
-$wb["limit_mailbox_txt"] = 'Het max. aantal mailboxen voor uw account is bereikt.';
-$wb["limit_mailquota_txt"] = 'The max. ruimte voor mailboxen is bereikt. De max. beschikbare ruimte in MB is';
-$wb["welcome_mail_subject"] = 'Welkom bij uw nieuwe email account.';
-$wb["welcome_mail_message"] = 'Welkom bij uw nieuwe emailaccount.\n\nUw webmaster.';
-$wb['custom_mailfilter_txt'] = 'Custom mailfilter recept';
+$wb["no_policy"] = '- niet ingeschakeld -';
+$wb["limit_mailbox_txt"] = 'Het maximum aantal aan mailboxen voor uw account is bereikt.';
+$wb["limit_mailquota_txt"] = 'Het maximum aan ruimte voor uw mailboxen is bereikt. De maximale beschikbare ruimte in MB is: ';
+$wb["welcome_mail_subject"] = 'Welkom bij uw nieuwe Email account.';
+$wb["welcome_mail_message"] = "Welkom bij uw nieuwe Email account.\n\nUw webmaster.";
+$wb["disableimap_txt"] = 'Uitschakelen IMAP';
+$wb["disablepop3_txt"] = 'Uitschakelen POP3';
 ?>

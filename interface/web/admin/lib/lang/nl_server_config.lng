@@ -33,4 +33,5 @@ $wb["netmask_txt"] = 'Netmask';
 $wb["gateway_txt"] = 'Gateway';
 $wb["hostname_txt"] = 'Hostnaam';
 $wb["nameservers_txt"] = 'Nameservers';
+$wb["auto_network_configuration_txt"] = 'Netwerk configuratie';
 ?>

@@ -1,0 +1,13 @@
+<?php
+$wb["list_head_txt"] = 'Repository';
+$wb["active_txt"] = 'Actief';
+$wb["repo_name_txt"] = 'Repository';
+$wb["repo_url_txt"] = 'URL';
+$wb["page_txt"] = 'Pagina';
+$wb["page_of_txt"] = 'van';
+$wb["page_next_txt"] = 'Volgende';
+$wb["page_back_txt"] = 'Terug';
+$wb["delete_txt"] = 'Verwijder';
+$wb["filter_txt"] = 'Filter';
+$wb["add_new_record_txt"] = 'Toevoegen nieuw record';
+?>

@@ -11,5 +11,5 @@ $wb["delete_txt"] = 'Verwijderen';
 $wb["filter_txt"] = 'Filter';
 $wb["server_id_txt"] = 'Server';
 $wb["domain_txt"] = 'Domein';
-$wb["add_new_record_txt"] = 'Toevoegen catchall';
+$wb["add_new_record_txt"] = 'Toevoegen nieuwe catchall';
 ?>

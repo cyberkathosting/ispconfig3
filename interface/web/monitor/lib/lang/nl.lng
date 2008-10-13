@@ -1,0 +1,22 @@
+<?php
+
+$wb["Server Online seit"] = "Online sinds";
+$wb["User Online"] = "Gberuiker online";
+$wb["System Load 1 Minute"] = "Systeem Load 1 Minuut";
+$wb["System Load 5 Minuten"] = "Systeem Load 5 Minuten";
+$wb["System Load 15 Minuten"] = "Systeem Load 15 Minuten";
+$wb['Load'] = 'Load';
+$wb['Harddisk'] = 'Harddisk';
+$wb['Memory usage'] = 'Memory gebruik';
+$wb['CPU'] = 'CPU';
+$wb['Services'] = 'Services';
+$wb['System'] = 'Systeem';
+$wb['Mail log'] = 'Mail log';
+$wb['Mail warn'] = 'Mail waarschuwing';
+$wb['Mail err'] = 'Mail foutmelding';
+$wb['Messages'] = 'Berichten';
+$wb['Freshclam'] = 'Freshclam';
+$wb['Clamav'] = 'Clamav';
+$wb['ISPConfig'] = 'ISPConfig';
+
+?>

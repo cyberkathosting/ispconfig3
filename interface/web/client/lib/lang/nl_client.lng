@@ -80,4 +80,5 @@ $wb["limit_client_error_notint"] = 'De sub klant limiet moet een nummerieke waar
 $wb["default_dbserver_txt"] = 'Standaard database server';
 $wb["limit_database_txt"] = 'Max. aantal databases';
 $wb["limit_database_error_notint"] = 'De database limiet moet een nummerieke waarde zijn.';
+$wb["username_error_regex"] = 'De gebruikersnaam bevat ongeldige karakters.';
 ?>

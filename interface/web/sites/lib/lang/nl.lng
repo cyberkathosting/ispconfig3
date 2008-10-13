@@ -1,0 +1,20 @@
+<?php
+$wb['Database'] = 'Database';
+$wb['FTP User'] = 'FTP gebruiker';
+$wb['Options'] = 'Opties';
+$wb['Shell User'] = 'Shell gebruiker';
+
+$wb['Web Aliasdomain'] = 'Web Aliasdomein';
+$wb['Domain'] = 'Domein';
+$wb['Web Domain'] = 'Web Domein';
+$wb['Redirect'] = 'Redirect';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Subdomein';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Aliasdomein';
+$wb['FTP-User'] = 'FTP-gebruiker';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell-gebruiker';
+$wb['Shell'] = 'Shell';
+
+?>

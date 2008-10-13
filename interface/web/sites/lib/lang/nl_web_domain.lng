@@ -37,6 +37,6 @@ $wb["apache_directives_txt"] = 'Apache directives';
 $wb["domain_error_empty"] = 'Domein is niet ingevuld.';
 $wb["domain_error_unique"] = 'Domein moet uniek zijn.';
 $wb["domain_error_regex"] = 'Domeinnaam is ongeldig.';
-$wb["hd_quota_error_empty"] = 'Harddisk quota is niet ingevuld.';
-$wb["traffic_quota_error_empty"] = 'Verkeer quota is niet ingevuld.';
+$wb["hd_quota_error_empty"] = 'Harddisk quota is leeg.';
+$wb["traffic_quota_error_empty"] = 'Verkeer quota is leeg.';
 ?>

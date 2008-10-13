@@ -2,5 +2,36 @@
 
 $wb[1001]	= "Gebruikersnaam of wachtwoord is niet ingevuld.";
 $wb[1002]	= "Gebruikersnaam of wachtwoord onjuist.";
+$wb['Firewall'] = 'Firewall';
+$wb['Groups'] = 'Groepen';
+$wb['groups_description'] = 'Formulier om systeemgebruikers en groepen te wijzigen.';
+$wb['Server']	= 'Server';
+$wb['Services']	= 'Services';
+$wb['Config'] = 'Configureer';
+$wb['Server Config'] = 'Server configuratie';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'Systeem';
+$wb['Add user'] = 'Toeveogen gebruiker';
+$wb['Edit user'] = 'Wijzigen gebruiker';
+$wb['CP Users'] = 'CP Gebruikers';
+$wb['Add group'] = 'Toevoegen groep';
+$wb['Edit group'] = 'Wijzigen groep';
+$wb['Groups'] = 'Groups';
+$wb['Edit server'] = 'Wijzigen server';
+$wb['Edit Server IP'] = 'Wijzigen Server IP';
+$wb['Servers'] = 'Servers';
+$wb['Sync. Now'] = 'Sync. nu';
+$wb['DB Sync.'] = 'DB Sync.';
+$wb['Languages'] = 'Talen';
+$wb['New Language'] = 'Nieuwe taal';
+$wb['Export'] = 'Export';
+$wb['Import'] = 'Import';
+$wb['Language Editor'] = 'Taal editor';
+$wb['Software'] = 'Software';
+$wb['Repositories'] = 'Repositories';
 
 ?>

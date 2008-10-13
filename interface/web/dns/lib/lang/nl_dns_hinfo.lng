@@ -10,8 +10,8 @@ $wb["btn_save_txt"] = 'Opslaan';
 $wb["btn_cancel_txt"] = 'annuleren';
 $wb["limit_dns_record_txt"] = 'Het max. aantal aan DNS records voor uw account is bereikt.';
 $wb["no_zone_perm"] = 'U heeft geen toestemming om een record aan deze DNS zone toe te voegen.';
-$wb["name_error_empty"] = 'The hostnaam is leeg.';
-$wb["name_error_regex"] = 'The hostnaam heeft het verkeerde formaat.';
+$wb["name_error_empty"] = 'De hostnaam is leeg.';
+$wb["name_error_regex"] = 'De hostnaam heeft het verkeerde formaat.';
 $wb["data_error_empty"] = 'Host informatie is leeg.';
 $wb["data_error_regex"] = 'Host Informatie formaat ongeldig.';
 ?>
