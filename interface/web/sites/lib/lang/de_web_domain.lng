@@ -39,4 +39,5 @@ $wb['domain_error_unique'] = 'Domain must be unique.';
 $wb['domain_error_regex'] = 'Domain name invalid.';
 $wb['hd_quota_error_empty'] = 'Harddisk quota is empty.';
 $wb['traffic_quota_error_empty'] = 'Traffic quota is empty.';
+$wb['errordocs_txt'] = 'Own Error-Documents';
 ?>
