@@ -1,0 +1,89 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_client">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_client"><legend>Address</legend>
+      <span class="wf_oneField">
+        <label for="company_name" class="wf_preField">{tmpl_var name='company_name_txt'}</label>
+        <input type="text" id="company_name" name="company_name" value="{tmpl_var name='company_name'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="contact_name" class="wf_preField">{tmpl_var name='contact_name_txt'}</label>
+        <input type="text" id="contact_name" name="contact_name" value="{tmpl_var name='contact_name'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+      <span class="wf_oneField">
+        <label for="username" class="wf_preField">{tmpl_var name='username_txt'}</label>
+        <input type="text" id="username" name="username" value="{tmpl_var name='username'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+      <span class="wf_oneField">
+        <label for="password" class="wf_preField">{tmpl_var name='password_txt'}</label>
+        <input type="password" id="password" name="password" value="{tmpl_var name='password'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+      <span class="wf_oneField">
+        <label for="language" class="wf_preField">{tmpl_var name='language_txt'}</label>
+        <select id="language" name="language">{tmpl_var name='language'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="usertheme" class="wf_preField">{tmpl_var name='usertheme_txt'}</label>
+        <select id="usertheme" name="usertheme">{tmpl_var name='usertheme'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="street" class="wf_preField">{tmpl_var name='street_txt'}</label>
+        <input type="text" id="street" name="street" value="{tmpl_var name='street'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="zip" class="wf_preField">{tmpl_var name='zip_txt'}</label>
+        <input type="text" id="zip" name="zip" value="{tmpl_var name='zip'}" size="10" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="city" class="wf_preField">{tmpl_var name='city_txt'}</label>
+        <input type="text" id="city" name="city" value="{tmpl_var name='city'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="state" class="wf_preField">{tmpl_var name='state_txt'}</label>
+        <input type="text" id="state" name="state" value="{tmpl_var name='state'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="country" class="wf_preField">{tmpl_var name='country_txt'}</label>
+        <input type="text" id="country" name="country" value="{tmpl_var name='country'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="telephone" class="wf_preField">{tmpl_var name='telephone_txt'}</label>
+        <input type="text" id="telephone" name="telephone" value="{tmpl_var name='telephone'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="mobile" class="wf_preField">{tmpl_var name='mobile_txt'}</label>
+        <input type="text" id="mobile" name="mobile" value="{tmpl_var name='mobile'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fax" class="wf_preField">{tmpl_var name='fax_txt'}</label>
+        <input type="text" id="fax" name="fax" value="{tmpl_var name='fax'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="email" class="wf_preField">{tmpl_var name='email_txt'}</label>
+        <input type="text" id="email" name="email" value="{tmpl_var name='email'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="internet" class="wf_preField">{tmpl_var name='internet_txt'}</label>
+        <input type="text" id="internet" name="internet" value="{tmpl_var name='internet'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="icq" class="wf_preField">{tmpl_var name='icq_txt'}</label>
+        <input type="text" id="icq" name="icq" value="{tmpl_var name='icq'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="notes" class="wf_preField">{tmpl_var name='notes_txt'}</label>
+        <textarea id="notes" name="notes" cols='50' rows='10'>{tmpl_var name='notes'}</textarea>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/client_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/client_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

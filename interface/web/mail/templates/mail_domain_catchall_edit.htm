@@ -1,0 +1,30 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_mail_domain_catchall">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_mail_domain_catchall"><legend>Email Catchall</legend>
+      <span class="wf_oneField">
+        <label for="email_domain" class="wf_preField">{tmpl_var name='domain_txt'}</label>
+        @ <select id="email_domain" name="email_domain">{tmpl_var name="email_domain"}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="destination" class="wf_preField">{tmpl_var name='destination_txt'}</label>
+        <select id="destination" name="destination">{tmpl_var name='destination'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+    <input type="hidden" name="type" value="catchall">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_domain_catchall_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_domain_catchall_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

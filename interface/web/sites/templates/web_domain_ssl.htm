@@ -1,0 +1,53 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_web_domain">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_web_domain"><legend>SSL</legend>
+      <span class="wf_oneField">
+        <label for="ssl_state" class="wf_preField">{tmpl_var name='ssl_state_txt'}</label>
+        <input type="text" id="ssl_state" name="ssl_state" value="{tmpl_var name='ssl_state'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_locality" class="wf_preField">{tmpl_var name='ssl_locality_txt'}</label>
+        <input type="text" id="ssl_locality" name="ssl_locality" value="{tmpl_var name='ssl_locality'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_organisation" class="wf_preField">{tmpl_var name='ssl_organisation_txt'}</label>
+        <input type="text" id="ssl_organisation" name="ssl_organisation" value="{tmpl_var name='ssl_organisation'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_organisation_unit" class="wf_preField">{tmpl_var name='ssl_organisation_unit_txt'}</label>
+        <input type="text" id="ssl_organisation_unit" name="ssl_organisation_unit" value="{tmpl_var name='ssl_organisation_unit'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_country" class="wf_preField">{tmpl_var name='ssl_country_txt'}</label>
+        <input type="text" id="ssl_country" name="ssl_country" value="{tmpl_var name='ssl_country'}" size="2" maxlength="2">
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_request" class="wf_preField">{tmpl_var name='ssl_request_txt'}</label>
+        <textarea id="ssl_request" name="ssl_request" cols='30' rows='10'>{tmpl_var name='ssl_request'}</textarea>
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_cert" class="wf_preField">{tmpl_var name='ssl_cert_txt'}</label>
+        <textarea id="ssl_cert" name="ssl_cert" cols='30' rows='10'>{tmpl_var name='ssl_cert'}</textarea>
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_bundle" class="wf_preField">{tmpl_var name='ssl_bundle_txt'}</label>
+        <textarea id="ssl_bundle" name="ssl_bundle" cols='30' rows='10'>{tmpl_var name='ssl_bundle'}</textarea>
+      </span>
+      <span class="wf_oneField">
+        <label for="ssl_action" class="wf_preField">{tmpl_var name='ssl_action_txt'}</label>
+        <select id="ssl_action" name="ssl_action">{tmpl_var name='ssl_action'}</select>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

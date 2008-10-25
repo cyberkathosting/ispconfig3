@@ -1,0 +1,46 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_mail_user">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_mail_user"><legend>Mailbox</legend>
+      <span class="wf_oneField">
+        <label for="email_local_part" class="wf_preField">{tmpl_var name='email_txt'}</label>
+        <input type="text" id="email_local_part" name="email_local_part" value="{tmpl_var name='email_local_part'}" size="20" maxlength="50">&nbsp;@&nbsp;
+        <select id="email_domain" name="email_domain">{tmpl_var name="email_domain"}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="password" class="wf_preField">{tmpl_var name='cryptpwd_txt'}</label>
+        <input type="password" id="password" name="password" value="{tmpl_var name='password'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="quota" class="wf_preField">{tmpl_var name='quota_txt'}</label>
+        <input type="text" id="quota" name="quota" value="{tmpl_var name='quota'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="policy" class="wf_preField">{tmpl_var name='policy_txt'}</label>
+        <select id="policy" name="policy">{tmpl_var name="policy"}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="postfix" class="wf_preField">{tmpl_var name='postfix_txt'}</label>
+        <span class="">{tmpl_var name='postfix'}</span>
+      </span>
+      <span class="wf_oneField">
+        <label for="disableimap" class="wf_preField">{tmpl_var name='disableimap_txt'}</label>                    
+        <span class="">{tmpl_var name='disableimap'}</span>
+      </span>
+      <span class="wf_oneField">
+        <label for="disablepop3" class="wf_preField">{tmpl_var name='disablepop3_txt'}</label>                    
+        <span class="">{tmpl_var name='disablepop3'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,60 @@
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="frmText11">{tmpl_var name='jobname_txt'}:</td>
+    <td class="frmText11"><input name="jobname" type="text" class="text" value="{tmpl_var name='jobname'}" size="15" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='sync_interval_minutes_txt'}:</td>
+    <td class="frmText11"><input name="sync_interval_minutes" type="text" class="text" value="{tmpl_var name='sync_interval_minutes'}" size="15" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='db_type_txt'}:</td>
+    <td class="frmText11">
+		<select name="db_type" class="text">
+			{tmpl_var name='db_type'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='db_host_txt'}:</td>
+    <td class="frmText11"><input name="db_host" type="text" class="text" value="{tmpl_var name='db_host'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='db_name_txt'}:</td>
+    <td class="frmText11"><input name="db_name" type="text" class="text" value="{tmpl_var name='db_name'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='db_username_txt'}:</td>
+    <td class="frmText11"><input name="db_username" type="text" class="text" value="{tmpl_var name='db_username'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='db_password_txt'}:</td>
+    <td class="frmText11"><input name="db_password" type="password" class="text" value="{tmpl_var name='db_password'}" size="30" maxlength="255"></td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='db_tables_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='db_tables'}</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='empty_datalog_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='empty_datalog'}</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='sync_datalog_external_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='sync_datalog_external'}</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/dbsync_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/dbsync_list.php');"><div class="buttonEnding"></div>
+    </td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">

@@ -1,0 +1,19 @@
+<h2><tmpl_var name="title"></h2>
+
+<div class="panel panel_logview">
+
+  <div class="pnl_toolsarea">
+    <fieldset><legend>Tools</legend>
+      <div class="buttons">
+        <select name="refreshinterval" id="refreshinterval" onChange="loadContentRefresh('monitor/logview.php?log={tmpl_var name="logfile_id"}')">{tmpl_var name="refresh"}</select>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="pnl_formarea">
+    <fieldset><legend><tmpl_var name="logfile"></legend>
+      <div class="codeview"><tmpl_var name="log"></div>
+    </fieldset>
+  </div>
+
+</div>

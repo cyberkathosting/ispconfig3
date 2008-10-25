@@ -1,0 +1,33 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_server_config">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_server_config"><legend>Web</legend>
+      <span class="wf_oneField">
+        <label for="website_path" class="wf_preField">{tmpl_var name='website_path_txt'}</label>
+        <input type="text" id="website_path" name="website_path" value="{tmpl_var name='website_path'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="website_symlinks" class="wf_preField">{tmpl_var name='website_symlinks_txt'}</label>
+        <input type="text" id="website_symlinks" name="website_symlinks" value="{tmpl_var name='website_symlinks'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="vhost_conf_dir" class="wf_preField">{tmpl_var name='vhost_conf_dir_txt'}</label>
+        <input type="text" id="vhost_conf_dir" name="vhost_conf_dir" value="{tmpl_var name='vhost_conf_dir'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="vhost_conf_enabled_dir" class="wf_preField">{tmpl_var name='vhost_conf_enabled_dir_txt'}</label>
+        <input type="text" id="vhost_conf_enabled_dir" name="vhost_conf_enabled_dir" value="{tmpl_var name='vhost_conf_enabled_dir'}" size="40" maxlength="255">
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

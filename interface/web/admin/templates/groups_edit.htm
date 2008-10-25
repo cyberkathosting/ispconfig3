@@ -1,0 +1,25 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_groups">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_groups"><legend>Groups</legend>
+      <span class="wf_oneField">
+        <label for="name" class="wf_preField">{tmpl_var name='name_txt'}</label>
+        <input type="text" id="name" name="name" value="{tmpl_var name='name'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="description" class="wf_preField">{tmpl_var name='description_txt'}</label>
+        <textarea id="description" name="description" cols='30' rows='5'>{tmpl_var name='description'}</textarea>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/groups_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/groups_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

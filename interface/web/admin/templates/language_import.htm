@@ -1,0 +1,32 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_language_import">
+
+  <tmpl_if name="msg">
+  <div class="box box_msg"><tmpl_var name="msg"></div>
+  </tmpl_if>
+  <tmpl_if name="error">
+  <div class="box box_error"><tmpl_var name="error"></div>
+  </tmpl_if>
+    
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_language_import"><legend>Language Import</legend>
+      <span class="wf_oneField">
+        <label for="lng_select" class="wf_preField">{tmpl_var name='language_import_txt'}</label>
+        <input type="file" id="file" name="file">
+      </span>      
+      <span class="wf_oneField">
+        <label class="wf_preField" for="overwrite"><tmpl_var name="language_overwrite_txt"></label>                    
+        <span class="">
+          <input type="checkbox" checked="" value="1" name="overwrite" id="overwrite" />
+        </span>
+      </span>
+    </fieldset>
+    
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/language_import.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

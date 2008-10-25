@@ -1,0 +1,33 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_web_domain">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_web_domain"><legend>Options</legend>
+      <span class="wf_oneField">
+        <label for="document_root" class="wf_preField">{tmpl_var name='document_root_txt'}</label>
+        <input type="text" id="document_root" name="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="system_user" class="wf_preField">{tmpl_var name='system_user_txt'}</label>
+        <input type="text" id="system_user" name="system_user" value="{tmpl_var name='system_user'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="system_group" class="wf_preField">{tmpl_var name='system_group_txt'}</label>
+        <input type="text" id="system_group" name="system_group" value="{tmpl_var name='system_group'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="apache_directives" class="wf_preField">{tmpl_var name='apache_directives_txt'}</label>
+        <input type="text" id="apache_directives" name="apache_directives" value="{tmpl_var name='apache_directives'}" size="30" maxlength="255">
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

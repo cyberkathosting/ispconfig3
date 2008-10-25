@@ -1,0 +1,35 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_dns_srv">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_dns_srv"><legend>DNS SRV</legend>
+      <span class="wf_oneField">
+        <label for="name" class="wf_preField">{tmpl_var name='name_txt'}</label>
+        <input type="text" id="name" name="name" value="{tmpl_var name='name'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="data" class="wf_preField">{tmpl_var name='data_txt'}</label>
+        <input type="text" id="data" name="data" value="{tmpl_var name='data'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="ttl" class="wf_preField">{tmpl_var name='ttl_txt'}</label>
+        <input type="text" id="ttl" name="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10">
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+    <input type="hidden" name="zone" value="{tmpl_var name='zone'}">
+    <input type="hidden" name="type" value="{tmpl_var name='type'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','dns/dns_srv_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('dns/dns_a_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

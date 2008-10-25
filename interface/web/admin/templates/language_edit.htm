@@ -1,0 +1,31 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_language_edit">
+  
+  <tmpl_if name="msg">
+  <div class="box box_msg"><tmpl_var name="msg"></div>
+  </tmpl_if>
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_language_edit"><legend>Language Edit</legend>
+      <span class="wf_oneField">
+        <tmpl_loop name="records">
+        <span class="wf_oneField">
+          <label for="records[{tmpl_var name="key"}]" class="wf_preField">{tmpl_var name="key"}</label>
+          <input type="text" id="records[{tmpl_var name="key"}]" name="records[{tmpl_var name="key"}]" value="{tmpl_var name='val'}" size="50" maxlength="255">
+        </span> 
+        </tmpl_loop>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="lang" value="{tmpl_var name='lang'}">
+    <input type="hidden" name="lang_file" value="{tmpl_var name='lang_file'}">
+    <input type="hidden" name="module" value="{tmpl_var name='module'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/language_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php?lng_select={tmpl_var name='lang'}');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

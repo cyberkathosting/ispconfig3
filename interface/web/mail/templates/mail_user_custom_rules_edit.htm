@@ -1,0 +1,21 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_mail_user">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_mail_user"><legend>Custom Rules</legend>
+      <span class="wf_oneField">
+        <label for="custom_mailfilter" class="wf_preField">{tmpl_var name='custom_mailfilter_txt'}</label>
+        <textarea id="custom_mailfilter" name="custom_mailfilter" cols='30' rows='15'>{tmpl_var name='custom_mailfilter'}</textarea>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

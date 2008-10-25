@@ -1,0 +1,48 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_users">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_users"><legend>Users</legend>
+      <span class="wf_oneField">
+        <label for="username" class="wf_preField">{tmpl_var name='username_txt'}</label>
+        <input type="text" id="username" name="username" value="{tmpl_var name='username'}" size="15" maxlength="30">
+      </span>
+      <span class="wf_oneField">
+        <label for="passwort" class="wf_preField">{tmpl_var name='passwort_txt'}</label>
+        <input type="password" id="passwort" name="passwort" value="{tmpl_var name='passwort'}" size="15" maxlength="100">
+      </span>
+      <span class="wf_oneField">
+        <span class="wf_label wf_preField">{tmpl_var name='modules_txt'}</span>                    
+        <fieldset>{tmpl_var name='modules'}</fieldset>
+      </span>
+      <span class="wf_oneField">
+        <label for="startmodule" class="wf_preField">{tmpl_var name='startmodule_txt'}</label>
+        <select id="startmodule" name="startmodule">{tmpl_var name='startmodule'}</select>
+      </span>      
+      <span class="wf_oneField">
+        <span class="wf_label wf_preField">{tmpl_var name='app_theme_txt'}</span>                    
+        <fieldset>{tmpl_var name='app_theme'}</fieldset>
+      </span>      <span class="wf_oneField">
+        <span class="wf_label wf_preField">{tmpl_var name='typ_txt'}</span>                    
+        <fieldset>{tmpl_var name='typ'}</fieldset>
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+      <span class="wf_oneField">
+        <label for="language" class="wf_preField">{tmpl_var name='language_txt'}</label>
+        <select id="language" name="language">{tmpl_var name='language'}</select>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/users_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/users_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

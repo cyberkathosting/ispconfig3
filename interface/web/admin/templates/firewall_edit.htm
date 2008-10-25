@@ -1,0 +1,33 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_firewall">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_firewall"><legend>Firewall</legend>
+      <span class="wf_oneField">
+        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
+        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="tcp_port" class="wf_preField">{tmpl_var name='tcp_port_txt'}</label>
+        <input type="text" id="tcp_port" name="tcp_port" value="{tmpl_var name='tcp_port'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="udp_port" class="wf_preField">{tmpl_var name='udp_port_txt'}</label>
+        <input type="text" id="udp_port" name="udp_port" value="{tmpl_var name='udp_port'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/firewall_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/firewall_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

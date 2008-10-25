@@ -1,0 +1,45 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_server_config">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_server_config"><legend>FastCGI</legend>
+      <span class="wf_oneField">
+        <label for="fastcgi_starter_path" class="wf_preField">{tmpl_var name='fastcgi_starter_path_txt'}</label>
+        <input type="text" id="fastcgi_starter_path" name="fastcgi_starter_path" value="{tmpl_var name='fastcgi_starter_path'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fastcgi_starter_script" class="wf_preField">{tmpl_var name='fastcgi_starter_script_txt'}</label>
+        <input type="text" id="fastcgi_starter_script" name="fastcgi_starter_script" value="{tmpl_var name='fastcgi_starter_script'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fastcgi_alias" class="wf_preField">{tmpl_var name='fastcgi_alias_txt'}</label>
+        <input type="text" id="fastcgi_alias" name="fastcgi_alias" value="{tmpl_var name='fastcgi_alias'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fastcgi_phpini_path" class="wf_preField">{tmpl_var name='fastcgi_phpini_path_txt'}</label>
+        <input type="text" id="fastcgi_phpini_path" name="fastcgi_phpini_path" value="{tmpl_var name='fastcgi_phpini_path'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fastcgi_children" class="wf_preField">{tmpl_var name='fastcgi_children_txt'}</label>
+        <input type="text" id="fastcgi_children" name="fastcgi_children" value="{tmpl_var name='fastcgi_children'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fastcgi_max_requests" class="wf_preField">{tmpl_var name='fastcgi_max_requests_txt'}</label>
+        <input type="text" id="fastcgi_max_requests" name="fastcgi_max_requests" value="{tmpl_var name='fastcgi_max_requests'}" size="40" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="fastcgi_bin" class="wf_preField">{tmpl_var name='fastcgi_bin_txt'}</label>
+        <input type="text" id="fastcgi_bin" name="fastcgi_bin" value="{tmpl_var name='fastcgi_bin'}" size="40" maxlength="255">
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

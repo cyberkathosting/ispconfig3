@@ -1,0 +1,43 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_spamfilter_policy">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_spamfilter_policy"><legend>Quarantine</legend>
+      <span class="wf_oneField">
+        <label for="virus_quarantine_to" class="wf_preField">{tmpl_var name='virus_quarantine_to_txt'}</label>
+        <input type="text" id="virus_quarantine_to" name="virus_quarantine_to" value="{tmpl_var name='virus_quarantine_to'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="spam_quarantine_to" class="wf_preField">{tmpl_var name='spam_quarantine_to_txt'}</label>
+        <input type="text" id="spam_quarantine_to" name="spam_quarantine_to" value="{tmpl_var name='spam_quarantine_to'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="banned_quarantine_to" class="wf_preField">{tmpl_var name='banned_quarantine_to_txt'}</label>
+        <input type="text" id="banned_quarantine_to" name="banned_quarantine_to" value="{tmpl_var name='banned_quarantine_to'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="bad_header_quarantine_to" class="wf_preField">{tmpl_var name='bad_header_quarantine_to_txt'}</label>
+        <input type="text" id="bad_header_quarantine_to" name="bad_header_quarantine_to" value="{tmpl_var name='bad_header_quarantine_to'}" size="30" maxlength="255">
+      </span>
+<!--
+      <span class="wf_oneField">
+        <label for="clean_quarantine_to" class="wf_preField">{tmpl_var name='clean_quarantine_to_txt'}</label>
+        <input type="text" id="clean_quarantine_to" name="clean_quarantine_to" value="{tmpl_var name='clean_quarantine_to'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="other_quarantine_to" class="wf_preField">{tmpl_var name='other_quarantine_to_txt'}</label>
+        <input type="text" id="other_quarantine_to" name="other_quarantine_to" value="{tmpl_var name='other_quarantine_to'}" size="30" maxlength="255">
+      </span>
+-->
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/spamfilter_policy_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/spamfilter_policy_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

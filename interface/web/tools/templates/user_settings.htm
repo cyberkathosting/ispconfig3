@@ -1,0 +1,29 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_usersettings">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_usersettings"><legend>Settings</legend>
+      <span class="wf_oneField">
+        <label for="passwort" class="wf_preField">{tmpl_var name='passwort_txt'}</label>
+        <input type="password" id="passwort" name="passwort" value="{tmpl_var name='passwort'}" size="15" maxlength="100">
+      </span>
+      <span class="wf_oneField">
+        <label for="passwort2" class="wf_preField">{tmpl_var name='passwort_txt'}</label>
+        <input type="password" id="passwort2" name="passwort2" value="" size="15" maxlength="100">
+      </span>      
+      <span class="wf_oneField">
+        <label for="language" class="wf_preField">{tmpl_var name='language_txt'}</label>
+        <select id="language" name="language">{tmpl_var name='language'}</select>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','tools/user_settings.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('tools/index.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

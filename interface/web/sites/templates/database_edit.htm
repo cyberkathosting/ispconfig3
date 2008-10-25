@@ -1,0 +1,61 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_database">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_database"><legend>Database</legend>
+      <tmpl_if name="is_admin">
+      <span class="wf_oneField">
+        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
+        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
+        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
+      </span>
+      </tmpl_if>
+      <tmpl_if name="is_reseller">
+      <span class="wf_oneField">
+        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_id_txt'}</label>
+        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
+      </span>
+      </tmpl_if>
+      <span class="wf_oneField">
+        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
+        <select id="type" name="type">{tmpl_var name='type'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="database_name" class="wf_preField">{tmpl_var name='database_name_txt'}</label>
+        <input type="text" id="database_name" name="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+      <span class="wf_oneField">
+        <label for="database_user" class="wf_preField">{tmpl_var name='database_user_txt'}</label>
+        <input type="text" id="database_user" name="database_user" value="{tmpl_var name='database_user'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+      <span class="wf_oneField">
+        <label for="database_password" class="wf_preField">{tmpl_var name='database_password_txt'}</label>
+        <input type="text" id="database_password" name="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+      <span class="wf_oneField">
+        <label for="database_charset" class="wf_preField">{tmpl_var name='database_charset_txt'}</label>
+        <select id="database_charset" name="database_charset">{tmpl_var name='database_charset'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="remote_access" class="wf_preField">{tmpl_var name='remote_access_txt'}</label>                    
+        <span class="">{tmpl_var name='remote_access'}</span>
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/database_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/database_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,34 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_mail_blacklist">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_mail_blacklist"><legend>Blacklist</legend>
+      <span class="wf_oneField">
+        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
+        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="source" class="wf_preField">{tmpl_var name='source_txt'}</label>
+        <input type="text" id="source" name="source" value="{tmpl_var name='source'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
+        <select id="type" name="type">{tmpl_var name='type'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+    <input name="access" type="hidden" value="{tmpl_var name='access'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_blacklist_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_blacklist_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

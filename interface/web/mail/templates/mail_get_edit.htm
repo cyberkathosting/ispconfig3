@@ -1,0 +1,51 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_mail_get">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_mail_get"><legend>Get Email</legend>
+<!--
+      <span class="wf_oneField">
+        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
+        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
+      </span>
+-->
+      <span class="wf_oneField">
+        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
+        <select id="type" name="type">{tmpl_var name='type'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="source_server" class="wf_preField">{tmpl_var name='source_server_txt'}</label>
+        <input type="text" id="source_server" name="source_server" value="{tmpl_var name='source_server'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="source_username" class="wf_preField">{tmpl_var name='source_username_txt'}</label>
+        <input type="text" id="source_username" name="source_username" value="{tmpl_var name='source_username'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="source_password" class="wf_preField">{tmpl_var name='source_password_txt'}</label>
+        <input type="text" id="source_password" name="source_password" value="{tmpl_var name='source_password'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="source_delete" class="wf_preField">{tmpl_var name='source_delete_txt'}</label>
+        <span class="">{tmpl_var name='source_delete'}</span>
+      </span>
+      <span class="wf_oneField">
+        <label for="destination" class="wf_preField">{tmpl_var name='destination_txt'}</label>
+        <select id="destination" name="destination">{tmpl_var name='destination'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
+        <span class="">{tmpl_var name='active'}</span>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_get_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_get_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

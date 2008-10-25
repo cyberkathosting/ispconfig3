@@ -1,0 +1,49 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_ftp_user">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_ftp_user"><legend>Options</legend>
+      <span class="wf_oneField">
+        <label for="uid" class="wf_preField">{tmpl_var name='uid_txt'}</label>
+        <input type="text" id="uid" name="uid" value="{tmpl_var name='uid'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="gid" class="wf_preField">{tmpl_var name='gid_txt'}</label>
+        <input type="text" id="gid" name="gid" value="{tmpl_var name='gid'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="dir" class="wf_preField">{tmpl_var name='dir_txt'}</label>
+        <input type="text" id="dir" name="dir" value="{tmpl_var name='dir'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="quota_files" class="wf_preField">{tmpl_var name='quota_files_txt'}</label>
+        <input type="text" id="quota_files" name="quota_files" value="{tmpl_var name='quota_files'}" size="7" maxlength="7">
+      </span>
+      <span class="wf_oneField">
+        <label for="ul_ratio" class="wf_preField">{tmpl_var name='ul_ratio_txt'}</label>
+        <input type="text" id="ul_ratio" name="ul_ratio" value="{tmpl_var name='ul_ratio'}" size="7" maxlength="7">
+      </span>
+      <span class="wf_oneField">
+        <label for="dl_ratio" class="wf_preField">{tmpl_var name='dl_ratio_txt'}</label>
+        <input type="text" id="dl_ratio" name="dl_ratio" value="{tmpl_var name='dl_ratio'}" size="7" maxlength="7">
+      </span>
+      <span class="wf_oneField">
+        <label for="ul_bandwidth" class="wf_preField">{tmpl_var name='ul_bandwidth_txt'}</label>
+        <input type="text" id="ul_bandwidth" name="ul_bandwidth" value="{tmpl_var name='ul_bandwidth'}" size="7" maxlength="7">
+      </span>
+      <span class="wf_oneField">
+        <label for="dl_bandwidth" class="wf_preField">{tmpl_var name='dl_bandwidth_txt'}</label>
+        <input type="text" id="dl_bandwidth" name="dl_bandwidth" value="{tmpl_var name='dl_bandwidth'}" size="7" maxlength="7">
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/ftp_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/ftp_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>
