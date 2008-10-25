@@ -1,0 +1,8 @@
+<ul id="submenu">
+<tmpl_loop name="nav_left">
+  <li id="title"><a href="#" onClick="loadContent('<tmpl_var name='startpage'>')"><tmpl_var name="title"></a></li>
+  <tmpl_loop name="items">
+    <li><a href="#" onClick="loadContent('<tmpl_var name='link'>')"><tmpl_var name="title"></a></li>
+  </tmpl_loop>
+</tmpl_loop>
+</ul>
