@@ -1,0 +1,218 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Uniform design of ISPConfig elements - ISPConfig 3: default theme
+ * (de) Einheitliche Standardformatierungen für ISPConfig-Elemente - ISPConfig 3: default theme
+ *
+ * @copyright       Copyright 2005-2008, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.0.6
+ * @revision        $Revision: 202 $
+ * @lastmodified    $Date: 2008-06-07 14:29:18 +0200 (Sa, 07 Jun 2008) $
+ * @appdef yaml
+ */
+
+@media all
+{
+	/* Image-Replacement */
+	h1.swap { background-repeat:no-repeat; }
+	h1.swap span {display:none;} 
+	h1#ir-HeaderLogo {
+	  height:32px;
+	  background-image:url("../../images/header_logo.png");
+	} 
+	
+	.pageForm_description {
+		font-size: 12px;
+	}
+	
+	/* Tab-Box */
+	.tabbox_tabs {
+	border-bottom: 1px solid #d3d3d3;
+	}
+	.tabbox_tabs ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	}
+	.tabbox_tabs li {
+	display: inline;
+	margin: 0 2px 0 0;
+	}
+	.tabbox_tabs a {
+	padding: 0 1em;
+	text-decoration: none;
+	color: black;
+	background: #d3d3d3;
+	border: 1px solid #d3d3d3;
+	}
+	.tabbox_tabs a:hover {
+	background: #fc0;
+	color: #540;
+	}
+	.tabbox_tabs .active a {
+	font-weight: bold;
+	color: #ff6600;
+	background: #ffffff;
+	}
+	
+	.pnl_toolsarea fieldset, .pnl_listarea fieldset, .pnl_formarea fieldset {
+		border-color: #D0D0D0 -moz-use-text-color -moz-use-text-color;
+		border-style: solid none none;
+		border-width: 1px medium medium;
+		margin: 20px 0;
+	}
+	.pnl_toolsarea fieldset legend , .pnl_listarea fieldset legend, .pnl_formarea fieldset {
+		font-weight: bold;
+	}
+	
+	.box {
+		padding:4px;
+		margin: 0 0 20px 0;
+	}
+	.box_error { border: 4px solid #CC0000; }
+	.box_error h1 { color: #CC0000; }
+	.box_support {	border: 1px solid #6495ed; }
+	.box_support h1 { color: #6495ed; }
+	.box_msg { border: 2px solid #6495ed; }
+	.box_msg h1 { color: #6495ed; }
+	
+	.codeview {
+		margin:20px 0;
+		padding:2px;
+		border: 1px solid #ffcc00;
+		background: #fffaea;
+		font-family: Consolas, "Lucida Console", "Courier New", monospace;
+		font-size: 0.9em;
+	}
+	
+	/* Lists */
+	table.list {
+		width: 100%;
+		border: 1px solid #d3d3d3 !important;
+	}
+	table.list thead th { font-size: 10px; }
+	table.list tbody { border: 1px solid #d3d3d3 !important; }
+	table.list tfoot td { text-align: center;  background: #f8f8f8 url(../../images/lists_tfoot_bg.png) repeat-x bottom left;  padding: 24px 8px 8px 8px; }
+	table.list .tbl_row_even { background: #fcfcfc; }
+	table.list .tbl_row_uneven { background: #f0f8ff; }
+	table.list tr:hover { background: #fffacd; }
+	
+	
+	.systemmonitor table {
+		border: 1px solid #d3d3d3;
+		width: 80%;
+		margin-top: 10px;
+	}
+	.systemmonitor table * td {
+		padding: 1px;
+		font-weight: normal;
+		font-family: Consolas, "Lucida Console", "Courier New", monospace;
+		font-size: 0.9em;
+	}
+	
+	/* BUTTONS */
+	.buttons a, .buttons button{
+	    display:block;
+	    float:left;
+	    margin:0 7px 0 0;
+	    background-color:#f5f5f5;
+	    border:1px solid #dedede;
+	    border-top:1px solid #eee;
+	    border-left:1px solid #eee;
+	
+	    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	    font-size:90%;
+	    line-height:130%;
+	    text-decoration:none;
+	    font-weight:bold;
+	    color:#565656;
+	    cursor:pointer;
+	    padding:5px 10px 6px 7px; /* Links */
+	}
+	.buttons button{
+	    width:auto;
+	    overflow:visible;
+	    padding:4px 10px 3px 7px; /* IE6 */
+	}
+	.buttons button[type]{
+	    padding:5px 10px 5px 7px; /* Firefox */
+	    line-height:17px; /* Safari */
+	}
+	*:first-child+html button[type]{
+	    padding:4px 10px 3px 7px; /* IE7 */
+	}
+	.buttons button img, .buttons a img{
+	    margin:0 3px -3px 0 !important;
+	    padding:0;
+	    border:none;
+	    width:16px;
+	    height:16px;
+	}
+	
+	/* BUTTONS STANDARD */
+	button:hover, .buttons a:hover{
+	    background-color:#dff4ff;
+	    border:1px solid #c2e1ef;
+	    color:#336699;
+	}
+	.buttons a:active{
+	    background-color:#6299c5;
+	    border:1px solid #6299c5;
+	    color:#fff;
+	}
+	
+	/* BUTTONS POSITIVE */
+	button.positive, .buttons a.positive{
+	    color:#529214;
+	}
+	.buttons a.positive:hover, button.positive:hover{
+	    background-color:#E6EFC2;
+	    border:1px solid #C6D880;
+	    color:#529214;
+	}
+	.buttons a.positive:active{
+	    background-color:#529214;
+	    border:1px solid #529214;
+	    color:#fff;
+	}
+	
+	/* BUTTONS NEGATIVE */
+	.buttons a.negative, button.negative{
+	    color:#d12f19;
+	}
+	.buttons a.negative:hover, button.negative:hover{
+	    background-color:#fbe3e4;
+	    border:1px solid #fbc2c4;
+	    color:#d12f19;
+	}
+	.buttons a.negative:active{
+	    background-color:#d12f19;
+	    border:1px solid #d12f19;
+	    color:#fff;
+	}
+
+	/* Button with icon and text */
+	.iconstxt {
+		background-repeat: no-repeat; 
+		background-position: 4px 4px;
+	}
+	.iconstxt span { padding-left: 20px; }
+	.iconstxt.icoPositive { background-image: url("../../icons/x16/tick_circle_frame.png"); }
+	.iconstxt.icoNegative { background-image: url("../../icons/x16/cross_circle_frame.png"); }
+	.iconstxt.icoAdd { background-image: url(../../icons/x16/plus_circle_frame.png); }
+	.iconstxt.icoKey { background-image: url("../../icons/x16/key.png"); }
+	
+	/* Button with icon and without text */
+	.icons16 span { display: none; }
+	a.icons16 { height: 18px; width: 18px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+	button.icons16 { height: 20px; width: 20px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+
+	.icons16.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
+	.icons16.icoFilter { background-image: url(../../icons/x16/funnel.png); }
+}
+
