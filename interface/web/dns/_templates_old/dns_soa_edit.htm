@@ -1,0 +1,81 @@
+<table width="800" border="0" cellspacing="0" cellpadding="2">
+  <tmpl_if name="is_admin">
+  <tr>
+    <td class="frmText11">{tmpl_var name='server_id_txt'}:</td>
+    <td class="frmText11">
+		<select name="server_id" class="text">
+			{tmpl_var name='server_id'}
+		</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='client_txt'}:</td>
+    <td class="frmText11">
+		<select name="client_group_id" class="text">
+			{tmpl_var name='client_group_id'}
+		</select>
+	</td>
+  </tr>
+  </tmpl_if>
+  <tmpl_if name="is_reseller">
+  <tr>
+    <td class="frmText11">{tmpl_var name='client_txt'}:</td>
+    <td class="frmText11">
+		<select name="client_group_id" class="text">
+			{tmpl_var name='client_group_id'}
+		</select>
+	</td>
+  </tr>
+  </tmpl_if>
+  <tr>
+    <td class="frmText11">{tmpl_var name='origin_txt'}:</td>
+    <td class="frmText11"><input name="origin" type="text" class="text" value="{tmpl_var name='origin'}" size="30" maxlength="255"> e.g. mydomain.com.</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ns_txt'}:</td>
+    <td class="frmText11"><input name="ns" type="text" class="text" value="{tmpl_var name='ns'}" size="30" maxlength="255"> e.g. ns1.mydomain.com.</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='mbox_txt'}:</td>
+    <td class="frmText11"><input name="mbox" type="text" class="text" value="{tmpl_var name='mbox'}" size="30" maxlength="255"> e.g. postmaster.mydomain.com.</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='refresh_txt'}:</td>
+    <td class="frmText11"><input name="refresh" type="text" class="text" value="{tmpl_var name='refresh'}" size="10" maxlength="10"> Seconds</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='retry_txt'}:</td>
+    <td class="frmText11"><input name="retry" type="text" class="text" value="{tmpl_var name='retry'}" size="10" maxlength="10"> Seconds</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='expire_txt'}:</td>
+    <td class="frmText11"><input name="expire" type="text" class="text" value="{tmpl_var name='expire'}" size="10" maxlength="10"> Seconds</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='minimum_txt'}:</td>
+    <td class="frmText11"><input name="minimum" type="text" class="text" value="{tmpl_var name='minimum'}" size="10" maxlength="10"> Seconds</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='ttl_txt'}:</td>
+    <td class="frmText11"><input name="ttl" type="text" class="text" value="{tmpl_var name='ttl'}" size="10" maxlength="10"> Seconds</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='xfer_txt'}:</td>
+    <td class="frmText11"><input name="xfer" type="text" class="text" value="{tmpl_var name='xfer'}" size="30" maxlength="255"> Allow zone transfers to this IP</td>
+  </tr>
+  <tr>
+    <td class="frmText11">{tmpl_var name='active_txt'}:</td>
+    <td class="frmText11">{tmpl_var name='active'}</td>
+  </tr>  <tr>
+    <td class="frmText11">&nbsp;</td>
+    <td class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input name="btn_save" type="button" class="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','dns/dns_soa_edit.php');"><div class="buttonEnding"></div>&nbsp;
+      <input name="btn_cancel" type="button" class="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('dns/dns_soa_list.php');"><div class="buttonEnding"></div>
+      <input name="serial" type="hidden" value="{tmpl_var name='serial'}">
+	</td>
+  </tr>
+</table>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
