@@ -98,7 +98,7 @@ class listform_actions {
 			if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
 				if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
 					// Set a additional image variable for bolean fields
-					$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'list_icon_true.png':'list_icon_false.png';
+					$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
 				}
 				//* substitute value for select field
 				$rec[$key] = @$field['value'][$rec[$key]];

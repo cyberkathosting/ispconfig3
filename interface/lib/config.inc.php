@@ -31,7 +31,7 @@ error_reporting(E_ALL|E_NOTICE);
 
 header('Pragma: no-cache');
 header('Cache-Control: no-store, no-cache, max-age=0, must-revalidate');
-header('Content-Type: text/html');
+header('Content-Type: text/html; charset=utf-8');
 //* TODO: Js caching - pedro
 
 //** Key paramaters
@@ -114,8 +114,7 @@ $conf['programs']['wput']		= ISPC_ROOT_PATH."\\tools\\wput\\wput.exe";
 
 //** Themes
 $conf['theme']					= 'default';
-$conf['html_content_encoding']	= 'text/html; charset=iso-8859-1';
-$conf['logo'] 					= 'themes/default/images/mydnsconfig_logo.gif';
+$conf['html_content_encoding']	= 'text/html; charset=utf-8';
 
 //** Default Language
 $conf['language']       = 'en';

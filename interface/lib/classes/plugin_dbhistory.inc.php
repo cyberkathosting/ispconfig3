@@ -26,9 +26,9 @@ class plugin_dbhistory extends plugin_base {
 			
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records)) {
-				$content .= '<table width="100%">';
+				$content .= '<table>';
 				foreach($records as $rec) {
-					$content .= "<tr><td class='frmText11' bgcolor='#EEEEEE'><b>".date("d.m.Y",$rec["tstamp"])." ".$rec["user"]."</b></td></tr>";
+					$content .= "<tr><td>".date("d.m.Y",$rec["tstamp"])."</td><td>".$rec["user"]."</td></tr>";
 				}
 				$content .= '</table>';
 			}

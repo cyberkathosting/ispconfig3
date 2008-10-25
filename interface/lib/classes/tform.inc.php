@@ -344,8 +344,10 @@ class tform {
                                                                 foreach($vals as $tvl) {
                                                                         if(trim($tvl) == trim($k)) $checked = ' CHECKED';
                                                                 }
-
-                                                                $out .= "<input name=\"".$key."[]\" type=\"checkbox\" value=\"$k\" $checked>$v <br />\r\n";
+                                                                $out .= "<span class=\"wf_oneChoice\">\r\n
+                                                                <input type=\"checkbox\" value=\"$k\" id=\"".$key."[]\" name=\"".$key."[]\" $checked>\r\n
+                                                                <label for=\"".$key."[]\" id=\"".$key."[]-L\" class=\"wf_postField\">$v</label>\r\n
+                                                                </span><br />\r\n";
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
@@ -358,7 +360,10 @@ class tform {
                                                         $out = '';
                                                         foreach($field['value'] as $k => $v) {
                                                                 $checked = ($k == $val)?' CHECKED':'';
-                                                                $out .= "<input name='".$key."[]' type='radio' value='$k'$checked> $v<br>\r\n";
+                                                                $out .= "<span class=\"wf_oneChoice\">\r\n
+                                                                <input type=\"radio\" value=\"$k\" id=\"".$key."[]\" name=\"".$key."[]\" $checked>\r\n
+                                                                <label for=\"".$key."[]\" id=\"".$key."[]-L\" class=\"wf_postField\">$v</label>\r\n
+                                                                </span><br />\r\n";
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
@@ -412,7 +417,7 @@ class tform {
 
                                 case 'CHECKBOX':
                                         // $checked = (empty($field["default"]))?'':' CHECKED';
-										$checked = ($field["default"] == $field['value'][1])?' CHECKED':'';
+										                    $checked = ($field["default"] == $field['value'][1])?' CHECKED':'';
                                         $new_record[$key] = "<input name=\"".$key."\" type=\"checkbox\" value=\"".$field['value'][1]."\" $checked>\r\n";
                                 break;
 
@@ -430,8 +435,10 @@ class tform {
                                                         foreach($vals as $tvl) {
                                                                 if(trim($tvl) == trim($k)) $checked = ' CHECKED';
                                                         }
-
-                                                        $out .= "<input name=\"".$key."[]\" type=\"checkbox\" value=\"$k\" $checked> $v<br />\r\n";
+                                                        $out .= "<span class=\"wf_oneChoice\">\r\n
+                                                        <input type=\"checkbox\" value=\"$k\" id=\"".$key."[]\" name=\"".$key."[]\" $checked>\r\n
+                                                        <label for=\"".$key."[]\" id=\"".$key."[]-L\" class=\"wf_postField\">$v</label>\r\n
+                                                        </span><br />\r\n";
                                                 }
                                         }
                                         $new_record[$key] = $out;
@@ -444,7 +451,10 @@ class tform {
                                                 $out = '';
                                                 foreach($field['value'] as $k => $v) {
                                                         $checked = ($k == $field["default"])?' CHECKED':'';
-                                                        $out .= "<input name='".$key."[]' type='radio' value='$k'$checked> $v<br>\r\n";
+                                                        $out .= "<span class=\"wf_oneChoice\">\r\n
+                                                        <input type=\"radio\" value=\"$k\" id=\"".$key."[]\" name=\"".$key."[]\" $checked>\r\n
+                                                        <label for=\"".$key."[]\" id=\"".$key."[]-L\" class=\"wf_postField\">$v</label>\r\n
+                                                        </span><br />\r\n";
                                                 }
                                         }
                                         $new_record[$key] = $out;
@@ -865,8 +875,8 @@ class tform {
                 $app->tpl->setVar('form_active_tab',$active_tab);
 
                 // Set form title
-                $form_hint = '<b>'.$this->lng($this->formDef["title"]).'</b>';
-                if($this->formDef["description"] != '') $form_hint .= '<br><br>'.$this->lng($this->formDef["description"]);
+                $form_hint = $this->lng($this->formDef["title"]);
+                if($this->formDef["description"] != '') $form_hint .= '<div class="pageForm_description">'.$this->lng($this->formDef["description"]).'</div>';
                 $app->tpl->setVar('form_hint',$form_hint);
 
                 // Set Wordbook for this form

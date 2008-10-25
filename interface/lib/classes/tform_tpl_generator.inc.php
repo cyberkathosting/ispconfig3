@@ -37,74 +37,113 @@ class tform_tpl_generator {
 		
 		$module = $_SESSION["s"]["module"]["name"];
 		
-		$html = '<table width="500" border="0" cellspacing="0" cellpadding="2">';
+		$html = '<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_'.$formDef['name'].'">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_'.$formDef['name'].'"><legend>'.$formDef['tabs'][$tab]['title'].'</legend>';
 		$lang = array();
 		
 		foreach($formDef['tabs'][$tab]['fields'] as $key => $field) {
 			switch ($field['formtype']) {
 				case 'TEXT':
-					$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\"><input name=\"".$key."\" type=\"text\" class=\"text\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"></td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
+        <input type=\"text\" id=\"".$key."\" name=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"";
+          if ($field['required'] == true ) {
+  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br>";
+          } else {
+  	 				$html .= ">";
+          }
+					$html .= "\r\n      </span>";
 				break;
 				case 'TEXTAREA':
-					$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\"><textarea name='$key' cols='".$field['cols']."' rows='".$field['rows']."'>{tmpl_var name='".$key."'}</textarea></td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
+        <textarea id=\"".$key."\" name=\"".$key."\" cols='".$field['cols']."' rows='".$field['rows']."'";
+          if ($field['required'] == true ) {
+  					$html .= " class=\"wf_required\">";
+          } else {
+  	 				$html .= ">";
+          }
+					$html .= "{tmpl_var name='".$key."'}</textarea>";
+          if ($field['required'] == true ) {
+  					$html .= "<span class=\"wf_reqMark\">*</span><br>";
+          }
+					$html .= "\r\n      </span>";
 				break;
 				case 'SELECT':
-				$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\">
-		<select name=\"".$key."\" class=\"text\">
-			{tmpl_var name='".$key."'}
-		</select>
-	</td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
+        <select id=\"".$key."\" name=\"".$key."\"";
+          if ($field['required'] == true ) {
+  					$html .= " class=\"wf_required\">";
+          } else {
+  	 				$html .= ">";
+          }
+					$html .= "{tmpl_var name='".$key."'}</select>";
+          if ($field['required'] == true ) {
+  					$html .= "<span class=\"wf_reqMark\">*</span><br>";
+          }
+					$html .= "\r\n      </span>";
 				break;
 				case 'MULTIPLE':
-				$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\">
-		<select name=\"".$key."\" class=\"text\" size=\"".$field['rows']."\" multiple>
-			{tmpl_var name='".$key."'}
-		</select>
-	</td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
+        <select multiple id=\"".$key."\" name=\"".$key."\"";
+          if ($field['required'] == true ) {
+  					$html .= " class=\"wf_required\">";
+          } else {
+  	 				$html .= ">";
+          }
+					$html .= "{tmpl_var name='".$key."'}</select>";
+          if ($field['required'] == true ) {
+  					$html .= "<span class=\"wf_reqMark\">*</span><br>";
+          }
+					$html .= "\r\n      </span>";
 				break;
 				case 'PASSWORD':
-				$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\"><input name=\"".$key."\" type=\"password\" class=\"text\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"></td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
+        <input type=\"password\" id=\"".$key."\" name=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"";
+          if ($field['required'] == true ) {
+  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br>";
+          } else {
+  	 				$html .= ">";
+          }
+					$html .= "\r\n      </span>";
 				break;
 				case 'CHECKBOX':
-				$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\">{tmpl_var name='".$key."'}</td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>";
+          if ($field['required'] == true ) {
+  					$html .= "                    <span class=\"wf_required\">
+                      {tmpl_var name='".$key."'}
+                    </span>
+                    <span class=\"wf_reqMark\">*</span><br>";
+          } else {
+  					$html .= "                    <span class=\"\">
+                      {tmpl_var name='".$key."'}
+                    </span>";
+          }
+          $html .= "\r\n      </span>";
 				break;
 				case 'CHECKBOXARRAY':
-				$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\">{tmpl_var name='".$key."'}</td>
-  </tr>";
+					$html .= "\r\n      <span class=\"wf_oneField\">
+        <span class=\"wf_label wf_preField\">{tmpl_var name='".$key."_txt'}</span>";
+  					$html .= "                    <fieldset>
+                      {tmpl_var name='".$key."'}
+                    </fieldset>";
+            $html .= "\r\n      </span>";
 				break;
 				case 'RADIO':
-				$html .= "
-  <tr>
-    <td class=\"frmText11\">{tmpl_var name='".$key."_txt'}:</td>
-    <td class=\"frmText11\">{tmpl_var name='".$key."'}</td>
-  </tr>";
+					$html .= "      <span class=\"wf_oneField\">
+        <span class=\"wf_label wf_preField\">{tmpl_var name='".$key."_txt'}</span>";
+  					$html .= "                    <fieldset>
+                      {tmpl_var name='".$key."'}
+                    </fieldset>";
+            $html .= "\r\n      </span>";
 				break;
 			}
 			
@@ -117,25 +156,25 @@ class tform_tpl_generator {
 				$lang[$errmsg] = $errmsg;
 			}
 			
-			
 		}
 		
-		$html .= "  <tr>
-    <td class=\"frmText11\">&nbsp;</td>
-    <td class=\"frmText11\">&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><input name=\"btn_save\" type=\"button\" class=\"button\" value=\"{tmpl_var name='btn_save_txt'}\" onClick=\"submitForm('pageForm','".$module."/".$formDef["action"]."');\"><div class=\"buttonEnding\"></div>&nbsp;
-      <input name=\"btn_cancel\" type=\"button\" class=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" onClick=\"loadContent('".$module."/".$formDef["list_default"]."');\"><div class=\"buttonEnding\"></div>
-    </td>
-  </tr>";
-		
+		$html .= "
+    </fieldset>
+
+    <input type=\"hidden\" name=\"id\" value=\"{tmpl_var name='id'}\">
+
+    <div class=\"wf_actions buttons\">
+      <button class=\"positive iconstxt icoPositive\" type=\"button\" value=\"{tmpl_var name='btn_save_txt'}\" onClick=\"submitForm('pageForm','".$module."/".$formDef["action"]."');\"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class=\"negative iconstxt icoNegative\" type=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" onClick=\"loadContent('".$module."/".$formDef["list_default"]."');\"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>
+";
+
 		$lang['btn_save_txt'] = "Save";
 		$lang['btn_cancel_txt'] = "Cancel";
-		
-		$html .= "\r\n</table>\r\n<input type=\"hidden\" name=\"id\" value=\"{tmpl_var name='id'}\">";
-		
+				
 		// speichere Template
 		if (!$handle = fopen($formDef['tabs'][$tab]['template'], 'w')) { 
         	print "Cannot open file ($filename)"; 
