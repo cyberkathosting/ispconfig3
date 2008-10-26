@@ -101,7 +101,7 @@ $app->tpl->pparse();
 function show_load(){
 	global $app;
 
-    $html_out .= '<table>';
+    $html_out .= '<table id="system_load">';
 
     $fd = popen ("uptime", "r");
     while (!feof($fd)) {
@@ -156,7 +156,7 @@ function show_disk () {
     global $app;
 
 
-    $html_out .= '<table>';
+    $html_out .= '<table id="system_disk">';
 
     $fd = popen ("df -h", "r");
     while (!feof($fd)) {
@@ -201,7 +201,7 @@ function show_memusage ()
     {
     global $app;
 
-    $html_out .= '<table>';
+    $html_out .= '<table id="system_memusage">';
 
     $fd = fopen ("/proc/meminfo", "r");
     while (!feof($fd)) {
@@ -232,7 +232,7 @@ function show_cpu ()
     {
     global $app;
 
-    $html_out .= '<table>';
+    $html_out .= '<table id="system_cpu">';
 
         $n = 0;
         if(is_readable("/proc/cpuinfo")) {
@@ -273,7 +273,7 @@ function show_services ()
     {
     global $app;
 
-    $html_out .= '<table>';
+    $html_out .= '<table id="system_services">';
 
     // Checke Webserver
     if(_check_tcp('localhost',80)) {
