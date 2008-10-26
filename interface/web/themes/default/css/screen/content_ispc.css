@@ -115,6 +115,22 @@
 		font-size: 0.9em;
 	}
 	
+	.systemmonitor #system_load {
+		width: 40%;
+	}
+	.systemmonitor #system_services {
+		width: 40%;
+	}
+	.online {
+		background-color: #c6d880;
+		padding:0px 5px;
+	}
+	.offline {
+		background-color: #d12f19; 
+		color:#ffffff;
+		padding:0px 5px;
+	}
+	
 	/* BUTTONS */
 	.buttons a, .buttons button{
 	    display:block;
