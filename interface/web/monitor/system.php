@@ -101,7 +101,7 @@ $app->tpl->pparse();
 function show_load(){
 	global $app;
 
-    $html_out .= '<div align="left"><table width="400" border="0" cellspacing="1" cellpadding="4" bgcolor="#CCCCCC">';
+    $html_out .= '<table>';
 
     $fd = popen ("uptime", "r");
     while (!feof($fd)) {
@@ -118,13 +118,13 @@ function show_load(){
     $minutes = str_pad(floor(($proc_uptime-$days*86400-$hours*3600)/60), 2, "0", STR_PAD_LEFT);
 
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$app->lng("Server Online seit").':</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$days.'d, '.$hours.':'.$minutes.'h</font></center></td>
+       <td>'.$app->lng("Server online since").':</td>
+       <td>'.$days.'d, '.$hours.':'.$minutes.'h</center></td>
      </tr>';
 
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$app->lng("User Online").':</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.strrev($uptime[3]).'</font></center></td>
+       <td>'.$app->lng("Users online").':</td>
+       <td>'.strrev($uptime[3]).'</td>
      </tr>';
 
      $ausl = split(":",strrev($uptime[2]));
@@ -132,21 +132,21 @@ function show_load(){
 
 
      $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$app->lng("System Load 1 Minute").':</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$ausl1.'</font></center></td>
+       <td>'.$app->lng("System load 1 minute").':</td>
+       <td>'.$ausl1.'</td>
      </tr>';
 
      $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$app->lng("System Load 5 Minuten").':</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.strrev($uptime[1]).'</font></center></td>
+       <td>'.$app->lng("System load 5 minutes").':</td>
+       <td>'.strrev($uptime[1]).'</td>
      </tr>';
 
      $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$app->lng("System Load 15 Minuten").':</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.strrev($uptime[0]).'</font></center></td>
+       <td>'.$app->lng("System load 15 minutes").':</td>
+       <td>'.strrev($uptime[0]).'</td>
      </tr>';
 
-    $html_out .= '</table></div>';
+    $html_out .= '</table>';
 
 
     return $html_out;
@@ -156,7 +156,7 @@ function show_disk () {
     global $app;
 
 
-    $html_out .= '<div align="left"><table width="400" border="0" cellspacing="1" cellpadding="4" bgcolor="#CCCCCC">';
+    $html_out .= '<table>';
 
     $fd = popen ("df -h", "r");
     while (!feof($fd)) {
@@ -179,12 +179,9 @@ function show_disk () {
         foreach($df_out as $df_line) {
         $values = preg_split ("/[\s]+/", $df_line);
         $mln = 0;
-        $font_class = 'normal_bold';
-        if($mrow > 0) $font_class = 'normal';
         foreach($values as $value) {
         $align = 'left';
-        if($mln > 0 and $mln < 5) $align = 'right';
-        if($mln < 6 and $value != "") $html_out .= '<td bgcolor="#FFFFFF" class="frmText11" align="'.$align.'">'.$value.'</td>';
+        if($mln < 6 and $value != "") $html_out .= '<td>'.$value.'</td>';
         $mln++;
         }
         $mrow++;
@@ -193,7 +190,7 @@ function show_disk () {
         }
 
 
-    $html_out .= '</table></div>';
+    $html_out .= '</table>';
 
 
     return $html_out;
@@ -204,7 +201,7 @@ function show_memusage ()
     {
     global $app;
 
-    $html_out .= '<div align="left"><table width="400" border="0" cellspacing="1" cellpadding="4" bgcolor="#CCCCCC">';
+    $html_out .= '<table>';
 
     $fd = fopen ("/proc/meminfo", "r");
     while (!feof($fd)) {
@@ -220,14 +217,14 @@ function show_memusage ()
     $mpart = split(":",$mline);
 
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$mpart[0].':</font></td>
-       <td width="30%" bgcolor="#FFFFFF" align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$mpart[1].'</font></td>
+       <td>'.$mpart[0].':</td>
+       <td>'.$mpart[1].'</td>
      </tr>';
     }
 
     $x++;
     }
-    $html_out .= '</table></div>';
+    $html_out .= '</table>';
     return $html_out;
 }
 
@@ -235,7 +232,7 @@ function show_cpu ()
     {
     global $app;
 
-    $html_out .= '<div align="left"><table width="400" border="0" cellspacing="1" cellpadding="4" bgcolor="#CCCCCC">';
+    $html_out .= '<table>';
 
         $n = 0;
         if(is_readable("/proc/cpuinfo")) {
@@ -258,8 +255,8 @@ function show_cpu ()
     $mpart = split(":",$mline);
 
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$mpart[0].':</font></td>
-       <td width="30%" bgcolor="#FFFFFF" align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">'.$mpart[1].'</font></td>
+       <td>'.$mpart[0].':</td>
+       <td>'.$mpart[1].'</td>
      </tr>';
     }
         }
@@ -276,73 +273,73 @@ function show_services ()
     {
     global $app;
 
-    $html_out .= '<div align="left"><table width="400" border="0" cellspacing="1" cellpadding="4" bgcolor="#CCCCCC">';
+    $html_out .= '<table>';
 
     // Checke Webserver
     if(_check_tcp('localhost',80)) {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#006600"><b>Online</b></font>';
+    $status = '<span class="online">Online</span>';
     } else {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
+    $status = '<span class="offline">Offline</span>';
     }
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Web-Server:</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
+       <td>Web-Server:</td>
+       <td>'.$status.'</td>
      </tr>';
 
 
     // Checke FTP-Server
     if(_check_ftp('localhost',21)) {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#006600"><b>Online</b></font>';
+    $status = '<span class="online">Online</span>';
     } else {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
+    $status = '<span class="offline">Offline</span>';
     }
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">FTP-Server:</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
+       <td>FTP-Server:</td>
+       <td>'.$status.'</td>
      </tr>';
 
      // Checke SMTP-Server
     if(_check_tcp('localhost',25)) {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#006600"><b>Online</b></font>';
+    $status = '<span class="online">Online</span>';
     } else {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
+    $status = '<span class="offline">Offline</span>';
     }
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">SMTP-Server:</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
+       <td>SMTP-Server:</td>
+       <td>'.$status.'</td>
      </tr>';
 
      // Checke POP3-Server
     if(_check_tcp('localhost',110)) {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#006600"><b>Online</b></font>';
+    $status = '<span class="online">Online</span>';
     } else {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
+    $status = '<span class="offline">Offline</span>';
     }
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">POP3-Server:</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
+       <td>POP3-Server:</td>
+       <td>'.$status.'</td>
      </tr>';
 
      // Checke BIND-Server
     if(_check_tcp('localhost',53)) {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#006600"><b>Online</b></font>';
+    $status = '<span class="online">Online</span>';
     } else {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
+    $status = '<span class="offline">Offline</span>';
     }
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">DNS-Server:</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
+       <td>DNS-Server:</td>
+       <td>'.$status.'</td>
      </tr>';
 
       // Checke MYSQL-Server
     //if($this->_check_tcp('localhost',3306)) {
-    $status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#006600"><b>Online</b></font>';
+    $status = '<span class="online">Online</span>';
     //} else {
-    //$status = '<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FF0000"><b>Offline</b></font>';
+    //$status = '<span class="offline">Offline</span>';
     //}
     $html_out .= '<tr>
-       <td width="70%" bgcolor="#FFFFFF"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">mySQL-Server:</font></td>
-       <td width="30%" bgcolor="#FFFFFF"><center>'.$status.'</center></td>
+       <td>mySQL-Server:</td>
+       <td>'.$status.'</td>
      </tr>';
 
 
