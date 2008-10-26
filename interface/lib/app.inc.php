@@ -164,7 +164,7 @@ class app {
 		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
 		$this->tpl->setVar('phpsessid', session_id());
 		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
-		if($this->_conf['logo'] != '' && @is_file($this->_conf['logo'])){
+		if(isset($this->_conf['logo']) && $this->_conf['logo'] != '' && @is_file($this->_conf['logo'])){
 			$this->tpl->setVar('logo', '<img src="'.$this->_conf['logo'].'" border="0" alt="">');
 		} else {
 			$this->tpl->setVar('logo', '&nbsp;');
