@@ -118,11 +118,7 @@ class login_index {
 	        }
 		}
 		if($error != ''){
-	  		$error = '<table class="error">
-			<tr>
-			<td><strong>Error:</strong><br>'.$error.'</td>
-			</tr>
-			</table>';
+	  		$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
 		}
 	
 	
