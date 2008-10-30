@@ -42,13 +42,13 @@ $form["db_table_idx"]	= "filter_id";
 $form["db_history"]		= "no";
 $form["tab_default"]	= "filter";
 $form["list_default"]	= "mail_user_filter_list.php";
-$form["auth"]			= 'no'; // yes / no
+$form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
 $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
-$form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
+$form["auth_preset"]["perm_other"] = 'r'; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['filter'] = array (
 	'title' 	=> "Filter",
