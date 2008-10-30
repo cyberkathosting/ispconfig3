@@ -72,42 +72,38 @@ $tmp_num_records = $tmp_rec["number"];
 unset($tmp_rec);
 
 if($tmp_num_records > 0) {
-	
-	$app->log("Found $tmp_num_records changes, starting update process.",LOGLEVEL_DEBUG);
-	
+	/*
+	 There is something to do, triggert by the database -> do it!
+	*/
+	// Write the Log
+	$app->log("Found $tmp_num_records changes, starting update process.", LOGLEVEL_DEBUG);
 	// Load required base-classes
 	$app->uses('ini_parser,modules,plugins,file,services');
-	
-	
 	// Get server configuration
 	$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
-
-	/*
-	 Load the modules that are im the mods-enabled folder
-	*/
-
-	$app->modules->loadModules();
-
-	/*
-	 Load the plugins that are in the plugins-enabled folder
-	*/
-
-	$app->plugins->loadPlugins();
-
-	/*
-	 Go trough the sys_datalog table and call the processing functions
-	 in the modules that are hooked on to the table actions
-	*/
+	// Load the modules that are im the mods-enabled folder
+	$app->modules->loadModules('all');
+	// Load the plugins that are in the plugins-enabled folder
+	$app->plugins->loadPlugins('all');
+	// Go trough the sys_datalog table and call the processing functions
+	// in the modules that are hooked on to the table actions
 	$app->modules->processDatalog();
-	
-	/*
-	 Restart services that need to be restarted after configuration
-	*/
+	// Restart services that need to be restarted after configuration
 	$app->services->processDelayedActions();
-	
-	
 } else {
-	$app->log('No Updated records found.',LOGLEVEL_DEBUG);
+	/*
+	 There is no trigger inside the database -> load only the core, maybe they have to do something
+	*/
+	// Write the log
+	$app->log('No Updated records found, starting only the core.', LOGLEVEL_DEBUG);
+	// Load required base-classes
+	$app->uses('ini_parser,modules,plugins,file,services');
+	// Get server configuration
+	$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
+	// Load the modules that are im the mods-core folder
+	$app->modules->loadModules('core');
+	// Load the plugins that are in the plugins-core folder
+	$app->plugins->loadPlugins('core');
 }
 
 /*

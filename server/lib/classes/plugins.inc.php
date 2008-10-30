@@ -34,13 +34,16 @@ class plugins {
 	var $subscribed_events = array();
 	
 	/*
-	 This function is called to load the plugins from the plugins-available folder
+	 This function is called to load the plugins from the plugins-enabled or the plugins-core folder
 	*/
 	
-	function loadPlugins() {
+	function loadPlugins($type) {
 		global $app,$conf;
+
+		$subPath = 'plugins-enabled';
+		if ($type == 'core') $subPath = 'plugins-core';
 		
-		$plugins_dir = $conf["rootpath"].$conf["fs_div"]."plugins-enabled".$conf["fs_div"];
+		$plugins_dir = $conf["rootpath"].$conf["fs_div"].$subPath.$conf["fs_div"];
 		$tmp_plugins = array();
 		
 		if (is_dir($plugins_dir)) {

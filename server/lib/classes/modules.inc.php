@@ -33,15 +33,15 @@ class modules {
 	var $notification_hooks = array();
 	
 	/*
-	 This function is called to load the modules from the mods-available folder
+	 This function is called to load the modules from the mods-enabled or the mods-core folder
 	*/
-	
-	function loadModules() {
+	function loadModules($type) {
 		global $app, $conf;
 		
-		
-		
-		$modules_dir = $conf["rootpath"].$conf["fs_div"]."mods-enabled".$conf["fs_div"];
+		$subPath = 'mods-enabled';
+		if ($type == 'core') $subPath = 'mods-core';
+
+		$modules_dir = $conf["rootpath"].$conf["fs_div"].$subPath.$conf["fs_div"];
 		if (is_dir($modules_dir)) {
 			if ($dh = opendir($modules_dir)) {
 				while (($file = readdir($dh)) !== false) {

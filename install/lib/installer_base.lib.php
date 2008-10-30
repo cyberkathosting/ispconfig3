@@ -35,6 +35,7 @@ class installer_base {
 	var $db;
 	public $conf;
 	public $install_ispconfig_interface = true;
+	
 
 
     public function __construct()
@@ -749,6 +750,9 @@ class installer_base {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..') {
 						if(!@is_link($install_dir.'/server/mods-enabled/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
+						if (strpos($file, '_core_module') !== false) {
+							if(!@is_link($install_dir.'/server/mods-core/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-core/'.$file);
+						}
 					}
 				}
 				closedir($dh);
@@ -761,6 +765,9 @@ class installer_base {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..') {
 						if(!@is_link($install_dir.'/server/plugins-enabled/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-enabled/'.$file);
+						if (strpos($file, '_core_plugin') !== false) {
+							if(!@is_link($install_dir.'/server/plugins-core/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-core/'.$file);
+						}
 					}
 				}
 				closedir($dh);

@@ -1062,6 +1062,21 @@ CREATE TABLE `attempts_login` (
   `ip` varchar(12) NOT NULL,
   `times` tinyint(1) NOT NULL default '1',
   `login_time` timestamp NOT NULL default '0000-00-00 00:00:00'
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+-- 
+-- Tabellenstruktur für Tabelle `monitor_data`
+-- 
+
+CREATE TABLE `monitor_data` (
+  `server_id` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `created` int(11) NOT NULL,
+  `data` mediumtext NOT NULL,
+  `state` enum('unknown','ok','warning','error') NOT NULL default 'unknown',
+  PRIMARY KEY  (`server_id`,`type`,`created`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
