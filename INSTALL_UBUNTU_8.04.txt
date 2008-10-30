@@ -203,3 +203,17 @@ user: admin
 password: admin
 
 In case you get a permission denied error from apache, please restart the apache webserver process.
+
+
+Installing Jailkit:
+
+apt-get install build-essential autoconf automake1.9 libtool flex bison
+cd /tmp
+wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
+tar xvfz jailkit-2.5.tar.gz
+cd jailkit-2.5
+./configure
+make
+make install
+rm -rf jailkit-2.5*
+
