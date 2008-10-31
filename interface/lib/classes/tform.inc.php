@@ -38,9 +38,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *        Tabellendefinition
 *
 *        Datentypen:
-*        - INTEGER (Wandelt Ausdrücke in Int um)
+*        - INTEGER (Wandelt Ausdrï¿½cke in Int um)
 *        - DOUBLE
-*        - CURRENCY (Formatiert Zahlen nach Währungsnotation)
+*        - CURRENCY (Formatiert Zahlen nach Wï¿½hrungsnotation)
 *        - VARCHAR (kein weiterer Format Check)
 *        - DATE (Datumsformat, Timestamp Umwandlung)
 *
@@ -54,10 +54,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *        - Wert oder Array
 *
 *        SEPARATOR
-*        - Trennzeichen für multiple Felder
+*        - Trennzeichen fï¿½r multiple Felder
 *
 *        Hinweis:
-*        Das ID-Feld ist nicht bei den Table Values einzufügen.
+*        Das ID-Feld ist nicht bei den Table Values einzufï¿½gen.
 *
 * @package form
 * @author Till Brehm
@@ -97,7 +97,7 @@ class tform {
         var $table_index;
 
         /**
-        * enthält die Fehlermeldung bei Überprüfung
+        * enthï¿½lt die Fehlermeldung bei ï¿½berprï¿½fung
         * der Variablen mit Regex
         * @var errorMessage
         */
@@ -153,9 +153,9 @@ class tform {
 
 
         /**
-        * Konvertiert die Daten des übergebenen assoziativen
+        * Konvertiert die Daten des ï¿½bergebenen assoziativen
         * Arrays in "menschenlesbare" Form.
-        * Datentyp Konvertierung, z.B. für Ausgabe in Listen.
+        * Datentyp Konvertierung, z.B. fï¿½r Ausgabe in Listen.
         *
         * @param record
         * @return record
@@ -262,7 +262,7 @@ class tform {
 
 
         /**
-        * Record für Ausgabe in Formularen vorbereiten.
+        * Record fï¿½r Ausgabe in Formularen vorbereiten.
         *
         * @param record = Datensatz als Array
         * @param action = NEW oder EDIT
@@ -473,8 +473,8 @@ class tform {
         }
 
         /**
-        * Record in "maschinen lesbares" Format überführen
-        * und Werte gegen reguläre Ausdrücke prüfen.
+        * Record in "maschinen lesbares" Format ï¿½berfï¿½hren
+        * und Werte gegen regulï¿½re Ausdrï¿½cke prï¿½fen.
         *
         * @param record = Datensatz als Array
         * @return record
@@ -514,7 +514,7 @@ class tform {
 										}
                                 break;
                                 case 'INTEGER':
-                                        $new_record[$key] = (isset($record[$key]))?intval($record[$key]):0;
+                                        $new_record[$key] = (isset($record[$key]))?$record[$key]:0;
                                         //if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
@@ -659,7 +659,7 @@ class tform {
         }
 
         /**
-        * SQL Statement für Record erzeugen.
+        * SQL Statement fï¿½r Record erzeugen.
         *
         * @param record = Datensatz als Array
         * @param action = INSERT oder UPDATE
@@ -774,7 +774,7 @@ class tform {
         }
 
 
-                // Füge Backticks nur bei unvollständigen Tabellennamen ein
+                // Fï¿½ge Backticks nur bei unvollstï¿½ndigen Tabellennamen ein
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
                 } else {
@@ -842,7 +842,7 @@ class tform {
                 // Wenn Modul gesetzt, dann setzte template pfad relativ zu modul.
                 if($this->module != '') $tab["template"] = "../".$this->module."/".$tab["template"];
 
-                // überprüfe, ob das Template existiert, wenn nicht
+                // ï¿½berprï¿½fe, ob das Template existiert, wenn nicht
                 // dann generiere das Template
 				
 				// Translate the title of the tab
@@ -860,7 +860,7 @@ class tform {
                     $tab["active"] = 0;
             }
 
-                        // Die Datenfelder werden für die Tabs nicht benötigt
+                        // Die Datenfelder werden fï¿½r die Tabs nicht benï¿½tigt
                         unset($tab["fields"]);
                         unset($tab["plugins"]);
 
@@ -895,7 +895,7 @@ class tform {
         function datalogSave($action,$primary_id, $record_old, $record_new) {
                 global $app,$conf;
 
-                // Füge Backticks nur bei unvollständigen Tabellennamen ein
+                // Fï¿½ge Backticks nur bei unvollstï¿½ndigen Tabellennamen ein
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
                 } else {
@@ -989,14 +989,14 @@ class tform {
         }
 
         /*
-        Diese funktion überprüft, ob ein User die Berechtigung $perm für den Datensatz mit der ID $record_id
+        Diese funktion ï¿½berprï¿½ft, ob ein User die Berechtigung $perm fï¿½r den Datensatz mit der ID $record_id
         hat. It record_id = 0, dann wird gegen die user Defaults des Formulares getestet.
         */
         function checkPerm($record_id,$perm) {
                 global $app;
 
                 if($record_id > 0) {
-                        // Füge Backticks nur bei unvollständigen Tabellennamen ein
+                        // Fï¿½ge Backticks nur bei unvollstï¿½ndigen Tabellennamen ein
                         if(stristr($this->formDef['db_table'],'.')) {
                                 $escape = '';
                         } else {
@@ -1029,7 +1029,7 @@ class tform {
                 if($this->errorMessage == '') {
                     // wenn kein Fehler vorliegt
                     if(isset($_REQUEST["next_tab"]) && $_REQUEST["next_tab"] != '') {
-                                // wenn nächster Tab bekannt
+                                // wenn nï¿½chster Tab bekannt
                                 $active_tab = $_REQUEST["next_tab"];
                     } else {
                         // ansonsten ersten tab nehmen
