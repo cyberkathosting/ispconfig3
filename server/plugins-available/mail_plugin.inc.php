@@ -81,6 +81,9 @@ class mail_plugin {
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
+		//This is to fix the maildrop quota not being rebuilt after the quota is changed.
+		exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
+		$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		
 	}
 	
