@@ -205,6 +205,16 @@ password: admin
 In case you get a permission denied error from apache, please restart the apache webserver process.
 
 
+8) Once you have restarted Apache you need to fix a quick setting in apache2. 
+
+1) rm /etc/apache2/sites-enabled/000-default
+
+2) echo "NameVirtualHost *:80">> /etc/apache2/httpd.conf
+
+3) /etc/init.d/apache2 restart
+
+
+
 Installing Jailkit:
 
 apt-get install build-essential autoconf automake1.9 libtool flex bison
