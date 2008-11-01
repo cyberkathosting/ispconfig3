@@ -100,6 +100,9 @@ class monitor_core_module {
 		/* Calls the single Monitoring steps */
 		$this->monitorServer();
 		$this->monitorDiskUsage();
+		$this->monitorMemUsage();
+		$this->monitorCpu();
+		$this->monitorServices();
 	}
 	
 	function monitorServer(){
@@ -143,8 +146,8 @@ class monitor_core_module {
 		*/
 		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
 			"VALUES (".
-			$conf["server_id"] . ", " .
-			"'" . $app->db->quote(serialize($type)) . "', " .
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
 			time() . ", " .
 			"'" . $app->db->quote(serialize($data)) . "', " .
 			"'" . $state . "'" . 
@@ -168,14 +171,10 @@ class monitor_core_module {
 		/*
 		Fetch the data into a array
 		*/
-		$fd = popen ("df", "r");
-		$buffer = '';
-		while (!feof($fd)) {
-			$buffer .= fgets($fd, 4096);
-		}
+		$dfData = shell_exec("df");
 		
 		// split into array
-		$df = split("\n", $buffer);
+		$df = explode("\n", $dfData);
 		// ignore the first line make a array of the rest
 		for($i=1; $i <= sizeof($df); $i++){
 			if ($df[$i] != '')
@@ -198,206 +197,221 @@ class monitor_core_module {
 		*/
 		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
 			"VALUES (".
-			$conf["server_id"] . ", " .
-			"'" . $app->db->quote(serialize($type)) . "', " .
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
 			time() . ", " .
 			"'" . $app->db->quote(serialize($data)) . "', " .
 			"'" . $state . "'" . 
 			")";
 		$app->db->query($sql);
 	}
-	//	
-	//	
-	//	function show_memusage ()
-	//	{
-	//		global $app;
-	//		
-	//		$html_out .= '<table id="system_memusage">';
-	//		
-	//		$fd = fopen ("/proc/meminfo", "r");
-	//		while (!feof($fd)) {
-	//			$buffer .= fgets($fd, 4096);
-	//		}
-	//		fclose($fd);
-	//		
-	//		$meminfo = split("\n",$buffer);
-	//		
-	//		foreach($meminfo as $mline){
-	//			if($x > 2 and trim($mline) != "") {
-	//				
-	//				$mpart = split(":",$mline);
-	//				
-	//				$html_out .= '<tr>
-	//						<td>'.$mpart[0].':</td>
-	//						<td>'.$mpart[1].'</td>
-	//						</tr>';
-	//			}
-	//			
-	//			$x++;
-	//		}
-	//		$html_out .= '</table>';
-	//		return $html_out;
-	//	}
-	//	
-	//	function show_cpu ()
-	//	{
-	//		global $app;
-	//		
-	//		$html_out .= '<table id="system_cpu">';
-	//		
-	//		$n = 0;
-	//		if(is_readable("/proc/cpuinfo")) {
-	//			if($fd = fopen ("/proc/cpuinfo", "r")) {
-	//				while (!feof($fd)) {
-	//					$buffer .= fgets($fd, 4096);
-	//					$n++;
-	//					if($n > 100) break;
-	//				}
-	//				fclose($fd);
-	//			}
-	//		}
-	//		
-	//		$meminfo = split("\n",$buffer);
-	//		
-	//		if(is_array($meminfo)) {
-	//			foreach($meminfo as $mline){
-	//				if(trim($mline) != "") {
-	//					
-	//					$mpart = split(":",$mline);
-	//					
-	//					$html_out .= '<tr>
-	//							<td>'.$mpart[0].':</td>
-	//							<td>'.$mpart[1].'</td>
-	//							</tr>';
-	//				}
-	//			}
-	//			
-	//			$x++;
-	//		}
-	//		$html_out .= '</table></div>';
-	//		
-	//		
-	//		return $html_out;
-	//	}
-	//	
-	//	function show_services ()
-	//	{
-	//		global $app;
-	//		
-	//		$html_out .= '<table id="system_services">';
-	//		
-	//		// Checke Webserver
-	//		if(_check_tcp('localhost',80)) {
-	//			$status = '<span class="online">Online</span>';
-	//		} else {
-	//			$status = '<span class="offline">Offline</span>';
-	//		}
-	//		$html_out .= '<tr>
-	//				<td>Web-Server:</td>
-	//				<td>'.$status.'</td>
-	//				</tr>';
-	//		
-	//		
-	//		// Checke FTP-Server
-	//		if(_check_ftp('localhost',21)) {
-	//			$status = '<span class="online">Online</span>';
-	//		} else {
-	//			$status = '<span class="offline">Offline</span>';
-	//		}
-	//		$html_out .= '<tr>
-	//				<td>FTP-Server:</td>
-	//				<td>'.$status.'</td>
-	//				</tr>';
-	//		
-	//		// Checke SMTP-Server
-	//		if(_check_tcp('localhost',25)) {
-	//			$status = '<span class="online">Online</span>';
-	//		} else {
-	//			$status = '<span class="offline">Offline</span>';
-	//		}
-	//		$html_out .= '<tr>
-	//				<td>SMTP-Server:</td>
-	//				<td>'.$status.'</td>
-	//				</tr>';
-	//		
-	//		// Checke POP3-Server
-	//		if(_check_tcp('localhost',110)) {
-	//			$status = '<span class="online">Online</span>';
-	//		} else {
-	//			$status = '<span class="offline">Offline</span>';
-	//		}
-	//		$html_out .= '<tr>
-	//				<td>POP3-Server:</td>
-	//				<td>'.$status.'</td>
-	//				</tr>';
-	//		
-	//		// Checke BIND-Server
-	//		if(_check_tcp('localhost',53)) {
-	//			$status = '<span class="online">Online</span>';
-	//		} else {
-	//			$status = '<span class="offline">Offline</span>';
-	//		}
-	//		$html_out .= '<tr>
-	//				<td>DNS-Server:</td>
-	//				<td>'.$status.'</td>
-	//				</tr>';
-	//		
-	//		// Checke MYSQL-Server
-	//		//if($this->_check_tcp('localhost',3306)) {
-	//		$status = '<span class="online">Online</span>';
-	//		//} else {
-	//		//$status = '<span class="offline">Offline</span>';
-	//		//}
-	//		$html_out .= '<tr>
-	//				<td>mySQL-Server:</td>
-	//				<td>'.$status.'</td>
-	//				</tr>';
-	//		
-	//		
-	//		$html_out .= '</table></div>';
-	//		
-	//		
-	//		return $html_out;
-	//	}
-	//	
-	//	function _check_tcp ($host,$port) {
-	//		
-	//		$fp = @fsockopen ($host, $port, &$errno, &$errstr, 2);
-	//		
-	//		if ($fp) {
-	//			return true;
-	//			fclose($fp);
-	//		} else {
-	//			return false;
-	//			fclose($fp);
-	//		}
-	//	}
-	//	
-	//	function _check_udp ($host,$port) {
-	//		
-	//		$fp = @fsockopen ('udp://'.$host, $port, &$errno, &$errstr, 2);
-	//		
-	//		if ($fp) {
-	//			return true;
-	//			fclose($fp);
-	//		} else {
-	//			return false;
-	//			fclose($fp);
-	//		}
-	//	}
-	//	
-	//	function _check_ftp ($host,$port){
-	//		
-	//		$conn_id = @ftp_connect($host, $port);
-	//		
-	//		if($conn_id){
-	//			@ftp_close($conn_id);
-	//			return true;
-	//		} else {
-	//			@ftp_close($conn_id);
-	//			return false;
-	//		}
-	//	}
+		
+		
+	function monitorMemUsage()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'mem_usage';	
+		
+		/* Delete Data older than 10 minutes */
+		$this->_delOldRecords($type, 10);
+		
+		/*
+		Fetch the data into a array
+		*/
+		$miData = shell_exec("cat /proc/meminfo");
+		
+		$memInfo = explode("\n", $miData);
+		
+		foreach($memInfo as $line){
+			$part = split(":", $line);
+			$key = trim($part[0]);
+			$tmp = explode(" ", trim($part[1]));
+			$value = 0;
+			if ($tmp[1] == 'kB') $value = $tmp[0] * 1024;
+			$data[$key] = $value;
+		}
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+
+		
+	function monitorCpu()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'cpu_info';	
+		
+		/* There is only ONE CPU-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		/*
+		Fetch the data into a array
+		*/
+		$cpuData = shell_exec("cat /proc/cpuinfo");
+		$cpuInfo = explode("\n", $cpuData);
+		
+		foreach($cpuInfo as $line){
+			$part = split(":", $line);
+			$key = trim($part[0]);
+			$value = trim($part[1]);
+			$data[$key] = $value;
+		}
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+
+		
+	function monitorServices()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'services';	
+		
+		/* There is only ONE Service-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		// Checke Webserver
+		if($this->_checkTcp('localhost',80)) {
+			$data['webserver'] = true;
+		} else {
+			$data['webserver'] = false;
+		}
+		
+		// Checke FTP-Server
+		if($this->_checkFtp('localhost',21)) {
+			$data['ftpserver'] = true;
+		} else {
+			$data['ftpserver'] = false;
+		}
+		
+		// Checke SMTP-Server
+		if($this->_checkTcp('localhost',25)) {
+			$data['smtpserver'] = true;
+		} else {
+			$data['smtpserver'] = false;
+		}
+		// Checke POP3-Server
+		if($this->_checkTcp('localhost',110)) {
+			$data['pop3server'] = true;
+		} else {
+			$data['pop3server'] = false;
+		}
+		
+		// Checke BIND-Server
+		if($this->_checkTcp('localhost',53)) {
+			$data['bindserver'] = true;
+		} else {
+			$data['bindserver'] = false;
+		}
+		
+		// Checke MYSQL-Server
+		if($this->_checkTcp('localhost',3306)) {
+			$data['mysqlserver'] = true;
+		} else {
+			$data['mysqlserver'] = false;
+		}
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+		
+	}
+		
+		
+	function _checkTcp ($host,$port) {
+			
+			$fp = @fsockopen ($host, $port, &$errno, &$errstr, 2);
+			
+			if ($fp) {
+				return true;
+				fclose($fp);
+			} else {
+				return false;
+				fclose($fp);
+			}
+		}
+		
+		function _checkUdp ($host,$port) {
+			
+			$fp = @fsockopen ('udp://'.$host, $port, &$errno, &$errstr, 2);
+			
+			if ($fp) {
+				return true;
+				fclose($fp);
+			} else {
+				return false;
+				fclose($fp);
+			}
+		}
+		
+		function _checkFtp ($host,$port){
+			
+			$conn_id = @ftp_connect($host, $port);
+			
+			if($conn_id){
+				@ftp_close($conn_id);
+				return true;
+			} else {
+				@ftp_close($conn_id);
+				return false;
+			}
+		}
 	
 	/*
 	 Deletes Records older than n.
@@ -409,7 +423,7 @@ class monitor_core_module {
 		$old = $now - ($min * 60) - ($hour * 60 * 60) - ($days * 24 * 60 * 60);
 		$sql = "DELETE FROM monitor_data " .
 			"WHERE " .
-			"type =" . "'" . $app->db->quote(serialize($type)) . "' " .
+			"type =" . "'" . $app->db->quote($type) . "' " .
 			"AND " .	
 			"created < " . $old;
 		$app->db->query($sql);
