@@ -192,7 +192,7 @@ CREATE TABLE `ftp_user` (
   KEY `server_id` (`server_id`),
   KEY `username` (`username`),
   KEY `quota_files` (`quota_files`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `ftp_user`
@@ -548,7 +548,7 @@ CREATE TABLE `server` (
   `updated` tinyint(4) NOT NULL default '0',
   `active` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`server_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `server`
@@ -621,7 +621,7 @@ CREATE TABLE `software_package` (
   `package_version` varchar(255) default NULL,
   PRIMARY KEY  (`package_id`),
   UNIQUE KEY `package_name` (`package_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_package`
@@ -646,7 +646,7 @@ CREATE TABLE `software_repo` (
   `repo_password` varchar(30) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`software_repo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_repo`
@@ -674,7 +674,7 @@ CREATE TABLE `software_update` (
   `v4` tinyint(4) NOT NULL default '0',
   `type` enum('full','update') NOT NULL default 'full',
   PRIMARY KEY  (`software_update_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_update`
@@ -694,7 +694,7 @@ CREATE TABLE `software_update_inst` (
   `status` enum('none','installing','installed','deleting') NOT NULL default 'none',
   PRIMARY KEY  (`software_update_inst_id`),
   UNIQUE KEY `software_update_id` (`software_update_id`,`package_name`,`server_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_update_inst`
