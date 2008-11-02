@@ -103,6 +103,13 @@ class monitor_core_module {
 		$this->monitorMemUsage();
 		$this->monitorCpu();
 		$this->monitorServices();
+		$this->monitorMailLog();
+		$this->monitorMailWarnLog();
+		$this->monitorMailErrLog();
+		$this->monitorMessagesLog();
+		$this->monitorFreshClamLog();
+		$this->monitorClamAvLog();
+		$this->monitorIspConfigLog();
 	}
 	
 	function monitorServer(){
@@ -314,41 +321,42 @@ class monitor_core_module {
 		/* There is only ONE Service-Data, so delete the old one */
 		$this->_delOldRecords($type, 0);
 		
-		// Checke Webserver
+		/* Monitor Webserver */
 		if($this->_checkTcp('localhost',80)) {
 			$data['webserver'] = true;
 		} else {
 			$data['webserver'] = false;
 		}
 		
-		// Checke FTP-Server
+		/* Monitor FTP-Server */
 		if($this->_checkFtp('localhost',21)) {
 			$data['ftpserver'] = true;
 		} else {
 			$data['ftpserver'] = false;
 		}
 		
-		// Checke SMTP-Server
+		/* Monitor SMTP-Server */
 		if($this->_checkTcp('localhost',25)) {
 			$data['smtpserver'] = true;
 		} else {
 			$data['smtpserver'] = false;
 		}
-		// Checke POP3-Server
+		
+		/* Monitor POP3-Server */
 		if($this->_checkTcp('localhost',110)) {
 			$data['pop3server'] = true;
 		} else {
 			$data['pop3server'] = false;
 		}
 		
-		// Checke BIND-Server
+		/* Monitor BIND-Server */
 		if($this->_checkTcp('localhost',53)) {
 			$data['bindserver'] = true;
 		} else {
 			$data['bindserver'] = false;
 		}
 		
-		// Checke MYSQL-Server
+		/* Monitor MYSQL-Server */
 		if($this->_checkTcp('localhost',3306)) {
 			$data['mysqlserver'] = true;
 		} else {
@@ -372,7 +380,304 @@ class monitor_core_module {
 		$app->db->query($sql);
 		
 	}
+	
+	function monitorMailLog()
+	{
+		global $app;
+		global $conf;
 		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_mail';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+		
+	function monitorMailWarnLog()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_mail_warn';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+	
+	function monitorMailErrLog()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_mail_err';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+	
+	
+	function monitorMessagesLog()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_messages';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+	
+	function monitorFreshClamLog()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_freshclam';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+	
+	function monitorClamAvLog()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_clamav';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+
+	function monitorIspConfigLog()
+	{
+		global $app;
+		global $conf;
+		
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+		
+		/** The type of the data */
+		$type = 'log_ispconfig';	
+		
+		/* There is only ONE Log-Data, so delete the old one */
+		$this->_delOldRecords($type, 0);
+		
+		
+		/* Get the data of the log */
+		$data = $this->_getLogData($type);
+		
+		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
+		$state = 'ok';
+		
+		/*
+		Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+			"VALUES (".
+			$server_id . ", " .
+			"'" . $app->db->quote($type) . "', " .
+			time() . ", " .
+			"'" . $app->db->quote(serialize($data)) . "', " .
+			"'" . $state . "'" . 
+			")";
+		$app->db->query($sql);
+	}
+	
+	
+	function _getLogData($log){
+		switch($log) {
+			case 'log_mail':
+				$logfile = '/var/log/mail.log';
+				break;
+			case 'log_mail_warn':
+				$logfile = '/var/log/mail.warn';
+				break;
+			case 'log_mail_err':
+				$logfile = '/var/log/mail.err';
+				break;
+			case 'log_messages':
+				$logfile = '/var/log/messages';
+				break;
+			case 'log_freshclam':
+				$logfile = '/var/log/clamav/freshclam.log';
+				break;
+			case 'log_clamav':
+				$logfile = '/var/log/clamav/clamav.log';
+				break;
+			case 'log_ispconfig':
+				$logfile = '/var/log/ispconfig/ispconfig.log';
+				break;
+			default:
+				$logfile = '';
+				break;
+		}
+		
+		// Getting the logfile content
+		if($logfile != '') {
+			$logfile = escapeshellcmd($logfile);
+			if(stristr($logfile,';')) die('Logfile path error.');
+			
+			$log = '';
+			if(is_readable($logfile)) {
+				if($fd = popen("tail -n 30 $logfile", 'r')) {
+					while (!feof($fd)) {
+						$log .= fgets($fd, 4096);
+						$n++;
+						if($n > 1000) break;
+					}
+					fclose($fd);
+				}
+			} else {
+				$log = 'Unable to read '.$logfile;
+			}
+		}
+		
+		return $log;
+	}
 		
 	function _checkTcp ($host,$port) {
 			

@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2008, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -37,14 +37,58 @@ $app->auth->check_module_permissions('monitor');
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/logview.htm');
+$app->tpl->setInclude('content_tpl','templates/show_log.htm');
 
 // Importing the GET values
 $refresh = intval($_GET["refresh"]);
-$logfile_id = $_GET["log"];
+$logParam = $_GET["log"];
 
-// Creating the array with the refresh intervals
-$refresh_values = array('0' => '- No Refresh -','2' => '2','5' => '5','10' => '10','15' => '15','30' => '30','60' => '60');
+
+/*
+ Setting the db-type and the caption
+ */
+switch($logParam) {
+	case 'log_mail':
+		$logId = 'log_mail';
+		$title = 'Mail - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	case 'log_mail_warn':
+		$logId = 'log_mail_warn';
+		$title = 'Mail-Warn - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	case 'log_mail_err':
+		$logId = 'log_mail_err';
+		$title = 'Mail-Error - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	case 'log_messages':
+		$logId = 'log_messages';
+		$title = 'Messages (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	case 'log_freshclam':
+		$logId = 'log_freshclam';
+		$title = 'Freshclam - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	case 'log_clamav':
+		$logId = 'log_clamav';
+		$title = 'Clamav - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	case 'log_ispconfig':
+		$logId = 'log_ispconfig';
+		$title = 'ISP Config - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
+	default:
+		$logId = '???';
+		$title = '???';
+		break;
+}
+
+
+/*
+ Creating the array with the refresh intervals
+ Attention: the core-moule ist triggered every 5 minutes, 
+            so reload every 2 minutes is impossible!
+*/
+$refresh_values = array('0' => '- No Refresh -','5' => '5','10' => '10','15' => '15','30' => '30','60' => '60');
 $tmp = '';
 foreach($refresh_values as $key => $val) {
 	if($key == $refresh) {
@@ -55,59 +99,16 @@ foreach($refresh_values as $key => $val) {
 }
 $app->tpl->setVar("refresh",$tmp);
 
-// Selecting the logfile
-switch($logfile_id) {
-	case 'mail_log':
-		$logfile = '/var/log/mail.log';
-	break;
-	case 'mail_warn':
-		$logfile = '/var/log/mail.warn';
-	break;
-	case 'mail_err':
-		$logfile = '/var/log/mail.err';
-	break;
-	case 'messages':
-		$logfile = '/var/log/messages';
-	break;
-	case 'freshclam':
-		$logfile = '/var/log/clamav/freshclam.log';
-	break;
-	case 'clamav':
-		$logfile = '/var/log/clamav/clamav.log';
-	break;
-	case 'ispconfig':
-		$logfile = '/var/log/ispconfig/ispconfig.log';
-	break;
-	default:
-		$logfile = '';
-	break;
-}
 
-// Getting the logfile content
-if($logfile != '') {
-	$logfile = escapeshellcmd($logfile);
-	if(stristr($logfile,';')) die('Logfile path error.');
-	
-	$log = '';
-	if(is_readable($logfile)) {
-		if($fd = popen("tail -n 30 $logfile", 'r')) {
-			while (!feof($fd)) {
-				$log .= fgets($fd, 4096);
-				$n++;
-				if($n > 1000) break;
-			}
-		fclose($fd);
-		}
-	} else {
-		$log = 'Unable to read '.$logfile;
-	}
-}
+/* fetch the Data from the DB */
+$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = '" . $app->db->quote($logId) . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+$data = unserialize($record['data']);
 
-$log = nl2br($log);
+$logData = nl2br($data);
 
-$app->tpl->setVar("log",$log);
-$app->tpl->setVar("logfile",$logfile);
-$app->tpl->setVar("logfile_id",$logfile_id);
+$app->tpl->setVar("log_data", $logData);
+$app->tpl->setVar("title", $title);
+$app->tpl->setVar("log_id",$logId);
 
 
 $app->tpl_defaults();
