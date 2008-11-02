@@ -7,7 +7,7 @@ $module["name"] 		= "monitor";
 $module["title"] 		= "Monitor";
 $module["template"] 	= "module.tpl.htm";
 $module["tab_width"]    = '';
-$module["startpage"] 	= "monitor/system.php?type=overview";
+$module["startpage"] 	= "monitor/show_data.php?type=overview";
 
 /*
  We need all the available servers on the left navigation.
