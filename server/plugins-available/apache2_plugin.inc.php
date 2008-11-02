@@ -107,7 +107,7 @@ class apache2_plugin {
         O                      = ".$data['new']['ssl_organisation']."
         OU                     = ".$data['new']['ssl_organisation_unit']."
         CN                     = $domain
-        emailAddress           = webmatser@".$data['new']['domain']."
+        emailAddress           = webmaster@".$data['new']['domain']."
 
         [ req_attributes ]
         challengePassword              = A challenge password";
