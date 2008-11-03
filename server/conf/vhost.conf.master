@@ -25,10 +25,17 @@
 </tmpl_if>
 
   <Directory {tmpl_var name='web_document_root_www'}>
-      Options None
+      Options FollowSymLinks Indexes
       AllowOverride Indexes AuthConfig Limit FileInfo
       Order allow,deny
       Allow from all
+<tmpl_if name='ssi' op='==' value='y'>
+
+      # ssi enabled
+      AddType text/html .shtml
+      AddOutputFilter INCLUDES .shtml
+      Options +Includes
+</tmpl_if>
   </Directory>
 
 <tmpl_if name='cgi' op='==' value='y'>
@@ -36,11 +43,6 @@
   ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
   AddHandler cgi-script .cgi
   AddHandler cgi-script .pl
-</tmpl_if>
-<tmpl_if name='ssi' op='==' value='y'>
-  # ssi enabled
-  AddType text/html .shtml
-  AddOutputFilter INCLUDES .shtml
 </tmpl_if>
 <tmpl_if name='suexec' op='==' value='y'>
   # suexec enabled
@@ -68,7 +70,7 @@
   <Directory {tmpl_var name='web_document_root_www'}>
       AddHandler fcgid-script .php .php3 .php4 .php5
       FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
-      Options FollowSymLinks +ExecCGI Indexes
+      Options +ExecCGI
       AllowOverride None
       Order allow,deny
       Allow from all
@@ -85,9 +87,9 @@
 <tmpl_if name='php' op='!=' value=''>
 
   php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
-  #php_admin_value open_basedir <tmpl_var name='web_document_root'>:/usr/share/php5
-  #php_admin_value upload_tmp_dir <tmpl_var name='web_document_root'>/tmp
-  #php_admin_value session.save_path <tmpl_var name='web_document_root'>/tmp
+  #php_admin_value open_basedir <tmpl_var name='document_root'>:/usr/share/php5
+  #php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
+  #php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
 </tmpl_if>
 <tmpl_var name='apache_directives'>
 </VirtualHost>
@@ -170,9 +172,9 @@
 <tmpl_if name='php' op='!=' value=''>
 
   php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
-  #php_admin_value open_basedir <tmpl_var name='web_document_root'>:/usr/share/php5
-  #php_admin_value upload_tmp_dir <tmpl_var name='web_document_root'>/tmp
-  #php_admin_value session.save_path <tmpl_var name='web_document_root'>/tmp
+  #php_admin_value open_basedir <tmpl_var name='document_root'>:/usr/share/php5
+  #php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
+  #php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
 </tmpl_if>
 
 </VirtualHost>
