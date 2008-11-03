@@ -113,4 +113,12 @@
 	#submenu li ul li ul li ul li a:focus,
 	#submenu li ul li ul li ul li a:hover,
 	#submenu li ul li ul li ul li a:active { background-color:#f63; color: #fff; }
+
+	/* Form-Elements in the Menu*/
+	#submenu * select#server_id { 
+    margin: 3px 10%;
+    padding: 1px;
+    width: 80%;
+  }
+  
 }
