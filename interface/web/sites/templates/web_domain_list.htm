@@ -17,12 +17,14 @@
       <table class="list">
         <thead>
           <tr>
+            <th class="tbl_col_domain_id" scope="col"><tmpl_var name="domain_id_txt"></th>
             <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
             <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
             <th class="tbl_col_domain" scope="col"><tmpl_var name="domain_txt"></th>
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
+            <td class="tbl_col_domain_id"><input type="text" name="search_domain_id" value="{tmpl_var name='search_domain_id'}" /></td>
             <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','sites/web_domain_list.php');">{tmpl_var name='search_active'}</select></td>
             <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','sites/web_domain_list.php');">{tmpl_var name='search_server_id'}</select></td>
             <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
@@ -32,6 +34,7 @@
         <tbody>
           <tmpl_loop name="records">
           <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+            <td class="tbl_col_domain_id"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain_id"}</a></td>
             <td class="tbl_col_active"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
             <td class="tbl_col_server_id"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
             <td class="tbl_col_domain"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain"}</a></td>
@@ -45,7 +48,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td class="tbl_footer tbl_paging" colspan="4"><tmpl_var name="paging"></td>
+            <td class="tbl_footer tbl_paging" colspan="5"><tmpl_var name="paging"></td>
           </tr>
         </tfoot>
       </table>

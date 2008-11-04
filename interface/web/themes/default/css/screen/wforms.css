@@ -267,24 +267,23 @@
 		white-space: expression('nowrap');
 	}
 	
-	
-	
-	
-	
-	
+/* === */
+
 	form .pnl_formsarea .wf_oneField fieldset {
 		border: none;
 		margin: 0;
 		padding-left: 8px;
 	}
 	
-	
-	
-	.tbl_col_server_name input {
-		width: 150px;
-	}
+/* === */
+
+	.tbl_col_server_name input { width: 150px; }
 	.tbl_col_mail_server input, .tbl_col_web_server input, .tbl_col_dns_server input, .tbl_col_file_server input, .tbl_col_db_server input, .tbl_col_vserver_server input {
 		width: 20px;
 	}
+	.tbl_col_client_id input, .tbl_col_domain_id input { width: 40px; }
+	.tbl_col_country input { width: 20px; }
+
+/* === */
 
 }
