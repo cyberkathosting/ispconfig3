@@ -1,5 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Reseller';
+$wb["client_id_txt"] = 'ID';
 $wb['company_txt'] = 'Company';
 $wb['firstname_txt'] = 'Firstname';
 $wb['surname_txt'] = 'Surname';
