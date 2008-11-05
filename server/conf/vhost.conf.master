@@ -177,6 +177,8 @@
   #php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
 </tmpl_if>
 
+<tmpl_var name='apache_directives'>
+
 </VirtualHost>
 </IfModule>
 
