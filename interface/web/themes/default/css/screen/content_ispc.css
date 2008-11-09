@@ -18,14 +18,6 @@
 
 @media all
 {
-	/* Image-Replacement */
-	h1.swap { background-repeat:no-repeat; }
-	h1.swap span {display:none;} 
-	h1#ir-HeaderLogo {
-	  height:32px;
-	  background-image:url("../../images/header_logo.png");
-	} 
-	
 	.pageForm_description {
 		font-size: 12px;
 	}
@@ -130,7 +122,14 @@
 		color:#ffffff;
 		padding:0px 5px;
 	}
-	
+
+	/* Image-Replacement */
+	.swap { background-repeat:no-repeat; }
+	.swap span { display:none; height:16px; } 
+	#ir-HeaderLogo { background-image:url("../../images/header_logo.png"); height:32px; } 
+	#ir-Yes { background-image:url("../../icons/x16/tick_circle.png"); height:16px; } 
+	#ir-No { background-image:url("../../icons/x16/cross_circle.png"); height:16px; } 
+  	
 	/* BUTTONS */
 	.buttons a, .buttons button{
 	    display:block;
@@ -230,5 +229,6 @@
 
 	.icons16.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
 	.icons16.icoFilter { background-image: url(../../icons/x16/funnel.png); }
+	.icons16.icoEdit { background-image: url("../../icons/x16/wrench.png"); }
 }
 
