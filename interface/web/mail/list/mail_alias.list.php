@@ -54,7 +54,8 @@ $liste["item"][] = array(	'field'		=> "active",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('y' => "Yes",'n' => "No"));
+							'value'		=> array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
 
 $liste["item"][] = array(	'field'		=> "source",
 							'datatype'	=> "VARCHAR",

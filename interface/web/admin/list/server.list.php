@@ -60,7 +60,7 @@ $liste['item'][] = array(	'field'		=> 'mail_server',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '',
-							'value'		=> '');
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 $liste['item'][] = array(	'field'		=> 'web_server',
 							'datatype'	=> 'VARCHAR',
@@ -69,7 +69,7 @@ $liste['item'][] = array(	'field'		=> 'web_server',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '',
-							'value'		=> '');  
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 $liste['item'][] = array(	'field'		=> 'dns_server',
 							'datatype'	=> 'VARCHAR',
@@ -78,7 +78,7 @@ $liste['item'][] = array(	'field'		=> 'dns_server',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '',
-							'value'		=> '');
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 $liste['item'][] = array(	'field'		=> 'file_server',
 							'datatype'	=> 'VARCHAR',
@@ -87,7 +87,7 @@ $liste['item'][] = array(	'field'		=> 'file_server',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '',
-							'value'		=> '');
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 $liste['item'][] = array(	'field'		=> 'db_server',
 							'datatype'	=> 'VARCHAR',
@@ -96,8 +96,7 @@ $liste['item'][] = array(	'field'		=> 'db_server',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '',
-							'value'		=> '');
-
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 $liste['item'][] = array(	'field'		=> 'vserver_server',
 							'datatype'	=> 'VARCHAR',
@@ -106,6 +105,6 @@ $liste['item'][] = array(	'field'		=> 'vserver_server',
 							'prefix'	=> '%',
 							'suffix'	=> '%',
 							'width'		=> '',
-							'value'		=> '');
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 ?>
