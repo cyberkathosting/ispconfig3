@@ -239,7 +239,21 @@
 	}
 	/* offstate classes for the Switch Behavior are in wforms-jsonly.css */
 	
-	
+	/* Select Menu with Images */
+  select.withicons option {
+    background-repeat:no-repeat;
+    background-position: 1px;
+    padding-left:24px;
+  }
+  select#country option[value="US"] { background-image:url(../../icons/flags/us.png); }
+  select#country option[value="IN"] { background-image:url(../../icons/flags/in.png); }
+  select#country option[value="UK"] { background-image:url(../../icons/flags/uk.png); }
+  select#country option[value="FR"] { background-image:url(../../icons/flags/fr.png); }
+  select#country option[value="DE"] { background-image:url(../../icons/flags/de.png); }
+  select#country option[value="CA"] { background-image:url(../../icons/flags/ca.png); }
+  select#country option[value="RU"] { background-image:url(../../icons/flags/ru.png); }
+
+	 
 	 
 	/* IE6 BUG FIXES ==================================================================== */
 	form .pnl_formsarea  {

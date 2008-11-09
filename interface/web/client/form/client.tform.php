@@ -184,14 +184,15 @@ $form["tabs"]['address'] = array (
 		),
 		'country' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+
+			'formtype'	=> 'SELECT',
+			'default'	=> 'DE',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT iso,printable_name FROM country ORDER BY printable_name',
+										'keyfield'=> 'iso',
+										'valuefield'=> 'printable_name'
+									 ),
+			'value'		=> ''
 		),
 		'telephone' => array (
 			'datatype'	=> 'VARCHAR',
