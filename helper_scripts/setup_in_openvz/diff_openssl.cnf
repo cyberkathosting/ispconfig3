@@ -1,0 +1,25 @@
+# diff openssl.cnf /usr/lib/ssl/openssl.cnf
+68c68
+< default_days	= 3653			# how long to certify for
+---
+> default_days	= 365			# how long to certify for
+125c125
+< countryName_default		= YOURCOUNTRY
+---
+> countryName_default		= AU
+130c130
+< stateOrProvinceName_default	= YOURPROVINCE
+---
+> stateOrProvinceName_default	= Some-State
+135c135
+< 0.organizationName_default	= YOURDOMAIN
+---
+> 0.organizationName_default	= Internet Widgits Pty Ltd
+142c142
+< organizationalUnitName_default	= ISP
+---
+> #organizationalUnitName_default	=
+145d144
+< commonName_default		= YOURHOSTNAME
+149d147
+< emailAddress_default		= postmaster@YOURDOMAIN
