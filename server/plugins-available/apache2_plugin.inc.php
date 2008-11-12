@@ -212,10 +212,11 @@ class apache2_plugin {
 		
 		// Check if the directories are there and create them if nescessary.
 		if(!is_dir($data["new"]["document_root"]."/web")) exec("mkdir -p ".$data["new"]["document_root"]."/web");
-		if(!is_dir($data["new"]["document_root"]."/web/error")) exec("mkdir -p ".$data["new"]["document_root"]."/web/error");
+		if(!is_dir($data["new"]["document_root"]."/web/error") and $data["new"]["is_errordocs"]) exec("mkdir -p ".$data["new"]["document_root"]."/web/error");
 		//if(!is_dir($data["new"]["document_root"]."/log")) exec("mkdir -p ".$data["new"]["document_root"]."/log");
 		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
 		if(!is_dir($data["new"]["document_root"]."/cgi-bin")) exec("mkdir -p ".$data["new"]["document_root"]."/cgi-bin");
+		if(!is_dir($data["new"]["document_root"]."/tmp")) exec("mkdir -p ".$data["new"]["document_root"]."/tmp");
 		
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"]) {
@@ -287,10 +288,12 @@ class apache2_plugin {
 		
 		if($this->action == 'insert' && $data["new"]["type"] == 'vhost') {
 			// Copy the error pages
-			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
-			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
-			exec("chmod -R +r ".$error_page_path);
-		
+      if($data["new"]["is_errordocs"]){
+  			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
+  			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+  			exec("chmod -R +r ".$error_page_path);
+      }
+      		
 			// copy the standard index page
 			exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
 			exec("chmod +r ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
@@ -369,10 +372,14 @@ class apache2_plugin {
 		
 		// get alias domains (co-domains and subdomains)
 		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]." AND active = 'y'");
-		$server_alias = '';
+    if($data["new"]["is_subdomainwww"]){
+  	  $server_alias .= 'www.'.$data["new"]["domain"].' ';
+    } else {
+  		$server_alias = '';
+    }
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
-				$server_alias .= $alias["domain"].' ';
+			  $server_alias .= $alias["domain"].' ';
 				$app->log("Add server alias: $alias[domain]",LOGLEVEL_DEBUG);
 				// Rewriting
 				if($alias["redirect_type"] != '') {

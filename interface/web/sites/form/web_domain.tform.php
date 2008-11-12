@@ -168,11 +168,17 @@ $form["tabs"]['domain'] = array (
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
-		'errordocs' => array (
-			'datatype'	=> 'VARCHAR',
+		'is_errordocs' => array (
+			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'default'	=> '1',
+			'value'		=> array(0 => '0',1 => '1')
+		),
+		'is_subdomainwww' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> '1',
+			'value'		=> array(0 => '0',1 => '1')
 		),
 		'ssl' => array (
 			'datatype'	=> 'VARCHAR',
