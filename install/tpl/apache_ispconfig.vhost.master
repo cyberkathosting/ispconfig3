@@ -8,36 +8,36 @@ Listen {vhost_port}
 NameVirtualHost *:{vhost_port}
 
 <VirtualHost _default_:{vhost_port}>
-	ServerAdmin webmaster@localhost
-    DocumentRoot /usr/local/ispconfig/interface/web/
-	
-	<IfModule mod_fastcgi.c>
-		SuexecUserGroup ispconfig ispconfig
-		<Directory /var/www/ispconfig/>
-                Options Indexes FollowSymLinks MultiViews +ExecCGI
-                AllowOverride AuthConfig Indexes Limit Options FileInfo
-                AddHandler fcgid-script .php
-                FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/php-fcgi-starter .php
-                AllowOverride None
-                Order allow,deny
-                Allow from all
-        </Directory>
-	</IfModule>
+  ServerAdmin webmaster@localhost
+  DocumentRoot /usr/local/ispconfig/interface/web/
+  
+  <IfModule mod_fastcgi.c>
+    SuexecUserGroup ispconfig ispconfig
+    <Directory /var/www/ispconfig/>
+      Options Indexes FollowSymLinks MultiViews +ExecCGI
+      AllowOverride AuthConfig Indexes Limit Options FileInfo
+      AddHandler fcgid-script .php
+      FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/php-fcgi-starter .php
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+    </Directory>
+  </IfModule>
+  
+  <IfModule mod_php5.c>
+    AddType application/x-httpd-php .php
+    <Directory /usr/local/ispconfig/interface/web>
+      Options FollowSymLinks
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+    </Directory>
+  </IfModule>
+  
+  # ErrorLog /var/log/apache2/error.log
+  # CustomLog /var/log/apache2/access.log combined
+  ServerSignature Off
 
-	<IfModule mod_php5.c>
-  		AddType application/x-httpd-php .php
-		<Directory /usr/local/ispconfig/interface/web>
-			Options FollowSymLinks
-			AllowOverride None
-			Order allow,deny
-			Allow from all
-		</Directory>
-	</IfModule>
-	
-	# ErrorLog /var/log/apache2/error.log
-	# CustomLog /var/log/apache2/access.log combined
-    ServerSignature Off
-	
 </VirtualHost>
 
 ###########################################
