@@ -212,7 +212,7 @@ class apache2_plugin {
 		
 		// Check if the directories are there and create them if nescessary.
 		if(!is_dir($data["new"]["document_root"]."/web")) exec("mkdir -p ".$data["new"]["document_root"]."/web");
-		if(!is_dir($data["new"]["document_root"]."/web/error") and $data["new"]["is_errordocs"]) exec("mkdir -p ".$data["new"]["document_root"]."/web/error");
+		if(!is_dir($data["new"]["document_root"]."/web/error") and $data["new"]["errordocs"]) exec("mkdir -p ".$data["new"]["document_root"]."/web/error");
 		//if(!is_dir($data["new"]["document_root"]."/log")) exec("mkdir -p ".$data["new"]["document_root"]."/log");
 		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
 		if(!is_dir($data["new"]["document_root"]."/cgi-bin")) exec("mkdir -p ".$data["new"]["document_root"]."/cgi-bin");
@@ -288,7 +288,7 @@ class apache2_plugin {
 		
 		if($this->action == 'insert' && $data["new"]["type"] == 'vhost') {
 			// Copy the error pages
-      if($data["new"]["is_errordocs"]){
+      if($data["new"]["errordocs"]){
   			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
   			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
   			exec("chmod -R +r ".$error_page_path);

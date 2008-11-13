@@ -1000,7 +1000,7 @@ CREATE TABLE `web_domain` (
   `cgi` char(1) NOT NULL default 'y',
   `ssi` char(1) NOT NULL default 'y',
   `suexec` char(1) NOT NULL default 'y',
-  `is_errordocs` tinyint(1) NOT NULL default '1',
+  `errordocs` tinyint(1) NOT NULL default '1',
   `is_subdomainwww` tinyint(1) NOT NULL default '1',
   `php` varchar(255) NOT NULL default 'y',
   `redirect_type` varchar(255) default NULL,

@@ -168,7 +168,7 @@ $form["tabs"]['domain'] = array (
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
-		'is_errordocs' => array (
+		'errordocs' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> '1',
