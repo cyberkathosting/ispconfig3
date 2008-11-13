@@ -143,6 +143,13 @@ if( !empty($conf["mysql"]["admin_password"]) ) {
 	system("mysql -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." ".$conf['mysql']['database']." < existing_db.sql");
 }
 
+// create a backup copy of the ispconfig database in the root folder
+$backup_db_name = '/root/ispconfig_db_backup_'.date('Y-m-d').'.sql';
+copy('existing_db.sql',$backup_db_name);
+exec("chmod 700 $backup_db_name");
+exec("chown root:root $backup_db_name");
+
+
 //** Update server ini
 $tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
 $old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
