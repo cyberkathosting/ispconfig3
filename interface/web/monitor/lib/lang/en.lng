@@ -18,5 +18,11 @@ $wb['Messages'] = 'Messages';
 $wb['Freshclam'] = 'Freshclam';
 $wb['Clamav'] = 'Clamav';
 $wb['ISPConfig'] = 'ISPConfig';
+$wb['no_data_serverload_txt'] = 'No data about the server load available at the moment. Please check again later.';
+$wb['no_data_memusage_txt'] = 'No data about the memory usage available at the moment. Please check again later.';
+$wb['no_data_diskusage_txt'] = 'No data about the disk usage available at the moment. Please check again later.';
+$wb['no_data_cpuinfo_txt'] = 'No data about the CPU available at the moment. Please check again later.';
+$wb['no_data_services_txt'] = 'No data about the services available at the moment. Please check again later.';
+$wb['no_logdata_txt'] = 'No log data available at the moment. Please check again later.';
 
 ?>

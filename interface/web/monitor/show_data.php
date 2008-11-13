@@ -114,12 +114,14 @@ function showServerLoad(){
 	
 	/* fetch the Data from the DB */
 	$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-	$data = unserialize($record['data']);
 	
-	/*
-	 Format the data 
-	*/
-	$html .= 
+	if(isset($record['data'])) {
+		$data = unserialize($record['data']);
+	
+		/*
+	 	Format the data 
+		*/
+		$html .= 
 		'<table id="system_load">
 			<tr>
 			<td>' . $app->lng("Server online since").':</td>
@@ -142,6 +144,10 @@ function showServerLoad(){
 			<td>' . $data['load_15'] . '</td>
 			</tr>
 			</table>';
+	} else {
+		$html = '<p>'.$app->lng("no_data_serverload_txt").'</p>';
+	}
+	
 	return $html;
 }
 
@@ -150,20 +156,26 @@ function showDiskUsage () {
 
 	/* fetch the Data from the DB */
 	$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-	$data = unserialize($record['data']);
 	
-	/*
-	 Format the data 
-	*/
-	$html .= '<table id="system_disk">';
-	foreach($data as $line) {
-		$html .= '<tr>';
-		foreach ($line as $item) {
-			$html .= '<td>' . $item . '</td>';
+	if(isset($record['data'])) {
+		$data = unserialize($record['data']);
+	
+		/*
+	 	Format the data 
+		*/
+		$html .= '<table id="system_disk">';
+		foreach($data as $line) {
+			$html .= '<tr>';
+			foreach ($line as $item) {
+				$html .= '<td>' . $item . '</td>';
+			}
+			$html .= '</tr>';
 		}
-		$html .= '</tr>';
+		$html .= '</table>';
+	} else {
+		$html = '<p>'.$app->lng("no_data_diskusage_txt").'</p>';
 	}
-	$html .= '</table>';
+	
 
 	return $html;
 }
@@ -175,22 +187,28 @@ function showMemUsage ()
 	
 	/* fetch the Data from the DB */
 	$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-	$data = unserialize($record['data']);
 	
-	/*
-	 Format the data 
-	*/
-	$html .= '<table id="system_memusage">';
+	if(isset($record['data'])) {
+		$data = unserialize($record['data']);
 	
-	foreach($data as $key => $value){
-		if ($key != '') {
-			$html .= '<tr>
+		/*
+	 	Format the data 
+		*/
+		$html .= '<table id="system_memusage">';
+	
+		foreach($data as $key => $value){
+			if ($key != '') {
+				$html .= '<tr>
 					<td>' . $key . ':</td>
 					<td>' . $value . '</td>
 					</tr>';
+			}
 		}
+		$html .= '</table>';
+	} else {
+		$html = '<p>'.$app->lng("no_data_memusage_txt").'</p>';
 	}
-	$html .= '</table>';
+	
 	return $html;
 }
 
@@ -200,21 +218,26 @@ function showCpuInfo ()
 
 	/* fetch the Data from the DB */
 	$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-	$data = unserialize($record['data']);
 	
-	/*
-	 Format the data 
-	*/
-	$html .= '<table id="system_cpu">';
-	foreach($data as $key => $value){
-		if ($key != '') {
-			$html .= '<tr>
+	if(isset($record['data'])) {
+		$data = unserialize($record['data']);
+	
+		/*
+	 	Format the data 
+		*/
+		$html .= '<table id="system_cpu">';
+		foreach($data as $key => $value){
+			if ($key != '') {
+				$html .= '<tr>
 					<td>' . $key . ':</td>
 					<td>' . $value . '</td>
 					</tr>';
+			}
 		}
+		$html .= '</table>';
+	} else {
+		$html = '<p>'.$app->lng("no_data_cpuinfo_txt").'</p>';
 	}
-	$html .= '</table>';
 	
 	return $html;
 }
@@ -225,76 +248,81 @@ function showServices ()
 	
 	/* fetch the Data from the DB */
 	$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-	$data = unserialize($record['data']);
 	
-	/*
-	 Format the data 
-	*/
-	$html .= '<table id="system_services">';
+	if(isset($record['data'])) {
+		$data = unserialize($record['data']);
 	
-	if($data['webserver'] == true) {
-		$status = '<span class="online">Online</span>';
-	} else {
-		$status = '<span class="offline">Offline</span>';
-	}
-	$html .= '<tr>
+		/*
+	 	Format the data 
+		*/
+		$html .= '<table id="system_services">';
+	
+		if($data['webserver'] == true) {
+			$status = '<span class="online">Online</span>';
+		} else {
+			$status = '<span class="offline">Offline</span>';
+		}
+		$html .= '<tr>
 			<td>Web-Server:</td>
 			<td>'.$status.'</td>
 			</tr>';
 	
 	
-	if($data['ftpserver'] == true) {
-		$status = '<span class="online">Online</span>';
-	} else {
-		$status = '<span class="offline">Offline</span>';
-	}
-	$html .= '<tr>
+		if($data['ftpserver'] == true) {
+			$status = '<span class="online">Online</span>';
+		} else {
+			$status = '<span class="offline">Offline</span>';
+		}
+		$html .= '<tr>
 			<td>FTP-Server:</td>
 			<td>'.$status.'</td>
 			</tr>';
 	
-	if($data['smtpserver'] == true) {
-		$status = '<span class="online">Online</span>';
-	} else {
-		$status = '<span class="offline">Offline</span>';
-	}
-	$html .= '<tr>
+		if($data['smtpserver'] == true) {
+			$status = '<span class="online">Online</span>';
+		} else {
+			$status = '<span class="offline">Offline</span>';
+		}
+		$html .= '<tr>
 			<td>SMTP-Server:</td>
 			<td>'.$status.'</td>
 			</tr>';
 	
-	if($data['pop3server'] == true) {
-		$status = '<span class="online">Online</span>';
-	} else {
-		$status = '<span class="offline">Offline</span>';
-	}
-	$html .= '<tr>
+		if($data['pop3server'] == true) {
+			$status = '<span class="online">Online</span>';
+		} else {
+			$status = '<span class="offline">Offline</span>';
+		}
+		$html .= '<tr>
 			<td>POP3-Server:</td>
 			<td>'.$status.'</td>
 			</tr>';
 	
-	if($data['bindserver'] == true) {
-		$status = '<span class="online">Online</span>';
-	} else {
-		$status = '<span class="offline">Offline</span>';
-	}
-	$html .= '<tr>
+		if($data['bindserver'] == true) {
+			$status = '<span class="online">Online</span>';
+		} else {
+			$status = '<span class="offline">Offline</span>';
+		}
+		$html .= '<tr>
 			<td>DNS-Server:</td>
 			<td>'.$status.'</td>
 			</tr>';
 	
-	if($data['mysqlserver'] == true) {
-		$status = '<span class="online">Online</span>';
-	} else {
-		$status = '<span class="offline">Offline</span>';
-	}
-	$html .= '<tr>
+		if($data['mysqlserver'] == true) {
+			$status = '<span class="online">Online</span>';
+		} else {
+			$status = '<span class="offline">Offline</span>';
+		}
+		$html .= '<tr>
 			<td>mySQL-Server:</td>
 			<td>'.$status.'</td>
 			</tr>';
 	
 	
-	$html .= '</table></div>';
+		$html .= '</table></div>';
+	} else {
+		$html = '<p>'.$app->lng("no_data_services_txt").'</p>';
+	}
 	
 	
 	return $html;

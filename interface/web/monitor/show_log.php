@@ -40,7 +40,7 @@ $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/show_log.htm');
 
 // Importing the GET values
-$refresh = intval($_GET["refresh"]);
+$refresh = (isset($_GET["refresh"]))?intval($_GET["refresh"]):0;
 $logParam = $_GET["log"];
 
 
@@ -102,11 +102,17 @@ $app->tpl->setVar("refresh",$tmp);
 
 /* fetch the Data from the DB */
 $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = '" . $app->db->quote($logId) . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-$data = unserialize($record['data']);
 
-$logData = nl2br($data);
+if(isset($record['data'])) {
+	$data = unserialize($record['data']);
 
-$app->tpl->setVar("log_data", $logData);
+	$logData = nl2br($data);
+
+	$app->tpl->setVar("log_data", $logData);
+} else {
+	$app->tpl->setVar("log_data", $app->lng("no_logdata_txt"));
+}
+
 $app->tpl->setVar("title", $title);
 $app->tpl->setVar("log_id",$logId);
 
