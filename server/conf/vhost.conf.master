@@ -71,7 +71,7 @@
       AddHandler fcgid-script .php .php3 .php4 .php5
       FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
       Options +ExecCGI
-      AllowOverride None
+      AllowOverride all
       Order allow,deny
       Allow from all
   </Directory>
@@ -91,7 +91,8 @@
   php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
   #php_admin_value open_basedir <tmpl_var name='document_root'>:/usr/share/php5
 </tmpl_if>
-<tmpl_var name='apache_directives'>
+
+  <tmpl_var name='apache_directives'>
 </VirtualHost>
 
 
@@ -159,7 +160,17 @@
   # php as cgi enabled
   AddType application/x-httpd-php .php .php3 .php4 .php5
 </tmpl_if>
-
+<tmpl_if name='php' op='==' value='fast-cgi'>
+  # php as fast-cgi enabled
+  <Directory {tmpl_var name='web_document_root_www'}>
+      AddHandler fcgid-script .php .php3 .php4 .php5
+      FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
+      Options +ExecCGI
+      AllowOverride all
+      Order allow,deny
+      Allow from all
+  </Directory>
+</tmpl_if>
 <tmpl_if name="rewrite_enabled">
 
   RewriteEngine on
@@ -177,8 +188,7 @@
   #php_admin_value open_basedir <tmpl_var name='document_root'>:/usr/share/php5
 </tmpl_if>
 
-<tmpl_var name='apache_directives'>
-
+  <tmpl_var name='apache_directives'>
 </VirtualHost>
 </IfModule>
 
