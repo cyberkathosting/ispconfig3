@@ -110,6 +110,19 @@ chkconfig --levels 235 clamd on
 /etc/init.d/amavisd start
 /etc/init.d/clamd start
 
+If you use the amavisd from rpmforge and not the one from centos, you will have to do these additional steps:
+
+add the following line in /etc/sysconfig/amavisd:
+
+CONFIG_FILE="/etc/amavisd/amavisd.conf
+
+run:
+
+mkdir /var/run/amavisd /var/spool/amavisd /var/spool/amavisd/tmp /var/spool/amavisd/db
+chown amavis /var/run/amavisd /var/spool/amavisd /var/spool/amavisd/tmp /var/spool/amavisd/db
+yum install perl-DBD-mysql
+
+
 3) Install apache, PHP5 and phpmyadmin (1 line!):
 
 yum install php php-devel php-gd php-imap php-ldap php-mysql php-odbc php-pear php-xml php-xmlrpc php-eaccelerator php-magickwand php-magpierss php-mapserver php-mbstring php-mcrypt php-mhash php-mssql php-shout php-snmp php-soap php-tidy curl curl-devel perl-libwww-perl ImageMagick libxml2 libxml2-devel phpmyadmin
