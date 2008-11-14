@@ -52,6 +52,7 @@ require_once('lib/installer_base.lib.php');
 
 //** Installer/updater logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
+define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
 //** Check for ISPConfig 2.x versions
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
@@ -144,7 +145,7 @@ if( !empty($conf["mysql"]["admin_password"]) ) {
 }
 
 // create a backup copy of the ispconfig database in the root folder
-$backup_db_name = '/root/ispconfig_db_backup_'.date('Y-m-d').'.sql';
+$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
 copy('existing_db.sql',$backup_db_name);
 exec("chmod 700 $backup_db_name");
 exec("chown root:root $backup_db_name");
@@ -157,9 +158,11 @@ unset($tmp_server_rec);
 $tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
 
 // update the new template with the old values
-foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
-	foreach($tmp_section_content as $tmp_var_name => $tmp_var_content) {
-		$tpl_ini_array[$tmp_section_name][$tmp_var_name] = $tmp_var_content;
+if(is_array($old_ini_array)) {
+	foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
+		foreach($tmp_section_content as $tmp_var_name => $tmp_var_content) {
+			$tpl_ini_array[$tmp_section_name][$tmp_var_name] = $tmp_var_content;
+		}
 	}
 }
 

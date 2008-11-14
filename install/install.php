@@ -68,6 +68,7 @@ include_once('dist/conf/'.$dist['id'].'.conf.php');
 
 //** Install logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
+define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
 //****************************************************************************************************
 //** Installer Interface 
@@ -140,7 +141,7 @@ if($install_mode == 'Standard') {
 	//* Configure postfix
 	$inst->configure_postfix();
 	
-	//* Configure postfix
+	//* Configure jailkit
 	swriteln('Configuring Jailkit');
 	$inst->configure_jailkit();
 
@@ -269,6 +270,12 @@ if($install_mode == 'Standard') {
 		system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
+	}
+	
+	//** Configure Jailkit
+	if(strtolower($inst->simple_query('Configure Jailkit', array('y','n'),'y') ) == 'y') {	
+		swriteln('Configuring Jailkit');
+		$inst->configure_jailkit();
 	}
 	
 	//** Configure Pureftpd

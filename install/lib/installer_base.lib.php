@@ -132,10 +132,10 @@ class installer_base {
 			$this->error('Stopped: Database already contains some tables.');
 		} else {
 			if($cf['admin_password'] == '') {
-				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
+				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' '".$cf['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
                         __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			} else {
-				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' -p'".$cf['admin_password']."' '".$cf['database']."' < 'sql/ispconfig3.sql' &> /dev/null", 
+				caselog("mysql -h '".$cf['host']."' -u '".$cf['admin_user']."' -p'".$cf['admin_password']."' '".$cf['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
                         __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			}
 			$db_tables = $this->db->getTables();
