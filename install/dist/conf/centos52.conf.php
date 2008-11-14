@@ -55,9 +55,9 @@ $conf['getmail']['program'] = '/usr/bin/getmail';
 $conf['courier']['config_dir'] = '/etc/authlib';
 $conf['courier']['courier-authdaemon'] = 'courier-authlib';
 $conf['courier']['courier-imap'] = 'courier-imap';
-$conf['courier']['courier-imap-ssl'] = 'courier-imap';
-$conf['courier']['courier-pop'] = 'courier-imap';
-$conf['courier']['courier-pop-ssl'] = 'courier-imap';
+$conf['courier']['courier-imap-ssl'] = '';
+$conf['courier']['courier-pop'] = '';
+$conf['courier']['courier-pop-ssl'] = '';
 
 //* SASL
 $conf['saslauthd']['config'] = '/etc/sysconfig/saslauthd';
