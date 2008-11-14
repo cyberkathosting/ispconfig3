@@ -293,6 +293,7 @@ if($install_mode == 'Standard') {
 	}
 	
 	//** Configure Apache
+	swriteln("If this server shall run the ispconfig interface, select 'y' in the next option.");
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
 		swriteln('Configuring Apache');
 		$inst->configure_apache();
