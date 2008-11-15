@@ -98,13 +98,11 @@ There are two possile scenarios, but not both:
 7.1) Install the latest released version 
 7.2) Install directly from SVN
 
-apt-get install php5-cli
-
 7.1) Installation of beta 3 from tar.gz
 
   cd /tmp
-  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.6-beta.tar.gz
-  tar xvfz ISPConfig-3.0.0.6-beta.tar.gz
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.7-beta.tar.gz
+  tar xvfz ISPConfig-3.0.0.7-beta.tar.gz
   cd ispconfig3_install/install/
 
 7.2) Installation from SVN

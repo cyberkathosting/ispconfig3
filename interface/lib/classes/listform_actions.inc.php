@@ -145,11 +145,15 @@ class listform_actions {
 		
 		//* Set global Language File
 		$lng_file = ISPC_LIB_PATH.'/lang/'.$_SESSION['s']['language'].'.lng';
+		if(!file_exists($lng_file))
+		$lng_file = ISPC_LIB_PATH.'/lang/en.lng';
 		include($lng_file);
 		$app->tpl->setVar($wb);
 		
 		//* Set local Language File
 		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$app->listform->listDef['name'].'_list.lng';
+		if(!file_exists($lng_file))
+		$lng_file = 'lib/lang/en_'.$app->listform->listDef['name'].'_list.lng';
 		include($lng_file);
 		$app->tpl->setVar($wb);
 		$app->tpl->setVar('form_action', $app->listform->listDef['file']);
