@@ -4,4 +4,6 @@ $wb['language_txt'] = 'Lingua';
 $wb['btn_save_txt'] = 'Salva';
 $wb['btn_cancel_txt'] = 'Annulla';
 $wb['password_mismatch'] = 'Il secondo campo password non corrisponde non il primo.';
+$wb['Form to edit the user password and language.'] = 'Form per modificare la password e la lingua dell`utente.';
+$wb['Settings'] = 'Impostazioni';
 ?>
