@@ -27,4 +27,7 @@ $wb['Monitoring'] = 'Monitoraggio';
 $wb['Server to Monitor'] = 'Server da monitorare';
 $wb['System-Information'] = 'Informazioni di sistema';
 $wb['Logfiles'] = 'File dei log';
+$wb['CPU info'] = 'Informazioni CPU';
+$wb['Status of services'] = 'Stato dei servizi';
+$wb['System Monitor'] = 'Monitoraggio del sistema';
 ?>

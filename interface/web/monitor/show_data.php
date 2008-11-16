@@ -52,31 +52,31 @@ switch($dataType) {
 	case 'server_load':
 		$template = 'templates/show_data.htm';
 		$output .= showServerLoad();
-		$title = 'Server Load (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("Server Load").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		$description = '';
 		break;
 	case 'disk_usage':
 		$template = 'templates/show_data.htm';
 		$output .= showDiskUsage();
-		$title = 'Disk usage (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("Disk usage").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		$description = '';
 		break;
 	case 'mem_usage':
 		$template = 'templates/show_data.htm';
 		$output .= showMemUsage();
-		$title = 'Memory usage (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("Memory usage").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		$description = '';
 		break;
 	case 'cpu_info':
 		$template = 'templates/show_data.htm';
 		$output .= showCpuInfo();
-		$title = 'CPU info (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("CPU info").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		$description = '';
 		break;
 	case 'services':
 		$template = 'templates/show_data.htm';
 		$output .= showServices();
-		$title = 'Status of services (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("Status of services").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		$description = '';
 		break;
 	case 'overview':
@@ -84,7 +84,7 @@ switch($dataType) {
 		$output .= showServerLoad();
 		$output .= '&nbsp;'. showDiskUsage();
 		$output .= '&nbsp;'.showServices();
-		$title = 'System Monitor (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("System Monitor").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		$description = '';
 		break;
 	default:

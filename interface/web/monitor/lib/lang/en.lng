@@ -28,5 +28,8 @@ $wb['Monitoring'] = 'Monitoring';
 $wb['Server to Monitor'] = 'Server to Monitor';
 $wb['System-Information'] = 'System-Information';
 $wb['Logfiles'] = 'Logfiles';
+$wb['CPU info'] = 'CPU info';
+$wb['Status of services'] = 'Status of services';
+$wb['System Monitor'] = 'System Monitor';
 
 ?>
