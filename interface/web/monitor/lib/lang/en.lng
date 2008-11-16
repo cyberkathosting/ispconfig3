@@ -1,12 +1,12 @@
 <?php
 
-$wb["Server Online seit"] = "Online since";
-$wb["User Online"] = "User Online";
-$wb["System Load 1 Minute"] = "System Load 1 Minute";
-$wb["System Load 5 Minuten"] = "System Load 5 Minutes";
-$wb["System Load 15 Minuten"] = "System Load 15 Minutes";
-$wb['Load'] = 'Load';
-$wb['Harddisk'] = 'Harddisk';
+$wb["Server online since"] = "Server online since";
+$wb["Users online"] = "Users Online";
+$wb["System load 1 minute"] = "System load 1 minute";
+$wb["System load 5 minutes"] = "System load 5 minutes";
+$wb["System load 15 minutes"] = "System load 15 minutes";
+$wb['Server Load'] = 'Server Load';
+$wb['Disk usage'] = 'Disk usage';
 $wb['Memory usage'] = 'Memory usage';
 $wb['CPU'] = 'CPU';
 $wb['Services'] = 'Services';
@@ -24,5 +24,9 @@ $wb['no_data_diskusage_txt'] = 'No data about the disk usage available at the mo
 $wb['no_data_cpuinfo_txt'] = 'No data about the CPU available at the moment. Please check again later.';
 $wb['no_data_services_txt'] = 'No data about the services available at the moment. Please check again later.';
 $wb['no_logdata_txt'] = 'No log data available at the moment. Please check again later.';
+$wb['Monitoring'] = 'Monitoring';
+$wb['Server to Monitor'] = 'Server to Monitor';
+$wb['System-Information'] = 'System-Information';
+$wb['Logfiles'] = 'Logfiles';
 
 ?>

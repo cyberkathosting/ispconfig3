@@ -1,0 +1,30 @@
+<?php
+$wb['Server online since'] = 'Server online da';
+$wb['Users online'] = 'Utenti online';
+$wb['System load 1 minute'] = 'Carico del sistema ultimo minuto';
+$wb['System load 5 minutes'] = 'Carico del sistema ultimi 5 minuti';
+$wb['System load 15 minutes'] = 'Carico del sistema ultimi 15 minuti';
+$wb['Server Load'] = 'Carico del server';
+$wb['Disk usage'] = 'Utilizzo dischi';
+$wb['Memory usage'] = 'Utilizzo memoria';
+$wb['CPU'] = 'CPU';
+$wb['Services'] = 'Servizi';
+$wb['System'] = 'Sistema';
+$wb['Mail log'] = 'Log mail';
+$wb['Mail warn'] = 'Avvisi mail';
+$wb['Mail err'] = 'Errori mail';
+$wb['Messages'] = 'Messaggi';
+$wb['Freshclam'] = 'Freshclam';
+$wb['Clamav'] = 'Clamav';
+$wb['ISPConfig'] = 'ISPConfig';
+$wb['no_data_serverload_txt'] = 'Dati riguardo il carico del server attualmente non disponibili. Riprova più tardi.';
+$wb['no_data_memusage_txt'] = 'Dati riguardo l`uso della memoria attualmente non disponibili. Riprova più tardi.';
+$wb['no_data_diskusage_txt'] = 'Dati riguardo l`uso dei dischi attualmente non disponibili. Riprova più tardi.';
+$wb['no_data_cpuinfo_txt'] = 'Dati riguardo la CPU attualmente non disponibili. Riprova più tardi.';
+$wb['no_data_services_txt'] = 'Dati riguardo i servizi attualmente non disponibili. Riprova più tardi.';
+$wb['no_logdata_txt'] = 'Log attualmente non disponibili. Riprova più tardi.';
+$wb['Monitoring'] = 'Monitoraggio';
+$wb['Server to Monitor'] = 'Server da monitorare';
+$wb['System-Information'] = 'Informazioni di sistema';
+$wb['Logfiles'] = 'File dei log';
+?>
