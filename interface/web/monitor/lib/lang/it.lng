@@ -30,4 +30,6 @@ $wb['Logfiles'] = 'File dei log';
 $wb['CPU info'] = 'Informazioni CPU';
 $wb['Status of services'] = 'Stato dei servizi';
 $wb['System Monitor'] = 'Monitoraggio del sistema';
+$wb['No Refresh'] = 'No Aggiornamento';
+$wb['minutes'] = 'minuti';
 ?>

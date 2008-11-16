@@ -31,5 +31,7 @@ $wb['Logfiles'] = 'Logfiles';
 $wb['CPU info'] = 'CPU info';
 $wb['Status of services'] = 'Status of services';
 $wb['System Monitor'] = 'System Monitor';
+$wb['No Refresh'] = 'No Refresh';
+$wb["minutes"] = "minutes";
 
 ?>
