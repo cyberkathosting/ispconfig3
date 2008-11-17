@@ -158,9 +158,16 @@ class installer_dist extends installer_base {
         }
 		$configfile = $config_dir.'/master.cf';
 		$content = rf($configfile);
+		// if postfix package is from fedora or centios main repo
 		$content = str_replace('#  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}', 
                    '  flags=R user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
                      $content);
+		// If postfix package is from centos plus repo
+		$content = str_replace('#  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}', 
+                   '  flags=R user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
+                     $content);
+		
+		
 		$content = str_replace('#maildrop  unix  -       n       n       -       -       pipe', 
                    'maildrop  unix  -       n       n       -       -       pipe',
                      $content);
