@@ -41,4 +41,10 @@ $wb["domain_error_unique"] = 'Domain must be unique.';
 $wb["domain_error_regex"] = 'Domain name invalid.';
 $wb["hd_quota_error_empty"] = 'Harddisk quota is empty.';
 $wb["traffic_quota_error_empty"] = 'Traffic quota is empty.';
+$wb['error_ssl_state_empty'] = 'SSL State is empty.';
+$wb['error_ssl_locality_empty'] = 'SSL Locality is empty.';
+$wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
+$wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
+$wb['error_ssl_country_empty'] = 'SSL Country is empty.';
+
 ?>

@@ -75,6 +75,7 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 		
+		// If the logged in user is not admin and has no sub clients (no rseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		
 			// Get the limits of the client
@@ -89,7 +90,8 @@ class page_action extends tform_actions {
 			// Fill the IP select field with the IP addresses that are allowed for this client
 			$ip_select = "<option value='*'>*</option>";
 			$app->tpl->setVar("ip_address",$ip_select);
-			
+		
+		// If the logged in user is not admin and has sub clients (is a rseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			
 			// Get the limits of the client
@@ -116,12 +118,13 @@ class page_action extends tform_actions {
 			// Fill the IP select field with the IP addresses that are allowed for this client
 			$ip_select = "<option value='*'>*</option>";
 			$app->tpl->setVar("ip_address",$ip_select);
-			
+		
+		// If the logged in user is admin
 		} else {
 			
 			// The user is admin, so we fill in all IP addresses of the server
 			if($this->id > 0) {
-				$server_id = $this->dataRecord["server_id"];
+				$server_id = @$this->dataRecord["server_id"];
 			} else {
 				// Get the first server ID
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
@@ -241,6 +244,22 @@ class page_action extends tform_actions {
 		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 		$app->db->query($sql);
 	}
+	
+	function onBeforeUpdate () {
+		global $app, $conf;
+		
+		//* Check that all fields for the SSL cert creation are filled
+		if(isset($this->dataRecord['ssl_action']) && $this->dataRecord['ssl_action'] == 'create') {
+			if($this->dataRecord['ssl_state'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_state_empty').'<br />';
+			if($this->dataRecord['ssl_locality'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_locality_empty').'<br />';
+			if($this->dataRecord['ssl_organisation'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_organisation_empty').'<br />';
+			if($this->dataRecord['ssl_organisation_unit'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_organisation_unit_empty').'<br />';
+			if($this->dataRecord['ssl_country'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_country_empty').'<br />';
+		}
+		
+	}
+	
+	
 	
 	function onAfterUpdate() {
 		global $app, $conf;
