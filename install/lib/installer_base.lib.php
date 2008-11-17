@@ -861,6 +861,9 @@ class installer_base {
 		if(@is_file('/var/log/mail.err')) exec('chmod +r /var/log/mail.err');
 		if(@is_file('/var/log/messages')) exec('chmod +r /var/log/messages');
 		
+		//* Create the ispconfig log directory
+		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
+		
 		
 	}
 	

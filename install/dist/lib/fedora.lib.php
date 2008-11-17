@@ -645,6 +645,9 @@ class installer_dist extends installer_base {
 		// exec('chmod -R 751 /usr/local/ispconfig/interface');
 		// exec('chmod a+rx /usr/local/ispconfig/interface/web');
 		
+		//* Create the ispconfig log directory
+		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
+		
 		
 	}
 	
