@@ -112,6 +112,14 @@ function merge_langfile($langfile,$masterfile) {
 				$n++;
 			}
 		}
+		
+		$r = 0;
+		foreach($wb as $key => $val) {
+			if(!isset($wb_master[$key])) {
+				unset($wb[$key]);
+				$r++;
+			}
+		}
 	
 		$file_content = "<?php\n";
 		foreach($wb as $key => $val) {
@@ -122,6 +130,8 @@ function merge_langfile($langfile,$masterfile) {
 		$file_content .= "?>\n";
 	
 		$msg .= "Added $n lines to the file $langfile<br />";
+		if($r!=0)
+		$msg .= "Removed $r lines to the file $langfile<br />";
 		file_put_contents($langfile ,$file_content);
 	} else {
 		$msg .= "File does not exist yet. Copied file $masterfile to $langfile<br />";

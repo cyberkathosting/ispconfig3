@@ -88,8 +88,3 @@ General tasks
 
 - Add, extend or modify comments in PEAR syntax so that they can be read with phpdocumentor.
 
-
-Language editor
---------------------------------------
-- Merge: remove the line how exists in language to merge but not in main (removed in main because not use or change for fix)
-
