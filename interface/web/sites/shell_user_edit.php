@@ -104,7 +104,10 @@ class page_action extends tform_actions {
 		$puser = $web["system_user"];
 		$pgroup = $web["system_group"];
 		
-		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$puser', pgroup = '$pgroup' WHERE shell_user_id = ".$this->id;
+		// The FTP user shall be owned by the same group then the website
+		$sys_groupid = $web['sys_groupid'];
+		
+		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$puser', pgroup = '$pgroup', sys_groupid = '$sys_groupid' WHERE shell_user_id = ".$this->id;
 		$app->db->query($sql);
 		
 	}
