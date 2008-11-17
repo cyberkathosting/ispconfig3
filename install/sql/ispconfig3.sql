@@ -444,7 +444,7 @@ CREATE TABLE `mail_user` (
   `quota` int(11) NOT NULL default '0',
   `homedir` varchar(255) NOT NULL,
   `autoresponder` enum('n','y') NOT NULL default 'n',
-  `autoresponder_text` tinytext NOT NULL,
+  `autoresponder_text` tinytext NULL,
   `custom_mailfilter` text,
   `postfix` enum('y','n') NOT NULL,
   `access` enum('y','n') NOT NULL,

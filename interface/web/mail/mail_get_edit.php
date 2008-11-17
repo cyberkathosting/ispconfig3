@@ -99,6 +99,14 @@ class page_action extends tform_actions {
 		parent::onSubmit();
 	}
 	
+	function onAfterInsert() {
+		global $app;
+		
+		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = '".mysql_real_escape_string($this->dataRecord["destination"])."'");
+		$app->db->query("update mail_get SET sys_groupid = ".$tmp['sys_groupid']." WHERE mailget_id = ".$this->id);
+		
+	}
+	
 }
 
 $page = new page_action;

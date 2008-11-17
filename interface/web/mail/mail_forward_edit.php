@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		foreach( $domains as $domain) {
-			$selected = ($domain["domain"] == $email_parts[1])?'SELECTED':'';
+			$selected = (isset($email_parts[1]) && $domain["domain"] == $email_parts[1])?'SELECTED':'';
 			$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
 		}
 		$app->tpl->setVar("email_domain",$domain_select);
@@ -124,6 +124,14 @@ class page_action extends tform_actions {
 		unset($this->dataRecord["email_domain"]);
 		
 		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app;
+		
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+		$app->db->query("update mail_forwarding SET sys_groupid = ".$domain['sys_groupid']." WHERE forwarding_id = ".$this->id);
+		
 	}
 	
 }

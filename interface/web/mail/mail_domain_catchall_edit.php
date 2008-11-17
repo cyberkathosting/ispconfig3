@@ -85,7 +85,7 @@ class page_action extends tform_actions {
 		$domain_select = '';
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
-				$selected = ($domain["domain"] == $email_parts[1])?'SELECTED':'';
+				$selected = (isset($email_parts[1]) && $domain["domain"] == $email_parts[1])?'SELECTED':'';
 				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
 			}
 		}
@@ -107,7 +107,7 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_mailcatchall FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
-			// Check if the user may add another mailbox.
+			// Check if the user may add another catchall
 			if($this->id == 0 && $client["limit_mailcatchall"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = $client_group_id AND type = 'catchall'");
 				if($tmp["number"] >= $client["limit_mailcatchall"]) {
@@ -126,6 +126,14 @@ class page_action extends tform_actions {
 		unset($this->dataRecord["email_domain"]);
 		
 		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app;
+		
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+		$app->db->query("update mail_forwarding SET sys_groupid = ".$domain['sys_groupid']." WHERE forwarding_id = ".$this->id);
+		
 	}
 	
 }

@@ -110,6 +110,10 @@ class page_action extends tform_actions {
 		$soa_id = intval($_POST["zone"]);
 		$serial = time();
 		$app->db->query("UPDATE dns_soa SET serial = $serial WHERE id = $soa_id");
+		
+		// Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
+		$soa = $app->db->queryOneRecord("SELECT sys_groupid FROM dns_soa WHERE id = '".intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
+		$app->db->query("UPDATE dns_rr SET sys_groupid = ".$soa['sys_groupid']." WHERE id = ".$this->id);
 	}
 	
 	function onAfterUpdate() {

@@ -50,6 +50,8 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	var $parent_domain_record;
+	
 	function onShowNew() {
 		global $app, $conf;
 		
@@ -97,9 +99,18 @@ class page_action extends tform_actions {
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
 		$this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
 		
+		$this->parent_domain_record = $parent_domain;
 		
 		parent::onSubmit();
 	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+		
+		$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+		
+	}
+	
 	
 }
 

@@ -64,6 +64,7 @@ class page_action extends tform_actions {
 				
 				// Importing ID
                 $this->id = $_SESSION['s']['user']['userid'];
+				$_POST['id'] = $_SESSION['s']['user']['userid'];
 
                 if(count($_POST) > 1) {
                         $this->dataRecord = $_POST;
@@ -72,6 +73,10 @@ class page_action extends tform_actions {
                         $this->onShow();
                 }
         }
+	
+	function onInsert() {
+		die('No inserts allowed.');
+	}
 		
 	function onBeforeUpdate() {
 		global $app, $conf;

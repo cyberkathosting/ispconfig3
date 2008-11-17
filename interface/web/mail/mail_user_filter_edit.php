@@ -68,9 +68,12 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
+		$mailuser = $app->db->queryOneRecord("SELECT sys_groupid, custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
 		$rule_content = $mailuser['custom_mailfilter']."\n".$app->db->quote($this->getRule());
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$rule_content'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
+		
+		// set permissions
+		$app->db->query("UPDATE mail_user_filter SET sys_groupid = ".$mailuser['sys_groupid']." WHERE filter_id = "$this->id);
 	
 	}
 	

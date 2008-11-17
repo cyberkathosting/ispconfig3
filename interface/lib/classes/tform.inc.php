@@ -800,6 +800,7 @@ class tform {
                         $sql_insert_val = substr($sql_insert_val,0,-2);
                         $sql = "INSERT INTO ".$escape.$this->formDef['db_table'].$escape." ($sql_insert_key) VALUES ($sql_insert_val)";
                 } else {
+					if($this->formDef['auth'] == 'yes') {
                         if($primary_id != 0) {
                                 $sql_update = substr($sql_update,0,-2);
                                 $sql = "UPDATE ".$escape.$this->formDef['db_table'].$escape." SET ".$sql_update." WHERE ".$this->getAuthSQL('u')." AND ".$this->formDef['db_table_idx']." = ".$primary_id;
@@ -807,6 +808,15 @@ class tform {
                         } else {
                                 $app->error("Primary ID fehlt!");
                         }
+					} else {
+						if($primary_id != 0) {
+                                $sql_update = substr($sql_update,0,-2);
+                                $sql = "UPDATE ".$escape.$this->formDef['db_table'].$escape." SET ".$sql_update." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+                                if($sql_ext_where != '') $sql .= " and ".$sql_ext_where;
+                        } else {
+                                $app->error("Primary ID fehlt!");
+                        }
+					}
                 }
                 
                 return $sql;
