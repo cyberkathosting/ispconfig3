@@ -50,6 +50,18 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+//* Languages
+$language_list = array();
+$handle = @opendir(ISPC_ROOT_PATH.'/lib/lang');
+while ($file = @readdir ($handle)) {
+    if ($file != '.' && $file != '..') {
+        if(@is_file(ISPC_ROOT_PATH.'/lib/lang/'.$file) and substr($file,-4,4) == '.lng') {
+			$tmp = substr($file, 0, 2);
+			$language_list[$tmp] = $tmp;
+        }
+	}
+}
+
 $form["tabs"]['address'] = array (
 	'title' 	=> "Address",
 	'width' 	=> 100,
@@ -120,7 +132,7 @@ $form["tabs"]['address'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> $conf["language"],
-			'value'		=> array('en' => 'en'),
+			'value'		=> $language_list,
 			'separator'	=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255',
