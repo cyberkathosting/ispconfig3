@@ -89,7 +89,7 @@ if(isset($_POST['lng_select']) && $error == '') {
 						$target_lang_file=ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file;
 						if(!file_exists($master_lang_file)){
 						unlink($target_lang_file);
-						$msg.="File $target_lang_file remove because does not exist in master language<br />";
+						$msg.="File $target_lang_file removed because does not exist in master language<br />";
 						}
 					}
 				}//Finish of remove the files how not exists in master language
@@ -97,7 +97,7 @@ if(isset($_POST['lng_select']) && $error == '') {
 		}
 	}
 if($msg=='')
-$msg="No files created, remove or modified<br />";
+$msg="No files created, removed or modified<br />";
 }
 
 function merge_langfile($langfile,$masterfile) {
