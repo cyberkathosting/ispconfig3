@@ -150,12 +150,8 @@ class listform_actions {
 		include($lng_file);
 		$app->tpl->setVar($wb);
 		
-		//* Set local Language File
-		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$app->listform->listDef['name'].'_list.lng';
-		if(!file_exists($lng_file))
-		$lng_file = 'lib/lang/en_'.$app->listform->listDef['name'].'_list.lng';
-		include($lng_file);
-		$app->tpl->setVar($wb);
+		
+		$app->tpl->setVar($app->listform->wordbook);
 		$app->tpl->setVar('form_action', $app->listform->listDef['file']);
 		
 		//* Parse the templates and send output to the browser

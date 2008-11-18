@@ -47,6 +47,7 @@ class listform {
     private $searchChanged = 0;
     private $module;
 	private $dateformat = 'd.m.Y';
+	public $wordbook;
 
     public function loadListDef($file, $module = '')
     {
@@ -64,6 +65,14 @@ class listform {
                 $this->listDef['item'][$key]['value'] = $this->getDatasourceData($field);
             }
 		}
+		
+		//* Set local Language File
+		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$this->listDef['name'].'_list.lng';
+		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$this->listDef['name'].'_list.lng';
+		include($lng_file);
+		
+		$this->wordbook = $wb;
+		
         return true;
     }
 		
@@ -230,7 +239,7 @@ class listform {
             $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
                         .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_180.png"></a> ';
         }
-        $content .= ' '.$app->lng('Page').' '.$vars['next_page'].' '.$app->lng('of').' '.$vars['max_pages'].' ';
+        $content .= ' '.$this->lng('page_txt').' '.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' ';
         //* Show Next
         if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
             $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
@@ -246,11 +255,11 @@ class listform {
         global $app;
         $content = '[<a href="'.$vars['list_file'].'?page=0'.$vars['page_params'].'">|&lt;&lt; </a>]';
         if($vars['show_page_back'] == 1){
-            $content .= '[<< <a href="'.$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params'].'">'.$app->lng('Back').'</a>] ';
+            $content .= '[<< <a href="'.$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params'].'">'.$app->lng('page_back_txt').'</a>] ';
         }
-        $content .= ' '.$app->lng('Page').' '.$vars['next_page'].' '.$app->lng('of').' '.$vars['max_pages'].' ';
+        $content .= ' '.$this->lng('page_txt').' '.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' ';
         if($vars['show_page_next'] == 1){
-            $content .= '[<a href="'.$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params'].'">'.$app->lng('Next').' >></a>] ';
+            $content .= '[<a href="'.$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params'].'">'.$app->lng('page_next_txt').' >></a>] ';
         }
         $content .= '[<a href="'.$vars['list_file'].'?page='.$vars['pages'].$vars['page_params'].'"> &gt;&gt;|</a>]';
         return $content;
@@ -341,6 +350,16 @@ class listform {
         }
         return $record;
     }
+	
+	function lng($msg) {
+		global $app;
+			
+		if(isset($this->wordbook[$msg])) {
+			return $this->wordbook[$msg];
+		} else {
+			return $app->lng($msg);
+		}	
+	}
 
 }
 
