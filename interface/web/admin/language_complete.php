@@ -82,9 +82,22 @@ if(isset($_POST['lng_select']) && $error == '') {
 						merge_langfile(ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$target_lang_file,ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file);
 					}
 				}
+				$handle2 = opendir(ISPC_WEB_PATH.'/'.$file.'/lib/lang');
+				while ($lang_file = @readdir ($handle2)) {
+					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file,0,2) == $selected_language) {
+						$master_lang_file=ISPC_WEB_PATH.'/'.$file.'/lib/lang/en'.substr($lang_file,2);
+						$target_lang_file=ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file;
+						if(!file_exists($master_lang_file)){
+						unlink($target_lang_file);
+						$msg.="File $target_lang_file remove because does not exist in master language<br />";
+						}
+					}
+				}//Finish of remove the files how not exists in master language
 			}
 		}
 	}
+if($msg=='')
+$msg="No files created, remove or modified<br />";
 }
 
 function merge_langfile($langfile,$masterfile) {
@@ -139,10 +152,6 @@ function merge_langfile($langfile,$masterfile) {
 		copy($masterfile,$langfile);
 	}
 }
-
-
-if($msg=='')
-$msg="No files created or modified<br />";
 
 $app->tpl->setVar('msg',$msg);
 
