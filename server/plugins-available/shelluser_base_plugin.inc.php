@@ -91,7 +91,7 @@ class shelluser_base_plugin {
 			$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
 			// $command .= ' --non-unique ';
 			$command .= ' --password '.escapeshellcmd($data['new']['password']);
-			$command .= ' --shell '.escapeshellcmd($data['new']['shell']);
+			if($data['new']['chroot'] != 'jailkit') $command .= ' --shell '.escapeshellcmd($data['new']['shell']);
 			// $command .= ' --uid '.escapeshellcmd($uid);
 			$command .= ' --login '.escapeshellcmd($data['new']['username']);
 			$command .= ' '.escapeshellcmd($data['old']['username']);

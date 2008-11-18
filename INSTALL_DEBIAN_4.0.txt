@@ -162,12 +162,15 @@ done
 
 Installing Jailkit:
 
-apt-get install build-essential autoconf automake1.9 libtool flex bison
+// It is nescessary to use the cvs version of jailjit, as the cvs contains a change
+// which is nescessary for ISPConfig and has not been released yet.
+
+apt-get install build-essential autoconf automake1.9 libtool flex bison nano cvs
 cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
-tar xvfz jailkit-2.5.tar.gz
-cd jailkit-2.5
+cvs -d:pserver:anonymous@cvs.sv.gnu.org:/sources/jailkit co .
+cd jailkit
 ./configure
 make
 make install
-rm -rf jailkit-2.5*
+cd ..
+rm -rf jailkit
