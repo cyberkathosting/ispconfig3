@@ -128,7 +128,8 @@ function merge_langfile($langfile,$masterfile) {
 			$file_content .= '$wb['."'$key'".'] = '."'$val';\n";
 		}
 		$file_content .= "?>\n";
-	
+		
+		if($n!=0)
 		$msg .= "Added $n lines to the file $langfile<br />";
 		if($r!=0)
 		$msg .= "Removed $r lines to the file $langfile<br />";
@@ -140,7 +141,8 @@ function merge_langfile($langfile,$masterfile) {
 }
 
 
-
+if($msg=='')
+$msg="No files created or modified<br />";
 
 $app->tpl->setVar('msg',$msg);
 
