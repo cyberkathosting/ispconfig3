@@ -189,14 +189,11 @@ done
 
 Installing Jailkit:
 
-// It is nescessary to use the cvs version of jailjit, as the cvs contains a change
-// which is nescessary for ISPConfig and has not been released yet.
-
 cd /tmp
-cvs -d:pserver:anonymous@cvs.sv.gnu.org:/sources/jailkit co .
-cd jailkit
+wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
+tar xvfz jailkit-2.5.tar.gz
+cd jailkit-2.5
 ./configure
 make
 make install
-cd ..
-rm -rf jailkit
+rm -rf jailkit-2.5*
