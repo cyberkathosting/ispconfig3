@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 		
 		// Set the server ID according to the selected destination
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE email = '".mysql_real_escape_string($this->dataRecord["destination"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
 		$this->dataRecord["server_id"] = $tmp["server_id"];
 		unset($tmp);
 		
@@ -102,7 +102,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 		
-		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = '".mysql_real_escape_string($this->dataRecord["destination"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
 		$app->db->query("update mail_get SET sys_groupid = ".$tmp['sys_groupid']." WHERE mailget_id = ".$this->id);
 		
 	}
