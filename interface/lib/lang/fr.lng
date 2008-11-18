@@ -1,7 +1,7 @@
 <?php
 
 // Messages d'erreur Globaux
-$wb[301] = 'Module interdit pour l'utilisateur courant.';
+$wb[301] = 'Module interdit pour l\'utilisateur courant.';
 $wb[302] = 'Module invalide.';
 
 $wb[1001] = 'The username and password must not be empty!';
