@@ -642,8 +642,9 @@ class installer_dist extends installer_base {
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
 		if($this->install_ispconfig_interface == true) {
-			if(!@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) {
-				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/ispconfig.vhost");
+			if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
+			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
+				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
 			}
 		}
 		
