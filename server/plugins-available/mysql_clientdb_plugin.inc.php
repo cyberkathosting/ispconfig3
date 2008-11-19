@@ -84,15 +84,18 @@ class mysql_clientdb_plugin {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
 			}
 			
-			// Create the database user
-			if($data["new"]["remote_access"] == 'y') {
-			 	$db_host = '%';
-			} else {
-				$db_host = 'localhost';
+			// Create the database user if database is active
+			if($data["new"]["active"] == 'y') {
+				
+				if($data["new"]["remote_access"] == 'y') {
+			 		$db_host = '%';
+				} else {
+					$db_host = 'localhost';
+				}
+				
+				mysql_query("GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';",$link);
+				//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
 			}
-			
-			mysql_query("GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';",$link);
-			//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
 			
 			mysql_query("FLUSH PRIVILEGES;",$link);
 			mysql_close($link);
@@ -107,12 +110,38 @@ class mysql_clientdb_plugin {
 				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
 				return;
 			}
-		
+			
 			//* Connect to the database
 			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
 				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
 				return;
+			}
+			
+			// Create the database user if database was disabled before
+			if($data["new"]["active"] == 'y' && $data["old"]["active"] == 'n') {
+				
+				if($data["new"]["remote_access"] == 'y') {
+			 		$db_host = '%';
+				} else {
+					$db_host = 'localhost';
+				}
+				
+				mysql_query("GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';",$link);
+				//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
+			}
+			
+			// Remove database user, if inactive
+			if($data["new"]["active"] == 'n' && $data["old"]["active"] == 'y') {
+				
+				if($data["old"]["remote_access"] == 'y') {
+			 		$db_host = '%';
+				} else {
+					$db_host = 'localhost';
+				}
+				
+				mysql_query("REVOKE ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';",$link);
+				//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
 			}
 			
 			//* Rename User
