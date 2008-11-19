@@ -832,6 +832,14 @@ class installer_base {
          
         $content = rf("tpl/apache_ispconfig.vhost.master");
 		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
+		
+		// comment out the listen directive if port is 80 or 443
+		if($conf['apache']['vhost_port'] == 80 or $conf['apache']['vhost_port'] == 443) {
+			$content = str_replace('{vhost_port_listen}', '#', $content);
+		} else {
+			$content = str_replace('{vhost_port_listen}', '', $content);
+		}
+		
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
