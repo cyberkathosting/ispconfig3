@@ -1,7 +1,0 @@
-<?php
-$wb["list_head_txt"] = 'Aggiungi nuova lingua';
-$wb["language_select_txt"] = 'Seleziona lingua base';
-$wb["language_new_txt"] = 'Nuova lingua';
-$wb['btn_save_txt'] = 'Crea file della nuova lingua impostata';
-$wb['btn_cancel_txt'] = 'Indietro';
-?>

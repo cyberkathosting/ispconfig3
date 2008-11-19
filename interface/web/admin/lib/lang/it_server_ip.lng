@@ -1,8 +1,0 @@
-<?php
-$wb["server_id_txt"] = 'Server';
-$wb["ip_address_txt"] = 'Indirizzo IP';
-$wb["virtualhost_txt"] = 'HTTP NameVirtualHost';
-$wb["ip_err"] = 'Indirizzo IP non valido';
-$wb["btn_save_txt"] = 'Salva';
-$wb["btn_cancel_txt"] = 'Annulla';
-?>
