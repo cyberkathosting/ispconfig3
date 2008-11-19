@@ -140,8 +140,7 @@ class mysql_clientdb_plugin {
 					$db_host = 'localhost';
 				}
 				
-				mysql_query("REVOKE ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';",$link);
-				//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
+				mysql_query("REVOKE ALL PRIVILEGES ON ".mysql_real_escape_string($data["new"]["database_name"]).".* FROM '".mysql_real_escape_string($data["new"]["database_user"])."';",$link);
 			}
 			
 			//* Rename User
