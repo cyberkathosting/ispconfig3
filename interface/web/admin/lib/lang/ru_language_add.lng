@@ -1,7 +1,7 @@
 <?php
-$wb["list_head_txt"] = 'Добавить новый язык';
-$wb["language_select_txt"] = 'Выбрать в качестве базового';
-$wb["language_new_txt"] = 'Новый язык';
+$wb['list_head_txt'] = 'Добавить новый язык';
+$wb['language_select_txt'] = 'Выбрать в качестве базового';
+$wb['language_new_txt'] = 'Новый язык';
 $wb['btn_save_txt'] = 'Создать новый языковый файл';
 $wb['btn_cancel_txt'] = 'Назад';
 ?>

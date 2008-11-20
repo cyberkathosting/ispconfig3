@@ -1,8 +1,8 @@
 <?php
-$wb["server_id_txt"] = 'Сервер';
-$wb["ip_address_txt"] = 'IP адрес';
-$wb["virtualhost_txt"] = 'HTTP NameVirtualHost';
-$wb["ip_err"] = 'IP адрес неправилен';
-$wb["btn_save_txt"] = 'Сохранить';
-$wb["btn_cancel_txt"] = 'Закончить';
+$wb['server_id_txt'] = 'Сервер';
+$wb['ip_address_txt'] = 'IP адрес';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_err'] = 'IP адрес неправилен';
+$wb['btn_save_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Закончить';
 ?>

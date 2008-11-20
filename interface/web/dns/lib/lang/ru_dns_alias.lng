@@ -1,17 +1,17 @@
 <?php
-$wb["server_id_txt"] = 'Сервер';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Имя узла';
-$wb["type_txt"] = 'тип';
-$wb["data_txt"] = 'Целевое имя узла';
-$wb["ttl_txt"] = 'TTL';
-$wb["active_txt"] = 'Активный';
-$wb["btn_save_txt"] = 'Сохранить';
-$wb["btn_cancel_txt"] = 'Закончить';
-$wb["limit_dns_record_txt"] = 'Максимальное число DNS записей, достигнуто';
-$wb["no_zone_perm"] = 'Вы не имеет прав для добавления записи в DNS зону.';
-$wb["name_error_empty"] = 'Имя узла пустое';
-$wb["name_error_regex"] = 'Имя узла имеет неправильный формат.';
-$wb["data_error_empty"] = 'Целевое имя узла пустое';
-$wb["data_error_regex"] = 'Целевое имя узла в неправильном формате';
+$wb['server_id_txt'] = 'Сервер';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Имя узла';
+$wb['type_txt'] = 'тип';
+$wb['data_txt'] = 'Целевое имя узла';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Активный';
+$wb['btn_save_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Закончить';
+$wb['limit_dns_record_txt'] = 'Максимальное число DNS записей, достигнуто';
+$wb['no_zone_perm'] = 'Вы не имеет прав для добавления записи в DNS зону.';
+$wb['name_error_empty'] = 'Имя узла пустое';
+$wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
+$wb['data_error_empty'] = 'Целевое имя узла пустое';
+$wb['data_error_regex'] = 'Целевое имя узла в неправильном формате';
 ?>

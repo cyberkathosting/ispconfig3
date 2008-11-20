@@ -1,15 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Пользователи';
-$wb["username_txt"] = 'Имя пользователя';
-$wb["name_txt"] = 'Name';
-$wb["vorname_txt"] = 'Forename';
-$wb["ort_txt"] = 'Город';
-
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
-$wb["add_new_record_txt"] = 'Добавить нового пользователя';
+$wb['list_head_txt'] = 'Пользователи';
+$wb['username_txt'] = 'Имя пользователя';
+$wb['name_txt'] = 'Name';
+$wb['vorname_txt'] = 'Forename';
+$wb['ort_txt'] = 'Город';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['add_new_record_txt'] = 'Добавить нового пользователя';
 ?>

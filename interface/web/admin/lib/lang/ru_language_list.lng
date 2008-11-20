@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"] = 'Редактор языкового файла';
-$wb["language_select_txt"] = 'Выбрать язык';
-$wb["module_txt"] = 'Модуль';
-$wb["lang_file_txt"] = 'Выбрать язык';
+$wb['list_head_txt'] = 'Редактор языкового файла';
+$wb['language_select_txt'] = 'Выбрать язык';
+$wb['module_txt'] = 'Модуль';
+$wb['lang_file_txt'] = 'Выбрать язык';
 ?>

@@ -1,11 +1,11 @@
 <?php
-$wb["server_id_txt"] = 'Сервер';
-$wb["source_txt"] = 'Черный список адресов';
-$wb["recipient_txt"] = 'Получатель';
-$wb["active_txt"] = 'Активный';
-$wb["btn_save_txt"] = 'Сохранить';
-$wb["btn_cancel_txt"] = 'Закончить';
-$wb["source_error_notempty"] = 'Адрес пустой!';
-$wb["type_txt"] = 'Тип';
-$wb["limit_mailfilter_txt"] = 'Максимальное число почтовых фильтров достигнуто.';
+$wb['server_id_txt'] = 'Сервер';
+$wb['source_txt'] = 'Черный список адресов';
+$wb['recipient_txt'] = 'Получатель';
+$wb['active_txt'] = 'Активный';
+$wb['btn_save_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Закончить';
+$wb['source_error_notempty'] = 'Адрес пустой!';
+$wb['type_txt'] = 'Тип';
+$wb['limit_mailfilter_txt'] = 'Максимальное число почтовых фильтров достигнуто.';
 ?>

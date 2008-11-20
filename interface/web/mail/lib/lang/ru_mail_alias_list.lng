@@ -1,14 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Email Alias';
-$wb["active_txt"] = 'Активный';
-$wb["source_txt"] = 'source';
-$wb["destination_txt"] = 'Получатель';
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
-$wb["email_txt"] = 'Email';
-$wb["add_new_record_txt"] = 'Добавить новый Email псевдоним';
+$wb['list_head_txt'] = 'Email Alias';
+$wb['active_txt'] = 'Активный';
+$wb['source_txt'] = 'source';
+$wb['destination_txt'] = 'Получатель';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Добавить новый Email псевдоним';
 ?>

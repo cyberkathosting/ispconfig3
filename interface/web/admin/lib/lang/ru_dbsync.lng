@@ -1,16 +1,16 @@
 <?php
-$wb["jobname_txt"] = 'Имя';
-$wb["jobname_err"] = 'Поле "Name" пустое.';
-$wb["sync_interval_minutes_txt"] = 'Интервал (Min.)';
-$wb["db_type_txt"] = 'DB Тип';
-$wb["db_host_txt"] = 'DB Host';
-$wb["db_name_txt"] = 'DB Name';
-$wb["db_username_txt"] = 'DB Пользователь';
-$wb["db_password_txt"] = 'DB Пароль';
-$wb["db_tables_txt"] = 'Таблицы';
-$wb["empty_datalog_txt"] = 'Удалить диалог после синхронизаии.';
-$wb["sync_datalog_external_txt"] = 'Fill external datalog.';
-$wb["active_txt"] = 'активный';
-$wb["btn_save_txt"] = 'Сохранить';
-$wb["btn_cancel_txt"] = 'Закончить';
+$wb['jobname_txt'] = 'Имя';
+$wb['jobname_err'] = 'Поле Name пустое.';
+$wb['sync_interval_minutes_txt'] = 'Интервал (Min.)';
+$wb['db_type_txt'] = 'DB Тип';
+$wb['db_host_txt'] = 'DB Host';
+$wb['db_name_txt'] = 'DB Name';
+$wb['db_username_txt'] = 'DB Пользователь';
+$wb['db_password_txt'] = 'DB Пароль';
+$wb['db_tables_txt'] = 'Таблицы';
+$wb['empty_datalog_txt'] = 'Удалить диалог после синхронизаии.';
+$wb['sync_datalog_external_txt'] = 'Fill external datalog.';
+$wb['active_txt'] = 'активный';
+$wb['btn_save_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Закончить';
 ?>

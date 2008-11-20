@@ -1,3 +1,9 @@
+<?php
+	session_start();
+	include('../../lib/config.inc.php');
+	include_once(ISPC_ROOT_PATH.'/web/js/lib/lang/'.$_SESSION['s']['language'].'_javascript.lng');
+?>
+
 redirect = '';
 
 function loadContentRefresh(pagename) {
@@ -277,4 +283,125 @@ function keepalive() {
 	
   	var pageContentObject3 = YAHOO.util.Connect.asyncRequest('GET', 'keepalive.php', pageContentCallbackKeepalive);
   	//setTimeout( keepalive, 1000000 );
+}
+
+
+
+var pass_minimum_length = 5;
+var pass_messages = new Array();
+
+var pass_message = new Array();
+pass_message['text'] = "<?php echo $wb['password_strength_0_txt']?>";
+pass_message['color'] = "#d0d0d0";
+pass_messages[0] = pass_message;
+
+var pass_message = new Array();
+pass_message['text'] = "<?php echo $wb['password_strength_1_txt']?>";
+pass_message['color'] = "red";
+pass_messages[1] = pass_message;
+
+var pass_message = new Array();
+pass_message['text'] = "<?php echo $wb['password_strength_2_txt']?>";
+pass_message['color'] = "yellow";
+pass_messages[2] = pass_message;
+
+var pass_message = new Array();
+pass_message['text'] = "<?php echo $wb['password_strength_3_txt']?>";
+pass_message['color'] = "#00ff00";
+pass_messages[3] = pass_message;
+
+var pass_message = new Array();
+pass_message['text'] = "<?php echo $wb['password_strength_4_txt']?>";
+pass_message['color'] = "green";
+pass_messages[4] = pass_message;
+
+var pass_message = new Array();
+pass_message['text'] = "<?php echo $wb['password_strength_5_txt']?>";
+pass_message['color'] = "green";
+pass_messages[5] = pass_message;
+
+function pass_check(password) {
+	var length = password.length;
+	var points = 0;
+	if (length < pass_minimum_length) {
+		pass_result(0);
+		return;
+	}
+	
+	if (length < 5) {
+		pass_result(1);
+		return;
+	}
+	
+	if (pass_contains(password, "ABCDEFGHIJKLNMOPQRSTUVWXYZ")) {
+		points += 1;
+	}
+	
+	if (pass_contains(password, "0123456789")) {
+		points += 1;
+	}
+	
+	if (pass_contains(password, "`~!@#$%^&*()_+|\=-[]}{';:/?.>,<\" ")) {
+		points += 1;
+	}
+	
+	if (points == 0) {
+		if (length >= 5 && length <=6) {
+			pass_result(1);
+		} else if (length >= 7 && length <=8) {
+			pass_result(2);
+		} else {
+			pass_result(3);
+		}
+	} else if (points == 1) {
+		if (length >= 5 && length <=6) {
+			pass_result(2);
+		} else if (length >= 7 && length <=10) {
+			pass_result(3);
+		} else {
+			pass_result(4);
+		}
+	} else if (points == 2) {
+		if (length >= 5 && length <=8) {
+			pass_result(3);
+		} else if (length >= 9 && length <=10) {
+			pass_result(4);
+		} else {
+			pass_result(5);
+		}
+	} else if (points == 3) {
+		if (length >= 5 && length <=6) {
+			pass_result(3);
+		} else if (length >= 7 && length <=8) {
+			pass_result(4);
+		} else {
+			pass_result(5);
+		}
+	} else if (points >= 4) {
+		if (length >= 5 && length <=6) {
+			pass_result(4);
+		} else {
+			pass_result(5);
+		}
+	}
+}
+
+
+
+function pass_result(points, message) {
+	if (points == 0) {
+		width = 10;
+	} else {
+		width = points*20;
+	}
+	document.getElementById("passBar").innerHTML = '<div style="float:left; height: 10px; padding:0px; background-color: ' + pass_messages[points]['color'] + '; width: ' + width + 'px;" />';
+	document.getElementById("passText").innerHTML = pass_messages[points]['text'];
+}
+function pass_contains(pass, check) {
+	for (i = 0; i < pass.length; i++) {
+		if (check.indexOf(pass.charAt(i)) > -1) {
+			return true;
+		}
+	}
+	return false;
 }

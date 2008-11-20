@@ -1,27 +1,32 @@
 <?php
-$wb["custom_mailfilter_txt"] = 'Custom mail filter recipe';
-$wb["btn_save_txt"] = 'Сохранить';
-$wb["btn_cancel_txt"] = 'Закончить';
-$wb["email_txt"] = 'Email';
-$wb["cryptpwd_txt"] = 'Пароль';
-$wb["active_txt"] = 'Активный';
-$wb["email_error_isemail"] = 'Почтовый адрес неправилен.';
-$wb["email_error_unique"] = 'Duplicate Emailaddress.';
-$wb["autoresponder_text_txt"] = 'Text';
-$wb["autoresponder_txt"] = 'Автоответчик';
-$wb["no_domain_perm"] = 'Вы не имеете разрешений для этого домена.';
-$wb["error_no_pwd"] = 'Пароль пустой.';
-$wb["quota_error_isint"] = 'Размер должен быть цифрой.';
-$wb["quota_txt"] = 'квота in MB';
-$wb["server_id_txt"] = 'server_id';
-$wb["password_txt"] = 'пароль';
-$wb["maildir_txt"] = 'maildir';
-$wb["postfix_txt"] = 'Enable Receiving';
-$wb["access_txt"] = 'Включить доступ';
-$wb["policy_txt"] = 'Spamfilter';
-$wb["no_policy"] = '- не включено -';
-$wb["limit_mailbox_txt"] = 'TЧисло почтовых ящиков превышено.';
-$wb["limit_mailquota_txt"] = 'Место под почтовые ящики превышено. Максимально доступно MB';
-$wb["welcome_mail_subject"] = 'Добро пожаловать в ваш новый счет электронной почты.';
-$wb["welcome_mail_message"] = "Добро пожаловать в ваш новый счет электронной почты.\n\nВаш вебмастер.";
+$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
+$wb['btn_save_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Закончить';
+$wb['email_txt'] = 'Email';
+$wb['cryptpwd_txt'] = 'Пароль';
+$wb['active_txt'] = 'Активный';
+$wb['email_error_isemail'] = 'Почтовый адрес неправилен.';
+$wb['email_error_unique'] = 'Duplicate Emailaddress.';
+$wb['autoresponder_text_txt'] = 'Text';
+$wb['autoresponder_txt'] = 'Автоответчик';
+$wb['no_domain_perm'] = 'Вы не имеете разрешений для этого домена.';
+$wb['error_no_pwd'] = 'Пароль пустой.';
+$wb['quota_error_isint'] = 'Размер должен быть цифрой.';
+$wb['quota_txt'] = 'квота in MB';
+$wb['server_id_txt'] = 'server_id';
+$wb['password_txt'] = 'пароль';
+$wb['maildir_txt'] = 'maildir';
+$wb['postfix_txt'] = 'Enable Receiving';
+$wb['access_txt'] = 'Включить доступ';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- не включено -';
+$wb['limit_mailbox_txt'] = 'TЧисло почтовых ящиков превышено.';
+$wb['limit_mailquota_txt'] = 'Место под почтовые ящики превышено. Максимально доступно MB';
+$wb['welcome_mail_subject'] = 'Добро пожаловать в ваш новый счет электронной почты.';
+$wb['welcome_mail_message'] = 'Добро пожаловать в ваш новый счет электронной почты.
+
+Ваш вебмастер.';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['disableimap_txt'] = 'Disable IMAP';
+$wb['disablepop3_txt'] = 'Disable POP3';
 ?>

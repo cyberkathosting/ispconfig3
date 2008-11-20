@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007, Till Brehm, Falko Timme, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, Falko Timme, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,12 +27,20 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-error_reporting(E_ALL|E_NOTICE);
+//** Web-only
+if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 
-header('Pragma: no-cache');
-header('Cache-Control: no-store, no-cache, max-age=0, must-revalidate');
-header('Content-Type: text/html; charset=utf-8');
-//* TODO: Js caching - pedro
+	Header("Pragma: no-cache");
+	Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+	Header("Content-Type: text/html");
+
+	ini_set('register_globals',0);
+}
+
+$conf["app_title"] = "ISPConfig";
+$conf["app_version"] = "3.0.0";
+$conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
+$conf["interface_logout_url"] 	= "";
 
 //** Key paramaters
 define('ISPC_APP_TITLE', 'ISPConfig');
@@ -51,78 +59,76 @@ define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
 define('ISPC_WEB_TEMP_PATH',   ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
 define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
 
+//** Interface settings
 define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
 
-//********************************************************************************
-//** Future Code idea  - pedro - rfc
-//** >>>>
-/*  Database connection
-	The only time paramaters are needed is to connect, otherwise the variables
-	are not required "around" the application. ie Connected and done.
-	Prefered is an array as $DB in capitals, ie
-	$DB['engine'] = 'type'; 
-	$DB['host'] = 'ip';
-	$DB['user'] = 'me';
-	$DB['password'] = 'secret';
-	$DB['database'] = 'db_name';
-	
-	The connection paramaters are all contained within one array structure
-	With this array structure the connection can be passed around, to functions
-	However it can also leak so it can be destroyed eg
-	$dbClass->connect($DB);
-	unset($DB); // only the paranoid survive
-		
-	Also there is a scenario where we are devloping and using this file
-	and the database paramaters might leak into svn etc.
-    (This idea is borrowed from the tikiwiki.org project)
-	To resolve this there is a file called db_local.php.skel which is not detected
-	rename this to db_local.php and edit the paramaters.
+
+/*
+	Server variables
 */
 
-//* Detect the local database settings ie $DB array()
-//* Copy db_local.php.skel for and change for local development
-if(file_exists(dirname(__FILE__).'/db_local.php')){
-	require_once(dirname(__FILE__).'/db_local.php');
-	$conf['db_type']			= $DB['type'];
-	$conf['db_host']			= $DB['host'];
-	$conf['db_user']			= $DB['user'];
-	$conf['db_password']		= $DB['password'];	
-    $conf['db_database']        = $DB['database'];
-}else{
-	//** Database Settings
-	$conf['db_type']			= 'mysql';
-	$conf['db_host']			= 'localhost';
-	$conf['db_user']			= 'root';
-	$conf['db_password']		= '';
-    $conf['db_database']        = 'ispconfig3';
-}
+$conf["server_id"] 	= "{server_id}";
 
-//** Database Settings
-/* See above
-$conf['db_type']            = 'mysql';
-$conf['db_host']            = 'localhost';
-$conf['db_user']            = 'root';
-$conf['db_password']        = '';
-$conf['db_database']        = 'ispconfig3';
+
+/*
+        Database Settings
 */
 
+$conf["db_type"]			= 'mysql';
+$conf["db_host"]			= 'localhost';
+$conf["db_database"]		= 'dbispconfig';
+$conf["db_user"]			= 'ispconfig';
+$conf["db_password"]		= 'e8605b27a4360d135f62129627d8d9ad';
 
 
-//**  External programs
-//$conf["programs"]["convert"]	= "/usr/bin/convert";
-$conf['programs']['wput']		= ISPC_ROOT_PATH."\\tools\\wput\\wput.exe";
+/*
+   Path Settings (Do not change!)
+*/
+
+$conf["rootpath"]			= substr(dirname(__FILE__),0,-4);
+$conf["fs_div"]				= "/"; // File system divider, \\ on windows and / on linux and unix
+$conf["classpath"]			= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
+$conf["temppath"]			= $conf["rootpath"].$conf["fs_div"]."temp";
 
 
-//** Themes
-$conf['theme']					= 'default';
-$conf['html_content_encoding']	= 'text/html; charset=utf-8';
+define("DIR_TRENNER",$conf["fs_div"]);
+define("SERVER_ROOT",$conf["rootpath"]);
+define("INCLUDE_ROOT",SERVER_ROOT.DIR_TRENNER."lib");
+define("CLASSES_ROOT",INCLUDE_ROOT.DIR_TRENNER."classes");
 
-//** Default Language
-$conf['language']       = 'en';
+define("DB_TYPE",$conf["db_type"]);
+define("DB_HOST",$conf["db_host"]);
+define("DB_DATABASE",$conf["db_database"]);
+define("DB_USER",$conf["db_user"]);
+define("DB_PASSWORD",$conf["db_password"]);
 
-//**  Auto Load Modules
-$conf['start_db']		= true;
-$conf['start_session']	= true;
+/*
+		Logging
+*/
+
+$conf["log_file"]		= '/var/log/ispconfig/ispconfig.log';
+$conf["log_priority"]	= 2; // 0 = Debug, 1 = Warning, 2 = Error
+
+/*
+		Allow software package installations
+*/
+
+$conf['software_updates_enabled'] = false;
+
+
+/*
+        Themes
+*/
+
+$conf["theme"]					= 'default';
+$conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
+$conf["logo"] 					= 'themes/default/images/mydnsconfig_logo.gif';
+
+/*
+        Default Language
+*/
+
+$conf["language"]                = 'en';
 
 /*
         Misc.
@@ -131,18 +137,19 @@ $conf['start_session']	= true;
 $conf["interface_logout_url"] 	= ""; // example: http://www.domain.tld/
 
 
-//** DNS Settings
+/*
+        Auto Load Modules
+*/
 
-//* Automatically create PTR records?
-$conf['auto_create_ptr'] 	 = 1; 
-//* must be set if $conf['auto_create_ptr'] is 1. Don't forget the trailing dot!
-$conf['default_ns'] 		 = 'ns1.example.com.'; 
-//* Admin email address. Must be set if $conf['auto_create_ptr'] is 1. Replace "@" with ".". Don't forget the trailing dot!
-$conf['default_mbox'] 		 = 'admin.example.com.'; 
-$conf['default_ttl'] 		 = 86400;
-$conf['default_refresh'] 	 = 28800;
-$conf['default_retry'] 		 = 7200;
-$conf['default_expire'] 	 = 604800;
-$conf['default_minimum_ttl'] = 86400;
+$conf["start_db"]		= true;
+$conf["start_session"]	= true;
+
+/*
+	Constants
+*/
+
+define("LOGLEVEL_DEBUG",0);
+define("LOGLEVEL_WARN",1);
+define("LOGLEVEL_ERROR",2);
 
 ?>

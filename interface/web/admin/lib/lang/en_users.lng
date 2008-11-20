@@ -4,6 +4,7 @@ $wb["username_err"] = 'The username is too long or contains invalid characters.'
 $wb["username_empty"] = 'The username is empty.';
 $wb["username_unique"] = 'There is already a user with this username.';
 $wb["passwort_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
 $wb["modules_txt"] = 'Module';
 $wb["startmodule_txt"] = 'Startmodule';
 $wb["app_theme_txt"] = 'Design';

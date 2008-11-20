@@ -1,15 +1,15 @@
 <?php
-$wb["list_head_txt"] = 'Spamfilter белый список';
-$wb["active_txt"] = 'Активный';
-$wb["server_id_txt"] = 'Сервер';
-$wb["priority_txt"] = 'Приоритет';
-$wb["rid_txt"] = 'Пользователь';
-$wb["email_txt"] = 'Белый список адресов';
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
-$wb["add_new_record_txt"] = 'Добавить запись в белый список';
+$wb['list_head_txt'] = 'Spamfilter белый список';
+$wb['active_txt'] = 'Активный';
+$wb['server_id_txt'] = 'Сервер';
+$wb['priority_txt'] = 'Приоритет';
+$wb['rid_txt'] = 'Пользователь';
+$wb['email_txt'] = 'Белый список адресов';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['add_new_record_txt'] = 'Добавить запись в белый список';
 ?>

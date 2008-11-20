@@ -1,11 +1,11 @@
 <?php
-$wb["list_head_txt"] = 'Конфигурация сервера';
-$wb["server_name_txt"] = 'Сервер';
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
-$wb["server_id_txt"] = 'server_id';
+$wb['list_head_txt'] = 'Конфигурация сервера';
+$wb['server_name_txt'] = 'Сервер';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['server_id_txt'] = 'server_id';
 ?>

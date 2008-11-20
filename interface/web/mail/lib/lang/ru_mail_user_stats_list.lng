@@ -1,14 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Mail трафик';
-$wb["email_txt"] = 'Email';
-$wb["this_month_txt"] = 'Этот месяц';
-$wb["last_month_txt"] = 'Последний месяц';
-$wb["this_year_txt"] = 'Этот год';
-$wb["last_year_txt"] = 'Последний год';
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
+$wb['list_head_txt'] = 'Mail трафик';
+$wb['email_txt'] = 'Email';
+$wb['this_month_txt'] = 'Этот месяц';
+$wb['last_month_txt'] = 'Последний месяц';
+$wb['this_year_txt'] = 'Этот год';
+$wb['last_year_txt'] = 'Последний год';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
 ?>

@@ -13,6 +13,7 @@ $wb["server_id_txt"] = 'Server';
 $wb["parent_domain_id_txt"] = 'Website';
 $wb["username_txt"] = 'Username';
 $wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
 $wb["quota_size_txt"] = 'Harddisk-Quota';
 $wb["active_txt"] = 'Active';
 $wb["limit_ftp_user_txt"] = 'The max. number of FTP users for your account is reached.';

@@ -1,16 +1,16 @@
 <?php
-$wb["list_head_txt"] = 'Белый список email';
-$wb["active_txt"] = 'Активный';
-$wb["server_id_txt"] = 'Сервер';
-$wb["source_txt"] = 'Адреса белого списка';
-$wb["type_txt"] = 'Тип';
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
-$wb["recipient_txt"] = 'Получатель';
-$wb["add_new_record_txt"] = 'Добавить новую запись в белый список';
-$wb["access_txt"] = 'access';
+$wb['list_head_txt'] = 'Белый список email';
+$wb['active_txt'] = 'Активный';
+$wb['server_id_txt'] = 'Сервер';
+$wb['source_txt'] = 'Адреса белого списка';
+$wb['type_txt'] = 'Тип';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['recipient_txt'] = 'Получатель';
+$wb['add_new_record_txt'] = 'Добавить новую запись в белый список';
+$wb['access_txt'] = 'access';
 ?>

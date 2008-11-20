@@ -1,12 +1,12 @@
 <?php
-$wb["list_head_txt"] = 'Systemuser groups';
-$wb["description_txt"] = 'Описание';
-$wb["name_txt"] = 'Группа';
-
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
+$wb['list_head_txt'] = 'Systemuser groups';
+$wb['description_txt'] = 'Описание';
+$wb['name_txt'] = 'Группа';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['add_new_record_txt'] = 'Add new Group';
 ?>
