@@ -37,119 +37,86 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 	ini_set('register_globals',0);
 }
 
-$conf["app_title"] = "ISPConfig";
-$conf["app_version"] = "3.0.0";
-$conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
-$conf["interface_logout_url"] 	= "";
 
 //** Key paramaters
-define('ISPC_APP_TITLE', 'ISPConfig');
-$conf['app_title'] = 'ISPConfig';
-define('ISPC_APP_VERSION', '3.0.0');
-$conf['app_version'] = '3.0.0';
-$conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
+$conf['app_title']			= 'ISPConfig';
+$conf['app_version']		= '3.0.0';
+$conf['modules_available']	= 'admin,mail,sites,monitor,client,dns';
 
-//** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
-define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
-define('ISPC_LIB_PATH',    ISPC_ROOT_PATH.'/lib');
-define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
-define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
-define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
-
-define('ISPC_WEB_TEMP_PATH',   ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
-define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
-
-//** Interface settings
+define('ISPC_APP_TITLE',	'ISPConfig');
+define('ISPC_APP_VERSION',	'3.0.0');
 define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
 
 
-/*
-	Server variables
-*/
+//** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
+define('ISPC_ROOT_PATH',	realpath(dirname(__FILE__).'/../'));
+define('ISPC_LIB_PATH',		ISPC_ROOT_PATH.'/lib');
+define('ISPC_CLASS_PATH',	ISPC_ROOT_PATH.'/lib/classes');
+define('ISPC_WEB_PATH',		ISPC_ROOT_PATH.'/web');
+define('ISPC_THEMES_PATH',	ISPC_ROOT_PATH.'/web/themes');
+define('ISPC_WEB_TEMP_PATH', ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
+define('ISPC_CACHE_PATH',	ISPC_ROOT_PATH.'/cache');
 
-$conf["server_id"] 	= "{server_id}";
+
+//**Server variables
+$conf["server_id"] = "{server_id}";
 
 
-/*
-        Database Settings
-*/
-
+//** Database Settings
 $conf["db_type"]			= 'mysql';
 $conf["db_host"]			= 'localhost';
 $conf["db_database"]		= 'dbispconfig';
 $conf["db_user"]			= 'ispconfig';
 $conf["db_password"]		= 'e8605b27a4360d135f62129627d8d9ad';
 
+define("DB_TYPE",		$conf["db_type"]);
+define("DB_HOST",		$conf["db_host"]);
+define("DB_DATABASE",	$conf["db_database"]);
+define("DB_USER",		$conf["db_user"]);
+define("DB_PASSWORD",	$conf["db_password"]);
 
-/*
-   Path Settings (Do not change!)
-*/
 
+//** Path Settings (Do not change!)
 $conf["rootpath"]			= substr(dirname(__FILE__),0,-4);
 $conf["fs_div"]				= "/"; // File system divider, \\ on windows and / on linux and unix
 $conf["classpath"]			= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
 $conf["temppath"]			= $conf["rootpath"].$conf["fs_div"]."temp";
 
+define("DIR_TRENNER",		$conf["fs_div"]);
+define("SERVER_ROOT",		$conf["rootpath"]);
+define("INCLUDE_ROOT",		SERVER_ROOT.DIR_TRENNER."lib");
+define("CLASSES_ROOT",		INCLUDE_ROOT.DIR_TRENNER."classes");
 
-define("DIR_TRENNER",$conf["fs_div"]);
-define("SERVER_ROOT",$conf["rootpath"]);
-define("INCLUDE_ROOT",SERVER_ROOT.DIR_TRENNER."lib");
-define("CLASSES_ROOT",INCLUDE_ROOT.DIR_TRENNER."classes");
 
-define("DB_TYPE",$conf["db_type"]);
-define("DB_HOST",$conf["db_host"]);
-define("DB_DATABASE",$conf["db_database"]);
-define("DB_USER",$conf["db_user"]);
-define("DB_PASSWORD",$conf["db_password"]);
-
-/*
-		Logging
-*/
-
+//** Logging
 $conf["log_file"]		= '/var/log/ispconfig/ispconfig.log';
 $conf["log_priority"]	= 2; // 0 = Debug, 1 = Warning, 2 = Error
 
-/*
-		Allow software package installations
-*/
 
+//** Allow software package installations
 $conf['software_updates_enabled'] = false;
 
 
-/*
-        Themes
-*/
-
+//** Themes
 $conf["theme"]					= 'default';
 $conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
 $conf["logo"] 					= 'themes/default/images/mydnsconfig_logo.gif';
 
-/*
-        Default Language
-*/
 
-$conf["language"]                = 'en';
-
-/*
-        Misc.
-*/
-
-$conf["interface_logout_url"] 	= ""; // example: http://www.domain.tld/
+//** Default Language
+$conf["language"]				= 'en';
 
 
-/*
-        Auto Load Modules
-*/
+//** Misc.
+$conf["interface_logout_url"]	= ""; // example: http://www.domain.tld/
 
+
+//** Auto Load Modules
 $conf["start_db"]		= true;
 $conf["start_session"]	= true;
 
-/*
-	Constants
-*/
-
-define("LOGLEVEL_DEBUG",0);
-define("LOGLEVEL_WARN",1);
-define("LOGLEVEL_ERROR",2);
-
+//** Constants
+define("LOGLEVEL_DEBUG", 0);
+define("LOGLEVEL_WARN",  1);
+define("LOGLEVEL_ERROR", 2);
 ?>
