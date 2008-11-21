@@ -47,7 +47,7 @@ define('ISPC_APP_TITLE', 'ISPConfig');
 $conf['app_title'] = 'ISPConfig';
 define('ISPC_APP_VERSION', '3.0.0');
 $conf['app_version'] = '3.0.0';
-$conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns';
+$conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns,help';
 
 //** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
 define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
