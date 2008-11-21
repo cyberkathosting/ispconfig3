@@ -77,5 +77,5 @@ $wb['limit_dns_zone_error_notint'] = 'Il limite dei record dns deve essere un nu
 $wb['default_dbserver_txt'] = 'Server Database predefinito';
 $wb['limit_database_error_notint'] = 'Il limite dei database deve essere un numero.';
 $wb['username_error_regex'] = 'Il nome utente contiene caratteri non validi.';
-$wb['password_strength_txt'] = 'Password strength';
+$wb['password_strength_txt'] = 'Sicurezza della Password';
 ?>
