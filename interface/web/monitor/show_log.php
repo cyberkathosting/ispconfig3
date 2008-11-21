@@ -88,7 +88,7 @@ switch($logParam) {
  Attention: the core-moule ist triggered every 5 minutes, 
             so reload every 2 minutes is impossible!
 */
-$refresh_values = array('0' => '- '.$app->lng("No Refresh").' -','5' => '5 '.$app->lng("minutes"),'10' => '10 '.$app->lng("minutes"),'15' => '15 '.$app->lng("minutes"),'30' => '30 '.$app->lng("minutes"),'60 ' => '60'.$app->lng("minutes"));
+$refresh_values = array('0' => '- '.$app->lng("No Refresh").' -','5' => '5 '.$app->lng("minutes"),'10' => '10 '.$app->lng("minutes"),'15' => '15 '.$app->lng("minutes"),'30' => '30 '.$app->lng("minutes"),'60' => '60 '.$app->lng("minutes"));
 $tmp = '';
 foreach($refresh_values as $key => $val) {
 	if($key == $refresh) {
