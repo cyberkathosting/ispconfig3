@@ -681,6 +681,7 @@ class installer_dist extends installer_base {
 		
 		//* Create the ispconfig log directory
 		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
+		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
 		
 		
 	}
