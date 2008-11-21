@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Добавяне на език';
+$wb['language_select_txt'] = 'Изберете изходен език';
+$wb['language_new_txt'] = 'Нов език';
+$wb['btn_save_txt'] = 'Създаване на файловете за новия език';
+$wb['btn_cancel_txt'] = 'Отказ';
+?>

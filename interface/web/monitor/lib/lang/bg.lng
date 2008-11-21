@@ -1,0 +1,35 @@
+<?php
+$wb['Server online since'] = 'Сървърът работи от';
+$wb['Users online'] = 'Потребители online';
+$wb['System load 1 minute'] = 'Натоварване ан системата за 1 минута';
+$wb['System load 5 minutes'] = 'Натоварване ан системата за 5 минути';
+$wb['System load 15 minutes'] = 'Натоварване ан системата за 15 минути';
+$wb['Server Load'] = 'Натоварване на сървъра';
+$wb['Disk usage'] = 'Твърд диск';
+$wb['Memory usage'] = 'Памет';
+$wb['CPU'] = 'Процесор';
+$wb['Services'] = 'Услуги';
+$wb['System'] = 'Система';
+$wb['Mail log'] = 'Mail log';
+$wb['Mail warn'] = 'Mail warn';
+$wb['Mail err'] = 'Mail err';
+$wb['Messages'] = 'Съобщения';
+$wb['Freshclam'] = 'Freshclam';
+$wb['Clamav'] = 'Clamav';
+$wb['ISPConfig'] = 'ISPConfig';
+$wb['no_data_serverload_txt'] = 'Няма налична информация за натоварването на сървъра. Моля проверете по-късно.';
+$wb['no_data_memusage_txt'] = 'Няма налична информация за паметта. Моля проверете по-късно.';
+$wb['no_data_diskusage_txt'] = 'Няма налична информация за твърдия диск. Моля проверете по-късно.';
+$wb['no_data_cpuinfo_txt'] = 'Няма налична информация за процесора. Моля проверете по-късно.';
+$wb['no_data_services_txt'] = 'Няма налична информация за услугите. Моля проверете по-късно.';
+$wb['no_logdata_txt'] = 'Няма налични логове. Моля проверете по-късно.';
+$wb['Monitoring'] = 'Наблюдение';
+$wb['Server to Monitor'] = 'Наблюдаван сървър';
+$wb['System-Information'] = 'Инфорнация за системата';
+$wb['Logfiles'] = 'Логове';
+$wb['CPU info'] = 'Процесор';
+$wb['Status of services'] = 'Състояние на услугите';
+$wb['System Monitor'] = 'Наблюдение на системата';
+$wb['No Refresh'] = 'Без опресняване';
+$wb['minutes'] = 'минути';
+?>

@@ -1,0 +1,10 @@
+<?php
+$wb['passwort_txt'] = 'Парола';
+$wb['password_strength_txt'] = 'Сила на паролата';
+$wb['language_txt'] = 'Език';
+$wb['btn_save_txt'] = 'Запис';
+$wb['btn_cancel_txt'] = 'Отказ';
+$wb['password_mismatch'] = 'Паролите в двете полета не съвпадат.';
+$wb['Form to edit the user password and language.'] = 'Форма за промяна на езика и паролата';
+$wb['Settings'] = 'Настройки';
+?>
