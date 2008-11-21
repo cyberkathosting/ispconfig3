@@ -84,7 +84,8 @@ class page_action extends tform_actions {
 		if($_POST['passwort'] != $_POST['passwort2']) {
 			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}
-		
+		$_SESSION['s']['user']['language'] = $_POST['language'];
+		$_SESSION['s']['language'] = $_POST['language'];
 	}
 	
 	
