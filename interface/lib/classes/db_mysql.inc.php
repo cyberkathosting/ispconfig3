@@ -292,7 +292,7 @@ class db
 		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
 		
-		return true;
+		return $index_value;
 	}
 	
 	//** Updates a record and saves the changes into the datalog

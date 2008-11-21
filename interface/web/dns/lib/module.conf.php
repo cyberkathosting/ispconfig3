@@ -24,4 +24,33 @@ $items[] = array( 'title' 	=> "A-Records",
 $module["nav"][] = array(	'title'	=> 'DNS',
 							'open' 	=> 1,
 							'items'	=> $items);
+
+unset($items);
+
+
+$items[] = array( 'title' 	=> "Add DNS Zone",
+				  'target' 	=> 'content',
+				  'link'	=> 'dns/dns_wizard.php');
+
+
+$items[] = array( 'title' 	=> "Templates",
+				  'target' 	=> 'content',
+				  'link'	=> 'dns/dns_template_list.php');
+
+
+
+$module["nav"][] = array(	'title'	=> 'DNS Wizard',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+
+
+
+
+
+
+
+
+
+
 ?>
