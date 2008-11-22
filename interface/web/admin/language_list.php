@@ -81,6 +81,7 @@ while ($file = @readdir ($handle)) {
 					$bgcolor = ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 					$language_files_list[] = array(	'module' => $file,
 													'lang_file' => $lang_file,
+													'lang_file_date' => date("Y-m-d H:i:s", filectime(ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file)),
 													'bgcolor'  => $bgcolor,
 													'lang' => $selected_language);
 				}
