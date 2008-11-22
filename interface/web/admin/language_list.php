@@ -59,6 +59,7 @@ while ($file = readdir ($handle)) {
 			if($file == $selected_language.'.lng') {
 			$language_files_list[] = array(	'module' => 'global',
 											'lang_file' => $file,
+											'lang_file_date' => date("Y-m-d H:i:s", filectime(ISPC_ROOT_PATH.'/lib/lang/'.$file)),
 											'bgcolor'  => $bgcolor,
 											'lang' => $selected_language);
 			}
