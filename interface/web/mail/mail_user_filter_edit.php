@@ -73,7 +73,7 @@ class page_action extends tform_actions {
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$rule_content'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
 		
 		// set permissions
-		$app->db->query("UPDATE mail_user_filter SET sys_groupid = ".$mailuser['sys_groupid']." WHERE filter_id = "$this->id);
+		$app->db->query("UPDATE mail_user_filter SET sys_groupid = ".$mailuser['sys_groupid']." WHERE filter_id = ".$this->id);
 	
 	}
 	
