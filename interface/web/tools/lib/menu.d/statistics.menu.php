@@ -1,5 +1,9 @@
 <?php
 
+/*
+
+// Example
+
 $items = array();
 
 $items[] = array( 'title' 	=> 'Other page',
@@ -16,6 +20,6 @@ $module['nav'][] = array(	'title'	=> 'System Info',
 							'items'	=> $items);
 
 
-
+*/
 
 ?>
