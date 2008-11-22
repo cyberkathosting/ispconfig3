@@ -1,9 +1,9 @@
 <?php
 $wb['Server online since'] = 'Сървърът работи от';
 $wb['Users online'] = 'Потребители online';
-$wb['System load 1 minute'] = 'Натоварване ан системата за 1 минута';
-$wb['System load 5 minutes'] = 'Натоварване ан системата за 5 минути';
-$wb['System load 15 minutes'] = 'Натоварване ан системата за 15 минути';
+$wb['System load 1 minute'] = 'Натоварване на системата за 1 минута';
+$wb['System load 5 minutes'] = 'Натоварване на системата за 5 минути';
+$wb['System load 15 minutes'] = 'Натоварване на системата за 15 минути';
 $wb['Server Load'] = 'Натоварване на сървъра';
 $wb['Disk usage'] = 'Твърд диск';
 $wb['Memory usage'] = 'Памет';

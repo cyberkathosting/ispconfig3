@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
-$wb["language_select_txt"] = 'Select language';
-$wb['btn_save_txt'] = 'Merge files now';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Сливане на файловете на избрания език с тези на английски.<br />Към избрания език ще бъдат добавени файлове и отделни записи, които липсват в него, но съществуват в английския.';
+$wb['language_select_txt'] = 'Изберете език';
+$wb['btn_save_txt'] = 'Сливане';
+$wb['btn_cancel_txt'] = 'Отказ';
 ?>

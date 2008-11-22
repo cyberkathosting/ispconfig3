@@ -1,16 +1,13 @@
 <?php
-
 $wb['template_id_txt'] = 'Template';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Client';
-$wb["btn_save_txt"] = 'Create DNS Record';
-$wb["btn_cancel_txt"] = 'Cancel';
+$wb['btn_save_txt'] = 'Create DNS Record';
+$wb['btn_cancel_txt'] = 'Cancel';
 $wb['domain_txt'] = 'Domain';
 $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP Address';
-
 $wb['error_origin_empty'] = 'Origin empty.';
-
 ?>

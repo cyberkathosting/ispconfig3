@@ -1,8 +1,7 @@
 <?php
-$wb['Support Message'] = 'Support Message';
-$wb['Message'] = 'Message';
-$wb['Send message'] = 'Send message';
-$wb['View messages'] = 'View messages';
-$wb['Support'] = 'Support';
-
+$wb['Support Message'] = 'Съобщение до поддръжката';
+$wb['Message'] = 'Съобщение';
+$wb['Send message'] = 'Изпращане на съобщение';
+$wb['View messages'] = 'Преглед на съобщенията';
+$wb['Support'] = 'Поддръжка';
 ?>

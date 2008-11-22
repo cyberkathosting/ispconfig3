@@ -1,19 +1,18 @@
 <?php
-$wb["header_txt"] = 'Formeditor';
-$wb["title_txt"] = 'Formtitle';
-$wb["name_txt"] = 'Formname';
-$wb["delete_txt"] = 'Delete';
-$wb["properties_txt"] = 'Properties';
-$wb["new_tab_txt"] = 'Tab new';
-$wb["edit_txt"] = 'Edit';
-$wb["delete_txt"] = 'X';
-$wb["new_txt"] = 'Neu';
-$wb["up_txt"] = '^';
-$wb["down_txt"] = 'v';
-$wb["module_txt"] = 'Module';
-$wb["form_txt"] = 'Form';
-$wb["description_txt"] = 'Description';
-$wb["module_del_txt"] = "Delete the module and all subdirectories?";
-$wb["menu_del_txt"] = "Delete menu with all menuitems?";
-$wb["item_del_txt"] = "Delete menuitem?";
+$wb['header_txt'] = 'Formeditor';
+$wb['title_txt'] = 'Formtitle';
+$wb['name_txt'] = 'Formname';
+$wb['delete_txt'] = 'X';
+$wb['properties_txt'] = 'Properties';
+$wb['new_tab_txt'] = 'Tab new';
+$wb['edit_txt'] = 'Edit';
+$wb['new_txt'] = 'Neu';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Module';
+$wb['form_txt'] = 'Form';
+$wb['description_txt'] = 'Description';
+$wb['module_del_txt'] = 'Delete the module and all subdirectories?';
+$wb['menu_del_txt'] = 'Delete menu with all menuitems?';
+$wb['item_del_txt'] = 'Delete menuitem?';
 ?>

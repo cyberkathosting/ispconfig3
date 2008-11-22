@@ -15,5 +15,4 @@ $wb['FTP-User'] = 'FTP-User';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell-User';
 $wb['Shell'] = 'Shell';
-
 ?>

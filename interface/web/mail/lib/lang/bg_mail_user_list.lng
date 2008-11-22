@@ -1,12 +1,12 @@
 <?php
-$wb["list_head_txt"] = 'Mailbox';
-$wb["email_txt"] = 'Email';
-$wb["autoresponder_txt"] = 'Autoresponder';
-$wb["page_txt"] = 'Page';
-$wb["page_of_txt"] = 'of';
-$wb["page_next_txt"] = 'Next';
-$wb["page_back_txt"] = 'Back';
-$wb["delete_txt"] = 'Delete';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Add new Mailbox';
+$wb['list_head_txt'] = 'Mailbox';
+$wb['email_txt'] = 'Email';
+$wb['autoresponder_txt'] = 'Autoresponder';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Back';
+$wb['delete_txt'] = 'Delete';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Add new Mailbox';
 ?>
