@@ -11,6 +11,6 @@ $wb['db_tables_txt'] = 'Tabellen';
 $wb['empty_datalog_txt'] = 'Datalog nach Synchronistaion löschen.';
 $wb['sync_datalog_external_txt'] = 'Externes Datalog füllen.';
 $wb['active_txt'] = 'active';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Cancel';
+$wb['btn_save_txt'] = 'Speichern';
+$wb['btn_cancel_txt'] = 'Abbrechen';
 ?>
