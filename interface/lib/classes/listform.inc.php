@@ -166,7 +166,7 @@ class listform {
                     $this->searchValues[$search_prefix.$field] = $out;
             } else {
                 if(isset($_SESSION['search'][$list_name][$search_prefix.$field])){
-                    $this->searchValues[$search_prefix.$field] = $_SESSION['search'][$list_name][$search_prefix.$field];
+                    $this->searchValues[$search_prefix.$field] = htmlspecialchars($_SESSION['search'][$list_name][$search_prefix.$field]);
                 }
             }
         }
@@ -283,7 +283,7 @@ class listform {
                 	switch ($field['datatype']){
                     case 'VARCHAR':
                     case 'TEXT':
-                        $record[$key] = stripslashes($record[$key]);
+                        $record[$key] = htmlentities(stripslashes($record[$key]));
                          break;
 
                     case 'DATE':
@@ -295,7 +295,7 @@ class listform {
                         break;
 
                     case 'DOUBLE':
-                        $record[$key] = $record[$key];
+                        $record[$key] = htmlentities($record[$key]);
                         break;
 
                     case 'CURRENCY':
@@ -303,7 +303,7 @@ class listform {
                         break;
 
                     default:
-                        $record[$key] = stripslashes($record[$key]);
+                        $record[$key] = htmlentities(stripslashes($record[$key]));
                 	}
 				}
             }
@@ -359,6 +359,19 @@ class listform {
 		} else {
 			return $app->lng($msg);
 		}	
+	}
+	
+	function escapeArrayValues($search_values) {
+		
+		$out = array();
+		if(is_array($search_values)) {
+			foreach($search_values as $key => $val) {
+				$out[$key] = htmlentities($val,ENT_QUOTES);
+			}
+		}
+		
+		return $out;
+		
 	}
 
 }
