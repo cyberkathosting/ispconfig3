@@ -40,11 +40,11 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 
 //** Key paramaters
 $conf['app_title']			= 'ISPConfig';
-$conf['app_version']		= '3.0.7';
+$conf['app_version']		= '3.0.0.8';
 $conf['modules_available']	= 'admin,mail,sites,monitor,client,dns';
 
 define('ISPC_APP_TITLE',	'ISPConfig');
-define('ISPC_APP_VERSION',	'3.0.7');
+define('ISPC_APP_VERSION',	'3.0.0.8');
 define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
 
 
