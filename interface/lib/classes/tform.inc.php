@@ -31,33 +31,30 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
 * Formularbehandlung
 *
-* Funktionen zur Umwandlung von Formulardaten
-* sowie zum vorbereiten von HTML und SQL
-* Ausgaben
+* Functions to validate, display and save form values
 *
-*        Tabellendefinition
+*        Database table field definitions
 *
-*        Datentypen:
-*        - INTEGER (Wandelt Ausdr�cke in Int um)
+*        Datatypes:
+*        - INTEGER (Converts data to int automatically)
 *        - DOUBLE
-*        - CURRENCY (Formatiert Zahlen nach W�hrungsnotation)
-*        - VARCHAR (kein weiterer Format Check)
-*        - DATE (Datumsformat, Timestamp Umwandlung)
+*        - CURRENCY (Formats digits in currency notation)
+*        - VARCHAR (No format check)
+*        - DATE (Date format, converts from and to linux timestamps automatically)
 *
 *        Formtype:
-*        - TEXT (normales Textfeld)
-*        - PASSWORD (Feldinhalt wird nicht angezeigt)
-*        - SELECT (Gibt Werte als option Feld aus)
-*        - MULTIPLE (Select-Feld mit nehreren Werten)
+*        - TEXT (Normal text field)
+*        - PASSWORD (password field, the content will not be displayed again to the user)
+*        - SELECT (Option fiield)
+*        - MULTIPLE (Allows selection of multiple values)
 *
 *        VALUE:
-*        - Wert oder Array
+*        - Value or array
 *
 *        SEPARATOR
-*        - Trennzeichen f�r multiple Felder
+*        - separator char used for fileds with multiple values
 *
-*        Hinweis:
-*        Das ID-Feld ist nicht bei den Table Values einzuf�gen.
+*        Hint: The auto increment (ID) filed of the table has not be be definied eoarately.
 *
 * @package form
 * @author Till Brehm
@@ -67,7 +64,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class tform {
 
         /**
-        * Definition der Tabelle (array)
+        * Table definition (array)
         * @var tableDef
         */
         var $tableDef;
@@ -79,26 +76,25 @@ class tform {
         var $action;
 
         /**
-        * Tabellenname (String)
+        * Table name (String)
         * @var table_name
         */
         var $table_name;
 
         /**
-        * Debug Variable
+        * Enable debigging
         * @var debug
         */
         var $debug = 0;
 
         /**
-        * name des primary Field der Tabelle (string)
+        * name of the primary field of the datbase table (string)
         * @var table_index
         */
         var $table_index;
 
         /**
-        * enth�lt die Fehlermeldung bei �berpr�fung
-        * der Variablen mit Regex
+        * contains the error message
         * @var errorMessage
         */
         var $errorMessage = '';
@@ -111,9 +107,9 @@ class tform {
 		var $diffrec = array();
 
         /**
-        * Laden der Tabellendefinition
+        * Loading of the table definition
         *
-        * @param file: Pfad zur Tabellendefinition
+        * @param file: path to the form definition file
         * @return true
         */
         /*
@@ -153,15 +149,14 @@ class tform {
 
 
         /**
-        * Konvertiert die Daten des �bergebenen assoziativen
-        * Arrays in "menschenlesbare" Form.
-        * Datentyp Konvertierung, z.B. f�r Ausgabe in Listen.
+        * Converts the data in the array to human readable format
+        * Datatype conversion e.g. to show the data in lists
         *
         * @param record
         * @return record
         */
         function decode($record,$tab) {
-                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
+                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
                 $new_record = '';
 				if(is_array($record)) {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
@@ -262,7 +257,7 @@ class tform {
 
 
         /**
-        * Record f�r Ausgabe in Formularen vorbereiten.
+        * Prepare the data record to show the data in a form.
         *
         * @param record = Datensatz als Array
         * @param action = NEW oder EDIT
@@ -274,8 +269,8 @@ class tform {
 
                 $this->action = $action;
 
-                if(!is_array($this->formDef)) $app->error("Keine Formdefinition vorhanden.");
-                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
+                if(!is_array($this->formDef)) $app->error("No form definition found.");
+                if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
 
                 $new_record = array();
                 if($action == 'EDIT') {
@@ -303,10 +298,10 @@ class tform {
                                         case 'MULTIPLE':
                                                 if(is_array($field['value'])) {
 
-                                                        // aufsplitten ergebnisse
+                                                        // Split
                                                         $vals = explode($field['separator'],$val);
 
-                                                        // HTML schreiben
+                                                        // write HTML
                                                         $out = '';
                                                         foreach($field['value'] as $k => $v) {
 
@@ -473,8 +468,8 @@ class tform {
         }
 
         /**
-        * Record in "maschinen lesbares" Format �berf�hren
-        * und Werte gegen regul�re Ausdr�cke pr�fen.
+        * Rewrite the record data to be stored in the database
+        * and check values with regular expressions.
         *
         * @param record = Datensatz als Array
         * @return record
@@ -482,7 +477,7 @@ class tform {
         function encode($record,$tab) {
 			global $app;
 			
-                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
+                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: $tab).");
                 //$this->errorMessage = '';
 
                 if(is_array($record)) {
@@ -659,7 +654,7 @@ class tform {
         }
 
         /**
-        * SQL Statement f�r Record erzeugen.
+        * Create the SQL staement.
         *
         * @param record = Datensatz als Array
         * @param action = INSERT oder UPDATE
@@ -774,7 +769,7 @@ class tform {
         }
 
 
-                // F�ge Backticks nur bei unvollst�ndigen Tabellennamen ein
+                // Add backticks for incomplete table names
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
                 } else {
@@ -784,7 +779,7 @@ class tform {
 
                 if($action == "INSERT") {
                         if($this->formDef['auth'] == 'yes') {
-                                // Setze User und Gruppe
+                                // Set user and group
                                 $sql_insert_key .= "`sys_userid`, ";
                                 $sql_insert_val .= ($this->formDef["auth_preset"]["userid"] > 0)?"'".$this->formDef["auth_preset"]["userid"]."', ":"'".$_SESSION["s"]["user"]["userid"]."', ";
                                 $sql_insert_key .= "`sys_groupid`, ";
@@ -843,17 +838,16 @@ class tform {
 
                 $active_tab = $this->getNextTab();
 
-        // definiere Tabs
+        // go trough the tabs
         foreach( $this->formDef["tabs"] as $key => $tab) {
 
             $tab['name'] = $key;
             if($tab['name'] == $active_tab) {
 
-                // Wenn Modul gesetzt, dann setzte template pfad relativ zu modul.
+                // If module is set, then set the template path relative to the module..
                 if($this->module != '') $tab["template"] = "../".$this->module."/".$tab["template"];
 
-                // �berpr�fe, ob das Template existiert, wenn nicht
-                // dann generiere das Template
+                // Generate the template if it does not exist yet.
 				
 				// Translate the title of the tab
 				$tab['title'] = $this->lng($tab['title']);
@@ -870,7 +864,7 @@ class tform {
                     $tab["active"] = 0;
             }
 
-                        // Die Datenfelder werden f�r die Tabs nicht ben�tigt
+                        // Unset unused variables.
                         unset($tab["fields"]);
                         unset($tab["plugins"]);
 
@@ -905,7 +899,7 @@ class tform {
         function datalogSave($action,$primary_id, $record_old, $record_new) {
                 global $app,$conf;
 
-                // F�ge Backticks nur bei unvollst�ndigen Tabellennamen ein
+                // Add backticks for incomplete table names.
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
                 } else {
@@ -999,14 +993,14 @@ class tform {
         }
 
         /*
-        Diese funktion �berpr�ft, ob ein User die Berechtigung $perm f�r den Datensatz mit der ID $record_id
-        hat. It record_id = 0, dann wird gegen die user Defaults des Formulares getestet.
+        This function checks if a user has the parmissions $perm for the data record with the ID $record_id
+        If record_id = 0, the the permissions are tested against the defaults of the form file.
         */
         function checkPerm($record_id,$perm) {
                 global $app;
 
                 if($record_id > 0) {
-                        // F�ge Backticks nur bei unvollst�ndigen Tabellennamen ein
+                        // Add backticks for incomplete table names.
                         if(stristr($this->formDef['db_table'],'.')) {
                                 $escape = '';
                         } else {
@@ -1035,18 +1029,18 @@ class tform {
         }
 
         function getNextTab() {
-                // Welcher Tab wird angezeigt
+                // Which tab is shown
                 if($this->errorMessage == '') {
-                    // wenn kein Fehler vorliegt
+                    // If there is no error
                     if(isset($_REQUEST["next_tab"]) && $_REQUEST["next_tab"] != '') {
-                                // wenn n�chster Tab bekannt
+                                // If the next tab is known
                                 $active_tab = $_REQUEST["next_tab"];
                     } else {
-                        // ansonsten ersten tab nehmen
+                        // else use the default tab
                         $active_tab = $this->formDef['tab_default'];
                     }
                 } else {
-                    // bei Fehlern den gleichen Tab nochmal anzeigen
+                    // Show the same tab again in case of an error
                     $active_tab = $_SESSION["s"]["form"]["tab"];
                 }
 
