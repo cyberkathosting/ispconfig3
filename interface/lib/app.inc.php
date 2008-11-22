@@ -181,6 +181,7 @@ class app {
 		if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$this->tpl->setVar('is_reseller', 1);
 		}
+		$this->tpl->setVar('ISPC_APP_VERSION', ISPC_APP_VERSION);
     }
     
 } // end class
