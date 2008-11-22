@@ -46,7 +46,7 @@ $bgcolor = '#FFFFFF';
 
 //* reading languages
 $language_option = '';
-$selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'],0,2):'en';
+$selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'],0,2):$_SESSION['s']['language'];
 $handle = opendir(ISPC_ROOT_PATH.'/lib/lang/'); 
 while ($file = readdir ($handle)) { 
     if ($file != '.' && $file != '..') {
