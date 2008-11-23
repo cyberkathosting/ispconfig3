@@ -74,9 +74,12 @@ $app->tpl->setVar(array('module' => $module,'lang_file' => $lang_file, 'lang' =>
 
 if($module == 'global') {
 	include(ISPC_LIB_PATH."/lang/$lang_file");
+	$file_path = ISPC_LIB_PATH."/lang/$lang_file";
 } else {
 	include(ISPC_WEB_PATH."/$module/lib/lang/$lang_file");
+	$file_path = ISPC_LIB_PATH."/$module/lib/lang/$lang_file";
 }
+$app->tpl->setVar("file_path", $file_path);
 
 $keyword_list = array();
 if(isset($wb) && is_array($wb)) {
