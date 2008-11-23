@@ -1,16 +1,16 @@
 <?php
-$wb['header_txt'] = 'Menu editor';
-$wb['title_txt'] = 'Title';
-$wb['name_txt'] = 'Module';
-$wb['delete_txt'] = 'Delete';
-$wb['properties_txt'] = 'Properties';
-$wb['new_menu_txt'] = 'Menu new';
-$wb['edit_txt'] = 'Edit';
-$wb['new_txt'] = 'New';
-$wb['up_txt'] = 'Up';
-$wb['down_txt'] = 'Down';
-$wb['module_txt'] = 'Module';
-$wb['module_del_txt'] = 'Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse l�schen?';
-$wb['menu_del_txt'] = 'Wollen Sie das Men� mit allen Untereintr�gen l�schen?';
-$wb['item_del_txt'] = 'Wollen Sie den Men�eintrag l�schen?';
+$wb['header_txt'] = 'Редактор на менютата';
+$wb['title_txt'] = 'Име';
+$wb['name_txt'] = 'Модул';
+$wb['delete_txt'] = 'Изтриване';
+$wb['properties_txt'] = 'Характеристики';
+$wb['new_menu_txt'] = 'Ново меню';
+$wb['edit_txt'] = 'Редакция';
+$wb['new_txt'] = 'Ново';
+$wb['up_txt'] = 'Нагоре';
+$wb['down_txt'] = 'Надолу';
+$wb['module_txt'] = 'Модул';
+$wb['module_del_txt'] = 'Наистина ли желаете да изтриете модула и всички намиращи се в него файлове и поддиректории?';
+$wb['menu_del_txt'] = 'Наистина ли желаете да изтриете това меню и неговите елементи?';
+$wb['item_del_txt'] = 'Наистина ли желаете да изтриете този елемент?';
 ?>

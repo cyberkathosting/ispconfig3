@@ -1,14 +1,14 @@
 <?php
-$wb['name_txt'] = 'Formname';
-$wb['title_txt'] = 'Formutitle';
-$wb['template_txt'] = 'Template';
+$wb['name_txt'] = 'Име';
+$wb['title_txt'] = 'Заглавие';
+$wb['template_txt'] = 'Темплейт';
 $wb['navframe_txt'] = 'NaviFrame';
-$wb['startpage_txt'] = 'Startpage';
-$wb['tab_width_txt'] = 'Tab width';
-$wb['save_txt'] = 'Save';
-$wb['cancel_txt'] = 'Cancel';
-$wb['header_txt'] = 'Form properties';
-$wb['description_txt'] = 'Description';
+$wb['startpage_txt'] = 'Начална страница';
+$wb['tab_width_txt'] = 'Широчина на таб-а';
+$wb['save_txt'] = 'Запис';
+$wb['cancel_txt'] = 'Отказ';
+$wb['header_txt'] = 'Характеристики на формата';
+$wb['description_txt'] = 'Описание';
 $wb['action_txt'] = 'Action (script)';
 $wb['db_table_txt'] = 'DB Table';
 $wb['db_table_idx_txt'] = 'DB Table Index';
