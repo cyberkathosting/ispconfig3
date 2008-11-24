@@ -98,7 +98,7 @@ function _getServerState($serverId, $serverName, $showAll)
     global $app;
 
     /*  The State of the server */
-    $serverState = 'unknown';
+    $serverState = 'ok';
 
     /** The Number of several infos, warnings, errors, ... */
     $count = array('unknown' => 0, 'info' => 0, 'warning' => 0, 'critical' => 0, 'error' => 0);
@@ -264,7 +264,7 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
     if ($type == 'services'){
         switch ($record['state']) {
             case 'ok':
-                $messages['error'][] = 'All needed Services are online ' .
+                $messages['ok'][] = 'All needed Services are online ' .
                                     "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[more...]</a>";
 
                 break;
@@ -317,9 +317,9 @@ function _setState($oldState, $newState)
     switch ($oldState) {
         case 'no_state': $oldInt = 0;
             break;
-        case 'unknown': $oldInt = 1;
+        case 'ok': $oldInt = 1;
             break;
-        case 'ok': $oldInt = 2;
+        case 'unknown': $oldInt = 2;
             break;
         case 'info': $oldInt = 3;
             break;

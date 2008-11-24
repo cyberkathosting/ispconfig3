@@ -846,9 +846,9 @@ class monitor_core_module {
         switch ($newState) {
             case 'no_state': $newInt = 0 ;
                 break;
-            case 'unknown': $newInt = 1 ;
+            case 'ok': $newInt = 1 ;
                 break;
-            case 'ok': $newInt = 2 ;
+            case 'unknown': $newInt = 2 ;
                 break;
             case 'info': $newInt = 3 ;
                 break;
