@@ -43,7 +43,6 @@ $app->tpl->setInclude('content_tpl','templates/show_log.htm');
 $refresh = (isset($_GET["refresh"]))?intval($_GET["refresh"]):0;
 $logParam = $_GET["log"];
 
-
 /*
  Setting the db-type and the caption
  */

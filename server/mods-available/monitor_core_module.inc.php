@@ -27,714 +27,852 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
 class monitor_core_module {
-	
-	/* TODO: this should be a config - var instead of a "constant" */
-	var $interval = 5; // do the monitoring every 5 minutes
-	
-	var $module_name = 'monitor_core_module';
-	var $class_name = 'monitor_core_module';
-	/* No actions at this time. maybe later... */
-	var $actions_available = array();
-	
-	/*
-	 	This function is called when the module is loaded
-	*/
-	
-	function onLoad() {
-		global $app;
-		
-		/*
-		Annonce the actions that where provided by this module, so plugins 
-		can register on them.
-		*/
-		/* none at them moment */
-		//$app->plugins->announceEvents($this->module_name,$this->actions_available);
-		
-		/*
-		As we want to get notified of any changes on several database tables,
-		we register for them.
-				
-		The following function registers the function "functionname"
-			to be executed when a record for the table "dbtable" is 
-			processed in the sys_datalog. "classname" is the name of the
-			class that contains the function functionname.
-		*/
-		/* none at them moment */
-		//$app->modules->registerTableHook('mail_access','mail_module','process');
-		
-		/*
-		Do the monitor every n minutes and write the result in the db
-		*/
-		$min = date('i');
-		if (($min % $this->interval) == 0)
-		{
-			$this->doMonitor();
-		}
-	}
-	
-	/*
-	 This function is called when a change in one of the registered tables is detected.
-	 The function then raises the events for the plugins.
-	*/
-	function process($tablename, $action, $data) {
-		//		global $app;
-		//		
-		//		switch ($tablename) {
-		//			case 'mail_access':
-		//				if($action == 'i') $app->plugins->raiseEvent('mail_access_insert',$data);
-		//				if($action == 'u') $app->plugins->raiseEvent('mail_access_update',$data);
-		//				if($action == 'd') $app->plugins->raiseEvent('mail_access_delete',$data);
-		//				break;
-		//		} // end switch
-	} // end function
-	
-	/*
-	This method is called every n minutes, when the module ist loaded.
-	The method then does a system-monitoring
-	*/
-	// TODO: what monitoring is done should be a config-var
-	function doMonitor()
-	{
-		/* Calls the single Monitoring steps */
-		$this->monitorServer();
-		$this->monitorDiskUsage();
-		$this->monitorMemUsage();
-		$this->monitorCpu();
-		$this->monitorServices();
-		$this->monitorMailLog();
-		$this->monitorMailWarnLog();
-		$this->monitorMailErrLog();
-		$this->monitorMessagesLog();
-		$this->monitorFreshClamLog();
-		$this->monitorClamAvLog();
-		$this->monitorIspConfigLog();
-	}
-	
-	function monitorServer(){
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'server_load';	
-		
-		/* Delete Data older than 1 day */
-		$this->_delOldRecords($type, 0, 0, 1);
-		
-		/*
-		Fetch the data into a array
-		*/
-		$procUptime = shell_exec("cat /proc/uptime | cut -f1 -d' '");
-		$data['up_days'] = floor($procUptime/86400);
-		$data['up_hours'] = floor(($procUptime-$data['up_days']*86400)/3600);
-		$data['up_minutes'] = floor(($procUptime-$data['up_days']*86400-$data['up_hours']*3600)/60);
+    /* TODO: this should be a config - var instead of a "constant" */
+    var $interval = 5; // do the monitoring every 5 minutes
 
-		$data['uptime'] = shell_exec("uptime");
-		
-		$tmp = explode(",", $data['uptime'], 3);
-		$tmpUser = explode(" ", trim($tmp[1]));
-		$data['user_online'] = intval($tmpUser[0]);
-		
-		$loadTmp = explode(":" , trim($tmp[2]));
-		$load = explode(",",  $loadTmp[1]);
-		$data['load_1'] = floatval(trim($load[0]));
-		$data['load_5'] = floatval(trim($load[1]));
-		$data['load_15'] = floatval(trim($load[2]));
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-	
-	function monitorDiskUsage() {
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'disk_usage';	
-		
-		/* Delete Data older than 10 minutes */
-		$this->_delOldRecords($type, 10);
-		
-		/*
-		Fetch the data into a array
-		*/
-		$dfData = shell_exec("df");
-		
-		// split into array
-		$df = explode("\n", $dfData);
-		// ignore the first line make a array of the rest
-		for($i=1; $i <= sizeof($df); $i++){
-			if ($df[$i] != '')
-			{
-				$s = preg_split ("/[\s]+/", $df[$i]);
-				$data[$i]['fs'] = $s[0];
-				$data[$i]['size'] = $s[1];
-				$data[$i]['used'] = $s[2];
-				$data[$i]['available'] = $s[3];
-				$data[$i]['percent'] = $s[4];
-				$data[$i]['mounted'] = $s[5];
-			}
-		}
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-		
-		
-	function monitorMemUsage()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'mem_usage';	
-		
-		/* Delete Data older than 10 minutes */
-		$this->_delOldRecords($type, 10);
-		
-		/*
-		Fetch the data into a array
-		*/
-		$miData = shell_exec("cat /proc/meminfo");
-		
-		$memInfo = explode("\n", $miData);
-		
-		foreach($memInfo as $line){
-			$part = split(":", $line);
-			$key = trim($part[0]);
-			$tmp = explode(" ", trim($part[1]));
-			$value = 0;
-			if ($tmp[1] == 'kB') $value = $tmp[0] * 1024;
-			$data[$key] = $value;
-		}
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
+    var $module_name = 'monitor_core_module';
+    var $class_name = 'monitor_core_module';
+    /* No actions at this time. maybe later... */
+    var $actions_available = array();
 
-		
-	function monitorCpu()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'cpu_info';	
-		
-		/* There is only ONE CPU-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		/*
-		Fetch the data into a array
-		*/
-		$cpuData = shell_exec("cat /proc/cpuinfo");
-		$cpuInfo = explode("\n", $cpuData);
-		
-		foreach($cpuInfo as $line){
-			$part = split(":", $line);
-			$key = trim($part[0]);
-			$value = trim($part[1]);
-			$data[$key] = $value;
-		}
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
+    /*
+        This function is called when the module is loaded
+    */
+    function onLoad() {
+        global $app;
 
-		
-	function monitorServices()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'services';	
-		
-		/* There is only ONE Service-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		/* Monitor Webserver */
-		if($this->_checkTcp('localhost',80)) {
-			$data['webserver'] = true;
-		} else {
-			$data['webserver'] = false;
-		}
-		
-		/* Monitor FTP-Server */
-		if($this->_checkFtp('localhost',21)) {
-			$data['ftpserver'] = true;
-		} else {
-			$data['ftpserver'] = false;
-		}
-		
-		/* Monitor SMTP-Server */
-		if($this->_checkTcp('localhost',25)) {
-			$data['smtpserver'] = true;
-		} else {
-			$data['smtpserver'] = false;
-		}
-		
-		/* Monitor POP3-Server */
-		if($this->_checkTcp('localhost',110)) {
-			$data['pop3server'] = true;
-		} else {
-			$data['pop3server'] = false;
-		}
-		
-		/* Monitor BIND-Server */
-		if($this->_checkTcp('localhost',53)) {
-			$data['bindserver'] = true;
-		} else {
-			$data['bindserver'] = false;
-		}
-		
-		/* Monitor MYSQL-Server */
-		if($this->_checkTcp('localhost',3306)) {
-			$data['mysqlserver'] = true;
-		} else {
-			$data['mysqlserver'] = false;
-		}
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-		
-	}
-	
-	function monitorMailLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_mail';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
+        /*
+        Annonce the actions that where provided by this module, so plugins
+        can register on them.
+        */
+        /* none at them moment */
+        //$app->plugins->announceEvents($this->module_name,$this->actions_available);
 
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
+        /*
+        As we want to get notified of any changes on several database tables,
+        we register for them.
 
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-		
-	function monitorMailWarnLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_mail_warn';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-	
-	function monitorMailErrLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_mail_err';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-	
-	
-	function monitorMessagesLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_messages';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-	
-	function monitorFreshClamLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_freshclam';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-	
-	function monitorClamAvLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_clamav';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
+        The following function registers the function "functionname"
+            to be executed when a record for the table "dbtable" is
+            processed in the sys_datalog. "classname" is the name of the
+            class that contains the function functionname.
+        */
+        /* none at them moment */
+        //$app->modules->registerTableHook('mail_access','mail_module','process');
 
-	function monitorIspConfigLog()
-	{
-		global $app;
-		global $conf;
-		
-		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
-		
-		/** The type of the data */
-		$type = 'log_ispconfig';	
-		
-		/* There is only ONE Log-Data, so delete the old one */
-		$this->_delOldRecords($type, 0);
-		
-		
-		/* Get the data of the log */
-		$data = $this->_getLogData($type);
-		
-		// Todo: the state should be calculated. For example if the load is to heavy, the state is warning...
-		$state = 'ok';
-		
-		/*
-		Insert the data into the database
-		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-			"VALUES (".
-			$server_id . ", " .
-			"'" . $app->db->quote($type) . "', " .
-			time() . ", " .
-			"'" . $app->db->quote(serialize($data)) . "', " .
-			"'" . $state . "'" . 
-			")";
-		$app->db->query($sql);
-	}
-	
-	
-	function _getLogData($log){
-		switch($log) {
-			case 'log_mail':
-				$logfile = '/var/log/mail.log';
-				break;
-			case 'log_mail_warn':
-				$logfile = '/var/log/mail.warn';
-				break;
-			case 'log_mail_err':
-				$logfile = '/var/log/mail.err';
-				break;
-			case 'log_messages':
-				$logfile = '/var/log/messages';
-				break;
-			case 'log_freshclam':
-				$logfile = '/var/log/clamav/freshclam.log';
-				break;
-			case 'log_clamav':
-				$logfile = '/var/log/clamav/clamav.log';
-				break;
-			case 'log_ispconfig':
-				$logfile = '/var/log/ispconfig/ispconfig.log';
-				break;
-			default:
-				$logfile = '';
-				break;
-		}
-		
-		// Getting the logfile content
-		if($logfile != '') {
-			$logfile = escapeshellcmd($logfile);
-			if(stristr($logfile,';')) die('Logfile path error.');
-			
-			$log = '';
-			if(is_readable($logfile)) {
-				if($fd = popen("tail -n 30 $logfile", 'r')) {
-					while (!feof($fd)) {
-						$log .= fgets($fd, 4096);
-						$n++;
-						if($n > 1000) break;
-					}
-					fclose($fd);
-				}
-			} else {
-				$log = 'Unable to read '.$logfile;
-			}
-		}
-		
-		return $log;
-	}
-		
-	function _checkTcp ($host,$port) {
-			
-			$fp = @fsockopen ($host, $port, &$errno, &$errstr, 2);
-			
-			if ($fp) {
-				return true;
-				fclose($fp);
-			} else {
-				return false;
-				fclose($fp);
-			}
-		}
-		
-		function _checkUdp ($host,$port) {
-			
-			$fp = @fsockopen ('udp://'.$host, $port, &$errno, &$errstr, 2);
-			
-			if ($fp) {
-				return true;
-				fclose($fp);
-			} else {
-				return false;
-				fclose($fp);
-			}
-		}
-		
-		function _checkFtp ($host,$port){
-			
-			$conn_id = @ftp_connect($host, $port);
-			
-			if($conn_id){
-				@ftp_close($conn_id);
-				return true;
-			} else {
-				@ftp_close($conn_id);
-				return false;
-			}
-		}
-	
-	/*
-	 Deletes Records older than n.
-	*/
-	function _delOldRecords($type, $min, $hour=0, $days=0) {
-		global $app;
-		
-		$now = time();
-		$old = $now - ($min * 60) - ($hour * 60 * 60) - ($days * 24 * 60 * 60);
-		$sql = "DELETE FROM monitor_data " .
-			"WHERE " .
-			"type =" . "'" . $app->db->quote($type) . "' " .
-			"AND " .	
-			"created < " . $old;
-		$app->db->query($sql);
-	}
-	
-	
+        /*
+        Do the monitor every n minutes and write the result in the db
+        */
+        $min = date('i');
+        if (($min % $this->interval) == 0)
+        {
+            $this->doMonitor();
+        }
+    }
+
+    /*
+     This function is called when a change in one of the registered tables is detected.
+     The function then raises the events for the plugins.
+    */
+    function process($tablename, $action, $data) {
+        //		global $app;
+        //
+        //		switch ($tablename) {
+        //			case 'mail_access':
+        //				if($action == 'i') $app->plugins->raiseEvent('mail_access_insert',$data);
+        //				if($action == 'u') $app->plugins->raiseEvent('mail_access_update',$data);
+        //				if($action == 'd') $app->plugins->raiseEvent('mail_access_delete',$data);
+        //				break;
+        //		} // end switch
+    } // end function
+
+    /*
+    This method is called every n minutes, when the module ist loaded.
+    The method then does a system-monitoring
+    */
+    // TODO: what monitoring is done should be a config-var
+    function doMonitor()
+    {
+        /* Calls the single Monitoring steps */
+        $this->monitorServer();
+        $this->monitorDiskUsage();
+        $this->monitorMemUsage();
+        $this->monitorCpu();
+        $this->monitorServices();
+        $this->monitorMailLog();
+        $this->monitorMailWarnLog();
+        $this->monitorMailErrLog();
+        $this->monitorMessagesLog();
+        $this->monitorFreshClamLog();
+        $this->monitorClamAvLog();
+        $this->monitorIspConfigLog();
+    }
+
+    function monitorServer(){
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'server_load';
+
+        /* Delete Data older than 1 day */
+        $this->_delOldRecords($type, 0, 0, 1);
+
+        /*
+        Fetch the data into a array
+        */
+        $procUptime = shell_exec("cat /proc/uptime | cut -f1 -d' '");
+        $data['up_days'] = floor($procUptime/86400);
+        $data['up_hours'] = floor(($procUptime-$data['up_days']*86400)/3600);
+        $data['up_minutes'] = floor(($procUptime-$data['up_days']*86400-$data['up_hours']*3600)/60);
+
+        $data['uptime'] = shell_exec("uptime");
+
+        $tmp = explode(",", $data['uptime'], 3);
+        $tmpUser = explode(" ", trim($tmp[1]));
+        $data['user_online'] = intval($tmpUser[0]);
+
+        $loadTmp = explode(":" , trim($tmp[2]));
+        $load = explode(",",  $loadTmp[1]);
+        $data['load_1'] = floatval(trim($load[0]));
+        $data['load_5'] = floatval(trim($load[1]));
+        $data['load_15'] = floatval(trim($load[2]));
+
+        /** The state of the server-load. */
+        $state = 'ok';
+        if ($data['load_1'] > 20 ) $state = 'info';
+        if ($data['load_1'] > 50 ) $state = 'warning';
+        if ($data['load_1'] > 100 ) $state = 'critical';
+        if ($data['load_1'] > 150 ) $state = 'error';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorDiskUsage() {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'disk_usage';
+
+        /* Delete Data older than 10 minutes */
+        $this->_delOldRecords($type, 10);
+
+        /** The state of the disk-usage */
+        $state = 'ok';
+
+        /** Fetch the data into a array */
+        $dfData = shell_exec("df");
+
+        // split into array
+        $df = explode("\n", $dfData);
+
+        /*
+         * ignore the first line, process the rest
+         */
+        for($i=1; $i <= sizeof($df); $i++){
+            if ($df[$i] != '')
+            {
+                /*
+                 * Make a array of the data
+                 */
+                $s = preg_split ("/[\s]+/", $df[$i]);
+                $data[$i]['fs'] = $s[0];
+                $data[$i]['size'] = $s[1];
+                $data[$i]['used'] = $s[2];
+                $data[$i]['available'] = $s[3];
+                $data[$i]['percent'] = $s[4];
+                $data[$i]['mounted'] = $s[5];
+                /*
+                 * calculate the state
+                 */
+                $usePercent = floatval($data[$i]['percent']);
+                if ($usePercent > 75) $state = $this->_setState($state, 'info');
+                if ($usePercent > 80) $state = $this->_setState($state, 'warning');
+                if ($usePercent > 90) $state = $this->_setState($state, 'critical');
+                if ($usePercent > 95) $state = $this->_setState($state, 'error');
+            }
+        }
+
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+
+    function monitorMemUsage()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'mem_usage';
+
+        /* Delete Data older than 10 minutes */
+        $this->_delOldRecords($type, 10);
+
+        /*
+        Fetch the data into a array
+        */
+        $miData = shell_exec("cat /proc/meminfo");
+
+        $memInfo = explode("\n", $miData);
+
+        foreach($memInfo as $line){
+            $part = split(":", $line);
+            $key = trim($part[0]);
+            $tmp = explode(" ", trim($part[1]));
+            $value = 0;
+            if ($tmp[1] == 'kB') $value = $tmp[0] * 1024;
+            $data[$key] = $value;
+        }
+
+        /*
+         * actually this info has no state.
+         * maybe someone knows better...???...
+         */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+
+    function monitorCpu()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'cpu_info';
+
+        /* There is only ONE CPU-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /*
+        Fetch the data into a array
+        */
+        $cpuData = shell_exec("cat /proc/cpuinfo");
+        $cpuInfo = explode("\n", $cpuData);
+
+        foreach($cpuInfo as $line){
+            $part = split(":", $line);
+            $key = trim($part[0]);
+            $value = trim($part[1]);
+            $data[$key] = $value;
+        }
+
+        /* the cpu has no state. It is, what it is */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+
+    function monitorServices()
+    {
+        global $app;
+        global $conf;
+
+        /** the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** get the "active" Services of the server from the DB */
+        $services = $app->db->queryOneRecord("SELECT * FROM server WHERE server_id = " . $server_id);
+
+        /* The type of the Monitor-data */
+        $type = 'services';
+
+        /* There is only ONE Service-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /** the State of the monitoring */
+        /* ok, if ALL aktive services are running,
+         * error, if not
+         * There is no other state!
+         */
+        $state = 'ok';
+
+        /* Monitor Webserver */
+        $data['webserver'] = -1; // unknown - not needed
+        if ($services['web_server'] == 1)
+        {
+            if($this->_checkTcp('localhost', 80)) {
+                $data['webserver'] = 1;
+            } else {
+                $data['webserver'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+        /* Monitor FTP-Server */
+        $data['ftpserver'] = -1; // unknown - not needed
+        if ($services['file_server'] == 1)
+        {
+            if($this->_checkFtp('localhost', 21)) {
+                $data['ftpserver'] = 1;
+            } else {
+                $data['ftpserver'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+        /* Monitor SMTP-Server */
+        $data['smtpserver'] = -1; // unknown - not needed
+        if ($services['mail_server'] == 1)
+        {
+            if($this->_checkTcp('localhost', 25)) {
+                $data['smtpserver'] = 1;
+            } else {
+                $data['smtpserver'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+        /* Monitor POP3-Server */
+        $data['pop3server'] = -1; // unknown - not needed
+        if ($services['mail_server'] == 1)
+        {
+            if($this->_checkTcp('localhost', 110)) {
+                $data['pop3server'] = 1;
+            } else {
+                $data['pop3server'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+        /* Monitor IMAP-Server */
+        $data['imapserver'] = -1; // unknown - not needed
+        if ($services['mail_server'] == 1)
+        {
+            if($this->_checkTcp('localhost', 143)) {
+                $data['imapserver'] = 1;
+            } else {
+                $data['imapserver'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+        /* Monitor BIND-Server */
+        $data['bindserver'] = -1; // unknown - not needed
+        if ($services['dns_server'] == 1)
+        {
+            if($this->_checkTcp('localhost', 53)) {
+                $data['bindserver'] = 1;
+            } else {
+                $data['bindserver'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+        /* Monitor MYSQL-Server */
+        $data['mysqlserver'] = -1; // unknown - not needed
+        if ($services['db_server'] == 1)
+        {
+            if($this->_checkTcp('localhost', 3306)) {
+                $data['mysqlserver'] = 1;
+            } else {
+                $data['mysqlserver'] = 0;
+                $state = 'error'; // because service is down
+            }
+        }
+
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+
+    }
+
+    function monitorMailLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_mail';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        /*
+         * actually this info has no state.
+         * maybe someone knows better...???...
+         */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorMailWarnLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_mail_warn';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        /*
+         * actually this info has no state.
+         * maybe someone knows better...???...
+         */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorMailErrLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_mail_err';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        /*
+         * actually this info has no state.
+         * maybe someone knows better...???...
+         */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+
+    function monitorMessagesLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_messages';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        /*
+         * actually this info has no state.
+         * maybe someone knows better...???...
+         */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorFreshClamLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_freshclam';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        // Todo: the state should be calculated.
+        $state = 'ok';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorClamAvLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_clamav';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        // Todo: the state should be calculated.
+        $state = 'ok';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorIspConfigLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_ispconfig';
+
+        /* There is only ONE Log-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        // Todo: the state should be calculated.
+        $state = 'ok';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+
+    function _getLogData($log){
+        switch($log) {
+            case 'log_mail':
+                $logfile = '/var/log/mail.log';
+                break;
+            case 'log_mail_warn':
+                $logfile = '/var/log/mail.warn';
+                break;
+            case 'log_mail_err':
+                $logfile = '/var/log/mail.err';
+                break;
+            case 'log_messages':
+                $logfile = '/var/log/messages';
+                break;
+            case 'log_freshclam':
+                $logfile = '/var/log/clamav/freshclam.log';
+                break;
+            case 'log_clamav':
+                $logfile = '/var/log/clamav/clamav.log';
+                break;
+            case 'log_ispconfig':
+                $logfile = '/var/log/ispconfig/ispconfig.log';
+                break;
+            default:
+                $logfile = '';
+                break;
+        }
+
+        // Getting the logfile content
+        if($logfile != '') {
+            $logfile = escapeshellcmd($logfile);
+            if(stristr($logfile, ';')) {
+                $log = 'Logfile path error.';
+            }
+            else
+            {
+                $log = '';
+                if(is_readable($logfile)) {
+                    if($fd = popen("tail -n 100 $logfile", 'r')) {
+                        while (!feof($fd)) {
+                            $log .= fgets($fd, 4096);
+                            $n++;
+                            if($n > 1000) break;
+                        }
+                        fclose($fd);
+                    }
+                } else {
+                    $log = 'Unable to read '.$logfile;
+                }
+            }
+        }
+
+        return $log;
+    }
+
+    function _checkTcp ($host,$port) {
+
+        $fp = @fsockopen ($host, $port, &$errno, &$errstr, 2);
+
+        if ($fp) {
+            fclose($fp);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function _checkUdp ($host,$port) {
+
+        $fp = @fsockopen ('udp://'.$host, $port, &$errno, &$errstr, 2);
+
+        if ($fp) {
+            fclose($fp);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function _checkFtp ($host,$port){
+
+        $conn_id = @ftp_connect($host, $port);
+
+        if($conn_id){
+            @ftp_close($conn_id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     Deletes Records older than n.
+    */
+    function _delOldRecords($type, $min, $hour=0, $days=0) {
+        global $app;
+
+        $now = time();
+        $old = $now - ($min * 60) - ($hour * 60 * 60) - ($days * 24 * 60 * 60);
+        $sql = "DELETE FROM monitor_data " .
+            "WHERE " .
+            "type =" . "'" . $app->db->quote($type) . "' " .
+            "AND " .
+            "created < " . $old;
+        $app->db->query($sql);
+    }
+
+    /*
+     * Set the state to the given level (or higher, but not lesser).
+     * * If the actual state is critical and you call the method with ok,
+     *   then the state is critical.
+     *
+     * * If the actual state is critical and you call the method with error,
+     *   then the state is error.
+     */
+    function _setState($oldState, $newState)
+    {
+        /*
+         * Calculate the weight of the old state
+         */
+        switch ($oldState) {
+            case 'no_state': $oldInt = 0;
+                break;
+            case 'ok': $oldInt = 1;
+                break;
+            case 'unknown': $oldInt = 2;
+                break;
+            case 'info': $oldInt = 3;
+                break;
+            case 'warning': $oldInt = 4;
+                break;
+            case 'critical': $oldInt = 5;
+                break;
+            case 'error': $oldInt = 6;
+                break;
+        }
+        /*
+         * Calculate the weight of the new state
+         */
+        switch ($newState) {
+            case 'no_state': $newInt = 0 ;
+                break;
+            case 'unknown': $newInt = 1 ;
+                break;
+            case 'ok': $newInt = 2 ;
+                break;
+            case 'info': $newInt = 3 ;
+                break;
+            case 'warning': $newInt = 4 ;
+                break;
+            case 'critical': $newInt = 5 ;
+                break;
+            case 'error': $newInt = 6 ;
+                break;
+        }
+
+        /*
+         * Set to the higher level
+         */
+        if ($newInt > $oldInt){
+            return $newState;
+        }
+        else
+        {
+            return $oldState;
+        }
+    }
+
+
 } // end class
 
 ?>

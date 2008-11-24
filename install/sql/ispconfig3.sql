@@ -1102,13 +1102,9 @@ CREATE TABLE `monitor_data` (
   `type` varchar(255) NOT NULL,
   `created` int(11) NOT NULL,
   `data` mediumtext NOT NULL,
-  `state` enum('unknown','ok','warning','critical', 'error') NOT NULL default 'unknown',
+  `state` enum('no_state', 'unknown', 'ok', 'info', 'warning', 'critical', 'error') NOT NULL default 'unknown',
   PRIMARY KEY  (`server_id`,`type`,`created`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-SET FOREIGN_KEY_CHECKS = 1;
-
 
 
 
@@ -1373,6 +1369,7 @@ INSERT INTO country VALUES ('ZM','ZAMBIA','Zambia','ZMB','894');
 INSERT INTO country VALUES ('ZW','ZIMBABWE','Zimbabwe','ZWE','716');
 
 
+SET FOREIGN_KEY_CHECKS = 1;
 
 
 

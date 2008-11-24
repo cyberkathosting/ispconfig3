@@ -3,7 +3,7 @@
  * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
  *
  * (en) Uniform design of ISPConfig elements - ISPConfig 3: default theme
- * (de) Einheitliche Standardformatierungen für ISPConfig-Elemente - ISPConfig 3: default theme
+ * (de) Einheitliche Standardformatierungen fï¿½r ISPConfig-Elemente - ISPConfig 3: default theme
  *
  * @copyright       Copyright 2005-2008, Dirk Jesse
  * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
@@ -94,8 +94,75 @@
 	table.list .tbl_row_uneven { background: #f0f8ff; }
 	table.list tr:hover { background: #fffacd; }
 	
-	
-	.systemmonitor table {
+    .systemmonitor-state {
+		margin:20px 0;
+		font-family: Consolas, "Lucida Console", "Courier New", monospace;
+		font-size: 0.9em;
+    }
+    .systemmonitor-state-unknown {
+		border: 1px solid #30302e;
+		background-color: #cecfc5;
+    }
+    .systemmonitor-state-ok {
+		border: 1px solid #23fb00;
+		background-color: #adffa2;
+    }
+    .systemmonitor-state-info {
+		border: 1px solid #fdff00;
+		background-color: #fdffa2;
+    }
+    .systemmonitor-state-warning {
+		border: 1px solid #ffa800;
+		background-color: #ffda93;
+    }
+    .systemmonitor-state-critical {
+		border: 1px solid #ff0000;
+		background-color: #ffb9b9;
+    }
+    .systemmonitor-state-error {
+		border: 1px solid #ff0000;
+		background-color: #ff7f7f;
+    }
+    .systemmonitor-systemstate {
+        background-image:url("../../icons/x64/network.png");
+        background-repeat: no-repeat;
+        }
+    .systemmonitor-serverstate {
+        background-image:url("../../icons/x64/server.png");
+        background-repeat: no-repeat;
+        }
+    .systemmonitor-state-unknown-icon {
+		padding:2px 10px 2px 80px;
+        background-image:url("../../icons/x32/state_unknown.png");
+        background-repeat: no-repeat;
+    }
+    .systemmonitor-state-ok-icon {
+		padding:2px 10px 2px 80px;
+        background-image:url("../../icons/x32/state_ok.png");
+        background-repeat: no-repeat;
+    }
+    .systemmonitor-state-info-icon {
+		padding:2px 10px 2px 80px;
+        background-image:url("../../icons/x32/state_info.png");
+        background-repeat: no-repeat;
+    }
+    .systemmonitor-state-warning-icon {
+		padding:2px 10px 2px 80px;
+        background-image:url("../../icons/x32/state_warning.png");
+        background-repeat: no-repeat;
+    }
+    .systemmonitor-state-critical-icon {
+		padding:2px 10px 2px 80px;
+        background-image:url("../../icons/x32/state_critical.png");
+        background-repeat: no-repeat;
+    }
+    .systemmonitor-state-error-icon {
+		padding:2px 10px 2px 80px;
+        background-image:url("../../icons/x32/state_error.png");
+        background-repeat: no-repeat;
+    }
+
+    .systemmonitor table {
 		border: 1px solid #d3d3d3;
 		width: 80%;
 		margin-top: 10px;
