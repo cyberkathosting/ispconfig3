@@ -72,6 +72,18 @@ switch($dataType) {
         $title = $app->lng("Status of services").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
+    case 'system_update':
+        $template = 'templates/show_data.htm';
+        $output .= showSystemUpdate();
+        $title = "Update State" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
+    case 'mailq':
+        $template = 'templates/show_data.htm';
+        $output .= showMailq();
+        $title = "Mailq" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
     default:
         $template = '';
         break;

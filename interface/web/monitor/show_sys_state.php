@@ -142,7 +142,7 @@ function _getServerState($serverId, $serverName, $showAll)
             /*
              * There is no need, to show the "ok" - messages
              */
-            if ($key != 'ok')
+//            if ($key != 'ok')
             {
                 $res .= $key . ':<br />';
                 foreach ($state as $msg)
@@ -278,6 +278,52 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
                 break;
         }
     }
+    if ($type == 'system_update'){
+        switch ($record['state']) {
+            case 'ok':
+                $messages['ok'][] = 'Your System is up to date. ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[more...]</a>";
+
+                break;
+            case 'warning':
+                $messages['warning'][] = 'One or more Components needs a update ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[more...]</a>";
+                break;
+            default:
+                $messages['unknown'][] = 'System-Updatese:??? ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[more...]</a>";
+                break;
+        }
+    }
+
+    if ($type == 'mailq'){
+        switch ($record['state']) {
+            case 'ok':
+                $messages['ok'][] = 'Your Mailq load is ok ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[more...]</a>";
+                break;
+            case 'info':
+                $messages['info'][] = 'Your Mailq in under heavy load ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[more...]</a>";
+                break;
+            case 'warning':
+                $messages['warning'][] = 'Your Mailq in under high load ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[more...]</a>";
+                break;
+            case 'critical':
+                $messages['critical'][] = 'Your Mailq in under higher load ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[more...]</a>";
+                break;
+            case 'error':
+                $messages['error'][] = 'Your Mailq in under highest load ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[more...]</a>";
+                break;
+            default:
+                $messages['unknown'][] = 'Mailq: ??? ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[more...]</a>";
+                break;
+        }
+    }
     if ($type == 'log_clamav'){
         /* this type has no state */
     }
@@ -311,9 +357,9 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
   */
 function _setState($oldState, $newState)
 {
-        /*
-         * Calculate the weight of the old state
-         */
+   /*
+    * Calculate the weight of the old state
+    */
     switch ($oldState) {
         case 'no_state': $oldInt = 0;
             break;
@@ -350,9 +396,9 @@ function _setState($oldState, $newState)
             break;
     }
 
-        /*
-         * Set to the higher level
-         */
+   /*
+    * Set to the higher level
+    */
     if ($newInt > $oldInt){
         return $newState;
     }

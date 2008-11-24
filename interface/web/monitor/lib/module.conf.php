@@ -14,7 +14,7 @@ $items[] = array( 'title' 	=> "Show System State",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_sys_state.php?state=system');
 
-$module["nav"][] = array(	'title'	=> 'System State',
+$module["nav"][] = array(	'title'	=> 'System State (All Servers)',
                             'open' 	=> 1,
                             'items'	=> $items);
 
@@ -51,8 +51,17 @@ $_SESSION['monitor']['server_id']   = $servers[0]['server_id'];
 $_SESSION['monitor']['server_name'] = $servers[0]['server_name'];
 
 /*
- * Logmonitoring module
+ * Clear and set the Navigation-Items
  */
+unset($items);
+
+$items[] = array( 'title' 	=> "Show CPU info",
+        'target' 	=> 'content',
+        'link'	=> 'monitor/show_data.php?type=cpu_info');
+
+$module["nav"][] = array(	'title'	=> 'System-Information',
+        'open' 	=> 1,
+        'items'	=> $items);
 
 /*
  * Clear and set the Navigation-Items
@@ -61,6 +70,14 @@ unset($items);
 $items[] = array( 'title' 	=> "Show Server State",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_sys_state.php?state=server');
+/*
+ * The next menu is only available at debian or Ubuntu
+ */
+if(file_exists('/etc/debian_version')){
+$items[] = array( 'title' 	=> "Show Update State",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=system_update');
+}
 
 $items[] = array( 'title' 	=> "Show Server Load",
                   'target' 	=> 'content',
@@ -78,27 +95,13 @@ $items[] = array( 'title' 	=> "Show Services",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=services');
 
+$items[] = array( 'title' 	=> "Show Mailq",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=mailq');
 
 $module["nav"][] = array(	'title'	=> 'Monitoring',
                             'open' 	=> 1,
                             'items'	=> $items);
-
-/*
- * Clear and set the Navigation-Items
- */
-unset($items);
-
-$items[] = array( 'title' 	=> "Show CPU info",
-        'target' 	=> 'content',
-        'link'	=> 'monitor/show_data.php?type=cpu_info');
-
-$module["nav"][] = array(	'title'	=> 'System-Information',
-        'open' 	=> 1,
-        'items'	=> $items);
-
-/*
- *   Logmonitoring module
- */
 
 /*
  * Clear and set the Navigation-Items

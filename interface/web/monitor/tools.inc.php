@@ -11,7 +11,7 @@ function showServerLoad(){
         /*
         Format the data
         */
-        $html .=
+        $html =
         '<table id="system_load">
             <tr>
             <td>' . $app->lng("Server online since").':</td>
@@ -53,7 +53,7 @@ function showDiskUsage () {
         /*
         Format the data
         */
-        $html .= '<table id="system_disk">';
+        $html = '<table id="system_disk">';
         foreach($data as $line) {
             $html .= '<tr>';
             foreach ($line as $item) {
@@ -84,7 +84,7 @@ function showMemUsage ()
         /*
         Format the data
         */
-        $html .= '<table id="system_memusage">';
+        $html = '<table id="system_memusage">';
 
         foreach($data as $key => $value){
             if ($key != '') {
@@ -115,7 +115,7 @@ function showCpuInfo ()
         /*
         Format the data
         */
-        $html .= '<table id="system_cpu">';
+        $html = '<table id="system_cpu">';
         foreach($data as $key => $value){
             if ($key != '') {
                 $html .= '<tr>
@@ -145,7 +145,7 @@ function showServices ()
         /*
         Format the data
         */
-        $html .= '<table id="system_services">';
+        $html = '<table id="system_services">';
 
         if($data['webserver'] != -1) {
             if($data['webserver'] == 1) {
@@ -238,6 +238,41 @@ function showServices ()
         $html = '<p>'.$app->lng("no_data_services_txt").'</p>';
     }
 
+
+    return $html;
+}
+
+function showSystemUpdate()
+{
+    global $app;
+
+    /* fetch the Data from the DB */
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+
+    if(isset($record['data'])) {
+        $data = unserialize($record['data']);
+        $html = nl2br($data['output']);
+    } else {
+        $html = '<p>' . "No Update-Data available" . '</p>';
+    }
+
+    return $html;
+}
+
+
+function showMailq()
+{
+    global $app;
+
+    /* fetch the Data from the DB */
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+
+    if(isset($record['data'])) {
+        $data = unserialize($record['data']);
+        $html = nl2br($data['output']);
+    } else {
+        $html = '<p>' . "No Mailq-Data available" . '</p>';
+    }
 
     return $html;
 }

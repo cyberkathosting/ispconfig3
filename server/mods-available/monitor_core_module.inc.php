@@ -107,6 +107,8 @@ class monitor_core_module {
         $this->monitorFreshClamLog();
         $this->monitorClamAvLog();
         $this->monitorIspConfigLog();
+        $this->monitorSystemUpdate();
+        $this->monitorMailQueue();
     }
 
     function monitorServer(){
@@ -447,6 +449,119 @@ class monitor_core_module {
         $app->db->query($sql);
 
     }
+
+
+    function monitorSystemUpdate(){
+        /* This monitoring is only available at debian or Ubuntu */
+        if(!file_exists('/etc/debian_version')) return;
+
+        /*
+         *  This monitoring is expensive, so do it only once a hour!
+         */
+        $min = date('i');
+        if ($min != 0) return;
+
+        /*
+         * OK - here we go...
+         */
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'system_update';
+
+        /* There is only ONE Update-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /*
+         * first update the "update-database"
+         */
+        shell_exec('apt-get update');
+
+        /*
+         * Then test the upgrade.
+         * if there is any output, then there is a needed update
+         */
+        $aptData = shell_exec('apt-get -s -qq dist-upgrade');
+        if ($aptData == '')
+        {
+            /* There is nothing to update! */
+            $state = 'ok';
+        }
+        else
+        {
+            /* There is something to update! */
+            $state = 'warning';
+        }
+
+        /*
+         * Fetch the output
+         */
+        $data['output'] = shell_exec('apt-get -s -q dist-upgrade');
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorMailQueue(){
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'mailq';
+
+        /* There is only ONE Update-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /* Get the data from the mailq */
+        $data['output'] = shell_exec('mailq');
+
+        /*
+         *  The last line has more informations
+         */
+        $tmp = explode("\n", $data['output']);
+        $more = $tmp[sizeof($tmp) - 1];
+        $this->_getIntArray($more);
+        $data['bytes'] = $res[0];
+        $data['requests'] = $res[1];
+
+        /** The state of the mailq. */
+        $state = 'ok';
+        if ($data['requests'] > 2000 ) $state = 'info';
+        if ($data['requests'] > 5000 ) $state = 'warning';
+        if ($data['requests'] > 8000 ) $state = 'critical';
+        if ($data['requests'] > 10000 ) $state = 'error';
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
 
     function monitorMailLog()
     {
@@ -870,6 +985,20 @@ class monitor_core_module {
         {
             return $oldState;
         }
+    }
+
+    function _getIntArray($line){
+        /** The array of float found */
+        $res = array();
+        /* First build a array from the line */
+        $data = explode(' ', $line);
+        /* then check if any item is a float */
+        foreach ($data as $item) {
+            if ($item . '' == (int)$item . ''){
+                $res[] = $item;
+            }
+        }
+        return $res;
     }
 
 
