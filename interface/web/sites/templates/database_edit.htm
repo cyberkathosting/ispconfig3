@@ -37,9 +37,8 @@
         <input type="password" id="database_password" name="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" class="wf_required" onkeyup="pass_check(this.value)"><span class="wf_reqMark">*</span><br>
       </span>
       <span class="wf_oneField">
-        <label class="wf_preField" style="float:left;">{tmpl_var name='password_strength_txt'}</label>
-        <div id="passBar" style="border: 1px solid rgb(0, 0, 0); width: 100px; height: 10px; float:left;"></div>
-        <span id="passText" style="margin-left: 10px;">&nbsp;</span>
+        <span class="wf_preField">{tmpl_var name='password_strength_txt'}</span>
+        <span class="wf_passwordStrength"><div id="passBar"></div><span id="passText">&nbsp;</span></span>
       </span>
       <span class="wf_oneField">
         <label for="database_charset" class="wf_preField">{tmpl_var name='database_charset_txt'}</label>

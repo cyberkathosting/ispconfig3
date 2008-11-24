@@ -126,7 +126,25 @@
 		padding-left: 1em;
 		vertical-align: top;
 	}
-	
+
+	/* SPANS ======================================================================= */
+	.pnl_formsarea span.wf_preField {
+		display: -moz-inline-box;
+		display: inline-block;	
+		margin: 0 8px 0 0;
+		padding: 0 4px;
+		width: 30%;
+		text-align: right;
+		font-size: 90%;
+		float: left;
+	}
+	.wf_passwordStrength {
+		font-size: 1.0em; 
+		margin: 0 2px 0 0;
+		padding: 1px 0;
+		vertical-align: top;
+  }
+  
 	/* Buttons ======================================================================= */
 	
 	form .pnl_formsarea .wf_actions {

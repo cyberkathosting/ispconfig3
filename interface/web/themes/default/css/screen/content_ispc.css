@@ -82,6 +82,18 @@
 		font-size: 0.9em;
 	}
 	
+	/* Password Strength */
+	#passBar {
+	  width: 101px; height: 10px;
+    background: url(../../images/meter_bg.gif) repeat-x bottom left;
+    margin: 2px 0;
+    float: left;
+  }
+	#passText {
+	  padding: 0 8px;
+    float: left;
+  }
+  
 	/* Lists */
 	table.list {
 		width: 100%;

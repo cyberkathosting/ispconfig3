@@ -13,9 +13,8 @@
         <input type="password" id="passwort" name="passwort" value="{tmpl_var name='passwort'}" size="15" maxlength="100" onkeyup="pass_check(this.value)">
       </span>
       <span class="wf_oneField">
-        <label class="wf_preField" style="float:left;">{tmpl_var name='password_strength_txt'}</label>
-        <div id="passBar" style="border: 1px solid rgb(0, 0, 0); width: 100px; height: 10px; float:left;"></div>
-        <span id="passText" style="margin-left: 10px;">&nbsp;</span>
+        <span class="wf_preField">{tmpl_var name='password_strength_txt'}</span>
+        <span class="wf_passwordStrength"><div id="passBar"></div><span id="passText">&nbsp;</span></span>
       </span>
       <span class="wf_oneField" style="clear:left">
         <span class="wf_label wf_preField">{tmpl_var name='modules_txt'}</span>                    
