@@ -55,16 +55,37 @@ if ($_GET['state'] == 'server')
 {
     $output = _getServerState($_SESSION['monitor']['server_id'], $_SESSION['monitor']['server_name'], true);
     $title = "Server State";
+    $stateType = 'server';
 }
 else
 {
     $output = _getSysState();
     $title = "System State";
+    $stateType = 'system';
 }
 
 $app->tpl->setVar("state_data",$output);
+$app->tpl->setVar("state_type",$stateType);
 $app->tpl->setVar("title",$title);
 $app->tpl->setVar("description",$description);
+
+/*
+ Creating the array with the refresh intervals
+ Attention: the core-moule ist triggered every 5 minutes,
+            so reload every 2 minutes is impossible!
+*/
+$refresh = (isset($_GET["refresh"]))?intval($_GET["refresh"]):0;
+
+$refresh_values = array('0' => '- '.$app->lng("No Refresh").' -','5' => '5 '.$app->lng("minutes"),'10' => '10 '.$app->lng("minutes"),'15' => '15 '.$app->lng("minutes"),'30' => '30 '.$app->lng("minutes"),'60' => '60 '.$app->lng("minutes"));
+$tmp = '';
+foreach($refresh_values as $key => $val) {
+	if($key == $refresh) {
+		$tmp .= "<option value='$key' SELECTED>$val</option>";
+	} else {
+		$tmp .= "<option value='$key'>$val</option>";
+	}
+}
+$app->tpl->setVar("refresh",$tmp);
 
 /*
  * doing the output

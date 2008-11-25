@@ -39,7 +39,9 @@ function showServerLoad(){
         Format the data
         */
         $html =
-        '<table id="system_load">
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+            <table>
             <tr>
             <td>' . $app->lng("Server online since").':</td>
             <td>' . $data['up_days'] . ' days, ' . $data['up_hours'] . ':' . $data['up_minutes'] . ' hours</center></td>
@@ -60,7 +62,9 @@ function showServerLoad(){
             <td>'.$app->lng("System load 15 minutes").':</td>
             <td>' . $data['load_15'] . '</td>
             </tr>
-            </table>';
+            </table>
+            </div>
+            </div>';
     } else {
         $html = '<p>'.$app->lng("no_data_serverload_txt").'</p>';
     }
@@ -80,7 +84,18 @@ function showDiskUsage () {
         /*
         Format the data
         */
-        $html = '<table id="system_disk">';
+        $html =
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+            <table>
+            <tr>
+            <td>Filesystem</td>
+            <td>1K-blocks</td>
+            <td>Used</td>
+            <td>Available</td>
+            <td>Use%</td>
+            <td>Mounted on</td>
+            </tr>';
         foreach($data as $line) {
             $html .= '<tr>';
             foreach ($line as $item) {
@@ -89,6 +104,7 @@ function showDiskUsage () {
             $html .= '</tr>';
         }
         $html .= '</table>';
+        $html .= '</div></div>';
     } else {
         $html = '<p>'.$app->lng("no_data_diskusage_txt").'</p>';
     }
@@ -111,7 +127,10 @@ function showMemUsage ()
         /*
         Format the data
         */
-        $html = '<table id="system_memusage">';
+        $html =
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+            <table>';
 
         foreach($data as $key => $value){
             if ($key != '') {
@@ -122,6 +141,8 @@ function showMemUsage ()
             }
         }
         $html .= '</table>';
+        $html .= '</div></div>';
+
     } else {
         $html = '<p>'.$app->lng("no_data_memusage_txt").'</p>';
     }
@@ -142,7 +163,10 @@ function showCpuInfo ()
         /*
         Format the data
         */
-        $html = '<table id="system_cpu">';
+        $html = 
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+            <table>';
         foreach($data as $key => $value){
             if ($key != '') {
                 $html .= '<tr>
@@ -152,6 +176,7 @@ function showCpuInfo ()
             }
         }
         $html .= '</table>';
+        $html .= '</div></div>';
     } else {
         $html = '<p>'.$app->lng("no_data_cpuinfo_txt").'</p>';
     }
@@ -172,7 +197,10 @@ function showServices ()
         /*
         Format the data
         */
-        $html = '<table id="system_services">';
+        $html =
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+            <table>';
 
         if($data['webserver'] != -1) {
             if($data['webserver'] == 1) {
@@ -260,7 +288,7 @@ function showServices ()
         }
 
 
-        $html .= '</table></div>';
+        $html .= '</table></div></div>';
     } else {
         $html = '<p>'.$app->lng("no_data_services_txt").'</p>';
     }
@@ -277,17 +305,21 @@ function showSystemUpdate()
     $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
+        $html =
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">';
         /*
          * First, we have to detect, if there is any monitoring-data.
          * If not (because the destribution is not supported) show this.
          */
         if ($record['state'] == 'no_state'){
-            $html = '<p>' . "Your distribution is not supported for this monitoring" . '</p>';
+            $html .= "Your distribution is not supported for this monitoring";
         }
         else {
             $data = unserialize($record['data']);
-            $html = nl2br($data['output']);
+            $html .= nl2br($data['output']);
         }
+        $html .= '</div></div>';
     } else {
         $html = '<p>' . "No Update-Data available" . '</p>';
     }
@@ -303,17 +335,23 @@ function showRaidState()
     $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
+        $html =
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">';
+
         /*
          * First, we have to detect, if there is any monitoring-data.
          * If not (because the destribution is not supported) show this.
          */
         if ($record['state'] == 'no_state'){
-            $html = '<p>' . "mdadm ist not installed or your Server has no supported RAID" . '</p>';
+            $html .= '<p>' . "mdadm ist not installed or your Server has no supported RAID" . '</p>';
         }
         else {
             $data = unserialize($record['data']);
-            $html = nl2br($data['output']);
+            $html .= nl2br($data['output']);
         }
+        $html .= '</div></div>';
+
     } else {
         $html = '<p>' . "No RAID-Data available" . '</p>';
     }
