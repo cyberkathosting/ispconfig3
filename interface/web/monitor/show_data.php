@@ -84,6 +84,18 @@ switch($dataType) {
         $title = "Mailq" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
+    case 'raid_state':
+        $template = 'templates/show_data.htm';
+        $output .= showRaidState();
+        $title = "RAID-State" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
+    case 'rkhunter':
+        $template = 'templates/show_data.htm';
+        $output .= showRKHunter();
+        $title = "RKHunter-Log" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
     default:
         $template = '';
         break;

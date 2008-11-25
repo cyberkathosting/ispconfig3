@@ -109,6 +109,8 @@ class monitor_core_module {
         $this->monitorIspConfigLog();
         $this->monitorSystemUpdate();
         $this->monitorMailQueue();
+        $this->monitorRaid();
+        $this->monitorRkHunter();
     }
 
     function monitorServer(){
@@ -452,14 +454,12 @@ class monitor_core_module {
 
 
     function monitorSystemUpdate(){
-        /* This monitoring is only available at debian or Ubuntu */
-        if(!file_exists('/etc/debian_version')) return;
-
         /*
-         *  This monitoring is expensive, so do it only once a hour!
+         *  This monitoring is expensive, so do it only once a day (at 5:00)
          */
+        $hour = date('G');
         $min = date('i');
-        if ($min != 0) return;
+        if (($min != 0) && ($hour != 5)) return;
 
         /*
          * OK - here we go...
@@ -476,31 +476,48 @@ class monitor_core_module {
         /* There is only ONE Update-Data, so delete the old one */
         $this->_delOldRecords($type, 0);
 
-        /*
-         * first update the "update-database"
-         */
-        shell_exec('apt-get update');
+        /* This monitoring is only available at debian or Ubuntu */
+        if(file_exists('/etc/debian_version')){
 
-        /*
-         * Then test the upgrade.
-         * if there is any output, then there is a needed update
-         */
-        $aptData = shell_exec('apt-get -s -qq dist-upgrade');
-        if ($aptData == '')
-        {
-            /* There is nothing to update! */
-            $state = 'ok';
-        }
-        else
-        {
-            /* There is something to update! */
-            $state = 'warning';
-        }
+            /*
+             * first update the "update-database"
+             */
+            shell_exec('apt-get update');
 
-        /*
-         * Fetch the output
-         */
-        $data['output'] = shell_exec('apt-get -s -q dist-upgrade');
+            /*
+             * Then test the upgrade.
+             * if there is any output, then there is a needed update
+             */
+            $aptData = shell_exec('apt-get -s -qq dist-upgrade');
+            if ($aptData == '')
+            {
+                /* There is nothing to update! */
+                $state = 'ok';
+            }
+            else
+            {
+                /* There is something to update! */
+                $state = 'warning';
+            }
+
+            /*
+             * Fetch the output
+             */
+            $data['output'] = shell_exec('apt-get -s -q dist-upgrade');
+        }
+        else {
+            /*
+             * It is not debian/Ubuntu, so there is no data and no state
+             *
+             * no_state, NOT unknown, because "unknown" is shown as state
+             * inside the GUI. no_state is hidden.
+             *
+             * We have to write NO DATA inside the DB, because the GUI
+             * could not know, if there is any dat, or not...
+             */
+            $state = 'no_state';
+            $data['output']= '';
+        }
 
         /*
          * Insert the data into the database
@@ -562,6 +579,87 @@ class monitor_core_module {
         $app->db->query($sql);
     }
 
+
+    function monitorRaid(){
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'raid_state';
+
+        /* There is only ONE RAID-Data, so delete the old one */
+        $this->_delOldRecords($type, 0);
+
+        /* This monitoring is only available if mdadm is installed */
+        $location = shell_exec('which mdadm');
+        if($location != ''){
+            /*
+             * Fetch the output
+             */
+            $data['output'] = shell_exec('cat /proc/mdstat');
+
+            /*
+             * Then calc the state.
+             */
+            $tmp = explode("\n", $data['output']);
+            $state = 'ok';
+            foreach($tmp as $line) {
+                if (strpos($line, '[U_]' !== false))
+                {
+                    /* One Disk is not working */
+                    $state = $this->_setState($state, 'critical');
+                }
+                if (strpos($line, '[_U]' !== false))
+                {
+                    /* One Disk is not working */
+                    $state = $this->_setState($state, 'critical');
+                }
+                if (strpos($line, '[__]' !== false))
+                {
+                    /* both Disk are not working */
+                    $state = $this->_setState($state, 'error');
+                }
+                if (strpos($line, '[=' !== false))
+                {
+                    /* the raid is in resync */
+                    $state = $this->_setState($state, 'information');
+                }
+            }
+
+        }
+        else {
+            /*
+             * mdadm is not installed, so there is no data and no state
+             *
+             * no_state, NOT unknown, because "unknown" is shown as state
+             * inside the GUI. no_state is hidden.
+             *
+             * We have to write NO DATA inside the DB, because the GUI
+             * could not know, if there is any dat, or not...
+             */
+            $state = 'no_state';
+            $data['output']= '';
+        }
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+    }
+
+    function monitorRkHunter(){
+    }
 
     function monitorMailLog()
     {
@@ -781,6 +879,86 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+/* for later (to detect that the version is outdated)
+--------------------------------------
+Received signal: wake up
+ClamAV update process started at Sun Nov 23 12:03:49 2008
+main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
+Trying host db.local.clamav.net (85.214.20.182)...
+Downloading daily-8675.cdiff [100%]
+Downloading daily-8676.cdiff [100%]
+daily.cld updated (version: 8676, sigs: 26800, f-level: 35, builder: ccordes)
+Database updated (464772 signatures) from db.local.clamav.net (IP: 85.214.20.182)
+Clamd successfully notified about the update.
+--------------------------------------
+--------------------------------------
+freshclam daemon 0.90.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
+ClamAV update process started at Sun Nov 23 12:37:49 2008
+WARNING: Your ClamAV installation is OUTDATED!
+WARNING: Local version: 0.90.1 Recommended version: 0.94.1
+DON'T PANIC! Read http://www.clamav.net/support/faq
+Downloading main-43.cdiff [0%]
+Downloading main-44.cdiff [0%]
+Downloading main-45.cdiff [0%]
+Downloading main-46.cdiff [0%]
+Downloading main-47.cdiff [0%]
+Downloading main-48.cdiff [0%]
+Downloading main-49.cdiff [0%]
+main.cvd updated (version: 49, sigs: 437972, f-level: 35, builder: sven)
+WARNING: Your ClamAV installation is OUTDATED!
+WARNING: Current functionality level = 14, recommended = 35
+DON'T PANIC! Read http://www.clamav.net/support/faq
+ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 62.75.166.141)
+ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
+ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 62.26.160.3)
+ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
+ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 213.174.32.130)
+ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
+ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 212.1.60.18)
+ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
+ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 193.27.50.222)
+ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
+WARNING: Incremental update failed, trying to download daily.cvd
+Downloading daily.cvd [0%]
+daily.cvd updated (version: 8676, sigs: 26800, f-level: 35, builder: ccordes)
+WARNING: Your ClamAV installation is OUTDATED!
+WARNING: Current functionality level = 14, recommended = 35
+DON'T PANIC! Read http://www.clamav.net/support/faq
+Database updated (464772 signatures) from db.local.clamav.net (IP: 91.198.238.33)
+--------------------------------------
+--------------------------------------
+freshclam daemon 0.94.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
+ClamAV update process started at Sun Nov 23 13:01:17 2008
+Trying host db.local.clamav.net (193.27.50.222)...
+Downloading main.cvd [100%]
+main.cvd updated (version: 49, sigs: 437972, f-level: 35, builder: sven)
+daily.cvd is up to date (version: 8676, sigs: 26800, f-level: 35, builder: ccordes)
+Database updated (464772 signatures) from db.local.clamav.net (IP: 193.27.50.222)
+--------------------------------------
+--------------------------------------
+freshclam daemon 0.94.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
+ClamAV update process started at Tue Nov 25 19:11:42 2008
+main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
+Trying host db.local.clamav.net (85.214.44.186)...
+Downloading daily-8677.cdiff [100%]
+Downloading daily-8678.cdiff [100%]
+Downloading daily-8679.cdiff [100%]
+daily.cld updated (version: 8679, sigs: 26975, f-level: 35, builder: ccordes)
+Database updated (464947 signatures) from db.local.clamav.net (IP: 85.214.44.186)
+--------------------------------------
+--------------------------------------
+freshclam daemon 0.94.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
+ClamAV update process started at Tue Nov 25 19:16:18 2008
+main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
+daily.cld is up to date (version: 8679, sigs: 26975, f-level: 35, builder: ccordes)
+--------------------------------------
+Received signal: wake up
+ClamAV update process started at Tue Nov 25 20:16:25 2008
+main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
+daily.cld is up to date (version: 8679, sigs: 26975, f-level: 35, builder: ccordes)
+--------------------------------------
+ */
     }
 
     function monitorIspConfigLog()

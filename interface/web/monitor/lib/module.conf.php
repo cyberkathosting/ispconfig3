@@ -10,7 +10,7 @@ $module["tab_width"]    = '';
 $module["startpage"] 	= "monitor/show_sys_state.php?state=system";
 
 unset($items);
-$items[] = array( 'title' 	=> "Show System State",
+$items[] = array( 'title' 	=> "Show Overview",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_sys_state.php?state=system');
 
@@ -59,7 +59,7 @@ $items[] = array( 'title' 	=> "Show CPU info",
         'target' 	=> 'content',
         'link'	=> 'monitor/show_data.php?type=cpu_info');
 
-$module["nav"][] = array(	'title'	=> 'System-Information',
+$module["nav"][] = array(	'title'	=> 'Hardware-Information',
         'open' 	=> 1,
         'items'	=> $items);
 
@@ -67,19 +67,19 @@ $module["nav"][] = array(	'title'	=> 'System-Information',
  * Clear and set the Navigation-Items
  */
 unset($items);
-$items[] = array( 'title' 	=> "Show Server State",
+$items[] = array( 'title' 	=> "Show Overview",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_sys_state.php?state=server');
-/*
- * The next menu is only available at debian or Ubuntu
- */
-if(file_exists('/etc/debian_version')){
+
 $items[] = array( 'title' 	=> "Show Update State",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=system_update');
-}
 
-$items[] = array( 'title' 	=> "Show Server Load",
+$items[] = array( 'title' 	=> "Show RAID state",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=raid_state');
+
+$items[] = array( 'title' 	=> "Show Server load",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=server_load');
 
@@ -95,11 +95,8 @@ $items[] = array( 'title' 	=> "Show Services",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=services');
 
-$items[] = array( 'title' 	=> "Show Mailq",
-                  'target' 	=> 'content',
-                  'link'	=> 'monitor/show_data.php?type=mailq');
 
-$module["nav"][] = array(	'title'	=> 'Monitoring',
+$module["nav"][] = array(	'title'	=> 'Server State',
                             'open' 	=> 1,
                             'items'	=> $items);
 
@@ -107,6 +104,10 @@ $module["nav"][] = array(	'title'	=> 'Monitoring',
  * Clear and set the Navigation-Items
  */
 unset($items);
+
+$items[] = array( 'title' 	=> "Show Mail-Queue",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=mailq');
 
 $items[] = array( 'title' 	=> "Show Mail-Log",
                   'target' 	=> 'content',
@@ -136,6 +137,9 @@ $items[] = array( 'title' 	=> "Show ISPConfig-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_ispconfig');
 
+//$items[] = array( 'title' 	=> "Show RKHunter-Log",
+//                  'target' 	=> 'content',
+//                  'link'	=> 'monitor/show_data.php?type=rkhunter');
 
 $module["nav"][] = array(	'title'	=> 'Logfiles',
                             'open' 	=> 1,

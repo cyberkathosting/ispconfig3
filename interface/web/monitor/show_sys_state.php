@@ -168,9 +168,9 @@ function _getServerState($serverId, $serverName, $showAll)
         /*
          * Show some state-info
          */
-        $res .= showServerLoad();
-        $res .= '&nbsp;'. showDiskUsage();
-        $res .= '&nbsp;'.showServices();
+        //$res .= showServerLoad();
+        //$res .= '&nbsp;'. showDiskUsage();
+        //$res .= '&nbsp;'.showServices();
     }
 
 
@@ -289,12 +289,48 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
                 $messages['warning'][] = 'One or more Components needs a update ' .
                                     "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[more...]</a>";
                 break;
+            case 'no_state':
+                /*
+                 *  not debian and not Ubuntu, so the state could not be monitored...
+                 */
+                break;
             default:
-                $messages['unknown'][] = 'System-Updatese:??? ' .
+                $messages['unknown'][] = 'System-Update:??? ' .
                                     "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[more...]</a>";
                 break;
         }
     }
+
+    if ($type == 'raid_state'){
+        switch ($record['state']) {
+            case 'ok':
+                $messages['ok'][] = 'Your RAID is ok ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[more...]</a>";
+                break;
+            case 'info':
+                $messages['info'][] = 'Your RAID is in RESYNC mode ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[more...]</a>";
+                break;
+            case 'critical':
+                $messages['critical'][] = 'Your RAID has one FAULT disk. Replace as soon as possible! '.
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[more...]</a>";
+                break;
+            case 'error':
+                $messages['error'][] = 'Your RAID is not working anymore ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[more...]</a>";
+                break;
+            case 'no_state':
+                /*
+                 *  mdadm is not installed or the RAID is not supported...
+                 */
+                break;
+            default:
+                $messages['unknown'][] = 'RAID state: ??? ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[more...]</a>";
+                break;
+        }
+    }
+
 
     if ($type == 'mailq'){
         switch ($record['state']) {
