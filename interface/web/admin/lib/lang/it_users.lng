@@ -1,0 +1,30 @@
+<?php
+$wb['username_txt'] = 'Username';
+$wb['username_err'] = 'The username is too long or contains invalid characters.';
+$wb['username_empty'] = 'The username is empty.';
+$wb['username_unique'] = 'There is already a user with this username.';
+$wb['passwort_txt'] = 'Password';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['modules_txt'] = 'Module';
+$wb['startmodule_txt'] = 'Startmodule';
+$wb['app_theme_txt'] = 'Design';
+$wb['typ_txt'] = 'Type';
+$wb['active_txt'] = 'Active';
+$wb['language_txt'] = 'Language';
+$wb['name_txt'] = 'Name';
+$wb['vorname_txt'] = 'Forename';
+$wb['unternehmen_txt'] = 'Company';
+$wb['strasse_txt'] = 'Street';
+$wb['ort_txt'] = 'City';
+$wb['plz_txt'] = 'ZIP';
+$wb['land_txt'] = 'Country';
+$wb['email_txt'] = 'Email';
+$wb['url_txt'] = 'Url';
+$wb['telefon_txt'] = 'Telephone';
+$wb['fax_txt'] = 'Fax';
+$wb['groups_txt'] = 'Groups';
+$wb['default_group_txt'] = 'Default Group';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['startmodule_err'] = 'Start module is not within modules.';
+?>

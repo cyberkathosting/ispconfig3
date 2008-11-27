@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Systemuser groups';
+$wb['description_txt'] = 'Description';
+$wb['name_txt'] = 'Group';
+$wb['add_new_record_txt'] = 'Add new Group';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Back';
+$wb['delete_txt'] = 'Delete';
+$wb['filter_txt'] = 'Filter';
+?>
