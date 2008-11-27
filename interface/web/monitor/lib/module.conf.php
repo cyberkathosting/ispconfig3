@@ -121,7 +121,7 @@ $items[] = array( 'title' 	=> "Show Mail err-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_mail_err');
 
-$items[] = array( 'title' 	=> "Show Messages-Log",
+$items[] = array( 'title' 	=> "Show System-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_messages');
 

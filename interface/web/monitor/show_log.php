@@ -61,7 +61,7 @@ switch($logParam) {
 		break;
 	case 'log_messages':
 		$logId = 'log_messages';
-		$title = 'Messages (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = 'System (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		break;
 	case 'log_freshclam':
 		$logId = 'log_freshclam';
