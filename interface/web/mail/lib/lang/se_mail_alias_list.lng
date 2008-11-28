@@ -1,11 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'epost_alias';
-$wb["email_txt"] = 'epost';
-$wb["destination_txt"] = 'mål';
-$wb["page_txt"] = 'Sida';
-$wb["page_of_txt"] = 'av';
-$wb["page_next_txt"] = 'Nästa';
-$wb["page_back_txt"] = 'Tillbaka';
-$wb["delete_txt"] = 'Ta bort';
-$wb["filter_txt"] = 'Filter';
+$wb['list_head_txt'] = 'epost_alias';
+$wb['email_txt'] = 'epost';
+$wb['destination_txt'] = 'mål';
+$wb['page_txt'] = 'Sida';
+$wb['page_of_txt'] = 'av';
+$wb['page_next_txt'] = 'Nästa';
+$wb['page_back_txt'] = 'Tillbaka';
+$wb['delete_txt'] = 'Ta bort';
+$wb['filter_txt'] = 'Filter';
+$wb['active_txt'] = 'Active';
+$wb['source_txt'] = 'source';
+$wb['add_new_record_txt'] = 'Add new Email alias';
 ?>

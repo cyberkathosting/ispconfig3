@@ -1,7 +1,10 @@
 <?php
-$wb["passwort_txt"] = 'Wachtwoord';
-$wb["language_txt"] = 'Taal';
-$wb["btn_save_txt"] = 'Opslaan';
-$wb["btn_cancel_txt"] = 'Annuleer';
-$wb["password_mismatch"] = 'Het wachtwoord in het tweede veld komt niet overeen met het eerste wachtwoord.';
+$wb['passwort_txt'] = 'Wachtwoord';
+$wb['language_txt'] = 'Taal';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Annuleer';
+$wb['password_mismatch'] = 'Het wachtwoord in het tweede veld komt niet overeen met het eerste wachtwoord.';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['Form to edit the user password and language.'] = 'Form to edit the user password and language.';
+$wb['Settings'] = 'Settings';
 ?>

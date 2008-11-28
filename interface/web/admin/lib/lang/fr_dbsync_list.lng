@@ -1,13 +1,13 @@
 <?php
-$wb["list_head_txt"] = 'Synchronisation de la BDD';
-$wb["jobname_txt"] = 'Nom de la tache';
-$wb["db_host_txt"] = 'Hôte BDD';
-$wb["db_name_txt"] = 'Nom de la BDD';
-
-$wb["page_txt"] = 'Page';
-$wb["page_of_txt"] = 'de';
-$wb["page_next_txt"] = 'Suivante';
-$wb["page_back_txt"] = 'Précedente';
-$wb["delete_txt"] = 'Effacer';
-$wb["filter_txt"] = 'Filtrer';
+$wb['list_head_txt'] = 'Synchronisation de la BDD';
+$wb['jobname_txt'] = 'Nom de la tache';
+$wb['db_host_txt'] = 'Hôte BDD';
+$wb['db_name_txt'] = 'Nom de la BDD';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Suivante';
+$wb['page_back_txt'] = 'Précedente';
+$wb['delete_txt'] = 'Effacer';
+$wb['filter_txt'] = 'Filtrer';
+$wb['add_new_record_txt'] = 'Add new DBSync record';
 ?>

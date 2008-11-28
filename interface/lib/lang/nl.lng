@@ -8,4 +8,3 @@ $wb['delete_confirmation'] = 'Wilt u dit record echt verwijderen?';
 $wb['error_no_view_permission'] = 'U heeft geen toestemming om dit record te bekijken of dit record bestaat niet!';
 $wb['error_no_delete_permission'] = 'U heeft geen toestemming om dit record te verwijderen!';
 ?>
-

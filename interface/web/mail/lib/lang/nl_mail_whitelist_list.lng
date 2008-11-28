@@ -1,16 +1,16 @@
 <?php
-$wb["list_head_txt"] = 'Email Whitelist';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["source_txt"] = 'Whitelisted adres';
-$wb["type_txt"] = 'Type';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["filter_txt"] = 'Filter';
-$wb["recipient_txt"] = 'Ontvanger';
-$wb["add_new_record_txt"] = 'Toevoegen nieuw whitelist record';
-$wb["access_txt"] = 'toegang';
+$wb['list_head_txt'] = 'Email Whitelist';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Whitelisted adres';
+$wb['type_txt'] = 'Type';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['filter_txt'] = 'Filter';
+$wb['recipient_txt'] = 'Ontvanger';
+$wb['add_new_record_txt'] = 'Toevoegen nieuw whitelist record';
+$wb['access_txt'] = 'toegang';
 ?>

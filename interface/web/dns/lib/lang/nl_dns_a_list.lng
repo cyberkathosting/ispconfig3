@@ -1,16 +1,17 @@
 <?php
-$wb["list_head_txt"] = 'A-Record';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Naam';
-$wb["data_txt"] = 'Data';
-$wb["type_txt"] = 'Type';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Toevoegen nieuw DNS A-Record';
+$wb['list_head_txt'] = 'A-Record';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Naam';
+$wb['data_txt'] = 'Data';
+$wb['type_txt'] = 'Type';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Toevoegen nieuw DNS A-Record';
+$wb['aux_txt'] = 'Priority';
 ?>

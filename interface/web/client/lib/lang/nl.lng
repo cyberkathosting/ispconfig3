@@ -1,10 +1,8 @@
 <?php
-
 $wb['Client'] = 'Klant';
 $wb['Address'] = 'Adres';
 $wb['Limits'] = 'Limieten';
 $wb['Add Client'] = 'Toevoegen klant';
 $wb['Edit Client'] = 'Wijzigen klant';
 $wb['Clients'] = 'Klanten';
-
 ?>

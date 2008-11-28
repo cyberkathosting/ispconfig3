@@ -1,12 +1,12 @@
 <?php
-$wb["list_head_txt"] = 'IP-adressen';
-$wb["server_id_txt"] = 'Server';
-$wb["ip_address_txt"] = 'IP-adres';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Toevoegen nieuw IP-adres';
+$wb['list_head_txt'] = 'IP-adressen';
+$wb['server_id_txt'] = 'Server';
+$wb['ip_address_txt'] = 'IP-adres';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Toevoegen nieuw IP-adres';
 ?>

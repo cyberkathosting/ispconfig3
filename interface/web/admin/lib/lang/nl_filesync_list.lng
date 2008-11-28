@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"] = 'Bestand synchronisatie';
-$wb["jobname_txt"] = 'Jobnaam';
-$wb["ftp_host_txt"] = 'FTP-server';
-$wb["local_path_txt"] = 'Lokaal pad';
+$wb['list_head_txt'] = 'Bestand synchronisatie';
+$wb['jobname_txt'] = 'Jobnaam';
+$wb['ftp_host_txt'] = 'FTP-server';
+$wb['local_path_txt'] = 'Lokaal pad';
 ?>

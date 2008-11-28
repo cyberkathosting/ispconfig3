@@ -1,14 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Utilisateurs';
-$wb["username_txt"] = 'Nom d\'utilisateur';
-$wb["name_txt"] = 'Nom';
-$wb["vorname_txt"] = 'Prénom';
-$wb["ort_txt"] = 'Ville';
-
-$wb["page_txt"] = 'Page';
-$wb["page_of_txt"] = 'de';
-$wb["page_next_txt"] = 'Suivant';
-$wb["page_back_txt"] = 'Précedent';
-$wb["delete_txt"] = 'Effacer';
-$wb["filter_txt"] = 'Filtrer';
+$wb['list_head_txt'] = 'Utilisateurs';
+$wb['username_txt'] = 'Nom dutilisateur';
+$wb['name_txt'] = 'Nom';
+$wb['vorname_txt'] = 'Prénom';
+$wb['ort_txt'] = 'Ville';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Suivant';
+$wb['page_back_txt'] = 'Précedent';
+$wb['delete_txt'] = 'Effacer';
+$wb['filter_txt'] = 'Filtrer';
+$wb['add_new_record_txt'] = 'Add new User';
 ?>

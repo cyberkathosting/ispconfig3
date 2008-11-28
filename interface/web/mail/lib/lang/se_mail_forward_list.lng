@@ -1,13 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Epost Skicka vidare';
-$wb["active_txt"] = 'Aktiv';
-$wb["email_txt"] = 'Epost';
-$wb["destination_txt"] = 'Mottagare';
-$wb["page_txt"] = 'Sida';
-$wb["page_of_txt"] = 'av';
-$wb["page_next_txt"] = 'Nästa';
-$wb["page_back_txt"] = 'Tillbaka';
-$wb["delete_txt"] = 'Ta bort';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Lägg till ny Skicka vidare';
+$wb['list_head_txt'] = 'Epost Skicka vidare';
+$wb['active_txt'] = 'Aktiv';
+$wb['email_txt'] = 'Epost';
+$wb['destination_txt'] = 'Mottagare';
+$wb['page_txt'] = 'Sida';
+$wb['page_of_txt'] = 'av';
+$wb['page_next_txt'] = 'Nästa';
+$wb['page_back_txt'] = 'Tillbaka';
+$wb['delete_txt'] = 'Ta bort';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Lägg till ny Skicka vidare';
+$wb['source_txt'] = 'source';
 ?>

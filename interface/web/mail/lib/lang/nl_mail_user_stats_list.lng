@@ -1,14 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Mail verkeer';
-$wb["email_txt"] = 'Email';
-$wb["this_month_txt"] = 'Deze maand';
-$wb["last_month_txt"] = 'Laatste maand';
-$wb["this_year_txt"] = 'Dit jaar';
-$wb["last_year_txt"] = 'Vorig jaar';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["filter_txt"] = 'Filter';
+$wb['list_head_txt'] = 'Mail verkeer';
+$wb['email_txt'] = 'Email';
+$wb['this_month_txt'] = 'Deze maand';
+$wb['last_month_txt'] = 'Laatste maand';
+$wb['this_year_txt'] = 'Dit jaar';
+$wb['last_year_txt'] = 'Vorig jaar';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['filter_txt'] = 'Filter';
 ?>

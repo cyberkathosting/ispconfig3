@@ -1,11 +1,11 @@
 <?php
-$wb["domain_txt"] = 'Domein';
-$wb["destination_txt"] = 'Bestemming';
-$wb["active_txt"] = 'Actief';
-$wb["btn_save_txt"] = 'Opslaan';
-$wb["btn_cancel_txt"] = 'Annuleren';
-$wb["domain_error_unique"] = "Er is al een Catchall record voor dit domein.";
-$wb["no_domain_perm"] = "U heeft geen permissies voor dit domein.";
-$wb["domain_error_regex"] = 'Ongeldige domeinnaam of het domein bevat ongeldige karakters.';
-$wb["limit_mailcatchall_txt"] = 'Het max. aantal email catchall accounts voor uw account is bereikt.';
+$wb['domain_txt'] = 'Domein';
+$wb['destination_txt'] = 'Bestemming';
+$wb['active_txt'] = 'Actief';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Annuleren';
+$wb['domain_error_unique'] = 'Er is al een Catchall record voor dit domein.';
+$wb['no_domain_perm'] = 'U heeft geen permissies voor dit domein.';
+$wb['domain_error_regex'] = 'Ongeldige domeinnaam of het domein bevat ongeldige karakters.';
+$wb['limit_mailcatchall_txt'] = 'Het max. aantal email catchall accounts voor uw account is bereikt.';
 ?>

@@ -1,10 +1,12 @@
 <?php
-$wb["email_txt"] = 'Epost';
-$wb["destination_txt"] = 'Mål';
-$wb["active_txt"] = 'Aktiv';
-$wb["btn_save_txt"] = 'Spara';
-$wb["btn_cancel_txt"] = 'Avbryt';
-$wb["email_error_isemail"] = 'Epostadressen är tom.';
-$wb["email_error_unique"] = 'Dubbla Epostadresser.';
-$wb["no_domain_perm"] = "Du har ingen behörighet för denna domänen.";
+$wb['email_txt'] = 'Epost';
+$wb['destination_txt'] = 'Mål';
+$wb['active_txt'] = 'Aktiv';
+$wb['btn_save_txt'] = 'Spara';
+$wb['btn_cancel_txt'] = 'Avbryt';
+$wb['email_error_isemail'] = 'Epostadressen är tom.';
+$wb['email_error_unique'] = 'Dubbla Epostadresser.';
+$wb['no_domain_perm'] = 'Du har ingen behörighet för denna domänen.';
+$wb['destination_error_isemail'] = 'Destination Emailaddress is invalid.';
+$wb['limit_mailalias_txt'] = 'The max. number of email aliases for your account is reached.';
 ?>

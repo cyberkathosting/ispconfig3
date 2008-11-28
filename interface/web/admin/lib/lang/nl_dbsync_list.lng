@@ -1,14 +1,13 @@
 <?php
-$wb["list_head_txt"] = 'Database synchronisatie';
-$wb["jobname_txt"] = 'Jobnaam';
-$wb["db_host_txt"] = 'DB host';
-$wb["db_name_txt"] = 'DB naam';
-
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Annuleren';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Toevoegen nieuw DBSync record';
+$wb['list_head_txt'] = 'Database synchronisatie';
+$wb['jobname_txt'] = 'Jobnaam';
+$wb['db_host_txt'] = 'DB host';
+$wb['db_name_txt'] = 'DB naam';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Annuleren';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Toevoegen nieuw DBSync record';
 ?>

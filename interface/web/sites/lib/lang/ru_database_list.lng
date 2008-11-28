@@ -1,14 +1,14 @@
 <?php
-$wb["list_head_txt"] = 'Database';
-$wb["active_txt"] = 'Активный';
-$wb["remote_access_txt"] = 'Remote Access';
-$wb["server_id_txt"] = 'Сервер';
-$wb["database_name_txt"] = 'Database name';
-$wb["page_txt"] = 'Страница';
-$wb["page_of_txt"] = 'из';
-$wb["page_next_txt"] = 'Дальше';
-$wb["page_back_txt"] = 'Назад';
-$wb["delete_txt"] = 'Удалить';
-$wb["filter_txt"] = 'Фильтр';
-$wb["add_new_record_txt"] = 'Добавить новую Database';
+$wb['list_head_txt'] = 'Database';
+$wb['active_txt'] = 'Активный';
+$wb['remote_access_txt'] = 'Remote Access';
+$wb['server_id_txt'] = 'Сервер';
+$wb['database_name_txt'] = 'Database name';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'из';
+$wb['page_next_txt'] = 'Дальше';
+$wb['page_back_txt'] = 'Назад';
+$wb['delete_txt'] = 'Удалить';
+$wb['filter_txt'] = 'Фильтр';
+$wb['add_new_record_txt'] = 'Добавить новую Database';
 ?>

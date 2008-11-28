@@ -1,7 +1,7 @@
 <?php
-$wb["description_txt"] = 'Omschrijving';
-$wb["name_txt"] = 'Groep';
-$wb["name_err"] = 'Groepsnaam moet min. 1 en max. 30 karakters bevatten.';
-$wb["btn_save_txt"] = 'Opslaan';
-$wb["btn_cancel_txt"] = 'Annuleren'
+$wb['description_txt'] = 'Omschrijving';
+$wb['name_txt'] = 'Groep';
+$wb['name_err'] = 'Groepsnaam moet min. 1 en max. 30 karakters bevatten.';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Annuleren';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["ip_address_txt"] = 'IP Adres';
-$wb["virtualhost_txt"] = 'HTTP NameVirtualHost';
-$wb["ip_err"] = 'IP adres ongeldig';
-$wb["btn_save_txt"] = 'Opslaan';
-$wb["btn_cancel_txt"] = 'Annuleren';
+$wb['server_id_txt'] = 'Server';
+$wb['ip_address_txt'] = 'IP Adres';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_err'] = 'IP adres ongeldig';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Annuleren';
 ?>

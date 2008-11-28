@@ -4,6 +4,4 @@ $wb['Message'] = 'Bericht';
 $wb['Send message'] = 'Verstuur bericht';
 $wb['View messages'] = 'Bekijk berichten';
 $wb['Support'] = 'Support';
-
 ?>
-

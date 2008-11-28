@@ -7,4 +7,3 @@ $wb['tstamp_txt'] = 'Tijdstempel';
 $wb['btn_save_txt'] = 'Opslaan';
 $wb['btn_cancel_txt'] = 'Annuleren';
 ?>
-

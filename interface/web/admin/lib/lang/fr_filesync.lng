@@ -1,12 +1,12 @@
 <?php
-$wb["jobname_txt"] = 'Nom de la tache';
-$wb["jobname_err"] = 'Le nom est ide.';
-$wb["sync_interval_minutes_txt"] = 'Intervalle (Min.)';
-$wb["ftp_host_txt"] = 'Hôte FTP';
-$wb["ftp_path_txt"] = 'Dossier FTP';
-$wb["ftp_username_txt"] = 'Utilisateur FTP';
-$wb["ftp_password_txt"] = 'Mot de passe FTP';
-$wb["local_path_txt"] = 'Dossier Local';
-$wb["wput_options_txt"] = 'Options Wput';
-$wb["active_txt"] = 'Active';
+$wb['jobname_txt'] = 'Nom de la tache';
+$wb['jobname_err'] = 'Le nom est ide.';
+$wb['sync_interval_minutes_txt'] = 'Intervalle (Min.)';
+$wb['ftp_host_txt'] = 'Hôte FTP';
+$wb['ftp_path_txt'] = 'Dossier FTP';
+$wb['ftp_username_txt'] = 'Utilisateur FTP';
+$wb['ftp_password_txt'] = 'Mot de passe FTP';
+$wb['local_path_txt'] = 'Dossier Local';
+$wb['wput_options_txt'] = 'Options Wput';
+$wb['active_txt'] = 'Active';
 ?>

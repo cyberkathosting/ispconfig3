@@ -20,7 +20,6 @@ $wb['Email filter'] = 'Email filter';
 $wb['Email Whitelist'] = 'Email whitelist';
 $wb['Whitelist'] = 'Whitelist';
 $wb['Spamfilter blacklist'] = 'Spamfilter blacklist';
-$wb['Blacklist'] = 'Blacklist';
 $wb['Spamfilter Config'] = 'Spamfilter config';
 $wb['Server'] = 'Server';
 $wb['Spamfilter policy'] = 'Spamfilter policy';
@@ -31,13 +30,11 @@ $wb['Other'] = 'Overige';
 $wb['Spamfilter users'] = 'Spamfilter gebruikers';
 $wb['Users'] = 'Users';
 $wb['Spamfilter Whitelist'] = 'Spamfilter whitelist';
-$wb['Whitelist'] = 'Whitelist';
 $wb['Email'] = 'Email';
 $wb['Email Mailbox'] = 'Email mailbox';
 $wb['Email Accounts'] = 'Email accounts';
 $wb['User / Domain'] = 'Gebruiker / domein';
 $wb['Server Settings'] = 'Server instellingen';
-$wb['Spamfilter'] = 'Spamfilter';
 $wb['Fetchmail'] = 'Fetchmail';
 $wb['Mailbox traffic'] = 'Mailbox dataverkeer';
 $wb['Statistics'] = 'Statistieken';
@@ -45,5 +42,4 @@ $wb['Postfix Whitelist'] = 'Postfix whitelist';
 $wb['Postfix Blacklist'] = 'Postfix blacklist';
 $wb['Content Filter'] = 'Content filter';
 $wb['Global Filters'] = 'Global filters';
-
 ?>

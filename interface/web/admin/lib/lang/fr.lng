@@ -1,6 +1,34 @@
 <?php
-
-$wb[1001]	= "Nom d'utilisateur ou mot de passe vide.";
-$wb[1002]	= "Nom d'utilisateur ou mot de passe faux.";
-
+$wb['1001'] = 'Nom dutilisateur ou mot de passe vide.';
+$wb['1002'] = 'Nom dutilisateur ou mot de passe faux.';
+$wb['Firewall'] = 'Firewall';
+$wb['Groups'] = 'Groups';
+$wb['groups_description'] = 'Form to edit systemuser groups.';
+$wb['Server'] = 'Server';
+$wb['Services'] = 'Services';
+$wb['Config'] = 'Config';
+$wb['Server Config'] = 'Server Config';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'System';
+$wb['Add user'] = 'Add user';
+$wb['Edit user'] = 'Edit user';
+$wb['CP Users'] = 'CP Users';
+$wb['Add group'] = 'Add group';
+$wb['Edit group'] = 'Edit group';
+$wb['Edit server'] = 'Edit server';
+$wb['Edit Server IP'] = 'Edit Server IP';
+$wb['Servers'] = 'Servers';
+$wb['Sync. Now'] = 'Sync. Now';
+$wb['DB Sync.'] = 'DB Sync.';
+$wb['Languages'] = 'Languages';
+$wb['New Language'] = 'New Language';
+$wb['Export'] = 'Export';
+$wb['Import'] = 'Import';
+$wb['Language Editor'] = 'Language Editor';
+$wb['Software'] = 'Software';
+$wb['Repositories'] = 'Repositories';
 ?>

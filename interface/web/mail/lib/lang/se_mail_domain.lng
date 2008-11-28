@@ -1,8 +1,15 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["domain_txt"] = 'Domän';
-$wb["type_txt"] = 'Typ';
-$wb["active_txt"] = 'Aktiv';
-$wb["btn_save_txt"] = 'Spara';
-$wb["btn_cancel_txt"] = 'Avbryt';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domän';
+$wb['type_txt'] = 'Typ';
+$wb['active_txt'] = 'Aktiv';
+$wb['btn_save_txt'] = 'Spara';
+$wb['btn_cancel_txt'] = 'Avbryt';
+$wb['domain_error_empty'] = 'Domain is empty.';
+$wb['domain_error_unique'] = 'Duplicate Domain.';
+$wb['domain_error_regex'] = 'Invalid domain name.';
+$wb['client_txt'] = 'Client';
+$wb['limit_maildomain_txt'] = 'The max. number of email domains for your account is reached.';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- not enabled -';
 ?>

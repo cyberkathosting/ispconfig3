@@ -1,5 +1,5 @@
 <?php
-$wb["list_head_txt"] = 'Module Backend';
-$wb["module_txt"] = 'Module';
-$wb["title_txt"] = 'Titre';
+$wb['list_head_txt'] = 'Module Backend';
+$wb['module_txt'] = 'Module';
+$wb['title_txt'] = 'Titre';
 ?>

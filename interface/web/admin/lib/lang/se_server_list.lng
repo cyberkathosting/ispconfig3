@@ -1,17 +1,17 @@
 <?php
-$wb["list_head_txt"] = 'Server';
-$wb["server_name_txt"] = 'Namn';
-$wb["mail_server_txt"] = 'Epost';
-$wb["web_server_txt"] = 'Webb';
-$wb["dns_server_txt"] = 'DNS';
-$wb["file_server_txt"] = 'Fil';
-$wb["mysql_server_txt"] = 'MySQL';
-$wb["postgresql_server_txt"] = 'PostgreSQL';
-$wb["firebird_server_txt"] = 'Firebird';
-$wb["page_txt"] = 'Sida';
-$wb["page_of_txt"] = 'av';
-$wb["page_next_txt"] = 'Nästa';
-$wb["page_back_txt"] = 'Tillbaka';
-$wb["delete_txt"] = 'Ta bort';
-$wb["filter_txt"] = 'Filter';
+$wb['list_head_txt'] = 'Server';
+$wb['server_name_txt'] = 'Namn';
+$wb['mail_server_txt'] = 'Epost';
+$wb['web_server_txt'] = 'Webb';
+$wb['dns_server_txt'] = 'DNS';
+$wb['file_server_txt'] = 'Fil';
+$wb['page_txt'] = 'Sida';
+$wb['page_of_txt'] = 'av';
+$wb['page_next_txt'] = 'Nästa';
+$wb['page_back_txt'] = 'Tillbaka';
+$wb['delete_txt'] = 'Ta bort';
+$wb['filter_txt'] = 'Filter';
+$wb['db_server_txt'] = 'DB';
+$wb['vserver_server_txt'] = 'VServer';
+$wb['add_new_record_txt'] = 'Add new Server';
 ?>

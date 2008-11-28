@@ -1,14 +1,14 @@
 <?php
-$wb["name_txt"] = 'Modulnamn';
-$wb["title_txt"] = 'Modultitel';
-$wb["template_txt"] = 'Mall fil';
-$wb["navframe_txt"] = 'Nav.Ram';
-$wb["startpage_txt"] = 'Standard sida';
-$wb["tab_width_txt"] = 'Flik bredd';
-$wb["save_txt"] = 'Spara';
-$wb["cancel_txt"] = 'Avbryt';
-$wb["header_txt"] = 'Modul inställningar';
-$wb["description_txt"] = '
+$wb['name_txt'] = 'Modulnamn';
+$wb['title_txt'] = 'Modultitel';
+$wb['template_txt'] = 'Mall fil';
+$wb['navframe_txt'] = 'Nav.Ram';
+$wb['startpage_txt'] = 'Standard sida';
+$wb['tab_width_txt'] = 'Flik bredd';
+$wb['save_txt'] = 'Spara';
+$wb['cancel_txt'] = 'Avbryt';
+$wb['header_txt'] = 'Modul inställningar';
+$wb['description_txt'] = '
 <b>Description</b>
 <br><br>
 <b>Modulename:</b> Namn på modul mappen. Endast siffror, bokstäver och understreck är tillåtna.<br>
@@ -17,7 +17,6 @@ $wb["description_txt"] = '
 <b>NaviFrame:</b> Om module module_tree.tpl.htm väljs som mall file, skriv här sökvägen till skriptfilen för den vänstra ramen.<br>
 <b>Default page:</b> Dessa sidor kommer att visas när modulen öppnas.<br>
 <b>Tab width:</b> Bredd på Flikarna i huvud navigerings ramen. Detta fält är tomt som standard. Du kan skriva in ett absolutvärde i pixlar (ex. 20) eller relativt värde (ex. 20%).<br>
-<b>Hint:</b> Alla sökvägar är relativa till mappen "web".
+<b>Hint:</b> Alla sökvägar är relativa till mappen web.
 ';
-
 ?>

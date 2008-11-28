@@ -1,16 +1,16 @@
 <?php
-$wb["list_head_txt"] = 'Spamfilter gebruikers';
-$wb["local_txt"] = 'Lokaal';
-$wb["server_id_txt"] = 'Server';
-$wb["priority_txt"] = 'Prioriteit';
-$wb["policy_id_txt"] = 'Policy';
-$wb["fullname_txt"] = 'Naam';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["filter_txt"] = 'Filter';
-$wb["email_txt"] = 'Email';
-$wb["add_new_record_txt"] = 'Toevoegen Spamfilter gebruiker';
+$wb['list_head_txt'] = 'Spamfilter gebruikers';
+$wb['local_txt'] = 'Lokaal';
+$wb['server_id_txt'] = 'Server';
+$wb['priority_txt'] = 'Prioriteit';
+$wb['policy_id_txt'] = 'Policy';
+$wb['fullname_txt'] = 'Naam';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['filter_txt'] = 'Filter';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Toevoegen Spamfilter gebruiker';
 ?>

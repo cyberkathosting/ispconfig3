@@ -1,15 +1,15 @@
 <?php
-$wb["list_head_txt"] = 'Haal emails op van externe POP3 / IMAP servers';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["source_server_txt"] = 'Externe server';
-$wb["source_username_txt"] = 'Gebruikersnaam';
-$wb["destination_txt"] = 'Bestemming';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["page_next_txt"] = 'Volgende';
-$wb["page_back_txt"] = 'Terug';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe account';
+$wb['list_head_txt'] = 'Haal emails op van externe POP3 / IMAP servers';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'Externe server';
+$wb['source_username_txt'] = 'Gebruikersnaam';
+$wb['destination_txt'] = 'Bestemming';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['page_next_txt'] = 'Volgende';
+$wb['page_back_txt'] = 'Terug';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Toevoegen nieuwe account';
 ?>

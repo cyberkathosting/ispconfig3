@@ -1,17 +1,17 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Zone';
-$wb["type_txt"] = 'type';
-$wb["data_txt"] = 'Nameserver Hostnaam';
-$wb["ttl_txt"] = 'TTL';
-$wb["active_txt"] = 'Actief';
-$wb["btn_save_txt"] = 'Opslaan';
-$wb["btn_cancel_txt"] = 'Annuleren';
-$wb["limit_dns_record_txt"] = 'Het max. aantal aan DNS records voor uw account is bereikt.';
-$wb["no_zone_perm"] = 'U heeft geen toestemming om een record aan deze DNS zone toe te voegen.';
-$wb["name_error_empty"] = 'De zone is leeg.';
-$wb["name_error_regex"] = 'De zone heeft het verkeerde formaat.';
-$wb["data_error_empty"] = 'Nameserver is leeg.';
-$wb["data_error_regex"] = 'Nameserver formaat ongeldig.';
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Zone';
+$wb['type_txt'] = 'type';
+$wb['data_txt'] = 'Nameserver Hostnaam';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Actief';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Annuleren';
+$wb['limit_dns_record_txt'] = 'Het max. aantal aan DNS records voor uw account is bereikt.';
+$wb['no_zone_perm'] = 'U heeft geen toestemming om een record aan deze DNS zone toe te voegen.';
+$wb['name_error_empty'] = 'De zone is leeg.';
+$wb['name_error_regex'] = 'De zone heeft het verkeerde formaat.';
+$wb['data_error_empty'] = 'Nameserver is leeg.';
+$wb['data_error_regex'] = 'Nameserver formaat ongeldig.';
 ?>
