@@ -29,18 +29,19 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	class db
 	{
-		var $dbHost = "";		// hostname of the MySQL server
-		var $dbName = "";		// logical database name on that server
-		var $dbUser = "";		// database authorized user
-		var $dbPass = "";		// user's password
-		var $linkId = 0;		// last result of mysql_connect()
-		var $queryId = 0;		// last result of mysql_query()
-		var $record	= array();	// last record fetched
-        var $autoCommit = 1;    // Autocommit Transactions
-		var $currentRow;		// current row number
-		var $errorNumber = 0;	// last error number
-		var $errorMessage = "";	// last error message
-		var $errorLocation = "";// last error location
+		var $dbHost = "";		  // hostname of the MySQL server
+		var $dbName = "";		  // logical database name on that server
+		var $dbUser = "";		  // database authorized user
+		var $dbPass = "";		  // user's password
+		var $dbCharset = "";      // what charset comes and goes to mysql: utf8 / latin1
+		var $linkId = 0;		  // last result of mysql_connect()
+		var $queryId = 0;		  // last result of mysql_query()
+		var $record	= array();	  // last record fetched
+        var $autoCommit = 1;      // Autocommit Transactions
+		var $currentRow;		  // current row number
+		var $errorNumber = 0;	  // last error number
+		var $errorMessage = "";	  // last error message
+		var $errorLocation = "";  // last error location
 		var $show_error_messages = false;
 
 		// constructor
@@ -52,6 +53,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			//$this->dbName = $conf["mysql"]["database"];
 			$this->dbUser = $conf["mysql"]["admin_user"];
 			$this->dbPass = $conf["mysql"]["admin_password"];
+			$this->dbCharset = $conf["mysql"]["charset"];
 			//$this->connect();
 		}
 
@@ -79,6 +81,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 					$this->updateError('DB::connect()<br />mysql_connect');
 					return false;
 				}
+    			$this->queryId = @mysql_query('SET NAMES '.$this->dbCharset, $this->linkId);
 			}
 			return true;
 		}

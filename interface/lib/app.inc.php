@@ -100,14 +100,14 @@ class app {
 		if($priority >= $this->_conf['log_priority']) {
 			if (is_writable($this->_conf['log_file'])) {
 				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
-					$this->error('Logfile konnte nicht ge�ffnet werden.');
+					$this->error('Unable to open logfile.');
 				}
 				if (!fwrite($fp, date('d.m.Y-H:i').' - '. $msg."\r\n")) {
-					$this->error('Schreiben in Logfile nicht m�glich.');
+					$this->error('Unable to write to logfile.');
 				}
 				fclose($fp);
 			} else {
-				$this->error('Logfile ist nicht beschreibbar.');
+				$this->error('Unable to write to logfile.');
 			}
 		} 
 	} 
@@ -121,7 +121,7 @@ class app {
 			$msg = '<html>
 <head>
 <title>Error</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../themes/default/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -161,15 +161,20 @@ class app {
 
     public function tpl_defaults()
     {	
-		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
+		$this->tpl->setVar('app_title', $this->_conf['app_title']);
+		$this->tpl->setVar('app_version', $this->_conf['app_version']);
+		$this->tpl->setVar('app_link', $this->_conf['app_link']);
+
 		$this->tpl->setVar('phpsessid', session_id());
+
+		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
 		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
 		if(isset($this->_conf['logo']) && $this->_conf['logo'] != '' && @is_file($this->_conf['logo'])){
 			$this->tpl->setVar('logo', '<img src="'.$this->_conf['logo'].'" border="0" alt="">');
 		} else {
 			$this->tpl->setVar('logo', '&nbsp;');
 		}
-		$this->tpl->setVar('app_title', $this->_conf['app_title']);
+
 		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
         //print_r($_SESSION);
 		if(isset($_SESSION['s']['module']['name'])) {
@@ -181,7 +186,6 @@ class app {
 		if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$this->tpl->setVar('is_reseller', 1);
 		}
-		$this->tpl->setVar('ISPC_APP_VERSION', ISPC_APP_VERSION);
     }
     
 } // end class

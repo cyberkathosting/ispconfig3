@@ -2,8 +2,8 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>ISPConfig 3</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title><tmpl_var name="app_title"> <tmpl_var name="app_version"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=<tmpl_var name="html_content_encoding">"/>
 <!-- (en) Add your meta data here -->
 <!-- (de) Fuegen Sie hier ihre Meta-Daten ein -->
 <link href="themes/default/css/central.css" rel="stylesheet" type="text/css"/>
@@ -62,7 +62,7 @@
 		<!-- end: #main -->
 		<!-- begin: #footer -->
 		<div id="footer">
-      Powered by <a href="http://www.howtoforge.com/forums/showthread.php?t=26988" target="_blank">ISPConfig <tmpl_var name="ISPC_APP_VERSION"> beta</a></div>
+      Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"> <tmpl_var name="app_version"></a></div>
     </div>
 		<!-- end: #footer -->
 	</div>

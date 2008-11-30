@@ -1,13 +1,11 @@
--- phpMyAdmin SQL Dump
--- version 2.9.0.3
--- http://www.phpmyadmin.net
+
+-- ISPConfig 3
+-- DB-Version: 3.0.0.8
+
+-- --------------------------------------------------------
+
 -- 
--- Host: localhost
--- Erstellungszeit: 29. Juni 2007 um 16:37
--- Server Version: 5.0.24
--- PHP-Version: 5.1.4
--- 
--- Datenbank: `ispconfig3`
+-- Datenbank: `ispconfig_v3`
 -- 
 
 -- --------------------------------------------------------
@@ -36,7 +34,7 @@ CREATE TABLE `client` (
   `mobile` varchar(255) default NULL,
   `fax` varchar(255) default NULL,
   `email` varchar(255) default NULL,
-  `internet` varchar(255) NOT NULL default 'http://',
+  `internet` varchar(255) NOT NULL,
   `icq` varchar(255) default NULL,
   `notes` text,
   `default_mailserver` int(11) NOT NULL default '1',
@@ -71,7 +69,7 @@ CREATE TABLE `client` (
   `language` varchar(255) NOT NULL default 'en',
   `usertheme` varchar(255) NOT NULL default 'default',
   PRIMARY KEY  (`client_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `client`
@@ -101,7 +99,7 @@ CREATE TABLE `dns_rr` (
   `active` enum('N','Y') NOT NULL default 'Y',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `rr` (`zone`,`name`,`type`,`data`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -131,7 +129,7 @@ CREATE TABLE `dns_soa` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `origin` (`origin`),
   KEY `active` (`active`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -151,7 +149,7 @@ CREATE TABLE `dns_template` (
   `template` text,
   `visible` varchar(255) NOT NULL default 'Y',
   PRIMARY KEY  (`template_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM AUTO_INCREMENT=3 ;
 
 -- 
 -- Daten für Tabelle `dns_template`
@@ -180,7 +178,7 @@ CREATE TABLE `firewall` (
   `udp_port` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`firewall_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `firewall`
@@ -219,7 +217,7 @@ CREATE TABLE `ftp_user` (
   KEY `server_id` (`server_id`),
   KEY `username` (`username`),
   KEY `quota_files` (`quota_files`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `ftp_user`
@@ -246,7 +244,7 @@ CREATE TABLE `mail_access` (
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`access_id`),
   KEY `server_id` (`server_id`,`source`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_access`
@@ -273,7 +271,7 @@ CREATE TABLE `mail_content_filter` (
   `action` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`content_filter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -294,7 +292,7 @@ CREATE TABLE `mail_domain` (
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),
   KEY `domain_active` (`domain`,`active`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_domain`
@@ -321,7 +319,7 @@ CREATE TABLE `mail_forwarding` (
   `active` enum('y','n') NOT NULL,
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_forwarding`
@@ -350,7 +348,7 @@ CREATE TABLE `mail_get` (
   `destination` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`mailget_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_get`
@@ -372,7 +370,7 @@ CREATE TABLE `mail_greylist` (
   `origin_type` enum('MANUAL','AUTO') NOT NULL default 'AUTO',
   `create_time` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`greylist_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_greylist`
@@ -394,7 +392,7 @@ CREATE TABLE `mail_mailman_domain` (
   `mm_user` varchar(50) NOT NULL default '',
   `mm_group` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_mailman_domain`
@@ -413,7 +411,7 @@ CREATE TABLE `mail_traffic` (
   `traffic` bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (`traffic_id`),
   KEY `mailuser_id` (`mailuser_id`,`month`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM AUTO_INCREMENT=2 ;
 
 -- 
 -- Daten für Tabelle `mail_traffic`
@@ -441,7 +439,7 @@ CREATE TABLE `mail_transport` (
   PRIMARY KEY  (`transport_id`),
   KEY `server_id` (`server_id`,`transport`),
   KEY `server_id_2` (`server_id`,`domain`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_transport`
@@ -480,7 +478,7 @@ CREATE TABLE `mail_user` (
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`),
   KEY `email_access` (`email`,`access`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `mail_user`
@@ -509,7 +507,7 @@ CREATE TABLE `mail_user_filter` (
   `target` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`filter_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -523,7 +521,7 @@ CREATE TABLE `remote_session` (
   `remote_functions` text NOT NULL,
   `tstamp` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`remote_session`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM;
 
 -- 
 -- Daten für Tabelle `remote_session`
@@ -542,7 +540,7 @@ CREATE TABLE `remote_user` (
   `remote_password` varchar(255) NOT NULL,
   `remote_functions` text NOT NULL,
   PRIMARY KEY  (`remote_userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `remote_user`
@@ -575,7 +573,7 @@ CREATE TABLE `server` (
   `updated` tinyint(4) NOT NULL default '0',
   `active` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`server_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `server`
@@ -598,7 +596,7 @@ CREATE TABLE `server_ip` (
   `ip_address` varchar(15) default NULL,
   `virtualhost` char(1) NOT NULL default 'y',
   PRIMARY KEY  (`server_ip_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `server_ip`
@@ -625,7 +623,7 @@ CREATE TABLE `shell_user` (
   `dir` varchar(255) default NULL,
   `chroot` varchar(255) NOT NULL,
   PRIMARY KEY  (`shell_user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 
 -- 
@@ -648,7 +646,7 @@ CREATE TABLE `software_package` (
   `package_version` varchar(255) default NULL,
   PRIMARY KEY  (`package_id`),
   UNIQUE KEY `package_name` (`package_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_package`
@@ -673,7 +671,7 @@ CREATE TABLE `software_repo` (
   `repo_password` varchar(30) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`software_repo_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_repo`
@@ -701,7 +699,7 @@ CREATE TABLE `software_update` (
   `v4` tinyint(4) NOT NULL default '0',
   `type` enum('full','update') NOT NULL default 'full',
   PRIMARY KEY  (`software_update_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_update`
@@ -721,7 +719,7 @@ CREATE TABLE `software_update_inst` (
   `status` enum('none','installing','installed','deleting') NOT NULL default 'none',
   PRIMARY KEY  (`software_update_inst_id`),
   UNIQUE KEY `software_update_id` (`software_update_id`,`package_name`,`server_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `software_update_inst`
@@ -780,7 +778,7 @@ CREATE TABLE `spamfilter_policy` (
   `message_size_limit` int(11) default NULL,
   `banned_rulenames` varchar(64) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM AUTO_INCREMENT=13 ;
 
 -- 
 -- Daten für Tabelle `spamfilter_policy`
@@ -815,7 +813,7 @@ CREATE TABLE `spamfilter_users` (
   `local` char(1) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `spamfilter_users`
@@ -842,7 +840,7 @@ CREATE TABLE `spamfilter_wblist` (
   `priority` int(11) NOT NULL,
   `active` enum('y','n') NOT NULL default 'y',
   PRIMARY KEY  (`wblist_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `spamfilter_wblist`
@@ -868,7 +866,7 @@ CREATE TABLE `support_message` (
   `message` varchar(255) default NULL,
   `tstamp` int(11) NOT NULL default '1187707778',
   PRIMARY KEY  (`support_message_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -886,7 +884,7 @@ CREATE TABLE `sys_datalog` (
   `user` varchar(255) NOT NULL default '',
   `data` text NOT NULL,
   PRIMARY KEY  (`datalog_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `sys_datalog`
@@ -915,7 +913,7 @@ CREATE TABLE `sys_dbsync` (
   `last_datalog_id` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `last_datalog_id` (`last_datalog_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `sys_dbsync`
@@ -940,7 +938,7 @@ CREATE TABLE `sys_filesync` (
   `wput_options` varchar(255) NOT NULL default '--timestamping --reupload --dont-continue',
   `active` int(11) NOT NULL default '1',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `sys_filesync`
@@ -959,7 +957,7 @@ CREATE TABLE `sys_group` (
   `description` text NOT NULL,
   `client_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`groupid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM AUTO_INCREMENT=4 ;
 
 -- 
 -- Daten für Tabelle `sys_group`
@@ -992,7 +990,7 @@ CREATE TABLE `sys_user` (
   `default_group` int(11) NOT NULL default '0',
   `client_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`userid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM AUTO_INCREMENT=3 ;
 
 -- 
 -- Daten für Tabelle `sys_user`
@@ -1045,7 +1043,7 @@ CREATE TABLE `web_domain` (
   `apache_directives` text,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`domain_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 -- 
@@ -1074,7 +1072,7 @@ CREATE TABLE `web_database` (
   `remote_access` varchar(255) NOT NULL default 'y',
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`database_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `web_database`
@@ -1090,7 +1088,7 @@ CREATE TABLE `attempts_login` (
   `ip` varchar(12) NOT NULL,
   `times` tinyint(1) NOT NULL default '1',
   `login_time` timestamp NOT NULL default '0000-00-00 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM;
 
 
 -- 
@@ -1104,29 +1102,45 @@ CREATE TABLE `monitor_data` (
   `data` mediumtext NOT NULL,
   `state` enum('no_state', 'unknown', 'ok', 'info', 'warning', 'critical', 'error') NOT NULL default 'unknown',
   PRIMARY KEY  (`server_id`,`type`,`created`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM;
 
 
+-- 
+-- Tabellenstruktur für Tabelle `sys_config`
+-- 
 
-# iso_country_list.sql
-#
-# This will create and then populate a MySQL table with a list of the names and
-# ISO 3166 codes for countries in existence as of the date below.
-#
-# For updates to this file, see http://27.org/isocountrylist/
-# For more about ISO 3166, see http://www.iso.ch/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html
-#
-# Created by getisocountrylist.pl on Sun Nov  2 14:59:20 2003.
-# Wm. Rhodes <iso_country_list@27.org>
-#
+CREATE TABLE `sys_config` (
+  `config_id` int(11) NOT NULL,
+  `group` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL
+) ENGINE=MyISAM;
 
-CREATE TABLE IF NOT EXISTS country (
-  iso CHAR(2) NOT NULL PRIMARY KEY,
-  name VARCHAR(80) NOT NULL,
-  printable_name VARCHAR(80) NOT NULL,
-  iso3 CHAR(3),
-  numcode SMALLINT
-);
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.8');
+
+
+-- --------------------------------------------------------
+
+-- 
+-- iso_country_list.sql
+-- 
+-- This will create and then populate a MySQL table with a list of the names and
+-- ISO 3166 codes for countries in existence as of the date below.
+-- 
+-- For updates to this file, see http://27.org/isocountrylist/
+-- For more about ISO 3166, see http://www.iso.ch/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html
+-- 
+-- Created by getisocountrylist.pl on Sun Nov  2 14:59:20 2003.
+-- Wm. Rhodes <iso_country_list@27.org>
+-- 
+
+CREATE TABLE `country` (
+  `iso` CHAR(2) NOT NULL PRIMARY KEY,
+  `name` VARCHAR(80) NOT NULL,
+  `printable_name` VARCHAR(80) NOT NULL,
+  `iso3` CHAR(3),
+  `numcode` SMALLINT
+) ENGINE=MyISAM;
 
 INSERT INTO country VALUES ('AF','AFGHANISTAN','Afghanistan','AFG','004');
 INSERT INTO country VALUES ('AL','ALBANIA','Albania','ALB','008');
@@ -1368,10 +1382,6 @@ INSERT INTO country VALUES ('YE','YEMEN','Yemen','YEM','887');
 INSERT INTO country VALUES ('ZM','ZAMBIA','Zambia','ZMB','894');
 INSERT INTO country VALUES ('ZW','ZIMBABWE','Zimbabwe','ZWE','716');
 
+-- --------------------------------------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
-
-
-
-
-

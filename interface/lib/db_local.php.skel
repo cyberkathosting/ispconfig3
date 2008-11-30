@@ -1,9 +1,0 @@
-<?php
-
-//** These are the local connection paramaters on your machine
-$DB['type']     = 'mysql';
-$DB['host']     = 'localhost';
-$DB['user']     = 'root';
-$DB['password'] = 'mash';
-$DB['database'] = 'ispconfig';
-?>

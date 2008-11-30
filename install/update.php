@@ -28,8 +28,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+	ISPConfig 3 updater.
+*/
 
-//** ISPConfig 3 installer.
+error_reporting(E_ALL|E_STRICT);
+
 //** The banner on the command line
 echo "\n\n".str_repeat('-',80)."\n";
 echo " _____ ___________   _____              __ _       
@@ -43,14 +47,13 @@ echo " _____ ___________   _____              __ _
 echo "\n".str_repeat('-',80)."\n";
 echo "\n\n>> Update  \n\n";
 
-
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
 
 //** Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
 
-//** Installer/updater logfile
+//** Install logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
 define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
@@ -82,6 +85,7 @@ unset($tmp_out);
 //** Set the mysql login information
 $conf["mysql"]["host"] = $conf_old["db_host"];
 $conf["mysql"]["database"] = $conf_old["db_database"];
+$conf['mysql']['charset'] = 'utf8';
 $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 
@@ -138,10 +142,10 @@ foreach($db_tables as $table) {
 //** load old data back into database
 if( !empty($conf["mysql"]["admin_password"]) ) {
 
-	system("mysql -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." -p".$conf['mysql']['admin_password']." ".$conf['mysql']['database']." < existing_db.sql");
+	system("mysql --default-character-set=".$conf['mysql']['charset']." -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." -p".$conf['mysql']['admin_password']." ".$conf['mysql']['database']." < existing_db.sql");
 } else {
 
-	system("mysql -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." ".$conf['mysql']['database']." < existing_db.sql");
+	system("mysql --default-character-set=".$conf['mysql']['charset']." -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." ".$conf['mysql']['database']." < existing_db.sql");
 }
 
 // create a backup copy of the ispconfig database in the root folder

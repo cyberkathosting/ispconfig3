@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2008, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,6 +27,25 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+/*
+	ISPConfig 3 uninstaller.
+*/
+
+error_reporting(E_ALL|E_STRICT);
+
+//** The banner on the command line
+echo "\n\n".str_repeat('-',80)."\n";
+echo " _____ ___________   _____              __ _       
+|_   _/  ___| ___ \ /  __ \            / _(_)      
+  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _ 
+  | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |
+ _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| |
+ \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
+                                              __/ |
+                                             |___/ ";
+echo "\n".str_repeat('-',80)."\n";
+echo "\n\n>> Uninstall  \n\n";
 
 require("/usr/local/ispconfig/server/lib/config.inc.php");
 require("/usr/local/ispconfig/server/lib/app.inc.php");

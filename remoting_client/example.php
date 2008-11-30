@@ -29,7 +29,7 @@ try {
 	/*
 	//* Add a email domain
 	$params = array(	'server_id' => 1,
-						'domain' => 'test.com',
+						'domain' => 'domain.tld',
 						'active' => 'y');
 	$client_id = 0;
 	$domain_id = $client->mail_domain_add($session_id, $client_id, $params);
@@ -38,7 +38,7 @@ try {
 	/*
 	//* Update email domain
 	$params = array(	'server_id' => 1,
-						'domain' => 'test.org',
+						'domain' => 'domain.tld',
 						'active' => 'y');
 	//* ID of the client. 0 = the admin owns this record.
 	$client_id = 0;

@@ -32,9 +32,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	ISPConfig 3 installer.
 */
 
-//** Check for existing installation
-//if(is_dir("/usr/local/ispconfig")) die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
-
 error_reporting(E_ALL|E_STRICT);
 
 //** The banner on the command line
@@ -56,19 +53,24 @@ require_once('lib/install.lib.php');
 //** Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
 
+//** Install logfile
+define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
+define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
+
+//** Check for existing installation
+/*if(is_dir("/usr/local/ispconfig")) {
+    die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
+}*/
+
 //** Get distribution identifier
 $dist = get_distname();
 
-if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
+if($dist['id'] == '') die('Linux Distribution or Version not recognized.');
 
 //** Include the distribution specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
 include_once('dist/lib/'.$dist['id'].'.lib.php');
 include_once('dist/conf/'.$dist['id'].'.conf.php');
-
-//** Install logfile
-define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
-define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
 //****************************************************************************************************
 //** Installer Interface 
@@ -97,7 +99,7 @@ $install_mode = $inst->simple_query('Installation mode', array('Standard','Exper
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg foo.example.com ', $tmp_out[0]);
+$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', $tmp_out[0]);
 unset($tmp_out);
 
 //** Get MySQL root credentials
@@ -107,6 +109,7 @@ do {
 	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user']);
 	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
     $tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database']);
+    $tmp_mysql_server_charset = $inst->free_query('MySQL charset', $conf['mysql']['charset']);
 	
 	//* Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
@@ -114,6 +117,7 @@ do {
 		$conf['mysql']['admin_user'] = $tmp_mysql_server_admin_user;
 		$conf['mysql']['admin_password'] = $tmp_mysql_server_admin_password;
         $conf['mysql']['database'] = $tmp_mysql_server_database;
+        $conf['mysql']['charset'] = $tmp_mysql_server_charset;
 		$finished = true;
 	} else {
 		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());

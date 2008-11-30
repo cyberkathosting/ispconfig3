@@ -87,7 +87,7 @@ class app {
                 if($priority >= $conf["log_priority"]) {
                         //if (is_writable($conf["log_file"])) {
                             if (!$fp = fopen ($conf["log_file"], "a")) {
-                                die("Unable to open Logfile.");
+                                die("Unable to open logfile.");
                             }
 							switch ($priority) {
 								case 0:

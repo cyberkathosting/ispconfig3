@@ -61,7 +61,7 @@ $form["tabs"]['server'] = array (
 		'ip_address' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> '192.168.0.100',
+			'default'	=> '192.168.0.105',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'ip_address_error_empty'),
 									),
@@ -94,7 +94,7 @@ $form["tabs"]['server'] = array (
 		'hostname' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> 'server1.example.com',
+			'default'	=> 'server1.domain.tld',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'hostname_error_empty'),
 									),

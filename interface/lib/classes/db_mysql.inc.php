@@ -37,18 +37,19 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class db
 {
-	private $dbHost = '';		// hostname of the MySQL server
-	private $dbName = '';		// logical database name on that server
-	private $dbUser = '';		// database authorized user
-	private $dbPass = '';		// user's password
-	private $linkId = 0;		// last result of mysql_connect()
-	private $queryId = 0;		// last result of mysql_query()
-	private $record	= array();	// last record fetched
-    private $autoCommit = 1;    // Autocommit Transactions
-	private $currentRow;		// current row number
-	private $errorNumber = 0;	// last error number
-	public $errorMessage = '';	// last error message
-	private $errorLocation = '';// last error location
+	private $dbHost = '';		   // hostname of the MySQL server
+	private $dbName = '';		   // logical database name on that server
+	private $dbUser = '';		   // database authorized user
+	private $dbPass = '';		   // user's password
+    private $dbCharset = "";       // what charset comes and goes to mysql: utf8 / latin1
+	private $linkId = 0;		   // last result of mysql_connect()
+	private $queryId = 0;		   // last result of mysql_query()
+	private $record	= array();	   // last record fetched
+    private $autoCommit = 1;       // Autocommit Transactions
+	private $currentRow;		   // current row number
+	private $errorNumber = 0;	   // last error number
+	public $errorMessage = '';	   // last error message
+	private $errorLocation = '';   // last error location
 	public $show_error_messages = false;
 
 	public function __construct()
@@ -58,6 +59,7 @@ class db
 		$this->dbName = $conf['db_database'];
 		$this->dbUser = $conf['db_user'];
 		$this->dbPass = $conf['db_password'];
+		$this->dbCharset = $conf['db_charset'];
 		//$this->connect();
 	}
 
@@ -81,6 +83,7 @@ class db
 				$this->updateError('DB::connect()<br />mysql_connect');
 				return false;
 			}
+    		$this->queryId = @mysql_query('SET NAMES '.$this->dbCharset, $this->linkId);
 		}
 		return true;
 	}

@@ -5,7 +5,7 @@
 //* Main
 $conf['language'] = 'en';
 $conf['distname'] = 'debian40';
-$conf['hostname'] = 'server1.example.com'; // Full hostname
+$conf['hostname'] = 'server1.domain.tld'; // Full hostname
 $conf['ispconfig_install_dir'] = '/usr/local/ispconfig';
 $conf['ispconfig_config_dir'] = '/usr/local/ispconfig';
 $conf['ispconfig_log_priority'] = 2;  // 0 = Debug, 1 = Warning, 2 = Error
@@ -24,6 +24,7 @@ $conf['mysql']['port'] = '3306';
 $conf['mysql']['database'] = 'dbispconfig';
 $conf['mysql']['admin_user'] = 'root';
 $conf['mysql']['admin_password'] = '';
+$conf['mysql']['charset'] = 'utf8';
 $conf['mysql']['ispconfig_user'] = 'ispconfig';
 $conf['mysql']['ispconfig_password'] = md5 (uniqid (rand()));
 

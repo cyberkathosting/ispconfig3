@@ -32,122 +32,95 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 
 	Header("Pragma: no-cache");
 	Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-	Header("Content-Type: text/html");
+	Header("Content-Type: text/html; charset=utf-8");
 
 	ini_set('register_globals',0);
 }
 
-$conf["app_title"] = "ISPConfig";
-$conf["app_version"] = "3.0.0";
-$conf["modules_available"] 	= "admin,mail,sites,monitor,client,dns";
-$conf["interface_logout_url"] 	= "";
 
-//** Key paramaters
+//** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
-$conf['app_title'] = 'ISPConfig';
-define('ISPC_APP_VERSION', '3.0.0');
-$conf['app_version'] = '3.0.0';
-$conf['modules_available'] 	= 'admin,mail,sites,monitor,client,dns,help';
-
-//** The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
-define('ISPC_ROOT_PATH',   realpath(dirname(__FILE__).'/../'));
-define('ISPC_LIB_PATH',    ISPC_ROOT_PATH.'/lib');
-define('ISPC_CLASS_PATH',  ISPC_ROOT_PATH.'/lib/classes');
-define('ISPC_WEB_PATH',    ISPC_ROOT_PATH.'/web');
-define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
-
-define('ISPC_WEB_TEMP_PATH',   ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
-define('ISPC_CACHE_PATH',  ISPC_ROOT_PATH.'/cache');
-
-//** Interface settings
-define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
+define('ISPC_APP_VERSION', '3.0.8 beta');
+define('ISPC_APP_LINK', 'http://www.howtoforge.com/forums/showthread.php?t=26988');
 
 
-/*
-	Server variables
-*/
-
-$conf["server_id"] 	= "{server_id}";
-
-
-/*
-        Database Settings
-*/
-
-$conf["db_type"]			= 'mysql';
-$conf["db_host"]			= '{mysql_server_host}';
-$conf["db_database"]		= '{mysql_server_database}';
-$conf["db_user"]			= '{mysql_server_ispconfig_user}';
-$conf["db_password"]		= '{mysql_server_ispconfig_password}';
-
-
-/*
-   Path Settings (Do not change!)
-*/
-
-$conf["rootpath"]			= substr(dirname(__FILE__),0,-4);
-$conf["fs_div"]				= "/"; // File system divider, \\ on windows and / on linux and unix
-$conf["classpath"]			= $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"]			= $conf["rootpath"].$conf["fs_div"]."temp";
-
-
-define("DIR_TRENNER",$conf["fs_div"]);
-define("SERVER_ROOT",$conf["rootpath"]);
-define("INCLUDE_ROOT",SERVER_ROOT.DIR_TRENNER."lib");
-define("CLASSES_ROOT",INCLUDE_ROOT.DIR_TRENNER."classes");
+//** Database
+$conf["db_type"] = 'mysql';
+$conf["db_host"] = '{mysql_server_host}';
+$conf["db_database"] = '{mysql_server_database}';
+$conf["db_user"] = '{mysql_server_ispconfig_user}';
+$conf["db_password"] = '{mysql_server_ispconfig_password}';
+$conf["db_charset"] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL: "utf-8" --> "utf8", "iso-8859-1" --> "latin1")
 
 define("DB_TYPE",$conf["db_type"]);
 define("DB_HOST",$conf["db_host"]);
 define("DB_DATABASE",$conf["db_database"]);
 define("DB_USER",$conf["db_user"]);
 define("DB_PASSWORD",$conf["db_password"]);
+define("DB_CHARSET",$conf["db_charset"]);
 
-/*
-		Logging
-*/
 
-$conf["log_file"]		= '/var/log/ispconfig/ispconfig.log';
-$conf["log_priority"]	= {ispconfig_log_priority}; // 0 = Debug, 1 = Warning, 2 = Error
+//** Paths
+define('ISPC_ROOT_PATH', realpath(dirname(__FILE__).'/../')); // The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
+define('ISPC_LIB_PATH', ISPC_ROOT_PATH.'/lib');
+define('ISPC_CLASS_PATH', ISPC_ROOT_PATH.'/lib/classes');
+define('ISPC_WEB_PATH', ISPC_ROOT_PATH.'/web');
+define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
+define('ISPC_WEB_TEMP_PATH', ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
+define('ISPC_CACHE_PATH', ISPC_ROOT_PATH.'/cache');
 
-/*
-		Allow software package installations
-*/
+//** Paths (Do not change!)
+$conf["rootpath"] = substr(dirname(__FILE__),0,-4);
+$conf["fs_div"] = "/"; // File system divider, "\\" on windows and "/"" on linux and unix
+$conf["classpath"] = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
+$conf["temppath"] = $conf["rootpath"].$conf["fs_div"]."temp";
 
+define("FS_DIV",$conf["fs_div"]);
+define("SERVER_ROOT",$conf["rootpath"]);
+define("INCLUDE_ROOT",SERVER_ROOT.FS_DIV."lib");
+define("CLASSES_ROOT",INCLUDE_ROOT.FS_DIV."classes");
+
+
+//** Server
+$conf['app_title'] = ISPC_APP_TITLE;
+$conf['app_version'] = ISPC_APP_VERSION;
+$conf['modules_available'] = 'admin,mail,sites,monitor,client,dns,help';
+$conf["server_id"] = "{server_id}";
+
+
+//** Interface
+define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
+
+
+//** Logging
+$conf["log_file"] = '/var/log/ispconfig/ispconfig.log';
+$conf["log_priority"] = {ispconfig_log_priority}; // 0 = Debug, 1 = Warning, 2 = Error
+
+
+//** Allow software package installations
 $conf['software_updates_enabled'] = false;
 
 
-/*
-        Themes
-*/
-
-$conf["theme"]					= 'default';
-$conf["html_content_encoding"]	= 'text/html; charset=iso-8859-1';
-$conf["logo"] 					= 'themes/default/images/mydnsconfig_logo.gif';
-
-/*
-        Default Language
-*/
-
-$conf["language"]                = 'en';
-
-/*
-        Misc.
-*/
-
-$conf["interface_logout_url"] 	= ""; // example: http://www.domain.tld/
+//** Themes
+$conf["theme"] = 'default';
+$conf["html_content_encoding"] = 'utf-8'; // example: utf-8, iso-8859-1, ...
+$conf["logo"] = 'themes/default/images/ispc_logo.png';
 
 
-/*
-        Auto Load Modules
-*/
+//** Default Language
+$conf["language"] = 'en';
 
-$conf["start_db"]		= true;
-$conf["start_session"]	= true;
 
-/*
-	Constants
-*/
+//** Misc.
+$conf["interface_logout_url"] = ""; // example: http://www.domain.tld/
 
+
+//** Auto Load Modules
+$conf["start_db"] = true;
+$conf["start_session"] = true;
+
+
+//** Constants
 define("LOGLEVEL_DEBUG",0);
 define("LOGLEVEL_WARN",1);
 define("LOGLEVEL_ERROR",2);
