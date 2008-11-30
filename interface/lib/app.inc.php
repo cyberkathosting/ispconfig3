@@ -125,7 +125,7 @@ class app {
 <link href="../themes/default/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<br><br><br>
+<br /><br /><br />
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
 <td class="error"><b>Error:</b><br>'.$msg;
@@ -164,16 +164,16 @@ class app {
 		$this->tpl->setVar('app_title', $this->_conf['app_title']);
 		$this->tpl->setVar('app_version', $this->_conf['app_version']);
 		$this->tpl->setVar('app_link', $this->_conf['app_link']);
+		if(isset($this->_conf['app_logo']) && $this->_conf['app_logo'] != '' && @is_file($this->_conf['app_logo'])){
+			$this->tpl->setVar('app_logo', '<img src="'.$this->_conf['app_logo'].'">');
+		} else {
+			$this->tpl->setVar('app_logo', '&nbsp;');
+		}
 
 		$this->tpl->setVar('phpsessid', session_id());
 
 		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
 		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
-		if(isset($this->_conf['logo']) && $this->_conf['logo'] != '' && @is_file($this->_conf['logo'])){
-			$this->tpl->setVar('logo', '<img src="'.$this->_conf['logo'].'" border="0" alt="">');
-		} else {
-			$this->tpl->setVar('logo', '&nbsp;');
-		}
 
 		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
         //print_r($_SESSION);
