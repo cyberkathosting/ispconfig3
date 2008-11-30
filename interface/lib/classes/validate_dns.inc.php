@@ -139,8 +139,8 @@ function validate_srv_data(&$data, $zoneid){
   $weight = $fields[0];
   $port = $fields[1];
   $target = $fields[2];
-  if($weight < 0 || $weight > 65535) $error .= $app->tform->wordbook['weight_txt']." (\"<i>" . htmlentities($weight)."</i>\") ".$app->tform->wordbook['error_srv_out_of_range']."<br>\r\n";
-  if ($port < 0 || $port > 65535) $error .= $app->tform->wordbook['port_txt']." (\"<i>".htmlentities($port)."</i>\") ".$app->tform->wordbook['error_srv_out_of_range']."<br>\r\n";
+  if($weight < 0 || $weight > 65535) $error .= $app->tform->wordbook['weight_txt']." (\"<i>" . htmlentities($weight,ENT_QUOTES,$conf["html_content_encoding"])."</i>\") ".$app->tform->wordbook['error_srv_out_of_range']."<br>\r\n";
+  if($port < 0 || $port > 65535) $error .= $app->tform->wordbook['port_txt']." (\"<i>".htmlentities($port,ENT_QUOTES,$conf["html_content_encoding"])."</i>\") ".$app->tform->wordbook['error_srv_out_of_range']."<br>\r\n";
 
   $error .= $this->validate_field($target, "SRV target", $zoneid, 0);
 

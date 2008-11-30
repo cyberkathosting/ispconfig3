@@ -276,6 +276,7 @@ class listform {
 
     public function decode($record) 
     {
+        global $conf;
         if(is_array($record)) {
             foreach($this->listDef['item'] as $field){
                 $key = $field['field'];
@@ -283,7 +284,7 @@ class listform {
                 	switch ($field['datatype']){
                     case 'VARCHAR':
                     case 'TEXT':
-                        $record[$key] = htmlentities(stripslashes($record[$key]));
+                        $record[$key] = htmlentities(stripslashes($record[$key]),ENT_QUOTES,$conf["html_content_encoding"]);
                          break;
 
                     case 'DATE':
@@ -295,7 +296,7 @@ class listform {
                         break;
 
                     case 'DOUBLE':
-                        $record[$key] = htmlentities($record[$key]);
+                        $record[$key] = htmlentities($record[$key],ENT_QUOTES,$conf["html_content_encoding"]);
                         break;
 
                     case 'CURRENCY':
@@ -303,7 +304,7 @@ class listform {
                         break;
 
                     default:
-                        $record[$key] = htmlentities(stripslashes($record[$key]));
+                        $record[$key] = htmlentities(stripslashes($record[$key]),ENT_QUOTES,$conf["html_content_encoding"]);
                 	}
 				}
             }
@@ -362,11 +363,12 @@ class listform {
 	}
 	
 	function escapeArrayValues($search_values) {
+	    global $conf;
 		
 		$out = array();
 		if(is_array($search_values)) {
 			foreach($search_values as $key => $val) {
-				$out[$key] = htmlentities($val,ENT_QUOTES);
+				$out[$key] = htmlentities($val,ENT_QUOTES,$conf["html_content_encoding"]);
 			}
 		}
 		
