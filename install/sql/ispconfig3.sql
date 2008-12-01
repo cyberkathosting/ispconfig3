@@ -1144,7 +1144,7 @@ CREATE TABLE `sys_config` (
   `value` varchar(255) NOT NULL
 ) ENGINE=MyISAM;
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.8');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.8.$Revision$');
 
 
 -- --------------------------------------------------------
