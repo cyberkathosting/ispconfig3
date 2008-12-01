@@ -1,4 +1,4 @@
-Welcome To Site <tmpl_var name='domain'>
+Welcome to <tmpl_var name='domain'>
 
 
 

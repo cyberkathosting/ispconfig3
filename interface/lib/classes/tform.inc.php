@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -56,9 +56,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 *        Hint: The auto increment (ID) filed of the table has not be be definied eoarately.
 *
-* @package form
-* @author Till Brehm
-* @version 1.1
 */
 
 class tform {

@@ -31,7 +31,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*
 	This function returns a string that describes the installed
 	linux distribution. e.g. debian40 for Debian Linux 4.0
-
 */
 
 

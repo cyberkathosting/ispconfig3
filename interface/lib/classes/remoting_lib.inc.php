@@ -58,10 +58,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 *        Hinweis:
 *        Das ID-Feld ist nicht bei den Table Values einzufügen.
-*
-* @package form
-* @author Till Brehm
-* @version 1.1
 */
 
 class remoting_lib {

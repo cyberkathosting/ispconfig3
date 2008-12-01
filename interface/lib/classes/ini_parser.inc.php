@@ -1,15 +1,7 @@
 <?php
-/**
- * ini parser 
- * 
- * @author Till Brehm
- * @copyright  2005, Till Brehm, projektfarm Gmbh
- * @version 0.1
- * @package ISPConfig
- */
 
 /*
-Copyright (c) 2006, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

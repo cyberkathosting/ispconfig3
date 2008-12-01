@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2005, Till Brehm, Falko Timme, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -28,11 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
-* DNS validation
-*
-* @author Falko Timme <ft@falkotimme.com>
-* @copyright Copyright &copy; 2005, Falko Timme
+/*
+    DNS validation
 */
 
 class validate_dns {

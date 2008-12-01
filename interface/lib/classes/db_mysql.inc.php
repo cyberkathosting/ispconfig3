@@ -1,14 +1,7 @@
 <?php
-/**
- * mySQL Database class
- * 
- * @author Till Brehm
- * @copyright  2005, Till Brehm, projektfarm Gmbh
- * @version 0.2
- * @package ISPConfig
- */
+
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -35,8 +28,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class db
-{
+class db {
 	private $dbHost = '';		   // hostname of the MySQL server
 	private $dbName = '';		   // logical database name on that server
 	private $dbUser = '';		   // database authorized user

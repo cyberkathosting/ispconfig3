@@ -28,14 +28,6 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
-* Listenbehandlung
-*
-* @package listform
-* @author Till Brehm
-* @version 1.1
-*/
-
 class listform {
 
     private $debug = 0;
