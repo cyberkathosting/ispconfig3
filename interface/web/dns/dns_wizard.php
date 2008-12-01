@@ -173,9 +173,10 @@ if($_POST['create'] == 1) {
 		$expire = $app->db->quote($vars['expire']);
 		$minimum = $app->db->quote($vars['minimum']);
 		$ttl = $app->db->quote($vars['ttl']);
+		$xfer = $app->db->quote($vars['xfer']);
 		
 		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`) VALUES 
-		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '1', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '')";
+		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '1', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer')";
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 		
 		// Insert the dns_rr records

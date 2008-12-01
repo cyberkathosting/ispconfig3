@@ -9,18 +9,16 @@
         <input type="text" id="name" name="name" value="{tmpl_var name='name'}" size="40" maxlength="255">
       </span>
       <span class="wf_oneField">
-        <span class="wf_label wf_preField">{tmpl_var name='fields_txt'}</span>                    <fieldset>
-                      {tmpl_var name='fields'}
-                    </fieldset>
+        <span class="wf_label wf_preField">{tmpl_var name='fields_txt'}</span>
+        <fieldset>{tmpl_var name='fields'}</fieldset>
       </span>
       <span class="wf_oneField">
         <label for="template" class="wf_preField">{tmpl_var name='template_txt'}</label>
-        <textarea id="template" name="template" cols='40' rows='15'>{tmpl_var name='template'}</textarea>
+        <textarea id="template" name="template">{tmpl_var name='template'}</textarea>
       </span>
       <span class="wf_oneField">
-        <label for="visible" class="wf_preField">{tmpl_var name='visible_txt'}</label>                    <span class="">
-                      {tmpl_var name='visible'}
-                    </span>
+        <label for="visible" class="wf_preField">{tmpl_var name='visible_txt'}</label>                    
+        <span class="">{tmpl_var name='visible'}</span>
       </span>
     </fieldset>
 

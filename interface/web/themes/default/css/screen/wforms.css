@@ -101,6 +101,9 @@
 		vertical-align: top;
 		margin: 0px 2px 0 0;
 		vertical-align: top;
+		width: 300px;
+		height: 300px;
+		scroll: auto;
 	}
 	.pnl_formsarea input {
 		font-size: 1.0em; 

@@ -33,7 +33,8 @@
 	/* (en) reset monospaced elements to font size 16px in Gecko browsers */
 	/* (de) Schriftgröße von monospaced Elemente auf 16 Pixel setzen */
 	textarea, pre, tt, code {
-	font-family:"Courier New", Courier, monospace;  	
+	font-family: Consolas,"Lucida Console","Courier New",monospace;
+    font-size: 0.9em;	
 	}
 	
 	/* (en) base layout gets standard font size 12px */
