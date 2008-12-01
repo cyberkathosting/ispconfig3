@@ -41,7 +41,7 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 
 //** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
-define('ISPC_APP_VERSION', '3.0.0.8.$Revision$');
+define('ISPC_APP_VERSION', '3.0.0.8 beta');
 
 
 //** Database
