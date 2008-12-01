@@ -38,10 +38,13 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 	ini_set('register_globals',0);
 }
 
+//** SVN Revision
+$svn_revision = '$Revision$';
+$revision = str_replace(array('Revision','$'), '', $svn_revision);
 
 //** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
-define('ISPC_APP_VERSION', '3.0.0.8 beta');
+define('ISPC_APP_VERSION', '3.0.0.8.'.$revision);
 
 
 //** Database
