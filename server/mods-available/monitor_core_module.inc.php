@@ -1,7 +1,6 @@
 <?php
-
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2008, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -124,9 +123,6 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'server_load';
 
-        /* Delete Data older than 1 day */
-        $this->_delOldRecords($type, 0, 0, 1);
-
         /*
         Fetch the data into a array
         */
@@ -137,11 +133,11 @@ class monitor_core_module {
 
         $data['uptime'] = shell_exec("uptime");
 
-        $tmp = explode(",", $data['uptime'], 3);
-        $tmpUser = explode(" ", trim($tmp[1]));
+        $tmp = explode(",", $data['uptime'], 4);
+        $tmpUser = explode(" ", trim($tmp[2]));
         $data['user_online'] = intval($tmpUser[0]);
 
-        $loadTmp = explode(":" , trim($tmp[2]));
+        $loadTmp = explode(":" , trim($tmp[3]));
         $load = explode(",",  $loadTmp[1]);
         $data['load_1'] = floatval(trim($load[0]));
         $data['load_5'] = floatval(trim($load[1]));
@@ -166,6 +162,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorDiskUsage() {
@@ -177,9 +176,6 @@ class monitor_core_module {
 
         /** The type of the data */
         $type = 'disk_usage';
-
-        /* Delete Data older than 10 minutes */
-        $this->_delOldRecords($type, 10);
 
         /** The state of the disk-usage */
         $state = 'ok';
@@ -230,6 +226,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 
@@ -243,9 +242,6 @@ class monitor_core_module {
 
         /** The type of the data */
         $type = 'mem_usage';
-
-        /* Delete Data older than 10 minutes */
-        $this->_delOldRecords($type, 10);
 
         /*
         Fetch the data into a array
@@ -281,6 +277,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 
@@ -294,9 +293,6 @@ class monitor_core_module {
 
         /** The type of the data */
         $type = 'cpu_info';
-
-        /* There is only ONE CPU-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
 
         /*
         Fetch the data into a array
@@ -326,6 +322,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 
@@ -342,9 +341,6 @@ class monitor_core_module {
 
         /* The type of the Monitor-data */
         $type = 'services';
-
-        /* There is only ONE Service-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
 
         /** the State of the monitoring */
         /* ok, if ALL aktive services are running,
@@ -451,16 +447,17 @@ class monitor_core_module {
             ")";
         $app->db->query($sql);
 
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 
     function monitorSystemUpdate(){
         /*
-         *  This monitoring is expensive, so do it only once a day (at 5:00)
+         *  This monitoring is expensive, so do it only once a hour
          */
-        $hour = date('G');
         $min = date('i');
-        if (($min != 0) && ($hour != 5)) return;
+        if ($min != 0) return;
 
         /*
          * OK - here we go...
@@ -473,9 +470,6 @@ class monitor_core_module {
 
         /** The type of the data */
         $type = 'system_update';
-
-        /* There is only ONE Update-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
 
         /* This monitoring is only available at debian or Ubuntu */
         if(file_exists('/etc/debian_version')){
@@ -532,6 +526,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 0, 2);
     }
 
     function monitorMailQueue(){
@@ -543,9 +540,6 @@ class monitor_core_module {
 
         /** The type of the data */
         $type = 'mailq';
-
-        /* There is only ONE Update-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
 
         /* Get the data from the mailq */
         $data['output'] = shell_exec('mailq');
@@ -578,6 +572,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 
@@ -590,9 +587,6 @@ class monitor_core_module {
 
         /** The type of the data */
         $type = 'raid_state';
-
-        /* There is only ONE RAID-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
 
         /* This monitoring is only available if mdadm is installed */
         $location = shell_exec('which mdadm');
@@ -607,26 +601,30 @@ class monitor_core_module {
              */
             $tmp = explode("\n", $data['output']);
             $state = 'ok';
-            foreach($tmp as $line) {
-                if (strpos($line, '[U_]' !== false))
+            for ($i = 0; $i < sizeof($tmp); $i++){
+                /* fetch the next line */
+                $line = $tmp[$i];
+
+                if ((strpos($line, '[U_]') !== false) || (strpos($line, '[_U]') !== false))
                 {
-                    /* One Disk is not working */
-                    $state = $this->_setState($state, 'critical');
+                    /* One Disk is not working.
+                     * if the next line starts with "[>" or "[=" then
+                     * recovery (resync) is in state and the state is
+                     * information instead of critical
+                     */
+                    $nextLine = $tmp[$i+1];
+                    if ((strpos($nextLine, '[>') === false) && (strpos($nextLine, '[=') === false)) {
+                        $state = $this->_setState($state, 'critical');
+                    }
+                    else
+                    {
+                        $state = $this->_setState($state, 'info');
+                    }
                 }
-                if (strpos($line, '[_U]' !== false))
-                {
-                    /* One Disk is not working */
-                    $state = $this->_setState($state, 'critical');
-                }
-                if (strpos($line, '[__]' !== false))
+                if (strpos($line, '[__]') !== false)
                 {
                     /* both Disk are not working */
                     $state = $this->_setState($state, 'error');
-                }
-                if (strpos($line, '[=' !== false))
-                {
-                    /* the raid is in resync */
-                    $state = $this->_setState($state, 'information');
                 }
             }
 
@@ -657,9 +655,69 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorRkHunter(){
+        /*
+         *  This monitoring is expensive, so do it only once a hour
+         */
+        $min = date('i');
+        if ($min != 0) return;
+
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'rkhunter';
+
+        /* This monitoring is only available if rkhunter is installed */
+        $location = shell_exec('which rkhunter');
+        if($location != ''){
+            /*
+             * Fetch the output
+             */
+            $data['output'] = shell_exec('rkhunter --update --check --nocolors --skip-keypress');
+
+            /*
+             * At this moment, there is no state (maybe later)
+             */
+            $state = 'no_state';
+        }
+        else {
+            /*
+             * rkhunter is not installed, so there is no data and no state
+             *
+             * no_state, NOT unknown, because "unknown" is shown as state
+             * inside the GUI. no_state is hidden.
+             *
+             * We have to write NO DATA inside the DB, because the GUI
+             * could not know, if there is any dat, or not...
+             */
+            $state = 'no_state';
+            $data['output']= '';
+        }
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->db->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 0, 2);
     }
 
     function monitorMailLog()
@@ -673,9 +731,6 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'log_mail';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
@@ -697,6 +752,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorMailWarnLog()
@@ -710,10 +768,6 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'log_mail_warn';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
@@ -735,6 +789,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorMailErrLog()
@@ -748,10 +805,6 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'log_mail_err';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
@@ -773,6 +826,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 
@@ -787,9 +843,6 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'log_messages';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
@@ -811,6 +864,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorFreshClamLog()
@@ -824,15 +880,49 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'log_freshclam';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
-        // Todo: the state should be calculated.
+        /* Get the data from the LAST log-Entry.
+         * if there can be found:
+         * WARNING: Your ClamAV installation is OUTDATED!
+         * then the clamav is outdated. This is a warning!
+         */
         $state = 'ok';
+
+        $tmp = explode("\n", $data);
+        $lastLog = array();
+        if ($tmp[sizeof($tmp)-1] == "")
+        {
+            /* the log ends with an empty line remove this */
+            array_pop($tmp);
+        }
+        if (strpos($tmp[sizeof($tmp)-1], "-------------") !== false)
+        {
+            /* the log ends with "-----..." remove this */
+            array_pop($tmp);
+        }
+        for ($i = sizeof($tmp) -1; $i > 0; $i--){
+            if (strpos($tmp[$i], "---------") === false){
+                /* no delimiter found, so add this to the last-log */
+                $lastLog[] = $tmp[$i];
+            }
+            else
+            {
+                /* delimiter found, so there is no more line left! */
+                break;
+            }
+        }
+
+        /*
+         * Now we have the last log in the array.
+         * Check if the outdated-string is found...
+         */
+        foreach($lastLog as $line){
+            if (strpos(strtolower($line), "outdated") !== false) {
+                 $state = $this->_setState($state, 'warning');
+            }
+        }
 
         /*
         Insert the data into the database
@@ -846,6 +936,9 @@ class monitor_core_module {
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorClamAvLog()
@@ -859,9 +952,6 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'log_clamav';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
@@ -881,85 +971,8 @@ class monitor_core_module {
             ")";
         $app->db->query($sql);
 
-/* for later (to detect that the version is outdated)
---------------------------------------
-Received signal: wake up
-ClamAV update process started at Sun Nov 23 12:03:49 2008
-main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
-Trying host db.local.clamav.net (85.214.20.182)...
-Downloading daily-8675.cdiff [100%]
-Downloading daily-8676.cdiff [100%]
-daily.cld updated (version: 8676, sigs: 26800, f-level: 35, builder: ccordes)
-Database updated (464772 signatures) from db.local.clamav.net (IP: 85.214.20.182)
-Clamd successfully notified about the update.
---------------------------------------
---------------------------------------
-freshclam daemon 0.90.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
-ClamAV update process started at Sun Nov 23 12:37:49 2008
-WARNING: Your ClamAV installation is OUTDATED!
-WARNING: Local version: 0.90.1 Recommended version: 0.94.1
-DON'T PANIC! Read http://www.clamav.net/support/faq
-Downloading main-43.cdiff [0%]
-Downloading main-44.cdiff [0%]
-Downloading main-45.cdiff [0%]
-Downloading main-46.cdiff [0%]
-Downloading main-47.cdiff [0%]
-Downloading main-48.cdiff [0%]
-Downloading main-49.cdiff [0%]
-main.cvd updated (version: 49, sigs: 437972, f-level: 35, builder: sven)
-WARNING: Your ClamAV installation is OUTDATED!
-WARNING: Current functionality level = 14, recommended = 35
-DON'T PANIC! Read http://www.clamav.net/support/faq
-ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 62.75.166.141)
-ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
-ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 62.26.160.3)
-ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
-ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 213.174.32.130)
-ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
-ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 212.1.60.18)
-ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
-ERROR: getfile: daily-2692.cdiff not found on remote server (IP: 193.27.50.222)
-ERROR: getpatch: Can't download daily-2692.cdiff from db.local.clamav.net
-WARNING: Incremental update failed, trying to download daily.cvd
-Downloading daily.cvd [0%]
-daily.cvd updated (version: 8676, sigs: 26800, f-level: 35, builder: ccordes)
-WARNING: Your ClamAV installation is OUTDATED!
-WARNING: Current functionality level = 14, recommended = 35
-DON'T PANIC! Read http://www.clamav.net/support/faq
-Database updated (464772 signatures) from db.local.clamav.net (IP: 91.198.238.33)
---------------------------------------
---------------------------------------
-freshclam daemon 0.94.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
-ClamAV update process started at Sun Nov 23 13:01:17 2008
-Trying host db.local.clamav.net (193.27.50.222)...
-Downloading main.cvd [100%]
-main.cvd updated (version: 49, sigs: 437972, f-level: 35, builder: sven)
-daily.cvd is up to date (version: 8676, sigs: 26800, f-level: 35, builder: ccordes)
-Database updated (464772 signatures) from db.local.clamav.net (IP: 193.27.50.222)
---------------------------------------
---------------------------------------
-freshclam daemon 0.94.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
-ClamAV update process started at Tue Nov 25 19:11:42 2008
-main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
-Trying host db.local.clamav.net (85.214.44.186)...
-Downloading daily-8677.cdiff [100%]
-Downloading daily-8678.cdiff [100%]
-Downloading daily-8679.cdiff [100%]
-daily.cld updated (version: 8679, sigs: 26975, f-level: 35, builder: ccordes)
-Database updated (464947 signatures) from db.local.clamav.net (IP: 85.214.44.186)
---------------------------------------
---------------------------------------
-freshclam daemon 0.94.1 (OS: linux-gnu, ARCH: i386, CPU: i486)
-ClamAV update process started at Tue Nov 25 19:16:18 2008
-main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
-daily.cld is up to date (version: 8679, sigs: 26975, f-level: 35, builder: ccordes)
---------------------------------------
-Received signal: wake up
-ClamAV update process started at Tue Nov 25 20:16:25 2008
-main.cvd is up to date (version: 49, sigs: 437972, f-level: 35, builder: sven)
-daily.cld is up to date (version: 8679, sigs: 26975, f-level: 35, builder: ccordes)
---------------------------------------
- */
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
     function monitorIspConfigLog()
@@ -973,10 +986,6 @@ daily.cld is up to date (version: 8679, sigs: 26975, f-level: 35, builder: ccord
         /** The type of the data */
         $type = 'log_ispconfig';
 
-        /* There is only ONE Log-Data, so delete the old one */
-        $this->_delOldRecords($type, 0);
-
-
         /* Get the data of the log */
         $data = $this->_getLogData($type);
 
@@ -995,6 +1004,9 @@ daily.cld is up to date (version: 8679, sigs: 26975, f-level: 35, builder: ccord
             "'" . $state . "'" .
             ")";
         $app->db->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
     }
 
 

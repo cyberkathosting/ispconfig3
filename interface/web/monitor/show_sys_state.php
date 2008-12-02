@@ -385,7 +385,20 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
         /* this type has no state */
     }
     if ($type == 'log_freshclam'){
-        /* this type has no state */
+        switch ($record['state']) {
+            case 'ok':
+                $messages['ok'][] = 'Your Virus-protection is ok ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[more...]</a>";
+                break;
+            case 'warning':
+                $messages['warning'][] = 'Your Virus-protection is OUTDATED! ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[more...]</a>";
+                break;
+            default:
+                $messages['unknown'][] = 'Freshclam: ???! ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[more...]</a>";
+                break;
+        }
     }
     if ($type == 'log_ispconfig'){
         /* this type has no state */
@@ -400,6 +413,9 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
         /* this type has no state */
     }
     if ($type == 'log_messages'){
+        /* this type has no state */
+    }
+    if ($type == 'rkhunter'){
         /* this type has no state */
     }
 }

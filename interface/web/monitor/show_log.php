@@ -30,6 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
+require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('monitor');
@@ -114,7 +115,7 @@ if(isset($record['data'])) {
 
 $app->tpl->setVar("title", $title);
 $app->tpl->setVar("log_id",$logId);
-
+$app->tpl->setVar("time", getDataTime($logId));
 
 $app->tpl_defaults();
 $app->tpl->pparse();

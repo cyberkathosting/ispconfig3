@@ -133,13 +133,13 @@ $items[] = array( 'title' 	=> "Show Clamav-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_clamav');
 
+$items[] = array( 'title' 	=> "Show RKHunter-Log",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=rkhunter');
+
 $items[] = array( 'title' 	=> "Show ISPConfig-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_ispconfig');
-
-//$items[] = array( 'title' 	=> "Show RKHunter-Log",
-//                  'target' 	=> 'content',
-//                  'link'	=> 'monitor/show_data.php?type=rkhunter');
 
 $module["nav"][] = array(	'title'	=> 'Logfiles',
                             'open' 	=> 1,

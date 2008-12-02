@@ -45,54 +45,63 @@ switch($dataType) {
     case 'server_load':
         $template = 'templates/show_data.htm';
         $output .= showServerLoad();
+        $time = getDataTime('server_load');
         $title = $app->lng("Server Load").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'disk_usage':
         $template = 'templates/show_data.htm';
         $output .= showDiskUsage();
+        $time = getDataTime('disk_usage');
         $title = $app->lng("Disk usage").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'mem_usage':
         $template = 'templates/show_data.htm';
         $output .= showMemUsage();
+        $time = getDataTime('mem_usage');
         $title = $app->lng("Memory usage").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'cpu_info':
         $template = 'templates/show_data.htm';
         $output .= showCpuInfo();
+        $time = getDataTime('cpu_info');
         $title = $app->lng("CPU info").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'services':
         $template = 'templates/show_data.htm';
         $output .= showServices();
+        $time = getDataTime('services');
         $title = $app->lng("Status of services").' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'system_update':
         $template = 'templates/show_data.htm';
         $output .= showSystemUpdate();
+        $time = getDataTime('system_update');
         $title = "Update State" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'mailq':
         $template = 'templates/show_data.htm';
         $output .= showMailq();
+        $time = getDataTime('mailq');
         $title = "Mailq" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'raid_state':
         $template = 'templates/show_data.htm';
         $output .= showRaidState();
+        $time = getDataTime('raid_state');
         $title = "RAID-State" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'rkhunter':
         $template = 'templates/show_data.htm';
         $output .= showRKHunter();
+        $time = getDataTime('rkhunter');
         $title = "RKHunter-Log" . ' (Server: ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
@@ -105,12 +114,12 @@ switch($dataType) {
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl',$template);
+$app->tpl->setInclude('content_tpl', $template);
 
-$app->tpl->setVar("output",$output);
-$app->tpl->setVar("title",$title);
-$app->tpl->setVar("description",$description);
-
+$app->tpl->setVar("output", $output);
+$app->tpl->setVar("title", $title);
+$app->tpl->setVar("description", $description);
+$app->tpl->setVar("time", $time);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

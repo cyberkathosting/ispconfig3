@@ -359,6 +359,38 @@ function showRaidState()
     return $html;
 }
 
+function showRKHunter()
+{
+    global $app;
+
+    /* fetch the Data from the DB */
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+
+    if(isset($record['data'])) {
+        $html =
+           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
+            <div class="systemmonitor-state-' . $record['state'] . '-icon">';
+
+        /*
+         * First, we have to detect, if there is any monitoring-data.
+         * If not (because the destribution is not supported) show this.
+         */
+        $data = unserialize($record['data']);
+        if ($data['output'] == ''){
+            $html .= '<p>' . "rkhunter ist not installed, so there is no log data" . '</p>';
+        }
+        else {
+            $html .= nl2br($data['output']);
+        }
+        $html .= '</div></div>';
+
+    } else {
+        $html = '<p>' . "No RKHunter-Data available" . '</p>';
+    }
+
+    return $html;
+}
+
 function showMailq()
 {
     global $app;
@@ -374,5 +406,19 @@ function showMailq()
     }
 
     return $html;
+}
+
+function getDataTime($type) {
+    global $app;
+
+    /* fetch the Data from the DB */
+    $record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+
+    if(isset($record['created'])) {
+        $res = date('Y-m-d H:i', $record['created']);
+    } else {
+        $res = '????-??-?? ??:??';
+    }
+    return $res;
 }
 ?>
