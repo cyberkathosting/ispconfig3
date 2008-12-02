@@ -272,6 +272,10 @@ function increase_serial($serial){
   $current_date = date("Ymd");
   if($serial_date >= $current_date){
     $count += 1;
+    if ($count > 99) {
+        $serial_date += 1;
+        $count = 0;
+    }
     $count = str_pad($count, 2, "0", STR_PAD_LEFT);
     $new_serial = $serial_date.$count;
   } else {
