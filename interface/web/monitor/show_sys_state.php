@@ -139,9 +139,9 @@ function _getServerState($serverId, $serverName, $showAll)
         _processDbState($record['type'], $serverId, &$serverState, &$messages);
     }
 
-    $res .= '<div class="systemmonitor-state systemmonitor-state-' . $serverState . '">';
-    $res .= '<div class="systemmonitor-serverstate">';
-    $res .= '<div class="systemmonitor-state-' . $serverState . '-icon">';
+    $res .= '<div class="systemmonitor-state state-'.$serverState.'">';
+    $res .= '<div class="systemmonitor-device device-server">';
+    $res .= '<div class="systemmonitor-content icons32 ico-'.$serverState.'">';
     $res .= 'Server: ' . $serverName . '<br />';
     $res .= 'State: ' . $serverState . '<br />';
     //        $res .= sizeof($messages['ok']) . ' ok | ';

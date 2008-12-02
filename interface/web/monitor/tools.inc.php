@@ -39,8 +39,8 @@ function showServerLoad(){
         Format the data
         */
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
             <table>
             <tr>
             <td>' . $app->lng("Server online since").':</td>
@@ -85,8 +85,8 @@ function showDiskUsage () {
         Format the data
         */
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
             <table>
             <tr>
             <td>Filesystem</td>
@@ -128,8 +128,8 @@ function showMemUsage ()
         Format the data
         */
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
             <table>';
 
         foreach($data as $key => $value){
@@ -164,8 +164,8 @@ function showCpuInfo ()
         Format the data
         */
         $html = 
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
             <table>';
         foreach($data as $key => $value){
             if ($key != '') {
@@ -198,8 +198,8 @@ function showServices ()
         Format the data
         */
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
             <table>';
 
         if($data['webserver'] != -1) {
@@ -306,8 +306,8 @@ function showSystemUpdate()
 
     if(isset($record['data'])) {
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">';
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
         /*
          * First, we have to detect, if there is any monitoring-data.
          * If not (because the destribution is not supported) show this.
@@ -336,8 +336,8 @@ function showRaidState()
 
     if(isset($record['data'])) {
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">';
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
 
         /*
          * First, we have to detect, if there is any monitoring-data.
@@ -368,8 +368,8 @@ function showRKHunter()
 
     if(isset($record['data'])) {
         $html =
-           '<div class="systemmonitor-state systemmonitor-state-' . $record['state'] . '">
-            <div class="systemmonitor-state-' . $record['state'] . '-icon">';
+           '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
 
         /*
          * First, we have to detect, if there is any monitoring-data.
