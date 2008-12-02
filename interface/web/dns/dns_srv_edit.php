@@ -1,4 +1,5 @@
 <?php
+
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -27,7 +28,6 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 /******************************************
 * Begin Form configuration
 ******************************************/
@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('dns');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions');
+$app->uses('tpl,tform,tform_actions,validate_dns');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -106,22 +106,24 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-		// Update the serial number of the SOA record
-		$soa_id = intval($_POST["zone"]);
-		$serial = time();
-		$app->db->query("UPDATE dns_soa SET serial = $serial WHERE id = $soa_id");
-		
 		// Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
 		$soa = $app->db->queryOneRecord("SELECT sys_groupid FROM dns_soa WHERE id = '".intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
 		$app->db->query("UPDATE dns_rr SET sys_groupid = ".$soa['sys_groupid']." WHERE id = ".$this->id);
+
+		// Update the serial number of the SOA record
+		$soa_id = intval($_POST["zone"]);
+		$serial = $app->validate_dns->increase_serial($soa["serial"]);
+		$app->db->query("UPDATE dns_soa SET serial = $serial WHERE id = $soa_id");
+		
 	}
 	
 	function onAfterUpdate() {
 		global $app, $conf;
 		
 		// Update the serial number of the SOA record
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = '".intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
 		$soa_id = intval($_POST["zone"]);
-		$serial = time();
+		$serial = $app->validate_dns->increase_serial($soa["serial"]);
 		$app->db->query("UPDATE dns_soa SET serial = $serial WHERE id = $soa_id");
 	}
 }

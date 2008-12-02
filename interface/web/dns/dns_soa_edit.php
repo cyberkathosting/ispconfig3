@@ -1,4 +1,5 @@
 <?php
+
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -27,7 +28,6 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 /******************************************
 * Begin Form configuration
 ******************************************/
@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('dns');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions');
+$app->uses('tpl,tform,tform_actions,validate_dns');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -123,9 +123,10 @@ class page_action extends tform_actions {
 			}
 		}
 		
-		// Set the serial
-		$this->dataRecord["serial"] = time();
-		
+		// Update the serial number of the SOA record
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
+		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+
 		parent::onSubmit();
 	}
 	
