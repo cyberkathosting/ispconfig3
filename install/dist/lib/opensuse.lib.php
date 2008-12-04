@@ -95,8 +95,9 @@ class installer_dist extends installer_base {
 			'broken_sasl_auth_clients = yes',
 			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
 			'smtpd_use_tls = yes',
-			'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',
-			'smtpd_tls_key_file = '.$config_dir.'/smtpd.key',
+			'smtpd_tls_security_level = may',
+			'smtpd_tls_cert_file = '.$config_dir.'/ssl/smtpd.cert',
+			'smtpd_tls_key_file = '.$config_dir.'/ssl/smtpd.key',
 			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
 			'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
 			'virtual_create_maildirsize = yes',
@@ -136,12 +137,12 @@ class installer_dist extends installer_base {
 		
 		if(!stristr($options,'dont-create-certs')) {
 			//* Create the SSL certificate
-			$command = 'cd '.$config_dir.'; '
-                      .'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout '
-                      .'smtpd.key -keyform PEM -days 365 -x509';
+			$command = 'mkdir '.$config_dir.'/ssl; '
+                      .'cd '.$config_dir.'/ssl; '
+                      .'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 365 -x509';
 			exec($command);
 		
-			$command = 'chmod o= '.$config_dir.'/smtpd.key';
+			$command = 'chmod o= '.$config_dir.'/ssl/smtpd.key';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 		

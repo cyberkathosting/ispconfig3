@@ -292,6 +292,7 @@ class installer_base {
 			'broken_sasl_auth_clients = yes',
 			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
 			'smtpd_use_tls = yes',
+			'smtpd_tls_security_level = may',
 			'smtpd_tls_cert_file = '.$config_dir.'/ssl/smtpd.cert',
 			'smtpd_tls_key_file = '.$config_dir.'/ssl/smtpd.key',
 			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
@@ -334,8 +335,7 @@ class installer_base {
 			//* Create the SSL certificate
 			$command = 'mkdir '.$config_dir.'/ssl; '
                       .'cd '.$config_dir.'/ssl; '
-                      .'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout '
-                      .'smtpd.key -keyform PEM -days 365 -x509';
+                      .'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 365 -x509';
 			exec($command);
 		
 			$command = 'chmod o= '.$config_dir.'/ssl/smtpd.key';
