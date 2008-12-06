@@ -63,6 +63,14 @@ define("DB_PASSWORD",$conf["db_password"]);
 define("DB_CHARSET",$conf["db_charset"]);
 
 
+//** Database settings for the master DB. This setting is only used in multiserver setups
+$conf["dbmaster_type"]			= 'mysql';
+$conf["dbmaster_host"]			= '{mysql_master_server_host}';
+$conf["dbmaster_database"]		= '{mysql_master_server_database}';
+$conf["dbmaster_user"]			= '{mysql_master_server_ispconfig_user}';
+$conf["dbmaster_password"]		= '{mysql_master_server_ispconfig_password}';
+
+
 //** Paths
 define('ISPC_ROOT_PATH', realpath(dirname(__FILE__).'/../')); // The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
 define('ISPC_LIB_PATH', ISPC_ROOT_PATH.'/lib');
