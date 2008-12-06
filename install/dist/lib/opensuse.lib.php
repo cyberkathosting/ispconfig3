@@ -529,6 +529,12 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		
+		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
+		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
+		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
+		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
@@ -542,6 +548,12 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		
+		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
+		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
+		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
+		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		wf("$install_dir/server/lib/$configfile", $content);

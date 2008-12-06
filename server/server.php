@@ -67,7 +67,7 @@ $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGL
 */
 
 // Check if there is anything to update
-$tmp_rec = $app->db->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE server_id = ".$conf["server_id"]);
+$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE server_id = ".$conf["server_id"]);
 $tmp_num_records = $tmp_rec["number"];
 unset($tmp_rec);
 

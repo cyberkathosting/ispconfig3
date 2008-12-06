@@ -40,6 +40,24 @@ class app {
                 if($conf["start_db"] == true) {
                 	$this->load('db_'.$conf["db_type"]);
                 	$this->db = new db;
+					
+					/*
+					Initialize the connection to the master DB, 
+					if we are in a multiserver setup
+					*/
+					
+					if($conf["dbmaster_host"] != '' && $conf["dbmaster_host"] != $conf["db_host"]) {
+						$this->dbmaster = new db;
+						if($this->dbmaster->linkId) $this->dbmaster->closeConn();
+						$this->dbmaster->dbHost = $conf["dbmaster_host"];
+						$this->dbmaster->dbName = $conf["dbmaster_database"];
+						$this->dbmaster->dbUser = $conf["dbmaster_user"];
+						$this->dbmaster->dbPass = $conf["dbmaster_password"];
+					} else {
+						$this->dbmaster = $this->db;
+					}
+					
+					
                 }
 
         }

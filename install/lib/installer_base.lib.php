@@ -117,25 +117,24 @@ class installer_base {
     {
 		global $conf;
 		
-		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
 		//** Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$cf['database'].' DEFAULT CHARACTER SET '.$cf['charset'])) {
-			$this->error('Unable to create MySQL database: '.$cf['database'].'.');
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['mysql']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+			$this->error('Unable to create MySQL database: '.$conf['mysql']['database'].'.');
 		}
 		
 		//* Set the database name in the DB library
-		$this->db->dbName = $cf['database'];
+		$this->db->dbName = $conf['mysql']['database'];
 		
 		//* Load the database dump into the database, if database contains no tables
 		$db_tables = $this->db->getTables();
 		if(count($db_tables) > 0) {
 			$this->error('Stopped: Database already contains some tables.');
 		} else {
-			if($cf['admin_password'] == '') {
-				caselog("mysql --default-character-set=".$cf['charset']." -h '".$cf['host']."' -u '".$cf['admin_user']."' '".$cf['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
+			if($conf['mysql']['admin_password'] == '') {
+				caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
                         __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			} else {
-				caselog("mysql --default-character-set=".$cf['charset']." -h '".$cf['host']."' -u '".$cf['admin_user']."' -p'".$cf['admin_password']."' '".$cf['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
+				caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
                         __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			}
 			$db_tables = $this->db->getTables();
@@ -150,40 +149,74 @@ class installer_base {
 		
 		global $conf;
 		
-		$cf = $conf['mysql']; // make $conf['mysql'] more accessible
-		
-		if($cf['host'] == 'localhost') {
+		if($conf['mysql']['host'] == 'localhost') {
 			$from_host = 'localhost';
 		} else {
 			$from_host = $conf['hostname'];
 		}
 		
-		// Delete ISPConfig user, in case that it exists
-		$this->db->query("DELETE FROM mysql.user WHERE User = '".$cf['ispconfig_user']."' AND Host = '".$from_host."';");
-		$this->db->query("DELETE FROM mysql.db WHERE Db = '".$cf['database']."' AND Host = '".$from_host."';");
+		// Delete ISPConfig user in the local database, in case that it exists
+		$this->db->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['ispconfig_user']."' AND Host = '".$from_host."';");
+		$this->db->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['database']."' AND Host = '".$from_host."';");
 		$this->db->query('FLUSH PRIVILEGES;');
 		
-		//* Create the ISPConfig database user
-        $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$cf['database'].".* "
-                ."TO '".$cf['ispconfig_user']."'@'".$from_host."' "
-                ."IDENTIFIED BY '".$cf['ispconfig_password']."';";
+		//* Create the ISPConfig database user in the local database
+        $query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['database'].".* "
+                ."TO '".$conf['mysql']['ispconfig_user']."'@'".$from_host."' "
+                ."IDENTIFIED BY '".$conf['mysql']['ispconfig_password']."';";
 		if(!$this->db->query($query)) {
-			$this->error('Unable to create database user: '.$cf['ispconfig_user'].' Error: '.$this->db->errorMessage);
+			$this->error('Unable to create database user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
 		
 		//* Reload database privelages
 		$this->db->query('FLUSH PRIVILEGES;');
 		
 		//* Set the database name in the DB library
-		$this->db->dbName = $cf['database'];
+		$this->db->dbName = $conf['mysql']['database'];
 		
 		$server_ini_content = rf("tpl/server.ini.master");
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
 		
-		$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
-		$this->db->query($sql);
-		$conf['server_id'] = $this->db->insertID();
-		$conf['server_id'] = $conf['server_id'];
+		if($conf['mysql']['master_slave_setup'] == 'y') {
+			
+			//* Insert the server record in master DB
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+			$this->dbmaster->query($sql);
+			$conf['server_id'] = $this->dbmaster->insertID();
+			$conf['server_id'] = $conf['server_id'];
+			
+			//* Insert the same record in the local DB
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+			$this->db->query($sql);
+			
+			//* insert the ispconfig user in the remote server
+			$from_host = $conf['hostname'];
+			
+			//* username for the ispconfig user
+			$conf['mysql']['master_ispconfig_user'] = 'ispconfigserver'.$conf['server_id'];
+		
+			//* Delete ISPConfig user in the local database, in case that it exists
+			$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_host."';");
+			$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_host."';");
+			$this->dbmaster->query('FLUSH PRIVILEGES;');
+		
+			//* Create the ISPConfig database user in the local database
+        	$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
+                	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_host."' "
+                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+			}
+		
+		} else {
+			//* Insert the server, if its not a mster / slave setup
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+			$this->db->query($sql);
+			$conf['server_id'] = $this->db->insertID();
+			$conf['server_id'] = $conf['server_id'];
+		}
+		
+		
 	}
 	
 
@@ -724,6 +757,12 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		
+		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
+		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
+		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
+		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
@@ -737,6 +776,12 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		
+		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
+		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
+		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
+		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		wf("$install_dir/server/lib/$configfile", $content);

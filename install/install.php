@@ -93,7 +93,7 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
 
 //** Select installation mode
-$install_mode = $inst->simple_query('Installation mode', array('Standard','Expert'), 'Standard');
+$install_mode = $inst->simple_query('Installation mode', array('standard','expert'), 'standard');
 
 
 //** Get the hostname
@@ -134,7 +134,7 @@ include_once('lib/mysql.lib.php');
 $inst->db = new db();
 
 //** Begin with standard or expert installation
-if($install_mode == 'Standard') {
+if($install_mode == 'standard') {
 	
 	//* Create the mysql database
 	$inst->configure_database();
@@ -227,11 +227,45 @@ if($install_mode == 'Standard') {
 	// $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
 	// Server ID is an autoInc value of the mysql database now
 	
-	if(strtolower($inst->simple_query('Create a new database? (We do not want to join a existing ISPConfig server setup)',array('y','n'),'y')) == 'y') {
-		//* Create the mysql database
-		$inst->configure_database();
-		//system('/etc/init.d/mysql restart');
+	if(strtolower($inst->simple_query('Shall this server join an existing ISPConfig multiserver setup',array('y','n'),'n')) == 'y') {
+		$conf['mysql']['master_slave_setup'] = 'y';
+		
+		//** Get MySQL root credentials
+		$finished = false;
+		do {
+			$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']);
+			$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']);
+			$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']);
+    		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']);
+	
+			//* Initialize the MySQL server connection
+			if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+				$conf['mysql']['master_host'] = $tmp_mysql_server_host;
+				$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
+				$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
+				$conf['mysql']['master_database'] = $tmp_mysql_server_database;
+				$finished = true;
+			} else {
+				swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+			}
+		} while ($finished == false);
+		unset($finished);
+		
+		// initialize the connection to the master database
+		$inst->dbmaster = new db();
+		if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
+		$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
+		$inst->dbmaster->dbName = $conf['mysql']["master_database"];
+		$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
+		$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+		
+	} else {
+		// the master DB is the same then the slave DB
+		$inst->dbmaster = $inst->db;
 	}
+	
+	//* Create the mysql database
+	$inst->configure_database();
 		
 	//* Insert the Server record into the database
 	swriteln('Adding ISPConfig server record to database.');
@@ -297,7 +331,7 @@ if($install_mode == 'Standard') {
 	}
 	
 	//** Configure Apache
-	swriteln("If this server shall run the ispconfig interface, select 'y' in the next option.");
+	swriteln("\nHint: If this server shall run the ispconfig interface, select 'y' in the next option.\n");
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
 		swriteln('Configuring Apache');
 		$inst->configure_apache();

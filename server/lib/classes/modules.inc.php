@@ -81,14 +81,90 @@ class modules {
 		global $app,$conf;
 		
 		// TODO: process only new entries.
-		$sql = "SELECT * FROM sys_datalog WHERE server_id = ".$conf["server_id"]." ORDER BY datalog_id";
-		$records = $app->db->queryAllRecords($sql);
-		foreach($records as $rec) {
-			$data = unserialize(stripslashes($rec["data"]));
-			$this->raiseTableHook($rec["dbtable"],$rec["action"],$data);
-			$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
-			$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
+		//* If its a multiserver setup
+		if($app->db->dbHost != $app->dbmaster->dbHost) {
+			$sql = "SELECT * FROM sys_datalog WHERE server_id = ".$conf["server_id"]." ORDER BY datalog_id";
+			$records = $app->dbmaster->queryAllRecords($sql);
+			foreach($records as $d) {
+				
+				$data = unserialize(stripslashes($d["data"]));
+				$replication_error = false;
+				
+				if($d["action"] == 'i') {
+					$idx = explode(":",$d["dbidx"]);
+					$tmp_sql1 = '';
+					$tmp_sql2 = '';
+					foreach($data['new'] as $fieldname => $val) {
+						$tmp_sql1 .= "$fieldname,";
+						$tmp_sql2 .= "'$val',";
+					}
+					$tmp_sql1 = substr($tmp_sql1,0,-1);
+					$tmp_sql2 = substr($tmp_sql2,0,-1);
+					//$tmp_sql1 .= "$idx[0]";
+					//$tmp_sql2 .= "$idx[1]";
+					$sql = "INSERT INTO $d[dbtable] ($tmp_sql1) VALUES ($tmp_sql2)";
+					$app->db->query($sql);
+					if($app->db->errorNumber > 0) {
+						$replication_error = true;
+						$app->log("Replication failed. Error: ".$app->db->errorMessage,LOGLEVEL_ERROR);
+					}
+					$app->log("Replicated from master: ".$sql,LOGLEVEL_DEBUG);
+				}
+			
+				if($d["action"] == 'u') {
+					$sql = "UPDATE $d[dbtable] SET ";
+					foreach($data['new'] as $fieldname => $val) {
+						$sql .= "$fieldname = '$val',";
+					}
+					$sql = substr($sql,0,-1);
+					$idx = explode(":",$d["dbidx"]);
+					$sql .= " WHERE $idx[0] = $idx[1]";
+					$app->db->query($sql);
+					if($app->db->errorNumber > 0) {
+						$replication_error = true;
+						$app->log("Replication failed. Error: ".$app->db->errorMessage,LOGLEVEL_ERROR);
+					}
+					$app->log("Replicated from master: ".$sql,LOGLEVEL_DEBUG);
+				}
+			
+				if($d["action"] == 'd') {
+					$idx = explode(":",$d["dbidx"]);
+					$sql = "DELETE FROM $d[dbtable] SET ";
+					$sql .= " WHERE $idx[0] = $idx[1]";
+					$app->db->query($sql);
+					if($app->db->errorNumber > 0) {
+						$replication_error = true;
+						$app->log("Replication failed. Error: ".$app->db->errorMessage,LOGLEVEL_ERROR);
+					}
+					$app->log("Replicated from master: ".$sql,LOGLEVEL_DEBUG);
+				}
+				
+				
+				if($replication_error == false) {
+					$this->raiseTableHook($d["dbtable"],$d["action"],$data);
+					$app->dbmaster->query("DELETE FROM sys_datalog WHERE datalog_id = ".$d["datalog_id"]);
+					$app->log("Deleting sys_datalog ID ".$d["datalog_id"],LOGLEVEL_DEBUG);
+				} else {
+					$app->log("Error in Repliction, changes were not processed.",LOGLEVEL_ERROR);
+				}
+			}
+			
+		//* if we have a single server setup
+		} else {
+			$sql = "SELECT * FROM sys_datalog WHERE server_id = ".$conf["server_id"]." ORDER BY datalog_id";
+			$records = $app->db->queryAllRecords($sql);
+			foreach($records as $rec) {
+				$data = unserialize(stripslashes($rec["data"]));
+				$this->raiseTableHook($rec["dbtable"],$rec["action"],$data);
+				$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
+				$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
+			}
 		}
+		
+		
+		
+		
+		
 	}
 	
 	function raiseTableHook($table_name,$action,$data) {
