@@ -129,7 +129,7 @@ class modules {
 			
 				if($d["action"] == 'd') {
 					$idx = explode(":",$d["dbidx"]);
-					$sql = "DELETE FROM $d[dbtable] SET ";
+					$sql = "DELETE FROM $d[dbtable] ";
 					$sql .= " WHERE $idx[0] = $idx[1]";
 					$app->db->query($sql);
 					if($app->db->errorNumber > 0) {
