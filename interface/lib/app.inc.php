@@ -39,15 +39,15 @@ class app {
 	private $_language_inc = 0;
 	private $_wb;
 	private $_loaded_classes = array();
-    private $_conf;
+	private $_conf;
 
 	public function __construct()
     {
 		global $conf;
 		$this->_conf = $conf;
 		if($this->_conf['start_db'] == true) {
-				$this->load('db_'.$this->_conf['db_type']);
-				$this->db = new db;
+			$this->load('db_'.$this->_conf['db_type']);
+			$this->db = new db;
 		}
 		
 		//* Start the session

@@ -161,7 +161,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -225,7 +225,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -276,7 +276,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -321,7 +321,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -337,7 +337,7 @@ class monitor_core_module {
         $server_id = intval($conf["server_id"]);
 
         /** get the "active" Services of the server from the DB */
-        $services = $app->db->queryOneRecord("SELECT * FROM server WHERE server_id = " . $server_id);
+        $services = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $server_id);
 
         /* The type of the Monitor-data */
         $type = 'services';
@@ -445,7 +445,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -525,7 +525,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 0, 2);
@@ -571,7 +571,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -654,7 +654,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -714,7 +714,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 0, 2);
@@ -751,7 +751,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -788,7 +788,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -825,7 +825,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -863,7 +863,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -935,7 +935,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -969,7 +969,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -1003,7 +1003,7 @@ class monitor_core_module {
             "'" . $app->db->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
 
         /* The new data is written, now we can delete the old one */
         $this->_delOldRecords($type, 10);
@@ -1114,7 +1114,7 @@ class monitor_core_module {
             "type =" . "'" . $app->db->quote($type) . "' " .
             "AND " .
             "created < " . $old;
-        $app->db->query($sql);
+        $app->dbmaster->query($sql);
     }
 
     /*
