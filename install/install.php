@@ -89,6 +89,9 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 	die('This software can not be installed on a server wich runs ISPConfig 2.x.');
 }
 
+//** Detect the installed applications
+$inst->find_installed_apps();
+
 //** Select the language
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
 
@@ -222,7 +225,14 @@ if($install_mode == 'standard') {
 	if($conf['mydns']['init_script'] != '' && is_file($conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 	
 }else{
-
+	
+	//* In expert mode, we select the services in the following steps, only db is always available
+	$conf['services']['mail'] = false;
+	$conf['services']['web'] = false;
+	$conf['services']['dns'] = false;
+	$conf['services']['db'] = true;
+	
+	
 	//** Get Server ID
 	// $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
 	// Server ID is an autoInc value of the mysql database now
@@ -275,6 +285,8 @@ if($install_mode == 'standard') {
 	
 	if(strtolower($inst->simple_query('Configure Mail', array('y','n') ,'y') ) == 'y') {
 		
+		$conf['services']['mail'] = true;
+		
 		//* Configure Postfix
 		swriteln('Configuring Postfix');
 		$inst->configure_postfix();
@@ -325,6 +337,7 @@ if($install_mode == 'standard') {
 	
 	//** Configure MyDNS
 	if(strtolower($inst->simple_query('Configure DNS Server',array('y','n'),'y')) == 'y') {
+		$conf['services']['dns'] = true;
 		swriteln('Configuring MyDNS');
 		$inst->configure_mydns();
 		if($conf['mydns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
@@ -333,6 +346,7 @@ if($install_mode == 'standard') {
 	//** Configure Apache
 	swriteln("\nHint: If this server shall run the ispconfig interface, select 'y' in the next option.\n");
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
+		$conf['services']['web'] = true;
 		swriteln('Configuring Apache');
 		$inst->configure_apache();
 	}

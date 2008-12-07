@@ -102,6 +102,9 @@ $conf['ispconfig_log_priority'] = $conf_old["log_priority"];
 
 $inst = new installer();
 
+//** Detect the installed applications
+$inst->find_installed_apps();
+
 echo "This application will update ISPConfig 3 on your server.\n";
 
 //** Initialize the MySQL server connection

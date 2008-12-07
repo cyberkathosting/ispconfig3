@@ -112,9 +112,27 @@ class installer_base {
 	}
 	*/
 	
+	//** Detect installed applications
+	public function find_installed_apps() {
+		global $conf;
+		
+		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
+		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
+		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd')) $conf['apache']['installed'] = true;
+		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
+		if(is_installed('couriertcpd')) $conf['courier']['installed'] = true;
+		if(is_installed('saslsauthd')) $conf['saslauthd']['installed'] = true;
+		if(is_installed('amavisd-new')) $conf['amavis']['installed'] = true;
+		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
+		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
+		if(is_installed('mydns') || is_installed('mydns-ng')) $conf['mydns']['installed'] = true;
+		if(is_installed('jk_chrootsh')) $conf['jailkit']['installed'] = true;
+		
+		
+	}
+	
 	/** Create the database for ISPConfig */ 
-	public function configure_database()
-    {
+	public function configure_database() {
 		global $conf;
 		
 		//** Create the database
@@ -174,19 +192,32 @@ class installer_base {
 		//* Set the database name in the DB library
 		$this->db->dbName = $conf['mysql']['database'];
 		
-		$server_ini_content = rf("tpl/server.ini.master");
+		$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
+		
+		// TODO: Update further distribution specific parameters for server config here
+		$tpl_ini_array['web']['vhost_conf_dir'] = $conf['apache']['vhost_conf_dir'];
+		$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
+		
+		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
+		
+		$mail_server_enabled = ($conf['services']['mail'])?1:0;
+		$web_server_enabled = ($conf['services']['web'])?1:0;
+		$dns_server_enabled = ($conf['services']['dns'])?1:0;
+		$file_server_enabled = ($conf['services']['file'])?1:0;
+		$db_server_enabled = ($conf['services']['db'])?1:0;
+		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
 		
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
 			$this->dbmaster->query($sql);
 			$conf['server_id'] = $this->dbmaster->insertID();
 			$conf['server_id'] = $conf['server_id'];
 			
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
 			$this->db->query($sql);
 			
 			//* insert the ispconfig user in the remote server
@@ -210,7 +241,7 @@ class installer_base {
 		
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', 1, 1, 1, 1, 1, 1, '$server_ini_content', 0, 1);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
 			$this->db->query($sql);
 			$conf['server_id'] = $this->db->insertID();
 			$conf['server_id'] = $conf['server_id'];

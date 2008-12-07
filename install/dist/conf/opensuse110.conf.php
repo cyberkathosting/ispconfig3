@@ -44,7 +44,16 @@ $conf['shells'] = '/etc/shells';
 $conf['cron_tab'] = '/var/spool/cron/tabs/root';
 $conf['pam'] = '/etc/pam.d';
 
+//* Services provided by this server, this selection will be overridden by the expert mode
+$conf['services']['mail'] = true;
+$conf['services']['web'] = true;
+$conf['services']['dns'] = true;
+$conf['services']['file'] = true;
+$conf['services']['db'] = true;
+$conf['services']['vserver'] = true;
+
 //* MySQL
+$conf['mysql']['installed'] = false; // will be detected automatically during installation
 $conf['mysql']['init_script'] = 'mysql';
 $conf['mysql']['host'] = 'localhost';
 $conf['mysql']['ip'] = '127.0.0.1';
@@ -64,6 +73,7 @@ $conf['mysql']['master_ispconfig_user'] = '';
 $conf['mysql']['master_ispconfig_password'] = md5 (uniqid (rand()));
 
 //* Apache
+$conf['apache']['installed'] = false; // will be detected automatically during installation
 $conf['apache']['user'] = 'wwwrun';
 $conf['apache']['group'] = 'www';
 $conf['apache']['init_script'] = 'apache2';
@@ -73,6 +83,7 @@ $conf['apache']['vhost_conf_enabled_dir'] = '/etc/apache2/sites-enabled';
 $conf['apache']['vhost_port'] = '8080';
 
 //* Postfix
+$conf['postfix']['installed'] = false; // will be detected automatically during installation
 $conf['postfix']['config_dir'] = '/etc/postfix';
 $conf['postfix']['init_script'] = 'postfix';
 $conf['postfix']['user'] = 'postfix';
@@ -84,10 +95,12 @@ $conf['postfix']['vmail_groupname'] = 'vmail';
 $conf['postfix']['vmail_mailbox_base'] = '/home/vmail';
 
 //* Getmail
+$conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['config_dir'] = '/etc/getmail';
 $conf['getmail']['program'] = '/usr/bin/getmail';
 
 //* Courier
+$conf['courier']['installed'] = false; // will be detected automatically during installation
 $conf['courier']['config_dir'] = '/etc/authlib';
 $conf['courier']['courier-authdaemon'] = 'courier-authdaemon';
 $conf['courier']['courier-imap'] = 'courier-imap';
@@ -96,25 +109,31 @@ $conf['courier']['courier-pop'] = 'courier-pop';
 $conf['courier']['courier-pop-ssl'] = 'courier-pop-ssl';
 
 //* SASL
+$conf['saslauthd']['installed'] = false; // will be detected automatically during installation
 $conf['saslauthd']['config'] = '/etc/default/saslauthd';
 $conf['saslauthd']['init_script'] = 'saslauthd';
 
 //* Amavisd
+$conf['amavis']['installed'] = false; // will be detected automatically during installation
 $conf['amavis']['config_dir'] = '/etc/amavis';
 $conf['amavis']['init_script'] = 'amavis';
 
 //* ClamAV
+$conf['clamav']['installed'] = false; // will be detected automatically during installation
 $conf['clamav']['init_script'] = 'clamd';
 
 //* Pureftpd
+$conf['pureftpd']['installed'] = false; // will be detected automatically during installation
 $conf['pureftpd']['config_dir'] = '/etc/pure-ftpd';
 $conf['pureftpd']['init_script'] = 'pure-ftpd';
 
 //* MyDNS
+$conf['mydns']['installed'] = false; // will be detected automatically during installation
 $conf['mydns']['config_dir'] = '/etc';
 $conf['mydns']['init_script'] = 'mydns';
 
 //* Jailkit
+$conf['jailkit']['installed'] = false; // will be detected automatically during installation
 $conf['jailkit']['config_dir'] = '/etc/jailkit';
 $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';

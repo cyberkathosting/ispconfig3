@@ -66,7 +66,7 @@ class mail_plugin {
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 		
 		// Create the maildir, if it does not exist
-		if(!is_dir($data['new']['maildir'])) {
+		if(!empty($data['new']['maildir']) && !is_dir($data['new']['maildir'])) {
 			$tmp_path = $data['new']['maildir'];
 			$tmp_path_parts = explode('/',$tmp_path);
 			unset($tmp_path_parts[count($tmp_path_parts)-2]);
