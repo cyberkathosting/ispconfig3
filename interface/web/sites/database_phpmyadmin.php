@@ -43,7 +43,7 @@ $databaseId = intval($_GET['id']);
 /*
  * Get the data to connect to the database
  */
-$dbData = $app->dbmaster->queryOneRecord(
+$dbData = $app->db->queryOneRecord(
     "SELECT sys_userid, sys_groupid, sys_perm_user, sys_perm_group, server_id, database_name, database_user, database_password FROM web_database WHERE database_id = " .
     $databaseId);
 
@@ -55,7 +55,7 @@ if ($serverId == 0){
     die ("No DB-Server found!");
 }
 
-$serverData = $app->dbmaster->queryOneRecord(
+$serverData = $app->db->queryOneRecord(
     "SELECT server_name FROM server WHERE server_id = " .
     $serverId);
 
