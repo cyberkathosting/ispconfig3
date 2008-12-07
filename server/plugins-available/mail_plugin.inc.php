@@ -53,7 +53,7 @@ class mail_plugin {
 		//* Mail Domains
 		//$app->plugins->registerEvent('mail_domain_insert',$this->plugin_name,'domain_insert');
 		//$app->plugins->registerEvent('mail_domain_update',$this->plugin_name,'domain_update');
-		//$app->plugins->registerEvent('mail_domain_delete',$this->plugin_name,'domain_delete');
+		$app->plugins->registerEvent('mail_domain_delete',$this->plugin_name,'domain_delete');
 		
 	}
 	
@@ -122,6 +122,22 @@ class mail_plugin {
 			$app->log('Deleted the Maildir: '.$data['old']['maildir'],LOGLEVEL_DEBUG);
 		} else {
 			$app->log('Possible security violation when deleting the maildir: '.$data['old']['maildir'],LOGLEVEL_ERROR);
+		}
+	}
+	
+	function domain_delete($event_name,$data) {
+		global $app, $conf;
+		
+		// get the config
+		$app->uses("getconf");
+		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+		
+		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/'.$data['old']['domain']);
+		if(!stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && strlen($old_maildomain_path) >= 10) {
+			exec('rm -rf '.escapeshellcmd($old_maildomain_path));
+			$app->log('Deleted the mail domain directory: '.$old_maildomain_path,LOGLEVEL_DEBUG);
+		} else {
+			$app->log('Possible security violation when deleting the mail domain directory: '.$old_maildomain_path,LOGLEVEL_ERROR);
 		}
 	}
 	
