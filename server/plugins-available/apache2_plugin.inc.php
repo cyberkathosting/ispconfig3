@@ -186,9 +186,21 @@ class apache2_plugin {
 		if($this->action != 'insert') $this->action = 'update';
 		
 		if($data["new"]["type"] != "vhost" && $data["new"]["parent_domain_id"] > 0) {
+			
+			$old_parent_domain_id = intval($data["old"]["parent_domain_id"]);
+			$new_parent_domain_id = intval($data["new"]["parent_domain_id"]);
+			
+			// If the parent_domain_id has been chenged, we will have to update the old site as well.
+			if($data["new"]["parent_domain_id"] != $data["old"]["parent_domain_id"]) {
+				$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$old_parent_domain_id." AND active = 'y'");
+				$data["new"] = $tmp;
+				$data["old"] = $tmp;
+				$this->action = 'update';
+				$this->update($event_name,$data);
+			}
+			
 			// This is not a vhost, so we need to update the parent record instead.
-			$parent_domain_id = intval($data["new"]["parent_domain_id"]);
-			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$parent_domain_id." AND active = 'y'");
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$new_parent_domain_id." AND active = 'y'");
 			$data["new"] = $tmp;
 			$data["old"] = $tmp;
 			$this->action = 'update';
