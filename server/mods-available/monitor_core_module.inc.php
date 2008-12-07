@@ -156,9 +156,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -220,9 +220,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -271,9 +271,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -316,9 +316,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -440,9 +440,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -520,9 +520,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -566,9 +566,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -649,9 +649,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -709,9 +709,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -746,9 +746,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -783,9 +783,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -820,9 +820,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -858,9 +858,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -930,9 +930,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -964,9 +964,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -998,9 +998,9 @@ class monitor_core_module {
         $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
             "VALUES (".
         $server_id . ", " .
-            "'" . $app->db->quote($type) . "', " .
+            "'" . $app->dbmaster->quote($type) . "', " .
         time() . ", " .
-            "'" . $app->db->quote(serialize($data)) . "', " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
             "'" . $state . "'" .
             ")";
         $app->dbmaster->query($sql);
@@ -1111,7 +1111,7 @@ class monitor_core_module {
         $old = $now - ($min * 60) - ($hour * 60 * 60) - ($days * 24 * 60 * 60);
         $sql = "DELETE FROM monitor_data " .
             "WHERE " .
-            "type =" . "'" . $app->db->quote($type) . "' " .
+            "type =" . "'" . $app->dbmaster->quote($type) . "' " .
             "AND " .
             "created < " . $old;
         $app->dbmaster->query($sql);

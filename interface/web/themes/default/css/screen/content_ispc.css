@@ -287,5 +287,6 @@
 	.icons16.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
 	.icons16.icoFilter { background-image: url(../../icons/x16/funnel.png); }
 	.icons16.icoEdit { background-image: url("../../icons/x16/wrench.png"); }
+	.icons16.icoDbAdmin { background-image: url("../../icons/x16/database.png"); }
 }
 
