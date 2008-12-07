@@ -102,7 +102,7 @@ function _getSysState(){
      */
     $html = '';
 
-    $servers = $app->dbmaster->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
+    $servers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
     foreach ($servers as $server)
     {
         $html .= _getServerState($server['server_id'], $server['server_name'], false);
@@ -134,7 +134,7 @@ function _getServerState($serverId, $serverName, $showAll)
      * get all monitoring-data from the server als process then
      * (count them and set the server-state)
      */
-    $records = $app->dbmaster->queryAllRecords("SELECT DISTINCT type FROM monitor_data WHERE server_id = " . $serverId);
+    $records = $app->db->queryAllRecords("SELECT DISTINCT type FROM monitor_data WHERE server_id = " . $serverId);
     foreach($records as $record){
         _processDbState($record['type'], $serverId, &$serverState, &$messages);
     }
@@ -210,7 +210,7 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
     * state
     */
     // get the State from the DB
-    $record = $app->dbmaster->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
     // change the new state to the highest state
     $serverState = _setState($serverState, $record['state']);
     // count the states

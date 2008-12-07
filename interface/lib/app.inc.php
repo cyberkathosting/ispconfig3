@@ -36,101 +36,85 @@ ob_start('ob_gzhandler');
 
 class app {
 
-    private $_language_inc = 0;
-    private $_wb;
-    private $_loaded_classes = array();
+	private $_language_inc = 0;
+	private $_wb;
+	private $_loaded_classes = array();
     private $_conf;
 
-    public function __construct()
+	public function __construct()
     {
-        global $conf;
-        $this->_conf = $conf;
+		global $conf;
+		$this->_conf = $conf;
+		if($this->_conf['start_db'] == true) {
+				$this->load('db_'.$this->_conf['db_type']);
+				$this->db = new db;
+		}
+		
+		//* Start the session
+		if($this->_conf['start_session'] == true) {
+			session_start();
+			
+			//* Initialize session variables
+			if(!isset($_SESSION['s']['id']) ) $_SESSION['s']['id'] = session_id();
+			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];
+			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
+		}
+		
+		$this->uses('auth');
+	}
 
-        if($this->_conf["start_db"] == true) {
-            $this->load('db_'.$this->_conf["db_type"]);
-            $this->db = new db;
-
-           /*
-            Initialize the connection to the master DB,
-            if we are in a multiserver setup
-            */
-            if($this->_conf["dbmaster_host"] != '' && $this->_conf["dbmaster_host"] != $this->_conf["db_host"]) {
-                $this->dbmaster = new db;
-                if($this->dbmaster->linkId) $this->dbmaster->closeConn();
-                $this->dbmaster->dbHost = $this->_conf["dbmaster_host"];
-                $this->dbmaster->dbName = $this->_conf["dbmaster_database"];
-                $this->dbmaster->dbUser = $this->_conf["dbmaster_user"];
-                $this->dbmaster->dbPass = $this->_conf["dbmaster_password"];
-            } else {
-                $this->dbmaster = $this->db;
-            }
-        }
-
-        //* Start the session
-        if($this->_conf['start_session'] == true) {
-            session_start();
-
-            //* Initialize session variables
-            if(!isset($_SESSION['s']['id']) ) $_SESSION['s']['id'] = session_id();
-            if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];
-            if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
-        }
-
-        $this->uses('auth');
-    }
-
-    public function uses($classes)
-    {
+	public function uses($classes)
+    {	
         $cl = explode(',', $classes);
-        if(is_array($cl)) {
-            foreach($cl as $classname){
-                $classname = trim($classname);
+		if(is_array($cl)) {
+			foreach($cl as $classname){
+				$classname = trim($classname);
                 //* Class is not loaded so load it
-                if(!array_key_exists($classname, $this->_loaded_classes)){
-                    include_once(ISPC_CLASS_PATH."/$classname.inc.php");
-                    $this->$classname = new $classname();
-                    $this->_loaded_classes[$classname] = true;
-                }
-            }
-        }
-    }
+				if(!array_key_exists($classname, $this->_loaded_classes)){
+					include_once(ISPC_CLASS_PATH."/$classname.inc.php");
+					$this->$classname = new $classname();
+					$this->_loaded_classes[$classname] = true;
+				}
+			}
+		}
+	}
 
-    public function load($files)
-    {
-        $fl = explode(',', $files);
-        if(is_array($fl)) {
-            foreach($fl as $file){
-                $file = trim($file);
-                include_once(ISPC_CLASS_PATH."/$file.inc.php");
-            }
-        }
-    }
+	public function load($files)
+    {	
+		$fl = explode(',', $files);
+		if(is_array($fl)) {
+			foreach($fl as $file){
+				$file = trim($file);
+				include_once(ISPC_CLASS_PATH."/$file.inc.php");
+			}
+		}
+	}
+
+	/** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
+	public function log($msg, $priority = 0)
+    {	
+		if($priority >= $this->_conf['log_priority']) {
+			if (is_writable($this->_conf['log_file'])) {
+				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
+					$this->error('Unable to open logfile.');
+				}
+				if (!fwrite($fp, date('d.m.Y-H:i').' - '. $msg."\r\n")) {
+					$this->error('Unable to write to logfile.');
+				}
+				fclose($fp);
+			} else {
+				$this->error('Unable to write to logfile.');
+			}
+		} 
+	} 
 
     /** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
-    public function log($msg, $priority = 0)
+	public function error($msg, $next_link = '', $stop = true, $priority = 1)
     {
-        if($priority >= $this->_conf['log_priority']) {
-            if (is_writable($this->_conf['log_file'])) {
-                if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
-                    $this->error('Unable to open logfile.');
-                }
-                if (!fwrite($fp, date('d.m.Y-H:i').' - '. $msg."\r\n")) {
-                    $this->error('Unable to write to logfile.');
-                }
-                fclose($fp);
-            } else {
-                $this->error('Unable to write to logfile.');
-            }
-        }
-    }
-
-    /** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
-    public function error($msg, $next_link = '', $stop = true, $priority = 1)
-    {
-        //$this->uses("error");
-        //$this->error->message($msg, $priority);
-        if($stop == true){
-            $msg = '<html>
+		//$this->uses("error");
+		//$this->error->message($msg, $priority);
+		if($stop == true){
+			$msg = '<html>
 <head>
 <title>Error</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -141,65 +125,65 @@ class app {
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
 <td class="error"><b>Error:</b><br>'.$msg;
-            if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a><br>';
-            $msg .= '</td>
+		if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a><br>';
+		$msg .= '</td>
 </tr>
 </table>
 </body>
 </html>';
-            die($msg);
-        } else {
-            echo $msg;
-            if($next_link != '') echo "<a href='$next_link'>Next</a>";
-        }
-    }
+			die($msg);
+		} else {
+			echo $msg;
+			if($next_link != '') echo "<a href='$next_link'>Next</a>";
+		}
+	}
 
     /** Loads language */
     public function lng($text)
     {
-        if($this->_language_inc != 1) {
-            //* loading global and module Wordbook
+		if($this->_language_inc != 1) {
+			//* loading global and module Wordbook
             // TODO: this need to be made clearer somehow - pedro
-            @include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
-            @include_once(ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
-            $this->_wb = $wb;
-            $this->_language_inc = 1;
-        }
-        if(!empty($this->_wb[$text])) {
-            $text = $this->_wb[$text];
-        }
-        return $text;
-    }
+			@include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			@include_once(ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			$this->_wb = $wb;
+			$this->_language_inc = 1;
+		}		
+		if(!empty($this->_wb[$text])) {
+			$text = $this->_wb[$text];
+		}
+		return $text;
+	}
 
     public function tpl_defaults()
-    {
-        $this->tpl->setVar('app_title', $this->_conf['app_title']);
-        $this->tpl->setVar('app_version', $this->_conf['app_version']);
-        $this->tpl->setVar('app_link', $this->_conf['app_link']);
-        if(isset($this->_conf['app_logo']) && $this->_conf['app_logo'] != '' && @is_file($this->_conf['app_logo'])){
-            $this->tpl->setVar('app_logo', '<img src="'.$this->_conf['app_logo'].'">');
-        } else {
-            $this->tpl->setVar('app_logo', '&nbsp;');
-        }
+    {	
+		$this->tpl->setVar('app_title', $this->_conf['app_title']);
+		$this->tpl->setVar('app_version', $this->_conf['app_version']);
+		$this->tpl->setVar('app_link', $this->_conf['app_link']);
+		if(isset($this->_conf['app_logo']) && $this->_conf['app_logo'] != '' && @is_file($this->_conf['app_logo'])){
+			$this->tpl->setVar('app_logo', '<img src="'.$this->_conf['app_logo'].'">');
+		} else {
+			$this->tpl->setVar('app_logo', '&nbsp;');
+		}
 
-        $this->tpl->setVar('phpsessid', session_id());
+		$this->tpl->setVar('phpsessid', session_id());
 
-        $this->tpl->setVar('theme', $_SESSION['s']['theme']);
-        $this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
+		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
+		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
 
-        $this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
+		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
         //print_r($_SESSION);
-        if(isset($_SESSION['s']['module']['name'])) {
-            $this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
-        }
-        if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
-            $this->tpl->setVar('is_admin', 1);
-        }
-        if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
-            $this->tpl->setVar('is_reseller', 1);
-        }
+		if(isset($_SESSION['s']['module']['name'])) {
+			$this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
+		}
+		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
+			$this->tpl->setVar('is_admin', 1);
+		}
+		if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$this->tpl->setVar('is_reseller', 1);
+		}
     }
-
+    
 } // end class
 
 //** Initialize application (app) object

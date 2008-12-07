@@ -30,7 +30,7 @@ function showServerLoad(){
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $data = unserialize($record['data']);
@@ -76,7 +76,7 @@ function showDiskUsage () {
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $data = unserialize($record['data']);
@@ -119,7 +119,7 @@ function showMemUsage ()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $data = unserialize($record['data']);
@@ -155,7 +155,7 @@ function showCpuInfo ()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $data = unserialize($record['data']);
@@ -189,7 +189,7 @@ function showServices ()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $data = unserialize($record['data']);
@@ -302,7 +302,7 @@ function showSystemUpdate()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $html =
@@ -332,7 +332,7 @@ function showRaidState()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $html =
@@ -364,7 +364,7 @@ function showRKHunter()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $html =
@@ -396,7 +396,7 @@ function showMailq()
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['data'])) {
         $data = unserialize($record['data']);
@@ -412,7 +412,7 @@ function getDataTime($type) {
     global $app;
 
     /* fetch the Data from the DB */
-    $record = $app->dbmaster->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    $record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
     if(isset($record['created'])) {
         $res = date('Y-m-d H:i', $record['created']);
