@@ -1,11 +1,8 @@
 <?php
 $wb['Database'] = 'Database';
-$wb['FTP User'] = 'FTP User';
 $wb['Options'] = 'Options';
 $wb['Shell User'] = 'Shell User';
-$wb['Web Aliasdomain'] = 'Web Aliasdomain';
 $wb['Domain'] = 'Domain';
-$wb['Web Domain'] = 'Web Domain';
 $wb['Redirect'] = 'Redirect';
 $wb['SSL'] = 'SSL';
 $wb['Subdomain'] = 'Subdomain';
@@ -15,4 +12,5 @@ $wb['FTP-User'] = 'FTP-User';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell-User';
 $wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Websites';
 ?>

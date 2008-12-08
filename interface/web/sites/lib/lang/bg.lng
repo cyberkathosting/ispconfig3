@@ -1,11 +1,8 @@
 <?php
 $wb['Database'] = 'База данни';
-$wb['FTP User'] = 'FTP потребител';
 $wb['Options'] = 'Настройки';
 $wb['Shell User'] = 'Shell потребител';
-$wb['Web Aliasdomain'] = 'Web Aliasdomain';
 $wb['Domain'] = 'Домейн';
-$wb['Web Domain'] = 'Уеб домейн';
 $wb['Redirect'] = 'Пренасочване';
 $wb['SSL'] = 'SSL';
 $wb['Subdomain'] = 'Поддомейн';
@@ -15,4 +12,5 @@ $wb['FTP-User'] = 'FTP потребител';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell потребител';
 $wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Websites';
 ?>
