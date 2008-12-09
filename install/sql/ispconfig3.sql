@@ -1008,7 +1008,7 @@ CREATE TABLE `sys_log` (
   `tstamp` int(10) unsigned NOT NULL,
   `message` text,
   PRIMARY KEY  (`syslog_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
 -- Daten für Tabelle `sys_log`
