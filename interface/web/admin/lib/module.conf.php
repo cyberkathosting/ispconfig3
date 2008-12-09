@@ -64,6 +64,13 @@ $items[] = array( 'title' 	=> 'Edit Server IP',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_ip_list.php');				  
 
+$items[] = array( 'title' 	=> 'Jobqueue',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/datalog_list.php');
+
+$items[] = array( 'title' 	=> 'Log',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/log_list.php');
 
 $module['nav'][] = array(	'title'	=> 'Servers',
 							'open' 	=> 1,

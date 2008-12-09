@@ -911,7 +911,9 @@ CREATE TABLE `sys_datalog` (
   `tstamp` bigint(20) NOT NULL default '0',
   `user` varchar(255) NOT NULL default '',
   `data` text NOT NULL,
-  PRIMARY KEY  (`datalog_id`)
+  `status` set('pending','ok','warning','error') NOT NULL default 'pending',
+  PRIMARY KEY  (`datalog_id`),
+  KEY `server_id` (`server_id`,`status`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
@@ -992,6 +994,25 @@ CREATE TABLE `sys_group` (
 -- 
 
 INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (1, 'admin', 'Administrators group', 0);
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `sys_log`
+-- 
+
+CREATE TABLE `sys_log` (
+  `syslog_id` int(10) unsigned NOT NULL auto_increment,
+  `server_id` int(10) unsigned NOT NULL default '0',
+  `loglevel` tinyint(4) NOT NULL default '0',
+  `tstamp` int(10) unsigned NOT NULL,
+  `message` text,
+  PRIMARY KEY  (`syslog_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `sys_log`
+-- 
 
 -- --------------------------------------------------------
 
