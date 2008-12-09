@@ -125,9 +125,18 @@ foreach($records as $rec) {
 	}
 }
 
+#######################################################################################################
+// Cleanup logs in database
+#######################################################################################################
+//* Keep 7 days in sys_log
+$tstamp = time() - (60*60*24*7);
+$sql = "DELETE FROM sys_log WHERE tstamp < $tstamp";
+$app->db->query($sql);
 
-
-
+//* Keep 7 days in sys_datalog
+$tstamp = time() - (60*60*24*7);
+$sql = "DELETE FROM sys_datalog WHERE tstamp < $tstamp";
+$app->db->query($sql);
 
 
 die("finished.\n");

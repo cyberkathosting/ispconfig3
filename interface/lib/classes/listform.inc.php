@@ -38,7 +38,7 @@ class listform {
     private $pagingValues;
     private $searchChanged = 0;
     private $module;
-	private $dateformat = 'd.m.Y';
+	private $dateformat = 'Y-m-d H:i';
 	public $wordbook;
 
     public function loadListDef($file, $module = '')
