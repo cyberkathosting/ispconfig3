@@ -144,8 +144,10 @@ class modules {
 					$this->raiseTableHook($d["dbtable"],$d["action"],$data);
 					$app->dbmaster->query("DELETE FROM sys_datalog WHERE datalog_id = ".$d["datalog_id"]);
 					$app->log("Deleting sys_datalog ID ".$d["datalog_id"],LOGLEVEL_DEBUG);
+					$app->db->query("UPDATE sys_datalog SET status = 'ok' WHERE datalog_id = ".$d["datalog_id"]);
 				} else {
 					$app->log("Error in Repliction, changes were not processed.",LOGLEVEL_ERROR);
+					$app->db->query("UPDATE sys_datalog SET status = 'error' WHERE datalog_id = ".$d["datalog_id"]);
 				}
 			}
 			
@@ -158,6 +160,7 @@ class modules {
 				$this->raiseTableHook($rec["dbtable"],$rec["action"],$data);
 				$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
 				$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
+				$app->db->query("UPDATE sys_datalog SET status = 'ok' WHERE datalog_id = ".$rec["datalog_id"]);
 			}
 		}
 		

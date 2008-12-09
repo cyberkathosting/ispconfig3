@@ -46,6 +46,7 @@ $app->auth->check_module_permissions('admin');
 
 $app->uses('listform_actions');
 //$app->listform_actions->SQLExtWhere = "wb = 'W'";
+$app->listform_actions->SQLOrderBy = "ORDER BY tstamp DESC, datalog_id DESC";
 
 $app->listform_actions->onLoad();
 

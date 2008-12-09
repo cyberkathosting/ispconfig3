@@ -39,9 +39,6 @@ $liste['paging_tpl']		= 'templates/paging.tpl.htm';
 //* Enable auth
 $liste['auth']				= 'no';
 
-$liste['sort_field'] 		= 'tstamp';
-$liste['sort_direction'] 	= 'ASC';
-
 /*****************************************************
 * Suchfelder
 *****************************************************/
