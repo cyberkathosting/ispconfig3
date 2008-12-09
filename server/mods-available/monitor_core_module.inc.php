@@ -682,7 +682,7 @@ class monitor_core_module {
             /*
              * Fetch the output
              */
-            $data['output'] = shell_exec('rkhunter --update --check --nocolors --skip-keypress');
+            $data['output'] = shell_exec('rkhunter --update --checkall --nocolors --skip-keypress');
 
             /*
              * At this moment, there is no state (maybe later)
