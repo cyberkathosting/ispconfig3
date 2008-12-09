@@ -127,12 +127,14 @@ class app {
                             fclose($fp);
 							
 							// Log to database
-							$server_id = $conf['server_id'];
-							$loglevel = $priority;
-							$tstamp = time();
-							$message = $app->db->quote($msg);
-							$sql = "INSERT INTO sys_log (server_id,loglevel,tstamp,message) VALUES ('$server_id','$loglevel','$tstamp','$message')";
-							$app->db->query($sql);
+							if(isset($this->db)) {
+								$server_id = $conf['server_id'];
+								$loglevel = $priority;
+								$tstamp = time();
+								$message = $this->db->quote($msg);
+								$sql = "INSERT INTO sys_log (server_id,loglevel,tstamp,message) VALUES ('$server_id','$loglevel','$tstamp','$message')";
+								$this->db->query($sql);
+							}
 
                         //} else {
                         //    die("Unable to write to logfile.");
