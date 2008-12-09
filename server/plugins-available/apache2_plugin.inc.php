@@ -300,14 +300,34 @@ class apache2_plugin {
 		
 		if($this->action == 'insert' && $data["new"]["type"] == 'vhost') {
 			// Copy the error pages
-      if($data["new"]["errordocs"]){
-  			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
-  			exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
-  			exec("chmod -R +r ".$error_page_path);
-      }
-      		
+			if($data["new"]["errordocs"]){
+				$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
+				if (file_exists("/usr/local/ispconfig/server/conf-custom/error/".substr(escapeshellcmd($conf["language"]),0,2))){
+					exec("cp /usr/local/ispconfig/server/conf-custom/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+				}
+				else {
+					if (file_exists("/usr/local/ispconfig/server/conf-custom/error/fileNotFound.html")){
+						exec("cp /usr/local/ispconfig/server/conf-custom/error/*.html ".$error_page_path);
+					}
+					else {
+						exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+					}
+				}
+				exec("chmod -R +r ".$error_page_path);
+			}
+
 			// copy the standard index page
-			exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
+			if (file_exists("/usr/local/ispconfig/server/conf-custom/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2))){
+				exec("cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
+			}
+			else {
+				if (file_exists("/usr/local/ispconfig/server/conf-custom/index/standard_index.html")){
+					exec("cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
+				}
+				else {
+					exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
+				}
+			}
 			exec("chmod +r ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
 		}
 		
