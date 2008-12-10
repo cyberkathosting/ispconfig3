@@ -10,4 +10,3 @@ $wb['local_path_txt'] = 'Rutas locales';
 $wb['wput_options_txt'] = 'Opciones wput';
 $wb['active_txt'] = 'Activar';
 ?>
-

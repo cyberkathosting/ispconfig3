@@ -10,4 +10,3 @@ $wb['page_back_txt'] = 'Atrás';
 $wb['delete_txt'] = 'Borrar';
 $wb['filter_txt'] = 'Filtro';
 ?>
-

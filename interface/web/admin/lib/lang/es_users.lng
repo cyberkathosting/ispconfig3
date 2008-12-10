@@ -28,4 +28,3 @@ $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['startmodule_err'] = 'El modulo inicial no está incluido en los módulos';
 ?>
-

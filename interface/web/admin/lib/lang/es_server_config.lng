@@ -35,4 +35,3 @@ $wb['hostname_txt'] = 'Nombre de máquina';
 $wb['nameservers_txt'] = 'Servidores de nombres';
 $wb['auto_network_configuration_txt'] = 'Configuración de red';
 ?>
-

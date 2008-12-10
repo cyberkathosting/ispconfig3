@@ -4,4 +4,3 @@ $wb['jobname_txt'] = 'Orden de trabajo';
 $wb['ftp_host_txt'] = 'Servidor FTP';
 $wb['local_path_txt'] = 'Ruta local';
 ?>
-

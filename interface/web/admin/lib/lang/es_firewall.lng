@@ -9,4 +9,3 @@ $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['firewall_error_unique'] = 'Ya hay un registro de cortafuegos en este servidor';
 ?>
-

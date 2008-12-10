@@ -7,4 +7,3 @@ $wb['active_txt'] = 'Active';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 ?>
-

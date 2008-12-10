@@ -11,4 +11,3 @@ $wb['db_server_txt'] = 'Servidor de base de datos';
 $wb['vserver_server_txt'] = 'Servidor-ServidorVirtual';
 $wb['active_txt'] = 'Activar';
 ?>
-

@@ -10,4 +10,3 @@ $wb['delete_txt'] = 'Borrar';
 $wb['filter_txt'] = 'Filtro';
 $wb['add_new_record_txt'] = 'Añadir nueva dirección IP';
 ?>
-
