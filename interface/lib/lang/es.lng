@@ -1,0 +1,11 @@
+<?php
+$wb['301'] = 'Modulo no permitido para el usuario actual.';
+$wb['302'] = 'Modulo inválido.';
+$wb['1001'] = '¡ El usuario y contraseña no pueden estar vacíos !';
+$wb['1002'] = '¡ El usuario y contraseña no son correctos !';
+$wb['1003'] = '¡ El usuario está desactivado !';
+$wb['delete_confirmation'] = '¿Realmente quiere borrar este registro ?';
+$wb['error_no_view_permission'] = 'Este registro no existe o no tiene permiso para verlo';
+$wb['error_no_delete_permission'] = '¡ No puede borrar este registro, no tiene permiso !';
+?>
+

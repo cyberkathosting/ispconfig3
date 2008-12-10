@@ -1,0 +1,18 @@
+<?php
+$wb['DNS'] = 'DNS';
+$wb['Zones'] = 'Zonas';
+$wb['DNS A'] = 'DNS A';
+$wb['DNS ALIAS'] = 'DNS ALIAS';
+$wb['DNS CNAME'] = 'DNS CNAME';
+$wb['DNS hinfo'] = 'DNS hinfo';
+$wb['DNS mx'] = 'DNS mx';
+$wb['DNS ns'] = 'DNS ns';
+$wb['DNS ptr'] = 'DNS ptr';
+$wb['DNS RP'] = 'DNS RP';
+$wb['DNS Zone'] = 'DNS Zona';
+$wb['Records'] = 'Registros';
+$wb['DNS SRV'] = 'DNS SRV';
+$wb['DNS TXT Record'] = 'DNS TXT Registro';
+$wb['DNS TXT'] = 'DNS TXT';
+?>
+

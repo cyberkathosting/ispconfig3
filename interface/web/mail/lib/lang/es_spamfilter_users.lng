@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['priority_txt'] = 'Prioridad';
+$wb['policy_id_txt'] = 'Política';
+$wb['email_txt'] = 'Patrón de correo';
+$wb['fullname_txt'] = 'Nombre';
+$wb['local_txt'] = 'Local';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+?>
+

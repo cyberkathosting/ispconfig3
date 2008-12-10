@@ -1,0 +1,13 @@
+<?php
+$wb['list_head_txt'] = 'Dirección IP';
+$wb['server_id_txt'] = 'Servidor';
+$wb['ip_address_txt'] = 'Dirección IP';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Siguiente';
+$wb['page_back_txt'] = 'Atrás';
+$wb['delete_txt'] = 'Borrar';
+$wb['filter_txt'] = 'Filtro';
+$wb['add_new_record_txt'] = 'Añadir nueva dirección IP';
+?>
+

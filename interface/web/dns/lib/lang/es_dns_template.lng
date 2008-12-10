@@ -1,0 +1,9 @@
+<?php
+$wb['name_txt'] = 'Nombre';
+$wb['fields_txt'] = 'Campos';
+$wb['template_txt'] = 'Plantilla';
+$wb['visible_txt'] = 'Visible';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+?>
+

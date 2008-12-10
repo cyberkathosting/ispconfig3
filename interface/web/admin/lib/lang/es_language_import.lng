@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Archivo de importación de idioma';
+$wb['language_import_txt'] = 'Elija archivo de idioma';
+$wb['btn_save_txt'] = 'Importar el archivo de idioma';
+$wb['language_overwrite_txt'] = 'Sobreescribir los archivo, si existen';
+$wb['btn_cancel_txt'] = 'Atrás';
+?>
+

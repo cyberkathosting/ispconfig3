@@ -23,6 +23,7 @@ $module["nav"][] = array(	'title'	=> 'System State (All Servers)',
  We need all the available servers on the left navigation.
  So fetch them from the database and add then to the navigation as dropdown-list
 */
+
 $servers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
 
 $dropDown = "<select id='server_id' onchange=\"loadContent('monitor/show_sys_state.php?state=server&server=' + document.getElementById('server_id').value);\">";

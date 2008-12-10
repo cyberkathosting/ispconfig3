@@ -1,0 +1,42 @@
+<?php
+$wb['Server online since'] = 'Servidor en línea desde';
+$wb['Users online'] = 'Usuarios en línea';
+$wb['System load 1 minute'] = 'Carga del sistema 1 minuto';
+$wb['System load 5 minutes'] = 'Carga del sistema 5 minutos';
+$wb['System load 15 minutes'] = 'Carga del sistema 15 minutos';
+$wb['Server Load'] = 'Carga del servidor';
+$wb['Disk usage'] = 'Uso de disco';
+$wb['Memory usage'] = 'Uso de memoria';
+$wb['no_data_serverload_txt'] = 'No hay datos acerca de la carga del servidor en este momento, por favor intentelo más tarde';
+$wb['no_data_memusage_txt'] = 'No hay datos acerca del uso de memoria en este momento, por favor intentelo más tarde';
+$wb['no_data_diskusage_txt'] = 'No hay datos acerca del uso de disco en este momento, por favor intentelo más tarde';
+$wb['no_data_cpuinfo_txt'] = 'No hay datos acerca de la CPU en este momento, por favor intentelo más tarde';
+$wb['no_data_services_txt'] = 'No hay datos acerca de los servicios  en este momento, por favor intentelo más tarde';
+$wb['no_logdata_txt'] = 'No hay datos acerca de registro en este momento, por favor intentelo más tarde';
+$wb['Monitoring'] = 'Monitorizando';
+$wb['Server to Monitor'] = 'Servidor a monitorizar';
+$wb['Logfiles'] = 'Archivos de registro';
+$wb['Status of services'] = 'Estado de los servicios';
+$wb['No Refresh'] = 'Sin refresco';
+$wb['minutes'] = 'minutos';
+$wb['Show Overview'] = 'Mostrar descripción general';
+$wb['System State (All Servers)'] = 'Estado del sistema (Todos los servidores)';
+$wb['Hardware-Information'] = 'Información del hardware';
+$wb['Show CPU info'] = 'Mostrar info. de la CPU';
+$wb['Server State'] = 'Estado del servidor';
+$wb['Show Update State'] = 'Mostrar estado de actualización';
+$wb['Show RAID state'] = 'Mostrar estado del RAID';
+$wb['Show Server load'] = 'Mostrar la carga del servidor';
+$wb['Show Disk usage'] = 'Mostra el uso del disco';
+$wb['Show Memory usage'] = 'Mostrar uso de la memoria';
+$wb['Show Services'] = 'Mostrar los servicios';
+$wb['Show Mail-Queue'] = 'Mostrar la cola de correo';
+$wb['Show Mail-Log'] = 'Mostrar el registro de correo';
+$wb['Show Mail warn-Log'] = 'Mostrar las advertencias de correo';
+$wb['Show Mail err-Log'] = 'Mostrar los errores de correo';
+$wb['Show System-Log'] = 'Mostrar el registro del sistema';
+$wb['Show Freshclam-Log'] = 'Mostrar el registro de Freshclam';
+$wb['Show Clamav-Log'] = 'Mostrar el registro de ClamAV';
+$wb['Show ISPConfig-Log'] = 'Mostrar el registro de ISPConfig';
+?>
+

@@ -1,0 +1,15 @@
+<?php
+$wb['list_head_txt'] = 'Postfix comprueba las cabeceras y el cuerpo del mensaje';
+$wb['active_txt'] = 'Activar';
+$wb['server_id_txt'] = 'Servidor';
+$wb['pattern_txt'] = 'Patrón';
+$wb['action_txt'] = 'Acción';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Siguiente';
+$wb['page_back_txt'] = 'Atrás';
+$wb['delete_txt'] = 'Borrar';
+$wb['filter_txt'] = 'Filtro';
+$wb['add_new_record_txt'] = 'Añadir nuevo filtro de contenido';
+?>
+

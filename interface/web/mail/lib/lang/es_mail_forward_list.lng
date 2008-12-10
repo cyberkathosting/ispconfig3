@@ -1,0 +1,15 @@
+<?php
+$wb['list_head_txt'] = 'Reenvío de correo';
+$wb['active_txt'] = 'Activar';
+$wb['source_txt'] = 'Origen';
+$wb['destination_txt'] = 'Destino';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Siguiente';
+$wb['page_back_txt'] = 'Atrás';
+$wb['delete_txt'] = 'Borrar';
+$wb['filter_txt'] = 'Filtro';
+$wb['email_txt'] = 'Correo';
+$wb['add_new_record_txt'] = 'Añadir nuevo reenvío de correo';
+?>
+

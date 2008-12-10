@@ -1,0 +1,12 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['type_txt'] = 'Filtro';
+$wb['pattern_txt'] = 'Patrón de Expresion Regular';
+$wb['data_txt'] = 'Fecha';
+$wb['action_txt'] = 'Acción';
+$wb['active_txt'] = 'Activar';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['pattern_error_empty'] = 'Patrón está vacío';
+?>
+

@@ -1,0 +1,25 @@
+<?php
+$wb['name_txt'] = 'NombreForm';
+$wb['title_txt'] = 'TitleForm';
+$wb['template_txt'] = 'Plantilla';
+$wb['navframe_txt'] = 'MarcoNaveg';
+$wb['startpage_txt'] = 'Página inicial';
+$wb['tab_width_txt'] = 'Ancho de pestaña';
+$wb['save_txt'] = 'Guardar';
+$wb['cancel_txt'] = 'Cancelar';
+$wb['header_txt'] = 'Propiedades Form';
+$wb['description_txt'] = 'Descripción';
+$wb['action_txt'] = 'Acción (script)';
+$wb['db_table_txt'] = 'Tabla DB';
+$wb['db_table_idx_txt'] = 'Indice tabla DB';
+$wb['db_history_txt'] = 'Registro deshacer';
+$wb['tab_default_txt'] = 'Pestaña por defecto';
+$wb['list_default_txt'] = 'Lista por defecto';
+$wb['auth_txt'] = 'Permisos';
+$wb['auth_preset_userid_txt'] = 'UserID';
+$wb['auth_preset_groupid_txt'] = 'GroupID';
+$wb['auth_preset_perm_user_txt'] = 'Permiso usuario';
+$wb['auth_preset_perm_group_txt'] = 'Permiso grupo';
+$wb['auth_preset_perm_other_txt'] = 'Permiso otros';
+?>
+

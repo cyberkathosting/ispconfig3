@@ -1,0 +1,38 @@
+<?php
+$wb['jailkit_chroot_home_txt'] = 'Carpeta Jailkit chroot';
+$wb['jailkit_chroot_app_sections_txt'] = 'Secciones de aplicación Jailkit chroot';
+$wb['jailkit_chroot_app_programs_txt'] = 'Aplicaciones Jailkit chrooted';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['website_path_txt'] = 'Ruta sitio web';
+$wb['website_symlinks_txt'] = 'Enlaces simbólicos sitio web';
+$wb['vhost_conf_dir_txt'] = 'Directorio de configuración vhost';
+$wb['vhost_conf_enabled_dir_txt'] = 'Directorio de configuración de vhost activados';
+$wb['getmail_config_dir_txt'] = 'Directorio de configuración Getmail';
+$wb['fastcgi_starter_path_txt'] = 'Ruta inicial FastCGI';
+$wb['fastcgi_starter_script_txt'] = 'Script incial FastCGI';
+$wb['fastcgi_alias_txt'] = 'Alias FastCGI';
+$wb['fastcgi_phpini_path_txt'] = 'Ruta al php.ini de FastCGI';
+$wb['fastcgi_children_txt'] = 'Hijos FastCGI';
+$wb['fastcgi_max_requests_txt'] = 'Peticiones máximas FastCGI';
+$wb['fastcgi_bin_txt'] = 'Binario FastCGI';
+$wb['module_txt'] = 'Módulo';
+$wb['maildir_path_txt'] = 'Ruta maildir';
+$wb['homedir_path_txt'] = 'Ruta carpeta inicial';
+$wb['mailuser_uid_txt'] = 'UID usuario de correo';
+$wb['mailuser_gid_txt'] = 'GID usuario de correo';
+$wb['mailuser_name_txt'] = 'Nombre del usuario de correo';
+$wb['mailuser_group_txt'] = 'Grupo del usuario de correo';
+$wb['relayhost_txt'] = 'Servidor de retransmisión';
+$wb['relayhost_user_txt'] = 'Usuario de retransmisión';
+$wb['relayhost_password_txt'] = 'Contraseña de retramisión';
+$wb['mailbox_size_limit_txt'] = 'Límite de tamaño del buzón';
+$wb['message_size_limit_txt'] = 'Límite de tamaño del mensaje';
+$wb['ip_address_txt'] = 'Dirección IP';
+$wb['netmask_txt'] = 'Máscara de red';
+$wb['gateway_txt'] = 'Pasarela';
+$wb['hostname_txt'] = 'Nombre de máquina';
+$wb['nameservers_txt'] = 'Servidores de nombres';
+$wb['auto_network_configuration_txt'] = 'Configuración de red';
+?>
+

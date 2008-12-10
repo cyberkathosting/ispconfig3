@@ -1,0 +1,13 @@
+<?php
+$wb['1001'] = 'Usuario o contraseña vacíos.';
+$wb['1002'] = 'Usuario o contraseña incorrectos.';
+$wb['1003'] = 'El usuario está bloqueado';
+$wb['1004'] = 'Demasiados intentos erroneos, por favor, inténtelo dentro de 15 minutos.';
+$wb['pass_reset_txt'] = 'Se generará una nueva contraseña que se le enviará a la cuenta de correo que tiene configurada.';
+$wb['pw_reset'] = 'La contraseña ha sido reseteada y enviada a su cuenta de correo.';
+$wb['pw_error'] = 'El usuario o la cuenta de correo no coinciden.';
+$wb['pw_error_noinput'] = 'Por favor, introduzca la dirección de correo y el nombre de usuario.';
+$wb['pw_reset_mail_msg'] = 'La contraseña de su cuenta de panel de control ISPConfig 3 ha sido reseteada. La nueva contraseña es: ';
+$wb['pw_reset_mail_title'] = 'La contraseña del panel de control ISPConfig 3 ha sido reseteada.';
+?>
+

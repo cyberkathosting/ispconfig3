@@ -1,0 +1,18 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nombre de máquina';
+$wb['type_txt'] = 'tipo';
+$wb['data_txt'] = 'Persona responsable';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Activar';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['limit_dns_record_txt'] = 'Se ha alcanzado el máximo número de registros DNS para esta cuenta.';
+$wb['no_zone_perm'] = 'No tiene permiso para añadir un registro a esta zona DNS';
+$wb['name_error_empty'] = 'El nombre de máquina está vacío.';
+$wb['name_error_regex'] = 'El formato de nombre de máquina no es correcto.';
+$wb['data_error_empty'] = 'El nombre de persona responsable está vacío.';
+$wb['data_error_regex'] = 'El nombre de persona responsable no es válido.';
+?>
+

@@ -1,0 +1,12 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['tcp_port_txt'] = 'Abrir puertos TCP';
+$wb['udp_port_txt'] = 'Abrir puertos UDP';
+$wb['tcp_port_help_txt'] = 'Separados por coma';
+$wb['udp_port_help_txt'] = 'Separados por coma';
+$wb['active_txt'] = 'Activar';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['firewall_error_unique'] = 'Ya hay un registro de cortafuegos en este servidor';
+?>
+

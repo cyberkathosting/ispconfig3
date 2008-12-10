@@ -1,0 +1,13 @@
+<?php
+$wb['email_txt'] = 'Correo';
+$wb['destination_txt'] = 'Destino';
+$wb['active_txt'] = 'Activar';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['email_error_isemail'] = 'La dirección de correo no es válida';
+$wb['email_error_unique'] = 'Dirección de correo duplicada';
+$wb['no_domain_perm'] = 'No tiene permiso para este dominio';
+$wb['destination_error_isemail'] = 'La dirección de correo de destino no es válida';
+$wb['limit_mailalias_txt'] = 'Ha alcanzado el número máximo de alias de correo para esta cuenta';
+?>
+

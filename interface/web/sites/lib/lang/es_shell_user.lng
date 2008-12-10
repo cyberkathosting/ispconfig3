@@ -1,0 +1,24 @@
+<?php
+$wb['uid_txt'] = 'Usuario web';
+$wb['gid_txt'] = 'Grupo';
+$wb['shell_txt'] = 'Consola (shell)';
+$wb['dir_txt'] = 'Dir';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['server_id_txt'] = 'Servidor';
+$wb['parent_domain_id_txt'] = 'Sitio';
+$wb['username_txt'] = 'Usuario';
+$wb['password_txt'] = 'Contraseña';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
+$wb['chroot_txt'] = 'Consola Chroot';
+$wb['quota_size_txt'] = 'Cuota';
+$wb['active_txt'] = 'Activar';
+$wb['username_error_empty'] = 'El usuario está vacío';
+$wb['username_error_unique'] = 'El nombre de usuario debe ser único';
+$wb['username_error_regex'] = 'El nombre de usuario contiene caracteres no permitidos';
+$wb['quota_size_error_empty'] = 'Cuota vacía';
+$wb['uid_error_empty'] = 'GID vacío';
+$wb['directory_error_empty'] = 'Directorio vacío';
+$wb['limit_shell_user_txt'] = 'Se ha alcanzado el número máximo de usuarios de consola';
+?>
+

@@ -1,0 +1,18 @@
+<?php
+$wb['list_head_txt'] = 'A-Record';
+$wb['active_txt'] = 'Active';
+$wb['server_id_txt'] = 'Servidor';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nombre';
+$wb['data_txt'] = 'Fecha';
+$wb['aux_txt'] = 'Prioridad';
+$wb['type_txt'] = 'Tipo';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Siguiente';
+$wb['page_back_txt'] = 'Atrás';
+$wb['delete_txt'] = 'Borrar';
+$wb['filter_txt'] = 'Filtro';
+$wb['add_new_record_txt'] = 'Añadir nuevo registro A';
+?>
+

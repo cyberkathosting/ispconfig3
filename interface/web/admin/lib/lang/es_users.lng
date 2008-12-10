@@ -1,0 +1,31 @@
+<?php
+$wb['username_txt'] = 'Usuario';
+$wb['username_err'] = 'El usuario es demasiado largo o contiene carácteres inválidos';
+$wb['username_empty'] = 'El usuario está vacío.';
+$wb['username_unique'] = 'Ya existe un usuario con este nombre';
+$wb['passwort_txt'] = 'Contraseña';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
+$wb['modules_txt'] = 'Módulo';
+$wb['startmodule_txt'] = 'Módulo inicial';
+$wb['app_theme_txt'] = 'Diseño';
+$wb['typ_txt'] = 'Tipo';
+$wb['active_txt'] = 'Activar';
+$wb['language_txt'] = 'Idioma';
+$wb['name_txt'] = 'Nombre';
+$wb['vorname_txt'] = 'Apellidos';
+$wb['unternehmen_txt'] = 'Compañía';
+$wb['strasse_txt'] = 'Calle';
+$wb['ort_txt'] = 'Ciudad';
+$wb['plz_txt'] = 'Cód.Postal';
+$wb['land_txt'] = 'País';
+$wb['email_txt'] = 'Correo';
+$wb['url_txt'] = 'URL';
+$wb['telefon_txt'] = 'Teléfono';
+$wb['fax_txt'] = 'Fax';
+$wb['groups_txt'] = 'Grupos';
+$wb['default_group_txt'] = 'Grupo por defecto';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['startmodule_err'] = 'El modulo inicial no está incluido en los módulos';
+?>
+

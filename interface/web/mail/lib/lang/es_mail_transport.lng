@@ -1,0 +1,13 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['domain_txt'] = 'Dominio';
+$wb['destination_txt'] = 'Destino';
+$wb['type_txt'] = 'Tipo';
+$wb['mx_txt'] = 'Sin búsqueda MX';
+$wb['sort_order_txt'] = 'Ordenado por';
+$wb['active_txt'] = 'Activar';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['limit_mailrouting_txt'] = 'Se ha alcanzado el número máximo de rutas para este nivel';
+?>
+

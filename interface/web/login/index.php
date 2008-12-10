@@ -37,21 +37,16 @@ class login_index {
 	private $app;
 	private $conf;
 	
-	public function __construct()
-	{
-		global $app, $conf;
-		$this->app  = $app;
-		$this->conf = $conf;
-	}
-	
 	public function render() {
+		
+		global $app, $conf;
 		
 		if(isset($_SESSION['s']['user']) && is_array($_SESSION['s']['user']) && is_array($_SESSION['s']['module'])) {
 			die('HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage']);
 		}
 		
-		$this->app->uses('tpl');
-		$this->app->tpl->newTemplate('form.tpl.htm');
+		$app->uses('tpl');
+		$app->tpl->newTemplate('form.tpl.htm');
 	    
 	    $error = '';    
 	
@@ -60,26 +55,26 @@ class login_index {
 		if(count($_POST) > 0) {
 	
 	        // iporting variables
-	        $ip 	  = $this->app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
-	        $username = $this->app->db->quote($_POST['username']);
-	        $passwort = $this->app->db->quote($_POST['passwort']); 
+	        $ip 	  = $app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
+	        $username = $app->db->quote($_POST['username']);
+	        $passwort = $app->db->quote($_POST['passwort']); 
 	
 	        if($username != '' and $passwort != '') {
 	        	//* Check if there already wrong logins
 	        	$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '{$ip}' AND  `login_time` < NOW() + INTERVAL 15 MINUTE LIMIT 1";
-	        	$alreadyfailed = $this->app->db->queryOneRecord($sql);
+	        	$alreadyfailed = $app->db->queryOneRecord($sql);
 	        	//* login to much wrong
 	        	if($alreadyfailed['times'] > 5) {
-	        		$error = $this->app->lng(1004);
+	        		$error = $app->lng(1004);
 	        	} else {
 		        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
-		            $user = $this->app->db->queryOneRecord($sql);
+		            $user = $app->db->queryOneRecord($sql);
 		            if($user) {
 		                if($user['active'] == 1) {
 		                	// User login right, so attempts can be deleted
 		                	$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
-		                	$this->app->db->query($sql);
-		                	$user = $this->app->db->toLower($user);
+		                	$app->db->query($sql);
+		                	$user = $app->db->toLower($user);
 		                    $_SESSION = array();
 		                    $_SESSION['s']['user'] = $user;
 		                    $_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
@@ -94,27 +89,27 @@ class login_index {
 										
 		                   	exit;
 		             	} else {
-		                	$error = $this->app->lng(1003);
+		                	$error = $app->lng(1003);
 		                }
 		        	} else {
 		        		if(!$alreadyfailed['times'] )
 		        		{
 		        			//* user login the first time wrong
 		        			$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES ('{$ip}', 1, NOW())";
-		        			$this->app->db->query($sql);
+		        			$app->db->query($sql);
 		        		} elseif($alreadyfailed['times'] >= 1) {
 		        			//* update times wrong
 		        			$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `login_time` >= '{$time}' LIMIT 1";
-		        			$this->app->db->query($sql);
+		        			$app->db->query($sql);
 		        		}
 		            	//* Incorrect login - Username and password incorrect
-		                $error = $this->app->lng(1002);
-		                if($this->app->db->errorMessage != '') $error .= '<br />'.$this->app->db->errorMessage != '';
+		                $error = $app->lng(1002);
+		                if($app->db->errorMessage != '') $error .= '<br />'.$app->db->errorMessage != '';
 		           	}
 	        	}
 	      	} else {
 	       		//* Username or password empty
-	            $error = $this->app->lng(1001);
+	            $error = $app->lng(1001);
 	        }
 		}
 		if($error != ''){
@@ -123,13 +118,13 @@ class login_index {
 	
 	
 	
-		$this->app->tpl->setVar('error', $error);
-		$this->app->tpl->setInclude('content_tpl','login/templates/index.htm');
-		$this->app->tpl_defaults();
+		$app->tpl->setVar('error', $error);
+		$app->tpl->setInclude('content_tpl','login/templates/index.htm');
+		$app->tpl_defaults();
 		
 		$this->status = 'OK';
 		
-		return $this->app->tpl->grab();
+		return $app->tpl->grab();
 		
 	} // << end function
 

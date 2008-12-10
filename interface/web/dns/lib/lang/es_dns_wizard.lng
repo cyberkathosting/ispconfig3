@@ -1,0 +1,14 @@
+<?php
+$wb['template_id_txt'] = 'Plantilla';
+$wb['server_id_txt'] = 'Servidor';
+$wb['client_txt'] = 'Cliente';
+$wb['btn_save_txt'] = 'Crear registro DNS';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['domain_txt'] = 'Dominio';
+$wb['email_txt'] = 'Correo';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'Dirección IP';
+$wb['error_origin_empty'] = 'Origen vacío.';
+?>
+

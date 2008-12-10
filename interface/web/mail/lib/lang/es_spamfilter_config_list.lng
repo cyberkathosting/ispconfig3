@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Configuración de servidor';
+$wb['server_name_txt'] = 'Servidor';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Siguiente';
+$wb['page_back_txt'] = 'Atrás ';
+$wb['delete_txt'] = 'Borrar';
+$wb['filter_txt'] = 'Filtro';
+$wb['server_id_txt'] = 'server_id';
+?>
+

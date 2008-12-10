@@ -1,0 +1,27 @@
+<?php
+$wb['uid_txt'] = 'UID';
+$wb['gid_txt'] = 'GID';
+$wb['dir_txt'] = 'Directorio';
+$wb['quota_files_txt'] = 'Cuota de Archivo';
+$wb['ul_ratio_txt'] = 'Velocidad subida';
+$wb['dl_ratio_txt'] = 'Velocidad bajada';
+$wb['ul_bandwidth_txt'] = 'Ancho de banda subida';
+$wb['dl_bandwidth_txt'] = 'Ancho de banda bajada';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['server_id_txt'] = 'Servidor';
+$wb['parent_domain_id_txt'] = 'Sitio web';
+$wb['username_txt'] = 'Usuario';
+$wb['password_txt'] = 'Contraseña';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
+$wb['quota_size_txt'] = 'Cuota de disco';
+$wb['active_txt'] = 'Activar';
+$wb['limit_ftp_user_txt'] = 'Se ha alcanzado el número máximo de usuarios FTP';
+$wb['username_error_empty'] = 'El usuario está vacío';
+$wb['username_error_unique'] = 'El usuario debe ser único';
+$wb['username_error_regex'] = 'El usuario contiene caracteres no válidos';
+$wb['quota_size_error_empty'] = 'Cuota vacía';
+$wb['uid_error_empty'] = 'GID vacío';
+$wb['directory_error_empty'] = 'Directorio vacío';
+?>
+
