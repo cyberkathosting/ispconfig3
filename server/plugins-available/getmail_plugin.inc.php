@@ -33,8 +33,20 @@ class getmail_plugin {
 	var $plugin_name = 'getmail_plugin';
 	var $class_name = 'getmail_plugin';
 	
-	
 	var $getmail_config_dir = '';
+	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['mail'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 	
 	/*
 	 	This function is called when the plugin is loaded

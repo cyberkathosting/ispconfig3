@@ -36,6 +36,15 @@ class client_module {
 									'client_update',
 									'client_delete');
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		return true;
+		
+	}
+	
 	/*
 	 	This function is called when the module is loaded
 	*/

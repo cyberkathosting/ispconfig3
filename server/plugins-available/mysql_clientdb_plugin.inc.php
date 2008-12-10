@@ -33,6 +33,19 @@ class mysql_clientdb_plugin {
 	var $plugin_name = 'mysql_clientdb_plugin';
 	var $class_name  = 'mysql_clientdb_plugin';
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['db'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 		
 	/*
 	 	This function is called when the plugin is loaded

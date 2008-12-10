@@ -34,6 +34,15 @@ class network_settings_plugin {
 	var $class_name = 'network_settings_plugin';
 	
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		return true;
+		
+	}
+	
 	/*
 	 	This function is called when the plugin is loaded
 	*/

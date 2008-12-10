@@ -36,6 +36,19 @@ class apache2_plugin {
 	// private variables
 	var $action = '';
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['web'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 		
 	/*
 	 	This function is called when the plugin is loaded

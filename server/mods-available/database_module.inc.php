@@ -37,6 +37,19 @@ class database_module {
 									'database_delete'
 									);
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['db'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 	/*
 	 	This function is called when the module is loaded
 	*/

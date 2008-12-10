@@ -33,6 +33,15 @@ class software_update_plugin {
 	var $plugin_name = 'software_update_plugin';
 	var $class_name  = 'software_update_plugin';
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		return true;
+		
+	}
+	
 		
 	/*
 	 	This function is called when the plugin is loaded

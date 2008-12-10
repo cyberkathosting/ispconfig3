@@ -36,7 +36,16 @@ class monitor_core_module {
     /* No actions at this time. maybe later... */
     var $actions_available = array();
 
-    /*
+    //* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		return true;
+		
+	}
+	
+	/*
         This function is called when the module is loaded
     */
     function onLoad() {

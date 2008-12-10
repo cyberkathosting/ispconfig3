@@ -36,6 +36,19 @@ class postfix_server_plugin {
 	
 	var $postfix_config_dir = '/etc/postfix';
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['mail'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 	/*
 	 	This function is called when the plugin is loaded
 	*/

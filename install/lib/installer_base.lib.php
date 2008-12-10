@@ -336,10 +336,10 @@ class installer_base {
 		
 		//* Creating virtual mail user and group
 		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if(!is_group($cf['vmail_groupname'])) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
-		caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
+		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
 
 		$postconf_commands = array (
 			'myhostname = '.$conf['hostname'],
@@ -618,7 +618,7 @@ class installer_base {
 		if(!is_dir($config_dir)) exec("mkdir -p ".escapeshellcmd($config_dir));
 
 		$command = "useradd -d $config_dir getmail";
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if(!is_user('getmail')) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		$command = "chown -R getmail $config_dir";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -760,10 +760,10 @@ class installer_base {
 		
 		//* Create a ISPConfig user and group
 		$command = 'groupadd ispconfig';
-		if(!is_group('vacp')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if(!is_group('ispconfig')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		$command = "useradd -g ispconfig -d $install_dir ispconfig";
-		if(!is_user('vacp')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if(!is_user('ispconfig')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* copy the ISPConfig interface part
 		$command = "cp -rf ../interface $install_dir";
@@ -824,11 +824,17 @@ class installer_base {
 		if (is_dir($dir)) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
-					if($file != '.' && $file != '..') {
-						if(!@is_link($install_dir.'/server/mods-enabled/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
-						if (strpos($file, '_core_module') !== false) {
-							if(!@is_link($install_dir.'/server/mods-core/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-core/'.$file);
+					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
+						include_once($install_dir.'/server/mods-available/'.$file);
+						$module_name = substr($file,0,-8);
+						$tmp = new $module_name;
+						if($tmp->onInstall()) {
+							if(!@is_link($install_dir.'/server/mods-enabled/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
+							if (strpos($file, '_core_module') !== false) {
+								if(!@is_link($install_dir.'/server/mods-core/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-core/'.$file);
+							}
 						}
+						unset($tmp);
 					}
 				}
 				closedir($dh);
@@ -839,16 +845,38 @@ class installer_base {
 		if (is_dir($dir)) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
-					if($file != '.' && $file != '..') {
-						if(!@is_link($install_dir.'/server/plugins-enabled/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-enabled/'.$file);
-						if (strpos($file, '_core_plugin') !== false) {
-							if(!@is_link($install_dir.'/server/plugins-core/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-core/'.$file);
+					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
+						include_once($install_dir.'/server/plugins-available/'.$file);
+						$plugin_name = substr($file,0,-8);
+						$tmp = new $plugin_name;
+						if($tmp->onInstall()) {
+							if(!@is_link($install_dir.'/server/plugins-enabled/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-enabled/'.$file);
+							if (strpos($file, '_core_plugin') !== false) {
+								if(!@is_link($install_dir.'/server/plugins-core/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-core/'.$file);
+							}
 						}
+						unset($tmp);
 					}
 				}
 				closedir($dh);
 			}
 		}
+		
+		// Update the server config
+		$mail_server_enabled = ($conf['services']['mail'])?1:0;
+		$web_server_enabled = ($conf['services']['web'])?1:0;
+		$dns_server_enabled = ($conf['services']['dns'])?1:0;
+		$file_server_enabled = ($conf['services']['file'])?1:0;
+		$db_server_enabled = ($conf['services']['db'])?1:0;
+		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		
+		if($conf['mysql']['master_slave_setup'] == 'y') {
+			$this->dbmaster->query($sql);
+		} else {
+			$this->db->query($sql);
+		}
+		
 		
 		//* Chmod the files
 		$command = "chmod -R 750 $install_dir";

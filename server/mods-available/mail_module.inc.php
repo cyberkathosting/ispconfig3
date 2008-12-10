@@ -54,6 +54,19 @@ class mail_module {
 									'mail_content_filter_update',
 									'mail_content_filter_delete');
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['mail'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 	/*
 	 	This function is called when the module is loaded
 	*/

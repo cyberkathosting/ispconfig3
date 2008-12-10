@@ -42,6 +42,19 @@ class web_module {
 									'shell_user_update',
 									'shell_user_delete');
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['web'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 	/*
 	 	This function is called when the module is loaded
 	*/

@@ -34,6 +34,19 @@ class shelluser_jailkit_plugin {
 	var $plugin_name = 'shelluser_jailkit_plugin';
 	var $class_name = 'shelluser_jailkit_plugin';
 	
+	//* This function is called during ispconfig installation to determine
+	//  if a symlink shall be created for this plugin.
+	function onInstall() {
+		global $conf;
+		
+		if($conf['services']['web'] == true) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 		
 	/*
 	 	This function is called when the plugin is loaded
