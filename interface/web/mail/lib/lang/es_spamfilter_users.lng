@@ -8,4 +8,3 @@ $wb['local_txt'] = 'Local';
 $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 ?>
-

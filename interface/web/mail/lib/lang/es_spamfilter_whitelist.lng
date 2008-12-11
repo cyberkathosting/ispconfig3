@@ -8,4 +8,3 @@ $wb['active_txt'] = 'Activar';
 $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 ?>
-

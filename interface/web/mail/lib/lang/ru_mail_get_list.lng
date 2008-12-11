@@ -5,11 +5,5 @@ $wb['server_id_txt'] = 'Сервер';
 $wb['source_server_txt'] = 'Внешний сервер';
 $wb['source_username_txt'] = 'Пользовательname';
 $wb['destination_txt'] = 'Получатель';
-$wb['page_txt'] = 'Страница';
-$wb['page_of_txt'] = 'из';
-$wb['page_next_txt'] = 'Дальше';
-$wb['page_back_txt'] = 'Назад';
-$wb['delete_txt'] = 'Удалить';
-$wb['filter_txt'] = 'Фильтр';
 $wb['add_new_record_txt'] = 'Добавить новый счет';
 ?>

@@ -10,4 +10,3 @@ $wb['no_domain_perm'] = 'No tiene permiso para este dominio';
 $wb['destination_error_isemail'] = 'La dirección de correo de destino no es válida';
 $wb['limit_mailalias_txt'] = 'Ha alcanzado el número máximo de alias de correo para esta cuenta';
 ?>
-

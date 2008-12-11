@@ -9,4 +9,3 @@ $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['pattern_error_empty'] = 'Patrón está vacío';
 ?>
-

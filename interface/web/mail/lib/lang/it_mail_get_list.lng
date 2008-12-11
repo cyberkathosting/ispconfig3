@@ -1,15 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Fetch emails from external POP3 / IMAP servers';
-$wb["active_txt"] = 'Active';
-$wb["server_id_txt"] = 'Server';
-$wb["source_server_txt"] = 'External Server';
-$wb["source_username_txt"] = 'Username';
-$wb["destination_txt"] = 'Destination';
-$wb["page_txt"] = 'Page';
-$wb["page_of_txt"] = 'of';
-$wb["page_next_txt"] = 'Next';
-$wb["page_back_txt"] = 'Back';
-$wb["delete_txt"] = 'Delete';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Add new Account';
+$wb['list_head_txt'] = 'Fetch emails from external POP3 / IMAP servers';
+$wb['active_txt'] = 'Active';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'External Server';
+$wb['source_username_txt'] = 'Username';
+$wb['destination_txt'] = 'Destination';
+$wb['add_new_record_txt'] = 'Add new Account';
 ?>

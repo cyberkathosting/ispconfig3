@@ -2,12 +2,6 @@
 $wb['list_head_txt'] = 'Domaine E-mail';
 $wb['server_id_txt'] = 'Serveur';
 $wb['domain_txt'] = 'Domaine';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'de';
-$wb['page_next_txt'] = 'Suivante';
-$wb['page_back_txt'] = 'Précedente';
-$wb['delete_txt'] = 'Effacer';
-$wb['filter_txt'] = 'Filtrer';
 $wb['add_new_record_txt'] = 'Add new Domain';
 $wb['active_txt'] = 'Active';
 ?>

@@ -9,4 +9,3 @@ $wb['no_domain_perm'] = 'No tiene permiso para este dominio';
 $wb['domain_error_regex'] = 'Nombre de dominio no válido o contiene caracteres no válidos';
 $wb['limit_mailcatchall_txt'] = 'Se ha alcanzado el número máximo de cuentas recogetodos para este dominio';
 ?>
-

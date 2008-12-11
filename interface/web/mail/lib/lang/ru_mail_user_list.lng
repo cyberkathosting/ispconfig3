@@ -2,11 +2,5 @@
 $wb['list_head_txt'] = 'Mailbox';
 $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Автоответчик';
-$wb['page_txt'] = 'Страница';
-$wb['page_of_txt'] = 'из';
-$wb['page_next_txt'] = 'Дальше';
-$wb['page_back_txt'] = 'Назад';
-$wb['delete_txt'] = 'Удалить';
-$wb['filter_txt'] = 'Фильтр';
 $wb['add_new_record_txt'] = 'Добавить новый Mailbox';
 ?>

@@ -9,4 +9,3 @@ $wb['source_error_notempty'] = 'La dirección está vacía';
 $wb['type_txt'] = 'Tipo';
 $wb['limit_mailfilter_txt'] = 'Se ha alcanzado el número máximo de filtros de correo para esta cuenta';
 ?>
-

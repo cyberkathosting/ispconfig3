@@ -5,10 +5,4 @@ $wb['this_month_txt'] = 'This month';
 $wb['last_month_txt'] = 'Last month';
 $wb['this_year_txt'] = 'This year';
 $wb['last_year_txt'] = 'Last year';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['page_next_txt'] = 'Next';
-$wb['page_back_txt'] = 'Back';
-$wb['delete_txt'] = 'Delete';
-$wb['filter_txt'] = 'Filter';
 ?>

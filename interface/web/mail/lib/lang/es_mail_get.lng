@@ -11,4 +11,3 @@ $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['limit_fetchmail_txt'] = 'Se ha alcanzado el número máximo de registros Fetchmail';
 ?>
-

@@ -13,4 +13,3 @@ $wb['limit_maildomain_txt'] = 'Se ha alcanzado el número máximo de dominios de
 $wb['policy_txt'] = 'Filtro de spam';
 $wb['no_policy'] = '- no activado -';
 ?>
-
