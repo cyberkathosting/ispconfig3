@@ -45,7 +45,17 @@ $list_def_file = "list/datalog.list.php";
 $app->auth->check_module_permissions('monitor');
 
 $app->uses('listform_actions');
-$app->listform_actions->SQLExtWhere = "server_id != 0";
+
+$servers = $app->db->queryAllRecords("SELECT server_id, updated FROM server");
+
+$sql = '(';
+foreach($servers as $s) {
+	$sql .= " (datalog_id > ".$s['updated']." AND server_id = ".$s['server_id'].") AND ";
+}
+$sql = substr($sql,0,-4);
+$sql .= ')';
+
+$app->listform_actions->SQLExtWhere = $sql;
 $app->listform_actions->SQLOrderBy = "ORDER BY tstamp DESC, datalog_id DESC";
 
 $app->listform_actions->onLoad();
