@@ -130,6 +130,9 @@ class tform {
                 $this->module = $module;
 				$wb = array();
 				
+				$lng_file = ISPC_WEB_PATH.'/lang/lib/lang/'.$_SESSION['s']['language'].'_tform.lng';
+				if(!file_exists($lng_file)) $lng_file = ISPC_WEB_PATH.'/lang/lib/lang/en'.'_tform.lng';
+				include($lng_file);
                 if($module == '') {
 					if(is_file("lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng")) {
                         include_once("lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng");
@@ -139,9 +142,6 @@ class tform {
                         include_once("../$module/lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng");
 					}
                 }
-				$lng_file = ISPC_WEB_PATH.'/lang/lib/lang/'.$_SESSION['s']['language'].'_tform.lng';
-				if(!file_exists($lng_file)) $lng_file = ISPC_WEB_PATH.'/lang/lib/lang/en_'.'_tform.lng';
-				include($lng_file);
                 $this->wordbook = $wb;
 
                 return true;
