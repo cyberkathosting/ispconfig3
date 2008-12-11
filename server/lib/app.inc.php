@@ -125,15 +125,27 @@ class app {
                             }
 							echo date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."\n";
                             fclose($fp);
-							
+
 							// Log to database
-							if(isset($this->db)) {
+							if(isset($this->dbmaster)) {
 								$server_id = $conf['server_id'];
 								$loglevel = $priority;
 								$tstamp = time();
-								$message = $this->db->quote($msg);
-								$sql = "INSERT INTO sys_log (server_id,loglevel,tstamp,message) VALUES ('$server_id','$loglevel','$tstamp','$message')";
-								$this->db->query($sql);
+								$message = $this->dbmaster->quote($msg);
+								$datalog_id = (isset($this->modules->current_datalog_id) && $this->modules->current_datalog_id > 0)?$this->modules->current_datalog_id:0;
+								if($datalog_id > 0) {
+									$tmp_rec = $this->dbmaster->queryOneRecord("SELECT count(syslog_id) as number FROM sys_log WHERE datalog_id = $datalog_id AND loglevel = ".LOGLEVEL_ERROR);
+									//* Do not insert duplicate errors into the web log.
+									if($tmp_rec['number'] == 0) {
+										$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',$datalog_id,'$loglevel','$tstamp','$message')";
+										$this->dbmaster->query($sql);
+									}
+								} else {
+									$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',0,'$loglevel','$tstamp','$message')";
+									$this->dbmaster->query($sql);
+								}
+								
+								
 							}
 
                         //} else {

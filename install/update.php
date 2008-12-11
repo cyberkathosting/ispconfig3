@@ -134,6 +134,7 @@ $inst->db = new db();
 
 //* Update $conf array with values from the server.ini that shall be preserved
 $tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+$ini_array = ini_to_array(stripslashes($tmp['config']));
 
 $conf['services']['mail'] = ($tmp['mail_server'] == 1)?true:false;
 $conf['services']['web'] = ($tmp['web_server'] == 1)?true:false;
@@ -141,6 +142,7 @@ $conf['services']['dns'] = ($tmp['dns_server'] == 1)?true:false;
 $conf['services']['file'] = ($tmp['file_server'] == 1)?true:false;
 $conf['services']['db'] = ($tmp['db_server'] == 1)?true:false;
 $conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
+$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
 
 //** Delete the old database
 if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {

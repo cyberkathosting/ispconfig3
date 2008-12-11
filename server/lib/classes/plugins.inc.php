@@ -32,6 +32,7 @@ class plugins {
 	
 	var $available_events = array();
 	var $subscribed_events = array();
+	var $debug = false;
 	
 	/*
 	 This function is called to load the plugins from the plugins-enabled or the plugins-core folder
@@ -61,7 +62,7 @@ class plugins {
 				//** load the plugins
 				foreach($tmp_plugins as $plugin_name => $file) {
 					include_once($plugins_dir.$file);
-					$app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
+					if($this->debug) $app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
 					$app->loaded_plugins[$plugin_name] = new $plugin_name;
 					$app->loaded_plugins[$plugin_name]->onLoad();
 				}
@@ -82,7 +83,7 @@ class plugins {
 		global $app;
 		foreach($events as $event_name) {
 			$this->available_events[$event_name] = $module_name;
-			$app->log("Announced event: $event_name",LOGLEVEL_DEBUG);
+			if($this->debug) $app->log("Announced event: $event_name",LOGLEVEL_DEBUG);
 		}
 	}
 	
@@ -97,7 +98,7 @@ class plugins {
 			$app->log("Unable to register the function '$function_name' in the plugin '$plugin_name' for event '$event_name'",LOGLEVEL_DEBUG);
 		} else {
 			$this->subscribed_events[$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
-			$app->log("Registered the function '$function_name' in the plugin '$plugin_name' for event '$event_name'.",LOGLEVEL_DEBUG);
+			if($this->debug)  $app->log("Registered the function '$function_name' in the plugin '$plugin_name' for event '$event_name'.",LOGLEVEL_DEBUG);
 		}
 	}
 	
@@ -107,7 +108,7 @@ class plugins {
 		
 		// Get the subscriptions for this event
 		$events = $this->subscribed_events[$event_name];
-		$app->log("Raised event: '$event_name'",LOGLEVEL_DEBUG);
+		if($this->debug) $app->log("Raised event: '$event_name'",LOGLEVEL_DEBUG);
 		
 		if(is_array($events)) {
 			foreach($events as $event) {

@@ -31,6 +31,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class modules {
 	
 	var $notification_hooks = array();
+	var $current_datalog_id = 0;
+	var $debug = false;
 	
 	/*
 	 This function is called to load the modules from the mods-enabled or the mods-core folder
@@ -48,7 +50,7 @@ class modules {
 					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
 						$module_name = substr($file,0,-8);
 						include_once($modules_dir.$file);
-						$app->log("Loading Module: $module_name",LOGLEVEL_DEBUG);
+						if($this->debug) $app->log("Loading Module: $module_name",LOGLEVEL_DEBUG);
 						$app->loaded_modules[$module_name] = new $module_name;
 						$app->loaded_modules[$module_name]->onLoad();
 					}
@@ -68,7 +70,7 @@ class modules {
 	function registerTableHook($table_name,$module_name,$function_name) {
 		global $app;
 		$this->notification_hooks[$table_name][] = array('module' => $module_name, 'function' => $function_name);
-		$app->log("Registered TableHook '$table_name' in module '$module_name' for processing function '$function_name'",LOGLEVEL_DEBUG);
+		if($this->debug) $app->log("Registered TableHook '$table_name' in module '$module_name' for processing function '$function_name'",LOGLEVEL_DEBUG);
 	}
 	
 	/*
@@ -83,12 +85,14 @@ class modules {
 		// TODO: process only new entries.
 		//* If its a multiserver setup
 		if($app->db->dbHost != $app->dbmaster->dbHost) {
-			$sql = "SELECT * FROM sys_datalog WHERE server_id = ".$conf["server_id"]." ORDER BY datalog_id";
+			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0) ORDER BY datalog_id";
 			$records = $app->dbmaster->queryAllRecords($sql);
 			foreach($records as $d) {
 				
 				$data = unserialize(stripslashes($d["data"]));
 				$replication_error = false;
+				
+				$this->current_datalog_id = $d["datalog_id"];
 				
 				if($d["action"] == 'i') {
 					$idx = explode(":",$d["dbidx"]);
@@ -144,25 +148,25 @@ class modules {
 					$this->raiseTableHook($d["dbtable"],$d["action"],$data);
 					//$app->dbmaster->query("DELETE FROM sys_datalog WHERE datalog_id = ".$d["datalog_id"]);
 					//$app->log("Deleting sys_datalog ID ".$d["datalog_id"],LOGLEVEL_DEBUG);
-					$app->db->query("UPDATE sys_datalog SET status = 'ok' WHERE datalog_id = ".$d["datalog_id"]);
-					$app->log("Changing datalog status to -ok- for sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
+					$app->dbmaster->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf["server_id"]);
+					$app->log("Processed datalog_id ".$d["datalog_id"],LOGLEVEL_DEBUG);
 				} else {
 					$app->log("Error in Repliction, changes were not processed.",LOGLEVEL_ERROR);
-					$app->db->query("UPDATE sys_datalog SET status = 'error' WHERE datalog_id = ".$d["datalog_id"]);
 				}
 			}
 			
 		//* if we have a single server setup
 		} else {
-			$sql = "SELECT * FROM sys_datalog WHERE server_id = ".$conf["server_id"]." ORDER BY datalog_id";
+			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0) ORDER BY datalog_id";
 			$records = $app->db->queryAllRecords($sql);
-			foreach($records as $rec) {
-				$data = unserialize(stripslashes($rec["data"]));
-				$this->raiseTableHook($rec["dbtable"],$rec["action"],$data);
+			foreach($records as $d) {
+				$data = unserialize(stripslashes($d["data"]));
+				$this->current_datalog_id = $d["datalog_id"];
+				$this->raiseTableHook($d["dbtable"],$d["action"],$data);
 				//$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
 				//$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
-				$app->db->query("UPDATE sys_datalog SET status = 'ok' WHERE datalog_id = ".$rec["datalog_id"]);
-				$app->log("Changing datalog status to -ok- for sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
+				$app->db->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf["server_id"]);
+				$app->log("Processed datalog_id ".$d["datalog_id"],LOGLEVEL_DEBUG);
 			}
 		}
 		
@@ -177,14 +181,14 @@ class modules {
 		
 		// Get the hooks for this table
 		$hooks = $this->notification_hooks[$table_name];
-		$app->log("Raised TableHook for table: '$table_name'",LOGLEVEL_DEBUG);
+		if($this->debug) $app->log("Raised TableHook for table: '$table_name'",LOGLEVEL_DEBUG);
 		
 		if(is_array($hooks)) {
 			foreach($hooks as $hook) {
 				$module_name = $hook["module"];
 				$function_name = $hook["function"];
 				// Claa the processing function of the module
-				$app->log("Call function '$function_name' in module '$module_name' raised by TableHook '$table_name'.",LOGLEVEL_DEBUG);
+				if($this->debug) $app->log("Call function '$function_name' in module '$module_name' raised by TableHook '$table_name'.",LOGLEVEL_DEBUG);
 				call_user_method($function_name,$app->loaded_modules[$module_name],$table_name,$action,$data);
 				unset($module_name);
 				unset($function_name);

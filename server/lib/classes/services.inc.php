@@ -32,6 +32,7 @@ class services {
 
 	var $registered_services = array();
 	var $delayed_restarts = array();
+	var $debug = false;
 	
 	// This function adds a request for restarting 
 	// a service at the end of the configuration run.
@@ -64,7 +65,7 @@ class services {
 	function registerService($service_name,$module_name, $function_name) {
 		global $app;
 		$this->registered_services[$service_name] = array('module' => $module_name, 'function' => $function_name);
-		$app->log("Registered Service '$service_name' in module '$module_name' for processing function '$function_name'",LOGLEVEL_DEBUG);
+		if($this->debug) $app->log("Registered Service '$service_name' in module '$module_name' for processing function '$function_name'",LOGLEVEL_DEBUG);
 	}
 	
 	// This function is called at the end of the server script to restart services.

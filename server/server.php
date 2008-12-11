@@ -66,8 +66,13 @@ if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
 $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGLEVEL_DEBUG);
 */
 
+// get the dalaog_id of the last performed record
+$tmp_rec = $app->dbmaster->queryOneRecord("SELECT updated FROM server WHERE server_id = ".$conf["server_id"]);
+$conf['last_datalog_id'] = (int)$tmp_rec['updated'];
+unset($tmp_rec);
+
 // Check if there is anything to update
-$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE server_id = ".$conf["server_id"]." AND status = 'pending'");
+$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0)");
 $tmp_num_records = $tmp_rec["number"];
 unset($tmp_rec);
 

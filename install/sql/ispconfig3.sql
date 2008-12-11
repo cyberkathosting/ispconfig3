@@ -598,7 +598,7 @@ CREATE TABLE `server` (
   `db_server` tinyint(4) NOT NULL default '0',
   `vserver_server` tinyint(4) NOT NULL default '0',
   `config` text NOT NULL,
-  `updated` tinyint(4) NOT NULL default '0',
+  `updated` bigint(20) unsigned NOT NULL default '0',
   `active` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
@@ -1004,6 +1004,7 @@ INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (
 CREATE TABLE `sys_log` (
   `syslog_id` int(10) unsigned NOT NULL auto_increment,
   `server_id` int(10) unsigned NOT NULL default '0',
+  `datalog_id` bigint(20) unsigned NOT NULL default '0',
   `loglevel` tinyint(4) NOT NULL default '0',
   `tstamp` int(10) unsigned NOT NULL,
   `message` text,
