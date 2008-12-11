@@ -162,9 +162,9 @@ chmod +x /etc/init.d/mydns
 update-rc.d mydns defaults
 
 
-6) Install vlogger and webalizer
+6) Install vlogger and webalizer and firewall
 
-apt-get install vlogger webalizer
+apt-get install vlogger webalizer bastille
 
 
 7) Install ISPConfig 3
