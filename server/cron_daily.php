@@ -130,12 +130,12 @@ foreach($records as $rec) {
 #######################################################################################################
 //* Keep 7 days in sys_log
 $tstamp = time() - (60*60*24*7);
-$sql = "DELETE FROM sys_log WHERE tstamp < $tstamp";
+$sql = "DELETE FROM sys_log WHERE tstamp < $tstamp AND server_id = ".$conf["server_id"];
 $app->db->query($sql);
 
 //* Keep 7 days in sys_datalog
 $tstamp = time() - (60*60*24*7);
-$sql = "DELETE FROM sys_datalog WHERE tstamp < $tstamp";
+$sql = "DELETE FROM sys_datalog WHERE tstamp < $tstamp AND server_id = ".$conf["server_id"];
 $app->db->query($sql);
 
 
