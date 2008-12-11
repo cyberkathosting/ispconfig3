@@ -5,11 +5,5 @@ $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zone';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['page_next_txt'] = 'Next';
-$wb['page_back_txt'] = 'Back';
-$wb['delete_txt'] = 'Delete';
-$wb['filter_txt'] = 'Filter';
 $wb['add_new_record_txt'] = 'Add new DNS Zone (SOA)';
 ?>

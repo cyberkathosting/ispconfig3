@@ -15,4 +15,3 @@ $wb['name_error_regex'] = 'El formato de nombre de máquina no es correcto.';
 $wb['data_error_empty'] = 'El nombre de persona responsable está vacío.';
 $wb['data_error_regex'] = 'El nombre de persona responsable no es válido.';
 ?>
-

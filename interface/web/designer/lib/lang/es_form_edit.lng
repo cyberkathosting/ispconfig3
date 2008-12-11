@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Permiso usuario';
 $wb['auth_preset_perm_group_txt'] = 'Permiso grupo';
 $wb['auth_preset_perm_other_txt'] = 'Permiso otros';
 ?>
-

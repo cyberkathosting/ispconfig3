@@ -6,12 +6,6 @@ $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Name';
 $wb['data_txt'] = 'Data';
 $wb['type_txt'] = 'Тип';
-$wb['page_txt'] = 'Страница';
-$wb['page_of_txt'] = 'из';
-$wb['page_next_txt'] = 'Дальше';
-$wb['page_back_txt'] = 'Назад';
-$wb['delete_txt'] = 'Удалить';
-$wb['filter_txt'] = 'Фильтр';
 $wb['add_new_record_txt'] = 'Добавить DNS A-Record';
 $wb['aux_txt'] = 'Priority';
 ?>

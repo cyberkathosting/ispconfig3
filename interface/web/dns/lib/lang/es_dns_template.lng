@@ -6,4 +6,3 @@ $wb['visible_txt'] = 'Visible';
 $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 ?>
-

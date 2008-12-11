@@ -15,4 +15,3 @@ $wb['name_error_regex'] = 'El formato del nombre de máquina es incorrecto.';
 $wb['data_error_empty'] = 'Registro de servidor vacío.';
 $wb['data_error_regex'] = 'Registro de servidor inválido.';
 ?>
-

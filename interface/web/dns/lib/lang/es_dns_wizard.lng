@@ -11,4 +11,3 @@ $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'Dirección IP';
 $wb['error_origin_empty'] = 'Origen vacío.';
 ?>
-
