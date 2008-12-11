@@ -95,7 +95,7 @@ class modules {
 					$tmp_sql1 = '';
 					$tmp_sql2 = '';
 					foreach($data['new'] as $fieldname => $val) {
-						$tmp_sql1 .= "$fieldname,";
+						$tmp_sql1 .= "`$fieldname`,";
 						$tmp_sql2 .= "'$val',";
 					}
 					$tmp_sql1 = substr($tmp_sql1,0,-1);
@@ -114,7 +114,7 @@ class modules {
 				if($d["action"] == 'u') {
 					$sql = "UPDATE $d[dbtable] SET ";
 					foreach($data['new'] as $fieldname => $val) {
-						$sql .= "$fieldname = '$val',";
+						$sql .= "`$fieldname` = '$val',";
 					}
 					$sql = substr($sql,0,-1);
 					$idx = explode(":",$d["dbidx"]);
