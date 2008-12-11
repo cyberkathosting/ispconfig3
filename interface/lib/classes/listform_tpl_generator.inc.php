@@ -132,7 +132,7 @@ class listform_tpl_generator {
 		}
 		fclose($handle);
 		
-		$lang["page_txt"] = 'Page';
+		/*$lang["page_txt"] = 'Page';
 		$lang["page_of_txt"] = 'of';
 		$lang["page_next_txt"] = 'Next';
 		$lang["page_back_txt"] = 'Back';
@@ -141,7 +141,7 @@ class listform_tpl_generator {
 		$lang["add_new_record_txt"] = 'Add new record';
 		
 		// save language file
-		$this->lng_add($lang,$listDef,$module);
+		$this->lng_add($lang,$listDef,$module);*/
     }
 	
 	function lng_add($lang,$listDef,$module = '') {
