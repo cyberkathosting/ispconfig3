@@ -11,7 +11,6 @@
             <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
             <th class="tbl_col_action" scope="col"><tmpl_var name="action_txt"></th>
             <th class="tbl_col_dbtable" scope="col"><tmpl_var name="dbtable_txt"></th>
-            <th class="tbl_col_status" scope="col"><tmpl_var name="status_txt"></th>
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
@@ -19,7 +18,6 @@
             <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','monitor/datalog_list.php');">{tmpl_var name='search_server_id'}</select></td>
             <td class="tbl_col_action"><select name="search_action" onChange="submitForm('pageForm','monitor/datalog_list.php');">{tmpl_var name='search_action'}</select></td>
             <td class="tbl_col_dbtable"><input type="text" name="search_dbtable" value="{tmpl_var name='search_dbtable'}" /></td>
-            <td class="tbl_col_status"><select name="search_status" onChange="submitForm('pageForm','monitor/datalog_list.php');">{tmpl_var name='search_status'}</select></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','monitor/datalog_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
@@ -30,7 +28,6 @@
             <td class="tbl_col_server_id">{tmpl_var name="server_id"}</td>
             <td class="tbl_col_action">{tmpl_var name="action"}</td>
             <td class="tbl_col_dbtable">{tmpl_var name="dbtable"}</td>
-            <td class="tbl_col_status">{tmpl_var name="status"}</td>
             <td class="tbl_col_buttons">
               <div class="buttons icons16">    
                 <!--<a class="icons16 icoDelete" href="javascript: del_record('monitor/datalog_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a> -->
@@ -41,7 +38,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td class="tbl_footer tbl_paging" colspan="6"><tmpl_var name="paging"></td>
+            <td class="tbl_footer tbl_paging" colspan="5"><tmpl_var name="paging"></td>
           </tr>
         </tfoot>
       </table>

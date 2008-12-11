@@ -86,16 +86,6 @@ $liste["item"][] = array(	'field'		=> "dbtable",
 							'suffix'	=> "%",
 							'width'		=> "",
 							'value'		=> "");
-
-
-$liste["item"][] = array(	'field'		=> "status",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "SELECT",
-							'op'		=> "=",
-							'prefix'	=> "",
-							'suffix'	=> "",
-							'width'		=> "",
-							'value'		=> array('pending' => "Pending",'ok' => "OK",'warning' => "Warning", 'error' => "Error"));
  
 
 ?>
