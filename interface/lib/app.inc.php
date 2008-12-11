@@ -124,8 +124,8 @@ class app {
 <br /><br /><br />
 <table width="100%" border="0" cellspacing="0" cellpadding="2">
 <tr>
-<td class="error"><b>Error:</b><br>'.$msg;
-		if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a><br>';
+<td class="error"><b>Error:</b><br />'.$msg;
+		if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a><br />';
 		$msg .= '</td>
 </tr>
 </table>

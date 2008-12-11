@@ -118,7 +118,7 @@ class listform {
 				$record = array();
                 $values = $app->$datasource_class->$datasource_function($field, $record);
             } else {
-                $this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
+                $this->errorMessage .= "Custom datasource class or function is empty<br />\r\n";
             }
         }
         return $values;

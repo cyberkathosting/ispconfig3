@@ -36,7 +36,7 @@ class vlibTemplateError {
 
         $error_codes = array(
                         'VT_ERROR_NOFILE'               => 'vlibTemplate Error: Template ('.$extra.') file not found.',
-                        'VT_ERROR_PARSE'                => 'vlibTemplate Error: Parse error!<br>To debug this file, use vlibTemplateDebug instead of vlibTemplate in the class instantiation(i.e. new vlibTemplateDebug).',
+                        'VT_ERROR_PARSE'                => 'vlibTemplate Error: Parse error!<br />To debug this file, use vlibTemplateDebug instead of vlibTemplate in the class instantiation(i.e. new vlibTemplateDebug).',
                         'VT_NOTICE_INVALID_TAG'         => 'vlibTemplate Notice: Invalid tag ('.$extra.').',
                         'VT_ERROR_INVALID_TAG'          => 'vlibTemplate Error: Invalid tag ('.$extra.'). To disable this you must turn of the STRICT option.',
                         'VT_NOTICE_INVALID_ATT'         => 'vlibTemplate Notice: Invalid attribute ('.$extra.').',

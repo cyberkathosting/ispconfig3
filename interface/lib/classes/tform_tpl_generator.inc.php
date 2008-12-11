@@ -51,7 +51,7 @@ class tform_tpl_generator {
         <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
         <input type=\"text\" id=\"".$key."\" name=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"";
           if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br>";
+  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br />";
           } else {
   	 				$html .= ">";
           }
@@ -68,7 +68,7 @@ class tform_tpl_generator {
           }
 					$html .= "{tmpl_var name='".$key."'}</textarea>";
           if ($field['required'] == true ) {
-  					$html .= "<span class=\"wf_reqMark\">*</span><br>";
+  					$html .= "<span class=\"wf_reqMark\">*</span><br />";
           }
 					$html .= "\r\n      </span>";
 				break;
@@ -83,7 +83,7 @@ class tform_tpl_generator {
           }
 					$html .= "{tmpl_var name='".$key."'}</select>";
           if ($field['required'] == true ) {
-  					$html .= "<span class=\"wf_reqMark\">*</span><br>";
+  					$html .= "<span class=\"wf_reqMark\">*</span><br />";
           }
 					$html .= "\r\n      </span>";
 				break;
@@ -98,7 +98,7 @@ class tform_tpl_generator {
           }
 					$html .= "{tmpl_var name='".$key."'}</select>";
           if ($field['required'] == true ) {
-  					$html .= "<span class=\"wf_reqMark\">*</span><br>";
+  					$html .= "<span class=\"wf_reqMark\">*</span><br />";
           }
 					$html .= "\r\n      </span>";
 				break;
@@ -107,7 +107,7 @@ class tform_tpl_generator {
         <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
         <input type=\"password\" id=\"".$key."\" name=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"";
           if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br>";
+  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br />";
           } else {
   	 				$html .= ">";
           }
@@ -120,7 +120,7 @@ class tform_tpl_generator {
   					$html .= "                    <span class=\"wf_required\">
                       {tmpl_var name='".$key."'}
                     </span>
-                    <span class=\"wf_reqMark\">*</span><br>";
+                    <span class=\"wf_reqMark\">*</span><br />";
           } else {
   					$html .= "                    <span class=\"\">
                       {tmpl_var name='".$key."'}

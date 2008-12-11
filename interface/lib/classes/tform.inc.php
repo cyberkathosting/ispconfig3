@@ -247,7 +247,7 @@ class tform {
                                 $app->uses($datasource_class);
                                 $values = $app->$datasource_class->$datasource_function($field, $record);
                         } else {
-                                $this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
+                                $this->errorMessage .= "Custom datasource class or function is empty<br />\r\n";
                         }
                 }
 
@@ -527,7 +527,7 @@ class tform {
                                         $field['regex'] .= 's';
                                         if(!preg_match($field['regex'], $record[$key])) {
                                                 $errmsg = $field['errmsg'];
-                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
                                         }
                                 }
 
@@ -561,9 +561,9 @@ class tform {
                                         if(!preg_match($validator['regex'], $field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                	$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
@@ -573,9 +573,9 @@ class tform {
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
 														if(isset($this->wordbook[$errmsg])) {
-                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 														} else {
-															$this->errorMessage .= $errmsg."<br>\r\n";
+															$this->errorMessage .= $errmsg."<br />\r\n";
 														}
                                                 }
                                         } else {
@@ -583,9 +583,9 @@ class tform {
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
                                                         if(isset($this->wordbook[$errmsg])) {
-                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 														} else {
-															$this->errorMessage .= $errmsg."<br>\r\n";
+															$this->errorMessage .= $errmsg."<br />\r\n";
 														}
                                                 }
                                         }
@@ -594,9 +594,9 @@ class tform {
                                         if(empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
@@ -604,9 +604,9 @@ class tform {
                                         if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
@@ -615,9 +615,9 @@ class tform {
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
@@ -625,9 +625,9 @@ class tform {
                                         if(!is_numeric($field_value) || $field_value <= 0){
                                           $errmsg = $validator['errmsg'];
                                           if(isset($this->wordbook[$errmsg])) {
-                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 										  } else {
-											 $this->errorMessage .= $errmsg."<br>\r\n";
+											 $this->errorMessage .= $errmsg."<br />\r\n";
 										  }
                                         }
                                 break;
@@ -639,7 +639,7 @@ class tform {
                                                 $app->uses($validator_class);
                                                 $this->errorMessage .= $app->$validator_class->$validator_function($field_name, $field_value, $validator);
                                         } else {
-                                                $this->errorMessage .= "Custom validator class or function is empty<br>\r\n";
+                                                $this->errorMessage .= "Custom validator class or function is empty<br />\r\n";
                                         }
                                 break;
 								default:
@@ -671,9 +671,9 @@ class tform {
                 // checking permissions
                 if($this->formDef['auth'] == 'yes' && $_SESSION["s"]["user"]["typ"] != 'admin') {
                         if($action == "INSERT") {
-                                if(!$this->checkPerm($primary_id,'i')) $this->errorMessage .= "Insert denied.<br>\r\n";
+                                if(!$this->checkPerm($primary_id,'i')) $this->errorMessage .= "Insert denied.<br />\r\n";
                         } else {
-                                if(!$this->checkPerm($primary_id,'u')) $this->errorMessage .= "Update denied.<br>\r\n";
+                                if(!$this->checkPerm($primary_id,'u')) $this->errorMessage .= "Update denied.<br />\r\n";
                         }
                 }
 
