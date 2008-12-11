@@ -58,7 +58,7 @@ $dist['postfix']['vmail_userid'] = '5000';
 $dist['postfix']['vmail_username'] = 'vmail';
 $dist['postfix']['vmail_groupid'] = '5000';
 $dist['postfix']['vmail_groupname'] = 'vmail';
-$dist['postfix']['vmail_mailbox_base'] = '/home/vmail';
+$dist['postfix']['vmail_mailbox_base'] = '/var/vmail';
 
 //* Getmail
 $dist['getmail']['config_dir'] = '/etc/getmail';
