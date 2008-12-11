@@ -171,8 +171,6 @@ class tform_tpl_generator {
 </div>
 ";
 
-		$lang['btn_save_txt'] = "Save";
-		$lang['btn_cancel_txt'] = "Cancel";
 				
 		// speichere Template
 		if (!$handle = fopen($formDef['tabs'][$tab]['template'], 'w')) { 
@@ -185,9 +183,6 @@ class tform_tpl_generator {
 			exit; 
 		}
 		fclose($handle);
-		
-		// speichere language Datei
-		$this->lng_add($lang,$formDef);
 		
 		// überprüfe, ob es die Tabelle schon gibt,
 		// ansonsten wird sie angelegt
@@ -325,30 +320,6 @@ class tform_tpl_generator {
 		}
     }
 	
-	function lng_add($lang,$formDef) {
-		global $go_api, $go_info,$conf;
-		
-		$lng_file = "lib/lang/".$conf["language"]."_".$formDef['name'].".lng";
-		if(is_file($lng_file)) {
-			include($lng_file);
-		} else {
-			$wb = array();
-		}
-		
-		$wb_out = array_merge($lang,$wb);
-		
-		if(is_array($wb_out)) {
-			$fp = fopen ($lng_file, "w");
-			fwrite($fp,"<?php\r\n");
-			foreach($wb_out as $key => $val) {
-				$new_line = '$wb["'.$key.'"] = '."'$val';\r\n";
-				fwrite($fp,$new_line);
-				
-			}
-			fwrite($fp,"?>");
-			fclose($fp);
-		}
-	}
 }
 
 ?>
