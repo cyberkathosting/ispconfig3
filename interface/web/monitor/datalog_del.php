@@ -43,7 +43,7 @@ require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
-$app->auth->check_module_permissions('admin');
+$app->auth->check_module_permissions('monitor');
 
 $app->uses("tform_actions");
 $app->tform_actions->onDelete();

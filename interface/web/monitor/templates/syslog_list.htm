@@ -15,10 +15,10 @@
           </tr>
           <tr>
             <td class="tbl_col_tstamp">&nbsp;</td>
-            <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','admin/log_list.php');">{tmpl_var name='search_server_id'}</select></td>
-            <td class="tbl_col_loglevel"><select name="search_loglevel" onChange="submitForm('pageForm','admin/log_list.php');">{tmpl_var name='search_loglevel'}</select></td>
+            <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','monitor/log_list.php');">{tmpl_var name='search_server_id'}</select></td>
+            <td class="tbl_col_loglevel"><select name="search_loglevel" onChange="submitForm('pageForm','monitor/log_list.php');">{tmpl_var name='search_loglevel'}</select></td>
             <td class="tbl_col_message"><input type="text" name="search_message" value="{tmpl_var name='search_message'}" /></td>
-            <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/log_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+            <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','monitor/log_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
         <tbody>

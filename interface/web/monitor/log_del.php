@@ -28,28 +28,24 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
-
 /******************************************
 * Begin Form configuration
 ******************************************/
 
 $list_def_file = "list/log.list.php";
+$tform_def_file = "form/log.tform.php";
 
 /******************************************
 * End Form configuration
 ******************************************/
 
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
+
 //* Check permissions for module
-$app->auth->check_module_permissions('admin');
+$app->auth->check_module_permissions('monitor');
 
-$app->uses('listform_actions');
-//$app->listform_actions->SQLExtWhere = "wb = 'W'";
-
-$app->listform_actions->SQLOrderBy = "ORDER BY tstamp DESC, syslog_id DESC";
-
-$app->listform_actions->onLoad();
-
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
 ?>

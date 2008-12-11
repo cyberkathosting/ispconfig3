@@ -14,6 +14,14 @@ $items[] = array( 'title' 	=> "Show Overview",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_sys_state.php?state=system');
 
+$items[] = array( 'title' 	=> "Show System-Log",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/log_list.php');
+
+$items[] = array( 'title' 	=> 'Show Jobqueue',
+				  'target' 	=> 'content',
+				  'link'	=> 'monitor/datalog_list.php');
+
 $module["nav"][] = array(	'title'	=> 'System State (All Servers)',
                             'open' 	=> 1,
                             'items'	=> $items);
@@ -137,10 +145,6 @@ $items[] = array( 'title' 	=> "Show Clamav-Log",
 $items[] = array( 'title' 	=> "Show RKHunter-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=rkhunter');
-
-$items[] = array( 'title' 	=> "Show ISPConfig-Log",
-                  'target' 	=> 'content',
-                  'link'	=> 'monitor/show_log.php?log=log_ispconfig');
 
 $module["nav"][] = array(	'title'	=> 'Logfiles',
                             'open' 	=> 1,
