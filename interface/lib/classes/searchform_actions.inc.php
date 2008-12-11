@@ -151,7 +151,11 @@ class searchform_actions {
 		global $app;
 		
 		// Language File setzen
+		$lng_file = ISPC_WEB_PATH.'/lang/lib/lang/'.$_SESSION['s']['language'].'_list.lng';
+		if(!file_exists($lng_file)) $lng_file = ISPC_WEB_PATH.'/lang/lib/lang/en_'.'_list.lng';
+		include($lng_file);
 		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->searchform->listDef['name']."_search.lng";
+		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$app->searchform->listDef['name']."_search.lng";
 		include($lng_file);
 		$app->tpl->setVar($wb);
 		$app->tpl->setVar("form_action",$app->searchform->listDef["file"]);
