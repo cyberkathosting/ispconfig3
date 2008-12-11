@@ -145,7 +145,9 @@ class app {
 			//* loading global and module Wordbook
             // TODO: this need to be made clearer somehow - pedro
 			@include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
-			@include_once(ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			$lng_file = ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+			if(!file_exists($lng_file)) $lng_file = ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
+			include_once($lng_file);
 			$this->_wb = $wb;
 			$this->_language_inc = 1;
 		}		
