@@ -59,11 +59,11 @@ class listform {
 		}
 		
 		//* Set local Language File
-		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$this->listDef['name'].'_list.lng';
-		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$this->listDef['name'].'_list.lng';
-		include($lng_file);
 		$lng_file = ISPC_WEB_PATH.'/lang/lib/lang/'.$_SESSION['s']['language'].'_list.lng';
 		if(!file_exists($lng_file)) $lng_file = ISPC_WEB_PATH.'/lang/lib/lang/en_'.'_list.lng';
+		include($lng_file);
+		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$this->listDef['name'].'_list.lng';
+		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$this->listDef['name'].'_list.lng';
 		include($lng_file);
 		
 		$this->wordbook = $wb;

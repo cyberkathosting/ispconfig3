@@ -2,11 +2,5 @@
 $wb['list_head_txt'] = 'Support berichten';
 $wb['sender_id_txt'] = 'Afzender';
 $wb['subject_txt'] = 'Onderwerp';
-$wb['page_txt'] = 'Pagina';
-$wb['page_of_txt'] = 'van';
-$wb['page_next_txt'] = 'Volgende';
-$wb['page_back_txt'] = 'Terug';
-$wb['delete_txt'] = 'Verwijderen';
-$wb['filter_txt'] = 'Filter';
 $wb['add_new_record_txt'] = 'Aanmaken nieuw support bericht';
 ?>

@@ -132,47 +132,8 @@ class listform_tpl_generator {
 		}
 		fclose($handle);
 		
-		/*$lang["page_txt"] = 'Page';
-		$lang["page_of_txt"] = 'of';
-		$lang["page_next_txt"] = 'Next';
-		$lang["page_back_txt"] = 'Back';
-		$lang["delete_txt"] = 'Delete';
-		$lang["filter_txt"] = 'Filter';
-		$lang["add_new_record_txt"] = 'Add new record';
-		
-		// save language file
-		$this->lng_add($lang,$listDef,$module);*/
     }
-	
-	function lng_add($lang,$listDef,$module = '') {
-		global $go_api, $go_info,$conf;
-		
-		if($module == '') {
-			$lng_file = "lib/lang/".$conf["language"]."_".$listDef['name']."_list.lng";
-		} else {
-			$lng_file = '../'.$module."/lib/lang/en_".$listDef['name']."_list.lng";
-		}
-		
-		if(is_file($lng_file)) {
-			include_once($lng_file);
-		} else {
-			$wb = array();
-		}
-		
-		$wb_out = array_merge($lang,$wb);
-		
-		if(is_array($wb_out)) {
-			$fp = fopen ($lng_file, "w");
-			fwrite($fp,"<?php\r\n");
-			foreach($wb_out as $key => $val) {
-				$new_line = '$wb["'.$key.'"] = '."'$val';\r\n";
-				fwrite($fp,$new_line);
-				
-			}
-			fwrite($fp,"?>");
-			fclose($fp);
-		}
-	}
+
 }
 
 ?>

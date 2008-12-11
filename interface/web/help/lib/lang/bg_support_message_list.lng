@@ -2,11 +2,5 @@
 $wb['list_head_txt'] = 'Съобщения до поддръжката';
 $wb['sender_id_txt'] = 'Подател';
 $wb['subject_txt'] = 'Тема';
-$wb['page_txt'] = 'Страница';
-$wb['page_of_txt'] = 'от';
-$wb['page_next_txt'] = 'Следваща';
-$wb['page_back_txt'] = 'Предишна';
-$wb['delete_txt'] = 'Истриване';
-$wb['filter_txt'] = 'Филтър';
 $wb['add_new_record_txt'] = 'Ново съобщение';
 ?>

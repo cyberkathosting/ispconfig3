@@ -7,4 +7,3 @@ $wb['tstamp_txt'] = 'Marcadetiempo';
 $wb['btn_save_txt'] = 'Guardar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 ?>
-
