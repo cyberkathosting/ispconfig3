@@ -3,10 +3,4 @@ $wb['list_head_txt'] = 'Групи';
 $wb['description_txt'] = 'Описание';
 $wb['name_txt'] = 'Група';
 $wb['add_new_record_txt'] = 'Нова група';
-$wb['page_txt'] = 'Страница';
-$wb['page_of_txt'] = 'от';
-$wb['page_next_txt'] = 'Следваща';
-$wb['page_back_txt'] = 'Предишна';
-$wb['delete_txt'] = 'Изтриване';
-$wb['filter_txt'] = 'Филтър';
 ?>

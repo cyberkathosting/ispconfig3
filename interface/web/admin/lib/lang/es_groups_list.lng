@@ -3,10 +3,4 @@ $wb['list_head_txt'] = 'Grupos de usuarios de sistema';
 $wb['description_txt'] = 'Descripción';
 $wb['name_txt'] = 'Grupo';
 $wb['add_new_record_txt'] = 'Añadir nuevo grupo';
-$wb['page_txt'] = 'Página';
-$wb['page_of_txt'] = 'de';
-$wb['page_next_txt'] = 'Siguiente';
-$wb['page_back_txt'] = 'Atrás';
-$wb['delete_txt'] = 'Borrar';
-$wb['filter_txt'] = 'Filtro';
 ?>

@@ -2,11 +2,5 @@
 $wb['list_head_txt'] = 'Systemanvändar grupper';
 $wb['description_txt'] = 'Beskrivning';
 $wb['name_txt'] = 'Grupp';
-$wb['page_txt'] = 'Sida';
-$wb['page_of_txt'] = 'av';
-$wb['page_next_txt'] = 'Nästa';
-$wb['page_back_txt'] = 'Tillbaka';
-$wb['delete_txt'] = 'Ta bort';
-$wb['filter_txt'] = 'Filter';
 $wb['add_new_record_txt'] = 'Add new Group';
 ?>

@@ -7,11 +7,5 @@ $wb['dns_server_txt'] = 'DNS';
 $wb['file_server_txt'] = 'Bestand';
 $wb['db_server_txt'] = 'DB';
 $wb['vserver_server_txt'] = 'VServer';
-$wb['page_txt'] = 'Pagina';
-$wb['page_of_txt'] = 'van';
-$wb['page_next_txt'] = 'Volgende';
-$wb['page_back_txt'] = 'Terug';
-$wb['delete_txt'] = 'Verwijderen';
-$wb['filter_txt'] = 'Filter';
 $wb['add_new_record_txt'] = 'Toevoegen nieuwe server';
 ?>

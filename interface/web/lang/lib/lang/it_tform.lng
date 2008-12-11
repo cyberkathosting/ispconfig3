@@ -1,0 +1,4 @@
+<?php
+$wb['btn_save_txt'] = 'Salva';
+$wb['btn_cancel_txt'] = 'Annulla';
+?>
