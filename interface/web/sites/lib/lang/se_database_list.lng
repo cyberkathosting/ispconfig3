@@ -1,14 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Database';
-$wb["active_txt"] = 'Active';
-$wb["remote_access_txt"] = 'Remote Access';
-$wb["server_id_txt"] = 'Server';
-$wb["database_name_txt"] = 'Database name';
-$wb["page_txt"] = 'Page';
-$wb["page_of_txt"] = 'of';
-$wb["page_next_txt"] = 'Next';
-$wb["page_back_txt"] = 'Back';
-$wb["delete_txt"] = 'Delete';
-$wb["filter_txt"] = 'Filter';
-$wb["add_new_record_txt"] = 'Add new Database';
+$wb['list_head_txt'] = 'Database';
+$wb['active_txt'] = 'Active';
+$wb['remote_access_txt'] = 'Remote Access';
+$wb['server_id_txt'] = 'Server';
+$wb['database_name_txt'] = 'Database name';
+$wb['add_new_record_txt'] = 'Add new Database';
 ?>

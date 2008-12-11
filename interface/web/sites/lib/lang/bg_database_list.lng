@@ -4,11 +4,5 @@ $wb['active_txt'] = 'Активна';
 $wb['remote_access_txt'] = 'Отдалечен достъп';
 $wb['server_id_txt'] = 'Сървър';
 $wb['database_name_txt'] = 'База данни';
-$wb['page_txt'] = 'Страница';
-$wb['page_of_txt'] = 'от';
-$wb['page_next_txt'] = 'Следваща';
-$wb['page_back_txt'] = 'Предишна';
-$wb['delete_txt'] = 'Изтриване';
-$wb['filter_txt'] = 'Филтър';
 $wb['add_new_record_txt'] = 'Нова база данни';
 ?>

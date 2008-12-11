@@ -21,4 +21,3 @@ $wb['limit_database_txt'] = 'Se ha alcanzado el número máximo de bases de dato
 $wb['database_name_change_txt'] = 'El nombre de la base de datos no se puede cambiar';
 $wb['database_charset_change_txt'] = 'La tabla de caracteres de la base de datos no se puede cambiar';
 ?>
-

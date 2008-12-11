@@ -39,4 +39,3 @@ $wb['Show Freshclam-Log'] = 'Mostrar el registro de Freshclam';
 $wb['Show Clamav-Log'] = 'Mostrar el registro de ClamAV';
 $wb['Show ISPConfig-Log'] = 'Mostrar el registro de ISPConfig';
 ?>
-

@@ -4,12 +4,5 @@ $wb['active_txt'] = 'Activar';
 $wb['remote_access_txt'] = 'Acceso remoto';
 $wb['server_id_txt'] = 'Servidor';
 $wb['database_name_txt'] = 'Nombre de base de datos';
-$wb['page_txt'] = 'Página';
-$wb['page_of_txt'] = 'de';
-$wb['page_next_txt'] = 'Siguiente';
-$wb['page_back_txt'] = 'Atrás';
-$wb['delete_txt'] = 'Borrar';
-$wb['filter_txt'] = 'Filtro';
 $wb['add_new_record_txt'] = 'Añadir nueva base de datos';
 ?>
-

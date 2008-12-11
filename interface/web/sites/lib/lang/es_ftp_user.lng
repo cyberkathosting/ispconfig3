@@ -24,4 +24,3 @@ $wb['quota_size_error_empty'] = 'Cuota vacía';
 $wb['uid_error_empty'] = 'GID vacío';
 $wb['directory_error_empty'] = 'Directorio vacío';
 ?>
-

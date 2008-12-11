@@ -21,4 +21,3 @@ $wb['uid_error_empty'] = 'GID vacío';
 $wb['directory_error_empty'] = 'Directorio vacío';
 $wb['limit_shell_user_txt'] = 'Se ha alcanzado el número máximo de usuarios de consola';
 ?>
-

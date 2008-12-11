@@ -4,12 +4,5 @@ $wb['active_txt'] = 'Activar';
 $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Sitio web';
 $wb['username_txt'] = 'Usuario';
-$wb['page_txt'] = 'Página';
-$wb['page_of_txt'] = 'de';
-$wb['page_next_txt'] = 'Siguiente';
-$wb['page_back_txt'] = 'Atrás';
-$wb['delete_txt'] = 'Borrar';
-$wb['filter_txt'] = 'Filtro';
 $wb['add_new_record_txt'] = 'Añadir nuevo usuario FTP';
 ?>
-
