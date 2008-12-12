@@ -120,6 +120,7 @@ class monitor_core_module {
         $this->monitorMailQueue();
         $this->monitorRaid();
         $this->monitorRkHunter();
+        $this->monitorSysLog();
     }
 
     function monitorServer(){
@@ -729,7 +730,49 @@ class monitor_core_module {
         $this->_delOldRecords($type, 0, 2);
     }
 
-    function monitorMailLog()
+    function monitorSysLog(){
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'sys_log';
+
+	/*
+	 * is there any warning or error for this server?
+	 */
+	$state = 'ok';
+        $dbData = $app->dbmaster->queryAllRecords("SELECT loglevel FROM sys_log WHERE server_id = " . $server_id . " AND loglevel > 0");
+	if (is_array($dbData)) {
+	    foreach($dbData as $item){
+		if ($item['loglevel'] == 1) $state = $this->_setState($state, 'warning');
+		if ($item['loglevel'] == 2) $state = $this->_setState($state, 'error');
+	    }
+	}
+
+	/** There is no monitor-data because the data is in the sys_log table */
+        $data['output']= '';
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->dbmaster->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->dbmaster->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
+    }
+
+function monitorMailLog()
     {
         global $app;
         global $conf;

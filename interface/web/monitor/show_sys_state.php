@@ -381,10 +381,33 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
                 break;
         }
     }
+
+	if ($type == 'sys_log'){
+		switch ($record['state']) {
+			case 'ok':
+                $messages['ok'][] = 'The System-Log is O.K. ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[more...]</a>";
+                break;
+            case 'warning':
+                $messages['warning'][] = 'There are some warnings in your System-Log ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[more...]</a>";
+                break;
+            case 'error':
+                $messages['error'][] = 'There are errors in your System-Log ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[more...]</a>";
+                break;
+            default:
+                $messages['unknown'][] = 'sys-log:??? ' .
+                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[more...]</a>";
+                break;
+        }
+    }
+
     if ($type == 'log_clamav'){
         /* this type has no state */
     }
-    if ($type == 'log_freshclam'){
+
+	if ($type == 'log_freshclam'){
         switch ($record['state']) {
             case 'ok':
                 $messages['ok'][] = 'Your Virus-protection is ok ' .
@@ -400,6 +423,7 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
                 break;
         }
     }
+
     if ($type == 'log_ispconfig'){
         /* this type has no state */
     }
