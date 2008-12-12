@@ -82,7 +82,6 @@ class modules {
 	function processDatalog() {
 		global $app,$conf;
 		
-		// TODO: process only new entries.
 		//* If its a multiserver setup
 		if($app->db->dbHost != $app->dbmaster->dbHost) {
 			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0) ORDER BY datalog_id";
@@ -151,7 +150,12 @@ class modules {
 					$app->dbmaster->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf["server_id"]);
 					$app->log("Processed datalog_id ".$d["datalog_id"],LOGLEVEL_DEBUG);
 				} else {
-					$app->log("Error in Repliction, changes were not processed.",LOGLEVEL_ERROR);
+					$app->log("Error in Replication, changes were not processed.",LOGLEVEL_ERROR);
+					/*
+					 * If there is any error in processing the datalog we can't continue, because
+					 * we do not know if the newer actions require this (old) one.
+					 */
+					return;
 				}
 			}
 			
