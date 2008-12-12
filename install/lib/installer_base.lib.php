@@ -714,7 +714,7 @@ class installer_base {
     		$tcp_public_services = trim(str_replace(',',' ',$row["tcp_port"]));
     		$udp_public_services = trim(str_replace(',',' ',$row["udp_port"]));
   		} else {
-    		$tcp_public_services = '21 22 25 53 80 110 443 8080 10000';
+    		$tcp_public_services = '21 22 25 53 80 110 443 3306 8080 10000';
     		$udp_public_services = '53';
   		}
   		$content = str_replace("{TCP_PUBLIC_SERVICES}", $tcp_public_services, $content);
