@@ -26,10 +26,12 @@
       </span>
       <span class="wf_oneField">
         <label for="database_name" class="wf_preField">{tmpl_var name='database_name_txt'}</label>
+		{tmpl_var name='database_name_prefix'}
         <input type="text" id="database_name" name="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
       </span>
       <span class="wf_oneField">
         <label for="database_user" class="wf_preField">{tmpl_var name='database_user_txt'}</label>
+		{tmpl_var name='database_user_prefix'}
         <input type="text" id="database_user" name="database_user" value="{tmpl_var name='database_user'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
       </span>
       <span class="wf_oneField">
