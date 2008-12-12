@@ -65,7 +65,7 @@ $serverData = $app->db->queryOneRecord(
  */
 if($_SESSION["s"]["user"]["typ"] == 'user') {
 	/* Get the group of the client */
-	$client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 	/* compare both */
 	if ($dbData['sys_groupid'] != $client_group_id){
 	    die ("You don't have the right to access this db!");
@@ -75,9 +75,10 @@ if($_SESSION["s"]["user"]["typ"] == 'user') {
 /*
  * Now generate the login-Form
  */
+isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
 echo '
 starting phpMyAdmin...<br>
-<form method="post" action="http://' . $serverData['server_name'] . '/phpmyadmin/index.php" name="login_form" target="_top" style="visibility:hidden">
+<form method="post" action="' . $http . '://' . $serverData['server_name'] . '/phpmyadmin/index.php" name="login_form" target="_top" style="visibility:hidden">
     <input type="text" name="pma_username" id="input_username" value="' .  $dbData['database_user'] . '" />
     <input type="password" name="pma_password" id="input_password" value="' . $dbData['database_password'] . '" size="24" class="textfield" />
 </form>
