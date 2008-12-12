@@ -45,6 +45,9 @@ $list_def_file = "list/server_ip.list.php";
 $app->auth->check_module_permissions('admin');
 
 $app->uses('listform_actions');
+
+$app->listform_actions->SQLOrderBy = "ORDER BY server_id, ip_address";
+
 $app->listform_actions->onLoad();
 
 

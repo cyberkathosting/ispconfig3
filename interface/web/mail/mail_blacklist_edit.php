@@ -71,7 +71,24 @@ class page_action extends tform_actions {
 		
 		parent::onShowNew();
 	}
-	
+
+
+	function onBeforeUpdate() {
+		global $app, $conf;
+
+		//* Check if the server has been changed
+		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$rec = $app->db->queryOneRecord("SELECT server_id from mail_access WHERE access_id = ".$this->id);
+			if($rec['server_id'] != $this->dataRecord["server_id"]) {
+				//* Add a error message and switch back to old server
+				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
+				$this->dataRecord["server_id"] = $rec['server_id'];
+			}
+			unset($rec);
+		}
+	}
+
 	function onSubmit() {
 		global $app, $conf;
 				
