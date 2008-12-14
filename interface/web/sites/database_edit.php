@@ -150,10 +150,14 @@ class page_action extends tform_actions {
 		}
 
 		/*
-		 * If the names are restricted -> remove the client, so that the
+		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
 		 */
 		if ($interfaceConf['restrict_names'] == true){
+			/* get the restriction */
+			$restriction = '[CLIENTNAME]_';
+			if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
+			$tmpRestriction = $restriction;
 			/* Get the group-id */
 			if($_SESSION["s"]["user"]["typ"] != 'admin') {
 				// Get the group-id of the user
@@ -168,18 +172,19 @@ class page_action extends tform_actions {
 			$clientName = $tmp['name'];
 			if ($clientName == "") $clientName = 'default';
 			$clientName = convertClientName($clientName);
+			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
 			if ($this->dataRecord['database_name'] != ""){
 				/* REMOVE the restriction */
-				$app->tpl->setVar("database_name", str_replace($clientName . '_' , '', $this->dataRecord['database_name']));
-				$app->tpl->setVar("database_user", str_replace($clientName . '_' , '', $this->dataRecord['database_user']));
+				$app->tpl->setVar("database_name", str_replace($restriction , '', $this->dataRecord['database_name']));
+				$app->tpl->setVar("database_user", str_replace($restriction , '', $this->dataRecord['database_user']));
 			}
 			if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-				$app->tpl->setVar("database_name_prefix", '{client}_');
-				$app->tpl->setVar("database_user_prefix", '{client}_');
+				$app->tpl->setVar("database_name_prefix", $tmpRestriction);
+				$app->tpl->setVar("database_user_prefix", $tmpRestriction);
 			}
 			else {
-				$app->tpl->setVar("database_name_prefix", $clientName . '_');
-				$app->tpl->setVar("database_user_prefix", $clientName . '_');
+				$app->tpl->setVar("database_name_prefix", $restriction);
+				$app->tpl->setVar("database_user_prefix", $restriction);
 			}
 		}
 
@@ -231,6 +236,10 @@ class page_action extends tform_actions {
 		 * If the names should be restricted -> do it!
 		 */
 		if ($interfaceConf['restrict_names'] == true){
+			/* get the restriction */
+			$restriction = '[CLIENTNAME]_';
+			if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
+
 			/* Get the group-id */
 			if($_SESSION["s"]["user"]["typ"] != 'admin') {
 				// Get the group-id of the user
@@ -245,17 +254,17 @@ class page_action extends tform_actions {
 			$clientName = $tmp['name'];
 			if ($clientName == "") $clientName = 'default';
 			$clientName = convertClientName($clientName);
-			$nameSuffix = $clientName . '_';
+			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
 		}
 		else {
-			$nameSuffix = '';
+			$restriction = '';
 		}
 
 		$error = false;
 
 		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
-		if($old_record["database_name"] != $nameSuffix . $this->dataRecord["database_name"]) {
+		if($old_record["database_name"] != $restriction . $this->dataRecord["database_name"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
 			$error = true;
 		}
@@ -278,8 +287,8 @@ class page_action extends tform_actions {
 
 		if ($error == false){
 			/* restrict the names if there is no error */
-			$this->dataRecord['database_name'] = $nameSuffix . $this->dataRecord['database_name'];
-			$this->dataRecord['database_user'] = $nameSuffix . $this->dataRecord['database_user'];
+			$this->dataRecord['database_name'] = $restriction . $this->dataRecord['database_name'];
+			$this->dataRecord['database_user'] = $restriction . $this->dataRecord['database_user'];
 		}
 
 		parent::onBeforeUpdate();
@@ -287,12 +296,15 @@ class page_action extends tform_actions {
 
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
-		global $interfaceConf;
 
 		/*
 		 * If the names should be restricted -> do it!
 		 */
 		if ($interfaceConf['restrict_names'] == true){
+			/* get the restriction */
+			$restriction = '[CLIENTNAME]_';
+			if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
+
 			/* Get the group-id */
 			if($_SESSION["s"]["user"]["typ"] != 'admin') {
 				// Get the group-id of the user
@@ -307,9 +319,11 @@ class page_action extends tform_actions {
 			$clientName = $tmp['name'];
 			if ($clientName == "") $clientName = 'default';
 			$clientName = convertClientName($clientName);
+			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
+
 			/* restrict the names */
-			$this->dataRecord['database_name'] = $clientName . '_' . $this->dataRecord['database_name'];
-			$this->dataRecord['database_user'] = $clientName . '_' . $this->dataRecord['database_user'];
+			$this->dataRecord['database_name'] = $restriction . $this->dataRecord['database_name'];
+			$this->dataRecord['database_user'] = $restriction . $this->dataRecord['database_user'];
 		}
 		parent::onBeforeInsert();
 	}
