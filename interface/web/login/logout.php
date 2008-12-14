@@ -71,7 +71,7 @@ if($_SESSION["s"]["site"]["logout"] != '') {
 	if($conf["interface_logout_url"] != '') {
 		echo('URL_REDIRECT:'.$conf["interface_logout_url"]);
 	} else {
-		echo('URL_REDIRECT:../index.php');
+		echo('URL_REDIRECT:index.php');
 	}
 }
 exit;
