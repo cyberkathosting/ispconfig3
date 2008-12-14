@@ -131,7 +131,7 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
 		}
 		
-		// Ccheck the client limits, if user is not the admin
+		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];

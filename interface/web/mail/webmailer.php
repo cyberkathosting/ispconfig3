@@ -34,22 +34,21 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-/*
- *  get the id of the database (must be int!)
- */
+/* get the id of the mail (must be int!) */
 if (!isset($_GET['id'])){
-    die ("No DB selected!");
+    die ("No E-Mail selected!");
 }
-$databaseId = intval($_GET['id']);
+$emailId = intval($_GET['id']);
 
 /*
  * Get the data to connect to the database
  */
-$dbData = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = " . $databaseId);
+$dbData = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = " . $emailId);
 $serverId = intval($dbData['server_id']);
 if ($serverId == 0){
-    die ("No DB-Server found!");
+    die ("No E-Mail - Server found!");
 }
+
 $serverData = $app->db->queryOneRecord(
     "SELECT server_name FROM server WHERE server_id = " .
     $serverId);
@@ -58,7 +57,6 @@ $serverData = $app->db->queryOneRecord(
  * We only redirect to the login-form, so there is no need, to check any rights
  */
 isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
-header('location:' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
+header('location:' . $http . '://' . $serverData['server_name'] . '/webmail');
 exit;
-
 ?>
