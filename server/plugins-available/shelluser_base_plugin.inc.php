@@ -32,6 +32,7 @@ class shelluser_base_plugin {
 	
 	var $plugin_name = 'shelluser_base_plugin';
 	var $class_name = 'shelluser_base_plugin';
+	var $min_uid = 499;
 	
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -73,7 +74,7 @@ class shelluser_base_plugin {
 		
 		// Get the UID of the parent user
 		$uid = intval($app->system->getuid($data['new']['puser']));
-		if($uid > 999) {
+		if($uid > $this->min_uid) {
 			$command = 'useradd';
 			$command .= ' --home '.escapeshellcmd($data['new']['dir']);
 			$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
@@ -98,7 +99,7 @@ class shelluser_base_plugin {
 		
 		// Get the UID of the parent user
 		$uid = intval($app->system->getuid($data['new']['puser']));
-		if($uid > 999) {
+		if($uid > $this->min_uid) {
 			$command = 'usermod';
 			$command .= ' --home '.escapeshellcmd($data['new']['dir']);
 			$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
