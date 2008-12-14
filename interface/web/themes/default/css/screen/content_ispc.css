@@ -288,5 +288,6 @@
 	.icons16.icoFilter { background-image: url(../../icons/x16/funnel.png); }
 	.icons16.icoEdit { background-image: url("../../icons/x16/wrench.png"); }
 	.icons16.icoDbAdmin { background-image: url("../../icons/x16/database.png"); }
+	.icons16.icoLoginAs { background-image: url("../../icons/x16/user_go.png"); }
 }
 

@@ -41,8 +41,11 @@ class login_index {
 		
 		global $app, $conf;
 		
-		if(isset($_SESSION['s']['user']) && is_array($_SESSION['s']['user']) && is_array($_SESSION['s']['module'])) {
-			die('HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage']);
+		/* Redirect to page, if login form was NOT send */
+		if(count($_POST) == 0) {
+			if(isset($_SESSION['s']['user']) && is_array($_SESSION['s']['user']) && is_array($_SESSION['s']['module'])) {
+				die('HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage']);
+			}
 		}
 		
 		$app->uses('tpl');
@@ -60,6 +63,34 @@ class login_index {
 	        $passwort = $app->db->quote($_POST['passwort']); 
 	
 	        if($username != '' and $passwort != '') {
+				/*
+				 *  Check, if there is a "login as" instead of a "normal" login
+				 */
+				if (isset($_SESSION['s']['user'])){
+					/*
+					 * only the admin can "login as" so if the user is NOT a admin, we
+					 * open the startpage (after killing the old session), so the user
+					 * is logout and has to start again!
+					 */
+					if ($_SESSION['s']['user']['typ'] != 'admin') {
+						/*
+						 * The actual user is NOT a admin, but maybe the admin
+						 * has logged in as "normal" user bevore...
+						 */
+						if (isset($_SESSION['s_old'])&& ($_SESSION['s_old']['user']['typ'] == 'admin')){
+							/* The "old" user is admin, so everything is ok */
+						}
+						else {
+							die("You don't have the right to 'login as'!");
+						}
+					}
+					$loginAs = true;
+				}
+				else {
+					/* normal login */
+					$loginAs = false;
+				}
+
 	        	//* Check if there already wrong logins
 	        	$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '{$ip}' AND  `login_time` < NOW() + INTERVAL 15 MINUTE LIMIT 1";
 	        	$alreadyfailed = $app->db->queryOneRecord($sql);
@@ -67,7 +98,12 @@ class login_index {
 	        	if($alreadyfailed['times'] > 5) {
 	        		$error = $app->lng(1004);
 	        	} else {
-		        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
+					if ($loginAs){
+			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
+					}
+					else {
+			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
+					}
 		            $user = $app->db->queryOneRecord($sql);
 		            if($user) {
 		                if($user['active'] == 1) {
@@ -75,7 +111,9 @@ class login_index {
 		                	$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
 		                	$app->db->query($sql);
 		                	$user = $app->db->toLower($user);
+							if ($loginAs) $oldSession = $_SESSION['s_old'];
 		                    $_SESSION = array();
+							if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
 		                    $_SESSION['s']['user'] = $user;
 		                    $_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
 		                    $_SESSION['s']['language'] = $user['language'];

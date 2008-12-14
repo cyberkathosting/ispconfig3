@@ -30,19 +30,48 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
+/*
+ * Check if the logout is forced
+ */
+$forceLogout = false;
+if (isset($_GET['l']) && ($_GET['l']== 1)) $forceLogout = true;
+
+/*
+ * if the admin is logged in as client, then ask, if the admin want't to
+ * "re-login" as admin again
+ */
+if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin')) &&
+	(!$forceLogout)){
+	echo '
+		<br /> <br />	<br /> <br />
+		Do you want to re-login as admin or log out?<br />
+		<div style="visibility:hidden">
+			<input type="text" name="username" value="' . $_SESSION['s_old']['user']['username'] . '" />
+			<input type="password" name="passwort" value="' . $_SESSION['s_old']['user']['passwort'] .'" />
+		</div>
+		<input type="hidden" name="s_mod" value="login" />
+		<input type="hidden" name="s_pg" value="index" />
+	    <div class="wf_actions buttons">
+	      <button class="positive iconstxt icoPositive" type="button" value="Yes, re-login as Admin" onClick="submitLoginForm(' . "'pageForm'" . ');"><span>Yes, re-login as Admin</span></button>
+	      <button class="negative iconstxt icoNegative" type="button" value="No, logout" onClick="loadContent('. "'login/logout.php?l=1'" . ');"><span>No, logout</span></button>
+	    </div>
+	';
+	exit;
+}
+
 $_SESSION["s"]["user"] = null;
 $_SESSION["s"]["module"] = null;
+$_SESSION['s_old'] = null;
 
 //header("Location: ../index.php?phpsessid=".$_SESSION["s"]["id"]);
 
-
 if($_SESSION["s"]["site"]["logout"] != '') {
-	header("Location: ".$_SESSION["s"]["site"]["logout"]);
+	echo('URL_REDIRECT:'.$_SESSION["s"]["site"]["logout"]);
 } else {
 	if($conf["interface_logout_url"] != '') {
-		header("Location: ".$conf["interface_logout_url"]);
+		echo('URL_REDIRECT:'.$conf["interface_logout_url"]);
 	} else {
-		header("Location: ../index.php");
+		echo('URL_REDIRECT:../index.php');
 	}
 }
 exit;

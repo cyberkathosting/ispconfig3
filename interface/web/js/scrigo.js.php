@@ -159,9 +159,12 @@ function submitUploadForm(formname,target) {
 function loadContent(pagename) {
 	var pageContentCallback2 = {
 		success: function(o) {
-				if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+			if(o.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 				var parts = o.responseText.split(':');
 				loadContent(parts[1]);
+			} else if (o.responseText.indexOf('URL_REDIRECT:') > -1) {
+				var newUrl= o.responseText.substr(o.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
+				document.location.href = newUrl;
 			} else {
 				document.getElementById('pageContent').innerHTML = o.responseText;
 			}
