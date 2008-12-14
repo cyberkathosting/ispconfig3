@@ -50,7 +50,7 @@ $servers = $app->db->queryAllRecords("SELECT server_id, updated FROM server");
 
 $sql = '(';
 foreach($servers as $s) {
-	$sql .= " (datalog_id > ".$s['updated']." AND server_id = ".$s['server_id'].") AND ";
+	$sql .= " (datalog_id > ".$s['updated']." AND server_id = ".$s['server_id'].") OR ";
 }
 $sql = substr($sql,0,-4);
 $sql .= ')';

@@ -126,18 +126,45 @@ foreach($records as $rec) {
 }
 
 #######################################################################################################
-// Cleanup logs in database
+// Cleanup logs in master database (only the "master-server")
 #######################################################################################################
-//* Keep 7 days in sys_log
-$tstamp = time() - (60*60*24*7);
-$sql = "DELETE FROM sys_log WHERE tstamp < $tstamp AND server_id != 0";
-$app->db->query($sql);
 
-//* Keep 7 days in sys_datalog
-$tstamp = time() - (60*60*24*7);
-$sql = "DELETE FROM sys_datalog WHERE tstamp < $tstamp AND server_id != 0";
-$app->db->query($sql);
+if ($app->dbmaster == $app->db) {
+	/** 7 days */
+	$tstamp = time() - (60*60*24*7);
 
+	/*
+	 *  Keep 7 days in sys_log
+	 * (we can delete the old items, because if they are OK, they don't interrest anymore
+	 * if they are NOT ok, the server will try to process them in 1 minute and so the
+	 * error appears again after 1 minute. So it is no problem to delete the old one!
+	 */
+	$sql = "DELETE FROM sys_log WHERE tstamp < $tstamp AND server_id != 0";
+	$app->dbmaster->query($sql);
+
+	/*
+	 * The sys_datalog is more difficult.
+	 * 1) We have to keet ALL entries with
+	 *    server_id=0, because they depend on ALL servers (even if they are not
+	 *    actually in the system (and will be insered in 3 days or so).
+	 * 2) We have to keey ALL entries which are not actually precessed by the
+	 *    server never mind how old they are!
+	 */
+
+	/* First we need all servers and the last sys_datalog-id they processed */
+	$sql = "SELECT server_id, updated FROM server ORDER BY server_id";
+	$records = $app->dbmaster->queryAllRecords($sql);
+
+	/* Then delete server by server */
+	foreach($records as $server) {
+		$sql = "DELETE FROM sys_datalog WHERE tstamp < " . $tstamp .
+			" AND server_id != 0 " . // to be more secure!
+			" AND server_id = " . intval($server['server_id']) .
+			" AND datalog_id < " . intval($server['updated']);
+//		echo $sql . "\n";
+		$app->dbmaster->query($sql);
+	}
+}
 
 die("finished.\n");
 ?>
