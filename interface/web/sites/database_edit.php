@@ -251,8 +251,9 @@ class page_action extends tform_actions {
 
 		if ($app->tform->errorMessage == ''){
 			/* restrict the names if there is no error */
-			$this->dataRecord['database_name'] = $dbname_prefix . $this->dataRecord['database_name'];
-			$this->dataRecord['database_user'] = $dbuser_prefix . $this->dataRecord['database_user'];
+            /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
+			$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
+			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 		}
 
 		parent::onBeforeUpdate();
@@ -268,8 +269,9 @@ class page_action extends tform_actions {
 		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 
 		/* restrict the names */
-		$this->dataRecord['database_name'] = $dbname_prefix . $this->dataRecord['database_name'];
-		$this->dataRecord['database_user'] = $dbuser_prefix . $this->dataRecord['database_user'];
+        /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
+		$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
+		$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 
 		parent::onBeforeInsert();
 	}
