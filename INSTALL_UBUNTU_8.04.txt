@@ -44,6 +44,7 @@ Then run the following to enable the Apache modules:
 a2enmod suexec
 a2enmod rewrite
 a2enmod ssl
+a2enmod include
 
 
 3.1) Optional: Install SuPHP
