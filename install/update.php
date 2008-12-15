@@ -215,7 +215,12 @@ if(is_array($old_ini_array)) {
 }
 
 $new_ini = array_to_ini($tpl_ini_array);
-$inst->db->query("UPDATE sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
+$tmp = $inst->db->queryOneRecord('SELECT count(sysini_id) as number FROM sys_ini WHERE 1');
+if($tmp['number'] == 0) {
+	$inst->db->query("INSERT INTO sys_ini (sysini_id, config) VALUES (1,'".mysql_real_escape_string($new_ini)."')");
+} else {
+	$inst->db->query("UPDATE sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
+}
 unset($old_ini_array);
 unset($tpl_ini_array);
 unset($new_ini);
