@@ -155,7 +155,7 @@ class page_action extends tform_actions {
 		
 		/* restrict the names */
 		if ($app->tform->errorMessage == '') {
-			$this->dataRecord['username'] = $restriction . $this->dataRecord['username'];
+			$this->dataRecord['username'] = $ftpuser_prefix . $this->dataRecord['username'];
 		}
 	}
 	
