@@ -44,9 +44,30 @@ $list_def_file = "list/database.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-$app->uses('listform_actions');
+$app->load('listform_actions');
 
-$app->listform_actions->onLoad();
+
+class list_action extends listform_actions {
+	
+	function onShow() {
+		global $app,$conf;
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		
+		if($global_config['dblist_phpmyadmin_link'] == 'y') {
+			$app->tpl->setVar('dblist_phpmyadmin_link',1);
+		} else {
+			$app->tpl->setVar('dblist_phpmyadmin_link',0);
+		}
+		
+		parent::onShow();
+	}
+	
+}
+
+$list = new list_action;
+$list->onLoad();
 
 
 ?>

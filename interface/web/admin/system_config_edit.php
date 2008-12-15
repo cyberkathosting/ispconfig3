@@ -62,6 +62,7 @@ class page_action extends tform_actions {
 			$server_id = $this->id;
 		
 			$this->dataRecord = $app->getconf->get_global_config($section);
+			
 		}
 		
 		$record = $app->tform->getHTML($this->dataRecord, $this->active_tab,'EDIT');
@@ -78,9 +79,8 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		
 		$section = $app->tform->getCurrentTab();
-		$server_id = $this->id;
 		
-		$server_config_array = $app->getconf->get_global_config($server_id);
+		$server_config_array = $app->getconf->get_global_config();
 		$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		

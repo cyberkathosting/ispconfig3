@@ -44,12 +44,16 @@ $list_def_file = "list/web_domain.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-$app->uses('listform_actions');
+$app->load('listform_actions');
 
-// Limit the results to alias domains
-$app->listform_actions->SQLExtWhere = "type = 'vhost'";
 
-$app->listform_actions->onLoad();
+class list_action extends listform_actions {
+	
+}
+
+$list = new list_action;
+$list->SQLExtWhere = "type = 'vhost'";
+$list->onLoad();
 
 
 ?>

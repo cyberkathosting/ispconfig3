@@ -132,7 +132,7 @@ class listform_actions {
 	}
 	
 	
-	private function onShow()
+	public function onShow()
     {
 		global $app;
 		

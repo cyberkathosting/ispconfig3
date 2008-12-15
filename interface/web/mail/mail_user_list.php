@@ -15,9 +15,30 @@ $list_def_file = "list/mail_user.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
 
-$app->uses('listform_actions');
+$app->load('listform_actions');
 
-$app->listform_actions->onLoad();
+
+class list_action extends listform_actions {
+	
+	function onShow() {
+		global $app,$conf;
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('mail');
+		
+		if($global_config['mailboxlist_webmail_link'] == 'y') {
+			$app->tpl->setVar('mailboxlist_webmail_link',1);
+		} else {
+			$app->tpl->setVar('mailboxlist_webmail_link',0);
+		}
+		
+		parent::onShow();
+	}
+	
+}
+
+$list = new list_action;
+$list->onLoad();
 
 
 ?>

@@ -106,6 +106,32 @@ $form["tabs"]['sites'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'dblist_phpmyadmin_link' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+$form["tabs"]['mail'] = array (
+	'title' 	=> "Mail",
+	'width' 	=> 70,
+	'template' 	=> "templates/system_config_mail_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'mailboxlist_webmail_link' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

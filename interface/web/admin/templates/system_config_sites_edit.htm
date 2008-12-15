@@ -4,7 +4,6 @@
 
   <div class="pnl_formsarea">
     <fieldset id="wf_area_system_config"><legend>Sites</legend>
-	  <p>{tmpl_var name='warning'}</p>
       <span class="wf_oneField">
         <label for="dbname_prefix" class="wf_preField">{tmpl_var name='dbname_prefix_txt'}</label>
         <input type="text" id="dbname_prefix" name="dbname_prefix" value="{tmpl_var name='dbname_prefix'}" size="30" maxlength="255">
@@ -20,6 +19,11 @@
       <span class="wf_oneField">
         <label for="shelluser_prefix" class="wf_preField">{tmpl_var name='shelluser_prefix_txt'}</label>
         <input type="text" id="shelluser_prefix" name="shelluser_prefix" value="{tmpl_var name='shelluser_prefix'}" size="30" maxlength="255">
+      </span>
+      <span class="wf_oneField">
+        <label for="dblist_phpmyadmin_link" class="wf_preField">{tmpl_var name='dblist_phpmyadmin_link_txt'}</label>                    <span class="">
+                      {tmpl_var name='dblist_phpmyadmin_link'}
+                    </span>
       </span>
     </fieldset>
 
