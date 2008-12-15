@@ -25,7 +25,7 @@
 </tmpl_if>
 
   <Directory {tmpl_var name='web_document_root_www'}>
-      Options FollowSymLinks Indexes
+      Options FollowSymLinks
       AllowOverride Indexes AuthConfig Limit FileInfo
       Order allow,deny
       Allow from all
