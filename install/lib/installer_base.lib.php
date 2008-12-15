@@ -159,6 +159,11 @@ class installer_base {
 			if(count($db_tables) == 0) {
 				$this->error('Unable to load SQL-Dump into database table.');
 			}
+			
+			//* Load system.ini into the sys_ini table
+			$system_ini = $this->db->quote(rf('tpl/system.ini.master'));
+			$this->db->query("UPDATE sys_ini SET config = '$system_ini' WHERE sysini_id = 1");
+			
 		}
 	}
 	

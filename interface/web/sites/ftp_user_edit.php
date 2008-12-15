@@ -79,38 +79,20 @@ class page_action extends tform_actions {
 		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
 		 */
-		if ($interfaceConf['restrict_names'] == true){
-			/* get the restriction */
-			$restriction = '[CLIENTNAME]_';
-			if (isset($interfaceConf['restrict_ftpuser'])) $restriction = $interfaceConf['restrict_ftpuser'];
-			$tmplRestriction = $restriction;
-			/* Get the group-id */
-			if($_SESSION["s"]["user"]["typ"] != 'admin') {
-				// Get the group-id of the user
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			}
-			else {
-				// Get the group-id from the data itself
-				$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-				$client_group_id = $web['sys_groupid'];
-			}
-			/* get the name of the client */
-			$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-			$clientName = $tmp['name'];
-			if ($clientName == "") $clientName = 'default';
-			$clientName = convertClientName($clientName);
-			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-			if ($this->dataRecord['username'] != ""){
-				/* REMOVE the restriction */
-				$app->tpl->setVar("username", str_replace($restriction , '', $this->dataRecord['username']));
-				$app->tpl->setVar("username", str_replace($restriction , '', $this->dataRecord['username']));
-			}
-			if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-				$app->tpl->setVar("username_prefix", $tmplRestriction);
-			}
-			else {
-				$app->tpl->setVar("username_prefix", $restriction);
-			}
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		
+		if ($this->dataRecord['username'] != ""){
+			/* REMOVE the restriction */
+			$app->tpl->setVar("username", str_replace($ftpuser_prefix , '', $this->dataRecord['username']));
+		}
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$app->tpl->setVar("username_prefix", $global_config['ftpuser_prefix']);
+		}
+		else {
+			$app->tpl->setVar("username_prefix", $ftpuser_prefix);
 		}
 
 		parent::onShowEnd();
@@ -130,39 +112,15 @@ class page_action extends tform_actions {
 	
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
-
-		$error = false;
-
-		/*
-		 * If the names should be restricted -> do it!
-		 */
-		if ($error == false){
-			if ($interfaceConf['restrict_names'] == true){
-				/* get the restriction */
-				$restriction = '[CLIENTNAME]_';
-				if (isset($interfaceConf['restrict_ftpuser'])) $restriction = $interfaceConf['restrict_ftpuser'];
-
-				/* Get the group-id */
-				if($_SESSION["s"]["user"]["typ"] != 'admin') {
-					// Get the group-id of the user
-					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				}
-				else {
-					// Get the group-id from the data itself
-					$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-					$client_group_id = $web['sys_groupid'];
-				}
-				/* get the name of the client */
-				$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-				$clientName = $tmp['name'];
-				if ($clientName == "") $clientName = 'default';
-				$clientName = convertClientName($clientName);
-				$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-
-				/* restrict the names */
-				$this->dataRecord['username'] = $restriction . $this->dataRecord['username'];
-			}
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		
+		if ($app->tform->errorMessage == '') {
+			$this->dataRecord['username'] = $ftpuser_prefix . $this->dataRecord['username'];
 		}
+		
 		parent::onBeforeInsert();
 	}
 
@@ -187,39 +145,17 @@ class page_action extends tform_actions {
 	function onBeforeUpdate() {
 		global $app, $conf, $interfaceConf;
 
-		$error = false;
-
 		/*
 		 * If the names should be restricted -> do it!
 		 */
-		if ($error == false){
-			/*
-			* If the names should be restricted -> do it!
-			*/
-			if ($interfaceConf['restrict_names'] == true){
-				/* get the restriction */
-				$restriction = '[CLIENTNAME]_';
-				if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
-
-				/* Get the group-id */
-				if($_SESSION["s"]["user"]["typ"] != 'admin') {
-					// Get the group-id of the user
-					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				}
-				else {
-					// Get the group-id from the data itself
-					$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-					$client_group_id = $web['sys_groupid'];
-				}
-				/* get the name of the client */
-				$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-				$clientName = $tmp['name'];
-				if ($clientName == "") $clientName = 'default';
-				$clientName = convertClientName($clientName);
-				$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-				/* restrict the names */
-				$this->dataRecord['username'] = $restriction . $this->dataRecord['username'];
-			}
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		
+		/* restrict the names */
+		if ($app->tform->errorMessage == '') {
+			$this->dataRecord['username'] = $restriction . $this->dataRecord['username'];
 		}
 	}
 	
@@ -227,6 +163,24 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		
+	}
+	
+	function getClientName() {
+		global $app, $conf;
+	
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Get the group-id of the user
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		} else {
+			// Get the group-id from the data itself
+			$client_group_id = $this->dataRecord['client_group_id'];
+		}
+		/* get the name of the client */
+		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
+		$clientName = $tmp['name'];
+		if ($clientName == "") $clientName = 'default';
+		$clientName = convertClientName($clientName);
+	
 	}
 	
 }

@@ -79,38 +79,19 @@ class page_action extends tform_actions {
 		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
 		 */
-		if ($interfaceConf['restrict_names'] == true){
-			/* get the restriction */
-			$restriction = '[CLIENTNAME]_';
-			if (isset($interfaceConf['restrict_shelluser'])) $restriction = $interfaceConf['restrict_shelluser'];
-			$tmplRestriction = $restriction;
-			/* Get the group-id */
-			if($_SESSION["s"]["user"]["typ"] != 'admin') {
-				// Get the group-id of the user
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			}
-			else {
-				// Get the group-id from the data itself
-				$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-				$client_group_id = $web['sys_groupid'];
-			}
-			/* get the name of the client */
-			$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-			$clientName = $tmp['name'];
-			if ($clientName == "") $clientName = 'default';
-			$clientName = convertClientName($clientName);
-			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-			if ($this->dataRecord['username'] != ""){
-				/* REMOVE the restriction */
-				$app->tpl->setVar("username", str_replace($restriction , '', $this->dataRecord['username']));
-				$app->tpl->setVar("username", str_replace($restriction , '', $this->dataRecord['username']));
-			}
-			if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-				$app->tpl->setVar("username_prefix", $tmplRestriction);
-			}
-			else {
-				$app->tpl->setVar("username_prefix", $restriction);
-			}
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+		
+		if ($this->dataRecord['username'] != ""){
+			/* REMOVE the restriction */
+			$app->tpl->setVar("username", str_replace($shelluser_prefix , '', $this->dataRecord['username']));
+		}
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$app->tpl->setVar("username_prefix", $global_config['shelluser_prefix']);
+		} else {
+			$app->tpl->setVar("username_prefix", $shelluser_prefix);
 		}
 
 		parent::onShowEnd();
@@ -131,13 +112,11 @@ class page_action extends tform_actions {
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
 
-		$error = false;
 		// check if the username is not blacklisted
 		$blacklist = file(ISPC_LIB_PATH.'/shelluser_blacklist');
 		foreach($blacklist as $line) {
 			if(strtolower(trim($line)) == strtolower(trim($this->dataRecord['username']))){
 				$app->tform->errorMessage .= 'The username is not allowed.';
-				$error = true;
 			}
 		}
 		unset($blacklist);
@@ -145,32 +124,14 @@ class page_action extends tform_actions {
 		/*
 		 * If the names should be restricted -> do it!
 		 */
-		if ($error == false){
-			if ($interfaceConf['restrict_names'] == true){
-				/* get the restriction */
-				$restriction = '[CLIENTNAME]_';
-				if (isset($interfaceConf['restrict_shelluser'])) $restriction = $interfaceConf['restrict_shelluser'];
+		if ($app->tform->errorMessage == ''){
+			
+			$app->uses('getconf');
+			$global_config = $app->getconf->get_global_config('sites');
+			$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
 
-				/* Get the group-id */
-				if($_SESSION["s"]["user"]["typ"] != 'admin') {
-					// Get the group-id of the user
-					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				}
-				else {
-					// Get the group-id from the data itself
-					$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-					$client_group_id = $web['sys_groupid'];
-				}
-				/* get the name of the client */
-				$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-				$clientName = $tmp['name'];
-				if ($clientName == "") $clientName = 'default';
-				$clientName = convertClientName($clientName);
-				$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-
-				/* restrict the names */
-				$this->dataRecord['username'] = $restriction . $this->dataRecord['username'];
-			}
+			/* restrict the names */
+			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
 		}
 		parent::onBeforeInsert();
 	}
@@ -195,13 +156,11 @@ class page_action extends tform_actions {
 	function onBeforeUpdate() {
 		global $app, $conf, $interfaceConf;
 		
-		$error = false;
 		// check if the username is not blacklisted
 		$blacklist = file(ISPC_LIB_PATH.'/shelluser_blacklist');
 		foreach($blacklist as $line) {
 			if(strtolower(trim($line)) == strtolower(trim($this->dataRecord['username']))){
 				$app->tform->errorMessage .= 'The username is not allowed.';
-				$error = true;
 			}
 		}
 		unset($blacklist);
@@ -209,34 +168,16 @@ class page_action extends tform_actions {
 		/*
 		 * If the names should be restricted -> do it!
 		 */
-		if ($error == false){
+		if ($app->tform->errorMessage == '') {
 			/*
 			* If the names should be restricted -> do it!
 			*/
-			if ($interfaceConf['restrict_names'] == true){
-				/* get the restriction */
-				$restriction = '[CLIENTNAME]_';
-				if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
-
-				/* Get the group-id */
-				if($_SESSION["s"]["user"]["typ"] != 'admin') {
-					// Get the group-id of the user
-					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				}
-				else {
-					// Get the group-id from the data itself
-					$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-					$client_group_id = $web['sys_groupid'];
-				}
-				/* get the name of the client */
-				$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-				$clientName = $tmp['name'];
-				if ($clientName == "") $clientName = 'default';
-				$clientName = convertClientName($clientName);
-				$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-				/* restrict the names */
-				$this->dataRecord['username'] = $restriction . $this->dataRecord['username'];
-			}
+			$app->uses('getconf');
+			$global_config = $app->getconf->get_global_config('sites');
+			$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+			
+			/* restrict the names */
+			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
 		}
 	}
 	
@@ -244,6 +185,24 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		
+	}
+	
+	function getClientName() {
+		global $app, $conf;
+	
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Get the group-id of the user
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		} else {
+			// Get the group-id from the data itself
+			$client_group_id = $this->dataRecord['client_group_id'];
+		}
+		/* get the name of the client */
+		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
+		$clientName = $tmp['name'];
+		if ($clientName == "") $clientName = 'default';
+		$clientName = convertClientName($clientName);
+	
 	}
 	
 }

@@ -199,6 +199,28 @@ unset($tpl_ini_array);
 unset($new_ini);
 
 
+//** Update system ini
+$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM sys_ini WHERE sysini_id = 1");
+$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
+unset($tmp_server_rec);
+$tpl_ini_array = ini_to_array(rf('tpl/system.ini.master'));
+
+// update the new template with the old values
+if(is_array($old_ini_array)) {
+	foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
+		foreach($tmp_section_content as $tmp_var_name => $tmp_var_content) {
+			$tpl_ini_array[$tmp_section_name][$tmp_var_name] = $tmp_var_content;
+		}
+	}
+}
+
+$new_ini = array_to_ini($tpl_ini_array);
+$inst->db->query("UPDATE sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
+unset($old_ini_array);
+unset($tpl_ini_array);
+unset($new_ini);
+
+
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
 

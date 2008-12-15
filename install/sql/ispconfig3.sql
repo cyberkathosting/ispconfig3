@@ -998,6 +998,24 @@ INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (
 -- --------------------------------------------------------
 
 -- 
+-- Tabellenstruktur für Tabelle `sys_ini`
+-- 
+
+CREATE TABLE `sys_ini` (
+  `sysini_id` int(11) NOT NULL auto_increment,
+  `config` longtext NOT NULL,
+  PRIMARY KEY  (`sysini_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+
+-- 
+-- Daten für Tabelle `sys_ini`
+-- 
+
+INSERT INTO `sys_ini` (`sysini_id`, `config`) VALUES (1, '');
+
+-- --------------------------------------------------------
+
+-- 
 -- Tabellenstruktur für Tabelle `sys_log`
 -- 
 

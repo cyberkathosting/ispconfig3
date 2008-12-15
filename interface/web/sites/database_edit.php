@@ -153,39 +153,25 @@ class page_action extends tform_actions {
 		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
 		 */
-		if ($interfaceConf['restrict_names'] == true){
-			/* get the restriction */
-			$restriction = '[CLIENTNAME]_';
-			if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
-			$tmpRestriction = $restriction;
-			/* Get the group-id */
-			if($_SESSION["s"]["user"]["typ"] != 'admin') {
-				// Get the group-id of the user
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			}
-			else {
-				// Get the group-id from the data itself
-				$client_group_id = $this->dataRecord['sys_groupid'];
-			}
-			/* get the name of the client */
-			$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-			$clientName = $tmp['name'];
-			if ($clientName == "") $clientName = 'default';
-			$clientName = convertClientName($clientName);
-			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-			if ($this->dataRecord['database_name'] != ""){
-				/* REMOVE the restriction */
-				$app->tpl->setVar("database_name", str_replace($restriction , '', $this->dataRecord['database_name']));
-				$app->tpl->setVar("database_user", str_replace($restriction , '', $this->dataRecord['database_user']));
-			}
-			if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-				$app->tpl->setVar("database_name_prefix", $tmpRestriction);
-				$app->tpl->setVar("database_user_prefix", $tmpRestriction);
-			}
-			else {
-				$app->tpl->setVar("database_name_prefix", $restriction);
-				$app->tpl->setVar("database_user_prefix", $restriction);
-			}
+		
+		//* Get the database name and database user prefix
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$dbname_prefix = ($global_config['dbname_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['dbname_prefix']);
+		$dbuser_prefix = ($global_config['dbuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['dbuser_prefix']);
+		
+		if ($this->dataRecord['database_name'] != ""){
+			/* REMOVE the restriction */
+			$app->tpl->setVar("database_name", str_replace($dbname_prefix , '', $this->dataRecord['database_name']));
+			$app->tpl->setVar("database_user", str_replace($dbuser_prefix , '', $this->dataRecord['database_user']));
+		}
+		
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$app->tpl->setVar("database_name_prefix", $global_config['dbname_prefix']);
+			$app->tpl->setVar("database_user_prefix", $global_config['dbuser_prefix']);
+		} else {
+			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
+			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
 		}
 
 		parent::onShowEnd();
@@ -233,44 +219,23 @@ class page_action extends tform_actions {
 		global $app, $conf, $interfaceConf;
 
 		/*
-		 * If the names should be restricted -> do it!
-		 */
-		if ($interfaceConf['restrict_names'] == true){
-			/* get the restriction */
-			$restriction = '[CLIENTNAME]_';
-			if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
-
-			/* Get the group-id */
-			if($_SESSION["s"]["user"]["typ"] != 'admin') {
-				// Get the group-id of the user
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			}
-			else {
-				// Get the group-id from the data itself
-				$client_group_id = $this->dataRecord['client_group_id'];
-			}
-			/* get the name of the client */
-			$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-			$clientName = $tmp['name'];
-			if ($clientName == "") $clientName = 'default';
-			$clientName = convertClientName($clientName);
-			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
-		}
-		else {
-			$restriction = '';
-		}
-
-		$error = false;
+		* If the names should be restricted -> do it!
+		*/
+		
+		
+		//* Get the database name and database user prefix
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$dbname_prefix = ($global_config['dbname_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['dbname_prefix']);
+		$dbuser_prefix = ($global_config['dbuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['dbuser_prefix']);
 
 		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
 		if($old_record["database_name"] != $restriction . $this->dataRecord["database_name"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
-			$error = true;
 		}
 		if($old_record["database_charset"] != $this->dataRecord["database_charset"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_charset_change_txt"].'<br />';
-			$error = true;
 		}
 
 		//* Check if the server has been changed
@@ -280,15 +245,14 @@ class page_action extends tform_actions {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
 				$this->dataRecord["server_id"] = $rec['server_id'];
-				$error = true;
 			}
 		}
 		unset($old_record);
 
-		if ($error == false){
+		if ($app->tform->errorMessage == ''){
 			/* restrict the names if there is no error */
-			$this->dataRecord['database_name'] = $restriction . $this->dataRecord['database_name'];
-			$this->dataRecord['database_user'] = $restriction . $this->dataRecord['database_user'];
+			$this->dataRecord['database_name'] = $dbname_prefix . $this->dataRecord['database_name'];
+			$this->dataRecord['database_user'] = $dbuser_prefix . $this->dataRecord['database_user'];
 		}
 
 		parent::onBeforeUpdate();
@@ -297,34 +261,16 @@ class page_action extends tform_actions {
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
 
-		/*
-		 * If the names should be restricted -> do it!
-		 */
-		if ($interfaceConf['restrict_names'] == true){
-			/* get the restriction */
-			$restriction = '[CLIENTNAME]_';
-			if (isset($interfaceConf['restrict_dbname'])) $restriction = $interfaceConf['restrict_dbname'];
+		//* Get the database name and database user prefix
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('sites');
+		$dbname_prefix = ($global_config['dbname_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['dbname_prefix']);
+		$dbuser_prefix = ($global_config['dbuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['dbuser_prefix']);
 
-			/* Get the group-id */
-			if($_SESSION["s"]["user"]["typ"] != 'admin') {
-				// Get the group-id of the user
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			}
-			else {
-				// Get the group-id from the data itself
-				$client_group_id = $this->dataRecord['client_group_id'];
-			}
-			/* get the name of the client */
-			$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-			$clientName = $tmp['name'];
-			if ($clientName == "") $clientName = 'default';
-			$clientName = convertClientName($clientName);
-			$restriction = str_replace('[CLIENTNAME]', $clientName, $restriction);
+		/* restrict the names */
+		$this->dataRecord['database_name'] = $dbname_prefix . $this->dataRecord['database_name'];
+		$this->dataRecord['database_user'] = $dbuser_prefix . $this->dataRecord['database_user'];
 
-			/* restrict the names */
-			$this->dataRecord['database_name'] = $restriction . $this->dataRecord['database_name'];
-			$this->dataRecord['database_user'] = $restriction . $this->dataRecord['database_user'];
-		}
 		parent::onBeforeInsert();
 	}
 
@@ -357,6 +303,24 @@ class page_action extends tform_actions {
 			$app->db->query("UPDATE web_database SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_id = ".$this->id);
 		}
 
+	}
+	
+	function getClientName() {
+		global $app, $conf;
+	
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Get the group-id of the user
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		} else {
+			// Get the group-id from the data itself
+			$client_group_id = $this->dataRecord['client_group_id'];
+		}
+		/* get the name of the client */
+		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
+		$clientName = $tmp['name'];
+		if ($clientName == "") $clientName = 'default';
+		$clientName = convertClientName($clientName);
+	
 	}
 
 }
