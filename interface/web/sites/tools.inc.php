@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -38,7 +38,7 @@ function replacePrefix($name, $dataRecord){
                         $res=str_replace('['.$keyword.']', getClientName($dataRecord), $name);        
                         break;
                     case 'CLIENTID':
-                        $res=str_replace('['.$keyword.']', '000', $name);        
+                        $res=str_replace('['.$keyword.']', getClientID($dataRecord), $name);        
                         break;
                 }
             }
@@ -79,8 +79,8 @@ function getClientID($dataRecord) {
     	$client_group_id = $dataRecord['client_group_id'];
     }
     /* get the name of the client */
-    $tmp = $app->db->queryOneRecord("SELECT id FROM sys_group WHERE groupid = " . $client_group_id);
-    $clientID = $tmp['id'];
+    $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $client_group_id);
+    $clientID = $tmp['client_id'];
     if ($clientID == '') $clientID = '0';
     return $clientID;
 }
