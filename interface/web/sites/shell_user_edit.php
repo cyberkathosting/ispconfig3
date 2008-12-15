@@ -202,6 +202,8 @@ class page_action extends tform_actions {
 		$clientName = $tmp['name'];
 		if ($clientName == "") $clientName = 'default';
 		$clientName = convertClientName($clientName);
+		
+		return $clientName;
 	
 	}
 	
