@@ -64,7 +64,12 @@ $items[] = array( 'title' 	=> 'Edit Server IP',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_ip_list.php');				  
 
-$module['nav'][] = array(	'title'	=> 'Servers',
+
+$items[] = array( 'title' 	=> 'Interface Config',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/system_config_edit.php?id=1');
+
+$module['nav'][] = array(	'title'	=> 'System',
 							'open' 	=> 1,
 							'items'	=> $items);
 // cleanup
