@@ -1,0 +1,25 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+
+<div class="panel panel_client">
+
+  <div class="pnl_formsarea">
+    <fieldset id="wf_area_client"><legend>Template</legend>
+      <span class="wf_oneField">
+        <label for="template_type" class="wf_preField">{tmpl_var name='template_type_txt'}</label>
+		<select id="template_type" name="template_type">{tmpl_var name='template_type'}</select>
+      </span>
+      <span class="wf_oneField">
+        <label for="template_name" class="wf_preField">{tmpl_var name='template_name_txt'}</label>
+        <input type="text" id="template_name" name="template_name" value="{tmpl_var name='template_name'}" size="30" maxlength="255" class="wf_required"><span class="wf_reqMark">*</span><br>
+      </span>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="wf_actions buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/client_template_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/client_template_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+
+</div>
