@@ -103,6 +103,39 @@ CREATE TABLE `client` (
 -- Daten für Tabelle `client`
 -- 
 
+-- 
+-- Tabellenstruktur für Tabelle `client_template`
+-- 
+
+CREATE TABLE `client_template` (
+  `template_id` bigint(20) NOT NULL auto_increment,
+  `template_name` varchar(50) NOT NULL,
+  `template_type` varchar(1) NOT NULL default 'm',
+  `limit_maildomain` int(11) NOT NULL default '-1',
+  `limit_mailbox` int(11) NOT NULL default '-1',
+  `limit_mailalias` int(11) NOT NULL default '-1',
+  `limit_mailforward` int(11) NOT NULL default '-1',
+  `limit_mailcatchall` int(11) NOT NULL default '-1',
+  `limit_mailrouting` int(11) NOT NULL default '0',
+  `limit_mailfilter` int(11) NOT NULL default '-1',
+  `limit_fetchmail` int(11) NOT NULL default '-1',
+  `limit_mailquota` int(11) NOT NULL default '-1',
+  `limit_spamfilter_wblist` int(11) NOT NULL default '0',
+  `limit_spamfilter_user` int(11) NOT NULL default '0',
+  `limit_spamfilter_policy` int(11) NOT NULL default '0',
+  `limit_web_ip` text,
+  `limit_web_domain` int(11) NOT NULL default '-1',
+  `limit_web_subdomain` int(11) NOT NULL default '-1',
+  `limit_web_aliasdomain` int(11) NOT NULL default '-1',
+  `limit_ftp_user` int(11) NOT NULL default '-1',
+  `limit_shell_user` int(11) NOT NULL default '0',
+  `limit_dns_zone` int(11) NOT NULL default '-1',
+  `limit_dns_record` int(11) NOT NULL default '-1',
+  `limit_database` int(11) NOT NULL default '-1',
+  `limit_client` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`template_id`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
+
 
 -- --------------------------------------------------------
 
