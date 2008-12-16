@@ -961,7 +961,7 @@ class tform {
 				if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
 
                 if(count($this->diffrec) > 0) {
-						$diffstr = $app->db->quote(serialize($diffrec_full));
+						$diffstr = addslashes(serialize($diffrec_full));
                         $username = $app->db->quote($_SESSION["s"]["user"]["username"]);
                         $dbidx = $this->formDef['db_table_idx'].":".$primary_id;
                         // $action = ($action == 'INSERT')?'i':'u';
