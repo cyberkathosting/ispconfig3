@@ -301,12 +301,11 @@ $form["tabs"]['limits'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT template_id,template_name FROM client_template WHERE template_type ='m'",
-										'keyfield'=> 'template_id',
-										'valuefield'=> 'template_name'
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'master_templates'
 									 ),
-			'value'		=> array('0' => 'custom')
+			'value'		=> ''
 		),
 		'template_additional' => array (
 			'datatype'	=> 'VARCHAR',

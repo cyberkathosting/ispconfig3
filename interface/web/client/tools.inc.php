@@ -28,7 +28,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 function applyClientTemplates($clientId){
-	global $app;
+	global $app,$page;
 	/*
 	 * Get the master-template for the client
 	 */
@@ -44,7 +44,7 @@ function applyClientTemplates($clientId){
 		$sql = "SELECT * FROM client_template WHERE template_id = " . intval($masterTemplateId);
 		$limits = $app->db->queryOneRecord($sql);
 	} else {
-		$limits = $this->dataRecord;
+		$limits = $page->dataRecord;
 	}
 
 	/*

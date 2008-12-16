@@ -52,13 +52,29 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	function onBeforeUpdate() {
+		global $app;
+		
+		if(isset($this->dataRecord['template_type'])) {
+			//* Check if the template_type has been changed
+			$rec = $app->db->queryOneRecord("SELECT template_type from client_template WHERE template_id = ".$this->id);
+			if($rec['template_type'] != $this->dataRecord['template_type']) {
+				//* Add a error message and switch back to old server
+				$app->tform->errorMessage .= $app->lng('The template type can not be changed.');
+				$this->dataRecord['template_type'] = $rec['template_type'];
+			}
+			unset($rec);
+		}
+	}
+	
+	
 	/*
 	 This function is called automatically right after
 	 the data was successful updated in the database.
 	*/
 	function onAfterUpdate() {
 		global $app;
-
+		
 		/*
 		 * the template has changed. apply the new data to all clients
 		 */

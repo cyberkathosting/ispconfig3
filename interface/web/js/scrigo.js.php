@@ -102,7 +102,8 @@ function submitForm(formname,target) {
 			}
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful. 1');
+			var parts = o.responseText.split(':');
+			alert('Ajax Request was not successful. '+parts[1]);
 		}
 	}
 	
@@ -411,17 +412,19 @@ function pass_contains(pass, check) {
 
 function addAdditionalTemplate(){
   var tpl_add = document.getElementById('template_additional').value;
-  var tpl_list = document.getElementById('template_additional_list').innerHTML;
-  var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
-  var addTplId = addTemplate[0];
-  var addTplText = addTemplate[1];
-  var newVal = tpl_add + '/' + addTplId + '/';
-  newVal = newVal.replace('//', '/');
-  var newList = tpl_list + '<br>' + addTplText;
-  newList = newList.replace('<br><br>', '<br>');
-  document.getElementById('template_additional').value = newVal;
-  document.getElementById('template_additional_list').innerHTML = newList;
-  alert('additional template ' + addTplText + ' added to customer');
+  if(tpl_add != '') {
+    var tpl_list = document.getElementById('template_additional_list').innerHTML;
+    var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
+    var addTplId = addTemplate[0];
+    var addTplText = addTemplate[1];
+    var newVal = tpl_add + '/' + addTplId + '/';
+    newVal = newVal.replace('//', '/');
+    var newList = tpl_list + '<br>' + addTplText;
+    newList = newList.replace('<br><br>', '<br>');
+    document.getElementById('template_additional').value = newVal;
+    document.getElementById('template_additional_list').innerHTML = newList;
+    alert('additional template ' + addTplText + ' added to customer');
+  }
 }
 
 function delAdditionalTemplate(){
