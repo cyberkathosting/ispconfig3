@@ -14,7 +14,6 @@ $list_def_file = "list/client_template.list.php";
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
-
 if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
 
 $app->uses('listform_actions');

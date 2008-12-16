@@ -27,32 +27,40 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+function applyClientTemplates($clientId){
+	global $app;
+	/*
+	 * Get the master-template for the client
+	 */
+	$sql = "SELECT template_master FROM client WHERE client_id = " . intval($clientId);
+	$record = $app->db->queryOneRecord($sql);
+	$masterTemplateId = $record['template_master'];
 
-/******************************************
-* Begin Form configuration
-******************************************/
+	/*
+	 * if the master-Template is custom there is NO changing
+	 */
+	if ($masterTemplateId > 0){
+		$sql = "SELECT * FROM client_template WHERE template_id = " . intval($masterTemplateId);
+		$limits = $app->db->queryOneRecord($sql);
+	}
 
-$list_def_file = "list/client_template.list.php";
-$tform_def_file = "form/client_template.tform.php";
+	/*
+	 * TODO: Process the additional tempaltes here (add them to the limits
+	 * if != -1)
+	 * (like $limits['limit_database'] += $limitAdditional)
+	 */
 
-/******************************************
-* End Form configuration
-******************************************/
-
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
-
-//* Check permissions for module
-$app->auth->check_module_permissions('client');
-if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
-
-$app->uses('tpl,tform');
-$app->load('tform_actions');
-
-class page_action extends tform_actions {
+	/*
+	 * Write all back to the database
+	 */
+	$update = '';
+	foreach($limits as $k => $v){
+		if (strpos($k, 'limit') !== false){
+			if ($update != '') $update .= ', ';
+			$update .= '`' . $k . "`='" . $v . "'";
+		}
+	}
+	$sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . intval($clientId);
+	$app->db->query($sql);
 }
-
-$page = new page_action;
-$page->onDelete()
-
 ?>

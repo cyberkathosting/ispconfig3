@@ -42,7 +42,7 @@ $form["db_table_idx"]	= "template_id";
 $form["db_history"]		= "no";
 $form["tab_default"]	= "template";
 $form["list_default"]	= "client_template_list.php";
-$form["auth"]			= 'no';
+$form["auth"]			= 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user

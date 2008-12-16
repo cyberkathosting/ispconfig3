@@ -96,6 +96,8 @@ CREATE TABLE `client` (
   `password` varchar(255) default NULL,
   `language` varchar(255) NOT NULL default 'en',
   `usertheme` varchar(255) NOT NULL default 'default',
+  `template_master` bigint(20) NOT NULL default '0',
+  `template_additional` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`client_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
@@ -133,6 +135,11 @@ CREATE TABLE `client_template` (
   `limit_dns_record` int(11) NOT NULL default '-1',
   `limit_database` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
+  `sys_userid` int(11) NOT NULL default '0',
+  `sys_groupid` int(11) NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,  
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 

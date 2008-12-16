@@ -40,10 +40,10 @@ $tform_def_file = "form/client_template.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
+require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
-
 if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
 
 // Loading classes
@@ -52,6 +52,22 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	/*
+	 This function is called automatically right after
+	 the data was successful updated in the database.
+	*/
+	function onAfterUpdate() {
+		global $app;
+
+		/*
+		 * the template has changed. apply the new data to all clients
+		 */
+		$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
+		$clients = $app->db->queryAllRecords($sql);
+		foreach ($clients as $client){
+			applyClientTemplates($client['client_id']);
+		}
+	}
 }
 
 $page = new page_action;

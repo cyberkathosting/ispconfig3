@@ -297,6 +297,17 @@ $form["tabs"]['limits'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+		'template_master' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT template_id,template_name FROM client_template WHERE template_type ='m'",
+										'keyfield'=> 'template_id',
+										'valuefield'=> 'template_name'
+									 ),
+			'value'		=> array('0' => 'custom')
+		),
 		'default_mailserver' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
