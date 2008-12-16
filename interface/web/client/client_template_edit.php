@@ -62,10 +62,16 @@ class page_action extends tform_actions {
 		/*
 		 * the template has changed. apply the new data to all clients
 		 */
-		$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
+		if ($this->dataRecord["template_type"] == 'm'){
+			$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
+		} else {
+			$sql = "SELECT client_id FROM client WHERE template_additional LIKE '%/" . $this->id . '/%"';
+		}
 		$clients = $app->db->queryAllRecords($sql);
-		foreach ($clients as $client){
-			applyClientTemplates($client['client_id']);
+		if (is_array($clients)){
+			foreach ($clients as $client){
+				applyClientTemplates($client['client_id']);
+			}
 		}
 	}
 }

@@ -287,6 +287,7 @@
 	.iconstxt.icoNegative { background-image: url("../../icons/x16/cross_circle_frame.png"); }
 	.iconstxt.icoAdd { background-image: url(../../icons/x16/plus_circle_frame.png); }
 	.iconstxt.icoKey { background-image: url("../../icons/x16/key.png"); }
+	.iconstxt.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
 	
 	/* Button with icon and without text */
 	.icons16 span { display: none; }

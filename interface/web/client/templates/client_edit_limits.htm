@@ -9,6 +9,17 @@
         <select id="template_master" name="template_master">{tmpl_var name='template_master'}</select>
       </span>
     </fieldset>
+    <fieldset id="wf_area_client"><legend>Additional-Templates</legend>
+      <span class="wf_oneField">
+        <select id="tpl_add_select" name="tpl_add_select">{tmpl_var name='tpl_add_select'}</select>
+      </span>
+	  <span id="template_additional_list">{tmpl_var name='template_additional_list'}</span>
+      <input type="hidden" id="template_additional" name="template_additional" value="{tmpl_var name='template_additional'}">
+	    <div class="wf_actions buttons">
+          <button class="positive iconstxt icoAdd" type="button" value="Add additional template" onClick="addAdditionalTemplate();"><span>Add additional template</span></button>
+          <button class="negative iconstxt icoDelete" type="button" value="Delete additional template" onClick="delAdditionalTemplate();"><span>Delete additional template</span></button>
+		</div>
+    </fieldset>
     <fieldset id="wf_area_client"><legend>Limits</legend>
       <span class="wf_oneField">
         <label for="default_mailserver" class="wf_preField">{tmpl_var name='default_mailserver_txt'}</label>

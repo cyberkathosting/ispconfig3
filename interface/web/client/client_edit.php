@@ -50,7 +50,39 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
+
+	function onShowEnd() {
+
+		global $app;
+
+		$sql = "SELECT template_id,template_name FROM client_template WHERE template_type = 'a'";
+		$tpls = $app->db->queryAllRecords($sql);
+		$option = '';
+		$tpl = array();
+		foreach($tpls as $item){
+			$option .= '<option value="' . $item['template_id'] . '|' .  $item['template_name'] . '">' . $item['template_name'] . '</option>';
+			$tpl[$item['template_id']] = $item['template_name'];
+		}
+		$app->tpl->setVar('tpl_add_select',$option);
+
+		$sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
+		$result = $app->db->queryOneRecord($sql);
+		$tplAdd = explode("/", $result['template_additional']);
+		$text = '';
+		foreach($tplAdd as $item){
+			if (trim($item) != ''){
+				if ($text != '') $text .= '<br>';
+				$text .= $tpl[$item];
+			}
+		}
+
+		$app->tpl->setVar('template_additional_list', $text);
+
+		parent::onShowEnd();
+
+	}
+
 	/*
 	 This function is called automatically right after
 	 the data was successful inserted in the database.
@@ -87,6 +119,8 @@ class page_action extends tform_actions {
 
 		/* If there is a client-template, process it */
 		applyClientTemplates($this->id);
+
+		parent::onAfterInsert();
 	}
 	
 	
@@ -127,6 +161,8 @@ class page_action extends tform_actions {
 		/*
 		 *  If there is a client-template, process it */
 		applyClientTemplates($this->id);
+
+		parent::onAfterUpdate();
 	}
 }
 

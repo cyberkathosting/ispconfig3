@@ -32,9 +32,10 @@ function applyClientTemplates($clientId){
 	/*
 	 * Get the master-template for the client
 	 */
-	$sql = "SELECT template_master FROM client WHERE client_id = " . intval($clientId);
+	$sql = "SELECT template_master, template_additional FROM client WHERE client_id = " . intval($clientId);
 	$record = $app->db->queryOneRecord($sql);
 	$masterTemplateId = $record['template_master'];
+	$additionalTemplateStr = $record['template_additional'];
 
 	/*
 	 * if the master-Template is custom there is NO changing
@@ -42,13 +43,34 @@ function applyClientTemplates($clientId){
 	if ($masterTemplateId > 0){
 		$sql = "SELECT * FROM client_template WHERE template_id = " . intval($masterTemplateId);
 		$limits = $app->db->queryOneRecord($sql);
+	} else {
+		$limits = $this->dataRecord;
 	}
 
 	/*
-	 * TODO: Process the additional tempaltes here (add them to the limits
+	 * Process the additional tempaltes here (add them to the limits
 	 * if != -1)
-	 * (like $limits['limit_database'] += $limitAdditional)
 	 */
+	$addTpl = explode('/', $additionalTemplateStr);
+	foreach ($addTpl as $item){
+		if (trim($item) != ''){
+			$sql = "SELECT * FROM client_template WHERE template_id = " . intval($item);
+			$addLimits = $app->db->queryOneRecord($sql);
+			/* maybe the template is deleted in the meantime */
+			if (is_array($addLimits)){
+				foreach($addLimits as $k => $v){
+					if ($limits[$k] > -1){
+						if ($v == -1) {
+							$limits[$k] = -1;
+						}
+						else {
+							$limits[$k] += $v;
+						}
+					}
+				}
+			}
+		}
+	}
 
 	/*
 	 * Write all back to the database

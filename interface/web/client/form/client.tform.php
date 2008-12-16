@@ -308,6 +308,10 @@ $form["tabs"]['limits'] = array (
 									 ),
 			'value'		=> array('0' => 'custom')
 		),
+		'template_additional' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+		),
 		'default_mailserver' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
