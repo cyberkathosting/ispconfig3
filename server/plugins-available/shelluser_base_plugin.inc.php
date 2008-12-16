@@ -72,23 +72,27 @@ class shelluser_base_plugin {
 		
 		$app->uses('system');
 		
-		// Get the UID of the parent user
-		$uid = intval($app->system->getuid($data['new']['puser']));
-		if($uid > $this->min_uid) {
-			$command = 'useradd';
-			$command .= ' --home '.escapeshellcmd($data['new']['dir']);
-			$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
-			$command .= ' --non-unique ';
-			$command .= ' --password '.escapeshellcmd($data['new']['password']);
-			$command .= ' --shell '.escapeshellcmd($data['new']['shell']);
-			$command .= ' --uid '.escapeshellcmd($uid);
-			$command .= ' '.escapeshellcmd($data['new']['username']);
+		if($app->system->is_user($data['new']['puser'])) {
+			// Get the UID of the parent user
+			$uid = intval($app->system->getuid($data['new']['puser']));
+			if($uid > $this->min_uid) {
+				$command = 'useradd';
+				$command .= ' --home '.escapeshellcmd($data['new']['dir']);
+				$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
+				$command .= ' --non-unique ';
+				$command .= ' --password '.escapeshellcmd($data['new']['password']);
+				$command .= ' --shell '.escapeshellcmd($data['new']['shell']);
+				$command .= ' --uid '.escapeshellcmd($uid);
+				$command .= ' '.escapeshellcmd($data['new']['username']);
 			
-			exec($command);
-			$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
+				exec($command);
+				$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
 			
+			} else {
+				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
+			}
 		} else {
-			$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
+			$app->log("Skippung insert of user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.",LOGLEVEL_WARN);
 		}
 	}
 	
@@ -97,25 +101,34 @@ class shelluser_base_plugin {
 		
 		$app->uses('system');
 		
-		// Get the UID of the parent user
-		$uid = intval($app->system->getuid($data['new']['puser']));
-		if($uid > $this->min_uid) {
-			$command = 'usermod';
-			$command .= ' --home '.escapeshellcmd($data['new']['dir']);
-			$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
-			// $command .= ' --non-unique ';
-			$command .= ' --password '.escapeshellcmd($data['new']['password']);
-			if($data['new']['chroot'] != 'jailkit') $command .= ' --shell '.escapeshellcmd($data['new']['shell']);
-			// $command .= ' --uid '.escapeshellcmd($uid);
-			$command .= ' --login '.escapeshellcmd($data['new']['username']);
-			$command .= ' '.escapeshellcmd($data['old']['username']);
+		if($app->system->is_user($data['new']['puser'])) {
+			// Get the UID of the parent user
+			$uid = intval($app->system->getuid($data['new']['puser']));
+			if($uid > $this->min_uid) {
+				// Check if the user that we want to update exists, if not, we insert it
+				if($app->system->is_user($data['old']['username'])) {
+					$command = 'usermod';
+					$command .= ' --home '.escapeshellcmd($data['new']['dir']);
+					$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
+					// $command .= ' --non-unique ';
+					$command .= ' --password '.escapeshellcmd($data['new']['password']);
+					if($data['new']['chroot'] != 'jailkit') $command .= ' --shell '.escapeshellcmd($data['new']['shell']);
+					// $command .= ' --uid '.escapeshellcmd($uid);
+					$command .= ' --login '.escapeshellcmd($data['new']['username']);
+					$command .= ' '.escapeshellcmd($data['old']['username']);
 			
-			exec($command);
-			// $app->log("Updated shelluser: $command ",LOGLEVEL_DEBUG);
-			$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
-			
+					exec($command);
+					// $app->log("Updated shelluser: $command ",LOGLEVEL_DEBUG);
+					$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
+				} else {
+					// The user does not exist, so we insert it now
+					$this->insert($event_name,$data);
+				}
+			} else {
+				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
+			}
 		} else {
-			$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
+			$app->log("Skippung update for user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.",LOGLEVEL_WARN);
 		}
 	}
 	
@@ -124,17 +137,21 @@ class shelluser_base_plugin {
 		
 		$app->uses('system');
 		
-		// Get the UID of the user
-		$userid = intval($app->system->getuid($data['old']['username']));
-		if($userid > $this->min_uid) {
-			$command = 'userdel';
-			$command .= ' '.escapeshellcmd($data['old']['username']);
+		if($app->system->is_user($data['old']['username'])) {
+			// Get the UID of the user
+			$userid = intval($app->system->getuid($data['old']['username']));
+			if($userid > $this->min_uid) {
+				$command = 'userdel';
+				$command .= ' '.escapeshellcmd($data['old']['username']);
 			
-			exec($command);
-			$app->log("Deleted shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
+				exec($command);
+				$app->log("Deleted shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
 			
+			} else {
+				$app->log("UID = $userid for shelluser:".$data['old']['username']." not allowed.",LOGLEVEL_ERROR);
+			}
 		} else {
-			$app->log("UID = $userid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
+			$app->log("User:".$data['new']['username']." does not exist in in /etc/passwd, skipping delete.",LOGLEVEL_WARN);
 		}
 		
 	}

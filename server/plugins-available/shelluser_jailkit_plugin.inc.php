@@ -70,22 +70,30 @@ class shelluser_jailkit_plugin {
 	function insert($event_name,$data) {
 		global $app, $conf;
 		
-		/**
-		 * Setup Jailkit Chroot System If Enabled 
-		 */
-		if ($data['new']['chroot'] == "jailkit")
-		{
-			// load the server configuration options
-			$app->uses("getconf");
-			$this->data = $data;
-			$this->app = $app;
-			$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
-			
-			$this->_setup_jailkit_chroot();
-			$this->_add_jailkit_user();
-		}
+		$app->uses('system');
 		
-		$app->log("Jalikit Plugin -> insert username:".$data['new']['username'],LOGLEVEL_DEBUG);
+		if($app->system->is_user($data['new']['username'])) {
+		
+			/**
+		 	* Setup Jailkit Chroot System If Enabled 
+		 	*/
+			if ($data['new']['chroot'] == "jailkit")
+			{
+				// load the server configuration options
+				$app->uses("getconf");
+				$this->data = $data;
+				$this->app = $app;
+				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+			
+				$this->_setup_jailkit_chroot();
+				$this->_add_jailkit_user();
+			}
+		
+			$app->log("Jalikit Plugin -> insert username:".$data['new']['username'],LOGLEVEL_DEBUG);
+			
+		} else {
+			$app->log("Jalikit Plugin -> insert username:".$data['new']['username']." skipped, the user does not exist.",LOGLEVEL_WARN);
+		}
 		
 	}
 	
@@ -93,22 +101,30 @@ class shelluser_jailkit_plugin {
 	function update($event_name,$data) {
 		global $app, $conf;
 		
-		/**
-		 * Setup Jailkit Chroot System If Enabled 
-		 */
-		if ($data['new']['chroot'] == "jailkit")
-		{
-			// load the server configuration options
-			$app->uses("getconf");
-			$this->data = $data;
-			$this->app = $app;
-			$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
-			
-			$this->_setup_jailkit_chroot();
-			$this->_add_jailkit_user();
-		}
+		$app->uses('system');
 		
-		$app->log("Jalikit Plugin -> update username:".$data['new']['username'],LOGLEVEL_DEBUG);
+		if($app->system->is_user($data['new']['username'])) {
+		
+			/**
+		 	* Setup Jailkit Chroot System If Enabled 
+		 	*/
+			if ($data['new']['chroot'] == "jailkit")
+			{
+				// load the server configuration options
+				$app->uses("getconf");
+				$this->data = $data;
+				$this->app = $app;
+				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+			
+				$this->_setup_jailkit_chroot();
+				$this->_add_jailkit_user();
+			}
+		
+			$app->log("Jalikit Plugin -> update username:".$data['new']['username'],LOGLEVEL_DEBUG);
+			
+		} else {
+			$app->log("Jalikit Plugin -> update username:".$data['new']['username']." skipped, the user does not exist.",LOGLEVEL_WARN);
+		}
 		
 	}
 	
@@ -118,6 +134,8 @@ class shelluser_jailkit_plugin {
 	 */ 
 	function delete($event_name,$data) {
 		global $app, $conf;
+		
+		$app->uses('system');
 		
 		if ($data['old']['chroot'] == "jailkit")
 		{
