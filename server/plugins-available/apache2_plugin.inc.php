@@ -420,14 +420,27 @@ class apache2_plugin {
 		
 		// get alias domains (co-domains and subdomains)
 		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]." AND active = 'y'");
-    if($data["new"]["is_subdomainwww"]){
-  	  $server_alias .= 'www.'.$data["new"]["domain"].' ';
-    } else {
-  		$server_alias = '';
-    }
+        switch($data["new"]["subdomain"]) {
+        case 'www':
+            $server_alias .= 'www.'.$data["new"]["domain"].' ';
+            break;
+        case '*':
+            $server_alias .= '*.'.$data["new"]["domain"].' ';    
+            break;
+        }
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
-			  $server_alias .= $alias["domain"].' ';
+                switch($alias["subdomain"]) {
+                case 'www':
+                    $server_alias .= 'www.'.$alias["domain"].' '.$alias["domain"].' ';
+                    break;
+                case '*':
+                    $server_alias .= '*.'.$alias["domain"].' '.$alias["domain"].' ';    
+                    break;
+                default:
+                    $server_alias .= $alias["domain"].' ';            
+                    break;
+                }
 				$app->log("Add server alias: $alias[domain]",LOGLEVEL_DEBUG);
 				// Rewriting
 				if($alias["redirect_type"] != '') {

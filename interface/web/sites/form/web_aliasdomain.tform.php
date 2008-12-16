@@ -116,6 +116,12 @@ $form["tabs"]['domain'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'subdomain' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'y',
+			'value'		=> array('none' => 'none', 'www' => 'www.', '*' => '*.')
+		),
 		'active' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',

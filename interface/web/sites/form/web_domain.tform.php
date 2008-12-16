@@ -174,11 +174,11 @@ $form["tabs"]['domain'] = array (
 			'default'	=> '1',
 			'value'		=> array(0 => '0',1 => '1')
 		),
-		'is_subdomainwww' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '1',
-			'value'		=> array(0 => '0',1 => '1')
+		'subdomain' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'y',
+			'value'		=> array('none' => 'none', 'www' => 'www.', '*' => '*.')
 		),
 		'ssl' => array (
 			'datatype'	=> 'VARCHAR',
@@ -189,7 +189,7 @@ $form["tabs"]['domain'] = array (
 		'php' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
-			'default'	=> 'y',
+			'default'	=> 'fast-cgi',
 			'value'		=> array('' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
 		),
 		'active' => array (
