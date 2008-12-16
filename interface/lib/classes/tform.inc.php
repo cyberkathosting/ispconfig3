@@ -906,8 +906,8 @@ class tform {
                         $escape = '`';
                 }
 
-                $diffrec = array();
-				
+                $this->diffrec = array();
+				/*
                 if(is_array($record_new) && count($record_new) > 0) {
                         foreach($record_new as $key => $val) {
                                 if(@$record_old[$key] != $val) {
@@ -926,7 +926,7 @@ class tform {
                         }
                 }
 				$this->diffrec = $diffrec;
-				
+				*/
 				
 				// Full diff records for ISPConfig, they have a different format then the simple diffrec
 				$diffrec_full = array();
@@ -938,6 +938,8 @@ class tform {
                                     // Record has changed
 									$diffrec_full['old'][$key] = $val;
 									$diffrec_full['new'][$key] = $record_new[$key];
+									$this->diffrec[$key] = array(	'new' => $record_new[$key],
+                                                               		'old' => $val);
                                 } else {
 									$diffrec_full['old'][$key] = $val;
 									$diffrec_full['new'][$key] = $val;
@@ -949,6 +951,8 @@ class tform {
                                     // Record has changed
 									$diffrec_full['new'][$key] = $val;
 									$diffrec_full['old'][$key] = $record_old[$key];
+									$this->diffrec[$key] = array(	'old' => @$record_old[$key],
+                                                               		'new' => $val);
                                 } else {
 									$diffrec_full['new'][$key] = $val;
 									$diffrec_full['old'][$key] = $val;
@@ -956,6 +960,7 @@ class tform {
                         }
                 }
 				
+				//$this->diffrec = $diffrec;
 				// Insert the server_id, if the record has a server_id
 				$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
 				if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];

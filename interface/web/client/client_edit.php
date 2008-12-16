@@ -132,7 +132,7 @@ class page_action extends tform_actions {
 		global $app;
 		
 		// username changed
-		if(isset($app->tform->diffrec['username'])) {
+		if($this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = mysql_real_escape_string($this->dataRecord["username"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";

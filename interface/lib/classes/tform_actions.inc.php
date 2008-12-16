@@ -114,8 +114,8 @@ class tform_actions {
                         foreach($this->plugins as $plugin) {
                                 $plugin->onInsert();
                         }
-
-                        $this->onAfterUpdate();
+						
+						$this->onAfterUpdate();
 						
 						// Write data history (sys_datalog)
 						if($app->tform->formDef['db_history'] == 'yes') {
