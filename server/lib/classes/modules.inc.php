@@ -105,7 +105,7 @@ class modules {
 					$tmp_sql2 = substr($tmp_sql2,0,-1);
 					//$tmp_sql1 .= "$idx[0]";
 					//$tmp_sql2 .= "$idx[1]";
-					$sql = "INSERT INTO $d[dbtable] ($tmp_sql1) VALUES ($tmp_sql2)";
+					$sql = "REPLACE INTO $d[dbtable] ($tmp_sql1) VALUES ($tmp_sql2)";
 					$app->db->query($sql);
 					if($app->db->errorNumber > 0) {
 						$replication_error = true;
