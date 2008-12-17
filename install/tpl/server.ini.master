@@ -13,8 +13,8 @@ nameservers=192.168.0.1,192.168.0.2
 
 [mail]
 module=postfix_mysql
-maildir_path=/var/vmail/[domain]/[localpart]/
-homedir_path=/var/vmail/
+maildir_path=/var/vmail/[domain]/[localpart]
+homedir_path=/var/vmail
 mailuser_uid=5000
 mailuser_gid=5000
 mailuser_name=vmail
