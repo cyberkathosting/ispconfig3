@@ -122,6 +122,12 @@ class network_settings_plugin {
 			$app->log("Changed Network settings",LOGLEVEL_DEBUG);
 			
 			exec('/etc/init.d/networking force-reload');
+		} else {
+			if(is_file('/etc/debian_version')) {
+				$app->log("Network configuration disabled in server settings.",LOGLEVEL_WARN);
+			} else {
+				$app->log("Network configuration not available for this linux distribution.",LOGLEVEL_DEBUG);
+			}
 		}
 		
 	}

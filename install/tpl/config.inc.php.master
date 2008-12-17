@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,9 +34,22 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 	Header("Pragma: no-cache");
 	Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
 	Header("Content-Type: text/html; charset=utf-8");
-
+	
+	//** Set a few php.ini values
 	ini_set('register_globals',0);
+	ini_set('magic_quotes_gpc', 0);
+	
+	if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS'])) {
+		die('Internal Error: GLOBALS override attempt detected');
+		exit;
+	}
 }
+
+//** Set a few php.ini values
+set_magic_quotes_runtime(0);
+if(isset($app)) unset($app);
+if(isset($conf)) unset($conf);
+
 
 //** SVN Revision
 $svn_revision = '$Revision$';
