@@ -227,18 +227,24 @@ class installer_base {
 			
 			//* insert the ispconfig user in the remote server
 			$from_host = $conf['hostname'];
+			$from_ip = gethostbyname($conf['hostname']);
 			
 			//* username for the ispconfig user
 			$conf['mysql']['master_ispconfig_user'] = 'ispconfigserver'.$conf['server_id'];
 		
-			//* Delete ISPConfig user in the local database, in case that it exists
+			//* Delete ISPConfig user in the master database, in case that it exists
 			$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_host."';");
 			$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_host."';");
+			$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_ip."';");
+			$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_ip."';");
 			$this->dbmaster->query('FLUSH PRIVILEGES;');
 		
 			//* Create the ISPConfig database user in the local database
         	$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
                 	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_host."' "
+                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+			$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
+                	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_ip."' "
                 	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
 			if(!$this->dbmaster->query($query)) {
 				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
