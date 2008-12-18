@@ -17,8 +17,8 @@
     #page{
         background-color: #FFFFFF;
         width: 60%;
-        margin: 0 auto;
-        padding: 6px 12px;
+        margin: 24px auto;
+        padding: 12px;
     }
     #header{
         color: #FFFFFF;    
