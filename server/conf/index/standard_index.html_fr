@@ -1,7 +1,8 @@
 <html>
 <head>
 <title>Bienvenue!</title>
-</head>
+<link rel="shortcut icon" href="/favicon.ico" />
+</HEAD>
 <body BGCOLOR="#FFFFFF" leftMargin=0 topMargin=0 rightMargin=0 marginheight="0" marginwidth="0">
 <center>
 <table BORDER="0" WIDTH="100%" CELLSPACING="0">

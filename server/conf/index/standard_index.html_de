@@ -1,36 +1,60 @@
-<HTML>
-<HEAD>
-<TITLE>Herzlich Willkommen!</TITLE>
-</HEAD>
-<BODY BGCOLOR="#FFFFFF" leftMargin=0 topMargin=0 rightMargin=0 marginheight="0" marginwidth="0">
-<CENTER>
-<TABLE BORDER="0" WIDTH="100%" CELLSPACING="0">
-  <TR>
-    <TD BGCOLOR="#025CCA" ALIGN="CENTER">
-    <HR SIZE="1" COLOR="#FFFFFF">
-    <TABLE>
-      <TR>
-        <TD><FONT SIZE="3" COLOR="#FFFFFF" FACE="Helvetica, Arial"><B>Herzlich Willkommen auf <!--ADRESSE//-->Ihrer Website!<!--ADRESSE//--></B></FONT></TD>
-      </TR>
-    </TABLE>
-    <HR SIZE="1" COLOR="#FFFFFF">
-    </TD>
-  </TR>
-  <TR>
-    <TD BGCOLOR="#FFFFFF">
-    <BR><BR>
-      <CENTER>
-          <FONT COLOR="#000000" SIZE="2" FACE="Helvetica, Arial">Dies ist die Standard-Index-Seite Ihres Webs. Sie k&ouml;nnen sie problemlos l&ouml;schen oder durch eine andere Seite ersetzen. Es handelt sich hierbei um die Datei index.html im Verzeichnis <B>web</B>.
-          <P>Bei Fragen oder Problemen wenden Sie sich bitte an den Server-Administrator.</FONT>
-      </CENTER>
-      <BR>
-      <HR SIZE="1" WIDTH="90%">
-      <CENTER>
-<FONT SIZE="1" COLOR="#000000" FACE="Verdana, Arial">powered by <A HREF="http://www.ispconfig.org">ISPConfig</A></FONT>
-      </CENTER>
-    </TD>
-  </TR>
-</TABLE>
-</CENTER>
-</BODY>
-</HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Herzlich Willkommen!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <style type="text/css"><!--
+    body {
+        color: #444444;
+        background-color: #EEEEEE;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 80%;
+    }
+    h1 {}
+    h2 { font-size: 1.2em; }
+    #page{
+        background-color: #FFFFFF;
+        width: 60%;
+        margin: 0 auto;
+        padding: 6px 12px;
+    }
+    #header{
+        color: #FFFFFF;    
+        background-color: #6A6A6A;
+        padding: 6px ;
+        text-align: center;
+    }
+    #content {
+        padding: 4px 0 24px 0;
+    }
+    #footer {
+        color:#6A6A6A;
+        background: #f9f9f9;
+        padding: 10px 20px;
+        border-top: 5px #efefef solid;
+        font-size: 0.8em;
+        text-align: center;
+    }
+    #footer a {
+        color: #6A6A6A;
+    }
+    --></style>
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <h1>Herzlich Willkommen auf <!--ADRESSE//-->Ihrer Website!<!--ADRESSE//--></h1>
+        </div>
+        <div id="content">
+            <h2>Dies ist die Standard-Index-Seite Ihres Webs.</h2>
+            <p>Sie können sie problemlos löschen oder durch eine andere Seite ersetzen. Es handelt sich hierbei um die Datei <b>index.html</b> im Verzeichnis <b>web</b>.</p>
+            <p>Bei Fragen oder Problemen wenden Sie sich bitte an den Server-Administrator.</p>
+        </div>
+        <div id="footer">
+            <p>powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>
+        </div>
+    </div>
+</body>
+</html>
