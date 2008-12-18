@@ -636,6 +636,22 @@ class monitor_core_module {
                     /* both Disk are not working */
                     $state = $this->_setState($state, 'error');
                 }
+                if (strpos($line, '[UU]') !== false)
+                {
+                    /* The disks are OK.
+                     * if the next line starts with "[>" or "[=" then
+                     * recovery (resync) is in state and the state is
+                     * information instead of ok
+                     */
+                    $nextLine = $tmp[$i+1];
+                    if ((strpos($nextLine, '[>') === false) && (strpos($nextLine, '[=') === false)) {
+                        $state = $this->_setState($state, 'ok');
+                    }
+                    else
+                    {
+                        $state = $this->_setState($state, 'info');
+                    }
+                }
             }
 
         }
