@@ -22,7 +22,7 @@
     }
     #header{
         color: #FFFFFF;    
-        background-color: #6A6A6A;
+        background-color: #83A342;
         padding: 6px ;
         text-align: center;
     }
@@ -30,7 +30,7 @@
         padding: 4px 0 24px 0;
     }
     #footer {
-        color:#6A6A6A;
+        color:#83A342;
         background: #f9f9f9;
         padding: 10px 20px;
         border-top: 5px #efefef solid;
@@ -38,7 +38,7 @@
         text-align: center;
     }
     #footer a {
-        color: #6A6A6A;
+        color: #83A342;
     }
     --></style>
 </head>
