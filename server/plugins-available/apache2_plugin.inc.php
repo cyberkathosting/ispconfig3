@@ -330,7 +330,7 @@ class apache2_plugin {
 						exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
 					}
 				}
-				exec("chmod -R +r ".$error_page_path);
+				exec("chmod -R a+r ".$error_page_path);
 			}
 
 			// copy the standard index page
@@ -348,7 +348,7 @@ class apache2_plugin {
 					exec("cp /usr/local/ispconfig/server/conf/index/.htaccess ".escapeshellcmd($data["new"]["document_root"])."/web/");
 				}
 			}
-			exec("chmod +r ".escapeshellcmd($data["new"]["document_root"])."/web");
+			exec("chmod -R a+r ".escapeshellcmd($data["new"]["document_root"])."/web/");
 		}
 		
 		// Create group and user, if not exist
