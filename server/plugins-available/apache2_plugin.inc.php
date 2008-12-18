@@ -302,6 +302,10 @@ class apache2_plugin {
 				$tmp_symlink = str_replace("[website_domain]",$data["new"]["domain"],$tmp_symlink);
 				// Remove trailing slash
 				if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
+				//* Remove symlink if target folder has been changed.
+				if($data["old"]["document_root"] != '' && $data["old"]["document_root"] != $data["new"]["document_root"] && is_link($tmp_symlink)) {
+					unlink($tmp_symlink);
+				}
 				// create the symlinks, if not exist
 				if(!is_link($tmp_symlink)) {
 					exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
