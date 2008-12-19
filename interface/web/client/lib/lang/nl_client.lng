@@ -78,4 +78,6 @@ $wb['default_dbserver_txt'] = 'Standaard database server';
 $wb['limit_database_error_notint'] = 'De database limiet moet een nummerieke waarde zijn.';
 $wb['username_error_regex'] = 'De gebruikersnaam bevat ongeldige karakters.';
 $wb['password_strength_txt'] = 'Password strength';
+$wb['template_master_txt'] = 'Master';
+$wb['template_additional_txt'] = 'Addon';
 ?>

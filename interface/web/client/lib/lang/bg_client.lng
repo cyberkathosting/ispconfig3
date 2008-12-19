@@ -78,4 +78,6 @@ $wb['limit_dns_zone_error_notint'] = 'Макс. брой DNS записи тря
 $wb['default_dbserver_txt'] = 'DB сървър по подразбиране';
 $wb['limit_database_error_notint'] = 'Макс. брой бази данни трябва да е число.';
 $wb['username_error_regex'] = 'Потребителското име съдържа невалидни символи.';
+$wb['template_master_txt'] = 'Master';
+$wb['template_additional_txt'] = 'Addon';
 ?>

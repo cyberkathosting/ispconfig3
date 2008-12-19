@@ -78,4 +78,6 @@ $wb['default_dbserver_txt'] = 'Default Database Сервер';
 $wb['limit_database_error_notint'] = 'The database limit must be a number.';
 $wb['password_strength_txt'] = 'Password strength';
 $wb['username_error_regex'] = 'The Username contains invalid chracaters.';
+$wb['template_master_txt'] = 'Master';
+$wb['template_additional_txt'] = 'Addon';
 ?>

@@ -78,4 +78,6 @@ $wb['limit_dns_zone_error_notint'] = 'El límite de zonas DNS debe ser un númer
 $wb['default_dbserver_txt'] = 'Servidor de bases de datos por defecto';
 $wb['limit_database_error_notint'] = 'El límite de bases de datos debe ser un número';
 $wb['username_error_regex'] = 'El usuario contiene carácteres no válidos';
+$wb['template_master_txt'] = 'Master';
+$wb['template_additional_txt'] = 'Addon';
 ?>

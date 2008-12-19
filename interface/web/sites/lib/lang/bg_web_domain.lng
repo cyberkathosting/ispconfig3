@@ -27,7 +27,6 @@ $wb['traffic_quota_txt'] = 'Traffic Quota';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['errordocs_txt'] = 'Собствени страници за грешки';
-$wb['is_subdomainwww_txt'] = 'www. поддомейн';
 $wb['ssl_txt'] = 'SSL';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
@@ -46,4 +45,5 @@ $wb['error_ssl_locality_empty'] = 'Не е посочен SSL Locality.';
 $wb['error_ssl_organisation_empty'] = 'Не е посочена SSL организация.';
 $wb['error_ssl_organisation_unit_empty'] = 'Не е посочен SSL Organisation Unit.';
 $wb['error_ssl_country_empty'] = 'Не е посочена SSL държава.';
+$wb['subdomain_txt'] = 'Auto-Subdomain';
 ?>

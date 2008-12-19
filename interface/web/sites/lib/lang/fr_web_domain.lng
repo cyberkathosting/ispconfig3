@@ -27,7 +27,6 @@ $wb['traffic_quota_txt'] = 'Traffic Quota';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['errordocs_txt'] = 'Own Error-Documents';
-$wb['is_subdomainwww_txt'] = 'www. Subdomain';
 $wb['ssl_txt'] = 'SSL';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
@@ -46,4 +45,5 @@ $wb['error_ssl_locality_empty'] = 'SSL Locality is empty.';
 $wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
 $wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
 $wb['error_ssl_country_empty'] = 'SSL Country is empty.';
+$wb['subdomain_txt'] = 'Auto-Subdomain';
 ?>

@@ -27,7 +27,6 @@ $wb['traffic_quota_txt'] = 'Cuota de tráfico';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['errordocs_txt'] = 'Documentos de error propios';
-$wb['is_subdomainwww_txt'] = 'www. subdominio';
 $wb['ssl_txt'] = 'SSL';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
@@ -46,4 +45,5 @@ $wb['error_ssl_locality_empty'] = 'Localidad SSL está vacío';
 $wb['error_ssl_organisation_empty'] = 'Organización SSL está vacío';
 $wb['error_ssl_organisation_unit_empty'] = 'Unidad de organización de SSL está vacío';
 $wb['error_ssl_country_empty'] = 'País SSL está vacío';
+$wb['subdomain_txt'] = 'Auto-Subdomain';
 ?>
