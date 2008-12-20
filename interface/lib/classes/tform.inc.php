@@ -631,6 +631,16 @@ class tform {
 										  }
                                         }
                                 break;
+								case 'ISIPV4':
+                                        if(!preg_match("/^[0-9]{1,3}(.)[0-9]{1,3}(.)[0-9]{1,3}(.)[0-9]{1,3}$/", $field_value)) {
+                                                $errmsg = $validator['errmsg'];
+                                                if(isset($this->wordbook[$errmsg])) {
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+												} else {
+													$this->errorMessage .= $errmsg."<br />\r\n";
+												}
+                                        }
+                                break;
                                 case 'CUSTOM':
                                         // Calls a custom class to validate this record
                                         if($validator['class'] != '' and $validator['function'] != '') {
