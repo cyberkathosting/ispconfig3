@@ -163,7 +163,7 @@ class page_action extends tform_actions {
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->dataRecord["domain"])."'");
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "SET policy_id = $ploicy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', "policy_id = $ploicy_id", 'id', $tmp_user["id"]);
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
@@ -213,7 +213,7 @@ class page_action extends tform_actions {
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "SET policy_id = $ploicy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', "policy_id = $ploicy_id", 'id', $tmp_user["id"]);
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
