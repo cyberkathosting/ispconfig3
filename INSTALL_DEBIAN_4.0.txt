@@ -3,6 +3,15 @@ Installation
 
 It is recommended to use a clean (fresh) Debian etch install where you just selected "Standard System" as the package selection during setup. Then follow the steps below to setup your server with ISPConfig 3:
 
+assign hostname (for example ispconfig)
+
+echo ispconfig.example.com > /etc/hostname
+
+vi /etc/hosts
+and add line similar but appropriate:
+127.0.0.1       localhost.localdomain   localhost
+192.168.0.100   ispconfig.example.com   ispconfig
+
 1) Add the debian volatile repository to the apt sources list:
 
 vi /etc/apt/sources.list

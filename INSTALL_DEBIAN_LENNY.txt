@@ -3,6 +3,15 @@ Installation
 
 It is recommended to use a clean (fresh) Debian etch install where you just selected "Standard System" as the package selection during setup. Then follow the steps below to setup your server with ISPConfig 3:
 
+assign hostname (for example ispconfig)
+
+echo ispconfig.example.com > /etc/hostname
+
+vi /etc/hosts
+and add line similar but appropriate:
+127.0.0.1       localhost.localdomain   localhost
+192.168.0.100   ispconfig.example.com   ispconfig
+
 1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin, ntpdate, rkhunter with the following command line (on one line!):
 
 apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 ntp ntpdate rkhunter
