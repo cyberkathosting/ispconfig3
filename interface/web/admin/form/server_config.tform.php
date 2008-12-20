@@ -68,7 +68,7 @@ $form["tabs"]['server'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '192.168.0.105',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISIPV4',
 														'errmsg'=> 'ip_address_error_empty'),
 									),
 			'value'		=> '',
