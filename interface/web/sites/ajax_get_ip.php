@@ -41,7 +41,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	$sql = "SELECT ip_address FROM server_ip WHERE server_id = $server_id";
 	$ips = $app->db->queryAllRecords($sql);
 	// $ip_select = "<option value=''></option>";
-	$ip_select = "";
+	$ip_select = "<option value='*'>*</option>\r\n";
 	if(is_array($ips)) {
 		foreach( $ips as $ip) {
 			//$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';

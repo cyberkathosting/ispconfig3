@@ -35,7 +35,7 @@ class installer_base {
 	var $db;
 	public $conf;
 	public $install_ispconfig_interface = true;
-	
+	public $is_update = false; // true if it is an update, falsi if it is a new install
 
 
     public function __construct()
@@ -938,13 +938,11 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		//* Copy the ISPConfig vhost for the controlpanel
-        // TODO: These are missing! should they be "vhost_dist_*_dir" ?
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
         
         
         // Dont just copy over the virtualhost template but add some custom settings
-         
         $content = rf("tpl/apache_ispconfig.vhost.master");
 		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
 		
@@ -959,7 +957,7 @@ class installer_base {
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
-		if($this->install_ispconfig_interface == true) {
+		if($this->install_ispconfig_interface == true && $this->is_update == false) {
 			if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
 			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");

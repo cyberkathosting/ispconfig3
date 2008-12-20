@@ -101,6 +101,7 @@ $conf['server_id'] = intval($conf_old["server_id"]);
 $conf['ispconfig_log_priority'] = $conf_old["log_priority"];
 
 $inst = new installer();
+$inst->is_update = true;
 
 //** Detect the installed applications
 $inst->find_installed_apps();
