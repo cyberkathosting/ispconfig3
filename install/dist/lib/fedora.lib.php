@@ -441,7 +441,7 @@ class installer_dist extends installer_base {
     		$udp_public_services = '53';
   		}
 		if(!stristr($tcp_public_services, $conf['apache']['vhost_port'])) {
-			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']));
+			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']);
 			if($row["tcp_port"]) != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ',".intval($conf['apache']['vhost_port'])."' WHERE server_id = ".intval($conf['server_id']));
 		}
 		
