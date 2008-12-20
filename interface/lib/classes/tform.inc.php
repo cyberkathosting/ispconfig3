@@ -632,7 +632,15 @@ class tform {
                                         }
                                 break;
 								case 'ISIPV4':
-                                        if(!preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)) {
+								$vip=1;
+								if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+								$groups=explode(".",$field_value);
+								foreach($groups as $group){
+									if($group<0 OR $group>255)
+									$vip=0;
+								}
+								}else{$vip=0;}
+                                        if($vip==0) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
                                                     $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
