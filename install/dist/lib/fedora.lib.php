@@ -596,6 +596,7 @@ class installer_dist extends installer_base {
 		
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			$this->dbmaster->query($sql);
+			$this->db->query($sql);
 		} else {
 			$this->db->query($sql);
 		}

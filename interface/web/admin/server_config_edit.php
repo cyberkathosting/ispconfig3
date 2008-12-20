@@ -83,8 +83,7 @@ class page_action extends tform_actions {
 		$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		
-		$sql = "UPDATE server SET config = '".$app->db->quote($server_config_str)."' WHERE server_id = ".$server_id;
-		$app->db->query($sql);
+		$app->db->datalogUpdate('server', "SET config = '".$app->db->quote($server_config_str)."'", 'server_id', $server_id);
 	}
 	
 }
