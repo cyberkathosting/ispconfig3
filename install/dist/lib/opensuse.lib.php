@@ -458,9 +458,15 @@ class installer_dist extends installer_base {
     		$tcp_public_services = '21 22 25 53 80 110 443 3306 8080 10000';
     		$udp_public_services = '53';
   		}
+		
+		if(!stristr($tcp_public_services, $conf['apache']['vhost_port'])) {
+			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']));
+			if($row["tcp_port"]) != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ',".intval($conf['apache']['vhost_port'])."' WHERE server_id = ".intval($conf['server_id']));
+		}
+
   		$content = str_replace("{TCP_PUBLIC_SERVICES}", $tcp_public_services, $content);
   		$content = str_replace("{UDP_PUBLIC_SERVICES}", $udp_public_services, $content);
-
+		
   		wf("/etc/Bastille/bastille-firewall.cfg", $content);
 
   		if(is_file($dist_init_scripts."/bastille-firewall")) caselog("mv -f $dist_init_scripts/bastille-firewall $dist_init_scripts/bastille-firewall.backup", __FILE__, __LINE__);
