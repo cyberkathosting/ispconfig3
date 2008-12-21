@@ -1,6 +1,4 @@
 <?php
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 $wb['server_id_txt'] = 'Сервер';
 $wb['origin_txt'] = 'Zone (SOA)';
 $wb['ns_txt'] = 'NS';

@@ -11,6 +11,4 @@ $wb['db_tables_txt'] = 'Таблицы';
 $wb['empty_datalog_txt'] = 'Удалить диалог после синхронизаии.';
 $wb['sync_datalog_external_txt'] = 'Fill external datalog.';
 $wb['active_txt'] = 'активный';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 ?>

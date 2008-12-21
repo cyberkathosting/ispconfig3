@@ -24,7 +24,5 @@ $wb['telefon_txt'] = 'Telephone';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Groups';
 $wb['default_group_txt'] = 'Default Group';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Cancel';
 $wb['startmodule_err'] = 'Start module is not within modules.';
 ?>

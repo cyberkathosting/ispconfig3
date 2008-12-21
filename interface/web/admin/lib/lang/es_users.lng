@@ -24,7 +24,5 @@ $wb['telefon_txt'] = 'Teléfono';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Grupos';
 $wb['default_group_txt'] = 'Grupo por defecto';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Cancelar';
 $wb['startmodule_err'] = 'El modulo inicial no está incluido en los módulos';
 ?>

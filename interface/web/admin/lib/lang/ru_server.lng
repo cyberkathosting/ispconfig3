@@ -1,7 +1,5 @@
 <?php
 $wb['config_txt'] = 'config';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 $wb['server_name_txt'] = 'Серверname';
 $wb['mail_server_txt'] = 'Mailserver';
 $wb['web_server_txt'] = 'Webserver';

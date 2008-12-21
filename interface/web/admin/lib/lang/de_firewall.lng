@@ -5,7 +5,5 @@ $wb['udp_port_txt'] = 'Open UDP ports';
 $wb['tcp_port_help_txt'] = 'Getrennt Durch Kommata';
 $wb['udp_port_help_txt'] = 'Getrennt durch Kommata';
 $wb['active_txt'] = 'Aktiv';
-$wb['btn_save_txt'] = 'Speichern';
-$wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['firewall_error_unique'] = 'Es gibt bereits einen Firewall Datensatz für diesen Server.';
 ?>

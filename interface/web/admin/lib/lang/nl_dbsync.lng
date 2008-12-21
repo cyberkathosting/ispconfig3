@@ -11,6 +11,4 @@ $wb['db_tables_txt'] = 'Tabellen';
 $wb['empty_datalog_txt'] = 'Verwijder datalog na sync.';
 $wb['sync_datalog_external_txt'] = 'Vul externe datalog.';
 $wb['active_txt'] = 'actief';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleren';
 ?>

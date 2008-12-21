@@ -2,6 +2,4 @@
 $wb['description_txt'] = 'Descripción';
 $wb['name_txt'] = 'Grupo';
 $wb['name_err'] = 'El grupo debe tener entre 1 y 30 caracteres.';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Cancelar';
 ?>

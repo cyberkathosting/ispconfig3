@@ -24,7 +24,5 @@ $wb['default_group_txt'] = 'Groupe par Défaut';
 $wb['username_empty'] = 'The username is empty.';
 $wb['username_unique'] = 'There is already a user with this username.';
 $wb['password_strength_txt'] = 'Password strength';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Cancel';
 $wb['startmodule_err'] = 'Start module is not within modules.';
 ?>

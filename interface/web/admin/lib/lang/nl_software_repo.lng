@@ -4,6 +4,4 @@ $wb['repo_url_txt'] = 'URL';
 $wb['repo_username_txt'] = 'Geberuiker (optional)';
 $wb['repo_password_txt'] = 'Wachtwoord (optional)';
 $wb['active_txt'] = 'Actief';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleer';
 ?>

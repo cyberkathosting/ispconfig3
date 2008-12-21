@@ -3,6 +3,4 @@ $wb['server_id_txt'] = 'Server';
 $wb['ip_address_txt'] = 'IP Address';
 $wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
 $wb['ip_err'] = 'IP address invalid';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Cancel';
 ?>

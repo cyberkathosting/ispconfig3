@@ -11,6 +11,4 @@ $wb['db_tables_txt'] = 'Tablas';
 $wb['empty_datalog_txt'] = 'Borrar el registro después de sincronizar.';
 $wb['sync_datalog_external_txt'] = 'Rellenar registro externo';
 $wb['active_txt'] = 'Activar';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Cancelar';
 ?>

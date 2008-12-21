@@ -38,4 +38,6 @@ $wb['Show System-Log'] = 'Show System-Log';
 $wb['Show Freshclam-Log'] = 'Show Freshclam-Log';
 $wb['Show Clamav-Log'] = 'Show Clamav-Log';
 $wb['Show ISPConfig-Log'] = 'Show ISPConfig-Log';
+$wb['Show RKHunter-Log'] = 'Show RKHunter-Log';
+$wb['Show Jobqueue'] = 'Show Jobqueue';
 ?>
