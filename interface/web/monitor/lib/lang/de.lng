@@ -40,4 +40,5 @@ $wb['Show Clamav-Log'] = 'Show Clamav-Log';
 $wb['Show ISPConfig-Log'] = 'Show ISPConfig-Log';
 $wb['Show RKHunter-Log'] = 'Show RKHunter-Log';
 $wb['Show Jobqueue'] = 'Show Jobqueue';
+$wb['Show ISPC Cron-Log'] = 'Show ISPC Cron-Log';
 ?>
