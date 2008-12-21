@@ -1,7 +1,5 @@
 <?php
 $wb['getmail_config_dir_txt'] = 'Ruta de configuración Getmail';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Cancelar';
 $wb['ip_address_txt'] = 'Dirección IP';
 $wb['netmask_txt'] = 'Máscara de red';
 $wb['gateway_txt'] = 'Pasarela';

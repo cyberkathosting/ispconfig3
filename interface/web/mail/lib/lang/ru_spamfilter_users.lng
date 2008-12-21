@@ -5,6 +5,4 @@ $wb['policy_id_txt'] = 'Политика';
 $wb['email_txt'] = 'Email (Шаблон)';
 $wb['fullname_txt'] = 'Имя';
 $wb['local_txt'] = 'Локальный';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 ?>

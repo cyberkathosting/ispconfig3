@@ -6,7 +6,5 @@ $wb['type_txt'] = 'Type';
 $wb['mx_txt'] = 'Geen MX lookup';
 $wb['sort_order_txt'] = 'Gesorteerd op';
 $wb['active_txt'] = 'Actief';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleren';
 $wb['limit_mailrouting_txt'] = 'Het max. aantal routes voor uw account is bereikt.';
 ?>

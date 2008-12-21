@@ -1,7 +1,5 @@
 <?php
 $wb['getmail_config_dir_txt'] = 'Getmail Config Pad';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleren';
 $wb['ip_address_txt'] = 'IP Adres';
 $wb['netmask_txt'] = 'Netmask';
 $wb['gateway_txt'] = 'Gateway';

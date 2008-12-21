@@ -7,7 +7,5 @@ $wb["source_password_txt"] = 'Password';
 $wb["source_delete_txt"] = 'Delete emails after retrieval';
 $wb["destination_txt"] = 'Destination';
 $wb["active_txt"] = 'Active';
-$wb["btn_save_txt"] = 'Save';
-$wb["btn_cancel_txt"] = 'Cancel';
 $wb["limit_fetchmail_txt"] = 'The max. number of Fetchmail records for your account is reached.';
 ?>

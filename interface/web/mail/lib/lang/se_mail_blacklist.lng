@@ -1,8 +1,6 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['active_txt'] = 'Aktiv';
-$wb['btn_save_txt'] = 'Spara';
-$wb['btn_cancel_txt'] = 'Avbryt';
 $wb['source_txt'] = 'Blacklist Address';
 $wb['recipient_txt'] = 'Recipient';
 $wb['source_error_notempty'] = 'Address is empty.';

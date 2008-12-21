@@ -2,8 +2,6 @@
 $wb['email_txt'] = 'Email';
 $wb['destination_txt'] = 'Destination';
 $wb['active_txt'] = 'Active';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Cancel';
 $wb['email_error_isemail'] = 'Email address is invalid.';
 $wb['email_error_unique'] = 'Duplicate Emailaddress.';
 $wb['no_domain_perm'] = 'You have no permission for this domain.';

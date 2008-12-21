@@ -5,6 +5,4 @@ $wb['rid_txt'] = 'Пользователь';
 $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Приоритет';
 $wb['active_txt'] = 'Активный';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 ?>

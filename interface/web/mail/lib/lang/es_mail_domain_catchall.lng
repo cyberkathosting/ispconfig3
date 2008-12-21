@@ -2,8 +2,6 @@
 $wb['domain_txt'] = 'Dominio';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Activar';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Cancelar';
 $wb['domain_error_unique'] = 'Ya hay un registro recogetod para este dominio';
 $wb['no_domain_perm'] = 'No tiene permiso para este dominio';
 $wb['domain_error_regex'] = 'Nombre de dominio no válido o contiene caracteres no válidos';

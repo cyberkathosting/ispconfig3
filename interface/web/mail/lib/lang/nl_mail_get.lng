@@ -7,7 +7,5 @@ $wb['source_password_txt'] = 'Wachtwoord';
 $wb['source_delete_txt'] = 'Verwijder emails na ontvangst';
 $wb['destination_txt'] = 'Bestemming';
 $wb['active_txt'] = 'Actief';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleren';
 $wb['limit_fetchmail_txt'] = 'The max. aantal Fetchmail records voor uw domein is bereikt.';
 ?>

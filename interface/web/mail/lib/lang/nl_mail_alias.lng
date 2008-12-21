@@ -2,8 +2,6 @@
 $wb['email_txt'] = 'Email';
 $wb['destination_txt'] = 'Bestemming';
 $wb['active_txt'] = 'Actief';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleren';
 $wb['email_error_isemail'] = 'Emailadres is ongeldig.';
 $wb['email_error_unique'] = 'Duplicaat emailadres.';
 $wb['no_domain_perm'] = 'U heeft geen toestemming voor dit domain.';

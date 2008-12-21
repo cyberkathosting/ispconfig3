@@ -7,7 +7,5 @@ $wb['source_password_txt'] = 'Contraseña';
 $wb['source_delete_txt'] = 'Borrar los correos después de recibirlos';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Activar';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Cancelar';
 $wb['limit_fetchmail_txt'] = 'Se ha alcanzado el número máximo de registros Fetchmail';
 ?>

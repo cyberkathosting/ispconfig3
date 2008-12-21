@@ -1,7 +1,5 @@
 <?php
 $wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 $wb['email_txt'] = 'Email';
 $wb['cryptpwd_txt'] = 'Пароль';
 $wb['active_txt'] = 'Активный';

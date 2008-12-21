@@ -5,7 +5,5 @@ $wb['pattern_txt'] = 'Шаблон (Regexp.)';
 $wb['data_txt'] = 'Data';
 $wb['action_txt'] = 'Action';
 $wb['active_txt'] = 'Активный';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 $wb['pattern_error_empty'] = 'Шаблон пустой.';
 ?>

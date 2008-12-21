@@ -2,8 +2,6 @@
 $wb['email_txt'] = 'Email';
 $wb['destination_txt'] = 'Получатель';
 $wb['active_txt'] = 'Активный';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 $wb['email_error_isemail'] = 'Почтовый адрес неправилен.';
 $wb['email_error_unique'] = 'Почтовый адрес дублируется.';
 $wb['no_domain_perm'] = 'Вы не имеете прав для этого домена.';

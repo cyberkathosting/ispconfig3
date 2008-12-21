@@ -5,6 +5,4 @@ $wb['policy_id_txt'] = 'Policy';
 $wb['email_txt'] = 'Email (patroon)';
 $wb['fullname_txt'] = 'Naam';
 $wb['local_txt'] = 'Lokaal';
-$wb['btn_save_txt'] = 'Opslaan';
-$wb['btn_cancel_txt'] = 'Annuleren';
 ?>

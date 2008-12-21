@@ -1,7 +1,5 @@
 <?php
 $wb['getmail_config_dir_txt'] = 'Getmail Config Path';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 $wb['ip_address_txt'] = 'IP адрес';
 $wb['netmask_txt'] = 'Сетевая маска';
 $wb['gateway_txt'] = 'Шлюз';

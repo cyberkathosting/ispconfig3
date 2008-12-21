@@ -1,7 +1,5 @@
 <?php
 $wb['getmail_config_dir_txt'] = 'Getmail Config Path';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Cancel';
 $wb['ip_address_txt'] = 'IP Address';
 $wb['netmask_txt'] = 'Netmask';
 $wb['gateway_txt'] = 'Gateway';

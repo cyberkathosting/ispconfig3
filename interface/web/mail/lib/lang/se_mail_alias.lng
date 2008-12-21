@@ -2,8 +2,6 @@
 $wb['email_txt'] = 'Epost';
 $wb['destination_txt'] = 'Mål';
 $wb['active_txt'] = 'Aktiv';
-$wb['btn_save_txt'] = 'Spara';
-$wb['btn_cancel_txt'] = 'Avbryt';
 $wb['email_error_isemail'] = 'Epostadressen är tom.';
 $wb['email_error_unique'] = 'Dubbla Epostadresser.';
 $wb['no_domain_perm'] = 'Du har ingen behörighet för denna domänen.';
