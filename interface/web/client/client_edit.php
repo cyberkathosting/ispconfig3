@@ -135,15 +135,18 @@ class page_action extends tform_actions {
 		if($this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = mysql_real_escape_string($this->dataRecord["username"]);
 			$client_id = $this->id;
-			$app->db->datalogUpdate('sys_user', "username = '$username'", 'client_id', $client_id);
-			$app->db->datalogUpdate('sys_group', "name = '$username'", 'client_id', $client_id);
+			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
+			$app->db->query($sql);
+			$sql = "UPDATE sys_group SET name = '$username' WHERE client_id = $client_id";
+			$app->db->query($sql);
 		}
 		
 		// password changed
 		if(isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = mysql_real_escape_string($this->dataRecord["password"]);
 			$client_id = $this->id;
-			$app->db->datalogUpdate('sys_user', "passwort = md5('$password')", 'client_id', $client_id);
+			$sql = "UPDATE sys_user SET passwort = md5('$password') WHERE client_id = $client_id";
+			$app->db->query($sql);
 		}
 		
 		// reseller status changed
@@ -152,7 +155,8 @@ class page_action extends tform_actions {
 			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
 			$modules = mysql_real_escape_string($modules);
 			$client_id = $this->id;
-			$app->db->datalogUpdate('sys_user', "modules = '$modules'", 'client_id', $client_id);
+			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
+			$app->db->query($sql);
 		}
 		/*
 		 *  If there is a client-template, process it */
