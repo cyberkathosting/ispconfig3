@@ -291,6 +291,10 @@ if($install_mode == 'standard') {
 		swriteln('Configuring Postfix');
 		$inst->configure_postfix();
 		
+		//* Configure saslauthd
+		swriteln('Configuring SASL');
+		$inst->configure_saslauthd();
+		
 		//* Configure PAM
 		swriteln('Configuring PAM');
 		$inst->configure_pam();
