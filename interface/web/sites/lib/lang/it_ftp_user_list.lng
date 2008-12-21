@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'FTP-User';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Utente FTP';
+$wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['parent_domain_id_txt'] = 'Sito';
 $wb['username_txt'] = 'Username';
-$wb['add_new_record_txt'] = 'Add new FTP-User';
+$wb['add_new_record_txt'] = 'Aggiungi nuovo utente FTP';
 ?>

@@ -76,6 +76,6 @@ $wb['default_dbserver_txt'] = 'Server Database predefinito';
 $wb['limit_database_error_notint'] = 'Il limite dei database deve essere un numero.';
 $wb['username_error_regex'] = 'Il nome utente contiene caratteri non validi.';
 $wb['password_strength_txt'] = 'Sicurezza della Password';
-$wb['template_master_txt'] = 'Master';
-$wb['template_additional_txt'] = 'Addon';
+$wb['template_master_txt'] = 'Principale';
+$wb['template_additional_txt'] = 'Aggiuntivo';
 ?>
