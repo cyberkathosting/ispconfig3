@@ -4,6 +4,4 @@ $wb['sender_id_txt'] = 'ID отправителя';
 $wb['subject_txt'] = 'Тема';
 $wb['message_txt'] = 'Сообщение';
 $wb['tstamp_txt'] = 'Timestamp';
-$wb['btn_save_txt'] = 'Сохранить';
-$wb['btn_cancel_txt'] = 'Закончить';
 ?>

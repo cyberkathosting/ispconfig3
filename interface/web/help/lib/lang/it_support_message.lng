@@ -4,6 +4,4 @@ $wb['sender_id_txt'] = 'ID del Mittente';
 $wb['subject_txt'] = 'Oggetto';
 $wb['message_txt'] = 'Messaggio';
 $wb['tstamp_txt'] = 'Timestamp';
-$wb['btn_save_txt'] = 'Salva';
-$wb['btn_cancel_txt'] = 'Annulla';
 ?>
