@@ -91,7 +91,7 @@ foreach($records as $rec) {
 $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf["server_id"];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	$yesterday = date("mdY",time() - 86400);
+	$yesterday = date("Ymd",time() - 86400);
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
 	if(@is_file($logfile)) {
 		$domain = escapeshellcmd($rec["domain"]);
@@ -110,7 +110,7 @@ foreach($records as $rec) {
 $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf["server_id"];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	$yesterday = date("mdY",time() - 86400);
+	$yesterday = date("Ymd",time() - 86400);
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
 	if(@is_file($logfile)) {
 		// Compress yesterdays logfile
@@ -118,7 +118,7 @@ foreach($records as $rec) {
 	}
 	
 	// delete logfiles after 30 days
-	$month_ago = date("mdY",time() - 86400 * 30);
+	$month_ago = date("Ymd",time() - 86400 * 30);
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
 	if(@is_file($logfile)) {
 		unlink($logfile);

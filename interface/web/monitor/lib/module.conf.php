@@ -134,6 +134,10 @@ $items[] = array( 'title' 	=> "Show System-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_messages');
 
+$items[] = array( 'title' 	=> "Show ISPC Cron-Log",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_log.php?log=log_ispc_cron');
+
 $items[] = array( 'title' 	=> "Show Freshclam-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_log.php?log=log_freshclam');

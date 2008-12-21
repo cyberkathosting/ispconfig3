@@ -64,6 +64,10 @@ switch($logParam) {
 		$logId = 'log_messages';
 		$title = 'System (Server: ' . $_SESSION['monitor']['server_name'] . ')';
 		break;
+	case 'log_ispc_cron':
+		$logId = 'log_ispc_cron';
+		$title = 'System (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		break;
 	case 'log_freshclam':
 		$logId = 'log_freshclam';
 		$title = 'Freshclam - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';

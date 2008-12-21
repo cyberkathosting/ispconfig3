@@ -113,6 +113,7 @@ class monitor_core_module {
         $this->monitorMailWarnLog();
         $this->monitorMailErrLog();
         $this->monitorMessagesLog();
+        $this->monitorISPCCronLog();
         $this->monitorFreshClamLog();
         $this->monitorClamAvLog();
         $this->monitorIspConfigLog();
@@ -937,6 +938,43 @@ function monitorMailLog()
         $this->_delOldRecords($type, 10);
     }
 
+    function monitorISPCCronLog()
+    {
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_ispc_cron';
+
+        /* Get the data of the log */
+        $data = $this->_getLogData($type);
+
+        /*
+         * actually this info has no state.
+         * maybe someone knows better...???...
+         */
+        $state = 'no_state';
+
+        /*
+        Insert the data into the database
+        */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->dbmaster->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->dbmaster->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
+    }
+    
     function monitorFreshClamLog()
     {
         global $app;
@@ -1091,6 +1129,9 @@ function monitorMailLog()
                 break;
             case 'log_messages':
                 $logfile = '/var/log/messages';
+                break;
+            case 'log_ispc_cron':
+                $logfile = '/var/log/ispconfig/cron.log';
                 break;
             case 'log_freshclam':
                 $logfile = '/var/log/clamav/freshclam.log';

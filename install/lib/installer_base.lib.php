@@ -1042,9 +1042,12 @@ class installer_base {
 			if(stristr($val,'/usr/local/ispconfig')) unset($existing_root_cron_jobs[$key]);
 		}
 		
+        // Crontab must end with an empty line or comment!
 		$root_cron_jobs = array(
-			'* * * * * /usr/local/ispconfig/server/server.sh > /dev/null',
-			'30 00 * * * /usr/local/ispconfig/server/cron_daily.sh > /dev/null'
+		    '# --- ISPConfig ----',
+			'* * * * * /usr/local/ispconfig/server/server.sh > /dev/null 2>> /var/log/var/log/ispconfig/cron.log',
+			'30 00 * * * /usr/local/ispconfig/server/cron_daily.sh > /dev/null 2>> /var/log/var/log/ispconfig/cron.log',
+		    '# ------------------'
 		);
 		foreach($root_cron_jobs as $cron_job) {
 			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
@@ -1061,7 +1064,12 @@ class installer_base {
 			exec('crontab -u getmail -l > crontab.txt');
 			$existing_cron_jobs = file('crontab.txt');
 		
-			$cron_jobs = array('*/5 * * * * '.$cf['program'].' -g '.$cf['config_dir'].' -r '.$cf['config_dir'].'/*.conf > /dev/null');
+            // Crontab must end with an empty line or comment!
+			$cron_jobs = array(
+    		    '# --- ISPConfig ----',
+                '*/5 * * * * '.$cf['program'].' -g '.$cf['config_dir'].' -r '.$cf['config_dir'].'/*.conf > /dev/null 2>> /var/log/var/log/ispconfig/cron.log',
+    		    '# ------------------'
+            );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
 			foreach($cron_jobs as $key => $val) {

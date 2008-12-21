@@ -35,6 +35,7 @@ $wb['Show Mail-Log'] = 'Show Mail-Log';
 $wb['Show Mail warn-Log'] = 'Show Mail warn-Log';
 $wb['Show Mail err-Log'] = 'Show Mail err-Log';
 $wb['Show System-Log'] = 'Show System-Log';
+$wb['Show ISPC Cron-Log'] = 'Show ISPC Cron-Log';
 $wb['Show Freshclam-Log'] = 'Show Freshclam-Log';
 $wb['Show Clamav-Log'] = 'Show Clamav-Log';
 $wb['Show ISPConfig-Log'] = 'Show ISPConfig-Log';
