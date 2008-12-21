@@ -3,4 +3,6 @@ $wb['list_head_txt'] = 'Editor de archivos de idioma';
 $wb['language_select_txt'] = 'Elija idioma';
 $wb['module_txt'] = 'Módulo';
 $wb['lang_file_txt'] = 'Archivo de idioma';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Back';
 ?>
