@@ -418,11 +418,11 @@ class tform_actions {
 				$headers .= "Content-type: text/html; charset=iso-8859-1\n";
 				$headers .= "From: $sender\n";
 				
-				if (!ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+' . '@' . '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.)+' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $sender)) {
+				if (!preg_match('/^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+' . '@' . '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.)+' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$/', $sender)) {
     				$sender = 'noreply@iprguard.de';
   				}
 				
-				if (ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+' . '@' . '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.)+' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $email)) {
+				if (preg_match('/^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+' . '@' . '([-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.)+' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$/', $email)) {
     				mail($email, 'Domainrecherche Statement '.$record["domain"], $email_message, $headers);
   				}
 				echo "<p>&nbsp;</p><p>Email wurde versand.</p>";
