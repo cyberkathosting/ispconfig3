@@ -641,12 +641,7 @@ class tform {
 								}
 								}else{$vip=0;}
                                         if($vip==0) {
-                                                $errmsg = $validator['errmsg'];
-                                                if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $field_name.": ".$this->wordbook['ipv4_validator_error_txt']."<br />\r\n";
-												} else {
-													$this->errorMessage .= $errmsg."<br />\r\n";
-												}
+                                                $this->errorMessage .= $field_name.": ".$this->wordbook['ipv4_validator_error_txt']."<br />\r\n";
                                         }
                                 break;
                                 case 'CUSTOM':
