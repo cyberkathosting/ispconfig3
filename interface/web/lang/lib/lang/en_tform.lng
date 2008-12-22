@@ -1,5 +1,0 @@
-<?php
-$wb['btn_save_txt'] = "Save";
-$wb['btn_cancel_txt'] = "Cancel";
-$wb['ipv4_validator_error_txt'] = "Is not valid IP address";
-?>

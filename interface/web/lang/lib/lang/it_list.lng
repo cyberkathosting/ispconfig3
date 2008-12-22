@@ -1,9 +1,0 @@
-<?php
-$wb['page_txt'] = 'Pagina';
-$wb['page_of_txt'] = 'di';
-$wb['page_next_txt'] = 'Successiva';
-$wb['page_back_txt'] = 'Precedente';
-$wb['delete_txt'] = 'Cancella';
-$wb['filter_txt'] = 'Filtra';
-$wb['add_new_record_txt'] = 'Aggiungi nuovo record';
-?>

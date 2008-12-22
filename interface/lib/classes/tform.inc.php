@@ -130,9 +130,6 @@ class tform {
                 $this->module = $module;
 				$wb = array();
 				
-				$lng_file = ISPC_WEB_PATH.'/lang/lib/lang/'.$_SESSION['s']['language'].'_tform.lng';
-				if(!file_exists($lng_file)) $lng_file = ISPC_WEB_PATH.'/lang/lib/lang/en'.'_tform.lng';
-				include($lng_file);
                 if($module == '') {
 					$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng";
 					if(!file_exists($lng_file)) $lng_file = "lib/lang/en_".$this->formDef["name"].".lng";
@@ -641,8 +638,13 @@ class tform {
 								}
 								}else{$vip=0;}
                                         if($vip==0) {
-                                                $this->errorMessage .= $field_name.": ".$this->wordbook['ipv4_validator_error_txt']."<br />\r\n";
-                                        }
+										$errmsg = $validator['errmsg'];
+                                          if(isset($this->wordbook[$errmsg])) {
+                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+										  } else {
+											 $this->errorMessage .= $errmsg."<br />\r\n";
+										  }
+										}
                                 break;
                                 case 'CUSTOM':
                                         // Calls a custom class to validate this record
