@@ -130,6 +130,7 @@ class tform {
                 $this->module = $module;
 				$wb = array();
 				
+				include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
                 if($module == '') {
 					$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng";
 					if(!file_exists($lng_file)) $lng_file = "lib/lang/en_".$this->formDef["name"].".lng";
