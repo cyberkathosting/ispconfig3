@@ -7,4 +7,13 @@ $wb['1003'] = 'De gebruikersnaam wordt gedeactiveerd!';
 $wb['delete_confirmation'] = 'Wilt u dit record echt verwijderen?';
 $wb['error_no_view_permission'] = 'U heeft geen toestemming om dit record te bekijken of dit record bestaat niet!';
 $wb['error_no_delete_permission'] = 'U heeft geen toestemming om dit record te verwijderen!';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Back';
+$wb['delete_txt'] = 'Delete';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Add new record';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>

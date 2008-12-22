@@ -7,4 +7,13 @@ $wb['1003'] = 'Потребителят не е активен!';
 $wb['delete_confirmation'] = 'Наистина ли желате да изтриете този запис?';
 $wb['error_no_view_permission'] = 'Нямате право да видите този запис или записът не съществува!';
 $wb['error_no_delete_permission'] = 'Нямате право да изтриете този запис!';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Back';
+$wb['delete_txt'] = 'Delete';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Add new record';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>

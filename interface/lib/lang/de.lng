@@ -7,4 +7,13 @@ $wb['1003'] = 'Der Benutzername ist deaktiviert!';
 $wb['delete_confirmation'] = 'Wollen Sie den Datensatz wirklich löschen?';
 $wb['error_no_view_permission'] = 'Sie haben nicht die Berechtigung, den Datensatz zu lesen, oder der Datensatz existiert nicht!';
 $wb['error_no_delete_permission'] = 'Sie haben nicht die Berechtigung, den Datensatz zu l�schen!';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Back';
+$wb['delete_txt'] = 'Delete';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Add new record';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>

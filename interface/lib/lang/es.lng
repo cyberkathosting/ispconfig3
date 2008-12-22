@@ -7,5 +7,13 @@ $wb['1003'] = '¡ El usuario está desactivado !';
 $wb['delete_confirmation'] = '¿Realmente quiere borrar este registro ?';
 $wb['error_no_view_permission'] = 'Este registro no existe o no tiene permiso para verlo';
 $wb['error_no_delete_permission'] = '¡ No puede borrar este registro, no tiene permiso !';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Back';
+$wb['delete_txt'] = 'Delete';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Add new record';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>
-
