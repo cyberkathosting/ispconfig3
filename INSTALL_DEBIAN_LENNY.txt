@@ -37,9 +37,9 @@ apt-get install ntp ntpdate
 
 # Then into real deal
 
-1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin, rkhunter with the following command line (on one line!):
+1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin, rkhunter, binutils with the following command line (on one line!):
 
-apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter
+apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter binutils
 
 # Answer the questions from the package manager as follows.
 
