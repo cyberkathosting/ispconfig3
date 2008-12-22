@@ -5,4 +5,5 @@ $wb['Limits'] = 'Límites';
 $wb['Add Client'] = 'Añadir cliente';
 $wb['Edit Client'] = 'Editar cliente';
 $wb['Clients'] = 'Clientes';
+$wb['Edit Client-Templates'] = 'Edit Client-Templates';
 ?>
