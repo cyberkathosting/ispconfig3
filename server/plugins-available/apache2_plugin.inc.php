@@ -423,6 +423,19 @@ class apache2_plugin {
 			$rewrite_rules[] = array(	'rewrite_domain' 	=> $data["new"]["domain"],
 										'rewrite_type' 		=> $data["new"]["redirect_type"],
 										'rewrite_target' 	=> $data["new"]["redirect_path"]);
+            
+            switch($data["new"]["subdomain"]) {
+            case 'www':
+    			$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$data["new"]["domain"],
+    										'rewrite_type' 		=> $data["new"]["redirect_type"],
+    										'rewrite_target' 	=> $data["new"]["redirect_path"]);
+                break;
+            case '*':
+    			$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$data["new"]["domain"],
+    										'rewrite_type' 		=> $data["new"]["redirect_type"],
+    										'rewrite_target' 	=> $data["new"]["redirect_path"]);
+                break;
+            }
 		}
 		
 		// get alias domains (co-domains and subdomains)
@@ -454,6 +467,18 @@ class apache2_plugin {
 					$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias["domain"],
 												'rewrite_type' 		=> $alias["redirect_type"],
 												'rewrite_target' 	=> $alias["redirect_path"]);
+                    switch($alias["subdomain"]) {
+                    case 'www':
+            			$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$alias["domain"],
+            										'rewrite_type' 		=> $alias["redirect_type"],
+            										'rewrite_target' 	=> $alias["redirect_path"]);
+                        break;
+                    case '*':
+            			$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias["domain"],
+            										'rewrite_type' 		=> $alias["redirect_type"],
+            										'rewrite_target' 	=> $alias["redirect_path"]);
+                        break;
+                    }
 				}
 			}
 		}
