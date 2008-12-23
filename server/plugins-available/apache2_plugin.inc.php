@@ -431,9 +431,10 @@ class apache2_plugin {
     										'rewrite_target' 	=> $data["new"]["redirect_path"]);
                 break;
             case '*':
-    			$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$data["new"]["domain"],
-    										'rewrite_type' 		=> $data["new"]["redirect_type"],
-    										'rewrite_target' 	=> $data["new"]["redirect_path"]);
+                // TODO
+    			//$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias["domain"],
+    			//							'rewrite_type' 		=> $alias["redirect_type"],
+    			//							'rewrite_target' 	=> $alias["redirect_path"]);
                 break;
             }
 		}
@@ -474,9 +475,10 @@ class apache2_plugin {
             										'rewrite_target' 	=> $alias["redirect_path"]);
                         break;
                     case '*':
-            			$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias["domain"],
-            										'rewrite_type' 		=> $alias["redirect_type"],
-            										'rewrite_target' 	=> $alias["redirect_path"]);
+                        // TODO
+            			//$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias["domain"],
+            			//							'rewrite_type' 		=> $alias["redirect_type"],
+            			//							'rewrite_target' 	=> $alias["redirect_path"]);
                         break;
                     }
 				}
