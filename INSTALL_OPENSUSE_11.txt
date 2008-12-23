@@ -80,6 +80,7 @@ Then run the following to enable the Apache modules:
 a2enmod suexec
 a2enmod rewrite
 a2enmod ssl
+a2enmod actions
 
 chkconfig --add apache2
 /etc/init.d/apache2 start

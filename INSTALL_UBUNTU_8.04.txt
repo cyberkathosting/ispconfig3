@@ -45,6 +45,7 @@ a2enmod suexec
 a2enmod rewrite
 a2enmod ssl
 a2enmod include
+a2enmod actions
 
 
 3.1) Optional: Install SuPHP
