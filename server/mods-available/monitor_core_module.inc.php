@@ -262,7 +262,7 @@ class monitor_core_module {
         $memInfo = explode("\n", $miData);
 
         foreach($memInfo as $line){
-            $part = split(":", $line);
+            $part = preg_split("/:/", $line);
             $key = trim($part[0]);
             $tmp = explode(" ", trim($part[1]));
             $value = 0;
@@ -312,7 +312,7 @@ class monitor_core_module {
         $cpuInfo = explode("\n", $cpuData);
 
         foreach($cpuInfo as $line){
-            $part = split(":", $line);
+            $part = preg_split("/:/", $line);
             $key = trim($part[0]);
             $value = trim($part[1]);
             $data[$key] = $value;

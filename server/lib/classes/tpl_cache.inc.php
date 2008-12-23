@@ -82,7 +82,7 @@ class tplc extends tpl {
      * @return boolean
      */
     function setCacheExtension($str = null) {
-        if ($str == null || !ereg('^[a-z0-9]+$', strtolower($str))) return false;
+        if ($str == null || !preg_match('/^[a-z0-9]+$/', strtolower($str))) return false;
         $this->OPTIONS['CACHE_EXTENSION'] = strtolower($str);
         return true;
     }
@@ -161,7 +161,7 @@ class tplc extends tpl {
         $filepath = dirname($file);
         if (is_dir($filepath)) return true;
 
-        $dirs = split('[\\/]', $filepath);
+        $dirs = preg_split('/[\\/]/', $filepath);
         $currpath;
         foreach ($dirs as $dir) {
             $currpath .= $dir .'/';

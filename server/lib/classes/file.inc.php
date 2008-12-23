@@ -300,13 +300,13 @@ class file{
            return $passed;
        }
        if (is_string($exts)) {
-           if (eregi("\.". $exts ."$", $filename)) {
+           if (preg_match("/\.". $exts ."$/i", $filename)) {
                            $passed = TRUE;
                return $passed;
            }
        } else if (is_array($exts)) {
            foreach ($exts as $theExt) {
-               if (eregi("\.". $theExt ."$", $filename)) {
+               if (preg_match("/\.". $theExt ."$/i", $filename)) {
                    $passed = TRUE;
                    return $passed;
                }
