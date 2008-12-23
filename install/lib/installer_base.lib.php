@@ -875,7 +875,7 @@ class installer_base {
 						include_once($install_dir.'/server/plugins-available/'.$file);
 						$plugin_name = substr($file,0,-8);
 						$tmp = new $plugin_name;
-						if($tmp->onInstall()) {
+						if(method_exists($tmp,'onInstall') && $tmp->onInstall()) {
 							if(!@is_link($install_dir.'/server/plugins-enabled/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-enabled/'.$file);
 							if (strpos($file, '_core_plugin') !== false) {
 								if(!@is_link($install_dir.'/server/plugins-core/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-core/'.$file);
