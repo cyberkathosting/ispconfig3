@@ -1,6 +1,6 @@
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,19 +27,15 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+-- 
 -- ISPConfig 3
 -- DB-Version: 3.0.0.8
-
--- --------------------------------------------------------
-
--- 
--- Datenbank: `ispconfig_v3`
 -- 
 
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `client`
+-- Table structure for table  `client`
 -- 
 
 SET FOREIGN_KEY_CHECKS = 0;
@@ -101,12 +97,10 @@ CREATE TABLE `client` (
   PRIMARY KEY  (`client_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `client`
--- 
+-- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `client_template`
+-- Table structure for table  `client_template`
 -- 
 
 CREATE TABLE `client_template` (
@@ -143,11 +137,10 @@ CREATE TABLE `client_template` (
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
 
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `dns_rr`
+-- Table structure for table  `dns_rr`
 -- 
 
 CREATE TABLE `dns_rr` (
@@ -172,7 +165,7 @@ CREATE TABLE `dns_rr` (
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `dns_soa`
+-- Table structure for table  `dns_soa`
 -- 
 
 CREATE TABLE `dns_soa` (
@@ -202,7 +195,7 @@ CREATE TABLE `dns_soa` (
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `dns_template`
+-- Table structure for table  `dns_template`
 -- 
 
 CREATE TABLE `dns_template` (
@@ -220,18 +213,15 @@ CREATE TABLE `dns_template` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 ;
 
 -- 
--- Daten für Tabelle `dns_template`
+-- Dumping data for table `dns_template`
 -- 
 
 INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=28800\nretry=7200\nexpire=604800\nminimum=86400\nttl=86400\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|86400\nA|www|{IP}|0|86400\nA|mail|{IP}|0|86400\nNS|{DOMAIN}.|{NS1}.|0|86400\nNS|{DOMAIN}.|{NS2}.|0|86400\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|86400', 'y');
 
-
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `firewall`
+-- Table structure for table  `firewall`
 -- 
 
 CREATE TABLE `firewall` (
@@ -248,15 +238,10 @@ CREATE TABLE `firewall` (
   PRIMARY KEY  (`firewall_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `firewall`
-
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `ftp_user`
+-- Table structure for table  `ftp_user`
 -- 
 
 CREATE TABLE `ftp_user` (
@@ -287,15 +272,10 @@ CREATE TABLE `ftp_user` (
   KEY `quota_files` (`quota_files`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `ftp_user`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_access`
+-- Table structure for table  `mail_access`
 -- 
 
 CREATE TABLE `mail_access` (
@@ -314,15 +294,10 @@ CREATE TABLE `mail_access` (
   KEY `server_id` (`server_id`,`source`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_access`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_content_filter`
+-- Table structure for table  `mail_content_filter`
 -- 
 
 CREATE TABLE `mail_content_filter` (
@@ -344,7 +319,7 @@ CREATE TABLE `mail_content_filter` (
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_domain`
+-- Table structure for table  `mail_domain`
 -- 
 
 CREATE TABLE `mail_domain` (
@@ -362,15 +337,10 @@ CREATE TABLE `mail_domain` (
   KEY `domain_active` (`domain`,`active`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_domain`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_forwarding`
+-- Table structure for table  `mail_forwarding`
 -- 
 
 CREATE TABLE `mail_forwarding` (
@@ -389,15 +359,10 @@ CREATE TABLE `mail_forwarding` (
   KEY `server_id` (`server_id`,`source`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_forwarding`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_get`
+-- Table structure for table  `mail_get`
 -- 
 
 CREATE TABLE `mail_get` (
@@ -418,15 +383,10 @@ CREATE TABLE `mail_get` (
   PRIMARY KEY  (`mailget_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_get`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_greylist`
+-- Table structure for table  `mail_greylist`
 -- 
 
 CREATE TABLE `mail_greylist` (
@@ -440,15 +400,10 @@ CREATE TABLE `mail_greylist` (
   PRIMARY KEY  (`greylist_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_greylist`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_mailman_domain`
+-- Table structure for table  `mail_mailman_domain`
 -- 
 
 CREATE TABLE `mail_mailman_domain` (
@@ -462,14 +417,11 @@ CREATE TABLE `mail_mailman_domain` (
   PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_mailman_domain`
--- 
 
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_traffic`
+-- Table structure for table  `mail_traffic`
 -- 
 
 CREATE TABLE `mail_traffic` (
@@ -481,15 +433,10 @@ CREATE TABLE `mail_traffic` (
   KEY `mailuser_id` (`mailuser_id`,`month`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 ;
 
--- 
--- Daten für Tabelle `mail_traffic`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_transport`
+-- Table structure for table  `mail_transport`
 -- 
 
 CREATE TABLE `mail_transport` (
@@ -509,15 +456,10 @@ CREATE TABLE `mail_transport` (
   KEY `server_id_2` (`server_id`,`domain`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_transport`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_user`
+-- Table structure for table  `mail_user`
 -- 
 
 CREATE TABLE `mail_user` (
@@ -548,15 +490,10 @@ CREATE TABLE `mail_user` (
   KEY `email_access` (`email`,`access`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `mail_user`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `mail_user_filter`
+-- Table structure for table  `mail_user_filter`
 -- 
 
 CREATE TABLE `mail_user_filter` (
@@ -580,7 +517,7 @@ CREATE TABLE `mail_user_filter` (
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `remote_session`
+-- Table structure for table  `remote_session`
 -- 
 
 CREATE TABLE `remote_session` (
@@ -591,15 +528,10 @@ CREATE TABLE `remote_session` (
   PRIMARY KEY  (`remote_session`)
 ) ENGINE=MyISAM;
 
--- 
--- Daten für Tabelle `remote_session`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `remote_user`
+-- Table structure for table  `remote_user`
 -- 
 
 CREATE TABLE `remote_user` (
@@ -610,17 +542,10 @@ CREATE TABLE `remote_user` (
   PRIMARY KEY  (`remote_userid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `remote_user`
--- 
-
-
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `server`
+-- Table structure for table  `server`
 -- 
 
 CREATE TABLE `server` (
@@ -643,14 +568,10 @@ CREATE TABLE `server` (
   PRIMARY KEY  (`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `server`
--- 
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `server_ip`
+-- Table structure for table  `server_ip`
 -- 
 
 CREATE TABLE `server_ip` (
@@ -665,10 +586,6 @@ CREATE TABLE `server_ip` (
   `virtualhost` char(1) NOT NULL default 'y',
   PRIMARY KEY  (`server_ip_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `server_ip`
--- 
 
 -- --------------------------------------------------------
 
@@ -693,16 +610,10 @@ CREATE TABLE `shell_user` (
   PRIMARY KEY  (`shell_user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
-
--- 
--- Daten für Tabelle `shell_user`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `software_package`
+-- Table structure for table  `software_package`
 -- 
 
 CREATE TABLE `software_package` (
@@ -716,14 +627,10 @@ CREATE TABLE `software_package` (
   UNIQUE KEY `package_name` (`package_name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `software_package`
--- 
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `software_repo`
+-- Table structure for table  `software_repo`
 -- 
 
 CREATE TABLE `software_repo` (
@@ -742,7 +649,7 @@ CREATE TABLE `software_repo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
--- Daten für Tabelle `software_repo`
+-- Dumping data for table `software_repo`
 -- 
 
 INSERT INTO `software_repo` (`software_repo_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `repo_name`, `repo_url`, `repo_username`, `repo_password`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 'ISPConfig Addons', 'http://repo.ispconfig.org/addons/', '', '', 'n');
@@ -750,7 +657,7 @@ INSERT INTO `software_repo` (`software_repo_id`, `sys_userid`, `sys_groupid`, `s
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `software_update`
+-- Table structure for table  `software_update`
 -- 
 
 CREATE TABLE `software_update` (
@@ -769,14 +676,10 @@ CREATE TABLE `software_update` (
   PRIMARY KEY  (`software_update_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `software_update`
--- 
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `software_update_inst`
+-- Table structure for table  `software_update_inst`
 -- 
 
 CREATE TABLE `software_update_inst` (
@@ -789,16 +692,10 @@ CREATE TABLE `software_update_inst` (
   UNIQUE KEY `software_update_id` (`software_update_id`,`package_name`,`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `software_update_inst`
--- 
-
-
 -- --------------------------------------------------------
 
-
 -- 
--- Tabellenstruktur für Tabelle `spamfilter_policy`
+-- Table structure for table  `spamfilter_policy`
 -- 
 
 CREATE TABLE `spamfilter_policy` (
@@ -849,7 +746,7 @@ CREATE TABLE `spamfilter_policy` (
 ) ENGINE=MyISAM AUTO_INCREMENT=13 ;
 
 -- 
--- Daten für Tabelle `spamfilter_policy`
+-- Dumping data for table `spamfilter_policy`
 -- 
 
 INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES (1, 1, 0, 'riud', 'riud', 'r', 'Non-paying', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'Y', '', '', '', '', '', '', 3, 7, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -863,7 +760,7 @@ INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_us
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `spamfilter_users`
+-- Table structure for table  `spamfilter_users`
 -- 
 
 CREATE TABLE `spamfilter_users` (
@@ -883,15 +780,10 @@ CREATE TABLE `spamfilter_users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `spamfilter_users`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `spamfilter_wblist`
+-- Table structure for table  `spamfilter_wblist`
 -- 
 
 CREATE TABLE `spamfilter_wblist` (
@@ -910,15 +802,10 @@ CREATE TABLE `spamfilter_wblist` (
   PRIMARY KEY  (`wblist_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `spamfilter_wblist`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `support_message`
+-- Table structure for table  `support_message`
 -- 
 
 CREATE TABLE `support_message` (
@@ -939,7 +826,7 @@ CREATE TABLE `support_message` (
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_datalog`
+-- Table structure for table  `sys_datalog`
 -- 
 
 CREATE TABLE `sys_datalog` (
@@ -956,15 +843,10 @@ CREATE TABLE `sys_datalog` (
   KEY `server_id` (`server_id`,`status`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `sys_datalog`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_dbsync`
+-- Table structure for table  `sys_dbsync`
 -- 
 
 CREATE TABLE `sys_dbsync` (
@@ -984,16 +866,10 @@ CREATE TABLE `sys_dbsync` (
   PRIMARY KEY  (`id`),
   KEY `last_datalog_id` (`last_datalog_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
-
--- 
--- Daten für Tabelle `sys_dbsync`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_filesync`
+-- Table structure for table  `sys_filesync`
 -- 
 
 CREATE TABLE `sys_filesync` (
@@ -1010,15 +886,10 @@ CREATE TABLE `sys_filesync` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `sys_filesync`
--- 
-
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_group`
+-- Table structure for table  `sys_group`
 -- 
 
 CREATE TABLE `sys_group` (
@@ -1030,7 +901,7 @@ CREATE TABLE `sys_group` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 ;
 
 -- 
--- Daten für Tabelle `sys_group`
+-- Dumping data for table `sys_group`
 -- 
 
 INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (1, 'admin', 'Administrators group', 0);
@@ -1038,7 +909,7 @@ INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_ini`
+-- Table structure for table  `sys_ini`
 -- 
 
 CREATE TABLE `sys_ini` (
@@ -1048,7 +919,7 @@ CREATE TABLE `sys_ini` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 -- 
--- Daten für Tabelle `sys_ini`
+-- Dumping data for table `sys_ini`
 -- 
 
 INSERT INTO `sys_ini` (`sysini_id`, `config`) VALUES (1, '');
@@ -1056,7 +927,7 @@ INSERT INTO `sys_ini` (`sysini_id`, `config`) VALUES (1, '');
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_log`
+-- Table structure for table  `sys_log`
 -- 
 
 CREATE TABLE `sys_log` (
@@ -1069,14 +940,11 @@ CREATE TABLE `sys_log` (
   PRIMARY KEY  (`syslog_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `sys_log`
--- 
 
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_user`
+-- Table structure for table  `sys_user`
 -- 
 
 CREATE TABLE `sys_user` (
@@ -1101,7 +969,7 @@ CREATE TABLE `sys_user` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 ;
 
 -- 
--- Daten für Tabelle `sys_user`
+-- Dumping data for table `sys_user`
 -- 
 
 INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `language`, `groups`, `default_group`, `client_id`) VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin,client,mail,monitor,sites,dns,tools,help', 'mail', 'default', 'admin', 1, 'en', '1,2', 1, 0);
@@ -1109,7 +977,7 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `web_domain`
+-- Table structure for table  `web_domain`
 -- 
 
 CREATE TABLE `web_domain` (
@@ -1154,15 +1022,10 @@ CREATE TABLE `web_domain` (
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
-
--- 
--- Daten für Tabelle `web_domain`
--- 
-
 -- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `web_database`
+-- Table structure for table  `web_database`
 -- 
 
 CREATE TABLE `web_database` (
@@ -1183,14 +1046,11 @@ CREATE TABLE `web_database` (
   PRIMARY KEY  (`database_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
--- 
--- Daten für Tabelle `web_database`
--- 
 
 -- --------------------------------------------------------
 
 --
--- Table for attempts login 
+-- Table structure for table  `attempts_login`
 --
 
 CREATE TABLE `attempts_login` (
@@ -1199,9 +1059,10 @@ CREATE TABLE `attempts_login` (
   `login_time` timestamp NOT NULL default '0000-00-00 00:00:00'
 ) ENGINE=MyISAM;
 
+-- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `monitor_data`
+-- Table structure for table  `monitor_data`
 -- 
 
 CREATE TABLE `monitor_data` (
@@ -1213,9 +1074,10 @@ CREATE TABLE `monitor_data` (
   PRIMARY KEY  (`server_id`,`type`,`created`)
 ) ENGINE=MyISAM;
 
+-- --------------------------------------------------------
 
 -- 
--- Tabellenstruktur für Tabelle `sys_config`
+-- Table structure for table  `sys_config`
 -- 
 
 CREATE TABLE `sys_config` (
@@ -1225,8 +1087,11 @@ CREATE TABLE `sys_config` (
   `value` varchar(255) NOT NULL
 ) ENGINE=MyISAM;
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.8 beta');
+--
+-- Dumping data for table `sys_config`
+--
 
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.8 beta');
 
 -- --------------------------------------------------------
 
@@ -1243,6 +1108,10 @@ INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.8 beta');
 -- Wm. Rhodes <iso_country_list@27.org>
 -- 
 
+--
+-- Table structure for table `country`
+--
+
 CREATE TABLE `country` (
   `iso` CHAR(2) NOT NULL PRIMARY KEY,
   `name` VARCHAR(80) NOT NULL,
@@ -1251,245 +1120,250 @@ CREATE TABLE `country` (
   `numcode` SMALLINT
 ) ENGINE=MyISAM;
 
-INSERT INTO country VALUES ('AF','AFGHANISTAN','Afghanistan','AFG','004');
-INSERT INTO country VALUES ('AL','ALBANIA','Albania','ALB','008');
-INSERT INTO country VALUES ('DZ','ALGERIA','Algeria','DZA','012');
-INSERT INTO country VALUES ('AS','AMERICAN SAMOA','American Samoa','ASM','016');
-INSERT INTO country VALUES ('AD','ANDORRA','Andorra','AND','020');
-INSERT INTO country VALUES ('AO','ANGOLA','Angola','AGO','024');
-INSERT INTO country VALUES ('AI','ANGUILLA','Anguilla','AIA','660');
-INSERT INTO country VALUES ('AQ','ANTARCTICA','Antarctica',NULL,NULL);
-INSERT INTO country VALUES ('AG','ANTIGUA AND BARBUDA','Antigua and Barbuda','ATG','028');
-INSERT INTO country VALUES ('AR','ARGENTINA','Argentina','ARG','032');
-INSERT INTO country VALUES ('AM','ARMENIA','Armenia','ARM','051');
-INSERT INTO country VALUES ('AW','ARUBA','Aruba','ABW','533');
-INSERT INTO country VALUES ('AU','AUSTRALIA','Australia','AUS','036');
-INSERT INTO country VALUES ('AT','AUSTRIA','Austria','AUT','040');
-INSERT INTO country VALUES ('AZ','AZERBAIJAN','Azerbaijan','AZE','031');
-INSERT INTO country VALUES ('BS','BAHAMAS','Bahamas','BHS','044');
-INSERT INTO country VALUES ('BH','BAHRAIN','Bahrain','BHR','048');
-INSERT INTO country VALUES ('BD','BANGLADESH','Bangladesh','BGD','050');
-INSERT INTO country VALUES ('BB','BARBADOS','Barbados','BRB','052');
-INSERT INTO country VALUES ('BY','BELARUS','Belarus','BLR','112');
-INSERT INTO country VALUES ('BE','BELGIUM','Belgium','BEL','056');
-INSERT INTO country VALUES ('BZ','BELIZE','Belize','BLZ','084');
-INSERT INTO country VALUES ('BJ','BENIN','Benin','BEN','204');
-INSERT INTO country VALUES ('BM','BERMUDA','Bermuda','BMU','060');
-INSERT INTO country VALUES ('BT','BHUTAN','Bhutan','BTN','064');
-INSERT INTO country VALUES ('BO','BOLIVIA','Bolivia','BOL','068');
-INSERT INTO country VALUES ('BA','BOSNIA AND HERZEGOVINA','Bosnia and Herzegovina','BIH','070');
-INSERT INTO country VALUES ('BW','BOTSWANA','Botswana','BWA','072');
-INSERT INTO country VALUES ('BV','BOUVET ISLAND','Bouvet Island',NULL,NULL);
-INSERT INTO country VALUES ('BR','BRAZIL','Brazil','BRA','076');
-INSERT INTO country VALUES ('IO','BRITISH INDIAN OCEAN TERRITORY','British Indian Ocean Territory',NULL,NULL);
-INSERT INTO country VALUES ('BN','BRUNEI DARUSSALAM','Brunei Darussalam','BRN','096');
-INSERT INTO country VALUES ('BG','BULGARIA','Bulgaria','BGR','100');
-INSERT INTO country VALUES ('BF','BURKINA FASO','Burkina Faso','BFA','854');
-INSERT INTO country VALUES ('BI','BURUNDI','Burundi','BDI','108');
-INSERT INTO country VALUES ('KH','CAMBODIA','Cambodia','KHM','116');
-INSERT INTO country VALUES ('CM','CAMEROON','Cameroon','CMR','120');
-INSERT INTO country VALUES ('CA','CANADA','Canada','CAN','124');
-INSERT INTO country VALUES ('CV','CAPE VERDE','Cape Verde','CPV','132');
-INSERT INTO country VALUES ('KY','CAYMAN ISLANDS','Cayman Islands','CYM','136');
-INSERT INTO country VALUES ('CF','CENTRAL AFRICAN REPUBLIC','Central African Republic','CAF','140');
-INSERT INTO country VALUES ('TD','CHAD','Chad','TCD','148');
-INSERT INTO country VALUES ('CL','CHILE','Chile','CHL','152');
-INSERT INTO country VALUES ('CN','CHINA','China','CHN','156');
-INSERT INTO country VALUES ('CX','CHRISTMAS ISLAND','Christmas Island',NULL,NULL);
-INSERT INTO country VALUES ('CC','COCOS (KEELING) ISLANDS','Cocos (Keeling) Islands',NULL,NULL);
-INSERT INTO country VALUES ('CO','COLOMBIA','Colombia','COL','170');
-INSERT INTO country VALUES ('KM','COMOROS','Comoros','COM','174');
-INSERT INTO country VALUES ('CG','CONGO','Congo','COG','178');
-INSERT INTO country VALUES ('CD','CONGO, THE DEMOCRATIC REPUBLIC OF THE','Congo, the Democratic Republic of the','COD','180');
-INSERT INTO country VALUES ('CK','COOK ISLANDS','Cook Islands','COK','184');
-INSERT INTO country VALUES ('CR','COSTA RICA','Costa Rica','CRI','188');
-INSERT INTO country VALUES ('CI','COTE D\'IVOIRE','Cote D\'Ivoire','CIV','384');
-INSERT INTO country VALUES ('HR','CROATIA','Croatia','HRV','191');
-INSERT INTO country VALUES ('CU','CUBA','Cuba','CUB','192');
-INSERT INTO country VALUES ('CY','CYPRUS','Cyprus','CYP','196');
-INSERT INTO country VALUES ('CZ','CZECH REPUBLIC','Czech Republic','CZE','203');
-INSERT INTO country VALUES ('DK','DENMARK','Denmark','DNK','208');
-INSERT INTO country VALUES ('DJ','DJIBOUTI','Djibouti','DJI','262');
-INSERT INTO country VALUES ('DM','DOMINICA','Dominica','DMA','212');
-INSERT INTO country VALUES ('DO','DOMINICAN REPUBLIC','Dominican Republic','DOM','214');
-INSERT INTO country VALUES ('EC','ECUADOR','Ecuador','ECU','218');
-INSERT INTO country VALUES ('EG','EGYPT','Egypt','EGY','818');
-INSERT INTO country VALUES ('SV','EL SALVADOR','El Salvador','SLV','222');
-INSERT INTO country VALUES ('GQ','EQUATORIAL GUINEA','Equatorial Guinea','GNQ','226');
-INSERT INTO country VALUES ('ER','ERITREA','Eritrea','ERI','232');
-INSERT INTO country VALUES ('EE','ESTONIA','Estonia','EST','233');
-INSERT INTO country VALUES ('ET','ETHIOPIA','Ethiopia','ETH','231');
-INSERT INTO country VALUES ('FK','FALKLAND ISLANDS (MALVINAS)','Falkland Islands (Malvinas)','FLK','238');
-INSERT INTO country VALUES ('FO','FAROE ISLANDS','Faroe Islands','FRO','234');
-INSERT INTO country VALUES ('FJ','FIJI','Fiji','FJI','242');
-INSERT INTO country VALUES ('FI','FINLAND','Finland','FIN','246');
-INSERT INTO country VALUES ('FR','FRANCE','France','FRA','250');
-INSERT INTO country VALUES ('GF','FRENCH GUIANA','French Guiana','GUF','254');
-INSERT INTO country VALUES ('PF','FRENCH POLYNESIA','French Polynesia','PYF','258');
-INSERT INTO country VALUES ('TF','FRENCH SOUTHERN TERRITORIES','French Southern Territories',NULL,NULL);
-INSERT INTO country VALUES ('GA','GABON','Gabon','GAB','266');
-INSERT INTO country VALUES ('GM','GAMBIA','Gambia','GMB','270');
-INSERT INTO country VALUES ('GE','GEORGIA','Georgia','GEO','268');
-INSERT INTO country VALUES ('DE','GERMANY','Germany','DEU','276');
-INSERT INTO country VALUES ('GH','GHANA','Ghana','GHA','288');
-INSERT INTO country VALUES ('GI','GIBRALTAR','Gibraltar','GIB','292');
-INSERT INTO country VALUES ('GR','GREECE','Greece','GRC','300');
-INSERT INTO country VALUES ('GL','GREENLAND','Greenland','GRL','304');
-INSERT INTO country VALUES ('GD','GRENADA','Grenada','GRD','308');
-INSERT INTO country VALUES ('GP','GUADELOUPE','Guadeloupe','GLP','312');
-INSERT INTO country VALUES ('GU','GUAM','Guam','GUM','316');
-INSERT INTO country VALUES ('GT','GUATEMALA','Guatemala','GTM','320');
-INSERT INTO country VALUES ('GN','GUINEA','Guinea','GIN','324');
-INSERT INTO country VALUES ('GW','GUINEA-BISSAU','Guinea-Bissau','GNB','624');
-INSERT INTO country VALUES ('GY','GUYANA','Guyana','GUY','328');
-INSERT INTO country VALUES ('HT','HAITI','Haiti','HTI','332');
-INSERT INTO country VALUES ('HM','HEARD ISLAND AND MCDONALD ISLANDS','Heard Island and Mcdonald Islands',NULL,NULL);
-INSERT INTO country VALUES ('VA','HOLY SEE (VATICAN CITY STATE)','Holy See (Vatican City State)','VAT','336');
-INSERT INTO country VALUES ('HN','HONDURAS','Honduras','HND','340');
-INSERT INTO country VALUES ('HK','HONG KONG','Hong Kong','HKG','344');
-INSERT INTO country VALUES ('HU','HUNGARY','Hungary','HUN','348');
-INSERT INTO country VALUES ('IS','ICELAND','Iceland','ISL','352');
-INSERT INTO country VALUES ('IN','INDIA','India','IND','356');
-INSERT INTO country VALUES ('ID','INDONESIA','Indonesia','IDN','360');
-INSERT INTO country VALUES ('IR','IRAN, ISLAMIC REPUBLIC OF','Iran, Islamic Republic of','IRN','364');
-INSERT INTO country VALUES ('IQ','IRAQ','Iraq','IRQ','368');
-INSERT INTO country VALUES ('IE','IRELAND','Ireland','IRL','372');
-INSERT INTO country VALUES ('IL','ISRAEL','Israel','ISR','376');
-INSERT INTO country VALUES ('IT','ITALY','Italy','ITA','380');
-INSERT INTO country VALUES ('JM','JAMAICA','Jamaica','JAM','388');
-INSERT INTO country VALUES ('JP','JAPAN','Japan','JPN','392');
-INSERT INTO country VALUES ('JO','JORDAN','Jordan','JOR','400');
-INSERT INTO country VALUES ('KZ','KAZAKHSTAN','Kazakhstan','KAZ','398');
-INSERT INTO country VALUES ('KE','KENYA','Kenya','KEN','404');
-INSERT INTO country VALUES ('KI','KIRIBATI','Kiribati','KIR','296');
-INSERT INTO country VALUES ('KP','KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF','Korea, Democratic People\'s Republic of','PRK','408');
-INSERT INTO country VALUES ('KR','KOREA, REPUBLIC OF','Korea, Republic of','KOR','410');
-INSERT INTO country VALUES ('KW','KUWAIT','Kuwait','KWT','414');
-INSERT INTO country VALUES ('KG','KYRGYZSTAN','Kyrgyzstan','KGZ','417');
-INSERT INTO country VALUES ('LA','LAO PEOPLE\'S DEMOCRATIC REPUBLIC','Lao People\'s Democratic Republic','LAO','418');
-INSERT INTO country VALUES ('LV','LATVIA','Latvia','LVA','428');
-INSERT INTO country VALUES ('LB','LEBANON','Lebanon','LBN','422');
-INSERT INTO country VALUES ('LS','LESOTHO','Lesotho','LSO','426');
-INSERT INTO country VALUES ('LR','LIBERIA','Liberia','LBR','430');
-INSERT INTO country VALUES ('LY','LIBYAN ARAB JAMAHIRIYA','Libyan Arab Jamahiriya','LBY','434');
-INSERT INTO country VALUES ('LI','LIECHTENSTEIN','Liechtenstein','LIE','438');
-INSERT INTO country VALUES ('LT','LITHUANIA','Lithuania','LTU','440');
-INSERT INTO country VALUES ('LU','LUXEMBOURG','Luxembourg','LUX','442');
-INSERT INTO country VALUES ('MO','MACAO','Macao','MAC','446');
-INSERT INTO country VALUES ('MK','MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF','Macedonia, the Former Yugoslav Republic of','MKD','807');
-INSERT INTO country VALUES ('MG','MADAGASCAR','Madagascar','MDG','450');
-INSERT INTO country VALUES ('MW','MALAWI','Malawi','MWI','454');
-INSERT INTO country VALUES ('MY','MALAYSIA','Malaysia','MYS','458');
-INSERT INTO country VALUES ('MV','MALDIVES','Maldives','MDV','462');
-INSERT INTO country VALUES ('ML','MALI','Mali','MLI','466');
-INSERT INTO country VALUES ('MT','MALTA','Malta','MLT','470');
-INSERT INTO country VALUES ('MH','MARSHALL ISLANDS','Marshall Islands','MHL','584');
-INSERT INTO country VALUES ('MQ','MARTINIQUE','Martinique','MTQ','474');
-INSERT INTO country VALUES ('MR','MAURITANIA','Mauritania','MRT','478');
-INSERT INTO country VALUES ('MU','MAURITIUS','Mauritius','MUS','480');
-INSERT INTO country VALUES ('YT','MAYOTTE','Mayotte',NULL,NULL);
-INSERT INTO country VALUES ('MX','MEXICO','Mexico','MEX','484');
-INSERT INTO country VALUES ('FM','MICRONESIA, FEDERATED STATES OF','Micronesia, Federated States of','FSM','583');
-INSERT INTO country VALUES ('MD','MOLDOVA, REPUBLIC OF','Moldova, Republic of','MDA','498');
-INSERT INTO country VALUES ('MC','MONACO','Monaco','MCO','492');
-INSERT INTO country VALUES ('MN','MONGOLIA','Mongolia','MNG','496');
-INSERT INTO country VALUES ('MS','MONTSERRAT','Montserrat','MSR','500');
-INSERT INTO country VALUES ('MA','MOROCCO','Morocco','MAR','504');
-INSERT INTO country VALUES ('MZ','MOZAMBIQUE','Mozambique','MOZ','508');
-INSERT INTO country VALUES ('MM','MYANMAR','Myanmar','MMR','104');
-INSERT INTO country VALUES ('NA','NAMIBIA','Namibia','NAM','516');
-INSERT INTO country VALUES ('NR','NAURU','Nauru','NRU','520');
-INSERT INTO country VALUES ('NP','NEPAL','Nepal','NPL','524');
-INSERT INTO country VALUES ('NL','NETHERLANDS','Netherlands','NLD','528');
-INSERT INTO country VALUES ('AN','NETHERLANDS ANTILLES','Netherlands Antilles','ANT','530');
-INSERT INTO country VALUES ('NC','NEW CALEDONIA','New Caledonia','NCL','540');
-INSERT INTO country VALUES ('NZ','NEW ZEALAND','New Zealand','NZL','554');
-INSERT INTO country VALUES ('NI','NICARAGUA','Nicaragua','NIC','558');
-INSERT INTO country VALUES ('NE','NIGER','Niger','NER','562');
-INSERT INTO country VALUES ('NG','NIGERIA','Nigeria','NGA','566');
-INSERT INTO country VALUES ('NU','NIUE','Niue','NIU','570');
-INSERT INTO country VALUES ('NF','NORFOLK ISLAND','Norfolk Island','NFK','574');
-INSERT INTO country VALUES ('MP','NORTHERN MARIANA ISLANDS','Northern Mariana Islands','MNP','580');
-INSERT INTO country VALUES ('NO','NORWAY','Norway','NOR','578');
-INSERT INTO country VALUES ('OM','OMAN','Oman','OMN','512');
-INSERT INTO country VALUES ('PK','PAKISTAN','Pakistan','PAK','586');
-INSERT INTO country VALUES ('PW','PALAU','Palau','PLW','585');
-INSERT INTO country VALUES ('PS','PALESTINIAN TERRITORY, OCCUPIED','Palestinian Territory, Occupied',NULL,NULL);
-INSERT INTO country VALUES ('PA','PANAMA','Panama','PAN','591');
-INSERT INTO country VALUES ('PG','PAPUA NEW GUINEA','Papua New Guinea','PNG','598');
-INSERT INTO country VALUES ('PY','PARAGUAY','Paraguay','PRY','600');
-INSERT INTO country VALUES ('PE','PERU','Peru','PER','604');
-INSERT INTO country VALUES ('PH','PHILIPPINES','Philippines','PHL','608');
-INSERT INTO country VALUES ('PN','PITCAIRN','Pitcairn','PCN','612');
-INSERT INTO country VALUES ('PL','POLAND','Poland','POL','616');
-INSERT INTO country VALUES ('PT','PORTUGAL','Portugal','PRT','620');
-INSERT INTO country VALUES ('PR','PUERTO RICO','Puerto Rico','PRI','630');
-INSERT INTO country VALUES ('QA','QATAR','Qatar','QAT','634');
-INSERT INTO country VALUES ('RE','REUNION','Reunion','REU','638');
-INSERT INTO country VALUES ('RO','ROMANIA','Romania','ROM','642');
-INSERT INTO country VALUES ('RU','RUSSIAN FEDERATION','Russian Federation','RUS','643');
-INSERT INTO country VALUES ('RW','RWANDA','Rwanda','RWA','646');
-INSERT INTO country VALUES ('SH','SAINT HELENA','Saint Helena','SHN','654');
-INSERT INTO country VALUES ('KN','SAINT KITTS AND NEVIS','Saint Kitts and Nevis','KNA','659');
-INSERT INTO country VALUES ('LC','SAINT LUCIA','Saint Lucia','LCA','662');
-INSERT INTO country VALUES ('PM','SAINT PIERRE AND MIQUELON','Saint Pierre and Miquelon','SPM','666');
-INSERT INTO country VALUES ('VC','SAINT VINCENT AND THE GRENADINES','Saint Vincent and the Grenadines','VCT','670');
-INSERT INTO country VALUES ('WS','SAMOA','Samoa','WSM','882');
-INSERT INTO country VALUES ('SM','SAN MARINO','San Marino','SMR','674');
-INSERT INTO country VALUES ('ST','SAO TOME AND PRINCIPE','Sao Tome and Principe','STP','678');
-INSERT INTO country VALUES ('SA','SAUDI ARABIA','Saudi Arabia','SAU','682');
-INSERT INTO country VALUES ('SN','SENEGAL','Senegal','SEN','686');
-INSERT INTO country VALUES ('CS','SERBIA AND MONTENEGRO','Serbia and Montenegro',NULL,NULL);
-INSERT INTO country VALUES ('SC','SEYCHELLES','Seychelles','SYC','690');
-INSERT INTO country VALUES ('SL','SIERRA LEONE','Sierra Leone','SLE','694');
-INSERT INTO country VALUES ('SG','SINGAPORE','Singapore','SGP','702');
-INSERT INTO country VALUES ('SK','SLOVAKIA','Slovakia','SVK','703');
-INSERT INTO country VALUES ('SI','SLOVENIA','Slovenia','SVN','705');
-INSERT INTO country VALUES ('SB','SOLOMON ISLANDS','Solomon Islands','SLB','090');
-INSERT INTO country VALUES ('SO','SOMALIA','Somalia','SOM','706');
-INSERT INTO country VALUES ('ZA','SOUTH AFRICA','South Africa','ZAF','710');
-INSERT INTO country VALUES ('GS','SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS','South Georgia and the South Sandwich Islands',NULL,NULL);
-INSERT INTO country VALUES ('ES','SPAIN','Spain','ESP','724');
-INSERT INTO country VALUES ('LK','SRI LANKA','Sri Lanka','LKA','144');
-INSERT INTO country VALUES ('SD','SUDAN','Sudan','SDN','736');
-INSERT INTO country VALUES ('SR','SURINAME','Suriname','SUR','740');
-INSERT INTO country VALUES ('SJ','SVALBARD AND JAN MAYEN','Svalbard and Jan Mayen','SJM','744');
-INSERT INTO country VALUES ('SZ','SWAZILAND','Swaziland','SWZ','748');
-INSERT INTO country VALUES ('SE','SWEDEN','Sweden','SWE','752');
-INSERT INTO country VALUES ('CH','SWITZERLAND','Switzerland','CHE','756');
-INSERT INTO country VALUES ('SY','SYRIAN ARAB REPUBLIC','Syrian Arab Republic','SYR','760');
-INSERT INTO country VALUES ('TW','TAIWAN, PROVINCE OF CHINA','Taiwan, Province of China','TWN','158');
-INSERT INTO country VALUES ('TJ','TAJIKISTAN','Tajikistan','TJK','762');
-INSERT INTO country VALUES ('TZ','TANZANIA, UNITED REPUBLIC OF','Tanzania, United Republic of','TZA','834');
-INSERT INTO country VALUES ('TH','THAILAND','Thailand','THA','764');
-INSERT INTO country VALUES ('TL','TIMOR-LESTE','Timor-Leste',NULL,NULL);
-INSERT INTO country VALUES ('TG','TOGO','Togo','TGO','768');
-INSERT INTO country VALUES ('TK','TOKELAU','Tokelau','TKL','772');
-INSERT INTO country VALUES ('TO','TONGA','Tonga','TON','776');
-INSERT INTO country VALUES ('TT','TRINIDAD AND TOBAGO','Trinidad and Tobago','TTO','780');
-INSERT INTO country VALUES ('TN','TUNISIA','Tunisia','TUN','788');
-INSERT INTO country VALUES ('TR','TURKEY','Turkey','TUR','792');
-INSERT INTO country VALUES ('TM','TURKMENISTAN','Turkmenistan','TKM','795');
-INSERT INTO country VALUES ('TC','TURKS AND CAICOS ISLANDS','Turks and Caicos Islands','TCA','796');
-INSERT INTO country VALUES ('TV','TUVALU','Tuvalu','TUV','798');
-INSERT INTO country VALUES ('UG','UGANDA','Uganda','UGA','800');
-INSERT INTO country VALUES ('UA','UKRAINE','Ukraine','UKR','804');
-INSERT INTO country VALUES ('AE','UNITED ARAB EMIRATES','United Arab Emirates','ARE','784');
-INSERT INTO country VALUES ('GB','UNITED KINGDOM','United Kingdom','GBR','826');
-INSERT INTO country VALUES ('US','UNITED STATES','United States','USA','840');
-INSERT INTO country VALUES ('UM','UNITED STATES MINOR OUTLYING ISLANDS','United States Minor Outlying Islands',NULL,NULL);
-INSERT INTO country VALUES ('UY','URUGUAY','Uruguay','URY','858');
-INSERT INTO country VALUES ('UZ','UZBEKISTAN','Uzbekistan','UZB','860');
-INSERT INTO country VALUES ('VU','VANUATU','Vanuatu','VUT','548');
-INSERT INTO country VALUES ('VE','VENEZUELA','Venezuela','VEN','862');
-INSERT INTO country VALUES ('VN','VIET NAM','Viet Nam','VNM','704');
-INSERT INTO country VALUES ('VG','VIRGIN ISLANDS, BRITISH','Virgin Islands, British','VGB','092');
-INSERT INTO country VALUES ('VI','VIRGIN ISLANDS, U.S.','Virgin Islands, U.s.','VIR','850');
-INSERT INTO country VALUES ('WF','WALLIS AND FUTUNA','Wallis and Futuna','WLF','876');
-INSERT INTO country VALUES ('EH','WESTERN SAHARA','Western Sahara','ESH','732');
-INSERT INTO country VALUES ('YE','YEMEN','Yemen','YEM','887');
-INSERT INTO country VALUES ('ZM','ZAMBIA','Zambia','ZMB','894');
-INSERT INTO country VALUES ('ZW','ZIMBABWE','Zimbabwe','ZWE','716');
+--
+-- Dumping data for table `country`
+--
+
+INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`) VALUES
+('AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4),
+('AL', 'ALBANIA', 'Albania', 'ALB', 8),
+('DZ', 'ALGERIA', 'Algeria', 'DZA', 12),
+('AS', 'AMERICAN SAMOA', 'American Samoa', 'ASM', 16),
+('AD', 'ANDORRA', 'Andorra', 'AND', 20),
+('AO', 'ANGOLA', 'Angola', 'AGO', 24),
+('AI', 'ANGUILLA', 'Anguilla', 'AIA', 660),
+('AQ', 'ANTARCTICA', 'Antarctica', NULL, NULL),
+('AG', 'ANTIGUA AND BARBUDA', 'Antigua and Barbuda', 'ATG', 28),
+('AR', 'ARGENTINA', 'Argentina', 'ARG', 32),
+('AM', 'ARMENIA', 'Armenia', 'ARM', 51),
+('AW', 'ARUBA', 'Aruba', 'ABW', 533),
+('AU', 'AUSTRALIA', 'Australia', 'AUS', 36),
+('AT', 'AUSTRIA', 'Austria', 'AUT', 40),
+('AZ', 'AZERBAIJAN', 'Azerbaijan', 'AZE', 31),
+('BS', 'BAHAMAS', 'Bahamas', 'BHS', 44),
+('BH', 'BAHRAIN', 'Bahrain', 'BHR', 48),
+('BD', 'BANGLADESH', 'Bangladesh', 'BGD', 50),
+('BB', 'BARBADOS', 'Barbados', 'BRB', 52),
+('BY', 'BELARUS', 'Belarus', 'BLR', 112),
+('BE', 'BELGIUM', 'Belgium', 'BEL', 56),
+('BZ', 'BELIZE', 'Belize', 'BLZ', 84),
+('BJ', 'BENIN', 'Benin', 'BEN', 204),
+('BM', 'BERMUDA', 'Bermuda', 'BMU', 60),
+('BT', 'BHUTAN', 'Bhutan', 'BTN', 64),
+('BO', 'BOLIVIA', 'Bolivia', 'BOL', 68),
+('BA', 'BOSNIA AND HERZEGOVINA', 'Bosnia and Herzegovina', 'BIH', 70),
+('BW', 'BOTSWANA', 'Botswana', 'BWA', 72),
+('BV', 'BOUVET ISLAND', 'Bouvet Island', NULL, NULL),
+('BR', 'BRAZIL', 'Brazil', 'BRA', 76),
+('IO', 'BRITISH INDIAN OCEAN TERRITORY', 'British Indian Ocean Territory', NULL, NULL),
+('BN', 'BRUNEI DARUSSALAM', 'Brunei Darussalam', 'BRN', 96),
+('BG', 'BULGARIA', 'Bulgaria', 'BGR', 100),
+('BF', 'BURKINA FASO', 'Burkina Faso', 'BFA', 854),
+('BI', 'BURUNDI', 'Burundi', 'BDI', 108),
+('KH', 'CAMBODIA', 'Cambodia', 'KHM', 116),
+('CM', 'CAMEROON', 'Cameroon', 'CMR', 120),
+('CA', 'CANADA', 'Canada', 'CAN', 124),
+('CV', 'CAPE VERDE', 'Cape Verde', 'CPV', 132),
+('KY', 'CAYMAN ISLANDS', 'Cayman Islands', 'CYM', 136),
+('CF', 'CENTRAL AFRICAN REPUBLIC', 'Central African Republic', 'CAF', 140),
+('TD', 'CHAD', 'Chad', 'TCD', 148),
+('CL', 'CHILE', 'Chile', 'CHL', 152),
+('CN', 'CHINA', 'China', 'CHN', 156),
+('CX', 'CHRISTMAS ISLAND', 'Christmas Island', NULL, NULL),
+('CC', 'COCOS (KEELING) ISLANDS', 'Cocos (Keeling) Islands', NULL, NULL),
+('CO', 'COLOMBIA', 'Colombia', 'COL', 170),
+('KM', 'COMOROS', 'Comoros', 'COM', 174),
+('CG', 'CONGO', 'Congo', 'COG', 178),
+('CD', 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', 'Congo, the Democratic Republic of the', 'COD', 180),
+('CK', 'COOK ISLANDS', 'Cook Islands', 'COK', 184),
+('CR', 'COSTA RICA', 'Costa Rica', 'CRI', 188),
+('CI', 'COTE D''IVOIRE', 'Cote D''Ivoire', 'CIV', 384),
+('HR', 'CROATIA', 'Croatia', 'HRV', 191),
+('CU', 'CUBA', 'Cuba', 'CUB', 192),
+('CY', 'CYPRUS', 'Cyprus', 'CYP', 196),
+('CZ', 'CZECH REPUBLIC', 'Czech Republic', 'CZE', 203),
+('DK', 'DENMARK', 'Denmark', 'DNK', 208),
+('DJ', 'DJIBOUTI', 'Djibouti', 'DJI', 262),
+('DM', 'DOMINICA', 'Dominica', 'DMA', 212),
+('DO', 'DOMINICAN REPUBLIC', 'Dominican Republic', 'DOM', 214),
+('EC', 'ECUADOR', 'Ecuador', 'ECU', 218),
+('EG', 'EGYPT', 'Egypt', 'EGY', 818),
+('SV', 'EL SALVADOR', 'El Salvador', 'SLV', 222),
+('GQ', 'EQUATORIAL GUINEA', 'Equatorial Guinea', 'GNQ', 226),
+('ER', 'ERITREA', 'Eritrea', 'ERI', 232),
+('EE', 'ESTONIA', 'Estonia', 'EST', 233),
+('ET', 'ETHIOPIA', 'Ethiopia', 'ETH', 231),
+('FK', 'FALKLAND ISLANDS (MALVINAS)', 'Falkland Islands (Malvinas)', 'FLK', 238),
+('FO', 'FAROE ISLANDS', 'Faroe Islands', 'FRO', 234),
+('FJ', 'FIJI', 'Fiji', 'FJI', 242),
+('FI', 'FINLAND', 'Finland', 'FIN', 246),
+('FR', 'FRANCE', 'France', 'FRA', 250),
+('GF', 'FRENCH GUIANA', 'French Guiana', 'GUF', 254),
+('PF', 'FRENCH POLYNESIA', 'French Polynesia', 'PYF', 258),
+('TF', 'FRENCH SOUTHERN TERRITORIES', 'French Southern Territories', NULL, NULL),
+('GA', 'GABON', 'Gabon', 'GAB', 266),
+('GM', 'GAMBIA', 'Gambia', 'GMB', 270),
+('GE', 'GEORGIA', 'Georgia', 'GEO', 268),
+('DE', 'GERMANY', 'Germany', 'DEU', 276),
+('GH', 'GHANA', 'Ghana', 'GHA', 288),
+('GI', 'GIBRALTAR', 'Gibraltar', 'GIB', 292),
+('GR', 'GREECE', 'Greece', 'GRC', 300),
+('GL', 'GREENLAND', 'Greenland', 'GRL', 304),
+('GD', 'GRENADA', 'Grenada', 'GRD', 308),
+('GP', 'GUADELOUPE', 'Guadeloupe', 'GLP', 312),
+('GU', 'GUAM', 'Guam', 'GUM', 316),
+('GT', 'GUATEMALA', 'Guatemala', 'GTM', 320),
+('GN', 'GUINEA', 'Guinea', 'GIN', 324),
+('GW', 'GUINEA-BISSAU', 'Guinea-Bissau', 'GNB', 624),
+('GY', 'GUYANA', 'Guyana', 'GUY', 328),
+('HT', 'HAITI', 'Haiti', 'HTI', 332),
+('HM', 'HEARD ISLAND AND MCDONALD ISLANDS', 'Heard Island and Mcdonald Islands', NULL, NULL),
+('VA', 'HOLY SEE (VATICAN CITY STATE)', 'Holy See (Vatican City State)', 'VAT', 336),
+('HN', 'HONDURAS', 'Honduras', 'HND', 340),
+('HK', 'HONG KONG', 'Hong Kong', 'HKG', 344),
+('HU', 'HUNGARY', 'Hungary', 'HUN', 348),
+('IS', 'ICELAND', 'Iceland', 'ISL', 352),
+('IN', 'INDIA', 'India', 'IND', 356),
+('ID', 'INDONESIA', 'Indonesia', 'IDN', 360),
+('IR', 'IRAN, ISLAMIC REPUBLIC OF', 'Iran, Islamic Republic of', 'IRN', 364),
+('IQ', 'IRAQ', 'Iraq', 'IRQ', 368),
+('IE', 'IRELAND', 'Ireland', 'IRL', 372),
+('IL', 'ISRAEL', 'Israel', 'ISR', 376),
+('IT', 'ITALY', 'Italy', 'ITA', 380),
+('JM', 'JAMAICA', 'Jamaica', 'JAM', 388),
+('JP', 'JAPAN', 'Japan', 'JPN', 392),
+('JO', 'JORDAN', 'Jordan', 'JOR', 400),
+('KZ', 'KAZAKHSTAN', 'Kazakhstan', 'KAZ', 398),
+('KE', 'KENYA', 'Kenya', 'KEN', 404),
+('KI', 'KIRIBATI', 'Kiribati', 'KIR', 296),
+('KP', 'KOREA, DEMOCRATIC PEOPLE''S REPUBLIC OF', 'Korea, Democratic People''s Republic of', 'PRK', 408),
+('KR', 'KOREA, REPUBLIC OF', 'Korea, Republic of', 'KOR', 410),
+('KW', 'KUWAIT', 'Kuwait', 'KWT', 414),
+('KG', 'KYRGYZSTAN', 'Kyrgyzstan', 'KGZ', 417),
+('LA', 'LAO PEOPLE''S DEMOCRATIC REPUBLIC', 'Lao People''s Democratic Republic', 'LAO', 418),
+('LV', 'LATVIA', 'Latvia', 'LVA', 428),
+('LB', 'LEBANON', 'Lebanon', 'LBN', 422),
+('LS', 'LESOTHO', 'Lesotho', 'LSO', 426),
+('LR', 'LIBERIA', 'Liberia', 'LBR', 430),
+('LY', 'LIBYAN ARAB JAMAHIRIYA', 'Libyan Arab Jamahiriya', 'LBY', 434),
+('LI', 'LIECHTENSTEIN', 'Liechtenstein', 'LIE', 438),
+('LT', 'LITHUANIA', 'Lithuania', 'LTU', 440),
+('LU', 'LUXEMBOURG', 'Luxembourg', 'LUX', 442),
+('MO', 'MACAO', 'Macao', 'MAC', 446),
+('MK', 'MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF', 'Macedonia, the Former Yugoslav Republic of', 'MKD', 807),
+('MG', 'MADAGASCAR', 'Madagascar', 'MDG', 450),
+('MW', 'MALAWI', 'Malawi', 'MWI', 454),
+('MY', 'MALAYSIA', 'Malaysia', 'MYS', 458),
+('MV', 'MALDIVES', 'Maldives', 'MDV', 462),
+('ML', 'MALI', 'Mali', 'MLI', 466),
+('MT', 'MALTA', 'Malta', 'MLT', 470),
+('MH', 'MARSHALL ISLANDS', 'Marshall Islands', 'MHL', 584),
+('MQ', 'MARTINIQUE', 'Martinique', 'MTQ', 474),
+('MR', 'MAURITANIA', 'Mauritania', 'MRT', 478),
+('MU', 'MAURITIUS', 'Mauritius', 'MUS', 480),
+('YT', 'MAYOTTE', 'Mayotte', NULL, NULL),
+('MX', 'MEXICO', 'Mexico', 'MEX', 484),
+('FM', 'MICRONESIA, FEDERATED STATES OF', 'Micronesia, Federated States of', 'FSM', 583),
+('MD', 'MOLDOVA, REPUBLIC OF', 'Moldova, Republic of', 'MDA', 498),
+('MC', 'MONACO', 'Monaco', 'MCO', 492),
+('MN', 'MONGOLIA', 'Mongolia', 'MNG', 496),
+('MS', 'MONTSERRAT', 'Montserrat', 'MSR', 500),
+('MA', 'MOROCCO', 'Morocco', 'MAR', 504),
+('MZ', 'MOZAMBIQUE', 'Mozambique', 'MOZ', 508),
+('MM', 'MYANMAR', 'Myanmar', 'MMR', 104),
+('NA', 'NAMIBIA', 'Namibia', 'NAM', 516),
+('NR', 'NAURU', 'Nauru', 'NRU', 520),
+('NP', 'NEPAL', 'Nepal', 'NPL', 524),
+('NL', 'NETHERLANDS', 'Netherlands', 'NLD', 528),
+('AN', 'NETHERLANDS ANTILLES', 'Netherlands Antilles', 'ANT', 530),
+('NC', 'NEW CALEDONIA', 'New Caledonia', 'NCL', 540),
+('NZ', 'NEW ZEALAND', 'New Zealand', 'NZL', 554),
+('NI', 'NICARAGUA', 'Nicaragua', 'NIC', 558),
+('NE', 'NIGER', 'Niger', 'NER', 562),
+('NG', 'NIGERIA', 'Nigeria', 'NGA', 566),
+('NU', 'NIUE', 'Niue', 'NIU', 570),
+('NF', 'NORFOLK ISLAND', 'Norfolk Island', 'NFK', 574),
+('MP', 'NORTHERN MARIANA ISLANDS', 'Northern Mariana Islands', 'MNP', 580),
+('NO', 'NORWAY', 'Norway', 'NOR', 578),
+('OM', 'OMAN', 'Oman', 'OMN', 512),
+('PK', 'PAKISTAN', 'Pakistan', 'PAK', 586),
+('PW', 'PALAU', 'Palau', 'PLW', 585),
+('PS', 'PALESTINIAN TERRITORY, OCCUPIED', 'Palestinian Territory, Occupied', NULL, NULL),
+('PA', 'PANAMA', 'Panama', 'PAN', 591),
+('PG', 'PAPUA NEW GUINEA', 'Papua New Guinea', 'PNG', 598),
+('PY', 'PARAGUAY', 'Paraguay', 'PRY', 600),
+('PE', 'PERU', 'Peru', 'PER', 604),
+('PH', 'PHILIPPINES', 'Philippines', 'PHL', 608),
+('PN', 'PITCAIRN', 'Pitcairn', 'PCN', 612),
+('PL', 'POLAND', 'Poland', 'POL', 616),
+('PT', 'PORTUGAL', 'Portugal', 'PRT', 620),
+('PR', 'PUERTO RICO', 'Puerto Rico', 'PRI', 630),
+('QA', 'QATAR', 'Qatar', 'QAT', 634),
+('RE', 'REUNION', 'Reunion', 'REU', 638),
+('RO', 'ROMANIA', 'Romania', 'ROM', 642),
+('RU', 'RUSSIAN FEDERATION', 'Russian Federation', 'RUS', 643),
+('RW', 'RWANDA', 'Rwanda', 'RWA', 646),
+('SH', 'SAINT HELENA', 'Saint Helena', 'SHN', 654),
+('KN', 'SAINT KITTS AND NEVIS', 'Saint Kitts and Nevis', 'KNA', 659),
+('LC', 'SAINT LUCIA', 'Saint Lucia', 'LCA', 662),
+('PM', 'SAINT PIERRE AND MIQUELON', 'Saint Pierre and Miquelon', 'SPM', 666),
+('VC', 'SAINT VINCENT AND THE GRENADINES', 'Saint Vincent and the Grenadines', 'VCT', 670),
+('WS', 'SAMOA', 'Samoa', 'WSM', 882),
+('SM', 'SAN MARINO', 'San Marino', 'SMR', 674),
+('ST', 'SAO TOME AND PRINCIPE', 'Sao Tome and Principe', 'STP', 678),
+('SA', 'SAUDI ARABIA', 'Saudi Arabia', 'SAU', 682),
+('SN', 'SENEGAL', 'Senegal', 'SEN', 686),
+('CS', 'SERBIA AND MONTENEGRO', 'Serbia and Montenegro', NULL, NULL),
+('SC', 'SEYCHELLES', 'Seychelles', 'SYC', 690),
+('SL', 'SIERRA LEONE', 'Sierra Leone', 'SLE', 694),
+('SG', 'SINGAPORE', 'Singapore', 'SGP', 702),
+('SK', 'SLOVAKIA', 'Slovakia', 'SVK', 703),
+('SI', 'SLOVENIA', 'Slovenia', 'SVN', 705),
+('SB', 'SOLOMON ISLANDS', 'Solomon Islands', 'SLB', 90),
+('SO', 'SOMALIA', 'Somalia', 'SOM', 706),
+('ZA', 'SOUTH AFRICA', 'South Africa', 'ZAF', 710),
+('GS', 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS', 'South Georgia and the South Sandwich Islands', NULL, NULL),
+('ES', 'SPAIN', 'Spain', 'ESP', 724),
+('LK', 'SRI LANKA', 'Sri Lanka', 'LKA', 144),
+('SD', 'SUDAN', 'Sudan', 'SDN', 736),
+('SR', 'SURINAME', 'Suriname', 'SUR', 740),
+('SJ', 'SVALBARD AND JAN MAYEN', 'Svalbard and Jan Mayen', 'SJM', 744),
+('SZ', 'SWAZILAND', 'Swaziland', 'SWZ', 748),
+('SE', 'SWEDEN', 'Sweden', 'SWE', 752),
+('CH', 'SWITZERLAND', 'Switzerland', 'CHE', 756),
+('SY', 'SYRIAN ARAB REPUBLIC', 'Syrian Arab Republic', 'SYR', 760),
+('TW', 'TAIWAN, PROVINCE OF CHINA', 'Taiwan, Province of China', 'TWN', 158),
+('TJ', 'TAJIKISTAN', 'Tajikistan', 'TJK', 762),
+('TZ', 'TANZANIA, UNITED REPUBLIC OF', 'Tanzania, United Republic of', 'TZA', 834),
+('TH', 'THAILAND', 'Thailand', 'THA', 764),
+('TL', 'TIMOR-LESTE', 'Timor-Leste', NULL, NULL),
+('TG', 'TOGO', 'Togo', 'TGO', 768),
+('TK', 'TOKELAU', 'Tokelau', 'TKL', 772),
+('TO', 'TONGA', 'Tonga', 'TON', 776),
+('TT', 'TRINIDAD AND TOBAGO', 'Trinidad and Tobago', 'TTO', 780),
+('TN', 'TUNISIA', 'Tunisia', 'TUN', 788),
+('TR', 'TURKEY', 'Turkey', 'TUR', 792),
+('TM', 'TURKMENISTAN', 'Turkmenistan', 'TKM', 795),
+('TC', 'TURKS AND CAICOS ISLANDS', 'Turks and Caicos Islands', 'TCA', 796),
+('TV', 'TUVALU', 'Tuvalu', 'TUV', 798),
+('UG', 'UGANDA', 'Uganda', 'UGA', 800),
+('UA', 'UKRAINE', 'Ukraine', 'UKR', 804),
+('AE', 'UNITED ARAB EMIRATES', 'United Arab Emirates', 'ARE', 784),
+('GB', 'UNITED KINGDOM', 'United Kingdom', 'GBR', 826),
+('US', 'UNITED STATES', 'United States', 'USA', 840),
+('UM', 'UNITED STATES MINOR OUTLYING ISLANDS', 'United States Minor Outlying Islands', NULL, NULL),
+('UY', 'URUGUAY', 'Uruguay', 'URY', 858),
+('UZ', 'UZBEKISTAN', 'Uzbekistan', 'UZB', 860),
+('VU', 'VANUATU', 'Vanuatu', 'VUT', 548),
+('VE', 'VENEZUELA', 'Venezuela', 'VEN', 862),
+('VN', 'VIET NAM', 'Viet Nam', 'VNM', 704),
+('VG', 'VIRGIN ISLANDS, BRITISH', 'Virgin Islands, British', 'VGB', 92),
+('VI', 'VIRGIN ISLANDS, U.S.', 'Virgin Islands, U.s.', 'VIR', 850),
+('WF', 'WALLIS AND FUTUNA', 'Wallis and Futuna', 'WLF', 876),
+('EH', 'WESTERN SAHARA', 'Western Sahara', 'ESH', 732),
+('YE', 'YEMEN', 'Yemen', 'YEM', 887),
+('ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894),
+('ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716);
 
 -- --------------------------------------------------------
 
