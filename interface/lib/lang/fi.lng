@@ -1,0 +1,20 @@
+<?php
+$wb['301'] = 'Tämä moduuli ei ole sallittu nykyiselle käyttäjälle.';
+$wb['302'] = 'Viallinen moduuli.';
+$wb['1001'] = 'Käyttäjänimi tai salasana eivät voi olla tyhjiä!';
+$wb['1002'] = 'Käyttäjänimi ja/tai salasana ei ole oikein!';
+$wb['1003'] = 'Käyttäjän tili on suljettu!';
+$wb['delete_confirmation'] = 'Haluatko varmasti poistaa tämän tietueen?';
+$wb['error_no_view_permission'] = 'Sinulla ei ole oikeuksia katsoa tätä tietuetta tai sitä ei ole olemassa!';
+$wb['error_no_delete_permission'] = 'Sinulla ei ole oikeuksia poistaa tätä tietuetta!';
+$wb['page_txt'] = 'Sivu';
+$wb['page_of_txt'] = '/';
+$wb['page_next_txt'] = 'Seuraava';
+$wb['page_back_txt'] = 'Takaisin';
+$wb['delete_txt'] = 'Poista';
+$wb['filter_txt'] = 'Suodatin';
+$wb['add_new_record_txt'] = 'Lisää uusi tietue';
+$wb['btn_save_txt'] = 'Tallenna';
+$wb['btn_cancel_txt'] = 'Keskeytä';
+?>
+
