@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'DNS-alueet (SOA)';
+$wb['active_txt'] = 'Päällä';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['origin_txt'] = 'Alue (Zone)';
+$wb['ns_txt'] = 'nimipalvelin (NS)';
+$wb['mbox_txt'] = 'Yhteyshenkilön sähköpostiosoite';
+$wb['add_new_record_txt'] = 'Lisää uusi DNS-alue (SOA)';
+?>
+

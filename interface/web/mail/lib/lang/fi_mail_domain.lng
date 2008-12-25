@@ -1,0 +1,14 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['domain_txt'] = 'Domain';
+$wb['type_txt'] = 'Tyyppi';
+$wb['active_txt'] = 'Päällä';
+$wb['domain_error_empty'] = 'Domain on tyhjä.';
+$wb['domain_error_unique'] = 'Domain on jo olemassa.';
+$wb['domain_error_regex'] = 'Väärä domain-nimi.';
+$wb['client_txt'] = 'Asiakas';
+$wb['limit_maildomain_txt'] = 'Tilisi sähköpostidomainien sallittu määrä on ylitetty.';
+$wb['policy_txt'] = 'Roskapostisuodatin';
+$wb['no_policy'] = '- ei päällä -';
+?>
+

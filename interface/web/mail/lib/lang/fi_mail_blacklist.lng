@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['source_txt'] = 'Estetty osoite';
+$wb['recipient_txt'] = 'Vastaanottaja';
+$wb['active_txt'] = 'Päällä';
+$wb['source_error_notempty'] = 'Osoite on tyhjä';
+$wb['type_txt'] = 'Tyyppi';
+$wb['limit_mailfilter_txt'] = 'Tilisi suurin sallittu määrä suodattimille on ylitetty.';
+?>
+

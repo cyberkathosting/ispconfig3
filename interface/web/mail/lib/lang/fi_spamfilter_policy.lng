@@ -1,0 +1,39 @@
+<?php
+$wb['policy_name_txt'] = 'Kohtelutavan nimi';
+$wb['virus_lover_txt'] = 'Pitää viruksista';
+$wb['spam_lover_txt'] = 'Pitää roskapostista';
+$wb['banned_files_lover_txt'] = 'Pitää estetyistä tiedostoista';
+$wb['bad_header_lover_txt'] = 'Pitää estetyistä otsikoista';
+$wb['bypass_virus_checks_txt'] = 'Ohita virustarkistukset';
+$wb['bypass_banned_checks_txt'] = 'Ohita tiedostopäätteet';
+$wb['bypass_header_checks_txt'] = 'Ohita otsikkotarkistukset';
+$wb['virus_quarantine_to_txt'] = 'Välitä virus sähköpostiin';
+$wb['spam_quarantine_to_txt'] = 'Välitä roskaposti sähköpostiin';
+$wb['banned_quarantine_to_txt'] = 'Välitä karanteeni sähköpostiin';
+$wb['bad_header_quarantine_to_txt'] = 'Välitä otsikkovirhe sähköpostiin';
+$wb['clean_quarantine_to_txt'] = 'Välitä puhditettu sähköpostiin';
+$wb['other_quarantine_to_txt'] = 'Välitä muut sähköpostiin';
+$wb['spam_tag_level_txt'] = 'Roskapostin merkkaustaso';
+$wb['spam_tag2_level_txt'] = 'Roskapostin 2. merkkaustaso';
+$wb['spam_kill_level_txt'] = 'Roskapostin estotaso';
+$wb['spam_dsn_cutoff_level_txt'] = 'Roskapostin poistotaso';
+$wb['spam_quarantine_cutoff_level_txt'] = 'Roskapostin karanteenin poistotaso';
+$wb['spam_modifies_subj_txt'] = 'Roskaposti muuttaa otsikkoa';
+$wb['spam_subject_tag_txt'] = 'Roskapostin otsikkomerkintä';
+$wb['spam_subject_tag2_txt'] = 'Roskapostin 2. otsikkomerkintä';
+$wb['addr_extension_virus_txt'] = 'Virusviestien merkkaus';
+$wb['addr_extension_spam_txt'] = 'Roskapostien merkkaus';
+$wb['addr_extension_banned_txt'] = 'Estettyjen viestien merkkaus';
+$wb['addr_extension_bad_header_txt'] = 'Otsikkotietovirheiden merkkaus';
+$wb['warnvirusrecip_txt'] = 'Varoita viruksen vastaanottajaa.';
+$wb['warnbannedrecip_txt'] = 'Varoita estetyn vastaanottajaa.';
+$wb['warnbadhrecip_txt'] = 'Varoita otsikkovirheellisen vastaanottajaa.';
+$wb['newvirus_admin_txt'] = 'Virustunnistusten ylläpitäjä';
+$wb['virus_admin_txt'] = 'Virustunnisteiden ylläpitäjä';
+$wb['banned_admin_txt'] = 'Estolistojen ylläpitäjä';
+$wb['bad_header_admin_txt'] = 'Otsikkovirhetunnisteiden ylläpitäjä';
+$wb['spam_admin_txt'] = 'Roskapostitunnisteiden ylläpitäjä';
+$wb['message_size_limit_txt'] = 'Viestin kokoraja';
+$wb['banned_rulenames_txt'] = 'Estojen sääntönimet';
+?>
+

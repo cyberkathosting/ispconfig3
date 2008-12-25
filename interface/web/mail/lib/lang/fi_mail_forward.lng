@@ -1,0 +1,7 @@
+<?php
+$wb['email_txt'] = 'Sähköposti';
+$wb['destination_txt'] = 'Vastaanottajan sähköposti';
+$wb['active_txt'] = 'Päällä';
+$wb['limit_mailforward_txt'] = 'Tilisi suurin sallittu sähköpostin vastaanottajien määrä on ylitetty.';
+?>
+

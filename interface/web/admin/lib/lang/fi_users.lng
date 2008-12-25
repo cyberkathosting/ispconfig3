@@ -1,0 +1,29 @@
+<?php
+$wb['username_txt'] = 'Käyttäjänimi';
+$wb['username_err'] = 'Käyttäjänimi on liian pitkä tai sisältää kiellettyjä merkkejä.';
+$wb['username_empty'] = 'Käyttäjänimi on tyhjä.';
+$wb['username_unique'] = 'Tämän niminen käyttäjä on jo olemassa.';
+$wb['passwort_txt'] = 'Salasana';
+$wb['modules_txt'] = 'Ohjelmaosio';
+$wb['startmodule_txt'] = 'Aloitusohjelma';
+$wb['app_theme_txt'] = 'Teema';
+$wb['typ_txt'] = 'Tyyppi';
+$wb['active_txt'] = 'Päällä';
+$wb['language_txt'] = 'Kieli';
+$wb['name_txt'] = 'Etunimi';
+$wb['vorname_txt'] = 'Sukunimi';
+$wb['unternehmen_txt'] = 'Yritys';
+$wb['strasse_txt'] = 'Katuosoite';
+$wb['ort_txt'] = 'Kaupunki';
+$wb['plz_txt'] = 'Postinumero';
+$wb['land_txt'] = 'Maa';
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['url_txt'] = 'Internet-osoite';
+$wb['telefon_txt'] = 'Puehlinnumero';
+$wb['fax_txt'] = 'Fax-numero';
+$wb['groups_txt'] = 'Ryhmät';
+$wb['default_group_txt'] = 'Oletusryhmä';
+$wb['startmodule_err'] = 'Aloitusohjelma ei ole sallittu.';
+$wb['password_strength_txt'] = 'Salasanan vahvuus';
+?>
+

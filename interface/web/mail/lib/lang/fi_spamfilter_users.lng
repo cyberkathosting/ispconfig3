@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['priority_txt'] = 'Tärkeysjärjestys';
+$wb['policy_id_txt'] = 'Kohtelutapa';
+$wb['email_txt'] = 'Sähköpostiosoite (RegExp)';
+$wb['fullname_txt'] = 'Koko nimi';
+$wb['local_txt'] = 'Paikallinen';
+?>
+

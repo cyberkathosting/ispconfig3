@@ -1,0 +1,36 @@
+<?php
+$wb['jailkit_chroot_home_txt'] = 'Jailkit chroot-koti';
+$wb['jailkit_chroot_app_sections_txt'] = 'Jailkit chroot-ohjelmaosiot';
+$wb['jailkit_chroot_app_programs_txt'] = 'Jailkit chrooted-ohjelmat';
+$wb['website_path_txt'] = 'Sivuston polku';
+$wb['website_symlinks_txt'] = 'Sivuston symmetriset linkit';
+$wb['vhost_conf_dir_txt'] = 'Vhostin asetuskansio';
+$wb['vhost_conf_enabled_dir_txt'] = 'Vhostin asetusten kytketty kansio';
+$wb['getmail_config_dir_txt'] = 'Getmail-asetuskansio';
+$wb['fastcgi_starter_path_txt'] = 'FastCGI:n käynnistyspolku';
+$wb['fastcgi_starter_script_txt'] = 'FastCGI:n käynnistysskripti';
+$wb['fastcgi_alias_txt'] = 'FastCGI-kaima';
+$wb['fastcgi_phpini_path_txt'] = 'FastCGI:n php.ini-polku';
+$wb['fastcgi_children_txt'] = 'FastCGI-lapsiprosessi';
+$wb['fastcgi_max_requests_txt'] = 'FastCGI-pyyntöraja';
+$wb['fastcgi_bin_txt'] = 'FastCGI-binäri';
+$wb['module_txt'] = 'Ohjelmaosio';
+$wb['maildir_path_txt'] = 'Postikansion polku';
+$wb['homedir_path_txt'] = 'Kotikansion polku';
+$wb['mailuser_uid_txt'] = 'Postikäyttäjän UID';
+$wb['mailuser_gid_txt'] = 'Postikäyttäjän GID';
+$wb['mailuser_name_txt'] = 'Postikäyttäjän nimi';
+$wb['mailuser_group_txt'] = 'Postikäyttäjän ryhmä';
+$wb['relayhost_txt'] = 'Relay-isäntä';
+$wb['relayhost_user_txt'] = 'Relay-isännän kyttäjänimi';
+$wb['relayhost_password_txt'] = 'Relay-isännän salasana';
+$wb['mailbox_size_limit_txt'] = 'Postilaatikon kokoraja';
+$wb['message_size_limit_txt'] = 'Viestin kokoraja';
+$wb['ip_address_txt'] = 'IP-osoite';
+$wb['netmask_txt'] = 'Verkon peite';
+$wb['gateway_txt'] = 'Yhdyskäytävä';
+$wb['hostname_txt'] = 'Isäntänimi';
+$wb['nameservers_txt'] = 'Nimnmipalvelimet';
+$wb['auto_network_configuration_txt'] = 'Verkkoasetukset';
+?>
+

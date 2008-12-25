@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['zone_txt'] = 'Alue (Zone)';
+$wb['name_txt'] = 'Isäntänimi';
+$wb['type_txt'] = 'Tyyppi';
+$wb['data_txt'] = 'Kohteen isäntänimi';
+$wb['ttl_txt'] = 'Elinaika (TTL)';
+$wb['active_txt'] = 'Päällä';
+$wb['limit_dns_record_txt'] = 'Tilisi sallittu DNS-tietueiden määrä on ylitetty.';
+$wb['no_zone_perm'] = 'Sinulla ei ole oikeuksia lisätä tietueita tälle DNS-alueelle.';
+$wb['name_error_empty'] = 'Isäntänimi-kenttä on tyhjä.';
+$wb['name_error_regex'] = 'Isäntänimi-kenttä on väärän muotoinen.';
+$wb['data_error_empty'] = 'Kohteen isäntänimi-kenttä on tyhjä';
+$wb['data_error_regex'] = 'Kohteen isäntänimi-kentän muoto vääränlainen';
+?>
+

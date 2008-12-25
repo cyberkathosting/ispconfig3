@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Tukiviestit';
+$wb['sender_id_txt'] = 'Lähettäjä';
+$wb['subject_txt'] = 'Aihe';
+$wb['add_new_record_txt'] = 'Luo uusi tukiviesti';
+?>
+

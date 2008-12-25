@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Users';
+$wb['username_txt'] = 'Käyttäjänimi';
+$wb['name_txt'] = 'Etunimi';
+$wb['vorname_txt'] = 'Sukunimi';
+$wb['ort_txt'] = 'Kaupunki';
+$wb['page_txt'] = 'Sivu';
+$wb['page_of_txt'] = '/';
+$wb['page_next_txt'] = 'Seuraava';
+$wb['page_back_txt'] = 'Takaisin';
+$wb['delete_txt'] = 'Poista';
+$wb['filter_txt'] = 'Suodatin';
+?>
+

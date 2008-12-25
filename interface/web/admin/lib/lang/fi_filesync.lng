@@ -1,0 +1,13 @@
+<?php
+$wb['jobname_txt'] = 'Työnimi';
+$wb['jobname_err'] = 'Työnimi on tyhjä.';
+$wb['sync_interval_minutes_txt'] = 'Jaksotus (Min.)';
+$wb['ftp_host_txt'] = 'FTP-palvelin';
+$wb['ftp_path_txt'] = 'FTP-kansiopolku';
+$wb['ftp_username_txt'] = 'FTP-käyttäjä';
+$wb['ftp_password_txt'] = 'FTP-salasana';
+$wb['local_path_txt'] = 'Paikallinen kansiopolku';
+$wb['wput_options_txt'] = 'Wput-asetukset';
+$wb['active_txt'] = 'Päällä';
+?>
+

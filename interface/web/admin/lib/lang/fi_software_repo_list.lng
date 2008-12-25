@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Pakettivarasto';
+$wb['active_txt'] = 'Päällä';
+$wb['repo_name_txt'] = 'Pakettivarasto';
+$wb['repo_url_txt'] = 'URL-osoite';
+$wb['add_new_record_txt'] = 'Lisää uusi tietue';
+?>
+

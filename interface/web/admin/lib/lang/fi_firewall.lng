@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['tcp_port_txt'] = 'Avoimet TCP-portit';
+$wb['udp_port_txt'] = 'Avoimet UDP-portit';
+$wb['tcp_port_help_txt'] = 'Pilkulla erotettuna';
+$wb['udp_port_help_txt'] = 'Pilkulla erotettuna';
+$wb['active_txt'] = 'Päällä';
+$wb['firewall_error_unique'] = 'Tällainen palomuurisäänto on jo tällä palvelimella.';
+?>
+

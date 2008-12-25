@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Järjestelmäkäyttäryhmät';
+$wb['description_txt'] = 'Kuvaus';
+$wb['name_txt'] = 'Ryhmä';
+$wb['add_new_record_txt'] = 'Lisää uusi ryhmä';
+?>
+

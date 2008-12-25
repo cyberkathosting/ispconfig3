@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Tietokannan synkronointi';
+$wb['jobname_txt'] = 'Työnimi';
+$wb['db_host_txt'] = 'Tietokantapalvelin';
+$wb['db_name_txt'] = 'Tietonkannan nimi';
+$wb['add_new_record_txt'] = 'Lisää uusi synkronointityö';
+?>
+

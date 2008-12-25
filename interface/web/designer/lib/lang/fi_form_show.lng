@@ -1,0 +1,19 @@
+<?php
+$wb['header_txt'] = 'Lomakemuokkain';
+$wb['title_txt'] = 'Lomakkeen otsikko';
+$wb['name_txt'] = 'Lomakkeen nimi';
+$wb['delete_txt'] = 'X';
+$wb['properties_txt'] = 'Ominaisuudet';
+$wb['new_tab_txt'] = 'Uusi painike';
+$wb['edit_txt'] = 'Muokkaa';
+$wb['new_txt'] = 'Uusi';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Ohjelmaosio';
+$wb['form_txt'] = 'Lomake';
+$wb['description_txt'] = 'Kuvaus';
+$wb['module_del_txt'] = 'Poista ohjelmaosion kansio ja kaikki sen alikansiot?';
+$wb['menu_del_txt'] = 'Poista valikko ja kaikki sen osat?';
+$wb['item_del_txt'] = 'Poista valikon osa?';
+?>
+

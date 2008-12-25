@@ -1,0 +1,12 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['type_txt'] = 'Tyyppi';
+$wb['source_server_txt'] = 'Pop3/Imap-palvelin';
+$wb['source_username_txt'] = 'Käyttäjänimi';
+$wb['source_password_txt'] = 'Salasana';
+$wb['source_delete_txt'] = 'Poista sähköpostit noudon jälkeen';
+$wb['destination_txt'] = 'Kohde';
+$wb['active_txt'] = 'Päällä';
+$wb['limit_fetchmail_txt'] = 'Tilisi noudettavien osoitteiden sallittu määrä on ylitetty.';
+?>
+

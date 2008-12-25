@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Sähköpostidomain';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Lisää uusi sähköpostidomain';
+$wb['active_txt'] = 'Päällä';
+?>
+

@@ -1,0 +1,18 @@
+<?php
+$wb['DNS'] = 'Nimipalvelut';
+$wb['Zones'] = 'Alueet';
+$wb['DNS A'] = 'DNS A-tietue';
+$wb['DNS ALIAS'] = 'DNS ALIAS-tietue';
+$wb['DNS CNAME'] = 'DNS CNAME-tietue';
+$wb['DNS hinfo'] = 'DNS hinfo-tietue';
+$wb['DNS mx'] = 'DNS mx-tietue';
+$wb['DNS ns'] = 'DNS ns-tietue';
+$wb['DNS ptr'] = 'DNS ptr-tietue';
+$wb['DNS RP'] = 'DNS RP-tietue';
+$wb['DNS Zone'] = 'DNS-alue';
+$wb['Records'] = 'Tietueet';
+$wb['DNS SRV'] = 'DNS SRV-tietue';
+$wb['DNS TXT Record'] = 'DNS TXT-tietue';
+$wb['DNS TXT'] = 'DNS TXT-tietue';
+?>
+

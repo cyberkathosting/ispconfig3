@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Ohjelmapaketit';
+$wb['installed_txt'] = 'Tila';
+$wb['package_title_txt'] = 'Paketti';
+$wb['package_description_txt'] = 'Kuvaus';
+$wb['action_txt'] = 'Toiminto';
+?>
+

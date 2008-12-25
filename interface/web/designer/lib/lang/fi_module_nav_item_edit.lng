@@ -1,0 +1,9 @@
+<?php
+$wb['title_txt'] = 'Otsikko';
+$wb['target_txt'] = 'Kohde';
+$wb['link_txt'] = 'Linkki';
+$wb['header_txt'] = 'Valikon ominaisuudet';
+$wb['save_txt'] = 'Tallenna';
+$wb['cancel_txt'] = 'Keskeytä';
+?>
+

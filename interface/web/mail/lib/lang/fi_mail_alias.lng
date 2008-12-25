@@ -1,0 +1,11 @@
+<?php
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['destination_txt'] = 'Kohde';
+$wb['active_txt'] = 'Päällä';
+$wb['email_error_isemail'] = 'Sähköpostiosoite on virheellinen.';
+$wb['email_error_unique'] = 'Tämä sähköpostiosoite on jo olemassa';
+$wb['no_domain_perm'] = 'Sinulla ei ole oikeuksia tähän domainiin.';
+$wb['destination_error_isemail'] = 'Kohteena ole sähköpostiosoite on väärin.';
+$wb['limit_mailalias_txt'] = 'Sähköpostikaimojen sallittu määrä on ylitetty.';
+?>
+

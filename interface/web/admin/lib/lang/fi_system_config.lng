@@ -1,0 +1,14 @@
+<?php
+$wb['warning'] = 'Muokkaa näytä arvoja varovasti! Älä poista etuliitteitä jos järjestelmässä on enemmän kuin yksi asiakas.';
+$wb['dbname_prefix_txt'] = 'Tietokannan nimen etuliite';
+$wb['dbuser_prefix_txt'] = 'Tietokannan käyttäjän nimen etuliite';
+$wb['shelluser_prefix_txt'] = 'Shell-käyttäjän nimen etuliite';
+$wb['ftpuser_prefix_txt'] = 'FTP-käyttäjän nimen etuliite';
+$wb['dbname_prefix_error_regex'] = 'Merkki ei ole sallittu tietokannan nimen etuliitteessä.';
+$wb['dbuser_prefix_error_regex'] = 'Merkki ei ole sallittu tietokannan käyttäjänimen etuliitteessä.';
+$wb['ftpuser_prefix_error_regex'] = 'Merkki ei ole sallittu ftp-käyttäjänimen etuliitteessä.';
+$wb['shelluser_prefix_error_regex'] = 'Merkki ei ole sallittu shell-käyttäjänimen etuliitteessä.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Linkki phpAyAdminiin tietokantalistassa';
+$wb['mailboxlist_webmail_link_txt'] = 'Linkki internet-postiin postilaatikkolistassa';
+?>
+

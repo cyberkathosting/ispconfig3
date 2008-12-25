@@ -1,0 +1,8 @@
+<?php
+$wb['recipient_id_txt'] = 'Vastaanottajan ID';
+$wb['sender_id_txt'] = 'Lähettäjän ID';
+$wb['subject_txt'] = 'Aihe';
+$wb['message_txt'] = 'Viesti';
+$wb['tstamp_txt'] = 'Aikaleima';
+?>
+

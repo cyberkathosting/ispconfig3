@@ -1,0 +1,35 @@
+<?php
+$wb['1001'] = 'Käyttäjänimi tai salasana on tyhjä.';
+$wb['1002'] = 'Käyttäjänimi tai salasana on väärin.';
+$wb['Firewall'] = 'Palomuuri';
+$wb['Groups'] = 'Ryhmät';
+$wb['groups_description'] = 'Lomake järjestelmäkäyttäjien ryhmien muokkaukseen.';
+$wb['Server'] = 'Palvelin';
+$wb['Services'] = 'Palvelut';
+$wb['Config'] = 'Asetukset';
+$wb['Server Config'] = 'Palvelimen asetukset';
+$wb['Mail'] = 'Posti';
+$wb['Getmail'] = 'Postin nouto';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'Järjestelmä';
+$wb['Add user'] = 'Lisää käyttäjä';
+$wb['Edit user'] = 'Muokkaa käyttäjää';
+$wb['CP Users'] = 'Hallintapaneelin käyttäjät';
+$wb['Add group'] = 'Lisää ryhmä';
+$wb['Edit group'] = 'Muokkaa ryhmää';
+$wb['Edit server'] = 'Muokkaa palvelinta';
+$wb['Edit Server IP'] = 'Muokkaa palvelimen IP-osoitetta';
+$wb['Servers'] = 'Palvelimet';
+$wb['Sync. Now'] = 'Synkronoi nyt';
+$wb['DB Sync.'] = 'Tietokannan synkronointi.';
+$wb['Languages'] = 'Kielet';
+$wb['New Language'] = 'Uusi kieli';
+$wb['Export'] = 'Vie';
+$wb['Import'] = 'Tuo';
+$wb['Language Editor'] = 'Kielimuokkain';
+$wb['Software'] = 'Ohjelmat';
+$wb['Repositories'] = 'Pakettivarastot';
+?>
+

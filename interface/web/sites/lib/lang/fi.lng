@@ -1,0 +1,17 @@
+<?php
+$wb['Database'] = 'Tietokanta';
+$wb['Options'] = 'Asetukset';
+$wb['Shell User'] = 'Shell-käyttäjä';
+$wb['Domain'] = 'Domain';
+$wb['Redirect'] = 'Edelleenohjaus';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Alidomain';
+$wb['Sites'] = 'Sivustot';
+$wb['Aliasdomain'] = 'Kaimadomain';
+$wb['FTP-User'] = 'FTP-käyttäjä';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell-käyttäjä';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Sivustot';
+?>
+

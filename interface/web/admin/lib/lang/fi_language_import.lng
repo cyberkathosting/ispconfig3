@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Tuo kielitioedosto';
+$wb['language_import_txt'] = 'Valitse kielitiedosto';
+$wb['btn_save_txt'] = 'Tuo valittu kielitiedosto';
+$wb['language_overwrite_txt'] = 'Ylikirjoitetaan tiedostot, jos ne on jo.';
+$wb['btn_cancel_txt'] = 'Takaisin';
+?>
+

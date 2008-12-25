@@ -1,0 +1,45 @@
+<?php
+$wb['Memory usage'] = 'Muistin käyttö';
+$wb['Server online since'] = 'Palvelimen päälläoloaika';
+$wb['Users online'] = 'Käyttäjiä kirjautuneena';
+$wb['System load 1 minute'] = 'Järjestelmän 1 minuutin kuorma';
+$wb['System load 5 minutes'] = 'Järjestelmän 5 minuutin kuorma';
+$wb['System load 15 minutes'] = 'Järjestelmän 15 minuutin kuorma';
+$wb['Server Load'] = 'Palvelimen kuorma';
+$wb['Disk usage'] = 'Levytilan käyttö';
+$wb['no_data_serverload_txt'] = 'Tietoja palvelimen kuormasta ei ole tällä hetkellä saatavana. Yritä myöhemmin uudelleen.';
+$wb['no_data_memusage_txt'] = 'Tietoja muistin käytöstä ei ole tällä hetkellä saatavana. Yritä myöhemmin uudelleen.';
+$wb['no_data_diskusage_txt'] = 'Tietoja levytilan käytöstä ei ole tällä hetkellä saatavana. Yritä myöhemmin uudelleen.';
+$wb['no_data_cpuinfo_txt'] = 'Tietoja prosessorin kuormasta ei ole tällä hetkellä saatavana. Yritä myöhemmin uudelleen.';
+$wb['no_data_services_txt'] = 'Tietoja palveluiden tilasta ei ole tällä hetkellä saatavana. Yritä myöhemmin uudelleen.';
+$wb['no_logdata_txt'] = 'Lokiietoja ei ole tällä hetkellä saatavana. Yritä myöhemmin uudelleen.';
+$wb['Monitoring'] = 'Valvonta';
+$wb['Server to Monitor'] = 'Mitä palvelinta valvotaan';
+$wb['Logfiles'] = 'Lokitiedostot';
+$wb['Status of services'] = 'Palveluiden tila';
+$wb['No Refresh'] = 'Ei päivitystä';
+$wb['minutes'] = 'minuuttia';
+$wb['Show Overview'] = 'Näytä yleiskatsaus';
+$wb['System State (All Servers)'] = 'Järjestelmän tila (Kaikki palvelimet)';
+$wb['Hardware-Information'] = 'Laitteiston tiedot';
+$wb['Show CPU info'] = 'Prosessorin tiedot';
+$wb['Server State'] = 'Palvelimen tila';
+$wb['Show Update State'] = 'Päivitysten tila';
+$wb['Show RAID state'] = 'RAID-järjestelmän tila';
+$wb['Show Server load'] = 'Näytä palvelimen kuorma';
+$wb['Show Disk usage'] = 'Näytä levytilan käyttö';
+$wb['Show Memory usage'] = 'Näytä muistin käyttö';
+$wb['Show Services'] = 'Näytä palveluiden tila';
+$wb['Show Mail-Queue'] = 'Näytä sähköpostijono';
+$wb['Show Mail-Log'] = 'Näytä postipalvelimen loki';
+$wb['Show Mail warn-Log'] = 'Näytä postipalvelimen varoitusloki';
+$wb['Show Mail err-Log'] = 'Näytä postipalvelimen virheloki';
+$wb['Show System-Log'] = 'Näytä järjestelmäloki';
+$wb['Show Freshclam-Log'] = 'Näytä Freshclam-Loki';
+$wb['Show Clamav-Log'] = 'Näytä Clamav-Loki';
+$wb['Show ISPConfig-Log'] = 'Näytä ISPConfig-Loki';
+$wb['Show ISPC Cron-Log'] = 'Näytä ISPC Cron-Loki';
+$wb['Show RKHunter-Log'] = 'Näytä RKHunter-Loki';
+$wb['Show Jobqueue'] = 'Näytä työjono';
+?>
+

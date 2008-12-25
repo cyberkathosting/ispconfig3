@@ -1,0 +1,17 @@
+<?php
+$wb['header_txt'] = 'Valikko-muokkain';
+$wb['title_txt'] = 'Otsikko';
+$wb['name_txt'] = 'Ohjelmaosio';
+$wb['delete_txt'] = 'Poista';
+$wb['properties_txt'] = 'Ominaisuudet';
+$wb['new_menu_txt'] = 'Uusi valikko';
+$wb['edit_txt'] = 'Muokkaa';
+$wb['new_txt'] = 'Uusi';
+$wb['up_txt'] = 'Ylös';
+$wb['down_txt'] = 'Alas';
+$wb['module_txt'] = 'Ohjelmaosio';
+$wb['module_del_txt'] = 'Haluatko poistaa tämän ohjelmaosion ja kaikki siihen kuuluvat valikot ja osat?';
+$wb['menu_del_txt'] = 'Haluatko poistaa tämän valikon?';
+$wb['item_del_txt'] = 'Haluatko poistaa tämän osan?';
+?>
+

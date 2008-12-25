@@ -1,0 +1,7 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['ip_address_txt'] = 'IP-osoite';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_err'] = 'IP-osoite viallinen';
+?>
+

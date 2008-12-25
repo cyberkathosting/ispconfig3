@@ -1,0 +1,10 @@
+<?php
+$wb['Client'] = 'Asiakas';
+$wb['Address'] = 'Osoite';
+$wb['Limits'] = 'Rajoitukset';
+$wb['Add Client'] = 'Lisää asiakas';
+$wb['Edit Client'] = 'Muokkaa asiakkaan tietoja';
+$wb['Clients'] = 'Asiakkaat';
+$wb['Edit Client-Templates'] = 'Muokkaa aiakasmalleja';
+?>
+

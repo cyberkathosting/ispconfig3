@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Perusohjelmaosio';
+$wb['module_txt'] = 'Ohjelmaosio';
+$wb['title_txt'] = 'Otsikko';
+?>
+
