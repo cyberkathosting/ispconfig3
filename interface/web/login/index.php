@@ -93,7 +93,6 @@ class login_index {
 
 	        	//* Check if there already wrong logins
 	        	$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '{$ip}' AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
-				echo $sql;
 	        	$alreadyfailed = $app->db->queryOneRecord($sql);
 	        	//* login to much wrong
 	        	if($alreadyfailed['times'] > 5) {
