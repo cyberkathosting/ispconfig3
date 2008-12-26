@@ -70,7 +70,7 @@ function get_distname() {
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 4.0 or compatible\n");
 		}
-		if(trim(file_get_contents('/etc/debian_version')) == '5.0') {
+		if(trim(file_get_contents('/etc/debian_version')) == '5.0' || trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
 			$distname = 'Debian';
 			$distver = 'Lenny/Sid';
 			$distid = 'debian40';
