@@ -58,7 +58,11 @@ function getClientName($dataRecord) {
     	$client_group_id = $_SESSION["s"]["user"]["default_group"];
     } else {
     	// Get the group-id from the data itself
-    	$client_group_id = $dataRecord['client_group_id'];
+    	if(isset($dataRecord['client_group_id'])) {
+			$client_group_id = $dataRecord['client_group_id'];
+      	} else {
+			$client_group_id = $dataRecord['sys_groupid'];
+      	}
     }
     /* get the name of the client */
     $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
@@ -76,7 +80,11 @@ function getClientID($dataRecord) {
     	$client_group_id = $_SESSION["s"]["user"]["default_group"];
     } else {
     	// Get the group-id from the data itself
-    	$client_group_id = $dataRecord['client_group_id'];
+		if(isset($dataRecord['client_group_id'])) {
+			$client_group_id = $dataRecord['client_group_id'];
+      	} else {
+			$client_group_id = $dataRecord['sys_groupid'];
+      	}
     }
     /* get the name of the client */
     $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $client_group_id);
