@@ -123,8 +123,8 @@ There are two possile scenarios, but not both:
 7.1) Installation of last version from tar.gz
 
   cd /tmp
-  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.7-beta.tar.gz
-  tar xvfz ISPConfig-3.0.0.7-beta.tar.gz
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.8-rc1.tar.gz
+  tar xvfz ISPConfig-3.0.0.8-rc1.tar.gz
   cd ispconfig3_install/install/
 
 7.2) Installation from SVN

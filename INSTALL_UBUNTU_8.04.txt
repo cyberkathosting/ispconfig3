@@ -176,8 +176,8 @@ There are two possile scenarios a) or b), but not both:
 a) Installation of beta 3
     
     cd /tmp
-    wget http://www.ispconfig.org/downloads/ISPConfig_3.0.0.7-beta.tar.gz
-    tar xvfz ISPConfig_3.0.0.7-alpha.tar.gz
+    wget http://www.ispconfig.org/downloads/ISPConfig_3.0.0.8-rc1.tar.gz
+    tar xvfz ISPConfig_3.0.0.8-rc1.tar.gz
     cd ispconfig3_install/install/
 
 b) Installation from SVN
