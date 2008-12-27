@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2005 - 2008, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 		$text = '';
 		foreach($tplAdd as $item){
 			if (trim($item) != ''){
-				if ($text != '') $text .= '<br>';
+				if ($text != '') $text .= '<br />';
 				$text .= $tpl[$item];
 			}
 		}
@@ -132,7 +132,7 @@ class page_action extends tform_actions {
 		global $app;
 		
 		// username changed
-		if($this->oldDataRecord['username'] != $this->dataRecord['username']) {
+		if(isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = mysql_real_escape_string($this->dataRecord["username"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
