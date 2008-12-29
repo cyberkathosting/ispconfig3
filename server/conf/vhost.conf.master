@@ -15,13 +15,13 @@
     ErrorLog <tmpl_var name='document_root'>/log/error.log
 <tmpl_if name='errordocs'>
 
-    ErrorDocument 400 /error/invalidSyntax.html
-    ErrorDocument 401 /error/authorizationRequired.html
-    ErrorDocument 403 /error/forbidden.html
-    ErrorDocument 404 /error/fileNotFound.html
-    ErrorDocument 405 /error/methodNotAllowed.html
-    ErrorDocument 500 /error/internalServerError.html
-    ErrorDocument 503 /error/overloaded.html
+    ErrorDocument 400 /error/400.html
+    ErrorDocument 401 /error/401.html
+    ErrorDocument 403 /error/403.html
+    ErrorDocument 404 /error/404.html
+    ErrorDocument 405 /error/405.html
+    ErrorDocument 500 /error/500.html
+    ErrorDocument 503 /error/503.html
 </tmpl_if>
 
     <Directory {tmpl_var name='web_document_root_www'}>
@@ -118,13 +118,13 @@
     ErrorLog <tmpl_var name='document_root'>/log/error.log
 
 <tmpl_if name='is_errordocs'>
-    ErrorDocument 400 /error/invalidSyntax.html
-    ErrorDocument 401 /error/authorizationRequired.html
-    ErrorDocument 403 /error/forbidden.html
-    ErrorDocument 404 /error/fileNotFound.html
-    ErrorDocument 405 /error/methodNotAllowed.html
-    ErrorDocument 500 /error/internalServerError.html
-    ErrorDocument 503 /error/overloaded.html
+    ErrorDocument 400 /error/400.html
+    ErrorDocument 401 /error/401.html
+    ErrorDocument 403 /error/403.html
+    ErrorDocument 404 /error/404.html
+    ErrorDocument 405 /error/405.html
+    ErrorDocument 500 /error/500.html
+    ErrorDocument 503 /error/503.html
 
 </tmpl_if>
     SSLEngine on
