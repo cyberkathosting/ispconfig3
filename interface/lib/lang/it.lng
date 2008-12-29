@@ -15,5 +15,5 @@ $wb['delete_txt'] = 'Cancella';
 $wb['filter_txt'] = 'Filtro';
 $wb['add_new_record_txt'] = 'Aggiungi nuovo record';
 $wb['btn_save_txt'] = 'Salva';
-$wb['btn_cancel_txt'] = 'Annulla';
+$wb['btn_cancel_txt'] = 'Indietro';
 ?>
