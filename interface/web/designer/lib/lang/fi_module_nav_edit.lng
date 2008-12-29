@@ -1,6 +1,6 @@
 <?php
-$wb['title_txt'] = 'Title';
-$wb['header_txt'] = 'Navi properties';
-$wb['save_txt'] = 'Save';
-$wb['cancel_txt'] = 'Cancel';
+$wb['title_txt'] = 'Otsikko';
+$wb['header_txt'] = 'Valikon ominaisuudet';
+$wb['save_txt'] = 'Tallenna';
+$wb['cancel_txt'] = 'Keskeytä';
 ?>
