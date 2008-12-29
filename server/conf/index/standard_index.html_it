@@ -48,9 +48,9 @@
             <h1>Benvenuti sul <!--ADRESSE//-->vostro sito!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
-            <h2>Questa e' la pagina di default.</h2>
-            <p>Questo file puo' essere cancellato o sovrascritto senza nessuna difficolta. Questo e' prodotto dal file <b>index.html</b> nella directory <b>web</b>.</p>
-            <p>Per domande o problemi contattate <!--SUPPORT//-->support<!--SUPPORT//-->.</p>
+            <h2>Questa è la pagina predefinita.</h2>
+            <p>Questo file può essere cancellato o sovrascritto senza nessun problema. Questo è prodotto dal file <b>index.html</b> nella cartella <b>web</b>.</p>
+            <p>Per domande o problemi contattate il <!--SUPPORT//-->supporto<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>Powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>
