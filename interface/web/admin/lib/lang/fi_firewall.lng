@@ -7,4 +7,3 @@ $wb['udp_port_help_txt'] = 'Pilkulla erotettuna';
 $wb['active_txt'] = 'Päällä';
 $wb['firewall_error_unique'] = 'Tällainen palomuurisäänto on jo tällä palvelimella.';
 ?>
-

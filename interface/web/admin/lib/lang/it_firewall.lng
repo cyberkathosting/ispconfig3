@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Open TCP ports';
-$wb['udp_port_txt'] = 'Open UDP ports';
-$wb['tcp_port_help_txt'] = 'Separated by comma';
-$wb['udp_port_help_txt'] = 'Separated by comma';
-$wb['active_txt'] = 'Active';
-$wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
+$wb['tcp_port_txt'] = 'Apri porte TCP';
+$wb['udp_port_txt'] = 'Apri porte UDP';
+$wb['tcp_port_help_txt'] = 'Separate dalla virgola';
+$wb['udp_port_help_txt'] = 'Separate dalle virgola';
+$wb['active_txt'] = 'Attivo';
+$wb['firewall_error_unique'] = 'Cè già un record firewall per questo server.';
 ?>

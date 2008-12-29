@@ -4,4 +4,3 @@ $wb['jobname_txt'] = 'Työnimi';
 $wb['ftp_host_txt'] = 'FTP-palvelin';
 $wb['local_path_txt'] = 'Paikallinen kansiopolku';
 ?>
-

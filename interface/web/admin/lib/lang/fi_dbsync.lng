@@ -12,4 +12,3 @@ $wb['empty_datalog_txt'] = 'Poista datalogi synkronoinnin jälkeen.';
 $wb['sync_datalog_external_txt'] = 'Täytä ulkoinen datalogi.';
 $wb['active_txt'] = 'Päällä';
 ?>
-

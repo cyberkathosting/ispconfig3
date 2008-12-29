@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'File Synchronisation';
+$wb['list_head_txt'] = 'Sincronizzazione File';
 $wb['jobname_txt'] = 'Jobname';
-$wb['ftp_host_txt'] = 'FTP Server';
-$wb['local_path_txt'] = 'Local Path';
+$wb['ftp_host_txt'] = 'Server FTP';
+$wb['local_path_txt'] = 'Percorso locale';
 ?>

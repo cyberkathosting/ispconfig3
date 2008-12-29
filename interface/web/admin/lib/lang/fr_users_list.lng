@@ -4,5 +4,4 @@ $wb['username_txt'] = 'Nom dutilisateur';
 $wb['name_txt'] = 'Nom';
 $wb['vorname_txt'] = 'Prénom';
 $wb['ort_txt'] = 'Ville';
-$wb['add_new_record_txt'] = 'Add new User';
 ?>

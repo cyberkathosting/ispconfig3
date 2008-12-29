@@ -3,4 +3,3 @@ $wb['description_txt'] = 'Kuvaus';
 $wb['name_txt'] = 'Ryhmä';
 $wb['name_err'] = 'Ryhmänimen pitää olla vähintään 1, enintään 30 merkkiä.';
 ?>
-

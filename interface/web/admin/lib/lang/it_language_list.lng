@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Language file editor';
-$wb['language_select_txt'] = 'Select language';
-$wb['module_txt'] = 'Module';
-$wb['lang_file_txt'] = 'Language file';
-$wb['lang_file_date_txt'] = 'Last modify';
+$wb['list_head_txt'] = 'Editor file di lingua';
+$wb['language_select_txt'] = 'Seleziona lingua';
+$wb['module_txt'] = 'Modulo';
+$wb['lang_file_txt'] = 'File lingua';
+$wb['lang_file_date_txt'] = 'Ultima modifica';
 ?>

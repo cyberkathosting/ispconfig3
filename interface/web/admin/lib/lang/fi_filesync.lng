@@ -10,4 +10,3 @@ $wb['local_path_txt'] = 'Paikallinen kansiopolku';
 $wb['wput_options_txt'] = 'Wput-asetukset';
 $wb['active_txt'] = 'Päällä';
 ?>
-
