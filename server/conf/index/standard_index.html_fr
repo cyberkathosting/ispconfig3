@@ -1,39 +1,60 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Bienvenue!</title>
-<link rel="shortcut icon" href="/favicon.ico" />
-</HEAD>
-<body BGCOLOR="#FFFFFF" leftMargin=0 topMargin=0 rightMargin=0 marginheight="0" marginwidth="0">
-<center>
-<table BORDER="0" WIDTH="100%" CELLSPACING="0">
-  <tr>
-    <td BGCOLOR="#025CCA" ALIGN="CENTER">
-    <hr SIZE="1" COLOR="#FFFFFF">
-    <table>
-      <tr>
-            <td><font SIZE="3" COLOR="#FFFFFF" FACE="Helvetica, Arial"><b>Bienvenue sur votre site Web!
-              <!--ADRESSE//-->
-              </b></font></td>
-      </tr>
-    </table>
-    <hr SIZE="1" COLOR="#FFFFFF">
-    </td>
-  </tr>
-  <tr>
-    <td BGCOLOR="#FFFFFF">
-      <br><br>
-	  <center>
-	      <p><font COLOR="#000000" SIZE="2" FACE="Helvetica, Arial"><br>
-          Ceci est la page d'index standard de votre site. Vous pouvez facilement effacer ou remplacer ce fichier. C'est le fichier index.html dans le dossier <b>web</b>.</font></p>
-	      <p><font COLOR="#000000" SIZE="2" FACE="Helvetica, Arial">Pour tous problèmes ou questions, merci de contacter l'administrateur du serveur.</font></p>
-      </center>
-        <hr SIZE="1" WIDTH="90%">
-      <center>
-<font SIZE="1" COLOR="#000000" FACE="Verdana, Arial">powered by <a HREF="http://www.ispconfig.org">ISPConfig</a></font>
-      </center>
-    </td>
-  </tr>
-</table>
-</center>
+    <title>Bienvenue!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="robots" content="noindex" />
+	<style type="text/css"><!--
+    body {
+        color: #444444;
+        background-color: #EEEEEE;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 80%;
+    }
+    h1 {}
+    h2 { font-size: 1.2em; }
+    #page{
+        background-color: #FFFFFF;
+        width: 60%;
+        margin: 24px auto;
+        padding: 12px;
+    }
+    #header{
+        padding: 6px ;
+        text-align: center;
+    }
+    .header{ background-color: #83A342; color: #FFFFFF; }
+    #content {
+        padding: 4px 0 24px 0;
+    }
+    #footer {
+        color:#83A342;
+        background: #f9f9f9;
+        padding: 10px 20px;
+        border-top: 5px #efefef solid;
+        font-size: 0.8em;
+        text-align: center;
+    }
+    #footer a {
+        color: #83A342;
+    }
+    --></style>
+</head>
+<body>
+    <div id="page">
+        <div id="header" class="header">
+            <h1>Bienvenue sur <!--ADRESSE//-->votre site<!--ADRESSE//--></h1>
+        </div>
+        <div id="content">
+            <h2>Ceci est la page d'index standard de votre site.</h2>
+            <p>Vous pouvez facilement effacer ou remplacer ce fichier. C'est le fichier <b>index.html</b> dans le dossier <b>web</b>.</p>
+            <p>Pour tous problÃ¨mes ou questions, merci de contacter le <!--SUPPORT//-->support<!--SUPPORT//-->.</p>
+        </div>
+        <div id="footer">
+            <p>powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>
+        </div>
+    </div>
 </body>
 </html>

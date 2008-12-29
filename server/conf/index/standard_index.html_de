@@ -5,7 +5,8 @@
     <title>Herzlich Willkommen!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" />
-    <style type="text/css"><!--
+    <meta name="robots" content="noindex" />
+	<style type="text/css"><!--
     body {
         color: #444444;
         background-color: #EEEEEE;
@@ -21,11 +22,10 @@
         padding: 12px;
     }
     #header{
-        color: #FFFFFF;    
-        background-color: #83A342;
         padding: 6px ;
         text-align: center;
     }
+    .header{ background-color: #83A342; color: #FFFFFF; }
     #content {
         padding: 4px 0 24px 0;
     }
@@ -44,13 +44,13 @@
 </head>
 <body>
     <div id="page">
-        <div id="header">
+        <div id="header" class="header">
             <h1>Herzlich Willkommen auf <!--ADRESSE//-->Ihrer Website!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
             <h2>Dies ist die Standard-Index-Seite Ihres Webs.</h2>
             <p>Sie können sie problemlos löschen oder durch eine andere Seite ersetzen. Es handelt sich hierbei um die Datei <b>index.html</b> im Verzeichnis <b>web</b>.</p>
-            <p>Bei Fragen oder Problemen wenden Sie sich bitte an den Server-Administrator.</p>
+            <p>Bei Fragen oder Problemen wenden Sie sich bitte an den <!--SUPPORT//-->Support<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>

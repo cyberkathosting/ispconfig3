@@ -5,7 +5,8 @@
     <title>Vitejte!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" />
-    <style type="text/css"><!--
+    <meta name="robots" content="noindex" />
+	<style type="text/css"><!--
     body {
         color: #444444;
         background-color: #EEEEEE;
@@ -21,11 +22,10 @@
         padding: 12px;
     }
     #header{
-        color: #FFFFFF;    
-        background-color: #83A342;
         padding: 6px ;
         text-align: center;
     }
+    .header{ background-color: #83A342; color: #FFFFFF; }
     #content {
         padding: 4px 0 24px 0;
     }
@@ -44,13 +44,13 @@
 </head>
 <body>
     <div id="page">
-        <div id="header">
+        <div id="header" class="header">
             <h1>Vitejte na <!--ADRESSE//-->Vasem webu!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
             <h2>Toto je standardni stranka Vaseho webu.</h2>
             <p>Muzete ji bez obav vymazat nebo nahradit jinym souborem. Toto je soubor <b>index.html</b> v adresari <b>web</b>.</p>
-            <pPokud mate jakekoliv dotazy prosim kontaktuje administratora serveru.</p>
+            <p>Pokud mate jakekoliv dotazy prosim kontaktuje <!--SUPPORT//-->Support<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>

@@ -5,7 +5,8 @@
     <title>Welcome!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" />
-    <style type="text/css"><!--
+    <meta name="robots" content="noindex" />
+	<style type="text/css"><!--
     body {
         color: #444444;
         background-color: #EEEEEE;
@@ -21,11 +22,10 @@
         padding: 12px;
     }
     #header{
-        color: #FFFFFF;    
-        background-color: #83A342;
         padding: 6px ;
         text-align: center;
     }
+    .header{ background-color: #83A342; color: #FFFFFF; }
     #content {
         padding: 4px 0 24px 0;
     }
@@ -44,13 +44,13 @@
 </head>
 <body>
     <div id="page">
-        <div id="header">
+        <div id="header" class="header">
             <h1>Welcome to <!--ADRESSE//-->your website!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
             <h2>This is the default index page of your website.</h2>
             <p>This file may be deleted or overwritten without any difficulty. This is produced by the file <b>index.html</b> in the <b>web</b> directory.</p>
-            <p>For questions or problems please contact the server administrator.</p>
+            <p>For questions or problems please contact the <!--SUPPORT//-->support<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>

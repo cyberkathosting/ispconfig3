@@ -5,7 +5,8 @@
     <title>Bienvenido!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico" />
-    <style type="text/css"><!--
+    <meta name="robots" content="noindex" />
+	<style type="text/css"><!--
     body {
         color: #444444;
         background-color: #EEEEEE;
@@ -21,11 +22,10 @@
         padding: 12px;
     }
     #header{
-        color: #FFFFFF;    
-        background-color: #83A342;
         padding: 6px ;
         text-align: center;
     }
+    .header{ background-color: #83A342; color: #FFFFFF; }
     #content {
         padding: 4px 0 24px 0;
     }
@@ -44,13 +44,13 @@
 </head>
 <body>
     <div id="page">
-        <div id="header">
-            <h1>Bienvenido a <!--ADRESSE//-->su sitio web!<!--ADRESSE//--></h1>
+        <div id="header" class="header">
+            <h1>Bienvenido a su <!--ADRESSE//-->sitio web!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
             <h2>Esta es la p&aacute;gina principal del sitio.</h2>
             <p>Puede cambiarla por otra simplemente reemplazando este archivo. This is produced by the file <b>index.html</b> in the <b>web</b> directory.</p>
-            <p>Si tiene dudas o problemas, porfavor contacte al administrador del sistema.</p>
+            <p>Si tiene dudas o problemas, porfavor contacte al <!--SUPPORT//-->support<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>
