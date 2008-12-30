@@ -40,7 +40,7 @@ apt-get install ntp ntpdate
 
 1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin, rkhunter, binutils with the following command line (on one line!):
 
-apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter binutils
+apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-authlib-mysql courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter binutils
 
 # Answer the questions from the package manager as follows.
 
@@ -150,8 +150,8 @@ vi /etc/inetd.conf
 apt-get install g++ libc6 gcc gawk make texinfo libmysqlclient15-dev
 
 cd /tmp
-wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.4.tar.gz
-tar xvfz mydns-1.2.8.4.tar.gz
+wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.15.tar.gz
+tar xvfz mydns-1.2.8.15.tar.gz
 cd mydns-1.2.8
 ./configure
 make
