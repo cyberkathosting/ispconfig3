@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'dbsync';
-$wb['jobname_txt'] = 'jobname';
-$wb['db_host_txt'] = 'db_host';
-$wb['db_name_txt'] = 'db_name';
-$wb['add_new_record_txt'] = 'Add new DBSync record';
-?>

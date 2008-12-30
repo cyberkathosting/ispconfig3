@@ -110,34 +110,6 @@ $module['nav'][] = array(	'title'	=> 'Software',
 // cleanup
 unset($items);
 
-
-
-
-/*
-$items[] = array( 'title' 	=> 'Add user',
-				  'target' 	=> 'content',
-				  'link'	=> 'admin/dbsync_edit.php');
-
-$items[] = array( 'title' 	=> 'Edit user',
-				  'target' 	=> 'content',
-				  'link'	=> 'admin/dbsync_list.php');
-
-				  
-$items[] = array( 'title' 	=> 'Sync. Now',
-				  'target' 	=> 'content',
-				  'link'	=> 'admin/dbsync_cron.php');
-
-$module['nav'][] = array(	'title'	=> 'DB Sync.',
-							'open' 	=> 1,
-							'items'	=> $items);
-
-
-// cleanup
-unset($items);
-*/
-
-
-
 $items[] = array( 'title' 	=> 'Languages',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/language_list.php');
@@ -165,26 +137,6 @@ $module['nav'][] = array(	'title'	=> 'Language Editor',
 
 // cleanup
 unset($items);
-
-/*
-$items[] = array( 'title' 	=> 'Add user',
-				  'target' 	=> 'content',
-				  'link'	=> 'admin/filesync_edit.php');
-
-$items[] = array( 'title' 	=> 'Edit user',
-				  'target' 	=> 'content',
-				  'link'	=> 'admin/filesync_list.php');
-
-				  
-$module['nav'][] = array(	'title'	=> 'File Sync.',
-							'open' 	=> 1,
-							'items'	=> $items);
-
-
-// cleanup
-unset($items);
-*/
-
 
 // Getting the admin options from other modules
 $modules = explode(',', $_SESSION['s']['user']['modules']);

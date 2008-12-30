@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Databas Synkronisering';
-$wb['jobname_txt'] = 'Jobbnamn';
-$wb['db_host_txt'] = 'DB Värd';
-$wb['db_name_txt'] = 'DB Namn';
-$wb['add_new_record_txt'] = 'Add new DBSync record';
-?>

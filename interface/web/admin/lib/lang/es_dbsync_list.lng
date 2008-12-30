@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Sincronización de la base de datos';
-$wb['jobname_txt'] = 'Orden de trabajo';
-$wb['db_host_txt'] = 'Servidor de base de datos';
-$wb['db_name_txt'] = 'Nombre de la base de datos';
-$wb['add_new_record_txt'] = 'Añadir nuevo registro de sincronización de base de datos';
-?>
