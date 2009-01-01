@@ -315,3 +315,8 @@ make
 make install
 rm -rf jailkit-2.5*
 ----------------------------------------------------------------------------------------------------------
+
+Optional packages recommended:
+
+denyhosts - a utility to help sys admins thwart ssh crackers
+rsync - fast remote file copy program (for backup)
