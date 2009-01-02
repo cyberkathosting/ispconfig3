@@ -89,12 +89,13 @@ function showDiskUsage () {
             <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
             <table>
             <tr>
-            <td>Filesystem</td>
-            <td>1K-blocks</td>
-            <td>Used</td>
-            <td>Available</td>
-            <td>Use%</td>
-            <td>Mounted on</td>
+            <td>'.$app->lng("monitor_diskusage_filesystem_txt").'</td>
+	    <td>'.$app->lng("monitor_diskusage_type_txt").'</td>
+            <td>'.$app->lng("monitor_diskusage_size_txt").'</td>
+            <td>'.$app->lng("monitor_diskusage_used_txt").'</td>
+            <td>'.$app->lng("monitor_diskusage_available_txt").'</td>
+            <td>'.$app->lng("monitor_diskusage_usage_txt").'</td>
+            <td>'.$app->lng("monitor_diskusage_mounted_txt").'</td>
             </tr>';
         foreach($data as $line) {
             $html .= '<tr>';
@@ -204,12 +205,12 @@ function showServices ()
 
         if($data['webserver'] != -1) {
             if($data['webserver'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>Web-Server:</td>
+            <td>'.$app->lng("monitor_services_web_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
@@ -217,72 +218,72 @@ function showServices ()
 
         if($data['ftpserver'] != -1) {
             if($data['ftpserver'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>FTP-Server:</td>
+            <td>'.$app->lng("monitor_services_ftp_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
 
         if($data['smtpserver'] != -1) {
             if($data['smtpserver'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>SMTP-Server:</td>
+            <td>'.$app->lng("monitor_services_smtp_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
 
         if($data['pop3server'] != -1) {
             if($data['pop3server'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>POP3-Server:</td>
+            <td>'.$app->lng("monitor_services_pop_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
 
         if($data['imapserver'] != -1) {
             if($data['imapserver'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>IMAP-Server:</td>
+            <td>'.$app->lng("monitor_services_imap_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
 
         if($data['bindserver'] != -1) {
             if($data['bindserver'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>DNS-Server:</td>
+            <td>'.$app->lng("monitor_services_mydns_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
 
         if($data['mysqlserver'] != -1) {
             if($data['mysqlserver'] == 1) {
-                $status = '<span class="online">Online</span>';
+                $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
             } else {
-                $status = '<span class="offline">Offline</span>';
+                $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
             }
             $html .= '<tr>
-            <td>mySQL-Server:</td>
+            <td>'.$app->lng("monitor_services_mysql_txt").'</td>
             <td>'.$status.'</td>
             </tr>';
         }
@@ -313,7 +314,7 @@ function showSystemUpdate()
          * If not (because the destribution is not supported) show this.
          */
         if ($record['state'] == 'no_state'){
-            $html .= "Your distribution is not supported for this monitoring";
+            $html .= '<p>'.$app->lng("monitor_updates_nosupport_txt").'</p>';
         }
         else {
             $data = unserialize($record['data']);
@@ -321,7 +322,7 @@ function showSystemUpdate()
         }
         $html .= '</div></div>';
     } else {
-        $html = '<p>' . "No Update-Data available" . '</p>';
+        $html = '<p>'.$app->lng("no_data_updates_txt").'</p>';
     }
 
     return $html;
@@ -344,7 +345,7 @@ function showRaidState()
          * If not (because the destribution is not supported) show this.
          */
         if ($record['state'] == 'no_state'){
-            $html .= '<p>' . "mdadm ist not installed or your Server has no supported RAID" . '</p>';
+            $html .= '<p>'.$app->lng("monitor_nomdadm_txt").'</p>';
         }
         else {
             $data = unserialize($record['data']);
@@ -353,7 +354,7 @@ function showRaidState()
         $html .= '</div></div>';
 
     } else {
-        $html = '<p>' . "No RAID-Data available" . '</p>';
+        $html = '<p>'.$app->lng("no_data_raid_txt").'</p>';
     }
 
     return $html;
@@ -377,7 +378,7 @@ function showRKHunter()
          */
         $data = unserialize($record['data']);
         if ($data['output'] == ''){
-            $html .= '<p>' . "rkhunter ist not installed, so there is no log data" . '</p>';
+            $html .= '<p>'.$app->lng("monitor_norkhunter_txt").'</p>';
         }
         else {
             $html .= nl2br($data['output']);
@@ -385,7 +386,7 @@ function showRKHunter()
         $html .= '</div></div>';
 
     } else {
-        $html = '<p>' . "No RKHunter-Data available" . '</p>';
+        $html = '<p>'.$app->lng("no_data_rkhunter_txt").'</p>';
     }
 
     return $html;
@@ -402,7 +403,7 @@ function showMailq()
         $data = unserialize($record['data']);
         $html = nl2br($data['output']);
     } else {
-        $html = '<p>' . "No Mailq-Data available" . '</p>';
+        $html = '<p>'.$app->lng("no_data_mailq_txt").'</p>';
     }
 
     return $html;
@@ -414,8 +415,12 @@ function getDataTime($type) {
     /* fetch the Data from the DB */
     $record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
+    /* TODO: datetimeformat should be set somewhat other way */
+    $dateTimeFormat = $app->lng("monitor_settings_datetimeformat_txt");
+
     if(isset($record['created'])) {
-        $res = date('Y-m-d H:i', $record['created']);
+//        $res = date('Y-m-d H:i', $record['created']);
+        $res = date($dateTimeFormat, $record['created']);
     } else {
         $res = '????-??-?? ??:??';
     }

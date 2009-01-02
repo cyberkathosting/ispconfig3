@@ -71,7 +71,7 @@ $app->tpl->setVar("description",$description);
 
 /*
  Creating the array with the refresh intervals
- Attention: the core-moule ist triggered every 5 minutes,
+ Attention: the core-module ist triggered every 5 minutes,
             so reload every 2 minutes is impossible!
 */
 $refresh = (isset($_GET["refresh"]))?intval($_GET["refresh"]):0;
