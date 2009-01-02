@@ -192,7 +192,7 @@ class monitor_core_module {
         $state = 'ok';
 
         /** Fetch the data into a array */
-        $dfData = shell_exec("df");
+        $dfData = shell_exec("df -hTx tmpfs");
 
         // split into array
         $df = explode("\n", $dfData);
@@ -208,11 +208,12 @@ class monitor_core_module {
                  */
                 $s = preg_split ("/[\s]+/", $df[$i]);
                 $data[$i]['fs'] = $s[0];
-                $data[$i]['size'] = $s[1];
-                $data[$i]['used'] = $s[2];
-                $data[$i]['available'] = $s[3];
-                $data[$i]['percent'] = $s[4];
-                $data[$i]['mounted'] = $s[5];
+                $data[$i]['type'] = $s[1];
+                $data[$i]['size'] = $s[2];
+                $data[$i]['used'] = $s[3];
+                $data[$i]['available'] = $s[4];
+                $data[$i]['percent'] = $s[5];
+                $data[$i]['mounted'] = $s[6];
                 /*
                  * calculate the state
                  */
