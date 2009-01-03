@@ -48,19 +48,22 @@ $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/show_sys_state.htm');
 
+/* Get some translations */
+$monTransRefreshsq = $app->lng("monitor_settings_refreshsq_txt");
+
 /*
  * setting the content
  */
 if ($_GET['state'] == 'server')
 {
     $output = _getServerState($_SESSION['monitor']['server_id'], $_SESSION['monitor']['server_name'], true);
-    $title = "Server State";
+    $title = $app->lng("monitor_general_serverstate_txt");
     $stateType = 'server';
 }
 else
 {
     $output = _getSysState();
-    $title = "System State";
+    $title = $app->lng("monitor_general_systemstate_txt");
     $stateType = 'system';
 }
 
@@ -68,6 +71,7 @@ $app->tpl->setVar("state_data",$output);
 $app->tpl->setVar("state_type",$stateType);
 $app->tpl->setVar("title",$title);
 $app->tpl->setVar("description",$description);
+$app->tpl->setVar("monTransRefreshsq", $monTransRefreshsq);
 
 /*
  Creating the array with the refresh intervals
@@ -142,15 +146,16 @@ function _getServerState($serverId, $serverName, $showAll)
     $res .= '<div class="systemmonitor-state state-'.$serverState.'">';
     $res .= '<div class="systemmonitor-device device-server">';
     $res .= '<div class="systemmonitor-content icons32 ico-'.$serverState.'">';
-    $res .= 'Server: ' . $serverName . '<br />';
-    $res .= 'State: ' . $serverState . '<br />';
+    $res .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName . '<br />';
+    $res .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '<br />';
     //        $res .= sizeof($messages['ok']) . ' ok | ';
-    $res .= sizeof($messages['unknown']) . ' unknown | ';
-    $res .= sizeof($messages['info']) . ' info | ';
-    $res .= sizeof($messages['warning']) . ' warning | ';
-    $res .= sizeof($messages['critical']) . ' critical | ';
-    $res .= sizeof($messages['error']) . ' error <br />';
+    $res .= sizeof($messages['unknown']) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ' | ';
+    $res .= sizeof($messages['info']) . ' ' . $app->lng("monitor_serverstate_info_txt") . ' | ';
+    $res .= sizeof($messages['warning']) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ' | ';
+    $res .= sizeof($messages['critical']) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ' | ';
+    $res .= sizeof($messages['error']) . ' ' . $app->lng("monitor_serverstate_error_txt") . '<br />';
     $res .= '<br />';
+
     if ($showAll){
         /*
          * if we have to show all, then we do it...
@@ -179,7 +184,7 @@ function _getServerState($serverId, $serverName, $showAll)
         /*
          * if not, we only show a link to the server...
          */
-        $res .= "<a href='#' onclick='loadContent(\"monitor/show_sys_state.php?state=server&server=" . $serverId . '|' . $serverName . "\");'> More information...</a>";
+        $res .= "<a href='#' onclick='loadContent(\"monitor/show_sys_state.php?state=server&server=" . $serverId . '|' . $serverName . "\");'>" . $app->lng("monitor_serverstate_moreinfo_txt") . "</a>";
     }
     $res .= '</div>';
     $res .= '</div>';

@@ -3,7 +3,7 @@
 <div class="panel panel_logview">
 
   <div class="pnl_toolsarea">
-    <fieldset><legend>Tools</legend>
+    <fieldset><legend><tmpl_var name="monTransRefreshsq"></legend>
       <div class="buttons">
         <select name="refreshinterval" id="refreshinterval" onChange="loadContentRefresh('monitor/show_log.php?log={tmpl_var name="log_id"}')">{tmpl_var name="refresh"}</select>
       </div>
@@ -11,7 +11,7 @@
   </div>
 
   <div class="pnl_formarea">
-    <fieldset><legend>Data from: <tmpl_var name="time"></legend>
+    <fieldset><legend><tmpl_var name="monTransDate"><tmpl_var name="time"></legend>
       <div class="codeview"><tmpl_var name="log_data"></div>
     </fieldset>
   </div>

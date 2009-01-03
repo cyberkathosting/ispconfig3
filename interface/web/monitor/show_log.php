@@ -44,45 +44,59 @@ $app->tpl->setInclude('content_tpl','templates/show_log.htm');
 $refresh = (isset($_GET["refresh"]))?intval($_GET["refresh"]):0;
 $logParam = $_GET["log"];
 
+/* Get some translations */
+$monTransDate = $app->lng("monitor_settings_datafromdate_txt");
+$monTransSrv = $app->lng("monitor_settings_server_txt");
+$monTransRefreshsq = $app->lng("monitor_settings_refreshsq_txt");
+
 /*
  Setting the db-type and the caption
  */
 switch($logParam) {
 	case 'log_mail':
 		$logId = 'log_mail';
-		$title = 'Mail - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_mail_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_mail_warn':
 		$logId = 'log_mail_warn';
-		$title = 'Mail-Warn - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_mailwarn_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_mail_err':
 		$logId = 'log_mail_err';
-		$title = 'Mail-Error - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_mailerr_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_messages':
 		$logId = 'log_messages';
-		$title = 'System (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_messages_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_ispc_cron':
 		$logId = 'log_ispc_cron';
-		$title = 'System (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_ispccron_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_freshclam':
 		$logId = 'log_freshclam';
-		$title = 'Freshclam - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_freshclam_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_clamav':
 		$logId = 'log_clamav';
-		$title = 'Clamav - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_clamav_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	case 'log_ispconfig':
 		$logId = 'log_ispconfig';
-		$title = 'ISP Config - Log (Server: ' . $_SESSION['monitor']['server_name'] . ')';
+		$title = $app->lng("monitor_logs_ispc_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
 		break;
 	default:
 		$logId = '???';
 		$title = '???';
+		$description = '';
 		break;
 }
 
@@ -119,7 +133,10 @@ if(isset($record['data'])) {
 
 $app->tpl->setVar("title", $title);
 $app->tpl->setVar("log_id",$logId);
+$app->tpl->setVar("description", $description);
 $app->tpl->setVar("time", getDataTime($logId));
+$app->tpl->setVar("monTransDate", $monTransDate);
+$app->tpl->setVar("monTransRefreshsq", $monTransRefreshsq);
 
 $app->tpl_defaults();
 $app->tpl->pparse();
