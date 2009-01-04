@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Alue-kenttä on väärän muotoinen.';
 $wb['data_error_empty'] = 'Nimipalvelin-kenttä tyhjä';
 $wb['data_error_regex'] = 'Nimipalvelin-kenttän muoto vääränlainen';
 ?>
-

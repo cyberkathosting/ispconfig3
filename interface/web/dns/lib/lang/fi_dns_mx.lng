@@ -14,4 +14,3 @@ $wb['name_error_regex'] = 'Isäntänimi on väärän muotoinen.';
 $wb['data_error_empty'] = 'Postipalvelimen isäntänimityhjä';
 $wb['data_error_regex'] = 'Postipalvelimen isäntänimi muoto vääränlainen';
 ?>
-

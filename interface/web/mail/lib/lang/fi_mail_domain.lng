@@ -11,4 +11,3 @@ $wb['limit_maildomain_txt'] = 'Tilisi sähköpostidomainien sallittu määrä on
 $wb['policy_txt'] = 'Roskapostisuodatin';
 $wb['no_policy'] = '- ei päällä -';
 ?>
-

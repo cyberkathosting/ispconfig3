@@ -8,4 +8,3 @@ $wb['fullname_txt'] = 'Koko nimi';
 $wb['email_txt'] = 'Sähköpostiosoite';
 $wb['add_new_record_txt'] = 'Lisää Roskapostisuodattimen käyttäjä';
 ?>
-

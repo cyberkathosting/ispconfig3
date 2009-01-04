@@ -5,4 +5,3 @@ $wb['module_txt'] = 'Ohjelmaosio';
 $wb['title_txt'] = 'Otsikko';
 $wb['description_txt'] = 'Kuvaus';
 ?>
-

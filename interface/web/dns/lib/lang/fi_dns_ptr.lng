@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Alueen nimi-kenttä on väärän muotoinen.';
 $wb['data_error_empty'] = 'Kohteen isäntänimi tyhjä';
 $wb['data_error_regex'] = 'Kohteen isäntänimi muoto vääränlainen';
 ?>
-

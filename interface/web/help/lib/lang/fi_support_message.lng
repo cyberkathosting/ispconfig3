@@ -5,4 +5,3 @@ $wb['subject_txt'] = 'Aihe';
 $wb['message_txt'] = 'Viesti';
 $wb['tstamp_txt'] = 'Aikaleima';
 ?>
-

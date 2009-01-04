@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Käyttäjän oikeudet';
 $wb['auth_preset_perm_group_txt'] = 'Ryhmän oikeudet';
 $wb['auth_preset_perm_other_txt'] = 'Muiden oikeude';
 ?>
-

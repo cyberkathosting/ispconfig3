@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Isäntänimi on väärän muotoinen.';
 $wb['data_error_empty'] = 'Vastuuhenkilö-kenttä tyhjä';
 $wb['data_error_regex'] = 'Vastuuhenkilö-kentän muoto virheellinen';
 ?>
-

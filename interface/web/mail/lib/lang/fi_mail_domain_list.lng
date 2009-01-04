@@ -5,4 +5,3 @@ $wb['domain_txt'] = 'Domain';
 $wb['add_new_record_txt'] = 'Lisää uusi sähköpostidomain';
 $wb['active_txt'] = 'Päällä';
 ?>
-

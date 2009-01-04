@@ -22,4 +22,3 @@ $wb['uid_error_empty'] = 'Ryhmä-ID-kenttä on tyhjä.';
 $wb['directory_error_empty'] = 'Hakemisto-kenttä on tyhjä.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 ?>
-

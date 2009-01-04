@@ -6,4 +6,3 @@ $wb['email_txt'] = 'Sähköpostiosoite';
 $wb['priority_txt'] = 'Tärkeysjärjestys';
 $wb['active_txt'] = 'Päällä';
 ?>
-

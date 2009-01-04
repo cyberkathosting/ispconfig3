@@ -19,4 +19,3 @@ $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['database_charset_txt'] = 'Tietokannan merkistö';
 $wb['database_charset_change_txt'] = 'Tietokannan merkistöä ei voi vaihtaa';
 ?>
-

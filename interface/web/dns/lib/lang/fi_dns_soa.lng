@@ -22,4 +22,3 @@ $wb['ns_error_regex'] = 'Nimipalvelin-kenttä on tyhjä.';
 $wb['mbox_error_empty'] = 'Sähköpostiosoite on tyhjä.';
 $wb['mbox_error_regex'] = 'Sähköpostiosoite on väärän muotoinen';
 ?>
-

@@ -9,4 +9,3 @@ $wb['destination_txt'] = 'Kohde';
 $wb['active_txt'] = 'Päällä';
 $wb['limit_fetchmail_txt'] = 'Tilisi noudettavien osoitteiden sallittu määrä on ylitetty.';
 ?>
-

@@ -8,4 +8,3 @@ $wb['sort_order_txt'] = 'Järjestä..';
 $wb['active_txt'] = 'Päällä';
 $wb['limit_mailrouting_txt'] = 'Tilisi reittien sallittu määrä on ylitetty.';
 ?>
-

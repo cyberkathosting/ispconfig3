@@ -79,4 +79,3 @@ $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['template_master_txt'] = 'Master';
 $wb['template_additional_txt'] = 'Lisäosa';
 ?>
-

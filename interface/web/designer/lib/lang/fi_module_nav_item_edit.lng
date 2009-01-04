@@ -6,4 +6,3 @@ $wb['header_txt'] = 'Valikon ominaisuudet';
 $wb['save_txt'] = 'Tallenna';
 $wb['cancel_txt'] = 'Keskeytä';
 ?>
-

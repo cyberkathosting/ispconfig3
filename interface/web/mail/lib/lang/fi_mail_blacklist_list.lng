@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Vastaanottaja';
 $wb['add_new_record_txt'] = 'Lisä uusi osoite estolistalle';
 $wb['access_txt'] = 'Yhteys';
 ?>
-

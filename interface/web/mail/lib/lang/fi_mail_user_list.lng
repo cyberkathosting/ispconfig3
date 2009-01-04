@@ -4,4 +4,3 @@ $wb['email_txt'] = 'Sähköpostiosoite';
 $wb['autoresponder_txt'] = 'Lomavastaaja';
 $wb['add_new_record_txt'] = 'Lisää uusi postilaatikko';
 ?>
-

@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Käyttäjä';
 $wb['email_txt'] = 'Luotettu osoite';
 $wb['add_new_record_txt'] = 'Lisäää uusi luotettu osoite';
 ?>
-

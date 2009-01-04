@@ -18,4 +18,3 @@ $wb['relayhost_password_txt'] = 'Relay-salasana';
 $wb['mailbox_size_limit_txt'] = 'Postilaatikon kokoraja';
 $wb['message_size_limit_txt'] = 'Viestin kokoraja';
 ?>
-

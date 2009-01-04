@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Käyttäjä';
 $wb['email_txt'] = 'Luotettu sähköpostiosoite';
 $wb['add_new_record_txt'] = 'Lisää osoite estolistalle';
 ?>
-

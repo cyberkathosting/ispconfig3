@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Kaimadomain on tyhjä.';
 $wb['domain_error_unique'] = 'Kaimadomainin pitää olla yksilöllinen.';
 $wb['domain_error_regex'] = 'Kaimadomain on väärän muotoinen.';
 ?>
-

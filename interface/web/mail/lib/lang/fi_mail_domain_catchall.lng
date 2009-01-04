@@ -7,4 +7,3 @@ $wb['no_domain_perm'] = 'Sinulla ei ole oikeuksia tähän domainiin.';
 $wb['domain_error_regex'] = 'Väärä domain-tunnus tai se siältää kiellettyjä merkkejä.';
 $wb['limit_mailcatchall_txt'] = 'Tilisi catchall-tunnusten sallittu määrä on ylitetty.';
 ?>
-

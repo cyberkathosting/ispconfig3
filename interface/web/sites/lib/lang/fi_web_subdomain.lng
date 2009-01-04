@@ -36,4 +36,3 @@ $wb['domain_error_empty'] = 'Domain-kenttä on tyhjä.';
 $wb['domain_error_unique'] = 'Domainin pitää olla yksilöllinen.';
 $wb['domain_error_regex'] = 'Domainin nimi on väärän muotoinen.';
 ?>
-

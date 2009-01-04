@@ -10,4 +10,3 @@ $wb['pw_error_noinput'] = 'Por favor, introduzca la dirección de correo y el no
 $wb['pw_reset_mail_msg'] = 'La contraseña de su cuenta de panel de control ISPConfig 3 ha sido reseteada. La nueva contraseña es: ';
 $wb['pw_reset_mail_title'] = 'La contraseña del panel de control ISPConfig 3 ha sido reseteada.';
 ?>
-

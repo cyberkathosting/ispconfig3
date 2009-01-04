@@ -2,4 +2,3 @@
 $wb['rulename_txt'] = 'Suodatussäännön nimi';
 $wb['add_new_record_txt'] = 'Lisää uusi suodatussääntö';
 ?>
-

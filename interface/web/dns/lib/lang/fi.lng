@@ -15,4 +15,3 @@ $wb['DNS SRV'] = 'DNS SRV-tietue';
 $wb['DNS TXT Record'] = 'DNS TXT-tietue';
 $wb['DNS TXT'] = 'DNS TXT-tietue';
 ?>
-
