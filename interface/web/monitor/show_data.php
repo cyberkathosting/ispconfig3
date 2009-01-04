@@ -72,7 +72,7 @@ switch($dataType) {
         $template = 'templates/show_data.htm';
         $output .= showCpuInfo();
         $time = getDataTime('cpu_info');
-        $title = $app->lng("CPU info").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+        $title = $app->lng("monitor_title_cpuinfo_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     case 'services':
