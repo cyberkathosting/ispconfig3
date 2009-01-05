@@ -48,8 +48,8 @@
             <h1>Benvenuti sul <!--ADRESSE//-->vostro sito!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
-            <h2>Questa è la pagina predefinita.</h2>
-            <p>Questo file può essere cancellato o sovrascritto senza nessun problema. Questo è prodotto dal file <b>index.html</b> nella cartella <b>web</b>.</p>
+            <h2>Questa Ã¨ la pagina predefinita.</h2>
+            <p>Questo file puÃ² essere cancellato o sovrascritto senza nessun problema. Questo Ã¨ prodotto dal file <b>index.html</b> nella cartella <b>web</b>.</p>
             <p>Per domande o problemi contattate il <!--SUPPORT//-->supporto<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
