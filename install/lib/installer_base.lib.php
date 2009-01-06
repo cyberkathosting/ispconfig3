@@ -665,6 +665,7 @@ class installer_base {
 		// **enable chrooting
 		//exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
 		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
+		exec('echo "yes" > '.$config_dir.'/conf/BrokenClientsCompatibility');
 	}
 	
 	public function configure_mydns()
