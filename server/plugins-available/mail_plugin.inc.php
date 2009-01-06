@@ -116,7 +116,7 @@ class mail_plugin {
 		
 		// Move mailbox, if domain has changed and delete old mailbox
 		if($data['new']['maildir'] != $data['old']['maildir'] && is_dir($data['old']['maildir'])) {
-			exec('mv -f '.escapeshellcmd($data['old']['maildir']).'* '.escapeshellcmd($data['new']['maildir']));
+			exec('mv -f '.escapeshellcmd($data['old']['maildir']).'/* '.escapeshellcmd($data['new']['maildir']));
 			if(is_file($data['old']['maildir'].'.ispconfig_mailsize'))exec('mv -f '.escapeshellcmd($data['old']['maildir']).'.ispconfig_mailsize '.escapeshellcmd($data['new']['maildir']));
 			rmdir($data['old']['maildir']);
 			$app->log('Moved Maildir from: '.$data['old']['maildir'].' to '.$data['new']['maildir'],LOGLEVEL_DEBUG);
