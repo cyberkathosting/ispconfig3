@@ -6,7 +6,6 @@ $wb["delete_txt"] = 'Delete';
 $wb["properties_txt"] = 'Properties';
 $wb["new_tab_txt"] = 'Tab new';
 $wb["edit_txt"] = 'Edit';
-$wb["delete_txt"] = 'X';
 $wb["new_txt"] = 'Neu';
 $wb["up_txt"] = '^';
 $wb["down_txt"] = 'v';
