@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Software packages';
+$wb['list_head_txt'] = 'Software pakketten';
 $wb['installed_txt'] = 'Status';
-$wb['package_title_txt'] = 'Package';
-$wb['package_description_txt'] = 'Description';
-$wb['action_txt'] = 'Action';
+$wb['package_title_txt'] = 'Pakket';
+$wb['package_description_txt'] = 'Omschrijving';
+$wb['action_txt'] = 'Actie';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb['1001'] = 'Gebruikersnaam of wachtwoord is niet ingevuld.';
+$wb['1001'] = 'Gebruikersnaam of wachtwoord is leeg.';
 $wb['1002'] = 'Gebruikersnaam of wachtwoord onjuist.';
 $wb['Firewall'] = 'Firewall';
-$wb['Groups'] = 'Groups';
+$wb['Groups'] = 'Groepen';
 $wb['groups_description'] = 'Formulier om systeemgebruikers en groepen te wijzigen.';
 $wb['Server'] = 'Server';
 $wb['Services'] = 'Services';
@@ -14,7 +14,7 @@ $wb['Web'] = 'Web';
 $wb['FastCGI'] = 'FastCGI';
 $wb['Jailkit'] = 'Jailkit';
 $wb['System'] = 'Systeem';
-$wb['Add user'] = 'Toeveogen gebruiker';
+$wb['Add user'] = 'Toevoegen gebruiker';
 $wb['Edit user'] = 'Wijzigen gebruiker';
 $wb['CP Users'] = 'CP Gebruikers';
 $wb['Add group'] = 'Toevoegen groep';

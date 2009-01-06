@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter Whitelist';
+$wb['list_head_txt'] = 'Spamfilter whitelist';
 $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
 $wb['priority_txt'] = 'Prioriteit';
 $wb['rid_txt'] = 'Gebruiker';
-$wb['email_txt'] = 'Whitelisted Email';
+$wb['email_txt'] = 'Whitelisted email';
 $wb['add_new_record_txt'] = 'Toevoegen whitelist record';
 ?>

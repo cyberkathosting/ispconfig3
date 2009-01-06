@@ -1,8 +1,11 @@
 <?php
 $wb['username_txt'] = 'Gebruikersnaam';
-$wb['username_err'] = 'Foutieve gebruikersnaam';
+$wb['username_err'] = 'De gebruikersnaam is te lang of bevat ongeldige karakters.';
+$wb['username_empty'] = 'De gebruikersnaam is leeg.';
+$wb['username_unique'] = 'Er bestaat reeds een gebruiker met deze gebruikersnaam.';
 $wb['passwort_txt'] = 'Wachtwoord';
 $wb['modules_txt'] = 'Module';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['startmodule_txt'] = 'Startmodule';
 $wb['app_theme_txt'] = 'Ontwerp';
 $wb['typ_txt'] = 'Type';
@@ -21,8 +24,5 @@ $wb['telefon_txt'] = 'Telefoon';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Groepen';
 $wb['default_group_txt'] = 'Standaard groep';
-$wb['username_empty'] = 'The username is empty.';
-$wb['username_unique'] = 'There is already a user with this username.';
-$wb['password_strength_txt'] = 'Password strength';
 $wb['startmodule_err'] = 'Start module is not within modules.';
 ?>

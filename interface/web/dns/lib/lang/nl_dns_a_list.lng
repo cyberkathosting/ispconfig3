@@ -5,7 +5,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Naam';
 $wb['data_txt'] = 'Data';
+$wb['aux_txt'] = 'Prioriteit';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Toevoegen nieuw DNS A-Record';
-$wb['aux_txt'] = 'Priority';
 ?>

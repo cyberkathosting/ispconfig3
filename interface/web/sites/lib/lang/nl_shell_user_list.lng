@@ -4,5 +4,5 @@ $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Site';
 $wb['username_txt'] = 'Gebruikersnaam';
-$wb['add_new_record_txt'] = 'Toeveogen nieuwe Shell Gebruiker';
+$wb['add_new_record_txt'] = 'Toevoegen nieuwe Shell Gebruiker';
 ?>

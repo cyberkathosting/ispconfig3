@@ -5,5 +5,5 @@ $wb['pattern_txt'] = 'Regexp. Patroon';
 $wb['data_txt'] = 'Data';
 $wb['action_txt'] = 'Actie';
 $wb['active_txt'] = 'Actieve';
-$wb['pattern_error_empty'] = 'Patroon is niet ingevuld.';
+$wb['pattern_error_empty'] = 'Patroon is leeg.';
 ?>

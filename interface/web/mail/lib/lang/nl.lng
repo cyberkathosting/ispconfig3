@@ -28,7 +28,7 @@ $wb['Quarantine'] = 'Quarantine';
 $wb['Tag-Level'] = 'Tag-Level';
 $wb['Other'] = 'Overige';
 $wb['Spamfilter users'] = 'Spamfilter gebruikers';
-$wb['Users'] = 'Users';
+$wb['Users'] = 'Gebruikers';
 $wb['Spamfilter Whitelist'] = 'Spamfilter whitelist';
 $wb['Email'] = 'Email';
 $wb['Email Mailbox'] = 'Email mailbox';
@@ -41,5 +41,5 @@ $wb['Statistics'] = 'Statistieken';
 $wb['Postfix Whitelist'] = 'Postfix whitelist';
 $wb['Postfix Blacklist'] = 'Postfix blacklist';
 $wb['Content Filter'] = 'Content filter';
-$wb['Global Filters'] = 'Global filters';
+$wb['Global Filters'] = 'Globale filters';
 ?>

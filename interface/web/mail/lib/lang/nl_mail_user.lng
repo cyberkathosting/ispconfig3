@@ -1,30 +1,30 @@
 <?php
-$wb['custom_mailfilter_txt'] = 'Custom mailfilter';
+$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
 $wb['email_txt'] = 'Email';
 $wb['cryptpwd_txt'] = 'Wachtwoord';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['active_txt'] = 'Actief';
-$wb['email_error_isemail'] = 'Emailadres is ongeldig.';
-$wb['email_error_unique'] = 'Duplicaat emailadres.';
+$wb['email_error_isemail'] = 'Email adres is ongeldig.';
+$wb['email_error_unique'] = 'Email adres bestaat reeds.';
 $wb['autoresponder_text_txt'] = 'Tekst';
 $wb['autoresponder_txt'] = 'Autoresponder';
 $wb['no_domain_perm'] = 'U heeft geen toestemming voor dit domein.';
-$wb['error_no_pwd'] = 'Wachtwoord is niet ingevuld.';
-$wb['quota_error_isint'] = 'Mailboxgrootte moet een numerieke waarde zijn.';
+$wb['error_no_pwd'] = 'Wachtwoord  is leeg.';
+$wb['quota_error_isint'] = 'Mailbox grootte moet een numerieke waarde zijn.';
 $wb['quota_txt'] = 'quota in MB';
-$wb['server_id_txt'] = 'server ID';
-$wb['password_txt'] = 'Wachtwoord';
+$wb['server_id_txt'] = 'server_id';
+$wb['password_txt'] = 'wachtwoord';
 $wb['maildir_txt'] = 'maildir';
-$wb['postfix_txt'] = 'Sta ontvangen toe';
-$wb['access_txt'] = 'Sta toegang toe';
+$wb['postfix_txt'] = 'Inschakelen ontvangen';
+$wb['access_txt'] = 'Inschakelen toegang';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- niet ingeschakeld -';
-$wb['limit_mailbox_txt'] = 'Het maximum aantal aan mailboxen voor uw account is bereikt.';
-$wb['limit_mailquota_txt'] = 'Het maximum aan ruimte voor uw mailboxen is bereikt. De maximale beschikbare ruimte in MB is: ';
-$wb['welcome_mail_subject'] = 'Welkom bij uw nieuwe Email account.';
-$wb['welcome_mail_message'] = 'Welkom bij uw nieuwe Email account.
+$wb['limit_mailbox_txt'] = 'Het max. aantal aan mailboxen voor uw account is bereikt.';
+$wb['limit_mailquota_txt'] = 'De max. ruimte voor mailboxen is bereikt. De max. beschikbare ruimte in MB is';
+$wb['welcome_mail_subject'] = 'Welkom op uw nieuwe email account.';
+$wb['welcome_mail_message'] = 'Welkom op uw nieuwe email account.
 
 Uw webmaster.';
 $wb['disableimap_txt'] = 'Uitschakelen IMAP';
 $wb['disablepop3_txt'] = 'Uitschakelen POP3';
-$wb['password_strength_txt'] = 'Password strength';
 ?>
