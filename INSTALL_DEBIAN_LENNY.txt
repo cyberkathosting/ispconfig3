@@ -11,13 +11,13 @@ Installation
 /bin/hostname
 
 # it should return something like "ispconfig.example.com"
-# if not, then we assign hostname (for example ispconfig):
+# if not, then we assign a hostname (for example ispconfig):
 
 echo ispconfig.example.com > /etc/hostname
 
 vi /etc/hosts
 
-# and add line similar but appropriate:
+# and add lines similar but appropriate:
 
 127.0.0.1       localhost.localdomain   localhost
 192.168.0.100   ispconfig.example.com   ispconfig
@@ -30,13 +30,13 @@ opt0.1) Optionally install SSH-server to get remote shell
 
 apt-get install ssh openssh-server
 
-opt0.2) Optionally if you are not running in virtual machine you can set server clocksync via NTP. Virtual quests get this from host.
+opt0.2) Optionally if you are not running in virtual machine you can set server clocksync via NTP. Virtual quests get this from the host.
 
 apt-get install ntp ntpdate
 
 
 
-# Then into real deal
+# Next is the real deal
 
 1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin, rkhunter, binutils with the following command line (on one line!):
 
@@ -66,6 +66,7 @@ bind-address          = 127.0.0.1
 /etc/init.d/mysql restart
 
 # Set the mysql database password:
+# Again use your own domain name...
 
 mysqladmin -u root password yourrootsqlpassword
 mysqladmin -h ispconfig.local -u root password yourrootsqlpassword
@@ -78,12 +79,12 @@ apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 ar
 
 
 
-3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mrypt (1 line!):
+3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mcrypt (1 line!):
 
 apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt
 
 
-# When myphpadmin is asking wether to configure itself automagigally, select "Apache2"
+# When phpMyAdmin is asking weather to configure itself automatically, select "Apache2"
 
 # Then run the following to enable the Apache modules suexec, rewrite and ssl:
 
@@ -117,7 +118,7 @@ vi /etc/phpmyadmin/apache.conf
 ------------------------------------------------------
 
 
-opt3.1) Optionally install some imagemanipulation capabilities to make advanced webdesigners happy
+opt3.1) Optionally install some image manipulation capabilities to make advanced web designers happy
 
 apt-get install php5-imagick imagemagick
 
@@ -316,7 +317,8 @@ make install
 rm -rf jailkit-2.5*
 ----------------------------------------------------------------------------------------------------------
 
-Optional packages recommended:
+Optional recommended packages:
 
 denyhosts - a utility to help sys admins thwart ssh crackers
+fail2ban - Like denyhosts but updates firewall rules to reject/drop the IP address and supports many more apps
 rsync - fast remote file copy program (for backup)
