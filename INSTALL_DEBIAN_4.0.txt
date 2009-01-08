@@ -198,4 +198,5 @@ rm -rf jailkit-2.5*
 Optional packages recommended:
 
 denyhosts - a utility to help sys admins thwart ssh crackers
+fail2ban - Preventing Brute Force Attacks - http://www.howtoforge.com/fail2ban_debian_etch
 rsync - fast remote file copy program (for backup)
