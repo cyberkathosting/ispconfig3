@@ -87,7 +87,7 @@ $handle = @opendir(ISPC_WEB_PATH);
 while ($file = @readdir ($handle)) { 
     if ($file != '.' && $file != '..') {
         if(@is_dir(ISPC_WEB_PATH."/$file")) {
-            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
+            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login' && $file != 'designer') {
 				$modules_list[$file] = $file;
 			}
         }
