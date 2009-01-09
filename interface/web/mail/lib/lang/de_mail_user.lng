@@ -28,3 +28,4 @@ $wb['disableimap_txt'] = 'Disable IMAP';
 $wb['disablepop3_txt'] = 'Disable POP3';
 $wb['password_strength_txt'] = 'Password strength';
 ?>
+

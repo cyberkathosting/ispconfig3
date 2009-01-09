@@ -1,6 +1,7 @@
 <?php
-$wb['User Settings'] = 'User Settings';
-$wb['Settings'] = 'Settings';
+$wb['User Settings'] = 'Benutzereinstellungen';
+$wb['Settings'] = 'Einstellungen';
 $wb['ISPConfig Tools'] = 'ISPConfig Tools';
-$wb['Password and Language'] = 'Password and Language';
+$wb['Password and Language'] = 'Passwort und Sprache';
 ?>
+

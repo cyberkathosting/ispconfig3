@@ -1,9 +1,10 @@
 <?php
-$wb['Client'] = 'Client';
-$wb['Address'] = 'Address';
+$wb['Client'] = 'Kunden';
+$wb['Address'] = 'Adresse';
 $wb['Limits'] = 'Limits';
-$wb['Add Client'] = 'Add Client';
-$wb['Edit Client'] = 'Edit Client';
-$wb['Clients'] = 'Clients';
-$wb['Edit Client-Templates'] = 'Edit Client-Templates';
+$wb['Add Client'] = 'Kunde hinzufügen';
+$wb['Edit Client'] = 'Kunde bearbeiten';
+$wb['Clients'] = 'Kunden';
+$wb['Edit Client-Templates'] = 'Kunden-Vorlagen bearbeiten';
 ?>
+

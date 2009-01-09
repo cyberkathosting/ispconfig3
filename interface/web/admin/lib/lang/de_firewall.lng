@@ -7,3 +7,4 @@ $wb['udp_port_help_txt'] = 'Getrennt durch Kommata';
 $wb['active_txt'] = 'Aktiv';
 $wb['firewall_error_unique'] = 'Es gibt bereits einen Firewall Datensatz für diesen Server.';
 ?>
+

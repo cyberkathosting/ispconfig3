@@ -45,3 +45,4 @@ $wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
 $wb['error_ssl_country_empty'] = 'SSL Country is empty.';
 $wb['subdomain_txt'] = 'Auto-Subdomain';
 ?>
+
