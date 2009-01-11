@@ -74,30 +74,31 @@ class mail_plugin {
 	function user_insert($event_name,$data) {
 		global $app, $conf;
 		
-		// get the config
+		//* get the config
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 		
-		// Create the maildir, if it does not exist
-		if(!empty($data['new']['maildir']) && !is_dir($data['new']['maildir'])) {
-			$tmp_path = $data['new']['maildir'];
-			$tmp_path_parts = explode('/',$tmp_path);
-			unset($tmp_path_parts[count($tmp_path_parts)-2]);
-			$maildomain_path = implode('/',$tmp_path_parts);
-			if(!is_dir($maildomain_path)) {
-				exec("su -c 'mkdir -p ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				$app->log('Created Directory: '.$maildomain_path,LOGLEVEL_DEBUG);
-			}
-			exec("su -c 'maildirmake ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
-			$app->log('Executed: '."su -c 'maildirmake ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			//exec('maildirmake '.escapeshellcmd($data['new']['maildir']));
-			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
-			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
+		$maildomain_path = $data['new']['maildir'];
+		$tmp_basepath = $data['new']['maildir'];
+		$tmp_basepath_parts = explode('/',$tmp_basepath);
+		unset($tmp_basepath_parts[count($tmp_basepath_parts)-1]);
+		$base_path = implode('/',$tmp_basepath_parts);
+
+		//* Create the mail domain directory, if it does not exist
+		if(!empty($base_path) && !is_dir($base_path)) {
+			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
+			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
-		//This is to fix the maildrop quota not being rebuilt after the quota is changed.
-		exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
-		$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-		
+
+		//* Create the maildir, if it doesn not exist, set permissions, set quota.
+		if(!empty($maildomain_path) && !is_dir($maildomain_path)) {
+			exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
+			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
+			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
+			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
+			$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+		}		
 	}
 	
 	function user_update($event_name,$data) {
@@ -116,9 +117,14 @@ class mail_plugin {
 		
 		// Move mailbox, if domain has changed and delete old mailbox
 		if($data['new']['maildir'] != $data['old']['maildir'] && is_dir($data['old']['maildir'])) {
-			exec('mv -f '.escapeshellcmd($data['old']['maildir']).'/* '.escapeshellcmd($data['new']['maildir']));
-			if(is_file($data['old']['maildir'].'.ispconfig_mailsize'))exec('mv -f '.escapeshellcmd($data['old']['maildir']).'.ispconfig_mailsize '.escapeshellcmd($data['new']['maildir']));
-			rmdir($data['old']['maildir']);
+			if(is_dir($data['new']['maildir'])) {
+				exec("rm -f ".escapeshellcmd($data['new']['maildir']).'/*');
+				rmdir($data['new']['maildir']);
+			}
+			exec('mv -f '.escapeshellcmd($data['old']['maildir']).' '.escapeshellcmd($data['new']['maildir']));
+			// exec('mv -f '.escapeshellcmd($data['old']['maildir']).'/* '.escapeshellcmd($data['new']['maildir']));
+			// if(is_file($data['old']['maildir'].'.ispconfig_mailsize'))exec('mv -f '.escapeshellcmd($data['old']['maildir']).'.ispconfig_mailsize '.escapeshellcmd($data['new']['maildir']));
+			// rmdir($data['old']['maildir']);
 			$app->log('Moved Maildir from: '.$data['old']['maildir'].' to '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 		//This is to fix the maildrop quota not being rebuilt after the quota is changed.
