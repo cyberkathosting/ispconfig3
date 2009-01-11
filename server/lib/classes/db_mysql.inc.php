@@ -168,7 +168,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				return addslashes($formfield);
 			}
 			
-			return mysql_real_escape_string($formfield);
+			return mysql_real_escape_string($formfield, $this->linkId);
         }
 		
 		// Check der variablen
