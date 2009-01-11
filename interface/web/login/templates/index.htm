@@ -13,7 +13,7 @@
     <fieldset id="wf_area_login">
       <span class="wf_oneField">
         <label for="username" class="wf_preField">Username:</label>
-        <input type="text" id="username" name="username" value="" size="" class="wf_required"><span class="wf_reqMark">*</span><br>
+        <input type="text" id="username" name="username" value="" size="" class="wf_required" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm');};"><span class="wf_reqMark">*</span><br>
       </span>
       <span class="wf_oneField">
         <label for="passwort" class="wf_preField">Password:</label>

@@ -22,4 +22,3 @@ $wb['uid_error_empty'] = 'GID empty.';
 $wb['directory_error_empty'] = 'Directory empty.';
 $wb['password_strength_txt'] = 'Password strength';
 ?>
-

@@ -9,4 +9,3 @@ $wb['aux_txt'] = 'Priority';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Add new DNS A-Record';
 ?>
-

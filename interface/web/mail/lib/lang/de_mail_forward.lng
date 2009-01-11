@@ -4,4 +4,3 @@ $wb['destination_txt'] = 'Destination Email';
 $wb['active_txt'] = 'Active';
 $wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
 ?>
-
