@@ -12,13 +12,13 @@ NameVirtualHost *:{vhost_port}
   DocumentRoot /usr/local/ispconfig/interface/web/
   
   <IfModule mod_fastcgi.c>
+    DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
     <Directory /var/www/ispconfig/>
       Options Indexes FollowSymLinks MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
-      FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/php-fcgi-starter .php
-      AllowOverride None
+      FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
       Order allow,deny
       Allow from all
     </Directory>
