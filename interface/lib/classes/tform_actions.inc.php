@@ -30,11 +30,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class tform_actions {
 
-        var $id;
-        var $activeTab;
-        var $dataRecord;
-        var $plugins = array();
-		var $oldDataRecord; // This array is only filled during updates and when db_history is enabled.
+        public $id;
+        public $activeTab;
+        public $dataRecord;
+        public $plugins = array();
+		public $oldDataRecord; // This array is only filled during updates and when db_history is enabled.
 
         function onLoad() {
                 global $app, $conf, $tform_def_file;

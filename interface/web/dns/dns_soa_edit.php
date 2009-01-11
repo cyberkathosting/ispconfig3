@@ -126,6 +126,17 @@ class page_action extends tform_actions {
 		// Update the serial number of the SOA record
 		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
 		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+		
+		//* Check if soa, ns and mbox have a dot at the end
+		if(substr($this->dataRecord["origin"],-1,1) != '.') $this->dataRecord["origin"] .= '.';
+		if(substr($this->dataRecord["ns"],-1,1) != '.') $this->dataRecord["ns"] .= '.';
+		if(substr($this->dataRecord["mbox"],-1,1) != '.') $this->dataRecord["mbox"] .= '.';
+		
+		//* Replace @ in mbox
+		if(stristr($this->dataRecord["mbox"],'@')) {
+			$this->dataRecord["mbox"] = str_replace('@','.',$this->dataRecord["mbox"]);
+		}
+		
 
 		parent::onSubmit();
 	}
