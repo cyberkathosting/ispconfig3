@@ -323,7 +323,7 @@ class apache2_plugin {
 					exec("cp /usr/local/ispconfig/server/conf-custom/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
 				}
 				else {
-					if (file_exists("/usr/local/ispconfig/server/conf-custom/error/fileNotFound.html")){
+					if (file_exists("/usr/local/ispconfig/server/conf-custom/error/400.html")){
 						exec("cp /usr/local/ispconfig/server/conf-custom/error/*.html ".$error_page_path);
 					}
 					else {
@@ -334,12 +334,12 @@ class apache2_plugin {
 			}
 
 			// copy the standard index page
-			if (file_exists("/usr/local/ispconfig/server/conf-custom/index/".substr(escapeshellcmd($conf["language"]),0,2)."/index.html")){
-				exec("cp /usr/local/ispconfig/server/conf-custom/index/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".escapeshellcmd($data["new"]["document_root"])."/web/");
+			if (file_exists("/usr/local/ispconfig/server/conf-custom/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2))){
+				exec("cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
 			}
 			else {
-				if (file_exists("/usr/local/ispconfig/server/conf-custom/index/default/index.html")){
-					exec("cp /usr/local/ispconfig/server/conf-custom/index/default/* ".escapeshellcmd($data["new"]["document_root"])."/web/");
+				if (file_exists("/usr/local/ispconfig/server/conf-custom/index/standard_index.html")){
+					exec("cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
 				}
 				else {
 					exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
