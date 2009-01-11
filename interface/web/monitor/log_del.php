@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2008, Till Brehm, projektfarm Gmbh
+Copyright (c) 2008 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -28,24 +28,17 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/******************************************
-* Begin Form configuration
-******************************************/
-
-$list_def_file = "list/log.list.php";
-$tform_def_file = "form/log.tform.php";
-
-/******************************************
-* End Form configuration
-******************************************/
-
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('monitor');
 
-$app->uses("tform_actions");
-$app->tform_actions->onDelete();
+$syslog_id = intval($_GET['id']);
+$app->db->query("UPDATE sys_log SET loglevel = 0 WHERE syslog_id = '$syslog_id'");
+
+header('Location: log_list.php');
+exit;
+
 
 ?>

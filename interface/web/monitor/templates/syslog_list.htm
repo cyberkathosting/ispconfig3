@@ -29,8 +29,17 @@
             <td class="tbl_col_loglevel">{tmpl_var name="loglevel"}</td>
             <td class="tbl_col_message">{tmpl_var name="message"}</td>
             <td class="tbl_col_buttons">
-              &nbsp;
-            </td>
+			  <tmpl_if name="loglevel" op="==" value="Error">
+			  <div class="buttons icons16">
+                <a class="icons16 icoDelete" href="javascript: del_record('monitor/log_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+              </div>
+			  </tmpl_if>
+			  <tmpl_if name="loglevel" op="==" value="Warning">
+			  <div class="buttons icons16">
+                <a class="icons16 icoDelete" href="javascript: del_record('monitor/log_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+              </div>
+			  </tmpl_if>
+			</td>
           </tr>
           </tmpl_loop>
         </tbody>
