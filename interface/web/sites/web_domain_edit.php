@@ -96,7 +96,7 @@ class page_action extends tform_actions {
 			
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client_id, limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
@@ -104,7 +104,7 @@ class page_action extends tform_actions {
 			unset($tmp);
 			
 			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.parent_client_id AND client.parent_client_id = ".$client['client_id'];
+			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if(is_array($clients)) {
