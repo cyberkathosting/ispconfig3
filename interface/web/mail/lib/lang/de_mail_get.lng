@@ -1,11 +1,12 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Type';
-$wb['source_server_txt'] = 'Pop3/Imap Server';
-$wb['source_username_txt'] = 'Username';
-$wb['source_password_txt'] = 'Password';
-$wb['source_delete_txt'] = 'Delete emails after retrieval';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
+$wb['type_txt'] = 'Typ';
+$wb['source_server_txt'] = 'POP3/IMAP Server';
+$wb['source_username_txt'] = 'Benutzername';
+$wb['source_password_txt'] = 'Passwort';
+$wb['source_delete_txt'] = 'Mails nach Empfang löschen';
+$wb['destination_txt'] = 'Ziel';
+$wb['active_txt'] = 'Aktiv';
 $wb['limit_fetchmail_txt'] = 'The max. number of Fetchmail records for your account is reached.';
 ?>
+

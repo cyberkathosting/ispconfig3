@@ -5,3 +5,4 @@ $wb['name_txt'] = 'name';
 $wb['vorname_txt'] = 'vorname';
 $wb['ort_txt'] = 'ort';
 ?>
+

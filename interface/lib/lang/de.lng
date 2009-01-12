@@ -17,3 +17,4 @@ $wb['add_new_record_txt'] = 'Neuen Datensatz hinzufügen';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 ?>
+

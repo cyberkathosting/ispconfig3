@@ -2,6 +2,7 @@
 $wb['list_head_txt'] = 'ISPConfig Protokoll';
 $wb['tstamp_txt'] = 'Datum';
 $wb['server_id_txt'] = 'Server';
-$wb['loglevel_txt'] = 'Loglevel';
+$wb['loglevel_txt'] = 'Protokolllevel';
 $wb['message_txt'] = 'Nachricht';
 ?>
+

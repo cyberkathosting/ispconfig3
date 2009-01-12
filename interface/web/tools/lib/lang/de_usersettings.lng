@@ -6,3 +6,4 @@ $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['Form to edit the user password and language.'] = 'Formular um das Benutzerpasswort und die Sprache zu bearbeiten.';
 $wb['Settings'] = 'Einstellungen';
 ?>
+

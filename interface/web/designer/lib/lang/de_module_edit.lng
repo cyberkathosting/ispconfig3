@@ -1,22 +1,13 @@
 <?php
 $wb['name_txt'] = 'Modulname';
 $wb['title_txt'] = 'Modulbezeichnung';
-$wb['template_txt'] = 'Template';
-$wb['navframe_txt'] = 'NaviFrame';
+$wb['template_txt'] = 'Vorlage';
+$wb['navframe_txt'] = 'Navigationsframe';
 $wb['startpage_txt'] = 'Startseite';
 $wb['tab_width_txt'] = 'Reiterkartenbreite';
 $wb['save_txt'] = 'Speichern';
 $wb['cancel_txt'] = 'Abbrechen';
-$wb['header_txt'] = 'Modul Eigenschaften';
-$wb['description_txt'] = '
-<b>Beschreibung</b>
-<br><br>
-<b>Modulname:</b> Name des Modulverzeichnisses. Es sind nur Buchstaben, Zahlen und der Unterstrich erlaubt.<br>
-<b>Modulbezeichnung:</b> Wird in der oberen Navigation (Reiterkarte) angezeigt.<br>
-<b>Template:</b> Templatedatei des Modules. Es stehen die Templates module.tpl.htm und module_tree.tpl.htm zur Verfügung. Standard ist module.tpl.htm.<br>
-<b>NaviFrame:</b> Bei Auswahl des Templates module_tree.tpl.htm steht hier der Pfad zu der Scriptdatei im linken Frame.<br>
-<b>Startseite:</b> Diese Seite wird beim Öffnen des Modules im Contentbereich angezeigt.<br>
-<b>Reiterkartenbreite:</b> Breite der Reiterkarte in der oberen Navigationsleiste. Das Feld ist standardmäßig leer, es kann aber ein absoluter Wert (z.B. 80) oder ein Wert in Prozent (z.B. 20%) angegeben werden.<br>
-<b>Hinweis:</b> Alle Pfade sind relativ zum Verzeichnis web anzugeben.
-';
+$wb['header_txt'] = 'Moduleigenschaften';
+$wb['description_txt'] = 'Beschreibung';
 ?>
+

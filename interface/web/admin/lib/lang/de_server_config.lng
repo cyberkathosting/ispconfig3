@@ -33,3 +33,4 @@ $wb['hostname_txt'] = 'Hostname';
 $wb['nameservers_txt'] = 'Nameservers';
 $wb['auto_network_configuration_txt'] = 'Network Configuration';
 ?>
+

@@ -1,9 +1,10 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Open TCP ports';
-$wb['udp_port_txt'] = 'Open UDP ports';
-$wb['tcp_port_help_txt'] = 'Getrennt Durch Kommata';
-$wb['udp_port_help_txt'] = 'Getrennt durch Kommata';
+$wb['tcp_port_txt'] = 'Offene TCP Ports';
+$wb['udp_port_txt'] = 'Offene UDP Ports';
+$wb['tcp_port_help_txt'] = 'Getrennt durch Beistrich';
+$wb['udp_port_help_txt'] = 'Getrennt durch Beistrich';
 $wb['active_txt'] = 'Aktiv';
-$wb['firewall_error_unique'] = 'Es gibt bereits einen Firewall Datensatz für diesen Server.';
+$wb['firewall_error_unique'] = 'Es gibt bereits einen Firewalldatensatz für diesen Server.';
 ?>
+

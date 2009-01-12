@@ -26,3 +26,4 @@ $wb['username_unique'] = 'Es gibt bereits ein Benutzer mit diesem Namen';
 $wb['startmodule_err'] = 'Start module is not within modules.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
+

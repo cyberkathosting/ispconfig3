@@ -79,3 +79,4 @@ $wb['password_strength_txt'] = 'Password strength';
 $wb['template_master_txt'] = 'Master';
 $wb['template_additional_txt'] = 'Addon';
 ?>
+

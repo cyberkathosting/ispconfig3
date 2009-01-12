@@ -1,10 +1,11 @@
 <?php
-$wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['email_error_unique'] = 'Duplicate Emailaddress.';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['destination_error_isemail'] = 'Destination Emailaddress is invalid.';
+$wb['email_txt'] = 'Emailadresse';
+$wb['destination_txt'] = 'Ziel';
+$wb['active_txt'] = 'Aktiv';
+$wb['email_error_isemail'] = 'Emailadresse ist ungültig';
+$wb['email_error_unique'] = 'Doppelte Emailadresse.';
+$wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
+$wb['destination_error_isemail'] = 'Ziel Emailadresse ist ungültig.';
 $wb['limit_mailalias_txt'] = 'The max. number of email aliases for your account is reached.';
 ?>
+

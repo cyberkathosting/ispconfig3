@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Email Alias';
-$wb['active_txt'] = 'Active';
-$wb['source_txt'] = 'source';
-$wb['destination_txt'] = 'Destination';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Add new Email alias';
+$wb['list_head_txt'] = 'Emailverknüpfung';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_txt'] = 'Quelle';
+$wb['destination_txt'] = 'Ziel';
+$wb['email_txt'] = 'Emailadresse';
+$wb['add_new_record_txt'] = 'Neue Emailverknüpfung hinzufügen';
 ?>
+

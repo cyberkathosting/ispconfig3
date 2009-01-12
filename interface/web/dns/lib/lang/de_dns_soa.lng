@@ -22,3 +22,4 @@ $wb['ns_error_regex'] = 'NS has a invalid format.';
 $wb['mbox_error_empty'] = 'Email is empty.';
 $wb['mbox_error_regex'] = 'Email format invalid.';
 ?>
+

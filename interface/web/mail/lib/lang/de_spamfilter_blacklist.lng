@@ -1,8 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'User';
-$wb['email_txt'] = 'Email';
-$wb['priority_txt'] = 'Priority';
-$wb['active_txt'] = 'Active';
+$wb['rid_txt'] = 'Benutzer';
+$wb['email_txt'] = 'Emailadresse';
+$wb['priority_txt'] = 'Priorität';
+$wb['active_txt'] = 'Aktiv';
 ?>
+
