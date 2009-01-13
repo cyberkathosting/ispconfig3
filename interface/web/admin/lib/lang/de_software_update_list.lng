@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Software updates';
-$wb['installed_txt'] = 'Action';
+$wb['list_head_txt'] = 'Softwareupdates';
+$wb['installed_txt'] = 'Aktion';
 $wb['update_title_txt'] = 'Update';
 $wb['version_txt'] = 'Version';
-$wb['action_txt'] = 'Action';
+$wb['action_txt'] = 'Aktion';
 ?>
 

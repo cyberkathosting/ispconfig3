@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'users';
-$wb['username_txt'] = 'username';
-$wb['name_txt'] = 'name';
-$wb['vorname_txt'] = 'vorname';
-$wb['ort_txt'] = 'ort';
+$wb['list_head_txt'] = 'Benutzer';
+$wb['username_txt'] = 'Benutzername';
+$wb['name_txt'] = 'Nachname';
+$wb['vorname_txt'] = 'Vorname';
+$wb['ort_txt'] = 'Ort';
 ?>
 

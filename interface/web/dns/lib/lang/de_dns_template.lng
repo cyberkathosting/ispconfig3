@@ -1,7 +1,7 @@
 <?php
 $wb['name_txt'] = 'Name';
-$wb['fields_txt'] = 'Fields';
-$wb['template_txt'] = 'Template';
-$wb['visible_txt'] = 'Visible';
+$wb['fields_txt'] = 'Felder';
+$wb['template_txt'] = 'Vorlage';
+$wb['visible_txt'] = 'Sichtbar';
 ?>
 

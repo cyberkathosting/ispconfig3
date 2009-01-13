@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['ip_address_txt'] = 'IP Address';
+$wb['ip_address_txt'] = 'IP Adresse';
 $wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
-$wb['ip_err'] = 'IP address invalid';
+$wb['ip_err'] = 'IP Adresse ungültig';
 ?>
 

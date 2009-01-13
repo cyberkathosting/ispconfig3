@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Import language file';
-$wb['language_import_txt'] = 'Select language file';
-$wb['btn_save_txt'] = 'Import the selected language file';
-$wb['language_overwrite_txt'] = 'Overwrite file, if exists.';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Sprachdatei importieren';
+$wb['language_import_txt'] = 'Sprache auswählen';
+$wb['btn_save_txt'] = 'Ausgewählte Sprache importieren';
+$wb['language_overwrite_txt'] = 'Datei überschreiben falls sie existiert.';
+$wb['btn_cancel_txt'] = 'Zurück';
 ?>
 
