@@ -21,6 +21,7 @@ NameVirtualHost *:{vhost_port}
       FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
       Order allow,deny
       Allow from all
+	  php_value magic_quotes_gpc        0
     </Directory>
   </IfModule>
   
@@ -31,6 +32,7 @@ NameVirtualHost *:{vhost_port}
       AllowOverride None
       Order allow,deny
       Allow from all
+	  php_value magic_quotes_gpc        0
     </Directory>
   </IfModule>
   
