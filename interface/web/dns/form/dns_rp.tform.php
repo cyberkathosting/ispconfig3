@@ -100,7 +100,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'data_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9\.]{10,15}$/',
+														'regex' => '/^[\w\.\-\s]{10,15}$/',
 														'errmsg'=> 'data_error_regex'),
 									),
 			'default'	=> '',
