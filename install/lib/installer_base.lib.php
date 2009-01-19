@@ -365,6 +365,7 @@ class installer_base {
 			'virtual_gid_maps = static:'.$cf['vmail_groupid'],
 			'smtpd_sasl_auth_enable = yes',
 			'broken_sasl_auth_clients = yes',
+			'smtpd_sasl_authenticated_header = yes',
 			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
 			'smtpd_use_tls = yes',
 			'smtpd_tls_security_level = may',
