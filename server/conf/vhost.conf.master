@@ -117,7 +117,7 @@
     
     ErrorLog <tmpl_var name='document_root'>/log/error.log
 
-<tmpl_if name='is_errordocs'>
+<tmpl_if name='errordocs'>
     ErrorDocument 400 /error/400.html
     ErrorDocument 401 /error/401.html
     ErrorDocument 403 /error/403.html
