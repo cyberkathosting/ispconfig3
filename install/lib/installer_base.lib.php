@@ -701,6 +701,12 @@ class installer_base {
 			replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
 		}
 		
+		if(is_file('/etc/apache2/sites-enabled/000-default')) {
+			replaceLine('/etc/apache2/sites-available/000-default','NameVirtualHost *','NameVirtualHost *:80',1);
+			replaceLine('/etc/apache2/sites-available/000-default','<VirtualHost *>','<VirtualHost *:80>',1);
+		}
+		
+		
 		//* Copy the ISPConfig configuration include
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
