@@ -67,7 +67,7 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
     # php as cgi enabled
-    ScriptAlias /php5-cgi /usr/bin/php5-cgi
+    ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
     Action php5-cgi /php5-cgi
     AddHandler php5-cgi .php .php3 .php4 .php5
 </tmpl_if>
@@ -166,7 +166,7 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
     # php as cgi enabled
-    ScriptAlias /php5-cgi /usr/bin/php5-cgi
+    ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
     Action php5-cgi /php5-cgi
     AddHandler php5-cgi .php .php3 .php4 .php5
 </tmpl_if>

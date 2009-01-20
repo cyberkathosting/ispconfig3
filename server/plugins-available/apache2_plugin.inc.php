@@ -540,6 +540,53 @@ class apache2_plugin {
 			
 		}
 		
+		/**
+		 * install cgi starter script and add script alias to config.
+		 * This is needed to allow cgi with suexec (to do so, we need a bin in the document-path!)
+		 * first we create the script directory if not already created, then copy over the starter script.
+		 * TODO: we have to fetch the data from the server-settings.
+		 */
+
+		if ($data["new"]["php"] == "cgi")
+		{
+			//$cgi_config = $app->getconf->get_server_config($conf["server_id"], 'cgi');
+
+			$cgi_config["cgi_starter_path"] = "/var/www/php-cgi-scripts/[system_user]/";
+			$cgi_config["cgi_starter_script"] = "php-cgi-starter";
+			$cgi_config["cgi_bin"] = "/usr/bin/php-cgi";
+
+			$cgi_starter_path = str_replace("[system_user]",$data["new"]["system_user"],$cgi_config["cgi_starter_path"]);
+			$cgi_starter_path = str_replace("[client_id]",$client_id,$cgi_starter_path);
+
+			if (!is_dir($cgi_starter_path))
+			{
+				exec("mkdir -p ".escapeshellcmd($cgi_starter_path));
+				exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." ".escapeshellcmd($cgi_starter_path));
+
+				$app->log("Creating cgi starter script directory: $cgi_starter_path",LOGLEVEL_DEBUG);
+			}
+
+			$cgi_tpl = new tpl();
+			$cgi_tpl->newTemplate("php-cgi-starter.master");
+
+			$cgi_tpl->setVar('open_basedir',$data["new"]["document_root"]);
+			$cgi_tpl->setVar('php_cgi_bin',$cgi_config["cgi_bin"]);
+
+			$cgi_starter_script = escapeshellcmd($cgi_starter_path.$cgi_config["cgi_starter_script"]);
+			file_put_contents($cgi_starter_script,$cgi_tpl->grab());
+			unset($cgi_tpl);
+
+			$app->log("Creating cgi starter script: $cgi_starter_script",LOGLEVEL_DEBUG);
+
+
+			exec("chmod 755 $cgi_starter_script");
+			exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." $cgi_starter_script");
+
+			$tpl->setVar('cgi_starter_path',$cgi_starter_path);
+			$tpl->setVar('cgi_starter_script',$cgi_config["cgi_starter_script"]);
+
+		}
+
 		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["new"]["domain"].'.vhost');
 		file_put_contents($vhost_file,$tpl->grab());
 		$app->log("Writing the vhost file: $vhost_file",LOGLEVEL_DEBUG);
@@ -603,6 +650,19 @@ class apache2_plugin {
 			}
 		}
 		
+		//remove the php cgi starter script if available
+		if ($data["old"]["php"] == "cgi")
+		{
+			// TODO: fetch the date from the server-settings
+			$web_config["cgi_starter_path"] = "/var/www/php-cgi-scripts/[system_user]/";
+
+			$cgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["cgi_starter_path"]);
+			if (is_dir($cgi_starter_path))
+			{
+					exec("rm -rf $cgi_starter_path");
+			}
+		}
+
 		$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
 		
 		// Delete the symlinks for the sites
