@@ -125,9 +125,6 @@ function _getServerState($serverId, $serverName, $showAll)
     /*  The State of the server */
     $serverState = 'ok';
 
-    /** The Number of several infos, warnings, errors, ... */
-    $count = array('unknown' => 0, 'info' => 0, 'warning' => 0, 'critical' => 0, 'error' => 0);
-
     /** The messages */
     $messages = array();
 
@@ -148,12 +145,12 @@ function _getServerState($serverId, $serverName, $showAll)
     $res .= '<div class="systemmonitor-content icons32 ico-'.$serverState.'">';
     $res .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName . '<br />';
     $res .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '<br />';
-    //        $res .= sizeof($messages['ok']) . ' ok | ';
-    $res .= sizeof($messages['unknown']) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ' | ';
-    $res .= sizeof($messages['info']) . ' ' . $app->lng("monitor_serverstate_info_txt") . ' | ';
-    $res .= sizeof($messages['warning']) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ' | ';
-    $res .= sizeof($messages['critical']) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ' | ';
-    $res .= sizeof($messages['error']) . ' ' . $app->lng("monitor_serverstate_error_txt") . '<br />';
+    //        $res .= sizeof($messages[$app->lng("monitor_serverstate_listok_txt")]) . ' ok | ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ' | ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ' | ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listwarning_txt")]) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ' | ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listcritical_txt")]) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ' | ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listerror_txt")]) . ' ' . $app->lng("monitor_serverstate_error_txt") . '<br />';
     $res .= '<br />';
 
     if ($showAll){
@@ -218,8 +215,6 @@ function _processDbState($type, $serverId, &$serverState, &$messages)
     $record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
     // change the new state to the highest state
     $serverState = _setState($serverState, $record['state']);
-    // count the states
-    $count[$record['state']]+= 1;
 
     /*
      * The message depands on the type and the state

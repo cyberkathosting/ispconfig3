@@ -191,8 +191,8 @@ class monitor_core_module {
         /** The state of the disk-usage */
         $state = 'ok';
 
-        /** Fetch the data into a array */
-        $dfData = shell_exec("df -hTx tmpfs");
+        /** Fetch the data of ALL devices into a array (needed for monitoring!)*/
+        $dfData = shell_exec("df -hT");
 
         // split into array
         $df = explode("\n", $dfData);
