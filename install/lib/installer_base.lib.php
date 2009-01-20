@@ -706,6 +706,11 @@ class installer_base {
 			replaceLine('/etc/apache2/sites-available/000-default','<VirtualHost *>','<VirtualHost *:80>',1);
 		}
 		
+		if(is_file('/etc/apache2/ports.conf')) {
+			// add a line "Listen 443" to ports conf if line does not exist
+			replaceLine('/etc/apache2/ports.conf','Listen 443','Listen 443',1);
+		}
+		
 		
 		//* Copy the ISPConfig configuration include
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];

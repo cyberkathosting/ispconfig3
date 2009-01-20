@@ -530,6 +530,9 @@ function replaceLine($filename,$search_pattern,$new_line,$strict = 0) {
 			}
 		}
 		if($found == 0) {
+			//* add \n if the last line does not end with \n or \r
+			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
+			//* add the new line at the end of the file
 			$out .= $new_line."\n";
 		}
 		file_put_contents($filename,$out);
