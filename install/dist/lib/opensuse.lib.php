@@ -102,7 +102,7 @@ class installer_dist extends installer_base {
 			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
 			'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
 			'virtual_create_maildirsize = yes',
-			'virtual_mailbox_extended = yes',
+			'virtual_maildir_extended = yes',
 			'virtual_mailbox_limit_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailbox_limit_maps.cf',
 			'virtual_mailbox_limit_override = yes',
 			'virtual_maildir_limit_message = "The user you are trying to reach is over quota."',
