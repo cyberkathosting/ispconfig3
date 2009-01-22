@@ -234,9 +234,10 @@ if($reconfigure_services_answer == 'yes') {
 	
 	if($conf['services']['mail']) {
 		//** Configure postfix
+		swriteln('Configuring Postfix');
 		$inst->configure_postfix('dont-create-certs');
 	
-		//* Configure postfix
+		//* Configure Jailkit
 		swriteln('Configuring Jailkit');
 		$inst->configure_jailkit();
 	
