@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Sivustot';
-$wb['active_txt'] = 'Päällä';
+$wb['list_head_txt'] = 'Verkkotunnukset';
+$wb['active_txt'] = 'Käytössä';
 $wb['server_id_txt'] = 'Palvelin';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Lisää uusi nettisivu';
-$wb['domain_id_txt'] = 'Domain-ID';
+$wb['domain_txt'] = 'Verkkotunnus';
+$wb['add_new_record_txt'] = 'Lisää uusi verkkotunnus';
+$wb['domain_id_txt'] = 'Verkkotunnus';
 ?>
+

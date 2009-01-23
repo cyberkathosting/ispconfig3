@@ -4,5 +4,6 @@ $wb['wb_txt'] = 'wb';
 $wb['rid_txt'] = 'Käyttäjä';
 $wb['email_txt'] = 'Sähköpostiosoite';
 $wb['priority_txt'] = 'Tärkeysjärjestys';
-$wb['active_txt'] = 'Päällä';
+$wb['active_txt'] = 'Käytössä';
 ?>
+

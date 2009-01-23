@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Pakettivarasto';
-$wb['active_txt'] = 'Päällä';
-$wb['repo_name_txt'] = 'Pakettivarasto';
-$wb['repo_url_txt'] = 'URL-osoite';
+$wb['list_head_txt'] = 'Ohjelmapakettien varastot';
+$wb['active_txt'] = 'Käytössä';
+$wb['repo_name_txt'] = 'Ohjelmapakettien varasto';
+$wb['repo_url_txt'] = 'Ohjelmapakettien varaston osoite';
 ?>
+

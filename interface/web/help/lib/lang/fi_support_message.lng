@@ -1,7 +1,8 @@
 <?php
-$wb['recipient_id_txt'] = 'Vastaanottajan ID';
-$wb['sender_id_txt'] = 'Lähettäjän ID';
-$wb['subject_txt'] = 'Aihe';
-$wb['message_txt'] = 'Viesti';
-$wb['tstamp_txt'] = 'Aikaleima';
+$wb['recipient_id_txt'] = 'Vastaanottajan tunnus';
+$wb['sender_id_txt'] = 'Lähettäjän tunnus';
+$wb['subject_txt'] = 'Tukipyynnön aihe';
+$wb['message_txt'] = 'Tukipyyntö';
+$wb['tstamp_txt'] = 'Päiväys';
 ?>
+

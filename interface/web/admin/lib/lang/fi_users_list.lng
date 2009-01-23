@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Käyttäjät';
-$wb['username_txt'] = 'Käyttäjänimi';
+$wb['list_head_txt'] = 'Käyttäjätunnukset';
+$wb['username_txt'] = 'Käyttäjätunnus';
 $wb['name_txt'] = 'Etunimi';
 $wb['vorname_txt'] = 'Sukunimi';
 $wb['ort_txt'] = 'Kaupunki';
 ?>
+

@@ -1,6 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Yhdistä valittu kielitiedosto englanninkielisen päätiedoston kanssa. <br />Tämä lisää puuttuvat käännöskohdat valittuun kielitiedostoon.';
-$wb['language_select_txt'] = 'Valitse kieli';
-$wb['btn_save_txt'] = 'Yhdistä tiedostot nyt';
-$wb['btn_cancel_txt'] = 'Takaisin';
+$wb['language_select_txt'] = 'Valitse täydennettävä kieli';
+$wb['btn_save_txt'] = 'Yhdistä kielitiedostot nyt';
+$wb['btn_cancel_txt'] = 'Keskeytä';
 ?>
+

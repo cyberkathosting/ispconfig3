@@ -1,7 +1,8 @@
 <?php
-$wb['repo_name_txt'] = 'Pakettivarasto';
-$wb['repo_url_txt'] = 'URL-osoite';
-$wb['repo_username_txt'] = 'Käyttäjä (valinnainen)';
+$wb['repo_name_txt'] = 'Ohjelmapakettien varasto';
+$wb['repo_url_txt'] = 'Varaston internetosoite';
+$wb['repo_username_txt'] = 'Käyttäjätunnus (valinnainen)';
 $wb['repo_password_txt'] = 'Salasana (valinnnainen)';
-$wb['active_txt'] = 'Päällä';
+$wb['active_txt'] = 'Käytössä';
 ?>
+

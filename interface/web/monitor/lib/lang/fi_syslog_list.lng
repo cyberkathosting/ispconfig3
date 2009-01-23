@@ -5,3 +5,4 @@ $wb['server_id_txt'] = 'Palvelin';
 $wb['loglevel_txt'] = 'Lokitaso';
 $wb['message_txt'] = 'Viesti';
 ?>
+

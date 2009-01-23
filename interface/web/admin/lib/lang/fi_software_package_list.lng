@@ -1,7 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Ohjelmapaketit';
-$wb['installed_txt'] = 'Tila';
-$wb['package_title_txt'] = 'Paketti';
-$wb['package_description_txt'] = 'Kuvaus';
+$wb['installed_txt'] = 'Ohjelmapaketin tila';
+$wb['package_title_txt'] = 'Ohjelmapaketti';
+$wb['package_description_txt'] = 'Ohjelmapaketin kuvaus';
 $wb['action_txt'] = 'Toiminto';
 ?>
+

@@ -5,5 +5,6 @@ $wb['Limits'] = 'Rajoitukset';
 $wb['Add Client'] = 'Lisää asiakas';
 $wb['Edit Client'] = 'Muokkaa asiakkaan tietoja';
 $wb['Clients'] = 'Asiakkaat';
-$wb['Edit Client-Templates'] = 'Muokkaa aiakasmalleja';
+$wb['Edit Client-Templates'] = 'Muokkaa asiakasmalleja';
 ?>
+

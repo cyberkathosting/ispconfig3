@@ -4,3 +4,4 @@ $wb['fields_txt'] = 'Kentät';
 $wb['template_txt'] = 'Malli';
 $wb['visible_txt'] = 'Näkyvissä';
 ?>
+

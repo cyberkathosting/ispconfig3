@@ -3,6 +3,7 @@ $wb['passwort_txt'] = 'Salasana';
 $wb['language_txt'] = 'Kieli';
 $wb['password_mismatch'] = 'Salasanat eivät täsmää.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
-$wb['Form to edit the user password and language.'] = 'Lomake käyttäjän salasanan ja kielen muokkaamiseen.';
+$wb['Form to edit the user password and language.'] = 'Lomake käyttäjän salasanan ja kieliasetusten muokkaamiseen.';
 $wb['Settings'] = 'Asetukset';
 ?>
+

@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Lisää uusi kieli';
-$wb['language_select_txt'] = 'Valitse kielipohja';
-$wb['language_new_txt'] = 'Uusi kieli';
+$wb['list_head_txt'] = 'Lisää hallintapaneeliin uusi kieli';
+$wb['language_select_txt'] = 'Valitse peruskieli';
+$wb['language_new_txt'] = 'Lisää uusi kieli';
 $wb['btn_save_txt'] = 'Luo uudet kielitiedostot';
-$wb['btn_cancel_txt'] = 'Takaisin';
+$wb['btn_cancel_txt'] = 'Keskeytä';
 ?>
+

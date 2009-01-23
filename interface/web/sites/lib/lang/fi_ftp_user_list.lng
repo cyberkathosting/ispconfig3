@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'FTP-käyttäjä';
-$wb['active_txt'] = 'Päällä';
+$wb['list_head_txt'] = 'FTP-käyttäjätunnus';
+$wb['active_txt'] = 'Käytössä';
 $wb['server_id_txt'] = 'Palvelin';
-$wb['parent_domain_id_txt'] = 'Sivusto';
-$wb['username_txt'] = 'Käyttäjänimi';
-$wb['add_new_record_txt'] = 'Lisää uusi FTP-käyttäjä';
+$wb['parent_domain_id_txt'] = 'Verkkotunnus';
+$wb['username_txt'] = 'Käyttäjätunnus';
+$wb['add_new_record_txt'] = 'Lisää uusi FTP-käyttäjätunnus';
 ?>
+

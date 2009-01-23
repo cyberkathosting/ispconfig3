@@ -16,9 +16,10 @@ $wb['db_history_txt'] = 'Kumoamisloki';
 $wb['tab_default_txt'] = 'Oletuspainike';
 $wb['list_default_txt'] = 'Oletuslista';
 $wb['auth_txt'] = 'Oikeudet';
-$wb['auth_preset_userid_txt'] = 'Käyttäjä-ID';
-$wb['auth_preset_groupid_txt'] = 'Ryhmä-ID';
+$wb['auth_preset_userid_txt'] = 'Käyttäjätunnus';
+$wb['auth_preset_groupid_txt'] = 'Käyttäjäryhmä';
 $wb['auth_preset_perm_user_txt'] = 'Käyttäjän oikeudet';
 $wb['auth_preset_perm_group_txt'] = 'Ryhmän oikeudet';
-$wb['auth_preset_perm_other_txt'] = 'Muiden oikeude';
+$wb['auth_preset_perm_other_txt'] = 'Muiden käyttäjien oikeudet';
 ?>
+

@@ -16,3 +16,4 @@ $wb['module_del_txt'] = 'Poista ohjelmaosion kansio ja kaikki sen alikansiot?';
 $wb['menu_del_txt'] = 'Poista valikko ja kaikki sen osat?';
 $wb['item_del_txt'] = 'Poista valikon osa?';
 ?>
+

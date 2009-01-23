@@ -6,16 +6,17 @@ $wb['database_user_txt'] = 'Tietokannan käyttäjä';
 $wb['database_password_txt'] = 'Tietokannan salasana';
 $wb['remote_access_txt'] = 'Tietokannan etäyhteys';
 $wb['client_txt'] = 'Asiakas';
-$wb['active_txt'] = 'Päällä';
+$wb['active_txt'] = 'Käytössä';
 $wb['database_name_error_empty'] = 'Tietokanta on tyhjä.';
-$wb['database_name_error_unique'] = 'Palvelimella on jo tämän niminen tietokanta. Lisää vaikka domain-tunnuksesi tieokannan nimeen.';
+$wb['database_name_error_unique'] = 'Palvelimella on jo tämän niminen tietokanta. Lisää vaikka verkkotunnuksesi tieokannan nimeen.';
 $wb['database_name_error_regex'] = 'Tietokannan nimi on väärän muotoinen. Tietokannan nimi voi sisältää vain merkkejä a-z, A-Z, 0-9 ja alaviivan (_). Pituus  2 - 64 merkkiä.';
 $wb['database_user_error_empty'] = 'Tietokannan käyttäjä on tyhjä.';
-$wb['database_user_error_unique'] = 'Palvelimella on jo tämän niminen tietokantakäyttäjä. Lisää vaikka domain-tunnuksesi tietokantakäyttäjän nimeen.';
-$wb['database_user_error_regex'] = 'Tietokannan käyttäjänimi on väärän muotoinen. Tietokantakäyttäjän nimi voi sisältää vain merkkejä a-z, A-Z, 0-9 ja alaviivan (_). Pituus  2 - 64 merkkiä.';
+$wb['database_user_error_unique'] = 'Palvelimella on jo tämän niminen tietokantakäyttäjä. Lisää vaikka verkkotunnuksesi tietokantakäyttäjän nimeen.';
+$wb['database_user_error_regex'] = 'Tietokannan Käyttäjätunnus on väärän muotoinen. Tietokantakäyttäjän nimi voi sisältää vain merkkejä a-z, A-Z, 0-9 ja alaviivan (_). Pituus  2 - 64 merkkiä.';
 $wb['limit_database_txt'] = 'Tietokantojen sallittu määrä on ylitetty.';
 $wb['database_name_change_txt'] = 'Tietokannan nimeä ei voi vaihtaa';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['database_charset_txt'] = 'Tietokannan merkistö';
 $wb['database_charset_change_txt'] = 'Tietokannan merkistöä ei voi vaihtaa';
 ?>
+

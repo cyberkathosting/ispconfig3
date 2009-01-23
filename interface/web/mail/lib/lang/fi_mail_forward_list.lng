@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Postin edelleenlähetys';
-$wb['active_txt'] = 'Päällä';
-$wb['source_txt'] = 'Lähde';
-$wb['destination_txt'] = 'Kohde';
+$wb['active_txt'] = 'Käytössä';
+$wb['source_txt'] = 'Mistä:';
+$wb['destination_txt'] = 'Minne:';
 $wb['email_txt'] = 'Sähköpostiosoite';
-$wb['add_new_record_txt'] = 'Lisää uusi edelleenlähetyssääntö';
+$wb['add_new_record_txt'] = 'Lisää uusi edelleenlähetysosoite';
 ?>
+

@@ -1,11 +1,11 @@
 <?php
-$wb['Email Alias'] = 'Sähköpostikaima';
+$wb['Email Alias'] = 'Sähköpostialias';
 $wb['Email Blacklist'] = 'Sähköpostiosoitteiden estolista';
 $wb['Blacklist'] = 'Estolista';
 $wb['Mail Content Filter'] = 'Sähköpostin sisällön suodatin';
 $wb['Filter'] = 'Suodatin';
-$wb['Mail Domain'] = 'Sähköposidomain';
-$wb['Domain'] = 'Domain';
+$wb['Mail Domain'] = 'Postiverkkotunnus';
+$wb['Domain'] = 'Verkkotunnus';
 $wb['Email Catchall'] = 'Catchall-osoite';
 $wb['Email Forward'] = 'Edelleenohjaus-osoite';
 $wb['Get Email'] = 'Hae sähköposti';
@@ -32,7 +32,7 @@ $wb['Spamfilter Whitelist'] = 'Roskapostisuodattimen luotetut osoitteet';
 $wb['Email'] = 'Sähköpostiosoite';
 $wb['Email Mailbox'] = 'Sähköpostin laatikko';
 $wb['Email Accounts'] = 'Sähköpostitilit';
-$wb['User / Domain'] = 'Käyttäjä / Domain';
+$wb['User / Domain'] = 'Käyttäjä / Verkkotunnus';
 $wb['Server Settings'] = 'Palvelimen asetukset';
 $wb['Fetchmail'] = 'Sähköpostin nouto';
 $wb['Mailbox traffic'] = 'Postilaatikon liikenne';
@@ -43,3 +43,4 @@ $wb['Content Filter'] = 'Sisältösuodatin';
 $wb['Global Filters'] = 'Yleiset suodattimet';
 $wb['Server'] = 'Palvelin';
 ?>
+

@@ -1,12 +1,13 @@
 <?php
-$wb['1001'] = 'Käyttäjänimi tai salasana tyhjä.';
-$wb['1002'] = 'Käyttäjänimi tai salasana väärin.';
-$wb['1003'] = 'Käyttäjä on estetty';
+$wb['1001'] = 'Käyttäjätunnus tai salasana tyhjä.';
+$wb['1002'] = 'Käyttäjätunnus tai salasana väärin.';
+$wb['1003'] = 'Käyttäjätunnus on lukittu';
 $wb['1004'] = 'Liian monta kirjautumisyritystä, yritä uudestaan 15 minuutin kuluttua';
-$wb['pass_reset_txt'] = 'Uusi salasana luodaan ja lähetetään sähköpostiisi jos antamasi sähköpostiosoite on sama kuin asiakastiedoissasi oleva osoite.';
+$wb['pass_reset_txt'] = 'Uusi salasana luodaan ja lähetetään asiakastiedoissasi olevaan sähköpostiosoitteeseen.';
 $wb['pw_reset'] = 'Salasana on vaihdettu ja lähetetty sähköpostiisi.';
-$wb['pw_error'] = 'Käyttäjänimeä tai sähköpostiosoitetta ei löydy.';
-$wb['pw_error_noinput'] = 'Anna sähköpostiosoite ja käyttäjänimi.';
-$wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
-$wb['pw_reset_mail_title'] = 'ISPConfig 3 Hallintapaneelin salasana on vaihdettu.';
+$wb['pw_error'] = 'Käyttäjätunnusta tai sähköpostiosoitetta ei löydy.';
+$wb['pw_error_noinput'] = 'Anna sähköpostiosoite ja käyttäjätunnus.';
+$wb['pw_reset_mail_msg'] = 'Käyttäjätunnuksesi salasana ISPConfi3 Hallintapaneeliin on vaihdettu. Uusi salasanasi: ';
+$wb['pw_reset_mail_title'] = 'ISPConfi3 Hallintapaneelin salasana on vaihdettu.';
 ?>
+

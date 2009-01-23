@@ -1,7 +1,8 @@
 <?php
-$wb['Support Message'] = 'Tukiviesti';
-$wb['Message'] = 'Viesti';
-$wb['Send message'] = 'Lähetä viesti';
-$wb['View messages'] = 'Näytä viestit';
-$wb['Support'] = 'Tuki';
+$wb['Support Message'] = 'Tukipyyntö';
+$wb['Message'] = 'Tukipyyntö';
+$wb['Send message'] = 'Lähetä tukipyyntö';
+$wb['View messages'] = 'Näytä tukipyynnöt';
+$wb['Support'] = 'Käyttäjätuki';
 ?>
+

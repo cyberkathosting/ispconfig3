@@ -2,15 +2,16 @@
 $wb['Database'] = 'Tietokanta';
 $wb['Options'] = 'Asetukset';
 $wb['Shell User'] = 'Shell-käyttäjä';
-$wb['Domain'] = 'Domain';
+$wb['Domain'] = 'Verkkotunnus';
 $wb['Redirect'] = 'Edelleenohjaus';
 $wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Alidomain';
-$wb['Sites'] = 'Sivustot';
-$wb['Aliasdomain'] = 'Kaimadomain';
-$wb['FTP-User'] = 'FTP-käyttäjä';
+$wb['Subdomain'] = 'Aliverkkotunnus';
+$wb['Sites'] = 'Verkkotunnukset';
+$wb['Aliasdomain'] = 'Aliasverkkotunnus';
+$wb['FTP-User'] = 'FTP-käyttäjätunnus';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell-käyttäjä';
 $wb['Shell'] = 'Shell';
-$wb['Websites'] = 'Sivustot';
+$wb['Websites'] = 'Verkkotunnukset';
 ?>
+

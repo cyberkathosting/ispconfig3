@@ -4,10 +4,11 @@ $wb['server_id_txt'] = 'Palvelin';
 $wb['client_txt'] = 'Asiakas';
 $wb['btn_save_txt'] = 'Luo uusi DNS-tietue';
 $wb['btn_cancel_txt'] = 'Keskeytä';
-$wb['domain_txt'] = 'Domain';
-$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['domain_txt'] = 'Verkkotunnus';
+$wb['email_txt'] = 'Vastuuhenkilön sähköpostiosoite';
 $wb['ns1_txt'] = '1. nimipalvelin';
 $wb['ns2_txt'] = '2. nimipalvelin';
 $wb['ip_txt'] = 'IP-osoite';
-$wb['error_origin_empty'] = 'Origin-kenttä on tyhjä.';
+$wb['error_origin_empty'] = 'Verkkotunnusta ei ole annettu.';
 ?>
+

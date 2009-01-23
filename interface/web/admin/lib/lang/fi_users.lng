@@ -1,15 +1,15 @@
 <?php
-$wb['username_txt'] = 'Käyttäjänimi';
-$wb['username_err'] = 'Käyttäjänimi on liian pitkä tai sisältää kiellettyjä merkkejä.';
-$wb['username_empty'] = 'Käyttäjänimi on tyhjä.';
-$wb['username_unique'] = 'Tämän niminen käyttäjä on jo olemassa.';
+$wb['username_txt'] = 'Käyttäjätunnus';
+$wb['username_err'] = 'Käyttäjätunnus on liian pitkä tai sisältää kiellettyjä merkkejä.';
+$wb['username_empty'] = 'Käyttäjätunnus on tyhjä.';
+$wb['username_unique'] = 'Tämä käyttäjätunnus on jo olemassa.';
 $wb['passwort_txt'] = 'Salasana';
-$wb['modules_txt'] = 'Ohjelmaosio';
-$wb['startmodule_txt'] = 'Aloitusohjelma';
+$wb['modules_txt'] = 'Ohjelmaosiot';
+$wb['startmodule_txt'] = 'Aloitusosio';
 $wb['app_theme_txt'] = 'Teema';
-$wb['typ_txt'] = 'Tyyppi';
-$wb['active_txt'] = 'Päällä';
-$wb['language_txt'] = 'Kieli';
+$wb['typ_txt'] = 'Käyttäjän tyyppi';
+$wb['active_txt'] = 'Käytössä';
+$wb['language_txt'] = 'Käyttäjän kieli';
 $wb['name_txt'] = 'Etunimi';
 $wb['vorname_txt'] = 'Sukunimi';
 $wb['unternehmen_txt'] = 'Yritys';
@@ -19,10 +19,11 @@ $wb['plz_txt'] = 'Postinumero';
 $wb['land_txt'] = 'Maa';
 $wb['email_txt'] = 'Sähköpostiosoite';
 $wb['url_txt'] = 'Internet-osoite';
-$wb['telefon_txt'] = 'Puehlinnumero';
+$wb['telefon_txt'] = 'Puhelinnumero';
 $wb['fax_txt'] = 'Fax-numero';
-$wb['groups_txt'] = 'Ryhmät';
+$wb['groups_txt'] = 'Käyttäjäryhmät';
 $wb['default_group_txt'] = 'Oletusryhmä';
-$wb['startmodule_err'] = 'Aloitusohjelma ei ole sallittu.';
+$wb['startmodule_err'] = 'Aloitusosio ei ole sallittu.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 ?>
+

@@ -6,6 +6,7 @@ $wb['web_server_txt'] = 'Internet';
 $wb['dns_server_txt'] = 'Nimipalvelin';
 $wb['file_server_txt'] = 'Tiedostopalvelin';
 $wb['db_server_txt'] = 'Tietokantapalvelin';
-$wb['vserver_server_txt'] = 'Palvelin';
-$wb['add_new_record_txt'] = 'Lisää uusi palvelin';
+$wb['vserver_server_txt'] = 'Virtuaalipalvelin';
+$wb['add_new_record_txt'] = 'Lisää uusi tietue';
 ?>
+
