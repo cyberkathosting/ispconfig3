@@ -89,10 +89,10 @@ class shelluser_jailkit_plugin {
 				$this->_add_jailkit_user();
 			}
 		
-			$app->log("Jalikit Plugin -> insert username:".$data['new']['username'],LOGLEVEL_DEBUG);
+			$app->log("Jailkit Plugin -> insert username:".$data['new']['username'],LOGLEVEL_DEBUG);
 			
 		} else {
-			$app->log("Jalikit Plugin -> insert username:".$data['new']['username']." skipped, the user does not exist.",LOGLEVEL_WARN);
+			$app->log("Jailkit Plugin -> insert username:".$data['new']['username']." skipped, the user does not exist.",LOGLEVEL_WARN);
 		}
 		
 	}
@@ -120,10 +120,10 @@ class shelluser_jailkit_plugin {
 				$this->_add_jailkit_user();
 			}
 		
-			$app->log("Jalikit Plugin -> update username:".$data['new']['username'],LOGLEVEL_DEBUG);
+			$app->log("Jailkit Plugin -> update username:".$data['new']['username'],LOGLEVEL_DEBUG);
 			
 		} else {
-			$app->log("Jalikit Plugin -> update username:".$data['new']['username']." skipped, the user does not exist.",LOGLEVEL_WARN);
+			$app->log("Jailkit Plugin -> update username:".$data['new']['username']." skipped, the user does not exist.",LOGLEVEL_WARN);
 		}
 		
 	}
@@ -148,10 +148,10 @@ class shelluser_jailkit_plugin {
 			//exec('rm -rf '.$data['old']['dir'].$jailkit_chroot_userhome);
 			
 			
-			$app->log("Jalikit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
+			$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 		}
 		
-		$app->log("Jalikit Plugin -> delete username:".$data['old']['username'],LOGLEVEL_DEBUG);
+		$app->log("Jailkit Plugin -> delete username:".$data['old']['username'],LOGLEVEL_DEBUG);
 		
 		
 	}
