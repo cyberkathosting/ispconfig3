@@ -118,8 +118,8 @@ class mail_plugin {
 		// Move mailbox, if domain has changed and delete old mailbox
 		if($data['new']['maildir'] != $data['old']['maildir'] && is_dir($data['old']['maildir'])) {
 			if(is_dir($data['new']['maildir'])) {
-				exec("rm -f ".escapeshellcmd($data['new']['maildir']).'/*');
-				rmdir($data['new']['maildir']);
+				exec("rm -fr ".escapeshellcmd($data['new']['maildir']));
+				//rmdir($data['new']['maildir']);
 			}
 			exec('mv -f '.escapeshellcmd($data['old']['maildir']).' '.escapeshellcmd($data['new']['maildir']));
 			// exec('mv -f '.escapeshellcmd($data['old']['maildir']).'/* '.escapeshellcmd($data['new']['maildir']));
