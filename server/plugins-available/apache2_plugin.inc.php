@@ -272,7 +272,7 @@ class apache2_plugin {
 		*/
 	
 		// Get the client ID
-		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
+		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
 		$client_id = intval($client["client_id"]);
 		unset($client);
 		
