@@ -20,7 +20,15 @@ and insert the line:
 
 deb http://volatile.debian.org/debian-volatile etch/volatile main contrib non-free
 
-Then run:
+Then execute these commands to insert the Debian voltaile gpg key to the apt keyring:
+
+cd /tmp
+apt-get install wget
+wget http://www.debian.org/volatile/etch-volatile.asc
+apt-key add etch-volatile.asc
+rm -f etch-volatile.asc
+
+Now we update the package list by executing:
 
 apt-get update
 
