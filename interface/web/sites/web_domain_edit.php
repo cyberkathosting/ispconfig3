@@ -60,7 +60,7 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_web_domain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
-			// Check if the user may add another maildomain.
+			// Check if the user may add another website.
 			if($client["limit_web_domain"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM web_domain WHERE sys_groupid = $client_group_id and type = 'vhost'");
 				if($tmp["number"] >= $client["limit_web_domain"]) {
@@ -75,7 +75,7 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 		
-		// If the logged in user is not admin and has no sub clients (no rseller)
+		//* Client: If the logged in user is not admin and has no sub clients (no rseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		
 			// Get the limits of the client
@@ -88,10 +88,23 @@ class page_action extends tform_actions {
 			unset($tmp);
 			
 			// Fill the IP select field with the IP addresses that are allowed for this client
+			// $ip_select = "<option value='*'>*</option>";
+			// $app->tpl->setVar("ip_address",$ip_select);
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver'];
+			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value='*'>*</option>";
+			//$ip_select = "";
+			if(is_array($ips)) {
+				foreach( $ips as $ip) {
+					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
+					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+				}
+			}
 			$app->tpl->setVar("ip_address",$ip_select);
+			unset($tmp);
+			unset($ips);
 		
-		// If the logged in user is not admin and has sub clients (is a rseller)
+		//* Reseller: If the logged in user is not admin and has sub clients (is a rseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			
 			// Get the limits of the client
@@ -116,10 +129,23 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id",$client_select);
 			
 			// Fill the IP select field with the IP addresses that are allowed for this client
+			//$ip_select = "<option value='*'>*</option>";
+			//$app->tpl->setVar("ip_address",$ip_select);
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver'];
+			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value='*'>*</option>";
+			//$ip_select = "";
+			if(is_array($ips)) {
+				foreach( $ips as $ip) {
+					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
+					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+				}
+			}
 			$app->tpl->setVar("ip_address",$ip_select);
+			unset($tmp);
+			unset($ips);
 		
-		// If the logged in user is admin
+		//* Admin: If the logged in user is admin
 		} else {
 			
 			// The user is admin, so we fill in all IP addresses of the server
