@@ -27,4 +27,6 @@ $wb['welcome_mail_message'] = 'Welkom op uw nieuwe email account.
 Uw webmaster.';
 $wb['disableimap_txt'] = 'Uitschakelen IMAP';
 $wb['disablepop3_txt'] = 'Uitschakelen POP3';
+$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
+$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
 ?>

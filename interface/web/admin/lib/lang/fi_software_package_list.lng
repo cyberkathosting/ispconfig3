@@ -5,4 +5,3 @@ $wb['package_title_txt'] = 'Ohjelmapaketti';
 $wb['package_description_txt'] = 'Ohjelmapaketin kuvaus';
 $wb['action_txt'] = 'Toiminto';
 ?>
-

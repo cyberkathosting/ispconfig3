@@ -11,4 +11,3 @@ $wb['ns2_txt'] = '2. nimipalvelin';
 $wb['ip_txt'] = 'IP-osoite';
 $wb['error_origin_empty'] = 'Verkkotunnusta ei ole annettu.';
 ?>
-

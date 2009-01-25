@@ -200,7 +200,28 @@ class page_action extends tform_actions {
 		$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
 		
 		// send a welcome email to create the mailbox
-		mail($this->dataRecord["email"],$app->tform->wordbook["welcome_mail_subject"],$app->tform->wordbook["welcome_mail_message"]);
+//		mail($this->dataRecord["email"],$app->tform->wordbook["welcome_mail_subject"],$app->tform->wordbook["welcome_mail_message"]);
+		
+		// tries to detect current charset, and encode subject-header and body from it to ISO-8859-1.
+		$fromCharset      = mb_detect_encoding($app->tform->wordbook["welcome_mail_subject"]);
+		$iconvPreferences = array("input-charset" => $fromCharset,
+					"output-charset" => "ISO-8859-1",
+					"line-length" => 76,
+					"line-break-chars" => "\r\n",
+					"scheme" => "Q");
+
+		$welcomeFromName  = $app->tform->wordbook["welcome_mail_fromname_txt"];
+		$welcomeFromEmail = $app->tform->wordbook["welcome_mail_fromemail_txt"];
+		$mailHeaders      = "MIME-Version: 1.0" . "\r\n";
+		$mailHeaders     .= "Content-type: text/plain; charset=iso-8859-1" . "\r\n";
+		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\r\n";
+		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\r\n";
+		$mailTarget       = $this->dataRecord["email"];
+		$mailSubject      = iconv_mime_encode("trimoff", $app->tform->wordbook["welcome_mail_subject"], $iconvPreferences);
+		$mailSubject      = str_replace("trimoff: ", "", $mailSubject);
+		$mailBody         = iconv ($fromCharset, "ISO-8859-1", $app->tform->wordbook["welcome_mail_message"]);
+
+		mail($mailTarget, $mailSubject, $mailBody, $mailHeaders);
 		
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);

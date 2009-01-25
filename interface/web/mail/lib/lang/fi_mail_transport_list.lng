@@ -7,4 +7,3 @@ $wb['transport_txt'] = 'Reitti';
 $wb['sort_order_txt'] = 'Järjestä..';
 $wb['add_new_record_txt'] = 'Lisää uusi reitti';
 ?>
-

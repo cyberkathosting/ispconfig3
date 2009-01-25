@@ -4,4 +4,3 @@ $wb['server_id_txt'] = 'Palvelin';
 $wb['ip_address_txt'] = 'IP-osoite';
 $wb['add_new_record_txt'] = 'Lisää uusi IP-osoite';
 ?>
-

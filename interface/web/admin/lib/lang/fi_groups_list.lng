@@ -4,4 +4,3 @@ $wb['description_txt'] = 'Ryhmien kuvaukset';
 $wb['name_txt'] = 'Käyttäjäryhmä';
 $wb['add_new_record_txt'] = 'Lisää uusi tietue';
 ?>
-

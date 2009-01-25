@@ -5,4 +5,3 @@ $wb['name_txt'] = 'Etunimi';
 $wb['vorname_txt'] = 'Sukunimi';
 $wb['ort_txt'] = 'Kaupunki';
 ?>
-

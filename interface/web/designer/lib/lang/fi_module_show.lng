@@ -14,4 +14,3 @@ $wb['module_del_txt'] = 'Haluatko poistaa tämän ohjelmaosion ja kaikki siihen 
 $wb['menu_del_txt'] = 'Haluatko poistaa tämän valikon?';
 $wb['item_del_txt'] = 'Haluatko poistaa tämän osan?';
 ?>
-

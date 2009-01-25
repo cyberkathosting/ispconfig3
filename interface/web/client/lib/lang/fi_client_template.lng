@@ -45,4 +45,3 @@ $wb['limit_dns_zone_error_notint'] = 'DNS-tietueiden raja-arvon pitää olla num
 $wb['limit_database_error_notint'] = 'Tietokantojen raja-arvon pitää olla numero.';
 $wb['error_template_name_empty'] = 'Anna mallilomakkeen nimi';
 ?>
-

@@ -6,4 +6,3 @@ $wb['lang_file_txt'] = 'Kielitiedosto';
 $wb['btn_save_txt'] = 'Tallenna';
 $wb['btn_cancel_txt'] = 'Keskeytä';
 ?>
-

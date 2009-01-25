@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Verkkotunnus';
 $wb['username_txt'] = 'Käyttäjätunnus';
 $wb['add_new_record_txt'] = 'Lisää uusi Shell-käyttäjä';
 ?>
-

@@ -32,4 +32,3 @@ $wb['Language Editor'] = 'Kielimuokkain';
 $wb['Software'] = 'Ohjelmat';
 $wb['Repositories'] = 'Ohjelmapakettien varastot';
 ?>
-

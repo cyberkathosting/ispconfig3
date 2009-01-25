@@ -7,4 +7,3 @@ $wb['Edit Client'] = 'Muokkaa asiakkaan tietoja';
 $wb['Clients'] = 'Asiakkaat';
 $wb['Edit Client-Templates'] = 'Muokkaa asiakasmalleja';
 ?>
-

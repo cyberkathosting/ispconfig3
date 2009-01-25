@@ -5,4 +5,3 @@ $wb['domain_txt'] = 'Postiverkkotunnus';
 $wb['add_new_record_txt'] = 'Lisää uusi postiverkkotunnus.';
 $wb['active_txt'] = 'Käytössä';
 ?>
-

@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Verkkotunnus on vääränlainen.';
 $wb['data_error_empty'] = 'IP-osoite tyhjä';
 $wb['data_error_regex'] = 'IP-osoite on vääränlainen';
 ?>
-

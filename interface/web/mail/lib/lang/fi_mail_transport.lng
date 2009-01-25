@@ -8,4 +8,3 @@ $wb['sort_order_txt'] = 'Järjestä..';
 $wb['active_txt'] = 'Käytössä';
 $wb['limit_mailrouting_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä sähköpostireitityksiä.';
 ?>
-

@@ -7,4 +7,3 @@ $wb['source_username_txt'] = 'Käyttäjätunnus';
 $wb['destination_txt'] = 'Kohdepostilaatikko';
 $wb['add_new_record_txt'] = 'Lisää uusi tili';
 ?>
-

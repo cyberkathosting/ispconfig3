@@ -9,4 +9,3 @@ $wb['db_server_txt'] = 'Tietokantapalvelin';
 $wb['vserver_server_txt'] = 'Virtuaalipalvelin';
 $wb['active_txt'] = 'Käytössä';
 ?>
-

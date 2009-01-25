@@ -43,4 +43,3 @@ $wb['Content Filter'] = 'Sisältösuodatin';
 $wb['Global Filters'] = 'Yleiset suodattimet';
 $wb['Server'] = 'Palvelin';
 ?>
-

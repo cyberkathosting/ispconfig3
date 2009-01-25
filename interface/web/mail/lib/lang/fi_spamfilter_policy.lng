@@ -36,4 +36,3 @@ $wb['spam_admin_txt'] = 'Roskapostitunnisteiden ylläpitäjä';
 $wb['message_size_limit_txt'] = 'Viestin kokoraja';
 $wb['banned_rulenames_txt'] = 'Estojen sääntönimet';
 ?>
-

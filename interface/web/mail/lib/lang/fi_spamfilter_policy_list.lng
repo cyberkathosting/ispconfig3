@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Pitää estetyistä tiedostoista';
 $wb['bad_header_lover_txt'] = 'Pitää osikkovirheistä';
 $wb['add_new_record_txt'] = 'Lisää kohtelutapa';
 ?>
-

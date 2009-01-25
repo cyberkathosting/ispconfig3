@@ -10,4 +10,3 @@ $wb['pw_error_noinput'] = 'Anna sähköpostiosoite ja käyttäjätunnus.';
 $wb['pw_reset_mail_msg'] = 'Käyttäjätunnuksesi salasana ISPConfi3 Hallintapaneeliin on vaihdettu. Uusi salasanasi: ';
 $wb['pw_reset_mail_title'] = 'ISPConfi3 Hallintapaneelin salasana on vaihdettu.';
 ?>
-

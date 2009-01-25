@@ -7,4 +7,3 @@ $wb['no_domain_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia tähän verkkot
 $wb['domain_error_regex'] = 'Vääränlainen verkkotunnus tai se sisältää kiellettyjä merkkejä.';
 $wb['limit_mailcatchall_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä Catchall-tunnuksia.';
 ?>
-

@@ -8,4 +8,3 @@ $wb['no_domain_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia tähän verkkot
 $wb['destination_error_isemail'] = 'Kohteena oleva sähköpostiosoite on vääränlainen.';
 $wb['limit_mailalias_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä aliasosoitteita.';
 ?>
-

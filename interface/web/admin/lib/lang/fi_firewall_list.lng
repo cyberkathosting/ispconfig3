@@ -6,4 +6,3 @@ $wb['tcp_port_txt'] = 'Avoimet TCP-portit';
 $wb['udp_port_txt'] = 'Avoimet UDP-portit';
 $wb['add_new_record_txt'] = 'Lisää uusi palomuurisääntö';
 ?>
-

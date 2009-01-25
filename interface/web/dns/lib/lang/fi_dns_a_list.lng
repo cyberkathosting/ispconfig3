@@ -9,4 +9,3 @@ $wb['type_txt'] = 'Tyyppi';
 $wb['add_new_record_txt'] = 'Lisää uusi tietue';
 $wb['aux_txt'] = 'Tärkeysjärjestys';
 ?>
-

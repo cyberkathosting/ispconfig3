@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Pääverkkotunnus';
 $wb['domain_txt'] = 'Aliverkkotunnus';
 $wb['add_new_record_txt'] = 'Lisää uusi aliverkkotunnus';
 ?>
-

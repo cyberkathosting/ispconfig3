@@ -4,4 +4,3 @@ $wb['Settings'] = 'Aetukset';
 $wb['ISPConfig Tools'] = 'ISPConfig-työkalut';
 $wb['Password and Language'] = 'Salasanat ja kielet';
 ?>
-

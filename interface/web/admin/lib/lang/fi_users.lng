@@ -26,4 +26,3 @@ $wb['default_group_txt'] = 'Oletusryhmä';
 $wb['startmodule_err'] = 'Aloitusosio ei ole sallittu.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 ?>
-

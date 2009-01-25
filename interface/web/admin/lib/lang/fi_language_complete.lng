@@ -4,4 +4,3 @@ $wb['language_select_txt'] = 'Valitse täydennettävä kieli';
 $wb['btn_save_txt'] = 'Yhdistä kielitiedostot nyt';
 $wb['btn_cancel_txt'] = 'Keskeytä';
 ?>
-

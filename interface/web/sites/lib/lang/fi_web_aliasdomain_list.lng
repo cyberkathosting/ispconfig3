@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Aliasverkkotunnus on tyhjä.';
 $wb['domain_error_unique'] = 'Tämä aliasverkkotunnus on jo olemassa.';
 $wb['domain_error_regex'] = 'Aliasverkkotunnus on vääränlainen.';
 ?>
-

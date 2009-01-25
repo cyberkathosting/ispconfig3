@@ -27,4 +27,6 @@ $wb['welcome_mail_message'] = 'Добро пожаловать в ваш нов�
 $wb['password_strength_txt'] = 'Password strength';
 $wb['disableimap_txt'] = 'Disable IMAP';
 $wb['disablepop3_txt'] = 'Disable POP3';
+$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
+$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
 ?>

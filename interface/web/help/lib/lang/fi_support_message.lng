@@ -5,4 +5,3 @@ $wb['subject_txt'] = 'Tukipyynnön aihe';
 $wb['message_txt'] = 'Tukipyyntö';
 $wb['tstamp_txt'] = 'Päiväys';
 ?>
-

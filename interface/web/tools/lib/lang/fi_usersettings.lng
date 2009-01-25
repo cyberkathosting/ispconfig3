@@ -6,4 +6,3 @@ $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['Form to edit the user password and language.'] = 'Lomake käyttäjän salasanan ja kieliasetusten muokkaamiseen.';
 $wb['Settings'] = 'Asetukset';
 ?>
-

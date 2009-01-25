@@ -33,4 +33,3 @@ $wb['hostname_txt'] = 'Palvelimen nimi';
 $wb['nameservers_txt'] = 'Nimipalvelimet';
 $wb['auto_network_configuration_txt'] = 'Automaattiset verkkoasetukset';
 ?>
-

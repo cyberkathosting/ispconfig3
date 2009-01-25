@@ -5,4 +5,3 @@ $wb['btn_save_txt'] = 'Asenna valittu kielitiedosto';
 $wb['language_overwrite_txt'] = 'Ylikirjoitetaan tiedostot, jos ne on jo olemassa.';
 $wb['btn_cancel_txt'] = 'Takaisin';
 ?>
-

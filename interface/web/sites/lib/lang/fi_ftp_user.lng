@@ -22,4 +22,3 @@ $wb['uid_error_empty'] = 'Käyttäjäryhmä-kenttä on tyhjä.';
 $wb['directory_error_empty'] = 'Kotihakemisto-kenttä on tyhjä.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 ?>
-

@@ -4,4 +4,3 @@ $wb['ip_address_txt'] = 'IP-osoite';
 $wb['virtualhost_txt'] = 'Virtuaalipalvelin';
 $wb['ip_err'] = 'IP-osoite vääränlainen';
 ?>
-

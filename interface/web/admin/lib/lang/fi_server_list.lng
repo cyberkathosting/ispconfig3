@@ -9,4 +9,3 @@ $wb['db_server_txt'] = 'Tietokantapalvelin';
 $wb['vserver_server_txt'] = 'Virtuaalipalvelin';
 $wb['add_new_record_txt'] = 'Lisää uusi tietue';
 ?>
-
