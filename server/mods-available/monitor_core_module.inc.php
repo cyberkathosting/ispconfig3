@@ -121,6 +121,7 @@ class monitor_core_module {
         $this->monitorMailQueue();
         $this->monitorRaid();
         $this->monitorRkHunter();
+		$this->monitorFail2ban();
         $this->monitorSysLog();
     }
 
@@ -748,6 +749,58 @@ class monitor_core_module {
         $this->_delOldRecords($type, 0, 2);
     }
 
+    function monitorFail2ban(){
+        global $app;
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf["server_id"]);
+
+        /** The type of the data */
+        $type = 'log_fail2ban';
+
+        /* This monitoring is only available if fail2ban is installed */
+        $location = shell_exec('which fail2ban-client');
+        if($location != ''){
+			/*  Get the data of the log */
+			$data = $this->_getLogData($type);
+
+            /*
+             * At this moment, there is no state (maybe later)
+             */
+            $state = 'no_state';
+        }
+        else {
+            /*
+             * fail2ban is not installed, so there is no data and no state
+             *
+             * no_state, NOT unknown, because "unknown" is shown as state
+             * inside the GUI. no_state is hidden.
+             *
+             * We have to write NO DATA inside the DB, because the GUI
+             * could not know, if there is any dat, or not...
+             */
+            $state = 'no_state';
+            $data = '';
+        }
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+            "VALUES (".
+        $server_id . ", " .
+            "'" . $app->dbmaster->quote($type) . "', " .
+        time() . ", " .
+            "'" . $app->dbmaster->quote(serialize($data)) . "', " .
+            "'" . $state . "'" .
+            ")";
+        $app->dbmaster->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($type, 10);
+    }
+
     function monitorSysLog(){
         global $app;
         global $conf;
@@ -758,19 +811,19 @@ class monitor_core_module {
         /** The type of the data */
         $type = 'sys_log';
 
-	/*
-	 * is there any warning or error for this server?
-	 */
-	$state = 'ok';
+		/*
+		 * is there any warning or error for this server?
+		 */
+		$state = 'ok';
         $dbData = $app->dbmaster->queryAllRecords("SELECT loglevel FROM sys_log WHERE server_id = " . $server_id . " AND loglevel > 0");
-	if (is_array($dbData)) {
-	    foreach($dbData as $item){
-		if ($item['loglevel'] == 1) $state = $this->_setState($state, 'warning');
-		if ($item['loglevel'] == 2) $state = $this->_setState($state, 'error');
-	    }
-	}
+		if (is_array($dbData)) {
+		    foreach($dbData as $item){
+			if ($item['loglevel'] == 1) $state = $this->_setState($state, 'warning');
+			if ($item['loglevel'] == 2) $state = $this->_setState($state, 'error');
+		    }
+		}
 
-	/** There is no monitor-data because the data is in the sys_log table */
+		/** There is no monitor-data because the data is in the sys_log table */
         $data['output']= '';
 
         /*
@@ -790,7 +843,7 @@ class monitor_core_module {
         $this->_delOldRecords($type, 10);
     }
 
-function monitorMailLog()
+	function monitorMailLog()
     {
         global $app;
         global $conf;
@@ -1139,6 +1192,9 @@ function monitorMailLog()
                 break;
             case 'log_clamav':
                 $logfile = '/var/log/clamav/clamav.log';
+                break;
+            case 'log_fail2ban':
+                $logfile = '/var/log/fail2ban.log';
                 break;
             case 'log_ispconfig':
                 $logfile = '/var/log/ispconfig/ispconfig.log';

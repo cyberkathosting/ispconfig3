@@ -110,6 +110,13 @@ switch($dataType) {
         $title = $app->lng("monitor_title_rkhunterlog_txt"). ' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
+    case 'fail2ban':
+        $template = 'templates/show_data.htm';
+        $output .= showFail2ban();
+        $time = getDataTime('fail2ban');
+        $title = 'fail2ban - Log (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
     default:
         $template = '';
         break;

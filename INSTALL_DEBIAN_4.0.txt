@@ -133,21 +133,26 @@ make
 make install
 rm -rf jailkit-2.5*
 
+8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
+More info at: http://www.howtoforge.com/fail2ban_debian_etch
 
-8) Install ISPConfig 3
+apt-get install fail2ban
+
+
+9) Install ISPConfig 3
 
 There are two possile scenarios, but not both:
-8.1) Install the latest released version 
-8.2) Install directly from SVN
+9.1) Install the latest released version 
+9.2) Install directly from SVN
 
-8.1) Installation of last version from tar.gz
+9.1) Installation of last version from tar.gz
 
   cd /tmp
   wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.8-rc1.tar.gz
   tar xvfz ISPConfig-3.0.0.8-rc1.tar.gz
   cd ispconfig3_install/install/
 
-8.2) Installation from SVN
+9.2) Installation from SVN
 
   apt-get install subversion
   cd /tmp
@@ -155,7 +160,7 @@ There are two possile scenarios, but not both:
   cd trunk/install
 
 
-8.1+8.2) Now proceed with the ISPConfig installation.
+9.1+9.2) Now proceed with the ISPConfig installation.
 
 Now start the installation process by executing:
 
@@ -205,5 +210,4 @@ done
 Optional packages recommended:
 
 denyhosts - a utility to help sys admins thwart ssh crackers
-fail2ban - Preventing Brute Force Attacks - http://www.howtoforge.com/fail2ban_debian_etch
 rsync - fast remote file copy program (for backup)

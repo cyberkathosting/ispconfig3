@@ -150,6 +150,10 @@ $items[] = array( 'title' 	=> "Show RKHunter-Log",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=rkhunter');
 
+$items[] = array( 'title' 	=> "Show fail2ban-Log",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=fail2ban');
+
 $module["nav"][] = array(	'title'	=> 'Logfiles',
                             'open' 	=> 1,
                             'items'	=> $items);
