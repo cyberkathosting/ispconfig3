@@ -42,9 +42,16 @@ $app->tpl->setInclude('content_tpl','templates/dns_wizard.htm');
 
 // import variables
 $template_id = (isset($_POST['template_id']))?intval($_POST['template_id']):1;
-$server_id = (isset($_POST['server_id']))?intval($_POST['server_id']):1;
 $sys_groupid = (isset($_POST['client_group_id']))?intval($_POST['client_group_id']):0;
 
+// get the correct server_id
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$server_id = (isset($_POST['server_id']))?intval($_POST['server_id']):1;
+} else {
+	$client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$server_id = $client["default_dnsserver"];
+}
 
 
 // Load the templates
