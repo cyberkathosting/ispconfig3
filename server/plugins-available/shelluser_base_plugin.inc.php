@@ -141,7 +141,7 @@ class shelluser_base_plugin {
 			// Get the UID of the user
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
-				$command = 'userdel';
+				$command = 'userdel --force';
 				$command .= ' '.escapeshellcmd($data['old']['username']);
 			
 				exec($command);
