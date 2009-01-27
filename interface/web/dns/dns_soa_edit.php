@@ -110,7 +110,7 @@ class page_action extends tform_actions {
 				unset($tmp);
 			// When the record is inserted
 			} else {
-				// set the server ID to the default mailserver of the client
+				// set the server ID to the default dnsserver of the client
 				$this->dataRecord["server_id"] = $client["default_dnsserver"];
 				
 				// Check if the user may add another maildomain.
