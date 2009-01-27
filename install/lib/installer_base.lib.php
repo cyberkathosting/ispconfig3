@@ -230,7 +230,7 @@ class installer_base {
 			$from_ip = gethostbyname($conf['hostname']);
 			
 			//* username for the ispconfig user
-			$conf['mysql']['master_ispconfig_user'] = 'ispconfigserver'.$conf['server_id'];
+			$conf['mysql']['master_ispconfig_user'] = 'ispcsrv'.$conf['server_id'];
 		
 			//* Delete ISPConfig user in the master database, in case that it exists
 			$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_host."';");
