@@ -379,9 +379,13 @@ class apache2_plugin {
 		}
 		
 		
+		if($this->action == 'insert') {
+			// Chown and chmod the directories below the document root
+			exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
 		
-		// Chown and chmod the directories
-		exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
+			// The document root itself has to be owned by root
+			exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]));
+		}
 		
 		// make temp direcory writable for the apache user and the website user
 		exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
