@@ -9,9 +9,8 @@ NameVirtualHost *:{vhost_port}
 
 <VirtualHost _default_:{vhost_port}>
   ServerAdmin webmaster@localhost
-  DocumentRoot /usr/local/ispconfig/interface/web/
   
-  <IfModule mod_fastcgi.c>
+  <IfModule mod_fcgid.c>
     DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
     <Directory /var/www/ispconfig/>
@@ -25,6 +24,7 @@ NameVirtualHost *:{vhost_port}
   </IfModule>
   
   <IfModule mod_php5.c>
+    DocumentRoot /usr/local/ispconfig/interface/web/
     AddType application/x-httpd-php .php
     <Directory /usr/local/ispconfig/interface/web>
       Options FollowSymLinks

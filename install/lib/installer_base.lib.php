@@ -996,6 +996,7 @@ class installer_base {
 			exec('cp tpl/apache_ispconfig_fcgi_starter.master /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 			exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
+			exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
 			
 		}
 		
