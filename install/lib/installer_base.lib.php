@@ -991,6 +991,12 @@ class installer_base {
 			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
 			}
+			
+			exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
+			exec('cp tpl/apache_ispconfig_fcgi_starter.master /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+			exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
+			
 		}
 		
 		// Make the Clamav log files readable by ISPConfig
@@ -1001,9 +1007,6 @@ class installer_base {
 		exec('cp ../helper_scripts/update_from_svn.sh /usr/local/bin/ispconfig_update_from_svn.sh');
 		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
 		exec('chmod 700 /usr/local/bin/ispconfig_update_from_svn.sh');
-		
-		//set the fast cgi starter script to executable
-		exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');
 		
 		//* Make the logs readable for the ispconfig user
 		if(@is_file('/var/log/mail.log')) exec('chmod +r /var/log/mail.log');
