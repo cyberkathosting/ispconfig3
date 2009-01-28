@@ -1,8 +1,6 @@
 #!/bin/sh
 PHPRC=/etc/php5/cgi/
 export PHPRC
-exec /usr/lib/cgi-bin/php
-PHP_FCGI_MAX_REQUESTS=5000
-export PHP_FCGI_MAX_REQUESTS
+exec /usr/lib/cgi-bin/php -d magic_quotes_gpc=off
+export PHP_FCGI_MAX_REQUESTS=5000
 export PHP_FCGI_CHILDREN=8
-export PHP_FCGI_MAX_REQUESTS=500
