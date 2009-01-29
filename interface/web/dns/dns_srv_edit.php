@@ -107,7 +107,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		//* Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
-		$soa = $app->db->queryOneRecord("SELECT sys_groupid FROM dns_soa WHERE id = '".intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
+		$soa = $app->db->queryOneRecord("SELECT sys_groupid,serial FROM dns_soa WHERE id = '".intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
 		$app->db->datalogUpdate('dns_rr', "sys_groupid = ".$soa['sys_groupid'], 'id', $this->id);
 
 		//* Update the serial number of the SOA record
