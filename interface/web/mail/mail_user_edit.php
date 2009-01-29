@@ -207,15 +207,15 @@ class page_action extends tform_actions {
 		$iconvPreferences = array("input-charset" => $fromCharset,
 					"output-charset" => "ISO-8859-1",
 					"line-length" => 76,
-					"line-break-chars" => "\r\n",
+					"line-break-chars" => "\n",
 					"scheme" => "Q");
 
 		$welcomeFromName  = $app->tform->wordbook["welcome_mail_fromname_txt"];
 		$welcomeFromEmail = $app->tform->wordbook["welcome_mail_fromemail_txt"];
-		$mailHeaders      = "MIME-Version: 1.0" . "\r\n";
-		$mailHeaders     .= "Content-type: text/plain; charset=iso-8859-1" . "\r\n";
-		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\r\n";
-		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\r\n";
+		$mailHeaders      = "MIME-Version: 1.0" . "\n";
+		$mailHeaders     .= "Content-type: text/plain; charset=iso-8859-1" . "\n";
+		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\n";
+		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
 		$mailTarget       = $this->dataRecord["email"];
 		$mailSubject      = iconv_mime_encode("trimoff", $app->tform->wordbook["welcome_mail_subject"], $iconvPreferences);
 		$mailSubject      = str_replace("trimoff: ", "", $mailSubject);
