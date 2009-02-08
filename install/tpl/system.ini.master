@@ -12,7 +12,7 @@ mailboxlist_webmail_link=y
 [monitor]
 
 [sites]
-dbname_prefix=[CLIENTNAME]_
+dbname_prefix=[CLIENTNAME]
 dbuser_prefix=[CLIENTNAME]
 ftpuser_prefix=[CLIENTNAME]
 shelluser_prefix=[CLIENTNAME]
