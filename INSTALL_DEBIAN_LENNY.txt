@@ -88,7 +88,7 @@ apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2
 
 # Then run the following to enable the Apache modules suexec, rewrite and ssl:
 
-a2enmod suexec rewrite ssl actions
+a2enmod suexec rewrite ssl actions include
 
 # Secure phpMyAdmin by deleting setuppassword-file
 # and removing/commenting Setup Authorization from apache.conf
