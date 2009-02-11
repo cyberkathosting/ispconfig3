@@ -150,7 +150,7 @@ class page_action extends tform_actions {
 		}
 		
 		// reseller status changed
-		if(isset($this->dataRecord["limit_client"])) {
+		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
 			$modules = ISPC_INTERFACE_MODULES_ENABLED;
 			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
 			$modules = $app->db->quote($modules);
