@@ -1079,12 +1079,12 @@ class installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 		
 			$cron_jobs = array(
-                '*/5 * * * * '.$cf['program'].' -g '.$cf['config_dir'].' -r '.$cf['config_dir'].'/*.conf > /dev/null 2>> /var/log/ispconfig/cron.log'
+                '*/5 * * * * '.$cf['program'].' -n -g '.$cf['config_dir'].' -r '.$cf['config_dir'].'/*.conf > /dev/null 2>> /var/log/ispconfig/cron.log'
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
 			foreach($cron_jobs as $key => $val) {
-				if(stristr($val,$cf['program'])) unset($cron_jobs[$key]);
+				if(stristr($val,$cf['program'])) unset($existing_cron_jobs[$key]);
 			}
 		
 			foreach($cron_jobs as $cron_job) {
@@ -1096,6 +1096,10 @@ class installer_base {
 			exec('crontab -u getmail crontab.txt &> /dev/null');
 			unlink('crontab.txt');
 		}
+		
+		exec('touch /var/log/ispconfig/cron.log');
+		exec('chmod +666 /var/log/ispconfig/cron.log');
+		
 	}
 	
 }
