@@ -12,7 +12,7 @@
 </tmpl_if>
     ServerAdmin webmaster@<tmpl_var name='domain'>
 
-    ErrorLog <tmpl_var name='document_root'>/log/error.log
+    ErrorLog /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log
 <tmpl_if name='errordocs'>
 
     ErrorDocument 400 /error/400.html
