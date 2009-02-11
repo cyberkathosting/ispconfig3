@@ -77,7 +77,7 @@ function applyClientTemplates($clientId){
 	 */
 	$update = '';
 	foreach($limits as $k => $v){
-		if (strpos($k, 'limit') !== false){
+		if (strpos($k, 'limit') !== false && !is_array($v)){
 			if ($update != '') $update .= ', ';
 			$update .= '`' . $k . "`='" . $v . "'";
 		}

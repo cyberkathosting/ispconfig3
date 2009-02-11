@@ -252,6 +252,45 @@ class tform {
                 return $values;
 
         }
+		
+		//* If the parameter 'valuelimit' is set
+		function applyValueLimit($limit,$values) {
+			
+			global $app;
+			
+			$limit_parts = explode(':',$limit);
+			
+			//* values are limited to a comma separated list
+			if($limit_parts[0] == 'list') {
+				$allowed = explode(',',$limit_parts[1]);
+			}
+			
+			//* values are limited to a field in the client settings
+			if($limit_parts[0] == 'client') {
+				if($_SESSION["s"]["user"]["typ"] == 'admin') {
+					return $values;
+				} else {
+					$client_group_id = $_SESSION["s"]["user"]["default_group"];
+					$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+					$allowed = explode(',',$client['lm']);
+				}
+			}
+			
+			//* values are limited to a field in the system settings
+			if($limit_parts[0] == 'system') {
+				$app->uses('getconf');
+				$tmp_conf = $app->getconf->get_global_config($limit_parts[1]);
+				$tmp_key = $limit_parts[2];
+				$allowed = $tmp_conf[$tmp_key];
+			}
+			
+			$values_new = array();
+			foreach($values as $key => $val) {
+				if(in_array($key,$allowed)) $values_new[$key] = $val;
+			}
+			
+			return $values_new;
+		}
 
 
         /**
@@ -281,6 +320,11 @@ class tform {
                                         if(isset($field['datasource']) && is_array($field['datasource'])) {
                                                 $field["value"] = $this->getDatasourceData($field, $record);
                                         }
+										
+										// If a limitation for the values is set
+										if(isset($field['valuelimit']) && is_array($field["value"])) {
+											$field["value"] = $this->applyValueLimit($field['valuelimit'],$field["value"]);
+										}
 
                                         switch ($field['formtype']) {
                                         case 'SELECT':
@@ -340,7 +384,7 @@ class tform {
                                                                 $out .= "<span class=\"wf_oneChoice\">\r\n
                                                                 <input type=\"checkbox\" value=\"$k\" id=\"".$key."[]\" name=\"".$key."[]\" $checked>\r\n
                                                                 <label for=\"".$key."[]\" id=\"".$key."[]-L\" class=\"wf_postField\">$v</label>\r\n
-                                                                </span><br />\r\n";
+                                                                </span>\r\n";
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
@@ -373,8 +417,13 @@ class tform {
 
                                 // If Datasource is set, get the data from there
                                 if(@is_array($field['datasource'])) {
-                                        $field["value"] = $this->getDatasourceData($field, $record);
+                                	$field["value"] = $this->getDatasourceData($field, $record);
                                 }
+								
+								// If a limitation for the values is set
+								if(isset($field['valuelimit']) && is_array($field["value"])) {
+									$field["value"] = $this->applyValueLimit($field['valuelimit'],$field["value"]);
+								}
 
                                 switch ($field['formtype']) {
                                 case 'SELECT':
@@ -431,7 +480,7 @@ class tform {
                                                         $out .= "<span class=\"wf_oneChoice\">\r\n
                                                         <input type=\"checkbox\" value=\"$k\" id=\"".$key."[]\" name=\"".$key."[]\" $checked>\r\n
                                                         <label for=\"".$key."[]\" id=\"".$key."[]-L\" class=\"wf_postField\">$v</label>\r\n
-                                                        </span><br />\r\n";
+                                                        </span>\r\n";
                                                 }
                                         }
                                         $new_record[$key] = $out;
@@ -486,7 +535,7 @@ class tform {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         if(!@is_array($record[$key])) {
-                                                $new_record[$key] = (isset($record[$key]))?$app->db->quote($record[$key]):'';
+												$new_record[$key] = (isset($record[$key]))?$app->db->quote($record[$key]):'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }

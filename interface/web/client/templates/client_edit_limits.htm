@@ -78,6 +78,10 @@
         <label for="limit_web_domain" class="wf_preField">{tmpl_var name='limit_web_domain_txt'}</label>
         <input type="text" id="limit_web_domain" name="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" size="10" maxlength="10">
       </span>
+	  <span class="wf_oneField">
+        <label for="web_php_options" class="wf_preField">{tmpl_var name='web_php_options_txt'}</label>
+        {tmpl_var name='web_php_options'}
+      </span>
       <span class="wf_oneField">
         <label for="limit_web_aliasdomain" class="wf_preField">{tmpl_var name='limit_web_aliasdomain_txt'}</label>
         <input type="text" id="limit_web_aliasdomain" name="limit_web_aliasdomain" value="{tmpl_var name='limit_web_aliasdomain'}" size="10" maxlength="10">
@@ -93,6 +97,10 @@
       <span class="wf_oneField">
         <label for="limit_shell_user" class="wf_preField">{tmpl_var name='limit_shell_user_txt'}</label>
         <input type="text" id="limit_shell_user" name="limit_shell_user" value="{tmpl_var name='limit_shell_user'}" size="10" maxlength="10">
+      </span>
+	  <span class="wf_oneField">
+        <label for="ssh_chroot" class="wf_preField">{tmpl_var name='ssh_chroot_txt'}</label>
+        {tmpl_var name='ssh_chroot'}
       </span>
       <span class="wf_oneField">
         <label for="default_dnsserver" class="wf_preField">{tmpl_var name='default_dnsserver_txt'}</label>
