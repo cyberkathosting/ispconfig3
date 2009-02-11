@@ -44,7 +44,7 @@ $liste['auth']				= 'no';
 *****************************************************/
 
 $liste["item"][] = array(	'field'		=> "tstamp",
-							'datatype'	=> "DATE",
+							'datatype'	=> "DATETIME",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
 							'prefix'	=> "",

@@ -38,7 +38,6 @@ class listform {
     private $pagingValues;
     private $searchChanged = 0;
     private $module;
-	private $dateformat = 'Y-m-d H:i';
 	public $wordbook;
 
     public function loadListDef($file, $module = '')
@@ -280,7 +279,25 @@ class listform {
                          break;
 
                     case 'DATE':
-                        $record[$key] = ($record[$key] > 0) ? date($this->dateformat,$record[$key]) : '';
+                        if ($record[$key] > 0) {
+							// is value int?
+							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
+	                        	$record[$key] = date($this->lng('conf_format_dateshort'), $record[$key]);
+							} else {
+	                        	$record[$key] = date($this->lng('conf_format_dateshort'), strtotime($record[$key]));
+							}
+						}
+                        break;
+                        
+                    case 'DATETIME':
+                        if ($record[$key] > 0) {
+							// is value int?
+							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
+	                        	$record[$key] = date($this->lng('conf_format_datetime'), $record[$key]);
+							} else {
+	                        	$record[$key] = date($this->lng('conf_format_datetime'), strtotime($record[$key]));
+							}
+						}
                         break;
 
                     case 'INTEGER':
@@ -322,8 +339,13 @@ class listform {
                     
                     case 'DATE':
                         if($record[$key] > 0) {
-                            list($tag,$monat,$jahr) = explode('.',$record[$key]);
-                            $record[$key] = mktime(0,0,0,$monat,$tag,$jahr);
+						    $record[$key] = date('Y-m-d',strtotime($record[$key]));
+                        }
+                        break;
+
+                    case 'DATETIME':
+                        if($record[$key] > 0) {
+						    $record[$key] = date('Y-m-d H:i:s',strtotime($record[$key]));
                         }
                         break;
 
