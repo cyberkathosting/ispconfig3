@@ -129,14 +129,16 @@ if ( ".'$RETURNCODE'." != 0 )
 		
 		$content .= "if (/^".$this->dataRecord["source"].":";
 		
+		$searchterm = preg_quote($this->dataRecord["searchterm"]);
+		
 		if($this->dataRecord["op"] == 'contains') {
-			$content .= ".*".$this->dataRecord["searchterm"]."/:h)\n";
+			$content .= ".*".$searchterm."/:h)\n";
 		} elseif ($this->dataRecord["op"] == 'is') {
-			$content .= $this->dataRecord["searchterm"]."$/:h)\n";
+			$content .= $searchterm."$/:h)\n";
 		} elseif ($this->dataRecord["op"] == 'begins') {
-			$content .= $this->dataRecord["searchterm"]."/:h)\n";
+			$content .= $searchterm."/:h)\n";
 		} elseif ($this->dataRecord["op"] == 'ends') {
-			$content .= ".*".$this->dataRecord["searchterm"]."$/:h)\n";
+			$content .= ".*".$searchterm."$/:h)\n";
 		}
 		
 		$content .= "{\n";
