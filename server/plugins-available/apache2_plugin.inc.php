@@ -573,7 +573,10 @@ class apache2_plugin {
 			$cgi_tpl = new tpl();
 			$cgi_tpl->newTemplate("php-cgi-starter.master");
 
-			$cgi_tpl->setVar('open_basedir', "/var/www/" . $data["new"]["domain"]);
+			// This works, because php "rewrites" a symlink to the physical path
+			$cgi_tpl->setVar('open_basedir', $data["new"]["document_root"]); 
+			// This will NOT work!
+			//$cgi_tpl->setVar('open_basedir', "/var/www/" . $data["new"]["domain"]);
 			$cgi_tpl->setVar('php_cgi_bin',$cgi_config["cgi_bin"]);
 
 			$cgi_starter_script = escapeshellcmd($cgi_starter_path.$cgi_config["cgi_starter_script"]);
