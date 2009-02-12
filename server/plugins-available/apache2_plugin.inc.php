@@ -634,73 +634,87 @@ class apache2_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 		
-		// Deleting the vhost file, symlink and the data directory
-		$vhost_symlink = escapeshellcmd($web_config["vhost_conf_enabled_dir"].'/'.$data["old"]["domain"].'.vhost');
-		unlink($vhost_symlink);
-		$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
 		
-		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["old"]["domain"].'.vhost');
-		unlink($vhost_file);
-		$app->log("Removing vhost file: $vhost_file",LOGLEVEL_DEBUG);
+		if($data["old"]["type"] != "vhost" && $data["old"]["parent_domain_id"] > 0) {
+			//* This is a alias domain or subdomain, so we have to update the website instead
+			$parent_domain_id = intval($data["old"]["parent_domain_id"]);
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$parent_domain_id." AND active = 'y'");
+			$data["new"] = $tmp;
+			$data["old"] = $tmp;
+			$this->action = 'update';
+			// just run the update function
+			$this->update($event_name,$data);
+			
+		} else {
+			//* This is a website
+			// Deleting the vhost file, symlink and the data directory
+			$vhost_symlink = escapeshellcmd($web_config["vhost_conf_enabled_dir"].'/'.$data["old"]["domain"].'.vhost');
+			unlink($vhost_symlink);
+			$app->log("Removing symlink: $vhost_symlink => $vhost_file",LOGLEVEL_DEBUG);
 		
-		$docroot = escapeshellcmd($data["old"]["document_root"]);
-		if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
+			$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["old"]["domain"].'.vhost');
+			unlink($vhost_file);
+			$app->log("Removing vhost file: $vhost_file",LOGLEVEL_DEBUG);
+		
+			$docroot = escapeshellcmd($data["old"]["document_root"]);
+			if($docroot != '' && !stristr($docroot,'..')) exec("rm -rf $docroot");
 		
 		
-		//remove the php fastgi starter script if available
-		if ($data["old"]["php"] == "fast-cgi")
-		{
-			$fastcgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["fastcgi_starter_path"]);
-			if (is_dir($fastcgi_starter_path))
+			//remove the php fastgi starter script if available
+			if ($data["old"]["php"] == "fast-cgi")
 			{
+				$fastcgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["fastcgi_starter_path"]);
+				if (is_dir($fastcgi_starter_path))
+				{
 					exec("rm -rf $fastcgi_starter_path");
-			}
-		}
-		
-		//remove the php cgi starter script if available
-		if ($data["old"]["php"] == "cgi")
-		{
-			// TODO: fetch the date from the server-settings
-			$web_config["cgi_starter_path"] = "/var/www/php-cgi-scripts/[system_user]/";
-
-			$cgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["cgi_starter_path"]);
-			if (is_dir($cgi_starter_path))
-			{
-					exec("rm -rf $cgi_starter_path");
-			}
-		}
-
-		$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
-		
-		// Delete the symlinks for the sites
-		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["old"]["sys_groupid"]));
-		$client_id = intval($client["client_id"]);
-		unset($client);
-		$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
-		if(is_array($tmp_symlinks_array)) {
-			foreach($tmp_symlinks_array as $tmp_symlink) {
-				$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
-				$tmp_symlink = str_replace("[website_domain]",$data["old"]["domain"],$tmp_symlink);
-				// Remove trailing slash
-				if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
-				// create the symlinks, if not exist
-				if(is_link($tmp_symlink)) {
-					unlink($tmp_symlink);
-					$app->log("Removing symlink: ".$tmp_symlink,LOGLEVEL_DEBUG);
 				}
 			}
+		
+			//remove the php cgi starter script if available
+			if ($data["old"]["php"] == "cgi")
+			{
+				// TODO: fetch the date from the server-settings
+				$web_config["cgi_starter_path"] = "/var/www/php-cgi-scripts/[system_user]/";
+
+				$cgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["cgi_starter_path"]);
+				if (is_dir($cgi_starter_path))
+				{
+					exec("rm -rf $cgi_starter_path");
+				}
+			}
+
+			$app->log("Removing website: $docroot",LOGLEVEL_DEBUG);
+		
+			// Delete the symlinks for the sites
+			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["old"]["sys_groupid"]));
+			$client_id = intval($client["client_id"]);
+			unset($client);
+			$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
+			if(is_array($tmp_symlinks_array)) {
+				foreach($tmp_symlinks_array as $tmp_symlink) {
+					$tmp_symlink = str_replace("[client_id]",$client_id,$tmp_symlink);
+					$tmp_symlink = str_replace("[website_domain]",$data["old"]["domain"],$tmp_symlink);
+					// Remove trailing slash
+					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
+					// create the symlinks, if not exist
+					if(is_link($tmp_symlink)) {
+						unlink($tmp_symlink);
+						$app->log("Removing symlink: ".$tmp_symlink,LOGLEVEL_DEBUG);
+					}
+				}
+			}
+			// end removing symlinks
+		
+			// Delete the log file directory
+			$vhost_logfile_dir = escapeshellcmd('/var/log/ispconfig/httpd/'.$data["old"]["domain"]);
+			if($data["old"]["domain"] != '' && !stristr($vhost_logfile_dir,'..')) exec("rm -rf $vhost_logfile_dir");
+			$app->log("Removing website logfile directory: $vhost_logfile_dir",LOGLEVEL_DEBUG);
+		
+			//delete the web user
+			$command = 'userdel';
+			$command .= ' '.$data["old"]["system_user"];			
+			exec($command);
 		}
-		// end removing symlinks
-		
-		// Delete the log file directory
-		$vhost_logfile_dir = escapeshellcmd('/var/log/ispconfig/httpd/'.$data["old"]["domain"]);
-		if($data["old"]["domain"] != '' && !stristr($vhost_logfile_dir,'..')) exec("rm -rf $vhost_logfile_dir");
-		$app->log("Removing website logfile directory: $vhost_logfile_dir",LOGLEVEL_DEBUG);
-		
-		//delete the web user
-		$command = 'userdel';
-		$command .= ' '.$data["old"]["system_user"];			
-		exec($command);
 	}
 	
 	//* This function is called when a IP on the server is inserted, updated or deleted
