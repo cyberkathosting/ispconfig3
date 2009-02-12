@@ -226,30 +226,30 @@ class shelluser_jailkit_plugin {
 			$jailkit_chroot_userhome = $this->_get_home_dir($this->data['new']['username']);
 			$jailkit_chroot_puserhome = $this->_get_home_dir($this->data['new']['puser']);
 			
-			if (!is_dir($this->data['new']['dir'].$jailkit_chroot_userhome))
-			{
-				$command = '/usr/local/ispconfig/server/scripts/create_jailkit_user.sh';
-				$command .= ' '.escapeshellcmd($this->data['new']['username']);
-				$command .= ' '.escapeshellcmd($this->data['new']['dir']);
-				$command .= ' '.$jailkit_chroot_userhome;
-				$command .= ' '.escapeshellcmd($this->data['new']['shell']);
-				$command .= ' '.$this->data['new']['puser'];
-				$command .= ' '.$jailkit_chroot_puserhome;
-				exec($command);
+			// IMPORTANT!
+			// ALWAYS create the user. Even if the user was created before
+			// if we check if the user exists, then a update (no shell -> jailkit) will not work
+			// and the user has FULL ACCESS to the root of the server!
+			$command = '/usr/local/ispconfig/server/scripts/create_jailkit_user.sh';
+			$command .= ' '.escapeshellcmd($this->data['new']['username']);
+			$command .= ' '.escapeshellcmd($this->data['new']['dir']);
+			$command .= ' '.$jailkit_chroot_userhome;
+			$command .= ' '.escapeshellcmd($this->data['new']['shell']);
+			$command .= ' '.$this->data['new']['puser'];
+			$command .= ' '.$jailkit_chroot_puserhome;
+			exec($command);
 				
-				$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
+			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
-				exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
-				exec("chown ".$this->data['new']['username'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
+			exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
+			exec("chown ".$this->data['new']['username'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
 				
-				$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
+			$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
+			
+			exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
+			exec("chown ".$this->data['new']['puser'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
 				
-				exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
-				exec("chown ".$this->data['new']['puser'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
-				
-				$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
-				
-			}	
+			$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
 	}
 	
 	
