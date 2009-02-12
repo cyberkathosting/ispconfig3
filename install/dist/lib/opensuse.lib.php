@@ -807,7 +807,7 @@ class installer_dist extends installer_base {
 		}
 		
 		exec('touch /var/log/ispconfig/cron.log');
-		exec('chmod +666 /var/log/ispconfig/cron.log');
+		exec('chmod 666 /var/log/ispconfig/cron.log');
 	}
 
 }
