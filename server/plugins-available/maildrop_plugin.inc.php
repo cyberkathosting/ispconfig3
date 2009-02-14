@@ -150,8 +150,6 @@ class maildrop_plugin {
 			}
 		}
 			
-			$app->log("HERE",LOGLEVEL_DEBUG);
-			
 			// Write the custom mailfilter script, if mailfilter recipe has changed
 			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]) {
 				$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
