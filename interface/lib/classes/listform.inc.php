@@ -135,6 +135,9 @@ class listform {
             //*TODO: comment =  hat sich die suche ge�ndert
             if(isset($_REQUEST[$search_prefix.$field]) && isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
                     $this->searchChanged = 1;
+					
+					//* Jump back to page 1 of the list when search has changed.
+					$_SESSION['search'][$list_name]['page'] = 0;
             }
 
             //* Store field in session
