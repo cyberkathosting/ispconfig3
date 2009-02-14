@@ -36,7 +36,7 @@ $app->auth->check_module_permissions('dns');
 
 
 // Loading the template
-$app->uses('tpl');
+$app->uses('tpl,validate_dns');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/dns_wizard.htm');
 
@@ -181,9 +181,10 @@ if($_POST['create'] == 1) {
 		$minimum = $app->db->quote($vars['minimum']);
 		$ttl = $app->db->quote($vars['ttl']);
 		$xfer = $app->db->quote($vars['xfer']);
+		$serial = $app->validate_dns->increase_serial(0);
 		
 		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`) VALUES 
-		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '1', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer')";
+		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer')";
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 		
 		// Insert the dns_rr records
