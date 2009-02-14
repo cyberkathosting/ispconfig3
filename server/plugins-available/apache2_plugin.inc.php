@@ -269,6 +269,11 @@ class apache2_plugin {
 			exec('mv '.$data["old"]["document_root"].' '.$new_dir);
 			$app->log("Moving site to new document root: ".'mv '.$data["old"]["document_root"].' '.$new_dir,LOGLEVEL_DEBUG);
 			
+			$command = 'usermod';
+			$command .= ' --home '.escapeshellcmd($data["new"]["document_root"]);
+			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
+			exec($command);
+			
 		}
 		
 		//print_r($data);
