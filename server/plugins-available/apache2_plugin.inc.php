@@ -233,6 +233,44 @@ class apache2_plugin {
 			return 0;
 		}
 		
+		if($this->action == 'update' && $data["new"]["document_root"] != $data["old"]["document_root"]) {
+			
+			// Get the old client ID
+			$old_client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["old"]["sys_groupid"]));
+			$old_client_id = intval($old_client["client_id"]);
+			unset($old_client);
+			
+			// Remove the old symlinks
+			$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
+			if(is_array($tmp_symlinks_array)) {
+				foreach($tmp_symlinks_array as $tmp_symlink) {
+					$tmp_symlink = str_replace("[client_id]",$old_client_id,$tmp_symlink);
+					$tmp_symlink = str_replace("[website_domain]",$data["old"]["domain"],$tmp_symlink);
+					// Remove trailing slash
+					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
+					// create the symlinks, if not exist
+					if(!is_link($tmp_symlink)) {
+						exec("rm -f ".escapeshellcmd($tmp_symlink));
+						$app->log("Removed Symlink: rm -f ".$tmp_symlink,LOGLEVEL_DEBUG);
+					}
+				}
+			}
+			
+			$tmp_docroot = explode('/',$data["new"]["document_root"]);
+			unset($tmp_docroot[count($tmp_docroot)-1]);
+			$new_dir = implode('/',$tmp_docroot);
+			
+			$tmp_docroot = explode('/',$data["old"]["document_root"]);
+			unset($tmp_docroot[count($tmp_docroot)-1]);
+			$old_dir = implode('/',$tmp_docroot);
+			
+			exec('rm -rf '.$data["new"]["document_root"]);
+			if(!is_dir($new_dir)) exec('mkdir -p '.$new_dir);
+			exec('mv '.$data["old"]["document_root"].' '.$new_dir);
+			$app->log("Moving site to new document root: ".'mv '.$data["old"]["document_root"].' '.$new_dir,LOGLEVEL_DEBUG);
+			
+		}
+		
 		//print_r($data);
 		
 		// Check if the directories are there and create them if nescessary.
