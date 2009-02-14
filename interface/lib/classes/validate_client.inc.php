@@ -36,7 +36,7 @@ class validate_client {
 	function username_unique($field_name, $field_value, $validator) {
 		global $app;
 		
-		if($app->tform->action == 'NEW') {
+		if($app->tform->primary_id == 0) {
         	$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."'");
             	if($num_rec["number"] > 0) {
                 	$errmsg = $validator['errmsg'];

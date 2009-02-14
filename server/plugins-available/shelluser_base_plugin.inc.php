@@ -87,6 +87,13 @@ class shelluser_base_plugin {
 			
 				exec($command);
 				$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
+				
+				//* Disable shell user temporarily if we use jailkit
+				if($data['new']['chroot'] == 'jailkit') {
+					$command = 'usermod --lock '.escapeshellcmd($data['new']['username']);
+					exec($command);
+					$app->log("Disabling shelluser temporarily: ".$data['new']['username'],LOGLEVEL_DEBUG);
+				}
 			
 			} else {
 				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);

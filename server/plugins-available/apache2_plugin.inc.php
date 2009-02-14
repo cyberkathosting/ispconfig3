@@ -233,14 +233,15 @@ class apache2_plugin {
 			return 0;
 		}
 		
+		//* If the client of the site has been changed, we have a change of the document root
 		if($this->action == 'update' && $data["new"]["document_root"] != $data["old"]["document_root"]) {
 			
-			// Get the old client ID
+			//* Get the old client ID
 			$old_client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["old"]["sys_groupid"]));
 			$old_client_id = intval($old_client["client_id"]);
 			unset($old_client);
 			
-			// Remove the old symlinks
+			//* Remove the old symlinks
 			$tmp_symlinks_array = explode(':',$web_config["website_symlinks"]);
 			if(is_array($tmp_symlinks_array)) {
 				foreach($tmp_symlinks_array as $tmp_symlink) {
@@ -256,6 +257,7 @@ class apache2_plugin {
 				}
 			}
 			
+			//* Move the site data
 			$tmp_docroot = explode('/',$data["new"]["document_root"]);
 			unset($tmp_docroot[count($tmp_docroot)-1]);
 			$new_dir = implode('/',$tmp_docroot);
@@ -269,8 +271,10 @@ class apache2_plugin {
 			exec('mv '.$data["old"]["document_root"].' '.$new_dir);
 			$app->log("Moving site to new document root: ".'mv '.$data["old"]["document_root"].' '.$new_dir,LOGLEVEL_DEBUG);
 			
+			//* Change the home directory and group of the website user
 			$command = 'usermod';
 			$command .= ' --home '.escapeshellcmd($data["new"]["document_root"]);
+			$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
 			exec($command);
 			

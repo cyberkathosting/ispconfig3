@@ -80,9 +80,11 @@ class tform_actions {
 
                 // Calling the action functions
                 if($this->id > 0) {
-                        $this->onUpdate();
+					$app->tform->action == 'EDIT';
+					$this->onUpdate();
                 } else {
-                        $this->onInsert();
+					$app->tform->action == 'NEW';
+					$this->onInsert();
                 }
         }
 
