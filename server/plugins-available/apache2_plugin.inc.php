@@ -721,9 +721,24 @@ class apache2_plugin {
 	function server_ip($event_name,$data) {
 		global $app, $conf;
 		
-		// Here we write the name virtualhost directives
-		// NameVirtualHost IP:80
-		// NameVirtualHost IP:443
+		// load the server configuration options
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
+		$app->load('tpl');
+		
+		$tpl = new tpl();
+		$tpl->newTemplate("apache_ispconfig.conf.master");
+		$records = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
+		
+		if(count($records) > 0) {
+			$tpl->setLoop('ip_adresses',$records);
+		}
+		
+		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/ispconfig.conf');
+		file_put_contents($vhost_file,$tpl->grab());
+		$app->log("Writing the conf file: ispconfig.conf",LOGLEVEL_DEBUG);
+		unset($tpl);
 		
 	}
 	
