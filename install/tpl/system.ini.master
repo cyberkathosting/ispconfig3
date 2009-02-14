@@ -12,8 +12,8 @@ mailboxlist_webmail_link=y
 [monitor]
 
 [sites]
-dbname_prefix=[CLIENTNAME]
-dbuser_prefix=[CLIENTNAME]
+dbname_prefix=db[CLIENTID]
+dbuser_prefix=u[CLIENTID]
 ftpuser_prefix=[CLIENTNAME]
 shelluser_prefix=[CLIENTNAME]
 dblist_phpmyadmin_link=y
