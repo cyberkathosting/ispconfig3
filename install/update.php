@@ -316,24 +316,24 @@ if($update_crontab_answer == 'yes') {
 //** Restart services:
 if($reconfigure_services_answer == 'yes') {
 	swriteln('Restarting services ...');
-	if($conf['mysql']['init_script'] != '' && is_file($conf['mysql']['init_script']))					system($conf['init_scripts'].'/'.$conf['mysql']['init_script'].' restart');
+	if($conf['mysql']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mysql']['init_script']))					system($conf['init_scripts'].'/'.$conf['mysql']['init_script'].' restart');
 	if($conf['services']['mail']) {
-		if($conf['postfix']['init_script'] != '' && is_file($conf['postfix']['init_script']))				system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
-		if($conf['saslauthd']['init_script'] != '' && is_file($conf['saslauthd']['init_script']))			system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
-		if($conf['amavis']['init_script'] != '' && is_file($conf['amavis']['init_script']))					system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
-		if($conf['clamav']['init_script'] != '' && is_file($conf['clamav']['init_script']))					system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
-		if($conf['courier']['courier-authdaemon'] != '' && is_file($conf['courier']['courier-authdaemon'])) system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
-		if($conf['courier']['courier-imap'] != '' && is_file($conf['courier']['courier-imap'])) 			system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
-		if($conf['courier']['courier-imap-ssl'] != '' && is_file($conf['courier']['courier-imap-ssl'])) 	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
-		if($conf['courier']['courier-pop'] != '' && is_file($conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
-		if($conf['courier']['courier-pop-ssl'] != '' && is_file($conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
+		if($conf['postfix']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['postfix']['init_script']))				system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
+		if($conf['saslauthd']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['saslauthd']['init_script']))			system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
+		if($conf['amavis']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['amavis']['init_script']))					system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
+		if($conf['clamav']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['clamav']['init_script']))					system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
+		if($conf['courier']['courier-authdaemon'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'])) system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
+		if($conf['courier']['courier-imap'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-imap'])) 			system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
+		if($conf['courier']['courier-imap-ssl'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'])) 	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
+		if($conf['courier']['courier-pop'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
+		if($conf['courier']['courier-pop-ssl'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 	}
 	if($conf['services']['web']) {
-		if($conf['apache']['init_script'] != '' && is_file($conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
-		if($conf['pureftpd']['init_script'] != '' && is_file($conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
+		if($conf['apache']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+		if($conf['pureftpd']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	}
 	if($conf['services']['dns']) {
-		if($conf['mydns']['init_script'] != '' && is_file($conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+		if($conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 	}
 }
 

@@ -65,14 +65,6 @@ bind-address          = 127.0.0.1
 
 /etc/init.d/mysql restart
 
-# Set the mysql database password:
-# Again use your own domain name...
-
-mysqladmin -u root password yourrootsqlpassword
-mysqladmin -h ispconfig.local -u root password yourrootsqlpassword
-
-
-
 2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
 
 apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl
@@ -81,7 +73,7 @@ apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 ar
 
 3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mcrypt (1 line!):
 
-apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt
+apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick
 
 
 # When phpMyAdmin is asking weather to configure itself automatically, select "Apache2"
@@ -117,11 +109,6 @@ vi /etc/phpmyadmin/apache.conf
        </Files>
 ------------------------------------------------------
 
-
-opt3.1) Optionally install some image manipulation capabilities to make advanced web designers happy
-
-apt-get install php5-imagick imagemagick
-
 # restart apache before continuing
 
 /etc/init.d/apache2 restart
@@ -131,7 +118,8 @@ apt-get install php5-imagick imagemagick
 
 apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
 
-# Edit the file /etc/default/pure-ftpd-common to change the start mode from "inetd" to "standalone".
+# Edit the file /etc/default/pure-ftpd-common to change the start mode from "inetd" to "standalone"
+and set VIRTUALCHROOT=true
 
 vi /etc/default/pure-ftpd-common
 
@@ -151,8 +139,8 @@ vi /etc/inetd.conf
 apt-get install g++ libc6 gcc gawk make texinfo libmysqlclient15-dev
 
 cd /tmp
-wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.15.tar.gz
-tar xvfz mydns-1.2.8.15.tar.gz
+wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.25.tar.gz
+tar xvfz mydns-1.2.8.25.tar.gz
 cd mydns-1.2.8
 ./configure
 make
@@ -242,6 +230,7 @@ cd jailkit-2.5
 ./configure
 make
 make install
+cd ..
 rm -rf jailkit-2.5*
 
 8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
@@ -258,8 +247,8 @@ apt-get install fail2ban
 9.1) Installation of last version from tar.gz
 
   cd /tmp
-  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.8-rc1.tar.gz
-  tar xvfz ISPConfig-3.0.0.8-rc1.tar.gz
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.9-rc2.tar.gz
+  tar xvfz ISPConfig-3.0.0.9-rc2.tar.gz
   cd ispconfig3_install/install/
 
 9.2) Installation from SVN

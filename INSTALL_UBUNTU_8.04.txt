@@ -251,8 +251,8 @@ There are two possile scenarios a) or b), but not both:
 a) Installation of beta 3
 ___
 cd /tmp
-wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.8-rc1.tar.gz
-tar xvfz ISPConfig_3.0.0.8-rc1.tar.gz
+wget http://www.ispconfig.org/downloads/ISPConfig-3.0.0.9-rc2.tar.gz
+tar xvfz ISPConfig_3.0.0.9-rc2.tar.gz
 cd ispconfig3_install/install/
 ___
 
