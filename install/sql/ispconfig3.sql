@@ -1321,6 +1321,23 @@ CREATE TABLE `country` (
 -- --------------------------------------------------------
 
 -- 
+-- Dumping data for table `billing_service_class`
+-- 
+
+INSERT INTO `billing_service_class` VALUES (1,'other',9999);
+INSERT INTO `billing_service_class` VALUES (2,'hosting',10);
+INSERT INTO `billing_service_class` VALUES (3,'domains',20);
+INSERT INTO `billing_service_class` VALUES (4,'traffic',30);
+INSERT INTO `billing_service_class` VALUES (5,'diskspace',40);
+
+-- 
+-- Dumping data for table `billing_tax_class`
+-- 
+
+INSERT INTO `billing_tax_class` VALUES (1,'USt. (DE)',19,1,'2007-01-01',NULL);
+INSERT INTO `billing_tax_class` VALUES (2,'USt. ermäßigt (DE)',7,0,'2007-01-01',NULL);
+
+-- 
 -- Dumping data for table `dns_template`
 -- 
 
