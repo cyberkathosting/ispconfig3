@@ -37,12 +37,12 @@ $wb['domain_error_unique'] = 'Domain muss eindeutig sein';
 $wb['domain_error_regex'] = 'Domainname ungültig.';
 $wb['hd_quota_error_empty'] = 'Harddisk quota is empty.';
 $wb['traffic_quota_error_empty'] = 'Traffic quota is empty.';
-$wb['errordocs_txt'] = 'Own Error-Documents';
+$wb['errordocs_txt'] = 'Eigene Fehlerseiten';
 $wb['error_ssl_state_empty'] = 'SSL Status ist leer.';
-$wb['error_ssl_locality_empty'] = 'SSL Locality is empty.';
-$wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
-$wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
-$wb['error_ssl_country_empty'] = 'SSL Country is empty.';
+$wb['error_ssl_locality_empty'] = 'SSL Lokalität ist leer.';
+$wb['error_ssl_organisation_empty'] = 'SSL Organisation ist leer.';
+$wb['error_ssl_organisation_unit_empty'] = 'SSL Abteilung ist leer.';
+$wb['error_ssl_country_empty'] = 'SSL Land ist leer.';
 $wb['subdomain_txt'] = 'Auto-Subdomain';
 $wb['client_group_id_txt'] = 'Kunde';
 ?>

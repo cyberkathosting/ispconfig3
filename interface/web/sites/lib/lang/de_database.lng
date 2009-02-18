@@ -1,11 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Type';
+$wb['type_txt'] = 'Typ';
 $wb['database_name_txt'] = 'Datenbankname';
 $wb['database_user_txt'] = 'Datenbank Benutzer';
 $wb['database_password_txt'] = 'Datenbank Passwort';
 $wb['database_charset_txt'] = 'Datenbank Zeichensatz';
-$wb['remote_access_txt'] = 'Remote Zugang';
+$wb['remote_access_txt'] = 'Remotezugang';
 $wb['client_txt'] = 'Kunde';
 $wb['active_txt'] = 'Aktiv';
 $wb['database_name_error_empty'] = 'Datenbankname ist leer.';
@@ -16,7 +16,7 @@ $wb['database_user_error_unique'] = 'Es existiert bereits ein Benutzer mit diese
 $wb['database_user_error_regex'] = 'Ungültiger Benutzername. Der Benutzername darf die Zeichen: a-z, A-Z, 0-9 und den Unterstrich beinhalten. Länge: 2 - 64 Zeichen.';
 $wb['limit_database_txt'] = 'Die max. Anzahl an Datenbanken wurde erreicht.';
 $wb['database_name_change_txt'] = 'Der Datenbankname kann nicht geändert werden.';
-$wb['database_charset_change_txt'] = 'Der Datenbank Zeichensatz kann nicht geändert werden.';
+$wb['database_charset_change_txt'] = 'Der Zeichensatz der Datenbank kann nicht geändert werden.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
 

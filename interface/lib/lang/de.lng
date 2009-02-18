@@ -4,7 +4,6 @@ $wb['conf_format_datelong'] = 'l, d. F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
 $wb['conf_format_datetime'] = 'd.m.Y H:i';
-
 $wb['301'] = 'Modul für Benutzer nicht erlaubt.';
 $wb['302'] = 'Modul ungültig.';
 $wb['1001'] = 'Der Benutzername und das Passwort dürfen nicht leer sein!';
@@ -23,3 +22,4 @@ $wb['add_new_record_txt'] = 'Neuen Datensatz hinzufügen';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 ?>
+

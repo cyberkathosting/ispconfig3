@@ -8,5 +8,7 @@ $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Priority';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Add new DNS A-Record';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
 ?>
 
