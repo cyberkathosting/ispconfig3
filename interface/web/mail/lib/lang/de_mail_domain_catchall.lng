@@ -8,3 +8,4 @@ $wb['domain_error_regex'] = 'Ungültiger Domainname oder ungültige Zeichen im D
 $wb['limit_mailcatchall_txt'] = 'Die max. Anzahl an Catchall Einträgen für ihren Account wurde erreicht.';
 ?>
 
+

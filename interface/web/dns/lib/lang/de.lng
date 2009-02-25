@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Zonen';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -10,9 +10,10 @@ $wb['DNS ns'] = 'DNS ns';
 $wb['DNS ptr'] = 'DNS ptr';
 $wb['DNS RP'] = 'DNS RP';
 $wb['DNS Zone'] = 'DNS Zone';
-$wb['Records'] = 'Records';
+$wb['Records'] = 'Einträge';
 $wb['DNS SRV'] = 'DNS SRV';
-$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT Record'] = 'DNS TXT Eintrag';
 $wb['DNS TXT'] = 'DNS TXT';
 ?>
+
 

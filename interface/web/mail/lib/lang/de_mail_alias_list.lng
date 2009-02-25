@@ -7,3 +7,4 @@ $wb['email_txt'] = 'Emailadresse';
 $wb['add_new_record_txt'] = 'Neue Emailverknüpfung hinzufügen';
 ?>
 
+

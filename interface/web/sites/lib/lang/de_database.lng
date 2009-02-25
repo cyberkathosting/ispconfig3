@@ -20,3 +20,4 @@ $wb['database_charset_change_txt'] = 'Der Zeichensatz der Datenbank kann nicht g
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
 
+

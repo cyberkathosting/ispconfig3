@@ -5,3 +5,4 @@ $wb['active_txt'] = 'Aktiv';
 $wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
 ?>
 
+

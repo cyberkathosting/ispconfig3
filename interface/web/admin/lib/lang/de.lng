@@ -1,9 +1,9 @@
 <?php
-$wb['1001'] = 'Username oder Passwort ist leer.';
-$wb['1002'] = 'Username oder Passwort ist falsch.';
+$wb['1001'] = 'Benutzername oder Passwort ist leer.';
+$wb['1002'] = 'Benutzername oder Passwort ist falsch.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Gruppen';
-$wb['groups_description'] = 'Form to edit systemuser groups.';
+$wb['groups_description'] = 'Formular zur Bearbeitung von Systembenutzer Gruppen.';
 $wb['Server'] = 'Server';
 $wb['Services'] = 'Dienste';
 $wb['Config'] = 'Konfiguration';
@@ -32,4 +32,5 @@ $wb['Language Editor'] = 'Sprachen Editor';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repositories';
 ?>
+
 

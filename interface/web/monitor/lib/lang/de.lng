@@ -136,3 +136,4 @@ $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Protokoll';
 $wb['monitor_updates_nosupport_txt'] = 'Ihre Distribution wird für die Überwachung nicht unterstützt';
 ?>
 
+

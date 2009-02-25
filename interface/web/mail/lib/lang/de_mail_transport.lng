@@ -9,3 +9,4 @@ $wb['active_txt'] = 'Aktiv';
 $wb['limit_mailrouting_txt'] = 'Die maximale Anzahl an Routen für ihr Konto wurde erreicht.';
 ?>
 
+

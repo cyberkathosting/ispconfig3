@@ -10,3 +10,4 @@ $wb['active_txt'] = 'Aktiv';
 $wb['limit_fetchmail_txt'] = 'The max. number of Fetchmail records for your account is reached.';
 ?>
 
+

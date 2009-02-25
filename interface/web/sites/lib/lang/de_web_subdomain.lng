@@ -37,3 +37,4 @@ $wb['domain_error_unique'] = 'Domain muss eindeutig sein.';
 $wb['domain_error_regex'] = 'Domainname ist ungültig.';
 ?>
 
+

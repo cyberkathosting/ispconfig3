@@ -2,15 +2,16 @@
 $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'IP-Address';
+$wb['type_txt'] = 'Typ';
+$wb['data_txt'] = 'IP Adresse';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktiv';
 $wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
 $wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['data_error_empty'] = 'IP-Address empty';
-$wb['data_error_regex'] = 'IP-Address format invalid';
+$wb['name_error_empty'] = 'Der Hostname ist leer.';
+$wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
+$wb['data_error_empty'] = 'IP Adresse ist leer';
+$wb['data_error_regex'] = 'Format der IP Adresse ist ungültig';
 ?>
+
 

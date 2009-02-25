@@ -12,3 +12,4 @@ $wb['dblist_phpmyadmin_link_txt'] = 'Link zu Phpmyadmin in  der Datenbankliste';
 $wb['mailboxlist_webmail_link_txt'] = 'Link zu Webmail in der Mailboxliste';
 ?>
 
+

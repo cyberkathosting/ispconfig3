@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Export language files';
-$wb['language_select_txt'] = 'Select language';
-$wb['btn_save_txt'] = 'Export the selected language file set';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Sprachdatei exportieren';
+$wb['language_select_txt'] = 'Sprache auswählen';
+$wb['btn_save_txt'] = 'Ausgewähltes Sprachdateiset exportieren';
+$wb['btn_cancel_txt'] = 'Zurück';
 ?>
+
 

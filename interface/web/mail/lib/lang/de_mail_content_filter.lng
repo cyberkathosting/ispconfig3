@@ -8,3 +8,4 @@ $wb['active_txt'] = 'Aktiv';
 $wb['pattern_error_empty'] = 'Zeichenkette ist leer';
 ?>
 
+
