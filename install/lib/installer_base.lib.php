@@ -702,8 +702,8 @@ class installer_base {
 		}
 		
 		if(is_file('/etc/apache2/sites-enabled/000-default')) {
-			replaceLine('/etc/apache2/sites-available/000-default','NameVirtualHost *','NameVirtualHost *:80',1);
-			replaceLine('/etc/apache2/sites-available/000-default','<VirtualHost *>','<VirtualHost *:80>',1);
+			replaceLine('/etc/apache2/sites-available/000-default','NameVirtualHost *','NameVirtualHost *:80',1,0);
+			replaceLine('/etc/apache2/sites-available/000-default','<VirtualHost *>','<VirtualHost *:80>',1,0);
 		}
 		
 		if(is_file('/etc/apache2/ports.conf')) {
