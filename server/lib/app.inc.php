@@ -68,7 +68,7 @@ class app {
 			$cl = explode(',',$classes);
 			if(is_array($cl)) {
 				foreach($cl as $classname) {
-					if(!is_object($this->$classname)) {
+					if(!@is_object($this->$classname)) {
 						if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
 							include_once($conf['classpath'] . "/".$classname.".inc.php");
 							$this->$classname = new $classname;

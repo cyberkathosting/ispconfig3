@@ -775,7 +775,7 @@ $sql_select_white_black_list = 'SELECT wb FROM spamfilter_wblist'.
 $final_virus_destiny = D_BOUNCE;
 $final_spam_destiny = D_DISCARD;
 $final_banned_destiny = D_BOUNCE;
-$final_bad_header_destiny = D_DISCARD;
+$final_bad_header_destiny = D_PASS;
 
 #
 # Disable spam and virus notifications for the admin user.
