@@ -508,7 +508,7 @@ function is_group($group){
   return false;
 }
 
-function replaceLine($filename,$search_pattern,$new_line,$strict = 0) {
+function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1) {
 	if($lines = @file($filename)) {
 		$out = '';
 		$found = 0;
@@ -533,7 +533,7 @@ function replaceLine($filename,$search_pattern,$new_line,$strict = 0) {
 			//* add \n if the last line does not end with \n or \r
 			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
 			//* add the new line at the end of the file
-			$out .= $new_line."\n";
+			if($append == 1) $out .= $new_line."\n";
 		}
 		file_put_contents($filename,$out);
 	}
