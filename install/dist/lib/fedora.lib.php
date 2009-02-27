@@ -687,6 +687,22 @@ class installer_dist extends installer_base {
 			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
 			}
+			
+			exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
+			exec('cp tpl/apache_ispconfig_fcgi_starter.master /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+			exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
+			exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
+			
+		}
+		
+		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+		//* and create the symlink
+		if($this->install_ispconfig_interface == true && $this->is_update == false) {
+			if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
+			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
+				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
+			}
 		}
 		
 		// Make the Clamav log files readable by ISPConfig
@@ -698,8 +714,8 @@ class installer_dist extends installer_base {
 		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
 		exec('chmod 700 /usr/local/bin/ispconfig_update_from_svn.sh');
 		
-		//set the fast cgi starter script to executable
-		exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');
+		// set the fast cgi starter script to executable
+		// exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');
 		
 		//* Make the logs readable for the ispconfig user
 		if(@is_file('/var/log/maillog')) exec('chmod +r /var/log/maillog');
