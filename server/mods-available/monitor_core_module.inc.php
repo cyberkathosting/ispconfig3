@@ -1233,7 +1233,7 @@ class monitor_core_module {
 
     function _checkTcp ($host,$port) {
 
-        $fp = @fsockopen ($host, $port, &$errno, &$errstr, 2);
+        $fp = @fsockopen ($host, $port, $errno, $errstr, 2);
 
         if ($fp) {
             fclose($fp);
@@ -1245,7 +1245,7 @@ class monitor_core_module {
 
     function _checkUdp ($host,$port) {
 
-        $fp = @fsockopen ('udp://'.$host, $port, &$errno, &$errstr, 2);
+        $fp = @fsockopen ('udp://'.$host, $port, $errno, $errstr, 2);
 
         if ($fp) {
             fclose($fp);
