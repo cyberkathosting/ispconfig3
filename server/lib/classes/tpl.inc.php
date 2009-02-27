@@ -360,6 +360,8 @@ if (!defined('vlibTemplateClassLoaded')) {
          * @access public
          */
         function setDbLoop ($loopname, $result, $db_type='MYSQL') {
+		
+		/*
             $db_type = strtoupper($db_type);
             if (!in_array($db_type, $this->allowed_loop_dbs)) {
                 vlibTemplateError::raiseError('VT_WARNING_INVALID_LOOP_DB',WARNING, $db_type);
@@ -485,6 +487,7 @@ if (!defined('vlibTemplateClassLoaded')) {
             }
             $this->setLoop($loopname, $loop_arr);
             return true;
+			*/
         }
 
         /**
