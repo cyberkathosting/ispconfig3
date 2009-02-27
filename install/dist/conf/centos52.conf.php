@@ -115,7 +115,7 @@ $conf['saslauthd']['init_script'] = 'saslauthd';
 
 //* Amavisd
 $conf['amavis']['installed'] = false; // will be detected automatically during installation
-$conf['amavis']['config_dir'] = '/etc/amavisd';
+$conf['amavis']['config_dir'] = '/etc';
 $conf['amavis']['init_script'] = 'amavisd';
 
 //* ClamAV
