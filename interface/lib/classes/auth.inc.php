@@ -94,8 +94,8 @@ class auth {
 	public function check_module_permissions($module) {
 		// Check if the current user has the permissions to access this module
 		if(!stristr($_SESSION["s"]["user"]["modules"],$module)) {
-			echo "LOGIN_REDIRECT:/index.php";
-			//header("Location: ../index.php");
+			// echo "LOGIN_REDIRECT:/index.php";
+			header("Location: /index.php");
 			exit;
 		}
 	}
