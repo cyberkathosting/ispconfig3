@@ -33,6 +33,6 @@ $wb["limit_web_aliasdomain_txt"] = 'The max. number of aliasdomains for your acc
 $wb["limit_web_subdomain_txt"] = 'The max. number of web subdomains for your account is reached.';
 $wb["apache_directives_txt"] = 'Apache directives';
 $wb["domain_error_empty"] = 'Domain is empty.';
-$wb["domain_error_unique"] = 'Domain must be unique.';
+$wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain with this domain name.';
 $wb["domain_error_regex"] = 'Domain name invalid.';
 ?>
