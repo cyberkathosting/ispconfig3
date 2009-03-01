@@ -139,6 +139,7 @@ $form["tabs"]['domain'] = array (
 			'width'		=> '7',
 			'maxlength'	=> '7'
 		),
+		/*
 		'traffic_quota' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -150,6 +151,7 @@ $form["tabs"]['domain'] = array (
 			'width'		=> '7',
 			'maxlength'	=> '7'
 		),
+		*/
 		'cgi' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
