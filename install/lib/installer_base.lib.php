@@ -991,7 +991,8 @@ class installer_base {
 			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
 			}
-			
+		}
+		if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
 			exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
 			exec('cp tpl/apache_ispconfig_fcgi_starter.master /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
