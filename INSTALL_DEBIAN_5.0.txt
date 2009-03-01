@@ -133,6 +133,29 @@ vi /etc/inetd.conf
 /etc/init.d/openbsd-inetd restart
 
 
+# Edit /etc/fstab. Mine looks like this (I added ,usrquota,grpquota to the partition with the mount point /):
+
+vi /etc/fstab
+
+----------------------------------------------------------------------------------------------
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    defaults        0       0
+/dev/sda1       /               ext3    errors=remount-ro,usrquota,grpquota 0       1
+/dev/sda5       none            swap    sw              0       0
+/dev/hda        /media/cdrom0   udf,iso9660 user,noauto     0       0
+/dev/fd0        /media/floppy0  auto    rw,user,noauto  0       0
+----------------------------------------------------------------------------------------------
+
+# To enable quota, run these commands:
+
+touch /quota.user /quota.group
+chmod 600 /quota.*
+mount -o remount /
+quotacheck -avugm
+quotaon -avug
+
 
 5) Install mydns
 
