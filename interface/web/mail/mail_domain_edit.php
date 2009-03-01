@@ -76,8 +76,13 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			// Getting Domains of the user
-			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			// Getting Clients of the user
+			if($_SESSION["s"]["user"]["typ"] == 'admin') {
+				$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			} else {
+				$client_group_id = $_SESSION["s"]["user"]["default_group"];
+				$sql = "SELECT client.client_id, limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
+			}
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
