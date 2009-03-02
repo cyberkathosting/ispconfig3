@@ -6,6 +6,12 @@
 LogFormat "%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
 CustomLog "| /usr/sbin/vlogger -s access.log -t \"%Y%m%d-access.log\" /var/log/ispconfig/httpd" combined_ispconfig
 
+<Directory /var/www/clients>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
 <tmpl_loop name="ip_adresses">
 NameVirtualHost {tmpl_var name="ip_address"}:80
 NameVirtualHost {tmpl_var name="ip_address"}:443

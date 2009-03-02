@@ -1,4 +1,10 @@
 
+<Directory /var/www/{tmpl_var name='domain'}>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
 <VirtualHost <tmpl_var name='ip_address'>:80>
 <tmpl_if name='php' op='==' value='suphp'>
     DocumentRoot <tmpl_var name='web_document_root'>
@@ -27,7 +33,7 @@
     ErrorDocument 500 /error/500.html
     ErrorDocument 503 /error/503.html
 </tmpl_if>
-
+	
     <Directory {tmpl_var name='web_document_root_www'}>
         Options FollowSymLinks
         AllowOverride Indexes AuthConfig Limit FileInfo
