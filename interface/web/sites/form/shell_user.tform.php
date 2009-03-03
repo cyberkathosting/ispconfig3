@@ -110,7 +110,7 @@ $form["tabs"]['shell'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'valuelimit' => 'client:ssh_chroot',
-			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit', 'ssh-chroot' => 'SSH Chroot')
+			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit')
 		),
 		'quota_size' => array (
 			'datatype'	=> 'INTEGER',

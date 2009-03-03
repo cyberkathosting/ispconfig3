@@ -583,7 +583,7 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'CHECKBOXARRAY',
 			'default'	=> '',
 			'separator' => ',',
-			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit', 'ssh-chroot' => 'SSH Chroot')
+			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit')
 		),
 		'default_dnsserver' => array (
 			'datatype'	=> 'INTEGER',
