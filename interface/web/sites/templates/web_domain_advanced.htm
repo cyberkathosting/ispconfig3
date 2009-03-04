@@ -4,10 +4,13 @@
 
   <div class="pnl_formsarea">
     <fieldset id="wf_area_web_domain"><legend>Options</legend>
+	  <!--
       <span class="wf_oneField">
         <label for="document_root" class="wf_preField">{tmpl_var name='document_root_txt'}</label>
         <input type="text" id="document_root" name="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255">
       </span>
+	  -->
+	  <input type="hidden" id="document_root" name="document_root" value="{tmpl_var name='document_root'}">
       <span class="wf_oneField">
         <label for="system_user" class="wf_preField">{tmpl_var name='system_user_txt'}</label>
         <input type="text" id="system_user" name="system_user" value="{tmpl_var name='system_user'}" size="30" maxlength="255">
