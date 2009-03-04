@@ -1226,7 +1226,7 @@ class monitor_core_module {
         // Getting the logfile content
         if($logfile != '') {
             $logfile = escapeshellcmd($logfile);
-            if(stristr($logfile, ';') or substr($logfile,0,9) != '/var/log/' or (stristr($logfile, '..')) {
+            if(stristr($logfile, ';') or substr($logfile,0,9) != '/var/log/' or stristr($logfile, '..')) {
                 $log = 'Logfile path error.';
             }
             else
