@@ -320,7 +320,7 @@ class monitor_core_module {
             $key = trim($part[0]);
             $value = trim($part[1]);
 			if($key == 'processor') $processor = intval($value);
-            $data[$key.' '.$processor] = $value;
+            if($key != '') $data[$key.' '.$processor] = $value;
         }
 
         /* the cpu has no state. It is, what it is */
