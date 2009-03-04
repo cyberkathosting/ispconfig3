@@ -472,13 +472,13 @@ class apache2_plugin {
 		$rewrite_rules = array();
 		if($data["new"]["redirect_type"] != '') {
 			$rewrite_rules[] = array(	'rewrite_domain' 	=> $data["new"]["domain"],
-										'rewrite_type' 		=> $data["new"]["redirect_type"],
+										'rewrite_type' 		=> ($data["new"]["redirect_type"] == 'no')?'':'['.$data["new"]["redirect_type"].']',
 										'rewrite_target' 	=> $data["new"]["redirect_path"]);
             
             switch($data["new"]["subdomain"]) {
             case 'www':
     			$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$data["new"]["domain"],
-    										'rewrite_type' 		=> $data["new"]["redirect_type"],
+    										'rewrite_type' 		=> ($data["new"]["redirect_type"] == 'no')?'':'['.$data["new"]["redirect_type"].']',
     										'rewrite_target' 	=> $data["new"]["redirect_path"]);
                 break;
             case '*':
@@ -517,12 +517,12 @@ class apache2_plugin {
 				// Rewriting
 				if($alias["redirect_type"] != '') {
 					$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias["domain"],
-												'rewrite_type' 		=> $alias["redirect_type"],
+												'rewrite_type' 		=> ($alias["redirect_type"] == 'no')?'':'['.$alias["redirect_type"].']',
 												'rewrite_target' 	=> $alias["redirect_path"]);
                     switch($alias["subdomain"]) {
                     case 'www':
             			$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$alias["domain"],
-            										'rewrite_type' 		=> $alias["redirect_type"],
+            										'rewrite_type' 		=> ($alias["redirect_type"] == 'no')?'':'['.$alias["redirect_type"].']',
             										'rewrite_target' 	=> $alias["redirect_path"]);
                         break;
                     case '*':

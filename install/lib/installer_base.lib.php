@@ -202,6 +202,8 @@ class installer_base {
 		// TODO: Update further distribution specific parameters for server config here
 		$tpl_ini_array['web']['vhost_conf_dir'] = $conf['apache']['vhost_conf_dir'];
 		$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
+		$tpl_ini_array['web']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
+		
 		
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
@@ -908,6 +910,12 @@ class installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		
+		
+		
+		
+		
+		
 		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled' WHERE server_id = ".intval($conf['server_id']);
 		
 		if($conf['mysql']['master_slave_setup'] == 'y') {
