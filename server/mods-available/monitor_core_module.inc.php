@@ -312,12 +312,15 @@ class monitor_core_module {
         */
         $cpuData = shell_exec("cat /proc/cpuinfo");
         $cpuInfo = explode("\n", $cpuData);
+		$processor = 0;
 
         foreach($cpuInfo as $line){
-            $part = preg_split("/:/", $line);
+            
+			$part = preg_split("/:/", $line);
             $key = trim($part[0]);
             $value = trim($part[1]);
-            $data[$key] = $value;
+			if($key == 'processor') $processor = intval($value);
+            $data[$key.' '.$processor] = $value;
         }
 
         /* the cpu has no state. It is, what it is */
