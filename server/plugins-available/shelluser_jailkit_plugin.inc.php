@@ -188,7 +188,7 @@ class shelluser_jailkit_plugin {
 				$tpl->setVar('home_dir',$this->_get_home_dir(""));
 				
 				$bashrc = escapeshellcmd($this->data['new']['dir']).'/etc/bash.bashrc';
-				exec('rm '.$bashrc);
+				if(@is_file($bashrc)) exec('rm '.$bashrc);
 				
 				file_put_contents($bashrc,$tpl->grab());
 				unset($tpl);
@@ -201,7 +201,7 @@ class shelluser_jailkit_plugin {
 				$tpl->setVar('domain',$web['domain']);
 				
 				$motd = escapeshellcmd($this->data['new']['dir']).'/var/run/motd';
-				exec('rm '.$motd);
+				if(@is_file($motd)) exec('rm '.$motd);
 				
 				file_put_contents($motd,$tpl->grab());
 				

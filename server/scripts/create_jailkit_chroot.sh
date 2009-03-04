@@ -24,7 +24,10 @@ chown root:root $CHROOT_HOMEDIR
 jk_init -f -k -j $CHROOT_HOMEDIR $CHROOT_APP_SECTIONS
 
 ## Create the temp directory
-mkdir $CHROOT_HOMEDIR/tmp
+if [ ! -d "$CHROOT_HOMEDIR/tmp" ]
+then
+  mkdir $CHROOT_HOMEDIR/tmp
+fi
 chmod a+rwx $CHROOT_HOMEDIR/tmp
 
 
@@ -32,4 +35,9 @@ chmod a+rwx $CHROOT_HOMEDIR/tmp
 mkdir $CHROOT_HOMEDIR/var
 mkdir $CHROOT_HOMEDIR/var/run
 mkdir $CHROOT_HOMEDIR/var/run/mysqld
-ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
+
+# ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
+if [ -e "/var/run/mysqld/mysqld.sock" ]
+then
+  ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
+fi
