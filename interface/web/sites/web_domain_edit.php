@@ -334,9 +334,10 @@ class page_action extends tform_actions {
 			// Set the values for document_root, system_user and system_group
 			$system_user = 'web'.$this->id;
 			$system_group = 'client'.$client_id;
-			$document_root = str_replace("[client_id]",$client_id,$document_root);
+			//$document_root = str_replace("[client_id]",$client_id,$document_root);
 		
-			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
+			// $sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
+			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 		}
 		
