@@ -1001,10 +1001,6 @@ class installer_base {
 			
 		}
 		
-		// Make the Clamav log files readable by ISPConfig
-		exec('chmod +r /var/log/clamav/clamav.log');
-		exec('chmod +r /var/log/clamav/freshclam.log');
-		
 		//* Install the SVN update script
 		exec('cp ../helper_scripts/update_from_svn.sh /usr/local/bin/ispconfig_update_from_svn.sh');
 		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
@@ -1015,6 +1011,8 @@ class installer_base {
 		if(@is_file('/var/log/mail.warn')) exec('chmod +r /var/log/mail.warn');
 		if(@is_file('/var/log/mail.err')) exec('chmod +r /var/log/mail.err');
 		if(@is_file('/var/log/messages')) exec('chmod +r /var/log/messages');
+		if(@is_file('/var/log/clamav/clamav.log')) exec('chmod +r /var/log/clamav/clamav.log');
+		if(@is_file('/var/log/clamav/freshclam.log')) exec('chmod +r /var/log/clamav/freshclam.log');
 		
 		//* Create the ispconfig log directory
 		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
