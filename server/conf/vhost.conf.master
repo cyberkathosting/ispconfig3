@@ -212,6 +212,85 @@
 <tmpl_if name='has_bundle_cert'>
     SSLCACertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.bundle
 </tmpl_if>
+    
+	<Directory {tmpl_var name='web_document_root_www'}>
+        Options FollowSymLinks
+        AllowOverride Indexes AuthConfig Limit FileInfo
+        Order allow,deny
+        Allow from all
+<tmpl_if name='ssi' op='==' value='y'>
+        
+        # ssi enabled
+        AddType text/html .shtml
+        AddOutputFilter INCLUDES .shtml
+        Options +Includes
+</tmpl_if>
+<tmpl_if name='php' op='==' value='no'>
+        <Files ~ '.php$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.php3$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.php4$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.php5$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.phps'>
+            Order deny,allow
+            Allow from all
+        </Files>
+</tmpl_if>
+    </Directory>
+	<Directory {tmpl_var name='web_document_root'}>
+        Options FollowSymLinks
+        AllowOverride Indexes AuthConfig Limit FileInfo
+        Order allow,deny
+        Allow from all
+<tmpl_if name='ssi' op='==' value='y'>
+        
+        # ssi enabled
+        AddType text/html .shtml
+        AddOutputFilter INCLUDES .shtml
+        Options +Includes
+</tmpl_if>
+<tmpl_if name='php' op='==' value='no'>
+        <Files ~ '.php$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.php3$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.php4$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.php5$'>
+            Order allow,deny
+            Deny from all
+            Allow from none
+        </Files>
+        <Files ~ '.phps'>
+            Order deny,allow
+            Allow from all
+        </Files>
+</tmpl_if>
+    </Directory>
 
 <tmpl_if name='cgi'op='==' value='y'>
     # cgi enabled
@@ -239,7 +318,7 @@
 <tmpl_if name='php' op='==' value='suphp'>
     # suphp enabled
     suPHP_Engine on
-    suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
     AddHandler x-httpd-php .php .php3 .php4 .php5
     suPHP_AddHandler x-httpd-php
 </tmpl_if>
