@@ -422,6 +422,15 @@ class installer_dist extends installer_base {
 		}
 		unset($content);
 		
+		//* Copy the ISPConfig configuration include
+        $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
+        $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
+        
+		copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
+		if(!@is_link($vhost_conf_enabled_dir."/000-ispconfig.conf")) {
+			exec("ln -s ".$vhost_conf_dir."/ispconfig.conf ".$vhost_conf_enabled_dir."/000-ispconfig.conf");
+		}
+		
 	}
 	
 	public function configure_firewall()
