@@ -71,6 +71,7 @@ class page_action extends tform_actions {
 		parent::onShowNew();
 	}
 	
+	/*
 	function onBeforeUpdate() {
 		global $app, $conf;
 
@@ -86,6 +87,7 @@ class page_action extends tform_actions {
 			unset($rec);
 		}
 	}
+	*/
 
 function onSubmit() {
 		global $app, $conf;
