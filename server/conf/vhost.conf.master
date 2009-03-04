@@ -47,29 +47,10 @@
         Options +Includes
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
-        <Files ~ '.php$'>
+        <Files ~ '.php[s3-6]{0,1}$'>
             Order allow,deny
             Deny from all
             Allow from none
-        </Files>
-        <Files ~ '.php3$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php4$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php5$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.phps'>
-            Order deny,allow
-            Allow from all
         </Files>
 </tmpl_if>
     </Directory>
@@ -86,29 +67,10 @@
         Options +Includes
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
-        <Files ~ '.php$'>
+        <Files ~ '.php[s3-6]{0,1}$'>
             Order allow,deny
             Deny from all
             Allow from none
-        </Files>
-        <Files ~ '.php3$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php4$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php5$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.phps'>
-            Order deny,allow
-            Allow from all
         </Files>
 </tmpl_if>
     </Directory>
@@ -226,29 +188,10 @@
         Options +Includes
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
-        <Files ~ '.php$'>
+        <Files ~ '.php[s3-6]{0,1}$'>
             Order allow,deny
             Deny from all
             Allow from none
-        </Files>
-        <Files ~ '.php3$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php4$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php5$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.phps'>
-            Order deny,allow
-            Allow from all
         </Files>
 </tmpl_if>
     </Directory>
@@ -265,29 +208,10 @@
         Options +Includes
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
-        <Files ~ '.php$'>
+        <Files ~ '.php[s3-6]{0,1}$'>
             Order allow,deny
             Deny from all
             Allow from none
-        </Files>
-        <Files ~ '.php3$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php4$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.php5$'>
-            Order allow,deny
-            Deny from all
-            Allow from none
-        </Files>
-        <Files ~ '.phps'>
-            Order deny,allow
-            Allow from all
         </Files>
 </tmpl_if>
     </Directory>
