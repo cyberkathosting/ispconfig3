@@ -406,7 +406,7 @@ class installer_dist extends installer_base {
 		
 		if(is_file('/etc/suphp.conf')) {
 			replaceLine('/etc/suphp.conf','php=php:/usr/bin','x-httpd-suphp=php:/usr/bin/php-cgi',0);
-			replaceLine('/etc/suphp.conf','docroot=','docroot=/var/clients',0);
+			replaceLine('/etc/suphp.conf','docroot=','docroot=/var/www',0);
 		}
 		
 		//* Create the logging directory for the vhost logfiles
