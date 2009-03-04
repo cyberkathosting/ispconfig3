@@ -68,6 +68,11 @@ class mail_plugin {
 		//$app->plugins->registerEvent('mail_domain_update',$this->plugin_name,'domain_update');
 		$app->plugins->registerEvent('mail_domain_delete',$this->plugin_name,'domain_delete');
 		
+		//* Mail transports
+		$app->plugins->registerEvent('mail_transport_insert',$this->plugin_name,'transport_update');
+		$app->plugins->registerEvent('mail_transport_update',$this->plugin_name,'transport_update');
+		$app->plugins->registerEvent('mail_transport_delete',$this->plugin_name,'transport_update');
+		
 	}
 	
 	
@@ -162,6 +167,14 @@ class mail_plugin {
 		} else {
 			$app->log('Possible security violation when deleting the mail domain directory: '.$old_maildomain_path,LOGLEVEL_ERROR);
 		}
+	}
+	
+	function transport_update($event_name,$data) {
+		global $app, $conf;
+		
+		exec('/etc/init.d/postfix reload &> /dev/null');
+		$app->log('Postfix config reloaded ',LOGLEVEL_DEBUG);
+		
 	}
 	
 	
