@@ -1174,33 +1174,49 @@ class monitor_core_module {
 
 
     function _getLogData($log){
-        switch($log) {
+        
+		$dist = '';
+		$logfile = '';
+		
+		if(@is_file('/etc/debian_version')) $dist = 'debian';
+		if(@is_file('/etc/redhat-release')) $dist = 'redhat';
+		
+		switch($log) {
             case 'log_mail':
-                $logfile = '/var/log/mail.log';
+                if($dist == 'debian') $logfile = '/var/log/mail.log';
+				if($dist == 'redhat') $logfile = '/var/log/maillog';
                 break;
             case 'log_mail_warn':
-                $logfile = '/var/log/mail.warn';
+                if($dist == 'debian') $logfile = '/var/log/mail.warn';
+				if($dist == 'redhat') $logfile = '/var/log/maillog';
                 break;
             case 'log_mail_err':
-                $logfile = '/var/log/mail.err';
+                if($dist == 'debian') $logfile = '/var/log/mail.err';
+				if($dist == 'redhat') $logfile = '/var/log/maillog';
                 break;
             case 'log_messages':
-                $logfile = '/var/log/messages';
+                if($dist == 'debian') $logfile = '/var/log/messages';
+				if($dist == 'redhat') $logfile = '/var/log/messages';
                 break;
             case 'log_ispc_cron':
-                $logfile = '/var/log/ispconfig/cron.log';
+                if($dist == 'debian') $logfile = '/var/log/ispconfig/cron.log';
+				if($dist == 'redhat') $logfile = '/var/log/ispconfig/cron.log';
                 break;
             case 'log_freshclam':
-                $logfile = '/var/log/clamav/freshclam.log';
+                if($dist == 'debian') $logfile = '/var/log/clamav/freshclam.log';
+				if($dist == 'redhat') $logfile = '/var/log/freshclam.log';
                 break;
             case 'log_clamav':
-                $logfile = '/var/log/clamav/clamav.log';
+                if($dist == 'debian') $logfile = '/var/log/clamav/clamav.log';
+				if($dist == 'redhat') $logfile = '/var/log/maillog';
                 break;
             case 'log_fail2ban':
-                $logfile = '/var/log/fail2ban.log';
+                if($dist == 'debian') $logfile = '/var/log/fail2ban.log';
+				if($dist == 'redhat') $logfile = '/var/log/fail2ban.log';
                 break;
             case 'log_ispconfig':
-                $logfile = '/var/log/ispconfig/ispconfig.log';
+                if($dist == 'debian') $logfile = '/var/log/ispconfig/ispconfig.log';
+				if($dist == 'redhat') $logfile = '/var/log/ispconfig/ispconfig.log';
                 break;
             default:
                 $logfile = '';
@@ -1210,7 +1226,7 @@ class monitor_core_module {
         // Getting the logfile content
         if($logfile != '') {
             $logfile = escapeshellcmd($logfile);
-            if(stristr($logfile, ';')) {
+            if(stristr($logfile, ';') or substr($logfile,0,9) != '/var/log/' or (stristr($logfile, '..')) {
                 $log = 'Logfile path error.';
             }
             else
