@@ -397,7 +397,7 @@ if($install_mode == 'standard') {
 	//* Configure ISPConfig
 	swriteln('Installing Crontab');
 	$inst->install_crontab();
-	if($conf['apache']['init_script'] != '') system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+	if($conf['apache']['init_script'] != '' && @is_file($conf['init_scripts'].'/'.$conf['apache']['init_script'])) system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
 	
 	
 	
