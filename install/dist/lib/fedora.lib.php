@@ -418,7 +418,7 @@ class installer_dist extends installer_base {
 		
 		$content = rf('/etc/httpd/conf/httpd.conf');
 		if(!stristr($content,'Include /etc/httpd/conf/sites-enabled/')) {
-			af('/etc/httpd/conf/httpd.conf',"\nInclude /etc/httpd/conf/sites-enabled/\n\n");
+			af('/etc/httpd/conf/httpd.conf',"\nNameVirtualHost *:80\nNameVirtualHost *:443\nInclude /etc/httpd/conf/sites-enabled/\n\n");
 		}
 		unset($content);
 		
