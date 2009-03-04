@@ -237,6 +237,10 @@ class page_action extends tform_actions {
 		if($old_record["database_charset"] != $this->dataRecord["database_charset"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_charset_change_txt"].'<br />';
 		}
+		
+		//* Database username and database name shall not be empty
+		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"];
+		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"];
 
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
@@ -261,6 +265,10 @@ class page_action extends tform_actions {
 
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
+		
+		//* Database username and database name shall not be empty
+		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"];
+		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"];
 
 		//* Get the database name and database user prefix
 		$app->uses('getconf');
