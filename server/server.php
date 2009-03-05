@@ -70,9 +70,8 @@ $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGL
 if($app->dbmaster->connect()) {
 
 	// get the dalaog_id of the last performed record
-	$tmp_rec = $app->dbmaster->queryOneRecord("SELECT updated FROM server WHERE server_id = ".$conf["server_id"]);
-	$conf['last_datalog_id'] = (int)$tmp_rec['updated'];
-	unset($tmp_rec);
+	$server_db_record = $app->dbmaster->queryOneRecord("SELECT updated, config FROM server WHERE server_id = ".$conf["server_id"]);
+	$conf['last_datalog_id'] = (int)$server_db_record['updated'];
 
 	// Check if there is anything to update
 	$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0)");
