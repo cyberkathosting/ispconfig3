@@ -195,7 +195,7 @@ class installer_dist extends installer_base {
 	public function configure_saslauthd() {
 		global $conf;
 		
-		
+		/*
 		$configfile = 'sasl_smtpd.conf';
 		if(is_file('/etc/sasl2/smtpd.conf')) copy('/etc/sasl2/smtpd.conf','/etc/sasl2/smtpd.conf~');
 		if(is_file('/etc/sasl2/smtpd.conf~')) exec('chmod 400 '.'/etc/sasl2/smtpd.conf~');
@@ -205,7 +205,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
 		wf('/etc/sasl2/smtpd.conf',$content);
-		
+		*/
 		
 		// TODO: Chmod and chown on the config file
 		
@@ -228,6 +228,9 @@ class installer_dist extends installer_base {
 		$configfile = $conf["init_scripts"].'/'.$conf["saslauthd"]["init_script"];
 		$content = rf($configfile);
 		$content = str_replace('/sbin/startproc $AUTHD_BIN -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1','/sbin/startproc $AUTHD_BIN -r -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1',$content);
+		$content = str_replace('/sbin/startproc $AUTHD_BIN $SASLAUTHD_PARAMS -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1','/sbin/startproc $AUTHD_BIN $SASLAUTHD_PARAMS -r -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1',$content);
+		
+		
 		wf($configfile,$content);
 		
 		
