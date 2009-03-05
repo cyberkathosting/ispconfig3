@@ -159,7 +159,7 @@ class installer_dist extends installer_base {
         }
 		$configfile = $config_dir.'/master.cf';
 		$content = rf($configfile);
-		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}', 
+		$content = str_replace('  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}', 
                    '  flags=R user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
                      $content);
 		wf($configfile, $content);
