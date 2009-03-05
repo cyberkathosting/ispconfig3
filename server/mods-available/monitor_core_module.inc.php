@@ -1204,11 +1204,11 @@ class monitor_core_module {
                 break;
             case 'log_freshclam':
                 if($dist == 'debian') $logfile = '/var/log/clamav/freshclam.log';
-				if($dist == 'redhat') $logfile = '/var/log/freshclam.log';
+				if($dist == 'redhat') $logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log');
                 break;
             case 'log_clamav':
                 if($dist == 'debian') $logfile = '/var/log/clamav/clamav.log';
-				if($dist == 'redhat') $logfile = '/var/log/maillog';
+				if($dist == 'redhat') $logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog');
                 break;
             case 'log_fail2ban':
                 if($dist == 'debian') $logfile = '/var/log/fail2ban.log';
