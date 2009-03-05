@@ -763,7 +763,8 @@ class monitor_core_module {
         $type = 'log_fail2ban';
 
         /* This monitoring is only available if fail2ban is installed */
-        $location = shell_exec('which fail2ban-client');
+        $location = shell_exec('which fail2ban-client'); // Debian & Ubuntu
+		if($location == '') $location = shell_exec('which fail2ban'); // CentOS & Fedora
         if($location != ''){
 			/*  Get the data of the log */
 			$data = $this->_getLogData($type);
