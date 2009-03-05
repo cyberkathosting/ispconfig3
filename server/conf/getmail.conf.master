@@ -12,5 +12,5 @@ password = {PASSWORD}
 [destination]
 type = MDA_external
 path = /usr/sbin/sendmail
-arguments = ("-bm", "{DESTINATION}")
+arguments = ("-i", "-bm", "{DESTINATION}")
 unixfrom = true
