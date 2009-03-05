@@ -681,7 +681,6 @@ class installer_dist extends installer_base {
         
         
         // Dont just copy over the virtualhost template but add some custom settings
-         
         $content = rf("tpl/apache_ispconfig.vhost.master");
 		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
 		
@@ -707,6 +706,8 @@ class installer_dist extends installer_base {
 			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 			exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
 			exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
+			
+			replaceLine('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter','PHPRC=','PHPRC=/etc/',0,0);
 			
 		}
 		

@@ -82,6 +82,9 @@ $conf['apache']['vhost_conf_dir'] = '/etc/httpd/conf/sites-available';
 $conf['apache']['vhost_conf_enabled_dir'] = '/etc/httpd/conf/sites-enabled';
 $conf['apache']['vhost_port'] = '8080';
 
+//* Fastcgi
+$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/';
+
 //* Postfix
 $conf['postfix']['installed'] = false; // will be detected automatically during installation
 $conf['postfix']['config_dir'] = '/etc/postfix';
@@ -138,5 +141,6 @@ $conf['jailkit']['config_dir'] = '/etc/jailkit';
 $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
 $conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /bin/basename /usr/bin/dirname /usr/bin/nano';
+
 
 ?>

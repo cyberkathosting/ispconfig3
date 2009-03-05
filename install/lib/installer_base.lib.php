@@ -202,7 +202,8 @@ class installer_base {
 		// TODO: Update further distribution specific parameters for server config here
 		$tpl_ini_array['web']['vhost_conf_dir'] = $conf['apache']['vhost_conf_dir'];
 		$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
-		$tpl_ini_array['web']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
+		$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
+		$tpl_ini_array['fastcgi']['fastcgi_phpini_path'] = $conf['fastcgi']['fastcgi_phpini_path'];
 		
 		
 		$server_ini_content = array_to_ini($tpl_ini_array);

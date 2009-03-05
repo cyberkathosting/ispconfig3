@@ -82,6 +82,9 @@ $conf['apache']['vhost_conf_dir'] = '/etc/apache2/sites-available';
 $conf['apache']['vhost_conf_enabled_dir'] = '/etc/apache2/sites-enabled';
 $conf['apache']['vhost_port'] = '8080';
 
+//* Fastcgi
+$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php5/cgi/';
+
 //* Postfix
 $conf['postfix']['installed'] = false; // will be detected automatically during installation
 $conf['postfix']['config_dir'] = '/etc/postfix';
