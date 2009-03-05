@@ -159,9 +159,15 @@ class installer_dist extends installer_base {
         }
 		$configfile = $config_dir.'/master.cf';
 		$content = rf($configfile);
+		
+		$content = str_replace('  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}', 
+                   '  flags=R user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
+                     $content);
+		
 		$content = str_replace('  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}', 
                    '  flags=R user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
                      $content);
+		
 		wf($configfile, $content);
 		
 		//* Writing the Maildrop mailfilter file
@@ -189,7 +195,7 @@ class installer_dist extends installer_base {
 	public function configure_saslauthd() {
 		global $conf;
 		
-		/*
+		
 		$configfile = 'sasl_smtpd.conf';
 		if(is_file('/etc/sasl2/smtpd.conf')) copy('/etc/sasl2/smtpd.conf','/etc/sasl2/smtpd.conf~');
 		if(is_file('/etc/sasl2/smtpd.conf~')) exec('chmod 400 '.'/etc/sasl2/smtpd.conf~');
@@ -199,7 +205,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
 		wf('/etc/sasl2/smtpd.conf',$content);
-		*/
+		
 		
 		// TODO: Chmod and chown on the config file
 		
