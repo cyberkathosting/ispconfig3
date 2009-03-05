@@ -7,7 +7,7 @@
       <tmpl_if name="is_admin">
       <span class="wf_oneField">
         <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
+        <select id="server_id" name="server_id" {tmpl_var name='edit_disabled'}>{tmpl_var name='server_id'}</select>
       </span>
       <span class="wf_oneField">
         <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
@@ -27,7 +27,7 @@
       <span class="wf_oneField">
         <label for="database_name" class="wf_preField">{tmpl_var name='database_name_txt'}</label>
 		{tmpl_var name='database_name_prefix'}
-        <input type="text" id="database_name" name="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="64" class="wf_required"><span class="wf_reqMark">*</span><br>
+        <input type="text" id="database_name" name="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="64" class="wf_required"  {tmpl_var name='edit_disabled'}><span class="wf_reqMark">*</span><br>
       </span>
       <span class="wf_oneField">
         <label for="database_user" class="wf_preField">{tmpl_var name='database_user_txt'}</label>
@@ -44,7 +44,7 @@
       </span>
       <span class="wf_oneField">
         <label for="database_charset" class="wf_preField">{tmpl_var name='database_charset_txt'}</label>
-        <select id="database_charset" name="database_charset">{tmpl_var name='database_charset'}</select>
+        <select id="database_charset" name="database_charset" {tmpl_var name='edit_disabled'}>{tmpl_var name='database_charset'}</select>
       </span>
       <span class="wf_oneField">
         <label for="remote_access" class="wf_preField">{tmpl_var name='remote_access_txt'}</label>                    

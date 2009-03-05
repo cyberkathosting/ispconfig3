@@ -173,6 +173,13 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
 			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
 		}
+		
+		if($this->id > 0) {
+			//* we are editing a existing record
+			$app->tpl->setVar("edit_disabled", 'disabled="disabled"');
+		} else {
+			$app->tpl->setVar("edit_disabled", '');
+		}
 
 		parent::onShowEnd();
 	}
