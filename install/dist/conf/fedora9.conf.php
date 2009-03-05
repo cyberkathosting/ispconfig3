@@ -82,6 +82,11 @@ $conf['apache']['vhost_conf_dir'] = '/etc/httpd/conf/sites-available';
 $conf['apache']['vhost_conf_enabled_dir'] = '/etc/httpd/conf/sites-enabled';
 $conf['apache']['vhost_port'] = '8080';
 
+//* Website base settings
+$conf['web']['website_basedir'] = '/var/www';
+$conf['web']['website_path'] = '/var/www/clients/client[client_id]/web[website_id]';
+$conf['web']['website_symlinks'] = '/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/';
+
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/';
 

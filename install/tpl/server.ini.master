@@ -29,6 +29,7 @@ message_size_limit=0
 getmail_config_dir=/etc/getmail
 
 [web]
+website_basedir=/var/www
 website_path=/var/www/clients/client[client_id]/web[website_id]
 website_symlinks=/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/
 vhost_conf_dir=/etc/apache2/sites-available

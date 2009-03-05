@@ -284,6 +284,17 @@ $form["tabs"]['web'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+		'website_basedir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'website_basedir_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
 		'website_path' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

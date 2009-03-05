@@ -206,6 +206,9 @@ class installer_base {
 		$tpl_ini_array['fastcgi']['fastcgi_phpini_path'] = $conf['fastcgi']['fastcgi_phpini_path'];
 		$tpl_ini_array['server']['hostname'] = $conf['hostname'];
 		$tpl_ini_array['server']['ip_address'] = @gethostbyname($conf['hostname']);
+		$tpl_ini_array['web']['website_basedir'] = $conf['web']['website_basedir'];
+		$tpl_ini_array['web']['website_path'] = $conf['web']['website_path'];
+		$tpl_ini_array['web']['website_symlinks'] = $conf['web']['website_symlinks'];
 		
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);

@@ -446,7 +446,7 @@ class apache2_plugin {
 		
 		$vhost_data = $data["new"];
 		$vhost_data["web_document_root"] = $data["new"]["document_root"]."/web";
-		$vhost_data["web_document_root_www"] = "/var/www/".$data["new"]["domain"]."/web";
+		$vhost_data["web_document_root_www"] = $web_config["website_basedir"]."/".$data["new"]["domain"]."/web";
 		
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";
@@ -602,7 +602,7 @@ class apache2_plugin {
 		{
 			//$cgi_config = $app->getconf->get_server_config($conf["server_id"], 'cgi');
 
-			$cgi_config["cgi_starter_path"] = "/var/www/php-cgi-scripts/[system_user]/";
+			$cgi_config["cgi_starter_path"] = $web_config["website_basedir"]."/php-cgi-scripts/[system_user]/";
 			$cgi_config["cgi_starter_script"] = "php-cgi-starter";
 			$cgi_config["cgi_bin"] = "/usr/bin/php-cgi";
 
@@ -721,7 +721,7 @@ class apache2_plugin {
 			if ($data["old"]["php"] == "cgi")
 			{
 				// TODO: fetch the date from the server-settings
-				$web_config["cgi_starter_path"] = "/var/www/php-cgi-scripts/[system_user]/";
+				$web_config["cgi_starter_path"] = $web_config["website_basedir"]."/php-cgi-scripts/[system_user]/";
 
 				$cgi_starter_path = str_replace("[system_user]",$data["old"]["system_user"],$web_config["cgi_starter_path"]);
 				if (is_dir($cgi_starter_path))

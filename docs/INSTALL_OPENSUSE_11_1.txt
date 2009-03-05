@@ -130,6 +130,18 @@ yast2 -i webalizer perl-DateManip
 
 rm -f /tmp/*.rpm
 
+6.2 Install jailkit
+
+cd /tmp
+wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
+tar xvfz jailkit-2.5.tar.gz
+cd jailkit-2.5
+./configure
+make
+make install
+cd ..
+rm -rf jailkit-2.5*
+
 
 7) Install ISPConfig 3
 
