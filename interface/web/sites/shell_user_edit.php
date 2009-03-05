@@ -93,6 +93,13 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("username_prefix", $shelluser_prefix);
 		}
+		
+		if($this->id > 0) {
+			//* we are editing a existing record
+			$app->tpl->setVar("parent_domain_id_disabled", 'disabled="disabled"');
+		} else {
+			$app->tpl->setVar("parent_domain_id_disabled", '');
+		}
 
 		parent::onShowEnd();
 	}
