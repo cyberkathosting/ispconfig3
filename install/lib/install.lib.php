@@ -88,6 +88,13 @@ function get_distname() {
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.0 or compatible\n");
 		}
+		if(stristr(file_get_contents('/etc/SuSE-release'),'11.1')) {
+			$distname = 'openSUSE';
+			$distver = '11.1';
+			$distid = 'opensuse110';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE 11.1 or compatible\n");
+		}
 	}
 	
 	
