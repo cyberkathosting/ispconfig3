@@ -8,7 +8,7 @@
       <tmpl_if name="is_admin">
       <span class="wf_oneField">
         <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
+        <select id="server_id" name="server_id" {tmpl_var name='edit_disabled'}>{tmpl_var name='server_id'}</select>
       </span>
       <span class="wf_oneField">
         <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>

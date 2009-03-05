@@ -111,6 +111,13 @@ class page_action extends tform_actions {
 		unset($policy_select);
 		unset($tmp_user);
 		
+		if($this->id > 0) {
+			//* we are editing a existing record
+			$app->tpl->setVar("edit_disabled", 'disabled="disabled"');
+		} else {
+			$app->tpl->setVar("edit_disabled", '');
+		}
+		
 		parent::onShowEnd();
 	}
 	
