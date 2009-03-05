@@ -54,8 +54,16 @@ wget http://download.opensuse.org/repositories/home:/atzewilms/openSUSE_11.1_Upd
 rpm --force -i maildrop-2.0.4-10.5.i586.rpm
 
 // Install pam_mysql
-wget http://download.opensuse.org/repositories/home:/buschmann23/openSUSE_11.1/i586/pam_mysql-0.7RC1-11.1.i586.rpm
-rpm -i pam_mysql-0.7RC1-11.1.i586.rpm
+yast2 -i pam-devel
+cd /tmp
+wget http://heanet.dl.sourceforge.net/sourceforge/pam-mysql/pam_mysql-0.7RC1.tar.gz
+tar xvfz pam_mysql-0.7RC1.tar.gz
+cd pam_mysql-0.7RC1
+./configure
+make
+make install
+rm -rf pam_mysql-0.7RC1
+rm pam_mysql-0.7RC1.tar.gz
 
 // Set the mysql database password:
 
