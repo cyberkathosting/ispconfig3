@@ -605,8 +605,8 @@ class monitor_core_module {
         $type = 'raid_state';
 
         /* This monitoring is only available if mdadm is installed */
-        $location = shell_exec('which mdadm');
-        if($location != ''){
+        $location = system('which mdadm', $retval);
+        if($retval === 0){
             /*
              * Fetch the output
              */
@@ -709,8 +709,8 @@ class monitor_core_module {
         $type = 'rkhunter';
 
         /* This monitoring is only available if rkhunter is installed */
-        $location = shell_exec('which rkhunter');
-        if($location != ''){
+        $location = system('which rkhunter', $retval);
+        if($retval === 0){
             /*
              * Fetch the output
              */
@@ -763,9 +763,9 @@ class monitor_core_module {
         $type = 'log_fail2ban';
 
         /* This monitoring is only available if fail2ban is installed */
-        $location = shell_exec('which fail2ban-client'); // Debian & Ubuntu
-		if($location == '') $location = shell_exec('which fail2ban'); // CentOS & Fedora
-        if($location != ''){
+        $location = system('which fail2ban-client', $retval); // Debian & Ubuntu
+		if($retval !== 0) $location = system('which fail2ban', $retval); // CentOS & Fedora
+        if($retval === 0){
 			/*  Get the data of the log */
 			$data = $this->_getLogData($type);
 
