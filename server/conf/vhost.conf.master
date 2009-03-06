@@ -1,5 +1,5 @@
 
-<Directory /var/www/{tmpl_var name='domain'}>
+<Directory {tmpl_var name='web_basedir'}/{tmpl_var name='domain'}>
     AllowOverride None
     Order Deny,Allow
     Deny from all

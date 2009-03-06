@@ -82,7 +82,9 @@ chkconfig --add clamd
 
 2.1) Install apache2
 
-yast2 -i apache2
+yast2 -i apache2 apache2-mod_fcgid
+
+rpm -i http://download.opensuse.org/repositories/server:/php/server_database_apache_openSUSE_11.0/i586/suphp-0.6.2-10.41.i586.rpm
 
 3) Install PHP5 modules (1 line!):
 
@@ -94,6 +96,8 @@ a2enmod suexec
 a2enmod rewrite
 a2enmod ssl
 a2enmod actions
+a2enmod suphp
+a2enmod fcgid
 
 chkconfig --add apache2
 /etc/init.d/apache2 start
