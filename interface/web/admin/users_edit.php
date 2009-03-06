@@ -61,7 +61,7 @@ class page_action extends tform_actions {
 	function onBeforeUpdate() {
 		global $app, $conf;
 		
-		if(!in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
+		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
 	}
