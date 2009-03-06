@@ -763,8 +763,8 @@ class monitor_core_module {
         $type = 'log_fail2ban';
 
         /* This monitoring is only available if fail2ban is installed */
-        $location = system('which fail2ban-client', $retval); // Debian & Ubuntu
-		if($retval !== 0) $location = system('which fail2ban', $retval); // CentOS & Fedora
+        $location = system('which fail2ban-client', $retval); // Debian, Ubuntu, Fedora
+		if($retval !== 0) $location = system('which fail2ban', $retval); // CentOS
         if($retval === 0){
 			/*  Get the data of the log */
 			$data = $this->_getLogData($type);
