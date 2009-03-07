@@ -296,7 +296,7 @@
 	select#language {	width: 100px; }
 	.panel_dns_soa * input#refresh, .panel_dns_soa * input#retry, .panel_dns_soa * input#expire, .panel_dns_soa * input#minimum, .panel_dns_soa * input#ttl { width: 100px;	}
 		
-	a[href $='#logout'] { padding-left: 16px; background: transparent url("../../icons/x12/cancel_round.png") no-repeat left 2px !important;	}
+	a[href $='#logout'] { padding-right: 18px; background: transparent url("../../icons/x16/logout.png") no-repeat right top !important;	}
 	
 	/* Select Menu with Images */
 	select.withicons option {
