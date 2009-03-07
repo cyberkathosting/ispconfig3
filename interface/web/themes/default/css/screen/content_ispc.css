@@ -58,9 +58,12 @@
 		border-width: 1px medium medium;
 		margin: 20px 0;
 	}
-	.pnl_toolsarea fieldset legend , .pnl_listarea fieldset legend, .pnl_formarea fieldset {
+	.pnl_toolsarea fieldset legend , .pnl_listarea fieldset legend {
 		font-weight: bold;
 		color: #6299c5;
+	}
+	.pnl_formarea fieldset {
+		font-weight: bold;
 	}
 	
 	.codeview {
