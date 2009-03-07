@@ -1,43 +1,51 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_shell_user">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_shell_user"><legend>Shell User</legend>
-      <span class="wf_oneField">
-        <label for="parent_domain_id" class="wf_preField">{tmpl_var name='parent_domain_id_txt'}</label>
-        <select id="parent_domain_id" name="parent_domain_id" {tmpl_var name='parent_domain_id_disabled'}>{tmpl_var name='parent_domain_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="username" class="wf_preField">{tmpl_var name='username_txt'}</label>
-		{tmpl_var name='username_prefix'}
-        <input type="text" id="username" name="username" value="{tmpl_var name='username'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="password" class="wf_preField">{tmpl_var name='password_txt'}</label>
-        <input type="password" id="password" name="password" value="{tmpl_var name='password'}" size="30" maxlength="255" onkeyup="pass_check(this.value)">
-      </span>
-      <span class="wf_oneField">
-        <span class="wf_preField">{tmpl_var name='password_strength_txt'}</span>
-        <span class="wf_passwordStrength"><div id="passBar"></div><span id="passText">&nbsp;</span></span>
-      </span>
-      <span class="wf_oneField">
-        <label for="chroot" class="wf_preField">{tmpl_var name='chroot_txt'}</label>
-        <select id="chroot" name="chroot">{tmpl_var name='chroot'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="quota_size" class="wf_preField">{tmpl_var name='quota_size_txt'}</label>
-        <input type="text" id="quota_size" name="quota_size" value="{tmpl_var name='quota_size'}" size="7" maxlength="7"> MB
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+    <fieldset class="inlineLabels"><legend>Shell User</legend>
+      <div class="ctrlHolder">
+      	<label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
+        <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
+					{tmpl_var name='parent_domain_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="username">{tmpl_var name='username_txt'}</label>
+				<div style="float: left;">{tmpl_var name='username_prefix'} </div>
+        <input name="username" id="username" value="{tmpl_var name='username'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="password">{tmpl_var name='password_txt'}</label>
+        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='password_strength_txt'}</p>
+				<div id="passBar"></div>
+				<p class="formHint"><span id="passText">&nbsp;</span></p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="chroot">{tmpl_var name='chroot_txt'}</label>
+        <select name="chroot" id="chroot" class="selectInput">
+					{tmpl_var name='chroot'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="quota_size">{tmpl_var name='quota_size_txt'}</label>
+        <input name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" size="7" maxlength="7" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/shell_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/shell_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

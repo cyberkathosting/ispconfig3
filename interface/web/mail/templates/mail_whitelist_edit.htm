@@ -1,31 +1,38 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_mail_whitelist">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_mail_whitelist"><legend>Witelist</legend>
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="source" class="wf_preField">{tmpl_var name='source_txt'}</label>
-        <input type="text" id="source" name="source" value="{tmpl_var name='source'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
-        <select id="type" name="type">{tmpl_var name='type'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+    <fieldset class="inlineLabels"><legend>Witelist</legend>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="source">{tmpl_var name='source_txt'}</label>
+        <input name="source" id="source" value="{tmpl_var name='source'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="type">{tmpl_var name='type_txt'}</label>
+        <select name="type" id="type" class="selectInput">
+					{tmpl_var name='type'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
     <input name="access" type="hidden" value="{tmpl_var name='access'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_whitelist_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_whitelist_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

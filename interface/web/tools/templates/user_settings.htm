@@ -1,26 +1,29 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_usersettings">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_usersettings"><legend>{tmpl_var name='Settings'}</legend>
-      <span class="wf_oneField">
-        <label for="passwort" class="wf_preField">{tmpl_var name='passwort_txt'}</label>
-        <input type="password" id="passwort" name="passwort" value="{tmpl_var name='passwort'}" size="15" maxlength="100" onkeyup="pass_check(this.value)">
-      </span>
-      <span class="wf_oneField">
-        <span class="wf_preField">{tmpl_var name='password_strength_txt'}</span>
-        <span class="wf_passwordStrength"><div id="passBar"></div><span id="passText">&nbsp;</span></span>
-      </span>
-      <span class="wf_oneField">
-        <label for="passwort2" class="wf_preField">{tmpl_var name='passwort_txt'}</label>
-        <input type="password" id="passwort2" name="passwort2" value="" size="15" maxlength="100">
-      </span>
-      <span class="wf_oneField">
-        <label for="language" class="wf_preField">{tmpl_var name='language_txt'}</label>
-        <select id="language" class="withicons" name="language">{tmpl_var name='language'}</select>
-      </span>
-    </fieldset>
+    <fieldset class="inlineLabels"><legend>Users</legend>
+      <div class="ctrlHolder">
+      	<label for="passwort">{tmpl_var name='passwort_txt'}</label>
+        <input name="passwort" id="passwort" value="{tmpl_var name='passwort'}" size="15" maxlength="100" type="password" class="textInput" onkeyup="pass_check(this.value)"/>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='password_strength_txt'}</p>
+				<div id="passBar"></div>
+				<p class="formHint"><span id="passText">&nbsp;</span></p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="passwort2">{tmpl_var name='passwort_txt'}</label>
+        <input name="passwort2" id="passwort2" value="" size="15" maxlength="100" type="password" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="language">{tmpl_var name='language_txt'}</label>
+        <select name="language" id="language" class="selectInput withicons">
+					{tmpl_var name='language'}
+				</select>
+      </div>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 

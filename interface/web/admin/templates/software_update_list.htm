@@ -1,18 +1,19 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_list_software_update">
 
   <div class="pnl_toolsarea">
-    <fieldset><legend>Tools</legend>
+    <fieldset class="inlineLabels"><legend>Tools</legend>
       <div class="buttons">
-        <span class="wf_oneField">
-          <label for="server_id" class="wf_preField">{tmpl_var name='server_select_txt'}</label>
-          <select name="server_id" id="server_id" onChange="submitForm('pageForm','admin/software_update_list.php');">
-          <tmpl_loop name="servers">
-            <option value="{tmpl_var name='server_id'}" {tmpl_var name='selected'}>{tmpl_var name='server_name'}</option>
-          </tmpl_loop>
-          </select>
-        </span>
+	      <div class="ctrlHolder">
+	      	<label for="server_id">{tmpl_var name='server_select_txt'}</label>
+	        <select name="server_id" id="server_id" class="selectInput" onChange="submitForm('pageForm','admin/software_update_list.php');">
+	        <tmpl_loop name="servers">
+	          <option value="{tmpl_var name='server_id'}" {tmpl_var name='selected'}>{tmpl_var name='server_name'}</option>
+	        </tmpl_loop>
+					</select>
+	      </div>
       </div>
     </fieldset>
   </div>

@@ -1,26 +1,31 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_server_ip">
-
+  
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_server_ip"><legend>IP Address</legend>
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="ip_address" class="wf_preField">{tmpl_var name='ip_address_txt'}</label>
-        <input type="text" id="ip_address" name="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="15">
-      </span>
-      <span class="wf_oneField">
-        <label for="virtualhost" class="wf_preField">{tmpl_var name='virtualhost_txt'}</label>                    
-        <span class="">{tmpl_var name='virtualhost'}</span>
-      </span>
+    <fieldset class="inlineLabels"><legend>IP Address</legend>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
+        <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="15" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='virtualhost_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='virtualhost'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_ip_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_ip_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

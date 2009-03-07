@@ -1,37 +1,46 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_spamfilter_blacklist">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_spamfilter_blacklist"><legend>Blacklist</legend>
+    <fieldset class="inlineLabels"><legend>Blacklist</legend>
 <!--
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
 -->
-      <span class="wf_oneField">
-        <label for="rid" class="wf_preField">{tmpl_var name='rid_txt'}</label>
-        <select id="rid" name="rid">{tmpl_var name='rid'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="email" class="wf_preField">{tmpl_var name='email_txt'}</label>
-        <input type="text" id="email" name="email" value="{tmpl_var name='email'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="priority" class="wf_preField">{tmpl_var name='priority_txt'}</label>
-        <select id="priority" name="priority">{tmpl_var name='priority'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="rid">{tmpl_var name='rid_txt'}</label>
+        <select name="rid" id="rid" class="selectInput">
+					{tmpl_var name='rid'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="email">{tmpl_var name='email_txt'}</label>
+        <input name="email" id="email" value="{tmpl_var name='email'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="priority">{tmpl_var name='priority_txt'}</label>
+        <select name="priority" id="priority" class="selectInput">
+					{tmpl_var name='priority'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
     <input type="hidden" name="wb" value="{tmpl_var name='wb'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/spamfilter_blacklist_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/spamfilter_blacklist_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

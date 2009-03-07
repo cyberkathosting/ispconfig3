@@ -1,11 +1,8 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_edit">
   
-  <tmpl_if name="msg">
-  <div class="box box_msg"><tmpl_var name="msg"></div>
-  </tmpl_if>
-
   <div class="pnl_formsarea">
     <fieldset id="wf_area_language_edit"><legend>Language File Edit: {tmpl_var name="file_path"}</legend>
       <span class="wf_oneField">
@@ -18,6 +15,7 @@
       </span>
     </fieldset>
 
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
     <input type="hidden" name="lang" value="{tmpl_var name='lang'}">
     <input type="hidden" name="lang_file" value="{tmpl_var name='lang_file'}">
     <input type="hidden" name="module" value="{tmpl_var name='module'}">

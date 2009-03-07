@@ -1,46 +1,61 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_spamfilter_policy">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_spamfilter_policy"><legend>Policy</legend>
-      <span class="wf_oneField">
-        <label for="policy_name" class="wf_preField">{tmpl_var name='policy_name_txt'}</label>
-        <input type="text" id="policy_name" name="policy_name" value="{tmpl_var name='policy_name'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="virus_lover" class="wf_preField">{tmpl_var name='virus_lover_txt'}</label>
-        <select id="virus_lover" name="virus_lover">{tmpl_var name='virus_lover'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="spam_lover" class="wf_preField">{tmpl_var name='spam_lover_txt'}</label>
-        <select id="spam_lover" name="spam_lover">{tmpl_var name='spam_lover'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="banned_files_lover" class="wf_preField">{tmpl_var name='banned_files_lover_txt'}</label>
-        <select id="banned_files_lover" name="banned_files_lover">{tmpl_var name='banned_files_lover'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="bad_header_lover" class="wf_preField">{tmpl_var name='bad_header_lover_txt'}</label>
-        <select id="bad_header_lover" name="bad_header_lover">{tmpl_var name='bad_header_lover'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="bypass_virus_checks" class="wf_preField">{tmpl_var name='bypass_virus_checks_txt'}</label>
-        <select id="bypass_virus_checks" name="bypass_virus_checks">{tmpl_var name='bypass_virus_checks'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="bypass_banned_checks" class="wf_preField">{tmpl_var name='bypass_banned_checks_txt'}</label>
-        <select id="bypass_banned_checks" name="bypass_banned_checks">{tmpl_var name='bypass_banned_checks'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="bypass_header_checks" class="wf_preField">{tmpl_var name='bypass_header_checks_txt'}</label>
-        <select id="bypass_header_checks" name="bypass_header_checks">{tmpl_var name='bypass_header_checks'}</select>
-      </span>
+    <fieldset class="inlineLabels"><legend>Policy</legend>
+      <div class="ctrlHolder">
+      	<label for="policy_name">{tmpl_var name='policy_name_txt'}</label>
+        <input name="policy_name" id="policy_name" value="{tmpl_var name='policy_name'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="virus_lover">{tmpl_var name='virus_lover_txt'}</label>
+        <select name="virus_lover" id="virus_lover" class="selectInput">
+					{tmpl_var name='virus_lover'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="spam_lover">{tmpl_var name='spam_lover_txt'}</label>
+        <select name="spam_lover" id="spam_lover" class="selectInput">
+					{tmpl_var name='spam_lover'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="banned_files_lover">{tmpl_var name='banned_files_lover_txt'}</label>
+        <select name="banned_files_lover" id="banned_files_lover" class="selectInput">
+					{tmpl_var name='banned_files_lover'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="bad_header_lover">{tmpl_var name='bad_header_lover_txt'}</label>
+        <select name="bad_header_lover" id="bad_header_lover" class="selectInput">
+					{tmpl_var name='bad_header_lover'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="bypass_virus_checks">{tmpl_var name='bypass_virus_checks_txt'}</label>
+        <select name="bypass_virus_checks" id="bypass_virus_checks" class="selectInput">
+					{tmpl_var name='bypass_virus_checks'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="bypass_banned_checks">{tmpl_var name='bypass_banned_checks_txt'}</label>
+        <select name="bypass_banned_checks" id="bypass_banned_checks" class="selectInput">
+					{tmpl_var name='bypass_banned_checks'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="bypass_header_checks">{tmpl_var name='bypass_header_checks_txt'}</label>
+        <select name="bypass_header_checks" id="bypass_header_checks" class="selectInput">
+					{tmpl_var name='bypass_header_checks'}
+				</select>
+      </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/spamfilter_policy_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/spamfilter_policy_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

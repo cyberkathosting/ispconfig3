@@ -1,64 +1,80 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_database">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_database"><legend>Database</legend>
+    <fieldset class="inlineLabels"><legend>Database</legend>
       <tmpl_if name="is_admin">
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id" {tmpl_var name='edit_disabled'}>{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
       </tmpl_if>
       <tmpl_if name="is_reseller">
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_id_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
       </tmpl_if>
-      <span class="wf_oneField">
-        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
-        <select id="type" name="type">{tmpl_var name='type'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="database_name" class="wf_preField">{tmpl_var name='database_name_txt'}</label>
-		{tmpl_var name='database_name_prefix'}
-        <input type="text" id="database_name" name="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="64" class="wf_required"  {tmpl_var name='edit_disabled'}><span class="wf_reqMark">*</span><br>
-      </span>
-      <span class="wf_oneField">
-        <label for="database_user" class="wf_preField">{tmpl_var name='database_user_txt'}</label>
-		{tmpl_var name='database_user_prefix'}
-        <input type="text" id="database_user" name="database_user" value="{tmpl_var name='database_user'}" size="10" maxlength="10" class="wf_required"><span class="wf_reqMark">*</span><br>
-      </span>
-      <span class="wf_oneField">
-        <label for="database_password" class="wf_preField">{tmpl_var name='database_password_txt'}</label>
-        <input type="password" id="database_password" name="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" class="wf_required" onkeyup="pass_check(this.value)"><span class="wf_reqMark">*</span><br>
-      </span>
-      <span class="wf_oneField">
-        <span class="wf_preField">{tmpl_var name='password_strength_txt'}</span>
-        <span class="wf_passwordStrength"><div id="passBar"></div><span id="passText">&nbsp;</span></span>
-      </span>
-      <span class="wf_oneField">
-        <label for="database_charset" class="wf_preField">{tmpl_var name='database_charset_txt'}</label>
-        <select id="database_charset" name="database_charset" {tmpl_var name='edit_disabled'}>{tmpl_var name='database_charset'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="remote_access" class="wf_preField">{tmpl_var name='remote_access_txt'}</label>                    
-        <span class="">{tmpl_var name='remote_access'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="type">{tmpl_var name='type_txt'}</label>
+        <select name="type" id="type" class="selectInput">
+					{tmpl_var name='type'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="database_name">{tmpl_var name='database_name_txt'}</label>
+      	<div style="float: left;">{tmpl_var name='database_name_prefix'} </div>
+        <input name="database_name" id="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="database_user">{tmpl_var name='database_user_txt'}</label>
+      	<div style="float: left;">{tmpl_var name='database_user_prefix'} </div>
+        <input name="database_user" id="database_user" value="{tmpl_var name='database_user'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="database_password">{tmpl_var name='database_password_txt'}</label>
+        <input name="database_password" id="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='password_strength_txt'}</p>
+				<div id="passBar"></div>
+				<p class="formHint"><span id="passText">&nbsp;</span></p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="database_charset">{tmpl_var name='database_charset_txt'}</label>
+        <select name="database_charset" id="database_charset" class="selectInput">
+					{tmpl_var name='database_charset'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='remote_access_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='remote_access'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/database_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/database_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

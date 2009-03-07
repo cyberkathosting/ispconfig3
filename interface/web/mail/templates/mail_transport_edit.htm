@@ -1,42 +1,53 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_mail_transport">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_mail_transport"><legend>Email transport</legend>
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="domain" class="wf_preField">{tmpl_var name='domain_txt'}</label>
-        <input type="text" id="domain" name="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
-        <select id="type" name="type">{tmpl_var name='type'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="mx" class="wf_preField">{tmpl_var name='mx_txt'}</label>
-        <input type="checkbox" id="mx" name="mx" value="y" {tmpl_var name='mx'}>
-      </span>
-      <span class="wf_oneField">
-        <label for="destination" class="wf_preField">{tmpl_var name='destination_txt'}</label>
-        <input type="text" id="destination" name="destination" value="{tmpl_var name='destination'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="sort_order" class="wf_preField">{tmpl_var name='sort_order_txt'}</label>
-        <select id="sort_order" name="sort_order">{tmpl_var name='sort_order'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+    <fieldset class="inlineLabels"><legend>Email transport</legend>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="domain">{tmpl_var name='domain_txt'}</label>
+        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+			<div class="ctrlHolder">
+      	<label for="type">{tmpl_var name='type_txt'}</label>
+        <select name="type" id="type" class="selectInput">
+					{tmpl_var name='type'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='mx_txt'}</p>
+					<div class="multiField">
+						<input type="checkbox" value="y" id="mx" name="mx" {tmpl_var name='mx'} />
+					</div>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="destination">{tmpl_var name='destination_txt'}</label>
+        <input name="destination" id="transport" value="{tmpl_var name='destination'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+			<div class="ctrlHolder">
+      	<label for="sort_order">{tmpl_var name='sort_order_txt'}</label>
+        <select name="sort_order" id="sort_order" class="selectInput">
+					{tmpl_var name='sort_order'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_transport_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_transport_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

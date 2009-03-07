@@ -1,30 +1,31 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_shell_user">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_shell_user"><legend>Options</legend>
-      <span class="wf_oneField">
-        <label for="puser" class="wf_preField">{tmpl_var name='puser_txt'}</label>
-        <input type="text" id="puser" name="puser" value="{tmpl_var name='puser'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="pgroup" class="wf_preField">{tmpl_var name='pgroup_txt'}</label>
-        <input type="text" id="pgroup" name="pgroup" value="{tmpl_var name='pgroup'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="shell" class="wf_preField">{tmpl_var name='shell_txt'}</label>
-        <input type="text" id="shell" name="shell" value="{tmpl_var name='shell'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="dir" class="wf_preField">{tmpl_var name='dir_txt'}</label>
-        <input type="text" id="dir" name="dir" value="{tmpl_var name='dir'}" size="30" maxlength="255">
-      </span>
+    <fieldset class="inlineLabels"><legend>Options</legend>
+      <div class="ctrlHolder">
+      	<label for="puser">{tmpl_var name='puser_txt'}</label>
+        <input name="puser" id="puser" value="{tmpl_var name='puser'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="pgroup">{tmpl_var name='pgroup_txt'}</label>
+        <input name="pgroup" id="pgroup" value="{tmpl_var name='pgroup'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="shell">{tmpl_var name='shell_txt'}</label>
+        <input name="shell" id="shell" value="{tmpl_var name='shell'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="dir">{tmpl_var name='dir_txt'}</label>
+        <input name="dir" id="dir" value="{tmpl_var name='dir'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/shell_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/shell_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

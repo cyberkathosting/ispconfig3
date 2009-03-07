@@ -1,98 +1,129 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_web_domain">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_web_domain"><legend>Domain</legend>
+    <fieldset class="inlineLabels"><legend>Domain</legend>
       <tmpl_if name="is_admin">
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id" onChange="loadContentInto('ip_address','sites/ajax_get_ip.php?server_id='+document.getElementById('server_id').value)" {tmpl_var name='edit_disabled'}>{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
       </tmpl_if>
       <tmpl_if name="is_reseller">
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_group_id_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
       </tmpl_if>
-      <span class="wf_oneField">
-        <label for="ip_address" class="wf_preField">{tmpl_var name='ip_address_txt'}</label>
-        <select id="ip_address" name="ip_address">{tmpl_var name='ip_address'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="domain" class="wf_preField">{tmpl_var name='domain_txt'}</label>
-        <input type="text" id="domain" name="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255">
-      </span>
+      <div class="ctrlHolder">
+      	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
+        <select name="ip_address" id="ip_address" class="selectInput">
+					{tmpl_var name='ip_address'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="domain">{tmpl_var name='domain_txt'}</label>
+        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
 <!--
-      <span class="wf_oneField">
-        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
-        <select id="type" name="type">{tmpl_var name='type'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="parent_domain_id" class="wf_preField">{tmpl_var name='parent_domain_id_txt'}</label>
-        <select id="parent_domain_id" name="parent_domain_id">{tmpl_var name='parent_domain_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="vhost_type" class="wf_preField">{tmpl_var name='vhost_type_txt'}</label>
-        <select id="vhost_type" name="vhost_type">{tmpl_var name='vhost_type'}</select>
-      </span>
--->      
-      <span class="wf_oneField">
-        <label for="hd_quota" class="wf_preField">{tmpl_var name='hd_quota_txt'}</label>
-        <input type="text" id="hd_quota" name="hd_quota" value="{tmpl_var name='hd_quota'}" size="7" maxlength="7"> MB
-      </span>
-<!--
-      <span class="wf_oneField">
-        <label for="traffic_quota" class="wf_preField">{tmpl_var name='traffic_quota_txt'}</label>
-        <input type="text" id="traffic_quota" name="traffic_quota" value="{tmpl_var name='traffic_quota'}" size="7" maxlength="7">
-      </span>
+      <div class="ctrlHolder">
+      	<label for="type">{tmpl_var name='type_txt'}</label>
+        <select name="type" id="type" class="selectInput">
+					{tmpl_var name='type'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
+        <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
+					{tmpl_var name='parent_domain_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="vhost_type">{tmpl_var name='vhost_type_txt'}</label>
+        <select name="vhost_type" id="vhost_type" class="selectInput">
+					{tmpl_var name='vhost_type'}
+				</select>
+      </div>
 -->
-      <span class="wf_oneField">
-        <label for="cgi" class="wf_preField">{tmpl_var name='cgi_txt'}</label>                    
-        <span class="">{tmpl_var name='cgi'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="ssi" class="wf_preField">{tmpl_var name='ssi_txt'}</label>                    
-        <span class="">{tmpl_var name='ssi'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="suexec" class="wf_preField">{tmpl_var name='suexec_txt'}</label>                    
-        <span class="">{tmpl_var name='suexec'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="errordocs" class="wf_preField">{tmpl_var name='errordocs_txt'}</label>                    
-        <span class="">{tmpl_var name='errordocs'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="is_subdomainwww" class="wf_preField">{tmpl_var name='is_subdomainwww_txt'}</label>                    
-        <span class="">{tmpl_var name='is_subdomainwww'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="subdomain" class="wf_preField">{tmpl_var name='subdomain_txt'}</label>                    
-        <select id="subdomain" name="subdomain">{tmpl_var name='subdomain'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="ssl" class="wf_preField">{tmpl_var name='ssl_txt'}</label>                    
-        <span class="">{tmpl_var name='ssl'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="php" class="wf_preField">{tmpl_var name='php_txt'}</label>
-        <select id="php" name="php">{tmpl_var name='php'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="hd_quota">{tmpl_var name='hd_quota_txt'}</label>
+        <input name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" size="7" maxlength="7" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="traffic_quota">{tmpl_var name='traffic_quota_txt'}</label>
+        <input name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" size="7" maxlength="7" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='cgi_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='cgi'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='ssi_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='ssi'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='suexec_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='suexec'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='errordocs_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='errordocs'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='is_subdomainwww_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='is_subdomainwww'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="subdomain">{tmpl_var name='subdomain_txt'}</label>
+        <select name="subdomain" id="subdomain" class="selectInput">
+					{tmpl_var name='subdomain'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='ssl_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='ssl'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="php">{tmpl_var name='php_txt'}</label>
+        <select name="php" id="php" class="selectInput">
+					{tmpl_var name='php'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

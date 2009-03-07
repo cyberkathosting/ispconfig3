@@ -1,62 +1,68 @@
-<h2><tmpl_var name="title"></h2>
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_dns_wizard">
 
   <div class="pnl_formsarea">
-    <fieldset><legend><tmpl_var name="title"></legend>
-      <tmpl_if name="error">
-  		<div class="error"><tmpl_var name="error"></div>
-	  </tmpl_if>
-	  <span class="wf_oneField">
-        <label for="template_id" class="wf_preField">{tmpl_var name='template_id_txt'}</label>
-        <select id="template_id" name="template_id" onChange="submitForm('pageForm','dns/dns_wizard.php')">{tmpl_var name='template_id_option'}</select>
-      </span>
-	  <tmpl_if name="is_admin">
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+    <fieldset class="inlineLabels"><legend>DNS Zone</legend>
+      <div class="ctrlHolder">
+      	<label for="template_id">{tmpl_var name='template_id_txt'}</label>
+        <select name="template_id" id="template_id" class="selectInput" onChange="submitForm('pageForm','dns/dns_wizard.php')">
+					{tmpl_var name='template_id'}
+				</select>
+      </div>
+      <tmpl_if name="is_admin">
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
       </tmpl_if>
-	  <tmpl_if name="DOMAIN_VISIBLE">
-	  <span class="wf_oneField">
-        <label for="domain" class="wf_preField">{tmpl_var name='domain_txt'}</label>
-        <input type="text" id="domain" name="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255">
-      </span>
-	  </tmpl_if>
-	  <tmpl_if name="IP_VISIBLE">
-	  <span class="wf_oneField">
-        <label for="ip" class="wf_preField">{tmpl_var name='ip_txt'}</label>
-        <input type="text" id="ip" name="ip" value="{tmpl_var name='ip'}" size="30" maxlength="255">
-      </span>
-	  </tmpl_if>
-	  <tmpl_if name="NS1_VISIBLE">
-	  <span class="wf_oneField">
-        <label for="ns1" class="wf_preField">{tmpl_var name='ns1_txt'}</label>
-        <input type="text" id="ns1" name="ns1" value="{tmpl_var name='ns1'}" size="30" maxlength="255">
-      </span>
-	  </tmpl_if>
-	  <tmpl_if name="NS2_VISIBLE">
-	  <span class="wf_oneField">
-        <label for="ns2" class="wf_preField">{tmpl_var name='ns2_txt'}</label>
-        <input type="text" id="ns2" name="ns2" value="{tmpl_var name='ns2'}" size="30" maxlength="255">
-      </span>
-	  </tmpl_if>
-	  <tmpl_if name="EMAIL_VISIBLE">
-	  <span class="wf_oneField">
-        <label for="email" class="wf_preField">{tmpl_var name='email_txt'}</label>
-        <input type="text" id="email" name="email" value="{tmpl_var name='email'}" size="30" maxlength="255">
-      </span>
-	  </tmpl_if>
-	  <div class="wf_actions buttons">
+		  <tmpl_if name="DOMAIN_VISIBLE">
+	      <div class="ctrlHolder">
+	      	<label for="domain">{tmpl_var name='domain_txt'}</label>
+	        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+				</div>
+		  </tmpl_if>
+		  <tmpl_if name="IP_VISIBLE">
+	      <div class="ctrlHolder">
+	      	<label for="ip">{tmpl_var name='ip_txt'}</label>
+	        <input name="ip" id="ip" value="{tmpl_var name='ip'}" size="30" maxlength="255" type="text" class="textInput" />
+				</div>
+		  </tmpl_if>
+		  <tmpl_if name="NS1_VISIBLE">
+	      <div class="ctrlHolder">
+	      	<label for="ns1">{tmpl_var name='ns1_txt'}</label>
+	        <input name="ns1" id="ns1" value="{tmpl_var name='ns1'}" size="30" maxlength="255" type="text" class="textInput" />
+				</div>
+		  </tmpl_if>
+		  <tmpl_if name="NS2_VISIBLE">
+	      <div class="ctrlHolder">
+	      	<label for="ns2">{tmpl_var name='ns2_txt'}</label>
+	        <input name="ns2" id="ns2" value="{tmpl_var name='ns2'}" size="30" maxlength="255" type="text" class="textInput" />
+				</div>
+		  </tmpl_if>
+		  <tmpl_if name="EMAIL_VISIBLE">
+	      <div class="ctrlHolder">
+	      	<label for="email">{tmpl_var name='email_txt'}</label>
+	        <input name="email" id="email" value="{tmpl_var name='email'}" size="30" maxlength="255" type="text" class="textInput" />
+				</div>
+		  </tmpl_if>
+    </fieldset>
+
 	  <input type="hidden" name="create" value="0" />
+    
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" name="btn_create" onClick="document.pageForm.create.value=1; submitForm('pageForm','dns/dns_wizard.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('dns/dns_wizard.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
-    </fieldset>
   </div>
-
+  
 </div>

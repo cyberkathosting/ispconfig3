@@ -1,71 +1,83 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_dns_soa">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_dns_soa"><legend>DNS Zone</legend>
+    <fieldset class="inlineLabels"><legend>DNS Zone</legend>
       <tmpl_if name="is_admin">
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
       </tmpl_if>
       <tmpl_if name="is_reseller">
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
       </tmpl_if>
-      <span class="wf_oneField">
-        <label for="origin" class="wf_preField">{tmpl_var name='origin_txt'}</label>
-        <input type="text" id="origin" name="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255">  e.g. domain.tld.
-      </span>
-      <span class="wf_oneField">
-        <label for="ns" class="wf_preField">{tmpl_var name='ns_txt'}</label>
-        <input type="text" id="ns" name="ns" value="{tmpl_var name='ns'}" size="30" maxlength="255"> e.g. ns1.domain.tld.
-      </span>
-      <span class="wf_oneField">
-        <label for="mbox" class="wf_preField">{tmpl_var name='mbox_txt'}</label>
-        <input type="text" id="mbox" name="mbox" value="{tmpl_var name='mbox'}" size="30" maxlength="255"> e.g. webmaster.domain.tld.
-      </span>
-      <span class="wf_oneField">
-        <label for="refresh" class="wf_preField">{tmpl_var name='refresh_txt'}</label>
-        <input type="text" id="refresh" name="refresh" value="{tmpl_var name='refresh'}" size="10" maxlength="10"> Seconds
-      </span>
-      <span class="wf_oneField">
-        <label for="retry" class="wf_preField">{tmpl_var name='retry_txt'}</label>
-        <input type="text" id="retry" name="retry" value="{tmpl_var name='retry'}" size="10" maxlength="10"> Seconds
-      </span>
-      <span class="wf_oneField">
-        <label for="expire" class="wf_preField">{tmpl_var name='expire_txt'}</label>
-        <input type="text" id="expire" name="expire" value="{tmpl_var name='expire'}" size="10" maxlength="10"> Seconds
-      </span>
-      <span class="wf_oneField">
-        <label for="minimum" class="wf_preField">{tmpl_var name='minimum_txt'}</label>
-        <input type="text" id="minimum" name="minimum" value="{tmpl_var name='minimum'}" size="10" maxlength="10"> Seconds
-      </span>
-      <span class="wf_oneField">
-        <label for="ttl" class="wf_preField">{tmpl_var name='ttl_txt'}</label>
-        <input type="text" id="ttl" name="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10"> Seconds
-      </span>
-      <span class="wf_oneField">
-        <label for="xfer" class="wf_preField">{tmpl_var name='xfer_txt'}</label>
-        <input type="text" id="xfer" name="xfer" value="{tmpl_var name='xfer'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>                    
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="origin">{tmpl_var name='origin_txt'}</label>
+        <input name="origin" id="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255" type="text" class="textInput" />
+				<p class="formHint">e.g. domain.tld.</p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="ns">{tmpl_var name='ns_txt'}</label>
+        <input name="ns" id="ns" value="{tmpl_var name='ns'}" size="30" maxlength="255" type="text" class="textInput" />
+				<p class="formHint">e.g. ns1.domain.tld.</p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="mbox">{tmpl_var name='mbox_txt'}</label>
+        <input name="mbox" id="mbox" value="{tmpl_var name='mbox'}" size="30" maxlength="255" type="text" class="textInput" />
+				<p class="formHint"> e.g. webmaster.domain.tld.</p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="refresh">{tmpl_var name='refresh_txt'}</label>
+        <input name="refresh" id="refresh" value="{tmpl_var name='refresh'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+			</div>
+      <div class="ctrlHolder">
+      	<label for="retry">{tmpl_var name='retry_txt'}</label>
+        <input name="retry" id="retry" value="{tmpl_var name='retry'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+			</div>
+      <div class="ctrlHolder">
+      	<label for="expire">{tmpl_var name='expire_txt'}</label>
+        <input name="expire" id="expire" value="{tmpl_var name='expire'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+			</div>
+      <div class="ctrlHolder">
+      	<label for="minimum">{tmpl_var name='minimum_txt'}</label>
+        <input name="minimum" id="minimum" value="{tmpl_var name='minimum'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+			</div>
+      <div class="ctrlHolder">
+      	<label for="ttl">{tmpl_var name='ttl_txt'}</label>
+        <input name="ttl" id="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+			</div>
+      <div class="ctrlHolder">
+      	<label for="xfer">{tmpl_var name='xfer_txt'}</label>
+        <input name="xfer" id="xfer" value="{tmpl_var name='xfer'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
     <input name="serial" type="hidden" value="{tmpl_var name='serial'}">
-  
-    <div class="wf_actions buttons">
+    
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','dns/dns_soa_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('dns/dns_soa_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

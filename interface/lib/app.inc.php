@@ -120,17 +120,19 @@ class app {
 <head>
 <title>Error</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../themes/default/style.css" rel="stylesheet" type="text/css" />
+<link href="../themes/default/css/central.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<br /><br /><br />
-<table width="100%" border="0" cellspacing="0" cellpadding="2">
-<tr>
-<td class="error"><b>Error:</b><br />'.$msg;
-		if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a><br />';
-		$msg .= '</td>
-</tr>
-</table>
+<div class="uniForm">
+  <div id="errorMsg">
+    <h3>Error</h3>
+      <ol>
+        <li>'.$msg;
+			if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a>';
+			$msg .= '</li>
+      </ol>
+  </div>
+</div>
 </body>
 </html>';
 			die($msg);

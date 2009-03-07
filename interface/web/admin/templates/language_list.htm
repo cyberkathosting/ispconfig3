@@ -1,14 +1,17 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_groups">
 
   <div class="pnl_toolsarea">
-    <fieldset><legend>Tools</legend>
+    <fieldset class="inlineLabels"><legend>Tools</legend>
       <div class="buttons">
-        <span class="wf_oneField">
-          <label for="lng_select" class="wf_preField">{tmpl_var name='language_select_txt'}</label>
-          <select name="lng_select" class="withicons" id="language" onChange="submitForm('pageForm','admin/language_list.php');">{tmpl_var name='language_option'}</select>
-        </span>
+	      <div class="ctrlHolder">
+	      	<label for="lng_select">{tmpl_var name='language_select_txt'}</label>
+	        <select name="lng_select" id="language" class="selectInput withicons" onChange="submitForm('pageForm','admin/language_list.php');">
+						{tmpl_var name='language_option'}
+					</select>
+	      </div>
       </div>
     </fieldset>
   </div>

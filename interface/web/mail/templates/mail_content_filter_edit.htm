@@ -1,38 +1,47 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_mail_content_filter">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_mail_content_filter"><legend>Filter</legend>
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id">{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="type" class="wf_preField">{tmpl_var name='type_txt'}</label>
-        <select id="type" name="type">{tmpl_var name='type'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="pattern" class="wf_preField">{tmpl_var name='pattern_txt'}</label>
-        <input type="text" id="pattern" name="pattern" value="{tmpl_var name='pattern'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="data" class="wf_preField">{tmpl_var name='data_txt'}</label>
-        <input type="text" id="data" name="data" value="{tmpl_var name='data'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="action" class="wf_preField">{tmpl_var name='action_txt'}</label>
-        <select id="action" name="action">{tmpl_var name='action'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+    <fieldset class="inlineLabels"><legend>Filter</legend>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="type">{tmpl_var name='type_txt'}</label>
+        <select name="type" id="type" class="selectInput">
+					{tmpl_var name='type'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="pattern">{tmpl_var name='pattern_txt'}</label>
+        <input name="pattern" id="pattern" value="{tmpl_var name='pattern'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="data">{tmpl_var name='data_txt'}</label>
+        <input name="data" id="data" value="{tmpl_var name='data'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="action">{tmpl_var name='action_txt'}</label>
+        <select name="action" id="action" class="selectInput">
+					{tmpl_var name='action'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_content_filter_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_content_filter_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

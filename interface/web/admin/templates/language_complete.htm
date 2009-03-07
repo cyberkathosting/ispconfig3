@@ -1,23 +1,21 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_complete">
 
-  <tmpl_if name="msg">
-  <div class="box box_msg"><tmpl_var name="msg"></div>
-  </tmpl_if>
-  <tmpl_if name="error">
-  <div class="box box_error"><tmpl_var name="error"></div>
-  </tmpl_if>
-  
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_language_complete"><legend>Language Complete</legend>
-      <span class="wf_oneField">
-        <label for="lng_select" class="wf_preField">{tmpl_var name='language_select_txt'}</label>
-        <select name="lng_select" class="withicons" id="language">{tmpl_var name='language_option'}</select>
-      </span>
+    <fieldset class="inlineLabels"><legend>Language Complete</legend>
+      <div class="ctrlHolder">
+      	<label for="lng_select">{tmpl_var name='language_select_txt'}</label>
+        <select name="lng_select" id="language" class="selectInput withicons">
+					{tmpl_var name='language_option'}
+				</select>
+      </div>
     </fieldset>
 
-    <div class="wf_actions buttons">
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/language_complete.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

@@ -1,47 +1,58 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_mail_user">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_mail_user"><legend>Mailbox</legend>
-      <span class="wf_oneField">
-        <label for="email_local_part" class="wf_preField">{tmpl_var name='email_txt'}</label>
-        <input type="text" id="email_local_part" name="email_local_part" value="{tmpl_var name='email_local_part'}" size="20" maxlength="50">&nbsp;@&nbsp;
-        <select id="email_domain" name="email_domain">{tmpl_var name="email_domain"}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="password" class="wf_preField">{tmpl_var name='cryptpwd_txt'}</label>
-        <input type="password" id="password" name="password" value="{tmpl_var name='password'}" size="30" maxlength="255" onkeyup="pass_check(this.value)">
-      </span>
-      <span class="wf_oneField">
-        <span class="wf_preField">{tmpl_var name='password_strength_txt'}</span>
-        <span class="wf_passwordStrength"><div id="passBar"></div><span id="passText">&nbsp;</span></span>
-      </span>
-      <span class="wf_oneField">
-        <label for="quota" class="wf_preField">{tmpl_var name='quota_txt'}</label>
-        <input type="text" id="quota" name="quota" value="{tmpl_var name='quota'}" size="30" maxlength="255"> MB
-      </span>
-      <span class="wf_oneField">
-        <label for="policy" class="wf_preField">{tmpl_var name='policy_txt'}</label>
-        <select id="policy" name="policy">{tmpl_var name="policy"}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="postfix" class="wf_preField">{tmpl_var name='postfix_txt'}</label>
-        <span class="">{tmpl_var name='postfix'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="disableimap" class="wf_preField">{tmpl_var name='disableimap_txt'}</label>                    
-        <span class="">{tmpl_var name='disableimap'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="disablepop3" class="wf_preField">{tmpl_var name='disablepop3_txt'}</label>                    
-        <span class="">{tmpl_var name='disablepop3'}</span>
-      </span>
+    <fieldset class="inlineLabels"><legend>Mailbox</legend>
+      <div class="ctrlHolder">
+        <p class="label"><em>*</em> {tmpl_var name='email_txt'}</p>
+        <div class="multiField">
+          <label for="email_local_part" class="blockLabel">Alias<input type="text" id="email_local_part" name="email_local_part" size="20" value="" class="textInput" /></label>
+          <label for="email_at" class="blockLabel email_at">&nbsp;<span id="email_at" name="email_at" />@</label>
+          <label for="email_domain" class="blockLabel">Domain<select name="email_domain" id="email_domain" class="selectInput">{tmpl_var name='email_domain'}</select></label>
+        </div>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="password">{tmpl_var name='password_txt'}</label>
+        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='password_strength_txt'}</p>
+				<div id="passBar"></div>
+				<p class="formHint"><span id="passText">&nbsp;</span></p>
+			</div>
+			<div class="ctrlHolder">
+      	<label for="quota">{tmpl_var name='quota_txt'}</label>
+        <input name="quota" id="quota" value="{tmpl_var name='quota'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+			<div class="ctrlHolder">
+      	<label for="policy">{tmpl_var name='policy_txt'}</label>
+        <input name="policy" id="policy" value="{tmpl_var name='policy'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='postfix_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='postfix'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='disableimap_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='disableimap'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='disablepop3_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='disablepop3'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

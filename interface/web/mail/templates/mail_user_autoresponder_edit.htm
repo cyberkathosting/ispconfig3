@@ -1,22 +1,25 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_mail_user">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_mail_user"><legend>Autoresponder</legend>
-      <span class="wf_oneField">
-        <label for="autoresponder" class="wf_preField">{tmpl_var name='autoresponder_txt'}</label>
-        <span class="">{tmpl_var name='autoresponder'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="autoresponder_text" class="wf_preField">{tmpl_var name='autoresponder_text_txt'}</label>
-        <textarea id="autoresponder_text" name="autoresponder_text" cols='30' rows='15'>{tmpl_var name='autoresponder_text'}</textarea>
-      </span>
+    <fieldset class="inlineLabels"><legend>Autoresponder</legend>
+      <div class="ctrlHolder">
+      	<label for="autoresponder_text">{tmpl_var name='autoresponder_text_txt'}</label>
+        <textarea name="autoresponder_text" id="autoresponder_text" rows='15' cols='30'>{tmpl_var name='autoresponder_text'}</textarea>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='autoresponder_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='autoresponder'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

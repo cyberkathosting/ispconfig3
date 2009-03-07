@@ -24,8 +24,9 @@
 @import url(screen/basemod.css);
 @import url(screen/basemod_2col_left_seo.css);
 @import url(screen/content.css);
+@import url(screen/uni-form-generic.css);
+@import url(screen/uni-form.css);
 @import url(screen/content_ispc.css);
-@import url(screen/wforms.css);
 
 /* import print layout | Druck-Layout einbinden */
 @import url(print/print_100.css);

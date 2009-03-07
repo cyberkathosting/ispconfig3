@@ -37,112 +37,85 @@ class tform_tpl_generator {
 		$module = $_SESSION["s"]["module"]["name"];
 		
 		$html = '<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_'.$formDef['name'].'">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_'.$formDef['name'].'"><legend>'.$formDef['tabs'][$tab]['title'].'</legend>';
+    <fieldset class="inlineLabels"><legend>'.$formDef['tabs'][$tab]['title'].'</legend>';
+
 		$lang = array();
-		
+		$html_reqestedelement = "<em>*</em> ";
+
 		foreach($formDef['tabs'][$tab]['fields'] as $key => $field) {
+			if ($field['required'] == true ) { $html_reqcode = $html_reqestedelement; } else { $html_reqcode = ''; }
+
 			switch ($field['formtype']) {
 				case 'TEXT':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
-        <input type=\"text\" id=\"".$key."\" name=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"";
-          if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br />";
-          } else {
-  	 				$html .= ">";
-          }
-					$html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+      	<label for=\"".$key."\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</label>
+        <input name=\"".$key."\" id=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\" type=\"text\" class=\"textInput\" />
+			</div>";
 				break;
 				case 'TEXTAREA':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
-        <textarea id=\"".$key."\" name=\"".$key."\" cols='".$field['cols']."' rows='".$field['rows']."'";
-          if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\">";
-          } else {
-  	 				$html .= ">";
-          }
-					$html .= "{tmpl_var name='".$key."'}</textarea>";
-          if ($field['required'] == true ) {
-  					$html .= "<span class=\"wf_reqMark\">*</span><br />";
-          }
-					$html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+      	<label for=\"".$key."\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</label>
+        <textarea name=\"".$key."\" id=\"".$key."\" rows='".$field['rows']."' cols='".$field['cols']."'>{tmpl_var name='".$key."'}</textarea>
+      </div>";
 				break;
 				case 'SELECT':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
-        <select id=\"".$key."\" name=\"".$key."\"";
-          if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\">";
-          } else {
-  	 				$html .= ">";
-          }
-					$html .= "{tmpl_var name='".$key."'}</select>";
-          if ($field['required'] == true ) {
-  					$html .= "<span class=\"wf_reqMark\">*</span><br />";
-          }
-					$html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+      	<label for=\"".$key."\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</label>
+        <select name=\"".$key."\" id=\"".$key."\" class=\"selectInput\">
+					{tmpl_var name='".$key."'}
+				</select>
+      </div>";
 				break;
 				case 'MULTIPLE':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
-        <select multiple id=\"".$key."\" name=\"".$key."\"";
-          if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\">";
-          } else {
-  	 				$html .= ">";
-          }
-					$html .= "{tmpl_var name='".$key."'}</select>";
-          if ($field['required'] == true ) {
-  					$html .= "<span class=\"wf_reqMark\">*</span><br />";
-          }
-					$html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+      	<label for=\"".$key."\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</label>
+        <select multiple name=\"".$key."\" id=\"".$key."\" class=\"selectInput\">
+					{tmpl_var name='".$key."'}
+				</select>
+      </div>";
 				break;
 				case 'PASSWORD':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>
-        <input type=\"password\" id=\"".$key."\" name=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\"";
-          if ($field['required'] == true ) {
-  					$html .= " class=\"wf_required\"><span class=\"wf_reqMark\">*</span><br />";
-          } else {
-  	 				$html .= ">";
-          }
-					$html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+      	<label for=\"".$key."\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</label>
+        <input name=\"".$key."\" id=\"".$key."\" value=\"{tmpl_var name='".$key."'}\" size=\"".$field['width']."\" maxlength=\"".$field['maxlength']."\" type=\"password\" class=\"textInput\" />
+			</div>";
 				break;
 				case 'CHECKBOX':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <label for=\"".$key."\" class=\"wf_preField\">{tmpl_var name='".$key."_txt'}</label>";
-          if ($field['required'] == true ) {
-  					$html .= "                    <span class=\"wf_required\">
-                      {tmpl_var name='".$key."'}
-                    </span>
-                    <span class=\"wf_reqMark\">*</span><br />";
-          } else {
-  					$html .= "                    <span class=\"\">
-                      {tmpl_var name='".$key."'}
-                    </span>";
-          }
-          $html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+				<p class=\"label\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</p>
+					<div class=\"multiField\">
+						{tmpl_var name='".$key."'}
+					</div>
+			</div>";
 				break;
 				case 'CHECKBOXARRAY':
-					$html .= "\r\n      <span class=\"wf_oneField\">
-        <span class=\"wf_label wf_preField\">{tmpl_var name='".$key."_txt'}</span>";
-  					$html .= "                    <fieldset>
-                      {tmpl_var name='".$key."'}
-                    </fieldset>";
-            $html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+				<p class=\"label\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</p>
+					<div class=\"multiField\">
+						{tmpl_var name='".$key."'}
+					</div>
+			</div>";
 				break;
 				case 'RADIO':
-					$html .= "      <span class=\"wf_oneField\">
-        <span class=\"wf_label wf_preField\">{tmpl_var name='".$key."_txt'}</span>";
-  					$html .= "                    <fieldset>
-                      {tmpl_var name='".$key."'}
-                    </fieldset>";
-            $html .= "\r\n      </span>";
+					$html .= "
+      <div class=\"ctrlHolder\">
+				<p class=\"label\">".$html_reqcode."{tmpl_var name='".$key."_txt'}</p>
+					<div class=\"multiField\">
+						{tmpl_var name='".$key."'}
+					</div>
+			</div>";
 				break;
 			}
 			
@@ -162,7 +135,7 @@ class tform_tpl_generator {
 
     <input type=\"hidden\" name=\"id\" value=\"{tmpl_var name='id'}\">
 
-    <div class=\"wf_actions buttons\">
+    <div class=\"buttonHolder buttons\">
       <button class=\"positive iconstxt icoPositive\" type=\"button\" value=\"{tmpl_var name='btn_save_txt'}\" onClick=\"submitForm('pageForm','".$module."/".$formDef["action"]."');\"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class=\"negative iconstxt icoNegative\" type=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" onClick=\"loadContent('".$module."/".$formDef["list_default"]."');\"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

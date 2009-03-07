@@ -1,38 +1,41 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_server_config">
-
+  
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_server_config"><legend>Server</legend>
-      <span class="wf_oneField">
-        <label for="auto_network_configuration" class="wf_preField">{tmpl_var name='auto_network_configuration_txt'}</label>                    
-        <span class="">{tmpl_var name='auto_network_configuration'}</span>
-      </span>
-      <span class="wf_oneField">
-        <label for="ip_address" class="wf_preField">{tmpl_var name='ip_address_txt'}</label>
-        <input type="text" id="ip_address" name="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="netmask" class="wf_preField">{tmpl_var name='netmask_txt'}</label>
-        <input type="text" id="netmask" name="netmask" value="{tmpl_var name='netmask'}" size="15" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="gateway" class="wf_preField">{tmpl_var name='gateway_txt'}</label>
-        <input type="text" id="gateway" name="gateway" value="{tmpl_var name='gateway'}" size="15" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="hostname" class="wf_preField">{tmpl_var name='hostname_txt'}</label>
-        <input type="text" id="hostname" name="hostname" value="{tmpl_var name='hostname'}" size="40" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="nameservers" class="wf_preField">{tmpl_var name='nameservers_txt'}</label>
-        <input type="text" id="nameservers" name="nameservers" value="{tmpl_var name='nameservers'}" size="40" maxlength="255">
-      </span>
+    <fieldset class="inlineLabels"><legend>Server</legend>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='auto_network_configuration_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='auto_network_configuration'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
+        <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="netmask">{tmpl_var name='netmask_txt'}</label>
+        <input name="netmask" id="netmask" value="{tmpl_var name='netmask'}" size="15" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="gateway">{tmpl_var name='gateway_txt'}</label>
+        <input name="gateway" id="gateway" value="{tmpl_var name='gateway'}" size="15" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="hostname">{tmpl_var name='hostname_txt'}</label>
+        <input name="hostname" id="hostname" value="{tmpl_var name='hostname'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="nameservers">{tmpl_var name='nameservers_txt'}</label>
+        <input name="nameservers" id="nameservers" value="{tmpl_var name='nameservers'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

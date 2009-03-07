@@ -1,26 +1,27 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_server_config">
-
+  
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_server_config"><legend>Jailkit</legend>
-      <span class="wf_oneField">
-        <label for="jailkit_chroot_home" class="wf_preField">{tmpl_var name='jailkit_chroot_home_txt'}</label>
-        <input type="text" id="jailkit_chroot_home" name="jailkit_chroot_home" value="{tmpl_var name='jailkit_chroot_home'}" size="40" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="jailkit_chroot_app_sections" class="wf_preField">{tmpl_var name='jailkit_chroot_app_sections_txt'}</label>
-        <input type="text" id="jailkit_chroot_app_sections" name="jailkit_chroot_app_sections" value="{tmpl_var name='jailkit_chroot_app_sections'}" size="40" maxlength="1000">
-      </span>
-      <span class="wf_oneField">
-        <label for="jailkit_chroot_app_programs" class="wf_preField">{tmpl_var name='jailkit_chroot_app_programs_txt'}</label>
-        <input type="text" id="jailkit_chroot_app_programs" name="jailkit_chroot_app_programs" value="{tmpl_var name='jailkit_chroot_app_programs'}" size="40" maxlength="1000">
-      </span>
+    <fieldset class="inlineLabels"><legend>Jailkit</legend>
+      <div class="ctrlHolder">
+      	<label for="jailkit_chroot_home">{tmpl_var name='jailkit_chroot_home_txt'}</label>
+        <input name="jailkit_chroot_home" id="jailkit_chroot_home" value="{tmpl_var name='jailkit_chroot_home'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="jailkit_chroot_app_sections">{tmpl_var name='jailkit_chroot_app_sections_txt'}</label>
+        <input name="jailkit_chroot_app_sections" id="jailkit_chroot_app_sections" value="{tmpl_var name='jailkit_chroot_app_sections'}" size="40" maxlength="1000" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="jailkit_chroot_app_programs">{tmpl_var name='jailkit_chroot_app_programs_txt'}</label>
+        <input name="jailkit_chroot_app_programs" id="jailkit_chroot_app_programs" value="{tmpl_var name='jailkit_chroot_app_programs'}" size="40" maxlength="1000" type="text" class="textInput" />
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

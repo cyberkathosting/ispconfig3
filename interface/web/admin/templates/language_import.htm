@@ -1,29 +1,25 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_import">
-
-  <tmpl_if name="msg">
-  <div class="box box_msg"><tmpl_var name="msg"></div>
-  </tmpl_if>
-  <tmpl_if name="error">
-  <div class="box box_error"><tmpl_var name="error"></div>
-  </tmpl_if>
-    
+  
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_language_import"><legend>Language Import</legend>
-      <span class="wf_oneField">
-        <label for="lng_select" class="wf_preField">{tmpl_var name='language_import_txt'}</label>
-        <input type="file" id="file" name="file">
-      </span>      
-      <span class="wf_oneField">
-        <label class="wf_preField" for="overwrite"><tmpl_var name="language_overwrite_txt"></label>                    
-        <span class="">
-          <input type="checkbox" checked="" value="1" name="overwrite" id="overwrite" />
-        </span>
-      </span>
+    <fieldset class="inlineLabels"><legend>Language Import</legend>
+      <div class="ctrlHolder">
+	      <label for="lng_select"><em>*</em> {tmpl_var name='language_import_txt'}</label>
+	      <input name="file" id="file" size="30" type="file" class="fileUpload" />
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='language_overwrite_txt'}</p>
+					<div class="multiField">
+						<input id="overwrite" type="checkbox" value="1" name="overwrite"/>
+					</div>
+			</div>
     </fieldset>
-    
-    <div class="wf_actions buttons">
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitUploadForm('pageForm','admin/language_import.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>

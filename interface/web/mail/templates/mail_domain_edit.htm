@@ -1,46 +1,56 @@
 <h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_mail_domain">
 
   <div class="pnl_formsarea">
-    <fieldset id="wf_area_mail_domain"><legend>Domain</legend>
-
+    <fieldset class="inlineLabels"><legend>Domain</legend>
       <tmpl_if name="is_admin">
-      <span class="wf_oneField">
-        <label for="server_id" class="wf_preField">{tmpl_var name='server_id_txt'}</label>
-        <select id="server_id" name="server_id" {tmpl_var name='edit_disabled'}>{tmpl_var name='server_id'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
       </tmpl_if>
       
       <tmpl_if name="is_reseller">
-      <span class="wf_oneField">
-        <label for="client_group_id" class="wf_preField">{tmpl_var name='client_txt'}</label>
-        <select id="client_group_id" name="client_group_id">{tmpl_var name='client_group_id'}</select>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
       </tmpl_if>
       
-      <span class="wf_oneField">
-        <label for="domain" class="wf_preField">{tmpl_var name='domain_txt'}</label>
-        <input type="text" id="domain" name="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255">
-      </span>
-      <span class="wf_oneField">
-        <label for="policy" class="wf_preField">{tmpl_var name='policy_txt'}</label>
-        <select id="policy" name="policy">{tmpl_var name='policy'}</select>
-      </span>
-      <span class="wf_oneField">
-        <label for="active" class="wf_preField">{tmpl_var name='active_txt'}</label>
-        <span class="">{tmpl_var name='active'}</span>
-      </span>
+      <div class="ctrlHolder">
+      	<label for="domain">{tmpl_var name='domain_txt'}</label>
+        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="policy">{tmpl_var name='policy_txt'}</label>
+        <select name="policy" id="policy" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
     <input type="hidden" name="type" value="local">
 
-    <div class="wf_actions buttons">
+    <div class="buttonHolder buttons">
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
