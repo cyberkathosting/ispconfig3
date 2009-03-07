@@ -83,6 +83,11 @@ class plugin_listview extends plugin_base {
 					$sql_order_by = $this->options["sql_order_by"];
 				}
 				
+				// Loading language field
+                $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
+                include($lng_file);
+                $listTpl->setVar($wb);
+				
 
                 // Get the data
                 $records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $sql_order_by $limit_sql");
@@ -115,18 +120,13 @@ class plugin_listview extends plugin_base {
 
                                 // The variable "id" contains always the index field
                                 $rec["id"] = $rec[$idx_key];
-								$rec["delete_confirmation"] = $app->lng('delete_confirmation');
+								$rec["delete_confirmation"] = $wb['delete_confirmation'];
 
                                 $records_new[] = $rec;
                         }
                 }
 
                 $listTpl->setLoop('records',@$records_new);
-
-                // Loading language field
-                $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
-                include($lng_file);
-                $listTpl->setVar($wb);
 
                 // Setting Returnto information in the session
                 $list_name = $app->listform->listDef["name"];
