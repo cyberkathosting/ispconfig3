@@ -192,7 +192,7 @@ class modules {
 		global $app;
 		
 		// Get the hooks for this table
-		$hooks = $this->notification_hooks[$table_name];
+		$hooks = (isset($this->notification_hooks[$table_name]))?$this->notification_hooks[$table_name]:'';
 		if($this->debug) $app->log("Raised TableHook for table: '$table_name'",LOGLEVEL_DEBUG);
 		
 		if(is_array($hooks)) {

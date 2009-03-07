@@ -107,7 +107,7 @@ class plugins {
 		global $app;
 		
 		// Get the subscriptions for this event
-		$events = $this->subscribed_events[$event_name];
+		$events = (isset($this->subscribed_events[$event_name]))?$this->subscribed_events[$event_name]:'';
 		if($this->debug) $app->log("Raised event: '$event_name'",LOGLEVEL_DEBUG);
 		
 		if(is_array($events)) {

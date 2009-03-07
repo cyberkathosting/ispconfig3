@@ -412,7 +412,7 @@ function showFail2ban()
         if ($data == ''){
             $html .= '<p>'.
 			'fail2ban is not installed at this server.<br />' .
-			'See more (for debian) <a href="http://www.howtoforge.net/fail2ban_debian_etch" target="htf">here...</a>'.
+			'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
 			'</p>';
         }
         else {
