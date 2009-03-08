@@ -65,6 +65,10 @@
 	.pnl_formarea fieldset {
 		font-weight: bold;
 	}
+
+	/* hide line and legend when inside tabbed content */
+	#tabbox_content * .pnl_toolsarea fieldset, #tabbox_content * .pnl_listarea fieldset, #tabbox_content * .pnl_formsarea fieldset { border: none !important; }
+	#tabbox_content * .pnl_toolsarea fieldset legend, #tabbox_content * .pnl_listarea fieldset legend, #tabbox_content * .pnl_formsarea fieldset legend { display: none !important; }
 	
 	.codeview {
 		margin:20px 0;
@@ -309,7 +313,7 @@
 	/* Individual Form Lengths */
 	.textInput#username, .textInput#password, .textInput#passwort, .textInput#source_password { width: 100px; }
 	.selectInput#language {	width: 75px; }
-	.selectInput#client_group_id { width: 125px; }
+	.selectInput#client_group_id, .selectInput#default_group { width: 125px; }
 	input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px !important; }
 
 	/* --- */

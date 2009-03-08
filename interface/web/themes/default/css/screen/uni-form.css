@@ -48,7 +48,7 @@
       .uniForm .blockLabels textarea{ width: 43%; /* <- Required property */ height: 12em; }
 
       .uniForm .formHint,
-      .uniForm .blockLabels .formHint{ width: 35%; /* <- Required property */ font-size: .9em; color: #777; position: relative; top: -.5em; }
+      .uniForm .blockLabels .formHint{ width: 55%; /* <- Required property */ font-size: .9em; color: #777; position: relative; top: -.5em; }
       
       .uniForm .multiField,
       .uniForm .blockLabels .multiField{ width: 43%; }
