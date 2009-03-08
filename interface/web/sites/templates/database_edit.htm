@@ -4,7 +4,7 @@
 <div class="panel panel_database">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Database</legend>
+    <fieldset class="inlineLabels">
       <tmpl_if name="is_admin">
       <div class="ctrlHolder">
       	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
@@ -15,7 +15,7 @@
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
         <select name="client_group_id" id="client_group_id" class="selectInput">
-					{tmpl_var name='server_id'}
+					{tmpl_var name='client_group_id'}
 				</select>
       </div>
       </tmpl_if>
@@ -23,29 +23,29 @@
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
         <select name="client_group_id" id="client_group_id" class="selectInput">
-					{tmpl_var name='server_id'}
+					{tmpl_var name='client_group_id'}
 				</select>
       </div>
       </tmpl_if>
       <div class="ctrlHolder">
       	<label for="type">{tmpl_var name='type_txt'}</label>
-        <select name="type" id="type" class="selectInput">
+        <select name="type" id="type" class="selectInput formLengthHalf">
 					{tmpl_var name='type'}
 				</select>
       </div>
       <div class="ctrlHolder">
       	<label for="database_name">{tmpl_var name='database_name_txt'}</label>
       	<div style="float: left;">{tmpl_var name='database_name_prefix'} </div>
-        <input name="database_name" id="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="database_name" id="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
 			</div>
       <div class="ctrlHolder">
       	<label for="database_user">{tmpl_var name='database_user_txt'}</label>
       	<div style="float: left;">{tmpl_var name='database_user_prefix'} </div>
-        <input name="database_user" id="database_user" value="{tmpl_var name='database_user'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="database_user" id="database_user" value="{tmpl_var name='database_user'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
 			</div>
       <div class="ctrlHolder">
       	<label for="database_password">{tmpl_var name='database_password_txt'}</label>
-        <input name="database_password" id="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="database_password" id="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" type="password" class="textInput formLengthHalf" />
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='password_strength_txt'}</p>
@@ -54,7 +54,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="database_charset">{tmpl_var name='database_charset_txt'}</label>
-        <select name="database_charset" id="database_charset" class="selectInput">
+        <select name="database_charset" id="database_charset" class="selectInput formLengthHalf">
 					{tmpl_var name='database_charset'}
 				</select>
       </div>

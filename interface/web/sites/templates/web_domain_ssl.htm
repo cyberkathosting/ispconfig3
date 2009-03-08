@@ -4,7 +4,7 @@
 <div class="panel panel_web_domain">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>SSL</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="ssl_state">{tmpl_var name='ssl_state_txt'}</label>
         <input name="ssl_state" id="ssl_state" value="{tmpl_var name='ssl_state'}" size="30" maxlength="255" type="text" class="textInput" />
@@ -39,7 +39,7 @@
       </div>
       <div class="ctrlHolder">
       	<label for="ssl_action">{tmpl_var name='ssl_action_txt'}</label>
-        <select name="ssl_action" id="ssl_action" class="selectInput">
+        <select name="ssl_action" id="ssl_action" class="selectInput formLengthHalf">
 					{tmpl_var name='ssl_action'}
 				</select>
       </div>

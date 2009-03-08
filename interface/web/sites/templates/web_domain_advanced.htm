@@ -4,22 +4,22 @@
 <div class="panel panel_web_domain">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Options</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="document_root">{tmpl_var name='document_root_txt'}</label>
         <input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
       <div class="ctrlHolder">
       	<label for="system_user">{tmpl_var name='system_user_txt'}</label>
-        <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
 			</div>
       <div class="ctrlHolder">
       	<label for="system_group">{tmpl_var name='system_group_txt'}</label>
-        <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
 			</div>
       <div class="ctrlHolder">
       	<label for="apache_directives">{tmpl_var name='apache_directives_txt'}</label>
-        <input name="apache_directives" id="apache_directives" value="{tmpl_var name='apache_directives'}" size="30" maxlength="255" type="text" class="textInput" />
+      	<textarea name="apache_directives" id="apache_directives" rows='10' cols='30'>{tmpl_var name='apache_directives'}</textarea>
 			</div>
     </fieldset>
 

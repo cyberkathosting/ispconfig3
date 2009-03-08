@@ -4,7 +4,7 @@
 <div class="panel panel_ftp_user">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>FTP User</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
         <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
@@ -18,7 +18,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="password">{tmpl_var name='password_txt'}</label>
-        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" />
+        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" onkeyup="pass_check(this.value)" />
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='password_strength_txt'}</p>
@@ -27,7 +27,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="quota_size">{tmpl_var name='quota_size_txt'}</label>
-        <input name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" size="7" maxlength="7" type="text" class="textInput" />
+        <input name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="formInputUnity">&nbsp;MB</p>
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='active_txt'}</p>

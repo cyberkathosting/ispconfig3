@@ -4,7 +4,7 @@
 <div class="panel panel_web_domain">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Domain</legend>
+    <fieldset class="inlineLabels">
       <tmpl_if name="is_admin">
       <div class="ctrlHolder">
       	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
@@ -29,7 +29,7 @@
       </tmpl_if>
       <div class="ctrlHolder">
       	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
-        <select name="ip_address" id="ip_address" class="selectInput">
+        <select name="ip_address" id="ip_address" class="selectInput formLengthIPv4">
 					{tmpl_var name='ip_address'}
 				</select>
       </div>
@@ -59,11 +59,11 @@
 -->
       <div class="ctrlHolder">
       	<label for="hd_quota">{tmpl_var name='hd_quota_txt'}</label>
-        <input name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" size="7" maxlength="7" type="text" class="textInput" />
+        <input name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" />
 			</div>
       <div class="ctrlHolder">
       	<label for="traffic_quota">{tmpl_var name='traffic_quota_txt'}</label>
-        <input name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" size="7" maxlength="7" type="text" class="textInput" />
+        <input name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" />
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='cgi_txt'}</p>
@@ -97,7 +97,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="subdomain">{tmpl_var name='subdomain_txt'}</label>
-        <select name="subdomain" id="subdomain" class="selectInput">
+        <select name="subdomain" id="subdomain" class="selectInput formLengthHalf">
 					{tmpl_var name='subdomain'}
 				</select>
       </div>
@@ -109,7 +109,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="php">{tmpl_var name='php_txt'}</label>
-        <select name="php" id="php" class="selectInput">
+        <select name="php" id="php" class="selectInput formLengthHalf">
 					{tmpl_var name='php'}
 				</select>
       </div>
