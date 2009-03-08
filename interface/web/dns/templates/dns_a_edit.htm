@@ -4,14 +4,15 @@
 <div class="panel panel_dns_a">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>DNS A</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="name">{tmpl_var name='name_txt'}</label>
         <input name="name" id="name" value="{tmpl_var name='name'}" size="30" maxlength="255" type="text" class="textInput" />
+				<p class="formHint">{tmpl_var name='name_hint_txt'}</p>
 			</div>
       <div class="ctrlHolder">
       	<label for="data">{tmpl_var name='data_txt'}</label>
-        <input name="data" id="data" value="{tmpl_var name='data'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="data" id="data" value="{tmpl_var name='data'}" size="30" maxlength="255" type="text" class="textInput formLengthIPv4" />
 			</div>
       <div class="ctrlHolder">
       	<label for="ttl">{tmpl_var name='ttl_txt'}</label>
