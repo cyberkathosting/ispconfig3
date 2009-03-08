@@ -4,7 +4,7 @@
 <div class="panel panel_server_ip">
   
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>IP Address</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
         <select name="server_id" id="server_id" class="selectInput">
@@ -13,7 +13,7 @@
       </div>
       <div class="ctrlHolder">
       	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
-        <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="15" type="text" class="textInput" />
+        <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="15" type="text" class="textInput formLengthIPv4" />
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='virtualhost_txt'}</p>

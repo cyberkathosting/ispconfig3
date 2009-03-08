@@ -4,7 +4,7 @@
 <div class="panel panel_server">
   
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Services</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="server_name">{tmpl_var name='server_name_txt'}</label>
         <input name="server_name" id="server_name" value="{tmpl_var name='server_name'}" size="30" maxlength="255" type="text" class="textInput" />
@@ -47,7 +47,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="active">{tmpl_var name='active_txt'}</label>
-        <select name="active" id="active" class="selectInput">
+        <select name="active" id="active" class="selectInput formLengthBool">
 					{tmpl_var name='active'}
 				</select>
       </div>

@@ -4,7 +4,7 @@
 <div class="panel panel_server_config">
   
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Server</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='auto_network_configuration_txt'}</p>
 					<div class="multiField">
@@ -13,15 +13,15 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
-        <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="255" type="text" class="textInput" />
+        <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
 			</div>
       <div class="ctrlHolder">
       	<label for="netmask">{tmpl_var name='netmask_txt'}</label>
-        <input name="netmask" id="netmask" value="{tmpl_var name='netmask'}" size="15" maxlength="255" type="text" class="textInput" />
+        <input name="netmask" id="netmask" value="{tmpl_var name='netmask'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
 			</div>
       <div class="ctrlHolder">
       	<label for="gateway">{tmpl_var name='gateway_txt'}</label>
-        <input name="gateway" id="gateway" value="{tmpl_var name='gateway'}" size="15" maxlength="255" type="text" class="textInput" />
+        <input name="gateway" id="gateway" value="{tmpl_var name='gateway'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
 			</div>
       <div class="ctrlHolder">
       	<label for="hostname">{tmpl_var name='hostname_txt'}</label>
@@ -30,6 +30,7 @@
       <div class="ctrlHolder">
       	<label for="nameservers">{tmpl_var name='nameservers_txt'}</label>
         <input name="nameservers" id="nameservers" value="{tmpl_var name='nameservers'}" size="40" maxlength="255" type="text" class="textInput" />
+				<p class="formHint">{tmpl_var name='nameservers_hint_txt'}</p>
 			</div>
     </fieldset>
 

@@ -4,7 +4,7 @@
 <div class="panel panel_server_config">
   
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>FastCGI</legend>
+    <fieldset class="inlineLabels">
       <div class="ctrlHolder">
       	<label for="fastcgi_starter_path">{tmpl_var name='fastcgi_starter_path_txt'}</label>
         <input name="fastcgi_starter_path" id="fastcgi_starter_path" value="{tmpl_var name='fastcgi_starter_path'}" size="40" maxlength="255" type="text" class="textInput" />
@@ -23,11 +23,11 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="fastcgi_children">{tmpl_var name='fastcgi_children_txt'}</label>
-        <input name="fastcgi_children" id="fastcgi_children" value="{tmpl_var name='fastcgi_children'}" size="40" maxlength="255" type="text" class="textInput" />
+        <input name="fastcgi_children" id="fastcgi_children" value="{tmpl_var name='fastcgi_children'}" size="40" maxlength="255" type="text" class="textInput formLengthLimit" />
 			</div>
       <div class="ctrlHolder">
       	<label for="fastcgi_max_requests">{tmpl_var name='fastcgi_max_requests_txt'}</label>
-        <input name="fastcgi_max_requests" id="fastcgi_max_requests" value="{tmpl_var name='fastcgi_max_requests'}" size="40" maxlength="255" type="text" class="textInput" />
+        <input name="fastcgi_max_requests" id="fastcgi_max_requests" value="{tmpl_var name='fastcgi_max_requests'}" size="40" maxlength="255" type="text" class="textInput formLengthLimit" />
 			</div>
       <div class="ctrlHolder">
       	<label for="fastcgi_bin">{tmpl_var name='fastcgi_bin_txt'}</label>
