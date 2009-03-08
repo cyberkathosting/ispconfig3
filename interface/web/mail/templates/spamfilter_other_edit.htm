@@ -23,19 +23,19 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="warnvirusrecip">{tmpl_var name='warnvirusrecip_txt'}</label>
-        <select name="warnvirusrecip" id="warnvirusrecip" class="selectInput">
+        <select name="warnvirusrecip" id="warnvirusrecip" class="selectInput formLengthBool">
 					{tmpl_var name='warnvirusrecip'}
 				</select>
       </div>
       <div class="ctrlHolder">
       	<label for="warnbannedrecip">{tmpl_var name='warnbannedrecip_txt'}</label>
-        <select name="warnbannedrecip" id="warnbannedrecip" class="selectInput">
+        <select name="warnbannedrecip" id="warnbannedrecip" class="selectInput formLengthBool">
 					{tmpl_var name='warnbannedrecip'}
 				</select>
       </div>
       <div class="ctrlHolder">
       	<label for="warnbadhrecip">{tmpl_var name='warnbadhrecip_txt'}</label>
-        <select name="warnbadhrecip" id="warnbadhrecip" class="selectInput">
+        <select name="warnbadhrecip" id="warnbadhrecip" class="selectInput formLengthBool">
 					{tmpl_var name='warnbadhrecip'}
 				</select>
       </div>
@@ -61,7 +61,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="message_size_limit">{tmpl_var name='message_size_limit_txt'}</label>
-        <input name="message_size_limit" id="message_size_limit" value="{tmpl_var name='message_size_limit'}" size="10" maxlength="255" type="text" class="textInput" />
+        <input name="message_size_limit" id="message_size_limit" value="{tmpl_var name='message_size_limit'}" size="10" maxlength="255" type="text" class="textInput formLengthLimit" />
 			</div>
       <div class="ctrlHolder">
       	<label for="banned_rulenames">{tmpl_var name='banned_rulenames_txt'}</label>

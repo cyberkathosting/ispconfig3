@@ -293,9 +293,27 @@
 	}
 	.textDisplay { display: block; }
 	
-	select#language {	width: 100px; }
-	.panel_dns_soa * input#refresh, .panel_dns_soa * input#retry, .panel_dns_soa * input#expire, .panel_dns_soa * input#minimum, .panel_dns_soa * input#ttl { width: 100px;	}
-		
+	/* Form Length Classes */
+	.textInput.formLengthBool { width: 25px !important; }
+	.selectInput.formLengthBool { width: 60px !important; }
+	.textInput.formLengthLimit { width: 50px !important; }
+	.selectInput.formLengthLimit { width: 85px !important; }
+	.formLengthDate { width: 75px !important; }
+	.formLengthIPv4 { width: 125px !important; }
+	.formLengthIPv6 { width: 100% !important; }
+	.formLengthEmailUser { width: 30% !important; }
+	.formLengthEmailDomain { width: 30% !important; }
+	.formLengthHalf { width: 15% !important; }
+	.formLengthDouble { width: 50% !important; }
+
+	/* Individual Form Lengths */
+	.textInput#username, .textInput#password, .textInput#passwort, .textInput#source_password { width: 100px; }
+	.selectInput#language {	width: 75px; }
+	.selectInput#client_group_id { width: 125px; }
+	input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px !important; }
+
+	/* --- */
+	
 	a[href $='#logout'] { padding-right: 18px; background: transparent url("../../icons/x16/logout.png") no-repeat right top !important;	}
 	
 	/* Select Menu with Images */

@@ -8,9 +8,9 @@
       <div class="ctrlHolder">
         <p class="label"><em>*</em> {tmpl_var name='email_txt'}</p>
         <div class="multiField">
-          <label for="email_local_part" class="blockLabel">Alias<input type="text" id="email_local_part" name="email_local_part" size="20" value="{tmpl_var name='email_local_part'}" class="textInput" /></label>
+          <label for="email_local_part" class="blockLabel formLengthEmailDomain">Alias<input type="text" id="email_local_part" name="email_local_part" size="20" value="{tmpl_var name='email_local_part'}" class="textInput" /></label>
           <label for="email_at" class="blockLabel email_at">&nbsp;<span id="email_at" name="email_at" />@</label>
-          <label for="email_domain" class="blockLabel">Domain<select name="email_domain" id="email_domain" class="selectInput">{tmpl_var name='email_domain'}</select></label>
+          <label for="email_domain" class="blockLabel formLengthEmailDomain">Domain<select name="email_domain" id="email_domain" class="selectInput">{tmpl_var name='email_domain'}</select></label>
         </div>
       </div>
       <div class="ctrlHolder">
@@ -24,7 +24,7 @@
 			</div>
 			<div class="ctrlHolder">
       	<label for="quota">{tmpl_var name='quota_txt'}</label>
-        <input name="quota" id="quota" value="{tmpl_var name='quota'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="quota" id="quota" value="{tmpl_var name='quota'}" size="30" maxlength="255" type="text" class="textInput formLengthLimit" />
 			</div>
 			<div class="ctrlHolder">
       	<label for="policy">{tmpl_var name='policy_txt'}</label>
