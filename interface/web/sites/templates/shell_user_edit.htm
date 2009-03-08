@@ -7,18 +7,18 @@
     <fieldset class="inlineLabels"><legend>Shell User</legend>
       <div class="ctrlHolder">
       	<label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
-        <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
+        <select name="parent_domain_id" id="parent_domain_id" class="selectInput" {tmpl_var name='parent_domain_id_disabled'}>
 					{tmpl_var name='parent_domain_id'}
 				</select>
       </div>
       <div class="ctrlHolder">
       	<label for="username">{tmpl_var name='username_txt'}</label>
 				<div style="float: left;">{tmpl_var name='username_prefix'} </div>
-        <input name="username" id="username" value="{tmpl_var name='username'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="username" id="username" value="{tmpl_var name='username'}" size="30" maxlength="255" type="text" class="textInput formLengthFourth"/>
 			</div>
       <div class="ctrlHolder">
       	<label for="password">{tmpl_var name='password_txt'}</label>
-        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" />
+        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" onkeyup="pass_check(this.value)"/>
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='password_strength_txt'}</p>
