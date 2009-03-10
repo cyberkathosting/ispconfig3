@@ -1202,7 +1202,7 @@ class monitor_core_module {
             case 'log_messages':
                 if($dist == 'debian') $logfile = '/var/log/messages';
 				if($dist == 'redhat') $logfile = '/var/log/messages';
-				if($dist == 'suse') $logfile = '/var/log/messages'
+				if($dist == 'suse') $logfile = '/var/log/messages';
                 break;
             case 'log_ispc_cron':
                 if($dist == 'debian') $logfile = '/var/log/ispconfig/cron.log';
