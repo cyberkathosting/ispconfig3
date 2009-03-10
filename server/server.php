@@ -113,9 +113,7 @@ if($app->dbmaster->connect()) {
 		$app->plugins->loadPlugins('core');
 	}
 } else {
-	$app->log("Unable to connect to master server.",LOGLEVEL_ERROR);
-}
-
+	$app->log("Unable to connect to master server.",LOGLEVEL_WARN
 
 // Remove lock
 @unlink($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
