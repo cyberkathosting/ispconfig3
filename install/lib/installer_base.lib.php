@@ -247,9 +247,9 @@ class installer_base {
 			$this->dbmaster->query('FLUSH PRIVILEGES;');
 		
 			//* Create the ISPConfig database user in the local database
-        	$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
+        	/*$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
                 	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_host."' "
-                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";*/
 			$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
                 	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_ip."' "
                 	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";

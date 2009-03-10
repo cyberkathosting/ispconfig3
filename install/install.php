@@ -129,7 +129,9 @@ do {
 unset($finished);
 
 // Resolve the IP address of the mysql hostname.
-if(!$conf['mysql']['ip'] = gethostbyname($conf['mysql']['host'])) die('Unable to resolve hostname'.$conf['mysql']['host']);
+$tmp = explode(':',$conf['mysql']['host']);
+if(!$conf['mysql']['ip'] = gethostbyname($tmp[0])) die('Unable to resolve hostname'.$tmp[0]);
+unset($tmp);
 
 
 //** initializing database connection
