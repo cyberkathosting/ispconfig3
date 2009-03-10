@@ -54,7 +54,7 @@
         </Files>
 </tmpl_if>
     </Directory>
-	<Directory {tmpl_var name='web_document_root'}>
+    <Directory {tmpl_var name='web_document_root'}>
         Options FollowSymLinks
         AllowOverride Indexes AuthConfig Limit FileInfo
         Order allow,deny
@@ -107,6 +107,10 @@
     ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
     Action php5-cgi /php5-cgi
     AddHandler php5-cgi .php .php3 .php4 .php5
+    <Directory {tmpl_var name='cgi_starter_path'}>
+        Order allow,deny
+        Allow from all
+    </Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
@@ -195,7 +199,7 @@
         </Files>
 </tmpl_if>
     </Directory>
-	<Directory {tmpl_var name='web_document_root'}>
+    <Directory {tmpl_var name='web_document_root'}>
         Options FollowSymLinks
         AllowOverride Indexes AuthConfig Limit FileInfo
         Order allow,deny
@@ -216,7 +220,7 @@
 </tmpl_if>
     </Directory>
 
-<tmpl_if name='cgi'op='==' value='y'>
+<tmpl_if name='cgi' op='==' value='y'>
     # cgi enabled
     ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
     AddHandler cgi-script .cgi
@@ -251,6 +255,10 @@
     ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
     Action php5-cgi /php5-cgi
     AddHandler php5-cgi .php .php3 .php4 .php5
+	<Directory {tmpl_var name='cgi_starter_path'}>
+        Order allow,deny
+        Allow from all
+    </Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled

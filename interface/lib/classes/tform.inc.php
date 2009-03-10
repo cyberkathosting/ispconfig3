@@ -738,10 +738,10 @@ class tform {
                 $sql_insert_val = '';
                 $sql_update = '';
 
-                if(!is_array($this->formDef)) $app->error("Keine Formulardefinition vorhanden.");
-                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab ist leer oder existiert nicht (TAB: $tab).");
+                if(!is_array($this->formDef)) $app->error("Form definition not found.");
+                if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
 
-                // gehe durch alle Felder des Tabs
+                // go trough all fields of the tab
                 if(is_array($record)) {
                 foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
                                 // Wenn es kein leeres Passwortfeld ist
@@ -1109,8 +1109,21 @@ class tform {
                 return $_SESSION["s"]["form"]["tab"];
         }
 		
-		function isReadonlyTab($tab) {
-			if(isset($this->formDef['tabs'][$tab]['readonly']) && $this->formDef['tabs'][$tab]['readonly'] == true) {
+		function isReadonlyTab($tab, $primary_id) {
+			global $app, $conf;
+			
+			// Add backticks for incomplete table names.
+            if(stristr($this->formDef['db_table'],'.')) {
+                $escape = '';
+            } else {
+                $escape = '`';
+            }
+			
+			$sql = "SELECT sys_userid FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+            $record = $app->db->queryOneRecord($sql);
+			
+			// return true if the readonly flag of the form is set and the current loggedin user is not the owner of the record.
+			if(isset($this->formDef['tabs'][$tab]['readonly']) && $this->formDef['tabs'][$tab]['readonly'] == true && $record['sys_userid'] != $_SESSION["s"]["user"]["userid"]) {
 				return true;
 			} else {
 				return false;

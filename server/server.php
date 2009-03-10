@@ -32,6 +32,7 @@ require("lib/config.inc.php");
 require("lib/app.inc.php");
 
 set_time_limit(0);
+ini_set('error_reporting','E_ALL & ~E_NOTICE');
 
 // make sure server_id is always an int
 $conf["server_id"] = intval($conf["server_id"]);

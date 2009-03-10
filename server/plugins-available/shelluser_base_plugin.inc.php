@@ -90,9 +90,9 @@ class shelluser_base_plugin {
 				
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
-					$command = 'usermod --lock '.escapeshellcmd($data['new']['username']);
+					$command = 'usermod -L '.escapeshellcmd($data['new']['username']);
 					exec($command);
-					$app->log("Disabling shelluser temporarily: ".$data['new']['username'],LOGLEVEL_DEBUG);
+					$app->log("Disabling shelluser temporarily: ".$command,LOGLEVEL_DEBUG);
 				}
 			
 			} else {

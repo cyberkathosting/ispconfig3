@@ -87,7 +87,7 @@ class shelluser_jailkit_plugin {
 			
 				$this->_setup_jailkit_chroot();
 				
-				$command .= 'usermod --unlock '.escapeshellcmd($data['new']['username']);
+				$command .= 'usermod -U '.escapeshellcmd($data['new']['username']);
 				exec($command);
 				
 				$this->_add_jailkit_user();
