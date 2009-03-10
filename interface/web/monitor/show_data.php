@@ -113,7 +113,7 @@ switch($dataType) {
     case 'fail2ban':
         $template = 'templates/show_data.htm';
         $output .= showFail2ban();
-        $time = getDataTime('fail2ban');
+        $time = getDataTime('log_fail2ban');
         $title = 'fail2ban - Log (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
