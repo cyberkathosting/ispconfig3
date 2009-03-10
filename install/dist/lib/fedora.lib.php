@@ -426,7 +426,18 @@ class installer_dist extends installer_base {
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
         
-		copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
+		// copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
+		$content = rf("tpl/apache_ispconfig.conf.master");
+		$records = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
+		if(count($records) > 0) {
+			foreach($records as $rec) {
+				$content .= "NameVirtualHost ".$rec["ip_address"].":80\n";
+				$content .= "NameVirtualHost ".$rec["ip_address"].":443\n";
+			}
+		}
+		$content .= "\n";
+		wf($vhost_conf_dir.'/ispconfig.conf',$content);
+		
 		if(!@is_link($vhost_conf_enabled_dir."/000-ispconfig.conf")) {
 			exec("ln -s ".$vhost_conf_dir."/ispconfig.conf ".$vhost_conf_enabled_dir."/000-ispconfig.conf");
 		}
