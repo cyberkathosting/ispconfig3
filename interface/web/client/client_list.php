@@ -16,6 +16,8 @@ $list_def_file = "list/client.list.php";
 $app->auth->check_module_permissions('client');
 
 $app->uses('listform_actions');
+
+$app->listform_actions->SQLOrderBy = 'ORDER BY company_name, contact_name, client_id';
 $app->listform_actions->onLoad();
 
 
