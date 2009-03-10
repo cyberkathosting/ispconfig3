@@ -114,6 +114,7 @@ if($app->dbmaster->connect()) {
 	}
 } else {
 	$app->log("Unable to connect to master server.",LOGLEVEL_WARN);
+}
 
 // Remove lock
 @unlink($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
