@@ -79,8 +79,8 @@ $wb["default_dbserver_txt"] = 'Default Database Server';
 $wb["limit_database_txt"] = 'Max. number of Databases';
 $wb["limit_database_error_notint"] = 'The database limit must be a number.';
 $wb["username_error_regex"] = 'The Username contains invalid chracaters.';
-$wb["template_master_txt"] = 'Master';
-$wb["template_additional_txt"] = 'Addon';
+$wb["template_master_txt"] = 'Master template';
+$wb["template_additional_txt"] = 'Addon template';
 $wb["ssh_chroot_txt"] = 'SSH-Chroot Options';
 $wb["web_php_options_txt"] = 'PHP Options';
 ?>
