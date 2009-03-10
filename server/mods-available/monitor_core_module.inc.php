@@ -1181,43 +1181,53 @@ class monitor_core_module {
 		
 		if(@is_file('/etc/debian_version')) $dist = 'debian';
 		if(@is_file('/etc/redhat-release')) $dist = 'redhat';
+		if(@is_file('/etc/SuSE-release')) $dist = 'suse';
 		
 		switch($log) {
             case 'log_mail':
                 if($dist == 'debian') $logfile = '/var/log/mail.log';
 				if($dist == 'redhat') $logfile = '/var/log/maillog';
+				if($dist == 'suse') $logfile = '/var/log/mail.info';
                 break;
             case 'log_mail_warn':
                 if($dist == 'debian') $logfile = '/var/log/mail.warn';
 				if($dist == 'redhat') $logfile = '/var/log/maillog';
+				if($dist == 'suse') $logfile = '/var/log/mail.warn';
                 break;
             case 'log_mail_err':
                 if($dist == 'debian') $logfile = '/var/log/mail.err';
 				if($dist == 'redhat') $logfile = '/var/log/maillog';
+				if($dist == 'suse') $logfile = '/var/log/mail.err';
                 break;
             case 'log_messages':
                 if($dist == 'debian') $logfile = '/var/log/messages';
 				if($dist == 'redhat') $logfile = '/var/log/messages';
+				if($dist == 'suse') $logfile = '/var/log/messages'
                 break;
             case 'log_ispc_cron':
                 if($dist == 'debian') $logfile = '/var/log/ispconfig/cron.log';
 				if($dist == 'redhat') $logfile = '/var/log/ispconfig/cron.log';
+				if($dist == 'suse') $logfile = '/var/log/ispconfig/cron.log';
                 break;
             case 'log_freshclam':
                 if($dist == 'debian') $logfile = '/var/log/clamav/freshclam.log';
 				if($dist == 'redhat') $logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log');
-                break;
+                if($dist == 'suse') $logfile = '';
+				break;
             case 'log_clamav':
                 if($dist == 'debian') $logfile = '/var/log/clamav/clamav.log';
 				if($dist == 'redhat') $logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog');
+				if($dist == 'suse') $logfile = '';
                 break;
             case 'log_fail2ban':
                 if($dist == 'debian') $logfile = '/var/log/fail2ban.log';
 				if($dist == 'redhat') $logfile = '/var/log/fail2ban.log';
+				if($dist == 'suse') $logfile = '/var/log/fail2ban.log';
                 break;
             case 'log_ispconfig':
                 if($dist == 'debian') $logfile = '/var/log/ispconfig/ispconfig.log';
 				if($dist == 'redhat') $logfile = '/var/log/ispconfig/ispconfig.log';
+				if($dist == 'suse') $logfile = '/var/log/ispconfig/ispconfig.log';
                 break;
             default:
                 $logfile = '';
