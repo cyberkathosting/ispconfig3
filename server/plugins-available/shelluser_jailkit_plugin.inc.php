@@ -151,8 +151,12 @@ class shelluser_jailkit_plugin {
 			//commented out proved to be dangerous on config errors
 			//exec('rm -rf '.$data['old']['dir'].$jailkit_chroot_userhome);
 			
-			
-			$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
+			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
+				$command = 'userdel -f -r';
+				$command .= ' '.escapeshellcmd($data['old']['username']);
+				exec($command);
+				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
+			}
 		}
 		
 		$app->log("Jailkit Plugin -> delete username:".$data['old']['username'],LOGLEVEL_DEBUG);

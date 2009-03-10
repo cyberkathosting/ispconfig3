@@ -12,7 +12,7 @@ The following guide is for the 32Bit version of openSUSE, for 64Bit installation
 
 Install some basic packes and the compilers that we need later
 
-yast2 -i findutils readline libgcc glibc-devel findutils-locate gcc flex lynx compat-readline4 db-devel wget gcc-c++ make vim telnet cron iptables iputils man man-pages
+yast2 -i findutils readline libgcc glibc-devel findutils-locate gcc flex lynx compat-readline4 db-devel wget gcc-c++ make vim telnet cron iptables iputils man man-pages nano pico
 
 1) Istall Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
 
