@@ -275,9 +275,8 @@
     
     RewriteEngine on
 <tmpl_loop name="redirects">
-    
     RewriteCond %{HTTP_HOST}   ^<tmpl_var name='rewrite_domain'> [NC]
-    RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  [<tmpl_var name='rewrite_type'>]
+    RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
 </tmpl_loop>
 </tmpl_if>
 
