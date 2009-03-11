@@ -8,7 +8,7 @@
       <tmpl_if name="is_admin">
       <div class="ctrlHolder">
       	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
-        <select name="server_id" id="server_id" class="selectInput" {tmpl_var name='edit_disabled'}>
+        <select name="server_id" id="server_id" class="selectInput" onChange="loadContentInto('ip_address','sites/ajax_get_ip.php?server_id='+document.getElementById('server_id').value)">
 					{tmpl_var name='server_id'}
 				</select>
       </div>
