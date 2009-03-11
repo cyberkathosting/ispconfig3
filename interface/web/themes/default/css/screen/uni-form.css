@@ -79,7 +79,7 @@
     
     .uniForm .inlineLabels textarea{  width: 35%; /* <- Required property */ height: 12em; }
 
-    .uniForm .inlineLabels .formHint{ margin-top: 0; margin-left: 37%; font-size: .9em; color: #777; position: static; }
+    .uniForm .inlineLabels .formHint{ margin-top: 0; margin-left: 17%; font-size: .9em; color: #777; position: static; }
     
     .uniForm .inlineLabels .multiField{ width: 60%; /* <- Required property */ margin: 0 0 .3em 0; }
       .uniForm .inlineLabels .multiField .inlineLabel{ display: block; margin: 0 0 .5em 0; }
