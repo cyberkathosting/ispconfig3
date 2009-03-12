@@ -726,7 +726,18 @@ class installer_dist extends installer_base {
 			$content = str_replace('{vhost_port_listen}', '', $content);
 		}
 		
+		$content = str_replace('/var/www/', '/srv/www/', $content);
+		
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
+		
+		if(!is_file('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
+			exec('mkdir -p /srv/www/php-fcgi-scripts/ispconfig');
+			exec('cp tpl/apache_ispconfig_fcgi_starter.master /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+			exec('chmod +x /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+			exec('ln -s /usr/local/ispconfig/interface/web /srv/www/ispconfig');
+			exec('chown -R ispconfig:ispconfig /srv/www/php-fcgi-scripts/ispconfig');
+			
+		}
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
@@ -735,14 +746,6 @@ class installer_dist extends installer_base {
 			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
 			}
-			
-			exec('mkdir -p /srv/www/php-fcgi-scripts/ispconfig');
-			exec('cp tpl/apache_ispconfig_fcgi_starter.master /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-			exec('chmod +x /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-			exec('ln -s /usr/local/ispconfig/interface/web /srv/www/ispconfig');
-			exec('chown -R ispconfig:ispconfig /srv/www/php-fcgi-scripts/ispconfig');
-			
-			//replaceLine('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter','PHPRC=','PHPRC=/etc/',0,0);
 			
 		}
 		
