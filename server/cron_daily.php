@@ -115,11 +115,12 @@ foreach($records as $rec) {
 	if(@is_file($logfile)) {
 		// Compress yesterdays logfile
 		exec("gzip -c $logfile > $logfile.gz");
+		unlink($logfile);
 	}
 	
 	// delete logfiles after 30 days
 	$month_ago = date("Ymd",time() - 86400 * 30);
-	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
+	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$month_ago.'-access.log.gz');
 	if(@is_file($logfile)) {
 		unlink($logfile);
 	}
