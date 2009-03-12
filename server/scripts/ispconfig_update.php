@@ -51,7 +51,7 @@ function simple_query($query, $answers, $default)
 			
 			//* Stop the installation
 			if($input == 'quit') {
-				swriteln($this->lng("Installation terminated by user.\n"));
+				swriteln("Installation terminated by user.\n");
 				die();
 			}
 			
