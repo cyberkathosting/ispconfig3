@@ -846,7 +846,7 @@ class installer_dist extends installer_base {
 			foreach($cron_jobs as $key => $val) {
 				if(stristr($val,'getmail')) unset($existing_cron_jobs[$key]);
 			}
-			
+		
 			foreach($cron_jobs as $cron_job) {
 				if(!in_array($cron_job."\n", $existing_cron_jobs)) {
 					$existing_cron_jobs[] = $cron_job."\n";
