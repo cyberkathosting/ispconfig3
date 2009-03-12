@@ -43,8 +43,9 @@ chkconfig --add courier-imap-ssl
 
 cd /tmp
 
-wget http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_11.1/src/phpMyAdmin-3.1.2-1.1.src.rpm
-rpm -i phpMyAdmin-3.1.2-1.1.src.rpm
+yast2 -i pwgen
+rpm -i http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_11.1/noarch/phpMyAdmin-3.1.2-1.1.noarch.rpm
+ln -s /srv/www/htdocs/phpMyAdmin /usr/local/ispconfig/interface/web/phpmyadmin
 
 // Warnings like "warning: phpMyAdmin-3.1.2-1.1.src.rpm: Header V3 DSA signature: NOKEY, key ID 367fe7fc" can be ignored.
 
@@ -67,15 +68,10 @@ make install
 rm -rf pam_mysql-0.7RC1
 rm pam_mysql-0.7RC1.tar.gz
 
+
 // Set the mysql database password:
 
 mysqladmin -u root password yourrootsqlpassword
-mysqladmin -h ispconfig.local -u root password yourrootsqlpassword
-
-
-// Install phpmyadmin
-yast2 -i pwgen
-rpm -i http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_11.1/noarch/phpMyAdmin-3.1.2-1.1.noarch.rpm
 
 
 2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
@@ -184,6 +180,9 @@ There are two possile scenarios, but not both:
 Now start the installation process by executing:
 
 php -q install.php
+
+// Cleanup
+rm -rf /tmp/trunk
 
 The installer will configure all services like postfix, sasl, courier, etc. for you. A manual setup as required for ISPConfig 2 (perfect setup guides) is not nescessary. To login to the ISPConfig controlpanel, open the following URL in your browser (replace the IP to match your settings!):
 

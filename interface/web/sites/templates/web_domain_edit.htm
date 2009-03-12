@@ -7,10 +7,18 @@
     <fieldset class="inlineLabels">
       <tmpl_if name="is_admin">
       <div class="ctrlHolder">
-      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+		<tmpl_if name="edit_disabled">
+		<label for="server_id_disabled">{tmpl_var name='server_id_txt'}</label>
+		<select name="server_id_disabled" id="server_id_disabled" class="selectInput" disabled="disabled">
+		  {tmpl_var name='server_id'}
+		</select>
+		<input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
+		<tmpl_else>
+		<label for="server_id">{tmpl_var name='server_id_txt'}</label>
         <select name="server_id" id="server_id" class="selectInput" onChange="loadContentInto('ip_address','sites/ajax_get_ip.php?server_id='+document.getElementById('server_id').value)">
-					{tmpl_var name='server_id'}
-				</select>
+		  {tmpl_var name='server_id'}
+		</select>
+		</tmpl_if>
       </div>
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
@@ -37,26 +45,6 @@
       	<label for="domain">{tmpl_var name='domain_txt'}</label>
         <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
-<!--
-      <div class="ctrlHolder">
-      	<label for="type">{tmpl_var name='type_txt'}</label>
-        <select name="type" id="type" class="selectInput">
-					{tmpl_var name='type'}
-				</select>
-      </div>
-      <div class="ctrlHolder">
-      	<label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
-        <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
-					{tmpl_var name='parent_domain_id'}
-				</select>
-      </div>
-      <div class="ctrlHolder">
-      	<label for="vhost_type">{tmpl_var name='vhost_type_txt'}</label>
-        <select name="vhost_type" id="vhost_type" class="selectInput">
-					{tmpl_var name='vhost_type'}
-				</select>
-      </div>
--->
       <div class="ctrlHolder">
       	<label for="hd_quota">{tmpl_var name='hd_quota_txt'}</label>
         <input name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" />
