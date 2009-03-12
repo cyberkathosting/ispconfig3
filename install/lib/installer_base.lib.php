@@ -1026,10 +1026,16 @@ class installer_base {
 			
 		}
 		
-		//* Install the SVN update script
-		exec('cp ../helper_scripts/update_from_svn.sh /usr/local/bin/ispconfig_update_from_svn.sh');
-		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
-		exec('chmod 700 /usr/local/bin/ispconfig_update_from_svn.sh');
+		//* Install the update script
+		if(is_file('/usr/local/bin/ispconfig_update_from_svn.sh')) unlink('/usr/local/bin/ispconfig_update_from_svn.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/update_from_svn.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_svn.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
+		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_svn.sh');
+		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update.sh');
 		
 		//* Make the logs readable for the ispconfig user
 		if(@is_file('/var/log/mail.log')) exec('chmod +r /var/log/mail.log');

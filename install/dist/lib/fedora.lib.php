@@ -735,10 +735,16 @@ class installer_dist extends installer_base {
 		//exec('chmod +r /var/log/clamav/clamav.log');
 		//exec('chmod +r /var/log/clamav/freshclam.log');
 		
-		//* Install the SVN update script
-		exec('cp ../helper_scripts/update_from_svn.sh /usr/local/bin/ispconfig_update_from_svn.sh');
-		exec('chown root /usr/local/bin/ispconfig_update_from_svn.sh');
-		exec('chmod 700 /usr/local/bin/ispconfig_update_from_svn.sh');
+		//* Install the update script
+		if(is_file('/usr/local/bin/ispconfig_update_from_svn.sh')) unlink('/usr/local/bin/ispconfig_update_from_svn.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/update_from_svn.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_svn.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
+		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_svn.sh');
+		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update.sh');
 		
 		// set the fast cgi starter script to executable
 		// exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');

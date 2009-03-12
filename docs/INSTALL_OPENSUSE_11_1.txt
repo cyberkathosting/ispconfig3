@@ -201,27 +201,4 @@ Install a webbased Email Client
 
 yast2 -i squirrelmail
 
-----------------------------------------------------------------------------------------------------------
 
-Hints:
-
-debian 4.0 under openvz:
-
-VPSID=101
-for CAP in CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CHROOT SYS_NICE CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CHROOT SYS_NICE
-do
-  vzctl set $VPSID --capability ${CAP}:on --save
-done
-
-----------------------------------------------------------------------------------------------------------
-
-Installing Jailkit:
-
-cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
-tar xvfz jailkit-2.5.tar.gz
-cd jailkit-2.5
-./configure
-make
-make install
-rm -rf jailkit-2.5*
