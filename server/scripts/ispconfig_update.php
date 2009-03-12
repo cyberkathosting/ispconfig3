@@ -28,6 +28,19 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+function sread() {
+    $input = fgets(STDIN);
+    return rtrim($input);
+}
+
+function swrite($text = '') {
+	echo $text;
+}
+
+function swriteln($text = '') {
+	echo $text."\n";
+}
+
 function simple_query($query, $answers, $default)
 {		
 		$finished = false;
@@ -75,13 +88,13 @@ echo "\n".str_repeat('-',80)."\n";
 echo "\n\n>> Update  \n\n";
 echo "Please choose the update method. For production systems select 'stable'. \nThe update from svn is only for development systems and may break your current setup.\n\n";
 
-$method = $inst->simple_query('Select update method', array('stable','svn'), 'stable');
+$method = simple_query('Select update method', array('stable','svn'), 'stable');
 
 if($method == 'stable') {
 	$new_version = file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt') or die('Unable to retrieve version file.');
 	$new_version = trim($new_version);
 	if($new_version != ISPC_APP_VERSION) {
-		exec('/usr/local/ispconfig/server/scripts/update_from_tgz.sh')
+		exec('/usr/local/ispconfig/server/scripts/update_from_tgz.sh');
 	} else {
 		echo "There are no updates available.\n";
 	}
