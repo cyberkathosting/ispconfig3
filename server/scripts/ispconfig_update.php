@@ -46,7 +46,7 @@ function simple_query($query, $answers, $default)
 		$finished = false;
 		do {
 			$answers_str = implode(',', $answers);
-			swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
+			swrite($query.' ('.$answers_str.') ['.$default.']: ');
 			$input = sread();
 			
 			//* Stop the installation

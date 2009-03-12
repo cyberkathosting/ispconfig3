@@ -761,8 +761,8 @@ class installer_dist extends installer_base {
 		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
 		exec('chown root /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
 		exec('chmod 700 /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
-		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_svn.sh');
-		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update.sh');
+		if(!is_link('/usr/local/bin/ispconfig_update_from_svn.sh')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_svn.sh');
+		if(!is_link('/usr/local/bin/ispconfig_update.sh')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update.sh');
 		
 		//set the fast cgi starter script to executable
 		//exec('chmod 755 '.$install_dir.'/interface/bin/php-fcgi');

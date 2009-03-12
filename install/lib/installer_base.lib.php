@@ -1034,8 +1034,8 @@ class installer_base {
 		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
 		exec('chown root /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
 		exec('chmod 700 /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
-		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_svn.sh');
-		exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update.sh');
+		if(!is_link('/usr/local/bin/ispconfig_update_from_svn.sh')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_svn.sh');
+		if(!is_link('/usr/local/bin/ispconfig_update.sh')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update.sh');
 		
 		//* Make the logs readable for the ispconfig user
 		if(@is_file('/var/log/mail.log')) exec('chmod +r /var/log/mail.log');
