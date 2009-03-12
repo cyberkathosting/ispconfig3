@@ -776,6 +776,9 @@ class installer_dist extends installer_base {
 		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
 		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
 		
+		exec('chown getmail /usr/local/ispconfig/server/scripts/run-getmail.sh');
+		exec('chmod 744 /usr/local/ispconfig/server/scripts/run-getmail.sh');
+		
 		
 	}
 	
@@ -835,11 +838,13 @@ class installer_dist extends installer_base {
 			exec('crontab -u getmail -l > crontab.txt');
 			$existing_cron_jobs = file('crontab.txt');
 		
-			$cron_jobs = array('*/5 * * * * '.$cf['program'].' -n -g '.$cf['config_dir'].' -r '.$cf['config_dir'].'/*.conf &> /dev/null');
-			
+			$cron_jobs = array(
+                '*/5 * * * * /usr/local/ispconfig/server/scripts/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+            );
+		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
 			foreach($cron_jobs as $key => $val) {
-				if(stristr($val,$cf['program'])) unset($existing_cron_jobs[$key]);
+				if(stristr($val,'getmail')) unset($existing_cron_jobs[$key]);
 			}
 			
 			foreach($cron_jobs as $cron_job) {
