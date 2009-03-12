@@ -94,12 +94,12 @@ if($method == 'stable') {
 	$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt') or die('Unable to retrieve version file.');
 	$new_version = trim($new_version);
 	if($new_version != ISPC_APP_VERSION) {
-		exec('/usr/local/ispconfig/server/scripts/update_from_tgz.sh');
+		passthru('/usr/local/ispconfig/server/scripts/update_from_tgz.sh');
 	} else {
 		echo "There are no updates available.\n";
 	}
 } else {
-	exec('/usr/local/ispconfig/server/scripts/update_from_svn.sh');
+	passthru('/usr/local/ispconfig/server/scripts/update_from_svn.sh');
 }
 
 
