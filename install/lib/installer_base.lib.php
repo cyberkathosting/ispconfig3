@@ -1110,7 +1110,7 @@ class installer_base {
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
-			foreach($cron_jobs as $key => $val) {
+			foreach($existing_cron_jobs as $key => $val) {
 				if(stristr($val,'getmail')) unset($existing_cron_jobs[$key]);
 			}
 		
