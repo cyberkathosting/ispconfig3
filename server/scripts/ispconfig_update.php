@@ -96,7 +96,7 @@ if($method == 'stable') {
 	if($new_version != ISPC_APP_VERSION) {
 		passthru('/usr/local/ispconfig/server/scripts/update_from_tgz.sh');
 	} else {
-		echo "There are no updates available.\n";
+		echo "There are no updates available for ISPConfig ".ISPC_APP_VERSION."\n";
 	}
 } else {
 	passthru('/usr/local/ispconfig/server/scripts/update_from_svn.sh');
