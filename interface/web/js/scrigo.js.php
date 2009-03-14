@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	include('../../lib/config.inc.php');
-	include_once(ISPC_ROOT_PATH.'/web/js/lib/lang/'.$_SESSION['s']['language'].'_javascript.lng');
+	include_once(ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$_SESSION['s']['language'].'_javascript.lng');
 ?>
 
 redirect = '';
