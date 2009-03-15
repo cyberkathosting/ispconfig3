@@ -219,10 +219,14 @@ class monitor_core_module {
                  * calculate the state
                  */
                 $usePercent = floatval($data[$i]['percent']);
-                if ($usePercent > 75) $state = $this->_setState($state, 'info');
-                if ($usePercent > 80) $state = $this->_setState($state, 'warning');
-                if ($usePercent > 90) $state = $this->_setState($state, 'critical');
-                if ($usePercent > 95) $state = $this->_setState($state, 'error');
+				
+				//* We dont want to check the cdrom drive as a cd / dvd is always 100% full
+				if($data[$i]['type'] != 'iso9660') {
+                	if ($usePercent > 75) $state = $this->_setState($state, 'info');
+                	if ($usePercent > 80) $state = $this->_setState($state, 'warning');
+                	if ($usePercent > 90) $state = $this->_setState($state, 'critical');
+                	if ($usePercent > 95) $state = $this->_setState($state, 'error');
+				}
             }
         }
 
