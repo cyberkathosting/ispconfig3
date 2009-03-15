@@ -52,6 +52,7 @@
 	
 	#submenu li#title a {
 	 background-color: #f0f8ff;
+	 color: #444;
 	}
 	#submenu li#title a:hover {
 	 color: #f63;

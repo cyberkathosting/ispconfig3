@@ -85,7 +85,7 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
 				$tmp_items[] = $item;
 			}
 			$nav['title'] = $app->lng($nav['title']);
-			$nav['startpage'] = $_SESSION['s']['module']['startpage'];
+			$nav['startpage'] = $nav['items'][0]['link'];
 			$nav['items'] = $tmp_items;
 			$nav_translated[] = $nav;
 		}
