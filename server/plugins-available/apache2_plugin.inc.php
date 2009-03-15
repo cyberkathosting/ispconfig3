@@ -671,7 +671,7 @@ class apache2_plugin {
 		}
 		
 		//* Create .htaccess and .htpasswd file for website statistics
-		if(!is_file($data["new"]["document_root"].'/web/stats/.htaccess') {
+		if(!is_file($data["new"]["document_root"].'/web/stats/.htaccess')) {
 			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data["new"]["document_root"]."/.htpasswd_stats\n<limit GET PUT POST>\nrequire valid-user\n</limit>";
 			file_put_contents($data["new"]["document_root"].'/web/stats/.htaccess',$ht_file);
 			chmod($data["new"]["document_root"].'/web/stats/.htaccess',0664);
