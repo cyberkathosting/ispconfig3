@@ -2,7 +2,7 @@
 $wb['Database'] = 'Database';
 $wb['Options'] = 'Options';
 $wb['Shell User'] = 'Shell User';
-$wb['Domain'] = 'Domain';
+$wb['Domain'] = 'Website';
 $wb['Redirect'] = 'Redirect';
 $wb['SSL'] = 'SSL';
 $wb['Subdomain'] = 'Subdomain';
@@ -13,4 +13,5 @@ $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell-User';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Websites';
+$wb["Stats"] = 'Statistics';
 ?>

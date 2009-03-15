@@ -670,6 +670,25 @@ class apache2_plugin {
 			$app->log("Removing File $vhost_file",LOGLEVEL_DEBUG);
 		}
 		
+		//* Create .htaccess and .htpasswd file for website statistics
+		if(!is_file($data["new"]["document_root"].'/web/stats/.htaccess') {
+			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data["new"]["document_root"]."/.htpasswd_stats\n<limit GET PUT POST>\nrequire valid-user\n</limit>";
+			file_put_contents($data["new"]["document_root"].'/web/stats/.htaccess',$ht_file);
+			chmod($data["new"]["document_root"].'/web/stats/.htaccess',0664);
+			unset($ht_file);
+		}
+		
+		if(!is_file($data["new"]["document_root"].'/.htpasswd_stats') || $data["new"]["stats_password"] != $data["old"]["stats_password"]) {
+			if(trim($data["new"]["stats_password"]) != '') {
+				$htp_file = 'admin:'.trim($data["new"]["stats_password"]);
+				file_put_contents($data["new"]["document_root"].'/.htpasswd_stats',$htp_file);
+				chmod($data["new"]["document_root"].'/.htpasswd_stats',0664);
+				unset($htp_file);
+			}
+		}
+		
+		
+		
 		// request a httpd reload when all records have been processed
 		$app->services->restartServiceDelayed('httpd','reload');
 		

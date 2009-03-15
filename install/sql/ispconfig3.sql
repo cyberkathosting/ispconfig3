@@ -982,6 +982,7 @@ CREATE TABLE `web_domain` (
   `ssl_cert` mediumtext NULL,
   `ssl_bundle` mediumtext NULL,
   `ssl_action` varchar(16) NULL,
+  `stats_password` varchar(255) default NULL,
   `apache_directives` text,
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`domain_id`)

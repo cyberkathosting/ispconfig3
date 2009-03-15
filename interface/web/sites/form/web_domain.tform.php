@@ -322,6 +322,31 @@ $form["tabs"]['ssl'] = array (
 	)
 );
 
+//* Statistics
+$form["tabs"]['stats'] = array (
+	'title' 	=> "Stats",
+	'width' 	=> 100,
+	'template' 	=> "templates/web_domain_stats.htm",
+	'readonly'	=> false,
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'stats_password' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'PASSWORD',
+			'encryption' => 'CRYPT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 $form["tabs"]['advanced'] = array (
