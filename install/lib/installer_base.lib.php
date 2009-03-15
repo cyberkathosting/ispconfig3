@@ -246,10 +246,13 @@ class installer_base {
 			$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_ip."';");
 			$this->dbmaster->query('FLUSH PRIVILEGES;');
 		
-			//* Create the ISPConfig database user in the local database
-        	/*$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
+			//* Create the ISPConfig database user in the remote database
+        	$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
                 	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_host."' "
-                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";*/
+                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+			}
 			$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
                 	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_ip."' "
                 	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
