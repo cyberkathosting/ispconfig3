@@ -865,6 +865,8 @@ class tform {
                                 $app->error("Primary ID fehlt!");
                         }
 					}
+					//* return a empty string if there is nothing to update
+					if(trim($sql_update) == '') $sql = '';
                 }
                 
                 return $sql;
