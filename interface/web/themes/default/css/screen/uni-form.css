@@ -69,7 +69,7 @@
     .uniForm .inlineLabels .ctrlHolder{}
     
     .uniForm .inlineLabels label,
-    .uniForm .inlineLabels .label{ width: 15%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
+    .uniForm .inlineLabels .label{ width: 20%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
     
     .uniForm .inlineLabels .textInput,
     .uniForm .inlineLabels .fileUpload{ width: 35%; /* <- Required property */ }
