@@ -204,7 +204,7 @@ class apache2_plugin {
 			$new_parent_domain_id = intval($data["new"]["parent_domain_id"]);
 			
 			// If the parent_domain_id has been chenged, we will have to update the old site as well.
-			if($data["new"]["parent_domain_id"] != $data["old"]["parent_domain_id"]) {
+			if($this->action == 'update' && $data["new"]["parent_domain_id"] != $data["old"]["parent_domain_id"]) {
 				$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$old_parent_domain_id." AND active = 'y'");
 				$data["new"] = $tmp;
 				$data["old"] = $tmp;
