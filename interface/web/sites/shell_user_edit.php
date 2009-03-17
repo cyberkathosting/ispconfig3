@@ -96,9 +96,10 @@ class page_action extends tform_actions {
 		
 		if($this->id > 0) {
 			//* we are editing a existing record
-			$app->tpl->setVar("parent_domain_id_disabled", 'disabled="disabled"');
+			$app->tpl->setVar("edit_disabled", 1);
+			$app->tpl->setVar("parent_domain_id_value", $this->dataRecord["parent_domain_id"]);
 		} else {
-			$app->tpl->setVar("parent_domain_id_disabled", '');
+			$app->tpl->setVar("edit_disabled", 0);
 		}
 
 		parent::onShowEnd();
