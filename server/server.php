@@ -68,7 +68,7 @@ if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
 $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGLEVEL_DEBUG);
 
 
-if($app->dbmaster->connect()) {
+if($app->db->connect() && $app->dbmaster->connect()) {
 
 	// get the dalaog_id of the last performed record
 	$server_db_record = $app->dbmaster->queryOneRecord("SELECT updated, config FROM server WHERE server_id = ".$conf["server_id"]);
@@ -114,7 +114,11 @@ if($app->dbmaster->connect()) {
 		$app->plugins->loadPlugins('core');
 	}
 } else {
-	$app->log("Unable to connect to master server.",LOGLEVEL_WARN);
+	if(!$app->db->connect()) {
+		$app->log("Unable to connect to local server.".$app->db->errorMessage,LOGLEVEL_WARN);
+	} else {
+		$app->log("Unable to connect to master server.".$app->dbmaster->errorMessage,LOGLEVEL_WARN);
+	}
 }
 
 // Remove lock

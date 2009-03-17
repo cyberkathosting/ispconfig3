@@ -41,7 +41,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		var $errorNumber = 0;	// last error number
 		var $errorMessage = "";	// last error message
 		var $errorLocation = "";// last error location
-		var $show_error_messages = false;
+		var $show_error_messages = true;
 
 		// constructor
 		function db()
@@ -58,13 +58,15 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		// error handler
 		function updateError($location)
 		{
+			global $app;
 			$this->errorNumber = mysql_errno();
 			$this->errorMessage = mysql_error();
 			$this->errorLocation = $location;
-			if($this->errorNumber && $this->show_error_messages)
+			if($this->errorNumber && $this->show_error_messages && method_exists($app,'log'))
 			{
-				echo('<br /><b>'.$this->errorLocation.'</b><br />'.$this->errorMessage);
-				flush();
+				// echo('<br /><b>'.$this->errorLocation.'</b><br />'.$this->errorMessage);
+				$app->log($this->errorLocation." ".$this->errorMessage,LOGLEVEL_WARN);
+				//flush();
 			}
 		}
 
@@ -75,7 +77,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
 				if(!$this->linkId)
 				{
-					$this->updateError('DB::connect()<br />mysql_connect');
+					$this->updateError('DB::connect()-> mysql_connect');
 					return false;
 				}
 			}
@@ -90,11 +92,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			}
 			if(!mysql_select_db($this->dbName, $this->linkId))
 			{
-				$this->updateError('DB::connect()<br />mysql_select_db');
+				$this->updateError('DB::connect()-> mysql_select_db');
 				return false;
 			}
 			$this->queryId = @mysql_query($queryString, $this->linkId);
-			$this->updateError('DB::query('.$queryString.')<br />mysql_query');
+			$this->updateError('DB::query('.$queryString.') -> mysql_query');
 			if(!$this->queryId)
 			{
 				return false;
@@ -132,7 +134,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		function nextRecord()
 		{
             $this->record = mysql_fetch_assoc($this->queryId);
-			$this->updateError('DB::nextRecord()<br />mysql_fetch_array');
+			$this->updateError('DB::nextRecord()-> mysql_fetch_array');
 			if(!$this->record || !is_array($this->record))
 			{
 				return false;
