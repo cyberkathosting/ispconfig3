@@ -8,6 +8,8 @@ $wb['source_delete_txt'] = 'Mails nach Empfang löschen';
 $wb['destination_txt'] = 'Ziel';
 $wb['active_txt'] = 'Aktiv';
 $wb['limit_fetchmail_txt'] = 'The max. number of Fetchmail records for your account is reached.';
+$wb['source_server_error_isempty'] = 'Server is empty.';
+$wb['source_username_error_isempty'] = 'Username is empty.';
+$wb['source_password_error_isempty'] = 'Password is empty.';
+$wb['destination_error_isemail'] = 'No destination selected.';
 ?>
-
-

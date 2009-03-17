@@ -8,5 +8,3 @@ $wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
 $wb['destination_error_isemail'] = 'Ziel Emailadresse ist ungültig.';
 $wb['limit_mailalias_txt'] = 'The max. number of email aliases for your account is reached.';
 ?>
-
-

@@ -28,5 +28,3 @@ $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@ihredomain.at';
 ?>
-
-

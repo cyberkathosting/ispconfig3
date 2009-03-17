@@ -7,7 +7,4 @@ $wb['mx_txt'] = 'Kein MX Lookup';
 $wb['sort_order_txt'] = 'Sortiert nach';
 $wb['active_txt'] = 'Aktiv';
 $wb['limit_mailrouting_txt'] = 'Die maximale Anzahl an Routen für ihr Konto wurde erreicht.';
-
 ?>
-
-

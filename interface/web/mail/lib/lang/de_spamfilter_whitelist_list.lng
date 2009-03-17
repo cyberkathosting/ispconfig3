@@ -7,5 +7,3 @@ $wb['rid_txt'] = 'User';
 $wb['email_txt'] = 'Whitelisted Email';
 $wb['add_new_record_txt'] = 'Add Whitelist record';
 ?>
-
-
