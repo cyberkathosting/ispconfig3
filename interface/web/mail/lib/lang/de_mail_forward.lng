@@ -2,5 +2,5 @@
 $wb['email_txt'] = 'Emailadresse';
 $wb['destination_txt'] = 'Ziel Emailadresse';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
+$wb['limit_mailforward_txt'] = 'Die max. Anzahl an Emailweiterleitungen für ihren Account wurde erreicht.';
 ?>

@@ -1,9 +1,9 @@
 <?php
 $wb['rulename_txt'] = 'Name';
-$wb['action_txt'] = 'Action';
-$wb['target_txt'] = 'Folder';
-$wb['active_txt'] = 'Active';
-$wb['rulename_error_empty'] = 'Name is empty.';
-$wb['searchterm_is_empty'] = 'Search term is empty.';
-$wb['source_txt'] = 'Source';
+$wb['action_txt'] = 'Aktion';
+$wb['target_txt'] = 'Ordner';
+$wb['active_txt'] = 'Aktiv';
+$wb['rulename_error_empty'] = 'Name ist leer.';
+$wb['searchterm_is_empty'] = 'Suchbegriff ist leer.';
+$wb['source_txt'] = 'Quelle';
 ?>
