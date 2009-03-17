@@ -83,4 +83,5 @@ $wb["template_master_txt"] = 'Master template';
 $wb["template_additional_txt"] = 'Addon template';
 $wb["ssh_chroot_txt"] = 'SSH-Chroot Options';
 $wb["web_php_options_txt"] = 'PHP Options';
+$wb["limit_client_txt"] = 'The max. number of clients is reached.';
 ?>
