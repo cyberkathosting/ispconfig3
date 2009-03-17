@@ -5,5 +5,3 @@ $wb['repo_username_txt'] = 'Benutzername (optional)';
 $wb['repo_password_txt'] = 'Passwort (optional)';
 $wb['active_txt'] = 'Aktiv';
 ?>
-
-

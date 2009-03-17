@@ -44,4 +44,6 @@ $wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
 $wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
 $wb['error_ssl_country_empty'] = 'SSL Country is empty.';
 $wb['subdomain_txt'] = 'Auto-Subdomain';
+$wb['client_group_id_txt'] = 'Client';
+$wb['stats_password_txt'] = 'Webstatistics password';
 ?>

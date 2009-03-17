@@ -44,4 +44,6 @@ $wb['error_ssl_organisation_empty'] = 'Не е посочена SSL органи
 $wb['error_ssl_organisation_unit_empty'] = 'Не е посочен SSL Organisation Unit.';
 $wb['error_ssl_country_empty'] = 'Не е посочена SSL държава.';
 $wb['subdomain_txt'] = 'Auto-Subdomain';
+$wb['client_group_id_txt'] = 'Client';
+$wb['stats_password_txt'] = 'Webstatistics password';
 ?>

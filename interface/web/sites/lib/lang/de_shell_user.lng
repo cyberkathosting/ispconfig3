@@ -19,5 +19,3 @@ $wb['directory_error_empty'] = 'Verzeichnis ist leer.';
 $wb['limit_shell_user_txt'] = 'Die maximale Anzahl an Shellbenutzer wurde erreicht.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
-
-

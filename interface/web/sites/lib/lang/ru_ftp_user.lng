@@ -21,4 +21,5 @@ $wb['quota_size_error_empty'] = 'Quota пустая.';
 $wb['uid_error_empty'] = 'GID пустое.';
 $wb['directory_error_empty'] = 'Directory empty.';
 $wb['password_strength_txt'] = 'Password strength';
+$wb['quota_files_unity_txt'] = 'Files';
 ?>

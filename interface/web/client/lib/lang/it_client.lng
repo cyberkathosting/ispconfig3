@@ -78,4 +78,6 @@ $wb['username_error_regex'] = 'Il nome utente contiene caratteri non validi.';
 $wb['password_strength_txt'] = 'Sicurezza della Password';
 $wb['template_master_txt'] = 'Principale';
 $wb['template_additional_txt'] = 'Aggiuntivo';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
+$wb['web_php_options_txt'] = 'PHP Options';
 ?>

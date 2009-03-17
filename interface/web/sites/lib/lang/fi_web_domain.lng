@@ -44,4 +44,6 @@ $wb['error_ssl_locality_empty'] = 'SSL-lokaali-kenttä on tyhjä.';
 $wb['error_ssl_organisation_empty'] = 'SSL-organisaatio-kenttä on tyhjä.';
 $wb['error_ssl_organisation_unit_empty'] = 'SSL-organisaatioyksikkö-kenttä on tyhjä.';
 $wb['error_ssl_country_empty'] = 'SSL-maa-kenttä on tyhjä.';
+$wb['client_group_id_txt'] = 'Client';
+$wb['stats_password_txt'] = 'Webstatistics password';
 ?>

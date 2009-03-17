@@ -21,4 +21,5 @@ $wb['username_error_regex'] = 'Невалидно потребителско и�
 $wb['quota_size_error_empty'] = 'Quota is empty.';
 $wb['uid_error_empty'] = 'Не е посочено GID.';
 $wb['directory_error_empty'] = 'Не е посочена директория.';
+$wb['quota_files_unity_txt'] = 'Files';
 ?>

@@ -4,5 +4,3 @@ $wb['sender_id_txt'] = 'Absender';
 $wb['subject_txt'] = 'Betreff';
 $wb['add_new_record_txt'] = 'Neue Supportnachricht erstellen';
 ?>
-
-

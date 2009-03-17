@@ -78,4 +78,6 @@ $wb['limit_database_error_notint'] = 'Макс. брой бази данни т�
 $wb['username_error_regex'] = 'Потребителското име съдържа невалидни символи.';
 $wb['template_master_txt'] = 'Master';
 $wb['template_additional_txt'] = 'Addon';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
+$wb['web_php_options_txt'] = 'PHP Options';
 ?>

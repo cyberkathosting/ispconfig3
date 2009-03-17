@@ -7,5 +7,3 @@ $wb['udp_port_help_txt'] = 'Getrennt durch Beistrich';
 $wb['active_txt'] = 'Aktiv';
 $wb['firewall_error_unique'] = 'Es gibt bereits einen Firewalldatensatz für diesen Server.';
 ?>
-
-

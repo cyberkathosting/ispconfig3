@@ -8,4 +8,7 @@ $wb['data_txt'] = 'Fecha';
 $wb['aux_txt'] = 'Prioridad';
 $wb['type_txt'] = 'Tipo';
 $wb['add_new_record_txt'] = 'Añadir nuevo registro A';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['delete_confirmation'] = 'Do you really want to delete this record?';
 ?>

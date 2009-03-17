@@ -8,4 +8,8 @@ $wb['source_delete_txt'] = 'Verwijder emails na ontvangst';
 $wb['destination_txt'] = 'Bestemming';
 $wb['active_txt'] = 'Actief';
 $wb['limit_fetchmail_txt'] = 'The max. aantal Fetchmail records voor uw domein is bereikt.';
+$wb['source_server_error_isempty'] = 'Server is empty.';
+$wb['source_username_error_isempty'] = 'Username is empty.';
+$wb['source_password_error_isempty'] = 'Password is empty.';
+$wb['destination_error_isemail'] = 'No destination selected.';
 ?>

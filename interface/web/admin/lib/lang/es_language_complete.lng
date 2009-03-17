@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Mezclar el archivo de idioma seleccionado con el fichero
 $wb['language_select_txt'] = 'Elegir idioma';
 $wb['btn_save_txt'] = 'Mezclar los ficheros ahora';
 $wb['btn_cancel_txt'] = 'Atrás';
+$wb['list_desc_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
 ?>

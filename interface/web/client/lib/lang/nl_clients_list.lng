@@ -5,4 +5,5 @@ $wb['contact_name_txt'] = 'Contactnaam';
 $wb['city_txt'] = 'Plaatsnaam';
 $wb['country_txt'] = 'Nederland';
 $wb['client_id_txt'] = 'ID';
+$wb['add_new_record_txt'] = 'Add new client';
 ?>

@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Yhdistä valittu kielitiedosto englanninkielisen pääti
 $wb['language_select_txt'] = 'Valitse täydennettävä kieli';
 $wb['btn_save_txt'] = 'Yhdistä kielitiedostot nyt';
 $wb['btn_cancel_txt'] = 'Keskeytä';
+$wb['list_desc_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
 ?>

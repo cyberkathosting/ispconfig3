@@ -19,5 +19,3 @@ $wb['database_name_change_txt'] = 'Der Datenbankname kann nicht geändert werden
 $wb['database_charset_change_txt'] = 'Der Zeichensatz der Datenbank kann nicht geändert werden.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
-
-

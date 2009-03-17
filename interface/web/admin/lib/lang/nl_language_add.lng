@@ -4,4 +4,5 @@ $wb['language_select_txt'] = 'Selecteer taal basis';
 $wb['language_new_txt'] = 'Nieuwe taal';
 $wb['btn_save_txt'] = 'Aanmaken nieuw taalbestand set';
 $wb['btn_cancel_txt'] = 'Terug';
+$wb['language_new_hint_txt'] = '2 characters ISO 639-1 language-code (See http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>

@@ -21,4 +21,5 @@ $wb['username_error_regex'] = 'The username contains charachters that are not al
 $wb['quota_size_error_empty'] = 'Quota is empty.';
 $wb['uid_error_empty'] = 'GID empty.';
 $wb['directory_error_empty'] = 'Directory empty.';
+$wb['quota_files_unity_txt'] = 'Files';
 ?>

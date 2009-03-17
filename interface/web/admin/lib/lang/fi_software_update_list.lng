@@ -4,4 +4,5 @@ $wb['installed_txt'] = 'Toiminto';
 $wb['update_title_txt'] = 'Päivitä';
 $wb['version_txt'] = 'Versio';
 $wb['action_txt'] = 'Toiminto';
+$wb['server_select_txt'] = 'Select server';
 ?>

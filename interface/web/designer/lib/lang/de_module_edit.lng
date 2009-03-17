@@ -10,5 +10,3 @@ $wb['cancel_txt'] = 'Abbrechen';
 $wb['header_txt'] = 'Moduleigenschaften';
 $wb['description_txt'] = 'Beschreibung';
 ?>
-
-

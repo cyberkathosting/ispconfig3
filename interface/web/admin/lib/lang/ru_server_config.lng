@@ -32,4 +32,10 @@ $wb['gateway_txt'] = 'Шлюз';
 $wb['hostname_txt'] = 'Имя узла';
 $wb['nameservers_txt'] = 'Nameservers';
 $wb['auto_network_configuration_txt'] = 'Network Configuration';
+$wb['website_basedir_txt'] = 'Website basedir';
+$wb['ip_address_error_wrong'] = 'Invalid IP address format.';
+$wb['netmask_error_wrong'] = 'Invalid Netmask format.';
+$wb['gateway_error_wrong'] = 'Invalid Gateway format.';
+$wb['hostname_error_empty'] = 'Hostname is empty.';
+$wb['nameservers_error_empty'] = 'Nameserver is empty.';
 ?>

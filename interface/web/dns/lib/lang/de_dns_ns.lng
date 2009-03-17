@@ -13,5 +13,3 @@ $wb['name_error_regex'] = 'Die Zone hat ein falsches Format';
 $wb['data_error_empty'] = 'Nameserver ist leer';
 $wb['data_error_regex'] = 'Nameserver Format ist ungültig';
 ?>
-
-

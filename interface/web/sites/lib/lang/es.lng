@@ -13,4 +13,5 @@ $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Usuario Consola';
 $wb['Shell'] = 'Consola (shell)';
 $wb['Websites'] = 'Websites';
+$wb['Stats'] = 'Statistics';
 ?>

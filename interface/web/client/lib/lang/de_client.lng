@@ -81,5 +81,3 @@ $wb['template_additional_txt'] = 'Addons';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Optionen';
 $wb['web_php_options_txt'] = 'PHP Optionen';
 ?>
-
-

@@ -1,4 +1,6 @@
 <?php
 $wb['rulename_txt'] = 'Nombre';
 $wb['add_new_record_txt'] = 'Añadir nuevo filtro';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
 ?>

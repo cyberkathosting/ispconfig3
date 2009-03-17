@@ -4,4 +4,5 @@ $wb['installed_txt'] = 'Azione';
 $wb['update_title_txt'] = 'Aggiornamento';
 $wb['version_txt'] = 'Versione';
 $wb['action_txt'] = 'Azione';
+$wb['server_select_txt'] = 'Select server';
 ?>

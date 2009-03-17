@@ -6,5 +6,3 @@ $wb['lang_file_txt'] = 'Sprachdatei';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Zurück';
 ?>
-
-

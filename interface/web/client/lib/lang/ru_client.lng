@@ -78,4 +78,6 @@ $wb['password_strength_txt'] = 'Password strength';
 $wb['username_error_regex'] = 'The Username contains invalid chracaters.';
 $wb['template_master_txt'] = 'Master';
 $wb['template_additional_txt'] = 'Addon';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
+$wb['web_php_options_txt'] = 'PHP Options';
 ?>

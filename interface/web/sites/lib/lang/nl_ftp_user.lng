@@ -21,4 +21,5 @@ $wb['username_error_regex'] = 'De gebruikersnaam bevat ongeldige karakters.';
 $wb['quota_size_error_empty'] = 'Quota is leeg.';
 $wb['uid_error_empty'] = 'GID is leeg.';
 $wb['directory_error_empty'] = 'Directorie is leeg.';
+$wb['quota_files_unity_txt'] = 'Files';
 ?>

@@ -8,4 +8,7 @@ $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Priority';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Add new DNS A-Record';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'of';
+$wb['delete_confirmation'] = 'Do you really want to delete this record?';
 ?>

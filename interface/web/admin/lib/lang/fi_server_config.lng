@@ -32,4 +32,10 @@ $wb['gateway_txt'] = 'Yhdyskäytävä';
 $wb['hostname_txt'] = 'Palvelimen nimi';
 $wb['nameservers_txt'] = 'Nimipalvelimet';
 $wb['auto_network_configuration_txt'] = 'Automaattiset verkkoasetukset';
+$wb['website_basedir_txt'] = 'Website basedir';
+$wb['ip_address_error_wrong'] = 'Invalid IP address format.';
+$wb['netmask_error_wrong'] = 'Invalid Netmask format.';
+$wb['gateway_error_wrong'] = 'Invalid Gateway format.';
+$wb['hostname_error_empty'] = 'Hostname is empty.';
+$wb['nameservers_error_empty'] = 'Nameserver is empty.';
 ?>

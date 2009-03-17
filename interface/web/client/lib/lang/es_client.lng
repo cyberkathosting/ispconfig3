@@ -78,4 +78,6 @@ $wb['limit_database_error_notint'] = 'El límite de bases de datos debe ser un n
 $wb['username_error_regex'] = 'El usuario contiene carácteres no válidos';
 $wb['template_master_txt'] = 'Master';
 $wb['template_additional_txt'] = 'Addon';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
+$wb['web_php_options_txt'] = 'PHP Options';
 ?>

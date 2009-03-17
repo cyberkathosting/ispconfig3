@@ -10,5 +10,3 @@ $wb['pw_error_noinput'] = 'Bitte geben sie ihr Emailadresse und Benutzernamen ei
 $wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Controlpanel Passwort wurde zurückgesetzt.';
 ?>
-
-

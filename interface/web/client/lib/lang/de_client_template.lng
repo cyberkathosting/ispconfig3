@@ -45,5 +45,3 @@ $wb['limit_dns_zone_error_notint'] = 'The dns record limit must be a number.';
 $wb['limit_database_error_notint'] = 'The database limit must be a number.';
 $wb['error_template_name_empty'] = 'Bitte geben sie einen Vorlagenamen ein';
 ?>
-
-

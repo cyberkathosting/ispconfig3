@@ -6,5 +6,3 @@ $wb['tcp_port_txt'] = 'Offene TCP Ports';
 $wb['udp_port_txt'] = 'Offene UDP Ports';
 $wb['add_new_record_txt'] = 'Firewalleintrag hinzufügen';
 ?>
-
-

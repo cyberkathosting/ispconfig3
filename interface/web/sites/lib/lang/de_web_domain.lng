@@ -45,6 +45,5 @@ $wb['error_ssl_organisation_unit_empty'] = 'SSL Abteilung ist leer.';
 $wb['error_ssl_country_empty'] = 'SSL Land ist leer.';
 $wb['subdomain_txt'] = 'Auto-Subdomain';
 $wb['client_group_id_txt'] = 'Kunde';
+$wb['stats_password_txt'] = 'Webstatistics password';
 ?>
-
-

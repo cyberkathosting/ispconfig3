@@ -15,5 +15,3 @@ $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'DNS TXT Eintrag';
 $wb['DNS TXT'] = 'DNS TXT';
 ?>
-
-

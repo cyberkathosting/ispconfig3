@@ -4,7 +4,6 @@ $wb['conf_format_datelong'] = 'l dS of F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
 $wb['conf_format_datetime'] = 'Y-m-d H:i';
-
 $wb['301'] = 'Modulen är ej tillåten för nuvarande användare.';
 $wb['302'] = 'Modulen är ogiltig.';
 $wb['1001'] = 'Användarnamn och lösenord får ej vara tomma!';

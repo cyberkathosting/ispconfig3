@@ -13,4 +13,5 @@ $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell-käyttäjä';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Verkkotunnukset';
+$wb['Stats'] = 'Statistics';
 ?>

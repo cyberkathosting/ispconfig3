@@ -13,5 +13,3 @@ $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Text ist leer';
 $wb['data_error_regex'] = 'Textformat ungültig';
 ?>
-
-

@@ -78,4 +78,6 @@ $wb['username_error_regex'] = 'Käyttäjätunnus sisältää virheellisiä merkk
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['template_master_txt'] = 'Perusmalli';
 $wb['template_additional_txt'] = 'Lisämalli';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
+$wb['web_php_options_txt'] = 'PHP Options';
 ?>
