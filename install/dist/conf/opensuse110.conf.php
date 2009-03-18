@@ -89,6 +89,7 @@ $conf['web']['website_symlinks'] = '/srv/www/[website_domain]/:/srv/www/clients/
 
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php5/cgi/';
+$conf['fastcgi']['fastcgi_starter_path'] = '/srv/www/php-fcgi-scripts/[system_user]/';
 
 //* Postfix
 $conf['postfix']['installed'] = false; // will be detected automatically during installation

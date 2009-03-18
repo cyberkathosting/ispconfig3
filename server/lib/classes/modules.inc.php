@@ -170,8 +170,8 @@ class modules {
 			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0) ORDER BY datalog_id";
 			$records = $app->db->queryAllRecords($sql);
 			foreach($records as $d) {
-				if(!$data = unserialize(stripslashes($d["data"]))) {
-					$data = unserialize($d["data"]);
+				if(!$data = unserialize(utf8_encode(stripslashes($d["data"])))) {
+					$data = unserialize(utf8_encode($d["data"]));
 				}
 				$this->current_datalog_id = $d["datalog_id"];
 				$this->raiseTableHook($d["dbtable"],$d["action"],$data);

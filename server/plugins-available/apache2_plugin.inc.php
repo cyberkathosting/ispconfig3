@@ -219,7 +219,6 @@ class apache2_plugin {
 			$this->action = 'update';
 		}
 		
-		
 		// load the server configuration options
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
