@@ -429,10 +429,10 @@ class installer_dist extends installer_base {
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
 		
-		if(is_file('/etc/suphp.conf')) {
-			replaceLine('/etc/suphp.conf','php=php:/srv/www/cgi-bin/php5','x-httpd-suphp=php:/srv/www/cgi-bin/php5',0);
-			replaceLine('/etc/suphp.conf','docroot=','docroot=/srv/www',0);
-		}
+		//if(is_file('/etc/suphp.conf')) {
+		replaceLine('/etc/suphp.conf','php=php','x-httpd-suphp=php:/srv/www/cgi-bin/php5',0,0);
+		replaceLine('/etc/suphp.conf','docroot=','docroot=/srv/www',0,0);
+		//}
 		
 		// Sites enabled and avaulable dirs
 		exec('mkdir -p '.$conf['apache']['vhost_conf_enabled_dir']);
