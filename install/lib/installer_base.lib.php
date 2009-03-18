@@ -204,6 +204,7 @@ class installer_base {
 		$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
 		$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
 		$tpl_ini_array['fastcgi']['fastcgi_phpini_path'] = $conf['fastcgi']['fastcgi_phpini_path'];
+		$tpl_ini_array['fastcgi']['fastcgi_starter_path'] = $conf['fastcgi']['fastcgi_starter_path'];
 		$tpl_ini_array['server']['hostname'] = $conf['hostname'];
 		$tpl_ini_array['server']['ip_address'] = @gethostbyname($conf['hostname']);
 		$tpl_ini_array['web']['website_basedir'] = $conf['web']['website_basedir'];
@@ -1052,9 +1053,8 @@ class installer_base {
 		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
 		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
 		
-		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
-		exec('chown getmail /usr/local/bin/run-getmail.sh');
-		exec('chmod 744 /usr/local/bin/run-getmail.sh');
+		exec('chown getmail /usr/local/ispconfig/server/scripts/run-getmail.sh');
+		exec('chmod 744 /usr/local/ispconfig/server/scripts/run-getmail.sh');
 		
 		
 	}
@@ -1116,7 +1116,7 @@ class installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 		
 			$cron_jobs = array(
-                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+                '*/5 * * * * /usr/local/ispconfig/server/scripts/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed

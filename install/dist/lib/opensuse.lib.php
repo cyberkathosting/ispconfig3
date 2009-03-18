@@ -429,9 +429,9 @@ class installer_dist extends installer_base {
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
 		
-		if(is_file('/etc/suphp/suphp.conf')) {
+		if(is_file('/etc/suphp.conf')) {
 			replaceLine('/etc/suphp.conf','php=php:/srv/www/cgi-bin/php5','x-httpd-suphp=php:/srv/www/cgi-bin/php5',0);
-			replaceLine('/etc/suphp.conf','docroot=','docroot=/var/clients',0);
+			replaceLine('/etc/suphp.conf','docroot=','docroot=/srv/www',0);
 		}
 		
 		// Sites enabled and avaulable dirs
@@ -749,6 +749,11 @@ class installer_dist extends installer_base {
 			
 		}
 		
+		// Fix a setting in vhost master file for suse
+		replaceLine('/usr/local/ispconfig/server/conf/vhost.conf.master',"suPHP_UserGroup","        suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>",0);
+		
+		
+		
 		// Make the Clamav log files readable by ISPConfig
 		//exec('chmod +r /var/log/clamav/clamav.log');
 		//exec('chmod +r /var/log/clamav/freshclam.log');
@@ -782,9 +787,8 @@ class installer_dist extends installer_base {
 		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
 		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
 		
-		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
-		exec('chown getmail /usr/local/bin/run-getmail.sh');
-		exec('chmod 744 /usr/local/bin/run-getmail.sh');
+		exec('chown getmail /usr/local/ispconfig/server/scripts/run-getmail.sh');
+		exec('chmod 744 /usr/local/ispconfig/server/scripts/run-getmail.sh');
 		
 		
 	}
@@ -846,7 +850,7 @@ class installer_dist extends installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 		
 			$cron_jobs = array(
-                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+                '*/5 * * * * /usr/local/ispconfig/server/scripts/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
