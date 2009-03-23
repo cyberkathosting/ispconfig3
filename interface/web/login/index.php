@@ -58,8 +58,8 @@ class login_index {
 		if(count($_POST) > 0) {
 			
 			//** Check variables
-			if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) $error = 'Username contains unallowed characters or is longer then 64 characters.';
-			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = 'The password length is > 64 characters.';
+			if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
+			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = $app->lng('pw_error_length');
 			
 	        //** iporting variables
 	        $ip 	  = $app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
@@ -105,10 +105,29 @@ class login_index {
 	        	} else {
 					if ($loginAs){
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
+						$user = $app->db->queryOneRecord($sql);
 					} else {
-			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
+			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
+						$user = $app->db->queryOneRecord($sql);
+						if($user && $user['active'] == 1) {
+							$saved_password = stripslashes($user['passwort']);
+							if(substr($saved_password,0,3) == '$1$') {
+								//* The password is crypt-md5 encrypted
+								$salt = '$1$'.substr($saved_password,3,8).'$';
+								if(crypt($passwort,$salt) != $saved_password) {
+									$user = false;
+								}
+							} else {
+								//* The password is md5 encrypted
+								if(md5($passwort) != $saved_password) {
+									$user = false;
+								}
+							}
+						} else {
+							$user = false;
+						}
 					}
-		            $user = $app->db->queryOneRecord($sql);
+		            
 		            if($user) {
 		                if($user['active'] == 1) {
 		                	// User login right, so attempts can be deleted

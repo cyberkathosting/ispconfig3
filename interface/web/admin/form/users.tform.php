@@ -158,6 +158,7 @@ $form['tabs']['users'] = array (
 		'passwort' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
+			'encryption'=> 'CRYPT',
 			'regex'		=> '',
 			'errmsg'	=> '',
 			'default'	=> '',

@@ -9,4 +9,6 @@ $wb['pw_error'] = 'Gebruikersnaam of Emailadres komen niet overeen.';
 $wb['pw_error_noinput'] = 'Voer a.u.b. uw Emailadres en gebruikersnaam in.';
 $wb['pw_reset_mail_msg'] = 'Het wachtwoord dat toegang biedt tot ISPConfig 3 is gereset. Het nieuwe wachtwoord is: ';
 $wb['pw_reset_mail_title'] = 'Het wachtwoord dat toegang biedt tot ISPConfig 3 is gereset.';
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
 ?>

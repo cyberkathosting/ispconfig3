@@ -43,17 +43,27 @@ $app->tpl->setVar($wb);
 
 if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '' && $_POST['username'] != 'admin') {
 	
+	if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) die($app->lng('user_regex_error'));
+	if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $_POST['email'])) die($app->lng('email_error'));
+	
 	$username = $app->db->quote($_POST['username']);
 	$email = $app->db->quote($_POST['email']);
 	
-	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE username = '$username' && email = '$email'");
+	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE username = '$username' AND email = '$email'");
 	
 	if($client['client_id'] > 0) {
 		$new_password = md5 (uniqid (rand()));
-		$new_password = $app->db->quote($new_password);
+		$salt="$1$";
+		for ($n=0;$n<11;$n++) {
+			$salt.=chr(mt_rand(64,126));
+		}
+		$salt.="$";
+		$new_password_encrypted = crypt($new_password,$salt);
+		$new_password_encrypted = $app->db->quote($new_password_encrypted);
+		
 		$username = $app->db->quote($client['username']);
-		$app->db->query("UPDATE sys_user SET passwort = md5('$new_password') WHERE username = '$username'");
-		$app->db->query("UPDATE client SET ´password´ = md5('$new_password') WHERE username = '$username'");
+		$app->db->query("UPDATE sys_user SET passwort = '$new_password_encrypted' WHERE username = '$username'");
+		$app->db->query("UPDATE client SET ´password´ = '$new_password_encrypted' WHERE username = '$username'");
 		$app->tpl->setVar("message",$wb['pw_reset']);
 		
 		mail($client['email'],$wb['pw_reset_mail_title'],$wb['pw_reset_mail_msg'].$new_password);
