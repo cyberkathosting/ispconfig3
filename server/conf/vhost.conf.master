@@ -77,6 +77,10 @@
 
 <tmpl_if name='cgi' op='==' value='y'>
     # cgi enabled
+	<Directory {tmpl_var name='document_root'}/cgi-bin>
+      Order allow,deny
+      Allow from all
+    </Directory>
     ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
     AddHandler cgi-script .cgi
     AddHandler cgi-script .pl
@@ -222,6 +226,10 @@
 
 <tmpl_if name='cgi' op='==' value='y'>
     # cgi enabled
+	<Directory {tmpl_var name='document_root'}/cgi-bin>
+      Order allow,deny
+      Allow from all
+    </Directory>
     ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
     AddHandler cgi-script .cgi
     AddHandler cgi-script .pl
