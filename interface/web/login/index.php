@@ -151,7 +151,7 @@ class login_index {
 	        	}
 	      	} else {
 	       		//* Username or password empty
-	            $error = $app->lng(1001);
+	            if($error == '') $error = $app->lng(1001);
 	        }
 		}
 		if($error != ''){
