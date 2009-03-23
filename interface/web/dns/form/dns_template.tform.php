@@ -87,8 +87,8 @@ $form["tabs"]['template'] = array (
 		'visible' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'default'	=> 'Y',
+			'value'		=> array(0 => 'N',1 => 'Y')
 		),
 	##################################
 	# ENDE Datatable fields

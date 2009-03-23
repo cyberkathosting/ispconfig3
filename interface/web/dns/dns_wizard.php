@@ -55,7 +55,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 
 
 // Load the templates
-$records = $app->db->queryAllRecords("SELECT * FROM dns_template WHERE visible = 'y'");
+$records = $app->db->queryAllRecords("SELECT * FROM dns_template WHERE visible = 'Y'");
 $template_id_option = '';
 foreach($records as $rec){
 	$checked = ($rec['template_id'] == $template_id)?' SELECTED':'';
