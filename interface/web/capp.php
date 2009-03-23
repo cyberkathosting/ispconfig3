@@ -35,7 +35,10 @@ require_once('../lib/app.inc.php');
 $mod = $_REQUEST["mod"];
 
 // Checke ob User eingeloggt
-if(!is_array($_SESSION["s"]["user"])) header("Location: index.php?phpsessid=".$_SESSION["s"]["id"]);
+if($_SESSION["s"]["user"]['active'] != 1) {
+	header("Location: index.php?phpsessid=".$_SESSION["s"]["id"]);
+	die();
+}
 
 // checke ob User Modul verwenden darf
 $user_modules = explode(",",$_SESSION["s"]["user"]["modules"]);

@@ -142,7 +142,7 @@ $form['tabs']['users'] = array (
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'username_unique'),
 										2 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-\_]{0,50}$/',
+														'regex' => '/^[\w\.\-\_]{0,64}$/',
 														'errmsg'=> 'username_err'),
 									),
 			'regex'		=> '',

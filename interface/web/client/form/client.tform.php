@@ -105,7 +105,7 @@ $form["tabs"]['address'] = array (
 														'function' => 'username_unique',
 														'errmsg'=> 'username_error_unique'),
 										2 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-\_]{0,50}$/',
+														'regex' => '/^[\w\.\-\_]{0,64}$/',
 														'errmsg'=> 'username_error_regex'),
 										),
 			'default'	=> '',

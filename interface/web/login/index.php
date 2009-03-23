@@ -56,17 +56,22 @@ class login_index {
 	
 		//* Login Form was send
 		if(count($_POST) > 0) {
-	
-	        // iporting variables
+			
+			//** Check variables
+			if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) $error = 'Username contains unallowed characters or is longer then 64 characters.';
+			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = 'The password length is > 64 characters.';
+			
+	        //** iporting variables
 	        $ip 	  = $app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
 	        $username = $app->db->quote($_POST['username']);
-	        $passwort = $app->db->quote($_POST['passwort']); 
+	        $passwort = $app->db->quote($_POST['passwort']);
+			$loginAs  = false;
 	
-	        if($username != '' and $passwort != '') {
+	        if($username != '' && $passwort != '' && $error == '') {
 				/*
 				 *  Check, if there is a "login as" instead of a "normal" login
 				 */
-				if (isset($_SESSION['s']['user'])){
+				if (isset($_SESSION['s']['user']) && $_SESSION['s']['user']['active'] == 1){
 					/*
 					 * only the admin can "login as" so if the user is NOT a admin, we
 					 * open the startpage (after killing the old session), so the user
@@ -91,7 +96,7 @@ class login_index {
 					$loginAs = false;
 				}
 
-	        	//* Check if there already wrong logins
+	        	//* Check if there are already wrong logins
 	        	$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '{$ip}' AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
 	        	$alreadyfailed = $app->db->queryOneRecord($sql);
 	        	//* login to much wrong
@@ -100,8 +105,7 @@ class login_index {
 	        	} else {
 					if ($loginAs){
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
-					}
-					else {
+					} else {
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and ( PASSWORT = '".md5($passwort)."' or PASSWORT = password('$passwort') )";
 					}
 		            $user = $app->db->queryOneRecord($sql);

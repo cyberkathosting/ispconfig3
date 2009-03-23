@@ -70,8 +70,7 @@ if(is_file("$module/$page.php")) {
 	
 } elseif (is_array($_SESSION["s"]['user']) or is_array($_SESSION["s"]["module"])) {
 	// If the user is logged in, we try to load the default page of the module
-	die('hhhhh');
-	
+	die('- error -');
 } else {
 	die('Page does not exist.');
 }

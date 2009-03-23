@@ -39,8 +39,8 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 	ini_set('register_globals',0);
 	ini_set('magic_quotes_gpc', 0);
 	
-	if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS'])) {
-		die('Internal Error: GLOBALS override attempt detected');
+	if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) || isset($_REQUEST['s']) || isset($_REQUEST['s_old']) || isset($_REQUEST['conf'])) {
+		die('Internal Error: var override attempt detected');
 		exit;
 	}
 }

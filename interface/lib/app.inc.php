@@ -44,6 +44,11 @@ class app {
 	public function __construct()
     {
 		global $conf;
+		
+		if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) || isset($_REQUEST['s']) || isset($_REQUEST['s_old']) || isset($_REQUEST['conf'])) {
+			die('Internal Error: var override attempt detected');
+		}
+		
 		$this->_conf = $conf;
 		if($this->_conf['start_db'] == true) {
 			$this->load('db_'.$this->_conf['db_type']);
