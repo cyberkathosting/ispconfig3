@@ -1,8 +1,4 @@
 
-
-WARNING: Support for OpenSuSE is experimental only. For production systems better use Debian or Ubuntu.
-
-
 Installation
 -----------
 

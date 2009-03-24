@@ -1,7 +1,4 @@
 
-WARNING: Support for Fedora is experimental only. For production systems better use Debian or Ubuntu.
-
-
 Installation
 -----------
 
