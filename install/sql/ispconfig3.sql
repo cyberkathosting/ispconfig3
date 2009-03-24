@@ -968,7 +968,7 @@ CREATE TABLE `web_domain` (
   `suexec` enum('n','y') NOT NULL default 'y',
   `errordocs` tinyint(1) NOT NULL default '1',
   `is_subdomainwww` tinyint(1) NOT NULL default '1',
-  `subdomain` enum('none','www','*') NOT NULL default 'www',
+  `subdomain` enum('none','www','*') NOT NULL default 'none',
   `php` varchar(32) NOT NULL default 'y',
   `redirect_type` varchar(255) default NULL,
   `redirect_path` varchar(255) default NULL,
