@@ -337,3 +337,22 @@ Optional recommended packages:
 
 denyhosts - a utility to help sys admins thwart ssh crackers
 rsync - fast remote file copy program (for backup)
+
+-----------------------------------------------------------------------------------------------------------
+
+Possible errors and their solutions
+------------------------------------
+
+pureftpd login does not work. Take a look at the syslog, if you find an error message like this:
+Mar 24 16:26:28 ispconfig pure-ftpd: (?@?) [ERROR] Sorry, invalid address given
+
+then pureftpd is not able to resolve the hostname. Name resolving can be disabled with these commands:
+
+echo 'yes' > /etc/pure-ftpd/conf/DontResolve
+/etc/init.d/pure-ftpd-mysql restart
+
+
+
+
+
+
