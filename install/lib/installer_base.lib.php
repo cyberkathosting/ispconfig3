@@ -1053,8 +1053,9 @@ class installer_base {
 		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
 		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
 		
-		exec('chown getmail /usr/local/ispconfig/server/scripts/run-getmail.sh');
-		exec('chmod 744 /usr/local/ispconfig/server/scripts/run-getmail.sh');
+		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
+		exec('chown getmail /usr/local/bin/run-getmail.sh');
+		exec('chmod 744 /usr/local/bin/run-getmail.sh');
 		
 		
 	}
@@ -1116,7 +1117,7 @@ class installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 		
 			$cron_jobs = array(
-                '*/5 * * * * /usr/local/ispconfig/server/scripts/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
