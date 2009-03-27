@@ -394,7 +394,8 @@ class tform {
                                                         $out = '';
                                                         foreach($field['value'] as $k => $v) {
                                                                 $checked = ($k == $val)?' CHECKED':'';
-                                                                $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
+                                                                //$out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
+																$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v\r\n";
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
@@ -484,7 +485,8 @@ class tform {
                                                 $out = '';
                                                 foreach($field['value'] as $k => $v) {
                                                         $checked = ($k == $field["default"])?' CHECKED':'';
-                                                        $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
+                                                        //$out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
+														$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v\r\n";
                                                 }
                                         }
                                         $new_record[$key] = $out;
