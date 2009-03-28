@@ -57,7 +57,7 @@ CREATE TABLE `billing_invoice` (
   `total_fee_net` decimal(10,4) NOT NULL default '0.00',
   `total_fee_gross` decimal(10,4) NOT NULL default '0.00',
   `currency_code` char(3) default 'EUR',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`billing_invoice_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -86,7 +86,7 @@ CREATE TABLE `billing_product` (
   `interval_payment` enum('prepaid','postpaid') NOT NULL default 'prepaid',
   `clearing_period` tinyint(3) unsigned default '1',
   `currency_code` char(3) default 'EUR',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`billing_product_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -123,7 +123,7 @@ CREATE TABLE `billing_service` (
   `service_start_at` date default NULL,
   `service_end_at` date default NULL,
   `invoiced_upto` date default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`billing_service_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -136,7 +136,7 @@ CREATE TABLE `billing_service_class` (
   `billing_service_class_id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(64) NOT NULL default '',
   `sort_order` int(11) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`billing_service_class_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -152,7 +152,7 @@ CREATE TABLE `billing_tax` (
   `is_default` tinyint(1) NOT NULL default '0',
   `valid_from` date default NULL,
   `valid_till` date default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`billing_tax_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -250,7 +250,7 @@ CREATE TABLE `client_address_book` (
   `entry_fax` varchar(32) default NULL,
   `entry_mobile` varchar(32) default NULL,
   `entry_email` varchar(256) default NULL,
-  PRIMARY KEY  (`address_book_id`)
+  PRIMARY KEY  (`client_address_book_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -411,7 +411,7 @@ CREATE TABLE `domain_handle` (
   `sys_perm_all` varchar(5) default NULL,
   `domain_registrar` varchar(64) default NULL,
   `handle` varchar(32) default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`domain_handle_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -430,7 +430,7 @@ CREATE TABLE `domain_provider` (
   `provider` varchar(255) default NULL,
   `is_extern` tinyint(1) NOT NULL default '0',
   `domainrobot_interface` varchar(16) default '',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`domain_provider_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -449,7 +449,7 @@ CREATE TABLE `domain_tld` (
   `tld` varchar(32) default NULL,
   `domain_provider_id` int(11) unsigned NOT NULL default '0',
   `domain_registrar` varchar(64) default NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`domain_tld_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
@@ -1396,7 +1396,7 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.0.9');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.1');
 
 -- --------------------------------------------------------
 
