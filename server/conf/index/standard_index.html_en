@@ -50,7 +50,7 @@
         <div id="content">
             <h2>This is the default index page of your website.</h2>
             <p>This file may be deleted or overwritten without any difficulty. This is produced by the file <b>index.html</b> in the <b>web</b> directory.</p>
-            <p>For questions or problems please contact the <!--SUPPORT//-->support<!--SUPPORT//-->.</p>
+            <p>For questions or problems please contact <!--SUPPORT//-->support<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>Powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>
