@@ -8,11 +8,13 @@
         <input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="hidden" class="textInput" />
       <div class="ctrlHolder">
       	<label for="system_user">{tmpl_var name='system_user_txt'}</label>
-        <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
+		<label for="system_user">{tmpl_var name='system_user'}</label>
+        <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" type="hidden" />
 			</div>
       <div class="ctrlHolder">
       	<label for="system_group">{tmpl_var name='system_group_txt'}</label>
-        <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
+		<label for="system_group">{tmpl_var name='system_group'}</label>
+        <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
 			</div>
       <div class="ctrlHolder">
       	<label for="apache_directives">{tmpl_var name='apache_directives_txt'}</label>
