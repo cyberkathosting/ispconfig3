@@ -122,11 +122,11 @@ if( empty($conf["mysql"]["admin_password"]) ) {
 //** export the current database data
 if( !empty($conf["mysql"]["admin_password"]) ) {
 
-	system("mysqldump -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." -p".$conf['mysql']['admin_password']." -c -t --add-drop-table --all --quick ".$conf['mysql']['database']." > existing_db.sql");
+	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --all --quick ".$conf['mysql']['database']." > existing_db.sql");
 }
 else {
 
-	system("mysqldump -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." -c -t --add-drop-table --all --quick ".$conf['mysql']['database']." > existing_db.sql");
+	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --all --quick ".$conf['mysql']['database']." > existing_db.sql");
 }
 
 
@@ -165,10 +165,10 @@ foreach($db_tables as $table) {
 //** load old data back into database
 if( !empty($conf["mysql"]["admin_password"]) ) {
 
-	system("mysql --default-character-set=".$conf['mysql']['charset']." -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." -p".$conf['mysql']['admin_password']." ".$conf['mysql']['database']." < existing_db.sql");
+	system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
 } else {
 
-	system("mysql --default-character-set=".$conf['mysql']['charset']." -h ".$conf['mysql']['host']." -u ".$conf['mysql']['admin_user']." ".$conf['mysql']['database']." < existing_db.sql");
+	system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
 }
 
 // create a backup copy of the ispconfig database in the root folder
