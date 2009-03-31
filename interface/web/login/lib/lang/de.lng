@@ -9,4 +9,6 @@ $wb['pw_error'] = 'Benutzername oder Emailadresse stimmen nicht überein.';
 $wb['pw_error_noinput'] = 'Bitte geben sie ihr Emailadresse und Benutzernamen ein.';
 $wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Controlpanel Passwort wurde zurückgesetzt.';
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
 ?>

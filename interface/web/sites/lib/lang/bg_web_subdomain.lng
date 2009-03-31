@@ -35,4 +35,5 @@ $wb['apache_directives_txt'] = 'Apache директиви';
 $wb['domain_error_empty'] = 'Не е посочен домейн.';
 $wb['domain_error_unique'] = 'Вече съществува такъв домейн.';
 $wb['domain_error_regex'] = 'Невалидно име на домейн.';
+$wb['host_txt'] = 'Host';
 ?>

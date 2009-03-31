@@ -9,4 +9,6 @@ $wb['pw_error'] = 'Греяно потребителското име или е�
 $wb['pw_error_noinput'] = 'Моля въведете потребителско име и електронна поща.';
 $wb['pw_reset_mail_msg'] = 'Новата парола за вашия ISPConfig 3 контролен панел е:';
 $wb['pw_reset_mail_title'] = 'Нова парола за вашия ISPConfig 3 контролен панел';
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
 ?>

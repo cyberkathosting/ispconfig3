@@ -159,7 +159,7 @@ class app {
 				if(!file_exists($lng_file)) $lng_file = ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
 				@include_once($lng_file);
 			}
-			$this->_wb = $wb;
+			if(isset($wb)) $this->_wb = $wb;
 			$this->_language_inc = 1;
 		}		
 		if(!empty($this->_wb[$text])) {

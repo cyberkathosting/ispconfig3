@@ -9,4 +9,6 @@ $wb['pw_error'] = 'Käyttäjätunnusta tai sähköpostiosoitetta ei löydy.';
 $wb['pw_error_noinput'] = 'Anna sähköpostiosoite ja käyttäjätunnus.';
 $wb['pw_reset_mail_msg'] = 'Käyttäjätunnuksesi salasana ISPConfi3 Hallintapaneeliin on vaihdettu. Uusi salasanasi: ';
 $wb['pw_reset_mail_title'] = 'ISPConfi3 Hallintapaneelin salasana on vaihdettu.';
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
 ?>
