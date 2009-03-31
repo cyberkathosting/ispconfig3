@@ -41,4 +41,15 @@ NameVirtualHost *:{vhost_port}
 
 </VirtualHost>
 
+<Directory /var/www/php-cgi-scripts>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+<Directory /var/www/php-fcgi-scripts>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
 
