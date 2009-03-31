@@ -60,6 +60,9 @@ function getClientName($dataRecord) {
     	// Get the group-id from the data itself
     	if(isset($dataRecord['client_group_id'])) {
 			$client_group_id = $dataRecord['client_group_id'];
+		} elseif (isset($dataRecord['parent_domain_id'])) {
+			$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = " . $dataRecord['parent_domain_id']);
+			$client_group_id = $tmp['sys_groupid'];
       	} else {
 			$client_group_id = $dataRecord['sys_groupid'];
       	}
@@ -82,7 +85,10 @@ function getClientID($dataRecord) {
     	// Get the group-id from the data itself
 		if(isset($dataRecord['client_group_id'])) {
 			$client_group_id = $dataRecord['client_group_id'];
-      	} else {
+      	} elseif (isset($dataRecord['parent_domain_id'])) {
+			$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = " . $dataRecord['parent_domain_id']);
+			$client_group_id = $tmp['sys_groupid'];
+		} else {
 			$client_group_id = $dataRecord['sys_groupid'];
       	}
     }
