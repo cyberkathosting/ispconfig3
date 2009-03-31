@@ -48,13 +48,13 @@ $app->uses('ini_parser,file,services');
 $sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf["server_id"];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	if(@is_file($rec["maildir"].'/.ispconfig_mailsize')) {
+	if(@is_file($rec["maildir"].'/ispconfig_mailsize')) {
 		
 		// rename file
-		rename($rec["maildir"].'/.ispconfig_mailsize',$rec["maildir"].'/.ispconfig_mailsize_save');
+		rename($rec["maildir"].'/ispconfig_mailsize',$rec["maildir"].'/ispconfig_mailsize_save');
 		
 		// Read the file
-		$lines = file($rec["maildir"].'/.ispconfig_mailsize_save');
+		$lines = file($rec["maildir"].'/ispconfig_mailsize_save');
 		$mail_traffic = 0;
 		foreach($lines as $line) {
 			$mail_traffic += intval($line);
@@ -62,7 +62,7 @@ foreach($records as $rec) {
 		unset($lines);
 		
 		// Delete backup file
-		if(@is_file($rec["maildir"].'/.ispconfig_mailsize_save')) unlink($rec["maildir"].'/.ispconfig_mailsize_save');
+		if(@is_file($rec["maildir"].'/ispconfig_mailsize_save')) unlink($rec["maildir"].'/ispconfig_mailsize_save');
 		
 		// Save the traffic stats in the sql database
 		$tstamp = date("Y-m");
