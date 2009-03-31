@@ -148,11 +148,14 @@ class shelluser_base_plugin {
 			// Get the UID of the user
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
-				$command = 'userdel -f';
-				$command .= ' '.escapeshellcmd($data['old']['username']);
+				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
+				if ($data['old']['chroot'] != "jailkit") {
+					$command = 'userdel -f';
+					$command .= ' '.escapeshellcmd($data['old']['username']);
 			
-				exec($command);
-				$app->log("Deleted shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
+					exec($command);
+					$app->log("Deleted shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
+				}
 			
 			} else {
 				$app->log("UID = $userid for shelluser:".$data['old']['username']." not allowed.",LOGLEVEL_ERROR);
