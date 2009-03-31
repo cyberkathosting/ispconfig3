@@ -82,7 +82,8 @@ class page_action extends tform_actions {
 		
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
-		$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+		//$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+		$shelluser_prefix = replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
 		
 		if ($this->dataRecord['username'] != ""){
 			/* REMOVE the restriction */
@@ -136,8 +137,9 @@ class page_action extends tform_actions {
 			
 			$app->uses('getconf');
 			$global_config = $app->getconf->get_global_config('sites');
-			$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
-
+			// $shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+			$shelluser_prefix = replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
+			
 			/* restrict the names */
 			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
 		}
@@ -182,7 +184,8 @@ class page_action extends tform_actions {
 			*/
 			$app->uses('getconf');
 			$global_config = $app->getconf->get_global_config('sites');
-			$shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+			// $shelluser_prefix = ($global_config['shelluser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['shelluser_prefix']);
+			$shelluser_prefix = replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
 			
 			/* restrict the names */
 			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];

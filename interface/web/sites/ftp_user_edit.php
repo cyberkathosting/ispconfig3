@@ -82,7 +82,8 @@ class page_action extends tform_actions {
 		
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
-		$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		// $ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		$ftpuser_prefix = replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
 		
 		if ($this->dataRecord['username'] != ""){
 			/* REMOVE the restriction */
@@ -115,7 +116,8 @@ class page_action extends tform_actions {
 		
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
-		$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		//$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		$ftpuser_prefix = replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
 		
 		if ($app->tform->errorMessage == '') {
 			$this->dataRecord['username'] = $ftpuser_prefix . $this->dataRecord['username'];
@@ -151,7 +153,8 @@ class page_action extends tform_actions {
 		
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
-		$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		//$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
+		$ftpuser_prefix = replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
 		
 		/* restrict the names */
 		if ($app->tform->errorMessage == '') {
