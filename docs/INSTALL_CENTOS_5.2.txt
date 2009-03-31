@@ -54,6 +54,7 @@ mkdir $HOME/rpm/BUILD
 mkdir $HOME/rpm/SRPMS
 mkdir $HOME/rpm/RPMS
 mkdir $HOME/rpm/RPMS/i386
+mkdir $HOME/rpm/RPMS/x86_64
 
 echo "%_topdir $HOME/rpm" >> $HOME/.rpmmacros
 
