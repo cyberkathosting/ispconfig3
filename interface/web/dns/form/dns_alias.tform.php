@@ -134,6 +134,22 @@ $form["tabs"]['dns'] = array (
 			'default'	=> 'Y',
 			'value'		=> array(0 => 'N',1 => 'Y')
 		),
+		'stamp' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'serial' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

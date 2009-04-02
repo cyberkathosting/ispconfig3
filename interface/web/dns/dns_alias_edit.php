@@ -100,6 +100,11 @@ class page_action extends tform_actions {
 		// Set the server ID of the rr record to the same server ID as the parent record.
 		$this->dataRecord["server_id"] = $soa["server_id"];
 		
+		// Update the serial number  and timestamp of the RR record
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ".$this->id);
+		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
+		
 		parent::onSubmit();
 	}
 	
