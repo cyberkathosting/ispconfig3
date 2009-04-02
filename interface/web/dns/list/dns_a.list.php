@@ -121,7 +121,7 @@ $liste["item"][] = array(	'field'		=> "type",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('A'=>'A','ALIAS'=>'ALIAS','CNAME'=>'CNAME','HINFO'=>'HINFO','MX'=>'MX','NS'=>'NS','PTR'=>'PTR','RP'=>'RP','SRV'=>'SRV','TXT'=>'TXT'));
+							'value'		=> array('A'=>'A','AAAA' => 'AAAA','ALIAS'=>'ALIAS','CNAME'=>'CNAME','HINFO'=>'HINFO','MX'=>'MX','NS'=>'NS','PTR'=>'PTR','RP'=>'RP','SRV'=>'SRV','TXT'=>'TXT'));
 
 
 ?>
