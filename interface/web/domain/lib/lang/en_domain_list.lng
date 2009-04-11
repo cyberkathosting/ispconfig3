@@ -1,0 +1,10 @@
+<?php
+$wb["list_head_txt"] = 'Domains';
+$wb["domain_id_txt"] = 'ID';
+$wb["domain_txt"] = 'Domain';
+$wb["tld_txt"] = 'TLD';
+$wb["connected_at_txt"] = 'Connected';
+$wb["disconnected_at_txt"] = 'Disconnected';
+$wb["status_txt"] = 'Status';
+$wb["add_new_record_txt"] = 'Add new domain';
+?>
