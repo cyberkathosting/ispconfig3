@@ -366,7 +366,7 @@ class installer_base {
 		$postconf_commands = array (
 			'myhostname = '.$conf['hostname'],
 			'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
-			'mynetworks = 127.0.0.0/8',
+			'mynetworks = 127.0.0.0/8 [::1]/128',
 			'virtual_alias_domains =',
 			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
 			'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
