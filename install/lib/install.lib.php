@@ -59,6 +59,9 @@ $FILE = realpath('../install.php');
 function get_distname() {
 	
 	$distname = '';
+	$distver = '';
+	$distid = '';
+	$distbaseid = '';
 	
 	//** Debian or Ubuntu
 	if(file_exists('/etc/debian_version')) {
@@ -69,13 +72,18 @@ function get_distname() {
 			$distid = 'debian40';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 4.0 or compatible\n");
-		}
-		if(trim(file_get_contents('/etc/debian_version')) == '5.0' || trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'5.0') || trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
 			$distname = 'Debian';
 			$distver = 'Lenny/Sid';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian Lenny/Sid or compatible\n");
+		}  else {
+			$distname = 'Debian';
+			$distver = 'Unknown';
+			$distid = 'debian40';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}
 	}
 	
@@ -87,13 +95,24 @@ function get_distname() {
 			$distid = 'opensuse110';
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.0 or compatible\n");
-		}
-		if(stristr(file_get_contents('/etc/SuSE-release'),'11.1')) {
+		} elseif(stristr(file_get_contents('/etc/SuSE-release'),'11.1')) {
 			$distname = 'openSUSE';
 			$distver = '11.1';
 			$distid = 'opensuse110';
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.1 or compatible\n");
+		} elseif(stristr(file_get_contents('/etc/SuSE-release'),'11.2')) {
+			$distname = 'openSUSE';
+			$distver = '11.1';
+			$distid = 'opensuse110';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE 11.2 or compatible\n");
+		}  else {
+			$distname = 'openSUSE';
+			$distver = 'Unknown';
+			$distid = 'opensuse110';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE or compatible, unknown version.\n");
 		}
 	}
 	
@@ -109,22 +128,30 @@ function get_distname() {
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 9 or compatible\n");
-		}
-		
-		if(stristr($content,'Fedora release 10 (Cambridge)')) {
+		} elseif(stristr($content,'Fedora release 10 (Cambridge)')) {
 			$distname = 'Fedora';
 			$distver = '10';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 10 or compatible\n");
-		}
-		
-		if(stristr($content,'CentOS release 5.2 (Final)')) {
+		} elseif(stristr($content,'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
 			$distid = 'centos52';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 5.2 or compatible\n");
+		} elseif(stristr($content,'CentOS release 5.3 (Final)')) {
+			$distname = 'CentOS';
+			$distver = '5.3';
+			$distid = 'centos52';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 5.3 or compatible\n");
+		} else {
+			$distname = 'Redhat';
+			$distver = 'Unknown';
+			$distid = 'fedora9';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Redhat or compatible, unknown version.\n");
 		}
 		
 		
