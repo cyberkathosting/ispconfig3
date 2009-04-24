@@ -701,7 +701,8 @@ class monitor_core_module {
          *  This monitoring is expensive, so do it only once a hour
          */
         $min = date('i');
-        if ($min != 0) return;
+        $hour = date('H');
+        if ($min != 0 && $hour != 23) return;
 
         global $app;
         global $conf;
