@@ -97,21 +97,21 @@ MySQLGetQTAFS  SELECT quota_files FROM ftp_user WHERE active = 'y' AND server_id
 # The number should be in Megabytes.
 # Pure-FTPd must have been compiled with virtual quotas support.
 
-MySQLGetQTASZ  SELECT quota_size FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L"
+MySQLGetQTASZ  SELECT quota_size FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_size != '-1' AND username="\L"
 
 
 # Optional : ratios. The server has to be compiled with ratio support.
 
-MySQLGetRatioUL SELECT ul_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L"
-MySQLGetRatioDL SELECT dl_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L"
+MySQLGetRatioUL SELECT ul_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_ratio != '-1' AND username="\L"
+MySQLGetRatioDL SELECT dl_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_ratio != '-1' AND username="\L"
 
 
 # Optional : bandwidth throttling.
 # The server has to be compiled with throttling support.
 # Values are in KB/s .
 
-MySQLGetBandwidthUL SELECT ul_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L"
-MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L"
+MySQLGetBandwidthUL SELECT ul_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_bandwidth != '-1' AND username="\L"
+MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_bandwidth != '-1' AND username="\L"
 
 # Enable ~ expansion. NEVER ENABLE THIS BLINDLY UNLESS :
 # 1) You know what you are doing.
