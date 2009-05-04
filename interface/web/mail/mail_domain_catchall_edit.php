@@ -61,7 +61,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT limit_mailcatchall FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Check if the user may add another mailbox.
-			if($client["limit_mailforward"] >= 0) {
+			if($client["limit_mailcatchall"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = $client_group_id and type = 'catchall'");
 				if($tmp["number"] >= $client["limit_mailcatchall"]) {
 					$app->error($app->tform->wordbook["limit_mailcatchall_txt"]);
