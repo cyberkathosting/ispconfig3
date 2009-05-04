@@ -160,11 +160,11 @@ class tform {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
-                                        $new_record[$key] = stripslashes($record[$key]);
+                                        $new_record[$key] = $record[$key];
                                 break;
 
                                 case 'TEXT':
-                                        $new_record[$key] = stripslashes($record[$key]);
+                                        $new_record[$key] = $record[$key];
                                 break;
 
                                 case 'DATE':
@@ -186,7 +186,7 @@ class tform {
                                 break;
 
                                 default:
-                                        $new_record[$key] = stripslashes($record[$key]);
+                                        $new_record[$key] = $record[$key];
                                 }
                         }
 
