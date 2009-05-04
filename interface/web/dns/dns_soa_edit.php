@@ -175,6 +175,18 @@ class page_action extends tform_actions {
 			// And we want to update all rr records too, that belong to this record
 			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
 		}
+		
+		//** When the client group has changed, change also the owner of the record if the owner is not the admin user
+		if($this->oldDataRecord["client_group_id"] != $this->dataRecord["client_group_id"] && $this->dataRecord["sys_userid"] != 1) {
+			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ".$client_group_id);
+			if($tmp["userid"] > 0) {
+				$app->db->query("UPDATE dns_soa SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);
+				$app->db->query("UPDATE dns_rr SET sys_userid = ".$tmp["userid"]." WHERE zone = ".$this->id);
+			}
+			
+		}
+		
 	}
 	
 }
