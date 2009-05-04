@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -395,7 +395,24 @@ class apache2_plugin {
 				}
 			}
 			exec("chmod -R a+r ".escapeshellcmd($data["new"]["document_root"])."/web/");
-		}
+		
+		//** Copy the error documents on update when the error document checkbox has been activated and was deactivated before
+		} elseif ($this->action == 'update' && $data["new"]["type"] == 'vhost' && $data["old"]["errordocs"] == 0 && $data["new"]["errordocs"] == 1) {
+			
+			$error_page_path = escapeshellcmd($data["new"]["document_root"])."/web/error/";
+			if (file_exists("/usr/local/ispconfig/server/conf-custom/error/".substr(escapeshellcmd($conf["language"]),0,2))){
+				exec("cp /usr/local/ispconfig/server/conf-custom/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+			}
+			else {
+				if (file_exists("/usr/local/ispconfig/server/conf-custom/error/400.html")){
+					exec("cp /usr/local/ispconfig/server/conf-custom/error/*.html ".$error_page_path);
+				}
+				else {
+					exec("cp /usr/local/ispconfig/server/conf/error/".substr(escapeshellcmd($conf["language"]),0,2)."/* ".$error_page_path);
+				}
+			}
+			exec("chmod -R a+r ".$error_page_path);
+		}  // end copy error docs
 		
 		// Create group and user, if not exist
 		$app->uses("system");
