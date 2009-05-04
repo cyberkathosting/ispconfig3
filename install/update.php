@@ -119,6 +119,15 @@ if( empty($conf["mysql"]["admin_password"]) ) {
 	$conf["mysql"]["admin_password"] = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
 }
 
+//** load the pre update sql script do perform modifications on the database before the database is dumped
+if(is_file(ISPC_INSTALL_ROOT."/install/sql/pre_update.sql")) {
+	if($conf['mysql']['admin_password'] == '') {
+		caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+	} else {
+		caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+	}
+}
+
 //** export the current database data
 if( !empty($conf["mysql"]["admin_password"]) ) {
 
