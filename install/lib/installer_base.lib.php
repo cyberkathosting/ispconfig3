@@ -857,6 +857,8 @@ class installer_base {
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
 		
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
+		$content = str_replace('{language}', $conf['language'], $content);
+		
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
 		//* Create the config file for ISPConfig server
