@@ -116,6 +116,10 @@ class maildrop_plugin {
 			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
 			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lst';
 			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lst.gdbm';
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.lst.lock';
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
 			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
 			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
 			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
