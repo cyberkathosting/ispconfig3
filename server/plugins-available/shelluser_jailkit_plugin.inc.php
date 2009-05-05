@@ -234,6 +234,9 @@ class shelluser_jailkit_plugin {
 			$jailkit_chroot_userhome = $this->_get_home_dir($this->data['new']['username']);
 			$jailkit_chroot_puserhome = $this->_get_home_dir($this->data['new']['puser']);
 			
+			if(!is_dir($this->data['new']['dir'].'/etc')) mkdir($this->data['new']['dir'].'/etc');
+			if(!is_file($this->data['new']['dir'].'/etc/passwd')) exec('touch '.$this->data['new']['dir'].'/etc/passwd');
+			
 			// IMPORTANT!
 			// ALWAYS create the user. Even if the user was created before
 			// if we check if the user exists, then a update (no shell -> jailkit) will not work

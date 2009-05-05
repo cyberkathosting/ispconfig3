@@ -77,15 +77,16 @@ class shelluser_base_plugin {
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
 				$command = 'useradd';
-				$command .= ' --home '.escapeshellcmd($data['new']['dir']);
-				$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
-				$command .= ' --non-unique ';
-				$command .= ' --password '.escapeshellcmd($data['new']['password']);
-				$command .= ' --shell '.escapeshellcmd($data['new']['shell']);
-				$command .= ' --uid '.escapeshellcmd($uid);
+				$command .= ' -d '.escapeshellcmd($data['new']['dir']);
+				$command .= ' -g '.escapeshellcmd($data['new']['pgroup']);
+				$command .= ' -o '; // non unique
+				if($data['new']['password'] != '') $command .= ' -p '.escapeshellcmd($data['new']['password']);
+				$command .= ' -s '.escapeshellcmd($data['new']['shell']);
+				$command .= ' -u '.escapeshellcmd($uid);
 				$command .= ' '.escapeshellcmd($data['new']['username']);
 			
 				exec($command);
+				$app->log("Executed command: ".$command,LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
 				
 				//* Disable shell user temporarily if we use jailkit
@@ -125,7 +126,7 @@ class shelluser_base_plugin {
 					$command .= ' '.escapeshellcmd($data['old']['username']);
 			
 					exec($command);
-					// $app->log("Updated shelluser: $command ",LOGLEVEL_DEBUG);
+					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
 				} else {
 					// The user does not exist, so we insert it now
