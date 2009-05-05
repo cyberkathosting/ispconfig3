@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -88,9 +88,18 @@ class modules {
 			$records = $app->dbmaster->queryAllRecords($sql);
 			foreach($records as $d) {
 				
-				if(!$data = unserialize(stripslashes($d["data"]))) {
-					$data = unserialize($d["data"]);
+				//** encode data to utf-8 and unserialize it
+				if(!$data = unserialize(utf8_encode(stripslashes($d["data"])))) {
+					$data = unserialize(utf8_encode($d["data"]));
 				}
+				//** Decode data back to locale
+				foreach($data['old'] as $key => $val) {
+					$data['old'][$key] = utf8_decode($val);
+				}
+				foreach($data['new'] as $key => $val) {
+					$data['new'][$key] = utf8_decode($val);
+				}
+				
 				$replication_error = false;
 				
 				$this->current_datalog_id = $d["datalog_id"];
@@ -170,9 +179,19 @@ class modules {
 			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0) ORDER BY datalog_id";
 			$records = $app->db->queryAllRecords($sql);
 			foreach($records as $d) {
+				
+				//** encode data to utf-8 to be able to unserialize it and then unserialize it
 				if(!$data = unserialize(utf8_encode(stripslashes($d["data"])))) {
 					$data = unserialize(utf8_encode($d["data"]));
 				}
+				//** decode data back to current locale
+				foreach($data['old'] as $key => $val) {
+					$data['old'][$key] = utf8_decode($val);
+				}
+				foreach($data['new'] as $key => $val) {
+					$data['new'][$key] = utf8_decode($val);
+				}
+				
 				$this->current_datalog_id = $d["datalog_id"];
 				$this->raiseTableHook($d["dbtable"],$d["action"],$data);
 				//$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
