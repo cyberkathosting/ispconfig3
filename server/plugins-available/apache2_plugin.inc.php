@@ -270,12 +270,18 @@ class apache2_plugin {
 			exec('mv '.$data["old"]["document_root"].' '.$new_dir);
 			$app->log("Moving site to new document root: ".'mv '.$data["old"]["document_root"].' '.$new_dir,LOGLEVEL_DEBUG);
 			
+			//* Change the owner of the website files to the new website owner
+			exec('chown --recursive --from='.escapeshellcmd($data["old"]["system_user"]).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data["new"]["system_user"]).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
+			
 			//* Change the home directory and group of the website user
 			$command = 'usermod';
 			$command .= ' --home '.escapeshellcmd($data["new"]["document_root"]);
 			$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
 			exec($command);
+			
+			
+			
 			
 		}
 		
@@ -577,11 +583,13 @@ class apache2_plugin {
 			if (!is_dir($fastcgi_starter_path))
 			{
 				exec("mkdir -p ".escapeshellcmd($fastcgi_starter_path));
-				exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." ".escapeshellcmd($fastcgi_starter_path));
+				//exec("chown ".$data["new"]["system_user"].":".$data["new"]["system_group"]." ".escapeshellcmd($fastcgi_starter_path));
 				
 				
 				$app->log("Creating fastcgi starter script directory: $fastcgi_starter_path",LOGLEVEL_DEBUG);
 			}
+			
+			exec("chown -R ".$data["new"]["system_user"].":".$data["new"]["system_group"]." ".escapeshellcmd($fastcgi_starter_path));
 			
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate("php-fcgi-starter.master");
