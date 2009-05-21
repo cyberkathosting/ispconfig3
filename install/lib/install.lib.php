@@ -134,6 +134,12 @@ function get_distname() {
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 10 or compatible\n");
+		} elseif(stristr($content,'Fedora release 10')) {
+			$distname = 'Fedora';
+			$distver = '11';
+			$distid = 'fedora9';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 11 or compatible\n");
 		} elseif(stristr($content,'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
