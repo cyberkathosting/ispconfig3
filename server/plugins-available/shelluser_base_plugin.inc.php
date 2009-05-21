@@ -89,6 +89,11 @@ class shelluser_base_plugin {
 				$app->log("Executed command: ".$command,LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
 				
+				//* Create .bash_history file
+				exec('touch '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+				exec('chmod 755 '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+				exec('chown '.escapeshellcmd($data['new']['username']).':'.escapeshellcmd($data['new']['pgroup']).' '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+				
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
 					$command = 'usermod -L '.escapeshellcmd($data['new']['username']);
@@ -128,6 +133,15 @@ class shelluser_base_plugin {
 					exec($command);
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
+					
+					
+					//* Create .bash_history file
+					if(!is_file($data['new']['dir']).'/.bash_history') {
+						exec('touch '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+						exec('chmod 755 '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+						exec('chown '.escapeshellcmd($data['new']['username']).':'.escapeshellcmd($data['new']['pgroup']).' '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+					}
+					
 				} else {
 					// The user does not exist, so we insert it now
 					$this->insert($event_name,$data);
