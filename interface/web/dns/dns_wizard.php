@@ -41,7 +41,7 @@ $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/dns_wizard.htm');
 
 // import variables
-$template_id = (isset($_POST['template_id']))?intval($_POST['template_id']):1;
+$template_id = (isset($_POST['template_id']))?intval($_POST['template_id']):0;
 $sys_groupid = (isset($_POST['client_group_id']))?intval($_POST['client_group_id']):0;
 
 // get the correct server_id
@@ -57,10 +57,14 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 // Load the templates
 $records = $app->db->queryAllRecords("SELECT * FROM dns_template WHERE visible = 'Y'");
 $template_id_option = '';
+$n = 0;
 foreach($records as $rec){
 	$checked = ($rec['template_id'] == $template_id)?' SELECTED':'';
 	$template_id_option .= '<option value="'.$rec['template_id'].'"'.$checked.'>'.$rec['name'].'</option>';
+	if($n == 0 && $template_id == 0) $template_id = $rec['template_id'];
+	$n++;
 }
+unset($n);
 $app->tpl->setVar("template_id_option",$template_id_option);
 
 // If the user is administrator
