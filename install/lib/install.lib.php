@@ -149,7 +149,7 @@ function get_distname() {
 		} elseif(stristr($content,'CentOS release 5.3 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.3';
-			$distid = 'centos52';
+			$distid = 'centos53';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 5.3 or compatible\n");
 		} else {

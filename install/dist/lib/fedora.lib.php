@@ -208,6 +208,8 @@ class installer_dist extends installer_base {
 		$configfile = 'tpl/fedora_saslauthd_smtpd_conf.master';
 		$content = rf($configfile);
 		wf('/usr/lib/sasl2/smtpd.conf',$content);
+		if(is_dir('/usr/lib64')) wf('/usr/lib64/sasl/smtpd.conf',$content);
+		if(is_dir('/usr/lib64')) wf('/usr/lib64/sasl2/smtpd.conf',$content);
 		
 	}
 	
