@@ -599,6 +599,8 @@ class installer_dist extends installer_base {
 		
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
+		$content = str_replace('{language}', $conf['language'], $content);
+		
 		wf("$install_dir/server/lib/$configfile", $content);
 		
 		

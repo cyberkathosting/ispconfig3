@@ -89,6 +89,7 @@ $conf['mysql']['charset'] = 'utf8';
 $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 $conf['language'] = $conf_old['language'];
+if($conf['language'] == '{language}') $conf['language'] = 'en';
 
 if(isset($conf_old["dbmaster_host"])) $conf["mysql"]["master_host"] = $conf_old["dbmaster_host"];
 if(isset($conf_old["dbmaster_database"])) $conf["mysql"]["master_database"] = $conf_old["dbmaster_database"];
