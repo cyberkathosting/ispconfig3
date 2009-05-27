@@ -63,7 +63,7 @@ class page_action extends tform_actions {
 			if($client["limit_spamfilter_wblist"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(wblist_id) as number FROM spamfilter_wblist WHERE sys_groupid = $client_group_id");
 				if($tmp["number"] >= $client["limit_spamfilter_wblist"]) {
-					$app->error($app->tform->wordbook["limit_spamfilter_wblist_txt"]);
+					$app->error($app->tform->lng("limit_spamfilter_wblist_txt"));
 				}
 			}
 		}
