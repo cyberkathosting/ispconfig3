@@ -39,6 +39,7 @@ $app->auth->check_module_permissions('dns');
 $app->uses('tpl,validate_dns');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/dns_wizard.htm');
+$app->load_language_file('/web/dns/lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng');
 
 // import variables
 $template_id = (isset($_POST['template_id']))?intval($_POST['template_id']):0;
@@ -109,11 +110,11 @@ if($_POST['create'] == 1) {
 	
 	$error = '';
 	
-	if(isset($_POST['domain']) && $_POST['domain'] == '') $error .= $app->lng('error_domain_empty');
-	if(isset($_POST['ip']) && $_POST['ip'] == '') $error .= $app->lng('error_ip_empty');
-	if(isset($_POST['ns1']) && $_POST['ns1'] == '') $error .= $app->lng('error_ns1_empty');
-	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty');
-	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty');
+	if(isset($_POST['domain']) && $_POST['domain'] == '') $error .= $app->lng('error_domain_empty').'<br />';
+	if(isset($_POST['ip']) && $_POST['ip'] == '') $error .= $app->lng('error_ip_empty').'<br />';
+	if(isset($_POST['ns1']) && $_POST['ns1'] == '') $error .= $app->lng('error_ns1_empty').'<br />';
+	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
+	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	
 	
 	// replace template placeholders
@@ -164,14 +165,14 @@ if($_POST['create'] == 1) {
 		
 	} // end foreach
 	
-	if($vars['origin'] == '') $error .= $app->lng('error_origin_empty');
-	if($vars['ns'] == '') $error .= $app->lng('error_ns_empty');
-	if($vars['mbox'] == '') $error .= $app->lng('error_mbox_empty');
-	if($vars['refresh'] == '') $error .= $app->lng('error_refresh_empty');
-	if($vars['retry'] == '') $error .= $app->lng('error_retry_empty');
-	if($vars['expire'] == '') $error .= $app->lng('error_expire_empty');
-	if($vars['minimum'] == '') $error .= $app->lng('error_minimum_empty');
-	if($vars['ttl'] == '') $error .= $app->lng('error_ttl_empty');
+	if($vars['origin'] == '') $error .= $app->lng('error_origin_empty').'<br />';
+	if($vars['ns'] == '') $error .= $app->lng('error_ns_empty').'<br />';
+	if($vars['mbox'] == '') $error .= $app->lng('error_mbox_empty').'<br />';
+	if($vars['refresh'] == '') $error .= $app->lng('error_refresh_empty').'<br />';
+	if($vars['retry'] == '') $error .= $app->lng('error_retry_empty').'<br />';
+	if($vars['expire'] == '') $error .= $app->lng('error_expire_empty').'<br />';
+	if($vars['minimum'] == '') $error .= $app->lng('error_minimum_empty').'<br />';
+	if($vars['ttl'] == '') $error .= $app->lng('error_ttl_empty').'<br />';
 	
 	if($error == '') {
 		// Insert the soa record

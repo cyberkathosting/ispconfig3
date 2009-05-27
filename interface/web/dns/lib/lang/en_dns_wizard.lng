@@ -10,7 +10,18 @@ $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP Address';
-
 $wb['error_origin_empty'] = 'Origin empty.';
+$wb['error_ns_empty'] = 'NS empty.';
+$wb['error_mbox_empty'] = 'Mbox empty.';
+$wb['error_refresh_empty'] = 'Refresh empty.';
+$wb['error_retry_empty'] = 'Retry empty.';
+$wb['error_expire_empty'] = 'Expire empty.';
+$wb['error_minimum_empty'] = 'Minimum empty.';
+$wb['error_ttl_empty'] = 'TTL empty.';
+$wb['error_domain_empty'] = 'Domain empty';
+$wb['error_ip_empty'] = 'IP empty.';
+$wb['error_ns1_empty'] = 'NS1 empty.';
+$wb['error_ns2_empty'] = 'NS2 empty.';
+$wb['error_email_empty'] = 'EMail empty.';
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -147,25 +147,43 @@ class app {
 		}
 	}
 
-    /** Loads language */
+    /** Translates strings in current language */
     public function lng($text)
     {
 		if($this->_language_inc != 1) {
 			//* loading global and module Wordbook
             // TODO: this need to be made clearer somehow - pedro
-			@include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			//@include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			$this->load_language_file('/lib/lang/'.$_SESSION['s']['language'].'.lng');
 			if(isset($_SESSION['s']['module']['name']) && isset($_SESSION['s']['language'])) {
-				$lng_file = ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng';
-				if(!file_exists($lng_file)) $lng_file = ISPC_ROOT_PATH.'/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
-				@include_once($lng_file);
+				$lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+				if(!file_exists($lng_file)) $lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
+				//@include_once($lng_file);
+				$this->load_language_file($lng_file);
 			}
-			if(isset($wb)) $this->_wb = $wb;
+			//if(isset($wb)) $this->_wb = $wb;
 			$this->_language_inc = 1;
 		}		
 		if(!empty($this->_wb[$text])) {
 			$text = $this->_wb[$text];
 		}
 		return $text;
+	}
+	
+	//** Helper function to load the language files.
+	public function load_language_file($filename) {
+		$filename = ISPC_ROOT_PATH.'/'.$filename;
+		if(substr($filename,-4) != '.lng') $this->error('Language file has wrong extension.');
+		if(file_exists($filename)) {
+			@include_once($filename);
+			if(is_array($wb)) {
+				if(is_array($this->_wb)) {
+					$this->_wb = array_merge($wb,$this->_wb);
+				} else {
+					$this->_wb = $wb;
+				}
+			}
+		}
 	}
 
     public function tpl_defaults()
