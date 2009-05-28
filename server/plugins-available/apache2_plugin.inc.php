@@ -146,8 +146,12 @@ class apache2_plugin {
     		@unlink($rand_file);
     		$ssl_request = file_get_contents($csr_file);
     		$ssl_cert = file_get_contents($crt_file);
+			/* Update the DB of the (local) Server */
     		$app->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
+			/* Update also the master-DB of the Server-Farm */
+    		$app->dbmaster->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
 		}
 		
 		//* Save a SSL certificate to disk
@@ -160,7 +164,10 @@ class apache2_plugin {
 			file_put_contents($csr_file,$data["new"]["ssl_request"]);
 			file_put_contents($crt_file,$data["new"]["ssl_cert"]);
 			if(trim($data["new"]["ssl_bundle"]) != '') file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
+			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
+			/* Update also the master-DB of the Server-Farm */
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->log("Saving SSL Cert for: $domain",LOGLEVEL_DEBUG);
 		}
 		
@@ -174,7 +181,12 @@ class apache2_plugin {
 			unlink($csr_file);
 			unlink($crt_file);
 			unlink($bundle_file);
+			/* Update the DB of the (local) Server */
+    		$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
+			/* Update also the master-DB of the Server-Farm */
+    		$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = '".$data["new"]["domain"]."'");
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->log("Deleting SSL Cert for: $domain",LOGLEVEL_DEBUG);
 		}
 		
