@@ -698,7 +698,7 @@ class monitor_core_module {
 
     function monitorRkHunter(){
         /*
-         *  This monitoring is expensive, so do it only once a hour
+         *  This monitoring is expensive, so do it only once a day
          */
         $min = date('i');
         $hour = date('H');
