@@ -1010,6 +1010,7 @@ CREATE TABLE `web_database` (
   `database_password` varchar(64) default NULL,
   `database_charset` varchar(64) default NULL,
   `remote_access` enum('n','y') NOT NULL default 'y',
+  `remote_ips` text NOT NULL,
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`database_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;

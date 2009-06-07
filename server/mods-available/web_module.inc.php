@@ -80,7 +80,8 @@ class web_module {
 		*/
 		
 		$app->modules->registerTableHook('web_domain','web_module','process');
-		$app->modules->registerTableHook('shell_user','web_module','process');
+        $app->modules->registerTableHook('ftp_user','web_module','process');
+        $app->modules->registerTableHook('shell_user','web_module','process');
 		
 		// Register service
 		$app->services->registerService('httpd','web_module','restartHttpd');

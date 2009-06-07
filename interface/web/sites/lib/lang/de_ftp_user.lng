@@ -22,4 +22,5 @@ $wb['quota_size_error_empty'] = 'Quota ist leer.';
 $wb['uid_error_empty'] = 'GID ist leer.';
 $wb['directory_error_empty'] = 'Verzeichniss ist leer.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
+$wb['directory_error_notinweb'] = 'Das Verzeichnis befindet sich nicht innerhalb des Verzeichnisses der Website.';
 ?>

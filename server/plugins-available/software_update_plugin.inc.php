@@ -62,17 +62,24 @@ class software_update_plugin {
 		
 	}
 	
-	
+	function set_install_status($inst_id, $status) {
+        global $app;
+        
+        $app->db->query("UPDATE software_update_inst SET status = '{$status}' WHERE software_update_inst_id = '{$inst_id}'");
+        $app->dbmaster->query("UPDATE software_update_inst SET status = '{$status}' WHERE software_update_inst_id = '{$inst_id}'");
+    }
+    
 	function process($event_name,$data) {
 		global $app, $conf;
 		
-		if(!$conf['software_updates_enabled'] == true) {
+        if(!$conf['software_updates_enabled'] == true) {
 			$app->log('Software Updates not enabled on this server. To enable updates, set $conf["software_updates_enabled"] = true; in config.inc.php',LOGLEVEL_ERROR);
+            $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			return false;
 		}
 		
 		//* Get the info of the package:
-		$software_update_id = intval($data["new"]["software_update_id"]);
+        $software_update_id = intval($data["new"]["software_update_id"]);
 		$software_update = $app->db->queryOneRecord("SELECT * FROM software_update WHERE software_update_id = '$software_update_id'");
 		
 		$temp_dir = '/tmp/'.md5 (uniqid (rand()));
@@ -80,6 +87,7 @@ class software_update_plugin {
 		mkdir($temp_dir);
 		if(!is_dir($temp_dir)) {
 			$app->log("Unable to create temp directory.",LOGLEVEL_ERROR);
+            $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			return false;
 		}
 		
@@ -97,6 +105,7 @@ class software_update_plugin {
 				$app->log("The md5 sum of the downloaded file is incorrect. Update aborted.",LOGLEVEL_ERROR);
 				exec("rm -rf $temp_dir");
 				$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
+                $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 				return false;
 			} else {
 				$app->log("md5sum of the downloaded file is verified.",LOGLEVEL_DEBUG);
@@ -110,18 +119,28 @@ class software_update_plugin {
 				// Execute the setup script
 				exec('chmod +x '.$temp_dir.'/setup.sh');
 				$app->log("Executing setup.sh file in directory $temp_dir",LOGLEVEL_DEBUG);
-				exec('cd '.$temp_dir.' && ./setup.sh');
-				$app->db->query("UPDATE software_update_inst SET status = 'installed' WHERE software_update_inst_id = ".$data["new"]["software_update_inst_id"]);
+				exec('cd '.$temp_dir.' && ./setup.sh > package_install.log');
+                
+                $log_data = @file_get_contents("{$temp_dir}/package_install.log");
+                if(preg_match("'.*\[OK\]\s*$'is", $log_data)) {
+                    $app->log("Installation successful",LOGLEVEL_DEBUG);
+                    $app->log($log_data,LOGLEVEL_DEBUG);
+                    $this->set_install_status($data["new"]["software_update_inst_id"], "installed");
+                } else {
+                    $app->log("Installation failed:\n\n" . $log_data,LOGLEVEL_ERROR);
+                    $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
+                }
 			} else {
 				$app->log("setup.sh file not found",LOGLEVEL_ERROR);
+                $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			}
 		} else {
 			$app->log("Download of the update file failed",LOGLEVEL_ERROR);
+            $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 		}
 		
 		exec("rm -rf $temp_dir");
 		$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
-		
 	}
 	
 

@@ -131,93 +131,125 @@ $form["tabs"]['ftp'] = array (
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 $form["tabs"]['advanced'] = array (
-	'title' 	=> "Options",
-	'width' 	=> 100,
-	'template' 	=> "templates/ftp_user_advanced.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
-		'uid' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'uid_error_empty'),
-									),
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
-		),
-		'gid' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'uid_error_empty'),
-									),
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
-		),
-		'dir' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'directory_error_empty'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
-		),
-		'quota_files' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '7',
-			'maxlength'	=> '7'
-		),
-		'ul_ratio' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '7',
-			'maxlength'	=> '7'
-		),
-		'dl_ratio' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '7',
-			'maxlength'	=> '7'
-		),
-		'ul_bandwidth' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '7',
-			'maxlength'	=> '7'
-		),
-		'dl_bandwidth' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '7',
-			'maxlength'	=> '7'
-		),
-	##################################
-	# ENDE Datatable fields
-	##################################
-	)
+    'title'     => "Options",
+    'width'     => 100,
+    'template'  => "templates/ftp_user_advanced.htm",
+    'fields'    => array (
+    ##################################
+    # Begin Datatable fields
+    ##################################
+        'uid' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'uid_error_empty'),
+                                    ),
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '30',
+            'maxlength' => '255'
+        ),
+        'gid' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'uid_error_empty'),
+                                    ),
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '30',
+            'maxlength' => '255'
+        ),
+        'dir' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'directory_error_empty'),
+                                    ),
+            'default'   => '',
+            'value'     => '',
+            'width'     => '30',
+            'maxlength' => '255'
+        ),
+        'quota_files' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '7',
+            'maxlength' => '7'
+        ),
+        'ul_ratio' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '7',
+            'maxlength' => '7'
+        ),
+        'dl_ratio' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '7',
+            'maxlength' => '7'
+        ),
+        'ul_bandwidth' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '7',
+            'maxlength' => '7'
+        ),
+        'dl_bandwidth' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'default'   => '0',
+            'value'     => '',
+            'width'     => '7',
+            'maxlength' => '7'
+        ),
+    ##################################
+    # ENDE Datatable fields
+    ##################################
+    )
+);
+
+} else {
+
+$form["tabs"]['advanced'] = array (
+    'title'     => "Options",
+    'width'     => 100,
+    'template'  => "templates/ftp_user_advanced_client.htm",
+    'fields'    => array (
+    ##################################
+    # Begin Datatable fields
+    ##################################
+        'dir' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'TEXT',
+            'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'directory_error_empty'),
+                                        1 => array (    'type'  => 'CUSTOM',
+                                                        'class' => 'validate_ftpuser',
+                                                        'function' => 'ftp_dir',
+                                                        'errmsg' => 'directory_error_notinweb'),
+                                    ),
+            'default'   => '',
+            'value'     => '',
+            'width'     => '30',
+            'maxlength' => '255'
+        ),
+    ##################################
+    # ENDE Datatable fields
+    ##################################
+    )
 );
 
 }
+
 
 
 ?>

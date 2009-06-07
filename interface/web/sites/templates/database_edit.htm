@@ -80,11 +80,15 @@
 		</tmpl_if>
       </div>
       <div class="ctrlHolder">
-				<p class="label">{tmpl_var name='remote_access_txt'}</p>
-					<div class="multiField">
-						{tmpl_var name='remote_access'}
-					</div>
-			</div>
+        <p class="label">{tmpl_var name='remote_access_txt'}</p>
+          <div class="multiField">
+            {tmpl_var name='remote_access'}
+          </div>
+      </div>
+      <div class="ctrlHolder">
+        <label for="remote_ips">{tmpl_var name='remote_ips_txt'}</label>
+        <input name="remote_ips" id="remote_ips" value="{tmpl_var name='remote_ips'}" size="60" type="text" class="textInput formLengthHalf" />
+      </div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='active_txt'}</p>
 					<div class="multiField">

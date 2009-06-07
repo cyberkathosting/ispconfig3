@@ -233,33 +233,10 @@ class installer_base {
 			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
 			$this->db->query($sql);
 			
-			//* insert the ispconfig user in the remote server
-			$from_host = $conf['hostname'];
-			$from_ip = gethostbyname($conf['hostname']);
-			
 			//* username for the ispconfig user
 			$conf['mysql']['master_ispconfig_user'] = 'ispcsrv'.$conf['server_id'];
-		
-			//* Delete ISPConfig user in the master database, in case that it exists
-			$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_host."';");
-			$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_host."';");
-			$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_ip."';");
-			$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_ip."';");
-			$this->dbmaster->query('FLUSH PRIVILEGES;');
-		
-			//* Create the ISPConfig database user in the remote database
-        	$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
-                	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_host."' "
-                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-			$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['master_database'].".* "
-                	."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$from_ip."' "
-                	."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
+            
+            $this->grant_master_database_rights();
 		
 		} else {
 			//* Insert the server, if its not a mster / slave setup
@@ -272,6 +249,78 @@ class installer_base {
 		
 	}
 	
+    public function grant_master_database_rights()
+    {
+        global $conf;
+        
+        if($conf['mysql']['master_slave_setup'] != 'y') return;
+        
+        //* insert the ispconfig user in the remote server
+        $from_host = $conf['hostname'];
+        $from_ip = gethostbyname($conf['hostname']);
+        
+        //* Delete ISPConfig user in the master database, in case that it exists
+        $this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_host."';");
+        $this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_host."';");
+        $this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_ip."';");
+        $this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_ip."';");
+        $this->dbmaster->query('FLUSH PRIVILEGES;');
+    
+        $hosts = array($from_host, $from_ip);
+        
+        foreach($hosts as $src_host) {
+            //* Create the ISPConfig database user in the remote database
+            $query = "GRANT SELECT ON ".$conf['mysql']['master_database'].".`server` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT SELECT, INSERT ON ".$conf['mysql']['master_database'].".`sys_log` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT SELECT, UPDATE(`status`) ON ".$conf['mysql']['master_database'].".`sys_datalog` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT UPDATE(`status`) ON ".$conf['mysql']['master_database'].".`software_update_inst` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`) ON ".$conf['mysql']['master_database'].".`web_domain` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT SELECT ON ".$conf['mysql']['master_database'].".`sys_group` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT INSERT , DELETE ON ".$conf['mysql']['master_database'].".`monitor_data` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+        }
+    
+    }
 
     //** writes postfix configuration files
     public function process_postfix_config($configfile)

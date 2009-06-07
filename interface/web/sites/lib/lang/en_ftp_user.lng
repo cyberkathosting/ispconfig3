@@ -23,4 +23,5 @@ $wb["quota_size_error_empty"] = 'Quota is empty.';
 $wb["uid_error_empty"] = 'UID empty.';
 $wb["uid_error_empty"] = 'GID empty.';
 $wb["directory_error_empty"] = 'Directory empty.';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
 ?>

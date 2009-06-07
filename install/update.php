@@ -165,6 +165,9 @@ if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
 //** Create the mysql database
 $inst->configure_database();
 
+//** Update master database rights
+$inst->grant_master_database_rights();
+
 //** empty all databases
 $db_tables = $inst->db->getTables();
 
