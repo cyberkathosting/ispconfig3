@@ -40,7 +40,7 @@ class validate_client {
         	$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."'");
             	if($num_rec["number"] > 0) {
                 	$errmsg = $validator['errmsg'];
-					if(isset($this->wordbook[$errmsg])) {
+					if(isset($app->tform->wordbook[$errmsg])) {
                     	return $app->tform->wordbook[$errmsg]."<br>\r\n";
 					} else {
 						return $errmsg."<br>\r\n";
