@@ -5,7 +5,7 @@
 ################################################
 
 LogFormat "%v %h %l %u %t \"%r\" %>s %B \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
-CustomLog "| /usr/sbin/vlogger -s access.log -t \"%Y%m%d-access.log\" /var/log/ispconfig/httpd" combined_ispconfig
+CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m%d-access.log\" -d \"/etc/vlogger-dbi.conf\" /var/log/ispconfig/httpd" combined_ispconfig
 
 <Directory /var/www/clients>
     AllowOverride None

@@ -20,9 +20,9 @@ $items[] = array( 'title' 	=> "Subdomain",
 				  'link'	=> 'sites/web_subdomain_list.php');
 
 
-$items[] = array( 'title' 	=> "Aliasdomain",
-				  'target' 	=> 'content',
-				  'link'	=> 'sites/web_aliasdomain_list.php');
+$items[] = array( 'title'   => "Aliasdomain",
+                  'target'  => 'content',
+                  'link'    => 'sites/web_aliasdomain_list.php');
 
 $module["nav"][] = array(	'title'	=> 'Websites',
 							'open' 	=> 1,
@@ -75,6 +75,21 @@ $items[] = array( 'title' 	=> "Database",
 $module["nav"][] = array(	'title'	=> 'Database',
 							'open' 	=> 1,
 							'items'	=> $items);
+
+
+//**** Statistics menu
+$items = array();
+
+$items[] = array( 'title'   => 'Web traffic',
+                  'target'  => 'content',
+                  'link'    => 'sites/web_sites_stats.php');
+
+
+$module['nav'][] = array(   'title' => 'Statistics',
+                            'open'  => 1,
+                            'items' => $items);
+                            
+                            
 
 // clean up
 unset($items);

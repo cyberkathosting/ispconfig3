@@ -68,7 +68,7 @@ foreach($records as $rec) {
 		$tstamp = date("Y-m");
 		
 		$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec["mailuser_id"];
-		$tr = $app->db->queryOneRecord($sql);
+		$tr = $app->dbmaster->queryOneRecord($sql);
 		
 		$mail_traffic += $tr["traffic"];
 		if($tr["traffic_id"] > 0) {
@@ -76,7 +76,7 @@ foreach($records as $rec) {
 		} else {
 			$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec["mailuser_id"].",$mail_traffic)";
 		}
-		$app->db->query($sql);
+		$app->dbmaster->query($sql);
 		echo $sql;
 		
 	}

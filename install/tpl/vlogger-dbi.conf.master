@@ -1,0 +1,4 @@
+dsn DBI:mysql:database={mysql_server_database};host={mysql_server_ip}:3306
+user {mysql_server_ispconfig_user}
+pass {mysql_server_ispconfig_password}
+dump 30

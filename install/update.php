@@ -300,6 +300,10 @@ if($reconfigure_services_answer == 'yes') {
 		//** Configure Apache
 		swriteln('Configuring Apache');
 		$inst->configure_apache();
+        
+        //** Configure vlogger
+        swriteln('Configuring vlogger');
+        $inst->configure_vlogger();
 	}
 	
 

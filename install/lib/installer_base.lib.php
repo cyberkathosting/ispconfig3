@@ -318,6 +318,21 @@ class installer_base {
             if(!$this->dbmaster->query($query)) {
                 $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
             }
+            
+            $query = "GRANT SELECT, INSERT, UPDATE ON ".$conf['mysql']['master_database'].".`mail_traffic` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
+            $query = "GRANT SELECT, INSERT, UPDATE ON ".$conf['mysql']['master_database'].".`web_traffic` "
+                    ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
+                    ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
+            if(!$this->dbmaster->query($query)) {
+                $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+            }
+            
         }
     
     }
@@ -856,7 +871,32 @@ class installer_base {
 
 	}
 	
-	
+    public function configure_vlogger()
+    {
+        global $conf;
+        
+        //** Configure vlogger to use traffic logging to mysql (master) db
+        $configfile = 'vlogger-dbi.conf';
+        if(is_file($conf["vlogger"]["config_dir"].'/'.$configfile)) copy($conf["vlogger"]["config_dir"].'/'.$configfile,$conf["vlogger"]["config_dir"].'/'.$configfile.'~');
+        if(is_file($conf["vlogger"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["vlogger"]["config_dir"].'/'.$configfile.'~');
+        $content = rf("tpl/".$configfile.".master");
+        if($conf['mysql']['master_slave_setup'] == 'y') {
+            $content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['master_ispconfig_user'],$content);
+            $content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['master_ispconfig_password'], $content);
+            $content = str_replace('{mysql_server_database}',$conf['mysql']['master_database'],$content);
+            $content = str_replace('{mysql_server_ip}',$conf["mysql"]["master_host"],$content);
+        } else {
+            $content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+            $content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+            $content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
+            $content = str_replace('{mysql_server_ip}',$conf["mysql"]["host"],$content);
+        }
+        wf($conf["vlogger"]["config_dir"].'/'.$configfile,$content);
+        exec('chmod 600 '.$conf["vlogger"]["config_dir"].'/'.$configfile);
+        exec('chown root:root '.$conf["vlogger"]["config_dir"].'/'.$configfile);
+    
+    }
+    
 	public function install_ispconfig()
     {
 		global $conf;

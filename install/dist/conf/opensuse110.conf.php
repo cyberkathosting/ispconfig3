@@ -148,5 +148,8 @@ $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
 $conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico';
 
+//* vlogger
+$conf['vlogger']['config_dir'] = '/etc';
+
 
 ?>

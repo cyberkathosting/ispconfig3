@@ -1019,6 +1019,20 @@ CREATE TABLE `web_database` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table  `web_traffic`
+--
+
+CREATE TABLE `web_traffic` (
+  `hostname` varchar(255) NOT NULL,
+  `traffic_date` date NOT NULL,
+  `traffic_bytes` bigint(32) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`hostname`,`traffic_date`)
+) ENGINE=MyISAM;
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table  `attempts_login`
 --
 

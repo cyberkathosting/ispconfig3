@@ -195,6 +195,10 @@ if($install_mode == 'standard') {
 	swriteln('Configuring Apache');
 	$inst->configure_apache();
 	
+    //** Configure vlogger
+    swriteln('Configuring vlogger');
+    $inst->configure_vlogger();
+    
 	//* Configure Firewall
 	swriteln('Configuring Firewall');
 	$inst->configure_firewall();
@@ -359,6 +363,10 @@ if($install_mode == 'standard') {
 		$conf['services']['web'] = true;
 		swriteln('Configuring Apache');
 		$inst->configure_apache();
+        
+        //** Configure vlogger
+        swriteln('Configuring vlogger');
+        $inst->configure_vlogger();
 	}
 	
 	//** Configure Firewall
