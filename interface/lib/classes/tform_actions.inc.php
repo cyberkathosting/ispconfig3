@@ -359,7 +359,7 @@ class tform_actions {
 			if($app->tform->formDef['auth'] == 'no') {
             	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
             } else {
-            	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('u');
+            	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
             }
             if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
 			
@@ -400,7 +400,7 @@ class tform_actions {
 				if($app->tform->formDef['auth'] == 'no') {
             		$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
             	} else {
-            		$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('u');
+            		$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
             	}
             	if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
 			
@@ -436,7 +436,7 @@ class tform_actions {
 			if($app->tform->formDef['auth'] == 'no') {
             	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
             } else {
-            	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('u');
+            	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
             }
             if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
 			
@@ -527,7 +527,7 @@ class tform_actions {
                 // bestehenden Datensatz anzeigen
                 if($app->tform->errorMessage == '') {
                         if($app->tform->formDef['auth'] == 'yes' && $_SESSION["s"]["user"]["typ"] != 'admin') {
-                        	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('u');
+                        	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
                         } else {
                         	$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
                         }
