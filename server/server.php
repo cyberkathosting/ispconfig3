@@ -56,6 +56,11 @@ if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
   clearstatcache();
   for($i=0;$i<1200;$i++){ // Wait max. 1200 sec, then proceed
     if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
+      exec("ps aux | grep '/usr/local/ispconfig/server/server.php' | grep -v 'grep' | wc -l", $check);
+      if(intval($check[0]) > 1) { // 1 because this is 2nd instance!
+          $app->log("There is already an instance of server.php running. Exiting.", LOGLEVEL_DEBUG);
+          exit;
+      }
 	  $app->log("There is already a lockfile set. Waiting another 10 seconds...", LOGLEVEL_DEBUG);
       sleep(10);
       clearstatcache();
