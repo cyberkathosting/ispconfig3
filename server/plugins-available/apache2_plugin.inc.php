@@ -506,6 +506,7 @@ class apache2_plugin {
 		// Rewrite rules
 		$rewrite_rules = array();
 		if($data["new"]["redirect_type"] != '') {
+			if(substr($data["new"]["redirect_path"],-1) != '/') $data["new"]["redirect_path"] .= '/';
 			$rewrite_rules[] = array(	'rewrite_domain' 	=> $data["new"]["domain"],
 										'rewrite_type' 		=> ($data["new"]["redirect_type"] == 'no')?'':'['.$data["new"]["redirect_type"].']',
 										'rewrite_target' 	=> $data["new"]["redirect_path"]);
@@ -552,6 +553,7 @@ class apache2_plugin {
 				$app->log("Add server alias: $alias[domain]",LOGLEVEL_DEBUG);
 				// Rewriting
 				if($alias["redirect_type"] != '') {
+					if(substr($data["new"]["redirect_path"],-1) != '/') $data["new"]["redirect_path"] .= '/';
 					$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias["domain"],
 												'rewrite_type' 		=> ($alias["redirect_type"] == 'no')?'':'['.$alias["redirect_type"].']',
 												'rewrite_target' 	=> $alias["redirect_path"]);
