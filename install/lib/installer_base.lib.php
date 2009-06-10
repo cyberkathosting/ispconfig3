@@ -808,6 +808,13 @@ class installer_base {
 			exec("ln -s ".$vhost_conf_dir."/ispconfig.conf ".$vhost_conf_enabled_dir."/000-ispconfig.conf");
 		}
 		
+		//* make sure that webalizer finds its config file when it is directly in /etc
+		if(@is_file('/etc/webalizer.conf') && !@is_dir('/etc/webalizer')) {
+			exec('mkdir /etc/webalizer');
+			exec('ln -s /etc/webalizer.conf /etc/webalizer/webalizer.conf');
+		}
+		
+		
 	}
 	
 	public function configure_firewall()
