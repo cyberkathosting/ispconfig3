@@ -6,3 +6,5 @@ cd trunk/install
 php -q update.php
 cd /tmp
 rm -rf /tmp/trunk
+
+exit 0

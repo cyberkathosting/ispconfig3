@@ -115,7 +115,7 @@ ___
 
 set docroot to:
 ###
-docroot=/var/clients
+docroot=/var/www/clients
 ###
 
 Change: application/x-httpd-php=php:/usr/bin/php-cgi to:
