@@ -527,25 +527,26 @@ class apache2_plugin {
 		
 		// get alias domains (co-domains and subdomains)
 		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$data["new"]["domain_id"]." AND active = 'y'");
-        switch($data["new"]["subdomain"]) {
+        $server_alias = array();
+		switch($data["new"]["subdomain"]) {
         case 'www':
-            $server_alias .= 'www.'.$data["new"]["domain"].' ';
+            $server_alias[] .= 'www.'.$data["new"]["domain"].' ';
             break;
         case '*':
-            $server_alias .= '*.'.$data["new"]["domain"].' ';    
+            $server_alias[] .= '*.'.$data["new"]["domain"].' ';    
             break;
         }
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
                 switch($alias["subdomain"]) {
                 case 'www':
-                    $server_alias .= 'www.'.$alias["domain"].' '.$alias["domain"].' ';
+                    $server_alias[] .= 'www.'.$alias["domain"].' '.$alias["domain"].' ';
                     break;
                 case '*':
-                    $server_alias .= '*.'.$alias["domain"].' '.$alias["domain"].' ';    
+                    $server_alias[] .= '*.'.$alias["domain"].' '.$alias["domain"].' ';    
                     break;
                 default:
-                    $server_alias .= $alias["domain"].' ';            
+                    $server_alias[] .= $alias["domain"].' ';            
                     break;
                 }
 				$app->log("Add server alias: $alias[domain]",LOGLEVEL_DEBUG);
@@ -570,7 +571,24 @@ class apache2_plugin {
 				}
 			}
 		}
-		$tpl->setVar('alias',trim($server_alias));
+		
+		//* If we have some alias records
+		if(count($server_alias) > 0) {
+			$server_alias_str = '';
+			$n = 0;
+			
+			// begin a new ServerAlias line after 30 alias domains
+			foreach($server_alias as $tmp_alias) {
+				if($n % 30 == 0) $server_alias_str .= "\n    ServerAlias ";
+				$server_alias_str .= $tmp_alias;
+			}
+			unset($tmp_alias);
+			
+			$tpl->setVar('alias',trim($server_alias_str));
+		} else {
+			$tpl->setVar('alias','');
+		}
+		
 		if(count($rewrite_rules) > 0) {
 			$tpl->setVar('rewrite_enabled',1);
 		} else {

@@ -18,7 +18,7 @@
 
     ServerName <tmpl_var name='domain'>
 <tmpl_if name='alias'>
-    ServerAlias <tmpl_var name='alias'>
+    <tmpl_var name='alias'>
 </tmpl_if>
     ServerAdmin webmaster@<tmpl_var name='domain'>
 
@@ -160,7 +160,7 @@
 
     ServerName <tmpl_var name='domain'>
 <tmpl_if name='alias'>
-    ServerAlias <tmpl_var name='alias'>
+    <tmpl_var name='alias'>
 </tmpl_if>
     ServerAdmin webmaster@<tmpl_var name='domain'>
     
