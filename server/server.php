@@ -54,7 +54,7 @@ if($server_db_record == false) {
 // Check if another process is running
 if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
   clearstatcache();
-  for($i=0;$i<1200;$i++){ // Wait max. 1200 sec, then proceed
+  for($i=0;$i<120;$i++){ // Wait max. 1200 sec, then proceed
     if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
       exec("ps aux | grep '/usr/local/ispconfig/server/server.php' | grep -v 'grep' | wc -l", $check);
       if(intval($check[0]) > 1) { // 1 because this is 2nd instance!
