@@ -252,11 +252,10 @@
     #php_admin_value open_basedir <tmpl_var name='document_root'>:/usr/share/php5
 </tmpl_if>
 <tmpl_if name='php' op='==' value='suphp'>
-    # suphp enabled
     suPHP_Engine on
     # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
-    AddHandler x-httpd-php .php .php3 .php4 .php5
-    suPHP_AddHandler x-httpd-php
+    AddHandler x-httpd-suphp .php .php3 .php4 .php5
+    suPHP_AddHandler x-httpd-suphp
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
     # php as cgi enabled
