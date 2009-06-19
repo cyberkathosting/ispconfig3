@@ -94,6 +94,12 @@ class mail_plugin {
 			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
+		
+		//* When the mail user dir exists but it is not a valid maildir, remove it
+		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
+			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
+			$app->log("Removed invalid maildir and rebuild it: ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_WARN);
+		}
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
 		if(!empty($maildomain_path) && !is_dir($maildomain_path)) {
@@ -106,7 +112,7 @@ class mail_plugin {
 		}
 		
 		//* Set the maildir quota
-		if(is_dir($data['new']['maildir'].'new')) {
+		if(is_dir($data['new']['maildir'].'/new')) {
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
 			$app->log('Set Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		}
@@ -139,15 +145,22 @@ class mail_plugin {
 			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
+		
+		//* When the mail user dir exists but it is not a valid maildir, remove it
+		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
+			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
+			$app->log("Removed invalid maildir and rebuild it: ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_WARN);
+		}
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
-		if(!empty($maildomain_path) && !is_dir($maildomain_path.'new')) {
+		if(!empty($maildomain_path) && !is_dir($maildomain_path.'/new')) {
 			exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			$app->log("Created Maildir "."su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
-			$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		}
 		
 		// Move mailbox, if domain has changed and delete old mailbox
@@ -163,9 +176,9 @@ class mail_plugin {
 			$app->log('Moved Maildir from: '.$data['old']['maildir'].' to '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 		//This is to fix the maildrop quota not being rebuilt after the quota is changed.
-		if(is_dir($data['new']['maildir'].'new')) {
+		if(is_dir($data['new']['maildir'].'/new')) {
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
-			$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		}
 	}
 	
