@@ -114,7 +114,9 @@ class page_action extends tform_actions {
 		$content = '';
 		$content .= '### BEGIN FILTER_ID:'.$this->id."\n";
 		
-		if($this->dataRecord["action"] == 'move') {
+		if($this->dataRecord["active"] == 'y') {
+		
+			if($this->dataRecord["action"] == 'move') {
 		
 			$content .= "
 `test -e ".'$DEFAULT/.'.$this->dataRecord["target"]."`
@@ -125,33 +127,35 @@ if ( ".'$RETURNCODE'." != 0 )
   `echo INBOX.".$this->dataRecord["target"]." >> ".'$DEFAULT'."/courierimapsubscribed`
 }
 ";		
+			}
+		
+			$content .= "if (/^".$this->dataRecord["source"].":";
+		
+			$searchterm = preg_quote($this->dataRecord["searchterm"]);
+		
+			if($this->dataRecord["op"] == 'contains') {
+				$content .= ".*".$searchterm."/:h)\n";
+			} elseif ($this->dataRecord["op"] == 'is') {
+				$content .= $searchterm."$/:h)\n";
+			} elseif ($this->dataRecord["op"] == 'begins') {
+				$content .= $searchterm."/:h)\n";
+			} elseif ($this->dataRecord["op"] == 'ends') {
+				$content .= ".*".$searchterm."$/:h)\n";
+			}
+		
+			$content .= "{\n";
+			$content .= "exception {\n";
+		
+			if($this->dataRecord["action"] == 'move') {
+				$content .= 'to $DEFAULT/.'.$this->dataRecord["target"]."/\n";
+			} else {
+				$content .= "to /dev/null\n";
+			}
+		
+			$content .= "}\n";
+			$content .= "}\n";
+		
 		}
-		
-		$content .= "if (/^".$this->dataRecord["source"].":";
-		
-		$searchterm = preg_quote($this->dataRecord["searchterm"]);
-		
-		if($this->dataRecord["op"] == 'contains') {
-			$content .= ".*".$searchterm."/:h)\n";
-		} elseif ($this->dataRecord["op"] == 'is') {
-			$content .= $searchterm."$/:h)\n";
-		} elseif ($this->dataRecord["op"] == 'begins') {
-			$content .= $searchterm."/:h)\n";
-		} elseif ($this->dataRecord["op"] == 'ends') {
-			$content .= ".*".$searchterm."$/:h)\n";
-		}
-		
-		$content .= "{\n";
-		$content .= "exception {\n";
-		
-		if($this->dataRecord["action"] == 'move') {
-			$content .= 'to $DEFAULT/.'.$this->dataRecord["target"]."/\n";
-		} else {
-			$content .= "to /dev/null\n";
-		}
-		
-		$content .= "}\n";
-		$content .= "}\n";
 		
 		$content .= '### END FILTER_ID:'.$this->id."\n";
 		
