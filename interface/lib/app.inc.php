@@ -151,17 +151,14 @@ class app {
     public function lng($text)
     {
 		if($this->_language_inc != 1) {
-			//* loading global and module Wordbook
-            // TODO: this need to be made clearer somehow - pedro
-			//@include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			//* loading global Wordbook
 			$this->load_language_file('/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			//* Load module wordbook, if it exists
 			if(isset($_SESSION['s']['module']['name']) && isset($_SESSION['s']['language'])) {
 				$lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng';
-				if(!file_exists($lng_file)) $lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
-				//@include_once($lng_file);
+				if(!file_exists(ISPC_ROOT_PATH.$lng_file)) $lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
 				$this->load_language_file($lng_file);
 			}
-			//if(isset($wb)) $this->_wb = $wb;
 			$this->_language_inc = 1;
 		}		
 		if(!empty($this->_wb[$text])) {
