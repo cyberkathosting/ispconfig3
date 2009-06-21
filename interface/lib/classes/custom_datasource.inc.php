@@ -40,6 +40,30 @@ class custom_datasource {
 		}
 		return $records_new;
 	}
+	
+	function dns_servers($field, $record) {
+		global $app, $conf;
+		
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['default_dnsserver'];
+		} else {
+			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
+		}
+		$records = $app->db->queryAllRecords($sql);
+		$records_new = array();
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				$key = $rec['server_id'];
+				$records_new[$key] = $rec['server_name'];
+			}
+		}
+		return $records_new;
+	}
+	
+	
 
 }
 

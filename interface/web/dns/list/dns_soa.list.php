@@ -64,10 +64,9 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'op'		=> "like",
 							'prefix'	=> "%",
 							'suffix'	=> "%",
-							'datasource'	=> array ( 	'type'	=> 'SQL',
-														'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
-														'keyfield'=> 'server_id',
-														'valuefield'=> 'server_name'
+							'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+														'class'=> 'custom_datasource',
+														'function'=> 'dns_servers'
 									 				  ),
 							'width'		=> "",
 							'value'		=> "");
