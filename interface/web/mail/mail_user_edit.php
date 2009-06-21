@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2005 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -98,7 +98,7 @@ class page_action extends tform_actions {
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '".$this->dataRecord["email"]."'");
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
 		$policys = $app->db->queryAllRecords($sql);
-		$policy_select = "<option value='0'>".$app->tform->wordbook["no_policy"]."</option>";
+		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
@@ -119,19 +119,19 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 		
-		// Check if Domain belongs to user
+		//* Check if Domain belongs to user
 		if(isset($_POST["email_domain"])) {
 			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
-			if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+			if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		}
 		
 		
-		// if its an insert, check that the password is not empty
+		//* if its an insert, check that the password is not empty
 		if($this->id == 0 && $_POST["password"] == '') {
-			$app->tform->errorMessage .= $app->tform->wordbook["error_no_pwd"]."<br>";
+			$app->tform->errorMessage .= $app->tform->lng("error_no_pwd")."<br>";
 		}
 		
-		// Check the client limits, if user is not the admin
+		//* Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -142,7 +142,7 @@ class page_action extends tform_actions {
 			if($this->id == 0 && $client["limit_mailbox"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE sys_groupid = $client_group_id");
 				if($tmp["number"] >= $client["limit_mailbox"]) {
-					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailbox_txt"]."<br>";
+					$app->tform->errorMessage .= $app->tform->lng("limit_mailbox_txt")."<br>";
 				}
 				unset($tmp);
 			}
@@ -154,7 +154,7 @@ class page_action extends tform_actions {
 				$new_mailbox_quota = intval($this->dataRecord["quota"]);
 				if($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) {
 					$max_free_quota = $client["limit_mailquota"] - $mailquota;
-					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailquota_txt"].": ".$max_free_quota."<br>";
+					$app->tform->errorMessage .= $app->tform->lng("limit_mailquota_txt").": ".$max_free_quota."<br>";
 					// Set the quota field to the max free space
 					$this->dataRecord["quota"] = $max_free_quota;
 				}
@@ -164,7 +164,7 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 		
 
-		// compose the email field
+		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
 			$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
 		
@@ -186,8 +186,13 @@ class page_action extends tform_actions {
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
 			$this->dataRecord["uid"] = $mail_config["mailuser_uid"];
 			$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
+			
+			//* Check if there is no alias or forward with this address
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["email"])."'");
+			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";
+			unset($tmp);
+			
 		}
-
 		
 		parent::onSubmit();
 	}
@@ -203,23 +208,23 @@ class page_action extends tform_actions {
 //		mail($this->dataRecord["email"],$app->tform->wordbook["welcome_mail_subject"],$app->tform->wordbook["welcome_mail_message"]);
 		
 		// tries to detect current charset, and encode subject-header and body from it to ISO-8859-1.
-		$fromCharset      = mb_detect_encoding($app->tform->wordbook["welcome_mail_subject"]);
+		$fromCharset      = mb_detect_encoding($app->tform->lng("welcome_mail_subject"));
 		$iconvPreferences = array("input-charset" => $fromCharset,
 					"output-charset" => "ISO-8859-1",
 					"line-length" => 76,
 					"line-break-chars" => "\n",
 					"scheme" => "Q");
 
-		$welcomeFromName  = $app->tform->wordbook["welcome_mail_fromname_txt"];
-		$welcomeFromEmail = $app->tform->wordbook["welcome_mail_fromemail_txt"];
+		$welcomeFromName  = $app->tform->lng("welcome_mail_fromname_txt");
+		$welcomeFromEmail = $app->tform->lng("welcome_mail_fromemail_txt");
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
 		$mailHeaders     .= "Content-type: text/plain; charset=iso-8859-1" . "\n";
 		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\n";
 		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
 		$mailTarget       = $this->dataRecord["email"];
-		$mailSubject      = iconv_mime_encode("trimoff", $app->tform->wordbook["welcome_mail_subject"], $iconvPreferences);
+		$mailSubject      = iconv_mime_encode("trimoff", $app->tform->lng("welcome_mail_subject"), $iconvPreferences);
 		$mailSubject      = str_replace("trimoff: ", "", $mailSubject);
-		$mailBody         = iconv ($fromCharset, "ISO-8859-1", $app->tform->wordbook["welcome_mail_message"]);
+		$mailBody         = iconv ($fromCharset, "ISO-8859-1", $app->tform->lng("welcome_mail_message"));
 
 		mail($mailTarget, $mailSubject, $mailBody, $mailHeaders);
 		

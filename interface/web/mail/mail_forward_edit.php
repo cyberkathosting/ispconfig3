@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2005 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -122,6 +122,11 @@ class page_action extends tform_actions {
 		
 		unset($this->dataRecord["email_local_part"]);
 		unset($this->dataRecord["email_domain"]);
+		
+		//* Check if there is no mailbox with this address
+		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["source"])."'");
+		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_mailbox_txt")."<br>";
+		unset($tmp);
 		
 		parent::onSubmit();
 	}
