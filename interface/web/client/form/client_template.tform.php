@@ -395,6 +395,40 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+        'limit_cron' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'validators'    => array (  0 => array (    'type'  => 'ISINT',
+                                                        'errmsg'=> 'limit_cron_error_notint'),
+                                    ),
+            'default'   => '0',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '10',
+            'maxlength' => '10',
+            'rows'      => '',
+            'cols'      => ''
+        ),
+        'limit_cron_type' => array (
+            'datatype'  => 'VARCHAR',
+            'formtype'  => 'SELECT',
+            'default'   => '',
+            'value'     => array('full' => 'Full Cron','chrooted' => 'Chrooted Cron','url' => 'URL Cron')
+        ),
+        'limit_cron_frequency' => array (
+            'datatype'  => 'INTEGER',
+            'formtype'  => 'TEXT',
+            'validators'    => array (  0 => array (    'type'  => 'ISINT',
+                                                        'errmsg'=> 'limit_cron_error_frequency'),
+                                    ),
+            'default'   => '-1',
+            'value'     => '',
+            'separator' => '',
+            'width'     => '10',
+            'maxlength' => '10',
+            'rows'      => '',
+            'cols'      => ''
+        ),
 	##################################
 	# END Datatable fields
 	##################################

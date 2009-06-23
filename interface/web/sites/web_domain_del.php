@@ -72,6 +72,12 @@ class page_action extends tform_actions {
 		foreach($records as $rec) {
 			$app->db->datalogDelete('shell_user','shell_user_id',$rec['shell_user_id']);
 		}
+        
+        // Delete all records that belog to this zone.
+        $records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".intval($this->id)."'");
+        foreach($records as $rec) {
+            $app->db->datalogDelete('cron','id',$rec['id']);
+        }
 	}
 }
 

@@ -147,8 +147,14 @@ $conf['jailkit']['config_dir'] = '/etc/jailkit';
 $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
 $conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /bin/basename /usr/bin/dirname /usr/bin/nano';
+$conf['jailkit']['jailkit_chroot_cron_programs'] = '/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php';
 
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc';
+
+//* cron
+$conf['cron']['init_script'] = 'crond';
+$conf['cron']['crontab_dir'] = '/etc/cron.d';
+$conf['cron']['wget'] = '/usr/bin/wget';
 
 ?>

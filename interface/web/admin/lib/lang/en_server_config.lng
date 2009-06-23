@@ -2,6 +2,7 @@
 $wb["jailkit_chroot_home_txt"] = 'Jailkit chroot home';
 $wb["jailkit_chroot_app_sections_txt"] = 'Jailkit chroot app sections';
 $wb["jailkit_chroot_app_programs_txt"] = 'Jailkit chrooted applications';
+$wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applications';
 $wb["website_path_txt"] = 'Website path';
 $wb["website_symlinks_txt"] = 'Website symlinks';
 $wb["website_basedir_txt"] = 'Website basedir';
@@ -38,4 +39,8 @@ $wb["netmask_error_wrong"] = 'Invalid Netmask format.';
 $wb["gateway_error_wrong"] = 'Invalid Gateway format.';
 $wb["hostname_error_empty"] = 'Hostname is empty.';
 $wb["nameservers_error_empty"] = 'Nameserver is empty.';
+$wb["config_dir_txt"] = 'Config directory';
+$wb["init_script_txt"] = 'Cron init script name';
+$wb["crontab_dir_txt"] = 'Path for individual crontabs';
+$wb["wget_txt"] = 'Path to wget program';
 ?>

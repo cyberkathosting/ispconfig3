@@ -210,7 +210,8 @@ class installer_base {
 		$tpl_ini_array['web']['website_basedir'] = $conf['web']['website_basedir'];
 		$tpl_ini_array['web']['website_path'] = $conf['web']['website_path'];
 		$tpl_ini_array['web']['website_symlinks'] = $conf['web']['website_symlinks'];
-		
+        $tpl_ini_array['cron']['crontab_dir'] = $conf['cron']['crontab_dir'];
+        
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
 		

@@ -77,6 +77,21 @@ $module["nav"][] = array(	'title'	=> 'Database',
 							'items'	=> $items);
 
 
+/*
+    Cron menu
+*/
+$items = array();
+
+$items[] = array( 'title'   => "Cron Jobs",
+                  'target'  => 'content',
+                  'link'    => 'sites/cron_list.php');
+
+
+$module["nav"][] = array(   'title' => 'Cron',
+                            'open'  => 1,
+                            'items' => $items);
+
+
 //**** Statistics menu
 $items = array();
 

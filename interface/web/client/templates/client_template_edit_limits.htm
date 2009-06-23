@@ -89,6 +89,20 @@
       	<label for="limit_database">{tmpl_var name='limit_database_txt'}</label>
         <input name="limit_database" id="limit_database" value="{tmpl_var name='limit_database'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
+      <div class="ctrlHolder">
+        <label for="limit_cron">{tmpl_var name='limit_cron_txt'}</label>
+        <input name="limit_cron" id="limit_cron" value="{tmpl_var name='limit_cron'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+            </div>
+      <div class="ctrlHolder">
+        <label for="limit_cron_type">{tmpl_var name='limit_cron_type_txt'}</label>
+        <select name="limit_cron_type" id="limit_cron_type" class="selectInput formLengthHalf">
+          {tmpl_var name='limit_cron_type'}
+        </select>
+            </div>
+      <div class="ctrlHolder">
+        <label for="limit_cron_frequency">{tmpl_var name='limit_cron_frequency_txt'}</label>
+        <input name="limit_cron_frequency" id="limit_cron_frequency" value="{tmpl_var name='limit_cron_frequency'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+            </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
