@@ -159,7 +159,6 @@ class cron_plugin {
         $client_id = intval($client["client_id"]);
         unset($client);
         
-        /** TODO remove deleted record **/
         $this->parent_domain = $parent_domain;
         $this->_write_crontab();
 	}
@@ -174,7 +173,13 @@ class cron_plugin {
         
         //* try to find customer's mail address
         
+        /** TODO: add possibility for client to choose mail notification! **/
         $cron_content = "MAILTO=''\n\n";
+        $chr_cron_content = "MAILTO=''\n\n";
+        $chr_cron_content .= "SHELL='/usr/sbin/jk_chrootsh'\n\n";
+        
+        $cmd_count = 0;
+        $chr_cmd_count = 0;
         
         //* read all active cron jobs from database and write them to file
         $cron_jobs = $app->db->queryAllRecords("SELECT `run_min`, `run_hour`, `run_mday`, `run_month`, `run_wday`, `command`, `type` FROM `cron` WHERE `parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND `active` = 'y'");
@@ -196,14 +201,35 @@ class cron_plugin {
                     if(substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'];
                     $command .= $job['command'];
                 }
-                $cron_content .= $command . "\n";
+                
+                if($job['type'] == 'chrooted') {
+                    $chr_cron_content .= $command . "\n";
+                    $chr_cmd_count++;
+                } else {
+                    $cron_content .= $command . "\n";
+                    $cmd_count++;
+                }
             }
         }
         
         $cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_'.$this->parent_domain["system_user"]);
-        file_put_contents($cron_file, $cron_content);
+        if($cmd_count > 0) {
+            file_put_contents($cron_file, $cron_content);
+            $app->log("Wrote Cron file $cron_file with content:\n$cron_content",LOGLEVEL_DEBUG);
+        } else {
+            @unlink($cron_file);
+            $app->log("Deleted Cron file $cron_file",LOGLEVEL_DEBUG);
+        }
         
-        $app->log("Wrote Cron file $cron_file with content:\n$cron_content",LOGLEVEL_DEBUG);
+        $cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_chrooted_'.$this->parent_domain["system_user"]);
+        if($chr_cmd_count > 0) {
+            file_put_contents($cron_file, $chr_cron_content);
+            $app->log("Wrote Cron file $cron_file with content:\n$chr_cron_content",LOGLEVEL_DEBUG);
+        } else {
+            @unlink($cron_file);
+            $app->log("Deleted Cron file $cron_file",LOGLEVEL_DEBUG);
+        }
+        
         return 0;
     }
 
