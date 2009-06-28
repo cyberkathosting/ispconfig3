@@ -48,6 +48,8 @@ $app->auth->check_module_permissions('dns');
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
+if($_SESSION["s"]["user"]["typ"] != 'admin') die('Access denied for non admin users.');
+
 class page_action extends tform_actions {
 	
 }
