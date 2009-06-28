@@ -221,11 +221,21 @@ class page_action extends tform_actions {
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$rec = $app->db->queryOneRecord("SELECT server_id from mail_domain WHERE domain_id = ".$this->id);
+			$rec = $app->db->queryOneRecord("SELECT server_id, domain from mail_domain WHERE domain_id = ".$this->id);
 			if($rec['server_id'] != $this->dataRecord["server_id"]) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
 				$this->dataRecord["server_id"] = $rec['server_id'];
+			}
+			unset($rec);
+		//* If the user is neither admin nor reseller
+		} else {
+			//* We do not allow users to change a domain which has been created by the admin
+			$rec = $app->db->queryOneRecord("SELECT domain from mail_domain WHERE domain_id = ".$this->id);
+			if($rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id,'u')) {
+				//* Add a error message and switch back to old server
+				$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
+				$this->dataRecord["domain"] = $rec['domain'];
 			}
 			unset($rec);
 		}

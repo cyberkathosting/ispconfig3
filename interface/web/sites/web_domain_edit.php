@@ -294,6 +294,16 @@ class page_action extends tform_actions {
 				}
 				unset($rec);
 			}
+		//* If the user is neither admin nor reseller
+		} else {
+			//* We do not allow users to change a domain which has been created by the admin
+			$rec = $app->db->queryOneRecord("SELECT domain from web_domain WHERE domain_id = ".$this->id);
+			if(isset($this->dataRecord["domain"]) && $rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id,'u')) {
+				//* Add a error message and switch back to old server
+				$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
+				$this->dataRecord["domain"] = $rec['domain'];
+			}
+			unset($rec);
 		}
 		
 		//* Check that all fields for the SSL cert creation are filled
