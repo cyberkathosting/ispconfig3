@@ -298,6 +298,11 @@ class page_action extends tform_actions {
 				}
 			}
 			
+			//* Delete the old spamfilter record
+			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->oldDataRecord["domain"])."'");
+			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
+			unset($tmp);
+			
 		} // end if domain name changed
 		
 	}
