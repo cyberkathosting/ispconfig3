@@ -141,6 +141,7 @@ class cron_plugin {
         $this->parent_domain = $parent_domain;
 		$this->_write_crontab();
 		
+		$this->action = '';
         
 	}
 	

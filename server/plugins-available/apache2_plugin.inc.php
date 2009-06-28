@@ -749,6 +749,9 @@ class apache2_plugin {
 		// request a httpd reload when all records have been processed
 		$app->services->restartServiceDelayed('httpd','reload');
 		
+		//* Unset action to clean it for next processed vhost.
+		$this->action = '';
+		
 	}
 	
 	function delete($event_name,$data) {
