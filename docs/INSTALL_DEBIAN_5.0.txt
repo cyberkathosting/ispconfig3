@@ -82,33 +82,6 @@ apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2
 
 a2enmod suexec rewrite ssl actions include
 
-# Secure phpMyAdmin by deleting setuppassword-file
-# and removing/commenting Setup Authorization from apache.conf
-
-rm /etc/phpmyadmin/htpasswd.setup
-
-vi /etc/phpmyadmin/apache.conf
-
-# delete/comment following lines (between the ----- lines):
-------------------------------------------------------
-        # Authorize for setup
-       <Files setup.php>
-           # For Apache 1.3 and 2.0
-           <IfModule mod_auth.c>
-               AuthType Basic
-               AuthName "phpMyAdmin Setup"
-               AuthUserFile /etc/phpmyadmin/htpasswd.setup
-           </IfModule>
-           # For Apache 2.2
-           <IfModule mod_authn_file.c>
-               AuthType Basic
-               AuthName "phpMyAdmin Setup"
-               AuthUserFile /etc/phpmyadmin/htpasswd.setup
-           </IfModule>
-           Require valid-user
-       </Files>
-------------------------------------------------------
-
 # restart apache before continuing
 
 /etc/init.d/apache2 restart
