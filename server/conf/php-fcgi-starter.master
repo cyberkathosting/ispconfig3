@@ -7,4 +7,8 @@ PHP_FCGI_CHILDREN=<tmpl_var name='php_fcgi_children'>
 export PHP_FCGI_CHILDREN
 PHP_FCGI_MAX_REQUESTS=<tmpl_var name='php_fcgi_max_requests'>
 export PHP_FCGI_MAX_REQUESTS
-exec <tmpl_var name='php_fcgi_bin'> $1
+exec <tmpl_var name='php_fcgi_bin'> \
+-d open_basedir=<tmpl_var name='document_root'> \
+-d upload_tmp_dir=<tmpl_var name='document_root'>/tmp \
+-d session.save_path=<tmpl_var name='document_root'>/tmp \
+$1
