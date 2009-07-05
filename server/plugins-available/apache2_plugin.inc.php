@@ -473,7 +473,7 @@ class apache2_plugin {
 		if($web_config['security_level'] == 20) {
 			
 			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"]."/"));
-			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"]."/*"));
+			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"])."/*");
 			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 			
 			//* add the apache user to the client group
