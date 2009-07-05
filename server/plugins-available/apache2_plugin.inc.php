@@ -443,7 +443,7 @@ class apache2_plugin {
 		
 		$username = escapeshellcmd($data["new"]["system_user"]);
 		if($data["new"]["system_user"] != '' && !$app->system->is_user($data["new"]["system_user"])) {
-			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname $username -s /bin/false");
+			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname -G sshusers $username -s /bin/false");
 			$app->log("Adding the user: $username",LOGLEVEL_DEBUG);
 		}
 		
@@ -459,7 +459,6 @@ class apache2_plugin {
 			exec("setquota -T -u $username 604800 604800 -a &> /dev/null");
 		}
 		
-		
 		if($this->action == 'insert') {
 			// Chown and chmod the directories below the document root
 			exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
@@ -468,8 +467,40 @@ class apache2_plugin {
 			exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]));
 		}
 		
-		// make temp direcory writable for the apache user and the website user
-		exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+		
+		
+		// If the security level is set to high
+		if($web_config['security_level'] == 20) {
+			
+			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"]."/"));
+			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"]."/*"));
+			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
+			
+			//* Change the home directory and group of the website user
+			$command = 'usermod';
+			$command .= ' --groups sshusers,'.escapeshellcmd($web_config['group']);
+			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
+			exec($command);
+			$app->log("Modifying user: $command",LOGLEVEL_DEBUG);
+		
+			// make temp direcory writable for the apache user and the website user
+			// exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+		// If the security Level is set to medium
+		} else {
+		
+			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
+			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/*"));
+			
+			//* Change the home directory and group of the website user
+			$command = 'usermod';
+			$command .= ' --groups sshusers ';
+			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
+			exec($command);
+			$app->log("Modifying user: $command",LOGLEVEL_DEBUG);
+		
+			// make temp direcory writable for the apache user and the website user
+			exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+		}
 		
 		
 		// Create the vhost config file
@@ -482,6 +513,7 @@ class apache2_plugin {
 		$vhost_data["web_document_root"] = $data["new"]["document_root"]."/web";
 		$vhost_data["web_document_root_www"] = $web_config["website_basedir"]."/".$data["new"]["domain"]."/web";
 		$vhost_data["web_basedir"] = $web_config["website_basedir"];
+		$vhost_data["security_level"] = $web_config["security_level"];
 		
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";

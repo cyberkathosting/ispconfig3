@@ -464,6 +464,10 @@ class installer_dist extends installer_base {
 			exec("ln -s ".$vhost_conf_dir."/ispconfig.conf ".$vhost_conf_enabled_dir."/000-ispconfig.conf");
 		}
 		
+		//* add a sshusers group
+		$command = 'groupadd sshusers';
+		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
 	}
 	
 	public function configure_firewall()

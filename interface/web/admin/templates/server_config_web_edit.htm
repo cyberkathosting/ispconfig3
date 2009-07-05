@@ -25,6 +25,22 @@
       	<label for="vhost_conf_enabled_dir">{tmpl_var name='vhost_conf_enabled_dir_txt'}</label>
         <input name="vhost_conf_enabled_dir" id="vhost_conf_enabled_dir" value="{tmpl_var name='vhost_conf_enabled_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
+	  <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='security_level_txt'}</p>
+					<div class="multiField">
+						<select name="security_level" id="security_level" class="selectInput">
+					{tmpl_var name='security_level'}
+				</select>
+					</div>
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="user">{tmpl_var name='user_txt'}</label>
+        <input name="user" id="user" value="{tmpl_var name='user'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="group">{tmpl_var name='group_txt'}</label>
+        <input name="group" id="group" value="{tmpl_var name='group'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

@@ -6,6 +6,26 @@ $module["template"] 	= "module.tpl.htm";
 $module["startpage"] 	= "dns/dns_soa_list.php";
 $module["tab_width"]    = '';
 
+
+$items[] = array( 'title' 	=> "Add DNS Zone",
+				  'target' 	=> 'content',
+				  'link'	=> 'dns/dns_wizard.php');
+
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+				  
+	$items[] = array( 	'title' 	=> "Templates",
+				  		'target' 	=> 'content',
+				  		'link'		=> 'dns/dns_template_list.php');
+}
+
+
+$module["nav"][] = array(	'title'	=> 'DNS Wizard',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+							
+unset($items);
+
 /*
 	Email accounts menu
 */
@@ -26,26 +46,6 @@ $module["nav"][] = array(	'title'	=> 'DNS',
 							'items'	=> $items);
 
 unset($items);
-
-
-$items[] = array( 'title' 	=> "Add DNS Zone",
-				  'target' 	=> 'content',
-				  'link'	=> 'dns/dns_wizard.php');
-
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
-				  
-	$items[] = array( 	'title' 	=> "Templates",
-				  		'target' 	=> 'content',
-				  		'link'		=> 'dns/dns_template_list.php');
-}
-
-
-$module["nav"][] = array(	'title'	=> 'DNS Wizard',
-							'open' 	=> 1,
-							'items'	=> $items);
-
-
-
 
 
 

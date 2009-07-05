@@ -211,6 +211,9 @@ class installer_base {
 		$tpl_ini_array['web']['website_path'] = $conf['web']['website_path'];
 		$tpl_ini_array['web']['website_symlinks'] = $conf['web']['website_symlinks'];
         $tpl_ini_array['cron']['crontab_dir'] = $conf['cron']['crontab_dir'];
+		$tpl_ini_array['web']['security_level'] = 20;
+		$tpl_ini_array['web']['user'] = $conf['web']['user'];
+		$tpl_ini_array['web']['group'] = $conf['web']['group'];
         
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
@@ -814,6 +817,11 @@ class installer_base {
 			exec('mkdir /etc/webalizer');
 			exec('ln -s /etc/webalizer.conf /etc/webalizer/webalizer.conf');
 		}
+		
+		//* add a sshusers group
+		$command = 'groupadd sshusers';
+		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
 		
 		
 	}

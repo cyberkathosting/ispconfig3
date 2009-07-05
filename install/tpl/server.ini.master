@@ -34,6 +34,9 @@ website_path=/var/www/clients/client[client_id]/web[website_id]
 website_symlinks=/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/
 vhost_conf_dir=/etc/apache2/sites-available
 vhost_conf_enabled_dir=/etc/apache2/sites-enabled
+securiry_level=10
+apache_user=www-data
+apache_group=www-data
 
 [fastcgi]
 fastcgi_starter_path=/var/www/php-fcgi-scripts/[system_user]/
