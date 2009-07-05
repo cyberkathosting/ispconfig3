@@ -476,27 +476,14 @@ class apache2_plugin {
 			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"]."/*"));
 			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 			
-			//* Change the home directory and group of the website user
-			$command = 'usermod';
-			$command .= ' --groups sshusers,'.escapeshellcmd($web_config['group']);
-			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
-			exec($command);
-			$app->log("Modifying user: $command",LOGLEVEL_DEBUG);
-		
-			// make temp direcory writable for the apache user and the website user
-			// exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+			//* add the apache user to the client group
+			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+			
 		// If the security Level is set to medium
 		} else {
 		
 			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
 			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/*"));
-			
-			//* Change the home directory and group of the website user
-			$command = 'usermod';
-			$command .= ' --groups sshusers ';
-			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
-			exec($command);
-			$app->log("Modifying user: $command",LOGLEVEL_DEBUG);
 		
 			// make temp direcory writable for the apache user and the website user
 			exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
