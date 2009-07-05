@@ -92,12 +92,12 @@
 <tmpl_if name='php' op='==' value='mod'>
     # mod_php enabled
     AddType application/x-httpd-php .php .php3 .php4 .php5
-	php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
+    php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
     php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
     php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
-	<tmpl_if name='security_level' op='==' value='20'>
+<tmpl_if name='security_level' op='==' value='20'>
     php_admin_value open_basedir <tmpl_var name='document_root'>/web:<tmpl_var name='document_root'>/tmp:/usr/share/php5
-	</tmpl_if>
+</tmpl_if>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='suphp'>
     # suphp enabled
@@ -248,12 +248,12 @@
 <tmpl_if name='php' op='==' value='mod'>
     # mod_php enabled
     AddType application/x-httpd-php .php .php3 .php4 .php5
-	php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
+    php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
     php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
     php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
-    <tmpl_if name='security_level' op='==' value='20'>
+<tmpl_if name='security_level' op='==' value='20'>
     php_admin_value open_basedir <tmpl_var name='document_root'>/web:<tmpl_var name='document_root'>/tmp:/usr/share/php5
-	</tmpl_if>
+</tmpl_if>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='suphp'>
     suPHP_Engine on
