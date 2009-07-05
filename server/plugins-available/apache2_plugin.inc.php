@@ -476,6 +476,11 @@ class apache2_plugin {
 			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"])."/*");
 			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 			
+			$command = 'usermod';
+			$command .= ' --groups sshusers';
+			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
+			exec($command);
+			
 			//* add the apache user to the client group
 			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
 			
