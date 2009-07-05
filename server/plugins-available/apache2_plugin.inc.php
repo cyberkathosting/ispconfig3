@@ -650,6 +650,7 @@ class apache2_plugin {
 			$fcgi_tpl->setVar('php_fcgi_children',$fastcgi_config["fastcgi_children"]);
 			$fcgi_tpl->setVar('php_fcgi_max_requests',$fastcgi_config["fastcgi_max_requests"]);
 			$fcgi_tpl->setVar('php_fcgi_bin',$fastcgi_config["fastcgi_bin"]);
+			$fcgi_tpl->setVar('security_level',$web_config["security_level"]);
 				
 			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path.$fastcgi_config["fastcgi_starter_script"]);
 			file_put_contents($fcgi_starter_script,$fcgi_tpl->grab());
@@ -701,6 +702,7 @@ class apache2_plugin {
 			// This will NOT work!
 			//$cgi_tpl->setVar('open_basedir', "/var/www/" . $data["new"]["domain"]);
 			$cgi_tpl->setVar('php_cgi_bin',$cgi_config["cgi_bin"]);
+			$cgi_tpl->setVar('security_level',$web_config["security_level"]);
 
 			$cgi_starter_script = escapeshellcmd($cgi_starter_path.$cgi_config["cgi_starter_script"]);
 			file_put_contents($cgi_starter_script,$cgi_tpl->grab());
