@@ -122,7 +122,7 @@ $form["tabs"]['services'] = array (
 	)
 );
 
-
+/*
 $form["tabs"]['config'] = array (
 	'title' 	=> "Config",
 	'width' 	=> 100,
@@ -146,6 +146,6 @@ $form["tabs"]['config'] = array (
 	##################################
 	)
 );
-
+*/
 
 ?>

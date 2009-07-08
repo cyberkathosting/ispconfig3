@@ -33,15 +33,15 @@
 
 */
 
-$form["title"] 			= "Client";
+$form["title"] 			= "Reseller";
 $form["description"] 	= "";
-$form["name"] 			= "client";
-$form["action"]			= "client_edit.php";
+$form["name"] 			= "reseller";
+$form["action"]			= "reseller_edit.php";
 $form["db_table"]		= "client";
 $form["db_table_idx"]	= "client_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "address";
-$form["list_default"]	= "client_list.php";
+$form["list_default"]	= "reseller_list.php";
 $form["auth"]			= 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -65,7 +65,7 @@ while ($file = @readdir ($handle)) {
 $form["tabs"]['address'] = array (
 	'title' 	=> "Address",
 	'width' 	=> 100,
-	'template' 	=> "templates/client_edit_address.htm",
+	'template' 	=> "templates/reseller_edit_address.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
@@ -292,7 +292,7 @@ $form["tabs"]['address'] = array (
 $form["tabs"]['limits'] = array (
 	'title' 	=> "Limits",
 	'width' 	=> 80,
-	'template' 	=> "templates/client_edit_limits.htm",
+	'template' 	=> "templates/reseller_edit_limits.htm",
 	'fields' 	=> array (
 	##################################
 	# Begin Datatable fields
@@ -315,12 +315,12 @@ $form["tabs"]['limits'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
-			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
-										'class'=> 'custom_datasource',
-										'function'=> 'client_servers'
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
 									 ),
-			'value'		=> '',
-			'name'		=> 'default_mailserver'
+			'value'		=> ''
 		),
 		'limit_maildomain' => array (
 			'datatype'	=> 'INTEGER',
@@ -494,12 +494,12 @@ $form["tabs"]['limits'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
-			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
-										'class'=> 'custom_datasource',
-										'function'=> 'client_servers'
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
 									 ),
-			'value'		=> '',
-			'name'		=> 'default_webserver'
+			'value'		=> ''
 		),
 		'limit_web_domain' => array (
 			'datatype'	=> 'INTEGER',
@@ -589,12 +589,12 @@ $form["tabs"]['limits'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
-			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
-										'class'=> 'custom_datasource',
-										'function'=> 'client_servers'
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
 									 ),
-			'value'		=> '',
-			'name'		=> 'default_dnsserver'
+			'value'		=> ''
 		),
 		'limit_dns_zone' => array (
 			'datatype'	=> 'INTEGER',
@@ -629,8 +629,11 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'limit_client_error_notint'),
+										1 => array (	'type'	=> 'CUSTOM',
+														'class' => 'validate_reseller',
+														'function' => 'limit_client'),
 									),
-			'default'	=> '0',
+			'default'	=> '1',
 			'value'		=> '',
 			'separator'	=> '',
 			'width'		=> '10',
@@ -642,12 +645,12 @@ $form["tabs"]['limits'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '1',
-			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
-										'class'=> 'custom_datasource',
-										'function'=> 'client_servers'
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
 									 ),
-			'value'		=> '',
-			'name'		=> 'default_dbserver'
+			'value'		=> ''
 		),
 		'limit_database' => array (
 			'datatype'	=> 'INTEGER',

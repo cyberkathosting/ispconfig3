@@ -28,4 +28,36 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 $module["nav"][] = array(	'title'	=> 'Clients',
 							'open' 	=> 1,
 							'items'	=> $items);
+
+unset($items);
+
+
+if($_SESSION["s"]["user"]["typ"] == 'admin'){
+
+$items[] = array( 'title' 	=> "Add Reseller",
+				  'target' 	=> 'content',
+				  'link'	=> 'client/reseller_edit.php');
+
+$items[] = array( 'title' 	=> "Edit Reseller",
+				  'target' 	=> 'content',
+				  'link'	=> 'client/reseller_list.php');
+
+$module["nav"][] = array(	'title'	=> 'Resellers',
+							'open' 	=> 1,
+							'items'	=> $items);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>

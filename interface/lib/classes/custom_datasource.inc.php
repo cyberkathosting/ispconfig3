@@ -64,6 +64,32 @@ class custom_datasource {
 	}
 	
 	
+	function client_servers($field, $record) {
+		global $app, $conf;
+		
+		$server_type = $field['name'];
+		
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$sql = "SELECT $server_type as server_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
+			$client = $app->db->queryOneRecord($sql);
+			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['server_id'];
+		} else {
+			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
+		}
+		$records = $app->db->queryAllRecords($sql);
+		$records_new = array();
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				$key = $rec['server_id'];
+				$records_new[$key] = $rec['server_name'];
+			}
+		}
+		return $records_new;
+	}
+	
+	
 
 }
 

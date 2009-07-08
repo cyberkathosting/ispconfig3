@@ -2,17 +2,6 @@
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_client">
-
-<tmpl_if name="is_admin">
-  <div class="pnl_toolsarea">
-    <fieldset><legend>Tools</legend>
-      <div class="buttons">
-				<button class="positive iconstxt icoAdd" type="button" value="Add additional template" onClick="addAdditionalTemplate();"><span>Add additional template</span></button>
-				<button class="negative iconstxt icoDelete" type="button" value="Delete additional template" onClick="delAdditionalTemplate();"><span>Delete additional template</span></button>
-      </div>
-    </fieldset>
-  </div>
-</tmpl_if>
   
   <div class="pnl_formsarea">
     <fieldset class="inlineLabels"><legend>Limits</legend>
@@ -142,6 +131,10 @@
         <input name="limit_dns_record" id="limit_dns_record" value="{tmpl_var name='limit_dns_record'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
       <div class="ctrlHolder">
+      	<label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
+        <input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+      <div class="ctrlHolder">
       	<label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
         <select name="default_dbserver" id="default_dbserver" class="selectInput">
 					{tmpl_var name='default_dbserver'}
@@ -170,8 +163,8 @@
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
     <div class="buttonHolder buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/client_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/client_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/reseller_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/reseller_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
   </div>
   
