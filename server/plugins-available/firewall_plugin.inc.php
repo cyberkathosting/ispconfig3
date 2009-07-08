@@ -79,8 +79,13 @@ class firewall_plugin {
 		$ports = explode(',',$data["new"]["tcp_port"]);
 		if(is_array($ports)) {
 			foreach($ports as $p) {
-				$p_int = intval($p);
-				if($p_int > 0) $tcp_ports .= $p_int . ' ';
+				if(strstr($p,':')) {
+					$p_parts = explode(':',$p);
+					$p_clean = intval($p_parts[0]).':'.intval($p_parts[1]);
+				} else {
+					$p_clean = intval($p);
+				}
+				if($p_int > 0) $tcp_ports .= $p_clean . ' ';
 			}
 		}
 		$tcp_ports = trim($tcp_ports);
@@ -88,8 +93,13 @@ class firewall_plugin {
 		$ports = explode(',',$data["new"]["udp_port"]);
 		if(is_array($ports)) {
 			foreach($ports as $p) {
-				$p_int = intval($p);
-				if($p_int > 0) $udp_ports .= $p_int . ' ';
+				if(strstr($p,':')) {
+					$p_parts = explode(':',$p);
+					$p_clean = intval($p_parts[0]).':'.intval($p_parts[1]);
+				} else {
+					$p_clean = intval($p);
+				}
+				if($p_int > 0) $udp_ports .= $p_clean . ' ';
 			}
 		}
 		$udp_ports = trim($udp_ports);
