@@ -7,4 +7,5 @@ $wb['email_error_unique'] = 'Tämä aliasosoite on jo olemassa';
 $wb['no_domain_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia tähän verkkotunnukseen.';
 $wb['destination_error_isemail'] = 'Kohteena oleva sähköpostiosoite on vääränlainen.';
 $wb['limit_mailalias_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä aliasosoitteita.';
+$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
 ?>

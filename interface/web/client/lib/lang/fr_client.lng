@@ -80,4 +80,10 @@ $wb['template_master_txt'] = 'Master';
 $wb['template_additional_txt'] = 'Addon';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
 $wb['web_php_options_txt'] = 'PHP Options';
+$wb['limit_cron_txt'] = 'Max. number of cron jobs';
+$wb['limit_cron_type_txt'] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb['limit_cron_frequency_txt'] = 'Min. delay between executions';
+$wb['limit_cron_error_notint'] = 'The cron limit must be a number.';
+$wb['limit_cron_error_frequency'] = 'The cron frequency limit must be a number.';
+$wb['limit_client_error'] = 'The max. number of clients is reached.';
 ?>

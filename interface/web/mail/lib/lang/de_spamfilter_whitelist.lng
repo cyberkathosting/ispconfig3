@@ -5,4 +5,5 @@ $wb['rid_txt'] = 'Benutzer';
 $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Priorität';
 $wb['active_txt'] = 'Aktiv';
+$wb['limit_spamfilter_wblist_txt'] = 'The max. number of White- or Blacklist records for your account is reached.';
 ?>

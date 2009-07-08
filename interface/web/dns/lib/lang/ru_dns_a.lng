@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Имя узла пустое';
 $wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
 $wb['data_error_empty'] = 'IP-адрес пустой';
 $wb['data_error_regex'] = 'Формат IP-адреса неправилен';
+$wb['data_error_duplicate'] = 'Duplicate A-Record';
 ?>

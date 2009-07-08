@@ -3,4 +3,5 @@ $wb['email_txt'] = 'Email';
 $wb['destination_txt'] = 'Получатель Email';
 $wb['active_txt'] = 'Активный';
 $wb['limit_mailforward_txt'] = 'Максимальное число forwarders достигнуто.';
+$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
 ?>

@@ -5,4 +5,5 @@ $wb['rid_txt'] = 'Gebruiker';
 $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Prioriteit';
 $wb['active_txt'] = 'Actief';
+$wb['limit_spamfilter_wblist_txt'] = 'The max. number of White- or Blacklist records for your account is reached.';
 ?>

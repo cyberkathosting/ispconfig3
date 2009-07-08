@@ -27,4 +27,5 @@ $wb['disablepop3_txt'] = 'POP3 deaktivieren';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@ihredomain.at';
+$wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
 ?>

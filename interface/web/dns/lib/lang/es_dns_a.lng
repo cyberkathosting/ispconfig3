@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'El nombre de máquina está vacío.';
 $wb['name_error_regex'] = 'El formato del nombre de máquina es incorrecto.';
 $wb['data_error_empty'] = 'Dirección IP vacía';
 $wb['data_error_regex'] = 'El formato de la dirección IP es inválido.';
+$wb['data_error_duplicate'] = 'Duplicate A-Record';
 ?>

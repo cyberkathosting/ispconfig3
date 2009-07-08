@@ -27,4 +27,5 @@ $wb['welcome_mail_message'] = 'Tervetuloa käyttämään uutta sähköpotitiliä
 $wb['disableimap_txt'] = 'Estä IMAP';
 $wb['disablepop3_txt'] = 'Estä POP3';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
+$wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
 ?>

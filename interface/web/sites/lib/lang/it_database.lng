@@ -18,4 +18,6 @@ $wb['database_user_error_regex'] = 'Invalid database user name. The username may
 $wb['limit_database_txt'] = 'The max. number of databases is reached.';
 $wb['database_name_change_txt'] = 'The database name can not be changed';
 $wb['database_charset_change_txt'] = 'The database charset can not be changed';
+$wb['remote_ips_txt'] = 'Remote Access IPs (separate by , and leave blank for <i>any</i>)';
+$wb['database_remote_error_ips'] = 'At least one of the entered ip addresses is invalid.';
 ?>

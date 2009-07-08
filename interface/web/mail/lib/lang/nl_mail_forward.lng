@@ -3,4 +3,5 @@ $wb['email_txt'] = 'Email';
 $wb['destination_txt'] = 'Emailadres geadresseerde';
 $wb['active_txt'] = 'Actief';
 $wb['limit_mailforward_txt'] = 'Het max. aantal email forwarders voor uw account is bereikt.';
+$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
 ?>

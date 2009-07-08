@@ -44,4 +44,9 @@ $wb['limit_shell_user_error_notint'] = 'Shell-käyttäjätunnuksien raja-arvon p
 $wb['limit_dns_zone_error_notint'] = 'DNS-tietueiden raja-arvon pitää olla numero.';
 $wb['limit_database_error_notint'] = 'Tietokantojen raja-arvon pitää olla numero.';
 $wb['error_template_name_empty'] = 'Anna mallilomakkeen nimi';
+$wb['limit_cron_txt'] = 'Max. number of cron jobs';
+$wb['limit_cron_type_txt'] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb['limit_cron_frequency_txt'] = 'Min. delay between executions';
+$wb['limit_cron_error_notint'] = 'The cron limit must be a number.';
+$wb['limit_cron_error_frequency'] = 'The cron frequency limit must be a number.';
 ?>

@@ -22,4 +22,5 @@ $wb['quota_size_error_empty'] = 'Cuota vacía';
 $wb['uid_error_empty'] = 'GID vacío';
 $wb['directory_error_empty'] = 'Directorio vacío';
 $wb['quota_files_unity_txt'] = 'Files';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
 ?>

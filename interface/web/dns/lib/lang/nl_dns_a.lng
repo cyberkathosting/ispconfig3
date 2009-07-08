@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'De hostnaam is leeg.';
 $wb['name_error_regex'] = 'De hostname has the wrong format.';
 $wb['data_error_empty'] = 'IP-Adres is leeg.';
 $wb['data_error_regex'] = 'IP-Adres formaat ongeldig.';
+$wb['data_error_duplicate'] = 'Duplicate A-Record';
 ?>
