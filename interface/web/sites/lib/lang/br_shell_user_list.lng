@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'Usuário de Shell';
+$wb["active_txt"] = 'Ativo';
+$wb["server_id_txt"] = 'Servidor';
+$wb["parent_domain_id_txt"] = 'Site';
+$wb["username_txt"] = 'Usuário';
+$wb["add_new_record_txt"] = 'Adcionar novo usuário de Shell';
+?>

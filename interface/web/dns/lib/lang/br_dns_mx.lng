@@ -1,0 +1,16 @@
+<?php
+$wb["server_id_txt"] = 'Servidor';
+$wb["zone_txt"] = 'Zona';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'tipo';
+$wb["data_txt"] = 'Hostname do servidor de correio';
+$wb["aux_txt"] = 'Prioridade';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Ativo';
+$wb["limit_dns_record_txt"] = 'O número máximo de zonas DNS para sua conta foi atingido.';
+$wb["no_zone_perm"] = 'Você não tem permição para adcionar registros a está zona DNS.';
+$wb["name_error_empty"] = 'Hostname em branco.';
+$wb["name_error_regex"] = 'Hostname tem um formato inválido.';
+$wb["data_error_empty"] = 'Hostname do servidor de correio em branco';
+$wb["data_error_regex"] = 'Hostname do servidor de correio formato inválido';
+?>

@@ -1,0 +1,22 @@
+<?php
+$wb["server_id_txt"] = 'Servidor';
+$wb["type_txt"] = 'Tipo';
+$wb["database_name_txt"] = 'Nome do Banco de Dados';
+$wb["database_user_txt"] = 'Usuário do Banco de Dados';
+$wb["database_password_txt"] = 'Senha do Banco de Dados';
+$wb["password_strength_txt"] = 'Segurança da Senha';
+$wb["database_charset_txt"] = 'Charset do Banco de Dados';
+$wb["remote_access_txt"] = 'Acesso Remoto';
+$wb["client_txt"] = 'Cliente';
+$wb["active_txt"] = 'Ativo';
+$wb["database_name_error_empty"] = 'O nome do banco está em branco.';
+$wb["database_name_error_unique"] = 'Já existe um banco de dados com este nome no servidor. O nome escolhido deve ser único.';
+$wb["database_name_error_regex"] = 'Nome do banco inválido. O nome do banco só pode conter estes caracteres: a-z, A-Z, 0-9 e o underscore. Tamanho: 2 - 64 caracteres.';
+$wb["database_user_error_empty"] = 'O nome do usuário está em branco.';
+$wb["database_user_error_unique"] = 'Já existe um banco de dados com este nome no servidor. O nome escolhido deve ser único.';
+$wb["database_user_error_regex"] = 'Nome do banco inválido. O nome do banco só pode conter estes caracteres: a-z, A-Z, 0-9 e o underscore. Tamanho: 2 - 64 caracteres.';
+$wb["limit_database_txt"] = 'O limite máximo de bancos de dados foi atingido.';
+$wb["database_name_change_txt"] = 'O nome do banco não pode ser modificado';
+$wb["database_charset_change_txt"] = 'O charset do banco não pode ser mudado';
+?>
+

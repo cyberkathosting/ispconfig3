@@ -1,0 +1,23 @@
+<?php
+$wb["name_txt"] = 'Nome do Módulo';
+$wb["title_txt"] = 'Título do Módulo';
+$wb["template_txt"] = 'Arquivo de Gabarito';
+$wb["navframe_txt"] = 'Frame de Navegação';
+$wb["startpage_txt"] = 'Página Padrão';
+$wb["tab_width_txt"] = 'Tamanho da Aba';
+$wb["save_txt"] = 'Salvar';
+$wb["cancel_txt"] = 'Cancelar';
+$wb["header_txt"] = 'Propriedades do Módulo';
+$wb["description_txt"] = '
+<b>Descrição</b>
+<br><br>
+<b>Nome do Módulo:</b> Nome do diretório do módulo. Somente números, letras e underscores são permitidos.<br>
+<b>Título do Módulo:</b> Será exibido em caixa alta no menu de navegação.<br>
+<b>Arquivo de Gabarito:</b> Arquivo de Gabarito do Módulo Disponível: modulo.tpl.htm e modulo_tree.tpl.htm. O padrão é modulo.tpl.htm.<br>
+<b>Frame de Navegação:</b> Se modulo_tree.tpl.htm foi selecionado como arquivo de gabarito, insira aqui o caminho do script para o frame a esquerda.<br>
+<b>Página Padrão:</b> Esta página será exibida quando o módulo for aberto.<br>
+<b>Tamanho da Aba:</b> Tamanho das abas na navegação principal. Este campo fica em branco por padrão. Você pode informar valores absolutos em pixels (ex.: 20) ou valores relativos (ex.: 20%).<br>
+<b>Dica:</b> Todos os caminhos são relativos ao diretório "web".
+';
+
+?>

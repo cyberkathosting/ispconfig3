@@ -1,0 +1,15 @@
+<?php
+$wb["server_id_txt"] = 'Servidor';
+$wb["type_txt"] = 'Tipo';
+$wb["source_server_txt"] = 'Servidor Pop3/Imap';
+$wb["source_username_txt"] = 'Usuário';
+$wb["source_password_txt"] = 'Senha';
+$wb["source_delete_txt"] = 'Remover mensagens da origem após o recebimento';
+$wb["destination_txt"] = 'Destino';
+$wb["active_txt"] = 'Ativo';
+$wb["limit_fetchmail_txt"] = 'O número máximo de Fetchmail para sua conta foi atingido.';
+$wb["source_server_error_isempty"] = 'Servidor em branco.';
+$wb["source_username_error_isempty"] = 'Usuário em branco.';
+$wb["source_password_error_isempty"] = 'Senha em branco.';
+$wb["destination_error_isemail"] = 'Destino não selecionado.';
+?>

@@ -1,0 +1,6 @@
+<?php
+$wb["title_txt"] = 'Título';
+$wb["header_txt"] = 'Propriedades de Navegação';
+$wb["save_txt"] = 'Salvar';
+$wb["cancel_txt"] = 'Cancelar';
+?>

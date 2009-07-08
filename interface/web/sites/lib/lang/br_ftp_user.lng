@@ -1,0 +1,27 @@
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'Diretório';
+$wb["quota_files_txt"] = 'Quota de Arquivo';
+$wb["quota_files_unity_txt"] = 'Arquivos';
+$wb["ul_ratio_txt"] = 'Taxa de Upload';
+$wb["dl_ratio_txt"] = 'Taxa de Download';
+$wb["ul_bandwidth_txt"] = 'Banda de Upload';
+$wb["dl_bandwidth_txt"] = 'Banda de Download';
+$wb["server_id_txt"] = 'Servidor';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Usuário';
+$wb["password_txt"] = 'Senha';
+$wb["password_strength_txt"] = 'Tamanho da senha';
+$wb["quota_size_txt"] = 'Quota de Disco';
+$wb["active_txt"] = 'Ativo';
+$wb["limit_ftp_user_txt"] = 'O número máximo de usuários de FTP para sua conta foi atingido.';
+$wb["username_error_empty"] = 'Nome de usuário em branco.';
+$wb["username_error_unique"] = 'O nome de usuário deve ser único.';
+$wb["username_error_regex"] = 'The username contains charachters that are not allowed.';
+$wb["quota_size_error_empty"] = 'Quota em branco.';
+$wb["uid_error_empty"] = 'UID em branco.';
+$wb["uid_error_empty"] = 'GID em branco.';
+$wb["directory_error_empty"] = 'Diretório vazio.';
+?>
+

@@ -1,0 +1,35 @@
+<?php
+$wb['1001'] = 'Por favor, preencha o nome do usuário e senha!';
+$wb['1002'] = 'Nome do usuário ou senha incorretos!';
+$wb['Firewall'] = 'Firewall';
+$wb['Groups'] = 'Grupos';
+$wb['groups_description'] = 'Formulário para edição dos Grupos de usuários do sistema.';
+$wb['Server'] = 'Servidor';
+$wb['Services'] = 'Serviços';
+$wb['Config'] = 'Configuração';
+$wb['Server Config'] = 'Configuração do Servidor';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'Sistema';
+$wb['Add user'] = 'Adicionar Usuário';
+$wb['Edit user'] = 'Editar Usuário';
+$wb['CP Users'] = 'Usuários Visar';
+$wb['Add group'] = 'Adicionar Grupo';
+$wb['Edit group'] = 'Editar Grupo';
+$wb['Edit server'] = 'Editar Servidor';
+$wb['Edit Server IP'] = 'Editar Endereço IP do Servidor';
+$wb['Servers'] = 'Servidores';
+$wb['Sync. Now'] = 'Sincronizar agora';
+$wb['DB Sync.'] = 'Sincronizar Bando de Dados';
+$wb['Languages'] = 'Idiomas';
+$wb['New Language'] = 'Novo Idioma';
+$wb['Export'] = 'Exportar';
+$wb['Import'] = 'Importar';
+$wb['Language Editor'] = 'Editor de Idiomas';
+$wb['Software'] = 'Software';
+$wb['Repositories'] = 'Repositórios';
+?>
+

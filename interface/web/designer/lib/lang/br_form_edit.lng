@@ -1,0 +1,26 @@
+<?php
+$wb["name_txt"] = 'Nome do Formulário';
+$wb["title_txt"] = 'Título do Formulário';
+$wb["template_txt"] = 'Gabarito';
+$wb["navframe_txt"] = 'Frame de Navegação';
+$wb["startpage_txt"] = 'Página Inicial';
+$wb["tab_width_txt"] = 'Tamanho da aba';
+$wb["save_txt"] = 'Salvar';
+$wb["cancel_txt"] = 'Cancelar';
+$wb["header_txt"] = 'Propriedades do Formulário';
+$wb["description_txt"] = 'Descrição';
+$wb["action_txt"] = 'Ação (script)';
+$wb["db_table_txt"] = 'Tabela do DB';
+$wb["db_table_idx_txt"] = 'Indíce da tabela do DB';
+$wb["db_history_txt"] = 'Desfazer Log';
+$wb["tab_default_txt"] = 'Aba Padrão';
+$wb["list_default_txt"] = 'Exibir Padrão';
+$wb["tab_width_txt"] = 'Tamanho da aba';
+$wb["auth_txt"] = 'Permissões';
+$wb["auth_preset_userid_txt"] = 'Usuário(ID)';
+$wb["auth_preset_groupid_txt"] = 'Grupo(ID)';
+$wb["auth_preset_perm_user_txt"] = 'Perm. Usuário';
+$wb["auth_preset_perm_group_txt"] = 'Perm. Grupo';
+$wb["auth_preset_perm_other_txt"] = 'Perm. Outros';
+
+?>

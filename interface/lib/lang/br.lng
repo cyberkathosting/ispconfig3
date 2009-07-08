@@ -1,0 +1,25 @@
+<?php
+$wb['conf_format_dateshort'] = 'd/m/Y';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'd/m/Y H:i';
+$wb['301'] = 'Módulo não permitido para o usuário corrente.';
+$wb['302'] = 'Módulo Inválido';
+$wb['1001'] = 'O nome de usuário e senha não podem estar em branco!';
+$wb['1002'] = 'Nome de usuário ou senha incorretos!';
+$wb['1003'] = 'O Usuário está inativo!';
+$wb['delete_confirmation'] = 'Tem certeza de que deseja remover este registro?';
+$wb['error_no_view_permission'] = 'Você não tem permissão para ver este registro ou o mesmo não existe!';
+$wb['error_no_delete_permission'] = 'Você não tem permissão para remover este registro!';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Próximo';
+$wb['page_back_txt'] = 'Voltar';
+$wb['delete_txt'] = 'Remover';
+$wb['filter_txt'] = 'Filtrar';
+$wb['add_new_record_txt'] = 'Adcionar novo registro';
+$wb['btn_save_txt'] = 'Salvar';
+$wb['btn_cancel_txt'] = 'Voltar';
+?>
+

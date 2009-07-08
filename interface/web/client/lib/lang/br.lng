@@ -1,0 +1,10 @@
+<?php
+$wb['Client'] = 'Cliente';
+$wb['Address'] = 'Endereço';
+$wb['Limits'] = 'Limites';
+$wb['Add Client'] = 'Adcionar Cliente';
+$wb['Edit Client'] = 'Editar Cliente';
+$wb['Clients'] = 'Clientes';
+$wb['Edit Client-Templates'] = 'Editar Gabaritos de Clientes';
+?>
+
