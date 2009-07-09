@@ -76,7 +76,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// If user is admin, we will allow him to select to whom this record belongs
-		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Domains of the user
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
 			$clients = $app->db->queryAllRecords($sql);
@@ -89,6 +89,24 @@ class page_action extends tform_actions {
 				}
 			}
 		$app->tpl->setVar("client_group_id",$client_select);
+		} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+		
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Fill the client select field
+			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
+			$clients = $app->db->queryAllRecords($sql);
+			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
+			if(is_array($clients)) {
+				foreach( $clients as $client) {
+					$selected = @($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("client_group_id",$client_select);
+		
 		}
 		
 		parent::onShowEnd();

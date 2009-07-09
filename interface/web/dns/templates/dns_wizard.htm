@@ -29,6 +29,14 @@
 				</select>
       </div>
       </tmpl_if>
+	  <tmpl_if name="is_reseller">
+	  <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
+	  </tmpl_if>
 		  <tmpl_if name="DOMAIN_VISIBLE">
 	      <div class="ctrlHolder">
 	      	<label for="domain">{tmpl_var name='domain_txt'}</label>
