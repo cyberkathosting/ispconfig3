@@ -108,6 +108,11 @@ class page_action extends tform_actions {
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
 		
+		//die(print_r($this->dataRecord));
+		
+		if(isset($this->dataRecord['username']) && trim($this->dataRecord['username']) == '') $app->tform->errorMessage .= $app->tform->lng('username_error_empty').'<br />';
+		if(isset($this->dataRecord['username']) && empty($this->dataRecord['parent_domain_id'])) $app->tform->errorMessage .= $app->tform->lng('parent_domain_id_error_empty').'<br />';
+		
 		parent::onSubmit();
 	}
 	
