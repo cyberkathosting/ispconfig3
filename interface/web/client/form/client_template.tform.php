@@ -367,6 +367,7 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		/*
 		'limit_client' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -381,6 +382,7 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		*/
 		'limit_database' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
