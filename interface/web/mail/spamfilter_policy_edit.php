@@ -54,17 +54,11 @@ class page_action extends tform_actions {
 		
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
-			
-			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_spamfilter_policy FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
-			// Check if the user may add another mailbox.
-			if($client["limit_limit_spamfilter_policy"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM spamfilter_policy WHERE sys_groupid = $client_group_id");
-				if($tmp["number"] >= $client["limit_spamfilter_policy"]) {
-					$app->error($app->tform->wordbook["limit_spamfilter_policy_txt"]);
-				}
+			if(!$app->tform->checkClientLimit('limit_spamfilter_policy')) {
+				$app->error($app->tform->wordbook["limit_spamfilter_policy_txt"]);
+			}
+			if(!$app->tform->checkResellerLimit('limit_spamfilter_policy')) {
+				$app->error('Reseller: '.$app->tform->wordbook["limit_spamfilter_policy_txt"]);
 			}
 		}
 		

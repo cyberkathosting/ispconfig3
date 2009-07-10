@@ -55,17 +55,11 @@ class page_action extends tform_actions {
 		
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
-		
-			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_fetchmail FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
-			// Check if the user may add another transport.
-			if($client["limit_fetchmail"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(mailget_id) as number FROM mail_get WHERE sys_groupid = $client_group_id");
-				if($tmp["number"] >= $client["limit_fetchmail"]) {
-					$app->error($app->tform->wordbook["limit_fetchmail_txt"]);
-				}
+			if(!$app->tform->checkClientLimit('limit_fetchmail')) {
+				$app->error($app->tform->wordbook["limit_fetchmail_txt"]);
+			}
+			if(!$app->tform->checkResellerLimit('limit_fetchmail')) {
+				$app->error('Reseller: '.$app->tform->wordbook["limit_fetchmail_txt"]);
 			}
 		}
 		

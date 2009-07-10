@@ -137,6 +137,13 @@ if($_POST['create'] == 1) {
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	
+	if(!$app->tform->checkClientLimit('limit_dns_zone')) {
+		$error .= $app->tform->wordbook["limit_dns_zone_txt"];
+	}
+	if(!$app->tform->checkResellerLimit('limit_dns_zone')) {
+		$error .= $app->tform->wordbook["limit_dns_zone_txt"];
+	}
+	
 	
 	// replace template placeholders
 	$tpl_content = $template_record['template'];

@@ -1148,6 +1148,63 @@ class tform {
 			}
 			
 		}
+		
+		function checkClientLimit($limit_name,$sql_where = '') {
+			global $app;
+			
+			$check_passed = true;
+			$limit_name = $app->db->quote($limit_name);
+			if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
+			
+			// Get the limits of the client that is currently logged in
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT $limit_name as number, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			// Check if the user may add another item
+			if($client["number"] >= 0) {
+				$sql = "SELECT count(".$this->formDef['db_table_idx'].") as number FROM ".$this->formDef['db_table']." WHERE ".$this->getAuthSQL('u');
+				if($sql_where != '') $sql .= ' and '.$sql_where;
+				$tmp = $app->db->queryOneRecord($sql);
+				if($tmp["number"] >= $client["number"]) $check_passed = false;
+			}
+			
+			return $check_passed;
+		}
+		
+		function checkResellerLimit($limit_name,$sql_where = '') {
+			global $app;
+			
+			$check_passed = true;
+			$limit_name = $app->db->quote($limit_name);
+			if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
+			
+			// Get the limits of the client that is currently logged in
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			//* If the client belongs to a reseller, we will check against the reseller Limit too
+			if($client['parent_client_id'] != 0) {
+				
+				//* first we need to know the groups of this reseller
+				$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ".$client['parent_client_id']);
+				$reseller_groups = $tmp["groups"];
+				$reseller_userid = $tmp["userid"];
+				
+				// Get the limits of the reseller of the logged in client
+				$client_group_id = $_SESSION["s"]["user"]["default_group"];
+				$reseller = $app->db->queryOneRecord("SELECT $limit_name as number FROM client WHERE client_id = ".$client['parent_client_id']);
+			
+				// Check if the user may add another item
+				if($reseller["number"] >= 0) {
+					$sql = "SELECT count(".$this->formDef['db_table_idx'].") as number FROM ".$this->formDef['db_table']." WHERE (sys_groupid IN (".$reseller_groups.") or sys_userid = ".$reseller_userid.")";
+					if($sql_where != '') $sql .= ' and '.$sql_where;
+					$tmp = $app->db->queryOneRecord($sql);
+					if($tmp["number"] >= $reseller["number"]) $check_passed = false;
+				}
+			}
+			
+			return $check_passed;
+		}
 
 }
 
