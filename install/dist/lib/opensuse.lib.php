@@ -432,6 +432,7 @@ class installer_dist extends installer_base {
 		//if(is_file('/etc/suphp.conf')) {
 		replaceLine('/etc/suphp.conf','php=php','x-httpd-suphp=php:/srv/www/cgi-bin/php5',0,0);
 		replaceLine('/etc/suphp.conf','docroot=','docroot=/srv/www',0,0);
+		replaceLine('/etc/suphp.conf','umask=0077','umask=0022',0);
 		//}
 		
 		// Sites enabled and avaulable dirs
