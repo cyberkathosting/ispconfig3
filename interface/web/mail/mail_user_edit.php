@@ -160,7 +160,7 @@ class page_action extends tform_actions {
 
 		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
-			$this->dataRecord["email"] = $_POST["email_local_part"]."@".$_POST["email_domain"];
+			$this->dataRecord["email"] = strtolower($_POST["email_local_part"]."@".$_POST["email_domain"]);
 		
 			// Set the server id of the mailbox = server ID of mail domain.
 			$this->dataRecord["server_id"] = $domain["server_id"];
