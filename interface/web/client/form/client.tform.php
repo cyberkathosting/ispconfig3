@@ -520,6 +520,7 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'CHECKBOXARRAY',
 			'default'	=> '',
 			'separator' => ',',
+			'valuelimit' => 'client:web_php_options',
 			'value'		=> array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
 		),
 		'limit_web_aliasdomain' => array (
@@ -583,6 +584,7 @@ $form["tabs"]['limits'] = array (
 			'formtype'	=> 'CHECKBOXARRAY',
 			'default'	=> '',
 			'separator' => ',',
+			'valuelimit' => 'client:ssh_chroot',
 			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit')
 		),
 		'default_dnsserver' => array (

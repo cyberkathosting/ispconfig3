@@ -276,6 +276,33 @@ class tform {
 				}
 			}
 			
+			//* values are limited to a field in the reseller settings
+			if($limit_parts[0] == 'reseller') {
+				if($_SESSION["s"]["user"]["typ"] == 'admin') {
+					return $values;
+				} else {
+					//* Get the limits of the client that is currently logged in
+					$client_group_id = $_SESSION["s"]["user"]["default_group"];
+					$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+					//echo "SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
+					//* If the client belongs to a reseller, we will check against the reseller Limit too
+					if($client['parent_client_id'] != 0) {
+				
+						//* first we need to know the groups of this reseller
+						$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ".$client['parent_client_id']);
+						$reseller_groups = $tmp["groups"];
+						$reseller_userid = $tmp["userid"];
+				
+						// Get the limits of the reseller of the logged in client
+						$client_group_id = $_SESSION["s"]["user"]["default_group"];
+						$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ".$client['parent_client_id']);
+						$allowed = explode(',',$reseller['lm']);
+					} else {
+						return $values;
+					}
+				} // end if admin
+			} // end if reseller
+			
 			//* values are limited to a field in the system settings
 			if($limit_parts[0] == 'system') {
 				$app->uses('getconf');
