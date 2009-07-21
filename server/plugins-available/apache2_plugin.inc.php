@@ -476,6 +476,9 @@ class apache2_plugin {
 			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"])."/*");
 			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 			
+			// make temp direcory writable for the apache user and the website user
+			exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+			
 			$command = 'usermod';
 			$command .= ' --groups sshusers';
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
