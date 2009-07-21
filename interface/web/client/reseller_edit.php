@@ -143,9 +143,8 @@ class page_action extends tform_actions {
 		
 		$username = $app->db->quote($this->dataRecord["username"]);
 		$password = $app->db->quote($this->dataRecord["password"]);
-		$modules = ISPC_INTERFACE_MODULES_ENABLED;
-		if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
-		$startmodule = 'mail';
+		$modules = ISPC_INTERFACE_MODULES_ENABLED.',client';
+		$startmodule = 'client';
 		$usertheme = $app->db->quote($this->dataRecord["usertheme"]);
 		$type = 'user';
 		$active = 1;
@@ -195,8 +194,7 @@ class page_action extends tform_actions {
 		
 		// reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
-			$modules = ISPC_INTERFACE_MODULES_ENABLED;
-			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
+			$modules = ISPC_INTERFACE_MODULES_ENABLED.',client';
 			$modules = $app->db->quote($modules);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
