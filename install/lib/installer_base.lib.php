@@ -819,11 +819,16 @@ class installer_base {
 			exec('ln -s /etc/webalizer.conf /etc/webalizer/webalizer.conf');
 		}
 		
+		if(is_file('/etc/webalizer/webalizer.conf')) {
+			// Change webalizer mode to incremental
+			replaceLine('/etc/webalizer/webalizer.conf','Incremental     no','Incremental     yes',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','IncrementalName webalizer.current','IncrementalName webalizer.current',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','HistoryName     webalizer.hist','HistoryName     webalizer.hist',0,0);
+		}
+		
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		
 		
 	}
 	
