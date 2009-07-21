@@ -261,7 +261,7 @@ class apache2_plugin {
 					// Remove trailing slash
 					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
 					// create the symlinks, if not exist
-					if(!is_link($tmp_symlink)) {
+					if(is_link($tmp_symlink)) {
 						exec("rm -f ".escapeshellcmd($tmp_symlink));
 						$app->log("Removed Symlink: rm -f ".$tmp_symlink,LOGLEVEL_DEBUG);
 					}
