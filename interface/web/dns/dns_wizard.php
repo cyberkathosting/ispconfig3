@@ -137,6 +137,11 @@ if($_POST['create'] == 1) {
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	
+	$tform_def_file = "form/dns_soa.tform.php";
+	$app->uses('tform');
+	$app->tform->loadFormDef($tform_def_file);
+	
+	
 	if(!$app->tform->checkClientLimit('limit_dns_zone')) {
 		$error .= $app->tform->wordbook["limit_dns_zone_txt"];
 	}
