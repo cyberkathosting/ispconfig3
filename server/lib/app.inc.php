@@ -40,6 +40,11 @@ class app {
                 if($conf["start_db"] == true) {
                 	$this->load('db_'.$conf["db_type"]);
                 	$this->db = new db;
+					if($this->db->linkId) $this->db->closeConn();
+					$this->db->dbHost = $conf["db_host"];
+					$this->db->dbName = $conf["db_database"];
+					$this->db->dbUser = $conf["db_user"];
+					$this->db->dbPass = $conf["db_password"];
 					
 					/*
 					Initialize the connection to the master DB, 

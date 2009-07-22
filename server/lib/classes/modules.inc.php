@@ -118,10 +118,12 @@ class modules {
 						//$tmp_sql1 .= "$idx[0]";
 						//$tmp_sql2 .= "$idx[1]";
 						$sql = "REPLACE INTO $d[dbtable] ($tmp_sql1) VALUES ($tmp_sql2)";
+						$app->db->errorNumber = 0;
+						$app->db->errorMessage = '';
 						$app->db->query($sql);
 						if($app->db->errorNumber > 0) {
 							$replication_error = true;
-							$app->log("Replication failed. Error: (" . $d[dbtable] . ") " . $app->db->errorMessage . " # SQL: " . $sql,LOGLEVEL_ERROR);
+							$app->log("Replication failed. Error: (" . $d[dbtable] . ") in mysql server: (".$app->db->dbHost.") " . $app->db->errorMessage . " # SQL: " . $sql,LOGLEVEL_ERROR);
 						}
 						$app->log("Replicated from master: ".$sql,LOGLEVEL_DEBUG);
 					}

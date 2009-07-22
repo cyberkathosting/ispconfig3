@@ -358,7 +358,7 @@ if($install_mode == 'standard') {
 	}
 	
 	//** Configure Apache
-	swriteln("\nHint: If this server shall run the ispconfig interface, select 'y' in the next option.\n");
+	swriteln("\nHint: If this server shall run the ispconfig interface, select 'y' in the 'Configure Apache Server' option.\n");
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
 		$conf['services']['web'] = true;
 		swriteln('Configuring Apache');

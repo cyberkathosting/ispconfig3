@@ -59,8 +59,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		function updateError($location)
 		{
 			global $app;
-			$this->errorNumber = mysql_errno();
-			$this->errorMessage = mysql_error();
+			$this->errorNumber = mysql_errno($this->linkId);
+			$this->errorMessage = mysql_error($this->linkId);
 			$this->errorLocation = $location;
 			if($this->errorNumber && $this->show_error_messages && method_exists($app,'log'))
 			{
