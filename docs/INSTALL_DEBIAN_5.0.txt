@@ -236,16 +236,15 @@ Incremental    yes
 
 7) Install Jailkit (optional, only needed if you want to use chrroting for SSH users)
 
-apt-get install build-essential autoconf automake1.9 libtool flex bison
+apt-get install build-essential autoconf automake1.9 libtool flex bison debhelper
 cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
-tar xvfz jailkit-2.5.tar.gz
-cd jailkit-2.5
-./configure
-make
-make install
+wget http://olivier.sessink.nl/jailkit/jailkit-2.7.tar.gz
+tar xvfz jailkit-2.7.tar.gz
+cd jailkit-2.7
+./debian/rules binary
 cd ..
-rm -rf jailkit-2.5*
+dpkg -i jailkit_2.7-1_i386.deb
+rm -rf jailkit-2.7*
 
 8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
 More info at: http://www.howtoforge.com/fail2ban_debian_etch

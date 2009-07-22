@@ -233,14 +233,15 @@ ___
 7.1) OPTIONAL: Installing Jailkit
 *******************************************************************************
 ___
-apt-get install build-essential autoconf automake1.9 libtool flex bison
+apt-get install build-essential autoconf automake1.9 libtool flex bison debhelper
 cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.5.tar.gz
-tar xvfz jailkit-2.5.tar.gz
-cd jailkit-2.5
-./configure
-make
-make install
+wget http://olivier.sessink.nl/jailkit/jailkit-2.7.tar.gz
+tar xvfz jailkit-2.7.tar.gz
+cd jailkit-2.7
+./debian/rules binary
+cd ..
+dpkg -i jailkit_2.7-1_i386.deb
+rm -rf jailkit-2.7*
 ___
 
 
