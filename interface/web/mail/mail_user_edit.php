@@ -75,7 +75,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email_local_part",$email_parts[0]);
 		
 		// Getting Domains of the user
-		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r');
+		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		if(is_array($domains)) {
