@@ -6,5 +6,8 @@ $wb['Add Client'] = 'Adcionar Cliente';
 $wb['Edit Client'] = 'Editar Cliente';
 $wb['Clients'] = 'Clientes';
 $wb['Edit Client-Templates'] = 'Editar Gabaritos de Clientes';
+$wb['Add Reseller'] = 'Adcionar Revendedor';
+$wb['Edit Reseller'] = 'Editar Revendedor';
+$wb['Resellers'] = 'Revendedores';
 ?>
 

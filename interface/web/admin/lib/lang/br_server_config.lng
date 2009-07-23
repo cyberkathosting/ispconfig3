@@ -38,5 +38,13 @@ $wb['netmask_error_wrong'] = 'Formato da Máscara de Rede inválio!';
 $wb['gateway_error_wrong'] = 'Gateway inválido!';
 $wb['hostname_error_empty'] = 'Por favor, entre com o nome do Host.';
 $wb['nameservers_error_empty'] = 'Por favor, entre com  o Servidor DNS.';
+$wb['jailkit_chroot_cron_programs_txt'] = 'Cron de aplicações Jailkit em ambiente chroot';
+$wb['config_dir_txt'] = 'Diretório de configuração';
+$wb['init_script_txt'] = 'Cron init nome do script';
+$wb['crontab_dir_txt'] = 'Caminho para crontabs individuais';
+$wb['wget_txt'] = 'Caminho para o wget';
+$wb['web_user_txt'] = 'Usuário Apache';
+$wb['web_group_txt'] = 'Grupo Apache';
+$wb['security_level'] = 'Nível de segurança';
 ?>
 

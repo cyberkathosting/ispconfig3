@@ -1,15 +1,16 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Hostname';
-$wb["type_txt"] = 'type';
-$wb["data_txt"] = 'IPv6-Address';
-$wb["ttl_txt"] = 'TTL';
-$wb["active_txt"] = 'Active';
-$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
-$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
-$wb["name_error_empty"] = 'The hostname is empty.';
-$wb["name_error_regex"] = 'The hostname has the wrong format.';
-$wb["data_error_empty"] = 'IP-Address empty';
-$wb["data_error_regex"] = 'IP-Address format invalid';
+$wb['server_id_txt'] = 'Servidor';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Hostname';
+$wb['type_txt'] = 'tipo';
+$wb['data_txt'] = 'Endereço-IPv6';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Ativo';
+$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
+$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['name_error_empty'] = 'O Hostname está em branco.';
+$wb['name_error_regex'] = 'O Hostname está com formato inválido.';
+$wb['data_error_empty'] = 'Endereço-IP em branco';
+$wb['data_error_regex'] = 'Endereço-IP com formato inválido';
 ?>
+

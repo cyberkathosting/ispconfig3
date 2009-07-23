@@ -81,5 +81,10 @@ $wb['template_additional_txt'] = 'Template Adcional';
 $wb['ssh_chroot_txt'] = 'Opções de SSH Chroot';
 $wb['web_php_options_txt'] = 'Opções do PHP';
 $wb['limit_client_error'] = 'O número máximo de clientes foi atingido.';
+$wb['limit_cron_txt'] = 'Número máximo de tarefas no cron.';
+$wb['limit_cron_type_txt'] = 'Máximo de tipos de tarefas no cron (em chroot e url completas)';
+$wb['limit_cron_frequency_txt'] = 'Intervalo mínimo entre as execuções';
+$wb['limit_cron_error_notint'] = 'O limite do cron deve ser um número.';
+$wb['limit_cron_error_frequency'] = 'O limite de frequência do cron deve ser um número.';
 ?>
 
