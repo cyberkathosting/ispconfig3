@@ -1,0 +1,39 @@
+<?php
+$wb["policy_name_txt"] = 'Nazwa polityki';
+$wb["virus_lover_txt"] = 'Przyjmuj wirusy';
+$wb["spam_lover_txt"] = 'Przyjmuj SPAM';
+$wb["banned_files_lover_txt"] = 'Przyjmuj zablokowane pliki';
+$wb["bad_header_lover_txt"] = 'Przyjmuj złe nagłowki';
+$wb["bypass_virus_checks_txt"] = 'Omijaj zaznaczone jako wirus';
+$wb["bypass_banned_checks_txt"] = 'Omijaj zaznaczone jako zabrobione';
+$wb["bypass_header_checks_txt"] = 'Omijaj zaznaczone jako złe nagłowki';
+$wb["virus_quarantine_to_txt"] = 'Przekieruj wirusy na adres e-mail';
+$wb["spam_quarantine_to_txt"] = 'Przekieruj spam na adres e-mail';
+$wb["banned_quarantine_to_txt"] = 'Przekieruj zabronione na adres e-mail';
+$wb["bad_header_quarantine_to_txt"] = 'Przekieruj złe nagłowki na adres e-mail';
+$wb["clean_quarantine_to_txt"] = 'Przekieruj czyste na adres e-mail';
+$wb["other_quarantine_to_txt"] = 'Przekieruj inne na adres e-mail';
+$wb["spam_tag_level_txt"] = 'Poziom oznaczania spamu';
+$wb["spam_tag2_level_txt"] = 'Poziom oznaczania spamu 2';
+$wb["spam_kill_level_txt"] = 'Poziom usunięcia spamu';
+$wb["spam_dsn_cutoff_level_txt"] = 'Poziom spam przy którym nastąpi odcięcie dns';
+$wb["spam_quarantine_cutoff_level_txt"] = 'Poziom spam przy którym nastąpi odcięcie kwarantanny';
+$wb["spam_modifies_subj_txt"] = 'Modyfikacja tematu';
+$wb["spam_subject_tag_txt"] = 'Przedrostek tematu ze spamem';
+$wb["spam_subject_tag2_txt"] = 'Przedrostek tematu ze spamem 2';
+$wb["addr_extension_virus_txt"] = 'Przedrostek z informacją o wirusie';
+$wb["addr_extension_spam_txt"] = 'Przedrostek z informacją o spamie';
+$wb["addr_extension_banned_txt"] = 'Przedrostek z informacją o zablokowanej treści';
+$wb["addr_extension_bad_header_txt"] = 'Przedrostek z informacją o złych nagłówkach';
+$wb["warnvirusrecip_txt"] = 'Ostrzeż odbiorcę o wirusie';
+$wb["warnbannedrecip_txt"] = 'Ostrzeż odbiorcę o zablokowanej trści';
+$wb["warnbadhrecip_txt"] = 'Ostrzeż odbiorcę o złych nagłówkach';
+$wb["newvirus_admin_txt"] = 'Admin obsługi nowych wirusów';
+$wb["virus_admin_txt"] = 'Admin obsługi wirusów';
+$wb["banned_admin_txt"] = 'Admin obłsugi zablokowanych treści';
+$wb["bad_header_admin_txt"] = 'Admin obsługi złych nagłowków';
+$wb["spam_admin_txt"] = 'Admin obsługi spamu';
+$wb["message_size_limit_txt"] = 'Limit wielkości wiadomości';
+$wb["banned_rulenames_txt"] = 'Zabrobione nazwy zasad';
+?>
+

@@ -1,0 +1,25 @@
+<?php
+$wb["server_id_txt"] = 'Serwer';
+$wb["origin_txt"] = 'Strefa (SOA)';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'E-mail';
+$wb["serial_txt"] = 'Klucz';
+$wb["refresh_txt"] = 'Odśwież';
+$wb["retry_txt"] = 'Ponów';
+$wb["expire_txt"] = 'Wygasł';
+$wb["minimum_txt"] = 'Minimum';
+$wb["ttl_txt"] = 'TTL';
+$wb["xfer_txt"] = 'Zezwól na przeniesienie stref do <br />tych adresów IP (adresy rozdzielaj przecinkiem)';
+$wb["active_txt"] = 'Aktywny';
+$wb["limit_dns_zone_txt"] = 'Maksymalna ilość stref DNS dla Twojego konta została przekroczona.';
+$wb["client_txt"] = 'Klient';
+$wb["no_zone_perm"] = 'Nie masz uprawnień, aby dodać nowy wpis dla tej strefy DNS.';
+$wb["server_id_error_empty"] = 'Nie wybrano serwera';
+$wb["origin_error_empty"] = 'Strefa jest pusta.';
+$wb["origin_error_unique"] = 'Istnieje już wpis dla tej strefy.';
+$wb["origin_error_regex"] = 'Strefa ma niepoprawny format.';
+$wb["ns_error_regex"] = 'NS ma niepoprawny format.';
+$wb["mbox_error_empty"] = 'E-mail jest pusty.';
+$wb["mbox_error_regex"] = 'E-mail ma niepoprawny format.';
+?>
+

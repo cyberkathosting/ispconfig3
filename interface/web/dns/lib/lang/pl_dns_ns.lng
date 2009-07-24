@@ -1,0 +1,16 @@
+<?php
+$wb["server_id_txt"] = 'Serwer';
+$wb["zone_txt"] = 'Strefa';
+$wb["name_txt"] = 'Strefa';
+$wb["type_txt"] = 'typ';
+$wb["data_txt"] = 'Nazwa serwera';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktywne';
+$wb["limit_dns_record_txt"] = 'Maksymalna ilość wpisów DNS dla Twojego konta została przekroczona.';
+$wb["no_zone_perm"] = 'Nie masz uprawnień, aby dodać nowy wpis do tej strefy DNS.';
+$wb["name_error_empty"] = 'Strefa jest pusta.';
+$wb["name_error_regex"] = 'Strefa ma zły format.';
+$wb["data_error_empty"] = 'Nazwa serwera jest pusta.';
+$wb["data_error_regex"] = 'Nazwa serwera ma zły format.';
+?>
+

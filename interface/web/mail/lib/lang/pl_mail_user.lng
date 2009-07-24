@@ -1,0 +1,33 @@
+<?php
+$wb["custom_mailfilter_txt"] = 'Standardowy filtr e-mail';
+$wb["email_txt"] = 'E-mail';
+$wb["cryptpwd_txt"] = 'Hasło';
+$wb["password_strength_txt"] = 'Siła hasła';
+$wb["active_txt"] = 'Aktywny';
+$wb["email_error_isemail"] = 'Adres e-mail jest niepoprawny.';
+$wb["email_error_unique"] = 'Duplikat adresu e-mail.';
+$wb["autoresponder_text_txt"] = 'Tekst';
+$wb["autoresponder_txt"] = 'Autoresponder';
+$wb["no_domain_perm"] = 'Nie masz dostępu do tej domeny.';
+$wb["error_no_pwd"] = 'Hasło jest puste.';
+$wb["quota_error_isint"] = 'Wielkość skrzynki pocztowej musi być liczbą.';
+$wb["quota_txt"] = 'Limit';
+$wb["server_id_txt"] = 'Serwer_id';
+$wb["password_txt"] = 'Hasło';
+$wb["maildir_txt"] = 'Maildir';
+$wb["postfix_txt"] = 'Możliwe otrzymywanie';
+$wb["access_txt"] = 'Możliwy dostęp';
+$wb["policy_txt"] = 'Filtr spamu';
+$wb["no_policy"] = '- nie dostępny -';
+$wb["limit_mailbox_txt"] = 'Maksymalna ilość skrzynek pocztowych dla Twojego konta została przekroczona.';
+$wb["limit_mailquota_txt"] = 'Maxymalna pojemność skrzynki pocztowej została przekroczona. Maksymalne dostępne miejsce w MB to: ';
+$wb["welcome_mail_fromname_txt"] = 'ISPConfig3';
+$wb["welcome_mail_fromemail_txt"] = "webmaster@localhost.tld";
+$wb["welcome_mail_subject"] = 'Witaj w swoim nowym koncie pocztowym.';
+$wb["welcome_mail_message"] = "Witaj w swoim nowym koncie pocztowym. Admin.";
+$wb["disableimap_txt"] = 'Wyłącz IMAP';
+$wb["disablepop3_txt"] = 'Wyłącz POP3';
+$wb["duplicate_alias_or_forward_txt"] = 'There is already an alias or forwrd with this email address.';
+?>
+
+

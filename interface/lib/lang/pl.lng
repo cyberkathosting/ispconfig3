@@ -1,0 +1,27 @@
+<?php
+$wb['conf_format_dateshort'] = 'Y-m-d';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'Y-m-d H:i';
+
+$wb['301'] = 'Moduł nie jest dostępny dla aktualnego uzytkownika.';
+$wb['302'] = 'Moduł jest niepoprawny.';
+$wb['1001'] = 'Nazwa użytkownika i hasło nie może być puste !';
+$wb['1002'] = 'Nazwa użytkownika i/lub hasło nie są poprawne !';
+$wb['1003'] = 'Nazwa użytkownika nie jest aktywna!';
+$wb['delete_confirmation'] = 'Jesteś pewny, że chcesz usunąć ten wpis?';
+$wb['error_no_view_permission'] = 'Nie masz uprawnień do podglądu tego wpisu lub taki wpis nie istnieje!';
+$wb['error_no_delete_permission'] = 'Nie masz uprawnień do usunięcia tego wpisu!';
+$wb["page_txt"] = 'Strona';
+$wb["page_of_txt"] = 'z';
+$wb["page_next_txt"] = 'Następna';
+$wb["page_back_txt"] = 'Wróć';
+$wb["delete_txt"] = 'Usuń';
+$wb["filter_txt"] = 'Filtr';
+$wb["add_new_record_txt"] = 'Dodaj nowy wpis';
+$wb['btn_save_txt'] = "Zapisz";
+$wb['btn_cancel_txt'] = "Wróć";
+?>
+
+

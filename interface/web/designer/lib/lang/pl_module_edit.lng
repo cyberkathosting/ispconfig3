@@ -1,0 +1,24 @@
+<?php
+$wb["name_txt"] = 'Nazwa modułu';
+$wb["title_txt"] = 'Tytuł modułu';
+$wb["template_txt"] = 'Plik szablonu';
+$wb["navframe_txt"] = 'Ramka nawigacyjna';
+$wb["startpage_txt"] = 'Strona domyślna';
+$wb["tab_width_txt"] = 'Szerokość zakładki';
+$wb["save_txt"] = 'Zapisz';
+$wb["cancel_txt"] = 'Anuluj';
+$wb["header_txt"] = 'Parametry modułu';
+$wb["description_txt"] = '
+<b>Opis</b>
+<br><br>
+<b>Nazwa modułu:</b> Nazwa katalogu z modułem. Tylko liczby, litery (bez polskich) i podkreślenie są dozwolone.<br>
+<b>Tytuł modułu:</b> Będzie wyświetlaby w głównym menu nawigacyjnym.<br>
+<b>Plik szablonu:</b> Plik szablonu modułu. Aktualnie dostępne: module.tpl.htm oraz module_tree.tpl.htm. Domyślnie jest module.tpl.htm.<br>
+<b>Ramka nawigacyjna:</b> Jeśli module_tree.tpl.htm wybrano jako plik szablonu, wpisz tutaj ścieżkę do pliku ze skryptem dla lewej ramki.<br>
+<b>Strona domyślna:</b> Ta strona będzie otwierana na początku podczas otwarcia modułu.<br>
+<b>Szerokość zakładki:</b> Szerokość zakładek w głownym menu nawigacyjnym. To pole jest domyślnie puste. Możesz podać wartość w pikselach (np.: 20) lub procentach (np.: 20%).<br>
+<b>Podpowiedź:</b> Wszystkie ścieżki są względne według strony www..
+';
+
+?>
+

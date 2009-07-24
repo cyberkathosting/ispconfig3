@@ -1,0 +1,9 @@
+<?php
+$wb['recipient_id_txt'] = 'ID odbiorcy';
+$wb['sender_id_txt'] = 'ID nadawcy';
+$wb['subject_txt'] = 'Temat';
+$wb['message_txt'] = 'Wiadomość';
+$wb['tstamp_txt'] = 'Kalendarz';
+?>
+
+

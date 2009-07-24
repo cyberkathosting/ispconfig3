@@ -1,0 +1,16 @@
+<?php
+
+$wb['warning'] = 'Edytuj te wartości ostrożnie! Nie usuwaj prefiksów w systemie w więcej niż jednym kliencie.';
+$wb['dbname_prefix_txt'] = 'Prefiks nazwy bazy danych';
+$wb['dbuser_prefix_txt'] = 'Prefiks użytkownika bazy danych';
+$wb['shelluser_prefix_txt'] = 'Prefiks użytkownika shell';
+$wb['ftpuser_prefix_txt'] = 'Prefiks uzytkownika FTP';
+$wb['dbname_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy bazy danych.';
+$wb['dbuser_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy użytkownika bazy danych.';
+$wb['ftpuser_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy użytkownika ftp.';
+$wb['shelluser_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy użytkownika shell.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Adres do phpMyAdmin-a w liście baz danych';
+$wb['mailboxlist_webmail_link_txt'] = 'Adres do poczty e-mail w liście skrzynek pocztowych';
+
+?>
+

@@ -1,0 +1,10 @@
+<?php
+$wb["domain_txt"] = 'Domena';
+$wb["destination_txt"] = 'Element docelowy';
+$wb["active_txt"] = 'Aktywny';
+$wb["domain_error_unique"] = "Jest już wpis Catchall dla tej domeny.";
+$wb["no_domain_perm"] = "Nie masz dostępu do tej domeny.";
+$wb["domain_error_regex"] = 'Nieprawidłowa nazwa domeny. Domena zawiera niedozolone znaki.';
+$wb["limit_mailcatchall_txt"] = 'Maksymalna ilość kont e-mial catchall dla Twojej domeny została przekroczona.';
+?>
+

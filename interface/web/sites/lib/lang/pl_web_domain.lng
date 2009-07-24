@@ -1,0 +1,51 @@
+<?php
+$wb["ssl_state_txt"] = 'Stan';
+$wb["ssl_locality_txt"] = 'Lokalność';
+$wb["ssl_organisation_txt"] = 'Organizacja';
+$wb["ssl_organisation_unit_txt"] = 'Jednosta organizacji';
+$wb["ssl_country_txt"] = 'Państwo';
+$wb["ssl_request_txt"] = 'Żądanie SSL';
+$wb["ssl_cert_txt"] = 'Certyfikat SSL';
+$wb["ssl_bundle_txt"] = 'Paczka SSL';
+$wb["ssl_action_txt"] = 'Akcja SSL';
+$wb["server_id_txt"] = 'Serwer';
+$wb["domain_txt"] = 'Domena';
+$wb["type_txt"] = 'Typ';
+$wb["parent_domain_id_txt"] = 'Aktualna strona www';
+$wb["redirect_type_txt"] = 'Typ przekierowania';
+$wb["redirect_path_txt"] = 'Ścieżka przekierowania';
+$wb["active_txt"] = 'Aktywny';
+$wb["document_root_txt"] = 'Głowny katalog';
+$wb["system_user_txt"] = 'Użytkownik Linuksa';
+$wb["system_group_txt"] = 'Grupa Linuks';
+$wb["ip_address_txt"] = 'Adres IP';
+$wb["vhost_type_txt"] = 'Typ wirtualnego serwera';
+$wb["hd_quota_txt"] = 'Limit dysku twardego';
+$wb["traffic_quota_txt"] = 'Limit ruchu na serwerze';
+$wb["cgi_txt"] = 'CGI';
+$wb["ssi_txt"] = 'SSI';
+$wb["errordocs_txt"] = 'Własne strony błędów';
+$wb["subdomain_txt"] = 'Automatyczna subdomena';
+$wb["ssl_txt"] = 'SSL';
+$wb["suexec_txt"] = 'SuEXEC';
+$wb["php_txt"] = 'PHP';
+$wb["client_txt"] = 'Klient';
+$wb["limit_web_domain_txt"] = 'Maksymalna ilość domen dla Twojego konta została przekroczona.';
+$wb["limit_web_aliasdomain_txt"] = 'Maksymalna ilość aliasów domen dla Twojego konta została przekroczona.';
+$wb["limit_web_subdomain_txt"] = 'Maksymalna ilość subdomen dla Twojego konta została przekroczona.';
+$wb["apache_directives_txt"] = 'Dyrektywy Apache';
+$wb["domain_error_empty"] = 'Domena jest pusta.';
+$wb["domain_error_unique"] = 'Istnieje już strona www, alias lub subdomena dla tej domeny.';
+$wb["domain_error_regex"] = 'Nazwa domeny jest niepoprawna.';
+$wb["hd_quota_error_empty"] = 'Limit twardego dysku jest pusty.';
+$wb["traffic_quota_error_empty"] = 'Limit ruchu na serwerze jest pusty.';
+$wb['error_ssl_state_empty'] = 'Stan SSL jest pusty.';
+$wb['error_ssl_locality_empty'] = 'Lokalność SSL jest pusta.';
+$wb['error_ssl_organisation_empty'] = 'Organizacja SSL jest pusta.';
+$wb['error_ssl_organisation_unit_empty'] = 'Jednosta ogranizacji SSL jest pusta.';
+$wb['error_ssl_country_empty'] = 'Państwo SSL jest puste.';
+$wb["client_group_id_txt"] = 'Klient';
+$wb["stats_password_txt"] = 'Hasło statystyk strony www';
+?>
+
+

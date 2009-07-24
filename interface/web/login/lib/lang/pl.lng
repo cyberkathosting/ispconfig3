@@ -1,0 +1,19 @@
+<?php
+
+$wb[1001]	= "Nazwa użytkownika lub hasło są puste.";
+$wb[1002]	= "Nazwa użytkownika lub hasło są niepoprawne.";
+$wb[1003]	= "Za dużo błednych logowań. Proszę spróbować za 15 minut.";
+$wb[1004]	= "To many wrong login's, Please retry it after 15 minutes";
+$wb['pass_reset_txt'] = 'Nowe hasło zostanie wygenerowane i wysłane na Twój adres e-mail, jeśli podany adres e-mail będzie pasował do tego w ustawieniach Twojego profilu.';
+$wb['pw_reset'] = 'Nowe hasło zostało wygenerowane i wysłane na Twój adres e-mail.';
+$wb['pw_error'] = 'Nazwa użytkownika lub e-mail nie pasują do siebie.';
+$wb['pw_error_noinput'] = 'Podaj nazwę użytkownika i adres e-mail.';
+
+$wb['pw_reset_mail_msg'] = 'Hasło do Twojego panelu w ISPConfig 3 zostało z resetowane. Twoje nowe hasło to: ';
+$wb['pw_reset_mail_title'] = 'Hasło do paneli w ISPConfig 3 zostało z resetowane.';
+
+$wb['user_regex_error'] = 'Nazwa użytkownika zawiera niedozwolone znaki lub jest dłuższa niż 64 znaki.';
+$wb['pw_error_length'] = 'Dłogość hasła jest > 64 znaki.';
+
+?>
+
