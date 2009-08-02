@@ -182,7 +182,7 @@ class page_action extends tform_actions {
 			$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
 			
 			//* Check if there is no alias or forward with this address
-			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["email"])."'");
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = '".$app->db->quote($this->dataRecord["email"])."'");
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";
 			unset($tmp);
 			
