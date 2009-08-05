@@ -85,7 +85,7 @@ class firewall_plugin {
 				} else {
 					$p_clean = intval($p);
 				}
-				if($p_int > 0) $tcp_ports .= $p_clean . ' ';
+				$tcp_ports .= $p_clean . ' ';
 			}
 		}
 		$tcp_ports = trim($tcp_ports);
@@ -99,7 +99,7 @@ class firewall_plugin {
 				} else {
 					$p_clean = intval($p);
 				}
-				if($p_int > 0) $udp_ports .= $p_clean . ' ';
+				$udp_ports .= $p_clean . ' ';
 			}
 		}
 		$udp_ports = trim($udp_ports);
