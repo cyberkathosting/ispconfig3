@@ -472,8 +472,8 @@ class apache2_plugin {
 		// If the security level is set to high
 		if($web_config['security_level'] == 20) {
 			
-			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"]."/"));
-			exec("chmod 711 ".escapeshellcmd($data["new"]["document_root"])."/*");
+			exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"]."/"));
+			exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"])."/*");
 			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 			
 			// make temp direcory writable for the apache user and the website user
