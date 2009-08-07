@@ -7,3 +7,4 @@ $wb['source_username_txt'] = 'Benutzername';
 $wb['destination_txt'] = 'Ziel';
 $wb['add_new_record_txt'] = 'Neues Konto hinzufügen';
 ?>
+

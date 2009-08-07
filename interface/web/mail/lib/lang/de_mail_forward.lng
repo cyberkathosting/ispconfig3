@@ -2,6 +2,7 @@
 $wb['email_txt'] = 'Emailadresse';
 $wb['destination_txt'] = 'Ziel Emailadresse';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_mailforward_txt'] = 'Die max. Anzahl an Emailweiterleitungen für ihren Account wurde erreicht.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+$wb['limit_mailforward_txt'] = 'Die maximale Anzahl an Emailweiterleitungen für ihr Konto wurde erreicht.';
+$wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine Mailbox mit dieser Email Adresse';
 ?>
+

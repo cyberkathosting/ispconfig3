@@ -18,4 +18,6 @@ $wb['uid_error_empty'] = 'GID ist leer.';
 $wb['directory_error_empty'] = 'Verzeichnis ist leer.';
 $wb['limit_shell_user_txt'] = 'Die maximale Anzahl an Shellbenutzer wurde erreicht.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
+$wb['parent_domain_id_error_empty'] = 'Keine Website ausgewählt.';
 ?>
+

@@ -1,25 +1,26 @@
 <?php
-$wb['template_id_txt'] = 'Template';
+$wb['template_id_txt'] = 'Vorlage';
 $wb['server_id_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb['btn_save_txt'] = 'Create DNS Record';
-$wb['btn_cancel_txt'] = 'Cancel';
+$wb['client_txt'] = 'Kunde';
+$wb['btn_save_txt'] = 'DNS Eintrag hinzufügen';
+$wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['domain_txt'] = 'Domain';
 $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
-$wb['ip_txt'] = 'IP Address';
-$wb['error_origin_empty'] = 'Origin empty.';
-$wb['error_ns_empty'] = 'NS empty.';
-$wb['error_mbox_empty'] = 'Mbox empty.';
-$wb['error_refresh_empty'] = 'Refresh empty.';
-$wb['error_retry_empty'] = 'Retry empty.';
-$wb['error_expire_empty'] = 'Expire empty.';
-$wb['error_minimum_empty'] = 'Minimum empty.';
-$wb['error_ttl_empty'] = 'TTL empty.';
-$wb['error_domain_empty'] = 'Domain empty';
-$wb['error_ip_empty'] = 'IP empty.';
-$wb['error_ns1_empty'] = 'NS1 empty.';
-$wb['error_ns2_empty'] = 'NS2 empty.';
-$wb['error_email_empty'] = 'EMail empty.';
+$wb['ip_txt'] = 'IP Adresse';
+$wb['error_origin_empty'] = 'Origin leer.';
+$wb['error_ns_empty'] = 'NS leer.';
+$wb['error_mbox_empty'] = 'Mbox leer.';
+$wb['error_refresh_empty'] = 'Refresh leer.';
+$wb['error_retry_empty'] = 'Retry leer.';
+$wb['error_expire_empty'] = 'Expire leer.';
+$wb['error_minimum_empty'] = 'Minimum leer.';
+$wb['error_ttl_empty'] = 'TTL leer.';
+$wb['error_domain_empty'] = 'Domain leer';
+$wb['error_ip_empty'] = 'IP leer.';
+$wb['error_ns1_empty'] = 'NS1 leer.';
+$wb['error_ns2_empty'] = 'NS2 leer.';
+$wb['error_email_empty'] = 'EMail leer.';
 ?>
+

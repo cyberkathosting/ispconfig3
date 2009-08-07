@@ -5,3 +5,4 @@ $wb['subject_txt'] = 'Betreff';
 $wb['message_txt'] = 'Nachricht';
 $wb['tstamp_txt'] = 'Zeitpunkt';
 ?>
+

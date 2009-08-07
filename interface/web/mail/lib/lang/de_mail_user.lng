@@ -1,5 +1,5 @@
 <?php
-$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
+$wb['custom_mailfilter_txt'] = 'Benutzerdefiniertes Mail Filter Rezept';
 $wb['email_txt'] = 'Email';
 $wb['cryptpwd_txt'] = 'Passwort';
 $wb['active_txt'] = 'Aktiv';
@@ -18,8 +18,8 @@ $wb['postfix_txt'] = 'Aktiviere Empfang';
 $wb['access_txt'] = 'Aktiviere Zugriff';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- nicht aktiviert -';
-$wb['limit_mailbox_txt'] = 'Die max. Anzahl an Mailboxen für ihren Account wurde erreich.';
-$wb['limit_mailquota_txt'] = 'Der max. Speicherplatz für ihre Mailboxen wurde erreicht. Der max. verfügbare Speicher in MB ist';
+$wb['limit_mailbox_txt'] = 'Die maximale Anzahl an Mailboxen für ihr Konto wurde erreich.';
+$wb['limit_mailquota_txt'] = 'Der maximale Speicherplatz für ihre Mailboxen wurde erreicht. Der maximal verfügbare Speicher in MB ist';
 $wb['welcome_mail_subject'] = 'Willkommen zu ihrem neuen Emailaccount.';
 $wb['welcome_mail_message'] = 'Willkommen zu ihrem neuen Emailaccount.';
 $wb['disableimap_txt'] = 'IMAP deaktivieren';
@@ -27,5 +27,6 @@ $wb['disablepop3_txt'] = 'POP3 deaktivieren';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@ihredomain.at';
-$wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
+$wb['duplicate_alias_or_forward_txt'] = 'Es existiert bereits ein Alias oder eine Weiterleitung mit dieser Email Adresse.';
 ?>
+

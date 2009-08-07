@@ -3,8 +3,9 @@ $wb['list_head_txt'] = 'Email Whitelist';
 $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Whitelisted Adressen';
-$wb['type_txt'] = 'Type';
+$wb['type_txt'] = 'Typ';
 $wb['recipient_txt'] = 'Empfänger';
 $wb['add_new_record_txt'] = 'Whitelist Eintrag hinzufügen';
 $wb['access_txt'] = 'Zugriff';
 ?>
+

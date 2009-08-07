@@ -11,7 +11,7 @@ $wb['Email Forward'] = 'Email Weiterleitung';
 $wb['Get Email'] = 'Get Email';
 $wb['Spamfilter'] = 'Spamfilter';
 $wb['Email Routing'] = 'Email Routing';
-$wb['Email transport'] = 'Email transport';
+$wb['Email transport'] = 'Email Transport';
 $wb['Mailbox'] = 'Mailbox';
 $wb['Autoresponder'] = 'Autoresponder';
 $wb['Mail Filter'] = 'Mail Filter';
@@ -43,3 +43,4 @@ $wb['Postfix Blacklist'] = 'Postfix Blacklist';
 $wb['Content Filter'] = 'Inhaltsfilter';
 $wb['Global Filters'] = 'globale Filter';
 ?>
+

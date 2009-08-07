@@ -13,10 +13,10 @@ $wb['vorname_txt'] = 'Vorname';
 $wb['unternehmen_txt'] = 'Unternehmen';
 $wb['strasse_txt'] = 'Strasse';
 $wb['ort_txt'] = 'Ort';
-$wb['plz_txt'] = 'Plz';
+$wb['plz_txt'] = 'PLZ';
 $wb['land_txt'] = 'Land';
 $wb['email_txt'] = 'Email';
-$wb['url_txt'] = 'Url';
+$wb['url_txt'] = 'URL';
 $wb['telefon_txt'] = 'Telefon';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Gruppen';
@@ -26,3 +26,4 @@ $wb['username_unique'] = 'Es gibt bereits ein Benutzer mit diesem Namen';
 $wb['startmodule_err'] = 'Start module is not within modules.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
+

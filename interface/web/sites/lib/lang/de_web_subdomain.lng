@@ -21,7 +21,7 @@ $wb['system_group_txt'] = 'Linux Gruppe';
 $wb['ip_address_txt'] = 'IP-Adresse';
 $wb['vhost_type_txt'] = 'VHost Type';
 $wb['hd_quota_txt'] = 'Harddisk Quota';
-$wb['traffic_quota_txt'] = 'Traffic Quaota';
+$wb['traffic_quota_txt'] = 'Traffic Quota';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['ssl_txt'] = 'SSL';
@@ -31,9 +31,10 @@ $wb['client_txt'] = 'Kunde';
 $wb['limit_web_domain_txt'] = 'Die maximale Anzahl an Webdomains für ihr Konto wurde erreicht.';
 $wb['limit_web_aliasdomain_txt'] = 'Die maximale Anzahl an Aliasdomains für ihr Konto wurde erreicht.';
 $wb['limit_web_subdomain_txt'] = 'Die maximale Anzahl an Web Subdomains für ihr Konto wurde erreicht.';
-$wb['apache_directives_txt'] = 'Apache directives';
+$wb['apache_directives_txt'] = 'Apache Direktiven';
 $wb['domain_error_empty'] = 'Domain ist leer.';
 $wb['domain_error_unique'] = 'Domain muss eindeutig sein.';
 $wb['domain_error_regex'] = 'Domainname ist ungültig.';
 $wb['host_txt'] = 'Host';
 ?>
+

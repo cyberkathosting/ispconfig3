@@ -28,15 +28,15 @@ $wb['ssl_txt'] = 'SSL';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Kunde';
-$wb['limit_web_domain_txt'] = 'Die max. Anzahl an Webdomains für ihren Account wurde erreicht.';
-$wb['limit_web_aliasdomain_txt'] = 'Die max. Anzahl an Aliasdomains für ihren Account wurde erreicht.';
-$wb['limit_web_subdomain_txt'] = 'Die max. Anzahl an Subdomains für ihren Account wurde erreicht.';
-$wb['apache_directives_txt'] = 'Apache directives';
+$wb['limit_web_domain_txt'] = 'Die maximale Anzahl an Webdomains für ihr Konto wurde erreicht.';
+$wb['limit_web_aliasdomain_txt'] = 'Die maximale Anzahl an Aliasdomains für ihr Konto wurde erreicht.';
+$wb['limit_web_subdomain_txt'] = 'Die maximale Anzahl an Subdomains für ihr Konto wurde erreicht.';
+$wb['apache_directives_txt'] = 'Apache Direktiven';
 $wb['domain_error_empty'] = 'Domain ist leer.';
 $wb['domain_error_unique'] = 'Domain muss eindeutig sein';
 $wb['domain_error_regex'] = 'Domainname ungültig.';
-$wb['hd_quota_error_empty'] = 'Harddisk quota ist leer.';
-$wb['traffic_quota_error_empty'] = 'Traffic quota ist leer.';
+$wb['hd_quota_error_empty'] = 'Harddisk Quota ist leer.';
+$wb['traffic_quota_error_empty'] = 'Traffic Quota ist leer.';
 $wb['errordocs_txt'] = 'Eigene Fehlerseiten';
 $wb['error_ssl_state_empty'] = 'SSL Status ist leer.';
 $wb['error_ssl_locality_empty'] = 'SSL Lokalität ist leer.';
@@ -47,3 +47,4 @@ $wb['subdomain_txt'] = 'Auto-Subdomain';
 $wb['client_group_id_txt'] = 'Kunde';
 $wb['stats_password_txt'] = 'Webstatistik Passwort';
 ?>
+

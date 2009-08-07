@@ -16,8 +16,9 @@ $wb['database_name_error_regex'] = 'Ungültiger Datenbankname. Der Datenbankname
 $wb['database_user_error_empty'] = 'Datenbank Benutzer ist leer.';
 $wb['database_user_error_unique'] = 'Es existiert bereits ein Benutzer mit diesem Namen am Server. Um einen eindeutigen Namen zu erhalten können sie z.B. den Domainnamen vor dem Benutzernamen verwenden.';
 $wb['database_user_error_regex'] = 'Ungültiger Benutzername. Der Benutzername darf die Zeichen: a-z, A-Z, 0-9 und den Unterstrich beinhalten. Länge: 2 - 64 Zeichen.';
-$wb['limit_database_txt'] = 'Die max. Anzahl an Datenbanken wurde erreicht.';
+$wb['limit_database_txt'] = 'Die maximale Anzahl an Datenbanken wurde erreicht.';
 $wb['database_name_change_txt'] = 'Der Datenbankname kann nicht geändert werden.';
 $wb['database_charset_change_txt'] = 'Der Zeichensatz der Datenbank kann nicht geändert werden.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
+

@@ -5,3 +5,4 @@ $wb['btn_save_txt'] = 'Ausgewählte Sprache importieren';
 $wb['language_overwrite_txt'] = 'Datei überschreiben falls sie existiert.';
 $wb['btn_cancel_txt'] = 'Zurück';
 ?>
+

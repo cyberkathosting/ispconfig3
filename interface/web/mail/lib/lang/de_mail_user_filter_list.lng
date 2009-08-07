@@ -3,5 +3,6 @@ $wb['rulename_txt'] = 'Name';
 $wb['add_new_record_txt'] = 'Neuen Filter hinzufügen';
 $wb['page_txt'] = 'Seite';
 $wb['page_of_txt'] = 'von';
-$wb['delete_confirmation'] = 'Do you really want to Delete the mailfilter?';
+$wb['delete_confirmation'] = 'Wollen Sie den Mailfilter wirklich löschen?';
 ?>
+

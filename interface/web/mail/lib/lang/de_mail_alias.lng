@@ -6,6 +6,7 @@ $wb['email_error_isemail'] = 'Emailadresse ist ungültig';
 $wb['email_error_unique'] = 'Doppelte Emailadresse.';
 $wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
 $wb['destination_error_isemail'] = 'Ziel Emailadresse ist ungültig.';
-$wb['limit_mailalias_txt'] = 'The max. number of email aliases for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+$wb['limit_mailalias_txt'] = 'Die maximale Anzahl an Email Aliases für ihr Konto wurde erreicht.';
+$wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine Mailbox mit dieser Email Adresse';
 ?>
+
