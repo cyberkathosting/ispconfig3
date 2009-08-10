@@ -93,14 +93,18 @@ $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
 	$yesterday = date("Ymd",time() - 86400);
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
-	if(@is_file($logfile)) {
-		$domain = escapeshellcmd($rec["domain"]);
-		$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
-		$webalizer = '/usr/bin/webalizer';
-		$webalizer_conf = '/etc/webalizer/webalizer.conf';
-		if(!@is_dir($statsdir)) mkdir($statsdir);
-		exec("$webalizer -c $webalizer_conf -n $domain -s $domain -r $domain -q -T -o $statsdir $logfile");
+	if(!@is_file($logfile)) {
+		$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
+		if(!@is_file($logfile)) {
+			continue;
+		}
 	}
+	$domain = escapeshellcmd($rec["domain"]);
+	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
+	$webalizer = '/usr/bin/webalizer';
+	$webalizer_conf = '/etc/webalizer/webalizer.conf';
+	if(!@is_dir($statsdir)) mkdir($statsdir);
+	exec("$webalizer -c $webalizer_conf -n $domain -s $domain -r $domain -q -T -p -o $statsdir $logfile");
 }
 
 #######################################################################################################
