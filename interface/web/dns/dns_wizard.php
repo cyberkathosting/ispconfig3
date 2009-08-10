@@ -141,12 +141,13 @@ if($_POST['create'] == 1) {
 	$app->uses('tform');
 	$app->tform->loadFormDef($tform_def_file);
 	
-	
-	if(!$app->tform->checkClientLimit('limit_dns_zone')) {
-		$error .= $app->tform->wordbook["limit_dns_zone_txt"];
-	}
-	if(!$app->tform->checkResellerLimit('limit_dns_zone')) {
-		$error .= $app->tform->wordbook["limit_dns_zone_txt"];
+	if($_SESSION['s']['user']['typ'] != 'admin') {
+		if(!$app->tform->checkClientLimit('limit_dns_zone')) {
+			$error .= $app->tform->wordbook["limit_dns_zone_txt"];
+		}
+		if(!$app->tform->checkResellerLimit('limit_dns_zone')) {
+			$error .= $app->tform->wordbook["limit_dns_zone_txt"];
+		}
 	}
 	
 	
