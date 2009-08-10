@@ -58,7 +58,7 @@ $serverData = $app->db->queryOneRecord(
  * We only redirect to the login-form, so there is no need, to check any rights
  */
 isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
-($_SERVER["SERVER_PORT"] != '80')? $serverPort = ':'.$_SERVER["SERVER_PORT"] : $serverPort = '';
+($_SERVER["SERVER_PORT"] != '80' and $http == 'https')? $serverPort = ':'.$_SERVER["SERVER_PORT"] : $serverPort = '';
 header('location:'.$http.'://'.$serverData['server_name'].$serverPort.'/phpmyadmin');
 exit;
 ?>
