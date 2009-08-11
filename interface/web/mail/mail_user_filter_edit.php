@@ -70,6 +70,7 @@ class page_action extends tform_actions {
 		
 		$mailuser = $app->db->queryOneRecord("SELECT sys_groupid, custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
 		$rule_content = $mailuser['custom_mailfilter']."\n".$app->db->quote($this->getRule());
+		$rule_content = mysql_real_escape_string($rule_content);
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$rule_content'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
 		
 		// set permissions
