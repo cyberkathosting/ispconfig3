@@ -50,4 +50,3 @@ $wb['limit_cron_frequency_txt'] = 'Intervalo mínimo entre as execuções';
 $wb['limit_cron_error_notint'] = 'O limite do cron deve ser um número.';
 $wb['limit_cron_error_frequency'] = 'O limite de frequência do cron deve ser um número.';
 ?>
-

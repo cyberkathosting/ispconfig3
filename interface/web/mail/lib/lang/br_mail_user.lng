@@ -29,4 +29,3 @@ $wb['disableimap_txt'] = 'Desativar IMAP';
 $wb['disablepop3_txt'] = 'Disativar POP3';
 $wb['duplicate_alias_or_forward_txt'] = 'Já existe um aliase o encaminhamento com este endereço de correio.';
 ?>
-

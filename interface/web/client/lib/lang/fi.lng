@@ -6,4 +6,7 @@ $wb['Add Client'] = 'Lisää asiakas';
 $wb['Edit Client'] = 'Muokkaa asiakkaan tietoja';
 $wb['Clients'] = 'Asiakkaat';
 $wb['Edit Client-Templates'] = 'Muokkaa asiakasmalleja';
+$wb['Add Reseller'] = 'Add Reseller';
+$wb['Edit Reseller'] = 'Edit Reseller';
+$wb['Resellers'] = 'Resellers';
 ?>

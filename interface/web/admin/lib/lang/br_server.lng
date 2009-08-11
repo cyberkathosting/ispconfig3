@@ -9,4 +9,3 @@ $wb['db_server_txt'] = 'Servidor de Banco de Dados';
 $wb['vserver_server_txt'] = 'Servidor VServer';
 $wb['active_txt'] = 'Ativado';
 ?>
-

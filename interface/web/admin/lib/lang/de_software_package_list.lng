@@ -5,4 +5,3 @@ $wb['package_title_txt'] = 'Paket';
 $wb['package_description_txt'] = 'Beschreibung';
 $wb['action_txt'] = 'Aktion';
 ?>
-

@@ -8,4 +8,3 @@ $wb['fullname_txt'] = 'Nome';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Adcionar Usuário';
 ?>
-

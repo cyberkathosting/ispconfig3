@@ -42,7 +42,7 @@ class listform_tpl_generator {
 <div class="panel panel_list_'.$listDef["name"].'">
 
   <div class="pnl_toolsarea">
-    <fieldset><legend>Tools</legend>
+    <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
       <div class="buttons">
         <button class="iconstxt icoAdd" type="button" onClick="'."loadContent('".$module."/".$listDef["edit_file"]."');".'">
           <span>{tmpl_var name="add_new_record_txt"}</span>

@@ -45,5 +45,5 @@ $wb['crontab_dir_txt'] = 'Pfad für individuelle Crontabs';
 $wb['wget_txt'] = 'Pfad zum wget Programm';
 $wb['web_user_txt'] = 'Apache User';
 $wb['web_group_txt'] = 'Apache Gruppe';
+$wb['security_level_txt'] = 'Security level';
 ?>
-

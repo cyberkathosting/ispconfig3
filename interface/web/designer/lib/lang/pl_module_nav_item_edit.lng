@@ -1,9 +1,8 @@
 <?php
-$wb["title_txt"] = 'Tytuł';
-$wb["target_txt"] = 'Cel';
-$wb["link_txt"] = 'Adres';
-$wb["header_txt"] = 'Parametry nawigacyjne';
-$wb["save_txt"] = 'Zapisz';
-$wb["cancel_txt"] = 'Usuń';
+$wb['title_txt'] = 'Tytuł';
+$wb['target_txt'] = 'Cel';
+$wb['link_txt'] = 'Adres';
+$wb['header_txt'] = 'Parametry nawigacyjne';
+$wb['save_txt'] = 'Zapisz';
+$wb['cancel_txt'] = 'Usuń';
 ?>
-

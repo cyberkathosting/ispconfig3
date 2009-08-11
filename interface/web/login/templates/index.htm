@@ -13,11 +13,11 @@
   <div class="pnl_formsarea">
     <fieldset class="inlineLabels"><legend>Login</legend>
       <div class="ctrlHolder">
-      	<label for="username">Username</label>
+      	<label for="username">{tmpl_var name='username_txt'}</label>
         <input name="username" id="username" value="" size="30" maxlength="255" type="text" class="textInput"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
 			</div>
       <div class="ctrlHolder">
-      	<label for="passwort">Password</label>
+      	<label for="passwort">{tmpl_var name='password_txt'}</label>
         <input name="passwort" id="passwort" value="" size="30" maxlength="255" type="password" class="textInput"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
 			</div>			
     </fieldset>
@@ -26,7 +26,7 @@
     <input type="hidden" name="s_pg" value="index" />
     
     <div class="buttonHolder buttons">
-			<button class="positive iconstxt icoKey" type="button" value="{tmpl_var name="add_new_record_txt"}" onClick="submitLoginForm('pageForm');"><span>Login</span></button>
+			<button class="positive iconstxt icoKey" type="button" value="{tmpl_var name="add_new_record_txt"}" onClick="submitLoginForm('pageForm');"><span>{tmpl_var name='login_button_txt'}</span></button>
     </div>
   </div>
   

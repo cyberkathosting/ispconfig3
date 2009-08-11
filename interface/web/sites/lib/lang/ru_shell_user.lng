@@ -18,4 +18,5 @@ $wb['uid_error_empty'] = 'GID пустой.';
 $wb['directory_error_empty'] = 'Directory empty.';
 $wb['password_strength_txt'] = 'Password strength';
 $wb['limit_shell_user_txt'] = 'The max number of shell users is reached.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>

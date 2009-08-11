@@ -50,4 +50,3 @@ $wb['limit_cron_error_notint'] = 'Das Cron Job Limit muss eine Zahl sein.';
 $wb['limit_cron_error_frequency'] = 'Das Cron Job Intervall-Limit muss eine Zahl sein.';
 $wb['error_template_name_empty'] = 'Bitte geben sie einen Vorlagenamen ein';
 ?>
-

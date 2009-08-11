@@ -1,8 +1,4 @@
 <?php
-$wb['1001'] = 'Usuario o contraseña vacíos.';
-$wb['1002'] = 'Usuario o contraseña incorrectos.';
-$wb['1003'] = 'El usuario está bloqueado';
-$wb['1004'] = 'Demasiados intentos erroneos, por favor, inténtelo dentro de 15 minutos.';
 $wb['pass_reset_txt'] = 'Se generará una nueva contraseña que se le enviará a la cuenta de correo que tiene configurada.';
 $wb['pw_reset'] = 'La contraseña ha sido reseteada y enviada a su cuenta de correo.';
 $wb['pw_error'] = 'El usuario o la cuenta de correo no coinciden.';
@@ -11,4 +7,11 @@ $wb['pw_reset_mail_msg'] = 'La contraseña de su cuenta de panel de control ISPC
 $wb['pw_reset_mail_title'] = 'La contraseña del panel de control ISPConfig 3 ha sido reseteada.';
 $wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
 $wb['pw_error_length'] = 'The password length is > 64 characters.';
+$wb['error_user_password_empty'] = 'Username or Password empty.';
+$wb['error_user_password_incorrect'] = 'Username or Password wrong.';
+$wb['error_user_blocked'] = 'User is blocked.';
+$wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after 15 minutes';
+$wb['username_txt'] = 'Username';
+$wb['password_txt'] = 'Password';
+$wb['login_button_txt'] = 'Login';
 ?>

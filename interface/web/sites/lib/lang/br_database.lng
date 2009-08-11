@@ -21,4 +21,3 @@ $wb['database_charset_change_txt'] = 'O charset do banco não pode ser mudado';
 $wb['remote_ips_txt'] = 'Endereços IP Remotos (separados por , deixe em branco para <i>quaisquer ips</i>)';
 $wb['database_remote_error_ips'] = 'Pelo menos um dos endereços ip informados não é válido.';
 ?>
-

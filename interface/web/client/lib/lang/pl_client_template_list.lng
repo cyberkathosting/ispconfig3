@@ -1,7 +1,5 @@
 <?php
-$wb["list_head_txt"] = 'Szablon klienta';
-$wb["template_type_txt"] = 'Typ';
-$wb["template_name_txt"] = 'Nazwa szablonu';
+$wb['list_head_txt'] = 'Szablon klienta';
+$wb['template_type_txt'] = 'Typ';
+$wb['template_name_txt'] = 'Nazwa szablonu';
 ?>
-
-

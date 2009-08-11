@@ -23,4 +23,5 @@ $wb['directory_error_empty'] = 'Kotihakemisto-kenttä on tyhjä.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['quota_files_unity_txt'] = 'Files';
 $wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>

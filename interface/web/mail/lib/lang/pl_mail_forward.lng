@@ -1,8 +1,7 @@
 <?php
-$wb["email_txt"] = 'E-mail';
-$wb["destination_txt"] = 'Element docelowy E-mail';
-$wb["active_txt"] = 'Aktywny';
-$wb["limit_mailforward_txt"] = 'Maksymalna ilość przekierowań e-mail dla Twojego konta została przekroczona.';
-$wb["duplicate_mailbox_txt"] = 'There is already a mailbox with this email address';
+$wb['email_txt'] = 'E-mail';
+$wb['destination_txt'] = 'Element docelowy E-mail';
+$wb['active_txt'] = 'Aktywny';
+$wb['limit_mailforward_txt'] = 'Maksymalna ilość przekierowań e-mail dla Twojego konta została przekroczona.';
+$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
 ?>
-

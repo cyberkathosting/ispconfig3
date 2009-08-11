@@ -139,6 +139,7 @@ class page_action extends tform_actions {
 		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
 		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
 		
+		
 		//* Check if soa, ns and mbox have a dot at the end
 		if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"],-1,1) != '.') $this->dataRecord["origin"] .= '.';
 		if(strlen($this->dataRecord["ns"]) > 0 && substr($this->dataRecord["ns"],-1,1) != '.') $this->dataRecord["ns"] .= '.';
@@ -169,6 +170,7 @@ class page_action extends tform_actions {
 			// And we want to update all rr records too, that belong to this record
 			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
 		}
+
 	}
 	
 	function onAfterUpdate() {
@@ -196,7 +198,6 @@ class page_action extends tform_actions {
 				$app->db->query("UPDATE dns_soa SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);
 				$app->db->query("UPDATE dns_rr SET sys_userid = ".$tmp["userid"]." WHERE zone = ".$this->id);
 			}
-			
 		}
 		
 	}

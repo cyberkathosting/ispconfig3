@@ -6,4 +6,6 @@ $wb['tcp_port_help_txt'] = 'Separados por coma';
 $wb['udp_port_help_txt'] = 'Separados por coma';
 $wb['active_txt'] = 'Activar';
 $wb['firewall_error_unique'] = 'Ya hay un registro de cortafuegos en este servidor';
+$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, : and ,.';
+$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, : and ,.';
 ?>

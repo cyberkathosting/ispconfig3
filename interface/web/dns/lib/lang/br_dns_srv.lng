@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'O Hostname está com formato inválido.';
 $wb['data_error_empty'] = 'Registro do Servidor em branco';
 $wb['data_error_regex'] = 'Registro do Servidor com formato inválido';
 ?>
-

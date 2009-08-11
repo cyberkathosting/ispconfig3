@@ -23,4 +23,5 @@ $wb['uid_error_empty'] = 'Не е посочено GID.';
 $wb['directory_error_empty'] = 'Не е посочена директория.';
 $wb['quota_files_unity_txt'] = 'Files';
 $wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>

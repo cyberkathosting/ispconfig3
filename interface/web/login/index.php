@@ -51,7 +51,9 @@ class login_index {
 		$app->uses('tpl');
 		$app->tpl->newTemplate('form.tpl.htm');
 	    
-	    $error = '';    
+	    $error = '';
+		
+		$app->load_language_file('web/login/lib/lang/'.$conf["language"].'.lng');
 	
 	
 		//* Login Form was send
@@ -101,7 +103,7 @@ class login_index {
 	        	$alreadyfailed = $app->db->queryOneRecord($sql);
 	        	//* login to much wrong
 	        	if($alreadyfailed['times'] > 5) {
-	        		$error = $app->lng(1004);
+	        		$error = $app->lng('error_user_too_many_logins');
 	        	} else {
 					if ($loginAs){
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
@@ -150,7 +152,7 @@ class login_index {
 										
 		                   	exit;
 		             	} else {
-		                	$error = $app->lng(1003);
+		                	$error = $app->lng('error_user_blocked');
 		                }
 		        	} else {
 		        		if(!$alreadyfailed['times'] )
@@ -164,13 +166,13 @@ class login_index {
 		        			$app->db->query($sql);
 		        		}
 		            	//* Incorrect login - Username and password incorrect
-		                $error = $app->lng(1002);
+		                $error = $app->lng('error_user_password_incorrect');
 		                if($app->db->errorMessage != '') $error .= '<br />'.$app->db->errorMessage != '';
 		           	}
 	        	}
 	      	} else {
 	       		//* Username or password empty
-	            if($error == '') $error = $app->lng(1001);
+	            if($error == '') $error = $app->lng('error_user_password_empty');
 	        }
 		}
 		if($error != ''){
@@ -180,6 +182,9 @@ class login_index {
 	
 	
 		$app->tpl->setVar('error', $error);
+		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
+		$app->tpl->setVar('password_txt', $app->lng('password_txt'));
+		$app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
 		$app->tpl->setInclude('content_tpl','login/templates/index.htm');
 		$app->tpl_defaults();
 		

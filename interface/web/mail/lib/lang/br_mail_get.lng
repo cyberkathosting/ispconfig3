@@ -13,4 +13,3 @@ $wb['source_username_error_isempty'] = 'Usuário em branco.';
 $wb['source_password_error_isempty'] = 'Senha em branco.';
 $wb['destination_error_isemail'] = 'Destino não selecionado.';
 ?>
-

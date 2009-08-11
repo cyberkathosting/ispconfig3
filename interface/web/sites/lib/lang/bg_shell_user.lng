@@ -18,4 +18,5 @@ $wb['quota_size_error_empty'] = 'Quota is empty.';
 $wb['uid_error_empty'] = 'Не е посочено GID.';
 $wb['directory_error_empty'] = 'Не е посочена директория.';
 $wb['limit_shell_user_txt'] = 'Достигнат е максималният разрешен брой Shell потребители.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>

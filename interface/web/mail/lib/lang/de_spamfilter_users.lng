@@ -6,4 +6,3 @@ $wb['email_txt'] = 'Email (Zeichenkette)';
 $wb['fullname_txt'] = 'Name';
 $wb['local_txt'] = 'lokal';
 ?>
-

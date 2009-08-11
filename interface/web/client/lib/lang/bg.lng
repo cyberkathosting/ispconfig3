@@ -6,4 +6,7 @@ $wb['Add Client'] = 'Добавяне на клиент';
 $wb['Edit Client'] = 'Редактиране на клиент';
 $wb['Clients'] = 'Клиенти';
 $wb['Edit Client-Templates'] = 'Edit Client-Templates';
+$wb['Add Reseller'] = 'Add Reseller';
+$wb['Edit Reseller'] = 'Edit Reseller';
+$wb['Resellers'] = 'Resellers';
 ?>

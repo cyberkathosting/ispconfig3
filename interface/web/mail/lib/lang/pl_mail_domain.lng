@@ -11,4 +11,3 @@ $wb['limit_maildomain_txt'] = 'Maksymalna ilość domen e-mail dla Twojego konta
 $wb['policy_txt'] = 'Filtr spamu';
 $wb['no_policy'] = '-nie używane-';
 ?>
-

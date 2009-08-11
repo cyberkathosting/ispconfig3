@@ -47,4 +47,3 @@ $wb['subdomain_txt'] = 'Auto-Subdomain';
 $wb['client_group_id_txt'] = 'Kunde';
 $wb['stats_password_txt'] = 'Webstatistik Passwort';
 ?>
-

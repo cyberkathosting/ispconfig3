@@ -143,7 +143,7 @@ class listform_actions {
 		include($lng_file);
 		$app->tpl->setVar($wb);
 		
-		
+		$app->tpl->setVar('toolsarea_head_txt',$app->lng('toolsarea_head_txt'));
 		$app->tpl->setVar($app->listform->wordbook);
 		$app->tpl->setVar('form_action', $app->listform->listDef['file']);
 		

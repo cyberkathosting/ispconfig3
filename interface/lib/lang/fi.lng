@@ -21,4 +21,13 @@ $wb['filter_txt'] = 'Suodatin';
 $wb['add_new_record_txt'] = 'Lisää uusi tietue';
 $wb['btn_save_txt'] = 'Tallenna';
 $wb['btn_cancel_txt'] = 'Keskeytä';
+$wb['System'] = 'System';
+$wb['Client'] = 'Client';
+$wb['Email'] = 'Email';
+$wb['Monitor'] = 'Monitor';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
+$wb['Tools'] = 'Tools';
+$wb['Help'] = 'Help';
+$wb['toolsarea_head_txt'] = 'Tools';
 ?>

@@ -1,9 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Użytkownicy';
-$wb["username_txt"] = 'Nazwa użytkownika';
-$wb["name_txt"] = 'Nazwa';
-$wb["vorname_txt"] = 'Imię';
-$wb["ort_txt"] = 'Miasto';
-$wb["add_new_record_txt"] = 'Dodaj nowego użytkownika';
-?><div></div>
-
+$wb['list_head_txt'] = 'Użytkownicy';
+$wb['username_txt'] = 'Nazwa użytkownika';
+$wb['name_txt'] = 'Nazwa';
+$wb['vorname_txt'] = 'Imię';
+$wb['ort_txt'] = 'Miasto';
+$wb['add_new_record_txt'] = 'Dodaj nowego użytkownika';
+?>

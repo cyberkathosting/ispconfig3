@@ -23,4 +23,3 @@ $wb['error_ns1_empty'] = 'NS1 leer.';
 $wb['error_ns2_empty'] = 'NS2 leer.';
 $wb['error_email_empty'] = 'EMail leer.';
 ?>
-

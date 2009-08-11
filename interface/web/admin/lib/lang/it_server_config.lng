@@ -44,4 +44,6 @@ $wb['init_script_txt'] = 'Cron init script name';
 $wb['crontab_dir_txt'] = 'Path for individual crontabs';
 $wb['wget_txt'] = 'Path to wget program';
 $wb['security_level_txt'] = 'Security level';
+$wb['web_user_txt'] = 'Apache user';
+$wb['web_group_txt'] = 'Apache group';
 ?>

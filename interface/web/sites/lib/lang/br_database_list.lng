@@ -6,4 +6,3 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['database_name_txt'] = 'Nome do banco';
 $wb['add_new_record_txt'] = 'Adcionar um novo banco';
 ?>
-

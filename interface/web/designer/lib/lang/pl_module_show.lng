@@ -1,18 +1,16 @@
 <?php
-$wb["header_txt"] = 'Edytor menu';
-$wb["title_txt"] = 'Tytuł';
-$wb["name_txt"] = 'Moduł';
-$wb["delete_txt"] = 'Usuń';
-$wb["properties_txt"] = 'Parametry';
-$wb["new_menu_txt"] = 'Nowe menu';
-$wb["edit_txt"] = 'Edytuj';
-$wb["delete_txt"] = 'Usuń';
-$wb["new_txt"] = 'Nowy';
-$wb["up_txt"] = 'W górę';
-$wb["down_txt"] = 'W dół';
-$wb["module_txt"] = 'Moduł';
-$wb["module_del_txt"] = "Czy na pewno chcesz usunąć moduł wraz z wszystkimi plikami i wpisami w bazie danych?";
-$wb["menu_del_txt"] = "Czy na pewno chcesz usunąć menu z wszystkimi wpisami?";
-$wb["item_del_txt"] = "Czy na pewno chcesz usunąć wpis w menu?";
+$wb['header_txt'] = 'Edytor menu';
+$wb['title_txt'] = 'Tytuł';
+$wb['name_txt'] = 'Moduł';
+$wb['delete_txt'] = 'Usuń';
+$wb['properties_txt'] = 'Parametry';
+$wb['new_menu_txt'] = 'Nowe menu';
+$wb['edit_txt'] = 'Edytuj';
+$wb['new_txt'] = 'Nowy';
+$wb['up_txt'] = 'W górę';
+$wb['down_txt'] = 'W dół';
+$wb['module_txt'] = 'Moduł';
+$wb['module_del_txt'] = 'Czy na pewno chcesz usunąć moduł wraz z wszystkimi plikami i wpisami w bazie danych?';
+$wb['menu_del_txt'] = 'Czy na pewno chcesz usunąć menu z wszystkimi wpisami?';
+$wb['item_del_txt'] = 'Czy na pewno chcesz usunąć wpis w menu?';
 ?>
-

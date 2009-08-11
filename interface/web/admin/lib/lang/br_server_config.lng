@@ -45,6 +45,5 @@ $wb['crontab_dir_txt'] = 'Caminho para crontabs individuais';
 $wb['wget_txt'] = 'Caminho para o wget';
 $wb['web_user_txt'] = 'Usuário Apache';
 $wb['web_group_txt'] = 'Grupo Apache';
-$wb['security_level'] = 'Nível de segurança';
+$wb['security_level_txt'] = 'Security level';
 ?>
-

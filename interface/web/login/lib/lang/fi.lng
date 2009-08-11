@@ -1,8 +1,4 @@
 <?php
-$wb['1001'] = 'Käyttäjätunnus tai salasana tyhjä.';
-$wb['1002'] = 'Käyttäjätunnus tai salasana väärin.';
-$wb['1003'] = 'Käyttäjätunnus on lukittu';
-$wb['1004'] = 'Liian monta kirjautumisyritystä, yritä uudestaan 15 minuutin kuluttua';
 $wb['pass_reset_txt'] = 'Uusi salasana luodaan ja lähetetään asiakastiedoissasi olevaan sähköpostiosoitteeseen.';
 $wb['pw_reset'] = 'Salasana on vaihdettu ja lähetetty sähköpostiisi.';
 $wb['pw_error'] = 'Käyttäjätunnusta tai sähköpostiosoitetta ei löydy.';
@@ -11,4 +7,11 @@ $wb['pw_reset_mail_msg'] = 'Käyttäjätunnuksesi salasana ISPConfi3 Hallintapan
 $wb['pw_reset_mail_title'] = 'ISPConfi3 Hallintapaneelin salasana on vaihdettu.';
 $wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
 $wb['pw_error_length'] = 'The password length is > 64 characters.';
+$wb['error_user_password_empty'] = 'Username or Password empty.';
+$wb['error_user_password_incorrect'] = 'Username or Password wrong.';
+$wb['error_user_blocked'] = 'User is blocked.';
+$wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after 15 minutes';
+$wb['username_txt'] = 'Username';
+$wb['password_txt'] = 'Password';
+$wb['login_button_txt'] = 'Login';
 ?>

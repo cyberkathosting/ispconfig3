@@ -2,6 +2,5 @@
 $wb['list_head_txt'] = 'Wiadomość pomocy';
 $wb['sender_id_txt'] = 'Nadawca';
 $wb['subject_txt'] = 'Temat';
-$wb["add_new_record_txt"] = 'Dodaj nową wiadomość pomocy';
+$wb['add_new_record_txt'] = 'Dodaj nową wiadomość pomocy';
 ?>
-

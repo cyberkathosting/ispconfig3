@@ -1232,6 +1232,30 @@ class tform {
 			
 			return $check_passed;
 		}
+		
+		//* get the difference record of two arrays
+		function getDiffRecord($record_old,$record_new) {
+			
+			if(is_array($record_new) && count($record_new) > 0) {
+			foreach($record_new as $key => $val) {
+				if(@$record_old[$key] != $val) {
+					// Record has changed
+					$diffrec[$key] = array(	'old' => @$record_old[$key],
+											'new' => $val);
+					}
+				}
+			} elseif(is_array($record_old)) {
+				foreach($record_old as $key => $val) {
+					if($record_new[$key] != $val) {
+						// Record has changed
+						$diffrec[$key] = array(	'new' => $record_new[$key],
+												'old' => $val);
+						}
+					}
+				}
+			return $diffrec;
+		
+		}
 
 }
 

@@ -1,25 +1,23 @@
 <?php
-$wb["server_id_txt"] = 'Serwer';
-$wb["type_txt"] = 'Typ';
-$wb["database_name_txt"] = 'Nazwa bazy danych';
-$wb["database_user_txt"] = 'Użytkownik bazy danych';
-$wb["database_password_txt"] = 'Hasło bazy danych';
-$wb["password_strength_txt"] = 'Siła hasła';
-$wb["database_charset_txt"] = 'Kodowanie bazy danych';
-$wb["remote_access_txt"] = 'Dostęp zewnętrzny';
-$wb["remote_ips_txt"] = 'Remote Access IPs (separate by , and leave blank for <i>any</i>)';
-$wb["database_remote_error_ips"] = 'At least one of the entered ip addresses is invalid.';
-$wb["client_txt"] = 'Klient';
-$wb["active_txt"] = 'Aktywny';
-$wb["database_name_error_empty"] = 'Nazwa bazy danych jest pusta.';
-$wb["database_name_error_unique"] = 'Istnieje już baza danych o takiej nazwie na serwerze. Aby mieć unikatową nazwę, np.: nazwij bazę danych tak samo jak domenę.';
-$wb["database_name_error_regex"] = 'Nieprawidłowa nazwa bazy danych. Nazwa bazy danych może zawierać znaki takie jak: a-z, A-Z, 0-9 oraz podkreślenie. Długość: 2 - 64 znaków.';
-$wb["database_user_error_empty"] = 'Nazwa użytkownika bazy danych jest pusta.';
-$wb["database_user_error_unique"] = 'Jest już użytkownik bazy danych o takiej nazwie. Aby mieć unikatową nazwę, np.: nazwij użytkownika tak samo jak domenę.';
-$wb["database_user_error_regex"] = 'Nieprawidłowa nazwa użytkownika bazy danych. Nazwa użytkownika bazy danych może zawierać znaki takie jak: a-z, A-Z, 0-9 oraz podkreślenie. Długość: 2 - 64 znaków.';
-$wb["limit_database_txt"] = 'Maksymalna liczba baz danych została przekroczona.';
-$wb["database_name_change_txt"] = 'Nie można zmienić nazwy bazy danych';
-$wb["database_charset_change_txt"] = 'Nie można zmienić kodowania bazy danych';
+$wb['server_id_txt'] = 'Serwer';
+$wb['type_txt'] = 'Typ';
+$wb['database_name_txt'] = 'Nazwa bazy danych';
+$wb['database_user_txt'] = 'Użytkownik bazy danych';
+$wb['database_password_txt'] = 'Hasło bazy danych';
+$wb['password_strength_txt'] = 'Siła hasła';
+$wb['database_charset_txt'] = 'Kodowanie bazy danych';
+$wb['remote_access_txt'] = 'Dostęp zewnętrzny';
+$wb['remote_ips_txt'] = 'Remote Access IPs (separate by , and leave blank for <i>any</i>)';
+$wb['database_remote_error_ips'] = 'At least one of the entered ip addresses is invalid.';
+$wb['client_txt'] = 'Klient';
+$wb['active_txt'] = 'Aktywny';
+$wb['database_name_error_empty'] = 'Nazwa bazy danych jest pusta.';
+$wb['database_name_error_unique'] = 'Istnieje już baza danych o takiej nazwie na serwerze. Aby mieć unikatową nazwę, np.: nazwij bazę danych tak samo jak domenę.';
+$wb['database_name_error_regex'] = 'Nieprawidłowa nazwa bazy danych. Nazwa bazy danych może zawierać znaki takie jak: a-z, A-Z, 0-9 oraz podkreślenie. Długość: 2 - 64 znaków.';
+$wb['database_user_error_empty'] = 'Nazwa użytkownika bazy danych jest pusta.';
+$wb['database_user_error_unique'] = 'Jest już użytkownik bazy danych o takiej nazwie. Aby mieć unikatową nazwę, np.: nazwij użytkownika tak samo jak domenę.';
+$wb['database_user_error_regex'] = 'Nieprawidłowa nazwa użytkownika bazy danych. Nazwa użytkownika bazy danych może zawierać znaki takie jak: a-z, A-Z, 0-9 oraz podkreślenie. Długość: 2 - 64 znaków.';
+$wb['limit_database_txt'] = 'Maksymalna liczba baz danych została przekroczona.';
+$wb['database_name_change_txt'] = 'Nie można zmienić nazwy bazy danych';
+$wb['database_charset_change_txt'] = 'Nie można zmienić kodowania bazy danych';
 ?>
-
-

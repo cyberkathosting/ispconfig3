@@ -22,4 +22,13 @@ $wb["filter_txt"] = 'Filter';
 $wb["add_new_record_txt"] = 'Add new record';
 $wb['btn_save_txt'] = "Save";
 $wb['btn_cancel_txt'] = "Back";
+$wb['System'] = 'System';
+$wb['Client'] = 'Client';
+$wb['Email'] = 'Email';
+$wb['Monitor'] = 'Monitor';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
+$wb['Tools'] = 'Tools';
+$wb['Help'] = 'Help';
+$wb['toolsarea_head_txt'] = 'Tools';
 ?>
