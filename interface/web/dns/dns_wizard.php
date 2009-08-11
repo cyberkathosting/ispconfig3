@@ -137,6 +137,15 @@ if($_POST['create'] == 1) {
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	
+	// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($_POST['client_group_id'])) {
+		$sys_groupid = intval($_POST['client_group_id']);
+	} elseif($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($_POST['client_group_id'])) {
+		$sys_groupid = intval($_POST['client_group_id']);
+	} else {
+		$sys_groupid = $_SESSION["s"]["user"]["default_group"];
+	}
+	
 	$tform_def_file = "form/dns_soa.tform.php";
 	$app->uses('tform');
 	$app->tform->loadFormDef($tform_def_file);
