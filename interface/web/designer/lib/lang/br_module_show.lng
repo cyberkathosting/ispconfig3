@@ -1,15 +1,16 @@
 <?php
-$wb['header_txt'] = 'Editor de Menu';
-$wb['title_txt'] = 'Título';
-$wb['name_txt'] = 'Módulo';
-$wb['delete_txt'] = 'Remover';
-$wb['properties_txt'] = 'Propriedades';
-$wb['new_menu_txt'] = 'Novo Menu';
-$wb['edit_txt'] = 'Editar';
-$wb['new_txt'] = 'Novo';
-$wb['up_txt'] = 'Subir';
-$wb['down_txt'] = 'Descer';
-$wb['module_txt'] = 'Módulo';
+$wb["header_txt"] = 'Editor de Menu';
+$wb["title_txt"] = 'Título';
+$wb["name_txt"] = 'Módulo';
+$wb["delete_txt"] = 'Remover';
+$wb["properties_txt"] = 'Propriedades';
+$wb["new_menu_txt"] = 'Novo Menu';
+$wb["edit_txt"] = 'Editar';
+$wb["delete_txt"] = 'Remover';
+$wb["new_txt"] = 'Novo';
+$wb["up_txt"] = 'Subir';
+$wb["down_txt"] = 'Descer';
+$wb["module_txt"] = 'Módulo';
 $wb['module_del_txt'] = 'Deseja eliminar este módulo e todos os arquivos contidos no diretório?';
 $wb['menu_del_txt'] = 'Deseja apagar este menu e todos seus elementos?';
 $wb['item_del_txt'] = 'Deseja apagar este elemento do menu?';

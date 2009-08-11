@@ -26,3 +26,4 @@ $wb['groups_txt'] = 'Grupos';
 $wb['default_group_txt'] = 'Grupo Padrão';
 $wb['startmodule_err'] = 'O módulo inicial não está contido nos módulos.';
 ?>
+

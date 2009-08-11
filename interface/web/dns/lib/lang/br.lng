@@ -1,4 +1,5 @@
 <?php
+
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zonas';
 $wb['DNS A'] = 'DNS A';
@@ -14,4 +15,5 @@ $wb['Records'] = 'Registros';
 $wb['DNS SRV'] = 'SRV DNS';
 $wb['DNS TXT Record'] = 'Registro TXT DNS';
 $wb['DNS TXT'] = 'TXT DNS';
+
 ?>

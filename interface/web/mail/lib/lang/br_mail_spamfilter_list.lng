@@ -6,3 +6,4 @@ $wb['server_name_txt'] = 'nome_servidor';
 $wb['email_txt'] = 'Correio';
 $wb['add_new_record_txt'] = 'Adcionar novo filtro anti-spam';
 ?>
+

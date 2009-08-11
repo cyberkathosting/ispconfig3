@@ -16,7 +16,7 @@ $wb['Jailkit'] = 'Jailkit';
 $wb['System'] = 'Sistema';
 $wb['Add user'] = 'Adicionar Usuário';
 $wb['Edit user'] = 'Editar Usuário';
-$wb['CP Users'] = 'Usuários';
+$wb['CP Users'] = 'Usuários Visar';
 $wb['Add group'] = 'Adicionar Grupo';
 $wb['Edit group'] = 'Editar Grupo';
 $wb['Edit server'] = 'Editar Servidor';
@@ -32,3 +32,4 @@ $wb['Language Editor'] = 'Editor de Idiomas';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repositórios';
 ?>
+

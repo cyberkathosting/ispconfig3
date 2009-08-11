@@ -1,9 +1,9 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Endereço Lista Negra';
-$wb['recipient_txt'] = 'Recipiente';
-$wb['active_txt'] = 'Ativo';
-$wb['source_error_notempty'] = 'Endereço em branco.';
-$wb['type_txt'] = 'Tipo';
-$wb['limit_mailfilter_txt'] = 'O número máximo de filtros de correio para sua conta foi atingido..';
+$wb["server_id_txt"] = 'Servidor';
+$wb["source_txt"] = 'Endereço Lista Negra';
+$wb["recipient_txt"] = 'Recipiente';
+$wb["active_txt"] = 'Ativo';
+$wb["source_error_notempty"] = 'Endereço em branco.';
+$wb["type_txt"] = 'Tipo';
+$wb["limit_mailfilter_txt"] = 'O número máximo de filtros de correio para sua conta foi atingido..';
 ?>

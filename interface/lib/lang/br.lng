@@ -21,13 +21,5 @@ $wb['filter_txt'] = 'Filtrar';
 $wb['add_new_record_txt'] = 'Adcionar novo registro';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Voltar';
-$wb['System'] = 'System';
-$wb['Client'] = 'Client';
-$wb['Email'] = 'Email';
-$wb['Monitor'] = 'Monitor';
-$wb['Sites'] = 'Sites';
-$wb['DNS'] = 'DNS';
-$wb['Tools'] = 'Tools';
-$wb['Help'] = 'Help';
-$wb['toolsarea_head_txt'] = 'Tools';
 ?>
+

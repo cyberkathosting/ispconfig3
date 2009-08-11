@@ -44,9 +44,5 @@ $wb['limit_shell_user_error_notint'] = 'O limite de contas shell DNS deve ser um
 $wb['limit_dns_zone_error_notint'] = 'O limite de zonas DNS deve ser um número';
 $wb['limit_database_error_notint'] = 'O limite dos bancos de dados deve ser um número';
 $wb['error_template_name_empty'] = 'Por favor insira o nome do gabarito';
-$wb['limit_cron_txt'] = 'Número máximo de tarefas no cron';
-$wb['limit_cron_type_txt'] = 'Máximo de tipos de tarefas no cron (em chroot e url completas)';
-$wb['limit_cron_frequency_txt'] = 'Intervalo mínimo entre as execuções';
-$wb['limit_cron_error_notint'] = 'O limite do cron deve ser um número.';
-$wb['limit_cron_error_frequency'] = 'O limite de frequência do cron deve ser um número.';
 ?>
+

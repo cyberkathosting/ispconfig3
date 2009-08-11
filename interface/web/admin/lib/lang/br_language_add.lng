@@ -6,3 +6,4 @@ $wb['language_new_hint_txt'] = '2 letras código ISO 639-1 (Veja http://en.wikip
 $wb['btn_save_txt'] = 'Criar um novo conjunto de idioma';
 $wb['btn_cancel_txt'] = 'Voltar';
 ?>
+

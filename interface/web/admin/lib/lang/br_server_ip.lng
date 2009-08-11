@@ -4,3 +4,4 @@ $wb['ip_address_txt'] = 'Endereço IP';
 $wb['virtualhost_txt'] = 'Nome VirtualHost HTTP';
 $wb['ip_err'] = 'Endereço IP inválido!';
 ?>
+

@@ -4,3 +4,4 @@ $wb['description_txt'] = 'Descrição';
 $wb['name_txt'] = 'Grupo';
 $wb['add_new_record_txt'] = 'Adicionar novo Grupo';
 ?>
+

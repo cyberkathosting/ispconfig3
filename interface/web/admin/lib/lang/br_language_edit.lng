@@ -6,3 +6,4 @@ $wb['lang_file_txt'] = 'Arquivo de Idioma';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Voltar';
 ?>
+
