@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -351,6 +351,18 @@ class page_action extends tform_actions {
 			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 			//$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
+		}
+		
+		//* If the domain name has been changed, we will have to change all subdomains
+		if($this->dataRecord["domain"] != '' && $this->oldDataRecord["domain"] != '' && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
+			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'subdomain' AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
+			foreach($records as $rec) {
+				$subdomain = $app->db->quote(str_replace($this->oldDataRecord["domain"],$this->dataRecord["domain"],$rec['domain']));
+				$app->db->datalogUpdate('web_domain', "domain = '".$subdomain."'", 'domain_id', $rec['domain_id']);
+			}
+			unset($records);
+			unset($rec);
+			unset($subdomain);
 		}
 		
 	}
