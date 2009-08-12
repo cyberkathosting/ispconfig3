@@ -1,8 +1,4 @@
 <?php
-$wb['1001'] = 'Nome de usuário ou senha em branco.';
-$wb['1002'] = 'Nome de usuário ou senha inválido.';
-$wb['1003'] = 'O usuário está bloqueado!';
-$wb['1004'] = 'Várias tentativas sem sucesso de login. Por favor tente novamente daqui a 15 minutos.';
 $wb['pass_reset_txt'] = 'Uma nova senha foi gerada e será enviada para você via correio eletrônico cadastrado no sistema.';
 $wb['pw_reset'] = 'Senha restabelecida! Será enviada para você via correio eletrônico cadastrado no sistema.';
 $wb['pw_error'] = 'Nome de usuário ou correio eletrônico não coincidem.';
@@ -17,7 +13,6 @@ $wb['error_user_blocked'] = 'O usuário está bloqueado.';
 $wb['error_user_too_many_logins'] = 'Várias tentativas de logins incorretas, faça uma nova tentativa dentro de 15 minutos.';
 $wb['username_txt'] = 'Usuário';
 $wb['password_txt'] = 'Senha';
-$wb['login_button_txt'] = 'Entrar';
-
+$wb['login_button_txt'] = 'Login';
 ?>
 

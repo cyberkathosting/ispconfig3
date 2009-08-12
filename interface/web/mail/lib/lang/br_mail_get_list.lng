@@ -1,9 +1,10 @@
 <?php
-$wb["list_head_txt"] = 'Fetch de mensagens de um servidor POP3 / IMAP';
-$wb["active_txt"] = 'Ativo';
-$wb["server_id_txt"] = 'Servidor';
-$wb["source_server_txt"] = 'Servidor Externo';
-$wb["source_username_txt"] = 'Usuário';
-$wb["destination_txt"] = 'Destino';
-$wb["add_new_record_txt"] = 'Adcionar nova Conta';
+$wb['list_head_txt'] = 'Fetch de mensagens de um servidor POP3 / IMAP';
+$wb['active_txt'] = 'Ativo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['source_server_txt'] = 'Servidor Externo';
+$wb['source_username_txt'] = 'Usuário';
+$wb['destination_txt'] = 'Destino';
+$wb['add_new_record_txt'] = 'Adcionar nova Conta';
 ?>
+

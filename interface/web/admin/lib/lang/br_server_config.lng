@@ -47,3 +47,4 @@ $wb['web_user_txt'] = 'Usuário Apache';
 $wb['web_group_txt'] = 'Grupo Apache';
 $wb['security_level_txt'] = 'Nível de Segurança';
 ?>
+

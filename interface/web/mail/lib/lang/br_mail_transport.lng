@@ -1,10 +1,11 @@
 <?php
-$wb["server_id_txt"] = 'Servidor';
-$wb["domain_txt"] = 'Domínio';
-$wb["destination_txt"] = 'Destino';
-$wb["type_txt"] = 'Tipo';
-$wb["mx_txt"] = 'Sem MX lookup';
-$wb["sort_order_txt"] = 'Ordenar por';
-$wb["active_txt"] = 'Ativo';
-$wb["limit_mailrouting_txt"] = 'O número máximo de rotas para sua conta foi atingido.';
+$wb['server_id_txt'] = 'Servidor';
+$wb['domain_txt'] = 'Domínio';
+$wb['destination_txt'] = 'Destino';
+$wb['type_txt'] = 'Tipo';
+$wb['mx_txt'] = 'Sem MX lookup';
+$wb['sort_order_txt'] = 'Ordenar por';
+$wb['active_txt'] = 'Ativo';
+$wb['limit_mailrouting_txt'] = 'O número máximo de rotas para sua conta foi atingido.';
 ?>
+

@@ -1,9 +1,10 @@
 <?php
-$wb["rulename_txt"] = 'Nome';
-$wb["action_txt"] = 'Ação';
-$wb["target_txt"] = 'Pasta';
-$wb["active_txt"] = 'Ativo';
-$wb["rulename_error_empty"] = 'Nome está em branco.';
-$wb["searchterm_is_empty"] = 'Termo de busca em branco.';
-$wb["source_txt"] = 'Origem';
+$wb['rulename_txt'] = 'Nome';
+$wb['action_txt'] = 'Ação';
+$wb['target_txt'] = 'Pasta';
+$wb['active_txt'] = 'Ativo';
+$wb['rulename_error_empty'] = 'Nome está em branco.';
+$wb['searchterm_is_empty'] = 'Termo de busca em branco.';
+$wb['source_txt'] = 'Origem';
 ?>
+

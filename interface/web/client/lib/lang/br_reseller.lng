@@ -88,3 +88,4 @@ $wb['web_php_options_txt'] = 'Opções do PHP';
 $wb['limit_client_error'] = 'O número máximo de clientes foi atingido.';
 $wb['limit_client_error_positive'] = 'O número de clientes precisa ser > 0';
 ?>
+

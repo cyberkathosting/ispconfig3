@@ -7,3 +7,4 @@ $wb['city_txt'] = 'Cidade';
 $wb['country_txt'] = 'País';
 $wb['add_new_record_txt'] = 'Adcionar um novo revendedor';
 ?>
+
