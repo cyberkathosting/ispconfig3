@@ -5,8 +5,8 @@
 LOGNAME=tolower("$LOGNAME")
 EXTENSION="$1"
 RECIPIENT=tolower("$2")
-USER="$3"
-HOST="$4"
+USER=tolower("$3")
+HOST=tolower("$4")
 SENDER="$5"
 DEFAULT="{dist_postfix_vmail_mailbox_base}/$HOST/$USER/."
 
