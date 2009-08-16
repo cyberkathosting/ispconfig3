@@ -7,3 +7,4 @@ $wb['rulename_error_empty'] = 'Naam is leeg.';
 $wb['searchterm_is_empty'] = 'Zoekterm is leeg.';
 $wb['source_txt'] = 'Bron';
 ?>
+

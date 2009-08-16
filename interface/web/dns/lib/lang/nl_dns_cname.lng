@@ -3,7 +3,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Hostnaam';
 $wb['type_txt'] = 'type';
-$wb['data_txt'] = 'Target Hostnaam';
+$wb['data_txt'] = 'Doel hostnaam';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Actief';
 $wb['limit_dns_record_txt'] = 'Het max. aantal aan DNS records voor uw account is bereikt.';
@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'De hostnaam heeft het verkeerde formaat.';
 $wb['data_error_empty'] = 'Doel hostnaam is leeg.';
 $wb['data_error_regex'] = 'Doel hostnaam formaat ongeldig.';
 ?>
+

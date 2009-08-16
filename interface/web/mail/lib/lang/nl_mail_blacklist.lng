@@ -5,5 +5,6 @@ $wb['recipient_txt'] = 'Ontvanger';
 $wb['active_txt'] = 'Actief';
 $wb['source_error_notempty'] = 'Adres is leeg.';
 $wb['type_txt'] = 'Type';
-$wb['limit_mailfilter_txt'] = 'Het max. aantal email filters voor uw account is bereikt.';
+$wb['limit_mailfilter_txt'] = 'Het max. aantal e-mailfilters voor uw account is bereikt.';
 ?>
+

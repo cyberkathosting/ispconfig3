@@ -1,6 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Exporteer taalbestanden';
 $wb['language_select_txt'] = 'Selecteer taal';
-$wb['btn_save_txt'] = 'Exporteer de geselecteerde set taalbestanden';
+$wb['btn_save_txt'] = 'Exporteren naar /usr/local/ispconfig/interface/web/temp/';
 $wb['btn_cancel_txt'] = 'Terug';
 ?>
+

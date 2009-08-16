@@ -7,9 +7,10 @@ $wb['data_txt'] = 'Doel Hostnaam';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Actief';
 $wb['limit_dns_record_txt'] = 'Het max. aantal aan DNS records voor uw account is bereikt.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['no_zone_perm'] = 'U heeft geen toegang om een record in deze zone aan te maken.';
 $wb['name_error_empty'] = 'De hostnaam is leeg.';
-$wb['name_error_regex'] = 'De hostnaam heeft het verkeerde formaat.';
+$wb['name_error_regex'] = 'De hostnaam heeft een verkeerde indeling.';
 $wb['data_error_empty'] = 'Doel hostnaam is leeg';
-$wb['data_error_regex'] = 'Doel hostnaam formaat ongeldig';
+$wb['data_error_regex'] = 'Doel hostnaam indeling is ongeldig.';
 ?>
+

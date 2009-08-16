@@ -1,9 +1,10 @@
 <?php
-$wb['domain_txt'] = 'Domein';
-$wb['destination_txt'] = 'Bestemming';
+$wb['domain_txt'] = 'Domeinnaam';
+$wb['destination_txt'] = 'Doorsturen naar account';
 $wb['active_txt'] = 'Actief';
-$wb['domain_error_unique'] = 'Er is al een Catchall record voor dit domein.';
-$wb['no_domain_perm'] = 'U heeft geen permissies voor dit domein.';
+$wb['domain_error_unique'] = 'Er is al een catch-all record voor dit domein.';
+$wb['no_domain_perm'] = 'U heeft geen toegangsrechten voor dit domein.';
 $wb['domain_error_regex'] = 'Ongeldige domeinnaam of het domein bevat ongeldige karakters.';
-$wb['limit_mailcatchall_txt'] = 'Het max. aantal email catchall accounts voor uw account is bereikt.';
+$wb['limit_mailcatchall_txt'] = 'Het max. aantal e-mail catch-all accounts voor uw account is bereikt.';
 ?>
+

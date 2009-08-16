@@ -1,27 +1,26 @@
 <?php
 $wb['uid_txt'] = 'UID';
 $wb['gid_txt'] = 'GID';
-$wb['dir_txt'] = 'Directorie';
-$wb['quota_files_txt'] = 'Bestandquota';
-$wb['ul_ratio_txt'] = 'Uploadratio';
-$wb['dl_ratio_txt'] = 'Downloadratio';
-$wb['ul_bandwidth_txt'] = 'Uploadbandbreedte';
-$wb['dl_bandwidth_txt'] = 'Downloadbandbreedte';
+$wb['dir_txt'] = 'Directory';
+$wb['quota_files_txt'] = 'Max. aantal bestanden';
+$wb['ul_ratio_txt'] = 'Upload-limiet';
+$wb['dl_ratio_txt'] = 'Download-limiet';
+$wb['ul_bandwidth_txt'] = 'Max. upload snelheid';
+$wb['dl_bandwidth_txt'] = 'Max. download snelheid';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
 $wb['username_txt'] = 'Gebruikersnaam';
 $wb['password_txt'] = 'Wachtwoord';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
-$wb['quota_size_txt'] = 'Harddisk-Quota';
+$wb['quota_size_txt'] = 'Schijfruimte-limiet';
 $wb['active_txt'] = 'Actief';
 $wb['limit_ftp_user_txt'] = 'Het max. aantal FTP gebruikers voor uw account is bereikt.';
-$wb['username_error_empty'] = 'Username is leeg.';
+$wb['username_error_empty'] = 'Gebruikersnaam is leeg.';
 $wb['username_error_unique'] = 'De gebruikersnaam moet uniek zijn.';
 $wb['username_error_regex'] = 'De gebruikersnaam bevat ongeldige karakters.';
-$wb['quota_size_error_empty'] = 'Quota is leeg.';
+$wb['quota_size_error_empty'] = 'Schijfruimte-limiet is leeg.';
 $wb['uid_error_empty'] = 'GID is leeg.';
-$wb['directory_error_empty'] = 'Directorie is leeg.';
-$wb['quota_files_unity_txt'] = 'Files';
-$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
+$wb['directory_error_empty'] = 'Directory is leeg.';
+$wb['quota_files_unity_txt'] = 'bestanden';
 ?>
+

@@ -4,5 +4,6 @@ $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
 $wb['pattern_txt'] = 'Patroon';
 $wb['action_txt'] = 'Actie';
-$wb['add_new_record_txt'] = 'Toevoegen nieuw content filter';
+$wb['add_new_record_txt'] = 'Nieuw content filter toevoegen';
 ?>
+

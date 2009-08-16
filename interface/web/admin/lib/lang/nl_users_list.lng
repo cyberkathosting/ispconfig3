@@ -3,6 +3,7 @@ $wb['list_head_txt'] = 'Gebruikers';
 $wb['username_txt'] = 'Gebruikersnaam';
 $wb['name_txt'] = 'Achternaam';
 $wb['vorname_txt'] = 'Voornaam';
-$wb['ort_txt'] = 'Plaatsnaam';
-$wb['add_new_record_txt'] = 'Add new user';
+$wb['ort_txt'] = 'Plaats';
+$wb['add_new_record_txt'] = 'Nieuwe gebruiker toevoegen';
 ?>
+

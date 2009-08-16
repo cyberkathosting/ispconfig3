@@ -1,33 +1,31 @@
 <?php
-$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
-$wb['email_txt'] = 'Email';
+$wb['custom_mailfilter_txt'] = 'Aangepaste mail-filter instellingen';
+$wb['email_txt'] = 'E-mail';
 $wb['cryptpwd_txt'] = 'Wachtwoord';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['active_txt'] = 'Actief';
-$wb['email_error_isemail'] = 'Email adres is ongeldig.';
-$wb['email_error_unique'] = 'Email adres bestaat reeds.';
+$wb['email_error_isemail'] = 'E-mailadres is ongeldig.';
+$wb['email_error_unique'] = 'E-mailadres bestaat reeds.';
 $wb['autoresponder_text_txt'] = 'Tekst';
 $wb['autoresponder_txt'] = 'Autoresponder';
-$wb['no_domain_perm'] = 'U heeft geen toestemming voor dit domein.';
-$wb['error_no_pwd'] = 'Wachtwoord  is leeg.';
-$wb['quota_error_isint'] = 'Mailbox grootte moet een numerieke waarde zijn.';
-$wb['quota_txt'] = 'quota in MB';
-$wb['server_id_txt'] = 'server_id';
-$wb['password_txt'] = 'wachtwoord';
-$wb['maildir_txt'] = 'maildir';
+$wb['no_domain_perm'] = 'U heeft geen toestemming om dit domein te beheren.';
+$wb['error_no_pwd'] = 'Wachtwoord is leeg.';
+$wb['quota_error_isint'] = 'Schijfruimte limiet e-mailaccount moet een numerieke waarde zijn.';
+$wb['quota_txt'] = 'Schijfruimte limiet';
+$wb['server_id_txt'] = 'Server ID';
+$wb['password_txt'] = 'Wachtwoord';
+$wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Inschakelen ontvangen';
 $wb['access_txt'] = 'Inschakelen toegang';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- niet ingeschakeld -';
-$wb['limit_mailbox_txt'] = 'Het max. aantal aan mailboxen voor uw account is bereikt.';
-$wb['limit_mailquota_txt'] = 'De max. ruimte voor mailboxen is bereikt. De max. beschikbare ruimte in MB is';
-$wb['welcome_mail_subject'] = 'Welkom op uw nieuwe email account.';
-$wb['welcome_mail_message'] = 'Welkom op uw nieuwe email account.
-
-Uw webmaster.';
+$wb['limit_mailbox_txt'] = 'Het max. aantal aan e-mailaccounts voor uw account is bereikt.';
+$wb['limit_mailquota_txt'] = 'De max. ruimte voor e-mailaccounts is bereikt. De max. beschikbare ruimte in MB is';
+$wb['welcome_mail_subject'] = 'Welkom bij uw nieuwe e-mailaccount.';
+$wb['welcome_mail_message'] = 'Welkom in uw nieuwe e-mailaccount.';
 $wb['disableimap_txt'] = 'Uitschakelen IMAP';
 $wb['disablepop3_txt'] = 'Uitschakelen POP3';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
-$wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
 ?>
+

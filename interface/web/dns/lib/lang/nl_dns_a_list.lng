@@ -7,8 +7,9 @@ $wb['name_txt'] = 'Naam';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Prioriteit';
 $wb['type_txt'] = 'Type';
-$wb['add_new_record_txt'] = 'Toevoegen nieuw DNS A-Record';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+$wb['add_new_record_txt'] = 'Nieuw DNS A-Record toevoegen';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['delete_confirmation'] = 'Weet u zeker dat u dit record wilt verwijderen?';
 ?>
+

@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'The naam heeft het verkeerde formaat.';
 $wb['data_error_empty'] = 'Canonical hostnaam is leeg.';
 $wb['data_error_regex'] = 'Canonical hostnaam formaat ongeldig.';
 ?>
+

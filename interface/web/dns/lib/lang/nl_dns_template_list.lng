@@ -2,5 +2,6 @@
 $wb['list_head_txt'] = 'DNS wizard template';
 $wb['visible_txt'] = 'Zichtbaar';
 $wb['name_txt'] = 'Naam';
-$wb['add_new_record_txt'] = 'Toevoegen nieuw record';
+$wb['add_new_record_txt'] = 'Nieuw record toevoegen';
 ?>
+

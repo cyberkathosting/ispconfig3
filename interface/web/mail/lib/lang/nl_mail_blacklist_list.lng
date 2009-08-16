@@ -1,10 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Email Blacklist';
+$wb['list_head_txt'] = 'E-mail Blacklist';
 $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Blacklisted adres';
 $wb['type_txt'] = 'Type';
 $wb['recipient_txt'] = 'Ontvanger';
-$wb['add_new_record_txt'] = 'Toevoegen nieuw Blacklist record';
-$wb['access_txt'] = 'toegang';
+$wb['add_new_record_txt'] = 'Nieuw Blacklist record toevoegen';
+$wb['access_txt'] = 'Toegang';
 ?>
+

@@ -3,6 +3,7 @@ $wb['list_head_txt'] = 'Spamfilter';
 $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
 $wb['server_name_txt'] = 'servernaam';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Toevoegen spamfilter record';
+$wb['email_txt'] = 'E-mail';
+$wb['add_new_record_txt'] = 'Spamfilter record toevoegen';
 ?>
+

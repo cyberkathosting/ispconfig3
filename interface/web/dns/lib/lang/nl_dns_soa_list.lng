@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'DNS Zones';
+$wb['list_head_txt'] = 'DNS zones';
 $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
-$wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Toevoegen nieuw DNS Zone (SOA)';
+$wb['origin_txt'] = 'DNS zone';
+$wb['ns_txt'] = 'Primaire nameserver';
+$wb['mbox_txt'] = 'E-mailadres zone-verantwoordelijke';
+$wb['add_new_record_txt'] = 'Nieuw DNS zone toevoegen';
 ?>
+

@@ -5,5 +5,6 @@ $wb['virus_lover_txt'] = 'Virus liefhebber';
 $wb['spam_lover_txt'] = 'Spam liefhebber';
 $wb['banned_files_lover_txt'] = 'Verbannen bestanden liefhebbers';
 $wb['bad_header_lover_txt'] = 'Verbannen header liefhebbers';
-$wb['add_new_record_txt'] = 'Toevoegen policy record';
+$wb['add_new_record_txt'] = 'Policy record toevoegen';
 ?>
+

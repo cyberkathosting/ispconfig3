@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Shell Gebruiker';
+$wb['list_head_txt'] = 'Shell gebruikers';
 $wb['active_txt'] = 'Actief';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Site';
+$wb['parent_domain_id_txt'] = 'Website';
 $wb['username_txt'] = 'Gebruikersnaam';
-$wb['add_new_record_txt'] = 'Toevoegen nieuwe Shell Gebruiker';
+$wb['add_new_record_txt'] = 'Nieuwe Shell gebruiker toevoegen';
 ?>
+
