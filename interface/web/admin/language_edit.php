@@ -77,7 +77,7 @@ if($module == 'global') {
 	$file_path = ISPC_LIB_PATH."/lang/$lang_file";
 } else {
 	include(ISPC_WEB_PATH."/$module/lib/lang/$lang_file");
-	$file_path = ISPC_LIB_PATH."/$module/lib/lang/$lang_file";
+	$file_path = ISPC_WEB_PATH."/$module/lib/lang/$lang_file";
 }
 $app->tpl->setVar("file_path", $file_path);
 
