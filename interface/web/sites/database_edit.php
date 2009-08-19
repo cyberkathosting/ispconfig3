@@ -255,6 +255,9 @@ class page_action extends tform_actions {
 			}
 		}
 		unset($old_record);
+		
+		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
+		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
 
 		if ($app->tform->errorMessage == ''){
 			/* restrict the names if there is no error */
@@ -278,11 +281,17 @@ class page_action extends tform_actions {
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
 		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
+		
+		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
+		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
+
 
 		/* restrict the names */
         /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
-		$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
-		$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
+		if ($app->tform->errorMessage == ''){
+			$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
+			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
+		}
 
 		parent::onBeforeInsert();
 	}
