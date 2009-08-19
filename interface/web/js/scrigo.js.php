@@ -300,6 +300,28 @@ function loadContentInto(elementid,pagename) {
   var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);
 }
 
+function loadOptionInto(elementid,pagename) {
+	var itemContentCallback = {
+		success: function(o) {
+			var teste = o.responseText;
+			var elemente = teste.split('#');
+			el=document.getElementById(elementid);
+			el.innerHTML='';
+			for (var i = 0; i < elemente.length; ++i){
+
+				var foo2 = document.createElement("option");
+				foo2.appendChild(document.createTextNode(elemente[i]));
+				foo2.value=elemente[i];
+				el.appendChild(foo2);
+			}
+		},
+		failure: function(o) {
+		alert('Ajax Request was not successful.');
+		}
+	}
+	var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);
+}
+
 function keepalive() {
 	var pageContentCallbackKeepalive = {
 		success: function(o) {
