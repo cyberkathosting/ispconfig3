@@ -463,13 +463,17 @@ class apache2_plugin {
 			// Chown and chmod the directories below the document root
 			exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
 		
-			// The document root itself has to be owned by root
-			exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]));
+			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
+			if($web_config['security_level'] == 20) {
+				exec("chown $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
+			} else {
+				exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]));
+			}
 		}
 		
 		
 		
-		// If the security level is set to high
+		//* If the security level is set to high
 		if($web_config['security_level'] == 20) {
 			
 			exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"]."/"));
@@ -487,11 +491,25 @@ class apache2_plugin {
 			//* add the apache user to the client group
 			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
 			
+			/*
+			* Workaround for jailkit: If jailkit is enabled for the site, the 
+			* website root has to be owned by the root user and we have to chmod it to 755 then
+			*/
+			
+			//* Check if there is a jailkit user for this site
+			$tmp = $app->db->queryOneRecord("SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = ".$data["new"]["domain_id"]." AND chroot = 'jailkit'");
+			if($tmp['number'] > 0) {
+				exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
+				exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
+			}
+			unset($tmp);
+			
 		// If the security Level is set to medium
 		} else {
 		
 			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
 			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/*"));
+			exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
 		
 			// make temp direcory writable for the apache user and the website user
 			exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));

@@ -84,6 +84,8 @@ class shelluser_jailkit_plugin {
 				$this->data = $data;
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+				
+				$this->_update_website_security_level();
 			
 				$this->_setup_jailkit_chroot();
 				
@@ -119,6 +121,8 @@ class shelluser_jailkit_plugin {
 				$this->data = $data;
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+				
+				$this->_update_website_security_level();
 			
 				$this->_setup_jailkit_chroot();
 				$this->_add_jailkit_user();
@@ -261,6 +265,25 @@ class shelluser_jailkit_plugin {
 			exec("chown ".$this->data['new']['puser'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
 				
 			$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
+	}
+	
+	//* Update the website root directory permissions depending on the security level
+	function _update_website_security_level() {
+		global $app,$conf;
+		
+		// load the server configuration options
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
+		// Get the parent website of this shell user
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
+		
+		//* If the security level is set to high
+		if($web_config['security_level'] == 20) {
+			exec("chmod 755 ".escapeshellcmd($web["document_root"]."/"));
+			exec("chown root:root ".escapeshellcmd($web["document_root"]."/"));
+		}
+		
 	}
 	
 	
