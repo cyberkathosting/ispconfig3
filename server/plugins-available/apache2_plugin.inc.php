@@ -461,13 +461,12 @@ class apache2_plugin {
 		
 		if($this->action == 'insert') {
 			// Chown and chmod the directories below the document root
-			exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
-		
+			$this->_exec("chown -R $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
-				exec("chown $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
+				$this->_exec("chown $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
 			} else {
-				exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]));
+				$this->_exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]));
 			}
 		}
 		
@@ -476,20 +475,22 @@ class apache2_plugin {
 		//* If the security level is set to high
 		if($web_config['security_level'] == 20) {
 			
-			exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"]."/"));
-			exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"])."/*");
-			exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
+			$this->_exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"]."/"));
+			$this->_exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"])."/*");
+			$this->_exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 			
 			// make temp direcory writable for the apache user and the website user
-			exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+			$this->_exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
 			
 			$command = 'usermod';
 			$command .= ' --groups sshusers';
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
-			exec($command);
+			$this->_exec($command);
 			
 			//* add the apache user to the client group
 			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+			
+			$this->_exec("chown $username:$groupname ".escapeshellcmd($data["new"]["document_root"]));
 			
 			/*
 			* Workaround for jailkit: If jailkit is enabled for the site, the 
@@ -499,20 +500,20 @@ class apache2_plugin {
 			//* Check if there is a jailkit user for this site
 			$tmp = $app->db->queryOneRecord("SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = ".$data["new"]["domain_id"]." AND chroot = 'jailkit'");
 			if($tmp['number'] > 0) {
-				exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
-				exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
+				$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
+				$this->_exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
 			}
 			unset($tmp);
 			
 		// If the security Level is set to medium
 		} else {
 		
-			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
-			exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/*"));
-			exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
+			$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/"));
+			$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/*"));
+			$this->_exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
 		
 			// make temp direcory writable for the apache user and the website user
-			exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
+			$this->_exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
 		}
 		
 		
@@ -914,6 +915,13 @@ class apache2_plugin {
 		$app->log("Writing the conf file: ispconfig.conf",LOGLEVEL_DEBUG);
 		unset($tpl);
 		
+	}
+	
+	//* Wrapper for exec function for easier debugging
+	private function _exec($command) {
+		global $app;
+		$app->log("exec: ".$command,LOGLEVEL_DEBUG);
+		exec($command);
 	}
 	
 
