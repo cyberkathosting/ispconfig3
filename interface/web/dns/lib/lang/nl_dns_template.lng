@@ -1,7 +1,7 @@
 <?php
-$wb['name_txt'] = 'Naam';
-$wb['fields_txt'] = 'Velden';
-$wb['template_txt'] = 'Template';
-$wb['visible_txt'] = 'Zichtbaar';
+$wb['name_txt'] = 'Naam template';
+$wb['fields_txt'] = 'Toon velden';
+$wb['template_txt'] = 'Template-data';
+$wb['visible_txt'] = 'Zichtbaar?';
 ?>
 

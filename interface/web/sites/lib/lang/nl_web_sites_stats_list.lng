@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Web verkeer';
-$wb['domain_txt'] = 'Domain';
+$wb['list_head_txt'] = 'Website statistieken';
+$wb['domain_txt'] = 'Website domein';
 $wb['this_month_txt'] = 'Deze maand';
 $wb['last_month_txt'] = 'Laatste maand';
 $wb['this_year_txt'] = 'Dit jaar';
 $wb['last_year_txt'] = 'Vorig jaar';
 ?>
+

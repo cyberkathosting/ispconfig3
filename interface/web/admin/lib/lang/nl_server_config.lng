@@ -38,5 +38,13 @@ $wb['netmask_error_wrong'] = 'Ongeldige netmasker indeling.';
 $wb['gateway_error_wrong'] = 'Ongeldige gateway indeling.';
 $wb['hostname_error_empty'] = 'Hostnaam is leeg.';
 $wb['nameservers_error_empty'] = 'Nameserver is leeg.';
+$wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applicaties';
+$wb['config_dir_txt'] = 'Configuratie directory';
+$wb['init_script_txt'] = 'Cron init script naam';
+$wb['crontab_dir_txt'] = 'Pad voor individuele crontabs';
+$wb['wget_txt'] = 'Pad naar wget';
+$wb['web_user_txt'] = 'Apache gebruiker';
+$wb['web_group_txt'] = 'Apache groep';
+$wb['security_level_txt'] = 'Beveiligingsniveau';
 ?>
 

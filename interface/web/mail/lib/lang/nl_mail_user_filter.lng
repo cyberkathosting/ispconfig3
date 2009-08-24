@@ -2,7 +2,7 @@
 $wb['rulename_txt'] = 'Naam';
 $wb['action_txt'] = 'Actie';
 $wb['target_txt'] = 'Map';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 $wb['rulename_error_empty'] = 'Naam is leeg.';
 $wb['searchterm_is_empty'] = 'Zoekterm is leeg.';
 $wb['source_txt'] = 'Bron';

@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'DNS zones';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';

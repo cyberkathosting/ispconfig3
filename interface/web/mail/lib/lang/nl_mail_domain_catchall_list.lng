@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'E-mail catch-all accounts';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 $wb['source_txt'] = 'Domeinnaam';
 $wb['destination_txt'] = 'Doorsturen naar account';
 $wb['server_id_txt'] = 'Server';

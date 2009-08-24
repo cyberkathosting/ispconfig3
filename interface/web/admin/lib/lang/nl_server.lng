@@ -1,5 +1,5 @@
 <?php
-$wb['config_txt'] = 'Configuratie details<br /><br />Wijzigen? Zie: Server Configuratie';
+$wb['config_txt'] = 'Configuratie details<br /><br />Wijzigen? Zie: Server configuratie';
 $wb['server_name_txt'] = 'Servernaam';
 $wb['mail_server_txt'] = 'Mailserver';
 $wb['web_server_txt'] = 'Webserver';
@@ -7,6 +7,6 @@ $wb['dns_server_txt'] = 'DNS server';
 $wb['file_server_txt'] = 'Fileserver';
 $wb['db_server_txt'] = 'Database server';
 $wb['vserver_server_txt'] = 'VServer-Server';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 ?>
 

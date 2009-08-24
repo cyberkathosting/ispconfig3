@@ -5,7 +5,7 @@ $wb['destination_txt'] = 'Bestemming';
 $wb['type_txt'] = 'Type';
 $wb['mx_txt'] = 'MX lookup uitschakelen';
 $wb['sort_order_txt'] = 'Gesorteerd op';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 $wb['limit_mailrouting_txt'] = 'Het max. aantal routes voor uw account is bereikt.';
 ?>
 

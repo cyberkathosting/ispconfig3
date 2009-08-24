@@ -1,6 +1,6 @@
 <?php
 $wb['conf_format_dateshort'] = 'Y-m-d';
-$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_datelong'] = 'l d F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
 $wb['conf_format_datetime'] = 'Y-m-d H:i';
@@ -21,5 +21,14 @@ $wb['filter_txt'] = 'Filteren';
 $wb['add_new_record_txt'] = 'Toevoegen';
 $wb['btn_save_txt'] = 'Opslaan';
 $wb['btn_cancel_txt'] = 'Annuleren';
+$wb['System'] = 'Servers';
+$wb['Client'] = 'Klanten';
+$wb['Email'] = 'E-mail';
+$wb['Monitor'] = 'Monitor';
+$wb['Sites'] = 'Websites';
+$wb['DNS'] = 'DNS';
+$wb['Tools'] = 'Tools';
+$wb['Help'] = 'Help';
+$wb['toolsarea_head_txt'] = 'Tools';
 ?>
 

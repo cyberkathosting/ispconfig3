@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Websites';
-$wb['active_txt'] = 'Actief';
+$wb['list_head_txt'] = 'Website domeinen';
+$wb['active_txt'] = 'Actief?';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domein';
 $wb['add_new_record_txt'] = 'Nieuwe website toevoegen';

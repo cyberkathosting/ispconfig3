@@ -3,6 +3,6 @@ $wb['list_head_txt'] = 'E-mail domeinen';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domeinnaam';
 $wb['add_new_record_txt'] = 'Nieuw domein toevoegen';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 ?>
 

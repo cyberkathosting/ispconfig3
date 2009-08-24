@@ -1,21 +1,22 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Parent website';
-$wb['active_txt'] = 'Active';
-$wb['client_txt'] = 'Client';
-$wb['run_min_txt'] = 'Minutes';
-$wb['run_hour_txt'] = 'Hours';
-$wb['run_mday_txt'] = 'Days of month';
-$wb['run_month_txt'] = 'Months';
-$wb['run_wday_txt'] = 'Days of week';
-$wb['command_txt'] = 'Command to run (commands are executed via sh, urls via wget)';
-$wb['limit_cron_txt'] = 'The maximum number of allowed cron jobs was reached.';
-$wb['limit_cron_frequency_txt'] = 'The cron job frequency exceeds the allowed limit.';
-$wb['run_min_error_format'] = 'Invalid format for minutes.';
-$wb['run_hour_error_format'] = 'Invalid format for hours.';
-$wb['run_mday_error_format'] = 'Invalid format for days of month.';
-$wb['run_month_error_format'] = 'Invalid format for months.';
-$wb['run_wday_error_format'] = 'Invalid format for days of the week.';
-$wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
-$wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['active_txt'] = 'Actief?';
+$wb['client_txt'] = 'Klant';
+$wb['run_min_txt'] = 'Minuten';
+$wb['run_hour_txt'] = 'Uren';
+$wb['run_mday_txt'] = 'Dagen van maand';
+$wb['run_month_txt'] = 'Maanden';
+$wb['run_wday_txt'] = 'Dagen van week';
+$wb['command_txt'] = 'Uit te voeren commando<br />(Commando wordt uitgevoerd met sh,<br />URLs met wget)';
+$wb['limit_cron_txt'] = 'Het max. aantal toegestane cron-jobs is bereikt.';
+$wb['limit_cron_frequency_txt'] = 'De cronjob frequentie overschrijdt de toegestaande limiet.';
+$wb['run_min_error_format'] = 'Ongeldige indeling voor minuten.';
+$wb['run_hour_error_format'] = 'Ongeldige indeling voor uren.';
+$wb['run_mday_error_format'] = 'Ongeldige indeling voor dagen van maand.';
+$wb['run_month_error_format'] = 'Ongeldige indeling maand.';
+$wb['run_wday_error_format'] = 'Ongeldige indeling voor dagen van week.';
+$wb['command_error_format'] = 'Ongeldige commando indeling. In geval van een URL, alleen http/https wordt ondersteund.';
+$wb['unknown_fieldtype_error'] = 'Een onbekend veld-type wordt gebruikt.';
 ?>
+

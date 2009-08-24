@@ -3,7 +3,7 @@ $wb['custom_mailfilter_txt'] = 'Aangepaste mail-filter instellingen';
 $wb['email_txt'] = 'E-mail';
 $wb['cryptpwd_txt'] = 'Wachtwoord';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 $wb['email_error_isemail'] = 'E-mailadres is ongeldig.';
 $wb['email_error_unique'] = 'E-mailadres bestaat reeds.';
 $wb['autoresponder_text_txt'] = 'Tekst';
@@ -27,5 +27,7 @@ $wb['disableimap_txt'] = 'Uitschakelen IMAP';
 $wb['disablepop3_txt'] = 'Uitschakelen POP3';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
+$wb['duplicate_alias_or_forward_txt'] = 'Er is al een e-mailalias of een forward ingesteld voor dit e-mailadres.';
+$wb['quota_error_value'] = 'Ongeldige schijfruimte-limiet. Toegestaan zijn: -1 (onbeperkt) of cijfers (>1)';
 ?>
 

@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'ISPConfig Logboek';
+$wb['list_head_txt'] = 'ISPconfig logboek';
 $wb['tstamp_txt'] = 'Datum';
 $wb['server_id_txt'] = 'Server';
 $wb['loglevel_txt'] = 'Loglevel';

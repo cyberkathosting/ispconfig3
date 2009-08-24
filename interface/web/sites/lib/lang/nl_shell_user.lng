@@ -10,7 +10,7 @@ $wb['password_txt'] = 'Wachtwoord';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['chroot_txt'] = 'Chroot Shell';
 $wb['quota_size_txt'] = 'Schijfruimte limiet';
-$wb['active_txt'] = 'Actief';
+$wb['active_txt'] = 'Actief?';
 $wb['username_error_empty'] = 'Gebruikersnaam is leeg.';
 $wb['username_error_unique'] = 'De gebruikersnaam moet uniek zijn.';
 $wb['username_error_regex'] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
@@ -18,5 +18,6 @@ $wb['quota_size_error_empty'] = 'Schijfruimte limiet is leeg.';
 $wb['uid_error_empty'] = 'GID leeg.';
 $wb['directory_error_empty'] = 'Directory leeg.';
 $wb['limit_shell_user_txt'] = 'Het maximum aantal shell gebruikers is bereikt.';
+$wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
 ?>
 
