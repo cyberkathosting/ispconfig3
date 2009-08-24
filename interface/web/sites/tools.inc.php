@@ -67,6 +67,7 @@ function getClientName($dataRecord) {
 			$client_group_id = $dataRecord['sys_groupid'];
       	}
     }
+	
     /* get the name of the client */
     $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
     $clientName = $tmp['name'];

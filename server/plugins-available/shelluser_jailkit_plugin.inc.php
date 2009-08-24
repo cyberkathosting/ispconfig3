@@ -85,14 +85,16 @@ class shelluser_jailkit_plugin {
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				
-				$this->_update_website_security_level();
-			
-				$this->_setup_jailkit_chroot();
-				
 				$command .= 'usermod -U '.escapeshellcmd($data['new']['username']);
 				exec($command);
 				
+				$this->_update_website_security_level();
+				
 				$this->_add_jailkit_user();
+			
+				$this->_setup_jailkit_chroot();
+				
+				$this->_update_website_security_level();
 			}
 		
 			$app->log("Jailkit Plugin -> insert username:".$data['new']['username'],LOGLEVEL_DEBUG);
@@ -126,6 +128,8 @@ class shelluser_jailkit_plugin {
 			
 				$this->_setup_jailkit_chroot();
 				$this->_add_jailkit_user();
+				
+				$this->_update_website_security_level();
 			}
 		
 			$app->log("Jailkit Plugin -> update username:".$data['new']['username'],LOGLEVEL_DEBUG);
@@ -161,6 +165,7 @@ class shelluser_jailkit_plugin {
 				exec($command);
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 			}
+			
 		}
 		
 		$app->log("Jailkit Plugin -> delete username:".$data['old']['username'],LOGLEVEL_DEBUG);
@@ -280,13 +285,18 @@ class shelluser_jailkit_plugin {
 		
 		//* If the security level is set to high
 		if($web_config['security_level'] == 20) {
-			exec("chmod 755 ".escapeshellcmd($web["document_root"]."/"));
-			exec("chown root:root ".escapeshellcmd($web["document_root"]."/"));
+			$this->_exec("chmod 755 ".escapeshellcmd($web["document_root"]));
+			$this->_exec("chown root:root ".escapeshellcmd($web["document_root"]));
 		}
 		
 	}
 	
-	
+	//* Wrapper for exec function for easier debugging
+	private function _exec($command) {
+		global $app;
+		$app->log("exec: ".$command,LOGLEVEL_DEBUG);
+		exec($command);
+	}
 
 } // end class
 
