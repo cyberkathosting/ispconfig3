@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Email Feketelista';
+$wb['active_txt'] = 'Aktív';
+$wb['server_id_txt'] = 'Szerver';
+$wb['source_txt'] = 'Feketelistás cím';
+$wb['type_txt'] = 'Tipus';
+$wb['recipient_txt'] = 'Címzett';
+$wb['add_new_record_txt'] = 'Új feketelistás';
+$wb['access_txt'] = 'hozzáférés';
+?>
+

@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Felhasználók';
+$wb['username_txt'] = 'Felhasználó neve';
+$wb['name_txt'] = 'Neve';
+$wb['vorname_txt'] = 'Forename';
+$wb['ort_txt'] = 'Város';
+$wb['page_txt'] = 'Oldal';
+$wb['page_of_txt'] = '';
+$wb['page_next_txt'] = 'Következő';
+$wb['page_back_txt'] = 'Vissza';
+$wb['delete_txt'] = 'Törlés';
+$wb['filter_txt'] = 'Szűrő';
+?>
+

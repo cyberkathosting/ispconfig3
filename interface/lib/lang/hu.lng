@@ -1,0 +1,25 @@
+<?php
+$wb['301'] = 'Ehhez a modulhoz nincs hozzáférése';
+$wb['302'] = 'Érvénytelen modul';
+$wb['1001'] = 'A felhasználónév és a jelszó nem lehet üres!';
+$wb['1002'] = 'A felhasználónév és/vagy a jelszó hibás!';
+$wb['1003'] = 'A felhasználó nem aktív.';
+$wb['delete_confirmation'] = 'Valóban törli a bejegyzést?';
+$wb['error_no_view_permission'] = 'Ehhez a bejegyzéshez nincs jogosultsága, vagy nem létezik.';
+$wb['error_no_delete_permission'] = 'Nincs joga a bejegyzést törölni!';
+$wb['conf_format_dateshort'] = 'Y.m.d';
+$wb['conf_format_datelong'] = 'Y. F. of l dS';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'Y.m.d H:i';
+$wb['page_txt'] = 'Oldal';
+$wb['page_of_txt'] = 'Összesen';
+$wb['page_next_txt'] = 'Tovább';
+$wb['page_back_txt'] = 'Vissza';
+$wb['delete_txt'] = 'Töröl';
+$wb['filter_txt'] = 'Szűrés';
+$wb['add_new_record_txt'] = 'Új bejegyzés';
+$wb['btn_save_txt'] = 'Mentés';
+$wb['btn_cancel_txt'] = 'Mégse';
+?>
+

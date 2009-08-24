@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Szerver';
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Címzett';
+$wb['type_txt'] = 'Típus';
+$wb['mx_txt'] = 'MX rekorde ellenőrzés nélkül';
+$wb['sort_order_txt'] = 'Rendezés';
+$wb['active_txt'] = 'Aktív';
+$wb['limit_mailrouting_txt'] = 'Nincs több Email irányítás lehetőség.';
+?>
+

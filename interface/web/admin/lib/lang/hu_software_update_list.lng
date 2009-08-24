@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Szoftvare frissítések';
+$wb['installed_txt'] = 'Művelet';
+$wb['update_title_txt'] = 'Frissítés';
+$wb['version_txt'] = 'Verzió';
+$wb['action_txt'] = 'Művelet';
+$wb['server_select_txt'] = 'Válasszon szervert';
+?>
+

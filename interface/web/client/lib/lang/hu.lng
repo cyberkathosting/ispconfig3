@@ -1,0 +1,10 @@
+<?php
+$wb['Client'] = 'Ügyfél';
+$wb['Address'] = 'Cím';
+$wb['Limits'] = 'Korlátok';
+$wb['Add Client'] = 'Ügyfél hozzáadása';
+$wb['Edit Client'] = 'Ügyfél adatok szerkesztése';
+$wb['Clients'] = 'Ügyfelek';
+$wb['Edit Client-Templates'] = 'Edit Client-Templates';
+?>
+

@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Szerver';
+$wb['priority_txt'] = 'Sorrend';
+$wb['policy_id_txt'] = 'Szabály';
+$wb['email_txt'] = 'Email (Minta)';
+$wb['fullname_txt'] = 'Név';
+$wb['local_txt'] = 'Helyi';
+?>
+

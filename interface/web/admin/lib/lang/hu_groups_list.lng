@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Systemuser groups';
+$wb['description_txt'] = 'Description';
+$wb['name_txt'] = 'Group';
+$wb['add_new_record_txt'] = 'Add new Group';
+?>
+

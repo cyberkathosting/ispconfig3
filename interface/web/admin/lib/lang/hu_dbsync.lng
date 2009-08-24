@@ -1,0 +1,17 @@
+<?php
+$wb['jobname_txt'] = 'Név';
+$wb['jobname_err'] = 'A Név mező üres.';
+$wb['sync_interval_minutes_txt'] = 'Intervallum (perc)';
+$wb['db_type_txt'] = 'DB Tipus';
+$wb['db_host_txt'] = 'DB Állomás';
+$wb['db_name_txt'] = 'DB Név';
+$wb['db_username_txt'] = 'DB Felhasználó';
+$wb['db_password_txt'] = 'DB Jelszó';
+$wb['db_tables_txt'] = 'Táblák';
+$wb['empty_datalog_txt'] = 'Naplófájloat töröl szinkronizálás után.';
+$wb['sync_datalog_external_txt'] = 'Külső helyre naplóz.';
+$wb['active_txt'] = 'Aktív';
+$wb['btn_save_txt'] = 'Mentés';
+$wb['btn_cancel_txt'] = 'Mégse';
+?>
+

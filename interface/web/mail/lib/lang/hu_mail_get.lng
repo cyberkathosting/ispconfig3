@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Szerver';
+$wb['type_txt'] = 'Típus';
+$wb['source_server_txt'] = 'Pop3/Imap Szerver';
+$wb['source_username_txt'] = 'Felhasználónév';
+$wb['source_password_txt'] = 'Jelszó';
+$wb['source_delete_txt'] = 'Letöltés után törli a leveleket';
+$wb['destination_txt'] = 'Címzett';
+$wb['active_txt'] = 'Aktív';
+$wb['limit_fetchmail_txt'] = 'Nincs több Legyügyjtés lehetőség.';
+$wb['source_server_error_isempty'] = 'Szerver üres.';
+$wb['source_username_error_isempty'] = 'Felhasználónév üres.';
+$wb['source_password_error_isempty'] = 'Jelszó üres.';
+$wb['destination_error_isemail'] = 'Nem választott címzettet.';
+?>
+

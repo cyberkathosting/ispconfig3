@@ -1,0 +1,40 @@
+<?php
+$wb['ssl_state_txt'] = 'Megye';
+$wb['ssl_locality_txt'] = 'Locality';
+$wb['ssl_organisation_txt'] = 'Cég';
+$wb['ssl_organisation_unit_txt'] = 'Osztály';
+$wb['ssl_country_txt'] = 'Ország';
+$wb['ssl_request_txt'] = 'SSL Kérés';
+$wb['ssl_cert_txt'] = 'SSL Tanusítvány';
+$wb['ssl_bundle_txt'] = 'SSL Bundle';
+$wb['ssl_action_txt'] = 'SSL Akció';
+$wb['server_id_txt'] = 'Szrver';
+$wb['domain_txt'] = 'Domain';
+$wb['type_txt'] = 'Típus';
+$wb['parent_domain_id_txt'] = 'Szülő weboldal';
+$wb['redirect_type_txt'] = 'Átirányítás tipusa';
+$wb['redirect_path_txt'] = 'Átirány útvonal';
+$wb['active_txt'] = 'Aktív';
+$wb['document_root_txt'] = 'Documentroot';
+$wb['system_user_txt'] = 'Linux Felhasználó';
+$wb['system_group_txt'] = 'Linux Csoport';
+$wb['ip_address_txt'] = 'IP-cím';
+$wb['vhost_type_txt'] = 'VHost Típus';
+$wb['hd_quota_txt'] = 'Tárhely Korlát';
+$wb['traffic_quota_txt'] = 'Forgalom Korlát';
+$wb['cgi_txt'] = 'CGI';
+$wb['ssi_txt'] = 'SSI';
+$wb['ssl_txt'] = 'SSL';
+$wb['suexec_txt'] = 'SuEXEC';
+$wb['php_txt'] = 'PHP';
+$wb['client_txt'] = 'Kliens';
+$wb['limit_web_domain_txt'] = 'Nincs több weboldal lehetőség.';
+$wb['limit_web_aliasdomain_txt'] = 'Nincs több aliasdomain lehetőség';
+$wb['limit_web_subdomain_txt'] = 'Nincs több aldomain lehetőség.';
+$wb['apache_directives_txt'] = 'Apache directivák';
+$wb['domain_error_empty'] = 'Domain üres';
+$wb['domain_error_unique'] = 'Domain már foglalt.';
+$wb['domain_error_regex'] = 'Domain név érvénytelen';
+$wb['host_txt'] = 'Állomás';
+?>
+

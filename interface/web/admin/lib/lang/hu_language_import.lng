@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Nyelvi fájlt Importál';
+$wb['language_import_txt'] = 'Válasszon nyelvi fájlt';
+$wb['btn_save_txt'] = 'A kiválasztott nyelv importálása';
+$wb['language_overwrite_txt'] = 'Létző fájlokat felülírja.';
+$wb['btn_cancel_txt'] = 'Vissza';
+?>
+

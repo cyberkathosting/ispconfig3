@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Adatbázis';
+$wb['active_txt'] = 'Aktív';
+$wb['remote_access_txt'] = 'Távoli hozzáférés';
+$wb['server_id_txt'] = 'Szerver';
+$wb['database_name_txt'] = 'Adatbázis neve';
+$wb['add_new_record_txt'] = 'Új adatbázis';
+?>
+

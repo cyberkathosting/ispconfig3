@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Szerver';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Felhasználó';
+$wb['email_txt'] = 'Email';
+$wb['priority_txt'] = 'Sorrend';
+$wb['active_txt'] = 'Aktív';
+$wb['limit_spamfilter_wblist_txt'] = 'Nincs több Fehér- Feketelista lehetőség.';
+?>
+
