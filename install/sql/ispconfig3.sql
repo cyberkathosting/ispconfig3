@@ -512,7 +512,7 @@ CREATE TABLE `mail_user` (
   `uid` int(11) unsigned NOT NULL default '5000',
   `gid` int(11) unsigned NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
-  `quota` int(11) NOT NULL default '0',
+  `quota` int(11) NOT NULL default '-1',
   `homedir` varchar(255) NOT NULL,
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_text` mediumtext NULL,
