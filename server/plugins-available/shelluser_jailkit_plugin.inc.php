@@ -85,14 +85,14 @@ class shelluser_jailkit_plugin {
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				
-				$command .= 'usermod -U '.escapeshellcmd($data['new']['username']);
-				exec($command);
-				
 				$this->_update_website_security_level();
-				
-				$this->_add_jailkit_user();
 			
 				$this->_setup_jailkit_chroot();
+				
+				$this->_add_jailkit_user();
+				
+				$command .= 'usermod -U '.escapeshellcmd($data['new']['username']);
+				exec($command);
 				
 				$this->_update_website_security_level();
 			}
