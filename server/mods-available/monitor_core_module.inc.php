@@ -702,7 +702,7 @@ class monitor_core_module {
          */
         $min = date('i');
         $hour = date('H');
-        if ($min != 0 && $hour != 23) return;
+        if !($min == 0 && $hour == 23) return;
 
         global $app;
         global $conf;
