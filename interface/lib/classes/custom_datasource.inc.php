@@ -69,15 +69,48 @@ class custom_datasource {
 		
 		$server_type = $field['name'];
 		
+		switch($server_type) {
+			case 'default_mailserver':
+				$field = 'mail_server';
+			break;
+			case 'default_webserver':
+				$field = 'web_server';
+			break;
+			case 'default_dnsserver':
+				$field = 'dns_server';
+			break;
+			case 'default_fileserver':
+				$field = 'file_server';
+			break;
+			case 'default_dbserver':
+				$field = 'db_server';
+			break;
+			case 'default_vserverserver':
+				$field = 'vserver_server';
+			break;
+			default:
+				$field = 'web_server';
+			break;
+		}
+		
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$sql = "SELECT $server_type as server_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
 			$client = $app->db->queryOneRecord($sql);
-			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['server_id'];
+			if($client['server_id'] > 0) {
+				//* Select the default server for the client
+				$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['server_id'];
+			} else {
+				//* Not able to find the clients defaults, use this as fallback and add a warning message to the log
+				$app->log('Unable to find default server for client in custom_datasource.inc.php',1);
+				$sql = "SELECT server_id,server_name FROM server WHERE $field = 1 ORDER BY server_name";
+			}
 		} else {
-			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
+			//* The logged in user is admin, so we show him all available servers of a specific type.
+			$sql = "SELECT server_id,server_name FROM server WHERE $field = 1 ORDER BY server_name";
 		}
+		
 		$records = $app->db->queryAllRecords($sql);
 		$records_new = array();
 		if(is_array($records)) {
