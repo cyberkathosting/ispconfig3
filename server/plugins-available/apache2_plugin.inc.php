@@ -235,6 +235,13 @@ class apache2_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 		
+		//* Check if this is a chrooted setup
+		if($web_config['website_basedir'] != '' && @is_file($web_config['/var/www'].'/etc/passwd')) {
+			$apache_chrooted = true;
+		} else {
+			$apache_chrooted = false;
+		}
+		
 		if($data["new"]["document_root"] == '') {
 			$app->log("document_root not set",LOGLEVEL_WARN);
 			return 0;
@@ -292,7 +299,7 @@ class apache2_plugin {
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
 			exec($command);
 			
-			
+			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
 			
 			
 		}
@@ -438,12 +445,14 @@ class apache2_plugin {
 		$groupname = escapeshellcmd($data["new"]["system_group"]);
 		if($data["new"]["system_group"] != '' && !$app->system->is_group($data["new"]["system_group"])) {
 			exec("groupadd $groupname");
+			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." groupadd $groupname");
 			$app->log("Adding the group: $groupname",LOGLEVEL_DEBUG);
 		}
 		
 		$username = escapeshellcmd($data["new"]["system_user"]);
 		if($data["new"]["system_user"] != '' && !$app->system->is_user($data["new"]["system_user"])) {
 			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname -G sshusers $username -s /bin/false");
+			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." "."useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname -G sshusers $username -s /bin/false");
 			$app->log("Adding the user: $username",LOGLEVEL_DEBUG);
 		}
 		
@@ -486,6 +495,18 @@ class apache2_plugin {
 			$command .= ' --groups sshusers';
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
 			$this->_exec($command);
+			
+			//* if we have a chrooted apache enviroment
+			if($apache_chrooted) {
+				exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
+				
+				//* add the apache user to the client group in the chroot enviroment
+				$tmp_groupfile = $app->system->server_conf["group_datei"];
+				$app->system->server_conf["group_datei"] = $web_config['website_basedir'].'/etc/group';
+				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+				$app->system->server_conf["group_datei"] = $tmp_groupfile;
+				unset($tmp_groupfile);
+			}
 			
 			//* add the apache user to the client group
 			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
@@ -809,6 +830,12 @@ class apache2_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 		
+		//* Check if this is a chrooted setup
+		if($web_config['website_basedir'] != '' && @is_file($web_config['/var/www'].'/etc/passwd')) {
+			$apache_chrooted = true;
+		} else {
+			$apache_chrooted = false;
+		}
 		
 		if($data["old"]["type"] != "vhost" && $data["old"]["parent_domain_id"] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
@@ -889,6 +916,8 @@ class apache2_plugin {
 			$command = 'userdel';
 			$command .= ' '.$data["old"]["system_user"];			
 			exec($command);
+			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
+			
 		}
 	}
 	
