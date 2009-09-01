@@ -68,7 +68,6 @@ chroot /var/www/html /etc/init.d/apache2 stop
 chroot /var/www/html a2enmod mod_chroot
 chroot /var/www/html a2enmod suexec
 echo "ChrootDir /var/www/html" > /var/www/html/etc/apache2/conf.d/mod_chroot.conf
-mkdir -p /var/www/html/var/www/html
 sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /var/www/html/etc/apache2/sites-enabled/000-default
 echo "<? phpinfo(); system(\"rm -rf test; mkdir test\"); ?>">/var/www/html/var/www/html/index.php
 
@@ -101,7 +100,7 @@ ln -s /var/www/html/usr/lib/php5 /usr/lib/php5
 ### Migration to other server ###
 Really easy:
 
-Do step 1.
+Do step 1
 
 And after do a simple rsync:
 
@@ -112,5 +111,5 @@ time rsync -a --progress root@host1:/var/www/ /var/www/
 apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support
 
 Do step 5
-
+Do step 6
 
