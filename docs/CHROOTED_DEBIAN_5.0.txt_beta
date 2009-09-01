@@ -65,7 +65,18 @@ chroot /var/www/html apt-get install apache2 apache2.2-common apache2-doc apache
 
 chroot /var/www/html /etc/init.d/apache2 stop
 
-# Is good idea to add nagios alarm for check every simbolic link is correct.
+chroot /var/www/html a2enmod mod_chroot
+chroot /var/www/html a2enmod suexec
+echo "ChrootDir /var/www/html" > /var/www/html/etc/apache2/conf.d/mod_chroot.conf
+mkdir -p /var/www/html/var/www/html
+sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /var/www/html/etc/apache2/sites-enabled/000-default
+echo "<? phpinfo(); system(\"rm -rf test; mkdir test\"); ?>">/var/www/html/var/www/html/index.php
+
+# Protect apache configuration. ONLY root can read it
+chown root:root /etc/apache2/ && chmod 700 /etc/apache2/
+
+
+5. # Is good idea to add nagios alarm for check every simbolic link is correct.
 ln -s /var/www/html/etc/apache2 /etc/apache2
 ln -s /var/www/html/etc/suphp /etc/suphp
 ln -s /var/www/html/var/run/apache2 /var/run/apache2
@@ -80,23 +91,26 @@ ln -s /var/www/html/var/lock/apache2 /var/lock/apache2
 ln -s /var/www/html/var/lib/apache2 /var/lib/apache2
 ln -s /var/www/html/usr/lib/php5 /usr/lib/php5
 
-a2enmod mod_chroot
-a2enmod suexec
-echo "ChrootDir /var/www/html" > /etc/apache2/conf.d/mod_chroot.conf
-mkdir -p /var/www/html/var/www/html
-sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /etc/apache2/sites-enabled/000-default
-echo "<? phpinfo(); system(\"rm -rf test; mkdir test\"); ?>">/var/www/html/var/www/html/index.php
-
-echo "fakeroot apt-get -qq update && fakeroot apt-get dist-upgrade">/var/www/html/sbin/Update
-chmod +x /var/www/html/sbin/Update
-printf "echo \" [+] Updating Real System ...\"\napt-get -qq update && apt-get dist-upgrade\necho \" [+] Updating Chroot System ...\"\nchroot /var/www/html/ Update ">/sbin/Update
-chmod +x /sbin/Update
-
-# Protect apache configuration. ONLY root can read it
-chown root:root /etc/apache2/ && chmod 700 /etc/apache2/
-
-5, Start apache
+6, Start apache
 /etc/init.d/apache2 restart
 
-6. Install ispconfig ........
+7. Install ispconfig ........
+
+
+
+### Migration to other server ###
+Really easy:
+
+Do step 1.
+
+And after do a simple rsync:
+
+screen
+time rsync -a --progress root@host1:/var/www/ /var/www/
+
+# Install some apache's dependencies
+apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support
+
+Do step 5
+
 
