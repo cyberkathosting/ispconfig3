@@ -1,0 +1,102 @@
+#!/bin/sh
+#
+# dxr@brutalsec.net
+#    01-09-2009
+#
+
+exit 1;
+
+1. If is not a new instalation, then
+
+BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
+BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
+BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
+BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
+
+
+2. Create partitions
+
+/var/www/ Chroot partition (ext3)
+/var/www/html/ Chroot system
+/var/www/html/var/log/apache2 Log partition (ext3)
+/var/www/html/var/www/html Webs partition (xfs)
+/var/www/html/tmp Temporal dir (tmpfs, optiones: )
+
+/dev/lvm_foobar1/chroot_lv      -> /var/www/ (ext3)
+/dev/lvm_foobar2/apachelogs_lv  -> /var/www/html/var/log/apache2 (ext3)
+/dev/lvm_foobar3/hosting_lv     -> /var/www/html/var/www/html (xfs)
+
+mkdir -p /var/www/html/var/log/apache2 /var/www/html/var/www/html
+mount /dev/lvm_foobar1/chroot_lv /var/www/
+mount /dev/lvm_foobar2/apachelogs_lv /var/www/html/var/log/apache2
+mount /dev/lvm_foobar3/hosting_lv /var/www/html/var/www/html
+
+3. Clear apache and php instalation
+# We never wont install apache or php in non-chroot system, if we have installed, we only have do a backup of confgigurations, uninstall, and check every simbolic link
+dpkg -l|egrep --color -i 'apache|php'
+
+4. Prepair chroot enviroment
+apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support
+time debootstrap --arch=amd64 lenny /var/www/html/ ftp://ftp.fr.debian.org/debian/
+
+echo "/proc         /var/www/html/proc               proc           defaults        0       0">>/etc/fstab
+echo "devpts      /var/www/html/dev/pts            devpts         defaults        0       0">>/etc/fstab
+
+mount -a
+
+echo "@sshusers       -       chroot  /var/www/html/">>/etc/security/limits.conf
+
+cp -r /etc/{passwd,group,apt}>/var/www/html/etc/
+
+chroot /var/www/html apt-get update
+chroot /var/www/html apt-get install fakeroot --force-yes -y
+chroot /var/www/html apt-get install locales
+chroot /var/www/html dpkg-reconfigure locales
+
+mv /usr/lib/apache2 /usr/lib/apache2_old
+mv /var/log/apache2 /var/log/apache2_old
+mv /var/lock/apache2 /var/lock/apache2_old
+mv /var/lib/apache2 /var/lib/apache2_old
+mv /usr/lib/php5 /usr/lib/php5_old
+mv /etc/apache2 /etc/apache2_old
+mv /etc/suphp /etc/suphp_old
+
+chroot /var/www/html apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-chroot php-apc
+
+chroot /var/www/html /etc/init.d/apache2 stop
+
+# Is good idea to add nagios alarm for check every simbolic link is correct.
+ln -s /var/www/html/etc/apache2 /etc/apache2
+ln -s /var/www/html/etc/suphp /etc/suphp
+ln -s /var/www/html/var/run/apache2 /var/run/apache2
+ln -s /var/www/html/var/run/apache2.pid /var/run/apache2.pid
+ln -s /var/www/html/usr/sbin/apache2ctl /usr/sbin/apache2ctl
+ln -s /var/www/html/usr/sbin/apache2 /usr/sbin/apache2
+ln -s /var/www/html/usr/lib/apache2 /usr/lib/apache2
+ln -s /var/www/html/usr/sbin/a2enmod /usr/sbin/a2enmod
+ln -s /var/www/html/usr/sbin/a2dismod /usr/sbin/a2dismod
+ln -s /var/www/html/var/log/apache2 /var/log/apache2
+ln -s /var/www/html/var/lock/apache2 /var/lock/apache2
+ln -s /var/www/html/var/lib/apache2 /var/lib/apache2
+ln -s /var/www/html/usr/lib/php5 /usr/lib/php5
+
+a2enmod mod_chroot
+a2enmod suexec
+echo "ChrootDir /var/www/html" > /etc/apache2/conf.d/mod_chroot.conf
+mkdir -p /var/www/html/var/www/html
+sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /etc/apache2/sites-enabled/000-default
+echo "<? phpinfo(); system(\"rm -rf test; mkdir test\"); ?>">/var/www/html/var/www/html/index.php
+
+echo "fakeroot apt-get -qq update && fakeroot apt-get dist-upgrade">/var/www/html/sbin/Update
+chmod +x /var/www/html/sbin/Update
+printf "echo \" [+] Updating Real System ...\"\napt-get -qq update && apt-get dist-upgrade\necho \" [+] Updating Chroot System ...\"\nchroot /var/www/html/ Update ">/sbin/Update
+chmod +x /sbin/Update
+
+# Protect apache configuration. ONLY root can read it
+chown root:root /etc/apache2/ && chmod 700 /etc/apache2/
+
+5, Start apache
+/etc/init.d/apache2 restart
+
+6. Install ispconfig ........
+
