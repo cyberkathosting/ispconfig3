@@ -1,11 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Serwer';
-$wb['server_name_txt'] = 'Nazwa';
-$wb['mail_server_txt'] = 'E-mail';
-$wb['web_server_txt'] = 'WWW';
-$wb['dns_server_txt'] = 'DNS';
-$wb['file_server_txt'] = 'Plik';
-$wb['db_server_txt'] = 'Baza danych';
-$wb['vserver_server_txt'] = 'Wirtualny serwer';
-$wb['add_new_record_txt'] = 'Dodaj nowy serwer';
+$wb["list_head_txt"] = 'Serwer';
+$wb["server_name_txt"] = 'Nazwa';
+$wb["mail_server_txt"] = 'E-mail';
+$wb["web_server_txt"] = 'WWW';
+$wb["dns_server_txt"] = 'DNS';
+$wb["file_server_txt"] = 'Plik';
+$wb["db_server_txt"] = 'Baza danych';
+$wb["vserver_server_txt"] = 'Wirtualny serwer';
+$wb["add_new_record_txt"] = 'Dodaj nowy serwer';
 ?>
+

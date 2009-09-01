@@ -1,8 +1,10 @@
 <?php
-$wb['passwort_txt'] = 'Hasło';
-$wb['password_strength_txt'] = 'Siła hasła';
-$wb['language_txt'] = 'Język';
-$wb['password_mismatch'] = 'Hasła nie pasują do siebie.';
-$wb['Form to edit the user password and language.'] = 'Formularz do edycji języka i hasła użytkownika.';
-$wb['Settings'] = 'Ustawienia';
+$wb["passwort_txt"] = 'Hasło';
+$wb["password_strength_txt"] = 'Siła hasła';
+$wb["language_txt"] = 'Język';
+$wb["password_mismatch"] = 'Hasła nie pasują do siebie.';
+$wb["Form to edit the user password and language."] = 'Formularz do edycji języka i hasła użytkownika.';
+$wb["Settings"] = 'Ustawienia';
 ?>
+
+

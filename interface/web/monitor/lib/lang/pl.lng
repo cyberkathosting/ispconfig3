@@ -1,9 +1,9 @@
 <?php
-$wb['Server online since'] = 'Serwer online do tej pory';
-$wb['Users online'] = 'Użytkowników Online';
-$wb['System load 1 minute'] = 'Obciążenie systemu przez ostatnią minute';
-$wb['System load 5 minutes'] = 'Obciążenie systemu przez ostatnie 5 minut';
-$wb['System load 15 minutes'] = 'Obciążenie systemu przez ostatnie 15 minut';
+$wb["Server online since"] = "Serwer online do tej pory";
+$wb["Users online"] = "Użytkowników Online";
+$wb["System load 1 minute"] = "Obciążenie systemu przez ostatnią minute";
+$wb["System load 5 minutes"] = "Obciążenie systemu przez ostatnie 5 minut";
+$wb["System load 15 minutes"] = "Obciążenie systemu przez ostatnie 15 minut";
 $wb['Server Load'] = 'Serwer włączony';
 $wb['Disk usage'] = 'Użycie dysku';
 $wb['Memory usage'] = 'Użycie pamięci';
@@ -22,9 +22,9 @@ $wb['Server to Monitor'] = 'Serwer do monitorowania';
 $wb['Logfiles'] = 'Pliki logów';
 $wb['Status of services'] = 'Stan serwisów';
 $wb['No Refresh'] = 'Nie odświeżaj';
-$wb['minutes'] = 'minuty';
-$wb['Show Overview'] = 'Pokaż wszystko';
-$wb['System State (All Servers)'] = 'Status systemu (Wszystkie serwery)';
+$wb["minutes"] = "minuty";
+$wb["Show Overview"] = "Pokaż wszystko";
+$wb["System State (All Servers)"] = "Status systemu (Wszystkie serwery)";
 $wb['Hardware-Information'] = 'Informacje o sprzęcie';
 $wb['Show CPU info'] = 'Pokaż informacje o procesorze';
 $wb['Server State'] = 'Status serwera';
@@ -117,13 +117,13 @@ $wb['monitor_serverstate_updatesneeded_txt'] = 'Jeden lub więcej komponentów w
 $wb['monitor_serverstate_updatesunknown_txt'] = 'Aktualizacja systemu:???';
 $wb['monitor_services_online_txt'] = 'Online';
 $wb['monitor_services_offline_txt'] = 'Offline';
-$wb['monitor_services_web_txt'] = 'Web-Server:';
-$wb['monitor_services_ftp_txt'] = 'FTP-Server:';
-$wb['monitor_services_smtp_txt'] = 'SMTP-Server:';
-$wb['monitor_services_pop_txt'] = 'POP3-Server:';
-$wb['monitor_services_imap_txt'] = 'IMAP-Server:';
-$wb['monitor_services_mydns_txt'] = 'myDNS-Server:';
-$wb['monitor_services_mysql_txt'] = 'mySQL-Server:';
+$wb['monitor_services_web_txt'] = 'Web-Serwer:';
+$wb['monitor_services_ftp_txt'] = 'FTP-Serwer:';
+$wb['monitor_services_smtp_txt'] = 'SMTP-Serwer:';
+$wb['monitor_services_pop_txt'] = 'POP3-Serwer:';
+$wb['monitor_services_imap_txt'] = 'IMAP-Serwer:';
+$wb['monitor_services_mydns_txt'] = 'myDNS-Serwer:';
+$wb['monitor_services_mysql_txt'] = 'mySQL-Serwer:';
 $wb['monitor_settings_datafromdate_txt'] = 'Dane z: ';
 $wb['monitor_settings_datetimeformat_txt'] = 'Y-m-d H:i';
 $wb['monitor_settings_refreshsq_txt'] = 'Odśwież sekwencje:';
@@ -135,3 +135,5 @@ $wb['monitor_title_raidstate_txt'] = 'Status RAID';
 $wb['monitor_title_rkhunterlog_txt'] = 'Log RKHunter';
 $wb['monitor_updates_nosupport_txt'] = 'Twoja dystrybucja systemu nie obsługuje monitorowania';
 ?>
+
+

@@ -2,7 +2,7 @@
 $wb['jailkit_chroot_home_txt'] = 'Adres root-a Jailkit';
 $wb['jailkit_chroot_app_sections_txt'] = 'Sekcje aplikacji root-a Jailkit';
 $wb['jailkit_chroot_app_programs_txt'] = 'Ścieżki aplikacji root-a Jailkit';
-$wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applications';
+$wb['jailkit_chroot_cron_programs_txt'] = 'Aplikacje cron root-a Jailkit';
 $wb['website_path_txt'] = 'Adres strony WWW';
 $wb['website_symlinks_txt'] = 'Symulowany link strony WWW';
 $wb['website_basedir_txt'] = 'Ścieżka bazowa strony WWW';
@@ -39,11 +39,11 @@ $wb['netmask_error_wrong'] = 'Nieprawidłowy format maski.';
 $wb['gateway_error_wrong'] = 'Nieprawidłowy format bramki.';
 $wb['hostname_error_empty'] = 'Nazwa jest pusta.';
 $wb['nameservers_error_empty'] = 'Nazwa serwera jest pusta.';
-$wb['config_dir_txt'] = 'Config directory';
-$wb['init_script_txt'] = 'Cron init script name';
-$wb['crontab_dir_txt'] = 'Path for individual crontabs';
-$wb['wget_txt'] = 'Path to wget program';
-$wb['web_user_txt'] = 'Apache user';
-$wb['web_group_txt'] = 'Apache group';
-$wb['security_level_txt'] = 'Security level';
+$wb['config_dir_txt'] = 'Katalog konfiguracji';
+$wb['init_script_txt'] = 'Nazwa skryptu inicjującego Crona';
+$wb['crontab_dir_txt'] = 'Ścieżka do indywidualnych crontabs';
+$wb['wget_txt'] = 'Ścieżka do wget';
+$wb['web_user_txt'] = 'Użytkownik Apache';
+$wb['web_group_txt'] = 'Grupa Apache';
 ?>
+

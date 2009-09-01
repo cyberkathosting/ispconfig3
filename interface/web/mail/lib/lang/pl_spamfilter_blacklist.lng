@@ -1,9 +1,10 @@
 <?php
-$wb['server_id_txt'] = 'Serwer';
-$wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'Użytkownik';
-$wb['email_txt'] = 'E-mail';
-$wb['priority_txt'] = 'Priorytet';
-$wb['active_txt'] = 'Aktywny';
-$wb['limit_spamfilter_wblist_txt'] = 'Maksymalna ilość wpisów do białej i czarnej listy dla Twojego konta została przekroczona.';
+$wb["server_id_txt"] = 'Serwer';
+$wb["wb_txt"] = 'wb';
+$wb["rid_txt"] = 'Użytkownik';
+$wb["email_txt"] = 'E-mail';
+$wb["priority_txt"] = 'Priorytet';
+$wb["active_txt"] = 'Aktywny';
+$wb["limit_spamfilter_wblist_txt"] = 'Maksymalna ilość wpisów do białej i czarnej listy dla Twojego konta została przekroczona.';
 ?>
+

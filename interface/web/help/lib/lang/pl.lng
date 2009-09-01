@@ -1,7 +1,8 @@
 <?php
-$wb['Support Message'] = 'Wiadomość pomocy';
+$wb['Support Message'] = 'Wyślij wiadomość';
 $wb['Message'] = 'Wiadomość';
 $wb['Send message'] = 'Wyślij wiadomość';
 $wb['View messages'] = 'Pokaż wiadomość';
 $wb['Support'] = 'Pomoc';
 ?>
+

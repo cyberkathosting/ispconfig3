@@ -1,15 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Serwer';
-$wb['zone_txt'] = 'Strefa';
-$wb['name_txt'] = 'Nazwa';
-$wb['type_txt'] = 'typ';
-$wb['data_txt'] = 'Standardowa nazwa serwera';
-$wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Aktywny';
-$wb['limit_dns_record_txt'] = 'Maksymalna ilość wpisów DNS dla Twojego konta została przekroczona.';
-$wb['no_zone_perm'] = 'Nie masz uprawnień, aby dodać nowy wpis do tej strefy DNS.';
-$wb['name_error_empty'] = 'Nazwa jest pusta.';
-$wb['name_error_regex'] = 'Nazwa ma zły format.';
-$wb['data_error_empty'] = 'Standardowa nazwa serwera jest pusta';
-$wb['data_error_regex'] = 'Standardowa nazwa serwera ma zły format';
+$wb["server_id_txt"] = 'Serwer';
+$wb["zone_txt"] = 'Strefa';
+$wb["name_txt"] = 'Nazwa';
+$wb["type_txt"] = 'typ';
+$wb["data_txt"] = 'Standardowa nazwa serwera';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktywny';
+$wb["limit_dns_record_txt"] = 'Maksymalna ilość wpisów DNS dla Twojego konta została przekroczona.';
+$wb["no_zone_perm"] = 'Nie masz uprawnień, aby dodać nowy wpis do tej strefy DNS.';
+$wb["name_error_empty"] = 'Nazwa jest pusta.';
+$wb["name_error_regex"] = 'Nazwa ma zły format.';
+$wb["data_error_empty"] = 'Standardowa nazwa serwera jest pusta';
+$wb["data_error_regex"] = 'Standardowa nazwa serwera ma zły format';
 ?>
+

@@ -1,15 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'Responsible Person';
-$wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['data_error_empty'] = 'Responsible person field empty';
-$wb['data_error_regex'] = 'Responsible person field format invalid';
+$wb["server_id_txt"] = 'Serwer';
+$wb["zone_txt"] = 'Strefa';
+$wb["name_txt"] = 'Nazwa serwera';
+$wb["type_txt"] = 'typ';
+$wb["data_txt"] = 'Osoba odpowiedzialna';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktywny';
+$wb["limit_dns_record_txt"] = 'Maksymalna ilość wpisów DNS dla Twojego konta została przekroczona.';
+$wb["no_zone_perm"] = 'Nie masz uprawnień, aby dodać nowy wpis do tej strefy DNS.';
+$wb["name_error_empty"] = 'Nazwa serwera jest pusta.';
+$wb["name_error_regex"] = 'Nazwa serwera ma zły format.';
+$wb["data_error_empty"] = 'Musisz podać osobę odpowiedzialna';
+$wb["data_error_regex"] = 'Nazwa osoby odpowiedzialnej ma niepoprawny format';
 ?>
+

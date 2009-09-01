@@ -20,6 +20,7 @@ $wb['Email filter'] = 'Filtr E-mail';
 $wb['Email Whitelist'] = 'Biała lista E-mail';
 $wb['Whitelist'] = 'Biała lista';
 $wb['Spamfilter blacklist'] = 'Filtr spamu czarnej listy';
+$wb['Blacklist'] = 'Czarna lista';
 $wb['Spamfilter Config'] = 'konfiguracja filtrów spamu';
 $wb['Server'] = 'Serwer';
 $wb['Spamfilter policy'] = 'Polityka filtrów spamu';
@@ -30,11 +31,13 @@ $wb['Other'] = 'Inny';
 $wb['Spamfilter users'] = 'Filtr spamu użytkowników';
 $wb['Users'] = 'Użytkownicy';
 $wb['Spamfilter Whitelist'] = 'Filtr spamu białej listy';
+$wb['Whitelist'] = 'Biała lista';
 $wb['Email'] = 'E-mail';
 $wb['Email Mailbox'] = 'Skrzynka pocztowa E-mail';
 $wb['Email Accounts'] = 'Konta E-mail';
 $wb['User / Domain'] = 'Użytkownik / Domena';
 $wb['Server Settings'] = 'Ustawienia serwera';
+$wb['Spamfilter'] = 'Filtr spamu';
 $wb['Fetchmail'] = 'Fetchmail';
 $wb['Mailbox traffic'] = 'Ruch w skrzynce pocztowej';
 $wb['Statistics'] = 'Statystyki';
@@ -42,4 +45,6 @@ $wb['Postfix Whitelist'] = 'Popraw białą listę';
 $wb['Postfix Blacklist'] = 'Popraw czarną listę';
 $wb['Content Filter'] = 'Zawartość filtru';
 $wb['Global Filters'] = 'Globalne filtry';
+
 ?>
+
