@@ -69,11 +69,11 @@ chroot /var/www/html a2enmod mod_chroot
 chroot /var/www/html a2enmod suexec
 echo "ChrootDir /var/www/html" > /var/www/html/etc/apache2/conf.d/mod_chroot.conf
 sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /var/www/html/etc/apache2/sites-enabled/000-default
-echo "<? phpinfo(); system(\"rm -rf test; mkdir test\"); ?>">/var/www/html/var/www/html/index.php
+sed -i -e 's#x-httpd-php=php:/usr/bin/php-cgi#x-httpd-php=php:/usr/bin/php-cgi\nx-httpd-suphp=php:/usr/bin/php-cgi\nx-httpd-php=php:/usr/bin/php-cgi#' /var/www/html/etc/suphp/suphp.conf
 
 # Protect apache configuration. ONLY root can read it
 chown root:root /etc/apache2/ && chmod 700 /etc/apache2/
-
+chmod 711 /var/www/html/etc/php5/
 
 5. # Is good idea to add nagios alarm for check every simbolic link is correct.
 ln -s /var/www/html/etc/apache2 /etc/apache2
@@ -85,6 +85,8 @@ ln -s /var/www/html/usr/sbin/apache2 /usr/sbin/apache2
 ln -s /var/www/html/usr/lib/apache2 /usr/lib/apache2
 ln -s /var/www/html/usr/sbin/a2enmod /usr/sbin/a2enmod
 ln -s /var/www/html/usr/sbin/a2dismod /usr/sbin/a2dismod
+ln -s /var/www/html/usr/sbin/a2ensite /usr/sbin/a2ensite
+ln -s /var/www/html/usr/sbin/a2dissite /usr/sbin/a2dissite
 ln -s /var/www/html/var/log/apache2 /var/log/apache2
 ln -s /var/www/html/var/lock/apache2 /var/lock/apache2
 ln -s /var/www/html/var/lib/apache2 /var/lib/apache2
