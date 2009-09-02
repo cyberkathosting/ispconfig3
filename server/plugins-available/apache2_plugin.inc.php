@@ -236,7 +236,7 @@ class apache2_plugin {
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 		
 		//* Check if this is a chrooted setup
-		if($web_config['website_basedir'] != '' && @is_file($web_config['/var/www'].'/etc/passwd')) {
+		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
 			$apache_chrooted = true;
 			$app->log("Info: Apache is chrooted.",LOGLEVEL_DEBUG);
 		} else {
