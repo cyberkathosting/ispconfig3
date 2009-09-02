@@ -238,6 +238,7 @@ class apache2_plugin {
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['/var/www'].'/etc/passwd')) {
 			$apache_chrooted = true;
+			$app->log("Info: Apache is chrooted.",LOGLEVEL_DEBUG);
 		} else {
 			$apache_chrooted = false;
 		}
@@ -299,7 +300,7 @@ class apache2_plugin {
 			$command .= ' '.escapeshellcmd($data["new"]["system_user"]);
 			exec($command);
 			
-			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
+			if($apache_chrooted) $this->_exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
 			
 			
 		}
@@ -445,14 +446,14 @@ class apache2_plugin {
 		$groupname = escapeshellcmd($data["new"]["system_group"]);
 		if($data["new"]["system_group"] != '' && !$app->system->is_group($data["new"]["system_group"])) {
 			exec("groupadd $groupname");
-			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." groupadd $groupname");
+			if($apache_chrooted) $this->_exec("chroot ".escapeshellcmd($web_config['website_basedir'])." groupadd $groupname");
 			$app->log("Adding the group: $groupname",LOGLEVEL_DEBUG);
 		}
 		
 		$username = escapeshellcmd($data["new"]["system_user"]);
 		if($data["new"]["system_user"] != '' && !$app->system->is_user($data["new"]["system_user"])) {
 			exec("useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname -G sshusers $username -s /bin/false");
-			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." "."useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname -G sshusers $username -s /bin/false");
+			if($apache_chrooted) $this->_exec("chroot ".escapeshellcmd($web_config['website_basedir'])." "."useradd -d ".escapeshellcmd($data["new"]["document_root"])." -g $groupname -G sshusers $username -s /bin/false");
 			$app->log("Adding the user: $username",LOGLEVEL_DEBUG);
 		}
 		
@@ -498,7 +499,7 @@ class apache2_plugin {
 			
 			//* if we have a chrooted apache enviroment
 			if($apache_chrooted) {
-				exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
+				$this->_exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
 				
 				//* add the apache user to the client group in the chroot enviroment
 				$tmp_groupfile = $app->system->server_conf["group_datei"];
@@ -814,9 +815,12 @@ class apache2_plugin {
 		}
 		
 		
-		
-		// request a httpd reload when all records have been processed
-		$app->services->restartServiceDelayed('httpd','reload');
+		if($apache_chrooted) {
+			$app->services->restartServiceDelayed('httpd','restart');
+		} else {
+			// request a httpd reload when all records have been processed
+			$app->services->restartServiceDelayed('httpd','reload');
+		}
 		
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';
@@ -916,7 +920,7 @@ class apache2_plugin {
 			$command = 'userdel';
 			$command .= ' '.$data["old"]["system_user"];			
 			exec($command);
-			if($apache_chrooted) exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
+			if($apache_chrooted) $this->_exec("chroot ".escapeshellcmd($web_config['website_basedir'])." ".$command);
 			
 		}
 	}
