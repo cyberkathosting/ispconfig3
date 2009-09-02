@@ -26,6 +26,12 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
 OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+--UPDATED 08.2009--
+Full SOAP support for ISPConfig 3.1.4 b
+Updated by Arkadiusz Roch & Artur Edelman
+Copyright (c) Tri-Plex technology
+
 */
 
 /**
@@ -61,7 +67,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class remoting_lib {
-
+	
         /**
         * Definition of the database atble (array)
         * @var tableDef
@@ -600,7 +606,23 @@ class remoting_lib {
 			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
             return $app->db->queryOneRecord($sql);
 		}
-		
+
+		function dodaj_usera($params,$insert_id){
+			global $app,$sql1;
+			$username = $params["username"];
+			$password = $params["password"];
+			$modules = 'mail,sites,dns,tools';
+			$startmodule = 'mail';
+			$usertheme = $params["usertheme"];
+			$type = 'user';
+			$active = 1;
+			$language = $params["language"];
+			$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('$username','','$insert_id')", 'groupid');
+			$groups = $groupid;
+			$sql1 = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
+			VALUES ('$username',md5('$password'),'$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,$insert_id)";
+			$app->db->query($sql1);
+		}
 
         function datalogSave($action,$primary_id, $record_old, $record_new) {
                 global $app,$conf;

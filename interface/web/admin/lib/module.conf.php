@@ -138,6 +138,22 @@ $module['nav'][] = array(	'title'	=> 'Language Editor',
 // cleanup
 unset($items);
 
+$items[] = array( 'title' 	=> 'Add user',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/remote_user_edit.php');
+
+$items[] = array( 'title' 	=> 'Edit user',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/remote_user_list.php');
+
+				  
+$module['nav'][] = array(	'title'	=> 'Remote Users',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+// cleanup
+unset($items);
+
 // Getting the admin options from other modules
 $modules = explode(',', $_SESSION['s']['user']['modules']);
 if(is_array($modules)) {
