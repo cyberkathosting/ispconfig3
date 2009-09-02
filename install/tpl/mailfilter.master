@@ -10,6 +10,17 @@ HOST=tolower("$4")
 SENDER="$5"
 DEFAULT="{dist_postfix_vmail_mailbox_base}/$HOST/$USER/."
 
+# Workaround for broken tolower function in some current fedora releases
+
+if(!$USER)
+{
+  USER=$3
+}
+if(!$HOST)
+{
+  HOST=$4
+}
+
 if ( "$EXTENSION" ne "" )
 {
   DELIMITER="+"
