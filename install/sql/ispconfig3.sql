@@ -572,6 +572,11 @@ CREATE TABLE `remote_session` (
 
 CREATE TABLE `remote_user` (
   `remote_userid` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
   `remote_username` varchar(64) NOT NULL,
   `remote_password` varchar(64) NOT NULL,
   `remote_functions` text NOT NULL,
