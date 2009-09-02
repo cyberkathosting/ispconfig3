@@ -254,7 +254,7 @@ class page_action extends tform_actions {
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
 		
 		// get the ID of the client
-		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = $client_group_id");
 			$client_id = intval($client["client_id"]);
@@ -342,7 +342,7 @@ class page_action extends tform_actions {
 			$client_id = intval($client["client_id"]);
 		}
 		
-		if($_SESSION["s"]["user"]["typ"] == 'admin' &&  isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["client_group_id"]) {
+		if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) &&  isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["client_group_id"]) {
 			// Set the values for document_root, system_user and system_group
 			$system_user = 'web'.$this->id;
 			$system_group = 'client'.$client_id;
