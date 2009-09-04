@@ -94,7 +94,7 @@ $form["tabs"]['mailuser'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'quota_error_isint'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^(-1)|([1-9][0-9]*)$/',
+														'regex' => '/^([0-9]*)$/',
 														'errmsg'=> 'quota_error_value'),
 									),
 			'default'	=> '-1',
