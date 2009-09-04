@@ -105,7 +105,7 @@ class page_action extends tform_actions {
 		unset($tmp_user);
 		
 		// Convert quota from Bytes to MB
-		$app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024 / 1024);
+		if($this->dataRecord["quota"] != -1) $app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024 / 1024);
 		
 		parent::onShowEnd();
 	}
@@ -169,7 +169,7 @@ class page_action extends tform_actions {
 			unset($this->dataRecord["email_domain"]);
 		
 			// Convert quota from MB to Bytes
-			$this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024 * 1024;
+			if($this->dataRecord["quota"] != -1) $this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024 * 1024;
 		
 			// setting Maildir, Homedir, UID and GID
 			$app->uses('getconf');
