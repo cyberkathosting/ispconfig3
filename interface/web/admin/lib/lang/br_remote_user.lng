@@ -1,0 +1,9 @@
+<?php
+$wb['username_txt'] = 'Nome do usuário:';
+$wb['password_txt'] = 'Senha:';
+$wb['function_txt'] = 'Funções:';
+$wb['username_error_unique'] = 'O nome de usuário deve ser único';
+$wb['username_error_empty'] = 'O nome de usuário não pode estar em branco';
+$wb['password_error_empty'] = 'A senha não pode estar em branco';
+$wb['password_strength_txt'] = 'Segurança da senha:';
+?>
