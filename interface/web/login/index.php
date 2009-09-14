@@ -68,6 +68,7 @@ class login_index {
 	        $username = $app->db->quote($_POST['username']);
 	        $passwort = $app->db->quote($_POST['passwort']);
 			$loginAs  = false;
+			$time = time();
 	
 	        if($username != '' && $passwort != '' && $error == '') {
 				/*
