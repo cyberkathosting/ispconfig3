@@ -31,8 +31,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../lib/config.inc.php');
 require_once('../lib/app.inc.php');
 
+/*
 $module = $_REQUEST["s_mod"];
 $page = $_REQUEST["s_pg"];
+*/
+
+$module = 'login';
+$page = 'index';
 
 if(!preg_match("/^[a-z]{2,20}$/i", $module)) die('module name contains unallowed chars.');
 if(!preg_match("/^[a-z]{2,20}$/i", $page)) die('page name contains unallowed chars.');
