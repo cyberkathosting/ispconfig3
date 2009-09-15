@@ -102,8 +102,8 @@ class postfix_server_plugin {
 			exec("postconf -e 'relayhost ='");
 		}
 		
-		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config["mailbox_size_limit"])."'");
-		exec("postconf -e 'message_size_limit = ".intval($mail_config["message_size_limit"])."'");
+		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config["mailbox_size_limit"]*1024*1024)."'");
+		exec("postconf -e 'message_size_limit = ".intval($mail_config["message_size_limit"]*1024*1024)."'");
 		
 	}
 
