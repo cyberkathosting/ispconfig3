@@ -807,7 +807,7 @@ class installer_base {
 		
 		$content = rf("tpl/apache_ispconfig.conf.master");
 		$records = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
-		if(count($records) > 0) {
+		if(is_array($records) && count($records) > 0) {
 			foreach($records as $rec) {
 				$content .= "NameVirtualHost ".$rec["ip_address"].":80\n";
 				$content .= "NameVirtualHost ".$rec["ip_address"].":443\n";
