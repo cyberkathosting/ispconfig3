@@ -118,6 +118,8 @@ class remoting {
 	//* Get mail domain details
 	public function mail_domain_get($session_id, $domain_id)
     {
+		global $app;
+		
 		if(!$this->checkPerm($session_id, 'mail_domain_get')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -159,6 +161,22 @@ class remoting {
 		$affected_rows = $this->deleteQuery('../mail/form/mail_domain.tform.php',$domain_id);
 		return $affected_rows;
 	}
+	
+	//* Get mail user details
+	public function mail_user_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_user_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	
 	//* dodanie uzytkownika email
 	public function mail_user_add($session_id,$domain_id, $client_id, $params){
 		if (!$this->checkPerm($session_id, 'mail_user_add')){
@@ -194,6 +212,19 @@ class remoting {
 		return $affected_rows;
 	}
 
+	//* Get alias details
+	public function mail_alias_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_alias_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_alias.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
 	
 	//* aliasy email
 	public function mail_alias_add($session_id,$domain_id, $client_id, $params)
@@ -208,461 +239,600 @@ class remoting {
 	}
 
 
-        public function mail_alias_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_alias_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_alias.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_alias_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_alias_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_alias.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 	public function mail_alias_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_alias_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_alias.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
-
-	 //* przekierowania email
-        public function mail_forward_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_forward_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_forward.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
-
-
-        public function mail_forward_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_forward_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_forward.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	{
+			if (!$this->checkPerm($session_id, 'mail_alias_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_alias.tform.php',$domain_id);
+			return $affected_rows;
+	}
 	
+	//* Get mail forwarding details
+	public function mail_forward_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_forward_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_forward.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+ 	//* przekierowania email
+	public function mail_forward_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_forward_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_forward.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
+
+
+	public function mail_forward_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_forward_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_forward.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
+
 
 	public function mail_forward_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_forward_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_forward.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
+	{
+			if (!$this->checkPerm($session_id, 'mail_forward_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_forward.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get catchall details
+	public function mail_catchall_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_catchall_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_domain_catchall.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
 
 	//* catchall e-mail
  	public function mail_catchall_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_catchall_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_domain_catchall.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	{
+			if (!$this->checkPerm($session_id, 'mail_catchall_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_domain_catchall.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
+	public function mail_catchall_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_catchall_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_domain_catchall.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
-        public function mail_catchall_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_catchall_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_domain_catchall.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
-
-
-        public function mail_catchall_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_catchall_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_domain_catchall.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
+	public function mail_catchall_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_catchall_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_domain_catchall.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get transport details
+	public function mail_transport_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_transport_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_transport.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
 	
 	//* przeniesienia e-mail
-        public function mail_transport_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_transport_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_transport.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	public function mail_transport_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_transport_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_transport.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_transport_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_transport_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_transport.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_transport_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_transport_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_transport.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_transport_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_transport_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_transport.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
-
-	 //* biała lista e-mail
-        public function mail_spamfilter_whitelist_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/spamfilter_whitelist.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
-
-
-        public function mail_spamfilter_whitelist_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/spamfilter_whitelist.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
-
-
-        public function mail_spamfilter_whitelist_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/spamfilter_whitelist.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
-
+	public function mail_transport_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_transport_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_transport.tform.php',$domain_id);
+			return $affected_rows;
+	}
 	
-	 //* czarna lista e-mail
-        public function mail_spamfilter_blacklist_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/spamfilter_blacklist.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	//* Get spamfilter whitelist details
+	public function mail_spamfilter_whitelist_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/spamfilter_whitelist.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+ 	//* biała lista e-mail
+	public function mail_spamfilter_whitelist_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/spamfilter_whitelist.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_spamfilter_blacklist_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/spamfilter_blacklist.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_spamfilter_whitelist_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/spamfilter_whitelist.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_spamfilter_blacklist_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/spamfilter_blacklist.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
+	public function mail_spamfilter_whitelist_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/spamfilter_whitelist.tform.php',$domain_id);
+			return $affected_rows;
+	}
 	
-         //* filtr spamu użytkowników e-mail
-        public function mail_spamfilter_user_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_user_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/spamfilter_users.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
-
-
-        public function mail_spamfilter_user_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_user_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/spamfilter_users.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
-
-
-        public function mail_spamfilter_user_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_spamfilter_user_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/spamfilter_users.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
-
+	//* Get spamfilter blacklist details
+	public function mail_spamfilter_blacklist_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/spamfilter_blacklist.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
 	
-	 //* polityki filtrów spamu e-mail
-        public function mail_policy_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_policy_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/spamfilter_policy.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+ 	//* czarna lista e-mail
+	public function mail_spamfilter_blacklist_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/spamfilter_blacklist.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_policy_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_policy_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/spamfilter_policy.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_spamfilter_blacklist_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/spamfilter_blacklist.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_policy_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_policy_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/spamfilter_policy.tform.php',$domain_id);
-                return $affected_rows;
-        }
+	public function mail_spamfilter_blacklist_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/spamfilter_blacklist.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get spamfilter user details
+	public function mail_spamfilter_user_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_spamfilter_user_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/spamfilter_users.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	//* filtr spamu użytkowników e-mail
+	public function mail_spamfilter_user_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_user_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/spamfilter_users.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-         //* fetchmail
-        public function mail_fetchmail_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_fetchmail_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_get.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	public function mail_spamfilter_user_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_user_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/spamfilter_users.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_fetchmail_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_fetchmail_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_get.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_spamfilter_user_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_spamfilter_user_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/spamfilter_users.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get policy details
+	public function mail_policy_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_policy_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/spamfilter_policy.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+ 	//* polityki filtrów spamu e-mail
+	public function mail_policy_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_policy_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/spamfilter_policy.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_fetchmail_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_fetchmail_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_get.tform.php',$domain_id);
-                return $affected_rows;
-        }
+	public function mail_policy_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_policy_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/spamfilter_policy.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-         //* wpisy białej listy
-        public function mail_whitelist_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_whitelist_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_whitelist.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	public function mail_policy_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_policy_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/spamfilter_policy.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get fetchmail details
+	public function mail_fetchmail_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_fetchmail_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_get.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	 //* fetchmail
+	public function mail_fetchmail_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_fetchmail_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_get.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_whitelist_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_whitelist_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_whitelist.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_fetchmail_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_fetchmail_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_get.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_whitelist_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_whitelist_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_whitelist.tform.php',$domain_id);
-                return $affected_rows;
-        }
-
-
+	public function mail_fetchmail_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_fetchmail_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_get.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get whitelist details
+	public function mail_whitelist_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_whitelist_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_whitelist.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
 	//* wpisy białej listy
-        public function mail_blacklist_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_blacklist_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_blacklist.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	public function mail_whitelist_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_whitelist_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_whitelist.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_blacklist_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_blacklist_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_blacklist.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_whitelist_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_whitelist_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_whitelist.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_blacklist_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_blacklist_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_blacklist.tform.php',$domain_id);
-                return $affected_rows;
-        }
+	public function mail_whitelist_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_whitelist_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_whitelist.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get Blacklist details
+	public function mail_blacklist_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_blacklist_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_blacklist.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* wpisy białej listy
+	public function mail_blacklist_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_blacklist_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_blacklist.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        //* wpisy filtrow e-mail
-        public function mail_filter_add($session_id,$domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_filter_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->insertQuery('../mail/form/mail_content_filter.tform.php', $domain_id,  $client_id, $params);
-                return $affected_rows;
-        }
+	public function mail_blacklist_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_blacklist_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_blacklist.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_filter_update($session_id, $domain_id, $client_id, $params)
-        {
-                if (!$this->checkPerm($session_id, 'mail_filter_update'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->updateQuery('../mail/form/mail_content_filter.tform.php', $client_id, $domain_id, $params);
-                return $affected_rows;
-        }
+	public function mail_blacklist_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_blacklist_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_blacklist.tform.php',$domain_id);
+			return $affected_rows;
+	}
+	
+	//* Get filter details
+	public function mail_filter_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_filter_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_content_filter.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	//* wpisy filtrow e-mail
+	public function mail_filter_add($session_id,$domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_filter_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->insertQuery('../mail/form/mail_content_filter.tform.php', $domain_id,  $client_id, $params);
+			return $affected_rows;
+	}
 
 
-        public function mail_filter_delete($session_id,$domain_id)
-        {
-                if (!$this->checkPerm($session_id, 'mail_filter_delete'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-                $affected_rows = $this->deleteQuery('../mail/form/mail_content_filter.tform.php',$domain_id);
-                return $affected_rows;
-        }
+	public function mail_filter_update($session_id, $domain_id, $client_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_filter_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_content_filter.tform.php', $client_id, $domain_id, $params);
+			return $affected_rows;
+	}
+
+
+	public function mail_filter_delete($session_id,$domain_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_filter_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_content_filter.tform.php',$domain_id);
+			return $affected_rows;
+	}
 
 
 
 
-	/* 
-	 * 
-	 * 
-	 * 
-	 * 	 * klient add :)
-	 * 
-	 * 
-	 */
+/* 
+ * 
+ * 
+ * 
+ * 	 * klient add :)
+ * 
+ * 
+ */
 
-		public function client_add($session_id,$domain_id, $client_id, $params)
-        {
-        	if (!$this->checkPerm($session_id, 'client_add'))
-                {
-                        $this->server->fault('permission_denied','You do not have the permissions to access this function.');
-                        return false;
-                }
-            $affected_rows = $this->klientadd('../client/form/client.tform.php',$domain_id, $client_id, $params);
-            return $affected_rows;  
-                      
-        }
-  
+	public function client_add($session_id,$domain_id, $client_id, $params)
+	{
+		if (!$this->checkPerm($session_id, 'client_add'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+		$affected_rows = $this->klientadd('../client/form/client.tform.php',$domain_id, $client_id, $params);
+		return $affected_rows;  
+				  
+	}
+
 
         
 
@@ -672,7 +842,7 @@ class remoting {
 	
 
 
-private function klientadd($formdef_file, $client_id, $params)
+	private function klientadd($formdef_file, $client_id, $params)
     {
 		global $app, $tform, $remoting_lib;
 		$app->uses('remoting_lib');

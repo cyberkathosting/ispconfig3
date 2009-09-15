@@ -603,8 +603,25 @@ class remoting_lib {
 		function getDataRecord($primary_id) {
 			global $app;
 			$escape = '`';
-			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
-            return $app->db->queryOneRecord($sql);
+			if(@is_numeric($primary_id)) {
+				$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+            	return $app->db->queryOneRecord($sql);
+			} elseif (@is_array($primary_id)) {
+				$sql_where = '';
+				foreach($primary_id as $key => $val) {
+					$key = $app->db->quote($key);
+					$val = $app->db->quote($val);
+					$sql_where .= "$key = '$val' AND ";
+				}
+				$sql_where = substr($sql_where,0,-5);
+				$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$sql_where;
+            	return $app->db->queryOneRecord($sql);
+			} else {
+				$this->errorMessage = 'The ID must be either an integer or an array.';
+				return array();
+			}
+			
+			
 		}
 
 		function dodaj_usera($params,$insert_id){
