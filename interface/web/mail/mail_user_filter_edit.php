@@ -148,7 +148,7 @@ if ( ".'$RETURNCODE'." != 1 )
 		} elseif ($this->dataRecord["op"] == 'is') {
 			$content .= $searchterm."$/:h)\n";
 		} elseif ($this->dataRecord["op"] == 'begins') {
-			$content .= $searchterm."/:h)\n";
+			$content .= " ".$searchterm."/:h)\n";
 		} elseif ($this->dataRecord["op"] == 'ends') {
 			$content .= ".*".$searchterm."$/:h)\n";
 		}
