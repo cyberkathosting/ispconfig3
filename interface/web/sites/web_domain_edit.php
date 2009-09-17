@@ -115,8 +115,8 @@ class page_action extends tform_actions {
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
 			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+				foreach( $clients as $c) {
+					$selected = @($c["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}
