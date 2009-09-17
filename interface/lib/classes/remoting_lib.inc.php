@@ -615,7 +615,7 @@ class remoting_lib {
 				}
 				$sql_where = substr($sql_where,0,-5);
 				$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$sql_where;
-            	return $app->db->queryOneRecord($sql);
+				return $app->db->queryAllRecords($sql);
 			} else {
 				$this->errorMessage = 'The ID must be either an integer or an array.';
 				return array();

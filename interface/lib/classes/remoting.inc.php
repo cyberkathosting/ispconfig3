@@ -211,6 +211,52 @@ class remoting {
 		$affected_rows = $this->deleteQuery('../mail/form/mail_user.tform.php',$domain_id);
 		return $affected_rows;
 	}
+	
+	//* Get mail user filter details
+	public function mail_user_filter_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_user_filter_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_user_filter.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	public function mail_user_filter_add($session_id, $client_id, $params)
+	{
+		if (!$this->checkPerm($session_id, 'mail_user_filter_add')){
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->insertQuery('../mail/form/mail_user_filter.tform.php', $client_id, $params);
+		return $affected_rows;
+	}
+
+	public function mail_user_filter_update($session_id, $client_id, $primary_id, $params)
+	{
+		if (!$this->checkPerm($session_id, 'mail_user_filter_update'))
+		{
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../mail/form/mail_user_filter.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
+	}
+
+	public function mail_user_filter_delete($session_id,$domain_id)
+	{
+		if (!$this->checkPerm($session_id, 'mail_user_filter_delete'))
+		{
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../mail/form/mail_user_filter.tform.php',$domain_id);
+		return $affected_rows;
+	}
 
 	//* Get alias details
 	public function mail_alias_get($session_id, $primary_id)
