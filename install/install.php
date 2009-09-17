@@ -109,6 +109,9 @@ exec('hostname -f', $tmp_out);
 $conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', $tmp_out[0]);
 unset($tmp_out);
 
+// Check if the mysql functions are loaded in PHP
+if(!function_exists('mysql_connect')) die('No PHP mysql functions available. Please ensure that the PHP mysql module is loaded.');
+
 //** Get MySQL root credentials
 $finished = false;
 do {
