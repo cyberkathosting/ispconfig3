@@ -100,6 +100,11 @@ if(isset($conf_old["dbmaster_database"])) $conf["mysql"]["master_database"] = $c
 if(isset($conf_old["dbmaster_user"])) $conf["mysql"]["master_ispconfig_user"] = $conf_old["dbmaster_user"];
 if(isset($conf_old["dbmaster_password"])) $conf["mysql"]["master_ispconfig_password"] = $conf_old["dbmaster_password"];
 
+//* Check if this is a master / slave setup
+if($conf["mysql"]["master_host"] != '' && $conf["mysql"]["host"] != $conf["mysql"]["master_host"]) {
+	$conf['mysql']['master_slave_setup'] = 'y';
+}
+
 // Resolve the IP address of the mysql hostname.
 if(!$conf['mysql']['ip'] = gethostbyname($conf['mysql']['host'])) die('Unable to resolve hostname'.$conf['mysql']['host']);
 
