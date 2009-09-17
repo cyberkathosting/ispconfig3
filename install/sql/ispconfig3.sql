@@ -103,7 +103,7 @@ CREATE TABLE `client` (
   `usertheme` varchar(32) NOT NULL default 'default',
   `template_master` int(11) unsigned NOT NULL default '0',
   `template_additional` varchar(255) NOT NULL default '',
-  `created_at` datetime default NULL,
+  `created_at` bigint(20) DEFAULT NULL,
   PRIMARY KEY  (`client_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

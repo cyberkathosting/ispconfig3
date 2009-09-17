@@ -160,6 +160,8 @@ class page_action extends tform_actions {
 			$app->auth->add_group_to_user($_SESSION['s']['user']['userid'],$groupid);
 			$app->db->query("UPDATE client SET parent_client_id = ".intval($_SESSION['s']['user']['client_id'])." WHERE client_id = ".$this->id);
 		}
+		
+		$app->db->query("UPDATE client SET created_at = ".time()." WHERE client_id = ".$this->id);
 
 		/* If there is a client-template, process it */
 		applyClientTemplates($this->id);
