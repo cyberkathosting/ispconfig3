@@ -111,7 +111,7 @@ class modules {
 						$tmp_sql2 = '';
 						foreach($data['new'] as $fieldname => $val) {
 							$tmp_sql1 .= "`$fieldname`,";
-							$tmp_sql2 .= "'$val',";
+							$tmp_sql2 .= "'".$app->db->quote($val)."',";
 						}
 						$tmp_sql1 = substr($tmp_sql1,0,-1);
 						$tmp_sql2 = substr($tmp_sql2,0,-1);
