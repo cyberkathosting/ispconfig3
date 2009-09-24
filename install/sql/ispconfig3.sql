@@ -388,7 +388,7 @@ CREATE TABLE `mail_forwarding` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `source` varchar(255) NOT NULL,
-  `destination` varchar(255) NOT NULL default '',
+  `destination` text NOT NULL default '',
   `type` enum('alias','forward','catchall') NOT NULL default 'alias',
   `active` enum('n','y') NOT NULL,
   PRIMARY KEY  (`forwarding_id`),
