@@ -453,9 +453,9 @@ class installer_dist extends installer_base {
 		
 		if(is_file('/etc/webalizer/webalizer.conf')) {
 			// Change webalizer mode to incremental
-			replaceLine('/etc/webalizer/webalizer.conf','Incremental     no','Incremental     yes',0,0);
-			replaceLine('/etc/webalizer/webalizer.conf','IncrementalName webalizer.current','IncrementalName webalizer.current',0,0);
-			replaceLine('/etc/webalizer/webalizer.conf','HistoryName     webalizer.hist','HistoryName     webalizer.hist',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','#IncrementalName','IncrementalName webalizer.current',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','#Incremental','Incremental     yes',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','#HistoryName','HistoryName     webalizer.hist',0,0);
 		}
 		
 		//* add a sshusers group
