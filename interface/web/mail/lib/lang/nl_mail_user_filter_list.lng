@@ -5,4 +5,3 @@ $wb['page_txt'] = 'Pagina';
 $wb['page_of_txt'] = 'van';
 $wb['delete_confirmation'] = 'Weet u zeker dat u deze e-mailfilter wilt verwijderen?';
 ?>
-

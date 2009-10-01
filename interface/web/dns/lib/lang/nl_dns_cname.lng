@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'De hostnaam heeft het verkeerde formaat.';
 $wb['data_error_empty'] = 'Doel hostnaam is leeg.';
 $wb['data_error_regex'] = 'Doel hostnaam formaat ongeldig.';
 ?>
-

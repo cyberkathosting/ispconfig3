@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Tiltott fájlokat szereti';
 $wb['bad_header_lover_txt'] = 'Hibás fejlécet szereti';
 $wb['add_new_record_txt'] = 'Új Szabály';
 ?>
-

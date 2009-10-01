@@ -50,4 +50,3 @@ $wb['limit_cron_frequency_txt'] = 'Minimale tijd tussen uitvoeringen';
 $wb['limit_cron_error_notint'] = 'Cron limiet moet een geldig getal zijn.';
 $wb['limit_cron_error_frequency'] = 'Cron frequentie limiet moet een geldig getal zijn.';
 ?>
-

@@ -5,4 +5,3 @@ $wb['subject_txt'] = 'Tárgy';
 $wb['message_txt'] = 'Üzenet';
 $wb['tstamp_txt'] = 'Időbélyeg';
 ?>
-

@@ -135,4 +135,3 @@ $wb['monitor_title_raidstate_txt'] = 'RAID status';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Uw distributie ondersteunt deze controle-software niet';
 ?>
-

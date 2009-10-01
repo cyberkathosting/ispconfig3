@@ -19,4 +19,3 @@ $wb['run_wday_error_format'] = 'Ongeldige indeling voor dagen van week.';
 $wb['command_error_format'] = 'Ongeldige commando indeling. In geval van een URL, alleen http/https wordt ondersteund.';
 $wb['unknown_fieldtype_error'] = 'Een onbekend veld-type wordt gebruikt.';
 ?>
-

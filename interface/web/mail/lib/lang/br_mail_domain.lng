@@ -11,4 +11,3 @@ $wb['limit_maildomain_txt'] = 'O número máximo de contas de correio eletrônic
 $wb['policy_txt'] = 'Filtro Anti-Spam';
 $wb['no_policy'] = '- desativado -';
 ?>
-

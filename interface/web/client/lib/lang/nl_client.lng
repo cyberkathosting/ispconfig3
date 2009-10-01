@@ -87,4 +87,3 @@ $wb['limit_cron_frequency_txt'] = 'Minimale tijd tussen uitvoeringen';
 $wb['limit_cron_error_notint'] = 'Het max. aantal cron jobs moet een nummerieke waarde zijn.';
 $wb['limit_cron_error_frequency'] = 'De cron uitvoeringen limiet moet een nummerieke waarde zijn.';
 ?>
-

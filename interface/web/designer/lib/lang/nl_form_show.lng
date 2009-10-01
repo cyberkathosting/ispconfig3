@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Verwijder de module en alle subdirectories?';
 $wb['menu_del_txt'] = 'Verwijder menu met alle menuitems?';
 $wb['item_del_txt'] = 'Verwijder menuitem?';
 ?>
-

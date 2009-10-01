@@ -6,4 +6,3 @@ $wb['pattern_txt'] = 'Minta';
 $wb['action_txt'] = 'Művelet';
 $wb['add_new_record_txt'] = 'Új tartalom szűrő';
 ?>
-

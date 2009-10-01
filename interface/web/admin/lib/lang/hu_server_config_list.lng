@@ -2,4 +2,3 @@
 $wb['list_head_txt'] = 'Szerver beállítások';
 $wb['server_name_txt'] = 'Szerver';
 ?>
-

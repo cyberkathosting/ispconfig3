@@ -6,4 +6,3 @@ $wb['vorname_txt'] = 'Sobrenome';
 $wb['ort_txt'] = 'cidade';
 $wb['add_new_record_txt'] = 'Adcionar novo usuário';
 ?>
-

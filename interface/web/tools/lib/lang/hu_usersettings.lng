@@ -6,4 +6,3 @@ $wb['Form to edit the user password and language.'] = 'Jelszó és nyelv beáll�
 $wb['Settings'] = 'Beállítások';
 $wb['password_strength_txt'] = 'Jelszó erősség';
 ?>
-

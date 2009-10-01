@@ -30,4 +30,5 @@ $wb['disablepop3_txt'] = 'Disable POP3';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
 $wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
+$wb['quota_error_value'] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
 ?>

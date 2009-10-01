@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Domain üres';
 $wb['domain_error_unique'] = 'Domain már foglalt.';
 $wb['domain_error_regex'] = 'Domain név hibás.';
 ?>
-

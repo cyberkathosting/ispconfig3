@@ -8,4 +8,3 @@ $wb['sort_order_txt'] = 'Rendezés';
 $wb['active_txt'] = 'Aktív';
 $wb['limit_mailrouting_txt'] = 'Nincs több Email irányítás lehetőség.';
 ?>
-

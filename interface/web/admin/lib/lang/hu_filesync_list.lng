@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Fájl Szinkronizálás';
-$wb['jobname_txt'] = 'Munka neve';
-$wb['ftp_host_txt'] = 'FTP Szerver';
-$wb['local_path_txt'] = 'Helyi elérési út';
-?>
-

@@ -6,4 +6,3 @@ $wb['vorname_txt'] = 'Voornaam';
 $wb['ort_txt'] = 'Plaats';
 $wb['add_new_record_txt'] = 'Nieuwe gebruiker toevoegen';
 ?>
-

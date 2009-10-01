@@ -47,4 +47,3 @@ $wb['error_ssl_country_empty'] = 'País do SSL em branco.';
 $wb['client_group_id_txt'] = 'Cliente';
 $wb['stats_password_txt'] = 'Senha do diretório de estatísticas';
 ?>
-

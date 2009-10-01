@@ -1,5 +1,5 @@
 <?php
-$wb["server_id_txt"] = 'Serwer';
+$wb['server_id_txt'] = 'Serwer';
 $wb['parent_domain_id_txt'] = 'Macierzysta';
 $wb['active_txt'] = 'Aktywny';
 $wb['client_txt'] = 'Klient';
@@ -19,4 +19,3 @@ $wb['run_wday_error_format'] = 'Niepoprawny format dni w tygodniu.';
 $wb['command_error_format'] = 'Niepoprawny format komendy. Proszę zanotuj że w zbiorze url może być tylko adres http/https który ma pozwolenie.';
 $wb['unknown_fieldtype_error'] = 'Został użyty niepoprawny format pola.';
 ?>
-

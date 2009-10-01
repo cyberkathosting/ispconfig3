@@ -6,5 +6,7 @@ $wb['Add Client'] = 'Ügyfél hozzáadása';
 $wb['Edit Client'] = 'Ügyfél adatok szerkesztése';
 $wb['Clients'] = 'Ügyfelek';
 $wb['Edit Client-Templates'] = 'Edit Client-Templates';
+$wb['Add Reseller'] = 'Add Reseller';
+$wb['Edit Reseller'] = 'Edit Reseller';
+$wb['Resellers'] = 'Resellers';
 ?>
-

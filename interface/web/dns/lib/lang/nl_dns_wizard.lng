@@ -23,4 +23,3 @@ $wb['error_ns1_empty'] = 'Nameserver 1 is leeg.';
 $wb['error_ns2_empty'] = 'Nameserver 2 is leeg.';
 $wb['error_email_empty'] = 'E-mail is leeg.';
 ?>
-

@@ -23,4 +23,3 @@ $wb['database_remote_error_ips'] = 'Tenminste 1 IP-adres is ongeldig.';
 $wb['database_name_error_len'] = 'Databasenaam - {db} - is te lang. De maximale lengte is 64 tekens.';
 $wb['database_user_error_len'] = 'Database gebruikersnaam - {user} - is te lang. De maximale lengte inclusief prefix is 16 tekens.';
 ?>
-

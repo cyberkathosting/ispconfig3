@@ -7,4 +7,3 @@ $wb['rulename_error_empty'] = 'Nome está em branco.';
 $wb['searchterm_is_empty'] = 'Termo de busca em branco.';
 $wb['source_txt'] = 'Origem';
 ?>
-

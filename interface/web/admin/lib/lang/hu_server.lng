@@ -9,4 +9,3 @@ $wb['db_server_txt'] = 'DB-Szerver';
 $wb['vserver_server_txt'] = 'VServer-Szerver';
 $wb['active_txt'] = 'Aktív';
 ?>
-

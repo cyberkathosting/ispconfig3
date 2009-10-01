@@ -26,4 +26,3 @@ $wb['default_group_txt'] = 'Alapértelemezett csoport';
 $wb['startmodule_err'] = 'Kezdő modul nincs engedélyezve.';
 $wb['password_strength_txt'] = 'Jelszó erősség';
 ?>
-

@@ -7,4 +7,3 @@ $wb['rulename_error_empty'] = 'A név üres';
 $wb['searchterm_is_empty'] = 'Keresési feltétel üres';
 $wb['source_txt'] = 'Forrás';
 ?>
-

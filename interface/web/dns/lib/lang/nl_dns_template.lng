@@ -4,4 +4,3 @@ $wb['fields_txt'] = 'Toon velden';
 $wb['template_txt'] = 'Template-data';
 $wb['visible_txt'] = 'Zichtbaar?';
 ?>
-

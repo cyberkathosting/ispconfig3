@@ -5,4 +5,3 @@ $wb['btn_save_txt'] = 'Merge files now';
 $wb['btn_cancel_txt'] = 'Back';
 $wb['list_desc_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
 ?>
-

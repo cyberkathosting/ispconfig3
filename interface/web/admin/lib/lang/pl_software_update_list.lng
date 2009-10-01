@@ -6,5 +6,3 @@ $wb['update_title_txt'] = 'Aktualizacja';
 $wb['version_txt'] = 'Wersja';
 $wb['action_txt'] = 'Akcja';
 ?>
-
-

@@ -1,10 +1,9 @@
 <?php
-
 $wb['template_id_txt'] = 'Szablon';
 $wb['server_id_txt'] = 'Serwer';
 $wb['client_txt'] = 'Klient';
-$wb["btn_save_txt"] = 'Stwórz wpid DNS';
-$wb["btn_cancel_txt"] = 'Anuluj';
+$wb['btn_save_txt'] = 'Stwórz wpid DNS';
+$wb['btn_cancel_txt'] = 'Anuluj';
 $wb['domain_txt'] = 'Domena';
 $wb['email_txt'] = 'E-mail';
 $wb['ns1_txt'] = 'NS 1';
@@ -23,6 +22,4 @@ $wb['error_ip_empty'] = 'IP jest puste.';
 $wb['error_ns1_empty'] = 'NS1 jest puste.';
 $wb['error_ns2_empty'] = 'NS2 jest puste.';
 $wb['error_email_empty'] = 'E-mail jest pusty.';
-
 ?>
-

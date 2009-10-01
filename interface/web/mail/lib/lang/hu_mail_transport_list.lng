@@ -7,4 +7,3 @@ $wb['transport_txt'] = 'Szállító közeg';
 $wb['sort_order_txt'] = 'Rendezés';
 $wb['add_new_record_txt'] = 'Új irányítás';
 ?>
-

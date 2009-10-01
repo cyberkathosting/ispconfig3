@@ -47,4 +47,3 @@ $wb['subdomain_txt'] = 'Automatische subdomeinen';
 $wb['client_group_id_txt'] = 'Klant';
 $wb['stats_password_txt'] = 'Website statistieken wachtwoord';
 ?>
-

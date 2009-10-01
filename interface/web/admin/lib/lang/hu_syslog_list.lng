@@ -1,7 +1,0 @@
-<?php
-$wb["list_head_txt"] = 'ISPConfig Napló';
-$wb["tstamp_txt"] = 'Dátum';
-$wb["server_id_txt"] = 'Szerver';
-$wb["loglevel_txt"] = 'Naplózás szintje';
-$wb["message_txt"] = 'Üzenet';
-?>

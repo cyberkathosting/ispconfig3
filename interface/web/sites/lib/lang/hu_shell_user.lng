@@ -18,5 +18,5 @@ $wb['uid_error_empty'] = 'GID üres.';
 $wb['directory_error_empty'] = 'Könyvtár üres.';
 $wb['limit_shell_user_txt'] = 'The max number of shell users is reached.';
 $wb['password_strength_txt'] = 'Password strength';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>
-

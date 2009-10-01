@@ -6,4 +6,3 @@ $wb['domain_txt'] = 'Domein';
 $wb['add_new_record_txt'] = 'Nieuwe website toevoegen';
 $wb['domain_id_txt'] = 'ID';
 ?>
-

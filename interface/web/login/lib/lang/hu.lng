@@ -1,8 +1,4 @@
 <?php
-$wb['1001'] = 'Felhasználónév vagy jelszó mező üres.';
-$wb['1002'] = 'Felhasználónév vagy jelszó hibás';
-$wb['1003'] = 'Felhasználó blokkolt.';
-$wb['1004'] = 'Túl sok hibás bejelentkezés, Kérem próbálja 15 perc múlva';
 $wb['pass_reset_txt'] = 'Új jelszót generáltunk és email címére elküldjük, amennyiben a lent beírt email cím megegyezik a nyilvántartásban szereplő címmel.';
 $wb['pw_reset'] = 'Jelszavát reseteltük és elküldtük email címére.';
 $wb['pw_error'] = 'Felhasználónév vagy email cím nem egyezik.';
@@ -11,5 +7,11 @@ $wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel hozz�
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Control panel jelszó módosítva.';
 $wb['user_regex_error'] = 'Felhasználónév érvénytelen karaktereket tartalmaz, vagy több mint 64 karakter';
 $wb['pw_error_length'] = 'A jelszó kevesebb legyen mint 64 karakter';
+$wb['error_user_password_empty'] = 'Username or Password empty.';
+$wb['error_user_password_incorrect'] = 'Username or Password wrong.';
+$wb['error_user_blocked'] = 'User is blocked.';
+$wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after 15 minutes';
+$wb['username_txt'] = 'Username';
+$wb['password_txt'] = 'Password';
+$wb['login_button_txt'] = 'Login';
 ?>
-

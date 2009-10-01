@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Teendő';
 $wb['active_txt'] = 'Aktív';
 $wb['pattern_error_empty'] = 'Minta mező üres.';
 ?>
-

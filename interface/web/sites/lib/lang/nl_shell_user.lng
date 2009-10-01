@@ -20,4 +20,3 @@ $wb['directory_error_empty'] = 'Directory leeg.';
 $wb['limit_shell_user_txt'] = 'Het maximum aantal shell gebruikers is bereikt.';
 $wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
 ?>
-

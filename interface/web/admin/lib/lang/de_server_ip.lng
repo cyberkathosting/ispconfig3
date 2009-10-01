@@ -2,6 +2,6 @@
 $wb['server_id_txt'] = 'Server';
 $wb['ip_address_txt'] = 'IP Adresse';
 $wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
-$wb["ip_error_wrong"] = 'Das IP Adresse ist ungültig';
-$wb["ip_error_unique"] = 'Das IP Adresse müss einzigartig sein';
+$wb['ip_error_wrong'] = 'Das IP Adresse ist ungültig';
+$wb['ip_error_unique'] = 'Das IP Adresse müss einzigartig sein';
 ?>

@@ -22,4 +22,3 @@ $wb['ns_error_regex'] = 'Nameserver heeft een ongeldige indeling.';
 $wb['mbox_error_empty'] = 'E-mailadres is leeg.';
 $wb['mbox_error_regex'] = 'De indeling van het e-mailadres is ongeldig.';
 ?>
-

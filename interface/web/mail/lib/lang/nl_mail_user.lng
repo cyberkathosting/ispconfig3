@@ -30,4 +30,3 @@ $wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
 $wb['duplicate_alias_or_forward_txt'] = 'Er is al een e-mailalias of een forward ingesteld voor dit e-mailadres.';
 $wb['quota_error_value'] = 'Ongeldige schijfruimte-limiet. Toegestaan zijn: -1 (onbeperkt) of cijfers (>1)';
 ?>
-

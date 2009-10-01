@@ -13,4 +13,3 @@ $wb['source_username_error_isempty'] = 'Felhasználónév üres.';
 $wb['source_password_error_isempty'] = 'Jelszó üres.';
 $wb['destination_error_isemail'] = 'Nem választott címzettet.';
 ?>
-

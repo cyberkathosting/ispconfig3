@@ -18,4 +18,3 @@ $wb['relayhost_password_txt'] = 'Relayhost Wachtwoord';
 $wb['mailbox_size_limit_txt'] = 'Mailboxgrootte Limiet';
 $wb['message_size_limit_txt'] = 'Berichtgrootte Limiet';
 ?>
-

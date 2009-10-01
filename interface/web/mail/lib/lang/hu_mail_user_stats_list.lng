@@ -6,4 +6,3 @@ $wb['last_month_txt'] = 'Múlt hónapban';
 $wb['this_year_txt'] = 'Idén';
 $wb['last_year_txt'] = 'Tavaly';
 ?>
-

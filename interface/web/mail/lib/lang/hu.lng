@@ -43,4 +43,3 @@ $wb['Postfix Blacklist'] = 'Postfix Fekete lista';
 $wb['Content Filter'] = 'Tartalom szűrő';
 $wb['Global Filters'] = 'Globális szűrők';
 ?>
-

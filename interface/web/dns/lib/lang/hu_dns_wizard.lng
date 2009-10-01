@@ -1,10 +1,9 @@
 <?php
-
 $wb['template_id_txt'] = 'Template';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Client';
-$wb["btn_save_txt"] = 'Create DNS Record';
-$wb["btn_cancel_txt"] = 'Cancel';
+$wb['btn_save_txt'] = 'Create DNS Record';
+$wb['btn_cancel_txt'] = 'Cancel';
 $wb['domain_txt'] = 'Domain';
 $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';
@@ -23,5 +22,4 @@ $wb['error_ip_empty'] = 'IP empty.';
 $wb['error_ns1_empty'] = 'NS1 empty.';
 $wb['error_ns2_empty'] = 'NS2 empty.';
 $wb['error_email_empty'] = 'EMail empty.';
-
 ?>

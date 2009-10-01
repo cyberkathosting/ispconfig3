@@ -22,5 +22,6 @@ $wb['uid_error_empty'] = 'GID üres.';
 $wb['directory_error_empty'] = 'Könyvtár üres.';
 $wb['quota_files_unity_txt'] = 'Fájlok';
 $wb['password_strength_txt'] = 'Jelszó erőssége';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>
-
