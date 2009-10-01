@@ -199,7 +199,7 @@ class cron_plugin {
                     }
                     
                     $command .= "\t";
-                    if(substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'];
+                    if(substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
                     $command .= $job['command'];
                 }
                 
