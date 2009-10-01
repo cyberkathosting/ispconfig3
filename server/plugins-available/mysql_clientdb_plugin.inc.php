@@ -85,7 +85,9 @@ class mysql_clientdb_plugin {
           
           // check if entry is valid ip address
           $valid = true;
-          if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $db_host)) {
+		  if($db_host == "%") {
+		  	$valid = true;
+		  } elseif(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $db_host)) {
               $groups = explode(".", $db_host);
               foreach($groups as $group){
                 if($group<0 OR $group>255)
