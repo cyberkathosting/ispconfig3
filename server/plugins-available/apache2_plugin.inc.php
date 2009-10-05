@@ -538,6 +538,10 @@ class apache2_plugin {
 			$this->_exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
 		}
 		
+		// Change the owner of the error log to the owner of the website
+		if(!@is_file($data["new"]["document_root"]."/log/error.log")) exec('touch '.escapeshellcmd($data["new"]["document_root"])."/log/error.log");
+		$this->_exec("chown $username:$groupname ".escapeshellcmd($data["new"]["document_root"])."/log/error.log");
+		
 		
 		// Create the vhost config file
 		$app->load('tpl');
