@@ -195,7 +195,7 @@ class tform_actions {
                         }
 
                         $this->onAfterInsert();
-						
+
 						// Write data history (sys_datalog)
 						if($app->tform->formDef['db_history'] == 'yes') {
 							$new_data_record = $app->tform->getDataRecord($this->id);

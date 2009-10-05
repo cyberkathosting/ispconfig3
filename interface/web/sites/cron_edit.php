@@ -168,8 +168,9 @@ class page_action extends tform_actions {
         if($has_error == true) {
             parent::onError();
             exit;
-        }
-        else parent::onInsertSave($sql);
+        } else {
+			return parent::onInsertSave($sql);
+		}
     }
     
 	function onAfterInsert() {
