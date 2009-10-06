@@ -57,9 +57,13 @@ Mail name? <-- server1.mydomain.tld
 
 vi /etc/mysql/my.cnf
 
-# and comment out the line
+# and change the line:
 
 bind-address          = 127.0.0.1
+
+to:
+
+#bind-address          = 127.0.0.1
 
 # then restart mysql
 
@@ -69,6 +73,35 @@ bind-address          = 127.0.0.1
 
 apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl
 
+# During the installation, the SSL certificates for IMAP-SSL and POP3-SSL are created with the hostname localhost. To change this to the correct hostname (server1.example.com in this tutorial), delete the certificates...
+
+cd /etc/courier
+rm -f /etc/courier/imapd.pem
+rm -f /etc/courier/pop3d.pem
+
+# ... and modify the following two files; replace CN=localhost with CN=server1.example.com (you can also modify the other values, if necessary):
+
+vi /etc/courier/imapd.cnf
+
+[...]
+CN=server1.example.com
+[...]
+
+vi /etc/courier/pop3d.cnf
+
+[...]
+CN=server1.example.com
+[...]
+
+# Then recreate the certificates...
+
+mkimapdcert
+mkpop3dcert
+
+# ... and restart Courier-IMAP-SSL and Courier-POP3-SSL:
+
+/etc/init.d/courier-imap-ssl restart
+/etc/init.d/courier-pop-ssl restart 
 
 
 3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mcrypt (1 line!):
@@ -226,7 +259,7 @@ update-rc.d mydns defaults
 
 apt-get install vlogger webalizer
 
-Change the following line in /etc/webalizer.conf from
+Change the following line in /etc/webalizer/webalizer.conf from
 
 #Incremental    no
 
