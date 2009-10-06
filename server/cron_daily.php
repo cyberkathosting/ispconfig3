@@ -87,23 +87,59 @@ foreach($records as $rec) {
 // Create webalizer statistics
 #######################################################################################################
 
+function setConfigVar( $filename, $varName, $varValue ) {
+	if($lines = @file($filename)) {
+		$out = '';
+		$found = 0;
+		foreach($lines as $line) {
+			list($key, $value) = split("[\t= ]+", $line, 2);
+			if($key == $varName) {
+				$out .= $varName." ".$varValue."\n";
+				$found = 1;
+			} else {
+				$out .= $line;
+			}
+		}
+		if($found == 0) {
+			//* add \n if the last line does not end with \n or \r
+			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
+			//* add the new line at the end of the file
+			if($append == 1) $out .= $varName." ".$varValue."\n";
+		}
+
+		file_put_contents($filename,$out);
+	}
+}
+
 
 $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf["server_id"];
 $records = $app->db->queryAllRecords($sql);
+
 foreach($records as $rec) {
 	$yesterday = date("Ymd",time() - 86400);
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
 		$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
-		if(!@is_file($logfile)) {
-			continue;
-		}
+	if(!@is_file($logfile)) {
+		continue;
 	}
-	$domain = escapeshellcmd($rec["domain"]);
-	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
-	$webalizer = '/usr/bin/webalizer';
-	$webalizer_conf = '/etc/webalizer/webalizer.conf';
-	if(!@is_dir($statsdir)) mkdir($statsdir);
+}
+
+$domain = escapeshellcmd($rec["domain"]);
+$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
+$webalizer = '/usr/bin/webalizer';
+$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
+$webalizer_conf = escapeshellcmd($rec["document_root"].'/log/webalizer.conf');
+
+if(!@is_file($webalizer_conf)) {
+	exec("cp $webalizer_conf_main $webalizer_conf");
+
+	setConfigVar($webalizer_conf, 'Incremental', 'yes');
+	setConfigVar($webalizer_conf, 'IncrementalName', $logdir.'/webalizer.current');
+	setConfigVar($webalizer_conf, 'HistoryName', $logdir.'/webalizer.hist');
+}
+
+if(!@is_dir($statsdir)) mkdir($statsdir);
 	exec("$webalizer -c $webalizer_conf -n $domain -s $domain -r $domain -q -T -p -o $statsdir $logfile");
 }
 
