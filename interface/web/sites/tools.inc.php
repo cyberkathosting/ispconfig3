@@ -27,27 +27,27 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-function replacePrefix($name, $dataRecord){
-    $keywordlist=array('CLIENTNAME','CLIENTID');
+function replacePrefix($name, $dataRecord) {
+	// No input -> no possible output -> go out!
+	if ($name=="") return "";
 
-    if ($name != '') {
-        foreach ($keywordlist as $keyword) {
-            if (substr_count($name, '['.$keyword.']') > 0) {
-                switch ($keyword) {
-                    case 'CLIENTNAME':
-                        $res=str_replace('['.$keyword.']', getClientName($dataRecord), $name);        
-                        break;
-                    case 'CLIENTID':
-                        $res=str_replace('['.$keyword.']', getClientID($dataRecord), $name);        
-                        break;
-                }
-            }
-        }
-    } else {
-        $res='';
-    }
-    
-    return $res;
+	// Array containing keys to search
+	$keywordlist=array('CLIENTNAME','CLIENTID');
+
+	// Try to match the key within the string
+	foreach ($keywordlist as $keyword) {
+		if (substr_count($name, '['.$keyword.']') > 0) {
+			switch ($keyword) {
+				case 'CLIENTNAME':
+					$name=str_replace('['.$keyword.']', getClientName($dataRecord),$name);
+				break;
+				case 'CLIENTID':
+					$name=str_replace('['.$keyword.']', getClientID($dataRecord),$name);
+				break;
+			}
+		}
+	}
+	return $name;
 }
 
 function getClientName($dataRecord) {
