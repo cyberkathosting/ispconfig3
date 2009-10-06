@@ -35,7 +35,7 @@
 	
 	/* (en) Layout: width, background, borders */
 	/* (de) Layout: Breite, Hintergrund, Rahmen */
-	#page_margins { min-width: 800px; max-width: 80%; background: #fff; }
+	#page_margins { min-width: 980px; max-width: 80%; background: #fff; display: table;}
 	#page{ padding: 10px; }
 	
 	/* (en) Designing main layout elements */
