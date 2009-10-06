@@ -1,11 +1,13 @@
 
 <tmpl_if name='jailkit_chroot'>
 ## Hack for Jailkit User to change back to the logged in user ##
-if [ "$LOGNAME" != $USER ]; then
- export HOME=<tmpl_var name='home_dir'>$LOGNAME
- export USER=$LOGNAME
- export USERNAME=$LOGNAME
- cd $HOME
+if [ -n "$LOGNAME" ]; then
+ if [ "$LOGNAME" != $USER ]; then
+  export HOME=<tmpl_var name='home_dir'>$LOGNAME
+  export USER=$LOGNAME
+  export USERNAME=$LOGNAME
+  cd $HOME
+ fi
 fi
 
 ## Change machine hostname to site domain ##
