@@ -138,6 +138,11 @@
 </tmpl_loop>
 </tmpl_if>
 
+    # add support for apache mpm_itk
+    <IfModule mpm_itk_module>
+      AssignUserId <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    </IfModule>
+
 <tmpl_var name='apache_directives'>
 </VirtualHost>
 
@@ -290,6 +295,11 @@
     RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
 </tmpl_loop>
 </tmpl_if>
+
+    # add support for apache mpm_itk
+    <IfModule mpm_itk_module>
+      AssignUserId <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    </IfModule>
 
 <tmpl_var name='apache_directives'>
 </VirtualHost>
