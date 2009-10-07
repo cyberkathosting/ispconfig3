@@ -127,7 +127,10 @@ class powerdns_plugin {
 		
 		$origin = substr($data["new"]["origin"], 0, -1);
 		$ispconfig_id = $data["new"]["id"];
-		$app->db->query("INSERT INTO powerdns.domains (name, type, ispconfig_id) VALUES ('$origin', 'NATIVE', $ispconfig_id)");
+		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
+		$serial_id = $serial["serial"];
+		$app->db->query("INSERT INTO powerdns.domains (name, type, notified_serial, ispconfig_id) VALUES ('$origin', 'MASTER', $serial_id, $ispconfig_id)");
+		//$app->db->query("INSERT INTO powerdns.domains (name, type, ispconfig_id) VALUES ('$origin', 'NATIVE', $ispconfig_id)");
 		$zone_id = mysql_insert_id();
 		if(substr($data["new"]["ns"], -1) == '.'){
 			$ns = substr($data["new"]["ns"], 0, -1);
@@ -137,7 +140,8 @@ class powerdns_plugin {
 		if($ns == '') $ns = $origin;
 		
 		$hostmaster = substr($data["new"]["mbox"], 0, -1);
-		$content = $ns.' '.$hostmaster.' 0';
+		//$content = $ns.' '.$hostmaster.' 0';
+		$content = $ns.' '.$hostmaster.' '.$serial_id.'';
 		$ttl = $data["new"]["ttl"];
 		
 		$app->db->query("INSERT INTO powerdns.records (domain_id, name, type, content, ttl, prio, change_date, ispconfig_id) VALUES ($zone_id, '$origin', 'SOA', '$content', $ttl, 0, ".time().", $ispconfig_id)");
@@ -154,7 +158,10 @@ class powerdns_plugin {
 			if($data["old"]["active"] == 'Y'){
 				$origin = substr($data["new"]["origin"], 0, -1);
 				$ispconfig_id = $data["new"]["id"];
-				$app->db->query("UPDATE powerdns.domains SET name = '$origin' WHERE ispconfig_id = $ispconfig_id");		
+				$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
+				$serial_id = $serial["serial"];
+				$app->db->query("UPDATE powerdns.domains SET name = '$origin', notified_serial = $serial_id WHERE ispconfig_id = $ispconfig_id");
+				//$app->db->query("UPDATE powerdns.domains SET name = '$origin' WHERE ispconfig_id = $ispconfig_id");		
 		
 				if(substr($data["new"]["ns"], -1) == '.'){
 					$ns = substr($data["new"]["ns"], 0, -1);
@@ -164,7 +171,8 @@ class powerdns_plugin {
 				if($ns == '') $ns = $origin;
 				
 				$hostmaster = substr($data["new"]["mbox"], 0, -1);
-				$content = $ns.' '.$hostmaster.' 0';
+				//$content = $ns.' '.$hostmaster.' 0';
+				$content = $ns.' '.$hostmaster.' '.$serial_id.'';
 				$ttl = $data["new"]["ttl"];
 				$app->db->query("UPDATE powerdns.records SET name = '$origin', content = '$content', ttl = $ttl, change_date = ".time()." WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
 			} else {
