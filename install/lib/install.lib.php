@@ -606,7 +606,7 @@ function removeLine($filename,$search_pattern,$strict = 0) {
 }
 
 function is_installed($appname) {
-	exec('which '.escapeshellcmd($appname).' > /dev/null 2> /dev/null',$out);
+	exec('which '.escapeshellcmd($appname).' 2> /dev/null',$out);
 	if(isset($out[0]) && stristr($out[0],$appname)) {
 		return true;
 	} else {
