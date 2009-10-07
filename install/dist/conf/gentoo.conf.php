@@ -91,6 +91,12 @@ $dist['pureftpd']['init_script'] = 'pure-ftpd';
 $dist['mydns']['config_dir'] = '/etc';
 $dist['mydns']['init_script'] = 'mydns';
 
+//* PowerDNS
+$conf['powerdns']['installed'] = false; // will be detected automatically during installation
+$conf['powerdns']['database'] = 'powerdns';
+$conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
+$conf['powerdns']['init_script'] = 'pdns';
+
 //* Jailkit
 $conf['jailkit']['config_dir'] = '/etc/jailkit';
 $conf['jailkit']['jk_init'] = 'jk_init.ini';

@@ -127,6 +127,7 @@ class installer_base {
 		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
 		if(is_installed('mydns') || is_installed('mydns-ng')) $conf['mydns']['installed'] = true;
 		if(is_installed('jk_chrootsh')) $conf['jailkit']['installed'] = true;
+		if(is_installed('pdns_server') || is_installed('pdns_control')) $conf['powerdns']['installed'] = true;
 		
 		
 	}
@@ -774,6 +775,50 @@ class installer_base {
 		exec('chown root:root '.$conf["mydns"]["config_dir"].'/'.$configfile);
 	
 	}
+	
+	public function configure_powerdns() {
+		global $conf;
+		
+		//* Create the database
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['powerdns']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+			$this->error('Unable to create MySQL database: '.$conf['powerdns']['database'].'.');
+		}
+		
+		//* Create the ISPConfig database user in the local database
+        $query = "GRANT ALL ON `".$conf['powerdns']['database']."` . * TO '".$conf['mysql']['ispconfig_user']."'@'localhost';";
+		if(!$this->db->query($query)) {
+			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
+		}
+		
+		//* Reload database privelages
+		$this->db->query('FLUSH PRIVILEGES;');
+		
+		//* load the powerdns databse dump
+		if($conf['mysql']['admin_password'] == '') {
+			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null", 
+                    __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in powerdns.sql');
+		} else {
+			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null", 
+                     __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in powerdns.sql');
+		}
+		
+		//* Create the powerdns config file
+		$configfile = 'pdns.local';
+		if(is_file($conf["powerdns"]["config_dir"].'/'.$configfile)) copy($conf["powerdns"]["config_dir"].'/'.$configfile,$conf["powerdns"]["config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["powerdns"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["powerdns"]["config_dir"].'/'.$configfile.'~');
+		$content = rf("tpl/".$configfile.".master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{powerdns_database}',$conf['powerdns']['database'],$content);
+		$content = str_replace('{mysql_server_host}',$conf["mysql"]["host"],$content);
+		wf($conf["powerdns"]["config_dir"].'/'.$configfile,$content);
+		exec('chmod 600 '.$conf["powerdns"]["config_dir"].'/'.$configfile);
+		exec('chown root:root '.$conf["powerdns"]["config_dir"].'/'.$configfile);
+		
+		
+	}
+	
+	
 	
 	public function configure_apache()
     {	

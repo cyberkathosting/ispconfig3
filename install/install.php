@@ -190,9 +190,14 @@ if($install_mode == 'standard') {
 	swriteln('Configuring Pureftpd');
 	$inst->configure_pureftpd();
 
-	//* Configure MyDNS
-	swriteln('Configuring MyDNS');
-	$inst->configure_mydns();
+	//* Configure DNS
+	if($conf['powerdns']['installed'] == true) {
+		swriteln('Configuring PowerDNS');
+		$inst->configure_powerdns();
+	} else {
+		swriteln('Configuring MyDNS');
+		$inst->configure_mydns();
+	}
 	
 	//* Configure Apache
 	swriteln('Configuring Apache');
@@ -235,7 +240,8 @@ if($install_mode == 'standard') {
 	if($conf['courier']['courier-pop-ssl'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 	if($conf['apache']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
 	if($conf['pureftpd']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
-	if($conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+	if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+	if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
 	
 }else{
 	
@@ -352,12 +358,20 @@ if($install_mode == 'standard') {
 		if($conf['pureftpd']['init_script'] != '') system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	}
 	
-	//** Configure MyDNS
+	//** Configure DNS
 	if(strtolower($inst->simple_query('Configure DNS Server',array('y','n'),'y')) == 'y') {
 		$conf['services']['dns'] = true;
-		swriteln('Configuring MyDNS');
-		$inst->configure_mydns();
-		if($conf['mydns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+		//* Configure DNS
+		if($conf['powerdns']['installed'] == true) {
+			swriteln('Configuring PowerDNS');
+			$inst->configure_powerdns();
+			if($conf['powerdns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
+		} else {
+			swriteln('Configuring MyDNS');
+			$inst->configure_mydns();
+			if($conf['mydns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+		}
+		
 	}
 	
 	//** Configure Apache

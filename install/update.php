@@ -296,9 +296,14 @@ if($reconfigure_services_answer == 'yes') {
 	}
 	
 	if($conf['services']['dns']) {
-		//** Configure MyDNS
-		swriteln('Configuring MyDNS');
-		$inst->configure_mydns();
+		//* Configure DNS
+		if($conf['powerdns']['installed'] == true) {
+			swriteln('Configuring PowerDNS');
+			$inst->configure_powerdns();
+		} else {
+			swriteln('Configuring MyDNS');
+			$inst->configure_mydns();
+		}
 	}
 	
 	if($conf['services']['web']) {
@@ -360,7 +365,8 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['pureftpd']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	}
 	if($conf['services']['dns']) {
-		if($conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+		if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+		if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
 	}
 }
 

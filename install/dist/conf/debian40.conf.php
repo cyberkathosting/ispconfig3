@@ -141,6 +141,12 @@ $conf['mydns']['installed'] = false; // will be detected automatically during in
 $conf['mydns']['config_dir'] = '/etc';
 $conf['mydns']['init_script'] = 'mydns';
 
+//* PowerDNS
+$conf['powerdns']['installed'] = false; // will be detected automatically during installation
+$conf['powerdns']['database'] = 'powerdns';
+$conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
+$conf['powerdns']['init_script'] = 'pdns';
+
 //* Jailkit
 $conf['jailkit']['installed'] = false; // will be detected automatically during installation
 $conf['jailkit']['config_dir'] = '/etc/jailkit';
