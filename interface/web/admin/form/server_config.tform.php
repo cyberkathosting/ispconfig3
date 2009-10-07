@@ -119,6 +119,14 @@ $form["tabs"]['server'] = array (
 			'width'		=> '40',
 			'maxlength'	=> '255'
 		),
+		'loglevel' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '2',
+			'value'		=> array('0' => 'Debug', '1' => 'Warnings', '2' => 'Errors'),
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

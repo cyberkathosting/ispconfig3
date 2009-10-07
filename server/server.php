@@ -50,6 +50,19 @@ if($server_db_record == false) {
 }
 */
 
+//* Load the server configuration
+if($app->dbmaster->connect()) {
+	// get the dalaog_id of the last performed record
+	$server_db_record = $app->dbmaster->queryOneRecord("SELECT updated, config FROM server WHERE server_id = ".$conf["server_id"]);
+	$conf['last_datalog_id'] = (int)$server_db_record['updated'];
+	// Load the ini_parser
+	$app->uses('ini_parser');
+	// Get server configuration
+	$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
+	// Set the loglevel
+	$conf["log_priority"] = intval($conf["serverconfig"]["server"]["loglevel"]);
+}
+
 
 // Check if another process is running
 if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
@@ -75,10 +88,6 @@ $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGL
 
 if($app->db->connect() && $app->dbmaster->connect()) {
 
-	// get the dalaog_id of the last performed record
-	$server_db_record = $app->dbmaster->queryOneRecord("SELECT updated, config FROM server WHERE server_id = ".$conf["server_id"]);
-	$conf['last_datalog_id'] = (int)$server_db_record['updated'];
-
 	// Check if there is anything to update
 	$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0)");
 	$tmp_num_records = $tmp_rec["number"];
@@ -91,9 +100,7 @@ if($app->db->connect() && $app->dbmaster->connect()) {
 		// Write the Log
 		$app->log("Found $tmp_num_records changes, starting update process.", LOGLEVEL_DEBUG);
 		// Load required base-classes
-		$app->uses('ini_parser,modules,plugins,file,services');
-		// Get server configuration
-		$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
+		$app->uses('modules,plugins,file,services');
 		// Load the modules that are im the mods-enabled folder
 		$app->modules->loadModules('all');
 		// Load the plugins that are in the plugins-enabled folder
@@ -110,9 +117,7 @@ if($app->db->connect() && $app->dbmaster->connect()) {
 		// Write the log
 		$app->log('No Updated records found, starting only the core.', LOGLEVEL_DEBUG);
 		// Load required base-classes
-		$app->uses('ini_parser,modules,plugins,file,services');
-		// Get server configuration
-		$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
+		$app->uses('modules,plugins,file,services');
 		// Load the modules that are im the mods-core folder
 		$app->modules->loadModules('core');
 		// Load the plugins that are in the plugins-core folder

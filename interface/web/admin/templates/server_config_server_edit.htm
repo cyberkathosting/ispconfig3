@@ -32,6 +32,12 @@
         <input name="nameservers" id="nameservers" value="{tmpl_var name='nameservers'}" size="40" maxlength="255" type="text" class="textInput" />
 				<p class="formHint">{tmpl_var name='nameservers_hint_txt'}</p>
 			</div>
+	  <div class="ctrlHolder">
+      	<label for="loglevel">{tmpl_var name='loglevel_txt'}</label>
+        <select name="loglevel" id="loglevel" class="selectInput">
+					{tmpl_var name='loglevel'}
+				</select>
+      </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

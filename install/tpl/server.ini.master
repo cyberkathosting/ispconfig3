@@ -3,6 +3,7 @@ webserver=apache
 mailserver=postfix
 dnsserver=mydns
 
+
 [server]
 auto_network_configuration=n
 ip_address=192.168.0.105
@@ -10,6 +11,7 @@ netmask=255.255.255.0
 gateway=192.168.0.1
 hostname=server1.domain.tld
 nameservers=192.168.0.1,192.168.0.2
+loglevel=2
 
 [mail]
 module=postfix_mysql

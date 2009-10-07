@@ -46,4 +46,5 @@ $wb["wget_txt"] = 'Path to wget program';
 $wb["web_user_txt"] = 'Apache user';
 $wb["web_group_txt"] = 'Apache group';
 $wb["security_level_txt"] = 'Security level';
+$wb["loglevel_txt"] = 'Loglevel';
 ?>
