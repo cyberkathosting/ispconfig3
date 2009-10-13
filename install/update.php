@@ -153,9 +153,23 @@ else {
 //* initialize the database
 $inst->db = new db();
 
+//* initialize the master DB, if we have a multiserver setup
+if($conf['mysql']['master_slave_setup'] == 'y') {
+	$inst->dbmaster = new db();
+	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
+	$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
+	$inst->dbmaster->dbName = $conf['mysql']["master_database"];
+	$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
+	$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+} else {
+	$inst->dbmaster = $inst->db;
+}
+
 //* Update $conf array with values from the server.ini that shall be preserved
 $tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
 $ini_array = ini_to_array(stripslashes($tmp['config']));
+
+if(count($ini_array) == 0) die('Unable to read server configuration from database.');
 
 $conf['services']['mail'] = ($tmp['mail_server'] == 1)?true:false;
 $conf['services']['web'] = ($tmp['web_server'] == 1)?true:false;
