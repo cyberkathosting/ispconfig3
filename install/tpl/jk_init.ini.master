@@ -3,7 +3,7 @@
 # or non-Linux systems
 comment = common files for all jails that need user/group information
 libraries = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2
-regularfiles = /etc/nsswitch.conf /etc/ld.so.conf
+regularfiles = /etc/nsswitch.conf, /etc/ld.so.conf
 
 [netbasics]
 comment = common files for all jails that need any internet connectivity
@@ -83,12 +83,12 @@ includesections = basicshell
 
 [extendedshell]
 comment = bash shell including things like awk, bzip, tail, less
-executables = /usr/bin/awk, /usr/bin/bzip2, /usr/bin/bunzip2, /usr/bin/ldd, /usr/bin/less, /usr/bin/clear, /usr/bin/cut, /usr/bin/du, /usr/bin/find, /usr/bin/head, /usr/bin/less, /usr/bin/md5sum, /usr/bin/nice, /usr/bin/sort, /usr/bin/tac, /usr/bin/tail, /usr/bin/tr, /usr/bin/sort, /usr/bin/wc, /usr/bin/watch, /usb/bin/whoami
+executables = /usr/bin/awk, /usr/bin/bzip2, /usr/bin/bunzip2, /usr/bin/ldd, /usr/bin/less, /usr/bin/clear, /usr/bin/cut, /usr/bin/du, /usr/bin/find, /usr/bin/head, /usr/bin/less, /usr/bin/md5sum, /usr/bin/nice, /usr/bin/sort, /usr/bin/tac, /usr/bin/tail, /usr/bin/tr, /usr/bin/sort, /usr/bin/wc, /usr/bin/watch, /usr/bin/whoami
 includesections = basicshell, midnightcommander, editors
 
 [editors]
 comment = vim, joe and nano
-executables = /usb/bin/joe, /usr/bin/nano, /usr/bin/vi, /usr/bin/vim, /usr/bin/pico
+executables = /usr/bin/joe, /usr/bin/nano, /usr/bin/vi, /usr/bin/vim, /usr/bin/pico
 regularfiles = /etc/vimrc
 directories = /etc/joe, /etc/terminfo, /usr/share/vim, /usr/share/terminfo, /lib/terminfo
 
