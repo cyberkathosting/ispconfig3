@@ -1,17 +1,21 @@
 <?php
-$wb['pass_reset_txt'] = 'A new password will be generated and send to your email address if the email address entered below matches the email address in your client settings.';
-$wb['pw_reset'] = 'The password has been reset and send to your email address.';
-$wb['pw_error'] = 'Username or email address does not match.';
-$wb['pw_error_noinput'] = 'Please enter email address and username.';
-$wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
-$wb['pw_reset_mail_title'] = 'ISPConfig 3 Control panel password has been reset.';
-$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
-$wb['pw_error_length'] = 'The password length is > 64 characters.';
-$wb['error_user_password_empty'] = 'Username or Password empty.';
-$wb['error_user_password_incorrect'] = 'Username or Password wrong.';
-$wb['error_user_blocked'] = 'User is blocked.';
-$wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after 15 minutes';
-$wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
-$wb['login_button_txt'] = 'Login';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["pass_reset_txt"] = "Un nouveau mot de passe vous sera envoyé à votre adresse e-mail si celle-ci correspond à celle dans votre espace client.";
+$wb["pw_reset"] = "Le mot de passe a été réinitialisé, et vous a été envoyé à votre adresse e-mail.";
+$wb["pw_error"] = "Le nom d'utilisateur et/ou l'adresse e-mail ne correspondent pas.";
+$wb["pw_error_noinput"] = "Entrez votre nom d'utilisateur et votre adresse e-mail.";
+$wb["pw_reset_mail_msg"] = "Le mot de passe d'accès à votre panel a été réinitialisé. Le nouveau mot de passe est: ";
+$wb["pw_reset_mail_title"] = "Le mot de passe d'accès à votre panel a été réinitialisé.";
+$wb["user_regex_error"] = "Le nom d'utilisateur contient des caractères incorrects ou contient plus de 64 caractères.";
+$wb["pw_error_length"] = "Le nom d'utilisateur contient plus de que 64 caractères.";
+$wb["error_user_password_empty"] = "Le nom d'utilisateur ou le mot de passe sont vides.";
+$wb["error_user_password_incorrect"] = "Le nom d'utilisateur ou le mot de passe sont incorrects.";
+$wb["error_user_blocked"] = "L'utilisateur a été bloqué.";
+$wb["error_user_too_many_logins"] = "Trop de tentatives effectuées, essayez dans 15 minutes.";
+$wb["username_txt"] = "Nom d'utilisateur";
+$wb["password_txt"] = "Mot de passe";
+$wb["login_button_txt"] = "Connection";
 ?>
+

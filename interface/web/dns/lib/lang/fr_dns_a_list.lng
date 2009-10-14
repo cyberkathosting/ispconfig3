@@ -1,14 +1,18 @@
 <?php
-$wb['list_head_txt'] = 'A-Record';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb['list_head_txt'] = 'Enregistrement A';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
 $wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Name';
-$wb['data_txt'] = 'Data';
-$wb['aux_txt'] = 'Priority';
+$wb['name_txt'] = 'Nom';
+$wb['data_txt'] = 'Donnes';
+$wb['aux_txt'] = 'Priorité';
 $wb['type_txt'] = 'Type';
-$wb['add_new_record_txt'] = 'Add new DNS A-Record';
+$wb['add_new_record_txt'] = 'Ajouter un nouvel enregistrement A';
 $wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+$wb['page_of_txt'] = 'de';
+$wb['delete_confirmation'] = 'Voulez-vous vraiment supprimer cet enregistrement';
 ?>
+

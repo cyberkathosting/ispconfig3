@@ -1,7 +1,11 @@
 <?php
-$wb['repo_name_txt'] = 'Repository';
-$wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'User (optional)';
-$wb['repo_password_txt'] = 'Password (optional)';
-$wb['active_txt'] = 'Active';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["repo_name_txt"] = "Référence";
+$wb["repo_url_txt"] = "URL";
+$wb["repo_username_txt"] = "Utilisateur (optionnel)";
+$wb["repo_password_txt"] = "Mot de passe (optionnel)";
+$wb["active_txt"] = "Actif";
 ?>
+

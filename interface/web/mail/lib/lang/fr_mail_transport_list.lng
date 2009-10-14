@@ -1,9 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Advanced Email Routing';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['transport_txt'] = 'Transport';
-$wb['sort_order_txt'] = 'Sort by';
-$wb['add_new_record_txt'] = 'Add new transport';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Routage d'email avancé";
+$wb["active_txt"] = "Actif";
+$wb["server_id_txt"] = "Serveur";
+$wb["domain_txt"] = "Domaine";
+$wb["transport_txt"] = "Déplacement";
+$wb["sort_order_txt"] = "Trier par";
+$wb["add_new_record_txt"] = "Ajouter un nouveau déplacement";
 ?>
+

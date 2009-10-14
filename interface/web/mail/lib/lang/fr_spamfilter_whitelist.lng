@@ -1,9 +1,13 @@
 <?php
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
 $wb['server_id_txt'] = 'Server';
 $wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'User';
+$wb['rid_txt'] = 'Utilisateur';
 $wb['email_txt'] = 'Email';
-$wb['priority_txt'] = 'Priority';
+$wb['priority_txt'] = 'Priorité';
 $wb['active_txt'] = 'Active';
 $wb['limit_spamfilter_wblist_txt'] = 'The max. number of White- or Blacklist records for your account is reached.';
 ?>
+

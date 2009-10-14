@@ -1,7 +1,11 @@
 <?php
-$wb['recipient_id_txt'] = 'Recipient ID';
-$wb['sender_id_txt'] = 'Sender ID';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['tstamp_txt'] = 'Timestamp';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["recipient_id_txt"] = "ID Destinataire";
+$wb["sender_id_txt"] = "ID Expéditeur";
+$wb["subject_txt"] = "Sujet";
+$wb["message_txt"] = "Message";
+$wb["tstamp_txt"] = "Timestamp";
 ?>
+

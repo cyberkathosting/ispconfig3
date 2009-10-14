@@ -1,7 +1,11 @@
 <?php
-$wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Destination Email';
-$wb['active_txt'] = 'Active';
-$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["email_txt"] = "Email";
+$wb["destination_txt"] = "Email de destination";
+$wb["active_txt"] = "Actif";
+$wb["limit_mailforward_txt"] = "Le nombre max. d'emails de suivi pour votre compte a été atteint.";
+$wb["duplicate_mailbox_txt"] = "Il y a déja une bôite à mails avec cette adresse email";
 ?>
+

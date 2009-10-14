@@ -1,11 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Aliasdomain';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['domain_txt'] = 'Aliasdomain';
-$wb['add_new_record_txt'] = 'Add new aliasdomain';
-$wb['domain_error_empty'] = 'Domain is empty.';
-$wb['domain_error_unique'] = 'Domain must be unique.';
-$wb['domain_error_regex'] = 'Domain name invalid.';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Alias de domaine";
+$wb["active_txt"] = "Actif";
+$wb["server_id_txt"] = "Serveur";
+$wb["parent_domain_id_txt"] = "Site web";
+$wb["domain_txt"] = "Alias de domaine";
+$wb["add_new_record_txt"] = "Nouvel alias de domaine";
+$wb["domain_error_empty"] = "Le nom de domaine est vide.";
+$wb["domain_error_unique"] = "Le nom de domaine doit être unique.";
+$wb["domain_error_regex"] = "Le nom de domaine est invalide.";
 ?>
+

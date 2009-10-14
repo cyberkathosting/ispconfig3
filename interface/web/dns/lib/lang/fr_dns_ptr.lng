@@ -1,15 +1,19 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Name';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'Canonical Hostname';
-$wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The name is empty.';
-$wb['name_error_regex'] = 'The name has the wrong format.';
-$wb['data_error_empty'] = 'Canonical hostname empty';
-$wb['data_error_regex'] = 'Canonical hostname format invalid';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["server_id_txt"] = "Serveur";
+$wb["zone_txt"] = "Zone";
+$wb["name_txt"] = "Nom";
+$wb["type_txt"] = "Type";
+$wb["data_txt"] = "Hôte canonique";
+$wb["ttl_txt"] = "TTL";
+$wb["active_txt"] = "Actif";
+$wb["limit_dns_record_txt"] = "Le nombre maximum d'enregistrements DNS pour votre compte a t atteint.";
+$wb["no_zone_perm"] = "Vous n'avez pas la permissions d'ajouter un enregistrement dans cette zone DNS.";
+$wb["name_error_empty"] = "Le nom est vide.";
+$wb["name_error_regex"] = "Le nom est d'un format invalide.";
+$wb["data_error_empty"] = "L'hôte canonique est vide.";
+$wb["data_error_regex"] = "L'hôte canonique est d'un format invalide.";
 ?>
+

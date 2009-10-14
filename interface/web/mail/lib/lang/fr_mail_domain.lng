@@ -1,13 +1,17 @@
 <?php
-$wb['server_id_txt'] = 'Serveur';
-$wb['domain_txt'] = 'Domainu';
-$wb['type_txt'] = 'Type';
-$wb['active_txt'] = 'Actif';
-$wb['domain_error_empty'] = 'Domain is empty.';
-$wb['domain_error_unique'] = 'Duplicate Domain.';
-$wb['domain_error_regex'] = 'Invalid domain name.';
-$wb['client_txt'] = 'Client';
-$wb['limit_maildomain_txt'] = 'The max. number of email domains for your account is reached.';
-$wb['policy_txt'] = 'Spamfilter';
-$wb['no_policy'] = '- not enabled -';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["server_id_txt"] = "Serveur";
+$wb["domain_txt"] = "Domaine";
+$wb["type_txt"] = "Type";
+$wb["active_txt"] = "Actif";
+$wb["domain_error_empty"] = "Le domaine est vide.";
+$wb["domain_error_unique"] = "Dupliquer le domaine.";
+$wb["domain_error_regex"] = "Le domaine est invalide.";
+$wb["client_txt"] = "Client";
+$wb["limit_maildomain_txt"] = "Le nombre max. de domaines d'emails pour votre compte a été atteint.";
+$wb["policy_txt"] = "Filtre à spam";
+$wb["no_policy"] = "- non activé -";
 ?>
+

@@ -1,6 +1,10 @@
 <?php
-$wb['User Settings'] = 'User Settings';
-$wb['Settings'] = 'Settings';
-$wb['ISPConfig Tools'] = 'ISPConfig Tools';
-$wb['Password and Language'] = 'Password and Language';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["User Settings"] = "Paramètres Utilisateur";
+$wb["Settings"] = "Paramètres";
+$wb["ISPConfig Tools"] = "Outils ISPConfig";
+$wb["Password and Language"] = "Mot de passe et Langage";
 ?>
+

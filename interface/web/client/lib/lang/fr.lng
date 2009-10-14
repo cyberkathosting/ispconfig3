@@ -1,12 +1,16 @@
 <?php
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
 $wb['Client'] = 'Client';
-$wb['Address'] = 'Address';
-$wb['Limits'] = 'Limits';
-$wb['Add Client'] = 'Add Client';
-$wb['Edit Client'] = 'Edit Client';
+$wb['Address'] = 'Adresse';
+$wb['Limits'] = 'Limites';
+$wb['Add Client'] = 'Ajouter un Client';
+$wb['Edit Client'] = 'Editer Client';
 $wb['Clients'] = 'Clients';
-$wb['Edit Client-Templates'] = 'Edit Client-Templates';
-$wb['Add Reseller'] = 'Add Reseller';
-$wb['Edit Reseller'] = 'Edit Reseller';
-$wb['Resellers'] = 'Resellers';
+$wb['Edit Client-Templates'] = 'Editer les modèles de Clients';
+$wb['Add Reseller'] = 'Ajouter un Revendeur';
+$wb['Edit Reseller'] = 'Editer Revendeur';
+$wb['Resellers'] = 'Revendeurs';
 ?>
+

@@ -1,8 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Jobqueue';
-$wb['tstamp_txt'] = 'Date';
-$wb['server_id_txt'] = 'Server';
-$wb['dbtable_txt'] = 'DB Table';
-$wb['action_txt'] = 'Action';
-$wb['status_txt'] = 'Status';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Processus en attente";
+$wb["tstamp_txt"] = "Date";
+$wb["server_id_txt"] = "Serveur";
+$wb["dbtable_txt"] = "Table DB";
+$wb["action_txt"] = "Action";
+$wb["status_txt"] = "Status";
 ?>
+

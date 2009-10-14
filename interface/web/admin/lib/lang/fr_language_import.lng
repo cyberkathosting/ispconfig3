@@ -1,7 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Import language file';
-$wb['language_import_txt'] = 'Select language file';
-$wb['btn_save_txt'] = 'Import the selected language file';
-$wb['language_overwrite_txt'] = 'Overwrite file, if exists.';
-$wb['btn_cancel_txt'] = 'Back';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Importer un fichier de langue";
+$wb["language_import_txt"] = "Sélectionnez le fichier de langue";
+$wb["btn_save_txt"] = "Importe le fichier de langue sélectionné";
+$wb["language_overwrite_txt"] = "Ecraser le fichier s'il éxiste déja.";
+$wb["btn_cancel_txt"] = "Précédent";
 ?>
+

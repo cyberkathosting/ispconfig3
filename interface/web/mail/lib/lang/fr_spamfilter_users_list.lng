@@ -1,10 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter Users';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb['list_head_txt'] = 'Utilisateurs du filtre à spam';
 $wb['local_txt'] = 'Local';
-$wb['server_id_txt'] = 'Server';
-$wb['priority_txt'] = 'Priority';
-$wb['policy_id_txt'] = 'Policy';
-$wb['fullname_txt'] = 'Name';
+$wb['server_id_txt'] = 'Serveur';
+$wb['priority_txt'] = 'Priorité';
+$wb['policy_id_txt'] = 'Politique';
+$wb['fullname_txt'] = 'Nom';
 $wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Add Spamfilter User';
+$wb['add_new_record_txt'] = 'Ajouter un utilisateur du filtre à spam';
 ?>
+

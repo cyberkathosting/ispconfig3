@@ -1,4 +1,7 @@
 <?php
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zones';
 $wb['DNS A'] = 'DNS A';
@@ -9,9 +12,10 @@ $wb['DNS mx'] = 'DNS mx';
 $wb['DNS ns'] = 'DNS ns';
 $wb['DNS ptr'] = 'DNS ptr';
 $wb['DNS RP'] = 'DNS RP';
-$wb['DNS Zone'] = 'DNS Zone';
-$wb['Records'] = 'Records';
+$wb['DNS Zone'] = 'Zone DNS';
+$wb['Records'] = 'Enregistrements';
 $wb['DNS SRV'] = 'DNS SRV';
-$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT Record'] = 'Enregistrement DNS TXT';
 $wb['DNS TXT'] = 'DNS TXT';
 ?>
+

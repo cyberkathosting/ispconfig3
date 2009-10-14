@@ -1,6 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Export language files';
-$wb['language_select_txt'] = 'Select language';
-$wb['btn_save_txt'] = 'Export the selected language file set';
-$wb['btn_cancel_txt'] = 'Back';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Exporter les fichiers de langue";
+$wb["language_select_txt"] = "Sélectionnez le langage";
+$wb["btn_save_txt"] = "Exporte la langue sélectionnée dans un fichier";
+$wb["btn_cancel_txt"] = "Précédent";
 ?>
+

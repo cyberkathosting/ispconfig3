@@ -1,24 +1,28 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone (SOA)';
-$wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'Email';
-$wb['serial_txt'] = 'Serial';
-$wb['refresh_txt'] = 'Refresh';
-$wb['retry_txt'] = 'Retry';
-$wb['expire_txt'] = 'Expire';
-$wb['minimum_txt'] = 'Minimum';
-$wb['ttl_txt'] = 'TTL';
-$wb['xfer_txt'] = 'Allow zone transfers to <br />these IPs (comma separated list)';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
-$wb['client_txt'] = 'Client';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['server_id_error_empty'] = 'No server selected';
-$wb['origin_error_empty'] = 'Zone empty.';
-$wb['origin_error_unique'] = 'There is already a record for this zone.';
-$wb['origin_error_regex'] = 'Zone has a invalid format.';
-$wb['ns_error_regex'] = 'NS has a invalid format.';
-$wb['mbox_error_empty'] = 'Email is empty.';
-$wb['mbox_error_regex'] = 'Email format invalid.';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["server_id_txt"] = "Serveur";
+$wb["origin_txt"] = "Zone (SOA)";
+$wb["ns_txt"] = "NS";
+$wb["mbox_txt"] = "Email";
+$wb["serial_txt"] = "Série";
+$wb["refresh_txt"] = "Rafraichissement";
+$wb["retry_txt"] = "Rééssai";
+$wb["expire_txt"] = "Expiration";
+$wb["minimum_txt"] = "Minimum";
+$wb["ttl_txt"] = "TTL";
+$wb["xfer_txt"] = "Autoriser les transfers de zones à <br />ces IP (liste séparée par des virgules)";
+$wb["active_txt"] = "Actif";
+$wb["limit_dns_record_txt"] = "Le nombre maximum d'enregistrements DNS pour votre compte a été atteint.";
+$wb["client_txt"] = "Client";
+$wb["no_zone_perm"] = "Vous n'avez pas la permissions d'ajouter un enregistrement dans cette zone DNS.";
+$wb["server_id_error_empty"] = "Pas de serveur sélectionné";
+$wb["origin_error_empty"] = "Zone vide.";
+$wb["origin_error_unique"] = "Il y a déja un enregistrement pour cette zone.";
+$wb["origin_error_regex"] = "La zone est d'un format invalide.";
+$wb["ns_error_regex"] = "Le serveur de nom est d'un format invalide.";
+$wb["mbox_error_empty"] = "L'adresse e-mail est vide.";
+$wb["mbox_error_regex"] = "L'adresse e-mail est d'un format invalide.";
 ?>
+

@@ -1,6 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'DNS Wizard Template';
-$wb['visible_txt'] = 'Visible';
-$wb['name_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Add new record';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Modèle d'assistant DNS";
+$wb["visible_txt"] = "Visible";
+$wb["name_txt"] = "Nom";
+$wb["add_new_record_txt"] = "Ajouter un nouvel enregistrement";
 ?>
+

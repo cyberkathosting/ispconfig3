@@ -1,34 +1,37 @@
 <?php
-$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
-$wb['email_txt'] = 'Email';
-$wb['cryptpwd_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['active_txt'] = 'Active';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['email_error_unique'] = 'Duplicate Email address.';
-$wb['autoresponder_text_txt'] = 'Text';
-$wb['autoresponder_txt'] = 'Autoresponder';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['error_no_pwd'] = 'Password is empty.';
-$wb['quota_error_isint'] = 'Mailbox size must be a number.';
-$wb['quota_txt'] = 'quota in MB';
-$wb['server_id_txt'] = 'server_id';
-$wb['password_txt'] = 'password';
-$wb['maildir_txt'] = 'maildir';
-$wb['postfix_txt'] = 'Enable Receiving';
-$wb['access_txt'] = 'Enable Access';
-$wb['policy_txt'] = 'Spamfilter';
-$wb['no_policy'] = '- not enabled -';
-$wb['limit_mailbox_txt'] = 'The max. number of mailboxes for your account is reached.';
-$wb['limit_mailquota_txt'] = 'The max space for mailboxes is reached. The max. available space in MB is';
-$wb['welcome_mail_subject'] = 'Welcome to your new email account.';
-$wb['welcome_mail_message'] = 'Welcome to your new email account.
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
 
-Your webmaster.';
-$wb['disableimap_txt'] = 'Disable IMAP';
-$wb['disablepop3_txt'] = 'Disable POP3';
-$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
-$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
-$wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
-$wb['quota_error_value'] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
+$wb["custom_mailfilter_txt"] = "Filtre à mails personalisés";
+$wb["email_txt"] = "Email";
+$wb["cryptpwd_txt"] = "Mot de passe";
+$wb["password_strength_txt"] = "Force du mot de passe";
+$wb["active_txt"] = "Actif";
+$wb["email_error_isemail"] = "L'adresse email est invalide.";
+$wb["email_error_unique"] = "Dupliquer l'adresse email.";
+$wb["autoresponder_text_txt"] = "Texte";
+$wb["autoresponder_txt"] = "Auto répondeur";
+$wb["no_domain_perm"] = "Vous n'avez pas de permissions sur ce domaine.";
+$wb["error_no_pwd"] = "Le mot de passe est vide.";
+$wb["quota_error_isint"] = "La taille de la bôite à mail doit être en MB.";
+$wb["quota_txt"] = "quota en MB";
+$wb["server_id_txt"] = "ID Serveur";
+$wb["password_txt"] = "mot de passe";
+$wb["maildir_txt"] = "maildir";
+$wb["postfix_txt"] = "Activer la réception";
+$wb["access_txt"] = "Activer l'accès";
+$wb["policy_txt"] = "Filtre à spam";
+$wb["no_policy"] = "- non activé -";
+$wb["limit_mailbox_txt"] = "The max. number of mailboxes for your account is reached.";
+$wb["limit_mailquota_txt"] = "The max space for mailboxes is reached. The max. available space in MB is";
+$wb["welcome_mail_subject"] = "Bienvenue sur votre nouveau compte mail.";
+$wb["welcome_mail_message"] = "Bienvenue sur votre nouveau compte mail.
+
+Votre webmaster.";
+$wb["disableimap_txt"] = "Désactiver IMAP";
+$wb["disablepop3_txt"] = "Désactiver POP3";
+$wb["welcome_mail_fromname_txt"] = "ISPConfig3";
+$wb["welcome_mail_fromemail_txt"] = "webmaster@localhost.tld";
+$wb["duplicate_alias_or_forward_txt"] = "Il y a déja un alias ou un suivi avec cette adresse email.";
 ?>
+

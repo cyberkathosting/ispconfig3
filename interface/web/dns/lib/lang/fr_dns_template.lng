@@ -1,6 +1,10 @@
 <?php
-$wb['name_txt'] = 'Name';
-$wb['fields_txt'] = 'Fields';
-$wb['template_txt'] = 'Template';
-$wb['visible_txt'] = 'Visible';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["name_txt"] = "Nom";
+$wb["fields_txt"] = "Champs";
+$wb["template_txt"] = "Modèle";
+$wb["visible_txt"] = "Visible";
 ?>
+

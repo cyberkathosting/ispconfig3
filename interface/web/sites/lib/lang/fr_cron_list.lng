@@ -1,12 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Cron Jobs';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb['list_head_txt'] = 'Crons';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
 $wb['run_min_txt'] = 'Minute';
-$wb['run_hour_txt'] = 'Hour';
-$wb['run_mday_txt'] = 'Day of month';
-$wb['run_month_txt'] = 'Month';
-$wb['run_wday_txt'] = 'Day of week';
-$wb['command_txt'] = 'Command';
-$wb['add_new_cron_txt'] = 'Add new Cron job';
+$wb['run_hour_txt'] = 'Heure';
+$wb['run_mday_txt'] = 'Jour du mois';
+$wb['run_month_txt'] = 'Mois';
+$wb['run_wday_txt'] = 'Jour de la semaine';
+$wb['command_txt'] = 'Commande';
+$wb['add_new_cron_txt'] = 'Nouveau Cron';
 ?>
+

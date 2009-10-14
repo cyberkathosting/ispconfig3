@@ -1,9 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Fetch emails from external POP3 / IMAP servers';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['source_server_txt'] = 'External Server';
-$wb['source_username_txt'] = 'Username';
-$wb['destination_txt'] = 'Destination';
-$wb['add_new_record_txt'] = 'Add new Account';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Récuprer les emails depuis des serveurs POP3/IMAP externes";
+$wb["active_txt"] = "Actif";
+$wb["server_id_txt"] = "Serveur";
+$wb["source_server_txt"] = "Serveur externe";
+$wb["source_username_txt"] = "Utilisateur";
+$wb["destination_txt"] = "Destination";
+$wb["add_new_record_txt"] = "Ajouter un nouveau compte";
 ?>
+

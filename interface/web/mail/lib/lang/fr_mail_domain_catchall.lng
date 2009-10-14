@@ -1,9 +1,13 @@
 <?php
-$wb['domain_txt'] = 'Domain';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
-$wb['domain_error_unique'] = 'There is already a Catchall record for this domain.';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['domain_error_regex'] = 'Invalid domain name od domain contains invalid characters.';
-$wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts for your account is reached.';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["domain_txt"] = "Domaine";
+$wb["destination_txt"] = "Destination";
+$wb["active_txt"] = "Actif";
+$wb["domain_error_unique"] = "Il y a déja un enregistrement Catchall pour ce domaine.";
+$wb["no_domain_perm"] = "Vous n'avez pas de permissions pour ce domaine.";
+$wb["domain_error_regex"] = "Nom de domaine invalide, ou contient des caractères invalides.";
+$wb["limit_mailcatchall_txt"] = "Le nombre max. de comptes Catchall pour votre compte a été atteint.";
 ?>
+

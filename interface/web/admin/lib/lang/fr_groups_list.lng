@@ -1,6 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Groupes dutilisateur Syst�me';
-$wb['description_txt'] = 'Description';
-$wb['name_txt'] = 'Groupe';
-$wb['add_new_record_txt'] = 'Add new Group';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Groupes d'utilisateurs système";
+$wb["description_txt"] = "Description";
+$wb["name_txt"] = "Groupe";
+$wb["add_new_record_txt"] = "Ajouter nouveau groupe";
 ?>
+

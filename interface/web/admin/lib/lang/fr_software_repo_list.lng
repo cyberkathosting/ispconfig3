@@ -1,6 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Repository';
-$wb['active_txt'] = 'Active';
-$wb['repo_name_txt'] = 'Repository';
-$wb['repo_url_txt'] = 'URL';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Référence";
+$wb["active_txt"] = "Actif";
+$wb["repo_name_txt"] = "Référence";
+$wb["repo_url_txt"] = "URL";
 ?>
+

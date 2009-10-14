@@ -1,7 +1,11 @@
 <?php
-$wb['Support Message'] = 'Support Message';
-$wb['Message'] = 'Message';
-$wb['Send message'] = 'Send message';
-$wb['View messages'] = 'View messages';
-$wb['Support'] = 'Support';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["Support Message"] = "Message de support";
+$wb["Message"] = "Message";
+$wb["Send message"] = "Envoyer un message";
+$wb["View messages"] = "Voir les messages";
+$wb["Support"] = "Support";
 ?>
+

@@ -1,8 +1,12 @@
 <?php
-$wb['password_strength_0_txt'] = 'Too short';
-$wb['password_strength_1_txt'] = 'Weak';
-$wb['password_strength_2_txt'] = 'Fair';
-$wb['password_strength_3_txt'] = 'Good';
-$wb['password_strength_4_txt'] = 'Strong';
-$wb['password_strength_5_txt'] = 'Very strong';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["password_strength_0_txt"] = "Trop court";
+$wb["password_strength_1_txt"] = "Faible";
+$wb["password_strength_2_txt"] = "Moyen";
+$wb["password_strength_3_txt"] = "Bon";
+$wb["password_strength_4_txt"] = "Fort";
+$wb["password_strength_5_txt"] = "Très fort";
 ?>
+

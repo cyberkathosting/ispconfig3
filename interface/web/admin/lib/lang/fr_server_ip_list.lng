@@ -1,6 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'IP Addresses';
-$wb['server_id_txt'] = 'Server';
-$wb['ip_address_txt'] = 'IP Address';
-$wb['add_new_record_txt'] = 'Add new IP Address';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Adresses IP";
+$wb["server_id_txt"] = "Serveur";
+$wb["ip_address_txt"] = "Adresse IP";
+$wb["add_new_record_txt"] = "Nouvelle adresse IP";
 ?>
+

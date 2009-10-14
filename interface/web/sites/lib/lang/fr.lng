@@ -1,17 +1,21 @@
 <?php
-$wb['Database'] = 'Database';
-$wb['Options'] = 'Options';
-$wb['Shell User'] = 'Shell User';
-$wb['Domain'] = 'Domain';
-$wb['Redirect'] = 'Redirect';
-$wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Subdomain';
-$wb['Sites'] = 'Sites';
-$wb['Aliasdomain'] = 'Aliasdomain';
-$wb['FTP-User'] = 'FTP-User';
-$wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Shell-User';
-$wb['Shell'] = 'Shell';
-$wb['Websites'] = 'Websites';
-$wb['Stats'] = 'Statistics';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["Database"] = "Base de données";
+$wb["Options"] = "Options";
+$wb["Shell User"] = "Utilisateur Shell";
+$wb["Domain"] = "Domaine";
+$wb["Redirect"] = "Redirection";
+$wb["SSL"] = "SSL";
+$wb["Subdomain"] = "Sous-domaine";
+$wb["Sites"] = "Sites";
+$wb["Aliasdomain"] = "Alias";
+$wb["FTP-User"] = "Utilisateur FTP";
+$wb["FTP"] = "FTP";
+$wb["Shell-User"] = "Utilisateur Shell";
+$wb["Shell"] = "Shell";
+$wb["Websites"] = "Sites Web";
+$wb["Stats"] = "Statistiques";
 ?>
+

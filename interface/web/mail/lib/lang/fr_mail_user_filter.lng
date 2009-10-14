@@ -1,9 +1,13 @@
 <?php
-$wb['rulename_txt'] = 'Name';
-$wb['action_txt'] = 'Action';
-$wb['target_txt'] = 'Folder';
-$wb['active_txt'] = 'Active';
-$wb['rulename_error_empty'] = 'Name is empty.';
-$wb['searchterm_is_empty'] = 'Search term is empty.';
-$wb['source_txt'] = 'Source';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["rulename_txt"] = "Nom";
+$wb["action_txt"] = "Action";
+$wb["target_txt"] = "Répertoire";
+$wb["active_txt"] = "Actif";
+$wb["rulename_error_empty"] = "Le nom est vide.";
+$wb["searchterm_is_empty"] = "Le terme recherché est vide.";
+$wb["source_txt"] = "Source";
 ?>
+

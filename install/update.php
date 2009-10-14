@@ -149,18 +149,46 @@ else {
 	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --all --quick ".$conf['mysql']['database']." > existing_db.sql");
 }
 
+// create a backup copy of the ispconfig database in the root folder
+$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
+copy('existing_db.sql',$backup_db_name);
+exec("chmod 700 $backup_db_name");
+exec("chown root:root $backup_db_name");
+
 
 //* initialize the database
 $inst->db = new db();
 
 //* initialize the master DB, if we have a multiserver setup
 if($conf['mysql']['master_slave_setup'] == 'y') {
-	$inst->dbmaster = new db();
-	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-	$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
-	$inst->dbmaster->dbName = $conf['mysql']["master_database"];
-	$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
-	$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+		//** Get MySQL root credentials
+		$finished = false;
+		do {
+			$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']);
+			$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']);
+			$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']);
+    		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']);
+	
+			//* Initialize the MySQL server connection
+			if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+				$conf['mysql']['master_host'] = $tmp_mysql_server_host;
+				$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
+				$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
+				$conf['mysql']['master_database'] = $tmp_mysql_server_database;
+				$finished = true;
+			} else {
+				swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+			}
+		} while ($finished == false);
+		unset($finished);
+		
+		// initialize the connection to the master database
+		$inst->dbmaster = new db();
+		if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
+		$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
+		$inst->dbmaster->dbName = $conf['mysql']["master_database"];
+		$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
+		$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
 } else {
 	$inst->dbmaster = $inst->db;
 }
@@ -188,8 +216,14 @@ if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
 //** Create the mysql database
 $inst->configure_database();
 
-//** Update master database rights
-$inst->grant_master_database_rights();
+if($conf['mysql']['master_slave_setup'] == 'y') {
+	//** Update master database rights
+	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes','no'),'no');
+
+	if($reconfigure_master_database_rights_answer == 'yes') {
+		$inst->grant_master_database_rights();
+	}
+}
 
 //** empty all databases
 $db_tables = $inst->db->getTables();
@@ -207,12 +241,6 @@ if( !empty($conf["mysql"]["admin_password"]) ) {
 
 	system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
 }
-
-// create a backup copy of the ispconfig database in the root folder
-$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
-copy('existing_db.sql',$backup_db_name);
-exec("chmod 700 $backup_db_name");
-exec("chown root:root $backup_db_name");
 
 
 //** Update server ini

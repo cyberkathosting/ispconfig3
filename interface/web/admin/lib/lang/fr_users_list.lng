@@ -1,8 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Utilisateurs';
-$wb['username_txt'] = 'Nom dutilisateur';
-$wb['name_txt'] = 'Nom';
-$wb['vorname_txt'] = 'Pr�nom';
-$wb['ort_txt'] = 'Ville';
-$wb['add_new_record_txt'] = 'Add new user';
+// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
+// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+
+$wb["list_head_txt"] = "Utilisateurs";
+$wb["username_txt"] = "Nom d'utilisateur";
+$wb["name_txt"] = "Nom";
+$wb["vorname_txt"] = "Prénom";
+$wb["ort_txt"] = "Ville";
+$wb["add_new_record_txt"] = "Ajouter un nouvel utilisateur";
 ?>
+
