@@ -1,0 +1,15 @@
+<?php
+$wb["server_id_txt"] = 'Sunucu';
+$wb["type_txt"] = 'Çeşit';
+$wb["source_server_txt"] = 'Pop3/Imap Server';
+$wb["source_username_txt"] = 'Kullanıcı adı';
+$wb["source_password_txt"] = 'Şifre';
+$wb["source_delete_txt"] = 'Tekrar gelen mailleri sil';
+$wb["destination_txt"] = 'Hedef';
+$wb["active_txt"] = 'Aktif';
+$wb["limit_fetchmail_txt"] = 'Hesabınızdaki max. Fetchmail kaydı sayısına ulaştınız.';
+$wb["source_server_error_isempty"] = 'Sunucu boş.';
+$wb["source_username_error_isempty"] = 'Kullanıcı adı boş.';
+$wb["source_password_error_isempty"] = 'Şifre boş.';
+$wb["destination_error_isemail"] = 'Hedef seçilmedi.';
+?>

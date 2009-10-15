@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'Yeni dil ekle';
+$wb["language_select_txt"] = 'Dil kaynağını seçiniz';
+$wb["language_new_txt"] = 'Yeni dil';
+$wb["language_new_hint_txt"] = 'ISO 639-1 dil kodlamasında 2 karakter (Ayrıntı http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['btn_save_txt'] = 'Yeni dil dosyası oluştur';
+$wb['btn_cancel_txt'] = 'Geri';
+?>

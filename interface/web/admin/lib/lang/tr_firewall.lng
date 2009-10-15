@@ -1,0 +1,12 @@
+<?php
+$wb["server_id_txt"] = 'Sunucu';
+$wb["tcp_port_txt"] = 'Açık TCP portları';
+$wb["udp_port_txt"] = 'Açık UDP portları';
+$wb["tcp_port_help_txt"] = 'Virgülle ayırınız';
+$wb["udp_port_help_txt"] = 'Virgülle ayırınız';
+$wb["active_txt"] = 'Aktif';
+$wb["firewall_error_unique"] = 'Bu sunucuda bir firewall kaydı zaten var.';
+$wb["active_txt"] = 'Aktif';
+$wb["tcp_ports_error_regex"] = 'TCP port tanımlaması için izin verilmeyen karakterler. İzin verilen karakterler; sayılar , ":" ve ",".';
+$wb["udp_ports_error_regex"] = 'UDP port tanımlaması için izin verilmeyen karakterler. İzin verilen karakterler; sayılar , ":" ve ",".';
+?>

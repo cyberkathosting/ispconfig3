@@ -1,0 +1,11 @@
+<?php
+$wb["list_head_txt"] = 'Sunucu';
+$wb["server_name_txt"] = 'İsim';
+$wb["mail_server_txt"] = 'Mail';
+$wb["web_server_txt"] = 'Web';
+$wb["dns_server_txt"] = 'DNS';
+$wb["file_server_txt"] = 'Dosya';
+$wb["db_server_txt"] = 'DB';
+$wb["vserver_server_txt"] = 'VServer';
+$wb["add_new_record_txt"] = 'Yeni Sunucu';
+?>

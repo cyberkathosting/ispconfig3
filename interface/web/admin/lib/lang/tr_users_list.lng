@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'Kullanıcılar';
+$wb["username_txt"] = 'Kullanıcı adı';
+$wb["name_txt"] = 'İsim';
+$wb["vorname_txt"] = 'Takma ad';
+$wb["ort_txt"] = 'şehir';
+$wb["add_new_record_txt"] = 'Yeni Kullanıcı';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb["rulename_txt"] = 'İsim';
+$wb["action_txt"] = 'Eylem';
+$wb["target_txt"] = 'Klasör';
+$wb["active_txt"] = 'Aktif';
+$wb["rulename_error_empty"] = 'İsim boş.';
+$wb["searchterm_is_empty"] = 'Search term is empty.';
+$wb["source_txt"] = 'Kaynak';
+?>

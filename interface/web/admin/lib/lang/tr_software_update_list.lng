@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Yazılım güncelleştirmeleri';
+$wb['server_select_txt'] = 'Sunucu seç';
+$wb['installed_txt'] = 'Eylem';
+$wb['update_title_txt'] = 'Güncelleme';
+$wb['version_txt'] = 'Versiyon';
+$wb['action_txt'] = 'Eylem';
+?>
+

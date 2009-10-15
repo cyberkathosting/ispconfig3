@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Arkaplan Formu';
+$wb["form_txt"] = 'Form';
+$wb["module_txt"] = 'Modül';
+$wb["title_txt"] = 'Başlık';
+$wb["description_txt"] = 'Açıklama';
+?>

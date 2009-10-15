@@ -1,0 +1,26 @@
+<?php
+$wb["server_id_txt"] = 'Sunucu';
+$wb["type_txt"] = 'Çeşit';
+$wb["database_name_txt"] = 'Veritabanı adı';
+$wb["database_user_txt"] = 'Veritabanı kullanıcısı';
+$wb["database_password_txt"] = 'Veritabanı şifresi';
+$wb["password_strength_txt"] = 'Şifre Gücü';
+$wb["database_charset_txt"] = 'Veritabanı Karakterseti';
+$wb["remote_access_txt"] = 'Uzaktan Erişim';
+$wb["remote_ips_txt"] = 'Uzaktan Erişim IPleri (virgül(,) ile ayırınız veya hepsi için boş bırakınız.)';
+$wb["database_remote_error_ips"] = 'Girilen IP adreslerinden en az birisi hatalı.';
+$wb["client_txt"] = 'Müşteri';
+$wb["active_txt"] = 'Aktif';
+$wb["database_name_error_empty"] = 'Veritabanı ismi boş.';
+$wb["database_name_error_unique"] = 'Sunucu üzerinde bu isimle veritabanı zaten var. Benzersiz bir isim için, örneğin veritabanı isminin başına domain isminizi ekleyebilirsiniz.';
+$wb["database_name_error_regex"] = 'Veritabanı adı geçersiz. Veritabanı adı şu karakterleri içermelidir: a-z, A-Z, 0-9 ve alttan çizgi(_). Uzunluğu 2-64 karakterleri arasında olmalıdır.';
+$wb["database_user_error_empty"] = 'Veritabanı kullanıcısı boş.';
+$wb["database_user_error_unique"] = 'Sunucu üzerinde bu isimle veritabanı kullancısı zaten var. Benzersiz bir isim için, örneğin veritabanı kullanıcısı isminin başına domain isminizi ekleyebilirsiniz.';
+$wb["database_user_error_regex"] = 'Veritabanı kullanıcısı adı geçersiz. Veritabanı kullanıcısı adı şu karakterleri içermelidir: a-z, A-Z, 0-9 ve alttan çizgi(_). Uzunluğu 2-64 karakterleri arasında olmalıdır.';
+$wb["limit_database_txt"] = 'Max. Veritabanı sayısına ulaştınız.';
+$wb["database_name_change_txt"] = 'Veritabanı ismi değiştirilemedi';
+$wb["database_charset_change_txt"] = 'Veritabanı karakterseti değiştirilemedi';
+$wb["database_name_error_len"] = 'Veritabanı ismi - {db} - çok büyük. Max. Veritabanı ismi büyüklüğü ön ek de dahil 64 karakterdir.';
+$wb["database_user_error_len"] = 'Veritabanı kullanıcısı adı - {user} - çok büyük. Max. Veritabanı kullanıcısı adı büyüklüğü ön ek de dahil 16 karakterdir.';
+?>
+

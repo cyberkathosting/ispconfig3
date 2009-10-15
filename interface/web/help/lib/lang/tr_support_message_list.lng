@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Destek Mesajları';
+$wb['sender_id_txt'] = 'Gönderici';
+$wb['subject_txt'] = 'Konu';
+$wb["add_new_record_txt"] = 'Yeni destek mesajı oluştur';
+?>

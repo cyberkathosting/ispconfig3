@@ -1,0 +1,6 @@
+<?php
+$wb["list_head_txt"] = 'Mail kutusu';
+$wb["email_txt"] = 'Email';
+$wb["autoresponder_txt"] = 'Otomatik cevaplayıcı';
+$wb["add_new_record_txt"] = 'Yeni Mail kutusu';
+?>

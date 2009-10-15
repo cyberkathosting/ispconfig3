@@ -1,0 +1,9 @@
+<?php
+$wb["list_head_txt"] = 'DNS Zones';
+$wb["active_txt"] = 'Aktif';
+$wb["server_id_txt"] = 'Sunucu';
+$wb["origin_txt"] = 'Zone';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Yeni DNS Zone (SOA)';
+?>

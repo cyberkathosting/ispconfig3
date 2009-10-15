@@ -1,0 +1,17 @@
+<?php
+$wb["header_txt"] = 'Menü editörü';
+$wb["title_txt"] = 'Başlık';
+$wb["name_txt"] = 'Modül';
+$wb["delete_txt"] = 'Sil';
+$wb["properties_txt"] = 'Özellikler';
+$wb["new_menu_txt"] = 'Yeni Menü';
+$wb["edit_txt"] = 'Düzenle';
+$wb["delete_txt"] = 'Sil';
+$wb["new_txt"] = 'Yeni';
+$wb["up_txt"] = 'Yukarı';
+$wb["down_txt"] = 'Aşağı';
+$wb["module_txt"] = 'Modül';
+$wb["module_del_txt"] = "Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse löschen?";
+$wb["menu_del_txt"] = "Wollen Sie das Menü mit allen Untereinträgen löschen?";
+$wb["item_del_txt"] = "Wollen Sie den Menüeintrag löschen?";
+?>

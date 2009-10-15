@@ -1,0 +1,11 @@
+<?php
+$wb["config_txt"] = 'konfigurasyon';
+$wb["server_name_txt"] = 'Sunucu adı';
+$wb["mail_server_txt"] = 'Mail sunucusu';
+$wb["web_server_txt"] = 'Web sunucusu';
+$wb["dns_server_txt"] = 'DNS sunucusu';
+$wb["file_server_txt"] = 'Dosya sunucusu';
+$wb["db_server_txt"] = 'VT sunucusu';
+$wb["vserver_server_txt"] = 'VServer sunucusu';
+$wb["active_txt"] = 'Aktif';
+?>

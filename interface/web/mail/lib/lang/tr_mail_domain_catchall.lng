@@ -1,0 +1,9 @@
+<?php
+$wb["domain_txt"] = 'Domain';
+$wb["destination_txt"] = 'Hedef';
+$wb["active_txt"] = 'Aktif';
+$wb["domain_error_unique"] = "Bu domain için zaten Catchall kayıdı bulunmakta.";
+$wb["no_domain_perm"] = "Bu domain için yetkiniz yok.";
+$wb["domain_error_regex"] = 'Geçersiz domain adı. Domain adı izin verilmeyen karakterler içermekte.';
+$wb["limit_mailcatchall_txt"] = 'Hesabınıdaki max. Catchall hesabı limitine ulaştınız..';
+?>

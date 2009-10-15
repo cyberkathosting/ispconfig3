@@ -1,0 +1,26 @@
+<?php
+$wb["name_txt"] = 'Form adı';
+$wb["title_txt"] = 'Form başlığı';
+$wb["template_txt"] = 'Şablon';
+$wb["navframe_txt"] = 'NaviFrame';
+$wb["startpage_txt"] = 'İlk sayfa';
+$wb["tab_width_txt"] = 'Sekme genişliği';
+$wb["save_txt"] = 'Kaydet';
+$wb["cancel_txt"] = 'İptal';
+$wb["header_txt"] = 'Form Özellikleri';
+$wb["description_txt"] = 'Açıklama';
+$wb["action_txt"] = 'İşlem (betik)';
+$wb["db_table_txt"] = 'DB Tablo';
+$wb["db_table_idx_txt"] = 'DB Tablo Indeks';
+$wb["db_history_txt"] = 'Log\'u Geri al';
+$wb["tab_default_txt"] = 'Varsayılan Sekme';
+$wb["list_default_txt"] = 'Varsayılan Liste';
+$wb["tab_width_txt"] = 'Sekme genişliği';
+$wb["auth_txt"] = 'Yetkiler';
+$wb["auth_preset_userid_txt"] = 'KullanıcıID';
+$wb["auth_preset_groupid_txt"] = 'GrupID';
+$wb["auth_preset_perm_user_txt"] = 'Yetkili Kullanıcı';
+$wb["auth_preset_perm_group_txt"] = 'Yetkili Grup';
+$wb["auth_preset_perm_other_txt"] = 'Diğer Yetkililer';
+
+?>

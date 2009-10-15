@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Dil dosyasını içe aktar';
+$wb["language_import_txt"] = 'Dil dosyası seç';
+$wb['btn_save_txt'] = 'Seçili dil dosyasını içe aktar';
+$wb["language_overwrite_txt"] = 'Eğer mevcutsa, üstüne yaz.';
+$wb['btn_cancel_txt'] = 'Geri';
+?>

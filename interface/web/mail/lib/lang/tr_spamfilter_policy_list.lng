@@ -1,0 +1,9 @@
+<?php
+$wb["list_head_txt"] = 'Spam Filtresi Kuralları';
+$wb["policy_name_txt"] = 'İsim';
+$wb["virus_lover_txt"] = 'Virüs koruması';
+$wb["spam_lover_txt"] = 'Spam koruması';
+$wb["banned_files_lover_txt"] = 'Yasaklı dosyalar koruması';
+$wb["bad_header_lover_txt"] = 'Kötü başlık koruması';
+$wb["add_new_record_txt"] = 'Yeni Kural Kaydı';
+?>

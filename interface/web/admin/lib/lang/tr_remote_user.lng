@@ -1,0 +1,10 @@
+<?php
+$wb['username_txt'] = 'Kullanıcı adı:';
+$wb['password_txt'] = 'Şifre:';
+$wb['function_txt'] = 'Fonksiyonlar:';
+$wb['username_error_unique'] = 'Bu kullanıcı adı zaten var';
+$wb['username_error_empty'] = 'Kullanıcı adı boş olamaz';
+$wb['password_error_empty'] = 'Şifre boş olamaz';
+$wb['password_strength_txt'] = 'Şifre Gücü:';
+?>
+

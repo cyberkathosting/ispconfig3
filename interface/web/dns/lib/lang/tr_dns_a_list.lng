@@ -1,0 +1,14 @@
+<?php
+$wb["list_head_txt"] = 'A-Record';
+$wb["active_txt"] = 'Aktif';
+$wb["server_id_txt"] = 'Sunucu';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'İsim';
+$wb["data_txt"] = 'Veri';
+$wb["aux_txt"] = 'Öncelik';
+$wb["type_txt"] = 'Çeşit';
+$wb["add_new_record_txt"] = 'Yeni DNS A-Record';
+$wb["page_txt"] = 'Sayfa';
+$wb["page_of_txt"] = '/';
+$wb['delete_confirmation'] = 'Bu kaydı gerçekten silmek istiyor musunuz?';
+?>

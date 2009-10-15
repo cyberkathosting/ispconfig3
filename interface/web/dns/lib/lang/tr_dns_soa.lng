@@ -1,0 +1,24 @@
+<?php
+$wb["server_id_txt"] = 'Sunucu';
+$wb["origin_txt"] = 'Zone (SOA)';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["serial_txt"] = 'Serial';
+$wb["refresh_txt"] = 'Refresh';
+$wb["retry_txt"] = 'Retry';
+$wb["expire_txt"] = 'Expire';
+$wb["minimum_txt"] = 'Minimum';
+$wb["ttl_txt"] = 'TTL';
+$wb["xfer_txt"] = 'Allow zone transfers to <br />these IPs (comma separated list)';
+$wb["active_txt"] = 'Aktif';
+$wb["limit_dns_zone_txt"] = 'Hesabınızdaki max. DNS zone kaydına ulaşıldı.';
+$wb["client_txt"] = 'Müşteri';
+$wb["no_zone_perm"] = 'Bu DNS Zone kaydını eklemek için yetkiniz yok.';
+$wb["server_id_error_empty"] = 'Seçili sunucu yok';
+$wb["origin_error_empty"] = 'Zone boş.';
+$wb["origin_error_unique"] = 'Bu zone için bir kayıt zaten var.';
+$wb["origin_error_regex"] = 'Zone geçersiz formatta.';
+$wb["ns_error_regex"] = 'NS geçersiz formatta.';
+$wb["mbox_error_empty"] = 'Email boş.';
+$wb["mbox_error_regex"] = 'Email geçersiz formatta.';
+?>
