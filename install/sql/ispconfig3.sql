@@ -231,6 +231,8 @@ CREATE TABLE `dns_soa` (
   `ttl` int(11) unsigned NOT NULL default '86400',
   `active` enum('N','Y') NOT NULL,
   `xfer` varchar(255) NOT NULL,
+  `also_notify` varchar(255) default NULL,
+  `update_acl` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `origin` (`origin`),
   KEY `active` (`active`)
