@@ -160,7 +160,7 @@ class powerdns_plugin {
 				$ispconfig_id = $data["new"]["id"];
 				$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
 				$serial_id = $serial["serial"];
-				$app->db->query("UPDATE powerdns.domains SET name = '$origin', notified_serial = $serial_id WHERE ispconfig_id = $ispconfig_id");
+				//$app->db->query("UPDATE powerdns.domains SET name = '$origin', notified_serial = $serial_id WHERE ispconfig_id = $ispconfig_id");
 				//$app->db->query("UPDATE powerdns.domains SET name = '$origin' WHERE ispconfig_id = $ispconfig_id");		
 		
 				if(substr($data["new"]["ns"], -1) == '.'){
@@ -171,8 +171,8 @@ class powerdns_plugin {
 				if($ns == '') $ns = $origin;
 				
 				$hostmaster = substr($data["new"]["mbox"], 0, -1);
-				$content = $ns.' '.$hostmaster.' 0';
-				//$content = $ns.' '.$hostmaster.' '.$serial_id.'';
+				//$content = $ns.' '.$hostmaster.' 0';
+				$content = $ns.' '.$hostmaster.' '.$serial_id.'';
 				$ttl = $data["new"]["ttl"];
 				$app->db->query("UPDATE powerdns.records SET name = '$origin', content = '$content', ttl = $ttl, change_date = ".time()." WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
 			} else {
