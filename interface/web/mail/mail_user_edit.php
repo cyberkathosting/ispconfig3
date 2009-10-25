@@ -175,7 +175,7 @@ class page_action extends tform_actions {
 			$app->uses('getconf');
 			$mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
 			$maildir = str_replace("[domain]",$domain["domain"],$mail_config["maildir_path"]);
-			$maildir = str_replace("[localpart]",$_POST["email_local_part"],$maildir);
+			$maildir = str_replace("[localpart]",strtolower($_POST["email_local_part"]),$maildir);
 			$this->dataRecord["maildir"] = $maildir;
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
 			$this->dataRecord["uid"] = $mail_config["mailuser_uid"];

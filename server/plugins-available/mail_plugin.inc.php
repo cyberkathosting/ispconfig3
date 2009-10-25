@@ -82,6 +82,9 @@ class mail_plugin {
 		//* get the config
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+
+		// convert to lower case - it could cause problems if some directory above has upper case name
+//		$data['new']['maildir'] = strtolower($data['new']['maildir']);
 		
 		$maildomain_path = $data['new']['maildir'];
 		$tmp_basepath = $data['new']['maildir'];
@@ -94,7 +97,7 @@ class mail_plugin {
 			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
-		
+	
 		//* When the mail user dir exists but it is not a valid maildir, remove it
 		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
 			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
@@ -103,9 +106,29 @@ class mail_plugin {
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
 		if(!empty($maildomain_path) && !is_dir($maildomain_path)) {
+
 			exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+
+			if(!is_dir($data['new']['maildir'].'/.Sent')) {
+				exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+			if(!is_dir($data['new']['maildir'].'/.Drafts')) {
+				exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+			if(!is_dir($data['new']['maildir'].'/.Trash')) {
+				exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+			if(!is_dir($data['new']['maildir'].'/.Junk')) {
+				exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
+
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
 			$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
@@ -124,6 +147,9 @@ class mail_plugin {
 		// get the config
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+
+		// convert to lower case - it could cause problems if some directory above has upper case name
+		// $data['new']['maildir'] = strtolower($data['new']['maildir']);
 		
 		// Create the maildir, if it does not exist
 		/*
@@ -156,6 +182,24 @@ class mail_plugin {
 		if(!empty($maildomain_path) && !is_dir($maildomain_path.'/new')) {
 			exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			$app->log("Created Maildir "."su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+
+			if(!is_dir($data['new']['maildir'].'/.Sent')) {
+				exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+			if(!is_dir($data['new']['maildir'].'/.Drafts')) {
+				exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+			if(!is_dir($data['new']['maildir'].'/.Trash')) {
+				exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+			if(!is_dir($data['new']['maildir'].'/.Junk')) {
+				exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+				$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
+
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
@@ -201,12 +245,22 @@ class mail_plugin {
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 		
+		//* Delete maildomain path
 		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/'.$data['old']['domain']);
 		if(!stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && strlen($old_maildomain_path) >= 10) {
 			exec('rm -rf '.escapeshellcmd($old_maildomain_path));
 			$app->log('Deleted the mail domain directory: '.$old_maildomain_path,LOGLEVEL_DEBUG);
 		} else {
 			$app->log('Possible security violation when deleting the mail domain directory: '.$old_maildomain_path,LOGLEVEL_ERROR);
+		}
+		
+		//* Delete mailfilter path
+		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/mailfilters/'.$data['old']['domain']);
+		if(!stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && strlen($old_maildomain_path) >= 10) {
+			exec('rm -rf '.escapeshellcmd($old_maildomain_path));
+			$app->log('Deleted the mail domain mailfilter directory: '.$old_maildomain_path,LOGLEVEL_DEBUG);
+		} else {
+			$app->log('Possible security violation when deleting the mail domain mailfilter directory: '.$old_maildomain_path,LOGLEVEL_ERROR);
 		}
 	}
 	
