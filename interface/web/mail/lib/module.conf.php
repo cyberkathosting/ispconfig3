@@ -14,6 +14,10 @@ $items[] = array( 'title' 	=> 'Domain',
 				  'target' 	=> 'content',
 				  'link'	=> 'mail/mail_domain_list.php');
 
+$items[] = array( 'title' 	=> 'Domain Alias',
+				  'target' 	=> 'content',
+				  'link'	=> 'mail/mail_aliasdomain_list.php');
+
 $items[] = array( 'title' 	=> 'Email Mailbox',
 				  'target' 	=> 'content',
 				  'link'	=> 'mail/mail_user_list.php');
