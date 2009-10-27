@@ -5,7 +5,7 @@ global $conf;
 $module['name'] 		= 'admin';
 $module['title'] 		= 'System';
 $module['template'] 	= 'module.tpl.htm';
-$module['startpage'] 	= 'admin/users_list.php';
+$module['startpage'] 	= 'admin/server_list.php';
 $module['tab_width']    = '60';
 
 
@@ -47,7 +47,7 @@ $items[] = array( 'title' 	=> 'Add server',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_edit.php');
 */
-$items[] = array( 'title' 	=> 'Edit server',
+$items[] = array( 'title' 	=> 'Server Services',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/server_list.php');
 

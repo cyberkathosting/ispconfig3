@@ -22,7 +22,7 @@ $wb['Add group'] = 'Add group';
 $wb['Edit group'] = 'Edit group';
 $wb['Groups'] = 'Groups';
 $wb['Edit server'] = 'Edit server';
-$wb['Edit Server IP'] = 'Edit Server IP';
+$wb['Edit Server IP'] = 'Server IP addresses';
 $wb['Servers'] = 'Servers';
 $wb['Sync. Now'] = 'Sync. Now';
 $wb['DB Sync.'] = 'DB Sync.';
@@ -33,5 +33,6 @@ $wb['Import'] = 'Import';
 $wb['Language Editor'] = 'Language Editor';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repositories';
+$wb['Server Services'] = 'Server Services';
 
 ?>

@@ -554,6 +554,7 @@ class apache2_plugin {
 		$vhost_data["web_document_root_www"] = $web_config["website_basedir"]."/".$data["new"]["domain"]."/web";
 		$vhost_data["web_basedir"] = $web_config["website_basedir"];
 		$vhost_data["security_level"] = $web_config["security_level"];
+		$vhost_data["allow_override"] = ($data["new"]["allow_override"] == '')?'All':$data["new"]["allow_override"];
 		
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";

@@ -399,6 +399,17 @@ $form["tabs"]['advanced'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'allow_override' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'documentroot_error_empty'),
+									),
+			'default'	=> 'All',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'apache_directives' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXT',
