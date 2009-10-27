@@ -102,6 +102,12 @@ $form["tabs"]['services'] = array (
 			'default'	=> '0',
 			'value'		=> array(0 => 0,1 => 1)
 		),
+		'mirror_server_id' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> ''
+		),
 		/*
 		'update' => array (
 			'datatype'	=> 'INTEGER',

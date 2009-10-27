@@ -63,7 +63,7 @@ $form["tabs"]['database'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} AND db_server = 1 ORDER BY server_name',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND {AUTHSQL} AND db_server = 1 ORDER BY server_name',
 										'keyfield'=> 'server_id',
 										'valuefield'=> 'server_name'
 									 ),

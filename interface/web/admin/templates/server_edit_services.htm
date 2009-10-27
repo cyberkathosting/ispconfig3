@@ -45,6 +45,12 @@
 						{tmpl_var name='vserver_server'}
 					</div>
 			</div>
+	  <div class="ctrlHolder">
+		<label for="mirror_server_id">{tmpl_var name='mirror_server_id_txt'}</label>
+        <select name="mirror_server_id" id="server_id" class="selectInput">
+		  {tmpl_var name='mirror_server_id'}
+		</select>
+      </div>
       <div class="ctrlHolder">
       	<label for="active">{tmpl_var name='active_txt'}</label>
         <select name="active" id="active" class="selectInput formLengthBool">

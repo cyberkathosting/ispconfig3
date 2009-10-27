@@ -53,14 +53,17 @@ if($server_db_record == false) {
 //* Load the server configuration
 if($app->dbmaster->connect()) {
 	// get the dalaog_id of the last performed record
-	$server_db_record = $app->dbmaster->queryOneRecord("SELECT updated, config FROM server WHERE server_id = ".$conf["server_id"]);
+	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = ".$conf["server_id"]);
 	$conf['last_datalog_id'] = (int)$server_db_record['updated'];
+	$conf["mirror_server_id"] = (int)$server_db_record['mirror_server_id'];
 	// Load the ini_parser
 	$app->uses('ini_parser');
 	// Get server configuration
 	$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
 	// Set the loglevel
 	$conf["log_priority"] = intval($conf["serverconfig"]["server"]["loglevel"]);
+	
+	unset($server_db_record);
 }
 
 
@@ -89,7 +92,12 @@ $app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGL
 if($app->db->connect() && $app->dbmaster->connect()) {
 
 	// Check if there is anything to update
-	$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0)");
+	if($conf["mirror_server_id"] > 0) {
+		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = ".$conf["mirror_server_id"]." OR server_id = 0)");
+	} else {
+		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0)");
+	}
+	
 	$tmp_num_records = $tmp_rec["number"];
 	unset($tmp_rec);
 
