@@ -144,8 +144,8 @@ class apache2_plugin {
     		exec("chmod 400 $key_file2");
     		@unlink($config_file);
     		@unlink($rand_file);
-    		$ssl_request = file_get_contents($csr_file);
-    		$ssl_cert = file_get_contents($crt_file);
+    		$ssl_request = $app->db->quote(file_get_contents($csr_file));
+    		$ssl_cert = $app->db->quote(file_get_contents($crt_file));
 			/* Update the DB of the (local) Server */
     		$app->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data["new"]["domain"]."'");
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data["new"]["domain"]."'");

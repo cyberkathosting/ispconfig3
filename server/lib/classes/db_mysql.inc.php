@@ -189,7 +189,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		return $out;
 		}
        
-       
+       /*
+	   //* These functions are deprecated and will be removed.
        function insert($tablename,$form,$debug = 0)
        {
          if(is_array($form)){
@@ -224,6 +225,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       		 if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
            }
        }
+	   */
        
        public function closeConn()
     	{
