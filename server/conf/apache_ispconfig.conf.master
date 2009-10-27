@@ -25,6 +25,11 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
         Allow from all
 </Directory>
 
+<Directory /usr/share/phpMyAdmin>
+        Order allow,deny
+        Allow from all
+</Directory>
+
 <Directory /usr/share/squirrelmail>
         Order allow,deny
         Allow from all
