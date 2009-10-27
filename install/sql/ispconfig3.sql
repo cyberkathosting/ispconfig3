@@ -1022,6 +1022,7 @@ CREATE TABLE `web_domain` (
   `ssl_organisation` varchar(255) NULL,
   `ssl_organisation_unit` varchar(255) NULL,
   `ssl_country` varchar(255) NULL,
+  `ssl_domain` varchar(255) NULL,
   `ssl_request` mediumtext NULL,
   `ssl_cert` mediumtext NULL,
   `ssl_bundle` mediumtext NULL,

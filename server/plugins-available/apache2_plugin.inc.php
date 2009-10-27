@@ -83,7 +83,7 @@ class apache2_plugin {
 		
 		if(!is_dir($data["new"]["document_root"]."/ssl")) exec("mkdir -p ".$data["new"]["document_root"]."/ssl");
 		$ssl_dir = $data["new"]["document_root"]."/ssl";
-		$domain = $data["new"]["domain"];
+		$domain = $data["new"]["ssl_domain"];
 		$key_file = $ssl_dir.'/'.$domain.".key.org";
   		$key_file2 = $ssl_dir.'/'.$domain.".key";
   		$csr_file = $ssl_dir.'/'.$domain.".csr";

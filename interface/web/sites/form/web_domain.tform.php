@@ -286,6 +286,14 @@ $form["tabs"]['ssl'] = array (
 			'width'		=> '2',
 			'maxlength'	=> '2'
 		),
+		'ssl_domain' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'ssl_request' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXTAREA',

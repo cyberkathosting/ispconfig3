@@ -179,6 +179,19 @@ class page_action extends tform_actions {
 			
 		}
 		
+		$ssl_domain_select = '';
+		$ssl_domains = array($this->dataRecord["domain"],'www.'.$this->dataRecord["domain"]);
+		if(is_array($ssl_domains)) {
+			foreach( $ssl_domains as $ssl_domain) {
+				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
+				$ssl_domain_select .= "<option value='$ssl_domain' $selected>$ssl_domain</option>\r\n";
+			}
+		}
+		$app->tpl->setVar("ssl_domain",$ssl_domain_select);
+		unset($ssl_domain_select);
+		unset($ssl_domains);
+		unset($ssl_domain);
+		
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
