@@ -48,4 +48,5 @@ $wb['error_ssl_country_empty'] = 'SSL Country is empty.';
 $wb["client_group_id_txt"] = 'Client';
 $wb["stats_password_txt"] = 'Webstatistics password';
 $wb["allow_override_txt"] = 'Allow Override';
+$wb["limit_web_quota_free_txt"] = 'Max. available Harddisk Quota';
 ?>

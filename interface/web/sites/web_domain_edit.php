@@ -214,7 +214,22 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_web_domain, default_webserver, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_web_domain, default_webserver, parent_client_id, limit_web_quota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			//* Check the website quota
+			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND sys_groupid = $client_group_id");
+				$webquota = $tmp["webquota"] / 1024 / 1024;
+				$new_web_quota = intval($this->dataRecord["hd_quota"]);
+				if(($webquota + $new_web_quota > $client["limit_web_quota"]) || ($new_web_quota == -1 && $client["limit_web_quota"] != -1)) {
+					$max_free_quota = floor($client["limit_web_quota"] - $webquota);
+					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota."<br>";
+					// Set the quota field to the max free space
+					$this->dataRecord["hd_quota"] = $max_free_quota;
+				}
+				unset($tmp);
+				unset($tmp_quota);
+			}
 			
 			// When the record is updated
 			if($this->id > 0) {

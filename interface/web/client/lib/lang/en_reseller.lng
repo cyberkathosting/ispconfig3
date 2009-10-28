@@ -90,4 +90,5 @@ $wb["ssh_chroot_txt"] = 'SSH-Chroot Options';
 $wb["web_php_options_txt"] = 'PHP Options';
 $wb["limit_client_error"] = 'The max. number of clients is reached.';
 $wb["limit_client_error_positive"] = 'The number of clients must be > 0';
+$wb["limit_web_quota_txt"] = 'Web Quota';
 ?>
