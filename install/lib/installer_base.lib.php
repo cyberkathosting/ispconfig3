@@ -979,6 +979,7 @@ class installer_base {
 		
 		$apps_vhost_user = $conf['web']['apps_vhost_user'];
 		$apps_vhost_group = $conf['web']['apps_vhost_group'];
+		$install_dir = $conf['web']['website_basedir'].'/apps';
 		
 		$command = 'groupadd '.$apps_vhost_user;
 		if(!is_group($apps_vhost_group)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -993,19 +994,19 @@ class installer_base {
 		//* Copy the apps vhost file
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
-        $apps_vhost_servername = ($conf['apache']['apps_vhost_servername'] == '')?'':'ServerName '.$conf['apache']['apps_vhost_servername'];
+        $apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '')?'':'ServerName '.$conf['web']['apps_vhost_servername'];
         
         // Dont just copy over the virtualhost template but add some custom settings
         $content = rf("tpl/apache_apps.vhost.master");
 		
-		$content = str_replace('{apps_vhost_ip}', $conf['apache']['apps_vhost_ip'], $content);
-		$content = str_replace('{apps_vhost_port}', $conf['apache']['apps_vhost_port'], $content);
+		$content = str_replace('{apps_vhost_ip}', $conf['web']['apps_vhost_ip'], $content);
+		$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
 		$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
 		$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
 		
 		
 		// comment out the listen directive if port is 80 or 443
-		if($conf['apache']['apps_vhost_ip'] == 80 or $conf['apache']['apps_vhost_ip'] == 443) {
+		if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
 			$content = str_replace('{vhost_port_listen}', '#', $content);
 		} else {
 			$content = str_replace('{vhost_port_listen}', '', $content);
