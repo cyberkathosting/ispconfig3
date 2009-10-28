@@ -522,6 +522,7 @@ CREATE TABLE `mail_user` (
   `homedir` varchar(255) NOT NULL,
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_text` mediumtext NULL,
+  `move_junk` enum('n','y') NOT NULL default 'n',
   `custom_mailfilter` mediumtext,
   `postfix` enum('n','y') NOT NULL,
   `access` enum('n','y') NOT NULL,

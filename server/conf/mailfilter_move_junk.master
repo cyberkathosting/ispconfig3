@@ -1,0 +1,19 @@
+
+SPAMDIR="Junk"
+SPAMDIRFULL="$DEFAULT/.Junk"
+
+if ( /^X-Spam-Flag: YES$/ )
+{
+  exception {
+
+    `test -e $SPAMDIRFULL`
+    if ( $RETURNCODE != 0 )
+    {
+      `maildirmake -f $SPAMDIR $DEFAULT`
+      `chown vmail:vmail -R $SPAMDIRFULL`
+      `chmod 0700 $SPAMDIRFULL`
+      `echo INBOX.$SPAMDIR >> $DEFAULT/courierimapsubscribed`
+    }
+    to "$SPAMDIRFULL/"
+  }
+}

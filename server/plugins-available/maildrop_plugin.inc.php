@@ -155,7 +155,8 @@ class maildrop_plugin {
 		}
 			
 			// Write the custom mailfilter script, if mailfilter recipe has changed
-			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]) {
+			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"] or
+			   $data["old"]["move_junk"] != $data["new"]["move_junk"]) {
 				$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
 				if(trim($data["new"]["custom_mailfilter"]) != '') {
 					// Delete the old filter recipe
@@ -170,7 +171,14 @@ class maildrop_plugin {
 						$email_parts = explode("@",$data["old"]["email"]);
 					}
 					$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
-					file_put_contents($config_file_path,$data["new"]["custom_mailfilter"]);
+					
+					$mailfilter_content = '';
+					if($data["new"]["move_junk"] == 'y') {
+						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf/mailfilter_move_junk.master')."\n";
+					}
+					$mailfilter_content .= $data["new"]["custom_mailfilter"];
+					
+					file_put_contents($config_file_path,$mailfilter_content);
 					$app->log("Writing new custom Mailfiter".$config_file_path,LOGLEVEL_DEBUG);
 					exec("chmod 770 $config_file_path");
 					exec("chown vmail $config_file_path");

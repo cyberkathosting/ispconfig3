@@ -202,7 +202,12 @@ $form["tabs"]['filter_records'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
-		
+		'move_junk' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
