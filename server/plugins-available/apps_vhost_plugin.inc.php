@@ -70,17 +70,13 @@ class apps_vhost_plugin {
 	// The purpose of this plugin is to rewrite the main.cf file
 	function update($event_name,$data) {
 		global $app, $conf;
-		
-		if(	$data['old']['apps_vhost_ip'] != $data['new']['apps_vhost_ip'] or
-			$data['old']['apps_vhost_port'] != $data['new']['apps_vhost_port'] or
-			$data['old']['apps_vhost_servername'] != $data['new']['apps_vhost_servername'] ) {
-		
+				
 		// get the config
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 				
 		// Dont just copy over the virtualhost template but add some custom settings
-        $content = rf("conf/apache_apps.vhost.master");
+        $content = file_get_contents($conf["rootpath"]."/conf/apache_apps.vhost.master");
 		
 		$vhost_conf_dir = $web_config['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $web_config['vhost_conf_enabled_dir'];
@@ -99,8 +95,9 @@ class apps_vhost_plugin {
 			$content = str_replace('{vhost_port_listen}', '', $content);
 		}
 		
-		wf("$vhost_conf_dir/apps.vhost", $content);
-		}
+		file_put_contents("$vhost_conf_dir/apps.vhost", $content);
+		
+		$app->services->restartServiceDelayed('httpd','restart');
 		
 		
 	}
