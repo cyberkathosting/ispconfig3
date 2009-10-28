@@ -39,6 +39,9 @@ vhost_conf_enabled_dir=/etc/apache2/sites-enabled
 security_level=10
 user=www-data
 group=www-data
+apps_vhost_port=8081
+apps_vhost_ip=_default_
+apps_vhost_servername=
 
 [fastcgi]
 fastcgi_starter_path=/var/www/php-fcgi-scripts/[system_user]/

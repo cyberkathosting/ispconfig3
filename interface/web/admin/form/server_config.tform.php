@@ -375,6 +375,39 @@ $form["tabs"]['web'] = array (
 			'width'		=> '40',
 			'maxlength'	=> '255'
 		),
+		'apps_vhost_port' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '8081',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'apps_vhost_port_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'apps_vhost_ip' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '_default_',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'apps_vhost_ip_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'apps_vhost_servername' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'apps_vhost_servername_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

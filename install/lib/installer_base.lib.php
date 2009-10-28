@@ -970,6 +970,67 @@ class installer_base {
         exec('chown root:root '.$conf["vlogger"]["config_dir"].'/'.$configfile);
     
     }
+	
+	public function install_apps_vhost()
+	{
+		global $conf;
+		
+		//* Create the ispconfig apps vhost user and group
+		
+		$apps_vhost_user = $conf['web']['apps_vhost_user'];
+		$apps_vhost_group = $conf['web']['apps_vhost_group'];
+		
+		$command = 'groupadd '.$apps_vhost_user;
+		if(!is_group($apps_vhost_group)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		$command = "useradd -g '$apps_vhost_group' -d $install_dir $apps_vhost_group";
+		if(!is_user($apps_vhost_user)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		
+		$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+				
+		//* Copy the apps vhost file
+        $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
+        $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
+        $apps_vhost_servername = ($conf['apache']['apps_vhost_servername'] == '')?'':'ServerName '.$conf['apache']['apps_vhost_servername'];
+        
+        // Dont just copy over the virtualhost template but add some custom settings
+        $content = rf("tpl/apache_apps.vhost.master");
+		
+		$content = str_replace('{apps_vhost_ip}', $conf['apache']['apps_vhost_ip'], $content);
+		$content = str_replace('{apps_vhost_port}', $conf['apache']['apps_vhost_port'], $content);
+		$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
+		$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
+		
+		
+		// comment out the listen directive if port is 80 or 443
+		if($conf['apache']['apps_vhost_ip'] == 80 or $conf['apache']['apps_vhost_ip'] == 443) {
+			$content = str_replace('{vhost_port_listen}', '#', $content);
+		} else {
+			$content = str_replace('{vhost_port_listen}', '', $content);
+		}
+		
+		wf("$vhost_conf_dir/apps.vhost", $content);
+		
+		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+		//* and create the symlink
+		if($this->install_ispconfig_interface == true && $this->is_update == false) {
+			if(@is_link("$vhost_conf_enabled_dir/apps.vhost")) unlink("$vhost_conf_enabled_dir/apps.vhost");
+			if(!@is_link("$vhost_conf_enabled_dir/000-apps.vhost")) {
+				exec("ln -s $vhost_conf_dir/apps.vhost $vhost_conf_enabled_dir/000-apps.vhost");
+			}
+		}
+		if(!is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter')) {
+			exec('mkdir -p '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
+			exec('cp tpl/apache_apps_fcgi_starter.master '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
+			exec('chmod +x '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
+			exec('ln -s /usr/local/apps/interface/web '.$conf['web']['website_basedir'].'/apps');
+			exec('chown -R ispapps:ispapps '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
+			
+		}
+	
+	}
     
 	public function install_ispconfig()
     {

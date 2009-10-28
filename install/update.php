@@ -356,6 +356,10 @@ if($reconfigure_services_answer == 'yes') {
         //** Configure vlogger
         swriteln('Configuring vlogger');
         $inst->configure_vlogger();
+		
+		//** Configure apps vhost
+		swriteln('Configuring Apps vhost');
+		$inst->configure_apps_vhost();
 	}
 	
 

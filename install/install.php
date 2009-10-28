@@ -206,6 +206,10 @@ if($install_mode == 'standard') {
     //** Configure vlogger
     swriteln('Configuring vlogger');
     $inst->configure_vlogger();
+	
+	//** Configure apps vhost
+	swriteln('Configuring Apps vhost');
+	$inst->configure_apps_vhost();
     
 	//* Configure Firewall
 	swriteln('Configuring Firewall');
@@ -384,6 +388,10 @@ if($install_mode == 'standard') {
         //** Configure vlogger
         swriteln('Configuring vlogger');
         $inst->configure_vlogger();
+		
+		//** Configure apps vhost
+		swriteln('Configuring Apps vhost');
+		$inst->configure_apps_vhost();
 	}
 	
 	//** Configure Firewall

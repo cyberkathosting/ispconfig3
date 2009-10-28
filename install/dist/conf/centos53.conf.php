@@ -87,6 +87,13 @@ $conf['web']['website_basedir'] = '/var/www';
 $conf['web']['website_path'] = '/var/www/clients/client[client_id]/web[website_id]';
 $conf['web']['website_symlinks'] = '/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/';
 
+//* Apps base settings
+$conf['web']['apps_vhost_ip'] = '_default_';
+$conf['web']['apps_vhost_port'] = '8081';
+$conf['web']['apps_vhost_servername'] = '';
+$conf['web']['apps_vhost_user'] = 'ispapps';
+$conf['web']['apps_vhost_group'] = 'ispapps';
+
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/';
 $conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
