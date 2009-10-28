@@ -971,7 +971,7 @@ class installer_base {
     
     }
 	
-	public function install_apps_vhost()
+	public function configure_apps_vhost()
 	{
 		global $conf;
 		
