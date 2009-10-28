@@ -84,8 +84,9 @@ function submitLoginForm(formname) {
 		loadContent(redirect);
 		redirect = '';
 	}
+	document.getElementById('footer').innerHTML = 'Powered by <a href="http://www.ispconfig.org" target="_blank">ISPConfig</a>';
 	*/
-	document.getElementById('footer').innerHTML = 'Powered by <a href="http://www.ispconfig.org" target="_blank">ISPConfig <?php echo ISPC_APP_VERSION ?></a>';
+	
 }
 
 function submitForm(formname,target) {

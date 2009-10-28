@@ -37,4 +37,24 @@ $module['nav'][] = array( 'title' => 'Support',
                           'open'  => 1,
                           'items'	=> $items);
 
+
+if($_SESSION['s']['user']['typ'] == 'admin') {
+//* make sure that the items array is empty
+$items = array();
+
+//* Add a menu item with the label 'View messages'
+$items[] = array( 'title'   => 'Version',
+                  'target'  => 'content',
+                  'link'    => 'help/version.php');
+
+
+//* Add the menu items defined above to a menu section labeled 'Support'
+$module['nav'][] = array( 'title' => 'About ISPConfig',
+                          'open'  => 1,
+                          'items'	=> $items);
+
+}
+
+
+
 ?>
