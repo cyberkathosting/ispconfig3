@@ -990,7 +990,9 @@ class installer_base {
 		
 		$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-				
+		
+		exec('mkdir -p '.escapeshellcmd($conf['web']['website_basedir'].'/apps'));
+		
 		//* Copy the apps vhost file
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
         $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
@@ -1016,7 +1018,7 @@ class installer_base {
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 		//* and create the symlink
-		if($this->install_ispconfig_interface == true && $this->is_update == false) {
+		if($this->install_ispconfig_interface == true) {
 			if(@is_link("$vhost_conf_enabled_dir/apps.vhost")) unlink("$vhost_conf_enabled_dir/apps.vhost");
 			if(!@is_link("$vhost_conf_enabled_dir/000-apps.vhost")) {
 				exec("ln -s $vhost_conf_dir/apps.vhost $vhost_conf_enabled_dir/000-apps.vhost");
@@ -1026,7 +1028,6 @@ class installer_base {
 			exec('mkdir -p '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
 			exec('cp tpl/apache_apps_fcgi_starter.master '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
 			exec('chmod +x '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
-			exec('ln -s /usr/local/apps/interface/web '.$conf['web']['website_basedir'].'/apps');
 			exec('chown -R ispapps:ispapps '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
 			
 		}
