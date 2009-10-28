@@ -47,4 +47,7 @@ $wb["web_user_txt"] = 'Apache user';
 $wb["web_group_txt"] = 'Apache group';
 $wb["security_level_txt"] = 'Security level';
 $wb["loglevel_txt"] = 'Loglevel';
+$wb["apps_vhost_port"] = 'Apps-vhost port';
+$wb["apps_vhost_ip"] = 'Apps-vhost IP';
+$wb["apps_vhost_servername"] = 'Apps-vhost Domain';
 ?>

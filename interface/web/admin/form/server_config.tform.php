@@ -401,9 +401,6 @@ $form["tabs"]['web'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'apps_vhost_servername_error_empty'),
-									),
 			'value'		=> '',
 			'width'		=> '40',
 			'maxlength'	=> '255'
