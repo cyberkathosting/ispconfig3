@@ -158,7 +158,7 @@ class maildrop_plugin {
 			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"] or
 			   $data["old"]["move_junk"] != $data["new"]["move_junk"]) {
 				$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
-				if(trim($data["new"]["custom_mailfilter"]) != '') {
+				if(trim($data["new"]["custom_mailfilter"]) != '' or $data["new"]["move_junk"] != 'n') {
 					// Delete the old filter recipe
 					$email_parts = explode("@",$data["old"]["email"]);
 					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
