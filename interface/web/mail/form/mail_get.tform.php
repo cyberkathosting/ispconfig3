@@ -73,7 +73,7 @@ $form["tabs"]['mailget'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('pop3' => 'POP3','imap'=>'IMAP')
+			'value' => array('pop3' => 'POP3','imap'=>'IMAP','pop3ssl' => 'POP3SSL','imapssl'=>'IMAPSSL')
 		),
 		'source_server' => array (
 			'datatype'	=> 'VARCHAR',

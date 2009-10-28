@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -108,12 +108,16 @@ class getmail_plugin {
 				} else {
 					$tpl = str_replace('{DELETE}','0',$tpl);
 				}
-			
+				
 				// Set the data retriever
 				if($data["new"]["type"] == 'pop3') {
 					$tpl = str_replace('{TYPE}','SimplePOP3Retriever',$tpl);
 				} elseif ($data["new"]["type"] == 'imap') {
 					$tpl = str_replace('{TYPE}','SimpleIMAPRetriever',$tpl);
+				} elseif ($data["new"]["type"] == 'pop3ssl') {
+					$tpl = str_replace('{TYPE}','SimplePOP3SSLRetriever',$tpl);
+				} elseif ($data["new"]["type"] == 'imapssl') {
+					$tpl = str_replace('{TYPE}','SimpleIMAPSSLRetriever',$tpl);
 				}
 			
 				// Set server, username, password and destination.
@@ -140,22 +144,12 @@ class getmail_plugin {
 	function delete($event_name,$data) {
 		global $app, $conf;
 		
-		// load the server specific configuration options for getmail
-		$app->uses("getconf");
-		$getmail_config = $app->getconf->get_server_config($conf["server_id"], 'getmail');
-		$this->getmail_config_dir = $getmail_config["getmail_config_dir"];
-		
 		$config_file_path = escapeshellcmd($this->getmail_config_dir.'/'.$data["old"]["source_server"].'_'.$data["old"]["source_username"].'.conf');
 		if(stristr($config_file_path,"..") || stristr($config_file_path,"|") || stristr($config_file_path,";") || stristr($config_file_path,'$')) {
 			$app->log("Possibly faked path for getmail config file: '$config_file_path'. File is not written.",LOGLEVEL_ERROR);
 			return false;
 		}
-		if(is_file($config_file_path)) {
-			unlink($config_file_path);
-			$app->log("Deleting file: '$config_file_path'.",LOGLEVEL_DEBUG);
-		} else {
-			$app->log("Nothing to delete: '$config_file_path'.",LOGLEVEL_DEBUG);
-		}
+		if(is_file($config_file_path)) unlink($config_file_path);
 	}
 	
 
