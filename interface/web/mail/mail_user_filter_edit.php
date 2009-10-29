@@ -104,9 +104,10 @@ class page_action extends tform_actions {
 			}
 		}
 		
-		// We did not found our rule, so we add it now.
+		// We did not found our rule, so we add it now as first rule.
 		if($found == false) {
-			$out .= $this->getRule();
+			$new_rule = $this->getRule();
+			$out = $new_rule . $out;
 		}
 		
 		$out = $app->db->quote($out);
