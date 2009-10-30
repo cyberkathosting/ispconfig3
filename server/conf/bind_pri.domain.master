@@ -1,5 +1,5 @@
 $TTL        {tmpl_var name='ttl'}
-@       IN      SOA     {tmpl_var name='ns'} {tmpl_var name='mbox'}. (
+@       IN      SOA     {tmpl_var name='ns'} {tmpl_var name='mbox'} (
                         {tmpl_var name='serial'}       ; serial, todays date + todays serial #
                         {tmpl_var name='refresh'}              ; refresh, seconds
                         {tmpl_var name='retry'}              ; retry, seconds
@@ -31,9 +31,6 @@ $TTL        {tmpl_var name='ttl'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='NAPTR'>
 {tmpl_var name='name'}      NAPTR        {tmpl_var name='data'}
-</tmpl_if>
-<tmpl_if name="type" op='==' value='NS'>
-{tmpl_var name='name'}      NS        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='PTR'>
 {tmpl_var name='name'}      PTR        {tmpl_var name='data'}

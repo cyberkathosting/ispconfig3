@@ -83,8 +83,10 @@ class bind_plugin {
 	function soa_update($event_name,$data) {
 		global $app, $conf;
 		
+		//* Load libraries
+		$app->uses("getconf,tpl");
+		
 		//* load the server configuration options
-		$app->uses("getconf");
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
 		//* Write the domain file
@@ -94,10 +96,11 @@ class bind_plugin {
 		$zone = $data['new'];
 		$tpl->setVar($zone);
 		
-		$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']);
-		$tpl->setLoop('records',$records);
+		$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
+		$tpl->setLoop('zones',$records);
 		
-		$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.$zone['origin']);
+		$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
+		$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
 		file_put_contents($filename,$tpl->grab());
 		exec('chown '.escapeshellcmd($dns_config['bind_user']).':'.escapeshellcmd($dns_config['bind_group']).' '.$filename);
 		unset($tpl);
@@ -105,13 +108,13 @@ class bind_plugin {
 		unset($zone);
 		
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
-		if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
+		//if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
 			$this->write_named_conf($data,$dns_config);
-		}
+		//}
 		
 		//* Delete old domain file, if domain name has been changed
 		if($data['old']['origin'] != $data['new']['origin']) {
-			$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.$data['old']['origin'];
+			$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
 			if(is_file($filename)) unset($filename);
 		}
 		
@@ -133,6 +136,7 @@ class bind_plugin {
 		//* Delete the domain file
 		$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.$data['old']['origin'];
 		if(is_file($filename)) unset($filename);
+		$app->log("Deleting BIND domain file: ".$filename,LOGLEVEL_DEBUG);
 		
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind','reload');
@@ -180,14 +184,24 @@ class bind_plugin {
 	function write_named_conf($data, $dns_config) {
 		global $app, $conf;
 		
-		$zones = $app->db->queryAllRecords("SELECT origin FROM dns_soa WHERE active = 'Y'");
+		$tmps = $app->db->queryAllRecords("SELECT origin FROM dns_soa WHERE active = 'Y'");
+		$zones = array();
+		foreach($tmps as $tmp) {
+			$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
+								'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/pri.'.substr($tmp['origin'],0,-1)
+							);
+		}
 		
 		$tpl = new tpl();
 		$tpl->newTemplate("bind_named.conf.local.master");
 		$tpl->setLoop('zones',$zones);
 		
 		file_put_contents($dns_config['named_conf_local_path'],$tpl->grab());
+		$app->log("Writing BIND named.conf.local file: ".$dns_config['named_conf_local_path'],LOGLEVEL_DEBUG);
+		
 		unset($tpl);
+		unset($zones);
+		unset($tmps);
 		
 	}
 	
