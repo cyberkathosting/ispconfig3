@@ -49,6 +49,17 @@ class page_action extends tform_actions {
 		//* call the onShow function of the parent class
 		parent::onShow();
 	}
+	
+	function onAfterInsert() 
+    {
+		global $app, $conf;
+		
+		if($_SESSION['s']['user']['typ'] == 'admin') {
+			$app->db->query("UPDATE support_message SET sys_userid = ".$this->dataRecord['recipient_id']." WHERE support_message_id = ".$this->id);
+		}
+		
+	}
+	
 }
 
 //* Create the new page object

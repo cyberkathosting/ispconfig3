@@ -12,7 +12,7 @@ $app->auth->check_module_permissions('help');
 $app->uses('listform_actions');
 
 //* Optional limit
-// $app->listform_actions->SQLExtWhere = "type = 'alias'";
+$app->listform_actions->SQLExtWhere = "recipient_id = ".$_SESSION['s']['user']['userid'];
 
 //* Start the form rendering and action ahndling
 $app->listform_actions->onLoad();
