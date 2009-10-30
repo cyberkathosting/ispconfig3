@@ -411,6 +411,75 @@ $form["tabs"]['web'] = array (
 	)
 );
 
+$form["tabs"]['dns'] = array (
+	'title' 	=> "DNS",
+	'width' 	=> 60,
+	'template' 	=> "templates/server_config_dns_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'bind_user' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'bind_user_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'bind_group' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'bind_group_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'bind_zonefiles_dir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'bind_zonefiles_dir_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'named_conf_path' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'named_conf_path_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'named_conf_local_path' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'named_conf_local_path_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
 $form["tabs"]['fastcgi'] = array (
 	'title' 	=> "FastCGI",
 	'width' 	=> 80,

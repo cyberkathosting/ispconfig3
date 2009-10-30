@@ -128,7 +128,7 @@ class installer_base {
 		if(is_installed('mydns') || is_installed('mydns-ng')) $conf['mydns']['installed'] = true;
 		if(is_installed('jk_chrootsh')) $conf['jailkit']['installed'] = true;
 		if(is_installed('pdns_server') || is_installed('pdns_control')) $conf['powerdns']['installed'] = true;
-		
+		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
 		
 	}
 	
@@ -815,6 +815,13 @@ class installer_base {
 		exec('chmod 600 '.$conf["powerdns"]["config_dir"].'/'.$configfile);
 		exec('chown root:root '.$conf["powerdns"]["config_dir"].'/'.$configfile);
 		
+		
+	}
+	
+	public function configure_bind() {
+		global $conf;
+		
+		//* Nothing to do
 		
 	}
 	

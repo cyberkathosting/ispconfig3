@@ -342,6 +342,9 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['powerdns']['installed'] == true) {
 			swriteln('Configuring PowerDNS');
 			$inst->configure_powerdns();
+		} elseif($conf['bind']['installed'] == true) {
+			swriteln('Configuring BIND');
+			$inst->configure_bind();
 		} else {
 			swriteln('Configuring MyDNS');
 			$inst->configure_mydns();
@@ -413,6 +416,7 @@ if($reconfigure_services_answer == 'yes') {
 	if($conf['services']['dns']) {
 		if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 		if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
+		if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['bind']['init_script']))					system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
 	}
 }
 

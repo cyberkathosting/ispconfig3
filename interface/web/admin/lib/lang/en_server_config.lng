@@ -50,4 +50,13 @@ $wb["loglevel_txt"] = 'Loglevel';
 $wb["apps_vhost_port_txt"] = 'Apps-vhost port';
 $wb["apps_vhost_ip_txt"] = 'Apps-vhost IP';
 $wb["apps_vhost_servername_txt"] = 'Apps-vhost Domain';
+$wb["bind_user_txt"] = 'BIND User';
+$wb["bind_group_txt"] = 'BIND Group';
+$wb["bind_zonefiles_dir_txt"] = 'BIND zonefiles directory';
+$wb["named_conf_path_txt"] = 'BIND named.conf path';
+$wb["bind_user_error_empty"] = 'BIND user is empty.';
+$wb["bind_group_error_empty"] = 'BIND group is empty.';
+$wb["bind_zonefiles_dir_error_empty"] = 'BIND zonefiles directory is empty.';
+$wb["named_conf_path_error_empty"] = 'BIND named.conf path is empty.';
+$wb["named_conf_local_path_error_empty"] = 'BIND named.conf.local path is empty.';
 ?>

@@ -154,6 +154,15 @@ $conf['powerdns']['database'] = 'powerdns';
 $conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
 $conf['powerdns']['init_script'] = 'pdns';
 
+//* BIND DNS Server
+$conf['bind']['installed'] = false; // will be detected automatically during installation
+$conf['bind']['bind_user'] = 'root';
+$conf['bind']['bind_group'] = 'bind';
+$conf['bind']['bind_zonefiles_dir'] = '/etc/bind';
+$conf['bind']['named_conf_path'] = '/etc/bind/named.conf';
+$conf['bind']['named_conf_local_path'] = '/etc/bind/named.conf.local';
+$conf['bind']['init_script'] = 'bind9';
+
 //* Jailkit
 $conf['jailkit']['installed'] = false; // will be detected automatically during installation
 $conf['jailkit']['config_dir'] = '/etc/jailkit';

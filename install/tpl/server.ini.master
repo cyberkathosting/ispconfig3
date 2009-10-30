@@ -43,6 +43,13 @@ apps_vhost_port=8081
 apps_vhost_ip=_default_
 apps_vhost_servername=
 
+[dns]
+bind_user=root
+bind_group=bind
+bind_zonefiles_dir=/etc/bind
+named_conf_path=/etc/bind/named.conf
+named_conf_local_path=/etc/bind/named.conf.local
+
 [fastcgi]
 fastcgi_starter_path=/var/www/php-fcgi-scripts/[system_user]/
 fastcgi_starter_script=.php-fcgi-starter

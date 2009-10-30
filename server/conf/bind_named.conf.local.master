@@ -1,0 +1,7 @@
+
+<tmpl_loop name='zones'>
+zone "<tmpl_var name='origin'>" {
+        type master;
+        file "pri.<tmpl_var name='origin'>";
+};
+</tmpl_loop>

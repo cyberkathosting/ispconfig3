@@ -75,6 +75,10 @@ class dns_module {
 		$app->modules->registerTableHook('dns_soa',$this->module_name,'process');
 		$app->modules->registerTableHook('dns_rr',$this->module_name,'process');
 		
+		
+		// Register service
+		$app->services->registerService('bind','dns_module','restartBind');
+		
 	}
 	
 	/*
@@ -98,6 +102,25 @@ class dns_module {
 			break;
 		} // end switch
 	} // end function
+	
+	
+	function restartBind($action = 'restart') {
+		global $app;
+		
+		$command = '';
+		if(is_file('/etc/init.d/bind9')) {
+			$command = '/etc/init.d/bind9';
+		} else {
+			$command = '/etc/init.d/named';
+		}
+		
+		if($action == 'restart') {
+			exec($command.' restart');
+		} else {
+			exec($command.' reload');
+		}
+		
+	}
 	
 
 } // end class

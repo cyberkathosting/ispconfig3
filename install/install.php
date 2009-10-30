@@ -194,6 +194,9 @@ if($install_mode == 'standard') {
 	if($conf['powerdns']['installed'] == true) {
 		swriteln('Configuring PowerDNS');
 		$inst->configure_powerdns();
+	} elseif($conf['bind']['installed'] == true) {
+		swriteln('Configuring BIND');
+		$inst->configure_bind();
 	} else {
 		swriteln('Configuring MyDNS');
 		$inst->configure_mydns();
@@ -246,6 +249,7 @@ if($install_mode == 'standard') {
 	if($conf['pureftpd']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 	if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
+	if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['bind']['init_script']))					system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
 	
 }else{
 	
@@ -370,6 +374,10 @@ if($install_mode == 'standard') {
 			swriteln('Configuring PowerDNS');
 			$inst->configure_powerdns();
 			if($conf['powerdns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
+		} elseif($conf['bind']['installed'] == true) {
+			swriteln('Configuring BIND');
+			$inst->configure_bind();
+			if($conf['bind']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
 		} else {
 			swriteln('Configuring MyDNS');
 			$inst->configure_mydns();
