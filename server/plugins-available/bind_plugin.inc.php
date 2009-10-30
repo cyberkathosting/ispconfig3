@@ -90,26 +90,28 @@ class bind_plugin {
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
 		//* Write the domain file
-		$tpl = new tpl();
-		$tpl->newTemplate("bind_pri.domain.master");
+		if(!empty($zone['id'])) {
+			$tpl = new tpl();
+			$tpl->newTemplate("bind_pri.domain.master");
 		
-		$zone = $data['new'];
-		$tpl->setVar($zone);
+			$zone = $data['new'];
+			$tpl->setVar($zone);
 		
-		$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
-		$tpl->setLoop('zones',$records);
+			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
+			$tpl->setLoop('zones',$records);
 		
-		$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
-		$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
-		file_put_contents($filename,$tpl->grab());
-		exec('chown '.escapeshellcmd($dns_config['bind_user']).':'.escapeshellcmd($dns_config['bind_group']).' '.$filename);
-		unset($tpl);
-		unset($records);
-		unset($zone);
+			$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
+			$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
+			file_put_contents($filename,$tpl->grab());
+			exec('chown '.escapeshellcmd($dns_config['bind_user']).':'.escapeshellcmd($dns_config['bind_group']).' '.$filename);
+			unset($tpl);
+			unset($records);
+			unset($zone);
+		}
 		
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
 		//if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
-			$this->write_named_conf($data,$dns_config);
+		$this->write_named_conf($data,$dns_config);
 		//}
 		
 		//* Delete old domain file, if domain name has been changed
