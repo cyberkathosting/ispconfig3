@@ -134,7 +134,7 @@ class bind_plugin {
 		$this->write_named_conf($data,$dns_config);
 		
 		//* Delete the domain file
-		$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.$data['old']['origin'];
+		$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
 		if(is_file($filename)) unset($filename);
 		$app->log("Deleting BIND domain file: ".$filename,LOGLEVEL_DEBUG);
 		
