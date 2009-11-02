@@ -459,6 +459,26 @@ CREATE TABLE `mail_mailman_domain` (
   PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for Table `mail_relay_recipient`
+--
+
+CREATE TABLE IF NOT EXISTS `mail_relay_recipient` (
+  `relay_recipient_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sys_userid` int(11) NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) DEFAULT NULL,
+  `sys_perm_group` varchar(5) DEFAULT NULL,
+  `sys_perm_other` varchar(5) DEFAULT NULL,
+  `server_id` int(11) NOT NULL DEFAULT '0',
+  `source` varchar(255) DEFAULT NULL,
+  `access` varchar(255) NOT NULL DEFAULT 'OK',
+  `active` varchar(255) NOT NULL DEFAULT 'y',
+  PRIMARY KEY (`relay_recipient_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+
 
 -- --------------------------------------------------------
 

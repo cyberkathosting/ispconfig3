@@ -112,6 +112,10 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	$items[] = array(   'title' 	=> 'Content Filter',
 				 	    'target' 	=> 'content',
 				  	    'link'	    => 'mail/mail_content_filter_list.php');
+	
+	$items[] = array(   'title' 	=> 'Relay Recipients',
+				 	    'target' 	=> 'content',
+				  	    'link'	    => 'mail/mail_relay_recipient_list.php');
 
 	$module['nav'][] = array(	'title'	=> 'Global Filters',
 								'open' 	=> 1,
