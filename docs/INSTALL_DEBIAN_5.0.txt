@@ -276,7 +276,7 @@ tar xvfz jailkit-2.7.tar.gz
 cd jailkit-2.7
 ./debian/rules binary
 cd ..
-dpkg -i jailkit_2.7-1_i386.deb
+dpkg -i jailkit_2.7-1_*.deb
 rm -rf jailkit-2.7*
 
 8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
