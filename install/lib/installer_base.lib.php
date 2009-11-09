@@ -296,21 +296,21 @@ class installer_base {
                 $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
             }
             
-            $query = "GRANT UPDATE(`status`) ON ".$conf['mysql']['master_database'].".`software_update_inst` "
+            $query = "GRANT SELECT, UPDATE(`status`) ON ".$conf['mysql']['master_database'].".`software_update_inst` "
                     ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
                     ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
             if(!$this->dbmaster->query($query)) {
                 $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
             }
 			
-			$query = "GRANT UPDATE(`updated`) ON ".$conf['mysql']['master_database'].".`server` "
+			$query = "GRANT SELECT, UPDATE(`updated`) ON ".$conf['mysql']['master_database'].".`server` "
                     ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
                     ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
             if(!$this->dbmaster->query($query)) {
                 $this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
             }
             
-            $query = "GRANT UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`) ON ".$conf['mysql']['master_database'].".`web_domain` "
+            $query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`) ON ".$conf['mysql']['master_database'].".`web_domain` "
                     ."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
                     ."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
             if(!$this->dbmaster->query($query)) {
