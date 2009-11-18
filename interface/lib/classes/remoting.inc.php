@@ -74,6 +74,10 @@ class remoting {
 			return false;
 		}
 		
+		//* Delete old remoting sessions
+		$sql = "DELETE FROM remote_session WHERE tstamp < ".time();
+		$app->db->query($sql);
+		
 		$username = $app->db->quote($username);
 		$password = $app->db->quote($password);
 		
