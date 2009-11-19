@@ -49,14 +49,20 @@ if ($serverId == 0){
     die ("No E-Mail - Server found!");
 }
 
-$serverData = $app->db->queryOneRecord(
-    "SELECT server_name FROM server WHERE server_id = " .
-    $serverId);
+$serverData = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$serverId);
+
+$app->uses('getconf');
+$global_config = $app->getconf->get_global_config('mail');
+
+if($global_config['webmail_url'] != '') {
+	header('Location:' . $global_config['webmail_url']);
+} else {
 
 /*
  * We only redirect to the login-form, so there is no need, to check any rights
  */
-isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
-header('location:' . $http . '://' . $serverData['server_name'] . '/webmail');
+	isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
+	header('Location:' . $http . '://' . $serverData['server_name'] . '/webmail');
+}
 exit;
 ?>

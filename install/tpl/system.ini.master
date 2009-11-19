@@ -8,6 +8,7 @@
 
 [mail]
 mailboxlist_webmail_link=y
+webmail_url=
 
 [monitor]
 
@@ -17,5 +18,6 @@ dbuser_prefix=c[CLIENTID]
 ftpuser_prefix=[CLIENTNAME]
 shelluser_prefix=[CLIENTNAME]
 dblist_phpmyadmin_link=y
+phpmyadmin_url=
 
 [tools]

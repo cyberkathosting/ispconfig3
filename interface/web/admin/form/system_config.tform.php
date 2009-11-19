@@ -112,6 +112,18 @@ $form["tabs"]['sites'] = array (
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
+		'phpmyadmin_url' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^[0-9a-zA-Z\:\/\-]{0,255}$/',
+														'errmsg'=> 'phpmyadmin_url_error_regex'),
+										),
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
@@ -131,6 +143,18 @@ $form["tabs"]['mail'] = array (
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'webmail_url' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^[0-9a-zA-Z\:\/\-]{0,255}$/',
+														'errmsg'=> 'webmail_url_error_regex'),
+										),
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
 	##################################
 	# ENDE Datatable fields

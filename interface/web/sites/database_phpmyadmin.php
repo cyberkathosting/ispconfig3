@@ -53,11 +53,18 @@ if ($serverId == 0){
 $serverData = $app->db->queryOneRecord(
     "SELECT server_name FROM server WHERE server_id = " .
     $serverId);
+	
+$app->uses('getconf');
+$global_config = $app->getconf->get_global_config('sites');
 
 /*
  * We only redirect to the login-form, so there is no need, to check any rights
  */
-isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
-header('location:' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
+if($global_config['phpmyadmin_url'] != '') {
+	header('Location:'.$global_config['phpmyadmin_url']);
+} else {
+	isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
+	header('location:' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
+}
 exit;
 ?>

@@ -20,13 +20,17 @@
       <div class="ctrlHolder">
       	<label for="shelluser_prefix">{tmpl_var name='shelluser_prefix_txt'}</label>
         <input name="shelluser_prefix" id="shelluser_prefix" value="{tmpl_var name='shelluser_prefix'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-			</div>
+	  </div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='dblist_phpmyadmin_link_txt'}</p>
 					<div class="multiField">
 						{tmpl_var name='dblist_phpmyadmin_link'}
 					</div>
 			</div>
+	<div class="ctrlHolder">
+      	<label for="phpmyadmin_url">{tmpl_var name='phpmyadmin_url_txt'}</label>
+        <input name="phpmyadmin_url" id="phpmyadmin_url" value="{tmpl_var name='phpmyadmin_url'}" size="30" maxlength="255" type="text" class="textInput" />
+	  </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
