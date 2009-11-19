@@ -1202,7 +1202,7 @@ class installer_base {
 		exec("chmod -R 770 $install_dir/interface/lib/lang");
 		
 		//* Make the temp directory for language file exports writable
-		exec("chmod -R 770 $install_dir/interface/web/temp");
+		if(is_dir("$install_dir/interface/web/temp")) exec("chmod -R 770 $install_dir/interface/web/temp");
 		
 		//* Make all interface language file directories group writable
 		$handle = @opendir($install_dir.'/interface/web');
