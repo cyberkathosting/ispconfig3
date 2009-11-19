@@ -1015,6 +1015,7 @@ class installer_base {
 		$content = str_replace('{apps_vhost_ip}', $conf['web']['apps_vhost_ip'], $content);
 		$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
 		$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
+		$content = str_replace('{website_basedir}', $conf['web']['website_basedir'], $content);
 		$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
 		
 		
