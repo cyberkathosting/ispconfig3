@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -866,24 +866,992 @@ class remoting {
  * 
  * 
  * 
- * 	 * klient add :)
+ * 	 * Client functions
  * 
  * 
  */
-
-	public function client_add($session_id,$domain_id, $client_id, $params)
+	//* Get client details
+	public function client_get($session_id, $client_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'client_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../client/form/client.tform.php');
+		return $app->remoting_lib->getDataRecord($client_id);
+	}
+	
+	
+	public function client_add($session_id, $reseller_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'client_add'))
 			{
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
-		$affected_rows = $this->klientadd('../client/form/client.tform.php',$domain_id, $client_id, $params);
+		$affected_rows = $this->klientadd('../client/form/client.tform.php',$reseller_id, $params);
 		return $affected_rows;  
 				  
 	}
+	
+	public function client_update($session_id, $reseller_id, $client_id, $params)
+	{
+			global $app;
+			
+			if (!$this->checkPerm($session_id, 'client_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../client/form/client.tform.php', $reseller_id, $client_id, $params);
+			
+			$app->remoting_lib->ispconfig_sysuser_update($params,$client_id);
+			
+			return $affected_rows;
+	}
 
 
+	public function client_delete($session_id,$client_id)
+	{
+			global $app;
+			
+			if (!$this->checkPerm($session_id, 'client_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../client/form/client.tform.php',$client_id);
+			
+			$app->remoting_lib->ispconfig_sysuser_delete($client_id);
+			
+			return $affected_rows;
+	}
+	
+	// Website functions ---------------------------------------------------------------------------------------
+	
+	//* Get cron details
+	public function sites_cron_get($session_id, $cron_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_cron_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/cron.tform.php');
+		return $app->remoting_lib->getDataRecord($cron_id);
+	}
+	
+	//* Add a cron record
+	public function sites_cron_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_cron_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/cron.tform.php',$client_id,$params);
+	}
+	
+	//* Update cron record
+	public function sites_cron_update($session_id, $client_id, $cron_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_cron_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/cron.tform.php',$client_id,$cron_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete cron record
+	public function sites_cron_delete($session_id, $cron_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_cron_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/cron.tform.php',$cron_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_database_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_database_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/database.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_database_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_database_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/database.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_database_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_database_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/database.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_database_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_database_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/database.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_ftp_user_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_ftp_user_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/ftp_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_ftp_user_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_ftp_user_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/ftp_user.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_ftp_user_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_ftp_user_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/ftp_user.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_ftp_user_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_ftp_user_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/ftp_user.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_shell_user_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_shell_user_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/shell_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_shell_user_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_shell_user_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/shell_user.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_shell_user_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_shell_user_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/shell_user.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_shell_user_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_shell_user_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/shell_user.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_web_domain_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_web_domain_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_web_domain_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_domain_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/web_domain.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_web_domain_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_domain_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_web_domain_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_domain_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/web_domain.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// -----------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_web_aliasdomain_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/web_aliasdomain.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_web_aliasdomain_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/web_aliasdomain.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_web_aliasdomain_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/web_aliasdomain.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_web_aliasdomain_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/web_aliasdomain.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_web_subdomain_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_web_subdomain_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/web_subdomain.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_web_subdomain_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_subdomain_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/web_subdomain.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_web_subdomain_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_subdomain_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/web_subdomain.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_web_subdomain_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_subdomain_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/web_subdomain.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	
+	// DNS Function --------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_zone_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_soa.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_zone_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_zone_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_soa.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_zone_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_zone_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_soa.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_zone_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_zone_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_soa.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_aaaa_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_aaaa_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_aaaa.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_aaaa_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_aaaa_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_aaaa.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_aaaa_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_aaaa_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_aaaa.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_aaaa_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_aaaa_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_aaaa.tform.php',$primary_id);
+		return $affected_rows;
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_a_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_a_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_a.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_a_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_a_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_a.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_a_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_a_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_a.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_a_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_a_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_a.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_alias_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_alias_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_alias.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_alias_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_alias_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_alias.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_alias_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_alias_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_alias.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_alias_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_alias_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_alias.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_cname_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_cname_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_cname.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_cname_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_cname_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_cname.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_cname_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_cname_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_cname.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_cname_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_cname_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_cname.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_hinfo_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_hinfo_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_hinfo.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_hinfo_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_hinfo_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_hinfo.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_hinfo_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_hinfo_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_hinfo.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_hinfo_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_hinfo_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_hinfo.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_mx_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_mx_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_mx.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_mx_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_mx_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_mx.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_mx_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_mx_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_mx.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_mx_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_mx_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_mx.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_ns_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_ns_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_ns.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_ns_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_ns_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_ns.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_ns_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_ns_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_ns.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_ns_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_ns_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_ns.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_ptr_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_ptr_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_ptr.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_ptr_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_ptr_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_ptr.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_ptr_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_ptr_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_ptr.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_ptr_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_ptr_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_ptr.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_rp_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_rp_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_rp.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_rp_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_rp_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_rp.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_rp_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_rp_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_rp.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_rp_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_rp_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_rp.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_srv_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_srv_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_srv.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_srv_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_srv_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_srv.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_srv_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_srv_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_srv.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_srv_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_srv_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_srv.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_txt_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'dns_txt_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_txt.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function dns_txt_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_txt_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../dns/form/dns_txt.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function dns_txt_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'dns_txt_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../dns/form/dns_txt.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function dns_txt_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'dns_txt_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_txt.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
         
 
 
@@ -892,7 +1860,7 @@ class remoting {
 	
 
 
-	private function klientadd($formdef_file, $client_id, $params)
+	private function klientadd($formdef_file, $reseller_id, $params)
     {
 		global $app, $tform, $remoting_lib;
 		$app->uses('remoting_lib');
@@ -901,7 +1869,7 @@ class remoting {
 		$app->remoting_lib->loadFormDef($formdef_file);
 		
 		//* load the user profile of the client
-		$app->remoting_lib->loadUserProfile($client_id);		
+		$app->remoting_lib->loadUserProfile($reseller_id);		
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'INSERT',0);
@@ -926,7 +1894,7 @@ class remoting {
 			$new_rec = $app->remoting_lib->getDataRecord($insert_id);
 			$app->remoting_lib->datalogSave('INSERT',$primary_id,array(),$new_rec);
 			
-		$app->remoting_lib->dodaj_usera($params,$insert_id);
+		$app->remoting_lib->ispconfig_sysuser_add($params,$insert_id);
 
 		}
 		
