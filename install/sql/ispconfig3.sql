@@ -398,7 +398,8 @@ CREATE TABLE `mail_forwarding` (
   `type` enum('alias','aliasdomain','forward','catchall') NOT NULL default 'alias',
   `active` enum('n','y') NOT NULL,
   PRIMARY KEY  (`forwarding_id`),
-  KEY `server_id` (`server_id`,`source`)
+  KEY `server_id` (`server_id`,`source`),
+  KEY `type` (`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
