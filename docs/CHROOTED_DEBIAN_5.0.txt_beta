@@ -36,7 +36,7 @@ mount /dev/lvm_foobar3/hosting_lv /var/www/html/var/www/html
 dpkg -l|egrep --color -i 'apache|php'
 
 4. Prepair chroot enviroment
-apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support
+apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support patch make gcc
 time debootstrap --arch=amd64 lenny /var/www/html/ ftp://ftp.fr.debian.org/debian/
 
 echo "/proc         /var/www/html/proc               proc           defaults        0       0">>/etc/fstab
@@ -44,8 +44,10 @@ echo "devpts      /var/www/html/dev/pts            devpts         defaults      
 
 mount -a
 
+# We must create sshusers group
 echo "@sshusers       -       chroot  /var/www/html/">>/etc/security/limits.conf
 
+# After copy, we must clean unnecessary users and groups
 cp -r /etc/{passwd,group,apt} /var/www/html/etc/
 
 chroot /var/www/html apt-get update
@@ -72,7 +74,7 @@ sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /var/www/html/
 sed -i -e 's#x-httpd-php=php:/usr/bin/php-cgi#x-httpd-php=php:/usr/bin/php-cgi\nx-httpd-suphp=php:/usr/bin/php-cgi\nx-httpd-php=php:/usr/bin/php-cgi#' /var/www/html/etc/suphp/suphp.conf
 
 # Protect apache configuration. ONLY root can read it
-chown root:root /etc/apache2/ && chmod 700 /etc/apache2/
+chown root:root /var/www/html/etc/apache2/ && chmod 700 /var/www/html/etc/apache2/
 chmod 711 /var/www/html/etc/php5/
 
 5. # Is good idea to add nagios alarm for check every simbolic link is correct.
@@ -99,6 +101,7 @@ wget http://acme.com/software/mini_sendmail/mini_sendmail-1.3.6.tar.gz
 tar xzf mini_sendmail-1.3.6.tar.gz
 wget http://users1.leipzig.freifunk.net/%7Efirmware-build/brcm_2_4_Broadcom_default/build/openwrt_packages/mail/mini_sendmail/patches/200-fullname.patch
 patch -p0 < 200-fullname.patch
+cd mini_sendmail-1.3.6
 make
 # 2e555b2573c3ea65a467a5960f0b51f6  mini_sendmail
 mv /var/www/html/usr/lib/sendmail /var/www/html/usr/lib/sendmail_old
@@ -110,12 +113,14 @@ cd /var/www/html/usr/lib/ && ln -s ../sbin/mini_sendmail sendmail
 # ./mini_sendmail -h
 # usage:  ./mini_sendmail [-f<name>] [-t] [-s<server>] [-p<port>] [-T<timeout>] [-v] [address ...]
 
-add to php.ini (/var/www/html/etc/php5/apache2/php.ini /var/www2/etc/php5/cli/php.ini /var/www2/etc/php5/cgi/php.ini line :672)
+#add to php.ini (/var/www/html/etc/php5/apache2/php.ini /var/www2/etc/php5/cli/php.ini /var/www2/etc/php5/cgi/php.ini line :672)
 
 sendmail_path = /usr/sbin/mini_sendmail -t -i -fhosting@alojamientotecnico.com -s127.0.0.1
 
+sed -i -e 's#^;sendmail_path =$#sendmail_path = /usr/sbin/mini_sendmail -t -i -fhosting@alojamientotecnico.com -s127.0.0.1#' /var/www/html/etc/php5/apache2/php.ini /var/www/html/etc/php5/cli/php.ini /var/www/html/etc/php5/cgi/php.ini
+
 # Test
-apache2ctl restart
+chroot /var/www/html/ apache2ctl restart
 chroot /var/www/html/
 
 # php -i|grep --color sendmail
