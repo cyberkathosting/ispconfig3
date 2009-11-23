@@ -3,10 +3,38 @@
 # dxr@brutalsec.net
 #    01-09-2009
 #
+# We can create a script for configure chroot enviroment but,
+# YOU MUST UNDERSTAND HOW TO WORK IT for can solve possible 
+# problems in the future.
+# 
+# Every service has its own chroot enviroment:
+# BIND -> chroot
+# Apache -> chroot
+# Dovecot -> chroot
+# Pureftpd -> Apache's chroot
+# 
+# Only apache and php packages aren't installed in real system,
+# only in chroot enviroment with symbolic links from real system.
+# 
+# Please, configure chroot enviroment if security is really
+# important for you and you known how to work it!
+#
 
-exit 1;
+exit 1
 
-1. If is not a new instalation, then
+1. BACKUP before change something in the system
+2. Create partitions
+3. Remove possible apache or php installations on real system
+4. Prepair Chroot enviroment
+5. Linking Webserver aplication from real system
+6. mini_sendmail
+7. Test services
+8. Howto install ispconfig3
+9. Migration
+
+
+1. BACKUP before change something in the system 
+# If is not a new instalation, then
 
 BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
 BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
@@ -31,12 +59,14 @@ mkdir -p /var/www/html/var/log/apache2 /var/www/html/var/www/html
 mount /dev/lvm_foobar2/apachelogs_lv /var/www/html/var/log/apache2
 mount /dev/lvm_foobar3/hosting_lv /var/www/html/var/www/html
 
-3. Clear apache and php instalation
+
+3. Remove possible apache or php installations on real system
 # We never wont install apache or php in non-chroot system, if we have installed, we only have do a backup of confgigurations, uninstall, and check every simbolic link
 dpkg -l|egrep --color -i 'apache|php'
 
-4. Prepair chroot enviroment
-apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support patch make gcc
+
+4. Prepair Chroot enviroment
+apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support patch make gcc mysql-server
 time debootstrap --arch=amd64 lenny /var/www/html/ ftp://ftp.fr.debian.org/debian/
 
 echo "/proc         /var/www/html/proc               proc           defaults        0       0">>/etc/fstab
@@ -63,7 +93,15 @@ mv /usr/lib/php5 /usr/lib/php5_old
 mv /etc/apache2 /etc/apache2_old
 mv /etc/suphp /etc/suphp_old
 
-chroot /var/www/html apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-chroot php-apc
+chroot /var/www/html apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-chroot php-apc subversion vim
+# The non webserver will install outside of chroot
+apt-get install libdbi-perl postfix pure-ftpd-mysql amavisd-new clamav-getfiles clamav clamav-freshclam
+# If you will use courier:
+apt-get install courier-ssl courier-pop-ssl courier-pop courier-imap-ssl courier-imap courier-authdaemon
+# If you will use dovecot:
+apt-get install dovecot-imapd dovecot-pop3d
+# If you will use BIND:
+apt-get install bind9 bind9utils 
 
 chroot /var/www/html /etc/init.d/apache2 stop
 
@@ -72,10 +110,14 @@ chroot /var/www/html a2enmod suexec
 echo "ChrootDir /var/www/html" > /var/www/html/etc/apache2/conf.d/mod_chroot.conf
 sed -i -e 's#DocumentRoot /var/www/#DocumentRoot /var/www/html/#' /var/www/html/etc/apache2/sites-enabled/000-default
 sed -i -e 's#x-httpd-php=php:/usr/bin/php-cgi#x-httpd-php=php:/usr/bin/php-cgi\nx-httpd-suphp=php:/usr/bin/php-cgi\nx-httpd-php=php:/usr/bin/php-cgi#' /var/www/html/etc/suphp/suphp.conf
+sed -i -e 's#/var/run/apache2.pid#/var/run/apache2/apache2.pid#' /var/www/html/etc/apache2/envvars
+sed -i -e 's/^"syntax on/syntax on/' /etc/vim/vimrc
+sed -i -e 's/^"syntax on/syntax on/' /var/www/html/etc/vim/vimrc
 
 # Protect apache configuration. ONLY root can read it
 chown root:root /var/www/html/etc/apache2/ && chmod 700 /var/www/html/etc/apache2/
 chmod 711 /var/www/html/etc/php5/
+
 
 5. # Is good idea to add nagios alarm for check every simbolic link is correct.
 ln -s /var/www/html/etc/apache2 /etc/apache2
@@ -93,8 +135,13 @@ ln -s /var/www/html/var/log/apache2 /var/log/apache2
 ln -s /var/www/html/var/lock/apache2 /var/lock/apache2
 ln -s /var/www/html/var/lib/apache2 /var/lib/apache2
 ln -s /var/www/html/usr/lib/php5 /usr/lib/php5
+#ln -s /var/www/html/usr/bin/php5 /usr/bin/php5
+#ln -s /var/www/html/etc/alternatives/php /etc/alternatives/php
+#ln -s /var/www/html/usr/bin/php /usr/bin/php
+
 
 6. # Install mini_sendmail for chroot
+# We can use mini_sendmail for delivery emails directy in remote servers, but i prefer to control it in central mailserver for check spammers and limit it.
 
 cd /tmp/
 wget http://acme.com/software/mini_sendmail/mini_sendmail-1.3.6.tar.gz
@@ -119,8 +166,10 @@ sendmail_path = /usr/sbin/mini_sendmail -t -i -fhosting@alojamientotecnico.com -
 
 sed -i -e 's#^;sendmail_path =$#sendmail_path = /usr/sbin/mini_sendmail -t -i -fhosting@alojamientotecnico.com -s127.0.0.1#' /var/www/html/etc/php5/apache2/php.ini /var/www/html/etc/php5/cli/php.ini /var/www/html/etc/php5/cgi/php.ini
 
+
+7. 
 # Test
-chroot /var/www/html/ apache2ctl restart
+apache2ctl restart
 chroot /var/www/html/
 
 # php -i|grep --color sendmail
@@ -131,9 +180,12 @@ Path to sendmail => /usr/sbin/mini_sendmail -t -i -fhosting@alojamientotecnico.c
 
 # Sould be good idea check /var/www/html/usr/lib/sendmail /var/www/html/usr/sbin/sendmail and /var/www/html/usr/sbin/mini_sendmail with nagios alarm ;)
 
+
 8. Install ispconfig ........
 
-
+chroot /var/www/html/
+cd /tmp/
+svn co svn://svn.ispconfig.org/ispconfig3 svn.ispconfig.org
 
 ### Migration to other server ###
 Really easy:
