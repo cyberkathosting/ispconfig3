@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# rev 0.6
+#
 # dxr@brutalsec.net
 #    01-09-2009
 #
@@ -16,8 +18,8 @@
 # Only apache and php packages aren't installed in real system,
 # only in chroot enviroment with symbolic links from real system.
 # 
-# Please, configure chroot enviroment if security is really
-# important for you and you known how to work it!
+# PLEASE, CONFIGURE CHROOT ENVIROMENT IF SECURITY IS REALLY 
+# IMPORTANT FOR YOU AND YOU KNOWN HOW TO WORK IT!
 #
 
 exit 1
@@ -66,7 +68,7 @@ dpkg -l|egrep --color -i 'apache|php'
 
 
 4. Prepair Chroot enviroment
-apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support patch make gcc mysql-server
+apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support patch make gcc mysql-server subversion
 time debootstrap --arch=amd64 lenny /var/www/html/ ftp://ftp.fr.debian.org/debian/
 
 echo "/proc         /var/www/html/proc               proc           defaults        0       0">>/etc/fstab
@@ -93,9 +95,9 @@ mv /usr/lib/php5 /usr/lib/php5_old
 mv /etc/apache2 /etc/apache2_old
 mv /etc/suphp /etc/suphp_old
 
-chroot /var/www/html apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-chroot php-apc subversion vim
+chroot /var/www/html apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-chroot php-apc vim libdbd-mysql libdbi-perl
 # The non webserver will install outside of chroot
-apt-get install libdbi-perl postfix pure-ftpd-mysql amavisd-new clamav-getfiles clamav clamav-freshclam
+apt-get install postfix pure-ftpd-mysql amavisd-new clamav-getfiles clamav clamav-freshclam
 # If you will use courier:
 apt-get install courier-ssl courier-pop-ssl courier-pop courier-imap-ssl courier-imap courier-authdaemon
 # If you will use dovecot:
@@ -135,10 +137,11 @@ ln -s /var/www/html/var/log/apache2 /var/log/apache2
 ln -s /var/www/html/var/lock/apache2 /var/lock/apache2
 ln -s /var/www/html/var/lib/apache2 /var/lib/apache2
 ln -s /var/www/html/usr/lib/php5 /usr/lib/php5
-#ln -s /var/www/html/usr/bin/php5 /usr/bin/php5
-#ln -s /var/www/html/etc/alternatives/php /etc/alternatives/php
-#ln -s /var/www/html/usr/bin/php /usr/bin/php
-
+# Neccessary for to install ispconfig3 from real system:
+ln -s /var/www/html/usr/bin/php5 /usr/bin/php5
+ln -s /var/www/html/etc/alternatives/php /etc/alternatives/php
+ln -s /var/www/html/usr/bin/php /usr/bin/php
+ln -s /var/www/html/etc/php5 /etc/php5
 
 6. # Install mini_sendmail for chroot
 # We can use mini_sendmail for delivery emails directy in remote servers, but i prefer to control it in central mailserver for check spammers and limit it.
@@ -183,9 +186,10 @@ Path to sendmail => /usr/sbin/mini_sendmail -t -i -fhosting@alojamientotecnico.c
 
 8. Install ispconfig ........
 
-chroot /var/www/html/
 cd /tmp/
 svn co svn://svn.ispconfig.org/ispconfig3 svn.ispconfig.org
+mv /usr/local/ispconfig /var/www/html/usr/local/
+ln -s /var/www/html/usr/local/ispconfig /usr/local/ispconfig
 
 ### Migration to other server ###
 Really easy:
