@@ -35,19 +35,19 @@
 
 $function_list = array();
 $function_list['mail_domain_get,mail_domain_add,mail_domain_update,mail_domain_delete'] = 'Mail domain functions<br>';
-$function_list['mail_user_add,mail_user_update,mail_user_delete'] = 'Mail user functions<br>';
-$function_list['mail_alias_add,mail_alias_update,mail_alias_delete'] = 'Mail alias functions<br>';
-$function_list['mail_forward_add,mail_forward_update,mail_forward_delete'] = 'Mail forward functions<br>';
-$function_list['mail_catchall_add,mail_catchall_update,mail_catchall_delete'] = 'Mail catchall functions<br>';
-$function_list['mail_transport_add,mail_transport_update,mail_transport_delete'] = 'Mail transport functions<br>';
-$function_list['mail_whitelist_add,mail_whitelist_update,mail_whitelist_delete'] = 'Mail whitelist functions<br>';
-$function_list['mail_blacklist_add,mail_blacklist_update,mail_blacklist_delete'] = 'Mail blacklist functions<br>';
-$function_list['mail_spamfilter_user_add,mail_spamfilter_user_update,mail_spamfilter_user_delete'] = 'Mail spamfilter user functions<br>';
-$function_list['mail_policy_add,mail_policy_update,mail_policy_delete'] = 'Mail spamfilter policy functions<br>';
-$function_list['mail_fetchmail_add,mail_fetchmail_update,mail_fetchmail_delete'] = 'Mail fetchmail functions<br>';
-$function_list['mail_whitelist_add,mail_whitelist_update,mail_whitelist_delete'] = 'Mail whitelist functions<br>';
-$function_list['mail_blacklist_add,mail_blacklist_update,mail_blacklist_delete'] = 'Mail blacklist functions<br>';
-$function_list['mail_filter_add,mail_filter_update,mail_filter_delete'] = 'Mail filter functions<br>';
+$function_list['mail_user_get,mail_user_add,mail_user_update,mail_user_delete'] = 'Mail user functions<br>';
+$function_list['mail_alias_get,mail_alias_add,mail_alias_update,mail_alias_delete'] = 'Mail alias functions<br>';
+$function_list['mail_forward_get,mail_forward_add,mail_forward_update,mail_forward_delete'] = 'Mail forward functions<br>';
+$function_list['mail_catchall_get,mail_catchall_add,mail_catchall_update,mail_catchall_delete'] = 'Mail catchall functions<br>';
+$function_list['mail_transport_get,mail_transport_add,mail_transport_update,mail_transport_delete'] = 'Mail transport functions<br>';
+$function_list['mail_whitelist_get,mail_whitelist_add,mail_whitelist_update,mail_whitelist_delete'] = 'Mail whitelist functions<br>';
+$function_list['mail_blacklist_get,mail_blacklist_add,mail_blacklist_update,mail_blacklist_delete'] = 'Mail blacklist functions<br>';
+$function_list['mail_spamfilter_user_get,mail_spamfilter_user_add,mail_spamfilter_user_update,mail_spamfilter_user_delete'] = 'Mail spamfilter user functions<br>';
+$function_list['mail_policy_get,mail_policy_add,mail_policy_update,mail_policy_delete'] = 'Mail spamfilter policy functions<br>';
+$function_list['mail_fetchmail_get,mail_fetchmail_add,mail_fetchmail_update,mail_fetchmail_delete'] = 'Mail fetchmail functions<br>';
+$function_list['mail_whitelist_get,mail_whitelist_add,mail_whitelist_update,mail_whitelist_delete'] = 'Mail whitelist functions<br>';
+$function_list['mail_blacklist_get,mail_blacklist_add,mail_blacklist_update,mail_blacklist_delete'] = 'Mail blacklist functions<br>';
+$function_list['mail_filter_get,mail_filter_add,mail_filter_update,mail_filter_delete'] = 'Mail filter functions<br>';
 
 $function_list['client_get,client_add,client_update,client_delete'] = 'Client functions<br>';
 $function_list['sites_cron_get,sites_cron_add,sites_cron_update,sites_cron_delete'] = 'Sites cron functions<br>';
