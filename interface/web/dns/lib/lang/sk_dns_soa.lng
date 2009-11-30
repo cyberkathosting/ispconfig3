@@ -1,0 +1,25 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zóna (SOA)';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['serial_txt'] = 'Seriové ?islo';
+$wb['refresh_txt'] = 'Obnovi?';
+$wb['retry_txt'] = 'Opakova?';
+$wb['expire_txt'] = 'Expirova?';
+$wb['minimum_txt'] = 'Minimum';
+$wb['ttl_txt'] = 'TTL';
+$wb['xfer_txt'] = 'Povoli? prenosy zóny na <br />tieto IP (comma separated list)';
+$wb['active_txt'] = 'Actívova?';
+$wb['limit_dns_zone_txt'] = 'Max. po?et zón DNS pre váš ú?et je dosiahnutý.';
+$wb['client_txt'] = 'Klient';
+$wb['no_zone_perm'] = 'Nemáte oprávnenie prida? záznam do tejto zóny DNS.';
+$wb['server_id_error_empty'] = 'Žiaden vybraný server';
+$wb['origin_error_empty'] = 'Prazdna zóna.';
+$wb['origin_error_unique'] = 'V sú?asnosti už existuje záznam pre túto zónu.';
+$wb['origin_error_regex'] = 'Zóna má neplatný formát.';
+$wb['ns_error_regex'] = 'NS má neplatný formát.';
+$wb['mbox_error_empty'] = 'Email je prázdny.';
+$wb['mbox_error_regex'] = 'Email má neplatný formát.';
+?>
+

@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Alias doména';
+$wb['active_txt'] = 'Aktívne';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webstránky';
+$wb['domain_txt'] = 'Alias doména';
+$wb['add_new_record_txt'] = 'Prida? novú alias doménu';
+$wb['domain_error_empty'] = 'Doména je prázdna.';
+$wb['domain_error_unique'] = 'Doména musí by? unikátna.';
+$wb['domain_error_regex'] = 'Doménové meno neplatné.';
+?>
+

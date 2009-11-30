@@ -1,0 +1,9 @@
+<?php
+$wb['password_strength_0_txt'] = 'Príliš krátke';
+$wb['password_strength_1_txt'] = 'Slabé';
+$wb['password_strength_2_txt'] = 'Fér';
+$wb['password_strength_3_txt'] = 'Dobré';
+$wb['password_strength_4_txt'] = 'Silné';
+$wb['password_strength_5_txt'] = 'Ve?mi silné';
+?>
+

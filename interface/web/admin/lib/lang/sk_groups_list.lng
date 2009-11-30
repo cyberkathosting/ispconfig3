@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Skupina systémovch uživa?elov';
+$wb['description_txt'] = 'Popis';
+$wb['name_txt'] = 'Skupina';
+$wb['add_new_record_txt'] = 'Prida? skupinu';
+?>
+

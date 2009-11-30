@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zóna';
+$wb['name_txt'] = 'Hostname';
+$wb['type_txt'] = 'typ';
+$wb['data_txt'] = 'Informácie o hoste';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktivova?';
+$wb['limit_dns_record_txt'] = 'Max. po?et záznamov DNS pre váš ú?et je dosiahnutý.';
+$wb['no_zone_perm'] = 'Nemáte oprávnenie prida? záznam this DNS zone.';
+$wb['name_error_empty'] = 'Hostname je prázdny.';
+$wb['name_error_regex'] = 'Hostname má zlý formát.';
+$wb['data_error_empty'] = 'Host informácie sú prázdne';
+$wb['data_error_regex'] = 'Host informácie majú zlý formát';
+?>
+

@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Na?íta? e-maily z externých POP3 / IMAP serverou';
+$wb['active_txt'] = 'Aktívne';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'Externý Server';
+$wb['source_username_txt'] = 'Užívate?ské meno';
+$wb['destination_txt'] = 'Cie?';
+$wb['add_new_record_txt'] = 'Prida? nový ú?et';
+?>
+

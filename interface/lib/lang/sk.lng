@@ -1,0 +1,34 @@
+<?php
+$wb['conf_format_dateshort'] = 'Y-m-d';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'Y-m-d H:i';
+$wb['301'] = 'Modul nie je povolený pre existujúceho použivatela.';
+$wb['302'] = 'Module neplatný.';
+$wb['1001'] = 'Užvatelské meno a heslo nesmie byt prázdne !';
+$wb['1002'] = 'Užvatelské meno a/alebo heslo nie je správne !';
+$wb['1003'] = 'Užvatelské meno je deaktivovaný';
+$wb['delete_confirmation'] = 'Naozaj chcete zmazat tento záznam?';
+$wb['error_no_view_permission'] = 'Nemáte oprávnenie pre prezeranie tohto záznamu alebo tento záznam neexistuje!';
+$wb['error_no_delete_permission'] = 'Nemáte oprávnenie zmaza? tento záznam!';
+$wb['page_txt'] = 'Strana';
+$wb['page_of_txt'] = 'z';
+$wb['page_next_txt'] = '?alší';
+$wb['page_back_txt'] = 'Spä?';
+$wb['delete_txt'] = 'Zmaza?';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Prida? záznam';
+$wb['btn_save_txt'] = 'Uloži?';
+$wb['btn_cancel_txt'] = 'Spä?';
+$wb['System'] = 'Systém';
+$wb['Client'] = 'Klient';
+$wb['Email'] = 'Email';
+$wb['Monitor'] = 'Monitor';
+$wb['Sites'] = 'Webstránky';
+$wb['DNS'] = 'DNS';
+$wb['Tools'] = 'Nástroje';
+$wb['Help'] = 'Pomoc';
+$wb['toolsarea_head_txt'] = 'Nástroje';
+?>
+

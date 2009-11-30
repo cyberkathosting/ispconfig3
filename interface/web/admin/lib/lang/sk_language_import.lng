@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Import jazykového súboru';
+$wb['language_import_txt'] = 'Vyberte súbor jazyka';
+$wb['btn_save_txt'] = 'Import zvoleného jazykového súboru';
+$wb['language_overwrite_txt'] = 'Prepisa? subor ak existuje';
+$wb['btn_cancel_txt'] = 'Spä?';
+?>
+

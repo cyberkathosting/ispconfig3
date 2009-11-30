@@ -1,0 +1,39 @@
+<?php
+$wb['policy_name_txt'] = 'Meno politiky';
+$wb['virus_lover_txt'] = 'Milovník virusov';
+$wb['spam_lover_txt'] = 'Milovník SPAMu';
+$wb['banned_files_lover_txt'] = 'Milovník zakázaných súborov';
+$wb['bad_header_lover_txt'] = 'Milovník  zlých hlavi?iek';
+$wb['bypass_virus_checks_txt'] = 'Vynechanie vírusovej kontroly';
+$wb['bypass_banned_checks_txt'] = 'Vynechanie kontroly zakázov ';
+$wb['bypass_header_checks_txt'] = 'Vynechanie kontroly hlavi?iek';
+$wb['virus_quarantine_to_txt'] = 'Preposla? vírus na email';
+$wb['spam_quarantine_to_txt'] = 'Preposla? spam na email';
+$wb['banned_quarantine_to_txt'] = 'Preposla? zakázany obsah na email';
+$wb['bad_header_quarantine_to_txt'] = 'Preposla? zlé hlavi?ky na email';
+$wb['clean_quarantine_to_txt'] = 'Preposla? ?istenie na email';
+$wb['other_quarantine_to_txt'] = 'Preposla? iné na email';
+$wb['spam_tag_level_txt'] = 'SPAM tag úrovne';
+$wb['spam_tag2_level_txt'] = 'SPAM tag2 úrovne';
+$wb['spam_kill_level_txt'] = 'SPAM kill úrovne';
+$wb['spam_dsn_cutoff_level_txt'] = 'SPAM dsn úrovne orezania';
+$wb['spam_quarantine_cutoff_level_txt'] = 'SPAM quarantina úrovne orezania';
+$wb['spam_modifies_subj_txt'] = 'SPAM modifikácia predmetu';
+$wb['spam_subject_tag_txt'] = 'SPAM predmet tag';
+$wb['spam_subject_tag2_txt'] = 'SPAM predmet tag2';
+$wb['addr_extension_virus_txt'] = 'Addr. Rozšírenie vírusu';
+$wb['addr_extension_spam_txt'] = 'Addr. Rozšírenie SPAMu';
+$wb['addr_extension_banned_txt'] = 'Addr. Rozšírenie zákazov';
+$wb['addr_extension_bad_header_txt'] = 'Addr Rozšírenie zlých hlavi?iek';
+$wb['warnvirusrecip_txt'] = 'Upozorni? na vírus odosielate?a';
+$wb['warnbannedrecip_txt'] = 'Upozorni? o zákazoch odosielate?a';
+$wb['warnbadhrecip_txt'] = 'Upozorni? o zlých hlavi?kách odosielate?a';
+$wb['newvirus_admin_txt'] = 'Newvirus admin';
+$wb['virus_admin_txt'] = 'Virus admin';
+$wb['banned_admin_txt'] = 'Zákazový admin';
+$wb['bad_header_admin_txt'] = 'Zlé hlavi?ky admin';
+$wb['spam_admin_txt'] = 'SPAM admin';
+$wb['message_size_limit_txt'] = 'Limit ve?kosti správy';
+$wb['banned_rulenames_txt'] = 'Banned rulenames';
+?>
+

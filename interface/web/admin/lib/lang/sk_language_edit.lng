@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Editor Jazykového Súboru';
+$wb['language_select_txt'] = 'Vyberte jazyk';
+$wb['module_txt'] = 'Modul';
+$wb['lang_file_txt'] = 'Jazykový súbor';
+$wb['btn_save_txt'] = 'Uloži?';
+$wb['btn_cancel_txt'] = 'Spä?';
+?>
+

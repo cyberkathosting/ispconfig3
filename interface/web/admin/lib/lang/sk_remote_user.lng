@@ -1,0 +1,10 @@
+<?php
+$wb['username_txt'] = 'Uživate?:';
+$wb['password_txt'] = 'Heslo:';
+$wb['function_txt'] = 'Funkcia:';
+$wb['username_error_unique'] = 'Prihlasovacie meno musí by? jedine?né';
+$wb['username_error_empty'] = 'Užívate?ské meno nemôže by? prázdne';
+$wb['password_error_empty'] = 'Heslo nemôže by? prázdne';
+$wb['password_strength_txt'] = 'Pevnos? hesla:';
+?>
+

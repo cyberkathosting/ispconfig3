@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Databáza';
+$wb['active_txt'] = 'Aktívne';
+$wb['remote_access_txt'] = 'Vzdialený prístup';
+$wb['server_id_txt'] = 'Server';
+$wb['database_name_txt'] = 'Meno databáza';
+$wb['add_new_record_txt'] = 'Prida? novú databázu';
+?>
+

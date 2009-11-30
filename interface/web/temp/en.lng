@@ -1,0 +1,2131 @@
+---|ISPConfig Language File|3.0.1.6|en
+--|global|en|en.lng
+<?php
+$wb['conf_format_dateshort'] = 'Y-m-d';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'Y-m-d H:i';
+
+$wb['301'] = 'Module not permitted for the current user.';
+$wb['302'] = 'Module invalid.';
+$wb['1001'] = 'The username and password cannot be empty !';
+$wb['1002'] = 'The username and/or password are not correct !';
+$wb['1003'] = 'The username is deactivated!';
+$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+$wb['error_no_view_permission'] = 'You dont have the permission to view this record or this record does not exist!';
+$wb['error_no_delete_permission'] = 'You dont have the permission to delete this record!';
+$wb["page_txt"] = 'Page';
+$wb["page_of_txt"] = 'of';
+$wb["page_next_txt"] = 'Next';
+$wb["page_back_txt"] = 'Back';
+$wb["delete_txt"] = 'Delete';
+$wb["filter_txt"] = 'Filter';
+$wb["add_new_record_txt"] = 'Add new record';
+$wb['btn_save_txt'] = "Save";
+$wb['btn_cancel_txt'] = "Back";
+$wb['System'] = 'System';
+$wb['Client'] = 'Client';
+$wb['Email'] = 'Email';
+$wb['Monitor'] = 'Monitor';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
+$wb['Tools'] = 'Tools';
+$wb['Help'] = 'Help';
+$wb['toolsarea_head_txt'] = 'Tools';
+?>
+
+--|admin|en|en.lng
+<?php
+
+$wb[1001]	= "Username or password is empty.";
+$wb[1002]	= "Username or password is wrong.";
+$wb['Firewall'] = 'Firewall';
+$wb['Groups'] = 'Groups';
+$wb['groups_description'] = 'Form to edit systemuser groups.';
+$wb['Server']	= 'Server';
+$wb['Services']	= 'Services';
+$wb['Config'] = 'Config';
+$wb['Server Config'] = 'Server Config';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'System';
+$wb['Add user'] = 'Add user';
+$wb['Edit user'] = 'Edit user';
+$wb['CP Users'] = 'CP Users';
+$wb['Add group'] = 'Add group';
+$wb['Edit group'] = 'Edit group';
+$wb['Groups'] = 'Groups';
+$wb['Edit server'] = 'Edit server';
+$wb['Edit Server IP'] = 'Server IP addresses';
+$wb['Servers'] = 'Servers';
+$wb['Sync. Now'] = 'Sync. Now';
+$wb['DB Sync.'] = 'DB Sync.';
+$wb['Languages'] = 'Languages';
+$wb['New Language'] = 'New Language';
+$wb['Export'] = 'Export';
+$wb['Import'] = 'Import';
+$wb['Language Editor'] = 'Language Editor';
+$wb['Software'] = 'Software';
+$wb['Repositories'] = 'Repositories';
+$wb['Server Services'] = 'Server Services';
+
+?>
+--|admin|en|en_firewall.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["tcp_port_txt"] = 'Open TCP ports';
+$wb["udp_port_txt"] = 'Open UDP ports';
+$wb["tcp_port_help_txt"] = 'Separated by comma';
+$wb["udp_port_help_txt"] = 'Separated by comma';
+$wb["active_txt"] = 'Active';
+$wb["firewall_error_unique"] = 'There is already a firewall record for this server.';
+$wb["active_txt"] = 'Active';
+$wb["tcp_ports_error_regex"] = 'Character not allowed in tcp port definition. Allowed characters are numbers, ":" and ",".';
+$wb["udp_ports_error_regex"] = 'Character not allowed in udp port definition. Allowed characters are numbers, ":" and ",".';
+?>
+--|admin|en|en_firewall_list.lng
+<?php
+$wb["list_head_txt"] = 'Firewall';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["tcp_port_txt"] = 'Open TCP ports';
+$wb["udp_port_txt"] = 'Open UDP ports';
+$wb["add_new_record_txt"] = 'Add Firewall record';
+?>
+--|admin|en|en_groups.lng
+<?php
+$wb["description_txt"] = 'Description';
+$wb["name_txt"] = 'Group';
+$wb["name_err"] = 'Group must be min 1, max 30 Chars.';
+?>
+--|admin|en|en_groups_list.lng
+<?php
+$wb["list_head_txt"] = 'Systemuser groups';
+$wb["description_txt"] = 'Description';
+$wb["name_txt"] = 'Group';
+$wb["add_new_record_txt"] = 'Add new Group';
+$wb["warning_txt"] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
+?>
+--|admin|en|en_language_add.lng
+<?php
+$wb["list_head_txt"] = 'Add new language';
+$wb["language_select_txt"] = 'Select language basis';
+$wb["language_new_txt"] = 'New language';
+$wb["language_new_hint_txt"] = '2 characters ISO 639-1 language-code (See http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['btn_save_txt'] = 'Create new language file set';
+$wb['btn_cancel_txt'] = 'Back';
+?>
+--|admin|en|en_language_complete.lng
+<?php
+$wb["list_head_txt"] = 'Merge language';
+$wb["list_desc_txt"] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
+$wb["language_select_txt"] = 'Select language';
+$wb['btn_save_txt'] = 'Merge files now';
+$wb['btn_cancel_txt'] = 'Back';
+?>
+--|admin|en|en_language_edit.lng
+<?php
+$wb['list_head_txt'] = 'Language file editor';
+$wb['language_select_txt'] = 'Select language';
+$wb['module_txt'] = 'Module';
+$wb['lang_file_txt'] = 'Language file';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Back';
+?>
+
+--|admin|en|en_language_export.lng
+<?php
+$wb["list_head_txt"] = 'Export language files';
+$wb["language_select_txt"] = 'Select language';
+$wb['btn_save_txt'] = 'Export the selected language file set';
+$wb['btn_cancel_txt'] = 'Back';
+?>
+--|admin|en|en_language_import.lng
+<?php
+$wb["list_head_txt"] = 'Import language file';
+$wb["language_import_txt"] = 'Select language file';
+$wb['btn_save_txt'] = 'Import the selected language file';
+$wb["language_overwrite_txt"] = 'Overwrite file, if exists.';
+$wb['btn_cancel_txt'] = 'Back';
+?>
+--|admin|en|en_language_list.lng
+<?php
+$wb["list_head_txt"] = 'Language file editor';
+$wb["language_select_txt"] = 'Select language';
+$wb["module_txt"] = 'Module';
+$wb["lang_file_txt"] = 'Language file';
+$wb["lang_file_date_txt"] = 'Last modify';
+?>
+
+--|admin|en|en_remote_user.lng
+<?php
+$wb['username_txt'] = 'Username:';
+$wb['password_txt'] = 'Password:';
+$wb['function_txt'] = 'Functions:';
+$wb['username_error_unique'] = 'Username must be unique';
+$wb['username_error_empty'] = 'Username cannot be empty';
+$wb['password_error_empty'] = 'Password cannot be empty';
+$wb['password_strength_txt'] = 'Password Strength:';
+?>
+
+--|admin|en|en_remote_user_list.lng
+<?php
+$wb['list_head_txt'] = "Remote Users";
+$wb['list_desc_txt'] = "";
+$wb['add_new_record_txt'] = "Add new user";
+$wb['parent_remote_userid_txt'] = 'ID';
+$wb['username_txt'] = "Username";
+?>
+
+
+--|admin|en|en_server.lng
+<?php
+$wb["config_txt"] = 'config';
+$wb["server_name_txt"] = 'Servername';
+$wb["mail_server_txt"] = 'Mailserver';
+$wb["web_server_txt"] = 'Webserver';
+$wb["dns_server_txt"] = 'DNS-Server';
+$wb["file_server_txt"] = 'Fileserver';
+$wb["db_server_txt"] = 'DB-Server';
+$wb["vserver_server_txt"] = 'VServer-Server';
+$wb["active_txt"] = 'Active';
+$wb["mirror_server_id_txt"] = 'Is mirror of Server';
+$wb["- None -"] = '- None -';
+?>
+--|admin|en|en_server_config.lng
+<?php
+$wb["jailkit_chroot_home_txt"] = 'Jailkit chroot home';
+$wb["jailkit_chroot_app_sections_txt"] = 'Jailkit chroot app sections';
+$wb["jailkit_chroot_app_programs_txt"] = 'Jailkit chrooted applications';
+$wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applications';
+$wb["website_path_txt"] = 'Website path';
+$wb["website_symlinks_txt"] = 'Website symlinks';
+$wb["website_basedir_txt"] = 'Website basedir';
+$wb["vhost_conf_dir_txt"] = 'Vhost config dir';
+$wb["vhost_conf_enabled_dir_txt"] = 'Vhost config enabled dir';
+$wb["getmail_config_dir_txt"] = 'Getmail config dir';
+$wb["fastcgi_starter_path_txt"] = 'FastCGI starter path';
+$wb["fastcgi_starter_script_txt"] = 'FastCGI starter script';
+$wb["fastcgi_alias_txt"] = 'FastCGI Alias';
+$wb["fastcgi_phpini_path_txt"] = 'FastCGI php.ini Path';
+$wb["fastcgi_children_txt"] = 'FastCGI Children';
+$wb["fastcgi_max_requests_txt"] = 'FastCGI max. Requests';
+$wb["fastcgi_bin_txt"] = 'FastCGI Bin';
+$wb["module_txt"] = 'Module';
+$wb["maildir_path_txt"] = 'Maildir Path';
+$wb["homedir_path_txt"] = 'Homedir Path';
+$wb["mailuser_uid_txt"] = 'Mailuser UID';
+$wb["mailuser_gid_txt"] = 'Mailuser GID';
+$wb["mailuser_name_txt"] = 'Mailuser Name';
+$wb["mailuser_group_txt"] = 'Mailuser Group';
+$wb["relayhost_txt"] = 'Relayhost';
+$wb["relayhost_user_txt"] = 'Relayhost User';
+$wb["relayhost_password_txt"] = 'Relayhost Password';
+$wb["mailbox_size_limit_txt"] = 'Mailbox Size Limit';
+$wb["message_size_limit_txt"] = 'Message Size Limit';
+$wb["ip_address_txt"] = 'IP Address';
+$wb["netmask_txt"] = 'Netmask';
+$wb["gateway_txt"] = 'Gateway';
+$wb["hostname_txt"] = 'Hostname';
+$wb["nameservers_txt"] = 'Nameservers';
+$wb["auto_network_configuration_txt"] = 'Network Configuration';
+$wb["ip_address_error_wrong"] = 'Invalid IP address format.';
+$wb["netmask_error_wrong"] = 'Invalid Netmask format.';
+$wb["gateway_error_wrong"] = 'Invalid Gateway format.';
+$wb["hostname_error_empty"] = 'Hostname is empty.';
+$wb["nameservers_error_empty"] = 'Nameserver is empty.';
+$wb["config_dir_txt"] = 'Config directory';
+$wb["init_script_txt"] = 'Cron init script name';
+$wb["crontab_dir_txt"] = 'Path for individual crontabs';
+$wb["wget_txt"] = 'Path to wget program';
+$wb["web_user_txt"] = 'Apache user';
+$wb["web_group_txt"] = 'Apache group';
+$wb["security_level_txt"] = 'Security level';
+$wb["loglevel_txt"] = 'Loglevel';
+$wb["apps_vhost_port_txt"] = 'Apps-vhost port';
+$wb["apps_vhost_ip_txt"] = 'Apps-vhost IP';
+$wb["apps_vhost_servername_txt"] = 'Apps-vhost Domain';
+$wb["bind_user_txt"] = 'BIND User';
+$wb["bind_group_txt"] = 'BIND Group';
+$wb["bind_zonefiles_dir_txt"] = 'BIND zonefiles directory';
+$wb["named_conf_path_txt"] = 'BIND named.conf path';
+$wb["bind_user_error_empty"] = 'BIND user is empty.';
+$wb["bind_group_error_empty"] = 'BIND group is empty.';
+$wb["bind_zonefiles_dir_error_empty"] = 'BIND zonefiles directory is empty.';
+$wb["named_conf_path_error_empty"] = 'BIND named.conf path is empty.';
+$wb["named_conf_local_path_error_empty"] = 'BIND named.conf.local path is empty.';
+?>
+--|admin|en|en_server_config_list.lng
+<?php
+$wb["list_head_txt"] = 'Server Configuration';
+$wb["server_name_txt"] = 'Server';
+?>
+--|admin|en|en_server_ip.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["ip_address_txt"] = 'IP Address';
+$wb["virtualhost_txt"] = 'HTTP NameVirtualHost';
+$wb["ip_error_wrong"] = 'The IP address is invalid';
+$wb["ip_error_unique"] = 'The IP address must be unique';
+?>
+--|admin|en|en_server_ip_list.lng
+<?php
+$wb["list_head_txt"] = 'IP Addresses';
+$wb["server_id_txt"] = 'Server';
+$wb["ip_address_txt"] = 'IP Address';
+$wb["add_new_record_txt"] = 'Add new IP Address';
+?>
+--|admin|en|en_server_list.lng
+<?php
+$wb["list_head_txt"] = 'Server';
+$wb["server_name_txt"] = 'Name';
+$wb["mail_server_txt"] = 'Mail';
+$wb["web_server_txt"] = 'Web';
+$wb["dns_server_txt"] = 'DNS';
+$wb["file_server_txt"] = 'File';
+$wb["db_server_txt"] = 'DB';
+$wb["vserver_server_txt"] = 'VServer';
+$wb["add_new_record_txt"] = 'Add new Server';
+?>
+--|admin|en|en_software_package_list.lng
+<?php
+$wb['list_head_txt'] = 'Software packages';
+$wb['installed_txt'] = 'Status';
+$wb['package_title_txt'] = 'Package';
+$wb['package_description_txt'] = 'Description';
+$wb['action_txt'] = 'Action';
+?>
+
+--|admin|en|en_software_repo.lng
+<?php
+$wb["repo_name_txt"] = 'Repository';
+$wb["repo_url_txt"] = 'URL';
+$wb["repo_username_txt"] = 'User (optional)';
+$wb["repo_password_txt"] = 'Password (optional)';
+$wb["active_txt"] = 'Active';
+?>
+--|admin|en|en_software_repo_list.lng
+<?php
+$wb["list_head_txt"] = 'Repository';
+$wb["active_txt"] = 'Active';
+$wb["repo_name_txt"] = 'Repository';
+$wb["repo_url_txt"] = 'URL';
+?>
+--|admin|en|en_software_update_list.lng
+<?php
+$wb['list_head_txt'] = 'Software updates';
+$wb['server_select_txt'] = 'Select server';
+$wb['installed_txt'] = 'Action';
+$wb['update_title_txt'] = 'Update';
+$wb['version_txt'] = 'Version';
+$wb['action_txt'] = 'Action';
+?>
+
+--|admin|en|en_system_config.lng
+<?php
+
+$wb['warning'] = 'Edit these values carefully! Do not remove the prefixes on a systems with more then one client.';
+$wb['dbname_prefix_txt'] = 'Database name prefix';
+$wb['dbuser_prefix_txt'] = 'Database user prefix';
+$wb['shelluser_prefix_txt'] = 'Shell user prefix';
+$wb['ftpuser_prefix_txt'] = 'FTP user prefix';
+$wb['dbname_prefix_error_regex'] = 'Char not allowed in database name prefix.';
+$wb['dbuser_prefix_error_regex'] = 'Char not allowed in database user prefix.';
+$wb['ftpuser_prefix_error_regex'] = 'Char not allowed in ftp user prefix.';
+$wb['shelluser_prefix_error_regex'] = 'Char not allowed in shell user prefix.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Link to phpmyadmin in DB list';
+$wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
+
+?>
+--|admin|en|en_users.lng
+<?php
+$wb["username_txt"] = 'Username';
+$wb["username_err"] = 'The username is too long or contains invalid characters.';
+$wb["username_empty"] = 'The username is empty.';
+$wb["username_unique"] = 'There is already a user with this username.';
+$wb["passwort_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["modules_txt"] = 'Module';
+$wb["startmodule_txt"] = 'Startmodule';
+$wb["app_theme_txt"] = 'Design';
+$wb["typ_txt"] = 'Type';
+$wb["active_txt"] = 'Active';
+$wb["language_txt"] = 'Language';
+$wb["name_txt"] = 'Name';
+$wb["vorname_txt"] = 'Forename';
+$wb["unternehmen_txt"] = 'Company';
+$wb["strasse_txt"] = 'Street';
+$wb["ort_txt"] = 'City';
+$wb["plz_txt"] = 'ZIP';
+$wb["land_txt"] = 'Country';
+$wb["email_txt"] = 'Email';
+$wb["url_txt"] = 'Url';
+$wb["telefon_txt"] = 'Telephone';
+$wb["fax_txt"] = 'Fax';
+$wb["groups_txt"] = 'Groups';
+$wb["default_group_txt"] = 'Default Group';
+$wb["startmodule_err"] = 'Start module is not within modules.';
+?>
+
+--|admin|en|en_users_list.lng
+<?php
+$wb["list_head_txt"] = 'Users';
+$wb["username_txt"] = 'Username';
+$wb["name_txt"] = 'Name';
+$wb["vorname_txt"] = 'Forename';
+$wb["ort_txt"] = 'city';
+$wb["add_new_record_txt"] = 'Add new user';
+$wb["warning_txt"] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
+?>
+--|client|en|en.lng
+<?php
+$wb['Client'] = 'Client';
+$wb['Address'] = 'Address';
+$wb['Limits'] = 'Limits';
+$wb['Add Client'] = 'Add Client';
+$wb['Edit Client'] = 'Edit Client';
+$wb['Clients'] = 'Clients';
+$wb['Edit Client-Templates'] = 'Edit Client-Templates';
+$wb['Add Reseller'] = 'Add Reseller';
+$wb['Edit Reseller'] = 'Edit Reseller';
+$wb['Resellers'] = 'Resellers';
+?>
+--|client|en|en_client.lng
+<?php
+$wb["limit_maildomain_txt"] = 'Max. number of email domains';
+$wb["limit_mailbox_txt"] = 'Max. number of mailboxes';
+$wb["limit_mailalias_txt"] = 'Max. number of email aliases';
+$wb["limit_mailaliasdomain_txt"] = 'Max. number of domain aliases';
+$wb["limit_mailforward_txt"] = 'Max. number of email forwarders';
+$wb["limit_mailcatchall_txt"] = 'Max. number of email catchall accounts';
+$wb["limit_mailrouting_txt"] = 'Max. number of email routes';
+$wb["limit_mailfilter_txt"] = 'Max. number of email filters';
+$wb["limit_fetchmail_txt"] = 'Max. number of fetchmail accounts';
+$wb["limit_mailquota_txt"] = 'Mailbox quota';
+$wb["limit_spamfilter_wblist_txt"] = 'Max. number of spamfilter white / blacklist filters';
+$wb["limit_spamfilter_user_txt"] = 'Max. number of spamfilter users';
+$wb["limit_spamfilter_policy_txt"] = 'Max. number of spamfilter policys';
+$wb["default_mailserver_txt"] = 'Default Mailserver';
+$wb["company_name_txt"] = 'Company name';
+$wb["contact_name_txt"] = 'Contact name';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["language_txt"] = 'Language';
+$wb["usertheme_txt"] = 'Theme';
+$wb["street_txt"] = 'Street';
+$wb["zip_txt"] = 'ZIP';
+$wb["city_txt"] = 'City';
+$wb["state_txt"] = 'State';
+$wb["country_txt"] = 'Country';
+$wb["telephone_txt"] = 'Telephone';
+$wb["mobile_txt"] = 'Mobile';
+$wb["fax_txt"] = 'Fax';
+$wb["email_txt"] = 'Email';
+$wb["internet_txt"] = 'Internet';
+$wb["icq_txt"] = 'ICQ';
+$wb["notes_txt"] = 'Notes';
+$wb["company_txt"] = 'Company';
+$wb["title_txt"] = 'Title';
+$wb["firstname_txt"] = 'Firstname';
+$wb["surname_txt"] = 'Surname';
+$wb["limit_domain_txt"] = 'limit_domain';
+$wb["limit_subdomain_txt"] = 'limit_subdomain';
+$wb["limit_webquota_txt"] = 'limit_webquota';
+$wb["limit_database_txt"] = 'limit_database';
+$wb["limit_cron_txt"] = 'Max. number of cron jobs';
+$wb["limit_cron_type_txt"] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb["limit_cron_frequency_txt"] = 'Min. delay between executions';
+$wb["ip_address_txt"] = 'ip_address';
+$wb["limit_client_error_notint"] = 'Client Limit is not a number.';
+$wb["firstname_error_empty"] = 'Firstname is empty.';
+$wb["contact_error_empty"] = 'Contact name is empty.';
+$wb["default_webserver_txt"] = 'Default Webserver';
+$wb["limit_web_domain_txt"] = 'Max. number of web domains';
+$wb["limit_web_aliasdomain_txt"] = 'Max. number of web aliasdomains';
+$wb["limit_web_subdomain_txt"] = 'Max. number of web subdomains';
+$wb["limit_ftp_user_txt"] = 'Max. number of FTP users';
+$wb["default_dnsserver_txt"] = 'Default DNS Server';
+$wb["limit_dns_zone_txt"] = 'Max. number of DNS zones';
+$wb["limit_dns_record_txt"] = 'Max. number DNS records';
+$wb["limit_shell_user_txt"] = 'Max. number of Shell users';
+$wb["limit_client_txt"] = 'Max. number of Clients';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["limit_maildomain_error_notint"] = 'The email domain limit must be a number.';
+$wb["limit_mailbox_error_notint"] = 'The mailbox limit must be a number.';
+$wb["limit_mailalias_error_notint"] = 'The email alias limit must be a number.';
+$wb["limit_mailaliasdomain_error_notint"] = 'The email domain alias limit must be a number.';
+$wb["limit_mailforward_error_notint"] = 'The email forward limit must be a number.';
+$wb["limit_mailcatchall_error_notint"] = 'The email catchall limit must be a number.';
+$wb["limit_mailrouting_error_notint"] = 'The email routing limit must be a number.';
+$wb["limit_mailfilter_error_notint"] = 'The email filter limit must be a number.';
+$wb["limit_mailfetchmail_error_notint"] = 'The fetchmail limit must be a number.';
+$wb["limit_mailquota_error_notint"] = 'The email quota limit must be a number.';
+$wb["limit_spamfilter_wblist_error_notint"] = 'The spamfilter white / blacklist limit must be a number.';
+$wb["limit_spamfilter_user_error_notint"] = 'The spamfilter user limit must be a number.';
+$wb["limit_spamfilter_policy_error_notint"] = 'The spamfilter policy limit must be a number.';
+$wb["limit_web_domain_error_notint"] = 'The website limit must be a number.';
+$wb["limit_web_aliasdomain_error_notint"] = 'The website alias domain limit must be a number.';
+$wb["limit_web_subdomain_error_notint"] = 'The website subdomain limit must be a number.';
+$wb["limit_ftp_user_error_notint"] = 'The ftp user limit must be a number.';
+$wb["limit_shell_user_error_notint"] = 'The shell user limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns zone limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns record limit must be a number.';
+$wb["limit_client_error_notint"] = 'The sub client limit must be a number.';
+$wb["default_dbserver_txt"] = 'Default Database Server';
+$wb["limit_database_txt"] = 'Max. number of Databases';
+$wb["limit_database_error_notint"] = 'The database limit must be a number.';
+$wb["limit_cron_error_notint"] = 'The cron limit must be a number.';
+$wb["limit_cron_error_frequency"] = 'The cron frequency limit must be a number.';
+$wb["username_error_regex"] = 'The Username contains invalid chracaters.';
+$wb["template_master_txt"] = 'Master template';
+$wb["template_additional_txt"] = 'Addon template';
+$wb["ssh_chroot_txt"] = 'SSH-Chroot Options';
+$wb["web_php_options_txt"] = 'PHP Options';
+$wb["limit_client_error"] = 'The max. number of clients is reached.';
+$wb["limit_web_quota_txt"] = 'Web Quota';
+?>
+
+--|client|en|en_clients_list.lng
+<?php
+$wb["list_head_txt"] = 'Clients';
+$wb["client_id_txt"] = 'ID';
+$wb["company_name_txt"] = 'Company name';
+$wb["contact_name_txt"] = 'Contact name';
+$wb["city_txt"] = 'City';
+$wb["country_txt"] = 'Country';
+$wb["add_new_record_txt"] = 'Add new client';
+?>
+--|client|en|en_client_template.lng
+<?php
+
+$wb["limit_client_error_notint"] = 'Client Limit is not a number.';
+$wb["limit_maildomain_txt"] = 'Max. number of email domains';
+$wb["limit_mailbox_txt"] = 'Max. number of mailboxes';
+$wb["limit_mailalias_txt"] = 'Max. number of email aliases';
+$wb["limit_mailaliasdomain_txt"] = 'Max. number of domain aliases';
+$wb["limit_mailforward_txt"] = 'Max. number of email forwarders';
+$wb["limit_mailcatchall_txt"] = 'Max. number of email catchall accounts';
+$wb["limit_mailrouting_txt"] = 'Max. number of email routes';
+$wb["limit_mailfilter_txt"] = 'Max. number of email filters';
+$wb["limit_fetchmail_txt"] = 'Max. number of fetchmail accounts';
+$wb["limit_mailquota_txt"] = 'Mailbox quota';
+$wb["limit_spamfilter_wblist_txt"] = 'Max. number of spamfilter white / blacklist filters';
+$wb["limit_spamfilter_user_txt"] = 'Max. number of spamfilter users';
+$wb["limit_spamfilter_policy_txt"] = 'Max. number of spamfilter policys';
+$wb["limit_domain_txt"] = 'limit_domain';
+$wb["limit_subdomain_txt"] = 'limit_subdomain';
+$wb["limit_webquota_txt"] = 'limit_webquota';
+$wb["limit_database_txt"] = 'limit_database';
+$wb["limit_cron_txt"] = 'Max. number of cron jobs';
+$wb["limit_cron_type_txt"] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb["limit_cron_frequency_txt"] = 'Min. delay between executions';
+$wb["limit_web_domain_txt"] = 'Max. number of web domains';
+$wb["limit_web_aliasdomain_txt"] = 'Max. number of web aliasdomains';
+$wb["limit_web_subdomain_txt"] = 'Max. number of web subdomains';
+$wb["limit_ftp_user_txt"] = 'Max. number of FTP users';
+$wb["limit_dns_zone_txt"] = 'Max. number of DNS zones';
+$wb["limit_dns_record_txt"] = 'Max. number DNS records';
+$wb["limit_shell_user_txt"] = 'Max. number of Shell users';
+$wb["limit_client_txt"] = 'Max. number of Clients';
+$wb["limit_maildomain_error_notint"] = 'The email domain limit must be a number.';
+$wb["limit_mailbox_error_notint"] = 'The mailbox limit must be a number.';
+$wb["limit_mailalias_error_notint"] = 'The email alias limit must be a number.';
+$wb["limit_mailaliasdomain_error_notint"] = 'The email domain alias limit must be a number.';
+$wb["limit_mailforward_error_notint"] = 'The email forward limit must be a number.';
+$wb["limit_mailcatchall_error_notint"] = 'The email catchall limit must be a number.';
+$wb["limit_mailrouting_error_notint"] = 'The email routing limit must be a number.';
+$wb["limit_mailfilter_error_notint"] = 'The email filter limit must be a number.';
+$wb["limit_mailfetchmail_error_notint"] = 'The fetchmail limit must be a number.';
+$wb["limit_mailquota_error_notint"] = 'The email quota limit must be a number.';
+$wb["limit_spamfilter_wblist_error_notint"] = 'The spamfilter white / blacklist limit must be a number.';
+$wb["limit_spamfilter_user_error_notint"] = 'The spamfilter user limit must be a number.';
+$wb["limit_spamfilter_policy_error_notint"] = 'The spamfilter policy limit must be a number.';
+$wb["limit_web_domain_error_notint"] = 'The website limit must be a number.';
+$wb["limit_web_aliasdomain_error_notint"] = 'The website alias domain limit must be a number.';
+$wb["limit_web_subdomain_error_notint"] = 'The website subdomain limit must be a number.';
+$wb["limit_ftp_user_error_notint"] = 'The ftp user limit must be a number.';
+$wb["limit_shell_user_error_notint"] = 'The shell user limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns zone limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns record limit must be a number.';
+$wb["limit_database_txt"] = 'Max. number of Databases';
+$wb["limit_database_error_notint"] = 'The database limit must be a number.';
+$wb["limit_cron_error_notint"] = 'The cron limit must be a number.';
+$wb["limit_cron_error_frequency"] = 'The cron frequency limit must be a number.';
+$wb["error_template_name_empty"] = 'Please enter a Template name';
+$wb["limit_web_quota_txt"] = 'Web Quota';
+?>
+--|client|en|en_client_template_list.lng
+<?php
+$wb["list_head_txt"] = 'Client-Templates';
+$wb["template_type_txt"] = 'Type';
+$wb["template_name_txt"] = 'Template name';
+?>
+
+--|client|en|en_reseller.lng
+<?php
+$wb["limit_maildomain_txt"] = 'Max. number of email domains';
+$wb["limit_mailbox_txt"] = 'Max. number of mailboxes';
+$wb["limit_mailalias_txt"] = 'Max. number of email aliases';
+$wb["limit_mailforward_txt"] = 'Max. number of email forwarders';
+$wb["limit_mailcatchall_txt"] = 'Max. number of email catchall accounts';
+$wb["limit_mailrouting_txt"] = 'Max. number of email routes';
+$wb["limit_mailfilter_txt"] = 'Max. number of email filters';
+$wb["limit_fetchmail_txt"] = 'Max. number of fetchmail accounts';
+$wb["limit_mailquota_txt"] = 'Mailbox quota';
+$wb["limit_spamfilter_wblist_txt"] = 'Max. number of spamfilter white / blacklist filters';
+$wb["limit_spamfilter_user_txt"] = 'Max. number of spamfilter users';
+$wb["limit_spamfilter_policy_txt"] = 'Max. number of spamfilter policys';
+$wb["default_mailserver_txt"] = 'Default Mailserver';
+$wb["company_name_txt"] = 'Company name';
+$wb["contact_name_txt"] = 'Contact name';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["language_txt"] = 'Language';
+$wb["usertheme_txt"] = 'Theme';
+$wb["street_txt"] = 'Street';
+$wb["zip_txt"] = 'ZIP';
+$wb["city_txt"] = 'City';
+$wb["state_txt"] = 'State';
+$wb["country_txt"] = 'Country';
+$wb["telephone_txt"] = 'Telephone';
+$wb["mobile_txt"] = 'Mobile';
+$wb["fax_txt"] = 'Fax';
+$wb["email_txt"] = 'Email';
+$wb["internet_txt"] = 'Internet';
+$wb["icq_txt"] = 'ICQ';
+$wb["notes_txt"] = 'Notes';
+$wb["company_txt"] = 'Company';
+$wb["title_txt"] = 'Title';
+$wb["firstname_txt"] = 'Firstname';
+$wb["surname_txt"] = 'Surname';
+$wb["limit_domain_txt"] = 'limit_domain';
+$wb["limit_subdomain_txt"] = 'limit_subdomain';
+$wb["limit_webquota_txt"] = 'limit_webquota';
+$wb["limit_database_txt"] = 'limit_database';
+$wb["limit_cron_txt"] = 'Max. number of cron jobs';
+$wb["limit_cron_type_txt"] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb["limit_cron_frequency_txt"] = 'Min. delay between executions';
+$wb["ip_address_txt"] = 'ip_address';
+$wb["limit_client_error_notint"] = 'Client Limit is not a number.';
+$wb["firstname_error_empty"] = 'Firstname is empty.';
+$wb["contact_error_empty"] = 'Contact name is empty.';
+$wb["default_webserver_txt"] = 'Default Webserver';
+$wb["limit_web_domain_txt"] = 'Max. number of web domains';
+$wb["limit_web_aliasdomain_txt"] = 'Max. number of web aliasdomains';
+$wb["limit_web_subdomain_txt"] = 'Max. number of web subdomains';
+$wb["limit_ftp_user_txt"] = 'Max. number of FTP users';
+$wb["default_dnsserver_txt"] = 'Default DNS Server';
+$wb["limit_dns_zone_txt"] = 'Max. number of DNS zones';
+$wb["limit_dns_record_txt"] = 'Max. number DNS records';
+$wb["limit_shell_user_txt"] = 'Max. number of Shell users';
+$wb["limit_client_txt"] = 'Max. number of Clients';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["limit_maildomain_error_notint"] = 'The email domain limit must be a number.';
+$wb["limit_mailbox_error_notint"] = 'The mailbox limit must be a number.';
+$wb["limit_mailalias_error_notint"] = 'The email alias limit must be a number.';
+$wb["limit_mailforward_error_notint"] = 'The email forward limit must be a number.';
+$wb["limit_mailcatchall_error_notint"] = 'The email catchall limit must be a number.';
+$wb["limit_mailrouting_error_notint"] = 'The email routing limit must be a number.';
+$wb["limit_mailfilter_error_notint"] = 'The email filter limit must be a number.';
+$wb["limit_mailfetchmail_error_notint"] = 'The fetchmail limit must be a number.';
+$wb["limit_mailquota_error_notint"] = 'The email quota limit must be a number.';
+$wb["limit_spamfilter_wblist_error_notint"] = 'The spamfilter white / blacklist limit must be a number.';
+$wb["limit_spamfilter_user_error_notint"] = 'The spamfilter user limit must be a number.';
+$wb["limit_spamfilter_policy_error_notint"] = 'The spamfilter policy limit must be a number.';
+$wb["limit_web_domain_error_notint"] = 'The website limit must be a number.';
+$wb["limit_web_aliasdomain_error_notint"] = 'The website alias domain limit must be a number.';
+$wb["limit_web_subdomain_error_notint"] = 'The website subdomain limit must be a number.';
+$wb["limit_ftp_user_error_notint"] = 'The ftp user limit must be a number.';
+$wb["limit_shell_user_error_notint"] = 'The shell user limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns zone limit must be a number.';
+$wb["limit_dns_zone_error_notint"] = 'The dns record limit must be a number.';
+$wb["limit_client_error_notint"] = 'The sub client limit must be a number.';
+$wb["default_dbserver_txt"] = 'Default Database Server';
+$wb["limit_database_txt"] = 'Max. number of Databases';
+$wb["limit_database_error_notint"] = 'The database limit must be a number.';
+$wb["limit_cron_error_notint"] = 'The cron limit must be a number.';
+$wb["limit_cron_error_frequency"] = 'The cron frequency limit must be a number.';
+$wb["username_error_regex"] = 'The Username contains invalid chracaters.';
+$wb["template_master_txt"] = 'Master template';
+$wb["template_additional_txt"] = 'Addon template';
+$wb["ssh_chroot_txt"] = 'SSH-Chroot Options';
+$wb["web_php_options_txt"] = 'PHP Options';
+$wb["limit_client_error"] = 'The max. number of clients is reached.';
+$wb["limit_client_error_positive"] = 'The number of clients must be > 0';
+$wb["limit_web_quota_txt"] = 'Web Quota';
+?>
+
+--|client|en|en_resellers_list.lng
+<?php
+$wb["list_head_txt"] = 'Resellers';
+$wb["client_id_txt"] = 'ID';
+$wb["company_name_txt"] = 'Company name';
+$wb["contact_name_txt"] = 'Contact name';
+$wb["city_txt"] = 'City';
+$wb["country_txt"] = 'Country';
+$wb["add_new_record_txt"] = 'Add new reseller';
+?>
+--|designer|en|en.lng
+<?php
+
+?>
+--|designer|en|en_form_edit.lng
+<?php
+$wb["name_txt"] = 'Formname';
+$wb["title_txt"] = 'Formutitle';
+$wb["template_txt"] = 'Template';
+$wb["navframe_txt"] = 'NaviFrame';
+$wb["startpage_txt"] = 'Startpage';
+$wb["tab_width_txt"] = 'Tab width';
+$wb["save_txt"] = 'Save';
+$wb["cancel_txt"] = 'Cancel';
+$wb["header_txt"] = 'Form properties';
+$wb["description_txt"] = 'Description';
+$wb["action_txt"] = 'Action (script)';
+$wb["db_table_txt"] = 'DB Table';
+$wb["db_table_idx_txt"] = 'DB Table Index';
+$wb["db_history_txt"] = 'Undo Log';
+$wb["tab_default_txt"] = 'Default Tab';
+$wb["list_default_txt"] = 'Default Liste';
+$wb["tab_width_txt"] = 'Tab width';
+$wb["auth_txt"] = 'Permissions';
+$wb["auth_preset_userid_txt"] = 'UserID';
+$wb["auth_preset_groupid_txt"] = 'GroupID';
+$wb["auth_preset_perm_user_txt"] = 'Perm. User';
+$wb["auth_preset_perm_group_txt"] = 'Perm. Group';
+$wb["auth_preset_perm_other_txt"] = 'Perm. Other';
+
+?>
+--|designer|en|en_form_list.lng
+<?php
+$wb["list_head_txt"] = 'Backend Form';
+$wb["form_txt"] = 'Form';
+$wb["module_txt"] = 'Module';
+$wb["title_txt"] = 'Title';
+$wb["description_txt"] = 'Description';
+?>
+--|designer|en|en_form_show.lng
+<?php
+$wb["header_txt"] = 'Formeditor';
+$wb["title_txt"] = 'Formtitle';
+$wb["name_txt"] = 'Formname';
+$wb["delete_txt"] = 'Delete';
+$wb["properties_txt"] = 'Properties';
+$wb["new_tab_txt"] = 'Tab new';
+$wb["edit_txt"] = 'Edit';
+$wb["new_txt"] = 'Neu';
+$wb["up_txt"] = '^';
+$wb["down_txt"] = 'v';
+$wb["module_txt"] = 'Module';
+$wb["form_txt"] = 'Form';
+$wb["description_txt"] = 'Description';
+$wb["module_del_txt"] = "Delete the module and all subdirectories?";
+$wb["menu_del_txt"] = "Delete menu with all menuitems?";
+$wb["item_del_txt"] = "Delete menuitem?";
+?>
+--|designer|en|en_module_edit.lng
+<?php
+$wb["name_txt"] = 'Modulename';
+$wb["title_txt"] = 'Moduletitle';
+$wb["template_txt"] = 'Template file';
+$wb["navframe_txt"] = 'NaviFrame';
+$wb["startpage_txt"] = 'Default page';
+$wb["tab_width_txt"] = 'Tab width';
+$wb["save_txt"] = 'Save';
+$wb["cancel_txt"] = 'Cancel';
+$wb["header_txt"] = 'Module properties';
+$wb["description_txt"] = '
+<b>Description</b>
+<br><br>
+<b>Modulename:</b> Name of the module directory. Only numbers, chars and underscore allowed.<br>
+<b>Moduletitle:</b> Will be shown in the (upper) main navigation.<br>
+<b>Template file:</b> Template file of the module. Currently available: module.tpl.htm and module_tree.tpl.htm. Default is module.tpl.htm.<br>
+<b>NaviFrame:</b> If module_tree.tpl.htm selected as template file, enter here the path to the script file for the left frame.<br>
+<b>Default page:</b> These page will be shown when the module is opened.<br>
+<b>Tab width:</b> Width of the Tabs in the main navigation. The field is empty by default. You can enter values absolute in pixel (e.g 20) or relative (e.g 20%).<br>
+<b>Hint:</b> All paths are relative to the directory "web".
+';
+
+?>
+--|designer|en|en_module_list.lng
+<?php
+$wb["list_head_txt"] = 'Backend Module';
+$wb["module_txt"] = 'Module';
+$wb["title_txt"] = 'Title';
+?>
+--|designer|en|en_module_nav_edit.lng
+<?php
+$wb["title_txt"] = 'Title';
+$wb["header_txt"] = 'Navi properties';
+$wb["save_txt"] = 'Save';
+$wb["cancel_txt"] = 'Cancel';
+?>
+--|designer|en|en_module_nav_item_edit.lng
+<?php
+$wb["title_txt"] = 'Title';
+$wb["target_txt"] = 'Target';
+$wb["link_txt"] = 'Link';
+$wb["header_txt"] = 'Navi properties';
+$wb["save_txt"] = 'Save';
+$wb["cancel_txt"] = 'Cancel';
+?>
+--|designer|en|en_module_show.lng
+<?php
+$wb["header_txt"] = 'Menu editor';
+$wb["title_txt"] = 'Title';
+$wb["name_txt"] = 'Module';
+$wb["delete_txt"] = 'Delete';
+$wb["properties_txt"] = 'Properties';
+$wb["new_menu_txt"] = 'Menu new';
+$wb["edit_txt"] = 'Edit';
+$wb["delete_txt"] = 'Delete';
+$wb["new_txt"] = 'New';
+$wb["up_txt"] = 'Up';
+$wb["down_txt"] = 'Down';
+$wb["module_txt"] = 'Module';
+$wb["module_del_txt"] = "Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse löschen?";
+$wb["menu_del_txt"] = "Wollen Sie das Menü mit allen Untereinträgen löschen?";
+$wb["item_del_txt"] = "Wollen Sie den Menüeintrag löschen?";
+?>
+--|dns|en|en.lng
+<?php
+
+$wb['DNS'] = 'DNS';
+$wb['Zones'] = 'Zones';
+$wb['DNS A'] = 'DNS A';
+$wb['DNS ALIAS'] = 'DNS ALIAS';
+$wb['DNS CNAME'] = 'DNS CNAME';
+$wb['DNS hinfo'] = 'DNS hinfo';
+$wb['DNS mx'] = 'DNS mx';
+$wb['DNS ns'] = 'DNS ns';
+$wb['DNS ptr'] = 'DNS ptr';
+$wb['DNS RP'] = 'DNS RP';
+$wb['DNS Zone'] = 'DNS Zone';
+$wb['Records'] = 'Records';
+$wb['DNS SRV'] = 'DNS SRV';
+$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT'] = 'DNS TXT';
+
+?>
+--|dns|en|en_dns_a.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'IP-Address';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'IP-Address empty';
+$wb["data_error_regex"] = 'IP-Address format invalid';
+$wb["data_error_duplicate"] = 'Duplicate A-Record';
+?>
+--|dns|en|en_dns_aaaa.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'IPv6-Address';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'IP-Address empty';
+$wb["data_error_regex"] = 'IP-Address format invalid';
+?>
+--|dns|en|en_dns_alias.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Target Hostname';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Target hostname empty';
+$wb["data_error_regex"] = 'Target hostname format invalid';
+?>
+--|dns|en|en_dns_a_list.lng
+<?php
+$wb["list_head_txt"] = 'A-Record';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Name';
+$wb["data_txt"] = 'Data';
+$wb["aux_txt"] = 'Priority';
+$wb["type_txt"] = 'Type';
+$wb["add_new_record_txt"] = 'Add new DNS A-Record';
+$wb["page_txt"] = 'Page';
+$wb["page_of_txt"] = 'of';
+$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+?>
+--|dns|en|en_dns_cname.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Target Hostname';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Target hostname empty';
+$wb["data_error_regex"] = 'Target hostname format invalid';
+?>
+--|dns|en|en_dns_hinfo.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Host Information';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Host information empty';
+$wb["data_error_regex"] = 'Host Information format invalid';
+?>
+--|dns|en|en_dns_mx.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Mailserver hostname';
+$wb["aux_txt"] = 'Priority';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Mailserver hostname empty';
+$wb["data_error_regex"] = 'Mailserver hostname format invalid';
+?>
+--|dns|en|en_dns_ns.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Zone';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Nameserver Hostname';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The zone is empty.';
+$wb["name_error_regex"] = 'The zone has the wrong format.';
+$wb["data_error_empty"] = 'Nameserver empty';
+$wb["data_error_regex"] = 'Nameserver format invalid';
+?>
+--|dns|en|en_dns_ptr.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Name';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Canonical Hostname';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The name is empty.';
+$wb["name_error_regex"] = 'The name has the wrong format.';
+$wb["data_error_empty"] = 'Canonical hostname empty';
+$wb["data_error_regex"] = 'Canonical hostname format invalid';
+?>
+--|dns|en|en_dns_rp.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Responsible Person';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Responsible person field empty';
+$wb["data_error_regex"] = 'Responsible person field format invalid';
+?>
+--|dns|en|en_dns_soa.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zone (SOA)';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["serial_txt"] = 'Serial';
+$wb["refresh_txt"] = 'Refresh';
+$wb["retry_txt"] = 'Retry';
+$wb["expire_txt"] = 'Expire';
+$wb["minimum_txt"] = 'Minimum';
+$wb["ttl_txt"] = 'TTL';
+$wb["xfer_txt"] = 'Allow zone transfers to <br />these IPs (comma separated list)';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_zone_txt"] = 'The max. number of DNS zones for your account is reached.';
+$wb["client_txt"] = 'Client';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["server_id_error_empty"] = 'No server selected';
+$wb["origin_error_empty"] = 'Zone empty.';
+$wb["origin_error_unique"] = 'There is already a record for this zone.';
+$wb["origin_error_regex"] = 'Zone has a invalid format.';
+$wb["ns_error_regex"] = 'NS has a invalid format.';
+$wb["mbox_error_empty"] = 'Email is empty.';
+$wb["mbox_error_regex"] = 'Email format invalid.';
+$wb["also_notify_txt"] = 'Also Notify';
+$wb["update_acl_txt"] = 'Update ACL';
+?>
+--|dns|en|en_dns_soa_list.lng
+<?php
+$wb["list_head_txt"] = 'DNS Zones';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zone';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Add new DNS Zone (SOA)';
+?>
+--|dns|en|en_dns_srv.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Server Record';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Server record empty';
+$wb["data_error_regex"] = 'Server record format invalid';
+$wb["srv_error_regex"] = 'Invalid server record format. The server record must contain 3 text strings separated by spaces.';
+?>
+--|dns|en|en_dns_template.lng
+<?php
+$wb["name_txt"] = 'Name';
+$wb["fields_txt"] = 'Fields';
+$wb["template_txt"] = 'Template';
+$wb["visible_txt"] = 'Visible';
+?>
+--|dns|en|en_dns_template_list.lng
+<?php
+$wb["list_head_txt"] = 'DNS Wizard Template';
+$wb["visible_txt"] = 'Visible';
+$wb["name_txt"] = 'Name';
+$wb["add_new_record_txt"] = 'Add new record';
+?>
+--|dns|en|en_dns_txt.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["type_txt"] = 'type';
+$wb["data_txt"] = 'Text';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'Text empty';
+$wb["data_error_regex"] = 'Text format invalid';
+?>
+--|dns|en|en_dns_wizard.lng
+<?php
+
+$wb['template_id_txt'] = 'Template';
+$wb['server_id_txt'] = 'Server';
+$wb['client_txt'] = 'Client';
+$wb["btn_save_txt"] = 'Create DNS Record';
+$wb["btn_cancel_txt"] = 'Cancel';
+$wb['domain_txt'] = 'Domain';
+$wb['email_txt'] = 'Email';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'IP Address';
+$wb['error_origin_empty'] = 'Origin empty.';
+$wb['error_ns_empty'] = 'NS empty.';
+$wb['error_mbox_empty'] = 'Mbox empty.';
+$wb['error_refresh_empty'] = 'Refresh empty.';
+$wb['error_retry_empty'] = 'Retry empty.';
+$wb['error_expire_empty'] = 'Expire empty.';
+$wb['error_minimum_empty'] = 'Minimum empty.';
+$wb['error_ttl_empty'] = 'TTL empty.';
+$wb['error_domain_empty'] = 'Domain empty';
+$wb['error_ip_empty'] = 'IP empty.';
+$wb['error_ns1_empty'] = 'NS1 empty.';
+$wb['error_ns2_empty'] = 'NS2 empty.';
+$wb['error_email_empty'] = 'EMail empty.';
+
+?>
+--|help|en|en.lng
+<?php
+$wb['Support Message'] = 'Support Message';
+$wb['Message'] = 'Message';
+$wb['Send message'] = 'Send message';
+$wb['View messages'] = 'View messages';
+$wb['Support'] = 'Support';
+
+?>
+
+--|help|en|en_support_message.lng
+<?php
+$wb['recipient_id_txt'] = 'Recipient ID';
+$wb['sender_id_txt'] = 'Sender ID';
+$wb['subject_txt'] = 'Subject';
+$wb['message_txt'] = 'Message';
+$wb['tstamp_txt'] = 'Timestamp';
+?>
+
+--|help|en|en_support_message_list.lng
+<?php
+$wb['list_head_txt'] = 'Support Messages';
+$wb['sender_id_txt'] = 'Sender';
+$wb['subject_txt'] = 'Subject';
+$wb["add_new_record_txt"] = 'Create new support message';
+?>
+--|login|en|en.lng
+<?php
+
+$wb['error_user_password_empty']	= "Username or Password empty.";
+$wb['error_user_password_incorrect']	= "Username or Password wrong.";
+$wb['error_user_blocked']	= "User is blocked.";
+$wb['error_user_too_many_logins']	= "To many wrong login's, Please retry it after 15 minutes";
+$wb['pass_reset_txt'] = 'A new password will be generated and send to your email address if the email address entered below matches the email address in your client settings.';
+$wb['pw_reset'] = 'The password has been reset and send to your email address.';
+$wb['pw_error'] = 'Username or email address does not match.';
+$wb['pw_error_noinput'] = 'Please enter email address and username.';
+
+$wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
+$wb['pw_reset_mail_title'] = 'ISPConfig 3 Control panel password has been reset.';
+
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
+
+$wb['username_txt']	= "Username";
+$wb['password_txt']	= "Password";
+$wb['login_button_txt']	= "Login";
+
+?>
+--|mail|en|en.lng
+<?php
+$wb['Email Alias'] = 'Email Alias';
+$wb['Email Blacklist'] = 'Email Blacklist';
+$wb['Blacklist'] = 'Blacklist';
+$wb['Mail Content Filter'] = 'Mail Content Filter';
+$wb['Filter'] = 'Filter';
+$wb['Mail Domain'] = 'Mail Domain';
+$wb['Domain'] = 'Domain';
+$wb['Email Catchall'] = 'Email Catchall';
+$wb['Email Forward'] = 'Email Forward';
+$wb['Get Email'] = 'Get Email';
+$wb['Spamfilter'] = 'Spamfilter';
+$wb['Email Routing'] = 'Email Routing';
+$wb['Email transport'] = 'Email transport';
+$wb['Mailbox'] = 'Mailbox';
+$wb['Autoresponder'] = 'Autoresponder';
+$wb['Mail Filter'] = 'Mail Filter';
+$wb['Custom Rules'] = 'Custom Rules';
+$wb['Email filter'] = 'Email filter';
+$wb['Email Whitelist'] = 'Email Whitelist';
+$wb['Whitelist'] = 'Whitelist';
+$wb['Spamfilter blacklist'] = 'Spamfilter blacklist';
+$wb['Blacklist'] = 'Blacklist';
+$wb['Spamfilter Config'] = 'Spamfilter Config';
+$wb['Server'] = 'Server';
+$wb['Spamfilter policy'] = 'Spamfilter policy';
+$wb['Policy'] = 'Policy';
+$wb['Quarantine'] = 'Quarantine';
+$wb['Tag-Level'] = 'Tag-Level';
+$wb['Other'] = 'Other';
+$wb['Spamfilter users'] = 'Spamfilter users';
+$wb['Users'] = 'Users';
+$wb['Spamfilter Whitelist'] = 'Spamfilter Whitelist';
+$wb['Whitelist'] = 'Whitelist';
+$wb['Email'] = 'Email';
+$wb['Email Mailbox'] = 'Email Mailbox';
+$wb['Email Accounts'] = 'Email Accounts';
+$wb['User / Domain'] = 'User / Domain';
+$wb['Server Settings'] = 'Server Settings';
+$wb['Spamfilter'] = 'Spamfilter';
+$wb['Fetchmail'] = 'Fetchmail';
+$wb['Mailbox traffic'] = 'Mailbox traffic';
+$wb['Statistics'] = 'Statistics';
+$wb['Postfix Whitelist'] = 'Postfix Whitelist';
+$wb['Postfix Blacklist'] = 'Postfix Blacklist';
+$wb['Content Filter'] = 'Content Filter';
+$wb['Global Filters'] = 'Global Filters';
+
+?>
+--|mail|en|en_mail_alias.lng
+<?php
+$wb["email_txt"] = 'Email';
+$wb["destination_txt"] = 'Destination';
+$wb["active_txt"] = 'Active';
+$wb["email_error_isemail"] = 'Email address is invalid.';
+$wb["email_error_unique"] = 'Duplicate Emailaddress.';
+$wb["no_domain_perm"] = "You have no permission for this domain.";
+$wb["destination_error_isemail"] = 'Destination Emailaddress is invalid.';
+$wb["limit_mailalias_txt"] = 'The max. number of email aliases for your account is reached.';
+$wb["duplicate_mailbox_txt"] = 'There is already a mailbox with this email address';
+?>
+--|mail|en|en_mail_aliasdomain.lng
+<?php
+$wb["source_txt"] = 'Source';
+$wb["destination_txt"] = 'Destination';
+$wb["active_txt"] = 'Active';
+$wb["no_domain_perm"] = "You have no permission for this domain.";
+$wb["limit_mailaliasdomain_txt"] = 'The max. number of email alias domains for your account is reached.';
+$wb["source_destination_identical_txt"] = 'Source and target Domain are the same.';
+$wb["source_error_empty"] = 'Source Domain is empty.';
+$wb["source_error_unique"] = 'Duplicate source Domain.';
+$wb["source_error_regex"] = 'Invalid source domain name.';
+?>
+--|mail|en|en_mail_aliasdomain_list.lng
+<?php
+$wb["list_head_txt"] = 'Domain alias';
+$wb["active_txt"] = 'Active';
+$wb["source_txt"] = 'Source';
+$wb["destination_txt"] = 'Destination';
+$wb["source_txt"] = 'Source';
+$wb["add_new_record_txt"] = 'Add new Domain alias';
+?>
+--|mail|en|en_mail_alias_list.lng
+<?php
+$wb["list_head_txt"] = 'Email Alias';
+$wb["active_txt"] = 'Active';
+$wb["source_txt"] = 'source';
+$wb["destination_txt"] = 'Destination';
+$wb["email_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Add new Email alias';
+?>
+--|mail|en|en_mail_blacklist.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Blacklist Address';
+$wb["recipient_txt"] = 'Recipient';
+$wb["active_txt"] = 'Active';
+$wb["source_error_notempty"] = 'Address is empty.';
+$wb["type_txt"] = 'Type';
+$wb["limit_mailfilter_txt"] = 'The max. number of email filters for your account is reached.';
+?>
+--|mail|en|en_mail_blacklist_list.lng
+<?php
+$wb["list_head_txt"] = 'Email Blacklist';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Blacklisted address';
+$wb["type_txt"] = 'Type';
+$wb["recipient_txt"] = 'Recipient';
+$wb["add_new_record_txt"] = 'Add new Blacklist record';
+$wb["access_txt"] = 'access';
+?>
+--|mail|en|en_mail_content_filter.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["type_txt"] = 'Filter';
+$wb["pattern_txt"] = 'Regexp. Pattern';
+$wb["data_txt"] = 'Data';
+$wb["action_txt"] = 'Action';
+$wb["active_txt"] = 'Active';
+$wb["pattern_error_empty"] = 'Pattern is empty.';
+?>
+--|mail|en|en_mail_content_filter_list.lng
+<?php
+$wb["list_head_txt"] = 'Postfix Header and Body Checks';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["pattern_txt"] = 'Pattern';
+$wb["action_txt"] = 'Action';
+$wb["add_new_record_txt"] = 'Add new Content Filter';
+?>
+--|mail|en|en_mail_domain.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["type_txt"] = 'Type';
+$wb["active_txt"] = 'Active';
+$wb["domain_error_empty"] = 'Domain is empty.';
+$wb["domain_error_unique"] = 'Duplicate Domain.';
+$wb["domain_error_regex"] = 'Invalid domain name.';
+$wb["client_txt"] = 'Client';
+$wb["limit_maildomain_txt"] = 'The max. number of email domains for your account is reached.';
+$wb["policy_txt"] = 'Spamfilter';
+$wb["no_policy"] = '- not enabled -';
+?>
+--|mail|en|en_mail_domain_catchall.lng
+<?php
+$wb["domain_txt"] = 'Domain';
+$wb["destination_txt"] = 'Destination';
+$wb["active_txt"] = 'Active';
+$wb["domain_error_unique"] = "There is already a Catchall record for this domain.";
+$wb["no_domain_perm"] = "You have no permission for this domain.";
+$wb["domain_error_regex"] = 'Invalid domain name od domain contains invalid characters.';
+$wb["limit_mailcatchall_txt"] = 'The max. number of email catchall accounts for your account is reached.';
+?>
+--|mail|en|en_mail_domain_catchall_list.lng
+<?php
+$wb["list_head_txt"] = 'Email Catchall';
+$wb["active_txt"] = 'Active';
+$wb["source_txt"] = 'source';
+$wb["destination_txt"] = 'Destination email address';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["add_new_record_txt"] = 'Add new Catchall';
+?>
+--|mail|en|en_mail_domain_list.lng
+<?php
+$wb["list_head_txt"] = 'Email Domain';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["add_new_record_txt"] = 'Add new Domain';
+$wb["active_txt"] = 'Active';
+?>
+--|mail|en|en_mail_forward.lng
+<?php
+$wb["email_txt"] = 'Email';
+$wb["destination_txt"] = 'Destination Email';
+$wb["active_txt"] = 'Active';
+$wb["limit_mailforward_txt"] = 'The max. number of email forwarders for your account is reached.';
+$wb["duplicate_mailbox_txt"] = 'There is already a mailbox with this email address';
+?>
+--|mail|en|en_mail_forward_list.lng
+<?php
+$wb["list_head_txt"] = 'Mail Forward';
+$wb["active_txt"] = 'Active';
+$wb["source_txt"] = 'source';
+$wb["destination_txt"] = 'Destination';
+$wb["email_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Add new Email forward';
+?>
+--|mail|en|en_mail_get.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["type_txt"] = 'Type';
+$wb["source_server_txt"] = 'Pop3/Imap Server';
+$wb["source_username_txt"] = 'Username';
+$wb["source_password_txt"] = 'Password';
+$wb["source_delete_txt"] = 'Delete emails after retrieval';
+$wb["destination_txt"] = 'Destination';
+$wb["active_txt"] = 'Active';
+$wb["limit_fetchmail_txt"] = 'The max. number of Fetchmail records for your account is reached.';
+$wb["source_server_error_isempty"] = 'Server is empty.';
+$wb["source_username_error_isempty"] = 'Username is empty.';
+$wb["source_password_error_isempty"] = 'Password is empty.';
+$wb["destination_error_isemail"] = 'No destination selected.';
+?>
+--|mail|en|en_mail_get_list.lng
+<?php
+$wb["list_head_txt"] = 'Fetch emails from external POP3 / IMAP servers';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["source_server_txt"] = 'External Server';
+$wb["source_username_txt"] = 'Username';
+$wb["destination_txt"] = 'Destination';
+$wb["add_new_record_txt"] = 'Add new Account';
+?>
+--|mail|en|en_mail_relay_recipient.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Relay recipient';
+$wb["recipient_txt"] = 'Recipient';
+$wb["active_txt"] = 'Active';
+$wb["source_error_notempty"] = 'Address is empty.';
+$wb["type_txt"] = 'Type';
+$wb["limit_mailfilter_txt"] = 'The max. number of email filters for your account is reached.';
+?>
+--|mail|en|en_mail_relay_recipient_list.lng
+<?php
+$wb["list_head_txt"] = 'Relay recipients';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Recipient address';
+$wb["recipient_txt"] = 'Recipient';
+$wb["add_new_record_txt"] = 'Add new relay recipient';
+$wb["access_txt"] = 'access';
+?>
+--|mail|en|en_mail_spamfilter.lng
+<?php
+$wb["email_txt"] = 'Email';
+$wb["spam_rewrite_score_int_txt"] = 'Rewrite score';
+$wb["spam_redirect_score_int_txt"] = 'Redirect score';
+$wb["spam_delete_score_int_txt"] = 'Delete score';
+$wb["spam_rewrite_subject_txt"] = 'Rewrite subject';
+$wb["spam_redirect_maildir_txt"] = 'Redirect mailbox';
+$wb["active_txt"] = 'Active';
+$wb["spam_rewrite_txt"] = 'Rewrite email subject above this score.';
+$wb["spam_redirect_txt"] = 'Redirect email above this score to the selected mailbox.';
+$wb["spam_delete_txt"] = 'Delete email above this score.';
+$wb["disable_txt"] = 'Hint: To disable a filtering option, set the score to 0.00.';
+$wb["email_error_isemail"] = 'Email address is invalid.';
+$wb["email_error_unique"] = 'There is already an spamfilter record for this email address.';
+$wb["spam_redirect_maildir_purge_txt"] = 'Purge Maildir after';
+$wb["days_txt"] = 'Days.';
+?>
+--|mail|en|en_mail_spamfilter_list.lng
+<?php
+$wb["list_head_txt"] = 'Spamfilter';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["server_name_txt"] = 'server_name';
+$wb["email_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Add new Spamfilter record';
+?>
+--|mail|en|en_mail_transport.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["destination_txt"] = 'Destination';
+$wb["type_txt"] = 'Type';
+$wb["mx_txt"] = 'No MX lookup';
+$wb["sort_order_txt"] = 'Sort by';
+$wb["active_txt"] = 'Active';
+$wb["limit_mailrouting_txt"] = 'The max. number of routes for your account is reached.';
+?>
+--|mail|en|en_mail_transport_list.lng
+<?php
+$wb["list_head_txt"] = 'Advanced Email Routing';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["transport_txt"] = 'Transport';
+$wb["sort_order_txt"] = 'Sort by';
+$wb["add_new_record_txt"] = 'Add new transport';
+?>
+--|mail|en|en_mail_user.lng
+<?php
+$wb["custom_mailfilter_txt"] = 'Custom mail filter recipe';
+$wb["email_txt"] = 'Email';
+$wb["cryptpwd_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["active_txt"] = 'Active';
+$wb["email_error_isemail"] = 'Email address is invalid.';
+$wb["email_error_unique"] = 'Duplicate Email address.';
+$wb["autoresponder_text_txt"] = 'Text';
+$wb["autoresponder_txt"] = 'Autoresponder';
+$wb["no_domain_perm"] = 'You have no permission for this domain.';
+$wb["error_no_pwd"] = 'Password is empty.';
+$wb["quota_error_isint"] = 'Mailbox size must be a number.';
+$wb["quota_txt"] = 'Quota';
+$wb["server_id_txt"] = 'Aerver_id';
+$wb["password_txt"] = 'Password';
+$wb["maildir_txt"] = 'Maildir';
+$wb["postfix_txt"] = 'Enable Receiving';
+$wb["access_txt"] = 'Enable Access';
+$wb["policy_txt"] = 'Spamfilter';
+$wb["no_policy"] = '- not enabled -';
+$wb["limit_mailbox_txt"] = 'The max. number of mailboxes for your account is reached.';
+$wb["limit_mailquota_txt"] = 'The max space for mailboxes is reached. The max. available space in MB is';
+$wb["welcome_mail_fromname_txt"] = 'ISPConfig3';
+$wb["welcome_mail_fromemail_txt"] = "webmaster@localhost.tld";
+$wb["welcome_mail_subject"] = 'Welcome to your new email account.';
+$wb["welcome_mail_message"] = "Welcome to your new email account. Your webmaster.";
+$wb["disableimap_txt"] = 'Disable IMAP';
+$wb["disablepop3_txt"] = 'Disable POP3';
+$wb["duplicate_alias_or_forward_txt"] = 'There is already an alias or forwrd with this email address.';
+$wb["quota_error_value"] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
+$wb["move_junk_txt"] = 'Move Spam Emails to Junk directory';
+?>
+
+--|mail|en|en_mail_user_filter.lng
+<?php
+$wb["rulename_txt"] = 'Name';
+$wb["action_txt"] = 'Action';
+$wb["target_txt"] = 'Folder';
+$wb["active_txt"] = 'Active';
+$wb["rulename_error_empty"] = 'Name is empty.';
+$wb["searchterm_is_empty"] = 'Search term is empty.';
+$wb["source_txt"] = 'Source';
+?>
+--|mail|en|en_mail_user_filter_list.lng
+<?php
+$wb["rulename_txt"] = 'Name';
+$wb["add_new_record_txt"] = 'Add new Filter';
+$wb["page_txt"] = 'Page';
+$wb["page_of_txt"] = 'of';
+$wb["delete_confirmation"] = 'Do you really want to Delete the mailfilter?';
+?>
+--|mail|en|en_mail_user_list.lng
+<?php
+$wb["list_head_txt"] = 'Mailbox';
+$wb["email_txt"] = 'Email';
+$wb["autoresponder_txt"] = 'Autoresponder';
+$wb["add_new_record_txt"] = 'Add new Mailbox';
+?>
+--|mail|en|en_mail_user_stats_list.lng
+<?php
+$wb["list_head_txt"] = 'Mail traffic';
+$wb["email_txt"] = 'Email';
+$wb["this_month_txt"] = 'This month';
+$wb["last_month_txt"] = 'Last month';
+$wb["this_year_txt"] = 'This year';
+$wb["last_year_txt"] = 'Last year';
+?>
+--|mail|en|en_mail_whitelist.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Witelist Address';
+$wb["recipient_txt"] = 'Recipient';
+$wb["active_txt"] = 'Active';
+$wb["source_error_notempty"] = 'Address is empty.';
+$wb["type_txt"] = 'Type';
+$wb["limit_mailfilter_txt"] = 'The max. number of email filters for your account is reached.';
+?>
+--|mail|en|en_mail_whitelist_list.lng
+<?php
+$wb["list_head_txt"] = 'Email Whitelist';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Whitelisted address';
+$wb["type_txt"] = 'Type';
+$wb["recipient_txt"] = 'Recipient';
+$wb["add_new_record_txt"] = 'Add new Whitelist record';
+$wb["access_txt"] = 'access';
+?>
+--|mail|en|en_spamfilter_blacklist.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["wb_txt"] = 'wb';
+$wb["rid_txt"] = 'User';
+$wb["email_txt"] = 'Email';
+$wb["priority_txt"] = 'Priority';
+$wb["active_txt"] = 'Active';
+$wb["limit_spamfilter_wblist_txt"] = 'The max. number of White- or Blacklist records for your account is reached.';
+?>
+--|mail|en|en_spamfilter_blacklist_list.lng
+<?php
+$wb["list_head_txt"] = 'Spamfilter Blacklist';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["priority_txt"] = 'Priority';
+$wb["rid_txt"] = 'User';
+$wb["email_txt"] = 'Blacklisted Email';
+$wb["add_new_record_txt"] = 'Add Blacklist record';
+?>
+--|mail|en|en_spamfilter_config.lng
+<?php
+$wb["getmail_config_dir_txt"] = 'Getmail Config Path';
+$wb["ip_address_txt"] = 'IP Address';
+$wb["netmask_txt"] = 'Netmask';
+$wb["gateway_txt"] = 'Gateway';
+$wb["hostname_txt"] = 'Hostname';
+$wb["nameservers_txt"] = 'Nameservers';
+$wb["module_txt"] = 'Server Module';
+$wb["maildir_path_txt"] = 'Maildir Path';
+$wb["homedir_path_txt"] = 'Homedir Path';
+$wb["mailuser_uid_txt"] = 'Mailuser UID';
+$wb["mailuser_gid_txt"] = 'Mailuser GID';
+$wb["mailuser_name_txt"] = 'Mailuser Name';
+$wb["mailuser_group_txt"] = 'Mailuser Group';
+$wb["relayhost_txt"] = 'Relayhost';
+$wb["relayhost_user_txt"] = 'Relayhost User';
+$wb["relayhost_password_txt"] = 'Relayhost Password';
+$wb["mailbox_size_limit_txt"] = 'Mailbox Size Limit';
+$wb["message_size_limit_txt"] = 'Message Size Limit';
+?>
+--|mail|en|en_spamfilter_config_list.lng
+<?php
+$wb["list_head_txt"] = 'Server Configuration';
+$wb["server_name_txt"] = 'Server';
+$wb["server_id_txt"] = 'server_id';
+?>
+--|mail|en|en_spamfilter_policy.lng
+<?php
+$wb["policy_name_txt"] = 'Policy Name';
+$wb["virus_lover_txt"] = 'Virusl lover';
+$wb["spam_lover_txt"] = 'SPAM lover';
+$wb["banned_files_lover_txt"] = 'Banned files lover';
+$wb["bad_header_lover_txt"] = 'Bad header lover';
+$wb["bypass_virus_checks_txt"] = 'Bypass virus checks';
+$wb["bypass_banned_checks_txt"] = 'Bypass banned checks';
+$wb["bypass_header_checks_txt"] = 'Bypass header checks';
+$wb["virus_quarantine_to_txt"] = 'Forward virus to email';
+$wb["spam_quarantine_to_txt"] = 'Forward spam to email';
+$wb["banned_quarantine_to_txt"] = 'Forward banned to email';
+$wb["bad_header_quarantine_to_txt"] = 'Forward bad header to email';
+$wb["clean_quarantine_to_txt"] = 'Forward clean to email';
+$wb["other_quarantine_to_txt"] = 'Forward other to email';
+$wb["spam_tag_level_txt"] = 'SPAM tag level';
+$wb["spam_tag2_level_txt"] = 'SPAM tag2 level';
+$wb["spam_kill_level_txt"] = 'SPAM kill level';
+$wb["spam_dsn_cutoff_level_txt"] = 'SPAM dsn cutoff level';
+$wb["spam_quarantine_cutoff_level_txt"] = 'SPAM quarantine cutoff level';
+$wb["spam_modifies_subj_txt"] = 'SPAM modifies subject';
+$wb["spam_subject_tag_txt"] = 'SPAM subject tag';
+$wb["spam_subject_tag2_txt"] = 'SPAM subject tag2';
+$wb["addr_extension_virus_txt"] = 'Addr. extension virus';
+$wb["addr_extension_spam_txt"] = 'Addr. extension SPAM';
+$wb["addr_extension_banned_txt"] = 'Addr. extension banned';
+$wb["addr_extension_bad_header_txt"] = 'Addr extension bad header';
+$wb["warnvirusrecip_txt"] = 'Warn virus recip.';
+$wb["warnbannedrecip_txt"] = 'Warn banned recip.';
+$wb["warnbadhrecip_txt"] = 'Warn bad header recip.';
+$wb["newvirus_admin_txt"] = 'Newvirus admin';
+$wb["virus_admin_txt"] = 'Virus admin';
+$wb["banned_admin_txt"] = 'Banned admin';
+$wb["bad_header_admin_txt"] = 'Bad header admin';
+$wb["spam_admin_txt"] = 'SPAM admin';
+$wb["message_size_limit_txt"] = 'Message size limit';
+$wb["banned_rulenames_txt"] = 'Banned rulenames';
+?>
+--|mail|en|en_spamfilter_policy_list.lng
+<?php
+$wb["list_head_txt"] = 'Spamfilter Policy';
+$wb["policy_name_txt"] = 'Name';
+$wb["virus_lover_txt"] = 'Virus lover';
+$wb["spam_lover_txt"] = 'Spam lover';
+$wb["banned_files_lover_txt"] = 'Banned Files lover';
+$wb["bad_header_lover_txt"] = 'Bad Header lover';
+$wb["add_new_record_txt"] = 'Add Policy record';
+?>
+--|mail|en|en_spamfilter_users.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["priority_txt"] = 'Priority';
+$wb["policy_id_txt"] = 'Policy';
+$wb["email_txt"] = 'Email (Pattern)';
+$wb["fullname_txt"] = 'Name';
+$wb["local_txt"] = 'Local';
+?>
+--|mail|en|en_spamfilter_users_list.lng
+<?php
+$wb["list_head_txt"] = 'Spamfilter Users';
+$wb["local_txt"] = 'Local';
+$wb["server_id_txt"] = 'Server';
+$wb["priority_txt"] = 'Priority';
+$wb["policy_id_txt"] = 'Policy';
+$wb["fullname_txt"] = 'Name';
+$wb["email_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Add Spamfilter User';
+?>
+--|mail|en|en_spamfilter_whitelist.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["wb_txt"] = 'wb';
+$wb["rid_txt"] = 'User';
+$wb["email_txt"] = 'Email';
+$wb["priority_txt"] = 'Priority';
+$wb["active_txt"] = 'Active';
+$wb["limit_spamfilter_wblist_txt"] = 'The max. number of White- or Blacklist records for your account is reached.';
+?>
+--|mail|en|en_spamfilter_whitelist_list.lng
+<?php
+$wb["list_head_txt"] = 'Spamfilter Whitelist';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["priority_txt"] = 'Priority';
+$wb["rid_txt"] = 'User';
+$wb["email_txt"] = 'Whitelisted Email';
+$wb["add_new_record_txt"] = 'Add Whitelist record';
+?>
+--|monitor|en|en.lng
+<?php
+$wb["Server online since"] = "Server online since";
+$wb["Users online"] = "Users Online";
+$wb["System load 1 minute"] = "System load 1 minute";
+$wb["System load 5 minutes"] = "System load 5 minutes";
+$wb["System load 15 minutes"] = "System load 15 minutes";
+$wb['Server Load'] = 'Server Load';
+$wb['Disk usage'] = 'Disk usage';
+$wb['Memory usage'] = 'Memory usage';
+$wb['no_data_serverload_txt'] = 'No data about the server load available at the moment. Please check again later.';
+$wb['no_data_memusage_txt'] = 'No data about the memory usage available at the moment. Please check again later.';
+$wb['no_data_diskusage_txt'] = 'No data about the disk usage available at the moment. Please check again later.';
+$wb['no_data_cpuinfo_txt'] = 'No data about the CPU available at the moment. Please check again later.';
+$wb['no_data_services_txt'] = 'No data about the services available at the moment. Please check again later.';
+$wb['no_data_updates_txt'] = 'No data about updates available at the moment. Please check again later.';
+$wb['no_data_raid_txt'] = 'No data about RAID available at the moment. Please check again later.';
+$wb['no_data_rkhunter_txt'] = 'No data about RKHunter available at the moment. Please check again later.';
+$wb['no_data_mailq_txt'] = 'No data Mailqueue available at the moment. Please check again later.';
+$wb['no_logdata_txt'] = 'No log data available at the moment. Please check again later.';
+$wb['Monitoring'] = 'Monitoring';
+$wb['Server to Monitor'] = 'Server to Monitor';
+$wb['Logfiles'] = 'Logfiles';
+$wb['Status of services'] = 'Status of services';
+$wb['No Refresh'] = 'No Refresh';
+$wb["minutes"] = "minutes";
+$wb["Show Overview"] = "Show Overview";
+$wb["System State (All Servers)"] = "System State (All Servers)";
+$wb['Hardware-Information'] = 'Hardware-Information';
+$wb['Show CPU info'] = 'Show CPU info';
+$wb['Server State'] = 'Server State';
+$wb['Show Update State'] = 'Show Update State';
+$wb['Show RAID state'] = 'Show RAID state';
+$wb['Show Server load'] = 'Show Server load';
+$wb['Show Disk usage'] = 'Show Disk usage';
+$wb['Show Memory usage'] = 'Show Memory usage';
+$wb['Show Services'] = 'Show Services';
+$wb['Show Mail-Queue'] = 'Show Mail-Queue';
+$wb['Show Mail-Log'] = 'Show Mail-Log';
+$wb['Show Mail warn-Log'] = 'Show Mail warn-Log';
+$wb['Show Mail err-Log'] = 'Show Mail err-Log';
+$wb['Show System-Log'] = 'Show System-Log';
+$wb['Show ISPC Cron-Log'] = 'Show ISPC Cron-Log';
+$wb['Show Freshclam-Log'] = 'Show Freshclam-Log';
+$wb['Show Clamav-Log'] = 'Show Clamav-Log';
+$wb['Show ISPConfig-Log'] = 'Show ISPConfig-Log';
+$wb['Show RKHunter-Log'] = 'Show RKHunter-Log';
+$wb['Show Jobqueue'] = 'Show Jobqueue';
+$wb['monitor_general_serverstate_txt'] = 'Server State';
+$wb['monitor_general_systemstate_txt'] = 'System State';
+$wb['monitor_diskusage_filesystem_txt'] = 'Filesystem';
+$wb['monitor_diskusage_type_txt'] = 'Type';
+$wb['monitor_diskusage_size_txt'] = 'Size';
+$wb['monitor_diskusage_used_txt'] = 'Used';
+$wb['monitor_diskusage_available_txt'] = 'Available';
+$wb['monitor_diskusage_usage_txt'] = 'Use%';
+$wb['monitor_diskusage_mounted_txt'] = 'Mounted on';
+$wb['monitor_logs_mail_txt'] = 'Mail - Log';
+$wb['monitor_logs_mailwarn_txt'] = 'Mail-Warn - Log';
+$wb['monitor_logs_mailerr_txt'] = 'Mail-Error - Log';
+$wb['monitor_logs_messages_txt'] = 'System Messages - Log';
+$wb['monitor_logs_ispccron_txt'] = 'ISPConfig Cron - Log';
+$wb['monitor_logs_freshclam_txt'] = 'Freshclam - Log';
+$wb['monitor_logs_clamav_txt'] = 'Clamav - Log';
+$wb['monitor_logs_ispc_txt'] = 'ISPConfig - Log';
+$wb['monitor_nomdadm_txt'] = 'mdadm is not installed or your Server has no supported RAID';
+$wb['monitor_norkhunter_txt'] = 'RKHunter is not installed, so there is no log data';
+$wb['monitor_serverstate_server_txt'] = 'Server';
+$wb['monitor_serverstate_state_txt'] = 'State';
+$wb['monitor_serverstate_unknown_txt'] = 'unknown';
+$wb['monitor_serverstate_info_txt'] = 'info';
+$wb['monitor_serverstate_warning_txt'] = 'warning';
+$wb['monitor_serverstate_critical_txt'] = 'critical';
+$wb['monitor_serverstate_error_txt'] = 'error';
+$wb['monitor_serverstate_moreinfo_txt'] = 'More information...';
+$wb['monitor_serverstate_more_txt'] = 'More...';
+$wb['monitor_serverstate_fclamok_txt'] = 'Your Virus-protection is ok';
+$wb['monitor_serverstate_fclamoutdated_txt'] = 'Your Virus-protection is OUTDATED!';
+$wb['monitor_serverstate_fclamunknown_txt'] = 'Freshclam: ???!';
+$wb['monitor_serverstate_hdok_txt'] = 'The state of your Hard-Disk space is ok';
+$wb['monitor_serverstate_hdgoingfull_txt'] = 'Your Hard-Disk space is going full';
+$wb['monitor_serverstate_hdnearlyfull_txt'] = 'Your Hard-Disk is nearly full';
+$wb['monitor_serverstate_hdveryfull_txt'] = 'Your Hard-Disk is very full';
+$wb['monitor_serverstate_hdfull_txt'] = 'Your Hard-Disk has no more space left';
+$wb['monitor_serverstate_hdunknown_txt'] = 'Hard-Disk: ???';
+$wb['monitor_serverstate_listok_txt'] = 'ok';
+$wb['monitor_serverstate_listinfo_txt'] = 'info';
+$wb['monitor_serverstate_listwarning_txt'] = 'warning';
+$wb['monitor_serverstate_listcritical_txt'] = 'critical';
+$wb['monitor_serverstate_listerror_txt'] = 'error';
+$wb['monitor_serverstate_listunknown_txt'] = 'unknown';
+$wb['monitor_serverstate_loadok_txt'] = 'Your Server load is ok';
+$wb['monitor_serverstate_loadheavy_txt'] = 'Your Server in under heavy load';
+$wb['monitor_serverstate_loadhigh_txt'] = 'Your Server in under high load';
+$wb['monitor_serverstate_loaghigher_txt'] = 'Your Server in under higher load';
+$wb['monitor_serverstate_loadhighest_txt'] = 'Your Server in under highest load';
+$wb['monitor_serverstate_loadunknown_txt'] = 'Server Load: ???';
+$wb['monitor_serverstate_mailqok_txt'] = 'Your Mailq load is ok';
+$wb['monitor_serverstate_mailqheavy_txt'] = 'Your Mailq in under heavy load';
+$wb['monitor_serverstate_mailqhigh_txt'] = 'Your Mailq in under high load';
+$wb['monitor_serverstate_mailqhigher_txt'] = 'Your Mailq in under higher load';
+$wb['monitor_serverstate_mailqhighest_txt'] = 'Your Mailq in under highest load';
+$wb['monitor_serverstate_mailqunknown_txt'] = 'Mailq: ???';
+$wb['monitor_serverstate_raidok_txt'] = 'Your RAID is ok';
+$wb['monitor_serverstate_raidresync_txt'] = 'Your RAID is in RESYNC mode';
+$wb['monitor_serverstate_raidfault_txt'] = 'Your RAID has one FAULT disk. Replace as soon as possible!';
+$wb['monitor_serverstate_raiderror_txt'] = 'Your RAID is not working anymore';
+$wb['monitor_serverstate_raidunknown_txt'] = 'RAID state: ???';
+$wb['monitor_serverstate_servicesonline_txt'] = 'All needed Services are online';
+$wb['monitor_serverstate_servicesoffline_txt'] = 'One or more needed Services are offline';
+$wb['monitor_serverstate_servicesunknown_txt'] = 'Services:???';
+$wb['monitor_serverstate_syslogok_txt'] = 'The System-Log is O.K.';
+$wb['monitor_serverstate_syslogwarning_txt'] = 'There are some warnings in your System-Log';
+$wb['monitor_serverstate_syslogerror_txt'] = 'There are errors in your System-Log';
+$wb['monitor_serverstate_syslogunknown_txt'] = 'sys-log:???';
+$wb['monitor_serverstate_updatesok_txt'] = 'Your System is up to date.';
+$wb['monitor_serverstate_updatesneeded_txt'] = 'One or more Components needs a update';
+$wb['monitor_serverstate_updatesunknown_txt'] = 'System-Update:???';
+$wb['monitor_services_online_txt'] = 'Online';
+$wb['monitor_services_offline_txt'] = 'Offline';
+$wb['monitor_services_web_txt'] = 'Web-Server:';
+$wb['monitor_services_ftp_txt'] = 'FTP-Server:';
+$wb['monitor_services_smtp_txt'] = 'SMTP-Server:';
+$wb['monitor_services_pop_txt'] = 'POP3-Server:';
+$wb['monitor_services_imap_txt'] = 'IMAP-Server:';
+$wb['monitor_services_mydns_txt'] = 'myDNS-Server:';
+$wb['monitor_services_mysql_txt'] = 'mySQL-Server:';
+$wb['monitor_settings_datafromdate_txt'] = 'Data from: ';
+$wb['monitor_settings_datetimeformat_txt'] = 'Y-m-d H:i';
+$wb['monitor_settings_refreshsq_txt'] = 'Refresh sequence:';
+$wb['monitor_settings_server_txt'] = 'Server';
+$wb['monitor_title_cpuinfo_txt'] = 'CPU Info';
+$wb['monitor_title_updatestate_txt'] = 'Update State';
+$wb['monitor_title_mailq_txt'] = 'Mailqueue';
+$wb['monitor_title_raidstate_txt'] = 'RAID-State';
+$wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
+$wb['monitor_updates_nosupport_txt'] = 'Your distribution is not supported for this monitoring';
+?>
+
+--|monitor|en|en_datalog_list.lng
+<?php
+$wb["list_head_txt"] = 'Jobqueue';
+$wb["tstamp_txt"] = 'Date';
+$wb["server_id_txt"] = 'Server';
+$wb["dbtable_txt"] = 'DB Table';
+$wb["action_txt"] = 'Action';
+$wb["status_txt"] = 'Status';
+?>
+--|monitor|en|en_syslog_list.lng
+<?php
+$wb["list_head_txt"] = 'ISPConfig Log';
+$wb["tstamp_txt"] = 'Date';
+$wb["server_id_txt"] = 'Server';
+$wb["loglevel_txt"] = 'Loglevel';
+$wb["message_txt"] = 'Message';
+?>
+--|sites|en|en.lng
+<?php
+$wb['Database'] = 'Database';
+$wb['Options'] = 'Options';
+$wb['Shell User'] = 'Shell User';
+$wb['Domain'] = 'Website';
+$wb['Redirect'] = 'Redirect';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Subdomain';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Aliasdomain';
+$wb['FTP-User'] = 'FTP-User';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell-User';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Websites';
+$wb["Stats"] = 'Statistics';
+?>
+--|sites|en|en_cron.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb['parent_domain_id_txt'] = 'Parent website';
+$wb['active_txt'] = 'Active';
+$wb['client_txt'] = 'Client';
+$wb['run_min_txt'] = 'Minutes';
+$wb['run_hour_txt'] = 'Hours';
+$wb['run_mday_txt'] = 'Days of month';
+$wb['run_month_txt'] = 'Months';
+$wb['run_wday_txt'] = 'Days of week';
+$wb['command_txt'] = 'Command to run (commands are executed via sh, urls via wget)';
+$wb['limit_cron_txt'] = 'The maximum number of allowed cron jobs was reached.';
+$wb['limit_cron_frequency_txt'] = 'The cron job frequency exceeds the allowed limit.';
+$wb['run_min_error_format'] = 'Invalid format for minutes.';
+$wb['run_hour_error_format'] = 'Invalid format for hours.';
+$wb['run_mday_error_format'] = 'Invalid format for days of month.';
+$wb['run_month_error_format'] = 'Invalid format for months.';
+$wb['run_wday_error_format'] = 'Invalid format for days of the week.';
+$wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
+$wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
+?>
+--|sites|en|en_cron_list.lng
+<?php
+$wb["list_head_txt"] = 'Cron Jobs';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["run_min_txt"] = 'Minute';
+$wb["run_hour_txt"] = 'Hour';
+$wb["run_mday_txt"] = 'Day of month';
+$wb["run_month_txt"] = 'Month';
+$wb["run_wday_txt"] = 'Day of week';
+$wb["command_txt"] = 'Command';
+$wb["add_new_cron_txt"] = 'Add new Cron job';
+?>
+--|sites|en|en_database.lng
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["type_txt"] = 'Type';
+$wb["database_name_txt"] = 'Database name';
+$wb["database_user_txt"] = 'Database user';
+$wb["database_password_txt"] = 'Database password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["database_charset_txt"] = 'Database charset';
+$wb["remote_access_txt"] = 'Remote Access';
+$wb["remote_ips_txt"] = 'Remote Access IPs (separate by , and leave blank for <i>any</i>)';
+$wb["database_remote_error_ips"] = 'At least one of the entered ip addresses is invalid.';
+$wb["client_txt"] = 'Client';
+$wb["active_txt"] = 'Active';
+$wb["database_name_error_empty"] = 'Database name is empty.';
+$wb["database_name_error_unique"] = 'There is already a database with this name on the server. To get a unique name, e.g. prepend your domain name to the database name.';
+$wb["database_name_error_regex"] = 'Invalid database name. The database name may contain these characters: a-z, A-Z, 0-9 and the underscore. Length: 2 - 64 characters.';
+$wb["database_user_error_empty"] = 'Database user is empty.';
+$wb["database_user_error_unique"] = 'There is already a database user with this name on the server. To get a unique name, e.g. prepend your domain name to the username.';
+$wb["database_user_error_regex"] = 'Invalid database user name. The username may contain these characters: a-z, A-Z, 0-9 and the underscore. Length: 2 - 64 characters.';
+$wb["limit_database_txt"] = 'The max. number of databases is reached.';
+$wb["database_name_change_txt"] = 'The database name can not be changed';
+$wb["database_charset_change_txt"] = 'The database charset can not be changed';
+$wb["database_name_error_len"] = 'Database name - {db} - too long. The max. database name length incl. prefix is 64 chars.';
+$wb["database_user_error_len"] = 'Database username - {user}- too long. The max. database username length incl. prefix is 16 chars.';
+?>
+
+--|sites|en|en_database_list.lng
+<?php
+$wb["list_head_txt"] = 'Database';
+$wb["active_txt"] = 'Active';
+$wb["remote_access_txt"] = 'Remote Access';
+$wb["server_id_txt"] = 'Server';
+$wb["database_name_txt"] = 'Database name';
+$wb["add_new_record_txt"] = 'Add new Database';
+?>
+--|sites|en|en_ftp_user.lng
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'Directory';
+$wb["quota_files_txt"] = 'Filequota';
+$wb["quota_files_unity_txt"] = 'Files';
+$wb["ul_ratio_txt"] = 'Uploadratio';
+$wb["dl_ratio_txt"] = 'Downloadratio';
+$wb["ul_bandwidth_txt"] = 'Uploadbandwidth';
+$wb["dl_bandwidth_txt"] = 'Downloadbandwidth';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["quota_size_txt"] = 'Harddisk-Quota';
+$wb["active_txt"] = 'Active';
+$wb["limit_ftp_user_txt"] = 'The max. number of FTP users for your account is reached.';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["username_error_regex"] = 'The username contains charachters that are not allowed.';
+$wb["quota_size_error_empty"] = 'Quota is empty.';
+$wb["uid_error_empty"] = 'UID empty.';
+$wb["uid_error_empty"] = 'GID empty.';
+$wb["directory_error_empty"] = 'Directory empty.';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb["parent_domain_id_error_empty"] = 'No website selected.';
+?>
+
+--|sites|en|en_ftp_user_list.lng
+<?php
+$wb["list_head_txt"] = 'FTP-User';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Username';
+$wb["add_new_record_txt"] = 'Add new FTP-User';
+?>
+--|sites|en|en_shell_user.lng
+<?php
+$wb["uid_txt"] = 'Web Username';
+$wb["gid_txt"] = 'Group';
+$wb["shell_txt"] = 'Shell';
+$wb["dir_txt"] = 'Dir';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Site';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["chroot_txt"] = 'Chroot Shell';
+$wb["quota_size_txt"] = 'Quota';
+$wb["active_txt"] = 'Active';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["username_error_regex"] = 'The username contains charachters that are not allowed.';
+$wb["quota_size_error_empty"] = 'Quota is empty.';
+$wb["uid_error_empty"] = 'UID empty.';
+$wb["uid_error_empty"] = 'GID empty.';
+$wb["directory_error_empty"] = 'Directory empty.';
+$wb["limit_shell_user_txt"] = 'The max number of shell users is reached.';
+$wb["parent_domain_id_error_empty"] = 'No website selected.';
+?>
+
+--|sites|en|en_shell_user_list.lng
+<?php
+$wb["list_head_txt"] = 'Shell User';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Site';
+$wb["username_txt"] = 'Username';
+$wb["add_new_record_txt"] = 'Add new Shell-User';
+?>
+--|sites|en|en_web_aliasdomain_list.lng
+<?php
+$wb["list_head_txt"] = 'Aliasdomain';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["domain_txt"] = 'Aliasdomain';
+$wb["add_new_record_txt"] = 'Add new aliasdomain';
+$wb["domain_error_empty"] = 'Domain is empty.';
+$wb["domain_error_unique"] = 'Domain must be unique.';
+$wb["domain_error_regex"] = 'Domain name invalid.';
+?>
+--|sites|en|en_web_domain.lng
+<?php
+$wb["ssl_state_txt"] = 'State';
+$wb["ssl_locality_txt"] = 'Locality';
+$wb["ssl_organisation_txt"] = 'Organisation';
+$wb["ssl_organisation_unit_txt"] = 'Organisation Unit';
+$wb["ssl_country_txt"] = 'Country';
+$wb["ssl_request_txt"] = 'SSL Request';
+$wb["ssl_cert_txt"] = 'SSL Certificate';
+$wb["ssl_bundle_txt"] = 'SSL Bundle';
+$wb["ssl_action_txt"] = 'SSL Action';
+$wb["ssl_domain_txt"] = 'SSL Domain';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["type_txt"] = 'Type';
+$wb["parent_domain_id_txt"] = 'Parent Website';
+$wb["redirect_type_txt"] = 'Redirect Type';
+$wb["redirect_path_txt"] = 'Redirect Path';
+$wb["active_txt"] = 'Active';
+$wb["document_root_txt"] = 'Documentroot';
+$wb["system_user_txt"] = 'Linux User';
+$wb["system_group_txt"] = 'Linux Group';
+$wb["ip_address_txt"] = 'IP-Address';
+$wb["vhost_type_txt"] = 'VHost Type';
+$wb["hd_quota_txt"] = 'Harddisk Quota';
+$wb["traffic_quota_txt"] = 'Traffic Quota';
+$wb["cgi_txt"] = 'CGI';
+$wb["ssi_txt"] = 'SSI';
+$wb["errordocs_txt"] = 'Own Error-Documents';
+$wb["subdomain_txt"] = 'Auto-Subdomain';
+$wb["ssl_txt"] = 'SSL';
+$wb["suexec_txt"] = 'SuEXEC';
+$wb["php_txt"] = 'PHP';
+$wb["client_txt"] = 'Client';
+$wb["limit_web_domain_txt"] = 'The max. number of web domains for your account is reached.';
+$wb["limit_web_aliasdomain_txt"] = 'The max. number of aliasdomains for your account is reached.';
+$wb["limit_web_subdomain_txt"] = 'The max. number of web subdomains for your account is reached.';
+$wb["apache_directives_txt"] = 'Apache directives';
+$wb["domain_error_empty"] = 'Domain is empty.';
+$wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain with this domain name.';
+$wb["domain_error_regex"] = 'Domain name invalid.';
+$wb["hd_quota_error_empty"] = 'Harddisk quota is empty.';
+$wb["traffic_quota_error_empty"] = 'Traffic quota is empty.';
+$wb['error_ssl_state_empty'] = 'SSL State is empty.';
+$wb['error_ssl_locality_empty'] = 'SSL Locality is empty.';
+$wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
+$wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
+$wb['error_ssl_country_empty'] = 'SSL Country is empty.';
+$wb["client_group_id_txt"] = 'Client';
+$wb["stats_password_txt"] = 'Webstatistics password';
+$wb["allow_override_txt"] = 'Allow Override';
+$wb["limit_web_quota_free_txt"] = 'Max. available Harddisk Quota';
+?>
+
+--|sites|en|en_web_domain_list.lng
+<?php
+$wb["list_head_txt"] = 'Websites';
+$wb["domain_id_txt"] = 'ID';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["add_new_record_txt"] = 'Add new website';
+?>
+--|sites|en|en_web_sites_stats_list.lng
+<?php
+$wb["list_head_txt"] = 'Web traffic';
+$wb["domain_txt"] = 'Domain';
+$wb["this_month_txt"] = 'This month';
+$wb["last_month_txt"] = 'Last month';
+$wb["this_year_txt"] = 'This year';
+$wb["last_year_txt"] = 'Last year';
+?>
+--|sites|en|en_web_subdomain.lng
+<?php
+$wb["ssl_state_txt"] = 'State';
+$wb["ssl_locality_txt"] = 'Locality';
+$wb["ssl_organisation_txt"] = 'Organisation';
+$wb["ssl_organisation_unit_txt"] = 'Organisation Unit';
+$wb["ssl_country_txt"] = 'Country';
+$wb["ssl_request_txt"] = 'SSL Request';
+$wb["ssl_cert_txt"] = 'SSL Certificate';
+$wb["ssl_bundle_txt"] = 'SSL Bundle';
+$wb["ssl_action_txt"] = 'SSL Action';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["type_txt"] = 'Type';
+$wb["parent_domain_id_txt"] = 'Parent Website';
+$wb["redirect_type_txt"] = 'Redirect Type';
+$wb["redirect_path_txt"] = 'Redirect Path';
+$wb["active_txt"] = 'Active';
+$wb["document_root_txt"] = 'Documentroot';
+$wb["system_user_txt"] = 'Linux User';
+$wb["system_group_txt"] = 'Linux Group';
+$wb["ip_address_txt"] = 'IP-Address';
+$wb["vhost_type_txt"] = 'VHost Type';
+$wb["hd_quota_txt"] = 'Harddisk Quota';
+$wb["traffic_quota_txt"] = 'Traffic Quaota';
+$wb["cgi_txt"] = 'CGI';
+$wb["ssi_txt"] = 'SSI';
+$wb["ssl_txt"] = 'SSL';
+$wb["suexec_txt"] = 'SuEXEC';
+$wb["php_txt"] = 'PHP';
+$wb["client_txt"] = 'Client';
+$wb["limit_web_domain_txt"] = 'The max. number of web domains for your account is reached.';
+$wb["limit_web_aliasdomain_txt"] = 'The max. number of aliasdomains for your account is reached.';
+$wb["limit_web_subdomain_txt"] = 'The max. number of web subdomains for your account is reached.';
+$wb["apache_directives_txt"] = 'Apache directives';
+$wb["domain_error_empty"] = 'Domain is empty.';
+$wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain with this domain name.';
+$wb["domain_error_regex"] = 'Domain name invalid.';
+$wb["host_txt"] = 'Host';
+?>
+--|sites|en|en_web_subdomain_list.lng
+<?php
+$wb["list_head_txt"] = 'Subdomains';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["domain_txt"] = 'Subdomain';
+$wb["add_new_record_txt"] = 'Add new subdomain';
+?>
+--|strengthmeter|en|en_strengthmeter.lng
+<?php
+$wb['password_strength_0_txt'] = 'Too short';
+$wb['password_strength_1_txt'] = 'Weak';
+$wb['password_strength_2_txt'] = 'Fair';
+$wb['password_strength_3_txt'] = 'Good';
+$wb['password_strength_4_txt'] = 'Strong';
+$wb['password_strength_5_txt'] = 'Very strong';
+?>
+
+--|tools|en|en.lng
+<?php
+$wb['User Settings'] = 'User Settings';
+$wb['Settings'] = 'Settings';
+$wb['ISPConfig Tools'] = 'ISPConfig Tools';
+$wb['Password and Language'] = 'Password and Language';
+?>
+--|tools|en|en_usersettings.lng
+<?php
+$wb["passwort_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["language_txt"] = 'Language';
+$wb["password_mismatch"] = 'The password in the second password field does not match the first password.';
+$wb["Form to edit the user password and language."] = 'Form to edit the user password and language.';
+$wb["Settings"] = 'Settings';
+?>
+
+---|EOF

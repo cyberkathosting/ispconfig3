@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Softvérové balíky';
+$wb['installed_txt'] = 'Stav';
+$wb['package_title_txt'] = 'Balíky';
+$wb['package_description_txt'] = 'Popis';
+$wb['action_txt'] = 'Akcia';
+?>
+

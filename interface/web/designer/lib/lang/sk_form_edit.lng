@@ -1,0 +1,25 @@
+<?php
+$wb['name_txt'] = 'Názov formulára';
+$wb['title_txt'] = 'Názov formulára';
+$wb['template_txt'] = 'Šablóny';
+$wb['navframe_txt'] = 'NaviFrame';
+$wb['startpage_txt'] = 'Úvodná stránka';
+$wb['tab_width_txt'] = 'Tab šírka';
+$wb['save_txt'] = 'Uloži?';
+$wb['cancel_txt'] = 'Zruši?';
+$wb['header_txt'] = 'Vlastnosti formulára';
+$wb['description_txt'] = 'Popis';
+$wb['action_txt'] = 'Akcie (skript)';
+$wb['db_table_txt'] = 'DB Tabulky';
+$wb['db_table_idx_txt'] = 'DB Tabulky Index';
+$wb['db_history_txt'] = 'Undo Log';
+$wb['tab_default_txt'] = 'Predvolený Tab';
+$wb['list_default_txt'] = 'Predvolený List';
+$wb['auth_txt'] = 'Práva';
+$wb['auth_preset_userid_txt'] = 'uživa?e? ID';
+$wb['auth_preset_groupid_txt'] = 'skupina ID';
+$wb['auth_preset_perm_user_txt'] = 'Práva uživa?e?';
+$wb['auth_preset_perm_group_txt'] = 'Práva skupina';
+$wb['auth_preset_perm_other_txt'] = 'Práva ostatný';
+?>
+

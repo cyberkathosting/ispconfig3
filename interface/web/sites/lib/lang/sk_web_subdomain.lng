@@ -1,0 +1,40 @@
+<?php
+$wb['ssl_state_txt'] = 'Štát';
+$wb['ssl_locality_txt'] = 'Lokalita';
+$wb['ssl_organisation_txt'] = 'Organizácia';
+$wb['ssl_organisation_unit_txt'] = 'Organiza?né zložky';
+$wb['ssl_country_txt'] = 'Krajina';
+$wb['ssl_request_txt'] = 'SSL Požiadavka';
+$wb['ssl_cert_txt'] = 'SSL Certifikát';
+$wb['ssl_bundle_txt'] = 'SSL Bundle';
+$wb['ssl_action_txt'] = 'SSL Akcia';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Doména';
+$wb['type_txt'] = 'Typ';
+$wb['parent_domain_id_txt'] = 'Materská webová stránka';
+$wb['redirect_type_txt'] = 'Typ presmerovanie';
+$wb['redirect_path_txt'] = 'Cesta presmerovania';
+$wb['active_txt'] = 'Aktívne';
+$wb['document_root_txt'] = 'DocumentRoot';
+$wb['system_user_txt'] = 'Linuxový uživate?';
+$wb['system_group_txt'] = 'Linuxová skupina';
+$wb['ip_address_txt'] = 'IP Adresa';
+$wb['vhost_type_txt'] = 'VHost Typ';
+$wb['hd_quota_txt'] = 'Harddisk Kvóta';
+$wb['traffic_quota_txt'] = 'Kvóta Vy?aženie';
+$wb['cgi_txt'] = 'CGI';
+$wb['ssi_txt'] = 'SSI';
+$wb['ssl_txt'] = 'SSL';
+$wb['suexec_txt'] = 'SuEXEC';
+$wb['php_txt'] = 'PHP';
+$wb['client_txt'] = 'Klient';
+$wb['limit_web_domain_txt'] = 'Max. Po?et internetových domén pre Váš ú?et je dosiahnutý.';
+$wb['limit_web_aliasdomain_txt'] = 'Max. alias domén pre  Váš ú?et je dosiahnutý.';
+$wb['limit_web_subdomain_txt'] = 'Max. po?et webových subdomén pre Váš ú?et je dosiahnutý.';
+$wb['apache_directives_txt'] = 'Apache smerníce';
+$wb['domain_error_empty'] = 'Doména je prázdna.';
+$wb['domain_error_unique'] = 'Existuje už webová stránka alebo sub / alias doména k tejto doméne.';
+$wb['domain_error_regex'] = 'Doménové meno neplatné.';
+$wb['host_txt'] = 'Host';
+?>
+

@@ -1,0 +1,18 @@
+<?php
+$wb['Database'] = 'Databázy';
+$wb['Options'] = 'Možnosti';
+$wb['Shell User'] = 'Shell Uživate?';
+$wb['Domain'] = 'Webstránky';
+$wb['Redirect'] = 'Presmerovanie';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Subdomény';
+$wb['Sites'] = 'Stránky';
+$wb['Aliasdomain'] = 'Aliasdomény';
+$wb['FTP-User'] = 'FTP-Uživate?';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell-Uživate?';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Webstránky';
+$wb['Stats'] = 'Štatistika';
+?>
+
