@@ -159,7 +159,19 @@ function get_distname() {
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Redhat or compatible, unknown version.\n");
 		}
-		
+	}
+	
+	//** Gentoo
+ 	elseif(file_exists("/etc/gentoo-release")) {
+ 		
+ 		$content = file_get_contents('/etc/gentoo-release');
+ 
+        preg_match_all('/([0-9]{1,2})/', $content, $version);
+ 		$distname = 'Gentoo';
+ 		$distver = $version[0][0].$version[0][1];
+ 		$distid = 'gentoo';
+ 		$distbaseid = 'gentoo';
+ 		swriteln("Operating System: Gentoo $distver or compatible\n");
 		
 	} else {
 		die('unrecognized linux distribution');

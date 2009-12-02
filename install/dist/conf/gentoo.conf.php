@@ -31,85 +31,162 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //*** Gentoo default settings
 
 //* Main
-$dist['init_scripts'] = '/etc/init.d';
-$dist['runlevel'] = '/etc';
-$dist['shells'] = '/etc/shells';
-$dist['cron_tab'] = '/var/spool/cron/crontabs/root';
-$dist['pam'] = '/etc/pam.d';
+$conf['language'] = 'en';
+$conf['distname'] = 'gentoo-1.12.11.1';
+$conf['hostname'] = 'server1.domain.tld'; // Full hostname
+$conf['ispconfig_install_dir'] = '/usr/local/ispconfig';
+$conf['ispconfig_config_dir'] = '/usr/local/ispconfig';
+$conf['ispconfig_log_priority'] = 2;  // 0 = Debug, 1 = Warning, 2 = Error
+$conf['server_id'] = 1;
+$conf['init_scripts'] = '/etc/init.d';
+$conf['runlevel'] = '/etc';
+$conf['shells'] = '/etc/shells';
+$conf['cron_tab'] = '/var/spool/cron/crontabs/root';
+$conf['pam'] = '/etc/pam.d';
+
+//* Services provided by this server, this selection will be overridden by the expert mode
+$conf['services']['mail'] = true;
+$conf['services']['web'] = true;
+$conf['services']['dns'] = true;
+$conf['services']['file'] = true;
+$conf['services']['db'] = true;
+$conf['services']['vserver'] = true;
 
 //* MySQL
-$dist['mysql']['init_script'] = 'mysql';
+$conf['mysql']['installed'] = false; // will be detected automatically during installation
+$conf['mysql']['init_script'] = 'mysql';
+$conf['mysql']['host'] = 'localhost';
+$conf['mysql']['ip'] = '127.0.0.1';
+$conf['mysql']['port'] = '3306';
+$conf['mysql']['database'] = 'dbispconfig';
+$conf['mysql']['admin_user'] = 'root';
+$conf['mysql']['admin_password'] = '';
+$conf['mysql']['charset'] = 'utf8';
+$conf['mysql']['ispconfig_user'] = 'ispconfig';
+$conf['mysql']['ispconfig_password'] = md5 (uniqid (rand()));
+$conf['mysql']['master_slave_setup'] = 'n';
+$conf['mysql']['master_host'] = '';
+$conf['mysql']['master_database'] = 'dbispconfig';
+$conf['mysql']['master_admin_user'] = 'root';
+$conf['mysql']['master_admin_password'] = '';
+$conf['mysql']['master_ispconfig_user'] = '';
+$conf['mysql']['master_ispconfig_password'] = md5 (uniqid (rand()));
+
+//* SuPHP
+$conf['suphp']['config_file'] = '/etc/suphp.conf';
 
 //* Apache
-$dist['apache']['user'] = 'apache';
-$dist['apache']['group'] = 'apache';
-$dist['apache']['init_script'] = 'apache2';
-$dist['apache']['version'] = '2.2';
-$dist['apache']['vhost_dist_dir'] = '/etc/apache2/vhosts.d';
-$dist['apache']['vhost_dist_enabled_dir'] = '/etc/apache2/vhosts.d';
+$conf['apache']['installed'] = false; // will be detected automatically during installation
+$conf['apache']['user'] = 'apache';
+$conf['apache']['group'] = 'apache';
+$conf['apache']['init_script'] = 'apache2';
+$conf['apache']['version'] = '2.2';
+$conf['apache']['config_dir'] = '/etc/apache2';
+$conf['apache']['config_file'] = $conf['apache']['config_dir'] .'/httpd.conf';
+$conf['apache']['ssl_dir'] = $conf['apache']['config_dir'] .'/ssl';
+$conf['apache']['vhost_conf_dir'] = $conf['apache']['config_dir'] . '/vhosts.d';
+$conf['apache']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_dir']; 
+$conf['apache']['vhost_default'] = '00_default_vhost.conf';
 $conf['apache']['vhost_port'] = '8080';
 
+//* Website base settings
+$conf['web']['website_basedir'] = '/var/www';
+$conf['web']['website_path'] = '/var/www/clients/client[client_id]/web[website_id]';
+$conf['web']['website_symlinks'] = '/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/';
+
+//* Apps base settings
+$conf['web']['apps_vhost_ip'] = '_default_';
+$conf['web']['apps_vhost_port'] = '8081';
+$conf['web']['apps_vhost_servername'] = '';
+$conf['web']['apps_vhost_user'] = 'ispapps';
+$conf['web']['apps_vhost_group'] = 'ispapps';
+
+//* Fastcgi
+$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php5/cgi/';
+$conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
+
 //* Postfix
-$dist['postfix']['config_dir'] = '/etc/postfix';
-$dist['postfix']['init_script'] = 'postfix';
-$dist['postfix']['user'] = 'postfix';
-$dist['postfix']['group'] = 'postfix';
-$dist['postfix']['vmail_userid'] = '5000';
-$dist['postfix']['vmail_username'] = 'vmail';
-$dist['postfix']['vmail_groupid'] = '5000';
-$dist['postfix']['vmail_groupname'] = 'vmail';
-$dist['postfix']['vmail_mailbox_base'] = '/var/vmail';
+$conf['postfix']['installed'] = false; // will be detected automatically during installation
+$conf['postfix']['config_dir'] = '/etc/postfix';
+$conf['postfix']['init_script'] = 'postfix';
+$conf['postfix']['user'] = 'postfix';
+$conf['postfix']['group'] = 'postfix';
+$conf['postfix']['vmail_userid'] = '5000';
+$conf['postfix']['vmail_username'] = 'vmail';
+$conf['postfix']['vmail_groupid'] = '5000';
+$conf['postfix']['vmail_groupname'] = 'vmail';
+$conf['postfix']['vmail_mailbox_base'] = '/var/vmail';
 
 //* Getmail
-$dist['getmail']['config_dir'] = '/etc/getmail';
-$dist['getmail']['program'] = '/usr/bin/getmail';
+$conf['getmail']['installed'] = false; // will be detected automatically during installation
+$conf['getmail']['user'] = 'getmail';
+$conf['getmail']['config_dir'] = '/etc/getmail';
+$conf['getmail']['program'] = '/usr/bin/getmail';
 
 //* Courier
-$dist['courier']['config_dir'] = '/etc/courier';
-$dist['courier']['courier-authdaemon'] = 'courier-authlib';
-$dist['courier']['courier-imap'] = 'courier-imapd';
-$dist['courier']['courier-imap-ssl'] = 'courier-imapd-ssl';
-$dist['courier']['courier-pop'] = 'courier-pop3d';
-$dist['courier']['courier-pop-ssl'] = 'courier-pop3d-ssl';
+$conf['courier']['installed'] = false; // will be detected automatically during installation
+$conf['courier']['config_dir'] = '/etc/courier/authlib';
+$conf['courier']['courier-authdaemon'] = 'courier-authlib';
+$conf['courier']['courier-imap'] = 'courier-imapd';
+$conf['courier']['courier-imap-ssl'] = 'courier-imapd-ssl';
+$conf['courier']['courier-pop'] = 'courier-pop3d';
+$conf['courier']['courier-pop-ssl'] = 'courier-pop3d-ssl';
 
 //* SASL
-$dist['saslauthd']['config'] = '/etc/default/saslauthd';
-$dist['saslauthd']['init_script'] = 'saslauthd';
+$conf['saslauthd']['installed'] = false; // will be detected automatically during installation
+$conf['saslauthd']['config_file'] = '/etc/conf.d/saslauthd';
+$conf['saslauthd']['config_dir'] = '/etc/sasl2'; 
+$conf['saslauthd']['init_script'] = 'saslauthd';
 
 //* Amavisd
-$dist['amavis']['config_dir'] = '/etc/amavis';
-$dist['amavis']['init_script'] = 'amavisd';
+$conf['amavis']['installed'] = false; // will be detected automatically during installation
+$conf['amavis']['config_file'] = '/etc/amavisd.conf';
+$conf['amavis']['init_script'] = 'amavisd';
 
 //* ClamAV
-$dist['clamav']['init_script'] = 'clamd';
+$conf['clamav']['installed'] = false; // will be detected automatically during installation
+$conf['clamav']['init_script'] = 'clamd';
 
 //* Pureftpd
-$dist['pureftpd']['config_dir'] = '/etc/pure-ftpd';
-$dist['pureftpd']['init_script'] = 'pure-ftpd';
+$conf['pureftpd']['installed'] = false; // will be detected automatically during installation
+$conf['pureftpd']['config_file'] = '/etc/conf.d/pure-ftpd';
+$conf['pureftpd']['mysql_config_file'] = '/etc/pureftpd-mysql.conf';
+$conf['pureftpd']['init_script'] = 'pure-ftpd';
 
 //* MyDNS
-$dist['mydns']['config_dir'] = '/etc';
-$dist['mydns']['init_script'] = 'mydns';
+$conf['mydns']['installed'] = false; // will be detected automatically during installation
+$conf['mydns']['config_dir'] = '/etc';
+$conf['mydns']['init_script'] = 'mydns';
 
 //* PowerDNS
 $conf['powerdns']['installed'] = false; // will be detected automatically during installation
 $conf['powerdns']['database'] = 'powerdns';
-$conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
-$conf['powerdns']['init_script'] = 'pdns';
+$conf["powerdns"]["config_dir"] = '/etc/powerdns';
+$conf["powerdns"]["config_file"] = 'pdns-local.conf';
+$conf['powerdns']['init_script'] = 'pdns.local';
+
+//* BIND DNS Server
+$conf['bind']['installed'] = false; // will be detected automatically during installation
+$conf['bind']['bind_user'] = 'root';
+$conf['bind']['bind_group'] = 'bind';
+$conf['bind']['bind_zonefiles_dir'] = '/etc/bind';
+$conf['bind']['named_conf_path'] = '/etc/bind/named.conf';
+$conf['bind']['named_conf_local_path'] = '/etc/bind/named.conf.local';
+$conf['bind']['init_script'] = 'named';
 
 //* Jailkit
+$conf['jailkit']['installed'] = false; // will be detected automatically during installation
 $conf['jailkit']['config_dir'] = '/etc/jailkit';
 $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
-$conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico';
-$conf['jailkit']['jailkit_chroot_cron_programs'] = '/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php';
+$conf['jailkit']['jailkit_chroot_app_programs'] = '/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/less /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/vim';
 
 //* vlogger
-$conf['vlogger']['config_dir'] = '/etc';
+$conf['vlogger']['config_dir'] = '/etc/vlogger';
 
 //* cron
-$conf['cron']['init_script'] = 'cron';
+$conf['cron']['init_script'] = 'vixie-cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
+$conf['cron']['group'] = 'cron';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
 ?>

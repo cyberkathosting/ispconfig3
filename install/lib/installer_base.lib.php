@@ -737,7 +737,7 @@ class installer_base {
 		
 		$config_dir = $conf['pureftpd']['config_dir'];
 
-		//* configure pam for SMTP authentication agains the ispconfig database
+		//* configure pure-ftpd for MySQL authentication against the ispconfig database
 		$configfile = 'db/mysql.conf';
 		if(is_file("$config_dir/$configfile")){
             copy("$config_dir/$configfile", "$config_dir/$configfile~");
@@ -903,7 +903,7 @@ class installer_base {
   		
 		if(is_dir("/etc/Bastille.backup")) caselog("rm -rf /etc/Bastille.backup", __FILE__, __LINE__);
 		if(is_dir("/etc/Bastille")) caselog("mv -f /etc/Bastille /etc/Bastille.backup", __FILE__, __LINE__);
-  		@mkdir("/etc/Bastille", octdec($directory_mode));
+  		@mkdir("/etc/Bastille", 0700);
   		if(is_dir("/etc/Bastille.backup/firewall.d")) caselog("cp -pfr /etc/Bastille.backup/firewall.d /etc/Bastille/", __FILE__, __LINE__);
   		caselog("cp -f tpl/bastille-firewall.cfg.master /etc/Bastille/bastille-firewall.cfg", __FILE__, __LINE__);
   		caselog("chmod 644 /etc/Bastille/bastille-firewall.cfg", __FILE__, __LINE__);
@@ -1383,6 +1383,119 @@ class installer_base {
 		
 	}
 	
+	/**
+	 * Helper function - get the path to a template file based on
+	 * the local part of the filename. Checks first for the existence
+	 * of a distribution specific file and if not found looks in the
+	 * base template folder. Optionally the behaviour can be changed
+	 * by setting the 2nd parameter which will fetch the contents
+	 * of the template file and return it instead of the path. The 3rd
+	 * parameter further extends this behaviour by filtering the contents
+	 * by inserting the ispconfig database credentials using the {} placeholders.
+	 * 
+	 * @param string $tLocal local part of filename
+	 * @param bool $tRf
+	 * @param bool $tDBCred
+	 * @return string Relative path to the chosen template file
+	 */
+	protected function get_template_file($tLocal, $tRf=false, $tDBCred=false)
+	{
+		global $conf, $dist;
+		
+		$final_path = '';
+		$dist_template = 'dist/tpl/'.strtolower($dist['name'])."/$tLocal.master";
+		if (file_exists($dist_template)) {
+			$final_path = $dist_template;
+		} else {
+			$final_path = "tpl/$tLocal.master";
+		}
+		
+		if (!$tRf) {
+			return $final_path;
+		} else {
+			return (!$tDBCred) ? rf($final_path) : $this->insert_db_credentials(rf($final_path));
+		}
+	}
+	
+	/**
+	 * Helper function - writes the contents to a config file
+	 * and performs a backup if the file exist. Additionally
+	 * if the file exists the new file will be given the
+	 * same rights and ownership as the original. Optionally the
+	 * rights and/or ownership can be overriden by appending umask,
+	 * user and group to the parameters. Providing only uid and gid
+	 * values will result in only a chown.   
+	 * 
+	 * @param $tConf
+	 * @param $tContents
+	 * @return bool
+	 */
+	protected function write_config_file($tConf, $tContents)
+	{
+		// Backup config file before writing new contents and stat file
+		if ( is_file($tConf) ) 
+		{
+			$stat = exec('stat -c \'%a %U %G\' '.escapeshellarg($tConf), $output, $res);
+			if ($res == 0) { // stat successfull
+				list($access, $user, $group) = split(" ", $stat);
+			}
+			
+			if ( copy($tConf, $tConf.'~') ) {
+				exec('chmod 400 '.$tConf.'~');
+			}
+		}
+		
+		wf($tConf, $tContents); // write file
+		
+		if (func_num_args() >= 4) // override rights and/or ownership
+		{
+			$args = func_get_args();
+			$output = array_slice($args, 2);
+			
+			switch (sizeof($output)) {
+				case 3:
+					$umask = array_shift($output);
+					if (is_numeric($umask) && preg_match('/^0?[0-7]{3}$/', $umask)) {
+						$access = $umask;
+					}
+				case 2:
+					if (is_user($output[0]) && is_group($output[1])) {
+						list($user,$group) = $output;
+					}
+					break;
+			}
+		}
+		
+		if (!empty($user) && !empty($group)) {
+			exec("chown $user:$group $tConf");
+		}
+		
+		if (!empty($access)) {
+			exec("chmod $access $tConf");
+		}
+	}
+	
+	/**
+	 * Helper function - filter the contents of a config
+	 * file by inserting the common ispconfig database
+	 * credentials.
+	 * 
+	 * @param $tContents
+	 * @return string
+	 */
+	protected function insert_db_credentials($tContents)
+	{
+		global $conf;
+		
+		$tContents = str_replace('{mysql_server_ispconfig_user}', $conf["mysql"]["ispconfig_user"], $tContents);
+		$tContents = str_replace('{mysql_server_ispconfig_password}', $conf["mysql"]["ispconfig_password"], $tContents);
+		$tContents = str_replace('{mysql_server_database}', $conf["mysql"]["database"], $tContents);
+		$tContents = str_replace('{mysql_server_ip}', $conf["mysql"]["ip"], $tContents);
+		$tContents = str_replace('{mysql_server_host}',$conf['mysql']['host'], $tContents);
+		$tContents = str_replace('{mysql_server_port}',$conf["mysql"]["port"], $tContents);
+		
+		return $tContents;
+	}
 }
 
 ?>

@@ -55,7 +55,9 @@ require_once('lib/installer_base.lib.php');
 
 //** Ensure that current working directory is install directory
 $cur_dir = getcwd();
-if(realpath(dirname(__FILE__)) != $cur_dir) die("Please run installation/update from _inside_ the install directory!\n");
+if(realpath(dirname(__FILE__)) != $cur_dir) {
+	chdir( realpath(dirname(__FILE__)) );
+}
 
 //** Install logfile
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
