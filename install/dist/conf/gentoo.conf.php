@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //* Main
 $conf['language'] = 'en';
-$conf['distname'] = 'gentoo-1.12.11.1';
+$conf['distname'] = 'gentoo';
 $conf['hostname'] = 'server1.domain.tld'; // Full hostname
 $conf['ispconfig_install_dir'] = '/usr/local/ispconfig';
 $conf['ispconfig_config_dir'] = '/usr/local/ispconfig';
@@ -83,12 +83,28 @@ $conf['apache']['init_script'] = 'apache2';
 $conf['apache']['version'] = '2.2';
 $conf['apache']['config_dir'] = '/etc/apache2';
 $conf['apache']['config_file'] = $conf['apache']['config_dir'] .'/httpd.conf';
-$conf['apache']['ssl_dir'] = $conf['apache']['config_dir'] .'/ssl';
+$conf['apache']['ssl_dir'] = '/etc/ssl/apache2';
 $conf['apache']['vhost_conf_dir'] = $conf['apache']['config_dir'] . '/vhosts.d';
 $conf['apache']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_dir']; 
 $conf['apache']['vhost_default'] = '00_default_vhost.conf';
 $conf['apache']['vhost_port'] = '8080';
 
+//* Website base settings
+$conf['web']['website_basedir'] = '/var/www';
+$conf['web']['website_path'] = '/var/www/clients/client[client_id]/web[website_id]';
+$conf['web']['website_symlinks'] = '/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/';
+
+//* Apps base settings
+$conf['web']['apps_vhost_ip'] = '_default_';
+$conf['web']['apps_vhost_port'] = '8081';
+$conf['web']['apps_vhost_servername'] = '';
+$conf['web']['apps_vhost_user'] = 'ispapps';
+$conf['web']['apps_vhost_group'] = 'ispapps';
+
+//* Fastcgi
+$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php/cgi-php5';
+//TODO do fastcgi setup
+$conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
 //* Website base settings
 $conf['web']['website_basedir'] = '/var/www';
 $conf['web']['website_path'] = '/var/www/clients/client[client_id]/web[website_id]';
