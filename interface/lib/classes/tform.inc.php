@@ -783,7 +783,7 @@ class tform {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
-																for ($n=0;$n<11;$n++) {
+																for ($n=0;$n<8;$n++) {
 																	$salt.=chr(mt_rand(64,126));
 																}
 																$salt.="$";
@@ -816,7 +816,7 @@ class tform {
                                                 if($field['formtype'] == 'PASSWORD') {
 														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
-																for ($n=0;$n<11;$n++) {
+																for ($n=0;$n<8;$n++) {
 																	$salt.=chr(mt_rand(64,126));
 																}
 																$salt.="$";
