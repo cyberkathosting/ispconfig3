@@ -4,5 +4,5 @@ $wb['username_txt'] = 'Käyttäjätunnus';
 $wb['name_txt'] = 'Etunimi';
 $wb['vorname_txt'] = 'Sukunimi';
 $wb['ort_txt'] = 'Kaupunki';
-$wb['add_new_record_txt'] = 'Add new user';
+$wb['add_new_record_txt'] = 'Lisää uusi käyttäjä';
 ?>

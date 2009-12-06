@@ -9,5 +9,5 @@ $wb['domain_error_regex'] = 'Vääränlainen postiverkkotunnus.';
 $wb['client_txt'] = 'Asiakastunnus';
 $wb['limit_maildomain_txt'] = 'Käyttäjatunnuksella on jo sallittu määrä postiverkkotunnuksia.';
 $wb['policy_txt'] = 'Roskapostisuodatin';
-$wb['no_policy'] = '- ei Käytössä -';
+$wb['no_policy'] = '- ei käytössä -';
 ?>

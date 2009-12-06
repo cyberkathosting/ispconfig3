@@ -35,5 +35,5 @@ $wb['apache_directives_txt'] = 'Apachen direktiivit';
 $wb['domain_error_empty'] = 'Verkkotunnus-kenttä on tyhjä.';
 $wb['domain_error_unique'] = 'Tämä verkkotunnus on jo olemassa.';
 $wb['domain_error_regex'] = 'Verkkotunnus on vääränlainen.';
-$wb['host_txt'] = 'Host';
+$wb['host_txt'] = 'Isäntä';
 ?>

@@ -1,12 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Cron Jobs';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['run_min_txt'] = 'Minute';
-$wb['run_hour_txt'] = 'Hour';
-$wb['run_mday_txt'] = 'Day of month';
-$wb['run_month_txt'] = 'Month';
-$wb['run_wday_txt'] = 'Day of week';
-$wb['command_txt'] = 'Command';
-$wb['add_new_cron_txt'] = 'Add new Cron job';
+$wb['list_head_txt'] = 'Ajastetut tehtävät';
+$wb['active_txt'] = 'Käytössä';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['run_min_txt'] = 'Minuutit';
+$wb['run_hour_txt'] = 'Tunnit';
+$wb['run_mday_txt'] = 'Päivämäärät';
+$wb['run_month_txt'] = 'Kuukaudet';
+$wb['run_wday_txt'] = 'Viikonpäivät';
+$wb['command_txt'] = 'Suoritettava komento';
+$wb['add_new_cron_txt'] = 'Lisää uusi ajastettu tehtävä';
 ?>

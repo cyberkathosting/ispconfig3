@@ -1,15 +1,15 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'IPv6-Address';
-$wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['data_error_empty'] = 'IP-Address empty';
-$wb['data_error_regex'] = 'IP-Address format invalid';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['zone_txt'] = 'Alue (Zone)';
+$wb['name_txt'] = 'Verkkotunnus';
+$wb['type_txt'] = 'Tyyppi';
+$wb['data_txt'] = 'IPv6-Osoite';
+$wb['ttl_txt'] = 'Elinaika (TTL)';
+$wb['active_txt'] = 'Käytössä';
+$wb['limit_dns_record_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä DNS-tietueita.';
+$wb['no_zone_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia lisätä tietueita tälle DNS-alueelle.';
+$wb['name_error_empty'] = 'Verkkotunnus on tyhjä.';
+$wb['name_error_regex'] = 'Verkkotunnus on väärän muotoinen.';
+$wb['data_error_empty'] = 'Tekstikenttä on tyhjä';
+$wb['data_error_regex'] = 'Tekstikenttä on vääränlainen';
 ?>

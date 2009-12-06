@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Sähköpostiliikenne';
-$wb['domain_txt'] = 'Sähköpostiosoite';
+$wb['list_head_txt'] = 'Liikennemäärät';
+$wb['domain_txt'] = 'Verkkotunnus';
 $wb['this_month_txt'] = 'Tässä kuussa';
 $wb['last_month_txt'] = 'Viime kuussa';
 $wb['this_year_txt'] = 'Tänä vuonna';

@@ -2,8 +2,8 @@
 $wb['domain_txt'] = 'Verkkotunnus';
 $wb['destination_txt'] = 'Kohde';
 $wb['active_txt'] = 'Käytössä';
-$wb['domain_error_unique'] = 'Tällä verkkotunnuksella on jo käytössä Catchall-osoite.';
+$wb['domain_error_unique'] = 'Tällä verkkotunnuksella on jo käytössä CatchAll-osoite.';
 $wb['no_domain_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia tähän verkkotunnukseen.';
 $wb['domain_error_regex'] = 'Vääränlainen verkkotunnus tai se sisältää kiellettyjä merkkejä.';
-$wb['limit_mailcatchall_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä Catchall-tunnuksia.';
+$wb['limit_mailcatchall_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä CatchAll-tunnuksia.';
 ?>

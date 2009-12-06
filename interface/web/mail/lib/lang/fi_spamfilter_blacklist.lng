@@ -5,5 +5,5 @@ $wb['rid_txt'] = 'Käyttäjätunnus';
 $wb['email_txt'] = 'Sähköpostiosoite';
 $wb['priority_txt'] = 'Tärkeysjärjestys';
 $wb['active_txt'] = 'Käytössä';
-$wb['limit_spamfilter_wblist_txt'] = 'The max. number of White- or Blacklist records for your account is reached.';
+$wb['limit_spamfilter_wblist_txt'] = 'Käyttäjätunnuksesi sallima määrä estettyjä tai sallittuja osoitteita on saavutettu.';
 ?>

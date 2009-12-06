@@ -8,8 +8,8 @@ $wb['source_delete_txt'] = 'Poista sähköpostit noudettavasta laatikosta noudon
 $wb['destination_txt'] = 'Kohdepostilaatikko';
 $wb['active_txt'] = 'Käytössä';
 $wb['limit_fetchmail_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä noudettavia osoitteita.';
-$wb['source_server_error_isempty'] = 'Server is empty.';
-$wb['source_username_error_isempty'] = 'Username is empty.';
-$wb['source_password_error_isempty'] = 'Password is empty.';
-$wb['destination_error_isemail'] = 'No destination selected.';
+$wb['source_server_error_isempty'] = 'Palvelin-kenttä on tyhjä.';
+$wb['source_username_error_isempty'] = 'Käyttäjänimi on tyjä.';
+$wb['source_password_error_isempty'] = 'Salasana-kenttä on tyhjä.';
+$wb['destination_error_isemail'] = 'Ei kohdetta valittuna.';
 ?>

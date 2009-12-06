@@ -1,9 +1,9 @@
 <?php
-$wb['username_txt'] = 'Username:';
-$wb['password_txt'] = 'Password:';
-$wb['function_txt'] = 'Functions:';
-$wb['username_error_unique'] = 'Username must be unique';
-$wb['username_error_empty'] = 'Username cannot be empty';
-$wb['password_error_empty'] = 'Password cannot be empty';
-$wb['password_strength_txt'] = 'Password Strength:';
+$wb['username_txt'] = 'Käyttäjätunnus:';
+$wb['password_txt'] = 'Salasana:';
+$wb['function_txt'] = 'Toiminnot:';
+$wb['username_error_unique'] = 'Käyttäjätunnusen pitää olla yksilöllinen';
+$wb['username_error_empty'] = 'Käyttäjätunnus ei voi olla tyhjä';
+$wb['password_error_empty'] = 'Salasana ei voi olla tyhjä';
+$wb['password_strength_txt'] = 'Salasanan vahvuus:';
 ?>
