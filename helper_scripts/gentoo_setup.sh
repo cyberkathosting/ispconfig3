@@ -44,12 +44,21 @@ function package_has_use_flag()
         [ -n "$res" ]
 }
 
+function package_is_emerged()
+{
+		local package=$1
+		
+		installed=`equery -C -N list -e -i $1 | grep $1 | grep "^\[I"`
+		[ -n "$installed" ]
+}
+
 function is_package_installed()
 {
         local usechange="no"
         local uselist=""
 
-        installed=`equery -C -N list -e -i $1 | grep $1 | grep "^\[I"`
+        package_is_emerged "$1"
+		installed=$?
 
         if [ -n "$2" ] # Use flags parsed
         then
@@ -64,7 +73,7 @@ function is_package_installed()
                 flagedit $1 $uselist
         fi
 
-        [ -n "$installed" ] && [ "$usechange" == "no" ]
+        [ $installed -eq 0 ] && [ "$usechange" == "no" ]
 }
 
 function install_progress()
@@ -468,7 +477,7 @@ then
 
 	for logger in $loggers
 	do
-		if ! is_package_installed "app-admin/$logger" && [ -n "$(rc-config list default | grep $logger)" ]
+		if is_package_installed "app-admin/$logger" && [ -n "$(rc-config list default | grep $logger)" ]
 		then
 			clogger=$logger
 			break
@@ -512,10 +521,17 @@ fi
 
 if ! is_package_installed "dev-db/mysql" "extraengine big-tables"
 then
+	package_is_emerged "$1"
+	installed=$?
+	
 	exec_command "emerge dev-db/mysql" "Installing MySql"
-	exec_command "mysql_install_db"	"Set-up mysql grant tables"
-	exec_command "/etc/init.d/mysql start" "Starting MySql"
-	exec_command "rc-update add mysql default" "Add MySql to default runlevel"
+	
+	if [ $installed -eq 1 ]
+	then
+		exec_command "mysql_install_db"	"Set-up mysql grant tables"
+		exec_command "/etc/init.d/mysql start" "Starting MySql"
+		exec_command "rc-update add mysql default" "Add MySql to default runlevel"
+	fi
 fi
 
 which vim &> /dev/null
@@ -586,6 +602,11 @@ else
 	then
 		meta_dns
 	fi
+fi
+
+if [ "$install_web" = "no" ] && ! is_package_installed "dev-lang/php" "-apache2 gd mysql mysqli imap cli cgi pcre xml zlib crypt ctype session unicode mhash ftp"
+then
+	exec_command "emerge dev-lang/php" "Installing PHP"
 fi
 
 echo -e ""
