@@ -500,7 +500,7 @@ then
 		if [ "$Return_Val" = "yes" ]
 		then
 			echo -e ""
-			exec_command "/etc/init.d/syslog-ng stop" "Stopping $clogger"
+			exec_command "/etc/init.d/$clogger stop" "Stopping $clogger"
 			exec_command "rc-update del $clogger default" "Remove $clogger from default runlevel"
 		else
 			rsyslog_install="no"
@@ -512,7 +512,7 @@ then
 	then
 		exec_command "emerge app-admin/rsyslog" "Installing rsyslog"
 		exec_command "/etc/init.d/rsyslog start" "Starting rsyslog"
-		exec_command "rc-update add mysql default" "Add rsyslog to default runlevel"
+		exec_command "rc-update add rsyslog default" "Add rsyslog to default runlevel"
 	fi
 	
 	echo -e ""
