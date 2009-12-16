@@ -1,13 +1,14 @@
 <?php
-$wb['warning'] = 'Edit these values carefully! Do not remove the prefixes on a systems with more then one client.';
-$wb['dbname_prefix_txt'] = 'Database name prefix';
-$wb['dbuser_prefix_txt'] = 'Database user prefix';
-$wb['shelluser_prefix_txt'] = 'Shell user prefix';
-$wb['ftpuser_prefix_txt'] = 'FTP user prefix';
-$wb['dbname_prefix_error_regex'] = 'Char not allowed in database name prefix.';
-$wb['dbuser_prefix_error_regex'] = 'Char not allowed in database user prefix.';
-$wb['ftpuser_prefix_error_regex'] = 'Char not allowed in ftp user prefix.';
-$wb['shelluser_prefix_error_regex'] = 'Char not allowed in shell user prefix.';
-$wb['dblist_phpmyadmin_link_txt'] = 'Link to phpmyadmin in DB list';
-$wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
+$wb['warning'] = '¡Tenga cuidado al  modificar estos valores! No elimine los prefijos en un sistema que tenga más de un cliente.';
+$wb['dbname_prefix_txt'] = 'Prefijo del nombre de la base de datos';
+$wb['dbuser_prefix_txt'] = 'Prefijo del usuario de la base de datos';
+$wb['shelluser_prefix_txt'] = 'Prefijo del usuario de la consola';
+$wb['ftpuser_prefix_txt'] = 'Prefijo del usuario FTP';
+$wb['dbname_prefix_error_regex'] = 'Caracteres no permitidos en el prefijo del nombre de la base de datos.';
+$wb['dbuser_prefix_error_regex'] = 'Caracteres no permitidos en el prefijo del usuario de la base de datos.';
+$wb['ftpuser_prefix_error_regex'] = 'Caracteres no permitidos en el prefijo del usuario FTP.';
+$wb['shelluser_prefix_error_regex'] = 'Caracteres no permitidos en el prefijo del usuario de la consola.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Enlace a phpmyadmin en la lista de bases de datos';
+$wb['mailboxlist_webmail_link_txt'] = 'Enlace al correo web en la lista de buzones de correo';
 ?>
+

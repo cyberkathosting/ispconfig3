@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Jobqueue';
-$wb['tstamp_txt'] = 'Date';
-$wb['server_id_txt'] = 'Server';
-$wb['dbtable_txt'] = 'DB Table';
-$wb['action_txt'] = 'Action';
-$wb['status_txt'] = 'Status';
+$wb['list_head_txt'] = 'Cola de trabajo';
+$wb['tstamp_txt'] = 'Fecha';
+$wb['server_id_txt'] = 'Servidor';
+$wb['dbtable_txt'] = 'Tabla BD';
+$wb['action_txt'] = 'Acción';
+$wb['status_txt'] = 'Estado';
 ?>
+

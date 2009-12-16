@@ -5,5 +5,6 @@ $wb['virus_lover_txt'] = 'Le gustan los virus';
 $wb['spam_lover_txt'] = 'Le gusta el spam';
 $wb['banned_files_lover_txt'] = 'Prohibir los coleccionistas de virus';
 $wb['bad_header_lover_txt'] = 'Le gustan las cabeceras malas';
-$wb['add_new_record_txt'] = 'Añadir registros de política';
+$wb['add_new_record_txt'] = 'Añadir nuevo filtro de spam';
 ?>
+

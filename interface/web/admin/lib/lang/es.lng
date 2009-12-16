@@ -23,7 +23,7 @@ $wb['Edit server'] = 'Editar servidor';
 $wb['Edit Server IP'] = 'Editar IP del servidor';
 $wb['Servers'] = 'Servidores';
 $wb['Sync. Now'] = 'Sincronizar ahora';
-$wb['DB Sync.'] = 'Sincronizar DB';
+$wb['DB Sync.'] = 'Sincronizar BD';
 $wb['Languages'] = 'Idiomas';
 $wb['New Language'] = 'Nuevo idioma';
 $wb['Export'] = 'Exportar';
@@ -32,3 +32,4 @@ $wb['Language Editor'] = 'Editar idioma';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repositorios';
 ?>
+

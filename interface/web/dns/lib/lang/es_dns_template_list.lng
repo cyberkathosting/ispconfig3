@@ -2,5 +2,6 @@
 $wb['list_head_txt'] = 'Plantilla de asistente DNS';
 $wb['visible_txt'] = 'Visible';
 $wb['name_txt'] = 'Nombre';
-$wb['add_new_record_txt'] = 'Añadir nuevo registro';
+$wb['add_new_record_txt'] = 'Añadir un nuevo registro';
 ?>
+

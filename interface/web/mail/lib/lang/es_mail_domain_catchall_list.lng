@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Correo recogetodo';
+$wb['list_head_txt'] = 'Correo recoge-todo';
 $wb['active_txt'] = 'Activar';
 $wb['source_txt'] = 'Origen';
-$wb['destination_txt'] = 'Dirección de correo de destino';
+$wb['destination_txt'] = 'Correo de destino';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
-$wb['add_new_record_txt'] = 'Añadir nuevo recogetodo';
+$wb['add_new_record_txt'] = 'Añadir nuevo correo recoge-todo';
 ?>
+

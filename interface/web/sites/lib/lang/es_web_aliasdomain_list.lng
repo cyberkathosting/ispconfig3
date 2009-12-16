@@ -7,5 +7,6 @@ $wb['domain_txt'] = 'Alias de dominio';
 $wb['add_new_record_txt'] = 'Añadir nuevo alias de dominio';
 $wb['domain_error_empty'] = 'El dominio está vacío';
 $wb['domain_error_unique'] = 'El domino debe ser único';
-$wb['domain_error_regex'] = 'El nombre de dominio es inválido';
+$wb['domain_error_regex'] = 'El nombre de dominio no es válido';
 ?>
+

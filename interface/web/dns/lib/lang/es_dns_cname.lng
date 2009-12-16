@@ -1,15 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Nombre de máquina';
+$wb['name_txt'] = 'Nombre de la máquina';
 $wb['type_txt'] = 'Tipo';
-$wb['data_txt'] = 'Nombre de maquina destino';
+$wb['data_txt'] = 'Nombre de la maquina de destino';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Activar';
-$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registros para esta zona DNS.';
-$wb['no_zone_perm'] = 'No tiene permiso para añadir registros a esta zona DNS.';
-$wb['name_error_empty'] = 'El nombre de máquina está vacío.';
-$wb['name_error_regex'] = 'El nombre de máquina tiene un registro incorrecto.';
-$wb['data_error_empty'] = 'El nombre de máquina destino está vacío.';
-$wb['data_error_regex'] = 'El nombre de máquina destino tiene un formato inválido.';
+$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registros de esta zona DNS.';
+$wb['no_zone_perm'] = 'No tiene permisos para añadir registros a esta zona DNS.';
+$wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
+$wb['name_error_regex'] = 'El nombre de la máquina tiene un registro incorrecto.';
+$wb['data_error_empty'] = 'El nombre de la máquina de destino está vacío.';
+$wb['data_error_regex'] = 'El nombre de la máquina de destino tiene un formato no válido.';
 ?>
+

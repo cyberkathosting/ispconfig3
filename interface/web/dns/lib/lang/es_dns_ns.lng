@@ -1,15 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Zona';
+$wb['name_txt'] = 'Nombre';
 $wb['type_txt'] = 'tipo';
 $wb['data_txt'] = 'Nombre del servidor de nombres';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Activar';
-$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registro DNS para esta cuenta.';
-$wb['no_zone_perm'] = 'No tiene permiso para añadir registros a esta zona DNS.';
+$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registro DNS de esta cuenta.';
+$wb['no_zone_perm'] = 'No tiene permisos para añadir registros a esta zona DNS.';
 $wb['name_error_empty'] = 'La zona está vacía.';
-$wb['name_error_regex'] = 'El formato de zona es incorrecto';
+$wb['name_error_regex'] = 'El formato de la zona es incorrecto';
 $wb['data_error_empty'] = 'El servidor de nombres está vacío.';
-$wb['data_error_regex'] = 'El formato del servidor de nombres es inválido.';
+$wb['data_error_regex'] = 'El formato del servidor de nombres no es válido.';
 ?>
+

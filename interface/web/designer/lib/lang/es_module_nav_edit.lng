@@ -4,3 +4,4 @@ $wb['header_txt'] = 'Propiedades de navegación';
 $wb['save_txt'] = 'Guardar';
 $wb['cancel_txt'] = 'Cancelar';
 ?>
+

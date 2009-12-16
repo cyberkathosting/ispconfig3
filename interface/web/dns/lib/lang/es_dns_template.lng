@@ -4,3 +4,4 @@ $wb['fields_txt'] = 'Campos';
 $wb['template_txt'] = 'Plantilla';
 $wb['visible_txt'] = 'Visible';
 ?>
+

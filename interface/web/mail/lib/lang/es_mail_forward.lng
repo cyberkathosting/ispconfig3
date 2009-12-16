@@ -3,5 +3,6 @@ $wb['email_txt'] = 'Correo';
 $wb['destination_txt'] = 'Correo de destino';
 $wb['active_txt'] = 'Activar';
 $wb['limit_mailforward_txt'] = 'Se ha alcanzado el número máximo de reenvíos para esta cuenta';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+$wb['duplicate_mailbox_txt'] = 'Ya existe un buzón de correo con esta dirección';
 ?>
+

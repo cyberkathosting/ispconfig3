@@ -1,12 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Cron Jobs';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['run_min_txt'] = 'Minute';
-$wb['run_hour_txt'] = 'Hour';
-$wb['run_mday_txt'] = 'Day of month';
-$wb['run_month_txt'] = 'Month';
-$wb['run_wday_txt'] = 'Day of week';
-$wb['command_txt'] = 'Command';
-$wb['add_new_cron_txt'] = 'Add new Cron job';
+$wb['list_head_txt'] = 'Tareas cron';
+$wb['active_txt'] = 'Activar';
+$wb['server_id_txt'] = 'Servidor';
+$wb['run_min_txt'] = 'Minuto';
+$wb['run_hour_txt'] = 'Hora';
+$wb['run_mday_txt'] = 'Día del mes';
+$wb['run_month_txt'] = 'Mes';
+$wb['run_wday_txt'] = 'Día de la semana';
+$wb['command_txt'] = 'Comando';
+$wb['add_new_cron_txt'] = 'Añadir nueva tarea cron';
 ?>
+

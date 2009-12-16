@@ -6,7 +6,7 @@ $wb['Mail Content Filter'] = 'Filtro de contenido de correo';
 $wb['Filter'] = 'Filtro';
 $wb['Mail Domain'] = 'Dominio de correo';
 $wb['Domain'] = 'Dominio';
-$wb['Email Catchall'] = 'Correo recogetodo';
+$wb['Email Catchall'] = 'Correo recoge-todo';
 $wb['Email Forward'] = 'Reenvío de correo';
 $wb['Get Email'] = 'Recoger correo';
 $wb['Spamfilter'] = 'Filtro de spam';
@@ -43,3 +43,4 @@ $wb['Postfix Blacklist'] = 'Lista negra Postfix';
 $wb['Content Filter'] = 'Filtro de contenido';
 $wb['Global Filters'] = 'Filtros globales';
 ?>
+

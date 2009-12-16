@@ -1,8 +1,8 @@
 <?php
-$wb['header_txt'] = 'EditorForm';
-$wb['title_txt'] = 'TituloForm';
-$wb['name_txt'] = 'NombreForm';
-$wb['delete_txt'] = 'X';
+$wb['header_txt'] = 'Editor de formularios';
+$wb['title_txt'] = 'Título del formulario';
+$wb['name_txt'] = 'Nombre del formulario';
+$wb['delete_txt'] = 'Eliminar';
 $wb['properties_txt'] = 'Propiedades';
 $wb['new_tab_txt'] = 'Nueva pestaña';
 $wb['edit_txt'] = 'Editar';
@@ -12,7 +12,8 @@ $wb['down_txt'] = 'v';
 $wb['module_txt'] = 'Módulo';
 $wb['form_txt'] = 'Formulario';
 $wb['description_txt'] = 'Descripción';
-$wb['module_del_txt'] = '¿Borrar el módulo y los subdirectorios?';
-$wb['menu_del_txt'] = '¿Borrar el menú y todos los elementos del menú?';
-$wb['item_del_txt'] = '¿Borrar el elemento del menú?';
+$wb['module_del_txt'] = '¿Eliminar el módulo y los subdirectorios?';
+$wb['menu_del_txt'] = '¿Eliminar el menú y todos sus elementos?';
+$wb['item_del_txt'] = '¿Eliminar el elemento del menú?';
 ?>
+

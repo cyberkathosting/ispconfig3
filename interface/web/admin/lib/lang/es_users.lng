@@ -1,8 +1,8 @@
 <?php
-$wb['username_txt'] = 'Usuario';
-$wb['username_err'] = 'El usuario es demasiado largo o contiene carácteres inválidos';
-$wb['username_empty'] = 'El usuario está vacío.';
-$wb['username_unique'] = 'Ya existe un usuario con este nombre';
+$wb['username_txt'] = 'Nombre de usuario';
+$wb['username_err'] = 'El nombre de usuario es demasiado largo o contiene carácteres inválidos';
+$wb['username_empty'] = 'El nombre de usuario está vacío.';
+$wb['username_unique'] = 'El nombre de usuario debe ser único';
 $wb['passwort_txt'] = 'Contraseña';
 $wb['password_strength_txt'] = 'Fortaleza de la contraseña';
 $wb['modules_txt'] = 'Módulo';
@@ -15,8 +15,8 @@ $wb['name_txt'] = 'Nombre';
 $wb['vorname_txt'] = 'Apellidos';
 $wb['unternehmen_txt'] = 'Compañía';
 $wb['strasse_txt'] = 'Calle';
-$wb['ort_txt'] = 'Ciudad';
-$wb['plz_txt'] = 'Cód.Postal';
+$wb['ort_txt'] = 'Localidad';
+$wb['plz_txt'] = 'CP';
 $wb['land_txt'] = 'País';
 $wb['email_txt'] = 'Correo';
 $wb['url_txt'] = 'URL';
@@ -26,3 +26,4 @@ $wb['groups_txt'] = 'Grupos';
 $wb['default_group_txt'] = 'Grupo por defecto';
 $wb['startmodule_err'] = 'El modulo inicial no está incluido en los módulos';
 ?>
+

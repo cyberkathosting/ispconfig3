@@ -9,9 +9,10 @@ $wb['active_txt'] = 'Activar';
 $wb['spam_rewrite_txt'] = 'Reescribir el asunto del correo por encima de esta puntuación';
 $wb['spam_redirect_txt'] = 'Redirigir el correo por encima de esta puntuación';
 $wb['spam_delete_txt'] = 'Borrar el correo por encima de esta puntuación';
-$wb['disable_txt'] = 'Pista: Para desactivar la opción de filtrado, ponga la puntuación a 0.00.';
+$wb['disable_txt'] = 'Pista: para desactivar la opción de filtrado, ponga la puntuación a 0.00.';
 $wb['email_error_isemail'] = 'La dirección de correo no es válida';
 $wb['email_error_unique'] = 'Ya hay un registro de filtrado de spam para este correo';
 $wb['spam_redirect_maildir_purge_txt'] = 'Purgar el buzón después.';
 $wb['days_txt'] = 'Días.';
 ?>
+

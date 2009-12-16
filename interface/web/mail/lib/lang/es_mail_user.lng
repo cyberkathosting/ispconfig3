@@ -1,34 +1,33 @@
 <?php
-$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
-$wb['email_txt'] = 'Email';
-$wb['cryptpwd_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['active_txt'] = 'Active';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['email_error_unique'] = 'Duplicate Email address.';
-$wb['autoresponder_text_txt'] = 'Text';
-$wb['autoresponder_txt'] = 'Autoresponder';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['error_no_pwd'] = 'Password is empty.';
-$wb['quota_error_isint'] = 'Mailbox size must be a number.';
-$wb['quota_txt'] = 'quota in MB';
+$wb['custom_mailfilter_txt'] = 'Filtro de correo personalizado';
+$wb['email_txt'] = 'Correo';
+$wb['cryptpwd_txt'] = 'Contraseña';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
+$wb['active_txt'] = 'Activar';
+$wb['email_error_isemail'] = 'La dirección de correo no es válida.';
+$wb['email_error_unique'] = 'Dirección de correo duplicada.';
+$wb['autoresponder_text_txt'] = 'Texto';
+$wb['autoresponder_txt'] = 'Autorespondedor';
+$wb['no_domain_perm'] = 'No tiene permiso para administrar este dominio.';
+$wb['error_no_pwd'] = 'La contraseña está vacía.';
+$wb['quota_error_isint'] = 'El tamaño del buzón de correo debe ser un número.';
+$wb['quota_txt'] = 'cuota en MB';
 $wb['server_id_txt'] = 'server_id';
-$wb['password_txt'] = 'password';
+$wb['password_txt'] = 'contraseña';
 $wb['maildir_txt'] = 'maildir';
-$wb['postfix_txt'] = 'Enable Receiving';
-$wb['access_txt'] = 'Enable Access';
-$wb['policy_txt'] = 'Spamfilter';
-$wb['no_policy'] = '- not enabled -';
-$wb['limit_mailbox_txt'] = 'The max. number of mailboxes for your account is reached.';
-$wb['limit_mailquota_txt'] = 'The max space for mailboxes is reached. The max. available space in MB is';
-$wb['welcome_mail_subject'] = 'Welcome to your new email account.';
-$wb['welcome_mail_message'] = 'Welcome to your new email account.
-
-Your webmaster.';
-$wb['disableimap_txt'] = 'Disable IMAP';
-$wb['disablepop3_txt'] = 'Disable POP3';
+$wb['postfix_txt'] = 'Habilitar recepción';
+$wb['access_txt'] = 'Habilitar acceso';
+$wb['policy_txt'] = 'Filtro de spam';
+$wb['no_policy'] = '- no habilitado -';
+$wb['limit_mailbox_txt'] = 'Se ha alcanzado el número máximo de buzones de correo de su cuenta.';
+$wb['limit_mailquota_txt'] = 'Se ha alcanzado el espacio máximo para sus buzones de correo. El espacio máximo disponible en MB es';
+$wb['welcome_mail_subject'] = 'Bienvenido a su nueva cuenta de correo electrónico.';
+$wb['welcome_mail_message'] = 'Bienvenido a su nueva cuenta de correo electrónico. Fdo: Su administrador web.';
+$wb['disableimap_txt'] = 'Inhabilitar IMAP';
+$wb['disablepop3_txt'] = 'Inhabilitar POP3';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
-$wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
-$wb['quota_error_value'] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
+$wb['duplicate_alias_or_forward_txt'] = 'Ya existe un alias o reenvío con esta dirección de correo electrónico.';
+$wb['quota_error_value'] = 'Valor de cuota no válido. Los valores permitidos son: 0 para ilimitado o números > 1';
 ?>
+

@@ -8,7 +8,7 @@ $wb['parent_domain_id_txt'] = 'Sitio';
 $wb['username_txt'] = 'Usuario';
 $wb['password_txt'] = 'Contraseña';
 $wb['password_strength_txt'] = 'Fortaleza de la contraseña';
-$wb['chroot_txt'] = 'Consola Chroot';
+$wb['chroot_txt'] = 'Consola chroot';
 $wb['quota_size_txt'] = 'Cuota';
 $wb['active_txt'] = 'Activar';
 $wb['username_error_empty'] = 'El usuario está vacío';
@@ -18,5 +18,6 @@ $wb['quota_size_error_empty'] = 'Cuota vacía';
 $wb['uid_error_empty'] = 'GID vacío';
 $wb['directory_error_empty'] = 'Directorio vacío';
 $wb['limit_shell_user_txt'] = 'Se ha alcanzado el número máximo de usuarios de consola';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
+$wb['parent_domain_id_error_empty'] = 'No se ha seleccionado un sitio web.';
 ?>
+

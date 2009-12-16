@@ -7,9 +7,10 @@ $wb['source_password_txt'] = 'Contraseña';
 $wb['source_delete_txt'] = 'Borrar los correos después de recibirlos';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Activar';
-$wb['limit_fetchmail_txt'] = 'Se ha alcanzado el número máximo de registros Fetchmail';
-$wb['source_server_error_isempty'] = 'Server is empty.';
-$wb['source_username_error_isempty'] = 'Username is empty.';
-$wb['source_password_error_isempty'] = 'Password is empty.';
-$wb['destination_error_isemail'] = 'No destination selected.';
+$wb['limit_fetchmail_txt'] = 'Se ha alcanzado el número máximo de registros Fetchmail de esta cuenta';
+$wb['source_server_error_isempty'] = 'El servidor está vacío.';
+$wb['source_username_error_isempty'] = 'El nombre de usuario está vacío.';
+$wb['source_password_error_isempty'] = 'La contraseña está vacía.';
+$wb['destination_error_isemail'] = 'No se ha seleccionado el destino.';
 ?>
+

@@ -7,12 +7,12 @@ $wb['bad_header_lover_txt'] = 'Le gustan las cabeceras malas';
 $wb['bypass_virus_checks_txt'] = 'Saltarse la comprobación de virus';
 $wb['bypass_banned_checks_txt'] = 'Saltarse la comprobación de prohibidos';
 $wb['bypass_header_checks_txt'] = 'Saltarse la comprobación de cabeceras';
-$wb['virus_quarantine_to_txt'] = 'Reenvíar virus al correo';
-$wb['spam_quarantine_to_txt'] = 'Reenvíar spam al correo';
-$wb['banned_quarantine_to_txt'] = 'Reenvíar correo prohibido';
-$wb['bad_header_quarantine_to_txt'] = 'Reenvíar cabeceras malas al correo';
-$wb['clean_quarantine_to_txt'] = 'Reenvíar correo limpio';
-$wb['other_quarantine_to_txt'] = 'Reenvíar otros al correo';
+$wb['virus_quarantine_to_txt'] = 'Reenviar virus al correo';
+$wb['spam_quarantine_to_txt'] = 'Reenviar spam al correo';
+$wb['banned_quarantine_to_txt'] = 'Reenviar correo prohibido';
+$wb['bad_header_quarantine_to_txt'] = 'Reenviar cabeceras malas al correo';
+$wb['clean_quarantine_to_txt'] = 'Reenviar correo limpio';
+$wb['other_quarantine_to_txt'] = 'Reenviar otros al correo';
 $wb['spam_tag_level_txt'] = 'Nivel de etiquetado de spam';
 $wb['spam_tag2_level_txt'] = 'Nivel de etiquetado 2 de spam';
 $wb['spam_kill_level_txt'] = 'Nivel para matar el spam';
@@ -34,5 +34,6 @@ $wb['banned_admin_txt'] = 'Administrador de prohibidos';
 $wb['bad_header_admin_txt'] = 'Administrador de cabeceras malas';
 $wb['spam_admin_txt'] = 'Administrador de spam';
 $wb['message_size_limit_txt'] = 'Límite de tamaño de mensaje';
-$wb['banned_rulenames_txt'] = 'Nombre de ordenes de prohibido';
+$wb['banned_rulenames_txt'] = 'Nombre de órdenes de prohibido';
 ?>
+

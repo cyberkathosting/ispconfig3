@@ -4,8 +4,9 @@ $wb['server_name_txt'] = 'Nombre de servidor';
 $wb['mail_server_txt'] = 'Servidor de correo';
 $wb['web_server_txt'] = 'Servidor web';
 $wb['dns_server_txt'] = 'Servidor DNS';
-$wb['file_server_txt'] = 'Servidor de archivos';
-$wb['db_server_txt'] = 'Servidor de base de datos';
-$wb['vserver_server_txt'] = 'Servidor-ServidorVirtual';
+$wb['file_server_txt'] = 'Servidor de ficheros';
+$wb['db_server_txt'] = 'Servidor de bases de datos';
+$wb['vserver_server_txt'] = 'ServidorVirtual-Servidor';
 $wb['active_txt'] = 'Activar';
 ?>
+

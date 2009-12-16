@@ -1,8 +1,9 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
+$wb['server_id_txt'] = 'ID Servidor';
 $wb['priority_txt'] = 'Prioridad';
-$wb['policy_id_txt'] = 'Política';
-$wb['email_txt'] = 'Patrón de correo';
+$wb['policy_id_txt'] = 'ID Política';
+$wb['email_txt'] = 'Correo';
 $wb['fullname_txt'] = 'Nombre';
 $wb['local_txt'] = 'Local';
 ?>
+
