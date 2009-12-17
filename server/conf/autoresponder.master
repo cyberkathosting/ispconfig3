@@ -1,4 +1,4 @@
-`test -f {vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg && exit 1 || exit 0`
+`test -f /var/vmail/mailfilters/$HOST/$USER/.vacation.msg && exit 1 || exit 0`
 if ($RETURNCODE==1)
 {
        {
@@ -6,17 +6,17 @@ if ($RETURNCODE==1)
        {
                if (!/^X-Spam-Flag: YES/:h )
                {
-                     NOW=time
-                     if ({start_date} lt $NOW && {end_date} gt $NOW)
-                     {
-	                      RESPOND="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg"
-	                      RESPONDDB="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst"
-	
-	                      # The following must be one contiguous line
-	                      cc "| mailbot -t $RESPOND -d $RESPONDDB -D 1 \
-	                      -A 'From: $RECIPIENT' -s 'Auto Response: from $RECIPIENT' \
-	                      /usr/sbin/sendmail -t -f ''"
-                      }
+                  NOW=time
+                  if ({start_date} lt $NOW && {end_date} gt $NOW)
+                  {
+                      RESPOND="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg"
+                      RESPONDDB="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst"
+
+                      # The following must be one contiguous line
+                      cc "| mailbot -t $RESPOND -d $RESPONDDB -D 1 \
+                      -A 'From: $RECIPIENT' -s 'Auto Response: from $RECIPIENT' \
+                      /usr/sbin/sendmail -t -f ''"
+                  }
                }
        }
        }
