@@ -12,9 +12,18 @@
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='autoresponder_txt'}</p>
 					<div class="multiField">
-						{tmpl_var name='autoresponder'}
+					  <div class="ctrlHolder" style="margin-bottom: 5px;">
+						<input type="checkbox" value="y" id="autoresponder" name="autoresponder" onclick="AR_ResetDates();" {tmpl_var name='ar_active'} />&nbsp;{tmpl_var format='strtoupper' name='page_and_txt'}<br />
+					  </div>
+
+					  <p style="margin-bottom: 3px;">
+					  <label for="autoresponder_start_date[day]" style="width: 55px;">{tmpl_var name='autoresponder_start_date_txt'}</label>
+					  {tmpl_var name='autoresponder_start_date'}&nbsp;<a href="javascript:AR_SetNow();">now</a></p>
+					  
+					  <label for="password" style="width: 55px;">{tmpl_var name='autoresponder_end_date_txt'}</label>
+					  {tmpl_var name='autoresponder_end_date'}				
 					</div>
-			</div>
+	 </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

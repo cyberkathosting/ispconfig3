@@ -107,6 +107,13 @@ class page_action extends tform_actions {
 		// Convert quota from Bytes to MB
 		if($this->dataRecord["quota"] != -1) $app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024 / 1024);
 		
+		// Is autoresponder set?
+		if ($this->dataRecord['autoresponder'] == 'y') {
+			$app->tpl->setVar("ar_active", 'checked="checked"');
+		} else {
+			$app->tpl->setVar("ar_active", '');
+		}
+		
 		parent::onShowEnd();
 	}
 	
@@ -186,6 +193,12 @@ class page_action extends tform_actions {
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";
 			unset($tmp);
 			
+		}
+		
+		//* if autoresponder checkbox not selected, do not save dates
+		if (!isset($_POST['autoresponder']) && array_key_exists('autoresponder_start_date', $_POST)) {
+			$this->dataRecord['autoresponder_start_date'] = array_map(create_function('$item','return 0;'), $this->dataRecord['autoresponder_start_date']);
+			$this->dataRecord['autoresponder_end_date'] = array_map(create_function('$item','return 0;'), $this->dataRecord['autoresponder_end_date']);
 		}
 		
 		parent::onSubmit();

@@ -39,3 +39,67 @@ jQuery.fn.uniform = function(settings) {
 $(document).ready(function() {
   jQuery('form.uniForm').uniform();
 });
+
+function AR_ResetDates()
+{
+	if ($("#autoresponder:checked").val() == null) {
+		$("form.uniForm select").each(
+		 function(){
+			$(this).val( $("#" + $(this).attr("id") + " option:first").val() );
+		 }
+		);
+	}
+}
+
+function AR_SetNow()
+{
+	DateTime_SetValues('autoresponder_start_date');
+	
+	now = new Date();
+	end_date = new Date(now.getFullYear(), now.getMonth(), now.getDate()+2, 0, 0);
+	
+	DateTime_SetValues('autoresponder_end_date', end_date);
+}
+
+function DateTime_SetValues(datetime_id, date_obj)
+{
+	var selects = ['day', 'month', 'year', 'hour', 'minute', 'second'];
+	
+	if ( (typeof(date_obj) == 'object') && (typeof(date_obj.getDate()) == 'number') ) {
+		var now = date_obj;
+	} else {
+		var now = new Date();
+	}
+	
+	jQuery.each(selects, function() {
+		var unit_name = this.toString();
+		var unit_value = '';
+		
+		switch(unit_name)
+		{
+			case 'day':
+				unit_value = now.getDate();
+				break;
+			case 'month':
+				unit_value = now.getMonth() + 1;
+				break;
+			case 'year':
+				unit_value = now.getFullYear();
+				break;
+			case 'hour':
+				unit_value = now.getHours();
+				break;
+			case 'minute':
+				unit_value = Math.round(parseInt(now.getMinutes())/5)*5;
+				break;
+			case 'second':
+				unit_value = now.getSeconds();
+				break;
+		}
+		
+		unit_obj = $("#"+ datetime_id + "_" + unit_name);
+		if (unit_obj.val() !== null) {
+			unit_obj.val(unit_value);
+		}
+	});
+}

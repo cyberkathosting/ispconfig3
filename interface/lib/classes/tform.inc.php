@@ -428,6 +428,20 @@ class tform {
                                                 }
                                                 $new_record[$key] = $out;
                                         break;
+                                        
+                                        case 'DATETIME':
+                                        		if (strtotime($val) !== false) {
+                                        			$dt_value = $val;
+                                        		} elseif ( isset($field['default']) && (strtotime($field['default']) !== false) ) {
+                                        			$dt_value = $field['default'];
+                                        		} else {
+                                        			$dt_value = 0;
+                                        		}
+                                        		
+                                        		$display_seconds = (isset($field['display_seconds']) && $field['display_seconds'] == true) ? true : false;
+		                              
+		                                        $new_record[$key] = $this->_getDateTimeHTML($key, $dt_value, $display_seconds);
+                                        break;
 
                                         default:
                                                 $new_record[$key] = htmlspecialchars($record[$key]);
@@ -520,6 +534,13 @@ class tform {
                                         }
                                         $new_record[$key] = $out;
                                 break;
+                                
+                                case 'DATETIME':
+                                        $dt_value = (isset($field['default'])) ? $field['default'] : 0;
+                                        $display_seconds = (isset($field['display_seconds']) && $field['display_seconds'] == true) ? true : false;
+                              
+                                        $new_record[$key] = $this->_getDateTimeHTML($key, $dt_value, $display_seconds);
+                                break;
 
                                 default:
                                         $new_record[$key] = htmlspecialchars($field['default']);
@@ -584,6 +605,18 @@ class tform {
                                 break;
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);
+                                break;
+                                
+                                case 'DATETIME':
+                                		if (is_array($record[$key]))
+                                		{
+	                                		$filtered_values = array_map(create_function('$item','return (int)$item;'), $record[$key]);
+                                			extract($filtered_values, EXTR_PREFIX_ALL, '_dt');
+                                			
+                                			if ($_dt_day != 0 && $_dt_month != 0 && $_dt_year != 0) {
+	                                			$new_record[$key] = date( 'Y-m-d H:i:s', mktime($_dt_hour, $_dt_minute, $_dt_second, $_dt_month, $_dt_day, $_dt_year) );
+	                                		}
+                                		}
                                 break;
                                 }
 
@@ -1256,7 +1289,109 @@ class tform {
 			return $diffrec;
 		
 		}
+		
+		/**
+		 * Generate HTML for DATETIME fields.
+		 * 
+		 * @access private
+		 * @param string $form_element Name of the form element.
+		 * @param string $default_value Selected value for fields.
+		 * @param bool $display_secons Include seconds selection.
+		 * @return string HTML	
+		 */
+		function _getDateTimeHTML($form_element, $default_value, $display_seconds=false)
+		{
+			$_datetime = strtotime($default_value);
+			$_showdate = ($_datetime === false) ? false : true;
 
+			$dselect = array('day','month','year','hour','minute');
+            if ($display_seconds === true) {
+			 	$dselect[] = 'second';
+			}
+			 
+			$out = '';
+			 
+			foreach ($dselect as $dt_element)
+			{
+			 	$dt_options = array();
+			 	$dt_space = 1;
+			 	
+			 	switch ($dt_element) {
+			 		case 'day':
+					 	for ($i = 1; $i <= 31; $i++) {
+				            $dt_options[] = array('name' =>  sprintf('%02d', $i),
+				            					  'value' => sprintf('%d', $i));
+				        }
+				        $selected_value = date('d', $_datetime);
+			 			break;
+			 			
+			 		case 'month':
+				 		for ($i = 1; $i <= 12; $i++) {
+				            $dt_options[] = array('name' => strftime('%b', mktime(0, 0, 0, $i, 1, 2000)),
+				            					  'value' => strftime('%m', mktime(0, 0, 0, $i, 1, 2000)));
+				        }
+				        $selected_value = date('n', $_datetime);
+			 			break;
+			 			
+			 		case 'year':
+					 	$start_year = strftime("%Y");
+						$years = range((int)$start_year, (int)($start_year+3));
+				        
+				        foreach ($years as $year) {
+				        	$dt_options[] = array('name' => $year,
+				            					 'value' => $year);
+				        }
+				        $selected_value = date('Y', $_datetime);
+				        $dt_space = 2;
+			 			break;
+			 			
+			 		case 'hour':
+			 			foreach(range(0, 23) as $hour) {
+			 				$dt_options[] = array('name' =>  sprintf('%02d', $hour),
+            			    					  'value' => sprintf('%d', $hour));
+			 			}
+			 			$selected_value = date('G', $_datetime);
+			 			break;
+			 			
+			 		case 'minute':
+			 			foreach(range(0, 59) as $minute) {
+			 				if (($minute % 5) == 0) {
+			 					$dt_options[] = array('name' =>  sprintf('%02d', $minute),
+													  'value' => sprintf('%d', $minute));
+			 				}
+			 			}
+			 			$selected_value = (int)floor(date('i', $_datetime));
+			 			break;
+			 			
+			 		case 'second':	
+			 			foreach(range(0, 59) as $second) {
+			 				$dt_options[] = array('name' =>  sprintf('%02d', $second),
+							      				  'value' => sprintf('%d', $second));
+			 			}
+			 			$selected_value = (int)floor(date('s', $_datetime));
+			 			break;
+			 	}
+					 	
+				$out .= "<select name=\"".$form_element."[$dt_element]\" id=\"".$form_element."_$dt_element\" class=\"selectInput\" style=\"width: auto; float: none;\">";
+				if (!$_showdate) {
+					$out .= "<option value=\"-\" selected=\"selected\">--</option>" . PHP_EOL;
+				} else {
+					$out .= "<option value=\"-\">--</option>" . PHP_EOL;
+				}
+				 
+				foreach ($dt_options as $dt_opt) {
+					if ( $_showdate && ($selected_value == $dt_opt['value']) ) {
+						$out .= "<option value=\"{$dt_opt['value']}\" selected=\"selected\">{$dt_opt['name']}</option>" . PHP_EOL;
+					} else {
+						$out .= "<option value=\"{$dt_opt['value']}\">{$dt_opt['name']}</option>" . PHP_EOL;
+					}
+				}
+												        
+				$out .= '</select>' . str_repeat('&nbsp;', $dt_space);
+			}
+			
+			return $out;
+		}
 }
 
 ?>
