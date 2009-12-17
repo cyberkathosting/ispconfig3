@@ -15,6 +15,7 @@ $wb['error_no_view_permission'] = 'You dont have the permission to view this rec
 $wb['error_no_delete_permission'] = 'You dont have the permission to delete this record!';
 $wb["page_txt"] = 'Page';
 $wb["page_of_txt"] = 'of';
+$wb["page_and_txt"] = 'and';
 $wb["page_next_txt"] = 'Next';
 $wb["page_back_txt"] = 'Back';
 $wb["delete_txt"] = 'Delete';
