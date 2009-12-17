@@ -6,13 +6,17 @@ if ($RETURNCODE==1)
        {
                if (!/^X-Spam-Flag: YES/:h )
                {
-                      RESPOND="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg"
-                      RESPONDDB="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst"
-
-                      # The following must be one contiguous line
-                      cc "| mailbot -t $RESPOND -d $RESPONDDB -D 1 \
-                      -A 'From: $RECIPIENT' -s 'Auto Response: from $RECIPIENT' \
-                      /usr/sbin/sendmail -t -f ''"
+                     NOW=time
+                     if ({start_date} lt $NOW && {end_date} gt $NOW)
+                     {
+	                      RESPOND="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg"
+	                      RESPONDDB="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst"
+	
+	                      # The following must be one contiguous line
+	                      cc "| mailbot -t $RESPOND -d $RESPONDDB -D 1 \
+	                      -A 'From: $RECIPIENT' -s 'Auto Response: from $RECIPIENT' \
+	                      /usr/sbin/sendmail -t -f ''"
+                      }
                }
        }
        }
