@@ -34,6 +34,9 @@ opt0.2) Optionally if you are not running in virtual machine you can set server 
 
 apt-get install ntp ntpdate
 
+opt0.3) Optionally if you want vi editor improvement
+
+apt-get install vim-nox
 
 
 # Next is the real deal
@@ -178,8 +181,8 @@ quotaon -avug
 apt-get install g++ libc6 gcc gawk make texinfo libmysqlclient15-dev
 
 cd /tmp
-wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.25.tar.gz
-tar xvfz mydns-1.2.8.25.tar.gz
+wget http://heanet.dl.sourceforge.net/sourceforge/mydns-ng/mydns-1.2.8.27.tar.gz
+tar xvfz mydns-1.2.8.27.tar.gz
 cd mydns-1.2.8
 ./configure
 make
