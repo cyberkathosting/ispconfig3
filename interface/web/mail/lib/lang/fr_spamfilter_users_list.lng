@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['list_head_txt'] = 'Utilisateurs du filtre à spam';
 $wb['local_txt'] = 'Local';
 $wb['server_id_txt'] = 'Serveur';
@@ -11,4 +8,3 @@ $wb['fullname_txt'] = 'Nom';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Ajouter un utilisateur du filtre à spam';
 ?>
-

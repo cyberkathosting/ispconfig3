@@ -10,4 +10,3 @@ $wb['run_wday_txt'] = 'Día de la semana';
 $wb['command_txt'] = 'Comando';
 $wb['add_new_cron_txt'] = 'Añadir nueva tarea cron';
 ?>
-

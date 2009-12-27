@@ -1,9 +1,9 @@
 <?php
-$wb["Server online since"] = "Sunucunun Online olduğu zaman";
-$wb["Users online"] = "Online Kullanıcılar";
-$wb["System load 1 minute"] = "1 dakikalık sistem yükü";
-$wb["System load 5 minutes"] = "5 dakikalık sistem yükü";
-$wb["System load 15 minutes"] = "15 dakikalık sistem yükü";
+$wb['Server online since'] = 'Sunucunun Online olduğu zaman';
+$wb['Users online'] = 'Online Kullanıcılar';
+$wb['System load 1 minute'] = '1 dakikalık sistem yükü';
+$wb['System load 5 minutes'] = '5 dakikalık sistem yükü';
+$wb['System load 15 minutes'] = '15 dakikalık sistem yükü';
 $wb['Server Load'] = 'Sunucu Yükü';
 $wb['Disk usage'] = 'Disk kullanımı';
 $wb['Memory usage'] = 'Hafıza kullanımı';
@@ -22,9 +22,9 @@ $wb['Server to Monitor'] = 'İzlenecek Sunucular';
 $wb['Logfiles'] = 'Kayıt dosyaları';
 $wb['Status of services'] = 'Servislerin durumu';
 $wb['No Refresh'] = 'Yenileme Yok';
-$wb["minutes"] = "dakika";
-$wb["Show Overview"] = "Genel İzleme";
-$wb["System State (All Servers)"] = "Sistem Durumu (Bütün Sunucular)";
+$wb['minutes'] = 'dakika';
+$wb['Show Overview'] = 'Genel İzleme';
+$wb['System State (All Servers)'] = 'Sistem Durumu (Bütün Sunucular)';
 $wb['Hardware-Information'] = 'Donanım Bilgisi';
 $wb['Show CPU info'] = 'CPU Bilgisi';
 $wb['Server State'] = 'Sunucu Durumu';
@@ -135,4 +135,3 @@ $wb['monitor_title_raidstate_txt'] = 'RAID Durumu';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter Kaydı';
 $wb['monitor_updates_nosupport_txt'] = 'Dağıtımınız, bu izlemeyi desteklemiyor';
 ?>
-

@@ -135,4 +135,3 @@ $wb['monitor_title_raidstate_txt'] = 'Estado del RAID';
 $wb['monitor_title_rkhunterlog_txt'] = 'Registro de RKHunter';
 $wb['monitor_updates_nosupport_txt'] = 'Su distribución no es soportada por este monitorizador';
 ?>
-

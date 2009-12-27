@@ -29,5 +29,9 @@ $wb['disableimap_txt'] = 'Deaktivova? IMAP';
 $wb['disablepop3_txt'] = 'Deaktivova? POP3';
 $wb['duplicate_alias_or_forward_txt'] = 'Existuje už alias alebo preposlanie pre túto e-mailovú adresu.';
 $wb['quota_error_value'] = 'Neplatná hodnota kvóty. Povolené hodnoty sú: 0 pre neobmedzený alebo ?ísla > 1';
+$wb['autoresponder_start_date_txt'] = 'Start on';
+$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
+$wb['autoresponder_end_date_txt'] = 'End by';
+$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
+$wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
 ?>
-

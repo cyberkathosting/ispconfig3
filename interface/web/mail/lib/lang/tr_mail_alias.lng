@@ -1,11 +1,11 @@
 <?php
-$wb["email_txt"] = 'Email';
-$wb["destination_txt"] = 'Hedef';
-$wb["active_txt"] = 'Aktif';
-$wb["email_error_isemail"] = 'Email adresi geçersiz.';
-$wb["email_error_unique"] = 'Email adresleri tekrar etmekte';
-$wb["no_domain_perm"] = "Bu domain için yetkiniz yok.";
-$wb["destination_error_isemail"] = 'Hedef Email adresi geçersiz.';
-$wb["limit_mailalias_txt"] = 'Hesabınızdaki max. email alias sayısına ulaştınız.';
-$wb["duplicate_mailbox_txt"] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
+$wb['email_txt'] = 'Email';
+$wb['destination_txt'] = 'Hedef';
+$wb['active_txt'] = 'Aktif';
+$wb['email_error_isemail'] = 'Email adresi geçersiz.';
+$wb['email_error_unique'] = 'Email adresleri tekrar etmekte';
+$wb['no_domain_perm'] = 'Bu domain için yetkiniz yok.';
+$wb['destination_error_isemail'] = 'Hedef Email adresi geçersiz.';
+$wb['limit_mailalias_txt'] = 'Hesabınızdaki max. email alias sayısına ulaştınız.';
+$wb['duplicate_mailbox_txt'] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
 ?>

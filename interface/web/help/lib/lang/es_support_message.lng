@@ -5,4 +5,3 @@ $wb['subject_txt'] = 'Asunto';
 $wb['message_txt'] = 'Mensaje';
 $wb['tstamp_txt'] = 'Marcadetiempo';
 ?>
-

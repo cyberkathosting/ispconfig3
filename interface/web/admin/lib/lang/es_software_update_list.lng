@@ -6,4 +6,3 @@ $wb['version_txt'] = 'Versión';
 $wb['action_txt'] = 'Acción';
 $wb['server_select_txt'] = 'Seleccionar servidor';
 ?>
-

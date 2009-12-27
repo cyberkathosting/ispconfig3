@@ -30,4 +30,5 @@ $wb['DNS'] = 'Nimipalvelut';
 $wb['Tools'] = 'Työkalut';
 $wb['Help'] = 'Tuki';
 $wb['toolsarea_head_txt'] = 'Työkalut';
+$wb['page_and_txt'] = 'and';
 ?>

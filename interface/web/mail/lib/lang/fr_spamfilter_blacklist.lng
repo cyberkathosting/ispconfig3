@@ -1,13 +1,9 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["server_id_txt"] = "Serveur";
-$wb["wb_txt"] = "wb";
-$wb["rid_txt"] = "Utilisateur";
-$wb["email_txt"] = "Email";
-$wb["priority_txt"] = "Priorité";
-$wb["active_txt"] = "Actif";
-$wb["limit_spamfilter_wblist_txt"] = "Le nombre max. d'enregistrements dans votre liste blanche/noire pour votre compte a été atteint.";
+$wb['server_id_txt'] = 'Serveur';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Utilisateur';
+$wb['email_txt'] = 'Email';
+$wb['priority_txt'] = 'Priorité';
+$wb['active_txt'] = 'Actif';
+$wb['limit_spamfilter_wblist_txt'] = 'Le nombre max. denregistrements dans votre liste blanche/noire pour votre compte a été atteint.';
 ?>
-

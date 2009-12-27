@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'El formato de la zona es incorrecto';
 $wb['data_error_empty'] = 'El servidor de nombres está vacío.';
 $wb['data_error_regex'] = 'El formato del servidor de nombres no es válido.';
 ?>
-

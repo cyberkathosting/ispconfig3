@@ -1,7 +1,7 @@
 <?php
-$wb["list_head_txt"] = 'Dil birleştir';
-$wb["list_desc_txt"] = 'Seçili dil dosyasını İngilizce dil dosyası ile birleştirir. <br />Bu olay kayıp metinleri ingilizce dil dosyasından seçili dil dosyasına ekler';
-$wb["language_select_txt"] = 'Dil seç';
+$wb['list_head_txt'] = 'Dil birleştir';
+$wb['list_desc_txt'] = 'Seçili dil dosyasını İngilizce dil dosyası ile birleştirir. <br />Bu olay kayıp metinleri ingilizce dil dosyasından seçili dil dosyasına ekler';
+$wb['language_select_txt'] = 'Dil seç';
 $wb['btn_save_txt'] = 'Dosyaları şimdi birleştir';
 $wb['btn_cancel_txt'] = 'Geri';
 ?>

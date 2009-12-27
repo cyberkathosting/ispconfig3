@@ -37,4 +37,3 @@ $wb['domain_error_unique'] = 'Existuje už webová stránka alebo sub / alias domén
 $wb['domain_error_regex'] = 'Doménové meno neplatné.';
 $wb['host_txt'] = 'Host';
 ?>
-

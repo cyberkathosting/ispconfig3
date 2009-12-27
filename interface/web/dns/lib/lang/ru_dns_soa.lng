@@ -21,4 +21,6 @@ $wb['origin_error_regex'] = 'Зона имеет неправильный фор
 $wb['ns_error_regex'] = 'NS имеет неправильный формат.';
 $wb['mbox_error_empty'] = 'Email пустое.';
 $wb['mbox_error_regex'] = 'Email имеет неправильный формат.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
 ?>

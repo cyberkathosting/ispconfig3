@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['header_txt'] = 'Editeur de Formulaire';
 $wb['title_txt'] = 'Titre du Formulaire';
 $wb['name_txt'] = 'Nom du Fromulaire';
@@ -19,4 +16,3 @@ $wb['module_del_txt'] = 'Effacer le module et tout ses sous-rpertoires';
 $wb['menu_del_txt'] = 'Effacer le menu et tout ses items';
 $wb['item_del_txt'] = 'Effacer litem';
 ?>
-

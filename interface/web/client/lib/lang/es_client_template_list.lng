@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Plantillas de clientes';
 $wb['template_type_txt'] = 'Tipo';
 $wb['template_name_txt'] = 'Nombre';
 ?>
-

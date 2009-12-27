@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'El formato del nombre de la máquina es incorrecto.';
 $wb['data_error_empty'] = 'Texto vacío.';
 $wb['data_error_regex'] = 'Formato de texto no válido';
 ?>
-

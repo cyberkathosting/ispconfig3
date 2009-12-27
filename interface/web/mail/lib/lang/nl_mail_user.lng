@@ -29,4 +29,9 @@ $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
 $wb['duplicate_alias_or_forward_txt'] = 'Er is al een e-mailalias of een forward ingesteld voor dit e-mailadres.';
 $wb['quota_error_value'] = 'Ongeldige schijfruimte-limiet. Toegestaan zijn: -1 (onbeperkt) of cijfers (>1)';
+$wb['autoresponder_start_date_txt'] = 'Start on';
+$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
+$wb['autoresponder_end_date_txt'] = 'End by';
+$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
+$wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
 ?>

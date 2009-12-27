@@ -7,4 +7,3 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Prida? novú DNS Zónu (SOA)';
 ?>
-

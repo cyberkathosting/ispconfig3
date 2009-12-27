@@ -8,4 +8,6 @@ $wb['file_server_txt'] = 'Servidor de Arquivo';
 $wb['db_server_txt'] = 'Servidor de Banco de Dados';
 $wb['vserver_server_txt'] = 'Servidor VServer';
 $wb['active_txt'] = 'Ativado';
+$wb['mirror_server_id_txt'] = 'Is mirror of Server';
+$wb['- None -'] = '- None -';
 ?>

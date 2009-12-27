@@ -7,4 +7,3 @@ $wb['username_error_empty'] = 'Užívate?ské meno nemôže by? prázdne';
 $wb['password_error_empty'] = 'Heslo nemôže by? prázdne';
 $wb['password_strength_txt'] = 'Pevnos? hesla:';
 ?>
-

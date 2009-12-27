@@ -30,5 +30,5 @@ $wb['DNS'] = 'DNS';
 $wb['Tools'] = 'Herramientas';
 $wb['Help'] = 'Ayuda';
 $wb['toolsarea_head_txt'] = 'Herramientas';
+$wb['page_and_txt'] = 'and';
 ?>
-

@@ -19,4 +19,3 @@ $wb['run_wday_error_format'] = 'Neplatný formát pre dni v týždni.';
 $wb['command_error_format'] = 'Neplatný formát príkazu. Upozor?ujeme, že v prípade url volania iba http / https, sú povolené.';
 $wb['unknown_fieldtype_error'] = 'Neznámy druh pola bol použitý.';
 ?>
-

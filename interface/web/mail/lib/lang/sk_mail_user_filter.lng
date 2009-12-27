@@ -7,4 +7,3 @@ $wb['rulename_error_empty'] = 'Meno je prázdne';
 $wb['searchterm_is_empty'] = 'H?adaný výraz je prázdny.';
 $wb['source_txt'] = 'Zdroj';
 ?>
-

@@ -14,4 +14,3 @@ $wb['name_error_regex'] = 'El formato del nombre de la máquina es incorrecto.';
 $wb['data_error_empty'] = 'El nombre del servidor de correo está vacío.';
 $wb['data_error_regex'] = 'El nombre del servidor de correo no es válido.';
 ?>
-

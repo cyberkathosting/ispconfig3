@@ -16,4 +16,3 @@ $wb['module_del_txt'] = '¿Eliminar el módulo y los subdirectorios?';
 $wb['menu_del_txt'] = '¿Eliminar el menú y todos sus elementos?';
 $wb['item_del_txt'] = '¿Eliminar el elemento del menú?';
 ?>
-

@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['server_id_txt'] = 'Serveur';
 $wb['priority_txt'] = 'Priorité';
 $wb['policy_id_txt'] = 'Politique';
@@ -9,4 +6,3 @@ $wb['email_txt'] = 'Email (Schéma)';
 $wb['fullname_txt'] = 'Nom';
 $wb['local_txt'] = 'Local';
 ?>
-

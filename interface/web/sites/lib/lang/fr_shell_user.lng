@@ -1,26 +1,22 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["uid_txt"] = "Nom d'utilisateur web";
-$wb["gid_txt"] = "Groupe";
-$wb["shell_txt"] = "Shell";
-$wb["dir_txt"] = "Repertoire";
-$wb["server_id_txt"] = "Serveur";
-$wb["parent_domain_id_txt"] = "Site";
-$wb["username_txt"] = "Nom d'utilisateur";
-$wb["password_txt"] = "Mot de passe";
-$wb["password_strength_txt"] = "Force du mot de passe";
-$wb["chroot_txt"] = "Chrotter le shell";
-$wb["quota_size_txt"] = "Quota";
-$wb["active_txt"] = "Actif";
-$wb["username_error_empty"] = "Le nom d'utilisateur est vide.";
-$wb["username_error_unique"] = "Le nom d'utilisateur doit être unique.";
-$wb["username_error_regex"] = "Le nom d'utilisateur contient des caractères invalides.";
-$wb["quota_size_error_empty"] = "Le quota est vide.";
-$wb["uid_error_empty"] = "Le GID est vide.";
-$wb["directory_error_empty"] = "Le répertoire est vide.";
-$wb["limit_shell_user_txt"] = "Le nombre maximum d'utilisateurs shell a été atteint..";
-$wb["parent_domain_id_error_empty"] = "Pas de site web sélectionné.";
+$wb['uid_txt'] = 'Nom dutilisateur web';
+$wb['gid_txt'] = 'Groupe';
+$wb['shell_txt'] = 'Shell';
+$wb['dir_txt'] = 'Repertoire';
+$wb['server_id_txt'] = 'Serveur';
+$wb['parent_domain_id_txt'] = 'Site';
+$wb['username_txt'] = 'Nom dutilisateur';
+$wb['password_txt'] = 'Mot de passe';
+$wb['password_strength_txt'] = 'Force du mot de passe';
+$wb['chroot_txt'] = 'Chrotter le shell';
+$wb['quota_size_txt'] = 'Quota';
+$wb['active_txt'] = 'Actif';
+$wb['username_error_empty'] = 'Le nom dutilisateur est vide.';
+$wb['username_error_unique'] = 'Le nom dutilisateur doit être unique.';
+$wb['username_error_regex'] = 'Le nom dutilisateur contient des caractères invalides.';
+$wb['quota_size_error_empty'] = 'Le quota est vide.';
+$wb['uid_error_empty'] = 'Le GID est vide.';
+$wb['directory_error_empty'] = 'Le répertoire est vide.';
+$wb['limit_shell_user_txt'] = 'Le nombre maximum dutilisateurs shell a été atteint..';
+$wb['parent_domain_id_error_empty'] = 'Pas de site web sélectionné.';
 ?>
-

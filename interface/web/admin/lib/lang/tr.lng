@@ -1,12 +1,11 @@
 <?php
-
-$wb[1001]	= "Kullanıcı adı veya şifre boş.";
-$wb[1002]	= "Kullanıcı adı veya şifre yanlış.";
+$wb['1001'] = 'Kullanıcı adı veya şifre boş.';
+$wb['1002'] = 'Kullanıcı adı veya şifre yanlış.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Gruplar';
 $wb['groups_description'] = 'Sistem kullanıcılarını düzenleme formu.';
-$wb['Server']	= 'Sunucu';
-$wb['Services']	= 'Servisler';
+$wb['Server'] = 'Sunucu';
+$wb['Services'] = 'Servisler';
 $wb['Config'] = 'Config';
 $wb['Server Config'] = 'Sunucu Konfigurasyonu';
 $wb['Mail'] = 'Mail';
@@ -20,7 +19,6 @@ $wb['Edit user'] = 'Kullanıcı düzenle';
 $wb['CP Users'] = 'CP Kullanıcıları';
 $wb['Add group'] = 'Grup ekle';
 $wb['Edit group'] = 'Grup düzenle';
-$wb['Groups'] = 'Gruplar';
 $wb['Edit server'] = 'Sunucu düzenle';
 $wb['Edit Server IP'] = 'Sunucu IP düzenle';
 $wb['Servers'] = 'Sunucular';
@@ -33,5 +31,5 @@ $wb['Import'] = 'İçe aktar';
 $wb['Language Editor'] = 'Dil Editörü';
 $wb['Software'] = 'Yazılım';
 $wb['Repositories'] = 'Depolar';
-
+$wb['Server Services'] = 'Server Services';
 ?>

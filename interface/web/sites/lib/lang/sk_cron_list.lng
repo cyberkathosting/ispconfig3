@@ -10,4 +10,3 @@ $wb['run_wday_txt'] = 'De? v týždni';
 $wb['command_txt'] = 'Príkaz';
 $wb['add_new_cron_txt'] = 'Prida? nový Cron job';
 ?>
-

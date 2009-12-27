@@ -86,4 +86,7 @@ $wb['template_additional_txt'] = 'Dodatkowy szablon';
 $wb['ssh_chroot_txt'] = 'Opcje SSH-root';
 $wb['web_php_options_txt'] = 'Opcje PHP';
 $wb['limit_client_error'] = 'Maksymalna liczba kientów została już osiągnięta.';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
 ?>

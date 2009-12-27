@@ -1,10 +1,7 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["server_id_txt"] = "Serveur";
-$wb["ip_address_txt"] = "Adresse IP";
-$wb["virtualhost_txt"] = "HTTP NameVirtualHost";
-$wb["ip_err"] = "Adresse IP invalide";
+$wb['server_id_txt'] = 'Serveur';
+$wb['ip_address_txt'] = 'Adresse IP';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_error_wrong'] = 'The IP address is invalid';
+$wb['ip_error_unique'] = 'The IP address must be unique';
 ?>
-

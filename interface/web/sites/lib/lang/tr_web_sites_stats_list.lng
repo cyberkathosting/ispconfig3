@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Web trafiği';
-$wb["domain_txt"] = 'Domain';
-$wb["this_month_txt"] = 'Bu ay';
-$wb["last_month_txt"] = 'Geçen ay';
-$wb["this_year_txt"] = 'Bu yıl';
-$wb["last_year_txt"] = 'Geçen yıl';
+$wb['list_head_txt'] = 'Web trafiği';
+$wb['domain_txt'] = 'Domain';
+$wb['this_month_txt'] = 'Bu ay';
+$wb['last_month_txt'] = 'Geçen ay';
+$wb['this_year_txt'] = 'Bu yıl';
+$wb['last_year_txt'] = 'Geçen yıl';
 ?>

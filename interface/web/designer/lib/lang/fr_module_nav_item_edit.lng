@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['title_txt'] = 'Titre';
 $wb['target_txt'] = 'Cible';
 $wb['link_txt'] = 'Lien';
@@ -9,4 +6,3 @@ $wb['header_txt'] = 'Proprits Navig.';
 $wb['save_txt'] = 'Sauver';
 $wb['cancel_txt'] = 'Annuler';
 ?>
-

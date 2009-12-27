@@ -6,4 +6,3 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
 $wb['add_new_record_txt'] = 'Añadir nuevo sitio web';
 ?>
-

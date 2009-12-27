@@ -86,4 +86,7 @@ $wb['limit_cron_type_txt'] = '# Typen cron jobs (chrooted en full implies url)';
 $wb['limit_cron_frequency_txt'] = 'Minimale tijd tussen uitvoeringen';
 $wb['limit_cron_error_notint'] = 'Het max. aantal cron jobs moet een nummerieke waarde zijn.';
 $wb['limit_cron_error_frequency'] = 'De cron uitvoeringen limiet moet een nummerieke waarde zijn.';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
 ?>

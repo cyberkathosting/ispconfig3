@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Príjemca';
 $wb['add_new_record_txt'] = 'Prida? nový záznam do ?iernej listiny';
 $wb['access_txt'] = 'prístup';
 ?>
-

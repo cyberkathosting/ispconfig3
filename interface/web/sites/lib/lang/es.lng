@@ -15,4 +15,3 @@ $wb['Shell'] = 'Consola (shell)';
 $wb['Websites'] = 'Sitios web';
 $wb['Stats'] = 'Estadísticas';
 ?>
-

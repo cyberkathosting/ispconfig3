@@ -5,4 +5,5 @@ $wb['name_txt'] = 'Nome';
 $wb['vorname_txt'] = 'Sobrenome';
 $wb['ort_txt'] = 'cidade';
 $wb['add_new_record_txt'] = 'Adcionar novo usuário';
+$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
 ?>

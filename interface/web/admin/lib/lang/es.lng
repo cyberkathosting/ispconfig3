@@ -31,5 +31,5 @@ $wb['Import'] = 'Importar';
 $wb['Language Editor'] = 'Editar idioma';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repositorios';
+$wb['Server Services'] = 'Server Services';
 ?>
-

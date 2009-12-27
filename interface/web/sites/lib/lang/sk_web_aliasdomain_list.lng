@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Doména je prázdna.';
 $wb['domain_error_unique'] = 'Doména musí by? unikátna.';
 $wb['domain_error_regex'] = 'Doménové meno neplatné.';
 ?>
-

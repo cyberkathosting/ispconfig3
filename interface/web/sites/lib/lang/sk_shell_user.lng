@@ -20,4 +20,3 @@ $wb['directory_error_empty'] = 'Adresár je prázdny.';
 $wb['limit_shell_user_txt'] = 'Maximálny po?et shell užívate?ov je dosiahnutý.';
 $wb['parent_domain_id_error_empty'] = 'Žiadna zvolená webstránka.';
 ?>
-

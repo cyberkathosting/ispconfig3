@@ -1,13 +1,9 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["server_id_txt"] = "Serveur";
-$wb["type_txt"] = "Filtre";
-$wb["pattern_txt"] = "Schéma Regexp";
-$wb["data_txt"] = "Données";
-$wb["action_txt"] = "Action";
-$wb["active_txt"] = "Actif";
-$wb["pattern_error_empty"] = "Le schéma est vide.";
+$wb['server_id_txt'] = 'Serveur';
+$wb['type_txt'] = 'Filtre';
+$wb['pattern_txt'] = 'Schéma Regexp';
+$wb['data_txt'] = 'Données';
+$wb['action_txt'] = 'Action';
+$wb['active_txt'] = 'Actif';
+$wb['pattern_error_empty'] = 'Le schéma est vide.';
 ?>
-

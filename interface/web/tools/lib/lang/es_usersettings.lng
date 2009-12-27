@@ -6,4 +6,3 @@ $wb['password_mismatch'] = 'La contraseña indicada en el segundo campo no coinc
 $wb['Form to edit the user password and language.'] = 'Formulario para editar el usuario y la contraseña.';
 $wb['Settings'] = 'Configuraciones';
 ?>
-

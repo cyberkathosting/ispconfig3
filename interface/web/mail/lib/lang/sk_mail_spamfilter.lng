@@ -15,4 +15,3 @@ $wb['email_error_unique'] = 'Existuje už spamfilter záznam pre túto e-mailovú ad
 $wb['spam_redirect_maildir_purge_txt'] = 'Vy?isti? mailovú záložku po';
 $wb['days_txt'] = 'Dni.';
 ?>
-

@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['name_txt'] = 'Nom du Formulaire';
 $wb['title_txt'] = 'Titre du formulaire';
 $wb['template_txt'] = 'Template';
@@ -25,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Perm. Utilisateur';
 $wb['auth_preset_perm_group_txt'] = 'Perm. Groupe';
 $wb['auth_preset_perm_other_txt'] = 'Perm. Autre';
 ?>
-

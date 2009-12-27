@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Prohibir los coleccionistas de virus';
 $wb['bad_header_lover_txt'] = 'Le gustan las cabeceras malas';
 $wb['add_new_record_txt'] = 'Añadir nuevo filtro de spam';
 ?>
-

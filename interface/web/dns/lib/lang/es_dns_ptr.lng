@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'El nombre tiene un formato incorrecto.';
 $wb['data_error_empty'] = 'El nombre canónico está vacío.';
 $wb['data_error_regex'] = 'El formato del nombre canónico no es válido.';
 ?>
-

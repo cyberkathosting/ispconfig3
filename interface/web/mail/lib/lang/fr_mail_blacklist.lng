@@ -1,13 +1,9 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["server_id_txt"] = "Serveur";
-$wb["source_txt"] = "Adresse de la liste noire";
-$wb["recipient_txt"] = "Bénéficiaire";
-$wb["active_txt"] = "Actif";
-$wb["source_error_notempty"] = "L'adresse est vide.";
-$wb["type_txt"] = "Type";
-$wb["limit_mailfilter_txt"] = "Le nombre max. de filtres d'emails pour votre compte a été atteint.";
+$wb['server_id_txt'] = 'Serveur';
+$wb['source_txt'] = 'Adresse de la liste noire';
+$wb['recipient_txt'] = 'Bénéficiaire';
+$wb['active_txt'] = 'Actif';
+$wb['source_error_notempty'] = 'Ladresse est vide.';
+$wb['type_txt'] = 'Type';
+$wb['limit_mailfilter_txt'] = 'Le nombre max. de filtres demails pour votre compte a été atteint.';
 ?>
-

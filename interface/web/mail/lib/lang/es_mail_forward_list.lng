@@ -6,4 +6,3 @@ $wb['destination_txt'] = 'Destino';
 $wb['email_txt'] = 'Correo';
 $wb['add_new_record_txt'] = 'Añadir nuevo reenvío de correo';
 ?>
-

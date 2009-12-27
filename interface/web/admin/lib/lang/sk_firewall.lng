@@ -9,4 +9,3 @@ $wb['firewall_error_unique'] = 'Existuje už firewall záznam pre tento server.';
 $wb['tcp_ports_error_regex'] = 'Znak nie je povolený v TCP port definície. Povolené znaky sú ?ísla,:, a.';
 $wb['udp_ports_error_regex'] = 'Znak nie je povolený v UDP port definície. Povolené znaky sú ?ísla,:, a.';
 ?>
-

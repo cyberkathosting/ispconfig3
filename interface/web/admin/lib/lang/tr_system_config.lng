@@ -1,5 +1,4 @@
 <?php
-
 $wb['warning'] = 'Bu değerleri dikkatlice değiştirin! Sistemde birden fazla müşteri varsa, ön ekleri kaldırmayın.';
 $wb['dbname_prefix_txt'] = 'Veritabanı ismi ön eki';
 $wb['dbuser_prefix_txt'] = 'Veritabanı kullanıcısı ön eki';
@@ -9,7 +8,8 @@ $wb['dbname_prefix_error_regex'] = 'Veritabanı ismi ön ekinde izin verilmeyen 
 $wb['dbuser_prefix_error_regex'] = 'Veritabanı kullanıcısı ön ekinde izin verilmeyen karakterler';
 $wb['ftpuser_prefix_error_regex'] = 'FTP kullanıcısı ön ekinde izin verilmeyen karakterler';
 $wb['shelluser_prefix_error_regex'] = 'Shell kullanıcısı ön ekinde izin verilmeyen karakterler';
-$wb['dblist_phpmyadmin_link_txt'] = 'VT listesinde phpmyadmin\'e link ver';
-$wb['mailboxlist_webmail_link_txt'] = 'Mail kutusunda webmail\'e link ver';
-
+$wb['dblist_phpmyadmin_link_txt'] = 'VT listesinde phpmyadmine link ver';
+$wb['mailboxlist_webmail_link_txt'] = 'Mail kutusunda webmaile link ver';
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 ?>

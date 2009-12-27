@@ -7,4 +7,3 @@ $wb['username_error_empty'] = 'Kullanıcı adı boş olamaz';
 $wb['password_error_empty'] = 'Şifre boş olamaz';
 $wb['password_strength_txt'] = 'Şifre Gücü:';
 ?>
-

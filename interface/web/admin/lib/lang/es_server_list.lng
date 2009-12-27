@@ -9,4 +9,3 @@ $wb['db_server_txt'] = 'BD';
 $wb['vserver_server_txt'] = 'VServer';
 $wb['add_new_record_txt'] = 'Añadir nuevo servidor';
 ?>
-

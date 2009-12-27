@@ -9,4 +9,3 @@ $wb['firewall_error_unique'] = 'Ya hay un registro de cortafuegos en este servid
 $wb['tcp_ports_error_regex'] = 'Caracter no permitido en la definición del puerto TCP. Los caracteres permitidos son números, : y ,.';
 $wb['udp_ports_error_regex'] = 'Caracter no permitido en la definición del puerto UDP. Los caracteres permitidos son números, : y ,.';
 ?>
-

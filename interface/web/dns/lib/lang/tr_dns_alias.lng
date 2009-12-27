@@ -1,15 +1,15 @@
 <?php
-$wb["server_id_txt"] = 'Sunucu';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Hostname';
-$wb["type_txt"] = 'çeşit';
-$wb["data_txt"] = 'Hostname Hedefi';
-$wb["ttl_txt"] = 'TTL';
-$wb["active_txt"] = 'Aktif';
-$wb["limit_dns_record_txt"] = 'Hesabınıdaki max. DNS kaydı limitine ulaştınız.';
-$wb["no_zone_perm"] = 'Bu DNS Zone kaydını eklemek için yetkiniz yok.';
-$wb["name_error_empty"] = 'Hostname boş.';
-$wb["name_error_regex"] = 'Hostname yanlış formatta.';
-$wb["data_error_empty"] = 'Hostname Hedefi boş';
-$wb["data_error_regex"] = 'Hostname Hedefi yanlış formatta';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Hostname';
+$wb['type_txt'] = 'çeşit';
+$wb['data_txt'] = 'Hostname Hedefi';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_dns_record_txt'] = 'Hesabınıdaki max. DNS kaydı limitine ulaştınız.';
+$wb['no_zone_perm'] = 'Bu DNS Zone kaydını eklemek için yetkiniz yok.';
+$wb['name_error_empty'] = 'Hostname boş.';
+$wb['name_error_regex'] = 'Hostname yanlış formatta.';
+$wb['data_error_empty'] = 'Hostname Hedefi boş';
+$wb['data_error_regex'] = 'Hostname Hedefi yanlış formatta';
 ?>

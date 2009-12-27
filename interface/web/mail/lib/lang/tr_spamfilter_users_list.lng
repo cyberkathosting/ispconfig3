@@ -1,10 +1,10 @@
 <?php
-$wb["list_head_txt"] = 'Spam Filtresi Kullanıcıları';
-$wb["local_txt"] = 'Yerel';
-$wb["server_id_txt"] = 'Sunucu';
-$wb["priority_txt"] = 'Öncelik';
-$wb["policy_id_txt"] = 'Kural';
-$wb["fullname_txt"] = 'İsim';
-$wb["email_txt"] = 'Email';
-$wb["add_new_record_txt"] = 'Yeni Spam Filtresi Kullanıcısı';
+$wb['list_head_txt'] = 'Spam Filtresi Kullanıcıları';
+$wb['local_txt'] = 'Yerel';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['priority_txt'] = 'Öncelik';
+$wb['policy_id_txt'] = 'Kural';
+$wb['fullname_txt'] = 'İsim';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Yeni Spam Filtresi Kullanıcısı';
 ?>

@@ -6,4 +6,3 @@ $wb['language_new_hint_txt'] = '2 znaky ISO 639-1 jazyka-kódu (See http://en.wik
 $wb['btn_save_txt'] = 'Vytvori? nový jazykový súbor';
 $wb['btn_cancel_txt'] = 'Spä?';
 ?>
-

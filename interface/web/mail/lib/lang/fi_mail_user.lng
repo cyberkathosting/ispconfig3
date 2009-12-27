@@ -29,4 +29,9 @@ $wb['disablepop3_txt'] = 'Estä POP3';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['duplicate_alias_or_forward_txt'] = 'Alias- tai edelleenlähetys tälle osoitteelle on jo olemassa.';
 $wb['quota_error_value'] = 'Väärä quota-arvo. Sallittuja ovat numerot > 1 tai 0 rajoittamattomalle.';
+$wb['autoresponder_start_date_txt'] = 'Start on';
+$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
+$wb['autoresponder_end_date_txt'] = 'End by';
+$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
+$wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
 ?>

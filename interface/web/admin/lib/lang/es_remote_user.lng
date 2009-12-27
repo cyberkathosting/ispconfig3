@@ -7,4 +7,3 @@ $wb['username_error_empty'] = 'El nombre de usuario no puede estar vacío';
 $wb['password_error_empty'] = 'La contraseña no puede estar vacía';
 $wb['password_strength_txt'] = 'Fortaleza de la contraseña:';
 ?>
-

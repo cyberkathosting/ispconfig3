@@ -1,12 +1,8 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["list_head_txt"] = "Ajouter un nouveau lanage";
-$wb["language_select_txt"] = "Sélectionnez la base du langage";
-$wb["language_new_txt"] = "Nouveau langage";
-$wb["btn_save_txt"] = "Créer un nouveau fichier de langue";
-$wb["btn_cancel_txt"] = "Précédent";
-$wb["language_new_hint_txt"] = "2 caractères de l'ISO 639-1 code langage (Voir http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)";
+$wb['list_head_txt'] = 'Ajouter un nouveau lanage';
+$wb['language_select_txt'] = 'Sélectionnez la base du langage';
+$wb['language_new_txt'] = 'Nouveau langage';
+$wb['btn_save_txt'] = 'Créer un nouveau fichier de langue';
+$wb['btn_cancel_txt'] = 'Précédent';
+$wb['language_new_hint_txt'] = '2 caractères de lISO 639-1 code langage (Voir http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>
-

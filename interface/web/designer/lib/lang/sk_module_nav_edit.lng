@@ -4,4 +4,3 @@ $wb['header_txt'] = 'Navi vlastnosti';
 $wb['save_txt'] = 'Uloži?';
 $wb['cancel_txt'] = 'Zruši?';
 ?>
-

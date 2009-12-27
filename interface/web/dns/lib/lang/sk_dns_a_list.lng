@@ -12,4 +12,3 @@ $wb['page_txt'] = 'Strana';
 $wb['page_of_txt'] = 'z';
 $wb['delete_confirmation'] = 'Naozaj chcete zmaza? tento záznam?';
 ?>
-

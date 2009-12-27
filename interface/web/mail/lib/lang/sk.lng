@@ -43,4 +43,3 @@ $wb['Postfix Blacklist'] = 'Postfix ?ierna listina';
 $wb['Content Filter'] = 'Filter obsahu';
 $wb['Global Filters'] = 'Globálne Filtere';
 ?>
-

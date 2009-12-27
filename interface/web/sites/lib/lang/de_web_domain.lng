@@ -46,4 +46,7 @@ $wb['error_ssl_country_empty'] = 'SSL Land ist leer.';
 $wb['subdomain_txt'] = 'Auto-Subdomain';
 $wb['client_group_id_txt'] = 'Kunde';
 $wb['stats_password_txt'] = 'Webstatistik Passwort';
+$wb['ssl_domain_txt'] = 'SSL Domain';
+$wb['allow_override_txt'] = 'Allow Override';
+$wb['limit_web_quota_free_txt'] = 'Max. available Harddisk Quota';
 ?>

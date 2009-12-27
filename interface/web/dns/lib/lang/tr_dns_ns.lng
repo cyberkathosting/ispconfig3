@@ -1,15 +1,15 @@
 <?php
-$wb["server_id_txt"] = 'Sunucu';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Zone';
-$wb["type_txt"] = 'çeşit';
-$wb["data_txt"] = 'Nameserver Hostname';
-$wb["ttl_txt"] = 'TTL';
-$wb["active_txt"] = 'Aktif';
-$wb["limit_dns_record_txt"] = 'Hesabınıdaki max. DNS kaydı limitine ulaştınız.';
-$wb["no_zone_perm"] = 'Bu DNS Zone kaydını eklemek için yetkiniz yok.';
-$wb["name_error_empty"] = 'The zone boş.';
-$wb["name_error_regex"] = 'The zone yanlış formatta.';
-$wb["data_error_empty"] = 'Nameserver boş';
-$wb["data_error_regex"] = 'Nameserver yanlış formatta';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Zone';
+$wb['type_txt'] = 'çeşit';
+$wb['data_txt'] = 'Nameserver Hostname';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_dns_record_txt'] = 'Hesabınıdaki max. DNS kaydı limitine ulaştınız.';
+$wb['no_zone_perm'] = 'Bu DNS Zone kaydını eklemek için yetkiniz yok.';
+$wb['name_error_empty'] = 'The zone boş.';
+$wb['name_error_regex'] = 'The zone yanlış formatta.';
+$wb['data_error_empty'] = 'Nameserver boş';
+$wb['data_error_regex'] = 'Nameserver yanlış formatta';
 ?>

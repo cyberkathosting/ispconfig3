@@ -1,15 +1,11 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["server_id_txt"] = "Serveur";
-$wb["tcp_port_txt"] = "Ouvrir des ports TCP";
-$wb["udp_port_txt"] = "Ouvrir des ports UDP";
-$wb["tcp_port_help_txt"] = "Séparés par des virgules";
-$wb["udp_port_help_txt"] = "Séparés par des virgules";
-$wb["active_txt"] = "Actif";
-$wb["firewall_error_unique"] = "Il y a déja un enregistrement au pare-feu pour ce serveur.";
-$wb["tcp_ports_error_regex"] = "Caractère non autorisé dans la définition du port TCP. Les caractères autorisés sont les nombres, : et ,.";
-$wb["udp_ports_error_regex"] = "Caractère non autorisé dans la définition du port USP. Les caractères autorisés sont les nombres, : et ,.";
+$wb['server_id_txt'] = 'Serveur';
+$wb['tcp_port_txt'] = 'Ouvrir des ports TCP';
+$wb['udp_port_txt'] = 'Ouvrir des ports UDP';
+$wb['tcp_port_help_txt'] = 'Séparés par des virgules';
+$wb['udp_port_help_txt'] = 'Séparés par des virgules';
+$wb['active_txt'] = 'Actif';
+$wb['firewall_error_unique'] = 'Il y a déja un enregistrement au pare-feu pour ce serveur.';
+$wb['tcp_ports_error_regex'] = 'Caractère non autorisé dans la définition du port TCP. Les caractères autorisés sont les nombres, : et ,.';
+$wb['udp_ports_error_regex'] = 'Caractère non autorisé dans la définition du port USP. Les caractères autorisés sont les nombres, : et ,.';
 ?>
-

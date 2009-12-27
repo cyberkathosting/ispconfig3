@@ -1,7 +1,7 @@
 <?php
-$wb["rulename_txt"] = 'İsim';
-$wb["add_new_record_txt"] = 'Yeni Filtre';
-$wb["page_txt"] = 'Sayfa';
-$wb["page_of_txt"] = '/';
-$wb["delete_confirmation"] = 'Bu mail filtresini silmek istediğinizden emin misiniz?';
+$wb['rulename_txt'] = 'İsim';
+$wb['add_new_record_txt'] = 'Yeni Filtre';
+$wb['page_txt'] = 'Sayfa';
+$wb['page_of_txt'] = '/';
+$wb['delete_confirmation'] = 'Bu mail filtresini silmek istediğinizden emin misiniz?';
 ?>

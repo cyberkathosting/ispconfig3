@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['list_head_txt'] = 'Spamfilter Whitelist';
 $wb['active_txt'] = 'Active';
 $wb['server_id_txt'] = 'Server';
@@ -10,4 +7,3 @@ $wb['rid_txt'] = 'User';
 $wb['email_txt'] = 'Whitelisted Email';
 $wb['add_new_record_txt'] = 'Add Whitelist record';
 ?>
-

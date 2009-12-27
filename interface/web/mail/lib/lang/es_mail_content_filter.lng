@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Acción';
 $wb['active_txt'] = 'Activar';
 $wb['pattern_error_empty'] = 'El patrón está vacío';
 ?>
-

@@ -31,4 +31,5 @@ $wb['Import'] = 'Asenna';
 $wb['Language Editor'] = 'Kielimuokkain';
 $wb['Software'] = 'Ohjelmat';
 $wb['Repositories'] = 'Ohjelmapakettien varastot';
+$wb['Server Services'] = 'Server Services';
 ?>

@@ -1,11 +1,7 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["list_head_txt"] = "Fusion de langages";
-$wb["language_select_txt"] = "Sélectionnez le langage";
-$wb["btn_save_txt"] = "Fusionner les fichiers";
-$wb["btn_cancel_txt"] = "Précédent";
-$wb["list_desc_txt"] = "Fusionne le langage sélectionné avec le langage principal anglais. <br />Ceci ajoute les élements manquant en anglais au fichier sélectionné.";
+$wb['list_head_txt'] = 'Fusion de langages';
+$wb['language_select_txt'] = 'Sélectionnez le langage';
+$wb['btn_save_txt'] = 'Fusionner les fichiers';
+$wb['btn_cancel_txt'] = 'Précédent';
+$wb['list_desc_txt'] = 'Fusionne le langage sélectionné avec le langage principal anglais. <br />Ceci ajoute les élements manquant en anglais au fichier sélectionné.';
 ?>
-

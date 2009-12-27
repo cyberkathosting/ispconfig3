@@ -8,4 +8,3 @@ $wb['fullname_txt'] = 'Nombre';
 $wb['email_txt'] = 'Correo';
 $wb['add_new_record_txt'] = 'Añadir nuevo usuario de filtro de spam';
 ?>
-

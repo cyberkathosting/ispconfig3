@@ -1,9 +1,5 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['list_head_txt'] = 'Modèles de clients';
 $wb['template_type_txt'] = 'Type';
 $wb['template_name_txt'] = 'Nom du modèle';
 ?>
-

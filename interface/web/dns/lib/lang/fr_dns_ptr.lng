@@ -1,19 +1,15 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["server_id_txt"] = "Serveur";
-$wb["zone_txt"] = "Zone";
-$wb["name_txt"] = "Nom";
-$wb["type_txt"] = "Type";
-$wb["data_txt"] = "Hôte canonique";
-$wb["ttl_txt"] = "TTL";
-$wb["active_txt"] = "Actif";
-$wb["limit_dns_record_txt"] = "Le nombre maximum d'enregistrements DNS pour votre compte a t atteint.";
-$wb["no_zone_perm"] = "Vous n'avez pas la permissions d'ajouter un enregistrement dans cette zone DNS.";
-$wb["name_error_empty"] = "Le nom est vide.";
-$wb["name_error_regex"] = "Le nom est d'un format invalide.";
-$wb["data_error_empty"] = "L'hôte canonique est vide.";
-$wb["data_error_regex"] = "L'hôte canonique est d'un format invalide.";
+$wb['server_id_txt'] = 'Serveur';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Nom';
+$wb['type_txt'] = 'Type';
+$wb['data_txt'] = 'Hôte canonique';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Actif';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a t atteint.';
+$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
+$wb['name_error_empty'] = 'Le nom est vide.';
+$wb['name_error_regex'] = 'Le nom est dun format invalide.';
+$wb['data_error_empty'] = 'Lhôte canonique est vide.';
+$wb['data_error_regex'] = 'Lhôte canonique est dun format invalide.';
 ?>
-

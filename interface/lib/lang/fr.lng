@@ -1,58 +1,34 @@
 <?php
-/*
-Traduction Française de ISPConfig 3
-Version 0.1 - Ecrite avec ISPConfig 3.0.1.4
-Copyright (C) 2009 Falistos - http://hyodream.fr/
-
-Cette traduction est distribuée sous la licence GPL v3
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-http://www.gnu.org/licenses/gpl.txt
-*/
-
-$wb["conf_format_dateshort"] = "d-m-Y";
-$wb["conf_format_datelong"] = "d-m-Y";
-$wb["conf_format_timeshort"] = "H:i";
-$wb["conf_format_timelong"] = "H:i:s";
-$wb["conf_format_datetime"] = "d-m-Y H:i";
-$wb["301"] = "Module interdit pour l'utilisateur courant.";
-$wb["302"] = "Module invalide.";
-$wb["1001"] = "Le nomp d'utilisateur et/ou le nom de passe ne doivent pas être vides!";
-$wb["1002"] = "Le nom d'utilisateur et/ou le mot de passe son faux!!";
-$wb["1003"] = "L'utilisateur est désactivé!";
-$wb["delete_confirmation"] = "Vouslez-vous vraiment supprimer cet enregistrement";
-$wb["error_no_view_permission"] = "Vous n'avez pas la permission de voir cet enregistrement, ou il n'éxiste pas.";
-$wb["error_no_delete_permission"] = "Vous n'avez pas la permission de supprimer cet enregistrement!";
-$wb["page_txt"] = "Page";
-$wb["page_of_txt"] = "de";
-$wb["page_next_txt"] = "Suivant";
-$wb["page_back_txt"] = "Précédent";
-$wb["delete_txt"] = "Supprimer";
-$wb["filter_txt"] = "Filtrer";
-$wb["add_new_record_txt"] = "Ajouter une entrée";
-$wb["btn_save_txt"] = "Enregistrer";
-$wb["btn_cancel_txt"] = "Annuler";
-$wb["System"] = "Système";
-$wb["Client"] = "Client";
-$wb["Email"] = "Email";
-$wb["Monitor"] = "Moniteur";
-$wb["Sites"] = "Sites";
-$wb["DNS"] = "DNS";
-$wb["Tools"] = "Outils";
-$wb["Help"] = "Aide";
-$wb["toolsarea_head_txt"] = "Outils";
+$wb['conf_format_dateshort'] = 'd-m-Y';
+$wb['conf_format_datelong'] = 'd-m-Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'd-m-Y H:i';
+$wb['301'] = 'Module interdit pour lutilisateur courant.';
+$wb['302'] = 'Module invalide.';
+$wb['1001'] = 'Le nomp dutilisateur et/ou le nom de passe ne doivent pas être vides!';
+$wb['1002'] = 'Le nom dutilisateur et/ou le mot de passe son faux!!';
+$wb['1003'] = 'Lutilisateur est désactivé!';
+$wb['delete_confirmation'] = 'Vouslez-vous vraiment supprimer cet enregistrement';
+$wb['error_no_view_permission'] = 'Vous navez pas la permission de voir cet enregistrement, ou il néxiste pas.';
+$wb['error_no_delete_permission'] = 'Vous navez pas la permission de supprimer cet enregistrement!';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Suivant';
+$wb['page_back_txt'] = 'Précédent';
+$wb['delete_txt'] = 'Supprimer';
+$wb['filter_txt'] = 'Filtrer';
+$wb['add_new_record_txt'] = 'Ajouter une entrée';
+$wb['btn_save_txt'] = 'Enregistrer';
+$wb['btn_cancel_txt'] = 'Annuler';
+$wb['System'] = 'Système';
+$wb['Client'] = 'Client';
+$wb['Email'] = 'Email';
+$wb['Monitor'] = 'Moniteur';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
+$wb['Tools'] = 'Outils';
+$wb['Help'] = 'Aide';
+$wb['toolsarea_head_txt'] = 'Outils';
+$wb['page_and_txt'] = 'and';
 ?>
-

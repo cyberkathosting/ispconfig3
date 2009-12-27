@@ -13,4 +13,3 @@ $wb['source_username_error_isempty'] = 'Uživate? je prázdny.';
 $wb['source_password_error_isempty'] = 'Heslo je prázdne.';
 $wb['destination_error_isemail'] = 'Žiadny cie? nebol vybraný.';
 ?>
-

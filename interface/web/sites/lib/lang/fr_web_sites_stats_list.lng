@@ -1,12 +1,8 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["list_head_txt"] = "Traffic Web";
-$wb["domain_txt"] = "Domaine";
-$wb["this_month_txt"] = "Ce mois";
-$wb["last_month_txt"] = "Mois précédent";
-$wb["this_year_txt"] = "Cette année";
-$wb["last_year_txt"] = "Année précédente";
+$wb['list_head_txt'] = 'Traffic Web';
+$wb['domain_txt'] = 'Domaine';
+$wb['this_month_txt'] = 'Ce mois';
+$wb['last_month_txt'] = 'Mois précédent';
+$wb['this_year_txt'] = 'Cette année';
+$wb['last_year_txt'] = 'Année précédente';
 ?>
-

@@ -49,5 +49,7 @@ $wb['limit_database_error_notint'] = 'Limit databáz musí by? ?íslo.';
 $wb['limit_cron_error_notint'] = 'Limit cron musí by? ?íslo.';
 $wb['limit_cron_error_frequency'] = 'Cron frekvencia limit musí by? ?íslo.';
 $wb['error_template_name_empty'] = 'Prosím, zadajte názov šablóny';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
 ?>
-

@@ -7,4 +7,3 @@ $wb['no_domain_perm'] = 'Nemáte žiadne povolenie pre túto doménu.';
 $wb['domain_error_regex'] = 'Neplatný názov domény alebo doména obsahuje nepovolené znaky.';
 $wb['limit_mailcatchall_txt'] = 'Max. po?et e-mailových doménových košov pre Váš ú?et je dosiahnutý.';
 ?>
-

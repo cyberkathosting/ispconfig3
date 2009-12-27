@@ -25,4 +25,3 @@ $wb['directory_error_empty'] = 'Adresár je prázdny.';
 $wb['directory_error_notinweb'] = 'Adresár nie je vnútri kore?ového adresára webu.';
 $wb['parent_domain_id_error_empty'] = 'Žiadna webstránka zvolená';
 ?>
-

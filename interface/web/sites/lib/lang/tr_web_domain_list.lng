@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Web siteleri';
-$wb["domain_id_txt"] = 'ID';
-$wb["active_txt"] = 'Aktif';
-$wb["server_id_txt"] = 'Sunucu';
-$wb["domain_txt"] = 'Domain';
-$wb["add_new_record_txt"] = 'Yeni Website';
+$wb['list_head_txt'] = 'Web siteleri';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Yeni Website';
 ?>

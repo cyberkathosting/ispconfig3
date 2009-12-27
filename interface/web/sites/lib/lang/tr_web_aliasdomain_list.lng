@@ -1,11 +1,11 @@
 <?php
-$wb["list_head_txt"] = 'Aliasdomain';
-$wb["active_txt"] = 'Aktif';
-$wb["server_id_txt"] = 'Sunucu';
-$wb["parent_domain_id_txt"] = 'Websitesi';
-$wb["domain_txt"] = 'Aliasdomain';
-$wb["add_new_record_txt"] = 'Yeni Aliasdomain';
-$wb["domain_error_empty"] = 'Domain boş.';
-$wb["domain_error_unique"] = 'Bu Domain zaten var.';
-$wb["domain_error_regex"] = 'Geçersiz Domain.';
+$wb['list_head_txt'] = 'Aliasdomain';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['parent_domain_id_txt'] = 'Websitesi';
+$wb['domain_txt'] = 'Aliasdomain';
+$wb['add_new_record_txt'] = 'Yeni Aliasdomain';
+$wb['domain_error_empty'] = 'Domain boş.';
+$wb['domain_error_unique'] = 'Bu Domain zaten var.';
+$wb['domain_error_regex'] = 'Geçersiz Domain.';
 ?>

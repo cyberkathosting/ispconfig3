@@ -15,4 +15,3 @@ $wb['username_txt'] = 'Nombre de usuario';
 $wb['password_txt'] = 'Contraseña';
 $wb['login_button_txt'] = 'Iniciar sesión';
 ?>
-

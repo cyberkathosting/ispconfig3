@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Uživate?';
 $wb['email_txt'] = 'Email v bielej listine';
 $wb['add_new_record_txt'] = 'Prida? záznam do bielej listiny';
 ?>
-

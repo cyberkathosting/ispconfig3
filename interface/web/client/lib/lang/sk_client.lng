@@ -86,5 +86,7 @@ $wb['template_additional_txt'] = 'Prídavná šablóna';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Možnosti';
 $wb['web_php_options_txt'] = 'PHP Možnosti';
 $wb['limit_client_error'] = 'Max. po?et klientov je dosiahnu?.';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
 ?>
-

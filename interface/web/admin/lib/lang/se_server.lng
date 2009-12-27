@@ -8,4 +8,6 @@ $wb['active_txt'] = 'Aktiv';
 $wb['config_txt'] = 'config';
 $wb['db_server_txt'] = 'DB-Server';
 $wb['vserver_server_txt'] = 'VServer-Server';
+$wb['mirror_server_id_txt'] = 'Is mirror of Server';
+$wb['- None -'] = '- None -';
 ?>

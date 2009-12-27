@@ -21,4 +21,6 @@ $wb['origin_error_regex'] = 'Strefa ma niepoprawny format.';
 $wb['ns_error_regex'] = 'NS ma niepoprawny format.';
 $wb['mbox_error_empty'] = 'E-mail jest pusty.';
 $wb['mbox_error_regex'] = 'E-mail ma niepoprawny format.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
 ?>

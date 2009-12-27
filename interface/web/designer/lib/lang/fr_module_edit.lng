@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['name_txt'] = 'Nom du Module';
 $wb['title_txt'] = 'Titre du Module';
 $wb['template_txt'] = 'Fichier Template';
@@ -15,4 +12,3 @@ $wb['description_txt'] = '
 <b>Description</b?><br><br?><b>Nom du Module:</b> Nom du rpertoire du module. Seulement nombres, lettres et underscore sont autoriss.<br?><b>Titre du Module:</b> Seras affich dans le menu de navigation (suprieur).<br?><b>Fichier Template:</b> Fichier Template du module. Disponible actuellement: module.tpl.htm et module_tree.tpl.htm. Par dfaut module.tpl.htm.<br?><b>Frame de Navigation:</b> Si module_tree.tpl.htm est choisi comme fichier template, entrer ici le chemin vers le script de la frame de gauche.<br?><b>Page par Dfaut:</b> Cette page seras affiche quand le module seras ouvert.<br?><b>Largeur tableau:</b> Largeur des tableau dans la frame principale. Le champ est vide par defaut. Vous pouvez entrer une valeur absolue en pixel (e.g 20) ou relative (e.g 20%).<br?><b>Note:</b> Tous les paths sont relatifs par rapport au dossier web.
 ';
 ?>
-

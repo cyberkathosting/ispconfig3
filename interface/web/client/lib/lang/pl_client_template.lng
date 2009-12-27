@@ -49,4 +49,7 @@ $wb['limit_database_error_notint'] = 'Limit baz danych musi być liczbą.';
 $wb['limit_cron_error_notint'] = 'Limit zadań cron musi być liczbą.';
 $wb['limit_cron_error_frequency'] = 'Limit częstości zadań corn musi być liczbą.';
 $wb['error_template_name_empty'] = 'Proszę wpisać nazwę szablonu';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
 ?>

@@ -1,15 +1,11 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["email_txt"] = "Email";
-$wb["destination_txt"] = "Destination";
-$wb["active_txt"] = "Actif";
-$wb["email_error_isemail"] = "L'adresse email est invalide.";
-$wb["email_error_unique"] = "Dupliquer l'adresse e-mail.";
-$wb["no_domain_perm"] = "Vous n'avez pas de permissions pour ce domaine.";
-$wb["destination_error_isemail"] = "L'adresse email de destination est invalide.";
-$wb["limit_mailalias_txt"] = "Le nombre max. d'alias d'emails pour votre compte a été atteint.";
-$wb["duplicate_mailbox_txt"] = "Il y a déja une boîte mail avec cette adresse email";
+$wb['email_txt'] = 'Email';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Actif';
+$wb['email_error_isemail'] = 'Ladresse email est invalide.';
+$wb['email_error_unique'] = 'Dupliquer ladresse e-mail.';
+$wb['no_domain_perm'] = 'Vous navez pas de permissions pour ce domaine.';
+$wb['destination_error_isemail'] = 'Ladresse email de destination est invalide.';
+$wb['limit_mailalias_txt'] = 'Le nombre max. dalias demails pour votre compte a été atteint.';
+$wb['duplicate_mailbox_txt'] = 'Il y a déja une boîte mail avec cette adresse email';
 ?>
-

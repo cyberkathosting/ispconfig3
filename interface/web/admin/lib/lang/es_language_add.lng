@@ -6,4 +6,3 @@ $wb['btn_save_txt'] = 'Crear conjunto de ficheros de idioma';
 $wb['btn_cancel_txt'] = 'Atrás';
 $wb['language_new_hint_txt'] = '2 caracteres del código de idiomas ISO 639-1 (ver http://es.wikipedia.org/wiki/ISO_639-1)';
 ?>
-

@@ -1,11 +1,7 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
-$wb["list_head_txt"] = "Domaine E-mail";
-$wb["server_id_txt"] = "Serveur";
-$wb["domain_txt"] = "Domaine";
-$wb["add_new_record_txt"] = "Ajouter un nouveau domaine";
-$wb["active_txt"] = "Actif";
+$wb['list_head_txt'] = 'Domaine E-mail';
+$wb['server_id_txt'] = 'Serveur';
+$wb['domain_txt'] = 'Domaine';
+$wb['add_new_record_txt'] = 'Ajouter un nouveau domaine';
+$wb['active_txt'] = 'Actif';
 ?>
-

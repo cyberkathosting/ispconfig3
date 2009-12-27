@@ -1,7 +1,4 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
-
 $wb['header_txt'] = 'Editeur de Menu';
 $wb['title_txt'] = 'Titre';
 $wb['name_txt'] = 'Module';
@@ -17,4 +14,3 @@ $wb['module_del_txt'] = 'Voulez-vous supprimer le module et tous les fichiers et
 $wb['menu_del_txt'] = 'Voulez-vous supprimer le menu avec tous ses sous-menu ';
 $wb['item_del_txt'] = 'Voulez-vous supprimer lentre de menu ';
 ?>
-

@@ -21,4 +21,6 @@ $wb['origin_error_regex'] = 'Zone has a invalid format.';
 $wb['ns_error_regex'] = 'NS has a invalid format.';
 $wb['mbox_error_empty'] = 'Email is empty.';
 $wb['mbox_error_regex'] = 'Email format invalid.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
 ?>

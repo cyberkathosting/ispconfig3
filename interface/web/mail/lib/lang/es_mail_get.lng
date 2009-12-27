@@ -13,4 +13,3 @@ $wb['source_username_error_isempty'] = 'El nombre de usuario está vacío.';
 $wb['source_password_error_isempty'] = 'La contraseña está vacía.';
 $wb['destination_error_isemail'] = 'No se ha seleccionado el destino.';
 ?>
-

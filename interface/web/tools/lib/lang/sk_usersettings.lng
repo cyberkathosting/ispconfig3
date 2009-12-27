@@ -6,4 +6,3 @@ $wb['password_mismatch'] = 'Heslo v overovacom po?i nezodpovedá prvému heslu.';
 $wb['Form to edit the user password and language.'] = 'Formulár pre úpravu užívate?ského hesla a jazyka.';
 $wb['Settings'] = 'Nastavenia';
 ?>
-

@@ -1,37 +1,39 @@
 <?php
-// Traduction française par Falistos (http://hyodream.fr/ispconfig-fr)
-// Traduction sous licence GPL v3, voir http://www.gnu.org/licenses/gpl.txt
+$wb['custom_mailfilter_txt'] = 'Filtre à mails personalisés';
+$wb['email_txt'] = 'Email';
+$wb['cryptpwd_txt'] = 'Mot de passe';
+$wb['password_strength_txt'] = 'Force du mot de passe';
+$wb['active_txt'] = 'Actif';
+$wb['email_error_isemail'] = 'Ladresse email est invalide.';
+$wb['email_error_unique'] = 'Dupliquer ladresse email.';
+$wb['autoresponder_text_txt'] = 'Texte';
+$wb['autoresponder_txt'] = 'Auto répondeur';
+$wb['no_domain_perm'] = 'Vous navez pas de permissions sur ce domaine.';
+$wb['error_no_pwd'] = 'Le mot de passe est vide.';
+$wb['quota_error_isint'] = 'La taille de la bôite à mail doit être en MB.';
+$wb['quota_txt'] = 'quota en MB';
+$wb['server_id_txt'] = 'ID Serveur';
+$wb['password_txt'] = 'mot de passe';
+$wb['maildir_txt'] = 'maildir';
+$wb['postfix_txt'] = 'Activer la réception';
+$wb['access_txt'] = 'Activer laccès';
+$wb['policy_txt'] = 'Filtre à spam';
+$wb['no_policy'] = '- non activé -';
+$wb['limit_mailbox_txt'] = 'The max. number of mailboxes for your account is reached.';
+$wb['limit_mailquota_txt'] = 'The max space for mailboxes is reached. The max. available space in MB is';
+$wb['welcome_mail_subject'] = 'Bienvenue sur votre nouveau compte mail.';
+$wb['welcome_mail_message'] = 'Bienvenue sur votre nouveau compte mail.
 
-$wb["custom_mailfilter_txt"] = "Filtre à mails personalisés";
-$wb["email_txt"] = "Email";
-$wb["cryptpwd_txt"] = "Mot de passe";
-$wb["password_strength_txt"] = "Force du mot de passe";
-$wb["active_txt"] = "Actif";
-$wb["email_error_isemail"] = "L'adresse email est invalide.";
-$wb["email_error_unique"] = "Dupliquer l'adresse email.";
-$wb["autoresponder_text_txt"] = "Texte";
-$wb["autoresponder_txt"] = "Auto répondeur";
-$wb["no_domain_perm"] = "Vous n'avez pas de permissions sur ce domaine.";
-$wb["error_no_pwd"] = "Le mot de passe est vide.";
-$wb["quota_error_isint"] = "La taille de la bôite à mail doit être en MB.";
-$wb["quota_txt"] = "quota en MB";
-$wb["server_id_txt"] = "ID Serveur";
-$wb["password_txt"] = "mot de passe";
-$wb["maildir_txt"] = "maildir";
-$wb["postfix_txt"] = "Activer la réception";
-$wb["access_txt"] = "Activer l'accès";
-$wb["policy_txt"] = "Filtre à spam";
-$wb["no_policy"] = "- non activé -";
-$wb["limit_mailbox_txt"] = "The max. number of mailboxes for your account is reached.";
-$wb["limit_mailquota_txt"] = "The max space for mailboxes is reached. The max. available space in MB is";
-$wb["welcome_mail_subject"] = "Bienvenue sur votre nouveau compte mail.";
-$wb["welcome_mail_message"] = "Bienvenue sur votre nouveau compte mail.
-
-Votre webmaster.";
-$wb["disableimap_txt"] = "Désactiver IMAP";
-$wb["disablepop3_txt"] = "Désactiver POP3";
-$wb["welcome_mail_fromname_txt"] = "ISPConfig3";
-$wb["welcome_mail_fromemail_txt"] = "webmaster@localhost.tld";
-$wb["duplicate_alias_or_forward_txt"] = "Il y a déja un alias ou un suivi avec cette adresse email.";
+Votre webmaster.';
+$wb['disableimap_txt'] = 'Désactiver IMAP';
+$wb['disablepop3_txt'] = 'Désactiver POP3';
+$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
+$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
+$wb['duplicate_alias_or_forward_txt'] = 'Il y a déja un alias ou un suivi avec cette adresse email.';
+$wb['autoresponder_start_date_txt'] = 'Start on';
+$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
+$wb['autoresponder_end_date_txt'] = 'End by';
+$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
+$wb['quota_error_value'] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
+$wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
 ?>
-

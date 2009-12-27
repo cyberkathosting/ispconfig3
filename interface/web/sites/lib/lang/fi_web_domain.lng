@@ -46,4 +46,7 @@ $wb['error_ssl_organisation_unit_empty'] = 'SSL-organisaatioyksikkö-kenttä on 
 $wb['error_ssl_country_empty'] = 'SSL-maa-kenttä on tyhjä.';
 $wb['client_group_id_txt'] = 'Asiakas';
 $wb['stats_password_txt'] = 'Tilastoinnin salasana';
+$wb['ssl_domain_txt'] = 'SSL Domain';
+$wb['allow_override_txt'] = 'Allow Override';
+$wb['limit_web_quota_free_txt'] = 'Max. available Harddisk Quota';
 ?>

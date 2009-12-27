@@ -6,4 +6,3 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['add_new_record_txt'] = 'Prida? novú doménu';
 ?>
-

@@ -1,9 +1,9 @@
 <?php
-$wb["server_id_txt"] = 'Sunucu';
-$wb["wb_txt"] = 'wb';
-$wb["rid_txt"] = 'Kullanıcı';
-$wb["email_txt"] = 'Email';
-$wb["priority_txt"] = 'Öncelik';
-$wb["active_txt"] = 'Aktif';
-$wb["limit_spamfilter_wblist_txt"] = 'Hesabınızdaki max. ak/kara liste kaydına ulaştınız.';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Kullanıcı';
+$wb['email_txt'] = 'Email';
+$wb['priority_txt'] = 'Öncelik';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_spamfilter_wblist_txt'] = 'Hesabınızdaki max. ak/kara liste kaydına ulaştınız.';
 ?>

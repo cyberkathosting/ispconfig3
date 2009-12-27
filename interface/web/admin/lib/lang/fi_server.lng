@@ -8,4 +8,6 @@ $wb['file_server_txt'] = 'FTP-palvelin';
 $wb['db_server_txt'] = 'Tietokantapalvelin';
 $wb['vserver_server_txt'] = 'Virtuaalipalvelin';
 $wb['active_txt'] = 'Käytössä';
+$wb['mirror_server_id_txt'] = 'Is mirror of Server';
+$wb['- None -'] = '- None -';
 ?>

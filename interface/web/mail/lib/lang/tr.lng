@@ -20,7 +20,6 @@ $wb['Email filter'] = 'Email filtresi';
 $wb['Email Whitelist'] = 'Email Aklistesi';
 $wb['Whitelist'] = 'Akliste';
 $wb['Spamfilter blacklist'] = 'Spam filtre karalistesi';
-$wb['Blacklist'] = 'Kara liste';
 $wb['Spamfilter Config'] = 'Spam filtresi Ayarları';
 $wb['Server'] = 'Sunucu';
 $wb['Spamfilter policy'] = 'Spam filtresi kuralları';
@@ -31,13 +30,11 @@ $wb['Other'] = 'Diğer';
 $wb['Spamfilter users'] = 'Spam filtresi kullanıcıları';
 $wb['Users'] = 'Kullanıcılar';
 $wb['Spamfilter Whitelist'] = 'Spam filtre aklistesi';
-$wb['Whitelist'] = 'Akliste';
 $wb['Email'] = 'Email';
 $wb['Email Mailbox'] = 'Email Kutusu';
 $wb['Email Accounts'] = 'Email Hesapları';
 $wb['User / Domain'] = 'Kullanıcı / Domain';
 $wb['Server Settings'] = 'Sunucu Ayarları';
-$wb['Spamfilter'] = 'Spam filtresi';
 $wb['Fetchmail'] = 'Fetchmail';
 $wb['Mailbox traffic'] = 'Mail kutusu trafiği';
 $wb['Statistics'] = 'İstatistikler';
@@ -45,5 +42,4 @@ $wb['Postfix Whitelist'] = 'Postfix Aklistesi';
 $wb['Postfix Blacklist'] = 'Postfix Karalistesi';
 $wb['Content Filter'] = 'İçerik Filtresi';
 $wb['Global Filters'] = 'Global Filtreler';
-
 ?>

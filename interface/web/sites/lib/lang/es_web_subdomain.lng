@@ -37,4 +37,3 @@ $wb['domain_error_unique'] = 'El dominio debe ser único.';
 $wb['domain_error_regex'] = 'El nombre de dominio no es válido.';
 $wb['host_txt'] = 'Alojamiento';
 ?>
-

@@ -49,5 +49,7 @@ $wb['limit_cron_type_txt'] = 'Tipo máximo de tareas cron (chrooted y full impli
 $wb['limit_cron_frequency_txt'] = 'Espera mínima entre ejecuciones';
 $wb['limit_cron_error_notint'] = 'El límite de tareas cron debe ser un número.';
 $wb['limit_cron_error_frequency'] = 'El límite de la frecuencia de cron debe ser un número.';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
 ?>
-

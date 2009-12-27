@@ -21,4 +21,6 @@ $wb['origin_error_regex'] = 'DNS zone heeft een ongeldige indeling.';
 $wb['ns_error_regex'] = 'Nameserver heeft een ongeldige indeling.';
 $wb['mbox_error_empty'] = 'E-mailadres is leeg.';
 $wb['mbox_error_regex'] = 'De indeling van het e-mailadres is ongeldig.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
 ?>

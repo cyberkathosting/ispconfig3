@@ -1,9 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Gelişmiş Email Rotası';
-$wb["active_txt"] = 'Aktif';
-$wb["server_id_txt"] = 'Sunucu';
-$wb["domain_txt"] = 'Domain';
-$wb["transport_txt"] = 'Nakil';
-$wb["sort_order_txt"] = 'Sırala';
-$wb["add_new_record_txt"] = 'Yeni Rota';
+$wb['list_head_txt'] = 'Gelişmiş Email Rotası';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['domain_txt'] = 'Domain';
+$wb['transport_txt'] = 'Nakil';
+$wb['sort_order_txt'] = 'Sırala';
+$wb['add_new_record_txt'] = 'Yeni Rota';
 ?>

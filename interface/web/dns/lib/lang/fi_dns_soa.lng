@@ -21,4 +21,6 @@ $wb['origin_error_regex'] = 'Alue (SOA)-kenttä on vääränlainen.';
 $wb['ns_error_regex'] = 'Nimipalvelin-kenttä on tyhjä.';
 $wb['mbox_error_empty'] = 'Sähköpostiosoite on tyhjä.';
 $wb['mbox_error_regex'] = 'Sähköpostiosoite on vääränlainen';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
 ?>

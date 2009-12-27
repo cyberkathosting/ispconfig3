@@ -10,4 +10,6 @@ $wb['ftpuser_prefix_error_regex'] = 'FTP-käyttäjätunnuksen etuliite on väär
 $wb['shelluser_prefix_error_regex'] = 'Shell-käyttäjätunnuksen etuliite on vääränlainen.';
 $wb['dblist_phpmyadmin_link_txt'] = 'Linkki phpMyAdminiin tietokantalistassa';
 $wb['mailboxlist_webmail_link_txt'] = 'Linkki internetpostiin postilaatikkolistassa';
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 ?>

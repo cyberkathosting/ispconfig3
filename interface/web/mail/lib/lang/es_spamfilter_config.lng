@@ -18,4 +18,3 @@ $wb['relayhost_password_txt'] = 'Contraseña Relayhost';
 $wb['mailbox_size_limit_txt'] = 'Límite de tamaño de buzón';
 $wb['message_size_limit_txt'] = 'Límite de tamaño de mensaje';
 ?>
-
