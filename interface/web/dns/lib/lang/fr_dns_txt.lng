@@ -11,9 +11,9 @@ $wb["ttl_txt"] = "TTL";
 $wb["active_txt"] = "Actif";
 $wb["limit_dns_record_txt"] = "Le nombre maximum d'enregistrements DNS pour votre compte a été atteint.";
 $wb["no_zone_perm"] = "Vous n'avez pas la permissions d'ajouter un enregistrement dans cette zone DNS.";
-$wb["name_error_empty"] = "L"hôte est vide.";
+$wb["name_error_empty"] = "L'hôte est vide.";
 $wb["name_error_regex"] = "L'hôte est d'un format invalide.";
 $wb["data_error_empty"] = "Le texte est vide.";
-$wb["data_error_regex"] = "Le texte est d"un format invalide.";
+$wb["data_error_regex"] = "Le texte est d'un format invalide.";
 ?>
 
