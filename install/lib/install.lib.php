@@ -72,12 +72,18 @@ function get_distname() {
 			$distid = 'debian40';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 4.0 or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'5.0') || trim(file_get_contents('/etc/debian_version')) == 'lenny/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'5.0')) {
 			$distname = 'Debian';
-			$distver = 'Lenny/Sid';
+			$distver = 'Lenny';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian Lenny/Sid or compatible\n");
+			swriteln("Operating System: Debian Lenny or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
+			$distname = 'Debian';
+			$distver = 'Squeeze/Sid';
+			$distid = 'debian40';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian Squeeze/Sid or compatible\n");
 		}  else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
