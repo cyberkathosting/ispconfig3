@@ -256,7 +256,7 @@ function meta_web()
 		package_list="$package_list app-admin/webalizer"
 	fi
 	
-	if is_package_installed "app-admin/vlogger"
+	if ! is_package_installed "app-admin/vlogger"
 	then
 		# Check if package is masked
 		if [ -n "$(equery -C -N list -I -o -e app-admin/vlogger | grep app-admin/vlogger | awk '{print $2}' | grep '^\[M')" ]
