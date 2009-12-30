@@ -213,22 +213,16 @@ class powerdns_plugin {
 		
 		$type = $data["new"]["type"];
 		
-		switch ($type) {
-			case "PTR":
-				$name = $data["new"]["name"];
-				break;
-    		default:
-				if(substr($data["new"]["name"], -1) == '.'){
-					$name = substr($data["new"]["name"], 0, -1);
-				} else {
-					if($data["new"]["name"] == ""){
-						$name = $origin;
-					} else {
-						$name = $data["new"]["name"].'.'.$origin;
-					}
-				}
-				if($name == '') $name = $origin;
+		if(substr($data["new"]["name"], -1) == '.'){
+			$name = substr($data["new"]["name"], 0, -1);
+		} else {
+			if($data["new"]["name"] == ""){
+				$name = $origin;
+			} else {
+				$name = $data["new"]["name"].'.'.$origin;
+			}
 		}
+		if($name == '') $name = $origin;
 		
 		switch ($type) {
 			case "CNAME":
