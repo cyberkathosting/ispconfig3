@@ -49,7 +49,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 	// initial check
 	$parts = explode('|',$lines[0]);
 	if($parts[0] == '---' && $parts[1] == 'ISPConfig Language File') {
-		if($parts[2] != $conf["app_version"]) {
+		if($_POST['ignore_version'] != 1 && $parts[2] != $conf["app_version"]) {
 			$error .= 'Application version does not match. Appversion: '.$conf["app_version"].' Lanfile version: '.$parts[2];
 		} else {
 			unset($lines[0]);

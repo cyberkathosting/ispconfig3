@@ -2,11 +2,12 @@
 $wb['Client'] = 'Klant';
 $wb['Address'] = 'Adresgegevens';
 $wb['Limits'] = 'Limieten';
-$wb['Add Client'] = 'Toevoegen klant';
-$wb['Edit Client'] = 'Wijzigen klant';
+$wb['Add Client'] = 'Nieuwe klant';
+$wb['Edit Client'] = 'Wijzig klant';
 $wb['Clients'] = 'Klanten';
-$wb['Edit Client-Templates'] = 'Wijzigen Klant-templates';
-$wb['Add Reseller'] = 'Reseller toevoegen';
-$wb['Edit Reseller'] = 'Reseller wijzigen';
+$wb['Edit Client-Templates'] = 'Wijzig klant-template';
+$wb['Add Reseller'] = 'Nieuwe reseller';
+$wb['Edit Reseller'] = 'Wijzig reseller';
 $wb['Resellers'] = 'Resellers';
 ?>
+

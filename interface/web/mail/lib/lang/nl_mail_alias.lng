@@ -9,3 +9,4 @@ $wb['destination_error_isemail'] = 'E-mailadres geadresseerde is ongeldig.';
 $wb['limit_mailalias_txt'] = 'Het max. aantal e-mailaliassen voor uw account is bereikt.';
 $wb['duplicate_mailbox_txt'] = 'Er is al een e-mailaccount ingesteld op het door u gewenste adres.';
 ?>
+

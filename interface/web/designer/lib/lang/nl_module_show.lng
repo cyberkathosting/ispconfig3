@@ -14,3 +14,4 @@ $wb['module_del_txt'] = 'Wilt u de module en alle data en sublijsten die in deze
 $wb['menu_del_txt'] = 'Wilt u het menu en alle subitems verwijderen?';
 $wb['item_del_txt'] = 'Wilt u de menuitems verwijderen?';
 ?>
+

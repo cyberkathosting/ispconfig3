@@ -6,3 +6,4 @@ $wb['last_month_txt'] = 'Laatste maand';
 $wb['this_year_txt'] = 'Dit jaar';
 $wb['last_year_txt'] = 'Vorig jaar';
 ?>
+

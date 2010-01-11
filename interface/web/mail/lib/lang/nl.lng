@@ -1,16 +1,17 @@
 <?php
-$wb['Email Alias'] = 'E-mail alias';
+$wb['Email Alias'] = 'Account aliassen';
 $wb['Email Blacklist'] = 'E-mail blacklist';
 $wb['Blacklist'] = 'Blacklist';
 $wb['Mail Content Filter'] = 'Mail content filter';
 $wb['Filter'] = 'Filter';
 $wb['Mail Domain'] = 'E-mail domein';
-$wb['Domain'] = 'E-mail domeinen';
-$wb['Email Catchall'] = 'E-mail catch-all';
-$wb['Email Forward'] = 'E-mail forward';
+$wb['Domain'] = 'Domeinen';
+$wb['Domain Alias'] = 'Domeinaliassen';
+$wb['Email Catchall'] = 'Catch-all records';
+$wb['Email Forward'] = 'Doorstuur records';
 $wb['Get Email'] = 'Ontvang e-mail';
 $wb['Spamfilter'] = 'Spamfilter';
-$wb['Email Routing'] = 'E-mail routing';
+$wb['Email Routing'] = 'Routing';
 $wb['Email transport'] = 'E-mail transport';
 $wb['Mailbox'] = 'E-mailaccount';
 $wb['Autoresponder'] = 'Autoresponder';
@@ -31,7 +32,7 @@ $wb['Spamfilter users'] = 'Spamfilter gebruikers';
 $wb['Users'] = 'Gebruikers';
 $wb['Spamfilter Whitelist'] = 'Spamfilter whitelist';
 $wb['Email'] = 'E-mail';
-$wb['Email Mailbox'] = 'E-mail accounts';
+$wb['Email Mailbox'] = 'Accounts';
 $wb['Email Accounts'] = 'E-mail';
 $wb['User / Domain'] = 'Gebruiker / domein';
 $wb['Server Settings'] = 'Server instellingen';
@@ -42,4 +43,6 @@ $wb['Postfix Whitelist'] = 'Postfix whitelist';
 $wb['Postfix Blacklist'] = 'Postfix blacklist';
 $wb['Content Filter'] = 'Content filter';
 $wb['Global Filters'] = 'Globale filters';
+$wb['Relay Recipients'] = 'Relay ontvangers';
 ?>
+

@@ -1,9 +1,10 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Relay recipient';
-$wb['recipient_txt'] = 'Recipient';
-$wb['active_txt'] = 'Active';
-$wb['source_error_notempty'] = 'Address is empty.';
+$wb['source_txt'] = 'Relay ontvanger';
+$wb['recipient_txt'] = 'Ontvanger';
+$wb['active_txt'] = 'Actief?';
+$wb['source_error_notempty'] = 'E-mailadres van de ontvanger is leeg.';
 $wb['type_txt'] = 'Type';
-$wb['limit_mailfilter_txt'] = 'The max. number of email filters for your account is reached.';
+$wb['limit_mailfilter_txt'] = 'Het maximum aantal e-mailfilters van uw account is bereikt.';
 ?>
+

@@ -37,3 +37,4 @@ $wb['domain_error_unique'] = 'Domein moet uniek zijn.';
 $wb['domain_error_regex'] = 'Domeinnaam ongeldig.';
 $wb['host_txt'] = 'Hostnaam';
 ?>
+

@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'De zone heeft het verkeerde formaat.';
 $wb['data_error_empty'] = 'Nameserver is leeg.';
 $wb['data_error_regex'] = 'Nameserver formaat ongeldig.';
 ?>
+

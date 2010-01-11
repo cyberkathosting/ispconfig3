@@ -7,3 +7,4 @@ $wb['source_username_txt'] = 'Gebruikersnaam';
 $wb['destination_txt'] = 'Bestemming';
 $wb['add_new_record_txt'] = 'Nieuwe account toevoegen';
 ?>
+

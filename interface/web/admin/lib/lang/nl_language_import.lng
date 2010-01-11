@@ -5,3 +5,4 @@ $wb['btn_save_txt'] = 'Importeer het geselecteerde taalbestand';
 $wb['language_overwrite_txt'] = 'Overschrijven indien deze al bestaat?';
 $wb['btn_cancel_txt'] = 'Terug';
 ?>
+

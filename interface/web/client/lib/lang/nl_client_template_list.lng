@@ -3,3 +3,4 @@ $wb['list_head_txt'] = 'Klant-templates';
 $wb['template_type_txt'] = 'Type';
 $wb['template_name_txt'] = 'Template naam';
 ?>
+

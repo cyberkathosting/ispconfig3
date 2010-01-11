@@ -7,3 +7,4 @@ $wb['banned_files_lover_txt'] = 'Verbannen bestanden liefhebbers';
 $wb['bad_header_lover_txt'] = 'Verbannen header liefhebbers';
 $wb['add_new_record_txt'] = 'Policy record toevoegen';
 ?>
+

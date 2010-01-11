@@ -21,7 +21,7 @@ $wb['filter_txt'] = 'Filteren';
 $wb['add_new_record_txt'] = 'Toevoegen';
 $wb['btn_save_txt'] = 'Opslaan';
 $wb['btn_cancel_txt'] = 'Annuleren';
-$wb['System'] = 'Servers';
+$wb['System'] = 'Admin';
 $wb['Client'] = 'Klanten';
 $wb['Email'] = 'E-mail';
 $wb['Monitor'] = 'Monitor';
@@ -30,5 +30,8 @@ $wb['DNS'] = 'DNS';
 $wb['Tools'] = 'Tools';
 $wb['Help'] = 'Help';
 $wb['toolsarea_head_txt'] = 'Tools';
-$wb['page_and_txt'] = 'and';
+$wb['page_and_txt'] = 'en';
+$wb['Seconds'] = 'seconden';
+$wb['ERROR'] = 'Foutmelding';
 ?>
+

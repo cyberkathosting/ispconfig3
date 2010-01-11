@@ -6,3 +6,4 @@ $wb['pattern_txt'] = 'Patroon';
 $wb['action_txt'] = 'Actie';
 $wb['add_new_record_txt'] = 'Nieuw content filter toevoegen';
 ?>
+

@@ -1,9 +1,10 @@
 <?php
-$wb['username_txt'] = 'Username:';
-$wb['password_txt'] = 'Password:';
-$wb['function_txt'] = 'Functions:';
-$wb['username_error_unique'] = 'Username must be unique';
-$wb['username_error_empty'] = 'Username cannot be empty';
-$wb['password_error_empty'] = 'Password cannot be empty';
-$wb['password_strength_txt'] = 'Password Strength:';
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['password_txt'] = 'Wachtwoord';
+$wb['function_txt'] = 'Toegestane functies';
+$wb['username_error_unique'] = 'Gebruikersnaam moet uniek zijn.';
+$wb['username_error_empty'] = 'Gebruikersnaam mag niet leeg zijn.';
+$wb['password_error_empty'] = 'Wachtwoord mag niet leeg zijn.';
+$wb['password_strength_txt'] = 'Wachtwoord-sterkte';
 ?>
+

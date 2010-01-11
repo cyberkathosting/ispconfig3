@@ -37,10 +37,10 @@ $wb['Show Mail err-Log'] = 'E-Mail mail-err-log';
 $wb['Show System-Log'] = 'Systeem logboek';
 $wb['Show Freshclam-Log'] = 'Freshclam-log';
 $wb['Show Clamav-Log'] = 'Clamav-Log';
-$wb['Show ISPConfig-Log'] = 'ISPconfig-log';
+$wb['Show ISPConfig-Log'] = 'ISPConfig-log';
 $wb['Show RKHunter-Log'] = 'Rootkit Hunter-log';
-$wb['Show Jobqueue'] = 'ISPconfig taak-wachtrij';
-$wb['Show ISPC Cron-Log'] = 'ISPconfig Cron-log';
+$wb['Show Jobqueue'] = 'ISPConfig taak-wachtrij';
+$wb['Show ISPC Cron-Log'] = 'ISPConfig Cron-log';
 $wb['no_data_updates_txt'] = 'Er zijn op dit moment geen gegevens beschikbaar. Probeer het later opnieuw.';
 $wb['no_data_raid_txt'] = 'Er is op dit moment geen RAID informatie bekend. Probeer het later opnieuw.';
 $wb['no_data_rkhunter_txt'] = 'Er is op dit moment geen informatie beschikbaar over de Rootkit Hunter. Probeer het later opnieuw.';
@@ -61,7 +61,7 @@ $wb['monitor_logs_messages_txt'] = 'Systemberichten - Log';
 $wb['monitor_logs_ispccron_txt'] = 'ISPConfig Cron - Log';
 $wb['monitor_logs_freshclam_txt'] = 'Freshclam - Log';
 $wb['monitor_logs_clamav_txt'] = 'Clamav - Log';
-$wb['monitor_logs_ispc_txt'] = 'ISPconfig - Log';
+$wb['monitor_logs_ispc_txt'] = 'ISPConfig - Log';
 $wb['monitor_nomdadm_txt'] = 'mdadm is niet geinstalleerd of deze server ondersteunt/gebruikt geen software RAID.';
 $wb['monitor_norkhunter_txt'] = 'RKHunter is niet geinstalleerd. Hierdoor is er geen informatie beschikbaar.';
 $wb['monitor_serverstate_server_txt'] = 'Server';
@@ -135,3 +135,4 @@ $wb['monitor_title_raidstate_txt'] = 'RAID status';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Uw distributie ondersteunt deze controle-software niet';
 ?>
+

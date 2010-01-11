@@ -8,8 +8,8 @@ $wb['run_hour_txt'] = 'Uren';
 $wb['run_mday_txt'] = 'Dagen van maand';
 $wb['run_month_txt'] = 'Maanden';
 $wb['run_wday_txt'] = 'Dagen van week';
-$wb['command_txt'] = 'Uit te voeren commando<br />(Commando wordt uitgevoerd met sh,<br />URLs met wget)';
-$wb['limit_cron_txt'] = 'Het max. aantal toegestane cron-jobs is bereikt.';
+$wb['command_txt'] = 'Uit te voeren commando<br />(Shell-commando -> sh, URL -> wget)';
+$wb['limit_cron_txt'] = 'Het max. aantal toegestane Cron taken is bereikt.';
 $wb['limit_cron_frequency_txt'] = 'De cronjob frequentie overschrijdt de toegestaande limiet.';
 $wb['run_min_error_format'] = 'Ongeldige indeling voor minuten.';
 $wb['run_hour_error_format'] = 'Ongeldige indeling voor uren.';
@@ -19,3 +19,4 @@ $wb['run_wday_error_format'] = 'Ongeldige indeling voor dagen van week.';
 $wb['command_error_format'] = 'Ongeldige commando indeling. In geval van een URL, alleen http/https wordt ondersteund.';
 $wb['unknown_fieldtype_error'] = 'Een onbekend veld-type wordt gebruikt.';
 ?>
+

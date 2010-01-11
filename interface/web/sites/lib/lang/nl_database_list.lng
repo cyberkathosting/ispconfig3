@@ -6,3 +6,4 @@ $wb['server_id_txt'] = 'Server';
 $wb['database_name_txt'] = 'Databasenaam';
 $wb['add_new_record_txt'] = 'Nieuwe database toevoegen';
 ?>
+

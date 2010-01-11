@@ -5,3 +5,4 @@ $wb['module_txt'] = 'Module';
 $wb['title_txt'] = 'Titel';
 $wb['description_txt'] = 'Omschrijving';
 ?>
+

@@ -14,3 +14,4 @@ $wb['name_error_regex'] = 'De hostnaam heeft een ongeldige indeling.';
 $wb['data_error_empty'] = 'Mailserver hostnaam is leeg.';
 $wb['data_error_regex'] = 'Mailserver hostnaam indeling is ongeldig.';
 ?>
+

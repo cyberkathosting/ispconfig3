@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Exporteer taalbestanden';
+$wb['list_head_txt'] = 'Exporteer taalbestand';
 $wb['language_select_txt'] = 'Selecteer taal';
 $wb['btn_save_txt'] = 'Exporteren';
 $wb['btn_cancel_txt'] = 'Terug';
 ?>
+

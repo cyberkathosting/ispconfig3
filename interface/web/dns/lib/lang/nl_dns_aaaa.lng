@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'De hostnaam heeft een verkeerde indeling.';
 $wb['data_error_empty'] = 'IP-adres is leeg.';
 $wb['data_error_regex'] = 'IP-adres heeft geen juiste indeling.';
 ?>
+

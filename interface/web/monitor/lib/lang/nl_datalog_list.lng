@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'ISPconfig taak-wachtrij';
+$wb['list_head_txt'] = 'ISPConfig taak-wachtrij';
 $wb['tstamp_txt'] = 'Datum';
 $wb['server_id_txt'] = 'Server';
 $wb['dbtable_txt'] = 'Database tabel';
 $wb['action_txt'] = 'Actie';
 $wb['status_txt'] = 'Status';
 ?>
+

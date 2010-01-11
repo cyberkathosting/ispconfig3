@@ -3,5 +3,6 @@ $wb['list_head_txt'] = 'Gebruikersgroepen';
 $wb['description_txt'] = 'Omschrijving';
 $wb['name_txt'] = 'Groep';
 $wb['add_new_record_txt'] = 'Nieuwe groep toevoegen';
-$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
+$wb['warning_txt'] = '<b>LET OP:</b> Uitgevoerde wijzigingen in deze module kunnen gevolgen hebben voor gebruikers gekoppeld aan deze groepen!';
 ?>
+

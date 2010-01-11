@@ -7,7 +7,7 @@ $wb['passwort_txt'] = 'Wachtwoord';
 $wb['modules_txt'] = 'Beschikbare modulen';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['startmodule_txt'] = 'Vervolgmodule na aanmelding';
-$wb['app_theme_txt'] = 'ISPconfig Thema';
+$wb['app_theme_txt'] = 'ISPConfig Thema';
 $wb['typ_txt'] = 'Type gebruiker';
 $wb['active_txt'] = 'Actief?';
 $wb['language_txt'] = 'Taal';
@@ -26,3 +26,4 @@ $wb['groups_txt'] = 'Gebruiker is lid van groep';
 $wb['default_group_txt'] = 'Standaard groep';
 $wb['startmodule_err'] = 'Module is niet binnen de lijst van beschikbare modulen.';
 ?>
+
