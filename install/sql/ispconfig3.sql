@@ -549,8 +549,10 @@ CREATE TABLE `mail_user` (
   `custom_mailfilter` mediumtext,
   `postfix` enum('n','y') NOT NULL,
   `access` enum('n','y') NOT NULL,
-  `disableimap` enum('0','1') NOT NULL default '0',
-  `disablepop3` enum('0','1') NOT NULL default '0',
+  `disableimap` enum('n','y') NOT NULL default 'n',
+  `disablepop3` enum('n','y') NOT NULL default 'n',
+  `disabledeliver` enum('n','y') NOT NULL default 'n',
+  `disablesmtp` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`),
   KEY `email_access` (`email`,`access`)

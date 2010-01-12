@@ -151,14 +151,14 @@ $form["tabs"]['mailuser'] = array (
 		'disableimap' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(1 => '1',0 => '0')
+			'default'	=> 'n',
+			'value'		=> array(1 => 'y',0 => 'n')
 		),
 		'disablepop3' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(1 => '1',0 => '0')
+			'default'	=> 'n',
+			'value'		=> array(1 => 'y',0 => 'n')
 		),
 	##################################
 	# ENDE Datatable fields

@@ -314,9 +314,15 @@ if($reconfigure_services_answer == 'yes') {
 		swriteln('Configuring PAM');
 		$inst->configure_pam();
 
-		//** Configure courier
-		swriteln('Configuring Courier');
-		$inst->configure_courier();
+		if($conf['dovecot']['installed'] == true) {
+			//* Configure dovecot
+			swriteln('Configuring Dovecot');
+			$inst->configure_dovecot();
+		} else {
+			//* Configure courier
+			swriteln('Configuring Courier');
+			$inst->configure_courier();
+		}
 
 		//** Configure Spamasassin
 		swriteln('Configuring Spamassassin');
@@ -408,6 +414,7 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['courier']['courier-imap-ssl'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'])) 	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
 		if($conf['courier']['courier-pop'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
 		if($conf['courier']['courier-pop-ssl'] != '' && is_file($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
+		if($conf['dovecot']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['dovecot']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['dovecot']['init_script'].' restart');
 	}
 	if($conf['services']['web']) {
 		if($conf['apache']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');

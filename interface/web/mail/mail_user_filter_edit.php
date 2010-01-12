@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 		$found = false;
 		
 		foreach($lines as $line) {
-			$line = trim($line);
+			$line = rtrim($line);
 			if($line == '### BEGIN FILTER_ID:'.$this->id) {
 				$skip = true;
 				$found = true;
@@ -117,21 +117,69 @@ class page_action extends tform_actions {
 	
 	function getRule() {
 		
-		$content = '';
-		$content .= '### BEGIN FILTER_ID:'.$this->id."\n";
+		global $app,$conf;
+		
+		$app->uses("getconf");
+		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".intval($this->dataRecord["mailuser_id"]));
+		$mail_config = $app->getconf->get_server_config(intval($mailuser_rec["server_id"]),'mail');
+		
+		if($mail_config['mail_filter_syntax'] == 'sieve') {
+			
+			// #######################################################
+			// Filter in Sieve Syntax
+			// #######################################################
+			
+			$content = '';
+			$content .= '### BEGIN FILTER_ID:'.$this->id."\n";
+			
+			//$content .= 'require ["fileinto", "regex", "vacation"];'."\n";
+			
+			$content .= 'if header :regex    ["'.strtolower($this->dataRecord["source"]).'"] ["';
+			
+			$searchterm = preg_quote($this->dataRecord["searchterm"]);
+			
+			if($this->dataRecord["op"] == 'contains') {
+				$content .= ".*".$searchterm;
+			} elseif ($this->dataRecord["op"] == 'is') {
+				$content .= $searchterm."$";
+			} elseif ($this->dataRecord["op"] == 'begins') {
+				$content .= " ".$searchterm."";
+			} elseif ($this->dataRecord["op"] == 'ends') {
+				$content .= ".*".$searchterm."$";
+			}
+			
+			$content .= '"] {'."\n";
+			
+			if($this->dataRecord["action"] == 'move') {
+				$content .= '    fileinto "'.$this->dataRecord["target"].'";' . "\n";
+			} else {
+				$content .= "    discard;\n";
+			}
+			
+			$content .= "    stop;\n}\n";
+			
+			$content .= '### END FILTER_ID:'.$this->id."\n";
+		
+		} else {
+		
+			// #######################################################
+			// Filter in Maildrop Syntax
+			// #######################################################
+			$content = '';
+			$content .= '### BEGIN FILTER_ID:'.$this->id."\n";
 
-		$TargetNoQuotes = $this->dataRecord["target"];
-		$TargetQuotes = "\"$TargetNoQuotes\"";
+			$TargetNoQuotes = $this->dataRecord["target"];
+			$TargetQuotes = "\"$TargetNoQuotes\"";
 
-		$TestChDirNoQuotes = '$DEFAULT/.'.$TargetNoQuotes;
-		$TestChDirQuotes = "\"$TestChDirNoQuotes\"";
+			$TestChDirNoQuotes = '$DEFAULT/.'.$TargetNoQuotes;
+			$TestChDirQuotes = "\"$TestChDirNoQuotes\"";
 
-		$MailDirMakeNoQuotes = $TargetQuotes.' $DEFAULT';
+			$MailDirMakeNoQuotes = $TargetQuotes.' $DEFAULT';
 
-		$EchoTargetFinal = $TargetNoQuotes;
+			$EchoTargetFinal = $TargetNoQuotes;
 
 
-		if($this->dataRecord["action"] == 'move') {
+			if($this->dataRecord["action"] == 'move') {
 
 			$content .= "
 `test -e ".$TestChDirQuotes." && exit 1 || exit 0`
@@ -142,38 +190,40 @@ if ( ".'$RETURNCODE'." != 1 )
 	`echo \"INBOX.$EchoTargetFinal\" >> ".'$DEFAULT'."/courierimapsubscribed`
 }
 ";
-		}
+			}
 
-		$content .= "if (/^".$this->dataRecord["source"].":";
+			$content .= "if (/^".$this->dataRecord["source"].":";
 
-		$searchterm = preg_quote($this->dataRecord["searchterm"]);
+			$searchterm = preg_quote($this->dataRecord["searchterm"]);
 
-		if($this->dataRecord["op"] == 'contains') {
-			$content .= ".*".$searchterm."/:h)\n";
-		} elseif ($this->dataRecord["op"] == 'is') {
-			$content .= $searchterm."$/:h)\n";
-		} elseif ($this->dataRecord["op"] == 'begins') {
-			$content .= " ".$searchterm."/:h)\n";
-		} elseif ($this->dataRecord["op"] == 'ends') {
-			$content .= ".*".$searchterm."$/:h)\n";
-		}
+			if($this->dataRecord["op"] == 'contains') {
+				$content .= ".*".$searchterm."/:h)\n";
+			} elseif ($this->dataRecord["op"] == 'is') {
+				$content .= $searchterm."$/:h)\n";
+			} elseif ($this->dataRecord["op"] == 'begins') {
+				$content .= " ".$searchterm."/:h)\n";
+			} elseif ($this->dataRecord["op"] == 'ends') {
+				$content .= ".*".$searchterm."$/:h)\n";
+			}
 
-		$content .= "{\n";
-		$content .= "exception {\n";
+			$content .= "{\n";
+			$content .= "exception {\n";
 
-		if($this->dataRecord["action"] == 'move') {
-			$content .= 'ID' . "$this->id" . 'EndFolder = "$DEFAULT/.' . $this->dataRecord['target'] . '/"' . "\n";
-			$content .= "to ". '$ID' . "$this->id" . 'EndFolder' . "\n";
-		} else {
-			$content .= "to /dev/null\n";
-		}
+			if($this->dataRecord["action"] == 'move') {
+				$content .= 'ID' . "$this->id" . 'EndFolder = "$DEFAULT/.' . $this->dataRecord['target'] . '/"' . "\n";
+				$content .= "to ". '$ID' . "$this->id" . 'EndFolder' . "\n";
+			} else {
+				$content .= "to /dev/null\n";
+			}
 
-		$content .= "}\n";
-		$content .= "}\n";
+			$content .= "}\n";
+			$content .= "}\n";
 		
-		//}
+			//}
 		
-		$content .= '### END FILTER_ID:'.$this->id."\n";
+			$content .= '### END FILTER_ID:'.$this->id."\n";
+		
+		}
 		
 		return $content;
 	}

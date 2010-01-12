@@ -121,6 +121,7 @@ class installer_base {
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('couriertcpd')) $conf['courier']['installed'] = true;
+		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
 		if(is_installed('saslsauthd')) $conf['saslauthd']['installed'] = true;
 		if(is_installed('amavisd-new')) $conf['amavis']['installed'] = true;
 		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
@@ -215,6 +216,8 @@ class installer_base {
 		$tpl_ini_array['web']['security_level'] = 20;
 		$tpl_ini_array['web']['user'] = $conf['apache']['user'];
 		$tpl_ini_array['web']['group'] = $conf['apache']['group'];
+		$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
+		$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
         
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
@@ -225,6 +228,8 @@ class installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		
+		
 		
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			
@@ -646,6 +651,72 @@ class installer_base {
 		$content = rf($configfile);
 		$content = str_replace('authmodulelist="authpam"', 'authmodulelist="authmysql"', $content);
 		wf($configfile, $content);
+	}
+	
+	public function configure_dovecot()
+    {
+		global $conf;
+		
+		$config_dir = $conf['dovecot']['config_dir'];
+		
+		//* Configure master.cf and add a line for deliver
+		if(is_file($config_dir.'/master.cf')){
+            copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+        }
+		if(is_file($config_dir.'/master.cf~')){
+            exec('chmod 400 '.$config_dir.'/master.cf~2');
+        }
+		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+		// Only add the content if we had not addded it before
+		if(!stristr($content,"dovecot/deliver")) {
+			$deliver_content = "dovecot   unix  -       n       n       -       -       pipe\n  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}";
+			af($conf["postfix"]["config_dir"].'/master.cf',$deliver_content);
+		}
+		unset($content);
+		unset($deliver_content);
+		
+		
+		//* Reconfigure postfix to use dovecot authentication
+		// Adding the amavisd commands to the postfix configuration
+		$postconf_commands = array (
+			'dovecot_destination_recipient_limit = 1',
+			'virtual_transport = dovecot',
+			'smtpd_sasl_type = dovecot',
+			'smtpd_sasl_path = private/auth'
+		);
+		
+		// Make a backup copy of the main.cf file
+		copy($conf["postfix"]["config_dir"].'/main.cf',$conf["postfix"]["config_dir"].'/main.cf~3');
+		
+		// Executing the postconf commands
+		foreach($postconf_commands as $cmd) {
+			$command = "postconf -e '$cmd'";
+			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		
+		//* copy dovecot.conf
+		$configfile = 'dovecot.conf';
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		copy('tpl/debian_dovecot.conf.master',"$config_dir/$configfile");
+		
+		//* dovecot-sql.conf
+		$configfile = 'dovecot-sql.conf';
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		exec("chmod 400 $config_dir/$configfile~");
+		$content = rf("tpl/debian_dovecot-sql.conf.master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_host}',$conf['mysql']['host'],$content);
+		wf("$config_dir/$configfile", $content);
+		
+		exec("chmod 600 $config_dir/$configfile");
+		exec("chown root:root $config_dir/$configfile");
+
 	}
 	
 	public function configure_amavis() {

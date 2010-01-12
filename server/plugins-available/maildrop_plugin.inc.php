@@ -41,7 +41,7 @@ class maildrop_plugin {
 	function onInstall() {
 		global $conf;
 		
-		if($conf['services']['mail'] == true) {
+		if($conf['services']['mail'] == true && isset($conf['courier']['installed']) && $conf['courier']['installed'] == true) {
 			return true;
 		} else {
 			return false;

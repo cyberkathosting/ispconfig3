@@ -91,11 +91,20 @@ class mail_plugin {
 		$tmp_basepath_parts = explode('/',$tmp_basepath);
 		unset($tmp_basepath_parts[count($tmp_basepath_parts)-1]);
 		$base_path = implode('/',$tmp_basepath_parts);
+		
+		
 
 		//* Create the mail domain directory, if it does not exist
 		if(!empty($base_path) && !is_dir($base_path)) {
 			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
+		}
+		
+		// Dovecot uses a different mail layout with a separate 'Maildir' subdirectory.
+		if($mail_config['pop3_imap_daemon'] == 'dovecot') {
+			exec("su -c 'mkdir -p ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
+			$maildomain_path .= '/Maildir';
 		}
 	
 		//* When the mail user dir exists but it is not a valid maildir, remove it
@@ -172,6 +181,13 @@ class mail_plugin {
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
 		
+		// Dovecot uses a different mail layout with a separate 'Maildir' subdirectory.
+		if($mail_config['pop3_imap_daemon'] == 'dovecot') {
+			exec("su -c 'mkdir -p ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
+			$maildomain_path .= '/Maildir';
+		}
+		
 		//* When the mail user dir exists but it is not a valid maildir, remove it
 		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
 			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
@@ -220,9 +236,15 @@ class mail_plugin {
 			$app->log('Moved Maildir from: '.$data['old']['maildir'].' to '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 		//This is to fix the maildrop quota not being rebuilt after the quota is changed.
+		// Courier Layout
 		if(is_dir($data['new']['maildir'].'/new')) {
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
 			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+		}
+		// Dovecot Layout
+		if(is_dir($data['new']['maildir'].'/Maildir/new')) {
+			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."/Maildir' ".$mail_config['mailuser_name']);
+			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."/Maildir' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		}
 	}
 	

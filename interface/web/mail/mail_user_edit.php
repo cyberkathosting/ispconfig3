@@ -250,6 +250,17 @@ class page_action extends tform_actions {
 			}
 		}  // endif spamfilter policy
 		
+		
+		// Set the fields for dovecot
+		if(isset($this->dataRecord["email"])) {
+			$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
+			$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
+			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
+			$disablesmtp = ($this->dataRecord["postfix"] == 'y')?'n':'y';
+		
+			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver' WHERE mailuser_id = ".$this->id;
+			$app->db->query($sql);
+		}
 	}
 	
 	function onAfterUpdate() {
@@ -279,6 +290,17 @@ class page_action extends tform_actions {
 					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 				}
 			} // endif spamfilter policy
+		}
+		
+		// Set the fields for dovecot
+		if(isset($this->dataRecord["email"])) {
+			$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
+			$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
+			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
+			$disablesmtp = ($this->dataRecord["postfix"] == 'y')?'n':'y';
+		
+			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver' WHERE mailuser_id = ".$this->id;
+			$app->db->query($sql);
 		}
 		
 	}

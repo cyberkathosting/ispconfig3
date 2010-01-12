@@ -59,4 +59,6 @@ $wb["bind_group_error_empty"] = 'BIND group is empty.';
 $wb["bind_zonefiles_dir_error_empty"] = 'BIND zonefiles directory is empty.';
 $wb["named_conf_path_error_empty"] = 'BIND named.conf path is empty.';
 $wb["named_conf_local_path_error_empty"] = 'BIND named.conf.local path is empty.';
+$wb["mail_filter_syntax_txt"] = 'Mailfilter Syntax';
+$wb["pop3_imap_daemon_txt"] = 'POP3/IMAP Daemon';
 ?>

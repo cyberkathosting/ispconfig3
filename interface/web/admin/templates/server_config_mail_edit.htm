@@ -19,6 +19,22 @@
       	<label for="homedir_path">{tmpl_var name='homedir_path_txt'}</label>
         <input name="homedir_path" id="homedir_path" value="{tmpl_var name='homedir_path'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
+	  <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='pop3_imap_daemon_txt'}</p>
+					<div class="multiField">
+						<select name="pop3_imap_daemon" id="pop3_imap_daemon" class="selectInput">
+					{tmpl_var name='pop3_imap_daemon'}
+				</select>
+					</div>
+			</div>
+	  <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='mail_filter_syntax_txt'}</p>
+					<div class="multiField">
+						<select name="mail_filter_syntax" id="mail_filter_syntax" class="selectInput">
+					{tmpl_var name='mail_filter_syntax'}
+				</select>
+					</div>
+			</div>
       <div class="ctrlHolder">
       	<label for="mailuser_uid">{tmpl_var name='mailuser_uid_txt'}</label>
         <input name="mailuser_uid" id="mailuser_uid" value="{tmpl_var name='mailuser_uid'}" size="10" maxlength="255" type="text" class="textInput formLengthHalf" />
