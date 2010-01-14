@@ -269,7 +269,7 @@ class mail_plugin {
 		
 		//* Delete maildomain path
 		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/'.$data['old']['domain']);
-		if(!stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && strlen($old_maildomain_path) >= 10) {
+		if(!stristr($old_maildomain_path,'//') && !stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && !stristr($old_maildomain_path,'&') && strlen($old_maildomain_path) >= 10) {
 			exec('rm -rf '.escapeshellcmd($old_maildomain_path));
 			$app->log('Deleted the mail domain directory: '.$old_maildomain_path,LOGLEVEL_DEBUG);
 		} else {
@@ -278,7 +278,7 @@ class mail_plugin {
 		
 		//* Delete mailfilter path
 		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/mailfilters/'.$data['old']['domain']);
-		if(!stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && strlen($old_maildomain_path) >= 10) {
+		if(!stristr($old_maildomain_path,'//') && !stristr($old_maildomain_path,'..') && !stristr($old_maildomain_path,'*') && !stristr($old_maildomain_path,'&') && strlen($old_maildomain_path) >= 10) {
 			exec('rm -rf '.escapeshellcmd($old_maildomain_path));
 			$app->log('Deleted the mail domain mailfilter directory: '.$old_maildomain_path,LOGLEVEL_DEBUG);
 		} else {
