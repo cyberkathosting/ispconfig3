@@ -62,6 +62,9 @@ class page_action extends tform_actions {
 		// Set the mailuser_id
 		$this->dataRecord["mailuser_id"] = $mailuser["mailuser_id"];
 		
+		// Remove leading dots
+		if(substr($this->dataRecord['target'],0,1) == '.') $this->dataRecord['target'] = substr($this->dataRecord['target'],1);
+		
 		parent::onSubmit();
 	}
 	
