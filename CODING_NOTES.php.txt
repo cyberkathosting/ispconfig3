@@ -43,7 +43,7 @@ To block out single lines use // and all // are assumed to be redundant test cod
 
 // print_r($foo);
 
-For incline comment use //** and //* eg
+For inline comment use //** and //* eg
 
 //** Decide what do do
 switch($decide){
@@ -66,7 +66,7 @@ switch($decide){
 Do not use the phpdoc on every function, eg 
 
 /**
-* Login an user
+* Login a user
 * @param string user  username
 * @param string password of user
 */
@@ -75,7 +75,7 @@ function login($user, $pass){
 .......
 }
 <<
-as this function explains its self, the followinf clean code will suffice
+as this function explains its self, the following clean code will suffice
 >>
 function login($user, $pass){
 .......
@@ -84,7 +84,7 @@ function login($user, $pass){
 If you do need to explain a function then put un the summary syntax eg
 
 /** Pass an array of values where third param is bar
-* $foo['bar'] = 1; // allow an user
+* $foo['bar'] = 1; // allow a user
 * $foo['bar'] = 2; // destroy user
 * $foo['bar'] = -1; // recreate
 */
