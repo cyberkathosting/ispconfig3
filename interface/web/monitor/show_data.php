@@ -114,7 +114,7 @@ switch($dataType) {
         $template = 'templates/show_data.htm';
         $output .= showFail2ban();
         $time = getDataTime('log_fail2ban');
-        $title = 'fail2ban - Log (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
+        $title = $app->lng("monitor_title_fail2ban_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
     default:
@@ -129,8 +129,8 @@ $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl', $template);
 
 $app->tpl->setVar("output", $output);
-$app->tpl->setVar("title", $title);
-$app->tpl->setVar("description", $description);
+$app->tpl->setVar("list_head_txt", $title);
+$app->tpl->setVar("list_desc_txt", $description);
 $app->tpl->setVar("time", $time);
 $app->tpl->setVar("monTransDate", $monTransDate);
 

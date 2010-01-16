@@ -69,8 +69,8 @@ else
 
 $app->tpl->setVar("state_data",$output);
 $app->tpl->setVar("state_type",$stateType);
-$app->tpl->setVar("title",$title);
-$app->tpl->setVar("description",$description);
+$app->tpl->setVar("list_head_txt",$title);
+$app->tpl->setVar("list_desc_txt",$description);
 $app->tpl->setVar("monTransRefreshsq", $monTransRefreshsq);
 
 /*
