@@ -38,6 +38,7 @@ function showServerLoad(){
         /*
         Format the data
         */
+		if (strlen($data['up_minutes']) == "1") $data['up_minutes'] = "0".$data['up_minutes'];
         $html =
            '<div class="systemmonitor-state state-'.$record['state'].'">
             <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
@@ -114,9 +115,7 @@ function showDiskUsage () {
     return $html;
 }
 
-
-function showMemUsage ()
-{
+function showMemUsage () {
     global $app;
 
     /* fetch the Data from the DB */
@@ -151,8 +150,7 @@ function showMemUsage ()
     return $html;
 }
 
-function showCpuInfo ()
-{
+function showCpuInfo () {
     global $app;
 
     /* fetch the Data from the DB */
@@ -185,8 +183,7 @@ function showCpuInfo ()
     return $html;
 }
 
-function showServices ()
-{
+function showServices () {
     global $app;
 
     /* fetch the Data from the DB */
@@ -298,8 +295,7 @@ function showServices ()
     return $html;
 }
 
-function showSystemUpdate()
-{
+function showSystemUpdate() {
     global $app;
 
     /* fetch the Data from the DB */
@@ -328,8 +324,7 @@ function showSystemUpdate()
     return $html;
 }
 
-function showRaidState()
-{
+function showRaidState() {
     global $app;
 
     /* fetch the Data from the DB */
@@ -360,8 +355,7 @@ function showRaidState()
     return $html;
 }
 
-function showRKHunter()
-{
+function showRKHunter() {
     global $app;
 
     /* fetch the Data from the DB */
@@ -392,8 +386,7 @@ function showRKHunter()
     return $html;
 }
 
-function showFail2ban()
-{
+function showFail2ban() {
     global $app;
 
     /* fetch the Data from the DB */
@@ -427,9 +420,7 @@ function showFail2ban()
     return $html;
 }
 
-
-function showMailq()
-{
+function showMailq() {
     global $app;
 
     /* fetch the Data from the DB */
