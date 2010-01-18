@@ -148,12 +148,20 @@ class monitor_core_module {
         $tmp = explode(",", $data['uptime'], 4);
         $tmpUser = explode(" ", trim($tmp[2]));
         $data['user_online'] = intval($tmpUser[0]);
-
+		
+		/* Old Load Average Code
         $loadTmp = explode(":" , trim($tmp[3]));
         $load = explode(",",  $loadTmp[1]);
         $data['load_1'] = floatval(trim($load[0]));
         $data['load_5'] = floatval(trim($load[1]));
-        $data['load_15'] = floatval(trim($load[2]));
+        $data['load_15'] = floatval(trim($load[2])); */
+
+		//* New Load Average code to fix "always zero" bug in non-english distros. NEEDS TESTING
+		$loadTmp = shell_exec("cat /proc/loadavg | cut -f1-3 -d' '");
+		$load = explode(" ", $loadTmp);
+		$data['load_1'] = floatval(str_replace(',', '.', $load[0]));
+		$data['load_5'] = floatval(str_replace(',', '.', $load[1]));
+		$data['load_15'] = floatval(str_replace(',', '.', $load[2]));
 
         /** The state of the server-load. */
         $state = 'ok';
