@@ -77,7 +77,12 @@ class bind_dlz_plugin {
 		global $conf;
 		
 		if(isset($conf['bind']['installed']) && $conf['bind']['installed'] == true) {
-			return true;
+			// Temporary disabled until the installer supports the automatic creatin of the nescessary 
+			// database or at least to select between filebased nd db based bind, as not all bind versions 
+			// support dlz out of the box. To enable this plugin manually, create a symlink from the plugins-enabled
+			// directory to this file in the plugins-available directory.
+			return false;
+			//return true;
 		} else {
 			return false;
 		}
