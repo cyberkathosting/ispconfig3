@@ -32,7 +32,7 @@ function replacePrefix($name, $dataRecord) {
 	if ($name=="") return "";
 
 	// Array containing keys to search
-	$keywordlist=array('CLIENTNAME','CLIENTID');
+	$keywordlist=array('CLIENTNAME','CLIENTID','DOMAINID');
 
 	// Try to match the key within the string
 	foreach ($keywordlist as $keyword) {
@@ -43,6 +43,9 @@ function replacePrefix($name, $dataRecord) {
 				break;
 				case 'CLIENTID':
 					$name=str_replace('['.$keyword.']', getClientID($dataRecord),$name);
+				break;
+				case 'DOMAINID':
+					$name=str_replace('['.$keyword.']', $dataRecord['parent_domain_id'],$name);
 				break;
 			}
 		}
