@@ -133,18 +133,18 @@ $form["tabs"]['database'] = array (
 			'default'	=> 'y',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
-    'remote_ips' => array (
-      'datatype'  => 'TEXT',
-      'formtype'  => 'TEXT',
-      'validators'  => array (  0 => array (  'type' => 'CUSTOM',
-                                              'class' => 'validate_database',
-                                              'function' => 'valid_ip_list',
-                                              'errmsg' => 'database_remote_error_ips'),
-                             ),
-      'default' => '',
-      'value'   => '',
-      'width'   => '60'
-    ),
+	    'remote_ips' => array (
+	      'datatype'  => 'TEXT',
+	      'formtype'  => 'TEXT',
+	      'validators'  => array (  0 => array (  'type' => 'CUSTOM',
+	                                              'class' => 'validate_database',
+	                                              'function' => 'valid_ip_list',
+	                                              'errmsg' => 'database_remote_error_ips'),
+	                             ),
+	      'default' => '',
+	      'value'   => '',
+	      'width'   => '60'
+	    ),
 	##################################
 	# ENDE Datatable fields
 	##################################
