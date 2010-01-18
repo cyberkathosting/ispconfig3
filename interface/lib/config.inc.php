@@ -39,12 +39,12 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 }
 
 //** SVN Revision
-$svn_revision = '$Revision: 658 $';
+$svn_revision = '$Revision: 1525 $';
 $revision = str_replace(array('Revision:','$',' '), '', $svn_revision);
 
 //** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
-define('ISPC_APP_VERSION', '3.0.1.4');
+define('ISPC_APP_VERSION', '3.0.1.6');
 
 
 //** Database
