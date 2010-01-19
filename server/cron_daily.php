@@ -176,6 +176,23 @@ foreach($records as $rec) {
 }
 
 #######################################################################################################
+// Cleanup website tmp directories
+#######################################################################################################
+
+$sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ".$conf["server_id"];
+$records = $app->db->queryAllRecords($sql);
+if(is_array($records)) {
+	foreach($records as $rec){
+		$tmp_path = realpath(escapeshellcmd($rec["document_root"].'/tmp'));
+		if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path)){
+			exec("cd ".$tmp_path."; find -ctime +1 -user ".escapeshellcmd($rec['system_user'])." | grep -v -w .no_delete | xargs rm &> /dev/null");
+			exec("cd ".$tmp_path."; find -ctime +1 -user www-data | grep -v -w .no_delete | xargs rm &> /dev/null");
+			exec("cd ".$tmp_path."; find -ctime +1 -user wwwrun | grep -v -w .no_delete | xargs rm &> /dev/null");
+		}
+	}
+}
+
+#######################################################################################################
 // Cleanup logs in master database (only the "master-server")
 #######################################################################################################
 
