@@ -135,9 +135,11 @@ class page_action extends tform_actions {
 			}
 		}
 		
+		/*
 		// Update the serial number of the SOA record
 		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
 		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+		*/
 		
 		
 		//* Check if soa, ns and mbox have a dot at the end
@@ -175,6 +177,13 @@ class page_action extends tform_actions {
 	
 	function onAfterUpdate() {
 		global $app, $conf;
+		
+		$tmp = $app->db->diffrec($this->oldDataRecord,$app->tform->getDataRecord($this->id));
+		if($tmp['diff_num'] > 0) {
+			// Update the serial number of the SOA record
+			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
+			$app->db->query("UPDATE dns_soa SET serial = '".$app->validate_dns->increase_serial($soa["serial"])."' WHERE id = ".$this->id);
+		}
 		
 		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {

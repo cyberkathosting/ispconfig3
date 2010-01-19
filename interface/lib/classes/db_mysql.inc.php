@@ -217,23 +217,14 @@ class db {
     }
 	*/
 	
-	//** Function to fill the datalog with a full differential record.
-	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new) {
-		global $app,$conf;
-
-		// Insert backticks only for incomplete table names.
-		if(stristr($db_table,'.')) {
-			$escape = '';
-		} else {
-			$escape = '`';
-		}
-
+	public function diffrec($record_old, $record_new) {
 		$diffrec_full = array();
 		$diff_num = 0;
 
 		if(is_array($record_old) && count($record_old) > 0) {
 			foreach($record_old as $key => $val) {
-				if(!isset($record_new[$key]) || $record_new[$key] != $val) {
+				// if(!isset($record_new[$key]) || $record_new[$key] != $val) {
+				if($record_new[$key] != $val) {
 					// Record has changed
 					$diffrec_full['old'][$key] = $val;
 					$diffrec_full['new'][$key] = $record_new[$key];
@@ -257,12 +248,34 @@ class db {
 			}
 		}
 		
+		return array('diff_num' => $diff_num, 'diff_rec' => $diffrec_full);
+		
+	}
+	
+	//** Function to fill the datalog with a full differential record.
+	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new) {
+		global $app,$conf;
+
+		// Insert backticks only for incomplete table names.
+		if(stristr($db_table,'.')) {
+			$escape = '';
+		} else {
+			$escape = '`';
+		}
+
+		$tmp = $this->diffrec($record_old, $record_new);
+		$diffrec_full = $tmp['diff_rec'];
+		$diff_num = $tmp['diff_num'];
+		unset($tmp);
+		
 		// Insert the server_id, if the record has a server_id
 		$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
 		if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
 		
 
 		if($diff_num > 0) {
+			//print_r($diff_num);
+			//print_r($diffrec_full);
 			$diffstr = $app->db->quote(serialize($diffrec_full));
 			$username = $app->db->quote($_SESSION["s"]["user"]["username"]);
 			$dbidx = $primary_field.":".$primary_id;
