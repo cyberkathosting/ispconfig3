@@ -35,10 +35,8 @@
 	
 	/* (en) Layout: width, background, borders */
 	/* (de) Layout: Breite, Hintergrund, Rahmen */
-	/*WARNING: ADded a overrode for this setting in main.tpl with javascript to target non chrome browsers,
-	This has to be changed too in case that page_margins get changed. Reason: Chrome does not support the 
-	display: table; attribute correctly*/
-	#page_margins { min-width: 980px; max-width: 80%; background: #fff;}
+	/*#page_margins { min-width: 980px; max-width: 80%; background: #fff;}*/
+	#page_margins { min-width: 980px; max-width: 80%; background: #fff; display: inline-block;}
 	#page{ padding: 10px; }
 	
 	/* (en) Designing main layout elements */
