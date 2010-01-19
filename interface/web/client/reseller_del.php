@@ -51,6 +51,17 @@ $app->uses('tpl,tform');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
+	
+	function onBeforeDelete() {
+		global $app, $conf;
+		
+		$client_id = intval($this->dataRecord['client_id']);
+		
+		$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE parent_client_id = ".$client_id);
+		if($tmp["number"] > 0) $app->error($app->lng('error_has_clients'));
+		
+	}
+	
 	function onAfterDelete() {
 		global $app, $conf;
 		
