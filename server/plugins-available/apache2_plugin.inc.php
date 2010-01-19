@@ -813,7 +813,7 @@ class apache2_plugin {
 			if(!is_dir($data["new"]["document_root"].'/web/stats')) mkdir($data["new"]["document_root"].'/web/stats');
 			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data["new"]["document_root"]."/.htpasswd_stats\nrequire valid-user";
 			file_put_contents($data["new"]["document_root"].'/web/stats/.htaccess',$ht_file);
-			chmod($data["new"]["document_root"].'/web/stats/.htaccess',0664);
+			chmod($data["new"]["document_root"].'/web/stats/.htaccess',0755);
 			unset($ht_file);
 		}
 		
@@ -821,7 +821,7 @@ class apache2_plugin {
 			if(trim($data["new"]["stats_password"]) != '') {
 				$htp_file = 'admin:'.trim($data["new"]["stats_password"]);
 				file_put_contents($data["new"]["document_root"].'/.htpasswd_stats',$htp_file);
-				chmod($data["new"]["document_root"].'/.htpasswd_stats',0664);
+				chmod($data["new"]["document_root"].'/.htpasswd_stats',0755);
 				unset($htp_file);
 			}
 		}
