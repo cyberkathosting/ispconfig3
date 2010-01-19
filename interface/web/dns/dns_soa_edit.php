@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 		// If user is admin, we will allow him to select to whom this record belongs
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Domains of the user
-			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER by name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
@@ -90,7 +90,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
+			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
 			if(is_array($clients)) {

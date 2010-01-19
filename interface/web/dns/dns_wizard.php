@@ -81,7 +81,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	$app->tpl->setVar("server_id",$server_id_option);
 	
 	// load the list of clients
-	$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+	$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
 	$clients = $app->db->queryAllRecords($sql);
 	$client_select = '';
 	if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";

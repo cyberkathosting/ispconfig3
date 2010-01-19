@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Clients of the user
 			if($_SESSION["s"]["user"]["typ"] == 'admin') {
-				$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+				$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
 			} else {
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
 				$sql = "SELECT client.client_id, limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id order by contact_name");
 			
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");

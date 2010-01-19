@@ -111,7 +111,7 @@ class page_action extends tform_actions {
 			unset($tmp);
 			
 			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
+			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
 			if(is_array($clients)) {
@@ -166,7 +166,7 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0";
+			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = "<option value='0'></option>";
 			if(is_array($clients)) {
