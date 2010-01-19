@@ -25,7 +25,7 @@ $module['nav'][] = array(	'title'	=> 'CP Users',
 
 // cleanup
 unset($items);
-
+/*
 $items[] = array( 'title' 	=> 'Add group',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/groups_edit.php');
@@ -42,6 +42,7 @@ $module['nav'][] = array(	'title'	=> 'Groups',
 
 // cleanup
 unset($items);
+*/
 /*
 $items[] = array( 'title' 	=> 'Add server',
 				  'target' 	=> 'content',
