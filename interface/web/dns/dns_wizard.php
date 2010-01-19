@@ -137,6 +137,11 @@ if($_POST['create'] == 1) {
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	
+	if(!preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z]{2,10}[\.]{0,1}$/',$_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
+	if(!preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z]{2,10}[\.]{0,1}$/',$_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
+	if(!preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z]{2,10}[\.]{0,1}$/',$_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
+	if(!preg_match('/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i',$_POST['email'])) $error .= $app->lng('error_email_regex').'<br />';
+	
 	// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
 	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($_POST['client_group_id'])) {
 		$sys_groupid = intval($_POST['client_group_id']);
