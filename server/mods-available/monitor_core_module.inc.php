@@ -533,7 +533,27 @@ class monitor_core_module {
         	/*
         	 * first update the portage tree
         	 */
-        	shell_exec('emerge --sync --quiet');
+        	
+        	// In keeping with gentoo's rsync policy, don't update to frequently (every four hours - taken from http://www.gentoo.org/doc/en/source_mirrors.xml)
+        	$do_update = true;
+        	if (file_exists('/usr/portage/metadata/timestamp.chk'))
+        	{
+        		$datetime = file_get_contents('/usr/portage/metadata/timestamp.chk');
+        		$datetime = trim($datetime);
+        		
+        		$dstamp = strtotime($datetime);
+        		if ($dstamp) 
+        		{
+        			$checkat = $dstamp + 14400; // + 4hours
+        			if (mktime() < $checkat) {
+        				$do_update = false;
+        			} 
+        		}
+        	}
+        	
+        	if ($do_update) {
+        		shell_exec('emerge --sync --quiet');
+        	}
         	
         	/*
              * Then test the upgrade.
