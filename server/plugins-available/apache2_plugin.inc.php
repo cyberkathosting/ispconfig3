@@ -106,7 +106,7 @@ class apache2_plugin {
 			$ssl_cnf = "        RANDFILE               = $rand_file
 
         [ req ]
-        default_bits           = 1024
+        default_bits           = 2048
         default_keyfile        = keyfile.pem
         distinguished_name     = req_distinguished_name
         attributes             = req_attributes
@@ -137,7 +137,7 @@ class apache2_plugin {
 			$crt_file = escapeshellcmd($crt_file);
 
         	if(is_file($ssl_cnf_file)){
-          		exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 1024 && openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file && openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file && openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
+          		exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 2048 && openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file && openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file && openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
 				$app->log("Creating SSL Cert for: $domain",LOGLEVEL_DEBUG);
         	}
 
