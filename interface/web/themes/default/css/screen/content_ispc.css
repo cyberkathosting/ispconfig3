@@ -812,6 +812,11 @@
 	select.withicons#language option[value="za"] { background-image:url(../../icons/flags/za.png); }
 	select.withicons#language option[value="zm"] { background-image:url(../../icons/flags/zm.png); }
 	select.withicons#language option[value="zw"] { background-image:url(../../icons/flags/zw.png); }
+	
+	.panel_login {
+		max-width: 80%;
+		min-width: 680px;
+	}
 
 }
 
