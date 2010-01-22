@@ -555,6 +555,7 @@ class apache2_plugin {
 		$vhost_data["web_basedir"] = $web_config["website_basedir"];
 		$vhost_data["security_level"] = $web_config["security_level"];
 		$vhost_data["allow_override"] = ($data["new"]["allow_override"] == '')?'All':$data["new"]["allow_override"];
+		$vhost_data["php_open_basedir"] = ($data["new"]["php_open_basedir"] == '')?$data["new"]["document_root"]:$data["new"]["php_open_basedir"];
 		
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";
@@ -706,12 +707,15 @@ class apache2_plugin {
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate("php-fcgi-starter.master");
 				
-			$fcgi_tpl->setVar('php_ini_path',$fastcgi_config["fastcgi_phpini_path"]);
-			$fcgi_tpl->setVar('document_root',$data["new"]["document_root"]);
-			$fcgi_tpl->setVar('php_fcgi_children',$fastcgi_config["fastcgi_children"]);
-			$fcgi_tpl->setVar('php_fcgi_max_requests',$fastcgi_config["fastcgi_max_requests"]);
-			$fcgi_tpl->setVar('php_fcgi_bin',$fastcgi_config["fastcgi_bin"]);
-			$fcgi_tpl->setVar('security_level',$web_config["security_level"]);
+			$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($fastcgi_config["fastcgi_phpini_path"]));
+			$fcgi_tpl->setVar('document_root',escapeshellcmd($data["new"]["document_root"]));
+			$fcgi_tpl->setVar('php_fcgi_children',escapeshellcmd($fastcgi_config["fastcgi_children"]));
+			$fcgi_tpl->setVar('php_fcgi_max_requests',escapeshellcmd($fastcgi_config["fastcgi_max_requests"]));
+			$fcgi_tpl->setVar('php_fcgi_bin',escapeshellcmd($fastcgi_config["fastcgi_bin"]));
+			$fcgi_tpl->setVar('security_level',intval($web_config["security_level"]));
+			
+			$php_open_basedir = ($data["new"]["php_open_basedir"] == '')?$data["new"]["document_root"]:$data["new"]["php_open_basedir"];
+			$cgi_tpl->setVar('open_basedir', escapeshellcmd($php_open_basedir));
 				
 			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path.$fastcgi_config["fastcgi_starter_script"]);
 			file_put_contents($fcgi_starter_script,$fcgi_tpl->grab());
@@ -759,7 +763,10 @@ class apache2_plugin {
 			$cgi_tpl->newTemplate("php-cgi-starter.master");
 
 			// This works, because php "rewrites" a symlink to the physical path
-			$cgi_tpl->setVar('open_basedir', $data["new"]["document_root"]); 
+			$php_open_basedir = ($data["new"]["php_open_basedir"] == '')?$data["new"]["document_root"]:$data["new"]["php_open_basedir"];
+			$cgi_tpl->setVar('open_basedir', escapeshellcmd($php_open_basedir)); 
+			$cgi_tpl->setVar('document_root', escapeshellcmd($data["new"]["document_root"]));
+			
 			// This will NOT work!
 			//$cgi_tpl->setVar('open_basedir', "/var/www/" . $data["new"]["domain"]);
 			$cgi_tpl->setVar('php_cgi_bin',$cgi_config["cgi_bin"]);

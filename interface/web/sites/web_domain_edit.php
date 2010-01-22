@@ -293,11 +293,13 @@ class page_action extends tform_actions {
 		}
 		
 		// Set the values for document_root, system_user and system_group
-		$system_user = 'web'.$this->id;
-		$system_group = 'client'.$client_id;
-		$document_root = str_replace("[client_id]",$client_id,$document_root);
+		$system_user = $app->db->quote('web'.$this->id);
+		$system_group = $app->db->quote('client'.$client_id);
+		$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
+		$php_open_basedir = $app->db->quote(str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]));
+		$htaccess_allow_override = $app->db->quote($web_config["htaccess_allow_override"]);
 		
-		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
+		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
 		$app->db->query($sql);
 	}
 	
@@ -372,9 +374,9 @@ class page_action extends tform_actions {
 		
 		if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) &&  isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["client_group_id"]) {
 			// Set the values for document_root, system_user and system_group
-			$system_user = 'web'.$this->id;
-			$system_group = 'client'.$client_id;
-			$document_root = str_replace("[client_id]",$client_id,$document_root);
+			$system_user = $app->db->quote('web'.$this->id);
+			$system_group = $app->db->quote('client'.$client_id);
+			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
 		
 			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 			//$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
@@ -391,6 +393,17 @@ class page_action extends tform_actions {
 			unset($records);
 			unset($rec);
 			unset($subdomain);
+		}
+		
+		//* Set allow_override and php_open_basedir if empty
+		if($web_rec['allow_override'] == '') {
+			$sql = "UPDATE web_domain SET allow_override = '".$app->db->quote($web_config["htaccess_allow_override"])."' WHERE domain_id = ".$this->id;
+			$app->db->query($sql);
+		}
+		if($web_rec['php_open_basedir'] == '') {
+			$php_open_basedir = $app->db->quote(str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]));
+			$sql = "UPDATE web_domain SET php_open_basedir = '$php_open_basedir' WHERE domain_id = ".$this->id;
+			$app->db->query($sql);
 		}
 		
 	}

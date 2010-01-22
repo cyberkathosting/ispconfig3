@@ -44,6 +44,8 @@ group=www-data
 apps_vhost_port=8081
 apps_vhost_ip=_default_
 apps_vhost_servername=
+php_open_basedir=[website_path]/web:[website_path]/tmp:/usr/share/php5:/tmp:/usr/share/phpmyadmin
+htaccess_allow_override=All
 
 [dns]
 bind_user=root
