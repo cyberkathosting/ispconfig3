@@ -715,7 +715,7 @@ class apache2_plugin {
 			$fcgi_tpl->setVar('security_level',intval($web_config["security_level"]));
 			
 			$php_open_basedir = ($data["new"]["php_open_basedir"] == '')?$data["new"]["document_root"]:$data["new"]["php_open_basedir"];
-			$cgi_tpl->setVar('open_basedir', escapeshellcmd($php_open_basedir));
+			$fcgi_tpl->setVar('open_basedir', escapeshellcmd($php_open_basedir));
 				
 			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path.$fastcgi_config["fastcgi_starter_script"]);
 			file_put_contents($fcgi_starter_script,$fcgi_tpl->grab());
