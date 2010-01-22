@@ -2,12 +2,13 @@
 $wb['Database'] = 'Database';
 $wb['Options'] = 'Options';
 $wb['Shell User'] = 'Shell User';
-$wb['Domain'] = 'Website';
+$wb['Domain'] = 'Domain';
+$wb['Website'] = 'Website';
 $wb['Redirect'] = 'Redirect';
 $wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Subdomain';
+$wb['Subdomain'] = 'Subdomain for website';
 $wb['Sites'] = 'Sites';
-$wb['Aliasdomain'] = 'Aliasdomain';
+$wb['Aliasdomain'] = 'Aliasdomain for website';
 $wb['FTP-User'] = 'FTP-User';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell-User';

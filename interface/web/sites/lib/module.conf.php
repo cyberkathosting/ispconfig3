@@ -10,7 +10,7 @@ $module["tab_width"]    = '';
 	Websites menu
 */
 
-$items[] = array( 'title' 	=> "Domain",
+$items[] = array( 'title' 	=> "Website",
 				  'target' 	=> 'content',
 				  'link'	=> 'sites/web_domain_list.php');
 
