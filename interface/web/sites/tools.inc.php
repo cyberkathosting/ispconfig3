@@ -56,7 +56,7 @@ function replacePrefix($name, $dataRecord) {
 function getClientName($dataRecord) {
     global $app, $conf;
 
-    if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+    if($_SESSION["s"]["user"]["typ"] != 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
     	// Get the group-id of the user
     	$client_group_id = $_SESSION["s"]["user"]["default_group"];
     } else {
@@ -82,7 +82,7 @@ function getClientName($dataRecord) {
 function getClientID($dataRecord) {
     global $app, $conf;
 
-    if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+    if($_SESSION["s"]["user"]["typ"] != 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
     	// Get the group-id of the user
     	$client_group_id = $_SESSION["s"]["user"]["default_group"];
     } else {
