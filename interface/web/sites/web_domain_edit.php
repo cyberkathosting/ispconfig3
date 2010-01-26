@@ -114,9 +114,10 @@ class page_action extends tform_actions {
 			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
 			$records = $app->db->queryAllRecords($sql);
 			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
+			$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
-					$selected = @($rec["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$selected = @($rec["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
 					$client_select .= "<option value='$rec[groupid]' $selected>$rec[name]</option>\r\n";
 				}
 			}
@@ -169,9 +170,10 @@ class page_action extends tform_actions {
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = "<option value='0'></option>";
+			$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
-					$selected = @($client["groupid"] == $this->dataRecord["sys_groupid"])?'SELECTED':'';
+					$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}
