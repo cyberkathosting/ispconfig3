@@ -482,16 +482,15 @@ class db {
        
        
     public function tableInfo($table_name) {
-        global $go_api,$go_info;
         //* Tabellenfelder einlesen ?
-        if($rows = $go_api->db->queryAllRecords("SHOW FIELDS FROM $table_name")){
+        if($rows = $this->queryAllRecords("SHOW FIELDS FROM $table_name")){
         foreach($rows as $row) {
-            $name    = $row[0];
-            $default = $row[4];
-            $key     = $row[3];
-            $extra   = $row[5];
-            $isnull  = $row[2];
-            $type    = $row[1];
+            $name    = $row['Field'];
+            $default = $row['Default'];
+            $key     = $row['Key'];
+            $extra   = $row['Extra'];
+            $isnull  = $row['Null'];
+            $type    = $row['Type'];
         
             $column = array('name' => $name, 'defaultValue' => $default);
             //$column["type"] = $type;

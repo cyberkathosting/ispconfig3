@@ -49,14 +49,71 @@ $app->uses('tpl,tform');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
+	
+	function onDelete() {
+		global $app, $conf,$list_def_file,$tform_def_file;
+		
+		if($_POST["confirm"] == 'yes') {
+			parent::onDelete();
+		} else {
+		
+		$app->uses('tpl');
+		$app->tpl->newTemplate("form.tpl.htm");
+		$app->tpl->setInclude('content_tpl', 'templates/client_del.htm');
+		
+		include_once($list_def_file);
+
+        // Loading tform framework
+        if(!is_object($app->tform)) $app->uses('tform');
+
+        // Load table definition from file
+        $app->tform->loadFormDef($tform_def_file);
+		
+		$this->id = intval($_REQUEST["id"]);
+		
+		$this->dataRecord = $app->tform->getDataRecord($this->id);
+		$client_id = intval($this->dataRecord['client_id']);
+		//$parent_client_id = intval($this->dataRecord['parent_client_id']);
+		//$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
+		$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
+		
+		// Get all records (sub-clients, mail, web, etc....)  of this client.
+		$tables = 'client,dns_rr,dns_soa,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic';
+		$tables_array = explode(',',$tables);
+		$client_group_id = intval($client_group['groupid']);
+		$table_list = array();
+		if($client_group_id > 1) {
+			foreach($tables_array as $table) {
+				if($table != '') {
+					$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
+					$number = count($records);
+					if($number > 0) $table_list[] = array('table' => $table."(".$number.")");
+				}
+			}
+		}
+		
+		$app->tpl->setVar('id',$this->id);
+		$app->tpl->setLoop('records', $table_list);
+		
+		//* load language file 
+		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_client_del.lng';
+		include($lng_file);
+		$app->tpl->setVar($wb);
+		
+		$app->tpl_defaults();
+		$app->tpl->pparse();
+		}
+	}
+	
+	
+	
+	
 	function onAfterDelete() {
 		global $app, $conf;
 		
 		$client_id = intval($this->dataRecord['client_id']);
 		
-		if($client_id > 0) {
-			// TODO: Delete all records (sub-clients, mail, web, etc....)  of this client.
-			
+		if($client_id > 0) {			
 			// remove the group of the client from the resellers group
 			$parent_client_id = intval($this->dataRecord['parent_client_id']);
 			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
@@ -68,6 +125,36 @@ class page_action extends tform_actions {
 			
 			// delete the sys user(s) of the client
 			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
+			
+			// Delete all records (sub-clients, mail, web, etc....)  of this client.
+			$tables = 'client,dns_rr,dns_soa,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic';
+			$tables_array = explode(',',$tables);
+			$client_group_id = intval($client_group['groupid']);
+			if($client_group_id > 1) {
+				foreach($tables_array as $table) {
+					if($table != '') {
+						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
+						// find the primary ID of the table
+						$table_info = $app->db->tableInfo($table);
+						$index_field = '';
+						foreach($table_info as $tmp) {
+							if($tmp['option'] == 'primary') $index_field = $tmp['name'];
+						}
+						// Delete the records
+						if($index_field != '') {
+							if(is_array($records)) {
+								foreach($records as $rec) {
+									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
+								}
+							}
+						}
+						
+					}
+				}
+			}
+			
+			
+			
 		}
 		
 	}
