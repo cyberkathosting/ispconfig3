@@ -128,6 +128,14 @@
         Order allow,deny
         Allow from all
     </Directory>
+	<Directory {tmpl_var name='web_document_root'}>
+        AddHandler fcgid-script .php .php3 .php4 .php5
+        FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
+        Options +ExecCGI
+        AllowOverride <tmpl_var name='allow_override'>
+        Order allow,deny
+        Allow from all
+    </Directory>
 </tmpl_if>
 <tmpl_if name="rewrite_enabled">
     
@@ -279,6 +287,14 @@
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
     <Directory {tmpl_var name='web_document_root_www'}>
+        AddHandler fcgid-script .php .php3 .php4 .php5
+        FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
+        Options +ExecCGI
+        AllowOverride <tmpl_var name='allow_override'>
+        Order allow,deny
+        Allow from all
+    </Directory>
+	<Directory {tmpl_var name='web_document_root'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
         FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
         Options +ExecCGI
