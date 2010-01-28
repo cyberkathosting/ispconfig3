@@ -303,6 +303,20 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		
+		//** If the email address has been changed, change it in all aliases too
+		if($this->oldDataRecord['email'] != $this->dataRecord['email']) {
+			
+			//* Update the aliases
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = '".$app->db->quote($this->oldDataRecord['email'])."'");
+			if(is_array($forwardings)) {
+				foreach($forwardings as $rec) {
+					$destination = $app->db->quote($this->dataRecord['email']);
+					$app->db->datalogUpdate('mail_forwarding', "destination = '$destination'", 'forwarding_id', $rec['forwarding_id']);
+				}
+			}
+			
+		} // end if email addess changed
+		
 	}
 	
 }
