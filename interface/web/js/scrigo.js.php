@@ -460,11 +460,12 @@ function pass_contains(pass, check) {
 
 function addAdditionalTemplate(){
 	var tpl_add = document.getElementById('template_additional').value;
-	if(tpl_add != '') {
+	
 	  var tpl_list = document.getElementById('template_additional_list').innerHTML;
 	  var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
 	  var addTplId = addTemplate[0];
 	  var addTplText = addTemplate[1];
+	if(addTplId > 0) {
 	  var newVal = tpl_add + '/' + addTplId + '/';
 	  newVal = newVal.replace('//', '/');
 	  var newList = tpl_list + '<br>' + addTplText;
