@@ -12,5 +12,5 @@ $wb['source_server_error_isempty'] = 'Server is leeg.';
 $wb['source_username_error_isempty'] = 'Gebruikersnaam is leeg.';
 $wb['source_password_error_isempty'] = 'Wachtwoord is leeg.';
 $wb['destination_error_isemail'] = 'Er is geen bestemming geselecteerd.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
 ?>
-

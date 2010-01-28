@@ -1,7 +1,7 @@
 <?php
 
 $module["name"] 		= "sites";
-$module["title"] 		= "Sites";
+$module["title"] 		= "top_menu_sites";
 $module["template"] 	= "module.tpl.htm";
 $module["startpage"] 	= "sites/web_domain_list.php";
 $module["tab_width"]    = '';

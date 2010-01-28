@@ -14,4 +14,5 @@ $wb['Shell-User'] = 'Shell-felhasználó';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Weboldalak';
 $wb['Stats'] = 'Statisztikák';
+$wb['Website'] = 'Website';
 ?>

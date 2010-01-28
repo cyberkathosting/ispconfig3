@@ -12,4 +12,5 @@ $wb['source_server_error_isempty'] = 'Palvelin-kenttä on tyhjä.';
 $wb['source_username_error_isempty'] = 'Käyttäjänimi on tyjä.';
 $wb['source_password_error_isempty'] = 'Salasana-kenttä on tyhjä.';
 $wb['destination_error_isemail'] = 'Ei kohdetta valittuna.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
 ?>

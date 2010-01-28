@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Actie';
 $wb['active_txt'] = 'Actief?';
 $wb['pattern_error_empty'] = 'Patroon is leeg.';
 ?>
-

@@ -6,4 +6,5 @@ $wb['active_txt'] = 'Activar';
 $wb['rulename_error_empty'] = 'El nombre está vacío.';
 $wb['searchterm_is_empty'] = 'El término de búsqueda está vacío.';
 $wb['source_txt'] = 'Origen';
+$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, . and _';
 ?>

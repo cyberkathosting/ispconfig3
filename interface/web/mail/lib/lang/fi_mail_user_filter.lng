@@ -6,4 +6,5 @@ $wb['active_txt'] = 'Käytössä';
 $wb['rulename_error_empty'] = 'Säännön nimi on tyhjä.';
 $wb['searchterm_is_empty'] = 'Hakusana on tyhjä.';
 $wb['source_txt'] = 'Lähde';
+$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, . and _';
 ?>

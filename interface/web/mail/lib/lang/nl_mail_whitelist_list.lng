@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Ontvanger';
 $wb['add_new_record_txt'] = 'Nieuw whitelist record toevoegen';
 $wb['access_txt'] = 'Toegang';
 ?>
-

@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Domein is leeg.';
 $wb['domain_error_unique'] = 'Domein moet uniek zijn.';
 $wb['domain_error_regex'] = 'Domeinnaam is ongeldig.';
 ?>
-

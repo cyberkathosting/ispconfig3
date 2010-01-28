@@ -12,4 +12,5 @@ $wb['source_server_error_isempty'] = 'Sunucu boş.';
 $wb['source_username_error_isempty'] = 'Kullanıcı adı boş.';
 $wb['source_password_error_isempty'] = 'Şifre boş.';
 $wb['destination_error_isemail'] = 'Hedef seçilmedi.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
 ?>

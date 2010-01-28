@@ -14,4 +14,5 @@ $wb['Shell-User'] = 'Shell Kullanıcısı';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Web siteleri';
 $wb['Stats'] = 'İstatistikler';
+$wb['Website'] = 'Website';
 ?>

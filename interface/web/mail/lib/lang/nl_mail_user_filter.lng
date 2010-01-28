@@ -6,5 +6,5 @@ $wb['active_txt'] = 'Actief?';
 $wb['rulename_error_empty'] = 'Naam is leeg.';
 $wb['searchterm_is_empty'] = 'Zoekterm is leeg.';
 $wb['source_txt'] = 'Bron';
+$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, . and _';
 ?>
-

@@ -175,7 +175,7 @@ class app {
 			@include_once($filename);
 			if(is_array($wb)) {
 				if(is_array($this->_wb)) {
-					$this->_wb = array_merge($wb,$this->_wb);
+					$this->_wb = array_merge($this->_wb,$wb);
 				} else {
 					$this->_wb = $wb;
 				}

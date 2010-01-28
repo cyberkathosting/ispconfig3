@@ -4,7 +4,7 @@
  Config of the Module
  */
 $module["name"] 		= "monitor";
-$module["title"] 		= "Monitor";
+$module["title"] 		= "top_menu_monitor";
 $module["template"] 	= "module.tpl.htm";
 $module["tab_width"]    = '';
 $module["startpage"] 	= "monitor/show_sys_state.php?state=system";

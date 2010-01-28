@@ -9,4 +9,5 @@ $wb['Edit Client-Templates'] = 'Editer les modèles de Clients';
 $wb['Add Reseller'] = 'Ajouter un Revendeur';
 $wb['Edit Reseller'] = 'Editer Revendeur';
 $wb['Resellers'] = 'Revendeurs';
+$wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
 ?>

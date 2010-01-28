@@ -14,4 +14,5 @@ $wb['Shell-User'] = 'Usuario de consola';
 $wb['Shell'] = 'Consola (shell)';
 $wb['Websites'] = 'Sitios web';
 $wb['Stats'] = 'Estadísticas';
+$wb['Website'] = 'Website';
 ?>

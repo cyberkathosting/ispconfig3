@@ -12,4 +12,5 @@ $wb['source_server_error_isempty'] = 'Server ist leer.';
 $wb['source_username_error_isempty'] = 'Benutzername ist leer.';
 $wb['source_password_error_isempty'] = 'Passwort ist leer.';
 $wb['destination_error_isemail'] = 'Kein Ziel gewählt.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
 ?>

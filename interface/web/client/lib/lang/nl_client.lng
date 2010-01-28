@@ -89,6 +89,4 @@ $wb['limit_cron_error_frequency'] = 'De cron uitvoeringen limiet moet een nummer
 $wb['limit_mailaliasdomain_txt'] = '# E-Mail domeinaliassen';
 $wb['limit_mailaliasdomain_error_notint'] = 'Het aantal e-mail domeinaliassen moet nummeriek zijn.';
 $wb['limit_web_quota_txt'] = 'Website schijfruimte';
-$wb['Address'] = 'Adresgegevens';
 ?>
-

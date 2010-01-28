@@ -6,4 +6,3 @@ $wb['email_txt'] = 'E-mail (patroon)';
 $wb['fullname_txt'] = 'Naam';
 $wb['local_txt'] = 'Lokaal';
 ?>
-

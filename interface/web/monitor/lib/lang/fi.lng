@@ -134,4 +134,5 @@ $wb['monitor_title_mailq_txt'] = 'Sähköpostijono';
 $wb['monitor_title_raidstate_txt'] = 'RAID-laitteiden tila';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-tulokset';
 $wb['monitor_updates_nosupport_txt'] = 'Käyttämäsi Linux-jakelu ei tue päivitysten valvontaa.';
+$wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>

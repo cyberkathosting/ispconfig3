@@ -4,4 +4,3 @@ $wb['email_txt'] = 'E-mail';
 $wb['autoresponder_txt'] = 'Autoresponder';
 $wb['add_new_record_txt'] = 'Nieuw e-mailaccount toevoegen';
 ?>
-

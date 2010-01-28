@@ -21,6 +21,16 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 
     //* Customisations for the page actions will be defined here
+	function onShow() {
+		global $app;
+		
+		// Translate the items, very bad trick... :( because the language file is not loaded yet when the form file gets parsed
+		foreach($app->tform->formDef["tabs"]['remote_user']['fields']['remote_functions']['value'] as $key => $val) {
+			$app->tform->formDef["tabs"]['remote_user']['fields']['remote_functions']['value'][$key] = $app->tform->lng($val).'<br>';
+		}
+		
+		parent::onShow();
+	}
 
 }
 

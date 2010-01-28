@@ -3,7 +3,7 @@
 global $conf;
 
 $module['name'] 		= 'tools';
-$module['title'] 		= 'Tools';
+$module['title'] 		= 'top_menu_tools';
 $module['template'] 	= 'module.tpl.htm';
 $module['startpage'] 	= 'tools/index.php';
 $module['tab_width']    = '60';

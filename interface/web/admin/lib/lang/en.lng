@@ -34,5 +34,9 @@ $wb['Language Editor'] = 'Language Editor';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repositories';
 $wb['Server Services'] = 'Server Services';
-
+$wb['Interface Config'] = 'Interface Config';
+$wb['Packages'] = 'Packages';
+$wb['Updates'] = 'Updates';
+$wb['Merge'] = 'Merge';
+$wb['Remote Users'] = 'Remote Users';
 ?>

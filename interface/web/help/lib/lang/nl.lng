@@ -4,7 +4,4 @@ $wb['Message'] = 'Bericht sturen';
 $wb['Send message'] = 'Verstuur bericht';
 $wb['View messages'] = 'Bekijk berichten';
 $wb['Support'] = 'Support';
-$wb['Version'] = 'Software versie';
-$wb['About ISPConfig'] = 'Over ISPConfig';
 ?>
-

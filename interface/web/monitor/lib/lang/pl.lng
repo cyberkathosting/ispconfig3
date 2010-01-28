@@ -134,4 +134,5 @@ $wb['monitor_title_mailq_txt'] = 'Kolejka Mail';
 $wb['monitor_title_raidstate_txt'] = 'Status RAID';
 $wb['monitor_title_rkhunterlog_txt'] = 'Log RKHunter';
 $wb['monitor_updates_nosupport_txt'] = 'Twoja dystrybucja systemu nie obsługuje monitorowania';
+$wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>

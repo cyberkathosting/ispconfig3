@@ -6,7 +6,6 @@ $wb['Mail Content Filter'] = 'Mail content filter';
 $wb['Filter'] = 'Filter';
 $wb['Mail Domain'] = 'E-mail domein';
 $wb['Domain'] = 'Domeinen';
-$wb['Domain Alias'] = 'Domeinaliassen';
 $wb['Email Catchall'] = 'Catch-all records';
 $wb['Email Forward'] = 'Doorstuur records';
 $wb['Get Email'] = 'Ontvang e-mail';
@@ -43,6 +42,4 @@ $wb['Postfix Whitelist'] = 'Postfix whitelist';
 $wb['Postfix Blacklist'] = 'Postfix blacklist';
 $wb['Content Filter'] = 'Content filter';
 $wb['Global Filters'] = 'Globale filters';
-$wb['Relay Recipients'] = 'Relay ontvangers';
 ?>
-

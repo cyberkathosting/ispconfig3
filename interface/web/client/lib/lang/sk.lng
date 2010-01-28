@@ -9,4 +9,5 @@ $wb['Edit Client-Templates'] = 'Upravi? klient-Šablónu';
 $wb['Add Reseller'] = 'Prida? nového predajcu';
 $wb['Edit Reseller'] = 'Upravi? predajcu';
 $wb['Resellers'] = 'Predajcovia';
+$wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
 ?>

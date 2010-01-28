@@ -4,7 +4,7 @@
 $module['name']      = 'help';
 
 //* Title of the module. The title is dispalayed in the top navigation.
-$module['title']     = 'Help';
+$module['title']     = 'top_menu_help';
 
 //* The template file of the module. This is always module.tpl.htm if you do not have any special requirements like a 3 column layout.
 $module['template']  = 'module.tpl.htm';

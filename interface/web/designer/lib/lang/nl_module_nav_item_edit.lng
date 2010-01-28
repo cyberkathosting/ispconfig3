@@ -6,4 +6,3 @@ $wb['header_txt'] = 'Navi eigenschappen';
 $wb['save_txt'] = 'Opslaan';
 $wb['cancel_txt'] = 'Annuleren';
 ?>
-

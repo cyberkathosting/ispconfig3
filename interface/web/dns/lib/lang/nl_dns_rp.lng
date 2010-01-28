@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'De hostnaam heeft een ongeldige indeling.';
 $wb['data_error_empty'] = 'Verantwoordelijke persoon veld is leeg.';
 $wb['data_error_regex'] = 'Verantwoordelijke persoon veld indeling is ongeldig.';
 ?>
-

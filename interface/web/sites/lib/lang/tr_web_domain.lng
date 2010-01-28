@@ -49,4 +49,9 @@ $wb['stats_password_txt'] = 'Web istatistikleri şifresi';
 $wb['ssl_domain_txt'] = 'SSL Domain';
 $wb['allow_override_txt'] = 'Allow Override';
 $wb['limit_web_quota_free_txt'] = 'Max. available Harddisk Quota';
+$wb['ssl_state_error_regex'] = 'Invalid SSL State. Valid characters are: a-z, 0-9 and .,-_';
+$wb['ssl_locality_error_regex'] = 'Invalid SSL Locality. Valid characters are: a-z, 0-9 and .,-_';
+$wb['ssl_organisation_error_regex'] = 'Invalid SSL Organisation. Valid characters are: a-z, 0-9 and .,-_';
+$wb['ssl_organistaion_unit_error_regex'] = 'Invalid SSL Organisation Unit. Valid characters are: a-z, 0-9 and .,-_';
+$wb['ssl_country_error_regex'] = 'Invalid SSL Country. Valid characters are: A-Z';
 ?>

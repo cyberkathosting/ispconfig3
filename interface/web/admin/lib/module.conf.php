@@ -3,7 +3,7 @@
 global $conf;
 
 $module['name'] 		= 'admin';
-$module['title'] 		= 'System';
+$module['title'] 		= 'top_menu_system';
 $module['template'] 	= 'module.tpl.htm';
 $module['startpage'] 	= 'admin/server_list.php';
 $module['tab_width']    = '60';

@@ -32,4 +32,9 @@ $wb['Language Editor'] = 'Dil Editörü';
 $wb['Software'] = 'Yazılım';
 $wb['Repositories'] = 'Depolar';
 $wb['Server Services'] = 'Server Services';
+$wb['Interface Config'] = 'Interface Config';
+$wb['Packages'] = 'Packages';
+$wb['Updates'] = 'Updates';
+$wb['Merge'] = 'Merge';
+$wb['Remote Users'] = 'Remote Users';
 ?>

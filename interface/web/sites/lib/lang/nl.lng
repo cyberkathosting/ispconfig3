@@ -8,17 +8,11 @@ $wb['SSL'] = 'SSL';
 $wb['Subdomain'] = 'Website subdomeinen';
 $wb['Sites'] = 'Sites';
 $wb['Aliasdomain'] = 'Website domeinaliassen';
-$wb['Web Aliasdomain'] = 'Website domeinalias';
 $wb['FTP-User'] = 'FTP gebruikers';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell gebruikers';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Websites';
-$wb['Cron'] = 'Cron taakplanner';
-$wb['Cron Jobs'] = 'Overzicht taken';
-$wb['Cron Job'] = 'Cron taak';
 $wb['Stats'] = 'Statistieken';
-$wb['Statistics'] = 'Statistieken';
-$wb['Web traffic'] = 'Websites dataverkeer';
+$wb['Website'] = 'Website';
 ?>
-

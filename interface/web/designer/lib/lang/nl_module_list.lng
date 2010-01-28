@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Verwerkingsmodule';
 $wb['module_txt'] = 'Module';
 $wb['title_txt'] = 'Titel';
 ?>
-

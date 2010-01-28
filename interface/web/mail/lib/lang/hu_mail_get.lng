@@ -12,4 +12,5 @@ $wb['source_server_error_isempty'] = 'Szerver üres.';
 $wb['source_username_error_isempty'] = 'Felhasználónév üres.';
 $wb['source_password_error_isempty'] = 'Jelszó üres.';
 $wb['destination_error_isemail'] = 'Nem választott címzettet.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
 ?>

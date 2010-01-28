@@ -1,7 +1,7 @@
 <?php
 
 $module['name'] 		= 'mail';
-$module['title'] 		= 'Email';
+$module['title'] 		= 'top_menu_email';
 $module['template'] 	= 'module.tpl.htm';
 $module['startpage'] 	= 'mail/mail_domain_list.php';
 $module['tab_width']    = '';

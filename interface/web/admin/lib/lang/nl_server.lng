@@ -11,4 +11,3 @@ $wb['active_txt'] = 'Actief?';
 $wb['mirror_server_id_txt'] = 'Deze server is mirror van server';
 $wb['- None -'] = '- niet van toepassing -';
 ?>
-

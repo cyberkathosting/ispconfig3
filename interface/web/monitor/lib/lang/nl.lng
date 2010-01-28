@@ -134,5 +134,5 @@ $wb['monitor_title_mailq_txt'] = 'E-mail wachtrij';
 $wb['monitor_title_raidstate_txt'] = 'RAID status';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Uw distributie ondersteunt deze controle-software niet';
+$wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>
-

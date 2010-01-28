@@ -131,6 +131,9 @@ class tform {
 				$wb = array();
 				
 				include_once(ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng');
+				
+				if(is_array($wb)) $wb_global = $wb;
+				
                 if($module == '') {
 					$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng";
 					if(!file_exists($lng_file)) $lng_file = "lib/lang/en_".$this->formDef["name"].".lng";
@@ -140,6 +143,12 @@ class tform {
 					if(!file_exists($lng_file)) $lng_file = "../$module/lib/lang/en_".$this->formDef["name"].".lng";
 					include($lng_file);
                 }
+				
+				if(is_array($wb_global)) {
+					$wb = array_merge($wb_global,$wb);
+				}
+				if(isset($wb_global)) unset($wb_global);
+				
                 $this->wordbook = $wb;
 
                 return true;
@@ -965,6 +974,9 @@ class tform {
         foreach( $this->formDef["tabs"] as $key => $tab) {
 
             $tab['name'] = $key;
+			// Translate the title of the tab
+			$tab['title'] = $this->lng($tab['title']);
+			
             if($tab['name'] == $active_tab) {
 
                 // If module is set, then set the template path relative to the module..
@@ -972,8 +984,7 @@ class tform {
 
                 // Generate the template if it does not exist yet.
 				
-				// Translate the title of the tab
-				$tab['title'] = $this->lng($tab['title']);
+				
 								
                 if(!is_file($tab["template"])) {
                      $app->uses('tform_tpl_generator');

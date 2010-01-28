@@ -4,4 +4,5 @@ $wb['language_import_txt'] = 'Vyberte súbor jazyka';
 $wb['btn_save_txt'] = 'Import zvoleného jazykového súboru';
 $wb['language_overwrite_txt'] = 'Prepisa? subor ak existuje';
 $wb['btn_cancel_txt'] = 'Spä?';
+$wb['ignore_version_txt'] = 'Skip ISPConfig version check';
 ?>

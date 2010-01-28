@@ -6,4 +6,3 @@ $wb['btn_save_txt'] = 'Aanmaken';
 $wb['btn_cancel_txt'] = 'Terug';
 $wb['language_new_hint_txt'] = '2 tekens ISO 639-1 taal-code (Zie http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>
-

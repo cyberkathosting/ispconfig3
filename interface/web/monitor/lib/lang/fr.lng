@@ -134,4 +134,5 @@ $wb['monitor_title_raidstate_txt'] = 'Status RAID';
 $wb['monitor_title_rkhunterlog_txt'] = 'Log RKHunter';
 $wb['monitor_updates_nosupport_txt'] = 'Votre distribution nest pas supportée par le moniteur';
 $wb['Show Jobqueue'] = 'Show Jobqueue';
+$wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>
