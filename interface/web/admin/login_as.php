@@ -40,10 +40,22 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin') {
 }
 
 /* get the id of the user (must be int!) */
-if (!isset($_GET['id'])){
+if (!isset($_GET['id']) && !isset($_GET['cid'])){
     die ("No user selected!");
 }
-$userId = intval($_GET['id']);
+
+if(isset($_GET['id'])) {
+	$userId = intval($_GET['id']);
+	$backlink = 'admin/users_list.php';
+} else {
+	$client_id = intval($_GET['cid']);
+	$tmp_client = $app->db->queryOneRecord("SELECT username FROM client WHERE client_id = $client_id");
+	$tmp_sys_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE username = '".$app->db->quote($tmp_client['username'])."'");
+	$userId = $tmp_sys_user['userid'];
+	unset($tmp_client);
+	unset($tmp_sys_user);
+	$backlink = 'client/client_list.php';
+}
 
 /*
  * Get the data to login as user x
@@ -66,7 +78,7 @@ echo '
 	<input type="hidden" name="s_pg" value="index" />
     <div class="wf_actions buttons">
       <button class="positive iconstxt icoPositive" type="button" value="Yes, login as Client" onClick="submitLoginForm(' . "'pageForm'" . ');"><span>Yes, login as Client</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="No, back to list" onClick="loadContent('. "'admin/users_list.php'" . ');"><span>No, back to list</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="No, back to list" onClick="loadContent('. "'$backlink'" . ');"><span>No, back to list</span></button>
     </div>
 ';
 ?>
