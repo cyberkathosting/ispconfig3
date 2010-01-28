@@ -105,7 +105,8 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 	// load the list of clients
 	$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
 	$clients = $app->db->queryAllRecords($sql);
-	$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
+	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
 	if(is_array($clients)) {
 		foreach( $clients as $client) {
 			$selected = ($client["groupid"] == $sys_groupid)?'SELECTED':'';

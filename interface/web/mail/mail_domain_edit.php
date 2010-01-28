@@ -103,7 +103,8 @@ class page_action extends tform_actions {
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
 			$clients = $app->db->queryAllRecords($sql);
-			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
 			$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
 				foreach( $clients as $client) {

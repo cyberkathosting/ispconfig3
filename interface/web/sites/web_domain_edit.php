@@ -113,7 +113,8 @@ class page_action extends tform_actions {
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
 			$records = $app->db->queryAllRecords($sql);
-			$client_select = '<option value="'.$client['client_id'].'">'.$client['contact_name'].'</option>';
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
 			$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
@@ -220,12 +221,13 @@ class page_action extends tform_actions {
 			
 			//* Check the website quota
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND sys_groupid = $client_group_id");
-				$webquota = $tmp["webquota"] / 1024 / 1024;
+				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+				$webquota = $tmp["webquota"];
 				$new_web_quota = intval($this->dataRecord["hd_quota"]);
 				if(($webquota + $new_web_quota > $client["limit_web_quota"]) || ($new_web_quota == -1 && $client["limit_web_quota"] != -1)) {
 					$max_free_quota = floor($client["limit_web_quota"] - $webquota);
-					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota."<br>";
+					if($max_free_quota < 0) $max_free_quota = 0;
+					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota." MB<br>";
 					// Set the quota field to the max free space
 					$this->dataRecord["hd_quota"] = $max_free_quota;
 				}
