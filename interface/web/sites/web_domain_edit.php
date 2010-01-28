@@ -385,6 +385,23 @@ class page_action extends tform_actions {
 			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 			//$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
+			
+			// Update the FTP user(s) too
+			$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = ".$this->id);
+			foreach($records as $rec) {
+				$app->db->datalogUpdate('ftp_user', "uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $rec['ftp_user_id']);
+			}
+			unset($records);
+			unset($rec);
+			
+			// Update the Shell user(s) too
+			$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = ".$this->id);
+			foreach($records as $rec) {
+				$app->db->datalogUpdate('shell_user', "puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $rec['shell_user_id']);
+			}
+			unset($records);
+			unset($rec);
+			
 		}
 		
 		//* If the domain name has been changed, we will have to change all subdomains
