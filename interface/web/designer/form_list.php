@@ -56,7 +56,7 @@ $handle = @opendir(ISPC_WEB_PATH);
 while ($file = @readdir ($handle)) { 
     if ($file != '.' && $file != '..') {
         if(@is_dir(ISPC_WEB_PATH."/$file")) {
-            if(ISPC_WEB_PATH.'/'.$file.'/lib/module.conf.php') and $file != 'login') {
+            if(is_file(ISPC_WEB_PATH.'/'.$file.'/lib/module.conf.php') and $file != 'login') {
 				if(@is_dir(ISPC_WEB_PATH."/$file/form")) {
 					$handle2 = opendir(ISPC_WEB_PATH."/$file/form");
 					while ($form_file = @readdir ($handle2)) {
