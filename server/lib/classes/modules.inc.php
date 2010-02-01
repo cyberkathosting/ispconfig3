@@ -177,7 +177,7 @@ class modules {
 						return;
 					}
 				} else {
-					$app->log("Datalog does not conatin any changes for this record ".$d["datalog_id"],LOGLEVEL_DEBUG);
+					$app->log("Datalog does not contain any changes for this record ".$d["datalog_id"],LOGLEVEL_DEBUG);
 				}
 			}
 			
