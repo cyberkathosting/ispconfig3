@@ -24,3 +24,4 @@ $wb['mbox_error_regex'] = 'De indeling van het e-mailadres is ongeldig.';
 $wb['also_notify_txt'] = 'Updates melden aan extra slaves (also-notify)';
 $wb['update_acl_txt'] = 'Update Access Control List';
 ?>
+

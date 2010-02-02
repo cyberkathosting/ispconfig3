@@ -7,3 +7,4 @@ $wb['rid_txt'] = 'Gebruiker';
 $wb['email_txt'] = 'Whitelisted e-mail';
 $wb['add_new_record_txt'] = 'Blacklist record toevoegen';
 ?>
+

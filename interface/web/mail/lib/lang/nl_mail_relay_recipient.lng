@@ -1,4 +1,6 @@
 <?php
+$wb['Email relay recipient'] = 'Relay ontvanger';
+$wb['Relay recipient'] = 'Relay ontvanger bewerken';
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Relay ontvanger';
 $wb['recipient_txt'] = 'Ontvanger';
@@ -7,3 +9,4 @@ $wb['source_error_notempty'] = 'E-mailadres van de ontvanger is leeg.';
 $wb['type_txt'] = 'Type';
 $wb['limit_mailfilter_txt'] = 'Het maximum aantal e-mailfilters van uw account is bereikt.';
 ?>
+

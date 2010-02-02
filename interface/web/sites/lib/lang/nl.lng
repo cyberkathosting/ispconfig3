@@ -14,5 +14,6 @@ $wb['Shell-User'] = 'Shell gebruikers';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Websites';
 $wb['Stats'] = 'Statistieken';
-$wb['Website'] = 'Website';
+$wb['Website'] = 'Website overzicht';
 ?>
+

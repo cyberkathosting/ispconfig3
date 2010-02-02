@@ -1,9 +1,10 @@
 <?php
+$wb['Web Domain'] = 'Website beheer';
 $wb['ssl_state_txt'] = 'Provincie';
 $wb['ssl_locality_txt'] = 'Plaats';
 $wb['ssl_organisation_txt'] = 'Organisatie';
 $wb['ssl_organisation_unit_txt'] = 'Organisatie afdeling';
-$wb['ssl_country_txt'] = 'Land';
+$wb['ssl_country_txt'] = 'Landcode (<a href="http://www.digicert.com/ssl-certificate-country-codes.htm" onclick="window.open(this.href);return false;">zie codes</a>)';
 $wb['ssl_request_txt'] = 'SSL verzoek';
 $wb['ssl_cert_txt'] = 'SSL certificaat';
 $wb['ssl_bundle_txt'] = 'SSL bundel';
@@ -49,9 +50,10 @@ $wb['stats_password_txt'] = 'Website statistieken wachtwoord';
 $wb['ssl_domain_txt'] = 'SSL Domein';
 $wb['allow_override_txt'] = 'Optie: Allow Override';
 $wb['limit_web_quota_free_txt'] = 'Maximale beschikbare schijfruimte-gebruik';
-$wb['ssl_state_error_regex'] = 'Invalid SSL State. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_locality_error_regex'] = 'Invalid SSL Locality. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_organisation_error_regex'] = 'Invalid SSL Organisation. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_organistaion_unit_error_regex'] = 'Invalid SSL Organisation Unit. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_country_error_regex'] = 'Invalid SSL Country. Valid characters are: A-Z';
+$wb['ssl_state_error_regex'] = 'Ongeldige SSL Provincie. Geldige tekens zijn: a-z, 0-9 en .,-_';
+$wb['ssl_locality_error_regex'] = 'Ongeldige SSL Plaats. Geldige tekens zijn: a-z, 0-9 en .,-_';
+$wb['ssl_organisation_error_regex'] = 'Ongeldige SSL Organisatie. Geldige tekens zijn: a-z, 0-9 en .,-_';
+$wb['ssl_organistaion_unit_error_regex'] = 'Ongeldige SSL Organisatie afdeling. Geldige tekens zijn: a-z, 0-9 en .,-_';
+$wb['ssl_country_error_regex'] = 'Ongeldige SSL Landcode. Geldige tekens zijn: A-Z';
 ?>
+

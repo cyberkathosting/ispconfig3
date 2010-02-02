@@ -6,3 +6,4 @@ $wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['Form to edit the user password and language.'] = 'Wijzig in het onderstaande formulier het wachtwoord en/of taal.';
 $wb['Settings'] = 'Instellingen';
 ?>
+

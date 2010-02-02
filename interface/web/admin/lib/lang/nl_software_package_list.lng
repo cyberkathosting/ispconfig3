@@ -5,3 +5,4 @@ $wb['package_title_txt'] = 'Pakket';
 $wb['package_description_txt'] = 'Omschrijving';
 $wb['action_txt'] = 'Actie';
 ?>
+

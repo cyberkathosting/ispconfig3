@@ -7,3 +7,4 @@ $wb['transport_txt'] = 'Bestemming';
 $wb['sort_order_txt'] = 'Sorteren op';
 $wb['add_new_record_txt'] = 'Nieuw e-mail route toevoegen';
 ?>
+

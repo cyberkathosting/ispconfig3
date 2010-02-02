@@ -1,5 +1,8 @@
 <?php
 $wb['DNS'] = 'DNS zones';
+$wb['DNS Wizard'] = 'DNS wizard';
+$wb['Add DNS Zone'] = 'DNS zone toevoegen';
+$wb['Templates'] = 'Templates';
 $wb['Zones'] = 'Overzicht';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
@@ -15,3 +18,4 @@ $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'DNS TXT record';
 $wb['DNS TXT'] = 'DNS TXT';
 ?>
+

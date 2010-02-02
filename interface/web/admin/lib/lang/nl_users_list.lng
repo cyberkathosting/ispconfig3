@@ -7,3 +7,4 @@ $wb['ort_txt'] = 'Plaats';
 $wb['add_new_record_txt'] = 'Nieuwe gebruiker toevoegen';
 $wb['warning_txt'] = '<b>LET OP:</b> Verander hier geen gegevens. Gebruik daarvoor de functie Wijzig klant/Wijzig reseller onder de Klanten-module van ISPConfig. Het veranderen van gebruikers in deze module kan dataverlies opleveren!';
 ?>
+

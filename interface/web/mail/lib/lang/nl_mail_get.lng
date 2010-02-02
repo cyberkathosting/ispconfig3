@@ -1,6 +1,6 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Type server';
+$wb['type_txt'] = 'Inloggen met protocol';
 $wb['source_server_txt'] = 'POP3/IMAP server';
 $wb['source_username_txt'] = 'Gebruikersnaam';
 $wb['source_password_txt'] = 'Wachtwoord';
@@ -8,9 +8,10 @@ $wb['source_delete_txt'] = 'E-mailberichten na ontvangst verwijderen';
 $wb['destination_txt'] = 'Doorsturen naar account';
 $wb['active_txt'] = 'Actief?';
 $wb['limit_fetchmail_txt'] = 'Het max. aantal Fetchmail records voor uw domein is bereikt.';
-$wb['source_server_error_isempty'] = 'Server is leeg.';
+$wb['source_server_error_isempty'] = 'POP3/IMAP server is niet opgegeven.';
 $wb['source_username_error_isempty'] = 'Gebruikersnaam is leeg.';
 $wb['source_password_error_isempty'] = 'Wachtwoord is leeg.';
 $wb['destination_error_isemail'] = 'Er is geen bestemming geselecteerd.';
-$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+$wb['source_server_error_regex'] = 'POP3/IMAP server is een ongeldig adres.';
 ?>
+

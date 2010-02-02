@@ -6,3 +6,4 @@ $wb['destination_txt'] = 'Doorsturen naar e-mailadres';
 $wb['email_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Nieuwe e-mail forward toevoegen';
 ?>
+

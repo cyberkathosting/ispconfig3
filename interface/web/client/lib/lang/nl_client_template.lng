@@ -53,3 +53,4 @@ $wb['limit_mailaliasdomain_txt'] = '# E-mail domeinaliassen';
 $wb['limit_mailaliasdomain_error_notint'] = 'Het aantal e-mail domeinaliassen moet een geldig getal zijn.';
 $wb['limit_web_quota_txt'] = 'Website schijfruimte';
 ?>
+

@@ -7,3 +7,4 @@ $wb['source_error_notempty'] = 'Adres is leeg.';
 $wb['type_txt'] = 'Type';
 $wb['limit_mailfilter_txt'] = 'Het max. aantal e-mailfilters voor uw account is bereikt.';
 ?>
+

@@ -15,3 +15,4 @@ $wb['username_txt'] = 'Gebruikersnaam';
 $wb['password_txt'] = 'Wachtwoord';
 $wb['login_button_txt'] = 'Inloggen';
 ?>
+

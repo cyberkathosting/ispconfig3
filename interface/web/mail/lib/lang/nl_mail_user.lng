@@ -35,3 +35,4 @@ $wb['autoresponder_end_date_txt'] = 'Einde';
 $wb['autoresponder_end_date_isgreater'] = 'Eind-datum mag niet eerder zijn dan de begin-datum.';
 $wb['move_junk_txt'] = 'Verplaats SPAM naar map Ongewenste e-mail';
 ?>
+

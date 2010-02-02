@@ -26,3 +26,4 @@ $wb['groups_txt'] = 'Gebruiker is lid van groep';
 $wb['default_group_txt'] = 'Standaard groep';
 $wb['startmodule_err'] = 'Module is niet binnen de lijst van beschikbare modulen.';
 ?>
+
