@@ -149,16 +149,6 @@ $defang_by_ccat{+CC_BADH.",6"} = 1;  # header field syntax error
 # $notify_method  = 'smtp:[127.0.0.1]:10025';
 # $forward_method = 'smtp:[127.0.0.1]:10025';  # set to undef with milter!
 
-#$final_virus_destiny      = D_DISCARD;
-#$final_banned_destiny     = D_BOUNCE;
-#$final_spam_destiny       = D_DISCARD;
-#$final_bad_header_destiny = D_BOUNCE;
-
-$final_virus_destiny      = D_REJECT;
-$final_banned_destiny     = D_REJECT;
-$final_spam_destiny       = D_PASS;
-$final_bad_header_destiny = D_PASS;
-
 # $os_fingerprint_method = 'p0f:127.0.0.1:2345';  # to query p0f-analyzer.pl
 
 ## hierarchy by which a final setting is chosen:
