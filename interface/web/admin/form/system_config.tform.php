@@ -41,7 +41,7 @@ $form["db_table"]		= "sys_ini";
 $form["db_table_idx"]	= "sysini_id";
 $form["db_history"]		= "yes";
 $form["tab_default"]	= "sites";
-$form["list_default"]	= "users_list.php";
+$form["list_default"]	= "server_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -116,7 +116,7 @@ $form["tabs"]['sites'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9a-zA-Z\:\/\-]{0,255}$/',
+														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
 														'errmsg'=> 'phpmyadmin_url_error_regex'),
 										),
 			'default'	=> '',
@@ -148,7 +148,7 @@ $form["tabs"]['mail'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9a-zA-Z\:\/\-]{0,255}$/',
+														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
 														'errmsg'=> 'webmail_url_error_regex'),
 										),
 			'default'	=> '',
