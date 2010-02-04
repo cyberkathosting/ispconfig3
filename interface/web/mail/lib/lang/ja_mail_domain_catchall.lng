@@ -1,0 +1,10 @@
+<?php
+$wb["domain_txt"] = 'ドメイン';
+$wb["destination_txt"] = '配送先';
+$wb["active_txt"] = '有効';
+$wb["domain_error_unique"] = 'このドメイン向けのキャッチオールは設定済みです。既存の設定を確認するか、ドメイン名を変更してください。';
+$wb["no_domain_perm"] = 'このドメイン向けのキャッチオールを設定する権限がありません。';
+$wb["domain_error_regex"] = 'ドメイン名が不正です。無効な文字を含んでいないか確認してください。';
+$wb["limit_mailcatchall_txt"] = 'キャッチオールアカウントが最大数に達したため、これ以上追加できません。';
+?>
+

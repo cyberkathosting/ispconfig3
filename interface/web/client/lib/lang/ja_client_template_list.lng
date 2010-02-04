@@ -1,0 +1,6 @@
+<?php
+$wb["list_head_txt"] = 'クライアントテンプレート';
+$wb["template_type_txt"] = '種別';
+$wb["template_name_txt"] = 'テンプレート名';
+?>
+

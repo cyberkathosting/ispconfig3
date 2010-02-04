@@ -1,0 +1,38 @@
+<?php
+
+$wb[1001]	= "ユーザー名またはパスワードが未入力です。";
+$wb[1002]	= "ユーザー名またはパスワードが正しくありません。";
+$wb['Firewall'] = 'ファイアウォール';
+$wb['Groups'] = 'グループ';
+$wb['groups_description'] = 'システムユーザーグループの編集';
+$wb['Server']	= 'サーバー';
+$wb['Services']	= 'サービス';
+$wb['Config'] = '設定';
+$wb['Server Config'] = 'サーバーの設定';
+$wb['Mail'] = 'メール';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'ウェブ';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'システム';
+$wb['Add user'] = 'ユーザーを追加する';
+$wb['Edit user'] = 'ユーザーを編集する';
+$wb['CP Users'] = 'コントロールパネルユーザー';
+$wb['Add group'] = 'グループを追加する';
+$wb['Edit group'] = 'グループを編集する';
+$wb['Groups'] = 'グループ';
+$wb['Edit server'] = 'サーバーを編集する';
+$wb['Edit Server IP'] = 'サーバーのIPアドレスを編集する';
+$wb['Servers'] = 'サーバー';
+$wb['Sync. Now'] = 'Sync.Now';
+$wb['DB Sync.'] = 'DB Sync.';
+$wb['Languages'] = '言語';
+$wb['New Language'] = '言語を追加する';
+$wb['Export'] = 'エクスポート';
+$wb['Import'] = 'インポート';
+$wb['Language Editor'] = '言語エディタ';
+$wb['Software'] = 'ソフトウェア';
+$wb['Repositories'] = 'リポジトリー';
+
+?>
+

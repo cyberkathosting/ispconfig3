@@ -1,0 +1,56 @@
+<?php
+
+$wb["limit_client_error_notint"] = 'クライアントの最大数は数字で指定してください。';
+$wb["limit_maildomain_txt"] = 'メールドメインの最大数';
+$wb["limit_mailbox_txt"] = 'メールボックスの最大数';
+$wb["limit_mailalias_txt"] = 'メールエイリアスの最大数';
+$wb["limit_mailforward_txt"] = 'メールフォワードの最大数';
+$wb["limit_mailcatchall_txt"] = 'キャッチオール・メールアカウントの最大数';
+$wb["limit_mailrouting_txt"] = 'メール配送経路の最大数';
+$wb["limit_mailfilter_txt"] = 'メールフィルターの最大数';
+$wb["limit_fetchmail_txt"] = 'fetchmailアカウントの最大数';
+$wb["limit_mailquota_txt"] = 'メールボックスの容量';
+$wb["limit_spamfilter_wblist_txt"] = '迷惑メールのホワイトリスト、ブラックリストフィルターの最大数';
+$wb["limit_spamfilter_user_txt"] = 'スパムフィルターユーザーの最大数';
+$wb["limit_spamfilter_policy_txt"] = '迷惑メールフィルタのポリシーの最大数';
+$wb["limit_domain_txt"] = 'limit_domain';
+$wb["limit_subdomain_txt"] = 'limit_subdomain';
+$wb["limit_webquota_txt"] = 'limit_webquota';
+$wb["limit_database_txt"] = 'limit_database';
+$wb["limit_cron_txt"] = 'cronジョブの最大数';
+$wb["limit_cron_type_txt"] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb["limit_cron_frequency_txt"] = 'Min. delay between executions';
+$wb["limit_web_domain_txt"] = 'ウェブドメインの最大数';
+$wb["limit_web_aliasdomain_txt"] = 'ウェブエイリアスドメインの最大数';
+$wb["limit_web_subdomain_txt"] = 'ウェブサブドメインの最大数';
+$wb["limit_ftp_user_txt"] = 'FTPユーザーの最大数';
+$wb["limit_dns_zone_txt"] = 'DNSゾーンの最大数';
+$wb["limit_dns_record_txt"] = 'DNSレコードの最大数';
+$wb["limit_shell_user_txt"] = 'Shellユーザーの最大数';
+$wb["limit_client_txt"] = 'クライアントの最大値';
+$wb["limit_maildomain_error_notint"] = 'メールドメインの最大数は数字で指定してください。';
+$wb["limit_mailbox_error_notint"] = 'メールボックスの最大数は数字で指定してください。';
+$wb["limit_mailalias_error_notint"] = 'メールエイリアスの最大数は数字で指定してください。';
+$wb["limit_mailforward_error_notint"] = 'メールフォワードの最大数は数字で指定してください。';
+$wb["limit_mailcatchall_error_notint"] = 'キャッチオール・メールアドレスの最大数は数字で指定してください。';
+$wb["limit_mailrouting_error_notint"] = 'メールの配送経路の最大数は数字で指定してください。';
+$wb["limit_mailfilter_error_notint"] = 'メールフィルターの最大数は数字で指定してください。';
+$wb["limit_mailfetchmail_error_notint"] = 'fetchmailアカウントの最大数は数字で指定してください。';
+$wb["limit_mailquota_error_notint"] = 'メールボックスの最大容量は数字で指定してください。';
+$wb["limit_spamfilter_wblist_error_notint"] = 'スパムフィルターのホワイトリスト、ブラックリストの最大数は数字で指定してください。';
+$wb["limit_spamfilter_user_error_notint"] = 'スパムフィルターユーザーの最大数は数字で指定してください。';
+$wb["limit_spamfilter_policy_error_notint"] = 'スパムフィルターのポリシーの最大数は数字で指定してください。';
+$wb["limit_web_domain_error_notint"] = 'ウェブサイトの最大数は数字で指定してください。';
+$wb["limit_web_aliasdomain_error_notint"] = 'ウェブサイトのエイリアスドメインの最大数は数字で指定してください。';
+$wb["limit_web_subdomain_error_notint"] = 'ウェブサイトのサブドメインの最大値は数字で指定してください。';
+$wb["limit_ftp_user_error_notint"] = 'FTPユーザーの最大数は数字で指定してください。';
+$wb["limit_shell_user_error_notint"] = 'Shellユーザーの最大数は数字で指定してください。';
+$wb["limit_dns_zone_error_notint"] = 'DNSゾーンの最大数は数字で指定してください。';
+$wb["limit_dns_zone_error_notint"] = 'DNSレコードの最大数は数字で指定してください。';
+$wb["limit_database_txt"] = 'データベース数の最大値';
+$wb["limit_database_error_notint"] = 'データベースの最大数は数字で指定してください。';
+$wb["limit_cron_error_notint"] = 'cronジョブの最大数は数字で指定してください。';
+$wb["limit_cron_error_frequency"] = 'The cron frequency limit must be a number.';
+$wb["error_template_name_empty"] = 'テンプレート名を入力してください。';
+?>
+

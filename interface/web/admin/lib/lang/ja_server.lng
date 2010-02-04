@@ -1,0 +1,12 @@
+<?php
+$wb["config_txt"] = '設定';
+$wb["server_name_txt"] = 'サーバー名';
+$wb["mail_server_txt"] = 'メールサーバー';
+$wb["web_server_txt"] = 'ウェブサーバー';
+$wb["dns_server_txt"] = 'DNSサーバー';
+$wb["file_server_txt"] = 'ファイルサーバー';
+$wb["db_server_txt"] = 'DBサーバー';
+$wb["vserver_server_txt"] = 'VServerサーバー';
+$wb["active_txt"] = '有効';
+?>
+

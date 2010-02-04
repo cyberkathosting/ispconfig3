@@ -1,0 +1,16 @@
+<?php
+$wb["server_id_txt"] = 'サーバー';
+$wb["type_txt"] = '種別';
+$wb["source_server_txt"] = 'POP3/IMAPサーバー';
+$wb["source_username_txt"] = 'ユーザー名';
+$wb["source_password_txt"] = 'パスワード';
+$wb["source_delete_txt"] = '取り込み後にサーバーのメールを削除する';
+$wb["destination_txt"] = '宛先';
+$wb["active_txt"] = '有効';
+$wb["limit_fetchmail_txt"] = 'アカウントで許容されている Fetchmail の設定が最大数に達しました。';
+$wb["source_server_error_isempty"] = 'サーバーを指定してください';
+$wb["source_username_error_isempty"] = 'ユーザー名を指定してください';
+$wb["source_password_error_isempty"] = 'パスワードを指定してください';
+$wb["destination_error_isemail"] = '宛先を選択してください。';
+?>
+

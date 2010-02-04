@@ -1,0 +1,22 @@
+<?php
+$wb["server_id_txt"] = 'サーバー';
+$wb['parent_domain_id_txt'] = 'ウェブサイト';
+$wb['active_txt'] = '有効';
+$wb['client_txt'] = 'クライアント';
+$wb['run_min_txt'] = '分';
+$wb['run_hour_txt'] = '時';
+$wb['run_mday_txt'] = '日';
+$wb['run_month_txt'] = '月';
+$wb['run_wday_txt'] = '曜日';
+$wb['command_txt'] = '実行するコマンド（shまたはwgetによるURLへのリクエストにより実行されます）';
+$wb['limit_cron_txt'] = '実行可能なcronジョブの最大数に達しました。';
+$wb['limit_cron_frequency_txt'] = 'The cron job frequency exceeds the allowed limit.';
+$wb['run_min_error_format'] = '分の表記が不正です。';
+$wb['run_hour_error_format'] = '時間の表記が不正です。';
+$wb['run_mday_error_format'] = '日付の表記が不正です。';
+$wb['run_month_error_format'] = '月の表記が不正です。';
+$wb['run_wday_error_format'] = '曜日の表記が不正です。';
+$wb['command_error_format'] = 'コマンドの表記が不正です。''URLではhttpまたはhttpsのみ利用可能です。';
+$wb['unknown_fieldtype_error'] = 'フィールドの型が不正です。';
+?>
+

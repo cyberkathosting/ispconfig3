@@ -1,0 +1,26 @@
+<?php
+$wb["server_id_txt"] = 'サーバー';
+$wb["type_txt"] = '種別';
+$wb["database_name_txt"] = 'データベース名';
+$wb["database_user_txt"] = 'データベースユーザー';
+$wb["database_password_txt"] = 'データベースパスワード';
+$wb["password_strength_txt"] = 'パスワードの強度';
+$wb["database_charset_txt"] = 'データベースのcharset';
+$wb["remote_access_txt"] = 'Remote Access';
+$wb["remote_ips_txt"] = 'リモートアクセスする際のアクセス元IP（"," で区切ってください。未記入の場合はすべてのIPからアクセス可能です）;
+$wb["database_remote_error_ips"] = ’不正なIPアドレスが入力されています。';
+$wb["client_txt"] = 'クライアント';
+$wb["active_txt"] = '有効';
+$wb["database_name_error_empty"] = 'データベース名を指定してください。';
+$wb["database_name_error_unique"] = 'このサーバー上には、同じ名前のデータベースがすでに作成されています。データベース名の前にドメイン名を追加するなどして、一意な名前にしてください。';
+$wb["database_name_error_regex"] = '不正なデータベース名です。データベース名にはa-z、A-Zの文字、0-9の数字と、アンダースコアのみ利用可能です。長さ：2-64文字。';
+$wb["database_user_error_empty"] = 'データベースユーザーを指定してください。';
+$wb["database_user_error_unique"] = 'このサーバー上には、同じ名前のデータベースユーザーがすでに作成されています。'ユーザー名の前にドメイン名を追加するなどして、一意な名前にしてください。';
+$wb["database_user_error_regex"] = '不正なデータベースユーザー名です。'ユーザー名にはa-z、A-Zの文字、0-9の数字と、アンダースコアのみ利用可能です。長さ：2-64文字。';
+$wb["limit_database_txt"] = 'データベース数の最大数に達しました。';
+$wb["database_name_change_txt"] = 'データベース名は変更できません。';
+$wb["database_charset_change_txt"] = 'データベースのcharsetは変更できません。';
+$wb["database_name_error_len"] = 'データベース名 {db} は長すぎます。データベース名の最大長はプレフィックスを含めて64文字です。';
+$wb["database_user_error_len"] = 'データベースのユーザー名 {user} は長すぎます。データベースのユーザー名の最大長はプレフィックスを含めて16文字です。';
+?>
+

@@ -1,0 +1,14 @@
+<?php
+$wb["server_id_txt"] = 'サーバー';
+$wb["domain_txt"] = 'ドメイン';
+$wb["type_txt"] = 'Type';
+$wb["active_txt"] = '有効';
+$wb["domain_error_empty"] = 'ドメインを指定してください';
+$wb["domain_error_unique"] = 'ドメインが重複しています。';
+$wb["domain_error_regex"] = '不正なドメイン名です。';
+$wb["client_txt"] = 'クライアント';
+$wb["limit_maildomain_txt"] = 'メールドメインが最大数に達したため、これ以上追加できません。';
+$wb["policy_txt"] = 'スパムフィルター';
+$wb["no_policy"] = '使わない';
+?>
+

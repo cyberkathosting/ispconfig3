@@ -1,0 +1,7 @@
+<?php
+$wb["name_txt"] = '名前';
+$wb["fields_txt"] = 'フィールド';
+$wb["template_txt"] = 'テンプレート';
+$wb["visible_txt"] = '公開する';
+?>
+

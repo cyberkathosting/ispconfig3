@@ -1,0 +1,18 @@
+<?php
+$wb["header_txt"] = '言語エディタ';
+$wb["title_txt"] = 'Title';
+$wb["name_txt"] = 'Module';
+$wb["delete_txt"] = 'Delete';
+$wb["properties_txt"] = 'Properties';
+$wb["new_menu_txt"] = 'Menu new';
+$wb["edit_txt"] = 'Edit';
+$wb["delete_txt"] = 'Delete';
+$wb["new_txt"] = 'New';
+$wb["up_txt"] = 'Up';
+$wb["down_txt"] = 'Down';
+$wb["module_txt"] = 'Module';
+$wb["module_del_txt"] = "Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse loschen?";
+$wb["menu_del_txt"] = "Wollen Sie das Menu mit allen Untereintragen loschen?";
+$wb["item_del_txt"] = "Wollen Sie den Menueintrag loschen?";
+?>
+

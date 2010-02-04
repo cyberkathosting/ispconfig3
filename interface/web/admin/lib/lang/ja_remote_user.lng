@@ -1,0 +1,10 @@
+<?php
+$wb['username_txt'] = 'ユーザー名：';
+$wb['password_txt'] = 'パスワード：';
+$wb['function_txt'] = '機能：';
+$wb['username_error_unique'] = '既に登録済みのユーザー名です。別の名前に変更してください。';
+$wb['username_error_empty'] = 'ユーザー名を指定してください。';
+$wb['password_error_empty'] = 'パスワードを指定してください。';
+$wb['password_strength_txt'] = 'パスワードの強度';
+?>
+

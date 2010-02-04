@@ -1,0 +1,18 @@
+<?php
+$wb['Database'] = 'データベース';
+$wb['Options'] = 'オプション';
+$wb['Shell User'] = 'Shellユーザー';
+$wb['Domain'] = 'ウェブサイト';
+$wb['Redirect'] = 'リダイレクト';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'サブドメイン';
+$wb['Sites'] = 'サイト';
+$wb['Aliasdomain'] = 'エイリアスドメイン';
+$wb['FTP-User'] = 'FTPユーザー';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shellユーザー';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'ウェブサイト';
+$wb["Stats"] = '利用状況';
+?>
+

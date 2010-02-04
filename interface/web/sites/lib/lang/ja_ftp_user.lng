@@ -1,0 +1,29 @@
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'ディレクトリ';
+$wb["quota_files_txt"] = '最大ファイル数';
+$wb["quota_files_unity_txt"] = 'ファイル';
+$wb["ul_ratio_txt"] = 'アップロードレート';
+$wb["dl_ratio_txt"] = 'ダウンロードレート';
+$wb["ul_bandwidth_txt"] = 'アップロードバンド幅';
+$wb["dl_bandwidth_txt"] = 'ダウンロードバンド幅';
+$wb["server_id_txt"] = 'サーバー';
+$wb["parent_domain_id_txt"] = 'ウェブサイト';
+$wb["username_txt"] = 'ユーザー名';
+$wb["password_txt"] = 'パスワード';
+$wb["password_strength_txt"] = 'パスワードの強度';
+$wb["quota_size_txt"] = 'ディスクの容量';
+$wb["active_txt"] = '有効';
+$wb["limit_ftp_user_txt"] = 'FTPユーザーが最大数に達しました。';
+$wb["username_error_empty"] = 'ユーザー名を指定してください';
+$wb["username_error_unique"] = '既に登録済みのユーザー名です。別の名前に変更してください。';
+$wb["username_error_regex"] = 'ユーザー名に不正な文字が使われています。修正してください。';
+$wb["quota_size_error_empty"] = 'ディスクの容量を指定してください';
+$wb["uid_error_empty"] = 'UID を指定してください。';
+$wb["uid_error_empty"] = 'GID を指定してください。';
+$wb["directory_error_empty"] = 'ディレクトリを指定してください。';
+$wb['directory_error_notinweb'] = 'ディレクトリはウェブのルートディレクトリ以下にしてください。';
+$wb["parent_domain_id_error_empty"] = 'ウェブサイトを選択してください。';
+?>
+

@@ -1,0 +1,16 @@
+<?php
+$wb["server_id_txt"] = 'サーバー';
+$wb["zone_txt"] = 'ゾーン';
+$wb["name_txt"] = 'ホスト名';
+$wb["type_txt"] = '種別';
+$wb["data_txt"] = 'ターゲットホスト名';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = '有効';
+$wb["limit_dns_record_txt"] = 'DNSレコードが最大数に達しました。';
+$wb["no_zone_perm"] = 'このDNSゾーンにレコードを追加する権限がありません。';
+$wb["name_error_empty"] = 'ホスト名を入力してください。';
+$wb["name_error_regex"] = 'ホスト名の形式が不正です。';
+$wb["data_error_empty"] = 'ターゲットのホスト名を入力してください。';
+$wb["data_error_regex"] = 'ターゲットのホスト名の形式が不正です。';
+?>
+
