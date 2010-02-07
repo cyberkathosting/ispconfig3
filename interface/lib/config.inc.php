@@ -97,7 +97,7 @@ $conf['app_title'] = ISPC_APP_TITLE;
 $conf['app_version'] = ISPC_APP_VERSION;
 $conf['app_link'] = 'http://www.howtoforge.com/forums/showthread.php?t=26988';
 $conf['modules_available'] = 'admin,mail,sites,monitor,client,dns,help';
-$conf["server_id"] = "{server_id}";
+$conf["server_id"] = "1";
 
 
 //** Interface

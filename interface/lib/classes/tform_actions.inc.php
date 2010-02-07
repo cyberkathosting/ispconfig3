@@ -118,6 +118,7 @@ class tform_actions {
                         }
 						
 						$this->onAfterUpdate();
+						$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_after_update',$this);
 						
 						// Write data history (sys_datalog)
 						if($app->tform->formDef['db_history'] == 'yes') {
@@ -195,6 +196,7 @@ class tform_actions {
                         }
 
                         $this->onAfterInsert();
+						$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_after_insert',$this);
 
 						// Write data history (sys_datalog)
 						if($app->tform->formDef['db_history'] == 'yes') {

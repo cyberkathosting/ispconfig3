@@ -65,7 +65,7 @@ class app {
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
 		
-		$this->uses('auth');
+		$this->uses('auth,plugin');
 	}
 
 	public function uses($classes)
@@ -98,7 +98,15 @@ class app {
 	/** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
 	public function log($msg, $priority = 0)
     {	
+		global $conf;
 		if($priority >= $this->_conf['log_priority']) {
+			// $server_id = $conf["server_id"];
+			$server_id = 0;
+			$priority = intval($priority);
+			$tstamp = time();
+			$msg = $this->db->quote('[INTERFACE]: '.$msg);
+			$this->db->query("INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ($server_id,0,$priority,$tstamp,'$msg')");
+			/*
 			if (is_writable($this->_conf['log_file'])) {
 				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
 					$this->error('Unable to open logfile.');
@@ -110,6 +118,7 @@ class app {
 			} else {
 				$this->error('Unable to write to logfile.');
 			}
+			*/
 		} 
 	} 
 

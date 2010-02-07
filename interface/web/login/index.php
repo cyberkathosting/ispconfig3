@@ -149,6 +149,9 @@ class login_index {
 								include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 								$_SESSION['s']['module'] = $module;
 							}
+							
+							$app->plugin->raiseEvent('login',$this);
+							
 							echo 'HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 										
 		                   	exit;

@@ -59,6 +59,8 @@ if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin')
 	exit;
 }
 
+$app->plugin->raiseEvent('logout',true);
+
 $_SESSION["s"]["user"] = null;
 $_SESSION["s"]["module"] = null;
 $_SESSION['s_old'] = null;

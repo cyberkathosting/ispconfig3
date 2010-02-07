@@ -68,6 +68,8 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		
 		mail($client['email'],$wb['pw_reset_mail_title'],$wb['pw_reset_mail_msg'].$new_password);
 		
+		$app->plugin->raiseEvent('password_reset',true);
+		
 	} else {
 		$app->tpl->setVar("message",$wb['pw_error']);
 	}
