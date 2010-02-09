@@ -46,10 +46,12 @@ apt-get install vim-nox
 
 apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter binutils
 
+#if not amd64
+apt-get install courier-authlib-mysql
+#if amd64 now there is a dependence problem with deb in the official repository, use this:
 apt-get install libmysqlclient16
-#temp fix for amd64 arch
-wget http://ftp.us.debian.org/debian/pool/main/c/courier-authlib/courier-authlib-mysql_0.62.4-1_amd64.deb
-dpkg --ignore-depends=libmysqlclient15off -i courier-authlib-mysql_0.62.4-1_amd64.deb
+wget http://fantu.eu/supporto/courier-authlib-mysql_0.62.4-1_amd64.deb
+
 
 # Answer the questions from the package manager as follows.
 
@@ -259,14 +261,6 @@ update-rc.d mydns defaults
 6) Install vlogger and webalizer
 
 apt-get install vlogger webalizer
-
-Change the following line in /etc/webalizer/webalizer.conf from
-
-#Incremental    no
-
-to
-
-Incremental    yes 
 
 7) Install Jailkit (optional, only needed if you want to use chrroting for SSH users)
 
