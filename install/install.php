@@ -95,6 +95,10 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 	die('This software can not be installed on a server wich runs ISPConfig 2.x.');
 }
 
+if(is_dir('/usr/local/ispconfig')) {
+	die('ISPConfig 3 installation found. Please use update.php instead if install.php to update the installation.');
+}
+
 //** Detect the installed applications
 $inst->find_installed_apps();
 
