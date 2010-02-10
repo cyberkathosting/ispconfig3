@@ -98,14 +98,12 @@ class modules {
 					$data = unserialize($d["data"]);
 				}
 				//** Decode data back to locale
-				/*
 				foreach($data['old'] as $key => $val) {
 					$data['old'][$key] = utf8_decode($val);
 				}
 				foreach($data['new'] as $key => $val) {
 					$data['new'][$key] = utf8_decode($val);
 				}
-				*/
 				
 				$replication_error = false;
 				
@@ -165,7 +163,12 @@ class modules {
 				
 				
 					if($replication_error == false) {
-						$this->raiseTableHook($d["dbtable"],$d["action"],$data);
+						if(is_array($data['old']) || is_array($data['new'])) {
+							$this->raiseTableHook($d["dbtable"],$d["action"],$data);
+						} else {
+							$app->log("Data array was empty for datalog_id ".$d["datalog_id"],LOGLEVEL_WARN);
+						}
+						//$this->raiseTableHook($d["dbtable"],$d["action"],$data);
 						//$app->dbmaster->query("DELETE FROM sys_datalog WHERE datalog_id = ".$d["datalog_id"]);
 						//$app->log("Deleting sys_datalog ID ".$d["datalog_id"],LOGLEVEL_DEBUG);
 						$app->dbmaster->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf["server_id"]);
@@ -194,17 +197,19 @@ class modules {
 					$data = unserialize($d["data"]);
 				}
 				//** decode data back to current locale
-				/*
 				foreach($data['old'] as $key => $val) {
 					$data['old'][$key] = utf8_decode($val);
 				}
 				foreach($data['new'] as $key => $val) {
 					$data['new'][$key] = utf8_decode($val);
 				}
-				*/
 				
 				$this->current_datalog_id = $d["datalog_id"];
-				$this->raiseTableHook($d["dbtable"],$d["action"],$data);
+				if(is_array($data['old']) || is_array($data['new'])) {
+					$this->raiseTableHook($d["dbtable"],$d["action"],$data);
+				} else {
+					$app->log("Data array was empty for datalog_id ".$d["datalog_id"],LOGLEVEL_WARN);
+				}
 				//$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
 				//$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
 				$app->db->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf["server_id"]);
