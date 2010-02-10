@@ -1,6 +1,7 @@
 <?php
+
 /*
-Copyright (c) 2008, Till Brehm, projektfarm Gmbh
+Copyright (c) 2010, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,60 +28,37 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
-/******************************************
-* Begin Form configuration
-******************************************/
-
-$tform_def_file = "form/mail_user_filter.tform.php";
-
-/******************************************
-* End Form configuration
-******************************************/
-
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
-
-//* Check permissions for module
-$app->auth->check_module_permissions('mail');
-
-// Loading classes
-$app->uses('tpl,tform,tform_actions');
-$app->load('tform_actions');
-
-class page_action extends tform_actions {
+class mail_user_filter_plugin {
 	
-	function onSubmit() {
-		global $app, $conf;
-		
-		// Get the parent mail_user record
-		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".intval($_REQUEST["mailuser_id"])."' AND ".$app->tform->getAuthSQL('r'));
-		
-		// Check if Domain belongs to user
-		if($mailuser["mailuser_id"] != $_POST["mailuser_id"]) $app->tform->errorMessage .= $app->tform->wordbook["no_mailuser_perm"];
-		
-		// Set the mailuser_id
-		$this->dataRecord["mailuser_id"] = $mailuser["mailuser_id"];
-		
-		// Remove leading dots
-		if(substr($this->dataRecord['target'],0,1) == '.') $this->dataRecord['target'] = substr($this->dataRecord['target'],1);
-		
-		parent::onSubmit();
-	}
+	var $plugin_name = 'mail_user_filter_plugin';
+	var $class_name = 'mail_user_filter_plugin';
 	
 	/*
-	function onAfterInsert() {
-		global $app, $conf;
+	 	This function is called when the plugin is loaded
+	*/
+	
+	function onLoad() {
+		global $app;
 		
-		$this->onAfterUpdate();
+		/*
+		Register for the events
+		*/
 		
-		$app->db->query("UPDATE mail_user_filter SET sys_groupid = ".$mailuser['sys_groupid']." WHERE filter_id = ".$this->id);
+		$app->plugin->registerEvent('mail:mail_user_filter:on_after_insert','mail_user_filter_plugin','mail_user_filter_edit');
+		$app->plugin->registerEvent('mail:mail_user_filter:on_after_update','mail_user_filter_plugin','mail_user_filter_edit');
+		
+		
 	}
 	
-	function onAfterUpdate() {
+	
+	/*
+		function to create the mail filter rule and insert it into the custom rules 
+		field when a new mail filter is added or modified.
+	*/
+	function mail_user_filter_edit($event_name,$page_form) {
 		global $app, $conf;
-		
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
+				
+		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$page_form->dataRecord["mailuser_id"]);
 		$skip = false;
 		$lines = explode("\n",$mailuser['custom_mailfilter']);
 		$out = '';
@@ -88,34 +66,38 @@ class page_action extends tform_actions {
 		
 		foreach($lines as $line) {
 			$line = rtrim($line);
-			if($line == '### BEGIN FILTER_ID:'.$this->id) {
+			if($line == '### BEGIN FILTER_ID:'.$page_form->id) {
 				$skip = true;
 				$found = true;
 			}
 			if($skip == false && $line != '') $out .= $line ."\n";
-			if($line == '### END FILTER_ID:'.$this->id) {
-				$out .= $this->getRule();
+			if($line == '### END FILTER_ID:'.$page_form->id) {
+				$out .= $this->mail_user_filter_get_rule($page_form);
 				$skip = false;
 			}
 		}
 		
 		// We did not found our rule, so we add it now as first rule.
 		if($found == false) {
-			$new_rule = $this->getRule();
+			$new_rule = $this->mail_user_filter_get_rule($page_form);
 			$out = $new_rule . $out;
 		}
 		
 		$out = $app->db->quote($out);
-		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
-	
+		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
+		
+		
 	}
 	
-	function getRule() {
+	/*
+		private function to create the mail filter rules in maildrop or sieve format.
+	*/
+	private function mail_user_filter_get_rule($page_form) {
 		
 		global $app,$conf;
 		
 		$app->uses("getconf");
-		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".intval($this->dataRecord["mailuser_id"]));
+		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".intval($page_form->dataRecord["mailuser_id"]));
 		$mail_config = $app->getconf->get_server_config(intval($mailuser_rec["server_id"]),'mail');
 		
 		if($mail_config['mail_filter_syntax'] == 'sieve') {
@@ -125,35 +107,35 @@ class page_action extends tform_actions {
 			// #######################################################
 			
 			$content = '';
-			$content .= '### BEGIN FILTER_ID:'.$this->id."\n";
+			$content .= '### BEGIN FILTER_ID:'.$page_form->id."\n";
 			
 			//$content .= 'require ["fileinto", "regex", "vacation"];'."\n";
 			
-			$content .= 'if header :regex    ["'.strtolower($this->dataRecord["source"]).'"] ["';
+			$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
 			
-			$searchterm = preg_quote($this->dataRecord["searchterm"]);
+			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
 			
-			if($this->dataRecord["op"] == 'contains') {
+			if($page_form->dataRecord["op"] == 'contains') {
 				$content .= ".*".$searchterm;
-			} elseif ($this->dataRecord["op"] == 'is') {
+			} elseif ($page_form->dataRecord["op"] == 'is') {
 				$content .= $searchterm."$";
-			} elseif ($this->dataRecord["op"] == 'begins') {
+			} elseif ($page_form->dataRecord["op"] == 'begins') {
 				$content .= " ".$searchterm."";
-			} elseif ($this->dataRecord["op"] == 'ends') {
+			} elseif ($page_form->dataRecord["op"] == 'ends') {
 				$content .= ".*".$searchterm."$";
 			}
 			
 			$content .= '"] {'."\n";
 			
-			if($this->dataRecord["action"] == 'move') {
-				$content .= '    fileinto "'.$this->dataRecord["target"].'";' . "\n";
+			if($page_form->dataRecord["action"] == 'move') {
+				$content .= '    fileinto "'.$page_form->dataRecord["target"].'";' . "\n";
 			} else {
 				$content .= "    discard;\n";
 			}
 			
 			$content .= "    stop;\n}\n";
 			
-			$content .= '### END FILTER_ID:'.$this->id."\n";
+			$content .= '### END FILTER_ID:'.$page_form->id."\n";
 		
 		} else {
 		
@@ -161,9 +143,9 @@ class page_action extends tform_actions {
 			// Filter in Maildrop Syntax
 			// #######################################################
 			$content = '';
-			$content .= '### BEGIN FILTER_ID:'.$this->id."\n";
+			$content .= '### BEGIN FILTER_ID:'.$page_form->id."\n";
 
-			$TargetNoQuotes = $this->dataRecord["target"];
+			$TargetNoQuotes = $page_form->dataRecord["target"];
 			$TargetQuotes = "\"$TargetNoQuotes\"";
 
 			$TestChDirNoQuotes = '$DEFAULT/.'.$TargetNoQuotes;
@@ -174,7 +156,7 @@ class page_action extends tform_actions {
 			$EchoTargetFinal = $TargetNoQuotes;
 
 
-			if($this->dataRecord["action"] == 'move') {
+			if($page_form->dataRecord["action"] == 'move') {
 
 			$content .= "
 `test -e ".$TestChDirQuotes." && exit 1 || exit 0`
@@ -187,26 +169,26 @@ if ( ".'$RETURNCODE'." != 1 )
 ";
 			}
 
-			$content .= "if (/^".$this->dataRecord["source"].":";
+			$content .= "if (/^".$page_form->dataRecord["source"].":";
 
-			$searchterm = preg_quote($this->dataRecord["searchterm"]);
+			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
 
-			if($this->dataRecord["op"] == 'contains') {
+			if($page_form->dataRecord["op"] == 'contains') {
 				$content .= ".*".$searchterm."/:h)\n";
-			} elseif ($this->dataRecord["op"] == 'is') {
+			} elseif ($page_form->dataRecord["op"] == 'is') {
 				$content .= $searchterm."$/:h)\n";
-			} elseif ($this->dataRecord["op"] == 'begins') {
+			} elseif ($page_form->dataRecord["op"] == 'begins') {
 				$content .= " ".$searchterm."/:h)\n";
-			} elseif ($this->dataRecord["op"] == 'ends') {
+			} elseif ($page_form->dataRecord["op"] == 'ends') {
 				$content .= ".*".$searchterm."$/:h)\n";
 			}
 
 			$content .= "{\n";
 			$content .= "exception {\n";
 
-			if($this->dataRecord["action"] == 'move') {
-				$content .= 'ID' . "$this->id" . 'EndFolder = "$DEFAULT/.' . $this->dataRecord['target'] . '/"' . "\n";
-				$content .= "to ". '$ID' . "$this->id" . 'EndFolder' . "\n";
+			if($page_form->dataRecord["action"] == 'move') {
+				$content .= 'ID' . "$page_form->id" . 'EndFolder = "$DEFAULT/.' . $page_form->dataRecord['target'] . '/"' . "\n";
+				$content .= "to ". '$ID' . "$page_form->id" . 'EndFolder' . "\n";
 			} else {
 				$content .= "to /dev/null\n";
 			}
@@ -216,17 +198,16 @@ if ( ".'$RETURNCODE'." != 1 )
 		
 			//}
 		
-			$content .= '### END FILTER_ID:'.$this->id."\n";
+			$content .= '### END FILTER_ID:'.$page_form->id."\n";
 		
 		}
 		
 		return $content;
 	}
-	*/
 	
-}
 
-$page = new page_action;
-$page->onLoad();
+} // end class
+
+
 
 ?>

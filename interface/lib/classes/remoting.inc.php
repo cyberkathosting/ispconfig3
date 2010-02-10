@@ -40,6 +40,9 @@ class remoting {
 	private $session_timeout = 600;
 	
 	private $server;
+	public $oldDataRecord;
+	public $dataRecord;
+	public $id;
 	
 	/*
 	These variables shall stay global. 
@@ -232,33 +235,39 @@ class remoting {
 	
 	public function mail_user_filter_add($session_id, $client_id, $params)
 	{
+		global $app;
 		if (!$this->checkPerm($session_id, 'mail_user_filter_add')){
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_user_filter.tform.php', $client_id, $params);
+		$app->plugin->raiseEvent('mail:mail_user_filter:on_after_insert',$this);
 		return $affected_rows;
 	}
 
 	public function mail_user_filter_update($session_id, $client_id, $primary_id, $params)
 	{
+		global $app;
 		if (!$this->checkPerm($session_id, 'mail_user_filter_update'))
 		{
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_user_filter.tform.php', $client_id, $primary_id, $params);
+		$app->plugin->raiseEvent('mail:mail_user_filter:on_after_update',$this);
 		return $affected_rows;
 	}
 
 	public function mail_user_filter_delete($session_id,$domain_id)
 	{
+		global $app;
 		if (!$this->checkPerm($session_id, 'mail_user_filter_delete'))
 		{
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_user_filter.tform.php',$domain_id);
+		$app->plugin->raiseEvent('mail:mail_user_filter:on_after_delete',$this);
 		return $affected_rows;
 	}
 
@@ -1945,7 +1954,9 @@ class remoting {
 			
 		}
 		
-		
+		// set a few values for compatibility with tform actions, mostly used by plugins
+		$this->id = $insert_id;
+		$this->dataRecord = $params;
 		
 		
 		return $insert_id;
@@ -1972,6 +1983,12 @@ class remoting {
 		}
 		
 		$old_rec = $app->remoting_lib->getDataRecord($primary_id);
+		
+		// set a few values for compatibility with tform actions, mostly used by plugins
+		$this->oldDataRecord = $old_rec;
+		$this->id = $primary_id;
+		$this->dataRecord = $params;
+		
 		
 		$app->db->query($sql);
 		
