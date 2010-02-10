@@ -52,6 +52,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			$this->dbName = $conf["db_database"];
 			$this->dbUser = $conf["db_user"];
 			$this->dbPass = $conf["db_password"];
+			$this->dbCharset = $conf['db_charset'];
 			//$this->connect();
 		}
 
