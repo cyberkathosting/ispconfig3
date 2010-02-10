@@ -32,7 +32,7 @@ require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
-$app->auth->check_module_permissions('sites');
+$app->auth->check_module_permissions('mail');
 
 /* get the id of the mail (must be int!) */
 if (!isset($_GET['id'])){
