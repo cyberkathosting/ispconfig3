@@ -94,16 +94,18 @@ class modules {
 			foreach($records as $d) {
 				
 				//** encode data to utf-8 and unserialize it
-				if(!$data = unserialize(utf8_encode(stripslashes($d["data"])))) {
-					$data = unserialize(utf8_encode($d["data"]));
+				if(!$data = unserialize(stripslashes($d["data"]))) {
+					$data = unserialize($d["data"]);
 				}
 				//** Decode data back to locale
+				/*
 				foreach($data['old'] as $key => $val) {
 					$data['old'][$key] = utf8_decode($val);
 				}
 				foreach($data['new'] as $key => $val) {
 					$data['new'][$key] = utf8_decode($val);
 				}
+				*/
 				
 				$replication_error = false;
 				
@@ -188,16 +190,18 @@ class modules {
 			foreach($records as $d) {
 				
 				//** encode data to utf-8 to be able to unserialize it and then unserialize it
-				if(!$data = unserialize(utf8_encode(stripslashes($d["data"])))) {
-					$data = unserialize(utf8_encode($d["data"]));
+				if(!$data = unserialize(stripslashes($d["data"]))) {
+					$data = unserialize($d["data"]);
 				}
 				//** decode data back to current locale
+				/*
 				foreach($data['old'] as $key => $val) {
 					$data['old'][$key] = utf8_decode($val);
 				}
 				foreach($data['new'] as $key => $val) {
 					$data['new'][$key] = utf8_decode($val);
 				}
+				*/
 				
 				$this->current_datalog_id = $d["datalog_id"];
 				$this->raiseTableHook($d["dbtable"],$d["action"],$data);

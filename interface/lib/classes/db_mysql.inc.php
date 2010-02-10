@@ -76,6 +76,7 @@ class db {
 				return false;
 			}
     		$this->queryId = @mysql_query('SET NAMES '.$this->dbCharset, $this->linkId);
+			$this->queryId = @mysql_query("SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'", $this->linkId);
 		}
 		return true;
 	}
