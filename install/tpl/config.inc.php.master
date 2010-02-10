@@ -134,6 +134,7 @@ $conf["logo"] = 'themes/default/images/ispc_logo.png';
 
 //** Default Language
 $conf["language"] = '{language}';
+$conf["debug_language"] = false;
 
 
 //** Misc.

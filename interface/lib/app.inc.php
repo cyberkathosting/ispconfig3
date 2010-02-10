@@ -172,6 +172,10 @@ class app {
 		}		
 		if(!empty($this->_wb[$text])) {
 			$text = $this->_wb[$text];
+		} else {
+			if($this->_conf['debug_language']) {
+				$text = '#'.$text.'#';
+			}
 		}
 		return $text;
 	}

@@ -121,6 +121,7 @@ $conf["logo"] = 'themes/default/images/ispc_logo.png';
 
 //** Default Language
 $conf["language"] = 'en';
+$conf["debug_language"] = false;
 
 
 //** Misc.
