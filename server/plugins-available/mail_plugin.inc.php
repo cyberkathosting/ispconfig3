@@ -139,12 +139,14 @@ class mail_plugin {
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
-			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
-			$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
+				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
+				$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
 		}
 		
 		//* Set the maildir quota
-		if(is_dir($data['new']['maildir'].'/new')) {
+		if(is_dir($data['new']['maildir'].'/new') && $mail_config['pop3_imap_daemon'] != 'dovecot') {
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
 			$app->log('Set Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		}
@@ -219,8 +221,10 @@ class mail_plugin {
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
-			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
-			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
+				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
+				$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			}
 		}
 		
 		// Move mailbox, if domain has changed and delete old mailbox
@@ -237,14 +241,9 @@ class mail_plugin {
 		}
 		//This is to fix the maildrop quota not being rebuilt after the quota is changed.
 		// Courier Layout
-		if(is_dir($data['new']['maildir'].'/new')) {
+		if(is_dir($data['new']['maildir'].'/new') && $mail_config['pop3_imap_daemon'] != 'dovecot') {
 			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
 			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-		}
-		// Dovecot Layout
-		if(is_dir($data['new']['maildir'].'/Maildir/new')) {
-			exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."/Maildir' ".$mail_config['mailuser_name']);
-			$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."/Maildir' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 		}
 	}
 	
