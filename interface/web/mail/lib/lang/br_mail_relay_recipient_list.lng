@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Relay recipients';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Recipient address';
-$wb['recipient_txt'] = 'Recipient';
-$wb['add_new_record_txt'] = 'Add new relay recipient';
-$wb['access_txt'] = 'access';
+$wb['list_head_txt'] = 'Recipientes Relay';
+$wb['active_txt'] = 'Ativo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['source_txt'] = 'Endereço Recipiente';
+$wb['recipient_txt'] = 'Recipiente';
+$wb['add_new_record_txt'] = 'Adcione um novo relay recipiente';
+$wb['access_txt'] = 'acesso';
 ?>
