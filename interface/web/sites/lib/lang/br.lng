@@ -15,4 +15,8 @@ $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Websites';
 $wb['Stats'] = 'Estatísticas';
 $wb['Website'] = 'Website';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Tarefas no Cron';
+$wb['Statistics'] = 'Estatísticas';
+$wb['Web traffic'] = 'Tráfego Web';
 ?>

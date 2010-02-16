@@ -9,5 +9,5 @@ $wb['db_server_txt'] = 'Servidor de Banco de Dados';
 $wb['vserver_server_txt'] = 'Servidor VServer';
 $wb['active_txt'] = 'Ativado';
 $wb['mirror_server_id_txt'] = 'É um espelho do servidor';
-$wb['- None -'] = '- Sem -';
+$wb['- None -'] = '- Não -';
 ?>
