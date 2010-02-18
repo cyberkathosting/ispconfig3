@@ -1199,7 +1199,7 @@ class tform {
 		
 		// translation function for forms, tries the form wordbook first and if this fails, it tries the global wordbook
 		function lng($msg) {
-			global $app;
+			global $app,$conf;
 			
 			if(isset($this->wordbook[$msg])) {
 				return $this->wordbook[$msg];

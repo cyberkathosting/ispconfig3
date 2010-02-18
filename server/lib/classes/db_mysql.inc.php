@@ -229,6 +229,116 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
            }
        }
 	   */
+	   
+	   public function diffrec($record_old, $record_new) {
+		$diffrec_full = array();
+		$diff_num = 0;
+
+		if(is_array($record_old) && count($record_old) > 0) {
+			foreach($record_old as $key => $val) {
+				// if(!isset($record_new[$key]) || $record_new[$key] != $val) {
+				if($record_new[$key] != $val) {
+					// Record has changed
+					$diffrec_full['old'][$key] = $val;
+					$diffrec_full['new'][$key] = $record_new[$key];
+					$diff_num++;
+				} else {
+					$diffrec_full['old'][$key] = $val;
+					$diffrec_full['new'][$key] = $val;
+				}
+			}
+		} elseif(is_array($record_new)) {
+			foreach($record_new as $key => $val) {
+				if(isset($record_new[$key]) && @$record_old[$key] != $val) {
+					// Record has changed
+					$diffrec_full['new'][$key] = $val;
+					$diffrec_full['old'][$key] = @$record_old[$key];
+					$diff_num++;
+				} else {
+					$diffrec_full['new'][$key] = $val;
+					$diffrec_full['old'][$key] = $val;
+				}
+			}
+		}
+		
+		return array('diff_num' => $diff_num, 'diff_rec' => $diffrec_full);
+		
+	}
+	
+	//** Function to fill the datalog with a full differential record.
+	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new) {
+		global $app,$conf;
+
+		// Insert backticks only for incomplete table names.
+		if(stristr($db_table,'.')) {
+			$escape = '';
+		} else {
+			$escape = '`';
+		}
+
+		$tmp = $this->diffrec($record_old, $record_new);
+		$diffrec_full = $tmp['diff_rec'];
+		$diff_num = $tmp['diff_num'];
+		unset($tmp);
+		
+		// Insert the server_id, if the record has a server_id
+		$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
+		if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
+		
+
+		if($diff_num > 0) {
+			//print_r($diff_num);
+			//print_r($diffrec_full);
+			$diffstr = $app->db->quote(serialize($diffrec_full));
+			$username = $app->db->quote($_SESSION["s"]["user"]["username"]);
+			$dbidx = $primary_field.":".$primary_id;
+						
+			if($action == 'INSERT') $action = 'i';
+			if($action == 'UPDATE') $action = 'u';
+			if($action == 'DELETE') $action = 'd';
+			$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$db_table."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
+			$app->db->query($sql);
+		}
+
+		return true;
+	}
+	
+	//** Inserts a record and saves the changes into the datalog
+	public function datalogInsert($tablename, $insert_data, $index_field) {
+		global $app;
+		
+		$old_rec = array();
+		$this->query("INSERT INTO $tablename $insert_data");
+		$index_value = $this->insertID();
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
+		
+		return $index_value;
+	}
+	
+	//** Updates a record and saves the changes into the datalog
+	public function datalogUpdate($tablename, $update_data, $index_field, $index_value) {
+		global $app;
+		
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->query("UPDATE $tablename SET $update_data WHERE $index_field = '$index_value'");
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec);
+		
+		return true;
+	}
+	
+	//** Deletes a record and saves the changes into the datalog
+	public function datalogDelete($tablename, $index_field, $index_value) {
+		global $app;
+		
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->query("DELETE FROM $tablename WHERE $index_field = '$index_value'");
+		$new_rec = array();
+		$this->datalogSave($tablename, 'DELETE', $index_field, $index_value, $old_rec, $new_rec);
+		
+		return true;
+	}
        
        public function closeConn()
     	{

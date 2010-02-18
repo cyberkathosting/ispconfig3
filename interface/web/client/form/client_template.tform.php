@@ -459,6 +459,20 @@ $form["tabs"]['limits'] = array (
             'rows'      => '',
             'cols'      => ''
         ),
+		'limit_traffic_quota' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_traffic_quota_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 	##################################
 	# END Datatable fields
 	##################################

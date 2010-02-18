@@ -233,5 +233,57 @@ if ($app->dbmaster == $app->db) {
 	}
 }
 
+#######################################################################################################
+// enforce traffic quota (only the "master-server")
+#######################################################################################################
+
+if ($app->dbmaster == $app->db) {
+
+	$current_month = date('Y-m');
+	
+	//* Check website traffic quota
+	$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE traffic_quota > 0 and type = 'vhost'";
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records)) {
+		foreach($records as $rec) {
+			
+			$web_traffic_quota = $rec['traffic_quota'];
+			$domain = $rec['web_domain'];
+			
+			// get the client
+			/*
+			$client_group_id = $rec["sys_groupid"];
+			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota,parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota FROM client WHERE client_id = ".intval($client['parent_client_id']));
+			
+			$client_traffic_quota = intval($client['limit_traffic_quota']);
+			$reseller_traffic_quota = intval($reseller['limit_traffic_quota']);
+			*/
+			
+			//* get the traffic
+			$tmp = $app->db->query("SELECT traffic_bytes FROM web_traffic WHERE traffic_date like '$current_month%' AND hostname = '$domain'");
+			$web_traffic = $tmp['traffic_bytes']/1024/1024;
+			
+			//* Website is over quota, we will disable it
+			/*if( ($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) ||
+				($client_traffic_quota > 0 && $web_traffic > $client_traffic_quota) ||
+				($reseller_traffic_quota > 0 && $web_traffic > $reseller_traffic_quota)) {*/
+			if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
+				$app->db->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
+				$app->log("Traffic quota for ".$rec['domain_id']." Exceeded. Disabling website.",LOGLEVEL_DEBUG);
+			} else {
+				//* unlock the website, if traffic is lower then quota
+				if($rec['traffic_quota_lock'] == 'y') {
+					$app->db->datalogUpdate('web_domain', "traffic_quota_lock = 'n',active = 'y'", 'domain_id', $rec['domain_id']);
+					$app->log("Traffic quota for ".$rec['domain_id']." ok again. Enabling website.",LOGLEVEL_DEBUG);
+				}
+			}
+		}
+	}
+	
+	
+}
+
+
 die("finished.\n");
 ?>

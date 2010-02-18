@@ -97,6 +97,7 @@ CREATE TABLE `client` (
   `limit_cron` int(11) NOT NULL default '0',
   `limit_cron_type` enum('url','chrooted','full') NOT NULL default 'url',
   `limit_cron_frequency` int(11) NOT NULL default '5',
+  `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
   `parent_client_id` int(11) unsigned NOT NULL default '0',
   `username` varchar(64) default NULL,
@@ -150,6 +151,7 @@ CREATE TABLE `client_template` (
   `limit_cron` int(11) NOT NULL default '0',
   `limit_cron_type` enum('url','chrooted','full') NOT NULL default 'url',
   `limit_cron_frequency` int(11) NOT NULL default '5',
+  `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
@@ -1035,7 +1037,7 @@ CREATE TABLE `web_domain` (
   `system_user` varchar(255) default NULL,
   `system_group` varchar(255) default NULL,
   `hd_quota` bigint(20) NOT NULL default '0',
-  `traffic_quota` bigint(20) NOT NULL default '0',
+  `traffic_quota` bigint(20) NOT NULL default '-1',
   `cgi` enum('n','y') NOT NULL default 'y',
   `ssi` enum('n','y') NOT NULL default 'y',
   `suexec` enum('n','y') NOT NULL default 'y',
@@ -1061,6 +1063,7 @@ CREATE TABLE `web_domain` (
   `apache_directives` text,
   `php_open_basedir` text,
   `active` enum('n','y') NOT NULL default 'y',
+  `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

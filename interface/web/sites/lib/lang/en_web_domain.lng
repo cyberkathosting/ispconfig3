@@ -54,5 +54,5 @@ $wb["ssl_locality_error_regex"] = 'Invalid SSL Locality. Valid characters are: a
 $wb["ssl_organisation_error_regex"] = 'Invalid SSL Organisation. Valid characters are: a-z, 0-9 and .,-_';
 $wb["ssl_organistaion_unit_error_regex"] = 'Invalid SSL Organisation Unit. Valid characters are: a-z, 0-9 and .,-_';
 $wb["ssl_country_error_regex"] = 'Invalid SSL Country. Valid characters are: A-Z';
-
+$wb["limit_web_quota_free_txt"] = 'Max. available Traffic Quota';
 ?>
