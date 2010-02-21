@@ -1,0 +1,15 @@
+<?php
+$wb['1001'] = 'Username sau  Password necompletat.';
+$wb['1002'] = 'Username or Password gresit.';
+$wb['1003'] = 'User blocat';
+$wb['1004'] = 'Prea multe Login -uri gresite. Te rog incearca dupa  15 minute';
+$wb['pass_reset_txt'] = 'O noua parola va fi generata si trimisa catre mail-ul tau daca mail-ul de la clienti coincide cu acest mail introdus.';
+$wb['pw_reset'] = 'Parola a fost  schimbata si trimisa la mail-ul tau.';
+$wb['pw_error'] = 'Username sau  email nu s epotrivesc';
+$wb['pw_error_noinput'] = 'introduceti  email address si  username.';
+$wb['pw_reset_mail_msg'] = 'Parola la panoul de control a fost resetata . Noua parola este : ';
+$wb['pw_reset_mail_title'] = 'parola panoului de control a fost schimbata';
+$wb['user_regex_error'] = 'Username contine caractere nepermise sau are mai mult de 64 caractere';
+$wb['pw_error_length'] = 'Lungime parola  > 64 caractere.';
+?>
+

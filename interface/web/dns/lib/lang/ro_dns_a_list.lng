@@ -1,0 +1,15 @@
+<?php
+$wb['list_head_txt'] = 'A-Record';
+$wb['active_txt'] = 'Activ';
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Nume';
+$wb['data_txt'] = 'Data';
+$wb['aux_txt'] = 'Prioritate';
+$wb['type_txt'] = 'Tip';
+$wb['add_new_record_txt'] = 'Adauga o noua inregistrare DNS de tip A ';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'din';
+$wb['delete_confirmation'] = 'Chiar vreti sa stergeti inregistrarea ?';
+?>
+

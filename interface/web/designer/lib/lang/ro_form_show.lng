@@ -1,0 +1,19 @@
+<?php
+$wb['header_txt'] = 'editor de formular';
+$wb['title_txt'] = 'Titlu formular';
+$wb['name_txt'] = 'nume formular';
+$wb['delete_txt'] = 'sterge';
+$wb['properties_txt'] = 'Proprietati';
+$wb['new_tab_txt'] = 'Un nou Tab ';
+$wb['edit_txt'] = 'Editeaza';
+$wb['new_txt'] = 'Nou';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Module';
+$wb['form_txt'] = 'Formular';
+$wb['description_txt'] = 'Descriere';
+$wb['module_del_txt'] = 'Sterge module si toate subdirectoarele ?';
+$wb['menu_del_txt'] = 'Sterge menu si obiectele din menu ?';
+$wb['item_del_txt'] = 'sterge obiectele din menu ?';
+?>
+

@@ -1,0 +1,25 @@
+<?php
+$wb['conf_format_dateshort'] = 'Y-m-d';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'Y-m-d H:i';
+$wb['301'] = 'userului NU i se permite acest modul ';
+$wb['302'] = 'Modul invalid.';
+$wb['1001'] = 'rubricile  username si  password nu pot fi goale  !';
+$wb['1002'] = 'username si sau  password nu sunt  corecte !';
+$wb['1003'] = 'username dezactivat !';
+$wb['delete_confirmation'] = 'intr-adevar doresti stergerea inregistrarii ?';
+$wb['error_no_view_permission'] = 'NU ai dreptul de a veda inregistrarea sau aceasta nu exista !';
+$wb['error_no_delete_permission'] = 'NU ai drept de stergere pe aceasta inregistrare !';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'din';
+$wb['page_next_txt'] = 'Next';
+$wb['page_back_txt'] = 'Inapoi';
+$wb['delete_txt'] = 'Sterge';
+$wb['filter_txt'] = 'Filtru';
+$wb['add_new_record_txt'] = 'Adauga inregistrare';
+$wb['btn_save_txt'] = 'Salveaza';
+$wb['btn_cancel_txt'] = 'Inapoi';
+?>
+

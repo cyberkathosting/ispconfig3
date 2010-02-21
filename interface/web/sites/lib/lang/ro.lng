@@ -1,0 +1,18 @@
+<?php
+$wb['Database'] = 'Database';
+$wb['Options'] = 'Optiuni';
+$wb['Shell User'] = 'Shell User';
+$wb['Domain'] = 'Website';
+$wb['Redirect'] = 'Redirect';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Subdomain';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Aliasdomain';
+$wb['FTP-User'] = 'FTP-User';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell-User';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Website-uri';
+$wb['Stats'] = 'Statistici';
+?>
+

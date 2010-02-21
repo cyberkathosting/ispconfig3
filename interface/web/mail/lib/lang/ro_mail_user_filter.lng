@@ -1,0 +1,10 @@
+<?php
+$wb['rulename_txt'] = 'Nume';
+$wb['action_txt'] = 'Actiune';
+$wb['target_txt'] = 'Folder';
+$wb['active_txt'] = 'Active';
+$wb['rulename_error_empty'] = 'Nume e gol';
+$wb['searchterm_is_empty'] = 'Cautare termeni e gol';
+$wb['source_txt'] = 'Sursa';
+?>
+

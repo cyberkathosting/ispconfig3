@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Mailbox (casuta postala)';
+$wb['email_txt'] = 'Email';
+$wb['autoresponder_txt'] = 'Autoresponder';
+$wb['add_new_record_txt'] = 'Adauga Mailbox (casuta postala)';
+?>
+

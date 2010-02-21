@@ -1,0 +1,31 @@
+<?php
+$wb['custom_mailfilter_txt'] = 'Schema (recipe) personalizata  mail filter ';
+$wb['email_txt'] = 'Email';
+$wb['cryptpwd_txt'] = 'Password';
+$wb['password_strength_txt'] = 'Tarie Password ';
+$wb['active_txt'] = 'Active';
+$wb['email_error_isemail'] = 'Email address este  invalida';
+$wb['email_error_unique'] = 'Duplicate Email_ address.';
+$wb['autoresponder_text_txt'] = 'Text';
+$wb['autoresponder_txt'] = 'Autoresponder';
+$wb['no_domain_perm'] = 'Nu aveti permisiuni pe acest domeniu';
+$wb['error_no_pwd'] = 'Password e necompletat';
+$wb['quota_error_isint'] = 'Marimea Mailbox  trebuie s afie un numar';
+$wb['quota_txt'] = 'Quota';
+$wb['server_id_txt'] = 'Server_id';
+$wb['password_txt'] = 'Password';
+$wb['maildir_txt'] = 'Maildir';
+$wb['postfix_txt'] = 'Enable Receiving';
+$wb['access_txt'] = 'Enable Access';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- not enabled -';
+$wb['limit_mailbox_txt'] = 'Numarul maxim de MAILBOX pe contul dumneavoastra a fost atins';
+$wb['limit_mailquota_txt'] = 'Spatiul maxim pentru MAILBOX a fost atins.Acesta este ';
+$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
+$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
+$wb['welcome_mail_subject'] = 'Bine ati sosit  in contul dumneavoastra';
+$wb['welcome_mail_message'] = 'Bine ati sosit la contul de mail. al dumneavoastra  webmaster.';
+$wb['disableimap_txt'] = 'Blocheaza IMAP';
+$wb['disablepop3_txt'] = 'Blocheaza POP3';
+?>
+

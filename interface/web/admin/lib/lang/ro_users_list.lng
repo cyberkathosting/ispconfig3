@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Useri';
+$wb['username_txt'] = 'Username';
+$wb['name_txt'] = 'Nume';
+$wb['vorname_txt'] = 'Forename';
+$wb['ort_txt'] = 'oras';
+$wb['add_new_record_txt'] = 'Add  user nou';
+?>
+
