@@ -2,21 +2,22 @@
 $wb['uid_txt'] = 'Web пользователь';
 $wb['gid_txt'] = 'Группа';
 $wb['shell_txt'] = 'Shell';
-$wb['dir_txt'] = 'Dir';
+$wb['dir_txt'] = 'Путь';
 $wb['server_id_txt'] = 'Сервер';
 $wb['parent_domain_id_txt'] = 'Сайт';
 $wb['username_txt'] = 'Пользователь';
 $wb['password_txt'] = 'Пароль';
 $wb['chroot_txt'] = 'Chroot Shell';
-$wb['quota_size_txt'] = 'Quota';
-$wb['active_txt'] = 'Активный';
+$wb['quota_size_txt'] = 'Квота';
+$wb['active_txt'] = 'Активен?';
 $wb['username_error_empty'] = 'Имя пользователя пустое.';
 $wb['username_error_unique'] = 'Имя пользователя должно быть уникальным.';
-$wb['username_error_regex'] = 'The username contains charachters that are not allowed.';
-$wb['quota_size_error_empty'] = 'Quota пустая.';
+$wb['username_error_regex'] = 'Имя пользователя содержит недопустимые символы';
+$wb['quota_size_error_empty'] = 'Размер квоты пуст';
 $wb['uid_error_empty'] = 'GID пустой.';
-$wb['directory_error_empty'] = 'Directory empty.';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['limit_shell_user_txt'] = 'The max number of shell users is reached.';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
+$wb['directory_error_empty'] = 'Пуская директория';
+$wb['password_strength_txt'] = 'Стойкость пароля';
+$wb['limit_shell_user_txt'] = 'Достигнуто допустимое количество пользователей shell';
+$wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран';
 ?>
+

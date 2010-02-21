@@ -1,13 +1,14 @@
 <?php
-$wb['config_txt'] = 'config';
-$wb['server_name_txt'] = 'Серверname';
-$wb['mail_server_txt'] = 'Mailserver';
-$wb['web_server_txt'] = 'Webserver';
+$wb['config_txt'] = 'конфиг';
+$wb['server_name_txt'] = 'Имя сервера';
+$wb['mail_server_txt'] = 'Почтовый сервер';
+$wb['web_server_txt'] = 'Web-сервер';
 $wb['dns_server_txt'] = 'DNS-Сервер';
-$wb['file_server_txt'] = 'Fileserver';
+$wb['file_server_txt'] = 'Файл-сервер';
 $wb['db_server_txt'] = 'DB-Сервер';
-$wb['vserver_server_txt'] = 'VСервер-Сервер';
-$wb['active_txt'] = 'Активный';
-$wb['mirror_server_id_txt'] = 'Is mirror of Server';
-$wb['- None -'] = '- None -';
+$wb['vserver_server_txt'] = 'VСервер';
+$wb['active_txt'] = 'Активен?';
+$wb['mirror_server_id_txt'] = 'Зеркало сервера';
+$wb['- None -'] = '- нет -';
 ?>
+

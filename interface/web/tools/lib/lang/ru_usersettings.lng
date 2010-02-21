@@ -1,8 +1,9 @@
 <?php
-$wb['passwort_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['language_txt'] = 'Language';
-$wb['password_mismatch'] = 'The password in the second password field does not match the first password.';
-$wb['Form to edit the user password and language.'] = 'Form to edit the user password and language.';
-$wb['Settings'] = 'Settings';
+$wb['passwort_txt'] = 'Пароль';
+$wb['password_strength_txt'] = 'Сложность пароля';
+$wb['language_txt'] = 'Язык';
+$wb['password_mismatch'] = 'Введенные пароли не совпадают.';
+$wb['Form to edit the user password and language.'] = 'Форма для изменения языка и паролей';
+$wb['Settings'] = 'Настройки';
 ?>
+

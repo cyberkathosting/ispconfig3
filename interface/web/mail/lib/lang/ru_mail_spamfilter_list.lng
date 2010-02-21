@@ -1,8 +1,9 @@
 <?php
-$wb['active_txt'] = 'Активный';
+$wb['active_txt'] = 'Активен?';
 $wb['server_id_txt'] = 'Сервер';
 $wb['server_name_txt'] = 'Имя сервера';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Добавить новую спам запись';
-$wb['list_head_txt'] = 'Spamfilter';
+$wb['list_head_txt'] = 'Спам-фильтр';
 ?>
+

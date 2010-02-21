@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter Blacklist';
-$wb['active_txt'] = 'Активный';
+$wb['list_head_txt'] = 'Черный список спам-фильтра';
+$wb['active_txt'] = 'Активен?';
 $wb['server_id_txt'] = 'Сервер';
 $wb['priority_txt'] = 'Приоритет';
 $wb['rid_txt'] = 'Пользователь';
 $wb['email_txt'] = 'Белый список адресов';
 $wb['add_new_record_txt'] = 'Добавить запись в черный список';
 ?>
+

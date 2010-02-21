@@ -1,8 +1,9 @@
 <?php
-$wb['password_strength_0_txt'] = 'Too short';
-$wb['password_strength_1_txt'] = 'Weak';
-$wb['password_strength_2_txt'] = 'Fair';
-$wb['password_strength_3_txt'] = 'Good';
-$wb['password_strength_4_txt'] = 'Strong';
-$wb['password_strength_5_txt'] = 'Very strong';
+$wb['password_strength_0_txt'] = 'Никакой';
+$wb['password_strength_1_txt'] = 'Короткий';
+$wb['password_strength_2_txt'] = 'Средний';
+$wb['password_strength_3_txt'] = 'Хороший';
+$wb['password_strength_4_txt'] = 'Сильный';
+$wb['password_strength_5_txt'] = 'Очень стойкий';
 ?>
+

@@ -1,28 +1,29 @@
 <?php
 $wb['username_txt'] = 'Имя пользователя';
-$wb['username_err'] = 'username_err';
+$wb['username_err'] = 'Ошибка в логине';
 $wb['passwort_txt'] = 'Пароль';
 $wb['modules_txt'] = 'Модуль';
 $wb['startmodule_txt'] = 'Начальный модуль';
 $wb['app_theme_txt'] = 'Дизайн';
 $wb['typ_txt'] = 'Тип';
-$wb['active_txt'] = 'Активный';
+$wb['active_txt'] = 'Активен?';
 $wb['language_txt'] = 'Язык';
 $wb['name_txt'] = 'Имя';
-$wb['vorname_txt'] = 'Forename';
+$wb['vorname_txt'] = 'Фамилия';
 $wb['unternehmen_txt'] = 'Компания';
 $wb['strasse_txt'] = 'Улица';
 $wb['ort_txt'] = 'Город';
-$wb['plz_txt'] = 'ZIP';
+$wb['plz_txt'] = 'Индека';
 $wb['land_txt'] = 'Страна';
 $wb['email_txt'] = 'Email';
-$wb['url_txt'] = 'Url';
+$wb['url_txt'] = 'Web-сайт';
 $wb['telefon_txt'] = 'Телефон';
 $wb['fax_txt'] = 'Факс';
 $wb['groups_txt'] = 'Группа';
 $wb['default_group_txt'] = 'Группа по умолчанию';
-$wb['username_empty'] = 'The username is empty.';
-$wb['username_unique'] = 'There is already a user with this username.';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['startmodule_err'] = 'Start module is not within modules.';
+$wb['username_empty'] = 'Пустое имя пользователя';
+$wb['username_unique'] = 'Такой пользователь существует';
+$wb['password_strength_txt'] = 'Стойкость пароля';
+$wb['startmodule_err'] = 'Стартовый модуль вне дозволенных модулей';
 ?>
+

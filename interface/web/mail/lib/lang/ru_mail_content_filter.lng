@@ -2,8 +2,9 @@
 $wb['server_id_txt'] = 'Сервер';
 $wb['type_txt'] = 'Фильтр';
 $wb['pattern_txt'] = 'Шаблон (Regexp.)';
-$wb['data_txt'] = 'Data';
-$wb['action_txt'] = 'Action';
-$wb['active_txt'] = 'Активный';
+$wb['data_txt'] = 'Дата';
+$wb['action_txt'] = 'Действие';
+$wb['active_txt'] = 'Активен?';
 $wb['pattern_error_empty'] = 'Шаблон пустой.';
 ?>
+

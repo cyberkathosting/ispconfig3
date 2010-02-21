@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Зоны';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -14,4 +14,8 @@ $wb['Records'] = 'Records';
 $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'DNS TXT Record';
 $wb['DNS TXT'] = 'DNS TXT';
+$wb['DNS Wizard'] = 'Помощник DNS';
+$wb['Add DNS Zone'] = 'Добавить зону DNS';
+$wb['Templates'] = 'Шаблоны';
 ?>
+

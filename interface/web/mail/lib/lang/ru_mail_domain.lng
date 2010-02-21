@@ -2,12 +2,13 @@
 $wb['server_id_txt'] = 'Сервер';
 $wb['domain_txt'] = 'Домен';
 $wb['type_txt'] = 'Тип';
-$wb['active_txt'] = 'Активный';
+$wb['active_txt'] = 'Активен?';
 $wb['domain_error_empty'] = 'Домен пустой.';
 $wb['domain_error_unique'] = 'Домен дублирован.';
 $wb['domain_error_regex'] = 'Неправильное имя домена.';
-$wb['client_txt'] = 'Client';
+$wb['client_txt'] = 'Клиент';
 $wb['limit_maildomain_txt'] = 'Максимальное число почтовых доменов, достигнуто.';
-$wb['policy_txt'] = 'Spamfilter';
+$wb['policy_txt'] = 'Спам-фильтр';
 $wb['no_policy'] = '- не включено -';
 ?>
+

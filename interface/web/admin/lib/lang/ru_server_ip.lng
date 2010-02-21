@@ -2,6 +2,7 @@
 $wb['server_id_txt'] = 'Сервер';
 $wb['ip_address_txt'] = 'IP адрес';
 $wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
-$wb['ip_error_wrong'] = 'IP адрес неправилен';
-$wb['ip_error_unique'] = 'The IP address must be unique';
+$wb['ip_error_wrong'] = 'Неверный IP адрес';
+$wb['ip_error_unique'] = 'IP адрес должен быть уникальным';
 ?>
+

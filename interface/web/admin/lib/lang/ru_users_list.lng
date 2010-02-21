@@ -1,9 +1,10 @@
 <?php
 $wb['list_head_txt'] = 'Пользователи';
-$wb['username_txt'] = 'Имя пользователя';
-$wb['name_txt'] = 'Name';
-$wb['vorname_txt'] = 'Forename';
+$wb['username_txt'] = 'Логин';
+$wb['name_txt'] = 'Имя';
+$wb['vorname_txt'] = 'Фамилия';
 $wb['ort_txt'] = 'Город';
-$wb['add_new_record_txt'] = 'Add new user';
-$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
+$wb['add_new_record_txt'] = 'Добавить нового пользователя';
+$wb['warning_txt'] = '<b>ВНИМАНИЕ:</b>Не удаляйте и не меняйте никаких настроек здесь. Используйте настройки клиента и реселлера в модуле КЛИЕНТ. Изменение пользователей или групп здесь может вызвать потерю данных!';
 ?>
+

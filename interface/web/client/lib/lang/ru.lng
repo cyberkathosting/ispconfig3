@@ -1,13 +1,14 @@
 <?php
-$wb['Client'] = 'Client';
-$wb['Address'] = 'Address';
-$wb['Limits'] = 'Limits';
-$wb['Add Client'] = 'Add Client';
-$wb['Edit Client'] = 'Edit Client';
-$wb['Clients'] = 'Clients';
-$wb['Edit Client-Templates'] = 'Edit Client-Templates';
-$wb['Add Reseller'] = 'Add Reseller';
-$wb['Edit Reseller'] = 'Edit Reseller';
-$wb['Resellers'] = 'Resellers';
-$wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
+$wb['Client'] = 'Клиент';
+$wb['Address'] = 'Адрес';
+$wb['Limits'] = 'Лимиты';
+$wb['Add Client'] = 'Добавить клиента';
+$wb['Edit Client'] = 'Изменить клиента';
+$wb['Clients'] = 'Клиенты';
+$wb['Edit Client-Templates'] = 'Изменить шаблон клиента';
+$wb['Add Reseller'] = 'Добавить реселлера';
+$wb['Edit Reseller'] = 'Изменить реселлера';
+$wb['Resellers'] = 'Реселлеры';
+$wb['error_has_clients'] = 'У реселлера есть клиенты. Вначале удалите их.';
 ?>
+

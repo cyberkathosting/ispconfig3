@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Редактор языкового файла';
+$wb['list_head_txt'] = 'Редактор языковых файлов';
 $wb['language_select_txt'] = 'Выбрать язык';
 $wb['module_txt'] = 'Модуль';
 $wb['lang_file_txt'] = 'Выбрать язык';
-$wb['lang_file_date_txt'] = 'Last modify';
+$wb['lang_file_date_txt'] = 'Последнее изменение';
 ?>
+

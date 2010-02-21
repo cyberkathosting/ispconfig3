@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox';
+$wb['list_head_txt'] = 'Почтовый ящик';
 $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Автоответчик';
-$wb['add_new_record_txt'] = 'Добавить новый Mailbox';
+$wb['add_new_record_txt'] = 'Добавить новый ящик';
 ?>
+

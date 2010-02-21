@@ -1,10 +1,11 @@
 <?php
 $wb['rulename_txt'] = 'Имя';
-$wb['action_txt'] = 'Action';
+$wb['action_txt'] = 'Действие';
 $wb['target_txt'] = 'Каталог';
-$wb['active_txt'] = 'Активный';
+$wb['active_txt'] = 'Активен?';
 $wb['rulename_error_empty'] = 'Имя пустое.';
 $wb['searchterm_is_empty'] = 'Поле поиска пустое.';
 $wb['source_txt'] = 'Источник';
-$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, . and _';
+$wb['target_error_regex'] = 'Назначение может содержать только следующие символы: a-z, 0-9, -, . и _';
 ?>
+

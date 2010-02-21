@@ -3,6 +3,7 @@ $wb['list_head_txt'] = 'Редактор языкового файла';
 $wb['language_select_txt'] = 'Выбрать язык';
 $wb['module_txt'] = 'Модуль';
 $wb['lang_file_txt'] = 'Выбрать язык';
-$wb['btn_save_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['btn_save_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Назад';
 ?>
+
