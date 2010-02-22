@@ -86,6 +86,7 @@ class apps_vhost_plugin {
 		$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);
 		$content = str_replace('{apps_vhost_dir}', $web_config['website_basedir'].'/apps', $content);
 		$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
+		$content = str_replace('{apps_vhost_basedir}', $web_config['website_basedir'], $content);
 		
 		
 		// comment out the listen directive if port is 80 or 443

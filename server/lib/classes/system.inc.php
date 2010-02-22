@@ -1107,6 +1107,102 @@ class system{
 	    return false;
 	  }
 	}
+	
+	function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1) {
+		$lines = @file($filename);
+		$out = '';
+		$found = 0;
+		if(is_array($lines)) {
+			foreach($lines as $line) {
+				if($strict == 0) {
+					if(stristr($line,$search_pattern)) {
+						$out .= $new_line."\n";
+						$found = 1;
+					} else {
+						$out .= $line;
+					}
+				} else {
+					if(trim($line) == $search_pattern) {
+						$out .= $new_line."\n";
+						$found = 1;
+					} else {
+						$out .= $line;
+					}
+				}
+			}
+		}
+		
+		if($found == 0) {
+			//* add \n if the last line does not end with \n or \r
+			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
+			//* add the new line at the end of the file
+			if($append == 1) $out .= $new_line."\n";
+		}
+		file_put_contents($filename,$out);
+	}
+	
+	function removeLine($filename,$search_pattern,$strict = 0) {
+	if($lines = @file($filename)) {
+		$out = '';
+		foreach($lines as $line) {
+			if($strict == 0) {
+				if(!stristr($line,$search_pattern)) {
+					$out .= $line;
+				}
+			} else {
+				if(!trim($line) == $search_pattern) {
+					$out .= $line;
+				}
+			}
+		}
+		file_put_contents($filename,$out);
+	}
+	}
+	
+	function maildirmake($maildir_path, $user = '', $subfolder = '') {
+		
+		global $app;
+		
+		if($subfolder != '') {
+			$dir = escapeshellarg($maildir_path.'/.'.$subfolder);
+			$dir_cur = escapeshellarg($maildir_path.'/.'.$subfolder.'/cur');
+			$dir_new = escapeshellarg($maildir_path.'/.'.$subfolder.'/new');
+			$dir_tmp = escapeshellarg($maildir_path.'/.'.$subfolder.'/tmp');
+		} else {
+			$dir = escapeshellarg($maildir_path);
+			$dir_cur = escapeshellarg($maildir_path.'/cur');
+			$dir_new = escapeshellarg($maildir_path.'/new');
+			$dir_tmp = escapeshellarg($maildir_path.'/tmp');
+		}
+		
+		exec("mkdir -p $dir_cur $dir_new $dir_tmp");
+		exec("chmod 0700 $dir $dir_cur $dir_new $dir_tmp");
+		
+		if($user != '' && $this->is_user($user) && $user != 'root') {
+			$user = escapeshellarg($user);
+			exec("chown $user $dir $dir_cur $dir_new $dir_tmp");
+		}
+		
+		//* Add the subfolder to the subscriptions and courierimapsubscribed files
+		if($subfolder != '') {
+			// Courier
+			if(!is_file($maildir_path.'/courierimapsubscribed')) {
+				$tmp_file = escapeshellarg($maildir_path.'/courierimapsubscribed');
+				exec("touch $tmp_file && chown vmail:vmail $tmp_file");
+			}
+			$this->replaceLine($maildir_path.'/courierimapsubscribed','INBOX.'.$subfolder,'INBOX.'.$subfolder,1,1);
+			
+			// Dovecot
+			if(!is_file($maildir_path.'/subscriptions')) {
+				$tmp_file = escapeshellarg($maildir_path.'/subscriptions');
+				exec("touch $tmp_file && chown vmail:vmail $tmp_file");
+			}
+			$this->replaceLine($maildir_path.'/subscriptions',$subfolder,$subfolder,1,1);
+		}
+		
+		$app->log('Created Maildir '.$maildir_path.' with subfolder: '.$subfolder,LOGLEVEL_DEBUG);
+		
+	}
 
 }
 ?>

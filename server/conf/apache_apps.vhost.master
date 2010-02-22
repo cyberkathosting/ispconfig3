@@ -18,7 +18,7 @@ NameVirtualHost *:{apps_vhost_port}
       Options Indexes FollowSymLinks MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
-      FCGIWrapper /var/www/php-fcgi-scripts/apps/.php-fcgi-starter .php
+      FCGIWrapper {apps_vhost_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
       Order allow,deny
       Allow from all
     </Directory>

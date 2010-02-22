@@ -218,6 +218,11 @@ class installer_base {
 		$tpl_ini_array['web']['group'] = $conf['apache']['group'];
 		$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
 		$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
+		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
+		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
+		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
+		$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
+		$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
         
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);

@@ -90,7 +90,7 @@ class bind_plugin {
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
 		//* Write the domain file
-		if(!empty($zone['id'])) {
+		if(!empty($data['new']['id'])) {
 			$tpl = new tpl();
 			$tpl->newTemplate("bind_pri.domain.master");
 		

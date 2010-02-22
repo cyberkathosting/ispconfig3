@@ -77,11 +77,21 @@ class installer_dist extends installer_base {
                 __FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
 		
 		//* Creating virtual mail user and group
-		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
-		if(!is_group($cf['vmail_groupname'])) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
-		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
+		if(is_group($cf['vmail_groupname'])) {
+			$command = 'groupmod -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		} else {
+			$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		
+		if(is_user($cf['vmail_username'])) {
+			$command = 'usermod -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' -d '.$cf['vmail_mailbox_base'].' -s /bin/bash '.$cf['vmail_username'];
+			caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		} else {
+			$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
+			caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}	
 
 		$postconf_commands = array (
 			'myhostname = '.$conf['hostname'],
@@ -172,6 +182,9 @@ class installer_dist extends installer_base {
                    '  flags=DRhu user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
                      $content);
 		
+		// enable tlsmanager
+		$content = str_replace('#tlsmgr    unix  -       -       n       1000?   1       tlsmgr','tlsmgr    unix  -       -       n       1000?   1       tlsmgr',$content);
+		
 		wf($configfile, $content);
 		
 		//* Writing the Maildrop mailfilter file
@@ -235,7 +248,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('/sbin/startproc $AUTHD_BIN $SASLAUTHD_PARAMS -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1','/sbin/startproc $AUTHD_BIN $SASLAUTHD_PARAMS -r -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1',$content);
 		
 		
-		wf($configfile,$content);
+		if(is_file($configfile)) wf($configfile,$content);
 		
 		
 		
@@ -294,12 +307,79 @@ class installer_dist extends installer_base {
 		wf($configfile, $content);
 	}
 	
+	public function configure_dovecot()
+    {
+		global $conf;
+		
+		$config_dir = $conf['dovecot']['config_dir'];
+		
+		//* Configure master.cf and add a line for deliver
+		if(is_file($config_dir.'/master.cf')){
+            copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+        }
+		if(is_file($config_dir.'/master.cf~')){
+            exec('chmod 400 '.$config_dir.'/master.cf~2');
+        }
+		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+		// Only add the content if we had not addded it before
+		if(!stristr($content,"dovecot/deliver")) {
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
+			af($conf["postfix"]["config_dir"].'/master.cf',$deliver_content);
+		}
+		unset($content);
+		unset($deliver_content);
+		
+		
+		//* Reconfigure postfix to use dovecot authentication
+		// Adding the amavisd commands to the postfix configuration
+		$postconf_commands = array (
+			'dovecot_destination_recipient_limit = 1',
+			'virtual_transport = dovecot',
+			'smtpd_sasl_type = dovecot',
+			'smtpd_sasl_path = private/auth',
+			'receive_override_options = no_address_mappings'
+		);
+		
+		// Make a backup copy of the main.cf file
+		copy($conf["postfix"]["config_dir"].'/main.cf',$conf["postfix"]["config_dir"].'/main.cf~3');
+		
+		// Executing the postconf commands
+		foreach($postconf_commands as $cmd) {
+			$command = "postconf -e '$cmd'";
+			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		
+		//* copy dovecot.conf
+		$configfile = 'dovecot.conf';
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		copy('tpl/opensuse_dovecot.conf.master',"$config_dir/$configfile");
+		
+		//* dovecot-sql.conf
+		$configfile = 'dovecot-sql.conf';
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		exec("chmod 400 $config_dir/$configfile~");
+		$content = rf("tpl/opensuse_dovecot-sql.conf.master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_host}',$conf['mysql']['host'],$content);
+		wf("$config_dir/$configfile", $content);
+		
+		exec("chmod 600 $config_dir/$configfile");
+		exec("chown root:root $config_dir/$configfile");
+
+	}
+	
 	public function configure_amavis() {
 		global $conf;
 		
 		// amavisd user config file
 		$configfile = 'opensuse_amavisd_conf';
-		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["courier"]["config_dir"].'/amavisd.conf~');
+		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) @copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["courier"]["config_dir"].'/amavisd.conf~');
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
