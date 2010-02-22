@@ -139,37 +139,31 @@ class remoting_lib {
 		
 		//* Load the user profile
 		function loadUserProfile($client_id = 0) {
-			global $app,$conf;
-			
-			$client_id = intval($client_id);
-			
-			if($client_id == 0) {
-				$this->sys_username 		= 'admin';
-				$this->sys_userid			= 1;
-				$this->sys_default_group 	= 1;
-				$this->sys_groups			= 1;
-			} else {
-				//* Load the client data
-				$client = $app->db->queryOneRecord("SELECT username FROM client WHERE client_id = $client_id");
-				if($client["username"] == '') {
-					$this->errorMessage .= 'No client with ID $client_id found.';
-					return false;
-				}
-				//* load system user
-				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = '".$app->db->quote($client["username"])."'");
-				if(empty($user["userid"])) {
-					$this->errorMessage .= 'No user with the username '.$client['username'].' found.';
-					return false;
-				}
-				$this->sys_username 		= $user['username'];
-				$this->sys_userid			= $user['userid'];
-				$this->sys_default_group 	= $user['default_group'];
-				$this->sys_groups 			= $user['groups'];
-			}
-			
-			return true;
-			
-		}
+      global $app,$conf;
+            
+      $client_id = intval($client_id);
+            
+      if($client_id == 0) {
+        $this->sys_username         = 'admin';
+        $this->sys_userid            = 1;
+        $this->sys_default_group     = 1;
+        $this->sys_groups            = 1;
+      } else {
+        //* load system user
+        $user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE sysuser_id = $client_id");
+        if(empty($user["userid"])) {
+          $this->errorMessage .= 'No sysuser with the ID $client_id found.';
+          return false;
+        }
+        $this->sys_username         = $user['username'];
+        $this->sys_userid            = $user['userid'];
+        $this->sys_default_group     = $user['default_group'];
+        $this->sys_groups             = $user['groups'];
+      }
+            
+      return true;
+            
+    }  
 
 
         /**
