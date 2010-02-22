@@ -139,31 +139,30 @@ class remoting_lib {
 		
 		//* Load the user profile
 		function loadUserProfile($client_id = 0) {
-      global $app,$conf;
+			global $app,$conf;
+
+			$client_id = intval($client_id);
             
-      $client_id = intval($client_id);
-            
-      if($client_id == 0) {
-        $this->sys_username         = 'admin';
-        $this->sys_userid            = 1;
-        $this->sys_default_group     = 1;
-        $this->sys_groups            = 1;
-      } else {
-        //* load system user
-        $user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE sysuser_id = $client_id");
-        if(empty($user["userid"])) {
-          $this->errorMessage .= 'No sysuser with the ID $client_id found.';
-          return false;
-        }
-        $this->sys_username         = $user['username'];
-        $this->sys_userid            = $user['userid'];
-        $this->sys_default_group     = $user['default_group'];
-        $this->sys_groups             = $user['groups'];
-      }
-            
-      return true;
-            
-    }  
+			if($client_id == 0) {
+				$this->sys_username         = 'admin';
+				$this->sys_userid            = 1;
+				$this->sys_default_group     = 1;
+				$this->sys_groups            = 1;
+			} else {
+				//* load system user
+				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE sysuser_id = $client_id");
+				if(empty($user["userid"])) {
+					$this->errorMessage .= 'No sysuser with the ID $client_id found.';
+					return false;
+				}
+				$this->sys_username         = $user['username'];
+				$this->sys_userid            = $user['userid'];
+				$this->sys_default_group     = $user['default_group'];
+				$this->sys_groups             = $user['groups'];
+			}
+
+		return true;
+	}  
 
 
         /**
