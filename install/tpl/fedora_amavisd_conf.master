@@ -91,9 +91,9 @@ $policy_bank{'AM.PDP-SOCK'} = {
 };
 
 $sa_tag_level_deflt  = 2.0;  # add spam info headers if at, or above that level
-$sa_tag2_level_deflt = 6.2;  # add 'spam detected' headers at that level
-$sa_kill_level_deflt = 6.9;  # triggers spam evasive actions (e.g. blocks mail)
-$sa_dsn_cutoff_level = 10;   # spam level beyond which a DSN is not sent
+$sa_tag2_level_deflt = 20;  # add 'spam detected' headers at that level
+$sa_kill_level_deflt = 100;  # triggers spam evasive actions (e.g. blocks mail)
+$sa_dsn_cutoff_level = 100;   # spam level beyond which a DSN is not sent
 # $sa_quarantine_cutoff_level = 25; # spam level beyond which quarantine is off
 $penpals_bonus_score = 8;    # (no effect without a @storage_sql_dsn database)
 $penpals_threshold_high = $sa_kill_level_deflt;  # don't waste time on hi spam
@@ -783,7 +783,7 @@ $spam_admin = undef;
 $DO_SYSLOG = 1;
 $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 
-$log_level = 5;                # (defaults to 0)
+$log_level = 0;                # (defaults to 0)
 
 
 1;  # insure a defined return

@@ -68,6 +68,17 @@ yast2 -i php5-bcmath php5-bz2 php5-calendar php5-ctype php5-curl php5-dom php5-f
 
 rpm -i http://download.opensuse.org/repositories/server:/php/openSUSE_11.2/i586/suphp-0.7.1-3.1.i586.rpm
 
+Edit the file /etc/php5/cli/php.ini
+
+vi /etc/php5/cli/php.ini
+
+and change:
+
+error_reporting = E_ALL & ~E_DEPRECATED
+
+to:
+
+error_reporting = E_ALL & ~E_NOTICE
 
 Then run the following to enable the Apache modules:
 

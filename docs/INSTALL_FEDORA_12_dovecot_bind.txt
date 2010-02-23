@@ -1,0 +1,157 @@
+
+Installation
+-----------
+
+It is recommended to use a clean (fresh) Fedora install. Then follow the steps below to setup your server with ISPConfig 3:
+
+Installation of some basic requirements:
+
+// rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY*
+yum update
+// yum groupinstall 'Development Tools'
+// yum groupinstall 'Development Libraries'
+
+You should disable selinux now, as some programs will not start when selinux is enabled:
+
+vi /etc/selinux/config
+
+and set:
+
+SELINUX=disabled
+
+then reboot the server.
+
+
+1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
+
+yum install ntp httpd mysql-server php php-mysql php-mbstring phpMyAdmin getmail postfix dovecot dovecot-mysql wget
+
+chkconfig --levels 235 mysqld on
+/etc/init.d/mysqld start
+
+chkconfig --levels 235 httpd on
+/etc/init.d/httpd start
+
+chkconfig --levels 235 dovecot on
+/etc/init.d/dovecot start
+
+chkconfig --levels 235 sendmail off
+chkconfig --levels 235 postfix on
+/etc/init.d/sendmail stop
+/etc/init.d/postfix start
+/etc/init.d/saslauthd start
+
+
+Set the mysql database password:
+
+/usr/bin/mysql_secure_installation
+
+
+2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
+
+yum install amavisd-new spamassassin clamav clamav-data clamav-server clamav-update unzip bzip2 unrar
+
+chkconfig --levels 235 amavisd on
+chkconfig --levels 235 clamd.amavisd on
+/usr/bin/freshclam
+/etc/init.d/amavisd start
+/etc/init.d/clamd.amavisd start
+
+3) Install apache, PHP5 and phpmyadmin (1 line!):
+
+yum install php php-devel php-gd php-imap php-ldap php-mysql php-odbc php-pear php-xml php-xmlrpc php-eaccelerator php-magickwand php-magpierss php-mapserver php-mbstring php-mcrypt php-mhash php-mssql php-shout php-snmp php-soap php-tidy curl curl-devel perl-libwww-perl ImageMagick libxml2 libxml2-devel phpmyadmin
+
+disable php mapserver module as it causes errors on cli:
+
+vi /etc/php.d/mapserver.ini
+
+and add ; in front of the line extension=php_mapscript.so
+
+; extension=php_mapscript.so
+
+4) Install pure-ftpd and quota
+
+yum install pure-ftpd quota
+
+chkconfig --levels 235 pure-ftpd on
+
+5) Install bind dns server
+
+yum install bind bind-utils
+
+chkconfig --levels 235 named on
+
+6) Install vlogger dependencies and webalizer
+
+yum install webalizer perl-DateTime-Format-HTTP perl-DateTime-Format-Builder
+
+6.5) Install jailkit
+
+yum install gcc
+
+cd /tmp
+wget http://olivier.sessink.nl/jailkit/jailkit-2.11.tar.gz
+tar xvfz jailkit-2.11.tar.gz
+cd jailkit-2.11
+./configure
+make
+make install
+rm -rf jailkit-2.11*
+
+6.6) Install fail2ban
+
+yum install fail2ban
+
+7) Configure the firewall
+
+Now you should switch off the firewall by running:
+
+system-config-firewall-tui
+
+ISPConfig comes with a iptables bsed firewall script that can be managed from within the ispconfig interface.
+
+
+8) Install ISPConfig 3
+
+  cd /tmp
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.2.tar.gz
+  tar xvfz ISPConfig-3.0.2.tar.gz
+  cd ispconfig3_install/install/
+
+Now start the installation process by executing:
+
+php -q install.php
+
+The installer will configure all services like postfix, sasl, courier, etc. for you. A manual setup as required for ISPConfig 2 (perfect setup guides) is not nescessary. To login to the ISPConfig controlpanel, open the following URL in your browser (replace the IP to match your settings!):
+
+http://192.168.0.100:8080/
+
+the default login is:
+
+user: admin
+password: admin
+
+In case you get a permission denied error from apache, please restart the apache webserver process.
+
+Optional:
+
+Install a webbased Email Client
+
+yum install squirrelmail
+
+
+----------------------------------------------------------------------------------------------------------
+
+Hints:
+
+debian 4.0 under openvz:
+
+VPSID=101
+for CAP in CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CHROOT SYS_NICE CHOWN DAC_READ_SEARCH SETGID SETUID NET_BIND_SERVICE NET_ADMIN SYS_CHROOT SYS_NICE
+do
+  vzctl set $VPSID --capability ${CAP}:on --save
+done
+
+----------------------------------------------------------------------------------------------------------
+
+

@@ -270,6 +270,74 @@ class installer_dist extends installer_base {
 		wf($configfile, $content);
 	}
 	
+	public function configure_dovecot()
+    {
+		global $conf;
+		
+		$config_dir = $conf['dovecot']['config_dir'];
+		
+		//* Configure master.cf and add a line for deliver
+		if(is_file($config_dir.'/master.cf')){
+            copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+        }
+		if(is_file($config_dir.'/master.cf~')){
+            exec('chmod 400 '.$config_dir.'/master.cf~2');
+        }
+		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+		// Only add the content if we had not addded it before
+		if(!stristr($content,"dovecot/deliver")) {
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
+			af($conf["postfix"]["config_dir"].'/master.cf',$deliver_content);
+		}
+		unset($content);
+		unset($deliver_content);
+		
+		
+		//* Reconfigure postfix to use dovecot authentication
+		// Adding the amavisd commands to the postfix configuration
+		$postconf_commands = array (
+			'dovecot_destination_recipient_limit = 1',
+			'virtual_transport = dovecot',
+			'smtpd_sasl_type = dovecot',
+			'smtpd_sasl_path = private/auth',
+			'receive_override_options = no_address_mappings'
+		);
+		
+		// Make a backup copy of the main.cf file
+		copy($conf["postfix"]["config_dir"].'/main.cf',$conf["postfix"]["config_dir"].'/main.cf~3');
+		
+		// Executing the postconf commands
+		foreach($postconf_commands as $cmd) {
+			$command = "postconf -e '$cmd'";
+			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		
+		//* copy dovecot.conf
+		$configfile = 'dovecot.conf';
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+        }
+		copy('tpl/fedora_dovecot.conf.master',"$config_dir/$configfile");
+		
+		//* dovecot-sql.conf
+		$configfile = 'dovecot-sql.conf';
+		if(is_file("$config_dir/$configfile")){
+            copy("$config_dir/$configfile", "$config_dir/$configfile~");
+			exec("chmod 400 $config_dir/$configfile~");
+        }
+		
+		$content = rf("tpl/fedora_dovecot-sql.conf.master");
+		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
+		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
+		$content = str_replace('{mysql_server_host}',$conf['mysql']['host'],$content);
+		wf("$config_dir/$configfile", $content);
+		
+		exec("chmod 600 $config_dir/$configfile");
+		exec("chown root:root $config_dir/$configfile");
+
+	}
+	
 	public function configure_amavis() {
 		global $conf;
 		
@@ -404,6 +472,14 @@ class installer_dist extends installer_base {
 		exec('chmod 600 '.$conf["mydns"]["config_dir"].'/'.$configfile);
 		exec('chown root:root '.$conf["mydns"]["config_dir"].'/'.$configfile);
 	
+	}
+	
+	public function configure_bind() {
+		global $conf;
+		
+		// add the include line at the end of named.conf.
+		replaceLine('/etc/named.conf','include "/etc/named.conf.local";','include "/etc/named.conf.local";',0,1);
+		
 	}
 	
 	public function configure_apache()
