@@ -37,3 +37,4 @@ $wb['domain_error_unique'] = 'Já existe alias ou sub-domínio com este nome.';
 $wb['domain_error_regex'] = 'Nome de domínio inválido.';
 $wb['host_txt'] = 'Host';
 ?>
+

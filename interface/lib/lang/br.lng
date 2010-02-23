@@ -32,3 +32,4 @@ $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Ferramentas';
 $wb['top_menu_help'] = 'Ajuda';
 ?>
+

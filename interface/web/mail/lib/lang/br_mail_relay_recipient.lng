@@ -3,7 +3,8 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['source_txt'] = 'Recipiente de Relay';
 $wb['recipient_txt'] = 'Recipiente';
 $wb['active_txt'] = 'Ativo';
-$wb['source_error_notempty'] = 'Endereço em branco.';
+$wb['source_error_notempty'] = 'EndereÃ§o em branco.';
 $wb['type_txt'] = 'Type';
-$wb['limit_mailfilter_txt'] = 'O número máximo de filtros para esta conta já foi atingido.';
+$wb['limit_mailfilter_txt'] = 'O nÃºmero mÃ¡ximo de filtros para esta conta jÃ¡ foi atingido.';
 ?>
+

@@ -7,3 +7,4 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Domínio';
 $wb['add_new_record_txt'] = 'Adcionar novo Catchall';
 ?>
+

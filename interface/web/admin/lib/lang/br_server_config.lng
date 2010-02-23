@@ -1,8 +1,8 @@
 <?php
-$wb['jailkit_chroot_home_txt'] = 'Chroot Jailkit home';
+$wb['jailkit_chroot_home_txt'] = 'Raiz do Chroot Jailkit';
 $wb['jailkit_chroot_app_sections_txt'] = 'Aplicações Jailkit chroot (Sessões)';
 $wb['jailkit_chroot_app_programs_txt'] = 'Aplicações Jailkit em ambiente chroot';
-$wb['website_path_txt'] = 'Website path';
+$wb['website_path_txt'] = 'Caminho do Website';
 $wb['website_symlinks_txt'] = 'Website symlinks: link simbólico';
 $wb['website_basedir_txt'] = 'Website basedir: Diretório base ';
 $wb['vhost_conf_dir_txt'] = 'Vhost config dir';
@@ -66,3 +66,4 @@ $wb['php_open_basedir_error_empty'] = 'PHP open_basedir está em branco.';
 $wb['htaccess_allow_override_txt'] = '.htaccess AllowOverride';
 $wb['htaccess_allow_override_error_empty'] = '.htaccess AllowOverride está em branco.';
 ?>
+

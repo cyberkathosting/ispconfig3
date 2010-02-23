@@ -18,3 +18,4 @@ $wb['relayhost_password_txt'] = 'Senha Host Relay';
 $wb['mailbox_size_limit_txt'] = 'Tamanho Caixa de Correio';
 $wb['message_size_limit_txt'] = 'Tamanho da Mensagem';
 ?>
+

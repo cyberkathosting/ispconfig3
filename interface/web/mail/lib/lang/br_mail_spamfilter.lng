@@ -15,3 +15,4 @@ $wb['email_error_unique'] = 'Já existem registros de spamfilter para esta caixa
 $wb['spam_redirect_maildir_purge_txt'] = 'Remover Maildir depois';
 $wb['days_txt'] = 'Dias.';
 ?>
+

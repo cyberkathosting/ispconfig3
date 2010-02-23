@@ -5,3 +5,4 @@ $wb['page_txt'] = 'Página';
 $wb['page_of_txt'] = 'de';
 $wb['delete_confirmation'] = 'Está certo que quer remover este mailfilter?';
 ?>
+

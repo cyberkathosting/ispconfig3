@@ -19,3 +19,4 @@ $wb['run_wday_error_format'] = 'Formato dos dias da semana inválido.';
 $wb['command_error_format'] = 'Formato de comando inválido. Somente endereços url http/https são permitidos.';
 $wb['unknown_fieldtype_error'] = 'Um tipo desconhecido de campo foi usado.';
 ?>
+

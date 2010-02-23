@@ -7,3 +7,4 @@ $wb['priority_txt'] = 'Prioridade';
 $wb['active_txt'] = 'Ativo';
 $wb['limit_spamfilter_wblist_txt'] = 'O número máximo de registros de lista negra /  branca foi atingido para esta conta.';
 ?>
+

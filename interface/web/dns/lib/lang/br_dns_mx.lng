@@ -14,3 +14,4 @@ $wb['name_error_regex'] = 'Hostname tem um formato inválido.';
 $wb['data_error_empty'] = 'Hostname do servidor de correio em branco';
 $wb['data_error_regex'] = 'Hostname do servidor de correio formato inválido';
 ?>
+

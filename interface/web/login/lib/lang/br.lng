@@ -13,5 +13,6 @@ $wb['error_user_blocked'] = 'O usuário está bloqueado.';
 $wb['error_user_too_many_logins'] = 'Várias tentativas de logins incorretas, faça uma nova tentativa dentro de 15 minutos.';
 $wb['username_txt'] = 'Usuário';
 $wb['password_txt'] = 'Senha';
-$wb['login_button_txt'] = 'Login';
+$wb['login_button_txt'] = 'Entrar';
 ?>
+

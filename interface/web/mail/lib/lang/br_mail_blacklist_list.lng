@@ -8,3 +8,4 @@ $wb['recipient_txt'] = 'Recipiente';
 $wb['add_new_record_txt'] = 'Adcionar novo registro a lista';
 $wb['access_txt'] = 'acesso';
 ?>
+

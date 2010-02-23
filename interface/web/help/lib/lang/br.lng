@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $wb['Support Message'] = 'Mensagem de Suporte';
 $wb['Message'] = 'Mensagem';
 $wb['Send message'] = 'Enviar Mensagem';
@@ -7,3 +7,4 @@ $wb['Support'] = 'Suporte';
 $wb['About ISPConfig'] = 'Sobre o ISPConfig';
 $wb['Version'] = 'Versão';
 ?>
+

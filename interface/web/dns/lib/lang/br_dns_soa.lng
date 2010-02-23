@@ -22,5 +22,6 @@ $wb['ns_error_regex'] = 'NS tem um formato inválido.';
 $wb['mbox_error_empty'] = 'Correio está em branco.';
 $wb['mbox_error_regex'] = 'Correio com formato inválido.';
 $wb['also_notify_txt'] = 'Also Notify';
-$wb['update_acl_txt'] = 'Update ACL';
+$wb['update_acl_txt'] = 'Atualizar ACL';
 ?>
+

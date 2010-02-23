@@ -16,3 +16,4 @@ $wb['module_del_txt'] = 'Remover o módulo e todos seus sub-diretórios?';
 $wb['menu_del_txt'] = 'Remover o menu e todos os seus itens?';
 $wb['item_del_txt'] = 'Remover o item de menu?';
 ?>
+
