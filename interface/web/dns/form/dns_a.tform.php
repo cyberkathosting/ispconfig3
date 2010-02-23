@@ -100,7 +100,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'data_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9\.]{7,15}$/',
+														'regex' => '/^([1-9]{1}|[1-9]\d|[1]\d\d|2[0-4]\d|25[0-5])\.(\d{1}|[1-9]\d|[1]\d\d|2[0-4]\d|25[0-5])\.(\d{1}|[1-9]\d|[1]\d\d|2[0-4]\d|25[0-5])\.(\d{1}|[1-9]\d|[1]\d\d|2[0-4]\d|25[0-5])$/',
 														'errmsg'=> 'data_error_regex'),
 									),
 			'default'	=> '',
