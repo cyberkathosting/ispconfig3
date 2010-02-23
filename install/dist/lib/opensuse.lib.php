@@ -91,7 +91,9 @@ class installer_dist extends installer_base {
 		} else {
 			$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
 			caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		}	
+		}
+		
+		if($cf['vmail_mailbox_base'] != '' && strlen($cf['vmail_mailbox_base']) >= 10) exec('chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base']);
 
 		$postconf_commands = array (
 			'myhostname = '.$conf['hostname'],
