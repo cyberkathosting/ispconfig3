@@ -126,7 +126,7 @@ $conf['courier']['courier-pop-ssl'] = '';
 
 //* Dovecot
 $conf['dovecot']['installed'] = false; // will be detected automatically during installation
-$conf['dovecot']['config_dir'] = '/etc/dovecot';
+$conf['dovecot']['config_dir'] = '/etc';
 $conf['dovecot']['init_script'] = 'dovecot';
 
 //* SASL
@@ -161,11 +161,11 @@ $conf['powerdns']['init_script'] = 'pdns';
 
 //* BIND DNS Server
 $conf['bind']['installed'] = false; // will be detected automatically during installation
-$conf['bind']['bind_user'] = 'root';
-$conf['bind']['bind_group'] = 'bind';
-$conf['bind']['bind_zonefiles_dir'] = '/etc/bind';
-$conf['bind']['named_conf_path'] = '/etc/bind/named.conf';
-$conf['bind']['named_conf_local_path'] = '/etc/bind/named.conf.local';
+$conf['bind']['bind_user'] = 'named';
+$conf['bind']['bind_group'] = 'named';
+$conf['bind']['bind_zonefiles_dir'] = '/var/named/chroot/var/named/';
+$conf['bind']['named_conf_path'] = '/var/named/chroot/etc/named.conf';
+$conf['bind']['named_conf_local_path'] = '/var/named/chroot/var/named/named.local';
 $conf['bind']['init_script'] = 'named';
 
 //* Jailkit
