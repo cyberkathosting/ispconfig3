@@ -119,27 +119,6 @@ class mail_plugin {
 			//exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name']);
 
-			if(!is_dir($data['new']['maildir'].'/.Sent')) {
-				//exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Sent');
-			}
-			if(!is_dir($data['new']['maildir'].'/.Drafts')) {
-				//exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Drafts');
-			}
-			if(!is_dir($data['new']['maildir'].'/.Trash')) {
-				//exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Trash');
-			}
-			if(!is_dir($data['new']['maildir'].'/.Junk')) {
-				//exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Junk');
-			}
-
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 
@@ -148,6 +127,27 @@ class mail_plugin {
 				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
 				$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			}
+		}
+		
+		if(!is_dir($data['new']['maildir'].'/.Sent')) {
+			//exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Sent');
+		}
+		if(!is_dir($data['new']['maildir'].'/.Drafts')) {
+			//exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Drafts');
+		}
+		if(!is_dir($data['new']['maildir'].'/.Trash')) {
+			//exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Trash');
+		}
+		if(!is_dir($data['new']['maildir'].'/.Junk')) {
+			//exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Junk');
 		}
 		
 		//* Set the maildir quota
@@ -207,27 +207,6 @@ class mail_plugin {
 			//$app->log("Created Maildir "."su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name']);
 
-			if(!is_dir($data['new']['maildir'].'/.Sent')) {
-				//exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Sent');
-			}
-			if(!is_dir($data['new']['maildir'].'/.Drafts')) {
-				//exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Drafts');
-			}
-			if(!is_dir($data['new']['maildir'].'/.Trash')) {
-				//exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Trash');
-			}
-			if(!is_dir($data['new']['maildir'].'/.Junk')) {
-				//exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-				//$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-				$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Junk');
-			}
-
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
 			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
@@ -235,6 +214,27 @@ class mail_plugin {
 				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
 				$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			}
+		}
+		
+		if(!is_dir($data['new']['maildir'].'/.Sent')) {
+			//exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Sent');
+		}
+		if(!is_dir($data['new']['maildir'].'/.Drafts')) {
+			//exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Drafts');
+		}
+		if(!is_dir($data['new']['maildir'].'/.Trash')) {
+			//exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Trash');
+		}
+		if(!is_dir($data['new']['maildir'].'/.Junk')) {
+			//exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
+			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name'],'Junk');
 		}
 		
 		// Move mailbox, if domain has changed and delete old mailbox
