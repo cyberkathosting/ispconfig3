@@ -729,7 +729,7 @@ class installer_base {
 		
 		// amavisd user config file
 		$configfile = 'amavisd_user_config';
-		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["amavis"]["config_dir"].'/conf.d/50-user',$conf["courier"]["config_dir"].'/50-user~');
+		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user')) copy($conf["amavis"]["config_dir"].'/conf.d/50-user',$conf["amavis"]["config_dir"].'/50-user~');
 		if(is_file($conf["amavis"]["config_dir"].'/conf.d/50-user~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/conf.d/50-user~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
@@ -841,7 +841,7 @@ class installer_base {
 		}
 		
 		if(is_file('/etc/inetd.conf')) {
-			replaceLine('/etc/inetd.conf','ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper','#ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper',1,0);
+			replaceLine('/etc/inetd.conf','/usr/sbin/pure-ftpd-wrapper','#ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper',0,0);
 			if(is_file('/etc/init.d/openbsd-inetd')) exec('/etc/init.d/openbsd-inetd restart');
 		}
 		

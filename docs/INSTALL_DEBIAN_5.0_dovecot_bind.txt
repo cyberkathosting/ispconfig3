@@ -154,7 +154,7 @@ rm -rf jailkit-2.11*
 8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
 More info at: http://www.howtoforge.com/fail2ban_debian_etch
 
-apt-get install fail2ban
+apt-get -y install fail2ban
 
 9) Install ISPConfig 3
 

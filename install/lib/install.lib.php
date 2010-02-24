@@ -259,10 +259,14 @@ function mkdirs($strPath, $mode = '0755'){
 
 function rf($file){
 	clearstatcache();
-	if(!$fp = fopen ($file, 'rb')){
-		ilog('WARNING: could not open file '.$file);
+	if(is_file($file)) {
+		if(!$fp = fopen ($file, 'rb')){
+			ilog('WARNING: could not open file '.$file);
+		}
+		return filesize($file) > 0 ? fread($fp, filesize($file)) : '';
+	} else {
+		return '';
 	}
-	return filesize($file) > 0 ? fread($fp, filesize($file)) : '';
 }
 
 function wf($file, $content){
