@@ -834,6 +834,18 @@ class installer_base {
 		//exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
 		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
 		exec('echo "yes" > '.$config_dir.'/conf/BrokenClientsCompatibility');
+		
+		if(is_file('/etc/default/pure-ftpd-common')) {
+			replaceLine('/etc/default/pure-ftpd-common','STANDALONE_OR_INETD=inetd','STANDALONE_OR_INETD=standalone',1,0);
+			replaceLine('/etc/default/pure-ftpd-common','VIRTUALCHROOT=false','VIRTUALCHROOT=true',1,0);
+		}
+		
+		if(is_file('/etc/inetd.conf')) {
+			replaceLine('/etc/inetd.conf','ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper','#ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper',1,0);
+			if(is_file('/etc/init.d/openbsd-inetd')) exec('/etc/init.d/openbsd-inetd restart');
+		}
+		
+		if(!is_file('/etc/pure-ftpd/conf/DontResolve')) exec("echo 'yes' > /etc/pure-ftpd/conf/DontResolve");
 	}
 	
 	public function configure_mydns()
