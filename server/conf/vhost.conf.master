@@ -120,6 +120,17 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
+    <IfModule mod_fcgid.c>
+      SocketPath /tmp/fcgid_sock/
+      IdleTimeout 3600
+      ProcessLifeTime 7200
+      MaxProcessCount 1000
+      DefaultMinClassProcessCount 3
+      DefaultMaxClassProcessCount 100
+      IPCConnectTimeout 8
+      IPCCommTimeout 360
+      BusyTimeout 300
+    </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
         FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
@@ -286,6 +297,17 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
+    <IfModule mod_fcgid.c>
+      SocketPath /tmp/fcgid_sock/
+      IdleTimeout 3600
+      ProcessLifeTime 7200
+      MaxProcessCount 1000
+      DefaultMinClassProcessCount 3
+      DefaultMaxClassProcessCount 100
+      IPCConnectTimeout 8
+      IPCCommTimeout 360
+      BusyTimeout 300
+    </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
         FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
