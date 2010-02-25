@@ -142,11 +142,11 @@ if(is_file(ISPC_INSTALL_ROOT."/install/sql/pre_update.sql")) {
 //** export the current database data
 if( !empty($conf["mysql"]["admin_password"]) ) {
 
-	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --create-options --quick ".$conf['mysql']['database']." > existing_db.sql");
+	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 }
 else {
 
-	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick ".$conf['mysql']['database']." > existing_db.sql");
+	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 }
 
 // create a backup copy of the ispconfig database in the root folder
