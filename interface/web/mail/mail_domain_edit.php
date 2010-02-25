@@ -280,14 +280,14 @@ class page_action extends tform_actions {
 				$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 			}
 		} // endif spamfilter policy
-		
-		//** If the domain name has been changed, change the domain in all mailbox records
-		if($this->oldDataRecord['domain'] != $this->dataRecord['domain']) {
+		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
+		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
 			$app->uses('getconf');
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"],'mail');
 			
 			//* Update the mailboxes
 			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
+			$sys_groupid = (isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid'];
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
 					// setting Maildir, Homedir, UID and GID
@@ -296,7 +296,7 @@ class page_action extends tform_actions {
 					$maildir = str_replace("[localpart]",$mail_parts[0],$maildir);
 					$maildir = mysql_real_escape_string($maildir);
 					$email = mysql_real_escape_string($mail_parts[0].'@'.$this->dataRecord['domain']);
-					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email'", 'mailuser_id', $rec['mailuser_id']);
+					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
 			
@@ -306,7 +306,7 @@ class page_action extends tform_actions {
 				foreach($forwardings as $rec) {
 					$destination = mysql_real_escape_string(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
 					$source = mysql_real_escape_string(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
-					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination'", 'forwarding_id', $rec['forwarding_id']);
+					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 			
