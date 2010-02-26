@@ -72,26 +72,45 @@ class software_update_plugin {
 	function process($event_name,$data) {
 		global $app, $conf;
 		
-        if(!$conf['software_updates_enabled'] == true) {
-			$app->log('Software Updates not enabled on this server. To enable updates, set $conf["software_updates_enabled"] = true; in config.inc.php',LOGLEVEL_ERROR);
+		//* Get the info of the package:
+        $software_update_id = intval($data["new"]["software_update_id"]);
+		$software_update = $app->db->queryOneRecord("SELECT * FROM software_update WHERE software_update_id = '$software_update_id'");
+		$software_package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = '".$app->db->quote($software_update['package_name'])."'");
+		
+		if($software_package['package_type'] == 'ispconfig' && !$conf['software_updates_enabled'] == true) {
+			$app->log('Software Updates not enabled on this server. To enable updates, set $conf["software_updates_enabled"] = true; in config.inc.php',LOGLEVEL_WARN);
             $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			return false;
 		}
 		
-		//* Get the info of the package:
-        $software_update_id = intval($data["new"]["software_update_id"]);
-		$software_update = $app->db->queryOneRecord("SELECT * FROM software_update WHERE software_update_id = '$software_update_id'");
+		$installuser = '';
+		if($software_package['package_type'] == 'ispconfig') {
+			$installuser = '';
+		} elseif ($software_package['package_type'] == 'app') {
+			$installuser = 'ispapps';
+		} else {
+			$app->log('package_type not supported',LOGLEVEL_WARN);
+            $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
+			return false;
+		}
 		
 		$temp_dir = '/tmp/'.md5 (uniqid (rand()));
 		$app->log("The temp dir is $temp_dir",LOGLEVEL_DEBUG);
 		mkdir($temp_dir);
+		if($installuser != '') exec('chown '.$installuser.' '.$temp_dir);
+		
 		if(!is_dir($temp_dir)) {
-			$app->log("Unable to create temp directory.",LOGLEVEL_ERROR);
+			$app->log("Unable to create temp directory.",LOGLEVEL_WARN);
             $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			return false;
 		}
 		
-		exec("cd $temp_dir && wget ".$software_update["update_url"]);
+		$cmd = "cd $temp_dir && wget ".$software_update["update_url"];
+		if($installuser == '') {
+			exec($cmd);
+		} else {
+			exec("su -c ".escapeshellarg($cmd)." $installuser");
+		}
 		$app->log("Downloading the update file from: ".$software_update["update_url"],LOGLEVEL_DEBUG);
 		
 		$url_parts = parse_url($software_update["update_url"]);
@@ -102,7 +121,7 @@ class software_update_plugin {
 			
 			//* Checking the md5sum
 			if(md5_file($temp_dir.'/'.$update_filename) != $software_update["update_md5"]) {
-				$app->log("The md5 sum of the downloaded file is incorrect. Update aborted.",LOGLEVEL_ERROR);
+				$app->log("The md5 sum of the downloaded file is incorrect. Update aborted.",LOGLEVEL_WARN);
 				exec("rm -rf $temp_dir");
 				$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
                 $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
@@ -113,13 +132,23 @@ class software_update_plugin {
 			
 			
 			//* unpacking the update
-			exec("cd $temp_dir && unzip $update_filename");
+			$cmd = "cd $temp_dir && unzip $update_filename";
+			if($installuser == '') {
+				exec($cmd);
+			} else {
+				exec("su -c ".escapeshellarg($cmd)." $installuser");
+			}
 			
 			if(is_file($temp_dir.'/setup.sh')) {
 				// Execute the setup script
 				exec('chmod +x '.$temp_dir.'/setup.sh');
 				$app->log("Executing setup.sh file in directory $temp_dir",LOGLEVEL_DEBUG);
-				exec('cd '.$temp_dir.' && ./setup.sh > package_install.log');
+				$cmd = 'cd '.$temp_dir.' && ./setup.sh > package_install.log';
+				if($installuser == '') {
+					exec($cmd);
+				} else {
+					exec("su -c ".escapeshellarg($cmd)." $installuser");
+				}
                 
                 $log_data = @file_get_contents("{$temp_dir}/package_install.log");
                 if(preg_match("'.*\[OK\]\s*$'is", $log_data)) {
@@ -127,7 +156,7 @@ class software_update_plugin {
                     $app->log($log_data,LOGLEVEL_DEBUG);
                     $this->set_install_status($data["new"]["software_update_inst_id"], "installed");
                 } else {
-                    $app->log("Installation failed:\n\n" . $log_data,LOGLEVEL_ERROR);
+                    $app->log("Installation failed:\n\n" . $log_data,LOGLEVEL_WARN);
                     $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
                 }
 			} else {
@@ -135,7 +164,7 @@ class software_update_plugin {
                 $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			}
 		} else {
-			$app->log("Download of the update file failed",LOGLEVEL_ERROR);
+			$app->log("Download of the update file failed",LOGLEVEL_WARN);
             $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 		}
 		

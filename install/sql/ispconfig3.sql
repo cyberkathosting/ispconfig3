@@ -699,6 +699,7 @@ CREATE TABLE `software_package` (
   `package_title` varchar(64) NOT NULL,
   `package_description` text,
   `package_version` varchar(8) default NULL,
+  `package_type` enum('ispconfig','app','web') NOT NULL default 'app',
   PRIMARY KEY  (`package_id`),
   UNIQUE KEY `package_name` (`package_name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
@@ -757,7 +758,7 @@ CREATE TABLE `software_update_inst` (
   `software_update_id` int(11) unsigned NOT NULL default '0',
   `package_name` varchar(64) NOT NULL,
   `server_id` int(11) unsigned NOT NULL,
-  `status` enum('none','installing','installed','deleting','deleted') NOT NULL default 'none',
+  `status` enum('none','installing','installed','deleting','deleted','failed') NOT NULL default 'none',
   PRIMARY KEY  (`software_update_inst_id`),
   UNIQUE KEY `software_update_id` (`software_update_id`,`package_name`,`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;

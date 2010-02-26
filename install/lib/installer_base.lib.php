@@ -1076,9 +1076,9 @@ class installer_base {
 		
 		//* Create the ispconfig apps vhost user and group
 		
-		$apps_vhost_user = $conf['web']['apps_vhost_user'];
-		$apps_vhost_group = $conf['web']['apps_vhost_group'];
-		$install_dir = $conf['web']['website_basedir'].'/apps';
+		$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
+		$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
+		$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
 		
 		$command = 'groupadd '.$apps_vhost_user;
 		if(!is_group($apps_vhost_group)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -1090,7 +1090,8 @@ class installer_base {
 		$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		exec('mkdir -p '.escapeshellcmd($conf['web']['website_basedir'].'/apps'));
+		exec('mkdir -p '.$install_dir);
+		exec("chown $apps_vhost_user:$apps_vhost_group $install_dir");
 		
 		//* Copy the apps vhost file
         $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];

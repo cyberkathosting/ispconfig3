@@ -82,6 +82,9 @@ class apps_vhost_plugin {
         $vhost_conf_enabled_dir = $web_config['vhost_conf_enabled_dir'];
 		$apps_vhost_servername = ($web_config['apps_vhost_servername'] == '')?'':'ServerName '.$web_config['apps_vhost_servername'];
 		
+		$web_config['apps_vhost_port'] = (empty($web_config['apps_vhost_port']))?8081:$web_config['apps_vhost_port'];
+		$web_config['apps_vhost_ip'] = (empty($web_config['apps_vhost_ip']))?'_default_':$web_config['apps_vhost_ip'];
+		
 		$content = str_replace('{apps_vhost_ip}', $web_config['apps_vhost_ip'], $content);
 		$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);
 		$content = str_replace('{apps_vhost_dir}', $web_config['website_basedir'].'/apps', $content);

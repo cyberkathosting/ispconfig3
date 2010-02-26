@@ -55,8 +55,9 @@ if(is_array($repos)) {
 					$package_title = $app->db->quote($p['title']);
 					$package_description = $app->db->quote($p['description']);
 					$software_repo_id = intval($repo['software_repo_id']);
+					$package_type = $app->db->quote($p['type']);
 					
-					$sql = "INSERT INTO software_package (software_repo_id, package_name, package_title, package_description) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description')";
+					$sql = "INSERT INTO software_package (software_repo_id, package_name, package_title, package_description,package_type) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type')";
 					$app->db->query($sql);
 					$packages_added++;
 				}
