@@ -92,7 +92,7 @@ function setConfigVar( $filename, $varName, $varValue ) {
 		$out = '';
 		$found = 0;
 		foreach($lines as $line) {
-			list($key, $value) = split("[\t= ]+", $line, 2);
+			list($key, $value) = preg_split("/[\t= ]+/", $line, 2);
 			if($key == $varName) {
 				$out .= $varName." ".$varValue."\n";
 				$found = 1;
