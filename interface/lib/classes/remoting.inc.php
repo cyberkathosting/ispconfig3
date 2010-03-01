@@ -893,6 +893,26 @@ class remoting {
 		return $app->remoting_lib->getDataRecord($client_id);
 	}
 	
+	public function client_get_id($session_id, $sys_userid)
+    {
+		global $app;
+		if(!$this->checkPerm($session_id, 'client_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$sys_userid = intval($sys_userid);
+		
+		$rec = $app->db->queryOneRecord("SELECT client_id FROM sys_user WHERE userid = ".$sys_userid);
+		if(isset($rec['client_id'])) {
+			return intval($rec['client_id']);
+		} else {
+			$this->server->fault('no_client_found', 'There is no sysuser account for this client ID.');
+			return false;
+		}
+		
+	}
+	
 	
 	public function client_add($session_id, $reseller_id, $params)
 	{
