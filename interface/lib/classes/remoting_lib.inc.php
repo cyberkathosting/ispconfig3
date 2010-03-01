@@ -150,6 +150,7 @@ class remoting_lib {
 				$this->sys_groups            = 1;
 			} else {
 				//* load system user - try with sysuser and before with userid (workarrond)
+				/*
 				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE sysuser_id = $client_id");
 				if(empty($user["userid"])) {
 						$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = $client_id");		
@@ -157,7 +158,9 @@ class remoting_lib {
 								$this->errorMessage .= "No sysuser with the ID $client_id found.";
 								return false;
 						}
-				}
+				}*/
+				
+				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = $client_id");
 				$this->sys_username         = $user['username'];
 				$this->sys_userid            = $user['userid'];
 				$this->sys_default_group     = $user['default_group'];
