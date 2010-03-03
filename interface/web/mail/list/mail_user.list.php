@@ -56,6 +56,15 @@ $liste["item"][] = array(	'field'		=> "email",
 							'width'		=> "",
 							'value'		=> "");
 
+$liste["item"][] = array(	'field'		=> "name",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "TEXT",
+							'op'		=> "like",
+							'prefix'	=> "%",
+							'suffix'	=> "%",
+							'width'		=> "",
+							'value'		=> "");
+
 $liste["item"][] = array(	'field'		=> "autoresponder",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",

@@ -88,6 +88,14 @@ $form["tabs"]['mailuser'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'name' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'quota' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',

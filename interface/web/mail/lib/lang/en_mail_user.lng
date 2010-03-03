@@ -34,4 +34,6 @@ $wb["disablepop3_txt"] = 'Disable POP3';
 $wb["duplicate_alias_or_forward_txt"] = 'There is already an alias or forwrd with this email address.';
 $wb["quota_error_value"] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
 $wb["move_junk_txt"] = 'Move Spam Emails to Junk directory';
+$wb["name_txt"] = 'Realname';
+$wb["name_optional_txt"] = '(Optional)';
 ?>
