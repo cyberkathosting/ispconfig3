@@ -1386,7 +1386,7 @@ class installer_base {
 		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
 		
 		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
-		exec('chown getmail /usr/local/bin/run-getmail.sh');
+		if(is_user('getmail')) exec('chown getmail /usr/local/bin/run-getmail.sh');
 		exec('chmod 744 /usr/local/bin/run-getmail.sh');
 		
 		
