@@ -82,6 +82,7 @@ function DateTime_SetValues(datetime_id, date_obj)
 				break;
 			case 'month':
 				unit_value = now.getMonth() + 1;
+				if(unit_value < 10) unit_value = '0'+unit_value;
 				break;
 			case 'year':
 				unit_value = now.getFullYear();
