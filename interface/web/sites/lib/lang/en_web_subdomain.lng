@@ -36,4 +36,5 @@ $wb["domain_error_empty"] = 'Domain is empty.';
 $wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain with this domain name.';
 $wb["domain_error_regex"] = 'Domain name invalid.';
 $wb["host_txt"] = 'Host';
+$wb["redirect_error_regex"] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 ?>

@@ -111,6 +111,10 @@ $form["tabs"]['domain'] = array (
 		'redirect_path' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '@^(([.]{0})|(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)|(/[\w/_\.\-]{1,255}/))$@',
+														'errmsg'=> 'redirect_error_regex'),
+									),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
