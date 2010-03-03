@@ -225,17 +225,19 @@ if ($app->dbmaster == $app->db) {
 
 	/* Then delete server by server */
 	foreach($records as $server) {
-		$sql = "DELETE FROM sys_datalog WHERE tstamp < " . $tstamp .
-			" AND server_id != 0 " . // to be more secure!
-			" AND server_id = " . intval($server['server_id']) .
-			" AND datalog_id < " . intval($server['updated']);
+		$tmp_server_id = intval($server['server_id']);
+		if($tmp_server_id > 0) {
+			$sql = 	"DELETE FROM sys_datalog WHERE tstamp < " . $tstamp .
+					" AND server_id = " . intval($server['server_id']) .
+					" AND datalog_id < " . intval($server['updated']);
+		}
 //		echo $sql . "\n";
 		$app->dbmaster->query($sql);
 	}
 }
 
 #######################################################################################################
-// enforce traffic quota (only the "master-server")
+// enforce traffic quota (run only on the "master-server")
 #######################################################################################################
 
 if ($app->dbmaster == $app->db) {
