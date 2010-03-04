@@ -1,4 +1,5 @@
 #!/bin/sh
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/X11R6/bin
 set -e
 cd /etc/getmail
 rcfiles=""
@@ -13,7 +14,7 @@ if [ -f /tmp/.getmail_lock ]; then
 else
   touch /tmp/.getmail_lock
   if [ "$rcfiles" != "" ]; then
-    exec /usr/bin/getmail -n -v -g /etc/getmail $rcfiles
+    /usr/bin/getmail -n -v -g /etc/getmail $rcfiles
   fi
   rm -f /tmp/.getmail_lock
 fi
