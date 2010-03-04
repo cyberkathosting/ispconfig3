@@ -18,6 +18,7 @@ $app->auth->check_module_permissions('dns');
 $app->uses('listform_actions');
 // $app->listform_actions->SQLExtWhere = "access = 'REJECT'";
 
+$app->listform_actions->SQLOrderBy = 'ORDER BY origin';
 $app->listform_actions->onLoad();
 
 
