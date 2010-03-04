@@ -148,6 +148,7 @@ class remoting_lib {
 				$this->sys_userid            = 1;
 				$this->sys_default_group     = 1;
 				$this->sys_groups            = 1;
+				$_SESSION["s"]["user"]["typ"] = 'admin';
 			} else {
 				//* load system user - try with sysuser and before with userid (workarrond)
 				/*
@@ -165,6 +166,7 @@ class remoting_lib {
 				$this->sys_userid            = $user['userid'];
 				$this->sys_default_group     = $user['default_group'];
 				$this->sys_groups             = $user['groups'];
+				$_SESSION["s"]["user"]["typ"] = $user['typ'];
 			}
 
 		return true;

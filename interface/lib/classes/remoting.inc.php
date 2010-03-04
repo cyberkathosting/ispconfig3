@@ -1942,11 +1942,11 @@ class remoting {
 		
 		$app->uses('remoting_lib');
 		
-		//* Load the form definition
-		$app->remoting_lib->loadFormDef($formdef_file);
-		
 		//* load the user profile of the client
 		$app->remoting_lib->loadUserProfile($client_id);
+		
+		//* Load the form definition
+		$app->remoting_lib->loadFormDef($formdef_file);
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'INSERT',0);
@@ -1989,11 +1989,11 @@ class remoting {
 		
 		$app->uses('remoting_lib');
 		
-		//* Load the form definition
-		$app->remoting_lib->loadFormDef($formdef_file);
-		
 		//* load the user profile of the client
 		$app->remoting_lib->loadUserProfile($client_id);
+		
+		//* Load the form definition
+		$app->remoting_lib->loadFormDef($formdef_file);
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'UPDATE',$primary_id);
@@ -2035,6 +2035,9 @@ class remoting {
 		global $app;
 		
 		$app->uses('remoting_lib');
+		
+		//* load the user profile of the client
+		$app->remoting_lib->loadUserProfile($client_id);
 		
 		//* Load the form definition
 		$app->remoting_lib->loadFormDef($formdef_file);
