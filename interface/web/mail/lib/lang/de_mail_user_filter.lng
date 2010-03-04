@@ -6,5 +6,6 @@ $wb['active_txt'] = 'Aktiv';
 $wb['rulename_error_empty'] = 'Name ist leer.';
 $wb['searchterm_is_empty'] = 'Suchbegriff ist leer.';
 $wb['source_txt'] = 'Quelle';
-$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, . and _';
+$wb['target_error_regex'] = 'Das Ziel beinhaltet wahrscheinlich diese Zeichen: a-z, 0-9, -, . und _';
 ?>
+

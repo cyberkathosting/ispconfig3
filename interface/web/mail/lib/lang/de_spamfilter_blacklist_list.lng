@@ -7,3 +7,4 @@ $wb['rid_txt'] = 'Benuzer';
 $wb['email_txt'] = 'Blacklisted Emailadresse';
 $wb['add_new_record_txt'] = 'Blacklist Eintrag hinzufügen';
 ?>
+

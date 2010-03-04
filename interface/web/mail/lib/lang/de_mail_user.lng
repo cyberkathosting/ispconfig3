@@ -28,10 +28,11 @@ $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
 $wb['welcome_mail_fromemail_txt'] = 'webmaster@ihredomain.at';
 $wb['duplicate_alias_or_forward_txt'] = 'Es existiert bereits ein Alias oder eine Weiterleitung mit dieser Email Adresse.';
-$wb['quota_error_value'] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
-$wb['autoresponder_start_date_txt'] = 'Start on';
-$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
-$wb['autoresponder_end_date_txt'] = 'End by';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
-$wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
+$wb['quota_error_value'] = 'Ungültige Quota Eingabe. Erlaubte Größen sind: 0 für unlimitiert oder Nummern > 1';
+$wb['autoresponder_start_date_txt'] = 'Startet am';
+$wb['autoresponder_start_date_isfuture'] = 'Startdatum kann nicht in der Vergangenheit liegen.';
+$wb['autoresponder_end_date_txt'] = 'Endet am';
+$wb['autoresponder_end_date_isgreater'] = 'Enddatum muss angegeben werden und muss später als das Startdatum sein.';
+$wb['move_junk_txt'] = 'Spam Emails in den Junk Ordner verschieben';
 ?>
+

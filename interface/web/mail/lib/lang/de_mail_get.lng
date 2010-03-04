@@ -7,10 +7,11 @@ $wb['source_password_txt'] = 'Passwort';
 $wb['source_delete_txt'] = 'Mails nach Empfang löschen';
 $wb['destination_txt'] = 'Ziel';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_fetchmail_txt'] = 'Die maximale Anzahl an Fetchmail Einträgen für ihr Konto wurde erreicht.';
+$wb['limit_fetchmail_txt'] = 'Die maximale Anzahl an Fetchmail Einträgen wurde erreicht.';
 $wb['source_server_error_isempty'] = 'Server ist leer.';
 $wb['source_username_error_isempty'] = 'Benutzername ist leer.';
 $wb['source_password_error_isempty'] = 'Passwort ist leer.';
 $wb['destination_error_isemail'] = 'Kein Ziel gewählt.';
-$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server ist kein gültiger Domainname.';
 ?>
+

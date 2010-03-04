@@ -22,13 +22,14 @@ $wb['add_new_record_txt'] = 'Neuen Datensatz hinzufügen';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['toolsarea_head_txt'] = 'Tools';
-$wb['page_and_txt'] = 'and';
+$wb['page_and_txt'] = 'und';
 $wb['top_menu_system'] = 'System';
-$wb['top_menu_client'] = 'Client';
+$wb['top_menu_client'] = 'Kunden';
 $wb['top_menu_email'] = 'Email';
 $wb['top_menu_monitor'] = 'Monitor';
 $wb['top_menu_sites'] = 'Sites';
 $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Tools';
-$wb['top_menu_help'] = 'Help';
+$wb['top_menu_help'] = 'Support';
 ?>
+

@@ -10,3 +10,4 @@ $wb['run_wday_txt'] = 'Tag der Woche';
 $wb['command_txt'] = 'Befehl';
 $wb['add_new_cron_txt'] = 'Neuen Cron Job anlegen';
 ?>
+

@@ -4,5 +4,6 @@ $wb['password_strength_1_txt'] = 'Leicht';
 $wb['password_strength_2_txt'] = 'Mittel';
 $wb['password_strength_3_txt'] = 'Gut';
 $wb['password_strength_4_txt'] = 'Stark';
-$wb['password_strength_5_txt'] = 'sehr stark';
+$wb['password_strength_5_txt'] = 'Sehr stark';
 ?>
+

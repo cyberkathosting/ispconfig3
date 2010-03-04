@@ -20,7 +20,7 @@ $wb['system_user_txt'] = 'Linux Benutzer';
 $wb['system_group_txt'] = 'Linux Gruppe';
 $wb['ip_address_txt'] = 'IP-Adresse';
 $wb['vhost_type_txt'] = 'VHost Type';
-$wb['hd_quota_txt'] = 'Harddisk Quota';
+$wb['hd_quota_txt'] = 'Festplatten Quota';
 $wb['traffic_quota_txt'] = 'Traffic Quota';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
@@ -48,10 +48,12 @@ $wb['client_group_id_txt'] = 'Kunde';
 $wb['stats_password_txt'] = 'Webstatistik Passwort';
 $wb['ssl_domain_txt'] = 'SSL Domain';
 $wb['allow_override_txt'] = 'Allow Override';
-$wb['limit_web_quota_free_txt'] = 'Max. available Harddisk Quota';
-$wb['ssl_state_error_regex'] = 'Invalid SSL State. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_locality_error_regex'] = 'Invalid SSL Locality. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_organisation_error_regex'] = 'Invalid SSL Organisation. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_organistaion_unit_error_regex'] = 'Invalid SSL Organisation Unit. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_country_error_regex'] = 'Invalid SSL Country. Valid characters are: A-Z';
+$wb['limit_web_quota_free_txt'] = 'Max. möglicher Festplatten Quota';
+$wb['ssl_state_error_regex'] = 'Ungültige SSL State. Gültige Zeichen sind: a-z, 0-9 und .,-_';
+$wb['ssl_locality_error_regex'] = 'Ungültige SSL Locality. Gülige Zeichen sind: a-z, 0-9 und .,-_';
+$wb['ssl_organisation_error_regex'] = 'Ungültige SSL Organisation. Gültige Zeichen sind: a-z, 0-9 und .,-_';
+$wb['ssl_organistaion_unit_error_regex'] = 'Ungültige SSL Organisation Unit. Gültige Zeichen sind: a-z, 0-9 und .,-_';
+$wb['ssl_country_error_regex'] = 'Ungültiges SSL Land. Gültige Zeichen sind: A-Z';
+$wb['limit_traffic_quota_free_txt'] = 'Max. möglicher Traffic Quota';
 ?>
+

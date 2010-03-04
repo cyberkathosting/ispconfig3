@@ -22,7 +22,8 @@ $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Gruppen';
 $wb['default_group_txt'] = 'Standardgruppe';
 $wb['username_empty'] = 'Der Benutzername ist leer';
-$wb['username_unique'] = 'Es gibt bereits ein Benutzer mit diesem Namen';
-$wb['startmodule_err'] = 'Start module is not within modules.';
+$wb['username_unique'] = 'Es gibt bereits einen Benutzer mit diesem Namen';
+$wb['startmodule_err'] = 'Start Modul ist nicht innerhalb der Module.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>
+

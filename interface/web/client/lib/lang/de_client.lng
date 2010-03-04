@@ -77,8 +77,8 @@ $wb['limit_shell_user_error_notint'] = 'Das Shell Benutzer Limit muss eine Numme
 $wb['limit_dns_zone_error_notint'] = 'Das DNS Einträge Limit muss eine Nummer sein.';
 $wb['default_dbserver_txt'] = 'Standarddatenbankserver';
 $wb['limit_database_error_notint'] = 'Das Datenbank Limit muss eine Nummer sein.';
-$wb['limit_cron_error_notint'] = 'Das Cron Job Limit muss eine Zahl sein.';
-$wb['limit_cron_error_frequency'] = 'Das Cron Job Intervall-Limit muss eine Zahl sein.';
+$wb['limit_cron_error_notint'] = 'Das Cron Job Limit muss eine Nummer sein.';
+$wb['limit_cron_error_frequency'] = 'Das Cron Job Intervall-Limit muss eine Nummer sein.';
 $wb['username_error_regex'] = 'Der Benutzername enthält ungültige Zeichen.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['template_master_txt'] = 'Mastervorlage';
@@ -86,7 +86,10 @@ $wb['template_additional_txt'] = 'Addons';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Optionen';
 $wb['web_php_options_txt'] = 'PHP Optionen';
 $wb['limit_client_error'] = 'Die maximale Anzahl an Kunden wurde erreicht.';
-$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
-$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_mailaliasdomain_txt'] = 'Max. Anzahl an Domainaliase';
+$wb['limit_mailaliasdomain_error_notint'] = 'Das Email Domainalias Limit muss eine Nummer sein.';
 $wb['limit_web_quota_txt'] = 'Web Quota';
+$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
+$wb['limit_trafficquota_error_notint'] = 'Traffic Quota muss eine Nummer sein.';
 ?>
+

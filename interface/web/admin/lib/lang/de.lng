@@ -36,5 +36,6 @@ $wb['Interface Config'] = 'Interface Config';
 $wb['Packages'] = 'Packages';
 $wb['Updates'] = 'Updates';
 $wb['Merge'] = 'Merge';
-$wb['Remote Users'] = 'Remote Users';
+$wb['Remote Users'] = 'Remote Benutzer';
 ?>
+
