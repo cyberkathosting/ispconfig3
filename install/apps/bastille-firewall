@@ -41,9 +41,23 @@
 #
 # ** As of 0.99-beta1, this script merely kicks off the real script,
 #    either /sbin/bastille-ipchains or /sbin/bastille-netfilter
-
+#
 # Default is to use the 'ipchains' script, which will load the
 # ipchains compatibility module if you're using a 2.4 kernel
+#
+### BEGIN INIT INFO
+# Provides:          Bastille-Firewall
+# Required-Start:    $syslog
+# Should-Start:
+# Required-Stop:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Bastille Firewall
+# Description:       Bastille Firewall for iptables and ipchains
+### END INIT INFO
+
+
 REALSCRIPT=/sbin/bastille-ipchains
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 

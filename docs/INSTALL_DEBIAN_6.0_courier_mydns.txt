@@ -203,6 +203,17 @@ vi /etc/init.d/mydns
 #               Based upon skeleton 1.9.4 by Miquel van Smoorenburg
 #               <miquels@cistron.nl> and Ian Murdock <imurdock@gnu.ai.mit.edu>.
 #
+### BEGIN INIT INFO
+# Provides:          MyDNS
+# Required-Start:    $syslog
+# Should-Start:
+# Required-Stop:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: MyDNS Server
+# Description:       MyDNS DNS Server
+### END INIT INFO
 
 set -e
 
