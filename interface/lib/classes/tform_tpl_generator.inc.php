@@ -293,8 +293,9 @@ class tform_tpl_generator {
 		$app->db->createTable($formDef["db_table"],$columns);
 		
 		}
+	}
 	
-		function lng_add($lang,$formDef) {
+	function lng_add($lang,$formDef) {
 		global $go_api, $go_info,$conf;
 		
 		$lng_file = "lib/lang/".$conf["language"]."_".$formDef['name'].".lng";
