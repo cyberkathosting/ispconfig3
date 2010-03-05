@@ -191,7 +191,7 @@ class tform {
                                 break;
 
                                 case 'CURRENCY':
-                                        $new_record[$key] = number_format($record[$key], 2, ',', '');
+                                        $new_record[$key] = number_format((double)$record[$key], 2, ',', '');
                                 break;
 
                                 default:
