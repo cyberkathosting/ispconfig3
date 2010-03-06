@@ -136,13 +136,8 @@ a2enmod suexec rewrite ssl actions include
 
 apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
 
-# Edit the file /etc/default/pure-ftpd-common to set VIRTUALCHROOT=true
-
-vi /etc/default/pure-ftpd-common
-
 # Some additional settings for pureftpd
 
-echo 'yes' > /etc/pure-ftpd/conf/DontResolve
 echo "yes" > /etc/pure-ftpd/conf/DisplayDotFiles
 
 # Enable TLS in pureftpd
