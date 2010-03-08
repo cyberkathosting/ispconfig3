@@ -492,8 +492,10 @@ class remoting_lib {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
+																$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 																for ($n=0;$n<8;$n++) {
-																	$salt.=chr(mt_rand(64,126));
+																	//$salt.=chr(mt_rand(64,126));
+																	$salt.=$base64_alphabet[mt_rand(0,63)];
 																}
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
@@ -519,8 +521,10 @@ class remoting_lib {
                                                 if($field['formtype'] == 'PASSWORD') {
 														if($field['encryption'] == 'CRYPT') {
                                                                 $salt="$1$";
+																$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 																for ($n=0;$n<8;$n++) {
-																	$salt.=chr(mt_rand(64,126));
+																	//$salt.=chr(mt_rand(64,126));
+																	$salt.=$base64_alphabet[mt_rand(0,63)];
 																}
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
