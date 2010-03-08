@@ -54,8 +54,10 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	if($client['client_id'] > 0) {
 		$new_password = md5 (uniqid (rand()));
 		$salt="$1$";
-		for ($n=0;$n<11;$n++) {
-			$salt.=chr(mt_rand(64,126));
+		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+		for ($n=0;$n<8;$n++) {
+			//$salt.=chr(mt_rand(64,126));
+			$salt.=$base64_alphabet[mt_rand(0,63)];
 		}
 		$salt.="$";
 		$new_password_encrypted = crypt($new_password,$salt);
