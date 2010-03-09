@@ -316,7 +316,8 @@ class page_action extends tform_actions {
 		$system_user = $app->db->quote('web'.$this->id);
 		$system_group = $app->db->quote('client'.$client_id);
 		$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
-		$php_open_basedir = $app->db->quote(str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]));
+		$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);
+		$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
 		$htaccess_allow_override = $app->db->quote($web_config["htaccess_allow_override"]);
 		
 		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
@@ -438,7 +439,8 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		if($web_rec['php_open_basedir'] == '') {
-			$php_open_basedir = $app->db->quote(str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]));
+			$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);
+			$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
 			$sql = "UPDATE web_domain SET php_open_basedir = '$php_open_basedir' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 		}

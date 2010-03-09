@@ -3,4 +3,4 @@ PHPRC=/etc/php5/cgi/
 export PHPRC
 export PHP_FCGI_MAX_REQUESTS=5000
 export PHP_FCGI_CHILDREN=1
-exec /usr/lib/cgi-bin/php -d magic_quotes_gpc=off
+exec /usr/lib/cgi-bin/php -d magic_quotes_gpc=off -d session.save_path=/usr/local/ispconfig/server/temp
