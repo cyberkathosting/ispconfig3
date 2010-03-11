@@ -4,4 +4,6 @@ $wb['Message'] = 'Съобщение';
 $wb['Send message'] = 'Изпращане на съобщение';
 $wb['View messages'] = 'Преглед на съобщенията';
 $wb['Support'] = 'Поддръжка';
+$wb['About ISPConfig'] = 'About ISPConfig';
+$wb['Version'] = 'Version';
 ?>

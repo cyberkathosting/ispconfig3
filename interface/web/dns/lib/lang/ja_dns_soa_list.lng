@@ -1,10 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'DNS Zone';
-$wb["active_txt"] = '有効';
-$wb["server_id_txt"] = 'サーバー';
-$wb["origin_txt"] = 'ゾーン';
-$wb["ns_txt"] = 'NS';
-$wb["mbox_txt"] = 'メールアドレス';
-$wb["add_new_record_txt"] = 'DNSゾーン（SOA）を追加する';
+$wb['list_head_txt'] = 'DNS Zone';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['origin_txt'] = 'ゾーン';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'メールアドレス';
+$wb['add_new_record_txt'] = 'DNSゾーン（SOA）を追加する';
 ?>
-

@@ -55,5 +55,6 @@ $wb['ssl_organisation_error_regex'] = 'Неверная SSL организаци
 $wb['ssl_organistaion_unit_error_regex'] = 'Неверный SSL Organisation Unit. Корректные символы: a-z, 0-9 и .,-_';
 $wb['ssl_country_error_regex'] = 'Неверная SSL Country. Разрешенные символы: A-Z';
 $wb['limit_traffic_quota_free_txt'] = 'Макс.доступная квота трафика';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
+$wb['php_open_basedir_txt'] = 'PHP open_basedir';
 ?>
-

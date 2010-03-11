@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Hostname in format gresit';
 $wb['data_error_empty'] = 'Hostname tinta este vid';
 $wb['data_error_regex'] = 'Hostname tinta format invalid';
 ?>
-

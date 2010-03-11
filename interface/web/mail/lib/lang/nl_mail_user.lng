@@ -34,5 +34,6 @@ $wb['autoresponder_start_date_isfuture'] = 'Begin-datum kan niet in het verleden
 $wb['autoresponder_end_date_txt'] = 'Einde';
 $wb['autoresponder_end_date_isgreater'] = 'Eind-datum mag niet eerder zijn dan de begin-datum.';
 $wb['move_junk_txt'] = 'Verplaats SPAM naar map Ongewenste e-mail';
+$wb['name_txt'] = 'Realname';
+$wb['name_optional_txt'] = '(Optional)';
 ?>
-

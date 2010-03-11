@@ -42,4 +42,6 @@ $wb['Postfix Blacklist'] = 'Postipalvelimen estetty-lista';
 $wb['Content Filter'] = 'Sisältösuodatin';
 $wb['Global Filters'] = 'Yleiset suodattimet';
 $wb['Server'] = 'Palvelin';
+$wb['Domain Alias'] = 'Domain Alias';
+$wb['Relay Recipients'] = 'Relay Recipients';
 ?>

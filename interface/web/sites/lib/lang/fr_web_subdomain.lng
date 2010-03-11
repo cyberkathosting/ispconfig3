@@ -36,4 +36,5 @@ $wb['domain_error_empty'] = 'Le nom de domaine est vide.';
 $wb['domain_error_unique'] = 'Le nom de domaine doit être unique.';
 $wb['domain_error_regex'] = 'Le nom de domaine est invalide.';
 $wb['host_txt'] = 'Hôte';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 ?>

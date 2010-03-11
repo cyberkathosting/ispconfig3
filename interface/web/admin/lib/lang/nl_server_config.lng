@@ -66,4 +66,3 @@ $wb['php_open_basedir_error_empty'] = 'PHP open_basedir is leeg.';
 $wb['htaccess_allow_override_txt'] = '.htaccess AllowOverride';
 $wb['htaccess_allow_override_error_empty'] = '.htaccess AllowOverride is leeg.';
 ?>
-

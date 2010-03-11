@@ -3,5 +3,5 @@ $wb['list_head_txt'] = 'Почтовый ящик';
 $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Автоответчик';
 $wb['add_new_record_txt'] = 'Добавить новый ящик';
+$wb['name_txt'] = 'Realname';
 ?>
-

@@ -13,6 +13,10 @@ $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shellユーザー';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'ウェブサイト';
-$wb["Stats"] = '利用状況';
+$wb['Stats'] = '利用状況';
+$wb['Website'] = 'Website';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistics';
+$wb['Web traffic'] = 'Web Traffic';
 ?>
-

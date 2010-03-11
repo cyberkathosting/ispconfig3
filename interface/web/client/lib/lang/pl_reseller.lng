@@ -88,4 +88,6 @@ $wb['web_php_options_txt'] = 'Opcje PHP';
 $wb['limit_client_error'] = 'Maksymalna ilość klientów została przekroczona.';
 $wb['limit_client_error_positive'] = 'Liczba klientów musi być > 0';
 $wb['limit_web_quota_txt'] = 'Web Quota';
+$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
+$wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
 ?>

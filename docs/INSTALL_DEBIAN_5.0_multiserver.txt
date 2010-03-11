@@ -1,0 +1,33 @@
+
+Installing the webserver
+--------------------------------------------------
+
+apt-get install mysql-server
+apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp 
+
+apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
+
+vi /etc/default/pure-ftpd-common
+
+... and change the start mode from inetd to standalone and set VIRTUALCHROOT=true:
+
+[...]
+STANDALONE_OR_INETD=standalone
+[...]
+VIRTUALCHROOT=true
+[...]
+
+apt-get install vlogger webalizer
+
+apt-get install gcc make
+
+
+
+
+
+Installing the DNS Server
+--------------------------------------------------
+
+apt-get install bind9 dnsutils
+apt-get install mysql-server
+apt-get install php5-cli php5-mysql php5-mcrypt

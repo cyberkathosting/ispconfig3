@@ -36,5 +36,5 @@ $wb['domain_error_empty'] = 'Domain necompletat';
 $wb['domain_error_unique'] = 'exista deja un domeniu sau subdomeniu asemanator';
 $wb['domain_error_regex'] = 'Domain name invalid.';
 $wb['host_txt'] = 'Host';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 ?>
-

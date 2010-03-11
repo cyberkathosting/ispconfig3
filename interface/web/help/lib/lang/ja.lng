@@ -4,6 +4,6 @@ $wb['Message'] = 'メッセージ';
 $wb['Send message'] = 'メッセージを送信する';
 $wb['View messages'] = 'メッセージを見る';
 $wb['Support'] = 'サポート';
-
+$wb['About ISPConfig'] = 'About ISPConfig';
+$wb['Version'] = 'Version';
 ?>
-

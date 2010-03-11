@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Numele are format gresit';
 $wb['data_error_empty'] = 'Canonical hostname necompletat';
 $wb['data_error_regex'] = 'Canonical hostname format invalid';
 ?>
-

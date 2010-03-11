@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Sterge module si toate subdirectoarele ?';
 $wb['menu_del_txt'] = 'Sterge menu si obiectele din menu ?';
 $wb['item_del_txt'] = 'sterge obiectele din menu ?';
 ?>
-

@@ -8,4 +8,3 @@ $wb['searchterm_is_empty'] = 'Zoekterm is leeg.';
 $wb['source_txt'] = 'Bron';
 $wb['target_error_regex'] = 'Het doel mag alleen deze tekens bevatten: a-z, 0-9, -, . en _';
 ?>
-

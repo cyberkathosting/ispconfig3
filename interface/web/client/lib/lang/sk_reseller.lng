@@ -88,4 +88,6 @@ $wb['web_php_options_txt'] = 'PHP Možnosti';
 $wb['limit_client_error'] = 'Max. po?et klientov je dosiahnutý.';
 $wb['limit_client_error_positive'] = 'Po?et klientov, musí by?> 0';
 $wb['limit_web_quota_txt'] = 'Web Quota';
+$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
+$wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
 ?>

@@ -1,22 +1,21 @@
 <?php
-$wb["server_id_txt"] = 'サーバー';
-$wb['parent_domain_id_txt'] = 'ウェブサイト';
-$wb['active_txt'] = '有効';
-$wb['client_txt'] = 'クライアント';
-$wb['run_min_txt'] = '分';
-$wb['run_hour_txt'] = '時';
-$wb['run_mday_txt'] = '日';
-$wb['run_month_txt'] = '月';
-$wb['run_wday_txt'] = '曜日';
-$wb['command_txt'] = '実行するコマンド（shまたはwgetによるURLへのリクエストにより実行されます）';
-$wb['limit_cron_txt'] = '実行可能なcronジョブの最大数に達しました。';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Parent website';
+$wb['active_txt'] = 'Active';
+$wb['client_txt'] = 'Client';
+$wb['run_min_txt'] = 'Minutes';
+$wb['run_hour_txt'] = 'Hours';
+$wb['run_mday_txt'] = 'Days of month';
+$wb['run_month_txt'] = 'Months';
+$wb['run_wday_txt'] = 'Days of week';
+$wb['command_txt'] = 'Command to run (commands are executed via sh, urls via wget)';
+$wb['limit_cron_txt'] = 'The maximum number of allowed cron jobs was reached.';
 $wb['limit_cron_frequency_txt'] = 'The cron job frequency exceeds the allowed limit.';
-$wb['run_min_error_format'] = '分の表記が不正です。';
-$wb['run_hour_error_format'] = '時間の表記が不正です。';
-$wb['run_mday_error_format'] = '日付の表記が不正です。';
-$wb['run_month_error_format'] = '月の表記が不正です。';
-$wb['run_wday_error_format'] = '曜日の表記が不正です。';
-$wb['command_error_format'] = 'コマンドの表記が不正です。''URLではhttpまたはhttpsのみ利用可能です。';
-$wb['unknown_fieldtype_error'] = 'フィールドの型が不正です。';
+$wb['run_min_error_format'] = 'Invalid format for minutes.';
+$wb['run_hour_error_format'] = 'Invalid format for hours.';
+$wb['run_mday_error_format'] = 'Invalid format for days of month.';
+$wb['run_month_error_format'] = 'Invalid format for months.';
+$wb['run_wday_error_format'] = 'Invalid format for days of the week.';
+$wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
+$wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
 ?>
-

@@ -55,5 +55,6 @@ $wb['ssl_organisation_error_regex'] = 'Ungültige SSL Organisation. Gültige Zei
 $wb['ssl_organistaion_unit_error_regex'] = 'Ungültige SSL Organisation Unit. Gültige Zeichen sind: a-z, 0-9 und .,-_';
 $wb['ssl_country_error_regex'] = 'Ungültiges SSL Land. Gültige Zeichen sind: A-Z';
 $wb['limit_traffic_quota_free_txt'] = 'Max. möglicher Traffic Quota';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
+$wb['php_open_basedir_txt'] = 'PHP open_basedir';
 ?>
-

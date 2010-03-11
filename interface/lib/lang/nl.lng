@@ -32,4 +32,3 @@ $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Extra';
 $wb['top_menu_help'] = 'Help';
 ?>
-

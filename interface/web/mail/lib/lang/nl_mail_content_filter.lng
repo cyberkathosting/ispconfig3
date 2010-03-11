@@ -1,6 +1,4 @@
 <?php
-$wb['Mail content filter'] = 'Content filter';
-$wb['Filter'] = 'Content filter bewerken';
 $wb['server_id_txt'] = 'Server';
 $wb['type_txt'] = 'Filter';
 $wb['pattern_txt'] = 'Regexp. Patroon';
@@ -9,4 +7,3 @@ $wb['action_txt'] = 'Actie';
 $wb['active_txt'] = 'Actief?';
 $wb['pattern_error_empty'] = 'Patroon is leeg.';
 ?>
-

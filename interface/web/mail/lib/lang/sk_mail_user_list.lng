@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Schránka';
 $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Automatická odpove?';
 $wb['add_new_record_txt'] = 'Prida? novú schránku';
+$wb['name_txt'] = 'Realname';
 ?>

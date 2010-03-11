@@ -18,5 +18,5 @@ $wb['quota_size_error_empty'] = 'Quota necompletat';
 $wb['uid_error_empty'] = 'GID necompletat';
 $wb['directory_error_empty'] = 'Directory necompletat';
 $wb['limit_shell_user_txt'] = 'Numarul maxim de Shell-uri a fost atins';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>
-

@@ -5,4 +5,3 @@ $wb['subject_txt'] = '件名';
 $wb['message_txt'] = '本文';
 $wb['tstamp_txt'] = '送信日時';
 ?>
-

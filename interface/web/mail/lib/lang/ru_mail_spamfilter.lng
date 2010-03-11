@@ -15,4 +15,3 @@ $wb['email_error_unique'] = 'Уже есть запись спам-фильтр�
 $wb['spam_redirect_maildir_purge_txt'] = 'Очищать Maildir после';
 $wb['days_txt'] = 'дней.';
 ?>
-

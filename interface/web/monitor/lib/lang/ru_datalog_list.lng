@@ -6,4 +6,3 @@ $wb['dbtable_txt'] = 'Таблица БД';
 $wb['action_txt'] = 'Действие';
 $wb['status_txt'] = 'Статус';
 ?>
-

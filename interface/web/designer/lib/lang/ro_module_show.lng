@@ -14,4 +14,3 @@ $wb['module_del_txt'] = 'Doriti sa stergeti modul ?';
 $wb['menu_del_txt'] = 'Doriti sa stergeti menu cu toate item-urile ?';
 $wb['item_del_txt'] = 'Doriti sa stergeti item-ul din menu ?';
 ?>
-

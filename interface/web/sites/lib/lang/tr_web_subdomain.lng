@@ -36,4 +36,5 @@ $wb['domain_error_empty'] = 'Domain boş.';
 $wb['domain_error_unique'] = 'Bu isimde websitesi veya sub / aliasdomain zaten var.';
 $wb['domain_error_regex'] = 'Domain ismi geçersiz.';
 $wb['host_txt'] = 'Host';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 ?>

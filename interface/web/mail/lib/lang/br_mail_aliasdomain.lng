@@ -9,4 +9,3 @@ $wb['source_error_empty'] = 'Domínio de origem está em branco.';
 $wb['source_error_unique'] = 'Domínio de origem duplicado.';
 $wb['source_error_regex'] = 'Nome do domínio de origem inválido.';
 ?>
-

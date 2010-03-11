@@ -7,4 +7,3 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Adauga  o noua zona  DNS  (SOA)';
 ?>
-

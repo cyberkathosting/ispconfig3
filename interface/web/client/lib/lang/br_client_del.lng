@@ -4,4 +4,3 @@ $wb['delete_explanation'] = 'Atenção: está ação ira remover todos os objeto
 $wb['btn_save_txt'] = 'Remover o cliente';
 $wb['btn_cancel_txt'] = 'Cancelar sem remover o cliente';
 ?>
-

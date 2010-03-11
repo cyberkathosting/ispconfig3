@@ -8,4 +8,3 @@ $wb['searchterm_is_empty'] = 'Suchbegriff ist leer.';
 $wb['source_txt'] = 'Quelle';
 $wb['target_error_regex'] = 'Das Ziel beinhaltet wahrscheinlich diese Zeichen: a-z, 0-9, -, . und _';
 ?>
-

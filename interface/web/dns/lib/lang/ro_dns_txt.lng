@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Hostname in format gresit';
 $wb['data_error_empty'] = 'Text necompletat';
 $wb['data_error_regex'] = 'Format text invalid';
 ?>
-

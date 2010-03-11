@@ -89,4 +89,6 @@ $wb['limit_client_error'] = 'Max. po?et klientov je dosiahnu?.';
 $wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
 $wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
 $wb['limit_web_quota_txt'] = 'Web Quota';
+$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
+$wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
 ?>

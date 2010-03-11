@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Domínio em branco.';
 $wb['domain_error_unique'] = 'O domínio deve ser único.';
 $wb['domain_error_regex'] = 'Nome de domínio inválido.';
 ?>
-

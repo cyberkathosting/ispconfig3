@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Домен пустой.';
 $wb['domain_error_unique'] = 'Домен должен быть уникальным.';
 $wb['domain_error_regex'] = 'Имя домена неправильно.';
 ?>
-

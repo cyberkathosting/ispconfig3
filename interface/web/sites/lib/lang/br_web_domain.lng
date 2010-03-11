@@ -55,5 +55,6 @@ $wb['ssl_organisation_error_regex'] = 'Empresa inválida para SSL. São caracter
 $wb['ssl_organistaion_unit_error_regex'] = 'Departamento inválido para SSL. São caracteres válidos: a-z, 0-9 e .,-_';
 $wb['ssl_country_error_regex'] = 'País inválido para SSL. São caracteres válidos: A-Z';
 $wb['limit_traffic_quota_free_txt'] = 'Cota máxima de Tráfego disponível';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
+$wb['php_open_basedir_txt'] = 'PHP open_basedir';
 ?>
-

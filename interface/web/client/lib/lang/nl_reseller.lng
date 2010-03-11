@@ -88,5 +88,6 @@ $wb['web_php_options_txt'] = 'PHP opties';
 $wb['limit_client_error'] = 'Maximum aantal klanten is bereikt.';
 $wb['limit_client_error_positive'] = 'Het aantal klanten moet groter zijn dan 0.';
 $wb['limit_web_quota_txt'] = 'Website schijfruimte';
+$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
+$wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
 ?>
-

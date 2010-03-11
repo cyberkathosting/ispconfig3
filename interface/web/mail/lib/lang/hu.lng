@@ -42,4 +42,6 @@ $wb['Postfix Whitelist'] = 'Postfix Fehér lista';
 $wb['Postfix Blacklist'] = 'Postfix Fekete lista';
 $wb['Content Filter'] = 'Tartalom szűrő';
 $wb['Global Filters'] = 'Globális szűrők';
+$wb['Domain Alias'] = 'Domain Alias';
+$wb['Relay Recipients'] = 'Relay Recipients';
 ?>

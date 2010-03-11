@@ -36,5 +36,5 @@ $wb['domain_error_empty'] = 'Domein is leeg.';
 $wb['domain_error_unique'] = 'Domein moet uniek zijn.';
 $wb['domain_error_regex'] = 'Domeinnaam ongeldig.';
 $wb['host_txt'] = 'Hostnaam';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 ?>
-

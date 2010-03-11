@@ -7,4 +7,3 @@ $wb['source_error_notempty'] = 'Address este goala';
 $wb['type_txt'] = 'Tip';
 $wb['limit_mailfilter_txt'] = 'Numarul maxim de filtre pentru contul dumneavoastra';
 ?>
-

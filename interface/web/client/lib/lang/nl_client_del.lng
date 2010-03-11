@@ -4,4 +4,3 @@ $wb['delete_explanation'] = 'Door deze actie te bevestigen worden de volgende re
 $wb['btn_save_txt'] = 'Verwijder deze klant';
 $wb['btn_cancel_txt'] = 'Annuleren';
 ?>
-

@@ -1,5 +1,4 @@
 <?php
-
 $wb['warning'] = 'Edit these values carefully! Do not remove the prefixes on a systems with more then one client.';
 $wb['dbname_prefix_txt'] = 'Database name prefix';
 $wb['dbuser_prefix_txt'] = 'Database user prefix';
@@ -11,5 +10,6 @@ $wb['ftpuser_prefix_error_regex'] = 'Char not allowed in ftp user prefix.';
 $wb['shelluser_prefix_error_regex'] = 'Char not allowed in shell user prefix.';
 $wb['dblist_phpmyadmin_link_txt'] = 'Link to phpmyadmin in DB list';
 $wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
-
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 ?>

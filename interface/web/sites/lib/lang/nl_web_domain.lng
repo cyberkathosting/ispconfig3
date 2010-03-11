@@ -1,10 +1,9 @@
 <?php
-$wb['Web Domain'] = 'Website beheer';
 $wb['ssl_state_txt'] = 'Provincie';
 $wb['ssl_locality_txt'] = 'Plaats';
 $wb['ssl_organisation_txt'] = 'Organisatie';
 $wb['ssl_organisation_unit_txt'] = 'Organisatie afdeling';
-$wb['ssl_country_txt'] = 'Landcode (<a href="http://www.digicert.com/ssl-certificate-country-codes.htm" onclick="window.open(this.href);return false;">zie codes</a>)';
+$wb['ssl_country_txt'] = 'Landcode (<a href=http://www.digicert.com/ssl-certificate-country-codes.htm onclick=window.open(this.href);return false;>zie codes</a>)';
 $wb['ssl_request_txt'] = 'SSL verzoek';
 $wb['ssl_cert_txt'] = 'SSL certificaat';
 $wb['ssl_bundle_txt'] = 'SSL bundel';
@@ -55,5 +54,7 @@ $wb['ssl_locality_error_regex'] = 'Ongeldige SSL Plaats. Geldige tekens zijn: a-
 $wb['ssl_organisation_error_regex'] = 'Ongeldige SSL Organisatie. Geldige tekens zijn: a-z, 0-9 en .,-_';
 $wb['ssl_organistaion_unit_error_regex'] = 'Ongeldige SSL Organisatie afdeling. Geldige tekens zijn: a-z, 0-9 en .,-_';
 $wb['ssl_country_error_regex'] = 'Ongeldige SSL Landcode. Geldige tekens zijn: A-Z';
+$wb['limit_traffic_quota_free_txt'] = 'Max. available Traffic Quota';
+$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
+$wb['php_open_basedir_txt'] = 'PHP open_basedir';
 ?>
-

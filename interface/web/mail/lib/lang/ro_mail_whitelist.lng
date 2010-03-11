@@ -7,4 +7,3 @@ $wb['source_error_notempty'] = 'Addresa e necompletata';
 $wb['type_txt'] = 'Tip';
 $wb['limit_mailfilter_txt'] = 'numarul maxim de filtre pe contul dumneavoastra a fost atins';
 ?>
-

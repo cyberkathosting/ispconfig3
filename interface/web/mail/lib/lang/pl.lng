@@ -42,4 +42,6 @@ $wb['Postfix Whitelist'] = 'Popraw białą listę';
 $wb['Postfix Blacklist'] = 'Popraw czarną listę';
 $wb['Content Filter'] = 'Zawartość filtru';
 $wb['Global Filters'] = 'Globalne filtry';
+$wb['Domain Alias'] = 'Domain Alias';
+$wb['Relay Recipients'] = 'Relay Recipients';
 ?>

@@ -31,5 +31,10 @@ $wb['Import'] = 'Import';
 $wb['Language Editor'] = ' Editor Limba';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Repo';
+$wb['Server Services'] = 'Server Services';
+$wb['Interface Config'] = 'Interface Config';
+$wb['Packages'] = 'Packages';
+$wb['Updates'] = 'Updates';
+$wb['Merge'] = 'Merge';
+$wb['Remote Users'] = 'Remote Users';
 ?>
-

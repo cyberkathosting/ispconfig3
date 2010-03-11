@@ -14,5 +14,9 @@ $wb['Shell-User'] = 'Shell-User';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Website-uri';
 $wb['Stats'] = 'Statistici';
+$wb['Website'] = 'Website';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistics';
+$wb['Web traffic'] = 'Web Traffic';
 ?>
-

@@ -14,4 +14,7 @@ $wb['Records'] = 'Záznamy';
 $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'DNS TXT Záznam';
 $wb['DNS TXT'] = 'DNS TXT';
+$wb['DNS Wizard'] = 'DNS Wizard';
+$wb['Add DNS Zone'] = 'Add DNS Zone';
+$wb['Templates'] = 'Templates';
 ?>

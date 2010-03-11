@@ -7,4 +7,3 @@ $wb['city_txt'] = 'Город';
 $wb['country_txt'] = 'Страна';
 $wb['add_new_record_txt'] = 'Добавить реселлера';
 ?>
-

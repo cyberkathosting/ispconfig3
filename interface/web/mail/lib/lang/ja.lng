@@ -20,7 +20,6 @@ $wb['Email filter'] = 'メールフィルター';
 $wb['Email Whitelist'] = 'メールホワイトリスト';
 $wb['Whitelist'] = 'ホワイトリスト';
 $wb['Spamfilter blacklist'] = '迷惑メールフィルタ・ブラックリスト';
-$wb['Blacklist'] = 'ブラックリスト';
 $wb['Spamfilter Config'] = '迷惑メールフィルタの設定';
 $wb['Server'] = 'サーバー';
 $wb['Spamfilter policy'] = '迷惑メールフィルタのポリシー';
@@ -31,13 +30,11 @@ $wb['Other'] = 'Other';
 $wb['Spamfilter users'] = 'Spamfilter users';
 $wb['Users'] = 'ユーザー';
 $wb['Spamfilter Whitelist'] = '迷惑メールフィルタ・ホワイトリスト';
-$wb['Whitelist'] = 'ホワイトリスト';
 $wb['Email'] = 'メールアドレス';
 $wb['Email Mailbox'] = 'メールボックス';
 $wb['Email Accounts'] = 'メールアカウント';
 $wb['User / Domain'] = 'ユーザー / ドメイン';
 $wb['Server Settings'] = 'サーバーの設定';
-$wb['Spamfilter'] = '迷惑メールフィルター';
 $wb['Fetchmail'] = 'Fetchmail';
 $wb['Mailbox traffic'] = 'メールボックスの流量';
 $wb['Statistics'] = '利用状況';
@@ -45,6 +42,6 @@ $wb['Postfix Whitelist'] = 'Postfix ホワイトリスト';
 $wb['Postfix Blacklist'] = 'Postfix ブラックリスト';
 $wb['Content Filter'] = 'コンテンツフィルター';
 $wb['Global Filters'] = 'グローバルフィルター';
-
+$wb['Domain Alias'] = 'Domain Alias';
+$wb['Relay Recipients'] = 'Relay Recipients';
 ?>
-

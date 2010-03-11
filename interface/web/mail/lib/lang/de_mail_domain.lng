@@ -11,4 +11,3 @@ $wb['limit_maildomain_txt'] = 'Die maximale Anzahl an Emaildomains für ihr Kont
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- nicht aktiviert -';
 ?>
-

@@ -34,5 +34,6 @@ $wb['autoresponder_start_date_isfuture'] = 'A data de ínicio não pode estar no
 $wb['autoresponder_end_date_txt'] = 'Termino:';
 $wb['autoresponder_end_date_isgreater'] = 'A data de início deve ser menor que a data de termino.';
 $wb['move_junk_txt'] = 'Mover Spam para o diretório JUNK';
+$wb['name_txt'] = 'Realname';
+$wb['name_optional_txt'] = '(Optional)';
 ?>
-

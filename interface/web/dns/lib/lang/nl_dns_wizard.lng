@@ -27,4 +27,3 @@ $wb['error_ns1_regex'] = 'Nameserver 1 bevat ongeldige tekens.';
 $wb['error_ns2_regex'] = 'Nameserver 2 bevat ongeldige tekens.';
 $wb['error_email_regex'] = 'E-mail bevat een ongeldig e-mailadres.';
 ?>
-

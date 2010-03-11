@@ -1,5 +1,4 @@
 <?php
-$wb['Cron Job'] = 'Cron taak plannen';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
 $wb['active_txt'] = 'Actief?';
@@ -19,7 +18,4 @@ $wb['run_month_error_format'] = 'Ongeldige indeling maand.';
 $wb['run_wday_error_format'] = 'Ongeldige indeling voor dagen van week.';
 $wb['command_error_format'] = 'Ongeldige commando indeling. In geval van een URL, alleen http/https wordt ondersteund.';
 $wb['unknown_fieldtype_error'] = 'Een onbekend veld-type wordt gebruikt.';
-$wb['server_id_error_empty'] = 'Er is geen website geselecteerd.';
-$wb['command_error_empty'] = 'Er is geen uit te voeren commando ingevoerd.';
 ?>
-

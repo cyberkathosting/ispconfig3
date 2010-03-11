@@ -14,4 +14,3 @@ $wb['module_del_txt'] = 'Deseja eliminar este módulo e todos os arquivos contid
 $wb['menu_del_txt'] = 'Deseja apagar este menu e todos seus elementos?';
 $wb['item_del_txt'] = 'Deseja apagar este elemento do menu?';
 ?>
-

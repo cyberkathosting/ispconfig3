@@ -7,4 +7,3 @@ $wb['country_txt'] = 'Nederland';
 $wb['client_id_txt'] = 'ID';
 $wb['add_new_record_txt'] = 'Nieuwe klant toevoegen';
 ?>
-

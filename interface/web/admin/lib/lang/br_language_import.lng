@@ -6,4 +6,3 @@ $wb['language_overwrite_txt'] = 'Sobre escrever o arquivo se existir.';
 $wb['btn_cancel_txt'] = 'Voltar';
 $wb['ignore_version_txt'] = 'Pular checagem de versão do ISPConfig';
 ?>
-

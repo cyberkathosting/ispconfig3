@@ -41,7 +41,6 @@ $wb['Show ISPConfig-Log'] = 'ISPConfig-log';
 $wb['Show RKHunter-Log'] = 'Rootkit Hunter-log';
 $wb['Show Jobqueue'] = 'ISPConfig taak-wachtrij';
 $wb['Show ISPC Cron-Log'] = 'ISPConfig Cron-log';
-$wb['Show fail2ban-Log'] = 'Fail2ban-Log';
 $wb['no_data_updates_txt'] = 'Er zijn op dit moment geen gegevens beschikbaar. Probeer het later opnieuw.';
 $wb['no_data_raid_txt'] = 'Er is op dit moment geen RAID informatie bekend. Probeer het later opnieuw.';
 $wb['no_data_rkhunter_txt'] = 'Er is op dit moment geen informatie beschikbaar over de Rootkit Hunter. Probeer het later opnieuw.';
@@ -137,4 +136,3 @@ $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Uw distributie ondersteunt deze controle-software niet';
 $wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>
-

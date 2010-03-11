@@ -5,4 +5,3 @@ $wb['btn_save_txt'] = 'Bestanden nu samenvoegen';
 $wb['btn_cancel_txt'] = 'Terug';
 $wb['list_desc_txt'] = 'Laat ontbrekende teksten in de geselecteerde taal aanvullen vanuit de Engelstalige master.';
 ?>
-

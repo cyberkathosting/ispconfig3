@@ -13,4 +13,3 @@ $wb['mailboxlist_webmail_link_txt'] = 'Link para o webmail';
 $wb['webmail_url_txt'] = 'URL do Webmail';
 $wb['phpmyadmin_url_txt'] = 'URL do PHPMyAdmin';
 ?>
-

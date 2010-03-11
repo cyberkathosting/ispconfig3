@@ -7,4 +7,3 @@ $wb['ns_txt'] = 'Primaire nameserver';
 $wb['mbox_txt'] = 'E-mailadres zone-verantwoordelijke';
 $wb['add_new_record_txt'] = 'Nieuwe DNS zone toevoegen';
 ?>
-

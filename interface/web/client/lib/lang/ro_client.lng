@@ -80,5 +80,15 @@ $wb['template_master_txt'] = 'Master template';
 $wb['template_additional_txt'] = 'Addon template';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
 $wb['web_php_options_txt'] = 'PHP Options';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_cron_txt'] = 'Max. number of cron jobs';
+$wb['limit_cron_type_txt'] = 'Max. type of cron jobs (chrooted and full implies url)';
+$wb['limit_cron_frequency_txt'] = 'Min. delay between executions';
+$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
+$wb['limit_cron_error_notint'] = 'The cron limit must be a number.';
+$wb['limit_cron_error_frequency'] = 'The cron frequency limit must be a number.';
+$wb['limit_client_error'] = 'The max. number of clients is reached.';
+$wb['limit_web_quota_txt'] = 'Web Quota';
+$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
+$wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
 ?>
-

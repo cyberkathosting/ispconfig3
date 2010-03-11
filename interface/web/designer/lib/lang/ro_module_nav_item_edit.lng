@@ -6,4 +6,3 @@ $wb['header_txt'] = 'Navi Proprietati';
 $wb['save_txt'] = 'Salveaza';
 $wb['cancel_txt'] = 'Anuleaza';
 ?>
-

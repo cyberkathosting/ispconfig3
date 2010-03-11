@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'O Hostname está com formato inválido.';
 $wb['data_error_empty'] = 'Pessoa responsável em branco';
 $wb['data_error_regex'] = 'Pessoa responsável formato inválido';
 ?>
-

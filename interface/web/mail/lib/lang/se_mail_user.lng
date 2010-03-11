@@ -36,4 +36,6 @@ $wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
 $wb['autoresponder_end_date_txt'] = 'End by';
 $wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
 $wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
+$wb['name_txt'] = 'Realname';
+$wb['name_optional_txt'] = '(Optional)';
 ?>

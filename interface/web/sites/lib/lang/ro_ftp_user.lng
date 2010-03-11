@@ -22,5 +22,6 @@ $wb['username_error_regex'] = 'username are caractere nepermise';
 $wb['quota_size_error_empty'] = 'Quota necompletat';
 $wb['uid_error_empty'] = 'GID necompletat';
 $wb['directory_error_empty'] = 'Directory necompletat';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>
-

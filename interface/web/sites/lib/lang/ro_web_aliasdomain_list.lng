@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Domain necompletat';
 $wb['domain_error_unique'] = 'Domain trebuie sa fie unic';
 $wb['domain_error_regex'] = 'Domain nume invalid.';
 ?>
-

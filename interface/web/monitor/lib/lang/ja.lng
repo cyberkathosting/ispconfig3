@@ -1,9 +1,9 @@
 <?php
-$wb["Server online since"] = 'サーバーの稼働時間';
-$wb["Users online"] = 'ログイン中のユーザー数';
-$wb["System load 1 minute"] = "システムの負荷（1分）";
-$wb["System load 5 minutes"] = "システムの負荷（5分）";
-$wb["System load 15 minutes"] = "システムの負荷（15分）";
+$wb['Server online since'] = 'サーバーの稼働時間';
+$wb['Users online'] = 'ログイン中のユーザー数';
+$wb['System load 1 minute'] = 'システムの負荷（1分）';
+$wb['System load 5 minutes'] = 'システムの負荷（5分）';
+$wb['System load 15 minutes'] = 'システムの負荷（15分）';
 $wb['Server Load'] = 'サーバーの負荷';
 $wb['Disk usage'] = 'ディスク使用量';
 $wb['Memory usage'] = 'メモリ使用量';
@@ -22,9 +22,9 @@ $wb['Server to Monitor'] = '監視対象のサーバー';
 $wb['Logfiles'] = 'ログファイル';
 $wb['Status of services'] = 'サービスの状態';
 $wb['No Refresh'] = '更新しない';
-$wb["minutes"] = "分";
-$wb["Show Overview"] = '概要を見る';
-$wb["System State (All Servers)"] = "システムの状態（全サーバー）";
+$wb['minutes'] = '分';
+$wb['Show Overview'] = '概要を見る';
+$wb['System State (All Servers)'] = 'システムの状態（全サーバー）';
 $wb['Hardware-Information'] = 'ハードウェアの情報';
 $wb['Show CPU info'] = 'CPUの情報を見る';
 $wb['Server State'] = 'サーバーの状態';
@@ -134,5 +134,5 @@ $wb['monitor_title_mailq_txt'] = 'メールキュー';
 $wb['monitor_title_raidstate_txt'] = 'RAIDの状態';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunterのログ';
 $wb['monitor_updates_nosupport_txt'] = 'このディストリビューションはISPConfigで監視できません。';
+$wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>
-

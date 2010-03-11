@@ -5,4 +5,3 @@ $wb['source_txt'] = 'Geadresseerd aan';
 $wb['destination_txt'] = 'Doorsturen naar';
 $wb['add_new_record_txt'] = 'Nieuwe domeinalias toevoegen';
 ?>
-

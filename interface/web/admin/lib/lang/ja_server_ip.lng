@@ -1,8 +1,7 @@
 <?php
-$wb["server_id_txt"] = 'サーバー';
-$wb["ip_address_txt"] = 'IPアドレス';
-$wb["virtualhost_txt"] = 'HTTP の NameVirtualHost を使う';
-$wb["ip_error_wrong"] = 'IPアドレスが不正です。';
-$wb["ip_error_unique"] = '既に登録済みのIPアドレスです。別の値に変更してください。';
+$wb['server_id_txt'] = 'サーバー';
+$wb['ip_address_txt'] = 'IPアドレス';
+$wb['virtualhost_txt'] = 'HTTP の NameVirtualHost を使う';
+$wb['ip_error_wrong'] = 'IPアドレスが不正です。';
+$wb['ip_error_unique'] = '既に登録済みのIPアドレスです。別の値に変更してください。';
 ?>
-

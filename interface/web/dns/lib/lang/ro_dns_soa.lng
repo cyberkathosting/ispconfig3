@@ -21,5 +21,6 @@ $wb['origin_error_regex'] = 'Zona are un format invalid';
 $wb['ns_error_regex'] = 'NS are un format invalid';
 $wb['mbox_error_empty'] = 'Email-ul este gol';
 $wb['mbox_error_regex'] = 'Format email invalid.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
 ?>
-

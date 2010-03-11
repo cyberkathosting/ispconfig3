@@ -9,5 +9,5 @@ $wb['Edit Client-Templates'] = 'クライアントテンプレートを編集す
 $wb['Add Reseller'] = 'リセラーを追加する';
 $wb['Edit Reseller'] = 'リセラーを編集する';
 $wb['Resellers'] = 'リセラー';
+$wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
 ?>
-
