@@ -149,7 +149,7 @@ else {
 	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 }
 
-if(filesize('existing_db.sql') < 60000) die('Possible problem with dumping the database. We will stop here. Please check the file existing_db.sql');
+if(filesize('existing_db.sql') < 30000) die('Possible problem with dumping the database. We will stop here. Please check the file existing_db.sql');
 
 // create a backup copy of the ispconfig database in the root folder
 $backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
