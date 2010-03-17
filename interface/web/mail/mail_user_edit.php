@@ -304,7 +304,8 @@ class page_action extends tform_actions {
 		}
 		
 		//** If the email address has been changed, change it in all aliases too
-		if($this->oldDataRecord['email'] != $this->dataRecord['email']) {
+		if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
+		//if($this->oldDataRecord['email'] != $this->dataRecord['email']) {
 			
 			//* Update the aliases
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = '".$app->db->quote($this->oldDataRecord['email'])."'");
