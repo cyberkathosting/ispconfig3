@@ -6,5 +6,5 @@ $wb['active_txt'] = 'Ativo';
 $wb['rulename_error_empty'] = 'Nome está em branco.';
 $wb['searchterm_is_empty'] = 'Termo de busca em branco.';
 $wb['source_txt'] = 'Origem';
-$wb['target_error_regex'] = 'O alvo só pode conter os caracteres: a-z, 0-9, -, . e _';
+$wb['target_error_regex'] = 'O alvo só pode conter os caracteres: a-z, 0-9, -, ., _, e {espa�o}';
 ?>

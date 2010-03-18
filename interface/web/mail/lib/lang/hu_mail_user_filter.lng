@@ -6,5 +6,5 @@ $wb['active_txt'] = 'Aktív';
 $wb['rulename_error_empty'] = 'A név üres';
 $wb['searchterm_is_empty'] = 'Keresési feltétel üres';
 $wb['source_txt'] = 'Forrás';
-$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, . and _';
+$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
 ?>
