@@ -49,7 +49,7 @@ allow-update = no       # Should DNS UPDATE be enabled?
 ignore-minimum = no     # Ignore minimum TTL for zone?
 soa-table = dns_soa     # Name of table containing SOA records
 rr-table = dns_rr       # Name of table containing RR data
-soa-where = server_id = {server_id}               # Extra WHERE clause for SOA queries
-rr-where =  server_id = {server_id}               # Extra WHERE clause for RR queries
+## soa-where = server_id = {server_id}               # Extra WHERE clause for SOA queries
+## rr-where =  server_id = {server_id}               # Extra WHERE clause for RR queries
 use-soa-active = yes # To fix bug 295 where active or inactive status is ignored.
 use-rr-active = yes# To fix bug 295 where active or inactive status is ignored.
