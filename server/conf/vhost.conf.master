@@ -121,10 +121,10 @@
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
     <IfModule mod_fcgid.c>
-      SocketPath /tmp/fcgid_sock/
+      # SocketPath /tmp/fcgid_sock/
       IdleTimeout 3600
       ProcessLifeTime 7200
-      MaxProcessCount 1000
+      # MaxProcessCount 1000
       DefaultMinClassProcessCount 3
       DefaultMaxClassProcessCount 100
       IPCConnectTimeout 8
@@ -298,10 +298,10 @@
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
     <IfModule mod_fcgid.c>
-      SocketPath /tmp/fcgid_sock/
+      # SocketPath /tmp/fcgid_sock/
       IdleTimeout 3600
       ProcessLifeTime 7200
-      MaxProcessCount 1000
+      # MaxProcessCount 1000
       DefaultMinClassProcessCount 3
       DefaultMaxClassProcessCount 100
       IPCConnectTimeout 8
