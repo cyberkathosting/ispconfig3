@@ -203,7 +203,7 @@ function _getServerState($serverId, $serverName, $showAll)
 /*
  * gets the state from the db and process it
  */
-function _processDbState($type, $serverId, &$serverState, &$messages)
+function _processDbState($type, $serverId, $serverState, $messages)
 {
     global $app;
 
