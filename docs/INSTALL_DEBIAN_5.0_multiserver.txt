@@ -1,4 +1,7 @@
 
+This guide is incomplete. Work in progress.
+
+
 Installing the webserver
 --------------------------------------------------
 
@@ -21,7 +24,7 @@ apt-get install vlogger webalizer
 
 apt-get install gcc make
 
-
+apt-get install postfix
 
 
 
