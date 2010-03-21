@@ -62,6 +62,17 @@ while ($file = @readdir ($handle)) {
 	}
 }
 
+//* Load themes
+$themes_list = array();
+$handle = @opendir(ISPC_THEMES_PATH); 
+while ($file = @readdir ($handle)) { 
+    if (substr($file, 0, 1) != '.') {
+        if(@is_dir(ISPC_THEMES_PATH."/$file")) {
+			$themes_list[$file] = $file;
+        }
+	}
+}
+
 $form["tabs"]['address'] = array (
 	'title' 	=> "Address",
 	'width' 	=> 100,
@@ -143,7 +154,7 @@ $form["tabs"]['address'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'default',
-			'value'		=> array('default' => 'default'),
+			'value'		=> $themes_list,
 			'separator'	=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255',
