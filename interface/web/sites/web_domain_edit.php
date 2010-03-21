@@ -203,6 +203,9 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
 		
+		$tmp_txt = ($this->dataRecord['traffic_quota_lock'] == 'y')?'<b>('.$app->tform->lng('traffic_quota_exceeded_txt').')</b>':'';
+		$app->tpl->setVar("traffic_quota_exceeded_txt", $tmp_txt);
+		
 		parent::onShowEnd();
 	}
 	
