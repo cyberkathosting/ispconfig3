@@ -44,12 +44,21 @@ require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
-if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
+if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are for Admins only.');
 
 $app->uses('tpl,tform');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
+	function onBeforeDelete() {
+		global $app;
+		
+		$rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE template_master = ".$this->id." OR template_additional like '%/".$this->id."/%'");
+		if($rec['number'] > 0) {
+			$app->error($app->tform->lng('template_del_aborted_txt'));
+		}
+		
+	}
 }
 
 $page = new page_action;
