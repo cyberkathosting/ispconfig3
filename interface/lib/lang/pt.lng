@@ -1,0 +1,35 @@
+<?php
+$wb['conf_format_dateshort'] = 'd/m/Y';
+$wb['conf_format_datelong'] = 'l dS de F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'd/m/Y H:i';
+$wb['301'] = 'Módulo não permitido para o utilizador corrente.';
+$wb['302'] = 'Módulo Inválido';
+$wb['1001'] = 'O nome de utilizador e a senha não podem estar em branco!';
+$wb['1002'] = 'Nome de utilizador ou senha inválida(o)!';
+$wb['1003'] = 'O utilizador está inactivo!';
+$wb['delete_confirmation'] = 'Tem a certeza que deseja remover este registo?';
+$wb['error_no_view_permission'] = 'Não tem permissão para ver este registo ou o mesmo não existe!';
+$wb['error_no_delete_permission'] = 'Não tem permissão para remover este registo!';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['page_next_txt'] = 'Próximo';
+$wb['page_back_txt'] = 'Voltar';
+$wb['delete_txt'] = 'Remover';
+$wb['filter_txt'] = 'Filtrar';
+$wb['add_new_record_txt'] = 'Adicionar novo registo';
+$wb['btn_save_txt'] = 'Guardar';
+$wb['btn_cancel_txt'] = 'Voltar';
+$wb['toolsarea_head_txt'] = 'Ferramentas';
+$wb['page_and_txt'] = 'e';
+$wb['top_menu_system'] = 'Sistema';
+$wb['top_menu_client'] = 'Cliente';
+$wb['top_menu_email'] = 'Correio';
+$wb['top_menu_monitor'] = 'Monitor';
+$wb['top_menu_sites'] = 'Sites';
+$wb['top_menu_dns'] = 'DNS';
+$wb['top_menu_tools'] = 'Ferramentas';
+$wb['top_menu_help'] = 'Ajuda';
+?>
+

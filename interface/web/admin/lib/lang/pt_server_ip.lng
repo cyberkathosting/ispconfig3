@@ -1,0 +1,8 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['ip_address_txt'] = 'Endereço IP';
+$wb['virtualhost_txt'] = 'Nome VirtualHost HTTP';
+$wb['ip_error_wrong'] = 'Endereço IP inválido!';
+$wb['ip_error_unique'] = 'O endereço IP deve ser único';
+?>
+

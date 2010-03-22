@@ -1,0 +1,19 @@
+<?php
+$wb['header_txt'] = 'Editor de Formulários';
+$wb['title_txt'] = 'Título do Formulário';
+$wb['name_txt'] = 'Nome do Formulário';
+$wb['delete_txt'] = 'Remover';
+$wb['properties_txt'] = 'Propriedades';
+$wb['new_tab_txt'] = 'Nova Aba';
+$wb['edit_txt'] = 'Editar';
+$wb['new_txt'] = 'Novo';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Módulo';
+$wb['form_txt'] = 'Formulário';
+$wb['description_txt'] = 'Descrição';
+$wb['module_del_txt'] = 'Remover o módulo e todas as suas sub-pastas?';
+$wb['menu_del_txt'] = 'Remover o menu e todos os seus itens?';
+$wb['item_del_txt'] = 'Remover o item de menu?';
+?>
+

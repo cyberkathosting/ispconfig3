@@ -1,0 +1,17 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['type_txt'] = 'Tipo';
+$wb['source_server_txt'] = 'Servidor Pop3/Imap';
+$wb['source_username_txt'] = 'Utilizador ';
+$wb['source_password_txt'] = 'Senha';
+$wb['source_delete_txt'] = 'Remover mensagens da origem após a recepção';
+$wb['destination_txt'] = 'Destino';
+$wb['active_txt'] = 'Activo';
+$wb['limit_fetchmail_txt'] = 'O número máximo de Fetchmail para a conta foi atingido.';
+$wb['source_server_error_isempty'] = 'Servidor em branco.';
+$wb['source_username_error_isempty'] = 'Utilizador em branco.';
+$wb['source_password_error_isempty'] = 'Senha em branco.';
+$wb['destination_error_isemail'] = 'Destino não seleccionado.';
+$wb['source_server_error_regex'] = 'Servidor Pop3/Imap não é um nome de domínio válido.';
+?>
+

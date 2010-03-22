@@ -1,0 +1,22 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Site Web Parente';
+$wb['active_txt'] = 'Activo';
+$wb['client_txt'] = 'Cliente';
+$wb['run_min_txt'] = 'Minutos';
+$wb['run_hour_txt'] = 'Horas';
+$wb['run_mday_txt'] = 'Dias do mês';
+$wb['run_month_txt'] = 'Meses';
+$wb['run_wday_txt'] = 'Dias da semana';
+$wb['command_txt'] = 'Comando a executar (os comandos serão executados via sh ou urls via wget)';
+$wb['limit_cron_txt'] = 'O número máximo de tarefas no cron foi atingido.';
+$wb['limit_cron_frequency_txt'] = 'A frequência das tarefas no cron ultrapassou o limite permitido.';
+$wb['run_min_error_format'] = 'Formato dos minutos inválido.';
+$wb['run_hour_error_format'] = 'Formato dos horas inválido.';
+$wb['run_mday_error_format'] = 'Formato dos dias do mês inválido.';
+$wb['run_month_error_format'] = 'Formato dos meses inválido.';
+$wb['run_wday_error_format'] = 'Formato dos dias da semana inválido.';
+$wb['command_error_format'] = 'Formato de comando inválido. Apenas endereços url http/https são permitidos.';
+$wb['unknown_fieldtype_error'] = 'Um tipo desconhecido de campo foi usado.';
+?>
+
