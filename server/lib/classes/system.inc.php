@@ -464,6 +464,28 @@ class system{
 	  	return false;
 	}
 	
+	/*
+	// Alternative implementation of the is_group function. Should be faster then the old one To be tested.
+	function is_group($group) {
+	$groupfile = '/etc/group';
+	if(is_file($groupfile)) {
+		$handle = fopen ($groupfile, "r");
+		while (!feof($handle)) {
+			$line = trim(fgets($handle, 4096));
+			if($line != ""){
+				$parts = explode(":", $line);
+	        	if($parts[0] == $group) {
+					fclose ($handle);
+					return true;
+				}
+			}
+		}
+		fclose ($handle);
+	}
+	return false;
+	}
+	*/
+	
 	function root_group(){
 		global $app;
 	  	$group_datei = $this->server_conf["group_datei"];

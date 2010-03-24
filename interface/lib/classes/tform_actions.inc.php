@@ -114,7 +114,7 @@ class tform_actions {
 
                         // Call plugin
                         foreach($this->plugins as $plugin) {
-                                $plugin->onInsert();
+                                $plugin->onUpdate();
                         }
 						
 						$this->onAfterUpdate();
