@@ -1,6 +1,6 @@
 <?php
 $wb['policy_name_txt'] = 'Nume Policy ';
-$wb['virus_lover_txt'] = 'Virusl lover';
+$wb['virus_lover_txt'] = 'Virus lover';
 $wb['spam_lover_txt'] = 'SPAM lover';
 $wb['banned_files_lover_txt'] = 'Banned file lover';
 $wb['bad_header_lover_txt'] = ' header lover';
