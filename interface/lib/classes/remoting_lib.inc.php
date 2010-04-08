@@ -325,6 +325,18 @@ class remoting_lib {
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);
                                 break;
+                                
+                                case 'DATETIME':
+                                		if (is_array($record[$key]))
+                                		{
+	                                		$filtered_values = array_map(create_function('$item','return (int)$item;'), $record[$key]);
+                                			extract($filtered_values, EXTR_PREFIX_ALL, '_dt');
+                                			
+                                			if ($_dt_day != 0 && $_dt_month != 0 && $_dt_year != 0) {
+	                                			$new_record[$key] = date( 'Y-m-d H:i:s', mktime($_dt_hour, $_dt_minute, $_dt_second, $_dt_month, $_dt_day, $_dt_year) );
+	                                		}
+                                		}
+                                break;
                                 }
 
                                 // The use of the field value is deprecated, use validators instead
