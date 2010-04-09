@@ -176,9 +176,16 @@ class tform {
                                         $new_record[$key] = $record[$key];
                                 break;
 
-                                case 'DATE':
+                                case 'DATETSTAMP':
                                         if($record[$key] > 0) {
                                                 $new_record[$key] = date($this->dateformat,$record[$key]);
+                                        }
+                                break;
+								
+								case 'DATE':
+                                        if($record[$key] != '' && $record[$key] != '0000-00-00') {
+												$tmp = explode('-',$record[$key]);
+                                                $new_record[$key] = date($this->dateformat,mktime(0, 0, 0, $tmp[1]  , $tmp[2], $tmp[0]));
                                         }
                                 break;
 
@@ -596,12 +603,22 @@ class tform {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
                                 break;
-                                case 'DATE':
+                                case 'DATETSTAMP':
                                         if($record[$key] > 0) {
                                                 list($tag,$monat,$jahr) = explode('.',$record[$key]);
                                                 $new_record[$key] = mktime(0,0,0,$monat,$tag,$jahr);
                                         } else {
 											$new_record[$key] = 0;
+										}
+                                break;
+								case 'DATE':
+                                        if($record[$key] != '' && $record[$key] != '0000-00-00') {
+                                                list($tag,$monat,$jahr) = explode('.',$record[$key]);
+                                                $new_record[$key] = $jahr.'-'.$monat.'-'.$tag;
+												//$tmp = strptime($record[$key],$this->dateformat);
+												//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
+                                        } else {
+											$new_record[$key] = '0000-00-00';
 										}
                                 break;
                                 case 'INTEGER':

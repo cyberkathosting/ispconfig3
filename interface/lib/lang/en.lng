@@ -31,5 +31,6 @@ $wb['top_menu_sites'] = 'Sites';
 $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Tools';
 $wb['top_menu_help'] = 'Help';
+$wb['top_menu_billing'] = 'Billing';
 $wb['toolsarea_head_txt'] = 'Tools';
 ?>

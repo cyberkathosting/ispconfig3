@@ -281,7 +281,17 @@ class listform {
                         $record[$key] = htmlentities(stripslashes($record[$key]),ENT_QUOTES,$conf["html_content_encoding"]);
                          break;
 
-                    case 'DATE':
+                    case 'DATETSTAMP':
+                        if ($record[$key] > 0) {
+							// is value int?
+							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
+	                        	$record[$key] = date($this->lng('conf_format_dateshort'), $record[$key]);
+							} else {
+	                        	$record[$key] = date($this->lng('conf_format_dateshort'), strtotime($record[$key]));
+							}
+						}
+                        break;
+					case 'DATE':
                         if ($record[$key] > 0) {
 							// is value int?
 							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
@@ -340,9 +350,15 @@ class listform {
                         }
                         break;
                     
-                    case 'DATE':
+					case 'DATETSTAMP':
                         if($record[$key] > 0) {
 						    $record[$key] = date('Y-m-d',strtotime($record[$key]));
+                        }
+                        break;
+					
+                    case 'DATE':
+                        if($record[$key] != '' && $record[$key] != '0000-00-00') {
+						    $record[$key] = $record[$key];
                         }
                         break;
 
