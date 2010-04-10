@@ -44,13 +44,7 @@ apt-get install vim-nox
 
 1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin, rkhunter, binutils with the following command line (on one line!):
 
-apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-pop courier-pop-ssl courier-imap courier-imap-ssl libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter binutils
-
-#if not amd64
-apt-get install courier-authlib-mysql
-#if amd64 now there is a dependence problem with deb in the official repository, use this:
-apt-get install libmysqlclient16
-wget http://fantu.eu/supporto/courier-authlib-mysql_0.62.4-1_amd64.deb
+apt-get install postfix postfix-mysql postfix-doc mysql-client mysql-server courier-authdaemon courier-pop courier-pop-ssl courier-authlib-mysql courier-imap courier-imap-ssl libsasl2-2 libsasl2-modules libsasl2-modules-sql sasl2-bin libpam-mysql openssl courier-maildrop getmail4 rkhunter binutils
 
 
 # Answer the questions from the package manager as follows.
@@ -118,8 +112,9 @@ mkpop3dcert
 
 3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mcrypt (1 line!):
 
-apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby
+apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt imagemagick libapache2-mod-suphp libopenssl-ruby
 
+#this package is actual missed on official squeeze repository: php5-imagick
 
 # When phpMyAdmin is asking weather to configure itself automatically, select "Apache2"
 
