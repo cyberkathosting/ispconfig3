@@ -483,8 +483,7 @@ class tform {
                                         if(is_array($field['value'])) {
                                                 $out = '';
                                                 foreach($field['value'] as $k => $v) {
-                                                    //$selected = ($k == $val)?' SELECTED':'';
-													$selected = '';
+                                                    $selected = ($k == $field["default"])?' SELECTED':'';
                                                     $out .= "<option value='$k'$selected>$v</option>\r\n";
                                                 }
                                         }
