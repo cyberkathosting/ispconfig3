@@ -361,7 +361,11 @@ class tform {
 
                                         // If Datasource is set, get the data from there
                                         if(isset($field['datasource']) && is_array($field['datasource'])) {
-                                                $field["value"] = $this->getDatasourceData($field, $record);
+												if(is_array($field["value"])) {
+													$field["value"] = array_merge($field["value"],$this->getDatasourceData($field, $record));
+												} else {
+                                                	$field["value"] = $this->getDatasourceData($field, $record);
+												}
                                         }
 										
 										// If a limitation for the values is set
@@ -470,7 +474,11 @@ class tform {
 
                                 // If Datasource is set, get the data from there
                                 if(@is_array($field['datasource'])) {
-                                	$field["value"] = $this->getDatasourceData($field, $record);
+                                	if(is_array($field["value"])) {
+										$field["value"] = array_merge($field["value"],$this->getDatasourceData($field, $record));
+									} else {
+                                    	$field["value"] = $this->getDatasourceData($field, $record);
+									}
                                 }
 								
 								// If a limitation for the values is set
