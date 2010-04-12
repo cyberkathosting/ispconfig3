@@ -362,7 +362,7 @@ class tform {
                                         // If Datasource is set, get the data from there
                                         if(isset($field['datasource']) && is_array($field['datasource'])) {
 												if(is_array($field["value"])) {
-													$field["value"] = array_merge($field["value"],$this->getDatasourceData($field, $record));
+													$field["value"] = $field["value"] + $this->getDatasourceData($field, $record);
 												} else {
                                                 	$field["value"] = $this->getDatasourceData($field, $record);
 												}
