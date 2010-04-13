@@ -92,3 +92,4 @@ $wb['limit_web_quota_txt'] = 'Квота Web';
 $wb['limit_traffic_quota_txt'] = 'Квота трафика';
 $wb['limit_trafficquota_error_notint'] = 'Квота трафика должна быть числом.';
 ?>
+

@@ -1,11 +1,12 @@
 <?php
 $wb['list_head_txt'] = 'Сервер';
 $wb['server_name_txt'] = 'Имя';
-$wb['mail_server_txt'] = 'Mail';
-$wb['web_server_txt'] = 'Web';
-$wb['dns_server_txt'] = 'DNS';
+$wb['mail_server_txt'] = 'Почта';
+$wb['web_server_txt'] = 'Веб';
+$wb['dns_server_txt'] = 'ДНС';
 $wb['file_server_txt'] = 'Файл';
 $wb['db_server_txt'] = 'БД';
 $wb['vserver_server_txt'] = 'VСервер';
 $wb['add_new_record_txt'] = 'Добавить новый сервер';
 ?>
+

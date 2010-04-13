@@ -19,3 +19,4 @@ $wb['run_wday_error_format'] = 'Неверный формат для дня не
 $wb['command_error_format'] = 'Неверный формат команды. Учтите, что тип вызов url может быть только http/https.';
 $wb['unknown_fieldtype_error'] = 'Неверный тип поля был использован.';
 ?>
+

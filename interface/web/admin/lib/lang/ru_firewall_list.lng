@@ -6,3 +6,4 @@ $wb['tcp_port_txt'] = 'Открытые TCP порты';
 $wb['udp_port_txt'] = 'Открытые UDP порты';
 $wb['add_new_record_txt'] = 'Добавить запись Firewall';
 ?>
+

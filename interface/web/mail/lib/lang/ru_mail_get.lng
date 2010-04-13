@@ -14,3 +14,4 @@ $wb['source_password_error_isempty'] = 'Пустой пароль.';
 $wb['destination_error_isemail'] = 'Не выбран получатель.';
 $wb['source_server_error_regex'] = 'Неверное доменное имя для сервера Pop3/Imap.';
 ?>
+

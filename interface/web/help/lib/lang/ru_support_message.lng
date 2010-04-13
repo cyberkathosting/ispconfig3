@@ -5,3 +5,4 @@ $wb['subject_txt'] = 'Тема';
 $wb['message_txt'] = 'Сообщение';
 $wb['tstamp_txt'] = 'Штамп времени';
 ?>
+

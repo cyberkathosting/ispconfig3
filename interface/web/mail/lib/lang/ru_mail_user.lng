@@ -39,3 +39,4 @@ $wb['move_junk_txt'] = 'Перемещать спам в директорию Ju
 $wb['name_txt'] = 'Realname';
 $wb['name_optional_txt'] = '(Optional)';
 ?>
+

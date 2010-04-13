@@ -136,3 +136,4 @@ $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Ваш дистрибутив не поддерживает мониторинг';
 $wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 ?>
+

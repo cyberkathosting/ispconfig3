@@ -20,3 +20,4 @@ $wb['Cron Jobs'] = 'Задачи Cron';
 $wb['Statistics'] = 'Статистика';
 $wb['Web traffic'] = 'Трафик Web';
 ?>
+

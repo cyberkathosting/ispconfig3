@@ -16,3 +16,4 @@ $wb['module_del_txt'] = 'Удалить модули и подкаталоги?'
 $wb['menu_del_txt'] = 'Удалить меню и подменю?';
 $wb['item_del_txt'] = 'Удалить menuitem?';
 ?>
+

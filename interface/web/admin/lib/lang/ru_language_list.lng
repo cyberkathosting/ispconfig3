@@ -5,3 +5,4 @@ $wb['module_txt'] = 'Модуль';
 $wb['lang_file_txt'] = 'Выбрать язык';
 $wb['lang_file_date_txt'] = 'Последнее изменение';
 ?>
+

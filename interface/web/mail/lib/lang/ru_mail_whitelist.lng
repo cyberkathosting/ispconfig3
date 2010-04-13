@@ -7,3 +7,4 @@ $wb['source_error_notempty'] = 'Адрес пустой.';
 $wb['type_txt'] = 'Тип';
 $wb['limit_mailfilter_txt'] = 'Максимальное число почтовых фильтров записей, достигнуто.';
 ?>
+

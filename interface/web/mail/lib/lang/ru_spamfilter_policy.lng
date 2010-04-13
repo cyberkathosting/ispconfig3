@@ -36,3 +36,4 @@ $wb['spam_admin_txt'] = 'Админ: SPAM';
 $wb['message_size_limit_txt'] = 'Превышен размер сообщения';
 $wb['banned_rulenames_txt'] = 'Правила банов';
 ?>
+

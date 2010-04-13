@@ -25,10 +25,11 @@ $wb['toolsarea_head_txt'] = 'Утилиты';
 $wb['page_and_txt'] = 'и';
 $wb['top_menu_system'] = 'Система';
 $wb['top_menu_client'] = 'Клиент';
-$wb['top_menu_email'] = 'Email';
+$wb['top_menu_email'] = 'Почта';
 $wb['top_menu_monitor'] = 'Монитор';
 $wb['top_menu_sites'] = 'Сайты';
-$wb['top_menu_dns'] = 'DNS';
+$wb['top_menu_dns'] = 'ДНС';
 $wb['top_menu_tools'] = 'Утилиты';
 $wb['top_menu_help'] = 'Помощь';
 ?>
+
