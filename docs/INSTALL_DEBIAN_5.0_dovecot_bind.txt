@@ -26,6 +26,11 @@ vi /etc/hosts
 
 /etc/init.d/hostname.sh
 
+# enable the Debian volaitile repository to get a newer clamav version
+
+echo "deb http://volatile.debian.org/debian-volatile lenny/volatile main contrib non-free" >> /etc/apt/sources.list
+apt-get update
+
 # Some optional choices
 
 opt0.1) Optionally install SSH-server to get remote shell

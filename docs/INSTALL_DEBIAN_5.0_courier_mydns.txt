@@ -23,6 +23,14 @@ vi /etc/hosts
 127.0.0.1       localhost.localdomain   localhost
 192.168.0.100   ispconfig.example.com   ispconfig
 
+# Run:
+
+/etc/init.d/hostname.sh
+
+# enable the Debian volaitile repository to get a newer clamav version
+
+echo "deb http://volatile.debian.org/debian-volatile lenny/volatile main contrib non-free" >> /etc/apt/sources.list
+apt-get update
 
 
 # Some optional choices
