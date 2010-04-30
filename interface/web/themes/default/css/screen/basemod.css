@@ -74,7 +74,7 @@
 	
 	/* (en) adjustment of main navigation */
 	/* (de) Anpassung der Hauptnavigation */
-	#nav ul { margin-left: 200px; }
+	#nav ul { margin-left: 20px; }
 	#nav_main { background: #9a9a9a repeat-x top left; }
 	
 	#main { background: #fff;padding:10px 0; }
