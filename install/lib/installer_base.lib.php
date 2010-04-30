@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -154,7 +154,7 @@ class installer_base {
 				caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
                         __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			} else {
-				caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null", 
+				caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null",
                         __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			}
 			$db_tables = $this->db->getTables();
@@ -1388,8 +1388,28 @@ class installer_base {
 		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
 		if(is_user('getmail')) exec('chown getmail /usr/local/bin/run-getmail.sh');
 		exec('chmod 744 /usr/local/bin/run-getmail.sh');
-		
-		
+
+		//* Add Log-Rotation
+		if (is_dir('/etc/logrotate.d')){
+			unlink('/etc/logrotate.d/logispc3');
+			$fh = fopen('/etc/logrotate.d/logispc3', 'w');
+			fwrite($fh,
+					"/var/log/ispconfig/ispconfig.log { \n" .
+					"	weekly \n" .
+					"	missingok \n" .
+					"	rotate 4 \n" .
+					"	compress \n" .
+					"	delaycompress \n" .
+					"} \n" .
+					"/var/log/ispconfig/cron.log { \n" .
+					"	weekly \n" .
+					"	missingok \n" .
+					"	rotate 4 \n" .
+					"	compress \n" .
+					"	delaycompress \n" .
+					"}");
+			fclose($fh);
+		}
 	}
 	
 	public function configure_dbserver()

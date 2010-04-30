@@ -360,27 +360,6 @@ rsync - fast remote file copy program (for backup)
 
 -----------------------------------------------------------------------------------------------------------
 
-Ispc log files rotate, for now manual add but to add in ispc installer:
-
-/etc/logrotate.d/logispc3
-
-/var/log/ispconfig/ispconfig.log {
-	weekly
-	missingok
-	rotate 4
-	compress
-	delaycompress
-}
-/var/log/ispconfig/cron.log {
-	weekly
-	missingok
-	rotate 4
-	compress
-	delaycompress
-}
-
-
------------------------------------------------------------------------------------------------------------
 
 Possible errors and their solutions
 ------------------------------------
