@@ -87,4 +87,9 @@
 	.topnav-help {
 		background-image: url('../../icons/x64/help.png') !important;
 	}
+
+	.topnav- {
+		background-image: url('../../icons/x64/login.png') !important;
+	}
+
 }
