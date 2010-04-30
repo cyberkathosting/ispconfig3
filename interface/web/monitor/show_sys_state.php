@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007-2008, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
+Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -135,23 +135,31 @@ function _getServerState($serverId, $serverName, $showAll)
      * get all monitoring-data from the server als process then
      * (count them and set the server-state)
      */
-    $records = $app->db->queryAllRecords("SELECT DISTINCT type FROM monitor_data WHERE server_id = " . $serverId);
-    foreach($records as $record){
-        _processDbState($record['type'], $serverId, &$serverState, &$messages);
+    $records = $app->db->queryAllRecords("SELECT DISTINCT type, data FROM monitor_data WHERE server_id = " . $serverId);
+    $osData = null;
+	foreach($records as $record){
+        /* get the state from the db-data */
+		_processDbState($record['type'], $serverId, &$serverState, &$messages);
+		/* if we have the os-info, get it */
+		if ($record['type'] == 'os_info') $osData = unserialize($record['data']);
     }
 
     $res .= '<div class="systemmonitor-state state-'.$serverState.'">';
     $res .= '<div class="systemmonitor-device device-server">';
     $res .= '<div class="systemmonitor-content icons32 ico-'.$serverState.'">';
-    $res .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName . '<br />';
-    $res .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '<br />';
+    $res .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
+	if ($osData != null){
+		$res .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')';
+	}
+	$res .= '<br />';
+    $res .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
     //        $res .= sizeof($messages[$app->lng("monitor_serverstate_listok_txt")]) . ' ok | ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ' | ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ' | ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listwarning_txt")]) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ' | ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listcritical_txt")]) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ' | ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listerror_txt")]) . ' ' . $app->lng("monitor_serverstate_error_txt") . '<br />';
-    $res .= '<br />';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listwarning_txt")]) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ', ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listcritical_txt")]) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ', ';
+    $res .= sizeof($messages[$app->lng("monitor_serverstate_listerror_txt")]) . ' ' . $app->lng("monitor_serverstate_error_txt") . '';
+    $res .= ')<br />';
 
     if ($showAll){
         /*
