@@ -50,7 +50,6 @@
 	}
 	
 	#topNav #topNav_current a {
-		padding-bottom: 2px;
 		font-weight: bold;
 		color: black;
 		background-color: #ffffff;
@@ -91,5 +90,4 @@
 	.topnav- {
 		background-image: url('../../icons/x64/login.png') !important;
 	}
-
 }
