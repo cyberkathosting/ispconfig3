@@ -231,19 +231,32 @@ if ($app->dbmaster == $app->db) {
 	 *    actually in the system (and will be insered in 3 days or so).
 	 * 2) We have to keey ALL entries which are not actually precessed by the
 	 *    server never mind how old they are!
+	 * 3) We have to keep the entry with the highest autoinc-id, because mysql calculates the
+	 *    autoinc-id as "new value = max(row) +1" and does not store this in a separate table.
+	 *    This means, if we delete to entry with the highest autoinc-value then this value is
+	 *    reused as autoinc and so there are more than one entries with the same value (over
+	 *    for example 4 Weeks). This is confusing for our system.
+	 *    ATTENTION 2) and 3) is in some case NOT the same! so we have to check both!
 	 */
 
 	/* First we need all servers and the last sys_datalog-id they processed */
 	$sql = "SELECT server_id, updated FROM server ORDER BY server_id";
 	$records = $app->dbmaster->queryAllRecords($sql);
 
+	/* Then we need the highest value ever */
+	$sql = "SELECT max(datalog_id) FROM sys_datalog";
+	$res = $app->dbmaster->queryOneRecord($sql);
+	$maxId = $res['max(datalog_id)'];
+
 	/* Then delete server by server */
 	foreach($records as $server) {
 		$tmp_server_id = intval($server['server_id']);
 		if($tmp_server_id > 0) {
-			$sql = 	"DELETE FROM sys_datalog WHERE tstamp < " . $tstamp .
+			$sql = 	"DELETE FROM sys_datalog " .
+					"WHERE tstamp < " . $tstamp .
 					" AND server_id = " . intval($server['server_id']) .
-					" AND datalog_id < " . intval($server['updated']);
+					" AND datalog_id < " . intval($server['updated']) .
+					" AND datalog_id < " . intval($maxId);
 		}
 //		echo $sql . "\n";
 		$app->dbmaster->query($sql);
