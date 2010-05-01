@@ -225,9 +225,17 @@ if ($app->dbmaster == $app->db) {
 	$app->dbmaster->query($sql);
 
 	/*
-	 *  Delete all remote-actions "done" and older than 7 days
+	 * Delete all remote-actions "done" and older than 7 days
+	 * ATTENTION: We have the same problem as described in cleaning the datalog. We must not
+	 * delete the last entry
 	 */
-	$sql = "DELETE FROM sys_remoteaction WHERE tstamp < " . $tstamp . " AND action_status = 'ok'";
+	$sql = "SELECT max(action_id) FROM sys_remoteaction";
+	$res = $app->dbmaster->queryOneRecord($sql);
+	$maxId = $res['max(action_id)'];
+	$sql =  "DELETE FROM sys_remoteaction " .
+			"WHERE tstamp < " . $tstamp . " " .
+			" AND action_status = 'ok' " .
+			" AND action_id <" . intval($maxId);
 	$app->dbmaster->query($sql);
 
 	/*
