@@ -1217,7 +1217,10 @@ class installer_base {
 		$content = str_replace('{language}', $conf['language'], $content);
 		
 		wf("$install_dir/server/lib/$configfile", $content);
-		
+
+		//* Create the config file for remote-actions
+		$content = "<?php\n$maxid_remote_actions = 1\n?>";
+		wf("$install_dir/server/lib/remote_actions.inc.php", $content);
 		
 		//* Enable the server modules and plugins.
 		// TODO: Implement a selector which modules and plugins shall be enabled.
@@ -1319,6 +1322,10 @@ class installer_base {
 		//* make sure that the server config file (not the interface one) is only readable by the root user
 		exec("chmod 600 $install_dir/server/lib/$configfile");
 		exec("chown root:root $install_dir/server/lib/$configfile");
+
+		exec("chmod 600 $install_dir/server/lib/remote_actions.inc.php");
+		exec("chown root:root $install_dir/server/lib/remote_actions.inc.php");
+
 		if(@is_file("$install_dir/server/lib/mysql_clientdb.conf")) {
 			exec("chmod 600 $install_dir/server/lib/mysql_clientdb.conf");
 			exec("chown root:root $install_dir/server/lib/mysql_clientdb.conf");
