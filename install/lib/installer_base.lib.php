@@ -1219,7 +1219,7 @@ class installer_base {
 		wf("$install_dir/server/lib/$configfile", $content);
 
 		//* Create the config file for remote-actions
-		$content = "<?php\n$maxid_remote_actions = 1\n?>";
+		$content = "<?php\n$maxid_remote_actions = 1;\n?>";
 		wf("$install_dir/server/lib/remote_actions.inc.php", $content);
 		
 		//* Enable the server modules and plugins.
