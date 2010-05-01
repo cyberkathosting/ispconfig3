@@ -1159,9 +1159,10 @@ CREATE TABLE `sys_remoteaction` (
   `tstamp` int(11) NOT NULL,
   `action_type` varchar(20) NOT NULL,
   `action_param` mediumtext NOT NULL,
-  `action_status` enum('pending','ok','warning','error') NOT NULL,
+  `action_state` enum('pending','ok','warning','error') NOT NULL,
   `response` mediumtext NOT NULL,
-  PRIMARY KEY  (`action_id`)
+  PRIMARY KEY  (`action_id`),
+  KEY `server_id` (`server_id`)
 ) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
