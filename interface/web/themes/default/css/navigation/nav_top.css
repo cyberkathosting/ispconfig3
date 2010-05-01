@@ -23,8 +23,8 @@
 		margin: 0;
 	}
 	
-	#topNav li {
-		display: inline-block;
+	#topNav ul li {
+		display: inline;
 		margin: 0 2px 0 0;
 	}
 	
@@ -33,7 +33,7 @@
 		background-position: center top;
 		background-repeat: no-repeat;
 		color:black;
-		display:block;
+		display:inline-block;
 		height:20px;
 		padding-top:68px;
 		text-align:center;
