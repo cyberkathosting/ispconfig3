@@ -1148,6 +1148,22 @@ CREATE TABLE `sys_config` (
   `value` varchar(255) NOT NULL
 ) ENGINE=MyISAM;
 
+
+--
+-- Tabellenstruktur für Tabelle `sys_remoteaction`
+--
+
+CREATE TABLE `sys_remoteaction` (
+  `action_id` int(11) unsigned NOT NULL auto_increment,
+  `server_id` int(11) unsigned NOT NULL,
+  `tstamp` int(11) NOT NULL,
+  `action_type` varchar(20) NOT NULL,
+  `action_param` mediumtext NOT NULL,
+  `action_status` enum('pending','ok','warning','error') NOT NULL,
+  `response` mediumtext NOT NULL,
+  PRIMARY KEY  (`action_id`)
+) ENGINE=MyISAM;
+
 -- --------------------------------------------------------
 
 -- 
