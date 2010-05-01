@@ -367,10 +367,10 @@ function showRaidState() {
 
 		/*
          * First, we have to detect, if there is any monitoring-data.
-         * If not (because the destribution is not supported) show this.
+         * If not (because the RAID-Controler is not supported yet) show this.
 		*/
 		if ($record['state'] == 'no_state') {
-			$html .= '<p>'.$app->lng("monitor_nomdadm_txt").'</p>';
+			$html .= '<p>'.$app->lng("monitor_nosupportedraid1_txt").'</p>';
 		}
 		else {
 			$data = unserialize($record['data']);
