@@ -51,26 +51,7 @@ class monitor_core_module {
 		global $app;
 
 		/*
-        Annonce the actions that where provided by this module, so plugins
-        can register on them.
-		*/
-		/* none at them moment */
-		//$app->plugins->announceEvents($this->module_name,$this->actions_available);
-
-		/*
-        As we want to get notified of any changes on several database tables,
-        we register for them.
-
-        The following function registers the function "functionname"
-            to be executed when a record for the table "dbtable" is
-            processed in the sys_datalog. "classname" is the name of the
-            class that contains the function functionname.
-		*/
-		/* none at them moment */
-		//$app->modules->registerTableHook('mail_access','mail_module','process');
-
-		/*
-        Do the monitor every n minutes and write the result in the db
+         * Do the monitor every n minutes and write the result to the db
 		*/
 		$min = date('i');
 		if (($min % $this->interval) == 0) {
@@ -83,15 +64,7 @@ class monitor_core_module {
      The function then raises the events for the plugins.
 	*/
 	function process($tablename, $action, $data) {
-		//		global $app;
-		//
-		//		switch ($tablename) {
-		//			case 'mail_access':
-		//				if($action == 'i') $app->plugins->raiseEvent('mail_access_insert',$data);
-		//				if($action == 'u') $app->plugins->raiseEvent('mail_access_update',$data);
-		//				if($action == 'd') $app->plugins->raiseEvent('mail_access_delete',$data);
-		//				break;
-		//		} // end switch
+		// not needed
 	} // end function
 
 	//** Get distribution identifier
@@ -228,6 +201,8 @@ class monitor_core_module {
 		$this->monitorMemUsage();
 		$this->monitorCpu();
 		$this->monitorServices();
+		$this->monitorOpenVzHost();
+		$this->monitorOpenVzUserBeancounter();
 		$this->monitorMailLog();
 		$this->monitorMailWarnLog();
 		$this->monitorMailErrLog();
@@ -296,7 +271,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorOsVer() {
@@ -334,10 +309,10 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
-	
+
 	function monitorDiskUsage() {
 		global $app;
 		global $conf;
@@ -403,7 +378,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 
@@ -453,7 +428,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 
@@ -500,7 +475,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 
@@ -616,7 +591,116 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
+	}
+
+
+	function monitorOpenVzHost() {
+		global $app;
+		global $conf;
+
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+
+		/** The type of the data */
+		$type = 'openvz_veinfo';
+
+		/*
+        Fetch the data into a array
+		*/
+		$app->load(openvz_tools);
+		$openVzTools = new openvz_tools();
+		$data = $openVzTools->getOpenVzVeInfo();
+
+		/* the VE-Info has no state. It is, what it is */
+		$state = 'no_state';
+
+		/*
+        Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+				"VALUES (".
+				$server_id . ", " .
+				"'" . $app->dbmaster->quote($type) . "', " .
+				time() . ", " .
+				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
+				"'" . $state . "'" .
+				")";
+		$app->dbmaster->query($sql);
+
+		/* The new data is written, now we can delete the old one */
+		$this->_delOldRecords($type, 4);
+	}
+
+	function monitorOpenVzUserBeancounter() {
+		global $app;
+		global $conf;
+
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+
+		/** The type of the data */
+		$type = 'openvz_beancounter';
+
+		/*
+        Fetch the data into a array
+		*/
+		$app->load(openvz_tools);
+		$openVzTools = new openvz_tools();
+		$data = $openVzTools->getOpenVzVeBeanCounter();
+
+		/* calculate the state of the beancounter */
+		if ($data == '') {
+			$state = 'no_state';
+		}
+		else {
+			$state = 'ok';
+
+			/* transfer this output-string into a array */
+			$test = explode("\n", $data);
+
+			/* the first list of the output is not needed */
+			array_shift($test);
+
+			/* now process all items of the rest */
+			foreach ($test as $item) {
+				/*
+			     * eliminate all doubled spaces and spaces at the beginning and end
+				 */
+				while (strpos($item, '  ') !== false) {
+					$item = str_replace('  ', ' ', $item);
+				}
+				$item = trim($item);
+
+				/*
+			     * The failcounter is the LAST
+				 */
+				if ($item != '') {
+					$tmp = explode(' ', $item);
+					$failCounter = $tmp[sizeof($tmp)-1];
+					if ($failCounter > 0 ) $state = 'info';
+					if ($failCounter > 50 ) $state = 'warning';
+					if ($failCounter > 200 ) $state = 'critical';
+					if ($failCounter > 10000 ) $state = 'error';
+				}
+			}
+		}
+
+		/*
+        Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+				"VALUES (".
+				$server_id . ", " .
+				"'" . $app->dbmaster->quote($type) . "', " .
+				time() . ", " .
+				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
+				"'" . $state . "'" .
+				")";
+		$app->dbmaster->query($sql);
+
+		/* The new data is written, now we can delete the old one */
+		$this->_delOldRecords($type, 4);
 	}
 
 
@@ -657,8 +741,11 @@ class monitor_core_module {
 				$state = 'ok';
 			}
 			else {
-				/* There is something to update! */
-				$state = 'warning';
+				/*
+				 * There is something to update! this is in most cases not critical, so we can
+				 * do a system-update once a month or so...
+				*/
+				$state = 'info';
 			}
 
 			/*
@@ -738,7 +825,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 0, 2);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorMailQueue() {
@@ -784,7 +871,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 
@@ -799,7 +886,7 @@ class monitor_core_module {
 		$type = 'raid_state';
 
 		/* This monitoring is only available if mdadm is installed */
-		$location = system('which mdadm', $retval);
+		system('which mdadm', $retval);
 		if($retval === 0) {
 			/*
              * Fetch the output
@@ -878,7 +965,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorRkHunter() {
@@ -899,7 +986,7 @@ class monitor_core_module {
 		$type = 'rkhunter';
 
 		/* This monitoring is only available if rkhunter is installed */
-		$location = system('which rkhunter', $retval);
+		system('which rkhunter', $retval);
 		if($retval === 0) {
 			/*
              * Fetch the output
@@ -939,7 +1026,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 0, 2);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorFail2ban() {
@@ -953,8 +1040,8 @@ class monitor_core_module {
 		$type = 'log_fail2ban';
 
 		/* This monitoring is only available if fail2ban is installed */
-		$location = system('which fail2ban-client', $retval); // Debian, Ubuntu, Fedora
-		if($retval !== 0) $location = system('which fail2ban', $retval); // CentOS
+		system('which fail2ban-client', $retval); // Debian, Ubuntu, Fedora
+		if($retval !== 0) system('which fail2ban', $retval); // CentOS
 		if($retval === 0) {
 			/*  Get the data of the log */
 			$data = $this->_getLogData($type);
@@ -992,7 +1079,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorSysLog() {
@@ -1034,7 +1121,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorMailLog() {
@@ -1070,7 +1157,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorMailWarnLog() {
@@ -1106,7 +1193,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorMailErrLog() {
@@ -1142,7 +1229,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 
@@ -1179,7 +1266,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorISPCCronLog() {
@@ -1215,7 +1302,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorFreshClamLog() {
@@ -1265,7 +1352,12 @@ class monitor_core_module {
 		*/
 		foreach($lastLog as $line) {
 			if (strpos(strtolower($line), "outdated") !== false) {
-				$state = $this->_setState($state, 'warning');
+				/*
+				 * Outdatet is only info, because if we set this to warning, the server is
+				 * as long in state warning, as there is a new version of ClamAv which takes
+				 * sometimes weeks!
+				*/
+				$state = $this->_setState($state, 'info');
 			}
 		}
 
@@ -1283,7 +1375,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorClamAvLog() {
@@ -1316,7 +1408,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 	function monitorIspConfigLog() {
@@ -1349,7 +1441,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 10);
+		$this->_delOldRecords($type, 4);
 	}
 
 

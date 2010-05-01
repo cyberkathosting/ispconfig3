@@ -105,9 +105,11 @@
   
 	/* Systemmonitor */
     .systemmonitor-state {
-		margin: 10px 0;
+		margin: 10px 5px;
 		font-family: Consolas, "Lucida Console", "Courier New", monospace;
 		font-size: 0.9em;
+		float: left;
+		width: 100%;
     }
     .systemmonitor-state.state-no_state {
 		border-top: 4px solid #95A19F;
@@ -122,8 +124,8 @@
 		background-color: #adffa2;
     }
     .systemmonitor-state.state-info {
-		border-top: 4px solid #fdff00;
-		background-color: #fdffa2;
+		border-top: 4px solid #183e99;
+		background-color: #d4e2ff;
     }
     .systemmonitor-state.state-warning {
 		border-top: 4px solid #ffa800;
@@ -137,17 +139,68 @@
 		border-top: 4px solid #ff0000;
 		background-color: #ff7f7f;
     }
+    .systemmonitor-state.state-no_state-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #95A19F;
+		background-color: #f8f8ff;
+    }
+    .systemmonitor-state.state-unknown-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #30302e;
+		background-color: #cecfc5;
+    }
+    .systemmonitor-state.state-ok-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #23fb00;
+		background-color: #adffa2;
+    }
+    .systemmonitor-state.state-info-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #183e99;
+		background-color: #d4e2ff;
+    }
+    .systemmonitor-state.state-warning-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #ffa800;
+		background-color: #ffda93;
+    }
+    .systemmonitor-state.state-critical-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #ff0000;
+		background-color: #ffb9b9;
+    }
+    .systemmonitor-state.state-error-ve {
+		float: left;
+		width: 213px;
+		border-top: 4px solid #ff0000;
+		background-color: #ff7f7f;
+    }
 
     .systemmonitor-device {
+        background-position: -6px 4px;
         background-repeat: no-repeat;
-        background-position: 12px 4px;
         min-height: 80px;
     }
     .systemmonitor-device.device-system { background-image: url("../../icons/x64/network.png"); }
-    .systemmonitor-device.device-server { background-image: url("../../icons/x64/server.png"); }
+    .systemmonitor-device.device-server { 
+		background-image: url("../../icons/x64/server.png");
+	}
+    .systemmonitor-device.device-ve {
+		background-image: url("../../icons/x64/server.png");
+		width: 213px;
+		float: left;
+		border: 1px dashed #aaaaaa;
+		border-top: none;
+	}
 
     .systemmonitor-content.icons32 {
-		padding:2px 10px 2px 80px;
+		padding:2px 10px 2px 56px;
         background-repeat: no-repeat;
         background-position: 12px 4px;
     }

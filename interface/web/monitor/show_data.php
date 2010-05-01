@@ -82,6 +82,13 @@ switch($dataType) {
         $title = $app->lng("Status of services").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
+    case 'openvz_beancounter':
+        $template = 'templates/show_data.htm';
+        $output .= showOpenVzBeanCounter();
+        $time = getDataTime('openvz_beancounter');
+        $title = $app->lng("monitor_title_beancounter_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
     case 'system_update':
         $template = 'templates/show_data.htm';
         $output .= showSystemUpdate();

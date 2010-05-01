@@ -35,15 +35,15 @@ require_once('tools.inc.php');
 $app->auth->check_module_permissions('monitor');
 
 /* Change the Server if needed */
-if (isset($_GET['server'])){
-    $server = explode('|', $_GET['server'], 2);
-    $_SESSION['monitor']['server_id'] = $server[0];
-    $_SESSION['monitor']['server_name'] = $server[1];
+if (isset($_GET['server'])) {
+	$server = explode('|', $_GET['server'], 2);
+	$_SESSION['monitor']['server_id'] = $server[0];
+	$_SESSION['monitor']['server_name'] = $server[1];
 }
 
 /*
  *  Loading the template
- */
+*/
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/show_sys_state.htm');
@@ -53,18 +53,17 @@ $monTransRefreshsq = $app->lng("monitor_settings_refreshsq_txt");
 
 /*
  * setting the content
- */
-if ($_GET['state'] == 'server')
-{
-    $output = _getServerState($_SESSION['monitor']['server_id'], $_SESSION['monitor']['server_name'], true);
-    $title = $app->lng("monitor_general_serverstate_txt");
-    $stateType = 'server';
+*/
+if ($_GET['state'] == 'server') {
+	$res = _getServerState($_SESSION['monitor']['server_id'], $_SESSION['monitor']['server_name'], true);
+	$output = $res['html_verbose'];
+	$title = $app->lng("monitor_general_serverstate_txt");
+	$stateType = 'server';
 }
-else
-{
-    $output = _getSysState();
-    $title = $app->lng("monitor_general_systemstate_txt");
-    $stateType = 'system';
+else {
+	$output = _getSysState();
+	$title = $app->lng("monitor_general_systemstate_txt");
+	$stateType = 'system';
 }
 
 $app->tpl->setVar("state_data",$output);
@@ -89,428 +88,524 @@ foreach($refresh_values as $key => $val) {
 		$tmp .= "<option value='$key'>$val</option>";
 	}
 }
-$app->tpl->setVar("refresh",$tmp);
+$app->tpl->setVar("refresh", $tmp);
 
 /*
  * doing the output
- */
+*/
 $app->tpl_defaults();
 $app->tpl->pparse();
 
 
-function _getSysState(){
-    global $app;
+/*
+ * Creates HTML representing the state of the system (of all servers)
+*/
+function _getSysState() {
+	global $app;
 
-    /*
-     * Get all Servers and calculate the state of them
-     */
-    $html = '';
+	/** The data of all Servers as (sorted by name) array */
+	$serverData = array();
 
-    $servers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
-    foreach ($servers as $server)
-    {
-        $html .= _getServerState($server['server_id'], $server['server_name'], false);
-    }
+	/*
+     * Get all servers and calculate the state of them
+	*/
+	$servers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
+	foreach ($servers as $server) {
+		$serverData[] = _getServerState($server['server_id'], $server['server_name'], false);
+	}
 
-    return $html;
+	/*
+	 * Now we have a array with all servers. Some of them are normal servers, some of them
+	 * are OpenVz-Hosts and some are OpenVz-VE's. Next we need to know which of them are
+	 * OpenVz-VE's inside a OpenVz-Host (managed by the Monitor). If there is a OpenVZ-VE
+	 * inside a OpenVz-Host which is NOT in the Server-Farm and so not handled by the monitor,
+	 * we handle it like a "normal" server (in the output of the system-state)
+	*/
+	foreach ($serverData as $data) {
+		/* get all VE's of this server */
+		$veInfo = $data['ve_info'];
+
+		/*
+		 * if we found some, mark them all as VE's
+		*/
+		if (is_array($veInfo)) {
+			foreach ($veInfo as $info) {
+				for ($i = 0; $i < sizeof($serverData); $i++) {
+					if ($serverData[$i]['server_name'] == $info['hostname']) {
+						$serverData[$i]['is_ve'] = true;
+					}
+				}
+			}
+		}
+	}
+	
+	/*
+	 * Now we have to output all "normal" server or all OpenVZ-Hosts (or all OpenVZ-VE's without
+	 * a OpenVZ-Host managed by ISPConfig). The OpenVz-VE's are then included in them...
+	*/
+	$html = '';
+
+	foreach ($serverData as $data) {
+		if (!isset($data['is_ve'])) {
+			/*
+			 * it is NOT a Ve, so do the output of this server and off all VE's included in them
+			 */
+			$html .= $data['html_server'];
+			/* get all VE's of this server */
+			$veInfo = $data['ve_info'];
+			foreach ($veInfo as $info) {
+				for ($i = 0; $i < sizeof($serverData); $i++) {
+					if ($serverData[$i]['server_name'] == $info['hostname']) {
+						$html = str_replace('##VE_INFO##', $serverData[$i]['html_ve'] . '##VE_INFO##', $html);
+					}
+				}
+			}
+			$html = str_replace('##VE_INFO##', '', $html);
+		}
+	}
+	return $html;
 }
 
-/*
- * Calculates the State of ONE Server
+
+/**
+ * returns the state and html of ONE Server
+ * @param integer $serverId the id of the server
+ * @param string $serverName the hostname (like server1.yourdomain.com)
+ * @return array the state and representing html of the server
  */
-function _getServerState($serverId, $serverName, $showAll)
-{
-    global $app;
+function _getServerState($serverId, $serverName) {
+	global $app;
 
-    /*  The State of the server */
-    $serverState = 'ok';
+	/*  The State of the server */
+	$serverState = 'ok';
 
-    /** The messages */
-    $messages = array();
+	/** The messages */
+	$messages = array();
 
-    /** The Result of the function */
-    $res = '';
+	/** The Result of the function */
+	$res = '';
 
-    /*
-     * get all monitoring-data from the server als process then
-     * (count them and set the server-state)
-     */
-    $records = $app->db->queryAllRecords("SELECT DISTINCT type, data FROM monitor_data WHERE server_id = " . $serverId);
-    $osData = null;
-	foreach($records as $record){
-        /* get the state from the db-data */
+	/*
+     * Get all monitoring-data from the server and process then
+	*/
+	$records = $app->db->queryAllRecords("SELECT DISTINCT type, data FROM monitor_data WHERE server_id = " . $serverId);
+	$osData = null;
+	$veInfo = null;
+	foreach($records as $record) {
+		/* get the state from the db-data */
 		_processDbState($record['type'], $serverId, &$serverState, &$messages);
 		/* if we have the os-info, get it */
-		if ($record['type'] == 'os_info') $osData = unserialize($record['data']);
-    }
-
-    $res .= '<div class="systemmonitor-state state-'.$serverState.'">';
-    $res .= '<div class="systemmonitor-device device-server">';
-    $res .= '<div class="systemmonitor-content icons32 ico-'.$serverState.'">';
-    $res .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
-	if ($osData != null){
-		$res .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')';
+		if ($record['type'] == 'os_info') {
+			$osData = unserialize($record['data']);
+		}
+		/* if we have the ve-info, get it */
+		if ($record['type'] == 'openvz_veinfo') {
+			$veInfo = unserialize($record['data']);
+		}
 	}
-	$res .= '<br />';
-    $res .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
-    //        $res .= sizeof($messages[$app->lng("monitor_serverstate_listok_txt")]) . ' ok | ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listwarning_txt")]) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ', ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listcritical_txt")]) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ', ';
-    $res .= sizeof($messages[$app->lng("monitor_serverstate_listerror_txt")]) . ' ' . $app->lng("monitor_serverstate_error_txt") . '';
-    $res .= ')<br />';
 
-    if ($showAll){
-        /*
-         * if we have to show all, then we do it...
-         */
+	/*
+	 * We now have the state of the server. Lets now create the HTML representing this state.
+	 * If we actually don't know, which type of verbose we need, let's create all
+	*/
 
-        /*
-        * Show all messages
-        */
-        foreach($messages as $key => $state){
-            /*
-             * There is no need, to show the "ok" - messages
-             */
-//            if ($key != 'ok')
-            {
-                $res .= $key . ':<br />';
-                foreach ($state as $msg)
-                {
-                    $res .= $msg . '<br />';
-                }
-                $res .= '<br />';
-            }
-        }
-    }
-    else
-    {
-        /*
-         * if not, we only show a link to the server...
-         */
-        $res .= "<a href='#' onclick='loadContent(\"monitor/show_sys_state.php?state=server&server=" . $serverId . '|' . $serverName . "\");'>" . $app->lng("monitor_serverstate_moreinfo_txt") . "</a>";
-    }
-    $res .= '</div>';
-    $res .= '</div>';
-    $res .= '</div>';
+	/*
+	 * Info of a VE inside a OpenVz-Host
+	*/
+	$html_ve  = '<div class="systemmonitor-state state-' . $serverState . '-ve">';
+	$html_ve .= '<div class="systemmonitor-device device-ve">';
+	$html_ve .= '<div class="systemmonitor-content icons32 ico-' . $serverState . '">';
+	$html_ve .= $serverName . '<br>';
+	if ($osData != null) {
+		$html_ve .= $osData['name'] . ' ' . $osData['version'] . '<br>';
+	}
+	$html_ve .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '<br>';
 
-    if ($showAll){
-        /*
-         * Show some state-info
-         */
-        //$res .= showServerLoad();
-        //$res .= '&nbsp;'. showDiskUsage();
-        //$res .= '&nbsp;'.showServices();
-    }
+	/*
+	 * Info of a "normal" Server or a OpenVz-Host
+	*/
+	$html_server .= '<div class="systemmonitor-state state-' . $serverState . '">';
+	$html_server .= '<div class="systemmonitor-device device-server">';
+	$html_server .= '<div class="systemmonitor-content icons32 ico-' . $serverState . '">';
+	$html_server .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
+	if ($osData != null) {
+		$html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')';
+	}
 
+	$html_server .= '<br />';
+	$html_server .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
+	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
+	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
+	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listwarning_txt")]) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ', ';
+	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listcritical_txt")]) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ', ';
+	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listerror_txt")]) . ' ' . $app->lng("monitor_serverstate_error_txt") . '';
+	$html_server .= ')<br />';
 
-    return $res;
+	/*
+	 * Verbose - Info 
+	*/
+	$html_verbose = $html_server;
+	foreach($messages as $key => $state) { {
+			$html_verbose .= $key . ':<br />';
+			foreach ($state as $msg) {
+				$html_verbose .= $msg . '<br />';
+			}
+			$html_verbose .= '<br />';
+		}
+	}
+
+	/*
+	 * The normal info also needs a link to the verbose info
+	*/
+	$html_ve .= "<a href='#' onclick='loadContent(\"monitor/show_sys_state.php?state=server&server=" . $serverId . '|' . $serverName . "\");'>" . $app->lng("monitor_serverstate_moreinfo_txt") . "</a>";
+	$html_server .= "<a href='#' onclick='loadContent(\"monitor/show_sys_state.php?state=server&server=" . $serverId . '|' . $serverName . "\");'>" . $app->lng("monitor_serverstate_moreinfo_txt") . "</a>";
+
+	/*
+	 * Finish all html's
+	*/
+	$html_ve      .= '</div></div></div>';
+	$html_server  .= '<div>##VE_INFO##</div></div></div></div>';
+	$html_verbose .= '</div></div></div>';
+
+	/*
+	 * create and return the result
+	*/
+	$res['state'] = $serverState;
+	$res['server_name'] = $serverName;
+	$res['html_server'] = $html_server;
+	$res['html_ve'] = $html_ve;
+	$res['html_verbose'] = $html_verbose;
+	$res['ve_info'] = $veInfo;
+	return $res;
 }
 
 /*
  * gets the state from the db and process it
- */
-function _processDbState($type, $serverId, $serverState, $messages)
-{
-    global $app;
+*/
+function _processDbState($type, $serverId, $serverState, $messages) {
+	global $app;
 
-   /*
+	/*
     * Always the NEWEST record of each monitoring is responsible for the
     * state
-    */
-    // get the State from the DB
-    $record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
-    // change the new state to the highest state
-    $serverState = _setState($serverState, $record['state']);
+	*/
+// get the State from the DB
+	$record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
+// change the new state to the highest state
+	$serverState = _setState($serverState, $record['state']);
 
-    /*
+	/*
      * The message depands on the type and the state
-     */
-    if ($type == 'cpu_info'){
-        /* this type has no state */
-    }
-    if ($type == 'disk_usage'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_hdok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'info':
-                $messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_hdgoingfull_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'warning':
-                $messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_hdnearlyfull_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'critical':
-                $messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_hdveryfull_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'error':
-                $messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_hdfull_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
+	*/
+	if ($type == 'cpu_info') {
+		/* this type has no state */
+	}
+	if ($type == 'disk_usage') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_hdok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_hdgoingfull_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'warning':
+				$messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_hdnearlyfull_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'critical':
+				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_hdveryfull_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_hdfull_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
 
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_hdunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
-    if ($type == 'mem_usage'){
-        /* this type has no state */
-    }
-    if ($type == 'server_load'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_loadok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'info':
-                $messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_loadheavy_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'warning':
-                $messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_loadhigh_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'critical':
-                $messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_loadhigher_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'error':
-                $messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_loadhighest_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_loadunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
-    if ($type == 'services'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_servicesonline_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_hdunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=disk_usage\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
+	if ($type == 'mem_usage') {
+		/* this type has no state */
+	}
+	if ($type == 'server_load') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_loadok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_loadheavy_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'warning':
+				$messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_loadhigh_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'critical':
+				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_loadhigher_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_loadhighest_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_loadunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=server_load\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
+	if ($type == 'services') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_servicesonline_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
 
-                break;
-            case 'error':
-                $messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_servicesoffline_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_servicesunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
-    if ($type == 'system_update'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_updatesok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_servicesoffline_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_servicesunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=services\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
+	if ($type == 'system_update') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_updatesok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
 
-                break;
-            case 'warning':
-                $messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_updatesneeded_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'no_state':
-                /*
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_updatesneeded_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'no_state':
+			/*
                  *  not debian and not Ubuntu, so the state could not be monitored...
-                 */
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_updatesunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
+			*/
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_updatesunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=system_update\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
 
-    if ($type == 'raid_state'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_raidok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'info':
-                $messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_raidresync_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'critical':
-                $messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_raidfault_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'error':
-                $messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_raiderror_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'no_state':
-                /*
+	if ($type == 'raid_state') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_raidok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_raidresync_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'critical':
+				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_raidfault_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_raiderror_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'no_state':
+			/*
                  *  mdadm is not installed or the RAID is not supported...
-                 */
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_raidunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
+			*/
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_raidunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=raid_state\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
+
+	if ($type == 'openvz_beancounter') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_beancounterok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_beancounterinfo_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'warning':
+				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_beancounterwarning_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'critical':
+				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_beancountercritical_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_beancountererror_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			default:
+				break;
+		}
+	}
 
 
-    if ($type == 'mailq'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_mailqok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'info':
-                $messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_mailqheavy_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'warning':
-                $messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_mailqhigh_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'critical':
-                $messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_mailqhigher_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'error':
-                $messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_mailqhighest_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_mailqunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
+	if ($type == 'mailq') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_mailqok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_mailqheavy_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'warning':
+				$messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_mailqhigh_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'critical':
+				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_mailqhigher_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_mailqhighest_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_mailqunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=mailq\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
 
-    if ($type == 'sys_log'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_syslogok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'warning':
-                $messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_syslogwarning_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'error':
-                $messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_syslogerror_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_syslogunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
+	if ($type == 'sys_log') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_syslogok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'warning':
+				$messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_syslogwarning_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'error':
+				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_syslogerror_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_syslogunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/log_list.php\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
 
-    if ($type == 'log_clamav'){
-        /* this type has no state */
-    }
+	if ($type == 'log_clamav') {
+		/* this type has no state */
+	}
 
-	if ($type == 'log_freshclam'){
-        switch ($record['state']) {
-            case 'ok':
-                $messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_fclamok_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            case 'warning':
-                $messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_fclamoutdated_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-            default:
-                $messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_fclamunknown_txt") . ' ' .
-                                    "<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-                break;
-        }
-    }
+	if ($type == 'log_freshclam') {
+		switch ($record['state']) {
+			case 'ok':
+				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_fclamok_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			case 'info':
+				$messages[$app->lng("monitor_serverstate_listwarning_txt")][] = $app->lng("monitor_serverstate_fclamoutdated_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+			default:
+				$messages[$app->lng("monitor_serverstate_listunknown_txt")][] = $app->lng("monitor_serverstate_fclamunknown_txt") . ' ' .
+						"<a href='#' onclick='loadContent(\"monitor/show_log.php?log=log_freshclam\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+				break;
+		}
+	}
 
-    if ($type == 'log_ispconfig'){
-        /* this type has no state */
-    }
-    if ($type == 'log_mail'){
-        /* this type has no state */
-    }
-    if ($type == 'log_mail_err'){
-        /* this type has no state */
-    }
-    if ($type == 'log_mail_warn'){
-        /* this type has no state */
-    }
-    if ($type == 'log_messages'){
-        /* this type has no state */
-    }
-    if ($type == 'rkhunter'){
-        /* this type has no state */
-    }
+	if ($type == 'log_ispconfig') {
+		/* this type has no state */
+	}
+	if ($type == 'log_mail') {
+		/* this type has no state */
+	}
+	if ($type == 'log_mail_err') {
+		/* this type has no state */
+	}
+	if ($type == 'log_mail_warn') {
+		/* this type has no state */
+	}
+	if ($type == 'log_messages') {
+		/* this type has no state */
+	}
+	if ($type == 'rkhunter') {
+		/* this type has no state */
+	}
 }
 
- /*
+/*
   * Set the state to the given level (or higher, but not lesser).
   * * If the actual state is critical and you call the method with ok,
   *   then the state is critical.
   *
   * * If the actual state is critical and you call the method with error,
   *   then the state is error.
-  */
-function _setState($oldState, $newState)
-{
-   /*
+*/
+function _setState($oldState, $newState) {
+	/*
     * Calculate the weight of the old state
-    */
-    switch ($oldState) {
-        case 'no_state': $oldInt = 0;
-            break;
-        case 'ok': $oldInt = 1;
-            break;
-        case 'unknown': $oldInt = 2;
-            break;
-        case 'info': $oldInt = 3;
-            break;
-        case 'warning': $oldInt = 4;
-            break;
-        case 'critical': $oldInt = 5;
-            break;
-        case 'error': $oldInt = 6;
-            break;
-    }
-        /*
+	*/
+	switch ($oldState) {
+		case 'no_state': $oldInt = 0;
+			break;
+		case 'ok': $oldInt = 1;
+			break;
+		case 'unknown': $oldInt = 2;
+			break;
+		case 'info': $oldInt = 3;
+			break;
+		case 'warning': $oldInt = 4;
+			break;
+		case 'critical': $oldInt = 5;
+			break;
+		case 'error': $oldInt = 6;
+			break;
+	}
+	/*
          * Calculate the weight of the new state
-         */
-    switch ($newState) {
-        case 'no_state': $newInt = 0 ;
-            break;
-        case 'ok': $newInt = 1 ;
-            break;
-        case 'unknown': $newInt = 2 ;
-            break;
-        case 'info': $newInt = 3 ;
-            break;
-        case 'warning': $newInt = 4 ;
-            break;
-        case 'critical': $newInt = 5 ;
-            break;
-        case 'error': $newInt = 6 ;
-            break;
-    }
+	*/
+	switch ($newState) {
+		case 'no_state': $newInt = 0 ;
+			break;
+		case 'ok': $newInt = 1 ;
+			break;
+		case 'unknown': $newInt = 2 ;
+			break;
+		case 'info': $newInt = 3 ;
+			break;
+		case 'warning': $newInt = 4 ;
+			break;
+		case 'critical': $newInt = 5 ;
+			break;
+		case 'error': $newInt = 6 ;
+			break;
+	}
 
-   /*
+	/*
     * Set to the higher level
-    */
-    if ($newInt > $oldInt){
-        return $newState;
-    }
-    else
-    {
-        return $oldState;
-    }
+	*/
+	if ($newInt > $oldInt) {
+		return $newState;
+	}
+	else {
+		return $oldState;
+	}
 }
 
 ?>
