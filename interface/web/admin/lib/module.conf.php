@@ -155,6 +155,15 @@ $module['nav'][] = array(	'title'	=> 'Remote Users',
 // cleanup
 unset($items);
 
+$items[] = array( 'title' 	=> 'Do OS-Update',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/remote_action_osupdate.php');
+
+$module['nav'][] = array(	'title'	=> 'Remote Actions',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+
 // Getting the admin options from other modules
 $modules = explode(',', $_SESSION['s']['user']['modules']);
 if(is_array($modules)) {

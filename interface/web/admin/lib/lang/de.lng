@@ -37,4 +37,6 @@ $wb['Packages'] = 'Packages';
 $wb['Updates'] = 'Updates';
 $wb['Merge'] = 'Merge';
 $wb['Remote Users'] = 'Remote Benutzer';
+$wb['Remote Actions'] = 'Remote Aktionen';
+$wb['Do OS-Update'] = 'Betriebssystem Update ausführen';
 ?>

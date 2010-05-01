@@ -39,4 +39,6 @@ $wb['Packages'] = 'Packages';
 $wb['Updates'] = 'Updates';
 $wb['Merge'] = 'Merge';
 $wb['Remote Users'] = 'Remote Users';
+$wb['Remote Actions'] = 'Remote Actions';
+$wb['Do OS-Update'] = 'Do OS-Update';
 ?>
