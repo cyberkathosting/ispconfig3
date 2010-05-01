@@ -162,6 +162,31 @@ $form["tabs"]['mail'] = array (
 	)
 );
 
+$form["tabs"]['domains'] = array (
+	'title' 	=> "Domains",
+	'width' 	=> 70,
+	'template' 	=> "templates/system_config_domains_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'use_domain_module' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'new_domain_html' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> ''
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
 
 
 ?>

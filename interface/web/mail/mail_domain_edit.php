@@ -62,7 +62,7 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_maildomain_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
 	
@@ -116,7 +116,24 @@ class page_action extends tform_actions {
 
 		}
 		
-		
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y'){
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id;
+			$domains = $app->db->queryAllRecords($sql);
+			$domain_select = '';
+			if(is_array($domains)) {
+				foreach( $domains as $domain) {
+					$domain_select .= "<option value=" . $domain['domain'] . ">" . $domain['domain'] . "</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("domain_option",$domain_select);
+		}
 		
 		
 		// Get the spamfilter policys for the user

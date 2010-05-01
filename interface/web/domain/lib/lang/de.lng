@@ -1,0 +1,14 @@
+<?php
+$wb['Domains'] = 'Domänen';
+$wb['domain_txt'] = 'Domäne';
+$wb['client_txt'] = 'Kunde';
+$wb['domain_error_empty'] = 'Der Domänen-Name darf nicht leer sein';
+$wb['domain_error_unique'] = 'Die Domäne existiert bereits';
+$wb['domain_error_regex'] = 'Dieser Domänen-Name ist nicht gültig';
+$wb['error_domain_in mailuse'] = 'Diese Domäne kann nicht gelöscht werden, da sie zur Zeit noch als E-mail - Domäne verwendet wird';
+$wb['error_domain_in webuse'] = 'Diese Domäne kann nicht gelöscht werden, da sie zur Zeit noch als Web - Domäne verwendet wird';
+$wb['error_client_can_not_add_domain'] = 'Sie haben nicht das Recht, eine neue Domäne anzulegen';
+$wb['error_client_group_id_empty'] = 'Sie müssen einen Kunden auswählen<br>';
+$wb['list_head_txt'] = 'Domänen';
+$wb['domain_txt'] = 'Domäne';
+?>

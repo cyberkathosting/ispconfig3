@@ -49,7 +49,8 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
+
 	function onShowEdit() {
 		global $app, $conf;
 		
@@ -62,7 +63,11 @@ class page_action extends tform_actions {
 			$server_id = $this->id;
 		
 			$this->dataRecord = $app->getconf->get_global_config($section);
-			
+			if ($section == 'domains'){
+				if (isset($this->dataRecord['use_domain_module'])){
+					$_SESSION['use_domain_module_old_value'] = $this->dataRecord['use_domain_module'];
+				}
+			}
 		}
 		
 		$record = $app->tform->getHTML($this->dataRecord, $this->active_tab,'EDIT');
@@ -86,6 +91,23 @@ class page_action extends tform_actions {
 		
 		$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
 		$app->db->query($sql);
+
+		/*
+		 * If we should use the domain-module, we have to insert all existing domains into the table
+		 * (only the first time!)
+		 */
+		if (($section == 'domains') && 
+				($_SESSION['use_domain_module_old_value'] == '') &&
+				($server_config_array['domains']['use_domain_module'] == 'y')){
+			$sql = "REPLACE INTO domain (sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain ) " .
+				"SELECT sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain " .
+				"FROM mail_domain";
+			$app->db->query($sql);
+			$sql = "REPLACE INTO domain (sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain ) " .
+				"SELECT sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain " .
+				"FROM web_domain";
+			$app->db->query($sql);
+		}
 	}
 	
 }

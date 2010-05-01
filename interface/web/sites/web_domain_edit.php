@@ -206,6 +206,25 @@ class page_action extends tform_actions {
 		$tmp_txt = ($this->dataRecord['traffic_quota_lock'] == 'y')?'<b>('.$app->tform->lng('traffic_quota_exceeded_txt').')</b>':'';
 		$app->tpl->setVar("traffic_quota_exceeded_txt", $tmp_txt);
 		
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y'){
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id;
+			$domains = $app->db->queryAllRecords($sql);
+			$domain_select = '';
+			if(is_array($domains)) {
+				foreach( $domains as $domain) {
+					$domain_select .= "<option value=" . $domain['domain'] . ">" . $domain['domain'] . "</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("domain_option",$domain_select);
+		}
+		
 		parent::onShowEnd();
 	}
 	

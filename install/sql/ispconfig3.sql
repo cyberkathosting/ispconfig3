@@ -262,6 +262,22 @@ CREATE TABLE `dns_template` (
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
+--
+-- Tabellenstruktur für Tabelle `domain`
+--
+
+CREATE TABLE `domain` (
+  `domain_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  `domain` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`domain_id`),
+  UNIQUE KEY `domain` (`domain`)
+) ENGINE=MyISAM;
+
 -- --------------------------------------------------------
 
 -- 

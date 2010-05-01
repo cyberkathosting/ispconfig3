@@ -39,8 +39,14 @@
       
       <div class="ctrlHolder">
       	<label for="domain">{tmpl_var name='domain_txt'}</label>
-        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
-			</div>
+        <tmpl_if name="domain_option">
+			<select name="domain" id="domain" class="selectInput">
+					{tmpl_var name='domain_option'}
+			</select>
+		<tmpl_else>
+	        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+        </tmpl_if>
+	  </div>
       <div class="ctrlHolder">
       	<label for="policy">{tmpl_var name='policy_txt'}</label>
         <select name="policy" id="policy" class="selectInput">

@@ -21,3 +21,7 @@ dblist_phpmyadmin_link=y
 phpmyadmin_url=
 
 [tools]
+
+[domains]
+use_domain_module=n
+new_domain_html=Please contact our support to create a new domain for you.

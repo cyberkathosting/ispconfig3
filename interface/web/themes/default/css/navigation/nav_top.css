@@ -90,4 +90,9 @@
 	.topnav- {
 		background-image: url('../../icons/x64/login.png') !important;
 	}
+
+	.topnav-domain {
+		background-image: url('../../icons/x64/domain.png') !important;
+	}
+
 }
