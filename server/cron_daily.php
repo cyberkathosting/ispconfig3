@@ -221,7 +221,13 @@ if ($app->dbmaster == $app->db) {
 	 * if they are NOT ok, the server will try to process them in 1 minute and so the
 	 * error appears again after 1 minute. So it is no problem to delete the old one!
 	 */
-	$sql = "DELETE FROM sys_log WHERE tstamp < $tstamp AND server_id != 0";
+	$sql = "DELETE FROM sys_log WHERE tstamp < " . $tstamp . " AND server_id != 0";
+	$app->dbmaster->query($sql);
+
+	/*
+	 *  Delete all remote-actions "done" and older than 7 days
+	 */
+	$sql = "DELETE FROM sys_remoteaction WHERE tstamp < " . $tstamp . " AND action_status = 'ok'";
 	$app->dbmaster->query($sql);
 
 	/*
