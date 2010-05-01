@@ -666,7 +666,7 @@ class monitor_core_module {
 			foreach ($test as $item) {
 				/*
 			     * eliminate all doubled spaces and spaces at the beginning and end
-				 */
+				*/
 				while (strpos($item, '  ') !== false) {
 					$item = str_replace('  ', ' ', $item);
 				}
@@ -674,7 +674,7 @@ class monitor_core_module {
 
 				/*
 			     * The failcounter is the LAST
-				 */
+				*/
 				if ($item != '') {
 					$tmp = explode(' ', $item);
 					$failCounter = $tmp[sizeof($tmp)-1];
@@ -885,7 +885,15 @@ class monitor_core_module {
 		/** The type of the data */
 		$type = 'raid_state';
 
-		/* This monitoring is only available if mdadm is installed */
+		/*
+		 * We support some RAIDS. But if we can't find any of them, we have no data
+		*/
+		$state = 'no_state';
+		$data['output']= '';
+
+		/*
+		 * Check, if we have mdadm installed (software-raid)
+		*/
 		system('which mdadm', $retval);
 		if($retval === 0) {
 			/*
@@ -935,20 +943,56 @@ class monitor_core_module {
 					}
 				}
 			}
-
 		}
-		else {
+		/*
+		 * Check, if we have mpt-status installed (LSIsoftware-raid)
+		*/
+		system('which mpt-status', $retval);
+		if($retval === 0) {
 			/*
-             * mdadm is not installed, so there is no data and no state
-             *
-             * no_state, NOT unknown, because "unknown" is shown as state
-             * inside the GUI. no_state is hidden.
-             *
-             * We have to write NO DATA inside the DB, because the GUI
-             * could not know, if there is any dat, or not...
+             * Fetch the output
 			*/
-			$state = 'no_state';
-			$data['output']= '';
+			$data['output'] = shell_exec('mpt-status --autoload -n');
+
+			/*
+             * Then calc the state.
+			*/
+			$state = 'ok';
+			foreach ($data['output'] as $item) {
+				/*
+				 * The output contains information for every RAID and every HDD.
+				 * We only need the state of the RAID
+				*/
+				if (strpos($item, 'raidlevel:') !== false) {
+					/*
+					 * We found a raid, process the state of it
+					*/
+					if (strpos($item, ' ONLINE ') !== false) {
+						$this->_setState($state, 'ok');
+					}
+					else if (strpos($item, ' OPTIMAL ') !== false) {
+						$this->_setState($state, 'ok');
+					}
+					else if (strpos($item, ' INITIAL ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' INACTIVE ') !== false) {
+						$this->_setState($state, 'critical');
+					}
+					else if (strpos($item, ' RESYNC ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' DEGRADED ') !== false) {
+						$this->_setState($state, 'critical');
+					}
+					else {
+						/* we don't know the state. so we set the state to critical, that the
+						 * admin is warned, that something is wrong
+						*/
+						$this->_setState($state, 'critical');
+					}
+				}
+			}
 		}
 
 		/*
