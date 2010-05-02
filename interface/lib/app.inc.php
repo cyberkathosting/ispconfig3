@@ -41,41 +41,39 @@ class app {
 	private $_loaded_classes = array();
 	private $_conf;
 
-	public function __construct()
-    {
+	public function __construct() {
 		global $conf;
-		
+
 		if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) || isset($_REQUEST['s']) || isset($_REQUEST['s_old']) || isset($_REQUEST['conf'])) {
 			die('Internal Error: var override attempt detected');
 		}
-		
+
 		$this->_conf = $conf;
 		if($this->_conf['start_db'] == true) {
 			$this->load('db_'.$this->_conf['db_type']);
 			$this->db = new db;
 		}
-		
+
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
 			session_start();
-			
+
 			//* Initialize session variables
 			if(!isset($_SESSION['s']['id']) ) $_SESSION['s']['id'] = session_id();
 			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
-		
+
 		$this->uses('auth,plugin');
 	}
 
-	public function uses($classes)
-    {	
-        $cl = explode(',', $classes);
+	public function uses($classes) {
+		$cl = explode(',', $classes);
 		if(is_array($cl)) {
-			foreach($cl as $classname){
+			foreach($cl as $classname) {
 				$classname = trim($classname);
-                //* Class is not loaded so load it
-				if(!array_key_exists($classname, $this->_loaded_classes)){
+				//* Class is not loaded so load it
+				if(!array_key_exists($classname, $this->_loaded_classes)) {
 					include_once(ISPC_CLASS_PATH."/$classname.inc.php");
 					$this->$classname = new $classname();
 					$this->_loaded_classes[$classname] = true;
@@ -84,11 +82,10 @@ class app {
 		}
 	}
 
-	public function load($files)
-    {	
+	public function load($files) {
 		$fl = explode(',', $files);
 		if(is_array($fl)) {
-			foreach($fl as $file){
+			foreach($fl as $file) {
 				$file = trim($file);
 				include_once(ISPC_CLASS_PATH."/$file.inc.php");
 			}
@@ -96,8 +93,7 @@ class app {
 	}
 
 	/** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
-	public function log($msg, $priority = 0)
-    {	
+	public function log($msg, $priority = 0) {
 		global $conf;
 		if($priority >= $this->_conf['log_priority']) {
 			// $server_id = $conf["server_id"];
@@ -119,46 +115,27 @@ class app {
 				$this->error('Unable to write to logfile.');
 			}
 			*/
-		} 
-	} 
+		}
+	}
 
-    /** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
-	public function error($msg, $next_link = '', $stop = true, $priority = 1)
-    {
+	/** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
+	public function error($msg, $next_link = '', $stop = true, $priority = 1) {
 		//$this->uses("error");
 		//$this->error->message($msg, $priority);
-		if($stop == true){
-			$msg = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<title>Error</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../themes/default/css/central.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-<div class="uniForm">
-  <div id="errorMsg">
-    <h3>Error</h3>
-      <ol>
-        <li>'.$msg;
+		if($stop == true) {
+			$content = file_get_contents(dirname(__FILE__) .
+					'/../web/themes/' . $_SESSION['s']['theme'] . '/templates/error.tpl.htm');
 			if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a>';
-			$msg .= '</li>
-      </ol>
-  </div>
-</div>
-</body>
-</html>';
-			die($msg);
+			$content = str_replace('###ERRORMSG###', $msg, $content);
+			die($content);
 		} else {
 			echo $msg;
 			if($next_link != '') echo "<a href='$next_link'>Next</a>";
 		}
 	}
 
-    /** Translates strings in current language */
-    public function lng($text)
-    {
+	/** Translates strings in current language */
+	public function lng($text) {
 		if($this->_language_inc != 1) {
 			//* loading global Wordbook
 			$this->load_language_file('/lib/lang/'.$_SESSION['s']['language'].'.lng');
@@ -169,7 +146,7 @@ class app {
 				$this->load_language_file($lng_file);
 			}
 			$this->_language_inc = 1;
-		}		
+		}
 		if(!empty($this->_wb[$text])) {
 			$text = $this->_wb[$text];
 		} else {
@@ -179,7 +156,7 @@ class app {
 		}
 		return $text;
 	}
-	
+
 	//** Helper function to load the language files.
 	public function load_language_file($filename) {
 		$filename = ISPC_ROOT_PATH.'/'.$filename;
@@ -196,8 +173,7 @@ class app {
 		}
 	}
 
-    public function tpl_defaults()
-    {	
+	public function tpl_defaults() {
 		$this->tpl->setVar('app_title', $this->_conf['app_title']);
 		if(isset($_SESSION['s']['user'])) {
 			$this->tpl->setVar('app_version', $this->_conf['app_version']);
@@ -205,7 +181,7 @@ class app {
 			$this->tpl->setVar('app_version', '');
 		}
 		$this->tpl->setVar('app_link', $this->_conf['app_link']);
-		if(isset($this->_conf['app_logo']) && $this->_conf['app_logo'] != '' && @is_file($this->_conf['app_logo'])){
+		if(isset($this->_conf['app_logo']) && $this->_conf['app_logo'] != '' && @is_file($this->_conf['app_logo'])) {
 			$this->tpl->setVar('app_logo', '<img src="'.$this->_conf['app_logo'].'">');
 		} else {
 			$this->tpl->setVar('app_logo', '&nbsp;');
@@ -217,7 +193,7 @@ class app {
 		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
 
 		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
-        //print_r($_SESSION);
+		//print_r($_SESSION);
 		if(isset($_SESSION['s']['module']['name'])) {
 			$this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
 		}
@@ -227,8 +203,8 @@ class app {
 		if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$this->tpl->setVar('is_reseller', 1);
 		}
-    }
-    
+	}
+
 } // end class
 
 //** Initialize application (app) object
