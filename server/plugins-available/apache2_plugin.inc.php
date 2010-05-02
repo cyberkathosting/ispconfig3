@@ -157,7 +157,7 @@ class apache2_plugin {
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
-			$domain = $data["new"]["domain"];
+			$domain = $data["new"]["ssl_domain"];
   			$csr_file = $ssl_dir.'/'.$domain.".csr";
   			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
@@ -174,7 +174,7 @@ class apache2_plugin {
 		//* Delete a SSL certificate
 		if($data["new"]["ssl_action"] == 'del') {
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
-			$domain = $data["new"]["domain"];
+			$domain = $data["new"]["ssl_domain"];
   			$csr_file = $ssl_dir.'/'.$domain.".csr";
   			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
@@ -556,10 +556,11 @@ class apache2_plugin {
 		$vhost_data["security_level"] = $web_config["security_level"];
 		$vhost_data["allow_override"] = ($data["new"]["allow_override"] == '')?'All':$data["new"]["allow_override"];
 		$vhost_data["php_open_basedir"] = ($data["new"]["php_open_basedir"] == '')?$data["new"]["document_root"]:$data["new"]["php_open_basedir"];
+		$vhost_data["ssl_domain"] = $data["new"]["ssl_domain"];
 		
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";
-		$domain = $data["new"]["domain"];
+		$domain = $data["new"]["ssl_domain"];
   		$key_file = $ssl_dir.'/'.$domain.".key";
   		$crt_file = $ssl_dir.'/'.$domain.".crt";
 		$bundle_file = $ssl_dir.'/'.$domain.".bundle";

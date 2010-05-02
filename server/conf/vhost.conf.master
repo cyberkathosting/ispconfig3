@@ -184,7 +184,7 @@
   </tmpl_if>
 </tmpl_if>
 
-    ServerName <tmpl_var name='domain'>
+    ServerName <tmpl_var name='ssl_domain'>
 <tmpl_if name='alias'>
     <tmpl_var name='alias'>
 </tmpl_if>
@@ -203,10 +203,10 @@
 
 </tmpl_if>
     SSLEngine on
-    SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.crt
-    SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.key
+    SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
+    SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
 <tmpl_if name='has_bundle_cert'>
-    SSLCACertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='domain'>.bundle
+    SSLCACertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.bundle
 </tmpl_if>
     
 	<Directory {tmpl_var name='web_document_root_www'}>
