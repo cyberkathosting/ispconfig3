@@ -48,14 +48,14 @@ $app->auth->check_module_permissions('domain');
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
-//* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
-include($lng_file);
-
 class page_action extends tform_actions {
 
 	function onBeforeDelete() {
 		global $app; $conf;
+		
+		//* load language file
+		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
+		include($lng_file);
 		
 		/*
 		 * We can only delete domains if they are NOT in use
