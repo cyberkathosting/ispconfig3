@@ -1,0 +1,6 @@
+<?php
+$wb['domain_error_empty'] = 'Der Domänen-Name darf nicht leer sein';
+$wb['domain_error_unique'] = 'Die Domäne existiert bereits';
+$wb['domain_error_regex'] = 'Dieser Domänen-Name ist nicht gültig';
+$wb['Domain'] = 'Domäne';
+?>
