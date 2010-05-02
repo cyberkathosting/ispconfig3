@@ -328,7 +328,7 @@ class installer_base {
 				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
 			}
 
-			$query = "GRANT SELECT, UPDATE (`action_status`, `response`) ON ".$conf['mysql']['master_database'].".`sys_remoteaction` "
+			$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ".$conf['mysql']['master_database'].".`sys_remoteaction` "
 					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
 					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
 			if(!$this->dbmaster->query($query)) {
