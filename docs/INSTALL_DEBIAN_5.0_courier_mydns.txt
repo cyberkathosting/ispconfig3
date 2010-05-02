@@ -1,4 +1,4 @@
-Installation
+
 -----------
 
 # It is recommended to use a clean (fresh) Debian lenny install where you just selected "Standard System" as the package selection during
@@ -345,27 +345,6 @@ rsync - fast remote file copy program (for backup)
 
 -----------------------------------------------------------------------------------------------------------
 
-Ispc log files rotate, for now manual add but to add in ispc installer:
-
-/etc/logrotate.d/logispc3
-
-/var/log/ispconfig/ispconfig.log {
-	weekly
-	missingok
-	rotate 4
-	compress
-	delaycompress
-}
-/var/log/ispconfig/cron.log {
-	weekly
-	missingok
-	rotate 4
-	compress
-	delaycompress
-}
-
-
------------------------------------------------------------------------------------------------------------
 
 Possible errors and their solutions
 ------------------------------------
