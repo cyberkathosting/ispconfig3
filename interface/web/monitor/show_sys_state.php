@@ -153,10 +153,12 @@ function _getSysState() {
 			$html .= $data['html_server'];
 			/* get all VE's of this server */
 			$veInfo = $data['ve_info'];
-			foreach ($veInfo as $info) {
-				for ($i = 0; $i < sizeof($serverData); $i++) {
-					if ($serverData[$i]['server_name'] == $info['hostname']) {
-						$html = str_replace('##VE_INFO##', $serverData[$i]['html_ve'] . '##VE_INFO##', $html);
+			if(is_array($veInfo)) {
+				foreach ($veInfo as $info) {
+					for ($i = 0; $i < sizeof($serverData); $i++) {
+						if ($serverData[$i]['server_name'] == $info['hostname']) {
+							$html = str_replace('##VE_INFO##', $serverData[$i]['html_ve'] . '##VE_INFO##', $html);
+						}
 					}
 				}
 			}
