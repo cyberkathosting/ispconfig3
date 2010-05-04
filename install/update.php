@@ -124,6 +124,19 @@ include_once('lib/mysql.lib.php');
 
 //** Database update is a bit brute force and should be rebuild later ;)
 
+/*
+ * Try to read the DB-admin settings
+ */
+$clientdb_host			= '';
+$clientdb_user			= '';
+$clientdb_password		= '';
+include_once("/usr/local/ispconfig/server/lib/mysql_clientdb.conf");
+$conf["mysql"]["admin_user"] = $clientdb_user;
+$conf["mysql"]["admin_password"] = $clientdb_password;
+$clientdb_host			= '';
+$clientdb_user			= '';
+$clientdb_password		= '';
+
 //** Ask user for mysql admin_password if empty
 if( empty($conf["mysql"]["admin_password"]) ) {
 
@@ -219,12 +232,13 @@ if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
 $inst->configure_database();
 
 if($conf['mysql']['master_slave_setup'] == 'y') {
-	//** Update master database rights
-	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes','no'),'no');
-
-	if($reconfigure_master_database_rights_answer == 'yes') {
-		$inst->grant_master_database_rights();
-	}
+	/*
+	 * Because of security updates and because of new functions in den new Version it is
+	 * better to ALWAYS reconfigure the rights and never ask!
+	 * (for example if we add some new tables to the monitor and the old rights don't have the
+	 * permission to read this tables the monitor always returns a error)
+	 */
+	$inst->grant_master_database_rights();
 }
 
 //** empty all databases
