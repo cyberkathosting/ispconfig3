@@ -203,6 +203,10 @@ class app {
 		if(isset($_SESSION['s']['user']) && $this->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$this->tpl->setVar('is_reseller', 1);
 		}
+		/* Show username */
+		if(isset($_SESSION['s']['user'])) {
+			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username']);
+		}
 	}
 
 } // end class

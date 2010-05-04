@@ -152,7 +152,11 @@ class login_index {
 							
 							$app->plugin->raiseEvent('login',$this);
 							
-							echo 'HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage'];
+							/*
+							 * We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
+							 * new theme, if the logged-in user has another
+							 */
+							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 										
 		                   	exit;
 		             	} else {
