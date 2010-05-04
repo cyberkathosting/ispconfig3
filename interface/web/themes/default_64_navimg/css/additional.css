@@ -1,0 +1,55 @@
+@media all
+{
+	#topNav a {
+		background-color: #D3D3D3;
+		background-position: center top;
+		background-repeat: no-repeat;
+		color:black;
+		display:inline-block;
+		height:20px;
+		padding-top:68px;
+		text-align:center;
+		text-decoration:none;
+		width:97px;
+	}
+
+	.topnav-admin {
+		background-image: url('/themes/default/icons/x64/system.png') !important;
+	}
+
+	.topnav-client {
+		background-image: url('/themes/default/icons/x64/client.png') !important;
+	}
+
+	.topnav-mail {
+		background-image: url('/themes/default/icons/x64/email.png') !important;
+	}
+
+	.topnav-monitor {
+		background-image: url('/themes/default/icons/x64/monitor.png') !important;
+	}
+
+	.topnav-sites {
+		background-image: url('/themes/default/icons/x64/sites.png') !important;
+	}
+
+	.topnav-dns {
+		background-image: url('/themes/default/icons/x64/dns.png') !important;
+	}
+
+	.topnav-tools {
+		background-image: url('/themes/default/icons/x64/tools.png') !important;
+	}
+
+	.topnav-help {
+		background-image: url('/themes/default/icons/x64/help.png') !important;
+	}
+
+	.topnav- {
+		background-image: url('/themes/default/icons/x64/login.png') !important;
+	}
+
+	.topnav-domain {
+		background-image: url('../../icons/x64/domain.png') !important;
+	}
+}

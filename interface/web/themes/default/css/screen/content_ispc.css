@@ -233,7 +233,7 @@
 	/* Image-Replacement */
 	.swap { background-repeat:no-repeat; }
 	.swap span { display:none; height:16px; } 
-	#ir-HeaderLogo { background-image:url("../../images/header_logo.png"); height:32px; } 
+	#ir-HeaderLogo { background-image:url("../../images/header_logo.png"); height:28px; } 
 	#ir-Yes { background-image:url("../../icons/x16/tick_circle.png"); height:16px; } 
 	#ir-No { background-image:url("../../icons/x16/cross_circle.png"); height:16px; } 
   	

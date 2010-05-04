@@ -44,7 +44,7 @@
 	/* (de) Gestaltung der Hauptelemente des Layouts */
 	#header {
 	 color: #faf0e6;
-	 padding: 15px 2em 1em 20px;
+	 padding: 15px 2em 5px 20px;
 	 background: #9a9a9a url(../../images/header_bg.png) repeat-x top left;
 	}
 	
