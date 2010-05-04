@@ -232,13 +232,12 @@ if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
 $inst->configure_database();
 
 if($conf['mysql']['master_slave_setup'] == 'y') {
-	/*
-	 * Because of security updates and because of new functions in den new Version it is
-	 * better to ALWAYS reconfigure the rights and never ask!
-	 * (for example if we add some new tables to the monitor and the old rights don't have the
-	 * permission to read this tables the monitor always returns a error)
-	 */
-	$inst->grant_master_database_rights();
+	//** Update master database rights
+	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes','no'),'no');
+
+	if($reconfigure_master_database_rights_answer == 'yes') {
+		$inst->grant_master_database_rights();
+	}
 }
 
 //** empty all databases
