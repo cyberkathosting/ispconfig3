@@ -230,6 +230,36 @@
 		padding:0px 5px;
 	}
 
+	/* Dashboard */
+	.dashboard-modules {
+		float:left;
+		width:100px;
+		height: 20px;
+		border:1px dotted #888888;
+		background-color: #cccccc;
+		margin:10px;
+		padding:10px;
+		background-position: center 5px;
+		background-repeat: no-repeat;
+		padding-top: 70px;
+		text-align: center;
+	}
+
+	.dashboard-modules a{
+		color: Black;
+		font-weight: bold;
+	}
+
+	.dashboard-modules.admin { background-image: url('../../icons/x64/system.png') !important; }
+	.dashboard-modules.client { background-image: url('../../icons/x64/client.png') !important; }
+	.dashboard-modules.mail { background-image: url('../../icons/x64/email.png') !important; }
+	.dashboard-modules.monitor { background-image: url('../../icons/x64/monitor.png') !important; }
+	.dashboard-modules.dns { background-image: url('../../icons/x64/dns.png') !important; }
+	.dashboard-modules.tools { background-image: url('../../icons/x64/tools.png') !important; }
+	.dashboard-modules.help { background-image: url('../../icons/x64/help.png') !important; }
+	.dashboard-modules.domain { background-image: url('../../icons/x64/domain.png') !important; }
+	.dashboard-modules.sites { background-image: url('../../icons/x64/sites.png') !important; }
+
 	/* Image-Replacement */
 	.swap { background-repeat:no-repeat; }
 	.swap span { display:none; height:16px; } 

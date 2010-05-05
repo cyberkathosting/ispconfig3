@@ -1,0 +1,36 @@
+<h1><tmpl_var name="welcome_user"></h1>
+
+<div class="panel panel_dashboard">
+	<div>
+		<tmpl_if name='error'>
+		<div class="systemmonitor-state state-error">
+			<tmpl_loop name="error">
+				<p>{tmpl_var name='error_msg'}</p>
+			</tmpl_loop>
+		</div>
+		</tmpl_if>
+		<tmpl_if name='warning'>
+		<div class="systemmonitor-state state-warning">
+			<tmpl_loop name="warning">
+				<p>{tmpl_var name='warning_msg'}</p>
+			</tmpl_loop>
+		</div>
+		</tmpl_if>
+		<tmpl_if name='info'>
+		<div class="systemmonitor-state state-info">
+			<tmpl_loop name="info">
+				<p>{tmpl_var name='info_msg'}</p>
+			</tmpl_loop>
+		</div>
+		</tmpl_if>
+	</div>
+	<p>&nbsp;</p>
+	<h2>{tmpl_var name='available_modules_txt'}</h2>
+	<tmpl_loop name='modules'>
+		<div class="dashboard-modules {tmpl_var name='modules_name'}">
+			<a href="#" onclick="capp('{tmpl_var name='modules_name'}')">
+			{tmpl_var name='modules_title'}
+			</a>
+		</div>
+	</tmpl_loop>
+</div>

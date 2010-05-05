@@ -33,4 +33,5 @@ $wb['top_menu_tools'] = 'Tools';
 $wb['top_menu_help'] = 'Support';
 $wb['top_menu_billing'] = 'Billing';
 $wb['top_menu_domain'] = 'Domänen';
+$wb['top_menu_dashboard'] = 'Startseite';
 ?>

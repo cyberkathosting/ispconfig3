@@ -95,4 +95,8 @@
 		background-image: url('../../icons/x32/domain.png') !important;
 	}
 
+	.topnav-dashboard {
+		background-image: url('../../icons/x32/dashboard.png') !important;
+	}
+
 }

@@ -35,13 +35,21 @@ $app->uses('tpl');
 
 //** Top Naviation
 if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
-	
+
 	$app->tpl->newTemplate('topnav.tpl.htm');
-	
+
 	//* Check User Login and current module
 	if(isset($_SESSION["s"]["user"]) && $_SESSION["s"]["user"]['active'] == 1 && is_array($_SESSION['s']['module'])) {
 		//* Loading modules of the user and building top navigation
 		$modules = explode(',', $_SESSION['s']['user']['modules']);
+		/*
+		 * If the dashboard is in the list of modules it always has to be the first!
+		 */
+		if (in_array('dashboard', $modules)) {
+			$key = array_search('dashboard', $modules);
+			unset($modules[$key]);
+			$modules = array_merge(array('dashboard'), $modules);
+		}
 		if(is_array($modules)) {
 			foreach($modules as $mt) {
 				if(is_file($mt.'/lib/module.conf.php')) {
@@ -49,8 +57,8 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 					include_once($mt.'/lib/module.conf.php');
 					$active = ($module['name'] == $_SESSION['s']['module']['name']) ? 1 : 0;
 					$topnav[] = array(	'title' 	=> $app->lng($module['title']),
-					  				    'active' 	=> $active,
-									    'module'	=> $module['name']);
+							'active' 	=> $active,
+							'module'	=> $module['name']);
 				}
 			}
 		}
@@ -59,21 +67,21 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 		include_once('login/lib/module.conf.php');
 		$_SESSION['s']['module'] = $module;
 		$topnav[] = array(	'title' 	=> 'Login',
-				  			'active' 	=> 1);
+				'active' 	=> 1);
 		$module = null;
 		unset($module);
 	}
 
 	//* Topnavigation
 	$app->tpl->setLoop('nav_top',$topnav);
-	
+
 }
 
 //** Side Naviation
 if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
-	
+
 	$app->tpl->newTemplate('sidenav.tpl.htm');
-	
+
 	//* translating module navigation
 	$nav_translated = array();
 	if(isset($_SESSION['s']['module']['nav']) && is_array($_SESSION['s']['module']['nav'])) {
@@ -93,7 +101,7 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
 	}
 
 	$app->tpl->setLoop('nav_left',$nav_translated);
-	
+
 }
 
 $app->tpl_defaults();
