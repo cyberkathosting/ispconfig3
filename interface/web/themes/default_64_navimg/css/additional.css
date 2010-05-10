@@ -50,11 +50,11 @@
 	}
 
 	.topnav-domain {
-		background-image: url('../../icons/x64/domain.png') !important;
+		background-image: url('/themes/default/icons/x64/domain.png') !important;
 	}
 
 	.topnav-dashboard {
-		background-image: url('../../icons/x64/dashboard.png') !important;
+		background-image: url('/themes/default/icons/x64/dashboard.png') !important;
 	}
 
 }
