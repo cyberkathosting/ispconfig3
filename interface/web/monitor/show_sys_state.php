@@ -193,12 +193,17 @@ function _getServerState($serverId, $serverName) {
 	$records = $app->db->queryAllRecords("SELECT DISTINCT type, data FROM monitor_data WHERE server_id = " . $serverId);
 	$osData = null;
 	$veInfo = null;
+	$ispcData = null;
 	foreach($records as $record) {
 		/* get the state from the db-data */
 		_processDbState($record['type'], $serverId, &$serverState, &$messages);
 		/* if we have the os-info, get it */
 		if ($record['type'] == 'os_info') {
 			$osData = unserialize($record['data']);
+		}
+		/* if we have the ISPConfig-info, get it */
+		if ($record['type'] == 'ispc_info') {
+			$ispcData = unserialize($record['data']);
 		}
 		/* if we have the ve-info, get it */
 		if ($record['type'] == 'openvz_veinfo') {
@@ -221,6 +226,9 @@ function _getServerState($serverId, $serverName) {
 	if ($osData != null) {
 		$html_ve .= $osData['name'] . ' ' . $osData['version'] . '<br>';
 	}
+	if ($ispcData != null) {
+		$html_ve .= $ispcData['name'] . ' ' . $ispcData['version'] . '<br>';
+	}
 	$html_ve .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '<br>';
 
 	/*
@@ -232,6 +240,9 @@ function _getServerState($serverId, $serverName) {
 	$html_server .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
 	if ($osData != null) {
 		$html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')';
+	}
+	if ($ispcData != null) {
+		$html_server .= $ispcData['name'] . ' ' . $ispcData['version'] . '<br>';
 	}
 
 	$html_server .= '<br />';
