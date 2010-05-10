@@ -123,6 +123,11 @@ class mysql_clientdb_plugin {
 				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
 				return;
 			}
+			
+			if($data["new"]["database_user"] == 'root') {
+				$app->log('User root not allowed for Client databases',LOGLEVEL_WARNING);
+				return;
+			}
 		
 			//* Connect to the database
 			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
@@ -169,6 +174,11 @@ class mysql_clientdb_plugin {
 		if($data["new"]["type"] == 'mysql') {
 			if(!include(ISPC_LIB_PATH.'/mysql_clientdb.conf')) {
 				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
+				return;
+			}
+			
+			if($data["new"]["database_user"] == 'root') {
+				$app->log('User root not allowed for Client databases',LOGLEVEL_WARNING);
 				return;
 			}
 			
