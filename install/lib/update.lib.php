@@ -49,7 +49,11 @@ function prepareDBDump() {
 		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 	}
 
-	if(filesize('existing_db.sql') < 30000) die('Possible problem with dumping the database. We will stop here. Please check the file existing_db.sql');
+	/*
+	 * If we have a server with nothing in it except VE's then the database of thie server is empty.
+	 * so the following line will no longer work!
+	 */
+	//if(filesize('existing_db.sql') < 30000) die('Possible problem with dumping the database. We will stop here. Please check the file existing_db.sql');
 
 	// create a backup copy of the ispconfig database in the root folder
 	$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
