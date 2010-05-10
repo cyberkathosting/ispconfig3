@@ -73,16 +73,16 @@ define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 //** Get distribution identifier
 $dist = get_distname();
 
+include_once("/usr/local/ispconfig/server/lib/config.inc.php");
+$conf_old = $conf;
+unset($conf);
+
 if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
 
 //** Include the distribution specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
 include_once('dist/lib/'.$dist['id'].'.lib.php');
 include_once('dist/conf/'.$dist['id'].'.conf.php');
-
-include_once("/usr/local/ispconfig/server/lib/config.inc.php");
-$conf_old = $conf;
-unset($conf);
 
 //** Get hostname
 exec('hostname -f', $tmp_out);
@@ -158,7 +158,6 @@ $inst->db = new db();
 if($conf['mysql']['master_slave_setup'] != 'y') {
 	$inst->dbmaster = $inst->db;
 	$inst->grant_master_database_rights();
-echo "done rights";
 }
 
 /*
