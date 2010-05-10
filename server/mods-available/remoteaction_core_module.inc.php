@@ -118,6 +118,13 @@ class remoteaction_core_module {
 				  * we stop executing the actions not to waste more time */
 				return;
 			}
+			if ($action['action_type'] == 'ispc_update') {
+				/* do the update */
+				$this->_doIspCUpdate($action);
+				/* this action takes so much time,
+				  * we stop executing the actions not to waste more time */
+				return;
+			}
 		}
 	}
 
@@ -127,6 +134,26 @@ class remoteaction_core_module {
 		 */
 		exec("aptitude update");
 		exec("aptitude upgrade -y");
+
+		/*
+		 * All well done!
+		 */
+		$this->_actionDone($action['action_id'], 'ok');
+	}
+
+	private function _doIspCUpdate($action) {
+		$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
+		$new_version = trim($new_version);
+		/*
+		 * Do the update
+		 */
+		exec("cd /tmp");
+		exec("wget http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
+		exec("tar xvfz ISPConfig-" . $new_version . ".tar.gz");
+		exec("cd ispconfig3_install/install");
+
+		exec("touch autoupdate");
+		exec("php -q autoupdate.php");
 
 		/*
 		 * All well done!

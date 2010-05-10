@@ -3,6 +3,8 @@ $wb['select_server_txt'] = 'Server auswählen';
 $wb['btn_do_txt'] = 'Aktion ausführen';
 $wb['do_osupdate_caption'] = 'Betriebssystem-Update auf entferntem Server ausführen';
 $wb['do_osupdate_desc'] = "Diese Aktion wird ein 'aptitude -y upgrade' auf Ihrem ausgewählten Server ausführen.<br><br><strong>DIES GESCHIEHT AUF IHRE EIGENE VERANTWORTUNG!</strong>";
+$wb['do_ispcupdate_caption'] = 'ISPConfig 3 - Update auf entferntem Server ausführen';
+$wb['do_ispcupdate_desc'] = "Diese Aktion wird ein Update des ISPConfig3-Systems auf Ihrem ausgewählten Server ausführen.<br><br><strong>DIES GESCHIEHT AUF IHRE EIGENE VERANTWORTUNG!</strong>";
 $wb['action_scheduled'] = "Die Aktion wurde zur Ausführung vorgemerkt";
 $wb['select_all_server'] = "Alle Server";
 ?>

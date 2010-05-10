@@ -262,101 +262,115 @@ class installer_base {
 	public function grant_master_database_rights() {
 		global $conf;
 
-		if($conf['mysql']['master_slave_setup'] != 'y') return;
+		/*
+		 * The following code is a little bit tricky:
+		 * * If we HAVE a master-slave - Setup then the client has to grant the rights for himself
+		 *   at the master.
+		 * * If we DO NOT have a master-slave - Setup then we have two possibilities
+		 *   1) it is a single server
+		 *   2) it is the MASTER of n clients
+		*/
+		if($conf['mysql']['master_slave_setup'] == 'y') {
+			/*
+			 * it is a master-slave - Setup so the slave has to grant its rights in the master
+			 * database
+			 */
 
-		//* insert the ispconfig user in the remote server
-		$from_host = $conf['hostname'];
-		$from_ip = gethostbyname($conf['hostname']);
+			//* insert the ispconfig user in the remote server
+			$from_host = $conf['hostname'];
+			$from_ip = gethostbyname($conf['hostname']);
+			
+			$hosts[$from_host]['user'] = $conf['mysql']['master_ispconfig_user'];
+			$hosts[$from_host]['db'] = $conf['mysql']['master_database'];
 
-		//* Delete ISPConfig user in the master database, in case that it exists
-		$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_host."';");
-		$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_host."';");
-		$this->dbmaster->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['master_ispconfig_user']."' AND Host = '".$from_ip."';");
-		$this->dbmaster->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['master_database']."' AND Host = '".$from_ip."';");
-		$this->dbmaster->query('FLUSH PRIVILEGES;');
-
-		$hosts = array($from_host, $from_ip);
-
-		foreach($hosts as $src_host) {
-			//* Create the ISPConfig database user in the remote database
-			$query = "GRANT SELECT ON ".$conf['mysql']['master_database'].".`server` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+			$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+			$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
+		} else{
+			/*
+			 * it is NOT a master-slave - Setup so we have to find out all clients and their
+			 * host
+			 */
+			$query = "SELECT Host, User FROM mysql.user WHERE User like 'ispcsrv%' ORDER BY User, Host";
+			$data = $this->dbmaster->queryAllRecords($query);
+			if($data === false) {
+				$this->error('Unable to get the user rights: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
 			}
-
-			$query = "GRANT SELECT, INSERT ON ".$conf['mysql']['master_database'].".`sys_log` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
+			foreach ($data as $item){
+				$hosts[$item['Host']]['user'] = $item['User'];
+				$hosts[$item['Host']]['db'] = $conf['mysql']['master_database'];
 			}
-
-			$query = "GRANT SELECT, UPDATE(`status`) ON ".$conf['mysql']['master_database'].".`sys_datalog` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, UPDATE(`status`) ON ".$conf['mysql']['master_database'].".`software_update_inst` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, UPDATE(`updated`) ON ".$conf['mysql']['master_database'].".`server` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`) ON ".$conf['mysql']['master_database'].".`web_domain` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT ON ".$conf['mysql']['master_database'].".`sys_group` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ".$conf['mysql']['master_database'].".`sys_remoteaction` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, INSERT , DELETE ON ".$conf['mysql']['master_database'].".`monitor_data` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, INSERT, UPDATE ON ".$conf['mysql']['master_database'].".`mail_traffic` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
-			$query = "GRANT SELECT, INSERT, UPDATE ON ".$conf['mysql']['master_database'].".`web_traffic` "
-					."TO '".$conf['mysql']['master_ispconfig_user']."'@'".$src_host."' "
-					."IDENTIFIED BY '".$conf['mysql']['master_ispconfig_password']."';";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to create database user in master database: '.$conf['mysql']['master_ispconfig_user'].' Error: '.$this->dbmaster->errorMessage);
-			}
-
 		}
+
+		foreach($hosts as $host => $value) {
+			/*
+			 *  Delete ISPConfig user in the master database, in case that it exists
+			 */
+			$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to remove rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			//* Create the ISPConfig database user in the remote database
+			$query = "GRANT SELECT ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, INSERT ON ".$value['db'].".`sys_log` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`sys_datalog` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`software_update_inst` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, UPDATE(`updated`) ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`) ON ".$value['db'].".`web_domain` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT ON ".$value['db'].".`sys_group` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ".$value['db'].".`sys_remoteaction` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, INSERT , DELETE ON ".$value['db'].".`monitor_data` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`mail_traffic` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+
+			$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`web_traffic` TO '".$value['user']."'@'".$host."' ";
+			if(!$this->dbmaster->query($query)) {
+				$this->error('Unable to set rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
+			}
+		}
+
+		/*
+		 * It is all done. Relod the rights...
+		 */
+		$this->dbmaster->query('FLUSH PRIVILEGES;');
 
 	}
 

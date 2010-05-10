@@ -50,6 +50,9 @@ echo "\n\n>> Update  \n\n";
 //** Include the library with the basic installer functions
 require_once('lib/install.lib.php');
 
+//** Include the library with the basic updater functions
+require_once('lib/update.lib.php');
+
 //** Include the base class of the installer class
 require_once('lib/installer_base.lib.php');
 
@@ -143,33 +146,10 @@ if( empty($conf["mysql"]["admin_password"]) ) {
 	$conf["mysql"]["admin_password"] = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
 }
 
-//** load the pre update sql script do perform modifications on the database before the database is dumped
-if(is_file(ISPC_INSTALL_ROOT."/install/sql/pre_update.sql")) {
-	if($conf['mysql']['admin_password'] == '') {
-		caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
-	} else {
-		caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
-	}
-}
-
-//** export the current database data
-if( !empty($conf["mysql"]["admin_password"]) ) {
-
-	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
-}
-else {
-
-	system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
-}
-
-if(filesize('existing_db.sql') < 30000) die('Possible problem with dumping the database. We will stop here. Please check the file existing_db.sql');
-
-// create a backup copy of the ispconfig database in the root folder
-$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
-copy('existing_db.sql',$backup_db_name);
-exec("chmod 700 $backup_db_name");
-exec("chown root:root $backup_db_name");
-
+/*
+ *  Prepare the dump of the database 
+ */
+prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
@@ -208,104 +188,25 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	$inst->dbmaster = $inst->db;
 }
 
-//* Update $conf array with values from the server.ini that shall be preserved
-$tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
-$ini_array = ini_to_array(stripslashes($tmp['config']));
 
-if(count($ini_array) == 0) die('Unable to read server configuration from database.');
+/*
+ *  dump the new Database and reconfigure the server.ini
+ */
+updateDbAndIni();
 
-$conf['services']['mail'] = ($tmp['mail_server'] == 1)?true:false;
-$conf['services']['web'] = ($tmp['web_server'] == 1)?true:false;
-$conf['services']['dns'] = ($tmp['dns_server'] == 1)?true:false;
-$conf['services']['file'] = ($tmp['file_server'] == 1)?true:false;
-$conf['services']['db'] = ($tmp['db_server'] == 1)?true:false;
-$conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
-$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
-
-//** Delete the old database
-if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
-
-	$inst->error('Unable to drop MySQL database: '.$conf['mysql']['database'].'.');
-}
-
-//** Create the mysql database
-$inst->configure_database();
-
-if($conf['mysql']['master_slave_setup'] == 'y') {
+/*
+ * Reconfigure the permisson if needed
+ * (if this is done at client side, only this client is updated.
+ * If this is done at server side, all clients are updated.
+ */
+//if($conf['mysql']['master_slave_setup'] == 'y') {
 	//** Update master database rights
 	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes','no'),'no');
 
 	if($reconfigure_master_database_rights_answer == 'yes') {
 		$inst->grant_master_database_rights();
 	}
-}
-
-//** empty all databases
-$db_tables = $inst->db->getTables();
-
-foreach($db_tables as $table) {
-
-	$inst->db->query("TRUNCATE $table");
-}
-
-//** load old data back into database
-if( !empty($conf["mysql"]["admin_password"]) ) {
-
-	system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
-} else {
-
-	system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
-}
-
-
-//** Update server ini
-$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
-$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
-unset($tmp_server_rec);
-$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
-
-// update the new template with the old values
-if(is_array($old_ini_array)) {
-	foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
-		foreach($tmp_section_content as $tmp_var_name => $tmp_var_content) {
-			$tpl_ini_array[$tmp_section_name][$tmp_var_name] = $tmp_var_content;
-		}
-	}
-}
-
-$new_ini = array_to_ini($tpl_ini_array);
-$inst->db->query("UPDATE server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id']);
-unset($old_ini_array);
-unset($tpl_ini_array);
-unset($new_ini);
-
-
-//** Update system ini
-$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM sys_ini WHERE sysini_id = 1");
-$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
-unset($tmp_server_rec);
-$tpl_ini_array = ini_to_array(rf('tpl/system.ini.master'));
-
-// update the new template with the old values
-if(is_array($old_ini_array)) {
-	foreach($old_ini_array as $tmp_section_name => $tmp_section_content) {
-		foreach($tmp_section_content as $tmp_var_name => $tmp_var_content) {
-			$tpl_ini_array[$tmp_section_name][$tmp_var_name] = $tmp_var_content;
-		}
-	}
-}
-
-$new_ini = array_to_ini($tpl_ini_array);
-$tmp = $inst->db->queryOneRecord('SELECT count(sysini_id) as number FROM sys_ini WHERE 1');
-if($tmp['number'] == 0) {
-	$inst->db->query("INSERT INTO sys_ini (sysini_id, config) VALUES (1,'".mysql_real_escape_string($new_ini)."')");
-} else {
-	$inst->db->query("UPDATE sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
-}
-unset($old_ini_array);
-unset($tpl_ini_array);
-unset($new_ini);
-
+//}
 
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
