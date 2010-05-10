@@ -234,20 +234,23 @@
 	.dashboard-modules {
 		float:left;
 		width:100px;
-		height: 20px;
+		height: 100px;
 		border:1px dotted #888888;
 		background-color: #cccccc;
 		margin:10px;
-		padding:10px;
 		background-position: center 5px;
 		background-repeat: no-repeat;
-		padding-top: 70px;
 		text-align: center;
 	}
 
-	.dashboard-modules a{
-		color: Black;
-		font-weight: bold;
+	.dashboard-modules a, .dashboard-modules a:hover{
+		color:Black;
+		display:block;
+		font-weight:bold;
+		height:30px;
+		padding-top:70px;
+		width:100px;
+		text-decoration: none;
 	}
 
 	.dashboard-modules.admin { background-image: url('../../icons/x64/system.png') !important; }

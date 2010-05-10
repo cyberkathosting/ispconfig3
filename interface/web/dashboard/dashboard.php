@@ -79,17 +79,23 @@ $app->tpl->setVar('welcome_user', $welcome);
 //
 //$app->tpl->setloop('warning', $warning);
 //
-///*
-// * If there is any information to display, do it...
-//*/
-//$info = array();
-//
-//$info[] = array('info_msg' => 'IClaus1');
-//$info[] = array('info_msg' => 'IClaus2');
-//$info[] = array('info_msg' => 'IClaus3');
-//$info[] = array('info_msg' => 'IClaus4');
-//
-//$app->tpl->setloop('info', $info);
+
+
+/*
+ * If there is any information to display, do it...
+*/
+$info = array();
+
+/*
+ * Check the ISPConfig-Version
+*/
+$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
+$new_version = trim($new_version);
+if($new_version != ISPC_APP_VERSION) {
+	$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available! <a href="http://www.ispconfig.org">See more...</a>');
+}
+
+$app->tpl->setloop('info', $info);
 
 /*
  * Show all modules, the user is allowed to use
