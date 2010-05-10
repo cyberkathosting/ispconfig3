@@ -138,7 +138,7 @@ function _getSysState() {
 			}
 		}
 	}
-	
+
 	/*
 	 * Now we have to output all "normal" server or all OpenVZ-Hosts (or all OpenVZ-VE's without
 	 * a OpenVZ-Host managed by ISPConfig). The OpenVz-VE's are then included in them...
@@ -149,7 +149,7 @@ function _getSysState() {
 		if (!isset($data['is_ve'])) {
 			/*
 			 * it is NOT a Ve, so do the output of this server and off all VE's included in them
-			 */
+			*/
 			$html .= $data['html_server'];
 			/* get all VE's of this server */
 			$veInfo = $data['ve_info'];
@@ -239,13 +239,18 @@ function _getServerState($serverId, $serverName) {
 	$html_server .= '<div class="systemmonitor-content icons32 ico-' . $serverState . '">';
 	$html_server .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
 	if ($osData != null) {
-		$html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')';
+		$html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')<br>';
+	}
+	else {
+		$html_server .= '<br />';
 	}
 	if ($ispcData != null) {
 		$html_server .= $ispcData['name'] . ' ' . $ispcData['version'] . '<br>';
 	}
+	else {
+		$html_server .= '<br />';
+	}
 
-	$html_server .= '<br />';
 	$html_server .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
 	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
 	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
@@ -258,7 +263,8 @@ function _getServerState($serverId, $serverName) {
 	 * Verbose - Info 
 	*/
 	$html_verbose = $html_server;
-	foreach($messages as $key => $state) { {
+	foreach($messages as $key => $state) {
+		{
 			$html_verbose .= $key . ':<br />';
 			foreach ($state as $msg) {
 				$html_verbose .= $msg . '<br />';
