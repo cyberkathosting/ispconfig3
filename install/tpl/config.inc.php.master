@@ -109,12 +109,12 @@ define("CLASSES_ROOT",INCLUDE_ROOT.FS_DIV."classes");
 $conf['app_title'] = ISPC_APP_TITLE;
 $conf['app_version'] = ISPC_APP_VERSION;
 $conf['app_link'] = 'http://www.ispconfig.org/';
-$conf['modules_available'] = 'admin,mail,sites,monitor,client,dns,help';
+$conf['modules_available'] = 'dashboard,admin,mail,sites,monitor,client,dns,help';
 $conf["server_id"] = "{server_id}";
 
 
 //** Interface
-define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
+define('ISPC_INTERFACE_MODULES_ENABLED', 'dashboard,mail,sites,dns,tools');
 
 
 //** Logging
