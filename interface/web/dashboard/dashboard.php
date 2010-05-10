@@ -87,12 +87,14 @@ $app->tpl->setVar('welcome_user', $welcome);
 $info = array();
 
 /*
- * Check the ISPConfig-Version
+ * Check the ISPConfig-Version (only for the admin)
 */
-$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
-$new_version = trim($new_version);
-if($new_version != ISPC_APP_VERSION) {
-	$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available! <a href="http://www.ispconfig.org">See more...</a>');
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+	$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
+	$new_version = trim($new_version);
+	if($new_version != ISPC_APP_VERSION) {
+		$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available! <a href="http://www.ispconfig.org">See more...</a>');
+	}
 }
 
 $app->tpl->setloop('info', $info);
