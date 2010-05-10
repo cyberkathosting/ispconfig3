@@ -50,9 +50,12 @@ if (!defined('vlibIniClassLoaded')) {
         {
 
 			$tpl_dir = ISPC_THEMES_PATH.'/'.$_SESSION['s']['theme'].'/templates';
+			$def_tpl_dir = ISPC_THEMES_PATH.'/default/templates';
             return array(
 
-                        'TEMPLATE_DIR' => $tpl_dir,   // Default directory for your template files (full path)
+                        'INCLUDE_PATHS' => array($tpl_dir),   // The path, searched BEVORE the template_dir is searched for the template-file
+
+                        'TEMPLATE_DIR' => $def_tpl_dir,			   // Default directory for your template files (full path)
                                                                    // leave the '/' or '\' off the end of the directory.
 
                         'MAX_INCLUDES' => 10,                      // Drill depth for tmpl_include's
