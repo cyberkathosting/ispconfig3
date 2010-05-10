@@ -153,10 +153,22 @@ prepareDBDump();
 $inst->db = new db();
 
 /*
+ * The next line is a bit tricky!
+ * At the automated update we have no connection to the master-db (we don't need it, because
+ * there are only TWO points, where this is needed)
+ * 1) update the rights --> the autoupdater sets the rights of all clients when the server is
+ *    autoupdated)
+ * 2) update the server-settings (is web installed, is mail installed) --> the autoupdates
+ *    doesn't change any of this settings, so there ist no need to update this.
+ * This means, the autoupdater did not need any connection to the master-db (only to the local bd
+ * of the master-server). To avoid any problems, we set the master-db to the local one.
+ */
+$inst->dbmaster = $inst->db;
+
+/*
  * If it is NOT a master-slave - Setup then we are at the Master-DB. So set all rights
 */
 if($conf['mysql']['master_slave_setup'] != 'y') {
-	$inst->dbmaster = $inst->db;
 	$inst->grant_master_database_rights();
 }
 
