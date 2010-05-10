@@ -197,6 +197,7 @@ class monitor_core_module {
 		/* Calls the single Monitoring steps */
 		$this->monitorServer();
 		$this->monitorOSVer();
+		$this->monitorIspCVer();
 		$this->monitorDiskUsage();
 		$this->monitorMemUsage();
 		$this->monitorCpu();
@@ -312,6 +313,42 @@ class monitor_core_module {
 		$this->_delOldRecords($type, 4);
 	}
 
+
+	function monitorIspcVer() {
+		global $app;
+		global $conf;
+
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+
+		/** The type of the data */
+		$type = 'ispc_info';
+
+		/*
+        Fetch the data into a array
+		*/
+		$data['name'] = ISPC_APP_TITLE;
+		$data['version'] = ISPC_APP_VERSION;
+
+		/* the ISPC-Version has no state. It is, what it is */
+		$state = 'no_state';
+
+		/*
+        Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+				"VALUES (".
+				$server_id . ", " .
+				"'" . $app->dbmaster->quote($type) . "', " .
+				time() . ", " .
+				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
+				"'" . $state . "'" .
+				")";
+		$app->dbmaster->query($sql);
+
+		/* The new data is written, now we can delete the old one */
+		$this->_delOldRecords($type, 4);
+	}
 
 	function monitorDiskUsage() {
 		global $app;
