@@ -300,7 +300,8 @@ class installer_base {
 				$hosts[$item['Host']]['db'] = $conf['mysql']['master_database'];
 			}
 		}
-
+		
+		if(is_array($hosts)) {
 		foreach($hosts as $host => $value) {
 			/*
 			 *  Delete ISPConfig user in the master database, in case that it exists
@@ -371,6 +372,7 @@ class installer_base {
 		 * It is all done. Relod the rights...
 		 */
 		$this->dbmaster->query('FLUSH PRIVILEGES;');
+		}
 
 	}
 
