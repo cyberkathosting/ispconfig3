@@ -123,8 +123,20 @@ class app {
 		//$this->uses("error");
 		//$this->error->message($msg, $priority);
 		if($stop == true) {
-			$content = file_get_contents(dirname(__FILE__) .
-					'/../web/themes/' . $_SESSION['s']['theme'] . '/templates/error.tpl.htm');
+			/*
+			 * We always have a error. So it is better not to use any more objects like
+			 * the template or so, because we don't know why the error occours (it could be, that
+			 * the error occours in one of these objects..)
+			 */
+			/*
+			 * Use the template inside the user-template - Path. If it is not found, fallback to the
+			 * default-template (the "normal" behaviour of all template - files)
+			 */
+			if (file_exists(dirname(__FILE__) . '/../web/themes/' . $_SESSION['s']['theme'] . '/templates/error.tpl.htm')) {
+				$content = file_get_contents(dirname(__FILE__) . '/../web/themes/' . $_SESSION['s']['theme'] . '/templates/error.tpl.htm');
+			} else {
+				$content = file_get_contents(dirname(__FILE__) . '/../web/themes/default/templates/error.tpl.htm');
+			}
 			if($next_link != '') $msg .= '<a href="'.$next_link.'">Next</a>';
 			$content = str_replace('###ERRORMSG###', $msg, $content);
 			die($content);
