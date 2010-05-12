@@ -80,7 +80,7 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "database_name",
+$liste["item"][] = array(	'field'		=> "database_user",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
@@ -89,5 +89,13 @@ $liste["item"][] = array(	'field'		=> "database_name",
 							'width'		=> "",
 							'value'		=> "");
 
+$liste["item"][] = array(    'field'        => "database_name",
+                            'datatype'    => "VARCHAR",
+                            'formtype'    => "TEXT",
+                            'op'        => "like",
+                            'prefix'    => "%",
+                            'suffix'    => "%",
+                            'width'        => "",
+                            'value'        => "");
 
 ?>
