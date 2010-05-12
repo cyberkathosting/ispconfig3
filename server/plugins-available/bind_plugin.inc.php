@@ -129,7 +129,7 @@ class bind_plugin {
 		global $app, $conf;
 		
 		//* load the server configuration options
-		$app->uses("getconf");
+		$app->uses("getconf,tpl");
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
 		//* rebuild the named.conf file
