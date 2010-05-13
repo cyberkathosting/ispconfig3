@@ -1,5 +1,5 @@
 <?php
-$wb['Database'] = 'Banco de Dados';
+$wb['Database'] = 'Bancos de Dados';
 $wb['Options'] = 'Opções';
 $wb['Shell User'] = 'Usuário de Shell';
 $wb['Domain'] = 'Website';

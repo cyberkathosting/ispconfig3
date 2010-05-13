@@ -1,10 +1,10 @@
 <?php
 $wb['select_server_txt'] = 'Selecione o Servidor';
-$wb['btn_do_txt'] = 'Executar aÁ„o';
-$wb['do_osupdate_caption'] = 'FaÁa AtualizaÁ„o do SO no servidor remoto';
-$wb['do_osupdate_desc'] = 'Este comando far· um aptitude -y upgrade no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
-$wb['do_ispcupdate_caption'] = 'FaÁa uma atualizaÁ„o do ISPConfig 3 no servidor remoto';
-$wb['do_ispcupdate_desc'] = 'Esta aÁ„o far· uma atualizaÁ„o do ISPConfig3 no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
-$wb['action_scheduled'] = 'Esta aÁ„o est· agendada para execuÁ„o';
+$wb['btn_do_txt'] = 'Executar a√ß√£o';
+$wb['do_osupdate_caption'] = 'Fa√ßa Atualiza√ß√£o do SO no servidor remoto';
+$wb['do_osupdate_desc'] = 'Este comando far√° um aptitude -y upgrade no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['do_ispcupdate_caption'] = 'Fa√ßa uma atualiza√ß√£o do ISPConfig 3 no servidor remoto';
+$wb['do_ispcupdate_desc'] = 'Esta a√ß√£o far√° uma atualiza√ß√£o do ISPConfig3 no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['action_scheduled'] = 'Esta a√ß√£o est√° agendada para execu√ß√£o';
 $wb['select_all_server'] = 'Todos os servidores';
 ?>
