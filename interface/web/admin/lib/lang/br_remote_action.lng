@@ -1,0 +1,10 @@
+<?php
+$wb['select_server_txt'] = 'Selecione o Servidor';
+$wb['btn_do_txt'] = 'Executar ação';
+$wb['do_osupdate_caption'] = 'Faça Atualização do SO no servidor remoto';
+$wb['do_osupdate_desc'] = 'Este comando fará um aptitude -y upgrade no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['do_ispcupdate_caption'] = 'Faça uma atualização do ISPConfig 3 no servidor remoto';
+$wb['do_ispcupdate_desc'] = 'Esta ação fará uma atualização do ISPConfig3 no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['action_scheduled'] = 'Esta ação está agendada para execução';
+$wb['select_all_server'] = 'Todos os servidores';
+?>

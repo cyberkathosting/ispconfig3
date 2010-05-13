@@ -1,0 +1,4 @@
+<?php
+$wb['welcome_user_txt'] = 'Seja Bem-vindo %s';
+$wb['available_modules_txt'] = 'Módulos Disponíveis';
+?>

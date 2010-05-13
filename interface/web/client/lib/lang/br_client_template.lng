@@ -54,4 +54,5 @@ $wb['limit_mailaliasdomain_error_notint'] = 'A alias de domínio de correio deve
 $wb['limit_web_quota_txt'] = 'Cota Web';
 $wb['limit_traffic_quota_txt'] = 'Cota de Tráfego';
 $wb['limit_trafficquota_error_notint'] = 'A cota de tráfego precisa ser um número.';
+$wb['template_del_aborted_txt'] = 'Remoção abortada. Ainda existem clientes com o gabarito selecionado.';
 ?>

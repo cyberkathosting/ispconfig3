@@ -1,6 +1,6 @@
 <?php
 $wb['uid_txt'] = 'Nome do usuário';
-$wb['gid_txt'] = 'Groupo';
+$wb['gid_txt'] = 'Grupo';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Diretório';
 $wb['server_id_txt'] = 'Servidor';
@@ -8,8 +8,8 @@ $wb['parent_domain_id_txt'] = 'Site';
 $wb['username_txt'] = 'Nome do usuário';
 $wb['password_txt'] = 'Senha';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
-$wb['chroot_txt'] = 'Chroot Shell';
-$wb['quota_size_txt'] = 'Quota';
+$wb['chroot_txt'] = 'Shell em Chroot';
+$wb['quota_size_txt'] = 'Cota';
 $wb['active_txt'] = 'Ativo';
 $wb['username_error_empty'] = 'Nome de usuário em branco.';
 $wb['username_error_unique'] = 'O nome de usuário deve ser único.';
