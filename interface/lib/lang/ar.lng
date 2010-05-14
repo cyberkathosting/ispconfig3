@@ -1,0 +1,38 @@
+<?php
+$wb['conf_format_dateshort'] = 'Y-m-d';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'Y-m-d H:i';
+
+$wb['301'] = 'ÛíÑ ãÓãæÍ ááÚÖæ ÈÇáÅÓÊÎÏÇã.';
+$wb['302'] = 'ÇáæÍÏÉ ÛíÑ ÕÇáÍÉ.';
+$wb['1001'] = 'áÇ íãßä áÇÓã ÇáãÓÊÎÏã ÃæßáãÉ ÇáãÑæÑ Çä íßæäÇ ÝÇÑÛÊíä!';
+$wb['1002'] = 'ÇÓã ÇáãÓÊÎÏã æ/Ãæ ßáãÉ ÇáãÑæÑ ÛíÑ ÕÍíÍÉ!';
+$wb['1003'] = 'íÊã ÅíÞÇÝ ÇÓã ÇáãÓÊÎÏã!';
+$wb['delete_confirmation'] = 'åá ÍÞÇ ÊÑíÏ ÍÐÝ åÐÇ ÇáÓÌá¿';
+$wb['error_no_view_permission'] = 'áÇ íæÌÏ áÏíß ÇáÅÐä áÚÑÖ åÐÇ ÇáÓÌá Ãæ Çä ÇáÓÌá åÐÇ ÛíÑ ãæÌæÏ!';
+$wb['error_no_delete_permission'] = 'áÇ íæÌÏ áÏíß ÇáÅÐä áÍÐÝ åÐÇ ÇáÓÌá!';
+$wb["page_txt"] = 'ÕÝÍÉ';
+$wb["page_of_txt"] = 'ãä';
+$wb["page_and_txt"] = 'æ';
+$wb["page_next_txt"] = 'ÇáÊÇáí';
+$wb["page_back_txt"] = 'ááÎáÝ';
+$wb["delete_txt"] = 'ÍÐÝ';
+$wb["filter_txt"] = 'ãÕÝÇÉ';
+$wb["add_new_record_txt"] = 'ÅÖÇÝÉ ÓÌá ÌÏíÏ';
+$wb['btn_save_txt'] = "ÍÝÙ";
+$wb['btn_cancel_txt'] = "ááÎáÝ";
+$wb['top_menu_system'] = 'ÇáäÙÇã';
+$wb['top_menu_client'] = 'ÇáÚãíá';
+$wb['top_menu_email'] = 'ÇáÈÑíÏ ÇáÇáßÊÑæäí';
+$wb['top_menu_monitor'] = 'ÇáãÑÇÞÈÉ';
+$wb['top_menu_sites'] = 'ÇáãæÇÞÚ';
+$wb['top_menu_dns'] = 'ÃÓãÇÁ ÇáäØÇÞÇÊ';
+$wb['top_menu_tools'] = 'ÇÚÏÇÏÇÊ';
+$wb['top_menu_help'] = 'ÇáãÓÇÚÏÉ';
+$wb['top_menu_billing'] = 'ÇáÝæÊÑÉ';
+$wb['top_menu_domain'] = 'ÇáãÌÇáÇÊ';
+$wb['top_menu_dashboard'] = 'ÇáÑÆíÓÉ';
+$wb['toolsarea_head_txt'] = 'ÃÏæÇÊ';
+?>
