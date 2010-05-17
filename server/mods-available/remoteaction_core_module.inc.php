@@ -147,11 +147,15 @@ class remoteaction_core_module {
 		/*
 		 * Do the update
 		 */
-		exec("cd /tmp");
+		$oldDir = getcwd();
+		chdir("/tmp");
+
+		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
+		exec("rm /tmp/ispconfig3_install -R");
 		exec("wget http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
 		exec("tar xvfz ISPConfig-" . $new_version . ".tar.gz");
-		exec("cd ispconfig3_install/install");
 
+		chdir("/tmp/ispconfig3_install/install");
 		exec("touch autoupdate");
 		exec("php -q autoupdate.php");
 

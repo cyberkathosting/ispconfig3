@@ -159,6 +159,10 @@ $items[] = array( 'title' 	=> 'Do OS-Update',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/remote_action_osupdate.php');
 
+$items[] = array( 'title' 	=> 'Do ISPConfig-Update',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/remote_action_ispcupdate.php');
+
 $module['nav'][] = array(	'title'	=> 'Remote Actions',
 							'open' 	=> 1,
 							'items'	=> $items);

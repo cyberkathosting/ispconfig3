@@ -39,4 +39,5 @@ $wb['Merge'] = 'Merge';
 $wb['Remote Users'] = 'Remote Benutzer';
 $wb['Remote Actions'] = 'Remote Aktionen';
 $wb['Do OS-Update'] = 'Betriebssystem Update ausführen';
+$wb['Do ISPConfig-Update'] = 'ISPConfig auf den neuesten Stand bringen';
 ?>
