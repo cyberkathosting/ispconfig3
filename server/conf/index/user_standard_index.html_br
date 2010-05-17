@@ -48,9 +48,9 @@
             <h1>Bem-vindo ao <!--ADRESSE//-->seu site!<!--ADRESSE//--></h1>
         </div>
         <div id="content">
-            <h2>Esta é a página index padrão para o usuário <b>{USER_USERNAME}</b>.</h2>
-            <p>Este arquivo pode ser reescrito ou subistituído sem quaisquer dificuldades. Esta página é produzida pelo arquivo <b>index.html</b> no diretório <b>user/{USER_USERNAME}/web</b>.</p>
-            <p>Tendo quaisquer dúvidas ou problemas contate o <!--SUPPORT//-->suporte<!--SUPPORT//-->.</p>
+            <h2>Esta &eacute; a p&aacute;gina index padr&atilde;o para o usu&aacute;rio <b>{USER_USERNAME}</b>.</h2>
+            <p>Este arquivo pode ser reescrito ou subistitu&iacute;do sem quaisquer dificuldades. Esta p&aacute;gina &eacute; produzida pelo arquivo <b>index.html</b> no diretório <b>user/{USER_USERNAME}/web</b>.</p>
+            <p>Tendo quaisquer d&uacute;vidas ou problemas contate o <!--SUPPORT//-->suporte<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>Powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>

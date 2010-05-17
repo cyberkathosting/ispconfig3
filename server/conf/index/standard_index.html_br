@@ -49,8 +49,8 @@
         </div>
         <div id="content">
             <h2>Esta é a página index padrão de seu site.</h2>
-            <p>Este arquivo pode ser reescrito ou subistituído sem quaisquer dificuldades. Esta página é produzida pelo arquivo <b>index.html</b> contido no diretório <b>web</b>.</p>
-            <p>Tendo quaisquer dúvidas ou problemas contate o <!--SUPPORT//-->suporte<!--SUPPORT//-->.</p>
+            <p>Este arquivo pode ser reescrito ou subistitu&iacute;do sem quaisquer dificuldades. Esta p&aacute;gina &eacute; produzida pelo arquivo <b>index.html</b> contido no diret&oacute;rio <b>web</b>.</p>
+            <p>Tendo quaisquer d&uacute;vidas ou problemas contate o <!--SUPPORT//-->suporte<!--SUPPORT//-->.</p>
         </div>
         <div id="footer">
             <p>Powered by <a href="http://www.ispconfig.org">ISPConfig</a></p>
