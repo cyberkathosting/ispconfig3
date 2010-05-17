@@ -49,10 +49,10 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_maildomain')) {
@@ -65,10 +65,10 @@ class page_action extends tform_actions {
 
 		parent::onShowNew();
 	}
-	
+
 	function onShowEnd() {
 		global $app, $conf;
-		
+
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Clients of the user
 			if($_SESSION["s"]["user"]["typ"] == 'admin') {
@@ -88,18 +88,18 @@ class page_action extends tform_actions {
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
-		
+
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id order by contact_name");
-			
+
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
-			
+
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
 			$clients = $app->db->queryAllRecords($sql);
@@ -115,14 +115,14 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id",$client_select);
 
 		}
-		
+
 		/*
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
-		 */
+		*/
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
-		if ($settings['use_domain_module'] == 'y'){
+		if ($settings['use_domain_module'] == 'y') {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id;
 			$domains = $app->db->queryAllRecords($sql);
@@ -131,11 +131,19 @@ class page_action extends tform_actions {
 				foreach( $domains as $domain) {
 					$domain_select .= "<option value=" . $domain['domain'] . ">" . $domain['domain'] . "</option>\r\n";
 				}
+
+			} else {
+				/*
+				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+				 * To avoid, that the variable "domain_option" is empty and so the user can
+				 * free enter a domain, we have to create a empty option!
+				 */
+				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option",$domain_select);
 		}
-		
-		
+
+
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '@".$this->dataRecord["domain"]."'");
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
@@ -151,7 +159,7 @@ class page_action extends tform_actions {
 		unset($policys);
 		unset($policy_select);
 		unset($tmp_user);
-		
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -159,29 +167,29 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
-		
+
 		parent::onShowEnd();
 	}
-	
+
 	function onSubmit() {
 		global $app, $conf;
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
-			
+
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain_id = ".intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
-			// When the record is inserted
+				// When the record is inserted
 			} else {
 				// set the server ID to the default mailserver of the client
 				$this->dataRecord["server_id"] = $client["default_mailserver"];
-				
+
 				// Check if the user may add another mail_domain
 				if($client["limit_maildomain"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
@@ -190,21 +198,21 @@ class page_action extends tform_actions {
 					}
 				}
 			}
-			
+
 			// Clients may not set the client_group_id, so we unset them if user is not a admin
 			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
 		}
-		
+
 		//* make sure that the email domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
-		
-		
+
+
 		parent::onSubmit();
 	}
-	
+
 	function onAfterInsert() {
 		global $app, $conf;
-		
+
 		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
@@ -215,7 +223,7 @@ class page_action extends tform_actions {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
-		
+
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
@@ -226,17 +234,17 @@ class page_action extends tform_actions {
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
+				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
 				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".mysql_real_escape_string($this->dataRecord["domain"])."', '@".mysql_real_escape_string($this->dataRecord["domain"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
 		}  // endif spamfilter policy
 	}
-	
+
 	function onBeforeUpdate() {
 		global $app, $conf;
-		
+
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -247,7 +255,7 @@ class page_action extends tform_actions {
 				$this->dataRecord["server_id"] = $rec['server_id'];
 			}
 			unset($rec);
-		//* If the user is neither admin nor reseller
+			//* If the user is neither admin nor reseller
 		} else {
 			//* We do not allow users to change a domain which has been created by the admin
 			$rec = $app->db->queryOneRecord("SELECT domain from mail_domain WHERE domain_id = ".$this->id);
@@ -259,12 +267,12 @@ class page_action extends tform_actions {
 			unset($rec);
 		}
 	}
-	
-	
-	
+
+
+
 	function onAfterUpdate() {
 		global $app, $conf;
-		
+
 		// make sure that the record belongs to the clinet group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
@@ -275,7 +283,7 @@ class page_action extends tform_actions {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
-		
+
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->dataRecord["domain"])."'");
@@ -286,7 +294,7 @@ class page_action extends tform_actions {
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
+				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
 				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".mysql_real_escape_string($this->dataRecord["domain"])."', '@".mysql_real_escape_string($this->dataRecord["domain"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
@@ -301,7 +309,7 @@ class page_action extends tform_actions {
 		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
 			$app->uses('getconf');
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"],'mail');
-			
+
 			//* Update the mailboxes
 			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
 			$sys_groupid = (isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid'];
@@ -316,7 +324,7 @@ class page_action extends tform_actions {
 					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
-			
+
 			//* Update the aliases
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."' OR destination like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
 			if(is_array($forwardings)) {
@@ -326,16 +334,16 @@ class page_action extends tform_actions {
 					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
-			
+
 			//* Delete the old spamfilter record
 			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->oldDataRecord["domain"])."'");
 			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
 			unset($tmp);
-			
+
 		} // end if domain name changed
-		
+
 	}
-	
+
 }
 
 $page = new page_action;

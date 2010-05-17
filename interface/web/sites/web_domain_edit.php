@@ -217,10 +217,19 @@ class page_action extends tform_actions {
 			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id;
 			$domains = $app->db->queryAllRecords($sql);
 			$domain_select = '';
-			if(is_array($domains)) {
+			if(is_array($domains) && sizeof($domains) > 0) {
+				/* We have domains in the list, so create the drop-down-list */
 				foreach( $domains as $domain) {
 					$domain_select .= "<option value=" . $domain['domain'] . ">" . $domain['domain'] . "</option>\r\n";
 				}
+			}
+			else {
+				/*
+				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+				 * To avoid, that the variable "domain_option" is empty and so the user can
+				 * free enter a domain, we have to create a empty option!
+			 	 */
+				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option",$domain_select);
 		}
