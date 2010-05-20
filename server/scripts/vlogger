@@ -252,9 +252,14 @@ if ( $OPTS{'d'} ) {
     }
 
     # test the connection
-    my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
-      or die "DBI Error: $!";
-    $dbh->disconnect;
+	eval {
+      my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
+        or die "DBI Error: $!";
+      $dbh->disconnect;
+	};
+	if ($@) {
+       print "MySQL Connection problem\n";
+    }
 
     # SIGALRM dumps the tracker hash
     $SIG{ALRM} = \&dump_tracker;
@@ -503,7 +508,8 @@ sub open_errorlog {
 
 # sub to update the database with the tracker data
 sub dump_tracker {
-    if ( keys(%tracker) > 0 ) {
+    eval {
+	if ( keys(%tracker) > 0 ) {
         my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
           or warn "DBI Error: $!";
         foreach my $key ( keys(%tracker) ) {
@@ -529,6 +535,10 @@ sub dump_tracker {
         %tracker = ();
     }
     alarm $DBI_DUMP;
+	};
+    if ($@) {
+        print "Unable to store vlogger data in database\n";
+    }
 }
 
 # print usage info
