@@ -282,9 +282,11 @@ class installer_base {
 			
 			$hosts[$from_host]['user'] = $conf['mysql']['master_ispconfig_user'];
 			$hosts[$from_host]['db'] = $conf['mysql']['master_database'];
+			$hosts[$from_host]['pwd'] = $conf['mysql']['master_ispconfig_password'];
 
 			$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
 			$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
+			$hosts[$from_ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
 		} else{
 			/*
 			 * it is NOT a master-slave - Setup so we have to find out all clients and their
@@ -298,18 +300,27 @@ class installer_base {
 			foreach ($data as $item){
 				$hosts[$item['Host']]['user'] = $item['User'];
 				$hosts[$item['Host']]['db'] = $conf['mysql']['master_database'];
+				$hosts[$item['Host']]['pwd'] = ''; // the user already exists, so we need no pwd!
 			}
 		}
 		
 		if(is_array($hosts)) {
 		foreach($hosts as $host => $value) {
 			/*
-			 *  Delete ISPConfig user in the master database, in case that it exists
+			 * If a pwd exists, this means, we have to add the new user (and his pwd).
+			 * if not, the user already exists and we do not need the pwd
+			 */
+			if ($value['pwd'] != ''){
+				$query = "CREATE USER '".$value['user']."'@'".$host."' IDENTIFIED BY '" . $value['pwd'] . "'";
+				$this->dbmaster->query($query); // ignore the error
+			}
+
+			/*
+			 *  Try to delete all rights of the user in case that it exists.
+			 *  In Case that it will not exist, do nothing (ignore the error!)
 			 */
 			$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$value['user']."'@'".$host."' ";
-			if(!$this->dbmaster->query($query)) {
-				$this->error('Unable to remove rights of user in master database: '.$value['db'].' Error: '.$this->dbmaster->errorMessage);
-			}
+			$this->dbmaster->query($query); // ignore the error
 
 			//* Create the ISPConfig database user in the remote database
 			$query = "GRANT SELECT ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
