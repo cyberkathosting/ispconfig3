@@ -30,12 +30,12 @@
 	
 	#topNav a {
 		background-color: #D3D3D3;
-		background-position: center top;
+		background-position: center 5px;
 		background-repeat: no-repeat;
 		color:black;
 		display:inline-block;
-		height:18px;
-		padding-top:31px;
+		height:20px;
+		padding-top:37px;
 		text-align:center;
 		text-decoration:none;
 		width:97px;
