@@ -214,7 +214,7 @@ class page_action extends tform_actions {
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y'){
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id;
+			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id . " ORDER BY domain";
 			$domains = $app->db->queryAllRecords($sql);
 			$domain_select = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
