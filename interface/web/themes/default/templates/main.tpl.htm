@@ -68,7 +68,9 @@
                     <a class="skip" href="#navigation" title="skip link">Skip to the navigation</a><span class="hideme">.</span>
                     <a class="skip" href="#content" title="skip link">Skip to the content</a><span class="hideme">.</span>
                     <!-- end: skip link navigation -->
+			        <tmpl_if name="cpuser">
                     <span><a href="#logout" onclick="loadContent('login/logout.php');">LOGOUT <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>--></span>
+			        </tmpl_if>
                 </div>
                 <h1 id="ir-HeaderLogo" class="swap"><span>ISPConfig 3</span></h1>
                 <span>hosting control panel</span>
