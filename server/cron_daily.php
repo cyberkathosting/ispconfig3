@@ -36,7 +36,7 @@ set_time_limit(0);
 // make sure server_id is always an int
 $conf["server_id"] = intval($conf["server_id"]);
 
-	
+
 // Load required base-classes
 $app->uses('ini_parser,file,services');
 
@@ -49,10 +49,10 @@ $sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf["ser
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
 	if(@is_file($rec["maildir"].'/ispconfig_mailsize')) {
-		
+
 		// rename file
 		rename($rec["maildir"].'/ispconfig_mailsize',$rec["maildir"].'/ispconfig_mailsize_save');
-		
+
 		// Read the file
 		$lines = file($rec["maildir"].'/ispconfig_mailsize_save');
 		$mail_traffic = 0;
@@ -60,16 +60,16 @@ foreach($records as $rec) {
 			$mail_traffic += intval($line);
 		}
 		unset($lines);
-		
+
 		// Delete backup file
 		if(@is_file($rec["maildir"].'/ispconfig_mailsize_save')) unlink($rec["maildir"].'/ispconfig_mailsize_save');
-		
+
 		// Save the traffic stats in the sql database
 		$tstamp = date("Y-m");
-		
+
 		$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec["mailuser_id"];
 		$tr = $app->dbmaster->queryOneRecord($sql);
-		
+
 		$mail_traffic += $tr["traffic"];
 		if($tr["traffic_id"] > 0) {
 			$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr["traffic_id"];
@@ -78,9 +78,9 @@ foreach($records as $rec) {
 		}
 		$app->dbmaster->query($sql);
 		echo $sql;
-		
+
 	}
-	
+
 }
 
 #######################################################################################################
@@ -166,7 +166,7 @@ foreach($records as $rec) {
 		exec("gzip -c $logfile > $logfile.gz");
 		unlink($logfile);
 	}
-	
+
 	// delete logfiles after 30 days
 	$month_ago = date("Ymd",time() - 86400 * 30);
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$month_ago.'-access.log.gz');
@@ -284,30 +284,30 @@ if ($app->dbmaster == $app->db) {
 if ($app->dbmaster == $app->db) {
 
 	$current_month = date('Y-m');
-	
+
 	//* Check website traffic quota
 	$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE traffic_quota > 0 and type = 'vhost'";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {
-			
+
 			$web_traffic_quota = $rec['traffic_quota'];
 			$domain = $rec['domain'];
-			
+
 			// get the client
 			/*
 			$client_group_id = $rec["sys_groupid"];
 			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota,parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota FROM client WHERE client_id = ".intval($client['parent_client_id']));
-			
+
 			$client_traffic_quota = intval($client['limit_traffic_quota']);
 			$reseller_traffic_quota = intval($reseller['limit_traffic_quota']);
 			*/
-			
+
 			//* get the traffic
-			$tmp = $app->db->queryOneRecord("SELECT traffic_bytes FROM web_traffic WHERE traffic_date like '$current_month%' AND hostname = '$domain'");
-			$web_traffic = $tmp['traffic_bytes']/1024/1024;
-			
+			$tmp = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) As total_traffic_bytes FROM web_traffic WHERE traffic_date like '$current_month%' AND hostname = '$domain'");
+			$web_traffic = (int)$tmp['total_traffic_bytes']/1024/1024;
+
 			//* Website is over quota, we will disable it
 			/*if( ($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) ||
 				($client_traffic_quota > 0 && $web_traffic > $client_traffic_quota) ||
@@ -324,8 +324,8 @@ if ($app->dbmaster == $app->db) {
 			}
 		}
 	}
-	
-	
+
+
 }
 
 
