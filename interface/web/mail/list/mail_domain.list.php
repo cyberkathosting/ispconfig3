@@ -66,7 +66,7 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'prefix'	=> "%",
 							'suffix'	=> "%",
 							'datasource'	=> array ( 	'type'	=> 'SQL',
-														'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
+														'querystring' => 'SELECT a.server_id, a.server_name FROM server a, mail_domain b WHERE (a.server_id = b.server_id) AND ({AUTHSQL-B}) ORDER BY a.server_name',
 														'keyfield'=> 'server_id',
 														'valuefield'=> 'server_name'
 									 				  ),
