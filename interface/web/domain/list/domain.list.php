@@ -76,9 +76,24 @@ $liste["auth"]				= "yes";
 $liste["item"][] = array(	'field'		=> "domain",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
-							'op'		=> "like",
+							'op'		=> "LIKE",
 							'prefix'	=> "%",
 							'suffix'	=> "%",
 							'width'		=> "",
 							'value'		=> "");
+
+$liste["item"][] = array(	'field'		=> "sys_groupid",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'datasource'	=> array ( 	'type'	=> 'SQL',
+														'querystring' => 'SELECT a.groupid, a.name FROM sys_group a, domain b WHERE (a.groupid = b.sys_groupid) AND ({AUTHSQL-B}) ORDER BY name',
+														'keyfield'=> 'groupid',
+														'valuefield'=> 'name'
+									 				  ),
+							'width'		=> "",
+							'value'		=> "");
+
 ?>

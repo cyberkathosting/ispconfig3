@@ -108,7 +108,7 @@ class page_action extends tform_actions {
 				if(isset($this->dataRecord['client_group_id']) && $this->dataRecord['client_group_id'] == 0) {
 					$app->tform->errorMessage .= $wb['error_client_group_id_empty'];
 				}
-				//* make sure that the email domain is lowercase
+				//* make sure that the domain is lowercase
 				if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 			}
 			else {
