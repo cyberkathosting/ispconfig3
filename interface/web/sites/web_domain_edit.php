@@ -52,7 +52,7 @@ class page_action extends tform_actions {
 
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_web_domain',"type = 'vhost'")) {
@@ -62,25 +62,25 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_web_domain_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
-	
+
 	function onShowEnd() {
 		global $app, $conf;
-		
+
 		//* Client: If the logged in user is not admin and has no sub clients (no rseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-		
+
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_web_domain, default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
-			
+
 			// Fill the IP select field with the IP addresses that are allowed for this client
 			// $ip_select = "<option value='*'>*</option>";
 			// $app->tpl->setVar("ip_address",$ip_select);
@@ -97,19 +97,19 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ip_address",$ip_select);
 			unset($tmp);
 			unset($ips);
-		
-		//* Reseller: If the logged in user is not admin and has sub clients (is a rseller)
+
+			//* Reseller: If the logged in user is not admin and has sub clients (is a rseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			
+
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, default_webserver, client.contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
-			
+
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
 			$records = $app->db->queryAllRecords($sql);
@@ -123,7 +123,7 @@ class page_action extends tform_actions {
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
-			
+
 			// Fill the IP select field with the IP addresses that are allowed for this client
 			//$ip_select = "<option value='*'>*</option>";
 			//$app->tpl->setVar("ip_address",$ip_select);
@@ -140,10 +140,10 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ip_address",$ip_select);
 			unset($tmp);
 			unset($ips);
-		
-		//* Admin: If the logged in user is admin
+
+			//* Admin: If the logged in user is admin
 		} else {
-			
+
 			// The user is admin, so we fill in all IP addresses of the server
 			if($this->id > 0) {
 				$server_id = @$this->dataRecord["server_id"];
@@ -152,7 +152,7 @@ class page_action extends tform_actions {
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
 				$server_id = $tmp['server_id'];
 			}
-			
+
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id = $server_id";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value='*'>*</option>";
@@ -166,7 +166,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ip_address",$ip_select);
 			unset($tmp);
 			unset($ips);
-			
+
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
 			$clients = $app->db->queryAllRecords($sql);
@@ -179,9 +179,9 @@ class page_action extends tform_actions {
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
-			
+
 		}
-		
+
 		$ssl_domain_select = '';
 		$ssl_domains = array($this->dataRecord["domain"],'www.'.$this->dataRecord["domain"]);
 		if(is_array($ssl_domains)) {
@@ -194,7 +194,7 @@ class page_action extends tform_actions {
 		unset($ssl_domain_select);
 		unset($ssl_domains);
 		unset($ssl_domain);
-		
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -202,25 +202,39 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
-		
+
 		$tmp_txt = ($this->dataRecord['traffic_quota_lock'] == 'y')?'<b>('.$app->tform->lng('traffic_quota_exceeded_txt').')</b>':'';
 		$app->tpl->setVar("traffic_quota_exceeded_txt", $tmp_txt);
-		
+
 		/*
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
 		 */
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
-		if ($settings['use_domain_module'] == 'y'){
+		if ($settings['use_domain_module'] == 'y') {
+			/*
+			 * The domain-module is in use.
+			*/
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$sql = "SELECT domain FROM domain WHERE sys_groupid =" . $client_group_id . " ORDER BY domain";
+			/*
+			 * The admin can select ALL domains, the user only the domains assigned to him
+			 */
+			$sql = "SELECT domain FROM domain ";
+			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+				$sql .= "WHERE sys_groupid =" . $client_group_id;
+			}
+			$sql .= " ORDER BY domain";
 			$domains = $app->db->queryAllRecords($sql);
 			$domain_select = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
 				/* We have domains in the list, so create the drop-down-list */
 				foreach( $domains as $domain) {
-					$domain_select .= "<option value=" . $domain['domain'] . ">" . $domain['domain'] . "</option>\r\n";
+					$domain_select .= "<option value=" . $domain['domain'] ;
+					if ($domain['domain'] == $this->dataRecord["domain"]) {
+						$domain_select .= " selected";
+					}
+					$domain_select .= ">" . $domain['domain'] . "</option>\r\n";
 				}
 			}
 			else {
@@ -228,28 +242,28 @@ class page_action extends tform_actions {
 				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
 				 * To avoid, that the variable "domain_option" is empty and so the user can
 				 * free enter a domain, we have to create a empty option!
-			 	 */
+				*/
 				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option",$domain_select);
 		}
-		
+
 		parent::onShowEnd();
 	}
-	
+
 	function onSubmit() {
 		global $app, $conf;
-		
+
 		// Set a few fixed values
 		$this->dataRecord["parent_domain_id"] = 0;
 		$this->dataRecord["type"] = 'vhost';
 		$this->dataRecord["vhost_type"] = 'name';
-		
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			//* Check the website quota
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
@@ -265,7 +279,7 @@ class page_action extends tform_actions {
 				unset($tmp);
 				unset($tmp_quota);
 			}
-			
+
 			//* Check the traffic quota
 			if(isset($_POST["traffic_quota"]) && $client["limit_traffic_quota"] > 0) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
@@ -281,19 +295,19 @@ class page_action extends tform_actions {
 				unset($tmp);
 				unset($tmp_quota);
 			}
-			
+
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
-			// When the record is inserted
+				// When the record is inserted
 			} else {
 				// set the server ID to the default mailserver of the client
 				$this->dataRecord["server_id"] = $client["default_webserver"];
-				
-				
+
+
 				// Check if the user may add another web_domain
 				if($client["limit_web_domain"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM web_domain WHERE sys_groupid = $client_group_id and type = 'vhost'");
@@ -301,20 +315,20 @@ class page_action extends tform_actions {
 						$app->error($app->tform->wordbook["limit_web_domain_txt"]);
 					}
 				}
-				
+
 			}
-			
+
 			// Clients may not set the client_group_id, so we unset them if user is not a admin and the client is not a reseller
 			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
 		}
-		
-		
+
+
 		parent::onSubmit();
 	}
-	
+
 	function onAfterInsert() {
 		global $app, $conf;
-		
+
 		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
@@ -325,13 +339,13 @@ class page_action extends tform_actions {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
-		
+
 		// Get configuration for the web system
 		$app->uses("getconf");
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
-		
+
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -342,7 +356,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($this->dataRecord["client_group_id"]));
 			$client_id = intval($client["client_id"]);
 		}
-		
+
 		// Set the values for document_root, system_user and system_group
 		$system_user = $app->db->quote('web'.$this->id);
 		$system_group = $app->db->quote('client'.$client_id);
@@ -350,18 +364,18 @@ class page_action extends tform_actions {
 		$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);
 		$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
 		$htaccess_allow_override = $app->db->quote($web_config["htaccess_allow_override"]);
-		
+
 		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
 		$app->db->query($sql);
 	}
-	
+
 	function onBeforeUpdate () {
 		global $app, $conf;
 
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			if (isset($this->dataRecord["server_id"])){
+			if (isset($this->dataRecord["server_id"])) {
 				$rec = $app->db->queryOneRecord("SELECT server_id from web_domain WHERE domain_id = ".$this->id);
 				if($rec['server_id'] != $this->dataRecord["server_id"]) {
 					//* Add a error message and switch back to old server
@@ -370,7 +384,7 @@ class page_action extends tform_actions {
 				}
 				unset($rec);
 			}
-		//* If the user is neither admin nor reseller
+			//* If the user is neither admin nor reseller
 		} else {
 			//* We do not allow users to change a domain which has been created by the admin
 			$rec = $app->db->queryOneRecord("SELECT domain from web_domain WHERE domain_id = ".$this->id);
@@ -381,7 +395,7 @@ class page_action extends tform_actions {
 			}
 			unset($rec);
 		}
-		
+
 		//* Check that all fields for the SSL cert creation are filled
 		if(isset($this->dataRecord['ssl_action']) && $this->dataRecord['ssl_action'] == 'create') {
 			if($this->dataRecord['ssl_state'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_state_empty').'<br />';
@@ -390,12 +404,12 @@ class page_action extends tform_actions {
 			if($this->dataRecord['ssl_organisation_unit'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_organisation_unit_empty').'<br />';
 			if($this->dataRecord['ssl_country'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_country_empty').'<br />';
 		}
-		
+
 	}
-	
+
 	function onAfterUpdate() {
 		global $app, $conf;
-		
+
 		// make sure that the record belongs to the clinet group and not the admin group when a admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
@@ -406,13 +420,13 @@ class page_action extends tform_actions {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
-		
+
 		// Get configuration for the web system
 		$app->uses("getconf");
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
-		
+
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -423,17 +437,17 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval(@$this->dataRecord["client_group_id"]));
 			$client_id = intval($client["client_id"]);
 		}
-		
+
 		if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) &&  isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"]) {
 			// Set the values for document_root, system_user and system_group
 			$system_user = $app->db->quote('web'.$this->id);
 			$system_group = $app->db->quote('client'.$client_id);
 			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
-		
+
 			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 			//$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
-			
+
 			// Update the FTP user(s) too
 			$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
@@ -441,7 +455,7 @@ class page_action extends tform_actions {
 			}
 			unset($records);
 			unset($rec);
-			
+
 			// Update the Shell user(s) too
 			$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
@@ -449,9 +463,9 @@ class page_action extends tform_actions {
 			}
 			unset($records);
 			unset($rec);
-			
+
 		}
-		
+
 		//* If the domain name has been changed, we will have to change all subdomains
 		if($this->dataRecord["domain"] != '' && $this->oldDataRecord["domain"] != '' && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
 			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'subdomain' AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
@@ -463,7 +477,7 @@ class page_action extends tform_actions {
 			unset($rec);
 			unset($subdomain);
 		}
-		
+
 		//* Set allow_override and php_open_basedir if empty
 		if($web_rec['allow_override'] == '') {
 			$sql = "UPDATE web_domain SET allow_override = '".$app->db->quote($web_config["htaccess_allow_override"])."' WHERE domain_id = ".$this->id;
@@ -476,27 +490,27 @@ class page_action extends tform_actions {
 			$sql = "UPDATE web_domain SET php_open_basedir = '$php_open_basedir' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 		}
-		
+
 	}
-	
+
 	function onAfterDelete() {
 		global $app, $conf;
-		
+
 		// Delete the sub and alias domains
 		$child_domains = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$this->id);
 		foreach($child_domains as $d) {
 			// Saving record to datalog when db_history enabled
-            if($app->tform->formDef["db_history"] == 'yes') {
+			if($app->tform->formDef["db_history"] == 'yes') {
 				$app->tform->datalogSave('DELETE',$d["domain_id"],$d,array());
-            }
+			}
 
-            $app->db->query("DELETE FROM web_domain WHERE domain_id = ".$d["domain_id"]." LIMIT 0,1");
+			$app->db->query("DELETE FROM web_domain WHERE domain_id = ".$d["domain_id"]." LIMIT 0,1");
 		}
 		unset($child_domains);
 		unset($d);
-		
+
 	}
-	
+
 }
 
 $page = new page_action;
