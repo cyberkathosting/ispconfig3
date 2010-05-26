@@ -238,7 +238,10 @@ function setFocus() {
 			if(flag)break;
 		}
 */
-  document.pageForm.username.focus();
+	try {
+		document.pageForm.username.focus();
+	} catch (e) {
+	}
 }
 
 
