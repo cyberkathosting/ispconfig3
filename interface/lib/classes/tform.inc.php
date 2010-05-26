@@ -1125,15 +1125,18 @@ class tform {
 
         }
 
-        function getAuthSQL($perm) {
+        function getAuthSQL($perm, $table = '') {
 				if($_SESSION["s"]["user"]["typ"] == 'admin') {
 					return '1';
 				} else {
+					if ($table != ''){
+						$table = ' ' . $table . '.';
+					}
                 	$groups = ( $_SESSION["s"]["user"]["groups"] ) ? $_SESSION["s"]["user"]["groups"] : 0;
 					$sql = '(';
-                	$sql .= "(sys_userid = ".$_SESSION["s"]["user"]["userid"]." AND sys_perm_user like '%$perm%') OR  ";
-                	$sql .= "(sys_groupid IN (".$groups.") AND sys_perm_group like '%$perm%') OR ";
-                	$sql .= "sys_perm_other like '%$perm%'";
+                	$sql .= "(" . $table . "sys_userid = ".$_SESSION["s"]["user"]["userid"]." AND " . $table . "sys_perm_user like '%$perm%') OR  ";
+                	$sql .= "(" . $table . "sys_groupid IN (".$groups.") AND " . $table ."sys_perm_group like '%$perm%') OR ";
+                	$sql .= $table . "sys_perm_other like '%$perm%'";
                 	$sql .= ')';
 
                 	return $sql;
