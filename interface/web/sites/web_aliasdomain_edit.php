@@ -68,20 +68,54 @@ class page_action extends tform_actions {
 		parent::onShowNew();
 	}
 	
-	/*
 	function onShowEnd() {
 		global $app, $conf;
 		
-		// Get the record of the parent domain
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-		
-		$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"],'',$this->dataRecord["domain"]);
-		$app->tpl->setVar("domain",$this->dataRecord["domain"]);
-		
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y') {
+			/*
+			 * The domain-module is in use.
+			*/
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			/*
+			 * The admin can select ALL domains, the user only the domains assigned to him
+			 */
+			$sql = "SELECT domain FROM domain ";
+			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+				$sql .= "WHERE sys_groupid =" . $client_group_id;
+			}
+			$sql .= " ORDER BY domain";
+			$domains = $app->db->queryAllRecords($sql);
+			$domain_select = '';
+			if(is_array($domains) && sizeof($domains) > 0) {
+				/* We have domains in the list, so create the drop-down-list */
+				foreach( $domains as $domain) {
+					$domain_select .= "<option value=" . $domain['domain'] ;
+					if ($domain['domain'] == $this->dataRecord["domain"]) {
+						$domain_select .= " selected";
+					}
+					$domain_select .= ">" . $domain['domain'] . "</option>\r\n";
+				}
+			}
+			else {
+				/*
+				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+				 * To avoid, that the variable "domain_option" is empty and so the user can
+				 * free enter a domain, we have to create a empty option!
+				*/
+				$domain_select .= "<option value=''></option>\r\n";
+			}
+			$app->tpl->setVar("domain_option",$domain_select);
+		}
+
 		parent::onShowEnd();
 		
 	}
-	*/
 
 	function onSubmit() {
 		global $app, $conf;
