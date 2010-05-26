@@ -36,4 +36,5 @@ $wb["quota_error_value"] = 'Invalid quota value. Allowed values are: 0 for unlim
 $wb["move_junk_txt"] = 'Move Spam Emails to Junk directory';
 $wb["name_txt"] = 'Realname';
 $wb["name_optional_txt"] = '(Optional)';
+$wb['autoresponder_active'] = 'Enable the autoresponder';
 ?>

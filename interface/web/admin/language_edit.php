@@ -56,9 +56,9 @@ if(isset($_POST['records']) && is_array($_POST['records'])) {
 	$file_content = "<?php\n";
 	foreach($_POST['records'] as $key => $val) {
 		$val = stripslashes($val);
-		$val = str_replace("'",'',$val);
-		$val = str_replace('"','',$val);
-		$file_content .= '$wb['."'$key'".'] = '."'$val';\n";
+		$val = str_replace('"','\"',$val);
+		$val = str_replace('$','',$val);
+		$file_content .= '$wb['."'$key'".'] = "'.$val.'";'."\n";
 		$msg = 'File saved.';
 	}
 	$file_content .= "?>\n";

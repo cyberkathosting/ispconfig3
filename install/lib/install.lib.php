@@ -113,14 +113,14 @@ function get_distname() {
 			swriteln("Operating System: openSUSE 11.1 or compatible\n");
 		} elseif(stristr(file_get_contents('/etc/SuSE-release'),'11.2')) {
 			$distname = 'openSUSE';
-			$distver = '11.1';
-			$distid = 'opensuse110';
+			$distver = '11.2';
+			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.2 or compatible\n");
 		}  else {
 			$distname = 'openSUSE';
 			$distver = 'Unknown';
-			$distid = 'opensuse110';
+			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE or compatible, unknown version.\n");
 		}
