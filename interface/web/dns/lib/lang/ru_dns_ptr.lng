@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Имя имеет неправильный форма
 $wb['data_error_empty'] = 'Canonical hostname пустой';
 $wb['data_error_regex'] = 'Canonical hostname имеет неправильный формат';
 ?>
-

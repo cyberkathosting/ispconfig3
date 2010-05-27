@@ -25,4 +25,3 @@ $wb['directory_error_empty'] = 'Pasta vazia.';
 $wb['directory_error_notinweb'] = 'A pasta não esta dentro da pasta web principal.';
 $wb['parent_domain_id_error_empty'] = 'Nenhum website seleccionado.';
 ?>
-

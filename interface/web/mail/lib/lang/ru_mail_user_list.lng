@@ -5,4 +5,3 @@ $wb['autoresponder_txt'] = 'Автоответчик';
 $wb['add_new_record_txt'] = 'Добавить новый ящик';
 $wb['name_txt'] = 'Realname';
 ?>
-

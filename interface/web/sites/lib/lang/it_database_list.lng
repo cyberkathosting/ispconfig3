@@ -5,4 +5,5 @@ $wb['remote_access_txt'] = 'Accesso remoto';
 $wb['server_id_txt'] = 'Server';
 $wb['database_name_txt'] = 'Nome Database';
 $wb['add_new_record_txt'] = 'Aggiungi nuovo Database';
+$wb['database_user_txt'] = 'Database user';
 ?>

@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Site';
 $wb['username_txt'] = 'Utilizador ';
 $wb['add_new_record_txt'] = 'Adicionar Utilizador de Shell';
 ?>
-

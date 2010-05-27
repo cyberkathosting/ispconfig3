@@ -11,4 +11,3 @@ $wb['active_txt'] = 'Активен?';
 $wb['mirror_server_id_txt'] = 'Зеркало сервера';
 $wb['- None -'] = '- нет -';
 ?>
-

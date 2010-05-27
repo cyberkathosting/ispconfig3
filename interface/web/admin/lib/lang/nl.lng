@@ -37,4 +37,7 @@ $wb['Packages'] = 'Pakketten';
 $wb['Updates'] = 'Updates';
 $wb['Remote Users'] = 'API gebruikers';
 $wb['Interface Config'] = 'Omgevingsvariabelen';
+$wb['Remote Actions'] = 'Remote Actions';
+$wb['Do OS-Update'] = 'Do OS-Update';
+$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
 ?>

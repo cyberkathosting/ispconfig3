@@ -6,4 +6,3 @@ $wb['email_txt'] = 'Email (Шаблон)';
 $wb['fullname_txt'] = 'Имя';
 $wb['local_txt'] = 'Локальный';
 ?>
-

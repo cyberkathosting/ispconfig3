@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Действие';
 $wb['active_txt'] = 'Активен?';
 $wb['pattern_error_empty'] = 'Шаблон пустой.';
 ?>
-

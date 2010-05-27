@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Utilizador ';
 $wb['email_txt'] = 'Correio na Lista Negra';
 $wb['add_new_record_txt'] = 'Adicionar novo registo à lista';
 ?>
-

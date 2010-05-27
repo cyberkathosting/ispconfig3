@@ -8,4 +8,3 @@ $wb['searchterm_is_empty'] = 'Termo de busca em branco.';
 $wb['source_txt'] = 'Origem';
 $wb['target_error_regex'] = 'O alvo só pode conter os caracteres: a-z, 0-9, -, . e _';
 ?>
-

@@ -38,4 +38,3 @@ $wb['domain_error_regex'] = 'Имя домена неправильно.';
 $wb['host_txt'] = 'Хост';
 $wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 ?>
-

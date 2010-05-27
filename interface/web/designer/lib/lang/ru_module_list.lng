@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Backend модуль';
 $wb['module_txt'] = 'Модуль';
 $wb['title_txt'] = 'Заголовок';
 ?>
-

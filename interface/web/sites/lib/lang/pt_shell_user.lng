@@ -20,4 +20,3 @@ $wb['directory_error_empty'] = 'Pasta vazia.';
 $wb['limit_shell_user_txt'] = 'O número máximo de utilizadors shell para a conta foi atingido.';
 $wb['parent_domain_id_error_empty'] = 'Nenhum website seleccionado.';
 ?>
-

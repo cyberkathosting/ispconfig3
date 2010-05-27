@@ -10,4 +10,3 @@ $wb['run_wday_txt'] = 'День недели';
 $wb['command_txt'] = 'Команда';
 $wb['add_new_cron_txt'] = 'Добавить задачу Cron';
 ?>
-

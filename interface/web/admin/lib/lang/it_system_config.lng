@@ -12,4 +12,7 @@ $wb['dblist_phpmyadmin_link_txt'] = 'Link to phpmyadmin in DB list';
 $wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
 $wb['webmail_url_txt'] = 'Webmail URL';
 $wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
+$wb['use_domain_module_txt'] = 'Use the domain-module to add new domains';
+$wb['use_domain_module_hint'] = 'If you use this module, your customers can only select one of the domains the admin creates for them. They can not free edit the domain-field.You have to re-login after changing this value, to make the changes visible.';
+$wb['new_domain_txt'] = 'HTML to create a new domain';
 ?>

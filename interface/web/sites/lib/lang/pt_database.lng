@@ -23,4 +23,3 @@ $wb['database_remote_error_ips'] = 'Pelo menos um dos endereços ip informados n
 $wb['database_name_error_len'] = 'O nome da base de dados - {db} - é muito longo. 64 caracteres é o número máximo permitido incluindo prefixo.';
 $wb['database_user_error_len'] = 'O nome de utilizador da base de dados - {user}- é muito longo. 16 caracteres é o número máximo permitido incluindo prefixo.';
 ?>
-

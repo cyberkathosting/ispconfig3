@@ -57,5 +57,5 @@ $wb['ssl_country_error_regex'] = 'País inválido para SSL. São caracteres vál
 $wb['limit_traffic_quota_free_txt'] = 'Cota máxima de Tráfego disponível';
 $wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 $wb['php_open_basedir_txt'] = 'PHP open_basedir';
+$wb['traffic_quota_exceeded_txt'] = 'Traffic quota exceeded';
 ?>
-

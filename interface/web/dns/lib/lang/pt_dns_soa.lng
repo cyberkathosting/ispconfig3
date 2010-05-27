@@ -24,4 +24,3 @@ $wb['mbox_error_regex'] = 'Correio com formato inválido.';
 $wb['also_notify_txt'] = 'Also Notify';
 $wb['update_acl_txt'] = 'Actualizar ACL';
 ?>
-

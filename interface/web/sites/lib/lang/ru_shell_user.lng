@@ -20,4 +20,3 @@ $wb['password_strength_txt'] = 'Стойкость пароля';
 $wb['limit_shell_user_txt'] = 'Достигнуто допустимое количество пользователей shell';
 $wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран';
 ?>
-

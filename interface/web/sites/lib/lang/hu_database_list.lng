@@ -5,4 +5,5 @@ $wb['remote_access_txt'] = 'Távoli hozzáférés';
 $wb['server_id_txt'] = 'Szerver';
 $wb['database_name_txt'] = 'Adatbázis neve';
 $wb['add_new_record_txt'] = 'Új adatbázis';
+$wb['database_user_txt'] = 'Database user';
 ?>

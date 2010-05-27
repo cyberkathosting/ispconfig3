@@ -38,5 +38,5 @@ $wb['autoresponder_end_date_isgreater'] = 'Дата окончания долж�
 $wb['move_junk_txt'] = 'Перемещать спам в директорию Junk';
 $wb['name_txt'] = 'Realname';
 $wb['name_optional_txt'] = '(Optional)';
+$wb['autoresponder_active'] = 'Enable the autoresponder';
 ?>
-

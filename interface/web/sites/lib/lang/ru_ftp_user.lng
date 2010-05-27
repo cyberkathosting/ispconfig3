@@ -25,4 +25,3 @@ $wb['quota_files_unity_txt'] = 'Файлы';
 $wb['directory_error_notinweb'] = 'Директория снаружи web-root папки.';
 $wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран.';
 ?>
-

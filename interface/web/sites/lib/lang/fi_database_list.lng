@@ -5,4 +5,5 @@ $wb['remote_access_txt'] = 'Etäyhteys';
 $wb['server_id_txt'] = 'Palvelin';
 $wb['database_name_txt'] = 'Tietokannnan nimi';
 $wb['add_new_record_txt'] = 'Lisää uusi tietokanta';
+$wb['database_user_txt'] = 'Database user';
 ?>

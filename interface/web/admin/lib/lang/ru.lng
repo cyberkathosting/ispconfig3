@@ -37,5 +37,7 @@ $wb['Packages'] = 'Пакеты';
 $wb['Updates'] = 'Обновления';
 $wb['Merge'] = 'Объеденить';
 $wb['Remote Users'] = 'Удаленные пользователи';
+$wb['Remote Actions'] = 'Remote Actions';
+$wb['Do OS-Update'] = 'Do OS-Update';
+$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
 ?>
-

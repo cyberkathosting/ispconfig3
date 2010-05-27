@@ -31,5 +31,7 @@ $wb['top_menu_sites'] = 'Сайты';
 $wb['top_menu_dns'] = 'ДНС';
 $wb['top_menu_tools'] = 'Утилиты';
 $wb['top_menu_help'] = 'Помощь';
+$wb['top_menu_billing'] = 'Billing';
+$wb['top_menu_domain'] = 'Domains';
+$wb['top_menu_dashboard'] = 'Home';
 ?>
-

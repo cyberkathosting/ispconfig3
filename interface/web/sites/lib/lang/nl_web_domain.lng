@@ -57,4 +57,5 @@ $wb['ssl_country_error_regex'] = 'Ongeldige SSL Landcode. Geldige tekens zijn: A
 $wb['limit_traffic_quota_free_txt'] = 'Max. available Traffic Quota';
 $wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 $wb['php_open_basedir_txt'] = 'PHP open_basedir';
+$wb['traffic_quota_exceeded_txt'] = 'Traffic quota exceeded';
 ?>

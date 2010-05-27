@@ -54,5 +54,5 @@ $wb['limit_mailaliasdomain_error_notint'] = 'Лимит алиасов почт�
 $wb['limit_web_quota_txt'] = 'Квота Web';
 $wb['limit_traffic_quota_txt'] = 'Квота трафика';
 $wb['limit_trafficquota_error_notint'] = 'Квота трафика должа быть числом.';
+$wb['template_del_aborted_txt'] = 'Delete aborted. There is still a client which has this template selected.';
 ?>
-

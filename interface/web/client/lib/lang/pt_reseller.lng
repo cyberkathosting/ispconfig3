@@ -91,4 +91,3 @@ $wb['limit_web_quota_txt'] = 'Cota Web';
 $wb['limit_traffic_quota_txt'] = 'Cota de Tráfego';
 $wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
 ?>
-

@@ -36,4 +36,5 @@ $wb['autoresponder_end_date_isgreater'] = 'Eind-datum mag niet eerder zijn dan d
 $wb['move_junk_txt'] = 'Verplaats SPAM naar map Ongewenste e-mail';
 $wb['name_txt'] = 'Realname';
 $wb['name_optional_txt'] = '(Optional)';
+$wb['autoresponder_active'] = 'Enable the autoresponder';
 ?>

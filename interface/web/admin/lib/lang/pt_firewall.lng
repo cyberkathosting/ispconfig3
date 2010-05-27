@@ -9,4 +9,3 @@ $wb['firewall_error_unique'] = 'Já existe uma regra de firewall para este servi
 $wb['tcp_ports_error_regex'] = 'Caractere não permitido para definição de porta tcp. Apenas são permitidos números, : e ,.';
 $wb['udp_ports_error_regex'] = 'Caractere não permitido para definição de porta udp. Apenas são permitidos números, : e ,.';
 ?>
-

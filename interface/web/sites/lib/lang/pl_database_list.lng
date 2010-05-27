@@ -5,4 +5,5 @@ $wb['remote_access_txt'] = 'Zewnętrzny dostęp';
 $wb['server_id_txt'] = 'Serwer';
 $wb['database_name_txt'] = 'Nazwa bazy danych';
 $wb['add_new_record_txt'] = 'Dodaj nową bazę danych';
+$wb['database_user_txt'] = 'Database user';
 ?>

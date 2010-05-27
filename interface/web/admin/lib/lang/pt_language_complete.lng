@@ -5,4 +5,3 @@ $wb['language_select_txt'] = 'Seleccionar Idioma';
 $wb['btn_save_txt'] = 'Mesclar ficheiros agora';
 $wb['btn_cancel_txt'] = 'Voltar';
 ?>
-

@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Permitir Extensões Banidas';
 $wb['bad_header_lover_txt'] = 'Permitir Bad Header';
 $wb['add_new_record_txt'] = 'Adicionar Registo';
 ?>
-

@@ -7,4 +7,3 @@ $wb['source_username_txt'] = 'Пользовательname';
 $wb['destination_txt'] = 'Получатель';
 $wb['add_new_record_txt'] = 'Добавить новый счет';
 ?>
-

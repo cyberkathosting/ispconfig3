@@ -9,4 +9,3 @@ $wb['source_error_empty'] = 'Исходный домен пустой.';
 $wb['source_error_unique'] = 'Дублирование исходного домена.';
 $wb['source_error_regex'] = 'Неверное имя исходного домена.';
 ?>
-

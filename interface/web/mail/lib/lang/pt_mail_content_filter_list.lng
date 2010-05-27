@@ -6,4 +6,3 @@ $wb['pattern_txt'] = 'Padrão';
 $wb['action_txt'] = 'Acção';
 $wb['add_new_record_txt'] = 'Adicionar Filtro de Conteúdo';
 ?>
-
