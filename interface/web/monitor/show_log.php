@@ -103,7 +103,7 @@ switch($logParam) {
 
 /*
  Creating the array with the refresh intervals
- Attention: the core-moule ist triggered every 5 minutes, 
+ Attention: the core-moule ist triggered every 5 minutes,
             so reload every 2 minutes is impossible!
 */
 $refresh_values = array('0' => '- '.$app->lng("No Refresh").' -','5' => '5 '.$app->lng("minutes"),'10' => '10 '.$app->lng("minutes"),'15' => '15 '.$app->lng("minutes"),'30' => '30 '.$app->lng("minutes"),'60' => '60 '.$app->lng("minutes"));
@@ -131,9 +131,9 @@ if(isset($record['data'])) {
 	$app->tpl->setVar("log_data", $app->lng("no_logdata_txt"));
 }
 
-$app->tpl->setVar("title", $title);
+$app->tpl->setVar("list_head_txt", $title);
 $app->tpl->setVar("log_id",$logId);
-$app->tpl->setVar("description", $description);
+$app->tpl->setVar("list_desc_txt", $description);
 $app->tpl->setVar("time", getDataTime($logId));
 $app->tpl->setVar("monTransDate", $monTransDate);
 $app->tpl->setVar("monTransRefreshsq", $monTransRefreshsq);
