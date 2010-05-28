@@ -72,13 +72,13 @@ class mail_user_filter_plugin {
 			}
 			if($skip == false && $line != '') $out .= $line ."\n";
 			if($line == '### END FILTER_ID:'.$page_form->id) {
-				$out .= $this->mail_user_filter_get_rule($page_form);
+				if($page_form->dataRecord["active"] == 'y') $out .= $this->mail_user_filter_get_rule($page_form);
 				$skip = false;
 			}
 		}
 		
 		// We did not found our rule, so we add it now as first rule.
-		if($found == false) {
+		if($found == false && $page_form->dataRecord["active"] == 'y') {
 			$new_rule = $this->mail_user_filter_get_rule($page_form);
 			$out = $new_rule . $out;
 		}

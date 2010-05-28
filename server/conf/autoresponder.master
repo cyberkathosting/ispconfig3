@@ -1,4 +1,4 @@
-`test -f /var/vmail/mailfilters/$HOST/$USER/.vacation.msg && exit 1 || exit 0`
+`test -f {vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.msg && exit 1 || exit 0`
 if ($RETURNCODE==1)
 {
        {

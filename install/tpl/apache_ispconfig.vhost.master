@@ -38,6 +38,11 @@ NameVirtualHost *:{vhost_port}
   # ErrorLog /var/log/apache2/error.log
   # CustomLog /var/log/apache2/access.log combined
   ServerSignature Off
+  
+  <IfModule mod_security2.c>
+    SecRuleEngine Off
+  </IfModule>
+
 
 </VirtualHost>
 

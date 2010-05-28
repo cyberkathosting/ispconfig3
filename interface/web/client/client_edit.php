@@ -197,6 +197,14 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		
+		// language changed
+		if(isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
+			$language = $app->db->quote($this->dataRecord["language"]);
+			$client_id = $this->id;
+			$sql = "UPDATE sys_user SET language = '$language' WHERE client_id = $client_id";
+			$app->db->query($sql);
+		}
+		
 		// reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
 			$modules = ISPC_INTERFACE_MODULES_ENABLED;
