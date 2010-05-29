@@ -24,12 +24,14 @@ $items = array();
 //* Add a menu item with the label 'Send message'
 $items[] = array( 'title'   => 'Send message',
                   'target'  => 'content',
-                  'link'    => 'help/support_message_edit.php');
+                  'link'    => 'help/support_message_edit.php',
+                  'html_id' => 'help_message_send');
 
 //* Add a menu item with the label 'View messages'
 $items[] = array( 'title'   => 'View messages',
                   'target'  => 'content',
-                  'link'    => 'help/support_message_list.php');
+                  'link'    => 'help/support_message_list.php',
+                  'html_id' => 'help_message_list');
 
 
 //* Add the menu items defined above to a menu section labeled 'Support'
@@ -42,10 +44,11 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 //* make sure that the items array is empty
 $items = array();
 
-//* Add a menu item with the label 'View messages'
+//* Add a menu item with the label 'Version'
 $items[] = array( 'title'   => 'Version',
                   'target'  => 'content',
-                  'link'    => 'help/version.php');
+                  'link'    => 'help/version.php',
+                  'html_id' => 'help_version' );
 
 
 //* Add the menu items defined above to a menu section labeled 'Support'
