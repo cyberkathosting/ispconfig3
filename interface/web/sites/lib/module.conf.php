@@ -12,17 +12,20 @@ $module["tab_width"]    = '';
 
 $items[] = array( 'title' 	=> "Website",
 				  'target' 	=> 'content',
-				  'link'	=> 'sites/web_domain_list.php');
+				  'link'	=> 'sites/web_domain_list.php',
+				  'html_id' => 'domain_list');
 
 
 $items[] = array( 'title' 	=> "Subdomain",
 				  'target' 	=> 'content',
-				  'link'	=> 'sites/web_subdomain_list.php');
+				  'link'	=> 'sites/web_subdomain_list.php',
+				  'html_id' => 'subdomain_list');
 
 
 $items[] = array( 'title'   => "Aliasdomain",
                   'target'  => 'content',
-                  'link'    => 'sites/web_aliasdomain_list.php');
+                  'link'    => 'sites/web_aliasdomain_list.php',
+                  'html_id' => 'aliasdomain_list');
 
 $module["nav"][] = array(	'title'	=> 'Websites',
 							'open' 	=> 1,
@@ -37,7 +40,8 @@ unset($items);
 
 $items[] = array( 'title' 	=> "FTP-User",
 				  'target' 	=> 'content',
-				  'link'	=> 'sites/ftp_user_list.php');
+				  'link'	=> 'sites/ftp_user_list.php',
+				  'html_id' => 'ftp_user_list');
 
 
 $module["nav"][] = array(	'title'	=> 'FTP',
@@ -53,7 +57,8 @@ unset($items);
 
 $items[] = array( 'title' 	=> "Shell-User",
 				  'target' 	=> 'content',
-				  'link'	=> 'sites/shell_user_list.php');
+				  'link'	=> 'sites/shell_user_list.php',
+				  'html_id' => 'shell_user_list');
 
 
 $module["nav"][] = array(	'title'	=> 'Shell',
@@ -69,7 +74,8 @@ unset($items);
 
 $items[] = array( 'title' 	=> "Database",
 				  'target' 	=> 'content',
-				  'link'	=> 'sites/database_list.php');
+				  'link'	=> 'sites/database_list.php',
+				  'html_id' => 'database_list');
 
 
 $module["nav"][] = array(	'title'	=> 'Database',
@@ -84,7 +90,8 @@ $items = array();
 
 $items[] = array( 'title'   => "Cron Jobs",
                   'target'  => 'content',
-                  'link'    => 'sites/cron_list.php');
+                  'link'    => 'sites/cron_list.php',
+                  'html_id' => 'cron_list');
 
 
 $module["nav"][] = array(   'title' => 'Cron',
@@ -97,14 +104,15 @@ $items = array();
 
 $items[] = array( 'title'   => 'Web traffic',
                   'target'  => 'content',
-                  'link'    => 'sites/web_sites_stats.php');
+                  'link'    => 'sites/web_sites_stats.php',
+                  'html_id' => 'websites_stats');
 
 
 $module['nav'][] = array(   'title' => 'Statistics',
                             'open'  => 1,
                             'items' => $items);
-                            
-                            
+
+
 
 // clean up
 unset($items);
