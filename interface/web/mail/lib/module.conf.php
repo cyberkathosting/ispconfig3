@@ -12,31 +12,38 @@ $items = array();
 
 $items[] = array( 'title' 	=> 'Domain',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_domain_list.php');
+				  'link'	=> 'mail/mail_domain_list.php',
+				  'html_id' => 'mail_domain_list');
 
 $items[] = array( 'title' 	=> 'Domain Alias',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_aliasdomain_list.php');
+				  'link'	=> 'mail/mail_aliasdomain_list.php',
+				  'html_id' => 'mail_aliasdomain_list');
 
 $items[] = array( 'title' 	=> 'Email Mailbox',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_user_list.php');
+				  'link'	=> 'mail/mail_user_list.php',
+				  'html_id' => 'mail_user_list');
 
 $items[] = array( 'title' 	=> 'Email Alias',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_alias_list.php');			  
+				  'link'	=> 'mail/mail_alias_list.php',
+				  'html_id' => 'mail_alias_list');
 
 $items[] = array( 'title' 	=> 'Email Forward',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_forward_list.php');
+				  'link'	=> 'mail/mail_forward_list.php',
+				  'html_id' => 'mail_forward_list');
 
 $items[] = array( 'title' 	=> 'Email Catchall',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_domain_catchall_list.php');
+				  'link'	=> 'mail/mail_domain_catchall_list.php',
+				  'html_id' => 'mail_domain_catchall_list');
 
 $items[] = array( 'title' 	=> 'Email Routing',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_transport_list.php');
+				  'link'	=> 'mail/mail_transport_list.php',
+				  'html_id' => 'mail_transport_list');
 
 $module['nav'][] = array(	'title'	=> 'Email Accounts',
 							'open' 	=> 1,
@@ -47,27 +54,31 @@ $items = array();
 
 $items[] = array( 'title' 	=> 'Whitelist',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/spamfilter_whitelist_list.php');
+				  'link'	=> 'mail/spamfilter_whitelist_list.php',
+				  'html_id' => 'spamfilter_whitelist_list');
+
 
 $items[] = array( 'title' 	=> 'Blacklist',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/spamfilter_blacklist_list.php');
+				  'link'	=> 'mail/spamfilter_blacklist_list.php',
+				  'html_id' => 'spamfilter_blacklist_list');
 
 if($_SESSION['s']['user']['typ'] == 'admin') {
 
 	$items[] = array( 	'title' 	=> 'User / Domain',
 				  		'target' 	=> 'content',
-				  		'link'	    => 'mail/spamfilter_users_list.php');
+				  		'link'	    => 'mail/spamfilter_users_list.php',
+				  		'html_id' => 'spamfilter_users_list');
 
 	$items[] = array( 	'title' 	=> 'Policy',
 				  		'target' 	=> 'content',
-				  		'link'	    => 'mail/spamfilter_policy_list.php');
-						
+				  		'link'	    => 'mail/spamfilter_policy_list.php',
+				  		'html_id' => 'spamfilter_policy_list');
+
 //	$items[] = array( 	'title' 	=> 'Server Settings',
 //				  		'target' 	=> 'content',
 //				  		'link'	    => 'mail/spamfilter_config_list.php');
 }
-
 $module['nav'][] = array(	'title'	=> 'Spamfilter',
 							'open' 	=> 1,
 							'items'	=> $items);
@@ -77,7 +88,9 @@ $items = array();
 
 $items[] = array( 'title' 	=> 'Fetchmail',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_get_list.php');
+				  'link'	=> 'mail/mail_get_list.php',
+				  'html_id' => 'mail_get_list');
+
 
 
 $module['nav'][] = array(	'title'	=> 'Fetchmail',
@@ -89,33 +102,43 @@ $items = array();
 
 $items[] = array( 'title' 	=> 'Mailbox traffic',
 				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_user_stats.php');
+				  'link'	=> 'mail/mail_user_stats.php',
+				  'html_id' => 'mail_user_stats');
+
 
 
 $module['nav'][] = array(	'title'	=> 'Statistics',
 							'open' 	=> 1,
 							'items'	=> $items);
-							
-							
+
+
 //**** Global filters menu
 $items = array();
 if($_SESSION['s']['user']['typ'] == 'admin') {
 
 	$items[] = array(   'title' 	=> 'Postfix Whitelist',
   				  	    'target' 	=> 'content',
-				  	    'link'	    => 'mail/mail_whitelist_list.php');
+				  	    'link'	    => 'mail/mail_whitelist_list.php',
+				  	    'html_id' => 'mail_whitelist_list');
+
 
 	$items[] = array(   'title' 	=> 'Postfix Blacklist',
 				 	    'target' 	=> 'content',
-				  	    'link'	    => 'mail/mail_blacklist_list.php');
-	
+				  	    'link'	    => 'mail/mail_blacklist_list.php',
+				  	    'html_id' => 'mail_blacklist_list');
+
+
 	$items[] = array(   'title' 	=> 'Content Filter',
 				 	    'target' 	=> 'content',
-				  	    'link'	    => 'mail/mail_content_filter_list.php');
-	
+				  	    'link'	    => 'mail/mail_content_filter_list.php',
+				  	    'html_id' => 'mail_content_filter_list');
+
+
 	$items[] = array(   'title' 	=> 'Relay Recipients',
 				 	    'target' 	=> 'content',
-				  	    'link'	    => 'mail/mail_relay_recipient_list.php');
+				  	    'link'	    => 'mail/mail_relay_recipient_list.php',
+				  	    'html_id' => 'mail_relay_recipient_list');
+
 
 	$module['nav'][] = array(	'title'	=> 'Global Filters',
 								'open' 	=> 1,
