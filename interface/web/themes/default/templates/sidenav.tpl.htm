@@ -1,6 +1,6 @@
 <ul id="submenu">
 <tmpl_loop name="nav_left">
-  <li id="title">
+  <li class="title">
     <tmpl_if name="startpage">
       <a href="#" onClick="loadContent('<tmpl_var name='startpage'>')">
     </tmpl_if>
@@ -10,7 +10,7 @@
     </tmpl_if>
   </li>
   <tmpl_loop name="items">
-    <li>
+    <li <tmpl_if name="html_id"> id='<tmpl_var name="html_id">' </tmpl_if>>
       <tmpl_if name="link">
         <a href="#" onClick="loadContent('<tmpl_var name='link'>')">
       </tmpl_if>
