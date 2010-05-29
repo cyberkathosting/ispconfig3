@@ -24,10 +24,10 @@
 	 list-style-type: none;
 	 border-bottom: 2px #ddd solid;
 	}
-	
+
 	#submenu ul { list-style-type: none; margin:0; padding: 0; }
 	#submenu li { float:left; width: 100%; margin:0; padding: 0; font-size:0.9em; }
-	
+
 	#submenu a,
 	#submenu strong {
 	 display:block;
@@ -38,9 +38,9 @@
 	 color: #444;
 	 border-bottom: 1px #eee solid;
 	}
-	
+
 	/* Menu Title */
-	#submenu li#title {
+	#submenu li.title {
 	 width: 100%;
 	 padding: 0px;
 	 font-weight: bold;
@@ -49,15 +49,15 @@
 	 border-top: 2px #888 solid;
 	font-size: 1.1em;
 	}
-	
-	#submenu li#title a {
+
+	#submenu li.title a {
 	 background-color: #f0f8ff;
 	 color: #444;
 	}
-	#submenu li#title a:hover {
+	#submenu li.title a:hover {
 	 color: #f63;
 	}
-	
+
 	#submenu li span {
 	 display:block;
 	 width: 90%;
@@ -65,9 +65,9 @@
 	 font-weight: bold;
 	 border-bottom: 1px #ddd solid;
 	}
-	
+
 	/* Level 1 */
-	#submenu li#active,
+	#submenu li.active,
 	#submenu li strong {
 	 width: 90%;
 	 padding: 3px 0px 3px 10%;
@@ -76,50 +76,50 @@
 	 background-color:#aab;
 	 border-bottom: 1px #eee solid;
 	}
-	
+
 	#submenu li a { width: 90%; padding-left: 10%; background-color:#fff; color: #444; }
 	#submenu li a:focus,
 	#submenu li a:hover,
 	#submenu li a:active { background-color:#f63; color: #fff; }
-	
+
 	/* Level 2 */
 	#submenu li ul li a,
 	#submenu li ul li#active,
 	#submenu li ul li strong,
 	#submenu li ul li span { width: 80%; padding-left: 20%; }
-	
+
 	#submenu li ul li a { background-color:#f8f8f8; color: #666; }
 	#submenu li ul li a:focus,
 	#submenu li ul li a:hover,
 	#submenu li ul li a:active { background-color:#f63; color: #fff; }
-	
+
 	/* Level 3 */
 	#submenu li ul li ul li a,
 	#submenu li ul li ul li#active,
 	#submenu li ul li ul li strong,
 	#submenu li ul li ul li span { width: 70%; padding-left: 30%; }
-	
+
 	#submenu li ul li ul li a { background-color:#fcfcfc; color: #888; }
 	#submenu li ul li ul li a:focus,
 	#submenu li ul li ul li a:hover,
 	#submenu li ul li ul li a:active { background-color:#f63; color: #fff; }
-	
+
 	/* Level 4 */
 	#submenu li ul li ul li ul li a,
 	#submenu li ul li ul li ul li#active,
 	#submenu li ul li ul li ul li strong,
 	#submenu li ul li ul li ul li span { width: 60%; padding-left: 40%; }
-	
+
 	#submenu li ul li ul li ul li a { background-color:#ffffff; color: #aaa; }
 	#submenu li ul li ul li ul li a:focus,
 	#submenu li ul li ul li ul li a:hover,
 	#submenu li ul li ul li ul li a:active { background-color:#f63; color: #fff; }
 
 	/* Form-Elements in the Menu*/
-	#submenu * select#server_id { 
+	#submenu * select#server_id {
     margin: 3px 10%;
     padding: 1px;
     width: 80%;
   }
-  
+
 }
