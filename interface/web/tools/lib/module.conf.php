@@ -14,7 +14,8 @@ $items = array();
 
 $items[] = array( 'title' 	=> 'Password and Language',
 				  'target' 	=> 'content',
-				  'link'	=> 'tools/user_settings.php');
+				  'link'	=> 'tools/user_settings.php',
+				  'html_id'=> 'user_settings');
 
 
 $module['nav'][] = array(	'title'	=> 'User Settings',
@@ -23,10 +24,10 @@ $module['nav'][] = array(	'title'	=> 'User Settings',
 
 
 $menu_dir = ISPC_WEB_PATH.'/tools/lib/menu.d';
-		
+
 if (is_dir($menu_dir)) {
 	if ($dh = opendir($menu_dir)) {
-		//** Go trough all files in the menu dir
+		//** Go through all files in the menu dir
 		while (($file = readdir($dh)) !== false) {
 			if($file != '.' && $file != '..' && substr($file,-9,9) == '.menu.php') {
 				include_once($menu_dir.'/'.$file);
