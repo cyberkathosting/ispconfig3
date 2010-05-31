@@ -8,8 +8,6 @@ Installation of some basic requirements:
 
 // rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY*
 yum update
-// yum groupinstall 'Development Tools'
-// yum groupinstall 'Development Libraries'
 
 You should disable selinux now, as some programs will not start when selinux is enabled:
 
@@ -22,7 +20,7 @@ SELINUX=disabled
 then reboot the server.
 
 
-1) Install Postfix, Courier, Saslauthd, MySQL, phpMyAdmin with the following command line (on one line!):
+1) Install Postfix, Dovecot MySQL, phpMyAdmin with the following command line (on one line!):
 
 yum install ntp httpd mysql-server php php-mysql php-mbstring phpMyAdmin getmail postfix dovecot dovecot-mysql wget
 
@@ -39,7 +37,6 @@ chkconfig --levels 235 sendmail off
 chkconfig --levels 235 postfix on
 /etc/init.d/sendmail stop
 /etc/init.d/postfix start
-/etc/init.d/saslauthd start
 
 
 Set the mysql database password:
@@ -114,7 +111,7 @@ ISPConfig comes with a iptables bsed firewall script that can be managed from wi
 8) Install ISPConfig 3
 
   cd /tmp
-  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.2.tar.gz
+  wget http://www.ispconfig.org/downloads/ISPConfig-3.0.2.1.tar.gz
   tar xvfz ISPConfig-3.0.2.tar.gz
   cd ispconfig3_install/install/
 
