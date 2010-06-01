@@ -51,13 +51,13 @@ yum install ntp httpd mysql-server php php-mysql php-mbstring phpMyAdmin postfix
 
 For 32Bit systems:
 
-rpm -i http://dl.atrpms.net/all/dovecot-1.2.10-2_107.el5.i386.rpm
+rpm -i http://dl.atrpms.net/all/dovecot-1.2.11-3_108.el5.i386.rpm
 rpm -i http://dl.atrpms.net/all/dovecot-sieve-0.1.15-4.el5.i386.rpm
 
 For 64Bit Systems:
 
-rpm -i http://dl.atrpms.net/all/dovecot-1.2.10-2_107.el5.x86_64.rpm
-rpm -i http://dl.atrpms.net/all/dovecot-sieve-0.1.15-4.el5.x86_64.rpm
+rpm -ivh http://dl.atrpms.net/all/dovecot-1.2.11-3_108.el5.x86_64.rpm
+rpm -ivh http://dl.atrpms.net/all/dovecot-sieve-0.1.15-4.el5.x86_64.rpm
 
 
 chkconfig --levels 235 mysqld on
