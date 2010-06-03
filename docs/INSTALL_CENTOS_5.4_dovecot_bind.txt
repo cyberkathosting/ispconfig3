@@ -132,6 +132,7 @@ ln -s ../../ chroot
 cp /usr/share/doc/bind-9.3.6/sample/var/named/named.local /var/named/chroot/var/named/named.local
 cp /usr/share/doc/bind-9.3.6/sample/var/named/named.root /var/named/chroot/var/named/named.root
 touch /var/named/chroot/etc/named.conf
+touch /var/named/chroot/etc/named.conf.local
 
 vi /var/named/chroot/etc/named.conf
 
@@ -170,7 +171,6 @@ zone "." IN {
 
 include "/var/named/chroot/etc/named.conf.local";
 --------------------------------------------------------------------------------------------------
-
 
 chkconfig --levels 235 named on
 /etc/init.d/named start
