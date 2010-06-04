@@ -142,28 +142,52 @@ class remoteaction_core_module {
 	}
 
 	private function _doIspCUpdate($action) {
+		/*
+		 * Get the version-number of the newest version 
+		 */
 		$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
 		$new_version = trim($new_version);
+
 		/*
 		 * Do the update
 		 */
+
+		/* jump into the temporary dir */
 		$oldDir = getcwd();
 		chdir("/tmp");
 
+		/* delete the old files (if there are any...) */
 		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
 		exec("rm /tmp/ispconfig3_install -R");
+		
+		/* get the newest version */
 		exec("wget http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
+		
+		/* extract the files */
 		exec("tar xvfz ISPConfig-" . $new_version . ".tar.gz");
 
+		/*
+		 * Start the automated update
+		 */
 		chdir("/tmp/ispconfig3_install/install");
 		exec("touch autoupdate");
 		exec("php -q autoupdate.php");
+
+		/*
+		 * do some clean-up
+		 */
+		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
+		exec("rm /tmp/ispconfig3_install -R");
+
+		/*
+		 * go back to the "old path"
+		 */
+		chdir($oldDir);
 
 		/*
 		 * All well done!
 		 */
 		$this->_actionDone($action['action_id'], 'ok');
 	}
-
 }
 ?>
