@@ -127,6 +127,10 @@ apt-get -y install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apac
 
 a2enmod suexec rewrite ssl actions include
 
+# If you want to use webdav then run the following to enable the Apache webdav modules:
+
+a2enmod dav_fs a2enmod dav auth_digest
+
 # restart apache before continuing
 
 /etc/init.d/apache2 restart

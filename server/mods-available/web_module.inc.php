@@ -40,7 +40,10 @@ class web_module {
 									'ftp_user_delete',
 									'shell_user_insert',
 									'shell_user_update',
-									'shell_user_delete');
+									'shell_user_delete',
+									'webdav_user_insert',
+									'webdav_user_update',
+									'webdav_user_delete');
 	
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -82,6 +85,7 @@ class web_module {
 		$app->modules->registerTableHook('web_domain','web_module','process');
         $app->modules->registerTableHook('ftp_user','web_module','process');
         $app->modules->registerTableHook('shell_user','web_module','process');
+		$app->modules->registerTableHook('webdav_user','web_module','process');
 		
 		// Register service
 		$app->services->registerService('httpd','web_module','restartHttpd');
@@ -111,6 +115,11 @@ class web_module {
 				if($action == 'i') $app->plugins->raiseEvent('shell_user_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('shell_user_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('shell_user_delete',$data);
+			break;
+			case 'webdav_user':
+				if($action == 'i') $app->plugins->raiseEvent('webdav_user_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('webdav_user_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('webdav_user_delete',$data);
 			break;
 		} // end switch
 	} // end function

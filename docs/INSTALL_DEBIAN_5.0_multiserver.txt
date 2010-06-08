@@ -10,6 +10,11 @@ apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2
 
 a2enmod suexec rewrite ssl actions include
 
+# If you want webdav then run the following to enable the Apache webdav modules:
+
+a2enmod dav_fs a2enmod dav auth_digest
+
+
 apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
 
 vi /etc/default/pure-ftpd-common
