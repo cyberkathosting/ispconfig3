@@ -106,6 +106,18 @@ $form["tabs"]['sites'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'webdavuser_prefix' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+														'errmsg'=> 'webdavuser_prefix_error_regex'),
+										),
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'dblist_phpmyadmin_link' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',

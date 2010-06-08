@@ -17,6 +17,7 @@ dbname_prefix=c[CLIENTID]
 dbuser_prefix=c[CLIENTID]
 ftpuser_prefix=[CLIENTNAME]
 shelluser_prefix=[CLIENTNAME]
+webdavuser_prefix=[CLIENTNAME]
 dblist_phpmyadmin_link=y
 phpmyadmin_url=
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
+Copyright (c) 2010 Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,12 +27,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 /******************************************
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/client_template.tform.php";
+$list_def_file = "list/webdav_user.list.php";
+$tform_def_file = "form/webdav_user.tform.php";
 
 /******************************************
 * End Form configuration
@@ -40,58 +40,11 @@ $tform_def_file = "form/client_template.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
-$app->auth->check_module_permissions('client');
-if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
+$app->auth->check_module_permissions('sites');
 
-// Loading classes
-$app->uses('tpl,tform,tform_actions');
-$app->load('tform_actions');
+$app->uses("tform_actions");
+$app->tform_actions->onDelete();
 
-class page_action extends tform_actions {
-
-	function onBeforeUpdate() {
-		global $app;
-		
-		if(isset($this->dataRecord['template_type'])) {
-			//* Check if the template_type has been changed
-			$rec = $app->db->queryOneRecord("SELECT template_type from client_template WHERE template_id = ".$this->id);
-			if($rec['template_type'] != $this->dataRecord['template_type']) {
-				//* Add a error message and switch back to old server
-				$app->tform->errorMessage .= $app->lng('The template type can not be changed.');
-				$this->dataRecord['template_type'] = $rec['template_type'];
-			}
-			unset($rec);
-		}
-	}
-	
-	
-	/*
-	 This function is called automatically right after
-	 the data was successful updated in the database.
-	*/
-	function onAfterUpdate() {
-		global $app;
-		
-		/*
-		 * the template has changed. apply the new data to all clients
-		 */
-		if ($this->dataRecord["template_type"] == 'm'){
-			$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
-		} else {
-			$sql = "SELECT client_id FROM client WHERE template_additional LIKE '%/" . $this->id . '/%"';
-		}
-		$clients = $app->db->queryAllRecords($sql);
-		if (is_array($clients)){
-			foreach ($clients as $client){
-				applyClientTemplates($client['client_id']);
-			}
-		}
-	}
-}
-
-$page = new page_action;
-$page->onLoad();
 ?>

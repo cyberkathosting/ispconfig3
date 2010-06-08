@@ -1,7 +1,6 @@
 <?php
-
 /*
-Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2010, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -150,5 +149,11 @@ $conf["start_session"] = true;
 define("LOGLEVEL_DEBUG",0);
 define("LOGLEVEL_WARN",1);
 define("LOGLEVEL_ERROR",2);
+
+//** include a local config-file if there is one
+//** IMPORTANT!!!
+//** DO NOT MAKE A COPY OF THIS FILE AS LOCAL CONFIG-FILE
+//** USE A EMPTY FILE AND ONLY COPY THE SETTINGS IN IT, YOU NEED TO OVERRIDE
+if (is_file('config.inc.local.php')) include_once 'config.inc.local.php';
 
 ?>

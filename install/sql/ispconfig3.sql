@@ -89,6 +89,7 @@ CREATE TABLE `client` (
   `limit_ftp_user` int(11) NOT NULL default '-1',
   `limit_shell_user` int(11) NOT NULL default '0',
   `ssh_chroot` varchar(255) NOT NULL DEFAULT 'no,jailkit,ssh-chroot',
+  `limit_webdav_user` int(11) NOT NULL default '0',
   `default_dnsserver` int(11) unsigned NOT NULL default '1',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
@@ -145,6 +146,7 @@ CREATE TABLE `client_template` (
   `limit_web_aliasdomain` int(11) NOT NULL default '-1',
   `limit_ftp_user` int(11) NOT NULL default '-1',
   `limit_shell_user` int(11) NOT NULL default '0',
+  `limit_webdav_user` int(11) NOT NULL default '0',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
   `limit_database` int(11) NOT NULL default '-1',
@@ -1122,6 +1124,29 @@ CREATE TABLE `web_traffic` (
   `traffic_bytes` bigint(32) unsigned NOT NULL default '0',
   PRIMARY KEY  (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table  `webdav_user`
+--
+
+CREATE TABLE `webdav_user` (
+  `webdav_user_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `parent_domain_id` int(11) unsigned NOT NULL default '0',
+  `username` varchar(64) default NULL,
+  `password` varchar(64) default NULL,
+  `active` enum('n','y') NOT NULL default 'y',
+  `dir` varchar(255) default NULL,
+  PRIMARY KEY  (`webdav_user_id`)
+) ENGINE=MyISAM
 
 
 -- --------------------------------------------------------

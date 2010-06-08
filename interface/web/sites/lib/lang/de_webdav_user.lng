@@ -1,0 +1,16 @@
+<?php
+$wb["dir_txt"] = 'Verzeichnis';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb['active_txt'] = 'Aktiv';
+$wb["limit_webdav_user_txt"] = 'Die maximale Anzahl an Webdav Benutzer für ihr Konto wurde erreicht.';
+$wb['username_error_empty'] = 'Benutzername ist leer.';
+$wb['username_error_unique'] = 'Der Benutzername muss einzigartig sein.';
+$wb['username_error_regex'] = 'Der Benutzername enthält nicht erlaubte Zeichen.';
+$wb['directory_error_empty'] = 'Verzeichnis ist leer.';
+$wb['password_strength_txt'] = 'Passwortkomplexität';
+$wb['parent_domain_id_error_empty'] = 'Keine Website ausgewählt.';
+?>
