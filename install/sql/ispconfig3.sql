@@ -1146,7 +1146,7 @@ CREATE TABLE `webdav_user` (
   `active` enum('n','y') NOT NULL default 'y',
   `dir` varchar(255) default NULL,
   PRIMARY KEY  (`webdav_user_id`)
-) ENGINE=MyISAM
+) ENGINE=MyISAM;
 
 
 -- --------------------------------------------------------
