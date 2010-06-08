@@ -264,13 +264,11 @@ function _getServerState($serverId, $serverName) {
 	*/
 	$html_verbose = $html_server;
 	foreach($messages as $key => $state) {
-		{
-			$html_verbose .= $key . ':<br />';
-			foreach ($state as $msg) {
-				$html_verbose .= $msg . '<br />';
-			}
-			$html_verbose .= '<br />';
+		$html_verbose .= $key . ':<br />';
+		foreach ($state as $msg) {
+			$html_verbose .= $msg . '<br />';
 		}
+		$html_verbose .= '<br />';
 	}
 
 	/*
@@ -299,7 +297,7 @@ function _getServerState($serverId, $serverName) {
 }
 
 /*
- * gets the state from the db and process it
+* gets the state from the db and process it
 */
 function _processDbState($type, $serverId, $serverState, $messages) {
 	global $app;
@@ -308,10 +306,17 @@ function _processDbState($type, $serverId, $serverState, $messages) {
     * Always the NEWEST record of each monitoring is responsible for the
     * state
 	*/
-// get the State from the DB
+	// get the State from the DB
 	$record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
-// change the new state to the highest state
-	$serverState = _setState($serverState, $record['state']);
+
+	// change the new state to the highest state
+	/*
+	* Monitoring the user_beancounter of a VE is not as easy as i thought, so for now ignore
+	* this state (if we have a better solution)
+	*/
+	if ($type != 'openvz_beancounter') {
+		$serverState = _setState($serverState, $record['state']);
+	}
 
 	/*
      * The message depands on the type and the state
@@ -449,32 +454,35 @@ function _processDbState($type, $serverId, $serverState, $messages) {
 		}
 	}
 
-	if ($type == 'openvz_beancounter') {
-		switch ($record['state']) {
-			case 'ok':
-				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_beancounterok_txt") . ' ' .
-						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-				break;
-			case 'info':
-				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_beancounterinfo_txt") . ' ' .
-						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-				break;
-			case 'warning':
-				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_beancounterwarning_txt") . ' ' .
-						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-				break;
-			case 'critical':
-				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_beancountercritical_txt") . ' ' .
-						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-				break;
-			case 'error':
-				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_beancountererror_txt") . ' ' .
-						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
-				break;
-			default:
-				break;
-		}
-	}
+	/*
+	 * ignore, until we find a better solution
+	 */
+//	if ($type == 'openvz_beancounter') {
+//		switch ($record['state']) {
+//			case 'ok':
+//				$messages[$app->lng("monitor_serverstate_listok_txt")][] = $app->lng("monitor_serverstate_beancounterok_txt") . ' ' .
+//						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+//				break;
+//			case 'info':
+//				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_beancounterinfo_txt") . ' ' .
+//						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+//				break;
+//			case 'warning':
+//				$messages[$app->lng("monitor_serverstate_listinfo_txt")][] = $app->lng("monitor_serverstate_beancounterwarning_txt") . ' ' .
+//						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+//				break;
+//			case 'critical':
+//				$messages[$app->lng("monitor_serverstate_listcritical_txt")][] = $app->lng("monitor_serverstate_beancountercritical_txt") . ' ' .
+//						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+//				break;
+//			case 'error':
+//				$messages[$app->lng("monitor_serverstate_listerror_txt")][] = $app->lng("monitor_serverstate_beancountererror_txt") . ' ' .
+//						"<a href='#' onclick='loadContent(\"monitor/show_data.php?type=openvz_beancounter\");'>[" . $app->lng("monitor_serverstate_more_txt") . "]</a>";
+//				break;
+//			default:
+//				break;
+//		}
+//	}
 
 
 	if ($type == 'mailq') {
