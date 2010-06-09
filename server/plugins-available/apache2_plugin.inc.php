@@ -991,9 +991,11 @@ class apache2_plugin {
 			/*
 			 * Get additional informations
 			*/
-			$sitedata = $app->db->queryOneRecord("SELECT document_root, domain FROM web_domain WHERE domain_id = " . $data['new']['parent_domain_id']);
+			$sitedata = $app->db->queryOneRecord("SELECT document_root, domain, system_user, system_group FROM web_domain WHERE domain_id = " . $data['new']['parent_domain_id']);
 			$documentRoot = $sitedata['document_root'];
 			$domain = $sitedata['domain'];
+			$user = $sitedata['system_user'];
+			$group = $sitedata['system_group'];
 
 			/* Check if this is a chrooted setup */
 			if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
@@ -1012,21 +1014,36 @@ class apache2_plugin {
 			}
 
 			/*
-			 *  The webdav folder (not the root!) has to be owned by the apache-user
+			 * The webdav - Root needs the group/user as owner and the apache as read and write
 			*/
-			exec('chown ' . escapeshellcmd($web_config['user']) . ':' . escapeshellcmd($web_config['group']) . ' ' . $documentRoot . '/webdav/' . $data['new']['dir'] . ' -R');
+			$this->_exec("chown " . $user . ':' . $group . ' ' . escapeshellcmd($documentRoot . '/webdav/'));
+			$this->_exec("chmod 770 " . escapeshellcmd($documentRoot . '/webdav/'));
 
 			/*
-			 * Next step is to update the password - file
+			 * The webdav folder (not the webdav-root!) needs the same (not in ONE step, because the
+			 * pwd-files are owned by root)
 			*/
-			$this->_writeHtDigestFile( $documentRoot . '/webdav/' . $data['new']['dir'] . '.htdigest', $data['new']['username'], $data['new']['dir'], $data['new']['password']);
+			$this->_exec("chown " . $user . ':' . $group . ' ' . escapeshellcmd($documentRoot . '/webdav/'. $data['new']['dir'] . ' -R'));
+			$this->_exec("chmod 770 " . escapeshellcmd($documentRoot . '/webdav/' . $data['new']['dir'] . ' -R'));
+
+			/*
+			 * if the user is active, we have to write/update the password - file
+			 * if the user is inactive, we have to inactivate the user by removing the user from the file
+			*/
+			if ($data['new']['active'] == 'y') {
+				$this->_writeHtDigestFile( $documentRoot . '/webdav/' . $data['new']['dir'] . '.htdigest', $data['new']['username'], $data['new']['dir'], $data['new']['password']);
+			}
+			else {
+				/* empty pwd removes the user! */
+				$this->_writeHtDigestFile( $documentRoot . '/webdav/' . $data['new']['dir'] . '.htdigest', $data['new']['username'], $data['new']['dir'], '');
+			}
 
 			/*
 			 * Next step, patch the vhost - file
 			*/
 			$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"] . '/' . $domain . '.vhost');
 			$this->_patchVhostWebdav($vhost_file, $documentRoot . '/webdav');
-			
+
 			/*
 			 * Last, restart apache
 			*/
@@ -1049,7 +1066,7 @@ class apache2_plugin {
 			/*
 			 * We dont't want to destroy any (transfer)-Data. So we do NOT delete any dir.
 			 * So the only thing, we have to do, is to delete the user from the password-file
-			 */
+			*/
 			$this->_writeHtDigestFile( $documentRoot . '/webdav/' . $data['old']['dir'] . '.htdigest', $data['old']['username'], $data['old']['dir'], '');
 		}
 	}
@@ -1057,13 +1074,14 @@ class apache2_plugin {
 
 	/**
 	 * This function writes the htdigest - files used by webdav and digest
+	 * more info: see http://riceball.com/d/node/424
 	 * @author Oliver Vogel
 	 * @param string $filename The name of the digest-file
 	 * @param string $username The name of the webdav-user
 	 * @param string $authname The name of the realm
-	 * @param string $pwd      The password of the user
+	 * @param string $pwd      The password-hash of the user
 	 */
-	private function _writeHtDigestFile($filename, $username, $authname, $pwd ) {
+	private function _writeHtDigestFile($filename, $username, $authname, $pwdhash ) {
 		$changed = false;
 		$in = fopen($filename, 'r');
 		$output = '';
@@ -1079,7 +1097,7 @@ class apache2_plugin {
 				 * found the user. delete or change it?
 				*/
 				if ($pwd != '') {
-					$tmp[2] = md5($username . ':' . $authname . ':' .$pwd);
+					$tmp[2] = $pwdhash;
 					$output .= $tmp[0] . ':' . $tmp[1] . ':' . $tmp[2] . "\n";
 				}
 				$changed = true;
