@@ -50,10 +50,10 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_webdav_user')) {
@@ -63,7 +63,7 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_webdav_user_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
 
@@ -72,13 +72,12 @@ class page_action extends tform_actions {
 		/*
 		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
-		 */
-		
+		*/
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
 		$webdavuser_prefix = replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
-		
-		if ($this->dataRecord['username'] != ""){
+
+		if ($this->dataRecord['username'] != "") {
 			/* REMOVE the restriction */
 			$app->tpl->setVar("username", str_replace($webdavuser_prefix , '', $this->dataRecord['username']));
 		}
@@ -87,7 +86,7 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("username_prefix", $webdavuser_prefix);
 		}
-		
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -98,102 +97,91 @@ class page_action extends tform_actions {
 
 		parent::onShowEnd();
 	}
-	
+
 	function onSubmit() {
 		global $app, $conf;
-		
-		// Get the record of the parent domain
+
+		/* Get the record of the parent domain */
 		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
-		
-		// Set a few fixed values
+
+		/*
+		 * Set a few fixed values
+		 */
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
-		
+
+		/*
+		 * Are there some errors?
+		 */
 		if(isset($this->dataRecord['username']) && trim($this->dataRecord['username']) == '') $app->tform->errorMessage .= $app->tform->lng('username_error_empty').'<br />';
 		if(isset($this->dataRecord['username']) && empty($this->dataRecord['parent_domain_id'])) $app->tform->errorMessage .= $app->tform->lng('parent_domain_id_error_empty').'<br />';
-		
+
 		parent::onSubmit();
 	}
-	
+
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
 
 		/*
 		 * If the names should be restricted -> do it!
-		 */
-		if ($app->tform->errorMessage == ''){
-			
+		*/
+		if ($app->tform->errorMessage == '') {
+
 			$app->uses('getconf');
 			$global_config = $app->getconf->get_global_config('sites');
 			$webdavuser_prefix = replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
-			
+
 			/* restrict the names */
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
+
+			/*
+			 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
+			 */
+			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+			$this->dataRecord["password"] = $hash;
+
+			/*
+			*  Get the data of the domain, owning the webdav user
+			*/
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+			/* The server is the server of the domain */
+			$this->dataRecord["server_id"] = $web["server_id"];
+			/* The Webdav user shall be owned by the same group then the website */
+			$this->dataRecord["sys_groupid"] = $web['sys_groupid'];
 		}
+
 		parent::onBeforeInsert();
 	}
-	
+
 	function onAfterInsert() {
 		global $app, $conf;
-		/* change pwd here */
-		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-		$server_id = $web["server_id"];
-		$dir = $web["document_root"];
-		
-		// The Webdav user shall be owned by the same group then the website
-		$sys_groupid = $web['sys_groupid'];
-		
-		$sql = "UPDATE webdav_user SET server_id = $server_id, dir = '$dir', sys_groupid = '$sys_groupid' WHERE shell_user_id = ".$this->id;
-		$app->db->query($sql);
-		
 	}
-	
+
 	function onBeforeUpdate() {
 		global $app, $conf, $interfaceConf;
-		
+
 		/*
-		 * If the names should be restricted -> do it!
+		 * we can not change the username and the dir, so get the "old" - data from the db
+		 * and set it
+		*/
+		$data = $app->db->queryOneRecord("SELECT * FROM webdav_user WHERE webdav_user_id = ".intval($this->id));
+		$this->dataRecord["username"] = $data['username'];
+		$this->dataRecord["dir"]      = $data['dir'];
+
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
+		 * needs (only if the pwd is changed
 		 */
-		if ($app->tform->errorMessage == '') {
-			/*
-			* If the names should be restricted -> do it!
-			*/
-			$app->uses('getconf');
-			$global_config = $app->getconf->get_global_config('sites');
-			$webdavuser_prefix = replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
-			
-			/* restrict the names */
-			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
+		if (isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
+			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+			$this->dataRecord["password"] = $hash;
 		}
+
+		parent::onBeforeUpdate();
 	}
-	
+
 	function onAfterUpdate() {
 		global $app, $conf;
-		/* change PWD here */
-		
 	}
-	
-	function getClientName() {
-		global $app, $conf;
-	
-		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			// Get the group-id of the user
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-		} else {
-			// Get the group-id from the data itself
-			$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord['parent_domain_id']));
-			$client_group_id = $web['sys_groupid'];
-		}
-		/* get the name of the client */
-		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-		$clientName = $tmp['name'];
-		if ($clientName == "") $clientName = 'default';
-		$clientName = convertClientName($clientName);
-		
-		return $clientName;
-	
-	}
-	
 }
 
 $page = new page_action;
