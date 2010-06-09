@@ -134,6 +134,7 @@ class page_action extends tform_actions {
 	
 	function onAfterInsert() {
 		global $app, $conf;
+		/* change pwd here */
 		
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
 		$server_id = $web["server_id"];
@@ -168,7 +169,7 @@ class page_action extends tform_actions {
 	
 	function onAfterUpdate() {
 		global $app, $conf;
-		
+		/* change PWD here */
 		
 	}
 	
