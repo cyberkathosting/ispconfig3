@@ -13,7 +13,7 @@ if ($RETURNCODE==1)
                       RESPONDDB="{vmail_mailbox_base}/mailfilters/$HOST/$USER/.vacation.lst"
 
                       # The following must be one contiguous line
-                      cc "| mailbot -t $RESPOND -d $RESPONDDB -D 1 \
+                      cc "| mailbot -t $RESPOND -d $RESPONDDB -c 'UTF-8' -D 1 \
                       -A 'From: $RECIPIENT' -s 'Auto Response: from $RECIPIENT' \
                       /usr/sbin/sendmail -t -f ''"
                   }

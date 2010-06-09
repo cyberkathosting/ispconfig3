@@ -86,7 +86,11 @@ class postfix_server_plugin {
 		
 		if($mail_config["relayhost"] != '') {
 			exec("postconf -e 'relayhost = ".$mail_config["relayhost"]."'");
-			exec("postconf -e 'smtp_sasl_auth_enable = yes'");
+			if($mail_config["relayhost_user"] != '' && $mail_config["relayhost_password"] != '') {
+				exec("postconf -e 'smtp_sasl_auth_enable = yes'");
+			} else {
+				exec("postconf -e 'smtp_sasl_auth_enable = no'");
+			}
 			exec("postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd'");
 			exec("postconf -e 'smtp_sasl_security_options ='");
 			

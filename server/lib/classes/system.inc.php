@@ -1202,7 +1202,9 @@ class system{
 		
 		if($user != '' && $this->is_user($user) && $user != 'root') {
 			$user = escapeshellarg($user);
-			exec("chown $user $dir $dir_cur $dir_new $dir_tmp");
+			// I assume that the name of the (vmail group) is the same as the name of the mail user in ispconfig 3
+			$group = $user;
+			exec("chown $user:$group $dir $dir_cur $dir_new $dir_tmp");
 		}
 		
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files

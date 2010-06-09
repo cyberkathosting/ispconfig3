@@ -99,6 +99,7 @@ class bind_plugin {
 		
 			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
 			$tpl->setLoop('zones',$records);
+			
 		
 			$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
 			$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
@@ -106,6 +107,7 @@ class bind_plugin {
 			exec('chown '.escapeshellcmd($dns_config['bind_user']).':'.escapeshellcmd($dns_config['bind_group']).' '.$filename);
 			unset($tpl);
 			unset($records);
+			unset($records_out);
 			unset($zone);
 		}
 		
@@ -136,9 +138,9 @@ class bind_plugin {
 		$this->write_named_conf($data,$dns_config);
 		
 		//* Delete the domain file
-		$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
-		if(is_file($filename)) unset($filename);
-		$app->log("Deleting BIND domain file: ".$filename,LOGLEVEL_DEBUG);
+		$zone_file_name = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
+		if(is_file($zone_file_name)) unlink($zone_file_name);
+		$app->log("Deleting BIND domain file: ".$zone_file_name,LOGLEVEL_DEBUG);
 		
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind','reload');
@@ -186,11 +188,18 @@ class bind_plugin {
 	function write_named_conf($data, $dns_config) {
 		global $app, $conf;
 		
-		$tmps = $app->db->queryAllRecords("SELECT origin FROM dns_soa WHERE active = 'Y'");
+		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify FROM dns_soa WHERE active = 'Y'");
 		$zones = array();
+
 		foreach($tmps as $tmp) {
+			
+			$options = '';
+			if(trim($tmp['xfer']) != '') $options .= '        allow-transfer {'.str_replace(',',';',$tmp['xfer']).";};\n";
+			if(trim($tmp['also_notify']) != '') $options .= '        also-notify {'.str_replace(',',';',$tmp['also_notify']).";};\n";
+			
 			$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
-								'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/pri.'.substr($tmp['origin'],0,-1)
+								'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/pri.'.substr($tmp['origin'],0,-1),
+								'options' => $options
 							);
 		}
 		

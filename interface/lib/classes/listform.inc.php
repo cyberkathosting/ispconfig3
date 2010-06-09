@@ -129,12 +129,17 @@ class listform {
         //* Get config variable
         $list_name = $this->listDef['name'];
         $search_prefix = $this->listDef['search_prefix'];
+		
+		if(isset($_REQUEST['Filter']) && !isset($_SESSION['search'][$list_name])) {
+			//* Jump back to page 1 of the list when a new search gets started.
+			$_SESSION['search'][$list_name]['page'] = 0;
+		}
 
         //* store retrieval query
         foreach($this->listDef['item'] as $i) {
             $field = $i['field'];
 
-            //*TODO: comment =  hat sich die suche ge�ndert
+            //* The search string has been changed
             if(isset($_REQUEST[$search_prefix.$field]) && isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
                     $this->searchChanged = 1;
 					
