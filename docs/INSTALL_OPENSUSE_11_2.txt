@@ -99,6 +99,18 @@ chmod 4755 /usr/sbin/suexec2
 chkconfig --add apache2
 /etc/init.d/apache2 start
 
+// Comment out the /error/ alias in the apache error.conf file or the custom error pages in the websites wont work.
+
+Edit the file error.conf in the apache configuration directory and comment out the line:
+
+Alias /error/ "/usr/share/apache2/error/
+
+By changing the line to:
+
+# Alias /error/ "/usr/share/apache2/error/
+
+// Install phpmyadmin
+
 cd /tmp
 
 yast2 -i pwgen
