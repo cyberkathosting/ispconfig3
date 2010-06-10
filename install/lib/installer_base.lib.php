@@ -544,7 +544,7 @@ class installer_base {
 
 		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
 		$command = 'chmod 755  /var/run/courier/authdaemon/';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
+		if(is_file('/var/run/courier/authdaemon/')) caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 
 		//* Changing maildrop lines in posfix master.cf
 		if(is_file($config_dir.'/master.cf')) {

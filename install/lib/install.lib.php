@@ -85,9 +85,9 @@ function get_distname() {
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
 			$distname = 'Debian';
 			$distver = 'Squeeze/Sid';
-			$distid = 'debian40';
+			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian Squeeze/Sid or compatible\n");
+			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
 		}  else {
 			$distname = 'Debian';
 			$distver = 'Unknown';

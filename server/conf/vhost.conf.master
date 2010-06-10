@@ -89,6 +89,10 @@
     # suexec enabled
     SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 </tmpl_if>
+    # Clear PHP settings of this website
+    <FilesMatch "\.ph(p3?|tml)$">
+        SetHandler None
+    </FilesMatch>
 <tmpl_if name='php' op='==' value='mod'>
     # mod_php enabled
     AddType application/x-httpd-php .php .php3 .php4 .php5

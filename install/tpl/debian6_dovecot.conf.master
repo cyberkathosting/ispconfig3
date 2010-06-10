@@ -1,0 +1,98 @@
+## Dovecot configuration file
+base_dir = /var/run/dovecot/
+
+protocols = imap imaps pop3 pop3s
+disable_plaintext_auth = no
+log_timestamp = "%Y-%m-%d %H:%M:%S "
+
+# ssl_cert_file = /etc/ssl/_.my-domain.tld/_.my-domain.tld.crt
+# ssl_key_file = /etc/ssl/_.my-domain.tld/_.my-domain.tld.key
+
+mail_privileged_group = mail
+
+login_greeting = my-domain.tld IMAP server ready...
+
+## IMAP specific settings
+protocol imap {
+  mail_executable = /usr/lib/dovecot/rawlog /usr/lib/dovecot/imap
+  mail_plugins = quota imap_quota
+}
+
+## POP3 specific settings
+protocol pop3 {
+  mail_executable = /usr/lib/dovecot/rawlog /usr/lib/dovecot/pop3
+  pop3_uidl_format = %08Xu%08Xv
+  mail_plugins = quota
+}
+
+## LDA specific settings
+protocol lda {
+  # Address to use when sending rejection mails.
+  postmaster_address = postmaster@my-domain.tld
+
+  # Support for dynamically loadable plugins. mail_plugins is a space separated
+  # list of plugins to load.
+  mail_plugin_dir = /usr/lib/dovecot/modules/lda
+
+  # UNIX socket path to master authentication server to find users.
+  auth_socket_path = /var/run/dovecot/auth-master
+
+  # Enabling Sieve plugin for server-side mail filtering
+  mail_plugins = sieve quota
+}
+
+
+## Plugin settings
+plugin {
+  quota = maildir
+  sieve=/var/vmail/%d/%n/.sieve
+}
+
+
+## Authentication processes
+
+# Executable location
+#auth_executable = /usr/lib/dovecot/dovecot-auth
+auth default {
+  mechanisms = plain login
+  passdb pam {
+  }
+
+  # SQL database <doc/wiki/AuthDatabase.SQL.txt>
+  passdb sql {
+    # Path for SQL configuration file
+    args = /etc/dovecot/dovecot-sql.conf
+  }
+
+# new quota support:
+  userdb prefetch {
+  }
+
+  userdb sql {
+    args = /etc/dovecot/dovecot-sql.conf
+  }
+
+
+  ## dovecot-lda specific settings
+  ##
+  socket listen {
+    master {
+      path = /var/run/dovecot/auth-master
+      mode = 0600
+      user = vmail # User running Dovecot LDA
+      #group = vmail # Or alternatively mode 0660 + LDA user in this group
+    }
+  client {
+          path = /var/spool/postfix/private/auth
+          mode = 0660
+          user = postfix
+          group = postfix
+        }
+  }
+
+}
+
+mail_location = maildir:/var/vmail/%d/%n/Maildir
+
+mail_uid = 5000
+mail_gid = 5000
