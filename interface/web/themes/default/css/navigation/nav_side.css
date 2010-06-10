@@ -55,8 +55,8 @@
 	 color: #444;
 	}
 	#submenu li.title a:hover {
-	 color: #f63;
-	}
+	 color: white;
+}
 
 	#submenu li span {
 	 display:block;
@@ -80,7 +80,7 @@
 	#submenu li a { width: 90%; padding-left: 10%; background-color:#fff; color: #444; }
 	#submenu li a:focus,
 	#submenu li a:hover,
-	#submenu li a:active { background-color:#f63; color: #fff; }
+	#submenu li a:active { background-color:#3366ff; color: #fff; }
 
 	/* Level 2 */
 	#submenu li ul li a,
