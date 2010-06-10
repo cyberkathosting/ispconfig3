@@ -346,7 +346,7 @@
       AssignUserId <tmpl_var name='system_user'> <tmpl_var name='system_group'>
     </IfModule>
 
-    <IfModule dav>
+    <IfModule mod_dav_fs.c>
       # DO NOT REMOVE THE COMMENTS!
       # IF YOU REMOVE THEM, WEBDAV WILL NOT WORK ANYMORE!
       # WEBDAV BEGIN
