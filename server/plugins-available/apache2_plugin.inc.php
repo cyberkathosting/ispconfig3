@@ -1085,7 +1085,6 @@ class apache2_plugin {
 		$changed = false;
 		$in = fopen($filename, 'r');
 		$output = '';
-
 		/*
 		 * read line by line and search for the username and authname
 		*/
@@ -1096,10 +1095,9 @@ class apache2_plugin {
 				/*
 				 * found the user. delete or change it?
 				*/
-				if ($pwd != '') {
-					$tmp[2] = $pwdhash;
-					$output .= $tmp[0] . ':' . $tmp[1] . ':' . $tmp[2] . "\n";
-				}
+				if ($pwdhash != '') {
+					$output .= $tmp[0] . ':' . $tmp[1] . ':' . $pwdhash . "\n";
+					}
 				$changed = true;
 			}
 			else {
@@ -1110,7 +1108,7 @@ class apache2_plugin {
 		 * if we didn't change anything, we have to add the new user at the end of the file
 		*/
 		if (!$changed) {
-			$output .= $username . ':' . $authname . ':' . md5($username . ':' . $authname . ':' . $pwd) . "\n";
+			$output .= $username . ':' . $authname . ':' . $pwdhash . "\n";
 		}
 		fclose($in);
 

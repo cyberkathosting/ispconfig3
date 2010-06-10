@@ -166,12 +166,13 @@ class page_action extends tform_actions {
 		$data = $app->db->queryOneRecord("SELECT * FROM webdav_user WHERE webdav_user_id = ".intval($this->id));
 		$this->dataRecord["username"] = $data['username'];
 		$this->dataRecord["dir"]      = $data['dir'];
+		$passwordOld = $data['password'];
 
 		/*
 		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
-		 * needs (only if the pwd is changed
+		 * needs (only if the pwd is changed)
 		 */
-		if (isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
+		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $passwordOld)) {
 			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
 			$this->dataRecord["password"] = $hash;
 		}
