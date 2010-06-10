@@ -154,6 +154,5 @@ define("LOGLEVEL_ERROR",2);
 //** IMPORTANT!!!
 //** DO NOT MAKE A COPY OF THIS FILE AS LOCAL CONFIG-FILE
 //** USE A EMPTY FILE AND ONLY COPY THE SETTINGS IN IT, YOU NEED TO OVERRIDE
-if (is_file('config.inc.local.php')) include_once 'config.inc.local.php';
-
+if (is_file(dirname(__FILE__) . '/config.inc.local.php')) include_once 'config.inc.local.php';
 ?>
