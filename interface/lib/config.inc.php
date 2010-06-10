@@ -101,7 +101,7 @@ $conf["server_id"] = "1";
 
 
 //** Interface
-define('ISPC_INTERFACE_MODULES_ENABLED', 'mail,sites,dns,tools');
+$conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools';
 
 
 //** Logging

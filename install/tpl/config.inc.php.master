@@ -113,7 +113,7 @@ $conf["server_id"] = "{server_id}";
 
 
 //** Interface
-define('ISPC_INTERFACE_MODULES_ENABLED', 'dashboard,mail,sites,dns,tools');
+$conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools';
 
 
 //** Logging

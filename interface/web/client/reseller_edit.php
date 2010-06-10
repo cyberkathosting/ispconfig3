@@ -136,14 +136,14 @@ class page_action extends tform_actions {
 	 the data was successful inserted in the database.
 	*/
 	function onAfterInsert() {
-		global $app;
+		global $app, $conf;
 		// Create the group for the reseller
 		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".mysql_real_escape_string($this->dataRecord["username"])."','',".$this->id.")", 'groupid');
 		$groups = $groupid;
 		
 		$username = $app->db->quote($this->dataRecord["username"]);
 		$password = $app->db->quote($this->dataRecord["password"]);
-		$modules = ISPC_INTERFACE_MODULES_ENABLED.',client';
+		$modules = $conf['interface_modules_enabled'] . ',client';
 		$startmodule = 'client';
 		$usertheme = $app->db->quote($this->dataRecord["usertheme"]);
 		$type = 'user';
@@ -170,7 +170,7 @@ class page_action extends tform_actions {
 	 the data was successful updated in the database.
 	*/
 	function onAfterUpdate() {
-		global $app;
+		global $app, $conf;
 		
 		// username changed
 		if(isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
@@ -202,7 +202,7 @@ class page_action extends tform_actions {
 		
 		// reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
-			$modules = ISPC_INTERFACE_MODULES_ENABLED.',client';
+			$modules = $conf['interface_modules_enabled'] . ',client';
 			$modules = $app->db->quote($modules);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
