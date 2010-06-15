@@ -86,14 +86,14 @@ apt-get -y install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2
 
 3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mcrypt (1 line!):
 
-apt-get -y install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby
+apt-get -y install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-ruby
 
 
 # When phpMyAdmin is asking weather to configure itself automatically, select "Apache2"
 
 # Then run the following to enable the Apache modules suexec, rewrite and ssl:
 
-a2enmod suexec rewrite ssl actions include
+a2enmod suexec rewrite ssl actions include ruby
 
 # If you want webdav then run the following to enable the Apache webdav modules:
 

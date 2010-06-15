@@ -112,7 +112,7 @@ mkpop3dcert
 
 3) Install apache, PHP5, phpmyadmin, better fastCGI, suexec, Pear and mcrypt (1 line!):
 
-apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt imagemagick libapache2-mod-suphp libopenssl-ruby
+apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt imagemagick libapache2-mod-suphp libopenssl-ruby libapache2-mod-ruby
 
 #this package is actual missed on official squeeze repository: php5-imagick
 
@@ -120,7 +120,7 @@ apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2
 
 # Then run the following to enable the Apache modules suexec, rewrite and ssl:
 
-a2enmod suexec rewrite ssl actions include
+a2enmod suexec rewrite ssl actions include ruby
 
 # If you want webdav then run the following to enable the Apache webdav modules:
 

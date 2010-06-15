@@ -1064,6 +1064,7 @@ CREATE TABLE `web_domain` (
   `is_subdomainwww` tinyint(1) NOT NULL default '1',
   `subdomain` enum('none','www','*') NOT NULL default 'none',
   `php` varchar(32) NOT NULL default 'y',
+  `ruby` enum('n','y') NOT NULL default 'n',
   `redirect_type` varchar(255) default NULL,
   `redirect_path` varchar(255) default NULL,
   `ssl` enum('n','y') NOT NULL default 'n',

@@ -66,6 +66,24 @@
         AddOutputFilter INCLUDES .shtml
         Options +Includes
 </tmpl_if>
+<tmpl_if name='ruby' op='==' value='y'>
+    <IfModule mod_ruby.c>
+      <Directory {tmpl_var name='web_document_root'}>
+        Options +ExecCGI
+      </Directory>
+      RubyRequire apache/ruby-run
+      #RubySafeLevel 0
+      <Files *.rb>
+        SetHandler ruby-object
+        RubyHandler Apache::RubyRun.instance
+      </Files>
+      <Files *.rbx>
+        SetHandler ruby-object
+        RubyHandler Apache::RubyRun.instance
+      </Files>
+    </IfModule>
+</tmpl_if>
+
 <tmpl_if name='php' op='==' value='no'>
         <Files ~ '.php[s3-6]{0,1}$'>
             Order allow,deny
