@@ -166,7 +166,9 @@ class remoting_lib {
 				$this->sys_userid            = $user['userid'];
 				$this->sys_default_group     = $user['default_group'];
 				$this->sys_groups             = $user['groups'];
-				$_SESSION["s"]["user"]["typ"] = $user['typ'];
+				// $_SESSION["s"]["user"]["typ"] = $user['typ'];
+				// we have to force admin priveliges for the remoting API as some function calls might fail otherwise.
+				$_SESSION["s"]["user"]["typ"] = 'admin';
 			}
 
 		return true;
