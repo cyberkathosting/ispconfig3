@@ -852,6 +852,7 @@ class installer_base {
 		//exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
 		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
 		exec('echo "yes" > '.$config_dir.'/conf/BrokenClientsCompatibility');
+		exec('echo "yes" > '.$config_dir.'/conf/DisplayDotFiles');
 
 		if(is_file('/etc/default/pure-ftpd-common')) {
 			replaceLine('/etc/default/pure-ftpd-common','STANDALONE_OR_INETD=inetd','STANDALONE_OR_INETD=standalone',1,0);
