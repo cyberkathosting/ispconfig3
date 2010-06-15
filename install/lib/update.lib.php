@@ -99,10 +99,10 @@ function updateDbAndIni() {
 	//** load old data back into database
 	if( !empty($conf["mysql"]["admin_password"]) ) {
 
-		system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
+		system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
 	} else {
 
-		system("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
+		system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
 	}
 
 
