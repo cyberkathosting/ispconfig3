@@ -136,6 +136,18 @@ $form["tabs"]['sites'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'webftp_url' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
+														'errmsg'=> 'webftp_url_error_regex'),
+										),
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
