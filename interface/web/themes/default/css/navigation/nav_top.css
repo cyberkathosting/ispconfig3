@@ -42,8 +42,8 @@
 	}
 	
 	#topNav a:hover {
-		background-color: #3366ff;
-		color: #ffffff;
+		background-color: #eeeeee;
+		color: #000000;
 	}
 	
 	#topNav #topNav_current {
