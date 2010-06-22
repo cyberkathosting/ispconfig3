@@ -463,7 +463,7 @@ $form["tabs"]['web'] = array (
 			'width'		=> '40',
 			'maxlength'	=> '255'
 		),
-		'awstats_updateall_pl' => array (
+		'awstats_buildstaticpages_pl' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '',

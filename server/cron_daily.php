@@ -168,19 +168,20 @@ foreach($records as $rec) {
 	$domain = escapeshellcmd($rec["domain"]);
 	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
 	$awstats_pl = $web_config['awstats_pl'];
-	$awstats_updateall_pl = $web_config['awstats_updateall_pl'];
+	$awstats_buildstaticpages_pl = $web_config['awstats_buildstaticpages_pl'];
 	
 	
 	if(!@is_dir($statsdir)) mkdir($statsdir);
 	
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
-	$command = "$awstats_updateall_pl -update -config='$domain' -lang=en -dir='$statsdir' -awstatsprog='$awstats_pl'";
+	$command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=en -dir='$statsdir' -awstatsprog='$awstats_pl'";
 	
-	if($awstats_pl != '' && $awstats_updateall_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_updateall_pl) == 0) {
+	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
+		rename($rec["document_root"].'/web/stats/awstats.'.$domain.'.html',$rec["document_root"].'/web/stats/index.html');
 		$app->log("Created awstats statistics with command: $command",LOGLEVEL_DEBUG);
 	} else {
-		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_updateall_pl is not owned by root user.",LOGLEVEL_WARN);
+		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_buildstaticpages_pl is not owned by root user.",LOGLEVEL_WARN);
 	}
 	
 }

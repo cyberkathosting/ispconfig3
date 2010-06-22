@@ -1211,16 +1211,18 @@ class apache2_plugin {
 	private function awstats_update ($data,$web_config) {
 		global $app;
 		
+		$awstats_conf_dir = $web_config['awstats_conf_dir'];
+		
 		if(!@is_file($awstats_conf_dir."/awstats.".$data["new"]["domain"].".conf") || ($data["old"]["domain"] != '' && $data["new"]["domain"] != $data["old"]["domain"])) {
 			if ( @is_file($awstats_conf_dir."/awstats.".$data["old"]["domain"].".conf") ) {
 				unlink($awstats_conf_dir."/awstats.".$data["old"]["domain"].".conf");
 			}
 			
 			$content = '';
-			$content .= "Include '".$awstats_conf_dir."/awstats.conf'\n";
-			$content .= "LogFile='/var/log/ispconfig/httpd/".$data["new"]["domain"]."/access.log'\n";
-			$content .= "SiteDomain='".$data["new"]["domain"]."'\n";
-			$content .= "HostAliases='www.".$data["new"]["domain"]."  localhost 127.0.0.1'\n";
+			$content .= "Include \"".$awstats_conf_dir."/awstats.conf\"\n";
+			$content .= "LogFile=\"/var/log/ispconfig/httpd/".$data["new"]["domain"]."/access.log\"\n";
+			$content .= "SiteDomain=\"".$data["new"]["domain"]."\"\n";
+			$content .= "HostAliases=\"www.".$data["new"]["domain"]."  localhost 127.0.0.1\"\n";
 			
 			file_put_contents($awstats_conf_dir.'/awstats.'.$data["new"]["domain"].'.conf',$content);
 			$app->log("Created awstats config file: ".$awstats_conf_dir.'/awstats.'.$data["new"]["domain"].'.conf',LOGLEVEL_DEBUG);

@@ -68,5 +68,5 @@ $wb["htaccess_allow_override_error_empty"] = '.htaccess AllowOverride is empty.'
 $wb["awstats_conf_dir_txt"] = 'awstats conf folder';
 $wb["awstats_data_dir_txt"] = 'awstats data folder';
 $wb["awstats_pl_txt"] = 'awstats.pl script';
-$wb["awstats_updateall_pl_txt"] = 'awstats_updateall script';
+$wb["awstats_buildstaticpages_pl_txt"] = 'awstats_buildstaticpages.pl script';
 ?>
