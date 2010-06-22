@@ -38,7 +38,7 @@ $conf["server_id"] = intval($conf["server_id"]);
 
 
 // Load required base-classes
-$app->uses('ini_parser,file,services');
+$app->uses('ini_parser,file,services,getconf');
 
 
 #######################################################################################################
@@ -112,7 +112,7 @@ function setConfigVar( $filename, $varName, $varValue ) {
 }
 
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf["server_id"];
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'webalizer' AND server_id = ".$conf["server_id"];
 $records = $app->db->queryAllRecords($sql);
 
 foreach($records as $rec) {
@@ -120,31 +120,71 @@ foreach($records as $rec) {
 	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
 		$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
-	if(!@is_file($logfile)) {
-		continue;
+		if(!@is_file($logfile)) {
+			continue;
+		}
 	}
-}
 
-$domain = escapeshellcmd($rec["domain"]);
-$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
-$webalizer = '/usr/bin/webalizer';
-$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
-$webalizer_conf = escapeshellcmd($rec["document_root"].'/log/webalizer.conf');
+	$domain = escapeshellcmd($rec["domain"]);
+	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
+	$webalizer = '/usr/bin/webalizer';
+	$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
+	$webalizer_conf = escapeshellcmd($rec["document_root"].'/log/webalizer.conf');
 
-if(!@is_file($webalizer_conf)) {
-	exec("cp $webalizer_conf_main $webalizer_conf");
-}
+	if(!@is_file($webalizer_conf)) {
+		exec("cp $webalizer_conf_main $webalizer_conf");
+	}
 
-if(@is_file($webalizer_conf)) {
-	setConfigVar($webalizer_conf, 'Incremental', 'yes');
-	setConfigVar($webalizer_conf, 'IncrementalName', $statsdir.'/webalizer.current');
-	setConfigVar($webalizer_conf, 'HistoryName', $statsdir.'/webalizer.hist');
-}
+	if(@is_file($webalizer_conf)) {
+		setConfigVar($webalizer_conf, 'Incremental', 'yes');
+		setConfigVar($webalizer_conf, 'IncrementalName', $statsdir.'/webalizer.current');
+		setConfigVar($webalizer_conf, 'HistoryName', $statsdir.'/webalizer.hist');
+	}
 
 
-if(!@is_dir($statsdir)) mkdir($statsdir);
+	if(!@is_dir($statsdir)) mkdir($statsdir);
 	exec("$webalizer -c $webalizer_conf -n $domain -s $domain -r $domain -q -T -p -o $statsdir $logfile");
 }
+
+#######################################################################################################
+// Create awstats statistics
+#######################################################################################################
+
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf["server_id"];
+$records = $app->db->queryAllRecords($sql);
+
+$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+
+foreach($records as $rec) {
+	$yesterday = date("Ymd",time() - 86400);
+	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
+	if(!@is_file($logfile)) {
+		$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
+		if(!@is_file($logfile)) {
+			continue;
+		}
+	}
+	
+	$domain = escapeshellcmd($rec["domain"]);
+	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
+	$awstats_pl = $web_config['awstats_pl'];
+	$awstats_updateall_pl = $web_config['awstats_updateall_pl'];
+	
+	
+	if(!@is_dir($statsdir)) mkdir($statsdir);
+	
+	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
+	$command = "$awstats_updateall_pl -update -config='$domain' -lang=en -dir='$statsdir' -awstatsprog='$awstats_pl'";
+	
+	if($awstats_pl != '' && $awstats_updateall_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_updateall_pl) == 0) {
+		exec($command);
+		$app->log("Created awstats statistics with command: $command",LOGLEVEL_DEBUG);
+	} else {
+		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_updateall_pl is not owned by root user.",LOGLEVEL_WARN);
+	}
+	
+}
+
 
 #######################################################################################################
 // Make the web logfiles directories world readable to enable ftp access
