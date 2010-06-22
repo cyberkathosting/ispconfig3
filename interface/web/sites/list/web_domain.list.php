@@ -13,7 +13,11 @@
 
 
 // Name of the list
-$liste["name"] 				= "web_domain";
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$liste["name"] 				= "web_domain_admin";
+} else {
+	$liste["name"] 				= "web_domain";
+}
 
 // Database table
 $liste["table"] 			= "web_domain";
@@ -66,13 +70,28 @@ $liste["item"][] = array(	'field'		=> "active",
 							'width'		=> "",
 							'value'		=> array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
-
-$liste["item"][] = array(	'field'		=> "server_id",
-							'datatype'	=> "VARCHAR",
+if($_SESSION['s']['user']['typ'] == 'admin') {
+$liste["item"][] = array(	'field'		=> "sys_groupid",
+							'datatype'	=> "INTEGER",
 							'formtype'	=> "SELECT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'datasource'	=> array ( 	'type'	=> 'SQL',
+														'querystring' => 'SELECT groupid, name FROM sys_group WHERE groupid != 1 ORDER BY name',
+														'keyfield'=> 'groupid',
+														'valuefield'=> 'name'
+									 				  ),
+							'width'		=> "",
+							'value'		=> "");
+}
+	
+$liste["item"][] = array(	'field'		=> "server_id",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
 							'datasource'	=> array ( 	'type'	=> 'SQL',
 														'querystring' => 'SELECT a.server_id, a.server_name FROM server a, web_domain b WHERE (a.server_id = b.server_id) AND ({AUTHSQL-B}) ORDER BY a.server_name',
 														'keyfield'=> 'server_id',

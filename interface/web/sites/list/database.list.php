@@ -13,7 +13,11 @@
 
 
 // Name of the list
-$liste["name"] 				= "database";
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$liste["name"] 				= "database_admin";
+} else {
+	$liste["name"] 				= "database";
+}
 
 // Database table
 $liste["table"] 			= "web_database";
@@ -65,6 +69,22 @@ $liste["item"][] = array(	'field'		=> "remote_access",
 							'suffix'	=> "",
 							'width'		=> "",
 							'value'		=> array('y' => "Yes",'n' => "No"));
+
+if($_SESSION['s']['user']['typ'] == 'admin') {
+$liste["item"][] = array(	'field'		=> "sys_groupid",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'datasource'	=> array ( 	'type'	=> 'SQL',
+														'querystring' => 'SELECT groupid, name FROM sys_group WHERE groupid != 1 ORDER BY name',
+														'keyfield'=> 'groupid',
+														'valuefield'=> 'name'
+									 				  ),
+							'width'		=> "",
+							'value'		=> "");
+}
 
 $liste["item"][] = array(	'field'		=> "server_id",
 							'datatype'	=> "VARCHAR",

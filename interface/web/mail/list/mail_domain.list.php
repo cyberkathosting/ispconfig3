@@ -13,7 +13,11 @@
 
 
 // Name of the list
-$liste["name"] 				= "mail_domain";
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$liste["name"] 				= "mail_domain_admin";
+} else {
+	$liste["name"] 				= "mail_domain";
+}
 
 // Database table
 $liste["table"] 			= "mail_domain";
@@ -57,6 +61,22 @@ $liste["item"][] = array(	'field'		=> "active",
 							'width'		=> "",
 							'value'		=> array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
+
+if($_SESSION['s']['user']['typ'] == 'admin') {
+$liste["item"][] = array(	'field'		=> "sys_groupid",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'datasource'	=> array ( 	'type'	=> 'SQL',
+														'querystring' => 'SELECT groupid, name FROM sys_group WHERE groupid != 1 ORDER BY name',
+														'keyfield'=> 'groupid',
+														'valuefield'=> 'name'
+									 				  ),
+							'width'		=> "",
+							'value'		=> "");
+}
 
 
 $liste["item"][] = array(	'field'		=> "server_id",
