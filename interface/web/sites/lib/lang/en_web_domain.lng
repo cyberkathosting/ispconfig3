@@ -59,4 +59,6 @@ $wb["redirect_error_regex"] = 'Invalid redirect path. Valid redirects are for ex
 $wb["php_open_basedir_txt"] = 'PHP open_basedir';
 $wb["traffic_quota_exceeded_txt"] = 'Traffic quota exceeded';
 $wb["ruby_txt"] = 'Ruby';
+$wb["stats_user_txt"] = 'Webstatistics username';
+$wb["stats_type_txt"] = 'Webstatistics program';
 ?>

@@ -46,6 +46,10 @@ apps_vhost_ip=_default_
 apps_vhost_servername=
 php_open_basedir=[website_path]/web:[website_path]/tmp:/var/www/[website_domain]/web:/srv/www/[website_domain]/web:/usr/share/php5:/tmp:/usr/share/phpmyadmin:/etc/phpmyadmin:/var/lib/phpmyadmin
 htaccess_allow_override=All
+awstats_conf_dir=/etc/awstats
+awstats_data_dir=/var/lib/awstats
+awstats_pl=/usr/lib/cgi-bin/awstats.pl
+awstats_updateall_pl=/usr/share/doc/awstats/examples/awstats_updateall.pl
 
 [dns]
 bind_user=root

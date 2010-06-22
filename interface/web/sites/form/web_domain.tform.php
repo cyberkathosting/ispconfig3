@@ -377,6 +377,12 @@ $form["tabs"]['stats'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'stats_type' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'y',
+			'value'		=> array('webalizer' => 'Webalizer', 'awstats' => 'AWStats')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

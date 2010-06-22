@@ -439,6 +439,38 @@ $form["tabs"]['web'] = array (
 			'width'		=> '40',
 			'maxlength'	=> '255'
 		),
+		'awstats_conf_dir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'awstats_data_dir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'awstats_pl' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'awstats_updateall_pl' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

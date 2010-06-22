@@ -65,4 +65,8 @@ $wb["php_open_basedir_txt"] = 'PHP open_basedir';
 $wb["php_open_basedir_error_empty"] = 'PHP open_basedir is empty.';
 $wb["htaccess_allow_override_txt"] = '.htaccess AllowOverride';
 $wb["htaccess_allow_override_error_empty"] = '.htaccess AllowOverride is empty.';
+$wb["awstats_conf_dir_txt"] = 'awstats conf folder';
+$wb["awstats_data_dir_txt"] = 'awstats data folder';
+$wb["awstats_pl_txt"] = 'awstats.pl script';
+$wb["awstats_updateall_pl_txt"] = 'awstats_updateall script';
 ?>

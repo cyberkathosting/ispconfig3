@@ -6,8 +6,17 @@
   <div class="pnl_formsarea">
     <fieldset class="inlineLabels">
       <div class="ctrlHolder">
-      	<label for="redirect_path">{tmpl_var name='stats_password_txt'}</label>
+      	<p>{tmpl_var name='stats_user_txt'}: &nbsp; &nbsp; admin</p>
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="stats_password">{tmpl_var name='stats_password_txt'}</label>
         <input name="stats_password" id="stats_password" value="{tmpl_var name='stats_password'}" size="30" maxlength="255" type="password" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="stats_type">{tmpl_var name='stats_type_txt'}</label>
+        <select name="stats_type" id="stats_type" class="selectInput" >
+		  {tmpl_var name='stats_type'}
+		</select>
 	  </div>
     </fieldset>
 
