@@ -35,6 +35,12 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
         Allow from all
 </Directory>
 
+# allow path to awstats and alias for awstats icons
+<Directory /usr/share/awstats>
+        Order allow,deny
+        Allow from all
+</Directory>
+Alias /awstats-icon "/usr/share/awstats/icon"
 
 <tmpl_loop name="ip_adresses">
 NameVirtualHost {tmpl_var name="ip_address"}:80
