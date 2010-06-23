@@ -72,7 +72,7 @@ $app->tpl->setVar("template_id_option",$template_id_option);
 if($_SESSION['s']['user']['typ'] == 'admin') {
 	
 	// Load the list of servers
-	$records = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE dns_server = 1 ORDER BY server_name");
+	$records = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE mirror_server_id = 0 AND dns_server = 1 ORDER BY server_name");
 	$server_id_option = '';
 	foreach($records as $rec){
 		$checked = ($rec['server_id'] == $server_id)?' SELECTED':'';
