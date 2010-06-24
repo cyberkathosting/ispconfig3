@@ -93,7 +93,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
 	$new_version = trim($new_version);
 	if($new_version != ISPC_APP_VERSION) {
-		$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available! <a href="http://www.ispconfig.org">See more...</a>');
+		$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available! <a href="http://www.ispconfig.org/ispconfig-3/download">See more...</a>');
 	}
 }
 
