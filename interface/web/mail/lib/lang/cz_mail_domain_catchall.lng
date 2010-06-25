@@ -1,0 +1,9 @@
+<?php
+$wb["domain_txt"] = 'Doména';
+$wb["destination_txt"] = 'Popis';
+$wb["active_txt"] = 'Aktivní';
+$wb["domain_error_unique"] = "Pro tuto doménu již existuje koš.";
+$wb["no_domain_perm"] = "Nemáte oprávnění pro tuto doménu.";
+$wb["domain_error_regex"] = 'Chybné doménové jméno nebo doména obsahuje chybné znaky.';
+$wb["limit_mailcatchall_txt"] = 'Dosažen maximální počet košů účtů pro Váš účet.';
+?>

@@ -1,0 +1,17 @@
+<?php
+
+$wb['warning'] = 'Upravujte tyto údaje opatrne! Neodstraňujte prefixy na systémech s více, než jedním klientem.';
+$wb['dbname_prefix_txt'] = 'Prefix názvu databáze';
+$wb['dbuser_prefix_txt'] = 'Prefix uživatele databáze';
+$wb['shelluser_prefix_txt'] = 'Prefix shell uživatele';
+$wb['ftpuser_prefix_txt'] = 'Prefix FTP uživatele';
+$wb['dbname_prefix_error_regex'] = 'Znak není povolen v prefixu databázovém názvu.';
+$wb['dbuser_prefix_error_regex'] = 'Znak není povolen v prefixu databázového uživatele.';
+$wb['ftpuser_prefix_error_regex'] = 'Znak není povolen v prefixu FTP uživatele.';
+$wb['shelluser_prefix_error_regex'] = 'Znak není povolen v prefixu shell uživatele.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Odkaz na apolikaci PHPMyAdmin v DB seznamu';
+$wb['mailboxlist_webmail_link_txt'] = 'Odkaz na aplikaci Webmail v Mailbox seznamu';
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
+
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb["list_head_txt"] = 'Relay adresáti';
+$wb["active_txt"] = 'Aktivní';
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Adresa adresáta';
+$wb["recipient_txt"] = 'Adresát';
+$wb["add_new_record_txt"] = 'Přidat relay adresáta';
+$wb["access_txt"] = 'Přístup';
+?>

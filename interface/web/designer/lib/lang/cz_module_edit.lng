@@ -1,0 +1,23 @@
+<?php
+$wb["name_txt"] = 'Název modulu';
+$wb["title_txt"] = 'Titulek modulu';
+$wb["template_txt"] = 'Soubor se šablonou';
+$wb["navframe_txt"] = 'NaviFrame';
+$wb["startpage_txt"] = 'Výchozí stránka';
+$wb["tab_width_txt"] = 'Šířka záložky';
+$wb["save_txt"] = 'Uložit';
+$wb["cancel_txt"] = 'Storno';
+$wb["header_txt"] = 'Vlastnosti modulu';
+$wb["description_txt"] = '
+<b>Popis</b>
+<br><br>
+<b>Název modulu:</b> Název adresáře modulu. Pouze čísla, znaky a podtržitko jsou povoleny.<br>
+<b>Titulek modulu:</b> Bude zobrazen v horní části hlavní navigace.<br>
+<b>Soubor se šablonou:</b> Šablonový soubor modulu. Nyní dostupné: module.tpl.htm a module_tree.tpl.htm.Výchozí je module.tpl.htm.<br>
+<b>NaviFrame:</b> Pokud je vybrán module_tree.tpl.htm jako šablona, zadejte zde cestu ke skriptu pro levý frame.<br>
+<b>Výchozí stránka:</b> Tato stránka bude ukázána, když je modul zobrazen.<br>
+<b>Šířka záložek:</b> Šířka záložek v hlavní navigaci. Pole je ve výchozím stavu prázdné. Můžete zadat absolutní hodnotu v pixelech (např. 20) nebo relativně (např 20%).<br>
+<b>Rada:</b> Všechny cesty jsou relativně k adresáři web "web".
+';
+
+?>

@@ -1,0 +1,14 @@
+<?php
+$wb['Client'] = 'Klient';
+$wb['Address'] = 'Aresa';
+$wb['Limits'] = 'Limity';
+$wb['Add Client'] = 'Přidat klienta';
+$wb['Edit Client'] = 'Upravit klienta';
+$wb['Clients'] = 'Klienti';
+$wb['Edit Client-Templates'] = 'Upravit klientské šablony';
+$wb['Add Reseller'] = 'Přidat distributora';
+$wb['Edit Reseller'] = 'Upravit distributora';
+$wb['Resellers'] = 'Distributoři';
+$wb["error_has_clients"] = 'Distributor má klienty. Nejdříve smažte tyto klienty.';
+
+?>

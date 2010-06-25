@@ -1,0 +1,30 @@
+<?php
+
+$wb['template_id_txt'] = 'Šablona';
+$wb['server_id_txt'] = 'Server';
+$wb['client_txt'] = 'Klient';
+$wb["btn_save_txt"] = 'Vytvořit DNS záznam';
+$wb["btn_cancel_txt"] = 'Storno';
+$wb['domain_txt'] = 'Doména';
+$wb['email_txt'] = 'Email';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'IP adresa';
+$wb['error_origin_empty'] = 'Origin je prázdný.';
+$wb['error_ns_empty'] = 'NS je prázdný.';
+$wb['error_mbox_empty'] = 'Mbox je prázdný.';
+$wb['error_refresh_empty'] = 'Refresh je prázdný.';
+$wb['error_retry_empty'] = 'Retry je prázdný.';
+$wb['error_expire_empty'] = 'Expire je prázdný.';
+$wb['error_minimum_empty'] = 'Minimum je prázdný.';
+$wb['error_ttl_empty'] = 'TTL je prázdný.';
+$wb['error_domain_empty'] = 'Doména je prázdná';
+$wb['error_ip_empty'] = 'IP je prázdná.';
+$wb['error_ns1_empty'] = 'NS1 je prázdný.';
+$wb['error_ns2_empty'] = 'NS2 je prázdný.';
+$wb['error_email_empty'] = 'EMail je prázdný.';
+$wb['error_domain_regex'] = 'Doména obsahuje neplatné znaky.';
+$wb['error_ns1_regex'] = 'NS1 obsahuje neplatné znaky.';
+$wb['error_ns2_regex'] = 'NS2 obsahuje neplatné znaky.';
+$wb['error_email_regex'] = 'Email neobsahuje platnou emailovou adresu.';
+?>

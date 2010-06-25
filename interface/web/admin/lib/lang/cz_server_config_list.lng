@@ -1,0 +1,4 @@
+<?php
+$wb["list_head_txt"] = 'Konfigurace serveru';
+$wb["server_name_txt"] = 'Server';
+?>

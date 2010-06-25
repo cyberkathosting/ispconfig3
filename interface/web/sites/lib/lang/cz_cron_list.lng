@@ -1,0 +1,12 @@
+<?php
+$wb["list_head_txt"] = 'Cron úlohy';
+$wb["active_txt"] = 'Aktivní';
+$wb["server_id_txt"] = 'Server';
+$wb["run_min_txt"] = 'Minuta';
+$wb["run_hour_txt"] = 'Hodina';
+$wb["run_mday_txt"] = 'Dny měsíce';
+$wb["run_month_txt"] = 'Měsíce';
+$wb["run_wday_txt"] = 'Dny týdne';
+$wb["command_txt"] = 'Příkaz';
+$wb["add_new_cron_txt"] = 'Přidat novou cron úlohu';
+?>

@@ -1,0 +1,11 @@
+<?php
+$wb['Support Message'] = 'Zráva pro podporu';
+$wb['Message'] = 'Zráva';
+$wb['Send message'] = 'Odeslat zprávu';
+$wb['View messages'] = 'Zobrazit zprávu';
+$wb['Support'] = 'Podpora';
+$wb['About ISPConfig'] = 'O ISPConfigu';
+$wb['Version'] = 'Verze';
+
+?>
+

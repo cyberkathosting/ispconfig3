@@ -1,0 +1,11 @@
+<?php
+$wb["source_txt"] = 'Zdroj';
+$wb["destination_txt"] = 'Cíl';
+$wb["active_txt"] = 'Aktivní';
+$wb["no_domain_perm"] = "Nemáte oprávnění pro tuto doménu.";
+$wb["limit_mailaliasdomain_txt"] = 'Dosažen maximální počet emailových doménových aliasů pro Váš účet.';
+$wb["source_destination_identical_txt"] = 'Zdrojová a cílová doména jsou stejné.';
+$wb["source_error_empty"] = 'Zdrojová doména je prázdná.';
+$wb["source_error_unique"] = 'Duplikování zdrojové domény.';
+$wb["source_error_regex"] = 'Chybná zdrojová doména.';
+?>

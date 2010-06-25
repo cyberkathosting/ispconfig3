@@ -1,0 +1,6 @@
+<?php
+$wb["list_head_txt"] = 'IP adresy';
+$wb["server_id_txt"] = 'Server';
+$wb["ip_address_txt"] = 'IP adresa';
+$wb["add_new_record_txt"] = 'Přidat IP adresu';
+?>

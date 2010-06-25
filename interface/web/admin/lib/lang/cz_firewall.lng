@@ -1,0 +1,12 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["tcp_port_txt"] = 'Otevřené TCP porty';
+$wb["udp_port_txt"] = 'Otevřené UDP porty';
+$wb["tcp_port_help_txt"] = 'Oddelěné čárkou';
+$wb["udp_port_help_txt"] = 'Oddelěné čárkou';
+$wb["active_txt"] = 'Aktivní';
+$wb["firewall_error_unique"] = 'Pro tento server již existuje záznam firewallu.';
+$wb["active_txt"] = 'Aktivní';
+$wb["tcp_ports_error_regex"] = 'Znak není povole v definici TCP portu. Povolené symboly jsou čísla, ":" a ",".';
+$wb["udp_ports_error_regex"] = 'Znak není povole v definici UDP portu. Povolené symboly jsou čísla, ":" a ",".';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb['recipient_id_txt'] = 'ID Adresáta';
+$wb['sender_id_txt'] = 'ID Odesílatele';
+$wb['subject_txt'] = 'Předmět';
+$wb['message_txt'] = 'Zpráva';
+$wb['tstamp_txt'] = 'Časové razítko';
+?>
+

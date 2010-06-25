@@ -1,0 +1,42 @@
+<?php
+
+$wb[1001]	= "Uživatelské jméno nebo heslo je prázdné.";
+$wb[1002]	= "Uživatelské jméno nebo heslo je špatně.";
+$wb['Firewall'] = 'Firewall';
+$wb['Groups'] = 'Skupiny';
+$wb['groups_description'] = 'Úprava skupin systémových uživatelů.';
+$wb['Server']	= 'Server';
+$wb['Services']	= 'Služby';
+$wb['Config'] = 'Konigurace';
+$wb['Server Config'] = 'Konfigurace serveru';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'Systém';
+$wb['Add user'] = 'Přidat uživatele';
+$wb['Edit user'] = 'Upravit uživatele';
+$wb['CP Users'] = 'CP uživatelé';
+$wb['Add group'] = 'Přidat skupinu';
+$wb['Edit group'] = 'Upravit skupinu';
+$wb['Groups'] = 'Skupiny';
+$wb['Edit server'] = 'Upravit server';
+$wb['Edit Server IP'] = 'IP adresy server';
+$wb['Servers'] = 'Servery';
+$wb['Sync. Now'] = 'Synch. nyní';
+$wb['DB Sync.'] = 'DB synch.';
+$wb['Languages'] = 'Jazyky';
+$wb['New Language'] = 'Nový jazyk';
+$wb['Export'] = 'Exportovat';
+$wb['Import'] = 'Importovat';
+$wb['Language Editor'] = 'Editor jazyků';
+$wb['Software'] = 'Software';
+$wb['Repositories'] = 'Repozitáře';
+$wb['Server Services'] = 'Služby serveru';
+$wb['Interface Config'] = 'Konfigurace rozhraní';
+$wb['Packages'] = 'Balíčky';
+$wb['Updates'] = 'Aktualizace';
+$wb['Merge'] = 'Sloučit';
+$wb['Remote Users'] = 'Vzdálení uživatelé';
+?>

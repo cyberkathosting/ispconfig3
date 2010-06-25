@@ -1,0 +1,29 @@
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'Adresář';
+$wb["quota_files_txt"] = 'Souborová kvóta';
+$wb["quota_files_unity_txt"] = 'Soubory';
+$wb["ul_ratio_txt"] = 'Upload poměr';
+$wb["dl_ratio_txt"] = 'Download poměr';
+$wb["ul_bandwidth_txt"] = 'Upload šířka pásma';
+$wb["dl_bandwidth_txt"] = 'Download šířka pásma';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Web stránka';
+$wb["username_txt"] = 'Uživatelské jméno';
+$wb["password_txt"] = 'Heslo';
+$wb["password_strength_txt"] = 'Bezpečnost hesla';
+$wb["quota_size_txt"] = 'Disková kvóta';
+$wb["active_txt"] = 'Aktivní';
+$wb["limit_ftp_user_txt"] = 'Dosažen maximální počet FTP uživatelů pro Váš účet.';
+$wb["username_error_empty"] = 'Uživatelské jméno je prázdné.';
+$wb["username_error_unique"] = 'Uživatelské jméno musí být unikátní.';
+$wb["username_error_regex"] = 'Uživatelské jméno obsahuje nepovolené znaky.';
+$wb["quota_size_error_empty"] = 'Kvóta je prázdná.';
+$wb["uid_error_empty"] = 'UID je prázdné.';
+$wb["uid_error_empty"] = 'GID je prázdné.';
+$wb["directory_error_empty"] = 'Adresář je prázdný.';
+$wb['directory_error_notinweb'] = 'Adresář není uvnitř webového kořenového adresáře.';
+$wb["parent_domain_id_error_empty"] = 'Nevybrána žádná webová stránka.';
+?>
+

@@ -1,0 +1,24 @@
+<?php
+$wb["uid_txt"] = 'Web uživatelské jméno';
+$wb["gid_txt"] = 'Skupina';
+$wb["shell_txt"] = 'Shell';
+$wb["dir_txt"] = 'Adresář';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Web stránka';
+$wb["username_txt"] = 'Uživatelské jméno';
+$wb["password_txt"] = 'Heslo';
+$wb["password_strength_txt"] = 'Bezpečnost hesla';
+$wb["chroot_txt"] = 'Chroot shell';
+$wb["quota_size_txt"] = 'Kvóta';
+$wb["active_txt"] = 'Aktivní';
+$wb["username_error_empty"] = 'Uživatelské jméno je prázdné.';
+$wb["username_error_unique"] = 'Uživatelské jméno musí být unikátní.';
+$wb["username_error_regex"] = 'Uživatelské jméno obsahuje nepovolené znaky.';
+$wb["quota_size_error_empty"] = 'Kvóta je prázdná.';
+$wb["uid_error_empty"] = 'UID je prázdné.';
+$wb["uid_error_empty"] = 'GID je prázdné.';
+$wb["directory_error_empty"] = 'Adresář je prázdný.';
+$wb["limit_shell_user_txt"] = 'Dosažen max. počet shell uživatelů.';
+$wb["parent_domain_id_error_empty"] = 'Nevybrána žádná web stránka.';
+?>
+

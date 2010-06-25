@@ -1,0 +1,35 @@
+<?php
+$wb['conf_format_dateshort'] = "Y-d-m";
+$wb['conf_format_datelong'] = "l dS of F Y";
+$wb['conf_format_timeshort'] = "H:i";
+$wb['conf_format_timelong'] = "H:i:s";
+$wb['conf_format_datetime'] = "Y-d-m H:i";
+$wb['301'] = "Modul není povolen pro současného uživatele.";
+$wb['302'] = "Neplatný modul.";
+$wb['1001'] = "Uživatelské jméno a heslo nemohou být prázdné !";
+$wb['1002'] = "Uživatelské jméno a/nebo heslo nejsou správné !";
+$wb['1003'] = "Uživatelské jméno je neaktivní!";
+$wb['delete_confirmation'] = "Skutečně chcete smazat tento záznam?";
+$wb['error_no_view_permission'] = "Záznam neexistuje nebo nemáte oprávnění jej zobrazit!";
+$wb['error_no_delete_permission'] = "Nemáte oprávnění smazat tento záznam!";
+$wb['page_txt'] = "Stránka";
+$wb['page_of_txt'] = "z";
+$wb['page_and_txt'] = "a";
+$wb['page_next_txt'] = "Další";
+$wb['page_back_txt'] = "Zpět";
+$wb['delete_txt'] = "Smazat";
+$wb['filter_txt'] = "Filtrovat";
+$wb['add_new_record_txt'] = "Přidat záznam";
+$wb['btn_save_txt'] = "Uložit";
+$wb['btn_cancel_txt'] = "Zpět";
+$wb['top_menu_system'] = "Systém";
+$wb['top_menu_client'] = "Klient";
+$wb['top_menu_email'] = "Email";
+$wb['top_menu_monitor'] = "Monitor";
+$wb['top_menu_sites'] = "Stránky";
+$wb['top_menu_dns'] = "DNS";
+$wb['top_menu_tools'] = "Nástroje";
+$wb['top_menu_help'] = "Pomoc";
+$wb['toolsarea_head_txt'] = "Nástroje";
+?>
+

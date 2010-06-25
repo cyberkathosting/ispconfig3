@@ -1,0 +1,14 @@
+<?php
+$wb["list_head_txt"] = 'A záznam';
+$wb["active_txt"] = Aktivní';
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zóna';
+$wb["name_txt"] = 'Název';
+$wb["data_txt"] = 'Data';
+$wb["aux_txt"] = 'Priorita';
+$wb["type_txt"] = 'Typ';
+$wb["add_new_record_txt"] = 'Přidat DNS A záznam';
+$wb["page_txt"] = 'Stránka';
+$wb["page_of_txt"] = 'z';
+$wb['delete_confirmation'] = 'Skutečně chcete smazat tento záznam?';
+?>

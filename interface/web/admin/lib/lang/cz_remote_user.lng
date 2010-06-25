@@ -1,0 +1,43 @@
+<?php
+$wb['username_txt'] = 'Uživatelské jméno:';
+$wb['password_txt'] = 'Heslo:';
+$wb['function_txt'] = 'Funkce:';
+$wb['username_error_unique'] = 'Uživatelské jméno musí být unikátní';
+$wb['username_error_empty'] = 'Uživatelské jméno nemůže být prázdné';
+$wb['password_error_empty'] = 'Heslo nemůže být prázdné';
+$wb['password_strength_txt'] = 'Bezpečnost hesla:';
+$wb['Mail domain functions'] = 'Funkce mailové domény';
+$wb['Mail user functions'] = 'Funkce mailového uživatele';
+$wb['Mail alias functions'] = 'Funkce mailového aliasu';
+$wb['Mail forward functions'] = 'Funkce mailového předávání';
+$wb['Mail catchall functions'] = 'Funkce mailového koše';
+$wb['Mail transport functions'] = 'Funkce mailového transportu';
+$wb['Mail whitelist functions'] = 'Funkce mailové bílé listiny';
+$wb['Mail blacklist functions'] = 'Funkce mailové černé listiny';
+$wb['Mail spamfilter user functions'] = 'Funkce mailového spamfiltr uživatele';
+$wb['Mail spamfilter policy functions'] = 'Funkce mailové spamfiltr politiky';
+$wb['Mail fetchmail functions'] = 'Funkce mailové externí získávání emailů';
+$wb['Mail user filter functions'] = 'Funkce mailového filtru uživatelů';
+$wb['Mail filter functions'] = 'Funkce mailového filtru'; 
+$wb['Client functions'] = 'Klientské funkce';
+$wb['Sites cron functions'] = 'Funkce cronů';
+$wb['Sites database functions'] = 'Funkce databází';
+$wb['Sites FTP-User functions'] = 'Funkce FTP uživatelů';
+$wb['Sites Shell-User functions'] = 'Funkce shell uživatelů';
+$wb['Sites Domain functions'] = 'Funkce domén';
+$wb['Sites Aliasdomain functions'] = 'Fnkce alias domén';
+$wb['Sites Subdomain functions'] = 'Funkce subdomén';
+$wb['DNS zone functions'] = 'Funkce DNS zóny';
+$wb['DNS a functions'] = 'Funkce DNS A';
+$wb['DNS aaaa functions'] = 'Funkce DNS AAAA';
+$wb['DNS alias functions'] = 'Funkce DNS ALIAS';
+$wb['DNS cname functions'] = 'Funkce DNS CNAME';
+$wb['DNS hinfo functions'] = 'Funkce DNS HINFO';
+$wb['DNS mx functions'] = 'Funkce DNS MX';
+$wb['DNS ns functions'] = 'Funkce DNS NS';
+$wb['DNS ptr functions'] = 'Funkce DNS PTR';
+$wb['DNS rp functions'] = 'Funkce DNS RP';
+$wb['DNS srv functions'] = 'Funkce DNS SRV';
+$wb['DNS txt functions'] = 'Funkce DNS TXT';
+?>
+

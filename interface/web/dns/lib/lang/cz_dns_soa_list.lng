@@ -1,0 +1,9 @@
+<?php
+$wb["list_head_txt"] = 'DNS zóny';
+$wb["active_txt"] = 'Aktivní';
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zóna';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["add_new_record_txt"] = 'Přidat DNS zónu (SOA záznam)';
+?>

@@ -1,0 +1,29 @@
+<?php
+$wb["username_txt"] = 'Uživatelské jméno';
+$wb["username_err"] = 'Uživatelské jméno je příliš dlouhé nebo obsahuje neplatné znaky.';
+$wb["username_empty"] = 'Uživatelské jméno je prázdné.';
+$wb["username_unique"] = 'Toto uživatelské jméno již existuje.';
+$wb["passwort_txt"] = 'Heslo';
+$wb["password_strength_txt"] = 'Bezpečnost hesla';
+$wb["modules_txt"] = 'Modul';
+$wb["startmodule_txt"] = 'Výchozí modul';
+$wb["app_theme_txt"] = 'Design';
+$wb["typ_txt"] = 'Typ';
+$wb["active_txt"] = 'Aktivní';
+$wb["language_txt"] = 'Jazyk';
+$wb["name_txt"] = 'Jméno';
+$wb["vorname_txt"] = 'Příjmení';
+$wb["unternehmen_txt"] = 'Společnost';
+$wb["strasse_txt"] = 'Ulice';
+$wb["ort_txt"] = 'Město';
+$wb["plz_txt"] = 'PSČ';
+$wb["land_txt"] = 'Stát';
+$wb["email_txt"] = 'Email';
+$wb["url_txt"] = 'URL';
+$wb["telefon_txt"] = 'Telefon';
+$wb["fax_txt"] = 'Fax';
+$wb["groups_txt"] = 'Skupiny';
+$wb["default_group_txt"] = 'Výchozí skupina';
+$wb["startmodule_err"] = 'Výchozí modul nenalezen v modulech.';
+?>
+

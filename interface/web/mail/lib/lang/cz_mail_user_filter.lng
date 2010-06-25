@@ -1,0 +1,11 @@
+<?php
+$wb["rulename_txt"] = 'Název';
+$wb["action_txt"] = 'Akce';
+$wb["target_txt"] = 'Složka';
+$wb["active_txt"] = 'Aktivní';
+$wb["rulename_error_empty"] = 'Název je prázdný.';
+$wb["searchterm_is_empty"] = 'Vyhledávací žádek je prázdný.';
+$wb["source_txt"] = 'Zdroj';
+$wb["target_error_regex"] = 'Cíl může obsahovat jen tyto znaky: a-z, 0-9, -, ., _, a {mezeru}';
+?>
+

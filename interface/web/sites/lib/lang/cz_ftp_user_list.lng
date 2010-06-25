@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'FTP uživatel';
+$wb["active_txt"] = 'Aktivní';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Web stránka';
+$wb["username_txt"] = 'Uživatelské jméno';
+$wb["add_new_record_txt"] = 'Přidat FTP uživatele';
+?>

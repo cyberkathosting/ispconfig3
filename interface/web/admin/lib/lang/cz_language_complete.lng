@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Sloučit jazyk';
+$wb["list_desc_txt"] = 'Sloučit vybraný jazykový soubor s hlavním anglickým jazykovým souborem. <br />Toto přidá chybějící řetězce z anglického hlavního souboru do vybraného souboru.';
+$wb["language_select_txt"] = 'Vybrat jazyk';
+$wb['btn_save_txt'] = 'Sloučit soubory';
+$wb['btn_cancel_txt'] = 'Zpět';
+?>

@@ -1,0 +1,26 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zóna (SOA záznam)';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'Email';
+$wb["serial_txt"] = 'Serial';
+$wb["refresh_txt"] = 'Refresh';
+$wb["retry_txt"] = 'Retry';
+$wb["expire_txt"] = 'Expire';
+$wb["minimum_txt"] = 'Minimum';
+$wb["ttl_txt"] = 'TTL';
+$wb["xfer_txt"] = 'Povolot přenos zóny do <br />těchto IP adres (položky oddělené čárkami)';
+$wb["active_txt"] = 'Aktivní';
+$wb["limit_dns_zone_txt"] = 'Dosažen maximální počet DNS záznamů pro Váš účet.';
+$wb["client_txt"] = 'Klient';
+$wb["no_zone_perm"] = 'Nemáte oprávnění přidat záznam do této zóny.';
+$wb["server_id_error_empty"] = 'Není vybrán server';
+$wb["origin_error_empty"] = 'Zóna je prázdná.';
+$wb["origin_error_unique"] = 'Záznam pro tuto zónu již existuje.';
+$wb["origin_error_regex"] = 'Zóna má chybný formát.';
+$wb["ns_error_regex"] = 'NS má chybný formát.';
+$wb["mbox_error_empty"] = 'Email je prázdný.';
+$wb["mbox_error_regex"] = 'Email má chybný formát.';
+$wb["also_notify_txt"] = 'Také upozornit';
+$wb["update_acl_txt"] = 'Aktualizovat ACL';
+?>

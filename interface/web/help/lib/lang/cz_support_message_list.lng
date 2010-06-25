@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Zrávy pro podporu';
+$wb['sender_id_txt'] = 'Odesílatel';
+$wb['subject_txt'] = 'Předmět';
+$wb["add_new_record_txt"] = 'Vytvořit zprávu pro podporu';
+?>
