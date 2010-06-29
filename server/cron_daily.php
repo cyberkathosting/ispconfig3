@@ -228,7 +228,7 @@ foreach($records as $rec) {
 #######################################################################################################
 
 // rotate the ispconfig.log when it exceeds a size of 10 MB
-$logfile = '/var/log/ispconfig/ispconfig.log');
+$logfile = '/var/log/ispconfig/ispconfig.log';
 if(is_file($logfile) && filesize($logfile) > 10000000) {
 	exec("gzip -c $logfile > $logfile.1.gz");
 	exec("cat /dev/null > $logfile");
