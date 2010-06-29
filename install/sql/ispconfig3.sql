@@ -560,6 +560,7 @@ CREATE TABLE `mail_user` (
   `gid` int(11) unsigned NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
   `quota` bigint(20) NOT NULL default '-1',
+  `cc` varchar(255) NOT NULL default '',
   `homedir` varchar(255) NOT NULL,
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_start_date` datetime NOT NULL default '0000-00-00 00:00:00',

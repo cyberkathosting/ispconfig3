@@ -30,6 +30,10 @@
       	<label for="quota">{tmpl_var name='quota_txt'}</label>
         <input name="quota" id="quota" value="{tmpl_var name='quota'}" size="30" maxlength="255" type="text" class="textInput formLengthLimit" /><p class="formInputUnity">&nbsp;MB</p>
 			</div>
+	  <div class="ctrlHolder">
+      	<label for="name">{tmpl_var name='cc_txt'}</label>
+        <input name="cc" id="cc" value="{tmpl_var name='cc'}" size="30" maxlength="255" type="text" class="textInput" /> &nbsp; {tmpl_var name='name_optional_txt'}
+	  </div>
 			<div class="ctrlHolder">
       	<label for="policy">{tmpl_var name='policy_txt'}</label>
         <select name="policy" id="policy" class="selectInput">

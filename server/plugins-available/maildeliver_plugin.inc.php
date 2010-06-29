@@ -89,7 +89,9 @@ class maildeliver_plugin {
 			   or $data["old"]["autoresponder"] != $data["new"]["autoresponder"]
 			   or (isset($data["new"]["email"]) and $data["old"]["email"] != $data["new"]["email"])
 			   or $data["old"]["autoresponder_start_date"] != $data["new"]["autoresponder_start_date"]
-			   or $data["old"]["autoresponder_end_date"] != $data["new"]["autoresponder_end_date"]) {
+			   or $data["old"]["autoresponder_end_date"] != $data["new"]["autoresponder_end_date"]
+			   or $data["old"]["cc"] != $data["new"]["cc"]
+			   ) {
 				
 			$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
 				

@@ -110,6 +110,18 @@ $form["tabs"]['mailuser'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'cc' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-z]{2,10}){0,1}$/i',
+														'errmsg'=> 'cc_error_isemail'),
+									),
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'maildir' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

@@ -166,8 +166,10 @@ class maildrop_plugin {
 		}
 			
 			// Write the custom mailfilter script, if mailfilter recipe has changed
-			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"] or
-			   $data["old"]["move_junk"] != $data["new"]["move_junk"]) {
+			if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]
+			   or $data["old"]["move_junk"] != $data["new"]["move_junk"]
+			   or $data["old"]["cc"] != $data["new"]["cc"]) {
+			   
 				$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
 				if(trim($data["new"]["custom_mailfilter"]) != '' or $data["new"]["move_junk"] != 'n') {
 					// Delete the old filter recipe
@@ -184,6 +186,11 @@ class maildrop_plugin {
 					$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
 					
 					$mailfilter_content = '';
+					
+					if($data["new"]["cc"] != '') {
+						$mailfilter_content .= "cc \"!".$data["new"]["cc"]."\"\n";
+					}
+					
 					if($data["new"]["move_junk"] == 'y') {
 						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf/mailfilter_move_junk.master')."\n";
 					}
