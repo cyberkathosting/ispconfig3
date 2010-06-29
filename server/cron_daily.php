@@ -245,7 +245,7 @@ if(is_array($records)) {
 	foreach($records as $rec){
 		$tmp_path = realpath(escapeshellcmd($rec["document_root"].'/tmp'));
 		if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path) && $app->system->is_user($rec['system_user'])){
-			exec("cd ".$tmp_path."; find -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm &> /dev/null 2> /dev/null");
+			exec("cd ".$tmp_path."; find -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null");
 		}
 	}
 }
