@@ -1242,9 +1242,15 @@ class installer_base {
 						$module_name = substr($file,0,-8);
 						$tmp = new $module_name;
 						if($tmp->onInstall()) {
-							if(!@is_link($install_dir.'/server/mods-enabled/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
+							if(!@is_link($install_dir.'/server/mods-enabled/'.$file)) {
+								// @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-enabled/'.$file);
+								@symlink($install_dir.'/server/mods-available/'.$file, '../mods-enabled/'.$file);
+							}
 							if (strpos($file, '_core_module') !== false) {
-								if(!@is_link($install_dir.'/server/mods-core/'.$file)) @symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-core/'.$file);
+								if(!@is_link($install_dir.'/server/mods-core/'.$file)) {
+									//@symlink($install_dir.'/server/mods-available/'.$file, $install_dir.'/server/mods-core/'.$file);
+									@symlink($install_dir.'/server/mods-available/'.$file, '../mods-core/'.$file);
+								}
 							}
 						}
 						unset($tmp);
@@ -1263,9 +1269,15 @@ class installer_base {
 						$plugin_name = substr($file,0,-8);
 						$tmp = new $plugin_name;
 						if(method_exists($tmp,'onInstall') && $tmp->onInstall()) {
-							if(!@is_link($install_dir.'/server/plugins-enabled/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-enabled/'.$file);
+							if(!@is_link($install_dir.'/server/plugins-enabled/'.$file)) {
+								// @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-enabled/'.$file);
+								@symlink($install_dir.'/server/plugins-available/'.$file, '../plugins-enabled/'.$file);
+							}
 							if (strpos($file, '_core_plugin') !== false) {
-								if(!@is_link($install_dir.'/server/plugins-core/'.$file)) @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-core/'.$file);
+								if(!@is_link($install_dir.'/server/plugins-core/'.$file)) {
+									// @symlink($install_dir.'/server/plugins-available/'.$file, $install_dir.'/server/plugins-core/'.$file);
+									@symlink($install_dir.'/server/plugins-available/'.$file, '../plugins-core/'.$file);
+								}
 							}
 						}
 						unset($tmp);
