@@ -207,6 +207,13 @@ foreach($records as $rec) {
 		exec("gzip -c $logfile > $logfile.gz");
 		unlink($logfile);
 	}
+	
+	// rotate and compress the error.log when it exceeds a size of 10 MB
+	$logfile = escapeshellcmd($rec["document_root"].'/log/error.log');
+	if(is_file($logfile) && filesize($logfile) > 10000000) {
+		exec("gzip -c $logfile > $logfile.1.gz");
+		exec("cat /dev/null > $logfile");
+	}
 
 	// delete logfiles after 30 days
 	$month_ago = date("Ymd",time() - 86400 * 30);
@@ -214,6 +221,17 @@ foreach($records as $rec) {
 	if(@is_file($logfile)) {
 		unlink($logfile);
 	}
+}
+
+#######################################################################################################
+// Rotate the ispconfig.log file
+#######################################################################################################
+
+// rotate the ispconfig.log when it exceeds a size of 10 MB
+$logfile = '/var/log/ispconfig/ispconfig.log');
+if(is_file($logfile) && filesize($logfile) > 10000000) {
+	exec("gzip -c $logfile > $logfile.1.gz");
+	exec("cat /dev/null > $logfile");
 }
 
 #######################################################################################################
