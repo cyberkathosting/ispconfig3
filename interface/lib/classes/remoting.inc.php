@@ -122,6 +122,29 @@ class remoting {
         return ($app->db->affectedRows() == 1);
 	}
 	
+	// Get server details
+        /**
+        Gets the server configuration
+        @param int session id
+        @param int server id
+        @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+        @author Julio Montoya <gugli100@gmail.com>
+        */
+    public function server_get($session_id, $server_id, $section ='') {
+        global $app;        
+        if(!$this->checkPerm($session_id, 'server_get')) {
+            $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+        }
+        if (!empty($session_id) && !empty($server_id)) {    
+            $app->uses('remoting_lib , getconf');        
+            $section_config =  $app->getconf->get_server_config($server_id,$section);        
+            return $section_config;
+        } else {
+            return false;
+        }
+    }
+	
 	//* Get mail domain details
 	public function mail_domain_get($session_id, $primary_id)
     {

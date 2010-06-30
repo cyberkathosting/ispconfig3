@@ -50,6 +50,7 @@ $function_list['mail_blacklist_get,mail_blacklist_add,mail_blacklist_update,mail
 $function_list['mail_user_filter_get,mail_user_filter_add,mail_user_filter_update,mail_user_filter_delete'] = 'Mail user filter functions';
 $function_list['mail_filter_get,mail_filter_add,mail_filter_update,mail_filter_delete'] = 'Mail filter functions';
 $function_list['client_get,client_add,client_update,client_delete'] = 'Client functions';
+$function_list['server_get'] = 'Server functions';
 $function_list['sites_cron_get,sites_cron_add,sites_cron_update,sites_cron_delete'] = 'Sites cron functions';
 $function_list['sites_database_get,sites_database_add,sites_database_update,sites_database_delete'] = 'Sites database functions';
 $function_list['sites_ftp_user_get,sites_ftp_user_add,sites_ftp_user_update,sites_ftp_user_delete'] = 'Sites FTP-User functions';
