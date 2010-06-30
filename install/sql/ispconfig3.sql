@@ -1084,6 +1084,8 @@ CREATE TABLE `web_domain` (
   `allow_override` varchar(255) NOT NULL default 'All',
   `apache_directives` text,
   `php_open_basedir` text,
+  `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
+  `backup_copies` INT NOT NULL DEFAULT '1',
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`domain_id`)

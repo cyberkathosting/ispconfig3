@@ -12,6 +12,7 @@ gateway=192.168.0.1
 hostname=server1.domain.tld
 nameservers=192.168.0.1,192.168.0.2
 loglevel=2
+backup_dir=/var/backup
 
 [mail]
 module=postfix_mysql

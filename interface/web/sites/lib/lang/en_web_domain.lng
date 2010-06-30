@@ -1,4 +1,6 @@
 <?php
+$wb["backup_interval_txt"] = 'Backup interval';
+$wb["backup_copies_txt"] = 'Number of backup copies';
 $wb["ssl_state_txt"] = 'State';
 $wb["ssl_locality_txt"] = 'Locality';
 $wb["ssl_organisation_txt"] = 'Organisation';
@@ -40,11 +42,11 @@ $wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain wi
 $wb["domain_error_regex"] = 'Domain name invalid.';
 $wb["hd_quota_error_empty"] = 'Harddisk quota is 0 or empty.';
 $wb["traffic_quota_error_empty"] = 'Traffic quota is empty.';
-$wb['error_ssl_state_empty'] = 'SSL State is empty.';
-$wb['error_ssl_locality_empty'] = 'SSL Locality is empty.';
-$wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
-$wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
-$wb['error_ssl_country_empty'] = 'SSL Country is empty.';
+$wb["error_ssl_state_empty"] = 'SSL State is empty.';
+$wb["error_ssl_locality_empty"] = 'SSL Locality is empty.';
+$wb["error_ssl_organisation_empty"] = 'SSL Organisation is empty.';
+$wb["error_ssl_organisation_unit_empty"] = 'SSL Organisation Unit is empty.';
+$wb["error_ssl_country_empty"] = 'SSL Country is empty.';
 $wb["client_group_id_txt"] = 'Client';
 $wb["stats_password_txt"] = 'Webstatistics password';
 $wb["allow_override_txt"] = 'Allow Override';

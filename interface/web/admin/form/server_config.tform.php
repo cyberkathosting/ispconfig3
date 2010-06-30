@@ -127,6 +127,17 @@ $form["tabs"]['server'] = array (
 			'width'		=> '40',
 			'maxlength'	=> '255'
 		),
+		'backup_dir' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '/var/backup',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'backup_dir_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

@@ -38,6 +38,10 @@
 					{tmpl_var name='loglevel'}
 				</select>
       </div>
+	  <div class="ctrlHolder">
+      	<label for="backup_dir">{tmpl_var name='backup_dir_txt'}</label>
+        <input name="backup_dir" id="backup_dir" value="{tmpl_var name='backup_dir'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

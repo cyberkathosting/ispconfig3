@@ -380,8 +380,36 @@ $form["tabs"]['stats'] = array (
 		'stats_type' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
-			'default'	=> 'y',
+			'default'	=> 'webalizer',
 			'value'		=> array('webalizer' => 'Webalizer', 'awstats' => 'AWStats')
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+//* Statistics
+$form["tabs"]['backup'] = array (
+	'title' 	=> "Backup",
+	'width' 	=> 100,
+	'template' 	=> "templates/web_domain_backup.htm",
+	'readonly'	=> false,
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'backup_interval' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('none' => 'No backup', 'daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' => 'Monthly')
+		),
+		'backup_copies' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
 		),
 	##################################
 	# ENDE Datatable fields
