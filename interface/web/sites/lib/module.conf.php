@@ -124,6 +124,11 @@ $items[] = array( 'title'   => 'Web traffic',
 		'link'    => 'sites/web_sites_stats.php',
 		'html_id' => 'websites_stats');
 
+$items[] = array( 'title'   => 'Website quota (Harddisk)',
+		'target'  => 'content',
+		'link'    => 'sites/user_quota_stats.php',
+		'html_id' => 'user_quota_stats');
+
 
 $module['nav'][] = array(   'title' => 'Statistics',
 		'open'  => 1,

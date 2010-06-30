@@ -195,6 +195,7 @@ class monitor_core_module {
 	// TODO: what monitoring is done should be a config-var
 	function doMonitor() {
 		/* Calls the single Monitoring steps */
+		$this->monitorHDQuota();
 		$this->monitorServer();
 		$this->monitorOSVer();
 		$this->monitorIspCVer();
@@ -219,7 +220,84 @@ class monitor_core_module {
 		$this->monitorFail2ban();
 		$this->monitorSysLog();
 	}
+	
+	function monitorHDQuota() {
+		global $app;
+		global $conf;
+		
+		/* Initialize data array */
+		$data = array();
 
+		/* the id of the server as int */
+		$server_id = intval($conf["server_id"]);
+
+		/** The type of the data */
+		$type = 'harddisk_quota';
+
+		/** The state of the harddisk_quota. */
+		$state = 'ok';
+		
+		/** Fetch the data for all users*/
+		$dfData = shell_exec("repquota -asu");
+
+		// split into array
+		$df = explode("\n", $dfData);
+
+		/*
+         * ignore the first 5 lines, process the rest
+		*/
+		for($i=5; $i <= sizeof($df); $i++) {
+			if ($df[$i] != '') {
+				/*
+                 * Make a array of the data
+				*/
+				$s = preg_split ("/[\s]+/", $df[$i]);
+				$username = $s[0];
+				$data['user'][$username]['used'] = $s[2];
+				$data['user'][$username]['soft'] = $s[3];
+				$data['user'][$username]['hard'] = $s[4];
+			}
+		}
+		
+		/** Fetch the data for all users*/
+		$dfData = shell_exec("repquota -asg");
+
+		// split into array
+		$df = explode("\n", $dfData);
+
+		/*
+         * ignore the first 5 lines, process the rest
+		*/
+		for($i=5; $i <= sizeof($df); $i++) {
+			if ($df[$i] != '') {
+				/*
+                 * Make a array of the data
+				*/
+				$s = preg_split ("/[\s]+/", $df[$i]);
+				$groupname = $s[0];
+				$data['group'][$groupname]['used'] = $s[1];
+				$data['group'][$groupname]['soft'] = $s[2];
+				$data['group'][$groupname]['hard'] = $s[3];
+			}
+		}
+
+		/*
+        Insert the data into the database
+		*/
+		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
+				"VALUES (".
+				$server_id . ", " .
+				"'" . $app->dbmaster->quote($type) . "', " .
+				time() . ", " .
+				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
+				"'" . $state . "'" .
+				")";
+		$app->dbmaster->query($sql);
+
+		/* The new data is written, now we can delete the old one */
+		$this->_delOldRecords($type, 4);
+	}
+	
 	function monitorServer() {
 		global $app;
 		global $conf;

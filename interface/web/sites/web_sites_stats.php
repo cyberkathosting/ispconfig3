@@ -58,6 +58,8 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
+$list->SQLExtWhere = "type = 'vhost'";
+
 $list->onLoad();
 
 
