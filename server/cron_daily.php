@@ -371,6 +371,72 @@ if ($app->dbmaster == $app->db) {
 
 }
 
+#######################################################################################################
+// Create website backups
+#######################################################################################################
+
+$server_config = $app->getconf->get_server_config($conf["server_id"], 'server');
+$backup_dir = trim($server_config['backup_dir']);
+
+if($backup_dir != '') {
+	
+	if(!is_dir($backup_dir)) {
+		exec("mkdir -p ".escapeshellarg($backup_dir));
+	}
+	
+	$sql = "SELECT * FROM web_domain WHERE type = 'vhost'";
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records)) {
+		foreach($records as $rec) {
+			
+			// Create a backup
+			if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'daily' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
+				
+				$web_path = $rec['document_root'];
+				$web_user = $rec['system_user'];
+				$web_group = $rec['system_group'];
+				$web_id = $rec['domain_id'];
+				$web_backup_dir = $backup_dir.'/web'.$web_id;
+				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir);
+				
+				exec('chown root:root '.$web_backup_dir);
+				exec('chmod 755 '.$web_backup_dir);
+				exec("cd ".escapeshellarg($web_path)." && sudo -u ".escapeshellarg($web_user)." find . -group ".escapeshellarg($web_group)." -print | zip -y ".escapeshellarg($web_backup_dir."/web.zip")." -@");
+				
+				// Rename or remove old backups
+				$backup_copies = intval($rec['backup_copies']);
+			
+				if(is_file($web_backup_dir."/web.".$backup_copies.".zip")) unlink($web_backup_dir."/web.".$backup_copies.".zip");
+			
+				for($n = $backup_copies - 1; $n >= 1; $n--) {
+					if(is_file($web_backup_dir."/web.".$n.".zip")) {
+						rename($web_backup_dir."/web.".$n.".zip",$web_backup_dir."/web.".($n+1).".zip");
+					}
+				}
+			
+				if(is_file($web_backup_dir."/web.zip")) rename($web_backup_dir."/web.zip",$web_backup_dir."/web.1.zip");
+			
+				// Create backupdir symlink
+				if(is_link($web_path.'/backup')) unlink($web_path.'/backup');
+				symlink($web_backup_dir,$web_path.'/backup');
+				
+			}
+			
+			/* If backup_interval is set to none and we have a 
+			backup directory for the website, then remove the backups */
+			
+			if($rec['backup_interval'] == 'none') {
+				$web_id = $rec['domain_id'];
+				$web_user = $rec['system_user'];
+				$web_backup_dir = realpath($backup_dir.'/web'.$web_id);
+				if(is_dir($web_backup_dir)) {
+					exec("sudo -u ".escapeshellarg($web_user)." rm -f ".escapeshellarg($web_backup_dir.'/*'));
+				}
+			}
+		}
+	}
+}
+
 
 die("finished.\n");
 ?>
