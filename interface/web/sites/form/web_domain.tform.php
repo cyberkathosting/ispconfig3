@@ -389,7 +389,9 @@ $form["tabs"]['stats'] = array (
 	)
 );
 
-//* Statistics
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+
+//* Backup
 $form["tabs"]['backup'] = array (
 	'title' 	=> "Backup",
 	'width' 	=> 100,
@@ -416,6 +418,8 @@ $form["tabs"]['backup'] = array (
 	##################################
 	)
 );
+
+}
 
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
