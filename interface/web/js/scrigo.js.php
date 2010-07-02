@@ -105,7 +105,7 @@ function submitForm(formname,target) {
 		},
 		failure: function(o) {
 			var parts = o.responseText.split(':');
-			alert('Ajax Request was not successful. '+parts[1]);
+			alert('Ajax Request was not successful.');
 		}
 	}
 	
@@ -145,7 +145,7 @@ function submitUploadForm(formname,target) {
 			}
         },
 		failure: function(o) {
-			alert('Ajax Request was not successful. 1');
+			alert('Ajax Request was not successful.');
 		}
 	}
 	
