@@ -6,13 +6,21 @@
 
 redirect = '';
 
+function reportError(request) {
+	/* Error reporting is disabled by default as some browsers like safari 
+	   sometimes throw errors when a ajax request is delayed even if the 
+	   ajax request worked. */
+	   
+	/*alert(request);*/
+}
+
 function loadContentRefresh(pagename) {
 	var pageContentCallbackRefresh = {
 		success: function(o) {
 			document.getElementById('pageContent').innerHTML = o.responseText;
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.'+pagename);
+			reportError('Ajax Request was not successful.'+pagename);
 		}
 	}
 	
@@ -36,7 +44,7 @@ function capp(module) {
 			loadMenus();
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful.'+module);
 		}
 	}
 	var submitFormObj = YAHOO.util.Connect.asyncRequest('GET', 'capp.php?mod='+module, cappCallback);
@@ -61,7 +69,7 @@ function submitLoginForm(formname) {
 			loadMenus();
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful.110');
 		}
 	}
 	
@@ -105,7 +113,7 @@ function submitForm(formname,target) {
 		},
 		failure: function(o) {
 			var parts = o.responseText.split(':');
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 111');
 		}
 	}
 	
@@ -145,7 +153,7 @@ function submitUploadForm(formname,target) {
 			}
         },
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 112');
 		}
 	}
 	
@@ -173,7 +181,7 @@ function loadContent(pagename) {
 			}
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 113');
 		}
 	}
 	
@@ -207,7 +215,7 @@ function loadInitContent() {
 			*/
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 114');
 		}
 	}
 	
@@ -252,7 +260,7 @@ function loadMenus() {
 			document.getElementById('sideNav').innerHTML = o.responseText;
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 115');
 		}
 	}
 	
@@ -263,7 +271,7 @@ function loadMenus() {
 			document.getElementById('topNav').innerHTML = o.responseText;
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 116');
 		}
 	}
 	
@@ -276,13 +284,6 @@ function changeTab(tab,target) {
 	document.pageForm.next_tab.value = tab;
 	submitForm('pageForm',target);
 }
-
-
-
-function reportError(request)
-	{
-		alert('Sorry. There was an error.');
-	}
 	
 function del_record(link,confirmation) {
   if(window.confirm(confirmation)) {
@@ -296,7 +297,7 @@ function loadContentInto(elementid,pagename) {
 			document.getElementById(elementid).innerHTML = o.responseText;
 		},
 		failure: function(o) {
-			alert('Ajax Request was not successful.');
+			reportError('Ajax Request was not successful. 118');
 		}
 	}
 	
@@ -320,7 +321,7 @@ function loadOptionInto(elementid,pagename) {
 			}
 		},
 		failure: function(o) {
-		alert('Ajax Request was not successful.');
+		reportError('Ajax Request was not successful. 119');
 		}
 	}
 	var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);
@@ -332,7 +333,7 @@ function keepalive() {
 			setTimeout( keepalive, 1000000 );
 		},
 		failure: function(o) {
-			alert('Sorry. There was an error.');
+			reportError('Session expired. Please login again.');
 		}
 	}
 	
