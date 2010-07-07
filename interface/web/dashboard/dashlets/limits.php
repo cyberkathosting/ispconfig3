@@ -106,8 +106,9 @@ class dashlet_limits {
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/limits.htm");
 		
+		$wb = array();
 		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dashlet_limits.lng';
-		include($lng_file);
+		if(is_file($lng_file)) include($lng_file);
 		$tpl->setVar($wb);
 		
 		if($app->auth->is_admin()) {

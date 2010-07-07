@@ -11,8 +11,9 @@ class dashlet_modules {
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/modules.htm");
 		
+		$wb = array();
 		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dashlet_modules.lng';
-		include($lng_file);
+		if(is_file($lng_file)) include($lng_file);
 		$tpl->setVar($wb);
 		
 		/*
