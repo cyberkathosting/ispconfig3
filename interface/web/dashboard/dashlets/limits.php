@@ -111,29 +111,34 @@ class dashlet_limits {
 		$tpl->setVar($wb);
 		
 		if($app->auth->is_admin()) {
-			$user_is_admin = 1;
+			$user_is_admin = true;
 		} else {
-			$user_is_admin = 0;
+			$user_is_admin = false;
 		}
 		$tpl->setVar('is_admin',$user_is_admin);
 		
-		if($user_is_admin == 0) {
+		if($user_is_admin == false) {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT * FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
-			$rows = array();
-			foreach($limits as $limit) {
-				$field = $limit['field'];
-				if($client[$field] != 0) {
-					$value = ($client[$field] == '-1')?$wb['unlimited_txt']:$client[$field];
-					$rows[] = array('field' => $field,
-									'field_txt' => $wb[$field.'_txt'],
-									'value' => $value,
-									'usage' => $this->_get_limit_usage($limit));
-				}
-			}
-			$tpl->setLoop('rows',$rows);
 		}
+		
+		$rows = array();
+		foreach($limits as $limit) {
+			$field = $limit['field'];
+			if($user_is_admin) {
+				$value = $wb['unlimited_txt'];
+			} else {
+				$value = $client[$field];
+			}
+			if($value != 0 || $value == $wb['unlimited_txt']) {
+				$value_formatted = ($value == '-1')?$wb['unlimited_txt']:$value;
+				$rows[] = array('field' => $field,
+								'field_txt' => $wb[$field.'_txt'],
+								'value' => $value_formatted,
+								'usage' => $this->_get_limit_usage($limit));
+			}
+		}
+		$tpl->setLoop('rows',$rows);
 		
 		
 		return $tpl->grab();
