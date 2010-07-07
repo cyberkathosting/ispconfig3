@@ -1,6 +1,6 @@
 
 <h1><tmpl_var name="welcome_user"></h1>
-
+<hr />
 <div class="panel panel_dashboard">
 	<div>
 		<tmpl_if name='error'>
@@ -25,15 +25,16 @@
 		</div>
 		</tmpl_if>
 	</div>
+	<div style="float:left; width:350px;">
+	<tmpl_loop name='leftcol'>
+	{tmpl_var name='content'}
 	<p>&nbsp;</p>
-	<h2>{tmpl_var name='available_modules_txt'}</h2>
-	<div style="width:700px;">
-	<tmpl_loop name='modules'>
-		<div class="dashboard-modules {tmpl_var name='modules_name'}">
-			<a href="#" onclick="capp('{tmpl_var name='modules_name'}')">
-			{tmpl_var name='modules_title'}
-			</a>
-		</div>
+	</tmpl_loop>
+	</div>
+	<div style="float:left; width:350px;">
+	<tmpl_loop name='rightcol'>
+	{tmpl_var name='content'}
+	<p>&nbsp;</p>
 	</tmpl_loop>
 	</div>
 </div>

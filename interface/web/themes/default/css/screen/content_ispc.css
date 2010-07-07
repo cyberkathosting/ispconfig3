@@ -233,8 +233,8 @@
 	/* Dashboard */
 	.dashboard-modules {
 		float:left;
-		width:100px;
-		height: 100px;
+		width:60px;
+		height: 60px;
 		border:1px dotted #888888;
 		background-color: #cccccc;
 		margin:10px;
@@ -248,20 +248,24 @@
 		display:block;
 		font-weight:bold;
 		height:30px;
-		padding-top:70px;
-		width:100px;
+		padding-top:42px;
+		width:60px;
 		text-decoration: none;
 	}
 
-	.dashboard-modules.admin { background-image: url('../../icons/x64/system.png') !important; }
-	.dashboard-modules.client { background-image: url('../../icons/x64/client.png') !important; }
-	.dashboard-modules.mail { background-image: url('../../icons/x64/email.png') !important; }
-	.dashboard-modules.monitor { background-image: url('../../icons/x64/monitor.png') !important; }
-	.dashboard-modules.dns { background-image: url('../../icons/x64/dns.png') !important; }
-	.dashboard-modules.tools { background-image: url('../../icons/x64/tools.png') !important; }
-	.dashboard-modules.help { background-image: url('../../icons/x64/help.png') !important; }
-	.dashboard-modules.domain { background-image: url('../../icons/x64/domain.png') !important; }
-	.dashboard-modules.sites { background-image: url('../../icons/x64/sites.png') !important; }
+	.dashboard-modules.admin { background-image: url('../../icons/x32/system.png') !important; }
+	.dashboard-modules.client { background-image: url('../../icons/x32/client.png') !important; }
+	.dashboard-modules.mail { background-image: url('../../icons/x32/email.png') !important; }
+	.dashboard-modules.monitor { background-image: url('../../icons/x32/monitor.png') !important; }
+	.dashboard-modules.dns { background-image: url('../../icons/x32/dns.png') !important; }
+	.dashboard-modules.tools { background-image: url('../../icons/x32/tools.png') !important; }
+	.dashboard-modules.help { background-image: url('../../icons/x32/help.png') !important; }
+	.dashboard-modules.domain { background-image: url('../../icons/x32/domain.png') !important; }
+	.dashboard-modules.sites { background-image: url('../../icons/x32/sites.png') !important; }
+	
+	.panel_dashboard h2 {
+		font-size:20px;
+	}
 
 	/* Image-Replacement */
 	.swap { background-repeat:no-repeat; }

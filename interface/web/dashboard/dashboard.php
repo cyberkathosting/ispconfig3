@@ -99,27 +99,44 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 $app->tpl->setloop('info', $info);
 
-/*
- * Show all modules, the user is allowed to use
-*/
-$modules = explode(',', $_SESSION['s']['user']['modules']);
-$mod = array();
-if(is_array($modules)) {
-	foreach($modules as $mt) {
-		if(is_file('../' . $mt . '/lib/module.conf.php')) {
-			if(!preg_match("/^[a-z]{2,20}$/i", $mt)) die('module name contains unallowed chars.');
-			include_once('../' . $mt.'/lib/module.conf.php');
-			/* We don't want to show the dashboard */
-			if ($mt != 'dashboard') {
-				$mod[] = array(	'modules_title' 	=> $app->lng($module['title']),
-						'modules_startpage'	=> $module['startpage'],
-						'modules_name'  	=> $module['name']);
-			}
-		}
+/* Load the dashlets*/
+$dashlet_list = array();
+$handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets'); 
+while ($file = @readdir ($handle)) { 
+    if ($file != '.' && $file != '..' && !is_dir($file)) {
+        $dashlet_name = substr($file,0,-4);
+		$dashlet_class = 'dashlet_'.$dashlet_name;
+		include_once(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file);
+		$dashlet_list[$dashlet_name] = new $dashlet_class;
 	}
-
-	$app->tpl->setloop('modules', $mod);
 }
+
+
+/* Which dashlets in which column */
+/******************************************************************************/
+$leftcol_dashlets = array('modules');
+$rightcol_dashlets = array('limits');
+/******************************************************************************/
+
+
+/* Fill the left column */
+$leftcol = array();
+foreach($leftcol_dashlets as $name) {
+	if(isset($dashlet_list[$name])) {
+		$leftcol[]['content'] = $dashlet_list[$name]->show();
+	}
+}
+$app->tpl->setloop('leftcol', $leftcol);
+
+/* Fill the right columnn */
+$rightcol = array();
+foreach($rightcol_dashlets as $name) {
+	if(isset($dashlet_list[$name])) {
+		$rightcol[]['content'] = $dashlet_list[$name]->show();
+	}
+}
+$app->tpl->setloop('rightcol', $rightcol);
+
 
 //* Do Output
 $app->tpl->pparse();
