@@ -50,7 +50,7 @@ apt-get -y install vim-nox
 
 1) Install Postfix, Dovecot, MySQL, phpMyAdmin, rkhunter, binutils with the following command line (on one line!):
 
-apt-get -y install postfix postfix-mysql postfix-doc mysql-client mysql-server openssl getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d
+apt-get -y install postfix postfix-mysql postfix-doc mysql-client mysql-server openssl getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d sudo
 
 # Answer the questions from the package manager as follows.
 

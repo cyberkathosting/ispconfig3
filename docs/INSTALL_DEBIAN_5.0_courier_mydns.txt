@@ -83,7 +83,7 @@ to:
 
 2) Install Amavisd-new, Spamassassin and Clamav (1 line!):
 
-apt-get -y install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl
+apt-get -y install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl sudo
 
 # During the installation, the SSL certificates for IMAP-SSL and POP3-SSL are created with the hostname localhost. To change this to the correct hostname (server1.example.com in this tutorial), delete the certificates...
 
