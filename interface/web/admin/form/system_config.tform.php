@@ -212,5 +212,25 @@ $form["tabs"]['domains'] = array (
 	)
 );
 
+$form["tabs"]['misc'] = array (
+	'title' 	=> "Misc",
+	'width' 	=> 70,
+	'template' 	=> "templates/system_config_misc_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'dashboard_atom_url' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> 'http://www.ispconfig.org/atom',
+			'value'		=> ''
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
 
 ?>

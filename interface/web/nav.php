@@ -80,27 +80,32 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 //** Side Naviation
 if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
 
-	$app->tpl->newTemplate('sidenav.tpl.htm');
-
-	//* translating module navigation
-	$nav_translated = array();
-	if(isset($_SESSION['s']['module']['nav']) && is_array($_SESSION['s']['module']['nav'])) {
-		foreach($_SESSION['s']['module']['nav'] as $nav) {
-			$tmp_items = array();
-			foreach($nav['items'] as $item) {
-				$item['title'] = $app->lng($item['title']);
-				$tmp_items[] = $item;
-			}
-			$nav['title'] = $app->lng($nav['title']);
-			$nav['startpage'] = $nav['items'][0]['link'];
-			$nav['items'] = $tmp_items;
-			$nav_translated[] = $nav;
-		}
+	if(is_file($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php')) {
+		include_once($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php');
 	} else {
-		$nav_translated = null;
-	}
+	
+		$app->tpl->newTemplate('sidenav.tpl.htm');
 
-	$app->tpl->setLoop('nav_left',$nav_translated);
+		//* translating module navigation
+		$nav_translated = array();
+		if(isset($_SESSION['s']['module']['nav']) && is_array($_SESSION['s']['module']['nav'])) {
+			foreach($_SESSION['s']['module']['nav'] as $nav) {
+				$tmp_items = array();
+				foreach($nav['items'] as $item) {
+					$item['title'] = $app->lng($item['title']);
+					$tmp_items[] = $item;
+				}
+				$nav['title'] = $app->lng($nav['title']);
+				$nav['startpage'] = $nav['items'][0]['link'];
+				$nav['items'] = $tmp_items;
+				$nav_translated[] = $nav;
+			}
+		} else {
+			$nav_translated = null;
+		}
+		$app->tpl->setLoop('nav_left',$nav_translated);
+	
+	}
 
 }
 
