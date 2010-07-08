@@ -118,6 +118,7 @@
     php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
     php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
     php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
+	PHPIniDir <tmpl_var name='custom_php_ini_dir'>
 <tmpl_if name='security_level' op='==' value='20'>
     php_admin_value open_basedir <tmpl_var name='php_open_basedir'>
 </tmpl_if>
@@ -127,6 +128,9 @@
     <Directory {tmpl_var name='web_document_root'}>
         suPHP_Engine on
         # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+<tmpl_if name='has_custom_php_ini'>
+	suPHP_ConfigPath <tmpl_var name='custom_php_ini_dir'>
+</tmpl_if>
         AddHandler x-httpd-suphp .php .php3 .php4 .php5
         suPHP_AddHandler x-httpd-suphp
     </Directory>
@@ -305,6 +309,7 @@
     php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
     php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
     php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
+	PHPIniDir <tmpl_var name='custom_php_ini_dir'>
 <tmpl_if name='security_level' op='==' value='20'>
     php_admin_value open_basedir <tmpl_var name='php_open_basedir'>
 </tmpl_if>
@@ -312,6 +317,9 @@
 <tmpl_if name='php' op='==' value='suphp'>
     suPHP_Engine on
     # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+<tmpl_if name='has_custom_php_ini'>
+	suPHP_ConfigPath <tmpl_var name='custom_php_ini_dir'>
+</tmpl_if>
     AddHandler x-httpd-suphp .php .php3 .php4 .php5
     suPHP_AddHandler x-httpd-suphp
 </tmpl_if>

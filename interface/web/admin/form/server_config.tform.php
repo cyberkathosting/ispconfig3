@@ -398,6 +398,28 @@ $form["tabs"]['web'] = array (
 			'width'		=> '40',
 			'maxlength'	=> '255'
 		),
+		'php_ini_path_apache' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'php_ini_path_apache_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
+		'php_ini_path_cgi' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'php_ini_path_cgi_error_empty'),
+									),
+			'value'		=> '',
+			'width'		=> '40',
+			'maxlength'	=> '255'
+		),
 		'php_open_basedir' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

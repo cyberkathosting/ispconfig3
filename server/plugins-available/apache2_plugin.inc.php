@@ -543,7 +543,30 @@ class apache2_plugin {
 		$this->_exec("chown $username:$groupname ".escapeshellcmd($data["new"]["document_root"])."/log/error.log");
 
 
-		// Create the vhost config file
+		//* Write the custom php.ini file, if custom_php_ini filed is not empty
+		$custom_php_ini_dir = $web_config['website_basedir'].'/conf/'.$data["new"]["system_user"];
+		if(!is_dir($web_config['website_basedir'].'/conf')) mkdir($web_config['website_basedir'].'/conf');
+		if(trim($data["new"]['custom_php_ini']) != '') {
+			$has_custom_php_ini = true;
+			if(!is_dir($custom_php_ini_dir)) mkdir($custom_php_ini_dir);
+			$php_ini_content = '';
+			if($data["new"]['php'] == 'mod') {
+				$master_php_ini_path = $web_config['php_ini_path_apache'];
+			} else {
+				$master_php_ini_path = $web_config['php_ini_path_cgi'];
+			}
+			if($master_php_ini_path != '' && substr($master_php_ini_path,-7) == 'php.ini' && is_file($master_php_ini_path)) {
+				$php_ini_content .= file_get_contents($master_php_ini_path)."\n";
+			}
+			$php_ini_content .= trim($data["new"]['custom_php_ini']);
+			file_put_contents($custom_php_ini_dir.'/php.ini',$php_ini_content);
+		} else {
+			$has_custom_php_ini = false;
+			if(is_file($custom_php_ini_dir.'/php.ini')) unlink($custom_php_ini_dir.'/php.ini');
+		}
+
+
+		//* Create the vhost config file
 		$app->load('tpl');
 
 		$tpl = new tpl();
@@ -557,6 +580,8 @@ class apache2_plugin {
 		$vhost_data["allow_override"] = ($data["new"]["allow_override"] == '')?'All':$data["new"]["allow_override"];
 		$vhost_data["php_open_basedir"] = ($data["new"]["php_open_basedir"] == '')?$data["new"]["document_root"]:$data["new"]["php_open_basedir"];
 		$vhost_data["ssl_domain"] = $data["new"]["ssl_domain"];
+		$vhost_data["has_custom_php_ini"] = $has_custom_php_ini;
+		$vhost_data["custom_php_ini_dir"] = escapeshellcmd($custom_php_ini_dir);
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data["new"]["document_root"]."/ssl";
@@ -709,8 +734,12 @@ class apache2_plugin {
 
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate("php-fcgi-starter.master");
-
-			$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($fastcgi_config["fastcgi_phpini_path"]));
+			
+			if($has_custom_php_ini) {
+				$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($custom_php_ini_dir));
+			} else {
+				$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($fastcgi_config["fastcgi_phpini_path"]));
+			}
 			$fcgi_tpl->setVar('document_root',escapeshellcmd($data["new"]["document_root"]));
 			$fcgi_tpl->setVar('php_fcgi_children',escapeshellcmd($fastcgi_config["fastcgi_children"]));
 			$fcgi_tpl->setVar('php_fcgi_max_requests',escapeshellcmd($fastcgi_config["fastcgi_max_requests"]));
@@ -772,6 +801,13 @@ class apache2_plugin {
 			//$cgi_tpl->setVar('open_basedir', "/var/www/" . $data["new"]["domain"]);
 			$cgi_tpl->setVar('php_cgi_bin',$cgi_config["cgi_bin"]);
 			$cgi_tpl->setVar('security_level',$web_config["security_level"]);
+			
+			$cgi_tpl->setVar('has_custom_php_ini',$has_custom_php_ini);
+			if($has_custom_php_ini) {
+				$cgi_tpl->setVar('php_ini_path',escapeshellcmd($custom_php_ini_dir));
+			} else {
+				$cgi_tpl->setVar('php_ini_path',escapeshellcmd($fastcgi_config["fastcgi_phpini_path"]));
+			}
 
 			$cgi_starter_script = escapeshellcmd($cgi_starter_path.$cgi_config["cgi_starter_script"]);
 			file_put_contents($cgi_starter_script,$cgi_tpl->grab());

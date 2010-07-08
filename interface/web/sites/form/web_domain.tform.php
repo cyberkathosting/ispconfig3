@@ -487,6 +487,14 @@ $form["tabs"]['advanced'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'custom_php_ini' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'apache_directives' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXT',

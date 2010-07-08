@@ -1,5 +1,9 @@
 #!/bin/sh
 
+<tmpl_if name='has_custom_php_ini'>
+export PHPRC="<tmpl_var name='php_ini_path'>"
+</tmpl_if>
+
 exec <tmpl_var name='php_cgi_bin'> \
 -d open_basedir=<tmpl_var name='open_basedir'> \
 -d upload_tmp_dir=<tmpl_var name='document_root'>/tmp \

@@ -49,7 +49,7 @@ $wb["error_ssl_organisation_unit_empty"] = 'SSL Organisation Unit is empty.';
 $wb["error_ssl_country_empty"] = 'SSL Country is empty.';
 $wb["client_group_id_txt"] = 'Client';
 $wb["stats_password_txt"] = 'Webstatistics password';
-$wb["allow_override_txt"] = 'Allow Override';
+$wb["allow_override_txt"] = 'Apache AllowOverride';
 $wb["limit_web_quota_free_txt"] = 'Max. available Harddisk Quota';
 $wb["ssl_state_error_regex"] = 'Invalid SSL State. Valid characters are: a-z, 0-9 and .,-_';
 $wb["ssl_locality_error_regex"] = 'Invalid SSL Locality. Valid characters are: a-z, 0-9 and .,-_';
@@ -63,4 +63,5 @@ $wb["traffic_quota_exceeded_txt"] = 'Traffic quota exceeded';
 $wb["ruby_txt"] = 'Ruby';
 $wb["stats_user_txt"] = 'Webstatistics username';
 $wb["stats_type_txt"] = 'Webstatistics program';
+$wb["custom_php_ini_txt"] = 'Custom php.ini settings';
 ?>

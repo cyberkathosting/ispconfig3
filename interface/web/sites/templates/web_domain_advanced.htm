@@ -22,12 +22,16 @@
 	  </div>
 	  <div class="ctrlHolder">
       	<label for="php_open_basedir">{tmpl_var name='php_open_basedir_txt'}</label>
-        <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="30" maxlength="255" type="text" class="textInput"  style="width:400px;" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="custom_php_ini">{tmpl_var name='custom_php_ini_txt'}</label>
+      	<textarea name="custom_php_ini" id="custom_php_ini" rows='10' cols='50' style="width:400px;">{tmpl_var name='custom_php_ini'}</textarea>
 	  </div>
       <div class="ctrlHolder">
       	<label for="apache_directives">{tmpl_var name='apache_directives_txt'}</label>
-      	<textarea name="apache_directives" id="apache_directives" rows='10' cols='30'>{tmpl_var name='apache_directives'}</textarea>
-			</div>
+      	<textarea name="apache_directives" id="apache_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='apache_directives'}</textarea>
+	  </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
