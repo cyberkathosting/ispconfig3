@@ -46,14 +46,19 @@ if($misc_config['dashboard_atom_url'] != '') {
 		$items = $app->simplepie->get_items();
 
 		$rows = array();
+		$n = 1;
 
 		foreach ($items as $item)
 		{
-			$rows[] = array('title' => $item->get_title(),
-							'link' => $item->get_link(),
-							'content' => $item->get_content(),
-							'date' => $item->get_date('Y-m-d')
-							);
+			//* We want to show only the first 10 news records
+			if($n <= 10) {
+				$rows[] = array('title' => $item->get_title(),
+								'link' => $item->get_link(),
+								'content' => $item->get_content(),
+								'date' => $item->get_date('Y-m-d')
+								);
+			}
+			$n++;
 		}
 		
 		$_SESSION['s']['rss_news'] = $rows;
