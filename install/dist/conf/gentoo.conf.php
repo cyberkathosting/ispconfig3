@@ -88,6 +88,8 @@ $conf['apache']['vhost_conf_dir'] = $conf['apache']['config_dir'] . '/vhosts.d';
 $conf['apache']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_dir']; 
 $conf['apache']['vhost_default'] = '00_default_vhost.conf';
 $conf['apache']['vhost_port'] = '8080';
+$conf['apache']['php_ini_path_apache'] = '/etc/php5/apache2/php.ini';
+$conf['apache']['php_ini_path_cgi'] = '/etc/php5/cgi/php.ini';
 
 //* Website base settings
 $conf['web']['website_basedir'] = '/var/www';

@@ -81,6 +81,8 @@ $conf['apache']['version'] = '2.2';
 $conf['apache']['vhost_conf_dir'] = '/etc/apache2/sites-available';
 $conf['apache']['vhost_conf_enabled_dir'] = '/etc/apache2/sites-enabled';
 $conf['apache']['vhost_port'] = '8080';
+$conf['apache']['php_ini_path_apache'] = '/etc/php5/apache2/php.ini';
+$conf['apache']['php_ini_path_cgi'] = '/etc/php5/apache2/php.ini';
 
 //* Website base settings
 $conf['web']['website_basedir'] = '/srv/www';
