@@ -390,7 +390,7 @@ if($backup_dir != '') {
 		foreach($records as $rec) {
 			
 			// Create a backup
-			if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'daily' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
+			if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
 				
 				$web_path = $rec['document_root'];
 				$web_user = $rec['system_user'];
