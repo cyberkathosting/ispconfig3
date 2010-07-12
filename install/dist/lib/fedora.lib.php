@@ -232,6 +232,8 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		wf("$pam/smtp", $content);
+		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
+		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
 		//exec("chmod 660 $pam/smtp");
 		//exec("chown root:root $pam/smtp");
 	
