@@ -637,6 +637,8 @@ class installer_base {
 		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'pamd_smtp';
 		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
+		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
+		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
 		if(is_file("$pam/smtp~"))   exec("chmod 400 $pam/smtp~");
 
 		$content = rf("tpl/$configfile.master");
