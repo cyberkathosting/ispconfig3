@@ -23,3 +23,4 @@ $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['database_name_error_len'] = 'Datenbank Name - {db} - zu lang. Die max. Datenbank Namen Länge inkl. Präfix ist 64 Zeichen.';
 $wb['database_user_error_len'] = 'Datenbank Benutzername - {user}- zu lang. Die max. Datenbank Benutzernamen Länge inkl. Präfix ist 16 Zeichen.';
 ?>
+

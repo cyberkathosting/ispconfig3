@@ -1,24 +1,25 @@
 <?php
-$wb['Database'] = 'Datenbank';
-$wb['Options'] = 'Optionen';
-$wb['Shell User'] = 'Shell Benutzer';
-$wb['Domain'] = 'Domain';
-$wb['Redirect'] = 'Umleitung';
-$wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Subdomain';
-$wb['Sites'] = 'Sites';
-$wb['Aliasdomain'] = 'Aliasdomain';
-$wb['FTP-User'] = 'FTP Benutzer';
-$wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Shell Benutzer';
-$wb['Webdav-User'] = 'Webdav Benutzer';
-$wb['Webdav'] = 'Webdav';
-$wb['Shell'] = 'Shell';
-$wb['Websites'] = 'Websites';
-$wb['Stats'] = 'Statistiken';
-$wb['Website'] = 'Website';
-$wb['Cron'] = 'Cron';
-$wb['Cron Jobs'] = 'Cron Jobs';
-$wb['Statistics'] = 'Statistics';
-$wb['Web traffic'] = 'Web Traffic';
+$wb['Database'] = "Datenbank";
+$wb['Options'] = "Optionen";
+$wb['Shell User'] = "Shell Benutzer";
+$wb['Domain'] = "Domain";
+$wb['Redirect'] = "Umleitung";
+$wb['SSL'] = "SSL";
+$wb['Subdomain'] = "Subdomain";
+$wb['Sites'] = "Sites";
+$wb['Aliasdomain'] = "Aliasdomain";
+$wb['FTP-User'] = "FTP Benutzer";
+$wb['FTP'] = "FTP";
+$wb['Shell-User'] = "Shell Benutzer";
+$wb['Webdav-User'] = "WebDAV Benutzer";
+$wb['Webdav'] = "WebDAV";
+$wb['Shell'] = "Shell";
+$wb['Websites'] = "Websites";
+$wb['Stats'] = "Statistiken";
+$wb['Website'] = "Website";
+$wb['Cron'] = "Cron";
+$wb['Cron Jobs'] = "Cron Jobs";
+$wb['Statistics'] = "Statistiken";
+$wb['Web traffic'] = "Web Traffic";
 ?>
+

@@ -6,3 +6,4 @@ $wb['destination_txt'] = 'Ziel';
 $wb['email_txt'] = 'Emailadresse';
 $wb['add_new_record_txt'] = 'Neuen Email Alias hinzufügen';
 ?>
+

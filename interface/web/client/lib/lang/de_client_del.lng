@@ -4,3 +4,4 @@ $wb['delete_explanation'] = 'Diese Aktion wird folgende Anzahl an Datensätzen d
 $wb['btn_save_txt'] = 'Kunden löschen';
 $wb['btn_cancel_txt'] = 'Abbrechen ohne den Kunden zu löschen';
 ?>
+

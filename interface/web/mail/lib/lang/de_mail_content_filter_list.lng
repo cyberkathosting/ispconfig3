@@ -6,3 +6,4 @@ $wb['pattern_txt'] = 'Zeichenkette';
 $wb['action_txt'] = 'Aktion';
 $wb['add_new_record_txt'] = 'Neuen Inhaltsfilter hinzufügen';
 ?>
+

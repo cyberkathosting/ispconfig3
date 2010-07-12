@@ -17,4 +17,7 @@ $wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 $wb['use_domain_module_txt'] = 'Neue Domains können nur über das Modul Domains angelegt werden';
 $wb['use_domain_module_hint'] = 'Wenn Sie dieses Modul verwenden, können Kunden beim Anlegen neuer E-Mail-Domains und neuer Websites lediglich eine Auswahl der vom Administrator für sie angelegter Domains treffen, sie können keine freie Eingabe ausführen.<br>Sollten Sie diesen Wert ändern, so müssen Sie sich danach ab- und wieder neu anmelden, um die Änderungen sichtbar zu machen.';
 $wb['new_domain_txt'] = 'HTML-Text zum Erstellen einer neuen Domäne';
+$wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
+$wb['webftp_url_txt'] = 'WebFTP URL';
 ?>
+

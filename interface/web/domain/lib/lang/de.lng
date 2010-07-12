@@ -7,3 +7,4 @@ $wb['error_domain_in webuse'] = 'Diese Domäne kann nicht gelöscht werden, da s
 $wb['error_client_can_not_add_domain'] = 'Sie haben nicht das Recht, eine neue Domäne anzulegen';
 $wb['error_client_group_id_empty'] = 'Sie müssen einen Kunden auswählen<br>';
 ?>
+
