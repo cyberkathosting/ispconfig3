@@ -1,6 +1,6 @@
 <?php
-$wb["uid_txt"] = 'Web Username';
-$wb["gid_txt"] = 'Group';
+$wb["puser_txt"] = 'Web Username';
+$wb["pgroup_txt"] = 'Web Group';
 $wb["shell_txt"] = 'Shell';
 $wb["dir_txt"] = 'Dir';
 $wb["server_id_txt"] = 'Server';
