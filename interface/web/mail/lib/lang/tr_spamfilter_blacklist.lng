@@ -7,3 +7,4 @@ $wb['priority_txt'] = 'Öncelik';
 $wb['active_txt'] = 'Aktif';
 $wb['limit_spamfilter_wblist_txt'] = 'Hesabınızdaki max. ak/kara liste kaydına ulaştınız.';
 ?>
+

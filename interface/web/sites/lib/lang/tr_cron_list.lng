@@ -10,3 +10,4 @@ $wb['run_wday_txt'] = 'Haftanın Günleri';
 $wb['command_txt'] = 'Komut';
 $wb['add_new_cron_txt'] = 'Yeni Görev';
 ?>
+

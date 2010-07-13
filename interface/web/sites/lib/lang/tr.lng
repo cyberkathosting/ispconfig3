@@ -14,9 +14,10 @@ $wb['Shell-User'] = 'Shell Kullanıcısı';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Web siteleri';
 $wb['Stats'] = 'İstatistikler';
-$wb['Website'] = 'Website';
+$wb['Website'] = 'Websitesi';
 $wb['Cron'] = 'Cron';
 $wb['Cron Jobs'] = 'Cron Jobs';
-$wb['Statistics'] = 'Statistics';
-$wb['Web traffic'] = 'Web Traffic';
+$wb['Statistics'] = 'İstatistikler';
+$wb['Web traffic'] = 'Web Trafiği';
 ?>
+

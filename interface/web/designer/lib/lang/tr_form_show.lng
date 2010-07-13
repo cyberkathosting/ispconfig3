@@ -16,3 +16,4 @@ $wb['module_del_txt'] = 'Bu modülü ve tüm alt dizinlerini silmek istiyor musu
 $wb['menu_del_txt'] = 'Bu menüyü tüm alt menüleriyle birlikte silmek istiyor musunuz?';
 $wb['item_del_txt'] = 'Bu menü elemanını silmek istiyor musunuz?';
 ?>
+

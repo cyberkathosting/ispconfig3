@@ -9,3 +9,4 @@ $wb['destination_error_isemail'] = 'Hedef Email adresi geçersiz.';
 $wb['limit_mailalias_txt'] = 'Hesabınızdaki max. email alias sayısına ulaştınız.';
 $wb['duplicate_mailbox_txt'] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
 ?>
+

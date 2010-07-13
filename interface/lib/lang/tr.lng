@@ -22,16 +22,14 @@ $wb['add_new_record_txt'] = 'Yeni Kayıt';
 $wb['btn_save_txt'] = 'Kaydet';
 $wb['btn_cancel_txt'] = 'Geri';
 $wb['toolsarea_head_txt'] = 'Araçlar';
-$wb['page_and_txt'] = 'and';
-$wb['top_menu_system'] = 'System';
-$wb['top_menu_client'] = 'Client';
+$wb['page_and_txt'] = 've';
+$wb['top_menu_system'] = 'Sistem';
+$wb['top_menu_client'] = 'Müşteri';
 $wb['top_menu_email'] = 'Email';
-$wb['top_menu_monitor'] = 'Monitor';
-$wb['top_menu_sites'] = 'Sites';
+$wb['top_menu_monitor'] = 'Monitör';
+$wb['top_menu_sites'] = 'Siteler';
 $wb['top_menu_dns'] = 'DNS';
-$wb['top_menu_tools'] = 'Tools';
-$wb['top_menu_help'] = 'Help';
-$wb['top_menu_billing'] = 'Billing';
-$wb['top_menu_domain'] = 'Domains';
-$wb['top_menu_dashboard'] = 'Home';
+$wb['top_menu_tools'] = 'Araçlar';
+$wb['top_menu_help'] = 'Yardım';
 ?>
+

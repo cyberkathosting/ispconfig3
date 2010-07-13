@@ -11,3 +11,4 @@ $wb['limit_maildomain_txt'] = 'Hesabınızdaki max. email domain sayısına ula�
 $wb['policy_txt'] = 'Spam filtresi';
 $wb['no_policy'] = '- aktif değil -';
 ?>
+

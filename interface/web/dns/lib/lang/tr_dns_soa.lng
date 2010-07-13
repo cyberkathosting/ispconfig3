@@ -21,6 +21,7 @@ $wb['origin_error_regex'] = 'Zone geçersiz formatta.';
 $wb['ns_error_regex'] = 'NS geçersiz formatta.';
 $wb['mbox_error_empty'] = 'Email boş.';
 $wb['mbox_error_regex'] = 'Email geçersiz formatta.';
-$wb['also_notify_txt'] = 'Also Notify';
-$wb['update_acl_txt'] = 'Update ACL';
+$wb['also_notify_txt'] = 'Ayrıca Bildir';
+$wb['update_acl_txt'] = 'ACL Güncelle';
 ?>
+

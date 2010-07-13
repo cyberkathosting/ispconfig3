@@ -15,3 +15,4 @@ $wb['email_error_unique'] = 'Bu email adresi için spamfilter kaydı zaten mevcu
 $wb['spam_redirect_maildir_purge_txt'] = 'Mail dizini temizleme';
 $wb['days_txt'] = 'Gün.';
 ?>
+

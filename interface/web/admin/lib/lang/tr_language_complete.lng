@@ -5,3 +5,4 @@ $wb['language_select_txt'] = 'Dil seç';
 $wb['btn_save_txt'] = 'Dosyaları şimdi birleştir';
 $wb['btn_cancel_txt'] = 'Geri';
 ?>
+

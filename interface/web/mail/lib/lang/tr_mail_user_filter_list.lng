@@ -5,3 +5,4 @@ $wb['page_txt'] = 'Sayfa';
 $wb['page_of_txt'] = '/';
 $wb['delete_confirmation'] = 'Bu mail filtresini silmek istediğinizden emin misiniz?';
 ?>
+

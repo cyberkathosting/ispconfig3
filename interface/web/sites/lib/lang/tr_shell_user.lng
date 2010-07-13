@@ -20,3 +20,4 @@ $wb['directory_error_empty'] = 'Dizin boş.';
 $wb['limit_shell_user_txt'] = 'Max. Shell kullanıcısı limitine ulaşıldı.';
 $wb['parent_domain_id_error_empty'] = 'Seçili websitesi yok.';
 ?>
+

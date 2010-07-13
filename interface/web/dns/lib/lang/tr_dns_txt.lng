@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Hostname yanlış formatta.';
 $wb['data_error_empty'] = 'Metin boş';
 $wb['data_error_regex'] = 'Metin geçersiz formatta';
 ?>
+

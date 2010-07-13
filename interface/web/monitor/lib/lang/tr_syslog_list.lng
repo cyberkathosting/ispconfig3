@@ -5,3 +5,4 @@ $wb['server_id_txt'] = 'Sunucu';
 $wb['loglevel_txt'] = 'Kayıt düzeyi';
 $wb['message_txt'] = 'Mesaj';
 ?>
+

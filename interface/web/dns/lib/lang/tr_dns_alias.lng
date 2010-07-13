@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Hostname yanlış formatta.';
 $wb['data_error_empty'] = 'Hostname Hedefi boş';
 $wb['data_error_regex'] = 'Hostname Hedefi yanlış formatta';
 ?>
+

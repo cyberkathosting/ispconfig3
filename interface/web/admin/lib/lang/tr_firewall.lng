@@ -9,3 +9,4 @@ $wb['firewall_error_unique'] = 'Bu sunucuda bir firewall kaydı zaten var.';
 $wb['tcp_ports_error_regex'] = 'TCP port tanımlaması için izin verilmeyen karakterler. İzin verilen karakterler; sayılar , : ve ,.';
 $wb['udp_ports_error_regex'] = 'UDP port tanımlaması için izin verilmeyen karakterler. İzin verilen karakterler; sayılar , : ve ,.';
 ?>
+

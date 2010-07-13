@@ -7,3 +7,4 @@ $wb['no_domain_perm'] = 'Bu domain için yetkiniz yok.';
 $wb['domain_error_regex'] = 'Geçersiz domain adı. Domain adı izin verilmeyen karakterler içermekte.';
 $wb['limit_mailcatchall_txt'] = 'Hesabınıdaki max. Catchall hesabı limitine ulaştınız..';
 ?>
+

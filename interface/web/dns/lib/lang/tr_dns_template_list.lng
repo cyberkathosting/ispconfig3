@@ -4,3 +4,4 @@ $wb['visible_txt'] = 'Görünür';
 $wb['name_txt'] = 'İsim';
 $wb['add_new_record_txt'] = 'Yeni Kayıt';
 ?>
+

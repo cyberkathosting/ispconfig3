@@ -50,9 +50,9 @@ $wb['limit_cron_error_notint'] = 'Zamanlanmış Görev limiti sayı olmak zorund
 $wb['limit_cron_error_frequency'] = 'Zamanlanmış Görev sıklığı limiti sayı olmak zorunda.';
 $wb['error_template_name_empty'] = 'Lütfen bir şablon ismi giriniz';
 $wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
-$wb['limit_mailaliasdomain_error_notint'] = 'The email domain alias limit must be a number.';
-$wb['limit_web_quota_txt'] = 'Web Quota';
-$wb['limit_traffic_quota_txt'] = 'Traffic Quota';
-$wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
-$wb['template_del_aborted_txt'] = 'Delete aborted. There is still a client which has this template selected.';
+$wb['limit_mailaliasdomain_error_notint'] = 'Email domain alias limiti sayı olmak zorunda.';
+$wb['limit_web_quota_txt'] = 'Web Kotası';
+$wb['limit_traffic_quota_txt'] = 'Trafik Kotası';
+$wb['limit_trafficquota_error_notint'] = 'Trafik kotası sayı olmak zorunda.';
 ?>
+

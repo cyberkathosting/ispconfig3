@@ -1,7 +1,8 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Destination Email';
+$wb['destination_txt'] = 'Hedef Email';
 $wb['active_txt'] = 'Aktif';
 $wb['limit_mailforward_txt'] = 'Hesabınızdaki max. email yönlendirme sayısına ulaştınız.';
 $wb['duplicate_mailbox_txt'] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
 ?>
+

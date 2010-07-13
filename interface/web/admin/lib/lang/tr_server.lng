@@ -8,6 +8,7 @@ $wb['file_server_txt'] = 'Dosya sunucusu';
 $wb['db_server_txt'] = 'VT sunucusu';
 $wb['vserver_server_txt'] = 'VServer sunucusu';
 $wb['active_txt'] = 'Aktif';
-$wb['mirror_server_id_txt'] = 'Is mirror of Server';
-$wb['- None -'] = '- None -';
+$wb['mirror_server_id_txt'] = 'Sunucu kopyası mı';
+$wb['- None -'] = '- Hiçbiri -';
 ?>
+

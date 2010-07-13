@@ -9,3 +9,4 @@ $wb['domain_error_empty'] = 'Domain boş.';
 $wb['domain_error_unique'] = 'Bu Domain zaten var.';
 $wb['domain_error_regex'] = 'Geçersiz Domain.';
 ?>
+

@@ -7,3 +7,4 @@ $wb['source_error_notempty'] = 'Adres boş.';
 $wb['type_txt'] = 'Çeşit';
 $wb['limit_mailfilter_txt'] = 'Hesabınızdaki max. email filtresi limitine ulaştınız.';
 ?>
+

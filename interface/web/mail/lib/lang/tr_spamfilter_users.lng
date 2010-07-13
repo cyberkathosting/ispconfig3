@@ -6,3 +6,4 @@ $wb['email_txt'] = 'Email (Desen)';
 $wb['fullname_txt'] = 'İsim';
 $wb['local_txt'] = 'Yerel';
 ?>
+

@@ -29,12 +29,12 @@ $wb['disableimap_txt'] = 'IMAP Devre Dışı';
 $wb['disablepop3_txt'] = 'POP3 Devre Dışı';
 $wb['duplicate_alias_or_forward_txt'] = 'Bu email adresinde alias veya yönlendirme zaten var.';
 $wb['quota_error_value'] = 'Geçersiz kota değeri. İzin verilen değerler: Limitsiz için 0 veya 1den büyük';
-$wb['autoresponder_start_date_txt'] = 'Start on';
-$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
-$wb['autoresponder_end_date_txt'] = 'End by';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
-$wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
-$wb['name_txt'] = 'Realname';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['autoresponder_active'] = 'Enable the autoresponder';
+$wb['autoresponder_start_date_txt'] = 'Başlangıç';
+$wb['autoresponder_start_date_isfuture'] = 'Başlangıç zamanı geçmiş olamaz.';
+$wb['autoresponder_end_date_txt'] = 'Bitiş';
+$wb['autoresponder_end_date_isgreater'] = 'Bitiş zamanı başlangıç zamanından sonra olmalıdır.';
+$wb['move_junk_txt'] = 'Spam Emailleri Junk dizinine taşı';
+$wb['name_txt'] = 'Gerçek isim';
+$wb['name_optional_txt'] = '(İsteğe bağlı)';
 ?>
+

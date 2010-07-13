@@ -7,3 +7,4 @@ $wb['rid_txt'] = 'Kullanıcı';
 $wb['email_txt'] = 'Beyaz liste Email';
 $wb['add_new_record_txt'] = 'Yeni Beyaz Liste';
 ?>
+

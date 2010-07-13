@@ -19,3 +19,4 @@ $wb['run_wday_error_format'] = 'Haftanın günü için geçersiz format.';
 $wb['command_error_format'] = 'Komut formatı geçersiz. Url sadece http/https çağırabilir.';
 $wb['unknown_fieldtype_error'] = 'Bilinmeyen bir alan tipi kullanıldı.';
 ?>
+

@@ -23,3 +23,4 @@ $wb['database_charset_change_txt'] = 'Veritabanı karakterseti değiştirilemedi
 $wb['database_name_error_len'] = 'Veritabanı ismi - {db} - çok büyük. Max. Veritabanı ismi büyüklüğü ön ek de dahil 64 karakterdir.';
 $wb['database_user_error_len'] = 'Veritabanı kullanıcısı adı - {user} - çok büyük. Max. Veritabanı kullanıcısı adı büyüklüğü ön ek de dahil 16 karakterdir.';
 ?>
+

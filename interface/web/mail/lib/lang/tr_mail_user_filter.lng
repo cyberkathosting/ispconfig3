@@ -6,5 +6,6 @@ $wb['active_txt'] = 'Aktif';
 $wb['rulename_error_empty'] = 'İsim boş.';
 $wb['searchterm_is_empty'] = 'Search term is empty.';
 $wb['source_txt'] = 'Kaynak';
-$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
+$wb['target_error_regex'] = 'Kaynak sadece şu karakterleri içerebilir: a-z, 0-9, -, ., _, ve {boşluk}';
 ?>
+
