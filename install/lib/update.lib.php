@@ -68,6 +68,7 @@ function updateDbAndIni() {
 	//* Update $conf array with values from the server.ini that shall be preserved
 	$tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
 	$ini_array = ini_to_array(stripslashes($tmp['config']));
+	$current_db_version = (isset($tmp['dbversion']))?intval($tmp['dbversion']):0;
 
 	if(count($ini_array) == 0) die('Unable to read server configuration from database.');
 
@@ -78,31 +79,61 @@ function updateDbAndIni() {
 	$conf['services']['db'] = ($tmp['db_server'] == 1)?true:false;
 	$conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
 	$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
-
-	//** Delete the old database
-	if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
-
-		$inst->error('Unable to drop MySQL database: '.$conf['mysql']['database'].'.');
-	}
-
-	//** Create the mysql database
-	$inst->configure_database();
-
-	//** empty all databases
-	$db_tables = $inst->db->getTables();
-
-	foreach($db_tables as $table) {
-
-		$inst->db->query("TRUNCATE $table");
-	}
-
-	//** load old data back into database
-	if( !empty($conf["mysql"]["admin_password"]) ) {
-
-		system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
+	
+	//* Do incremental DB updates only on installed ISPConfig versions > 3.0.3
+	if(compare_ispconfig_version('3.0.3',ISPC_APP_VERSION) >= 0) {
+		
+		swriteln($inst->lng('Starting incremental database update.'));
+		
+		//* get the version of the db schema from the server table 
+		$found = true;
+		while($found == true) {
+			$next_db_version = intval($current_db_version + 1);
+			$patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
+			if(is_file($patch_filename)) {
+				//* Load patch file into database
+				if( !empty($conf["mysql"]["admin_password"]) ) {
+					system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < ".$patch_filename);
+				} else {
+					system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < ".$patch_filename);
+				}
+				swriteln($inst->lng('Loading SQL patch file').': '.$patch_filename);
+				$current_db_version = $next_db_version;
+			} else {
+				$found = false;
+			}
+		}
+		
+		//* update the database version in server table
+		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
+		
+	
+	//* If ISPConfig Version < 3.0.3, we will do a full db update
 	} else {
+		
+		swriteln($inst->lng('Starting full database update.'));
+		
+		//** Delete the old database
+		if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
+		$inst->error('Unable to drop MySQL database: '.$conf['mysql']['database'].'.');
+		}
 
-		system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
+		//** Create the mysql database
+		$inst->configure_database();
+
+		//** empty all databases
+		$db_tables = $inst->db->getTables();
+
+		foreach($db_tables as $table) {
+			$inst->db->query("TRUNCATE $table");
+		}
+
+		//** load old data back into database
+		if( !empty($conf["mysql"]["admin_password"]) ) {
+			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
+		} else {
+			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
+		}
 	}
 
 
@@ -111,6 +142,32 @@ function updateDbAndIni() {
 	$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
 	unset($tmp_server_rec);
 	$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
+	
+	//* Update further distribution specific parameters for server config here
+	//* HINT: Every line added here has to be added in installer_base.lib.php too!!
+	$tpl_ini_array['web']['vhost_conf_dir'] = $conf['apache']['vhost_conf_dir'];
+	$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
+	$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
+	$tpl_ini_array['fastcgi']['fastcgi_phpini_path'] = $conf['fastcgi']['fastcgi_phpini_path'];
+	$tpl_ini_array['fastcgi']['fastcgi_starter_path'] = $conf['fastcgi']['fastcgi_starter_path'];
+	$tpl_ini_array['server']['hostname'] = $conf['hostname'];
+	$tpl_ini_array['server']['ip_address'] = @gethostbyname($conf['hostname']);
+	$tpl_ini_array['web']['website_basedir'] = $conf['web']['website_basedir'];
+	$tpl_ini_array['web']['website_path'] = $conf['web']['website_path'];
+	$tpl_ini_array['web']['website_symlinks'] = $conf['web']['website_symlinks'];
+	$tpl_ini_array['cron']['crontab_dir'] = $conf['cron']['crontab_dir'];
+	$tpl_ini_array['web']['security_level'] = 20;
+	$tpl_ini_array['web']['user'] = $conf['apache']['user'];
+	$tpl_ini_array['web']['group'] = $conf['apache']['group'];
+	$tpl_ini_array['web']['php_ini_path_apache'] = $conf['apache']['php_ini_path_apache'];
+	$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
+	$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
+	$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
+	$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
+	$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
+	$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
+	$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
+	$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
 
 	// update the new template with the old values
 	if(is_array($old_ini_array)) {

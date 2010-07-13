@@ -196,7 +196,8 @@ class installer_base {
 
 		$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
 
-		// TODO: Update further distribution specific parameters for server config here
+		//* Update further distribution specific parameters for server config here
+		//* HINT: Every line added here has to be added in update.lib.php too!!
 		$tpl_ini_array['web']['vhost_conf_dir'] = $conf['apache']['vhost_conf_dir'];
 		$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
 		$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
@@ -637,8 +638,6 @@ class installer_base {
 		//* configure pam for SMTP authentication agains the ispconfig database
 		$configfile = 'pamd_smtp';
 		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
-		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
-		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
 		if(is_file("$pam/smtp~"))   exec("chmod 400 $pam/smtp~");
 
 		$content = rf("tpl/$configfile.master");
@@ -647,6 +646,8 @@ class installer_base {
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		wf("$pam/smtp", $content);
+		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
+		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
 		exec("chmod 660 $pam/smtp");
 		exec("chown daemon:daemon $pam/smtp");
 

@@ -659,6 +659,7 @@ CREATE TABLE `server` (
   `config` text NOT NULL,
   `updated` bigint(20) unsigned NOT NULL default '0',
   `mirror_server_id` int(11) unsigned NOT NULL default '0',
+  `dbversion` int(11) unsigned NOT NULL default '0',
   `active` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
