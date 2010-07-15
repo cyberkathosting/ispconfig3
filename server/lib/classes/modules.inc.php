@@ -109,6 +109,15 @@ class modules {
 				
 				$this->current_datalog_id = $d["datalog_id"];
 				
+				/*
+				* If we are in a mirror setup, rewrite the server_id of records that originally 
+				* belonged to the mirrored server to the local server_id
+				*/
+				if($conf["mirror_server_id"] > 0 && $d['dbtable'] != 'server') {
+					if(isset($data['new']['server_id']) && $data['new']['server_id'] == $conf["mirror_server_id"]) $data['new']['server_id'] = $conf["server_id"];
+					if(isset($data['old']['server_id']) && $data['old']['server_id'] == $conf["mirror_server_id"]) $data['old']['server_id'] = $conf["server_id"];
+				}
+				
 				if(count($data['new']) > 0) {
 					if($d["action"] == 'i' || $d["action"] == 'u') {
 						$idx = explode(":",$d["dbidx"]);
