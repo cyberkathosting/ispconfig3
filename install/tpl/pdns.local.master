@@ -7,3 +7,8 @@ gmysql-host={mysql_server_host}
 gmysql-user={mysql_server_ispconfig_user}
 gmysql-password={mysql_server_ispconfig_password}
 gmysql-dbname={powerdns_database}
+
+slave=yes
+master=yes
+
+disable-axfr=no

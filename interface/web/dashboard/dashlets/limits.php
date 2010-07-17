@@ -81,6 +81,10 @@ class dashlet_limits {
 						  'db_table' => 'dns_soa',
 						  'db_where' => "");
 
+		$limits[] = array('field' => 'limit_dns_slave_zone',
+						  'db_table' => 'dns_slave',
+						  'db_where' => "");
+
 		$limits[] = array('field' => 'limit_dns_record',
 						  'db_table' => 'dns_rr',
 						  'db_where' => "");

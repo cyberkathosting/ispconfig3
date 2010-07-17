@@ -60,6 +60,21 @@ function prepareDBDump() {
 	copy('existing_db.sql',$backup_db_name);
 	exec("chmod 700 $backup_db_name");
 	exec("chown root:root $backup_db_name");
+
+	if ($conf['powerdns']['installed']) {
+		//** export the current PowerDNS database data
+        	if( !empty($conf["mysql"]["admin_password"]) ) {
+            		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
+        	} else {
+            		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
+        	}
+
+		// create a backup copy of the PowerDNS database in the root folder
+		$backup_db_name = '/root/ispconfig_powerdns_db_backup_'.@date('Y-m-d_h-i').'.sql';
+	        copy('existing_powerdns_db.sql',$backup_db_name);
+        	exec("chmod 700 $backup_db_name");
+	        exec("chown root:root $backup_db_name");
+	}
 }
 
 function updateDbAndIni() {
@@ -133,6 +148,26 @@ function updateDbAndIni() {
 			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
 		} else {
 			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
+		}
+
+		if ($conf['powerdns']['installed']) {
+                                                 
+			swriteln($inst->lng('Starting full PowerDNS database update.'));
+
+            //** Delete the old PowerDNS database
+            if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['powerdns']['database']) ) {
+				$inst->error('Unable to drop MySQL database: '.$conf['powerdns']['database'].'.');
+            }
+
+            //** Create the mysql database
+            $inst->configure_powerdns();
+
+            //** load old data back into the PowerDNS database
+            if( !empty($conf["mysql"]["admin_password"]) ) {
+            	system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['powerdns']['database']." < existing_powerdns_db.sql");
+            } else {
+            	system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['powerdns']['database']." < existing_powerdns_db.sql");
+            }
 		}
 	}
 

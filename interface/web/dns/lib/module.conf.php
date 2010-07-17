@@ -50,8 +50,16 @@ $module["nav"][] = array(	'title'	=> 'DNS',
 
 unset($items);
 
+$items[] = array( 'title' 	=> "Secondary Zones",
+				  'target' 	=> 'content',
+				  'link'	=> 'dns/dns_slave_list.php',
+				  'html_id' => 'dns_slave_list');
 
+$module["nav"][] = array(	'title'	=> 'Secondary DNS',
+							'open' 	=> 1,
+							'items'	=> $items);
 
+unset($items);
 
 
 

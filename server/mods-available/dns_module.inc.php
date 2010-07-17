@@ -35,6 +35,9 @@ class dns_module {
 	var $actions_available = array(	'dns_soa_insert',
 									'dns_soa_update',
 									'dns_soa_delete',
+									'dns_slave_insert',
+									'dns_slave_update',
+									'dns_slave_delete',
 									'dns_rr_insert',
 									'dns_rr_update',
 									'dns_rr_delete');
@@ -73,11 +76,13 @@ class dns_module {
 		*/
 		
 		$app->modules->registerTableHook('dns_soa',$this->module_name,'process');
+		$app->modules->registerTableHook('dns_slave',$this->module_name,'process');
 		$app->modules->registerTableHook('dns_rr',$this->module_name,'process');
 		
 		
 		// Register service
 		$app->services->registerService('bind','dns_module','restartBind');
+		$app->services->registerService('powerdns','dns_module','restartPowerDNS');
 		
 	}
 	
@@ -94,6 +99,11 @@ class dns_module {
 				if($action == 'i') $app->plugins->raiseEvent('dns_soa_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('dns_soa_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('dns_soa_delete',$data);
+			break;
+			case 'dns_slave':
+				if($action == 'i') $app->plugins->raiseEvent('dns_slave_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('dns_slave_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('dns_slave_delete',$data);
 			break;
 			case 'dns_rr':
 				if($action == 'i') $app->plugins->raiseEvent('dns_rr_insert',$data);
@@ -120,6 +130,52 @@ class dns_module {
 			exec($command.' reload');
 		}
 		
+	}
+
+	function restartPowerDNS($action = 'restart') {
+		global $app;
+	
+		$app->log("restartPDNS called.",LOGLEVEL_DEBUG);
+
+/**     Since PowerDNS does not currently allow to limit AXFR for specific zones to specific
+*		IP addresses, we create a list of IPs allowed of AXFR transfers from our PowerDNS,
+*		however any of these IPs is allowed to AXFR transfer any of the zones we are masters
+*		for.
+*/
+        $tmps = $app->db->queryAllRecords("SELECT DISTINCT xfer FROM dns_soa WHERE active = 'Y' UNION SELECT DISTINCT xfer FROM dns_slave WHERE active = 'Y' ");
+
+		//* Make sure the list is never empty
+        $options='127.0.0.1';
+        foreach($tmps as $tmp) {
+        	if (trim($tmp['xfer'])!='') {
+	        	if ($options=='') {
+					$options.=$tmp['xfer'];
+	        	} else {
+    	    		$options=$options.",".$tmp['xfer'];
+        		}
+        	}
+        }
+
+		//* Remove duplicate IPs from the array
+		$options = "allow-axfr-ips=".implode(",",array_unique(explode(",",$options)));
+        $app->log("".$options,LOGLEVEL_DEBUG);
+	
+/**		Not an ideal way to use a hardcoded path like that, but currently
+*		we have no way to find out where powerdns' configuration files are 
+*		located, so we have to work on assumption. 
+*/
+		file_put_contents('/etc/powerdns/pdns.d/pdns.ispconfig-axfr',$options."\n");
+
+		if (is_file('/etc/init.d/powerdns')) {
+			$command = '/etc/init.d/powerdns';
+		} else {
+			$command = '/etc/init.d/pdns';
+		}
+
+		exec($command.' restart');
+
+//     unset $tmps;
+
 	}
 	
 

@@ -53,6 +53,7 @@ $wb['limit_web_subdomain_txt'] = 'Max. Anzahl an Websubdomains';
 $wb['limit_ftp_user_txt'] = 'Max. Anzahl an FTP Benutzer';
 $wb['default_dnsserver_txt'] = 'Standard DNS Server';
 $wb['limit_dns_zone_txt'] = 'Max. Anzahl an DNS Zonen';
+$wb['limit_dns_slave_zone_txt'] = 'Max. Anzahl an sekundären DNS Zonen';
 $wb['limit_dns_record_txt'] = 'Max. Anzahl an DNS Einträge';
 $wb['limit_shell_user_txt'] = 'Max. Anzahl an Shell Benutzer';
 $wb['limit_client_txt'] = 'Max. Anzahl an Kunden';
@@ -75,7 +76,9 @@ $wb['limit_web_aliasdomain_error_notint'] = 'Das Webseite Aliasdomain Limit muss
 $wb['limit_web_subdomain_error_notint'] = 'Das Webseite Subdomain Limit muss eine Nummer sein.';
 $wb['limit_ftp_user_error_notint'] = 'Das FTP Benutzer Limit muss eine Nummer sein.';
 $wb['limit_shell_user_error_notint'] = 'Das Shell Benutzer Limit muss eine Nummer sein.';
-$wb['limit_dns_zone_error_notint'] = 'Das DNS Einträge Limit muss eine Nummer sein.';
+$wb['limit_dns_zone_error_notint'] = 'Das DNS Zonen Limit muss eine Nummer sein.';
+$wb['limit_dns_slave_zone_error_notint'] = 'Das sekundär DNS Einträge Limit muss eine Nummer sein.';
+$wb['limit_dns_record_error_notint'] = 'Das DNS Einträge Limit muss eine Nummer sein.';
 $wb['default_dbserver_txt'] = 'Standarddatenbankserver';
 $wb['limit_database_error_notint'] = 'Das Datenbank Limit muss eine Nummer sein.';
 $wb['limit_cron_error_notint'] = 'Das Cron Job Limit muss eine Zahl sein.';
@@ -91,4 +94,3 @@ $wb['limit_web_quota_txt'] = 'Web Quota';
 $wb['limit_traffic_quota_txt'] = 'Traffic Quota';
 $wb['limit_trafficquota_error_notint'] = 'Traffic Quota muss eine Zahl sein.';
 ?>
-

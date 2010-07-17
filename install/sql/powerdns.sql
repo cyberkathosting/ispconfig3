@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `domains` (
   `ispconfig_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name_index` (`name`)
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `records` (
   `id` int(11) NOT NULL auto_increment,
@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS `records` (
   KEY `rec_name_index` (`name`),
   KEY `nametype_index` (`name`,`type`),
   KEY `domain_id` (`domain_id`)
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `supermasters` (
   `ip` varchar(25) NOT NULL,
   `nameserver` varchar(255) NOT NULL,
   `account` varchar(40) default NULL
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;

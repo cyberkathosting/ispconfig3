@@ -63,6 +63,11 @@ class bind_plugin {
 		$app->plugins->registerEvent('dns_soa_insert',$this->plugin_name,'soa_insert');
 		$app->plugins->registerEvent('dns_soa_update',$this->plugin_name,'soa_update');
 		$app->plugins->registerEvent('dns_soa_delete',$this->plugin_name,'soa_delete');
+
+    //* SLAVE
+		$app->plugins->registerEvent('dns_slave_insert',$this->plugin_name,'slave_insert');
+		$app->plugins->registerEvent('dns_slave_update',$this->plugin_name,'slave_update');
+		$app->plugins->registerEvent('dns_slave_delete',$this->plugin_name,'slave_delete');
 		
 		//* RR
 		$app->plugins->registerEvent('dns_rr_insert',$this->plugin_name,'rr_insert');
@@ -146,6 +151,61 @@ class bind_plugin {
 		$app->services->restartServiceDelayed('bind','reload');
 			
 	}
+
+	function slave_insert($event_name,$data) {
+		global $app, $conf;
+		
+		$this->action = 'insert';
+		$this->slave_update($event_name,$data);
+		
+	}
+	
+	function slave_update($event_name,$data) {
+		global $app, $conf;
+		
+		//* Load libraries
+		$app->uses("getconf,tpl");
+		
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
+		//if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
+		$this->write_named_conf($data,$dns_config);
+		//}
+		
+		//* Delete old domain file, if domain name has been changed
+		if($data['old']['origin'] != $data['new']['origin']) {
+			$filename = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($data['old']['origin'],0,-1);
+			if(is_file($filename)) unset($filename);
+		}
+		
+		//* Reload bind nameserver
+		$app->services->restartServiceDelayed('bind','reload');
+     		
+	}
+	
+	function slave_delete($event_name,$data) {
+		global $app, $conf;
+		
+		
+		//* load the server configuration options
+		$app->uses("getconf,tpl");
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//* rebuild the named.conf file
+		$this->write_named_conf($data,$dns_config);
+		
+		//* Delete the domain file
+		$zone_file_name = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($data['old']['origin'],0,-1);
+		if(is_file($zone_file_name)) unlink($zone_file_name);
+		$app->log("Deleting BIND domain file for secondary zone: ".$zone_file_name,LOGLEVEL_DEBUG);
+		
+		//* Reload bind nameserver
+		$app->services->restartServiceDelayed('bind','reload');
+			
+		
+	}
 	
 	function rr_insert($event_name,$data) {
 		global $app, $conf;
@@ -187,14 +247,19 @@ class bind_plugin {
 	
 	function write_named_conf($data, $dns_config) {
 		global $app, $conf;
-		
-		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify FROM dns_soa WHERE active = 'Y'");
+	
+		//* Only write the master file for the current server	
+		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify FROM dns_soa WHERE active = 'Y' AND server_id=".$conf["server_id"]);
 		$zones = array();
 
 		foreach($tmps as $tmp) {
 			
 			$options = '';
-			if(trim($tmp['xfer']) != '') $options .= '        allow-transfer {'.str_replace(',',';',$tmp['xfer']).";};\n";
+			if(trim($tmp['xfer']) != '') {
+				$options .= "        allow-transfer {".str_replace(',',';',$tmp['xfer']).";};\n";
+			} else {
+				$options .= "        allow-transfer {none;};\n";
+			}
 			if(trim($tmp['also_notify']) != '') $options .= '        also-notify {'.str_replace(',',';',$tmp['also_notify']).";};\n";
 			
 			$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
@@ -202,14 +267,46 @@ class bind_plugin {
 								'options' => $options
 							);
 		}
-		
+
 		$tpl = new tpl();
 		$tpl->newTemplate("bind_named.conf.local.master");
 		$tpl->setLoop('zones',$zones);
 		
-		file_put_contents($dns_config['named_conf_local_path'],$tpl->grab());
-		$app->log("Writing BIND named.conf.local file: ".$dns_config['named_conf_local_path'],LOGLEVEL_DEBUG);
+		//* And loop through the secondary zones, but only for the current server
+		$tmps_sec = $app->db->queryAllRecords("SELECT origin, xfer, ns FROM dns_slave WHERE active = 'Y' AND server_id=".$conf["server_id"]);
+		$zones_sec = array();
+
+		foreach($tmps_sec as $tmp) {
+			
+			$options = "        masters {".$tmp['ns'].";};\n";
+            if(trim($tmp['xfer']) != '') {
+                $options .= "        allow-transfer {".str_replace(',',';',$tmp['xfer']).";};\n";
+            } else {
+                $options .= "        allow-transfer {none;};\n";
+            }
+
+			
+			$zones_sec[] = array(	'zone' => substr($tmp['origin'],0,-1),
+									'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($tmp['origin'],0,-1),
+									'options' => $options
+								);
+
+//			$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($tmp['origin'],0,-1));
+//			$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
+
+					
+		}
 		
+		$tpl_sec = new tpl();
+		$tpl_sec->newTemplate("bind_named.conf.local.slave");
+		$tpl_sec->setLoop('zones',$zones_sec); 
+    		
+		file_put_contents($dns_config['named_conf_local_path'],$tpl->grab()."\n".$tpl_sec->grab()); 
+		$app->log("Writing BIND named.conf.local file: ".$dns_config['named_conf_local_path'],LOGLEVEL_DEBUG);
+
+ 		unset($tpl_sec); 
+		unset($zones_sec); 
+		unset($tmps_sec);  
 		unset($tpl);
 		unset($zones);
 		unset($tmps);

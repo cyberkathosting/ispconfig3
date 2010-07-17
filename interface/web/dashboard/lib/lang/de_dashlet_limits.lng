@@ -20,6 +20,7 @@ $wb['limit_web_aliasdomain_txt'] = "Anzahl der Web Aliasdomains";
 $wb['limit_web_subdomain_txt'] = "Anzahl der Web Subdomains";
 $wb['limit_ftp_user_txt'] = "Anzahl der FTP Benutzer";
 $wb['limit_dns_zone_txt'] = "Anzahl der DNS Zonen";
+$wb["limit_dns_slave_zone_txt"] = 'Number of DNS slave zones';
 $wb['limit_dns_record_txt'] = "Number DNS records";
 $wb['limit_shell_user_txt'] = "Anzahl der Shellbenutzer";
 $wb['limit_webdav_user_txt'] = "Anzahl der WedDAV Benutzer";

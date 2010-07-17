@@ -92,6 +92,7 @@ CREATE TABLE `client` (
   `limit_webdav_user` int(11) NOT NULL default '0',
   `default_dnsserver` int(11) unsigned NOT NULL default '1',
   `limit_dns_zone` int(11) NOT NULL default '-1',
+  `limit_dns_slave_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
   `default_dbserver` int(11) NOT NULL default '1',
   `limit_database` int(11) NOT NULL default '-1',
@@ -148,6 +149,7 @@ CREATE TABLE `client_template` (
   `limit_shell_user` int(11) NOT NULL default '0',
   `limit_webdav_user` int(11) NOT NULL default '0',
   `limit_dns_zone` int(11) NOT NULL default '-1',
+  `limit_dns_slave_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
   `limit_database` int(11) NOT NULL default '-1',
   `limit_cron` int(11) NOT NULL default '0',
@@ -162,7 +164,7 @@ CREATE TABLE `client_template` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table  `dns_rr`
+-- Table structure for table  `cron`
 -- 
 CREATE TABLE `cron` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -239,6 +241,29 @@ CREATE TABLE `dns_soa` (
   `xfer` varchar(255) NOT NULL,
   `also_notify` varchar(255) default NULL,
   `update_acl` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `origin` (`origin`),
+  KEY `active` (`active`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table  `dns_slave`
+--
+
+CREATE TABLE `dns_slave` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL,
+  `sys_groupid` int(11) unsigned NOT NULL,
+  `sys_perm_user` varchar(5) NOT NULL,
+  `sys_perm_group` varchar(5) NOT NULL,
+  `sys_perm_other` varchar(5) NOT NULL,
+  `server_id` int(11) NOT NULL default '1',
+  `origin` varchar(255) NOT NULL,
+  `ns` varchar(255) NOT NULL,
+  `active` enum('N','Y') NOT NULL,
+  `xfer` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `origin` (`origin`),
   KEY `active` (`active`)

@@ -624,6 +624,20 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+                'limit_dns_slave_zone' => array (
+                        'datatype'      => 'INTEGER',
+                        'formtype'      => 'TEXT',
+                        'validators'    => array (      0 => array (    'type'  => 'ISINT',
+                                                                                                                'errmsg'=> 'limit_dns_slave_zone_error_notint'),
+                                                                        ),
+                        'default'       => '-1',
+                        'value'         => '',
+                        'separator'     => '',
+                        'width'         => '10',
+                        'maxlength'     => '10',
+                        'rows'          => '',
+                        'cols'          => ''
+                ),
 		'limit_dns_record' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',

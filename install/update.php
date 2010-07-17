@@ -76,7 +76,7 @@ include_once("/usr/local/ispconfig/server/lib/config.inc.php");
 $conf_old = $conf;
 unset($conf);
 
-if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
+if($dist['id'] == '') die('Linux Distribution or Version not recognized.');
 
 //** Include the distribution specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');

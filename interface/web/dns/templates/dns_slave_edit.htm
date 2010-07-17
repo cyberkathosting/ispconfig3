@@ -1,0 +1,61 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_dns_slave">
+
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels"><legend>Secondary DNS Zone</legend>
+      <tmpl_if name="is_admin">
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
+      </tmpl_if>
+      <tmpl_if name="is_reseller">
+      <div class="ctrlHolder">
+      	<label for="client_group_id">{tmpl_var name='client_txt'}</label>
+        <select name="client_group_id" id="client_group_id" class="selectInput">
+					{tmpl_var name='client_group_id'}
+				</select>
+      </div>
+      </tmpl_if>
+      <div class="ctrlHolder">
+      	<label for="origin">{tmpl_var name='origin_txt'}</label>
+        <input name="origin" id="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255" type="text" class="textInput" />
+				<p class="formHint">e.g. domain.tld.</p>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="ns">{tmpl_var name='ns_txt'}</label>
+        <input name="ns" id="ns" value="{tmpl_var name='ns'}" size="30" maxlength="255" type="text" class="textInput" />
+				<p class="formHint">IPv4 form - e.g. 1.2.3.4</p>
+			</div>
+      <div class="ctrlHolder">
+        <label for="xfer">{tmpl_var name='xfer_txt'}</label>
+        <input name="xfer" id="xfer" value="{tmpl_var name='xfer'}" size="30" maxlength="255" type="text" class="textInput" />
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+    <input name="serial" type="hidden" value="{tmpl_var name='serial'}">
+    
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','dns/dns_slave_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('dns/dns_slave_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

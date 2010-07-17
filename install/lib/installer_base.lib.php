@@ -936,7 +936,20 @@ class installer_base {
 	public function configure_bind() {
 		global $conf;
 
-		//* Nothing to do
+	    //* Check if the zonefile directory has a slash at the end
+	    $content=$conf['bind']['bind_zonefiles_dir'];
+	    if(substr($content,-1,1) != '/') {
+    	    $content .= '/';
+		}
+
+		//* Create the slave subdirectory
+	    $content .= 'slave';
+	    $content_mkdir = 'mkdir -p '.$content;
+	    exec($content_mkdir);
+
+	    //* Chown the slave subdirectory to $conf['bind']['bind_user']
+	    exec('chown '.$conf['bind']['bind_user'].':'.$conf['bind']['bind_group'].' '.$content);
+	    exec('chmod 770 '.$content);
 
 	}
 
