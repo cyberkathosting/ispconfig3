@@ -2060,7 +2060,7 @@ class remoting {
 		$app->uses('remoting_lib');
 		
 		//* load the user profile of the client
-		$app->remoting_lib->loadUserProfile($client_id);
+		$app->remoting_lib->loadUserProfile(0);
 		
 		//* Load the form definition
 		$app->remoting_lib->loadFormDef($formdef_file);

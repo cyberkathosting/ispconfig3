@@ -696,6 +696,10 @@ class remoting_lib {
 
         function datalogSave($action,$primary_id, $record_old, $record_new) {
                 global $app,$conf;
+				
+				$app->db->datalogSave($this->formDef['db_table'], $action, $this->formDef['db_table_idx'], $primary_id, $record_old, $record_new);
+				return true;
+				/*
 
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
@@ -752,11 +756,6 @@ class remoting_lib {
                         }
                 }
 				
-				/*
-				echo "<pre>";
-				print_r($diffrec_full);
-				echo "</pre>";
-				*/
 				
 				// Insert the server_id, if the record has a server_id
 				$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
@@ -776,6 +775,7 @@ class remoting_lib {
                 }
 
                 return true;
+				*/
 
         }
 

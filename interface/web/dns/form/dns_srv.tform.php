@@ -108,7 +108,6 @@ $form["tabs"]['dns'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-		/*
 		'aux' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -117,7 +116,6 @@ $form["tabs"]['dns'] = array (
 			'width'		=> '10',
 			'maxlength'	=> '10'
 		),
-		*/
 		'ttl' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
