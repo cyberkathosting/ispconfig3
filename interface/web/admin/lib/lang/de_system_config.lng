@@ -20,4 +20,3 @@ $wb['new_domain_txt'] = 'HTML-Text zum Erstellen einer neuen Domäne';
 $wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
 $wb['webftp_url_txt'] = 'WebFTP URL';
 ?>
-

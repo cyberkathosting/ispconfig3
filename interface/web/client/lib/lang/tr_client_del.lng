@@ -4,4 +4,3 @@ $wb['delete_explanation'] = 'Bu işlem ilgili müşteri ile alakalı bütün kay
 $wb['btn_save_txt'] = 'Müşteriyi sil';
 $wb['btn_cancel_txt'] = 'İptal et';
 ?>
-

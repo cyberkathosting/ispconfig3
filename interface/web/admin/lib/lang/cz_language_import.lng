@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Importovat jazykový soubor';
-$wb["language_import_txt"] = 'Vybrat jazykový soubor';
+$wb['list_head_txt'] = 'Importovat jazykový soubor';
+$wb['language_import_txt'] = 'Vybrat jazykový soubor';
 $wb['btn_save_txt'] = 'Importovat vybraný jazykový soubor';
-$wb["language_overwrite_txt"] = 'Přepsat soubor, pokud existuje.';
+$wb['language_overwrite_txt'] = 'Přepsat soubor, pokud existuje.';
 $wb['btn_cancel_txt'] = 'Zpět';
 $wb['ignore_version_txt'] = 'Přeskočit kontrolu verze ISPConfigu';
 ?>

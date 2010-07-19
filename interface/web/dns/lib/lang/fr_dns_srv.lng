@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Lhôte est dun format invalide.';
 $wb['data_error_empty'] = 'Lenregistrement serveur est vide.';
 $wb['data_error_regex'] = 'Lenregistrement serveur est dun format invalide.';
 $wb['srv_error_regex'] = 'Invalid server record format. The server record must contain 3 text strings separated by spaces.';
+$wb['aux_txt'] = 'Priority';
 ?>

@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"] = 'DNS průvodce šablonou';
-$wb["visible_txt"] = 'Viditelný';
-$wb["name_txt"] = 'Název';
-$wb["add_new_record_txt"] = 'Přidat záznam';
+$wb['list_head_txt'] = 'DNS průvodce šablonou';
+$wb['visible_txt'] = 'Viditelný';
+$wb['name_txt'] = 'Název';
+$wb['add_new_record_txt'] = 'Přidat záznam';
 ?>

@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Nom dutilisateur web';
-$wb['gid_txt'] = 'Groupe';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Repertoire';
 $wb['server_id_txt'] = 'Serveur';
@@ -19,4 +17,6 @@ $wb['uid_error_empty'] = 'Le GID est vide.';
 $wb['directory_error_empty'] = 'Le répertoire est vide.';
 $wb['limit_shell_user_txt'] = 'Le nombre maximum dutilisateurs shell a été atteint..';
 $wb['parent_domain_id_error_empty'] = 'Pas de site web sélectionné.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

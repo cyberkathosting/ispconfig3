@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'The zone yanlış formatta.';
 $wb['data_error_empty'] = 'Nameserver boş';
 $wb['data_error_regex'] = 'Nameserver yanlış formatta';
 ?>
-

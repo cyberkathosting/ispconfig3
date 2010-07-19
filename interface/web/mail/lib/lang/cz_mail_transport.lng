@@ -1,10 +1,10 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["domain_txt"] = 'Doména';
-$wb["destination_txt"] = 'Cíl';
-$wb["type_txt"] = 'Typ';
-$wb["mx_txt"] = 'Neprovádět MX lookup';
-$wb["sort_order_txt"] = 'Třídit podle';
-$wb["active_txt"] = 'Aktivní';
-$wb["limit_mailrouting_txt"] = 'Dosažen maximální počet email směrování pro Váš účet.';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Doména';
+$wb['destination_txt'] = 'Cíl';
+$wb['type_txt'] = 'Typ';
+$wb['mx_txt'] = 'Neprovádět MX lookup';
+$wb['sort_order_txt'] = 'Třídit podle';
+$wb['active_txt'] = 'Aktivní';
+$wb['limit_mailrouting_txt'] = 'Dosažen maximální počet email směrování pro Váš účet.';
 ?>

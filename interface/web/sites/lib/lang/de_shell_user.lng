@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Web Benutzername';
-$wb['gid_txt'] = 'Gruppe';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Verzeichnis';
 $wb['server_id_txt'] = 'Server';
@@ -19,5 +17,6 @@ $wb['directory_error_empty'] = 'Verzeichnis ist leer.';
 $wb['limit_shell_user_txt'] = 'Die maximale Anzahl an Shellbenutzer wurde erreicht.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['parent_domain_id_error_empty'] = 'Keine Website ausgewählt.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>
-

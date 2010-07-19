@@ -6,4 +6,3 @@ $wb['pattern_txt'] = 'Desen';
 $wb['action_txt'] = 'Eylem';
 $wb['add_new_record_txt'] = 'Yeni İçerik Filtresi';
 ?>
-

@@ -19,4 +19,6 @@ $wb['Cron'] = 'Cron';
 $wb['Cron Jobs'] = 'Tarefas no Cron';
 $wb['Statistics'] = 'Estatísticas';
 $wb['Web traffic'] = 'Tráfego Web';
+$wb['Webdav-User'] = 'Webdav User';
+$wb['Webdav'] = 'Webdav';
 ?>

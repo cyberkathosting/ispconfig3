@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Hallintapaneelin käyttäjätunnus';
-$wb['gid_txt'] = 'Käyttäjäryhmä';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Kansio';
 $wb['server_id_txt'] = 'Palvelin';
@@ -19,4 +17,6 @@ $wb['directory_error_empty'] = 'Kansio-kenttä on tyhjä.';
 $wb['limit_shell_user_txt'] = 'Shell-käyttäjien määrä on ylitetty.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['parent_domain_id_error_empty'] = 'Ei www-sivua valittuna.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

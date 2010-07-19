@@ -15,4 +15,3 @@ $wb['username_txt'] = 'Kullanıcı adı';
 $wb['password_txt'] = 'Şifre';
 $wb['login_button_txt'] = 'Giriş';
 ?>
-

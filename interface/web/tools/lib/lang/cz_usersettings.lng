@@ -1,9 +1,8 @@
 <?php
-$wb["passwort_txt"] = 'Heslo';
-$wb["password_strength_txt"] = 'Bezpečnost hesla';
-$wb["language_txt"] = 'Jazyk';
-$wb["password_mismatch"] = 'Hesla se neshodují.';
-$wb["Form to edit the user password and language."] = 'Úprava uživatelského hesla a jazyka rozhraní.';
-$wb["Settings"] = 'Nastavení';
+$wb['passwort_txt'] = 'Heslo';
+$wb['password_strength_txt'] = 'Bezpečnost hesla';
+$wb['language_txt'] = 'Jazyk';
+$wb['password_mismatch'] = 'Hesla se neshodují.';
+$wb['Form to edit the user password and language.'] = 'Úprava uživatelského hesla a jazyka rozhraní.';
+$wb['Settings'] = 'Nastavení';
 ?>
-

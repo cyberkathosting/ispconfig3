@@ -1,7 +1,6 @@
 <?php
-$wb["confirm_action_txt"] = 'Potvrdit akci';
-$wb["delete_explanation"] = 'Tato akce smaže následující počet záznamů přidružených s tímto klientem';
-$wb["btn_save_txt"] = 'Smazat klienta';
-$wb["btn_cancel_txt"] = 'Storno bez smazání klienta';
+$wb['confirm_action_txt'] = 'Potvrdit akci';
+$wb['delete_explanation'] = 'Tato akce smaže následující počet záznamů přidružených s tímto klientem';
+$wb['btn_save_txt'] = 'Smazat klienta';
+$wb['btn_cancel_txt'] = 'Storno bez smazání klienta';
 ?>
-

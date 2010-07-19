@@ -1,12 +1,11 @@
 <?php
-
-$wb[1001]	= "Uživatelské jméno nebo heslo je prázdné.";
-$wb[1002]	= "Uživatelské jméno nebo heslo je špatně.";
+$wb['1001'] = 'Uživatelské jméno nebo heslo je prázdné.';
+$wb['1002'] = 'Uživatelské jméno nebo heslo je špatně.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Skupiny';
 $wb['groups_description'] = 'Úprava skupin systémových uživatelů.';
-$wb['Server']	= 'Server';
-$wb['Services']	= 'Služby';
+$wb['Server'] = 'Server';
+$wb['Services'] = 'Služby';
 $wb['Config'] = 'Konigurace';
 $wb['Server Config'] = 'Konfigurace serveru';
 $wb['Mail'] = 'Mail';
@@ -20,7 +19,6 @@ $wb['Edit user'] = 'Upravit uživatele';
 $wb['CP Users'] = 'CP uživatelé';
 $wb['Add group'] = 'Přidat skupinu';
 $wb['Edit group'] = 'Upravit skupinu';
-$wb['Groups'] = 'Skupiny';
 $wb['Edit server'] = 'Upravit server';
 $wb['Edit Server IP'] = 'IP adresy server';
 $wb['Servers'] = 'Servery';
@@ -39,4 +37,7 @@ $wb['Packages'] = 'Balíčky';
 $wb['Updates'] = 'Aktualizace';
 $wb['Merge'] = 'Sloučit';
 $wb['Remote Users'] = 'Vzdálení uživatelé';
+$wb['Remote Actions'] = 'Remote Actions';
+$wb['Do OS-Update'] = 'Do OS-Update';
+$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
 ?>

@@ -58,4 +58,6 @@ $wb['limit_web_quota_txt'] = 'Cota Web';
 $wb['limit_traffic_quota_txt'] = 'Cota de Tráfego';
 $wb['limit_trafficquota_error_notint'] = 'A cota de tráfego precisa ser um número.';
 $wb['template_del_aborted_txt'] = 'Delete aborted. There is still a client which has this template selected.';
+$wb['limit_webdav_user_txt'] = 'Max. number of Webdav users';
+$wb['limit_webdav_user_error_notint'] = 'The webdav user limit must be a number.';
 ?>

@@ -74,4 +74,3 @@ $wb['named_conf_local_path_txt'] = 'BIND named.conf.local path';
 $wb['php_ini_path_cgi_txt'] = 'CGI php.ini path';
 $wb['php_ini_path_apache_txt'] = 'Apache php.ini path';
 ?>
-

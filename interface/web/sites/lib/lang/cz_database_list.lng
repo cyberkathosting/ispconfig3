@@ -1,9 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Databáze';
-$wb["active_txt"] = 'Aktivní';
-$wb["remote_access_txt"] = 'Vzdálený přístup';
-$wb["server_id_txt"] = 'Server';
-$wb["database_user_txt"] = 'Uživatel databáze';
-$wb["database_name_txt"] = 'Název databáze';
-$wb["add_new_record_txt"] = 'Přidat databázi';
+$wb['list_head_txt'] = 'Databáze';
+$wb['active_txt'] = 'Aktivní';
+$wb['remote_access_txt'] = 'Vzdálený přístup';
+$wb['server_id_txt'] = 'Server';
+$wb['database_user_txt'] = 'Uživatel databáze';
+$wb['database_name_txt'] = 'Název databáze';
+$wb['add_new_record_txt'] = 'Přidat databázi';
 ?>

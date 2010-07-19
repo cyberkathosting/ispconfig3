@@ -6,6 +6,4 @@ $wb['View messages'] = 'Zobrazit zprávu';
 $wb['Support'] = 'Podpora';
 $wb['About ISPConfig'] = 'O ISPConfigu';
 $wb['Version'] = 'Verze';
-
 ?>
-

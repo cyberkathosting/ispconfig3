@@ -74,7 +74,6 @@ $wb['limit_ftp_user_error_notint'] = 'Лимит пользователей ftp 
 $wb['limit_shell_user_error_notint'] = 'Лимит пользователей shell должен быть числом.';
 $wb['limit_dns_zone_error_notint'] = 'Лимит DNS-записей должен быть числом.';
 $wb['limit_dns_slave_zone_error_notint'] = 'The dns slave zone limit must be a number.';
-$wb['limit_dns_record_error_notint'] = 'The dns record limit must be a number.';
 $wb['default_dbserver_txt'] = 'Сервер БД по-умолчанию';
 $wb['limit_database_error_notint'] = 'Лимит БД должен быть числом.';
 $wb['password_strength_txt'] = 'Стойкость пароля';
@@ -94,4 +93,6 @@ $wb['limit_mailaliasdomain_error_notint'] = 'Лимит почтовых дом�
 $wb['limit_web_quota_txt'] = 'Квота Web';
 $wb['limit_traffic_quota_txt'] = 'Квота трафика';
 $wb['limit_trafficquota_error_notint'] = 'Квота трафика должна быть числом.';
+$wb['limit_webdav_user_txt'] = 'Max. number of Webdav users';
+$wb['limit_webdav_user_error_notint'] = 'The webdav user limit must be a number.';
 ?>

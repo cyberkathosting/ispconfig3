@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'ユーザー';
-$wb['gid_txt'] = 'グループ';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'ディレクトリ';
 $wb['server_id_txt'] = 'サーバー';
@@ -19,4 +17,6 @@ $wb['uid_error_empty'] = 'GID を指定してください。';
 $wb['directory_error_empty'] = 'ディレクトリを指定してください。';
 $wb['limit_shell_user_txt'] = 'Shellユーザーが最大数に達しました。';
 $wb['parent_domain_id_error_empty'] = 'ウェブサイトを選択してください。';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

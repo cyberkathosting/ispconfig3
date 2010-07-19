@@ -5,4 +5,3 @@ $wb['name_txt'] = 'Grup';
 $wb['add_new_record_txt'] = 'Yeni Grup';
 $wb['warning_txt'] = '<b>UYARI:</b> Kullanıcı ayarlamalarını bu kısımdan yapmayınız. Bunun yerine Müşteri modülü altından Müşteri- ve Reseller seçeneklerini kullanınız. Kullanıcı veya grupları burada değiştirmek, veri kayıplarına neden olabilir!';
 ?>
-

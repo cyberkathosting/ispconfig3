@@ -37,4 +37,6 @@ $wb['move_junk_txt'] = 'Move Spam Emails to Junk directory';
 $wb['name_txt'] = 'Realname';
 $wb['name_optional_txt'] = '(Optional)';
 $wb['autoresponder_active'] = 'Enable the autoresponder';
+$wb['cc_txt'] = 'Send copy to';
+$wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
 ?>

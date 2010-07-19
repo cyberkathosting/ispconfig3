@@ -27,4 +27,3 @@ $wb['error_ns1_regex'] = 'NS1 beinhaltet ungültige Zeichen.';
 $wb['error_ns2_regex'] = 'NS2 beinhaltet ungültige Zeichen.';
 $wb['error_email_regex'] = 'Email beinhaltet keine gültige Email Adresse.';
 ?>
-

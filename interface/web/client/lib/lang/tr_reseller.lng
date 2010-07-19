@@ -94,4 +94,3 @@ $wb['limit_web_quota_txt'] = 'Web Kotası';
 $wb['limit_traffic_quota_txt'] = 'Trafik Kotası';
 $wb['limit_trafficquota_error_notint'] = 'Trafik kotası sayı olmak zorunda.';
 ?>
-

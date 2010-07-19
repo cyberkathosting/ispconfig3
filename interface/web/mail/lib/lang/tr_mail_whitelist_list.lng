@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Alıcı';
 $wb['add_new_record_txt'] = 'Yeni Beyaz Liste Kaydı';
 $wb['access_txt'] = 'erişim';
 ?>
-

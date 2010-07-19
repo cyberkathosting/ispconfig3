@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Kullanıcı';
 $wb['email_txt'] = 'Karalistedeki Emailler';
 $wb['add_new_record_txt'] = 'Yeni Karaliste Kaydı';
 ?>
-

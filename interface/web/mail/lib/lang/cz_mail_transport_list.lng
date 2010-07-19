@@ -1,9 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Pokročilé email směrování';
-$wb["active_txt"] = 'Aktivní';
-$wb["server_id_txt"] = 'Server';
-$wb["domain_txt"] = 'Doména';
-$wb["transport_txt"] = 'Transport';
-$wb["sort_order_txt"] = 'Třídit podle';
-$wb["add_new_record_txt"] = 'Přidat transport';
+$wb['list_head_txt'] = 'Pokročilé email směrování';
+$wb['active_txt'] = 'Aktivní';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Doména';
+$wb['transport_txt'] = 'Transport';
+$wb['sort_order_txt'] = 'Třídit podle';
+$wb['add_new_record_txt'] = 'Přidat transport';
 ?>

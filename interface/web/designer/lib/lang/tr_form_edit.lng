@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Yetkili Kullanıcı';
 $wb['auth_preset_perm_group_txt'] = 'Yetkili Grup';
 $wb['auth_preset_perm_other_txt'] = 'Diğer Yetkililer';
 ?>
-

@@ -11,4 +11,3 @@ $wb['active_txt'] = 'Aktif';
 $wb['mirror_server_id_txt'] = 'Sunucu kopyası mı';
 $wb['- None -'] = '- Hiçbiri -';
 ?>
-

@@ -65,4 +65,12 @@ $wb['php_open_basedir_txt'] = 'PHP open_basedir';
 $wb['php_open_basedir_error_empty'] = 'PHP open_basedir is leeg.';
 $wb['htaccess_allow_override_txt'] = '.htaccess AllowOverride';
 $wb['htaccess_allow_override_error_empty'] = '.htaccess AllowOverride is leeg.';
+$wb['awstats_conf_dir_txt'] = 'awstats conf folder';
+$wb['awstats_data_dir_txt'] = 'awstats data folder';
+$wb['awstats_pl_txt'] = 'awstats.pl script';
+$wb['awstats_buildstaticpages_pl_txt'] = 'awstats_buildstaticpages.pl script';
+$wb['backup_dir_txt'] = 'Backup directory';
+$wb['named_conf_local_path_txt'] = 'BIND named.conf.local path';
+$wb['php_ini_path_cgi_txt'] = 'CGI php.ini path';
+$wb['php_ini_path_apache_txt'] = 'Apache php.ini path';
 ?>

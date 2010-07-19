@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Firewall';
-$wb["active_txt"] = 'Aktivní';
-$wb["server_id_txt"] = 'Server';
-$wb["tcp_port_txt"] = 'Otevřené TCP porty';
-$wb["udp_port_txt"] = 'Otevřené UDP porty';
-$wb["add_new_record_txt"] = 'Přidat záznam';
+$wb['list_head_txt'] = 'Firewall';
+$wb['active_txt'] = 'Aktivní';
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Otevřené TCP porty';
+$wb['udp_port_txt'] = 'Otevřené UDP porty';
+$wb['add_new_record_txt'] = 'Přidat záznam';
 ?>

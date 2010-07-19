@@ -25,4 +25,3 @@ $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['directory_error_notinweb'] = 'Das Verzeichnis befindet sich nicht innerhalb des Verzeichnisses der Website.';
 $wb['parent_domain_id_error_empty'] = 'Keine Website ausgewählt.';
 ?>
-

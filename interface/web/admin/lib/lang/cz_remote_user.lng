@@ -18,7 +18,7 @@ $wb['Mail spamfilter user functions'] = 'Funkce mailového spamfiltr uživatele'
 $wb['Mail spamfilter policy functions'] = 'Funkce mailové spamfiltr politiky';
 $wb['Mail fetchmail functions'] = 'Funkce mailové externí získávání emailů';
 $wb['Mail user filter functions'] = 'Funkce mailového filtru uživatelů';
-$wb['Mail filter functions'] = 'Funkce mailového filtru'; 
+$wb['Mail filter functions'] = 'Funkce mailového filtru';
 $wb['Client functions'] = 'Klientské funkce';
 $wb['Sites cron functions'] = 'Funkce cronů';
 $wb['Sites database functions'] = 'Funkce databází';
@@ -40,4 +40,3 @@ $wb['DNS rp functions'] = 'Funkce DNS RP';
 $wb['DNS srv functions'] = 'Funkce DNS SRV';
 $wb['DNS txt functions'] = 'Funkce DNS TXT';
 ?>
-

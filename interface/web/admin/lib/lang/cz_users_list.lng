@@ -1,9 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Uživatelé';
-$wb["username_txt"] = 'Uživatelské jméno';
-$wb["name_txt"] = 'Jméno';
-$wb["vorname_txt"] = 'Příjmení';
-$wb["ort_txt"] = 'Město';
-$wb["add_new_record_txt"] = 'Přidat uživatele';
-$wb["warning_txt"] = '<b>VAROVÁNÍ:</b> Zde neupravujte uživatelská nastavení. Užijte klientská a distributorská nastavení v klientském modulu. Úprava uživatelý nebo skupin zde může způsobit ztrátu dat!';
+$wb['list_head_txt'] = 'Uživatelé';
+$wb['username_txt'] = 'Uživatelské jméno';
+$wb['name_txt'] = 'Jméno';
+$wb['vorname_txt'] = 'Příjmení';
+$wb['ort_txt'] = 'Město';
+$wb['add_new_record_txt'] = 'Přidat uživatele';
+$wb['warning_txt'] = '<b>VAROVÁNÍ:</b> Zde neupravujte uživatelská nastavení. Užijte klientská a distributorská nastavení v klientském modulu. Úprava uživatelý nebo skupin zde může způsobit ztrátu dat!';
 ?>

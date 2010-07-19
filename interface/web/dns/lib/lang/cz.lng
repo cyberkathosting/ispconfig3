@@ -1,5 +1,4 @@
 <?php
-
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zóny';
 $wb['DNS A'] = 'DNS A';
@@ -18,5 +17,4 @@ $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'DNS průvodce';
 $wb['Add DNS Zone'] = 'Přidat DNS zónu';
 $wb['Templates'] = 'Šablony';
-
 ?>

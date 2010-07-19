@@ -1,9 +1,9 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["source_txt"] = 'Adresa černé listiny';
-$wb["recipient_txt"] = 'Adresát';
-$wb["active_txt"] = 'Aktivní';
-$wb["source_error_notempty"] = 'Adresa je prázdná.';
-$wb["type_txt"] = 'Type';
-$wb["limit_mailfilter_txt"] = 'Dosažen maximální počet email filtrů pro Váš účet.';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Adresa černé listiny';
+$wb['recipient_txt'] = 'Adresát';
+$wb['active_txt'] = 'Aktivní';
+$wb['source_error_notempty'] = 'Adresa je prázdná.';
+$wb['type_txt'] = 'Type';
+$wb['limit_mailfilter_txt'] = 'Dosažen maximální počet email filtrů pro Váš účet.';
 ?>

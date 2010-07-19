@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"] = 'Exportovat jazykové soubory';
-$wb["language_select_txt"] = 'Vybrat jazyk;
+$wb['list_head_txt'] = 'Exportovat jazykové soubory';
+$wb['language_select_txt'] = 'Vybrat jazyk';
 $wb['btn_save_txt'] = 'Exportovat vybraný jazykový soubor';
 $wb['btn_cancel_txt'] = 'Zpět';
 ?>

@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Web Kullanıcı Adı';
-$wb['gid_txt'] = 'Grup';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Dizin';
 $wb['server_id_txt'] = 'Sunucu';
@@ -19,5 +17,6 @@ $wb['uid_error_empty'] = 'GID boş.';
 $wb['directory_error_empty'] = 'Dizin boş.';
 $wb['limit_shell_user_txt'] = 'Max. Shell kullanıcısı limitine ulaşıldı.';
 $wb['parent_domain_id_error_empty'] = 'Seçili websitesi yok.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>
-

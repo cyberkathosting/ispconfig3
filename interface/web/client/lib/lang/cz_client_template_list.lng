@@ -1,6 +1,5 @@
 <?php
-$wb["list_head_txt"] = 'Klientské šablony';
-$wb["template_type_txt"] = 'Typ';
-$wb["template_name_txt"] = 'Název šablony';
+$wb['list_head_txt'] = 'Klientské šablony';
+$wb['template_type_txt'] = 'Typ';
+$wb['template_name_txt'] = 'Název šablony';
 ?>
-

@@ -143,4 +143,3 @@ $wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'Dieser Server ist kein OpenVz-VE und besitzt deshalb auch keine Beancounter Informationen.';
 ?>
-

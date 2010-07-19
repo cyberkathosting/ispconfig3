@@ -2,4 +2,3 @@
 $wb['list_head_txt'] = 'Sunucu Konfigurasyonu';
 $wb['server_name_txt'] = 'Sunucu';
 ?>
-

@@ -14,9 +14,11 @@ $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell uživatel';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Web stránky';
-$wb["Stats"] = 'Statistiky';
-$wb["Cron"] = 'Cron';
-$wb["Cron Jobs"] = 'Cron úlohy';
-$wb["Statisticz"] = 'Statistiky';
-$wb["Web traffic"] = 'Web přenos';
+$wb['Stats'] = 'Statistiky';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron úlohy';
+$wb['Web traffic'] = 'Web přenos';
+$wb['Webdav-User'] = 'Webdav User';
+$wb['Webdav'] = 'Webdav';
+$wb['Statistics'] = 'Statistics';
 ?>

@@ -8,4 +8,3 @@ $wb['searchterm_is_empty'] = 'Search term is empty.';
 $wb['source_txt'] = 'Kaynak';
 $wb['target_error_regex'] = 'Kaynak sadece şu karakterleri içerebilir: a-z, 0-9, -, ., _, ve {boşluk}';
 ?>
-

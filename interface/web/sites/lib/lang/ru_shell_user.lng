@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Web пользователь';
-$wb['gid_txt'] = 'Группа';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Путь';
 $wb['server_id_txt'] = 'Сервер';
@@ -19,4 +17,6 @@ $wb['directory_error_empty'] = 'Пуская директория';
 $wb['password_strength_txt'] = 'Стойкость пароля';
 $wb['limit_shell_user_txt'] = 'Достигнуто допустимое количество пользователей shell';
 $wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

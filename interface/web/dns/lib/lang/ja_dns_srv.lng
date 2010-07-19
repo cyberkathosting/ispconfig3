@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'ホスト名の形式が不正です。';
 $wb['data_error_empty'] = 'SRVレコードを入力してください。';
 $wb['data_error_regex'] = 'SRVレコードの形式が不正です。';
 $wb['srv_error_regex'] = 'SRVレコードの形式が不正です。SRVレコードはスペースで区切られた3つの文字列で記述してください。';
+$wb['aux_txt'] = 'Priority';
 ?>

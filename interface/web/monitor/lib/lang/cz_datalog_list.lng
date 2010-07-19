@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Fronta úlog';
-$wb["tstamp_txt"] = 'Datum';
-$wb["server_id_txt"] = 'Server';
-$wb["dbtable_txt"] = 'DB tabulka';
-$wb["action_txt"] = 'Akce';
-$wb["status_txt"] = 'Stav';
+$wb['list_head_txt'] = 'Fronta úlog';
+$wb['tstamp_txt'] = 'Datum';
+$wb['server_id_txt'] = 'Server';
+$wb['dbtable_txt'] = 'DB tabulka';
+$wb['action_txt'] = 'Akce';
+$wb['status_txt'] = 'Stav';
 ?>

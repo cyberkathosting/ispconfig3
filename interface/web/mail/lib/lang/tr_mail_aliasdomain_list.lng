@@ -5,4 +5,3 @@ $wb['source_txt'] = 'Kaynak';
 $wb['destination_txt'] = 'Hedef';
 $wb['add_new_record_txt'] = 'Yeni Domain alias ekle';
 ?>
-

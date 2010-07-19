@@ -36,5 +36,7 @@ $wb['autoresponder_end_date_isgreater'] = 'Bitiş zamanı başlangıç zamanınd
 $wb['move_junk_txt'] = 'Spam Emailleri Junk dizinine taşı';
 $wb['name_txt'] = 'Gerçek isim';
 $wb['name_optional_txt'] = '(İsteğe bağlı)';
+$wb['autoresponder_active'] = 'Enable the autoresponder';
+$wb['cc_txt'] = 'Send copy to';
+$wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
 ?>
-

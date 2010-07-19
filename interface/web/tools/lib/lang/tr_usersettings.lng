@@ -6,4 +6,3 @@ $wb['password_mismatch'] = 'Şifreler uyuşmuyor.';
 $wb['Form to edit the user password and language.'] = 'Şifre ve dil ayarlarını değiştirme formu.';
 $wb['Settings'] = 'Ayarlar';
 ?>
-

@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Yasaklı dosyalar koruması';
 $wb['bad_header_lover_txt'] = 'Kötü başlık koruması';
 $wb['add_new_record_txt'] = 'Yeni Kural Kaydı';
 ?>
-

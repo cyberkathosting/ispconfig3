@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Websitesi';
 $wb['domain_txt'] = 'Subdomain';
 $wb['add_new_record_txt'] = 'Yeni Subdomain';
 ?>
-

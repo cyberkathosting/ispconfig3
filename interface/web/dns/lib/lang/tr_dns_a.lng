@@ -14,4 +14,3 @@ $wb['data_error_empty'] = 'IP Adresi boş';
 $wb['data_error_regex'] = 'IP Adresi yanlış formatta';
 $wb['data_error_duplicate'] = 'A-Record Tekrarı';
 ?>
-

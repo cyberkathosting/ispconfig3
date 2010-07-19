@@ -6,4 +6,3 @@ $wb['language_new_hint_txt'] = '2 Buchstaben ISO 639-1 Sprachcode (siehe http://
 $wb['btn_save_txt'] = 'Neues Sprachdateiset erstellen';
 $wb['btn_cancel_txt'] = 'Zurück';
 ?>
-

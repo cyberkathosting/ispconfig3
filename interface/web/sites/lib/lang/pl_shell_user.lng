@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Sieciowa nazwa użytkownika';
-$wb['gid_txt'] = 'Grupa';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Ścieżka';
 $wb['server_id_txt'] = 'Serwer';
@@ -19,4 +17,6 @@ $wb['uid_error_empty'] = 'GID jest pusty.';
 $wb['directory_error_empty'] = 'Element docelowy jest pusty.';
 $wb['limit_shell_user_txt'] = 'Maksymalna liczba użytkowników shell została przekroczona.';
 $wb['parent_domain_id_error_empty'] = 'Nie wybrano żadnej strony www.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

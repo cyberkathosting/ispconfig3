@@ -7,4 +7,3 @@ $wb['source_username_txt'] = 'Kullanıcı adı';
 $wb['destination_txt'] = 'Hedef';
 $wb['add_new_record_txt'] = 'Yeni Hesap';
 ?>
-

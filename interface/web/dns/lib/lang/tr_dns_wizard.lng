@@ -27,4 +27,3 @@ $wb['error_ns1_regex'] = 'NS1 geçersiz karakterler içermekte.';
 $wb['error_ns2_regex'] = 'NS2 geçersiz karakterler içermekte.';
 $wb['error_email_regex'] = 'Email geçerli bir adres değil.';
 ?>
-

@@ -40,4 +40,3 @@ $wb['autoresponder_active'] = 'Enable the autoresponder';
 $wb['cc_txt'] = 'Send copy to';
 $wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
 ?>
-

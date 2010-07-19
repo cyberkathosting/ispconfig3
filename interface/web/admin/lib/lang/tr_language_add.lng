@@ -6,4 +6,3 @@ $wb['language_new_hint_txt'] = 'ISO 639-1 dil kodlamasında 2 karakter (Ayrınt�
 $wb['btn_save_txt'] = 'Yeni dil dosyası oluştur';
 $wb['btn_cancel_txt'] = 'Geri';
 ?>
-

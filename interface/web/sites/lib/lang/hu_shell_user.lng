@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Web felhasználónév';
-$wb['gid_txt'] = 'Csoport';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Könyvtár';
 $wb['server_id_txt'] = 'Szerver';
@@ -19,4 +17,6 @@ $wb['directory_error_empty'] = 'Könyvtár üres.';
 $wb['limit_shell_user_txt'] = 'The max number of shell users is reached.';
 $wb['password_strength_txt'] = 'Password strength';
 $wb['parent_domain_id_error_empty'] = 'No website selected.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

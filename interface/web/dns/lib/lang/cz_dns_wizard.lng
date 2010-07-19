@@ -1,10 +1,9 @@
 <?php
-
 $wb['template_id_txt'] = 'Šablona';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Klient';
-$wb["btn_save_txt"] = 'Vytvořit DNS záznam';
-$wb["btn_cancel_txt"] = 'Storno';
+$wb['btn_save_txt'] = 'Vytvořit DNS záznam';
+$wb['btn_cancel_txt'] = 'Storno';
 $wb['domain_txt'] = 'Doména';
 $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';

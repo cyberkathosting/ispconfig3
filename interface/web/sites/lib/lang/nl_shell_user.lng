@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Website gebruikersnaam';
-$wb['gid_txt'] = 'Website groep';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Directory';
 $wb['server_id_txt'] = 'Server';
@@ -19,4 +17,6 @@ $wb['uid_error_empty'] = 'GID leeg.';
 $wb['directory_error_empty'] = 'Directory leeg.';
 $wb['limit_shell_user_txt'] = 'Het maximum aantal shell gebruikers is bereikt.';
 $wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>

@@ -4,4 +4,3 @@ $wb['domain_error_unique'] = 'Die Domäne existiert bereits';
 $wb['domain_error_regex'] = 'Dieser Domänen-Name ist nicht gültig';
 $wb['Domain'] = 'Domäne';
 ?>
-

@@ -5,4 +5,3 @@ $wb['active_txt'] = 'Aktiv';
 $wb['limit_mailforward_txt'] = 'Die maximale Anzahl an Emailweiterleitungen für ihr Konto wurde erreicht.';
 $wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine Mailbox mit dieser Email Adresse';
 ?>
-

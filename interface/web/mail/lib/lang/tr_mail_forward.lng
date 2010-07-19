@@ -5,4 +5,3 @@ $wb['active_txt'] = 'Aktif';
 $wb['limit_mailforward_txt'] = 'Hesabınızdaki max. email yönlendirme sayısına ulaştınız.';
 $wb['duplicate_mailbox_txt'] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
 ?>
-

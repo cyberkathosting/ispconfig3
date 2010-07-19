@@ -24,4 +24,3 @@ $wb['mbox_error_regex'] = 'Email geçersiz formatta.';
 $wb['also_notify_txt'] = 'Ayrıca Bildir';
 $wb['update_acl_txt'] = 'ACL Güncelle';
 ?>
-

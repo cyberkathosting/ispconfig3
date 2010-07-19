@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Přidat jazyk';
-$wb["language_select_txt"] = 'Vybrat jazykový základ';
-$wb["language_new_txt"] = 'Nový jazyk';
-$wb["language_new_hint_txt"] = '2 znakové ISO 639-1 jazykiové kódy (viz http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['list_head_txt'] = 'Přidat jazyk';
+$wb['language_select_txt'] = 'Vybrat jazykový základ';
+$wb['language_new_txt'] = 'Nový jazyk';
+$wb['language_new_hint_txt'] = '2 znakové ISO 639-1 jazykiové kódy (viz http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 $wb['btn_save_txt'] = 'Vytvořit nový jazykový soubor';
 $wb['btn_cancel_txt'] = 'Zpět';
 ?>

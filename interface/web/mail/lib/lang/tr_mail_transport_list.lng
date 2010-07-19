@@ -7,4 +7,3 @@ $wb['transport_txt'] = 'Nakil';
 $wb['sort_order_txt'] = 'Sırala';
 $wb['add_new_record_txt'] = 'Yeni Rota';
 ?>
-
