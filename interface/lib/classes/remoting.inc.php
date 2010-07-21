@@ -2065,6 +2065,13 @@ class remoting {
 		//* Load the form definition
 		$app->remoting_lib->loadFormDef($formdef_file);
 		
+		$old_rec = $app->remoting_lib->getDataRecord($primary_id);
+		
+		// set a few values for compatibility with tform actions, mostly used by plugins
+		$this->oldDataRecord = $old_rec;
+		$this->id = $primary_id;
+		$this->dataRecord = $params;
+		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getDeleteSQL($primary_id);
 		
@@ -2079,8 +2086,7 @@ class remoting {
 		
 		//* Save changes to Datalog
 		if($app->remoting_lib->formDef["db_history"] == 'yes') {
-			$rec = $app->remoting_lib->getDataRecord($primary_id);
-			$app->remoting_lib->datalogSave('DELETE',$primary_id,$rec,array());
+			$app->remoting_lib->datalogSave('DELETE',$primary_id,$old_rec,array());
 		}
 		
 		
