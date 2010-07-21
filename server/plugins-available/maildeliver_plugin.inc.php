@@ -102,6 +102,9 @@ class maildeliver_plugin {
 		
 			$tpl = new tpl();
 			$tpl->newTemplate("sieve_filter.master");
+			
+			// cc Field
+			$tpl->setVar('cc',$data["new"]["cc"]);
 				
 			// Custom filters
 			$tpl->setVar('custom_mailfilter',$data["new"]["custom_mailfilter"]);
