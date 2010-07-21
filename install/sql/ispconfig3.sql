@@ -745,6 +745,10 @@ CREATE TABLE `software_package` (
   `package_description` text,
   `package_version` varchar(8) default NULL,
   `package_type` enum('ispconfig','app','web') NOT NULL default 'app',
+  `package_installable` enum('yes','no','key') NOT NULL default 'yes',
+  `package_requires_db` enum('no','mysql') NOT NULL default 'no',
+  `package_key` varchar(255) NOT NULL,
+  `package_config` text,
   PRIMARY KEY  (`package_id`),
   UNIQUE KEY `package_name` (`package_name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;

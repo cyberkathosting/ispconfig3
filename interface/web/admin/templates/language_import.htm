@@ -21,7 +21,7 @@
 						<input id="ignore_version" type="checkbox" value="1" name="ignore_version"/>
 					</div>
 	  </div>
-    </fieldset>
+    
 	
 	<tmpl_if name="msg">
 	<div id="OKMsg"><p><tmpl_var name="msg"></p></div>
@@ -36,6 +36,9 @@
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitUploadForm('pageForm','admin/language_import.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
+	
+	</fieldset>
+	
   </div>
   
 </div>

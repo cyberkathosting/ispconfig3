@@ -3,6 +3,16 @@
 
 <div class="panel panel_list_package">
 
+  <div class="pnl_toolsarea">
+    <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
+      <div class="buttons">
+        <button class="iconstxt icoAdd" type="button" onClick="loadContent('admin/software_package_list.php?action=repoupdate');">
+				<span>{tmpl_var name="repoupdate_txt"}</span>
+			</button>
+      </div>
+    </fieldset>
+  </div>
+
   <div class="pnl_listarea">
     <fieldset><legend><tmpl_var name="list_head_txt"></legend>
       <table class="list">

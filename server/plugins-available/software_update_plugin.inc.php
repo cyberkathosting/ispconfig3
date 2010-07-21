@@ -105,6 +105,10 @@ class software_update_plugin {
 			return false;
 		}
 		
+		//* Replace placeholders in download URL
+		$software_update["update_url"] = str_replace('{key}',$software_package['package_key'],$software_update["update_url"]);
+		
+		//* Download the update package
 		$cmd = "cd $temp_dir && wget ".$software_update["update_url"];
 		if($installuser == '') {
 			exec($cmd);
@@ -113,8 +117,28 @@ class software_update_plugin {
 		}
 		$app->log("Downloading the update file from: ".$software_update["update_url"],LOGLEVEL_DEBUG);
 		
-		$url_parts = parse_url($software_update["update_url"]);
-		$update_filename = basename($url_parts["path"]);
+		//$url_parts = parse_url($software_update["update_url"]);
+		//$update_filename = basename($url_parts["path"]);
+		//* Find the name of the zip file which contains the app.
+		$tmp_dir_handle = dir($temp_dir);
+		$update_filename = '';
+		while (false !== ($t = $tmp_dir_handle->read())) {
+			if($t != '.' && $t != '..' && is_file($temp_dir.'/'.$t) && substr($t,-4) == '.zip') {
+				$update_filename = $t;
+			}
+		}
+		$tmp_dir_handle->close();
+		unset($tmp_dir_handle);
+		unset($t);
+		
+		if($update_filename == '') {
+			$app->log("No package file found. Download failed? Installation aborted.",LOGLEVEL_WARN);
+			exec("rm -rf $temp_dir");
+			$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
+            $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
+			return false;
+		}
+
 		$app->log("The update filename is $update_filename",LOGLEVEL_DEBUG);
 		
 		if(is_file($temp_dir.'/'.$update_filename)) {
@@ -137,6 +161,35 @@ class software_update_plugin {
 				exec($cmd);
 			} else {
 				exec("su -c ".escapeshellarg($cmd)." $installuser");
+			}
+			
+			//* Create a database, if the package requires one
+			if($software_package['package_type'] == 'app' && $software_package['package_requires_db'] == 'mysql') {
+				
+				$app->uses('ini_parser');
+				$package_config = $app->ini_parser->parse_ini_string(stripslashes($software_package['package_config']));
+				
+				$this->create_app_db($package_config['mysql']);
+				$app->log("Creating the app DB.",LOGLEVEL_DEBUG);
+				
+				//* Load the sql dump into the database
+				if(is_file($temp_dir.'/setup.sql')) {
+					$db_config = $package_config['mysql'];
+					if(	$db_config['database_user'] != '' &&
+						$db_config['database_password'] != '' &&
+						$db_config['database_name'] != '' &&
+						$db_config['database_host'] != '') {
+						system("mysql --default-character-set=utf8 --force -h '".$db_config['database_host']."' -u '".$db_config['database_user']."' ".$db_config['database_name']." < ".escapeshellcmd($temp_dir.'/setup.sql'));
+						$app->log("Loading setup.sql dump into the app db.",LOGLEVEL_DEBUG);
+					}
+				}
+				
+			}
+			
+			//* Save the package config file as app.ini
+			if($software_package['package_config'] != '') {
+				file_put_contents($temp_dir.'/app.ini',$software_package['package_config']);
+				$app->log("Writing ".$temp_dir.'/app.ini',LOGLEVEL_DEBUG);
 			}
 			
 			if(is_file($temp_dir.'/setup.sh')) {
@@ -168,10 +221,56 @@ class software_update_plugin {
             $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 		}
 		
-		exec("rm -rf $temp_dir");
+		if($temp_dir != '' && $temp_dir != '/') exec("rm -rf $temp_dir");
 		$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
 	}
 	
+	private function create_app_db($db_config) {
+		global $app, $conf;
+		
+		if(	$db_config['database_user'] != '' &&
+			$db_config['database_password'] != '' &&
+			$db_config['database_name'] != '' &&
+			$db_config['database_host'] != '') {
+			
+			if(!include(ISPC_LIB_PATH.'/mysql_clientdb.conf')) {
+				$app->log('Unable to open'.ISPC_LIB_PATH.'/mysql_clientdb.conf',LOGLEVEL_ERROR);
+				return;
+			}
+			
+			if($db_config['database_user'] == 'root') {
+				$app->log('User root not allowed for App databases',LOGLEVEL_WARNING);
+				return;
+			}
+		
+			//* Connect to the database
+			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+			if (!$link) {
+				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+				return;
+			}
+
+			$query_charset_table = '';
+
+			//* Create the new database
+			if (mysql_query('CREATE DATABASE '.mysql_real_escape_string($db_config['database_name']).$query_charset_table,$link)) {
+				$app->log('Created MySQL database: '.$db_config['database_name'],LOGLEVEL_DEBUG);
+			} else {
+				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+			}
+			
+			if(mysql_query("GRANT ALL ON ".mysql_real_escape_string($db_config['database_name'],$link).".* TO '".mysql_real_escape_string($db_config['database_user'],$link)."'@'".$db_config['database_host']."' IDENTIFIED BY '".mysql_real_escape_string($db_config['database_password'],$link)."';",$link)) {
+			$app->log('Created MySQL user: '.$db_config['database_user'],LOGLEVEL_DEBUG);
+			} else {
+				$app->log('Unable to create database user'.$db_config['database_user'].' '.mysql_error($link),LOGLEVEL_ERROR);
+			}
+
+			mysql_query("FLUSH PRIVILEGES;",$link);
+			mysql_close($link);
+			
+		}
+		
+	}
 
 } // end class
 

@@ -11,7 +11,7 @@
 					{tmpl_var name='language_option'}
 				</select>
       </div>
-    </fieldset>
+    
 	
 	<tmpl_if name="msg">
 	<div id="OKMsg"><p><tmpl_var name="msg"></p></div>
@@ -23,6 +23,9 @@
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/language_export.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
+	
+	</fieldset>
+	
   </div>
   
 </div>

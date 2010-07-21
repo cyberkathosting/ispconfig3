@@ -16,7 +16,7 @@
         <input name="lng_new" id="lng_new" value="" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
         <p class="formHint">{tmpl_var name='language_new_hint_txt'}</p>
 			</div>
-    </fieldset>
+    
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
@@ -24,6 +24,9 @@
       <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/language_add.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
+	
+	</fieldset>
+	
   </div>
   
 </div>
