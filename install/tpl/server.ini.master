@@ -53,6 +53,7 @@ awstats_pl=/usr/lib/cgi-bin/awstats.pl
 awstats_buildstaticpages_pl=/usr/share/awstats/tools/awstats_buildstaticpages.pl
 php_ini_path_apache=/etc/php5/apache2/php.ini
 php_ini_path_cgi=/etc/php5/cgi/php.ini
+check_apache_config=y
 
 [dns]
 bind_user=root

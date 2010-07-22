@@ -376,6 +376,12 @@ $form["tabs"]['web'] = array (
 			'default'	=> '20',
 			'value'		=> array('10' => 'Medium', '20' => 'High')
 		),
+		'check_apache_config' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 		'user' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

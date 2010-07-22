@@ -825,6 +825,10 @@ class apache2_plugin {
 		}
 
 		$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"].'/'.$data["new"]["domain"].'.vhost');
+		//* Make a backup copy of vhost file
+		copy($vhost_file,$vhost_file.'~');
+		
+		//* Write vhost file
 		file_put_contents($vhost_file,$tpl->grab());
 		$app->log("Writing the vhost file: $vhost_file",LOGLEVEL_DEBUG);
 		unset($tpl);
@@ -879,14 +883,36 @@ class apache2_plugin {
 		if($data["new"]["stats_type"] == 'awstats' && $data["new"]["type"] == "vhost") {
 			$this->awstats_update($data,$web_config);
 		}
+		
+		if($web_config['check_apache_config'] == 'y') {
+			//* Test if apache starts with the new configuration file
+			$apache_online_status_before_restart = $this->_checkTcp('localhost',80);
+			$app->log("Apache status is: ".$apache_online_status_before_restart,LOGLEVEL_DEBUG);
 
-
-		if($apache_chrooted) {
-			$app->services->restartServiceDelayed('httpd','restart');
+			$app->services->restartService('httpd','restart');
+		
+			//* Check if apache restarted successfully if it was online before
+			$apache_online_status_after_restart = $this->_checkTcp('localhost',80);
+			$app->log("Apache online status after restart is: ".$apache_online_status_after_restart,LOGLEVEL_DEBUG);
+			if($apache_online_status_before_restart && !$apache_online_status_after_restart) {
+				$app->log("Apache did not restart after the configuration change for website ".$data["new"]["domain"].' Reverting the configuration. Saved not working config as '.$vhost_file.'.err',LOGLEVEL_WARN);
+				copy($vhost_file,$vhost_file.'.err');
+				copy($vhost_file.'~',$vhost_file);
+				$app->services->restartService('httpd','restart');
+			}
 		} else {
-			// request a httpd reload when all records have been processed
-			$app->services->restartServiceDelayed('httpd','reload');
+			//* We do not check the apache config after changes (is faster)
+			if($apache_chrooted) {
+				$app->services->restartServiceDelayed('httpd','restart');
+			} else {
+				// request a httpd reload when all records have been processed
+				$app->services->restartServiceDelayed('httpd','reload');
+			}
 		}
+		
+		// Remove the backup copy of the config file.
+		unlink($vhost_file.'~');
+		
 
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';
@@ -1282,6 +1308,18 @@ class apache2_plugin {
 		global $app;
 		$app->log("exec: ".$command,LOGLEVEL_DEBUG);
 		exec($command);
+	}
+	
+	private function _checkTcp ($host,$port) {
+
+		$fp = @fsockopen ($host, $port, $errno, $errstr, 2);
+
+		if ($fp) {
+			fclose($fp);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
