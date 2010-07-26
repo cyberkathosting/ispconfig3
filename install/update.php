@@ -305,7 +305,8 @@ swriteln('Updating ISPConfig');
 
 
 //** Customise the port ISPConfig runs on
-$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
+$ispconfig_port_number = get_ispconfig_port_number();
+$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
 
 $inst->install_ispconfig();
 

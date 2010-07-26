@@ -677,6 +677,26 @@ function compare_ispconfig_version($current,$new) {
 	
 }
 
+/*
+* Get the port number of the ISPConfig controlpanel vhost
+*/
+
+function get_ispconfig_port_number() {
+	global $conf;
+	$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
+
+	if(is_file($ispconfig_vhost_file)) {
+		$tmp = file_get_contents($ispconfig_vhost_file);
+		preg_match('/\<VirtualHost.*\:(\d{1,})\>/',$tmp,$matches);
+		$port_number = intval($matches[1]);
+		if($port_number > 0) {
+			return $port_number;
+		} else {
+			return '8080';
+		}
+	}
+}
+
 
 
 ?>
