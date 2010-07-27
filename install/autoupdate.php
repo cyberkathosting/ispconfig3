@@ -271,7 +271,7 @@ swriteln('Updating ISPConfig');
 
 
 //** Customise the port ISPConfig runs on
-$conf['apache']['vhost_port'] = get_ispconfig_port_number();;
+$conf['apache']['vhost_port'] = get_ispconfig_port_number();
 
 $inst->install_ispconfig();
 
