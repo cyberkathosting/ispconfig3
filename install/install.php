@@ -450,6 +450,10 @@ if($install_mode == 'standard') {
 		//** Customise the port ISPConfig runs on
 		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 		
+		if(strtolower($inst->simple_query('Enable SSL for the ISPConfig web interface',array('y','n'),'y')) == 'y') {
+			$inst->make_ispconfig_ssl_cert();
+		}
+		
 		$inst->install_ispconfig_interface = true;
 			
 	} else {

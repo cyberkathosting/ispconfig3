@@ -1166,6 +1166,25 @@ class installer_base {
 		}
 
 	}
+	
+	public function make_ispconfig_ssl_cert() {
+		global $conf;
+		
+		$ssl_crt_file = '/usr/local/ispconfig/interface/ssl/ispserver.crt';
+		$ssl_csr_file = '/usr/local/ispconfig/interface/ssl/ispserver.csr';
+		$ssl_key_file = '/usr/local/ispconfig/interface/ssl/ispserver.key';
+		
+		if(!is_dir('/usr/local/ispconfig/interface/ssl')) exec("mkdir -p /usr/local/ispconfig/interface/ssl");
+		
+		$ssl_pw = substr(md5(mt_rand()),0,6);
+		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
+		exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
+		exec("openssl req -x509 -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -in $ssl_csr_file -out $ssl_crt_file -days 3650");
+		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
+		exec("mv $ssl_key_file $ssl_key_file.secure");
+		exec("mv $ssl_key_file.insecure $ssl_key_file");
+		
+	}
 
 	public function install_ispconfig() {
 		global $conf;
@@ -1394,6 +1413,12 @@ class installer_base {
 			$content = str_replace('{vhost_port_listen}', '#', $content);
 		} else {
 			$content = str_replace('{vhost_port_listen}', '', $content);
+		}
+		
+		if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+			$content = str_replace('{ssl_comment}', '', $content);
+		} else {
+			$content = str_replace('{ssl_comment}', '#', $content);
 		}
 
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);

@@ -697,6 +697,24 @@ function get_ispconfig_port_number() {
 	}
 }
 
+/*
+* Get the port number of the ISPConfig controlpanel vhost
+*/
+
+function is_ispconfig_ssl_enabled() {
+	global $conf;
+	$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
+
+	if(is_file($ispconfig_vhost_file)) {
+		$tmp = file_get_contents($ispconfig_vhost_file);
+		if(stristr($tmp,'SSLCertificateFile')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 
 
 ?>

@@ -308,6 +308,11 @@ swriteln('Updating ISPConfig');
 $ispconfig_port_number = get_ispconfig_port_number();
 $conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
 
+// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
+if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate',array('y','n'),'n')) == 'y') {
+	$inst->make_ispconfig_ssl_cert();
+}
+
 $inst->install_ispconfig();
 
 //** Configure Crontab

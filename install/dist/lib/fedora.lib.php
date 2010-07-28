@@ -824,6 +824,12 @@ class installer_dist extends installer_base {
 			$content = str_replace('{vhost_port_listen}', '', $content);
 		}
 		
+		if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+			$content = str_replace('{ssl_comment}', '', $content);
+		} else {
+			$content = str_replace('{ssl_comment}', '#', $content);
+		}
+		
 		wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");

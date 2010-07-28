@@ -43,6 +43,10 @@ NameVirtualHost *:{vhost_port}
     SecRuleEngine Off
   </IfModule>
 
+  # SSL Configuration
+  {ssl_comment}SSLEngine On
+  {ssl_comment}SSLCertificateFile /usr/local/ispconfig/interface/ssl/ispserver.crt
+  {ssl_comment}SSLCertificateKeyFile /usr/local/ispconfig/interface/ssl/ispserver.key
 
 </VirtualHost>
 

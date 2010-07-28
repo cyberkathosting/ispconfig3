@@ -699,6 +699,12 @@ class installer extends installer_base
 			$content = str_replace('{vhost_port_listen}', '', $content);
 		}
 		
+		if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+			$content = str_replace('{ssl_comment}', '', $content);
+		} else {
+			$content = str_replace('{ssl_comment}', '#', $content);
+		}
+		
 		$vhost_path = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
 		$this->write_config_file($vhost_path, $content);
 		

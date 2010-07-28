@@ -633,8 +633,7 @@ class installer_dist extends installer_base {
   		unset($iptables_location);
 
 	}
-	
-	
+
 	public function install_ispconfig()
     {
 		global $conf;
@@ -836,6 +835,12 @@ class installer_dist extends installer_base {
 			$content = str_replace('{vhost_port_listen}', '#', $content);
 		} else {
 			$content = str_replace('{vhost_port_listen}', '', $content);
+		}
+		
+		if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+			$content = str_replace('{ssl_comment}', '', $content);
+		} else {
+			$content = str_replace('{ssl_comment}', '#', $content);
 		}
 		
 		$content = str_replace('/var/www/', '/srv/www/', $content);
