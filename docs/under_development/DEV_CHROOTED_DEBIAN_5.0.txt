@@ -6,35 +6,35 @@ Setting up a chrooted ispconfig 3 installation
 # Follow the steps 1 - 8 of the INSTALL_DEBIAN_5.0 Guide, then proceed
 # with the steps below.
 # 
-# This guide is experimental as there are a few cahnges nescessary in
-# ispconfig to get it workin. These changes will be part of ISPConfig 3.0.2
+# This guide is experimental as there are a few changes necessary in
+# ispconfig to get it working. These changes will be part of ISPConfig 3.0.2
 
 # Install packages
 
 apt-get install debootstrap libapache2-mod-chroot
 
-# Create the chroot enviroment
+# Create the chroot environment
 
 debootstrap lenny /var/www/ ftp://ftp.fr.debian.org/debian/
 
-# Add mountpoints for the chroot env into the fstab file.
+# Add mountpoints for the chroot env into the fstab file
 
 echo "/proc         /var/www/proc               proc           defaults        0       0">>/etc/fstab
 echo "devpts      /var/www/dev/pts            devpts         defaults        0       0">>/etc/fstab
 
-# mount the filesystems
+# mount all the filesystems
 
 mount -a
 
-# add a default chroot dir for all users of the sshusers group.
+# add a default chroot dir for all users of the sshusers group
 
 echo "@sshusers       -       chroot  /var/www/">>/etc/security/limits.conf
 
-# copy passwd and group files to the chroot env.
+# copy passwd and group files to the chroot env
 
-cp -rf /etc/apt /etc/passwd /etc/group /var/www/etc/ # Cleaning unecesary users and groups
+cp -rf /etc/apt /etc/passwd /etc/group /var/www/etc/ # Cleaning unnecessary users and groups
 
-# Create symlinks.
+# Create symlinks
 
 cd /var/www/var/
 rm -rf /var/www/var/www
@@ -55,11 +55,11 @@ apt-get install locales
 
 dpkg-reconfigure locales
 
-# run a dist upgarde.
+# run a dist-upgrade
 
 fakeroot apt-get dist-upgrade
 
-# Install apache and php in the chroot enviroment
+# Install Apache and PHP in the chroot environment
 
 apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-php5 php5 php5-common php5-gd php5-mysql php5-imap phpmyadmin php5-cli php5-cgi libapache2-mod-fcgid apache2-suexec php-pear php-auth php5-mcrypt mcrypt php5-imagick imagemagick libapache2-mod-suphp libopenssl-ruby
 /etc/init.d/apache2 stop
@@ -68,7 +68,7 @@ apt-get install apache2 apache2.2-common apache2-doc apache2-mpm-prefork apache2
 
 exit
 
-# Moving the apache configuration is not nescessary, as apache reads
+# Moving the apache configuration is not necessary, as Apache reads
 # the config files before it moves into the chroot
 # rm -rf /var/www/etc/apache2
 # mv -f /etc/apache2 /var/www/etc/
@@ -113,15 +113,15 @@ mv /usr/local/ispconfig/interface /var/www/usr/local/ispconfig/
 ln -s /var/www/usr/local/ispconfig/interface /usr/local/ispconfig/interface
 chroot /var/www adduser www-data ispconfig
 
-# Create a link for the mysql socket.
+# Create a link for the MySQL socket
 
 ln /var/run/mysqld/mysqld.sock /var/www/var/run/mysqld/mysqld.sock
 
-# As an alternative to making a hardlink to the mysql socket, 
-# change the my.cnf file in the chroot to use tcp sockets.
-# This is more secure but a bit slower then using the mysqld.sock file.
+# As an alternative to making a hardlink to the MySQL socket, 
+# change the my.cnf file in the chroot to use TCP sockets.
+# This is more secure but a bit slower than using the mysqld.sock file.
 
-# Restart apache
+# Restart Apache
 
 /etc/init.d/apache2 restart
 

@@ -134,9 +134,9 @@ swedish
 
 
 #this information could also be in two sections in there, and if most of it looks
-#like to be on place allreydy, most important change is "AddDefaultCharset off"
+#like to be on place already, most important change is "AddDefaultCharset off"
 
-# After modification, restart Apache
+# After modification, restart Apache service
 
 /etc/init.d/apache2 restart
 
