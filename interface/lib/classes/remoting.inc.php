@@ -263,8 +263,8 @@ class remoting {
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->insertQuery('../mail/form/mail_user_filter.tform.php', $client_id, $params);
-		$app->plugin->raiseEvent('mail:mail_user_filter:on_after_insert',$this);
+		$affected_rows = $this->insertQuery('../mail/form/mail_user_filter.tform.php', $client_id, $params,'mail:mail_user_filter:on_after_insert');
+		// $app->plugin->raiseEvent('mail:mail_user_filter:on_after_insert',$this);
 		return $affected_rows;
 	}
 
@@ -276,8 +276,8 @@ class remoting {
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->updateQuery('../mail/form/mail_user_filter.tform.php', $client_id, $primary_id, $params);
-		$app->plugin->raiseEvent('mail:mail_user_filter:on_after_update',$this);
+		$affected_rows = $this->updateQuery('../mail/form/mail_user_filter.tform.php', $client_id, $primary_id, $params,'mail:mail_user_filter:on_after_update');
+		// $app->plugin->raiseEvent('mail:mail_user_filter:on_after_update',$this);
 		return $affected_rows;
 	}
 
@@ -1959,7 +1959,7 @@ class remoting {
 
 
 
-	private function insertQuery($formdef_file, $client_id, $params)
+	private function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
     {
 		global $app, $tform, $remoting_lib;
 		
@@ -1987,7 +1987,7 @@ class remoting {
 		
 		$insert_id = $app->db->insertID();
 		
-		
+		if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
 	
 		//$app->uses('tform');
 		//* Save changes to Datalog
@@ -2006,7 +2006,7 @@ class remoting {
 	}
 	
 	
-	private function updateQuery($formdef_file, $client_id, $primary_id, $params)
+	private function updateQuery($formdef_file, $client_id, $primary_id, $params, $event_identifier = '')
     {
 		global $app;
 		
@@ -2041,6 +2041,8 @@ class remoting {
 		}
 		
 		$affected_rows = $app->db->affectedRows();
+		
+		if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
 		
 		//* Save changes to Datalog
 		if($app->remoting_lib->formDef["db_history"] == 'yes') {
