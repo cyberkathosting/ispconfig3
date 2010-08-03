@@ -1944,20 +1944,11 @@ class remoting {
 		//* Save changes to Datalog
 		if($app->remoting_lib->formDef["db_history"] == 'yes') {
 			$new_rec = $app->remoting_lib->getDataRecord($insert_id);
-			$app->remoting_lib->datalogSave('INSERT',$primary_id,array(),$new_rec);
-			
-		$app->remoting_lib->ispconfig_sysuser_add($params,$insert_id);
-
+			$app->remoting_lib->datalogSave('INSERT',$primary_id,array(),$new_rec);			
+			$app->remoting_lib->ispconfig_sysuser_add($params,$insert_id);
 		}
-		
-		
-		
-		
 		return $insert_id;
 	}
-
-
-
 
 	private function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
     {
@@ -1987,21 +1978,18 @@ class remoting {
 		
 		$insert_id = $app->db->insertID();
 		
+		// set a few values for compatibility with tform actions, mostly used by plugins
+		$this->id = $insert_id;
+		$this->dataRecord = $params;
+		
 		if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
 	
 		//$app->uses('tform');
 		//* Save changes to Datalog
 		if($app->remoting_lib->formDef["db_history"] == 'yes') {
 			$new_rec = $app->remoting_lib->getDataRecord($insert_id);
-			$app->remoting_lib->datalogSave('INSERT',$primary_id,array(),$new_rec);
-			
-		}
-		
-		// set a few values for compatibility with tform actions, mostly used by plugins
-		$this->id = $insert_id;
-		$this->dataRecord = $params;
-		
-		
+			$app->remoting_lib->datalogSave('INSERT',$primary_id,array(),$new_rec);			
+		}		
 		return $insert_id;
 	}
 	
@@ -2032,7 +2020,6 @@ class remoting {
 		$this->id = $primary_id;
 		$this->dataRecord = $params;
 		
-		
 		$app->db->query($sql);
 		
 		if($app->db->errorMessage != '') {
@@ -2049,8 +2036,6 @@ class remoting {
 			$new_rec = $app->remoting_lib->getDataRecord($primary_id);
 			$app->remoting_lib->datalogSave('UPDATE',$primary_id,$old_rec,$new_rec);
 		}
-		
-		
 		
 		return $affected_rows;
 	}
@@ -2131,5 +2116,4 @@ class remoting {
 		}
 	}
 }
-
 ?>
