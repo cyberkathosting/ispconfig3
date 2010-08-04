@@ -122,14 +122,14 @@ class remoting {
         return ($app->db->affectedRows() == 1);
 	}
 	
-	// Get server details
-        /**
-        Gets the server configuration
-        @param int session id
-        @param int server id
-        @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
-        @author Julio Montoya <gugli100@gmail.com>
-        */
+
+    /**
+	    Gets the server configuration
+	    @param int session id
+	    @param int server id
+	    @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+	    @author Julio Montoya <gugli100@gmail.com> BeezNest 2010
+    */
     public function server_get($session_id, $server_id, $section ='') {
         global $app;        
         if(!$this->checkPerm($session_id, 'server_get')) {
@@ -2084,7 +2084,7 @@ class remoting {
 	
 	private function checkPerm($session_id, $function_name)
     {
-	$dobre=Array();
+	$dobre=array();
 	$session = $this->getSession($session_id);
         if(!$session){
             return false;
@@ -2116,5 +2116,227 @@ class remoting {
 			return false;
 		}
 	}
+	
+	//---
+	
+	
+	/**
+	 * Gets sites by $sys_userid & $sys_groupid
+	 * @param	int		session id
+	 * @param	int		user id
+	 * @param	array	list of groups
+	 * @return	mixed	array with sites by user
+	 * @author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+	public function client_get_sites_by_user($session_id, $sys_userid, $sys_groupid) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'client_get_sites_by_user')) {
+              $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+              return false;
+        }
+        $sys_userid  = intval($sys_userid);        
+        $sys_groupid = explode(',', $sys_groupid);
+        $new_group = array();
+        foreach($sys_groupid as $group_id) {
+			$new_group[] = intval( $group_id);
+        }
+        $group_list = implode(',', $new_group);
+		$sql ="SELECT domain, domain_id, document_root FROM web_domain WHERE ( (sys_userid = $sys_userid  AND sys_perm_user LIKE '%r%') OR (sys_groupid IN ($group_list) AND sys_perm_group LIKE '%r%') OR  sys_perm_other LIKE '%r%') AND type = 'vhost'";
+        $result = $app->db->queryAllRecords($sql);
+        if(isset($result)) {
+			return $result;
+        } else {
+			$this->server->fault('no_client_found', 'There is no site for this user');
+			return false;
+        }
+    }
+    
+    /**
+     * Change domains status
+	 * @param	int		session id
+	 * @param	int		site id
+	 * @param	string	active or inactive string 
+	 * @return	mixed	false if error
+	 * @author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+	 
+    public function sites_web_domain_set_status($session_id, $primary_id, $status) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'sites_web_domain_set_status')) {
+            $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+        }        
+        if(in_array($status, array('active', 'inactive'))) {        	    	
+        	if ($status == 'active') {
+        		$status = 'y';
+        	} else {
+        		$status = 'n';
+        	}
+	        $sql = "UPDATE web_domain SET active = '$status' WHERE domain_id = ".intval($primary_id);	        
+	        $app->db->query($sql);
+	        $result = $app->db->affectedRows();	
+	         return $result;
+        } else {
+			$this->server->fault('status_undefined', 'The status is not available');
+			return false;
+        }      
+	}
+	
+	/**
+	 * Get sys_user information by username
+	 * @param	int		session id
+	 * @param	string	user's name  
+	 * @return	mixed	false if error
+	 * @author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+	public function client_get_by_username($session_id, $username) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'client_get_by_username')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+        }
+        $username = $app->db->quote($username);
+        $rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = '".$username."'");
+        if (isset($rec)) {
+			return $rec;
+        } else {
+			$this->server->fault('no_client_found', 'There is no user account for this user name.');
+			return false;
+        }
+    }
+
+    /**
+     * Changes client password
+     * 
+  	 * @param	int		session id
+  	 * @param	int		client	id
+  	 * @param	string	new password
+  	 * @return	bool	true if success 
+	 * @author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+     * 
+     */
+    public function client_change_password($session_id, $client_id, $new_password) {
+        global $app;
+
+        if(!$this->checkPerm($session_id, 'client_change_password')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+        }
+        $client_id = intval($client_id);
+        $client = $app->db->queryOneRecord("SELECT client_id FROM client WHERE client_id = ".$client_id);
+        if($client['client_id'] > 0) {
+            $new_password = $app->db->quote($new_password);
+            $sql = "UPDATE client SET password = md5('".($new_password)."') 	WHERE client_id = ".$client_id;
+            $app->db->query($sql);            
+            $sql = "UPDATE sys_user SET passwort = md5('".($new_password)."') 	WHERE client_id = ".$client_id;
+            $app->db->query($sql);            
+            return true;
+        } else {
+			$this->server->fault('no_client_found', 'There is no user account for this client_id');
+			return false;
+        }
+    }
+    
+    
+	/**
+   	* Get a list of functions
+   	* @param 	int		session id
+   	* @return	mixed	array of the available functions
+    * @author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+    */
+    public function get_function_list($session_id) 
+    {
+        if(!$this->checkPerm($session_id, 'get_function_list')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+        }
+        return get_class_methods($this);
+    }
+    
+    /**
+     * Get all databases by user
+     * @author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+     */
+	public function sites_database_get_all_by_user($session_id, $client_id)
+    {
+        global $app;
+		if(!$this->checkPerm($session_id, 'sites_database_get_all_by_user')) {
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+        $client_id = intval($client_id);
+        $sql = "SELECT database_id, database_name, database_user, database_password FROM web_database WHERE sys_userid  = $client_id ";
+        $all = $app->db->queryAllRecords($sql);
+        return $all;
+	}
+	
+	/**
+	 * 	Get all client templates
+	 *	@param 	int		session id
+	 *	@author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+	public function client_templates_get_all($session_id) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'client_templates_get_all')) {
+			 $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+        $sql    = "SELECT * FROM client_template";
+		$result = $app->db->queryAllRecords($sql);
+        return $result;
+   }
+	
+	/**
+	 * Get all DNS zone by user 
+	 *@author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+	 /*
+	  I will update this function
+    public function dns_zone_get_by_user($session_id, $client_id, $server_id) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+                //$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+                //return false;
+        }        
+        if (!empty($client_id) && !empty($server_id)) {
+        	$server_id      = intval($server_id);
+        	$client_id      = intval($client_id);
+    	    $sql            = "SELECT id, origin FROM dns_soa d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = '$client_id' AND server_id = $server_id";
+        	$result         = $app->db->queryAllRecords($sql);
+        	return          $result;
+        }
+        return false;
+    }
+    */
+    
+	/**
+	 * Changes DNS zone status 
+	 *	@param 	int		session id
+	 *	@param	int		dns soa id
+	 *	@param	string	status active or inactive string
+	 *	@author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+	 
+    public function dns_zone_set_status($session_id, $primary_id, $status) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'dns_zone_set_status')) {
+              $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+               return false;
+        }        
+        if(in_array($status, array('active', 'inactive'))) {	    	        	
+	    	if ($status == 'active') {
+	    		$status = 'y';
+	    	} else {
+	    		$status = 'n';
+	    	}
+	        $sql = "UPDATE dns_soa SET active = '$status' WHERE id = ".intval($primary_id);
+	        $app->db->query($sql);
+	        $result = $app->db->affectedRows();
+	        return $result;
+        } else {
+			$this->server->fault('status_undefined', 'The status is not available');
+			return false;
+        }  
+    }
 }
 ?>
