@@ -1197,7 +1197,8 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->insertQuery('../sites/form/web_domain.tform.php',$client_id,$params);
+		$affected_rows =  $this->insertQuery('../sites/form/web_domain.tform.php',$client_id,$params, 'sites:web_domain:on_after_insert');
+		return $affected_rows;		
 	}
 	
 	//* Update a record
