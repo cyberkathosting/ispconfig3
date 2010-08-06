@@ -2365,7 +2365,7 @@ class remoting {
 	    	} else {
 	    		$status = 'n';
 	    	}
-	        $sql = "UPDATE mail_domain SET active = '$status' WHERE id = ".intval($primary_id);
+	        $sql = "UPDATE mail_domain SET active = '$status' WHERE domain_id = ".intval($primary_id);
 	        $app->db->query($sql);
 	        $result = $app->db->affectedRows();
 	        return $result;
