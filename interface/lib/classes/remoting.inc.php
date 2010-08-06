@@ -2237,6 +2237,22 @@ class remoting {
         }
     }
     
+	public function mail_domain_get_by_domain($session_id, $domain) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'mail_domain_get_by_domain')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+        }        
+        if (!empty($domain_id)) {
+        	$domain      	= $app->db->quote($domain);        	
+    	    $sql            = "SELECT * FROM mail_domain WHERE domain = $domain";
+        	$result         = $app->db->queryAllRecords($sql);
+        	return          $result;
+        }
+        return false;
+    }
+    
+    
     
 	/**
    	* Get a list of functions
@@ -2289,25 +2305,23 @@ class remoting {
 	/**
 	 * Get all DNS zone by user 
 	 *@author	Julio Montoya <gugli100@gmail.com> BeezNest 2010
-	 */
-	 /*
-	  I will update this function
+	 */	 
     public function dns_zone_get_by_user($session_id, $client_id, $server_id) {
         global $app;
         if(!$this->checkPerm($session_id, 'dns_zone_get')) {
-                //$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
-                //return false;
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
         }        
         if (!empty($client_id) && !empty($server_id)) {
         	$server_id      = intval($server_id);
         	$client_id      = intval($client_id);
-    	    $sql            = "SELECT id, origin FROM dns_soa d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = '$client_id' AND server_id = $server_id";
+    	    $sql            = "SELECT id, origin FROM dns_soa d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id AND server_id = $server_id";
         	$result         = $app->db->queryAllRecords($sql);
         	return          $result;
         }
         return false;
     }
-    */
+    
     
 	/**
 	 * Changes DNS zone status 
@@ -2325,11 +2339,33 @@ class remoting {
         }        
         if(in_array($status, array('active', 'inactive'))) {	    	        	
 	    	if ($status == 'active') {
+	    		$status = 'Y';
+	    	} else {
+	    		$status = 'N';
+	    	}
+	        $sql = "UPDATE dns_soa SET active = '$status' WHERE id = ".intval($primary_id);
+	        $app->db->query($sql);
+	        $result = $app->db->affectedRows();
+	        return $result;
+        } else {
+			$this->server->fault('status_undefined', 'The status is not available');
+			return false;
+        }  
+    }
+    
+    public function mail_domain_set_status($session_id, $primary_id, $status) {
+        global $app;
+        if(!$this->checkPerm($session_id, 'mail_domain_set_status')) {
+              $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+               return false;
+        }        
+        if(in_array($status, array('active', 'inactive'))) {	    	        	
+	    	if ($status == 'active') {
 	    		$status = 'y';
 	    	} else {
 	    		$status = 'n';
 	    	}
-	        $sql = "UPDATE dns_soa SET active = '$status' WHERE id = ".intval($primary_id);
+	        $sql = "UPDATE mail_domain SET active = '$status' WHERE id = ".intval($primary_id);
 	        $app->db->query($sql);
 	        $result = $app->db->affectedRows();
 	        return $result;
