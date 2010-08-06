@@ -147,7 +147,7 @@ class mysql_clientdb_plugin {
 			if (mysql_query('CREATE DATABASE '.mysql_real_escape_string($data["new"]["database_name"]).$query_charset_table,$link)) {
 				$app->log('Created MySQL database: '.$data["new"]["database_name"],LOGLEVEL_DEBUG);
 			} else {
-				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+				$app->log('Unable to create the database'.mysql_error($link),LOGLEVEL_WARNING);
 			}
 			
 			// Create the database user if database is active
@@ -284,20 +284,20 @@ class mysql_clientdb_plugin {
 			 	if($this->process_host_list("DROP", "", $data["old"]["database_user"], "", $data["old"]["remote_ips"], $link)) {
         	$app->log('Dropping mysql user: '.$data["old"]["database_user"],LOGLEVEL_DEBUG);
 				} else {
-					$app->log('Error while dropping mysql user: '.$data["old"]["database_user"].' '.mysql_error($link),LOGLEVEL_ERROR);
+					$app->log('Error while dropping mysql user: '.$data["old"]["database_user"].' '.mysql_error($link),LOGLEVEL_WARNING);
 				}
 			}
 			$db_host = 'localhost';
 			if(mysql_query("DROP USER '".mysql_real_escape_string($data["old"]["database_user"],$link)."'@'$db_host';",$link)) {
 				$app->log('Dropping mysql user: '.$data["old"]["database_user"],LOGLEVEL_DEBUG);
 			} else {
-				$app->log('Error while dropping mysql user: '.$data["old"]["database_user"].' '.mysql_error($link),LOGLEVEL_ERROR);
+				$app->log('Error while dropping mysql user: '.$data["old"]["database_user"].' '.mysql_error($link),LOGLEVEL_WARNING);
 			}
 			
 			if(mysql_query('DROP DATABASE '.mysql_real_escape_string($data["old"]["database_name"],$link),$link)) {
 				$app->log('Dropping mysql database: '.$data["old"]["database_name"],LOGLEVEL_DEBUG);
 			} else {
-				$app->log('Error while dropping mysql database: '.$data["old"]["database_name"].' '.mysql_error($link),LOGLEVEL_ERROR);
+				$app->log('Error while dropping mysql database: '.$data["old"]["database_name"].' '.mysql_error($link),LOGLEVEL_WARNING);
 			}
 			
 			mysql_query("FLUSH PRIVILEGES;",$link);
