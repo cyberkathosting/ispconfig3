@@ -415,9 +415,9 @@ class apache2_plugin {
 				}
 				else {
 					exec("cp /usr/local/ispconfig/server/conf/index/standard_index.html_".substr(escapeshellcmd($conf["language"]),0,2)." ".escapeshellcmd($data["new"]["document_root"])."/web/index.html");
-					exec("cp /usr/local/ispconfig/server/conf/index/favicon.ico ".escapeshellcmd($data["new"]["document_root"])."/web/");
-					exec("cp /usr/local/ispconfig/server/conf/index/robots.txt ".escapeshellcmd($data["new"]["document_root"])."/web/");
-					exec("cp /usr/local/ispconfig/server/conf/index/.htaccess ".escapeshellcmd($data["new"]["document_root"])."/web/");
+					if(is_file('/usr/local/ispconfig/server/conf/index/favicon.ico')) exec("cp /usr/local/ispconfig/server/conf/index/favicon.ico ".escapeshellcmd($data["new"]["document_root"])."/web/");
+					if(is_file('/usr/local/ispconfig/server/conf/index/robots.txt')) exec("cp /usr/local/ispconfig/server/conf/index/robots.txt ".escapeshellcmd($data["new"]["document_root"])."/web/");
+					if(is_file('/usr/local/ispconfig/server/conf/index/.htaccess')) exec("cp /usr/local/ispconfig/server/conf/index/.htaccess ".escapeshellcmd($data["new"]["document_root"])."/web/");
 				}
 			}
 			exec("chmod -R a+r ".escapeshellcmd($data["new"]["document_root"])."/web/");
