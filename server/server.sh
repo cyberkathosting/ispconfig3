@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/X11R6/bin
 
