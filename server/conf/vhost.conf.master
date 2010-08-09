@@ -126,6 +126,7 @@
 <tmpl_if name='php' op='==' value='suphp'>
     # suphp enabled
     <Directory {tmpl_var name='web_document_root'}>
+		<IfModule mod_suphp.c>
         suPHP_Engine on
         # suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 <tmpl_if name='has_custom_php_ini'>
@@ -133,6 +134,7 @@
 </tmpl_if>
         AddHandler x-httpd-suphp .php .php3 .php4 .php5
         suPHP_AddHandler x-httpd-suphp
+		</IfModule>
     </Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
