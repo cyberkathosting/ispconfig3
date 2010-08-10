@@ -69,8 +69,8 @@ class monitor_core_module {
 
 	//** Get distribution identifier
 	//** IMPORTANT!
-	//   This is the same code as in /install/install.php
-	//   So if you change it here, you also have to change it in /install/install.php!
+	//   This is the same code as in install/lib/install.lib.php
+	//   So if you change it here, you also have to change it in there!
 	//   Please do not forget to remove the swriteln(); - lines here at this file
 	function get_distname() {
 
@@ -838,11 +838,11 @@ class monitor_core_module {
 		/** The type of the data */
 		$type = 'system_update';
 
-		/* This monitoring is only available at debian or Ubuntu */
+		/* This monitoring is only available on Debian or Ubuntu */
 		if(file_exists('/etc/debian_version')) {
 
 			/*
-             * first update the "update-database"
+             * first update the "apt database"
 			*/
 			shell_exec('apt-get update');
 
@@ -914,7 +914,7 @@ class monitor_core_module {
 		}
 		else {
 			/*
-             * It is not debian/Ubuntu, so there is no data and no state
+             * It is not Debian/Ubuntu, so there is no data and no state
              *
              * no_state, NOT unknown, because "unknown" is shown as state
              * inside the GUI. no_state is hidden.
@@ -1001,16 +1001,15 @@ class monitor_core_module {
 		$type = 'raid_state';
 
 		/*
-		 * We support some RAIDS. But if we can't find any of them, we have no data
+		 * We support several RAID types, but if we can't find any of them, we have no data
 		*/
 		$state = 'no_state';
 		$data['output']= '';
 
 		/*
-		 * Check, if we have mdadm installed (software-raid)
+		 * Check, if Software-RAID is enabled
 		*/
-		system('which mdadm', $retval);
-		if($retval === 0) {
+		if(file_exists('/proc/mdstat')) {
 			/*
              * Fetch the output
 			*/
