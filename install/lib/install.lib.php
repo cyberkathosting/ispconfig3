@@ -57,9 +57,8 @@ $FILE = realpath('../install.php');
 
 //** Get distribution identifier
 //** IMPORTANT!
-//   This is the same code as in /server/mods-available/monitor_core_module.inc.php
-//   So if you change it here, you also have to change it in
-//   /server/mods-available/monitor_core_module.inc.php!
+//   This is the same code as in server/mods-available/monitor_core_module.inc.php
+//   So if you change it here, you also have to change it in there!
 function get_distname() {
 	
 	$distname = '';
