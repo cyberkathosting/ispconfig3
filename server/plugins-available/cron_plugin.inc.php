@@ -133,7 +133,7 @@ class cron_plugin {
 			exec("setquota -T -u $username 604800 604800 -a &> /dev/null");
 		}
 		
-		// make temp direcory writable for the apache user and the website user
+		// make temp directory writable for the apache and website users
 		exec("chmod 777 ".escapeshellcmd($parent_domain["document_root"]."/tmp"));
 		
         /** TODO READ CRON MASTER **/

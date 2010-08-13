@@ -489,7 +489,7 @@ class apache2_plugin {
 			$this->_exec("chmod 751 ".escapeshellcmd($data["new"]["document_root"])."/*");
 			$this->_exec("chmod 710 ".escapeshellcmd($data["new"]["document_root"]."/web"));
 
-			// make temp direcory writable for the apache user and the website user
+			// make temp directory writable for the apache and website users
 			$this->_exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
 
 			$command = 'usermod';
@@ -534,7 +534,7 @@ class apache2_plugin {
 			$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"]."/*"));
 			$this->_exec("chown root:root ".escapeshellcmd($data["new"]["document_root"]."/"));
 
-			// make temp direcory writable for the apache user and the website user
+			// make temp directory writable for the apache and website users
 			$this->_exec("chmod 777 ".escapeshellcmd($data["new"]["document_root"]."/tmp"));
 		}
 
