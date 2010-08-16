@@ -181,7 +181,7 @@ class monitor_core_module {
 			$distbaseid = 'gentoo';
 
 		} else {
-			die('unrecognized linux distribution');
+			die('unrecognized Linux distribution');
 		}
 
 		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
