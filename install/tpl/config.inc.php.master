@@ -84,19 +84,21 @@ $conf["dbmaster_password"]		= '{mysql_master_server_ispconfig_password}';
 
 
 //** Paths
-define('ISPC_ROOT_PATH', realpath(dirname(__FILE__).'/../')); // The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
+define('ISPC_ROOT_PATH', realpath(dirname(__FILE__).'/../')); // Main ROOT is the parent directory to this file, ie interface/ or server/. NO trailing slashes.
 define('ISPC_LIB_PATH', ISPC_ROOT_PATH.'/lib');
 define('ISPC_CLASS_PATH', ISPC_ROOT_PATH.'/lib/classes');
 define('ISPC_WEB_PATH', ISPC_ROOT_PATH.'/web');
 define('ISPC_THEMES_PATH', ISPC_ROOT_PATH.'/web/themes');
 define('ISPC_WEB_TEMP_PATH', ISPC_WEB_PATH.'/temp'); // Path for downloads, accessible via browser
 define('ISPC_CACHE_PATH', ISPC_ROOT_PATH.'/cache');
+define('ISPC_LOG_PATH', '/var/log/ispconfig');
 
 //** Paths (Do not change!)
 $conf["rootpath"] = substr(dirname(__FILE__),0,-4);
-$conf["fs_div"] = "/"; // File system divider, "\\" on windows and "/"" on linux and unix
+$conf["fs_div"] = "/"; // File system separator, "\\" on Windows and "/"" on Linux and UNIX
 $conf["classpath"] = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
 $conf["temppath"] = $conf["rootpath"].$conf["fs_div"]."temp";
+$conf["logpath"] = ISPC_LOG_PATH;
 
 define("FS_DIV",$conf["fs_div"]);
 define("SERVER_ROOT",$conf["rootpath"]);
@@ -117,7 +119,7 @@ $conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools';
 
 
 //** Logging
-$conf["log_file"] = '/var/log/ispconfig/ispconfig.log';
+$conf["log_file"] = $conf["logpath"].$conf["fs_div"]."ispconfig.log";
 $conf["log_priority"] = {ispconfig_log_priority}; // 0 = Debug, 1 = Warning, 2 = Error
 
 
