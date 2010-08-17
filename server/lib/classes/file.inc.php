@@ -158,52 +158,6 @@ class file{
       return $ret_val;
     }
     
-    function find_includes($file){
-      ob_start();
-      $httpd_root = system('httpd -V | awk -F"\"" \'$1==" -D HTTPD_ROOT="{print $2}\'');
-      ob_end_clean();
-      clearstatcache();
-      if(is_file($file) && filesize($file) > 0){
-        $includes[] = $file;
-        $inhalt = $this->unix_nl($this->no_comments($file));
-        $lines = explode("\n", $inhalt);
-        if(!empty($lines)){
-          foreach($lines as $line){
-            if(stristr($line, "include ")){
-              $include_file = str_replace("\n", "", trim(shell_exec("echo \"$line\" | awk '{print \$2}'")));
-              if(substr($include_file,0,1) != "/"){
-                $include_file = $httpd_root."/".$include_file;
-              }
-              if(is_file($include_file)){
-                if($further_includes = $this->find_includes($include_file)){
-                  $includes = array_merge($includes, $further_includes);
-                }
-              } else {
-                if(strstr($include_file, "*")){
-                  $more_files = explode("\n", shell_exec("ls -l $include_file | awk '{print \$9}'"));
-                  if(!empty($more_files)){
-                    foreach($more_files as $more_file){
-                      if(is_file($more_file)){
-                        if($further_includes = $this->find_includes($more_file)){
-                          $includes = array_merge($includes, $further_includes);
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      if(is_array($includes)){
-        $includes = array_unique($includes);
-        return $includes;
-      } else {
-        return false;
-      }
-    }
-    
     function edit_dist($var, $val){
       global $$var;
       $files = array("/root/ispconfig/dist.inc.php");
