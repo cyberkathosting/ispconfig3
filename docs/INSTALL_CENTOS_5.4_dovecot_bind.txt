@@ -204,7 +204,7 @@ Now start the installation process by executing:
 
 php -q install.php
 
-The installer will configure all services like postfix, sasl, courier, etc. for you. A manual setup as required for ISPConfig 2 (perfect setup guides) is not nescessary. To login to the ISPConfig controlpanel, open the following URL in your browser (replace the IP to match your settings!):
+The installer will configure all services like postfix, sasl, courier, etc. for you. A manual setup as required for ISPConfig 2 (perfect setup guides) is not necessary. To login to the ISPConfig controlpanel, open the following URL in your browser (replace the IP to match your settings!):
 
 http://192.168.0.100:8080/
 
