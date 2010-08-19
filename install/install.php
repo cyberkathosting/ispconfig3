@@ -71,9 +71,9 @@ define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 //** Get distribution identifier
 $dist = get_distname();
 
-if($dist['id'] == '') die('Linux Distribution or Version not recognized.');
+if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
-//** Include the distribution specific installer class library and configuration
+//** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
 include_once('dist/lib/'.$dist['id'].'.lib.php');
 include_once('dist/conf/'.$dist['id'].'.conf.php');
@@ -88,7 +88,7 @@ swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installe
 
 //** Check log file is writable (probably not root or sudo)
 if(!is_writable(dirname(ISPC_LOG_FILE))){
-    die("ERROR: Cannot write to the directory ".dirname(ISPC_LOG_FILE).". Are you root or sudo ?\n\n");
+    die("ERROR: Cannot write to the ".dirname(ISPC_LOG_FILE)." directory. Are you root or sudo ?\n\n");
 }
 
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
@@ -116,7 +116,7 @@ $conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the ser
 unset($tmp_out);
 
 // Check if the mysql functions are loaded in PHP
-if(!function_exists('mysql_connect')) die('No PHP mysql functions available. Please ensure that the PHP mysql module is loaded.');
+if(!function_exists('mysql_connect')) die('No PHP MySQL functions available. Please ensure that the PHP MySQL module is loaded.');
 
 //** Get MySQL root credentials
 $finished = false;
@@ -124,43 +124,43 @@ do {
 	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname', $conf['mysql']['host']);
 	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user']);
 	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
-    $tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database']);
-    $tmp_mysql_server_charset = $inst->free_query('MySQL charset', $conf['mysql']['charset']);
+	$tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database']);
+	$tmp_mysql_server_charset = $inst->free_query('MySQL charset', $conf['mysql']['charset']);
 	
 	//* Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
 		$conf['mysql']['host'] = $tmp_mysql_server_host;
 		$conf['mysql']['admin_user'] = $tmp_mysql_server_admin_user;
 		$conf['mysql']['admin_password'] = $tmp_mysql_server_admin_password;
-        $conf['mysql']['database'] = $tmp_mysql_server_database;
-        $conf['mysql']['charset'] = $tmp_mysql_server_charset;
+		$conf['mysql']['database'] = $tmp_mysql_server_database;
+		$conf['mysql']['charset'] = $tmp_mysql_server_charset;
 		$finished = true;
 	} else {
-		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+		swriteln($inst->lng('Unable to connect to the specified MySQL server').' '.mysql_error());
 	}
 } while ($finished == false);
 unset($finished);
 
-// Resolve the IP address of the mysql hostname.
+// Resolve the IP address of the MySQL hostname.
 $tmp = explode(':',$conf['mysql']['host']);
 if(!$conf['mysql']['ip'] = gethostbyname($tmp[0])) die('Unable to resolve hostname'.$tmp[0]);
 unset($tmp);
 
 
-//** initializing database connection
+//** Initializing database connection
 include_once('lib/mysql.lib.php');
 $inst->db = new db();
 
 //** Begin with standard or expert installation
 if($install_mode == 'standard') {
 	
-	//* Create the mysql database
+	//* Create the MySQL database
 	$inst->configure_database();
 	
 	//* Insert the Server record into the database
 	$inst->add_database_server_record();
 
-	//* Configure postfix
+	//* Configure Postfix
 	$inst->configure_postfix();
 	
 	//* Configure jailkit
@@ -168,7 +168,7 @@ if($install_mode == 'standard') {
 	$inst->configure_jailkit();
 	
 	if($conf['dovecot']['installed'] == true) {
-		//* Configure dovecot
+		//* Configure Dovecot
 		swriteln('Configuring Dovecot');
 		$inst->configure_dovecot();
 	} else {
@@ -180,7 +180,7 @@ if($install_mode == 'standard') {
 		swriteln('Configuring PAM');
 		$inst->configure_pam();
 		
-		//* Configure courier
+		//* Configure Courier
 		swriteln('Configuring Courier');
 		$inst->configure_courier();
 	}
@@ -218,8 +218,8 @@ if($install_mode == 'standard') {
 	swriteln('Configuring Apache');
 	$inst->configure_apache();
 	
-    //** Configure vlogger
-    swriteln('Configuring vlogger');
+    //** Configure Vlogger
+    swriteln('Configuring Vlogger');
     $inst->configure_vlogger();
 	
 	//** Configure apps vhost
@@ -233,7 +233,7 @@ if($install_mode == 'standard') {
 	//* Configure ISPConfig
 	swriteln('Installing ISPConfig');
 	
-	//** Customise the port ISPConfig runs on
+	//** Customize the port ISPConfig runs on
 	$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', '8080');
 
 	$inst->install_ispconfig();
@@ -243,7 +243,7 @@ if($install_mode == 'standard') {
 	$inst->configure_dbserver();
 
 	//* Configure ISPConfig
-	swriteln('Installing Crontab');
+	swriteln('Installing ISPConfig crontab');
 	$inst->install_crontab();
 	
 	swriteln('Restarting services ...');
@@ -408,14 +408,14 @@ if($install_mode == 'standard') {
 	}
 	
 	//** Configure Apache
-	swriteln("\nHint: If this server shall run the ispconfig interface, select 'y' in the 'Configure Apache Server' option.\n");
+	swriteln("\nHint: If this server shall run the ISPConfig interface, select 'y' in the 'Configure Apache Server' option.\n");
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
 		$conf['services']['web'] = true;
 		swriteln('Configuring Apache');
 		$inst->configure_apache();
         
-        //** Configure vlogger
-        swriteln('Configuring vlogger');
+        //** Configure Vlogger
+        swriteln('Configuring Vlogger');
         $inst->configure_vlogger();
 		
 		//** Configure apps vhost
@@ -430,7 +430,7 @@ if($install_mode == 'standard') {
 	}
 	
 	//** Configure ISPConfig :-)
-	if(strtolower($inst->simple_query('Install ISPConfig Web-Interface',array('y','n'),'y')) == 'y') {
+	if(strtolower($inst->simple_query('Install ISPConfig Web Interface',array('y','n'),'y')) == 'y') {
 		swriteln('Installing ISPConfig');
 		
 		//** We want to check if the server is a module or cgi based php enabled server
@@ -467,7 +467,7 @@ if($install_mode == 'standard') {
 	$inst->configure_dbserver();
 		
 	//* Configure ISPConfig
-	swriteln('Installing Crontab');
+	swriteln('Installing ISPConfig crontab');
 	$inst->install_crontab();
 	if($conf['apache']['init_script'] != '' && @is_file($conf['init_scripts'].'/'.$conf['apache']['init_script'])) system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
 	

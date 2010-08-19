@@ -41,7 +41,7 @@ Administration module
 --------------------------------------
 
 - Add a firewall configuration form. Any suggestions for a good firewall
-  script that runs on many linux distributions, or shall we stay with bastille
+  script that runs on many Linux distributions, or shall we stay with Bastille
   firewall that is used in ISPConfig 2?
 
 
@@ -75,7 +75,7 @@ Remoting framework
 Interface
 --------------------------------------
 
-- Enhance the list function to allow soorting by column
+- Enhance the list function to allow sorting by column
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
 - Use graphical Icons in the lists for on / off columns.
 - Add a graphical delete button to the lists.

@@ -77,9 +77,9 @@ include_once("/usr/local/ispconfig/server/lib/config.inc.php");
 $conf_old = $conf;
 unset($conf);
 
-if($dist['id'] == '') die('Linux Dustribution or Version not recognized.');
+if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
-//** Include the distribution specific installer class library and configuration
+//** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
 include_once('dist/lib/'.$dist['id'].'.lib.php');
 include_once('dist/conf/'.$dist['id'].'.conf.php');
@@ -128,7 +128,7 @@ include_once('lib/mysql.lib.php');
 
 /*
  * Try to read the DB-admin settings
-*/
+ */
 $clientdb_host			= '';
 $clientdb_user			= '';
 $clientdb_password		= '';
@@ -174,12 +174,12 @@ if($conf['mysql']['master_slave_setup'] != 'y') {
 
 /*
  *  dump the new Database and reconfigure the server.ini
-*/
+ */
 updateDbAndIni();
 
 /*
  * Reconfigure all Services
-*/
+ */
 if($conf['services']['mail'] == true) {
 	//** Configure postfix
 	swriteln('Configuring Postfix');

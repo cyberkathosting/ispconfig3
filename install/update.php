@@ -66,7 +66,7 @@ define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
 //** Check for ISPConfig 2.x versions
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
-	die('This software can not be installed on a server wich runs ISPConfig 2.x.');
+	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');
 }
 
 //** Get distribution identifier
@@ -76,9 +76,9 @@ include_once("/usr/local/ispconfig/server/lib/config.inc.php");
 $conf_old = $conf;
 unset($conf);
 
-if($dist['id'] == '') die('Linux Distribution or Version not recognized.');
+if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
-//** Include the distribution specific installer class library and configuration
+//** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
 include_once('dist/lib/'.$dist['id'].'.lib.php');
 include_once('dist/conf/'.$dist['id'].'.conf.php');
@@ -87,7 +87,6 @@ include_once('dist/conf/'.$dist['id'].'.conf.php');
 exec('hostname -f', $tmp_out);
 $conf['hostname'] = $tmp_out[0];
 unset($tmp_out);
-
 
 //** Set the mysql login information
 $conf["mysql"]["host"] = $conf_old["db_host"];
@@ -286,13 +285,13 @@ if($reconfigure_services_answer == 'yes') {
 		swriteln('Configuring Apps vhost');
 		$inst->configure_apps_vhost();
 	}
-	
+
 
 	//* Configure DBServer
 	swriteln('Configuring Database');
 	$inst->configure_dbserver();
 
-	
+
 	//if(@is_dir('/etc/Bastille')) {
 	//* Configure Firewall
 	swriteln('Configuring Firewall');
