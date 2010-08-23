@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox';
-$wb['email_txt'] = 'Emailadresse';
-$wb['autoresponder_txt'] = 'Autoresponder';
-$wb['add_new_record_txt'] = 'Neue Mailbox hinzufügen';
-$wb['name_txt'] = 'Realname';
+$wb['list_head_txt'] = "Mailbox";
+$wb['email_txt'] = "E-Mail-Adresse";
+$wb['autoresponder_txt'] = "Autoresponder";
+$wb['add_new_record_txt'] = "Neue Mailbox hinzufügen";
+$wb['name_txt'] = "Realname";
 ?>
+

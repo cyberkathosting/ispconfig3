@@ -7,3 +7,4 @@ $wb['Support'] = 'Support';
 $wb['About ISPConfig'] = 'Über ISPConfig';
 $wb['Version'] = 'Version';
 ?>
+

@@ -1,13 +1,14 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['type_txt'] = 'Typ';
-$wb['active_txt'] = 'Aktiv';
-$wb['domain_error_empty'] = 'Domain ist leer';
-$wb['domain_error_unique'] = 'Doppelte Domain.';
-$wb['domain_error_regex'] = 'Ungültiger Domainname.';
-$wb['client_txt'] = 'Kunde';
-$wb['limit_maildomain_txt'] = 'Die maximale Anzahl an Emaildomains für ihr Konto wurde erreicht.';
-$wb['policy_txt'] = 'Spamfilter';
-$wb['no_policy'] = '- nicht aktiviert -';
+$wb['server_id_txt'] = "Server";
+$wb['domain_txt'] = "Domain";
+$wb['type_txt'] = "Typ";
+$wb['active_txt'] = "Aktiv";
+$wb['domain_error_empty'] = "Domain ist leer";
+$wb['domain_error_unique'] = "Doppelte Domain.";
+$wb['domain_error_regex'] = "Ungültiger Domainname.";
+$wb['client_txt'] = "Kunde";
+$wb['limit_maildomain_txt'] = "Die maximale Anzahl an E-Maildomains für ihr Konto wurde erreicht.";
+$wb['policy_txt'] = "Spamfilter";
+$wb['no_policy'] = "- nicht aktiviert -";
 ?>
+

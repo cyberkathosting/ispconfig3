@@ -1,24 +1,25 @@
 <?php
-$wb['name_txt'] = 'Formularname';
-$wb['title_txt'] = 'Formulartitel';
-$wb['template_txt'] = 'Vorlage';
-$wb['navframe_txt'] = 'Navigationsframe';
-$wb['startpage_txt'] = 'Startseite';
-$wb['tab_width_txt'] = 'Tab Breite';
-$wb['save_txt'] = 'Speichern';
-$wb['cancel_txt'] = 'Abbrechen';
-$wb['header_txt'] = 'Formular Eigenschaften';
-$wb['description_txt'] = 'Beschreibung';
-$wb['action_txt'] = 'Aktion (Skript)';
-$wb['db_table_txt'] = 'DB Tabelle';
-$wb['db_table_idx_txt'] = 'DB Tabellenindex';
-$wb['db_history_txt'] = 'Undo Log';
-$wb['tab_default_txt'] = 'Standard Tab';
-$wb['list_default_txt'] = 'Standard Liste';
-$wb['auth_txt'] = 'Berechtigungen';
-$wb['auth_preset_userid_txt'] = 'Benutzer ID';
-$wb['auth_preset_groupid_txt'] = 'Gruppen ID';
-$wb['auth_preset_perm_user_txt'] = 'Benutzerberechtigungen';
-$wb['auth_preset_perm_group_txt'] = 'Gruppenberechtigungen';
-$wb['auth_preset_perm_other_txt'] = 'andere Berechtigungen';
+$wb['name_txt'] = "Formularname";
+$wb['title_txt'] = "Formulartitel";
+$wb['template_txt'] = "Vorlage";
+$wb['navframe_txt'] = "Navigationsframe";
+$wb['startpage_txt'] = "Startseite";
+$wb['tab_width_txt'] = "Tab Breite";
+$wb['save_txt'] = "Speichern";
+$wb['cancel_txt'] = "Abbrechen";
+$wb['header_txt'] = "Formular Eigenschaften";
+$wb['description_txt'] = "Beschreibung";
+$wb['action_txt'] = "Aktion (Skript)";
+$wb['db_table_txt'] = "DB Tabelle";
+$wb['db_table_idx_txt'] = "DB Tabellenindex";
+$wb['db_history_txt'] = "Undo Log";
+$wb['tab_default_txt'] = "Standard Tab";
+$wb['list_default_txt'] = "Standard Liste";
+$wb['auth_txt'] = "Berechtigungen";
+$wb['auth_preset_userid_txt'] = "Benutzer ID";
+$wb['auth_preset_groupid_txt'] = "Gruppen ID";
+$wb['auth_preset_perm_user_txt'] = "Benutzerberechtigungen";
+$wb['auth_preset_perm_group_txt'] = "Gruppenberechtigungen";
+$wb['auth_preset_perm_other_txt'] = "andere Berechtigungen";
 ?>
+

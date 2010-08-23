@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Web Datenverkehr';
-$wb['domain_txt'] = 'Domain';
-$wb['this_month_txt'] = 'Diesen Monat';
-$wb['last_month_txt'] = 'Letzten Monat';
-$wb['this_year_txt'] = 'Dieses Jahr';
-$wb['last_year_txt'] = 'Letztes Jahr';
+$wb['list_head_txt'] = "Web Datenverkehr";
+$wb['domain_txt'] = "Domain";
+$wb['this_month_txt'] = "diesen Monat";
+$wb['last_month_txt'] = "letzten Monat";
+$wb['this_year_txt'] = "dieses Jahr";
+$wb['last_year_txt'] = "letztes Jahr";
 ?>
+

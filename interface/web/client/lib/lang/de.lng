@@ -11,3 +11,4 @@ $wb['Edit Reseller'] = 'Reseller bearbeiten';
 $wb['Resellers'] = 'Reseller';
 $wb['error_has_clients'] = 'Dieser Reseller besitzt Kunden. Bitte zuerst die Kunden löschen.';
 ?>
+
