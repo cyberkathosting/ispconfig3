@@ -1,24 +1,25 @@
 <?php
-$wb['name_txt'] = 'Názov formulára';
-$wb['title_txt'] = 'Názov formulára';
-$wb['template_txt'] = 'Šablóny';
+$wb['name_txt'] = 'NÃ¡zov formulÃ¡ra';
+$wb['title_txt'] = 'NÃ¡zov formulÃ¡ra';
+$wb['template_txt'] = 'Å ablÃ³ny';
 $wb['navframe_txt'] = 'NaviFrame';
-$wb['startpage_txt'] = 'Úvodná stránka';
-$wb['tab_width_txt'] = 'Tab šírka';
-$wb['save_txt'] = 'Uloži?';
-$wb['cancel_txt'] = 'Zruši?';
-$wb['header_txt'] = 'Vlastnosti formulára';
+$wb['startpage_txt'] = 'ÃšvodnÃ¡ strÃ¡nka';
+$wb['tab_width_txt'] = 'Tab Å¡Ã­rka';
+$wb['save_txt'] = 'UloÅ¾iÅ¥';
+$wb['cancel_txt'] = 'ZruÅ¡iÅ¥';
+$wb['header_txt'] = 'Vlastnosti formulÃ¡ra';
 $wb['description_txt'] = 'Popis';
 $wb['action_txt'] = 'Akcie (skript)';
 $wb['db_table_txt'] = 'DB Tabulky';
 $wb['db_table_idx_txt'] = 'DB Tabulky Index';
 $wb['db_history_txt'] = 'Undo Log';
-$wb['tab_default_txt'] = 'Predvolený Tab';
-$wb['list_default_txt'] = 'Predvolený List';
-$wb['auth_txt'] = 'Práva';
-$wb['auth_preset_userid_txt'] = 'uživa?e? ID';
+$wb['tab_default_txt'] = 'PredvolenÃ½ Tab';
+$wb['list_default_txt'] = 'PredvolenÃ½ List';
+$wb['auth_txt'] = 'PrÃ¡va';
+$wb['auth_preset_userid_txt'] = 'uÅ¾ivateÄ¾ ID';
 $wb['auth_preset_groupid_txt'] = 'skupina ID';
-$wb['auth_preset_perm_user_txt'] = 'Práva uživa?e?';
-$wb['auth_preset_perm_group_txt'] = 'Práva skupina';
-$wb['auth_preset_perm_other_txt'] = 'Práva ostatný';
+$wb['auth_preset_perm_user_txt'] = 'PrÃ¡va uÅ¾ivateÄ¾a';
+$wb['auth_preset_perm_group_txt'] = 'PrÃ¡va skupina';
+$wb['auth_preset_perm_other_txt'] = 'PrÃ¡va ostatnÃ½';
 ?>
+

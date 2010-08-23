@@ -7,7 +7,8 @@ $wb['dns_server_txt'] = 'DNS-Server';
 $wb['file_server_txt'] = 'Fileserver';
 $wb['db_server_txt'] = 'DB-Server';
 $wb['vserver_server_txt'] = 'VServer-Server';
-$wb['active_txt'] = 'Aktívne';
+$wb['active_txt'] = 'AktÃ­vne';
 $wb['mirror_server_id_txt'] = 'Is mirror of Server';
 $wb['- None -'] = '- None -';
 ?>
+

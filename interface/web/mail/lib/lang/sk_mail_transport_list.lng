@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Pokro?il� Email Smerovanie';
-$wb['active_txt'] = 'Akt�vny';
+$wb['list_head_txt'] = 'Pokročilé Email Smerovanie';
+$wb['active_txt'] = 'Aktívny';
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Dom�na';
+$wb['domain_txt'] = 'Doména';
 $wb['transport_txt'] = 'Transport';
-$wb['sort_order_txt'] = 'Zoradi? pod?a';
-$wb['add_new_record_txt'] = 'Prida? nov� smerovanie';
+$wb['sort_order_txt'] = 'Zoradiť podľa';
+$wb['add_new_record_txt'] = 'Pridať nové smerovanie';
 ?>
+

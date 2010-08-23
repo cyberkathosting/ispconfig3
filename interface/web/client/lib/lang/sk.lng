@@ -2,12 +2,13 @@
 $wb['Client'] = 'Klient';
 $wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limity';
-$wb['Add Client'] = 'Prida? klienta';
-$wb['Edit Client'] = 'Upravi? klienta';
+$wb['Add Client'] = 'Pridať klienta';
+$wb['Edit Client'] = 'Upraviť klienta';
 $wb['Clients'] = 'Klienti';
-$wb['Edit Client-Templates'] = 'Upravi? klient-�abl�nu';
-$wb['Add Reseller'] = 'Prida? nov�ho predajcu';
-$wb['Edit Reseller'] = 'Upravi? predajcu';
+$wb['Edit Client-Templates'] = 'Upraviť klient-Šablónu';
+$wb['Add Reseller'] = 'Pridať nového predajcu';
+$wb['Edit Reseller'] = 'Upraviť predajcu';
 $wb['Resellers'] = 'Predajcovia';
 $wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
 ?>
+

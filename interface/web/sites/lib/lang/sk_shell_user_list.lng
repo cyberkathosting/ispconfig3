@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Shell Uživate?';
-$wb['active_txt'] = 'Aktívne';
+$wb['list_head_txt'] = 'Shell uÅ¾ivateÄ¾';
+$wb['active_txt'] = 'AktÃ­vne';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Miesto';
-$wb['username_txt'] = 'Užívate?ské meno';
-$wb['add_new_record_txt'] = 'Prida? nového Shell Uživate?a';
+$wb['username_txt'] = 'UÅ¾Ã­vateÄ¾skÃ© meno';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃ©ho Shell uÅ¾ivateÄ¾a';
 ?>
+

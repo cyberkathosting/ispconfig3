@@ -1,24 +1,23 @@
 <?php
-$wb['Database'] = 'Databázy';
-$wb['Options'] = 'Možnosti';
-$wb['Shell User'] = 'Shell Uživate?';
-$wb['Domain'] = 'Webstránky';
+$wb['Database'] = 'DatabÃ¡zy';
+$wb['Options'] = 'MoÅ¾nosti';
+$wb['Shell User'] = 'Shell uÅ¾ivateÄ¾';
+$wb['Domain'] = 'WebstrÃ¡nky';
 $wb['Redirect'] = 'Presmerovanie';
 $wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Subdomény';
-$wb['Sites'] = 'Stránky';
-$wb['Aliasdomain'] = 'Aliasdomény';
-$wb['FTP-User'] = 'FTP-Uživate?';
+$wb['Subdomain'] = 'SubdomÃ©ny';
+$wb['Sites'] = 'StrÃ¡nky';
+$wb['Aliasdomain'] = 'AliasdomÃ©ny';
+$wb['FTP-User'] = 'FTP-uÅ¾ivateÄ¾';
 $wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Shell-Uživate?';
+$wb['Shell-User'] = 'Shell-uÅ¾ivateÄ¾';
 $wb['Shell'] = 'Shell';
-$wb['Websites'] = 'Webstránky';
-$wb['Stats'] = 'Štatistika';
+$wb['Websites'] = 'WebstrÃ¡nky';
+$wb['Stats'] = 'Å tatistika';
 $wb['Website'] = 'Website';
 $wb['Cron'] = 'Cron';
 $wb['Cron Jobs'] = 'Cron Jobs';
 $wb['Statistics'] = 'Statistics';
 $wb['Web traffic'] = 'Web Traffic';
-$wb['Webdav-User'] = 'Webdav User';
-$wb['Webdav'] = 'Webdav';
 ?>
+

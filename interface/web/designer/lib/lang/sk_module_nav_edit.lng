@@ -1,6 +1,7 @@
 <?php
-$wb['title_txt'] = 'Názov';
+$wb['title_txt'] = 'NÃ¡zov';
 $wb['header_txt'] = 'Navi vlastnosti';
-$wb['save_txt'] = 'Uloži?';
-$wb['cancel_txt'] = 'Zruši?';
+$wb['save_txt'] = 'UloÅ¾iÅ¥';
+$wb['cancel_txt'] = 'ZruÅ¡iÅ¥';
 ?>
+

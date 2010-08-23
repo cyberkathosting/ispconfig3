@@ -1,15 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zóna';
-$wb['name_txt'] = 'Zóna';
+$wb['zone_txt'] = 'ZÃ³na';
+$wb['name_txt'] = 'ZÃ³na';
 $wb['type_txt'] = 'typ';
 $wb['data_txt'] = 'Nameserver Hostname';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Aktivova?';
-$wb['limit_dns_record_txt'] = 'Max. po?et záznamov DNS pre váš ú?et je dosiahnutý.';
-$wb['no_zone_perm'] = 'Nemáte oprávnenie prida? záznam do tejto zóny DNS. Navrhnú? lepší preklad';
-$wb['name_error_empty'] = 'Zóna je prázdna.';
-$wb['name_error_regex'] = 'Zóna má nesprávny formát.';
-$wb['data_error_empty'] = 'Nameserver je prázdny';
-$wb['data_error_regex'] = 'Nameserver má zlý formát';
+$wb['active_txt'] = 'AktivovaÅ¥';
+$wb['limit_dns_record_txt'] = 'Max. poÄet zÃ¡znamov DNS pre vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
+$wb['no_zone_perm'] = 'NemÃ¡te oprÃ¡vnenie PridaÅ¥ zÃ¡znam do tejto zÃ³ny DNS.';
+$wb['name_error_empty'] = 'ZÃ³na je prÃ¡zdna.';
+$wb['name_error_regex'] = 'ZÃ³na mÃ¡ nesprÃ¡vny formÃ¡t.';
+$wb['data_error_empty'] = 'Nameserver je prÃ¡zdny';
+$wb['data_error_regex'] = 'Nameserver mÃ¡ zlÃ½ formÃ¡t';
 ?>
+

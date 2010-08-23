@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Subdomény';
-$wb['active_txt'] = 'Aktívne';
+$wb['list_head_txt'] = 'SubdomÃ©ny';
+$wb['active_txt'] = 'AktÃ­vne';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webstránka';
-$wb['domain_txt'] = 'Subdoména';
-$wb['add_new_record_txt'] = 'Prida? novú subdoménu';
+$wb['parent_domain_id_txt'] = 'WebstrÃ¡nka';
+$wb['domain_txt'] = 'SubdomÃ©na';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃº subdomÃ©nu';
 ?>
+

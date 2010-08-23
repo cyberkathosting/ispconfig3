@@ -1,22 +1,23 @@
 <?php
+$wb['uid_txt'] = 'Web uÅ¾ivateÄ¾';
+$wb['gid_txt'] = 'Skupina';
 $wb['shell_txt'] = 'Shell';
-$wb['dir_txt'] = 'Adresár';
+$wb['dir_txt'] = 'AdresÃ¡r';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Stránka';
-$wb['username_txt'] = 'Uživate?';
+$wb['parent_domain_id_txt'] = 'StrÃ¡nka';
+$wb['username_txt'] = 'uÅ¾ivateÄ¾';
 $wb['password_txt'] = 'Heslo';
-$wb['password_strength_txt'] = 'Pevnos? hesla';
+$wb['password_strength_txt'] = 'PevnosÅ¥ hesla';
 $wb['chroot_txt'] = 'Chroot Shell';
-$wb['quota_size_txt'] = 'Kvóta';
-$wb['active_txt'] = 'Aktívne';
-$wb['username_error_empty'] = 'Užívate?ské meno je prázdny.';
-$wb['username_error_unique'] = 'Užívate?ské meno musí by? jedine?né.';
-$wb['username_error_regex'] = 'Užívate?ské meno obsahuje znaky, ktoré nie sú povolené.';
-$wb['quota_size_error_empty'] = 'Kvóta je prázdna.';
-$wb['uid_error_empty'] = 'GID je prázdna.';
-$wb['directory_error_empty'] = 'Adresár je prázdny.';
-$wb['limit_shell_user_txt'] = 'Maximálny po?et shell užívate?ov je dosiahnutý.';
-$wb['parent_domain_id_error_empty'] = 'Žiadna zvolená webstránka.';
-$wb['puser_txt'] = 'Web Username';
-$wb['pgroup_txt'] = 'Web Group';
+$wb['quota_size_txt'] = 'KvÃ³ta';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['username_error_empty'] = 'UÅ¾Ã­vateÄ¾skÃ© meno je prÃ¡zdny.';
+$wb['username_error_unique'] = 'UÅ¾Ã­vateÄ¾skÃ© meno musÃ­ byÅ¥ jedineÄnÃ©.';
+$wb['username_error_regex'] = 'UÅ¾Ã­vateÄ¾skÃ© meno obsahuje znaky, ktorÃ© nie sÃº povolenÃ©.';
+$wb['quota_size_error_empty'] = 'KvÃ³ta je prÃ¡zdna.';
+$wb['uid_error_empty'] = 'GID je prÃ¡zdna.';
+$wb['directory_error_empty'] = 'AdresÃ¡r je prÃ¡zdny.';
+$wb['limit_shell_user_txt'] = 'MaximÃ¡lny poÄet shell UÅ¾Ã­vateÄ¾ov je dosiahnutÃ½.';
+$wb['parent_domain_id_error_empty'] = 'Å½iadna zvolenÃ¡ webstrÃ¡nka.';
 ?>
+

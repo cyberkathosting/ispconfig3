@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'FTP-Uživate?';
-$wb['active_txt'] = 'Aktívne';
+$wb['list_head_txt'] = 'FTP-uÅ¾ivateÄ¾';
+$wb['active_txt'] = 'AktÃ­vne';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webstránky';
-$wb['username_txt'] = 'Užívate?ské meno';
-$wb['add_new_record_txt'] = 'Prida? nového FTP-Uživate?a';
+$wb['parent_domain_id_txt'] = 'WebstrÃ¡nky';
+$wb['username_txt'] = 'UÅ¾Ã­vateÄ¾skÃ© meno';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃ©ho FTP-uÅ¾ivateÄ¾a';
 ?>
+

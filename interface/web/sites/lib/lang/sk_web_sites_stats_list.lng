@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Web vy?aženie';
-$wb['domain_txt'] = 'Doména';
+$wb['list_head_txt'] = 'Web vyÅ¥aÅ¾enie';
+$wb['domain_txt'] = 'DomÃ©na';
 $wb['this_month_txt'] = 'Tento mesiac';
-$wb['last_month_txt'] = 'Minulý mesiac';
+$wb['last_month_txt'] = 'MinulÃ½ mesiac';
 $wb['this_year_txt'] = 'Tento rok';
-$wb['last_year_txt'] = 'Minulý rok';
+$wb['last_year_txt'] = 'MinulÃ½ rok';
 ?>
+

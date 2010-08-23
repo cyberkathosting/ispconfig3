@@ -1,17 +1,18 @@
 <?php
-$wb['error_user_password_empty'] = 'Užívate?ské meno alebo heslo prázdne.';
-$wb['error_user_password_incorrect'] = 'Užívate?ské meno alebo zlé je heslo.';
-$wb['error_user_blocked'] = 'Užívate? je blokovaný.';
-$wb['error_user_too_many_logins'] = 'Príliš ve?a zlých prihlásení, prosím, skúste to znova sa po 15 minútach';
-$wb['pass_reset_txt'] = 'Nové heslo bude vytvorené a poslané na e-mailovú adresu v prípade, že vložená e-mailová adresa sa zhoduje s e-mailovou adresou v nastaveniach klienta.';
-$wb['pw_reset'] = 'Heslo bolo resetnuté a posielané na e-mailovú adresu.';
-$wb['pw_error'] = 'Užívate?ské meno alebo e-mailová adresa nezodpovedá.';
-$wb['pw_error_noinput'] = 'Prosím, zadajte e-mailovú adresu a užívate?ské meno.';
-$wb['pw_reset_mail_msg'] = 'Heslo k svojmu ú?tu na ovládacom paneli bol resetnuté. Nové heslo je:';
-$wb['pw_reset_mail_title'] = 'Heslo ovládacieho panelu bolo resetnuté.';
-$wb['user_regex_error'] = 'Užívate?ské meno obsahuje neplatné znaky, alebo je dlhšia ako 64 znakov.';
-$wb['pw_error_length'] = 'D?žka hesla je > 64 znakov.';
-$wb['username_txt'] = 'Užívate?ské meno';
+$wb['error_user_password_empty'] = 'UÅ¾Ã­vateÄ¾skÃ© meno alebo heslo prÃ¡zdne.';
+$wb['error_user_password_incorrect'] = 'UÅ¾Ã­vateÄ¾skÃ© meno alebo zlÃ© je heslo.';
+$wb['error_user_blocked'] = 'UÅ¾Ã­vateÄ¾ je blokovanÃ½.';
+$wb['error_user_too_many_logins'] = 'PrÃ­liÅ¡ veÄ¾a zlÃ½ch prihlÃ¡senÃ­, prosÃ­m, skÃºste to znova sa po 15 minÃºtach';
+$wb['pass_reset_txt'] = 'NovÃ© heslo bude vytvorenÃ© a poslanÃ© na e-mailovÃº adresu v prÃ­pade, Å¾e vloÅ¾enÃ¡ e-mailovÃ¡ adresa sa zhoduje s e-mailovou adresou v nastaveniach klienta.';
+$wb['pw_reset'] = 'Heslo bolo resetnutÃ© a posielanÃ© na e-mailovÃº adresu.';
+$wb['pw_error'] = 'UÅ¾Ã­vateÄ¾skÃ© meno alebo e-mailovÃ¡ adresa nezodpovedÃ¡.';
+$wb['pw_error_noinput'] = 'ProsÃ­m, zadajte e-mailovÃº adresu a UÅ¾Ã­vateÄ¾skÃ© meno.';
+$wb['pw_reset_mail_msg'] = 'Heslo k svojmu ÃºÄtu na ovlÃ¡dacom paneli bol resetnutÃ©. NovÃ© heslo je:';
+$wb['pw_reset_mail_title'] = 'Heslo ovlÃ¡dacieho panelu bolo resetnutÃ©.';
+$wb['user_regex_error'] = 'UÅ¾Ã­vateÄ¾skÃ© meno obsahuje neplatnÃ© znaky, alebo je dlhÅ¡ia ako 64 znakov.';
+$wb['pw_error_length'] = 'DÄºÅ¾ka hesla je > 64 znakov.';
+$wb['username_txt'] = 'UÅ¾Ã­vateÄ¾skÃ© meno';
 $wb['password_txt'] = 'Heslo';
-$wb['login_button_txt'] = 'Prihlásenie';
+$wb['login_button_txt'] = 'PrihlÃ¡senie';
 ?>
+

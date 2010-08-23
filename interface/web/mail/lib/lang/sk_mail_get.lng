@@ -2,15 +2,16 @@
 $wb['server_id_txt'] = 'Server';
 $wb['type_txt'] = 'Typ';
 $wb['source_server_txt'] = 'Pop3/Imap Server';
-$wb['source_username_txt'] = 'Uživate?';
+$wb['source_username_txt'] = 'uÅ¾ivateÄ¾';
 $wb['source_password_txt'] = 'Heslo';
-$wb['source_delete_txt'] = 'Zmaza? e-maily po na?ítaní';
-$wb['destination_txt'] = 'Cie?';
-$wb['active_txt'] = 'Aktívne';
-$wb['limit_fetchmail_txt'] = 'Max. po?et záznamov Fetchmail pre váš ú?et je dosiahnutý.';
-$wb['source_server_error_isempty'] = 'Server je prázdny.';
-$wb['source_username_error_isempty'] = 'Uživate? je prázdny.';
-$wb['source_password_error_isempty'] = 'Heslo je prázdne.';
-$wb['destination_error_isemail'] = 'Žiadny cie? nebol vybraný.';
-$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+$wb['source_delete_txt'] = 'ZmazaÅ¥ e-maily po naÄÃ­tanÃ­';
+$wb['destination_txt'] = 'CieÄ¾';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['limit_fetchmail_txt'] = 'Max. poÄet zÃ¡znamov Fetchmail pre vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
+$wb['source_server_error_isempty'] = 'Server je prÃ¡zdny.';
+$wb['source_username_error_isempty'] = 'uÅ¾ivateÄ¾ je prÃ¡zdny.';
+$wb['source_password_error_isempty'] = 'Heslo je prÃ¡zdne.';
+$wb['destination_error_isemail'] = 'Å½iadny CieÄ¾ nebol vybranÃ½.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server nie je valÃ­dne domÃ©novÃ© meno.';
 ?>
+

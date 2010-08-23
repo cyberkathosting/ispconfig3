@@ -1,7 +1,8 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Cie?ový Email';
-$wb['active_txt'] = 'Aktívne';
-$wb['limit_mailforward_txt'] = 'Max. po?et e-mailových prenos vášho ú?tu je dosiahnutý.';
-$wb['duplicate_mailbox_txt'] = 'Existuje už schránku s touto e-mailovou adresou';
+$wb['destination_txt'] = 'CieÄ¾ovÃ½ Email';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['limit_mailforward_txt'] = 'Max. poÄet e-mailovÃ½ch prenos vÃ¡Å¡ho ÃºÄtu je dosiahnutÃ½.';
+$wb['duplicate_mailbox_txt'] = 'Existuje uÅ¾ schrÃ¡nku s touto e-mailovou adresou';
 ?>
+

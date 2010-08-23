@@ -1,13 +1,14 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domény';
+$wb['domain_txt'] = 'DomÃ©ny';
 $wb['type_txt'] = 'Typ';
-$wb['active_txt'] = 'Aktívne';
-$wb['domain_error_empty'] = 'Doména je prázdna.';
-$wb['domain_error_unique'] = 'Duplicitná Doména.';
-$wb['domain_error_regex'] = 'Zlé doménové meno.';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['domain_error_empty'] = 'DomÃ©na je prÃ¡zdna.';
+$wb['domain_error_unique'] = 'DuplicitnÃ¡ DomÃ©na.';
+$wb['domain_error_regex'] = 'ZlÃ© domÃ©novÃ© meno.';
 $wb['client_txt'] = 'Klient';
-$wb['limit_maildomain_txt'] = 'Max. po?et e-mailových domén pre váš ú?et je dosiahnutý.';
+$wb['limit_maildomain_txt'] = 'Max. poÄet e-mailovÃ½ch domÃ©n pre vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
 $wb['policy_txt'] = 'Spamfilter';
-$wb['no_policy'] = '- Nie je aktivovaný -';
+$wb['no_policy'] = '- Nie je aktivovanÃ½ -';
 ?>
+

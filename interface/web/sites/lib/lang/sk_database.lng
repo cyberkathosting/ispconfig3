@@ -1,25 +1,26 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['type_txt'] = 'Typ';
-$wb['database_name_txt'] = 'Datab·za meno';
-$wb['database_user_txt'] = 'Datab·za uûÌvate?ov';
-$wb['database_password_txt'] = 'Datab·za heslo';
-$wb['password_strength_txt'] = 'Pevnos? hesla';
-$wb['database_charset_txt'] = 'Datab·za charset';
-$wb['remote_access_txt'] = 'Vzdialen˝ prÌstup';
-$wb['remote_ips_txt'] = 'Vzdialen˝ prÌstup IP (oddelen·, a ponechajte pr·zdne pre<i> vöetky </ i>)';
-$wb['database_remote_error_ips'] = 'Aspo? jedna zo zadan˝ch IP adries je neplatn·.';
+$wb['database_name_txt'] = 'Datab√°za meno';
+$wb['database_user_txt'] = 'Datab√°za U≈æ√≠vateƒæov';
+$wb['database_password_txt'] = 'Datab√°za heslo';
+$wb['password_strength_txt'] = 'Pevnos≈• hesla';
+$wb['database_charset_txt'] = 'Datab√°za charset';
+$wb['remote_access_txt'] = 'Vzdialen√Ω pr√≠stup';
+$wb['remote_ips_txt'] = 'Vzdialen√Ω pr√≠stup IP (oddelen√°, a ponechajte pr√°zdne pre<i> v≈°etky </ i>)';
+$wb['database_remote_error_ips'] = 'Aspo≈à jedna zo zadan√Ωch IP adries je neplatn√°.';
 $wb['client_txt'] = 'Klient';
-$wb['active_txt'] = 'AktÌvne';
-$wb['database_name_error_empty'] = 'N·zov datab·zy je pr·zdny.';
-$wb['database_name_error_unique'] = 'V s˙?asnosti uû existuje datab·za s t˝mto n·zvom na serveri. Ak chcete zÌska? jedine?nÈ meno, napr. predradte n·zov vaöej domÈny pred n·zov datab·zy.';
-$wb['database_name_error_regex'] = 'Neplatn˝ n·zov datab·zy. N·zov datab·zy mÙûe obsahova? tieto znaky: az, AZ, 0-9 pod?iarknutia. D?ûka: 2 - 64 znakov.';
-$wb['database_user_error_empty'] = 'Datab·zov˝ uûÌvate? je pr·zdny.';
-$wb['database_user_error_unique'] = 'V s˙?asnosti uû existuje datab·zov˝ uûÌvate? s t˝mto n·zvom na serveri. Ak chcete zÌska? jedine?nÈ meno, napr. predradte n·zov vaöej domÈny pred uûÌvate?sk˝m menom.';
-$wb['database_user_error_regex'] = 'NeplatnÈ datab·zovÈ uûÌvate?skÈ meno. UûÌvate?skÈ meno mÙûe obsahova? tieto znaky: az, AZ, 0-9 pod?iarknutia. D?ûka: 2 - 64 znakov.';
-$wb['limit_database_txt'] = 'Max. po?et datab·z je dosiahnut˝.';
-$wb['database_name_change_txt'] = 'N·zov datab·zy nie je moûnÈ meni?';
-$wb['database_charset_change_txt'] = 'Datab·zov˝ charset nemoûno meni?';
-$wb['database_name_error_len'] = 'N·zov datab·zy - (db) - prÌliö dlh˝. Max. n·zov datab·zy d?ûka v?. prefix je 64 znakov.';
-$wb['database_user_error_len'] = 'Datab·zovÈ uûÌvate?skÈ meno - (user) - prÌliö dlho. Max. Datab·za meno d?ûka v?. prefix je 16 znakov.';
+$wb['active_txt'] = 'Akt√≠vne';
+$wb['database_name_error_empty'] = 'N√°zov datab√°zy je pr√°zdny.';
+$wb['database_name_error_unique'] = 'V s√∫ƒçasnosti u≈æ existuje datab√°za s t√Ωmto n√°zvom na serveri. Ak chcete z√≠ska≈• jedineƒçn√© meno, napr. predradte n√°zov va≈°ej dom√©ny pred n√°zov datab√°zy.';
+$wb['database_name_error_regex'] = 'Neplatn√Ω n√°zov datab√°zy. N√°zov datab√°zy m√¥≈æe obsahova≈• tieto znaky: az, AZ, 0-9 podƒçiarknutia. Dƒ∫≈æka: 2 - 64 znakov.';
+$wb['database_user_error_empty'] = 'Datab√°zov√Ω U≈æ√≠vateƒæ je pr√°zdny.';
+$wb['database_user_error_unique'] = 'V s√∫ƒçasnosti u≈æ existuje datab√°zov√Ω U≈æ√≠vateƒæ s t√Ωmto n√°zvom na serveri. Ak chcete z√≠ska≈• jedineƒçn√© meno, napr. predradte n√°zov va≈°ej dom√©ny pred U≈æ√≠vateƒæsk√Ωm menom.';
+$wb['database_user_error_regex'] = 'Neplatn√© datab√°zov√© U≈æ√≠vateƒæsk√© meno. U≈æ√≠vateƒæsk√© meno m√¥≈æe obsahova≈• tieto znaky: az, AZ, 0-9 podƒçiarknutia. Dƒ∫≈æka: 2 - 64 znakov.';
+$wb['limit_database_txt'] = 'Max. poƒçet datab√°z je dosiahnut√Ω.';
+$wb['database_name_change_txt'] = 'N√°zov datab√°zy nie je mo≈æn√© meni≈•';
+$wb['database_charset_change_txt'] = 'Datab√°zov√Ω charset nemo≈æno meni≈•';
+$wb['database_name_error_len'] = 'N√°zov datab√°zy - (db) - pr√≠li≈° dlh√Ω. Max. dƒ∫≈æka n√°zvu datab√°zy  vr√°tane prefix je 64 znakov.';
+$wb['database_user_error_len'] = 'Datab√°zov√© U≈æ√≠vateƒæsk√© meno - (user) - pr√≠li≈° dlho. Max. dƒ∫≈æka Datab√°zov√©ho usera vr√°tane prefix je 16 znakov.';
 ?>
+

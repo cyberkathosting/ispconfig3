@@ -1,17 +1,18 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['spam_rewrite_score_int_txt'] = 'Prepis skóre';
-$wb['spam_redirect_score_int_txt'] = 'Presmerovanie skóre';
-$wb['spam_delete_score_int_txt'] = 'Zmaza? skóre';
+$wb['spam_rewrite_score_int_txt'] = 'Prepis skÃ³re';
+$wb['spam_redirect_score_int_txt'] = 'Presmerovanie skÃ³re';
+$wb['spam_delete_score_int_txt'] = 'ZmazaÅ¥ skÃ³re';
 $wb['spam_rewrite_subject_txt'] = 'Prepis predmetu';
-$wb['spam_redirect_maildir_txt'] = 'Presmerovanie schránky';
-$wb['active_txt'] = 'Aktívne';
-$wb['spam_rewrite_txt'] = 'Prepis predmet emailu, ktorého skóre je vyžšie.';
-$wb['spam_redirect_txt'] = 'Presmerovanie e-mailu s vyžším skóre na zvolenej schránke.';
-$wb['spam_delete_txt'] = 'Maza? e-maily s vyžším skóre.';
-$wb['disable_txt'] = 'Tip: Ak chcete zakáza? možnos? filtrovania, nastavte skóre na 0.00.';
-$wb['email_error_isemail'] = 'E-mailová adresa je neplatná.';
-$wb['email_error_unique'] = 'Existuje už spamfilter záznam pre túto e-mailovú adresu.';
-$wb['spam_redirect_maildir_purge_txt'] = 'Vy?isti? mailovú záložku po';
+$wb['spam_redirect_maildir_txt'] = 'Presmerovanie schrÃ¡nky';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['spam_rewrite_txt'] = 'Prepis predmet emailu, ktorÃ©ho skÃ³re je vyÅ¾Å¡ie.';
+$wb['spam_redirect_txt'] = 'Presmerovanie e-mailu s vyÅ¾Å¡Ã­m skÃ³re na zvolenej schrÃ¡nke.';
+$wb['spam_delete_txt'] = 'MazaÅ¥ e-maily s vyÅ¾Å¡Ã­m skÃ³re.';
+$wb['disable_txt'] = 'Tip: Ak chcete zakÃ¡zaÅ¥ moÅ¾nosÅ¥ filtrovania, nastavte skÃ³re na 0.00.';
+$wb['email_error_isemail'] = 'E-mailovÃ¡ adresa je neplatnÃ¡.';
+$wb['email_error_unique'] = 'Existuje uÅ¾ spamfilter zÃ¡znam pre tÃºto e-mailovÃº adresu.';
+$wb['spam_redirect_maildir_purge_txt'] = 'VyÄistiÅ¥ mailovÃº zÃ¡loÅ¾ku po';
 $wb['days_txt'] = 'Dni.';
 ?>
+

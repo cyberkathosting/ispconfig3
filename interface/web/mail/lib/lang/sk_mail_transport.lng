@@ -1,10 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Doména';
-$wb['destination_txt'] = 'Cie?';
+$wb['domain_txt'] = 'DomÃ©na';
+$wb['destination_txt'] = 'CieÄ¾';
 $wb['type_txt'] = 'Typ';
-$wb['mx_txt'] = 'Žiadne vyh?adávanie MX';
-$wb['sort_order_txt'] = 'Triedi? pod?a';
-$wb['active_txt'] = 'Aktívny';
-$wb['limit_mailrouting_txt'] = 'Max. po?et trás pre váš ú?et je dosiahnutý.';
+$wb['mx_txt'] = 'Å½iadne vyhÄ¾adÃ¡vanie MX';
+$wb['sort_order_txt'] = 'TriediÅ¥ podÄ¾a';
+$wb['active_txt'] = 'AktÃ­vny';
+$wb['limit_mailrouting_txt'] = 'Max. poÄet trÃ¡s pre vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
 ?>
+

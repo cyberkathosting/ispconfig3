@@ -1,7 +1,8 @@
 <?php
 $wb['repo_name_txt'] = 'Skladisko';
 $wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'U�ivate? (volite?n�)';
-$wb['repo_password_txt'] = 'Heslo (volite?n�)';
-$wb['active_txt'] = 'Aktivova?';
+$wb['repo_username_txt'] = 'Uživateľ (voliteľný)';
+$wb['repo_password_txt'] = 'Heslo (voliteľné)';
+$wb['active_txt'] = 'Aktivovať';
 ?>
+

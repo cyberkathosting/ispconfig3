@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Schránka';
+$wb['list_head_txt'] = 'SchrÃ¡nka';
 $wb['email_txt'] = 'Email';
-$wb['autoresponder_txt'] = 'Automatická odpove?';
-$wb['add_new_record_txt'] = 'Prida? novú schránku';
+$wb['autoresponder_txt'] = 'AutomatickÃ¡ odpove?';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃº schrÃ¡nku';
 $wb['name_txt'] = 'Realname';
 ?>
+

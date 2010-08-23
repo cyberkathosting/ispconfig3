@@ -1,29 +1,30 @@
 <?php
-$wb['template_id_txt'] = '�abl�na';
+$wb['template_id_txt'] = 'Šablóna';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Klient';
-$wb['btn_save_txt'] = 'Vytvori? DNS z�znam';
-$wb['btn_cancel_txt'] = 'Zru�i?';
-$wb['domain_txt'] = 'Dom�na';
+$wb['btn_save_txt'] = 'Vytvoriť DNS záznam';
+$wb['btn_cancel_txt'] = 'Zrušiť';
+$wb['domain_txt'] = 'Doména';
 $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP Adresa';
-$wb['error_origin_empty'] = 'P�vod pr�zdny.';
-$wb['error_ns_empty'] = 'NS pr�zdny.';
-$wb['error_mbox_empty'] = 'Mbox pr�zdny.';
-$wb['error_refresh_empty'] = 'Obnoovanie pr�zdne.';
-$wb['error_retry_empty'] = 'Opakovanie pr�zdne.';
-$wb['error_expire_empty'] = 'Expir�cia pr�zdna.';
-$wb['error_minimum_empty'] = 'Minimum pr�zdne.';
-$wb['error_ttl_empty'] = 'TTL pr�zdne.';
-$wb['error_domain_empty'] = 'Dom�na pr�zdna.';
-$wb['error_ip_empty'] = 'IP pr�zdna.';
-$wb['error_ns1_empty'] = 'NS1 pr�zdne.';
-$wb['error_ns2_empty'] = 'NS2 pr�zdne.';
-$wb['error_email_empty'] = 'EMail pr�zdny.';
+$wb['error_origin_empty'] = 'Pôvod prázdny.';
+$wb['error_ns_empty'] = 'NS prázdny.';
+$wb['error_mbox_empty'] = 'Mbox prázdny.';
+$wb['error_refresh_empty'] = 'Obnoovanie prázdne.';
+$wb['error_retry_empty'] = 'Opakovanie prázdne.';
+$wb['error_expire_empty'] = 'Expirácia prázdna.';
+$wb['error_minimum_empty'] = 'Minimum prázdne.';
+$wb['error_ttl_empty'] = 'TTL prázdne.';
+$wb['error_domain_empty'] = 'Doména prázdna.';
+$wb['error_ip_empty'] = 'IP prázdna.';
+$wb['error_ns1_empty'] = 'NS1 prázdne.';
+$wb['error_ns2_empty'] = 'NS2 prázdne.';
+$wb['error_email_empty'] = 'EMail prázdny.';
 $wb['error_domain_regex'] = 'Domain contains invalid characters.';
 $wb['error_ns1_regex'] = 'NS1 contains invalid characters.';
 $wb['error_ns2_regex'] = 'NS2 contains invalid characters.';
 $wb['error_email_regex'] = 'Email does not contain a valid email address.';
 ?>
+

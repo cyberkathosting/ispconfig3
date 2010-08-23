@@ -1,11 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Alias doména';
-$wb['active_txt'] = 'Aktívne';
+$wb['list_head_txt'] = 'Alias domÃ©na';
+$wb['active_txt'] = 'AktÃ­vne';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webstránky';
-$wb['domain_txt'] = 'Alias doména';
-$wb['add_new_record_txt'] = 'Prida? novú alias doménu';
-$wb['domain_error_empty'] = 'Doména je prázdna.';
-$wb['domain_error_unique'] = 'Doména musí by? unikátna.';
-$wb['domain_error_regex'] = 'Doménové meno neplatné.';
+$wb['parent_domain_id_txt'] = 'WebstrÃ¡nky';
+$wb['domain_txt'] = 'Alias domÃ©na';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃº alias domÃ©nu';
+$wb['domain_error_empty'] = 'DomÃ©na je prÃ¡zdna.';
+$wb['domain_error_unique'] = 'DomÃ©na musÃ­ byÅ¥ unikÃ¡tna.';
+$wb['domain_error_regex'] = 'DomÃ©novÃ© meno neplatnÃ©.';
 ?>
+

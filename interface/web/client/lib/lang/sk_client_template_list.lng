@@ -1,5 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Klient-Šablóny';
+$wb['list_head_txt'] = 'Klient-Å ablÃ³ny';
 $wb['template_type_txt'] = 'Typ';
-$wb['template_name_txt'] = 'Meno šablóny';
+$wb['template_name_txt'] = 'Meno Å¡ablÃ³ny';
 ?>
+

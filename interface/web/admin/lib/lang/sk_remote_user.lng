@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Uživate?:';
+$wb['username_txt'] = 'UÅ¾ivateÄ¾:';
 $wb['password_txt'] = 'Heslo:';
 $wb['function_txt'] = 'Funkcia:';
-$wb['username_error_unique'] = 'Prihlasovacie meno musí by? jedine?né';
-$wb['username_error_empty'] = 'Užívate?ské meno nemôže by? prázdne';
-$wb['password_error_empty'] = 'Heslo nemôže by? prázdne';
-$wb['password_strength_txt'] = 'Pevnos? hesla:';
+$wb['username_error_unique'] = 'Prihlasovacie meno musÃ­ byÅ¥ jedineÄ¾nÃ©';
+$wb['username_error_empty'] = 'UÅ¾Ã­vateÄ¾skÃ© meno nemÃ´Å¾e byÅ¥ prÃ¡zdne';
+$wb['password_error_empty'] = 'Heslo nemÃ´Å¾e byÅ¥ prÃ¡zdne';
+$wb['password_strength_txt'] = 'PevnosÅ¥ hesla:';
 $wb['Mail domain functions'] = 'Mail domain functions';
 $wb['Mail user functions'] = 'Mail user functions';
 $wb['Mail alias functions'] = 'Mail alias functions';
@@ -40,3 +40,4 @@ $wb['DNS rp functions'] = 'DNS rp functions';
 $wb['DNS srv functions'] = 'DNS srv functions';
 $wb['DNS txt functions'] = 'DNS txt functions';
 ?>
+

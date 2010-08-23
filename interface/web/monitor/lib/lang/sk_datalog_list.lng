@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Front práce';
-$wb['tstamp_txt'] = 'Dátum';
+$wb['list_head_txt'] = 'Front prÃ¡ce';
+$wb['tstamp_txt'] = 'DÃ¡tum';
 $wb['server_id_txt'] = 'Server';
 $wb['dbtable_txt'] = 'DB Tabulky';
 $wb['action_txt'] = 'Akcia';
 $wb['status_txt'] = 'Stav';
 ?>
+

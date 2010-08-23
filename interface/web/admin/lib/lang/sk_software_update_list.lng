@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Aktualizácia softvéru';
+$wb['list_head_txt'] = 'AktualizÃ¡cia softvÃ©ru';
 $wb['server_select_txt'] = 'Vyberte server';
 $wb['installed_txt'] = 'Akcia';
-$wb['update_title_txt'] = 'Aktualizácia ';
+$wb['update_title_txt'] = 'AktualizÃ¡cia ';
 $wb['version_txt'] = 'Verzia';
 $wb['action_txt'] = 'Akcia';
 ?>
+

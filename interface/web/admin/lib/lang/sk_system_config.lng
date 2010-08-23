@@ -1,22 +1,16 @@
 <?php
-$wb['warning'] = 'Upravte tieto hodnoty pozorne! Neodstra?ujte predpony na systémoch s viac ako jedného klienta.';
-$wb['dbname_prefix_txt'] = 'Predpona názvu databázy ';
-$wb['dbuser_prefix_txt'] = 'Predpona databáza užívate?';
-$wb['shelluser_prefix_txt'] = 'Predpona Shell užívate?';
-$wb['ftpuser_prefix_txt'] = 'Predpona FTP užívate?';
-$wb['dbname_prefix_error_regex'] = 'Char nie je povolený v prefix názov databázy.';
-$wb['dbuser_prefix_error_regex'] = 'Char nie je povolené v databáze predpone user.';
-$wb['ftpuser_prefix_error_regex'] = 'Char nie je povolené v ftp užívate? predpone .';
-$wb['shelluser_prefix_error_regex'] = 'Char nie je povolené škrupiny užívate? predpone .';
-$wb['dblist_phpmyadmin_link_txt'] = 'Odkaz na phpmyadmin v NR zozname';
-$wb['mailboxlist_webmail_link_txt'] = 'Odkaz na webmail v zozname schránky';
+$wb['warning'] = 'Upravte tieto hodnoty pozorne! NeodstraÅˆujte predpony na systÃ©moch s viac ako jednÃ©ho klienta.';
+$wb['dbname_prefix_txt'] = 'Predpona nÃ¡zvu databÃ¡zy ';
+$wb['dbuser_prefix_txt'] = 'Predpona databÃ¡za uÅ¾Ã­vateÄ¾a';
+$wb['shelluser_prefix_txt'] = 'Predpona Shell uÅ¾Ã­vateÄ¾a';
+$wb['ftpuser_prefix_txt'] = 'Predpona FTP uÅ¾Ã­vateÄ¾';
+$wb['dbname_prefix_error_regex'] = 'Char nie je povolenÃ½ v prefix nÃ¡zov databÃ¡zy.';
+$wb['dbuser_prefix_error_regex'] = 'Char nie je povolenÃ© v databÃ¡ze predpone user.';
+$wb['ftpuser_prefix_error_regex'] = 'Char nie je povolenÃ© v ftp uÅ¾Ã­vateÄ¾ predpone .';
+$wb['shelluser_prefix_error_regex'] = 'Char nie je povolenÃ© Shell uÅ¾Ã­vateÄ¾ predpone .';
+$wb['dblist_phpmyadmin_link_txt'] = 'Odkaz na phpmyadmin v DB zozname';
+$wb['mailboxlist_webmail_link_txt'] = 'Odkaz na webmail v zozname schrÃ¡nok';
 $wb['webmail_url_txt'] = 'Webmail URL';
 $wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
-$wb['use_domain_module_txt'] = 'Use the domain-module to add new domains';
-$wb['use_domain_module_hint'] = 'If you use this module, your customers can only select one of the domains the admin creates for them. They can not free edit the domain-field.You have to re-login after changing this value, to make the changes visible.';
-$wb['new_domain_txt'] = 'HTML to create a new domain';
-$wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
-$wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
-$wb['webdavuser_prefix_error_regex'] = 'Char not allowed in webdav user prefix.';
-$wb['webftp_url_txt'] = 'WebFTP URL';
 ?>
+

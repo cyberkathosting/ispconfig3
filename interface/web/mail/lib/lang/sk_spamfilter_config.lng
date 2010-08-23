@@ -13,8 +13,9 @@ $wb['mailuser_gid_txt'] = 'Mailuser GID';
 $wb['mailuser_name_txt'] = 'Mailuser Meno';
 $wb['mailuser_group_txt'] = 'Mailuser Skupina';
 $wb['relayhost_txt'] = 'Relayhost';
-$wb['relayhost_user_txt'] = 'Relayhost Uživate?';
+$wb['relayhost_user_txt'] = 'Relayhost uÅ¾ivateÄ¾';
 $wb['relayhost_password_txt'] = 'Relayhost Heslo';
-$wb['mailbox_size_limit_txt'] = 'Ve?kostný Limit mailovej schránky';
-$wb['message_size_limit_txt'] = 'Ve?kostný Limit Správy';
+$wb['mailbox_size_limit_txt'] = 'VeÄ¾kostnÃ½ Limit mailovej schrÃ¡nky';
+$wb['message_size_limit_txt'] = 'VeÄ¾kostnÃ½ Limit SprÃ¡vy';
 ?>
+

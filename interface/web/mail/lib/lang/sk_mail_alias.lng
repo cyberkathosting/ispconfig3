@@ -1,11 +1,12 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Cie?';
-$wb['active_txt'] = 'Aktívne';
-$wb['email_error_isemail'] = 'E-mailová adresa je neplatná.';
-$wb['email_error_unique'] = 'Duplicitná email adresa.';
-$wb['no_domain_perm'] = 'Nemáte žiadne povolenie pre túto doménu.';
-$wb['destination_error_isemail'] = 'Cie?ová E-mailová adresa je neplatná.';
-$wb['limit_mailalias_txt'] = 'Max. po?et e-mailových aliasov na váš ú?et je dosiahnutý.';
-$wb['duplicate_mailbox_txt'] = 'Existuje už schránka s touto e-mailovú adresu';
+$wb['destination_txt'] = 'CieÄ¾';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['email_error_isemail'] = 'E-mailovÃ¡ adresa je neplatnÃ¡.';
+$wb['email_error_unique'] = 'DuplicitnÃ¡ email adresa.';
+$wb['no_domain_perm'] = 'NemÃ¡te Å¾iadne povolenie pre tÃºto domÃ©nu.';
+$wb['destination_error_isemail'] = 'CieÄ¾ovÃ¡ E-mailovÃ¡ adresa je neplatnÃ¡.';
+$wb['limit_mailalias_txt'] = 'Max. poÄet e-mailovÃ½ch aliasov na vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
+$wb['duplicate_mailbox_txt'] = 'Existuje uÅ¾ schrÃ¡nka s touto e-mailovÃº adresu';
 ?>
+

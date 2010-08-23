@@ -1,7 +1,8 @@
 <?php
-$wb['recipient_id_txt'] = 'Pr�jemca ID';
-$wb['sender_id_txt'] = 'Odosielate? ID';
+$wb['recipient_id_txt'] = 'Príjemca ID';
+$wb['sender_id_txt'] = 'Odosielateľ ID';
 $wb['subject_txt'] = 'Predmet';
-$wb['message_txt'] = 'Spr�va';
-$wb['tstamp_txt'] = '?asov� pe?iatka';
+$wb['message_txt'] = 'Správa';
+$wb['tstamp_txt'] = 'Časová pečiatka';
 ?>
+

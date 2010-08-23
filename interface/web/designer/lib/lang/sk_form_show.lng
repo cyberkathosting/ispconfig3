@@ -1,18 +1,19 @@
 <?php
-$wb['header_txt'] = 'Formulár editor';
-$wb['title_txt'] = 'Formulár stránok';
-$wb['name_txt'] = 'Názov formulára';
-$wb['delete_txt'] = 'Odstráni?';
+$wb['header_txt'] = 'FormulÃ¡r editor';
+$wb['title_txt'] = 'FormulÃ¡r strÃ¡nok';
+$wb['name_txt'] = 'NÃ¡zov formulÃ¡ra';
+$wb['delete_txt'] = 'OdstrÃ¡niÅ¥';
 $wb['properties_txt'] = 'Vlastnosti';
-$wb['new_tab_txt'] = 'Tab nové';
-$wb['edit_txt'] = 'Upravi?';
-$wb['new_txt'] = 'Nové';
+$wb['new_tab_txt'] = 'Tab novÃ©';
+$wb['edit_txt'] = 'UpraviÅ¥';
+$wb['new_txt'] = 'NovÃ©';
 $wb['up_txt'] = '^';
 $wb['down_txt'] = 'v';
 $wb['module_txt'] = 'Modul';
-$wb['form_txt'] = 'Formulár';
+$wb['form_txt'] = 'FormulÃ¡r';
 $wb['description_txt'] = 'Popis';
-$wb['module_del_txt'] = 'Odstráni? modul a vo všetky podadresáre?';
-$wb['menu_del_txt'] = 'Zmaza? z ponuky položky menu?';
-$wb['item_del_txt'] = 'Zmaza? položky z menu?';
+$wb['module_del_txt'] = 'OdstrÃ¡niÅ¥ modul a vo vÅ¡etky podadresÃ¡re?';
+$wb['menu_del_txt'] = 'ZmazaÅ¥ z ponuky poloÅ¾ky menu?';
+$wb['item_del_txt'] = 'ZmazaÅ¥ poloÅ¾ky z menu?';
 ?>
+

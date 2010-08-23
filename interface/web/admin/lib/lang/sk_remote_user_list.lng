@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Dia?kový uživatelia';
+$wb['list_head_txt'] = 'DiaÄ¾kovÃ½ uÅ¾ivatelia';
 $wb['list_desc_txt'] = '';
-$wb['add_new_record_txt'] = 'Prida? nový užívate?';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃ½ uÅ¾Ã­vateÄ¾';
 $wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'Užívate?ské meno';
+$wb['username_txt'] = 'UÅ¾Ã­vateÄ¾skÃ© meno';
 ?>
+

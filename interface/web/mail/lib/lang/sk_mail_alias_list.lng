@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Email Alias';
-$wb['active_txt'] = 'Akt�vne';
+$wb['active_txt'] = 'Aktívne';
 $wb['source_txt'] = 'Zdroj';
-$wb['destination_txt'] = 'Cie?';
+$wb['destination_txt'] = 'Cieľ';
 $wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Prida? nov� alias';
+$wb['add_new_record_txt'] = 'Pridať nový alias';
 ?>
+

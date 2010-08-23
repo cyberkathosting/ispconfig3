@@ -1,15 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zóna';
+$wb['zone_txt'] = 'ZÃ³na';
 $wb['name_txt'] = 'Hostname';
 $wb['type_txt'] = 'typ';
 $wb['data_txt'] = 'IPv6-Adresa';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Aktivova?';
-$wb['limit_dns_record_txt'] = 'Max. po?et záznamov DNS pre váš ú?et je dosiahnutý.';
-$wb['no_zone_perm'] = 'Nemáte oprávnenie prida? záznam do tejto zóny DNS.';
-$wb['name_error_empty'] = 'Hostname je prázdny.';
-$wb['name_error_regex'] = 'Hostname má zlý formát.';
-$wb['data_error_empty'] = 'IP-Adresa prázdna';
-$wb['data_error_regex'] = 'IP-Adresa má zlý formát';
+$wb['active_txt'] = 'AktivovaÅ¥';
+$wb['limit_dns_record_txt'] = 'Max. poÄet zÃ¡znamov DNS pre vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
+$wb['no_zone_perm'] = 'NemÃ¡te oprÃ¡vnenie PridaÅ¥ zÃ¡znam do tejto zÃ³ny DNS.';
+$wb['name_error_empty'] = 'Hostname je prÃ¡zdny.';
+$wb['name_error_regex'] = 'Hostname mÃ¡ zlÃ½ formÃ¡t.';
+$wb['data_error_empty'] = 'IP-Adresa prÃ¡zdna';
+$wb['data_error_regex'] = 'IP-Adresa mÃ¡ zlÃ½ formÃ¡t';
 ?>
+

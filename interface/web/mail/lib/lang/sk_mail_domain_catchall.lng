@@ -1,9 +1,10 @@
 <?php
-$wb['domain_txt'] = 'Doména';
-$wb['destination_txt'] = 'Cie?';
-$wb['active_txt'] = 'Aktívne';
-$wb['domain_error_unique'] = 'V sú?asnosti už existuje záznam Doménový kôš pre túto doménu.';
-$wb['no_domain_perm'] = 'Nemáte žiadne povolenie pre túto doménu.';
-$wb['domain_error_regex'] = 'Neplatný názov domény alebo doména obsahuje nepovolené znaky.';
-$wb['limit_mailcatchall_txt'] = 'Max. po?et e-mailových doménových košov pre Váš ú?et je dosiahnutý.';
+$wb['domain_txt'] = 'DomÃ©na';
+$wb['destination_txt'] = 'CieÄ¾';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['domain_error_unique'] = 'V sÃºÄasnosti uÅ¾ existuje zÃ¡znam DomÃ©novÃ½ kÃ´Å¡ pre tÃºto domÃ©nu.';
+$wb['no_domain_perm'] = 'NemÃ¡te Å¾iadne povolenie pre tÃºto domÃ©nu.';
+$wb['domain_error_regex'] = 'NeplatnÃ½ nÃ¡zov domÃ©ny alebo domÃ©na obsahuje nepovolenÃ© znaky.';
+$wb['limit_mailcatchall_txt'] = 'Max. poÄet e-mailovÃ½ch domÃ©novÃ½ch koÅ¡ov pre VÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
 ?>
+

@@ -1,9 +1,10 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'Uživate?';
+$wb['rid_txt'] = 'uÅ¾ivateÄ¾';
 $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Priorita';
-$wb['active_txt'] = 'Aktívne';
-$wb['limit_spamfilter_wblist_txt'] = 'Max. po?et Bielych-?iernych listín alebo záznamou pre váš ú?et je dosiahnutý.';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['limit_spamfilter_wblist_txt'] = 'Max. poÄet Bielych-Äiernych listÃ­n alebo zÃ¡znamou pre vÃ¡Å¡ ÃºÄet je dosiahnutÃ½.';
 ?>
+

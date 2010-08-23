@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'E-mail Doménový kôš';
-$wb['active_txt'] = 'Aktívne';
+$wb['list_head_txt'] = 'E-mail DomÃ©novÃ½ kÃ´Å¡';
+$wb['active_txt'] = 'AktÃ­vne';
 $wb['source_txt'] = 'zdroj';
-$wb['destination_txt'] = 'Cie?ová e-mailová adresa';
+$wb['destination_txt'] = 'CieÄ¾ovÃ¡ e-mailovÃ¡ adresa';
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Doména';
-$wb['add_new_record_txt'] = 'Prida? nový doménový kôš';
+$wb['domain_txt'] = 'DomÃ©na';
+$wb['add_new_record_txt'] = 'PridaÅ¥ novÃ½ domÃ©novÃ½ kÃ´Å¡';
 ?>
+

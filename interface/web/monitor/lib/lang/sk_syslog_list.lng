@@ -1,7 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Log';
-$wb['tstamp_txt'] = 'Dátum';
+$wb['tstamp_txt'] = 'DÃ¡tum';
 $wb['server_id_txt'] = 'Server';
-$wb['loglevel_txt'] = 'Úrove? logovania';
-$wb['message_txt'] = 'Správa';
+$wb['loglevel_txt'] = 'ÃšroveÅˆ logovania';
+$wb['message_txt'] = 'SprÃ¡va';
 ?>
+

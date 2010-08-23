@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Firewall';
-$wb['active_txt'] = 'Aktivova?';
+$wb['active_txt'] = 'AktivovaÅ¥';
 $wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Otvorené TCP porty';
-$wb['udp_port_txt'] = 'Otvorené UDP porty';
-$wb['add_new_record_txt'] = 'Prida? Firewall záznam';
+$wb['tcp_port_txt'] = 'OtvorenÃ© TCP porty';
+$wb['udp_port_txt'] = 'OtvorenÃ© UDP porty';
+$wb['add_new_record_txt'] = 'PridaÅ¥ Firewall zÃ¡znam';
 ?>
+

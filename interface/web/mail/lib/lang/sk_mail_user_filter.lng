@@ -1,10 +1,11 @@
 <?php
 $wb['rulename_txt'] = 'Meno';
 $wb['action_txt'] = 'Akcia';
-$wb['target_txt'] = 'Záložka';
-$wb['active_txt'] = 'Aktívny';
-$wb['rulename_error_empty'] = 'Meno je prázdne';
-$wb['searchterm_is_empty'] = 'H?adaný výraz je prázdny.';
+$wb['target_txt'] = 'ZÃ¡loÅ¾ka';
+$wb['active_txt'] = 'AktÃ­vny';
+$wb['rulename_error_empty'] = 'Meno je prÃ¡zdne';
+$wb['searchterm_is_empty'] = 'HÄ¾adanÃ½ vÃ½raz je prÃ¡zdny.';
 $wb['source_txt'] = 'Zdroj';
 $wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
 ?>
+

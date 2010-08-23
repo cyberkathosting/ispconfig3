@@ -1,8 +1,9 @@
 <?php
-$wb['title_txt'] = 'Title';
-$wb['target_txt'] = 'Target';
+$wb['title_txt'] = 'Titulok';
+$wb['target_txt'] = 'Cieľ';
 $wb['link_txt'] = 'Link';
-$wb['header_txt'] = 'Navi properties';
-$wb['save_txt'] = 'Save';
-$wb['cancel_txt'] = 'Cancel';
+$wb['header_txt'] = 'Navi vlastnosti';
+$wb['save_txt'] = 'Uložiť';
+$wb['cancel_txt'] = 'Zrušiť';
 ?>
+

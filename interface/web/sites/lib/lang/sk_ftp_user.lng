@@ -1,27 +1,28 @@
 <?php
 $wb['uid_txt'] = 'UID';
 $wb['gid_txt'] = 'GID';
-$wb['dir_txt'] = 'Adresár';
-$wb['quota_files_txt'] = 'Kvóta súboru';
-$wb['quota_files_unity_txt'] = 'Súbory';
+$wb['dir_txt'] = 'AdresÃ¡r';
+$wb['quota_files_txt'] = 'KvÃ³ta sÃºboru';
+$wb['quota_files_unity_txt'] = 'SÃºbory';
 $wb['ul_ratio_txt'] = 'Upload pomer';
 $wb['dl_ratio_txt'] = 'Download pomer';
-$wb['ul_bandwidth_txt'] = 'Upload šírka pásma';
-$wb['dl_bandwidth_txt'] = 'Download šírka pásma';
+$wb['ul_bandwidth_txt'] = 'Upload Å¡Ã­rka pÃ¡sma';
+$wb['dl_bandwidth_txt'] = 'Download Å¡Ã­rka pÃ¡sma';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webstránka';
-$wb['username_txt'] = 'Užívate?ské meno';
+$wb['parent_domain_id_txt'] = 'WebstrÃ¡nka';
+$wb['username_txt'] = 'UÅ¾Ã­vateÄ¾skÃ© meno';
 $wb['password_txt'] = 'Heslo';
-$wb['password_strength_txt'] = 'Pevnos? hesla';
-$wb['quota_size_txt'] = 'Harddisk-Kvóta';
-$wb['active_txt'] = 'Aktívne';
-$wb['limit_ftp_user_txt'] = 'Max. po?et používate?ov FTP pre Váš ú?et, je dosiahnutý.';
-$wb['username_error_empty'] = 'Užívate?ské meno je prázdne.';
-$wb['username_error_unique'] = 'Užívate?ské meno musí by? jedine?né.';
-$wb['username_error_regex'] = 'Užívate?ské meno obsahuje znaky, ktoré nie sú povolené.';
-$wb['quota_size_error_empty'] = 'Kvóta je prázdna.';
-$wb['uid_error_empty'] = 'GID je prázdna.';
-$wb['directory_error_empty'] = 'Adresár je prázdny.';
-$wb['directory_error_notinweb'] = 'Adresár nie je vnútri kore?ového adresára webu.';
-$wb['parent_domain_id_error_empty'] = 'Žiadna webstránka zvolená';
+$wb['password_strength_txt'] = 'PevnosÅ¥ hesla';
+$wb['quota_size_txt'] = 'Harddisk-KvÃ³ta';
+$wb['active_txt'] = 'AktÃ­vne';
+$wb['limit_ftp_user_txt'] = 'Max. poÄet poUÅ¾Ã­vateÄ¾ov FTP pre VÃ¡Å¡ ÃºÄet, je dosiahnutÃ½.';
+$wb['username_error_empty'] = 'UÅ¾Ã­vateÄ¾skÃ© meno je prÃ¡zdne.';
+$wb['username_error_unique'] = 'UÅ¾Ã­vateÄ¾skÃ© meno musÃ­ byÅ¥ jedineÄnÃ©.';
+$wb['username_error_regex'] = 'UÅ¾Ã­vateÄ¾skÃ© meno obsahuje znaky, ktorÃ© nie sÃº povolenÃ©.';
+$wb['quota_size_error_empty'] = 'KvÃ³ta je prÃ¡zdna.';
+$wb['uid_error_empty'] = 'GID je prÃ¡zdna.';
+$wb['directory_error_empty'] = 'AdresÃ¡r je prÃ¡zdny.';
+$wb['directory_error_notinweb'] = 'AdresÃ¡r nie je vnÃºtri koreÅˆovÃ©ho adresÃ¡ra webu.';
+$wb['parent_domain_id_error_empty'] = 'Å½iadna webstrÃ¡nka zvolenÃ¡';
 ?>
+

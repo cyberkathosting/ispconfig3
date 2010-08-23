@@ -1,12 +1,13 @@
 <?php
 $wb['name_txt'] = 'Meno modulu';
-$wb['title_txt'] = 'Názov modulu';
-$wb['template_txt'] = 'Šablóna súbor';
+$wb['title_txt'] = 'NÃ¡zov modulu';
+$wb['template_txt'] = 'Å ablÃ³na sÃºbor';
 $wb['navframe_txt'] = 'NaviFrame';
-$wb['startpage_txt'] = 'Vıchozia stránka';
-$wb['tab_width_txt'] = 'Tab šírka';
-$wb['save_txt'] = 'Uloi?';
-$wb['cancel_txt'] = 'Zruši?';
+$wb['startpage_txt'] = 'VÃ½chozia strÃ¡nka';
+$wb['tab_width_txt'] = 'Tab Å¡Ã­rka';
+$wb['save_txt'] = 'UloÅ¾iÅ¥';
+$wb['cancel_txt'] = 'ZruÅ¡iÅ¥';
 $wb['header_txt'] = 'Modul vlastnosti';
-$wb['description_txt'] = '<b> Popis </ b> <br> <br> <b> Modulename: </ b> Názov modulu adresár. Len ?ísla, znaky a podtrítko povolené. <br> <b> Moduletitle: </ b> sa objaví v (hornej) navigáciu. <br> <b> Šablóna súboru: </ b> Šablóna súboru modulu. V sú?asnej dobe sú k dispozícii';
+$wb['description_txt'] = '<b> Popis </ b> <br> <br> <b> Modulename: </ b> NÃ¡zov modulu adresÃ¡r. Len ÄÃ­sla, znaky a podtrÅ¾Ã­tko povolenÃ©. <br> <b> Moduletitle: </ b> sa objavÃ­ v (hornej) navigÃ¡ciu. <br> <b> Å ablÃ³na sÃºboru: </ b> Å ablÃ³na sÃºboru modulu. V sÃºÄasnej dobe sÃº k dispozÃ­cii';
 ?>
+

@@ -1,10 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter U�ivate?a';
+$wb['list_head_txt'] = 'Spamfilter uživateľa';
 $wb['local_txt'] = 'Miestny';
 $wb['server_id_txt'] = 'Server';
 $wb['priority_txt'] = 'Priorita';
 $wb['policy_id_txt'] = 'Politika';
 $wb['fullname_txt'] = 'Meno';
 $wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Prida? Spamfilter u�ivate?a';
+$wb['add_new_record_txt'] = 'Pridať Spamfilter uživateľa';
 ?>
+

@@ -1,11 +1,12 @@
 <?php
-$wb['source_txt'] = 'Source';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['limit_mailaliasdomain_txt'] = 'The max. number of email alias domains for your account is reached.';
-$wb['source_destination_identical_txt'] = 'Source and target Domain are the same.';
-$wb['source_error_empty'] = 'Source Domain is empty.';
-$wb['source_error_unique'] = 'Duplicate source Domain.';
-$wb['source_error_regex'] = 'Invalid source domain name.';
+$wb['source_txt'] = 'Zdroj';
+$wb['destination_txt'] = 'Cieľ';
+$wb['active_txt'] = 'Aktívne';
+$wb['no_domain_perm'] = 'Nemáte oprávnenie na manipuláciu s touto doménou.';
+$wb['limit_mailaliasdomain_txt'] = 'Dosiahli ste max. počet email Alias domén';
+$wb['source_destination_identical_txt'] = 'Zdroj aj cieľ nesmie byť rovnaký.';
+$wb['source_error_empty'] = 'Zdroj je prázdny.';
+$wb['source_error_unique'] = 'Duplicitná zdrojová doména.';
+$wb['source_error_regex'] = 'Zlý názov zdrojovej domény';
 ?>
+

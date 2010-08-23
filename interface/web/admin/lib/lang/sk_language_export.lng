@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Export jazykového súboru';
-$wb['language_select_txt'] = 'Vybra? jazykového súboru';
-$wb['btn_save_txt'] = 'Export vybraného jazykového súboru';
-$wb['btn_cancel_txt'] = 'Spä?';
+$wb['list_head_txt'] = 'Export jazykovÃ©ho sÃºboru';
+$wb['language_select_txt'] = 'VybraÅ¥ jazykovÃ©ho sÃºboru';
+$wb['btn_save_txt'] = 'Export vybranÃ©ho jazykovÃ©ho sÃºboru';
+$wb['btn_cancel_txt'] = 'SpÃ¤Å¥';
 ?>
+
