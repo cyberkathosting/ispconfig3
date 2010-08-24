@@ -2141,7 +2141,7 @@ class remoting {
 			$new_group[] = intval( $group_id);
         }
         $group_list = implode(',', $new_group);
-		$sql ="SELECT domain, domain_id, document_root FROM web_domain WHERE ( (sys_userid = $sys_userid  AND sys_perm_user LIKE '%r%') OR (sys_groupid IN ($group_list) AND sys_perm_group LIKE '%r%') OR  sys_perm_other LIKE '%r%') AND type = 'vhost'";
+		$sql ="SELECT domain, domain_id, document_root, active FROM web_domain WHERE ( (sys_userid = $sys_userid  AND sys_perm_user LIKE '%r%') OR (sys_groupid IN ($group_list) AND sys_perm_group LIKE '%r%') OR  sys_perm_other LIKE '%r%') AND type = 'vhost'";
         $result = $app->db->queryAllRecords($sql);
         if(isset($result)) {
 			return $result;
