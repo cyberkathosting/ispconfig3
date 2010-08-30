@@ -4,7 +4,7 @@ $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zone';
 $wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'E-Mail';
+$wb['mbox_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Neue DNS Zone (SOA) hinzufügen';
 ?>
 

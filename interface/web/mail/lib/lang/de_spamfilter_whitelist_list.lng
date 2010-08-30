@@ -4,7 +4,7 @@ $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['priority_txt'] = 'Priorität';
 $wb['rid_txt'] = 'Benutzer';
-$wb['email_txt'] = 'Whitelisted E-Mail';
+$wb['email_txt'] = 'Whitelisted Email';
 $wb['add_new_record_txt'] = 'Whitelist Eintrag hinzufügen';
 ?>
 

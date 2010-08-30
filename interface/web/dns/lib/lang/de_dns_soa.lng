@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zone (SOA)';
 $wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'E-Mail';
+$wb['mbox_txt'] = 'Email';
 $wb['serial_txt'] = 'Seriennummer';
 $wb['refresh_txt'] = 'Refresh';
 $wb['retry_txt'] = 'Retry';
@@ -19,8 +19,8 @@ $wb['origin_error_empty'] = 'Zone leer.';
 $wb['origin_error_unique'] = 'Es existiert bereits ein Eintrag für diese Zone.';
 $wb['origin_error_regex'] = 'Zone hat ein ungültiges Format.';
 $wb['ns_error_regex'] = 'NS hat ein ungültiges Format.';
-$wb['mbox_error_empty'] = 'E-Mail ist leer.';
-$wb['mbox_error_regex'] = 'E-Mail Format ungültig.';
+$wb['mbox_error_empty'] = 'Email ist leer.';
+$wb['mbox_error_regex'] = 'Email Format ungültig.';
 $wb['also_notify_txt'] = 'Also Notify';
 $wb['update_acl_txt'] = 'Update ACL';
 ?>
