@@ -1,0 +1,1 @@
+ALTER TABLE `web_domain` ADD `document_root_www` VARCHAR( 255 ) NULL AFTER `document_root`;

@@ -1084,6 +1084,7 @@ CREATE TABLE `web_domain` (
   `parent_domain_id` int(11) unsigned NOT NULL default '0',
   `vhost_type` varchar(32) default NULL,
   `document_root` varchar(255) default NULL,
+  `document_root_www` varchar(255) default NULL,
   `system_user` varchar(255) default NULL,
   `system_group` varchar(255) default NULL,
   `hd_quota` bigint(20) NOT NULL default '0',
