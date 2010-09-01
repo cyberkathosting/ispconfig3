@@ -5,18 +5,18 @@
 # dxr@brutalsec.net
 #    01-09-2009
 #
-# We can create a script for configure chroot enviroment but,
+# We can create a script for configure chroot environment but,
 # YOU MUST UNDERSTAND HOW TO WORK IT for can solve possible 
 # problems in the future.
 # 
-# Every service has its own chroot enviroment:
+# Every service has its own chroot environment:
 # BIND -> chroot
 # Apache -> chroot
 # Dovecot -> chroot
 # Pureftpd -> Apache's chroot
 # 
 # Only apache and php packages aren't installed in real system,
-# only in chroot enviroment with symbolic links from real system.
+# only in chroot environment with symbolic links from real system.
 # 
 # PLEASE, CONFIGURE CHROOT ENVIROMENT IF SECURITY IS REALLY 
 # IMPORTANT FOR YOU AND YOU KNOWN HOW TO WORK IT!
@@ -24,10 +24,10 @@
 
 exit 1
 
-1. BACKUP before change something in the system
+1. BACKUP before changing anything on the system
 2. Create partitions
-3. Remove possible apache or php installations on real system
-4. Prepair Chroot enviroment
+3. Remove possible Apache or PHP installations on real system
+4. Prepare Chroot environment
 5. Linking Webserver aplication from real system
 6. mini_sendmail
 7. Test services
@@ -35,8 +35,8 @@ exit 1
 9. Migration
 
 
-1. BACKUP before change something in the system 
-# If is not a new instalation, then
+1. BACKUP before changing anything on the system 
+# If is not a new installation, then
 
 BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
 BACKUP BACKUP BACKUP BACKUP BACKUP BACKUP
@@ -62,12 +62,12 @@ mount /dev/lvm_foobar2/apachelogs_lv /var/www/html/var/log/apache2
 mount /dev/lvm_foobar3/hosting_lv /var/www/html/var/www/html
 
 
-3. Remove possible apache or php installations on real system
-# We never wont install apache or php in non-chroot system, if we have installed, we only have do a backup of confgigurations, uninstall, and check every simbolic link
+3. Remove possible Apache or PHP installations on real system
+# We never wont install apache or php in non-chroot system, if we have installed, we only have do a backup of configurations, uninstall, and check every symbolic link
 dpkg -l|egrep --color -i 'apache|php'
 
 
-4. Prepair Chroot enviroment
+4. Prepare Chroot environment
 
 # Install packages in real system
 apt-get install debootstrap libpcre3 libaprutil1 libxml2 mime-support patch make gcc mysql-server subversion ssh openssh-server ntp ntpdate vim libdbd-mysql libdbi-perl dnsutils
@@ -128,7 +128,7 @@ chown root:root /var/www/html/etc/apache2/ && chmod 700 /var/www/html/etc/apache
 chmod 711 /var/www/html/etc/php5/
 
 
-5. # Is good idea to add nagios alarm for check every simbolic link is correct.
+5. # Is good idea to add Nagios alarm for check every symbolic link is correct.
 ln -s /var/www/html/etc/apache2 /etc/apache2
 ln -s /var/www/html/etc/suphp /etc/suphp
 ln -s /var/www/html/var/run/apache2 /var/run/apache2

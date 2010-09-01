@@ -23,7 +23,7 @@ Server
 Mail module
 --------------------------------------
 
-- Show mail statistics in the interface. the mail statistics are stored
+- Show mail statistics in the interface. The mail statistics are stored
   in the database table mail_traffic and are collected by the file
   server/cron_daily.php
 

@@ -44,7 +44,7 @@ ln -s / www
 
 chroot /var/www
 
-# Update files in the chroot enviroment and install some packages.
+# Update files in the chroot environment and install some packages.
 # You can ignore warnings about locales, we will fix them in the next step.
 
 apt-get update
@@ -104,7 +104,7 @@ cd /tmp/
 rm -rf ispconfig3_install
 rm -f ISPConfig-3.0.1.4-beta-2.tar.gz
 
-# Move the ispconfig interface part to the chroot enviroment and create a symlink
+# Move the ispconfig interface part to the chroot environment and create a symlink
 
 mkdir /var/www/usr/local/ispconfig
 chown ispconfig:ispconfig /var/www/usr/local/ispconfig
