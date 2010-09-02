@@ -58,7 +58,11 @@ class ini_parser {
 		foreach($this->config as $section => $data) {
 			$content .= "[$section]\n";
 			foreach($data as $item => $value) {
-				if($value != '') $content .= "$item=$value\n";
+				if($value != '') {
+					$value 	= trim($value);
+					$item 	= trim($item);
+					$content .= "$item=$value\n";
+				}
 			}
 		}
 		return $content;
