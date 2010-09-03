@@ -2,9 +2,9 @@
 $wb['Domains'] = 'Domains';
 $wb['domain_txt'] = 'Domain';
 $wb['client_txt'] = 'Client';
-$wb['error_domain_in mailuse'] = 'This domain can not be deleted, because it is in use as mail-domain';
-$wb['error_domain_in webuse'] = 'This domain can not be deleted, because it is in use as web-domain';
-$wb['error_client_can_not_add_domain'] = 'You can not add a new domain';
+$wb['error_domain_in mailuse'] = 'This domain cannot be deleted, because it is in use as mail-domain';
+$wb['error_domain_in webuse'] = 'This domain cannot be deleted, because it is in use as web-domain';
+$wb['error_client_can_not_add_domain'] = 'You cannot add a new domain';
 $wb['domain_txt'] = 'Domain';
 $wb['error_client_group_id_empty'] = 'You have to select a customer<br>';
 ?>

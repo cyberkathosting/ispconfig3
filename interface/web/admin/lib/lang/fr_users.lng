@@ -22,7 +22,7 @@ $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Groupes';
 $wb['default_group_txt'] = 'Groupe par Défaut';
 $wb['username_empty'] = 'Le nom dutilisateur est vide.';
-$wb['username_unique'] = 'Le nom dutilisateur entré éxiste déja.';
+$wb['username_unique'] = 'Le nom dutilisateur entré existe déjà.';
 $wb['password_strength_txt'] = 'Force du mot de passe';
 $wb['startmodule_err'] = 'Le module de départ néxiste pas.';
 ?>

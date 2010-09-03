@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Domains';
-$wb['add_new_record_txt'] = 'Add new Domain';
-$wb['domain_txt'] = 'Domain';
+$wb['list_head_txt'] = 'Domaines';
+$wb['add_new_record_txt'] = 'Ajouter nouveau Domaine';
+$wb['domain_txt'] = 'Domaine';
 ?>
