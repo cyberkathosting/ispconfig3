@@ -29,6 +29,12 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class auth {
+	var $client_limits = null;
+
+	public function get_user_id()
+	{
+		return $_SESSION['s']['user']['userid'];
+	}
 	
 	public function is_admin() {
 		if($_SESSION['s']['user']['typ'] == 'admin') {
@@ -36,7 +42,7 @@ class auth {
 		} else {
 			return false;
 		}
-	}
+	}	
 	
 	public function has_clients($userid) {
 		global $app, $conf;
@@ -69,6 +75,25 @@ class auth {
 			return false;
 		}
 	}
+
+	//** This function returns given client limit as integer, -1 means no limit
+	public function get_client_limit($userid, $limitname)
+	{
+		global $app;
+		
+		// simple query cache
+		if($this->client_limits===null) 
+			$this->client_limits = $app->db->queryOneRecord("SELECT client.* FROM sys_user, client WHERE sys_user.userid = $userid AND sys_user.client_id = client.client_id");
+		
+		// isn't client -> no limit
+		if(!$this->client_limits)
+			return -1;
+		
+		if(isset($this->client_limits['limit_'.$limitname]))
+			return $this->client_limits['limit_'.$limitname];
+		else
+			trigger_error('Wrong limit identifier');		
+	}	
 	
 	//** This function removes a given group id from a given user.
 	public function remove_group_from_user($userid,$groupid) {
@@ -99,8 +124,7 @@ class auth {
 			exit;
 		}
 	}
-	
-	
+		
 }
 
 ?>

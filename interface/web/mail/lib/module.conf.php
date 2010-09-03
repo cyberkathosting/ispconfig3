@@ -1,5 +1,7 @@
 <?php
 
+$userid=$app->auth->get_user_id();
+
 $module['name'] 		= 'mail';
 $module['title'] 		= 'top_menu_email';
 $module['template'] 	= 'module.tpl.htm';
@@ -10,60 +12,86 @@ $module['tab_width']    = '';
 //**** Email accounts menu
 $items = array();
 
-$items[] = array( 'title' 	=> 'Domain',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_domain_list.php',
-				  'html_id' => 'mail_domain_list');
+if($app->auth->get_client_limit($userid,'maildomain') != 0)
+{
+	$items[] = array( 'title' 	=> 'Domain',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_domain_list.php',
+					  'html_id' => 'mail_domain_list');
+}
+	
+if($app->auth->get_client_limit($userid,'mailaliasdomain') != 0)
+{
+	$items[] = array( 'title' 	=> 'Domain Alias',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_aliasdomain_list.php',
+					  'html_id' => 'mail_aliasdomain_list');
+}
 
-$items[] = array( 'title' 	=> 'Domain Alias',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_aliasdomain_list.php',
-				  'html_id' => 'mail_aliasdomain_list');
+if($app->auth->get_client_limit($userid,'mailbox') != 0)
+{
+	$items[] = array( 'title' 	=> 'Email Mailbox',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_user_list.php',
+					  'html_id' => 'mail_user_list');
+}
 
-$items[] = array( 'title' 	=> 'Email Mailbox',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_user_list.php',
-				  'html_id' => 'mail_user_list');
+if($app->auth->get_client_limit($userid,'mailalias') != 0)
+{
+	$items[] = array( 'title' 	=> 'Email Alias',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_alias_list.php',
+					  'html_id' => 'mail_alias_list');
+}
 
-$items[] = array( 'title' 	=> 'Email Alias',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_alias_list.php',
-				  'html_id' => 'mail_alias_list');
+if($app->auth->get_client_limit($userid,'mailforward') != 0)
+{
+	$items[] = array( 'title' 	=> 'Email Forward',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_forward_list.php',
+					  'html_id' => 'mail_forward_list');
+}
 
-$items[] = array( 'title' 	=> 'Email Forward',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_forward_list.php',
-				  'html_id' => 'mail_forward_list');
+if($app->auth->get_client_limit($userid,'mailcatchall') != 0)
+{
+	$items[] = array( 'title' 	=> 'Email Catchall',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_domain_catchall_list.php',
+					  'html_id' => 'mail_domain_catchall_list');
+}
 
-$items[] = array( 'title' 	=> 'Email Catchall',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_domain_catchall_list.php',
-				  'html_id' => 'mail_domain_catchall_list');
+if($app->auth->get_client_limit($userid,'mailrouting') != 0)
+{
+	$items[] = array( 'title' 	=> 'Email Routing',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_transport_list.php',
+					  'html_id' => 'mail_transport_list');
+}
 
-$items[] = array( 'title' 	=> 'Email Routing',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_transport_list.php',
-				  'html_id' => 'mail_transport_list');
-
-$module['nav'][] = array(	'title'	=> 'Email Accounts',
-							'open' 	=> 1,
-							'items'	=> $items);
+if(count($items))
+{
+	$module['nav'][] = array(	'title'	=> 'Email Accounts',
+								'open' 	=> 1,
+								'items'	=> $items);
+}
 
 //**** Spamfilter menu
 $items = array();
 
-$items[] = array( 'title' 	=> 'Whitelist',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/spamfilter_whitelist_list.php',
-				  'html_id' => 'spamfilter_whitelist_list');
+if($app->auth->get_client_limit($userid,'spamfilter_wblist') != 0)
+{
+	$items[] = array( 'title' 	=> 'Whitelist',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/spamfilter_whitelist_list.php',
+					  'html_id' => 'spamfilter_whitelist_list');
+		
+	$items[] = array( 'title' 	=> 'Blacklist',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/spamfilter_blacklist_list.php',
+					  'html_id' => 'spamfilter_blacklist_list');
+}
 
-
-$items[] = array( 'title' 	=> 'Blacklist',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/spamfilter_blacklist_list.php',
-				  'html_id' => 'spamfilter_blacklist_list');
-
-if($_SESSION['s']['user']['typ'] == 'admin') {
+if($app->auth->is_admin()) {
 
 	$items[] = array( 	'title' 	=> 'User / Domain',
 				  		'target' 	=> 'content',
@@ -79,23 +107,30 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 //				  		'target' 	=> 'content',
 //				  		'link'	    => 'mail/spamfilter_config_list.php');
 }
-$module['nav'][] = array(	'title'	=> 'Spamfilter',
-							'open' 	=> 1,
-							'items'	=> $items);
+
+if(count($items))
+{
+	$module['nav'][] = array(	'title'	=> 'Spamfilter',
+								'open' 	=> 1,
+								'items'	=> $items);
+}
 
 //**** Fetchmail menu
 $items = array();
 
-$items[] = array( 'title' 	=> 'Fetchmail',
-				  'target' 	=> 'content',
-				  'link'	=> 'mail/mail_get_list.php',
-				  'html_id' => 'mail_get_list');
+if($app->auth->get_client_limit($userid,'fetchmail') != 0)
+{
+	$items[] = array( 'title' 	=> 'Fetchmail',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_get_list.php',
+					  'html_id' => 'mail_get_list');
+		
+	$module['nav'][] = array(	'title'	=> 'Fetchmail',
+								'open' 	=> 1,
+								'items'	=> $items);
+}
 
 
-
-$module['nav'][] = array(	'title'	=> 'Fetchmail',
-							'open' 	=> 1,
-							'items'	=> $items);
 
 //**** Statistics menu
 $items = array();
