@@ -35,18 +35,18 @@ set_time_limit(0);
 ini_set('error_reporting','E_ALL & ~E_NOTICE');
 
 // make sure server_id is always an int
-$conf["server_id"] = intval($conf["server_id"]);
+$conf['server_id'] = intval($conf['server_id']);
 
 /*
 // Get server record, if updates where available for this server
-$server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE update = 1 AND server_id = ".$conf["server_id"]);
+$server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE update = 1 AND server_id = ".$conf['server_id']);
 if($server_db_record == false) {
-	$app->log("Nothing to update for server_id ".$conf["server_id"]);
+	$app->log('Nothing to update for server_id '.$conf['server_id']);
 	die();
 } else {
 	// Set update status to 0, so we dont start the update process twice
-	$app->db->query("UPDATE server SET update = 0 WHERE server_id = ".$conf["server_id"]);
-	$app->log("Begin update.");
+	$app->db->query("UPDATE server SET update = 0 WHERE server_id = ".$conf['server_id']);
+	$app->log('Begin update.');
 }
 */
 
