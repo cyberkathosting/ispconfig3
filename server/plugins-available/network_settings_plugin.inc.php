@@ -156,7 +156,7 @@ class network_settings_plugin {
 				unset($network_tpl);
 				
 				$app->log("Changed Network settings",LOGLEVEL_DEBUG);
-				exec('/etc/init.d/networking force-reload');
+				exec($conf['init_scripts'] . '/' . 'networking force-reload');
 			} 
 			elseif (is_file('/etc/gentoo-release')) 
 			{
@@ -228,10 +228,10 @@ class network_settings_plugin {
 				unset($network_tpl);
 				
 				$app->log("Changed Network settings",LOGLEVEL_DEBUG);
-				exec('/etc/init.d/net.eth0 restart');
+				exec($conf['init_scripts'] . '/' . 'net.eth0 restart');
 			} 
 			else {
-				$app->log("Network configuration not available for this linux distribution.",LOGLEVEL_DEBUG);
+				$app->log("Network configuration not available for this Linux distribution.",LOGLEVEL_DEBUG);
 			}
 			
 		} else {
