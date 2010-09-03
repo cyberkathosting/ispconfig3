@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require("lib/config.inc.php");
-require("lib/app.inc.php");
+require('lib/config.inc.php');
+require('lib/app.inc.php');
 
 set_time_limit(0);
 ini_set('error_reporting','E_ALL & ~E_NOTICE');
@@ -53,31 +53,31 @@ if($server_db_record == false) {
 //* Load the server configuration
 if($app->dbmaster->connect()) {
 	// get the dalaog_id of the last performed record
-	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = ".$conf["server_id"]);
+	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = ".$conf['server_id']);
 	$conf['last_datalog_id'] = (int)$server_db_record['updated'];
-	$conf["mirror_server_id"] = (int)$server_db_record['mirror_server_id'];
+	$conf['mirror_server_id'] = (int)$server_db_record['mirror_server_id'];
 	// Load the ini_parser
 	$app->uses('ini_parser');
 	// Get server configuration
-	$conf["serverconfig"] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record["config"]));
+	$conf['serverconfig'] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record['config']));
 	// Set the loglevel
-	$conf["log_priority"] = intval($conf["serverconfig"]["server"]["loglevel"]);
+	$conf['log_priority'] = intval($conf['serverconfig']['server']['loglevel']);
 	
 	unset($server_db_record);
 }
 
 
 // Check whether another instance of this script is already running
-if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
+if(is_file($conf['temppath'].$conf['fs_div'].'.ispconfig_lock')){
   clearstatcache();
   for($i=0;$i<120;$i++){ // Wait max. 1200 sec, then retry
-    if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
+    if(is_file($conf['temppath'].$conf['fs_div'].'.ispconfig_lock')){
       exec("ps aux | grep '/usr/local/ispconfig/server/[s]erver.php' | wc -l", $check);
       if(intval($check[0]) > 1) { // 1 because this is 2nd instance!
-          $app->log("There is already an instance of server.php running. Exiting.", LOGLEVEL_DEBUG);
+          $app->log('There is already an instance of server.php running. Exiting.', LOGLEVEL_DEBUG);
           exit;
       }
-	  $app->log("There is already a lockfile set. Waiting another 10 seconds...", LOGLEVEL_DEBUG);
+	  $app->log('There is already a lockfile set. Waiting another 10 seconds...', LOGLEVEL_DEBUG);
       sleep(10);
       clearstatcache();
     }
@@ -85,20 +85,20 @@ if(is_file($conf["temppath"].$conf["fs_div"].".ispconfig_lock")){
 }
 
 // Set Lockfile
-@touch($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
-$app->log("Set Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock", LOGLEVEL_DEBUG);
+@touch($conf['temppath'].$conf['fs_div'].'.ispconfig_lock');
+$app->log('Set Lock: '.$conf['temppath'].$conf['fs_div'].'.ispconfig_lock', LOGLEVEL_DEBUG);
 
 
 if($app->db->connect() && $app->dbmaster->connect()) {
 
 	// Check if there is anything to update
-	if($conf["mirror_server_id"] > 0) {
-		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = ".$conf["mirror_server_id"]." OR server_id = 0)");
+	if($conf['mirror_server_id'] > 0) {
+		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = ".$conf['mirror_server_id']." OR server_id = 0)");
 	} else {
-		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf["server_id"]." OR server_id = 0)");
+		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0)");
 	}
 	
-	$tmp_num_records = $tmp_rec["number"];
+	$tmp_num_records = $tmp_rec['number'];
 	unset($tmp_rec);
 
 	if($tmp_num_records > 0) {
@@ -109,14 +109,14 @@ if($app->db->connect() && $app->dbmaster->connect()) {
 		$app->log("Found $tmp_num_records changes, starting update process.", LOGLEVEL_DEBUG);
 		// Load required base-classes
 		$app->uses('modules,plugins,file,services');
-		// Load the modules that are im the mods-enabled folder
+		// Load the modules that are in the mods-enabled folder
 		$app->modules->loadModules('all');
 		// Load the plugins that are in the plugins-enabled folder
 		$app->plugins->loadPlugins('all');
-		// Go trough the sys_datalog table and call the processing functions
-		// in the modules that are hooked on to the table actions
+		// Go through the sys_datalog table and call the processing functions
+		// from the modules that are hooked on to the table actions
 		$app->modules->processDatalog();
-		// Restart services that need to be restarted after configuration
+		// Restart services that need to after configuration
 		$app->services->processDelayedActions();
 	} else {
 		/*
@@ -133,15 +133,15 @@ if($app->db->connect() && $app->dbmaster->connect()) {
 	}
 } else {
 	if(!$app->db->connect()) {
-		$app->log("Unable to connect to local server.".$app->db->errorMessage,LOGLEVEL_WARN);
+		$app->log('Unable to connect to local server.'.$app->db->errorMessage,LOGLEVEL_WARN);
 	} else {
-		$app->log("Unable to connect to master server.".$app->dbmaster->errorMessage,LOGLEVEL_WARN);
+		$app->log('Unable to connect to master server.'.$app->dbmaster->errorMessage,LOGLEVEL_WARN);
 	}
 }
 
 // Remove lock
-@unlink($conf["temppath"].$conf["fs_div"].".ispconfig_lock");
-$app->log("Remove Lock: ".$conf["temppath"].$conf["fs_div"].".ispconfig_lock",LOGLEVEL_DEBUG);
+@unlink($conf['temppath'].$conf['fs_div'].'.ispconfig_lock');
+$app->log('Remove Lock: '.$conf['temppath'].$conf['fs_div'].'.ispconfig_lock',LOGLEVEL_DEBUG);
 
 
 die("finished.\n");
