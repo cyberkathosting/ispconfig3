@@ -4,9 +4,9 @@ set -e
 cd /etc/getmail
 rcfiles=""
 for file in *.conf ; do
-if [ $file != "*.conf" ]; then
-rcfiles="$rcfiles -r $file"
-fi
+  if [ $file != "*.conf" ]; then
+    rcfiles="$rcfiles -r $file"
+  fi
 done
 #echo $rcfiles
 if [ -f /tmp/.getmail_lock ]; then
