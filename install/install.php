@@ -92,7 +92,7 @@ if(!is_writable(dirname(ISPC_LOG_FILE))){
 }
 
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
-	die('This software can not be installed on a server wich runs ISPConfig 2.x.');
+	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');
 }
 
 if(is_dir('/usr/local/ispconfig')) {
