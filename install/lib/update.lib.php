@@ -58,8 +58,9 @@ function prepareDBDump() {
 	// create a backup copy of the ispconfig database in the root folder
 	$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_h-i').'.sql';
 	copy('existing_db.sql',$backup_db_name);
-	exec("chmod 700 $backup_db_name");
-	exec("chown root:root $backup_db_name");
+	chmod($backup_db_name, 0700);
+	chown($backup_db_name, 'root');
+	chgrp($backup_db_name, 'root');
 
 	if ($conf['powerdns']['installed']) {
 		//** export the current PowerDNS database data
@@ -72,8 +73,9 @@ function prepareDBDump() {
 		// create a backup copy of the PowerDNS database in the root folder
 		$backup_db_name = '/root/ispconfig_powerdns_db_backup_'.@date('Y-m-d_h-i').'.sql';
 	        copy('existing_powerdns_db.sql',$backup_db_name);
-        	exec("chmod 700 $backup_db_name");
-	        exec("chown root:root $backup_db_name");
+		chmod($backup_db_name, 0700);
+	        chown($backup_db_name, 'root');
+	        chgrp($backup_db_name, 'root');
 	}
 }
 

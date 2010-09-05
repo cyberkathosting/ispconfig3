@@ -109,7 +109,8 @@ class bind_plugin {
 			$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
 			$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
 			file_put_contents($filename,$tpl->grab());
-			exec('chown '.escapeshellcmd($dns_config['bind_user']).':'.escapeshellcmd($dns_config['bind_group']).' '.$filename);
+			chown($filename, escapeshellcmd($dns_config['bind_user']));
+			chgrp($filename, escapeshellcmd($dns_config['bind_group']));
 			unset($tpl);
 			unset($records);
 			unset($records_out);

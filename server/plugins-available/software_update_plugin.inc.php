@@ -73,7 +73,7 @@ class software_update_plugin {
 		global $app, $conf;
 		
 		//* Get the info of the package:
-        $software_update_id = intval($data["new"]["software_update_id"]);
+		$software_update_id = intval($data["new"]["software_update_id"]);
 		$software_update = $app->db->queryOneRecord("SELECT * FROM software_update WHERE software_update_id = '$software_update_id'");
 		$software_package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = '".$app->db->quote($software_update['package_name'])."'");
 		
@@ -97,7 +97,7 @@ class software_update_plugin {
 		$temp_dir = '/tmp/'.md5 (uniqid (rand()));
 		$app->log("The temp dir is $temp_dir",LOGLEVEL_DEBUG);
 		mkdir($temp_dir);
-		if($installuser != '') exec('chown '.$installuser.' '.$temp_dir);
+		if($installuser != '') chown($temp_dir, $installuser);
 		
 		if(!is_dir($temp_dir)) {
 			$app->log("Unable to create temp directory.",LOGLEVEL_WARN);
@@ -135,7 +135,7 @@ class software_update_plugin {
 			$app->log("No package file found. Download failed? Installation aborted.",LOGLEVEL_WARN);
 			exec("rm -rf $temp_dir");
 			$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
-            $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
+			$this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			return false;
 		}
 
@@ -148,10 +148,10 @@ class software_update_plugin {
 				$app->log("The md5 sum of the downloaded file is incorrect. Update aborted.",LOGLEVEL_WARN);
 				exec("rm -rf $temp_dir");
 				$app->log("Deleting the temp directory $temp_dir",LOGLEVEL_DEBUG);
-                $this->set_install_status($data["new"]["software_update_inst_id"], "failed");
+				$this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 				return false;
 			} else {
-				$app->log("md5sum of the downloaded file is verified.",LOGLEVEL_DEBUG);
+				$app->log("MD5 checksum of the downloaded file verified.",LOGLEVEL_DEBUG);
 			}
 			
 			

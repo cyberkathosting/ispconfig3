@@ -201,7 +201,7 @@ class shelluser_jailkit_plugin {
 				$tpl->setVar('home_dir',$this->_get_home_dir(""));
 				
 				$bashrc = escapeshellcmd($this->data['new']['dir']).'/etc/bash.bashrc';
-				if(@is_file($bashrc)) exec('rm '.$bashrc);
+				if(@is_file($bashrc)) unlink($bashrc);
 				
 				file_put_contents($bashrc,$tpl->grab());
 				unset($tpl);
@@ -214,7 +214,7 @@ class shelluser_jailkit_plugin {
 				$tpl->setVar('domain',$web['domain']);
 				
 				$motd = escapeshellcmd($this->data['new']['dir']).'/var/run/motd';
-				if(@is_file($motd)) exec('rm '.$motd);
+				if(@is_file($motd)) unlink($motd);
 				
 				file_put_contents($motd,$tpl->grab());
 				
@@ -234,7 +234,7 @@ class shelluser_jailkit_plugin {
 	
 	function _get_home_dir($username)
 	{
-		return str_replace("[username]",escapeshellcmd($username),$this->jailkit_config["jailkit_chroot_home"]);
+		return str_replace("[username]",escapeshellcmd($username),$this->jailkit_config['jailkit_chroot_home']);
 	}
 	
 	function _add_jailkit_user()
@@ -243,8 +243,8 @@ class shelluser_jailkit_plugin {
 			$jailkit_chroot_userhome = $this->_get_home_dir($this->data['new']['username']);
 			$jailkit_chroot_puserhome = $this->_get_home_dir($this->data['new']['puser']);
 			
-			if(!is_dir($this->data['new']['dir'].'/etc')) mkdir($this->data['new']['dir'].'/etc');
-			if(!is_file($this->data['new']['dir'].'/etc/passwd')) exec('touch '.$this->data['new']['dir'].'/etc/passwd');
+			if(!is_dir($this->data['new']['dir'].'/etc')) mkdir($this->data['new']['dir'].'/etc', 0755);
+			if(!is_file($this->data['new']['dir'].'/etc/passwd')) touch($this->data['new']['dir'].'/etc/passwd', 0755);
 			
 			// IMPORTANT!
 			// ALWAYS create the user. Even if the user was created before
@@ -261,13 +261,15 @@ class shelluser_jailkit_plugin {
 				
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
-			exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
-			exec("chown ".$this->data['new']['username'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
+			mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), 0755, true);
+			chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['username']);
+			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 			
-			exec("mkdir -p ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
-			exec("chown ".$this->data['new']['puser'].":".$this->data['new']['pgroup']." ".escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome));
+			mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), 0755, true);
+			chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['puser']);
+			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
 	}
@@ -285,8 +287,8 @@ class shelluser_jailkit_plugin {
 		
 		//* If the security level is set to high
 		if($web_config['security_level'] == 20) {
-			$this->_exec("chmod 755 ".escapeshellcmd($web["document_root"]));
-			$this->_exec("chown root:root ".escapeshellcmd($web["document_root"]));
+			$this->_exec('chmod 755 '.escapeshellcmd($web["document_root"]));
+			$this->_exec('chown root:root '.escapeshellcmd($web["document_root"]));
 		}
 		
 	}
@@ -294,7 +296,7 @@ class shelluser_jailkit_plugin {
 	//* Wrapper for exec function for easier debugging
 	private function _exec($command) {
 		global $app;
-		$app->log("exec: ".$command,LOGLEVEL_DEBUG);
+		$app->log('exec: '.$command,LOGLEVEL_DEBUG);
 		exec($command);
 	}
 

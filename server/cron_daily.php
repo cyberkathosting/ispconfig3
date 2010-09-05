@@ -132,7 +132,7 @@ foreach($records as $rec) {
 	$webalizer_conf = escapeshellcmd($rec["document_root"].'/log/webalizer.conf');
 
 	if(!@is_file($webalizer_conf)) {
-		exec("cp $webalizer_conf_main $webalizer_conf");
+		copy($webalizer_conf_main,$webalizer_conf);
 	}
 
 	if(@is_file($webalizer_conf)) {
@@ -376,12 +376,12 @@ if ($app->dbmaster == $app->db) {
 #######################################################################################################
 
 $server_config = $app->getconf->get_server_config($conf["server_id"], 'server');
-$backup_dir = trim($server_config['backup_dir']);
+$backup_dir = $server_config['backup_dir'];
 
 if($backup_dir != '') {
 	
 	if(!is_dir($backup_dir)) {
-		exec("mkdir -p ".escapeshellarg($backup_dir));
+		mkdir(escapeshellarg($backup_dir), 0750, true);
 	}
 	
 	$sql = "SELECT * FROM web_domain WHERE type = 'vhost'";
@@ -397,24 +397,25 @@ if($backup_dir != '') {
 				$web_group = $rec['system_group'];
 				$web_id = $rec['domain_id'];
 				$web_backup_dir = $backup_dir.'/web'.$web_id;
-				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir);
+				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
 				
-				exec('chown root:root '.$web_backup_dir);
-				exec('chmod 755 '.$web_backup_dir);
-				exec("cd ".escapeshellarg($web_path)." && sudo -u ".escapeshellarg($web_user)." find . -group ".escapeshellarg($web_group)." -print | zip -y ".escapeshellarg($web_backup_dir."/web.zip")." -@");
+				chmod($web_backup_dir, 0755);
+				chown($web_backup_dir, 'root');
+				chgrp($web_backup_dir, 'root');
+				exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print | zip -y '.escapeshellarg($web_backup_dir.'/web.zip').' -@');
 				
 				// Rename or remove old backups
 				$backup_copies = intval($rec['backup_copies']);
 			
-				if(is_file($web_backup_dir."/web.".$backup_copies.".zip")) unlink($web_backup_dir."/web.".$backup_copies.".zip");
+				if(is_file($web_backup_dir.'/web.'.$backup_copies.'.zip')) unlink($web_backup_dir.'/web.'.$backup_copies.'.zip');
 			
 				for($n = $backup_copies - 1; $n >= 1; $n--) {
-					if(is_file($web_backup_dir."/web.".$n.".zip")) {
-						rename($web_backup_dir."/web.".$n.".zip",$web_backup_dir."/web.".($n+1).".zip");
+					if(is_file($web_backup_dir.'/web.'.$n.'.zip')) {
+						rename($web_backup_dir.'/web.'.$n.'.zip',$web_backup_dir.'/web.'.($n+1).'.zip');
 					}
 				}
 			
-				if(is_file($web_backup_dir."/web.zip")) rename($web_backup_dir."/web.zip",$web_backup_dir."/web.1.zip");
+				if(is_file($web_backup_dir.'/web.zip')) rename($web_backup_dir.'/web.zip',$web_backup_dir.'/web.1.zip');
 			
 				// Create backupdir symlink
 				if(is_link($web_path.'/backup')) unlink($web_path.'/backup');
@@ -430,7 +431,7 @@ if($backup_dir != '') {
 				$web_user = $rec['system_user'];
 				$web_backup_dir = realpath($backup_dir.'/web'.$web_id);
 				if(is_dir($web_backup_dir)) {
-					exec("sudo -u ".escapeshellarg($web_user)." rm -f ".escapeshellarg($web_backup_dir.'/*'));
+					exec('sudo -u '.escapeshellarg($web_user).' rm -f '.escapeshellarg($web_backup_dir.'/*'));
 				}
 			}
 		}

@@ -82,8 +82,8 @@ class maildrop_plugin {
 		if(!is_dir($this->mailfilter_config_dir)) {
 			$app->log("Mailfilter config directory '".$this->mailfilter_config_dir."' does not exist. Creating it now.",LOGLEVEL_WARN);
 			mkdir($this->mailfilter_config_dir);
-			exec("chown vmail ".$this->mailfilter_config_dir);
-			exec("chmod 770 ".$this->mailfilter_config_dir);
+			chown($this->mailfilter_config_dir, 'vmail');
+			chmod($this->mailfilter_config_dir, 0770);
 		}
 		
 		if(isset($data["new"]["email"])) {
@@ -95,13 +95,13 @@ class maildrop_plugin {
 		// make sure that the config directories exist
 		if(!is_dir($this->mailfilter_config_dir.'/'.$email_parts[1])) {
 			mkdir($this->mailfilter_config_dir.'/'.$email_parts[1]);
-			exec("chown vmail ".$this->mailfilter_config_dir.'/'.$email_parts[1]);
-			exec("chmod 770 ".$this->mailfilter_config_dir.'/'.$email_parts[1]);
+			chown($this->mailfilter_config_dir.'/'.$email_parts[1], 'vmail');
+			chmod($this->mailfilter_config_dir.'/'.$email_parts[1], 0770);
 		}
 		if(!is_dir($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0])) {
 			mkdir($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
-			exec("chown vmail ".$this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
-			exec("chmod 770 ".$this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0]);
+			chown($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0], 'vmail');
+			chmod($this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0], 0770);
 		}
 		
 		// Check if something has been changed regarding the autoresponders
@@ -151,16 +151,16 @@ class maildrop_plugin {
 				$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
 				file_put_contents($config_file_path,$tpl);
 				$app->log("Writing Autoresponder mailfilter file: $config_file_path",LOGLEVEL_DEBUG);
-				exec("chmod 770 $config_file_path");
-				exec("chown vmail $config_file_path");
+				chmod($config_file_path, 0770);
+				chown($config_file_path, 'vmail');
 				unset($tpl);
 				unset($config_file_path);
 						
 				// Write the autoresponder message file
 				$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
 				file_put_contents($config_file_path,$data["new"]["autoresponder_text"]);
-				exec("chmod 770 $config_file_path");
-				exec("chown vmail $config_file_path");
+				chmod($config_file_path, 0770);
+				chown($config_file_path, 'vmail');
 				$app->log("Writing Autoresponder message file: $config_file_path",LOGLEVEL_DEBUG);
 			}
 		}
@@ -198,8 +198,8 @@ class maildrop_plugin {
 					
 					file_put_contents($config_file_path,$mailfilter_content);
 					$app->log("Writing new custom Mailfiter".$config_file_path,LOGLEVEL_DEBUG);
-					exec("chmod 770 $config_file_path");
-					exec("chown vmail $config_file_path");
+					chmod($config_file_path, 0770);
+					chown($config_file_path, 'vmail');
 					unset($config_file_path);
 				} else {
 					// Delete the mailfilter recipe

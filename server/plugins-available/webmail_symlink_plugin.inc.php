@@ -106,12 +106,12 @@ class webmail_symlink_plugin {
         elseif($data["new"]["php"] == "fast-cgi" && $data["new"]["suexec"] == "y") $symlink = false;
         
         
-        if(!is_dir($data["new"]["document_root"]."/web")) exec("mkdir -p ".$data["new"]["document_root"]."/web");
+        if(!is_dir($data["new"]["document_root"]."/web")) mkdir($data["new"]["document_root"].'/web', 0755, true);
         if($symlink == false) {
-            if(is_link($data["new"]["document_root"]."/web/webmail")) exec("rm -f ".$data["new"]["document_root"]."/web/webmail");
+            if(is_link($data["new"]["document_root"].'/web/webmail')) unlink($data["new"]["document_root"].'/web/webmail');
         } else {
-            if(!is_link($data["new"]["document_root"]."/web/webmail")) exec("ln -s /var/www/webmail ".$data["new"]["document_root"]."/web/webmail");
-            else exec("ln -sf /var/www/webmail ".$data["new"]["document_root"]."/web/webmail");
+            if(!is_link($data["new"]["document_root"]."/web/webmail")) symlink('/var/www/webmail',$data["new"]["document_root"].'/web/webmail');
+            else symlink('/var/www/webmail',$data["new"]["document_root"].'/web/webmail');
         }
 	}
 	

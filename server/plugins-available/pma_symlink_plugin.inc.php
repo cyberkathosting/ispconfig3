@@ -106,12 +106,12 @@ class pma_symlink_plugin {
         elseif($data["new"]["php"] == "fast-cgi" && $data["new"]["suexec"] == "y") $symlink = false;
         
         
-        if(!is_dir($data["new"]["document_root"]."/web")) exec("mkdir -p ".$data["new"]["document_root"]."/web");
+        if(!is_dir($data["new"]["document_root"]."/web")) mkdir($data["new"]["document_root"].'/web', 0755, true);
         if($symlink == false) {
-            if(is_link($data["new"]["document_root"]."/web/phpmyadmin")) exec("rm -f ".$data["new"]["document_root"]."/web/phpmyadmin");
+            if(is_link($data["new"]["document_root"].'/web/phpmyadmin')) unlink($data["new"]["document_root"].'/web/phpmyadmin');
         } else {
-            if(!is_link($data["new"]["document_root"]."/web/phpmyadmin")) exec("ln -s /var/www/phpmyadmin ".$data["new"]["document_root"]."/web/phpmyadmin");
-            else exec("ln -sf /var/www/phpmyadmin ".$data["new"]["document_root"]."/web/phpmyadmin");
+            if(!is_link($data["new"]["document_root"].'/web/phpmyadmin')) symlink('/var/www/phpmyadmin',$data["new"]["document_root"].'/web/phpmyadmin');
+            else symlink('/var/www/phpmyadmin',$data["new"]["document_root"].'/web/phpmyadmin');
         }
 	}
 	

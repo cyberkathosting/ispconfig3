@@ -90,9 +90,10 @@ class shelluser_base_plugin {
 				$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
 				
 				//* Create .bash_history file
-				exec('touch '.escapeshellcmd($data['new']['dir']).'/.bash_history');
-				exec('chmod 755 '.escapeshellcmd($data['new']['dir']).'/.bash_history');
-				exec('chown '.escapeshellcmd($data['new']['username']).':'.escapeshellcmd($data['new']['pgroup']).' '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+				touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
+				chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
+				chown(escapeshellcmd($data['new']['dir']).'/.bash_history', escapeshellcmd($data['new']['username']));
+				chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history', escapeshellcmd($data['new']['pgroup']));
 				
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
@@ -105,7 +106,7 @@ class shelluser_base_plugin {
 				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
 			}
 		} else {
-			$app->log("Skippung insert of user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.",LOGLEVEL_WARN);
+			$app->log("Skipping insertion of user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.",LOGLEVEL_WARN);
 		}
 	}
 	
@@ -137,9 +138,10 @@ class shelluser_base_plugin {
 					
 					//* Create .bash_history file
 					if(!is_file($data['new']['dir']).'/.bash_history') {
-						exec('touch '.escapeshellcmd($data['new']['dir']).'/.bash_history');
-						exec('chmod 755 '.escapeshellcmd($data['new']['dir']).'/.bash_history');
-						exec('chown '.escapeshellcmd($data['new']['username']).':'.escapeshellcmd($data['new']['pgroup']).' '.escapeshellcmd($data['new']['dir']).'/.bash_history');
+						touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
+						chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
+						chown(escapeshellcmd($data['new']['dir']).'/.bash_history',escapeshellcmd($data['new']['username']));
+						chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history',escapeshellcmd($data['new']['pgroup']));
 					}
 					
 				} else {
@@ -150,7 +152,7 @@ class shelluser_base_plugin {
 				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);
 			}
 		} else {
-			$app->log("Skippung update for user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.",LOGLEVEL_WARN);
+			$app->log("Skipping update for user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.",LOGLEVEL_WARN);
 		}
 	}
 	

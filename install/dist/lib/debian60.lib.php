@@ -38,11 +38,11 @@ class installer extends installer_base {
 		
 		//* Configure master.cf and add a line for deliver
 		if(is_file($config_dir.'/master.cf')){
-            copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
-        }
+			copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+		}
 		if(is_file($config_dir.'/master.cf~')){
-            exec('chmod 400 '.$config_dir.'/master.cf~2');
-        }
+			chmod($config_dir.'/master.cf~2', 0400);
+		}
 		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
 		// Only add the content if we had not addded it before
 		if(!stristr($content,"dovecot/deliver")) {
@@ -73,26 +73,27 @@ class installer extends installer_base {
 		
 		//* copy dovecot.conf
 		$configfile = 'dovecot.conf';
-		if(is_file("$config_dir/$configfile")){
-            copy("$config_dir/$configfile", "$config_dir/$configfile~");
-        }
-		copy('tpl/debian6_dovecot.conf.master',"$config_dir/$configfile");
+		if(is_file($config_dir.'/'.$configfile)){
+			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
+		}
+		copy('tpl/debian6_dovecot.conf.master',$config_dir.'/'.$configfile);
 		
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';
-		if(is_file("$config_dir/$configfile")){
-            copy("$config_dir/$configfile", "$config_dir/$configfile~");
-        }
-		exec("chmod 400 $config_dir/$configfile~");
-		$content = rf("tpl/debian6_dovecot-sql.conf.master");
+		if(is_file($config_dir.'/'.$configfile)){
+			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
+		}
+		chmod($config_dir.'/'.$configfile.'~', 0400);
+		$content = rf('tpl/debian6_dovecot-sql.conf.master');
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
 		$content = str_replace('{mysql_server_host}',$conf['mysql']['host'],$content);
-		wf("$config_dir/$configfile", $content);
+		wf($config_dir.'/'.$configfile, $content);
 		
-		exec("chmod 600 $config_dir/$configfile");
-		exec("chown root:root $config_dir/$configfile");
+		chmod($config_dir.'/'.$configfile, 0600);
+		chown($config_dir.'/'.$configfile, 'root');
+		chgrp($config_dir.'/'.$configfile, 'root');
 
 	}
 

@@ -230,20 +230,20 @@ class cron_jailkit_plugin {
                 $tpl->setVar('home_dir',$this->_get_home_dir(""));
 				
 				$bashrc = escapeshellcmd($this->parent_domain['document_root']).'/etc/bash.bashrc';
-				if(@is_file($bashrc)) exec('rm '.$bashrc);
+				if(@is_file($bashrc)) unlink($bashrc);
 				
 				file_put_contents($bashrc,$tpl->grab());
 				unset($tpl);
 				
-				$this->app->log("Added bashrc scrpt : ".$bashrc,LOGLEVEL_DEBUG);
+				$this->app->log('Added bashrc script: '.$bashrc,LOGLEVEL_DEBUG);
 				
 				$tpl = new tpl();
-				$tpl->newTemplate("motd.master");
+				$tpl->newTemplate('motd.master');
 				
 				$tpl->setVar('domain',$this->parent_domain['domain']);
 				
 				$motd = escapeshellcmd($this->parent_domain['document_root']).'/var/run/motd';
-				if(@is_file($motd)) exec('rm '.$motd);
+				if(@is_file($motd)) unlink($motd);
 				
 				file_put_contents($motd,$tpl->grab());
 				
@@ -290,7 +290,7 @@ class cron_jailkit_plugin {
 				
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
-			exec("mkdir -p ".escapeshellcmd($this->parent_domain['document_root'].$jailkit_chroot_userhome));
+			mkdir(escapeshellcmd($this->parent_domain['document_root'].$jailkit_chroot_userhome), 0755, true);
 	}
 	
     function _get_home_dir($username)
@@ -308,8 +308,8 @@ class cron_jailkit_plugin {
 				
 		//* If the security level is set to high
 		if($web_config['security_level'] == 20) {
-			$this->_exec("chmod 755 ".escapeshellcmd($this->parent_domain['document_root']));
-			$this->_exec("chown root:root ".escapeshellcmd($this->parent_domain['document_root']));
+			$this->_exec('chmod 755 '.escapeshellcmd($this->parent_domain['document_root']));
+			$this->_exec('chown root:root '.escapeshellcmd($this->parent_domain['document_root']));
 		}
 		
 	}
@@ -317,7 +317,7 @@ class cron_jailkit_plugin {
 	//* Wrapper for exec function for easier debugging
 	private function _exec($command) {
 		global $app;
-		$app->log("exec: ".$command,LOGLEVEL_DEBUG);
+		$app->log('exec: '.$command,LOGLEVEL_DEBUG);
 		exec($command);
 	}
     
