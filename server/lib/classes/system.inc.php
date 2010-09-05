@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class system{
 
-	var $FILE = "/root/ispconfig/scripts/lib/classes/ispconfig_system.lib.php";
+	var $FILE = '/root/ispconfig/scripts/lib/classes/ispconfig_system.lib.php';
 	var $server_id;
 	var $server_conf;
 	var $data;
@@ -42,11 +42,11 @@ class system{
 	 */
 	public function system(){
 		global $go_info;
-	  	$this->server_id = $go_info["isp"]["server_id"];
-	  	$this->server_conf = $go_info["isp"]["server_conf"];
-	  	$this->server_conf["passwd_datei"] = '/etc/passwd';
-	  	$this->server_conf["shadow_datei"] = '/etc/shadow';
-	  	$this->server_conf["group_datei"] = '/etc/group';
+	  	$this->server_id = $go_info['isp']['server_id'];
+	  	$this->server_conf = $go_info['isp']['server_conf'];
+	  	$this->server_conf['passwd_datei'] = '/etc/passwd';
+	  	$this->server_conf['shadow_datei'] = '/etc/shadow';
+	  	$this->server_conf['group_datei'] = '/etc/group';
 	}
 	
 	/**
@@ -55,18 +55,18 @@ class system{
 	 * @return string
 	 */
 	public function hostname(){
-		$dist = $this->server_conf["dist"];
+		$dist = $this->server_conf['dist'];
 	
 	 	ob_start();
-	  	passthru("hostname");
+	  	passthru('hostname');
 	  	$hostname = ob_get_contents();
 	  	ob_end_clean();
 		$hostname = trim($hostname);
 	  	ob_start();
-	  	if(!strstr($dist, "freebsd")){
-	    	passthru("dnsdomainname");
+	  	if(!strstr($dist, 'freebsd')){
+	    	passthru('dnsdomainname');
 	  	} else {
-	    	passthru("domainname");
+	    	passthru('domainname');
 	  	}
 	  	$domainname = ob_get_contents();
 	  	ob_end_clean();
@@ -87,14 +87,14 @@ class system{
 	    	return false;
 	  	} else {
 	    	if(trim($user_username) != '') {
-	        	$user_datei = $this->server_conf["passwd_datei"];
-	            $shadow_datei = $this->server_conf["shadow_datei"];
+	        	$user_datei = $this->server_conf['passwd_datei'];
+	            $shadow_datei = $this->server_conf['shadow_datei'];
 	            $shell = realpath($shell);
-	            if(trim($passwort) == "") $passwort = '*';
+	            if(trim($passwort) == '') $passwort = '*';
 	            $new_user = "\n$user_username:x:$uid:$gid:$username:$homedir:$shell\n";
-	            $app->log->msg("USER: $new_user");
+	            $app->log->msg('USER: '.$new_user);
 	            $app->file->af($user_datei, $new_user);
-	            if($shadow_datei == "/etc/shadow"){
+	            if($shadow_datei == '/etc/shadow'){
 	            	$datum = time();
 	                $tage = floor($datum/86400);
 	                $new_passwd = "\n$user_username:$passwort:$tage:0:99999:7:::\n";
@@ -107,7 +107,7 @@ class system{
 	            $app->file->remove_blank_lines($user_datei);
 	            // TB: user Sortierung deaktiviert
 	            //$this->order_users_groups();
-	            if($shadow_datei != "/etc/shadow"){
+	            if($shadow_datei != '/etc/shadow'){
 	            	$app->file->af($shadow_datei, "\n");
 					// TB: leere Zeilen entfernen
 	                $app->file->remove_blank_lines($shadow_datei);
@@ -136,11 +136,11 @@ class system{
 	function deactivateuser($user_username){
 		$passwort = str_rot13($this->getpasswd($user_username));
 	  	$user_attr = $this->get_user_attributes($user_username);
-	  	$uid = $user_attr["uid"];
-	  	$gid = $user_attr["gid"];
-	  	$username = $user_attr["name"];
-	  	$homedir = $user_attr["homedir"];
-	  	$shell = "/dev/null";
+	  	$uid = $user_attr['uid'];
+	  	$gid = $user_attr['gid'];
+	  	$username = $user_attr['name'];
+	  	$homedir = $user_attr['homedir'];
+	  	$shell = '/dev/null';
 	  	$this->deluser($user_username);
 	  	$this->adduser($user_username, $uid, $gid, $username, $homedir, $shell, $passwort);
 	}
@@ -151,15 +151,15 @@ class system{
 	function deluser($user_username){
 		global $app;
 	  	if($this->is_user($user_username)){
-	    	$user_datei = $this->server_conf["passwd_datei"];
-	    	$shadow_datei = $this->server_conf["shadow_datei"];
+	    	$user_datei = $this->server_conf['passwd_datei'];
+	    	$shadow_datei = $this->server_conf['shadow_datei'];
 	    	$users = $app->file->rf($user_datei);
 	    	$lines = explode("\n", $users);
 	    	if(is_array($lines)){
 	      		$num_lines = sizeof($lines);
 	      		for($i=0;$i<$num_lines;$i++){
-	        		if(trim($lines[$i]) != ""){
-	          			list($f1,) = explode(":", $lines[$i]);
+	        		if(trim($lines[$i]) != ''){
+	          			list($f1,) = explode(':', $lines[$i]);
 	          			if($f1 != $user_username) $new_lines[] = $lines[$i];
 	        		}
 	      		}
@@ -176,8 +176,8 @@ class system{
 	    	if(is_array($lines)){
 	      		$num_lines = sizeof($lines);
 	      		for($i=0;$i<$num_lines;$i++){
-	        		if(trim($lines[$i]) != ""){
-	          			list($f1,) = explode(":", $lines[$i]);
+	        		if(trim($lines[$i]) != ''){
+	          			list($f1,) = explode(':', $lines[$i]);
 	          			if($f1 != $user_username) $new_lines[] = $lines[$i];
 	        		}
 	      		}
@@ -189,28 +189,28 @@ class system{
 	    	}
 	    	$app->file->remove_blank_lines($shadow_datei);
 	
-	    	$group_file = $app->file->rf($this->server_conf["group_datei"]);
+	    	$group_file = $app->file->rf($this->server_conf['group_datei']);
 	    	$group_file_lines = explode("\n", $group_file);
 	    	foreach($group_file_lines as $group_file_line){
-	      		if(trim($group_file_line) != ""){
-	        		list($f1, $f2, $f3, $f4) = explode(":", $group_file_line);
-	        		$group_users = explode(",", str_replace(" ", "", $f4));
+	      		if(trim($group_file_line) != ''){
+	        		list($f1, $f2, $f3, $f4) = explode(':', $group_file_line);
+	        		$group_users = explode(',', str_replace(' ', '', $f4));
 	        		if(in_array($user_username, $group_users)){
 	          			$g_users = array();
 	          			foreach($group_users as $group_user){
 	            			if($group_user != $user_username) $g_users[] = $group_user;
 	          			}
-	          			$f4 = implode(",", $g_users);
+	          			$f4 = implode(',', $g_users);
 	        		}
-	        		$new_group_file[] = $f1.":".$f2.":".$f3.":".$f4;
+	        		$new_group_file[] = $f1.':'.$f2.':'.$f3.':'.$f4;
 	      		}
 	    	}
 	    	$new_group_file = implode("\n", $new_group_file);
-	    	$app->file->wf($this->server_conf["group_datei"], $new_group_file);
+	    	$app->file->wf($this->server_conf['group_datei'], $new_group_file);
 	    	// TB: auskommentiert
 	        //$this->order_users_groups();
 	
-	    	if($shadow_datei != "/etc/shadow"){
+	    	if($shadow_datei != '/etc/shadow'){
 	      		$app->file->af($shadow_datei, "\n");
 	      		$app->log->caselog("pwd_mkdb $shadow_datei &> /dev/null", $this->FILE, __LINE__);
 	    	}
@@ -229,14 +229,14 @@ class system{
 	  	if($this->is_group($group)){
 		    return false;
 	  	} else {
-	    	$group_datei = $this->server_conf["group_datei"];
-	    	$shadow_datei = $this->server_conf["shadow_datei"];
+	    	$group_datei = $this->server_conf['group_datei'];
+	    	$shadow_datei = $this->server_conf['shadow_datei'];
 	    	$new_group = "\n$group:x:$gid:$members\n";
 	    	$app->file->af($group_datei, $new_group);
 	
 	        // TB: auskommentiert
 	        //$this->order_users_groups();
-	    	if($shadow_datei != "/etc/shadow"){
+	    	if($shadow_datei != '/etc/shadow'){
 	      		$app->log->caselog("pwd_mkdb $shadow_datei &> /dev/null", $this->FILE, __LINE__);
 	    	}
 	    	return true;
@@ -259,15 +259,15 @@ class system{
 	function delgroup($group){
 		global $app;
 	  	if($this->is_group($group)){
-	    	$group_datei = $this->server_conf["group_datei"];
-	    	$shadow_datei = $this->server_conf["shadow_datei"];
+	    	$group_datei = $this->server_conf['group_datei'];
+	    	$shadow_datei = $this->server_conf['shadow_datei'];
 	    	$groups = $app->file->rf($group_datei);
 	    	$lines = explode("\n", $groups);
 	    	if(is_array($lines)){
 	      		$num_lines = sizeof($lines);
 	      		for($i=0;$i<$num_lines;$i++){
-	        		if(trim($lines[$i]) != ""){
-	          			list($f1,) = explode(":", $lines[$i]);
+	        		if(trim($lines[$i]) != ''){
+	          			list($f1,) = explode(':', $lines[$i]);
 	          			if($f1 != $group) $new_lines[] = $lines[$i];
 	        		}
 	      		}
@@ -279,7 +279,7 @@ class system{
 	    	}
 	        // TB: auskommentiert
 	    	//$this->order_users_groups();
-	    	if($shadow_datei != "/etc/shadow"){
+	    	if($shadow_datei != '/etc/shadow'){
 	      		$app->log->caselog("pwd_mkdb $shadow_datei &> /dev/null", $this->FILE, __LINE__);
 	    	}
 	    	return true;
@@ -293,23 +293,23 @@ class system{
 	 */
 	function order_users_groups(){
 		global $app;
-	  	$user_datei = $this->server_conf["passwd_datei"];
-	  	$shadow_datei = $this->server_conf["shadow_datei"];
-	  	$group_datei = $this->server_conf["group_datei"];
+	  	$user_datei = $this->server_conf['passwd_datei'];
+	  	$shadow_datei = $this->server_conf['shadow_datei'];
+	  	$group_datei = $this->server_conf['group_datei'];
 	
 	  	$groups = $app->file->no_comments($group_datei);
 	  	$lines = explode("\n", $groups);
 	  	if(is_array($lines)){
 		    foreach($lines as $line){
-	      		if(trim($line) != ""){
-	        		list($f1, $f2, $f3, $f4) = explode(":", $line);
+	      		if(trim($line) != ''){
+	        		list($f1, $f2, $f3, $f4) = explode(':', $line);
 	        		$arr[$f3] = $line;
 	      		}
 	    	}
 	  	}
 	  	ksort($arr);
 	  	reset($arr);
-	  	if($shadow_datei != "/etc/shadow"){
+	  	if($shadow_datei != '/etc/shadow'){
 	    	$app->file->wf($group_datei, $app->file->remove_blank_lines(implode("\n", $arr), 0)."\n");
 	  	}else {
 		    $app->file->wf($group_datei, $app->file->remove_blank_lines(implode("\n", $arr), 0));
@@ -321,8 +321,8 @@ class system{
 	  	if(is_array($lines)){
 		    foreach($lines as $line){
 	      		if(trim($line) != ""){
-	        		list($f1, $f2, $f3,) = explode(":", $line);
-	        		if($f1 != "toor"){
+	        		list($f1, $f2, $f3,) = explode(':', $line);
+	        		if($f1 != 'toor'){
 	          			$arr[$f3] = $line;
 	        		} else {
 	          			$arr[70000] = $line;
@@ -339,9 +339,9 @@ class system{
 	  	$lines = explode("\n", $passwds);
 	  	if(is_array($lines)){
 		    foreach($lines as $line){
-	    		if(trim($line) != ""){
-	        		list($f1, $f2, $f3,) = explode(":", $line);
-	        		if($f1 != "toor"){
+	    		if(trim($line) != ''){
+	        		list($f1, $f2, $f3,) = explode(':', $line);
+	        		if($f1 != 'toor'){
 	          			$uid = $this->getuid($f1);
 	          			if(!is_bool($uid)) $arr[$uid] = $line;
 	        		} else {
@@ -366,15 +366,15 @@ class system{
 	    	for($i=$min;$i<=$max;$i++){
 	      		$uid_arr[$i] = $gid_arr[$i] = 1;
 	    	}
-	    	$user_datei = $this->server_conf["passwd_datei"];
-	    	$group_datei = $this->server_conf["group_datei"];
+	    	$user_datei = $this->server_conf['passwd_datei'];
+	    	$group_datei = $this->server_conf['group_datei'];
 	
 	    	$users = $app->file->no_comments($user_datei);
 	    	$lines = explode("\n", $users);
 	    	if(is_array($lines)){
 	      		foreach($lines as $line){
-	        		if(trim($line) != ""){
-	          			list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(":", $line);
+	        		if(trim($line) != ''){
+	          			list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(':', $line);
 	          			if($f3 >= $min && $f3 <= $max) unset($uid_arr[$f3]);
 	        		}
 	      		}
@@ -393,8 +393,8 @@ class system{
 	    	$lines = explode("\n", $groups);
 	    	if(is_array($lines)){
 	      		foreach($lines as $line){
-	        		if(trim($line) != ""){
-	          			list($f1, $f2, $f3, $f4) = explode(":", $line);
+	        		if(trim($line) != ''){
+	          			list($f1, $f2, $f3, $f4) = explode(':', $line);
 	          			if($f3 >= $min && $f3 <= $max) unset($gid_arr[$f3]);
 	        		}
 	      		}
@@ -430,13 +430,13 @@ class system{
 	 */
 	function is_user($user){
 		global $app;
-	  	$user_datei = $this->server_conf["passwd_datei"];
+	  	$user_datei = $this->server_conf['passwd_datei'];
 	  	$users = $app->file->no_comments($user_datei);
 	  	$lines = explode("\n", $users);
 	  	if(is_array($lines)){
 			foreach($lines as $line){
-	      		if(trim($line) != ""){
-	        		list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(":", $line);
+	      		if(trim($line) != ''){
+	        		list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(':', $line);
 	        		if($f1 == $user) return true;
 	      		}
 	    	}
@@ -450,13 +450,13 @@ class system{
 	 */
 	function is_group($group){
 		global $app;
-	  	$group_datei = $this->server_conf["group_datei"];
+	  	$group_datei = $this->server_conf['group_datei'];
 	  	$groups = $app->file->no_comments($group_datei);
 	  	$lines = explode("\n", $groups);
 	  	if(is_array($lines)){
 		    foreach($lines as $line){
 	      		if(trim($line) != ""){
-	        		list($f1, $f2, $f3, $f4) = explode(":", $line);
+	        		list($f1, $f2, $f3, $f4) = explode(':', $line);
 	        		if($f1 == $group) return true;
 	      		}
 	    	}
@@ -488,13 +488,13 @@ class system{
 	
 	function root_group(){
 		global $app;
-	  	$group_datei = $this->server_conf["group_datei"];
+	  	$group_datei = $this->server_conf['group_datei'];
 	  	$groups = $app->file->no_comments($group_datei);
 	  	$lines = explode("\n", $groups);
 	  	if(is_array($lines)){
 		    foreach($lines as $line){
-	      		if(trim($line) != ""){
-	        		list($f1, $f2, $f3, $f4) = explode(":", $line);
+	      		if(trim($line) != ''){
+	        		list($f1, $f2, $f3, $f4) = explode(':', $line);
 	        		if($f3 == 0) return $f1;
 	      		}
 	    	}
@@ -509,14 +509,14 @@ class system{
 	function get_user_groups($username){
 		global $app;
 	  	$user_groups = array();
-	  	$group_datei = $this->server_conf["group_datei"];
+	  	$group_datei = $this->server_conf['group_datei'];
 	  	$groups = $app->file->no_comments($group_datei);
 	  	$lines = explode("\n", $groups);
 	  	if(is_array($lines)){
 	    	foreach($lines as $line){
-	      		if(trim($line) != ""){
-	        		list($f1, $f2, $f3, $f4) = explode(":", $line);
-	        		if(intval($f3) < intval($this->server_conf["groupid_von"]) && trim($f1) != 'users'){
+	      		if(trim($line) != ''){
+	        		list($f1, $f2, $f3, $f4) = explode(':', $line);
+	        		if(intval($f3) < intval($this->server_conf['groupid_von']) && trim($f1) != 'users'){
 	          			$tmp_group_users = explode(',', str_replace(' ', '', $f4));
 	          			if(in_array($username, $tmp_group_users) && trim($f1) != '') $user_groups[] = $f1;
 	          			unset($tmp_group_users);
@@ -535,13 +535,13 @@ class system{
 	function getpasswd($user){
 		global $app;
 	  	if($this->is_user($user)){
-		    $shadow_datei = $this->server_conf["shadow_datei"];
+		    $shadow_datei = $this->server_conf['shadow_datei'];
 	    	$passwds = $app->file->no_comments($shadow_datei);
 	    	$lines = explode("\n", $passwds);
 	    	if(is_array($lines)){
 	      		foreach($lines as $line){
-	        		if(trim($line) != ""){
-	          			list($f1, $f2,) = explode(":", $line);
+	        		if(trim($line) != ''){
+	          			list($f1, $f2,) = explode(':', $line);
 	          			if($f1 == $user) return $f2;
 	        		}
 	      		}
@@ -558,13 +558,13 @@ class system{
 	function getuid($user){
 		global $app;
 	  	if($this->is_user($user)){
-		    $user_datei = $this->server_conf["passwd_datei"];
+		    $user_datei = $this->server_conf['passwd_datei'];
 	    	$users = $app->file->no_comments($user_datei);
 	    	$lines = explode("\n", $users);
 	    	if(is_array($lines)){
 	      		foreach($lines as $line){
-	        		if(trim($line) != ""){
-	          			list($f1, $f2, $f3,) = explode(":", $line);
+	        		if(trim($line) != ''){
+	          			list($f1, $f2, $f3,) = explode(':', $line);
 	          			if($f1 == $user) return $f3;
 	        		}
 	      		}
@@ -581,21 +581,21 @@ class system{
 	function get_user_attributes($user){
 		global $app;
 	  	if($this->is_user($user)){
-	    	$user_datei = $this->server_conf["passwd_datei"];
+	    	$user_datei = $this->server_conf['passwd_datei'];
 	    	$users = $app->file->no_comments($user_datei);
 	    	$lines = explode("\n", $users);
 	    	if(is_array($lines)){
 	      		foreach($lines as $line){
-	        		if(trim($line) != ""){
-	          			list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(":", $line);
+	        		if(trim($line) != ''){
+	          			list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(':', $line);
 	          			if($f1 == $user){
-	            			$user_attr["username"] = $f1;
-	            			$user_attr["x"] = $f2;
-	            			$user_attr["uid"] = $f3;
-	            			$user_attr["gid"] = $f4;
-	            			$user_attr["name"] = $f5;
-	            			$user_attr["homedir"] = $f6;
-	            			$user_attr["shell"] = $f7;
+	            			$user_attr['username'] = $f1;
+	            			$user_attr['x'] = $f2;
+	            			$user_attr['uid'] = $f3;
+	            			$user_attr['gid'] = $f4;
+	            			$user_attr['name'] = $f5;
+	            			$user_attr['homedir'] = $f6;
+	            			$user_attr['shell'] = $f7;
 	            			return $user_attr;
 	          			}
 	        		}
@@ -612,7 +612,7 @@ class system{
 	 */
 	function chown($file, $owner, $group = ''){
 	  $owner_change = @chown($file, $owner);
-	  if($group != ""){
+	  if($group != ''){
 	    $group_change = @chgrp($file, $group);
 	  } else {
 	    $group_change = 1;
@@ -630,62 +630,62 @@ class system{
 	 */
 	function add_user_to_group($group, $user = 'admispconfig'){
 		global $app;
-	  	$group_file = $app->file->rf($this->server_conf["group_datei"]);
+	  	$group_file = $app->file->rf($this->server_conf['group_datei']);
 	  	$group_file_lines = explode("\n", $group_file);
 	  	foreach($group_file_lines as $group_file_line){
-		    list($group_name,$group_x,$group_id,$group_users) = explode(":",$group_file_line);
+		    list($group_name,$group_x,$group_id,$group_users) = explode(':',$group_file_line);
 	    	if($group_name == $group){
-	      		$group_users = explode(",", str_replace(" ", "", $group_users));
+	      		$group_users = explode(',', str_replace(' ', '', $group_users));
 	      		if(!in_array($user, $group_users)){
 	        		$group_users[] = $user;
 	      		}
-	      		$group_users = implode(",", $group_users);
-	      		if(substr($group_users,0,1) == ",") $group_users = substr($group_users,1);
-	      		$group_file_line = $group_name.":".$group_x.":".$group_id.":".$group_users;
+	      		$group_users = implode(',', $group_users);
+	      		if(substr($group_users,0,1) == ',') $group_users = substr($group_users,1);
+	      		$group_file_line = $group_name.':'.$group_x.':'.$group_id.':'.$group_users;
 	    	}
 	    	$new_group_file[] = $group_file_line;
 	  	}
 	  	$new_group_file = implode("\n", $new_group_file);
-	  	$app->file->wf($this->server_conf["group_datei"], $new_group_file);
-	  	$app->file->remove_blank_lines($this->server_conf["group_datei"]);
-	  	if($this->server_conf["shadow_datei"] != "/etc/shadow"){
-		    $app->log->caselog("pwd_mkdb ".$this->server_conf["shadow_datei"]." &> /dev/null", $this->FILE, __LINE__);
+	  	$app->file->wf($this->server_conf['group_datei'], $new_group_file);
+	  	$app->file->remove_blank_lines($this->server_conf['group_datei']);
+	  	if($this->server_conf['shadow_datei'] != '/etc/shadow'){
+		    $app->log->caselog('pwd_mkdb '.$this->server_conf['shadow_datei'].' &> /dev/null', $this->FILE, __LINE__);
 	  	}
 	}
 	
 	function usermod($user, $groups){
 		global $app;
 	  	if($this->is_user($user)){
-		    $groups = explode(",", str_replace(" ", "", $groups));
-	    	$group_file = $app->file->rf($this->server_conf["group_datei"]);
+		    $groups = explode(',', str_replace(' ', '', $groups));
+	    	$group_file = $app->file->rf($this->server_conf['group_datei']);
 	    	$group_file_lines = explode("\n", $group_file);
 	    	foreach($group_file_lines as $group_file_line){
 	      		if(trim($group_file_line) != ""){
-	        		list($f1, $f2, $f3, $f4) = explode(":", $group_file_line);
-	        		$group_users = explode(",", str_replace(" ", "", $f4));
+	        		list($f1, $f2, $f3, $f4) = explode(':', $group_file_line);
+	        		$group_users = explode(',', str_replace(' ', '', $f4));
 	        		if(!in_array($f1, $groups)){
 	          			if(in_array($user, $group_users)){
 	            			$g_users = array();
 	            			foreach($group_users as $group_user){
 	              				if($group_user != $user) $g_users[] = $group_user;
 	            			}
-	            			$f4 = implode(",", $g_users);
+	            			$f4 = implode(',', $g_users);
 	          			}
 		        	} else {
 	          			if(!in_array($user, $group_users)){
-	            			if(trim($group_users[0]) == "") unset($group_users);
+	            			if(trim($group_users[0]) == '') unset($group_users);
 	            			$group_users[] = $user;
 	          			}
-	          			$f4 = implode(",", $group_users);
+	          			$f4 = implode(',', $group_users);
 	        		}
-	        		$new_group_file[] = $f1.":".$f2.":".$f3.":".$f4;
+	        		$new_group_file[] = $f1.':'.$f2.':'.$f3.':'.$f4;
 	      		}
 	    	}
 	    	$new_group_file = implode("\n", $new_group_file);
-	    	$app->file->wf($this->server_conf["group_datei"], $new_group_file);
-	    	$app->file->remove_blank_lines($this->server_conf["group_datei"]);
-	    	if($this->server_conf["shadow_datei"] != "/etc/shadow"){
-	      		$app->log->caselog("pwd_mkdb ".$this->server_conf["shadow_datei"]." &> /dev/null", $this->FILE, __LINE__);
+	    	$app->file->wf($this->server_conf['group_datei'], $new_group_file);
+	    	$app->file->remove_blank_lines($this->server_conf['group_datei']);
+	    	if($this->server_conf['shadow_datei'] != '/etc/shadow'){
+	      		$app->log->caselog('pwd_mkdb '.$this->server_conf['shadow_datei'].' &> /dev/null', $this->FILE, __LINE__);
 	    	}
 	    	return true;
 	  	} else {
@@ -699,46 +699,46 @@ class system{
 	function rc_edit($service, $rl, $action){
 		// $action = "on|off";
 	  	global $app;
-	  	$dist_init_scripts = $app->system->server_conf["dist_init_scripts"];
-	  	$dist_runlevel = $app->system->server_conf["dist_runlevel"];
-	  	$dist = $app->system->server_conf["dist"];
-	  	if(trim($dist_runlevel) == ""){ // falls es keine runlevel gibt (FreeBSD)
-		    if($action == "on"){
-	    		@symlink($dist_init_scripts."/".$service, $dist_init_scripts."/".$service.".sh");
+	  	$dist_init_scripts = $app->system->server_conf['dist_init_scripts'];
+	  	$dist_runlevel = $app->system->server_conf['dist_runlevel'];
+	  	$dist = $app->system->server_conf['dist'];
+	  	if(trim($dist_runlevel) == ''){ // falls es keine runlevel gibt (FreeBSD)
+		    if($action == 'on'){
+	    		@symlink($dist_init_scripts.'/'.$service, $dist_init_scripts.'/'.$service.'.sh');
 	    	}
-	    	if($action == "off"){
-	      		if(is_link($dist_init_scripts."/".$service.".sh")){
-	        		unlink($dist_init_scripts."/".$service.".sh");
+	    	if($action == 'off'){
+	      		if(is_link($dist_init_scripts.'/'.$service.'.sh')){
+	        		unlink($dist_init_scripts.'/'.$service.'.sh');
 	      		} else {
-	        		exec("mv -f ".$dist_init_scripts."/".$service.".sh ".$dist_init_scripts."/".$service." &> /dev/null");
+	        		rename($dist_init_scripts.'/'.$service.'.sh',$dist_init_scripts.'/'.$service);
 	      		}
 	    	}
 	  	} else { // Linux
 	    	if(substr($dist, 0,4) == 'suse'){
-	      		if($action == "on"){
+	      		if($action == 'on'){
 	        		exec("chkconfig --add $service &> /dev/null");
 	      		}
-	      		if($action == "off"){
+	      		if($action == 'off'){
 	        		exec("chkconfig --del $service &> /dev/null");
 	      		}
 	    	} else {
-	      		$runlevels = explode(",", $rl);
+	      		$runlevels = explode(',', $rl);
 	      		foreach($runlevels as $runlevel){
 	        		$runlevel = trim($runlevel);
-	        		if($runlevel != "" && is_dir($dist_runlevel."/rc".$runlevel.".d")){
-	          			$handle=opendir($dist_runlevel."/rc".$runlevel.".d");
+	        		if($runlevel != '' && is_dir($dist_runlevel.'/rc'.$runlevel.'.d')){
+	          			$handle=opendir($dist_runlevel.'/rc'.$runlevel.'.d');
 	          			while($file = readdir($handle)){
-	            			if($file != "." && $file != ".."){
-	              				$target = @readlink($dist_runlevel."/rc".$runlevel.".d/".$file);
-	              				if(strstr($file, $service) && strstr($target, $service) && substr($file,0,1) == "S") $ln_arr[$runlevel][] = $dist_runlevel."/rc".$runlevel.".d/".$file;
+	            			if($file != '.' && $file != '..'){
+	              				$target = @readlink($dist_runlevel.'/rc'.$runlevel.'.d/'.$file);
+	              				if(strstr($file, $service) && strstr($target, $service) && substr($file,0,1) == 'S') $ln_arr[$runlevel][] = $dist_runlevel.'/rc'.$runlevel.'.d/'.$file;
 	            			}
 	          			}
 	          			closedir($handle);
 	        		}
-	        		if($action == "on"){
-	          			if(!is_array($ln_arr[$runlevel])) @symlink($dist_init_scripts."/".$service, $dist_runlevel."/rc".$runlevel.".d/S99".$service);
+	        		if($action == 'on'){
+	          			if(!is_array($ln_arr[$runlevel])) @symlink($dist_init_scripts.'/'.$service, $dist_runlevel.'/rc'.$runlevel.'.d/S99'.$service);
 	        		}
-	        		if($action == "off"){
+	        		if($action == 'off'){
 	          			if(is_array($ln_arr[$runlevel])){
 	            			foreach($ln_arr[$runlevel] as $link){
 	              				unlink($link);
@@ -838,36 +838,36 @@ class system{
 	function daemon_init($daemon, $action){
 		//* $action = start|stop|restart|reload
 	  	global $app;
-	  	$dist = $this->server_conf["dist"];
-	  	$dist_init_scripts = $this->server_conf["dist_init_scripts"];
-	  	if(!strstr($dist, "freebsd")){
+	  	$dist = $this->server_conf['dist'];
+	  	$dist_init_scripts = $this->server_conf['dist_init_scripts'];
+	  	if(!strstr($dist, 'freebsd')){
 		    $app->log->caselog("$dist_init_scripts/$daemon $action &> /dev/null", $this->FILE, __LINE__);
 	  	} else {
-		    if(is_file($dist_init_scripts."/".$daemon.".sh") || is_link($dist_init_scripts."/".$daemon.".sh")){
-	      		if($action == "start" || $action == "stop"){
-	        		$app->log->caselog($dist_init_scripts."/".$daemon.".sh ".$action." &> /dev/null", $this->FILE, __LINE__);
+		    if(is_file($dist_init_scripts.'/'.$daemon.'.sh') || is_link($dist_init_scripts.'/'.$daemon.'.sh')){
+	      		if($action == 'start' || $action == 'stop'){
+	        		$app->log->caselog($dist_init_scripts.'/'.$daemon.'.sh '.$action.' &> /dev/null', $this->FILE, __LINE__);
 	      		} else {
-	        		$app->log->caselog($dist_init_scripts."/".$daemon.".sh stop &> /dev/null", $this->FILE, __LINE__);
+	        		$app->log->caselog($dist_init_scripts.'/'.$daemon.'.sh stop &> /dev/null', $this->FILE, __LINE__);
 	        		sleep(3);
-	        		$app->log->caselog($dist_init_scripts."/".$daemon.".sh start &> /dev/null", $this->FILE, __LINE__);
+	        		$app->log->caselog($dist_init_scripts.'/'.$daemon.'.sh start &> /dev/null', $this->FILE, __LINE__);
 	      		}
 	    	} else {
-	      		if(is_file($dist_init_scripts."/".$daemon) || is_link($dist_init_scripts."/".$daemon)){
-	        		if($action == "start" || $action == "stop"){
-	          			$app->log->caselog($dist_init_scripts."/".$daemon." ".$action." &> /dev/null", $this->FILE, __LINE__);
+	      		if(is_file($dist_init_scripts.'/'.$daemon) || is_link($dist_init_scripts.'/'.$daemon)){
+	        		if($action == 'start' || $action == 'stop'){
+	          			$app->log->caselog($dist_init_scripts.'/'.$daemon.' '.$action.' &> /dev/null', $this->FILE, __LINE__);
 	        		} else {
-	          			$app->log->caselog($dist_init_scripts."/".$daemon." stop &> /dev/null", $this->FILE, __LINE__);
+	          			$app->log->caselog($dist_init_scripts.'/'.$daemon.' stop &> /dev/null', $this->FILE, __LINE__);
 	          			sleep(3);
-	          			$app->log->caselog($dist_init_scripts."/".$daemon." start &> /dev/null", $this->FILE, __LINE__);
+	          			$app->log->caselog($dist_init_scripts.'/'.$daemon.' start &> /dev/null', $this->FILE, __LINE__);
 	        		}
 	      		} else {
-	        		if(is_file("/etc/rc.d/".$daemon) || is_link("/etc/rc.d/".$daemon)){
-	          			if($action == "start" || $action == "stop"){
-	            			$app->log->caselog("/etc/rc.d/".$daemon." ".$action." &> /dev/null", $this->FILE, __LINE__);
+	        		if(is_file('/etc/rc.d/'.$daemon) || is_link('/etc/rc.d/'.$daemon)){
+	          			if($action == 'start' || $action == 'stop'){
+	            			$app->log->caselog('/etc/rc.d/'.$daemon.' '.$action.' &> /dev/null', $this->FILE, __LINE__);
 	          			} else {
-	            			$app->log->caselog("/etc/rc.d/".$daemon." stop &> /dev/null", $this->FILE, __LINE__);
+	            			$app->log->caselog('/etc/rc.d/'.$daemon.' stop &> /dev/null', $this->FILE, __LINE__);
 	            			sleep(3);
-	            			$app->log->caselog("/etc/rc.d/".$daemon." start &> /dev/null", $this->FILE, __LINE__);
+	            			$app->log->caselog('/etc/rc.d/'.$daemon.' start &> /dev/null', $this->FILE, __LINE__);
 	          			}
 	        		}
 		      	}
@@ -876,34 +876,34 @@ class system{
 	}
 	
 	function netmask($netmask){
-	  list($f1,$f2,$f3,$f4) = explode(".", trim($netmask));
-	  $bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-	  $parts = explode("0", $bin);
-	  $bin = str_pad($parts[0], 32, "0", STR_PAD_RIGHT);
-	  $bin = wordwrap($bin, 8, ".", 1);
-	  list($f1,$f2,$f3,$f4) = explode(".", trim($bin));
-	  return bindec($f1).".".bindec($f2).".".bindec($f3).".".bindec($f4);
+	  list($f1,$f2,$f3,$f4) = explode('.', trim($netmask));
+	  $bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+	  $parts = explode('0', $bin);
+	  $bin = str_pad($parts[0], 32, '0', STR_PAD_RIGHT);
+	  $bin = wordwrap($bin, 8, '.', 1);
+	  list($f1,$f2,$f3,$f4) = explode('.', trim($bin));
+	  return bindec($f1).'.'.bindec($f2).'.'.bindec($f3).'.'.bindec($f4);
 	}
 	
 	function binary_netmask($netmask){
-	  list($f1,$f2,$f3,$f4) = explode(".", trim($netmask));
-	  $bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-	  $parts = explode("0", $bin);
-	  return substr_count($parts[0], "1");
+	  list($f1,$f2,$f3,$f4) = explode('.', trim($netmask));
+	  $bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+	  $parts = explode('0', $bin);
+	  return substr_count($parts[0], '1');
 	}
 	
 	function network($ip, $netmask){
 	  $netmask = $this->netmask($netmask);
-	  list($f1,$f2,$f3,$f4) = explode(".", $netmask);
-	  $netmask_bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-	  list($f1,$f2,$f3,$f4) = explode(".", $ip);
-	  $ip_bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
+	  list($f1,$f2,$f3,$f4) = explode('.', $netmask);
+	  $netmask_bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+	  list($f1,$f2,$f3,$f4) = explode('.', $ip);
+	  $ip_bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
 	  for($i=0;$i<32;$i++){
 	    $network_bin .= substr($netmask_bin,$i,1) * substr($ip_bin,$i,1);
 	  }
-	  $network_bin = wordwrap($network_bin, 8, ".", 1);
-	  list($f1,$f2,$f3,$f4) = explode(".", trim($network_bin));
-	  return bindec($f1).".".bindec($f2).".".bindec($f3).".".bindec($f4);
+	  $network_bin = wordwrap($network_bin, 8, '.', 1);
+	  list($f1,$f2,$f3,$f4) = explode('.', trim($network_bin));
+	  return bindec($f1).'.'.bindec($f2).'.'.bindec($f3).'.'.bindec($f4);
 	}
 	
 	/**
@@ -913,12 +913,12 @@ class system{
 	function broadcast($ip, $netmask){
 		$netmask = $this->netmask($netmask);
 	  	$binary_netmask = $this->binary_netmask($netmask);
-	  	list($f1,$f2,$f3,$f4) = explode(".", $ip);
-	  	$ip_bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-	  	$broadcast_bin = str_pad(substr($ip_bin, 0, $binary_netmask),32,"1",STR_PAD_RIGHT);
-	  	$broadcast_bin = wordwrap($broadcast_bin, 8, ".", 1);
-	  	list($f1,$f2,$f3,$f4) = explode(".", trim($broadcast_bin));
-	  	return bindec($f1).".".bindec($f2).".".bindec($f3).".".bindec($f4);
+	  	list($f1,$f2,$f3,$f4) = explode('.', $ip);
+	  	$ip_bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+	  	$broadcast_bin = str_pad(substr($ip_bin, 0, $binary_netmask),32,'1',STR_PAD_RIGHT);
+	  	$broadcast_bin = wordwrap($broadcast_bin, 8, '.', 1);
+	  	list($f1,$f2,$f3,$f4) = explode('.', trim($broadcast_bin));
+	  	return bindec($f1).'.'.bindec($f2).'.'.bindec($f3).'.'.bindec($f4);
 	}
 	
 	/**
@@ -928,25 +928,25 @@ class system{
 	function network_info(){
 		$dist = $this->server_conf["dist"];
 	  	ob_start();
-	  	passthru("ifconfig");
+	  	passthru('ifconfig');
 	  	$output = ob_get_contents();
 	  	ob_end_clean();
 	  	$lines = explode("\n", $output);
 	  	foreach($lines as $line){
-		    $elms = explode(" ", $line);
-	    	if(trim($elms[0]) != "" && substr($elms[0],0,1) != "\t"){
+		    $elms = explode(' ', $line);
+	    	if(trim($elms[0]) != '' && substr($elms[0],0,1) != "\t"){
 	      		$elms[0] = trim($elms[0]);
-	      		if(strstr($dist, "freebsd")) $elms[0] = substr($elms[0],0,-1);
+	      		if(strstr($dist, 'freebsd')) $elms[0] = substr($elms[0],0,-1);
 	      		$interfaces[] = $elms[0];
 	    	}
 	  	}
 	  	if(!empty($interfaces)){
 		    foreach($interfaces as $interface){
 	    		ob_start();
-	      		if(!strstr($dist, "freebsd")){
-	        		passthru("ifconfig ".$interface." | grep -iw 'inet' | cut -f2 -d: | cut -f1 -d' '");
+	      		if(!strstr($dist, 'freebsd')){
+	        		passthru('ifconfig '.$interface." | grep -iw 'inet' | cut -f2 -d: | cut -f1 -d' '");
 	      		} else {
-	        		passthru("ifconfig ".$interface." | grep -iw 'inet' | grep -iv 'inet6' | cut -f2 -d' '");
+	        		passthru('ifconfig '.$interface." | grep -iw 'inet' | grep -iv 'inet6' | cut -f2 -d' '");
 	      		}
 	      		$output = trim(ob_get_contents());
 	      		ob_end_clean();
@@ -972,26 +972,26 @@ class system{
 	function network_config(){
 		$ifconfig = $this->network_info();
 	  	if($ifconfig){
-	    	$main_interface = $ifconfig["IP"][$this->server_conf["server_ip"]];
-	    	if(strstr($main_interface, ":")){
-	      		$parts = explode(":", $main_interface);
+	    	$main_interface = $ifconfig['IP'][$this->server_conf['server_ip']];
+	    	if(strstr($main_interface, ':')){
+	      		$parts = explode(':', $main_interface);
 	      		$main_interface = trim($parts[0]);
 	    	}
-	    	if($main_interface != ""){
-	      		$ips = $this->data["isp_server_ip"];
+	    	if($main_interface != ''){
+	      		$ips = $this->data['isp_server_ip'];
 	      		if(!empty($ips)){
 	        		foreach($ips as $ip){
-	          			if(!isset($ifconfig["IP"][$ip["server_ip"]])){
-	            			$to_set[] = $ip["server_ip"];
+	          			if(!isset($ifconfig['IP'][$ip['server_ip']])){
+	            			$to_set[] = $ip['server_ip'];
 	          			} else {
-	            			unset($ifconfig["IP"][$ip["server_ip"]]);
+	            			unset($ifconfig['IP'][$ip['server_ip']]);
 	          			}
 	        		}
-	        		if(!empty($ifconfig["IP"])){
-	          			foreach($ifconfig["IP"] as $key => $val){
-	            			if(!strstr($val, "lo") && !strstr($val, "lp") && strstr($val, $main_interface)){
-	              				exec("ifconfig ".$val." down &> /dev/null");
-	              				unset($ifconfig["INTERFACE"][$val]);
+	        		if(!empty($ifconfig['IP'])){
+	          			foreach($ifconfig['IP'] as $key => $val){
+	            			if(!strstr($val, 'lo') && !strstr($val, 'lp') && strstr($val, $main_interface)){
+	              				exec('ifconfig '.$val.' down &> /dev/null');
+	              				unset($ifconfig['INTERFACE'][$val]);
 	            			}
 	          			}
 	        		}
@@ -999,15 +999,15 @@ class system{
 	         			foreach($to_set as $to){
 	           				$i = 0;
 	           				while($i >= 0){
-	             				if(isset($ifconfig["INTERFACE"][$main_interface.":".$i])){
+	             				if(isset($ifconfig['INTERFACE'][$main_interface.':'.$i])){
 	               					$i++;
 					             } else {
-	               					$new_interface = $main_interface.":".$i;
+	               					$new_interface = $main_interface.':'.$i;
 	               					$i = -1;
 	             				}
 	           				}
-	           				exec("ifconfig ".$new_interface." ".$to." netmask ".$this->server_conf["server_netzmaske"]." up &> /dev/null");
-	           				$ifconfig["INTERFACE"][$new_interface] = $to;
+	           				exec('ifconfig '.$new_interface.' '.$to.' netmask '.$this->server_conf['server_netzmaske'].' up &> /dev/null');
+	           				$ifconfig['INTERFACE'][$new_interface] = $to;
 	          			}
 	        		}
 	      		}
@@ -1017,16 +1017,16 @@ class system{
 	
 	function quota_dirs(){
 	  global $app;
-	  $content = $app->file->unix_nl($app->file->no_comments("/etc/fstab"));
+	  $content = $app->file->unix_nl($app->file->no_comments('/etc/fstab'));
 	  $lines = explode("\n", $content);
 	  foreach($lines as $line){
 	    $line = trim($line);
-	    if($line != ""){
+	    if($line != ''){
 	      $elms = explode("\t", $line);
 	      foreach($elms as $elm){
-	        if(trim($elm) != "") $f[] = $elm;
+	        if(trim($elm) != '') $f[] = $elm;
 	      }
-	      if(!empty($f) && stristr($f[3], "userquota") && stristr($f[3], "groupquota")){
+	      if(!empty($f) && stristr($f[3], 'userquota') && stristr($f[3], 'groupquota')){
 	        $q_dirs[] = trim($f[1]);
 	      }
 	      unset($f);
@@ -1048,28 +1048,29 @@ class system{
 	  	//trashscan erstellen
 	  	// Template Öffnen
 	  	$app->tpl->clear_all();
-	  	$app->tpl->define( array(table    => "trashscan.master"));
+	  	$app->tpl->define( array(table    => 'trashscan.master'));
 	
-	  	if(!isset($this->server_conf["virusadmin"]) || trim($this->server_conf["virusadmin"]) == "") $this->server_conf["virusadmin"] = "admispconfig@localhost";
-	  	if(substr($this->server_conf["virusadmin"],0,1) == "#"){
-		    $notify = "no";
+	  	if(!isset($this->server_conf['virusadmin']) || trim($this->server_conf['virusadmin']) == '') $this->server_conf['virusadmin'] = 'admispconfig@localhost';
+	  	if(substr($this->server_conf['virusadmin'],0,1) == '#'){
+		    $notify = 'no';
 	  	} else {
-		    $notify = "yes";
+		    $notify = 'yes';
 	  	}
 	
 	  	// Variablen zuweisen
-	  	$app->tpl->assign( array(VIRUSADMIN => $this->server_conf["virusadmin"],
+	  	$app->tpl->assign( array(VIRUSADMIN => $this->server_conf['virusadmin'],
 	                           NOTIFICATION => $notify));
 	
 	  	$app->tpl->parse(TABLE, table);
 	
 	  	$trashscan_text = $app->tpl->fetch();
 	
-	  	$datei = "/home/admispconfig/ispconfig/tools/clamav/bin/trashscan";
+	  	$datei = '/home/admispconfig/ispconfig/tools/clamav/bin/trashscan';
 	  	$app->file->wf($datei, $trashscan_text);
 	
-	  	exec("chown admispconfig:admispconfig $datei &> /dev/null");
-	  	exec("chmod 755 $datei");
+	  	chmod($datei, 0755);
+	  	chown($datei,'admispconfig');
+	  	chgrp($datei,'admispconfig');
 	}
 	
 	/**
@@ -1077,32 +1078,32 @@ class system{
 	 *
 	 */
 	function get_time(){
-	  $addr = "http://www.ispconfig.org/";
+	  $addr = 'http://www.ispconfig.org/';
 	  $timeout = 1;
 	  $url_parts = parse_url($addr);
-	  $path = $url_parts["path"];
+	  $path = $url_parts['path'];
 	  $port = 80;
-	  $urlHandle = @fsockopen($url_parts["host"], $port, $errno, $errstr, $timeout);
+	  $urlHandle = @fsockopen($url_parts['host'], $port, $errno, $errstr, $timeout);
 	  if ($urlHandle){
 	    socket_set_timeout($urlHandle, $timeout);
 	
-	    $urlString = "GET $path HTTP/1.0\r\nHost: ".$url_parts["host"]."\r\nConnection: Keep-Alive\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)\r\n";
-	    if ($user) $urlString .= "Authorization: Basic ".base64_encode("$user:$pass")."\r\n";
+	    $urlString = 'GET '.$path." HTTP/1.0\r\nHost: ".$url_parts["host"]."\r\nConnection: Keep-Alive\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)\r\n";
+	    if ($user) $urlString .= 'Authorization: Basic '.base64_encode($user.':'.$pass)."\r\n";
 	    $urlString .= "\r\n";
 	    fputs($urlHandle, $urlString);
 	
-	    $month["Jan"] = "01";
-	    $month["Feb"] = "02";
-	    $month["Mar"] = "03";
-	    $month["Apr"] = "04";
-	    $month["May"] = "05";
-	    $month["Jun"] = "06";
-	    $month["Jul"] = "07";
-	    $month["Aug"] = "08";
-	    $month["Sep"] = "09";
-	    $month["Oct"] = "10";
-	    $month["Nov"] = "11";
-	    $month["Dec"] = "12";
+	    $month["Jan"] = '01';
+	    $month["Feb"] = '02';
+	    $month["Mar"] = '03';
+	    $month["Apr"] = '04';
+	    $month["May"] = '05';
+	    $month["Jun"] = '06';
+	    $month["Jul"] = '07';
+	    $month["Aug"] = '08';
+	    $month["Sep"] = '09';
+	    $month["Oct"] = '10';
+	    $month["Nov"] = '11';
+	    $month["Dec"] = '12';
 	    $c = 0;
 	    $l = 0;
 	    $startzeit = time();
@@ -1110,13 +1111,13 @@ class system{
 	      $line = trim(fgets($urlHandle,128));
 	      $response .= $line;
 	      $c = time() - $startzeit;
-	      if($line == "" || substr($line, 0, 5) == "Date:") $l += 1; // nur den Header auslesen
-	      if(substr($line, 0, 5) == "Date:"){
-	        $parts = explode(" ", $line);
+	      if($line == '' || substr($line, 0, 5) == 'Date:') $l += 1; // nur den Header auslesen
+	      if(substr($line, 0, 5) == 'Date:'){
+	        $parts = explode(' ', $line);
 	        $tag = $parts[2];
 	        $monat = $month[$parts[3]];
 	        $jahr = $parts[4];
-	        list($stunde, $minute, $sekunde) = explode(":", $parts[5]);
+	        list($stunde, $minute, $sekunde) = explode(':', $parts[5]);
 	        $timestamp = mktime($stunde,$minute,$sekunde,$monat,$tag,$jahr);
 	      }
 	    }
@@ -1202,7 +1203,7 @@ class system{
 		
 		if($user != '' && $this->is_user($user) && $user != 'root') {
 			$user = escapeshellarg($user);
-			// I assume that the name of the (vmail group) is the same as the name of the mail user in ispconfig 3
+			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
 			$group = $user;
 			exec("chown $user:$group $dir $dir_cur $dir_new $dir_tmp");
 		}
@@ -1212,14 +1213,20 @@ class system{
 			// Courier
 			if(!is_file($maildir_path.'/courierimapsubscribed')) {
 				$tmp_file = escapeshellarg($maildir_path.'/courierimapsubscribed');
-				exec("touch $tmp_file && chown vmail:vmail $tmp_file");
+				touch($tmp_file);
+				chmod($tmp_file, 0744);
+				chown($tmp_file,'vmail');
+				chgrp($tmp_file,'vmail');
 			}
 			$this->replaceLine($maildir_path.'/courierimapsubscribed','INBOX.'.$subfolder,'INBOX.'.$subfolder,1,1);
 			
 			// Dovecot
 			if(!is_file($maildir_path.'/subscriptions')) {
 				$tmp_file = escapeshellarg($maildir_path.'/subscriptions');
-				exec("touch $tmp_file && chown vmail:vmail $tmp_file");
+				touch($tmp_file);
+				chmod($tmp_file, 0744);
+				chown($tmp_file,'vmail');
+				chgrp($tmp_file,'vmail');
 			}
 			$this->replaceLine($maildir_path.'/subscriptions',$subfolder,$subfolder,1,1);
 		}
