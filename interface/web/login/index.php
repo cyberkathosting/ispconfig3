@@ -176,11 +176,15 @@ class login_index {
 		            	//* Incorrect login - Username and password incorrect
 		                $error = $app->lng('error_user_password_incorrect');
 		                if($app->db->errorMessage != '') $error .= '<br />'.$app->db->errorMessage != '';
+						
+						$app->plugin->raiseEvent('login_failed',$this);	
 		           	}
 	        	}
 	      	} else {
 	       		//* Username or password empty
 	            if($error == '') $error = $app->lng('error_user_password_empty');
+				
+				$app->plugin->raiseEvent('login_empty',$this);
 	        }
 		}
 		if($error != ''){
