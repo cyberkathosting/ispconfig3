@@ -118,7 +118,7 @@
     php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
     php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
     php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
-	PHPIniDir <tmpl_var name='custom_php_ini_dir'>
+	# PHPIniDir <tmpl_var name='custom_php_ini_dir'>
 <tmpl_if name='security_level' op='==' value='20'>
     php_admin_value open_basedir <tmpl_var name='php_open_basedir'>
 </tmpl_if>
@@ -311,7 +311,7 @@
     php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"	
     php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
     php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
-	PHPIniDir <tmpl_var name='custom_php_ini_dir'>
+	# PHPIniDir <tmpl_var name='custom_php_ini_dir'>
 <tmpl_if name='security_level' op='==' value='20'>
     php_admin_value open_basedir <tmpl_var name='php_open_basedir'>
 </tmpl_if>
