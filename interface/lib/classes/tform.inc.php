@@ -620,8 +620,9 @@ class tform {
                                 break;
 								case 'DATE':
                                         if($record[$key] != '' && $record[$key] != '0000-00-00') {
-                                                list($tag,$monat,$jahr) = explode('.',$record[$key]);
-                                                $new_record[$key] = $jahr.'-'.$monat.'-'.$tag;
+												$date_parts = date_parse_from_format($this->dateformat,$record[$key]);
+												//list($tag,$monat,$jahr) = explode('.',$record[$key]);
+                                                $new_record[$key] = $date_parts['year'].'-'.$date_parts['month'].'-'.$date_parts['day'];
 												//$tmp = strptime($record[$key],$this->dateformat);
 												//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
                                         } else {
