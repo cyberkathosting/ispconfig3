@@ -13,6 +13,6 @@ MYSQL_HOME_FIELD homedir
 MYSQL_MAILDIR_FIELD maildir
 #MYSQL_NAME_FIELD
 MYSQL_QUOTA_FIELD quota
-MYSQL_QUOTA_FIELD concat(quota,'S')
+#MYSQL_QUOTA_FIELD concat(quota,'S')
 #MYSQL_WHERE_CLAUSE      access='y'
 MYSQL_AUXOPTIONS_FIELD concat('disableimap=',disableimap,',disablepop3=',disablepop3)
