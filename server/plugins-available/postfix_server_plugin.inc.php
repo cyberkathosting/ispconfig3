@@ -80,13 +80,13 @@ class postfix_server_plugin {
 		
 		// get the config
 		$app->uses("getconf");
-		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		
 		copy('/etc/postfix/main.cf','/etc/postfix/main.cf~');
 		
-		if($mail_config["relayhost"] != '') {
-			exec("postconf -e 'relayhost = ".$mail_config["relayhost"]."'");
-			if($mail_config["relayhost_user"] != '' && $mail_config["relayhost_password"] != '') {
+		if($mail_config['relayhost'] != '') {
+			exec("postconf -e 'relayhost = ".$mail_config['relayhost']."'");
+			if($mail_config['relayhost_user'] != '' && $mail_config['relayhost_password'] != '') {
 				exec("postconf -e 'smtp_sasl_auth_enable = yes'");
 			} else {
 				exec("postconf -e 'smtp_sasl_auth_enable = no'");
@@ -95,19 +95,20 @@ class postfix_server_plugin {
 			exec("postconf -e 'smtp_sasl_security_options ='");
 			
 			// Store the sasl passwd
-			$content = $mail_config["relayhost"]."   ".$mail_config["relayhost_user"].":".$mail_config["relayhost_password"];
+			$content = $mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
 			file_put_contents('/etc/postfix/sasl_passwd',$content);
-			exec("chown root:root /etc/postfix/sasl_passwd");
-			exec("chmod 600 /etc/postfix/sasl_passwd");
-			exec("postmap /etc/postfix/sasl_passwd");
-			exec("/etc/init.d/postfix restart");
+			chmod('/etc/postfix/sasl_passwd', 0600);
+			chown('/etc/postfix/sasl_passwd', 'root');
+			chgrp('/etc/postfix/sasl_passwd', 'root');
+			exec('postmap /etc/postfix/sasl_passwd');
+			exec($conf['init_scripts'] . '/' . 'postfix restart');
 			
 		} else {
 			exec("postconf -e 'relayhost ='");
 		}
 		
-		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config["mailbox_size_limit"]*1024*1024)."'");
-		exec("postconf -e 'message_size_limit = ".intval($mail_config["message_size_limit"]*1024*1024)."'");
+		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
+		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");
 		
 	}
 
