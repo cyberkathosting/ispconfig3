@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `billing_service`;
 DROP TABLE IF EXISTS `billing_service_class`;
 DROP TABLE IF EXISTS `billing_tax`;
 DROP TABLE IF EXISTS `client_address_book`;
-DROP TABLE IF EXISTS `domain`;
+-- DROP TABLE IF EXISTS `domain`;
 DROP TABLE IF EXISTS `domain_handle`;
 DROP TABLE IF EXISTS `domain_provider`;
 DROP TABLE IF EXISTS `domain_tld`;
