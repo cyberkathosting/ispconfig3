@@ -1925,7 +1925,7 @@ class remoting {
 		$app->remoting_lib->loadUserProfile($reseller_id);
 		
 		//* load the client template
-		if(isset($params['template_master']) and $params['template_master'])
+		if(isset($params['template_master']) and $params['template_master'] > 0)
 		{
 			$template=$app->db->queryOneRecord("SELECT * FROM client_template WHERE template_id=".intval($params['template_master']));
 			$params=array_merge($params,$template);
