@@ -664,8 +664,20 @@ class remoting_lib {
 			global $app,$sql1;
 			$username = $app->db->quote($params["username"]);
 			$password = $app->db->quote($params["password"]);
-			$modules = 'mail,sites,dns,tools';
-			$startmodule = 'mail';
+			if(!isset($params['modules'])) {
+				$modules = 'dashboard,mail,sites,dns,tools';
+			} else {
+				$modules = $app->db->quote($params['modules']);
+			}
+			if(!isset($params['startmodule'])) {			
+				$startmodule = 'dashboard';
+			} else {						
+				$startmodule = $app->db->quote($params["startmodule"]);
+				if(!preg_match('/'.$startmodule.'/',$modules)) {
+					$_modules = explode(',',$modules);
+					$startmodule=$_modules[0];
+				}
+			}
 			$usertheme = $app->db->quote($params["usertheme"]);
 			$type = 'user';
 			$active = 1;
