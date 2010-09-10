@@ -80,7 +80,7 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 //** Side Naviation
 if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
 
-	if(is_file($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php')) {
+	if(isset($_SESSION['s']['module']['name']) && is_file($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php')) {
 		include_once($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php');
 	} else {
 	
