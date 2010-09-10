@@ -35,6 +35,7 @@ $app->auth->check_module_permissions('admin');
 
 //* This is only allowed for administrators
 if(!$app->auth->is_admin()) die('only allowed for administrators.');
+if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
 $app->uses('tpl');
 

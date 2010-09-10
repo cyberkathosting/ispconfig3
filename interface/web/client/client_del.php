@@ -44,6 +44,7 @@ require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
+if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
 $app->uses('tpl,tform');
 $app->load('tform_actions');

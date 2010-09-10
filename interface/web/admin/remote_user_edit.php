@@ -13,6 +13,9 @@ if(!stristr($_SESSION['s']['user']['modules'],'admin')) {
     die;
 }
 
+// Disable this function in demo mode
+if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
+
 // Load the templating and form classes
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');

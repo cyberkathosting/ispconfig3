@@ -81,6 +81,8 @@ class page_action extends tform_actions {
 	function onBeforeUpdate() {
 		global $app, $conf;
 		
+		if($conf['demo_mode'] == true && $this->id <= 3) $app->tform->errorMessage .= 'This function is disabled in demo mode.';
+		
 		if($_POST['passwort'] != $_POST['passwort2']) {
 			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}

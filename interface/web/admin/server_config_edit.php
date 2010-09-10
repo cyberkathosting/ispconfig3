@@ -71,19 +71,21 @@ class page_action extends tform_actions {
 	}
 	
 	function onUpdateSave($sql) {
-		global $app;
+		global $app,$conf;
 		
 		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
 		$app->uses('ini_parser,getconf');
 		
-		$section = $app->tform->getCurrentTab();
-		$server_id = $this->id;
+		if($conf['demo_mode'] != true) {
+			$section = $app->tform->getCurrentTab();
+			$server_id = $this->id;
 		
-		$server_config_array = $app->getconf->get_server_config($server_id);
-		$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
-		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
+			$server_config_array = $app->getconf->get_server_config($server_id);
+			$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
+			$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		
-		$app->db->datalogUpdate('server', "config = '".$app->db->quote($server_config_str)."'", 'server_id', $server_id);
+			$app->db->datalogUpdate('server', "config = '".$app->db->quote($server_config_str)."'", 'server_id', $server_id);
+		}
 	}
 	
 }

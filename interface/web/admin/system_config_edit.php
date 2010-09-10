@@ -78,7 +78,7 @@ class page_action extends tform_actions {
 	}
 	
 	function onUpdateSave($sql) {
-		global $app;
+		global $app,$conf;
 		
 		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
 		$app->uses('ini_parser,getconf');
@@ -90,7 +90,7 @@ class page_action extends tform_actions {
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		
 		$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
-		$app->db->query($sql);
+		if($conf['demo_mode'] != true) $app->db->query($sql);
 
 		/*
 		 * If we should use the domain-module, we have to insert all existing domains into the table

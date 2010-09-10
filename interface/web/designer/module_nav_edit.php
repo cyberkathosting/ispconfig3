@@ -34,6 +34,7 @@ require_once('../../lib/app.inc.php');
 if($_SESSION['s']['user']['typ'] != 'admin'){
     die('Admin permissions required.');
 }
+if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('designer');

@@ -103,6 +103,15 @@ $conf["server_id"] = "1";
 //** Interface
 $conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools';
 
+//** Demo mode
+/* The demo mode is an option to restrict certain actions in the interface like 
+*  changing the password of users with sys_userid < 3 etc. to be 
+*  able to run the ISPConfig interface as online demo. It does not
+*  affect the server part. The demo mode should be always set to false
+*  on every normal installation
+*/
+$conf['demo_mode'] = false;
+
 
 //** Logging
 $conf["log_file"] = '/var/log/ispconfig/ispconfig.log';

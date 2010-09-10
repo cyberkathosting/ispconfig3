@@ -55,6 +55,8 @@ class page_action extends tform_actions {
 	function onBeforeDelete() {
 		global $app, $conf;
 		
+		if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
+		
 		$client_id = intval($this->dataRecord['client_id']);
 		
 		$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE parent_client_id = ".$client_id);
