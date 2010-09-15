@@ -121,6 +121,6 @@ connect = host={mysql_server_host} dbname={mysql_server_database} user={mysql_se
 default_pass_scheme = CRYPT
 
 password_query = SELECT password FROM mail_user WHERE email = '%u' AND disable%Ls = 'n'
-user_query = SELECT email as user, maildir as home, CONCAT(maildir, '/Maildir') as mail, uid, gid, CONCAT('maildir:storage=', floor(quota/1024)) AS quota, CONCAT(maildir, '/.sieve') as sieve FROM mail_user WHERE email = '%u' AND disable%Ls = 'n'
+user_query = SELECT email as user, maildir as home, CONCAT('maildir:', maildir, '/Maildir') as mail, uid, gid, CONCAT('maildir:storage=', floor(quota/1024)) AS quota, CONCAT(maildir, '/.sieve') as sieve FROM mail_user WHERE email = '%u' AND disable%Ls = 'n'
 
 

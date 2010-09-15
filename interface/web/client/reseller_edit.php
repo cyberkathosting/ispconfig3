@@ -200,6 +200,13 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		
+		// ensure that a reseller is not converted to a client in demo mode when client_id <= 2
+		if($conf['demo_mode'] == true && $this->id <= 2) {
+			if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != -1) {
+				$app->db->query('UPDATE client set limit_client = -1 WHERE client_id = '.$this->id);
+			}
+		}
+		
 		// reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
 			$modules = $conf['interface_modules_enabled'] . ',client';
