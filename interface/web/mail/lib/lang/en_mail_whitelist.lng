@@ -1,6 +1,6 @@
 <?php
 $wb["server_id_txt"] = 'Server';
-$wb["source_txt"] = 'Witelist Address';
+$wb["source_txt"] = 'Whitelist Address';
 $wb["recipient_txt"] = 'Recipient';
 $wb["active_txt"] = 'Active';
 $wb["source_error_notempty"] = 'Address is empty.';
