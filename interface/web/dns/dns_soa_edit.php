@@ -50,6 +50,16 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	function onShow() {
+		global $app;
+		//* Reset the page number of the list form for the dns
+		//* records to 0 if we are on the first tab of the soa form.
+		if($app->tform->getNextTab() == 'dns_soa') {
+			$_SESSION['search']['dns_a']['page'] = 0;
+		}
+		parent::onShow();
+	}
+	
 	function onShowNew() {
 		global $app, $conf;
 		
