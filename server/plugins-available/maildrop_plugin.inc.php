@@ -196,6 +196,9 @@ class maildrop_plugin {
 					}
 					$mailfilter_content .= $data["new"]["custom_mailfilter"];
 					
+					// Replace windows linebreaks in mailfilter file
+					$mailfilter_content = str_replace("\r\n","\n",$mailfilter_content);
+					
 					file_put_contents($config_file_path,$mailfilter_content);
 					$app->log("Writing new custom Mailfiter".$config_file_path,LOGLEVEL_DEBUG);
 					chmod($config_file_path, 0770);
