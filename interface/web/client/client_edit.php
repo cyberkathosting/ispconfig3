@@ -143,7 +143,7 @@ class page_action extends tform_actions {
 		$password = $app->db->quote($this->dataRecord["password"]);
 		$modules = $conf['interface_modules_enabled'];
 		if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
-		$startmodule = 'mail';
+		$startmodule = (stristr($modules,'dashboard'))?'dashboard':'client';
 		$usertheme = $app->db->quote($this->dataRecord["usertheme"]);
 		$type = 'user';
 		$active = 1;
