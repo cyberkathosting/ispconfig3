@@ -362,16 +362,16 @@ if($install_mode == 'standard') {
 		swriteln('Configuring Getmail');
 		$inst->configure_getmail();
 		
-		if($conf['postfix']['init_script'] != '')			system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
-		if($conf['saslauthd']['init_script'] != '')			system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
-		if($conf['amavis']['init_script'] != '')			system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
-		if($conf['clamav']['init_script'] != '')			system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
-		if($conf['courier']['courier-authdaemon'] != '') 	system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
-		if($conf['courier']['courier-imap'] != '') 			system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
-		if($conf['courier']['courier-imap-ssl'] != '') 		system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
-		if($conf['courier']['courier-pop'] != '') 			system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
-		if($conf['courier']['courier-pop-ssl'] != '') 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
-		if($conf['dovecot']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['dovecot']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['dovecot']['init_script'].' restart');
+		if($conf['postfix']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['postfix']['init_script']))				system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
+		if($conf['saslauthd']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['saslauthd']['init_script']))			system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');
+		if($conf['amavis']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['amavis']['init_script']))					system($conf['init_scripts'].'/'.$conf['amavis']['init_script'].' restart');
+		if($conf['clamav']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['clamav']['init_script']))					system($conf['init_scripts'].'/'.$conf['clamav']['init_script'].' restart');
+		if($conf['courier']['courier-authdaemon'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'])) system($conf['init_scripts'].'/'.$conf['courier']['courier-authdaemon'].' restart');
+		if($conf['courier']['courier-imap'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-imap'])) 			system($conf['init_scripts'].'/'.$conf['courier']['courier-imap'].' restart');
+		if($conf['courier']['courier-imap-ssl'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'])) 	system($conf['init_scripts'].'/'.$conf['courier']['courier-imap-ssl'].' restart');
+		if($conf['courier']['courier-pop'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
+		if($conf['courier']['courier-pop-ssl'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
+		if($conf['dovecot']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['dovecot']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['dovecot']['init_script'].' restart');
 	}
 	
 	//** Configure Jailkit
@@ -384,7 +384,7 @@ if($install_mode == 'standard') {
 	if(strtolower($inst->simple_query('Configure FTP Server', array('y','n'),'y') ) == 'y') {	
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
-		if($conf['pureftpd']['init_script'] != '') system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
+		if($conf['pureftpd']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'])) system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	}
 	
 	//** Configure DNS
@@ -394,15 +394,15 @@ if($install_mode == 'standard') {
 		if($conf['powerdns']['installed'] == true) {
 			swriteln('Configuring PowerDNS');
 			$inst->configure_powerdns();
-			if($conf['powerdns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
+			if($conf['powerdns']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
 		} elseif($conf['bind']['installed'] == true) {
 			swriteln('Configuring BIND');
 			$inst->configure_bind();
-			if($conf['bind']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
+			if($conf['bind']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['bind']['init_script']))					system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
 		} else {
 			swriteln('Configuring MyDNS');
 			$inst->configure_mydns();
-			if($conf['mydns']['init_script'] != '')	system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
+			if($conf['mydns']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 		}
 		
 	}
