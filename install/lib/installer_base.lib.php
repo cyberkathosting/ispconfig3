@@ -1470,6 +1470,7 @@ class installer_base {
 		//* Add Log-Rotation
 		if (is_dir('/etc/logrotate.d')) {
 			@unlink('/etc/logrotate.d/logispc3'); // ignore, if the file is not there
+			/* We rotate these logs in cron_daily.php
 			$fh = fopen('/etc/logrotate.d/logispc3', 'w');
 			fwrite($fh,
 					"/var/log/ispconfig/ispconfig.log { \n" .
@@ -1487,6 +1488,7 @@ class installer_base {
 					"	delaycompress \n" .
 					"}");
 			fclose($fh);
+			*/
 		}
 	}
 
