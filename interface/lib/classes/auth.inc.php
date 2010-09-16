@@ -89,10 +89,9 @@ class auth {
 		if(!$this->client_limits)
 			return -1;
 		
-		if(isset($this->client_limits['limit_'.$limitname]))
+		if(isset($this->client_limits['limit_'.$limitname])) {
 			return $this->client_limits['limit_'.$limitname];
-		else
-			trigger_error('Wrong limit identifier');		
+		}		
 	}	
 	
 	//** This function removes a given group id from a given user.

@@ -50,6 +50,19 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	// Returna a "3/2/1" path hash from a numeric id '123'
+	function id_hash($id,$levels) {
+		$hash = "" . $id % 10 ;
+		$id /= 10 ;
+		$levels -- ;
+		while ( $levels > 0 ) {
+			$hash .= "/" . $id % 10 ;
+			$id /= 10 ;
+			$levels-- ;
+		}
+		return $hash;
+	}
+	
 	function onShowNew() {
 		global $app, $conf;
 
@@ -345,6 +358,10 @@ class page_action extends tform_actions {
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
+		$document_root = str_replace("[website_idhash_1]",$this->id_hash($page_form->id,1),$document_root);
+		$document_root = str_replace("[website_idhash_2]",$this->id_hash($page_form->id,1),$document_root);
+		$document_root = str_replace("[website_idhash_3]",$this->id_hash($page_form->id,1),$document_root);
+		$document_root = str_replace("[website_idhash_4]",$this->id_hash($page_form->id,1),$document_root);
 
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -360,7 +377,12 @@ class page_action extends tform_actions {
 		// Set the values for document_root, system_user and system_group
 		$system_user = $app->db->quote('web'.$this->id);
 		$system_group = $app->db->quote('client'.$client_id);
-		$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
+		$document_root = str_replace("[client_id]",$client_id,$document_root);
+		$document_root = str_replace("[client_idhash_1]",$this->id_hash($client_id,1),$document_root);
+		$document_root = str_replace("[client_idhash_2]",$this->id_hash($client_id,2),$document_root);
+		$document_root = str_replace("[client_idhash_3]",$this->id_hash($client_id,3),$document_root);
+		$document_root = str_replace("[client_idhash_4]",$this->id_hash($client_id,4),$document_root);
+		$document_root = $app->db->quote($document_root);
 		$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);
 		$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
 		$htaccess_allow_override = $app->db->quote($web_config["htaccess_allow_override"]);
@@ -426,6 +448,10 @@ class page_action extends tform_actions {
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
+		$document_root = str_replace("[website_idhash_1]",$this->id_hash($page_form->id,1),$document_root);
+		$document_root = str_replace("[website_idhash_2]",$this->id_hash($page_form->id,1),$document_root);
+		$document_root = str_replace("[website_idhash_3]",$this->id_hash($page_form->id,1),$document_root);
+		$document_root = str_replace("[website_idhash_4]",$this->id_hash($page_form->id,1),$document_root);
 
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -442,7 +468,12 @@ class page_action extends tform_actions {
 			// Set the values for document_root, system_user and system_group
 			$system_user = $app->db->quote('web'.$this->id);
 			$system_group = $app->db->quote('client'.$client_id);
-			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
+			$document_root = str_replace("[client_id]",$client_id,$document_root);
+			$document_root = str_replace("[client_idhash_1]",$this->id_hash($client_id,1),$document_root);
+			$document_root = str_replace("[client_idhash_2]",$this->id_hash($client_id,2),$document_root);
+			$document_root = str_replace("[client_idhash_3]",$this->id_hash($client_id,3),$document_root);
+			$document_root = str_replace("[client_idhash_4]",$this->id_hash($client_id,4),$document_root);
+			$document_root = $app->db->quote($document_root);
 
 			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 			//$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
