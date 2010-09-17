@@ -55,14 +55,14 @@ $form["tabs"]['message'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'			=> 'SQL',
-										'querystring' 	=> 'SELECT userid,username FROM sys_user WHERE {AUTHSQL} ORDER BY username',
+										'querystring' 	=> 'SELECT userid,username FROM sys_user WHERE userid != 1 AND {AUTHSQL} ORDER BY username',
 										'keyfield'		=> 'userid',
 										'valuefield'	=> 'username'
 									 ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'recipient_id_is_not_integer'),
 									),
-			'value'		=> ''
+			'value'		=> array(1 => 'Administrator')
 		),
 		'sender_id' => array (
 			'datatype'	=> 'INTEGER',
