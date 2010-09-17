@@ -252,7 +252,16 @@ class bind_plugin {
 		//* Only write the master file for the current server	
 		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify FROM dns_soa WHERE active = 'Y' AND server_id=".$conf["server_id"]);
 		$zones = array();
+		
+		//* Check if the current zone that triggered this function has at least one NS record
+		$rec_num = $app->db->queryOneRecord("SELECT count(id) as ns FROM dns_rr WHERE type = 'NS' AND zone = ".$data['new']['id']." AND active = 'Y'");
+		if($rec_num['ns'] == 0) {
+			$exclude_zone = $data['new']['origin'];
+		} else {
+			$exclude_zone = '';
+		}
 
+		//* Loop trough zones
 		foreach($tmps as $tmp) {
 			
 			$options = '';
@@ -263,10 +272,12 @@ class bind_plugin {
 			}
 			if(trim($tmp['also_notify']) != '') $options .= '        also-notify {'.str_replace(',',';',$tmp['also_notify']).";};\n";
 			
-			$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
-								'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/pri.'.substr($tmp['origin'],0,-1),
-								'options' => $options
-							);
+			if($tmp['origin'] != $exclude_zone) {
+				$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
+									'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/pri.'.substr($tmp['origin'],0,-1),
+									'options' => $options
+								);
+			}
 		}
 
 		$tpl = new tpl();
