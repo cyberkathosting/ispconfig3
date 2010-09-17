@@ -96,6 +96,11 @@ class page_action extends tform_actions {
 			}
 		} // end if user is not admin
 		
+		//* Check for duplicates where IP and hostname are the same
+		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE (type = 'A' AND name = '".$this->dataRecord["name"]."' AND zone = '".$this->dataRecord["zone"]."' and id != ".$this->id.") OR (type = 'CNAME' AND name = '".$this->dataRecord["name"]."' AND zone = '".$this->dataRecord["zone"]."' and id != ".$this->id.")");
+		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("data_error_duplicate")."<br>";
+		unset($tmp);
+		
 		
 		// Set the server ID of the rr record to the same server ID as the parent record.
 		$this->dataRecord["server_id"] = $soa["server_id"];
