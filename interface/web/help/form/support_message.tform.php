@@ -62,7 +62,7 @@ $form["tabs"]['message'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'recipient_id_is_not_integer'),
 									),
-			'value'		=> array(1 => 'Administrator')
+			'value'		=> ($_SESSION['s']['user']['typ'] != 'admin')?array(1 => 'Administrator'):''
 		),
 		'sender_id' => array (
 			'datatype'	=> 'INTEGER',
