@@ -125,11 +125,11 @@ $conf['courier']['courier-imap'] = 'courier-imap';
 $conf['courier']['courier-imap-ssl'] = 'courier-imap-ssl';
 $conf['courier']['courier-pop'] = 'courier-pop';
 $conf['courier']['courier-pop-ssl'] = 'courier-pop-ssl';
-$conf['dovecot']['init_script'] = 'dovecot';
 
 //* Dovecot
 $conf['dovecot']['installed'] = false; // will be detected automatically during installation
 $conf['dovecot']['config_dir'] = '/etc/dovecot';
+$conf['dovecot']['init_script'] = 'dovecot';
 
 //* SASL
 $conf['saslauthd']['installed'] = false; // will be detected automatically during installation
