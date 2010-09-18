@@ -1426,7 +1426,7 @@ class installer_base {
 			$content = str_replace('{vhost_port_listen}', '', $content);
 		}
 		
-		if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir'/interface/ssl/ispserver.key')) {
+		if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
 			$content = str_replace('{ssl_comment}', '', $content);
 		} else {
 			$content = str_replace('{ssl_comment}', '#', $content);
