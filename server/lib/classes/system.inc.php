@@ -1188,18 +1188,31 @@ class system{
 		
 		if($subfolder != '') {
 			$dir = escapeshellarg($maildir_path.'/.'.$subfolder);
-			$dir_cur = escapeshellarg($maildir_path.'/.'.$subfolder.'/cur');
-			$dir_new = escapeshellarg($maildir_path.'/.'.$subfolder.'/new');
-			$dir_tmp = escapeshellarg($maildir_path.'/.'.$subfolder.'/tmp');
 		} else {
 			$dir = escapeshellarg($maildir_path);
-			$dir_cur = escapeshellarg($maildir_path.'/cur');
-			$dir_new = escapeshellarg($maildir_path.'/new');
-			$dir_tmp = escapeshellarg($maildir_path.'/tmp');
+		}
+
+		if($user != '' && $user != 'root' && $this->is_user($user)) {
+			$user = escapeshellarg($user);
+			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
+			$group = $user;
+			chown($dir,$user);
+			chgrp($dir,$group);
+
+			$chown_mdsub = true;
 		}
 		
-		exec("mkdir -p $dir_cur $dir_new $dir_tmp");
-		exec("chmod 0700 $dir $dir_cur $dir_new $dir_tmp");
+		$maildirsubs = array('cur','new','tmp');
+
+		foreach ($maildirsubs as $mdsub) {
+			mkdir($dir.'/'.$mdsub, 0700, true);
+			if ($chown_mdsub) {
+				chown($dir.'/'.$mdsub, $user);
+				chgrp($dir.'/'.$mdsub, $group);
+			}
+		}
+
+		chmod($dir, 0700);
 		
 		if($user != '' && $this->is_user($user) && $user != 'root') {
 			$user = escapeshellarg($user);
