@@ -388,7 +388,7 @@ $backup_dir = $server_config['backup_dir'];
 if($backup_dir != '') {
 	
 	if(!is_dir($backup_dir)) {
-		mkdir(escapeshellarg($backup_dir), 0750, true);
+		mkdir(escapeshellcmd($backup_dir), 0750, true);
 	}
 	
 	$sql = "SELECT * FROM web_domain WHERE type = 'vhost'";
