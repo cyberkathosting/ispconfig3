@@ -1187,13 +1187,13 @@ class system{
 		global $app;
 		
 		if($subfolder != '') {
-			$dir = escapeshellarg($maildir_path.'/.'.$subfolder);
+			$dir = escapeshellcmd($maildir_path.'/.'.$subfolder);
 		} else {
-			$dir = escapeshellarg($maildir_path);
+			$dir = escapeshellcmd($maildir_path);
 		}
 
 		if($user != '' && $user != 'root' && $this->is_user($user)) {
-			$user = escapeshellarg($user);
+			$user = escapeshellcmd($user);
 			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
 			$group = $user;
 			chown($dir,$user);
@@ -1214,18 +1214,20 @@ class system{
 
 		chmod($dir, 0700);
 		
+		/*
 		if($user != '' && $this->is_user($user) && $user != 'root') {
-			$user = escapeshellarg($user);
+			$user = escapeshellcmd($user);
 			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
 			$group = $user;
 			exec("chown $user:$group $dir $dir_cur $dir_new $dir_tmp");
 		}
+		*/
 		
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files
 		if($subfolder != '') {
 			// Courier
 			if(!is_file($maildir_path.'/courierimapsubscribed')) {
-				$tmp_file = escapeshellarg($maildir_path.'/courierimapsubscribed');
+				$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
 				touch($tmp_file);
 				chmod($tmp_file, 0744);
 				chown($tmp_file,'vmail');
@@ -1235,7 +1237,7 @@ class system{
 			
 			// Dovecot
 			if(!is_file($maildir_path.'/subscriptions')) {
-				$tmp_file = escapeshellarg($maildir_path.'/subscriptions');
+				$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
 				touch($tmp_file);
 				chmod($tmp_file, 0744);
 				chown($tmp_file,'vmail');
