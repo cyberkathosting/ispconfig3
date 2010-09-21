@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'Email doména';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
-$wb['add_new_record_txt'] = 'Přiat doménu';
+$wb['add_new_record_txt'] = 'Přidat doménu';
 $wb['active_txt'] = 'Aktivní';
 ?>

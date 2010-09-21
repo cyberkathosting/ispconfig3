@@ -31,8 +31,8 @@ $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Nástroje';
 $wb['top_menu_help'] = 'Pomoc';
 $wb['toolsarea_head_txt'] = 'Nástroje';
-$wb['top_menu_billing'] = 'Billing';
-$wb['top_menu_domain'] = 'Domains';
-$wb['top_menu_dashboard'] = 'Home';
-$wb['latest_news_txt'] = 'Latest news';
+$wb['top_menu_billing'] = 'Fakturace';
+$wb['top_menu_domain'] = 'Doména';
+$wb['top_menu_dashboard'] = 'Nástěnka';
+$wb['latest_news_txt'] = 'Nejnovější novinky';
 ?>

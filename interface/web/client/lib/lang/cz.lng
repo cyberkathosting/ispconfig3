@@ -1,6 +1,6 @@
 <?php
 $wb['Client'] = 'Klient';
-$wb['Address'] = 'Aresa';
+$wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limity';
 $wb['Add Client'] = 'Přidat klienta';
 $wb['Edit Client'] = 'Upravit klienta';
