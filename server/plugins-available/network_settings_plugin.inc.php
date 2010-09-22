@@ -76,8 +76,8 @@ class network_settings_plugin {
 		global $app, $conf;
 		
 		// get the config
-		$app->uses("getconf");
-		$server_config = $app->getconf->get_server_config($conf["server_id"], 'server');
+		$app->uses('getconf');
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		
 		// Configure the debian network card settings
 		if($server_config['auto_network_configuration'] == 'y') {
@@ -89,15 +89,15 @@ class network_settings_plugin {
 				$app->load('tpl');
 				
 				$network_tpl = new tpl();
-				$network_tpl->newTemplate("debian_network_interfaces.master");
+				$network_tpl->newTemplate('debian_network_interfaces.master');
 					
-				$network_tpl->setVar('ip_address',$server_config["ip_address"]);
-				$network_tpl->setVar('netmask',$server_config["netmask"]);
-				$network_tpl->setVar('gateway',$server_config["gateway"]);
-				$network_tpl->setVar('broadcast',$this->broadcast($server_config["ip_address"],$server_config["netmask"]));
-				$network_tpl->setVar('network',$this->network($server_config["ip_address"],$server_config["netmask"]));
+				$network_tpl->setVar('ip_address',$server_config['ip_address']);
+				$network_tpl->setVar('netmask',$server_config['netmask']);
+				$network_tpl->setVar('gateway',$server_config['gateway']);
+				$network_tpl->setVar('broadcast',$this->broadcast($server_config['ip_address'],$server_config['netmask']));
+				$network_tpl->setVar('network',$this->network($server_config['ip_address'],$server_config['netmask']));
 				
-				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf["server_id"]) . " order by ip_address");
+				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf['server_id']) . ' order by ip_address');
 				$ip_records = array();
 				$additionl_ip_records = 0;
 				$n = 0;
@@ -106,15 +106,15 @@ class network_settings_plugin {
 						/*
 						 * don't insert the main-ip again!
 						 */
-						if ($rec['ip_address'] != $server_config["ip_address"])
+						if ($rec['ip_address'] != $server_config['ip_address'])
 						{
 							$ip_records[$n] = array(
 								'id' => $n,
 								'ip_address' => $rec['ip_address'],
-								'netmask' => $server_config["netmask"],
-								'gateway' => $server_config["gateway"],
-								'broadcast' => $this->broadcast($rec['ip_address'],$server_config["netmask"]),
-								'network' => $this->network($rec['ip_address'],$server_config["netmask"])
+								'netmask' => $server_config['netmask'],
+								'gateway' => $server_config['gateway'],
+								'broadcast' => $this->broadcast($rec['ip_address'],$server_config['netmask']),
+								'network' => $this->network($rec['ip_address'],$server_config['netmask'])
 							);
 							$additionl_ip_records = 1;
 							$n++;
@@ -131,23 +131,23 @@ class network_settings_plugin {
 				 */
 				if ($additionl_ip_records != 0)
 				{
-					$swap["ip_address"] = $ip_records[$n-1]["ip_address"];
-					$swap["netmask"] = $ip_records[$n-1]["netmask"];
-					$swap["gateway"] = $ip_records[$n-1]["gateway"];
+					$swap['ip_address'] = $ip_records[$n-1]['ip_address'];
+					$swap['netmask'] = $ip_records[$n-1]['netmask'];
+					$swap['gateway'] = $ip_records[$n-1]['gateway'];
 					
 					$ip_records[$n-1] = array(
 						'id' => $n-1,
 						'ip_address' => $server_config['ip_address'],
-						'netmask' => $server_config["netmask"],
-						'gateway' => $server_config["gateway"],
-						'broadcast' => $this->broadcast($server_config['ip_address'],$server_config["netmask"]),
-						'network' => $this->network($server_config['ip_address'],$server_config["netmask"])
+						'netmask' => $server_config['netmask'],
+						'gateway' => $server_config['gateway'],
+						'broadcast' => $this->broadcast($server_config['ip_address'],$server_config['netmask']),
+						'network' => $this->network($server_config['ip_address'],$server_config['netmask'])
 					);
-					$network_tpl->setVar('ip_address',$swap["ip_address"]);
-					$network_tpl->setVar('netmask',$swap["netmask"]);
-					$network_tpl->setVar('gateway',$swap["gateway"]);
-					$network_tpl->setVar('broadcast',$this->broadcast($swap["ip_address"],$swap["netmask"]));
-					$network_tpl->setVar('network',$this->network($swap["ip_address"],$swap["netmask"]));
+					$network_tpl->setVar('ip_address',$swap['ip_address']);
+					$network_tpl->setVar('netmask',$swap['netmask']);
+					$network_tpl->setVar('gateway',$swap['gateway']);
+					$network_tpl->setVar('broadcast',$this->broadcast($swap['ip_address'],$swap['netmask']));
+					$network_tpl->setVar('network',$this->network($swap['ip_address'],$swap['netmask']));
 				}
 				
 				$network_tpl->setVar('additionl_ip_records',$additionl_ip_records);
@@ -155,7 +155,7 @@ class network_settings_plugin {
 				file_put_contents('/etc/network/interfaces',$network_tpl->grab());
 				unset($network_tpl);
 				
-				$app->log("Changed Network settings",LOGLEVEL_DEBUG);
+				$app->log('Changed Network settings',LOGLEVEL_DEBUG);
 				exec($conf['init_scripts'] . '/' . 'networking force-reload');
 			} 
 			elseif (is_file('/etc/gentoo-release')) 
@@ -165,14 +165,14 @@ class network_settings_plugin {
 				$app->load('tpl');
 				
 				$network_tpl = new tpl();
-				$network_tpl->newTemplate("gentoo_network_interfaces.master");
+				$network_tpl->newTemplate('gentoo_network_interfaces.master');
 				
-				$network_tpl->setVar('ip_address',$server_config["ip_address"]);
-				$network_tpl->setVar('netmask',$server_config["netmask"]);
-				$network_tpl->setVar('gateway',$server_config["gateway"]);
-				$network_tpl->setVar('broadcast',$this->broadcast($server_config["ip_address"],$server_config["netmask"]));
+				$network_tpl->setVar('ip_address',$server_config['ip_address']);
+				$network_tpl->setVar('netmask',$server_config['netmask']);
+				$network_tpl->setVar('gateway',$server_config['gateway']);
+				$network_tpl->setVar('broadcast',$this->broadcast($server_config['ip_address'],$server_config['netmask']));
 				
-				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf["server_id"]) . " order by ip_address");
+				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf['server_id']) . " order by ip_address");
 				$ip_records = array();
 				$additionl_ip_records = 0;
 				$n = 0;
@@ -181,14 +181,14 @@ class network_settings_plugin {
 						/*
 						 * don't insert the main-ip again!
 						 */
-						if ($rec['ip_address'] != $server_config["ip_address"])
+						if ($rec['ip_address'] != $server_config['ip_address'])
 						{
 							$ip_records[$n] = array(
 								'id' => $n,
 								'ip_address' => $rec['ip_address'],
-								'netmask' => $server_config["netmask"],
-								'gateway' => $server_config["gateway"],
-								'broadcast' => $this->broadcast($rec['ip_address'],$server_config["netmask"])
+								'netmask' => $server_config['netmask'],
+								'gateway' => $server_config['gateway'],
+								'broadcast' => $this->broadcast($rec['ip_address'],$server_config['netmask'])
 							);
 							$additionl_ip_records = 1;
 							$n++;
@@ -205,21 +205,21 @@ class network_settings_plugin {
 				 */
 				if ($additionl_ip_records != 0)
 				{
-					$swap["ip_address"] = $ip_records[$n-1]["ip_address"];
-					$swap["netmask"] = $ip_records[$n-1]["netmask"];
-					$swap["gateway"] = $ip_records[$n-1]["gateway"];
+					$swap['ip_address'] = $ip_records[$n-1]['ip_address'];
+					$swap['netmask'] = $ip_records[$n-1]['netmask'];
+					$swap['gateway'] = $ip_records[$n-1]['gateway'];
 					
 					$ip_records[$n-1] = array(
 						'id' => $n-1,
 						'ip_address' => $server_config['ip_address'],
-						'netmask' => $server_config["netmask"],
-						'gateway' => $server_config["gateway"],
-						'broadcast' => $this->broadcast($server_config['ip_address'],$server_config["netmask"])
+						'netmask' => $server_config['netmask'],
+						'gateway' => $server_config['gateway'],
+						'broadcast' => $this->broadcast($server_config['ip_address'],$server_config['netmask'])
 					);
-					$network_tpl->setVar('ip_address',$swap["ip_address"]);
-					$network_tpl->setVar('netmask',$swap["netmask"]);
-					$network_tpl->setVar('gateway',$swap["gateway"]);
-					$network_tpl->setVar('broadcast',$this->broadcast($swap["ip_address"],$swap["netmask"]));
+					$network_tpl->setVar('ip_address',$swap['ip_address']);
+					$network_tpl->setVar('netmask',$swap['netmask']);
+					$network_tpl->setVar('gateway',$swap['gateway']);
+					$network_tpl->setVar('broadcast',$this->broadcast($swap['ip_address'],$swap['netmask']));
 				}
 				
 				$network_tpl->setVar('additionl_ip_records',$additionl_ip_records);
@@ -227,59 +227,59 @@ class network_settings_plugin {
 				file_put_contents('/etc/conf.d/net',$network_tpl->grab());
 				unset($network_tpl);
 				
-				$app->log("Changed Network settings",LOGLEVEL_DEBUG);
+				$app->log('Changed Network settings',LOGLEVEL_DEBUG);
 				exec($conf['init_scripts'] . '/' . 'net.eth0 restart');
 			} 
 			else {
-				$app->log("Network configuration not available for this Linux distribution.",LOGLEVEL_DEBUG);
+				$app->log('Network configuration not available for this Linux distribution.',LOGLEVEL_DEBUG);
 			}
 			
 		} else {
-			$app->log("Network configuration disabled in server settings.",LOGLEVEL_WARN);
+			$app->log('Network configuration disabled in server settings.',LOGLEVEL_WARN);
 		}
 		
 	}
 	
 	function network($ip, $netmask){
 		$netmask = $this->netmask($netmask);
-		list($f1,$f2,$f3,$f4) = explode(".", $netmask);
-		$netmask_bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-		list($f1,$f2,$f3,$f4) = explode(".", $ip);
-		$ip_bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
+		list($f1,$f2,$f3,$f4) = explode('.', $netmask);
+		$netmask_bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+		list($f1,$f2,$f3,$f4) = explode('.', $ip);
+		$ip_bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
 		for($i=0;$i<32;$i++){
 			$network_bin .= substr($netmask_bin,$i,1) * substr($ip_bin,$i,1);
 		}
-		$network_bin = wordwrap($network_bin, 8, ".", 1);
-		list($f1,$f2,$f3,$f4) = explode(".", trim($network_bin));
-		return bindec($f1).".".bindec($f2).".".bindec($f3).".".bindec($f4);
+		$network_bin = wordwrap($network_bin, 8, '.', 1);
+		list($f1,$f2,$f3,$f4) = explode('.', trim($network_bin));
+		return bindec($f1).'.'.bindec($f2).'.'.bindec($f3).'.'.bindec($f4);
 	}
 
 	function broadcast($ip, $netmask){
 		$netmask = $this->netmask($netmask);
 		$binary_netmask = $this->binary_netmask($netmask);
-		list($f1,$f2,$f3,$f4) = explode(".", $ip);
-		$ip_bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-		$broadcast_bin = str_pad(substr($ip_bin, 0, $binary_netmask),32,"1",STR_PAD_RIGHT);
-		$broadcast_bin = wordwrap($broadcast_bin, 8, ".", 1);
-		list($f1,$f2,$f3,$f4) = explode(".", trim($broadcast_bin));
-		return bindec($f1).".".bindec($f2).".".bindec($f3).".".bindec($f4);
+		list($f1,$f2,$f3,$f4) = explode('.', $ip);
+		$ip_bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+		$broadcast_bin = str_pad(substr($ip_bin, 0, $binary_netmask),32,'1',STR_PAD_RIGHT);
+		$broadcast_bin = wordwrap($broadcast_bin, 8, '.', 1);
+		list($f1,$f2,$f3,$f4) = explode('.', trim($broadcast_bin));
+		return bindec($f1).'.'.bindec($f2).'.'.bindec($f3).'.'.bindec($f4);
 	}
 	
 	function netmask($netmask){
-		list($f1,$f2,$f3,$f4) = explode(".", trim($netmask));
-		$bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-		$parts = explode("0", $bin);
-		$bin = str_pad($parts[0], 32, "0", STR_PAD_RIGHT);
-		$bin = wordwrap($bin, 8, ".", 1);
-		list($f1,$f2,$f3,$f4) = explode(".", trim($bin));
-		return bindec($f1).".".bindec($f2).".".bindec($f3).".".bindec($f4);
+		list($f1,$f2,$f3,$f4) = explode('.', trim($netmask));
+		$bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+		$parts = explode('0', $bin);
+		$bin = str_pad($parts[0], 32, '0', STR_PAD_RIGHT);
+		$bin = wordwrap($bin, 8, '.', 1);
+		list($f1,$f2,$f3,$f4) = explode('.', trim($bin));
+		return bindec($f1).'.'.bindec($f2).'.'.bindec($f3).'.'.bindec($f4);
 	}
 
 	function binary_netmask($netmask){
-		list($f1,$f2,$f3,$f4) = explode(".", trim($netmask));
-		$bin = str_pad(decbin($f1),8,"0",STR_PAD_LEFT).str_pad(decbin($f2),8,"0",STR_PAD_LEFT).str_pad(decbin($f3),8,"0",STR_PAD_LEFT).str_pad(decbin($f4),8,"0",STR_PAD_LEFT);
-		$parts = explode("0", $bin);
-		return substr_count($parts[0], "1");
+		list($f1,$f2,$f3,$f4) = explode('.', trim($netmask));
+		$bin = str_pad(decbin($f1),8,'0',STR_PAD_LEFT).str_pad(decbin($f2),8,'0',STR_PAD_LEFT).str_pad(decbin($f3),8,'0',STR_PAD_LEFT).str_pad(decbin($f4),8,'0',STR_PAD_LEFT);
+		$parts = explode('0', $bin);
+		return substr_count($parts[0], '1');
 	}
 
 } // end class

@@ -76,7 +76,7 @@ class firewall_plugin {
 		$tcp_ports = '';
 		$udp_ports = '';
 		
-		$ports = explode(',',$data["new"]["tcp_port"]);
+		$ports = explode(',',$data['new']['tcp_port']);
 		if(is_array($ports)) {
 			foreach($ports as $p) {
 				if(strstr($p,':')) {
@@ -90,7 +90,7 @@ class firewall_plugin {
 		}
 		$tcp_ports = trim($tcp_ports);
 		
-		$ports = explode(',',$data["new"]["udp_port"]);
+		$ports = explode(',',$data['new']['udp_port']);
 		if(is_array($ports)) {
 			foreach($ports as $p) {
 				if(strstr($p,':')) {
@@ -106,21 +106,21 @@ class firewall_plugin {
 		
 		$app->load('tpl');
 		$tpl = new tpl();
-		$tpl->newTemplate("bastille-firewall.cfg.master");
+		$tpl->newTemplate('bastille-firewall.cfg.master');
 		
-		$tpl->setVar("TCP_PUBLIC_SERVICES",$tcp_ports);
-		$tpl->setVar("UDP_PUBLIC_SERVICES",$udp_ports);
+		$tpl->setVar('TCP_PUBLIC_SERVICES',$tcp_ports);
+		$tpl->setVar('UDP_PUBLIC_SERVICES',$udp_ports);
 		
 		file_put_contents('/etc/Bastille/bastille-firewall.cfg',$tpl->grab());
 		$app->log('Writing firewall configuration /etc/Bastille/bastille-firewall.cfg',LOGLEVEL_DEBUG);
 		unset($tpl);
 		
-		if($data["new"]["active"] == 'y') {
-			exec('/etc/init.d/bastille-firewall restart');
+		if($data['new']['active'] == 'y') {
+			exec($conf['init_scripts'] . '/' . 'bastille-firewall restart');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d bastille-firewall defaults');
 			$app->log('Restarting the firewall',LOGLEVEL_DEBUG);
 		} else {
-			exec('/etc/init.d/bastille-firewall stop');
+			exec($conf['init_scripts'] . '/' . 'bastille-firewall stop');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 			$app->log('Stopping the firewall',LOGLEVEL_DEBUG);
 		}
@@ -131,7 +131,7 @@ class firewall_plugin {
 	function delete($event_name,$data) {
 		global $app, $conf;
 		
-		exec('/etc/init.d/bastille-firewall stop');
+		exec($conf['init_scripts'] . '/' . 'bastille-firewall stop');
 		if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 		$app->log('Stopping the firewall',LOGLEVEL_DEBUG);
 		

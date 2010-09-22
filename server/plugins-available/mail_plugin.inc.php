@@ -80,8 +80,8 @@ class mail_plugin {
 		global $app, $conf;
 		
 		//* get the config
-		$app->uses("getconf,system");
-		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+		$app->uses('getconf,system');
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
 		// convert to lower case - it could cause problems if some directory above has upper case name
 //		$data['new']['maildir'] = strtolower($data['new']['maildir']);
@@ -110,7 +110,7 @@ class mail_plugin {
 		//* When the mail user dir exists but it is not a valid maildir, remove it
 		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
 			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
-			$app->log("Removed invalid maildir and rebuild it: ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_WARN);
+			$app->log('Removed invalid maildir and rebuild it: '.escapeshellcmd($data['new']['maildir']),LOGLEVEL_WARN);
 		}
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
@@ -120,7 +120,7 @@ class mail_plugin {
 			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name']);
 
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
-			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
+			$app->log('Set ownership on '.escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
@@ -161,8 +161,8 @@ class mail_plugin {
 		global $app, $conf;
 		
 		// get the config
-		$app->uses("getconf,system");
-		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+		$app->uses('getconf,system');
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
 		// convert to lower case - it could cause problems if some directory above has upper case name
 		// $data['new']['maildir'] = strtolower($data['new']['maildir']);
@@ -170,8 +170,9 @@ class mail_plugin {
 		// Create the maildir, if it does not exist
 		/*
 		if(!is_dir($data['new']['maildir'])) {
-			exec('mkdir -p '.escapeshellcmd($data['new']['maildir']));
-			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
+			mkdir(escapeshellcmd($data['new']['maildir']), 0, true);
+			chown(escapeshellcmd($data['new']['maildir']), $mail_config['mailuser_name']);
+			chgrp(escapeshellcmd($data['new']['maildir']), $mail_config['mailuser_group']);
 			$app->log('Created Maildir: '.$data['new']['maildir'],LOGLEVEL_DEBUG);
 		}
 		*/
@@ -198,7 +199,7 @@ class mail_plugin {
 		//* When the mail user dir exists but it is not a valid maildir, remove it
 		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
 			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
-			$app->log("Removed invalid maildir and rebuild it: ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_WARN);
+			$app->log('Removed invalid maildir and rebuild it: '.escapeshellcmd($data['new']['maildir']),LOGLEVEL_WARN);
 		}
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
@@ -208,7 +209,7 @@ class mail_plugin {
 			$app->system->maildirmake($maildomain_path,$mail_config['mailuser_name']);
 
 			exec('chown -R '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($data['new']['maildir']));
-			$app->log("Set ownership on ".escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
+			$app->log('Set ownership on '.escapeshellcmd($data['new']['maildir']),LOGLEVEL_DEBUG);
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
 				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
@@ -274,7 +275,7 @@ class mail_plugin {
 		
 		// get the config
 		$app->uses("getconf");
-		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		
 		//* Delete maildomain path
 		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/'.$data['old']['domain']);
@@ -298,7 +299,7 @@ class mail_plugin {
 	function transport_update($event_name,$data) {
 		global $app, $conf;
 		
-		exec('/etc/init.d/postfix reload &> /dev/null');
+		exec($conf['init_scripts'] . '/' . 'postfix reload &> /dev/null');
 		$app->log('Postfix config reloaded ',LOGLEVEL_DEBUG);
 		
 	}
