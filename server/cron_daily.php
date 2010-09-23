@@ -28,13 +28,13 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require("lib/config.inc.php");
-require("lib/app.inc.php");
+require('lib/config.inc.php');
+require('lib/app.inc.php');
 
 set_time_limit(0);
 
 // make sure server_id is always an int
-$conf["server_id"] = intval($conf["server_id"]);
+$conf['server_id'] = intval($conf['server_id']);
 
 
 // Load required base-classes
@@ -45,16 +45,16 @@ $app->uses('ini_parser,file,services,getconf');
 // store the mailbox statistics in the database
 #######################################################################################################
 
-$sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf["server_id"];
+$sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	if(@is_file($rec["maildir"].'/ispconfig_mailsize')) {
+	if(@is_file($rec['maildir'].'/ispconfig_mailsize')) {
 
 		// rename file
-		rename($rec["maildir"].'/ispconfig_mailsize',$rec["maildir"].'/ispconfig_mailsize_save');
+		rename($rec['maildir'].'/ispconfig_mailsize',$rec['maildir'].'/ispconfig_mailsize_save');
 
 		// Read the file
-		$lines = file($rec["maildir"].'/ispconfig_mailsize_save');
+		$lines = file($rec['maildir'].'/ispconfig_mailsize_save');
 		$mail_traffic = 0;
 		foreach($lines as $line) {
 			$mail_traffic += intval($line);
@@ -62,19 +62,19 @@ foreach($records as $rec) {
 		unset($lines);
 
 		// Delete backup file
-		if(@is_file($rec["maildir"].'/ispconfig_mailsize_save')) unlink($rec["maildir"].'/ispconfig_mailsize_save');
+		if(@is_file($rec['maildir'].'/ispconfig_mailsize_save')) unlink($rec['maildir'].'/ispconfig_mailsize_save');
 
 		// Save the traffic stats in the sql database
-		$tstamp = date("Y-m");
+		$tstamp = date('Y-m');
 
-		$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec["mailuser_id"];
+		$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
 		$tr = $app->dbmaster->queryOneRecord($sql);
 
-		$mail_traffic += $tr["traffic"];
-		if($tr["traffic_id"] > 0) {
-			$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr["traffic_id"];
+		$mail_traffic += $tr['traffic'];
+		if($tr['traffic_id'] > 0) {
+			$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
 		} else {
-			$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec["mailuser_id"].",$mail_traffic)";
+			$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
 		}
 		$app->dbmaster->query($sql);
 		echo $sql;
@@ -92,9 +92,9 @@ function setConfigVar( $filename, $varName, $varValue ) {
 		$out = '';
 		$found = 0;
 		foreach($lines as $line) {
-			list($key, $value) = preg_split("/[\t= ]+/", $line, 2);
+			list($key, $value) = preg_split('/[\t= ]+/', $line, 2);
 			if($key == $varName) {
-				$out .= $varName." ".$varValue."\n";
+				$out .= $varName.' '.$varValue."\n";
 				$found = 1;
 			} else {
 				$out .= $line;
@@ -104,7 +104,7 @@ function setConfigVar( $filename, $varName, $varValue ) {
 			//* add \n if the last line does not end with \n or \r
 			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
 			//* add the new line at the end of the file
-			if($append == 1) $out .= $varName." ".$varValue."\n";
+			if($append == 1) $out .= $varName.' '.$varValue."\n";
 		}
 
 		file_put_contents($filename,$out);
@@ -112,24 +112,24 @@ function setConfigVar( $filename, $varName, $varValue ) {
 }
 
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'webalizer' AND server_id = ".$conf["server_id"];
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 foreach($records as $rec) {
-	$yesterday = date("Ymd",time() - 86400);
-	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
+	$yesterday = date('Ymd',time() - 86400);
+	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
-		$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
+		$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log.gz');
 		if(!@is_file($logfile)) {
 			continue;
 		}
 	}
 
-	$domain = escapeshellcmd($rec["domain"]);
-	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
+	$domain = escapeshellcmd($rec['domain']);
+	$statsdir = escapeshellcmd($rec['document_root'].'/web/stats');
 	$webalizer = '/usr/bin/webalizer';
 	$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
-	$webalizer_conf = escapeshellcmd($rec["document_root"].'/log/webalizer.conf');
+	$webalizer_conf = escapeshellcmd($rec['document_root'].'/log/webalizer.conf');
 
 	if(!@is_file($webalizer_conf)) {
 		copy($webalizer_conf_main,$webalizer_conf);
@@ -150,23 +150,23 @@ foreach($records as $rec) {
 // Create awstats statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf["server_id"];
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
-$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
 foreach($records as $rec) {
-	$yesterday = date("Ymd",time() - 86400);
-	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
+	$yesterday = date('Ymd',time() - 86400);
+	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
-		$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log.gz');
+		$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log.gz');
 		if(!@is_file($logfile)) {
 			continue;
 		}
 	}
 	
-	$domain = escapeshellcmd($rec["domain"]);
-	$statsdir = escapeshellcmd($rec["document_root"].'/web/stats');
+	$domain = escapeshellcmd($rec['domain']);
+	$statsdir = escapeshellcmd($rec['document_root'].'/web/stats');
 	$awstats_pl = $web_config['awstats_pl'];
 	$awstats_buildstaticpages_pl = $web_config['awstats_buildstaticpages_pl'];
 	
@@ -178,8 +178,8 @@ foreach($records as $rec) {
 	
 	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
-		rename($rec["document_root"].'/web/stats/awstats.'.$domain.'.html',$rec["document_root"].'/web/stats/index.html');
-		$app->log("Created awstats statistics with command: $command",LOGLEVEL_DEBUG);
+		rename($rec['document_root'].'/web/stats/awstats.'.$domain.'.html',$rec['document_root'].'/web/stats/index.html');
+		$app->log('Created awstats statistics with command: '.$command,LOGLEVEL_DEBUG);
 	} else {
 		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_buildstaticpages_pl is not owned by root user.",LOGLEVEL_WARN);
 	}
@@ -197,11 +197,11 @@ exec('chmod +r /var/log/ispconfig/httpd/*');
 // Manage and compress web logfiles
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf["server_id"];
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	$yesterday = date("Ymd",time() - 86400);
-	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$yesterday.'-access.log');
+	$yesterday = date('Ymd',time() - 86400);
+	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
 	if(@is_file($logfile)) {
 		// Compress yesterdays logfile
 		exec("gzip -c $logfile > $logfile.gz");
@@ -209,15 +209,15 @@ foreach($records as $rec) {
 	}
 	
 	// rotate and compress the error.log when it exceeds a size of 10 MB
-	$logfile = escapeshellcmd($rec["document_root"].'/log/error.log');
+	$logfile = escapeshellcmd($rec['document_root'].'/log/error.log');
 	if(is_file($logfile) && filesize($logfile) > 10000000) {
 		exec("gzip -c $logfile > $logfile.1.gz");
 		exec("cat /dev/null > $logfile");
 	}
 
 	// delete logfiles after 30 days
-	$month_ago = date("Ymd",time() - 86400 * 30);
-	$logfile = escapeshellcmd($rec["document_root"].'/log/'.$month_ago.'-access.log.gz');
+	$month_ago = date('Ymd',time() - 86400 * 30);
+	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$month_ago.'-access.log.gz');
 	if(@is_file($logfile)) {
 		unlink($logfile);
 	}
@@ -245,14 +245,14 @@ if(is_file($logfile) && filesize($logfile) > 10000000) {
 // Cleanup website tmp directories
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ".$conf["server_id"];
+$sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 $app->uses('system');
 if(is_array($records)) {
 	foreach($records as $rec){
-		$tmp_path = realpath(escapeshellcmd($rec["document_root"].'/tmp'));
+		$tmp_path = realpath(escapeshellcmd($rec['document_root'].'/tmp'));
 		if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path) && $app->system->is_user($rec['system_user'])){
-			exec("cd ".$tmp_path."; find -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null");
+			exec('cd '.$tmp_path."; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null");
 		}
 	}
 }
@@ -364,12 +364,12 @@ if ($app->dbmaster == $app->db) {
 				($reseller_traffic_quota > 0 && $web_traffic > $reseller_traffic_quota)) {*/
 			if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
 				$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
-				$app->log("Traffic quota for ".$rec['domain_id']." Exceeded. Disabling website.",LOGLEVEL_DEBUG);
+				$app->log('Traffic quota for '.$rec['domain_id'].' exceeded. Disabling website.',LOGLEVEL_DEBUG);
 			} else {
 				//* unlock the website, if traffic is lower then quota
 				if($rec['traffic_quota_lock'] == 'y') {
 					$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'n',active = 'y'", 'domain_id', $rec['domain_id']);
-					$app->log("Traffic quota for ".$rec['domain_id']." ok again. Enabling website.",LOGLEVEL_DEBUG);
+					$app->log('Traffic quota for '.$rec['domain_id'].' ok again. Re-enabling website.',LOGLEVEL_DEBUG);
 				}
 			}
 		}
@@ -382,7 +382,7 @@ if ($app->dbmaster == $app->db) {
 // Create website backups
 #######################################################################################################
 
-$server_config = $app->getconf->get_server_config($conf["server_id"], 'server');
+$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 $backup_dir = $server_config['backup_dir'];
 
 if($backup_dir != '') {
