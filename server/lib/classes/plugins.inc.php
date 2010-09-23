@@ -44,7 +44,7 @@ class plugins {
 		$subPath = 'plugins-enabled';
 		if ($type == 'core') $subPath = 'plugins-core';
 		
-		$plugins_dir = $conf["rootpath"].$conf["fs_div"].$subPath.$conf["fs_div"];
+		$plugins_dir = $conf['rootpath'].$conf['fs_div'].$subPath.$conf['fs_div'];
 		$tmp_plugins = array();
 		
 		if (is_dir($plugins_dir)) {
@@ -62,15 +62,15 @@ class plugins {
 				//** load the plugins
 				foreach($tmp_plugins as $plugin_name => $file) {
 					include_once($plugins_dir.$file);
-					if($this->debug) $app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
+					if($this->debug) $app->log('Loading plugin: '.$plugin_name,LOGLEVEL_DEBUG);
 					$app->loaded_plugins[$plugin_name] = new $plugin_name;
 					$app->loaded_plugins[$plugin_name]->onLoad();
 				}
 			} else {
-				$app->log("Unable to open the plugin directory: $plugins_dir",LOGLEVEL_ERROR);
+				$app->log('Unable to open the plugins directory: '.$plugins_dir,LOGLEVEL_ERROR);
 			}
 		} else {
-			$app->log("Plugin directory missing: $plugins_dir",LOGLEVEL_ERROR);
+			$app->log('Plugins directory missing: '.$plugins_dir,LOGLEVEL_ERROR);
 		}
 		
 	}
@@ -83,7 +83,7 @@ class plugins {
 		global $app;
 		foreach($events as $event_name) {
 			$this->available_events[$event_name] = $module_name;
-			if($this->debug) $app->log("Announced event: $event_name",LOGLEVEL_DEBUG);
+			if($this->debug) $app->log('Announced event: '.$event_name,LOGLEVEL_DEBUG);
 		}
 	}
 	
@@ -95,10 +95,10 @@ class plugins {
 	function registerEvent($event_name,$plugin_name,$function_name) {
 		global $app;
 		if(!isset($this->available_events[$event_name])) {
-			$app->log("Unable to register the function '$function_name' in the plugin '$plugin_name' for event '$event_name'",LOGLEVEL_DEBUG);
+			$app->log("Unable to register function '$function_name' from plugin '$plugin_name' for event '$event_name'",LOGLEVEL_DEBUG);
 		} else {
 			$this->subscribed_events[$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
-			if($this->debug)  $app->log("Registered the function '$function_name' in the plugin '$plugin_name' for event '$event_name'.",LOGLEVEL_DEBUG);
+			if($this->debug)  $app->log("Registered function '$function_name' from plugin '$plugin_name' for event '$event_name'.",LOGLEVEL_DEBUG);
 		}
 	}
 	
@@ -108,14 +108,14 @@ class plugins {
 		
 		// Get the subscriptions for this event
 		$events = (isset($this->subscribed_events[$event_name]))?$this->subscribed_events[$event_name]:'';
-		if($this->debug) $app->log("Raised event: '$event_name'",LOGLEVEL_DEBUG);
+		if($this->debug) $app->log('Raised event: '.$event_name,LOGLEVEL_DEBUG);
 		
 		if(is_array($events)) {
 			foreach($events as $event) {
-				$plugin_name = $event["plugin"];
-				$function_name = $event["function"];
+				$plugin_name = $event['plugin'];
+				$function_name = $event['function'];
 				// Call the processing function of the plugin
-				$app->log("Call function '$function_name' in plugin '$plugin_name' raised by event '$event_name'.",LOGLEVEL_DEBUG);
+				$app->log("Calling function '$function_name' from plugin '$plugin_name' raised by event '$event_name'.",LOGLEVEL_DEBUG);
 				call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
 				unset($plugin_name);
 				unset($function_name);

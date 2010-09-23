@@ -38,8 +38,8 @@ class getconf {
 		if(!is_array($this->config[$server_id])) {
 			$app->uses('ini_parser');
 			$server_id = intval($server_id);
-			$server = $app->db->queryOneRecord("SELECT config FROM server WHERE server_id = $server_id");
-			$this->config[$server_id] = $app->ini_parser->parse_ini_string(stripslashes($server["config"]));
+			$server = $app->db->queryOneRecord('SELECT config FROM server WHERE server_id = '.$server_id);
+			$this->config[$server_id] = $app->ini_parser->parse_ini_string(stripslashes($server['config']));
 		}
 		
 		if($section == '') {
@@ -54,8 +54,8 @@ class getconf {
 		
 		if(!is_array($this->config['global'])) {
 			$app->uses('ini_parser');
-			$tmp = $app->db->queryOneRecord("SELECT config FROM sys_ini WHERE sysini_id = 1");
-			$this->config['global'] = $app->ini_parser->parse_ini_string(stripslashes($tmp["config"]));
+			$tmp = $app->db->queryOneRecord('SELECT config FROM sys_ini WHERE sysini_id = 1');
+			$this->config['global'] = $app->ini_parser->parse_ini_string(stripslashes($tmp['config']));
 		}
 		return ($section == '') ? $this->config['global'] : $this->config['global'][$section];
 	}

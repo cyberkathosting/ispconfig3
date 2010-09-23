@@ -33,14 +33,14 @@ class file{
     function rf($file){
       global $app;
       clearstatcache();
-      if(!$fp = fopen ($file, "rb")){
-        $app->log("WARNING: could not open file ".$file, 2);
+      if(!$fp = fopen ($file, 'rb')){
+        $app->log('WARNING: Could not open file '.$file, 2);
         return false;
       } else {
         if(filesize($file) > 0){
           $content = fread($fp, filesize($file));
         } else {
-          $content = "";
+          $content = '';
         }
         fclose($fp);
         return $content;
@@ -50,8 +50,8 @@ class file{
     function wf($file, $content){
       global $app;
       $this->mkdirs(dirname($file));
-      if(!$fp = fopen ($file, "wb")){
-        $app->log("WARNING: could not open file ".$file, 2);
+      if(!$fp = fopen ($file, 'wb')){
+        $app->log('WARNING: Could not open file '.$file, 2);
         return false;
       } else {
         fwrite($fp,$content);
@@ -63,8 +63,8 @@ class file{
     function af($file, $content){
       global $app;
       $this->mkdirs(dirname($file));
-      if(!$fp = fopen ($file, "ab")){
-        $app->log("WARNING: could not open file ".$file, 2);
+      if(!$fp = fopen ($file, 'ab')){
+        $app->log('WARNING: Could not open file '.$file, 2);
         return false;
       } else {
         fwrite($fp,$content);
@@ -83,7 +83,7 @@ class file{
             if($pos != 0){
               $new_lines[] = substr($line,0,$pos);
             } else {
-              $new_lines[] = "";
+              $new_lines[] = '';
             }
           } else {
             $new_lines[] = $line;
@@ -95,7 +95,7 @@ class file{
         $new_lines = NULL;
         return $content_without_comments;
       } else {
-        return "";
+        return '';
       }
     }
     
@@ -106,7 +106,7 @@ class file{
         $manual = "\n".trim($parts[1]);
         return $manual;
       } else {
-        return "";
+        return '';
       }
     }
     
@@ -120,13 +120,13 @@ class file{
       $lines = explode("\n", $content);
       if(!empty($lines)){
         foreach($lines as $line){
-          if(trim($line) != "") $new_lines[] = $line;
+          if(trim($line) != '') $new_lines[] = $line;
         }
       }
       if(is_array($new_lines)){
         $content = implode("\n", $new_lines);
       } else {
-        $content = "";
+        $content = '';
       }
       if($file){
         $this->wf($input, $content);
@@ -160,17 +160,17 @@ class file{
     
     function edit_dist($var, $val){
       global $$var;
-      $files = array("/root/ispconfig/dist.inc.php");
+      $files = array('/root/ispconfig/dist.inc.php');
       foreach($files as $file){
         if(is_file($file)){
           $file_content = $this->unix_nl($this->rf($file));
           $lines = explode("\n", $file_content);
           for($i=0;$i<sizeof($lines);$i++){
-            $parts = explode("=", $lines[$i]);
+            $parts = explode('=', $lines[$i]);
             if($parts[0] == $var || $parts[0] == '$'.$var.' '){
               $parts[1] = str_replace($$var, $val, $parts[1]);
             }
-            $lines[$i] = implode("=", $parts);
+            $lines[$i] = implode('=', $parts);
           }
           $file_content = implode("\n", $lines);
           $this->wf($file, $file_content);
@@ -178,7 +178,7 @@ class file{
       }
     }
     
-    function getDirectoryListing($dirname, $sortorder = "a", $show_subdirs = 0, $show_subdirfiles = 0, $exts = "", $ext_save = 1){
+    function getDirectoryListing($dirname, $sortorder = 'a', $show_subdirs = 0, $show_subdirfiles = 0, $exts = '', $ext_save = 1){
     // This function will return an array with filenames based on the criteria you can set in the variables
     // @sortorder : a for ascending (the standard) or d for descending (you can use the "r" for reverse as well, works the same)
     // @show_subdirs : 0 for NO, 1 for YES - meaning it will show the names of subdirectories if there are any
@@ -190,33 +190,33 @@ class file{
     // @ext_save : 1 for YES, 0 for NO - meaning it will filter out system files or not (such as .htaccess)
     
        $dirname = realpath($dirname);
-       if (!$exts || empty($exts) || $exts == "") {
-           $exts = array("jpg", "gif", "jpeg", "png");
+       if (!$exts || empty($exts) || $exts == '') {
+           $exts = array('jpg', 'gif', 'jpeg', 'png');
        }
        if ($handle = opendir($dirname)) {
            $filelist = array();
            while (false !== ($file = readdir($handle))) {
     
                // Filter out higher directory references
-               if ($file != "." && $file != "..") {
+               if ($file != '.' && $file != '..') {
                    // Only look at directories or files, filter out symbolic links
-                   if ( filetype ($dirname."/".$file) != "link") {
+                   if ( filetype ($dirname.'/'.$file) != 'link') {
                        // If it's a file, check against valid extentions and add to the list
-                       if ( filetype ($dirname."/".$file) == "file" ) {
+                       if ( filetype ($dirname.'/'.$file) == 'file' ) {
                            if ($this->checkFileExtension($file, $exts, $ext_save)) {
                                            $filelist[] = $file;
                            }
                        }
                        // If it's a directory and either subdirs should be listed or files from subdirs add relevant names to the list
-                       else if ( filetype ($dirname."/".$file) == "dir" && ($show_subdirs == 1 || $show_subdirfiles == 1)) {
+                       else if ( filetype ($dirname.'/'.$file) == 'dir' && ($show_subdirs == 1 || $show_subdirfiles == 1)) {
                            if ($show_subdirs == 1) {
                                $filelist[] = $file;
                            }
                            if ($show_subdirfiles == 1) {
                                $subdirname = $file;
-                               $subdirfilelist = $this->getDirectoryListing($dirname."/".$subdirname."/", $sortorder, $show_subdirs, $show_subdirfiles, $exts, $ext_save);
+                               $subdirfilelist = $this->getDirectoryListing($dirname.'/'.$subdirname.'/', $sortorder, $show_subdirs, $show_subdirfiles, $exts, $ext_save);
                                for ($i = 0 ; $i < count($subdirfilelist) ; $i++) {
-                                   $subdirfilelist[$i] = $subdirname."/".$subdirfilelist[$i];
+                                   $subdirfilelist[$i] = $subdirname.'/'.$subdirfilelist[$i];
                                }
                                $filelist = array_merge($filelist, $subdirfilelist);
                            }
@@ -231,7 +231,7 @@ class file{
            // Sort the results
            if (count($filelist) > 1) {
                natcasesort($filelist);
-               if ($sortorder == "d" || $sortorder == "r" ) {
+               if ($sortorder == 'd' || $sortorder == 'r' ) {
                    $filelist = array_reverse($filelist, TRUE);
                }
            }
@@ -249,7 +249,7 @@ class file{
                return $passed;
            }
        }
-       if ($exts == "all") {
+       if ($exts == 'all') {
                        $passed = TRUE;
            return $passed;
        }

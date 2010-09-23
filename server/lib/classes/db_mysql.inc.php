@@ -29,18 +29,18 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	class db
 	{
-		var $dbHost = "";		// hostname of the MySQL server
-		var $dbName = "";		// logical database name on that server
-		var $dbUser = "";		// database authorized user
-		var $dbPass = "";		// user's password
+		var $dbHost = '';		// hostname of the MySQL server
+		var $dbName = '';		// logical database name on that server
+		var $dbUser = '';		// database authorized user
+		var $dbPass = '';		// user's password
 		var $linkId = 0;		// last result of mysql_connect()
 		var $queryId = 0;		// last result of mysql_query()
 		var $record	= array();	// last record fetched
         var $autoCommit = 1;    // Autocommit Transactions
 		var $currentRow;		// current row number
 		var $errorNumber = 0;	// last error number
-		var $errorMessage = "";	// last error message
-		var $errorLocation = "";// last error location
+		var $errorMessage = '';	// last error message
+		var $errorLocation = '';// last error location
 		var $show_error_messages = true;
 
 		// constructor
@@ -48,10 +48,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		{
 			
 			global $conf;
-			$this->dbHost = $conf["db_host"];
-			$this->dbName = $conf["db_database"];
-			$this->dbUser = $conf["db_user"];
-			$this->dbPass = $conf["db_password"];
+			$this->dbHost = $conf['db_host'];
+			$this->dbName = $conf['db_database'];
+			$this->dbUser = $conf['db_user'];
+			$this->dbPass = $conf['db_password'];
 			$this->dbCharset = $conf['db_charset'];
 			//$this->connect();
 		}
@@ -66,7 +66,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			if($this->errorNumber && $this->show_error_messages && method_exists($app,'log'))
 			{
 				// echo('<br /><b>'.$this->errorLocation.'</b><br />'.$this->errorMessage);
-				$app->log($this->errorLocation." ".$this->errorMessage,LOGLEVEL_WARN);
+				$app->log($this->errorLocation.' '.$this->errorMessage,LOGLEVEL_WARN);
 				//flush();
 			}
 		}
@@ -282,16 +282,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		unset($tmp);
 		
 		// Insert the server_id, if the record has a server_id
-		$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
-		if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
+		$server_id = (isset($record_old['server_id']) && $record_old['server_id'] > 0)?$record_old['server_id']:0;
+		if(isset($record_new['server_id'])) $server_id = $record_new['server_id'];
 		
 
 		if($diff_num > 0) {
 			//print_r($diff_num);
 			//print_r($diffrec_full);
 			$diffstr = $app->db->quote(serialize($diffrec_full));
-			$username = $app->db->quote($_SESSION["s"]["user"]["username"]);
-			$dbidx = $primary_field.":".$primary_id;
+			$username = $app->db->quote($_SESSION['s']['user']['username']);
+			$dbidx = $primary_field.':'.$primary_id;
 						
 			if($action == 'INSERT') $action = 'i';
 			if($action == 'UPDATE') $action = 'u';
@@ -383,27 +383,27 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        */
        
        function createTable($table_name,$columns) {
-       $index = "";
+       $index = '';
        $sql = "CREATE TABLE $table_name (";
        foreach($columns as $col){
-            $sql .= $col["name"]." ".$this->mapType($col["type"],$col["typeValue"])." ";
+            $sql .= $col['name'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
        
-            if($col["defaultValue"] != "") $sql .= "DEFAULT '".$col["defaultValue"]."' ";
-            if($col["notNull"] == true) {
-                $sql .= "NOT NULL ";
+            if($col['defaultValue'] != '') $sql .= "DEFAULT '".$col['defaultValue']."' ";
+            if($col['notNull'] == true) {
+                $sql .= 'NOT NULL ';
             } else {
-                $sql .= "NULL ";
+                $sql .= 'NULL ';
             }
-            if($col["autoInc"] == true) $sql .= "auto_increment ";
-            $sql.= ",";
+            if($col['autoInc'] == true) $sql .= 'auto_increment ';
+            $sql.= ',';
             // key Definitionen
-            if($col["option"] == "primary") $index .= "PRIMARY KEY (".$col["name"]."),";
-            if($col["option"] == "index") $index .= "INDEX (".$col["name"]."),";
-            if($col["option"] == "unique") $index .= "UNIQUE (".$col["name"]."),";
+            if($col['option'] == 'primary') $index .= "PRIMARY KEY (".$col['name']."),";
+            if($col['option'] == 'index') $index .= "INDEX (".$col['name']."),";
+            if($col['option'] == 'unique') $index .= "UNIQUE (".$col['name']."),";
        }
        $sql .= $index;
        $sql = substr($sql,0,-1);
-       $sql .= ")";
+       $sql .= ')';
        
        $this->query($sql);
        return true;
@@ -423,29 +423,29 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        
        */
        function alterTable($table_name,$columns) {
-       $index = "";
+       $index = '';
        $sql = "ALTER TABLE $table_name ";
        foreach($columns as $col){
-            if($col["action"] == 'add') {
-                $sql .= "ADD ".$col["name"]." ".$this->mapType($col["type"],$col["typeValue"])." ";
-            } elseif ($col["action"] == 'alter') {
-                $sql .= "CHANGE ".$col["name"]." ".$col["name_new"]." ".$this->mapType($col["type"],$col["typeValue"])." ";
-            } elseif ($col["action"] == 'drop') {
-                $sql .= "DROP ".$col["name"]." ";
+            if($col['action'] == 'add') {
+                $sql .= "ADD ".$col['name'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
+            } elseif ($col['action'] == 'alter') {
+                $sql .= "CHANGE ".$col['name']." ".$col['name_new'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
+            } elseif ($col['action'] == 'drop') {
+                $sql .= "DROP ".$col['name'].' ';
             }
-            if($col["action"] != 'drop') {  
-            if($col["defaultValue"] != "") $sql .= "DEFAULT '".$col["defaultValue"]."' ";
-            if($col["notNull"] == true) {
-                $sql .= "NOT NULL ";
+            if($col['action'] != 'drop') {  
+            if($col['defaultValue'] != '') $sql .= "DEFAULT '".$col['defaultValue']."' ";
+            if($col['notNull'] == true) {
+                $sql .= 'NOT NULL ';
             } else {
-                $sql .= "NULL ";
+                $sql .= 'NULL ';
             }
-            if($col["autoInc"] == true) $sql .= "auto_increment ";
-            $sql.= ",";
+            if($col['autoInc'] == true) $sql .= 'auto_increment ';
+            $sql.= ',';
             // key Definitionen
-            if($col["option"] == "primary") $index .= "PRIMARY KEY (".$col["name"]."),";
-            if($col["option"] == "index") $index .= "INDEX (".$col["name"]."),";
-            if($col["option"] == "unique") $index .= "UNIQUE (".$col["name"]."),";
+            if($col['option'] == 'primary') $index .= "PRIMARY KEY (".$col['name']."),";
+            if($col['option'] == 'index') $index .= "INDEX (".$col['name']."),";
+            if($col['option'] == 'unique') $index .= "UNIQUE (".$col['name']."),";
             }
        }
        $sql .= $index;
@@ -505,38 +505,38 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             
             $column = array();
         
-            $column["name"] = $name;
-            //$column["type"] = $type;
-            $column["defaultValue"] = $default;
-            if(stristr($key,"PRI")) $column["option"] = "primary";
-            if(stristr($isnull,"YES")) {
-                $column["notNull"] = false;
+            $column['name'] = $name;
+            //$column['type'] = $type;
+            $column['defaultValue'] = $default;
+            if(stristr($key,'PRI')) $column['option'] = 'primary';
+            if(stristr($isnull,'YES')) {
+                $column['notNull'] = false;
             } else {
-               $column["notNull"] = true; 
+               $column['notNull'] = true; 
             }
-            if($extra == 'auto_increment') $column["autoInc"] = true;
+            if($extra == 'auto_increment') $column['autoInc'] = true;
             
             
             // Type in Metatype umsetzen
             
-            if(stristr($type,"int(")) $metaType = 'int32';
-            if(stristr($type,"bigint")) $metaType = 'int64';
-            if(stristr($type,"char")) {
+            if(stristr($type,'int(')) $metaType = 'int32';
+            if(stristr($type,'bigint')) $metaType = 'int64';
+            if(stristr($type,'char')) {
                 $metaType = 'char';
                 $tmp_typeValue = explode('(',$type);
-                $column["typeValue"] = substr($tmp_typeValue[1],0,-1);  
+                $column['typeValue'] = substr($tmp_typeValue[1],0,-1);  
             }
-            if(stristr($type,"varchar")) {
+            if(stristr($type,'varchar')) {
                 $metaType = 'varchar';
                 $tmp_typeValue = explode('(',$type);
-                $column["typeValue"] = substr($tmp_typeValue[1],0,-1);  
+                $column['typeValue'] = substr($tmp_typeValue[1],0,-1);  
             }
-            if(stristr($type,"text")) $metaType = 'text';
-            if(stristr($type,"double")) $metaType = 'double';
-            if(stristr($type,"blob")) $metaType = 'blob';
+            if(stristr($type,'text')) $metaType = 'text';
+            if(stristr($type,'double')) $metaType = 'double';
+            if(stristr($type,'blob')) $metaType = 'blob';
             
             
-            $column["type"] = $metaType;
+            $column['type'] = $metaType;
             
         $columns[] = $column;
         }
@@ -595,7 +595,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             return 'char';
        break;
        case 'varchar':
-            if($typeValue < 1) die("Datenbank Fehler: Für diesen Datentyp ist eine Längenangabe notwendig.");
+            if($typeValue < 1) die('Database failure: Lenght required for these data types.');
             return 'varchar('.$typeValue.')';
        break;
        case 'text':

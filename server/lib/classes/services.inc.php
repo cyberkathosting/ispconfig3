@@ -41,7 +41,7 @@ class services {
 		if(is_array($this->registered_services[$service_name])) {
 			$this->delayed_restarts[$service_name] = $action;
 		} else {
-			$app->log("Unable to add a delayed restart for  '$service_name'. Service '$service_name' is not registered.",LOGLEVEL_WARNING);
+			$app->log("Unable to add a delayed restart for '$service_name'. Service not registered.",LOGLEVEL_WARNING);
 		}
 		
 	}
@@ -51,12 +51,12 @@ class services {
 		global $app;
 		
 		if(is_array($this->registered_services[$service_name])) {
-			$module_name = $this->registered_services[$service_name]["module"];
-			$function_name = $this->registered_services[$service_name]["function"];
-			$app->log("Call function '$function_name' in module '$module_name'.",LOGLEVEL_DEBUG);
+			$module_name = $this->registered_services[$service_name]['module'];
+			$function_name = $this->registered_services[$service_name]['function'];
+			$app->log("Calling function '$function_name' from module '$module_name'.",LOGLEVEL_DEBUG);
 			call_user_method($function_name,$app->loaded_modules[$module_name],$action);
 		} else {
-			$app->log("Unable to restart $service_name. Service $service_name is not registered.",LOGLEVEL_WARNING);
+			$app->log("Unable to restart $service_name. Service not registered.",LOGLEVEL_WARNING);
 		}
 		
 	}

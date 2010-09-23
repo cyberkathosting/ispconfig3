@@ -926,7 +926,7 @@ class system{
 	 *
 	 */
 	function network_info(){
-		$dist = $this->server_conf["dist"];
+		$dist = $this->server_conf['dist'];
 	  	ob_start();
 	  	passthru('ifconfig');
 	  	$output = ob_get_contents();
@@ -950,9 +950,9 @@ class system{
 	      		}
 	      		$output = trim(ob_get_contents());
 	      		ob_end_clean();
-	      		if($output != ""){
-	        		$ifconfig["INTERFACE"][$interface] = $output;
-	        		$ifconfig["IP"][$output] = $interface;
+	      		if($output != ''){
+	        		$ifconfig['INTERFACE'][$interface] = $output;
+	        		$ifconfig['IP'][$output] = $interface;
 	      		}
 	    	}
 	    	if(!empty($ifconfig)){
@@ -1087,23 +1087,23 @@ class system{
 	  if ($urlHandle){
 	    socket_set_timeout($urlHandle, $timeout);
 	
-	    $urlString = 'GET '.$path." HTTP/1.0\r\nHost: ".$url_parts["host"]."\r\nConnection: Keep-Alive\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)\r\n";
+	    $urlString = 'GET '.$path." HTTP/1.0\r\nHost: ".$url_parts['host']."\r\nConnection: Keep-Alive\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)\r\n";
 	    if ($user) $urlString .= 'Authorization: Basic '.base64_encode($user.':'.$pass)."\r\n";
 	    $urlString .= "\r\n";
 	    fputs($urlHandle, $urlString);
 	
-	    $month["Jan"] = '01';
-	    $month["Feb"] = '02';
-	    $month["Mar"] = '03';
-	    $month["Apr"] = '04';
-	    $month["May"] = '05';
-	    $month["Jun"] = '06';
-	    $month["Jul"] = '07';
-	    $month["Aug"] = '08';
-	    $month["Sep"] = '09';
-	    $month["Oct"] = '10';
-	    $month["Nov"] = '11';
-	    $month["Dec"] = '12';
+	    $month['Jan'] = '01';
+	    $month['Feb'] = '02';
+	    $month['Mar'] = '03';
+	    $month['Apr'] = '04';
+	    $month['May'] = '05';
+	    $month['Jun'] = '06';
+	    $month['Jul'] = '07';
+	    $month['Aug'] = '08';
+	    $month['Sep'] = '09';
+	    $month['Oct'] = '10';
+	    $month['Nov'] = '11';
+	    $month['Dec'] = '12';
 	    $c = 0;
 	    $l = 0;
 	    $startzeit = time();
