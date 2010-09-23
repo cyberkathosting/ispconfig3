@@ -30,10 +30,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class app {
 		
-		var $loaded_modules = array();
-		var $loaded_plugins = array();
+	var $loaded_modules = array();
+	var $loaded_plugins = array();
         
-		function app() {
+	function app() {
 
                 global $conf;
 
@@ -68,34 +68,36 @@ class app {
         }
 
         function uses($classes) {
-			global $conf;
 
-			$cl = explode(',',$classes);
-			if(is_array($cl)) {
-				foreach($cl as $classname) {
-					if(!@is_object($this->$classname)) {
-						if(is_file($conf['classpath'] . '/'.$classname.'.inc.php') && !is_link($conf['classpath'] . '/'.$classname.'.inc.php')) {
-							include_once($conf['classpath'] . '/'.$classname.'.inc.php');
-							$this->$classname = new $classname;
-						}
+		global $conf;
+
+		$cl = explode(',',$classes);
+		if(is_array($cl)) {
+			foreach($cl as $classname) {
+				if(!@is_object($this->$classname)) {
+					if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && !is_link($conf['classpath'].'/'.$classname.'.inc.php')) {
+						include_once($conf['classpath'].'/'.$classname.'.inc.php');
+						$this->$classname = new $classname;
 					}
 				}
 			}
+		}
         }
 
         function load($classes) {
 
-            global $conf;
-            $cl = explode(',',$classes);
-			if(is_array($cl)) {
-				foreach($cl as $classname) {
-					if(is_file($conf['classpath'] . '/'.$classname.'.inc.php') && !is_link($conf['classpath'] . '/'.$classname.'.inc.php')) {
-						include_once($conf['classpath'] . '/'.$classname.'.inc.php');
-					} else {
-						die('Unable to load: '.$conf['classpath'] . '/'.$classname.'.inc.php');
-					}
+		global $conf;
+
+		$cl = explode(',',$classes);
+		if(is_array($cl)) {
+			foreach($cl as $classname) {
+				if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && !is_link($conf['classpath'].'/'.$classname.'.inc.php')) {
+					include_once($conf['classpath'].'/'.$classname.'.inc.php');
+				} else {
+					die('Unable to load: '.$conf['classpath'].'/'.$classname.'.inc.php');
 				}
 			}
+		}
         }
 
         /*
@@ -106,52 +108,50 @@ class app {
 
         function log($msg, $priority = 0) {
 				
-				global $conf;
-				
-                if($priority >= $conf['log_priority']) {
+		global $conf;
+
+		if($priority >= $conf['log_priority']) {
                         //if (is_writable($conf["log_file"])) {
                             if (!$fp = fopen ($conf['log_file'], 'a')) {
                                 die('Unable to open logfile.');
                             }
-							switch ($priority) {
-								case 0:
-									$priority_txt = 'DEBUG';
+						switch ($priority) {
+							case 0:
+								$priority_txt = 'DEBUG';
 								break;
-								case 1:
-									$priority_txt = 'WARNING';
+							case 1:
+								$priority_txt = 'WARNING';
 								break;
-								case 2:
-									$priority_txt = 'ERROR';
+							case 2:
+								$priority_txt = 'ERROR';
 								break;
-							}
+						}
 							
                             if (!fwrite($fp, date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\r\n")) {
                                 die('Unable to write to logfile.');
                             }
-							echo date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\n";
-                            fclose($fp);
+				echo date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\n";
+				fclose($fp);
 
-							// Log to database
-							if(isset($this->dbmaster)) {
-								$server_id = $conf['server_id'];
-								$loglevel = $priority;
-								$tstamp = time();
-								$message = $this->dbmaster->quote($msg);
-								$datalog_id = (isset($this->modules->current_datalog_id) && $this->modules->current_datalog_id > 0)?$this->modules->current_datalog_id:0;
-								if($datalog_id > 0) {
-									$tmp_rec = $this->dbmaster->queryOneRecord("SELECT count(syslog_id) as number FROM sys_log WHERE datalog_id = $datalog_id AND loglevel = ".LOGLEVEL_ERROR);
-									//* Do not insert duplicate errors into the web log.
-									if($tmp_rec['number'] == 0) {
-										$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',$datalog_id,'$loglevel','$tstamp','$message')";
-										$this->dbmaster->query($sql);
-									}
-								} else {
-									$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',0,'$loglevel','$tstamp','$message')";
-									$this->dbmaster->query($sql);
-								}
-								
-								
+					// Log to database
+					if(isset($this->dbmaster)) {
+						$server_id = $conf['server_id'];
+						$loglevel = $priority;
+						$tstamp = time();
+						$message = $this->dbmaster->quote($msg);
+						$datalog_id = (isset($this->modules->current_datalog_id) && $this->modules->current_datalog_id > 0)?$this->modules->current_datalog_id:0;
+						if($datalog_id > 0) {
+							$tmp_rec = $this->dbmaster->queryOneRecord("SELECT count(syslog_id) as number FROM sys_log WHERE datalog_id = $datalog_id AND loglevel = ".LOGLEVEL_ERROR);
+							//* Do not insert duplicate errors into the web log.
+							if($tmp_rec['number'] == 0) {
+								$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',$datalog_id,'$loglevel','$tstamp','$message')";
+								$this->dbmaster->query($sql);
 							}
+						} else {
+							$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',0,'$loglevel','$tstamp','$message')";
+							$this->dbmaster->query($sql);
+						}
+					}
 
                         //} else {
                         //    die("Unable to write to logfile.");
@@ -167,7 +167,7 @@ class app {
 
         function error($msg) {
         	$this->log($msg,3);
-			die($msg);
+		die($msg);
         }
 
 }
