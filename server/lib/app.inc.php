@@ -37,27 +37,27 @@ class app {
 
                 global $conf;
 
-                if($conf["start_db"] == true) {
-                	$this->load('db_'.$conf["db_type"]);
+                if($conf['start_db'] == true) {
+                	$this->load('db_'.$conf['db_type']);
                 	$this->db = new db;
 					if($this->db->linkId) $this->db->closeConn();
-					$this->db->dbHost = $conf["db_host"];
-					$this->db->dbName = $conf["db_database"];
-					$this->db->dbUser = $conf["db_user"];
-					$this->db->dbPass = $conf["db_password"];
+					$this->db->dbHost = $conf['db_host'];
+					$this->db->dbName = $conf['db_database'];
+					$this->db->dbUser = $conf['db_user'];
+					$this->db->dbPass = $conf['db_password'];
 					
 					/*
 					Initialize the connection to the master DB, 
 					if we are in a multiserver setup
 					*/
 					
-					if($conf["dbmaster_host"] != '' && $conf["dbmaster_host"] != $conf["db_host"]) {
+					if($conf['dbmaster_host'] != '' && $conf['dbmaster_host'] != $conf['db_host']) {
 						$this->dbmaster = new db;
 						if($this->dbmaster->linkId) $this->dbmaster->closeConn();
-						$this->dbmaster->dbHost = $conf["dbmaster_host"];
-						$this->dbmaster->dbName = $conf["dbmaster_database"];
-						$this->dbmaster->dbUser = $conf["dbmaster_user"];
-						$this->dbmaster->dbPass = $conf["dbmaster_password"];
+						$this->dbmaster->dbHost = $conf['dbmaster_host'];
+						$this->dbmaster->dbName = $conf['dbmaster_database'];
+						$this->dbmaster->dbUser = $conf['dbmaster_user'];
+						$this->dbmaster->dbPass = $conf['dbmaster_password'];
 					} else {
 						$this->dbmaster = $this->db;
 					}
@@ -74,8 +74,8 @@ class app {
 			if(is_array($cl)) {
 				foreach($cl as $classname) {
 					if(!@is_object($this->$classname)) {
-						if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
-							include_once($conf['classpath'] . "/".$classname.".inc.php");
+						if(is_file($conf['classpath'] . '/'.$classname.'.inc.php') && !is_link($conf['classpath'] . '/'.$classname.'.inc.php')) {
+							include_once($conf['classpath'] . '/'.$classname.'.inc.php');
 							$this->$classname = new $classname;
 						}
 					}
@@ -89,10 +89,10 @@ class app {
             $cl = explode(',',$classes);
 			if(is_array($cl)) {
 				foreach($cl as $classname) {
-					if(is_file($conf['classpath'] . "/".$classname.".inc.php") && !is_link($conf['classpath'] . "/".$classname.".inc.php")) {
-						include_once($conf['classpath'] . "/".$classname.".inc.php");
+					if(is_file($conf['classpath'] . '/'.$classname.'.inc.php') && !is_link($conf['classpath'] . '/'.$classname.'.inc.php')) {
+						include_once($conf['classpath'] . '/'.$classname.'.inc.php');
 					} else {
-						die('Unable to load: '.$conf['classpath'] . "/".$classname.".inc.php");
+						die('Unable to load: '.$conf['classpath'] . '/'.$classname.'.inc.php');
 					}
 				}
 			}
@@ -108,27 +108,27 @@ class app {
 				
 				global $conf;
 				
-                if($priority >= $conf["log_priority"]) {
+                if($priority >= $conf['log_priority']) {
                         //if (is_writable($conf["log_file"])) {
-                            if (!$fp = fopen ($conf["log_file"], "a")) {
-                                die("Unable to open logfile.");
+                            if (!$fp = fopen ($conf['log_file'], 'a')) {
+                                die('Unable to open logfile.');
                             }
 							switch ($priority) {
 								case 0:
-									$priority_txt = "DEBUG";
+									$priority_txt = 'DEBUG';
 								break;
 								case 1:
-									$priority_txt = "WARNING";
+									$priority_txt = 'WARNING';
 								break;
 								case 2:
-									$priority_txt = "ERROR";
+									$priority_txt = 'ERROR';
 								break;
 							}
 							
-                            if (!fwrite($fp, date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."\r\n")) {
-                                die("Unable to write to logfile.");
+                            if (!fwrite($fp, date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\r\n")) {
+                                die('Unable to write to logfile.');
                             }
-							echo date("d.m.Y-H:i")." - ".$priority_txt." - ". $msg."\n";
+							echo date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\n";
                             fclose($fp);
 
 							// Log to database
