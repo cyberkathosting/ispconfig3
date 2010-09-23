@@ -28,6 +28,7 @@
 # 1.1   bugfix release
 # 1.2   support for mod_logio
 # 1.3	various contributed bugfixes
+# 1.3ISPconfig1 This local version has been modified for ISPConfig. Namely: "Added better error handling to vlogger script in case the MySQL database connection is not available."
 #
 # 
 # TODO:
