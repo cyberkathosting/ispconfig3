@@ -81,7 +81,7 @@ class page_action extends tform_actions {
 		
 		if ($this->dataRecord['username'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("username", str_replace($ftpuser_prefix , '', $this->dataRecord['username']));
+			$app->tpl->setVar("username", preg_replace('/'.$ftpuser_prefix.'/' , '', $this->dataRecord['username'], 1));
 		}
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$app->tpl->setVar("username_prefix", $global_config['ftpuser_prefix']);
