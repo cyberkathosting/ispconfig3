@@ -1,5 +1,4 @@
 <?php
-
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
@@ -33,11 +32,11 @@ class db {
 	private $dbName = '';		   // logical database name on that server
 	private $dbUser = '';		   // database authorized user
 	private $dbPass = '';		   // user's password
-    private $dbCharset = "";       // what charset comes and goes to mysql: utf8 / latin1
+	private $dbCharset = '';	   // what charset comes and goes to mysql: utf8 / latin1
 	private $linkId = 0;		   // last result of mysql_connect()
 	private $queryId = 0;		   // last result of mysql_query()
 	private $record	= array();	   // last record fetched
-    private $autoCommit = 1;       // Autocommit Transactions
+	private $autoCommit = 1;	    // Autocommit Transactions
 	private $currentRow;		   // current row number
 	private $errorNumber = 0;	   // last error number
 	public $errorMessage = '';	   // last error message
@@ -68,7 +67,7 @@ class db {
 	}
 
 	public function connect()
-    {
+	{
 		if($this->linkId == 0){
 			$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
 			if(!$this->linkId){
@@ -82,7 +81,7 @@ class db {
 	}
 
 	public function query($queryString)
-    {
+	{
 		if(!$this->connect()){
 			return false;
 		}
@@ -101,7 +100,7 @@ class db {
 
 	/** Returns all records as an array */
 	public function queryAllRecords($queryString)
-    {
+	{
 		if(!$this->query($queryString)){
 			return false;
 		}
@@ -114,7 +113,7 @@ class db {
 
 	/** Returns one row as an array */
 	public function queryOneRecord($queryString)
-    {
+	{
 		if(!$this->query($queryString) || $this->numRows() == 0){
 			return false;
 		}
@@ -123,8 +122,8 @@ class db {
 
 	/** Returns the next record as an array */
 	public function nextRecord()
-    {
-        $this->record = mysql_fetch_assoc($this->queryId);
+	{
+	$this->record = mysql_fetch_assoc($this->queryId);
 		$this->updateError('DB::nextRecord()<br />mysql_fetch_array');
 		if(!$this->record || !is_array($this->record)){
 			return false;
@@ -146,7 +145,7 @@ class db {
 		
 	/** Returns the last mySQL insert_id() */
 	public function insertID()
-    {
+	{
 		return mysql_insert_id($this->linkId);
 	}
         
@@ -217,7 +216,7 @@ class db {
         }
     }
 	*/
-	
+
 	public function diffrec($record_old, $record_new) {
 		$diffrec_full = array();
 		$diff_num = 0;
@@ -270,16 +269,16 @@ class db {
 		unset($tmp);
 		
 		// Insert the server_id, if the record has a server_id
-		$server_id = (isset($record_old["server_id"]) && $record_old["server_id"] > 0)?$record_old["server_id"]:0;
-		if(isset($record_new["server_id"])) $server_id = $record_new["server_id"];
+		$server_id = (isset($record_old['server_id']) && $record_old['server_id'] > 0)?$record_old['server_id']:0;
+		if(isset($record_new['server_id'])) $server_id = $record_new['server_id'];
 		
 
 		if($diff_num > 0) {
 			//print_r($diff_num);
 			//print_r($diffrec_full);
 			$diffstr = $app->db->quote(serialize($diffrec_full));
-			$username = $app->db->quote($_SESSION["s"]["user"]["username"]);
-			$dbidx = $primary_field.":".$primary_id;
+			$username = $app->db->quote($_SESSION['s']['user']['username']);
+			$dbidx = $primary_field.':'.$primary_id;
 						
 			if($action == 'INSERT') $action = 'i';
 			if($action == 'UPDATE') $action = 'u';
@@ -327,8 +326,8 @@ class db {
 		
 		return true;
 	}
-	
-	
+
+
        
     public function closeConn()
     {
@@ -338,7 +337,7 @@ class db {
     		return true;
     	} else { return false; }
     }
-       
+    
     public function freeResult($query) 
     {
     	if(mysql_free_result($query))
@@ -406,10 +405,10 @@ class db {
             if(isset($col['option']) && $col['option'] == 'primary'){ $index .= 'PRIMARY KEY ('.$col['name'].'),'; }
             if(isset($col['option']) && $col['option'] == 'index'){   $index .= 'INDEX ('.$col['name'].'),'; }
             if(isset($col['option']) && $col['option'] == 'unique'){  $index .= 'UNIQUE ('.$col['name'].'),'; }
-        }
+       }
        $sql .= $index;
        $sql = substr($sql,0,-1);
-       $sql .= ')';  
+       $sql .= ')';
        $this->query($sql);
        return true;
     }
@@ -428,36 +427,36 @@ class db {
     */
     public function alterTable($table_name,$columns)
     {
-        $index = '';
-        $sql = "ALTER TABLE $table_name ";
-        foreach($columns as $col){
+       $index = '';
+       $sql = "ALTER TABLE $table_name ";
+       foreach($columns as $col){
             if($col['action'] == 'add'){
-                $sql .= 'ADD '.$col['name'].' '.$this->mapType($col['type'], $col['typeValue']).' ';
+                $sql .= 'ADD '.$col['name'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
             }elseif($col['action'] == 'alter') {
                 $sql .= 'CHANGE '.$col['name'].' '.$col['name_new'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
             }elseif($col['action'] == 'drop') {
                 $sql .= 'DROP '.$col['name'].' ';
             }
-            if($col["action"] != 'drop') {  
-            if($col["defaultValue"] != "") $sql .= "DEFAULT '".$col["defaultValue"]."' ";
-            if($col["notNull"] == true) {
-                $sql .= "NOT NULL ";
+            if($col['action'] != 'drop') {  
+            if($col['defaultValue'] != '') $sql .= "DEFAULT '".$col['defaultValue']."' ";
+            if($col['notNull'] == true) {
+                $sql .= 'NOT NULL ';
             } else {
-                $sql .= "NULL ";
+                $sql .= 'NULL ';
             }
-            if($col["autoInc"] == true) $sql .= "auto_increment ";
-            $sql.= ",";
+            if($col['autoInc'] == true) $sql .= 'auto_increment ';
+            $sql.= ',';
             //* Index definitions
             if($col['option'] == 'primary') $index .= 'PRIMARY KEY ('.$col['name'].'),';
             if($col['option'] == 'index') $index .= 'INDEX ('.$col['name'].'),';
             if($col['option'] == 'unique') $index .= 'UNIQUE ('.$col['name'].'),';
             }
-        }
-        $sql .= $index;
-        $sql = substr($sql,0,-1);
-        //die($sql);
-        $this->query($sql);
-        return true;
+       }
+       $sql .= $index;
+       $sql = substr($sql,0,-1);
+       //die($sql);
+       $this->query($sql);
+       return true;
     }
        
     public function dropTable($table_name) 
@@ -484,7 +483,7 @@ class db {
        
     public function tableInfo($table_name) {
         //* Tabellenfelder einlesen ?
-        if($rows = $this->queryAllRecords("SHOW FIELDS FROM $table_name")){
+        if($rows = $this->queryAllRecords('SHOW FIELDS FROM $table_name')){
         foreach($rows as $row) {
             $name    = $row['Field'];
             $default = $row['Default'];
@@ -512,9 +511,9 @@ class db {
                 $tmp_typeValue = explode('(',$type);
                 $column['typeValue'] = substr($tmp_typeValue[1], 0, -1);  
             }
-            if(stristr($type, 'text'))   $metaType = 'text';
-            if(stristr($type, 'double')) $metaType = 'double';
-            if(stristr($type, 'blob'))   $metaType = 'blob';
+            if(stristr($type,'text'))   $metaType = 'text';
+            if(stristr($type,'double')) $metaType = 'double';
+            if(stristr($type,'blob'))   $metaType = 'blob';
             
             $column['type'] = $metaType;
             $columns[] = $column;
@@ -548,7 +547,7 @@ class db {
             return 'blob';
         }
     }
-	
+
 }
 
 ?>

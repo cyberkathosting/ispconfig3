@@ -63,15 +63,15 @@ class plugin {
 				//** load the plugins
 				foreach($tmp_plugins as $plugin_name => $file) {
 					include_once($plugins_dir.$file);
-					if($this->debug) $app->log("Loading Plugin: $plugin_name",LOGLEVEL_DEBUG);
+					if($this->debug) $app->log('Loading plugin: '.$plugin_name,LOGLEVEL_DEBUG);
 					$app->loaded_plugins[$plugin_name] = new $plugin_name;
 					$app->loaded_plugins[$plugin_name]->onLoad();
 				}
 			} else {
-				$app->log("Unable to open the plugin directory: $plugins_dir",LOGLEVEL_ERROR);
+				$app->log('Unable to open the plugins directory: '.$plugins_dir,LOGLEVEL_ERROR);
 			}
 		} else {
-			$app->log("Plugin directory missing: $plugins_dir",LOGLEVEL_ERROR);
+			$app->log('Plugins directory missing: '.$plugins_dir,LOGLEVEL_ERROR);
 		}
 		
 	}
@@ -98,7 +98,7 @@ class plugin {
 		
 		if(!isset($_SESSION['s']['plugin_cache'])) {
 			$this->loadPluginCache();
-			if($this->debug) $app->log("Loaded the plugin cache.",LOGLEVEL_DEBUG);
+			if($this->debug) $app->log('Loaded the plugin cache.',LOGLEVEL_DEBUG);
 		}
 		
 		
@@ -131,7 +131,7 @@ class plugin {
 		}
 		
 	 } // end function raiseEvent
-	 
+	
 	 //* Internal function to load the plugin and call the event function in the plugin.
 	 private function callPluginEvent($event_name,$data) {
 	 	global $app;

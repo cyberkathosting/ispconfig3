@@ -31,13 +31,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class ini_parser{
 
 	private $config;
-	
+
 	//* Converts a ini string to array
 	public function parse_ini_string($ini) {
 		$ini = str_replace("\r\n", "\n", $ini);
 		$lines = explode("\n", $ini);
 		foreach($lines as $line) {
-            $line = trim($line);                
+			$line = trim($line);
 			if($line != '') {
 				if(preg_match("/^\[([\w\d_]+)\]$/", $line, $matches)) {
 					$section = strtolower($matches[1]);
@@ -49,8 +49,8 @@ class ini_parser{
 		}
 		return $this->config;
 	}
-	
-	
+
+
 	//* Converts a config array to a string
 	public function get_ini_string($config_array = '') {
 		if($config_array == '') $config_array = $this->config;
@@ -61,17 +61,14 @@ class ini_parser{
 				if($item != ''){
 					$value 	= trim($value);
 					$item 	= trim($item);
-                    $content .= "$item=$value\n";
-                }
+					$content .= "$item=$value\n";
+				}
 			}
 			$content .= "\n";
 		}
 		return $content;
 	}
-	
-	
-	
-	
+
 }
 
 ?>

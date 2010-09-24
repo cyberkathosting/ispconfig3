@@ -48,27 +48,27 @@ define('ISPC_APP_VERSION', '3.0.2');
 
 
 //** Database
-$conf["db_type"] = 'mysql';
-$conf["db_host"] = 'localhost';
-$conf["db_database"] = 'ispconfig3';
-$conf["db_user"] = 'root';
-$conf["db_password"] = '';
-$conf["db_charset"] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL: "utf-8" --> "utf8", "iso-8859-1" --> "latin1")
+$conf['db_type'] = 'mysql';
+$conf['db_host'] = 'localhost';
+$conf['db_database'] = 'ispconfig3';
+$conf['db_user'] = 'root';
+$conf['db_password'] = '';
+$conf['db_charset'] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL: "utf-8" --> "utf8", "iso-8859-1" --> "latin1")
 
-define("DB_TYPE",$conf["db_type"]);
-define("DB_HOST",$conf["db_host"]);
-define("DB_DATABASE",$conf["db_database"]);
-define("DB_USER",$conf["db_user"]);
-define("DB_PASSWORD",$conf["db_password"]);
-define("DB_CHARSET",$conf["db_charset"]);
+define('DB_TYPE',$conf['db_type']);
+define('DB_HOST',$conf['db_host']);
+define('DB_DATABASE',$conf['db_database']);
+define('DB_USER',$conf['db_user']);
+define('DB_PASSWORD',$conf['db_password']);
+define('DB_CHARSET',$conf['db_charset']);
 
 
 //** Database settings for the master DB. This setting is only used in multiserver setups
-$conf["dbmaster_type"]			= 'mysql';
-$conf["dbmaster_host"]			= '{mysql_master_server_host}';
-$conf["dbmaster_database"]		= '{mysql_master_server_database}';
-$conf["dbmaster_user"]			= '{mysql_master_server_ispconfig_user}';
-$conf["dbmaster_password"]		= '{mysql_master_server_ispconfig_password}';
+$conf['dbmaster_type']			= 'mysql';
+$conf['dbmaster_host']			= '{mysql_master_server_host}';
+$conf['dbmaster_database']		= '{mysql_master_server_database}';
+$conf['dbmaster_user']			= '{mysql_master_server_ispconfig_user}';
+$conf['dbmaster_password']		= '{mysql_master_server_ispconfig_password}';
 
 
 //** Paths
@@ -81,15 +81,15 @@ define('ISPC_WEB_TEMP_PATH', ISPC_WEB_PATH.'/temp'); // Path for downloads, acce
 define('ISPC_CACHE_PATH', ISPC_ROOT_PATH.'/cache');
 
 //** Paths (Do not change!)
-$conf["rootpath"] = substr(dirname(__FILE__),0,-4);
-$conf["fs_div"] = "/"; // File system separator (divider), "\\" on Windows and "/"" on Linux and UNIX
-$conf["classpath"] = $conf["rootpath"].$conf["fs_div"]."lib".$conf["fs_div"]."classes";
-$conf["temppath"] = $conf["rootpath"].$conf["fs_div"]."temp";
+$conf['rootpath'] = substr(dirname(__FILE__),0,-4);
+$conf['fs_div'] = '/'; // File system separator (divider), "\\" on Windows and "/"" on Linux and UNIX
+$conf['classpath'] = $conf['rootpath'].$conf['fs_div'].'lib'.$conf['fs_div'].'classes';
+$conf['temppath'] = $conf['rootpath'].$conf['fs_div'].'temp';
 
-define("FS_DIV",$conf["fs_div"]);
-define("SERVER_ROOT",$conf["rootpath"]);
-define("INCLUDE_ROOT",SERVER_ROOT.FS_DIV."lib");
-define("CLASSES_ROOT",INCLUDE_ROOT.FS_DIV."classes");
+define('FS_DIV',$conf['fs_div']);
+define('SERVER_ROOT',$conf['rootpath']);
+define('INCLUDE_ROOT',SERVER_ROOT.FS_DIV.'lib');
+define('CLASSES_ROOT',INCLUDE_ROOT.FS_DIV.'classes');
 
 
 //** Server
@@ -97,7 +97,7 @@ $conf['app_title'] = ISPC_APP_TITLE;
 $conf['app_version'] = ISPC_APP_VERSION;
 $conf['app_link'] = 'http://www.howtoforge.com/forums/showthread.php?t=26988';
 $conf['modules_available'] = 'admin,mail,sites,monitor,client,dns,help';
-$conf["server_id"] = "1";
+$conf['server_id'] = '1';
 
 
 //** Interface
@@ -114,8 +114,8 @@ $conf['demo_mode'] = false;
 
 
 //** Logging
-$conf["log_file"] = '/var/log/ispconfig/ispconfig.log';
-$conf["log_priority"] = 0; // 0 = Debug, 1 = Warning, 2 = Error
+$conf['log_file'] = '/var/log/ispconfig/ispconfig.log';
+$conf['log_priority'] = 0; // 0 = Debug, 1 = Warning, 2 = Error
 
 
 //** Allow software package installations
@@ -123,28 +123,28 @@ $conf['software_updates_enabled'] = false;
 
 
 //** Themes
-$conf["theme"] = 'default';
-$conf["html_content_encoding"] = 'utf-8'; // example: utf-8, iso-8859-1, ...
-$conf["logo"] = 'themes/default/images/ispc_logo.png';
+$conf['theme'] = 'default';
+$conf['html_content_encoding'] = 'utf-8'; // example: utf-8, iso-8859-1, ...
+$conf['logo'] = 'themes/default/images/ispc_logo.png';
 
 
 //** Default Language
-$conf["language"] = 'en';
-$conf["debug_language"] = false;
+$conf['language'] = 'en';
+$conf['debug_language'] = false;
 
 
 //** Misc.
-$conf["interface_logout_url"] = ""; // example: http://www.domain.tld/
+$conf['interface_logout_url'] = ''; // example: http://www.domain.tld/
 
 
 //** Auto Load Modules
-$conf["start_db"] = true;
-$conf["start_session"] = true;
+$conf['start_db'] = true;
+$conf['start_session'] = true;
 
 
 //** Constants
-define("LOGLEVEL_DEBUG",0);
-define("LOGLEVEL_WARN",1);
-define("LOGLEVEL_ERROR",2);
+define('LOGLEVEL_DEBUG',0);
+define('LOGLEVEL_WARN',1);
+define('LOGLEVEL_ERROR',2);
 
 ?>
