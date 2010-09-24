@@ -56,6 +56,15 @@ class app {
 
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
+			
+			$this->uses('session');
+			session_set_save_handler(	array($this->session, 'open'),
+										array($this->session, 'close'),
+										array($this->session, 'read'),
+										array($this->session, 'write'),
+										array($this->session, 'destroy'),
+										array($this->session, 'gc'));
+			
 			session_start();
 
 			//* Initialize session variables
