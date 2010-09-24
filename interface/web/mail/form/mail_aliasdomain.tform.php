@@ -74,7 +74,7 @@ $form["tabs"]['alias'] = array (
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'source_error_unique'),
 										2 => array (	'type'	=> 'REGEX',
-														'regex' => '/^\@[\w\.\-]{2,64}\.[a-zA-Z]{2,10}$/',
+														'regex' => '/^\@[\w\.\-]{2,64}\.[a-zA-Z\-]{2,10}$/',
 														'errmsg'=> 'source_error_regex'),
 									),
 			'default'	=> '',

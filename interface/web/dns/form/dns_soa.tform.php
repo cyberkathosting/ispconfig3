@@ -82,7 +82,7 @@ $form["tabs"]['dns_soa'] = array (
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'origin_error_unique'),
 										2 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-\/]{2,255}\.[a-zA-Z]{2,10}[\.]{0,1}$/',
+														'regex' => '/^[\w\.\-\/]{2,255}\.[a-zA-Z\-]{2,10}[\.]{0,1}$/',
 														'errmsg'=> 'origin_error_regex'),
 									),
 			'default'	=> '',

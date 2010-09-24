@@ -81,7 +81,7 @@ $form["tabs"]['mailget'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'source_server_error_isempty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{2,64}\.[a-zA-Z]{2,10}$/',
+														'regex' => '/^[\w\.\-]{2,64}\.[a-zA-Z\-]{2,10}$/',
 														'errmsg'=> 'source_server_error_regex'),
 									),
 			'default'	=> '',
