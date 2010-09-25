@@ -97,7 +97,7 @@ function get_distname() {
 	}
 	
 	//** OpenSuSE
-	elseif(file_exists("/etc/SuSE-release")) {
+	elseif(file_exists('/etc/SuSE-release')) {
 		if(stristr(file_get_contents('/etc/SuSE-release'),'11.0')) {
 			$distname = 'openSUSE';
 			$distver = '11.0';
@@ -127,7 +127,7 @@ function get_distname() {
 	
 	
 	//** Redhat
-	elseif(file_exists("/etc/redhat-release")) {
+	elseif(file_exists('/etc/redhat-release')) {
 		
 		$content = file_get_contents('/etc/redhat-release');
 		
@@ -171,7 +171,7 @@ function get_distname() {
 	}
 	
 	//** Gentoo
- 	elseif(file_exists("/etc/gentoo-release")) {
+ 	elseif(file_exists('/etc/gentoo-release')) {
  		
  		$content = file_get_contents('/etc/gentoo-release');
  
@@ -183,7 +183,7 @@ function get_distname() {
  		swriteln("Operating System: Gentoo $distver or compatible\n");
 		
 	} else {
-		die('unrecognized Linux distribution');
+		die('Unrecognized GNU/Linux distribution');
 	}
 	
 	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
@@ -203,7 +203,7 @@ function swriteln($text = '') {
 }
 
 function ilog($msg){
-  	exec("echo `date` \"- [ISPConfig] - \"".$msg." >> ".ISPC_LOG_FILE);
+  	exec("echo `date` \"- [ISPConfig] - \"".$msg.' >> '.ISPC_LOG_FILE);
 }
 
 function error($msg){
@@ -501,8 +501,8 @@ function is_user($user){
   $lines = explode("\n", $users);
   if(is_array($lines)){
     foreach($lines as $line){
-      if(trim($line) != ""){
-        list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(":", $line);
+      if(trim($line) != ''){
+        list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(':', $line);
         if($f1 == $user) return true;
       }
     }
@@ -517,8 +517,8 @@ function is_group($group){
   $lines = explode("\n", $groups);
   if(is_array($lines)){
     foreach($lines as $line){
-      if(trim($line) != ""){
-        list($f1, $f2, $f3, $f4) = explode(":", $line);
+      if(trim($line) != ''){
+        list($f1, $f2, $f3, $f4) = explode(':', $line);
         if($f1 == $group) return true;
       }
     }

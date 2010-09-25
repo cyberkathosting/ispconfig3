@@ -95,7 +95,7 @@ class monitor_core_module {
 			} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
 				$distname = 'Debian';
 				$distver = 'Squeeze/Sid';
-				$distid = 'debian40';
+				$distid = 'debian60';
 				$distbaseid = 'debian';
 			}  else {
 				$distname = 'Debian';
@@ -106,7 +106,7 @@ class monitor_core_module {
 		}
 
 		//** OpenSuSE
-		elseif(file_exists("/etc/SuSE-release")) {
+		elseif(file_exists('/etc/SuSE-release')) {
 			if(stristr(file_get_contents('/etc/SuSE-release'),'11.0')) {
 				$distname = 'openSUSE';
 				$distver = '11.0';
@@ -132,7 +132,7 @@ class monitor_core_module {
 
 
 		//** Redhat
-		elseif(file_exists("/etc/redhat-release")) {
+		elseif(file_exists('/etc/redhat-release')) {
 
 			$content = file_get_contents('/etc/redhat-release');
 
@@ -170,7 +170,7 @@ class monitor_core_module {
 		}
 
 		//** Gentoo
-		elseif(file_exists("/etc/gentoo-release")) {
+		elseif(file_exists('/etc/gentoo-release')) {
 
 			$content = file_get_contents('/etc/gentoo-release');
 
@@ -181,7 +181,7 @@ class monitor_core_module {
 			$distbaseid = 'gentoo';
 
 		} else {
-			die('unrecognized Linux distribution');
+			die('Unrecognized GNU/Linux distribution');
 		}
 
 		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
@@ -229,7 +229,7 @@ class monitor_core_module {
 		$data = array();
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'harddisk_quota';
@@ -238,7 +238,7 @@ class monitor_core_module {
 		$state = 'ok';
 		
 		/** Fetch the data for all users*/
-		$dfData = shell_exec("repquota -asu");
+		$dfData = shell_exec('repquota -asu');
 
 		// split into array
 		$df = explode("\n", $dfData);
@@ -251,7 +251,7 @@ class monitor_core_module {
 				/*
                  * Make a array of the data
 				*/
-				$s = preg_split ("/[\s]+/", $df[$i]);
+				$s = preg_split ('/[\s]+/', $df[$i]);
 				$username = $s[0];
 				$data['user'][$username]['used'] = $s[2];
 				$data['user'][$username]['soft'] = $s[3];
@@ -260,7 +260,7 @@ class monitor_core_module {
 		}
 		
 		/** Fetch the data for all users*/
-		$dfData = shell_exec("repquota -asg");
+		$dfData = shell_exec('repquota -asg');
 
 		// split into array
 		$df = explode("\n", $dfData);
@@ -273,7 +273,7 @@ class monitor_core_module {
 				/*
                  * Make a array of the data
 				*/
-				$s = preg_split ("/[\s]+/", $df[$i]);
+				$s = preg_split ('/[\s]+/', $df[$i]);
 				$groupname = $s[0];
 				$data['group'][$groupname]['used'] = $s[1];
 				$data['group'][$groupname]['soft'] = $s[2];
@@ -284,14 +284,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -303,7 +303,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'server_load';
@@ -316,15 +316,15 @@ class monitor_core_module {
 		$data['up_hours'] = floor(($procUptime-$data['up_days']*86400)/3600);
 		$data['up_minutes'] = floor(($procUptime-$data['up_days']*86400-$data['up_hours']*3600)/60);
 
-		$data['uptime'] = shell_exec("uptime");
+		$data['uptime'] = shell_exec('uptime');
 
-		$tmp = explode(",", $data['uptime'], 4);
-		$tmpUser = explode(" ", trim($tmp[2]));
+		$tmp = explode(',', $data['uptime'], 4);
+		$tmpUser = explode(' ', trim($tmp[2]));
 		$data['user_online'] = intval($tmpUser[0]);
 
 		//* New Load Average code to fix "always zero" bug in non-english distros. NEEDS TESTING
 		$loadTmp = shell_exec("cat /proc/loadavg | cut -f1-3 -d' '");
-		$load = explode(" ", $loadTmp);
+		$load = explode(' ', $loadTmp);
 		$data['load_1'] = floatval(str_replace(',', '.', $load[0]));
 		$data['load_5'] = floatval(str_replace(',', '.', $load[1]));
 		$data['load_15'] = floatval(str_replace(',', '.', $load[2]));
@@ -339,14 +339,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -358,7 +358,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'os_info';
@@ -377,14 +377,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -397,7 +397,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'ispc_info';
@@ -414,14 +414,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -433,7 +433,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'disk_usage';
@@ -442,7 +442,7 @@ class monitor_core_module {
 		$state = 'ok';
 
 		/** Fetch the data of ALL devices into a array (needed for monitoring!)*/
-		$dfData = shell_exec("df -hT");
+		$dfData = shell_exec('df -hT');
 
 		// split into array
 		$df = explode("\n", $dfData);
@@ -453,9 +453,9 @@ class monitor_core_module {
 		for($i=1; $i <= sizeof($df); $i++) {
 			if ($df[$i] != '') {
 				/*
-                 * Make a array of the data
+                 * Make an array of the data
 				*/
-				$s = preg_split ("/[\s]+/", $df[$i]);
+				$s = preg_split ('/[\s]+/', $df[$i]);
 				$data[$i]['fs'] = $s[0];
 				$data[$i]['type'] = $s[1];
 				$data[$i]['size'] = $s[2];
@@ -468,12 +468,21 @@ class monitor_core_module {
 				*/
 				$usePercent = floatval($data[$i]['percent']);
 
-				//* We dont want to check the cdrom drive as a cd / dvd is always 100% full
-				if($data[$i]['type'] != 'iso9660' && $data[$i]['type'] != 'cramfs' && $data[$i]['type'] != 'udf' && $data[$i]['type'] != 'tmpfs' && $data[$i]['type'] != 'devtmpfs') {
-					if ($usePercent > 75) $state = $this->_setState($state, 'info');
-					if ($usePercent > 80) $state = $this->_setState($state, 'warning');
-					if ($usePercent > 90) $state = $this->_setState($state, 'critical');
-					if ($usePercent > 95) $state = $this->_setState($state, 'error');
+				//* We don't want to check some filesystem which have no sensible filling levels
+				switch($data[$i]['type']) {
+					case 'iso9660':
+					case 'cramfs':
+					case 'udf':
+					case 'tmpfs':
+					case 'devtmpfs':
+					case 'udev':
+						break;
+					default: 
+						if ($usePercent > 75) $state = $this->_setState($state, 'info');
+						if ($usePercent > 80) $state = $this->_setState($state, 'warning');
+						if ($usePercent > 90) $state = $this->_setState($state, 'critical');
+						if ($usePercent > 95) $state = $this->_setState($state, 'error');
+						break;
 				}
 			}
 		}
@@ -482,14 +491,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -502,7 +511,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'mem_usage';
@@ -510,14 +519,14 @@ class monitor_core_module {
 		/*
         Fetch the data into a array
 		*/
-		$miData = shell_exec("cat /proc/meminfo");
+		$miData = shell_exec('cat /proc/meminfo');
 
 		$memInfo = explode("\n", $miData);
 
 		foreach($memInfo as $line) {
-			$part = preg_split("/:/", $line);
+			$part = preg_split('/:/', $line);
 			$key = trim($part[0]);
-			$tmp = explode(" ", trim($part[1]));
+			$tmp = explode(' ', trim($part[1]));
 			$value = 0;
 			if ($tmp[1] == 'kB') $value = $tmp[0] * 1024;
 			$data[$key] = $value;
@@ -532,14 +541,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -552,7 +561,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'cpu_info';
@@ -560,33 +569,48 @@ class monitor_core_module {
 		/*
         Fetch the data into a array
 		*/
-		$cpuData = shell_exec("cat /proc/cpuinfo");
-		$cpuInfo = explode("\n", $cpuData);
-		$processor = 0;
+		if(file_exists('/proc/cpuinfo')) {
+			$cpuData = shell_exec('cat /proc/cpuinfo');
+			$cpuInfo = explode("\n", $cpuData);
+			$processor = 0;
 
-		foreach($cpuInfo as $line) {
+			foreach($cpuInfo as $line) {
 
-			$part = preg_split("/:/", $line);
-			$key = trim($part[0]);
-			$value = trim($part[1]);
-			if($key == 'processor') $processor = intval($value);
-			if($key != '') $data[$key.' '.$processor] = $value;
+				$part = preg_split('/:/', $line);
+				$key = trim($part[0]);
+				$value = trim($part[1]);
+				if($key == 'processor') $processor = intval($value);
+				if($key != '') $data[$key.' '.$processor] = $value;
+			}
+
+			/* the cpu has no state. It is, what it is */
+			$state = 'no_state';
+		} else {
+			/*
+             * It is not Linux, so there is no data and no state
+             *
+             * no_state, NOT unknown, because "unknown" is shown as state
+             * inside the GUI. no_state is hidden.
+             *
+             * We have to write NO DATA inside the DB, because the GUI
+             * could not know, if there is any dat, or not...
+			*/
+			$state = 'no_state';
+			$data['output']= '';
 		}
 
-		/* the cpu has no state. It is, what it is */
-		$state = 'no_state';
 
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -599,16 +623,16 @@ class monitor_core_module {
 		global $conf;
 
 		/** the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** get the "active" Services of the server from the DB */
-		$services = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $server_id);
+		$services = $app->dbmaster->queryOneRecord('SELECT * FROM server WHERE server_id = ' . $server_id);
 
 		/* The type of the Monitor-data */
 		$type = 'services';
 
 		/** the State of the monitoring */
-		/* ok, if ALL aktive services are running,
+		/* ok, if ALL active services are running,
          * error, if not
          * There is no other state!
 		*/
@@ -680,7 +704,7 @@ class monitor_core_module {
 			}
 		}
 
-		/* Monitor MYSQL-Server */
+		/* Monitor MySQL Server */
 		$data['mysqlserver'] = -1; // unknown - not needed
 		if ($services['db_server'] == 1) {
 			if($this->_checkTcp('localhost', 3306)) {
@@ -695,14 +719,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -715,7 +739,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'openvz_veinfo';
@@ -733,14 +757,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -752,7 +776,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'openvz_beancounter';
@@ -804,14 +828,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -821,7 +845,7 @@ class monitor_core_module {
 
 	function monitorSystemUpdate() {
 		/*
-         *  This monitoring is expensive, so do it only once a hour
+         *  This monitoring is expensive, so do it only once an hour
 		*/
 		$min = date('i');
 		if ($min != 0) return;
@@ -833,7 +857,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'system_update';
@@ -868,7 +892,7 @@ class monitor_core_module {
 			*/
 			$data['output'] = shell_exec('apt-get -s -q dist-upgrade');
 		}
-		elseif (file_exists("/etc/gentoo-release")) {
+		elseif (file_exists('/etc/gentoo-release')) {
 
 			/*
         	 * first update the portage tree
@@ -929,14 +953,14 @@ class monitor_core_module {
 		/*
          * Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -948,7 +972,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'mailq';
@@ -975,14 +999,14 @@ class monitor_core_module {
 		/*
          * Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -995,7 +1019,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'raid_state';
@@ -1084,19 +1108,19 @@ class monitor_core_module {
 					if (strpos($item, ' ONLINE ') !== false) {
 						$this->_setState($state, 'ok');
 					}
-					else if (strpos($item, ' OPTIMAL ') !== false) {
+					elseif (strpos($item, ' OPTIMAL ') !== false) {
 						$this->_setState($state, 'ok');
 					}
-					else if (strpos($item, ' INITIAL ') !== false) {
+					elseif (strpos($item, ' INITIAL ') !== false) {
 						$this->_setState($state, 'info');
 					}
-					else if (strpos($item, ' INACTIVE ') !== false) {
+					elseif (strpos($item, ' INACTIVE ') !== false) {
 						$this->_setState($state, 'critical');
 					}
-					else if (strpos($item, ' RESYNC ') !== false) {
+					elseif (strpos($item, ' RESYNC ') !== false) {
 						$this->_setState($state, 'info');
 					}
-					else if (strpos($item, ' DEGRADED ') !== false) {
+					elseif (strpos($item, ' DEGRADED ') !== false) {
 						$this->_setState($state, 'critical');
 					}
 					else {
@@ -1112,14 +1136,14 @@ class monitor_core_module {
 		/*
          * Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1138,7 +1162,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'rkhunter';
@@ -1173,14 +1197,14 @@ class monitor_core_module {
 		/*
          * Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1192,7 +1216,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_fail2ban';
@@ -1226,14 +1250,14 @@ class monitor_core_module {
 		/*
          * Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1245,7 +1269,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'sys_log';
@@ -1254,7 +1278,7 @@ class monitor_core_module {
 		 * is there any warning or error for this server?
 		*/
 		$state = 'ok';
-		$dbData = $app->dbmaster->queryAllRecords("SELECT loglevel FROM sys_log WHERE server_id = " . $server_id . " AND loglevel > 0");
+		$dbData = $app->dbmaster->queryAllRecords('SELECT loglevel FROM sys_log WHERE server_id = ' . $server_id . ' AND loglevel > 0');
 		if (is_array($dbData)) {
 			foreach($dbData as $item) {
 				if ($item['loglevel'] == 1) $state = $this->_setState($state, 'warning');
@@ -1268,14 +1292,14 @@ class monitor_core_module {
 		/*
          * Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1287,7 +1311,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_mail';
@@ -1304,14 +1328,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1323,7 +1347,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_mail_warn';
@@ -1340,14 +1364,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1359,7 +1383,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_mail_err';
@@ -1376,14 +1400,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1396,7 +1420,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_messages';
@@ -1413,14 +1437,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1432,7 +1456,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_ispc_cron';
@@ -1449,14 +1473,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1468,7 +1492,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_freshclam';
@@ -1485,16 +1509,16 @@ class monitor_core_module {
 
 		$tmp = explode("\n", $data);
 		$lastLog = array();
-		if ($tmp[sizeof($tmp)-1] == "") {
+		if ($tmp[sizeof($tmp)-1] == '') {
 			/* the log ends with an empty line remove this */
 			array_pop($tmp);
 		}
-		if (strpos($tmp[sizeof($tmp)-1], "-------------") !== false) {
+		if (strpos($tmp[sizeof($tmp)-1], '-------------') !== false) {
 			/* the log ends with "-----..." remove this */
 			array_pop($tmp);
 		}
 		for ($i = sizeof($tmp) -1; $i > 0; $i--) {
-			if (strpos($tmp[$i], "---------") === false) {
+			if (strpos($tmp[$i], '---------') === false) {
 				/* no delimiter found, so add this to the last-log */
 				$lastLog[] = $tmp[$i];
 			}
@@ -1509,7 +1533,7 @@ class monitor_core_module {
          * Check if the outdated-string is found...
 		*/
 		foreach($lastLog as $line) {
-			if (strpos(strtolower($line), "outdated") !== false) {
+			if (strpos(strtolower($line), 'outdated') !== false) {
 				/*
 				 * Outdatet is only info, because if we set this to warning, the server is
 				 * as long in state warning, as there is a new version of ClamAv which takes
@@ -1522,14 +1546,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1541,7 +1565,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_clamav';
@@ -1555,14 +1579,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1574,7 +1598,7 @@ class monitor_core_module {
 		global $conf;
 
 		/* the id of the server as int */
-		$server_id = intval($conf["server_id"]);
+		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
 		$type = 'log_ispconfig';
@@ -1588,14 +1612,14 @@ class monitor_core_module {
 		/*
         Insert the data into the database
 		*/
-		$sql = "INSERT INTO monitor_data (server_id, type, created, data, state) " .
-				"VALUES (".
-				$server_id . ", " .
+		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES ('.
+				$server_id . ', ' .
 				"'" . $app->dbmaster->quote($type) . "', " .
-				time() . ", " .
+				time() . ', ' .
 				"'" . $app->dbmaster->quote(serialize($data)) . "', " .
 				"'" . $state . "'" .
-				")";
+				')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -1604,69 +1628,75 @@ class monitor_core_module {
 
 
 	function _getLogData($log) {
+		global $conf;
 
 		$dist = '';
 		$logfile = '';
 
-		if(@is_file('/etc/debian_version')) $dist = 'debian';
-		if(@is_file('/etc/redhat-release')) $dist = 'redhat';
-		if(@is_file('/etc/SuSE-release')) $dist = 'suse';
-		if(@is_file('/etc/gentoo-release')) $dist = 'gentoo';
+		if(@is_file('/etc/debian_version')) {
+			$dist = 'debian';
+		} elseif(@is_file('/etc/redhat-release')) {
+			$dist = 'redhat';
+		} elseif(@is_file('/etc/SuSE-release')) {
+			$dist = 'suse';
+		} elseif(@is_file('/etc/gentoo-release')) {
+			$dist = 'gentoo';
+		}
 
 		switch($log) {
 			case 'log_mail':
-				if($dist == 'debian') $logfile = '/var/log/mail.log';
-				if($dist == 'redhat') $logfile = '/var/log/maillog';
-				if($dist == 'suse') $logfile = '/var/log/mail.info';
-				if($dist == 'gentoo') $logfile = '/var/log/maillog';
+				if($dist == 'debian') { $logfile = '/var/log/mail.log'; }
+				elseif($dist == 'redhat') { $logfile = '/var/log/maillog'; }
+				elseif($dist == 'suse') { $logfile = '/var/log/mail.info'; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/maillog'; }
 				break;
 			case 'log_mail_warn':
-				if($dist == 'debian') $logfile = '/var/log/mail.warn';
-				if($dist == 'redhat') $logfile = '/var/log/maillog';
-				if($dist == 'suse') $logfile = '/var/log/mail.warn';
-				if($dist == 'gentoo') $logfile = '/var/log/maillog';
+				if($dist == 'debian') { $logfile = '/var/log/mail.warn'; }
+				elseif($dist == 'redhat') { $logfile = '/var/log/maillog'; }
+				elseif($dist == 'suse') { $logfile = '/var/log/mail.warn'; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/maillog'; }
 				break;
 			case 'log_mail_err':
-				if($dist == 'debian') $logfile = '/var/log/mail.err';
-				if($dist == 'redhat') $logfile = '/var/log/maillog';
-				if($dist == 'suse') $logfile = '/var/log/mail.err';
-				if($dist == 'gentoo') $logfile = '/var/log/maillog';
+				if($dist == 'debian') { $logfile = '/var/log/mail.err'; }
+				elseif($dist == 'redhat') { $logfile = '/var/log/maillog'; }
+				elseif($dist == 'suse') { $logfile = '/var/log/mail.err'; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/maillog'; }
 				break;
 			case 'log_messages':
-				if($dist == 'debian') $logfile = '/var/log/messages';
-				if($dist == 'redhat') $logfile = '/var/log/messages';
-				if($dist == 'suse') $logfile = '/var/log/messages';
-				if($dist == 'gentoo') $logfile = '/var/log/messages';
+				if($dist == 'debian') { $logfile = '/var/log/messages'; }
+				elseif($dist == 'redhat') { $logfile = '/var/log/messages'; }
+				elseif($dist == 'suse') { $logfile = '/var/log/messages'; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/messages'; }
 				break;
 			case 'log_ispc_cron':
-				if($dist == 'debian') $logfile = '/var/log/ispconfig/cron.log';
-				if($dist == 'redhat') $logfile = '/var/log/ispconfig/cron.log';
-				if($dist == 'suse') $logfile = '/var/log/ispconfig/cron.log';
-				if($dist == 'gentoo') $logfile = '/var/log/cron';
+				if($dist == 'debian') { $logfile = $conf['ispconfig_log_dir'].'/cron.log'; }
+				elseif($dist == 'redhat') { $logfile = $conf['ispconfig_log_dir'].'/cron.log'; }
+				elseif($dist == 'suse') { $logfile = $conf['ispconfig_log_dir'].'/cron.log'; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/cron'; }
 				break;
 			case 'log_freshclam':
-				if($dist == 'debian') $logfile = '/var/log/clamav/freshclam.log';
-				if($dist == 'redhat') $logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log');
-				if($dist == 'suse') $logfile = '';
-				if($dist == 'gentoo') $logfile = '/var/log/clamav/freshclam.log';
+				if($dist == 'debian') { $logfile = '/var/log/clamav/freshclam.log'; }
+				elseif($dist == 'redhat') { $logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log'); }
+				elseif($dist == 'suse') { $logfile = ''; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/clamav/freshclam.log'; }
 				break;
 			case 'log_clamav':
-				if($dist == 'debian') $logfile = '/var/log/clamav/clamav.log';
-				if($dist == 'redhat') $logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog');
-				if($dist == 'suse') $logfile = '';
-				if($dist == 'gentoo') $logfile = '/var/log/clamav/clamd.log';
+				if($dist == 'debian') { $logfile = '/var/log/clamav/clamav.log'; }
+				elseif($dist == 'redhat') { $logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog'); }
+				elseif($dist == 'suse') { $logfile = ''; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/clamav/clamd.log'; }
 				break;
 			case 'log_fail2ban':
-				if($dist == 'debian') $logfile = '/var/log/fail2ban.log';
-				if($dist == 'redhat') $logfile = '/var/log/fail2ban.log';
-				if($dist == 'suse') $logfile = '/var/log/fail2ban.log';
-				if($dist == 'gentoo') $logfile = '/var/log/fail2ban.log';
+				if($dist == 'debian') { $logfile = '/var/log/fail2ban.log'; }
+				elseif($dist == 'redhat') { $logfile = '/var/log/fail2ban.log'; }
+				elseif($dist == 'suse') { $logfile = '/var/log/fail2ban.log'; }
+				elseif($dist == 'gentoo') { $logfile = '/var/log/fail2ban.log'; }
 				break;
 			case 'log_ispconfig':
-				if($dist == 'debian') $logfile = '/var/log/ispconfig/ispconfig.log';
-				if($dist == 'redhat') $logfile = '/var/log/ispconfig/ispconfig.log';
-				if($dist == 'suse') $logfile = '/var/log/ispconfig/ispconfig.log';
-				if($dist == 'gentoo') $logfile = '/var/log/ispconfig/ispconfig.log';
+				if($dist == 'debian') { $logfile = $conf['ispconfig_log_dir'].'/ispconfig.log'; }
+				elseif($dist == 'redhat') { $logfile = $conf['ispconfig_log_dir'].'/ispconfig.log'; }
+				elseif($dist == 'suse') { $logfile = $conf['ispconfig_log_dir'].'/ispconfig.log'; }
+				elseif($dist == 'gentoo') { $logfile = $conf['ispconfig_log_dir'].'/ispconfig.log'; }
 				break;
 			default:
 				$logfile = '';
@@ -1682,7 +1712,7 @@ class monitor_core_module {
 			else {
 				$log = '';
 				if(is_readable($logfile)) {
-					if($fd = popen("tail -n 100 $logfile", 'r')) {
+					if($fd = popen('tail -n 100 '.$logfile, 'r')) {
 						while (!feof($fd)) {
 							$log .= fgets($fd, 4096);
 							$n++;
@@ -1743,11 +1773,11 @@ class monitor_core_module {
 
 		$now = time();
 		$old = $now - ($min * 60) - ($hour * 60 * 60) - ($days * 24 * 60 * 60);
-		$sql = "DELETE FROM monitor_data " .
-				"WHERE " .
-				"type =" . "'" . $app->dbmaster->quote($type) . "' " .
-				"AND " .
-				"created < " . $old;
+		$sql = 'DELETE FROM monitor_data ' .
+				'WHERE ' .
+				'type =' . "'" . $app->dbmaster->quote($type) . "' " .
+				'AND ' .
+				'created < ' . $old;
 		$app->dbmaster->query($sql);
 	}
 

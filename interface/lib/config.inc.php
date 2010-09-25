@@ -82,7 +82,7 @@ define('ISPC_CACHE_PATH', ISPC_ROOT_PATH.'/cache');
 
 //** Paths (Do not change!)
 $conf['rootpath'] = substr(dirname(__FILE__),0,-4);
-$conf['fs_div'] = '/'; // File system separator (divider), "\\" on Windows and "/"" on Linux and UNIX
+$conf['fs_div'] = '/'; // File system separator (divider), "\\" on Windows and "/" on Linux and UNIX
 $conf['classpath'] = $conf['rootpath'].$conf['fs_div'].'lib'.$conf['fs_div'].'classes';
 $conf['temppath'] = $conf['rootpath'].$conf['fs_div'].'temp';
 
@@ -114,7 +114,7 @@ $conf['demo_mode'] = false;
 
 
 //** Logging
-$conf['log_file'] = '/var/log/ispconfig/ispconfig.log';
+$conf['log_file'] = $conf['ispconfig_log_dir'].'/ispconfig.log';
 $conf['log_priority'] = 0; // 0 = Debug, 1 = Warning, 2 = Error
 
 

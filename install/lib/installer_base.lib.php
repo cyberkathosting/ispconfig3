@@ -963,7 +963,7 @@ class installer_base {
 		global $conf;
 
 		//* Create the logging directory for the vhost logfiles
-		mkdir('/var/log/ispconfig/httpd', 0755, true);
+		mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 
 		if(is_file('/etc/suphp/suphp.conf')) {
 			replaceLine('/etc/suphp/suphp.conf','php=php:/usr/bin','x-httpd-suphp="php:/usr/bin/php-cgi"',0);
@@ -1470,10 +1470,10 @@ class installer_base {
 		if(@is_file('/var/log/clamav/clamav.log')) exec('chmod +r /var/log/clamav/clamav.log');
 		if(@is_file('/var/log/clamav/freshclam.log')) exec('chmod +r /var/log/clamav/freshclam.log');
 
-		//* Create the ispconfig log directory
-		if(!is_file('/var/log/ispconfig/ispconfig.log')) {
-			if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig', 0755);
-			touch('/var/log/ispconfig/ispconfig.log');
+		//* Create the ispconfig log file and directory
+		if(!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) {
+			if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir'], 0755);
+			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
 
 		rename($install_dir.'/server/scripts/run-getmail.sh','/usr/local/bin/run-getmail.sh');
@@ -1486,14 +1486,14 @@ class installer_base {
 			/* We rotate these logs in cron_daily.php
 			$fh = fopen('/etc/logrotate.d/logispc3', 'w');
 			fwrite($fh,
-					"/var/log/ispconfig/ispconfig.log { \n" .
+					"$conf['ispconfig_log_dir']/ispconfig.log { \n" .
 					"	weekly \n" .
 					"	missingok \n" .
 					"	rotate 4 \n" .
 					"	compress \n" .
 					"	delaycompress \n" .
 					"} \n" .
-					"/var/log/ispconfig/cron.log { \n" .
+					"$conf['ispconfig_log_dir']/cron.log { \n" .
 					"	weekly \n" .
 					"	missingok \n" .
 					"	rotate 4 \n" .
@@ -1544,8 +1544,8 @@ class installer_base {
 		}
 
 		$root_cron_jobs = array(
-				"* * * * * $install_dir/server/server.sh > /dev/null 2>> /var/log/ispconfig/cron.log",
-				"30 00 * * * $install_dir/server/cron_daily.sh > /dev/null 2>> /var/log/ispconfig/cron.log"
+				"* * * * * $install_dir/server/server.sh > /dev/null 2>> $conf['ispconfig_log_dir']/cron.log",
+				"30 00 * * * $install_dir/server/cron_daily.sh > /dev/null 2>> $conf['ispconfig_log_dir']/cron.log"
 		);
 		foreach($root_cron_jobs as $cron_job) {
 			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
@@ -1563,7 +1563,7 @@ class installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 
 			$cron_jobs = array(
-					'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+					'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> $conf['ispconfig_log_dir']/cron.log'
 			);
 
 			// remove existing ispconfig cronjobs, in case the syntax has changed
@@ -1581,8 +1581,8 @@ class installer_base {
 			unlink('crontab.txt');
 		}
 
-		touch('/var/log/ispconfig/cron.log');
-		chmod('/var/log/ispconfig/cron.log', 0666);
+		touch($conf['ispconfig_log_dir'].'/cron.log');
+		chmod($conf['ispconfig_log_dir'].'/cron.log', 0666);
 
 	}
 

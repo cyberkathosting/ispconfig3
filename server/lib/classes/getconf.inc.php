@@ -34,7 +34,7 @@ class getconf {
 	
 	function get_server_config($server_id, $section = '') {
 		global $app;
-		
+
 		if(!is_array($this->config[$server_id])) {
 			$app->uses('ini_parser');
 			$server_id = intval($server_id);
@@ -59,7 +59,6 @@ class getconf {
 		}
 		return ($section == '') ? $this->config['global'] : $this->config['global'][$section];
 	}
-	
 }
 
 ?>

@@ -901,8 +901,8 @@ class installer_dist extends installer_base {
 		exec('chmod a+rx /usr/local/ispconfig/interface/web');
 		
 		//* Create the ispconfig log directory
-		if(!is_dir('/var/log/ispconfig')) mkdir('/var/log/ispconfig');
-		if(!is_file('/var/log/ispconfig/ispconfig.log')) exec('touch /var/log/ispconfig/ispconfig.log');
+		if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir']);
+		if(!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) exec('touch '.$conf['ispconfig_log_dir'].'/ispconfig.log');
 		
 		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
 		exec('chown getmail /usr/local/bin/run-getmail.sh');

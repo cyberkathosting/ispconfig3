@@ -36,7 +36,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		var $linkId = 0;		// last result of mysql_connect()
 		var $queryId = 0;		// last result of mysql_query()
 		var $record	= array();	// last record fetched
-        var $autoCommit = 1;    // Autocommit Transactions
+		var $autoCommit = 1;    // Autocommit Transactions
 		var $currentRow;		// current row number
 		var $errorNumber = 0;	// last error number
 		var $errorMessage = '';	// last error message
@@ -339,7 +339,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		return true;
 	}
-       
+
+ 
        public function closeConn()
     	{
     		if($this->linkId)
@@ -397,17 +398,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             if($col['autoInc'] == true) $sql .= 'auto_increment ';
             $sql.= ',';
             // key Definitionen
-            if($col['option'] == 'primary') $index .= "PRIMARY KEY (".$col['name']."),";
-            if($col['option'] == 'index') $index .= "INDEX (".$col['name']."),";
-            if($col['option'] == 'unique') $index .= "UNIQUE (".$col['name']."),";
+            if($col['option'] == 'primary') $index .= 'PRIMARY KEY ('.$col['name'].'),';
+            if($col['option'] == 'index') $index .= 'INDEX ('.$col['name'].'),';
+            if($col['option'] == 'unique') $index .= 'UNIQUE ('.$col['name'].'),';
        }
        $sql .= $index;
        $sql = substr($sql,0,-1);
        $sql .= ')';
-       
        $this->query($sql);
        return true;
-       }
+    }
        
        /*
        $columns = array(action =>   add | alter | drop
@@ -427,11 +427,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        $sql = "ALTER TABLE $table_name ";
        foreach($columns as $col){
             if($col['action'] == 'add') {
-                $sql .= "ADD ".$col['name'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
+                $sql .= 'ADD '.$col['name'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
             } elseif ($col['action'] == 'alter') {
-                $sql .= "CHANGE ".$col['name']." ".$col['name_new'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
+                $sql .= 'CHANGE '.$col['name'].' '.$col['name_new'].' '.$this->mapType($col['type'],$col['typeValue']).' ';
             } elseif ($col['action'] == 'drop') {
-                $sql .= "DROP ".$col['name'].' ';
+                $sql .= 'DROP '.$col['name'].' ';
             }
             if($col['action'] != 'drop') {  
             if($col['defaultValue'] != '') $sql .= "DEFAULT '".$col['defaultValue']."' ";
@@ -442,10 +442,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             }
             if($col['autoInc'] == true) $sql .= 'auto_increment ';
             $sql.= ',';
-            // key Definitionen
-            if($col['option'] == 'primary') $index .= "PRIMARY KEY (".$col['name']."),";
-            if($col['option'] == 'index') $index .= "INDEX (".$col['name']."),";
-            if($col['option'] == 'unique') $index .= "UNIQUE (".$col['name']."),";
+            // Index definitions
+            if($col['option'] == 'primary') $index .= 'PRIMARY KEY ('.$col['name'].'),';
+            if($col['option'] == 'index') $index .= 'INDEX ('.$col['name'].'),';
+            if($col['option'] == 'unique') $index .= 'UNIQUE ('.$col['name'].'),';
             }
        }
        $sql .= $index;
@@ -493,7 +493,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        global $go_api,$go_info;
        // Tabellenfelder einlesen
         
-        if($rows = $go_api->db->queryAllRecords("SHOW FIELDS FROM ".$table_name)){
+        if($rows = $go_api->db->queryAllRecords('SHOW FIELDS FROM '.$table_name)){
         foreach($rows as $row) {
             $name = $row[0];
             $default = $row[4];
