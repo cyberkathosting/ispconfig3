@@ -133,7 +133,7 @@ class dns_module {
 	}
 
 	function restartPowerDNS($action = 'restart') {
-		global $app;
+		global $app,$conf;
 	
 		$app->log("restartPDNS called.",LOGLEVEL_DEBUG);
 

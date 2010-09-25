@@ -127,7 +127,7 @@ class web_module {
 	
 	// This function is used
 	function restartHttpd($action = 'restart') {
-		global $app;
+		global $app,$conf;
 		
 		$daemon = '';
 		if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
