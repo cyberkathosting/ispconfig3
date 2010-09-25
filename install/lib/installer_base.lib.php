@@ -605,7 +605,7 @@ class installer_base {
 
 
 		// Recursively create the spool directory
-		mkdir('/var/spool/postfix/var/run/saslauthd', 0755, true);
+		if(!@is_dir('/var/spool/postfix/var/run/saslauthd')) mkdir('/var/spool/postfix/var/run/saslauthd', 0755, true);
 
 		// Edit the file /etc/default/saslauthd
 		$configfile = $conf['saslauthd']['config'];
@@ -820,7 +820,7 @@ class installer_base {
 
 		$config_dir = $conf['getmail']['config_dir'];
 
-		if(!is_dir($config_dir)) mkdir(escapeshellcmd($config_dir), 0700, true);
+		if(!@is_dir($config_dir)) mkdir(escapeshellcmd($config_dir), 0700, true);
 
 		$command = 'useradd -d '.$config_dir.' getmail';
 		if(!is_user('getmail')) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -949,7 +949,7 @@ class installer_base {
 
 		//* Create the slave subdirectory
 	    $content .= 'slave';
-	    mkdir($content, 0770, true);
+	    if(!@is_dir($content)) mkdir($content, 0770, true);
 
 	    //* Chown the slave subdirectory to $conf['bind']['bind_user']
 	    chown($content, $conf['bind']['bind_user']);
@@ -963,7 +963,7 @@ class installer_base {
 		global $conf;
 
 		//* Create the logging directory for the vhost logfiles
-		mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
+		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 
 		if(is_file('/etc/suphp/suphp.conf')) {
 			replaceLine('/etc/suphp/suphp.conf','php=php:/usr/bin','x-httpd-suphp="php:/usr/bin/php-cgi"',0);
@@ -1127,7 +1127,7 @@ class installer_base {
 		$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-		mkdir($install_dir, 0755, true);
+		if(!@is_dir($install_dir)) mkdir($install_dir, 0755, true);
 		chown($install_dir, $apps_vhost_user);
 		chgrp($install_dir, $apps_vhost_group);
 
@@ -1182,7 +1182,7 @@ class installer_base {
 		$ssl_csr_file = $install_dir.'/interface/ssl/ispserver.csr';
 		$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
 		
-		if(!is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
+		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
 		
 		$ssl_pw = substr(md5(mt_rand()),0,6);
 		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
