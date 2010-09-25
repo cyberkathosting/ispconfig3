@@ -43,7 +43,7 @@ class session {
 	
 	function close () {
 
-		if (!empty($this->fieldarray)) {
+		if (!empty($this->session_array)) {
             $result = $this->gc(ini_get('session.gc_maxlifetime'));
             return $result;
         }
