@@ -1563,7 +1563,7 @@ class installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 
 			$cron_jobs = array(
-					'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> $conf['ispconfig_log_dir']/cron.log'
+					'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> '.$conf['ispconfig_log_dir'].'/cron.log'
 			);
 
 			// remove existing ispconfig cronjobs, in case the syntax has changed
