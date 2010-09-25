@@ -83,8 +83,8 @@ class web_module {
 		*/
 		
 		$app->modules->registerTableHook('web_domain','web_module','process');
-        $app->modules->registerTableHook('ftp_user','web_module','process');
-        $app->modules->registerTableHook('shell_user','web_module','process');
+		$app->modules->registerTableHook('ftp_user','web_module','process');
+		$app->modules->registerTableHook('shell_user','web_module','process');
 		$app->modules->registerTableHook('webdav_user','web_module','process');
 		
 		// Register service
@@ -129,17 +129,17 @@ class web_module {
 	function restartHttpd($action = 'restart') {
 		global $app;
 		
-		$command = '';
-		if(is_file('/etc/init.d/httpd')) {
-			$command = '/etc/init.d/httpd';
+		$daemon = '';
+		if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
+			$daemon = 'httpd';
 		} else {
-			$command = '/etc/init.d/apache2';
+			$daemon = 'apache2';
 		}
 		
 		if($action == 'restart') {
-			exec($command.' restart');
+			exec($conf['init_scripts'] . '/' . $daemon . ' restart');
 		} else {
-			exec($command.' reload');
+			exec($conf['init_scripts'] . '/' . $daemon . ' reload');
 		}
 		
 	}

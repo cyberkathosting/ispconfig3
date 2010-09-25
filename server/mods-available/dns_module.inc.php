@@ -117,17 +117,17 @@ class dns_module {
 	function restartBind($action = 'restart') {
 		global $app;
 		
-		$command = '';
-		if(is_file('/etc/init.d/bind9')) {
-			$command = '/etc/init.d/bind9';
+		$daemon = '';
+		if(is_file($conf['init_scripts'] . '/' . 'bind9')) {
+			$daemon = 'bind9';
 		} else {
-			$command = '/etc/init.d/named';
+			$daemon = 'named';
 		}
 		
 		if($action == 'restart') {
-			exec($command.' restart');
+			exec($conf['init_scripts'] . '/' . $daemon . ' restart');
 		} else {
-			exec($command.' reload');
+			exec($conf['init_scripts'] . '/' . $daemon . ' reload');
 		}
 		
 	}
@@ -166,13 +166,14 @@ class dns_module {
 */
 		file_put_contents('/etc/powerdns/pdns.d/pdns.ispconfig-axfr',$options."\n");
 
-		if (is_file('/etc/init.d/powerdns')) {
-			$command = '/etc/init.d/powerdns';
+		daemon= '';
+		if (is_file($conf['init_scripts'] . '/' . 'powerdns')) {
+			$daemon = 'powerdns';
 		} else {
-			$command = '/etc/init.d/pdns';
+			$daemon = 'pdns';
 		}
 
-		exec($command.' restart');
+		exec($conf['init_scripts'] . '/' . $daemon . ' restart');
 
 //     unset $tmps;
 
