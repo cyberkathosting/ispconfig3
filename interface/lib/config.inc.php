@@ -72,6 +72,7 @@ $conf['dbmaster_password']		= '{mysql_master_server_ispconfig_password}';
 
 
 //** Paths
+$conf['ispconfig_log_dir'] = '/var/log/ispconfig';
 define('ISPC_ROOT_PATH', realpath(dirname(__FILE__).'/../')); // The main ROOT is the parent directory to this file, ie Interface/. NO trailing slashes.
 define('ISPC_LIB_PATH', ISPC_ROOT_PATH.'/lib');
 define('ISPC_CLASS_PATH', ISPC_ROOT_PATH.'/lib/classes');
