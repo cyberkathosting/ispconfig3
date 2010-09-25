@@ -1052,13 +1052,14 @@ class apache2_plugin {
 	 */
 	public function webdav($event_name,$data) {
 		global $app, $conf;
+		
+		/*
+		 * load the server configuration options
+		*/
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
 		if (($event_name == 'webdav_user_insert') || ($event_name == 'webdav_user_update')) {
-			/*
-			 * load the server configuration options
-			*/
-			$app->uses("getconf");
-			$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
 			/*
 			 * Get additional informations
@@ -1134,12 +1135,29 @@ class apache2_plugin {
 			*/
 			$sitedata = $app->db->queryOneRecord("SELECT document_root, domain FROM web_domain WHERE domain_id = " . $data['old']['parent_domain_id']);
 			$documentRoot = $sitedata['document_root'];
+			$domain = $sitedata['domain'];
 
 			/*
 			 * We dont't want to destroy any (transfer)-Data. So we do NOT delete any dir.
 			 * So the only thing, we have to do, is to delete the user from the password-file
 			*/
 			$this->_writeHtDigestFile( $documentRoot . '/webdav/' . $data['old']['dir'] . '.htdigest', $data['old']['username'], $data['old']['dir'], '');
+			
+			/*
+			 * Next step, patch the vhost - file
+			*/
+			$vhost_file = escapeshellcmd($web_config["vhost_conf_dir"] . '/' . $domain . '.vhost');
+			$this->_patchVhostWebdav($vhost_file, $documentRoot . '/webdav');
+			
+			/*
+			 * Last, restart apache
+			*/
+			if($apache_chrooted) {
+				$app->services->restartServiceDelayed('httpd','restart');
+			} else {
+				// request a httpd reload when all records have been processed
+				$app->services->restartServiceDelayed('httpd','reload');
+			}
 		}
 	}
 
@@ -1190,7 +1208,11 @@ class apache2_plugin {
 		/*
 		 * Now lets write the new file
 		*/
-		file_put_contents($filename, $output);
+		if(trim($output) == '') {
+			unlink($filename);
+		} else {
+			file_put_contents($filename, $output);
+		}
 	}
 
 	/**
