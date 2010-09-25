@@ -56,7 +56,7 @@ class session {
 
         if (is_array($rec)) {
 			$this->session_array = $rec;
-			return $rec['session_data'];
+			return $this->session_array['session_data'];
 		} else {
 			return '';
 		}
@@ -67,6 +67,11 @@ class session {
 		if (!empty($this->session_array) && $this->session_array['session_id'] != $session_id) {
             $this->session_array = array();
         }
+		
+		// Dont write session to DB if session data has not been changed after reading it.
+		if(isset($this->session_array['session_data']) && $this->session_array['session_data'] != '' && $this->session_array['session_data'] == $session_data) {
+			return true;
+		}
 		
 
         if ($this->session_array['session_id'] == '') {
