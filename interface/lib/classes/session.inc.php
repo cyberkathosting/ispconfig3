@@ -42,6 +42,7 @@ class session {
 	}
 	
 	function close () {
+
 		if (!empty($this->fieldarray)) {
             $result = $this->gc(ini_get('session.gc_maxlifetime'));
             return $result;
@@ -55,7 +56,7 @@ class session {
 
         if (is_array($rec)) {
 			$this->session_array = $rec;
-			return $this->session_array['session_data'];
+			return $rec['session_data'];
 		} else {
 			return '';
 		}
@@ -66,6 +67,7 @@ class session {
 		if (!empty($this->session_array) && $this->session_array['session_id'] != $session_id) {
             $this->session_array = array();
         }
+		
 
         if ($this->session_array['session_id'] == '') {
 			$session_id   = $this->db->quote($session_id);
@@ -74,19 +76,21 @@ class session {
             $session_data = $this->db->quote($session_data);
 			$sql = "INSERT INTO sys_session (session_id,date_created,last_updated,session_data) VALUES ('$session_id','$date_created','$last_updated','$session_data')";
 			$this->db->query($sql);
+
         } else {
             $session_id   = $this->db->quote($session_id);
 			$last_updated = date('Y-m-d H:i:s');
             $session_data = $this->db->quote($session_data);
             $sql = "UPDATE sys_session SET last_updated = '$last_updated', session_data = '$session_data' WHERE session_id = '$session_id'";
 			$this->db->query($sql);
+
         }
 		
         return true;
     }
 	
 	function destroy ($session_id) {
-		
+
 		$session_id   = $this->db->quote($session_id);
 		$sql = "DELETE FROM sys_session WHERE session_id = '$session_id'";
 		$this->db->query($sql);
@@ -95,7 +99,7 @@ class session {
     }
 	
 	function gc ($max_lifetime) {
-		
+
 		$real_now = date('Y-m-d H:i:s');
         $dt1 = strtotime("$real_now -$max_lifetime seconds");
         $dt2 = date('Y-m-d H:i:s', $dt1);
@@ -106,11 +110,12 @@ class session {
         return true;
         
     }
-	
+
 	function __destruct () {
         @session_write_close();
 
-    }		
+    }
+
 }
 
 ?>

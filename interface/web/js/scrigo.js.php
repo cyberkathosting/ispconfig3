@@ -1,7 +1,8 @@
 <?php
 	session_start();
 	include('../../lib/config.inc.php');
-	include_once(ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$_SESSION['s']['language'].'_strengthmeter.lng');
+	$lang = (isset($_SESSION['s']['language']) && $_SESSION['s']['language'] != '')?$_SESSION['s']['language']:'en';
+	include_once(ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$lang.'_strengthmeter.lng');
 ?>
 
 redirect = '';
