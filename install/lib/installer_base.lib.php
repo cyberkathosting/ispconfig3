@@ -1544,8 +1544,8 @@ class installer_base {
 		}
 
 		$root_cron_jobs = array(
-				"* * * * * $install_dir/server/server.sh > /dev/null 2>> $conf['ispconfig_log_dir']/cron.log",
-				"30 00 * * * $install_dir/server/cron_daily.sh > /dev/null 2>> $conf['ispconfig_log_dir']/cron.log"
+				"* * * * * ".$install_dir."/server/server.sh > /dev/null 2>> ".$conf['ispconfig_log_dir']."/cron.log",
+				"30 00 * * * ".$install_dir."/server/cron_daily.sh > /dev/null 2>> ".$conf['ispconfig_log_dir']."/cron.log"
 		);
 		foreach($root_cron_jobs as $cron_job) {
 			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
