@@ -1155,26 +1155,29 @@ class apache2_plugin {
 	 */
 	private function _writeHtDigestFile($filename, $username, $authname, $pwdhash ) {
 		$changed = false;
-		$in = fopen($filename, 'r');
-		$output = '';
-		/*
-		 * read line by line and search for the username and authname
-		*/
-		while (preg_match("/:/", $line = fgets($in))) {
-			$line = rtrim($line);
-			$tmp = explode(':', $line);
-			if ($tmp[0] == $username && $tmp[1] == $authname) {
-				/*
-				 * found the user. delete or change it?
-				*/
-				if ($pwdhash != '') {
-					$output .= $tmp[0] . ':' . $tmp[1] . ':' . $pwdhash . "\n";
-					}
-				$changed = true;
+		if(is_file($filename)) {
+			$in = fopen($filename, 'r');
+			$output = '';
+			/*
+			* read line by line and search for the username and authname
+			*/
+			while (preg_match("/:/", $line = fgets($in))) {
+				$line = rtrim($line);
+				$tmp = explode(':', $line);
+				if ($tmp[0] == $username && $tmp[1] == $authname) {
+					/*
+					* found the user. delete or change it?
+					*/
+					if ($pwdhash != '') {
+						$output .= $tmp[0] . ':' . $tmp[1] . ':' . $pwdhash . "\n";
+						}
+					$changed = true;
+				}
+				else {
+					$output .= $line . "\n";
+				}
 			}
-			else {
-				$output .= $line . "\n";
-			}
+			fclose($in);
 		}
 		/*
 		 * if we didn't change anything, we have to add the new user at the end of the file
@@ -1182,7 +1185,7 @@ class apache2_plugin {
 		if (!$changed) {
 			$output .= $username . ':' . $authname . ':' . $pwdhash . "\n";
 		}
-		fclose($in);
+		
 
 		/*
 		 * Now lets write the new file
