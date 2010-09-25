@@ -166,7 +166,7 @@ class dns_module {
 */
 		file_put_contents('/etc/powerdns/pdns.d/pdns.ispconfig-axfr',$options."\n");
 
-		daemon= '';
+		$daemon= '';
 		if (is_file($conf['init_scripts'] . '/' . 'powerdns')) {
 			$daemon = 'powerdns';
 		} else {
