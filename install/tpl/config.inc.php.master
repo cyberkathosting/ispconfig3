@@ -113,6 +113,7 @@ $conf['app_version'] = ISPC_APP_VERSION;
 $conf['app_link'] = 'http://www.ispconfig.org/';
 $conf['modules_available'] = 'dashboard,admin,mail,sites,monitor,client,dns,help';
 $conf['server_id'] = '{server_id}';
+$conf['init_scripts'] = '/etc/init.d';
 
 
 //** Interface
