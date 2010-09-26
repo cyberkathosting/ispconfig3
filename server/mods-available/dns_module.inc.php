@@ -115,7 +115,7 @@ class dns_module {
 	
 	
 	function restartBind($action = 'restart') {
-		global $app;
+		global $app,$conf;
 		
 		$daemon = '';
 		if(is_file($conf['init_scripts'] . '/' . 'bind9')) {

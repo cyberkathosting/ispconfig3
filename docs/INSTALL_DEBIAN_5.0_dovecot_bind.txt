@@ -152,13 +152,13 @@ apt-get -y install vlogger webalizer
 
 apt-get -y install build-essential autoconf automake1.9 libtool flex bison debhelper
 cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.11.tar.gz
-tar xvfz jailkit-2.11.tar.gz
-cd jailkit-2.11
+wget http://olivier.sessink.nl/jailkit/jailkit-2.12.tar.gz
+tar xvfz jailkit-2.12.tar.gz
+cd jailkit-2.12
 ./debian/rules binary
 cd ..
-dpkg -i jailkit_2.11-1_*.deb
-rm -rf jailkit-2.11*
+dpkg -i jailkit_2.12-1_*.deb
+rm -rf jailkit-2.12*
 
 8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
 More info at: http://www.howtoforge.com/fail2ban_debian_etch
@@ -168,8 +168,8 @@ apt-get -y install fail2ban
 9) Install ISPConfig 3
 
 cd /tmp
-wget http://www.ispconfig.org/downloads/ISPConfig-3.0.2.tar.gz
-tar xvfz ISPConfig-3.0.2.tar.gz
+wget http://www.ispconfig.org/downloads/ISPConfig-3.0.2.2.tar.gz
+tar xvfz ISPConfig-3.0.2.2.tar.gz
 cd ispconfig3_install/install/
 
 # Now start the installation process by executing:
