@@ -89,8 +89,40 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 													'database_password' => md5(mt_rand()),
 													'database_host' => 'localhost');
 			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
+			$package['package_config'] = $package_config_str;
 			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id',$package['package_id']);
 		}
+	}
+	
+	//* If the packages requires a remote user
+	if($package['package_remote_functions'] != '') {
+		
+		if(trim($package['package_config']) != '') {
+			$package_config_array = $app->ini_parser->parse_ini_string(stripslashes($package['package_config']));
+		}
+		
+		if(!isset($package_config_array['remote_api'])) {
+			$remote_user = 'ispapp'.$package['package_id'];
+			$remote_password = md5(mt_rand());
+			$remote_functions = $app->db->quote($package['package_remote_functions']);
+			
+			$package_config_array['remote_api'] = array(
+													'remote_hostname'	=> $_SERVER['HTTP_HOST'],
+													'remote_user' 		=> $remote_user,
+													'remote_password' 	=> $remote_password
+														);
+
+			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
+			$package['package_config'] = $package_config_str;
+			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id',$package['package_id']);
+			
+			$sql = "INSERT INTO `remote_user` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `remote_username`, `remote_password`, `remote_functions`) VALUES
+					(1, 1, 'riud', 'riud', '', '$remote_user', '$remote_password', '$remote_functions');";
+			
+			$app->db->query($sql);
+			
+		}
+	
 	}
 	
 	//* Add the record to start the install process

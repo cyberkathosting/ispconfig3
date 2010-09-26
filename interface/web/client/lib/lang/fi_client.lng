@@ -95,4 +95,7 @@ $wb['limit_traffic_quota_txt'] = 'Liikenneraja';
 $wb['limit_trafficquota_error_notint'] = 'Liikennerajan pitää olle numeerinen.';
 $wb['limit_webdav_user_txt'] = 'Webdav-käyttäjien enimmäismäärä';
 $wb['limit_webdav_user_error_notint'] = 'Webdav-käyttäjien rajan pitää olla numeerinen.';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['vat_id_txt'] = 'VAT ID';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

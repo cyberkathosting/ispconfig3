@@ -6,4 +6,5 @@ $wb['package_description_txt'] = 'Popis';
 $wb['action_txt'] = 'Akcia';
 $wb['toolsarea_head_txt'] = 'Packages';
 $wb['repoupdate_txt'] = 'Update package list';
+$wb['package_id_txt'] = 'local App-ID';
 ?>

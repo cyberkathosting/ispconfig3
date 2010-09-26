@@ -95,4 +95,7 @@ $wb['limit_dns_slave_zone_txt'] = 'Max. number of secondary DNS zones';
 $wb['limit_webdav_user_txt'] = 'Max. number of Webdav users';
 $wb['limit_webdav_user_error_notint'] = 'The webdav user limit must be a number.';
 $wb['limit_dns_slave_zone_error_notint'] = 'The dns slave zone limit must be a number.';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['vat_id_txt'] = 'VAT ID';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

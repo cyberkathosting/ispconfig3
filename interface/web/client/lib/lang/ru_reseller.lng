@@ -93,4 +93,7 @@ $wb['limit_client_error_positive'] = 'Число клиентов должно �
 $wb['limit_web_quota_txt'] = 'Квота Web';
 $wb['limit_traffic_quota_txt'] = 'Квота трафика';
 $wb['limit_trafficquota_error_notint'] = 'Квота трафика должна быть числом.';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['vat_id_txt'] = 'VAT ID';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

@@ -57,17 +57,18 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 				$package_type = $app->db->quote($p['type']);
 				$package_installable = $app->db->quote($p['installable']);
 				$package_requires_db = $app->db->quote($p['requires_db']);
+				$package_remote_functions = $app->db->quote($p['remote_functions']);
 				
 				if(empty($tmp['package_id'])) {
 					//$sql = "INSERT INTO software_package (software_repo_id, package_name, package_title, package_description,package_type,package_installable,package_requires_db) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type','$package_installable','$package_requires_db')";
 					//$app->db->query($sql);
-					$insert_data = "(software_repo_id, package_name, package_title, package_description,package_type,package_installable,package_requires_db) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type','$package_installable','$package_requires_db')";
+					$insert_data = "(software_repo_id, package_name, package_title, package_description,package_type,package_installable,package_requires_db,package_remote_functions) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type','$package_installable','$package_requires_db','$package_remote_functions')";
 					$app->db->datalogInsert('software_package', $insert_data, 'package_id');
 					$packages_added++;
 				} else {
 					//$sql = "UPDATE software_package SET software_repo_id = $software_repo_id, package_title = '$package_title', package_description = '$package_description', package_type = '$package_type', package_installable = '$package_installable', package_requires_db = '$package_requires_db' WHERE package_name = '$package_name'";
 					//$app->db->query($sql);
-					$update_data = "software_repo_id = $software_repo_id, package_title = '$package_title', package_description = '$package_description', package_type = '$package_type', package_installable = '$package_installable', package_requires_db = '$package_requires_db'";
+					$update_data = "software_repo_id = $software_repo_id, package_title = '$package_title', package_description = '$package_description', package_type = '$package_type', package_installable = '$package_installable', package_requires_db = '$package_requires_db', package_remote_functions = '$package_remote_functions'";
 					//echo $update_data;
 					$app->db->datalogUpdate('software_package', $update_data, 'package_id',$tmp['package_id']);
 				}

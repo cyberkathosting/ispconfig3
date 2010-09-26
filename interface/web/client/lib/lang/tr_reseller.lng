@@ -93,4 +93,7 @@ $wb['limit_client_error_positive'] = 'Müşteri sayısı sıfırdan büyük olma
 $wb['limit_web_quota_txt'] = 'Web Kotası';
 $wb['limit_traffic_quota_txt'] = 'Trafik Kotası';
 $wb['limit_trafficquota_error_notint'] = 'Trafik kotası sayı olmak zorunda.';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['vat_id_txt'] = 'VAT ID';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

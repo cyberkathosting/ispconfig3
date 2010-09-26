@@ -93,4 +93,7 @@ $wb['limit_client_error_positive'] = 'Le nombre de clients doit être plus grand
 $wb['limit_web_quota_txt'] = 'Web Quota';
 $wb['limit_traffic_quota_txt'] = 'Traffic Quota';
 $wb['limit_trafficquota_error_notint'] = 'Traffic Quota must be a number.';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['vat_id_txt'] = 'VAT ID';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

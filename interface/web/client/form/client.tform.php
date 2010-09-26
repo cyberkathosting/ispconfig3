@@ -106,6 +106,17 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'customer_no' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 		'username' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
@@ -273,6 +284,17 @@ $form["tabs"]['address'] = array (
 			'cols'		=> ''
 		),
 		'icq' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'vat_id' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> '',

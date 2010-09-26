@@ -1,0 +1,2 @@
+ALTER TABLE `software_package` ADD `package_remote_functions` TEXT NULL AFTER `package_requires_db`;
+ALTER TABLE `client` ADD `customer_no` VARCHAR( 64 ) NULL AFTER `contact_name` , ADD `vat_id` VARCHAR( 64 ) NULL AFTER `customer_no`;

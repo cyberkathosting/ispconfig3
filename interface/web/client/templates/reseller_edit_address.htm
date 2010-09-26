@@ -10,11 +10,15 @@
         <input name="company_name" id="company_name" value="{tmpl_var name='company_name'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
       <div class="ctrlHolder">
-      	<label for="contact_name">{tmpl_var name='contact_name_txt'}</label>
+      	<label for="contact_name">{tmpl_var name='contact_name_txt'}*</label>
         <input name="contact_name" id="contact_name" value="{tmpl_var name='contact_name'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
+	  <div class="ctrlHolder">
+      	<label for="customer_no">{tmpl_var name='customer_no_txt'}</label>
+        <input name="customer_no" id="customer_no" value="{tmpl_var name='customer_no'}" size="30" maxlength="255" type="text" class="textInput" />
+	  </div>
       <div class="ctrlHolder">
-      	<label for="username">{tmpl_var name='username_txt'}</label>
+      	<label for="username">{tmpl_var name='username_txt'}*</label>
         <input name="username" id="username" value="{tmpl_var name='username'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
       <div class="ctrlHolder">
@@ -84,10 +88,15 @@
       	<label for="icq">{tmpl_var name='icq_txt'}</label>
         <input name="icq" id="icq" value="{tmpl_var name='icq'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
+	  <div class="ctrlHolder">
+      	<label for="vat_id">{tmpl_var name='vat_id_txt'}</label>
+        <input name="vat_id" id="vat_id" value="{tmpl_var name='vat_id'}" size="30" maxlength="255" type="text" class="textInput" />
+	  </div>
       <div class="ctrlHolder">
       	<label for="notes">{tmpl_var name='notes_txt'}</label>
         <textarea name="notes" id="notes" rows='10' cols='30'>{tmpl_var name='notes'}</textarea>
       </div>
+	  {tmpl_var name='required_fields_txt'}
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
