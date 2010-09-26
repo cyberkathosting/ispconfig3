@@ -68,8 +68,11 @@ class session {
             $this->session_array = array();
         }
 		
-		// Dont write session to DB if session data has not been changed after reading it.
+		// Dont write session_data to DB if session data has not been changed after reading it.
 		if(isset($this->session_array['session_data']) && $this->session_array['session_data'] != '' && $this->session_array['session_data'] == $session_data) {
+			$session_id   = $this->db->quote($session_id);
+			$last_updated = date('Y-m-d H:i:s');
+            $this->db->query("UPDATE sys_session SET last_updated = '$last_updated' WHERE session_id = '$session_id'");
 			return true;
 		}
 		
