@@ -151,6 +151,21 @@ function updateDbAndIni() {
 		} else {
 			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
 		}
+		
+		//** Get the database version number based on the patchfile
+		$found = true;
+		while($found == true) {
+			$next_db_version = intval($current_db_version + 1);
+			$patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
+			if(is_file($patch_filename)) {
+				$current_db_version = $next_db_version;
+			} else {
+				$found = false;
+			}
+		}
+		
+		//* update the database version in server table
+		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
 
 		if ($conf['powerdns']['installed']) {
                                                  

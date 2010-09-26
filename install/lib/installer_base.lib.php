@@ -231,19 +231,31 @@ class installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
-
+		
+		//** Get the database version number based on the patchfiles
+		$found = true;
+		while($found == true) {
+			$next_db_version = intval($current_db_version + 1);
+			$patch_filename = realpath(dirname(__FILE__).'/../../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
+			if(is_file($patch_filename)) {
+				$current_db_version = $next_db_version;
+			} else {
+				$found = false;
+			}
+		}
+		$current_db_version = intval($current_db_version);
 
 
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version);";
 			$this->dbmaster->query($sql);
 			$conf['server_id'] = $this->dbmaster->insertID();
 			$conf['server_id'] = $conf['server_id'];
 
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version);";
 			$this->db->query($sql);
 
 			//* username for the ispconfig user
@@ -253,7 +265,7 @@ class installer_base {
 
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version);";
 			$this->db->query($sql);
 			$conf['server_id'] = $this->db->insertID();
 			$conf['server_id'] = $conf['server_id'];
