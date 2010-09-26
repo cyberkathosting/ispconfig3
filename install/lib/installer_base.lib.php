@@ -234,9 +234,10 @@ class installer_base {
 		
 		//** Get the database version number based on the patchfiles
 		$found = true;
+		$current_db_version = 1;
 		while($found == true) {
 			$next_db_version = intval($current_db_version + 1);
-			$patch_filename = realpath(dirname(__FILE__).'/../../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
+			$patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
 			if(is_file($patch_filename)) {
 				$current_db_version = $next_db_version;
 			} else {
