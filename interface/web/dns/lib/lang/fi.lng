@@ -14,7 +14,7 @@ $wb['Records'] = 'Tietueet';
 $wb['DNS SRV'] = 'DNS SRV-tietue';
 $wb['DNS TXT Record'] = 'DNS TXT-tietue';
 $wb['DNS TXT'] = 'DNS TXT-tietue';
-$wb['DNS Wizard'] = 'DNS Wizard';
-$wb['Add DNS Zone'] = 'Add DNS Zone';
-$wb['Templates'] = 'Templates';
+$wb['DNS Wizard'] = 'DNS-Velho';
+$wb['Add DNS Zone'] = 'Lisää DNS-alue';
+$wb['Templates'] = 'Mallit';
 ?>

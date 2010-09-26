@@ -6,8 +6,8 @@ $wb['Add Client'] = 'Lisää asiakas';
 $wb['Edit Client'] = 'Muokkaa asiakkaan tietoja';
 $wb['Clients'] = 'Asiakkaat';
 $wb['Edit Client-Templates'] = 'Muokkaa asiakasmalleja';
-$wb['Add Reseller'] = 'Add Reseller';
-$wb['Edit Reseller'] = 'Edit Reseller';
-$wb['Resellers'] = 'Resellers';
-$wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
+$wb['Add Reseller'] = 'Lisää uusi jälleenmyyjä';
+$wb['Edit Reseller'] = 'Muokkaa jälleenmyyjää';
+$wb['Resellers'] = 'Jälleenmyyjät';
+$wb['error_has_clients'] = 'Tällä jälleenmyyjällä on asiakkaita, poista ne ensin.';
 ?>

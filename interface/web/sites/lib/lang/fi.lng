@@ -14,11 +14,11 @@ $wb['Shell-User'] = 'Shell-käyttäjä';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Verkkotunnukset';
 $wb['Stats'] = 'Tilastot';
-$wb['Website'] = 'Website';
-$wb['Cron'] = 'Cron';
-$wb['Cron Jobs'] = 'Cron Jobs';
-$wb['Statistics'] = 'Statistics';
-$wb['Web traffic'] = 'Web Traffic';
+$wb['Website'] = 'WWW-sivu';
+$wb['Cron'] = 'Ajastukset';
+$wb['Cron Jobs'] = 'Ajastetut tehtävät';
+$wb['Statistics'] = 'Tilastot';
+$wb['Web traffic'] = 'WWW-liikenne';
 $wb['Webdav-User'] = 'Webdav User';
 $wb['Webdav'] = 'Webdav';
 ?>
