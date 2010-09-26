@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Práva uživateľa';
 $wb['auth_preset_perm_group_txt'] = 'Práva skupina';
 $wb['auth_preset_perm_other_txt'] = 'Práva ostatný';
 ?>
-

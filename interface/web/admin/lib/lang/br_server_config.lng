@@ -73,4 +73,5 @@ $wb['backup_dir_txt'] = 'Backup directory';
 $wb['named_conf_local_path_txt'] = 'BIND named.conf.local path';
 $wb['php_ini_path_cgi_txt'] = 'CGI php.ini path';
 $wb['php_ini_path_apache_txt'] = 'Apache php.ini path';
+$wb['check_apache_config_txt'] = 'Test apache configuration on restart';
 ?>

@@ -4,4 +4,3 @@ $wb['sender_id_txt'] = 'Odosielateľ';
 $wb['subject_txt'] = 'Predmet';
 $wb['add_new_record_txt'] = 'Vytvoriť novú správu pre podporu';
 ?>
-

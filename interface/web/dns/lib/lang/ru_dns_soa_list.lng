@@ -6,4 +6,5 @@ $wb['origin_txt'] = 'Зона';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Добавить новую DNS Zone (SOA)';
+$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
 ?>

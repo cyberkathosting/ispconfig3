@@ -4,4 +4,6 @@ $wb['installed_txt'] = 'Stav';
 $wb['package_title_txt'] = 'Balíček';
 $wb['package_description_txt'] = 'Popis';
 $wb['action_txt'] = 'Akce';
+$wb['toolsarea_head_txt'] = 'Packages';
+$wb['repoupdate_txt'] = 'Update package list';
 ?>

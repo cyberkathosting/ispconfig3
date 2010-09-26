@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Rubrica hostname necompletata';
 $wb['name_error_regex'] = 'Hostname cu format gresit';
 $wb['data_error_empty'] = 'Hostname tinta necompletat';
 $wb['data_error_regex'] = 'Hostname tinta cu format gresit';
+$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>

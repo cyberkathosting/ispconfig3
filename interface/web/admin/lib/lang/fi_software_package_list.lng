@@ -4,4 +4,6 @@ $wb['installed_txt'] = 'Ohjelmapaketin tila';
 $wb['package_title_txt'] = 'Ohjelmapaketti';
 $wb['package_description_txt'] = 'Ohjelmapaketin kuvaus';
 $wb['action_txt'] = 'Toiminto';
+$wb['toolsarea_head_txt'] = 'Packages';
+$wb['repoupdate_txt'] = 'Update package list';
 ?>

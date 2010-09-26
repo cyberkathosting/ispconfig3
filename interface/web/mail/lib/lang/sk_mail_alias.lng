@@ -9,4 +9,3 @@ $wb['destination_error_isemail'] = 'Cieľová E-mailová adresa je neplatná.';
 $wb['limit_mailalias_txt'] = 'Max. počet e-mailových aliasov na váš účet je dosiahnutý.';
 $wb['duplicate_mailbox_txt'] = 'Existuje už schránka s touto e-mailovú adresu';
 ?>
-

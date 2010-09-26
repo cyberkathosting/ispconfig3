@@ -14,4 +14,3 @@ $wb['module_del_txt'] = 'Chcete zmazat modul?';
 $wb['menu_del_txt'] = 'Chcete zmazat menu?';
 $wb['item_del_txt'] = 'Chcete zmazat položku?';
 ?>
-

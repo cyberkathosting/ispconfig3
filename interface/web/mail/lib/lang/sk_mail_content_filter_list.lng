@@ -6,4 +6,3 @@ $wb['pattern_txt'] = 'Vzorka';
 $wb['action_txt'] = 'Akcia';
 $wb['add_new_record_txt'] = 'Pridať nový filter obsahu';
 ?>
-

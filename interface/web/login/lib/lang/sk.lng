@@ -15,4 +15,3 @@ $wb['username_txt'] = 'Užívateľské meno';
 $wb['password_txt'] = 'Heslo';
 $wb['login_button_txt'] = 'Prihlásenie';
 ?>
-

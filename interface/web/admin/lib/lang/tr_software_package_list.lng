@@ -4,4 +4,6 @@ $wb['installed_txt'] = 'Durum';
 $wb['package_title_txt'] = 'Paket';
 $wb['package_description_txt'] = 'Açıklama';
 $wb['action_txt'] = 'Eylem';
+$wb['toolsarea_head_txt'] = 'Packages';
+$wb['repoupdate_txt'] = 'Update package list';
 ?>

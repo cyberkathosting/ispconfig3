@@ -9,4 +9,3 @@ $wb['source_error_empty'] = 'Zdroj je prázdny.';
 $wb['source_error_unique'] = 'Duplicitná zdrojová doména.';
 $wb['source_error_regex'] = 'Zlý názov zdrojovej domény';
 ?>
-

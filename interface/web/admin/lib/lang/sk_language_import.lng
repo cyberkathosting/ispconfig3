@@ -6,4 +6,3 @@ $wb['language_overwrite_txt'] = 'Prepisať subor ak existuje';
 $wb['btn_cancel_txt'] = 'Späť';
 $wb['ignore_version_txt'] = 'Skip ISPConfig version check';
 ?>
-

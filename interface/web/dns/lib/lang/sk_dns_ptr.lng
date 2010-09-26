@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Meno má zlý formát.';
 $wb['data_error_empty'] = 'Canonical hostname prázdny';
 $wb['data_error_regex'] = 'Canonical hostname má zlý formát';
 ?>
-

@@ -6,4 +6,3 @@ $wb['destination_txt'] = 'Cieľ';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Pridať nový email forwarding';
 ?>
-

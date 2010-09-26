@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Milovník Zakázaných súborov';
 $wb['bad_header_lover_txt'] = 'Milovník  Zlých hlavičiek';
 $wb['add_new_record_txt'] = 'Pridať záznam do politiky';
 ?>
-

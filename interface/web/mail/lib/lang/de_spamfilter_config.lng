@@ -1,21 +1,20 @@
 <?php
-$wb['getmail_config_dir_txt'] = "Getmail Config Path";
-$wb['ip_address_txt'] = "IP Adresse";
-$wb['netmask_txt'] = "Netzmaske";
-$wb['gateway_txt'] = "Gateway";
-$wb['hostname_txt'] = "Hostname";
-$wb['nameservers_txt'] = "Nameserver";
-$wb['module_txt'] = "Server Module";
-$wb['maildir_path_txt'] = "Maildir Pfad";
-$wb['homedir_path_txt'] = "Homedir Pfad";
-$wb['mailuser_uid_txt'] = "Mailuser UID";
-$wb['mailuser_gid_txt'] = "Mailuser GID";
-$wb['mailuser_name_txt'] = "Mailuser Name";
-$wb['mailuser_group_txt'] = "Mailuser Gruppe";
-$wb['relayhost_txt'] = "Relayhost";
-$wb['relayhost_user_txt'] = "Relayhost User";
-$wb['relayhost_password_txt'] = "Relayhost Passwort";
-$wb['mailbox_size_limit_txt'] = "Mailboxgrössenlimit";
-$wb['message_size_limit_txt'] = "Nachrichtengrössenlimit";
+$wb['getmail_config_dir_txt'] = 'Getmail Config Path';
+$wb['ip_address_txt'] = 'IP Adresse';
+$wb['netmask_txt'] = 'Netzmaske';
+$wb['gateway_txt'] = 'Gateway';
+$wb['hostname_txt'] = 'Hostname';
+$wb['nameservers_txt'] = 'Nameserver';
+$wb['module_txt'] = 'Server Module';
+$wb['maildir_path_txt'] = 'Maildir Pfad';
+$wb['homedir_path_txt'] = 'Homedir Pfad';
+$wb['mailuser_uid_txt'] = 'Mailuser UID';
+$wb['mailuser_gid_txt'] = 'Mailuser GID';
+$wb['mailuser_name_txt'] = 'Mailuser Name';
+$wb['mailuser_group_txt'] = 'Mailuser Gruppe';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Relayhost Passwort';
+$wb['mailbox_size_limit_txt'] = 'Mailboxgrössenlimit';
+$wb['message_size_limit_txt'] = 'Nachrichtengrössenlimit';
 ?>
-

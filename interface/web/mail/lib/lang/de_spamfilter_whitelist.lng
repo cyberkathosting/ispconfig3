@@ -1,10 +1,9 @@
 <?php
-$wb['server_id_txt'] = "Server";
-$wb['wb_txt'] = "wb";
-$wb['rid_txt'] = "Benutzer";
-$wb['email_txt'] = "E-Mail";
-$wb['priority_txt'] = "Priorität";
-$wb['active_txt'] = "Aktiv";
-$wb['limit_spamfilter_wblist_txt'] = "Die maximale Anzahl an White- oder Blacklist Einträgen wurde erreicht.";
+$wb['server_id_txt'] = 'Server';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Benutzer';
+$wb['email_txt'] = 'E-Mail';
+$wb['priority_txt'] = 'Priorität';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_spamfilter_wblist_txt'] = 'Die maximale Anzahl an White- oder Blacklist Einträgen wurde erreicht.';
 ?>
-

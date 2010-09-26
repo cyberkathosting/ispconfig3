@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'uživateľ';
 $wb['email_txt'] = 'Email na čiernej listine';
 $wb['add_new_record_txt'] = 'Pridať záznam na čiernu listinu';
 ?>
-

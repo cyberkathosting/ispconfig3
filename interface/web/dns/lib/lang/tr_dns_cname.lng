@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Hostname boş.';
 $wb['name_error_regex'] = 'Hostname yanlış formatta.';
 $wb['data_error_empty'] = 'Hostname hedefi boş';
 $wb['data_error_regex'] = 'Hostname hedefi yanlış formatta';
+$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>

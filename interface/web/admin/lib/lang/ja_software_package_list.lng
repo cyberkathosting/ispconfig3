@@ -4,4 +4,6 @@ $wb['installed_txt'] = '状態';
 $wb['package_title_txt'] = 'パッケージ';
 $wb['package_description_txt'] = '説明';
 $wb['action_txt'] = '操作';
+$wb['toolsarea_head_txt'] = 'Packages';
+$wb['repoupdate_txt'] = 'Update package list';
 ?>

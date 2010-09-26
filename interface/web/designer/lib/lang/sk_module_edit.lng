@@ -10,4 +10,3 @@ $wb['cancel_txt'] = 'Zrušiť';
 $wb['header_txt'] = 'Modul vlastnosti';
 $wb['description_txt'] = '<b> Popis </ b> <br> <br> <b> Modulename: </ b> Názov modulu adresár. Len čísla, znaky a podtržítko povolené. <br> <b> Moduletitle: </ b> sa objaví v (hornej) navigáciu. <br> <b> Šablóna súboru: </ b> Šablóna súboru modulu. V súčasnej dobe sú k dispozícii';
 ?>
-

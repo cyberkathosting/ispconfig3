@@ -5,4 +5,3 @@ $wb['autoresponder_txt'] = 'Automatická odpove?';
 $wb['add_new_record_txt'] = 'Pridať novú schránku';
 $wb['name_txt'] = 'Realname';
 ?>
-

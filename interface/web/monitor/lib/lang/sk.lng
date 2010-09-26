@@ -62,7 +62,6 @@ $wb['monitor_logs_ispccron_txt'] = 'ISPConfig Cron - Log';
 $wb['monitor_logs_freshclam_txt'] = 'Freshclam - Log';
 $wb['monitor_logs_clamav_txt'] = 'Clamav - Log';
 $wb['monitor_logs_ispc_txt'] = 'ISPConfig - Log';
-$wb['monitor_nomdadm_txt'] = 'mdadm is not installed or your Server has no supported RAID';
 $wb['monitor_norkhunter_txt'] = 'RKHunter is not installed, so there is no log data';
 $wb['monitor_serverstate_server_txt'] = 'Server';
 $wb['monitor_serverstate_state_txt'] = 'State';
@@ -135,5 +134,12 @@ $wb['monitor_title_raidstate_txt'] = 'RAID-State';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Your distribution is not supported for this monitoring';
 $wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
+$wb['monitor_nosupportedraid1_txt'] = 'At the moment, we support mdadm or mpt-status for monitoring the RAID.<br>We cant find any of them at your server.<br><br>This means we can not support your RAID yet.';
+$wb['monitor_serverstate_beancounterok_txt'] = 'The beancounter is ok';
+$wb['monitor_serverstate_beancounterinfo_txt'] = 'There are vew failure in the beancounter';
+$wb['monitor_serverstate_beancounterwarning_txt'] = 'There are some failure in the beancounter';
+$wb['monitor_serverstate_beancountercritical_txt'] = 'There are many failure in the beancounter';
+$wb['monitor_serverstate_beancountererror_txt'] = 'There are too much failure in the beancounter';
+$wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
+$wb['monitor_beancounter_nosupport_txt'] = 'This server is not a OpenVz VE and has no beancounter information';
 ?>
-

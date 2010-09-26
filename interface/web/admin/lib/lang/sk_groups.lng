@@ -3,4 +3,3 @@ $wb['description_txt'] = 'Popis';
 $wb['name_txt'] = 'Skupina';
 $wb['name_err'] = 'Skupina musí mať minimálne 1, max 30 znakov.';
 ?>
-

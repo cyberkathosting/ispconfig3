@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Konfigurácia servera';
 $wb['server_name_txt'] = 'Server';
 $wb['server_id_txt'] = 'server_id';
 ?>
-

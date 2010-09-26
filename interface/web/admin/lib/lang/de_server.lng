@@ -11,4 +11,3 @@ $wb['active_txt'] = 'Aktiv';
 $wb['mirror_server_id_txt'] = 'Ist Mirror von Server';
 $wb['- None -'] = '- None -';
 ?>
-

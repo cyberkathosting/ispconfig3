@@ -26,4 +26,3 @@ $wb['groups_txt'] = 'Skupiny';
 $wb['default_group_txt'] = 'Základná Skupina';
 $wb['startmodule_err'] = 'Štart modul nie je v moduloch.';
 ?>
-

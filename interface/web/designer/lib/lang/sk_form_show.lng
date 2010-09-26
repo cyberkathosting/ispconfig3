@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Odstrániť modul a vo všetky podadresáre?';
 $wb['menu_del_txt'] = 'Zmazať z ponuky položky menu?';
 $wb['item_del_txt'] = 'Zmazať položky z menu?';
 ?>
-

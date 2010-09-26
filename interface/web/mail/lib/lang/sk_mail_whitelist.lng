@@ -7,4 +7,3 @@ $wb['source_error_notempty'] = 'Adresa je prázdna.';
 $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Max. počet e-mailových filtrov pre váš účet je dosiahnutý.';
 ?>
-

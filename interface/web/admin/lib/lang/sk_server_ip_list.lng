@@ -4,4 +4,3 @@ $wb['server_id_txt'] = 'Server';
 $wb['ip_address_txt'] = 'IP Adresa';
 $wb['add_new_record_txt'] = 'Pridať novú IP Adresu';
 ?>
-

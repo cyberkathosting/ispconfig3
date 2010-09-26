@@ -6,4 +6,3 @@ $wb['header_txt'] = 'Navi vlastnosti';
 $wb['save_txt'] = 'Uložiť';
 $wb['cancel_txt'] = 'Zrušiť';
 ?>
-

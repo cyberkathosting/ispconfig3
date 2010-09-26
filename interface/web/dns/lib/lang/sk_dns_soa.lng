@@ -24,4 +24,3 @@ $wb['mbox_error_regex'] = 'Email má neplatný formát.';
 $wb['also_notify_txt'] = 'Also Notify';
 $wb['update_acl_txt'] = 'Update ACL';
 ?>
-

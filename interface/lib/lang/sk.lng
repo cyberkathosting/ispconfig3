@@ -31,5 +31,8 @@ $wb['top_menu_sites'] = 'Weby';
 $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Nástroje';
 $wb['top_menu_help'] = 'Pomoc';
+$wb['top_menu_billing'] = 'Billing';
+$wb['top_menu_domain'] = 'Domains';
+$wb['top_menu_dashboard'] = 'Home';
+$wb['latest_news_txt'] = 'Latest news';
 ?>
-

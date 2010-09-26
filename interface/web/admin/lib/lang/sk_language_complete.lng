@@ -5,4 +5,3 @@ $wb['language_select_txt'] = 'Vyber jazyk';
 $wb['btn_save_txt'] = 'Zlúčiť súbory teraz';
 $wb['btn_cancel_txt'] = 'Späť';
 ?>
-

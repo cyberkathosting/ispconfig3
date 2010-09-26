@@ -92,4 +92,5 @@ $wb['limit_client_error_positive'] = 'Asiakkaiden määrän pitää olla nollaa 
 $wb['limit_web_quota_txt'] = 'WWW-levytila';
 $wb['limit_traffic_quota_txt'] = 'Liikenneraja';
 $wb['limit_trafficquota_error_notint'] = 'Liikennerajan pitää olla numeerinen.';
+$wb['limit_dns_slave_zone_txt'] = 'Max. number of secondary DNS zones';
 ?>

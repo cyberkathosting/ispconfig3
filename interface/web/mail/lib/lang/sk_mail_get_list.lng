@@ -7,4 +7,3 @@ $wb['source_username_txt'] = 'Užívateľské meno';
 $wb['destination_txt'] = 'Cieľ';
 $wb['add_new_record_txt'] = 'Pridať nový účet';
 ?>
-

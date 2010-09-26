@@ -1,6 +1,4 @@
 <?php
-$wb['uid_txt'] = 'Web uživateľ';
-$wb['gid_txt'] = 'Skupina';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Adresár';
 $wb['server_id_txt'] = 'Server';
@@ -19,5 +17,6 @@ $wb['uid_error_empty'] = 'GID je prázdna.';
 $wb['directory_error_empty'] = 'Adresár je prázdny.';
 $wb['limit_shell_user_txt'] = 'Maximálny počet shell Užívateľov je dosiahnutý.';
 $wb['parent_domain_id_error_empty'] = 'Žiadna zvolená webstránka.';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>
-

@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
 $wb['name_error_regex'] = 'El nombre de la máquina tiene un registro incorrecto.';
 $wb['data_error_empty'] = 'El nombre de la máquina de destino está vacío.';
 $wb['data_error_regex'] = 'El nombre de la máquina de destino tiene un formato no válido.';
+$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>

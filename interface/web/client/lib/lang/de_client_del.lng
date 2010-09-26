@@ -1,7 +1,6 @@
 <?php
-$wb['confirm_action_txt'] = "Aktion bestätigen";
-$wb['delete_explanation'] = "Diese Aktion wird folgende Anzahl an Datensätzen des Kunden löschen";
-$wb['btn_save_txt'] = "Kunden löschen";
-$wb['btn_cancel_txt'] = "Abbrechen, ohne den Kunden zu löschen";
+$wb['confirm_action_txt'] = 'Aktion bestätigen';
+$wb['delete_explanation'] = 'Diese Aktion wird folgende Anzahl an Datensätzen des Kunden löschen';
+$wb['btn_save_txt'] = 'Kunden löschen';
+$wb['btn_cancel_txt'] = 'Abbrechen, ohne den Kunden zu löschen';
 ?>
-

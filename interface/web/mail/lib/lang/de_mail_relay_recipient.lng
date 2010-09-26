@@ -1,10 +1,9 @@
 <?php
-$wb['server_id_txt'] = "Server";
-$wb['source_txt'] = "Relay Empfänger";
-$wb['recipient_txt'] = "Empfänger";
-$wb['active_txt'] = "Aktiv";
-$wb['source_error_notempty'] = "Adresse ist leer.";
-$wb['type_txt'] = "Typ";
-$wb['limit_mailfilter_txt'] = "Die max. Anzahl an E-Mail-Filtern wurde erreicht.";
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Relay Empfänger';
+$wb['recipient_txt'] = 'Empfänger';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_error_notempty'] = 'Adresse ist leer.';
+$wb['type_txt'] = 'Typ';
+$wb['limit_mailfilter_txt'] = 'Die max. Anzahl an E-Mail-Filtern wurde erreicht.';
 ?>
-

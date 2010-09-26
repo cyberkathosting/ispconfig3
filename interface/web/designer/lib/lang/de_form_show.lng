@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Modul und alle Unterverzeichnisse löschen?';
 $wb['menu_del_txt'] = 'Menü samt Menüeinträgen löschen?';
 $wb['item_del_txt'] = 'Menüeintrag löschen?';
 ?>
-

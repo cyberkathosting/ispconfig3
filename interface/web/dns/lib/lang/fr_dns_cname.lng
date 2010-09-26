@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Lhôte est vide.';
 $wb['name_error_regex'] = 'Lhôte est dun format invalide.';
 $wb['data_error_empty'] = 'Ladresse IP cible est vide.';
 $wb['data_error_regex'] = 'Ladresse IP cible est dun format invalide.';
+$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>

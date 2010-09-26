@@ -5,4 +5,3 @@ $wb['server_id_txt'] = 'Server';
 $wb['loglevel_txt'] = 'Úroveň logovania';
 $wb['message_txt'] = 'Správa';
 ?>
-

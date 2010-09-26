@@ -23,4 +23,3 @@ $wb['database_charset_change_txt'] = 'Databázový charset nemožno meniť';
 $wb['database_name_error_len'] = 'Názov databázy - (db) - príliš dlhý. Max. dĺžka názvu databázy  vrátane prefix je 64 znakov.';
 $wb['database_user_error_len'] = 'Databázové Užívateľské meno - (user) - príliš dlho. Max. dĺžka Databázového usera vrátane prefix je 16 znakov.';
 ?>
-

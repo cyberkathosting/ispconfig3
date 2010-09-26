@@ -12,5 +12,5 @@ $wb['name_error_empty'] = 'Der Hostname ist leer.';
 $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Ziel Hostname leer';
 $wb['data_error_regex'] = 'Ziel Hostname Format ungültig';
+$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>
-

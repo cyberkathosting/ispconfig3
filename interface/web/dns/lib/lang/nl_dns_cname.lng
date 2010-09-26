@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'De hostnaam is leeg.';
 $wb['name_error_regex'] = 'De hostnaam heeft het verkeerde formaat.';
 $wb['data_error_empty'] = 'Doel hostnaam is leeg.';
 $wb['data_error_regex'] = 'Doel hostnaam formaat ongeldig.';
+$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>
