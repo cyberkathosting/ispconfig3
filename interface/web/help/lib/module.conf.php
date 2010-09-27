@@ -56,11 +56,12 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 $sql = "SELECT * FROM help_faq_sections";
 $res = $app->db->queryAllRecords($sql);
 //* all the content sections
-foreach($res as $v)
-{
+if(is_array($res)) {
+	foreach($res as $v) {
         $itemsfaq[] = array( 'title'   => $v['hfs_name'],
                   'target'  => 'content',
                   'link'    => 'help/faq_list.php?hfs_id='.$v['hfs_id']);
+	}
 }
 
 $module['nav'][] = array( 'title' => 'FAQ',
