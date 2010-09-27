@@ -10,7 +10,10 @@ $module['title']     = 'top_menu_help';
 $module['template']  = 'module.tpl.htm';
 
 //* The page that is displayed when the module is loaded. the path must is relative to the web directory
-$module['startpage'] = 'help/index.php';
+if(isset($_GET['go2_faq_sections_list']))
+	$module['startpage'] = 'help/faq_sections_list.php';
+else
+	$module['startpage'] = 'help/index.php';
 
 //* The width of the tab. Normally you should leave this empty and let the browser define the width automatically.
 $module['tab_width'] = '';
@@ -38,6 +41,33 @@ $items[] = array( 'title'   => 'View messages',
 $module['nav'][] = array( 'title' => 'Support',
                           'open'  => 1,
                           'items'	=> $items);
+
+//* the FAQ menu section
+$itemsfaq = array();
+//* admin's tools
+if($_SESSION['s']['user']['typ'] == 'admin') {
+        $itemsfaq[] = array( 'title'   => 'Add a Question & Answer Pair',
+                  'target'  => 'content',
+                  'link'    => 'help/faq_edit.php');
+        $itemsfaq[] = array( 'title'   => 'Manage Sections',
+                  'target'  => 'content',
+                  'link'    => 'help/faq_sections_list.php');
+}
+$sql = "SELECT * FROM help_faq_sections";
+$res = $app->db->queryAllRecords($sql);
+//* all the content sections
+foreach($res as $v)
+{
+        $itemsfaq[] = array( 'title'   => $v['hfs_name'],
+                  'target'  => 'content',
+                  'link'    => 'help/faq_list.php?hfs_id='.$v['hfs_id']);
+}
+
+$module['nav'][] = array( 'title' => 'FAQ',
+                          'open'  => 1,
+                          'items'       => $itemsfaq);
+//* -- end of the FAQ menu section
+
 
 
 if($_SESSION['s']['user']['typ'] == 'admin') {

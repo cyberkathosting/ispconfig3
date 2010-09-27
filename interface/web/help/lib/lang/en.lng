@@ -6,5 +6,10 @@ $wb['View messages'] = 'View messages';
 $wb['Support'] = 'Support';
 $wb['About ISPConfig'] = 'About ISPConfig';
 $wb['Version'] = 'Version';
+$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
+$wb['FAQ Sections'] = 'FAQ Sections';
+$wb['Manage Sections'] = 'Manage Sections';
+$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
+
 
 ?>

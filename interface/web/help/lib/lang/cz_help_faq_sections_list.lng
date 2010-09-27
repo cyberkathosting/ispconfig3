@@ -1,0 +1,9 @@
+<?php
+$wb['faq_section_name_txt'] = "Název sekce";
+$wb['faq_delete_txt'] = "Smazat";
+$wb['faq_edit_txt'] = "Upravit";
+$wb['faq_sections_txt'] = "Sekce";
+$wb['faq_faq_sections_txt'] = "Sekce FAQ";
+$wb['faq_new_section_txt'] = "Přidat novou sekci";
+?>
+

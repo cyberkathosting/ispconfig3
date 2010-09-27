@@ -6,4 +6,8 @@ $wb['View messages'] = 'Zobrazit zprávu';
 $wb['Support'] = 'Podpora';
 $wb['About ISPConfig'] = 'O ISPConfigu';
 $wb['Version'] = 'Verze';
+$wb['Frequently Asked Questions'] = 'Často kladené dotazy';
+$wb['FAQ Sections'] = 'Sekce FAQ';
+$wb['Manage Sections'] = 'Spravovat sekce';
+$wb['Add a Question & Answer Pair'] = 'Přidat otázku a odpověď';
 ?>
