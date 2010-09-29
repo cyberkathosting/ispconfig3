@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Web přenos';
+$wb['list_head_txt'] = 'Přenesená data';
 $wb['domain_txt'] = 'Doména';
 $wb['this_month_txt'] = 'Tento měsíc';
 $wb['last_month_txt'] = 'Minulý měsíc';

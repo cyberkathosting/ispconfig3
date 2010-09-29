@@ -1,9 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Spamfiltrová politika';
 $wb['policy_name_txt'] = 'Název';
-$wb['virus_lover_txt'] = 'Virus lover';
-$wb['spam_lover_txt'] = 'Spam lover';
-$wb['banned_files_lover_txt'] = 'Zabanovaný soubor lover';
-$wb['bad_header_lover_txt'] = 'Špatná hlavička lover';
+$wb['virus_lover_txt'] = 'Viry';
+$wb['spam_lover_txt'] = 'Spam';
+$wb['banned_files_lover_txt'] = 'Zabanované soubory';
+$wb['bad_header_lover_txt'] = 'Špatné hlavičky';
 $wb['add_new_record_txt'] = 'Přidat záznam politiky';
 ?>

@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox';
+$wb['list_head_txt'] = 'E-mailové schránky';
 $wb['email_txt'] = 'Email';
-$wb['autoresponder_txt'] = 'Automatický odpovídač';
-$wb['add_new_record_txt'] = 'Přidat mailbox';
+$wb['autoresponder_txt'] = 'Automatická odpověď';
+$wb['add_new_record_txt'] = 'Přidat e-mailovou schránku';
 $wb['name_txt'] = 'Skutečný název';
 ?>

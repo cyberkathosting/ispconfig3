@@ -4,6 +4,6 @@ $wb['source_txt'] = 'Adresa bílé listiny';
 $wb['recipient_txt'] = 'Adresát';
 $wb['active_txt'] = 'Aktivní';
 $wb['source_error_notempty'] = 'Adresa je prázdná.';
-$wb['type_txt'] = 'Type';
+$wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Dosažen maximální počet email filtrů pro Váš účet.';
 ?>

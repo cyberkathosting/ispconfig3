@@ -30,37 +30,37 @@
       <div class="ctrlHolder">
       	<label for="origin">{tmpl_var name='origin_txt'}</label>
         <input name="origin" id="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255" type="text" class="textInput" />
-				<p class="formHint">e.g. domain.tld.</p>
+				<p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
 			</div>
       <div class="ctrlHolder">
       	<label for="ns">{tmpl_var name='ns_txt'}</label>
         <input name="ns" id="ns" value="{tmpl_var name='ns'}" size="30" maxlength="255" type="text" class="textInput" />
-				<p class="formHint">e.g. ns1.domain.tld.</p>
+				<p class="formHint">{tmpl_var name='eg_ns1_domain_tld'}</p>
 			</div>
       <div class="ctrlHolder">
       	<label for="mbox">{tmpl_var name='mbox_txt'}</label>
         <input name="mbox" id="mbox" value="{tmpl_var name='mbox'}" size="30" maxlength="255" type="text" class="textInput" />
-				<p class="formHint"> e.g. webmaster.domain.tld.</p>
+				<p class="formHint">{tmpl_var name='eg_webmaster_domain_tld'}</p>
 			</div>
       <div class="ctrlHolder">
       	<label for="refresh">{tmpl_var name='refresh_txt'}</label>
-        <input name="refresh" id="refresh" value="{tmpl_var name='refresh'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+        <input name="refresh" id="refresh" value="{tmpl_var name='refresh'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
 			</div>
       <div class="ctrlHolder">
       	<label for="retry">{tmpl_var name='retry_txt'}</label>
-        <input name="retry" id="retry" value="{tmpl_var name='retry'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+        <input name="retry" id="retry" value="{tmpl_var name='retry'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
 			</div>
       <div class="ctrlHolder">
       	<label for="expire">{tmpl_var name='expire_txt'}</label>
-        <input name="expire" id="expire" value="{tmpl_var name='expire'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+        <input name="expire" id="expire" value="{tmpl_var name='expire'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
 			</div>
       <div class="ctrlHolder">
       	<label for="minimum">{tmpl_var name='minimum_txt'}</label>
-        <input name="minimum" id="minimum" value="{tmpl_var name='minimum'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+        <input name="minimum" id="minimum" value="{tmpl_var name='minimum'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
 			</div>
       <div class="ctrlHolder">
       	<label for="ttl">{tmpl_var name='ttl_txt'}</label>
-        <input name="ttl" id="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;Seconds
+        <input name="ttl" id="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
 			</div>
       <div class="ctrlHolder">
       	<label for="xfer">{tmpl_var name='xfer_txt'}</label>

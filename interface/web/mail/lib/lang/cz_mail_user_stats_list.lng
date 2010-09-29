@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Mail přenos';
-$wb['email_txt'] = 'Email';
+$wb['list_head_txt'] = 'Přenesená data';
+$wb['email_txt'] = 'E-mail';
 $wb['this_month_txt'] = 'Tento měsíc';
 $wb['last_month_txt'] = 'Minulý měsíc';
 $wb['this_year_txt'] = 'Tento rok';

@@ -2,7 +2,7 @@
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Adresář';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Web stránka';
+$wb['parent_domain_id_txt'] = 'Webová stránka';
 $wb['username_txt'] = 'Uživatelské jméno';
 $wb['password_txt'] = 'Heslo';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';
@@ -16,7 +16,7 @@ $wb['quota_size_error_empty'] = 'Kvóta je prázdná.';
 $wb['uid_error_empty'] = 'GID je prázdné.';
 $wb['directory_error_empty'] = 'Adresář je prázdný.';
 $wb['limit_shell_user_txt'] = 'Dosažen max. počet shell uživatelů.';
-$wb['parent_domain_id_error_empty'] = 'Nevybrána žádná web stránka.';
-$wb['puser_txt'] = 'Web Username';
-$wb['pgroup_txt'] = 'Web Group';
+$wb['parent_domain_id_error_empty'] = 'Nevybrána žádná webová stránka.';
+$wb['puser_txt'] = 'Web: Uživatelské jméno';
+$wb['pgroup_txt'] = 'Web: Skupina';
 ?>

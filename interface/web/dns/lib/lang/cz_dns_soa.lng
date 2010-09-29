@@ -23,4 +23,8 @@ $wb['mbox_error_empty'] = 'Email je prázdný.';
 $wb['mbox_error_regex'] = 'Email má chybný formát.';
 $wb['also_notify_txt'] = 'Také upozornit';
 $wb['update_acl_txt'] = 'Aktualizovat ACL';
+$wb['seconds_txt'] = 'vteřin';
+$wb['eg_domain_tld'] = 'např. domena.cz';
+$wb['eg_ns1_domain_tld'] = 'např. ns1.domena.cz';
+$wb['eg_webmaster_domain_tld'] = 'např. webmaster@domena.cz';
 ?>

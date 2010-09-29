@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'DNS Secondary Zones';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Sekundární DNS zóny';
+$wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
+$wb['origin_txt'] = 'Zóna';
 $wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Add new secondary DNS Zone';
+$wb['add_new_record_txt'] = 'Přidat sekundární DNS zónu';
+$wb['eg_domain_tld'] = 'např. domena.cz';
 ?>

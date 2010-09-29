@@ -1,6 +1,6 @@
 <?php
-$wb['Support Message'] = 'Zráva pro podporu';
-$wb['Message'] = 'Zráva';
+$wb['Support Message'] = 'Zpráva pro podporu';
+$wb['Message'] = 'Zpráva';
 $wb['Send message'] = 'Odeslat zprávu';
 $wb['View messages'] = 'Zobrazit zprávu';
 $wb['Support'] = 'Podpora';
