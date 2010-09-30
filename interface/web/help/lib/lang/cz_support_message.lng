@@ -4,4 +4,5 @@ $wb['sender_id_txt'] = 'ID Odesílatele';
 $wb['subject_txt'] = 'Předmět';
 $wb['message_txt'] = 'Zpráva';
 $wb['tstamp_txt'] = 'Časové razítko';
+$wb['reply_txt'] = 'Odpovědět';
 ?>
