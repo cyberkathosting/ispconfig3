@@ -49,26 +49,26 @@ $form['auth_preset']['perm_other'] = '';
 // The form definition of the first tab. The name of the tab is called 'message'. We refer
 // to this name in the $form['tab_default'] setting above.
 $form['tabs']['message'] = array(
-    'title' 	=> 'FAQ', // Title of the Tab
-    'width' 	=> 100,       // Tab width
-    'template' 	=> 'templates/faq_sections_edit.htm', // Template file name
-    'fields' 	=> array(
+	'title' 	=> 'FAQ', // Title of the Tab
+	'width' 	=> 100,       // Tab width
+	'template' 	=> 'templates/faq_sections_edit.htm', // Template file name
+	'fields' 	=> array(
 
-        //*** BEGIN Datatable columns **********************************
+	//*** BEGIN Datatable columns **********************************
 
-        'hfs_name' => array(
-            'datatype'   => 'VARCHAR',
-            'formtype'   => 'TEXT',
-            'validators' => array( 0 => array( 'type'  => 'NOTEMPTY',
-                                               'errmsg'=> 'subject_is_empty'
-                                             ),
-                                  ),
-            'default'     => '',
-            'value'      => '',
-            'width'      => '30',
-            'maxlength'  => '255'
-        ),
-        //*** END Datatable columns **********************************
+	'hfs_name' 	=> array(
+		'datatype'	=> 'VARCHAR',
+		'formtype'	=> 'TEXT',
+		'validators'=> array( 0 => array( 	'type'	=> 'NOTEMPTY',
+											'errmsg'=> 'subject_is_empty'
+										),
+							),
+		'default'	=> '',
+		'value'		=> '',
+		'width'		=> '30',
+		'maxlength'	=> '255'
+		),
+		//*** END Datatable columns *********************************
 	)
 );
 ?>

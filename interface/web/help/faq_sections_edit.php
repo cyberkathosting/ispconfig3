@@ -9,8 +9,8 @@ require_once('../../lib/app.inc.php');
 
 // Check the  module permissions and redirect if not allowed.
 if(!stristr($_SESSION['s']['user']['modules'],'help')) {
-    header('Location: ../index.php');
-    die;
+	header('Location: ../index.php');
+	die;
 }
 
 // Load the templating and form classes
@@ -20,7 +20,7 @@ $app->load('tform_actions');
 // Create a class page_action that extends the tform_actions base class
 class page_action extends tform_actions {
 
-    //* Customisations for the page actions will be defined here
+	//* Customisations for the page actions will be defined here
 
 }
 

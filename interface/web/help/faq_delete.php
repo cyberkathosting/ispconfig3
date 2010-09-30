@@ -10,8 +10,8 @@ require_once('../../lib/app.inc.php');
 
 // Check module permissions
 if(!stristr($_SESSION['s']['user']['modules'],'help')) {
-    header('Location: ../index.php');
-    die;
+	header('Location: ../index.php');
+	die;
 }
 
 // Load the form

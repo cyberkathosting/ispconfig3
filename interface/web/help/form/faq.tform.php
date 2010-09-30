@@ -49,56 +49,57 @@ $form['auth_preset']['perm_other'] = 'r';
 // The form definition of the first tab. The name of the tab is called 'message'. We refer
 // to this name in the $form['tab_default'] setting above.
 $form['tabs']['message'] = array(
-    'title' 	=> 'FAQ', // Title of the Tab
-    'width' 	=> 100,       // Tab width
-    'template' 	=> 'templates/faq_edit.htm', // Template file name
-    'fields' 	=> array(
+	'title'		=> 'FAQ', // Title of the Tab
+	'width' 	=> 100,       // Tab width
+	'template' 	=> 'templates/faq_edit.htm', // Template file name
+	'fields' 	=> array(
 
         //*** BEGIN Datatable columns **********************************
 
-                'hf_section' => array (
-                        'datatype'      => 'INTEGER',
-                        'formtype'      => 'SELECT',
-                        'default'       => '',
-                        'datasource'    => array (      'type'                  => 'SQL',
-                                                                                'querystring'   => 'SELECT hfs_id,hfs_name FROM help_faq_sections',
-                                                                                'keyfield'              => 'hfs_id',
-                                                                                'valuefield'    => 'hfs_name'
-                                                                         ),
-                        'validators'    => array (      0 => array (    'type'  => 'ISINT',
-                                                                                                                'errmsg'=> 'recipient_id_is_not_integer'),
-                                                                        ),
-                        'value'         => ($_SESSION['s']['user']['typ'] != 'admin')?array(1 => 'Administrator'):''
-                ),
+	'hf_section' => array (
+		'datatype'      => 'INTEGER',
+		'formtype'      => 'SELECT',
+		'default'       => '',
+		'datasource'    => array (	'type'		=> 'SQL',
+						'querystring'	=> 'SELECT hfs_id,hfs_name FROM help_faq_sections',
+						'keyfield'	=> 'hfs_id',
+						'valuefield'    => 'hfs_name'
+						),
+		'validators'	=> array (	0 => array (
+							'type'  => 'ISINT',
+							'errmsg'=> 'recipient_id_is_not_integer'),
+						),
+		'value'		=> ($_SESSION['s']['user']['typ'] != 'admin')?array(1 => 'Administrator'):''
+		),
 
-        'hf_question' => array(
-            'datatype'   => 'VARCHAR',
-            'formtype'   => 'TEXT',
-            'validators' => array( 0 => array( 'type'  => 'NOTEMPTY',
-                                               'errmsg'=> 'subject_is_empty'
-                                             ),
-                                  ),
-            'default'     => '',
-            'value'      => '',
-            'width'      => '30',
-            'maxlength'  => '255'
-        ),
+	'hf_question' => array(
+		'datatype'	=> 'VARCHAR',
+		'formtype'	=> 'TEXT',
+		'validators'	=> array( 0 => array(	'type'  => 'NOTEMPTY',
+							'errmsg'=> 'subject_is_empty'
+					),
+			),
+		'default'     => '',
+		'value'      => '',
+		'width'      => '30',
+		'maxlength'  => '255'
+	),
 
-        'hf_answer' => array(
-            'datatype'	 => 'TEXT',
-            'formtype'	 => 'TEXTAREA',
-            'validators' => array( 0 => array( 'type'	=> 'NOTEMPTY',
-                                                'errmsg'=> 'message_is_empty'
-                                             ),
-                                 ),
-            'default'    => '',
-            'value'      => '',
-            'cols'       => '30',
-            'rows'       => '10',
-            'maxlength'  => '255'
-        ),
+	'hf_answer' => array(
+		'datatype'	=> 'TEXT',
+		'formtype'	=> 'TEXTAREA',
+		'validators' => array( 0 => array( 	'type'		=> 'NOTEMPTY',
+							'errmsg'	=> 'message_is_empty'
+					),
+				),
+		'default'	=> '',
+		'value'		=> '',
+		'cols'		=> '30',
+		'rows'		=> '10',
+		'maxlength'	=> '255'
+	),
 
-        //*** END Datatable columns **********************************
+	//*** END Datatable columns **********************************
 	)
 );
 ?>

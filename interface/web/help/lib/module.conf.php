@@ -46,27 +46,27 @@ $module['nav'][] = array( 'title' => 'Support',
 $itemsfaq = array();
 //* admin's tools
 if($_SESSION['s']['user']['typ'] == 'admin') {
-        $itemsfaq[] = array( 'title'   => 'Add a Question & Answer Pair',
-                  'target'  => 'content',
-                  'link'    => 'help/faq_edit.php');
-        $itemsfaq[] = array( 'title'   => 'Manage Sections',
-                  'target'  => 'content',
-                  'link'    => 'help/faq_sections_list.php');
+	$itemsfaq[] = array( 	'title'		=> 'Add a Question & Answer Pair',
+							'target'	=> 'content',
+							'link'		=> 'help/faq_edit.php');
+	$itemsfaq[] = array( 	'title'		=> 'Manage Sections',
+							'target'	=> 'content',
+							'link'		=> 'help/faq_sections_list.php');
 }
 $sql = "SELECT * FROM help_faq_sections";
 $res = $app->db->queryAllRecords($sql);
 //* all the content sections
 if(is_array($res)) {
 	foreach($res as $v) {
-        $itemsfaq[] = array( 'title'   => $v['hfs_name'],
-                  'target'  => 'content',
-                  'link'    => 'help/faq_list.php?hfs_id='.$v['hfs_id']);
+		$itemsfaq[] = array( 	'title'		=> $v['hfs_name'],
+								'target'	=> 'content',
+								'link'		=> 'help/faq_list.php?hfs_id='.$v['hfs_id']);
 	}
 }
 
-$module['nav'][] = array( 'title' => 'FAQ',
-                          'open'  => 1,
-                          'items'       => $itemsfaq);
+$module['nav'][] = array( 	'title'	=> 'FAQ',
+							'open'	=> 1,
+							'items'	=> $itemsfaq);
 //* -- end of the FAQ menu section
 
 
