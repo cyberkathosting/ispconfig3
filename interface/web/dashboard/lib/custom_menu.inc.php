@@ -40,7 +40,7 @@ if($misc_config['dashboard_atom_url'] != '') {
 
 	if(!isset($_SESSION['s']['rss_news'])) {
 		
-		$app->simplepie->set_feed_url('http://www.ispconfig.org/atom');
+		$app->simplepie->set_feed_url($misc_config['dashboard_atom_url']);
 		$app->simplepie->enable_cache(false);
 		$app->simplepie->init();
 		$items = $app->simplepie->get_items();
