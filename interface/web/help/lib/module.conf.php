@@ -46,21 +46,24 @@ $module['nav'][] = array( 'title' => 'Support',
 $itemsfaq = array();
 //* admin's tools
 if($_SESSION['s']['user']['typ'] == 'admin') {
-	$itemsfaq[] = array( 	'title'		=> 'Add a Question & Answer Pair',
+	$itemsfaq[] = array( 	'title'		=> 'Manage Questions',
 							'target'	=> 'content',
-							'link'		=> 'help/faq_edit.php');
+							'link'		=> 'help/faq_manage_questions_list.php');
 	$itemsfaq[] = array( 	'title'		=> 'Manage Sections',
 							'target'	=> 'content',
 							'link'		=> 'help/faq_sections_list.php');
 }
-$sql = "SELECT * FROM help_faq_sections";
-$res = $app->db->queryAllRecords($sql);
-//* all the content sections
-if(is_array($res)) {
-	foreach($res as $v) {
-		$itemsfaq[] = array( 	'title'		=> $v['hfs_name'],
-								'target'	=> 'content',
-								'link'		=> 'help/faq_list.php?hfs_id='.$v['hfs_id']);
+else
+{ //* the user
+	$sql = "SELECT * FROM help_faq_sections";
+	$res = $app->db->queryAllRecords($sql);
+	//* all the content sections
+	if(is_array($res)) {
+		foreach($res as $v) {
+			$itemsfaq[] = array( 	'title'		=> $v['hfs_name'],
+									'target'	=> 'content',
+									'link'		=> 'help/faq_list.php?hfs_id='.$v['hfs_id']);
+		}
 	}
 }
 

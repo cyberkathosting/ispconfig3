@@ -1,7 +1,7 @@
 <?php
 
 // From and List definition files
-$list_def_file = 'list/faq_list.php';
+$list_def_file = 'list/faq_manage_questions_list.php';
 $tform_def_file = 'form/faq.tform.php';
 
 // Include the base libraries

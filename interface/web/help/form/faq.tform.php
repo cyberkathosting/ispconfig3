@@ -27,7 +27,7 @@ $form['db_history']		= 'no';
 $form['tab_default']	= 'message';
 
 // The name of the default list file of this form
-$form['list_default']	= 'faq_list.php';
+$form['list_default']	= 'faq_manage_questions_list.php';
 
 // Use the internal authentication system for this table. This should
 // be set to 'yes' in most cases, otherwise 'no'.

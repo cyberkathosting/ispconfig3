@@ -16,7 +16,7 @@ $liste['table_idx'] = 'hf_id';
 $liste['records_per_page']= 100;
 
 // Script File of the list
-$liste['file'] = 'faq_list.php';
+$liste['file'] = 'faq_manage_questions_list.php';
 
 // Script file of the edit form
 $liste['edit_file'] = 'faq_edit.php';
