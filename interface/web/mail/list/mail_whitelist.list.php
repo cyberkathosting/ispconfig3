@@ -88,7 +88,7 @@ $liste["item"][] = array(	'field'		=> "type",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client'));
+							'value'		=> array('recipient' => 'recipient_txt', 'sender' => 'sender_txt', 'client' => 'client_txt'));
 
 
 ?>

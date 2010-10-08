@@ -37,4 +37,6 @@ $wb['domain_error_unique'] = 'Webová stránka nebo sub / alias doména s tímto
 $wb['domain_error_regex'] = 'Neplatné doménové jméno.';
 $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Neplatná cesta přesměrování. Platné přesměrování je například: /test/ nebo http://www.domain.tld/test/';
+$wb['no_redirect_txt'] = 'Žádné přesměrování';
+$wb['no_flag_txt'] = 'Žádný příznak';
 ?>

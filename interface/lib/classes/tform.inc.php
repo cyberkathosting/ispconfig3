@@ -379,6 +379,8 @@ class tform {
                                                 if(is_array($field['value'])) {
                                                         foreach($field['value'] as $k => $v) {
                                                                 $selected = ($k == $val)?' SELECTED':'';
+																if(!empty($this->wordbook[$v]))
+																	$v = $this->wordbook[$v];
                                                                 $out .= "<option value='$k'$selected>$v</option>\r\n";
                                                         }
                                                 }
@@ -492,6 +494,8 @@ class tform {
                                                 $out = '';
                                                 foreach($field['value'] as $k => $v) {
                                                     $selected = ($k == $field["default"])?' SELECTED':'';
+													if(!empty($this->wordbook[$v]))
+                                                                    $v = $this->wordbook[$v];
                                                     $out .= "<option value='$k'$selected>$v</option>\r\n";
                                                 }
                                         }

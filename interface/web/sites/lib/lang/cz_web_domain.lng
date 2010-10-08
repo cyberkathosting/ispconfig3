@@ -64,4 +64,11 @@ $wb['ruby_txt'] = 'Ruby';
 $wb['stats_user_txt'] = 'Webové statistiky: uživatelské jméno';
 $wb['stats_type_txt'] = 'Webové statistiky: program';
 $wb['custom_php_ini_txt'] = 'Vlastní nastavení php.ini';
+$wb['none_txt'] = 'Žádná';
+$wb['disabled_txt'] = 'Zakázáno';
+$wb['no_redirect_txt'] = 'Žádné přesměrování';
+$wb['no_flag_txt'] = 'Žádný příznak';
+$wb['save_certificate_txt'] = 'Uložit certifikát';
+$wb['create_certificate_txt'] = 'Vytvořit certifikát';
+$wb['delete_certificate_txt'] = 'Smazat certifikát';
 ?>

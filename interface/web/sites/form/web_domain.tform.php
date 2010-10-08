@@ -178,7 +178,7 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'y',
-			'value'		=> array('none' => 'none', 'www' => 'www.', '*' => '*.')
+			'value'		=> array('none' => 'none_txt', 'www' => 'www.', '*' => '*.')
 		),
 		'ssl' => array (
 			'datatype'	=> 'VARCHAR',
@@ -191,7 +191,7 @@ $form["tabs"]['domain'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> 'fast-cgi',
 			'valuelimit' => 'client:web_php_options',
-			'value'		=> array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
+			'value'		=> array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
 		),
 		'ruby' => array (
 			'datatype'	=> 'VARCHAR',
@@ -225,7 +225,7 @@ $form["tabs"]['redirect'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('' => 'No redirect', 'no' => 'No flag', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L')
+			'value'		=> array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L')
 		),
 		'redirect_path' => array (
 			'datatype'	=> 'VARCHAR',
@@ -350,7 +350,7 @@ $form["tabs"]['ssl'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('' => 'None', 'save' => 'Save Certificate', 'create' => 'Create Certificate','del' => 'Delete Certificate')
+			'value'		=> array('' => 'none_txt', 'save' => 'save_certificate_txt', 'create' => 'create_certificate_txt','del' => 'delete_certificate_txt')
 		),
 	##################################
 	# ENDE Datatable fields

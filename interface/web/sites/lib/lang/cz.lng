@@ -23,4 +23,5 @@ $wb['Webdav-User'] = 'Webdav User';
 $wb['Webdav'] = 'Webdav';
 $wb['Statistics'] = 'Statistiky';
 $wb['Website quota (Harddisk)'] = 'Disková kvóta';
+$wb['Web Domain'] = 'Webová doména';
 ?>

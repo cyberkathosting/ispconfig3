@@ -40,4 +40,5 @@ $wb['autoresponder_active'] = 'Povolit automatický odpovídač';
 $wb['cc_txt'] = 'Přeposílat na';
 $wb['cc_error_isemail'] = 'Adresa uvedená v poli "Přeposílat na" je neplatná';
 $wb['domain_txt'] = 'Doména';
+$wb['now_txt']='Nyní';
 ?>

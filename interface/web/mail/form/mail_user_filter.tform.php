@@ -81,13 +81,14 @@ $form["tabs"]['filter'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('Subject' => 'Subject','From'=>'From','To'=>'To')
+			'value'		=> array('Subject' => 'subject_txt','From'=>'from_txt','To'=>'to_txt')
 		),
 		'op' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('contains'=>'Contains','is' => 'Is','begins'=>'Begins with','ends'=>'Ends with')
+			#'value'		=> array('contains'=>'contains_txt','is' => 'Is','begins'=>'Begins with','ends'=>'Ends with')
+			'value'		=> array('contains'=>'contains_txt','is' => 'is_txt','begins'=>'begins_with_txt','ends'=>'ends_with_txt')
 		),
 		'searchterm' => array (
 			'datatype'	=> 'VARCHAR',
@@ -104,7 +105,7 @@ $form["tabs"]['filter'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('move' => 'Move to','delete'=>'Delete')
+			'value'		=> array('move' => 'move_to_txt','delete'=>'delete_txt')
 		),
 		'target' => array (
 			'datatype'	=> 'VARCHAR',

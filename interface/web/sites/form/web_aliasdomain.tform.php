@@ -106,7 +106,7 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'y',
-			'value'		=> array('' => 'No redirect', 'no' => 'No flag', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L')
+			'value'		=> array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L')
 		),
 		'redirect_path' => array (
 			'datatype'	=> 'VARCHAR',
@@ -124,7 +124,7 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'y',
-			'value'		=> array('none' => 'none', 'www' => 'www.', '*' => '*.')
+			'value'		=> array('none' => 'none_txt', 'www' => 'www.', '*' => '*.')
 		),
 		'active' => array (
 			'datatype'	=> 'VARCHAR',

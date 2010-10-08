@@ -4,7 +4,16 @@ $wb['action_txt'] = 'Akce';
 $wb['target_txt'] = 'Složka';
 $wb['active_txt'] = 'Aktivní';
 $wb['rulename_error_empty'] = 'Název je prázdný.';
-$wb['searchterm_is_empty'] = 'Vyhledávací žádek je prázdný.';
+$wb['searchterm_is_empty'] = 'Vyhledávací řádek je prázdný.';
 $wb['source_txt'] = 'Zdroj';
 $wb['target_error_regex'] = 'Cíl může obsahovat jen tyto znaky: a-z, 0-9, -, ., _, a {mezeru}';
+$wb['subject_txt'] = 'Předmět';
+$wb['from_txt'] = 'Odesílatel';
+$wb['to_txt'] = 'Adresát';
+$wb['contains_txt'] = 'Obsahuje';
+$wb['is_txt'] = 'Je';
+$wb['begins_with_txt'] = 'Začíná na';
+$wb['ends_with_txt'] = 'Končí na';
+$wb['move_to_txt'] = 'Přesunout do';
+$wb['delete_txt'] = 'Smazat';
 ?>
