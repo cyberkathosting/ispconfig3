@@ -30,7 +30,7 @@ install_web="no"
 install_ftp="no"
 install_dns="no"
 spinner_pid=0
-version="0.6"
+version="0.7"
 
 source_path=`dirname $0`
 source ${source_path}/utils.sh
@@ -40,7 +40,7 @@ function package_has_use_flag()
         local package=$1
         local useflag=$2
 
-        res=`equery -C -N uses $package | grep -o -E "^[ +-]+$useflag" | grep "+"`
+        res=`equery -C -N uses $package | grep -o -P "^ [-+]{1} \+ $useflag"`
         [ -n "$res" ]
 }
 
@@ -64,13 +64,13 @@ function is_package_installed()
         then
                 for useflag in $2
                 do
-                        uselist="$uselist +$2"
+                        uselist="$uselist +$useflag"
 
                         # If the use flag isn't currently set or wasn't enabled when installed we'll need to re-install it.
                         package_has_use_flag "$1" "$useflag" || usechange="yes"
                 done
 
-                flagedit $1 $uselist
+                flagedit $1 $uselist --nowarn
         fi
 
         [ $installed -eq 0 ] && [ "$usechange" == "no" ]
@@ -120,7 +120,7 @@ function install_packages()
 	
 	if [ -n "$package_list" ]
 	then
-		echo -e "The following packages are going to be emerged:"
+		echo -e "The following packages are going to be emerged (not including dependencies):"
 		echo -e "$package_list"
 		echo -e ""
 		countdown "00:00:10" Continue in
@@ -154,16 +154,37 @@ function install_rcscripts()
 {
 	if [ -n "$1" ]
 	then
-		printf "\e[1;37m%-40s\e[0m" "Adding packages to default runlevel"
-		start_spinner
-
+		
 		for rc in $1
 		do
-			rc-update add $rc default &> /dev/null
+			res=`rc-status default | grep "$1" | grep -v grep`
+			if [ -z "$res" ]
+			then
+			  printf "\e[1;37m%-40s\e[0m" "Adding $rc to default runlevel"
+			  start_spinner
+			  
+			  rc-update add $rc default &> /dev/null
+			  
+			  stop_spinner
+			  echo -e "\e[1;37m[ \e[0m\e[1;32mdone\e[0m\e[1;37m ]\e[0m"
+			fi
 		done
-		
-		stop_spinner
-		echo -e "\e[1;37m[ \e[0m\e[1;32mdone\e[0m\e[1;37m ]\e[0m"
+	fi
+}
+
+function enable_apache_module()
+{
+	local apache_conffile='/etc/conf.d/apache2'
+	
+	if [ -n "$1" ]
+	then
+		source $apache_conffile
+			
+		if [ $(expr "$APACHE2_OPTS" : ".*$1.*") == "0" ]
+		then
+			APACHE2_OPTS="${APACHE2_OPTS} -D $1"
+			sed -i -e "s:APACHE2_OPTS=\".*\":APACHE2_OPTS=\"${APACHE2_OPTS}\":" $apache_conffile
+		fi
 	fi
 }
 
@@ -173,30 +194,76 @@ function meta_mail()
 	local add_maildrop=""
 	local remove_ssmtp="no"
 	local rc_scripts=""
+	local use_courier="no"
+	local use_dovecot="no"
+	local useflags_postfix="mysql"
+	local installed_postfix="no"
+	local installed_amavisd="no"
+	
+	valid_input "Do you want to use dovecot or courier?" "dovecot/courier"
+
+	if [ "$Return_Val" = "dovecot" ]
+	then
+		use_dovecot="yes"
+	else
+	    use_courier="yes"
+	fi
 	
 	echo -e ""
 	printf "\e[1;37m%-40s\e[0m" "Building list of required mail packages"
 	
 	start_spinner
 	
-	is_package_installed "net-libs/courier-authlib" "mysql" || { package_list="$package_list net-libs/courier-authlib"; rc_scripts="$rc_scripts courier-authlib"; }
+	if [ "$use_courier" == "yes" ]
+	then
+		is_package_installed "net-libs/courier-authlib" "mysql" || { package_list="$package_list net-libs/courier-authlib"; rc_scripts="$rc_scripts courier-authlib"; }
 	
-	is_package_installed "net-mail/courier-imap" "fam" || { package_list="$package_list net-mail/courier-imap"; rc_scripts="$rc_scripts courier-imapd courier-imapd-ssl courier-pop3d courier-pop3d-ssl"; }
+		is_package_installed "net-mail/courier-imap" "fam" || { package_list="$package_list net-mail/courier-imap"; rc_scripts="$rc_scripts courier-imapd courier-imapd-ssl courier-pop3d courier-pop3d-ssl"; }
+		
+		is_package_installed "mail-filter/maildrop" || add_maildrop="yes" # Avoid file collision warnings from emerge
+		
+		is_package_installed "dev-libs/cyrus-sasl" "mysql" || { package_list="$package_list dev-libs/cyrus-sasl"; rc_scripts="$rc_scripts saslauthd"; }
+		
+		useflags_postfix="$useflags_postfix sasl"
+	fi
 	
-	is_package_installed "mail-filter/maildrop" || add_maildrop="yes" # Avoid file collision warnings from emerge
+	if [ "$use_dovecot" == "yes" ]
+	then
+		is_package_installed "net-mail/dovecot" "sieve managesieve maildir" || { package_list="$package_list net-mail/dovecot"; rc_scripts="$rc_scripts dovecot"; }
+		
+		useflags_postfix="$useflags_postfix dovecot-sasl"
+	fi
 	
-	if ! is_package_installed "mail-mta/postfix" "mysql sasl"
+	if ! is_package_installed "mail-mta/postfix" "$useflags_postfix"
 	then
 		is_package_installed "mail-mta/ssmtp" && local remove_ssmtp="yes"; # Ssmtp blocks postfix and is installed by default.
 		package_list="$package_list mail-mta/postfix"
 		rc_scripts="$rc_scripts postfix"
-	fi
+		
+		package_is_emerged "mail-mta/postfix" # USE flag difference will result in re-installing. If we are installing for the first time do some things later.
+		installed=$?
 	
-	is_package_installed "dev-libs/cyrus-sasl" "mysql" || { package_list="$package_list dev-libs/cyrus-sasl"; rc_scripts="$rc_scripts saslauthd"; }
+		if [ $installed -eq 1 ]
+		then
+			installed_postfix="yes"
+		fi
+	fi	
 	
 	is_package_installed "net-mail/getmail" || package_list="$package_list net-mail/getmail"
 	
-	is_package_installed "mail-filter/amavisd-new" "mysql razor spamassassin" || { package_list="$package_list mail-filter/amavisd-new"; rc_scripts="$rc_scripts amavisd"; }
+	if ! is_package_installed "mail-filter/amavisd-new" "mysql razor spamassassin"
+	then
+		package_list="$package_list mail-filter/amavisd-new"
+		rc_scripts="$rc_scripts amavisd"
+		
+		package_is_emerged "mail-filter/amavisd-new" # USE flag difference will result in re-installing. If we are installing for the first time do some things later.
+		installed=$?
+	
+		if [ $installed -eq 1 ]
+		then
+			installed_amavisd="yes"
+		fi
+	fi
 	
 	is_package_installed "app-antivirus/clamav" || { package_list="$package_list app-antivirus/clamav"; rc_scripts="$rc_scripts clamd"; }
 	
@@ -219,6 +286,21 @@ function meta_mail()
 		exec_command "COLLISION_IGNORE=\"/usr\" emerge mail-filter/maildrop" "Installing maildrop"
 	fi
 	
+	if [ "$installed_postfix" == "yes" ] && [ ! -d '/etc/mail/aliases.db' ]
+	then
+		postmap /etc/mail/aliases 2> /dev/null
+	fi
+	
+	if [ "$installed_amavisd" == "yes" ]
+	then
+		if [ -e '/usr/share/spamassassin/sa-update-pubkey.txt' ]
+		then
+			sa-update --import /usr/share/spamassassin/sa-update-pubkey.txt
+		fi
+		
+		sa-update
+	fi
+	
 	install_rcscripts "$rc_scripts"
 }
 
@@ -229,15 +311,83 @@ function meta_web()
 	local linguas_add="no"
 	local webmail_add="no"
 	local rc_scripts=""
+	local installed_fcgid="no"
+	
+	if ! is_package_installed "dev-vcs/subversion"
+    then
+		flagedit dev-vcs/subversion -apache2 --nowarn
+    fi
+	
+	is_package_installed "app-portage/layman" "subversion" || exec_command "emerge app-portage/layman" "Installing layman";
+
+	# Check if sunrise overlay has been enabled
+	if [ -z "$(layman -l | grep sunrise)" ]
+	then
+		layman -q -S > /dev/null
+		exec_command "layman -a sunrise" "Adding/syncing package overlay"
+	fi
+
+	if [ -z "$(grep 'var/lib/layman' /etc/make.conf)" ]
+	then
+		echo "source /var/lib/layman/make.conf" >> /etc/make.conf
+	fi
 	
 	echo -e ""
 	printf "\e[1;37m%-40s\e[0m" "Building list of required web packages"
 	
 	start_spinner
 	
-	is_package_installed "www-servers/apache" "ssl suexec doc" || { package_list="$package_list www-servers/apache"; rc_scripts="$rc_scripts apache2"; }
+	# Check profile and ensure the apache modules ISPConfig needs are enabled.
+	source /etc/make.conf
 	
-	is_package_installed "www-apache/mod_fcgid" || package_list="$package_list www-apache/mod_fcgid"
+	if [ -z "${APACHE2_MODULES+xxx}" ] # Not set, fetch defaults
+	then
+		source /usr/portage/profiles/base/make.defaults
+		echo "APACHE2_MODULES=\"$APACHE2_MODULES\"" >> /etc/make.conf
+		
+		source /etc/make.conf
+	fi
+	
+	local added_module='no'
+	for module in rewrite dav dav_fs auth_digest
+	do
+		if [ $(expr "$APACHE2_MODULES" : ".*$module.*") == "0" ]
+		then
+			APACHE2_MODULES="${APACHE2_MODULES} $module"
+			added_module='yes'
+		fi
+	done
+	
+	if [ "$added_module" == "yes" ]
+	then
+		sed -i -e "s:APACHE2_MODULES=\".*\":APACHE2_MODULES=\"${APACHE2_MODULES}\":" /etc/make.conf
+	fi
+	
+	local added_worker='no'
+	if [ -z "${APACHE2_MPMS+xxx}" ] # Not set, fetch defaults
+	then
+		echo 'APACHE2_MPMS="prefork"' >> /etc/make.conf
+		added_worker='yes'
+	else
+		if [ $(expr "$APACHE2_MPMS" : '.*prefork.*') == "0" ]
+		then
+			APACHE2_MPMS="${APACHE2_MPMS} prefork"
+			sed -i -e "s:APACHE2_MPMS=\".*\":APACHE2_MPMS=\"${APACHE2_MPMS}\":" /etc/make.conf
+			added_worker='yes'
+		fi
+	fi
+	
+	if is_package_installed "www-servers/apache" "ssl suexec doc" || "$added_module" == "yes" || "$added_worker" == "yes"
+	then
+		package_list="$package_list www-servers/apache"
+		rc_scripts="$rc_scripts apache2"
+	fi
+	
+	if ! is_package_installed "www-apache/mod_fcgid"
+	then
+		installed_fcgid="yes"
+		package_list="$package_list www-apache/mod_fcgid"
+	fi
 	
 	if ! is_package_installed "app-admin/webalizer" "vhosts apache2"
 	then
@@ -256,6 +406,8 @@ function meta_web()
 		package_list="$package_list app-admin/webalizer"
 	fi
 	
+	is_package_installed "www-misc/awstats" "vhosts apache2" || package_list="$package_list www-misc/awstats"
+	
 	if ! is_package_installed "app-admin/vlogger"
 	then
 		# Check if package is masked
@@ -269,7 +421,7 @@ function meta_web()
 	
 	is_package_installed "app-crypt/mcrypt" || package_list="$package_list app-crypt/mcrypt"
 	
-	is_package_installed "dev-lang/php" "apache2 gd mysql mysqli imap cli cgi pcre xml zlib crypt ctype session unicode mhash ftp" || package_list="$package_list dev-lang/php"
+	is_package_installed "dev-lang/php" "apache2 gd mysql mysqli imap cli cgi pcre xml zlib crypt ctype session unicode mhash ftp soap" || package_list="$package_list dev-lang/php"
 	
 	if ! is_package_installed "www-apache/mod_suphp"
 	then
@@ -282,7 +434,7 @@ function meta_web()
 		package_list="$package_list www-apache/mod_suphp"
 	fi
 	
-	is_package_installed "dev-db/phpmyadmin" || package_list="$package_list dev-db/phpmyadmin"
+	is_package_installed "www-apache/mod_ruby" || package_list="$package_list www-apache/mod_ruby"
 	
 	is_package_installed "media-gfx/imagemagick" "jpeg png tiff" || package_list="$package_list media-gfx/imagemagick"
 	
@@ -313,16 +465,16 @@ function meta_web()
 		package_list="$package_list app-admin/jailkit"
 	fi
 	
-	if [ "$install_mail" == "yes" ] && ! is_package_installed "mail-client/squirrelmail" "vhosts"
-	then
-		if ! is_package_installed "app-admin/webapp-config"
-		then
-			package_list="$package_list app-admin/webapp-config"
-		fi
+	#if [ "$install_mail" == "yes" ] && ! is_package_installed "mail-client/squirrelmail" "vhosts"
+	#then
+	#	if ! is_package_installed "app-admin/webapp-config"
+	#	then
+	#		package_list="$package_list app-admin/webapp-config"
+	#	fi
 		
-		webmail_add="yes"
-		package_list="$package_list mail-client/squirrelmail"
-	fi
+	#	webmail_add="yes"
+	#	package_list="$package_list mail-client/squirrelmail"
+	#fi
 	
 	stop_spinner
 	echo -e "\e[1;37m[ \e[0m\e[1;32mdone\e[0m\e[1;37m ]\e[0m"
@@ -350,10 +502,15 @@ function meta_web()
 		echo "/usr/sbin/jk_chrootsh" >> /etc/shells
 	fi
 	
-	if [ "$webmail_add" == "yes" ]
-	then
-		exec_command "webapp-config -I -h localhost -u apache -d /webmail squirrelmail $(ls -r /usr/share/webapps/squirrelmail/ | awk '{print $1}')" "Adding squirrelmail to localhost"
-	fi
+	for config_module in SUEXEC FCGID AUTH_DIGEST DAV DAV_FS RUBY
+	do
+		enable_apache_module "$config_module"
+	done
+	
+	#if [ "$webmail_add" == "yes" ]
+	#then
+	#	exec_command "webapp-config -I -h localhost -u apache -d /webmail squirrelmail $(ls -r /usr/share/webapps/squirrelmail/ | awk '{print $1}')" "Adding squirrelmail to localhost"
+	#fi
 	
 	install_rcscripts "$rc_scripts"
 }
@@ -386,7 +543,7 @@ function meta_ftp()
 	stop_spinner
 	echo -e "\e[1;37m[ \e[0m\e[1;32mdone\e[0m\e[1;37m ]\e[0m"
 	
-	if [ $(expr match "$package_list" 'sys-fs/quota') -ne 0 ]
+	if [ $(expr "$package_list" : '.*sys-fs/quota.*') -ne 0 ]
 	then
 		echo -e ""
 		echo -e "\e[1;33mNotice:\e[0m Don't forget to edit your fstab file and add the usrquota & grpquota options to your data partition."
@@ -402,18 +559,39 @@ function meta_ftp()
 function meta_dns()
 {
 	local package_list=""
+	local use_bind="no"
+	local use_pdns="no"
+	
+	valid_input "Do you want to use bind or powerdns?" "bind/powerdns"
+
+	if [ "$Return_Val" = "bind" ]
+	then
+		use_bind="yes"
+	else
+	    use_pdns="yes"
+	fi
 	
 	echo -e ""
-	echo -e "\e[1;37mBuilding list of required dns packages\e[0m\n"
+	printf "\e[1;37m%-40s\e[0m" "Building list of required dns packages"
 	
 	start_spinner
 	
-	is_package_installed "net-dns/pdns" "mysql" || package_list="$package_list net-dns/pdns"
+	if [ "$use_bind" == "yes" ]
+	then
+		is_package_installed "net-dns/bind" "mysql dlz" || { package_list="$package_list net-dns/bind"; rc_scripts="$rc_scripts named"; }
+	fi
+	
+	if [ "$use_pdns" == "yes" ]
+	then
+		is_package_installed "net-dns/pdns" "mysql" || package_list="$package_list net-dns/pdns";
+	fi
 	
 	stop_spinner
 	echo -e "\e[1;37m[ \e[0m\e[1;32mdone\e[0m\e[1;37m ]\e[0m"
 	
 	install_packages "$package_list" "Installing dns packages"
+	
+	install_rcscripts "$rc_scripts"
 }
 
 function meta_all()
@@ -441,6 +619,24 @@ clear
 echo -e "\e[1;33mGentoo Linux ISPConfig setup script v$version\e[0m"
 echo -e "\e[1;32m========================================\e[0m"
 echo -e ""
+
+if [ -e "/etc/gentoo-release" ]
+then
+	BASELAYOUT_VERSION=$(cat /etc/gentoo-release | sed "s/[^0-9.]//g")
+	package_is_emerged "sys-apps/baselayout-$BASELAYOUT_VERSION"
+	installed=$?
+	
+	if [ "$installed" != "0" ]
+	then
+		echo -e ""
+		echo "This script is exclusively for use with a Gentoo Linux system."
+		exit 10
+	fi
+else
+	echo -e ""
+	echo "This script is exclusively for use with a Gentoo Linux system."
+	exit 10
+fi
 
 sleep 0.5
 
@@ -521,17 +717,30 @@ fi
 
 if ! is_package_installed "dev-db/mysql" "extraengine big-tables"
 then
-	package_is_emerged "$1"
+	package_is_emerged "dev-db/mysql"
 	installed=$?
 	
 	exec_command "emerge dev-db/mysql" "Installing MySql"
 	
 	if [ $installed -eq 1 ]
 	then
-		exec_command "mysql_install_db"	"Set-up mysql grant tables"
-		exec_command "/etc/init.d/mysql start" "Starting MySql"
-		exec_command "rc-update add mysql default" "Add MySql to default runlevel"
+		echo -e ""
+		echo -e "\e[1;33mNotice:\e[0m Don't forget to set the mysql root password with: /usr/bin/mysqladmin -u root password 'new-password'."
+		echo -e ""
 	fi
+fi
+
+if [ ! -d '/var/lib/mysql/mysql' ]
+then
+	exec_command "mysql_install_db"	"Set-up mysql grant tables"
+fi
+
+install_rcscripts "mysql"
+
+mysql_started=`eselect rc show | grep mysql | grep started | grep -v grep`
+if [ -z "$mysql_started" ]
+then
+	exec_command "/etc/init.d/mysql start"	"Starting MySQL service"
 fi
 
 which vim &> /dev/null
@@ -543,19 +752,6 @@ fi
 is_package_installed "sys-devel/binutils" || exec_command "emerge sys-devel/binutils" "Installing binutils";
 is_package_installed "app-forensics/rkhunter" || exec_command "emerge app-forensics/rkhunter" "Installing rkhunter";
 is_package_installed "net-analyzer/fail2ban" || exec_command "emerge net-analyzer/fail2ban" "Installing fail2ban";
-is_package_installed "app-portage/layman" "subversion" || exec_command "emerge app-portage/layman" "Installing layman";
-
-# Check if sunrise overlay has been enabled
-if [ -z "$(layman -l | grep sunrise)" ]
-then
-	layman -q -S > /dev/null
-	exec_command "layman -a sunrise" "Adding/syncing package overlay"
-fi
-
-if [ -z "$(grep 'local/portage/layman' /etc/make.conf)" ]
-then
-	echo "source /usr/local/portage/layman/make.conf" >> /etc/make.conf
-fi
 
 echo -e ""
 
@@ -580,6 +776,9 @@ else
 	fi
 	
 	echo -e ""
+	echo -e "\e[1;33mNotice:\e[0m If this server is going to run the ISPConfig interface, say 'yes' to web related packages."
+	echo -e ""
+	
 	valid_input "Install web related packages?"
 	install_web=$Return_Val
 	if [ "$install_web" = "yes" ]
