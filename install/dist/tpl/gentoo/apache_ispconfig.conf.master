@@ -13,4 +13,9 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
     Deny from all
 </Directory>
 
-
+# allow path to awstats and alias for awstats icons
+<Directory /usr/share/awstats>
+        Order allow,deny
+        Allow from all
+</Directory>
+Alias /awstats/icon "/usr/share/awstats/htdocs/icon"
