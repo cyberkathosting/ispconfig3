@@ -1,0 +1,96 @@
+protocols = imap imaps pop3 pop3s
+disable_plaintext_auth = no
+log_timestamp = "%Y-%m-%d %H:%M:%S "
+mail_privileged_group = mail
+
+ssl_cert_file = /etc/ssl/dovecot/server.crt
+ssl_key_file = /etc/ssl/dovecot/server.key
+
+##
+## IMAP specific settings
+##
+
+protocol imap {
+  login_executable = /usr/libexec/dovecot/imap-login
+  mail_executable = /usr/libexec/dovecot/imap
+  mail_plugins = quota imap_quota 
+  mail_plugin_dir = /usr/lib/dovecot/imap
+}
+  
+##
+## POP3 specific settings
+##
+
+protocol pop3 {
+  login_executable = /usr/libexec/dovecot/pop3-login
+  mail_executable = /usr/libexec/dovecot/pop3
+  pop3_uidl_format = %08Xu%08Xv
+  mail_plugins = quota
+  mail_plugin_dir = /usr/lib/dovecot/pop3 
+}
+
+##
+## LDA specific settings
+##
+
+protocol lda {
+  postmaster_address = postmaster@example.com
+  mail_plugin_dir = /usr/lib/dovecot/lda
+  auth_socket_path = /var/run/dovecot/auth-master
+  mail_plugins = sieve quota
+}
+
+## Plugin settings
+plugin {
+  quota = maildir
+  sieve=/var/vmail/%d/%n/.sieve
+}
+
+##
+## Authentication processes
+##
+
+auth default {
+  mechanisms = plain login
+  passdb pam {
+    args = "*"
+  }
+
+  # SQL database <doc/wiki/AuthDatabase.SQL.txt>
+  passdb sql {
+    # Path for SQL configuration file
+    args = /etc/dovecot/dovecot-sql.conf
+  }
+
+# new quota support:
+  userdb prefetch {
+  }
+
+  userdb sql {
+    args = /etc/dovecot/dovecot-sql.conf
+  }
+
+
+  ## dovecot-lda specific settings
+  ##
+  socket listen {
+    master {
+      path = /var/run/dovecot/auth-master
+      mode = 0600
+      user = vmail # User running Dovecot LDA
+      #group = vmail # Or alternatively mode 0660 + LDA user in this group
+    }
+  client {
+          path = /var/spool/postfix/private/auth
+          mode = 0660
+          user = postfix
+          group = postfix
+        }
+  }
+
+}
+
+mail_location = maildir:/var/vmail/%d/%n/Maildir
+
+mail_uid = 5000
+mail_gid = 5000

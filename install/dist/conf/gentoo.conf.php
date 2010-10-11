@@ -88,8 +88,8 @@ $conf['apache']['vhost_conf_dir'] = $conf['apache']['config_dir'] . '/vhosts.d';
 $conf['apache']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_dir']; 
 $conf['apache']['vhost_default'] = '00_default_vhost.conf';
 $conf['apache']['vhost_port'] = '8080';
-$conf['apache']['php_ini_path_apache'] = '/etc/php5/apache2/php.ini';
-$conf['apache']['php_ini_path_cgi'] = '/etc/php5/cgi/php.ini';
+$conf['apache']['php_ini_path_apache'] = '/etc/php/apache2-php5/php.ini';
+$conf['apache']['php_ini_path_cgi'] = '/etc/php/cgi-php5/php.ini';
 
 //* Website base settings
 $conf['web']['website_basedir'] = '/var/www';
@@ -102,25 +102,15 @@ $conf['web']['apps_vhost_port'] = '8081';
 $conf['web']['apps_vhost_servername'] = '';
 $conf['web']['apps_vhost_user'] = 'ispapps';
 $conf['web']['apps_vhost_group'] = 'ispapps';
+
+//* Awstats settings
+$conf['awstats']['conf_dir'] = '/etc/awstats';
+$conf['awstats']['data_dir'] = '/var/lib/awstats';
+$conf['awstats']['pl'] = '/usr/bin/awstats.pl';
+$conf['awstats']['buildstaticpages_pl'] = '/usr/bin/awstats_buildstaticpages.pl';
 
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php/cgi-php5';
-//TODO do fastcgi setup
-$conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
-//* Website base settings
-$conf['web']['website_basedir'] = '/var/www';
-$conf['web']['website_path'] = '/var/www/clients/client[client_id]/web[website_id]';
-$conf['web']['website_symlinks'] = '/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/';
-
-//* Apps base settings
-$conf['web']['apps_vhost_ip'] = '_default_';
-$conf['web']['apps_vhost_port'] = '8081';
-$conf['web']['apps_vhost_servername'] = '';
-$conf['web']['apps_vhost_user'] = 'ispapps';
-$conf['web']['apps_vhost_group'] = 'ispapps';
-
-//* Fastcgi
-$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php5/cgi/';
 $conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
 
 //* Postfix
@@ -191,7 +181,7 @@ $conf['powerdns']['init_script'] = 'pdns.local';
 //* BIND DNS Server
 $conf['bind']['installed'] = false; // will be detected automatically during installation
 $conf['bind']['bind_user'] = 'root';
-$conf['bind']['bind_group'] = 'bind';
+$conf['bind']['bind_group'] = 'named';
 $conf['bind']['bind_zonefiles_dir'] = '/etc/bind';
 $conf['bind']['named_conf_path'] = '/etc/bind/named.conf';
 $conf['bind']['named_conf_local_path'] = '/etc/bind/named.conf.local';

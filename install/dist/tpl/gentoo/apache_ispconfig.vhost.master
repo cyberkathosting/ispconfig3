@@ -1,0 +1,67 @@
+
+######################################################
+# This virtual host contains the configuration
+# for the ISPConfig controlpanel
+######################################################
+
+{vhost_port_listen} Listen {vhost_port}
+NameVirtualHost *:{vhost_port}
+
+<VirtualHost _default_:{vhost_port}>
+  ServerAdmin webmaster@localhost
+  
+  <IfModule mod_fcgid.c>
+    DocumentRoot /var/www/ispconfig/
+    SuexecUserGroup ispconfig ispconfig
+    <Directory /var/www/ispconfig/>
+      Options Indexes FollowSymLinks MultiViews +ExecCGI
+      AllowOverride AuthConfig Indexes Limit Options FileInfo
+      <FilesMatch "\.ph(p[3-5]?|tml)$">
+           SetHandler fcgid-script
+      </FilesMatch>
+      FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
+      Order allow,deny
+      Allow from all
+    </Directory>
+    DirectoryIndex index.php
+  </IfModule>
+  
+  <IfModule mod_php5.c>
+    DocumentRoot /usr/local/ispconfig/interface/web/
+    AddType application/x-httpd-php .php
+    <Directory /usr/local/ispconfig/interface/web>
+      Options FollowSymLinks
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+	  php_value magic_quotes_gpc        0
+    </Directory>
+  </IfModule>
+  
+  # ErrorLog /var/log/apache2/error.log
+  # CustomLog /var/log/apache2/access.log combined
+  ServerSignature Off
+  
+  <IfModule mod_security2.c>
+    SecRuleEngine Off
+  </IfModule>
+
+  # SSL Configuration
+  {ssl_comment}SSLEngine On
+  {ssl_comment}SSLCertificateFile /usr/local/ispconfig/interface/ssl/ispserver.crt
+  {ssl_comment}SSLCertificateKeyFile /usr/local/ispconfig/interface/ssl/ispserver.key
+
+</VirtualHost>
+
+<Directory /var/www/php-cgi-scripts>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+<Directory /var/www/php-fcgi-scripts>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+

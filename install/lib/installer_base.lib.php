@@ -115,7 +115,7 @@ class installer_base {
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
-		if(is_installed('couriertcpd')) $conf['courier']['installed'] = true;
+		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
 		if(is_installed('saslsauthd')) $conf['saslauthd']['installed'] = true;
 		if(is_installed('amavisd-new')) $conf['amavis']['installed'] = true;
@@ -221,6 +221,12 @@ class installer_base {
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
 		$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
 		$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
+		
+		if (array_key_exists('awstats', $conf)) {
+			foreach ($conf['awstats'] as $aw_sett => $aw_value) {
+				$tpl_ini_array['web']['awstats_'.$aw_sett] = $aw_value;
+			}
+		}
 
 		$server_ini_content = array_to_ini($tpl_ini_array);
 		$server_ini_content = mysql_real_escape_string($server_ini_content);
