@@ -408,7 +408,7 @@ function meta_web()
 	
 	is_package_installed "www-misc/awstats" "vhosts apache2" || package_list="$package_list www-misc/awstats"
 	
-	if ! is_package_installed "app-admin/vlogger"
+	if ! is_package_installed "app-admin/vlogger" "dbi"
 	then
 		# Check if package is masked
 		if [ -n "$(equery -C -N list -I -o -e app-admin/vlogger | grep app-admin/vlogger | awk '{print $2}' | grep '^\[M')" ]
@@ -445,6 +445,10 @@ function meta_web()
 	is_package_installed "dev-php5/pecl-imagick" || package_list="$package_list dev-php5/pecl-imagick"
 	
 	is_package_installed "sys-auth/pam_mysql" || package_list="$package_list sys-auth/pam_mysql"
+	
+	is_package_installed "app-admin/sudo" || package_list="$package_list app-admin/sudo"
+	
+	is_package_installed "app-arch/zip" || package_list="$package_list app-arch/zip"
 	
 	if ! is_package_installed "app-admin/jailkit"
 	then
