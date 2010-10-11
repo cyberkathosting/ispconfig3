@@ -214,6 +214,9 @@ class page_action extends tform_actions {
 		// send a welcome email to create the mailbox
 //		mail($this->dataRecord["email"],$app->tform->wordbook["welcome_mail_subject"],$app->tform->wordbook["welcome_mail_message"]);
 		
+		/*
+		// the conversion to iso-8859-1 causes compatibility problems, therefore the transition to utf-8
+
 		// tries to detect current charset, and encode subject-header and body from it to ISO-8859-1.
 		$fromCharset      = mb_detect_encoding($app->tform->lng("welcome_mail_subject"));
 		$iconvPreferences = array("input-charset" => $fromCharset,
@@ -232,6 +235,22 @@ class page_action extends tform_actions {
 		$mailSubject      = iconv_mime_encode("trimoff", $app->tform->lng("welcome_mail_subject"), $iconvPreferences);
 		$mailSubject      = str_replace("trimoff: ", "", $mailSubject);
 		$mailBody         = iconv ($fromCharset, "ISO-8859-1", $app->tform->lng("welcome_mail_message"));
+
+		mail($mailTarget, $mailSubject, $mailBody, $mailHeaders);
+		
+		*/
+
+		$welcomeFromName  = $app->tform->lng("welcome_mail_fromname_txt");
+		$welcomeFromEmail = $app->tform->lng("welcome_mail_fromemail_txt");
+		$mailHeaders      = "MIME-Version: 1.0" . "\n";
+		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+		$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\n";
+		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
+		$mailTarget       = $this->dataRecord["email"];
+
+		$mailSubject = "=?utf-8?Q?" . imap_8bit($app->tform->lng("welcome_mail_subject")) . "?=";
+		$mailBody = $app->tform->lng("welcome_mail_message");
 
 		mail($mailTarget, $mailSubject, $mailBody, $mailHeaders);
 		
