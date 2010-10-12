@@ -242,6 +242,12 @@ class page_action extends tform_actions {
 
 		$welcomeFromName  = $app->tform->lng("welcome_mail_fromname_txt");
 		$welcomeFromEmail = $app->tform->lng("welcome_mail_fromemail_txt");
+		
+		$app->uses('getconf');
+		$global_config = $app->getconf->get_global_config('mail');
+		if(!empty($global_config['admin_mail']))$welcomeFromEmail = $global_config['admin_mail'];
+		if(!empty($global_config['admin_name']))$welcomeFromName = $global_config['admin_name'];
+
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
 		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
 		$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";

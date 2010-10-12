@@ -180,6 +180,22 @@ $form["tabs"]['mail'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'admin_mail' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+		'admin_name' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
