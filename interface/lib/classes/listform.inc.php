@@ -51,12 +51,14 @@ class listform {
         $this->module = $module;
 		
 		//* Fill datasources
-		foreach($this->listDef['item'] as $key => $field) {
-			if(@is_array($field['datasource'])) {
-                $this->listDef['item'][$key]['value'] = $this->getDatasourceData($field);
-            }
+        if(@is_array($this->listDef['item'])) {
+		    foreach($this->listDef['item'] as $key => $field) {
+			    if(@is_array($field['datasource'])) {
+                    $this->listDef['item'][$key]['value'] = $this->getDatasourceData($field);
+                }
+		    }
 		}
-		
+        
 		//* Set local Language File
 		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$this->listDef['name'].'_list.lng';
 		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$this->listDef['name'].'_list.lng';
@@ -136,51 +138,53 @@ class listform {
 		}
 
         //* store retrieval query
-        foreach($this->listDef['item'] as $i) {
-            $field = $i['field'];
+        if(@is_array($this->listDef['item'])) { 
+            foreach($this->listDef['item'] as $i) {
+                $field = $i['field'];
 
-            //* The search string has been changed
-            if(isset($_REQUEST[$search_prefix.$field]) && isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
-                    $this->searchChanged = 1;
-					
-					//* Jump back to page 1 of the list when search has changed.
-					$_SESSION['search'][$list_name]['page'] = 0;
-            }
+                //* The search string has been changed
+                if(isset($_REQUEST[$search_prefix.$field]) && isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_REQUEST[$search_prefix.$field] != $_SESSION['search'][$list_name][$search_prefix.$field]){
+                        $this->searchChanged = 1;
+					    
+					    //* Jump back to page 1 of the list when search has changed.
+					    $_SESSION['search'][$list_name]['page'] = 0;
+                }
 
-            //* Store field in session
-            if(isset($_REQUEST[$search_prefix.$field])){
-                $_SESSION['search'][$list_name][$search_prefix.$field] = $_REQUEST[$search_prefix.$field];
-            }
+                //* Store field in session
+                if(isset($_REQUEST[$search_prefix.$field])){
+                    $_SESSION['search'][$list_name][$search_prefix.$field] = $_REQUEST[$search_prefix.$field];
+                }
 
-            if(isset($i['formtype']) && $i['formtype'] == 'SELECT'){
-                if(is_array($i['value'])) {
-                    $out = '<option value=""></option>';
-                    foreach($i['value'] as $k => $v) {
-                        // TODO: this could be more elegant
-                        $selected = (isset($_SESSION['search'][$list_name][$search_prefix.$field]) 
-                                        && $k == $_SESSION['search'][$list_name][$search_prefix.$field] 
-                                        && $_SESSION['search'][$list_name][$search_prefix.$field] != '')
-                                        ? ' SELECTED' : '';
-                        $out .= "<option value='$k'$selected>$v</option>\r\n";
+                if(isset($i['formtype']) && $i['formtype'] == 'SELECT'){
+                    if(is_array($i['value'])) {
+                        $out = '<option value=""></option>';
+                        foreach($i['value'] as $k => $v) {
+                            // TODO: this could be more elegant
+                            $selected = (isset($_SESSION['search'][$list_name][$search_prefix.$field]) 
+                                            && $k == $_SESSION['search'][$list_name][$search_prefix.$field] 
+                                            && $_SESSION['search'][$list_name][$search_prefix.$field] != '')
+                                            ? ' SELECTED' : '';
+                            $out .= "<option value='$k'$selected>$v</option>\r\n";
+                        }
+                    }
+                        $this->searchValues[$search_prefix.$field] = $out;
+                } else {
+                    if(isset($_SESSION['search'][$list_name][$search_prefix.$field])){
+                        $this->searchValues[$search_prefix.$field] = htmlspecialchars($_SESSION['search'][$list_name][$search_prefix.$field]);
                     }
                 }
-                    $this->searchValues[$search_prefix.$field] = $out;
-            } else {
-                if(isset($_SESSION['search'][$list_name][$search_prefix.$field])){
-                    $this->searchValues[$search_prefix.$field] = htmlspecialchars($_SESSION['search'][$list_name][$search_prefix.$field]);
+            }
+        }
+        //* Store variables in object | $this->searchValues = $_SESSION["search"][$list_name];
+        if(@is_array($this->listDef['item'])) { 
+            foreach($this->listDef['item'] as $i) {
+                $field = $i['field'];
+                // if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
+		        if(isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_SESSION['search'][$list_name][$search_prefix.$field] != ''){
+                    $sql_where .= " $field ".$i['op']." '".$i['prefix'].$_SESSION['search'][$list_name][$search_prefix.$field].$i['suffix']."' and";
                 }
             }
         }
-
-        //* Store variables in object | $this->searchValues = $_SESSION["search"][$list_name];
-        foreach($this->listDef['item'] as $i) {
-            $field = $i['field'];
-            // if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
-		    if(isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_SESSION['search'][$list_name][$search_prefix.$field] != ''){
-                $sql_where .= " $field ".$i['op']." '".$i['prefix'].$_SESSION['search'][$list_name][$search_prefix.$field].$i['suffix']."' and";
-            }
-        }
-
         return ( $sql_where != '' ) ? $sql_where = substr($sql_where,0,-3) : '1';
     }
 
