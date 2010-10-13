@@ -19,6 +19,6 @@ $wb["use_domain_module_txt"] = 'Use the domain-module to add new domains';
 $wb["use_domain_module_hint"] = 'If you use this module, your customers can only select one of the domains the admin creates for them. They cannot free edit the domain-field.You have to re-login after changing this value, to make the changes visible.';
 $wb["new_domain_txt"] = 'HTML to create a new domain';
 $wb["webftp_url_txt"] = 'WebFTP URL';
-$wb['admin_mail_txt'] = 'Administrator's e-mail';
-$wb['admin_name_txt'] = 'Administrator's name';
+$wb['admin_mail_txt'] = 'Administrator\'s e-mail';
+$wb['admin_name_txt'] = 'Administrator\'s name';
 ?>
