@@ -7,4 +7,13 @@ $wb['rulename_error_empty'] = 'Nome está em branco.';
 $wb['searchterm_is_empty'] = 'Termo de busca em branco.';
 $wb['source_txt'] = 'Origem';
 $wb['target_error_regex'] = 'O alvo não pode conter os caracteres: a-z, 0-9, -, ., _, e {espaço}';
+$wb['subject_txt'] = 'Assunto';
+$wb['from_txt'] = 'De';
+$wb['to_txt'] = 'Para';
+$wb['contains_txt'] = 'Contém';
+$wb['is_txt'] = 'é';
+$wb['begins_with_txt'] = 'Começa com:';
+$wb['ends_with_txt'] = 'Termina com:';
+$wb['move_to_txt'] = 'Mover para';
+$wb['delete_txt'] = 'Remover';
 ?>

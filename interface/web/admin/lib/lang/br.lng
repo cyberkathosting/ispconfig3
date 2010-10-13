@@ -39,5 +39,5 @@ $wb['Merge'] = 'Mesclar';
 $wb['Remote Users'] = 'Usuários Remotos';
 $wb['Remote Actions'] = 'Ações Remotas';
 $wb['Do OS-Update'] = 'Faça uma Atualização-de-SO';
-$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['Do ISPConfig-Update'] = 'Faça a Atualização do IspConfig';
 ?>

@@ -34,9 +34,11 @@ $wb['autoresponder_start_date_isfuture'] = 'A data de ínicio não pode estar no
 $wb['autoresponder_end_date_txt'] = 'Termino:';
 $wb['autoresponder_end_date_isgreater'] = 'A data de início deve ser menor que a data de termino.';
 $wb['move_junk_txt'] = 'Mover Spam para o diretório JUNK';
-$wb['name_txt'] = 'Realname';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['autoresponder_active'] = 'Enable the autoresponder';
-$wb['cc_txt'] = 'Send copy to';
-$wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
+$wb['name_txt'] = 'Nome Real';
+$wb['name_optional_txt'] = '(Opcional)';
+$wb['autoresponder_active'] = 'Ativar o Auto Responder';
+$wb['cc_txt'] = 'Enviar cópia para';
+$wb['cc_error_isemail'] = 'O campo enviar cópia para precisa de um endereço de correio válido';
+$wb['domain_txt'] = 'Domínio';
+$wb['now_txt'] = 'Agora';
 ?>

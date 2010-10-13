@@ -21,6 +21,10 @@ $wb['origin_error_regex'] = 'Formato de zona inválido.';
 $wb['ns_error_regex'] = 'NS tem um formato inválido.';
 $wb['mbox_error_empty'] = 'Correio está em branco.';
 $wb['mbox_error_regex'] = 'Correio com formato inválido.';
-$wb['also_notify_txt'] = 'Also Notify';
+$wb['also_notify_txt'] = 'Também Notificar';
 $wb['update_acl_txt'] = 'Atualizar ACL';
+$wb['seconds_txt'] = 'Segundos';
+$wb['eg_domain_tld'] = 'Ex: domain.tld';
+$wb['eg_ns1_domain_tld'] = 'Ex: ns1.domain.tld';
+$wb['eg_webmaster_domain_tld'] = 'Ex: webmaster@domain.tld';
 ?>

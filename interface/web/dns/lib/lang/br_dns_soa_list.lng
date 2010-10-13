@@ -6,5 +6,5 @@ $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Correio';
 $wb['add_new_record_txt'] = 'Adcionar uma nova zona dns (SOA)';
-$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
+$wb['add_new_record_wizard_txt'] = 'Adcionar uma nova zona dns com assistente';
 ?>

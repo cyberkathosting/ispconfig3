@@ -4,7 +4,7 @@ $wb['installed_txt'] = 'Status';
 $wb['package_title_txt'] = 'Pacote';
 $wb['package_description_txt'] = 'Descrição';
 $wb['action_txt'] = 'Acão';
-$wb['toolsarea_head_txt'] = 'Packages';
-$wb['repoupdate_txt'] = 'Update package list';
-$wb['package_id_txt'] = 'local App-ID';
+$wb['toolsarea_head_txt'] = 'Pacotes';
+$wb['repoupdate_txt'] = 'Lista de atualização de pacotes';
+$wb['package_id_txt'] = 'App-ID local';
 ?>

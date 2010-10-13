@@ -34,5 +34,5 @@ $wb['top_menu_help'] = 'Ajuda';
 $wb['top_menu_billing'] = 'Faturas';
 $wb['top_menu_domain'] = 'Domínios';
 $wb['top_menu_dashboard'] = 'Início';
-$wb['latest_news_txt'] = 'Latest news';
+$wb['latest_news_txt'] = 'Ultimas Notícias';
 ?>
