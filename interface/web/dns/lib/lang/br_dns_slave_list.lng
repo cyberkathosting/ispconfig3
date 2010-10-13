@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Zonas Secundárias de DNS';
+$wb['list_head_txt'] = 'Zonas SecundÃ¡rias de DNS';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Adcioanr uma noca zona de DNS secundária';
+$wb['add_new_record_txt'] = 'Adcioanr uma noca zona de DNS secundÃ¡ria';
 $wb['eg_domain_tld'] = 'Ex: domain.tld.';
 ?>

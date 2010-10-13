@@ -1,9 +1,9 @@
 <?php
 $wb['faq_question_txt'] = 'Pergunta';
-$wb['faq_section_name_txt'] = 'Sessão';
+$wb['faq_section_name_txt'] = 'SessÃ£o';
 $wb['faq_delete_txt'] = 'Remover';
 $wb['faq_edit_txt'] = 'Editar';
-$wb['faq_sections_txt'] = 'Sessão';
+$wb['faq_sections_txt'] = 'SessÃ£o';
 $wb['faq_faq_questions_txt'] = 'Perguntas Mais Frequentes (FAQ)';
 $wb['faq_new_question_txt'] = 'Adcionar um novo par de pergunta/resposta';
 ?>

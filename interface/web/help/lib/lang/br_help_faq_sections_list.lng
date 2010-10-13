@@ -1,8 +1,8 @@
 <?php
-$wb['faq_section_name_txt'] = 'Nome da Sessão';
+$wb['faq_section_name_txt'] = 'Nome da SessÃ£o';
 $wb['faq_delete_txt'] = 'Remover';
 $wb['faq_edit_txt'] = 'Editar';
-$wb['faq_sections_txt'] = 'Sessões';
-$wb['faq_faq_sections_txt'] = 'Sessões FAQ';
-$wb['faq_new_section_txt'] = 'Adcionar uma nova sessão';
+$wb['faq_sections_txt'] = 'SessÃµes';
+$wb['faq_faq_sections_txt'] = 'SessÃµes FAQ';
+$wb['faq_new_section_txt'] = 'Adcionar uma nova sessÃ£o';
 ?>
