@@ -27,7 +27,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class remoteaction_core_module {
+class remoteaction_core_module extends modules_base {
 	var $module_name = 'remoteaction_core_module';
 	var $class_name = 'remoteaction_core_module';
 	/* No actions at this time. maybe later... */
@@ -132,9 +132,15 @@ class remoteaction_core_module {
 		/*
 		 * Do the update
 		 */
-		exec("aptitude update");
-		exec("aptitude upgrade -y");
-
+		//TODO : change this when distribution information has been integrated into server record
+		if(file_exists('/etc/gentoo-release')) {
+			exec("glsa-check -f --nocolor affected");
+		}
+		else {
+			exec("aptitude update");
+			exec("aptitude upgrade -y");
+		}
+		
 		/*
 		 * All well done!
 		 */

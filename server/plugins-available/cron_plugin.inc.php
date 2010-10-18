@@ -133,6 +133,14 @@ class cron_plugin {
 			exec("setquota -T -u $username 604800 604800 -a &> /dev/null");
 		}
 		
+		//TODO : change this when distribution information has been integrated into server record
+        //* Gentoo requires a user to be part of the crontab group.
+        if (file_exists('/etc/gentoo-release')) {
+        	if (strpos($app->system->get_user_groups($username), 'crontab') === false) {
+        		$app->system->add_user_to_group('crontab', $username);
+        	}
+        }
+		
 		// make temp directory writable for the apache and website users
 		chmod(escapeshellcmd($parent_domain["document_root"].'/tmp'), 0777);
 		
@@ -214,6 +222,12 @@ class cron_plugin {
         }
         
         $cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_'.$this->parent_domain["system_user"]);
+        //TODO : change this when distribution information has been integrated into server record
+        //* Gentoo vixie-cron requires files to end with .cron in the cron.d directory
+        if (file_exists('/etc/gentoo-release')) {
+        	$cron_file .= '.cron';
+        }
+        
         if($cmd_count > 0) {
             file_put_contents($cron_file, $cron_content);
             $app->log("Wrote Cron file $cron_file with content:\n$cron_content",LOGLEVEL_DEBUG);

@@ -921,20 +921,17 @@ class monitor_core_module {
              * Then test the upgrade.
              * if there is any output, then there is a needed update
 			*/
-			$emergeData = shell_exec('emerge -puDNt --color n --nospinner --quiet world');
+			$emergeData = shell_exec('glsa-check -t affected');
 			if ($emergeData == '') {
 				/* There is nothing to update! */
 				$state = 'ok';
+				$data['output'] = 'No unapplied GLSA\'s found on the system.';
 			}
 			else {
 				/* There is something to update! */
-				$state = 'warning';
+				$state = 'info';
+				$data['output'] = shell_exec('glsa-check -pv --nocolor affected 2>/dev/null');
 			}
-
-			/*
-             * Fetch the output
-			*/
-			$data['output'] = shell_exec('emerge -pvuDNt --color n --nospinner world');
 		}
 		else {
 			/*

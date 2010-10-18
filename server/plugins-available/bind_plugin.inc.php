@@ -105,8 +105,14 @@ class bind_plugin {
 			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
 			$tpl->setLoop('zones',$records);
 			
-		
-			$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
+			//TODO : change this when distribution information has been integrated into server record
+        	if (file_exists('/etc/gentoo-release')) {
+        		$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri/'.substr($zone['origin'],0,-1));
+        	}
+        	else {
+        		$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.substr($zone['origin'],0,-1));
+        	}
+        	
 			$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
 			file_put_contents($filename,$tpl->grab());
 			chown($filename, escapeshellcmd($dns_config['bind_user']));
@@ -124,7 +130,14 @@ class bind_plugin {
 		
 		//* Delete old domain file, if domain name has been changed
 		if($data['old']['origin'] != $data['new']['origin']) {
-			$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
+			//TODO : change this when distribution information has been integrated into server record
+        	if (file_exists('/etc/gentoo-release')) {
+        		$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.substr($data['old']['origin'],0,-1);
+        	}
+        	else {
+        		$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
+        	}
+			
 			if(is_file($filename)) unset($filename);
 		}
 		
@@ -144,7 +157,14 @@ class bind_plugin {
 		$this->write_named_conf($data,$dns_config);
 		
 		//* Delete the domain file
-		$zone_file_name = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
+		//TODO : change this when distribution information has been integrated into server record
+        if (file_exists('/etc/gentoo-release')) {
+        	$zone_file_name = $dns_config['bind_zonefiles_dir'].'/pri/'.substr($data['old']['origin'],0,-1);
+        }
+        else {
+        	$zone_file_name = $dns_config['bind_zonefiles_dir'].'/pri.'.substr($data['old']['origin'],0,-1);
+        }
+		
 		if(is_file($zone_file_name)) unlink($zone_file_name);
 		$app->log("Deleting BIND domain file: ".$zone_file_name,LOGLEVEL_DEBUG);
 		
@@ -177,7 +197,14 @@ class bind_plugin {
 		
 		//* Delete old domain file, if domain name has been changed
 		if($data['old']['origin'] != $data['new']['origin']) {
-			$filename = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($data['old']['origin'],0,-1);
+			//TODO : change this when distribution information has been integrated into server record
+	        if (file_exists('/etc/gentoo-release')) {
+	        	$filename = $dns_config['bind_zonefiles_dir'].'/sec/'.substr($data['old']['origin'],0,-1);
+	        }
+	        else {
+	        	$filename = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($data['old']['origin'],0,-1);
+	        }
+			
 			if(is_file($filename)) unset($filename);
 		}
 		
@@ -198,7 +225,14 @@ class bind_plugin {
 		$this->write_named_conf($data,$dns_config);
 		
 		//* Delete the domain file
-		$zone_file_name = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($data['old']['origin'],0,-1);
+		//TODO : change this when distribution information has been integrated into server record
+	    if (file_exists('/etc/gentoo-release')) {
+	    	$zone_file_name = $dns_config['bind_zonefiles_dir'].'/sec/'.substr($data['old']['origin'],0,-1);
+	    }
+	    else {
+	    	$zone_file_name = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($data['old']['origin'],0,-1);
+	    }
+		
 		if(is_file($zone_file_name)) unlink($zone_file_name);
 		$app->log("Deleting BIND domain file for secondary zone: ".$zone_file_name,LOGLEVEL_DEBUG);
 		
@@ -260,6 +294,17 @@ class bind_plugin {
 		} else {
 			$exclude_zone = '';
 		}
+		
+		//TODO : change this when distribution information has been integrated into server record
+	    if (file_exists('/etc/gentoo-release')) {
+	    	$pri_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/pri/';
+	    	$sec_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/sec/';
+	    	
+	    }
+	    else {
+	    	$pri_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/pri.';
+	    	$sec_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/slave/sec.';
+	    }
 
 		//* Loop trough zones
 		foreach($tmps as $tmp) {
@@ -274,7 +319,7 @@ class bind_plugin {
 			
 			if($tmp['origin'] != $exclude_zone) {
 				$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
-									'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/pri.'.substr($tmp['origin'],0,-1),
+									'zonefile_path' => $pri_zonefiles_path.substr($tmp['origin'],0,-1),
 									'options' => $options
 								);
 			}
@@ -299,7 +344,7 @@ class bind_plugin {
 
 			
 			$zones_sec[] = array(	'zone' => substr($tmp['origin'],0,-1),
-									'zonefile_path' => $dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($tmp['origin'],0,-1),
+									'zonefile_path' => $sec_zonefiles_path.substr($tmp['origin'],0,-1),
 									'options' => $options
 								);
 
