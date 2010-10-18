@@ -431,6 +431,33 @@ class installer extends installer_base
 		}
 	}
 	
+	public function configure_bind() {
+		global $conf;
+
+	    //* Check if the zonefile directory has a slash at the end
+	    $content=$conf['bind']['bind_zonefiles_dir'];
+	    if(substr($content,-1,1) != '/') {
+    	    $content .= '/';
+		}
+		
+		//* New default format of named.conf uses views. Check which version the system is using and include our zones file.
+		$named_conf = rf($conf['bind']['named_conf_path']);
+		if (stripos($named_conf, 'include "'.$conf['bind']['named_conf_local_path'].'";') === false) 
+		{
+			preg_match_all("/(?<=\n)view \"(?:public|internal)\" in \{.*\n\};/Us", $named_conf, $views);
+			if (count($views[0]) == 2) {
+				foreach ($views[0] as $view) {
+					$named_conf = str_replace($view, substr($view, 0, -2)."include \"{$conf['bind']['named_conf_local_path']}\";\n};", $named_conf);
+				}
+				
+				wf($conf['bind']['named_conf_path'], $named_conf);
+			}
+			else {
+				af($conf['bind']['named_conf_path'], 'include "'.$conf['bind']['named_conf_local_path'].'";');
+			}
+		}
+	}
+	
 	public function configure_apache()
     {	
 		global $conf;
