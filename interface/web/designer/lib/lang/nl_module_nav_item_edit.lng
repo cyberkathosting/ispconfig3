@@ -1,8 +1,10 @@
 <?php
-$wb['title_txt'] = 'Titel';
-$wb['target_txt'] = 'Doel';
-$wb['link_txt'] = 'Link';
-$wb['header_txt'] = 'Navi eigenschappen';
-$wb['save_txt'] = 'Opslaan';
-$wb['cancel_txt'] = 'Annuleren';
+$wb["title_txt"] = 'Titel';
+$wb["target_txt"] = 'Doel';
+$wb["link_txt"] = 'Link';
+$wb["header_txt"] = 'Navi eigenschappen';
+$wb["save_txt"] = 'Opslaan';
+$wb["cancel_txt"] = 'Annuleer';
 ?>
+
+

@@ -483,7 +483,7 @@ class db {
        
     public function tableInfo($table_name) {
         //* Tabellenfelder einlesen ?
-        if($rows = $this->queryAllRecords('SHOW FIELDS FROM $table_name')){
+        if($rows = $this->queryAllRecords('SHOW FIELDS FROM '.$table_name)){
         foreach($rows as $row) {
             $name    = $row['Field'];
             $default = $row['Default'];

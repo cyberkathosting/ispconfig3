@@ -1,10 +1,13 @@
 <?php
-$wb['rulename_txt'] = 'Naam';
-$wb['action_txt'] = 'Actie';
-$wb['target_txt'] = 'Map';
-$wb['active_txt'] = 'Actief?';
-$wb['rulename_error_empty'] = 'Naam is leeg.';
-$wb['searchterm_is_empty'] = 'Zoekterm is leeg.';
-$wb['source_txt'] = 'Bron';
-$wb['target_error_regex'] = 'Het doel mag alleen deze tekens bevatten: a-z, 0-9, -, ., _, en {ruimte}';
+$wb["rulename_txt"] = 'Naam';
+$wb["action_txt"] = 'Actie';
+$wb["target_txt"] = 'Folder';
+$wb["active_txt"] = 'Actief';
+$wb["rulename_error_empty"] = 'Naam is niet ingvuld.';
+$wb["searchterm_is_empty"] = 'Zoekterm is niet ingvuld.';
+$wb["source_txt"] = 'Bron';
+$wb["target_error_regex"] = 'Het doel mag alleen de volgende karakters bevatten: a-z, 0-9, -, ., _, en {spatie}';
 ?>
+
+
+

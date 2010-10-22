@@ -9,3 +9,4 @@ $wb['domain_error_empty'] = 'Domena jest pusta.';
 $wb['domain_error_unique'] = 'Domena musi być unikatowa.';
 $wb['domain_error_regex'] = 'Nazwa domeny ma niepoprawny format.';
 ?>
+

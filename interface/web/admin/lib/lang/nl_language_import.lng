@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Importeer taalbestand';
-$wb['language_import_txt'] = 'Selecteer taalbestand';
+$wb["list_head_txt"] = 'Importeer taalbestand';
+$wb["language_import_txt"] = 'Selecteer taalbestand';
 $wb['btn_save_txt'] = 'Importeer het geselecteerde taalbestand';
-$wb['language_overwrite_txt'] = 'Overschrijven indien deze al bestaat?';
+$wb["language_overwrite_txt"] = 'Overschrijf bestand, als dit bestaat.';
 $wb['btn_cancel_txt'] = 'Terug';
-$wb['ignore_version_txt'] = 'Controle ISPConfig versie overslaan?';
+$wb['ignore_version_txt'] = 'Sla ISPConfig versie controle over';
 ?>
+
+

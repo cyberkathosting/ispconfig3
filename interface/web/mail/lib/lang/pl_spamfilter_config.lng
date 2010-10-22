@@ -18,3 +18,4 @@ $wb['relayhost_password_txt'] = 'Hasło Relayhost';
 $wb['mailbox_size_limit_txt'] = 'Limit wielkości skrzynki pocztowej';
 $wb['message_size_limit_txt'] = 'Limit wielkości wiadomości';
 ?>
+

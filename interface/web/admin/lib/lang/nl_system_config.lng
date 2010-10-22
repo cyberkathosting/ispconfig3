@@ -1,22 +1,25 @@
 <?php
-$wb['warning'] = 'Let op bij het wijzigen van deze waarden. Verwijder de prefix niet op systemen met meer dan 1 klant.';
-$wb['dbname_prefix_txt'] = 'Databasenaam prefix';
-$wb['dbuser_prefix_txt'] = 'Gebruiker prefix';
-$wb['shelluser_prefix_txt'] = 'Shell user prefix';
-$wb['ftpuser_prefix_txt'] = 'FTP gebruiker prefix';
-$wb['dbname_prefix_error_regex'] = 'Teken niet toegestaan in databasenaam';
-$wb['dbuser_prefix_error_regex'] = 'Teken niet toegestaan in gebruiker prefix';
-$wb['ftpuser_prefix_error_regex'] = 'Teken niet toegestaan in FTP gebruiker prefix';
-$wb['shelluser_prefix_error_regex'] = 'Teken niet toegestaan in Shell gebruiker prefix';
-$wb['dblist_phpmyadmin_link_txt'] = 'Link phpMyAdmin weergeven?';
-$wb['mailboxlist_webmail_link_txt'] = 'Link Webmail weergeven?';
-$wb['webmail_url_txt'] = 'URL naar Webmail';
-$wb['phpmyadmin_url_txt'] = 'URL naar phpMyAdmin';
-$wb['use_domain_module_txt'] = 'Use the domain-module to add new domains';
-$wb['use_domain_module_hint'] = 'If you use this module, your customers can only select one of the domains the admin creates for them. They can not free edit the domain-field.You have to re-login after changing this value, to make the changes visible.';
-$wb['new_domain_txt'] = 'HTML to create a new domain';
-$wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
-$wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
-$wb['webdavuser_prefix_error_regex'] = 'Char not allowed in webdav user prefix.';
-$wb['webftp_url_txt'] = 'WebFTP URL';
+$wb["dashboard_atom_url_txt"] = 'Dashboard atom feed URL';
+$wb["warning"] = 'Edit these values carefully! Verwijder de voorvoegsels niet op systemen met meer dan â™ªÃ©Ã©n klant.';
+$wb["dbname_prefix_txt"] = 'Database naam voorvoegsel';
+$wb["dbuser_prefix_txt"] = 'Database gebruiker voorvoegsel';
+$wb["shelluser_prefix_txt"] = 'Shell gebruiker voorvoegsel';
+$wb["webdavuser_prefix_txt"] = 'Webdav gebruiker voorvoegsel';
+$wb["ftpuser_prefix_txt"] = 'FTP gebruiker voorvoegsel';
+$wb["dbname_prefix_error_regex"] = 'Char niet toegestaan in database naam voorvoegsel.';
+$wb["dbuser_prefix_error_regex"] = 'Charniet toegestaan in database gebruiker voorvoegsel.';
+$wb["ftpuser_prefix_error_regex"] = 'Char niet toegestaan in ftp gebruiker voorvoegsel.';
+$wb["shelluser_prefix_error_regex"] = 'Char niet toegestaan in shell gebruiker voorvoegsel.';
+$wb["webdavuser_prefix_error_regex"] = 'Char niet toegestaan in webdav gebruiker voorvoegsel.';
+$wb["dblist_phpmyadmin_link_txt"] = 'Link naar phpmyadmin in DB lijst';
+$wb["mailboxlist_webmail_link_txt"] = 'Link naar webmail in Mailbox lijst';
+$wb["webmail_url_txt"] = 'Webmail URL';
+$wb["phpmyadmin_url_txt"] = 'PHPMyAdmin URL';
+$wb["use_domain_module_txt"] = 'Gebruik de domein-module om nieuwe domeinen toe te voegen';
+$wb["use_domain_module_hint"] = 'Als u deze module gebruikt, kunnen uw klanten alleen de domeinen selecteren die de administrator heeft aangemaakt. klanten kunnen het domein-veld zelf niet wijzigen. Na opnieuw ingelogd te zijn zullen de wijzigingen zichtbaar zijn.';
+$wb["new_domain_txt"] = 'HTML om een nieuw domein te maken';
+$wb["webftp_url_txt"] = 'WebFTP URL';
 ?>
+
+
+

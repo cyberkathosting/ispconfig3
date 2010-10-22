@@ -1,14 +1,17 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'DNS Zone';
-$wb['ns_txt'] = 'NS';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_slave_zone_txt'] = 'The max. number of Secondary DNS zones for your account is reached.';
-$wb['client_txt'] = 'Client';
-$wb['xfer_txt'] = 'Allow zone transfers to <br />these IPs (comma separated list)';
-$wb['server_id_error_empty'] = 'No server selected';
-$wb['origin_error_empty'] = 'Zone empty.';
-$wb['origin_error_unique'] = 'There is already a record for this zone.';
-$wb['origin_error_regex'] = 'Zone has a invalid format.';
-$wb['ns_error_regex'] = 'NS has a invalid format.';
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'DNS Zone';
+$wb["ns_txt"] = 'NS';
+$wb["active_txt"] = 'Actief';
+$wb["limit_dns_slave_zone_txt"] = 'Het max. aan secundary DNS records voor uw account is bereikt.';
+$wb["client_txt"] = 'Klant';
+$wb["xfer_txt"] = 'Sta zone transfers toe naar <br />deze IPs (komma gescheiden waarden)';
+$wb["server_id_error_empty"] = 'Geen server geselecteerd';
+$wb["origin_error_empty"] = 'Zone is niet ingvuld.';
+$wb["origin_error_unique"] = 'Er is al een record for deze zone.';
+$wb["origin_error_regex"] = 'Zone heeft een ongeldig formaat.';
+$wb["ns_error_regex"] = 'NS heeft een ongeldig formaat.';
 ?>
+
+
+

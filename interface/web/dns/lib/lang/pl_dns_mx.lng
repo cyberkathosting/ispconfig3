@@ -14,3 +14,4 @@ $wb['name_error_regex'] = 'Nazwa serwera ma zły format.';
 $wb['data_error_empty'] = 'Nazwa serwera poczty e-mail jest pusta.';
 $wb['data_error_regex'] = 'Nazwa serwera poczty e-mail ma niepoprawny format.';
 ?>
+

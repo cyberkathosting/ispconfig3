@@ -345,7 +345,7 @@ class installer_dist extends installer_base {
 		
 		// amavisd user config file
 		$configfile = 'fedora_amavisd_conf';
-		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["courier"]["config_dir"].'/amavisd.conf~');
+		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
@@ -529,7 +529,7 @@ class installer_dist extends installer_base {
 		// copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
 		$content = rf("tpl/apache_ispconfig.conf.master");
 		$records = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
-		if(count($records) > 0) {
+		if(is_array($records) && count($records) > 0) {
 			foreach($records as $rec) {
 				$content .= "NameVirtualHost ".$rec["ip_address"].":80\n";
 				$content .= "NameVirtualHost ".$rec["ip_address"].":443\n";
@@ -579,7 +579,7 @@ class installer_dist extends installer_base {
   		$tcp_public_services = '';
   		$udp_public_services = '';
 		
-		$row = $this->db->queryOneRecord("SELECT * FROM firewall WHERE server_id = ".intval($conf['server_id']));
+		$row = $this->db->queryOneRecord('SELECT * FROM '.$conf["mysql"]["database"].'.firewall WHERE server_id = '.intval($conf['server_id']));
 		
   		if(trim($row["tcp_port"]) != '' || trim($row["udp_port"]) != ''){
     		$tcp_public_services = trim(str_replace(',',' ',$row["tcp_port"]));
@@ -697,6 +697,13 @@ class installer_dist extends installer_base {
 		$content = str_replace('{language}', $conf['language'], $content);
 		
 		wf("$install_dir/server/lib/$configfile", $content);
+		
+		//* Create the config file for remote-actions (but only, if it does not exist, because
+		//  the value is a autoinc-value and so changed by the remoteaction_core_module
+		if (!file_exists($install_dir.'/server/lib/remote_action.inc.php')) {
+			$content = '<?php' . "\n" . '$maxid_remote_action = 0;' . "\n" . '?>';
+			wf($install_dir.'/server/lib/remote_action.inc.php', $content);
+		}
 		
 		
 		//* Enable the server modules and plugins.

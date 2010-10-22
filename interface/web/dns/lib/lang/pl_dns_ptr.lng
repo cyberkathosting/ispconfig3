@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Nazwa ma zły format.';
 $wb['data_error_empty'] = 'Standardowa nazwa serwera jest pusta';
 $wb['data_error_regex'] = 'Standardowa nazwa serwera ma zły format';
 ?>
+

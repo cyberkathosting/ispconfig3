@@ -127,10 +127,10 @@ class app {
 								break;
 						}
 							
-                            if (!fwrite($fp, date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\r\n")) {
+                            if (!fwrite($fp, @date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\r\n")) {
                                 die('Unable to write to logfile.');
                             }
-				echo date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\n";
+				echo @date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\n";
 				fclose($fp);
 
 					// Log to database

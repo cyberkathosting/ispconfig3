@@ -1246,7 +1246,8 @@ class apache2_plugin {
 				/*
 				 * add all the webdav-dirs to the webdav-section
 				*/
-				$files = scandir($webdavRoot);
+				$files = @scandir($webdavRoot);
+				if(is_array($files)) {
 				foreach($files as $file) {
 					if (substr($file, strlen($file) - strlen('.htdigest')) == '.htdigest') {
 						/*
@@ -1266,6 +1267,7 @@ class apache2_plugin {
 						$output .= "        Allow from all \n";
 						$output .= "      </Location> \n";
 					}
+				}
 				}
 			}
 			/*

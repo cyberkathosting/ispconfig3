@@ -4,3 +4,4 @@ $wb['visible_txt'] = 'Widoczność';
 $wb['name_txt'] = 'Nazwa';
 $wb['add_new_record_txt'] = 'Dodaj nowy wpis';
 ?>
+

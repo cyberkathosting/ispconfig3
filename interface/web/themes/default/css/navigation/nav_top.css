@@ -98,5 +98,9 @@
 	.topnav-dashboard {
 		background-image: url('../../icons/x32/dashboard.png') !important;
 	}
+	
+	.topnav-vm{
+		background-image: url('../../icons/x32/drawer.png') !important;
+	}
 
 }

@@ -33,9 +33,9 @@ class list_action extends listform_actions {
 		$rec['bgcolor'] = $this->DataRowColor;
 		$username = $rec['system_user'];
 		
-		$rec['used'] = $monitor_data['user'][$username]['used'];
-		$rec['soft'] = $monitor_data['user'][$username]['soft'];
-		$rec['hard'] = $monitor_data['user'][$username]['hard'];
+		$rec['used'] = (is_numeric($monitor_data['user'][$username]['used'])) ? round($monitor_data['user'][$username]['used']/1024) .'MB' : $monitor_data['user'][$username]['used'].'B';
+		$rec['soft'] = $monitor_data['user'][$username]['soft'].'B';
+		$rec['hard'] = $monitor_data['user'][$username]['hard'].'B';
 		
 		if($rec['soft'] == '0K') $rec['soft'] = $app->lng('unlimited');
 		if($rec['hard'] == '0K') $rec['hard'] = $app->lng('unlimited');

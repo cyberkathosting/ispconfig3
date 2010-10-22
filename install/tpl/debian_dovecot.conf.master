@@ -847,7 +847,7 @@ auth default {
   # database (passwd usually), you can use static userdb.
   # REMEMBER: You'll need /etc/pam.d/dovecot file created for PAM
   # authentication to actually work. <doc/wiki/PasswordDatabase.PAM.txt>
-  passdb pam {
+  # passdb pam {
     # [blocking=yes] [session=yes] [setcred=yes]
     # [cache_key=<key>] [<service name>]
     #
@@ -880,7 +880,7 @@ auth default {
     #   args = session=yes *
     #   args = cache_key=%u dovecot
     #args = dovecot
-  }
+  # }
 
   # System users (NSS, /etc/passwd, or similiar)
   # In many systems nowadays this uses Name Service Switch, which is

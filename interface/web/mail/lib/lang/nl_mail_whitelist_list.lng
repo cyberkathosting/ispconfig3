@@ -1,10 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'E-mail whitelist';
-$wb['active_txt'] = 'Actief?';
-$wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Whitelisted adres';
-$wb['type_txt'] = 'Type';
-$wb['recipient_txt'] = 'Ontvanger';
-$wb['add_new_record_txt'] = 'Nieuw whitelist record toevoegen';
-$wb['access_txt'] = 'Toegang';
+$wb["list_head_txt"] = 'E-mail whitelist';
+$wb["active_txt"] = 'Actief';
+$wb["server_id_txt"] = 'Server';
+$wb["source_txt"] = 'Whitelisted adres';
+$wb["type_txt"] = 'Type';
+$wb["recipient_txt"] = 'Ontvanger';
+$wb["add_new_record_txt"] = 'Toevoegen nieuw Whitelist record';
+$wb["access_txt"] = 'Toegang';
 ?>
+
+

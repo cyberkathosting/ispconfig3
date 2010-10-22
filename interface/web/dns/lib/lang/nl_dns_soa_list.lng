@@ -1,10 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'DNS zones';
-$wb['active_txt'] = 'Actief?';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'DNS zone';
-$wb['ns_txt'] = 'Primaire nameserver';
-$wb['mbox_txt'] = 'E-mailadres zone-verantwoordelijke';
-$wb['add_new_record_txt'] = 'Nieuwe DNS zone toevoegen';
-$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
+$wb["list_head_txt"] = 'DNS zones';
+$wb["active_txt"] = 'Actief';
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zone';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'E-mail';
+$wb["add_new_record_wizard_txt"] = 'Toevoegen nieuw DNS Zone met wizard';
+$wb["add_new_record_txt"] = 'Toevoegen nieuwe DNS Zone (handmatig)';
 ?>
+
+

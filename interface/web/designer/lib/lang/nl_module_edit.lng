@@ -1,22 +1,25 @@
 <?php
-$wb['name_txt'] = 'Modulenaam';
-$wb['title_txt'] = 'Moduletitel';
-$wb['template_txt'] = 'Template bestand';
-$wb['navframe_txt'] = 'NaviFrame';
-$wb['startpage_txt'] = 'Standaard pagina';
-$wb['tab_width_txt'] = 'Tab breedte';
-$wb['save_txt'] = 'Opslaan';
-$wb['cancel_txt'] = 'Annuleren';
-$wb['header_txt'] = 'Module eigenschappen';
-$wb['description_txt'] = '
+$wb["name_txt"] = 'Modulenaam';
+$wb["title_txt"] = 'Moduletitel';
+$wb["template_txt"] = 'Template bestand';
+$wb["navframe_txt"] = 'NaviFrame';
+$wb["startpage_txt"] = 'Standaard pagina';
+$wb["tab_width_txt"] = 'Tab breedte';
+$wb["save_txt"] = 'Opslaan';
+$wb["cancel_txt"] = 'Cancel';
+$wb["header_txt"] = 'Module eigenschappen';
+$wb["description_txt"] = '
 <b>Description</b>
 <br><br>
-<b>Modulename:</b> Naam van de module directory. Alleen cijfers, letters en underscore zijn toegestaan.<br>
-<b>Moduletitle:</b> Zal worden getoond in de hoofdnavigatie (bovenaan).<br>
-<b>Template file:</b> Template bestand van de module. Momenteel beschikbaar: module.tpl.htm en module_tree.tpl.htm. Standaard is de module.tpl.htm.<br>
-<b>NaviFrame:</b> Als de module_tree.tpl.htm geselecteerd is als template bestand, geef het pad op dat verwijst naar het scriptbestand voor het linker frame.<br>
-<b>Default page:</b> Deze pagina wordt getoont wanneer de module is geopend.<br>
-<b>Tab width:</b> Tabbreedte in de hoofdnavigatie. Het veld is standaard leeg. U kunt absolute waarden opgeven in pixels (bijv. 20) of relatieve (bijv. 20%).<br>
-<b>Hint:</b> Alle paden zijn relatief aan de directorie web.
+<b>Modulename:</b> Naam van de module directory. Alleen numerieke waarden, karakters en underscore zijn toegestaan.<br>
+<b>Moduletitle:</b> Worden weergegeven in de (bovenste) hoofd navigatiebalk.<br>
+<b>Template file:</b> Template bestand van de module. Momenteel beschikbaar: module.tpl.htm and module_tree.tpl.htm. Standaard is module.tpl.htm.<br>
+<b>NaviFrame:</b> Als module_tree.tpl.htm is geselecteerd als template bestand, geef hier dan het pad op naar het script bestand voor het linker frame.<br>
+<b>Default page:</b> Deze pagina wordt weergegeven wanneer de module is geopened.<br>
+<b>Tab width:</b> Breedte van de tabs in de hoofdnavigatiebalk. Dit veld is standaard leeg. U kunt hier absulute pixel waarden invoeren (bijv. 20) of relatief (bijv. 20%).<br>
+<b>Hint:</b> Alle paden zijn relatief tot de directory "web".
 ';
+
 ?>
+
+

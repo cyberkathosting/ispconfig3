@@ -1,7 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'ISPConfig API gebruikers';
-$wb['list_desc_txt'] = 'Overzicht van gebruikers die via de ISPConfig-API toegang krijgen tot deze server.';
-$wb['add_new_record_txt'] = 'Nieuwe API-gebruiker toevoegen';
+$wb['list_head_txt'] = "Remote gebruikers";
+$wb['list_desc_txt'] = "";
+$wb['add_new_record_txt'] = "Toevoegen nieuwe gebruiker";
 $wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'Gebruikersnaam';
+$wb['username_txt'] = "Gebruikersnaam";
 ?>
+
+
+
+

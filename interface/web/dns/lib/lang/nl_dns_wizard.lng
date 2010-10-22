@@ -1,29 +1,32 @@
 <?php
+
 $wb['template_id_txt'] = 'Template';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Klant';
-$wb['btn_save_txt'] = 'DNS zone toevoegen';
-$wb['btn_cancel_txt'] = 'Annuleren';
-$wb['domain_txt'] = 'Domeinnaam';
+$wb["btn_save_txt"] = 'Aanmaken DNS Record';
+$wb["btn_cancel_txt"] = 'Annuleren';
+$wb['domain_txt'] = 'Domein';
 $wb['email_txt'] = 'E-mail';
-$wb['ns1_txt'] = 'Nameserver 1';
-$wb['ns2_txt'] = 'Nameserver 2';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP-adres';
-$wb['error_origin_empty'] = 'Afkomst leeg.';
-$wb['error_ns_empty'] = 'Primaire nameserver is leeg.';
-$wb['error_mbox_empty'] = 'E-mailadres zone-verantwoordelijke is leeg.';
-$wb['error_refresh_empty'] = 'Vernieuw-tijd is leeg.';
-$wb['error_retry_empty'] = 'Refresh-tijd is leeg.';
-$wb['error_expire_empty'] = 'Verloop-tijd is leeg.';
-$wb['error_minimum_empty'] = 'TTL Minimum is leeg.';
-$wb['error_ttl_empty'] = 'TTL is leeg.';
-$wb['error_domain_empty'] = 'Domeinnaam is leeg.';
-$wb['error_ip_empty'] = 'IP-adres is leeg.';
-$wb['error_ns1_empty'] = 'Nameserver 1 is leeg.';
-$wb['error_ns2_empty'] = 'Nameserver 2 is leeg.';
-$wb['error_email_empty'] = 'E-mail is leeg.';
-$wb['error_domain_regex'] = 'Domeinnaam bevat ongeldige tekens.';
-$wb['error_ns1_regex'] = 'Nameserver 1 bevat ongeldige tekens.';
-$wb['error_ns2_regex'] = 'Nameserver 2 bevat ongeldige tekens.';
-$wb['error_email_regex'] = 'E-mail bevat een ongeldig e-mailadres.';
+$wb['error_origin_empty'] = 'Oorspong is niet ingvuld.';
+$wb['error_ns_empty'] = 'NS is niet ingvuld.';
+$wb['error_mbox_empty'] = 'Mbox is niet ingvuld.';
+$wb['error_refresh_empty'] = 'Ververs is niet ingvuld.';
+$wb['error_retry_empty'] = 'Opnieuw proberen is niet ingvuld.';
+$wb['error_expire_empty'] = 'Verlopen is niet ingvuld.';
+$wb['error_minimum_empty'] = 'Minimum is niet ingvuld.';
+$wb['error_ttl_empty'] = 'TTL is niet ingvuld.';
+$wb['error_domain_empty'] = 'Domein is niet ingvuld';
+$wb['error_ip_empty'] = 'IP is niet ingvuld.';
+$wb['error_ns1_empty'] = 'NS1 is niet ingvuld.';
+$wb['error_ns2_empty'] = 'NS2 is niet ingvuld.';
+$wb['error_email_empty'] = 'E-mail is niet ingvuld.';
+$wb['error_domain_regex'] = 'Domein bevat ongeldige karakters.';
+$wb['error_ns1_regex'] = 'NS1 bevat ongeldige karakters.';
+$wb['error_ns2_regex'] = 'NS2 bevat ongeldige karakters.';
+$wb['error_email_regex'] = 'E-mail bevat geen geldig e-mailadres.';
 ?>
+
+

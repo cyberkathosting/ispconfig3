@@ -170,6 +170,17 @@ foreach($records as $rec) {
 	$awstats_pl = $web_config['awstats_pl'];
 	$awstats_buildstaticpages_pl = $web_config['awstats_buildstaticpages_pl'];
 	
+	$awstats_conf_dir = $web_config['awstats_conf_dir'];
+	$awstats_website_conf_file = $web_config['awstats_conf_dir'].'/awstats.'.$domain.'.conf';
+	
+	if(!is_file($awstats_website_conf_file)) {
+		$awstats_conf_file_content = 'Include "'.$awstats_conf_dir.'/awstats.conf"
+LogFile="/var/log/ispconfig/httpd/'.$domain.'/access.log"
+SiteDomain="'.$domain.'"
+HostAliases="www.'.$domain.' localhost 127.0.0.1"';
+		file_put_contents($awstats_website_conf_file,$awstats_conf_file_content);
+	}
+	
 	
 	if(!@is_dir($statsdir)) mkdir($statsdir);
 	

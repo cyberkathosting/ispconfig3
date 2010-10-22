@@ -1,10 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Database';
-$wb['active_txt'] = 'Active';
-$wb['remote_access_txt'] = 'Remote Access';
-$wb['server_id_txt'] = 'Server';
-$wb['database_user_txt'] = 'Database user';
-$wb['database_name_txt'] = 'Database name';
-$wb['add_new_record_txt'] = 'Add new Database';
-$wb['sys_groupid_txt'] = 'Client';
+$wb['list_head_txt'] = "Baza danych";
+$wb['active_txt'] = "Aktywne";
+$wb['remote_access_txt'] = "Dostęp zdalny";
+$wb['server_id_txt'] = "Serwer";
+$wb['database_user_txt'] = "Nazwa użytkownika bazy";
+$wb['database_name_txt'] = "Nazwa bazy danych";
+$wb['add_new_record_txt'] = "Dodaj nową bazę danych";
+$wb['sys_groupid_txt'] = "Klient";
 ?>
+

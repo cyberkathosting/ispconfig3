@@ -53,7 +53,7 @@ class monitor_core_module {
 		/*
          * Do the monitor every n minutes and write the result to the db
 		*/
-		$min = date('i');
+		$min = @date('i');
 		if (($min % $this->interval) == 0) {
 			$this->doMonitor();
 		}
@@ -1082,49 +1082,51 @@ class monitor_core_module {
 		/*
 		 * Check, if we have mpt-status installed (LSIsoftware-raid)
 		*/
-		system('which mpt-status', $retval);
-		if($retval === 0) {
-			/*
-             * Fetch the output
-			*/
-			$data['output'] = shell_exec('mpt-status --autoload -n');
-
-			/*
-             * Then calc the state.
-			*/
-			$state = 'ok';
-			foreach ($data['output'] as $item) {
+		if(file_exists('/proc/mpt/summary')) {
+			system('which mpt-status', $retval);
+			if($retval === 0) {
 				/*
-				 * The output contains information for every RAID and every HDD.
-				 * We only need the state of the RAID
+				* Fetch the output
 				*/
-				if (strpos($item, 'raidlevel:') !== false) {
+				$data['output'] = shell_exec('mpt-status --autoload -n');
+
+				/*
+				* Then calc the state.
+				*/
+				$state = 'ok';
+				foreach ($data['output'] as $item) {
 					/*
-					 * We found a raid, process the state of it
+					* The output contains information for every RAID and every HDD.
+					* We only need the state of the RAID
 					*/
-					if (strpos($item, ' ONLINE ') !== false) {
-						$this->_setState($state, 'ok');
-					}
-					elseif (strpos($item, ' OPTIMAL ') !== false) {
-						$this->_setState($state, 'ok');
-					}
-					elseif (strpos($item, ' INITIAL ') !== false) {
-						$this->_setState($state, 'info');
-					}
-					elseif (strpos($item, ' INACTIVE ') !== false) {
-						$this->_setState($state, 'critical');
-					}
-					elseif (strpos($item, ' RESYNC ') !== false) {
-						$this->_setState($state, 'info');
-					}
-					elseif (strpos($item, ' DEGRADED ') !== false) {
-						$this->_setState($state, 'critical');
-					}
-					else {
-						/* we don't know the state. so we set the state to critical, that the
-						 * admin is warned, that something is wrong
+					if (strpos($item, 'raidlevel:') !== false) {
+						/*
+						* We found a raid, process the state of it
 						*/
-						$this->_setState($state, 'critical');
+						if (strpos($item, ' ONLINE ') !== false) {
+							$this->_setState($state, 'ok');
+						}
+						elseif (strpos($item, ' OPTIMAL ') !== false) {
+							$this->_setState($state, 'ok');
+						}
+						elseif (strpos($item, ' INITIAL ') !== false) {
+							$this->_setState($state, 'info');
+						}
+						elseif (strpos($item, ' INACTIVE ') !== false) {
+							$this->_setState($state, 'critical');
+						}
+						elseif (strpos($item, ' RESYNC ') !== false) {
+							$this->_setState($state, 'info');
+						}
+						elseif (strpos($item, ' DEGRADED ') !== false) {
+							$this->_setState($state, 'critical');
+						}
+						else {
+							/* we don't know the state. so we set the state to critical, that the
+							* admin is warned, that something is wrong
+							*/
+							$this->_setState($state, 'critical');
+						}
 					}
 				}
 			}

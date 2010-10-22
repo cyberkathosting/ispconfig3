@@ -1191,6 +1191,8 @@ class system{
 		} else {
 			$dir = escapeshellcmd($maildir_path);
 		}
+		
+		if(!is_dir($dir)) mkdir($dir, 0700, true);
 
 		if($user != '' && $user != 'root' && $this->is_user($user)) {
 			$user = escapeshellcmd($user);

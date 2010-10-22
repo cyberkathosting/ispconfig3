@@ -1,22 +1,26 @@
 <?php
-$wb['shell_txt'] = 'Shell';
-$wb['dir_txt'] = 'Directory';
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Gebruikersnaam';
-$wb['password_txt'] = 'Wachtwoord';
-$wb['password_strength_txt'] = 'Wachtwoord sterkte';
-$wb['chroot_txt'] = 'Chroot Shell';
-$wb['quota_size_txt'] = 'Schijfruimte limiet';
-$wb['active_txt'] = 'Actief?';
-$wb['username_error_empty'] = 'Gebruikersnaam is leeg.';
-$wb['username_error_unique'] = 'De gebruikersnaam moet uniek zijn.';
-$wb['username_error_regex'] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
-$wb['quota_size_error_empty'] = 'Schijfruimte limiet is leeg.';
-$wb['uid_error_empty'] = 'GID leeg.';
-$wb['directory_error_empty'] = 'Directory leeg.';
-$wb['limit_shell_user_txt'] = 'Het maximum aantal shell gebruikers is bereikt.';
-$wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
-$wb['puser_txt'] = 'Web Username';
-$wb['pgroup_txt'] = 'Web Group';
+$wb["puser_txt"] = 'Web Gebruikersnaam';
+$wb["pgroup_txt"] = 'Web groep';
+$wb["shell_txt"] = 'Shell';
+$wb["dir_txt"] = 'Dir';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Site';
+$wb["username_txt"] = 'Gebruikersnaam';
+$wb["password_txt"] = 'Wachtwoord';
+$wb["password_strength_txt"] = 'Wachtwoord sterkte';
+$wb["chroot_txt"] = 'Chroot Shell';
+$wb["quota_size_txt"] = 'Quota';
+$wb["active_txt"] = 'Actief';
+$wb["username_error_empty"] = 'Gebruikersnaam is niet ingvuld.';
+$wb["username_error_unique"] = 'De gebruikersnaam moet uniek zijn.';
+$wb["username_error_regex"] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
+$wb["quota_size_error_empty"] = 'Quota is niet ingvuld.';
+$wb["uid_error_empty"] = 'UID is niet ingvuld.';
+$wb["uid_error_empty"] = 'GID is niet ingvuld.';
+$wb["directory_error_empty"] = 'Directory is niet ingvuld.';
+$wb["limit_shell_user_txt"] = 'Het max. aantal shell-gebruikers is bereikt.';
+$wb["parent_domain_id_error_empty"] = 'Geen website geselecteerd.';
 ?>
+
+
+

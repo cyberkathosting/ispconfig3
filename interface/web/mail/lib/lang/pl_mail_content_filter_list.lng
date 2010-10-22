@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Popraw nagłowek oraz stronę';
-$wb['active_txt'] = 'Aktywny';
-$wb['server_id_txt'] = 'Serwer';
-$wb['pattern_txt'] = 'Wzór';
-$wb['action_txt'] = 'Akcja';
-$wb['add_new_record_txt'] = 'Dodaj nowy zbiór filtrów';
+$wb['list_head_txt'] = "Popraw nagłówek oraz stronę";
+$wb['active_txt'] = "Aktywny";
+$wb['server_id_txt'] = "Serwer";
+$wb['pattern_txt'] = "Wzór";
+$wb['action_txt'] = "Akcja";
+$wb['add_new_record_txt'] = "Dodaj nowy zbiór filtrów";
 ?>
+

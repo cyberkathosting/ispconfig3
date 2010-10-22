@@ -8,3 +8,4 @@ $wb['sort_order_txt'] = 'Sortuj według';
 $wb['active_txt'] = 'Aktywny';
 $wb['limit_mailrouting_txt'] = 'Maksymalna ilość ścieżek dla Twojego konta została przekroczona.';
 ?>
+

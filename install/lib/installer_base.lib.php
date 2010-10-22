@@ -292,6 +292,8 @@ class installer_base {
 		 *   1) it is a single server
 		 *   2) it is the MASTER of n clients
 		*/
+		$hosts = array();
+		
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			/*
 			 * it is a master-slave - Setup so the slave has to grant its rights in the master
@@ -326,7 +328,7 @@ class installer_base {
 			}
 		}
 		
-		if(is_array($hosts)) {
+		if(count($hosts) > 0) {
 		foreach($hosts as $host => $value) {
 			/*
 			 * If a pwd exists, this means, we have to add the new user (and his pwd).
@@ -711,11 +713,11 @@ class installer_base {
 		$config_dir = $conf['dovecot']['config_dir'];
 
 		//* Configure master.cf and add a line for deliver
-		if(is_file($config_dir.'/master.cf')) {
-			copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+		if(is_file($conf['postfix']['config_dir'].'/master.cf')) {
+			copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~2');
 		}
-		if(is_file($config_dir.'/master.cf~')) {
-			chmod($config_dir.'/master.cf~2', 0400);
+		if(is_file($conf['postfix']['config_dir'].'/master.cf~')) {
+			chmod($conf['postfix']['config_dir'].'/master.cf~2', 0400);
 		}
 		$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		// Only add the content if we had not addded it before
@@ -1058,7 +1060,7 @@ class installer_base {
 		$tcp_public_services = '';
 		$udp_public_services = '';
 
-		$row = $this->db->queryOneRecord('SELECT * FROM firewall WHERE server_id = '.intval($conf['server_id']));
+		$row = $this->db->queryOneRecord('SELECT * FROM '.$conf["mysql"]["database"].'.firewall WHERE server_id = '.intval($conf['server_id']));
 
 		if(trim($row['tcp_port']) != '' || trim($row['udp_port']) != '') {
 			$tcp_public_services = trim(str_replace(',',' ',$row['tcp_port']));

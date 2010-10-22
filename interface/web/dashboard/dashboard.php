@@ -92,7 +92,19 @@ $info = array();
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
 	$new_version = trim($new_version);
-	if($new_version != ISPC_APP_VERSION) {
+	$this_version = explode(".",ISPC_APP_VERSION);
+	$this_fullversion = (($this_version[0] < 10) ? '0'.$this_version[0] : $this_version[0]) .
+			    (($this_version[1] < 10) ? '0'.$this_version[1] : $this_version[1]) .
+			    (($this_version[2] < 10) ? '0'.$this_version[2] : $this_version[2]) .
+			    (($this_version[3] < 10) ? (($this_version[3] < 1) ? '00' : '0'.$this_version[3]) : $this_version[3]);
+
+
+	$new_version = explode(".",$new_version);
+	$new_fullversion =  (($new_version[0] < 10) ? '0'.$new_version[0] : $new_version[0]) .
+			    (($new_version[1] < 10) ? '0'.$new_version[1] : $new_version[1]) .
+			    (($new_version[2] < 10) ? '0'.$new_version[2] : $new_version[2]) .
+			    (($new_version[3] < 10) ? (($new_version[3] < 1) ? '00' : '0'.$new_version[3]) : $new_version[3]);
+	if($new_fullversion > $this_fullversion) {
 		$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available! <a href="http://www.ispconfig.org/ispconfig-3/download">See more...</a>');
 	}
 }

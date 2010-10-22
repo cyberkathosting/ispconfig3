@@ -1,11 +1,14 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Open TCP poorten';
-$wb['udp_port_txt'] = 'Open UDP poorten';
-$wb['tcp_port_help_txt'] = 'Gescheiden door komma';
-$wb['udp_port_help_txt'] = 'Gescheiden door komma';
-$wb['active_txt'] = 'Actief?';
-$wb['firewall_error_unique'] = 'Er bestaat al een firewall record voor deze server.';
-$wb['tcp_ports_error_regex'] = 'Karakter niet toegestaan in tcp poort toewijzing. Toegestane tekens zijn cijfers, : en ,';
-$wb['udp_ports_error_regex'] = 'Karakter niet toegestaan in udp poort toewijzing. Toegestane tekens zijn cijfers, : en ,';
+$wb["server_id_txt"] = 'Server';
+$wb["tcp_port_txt"] = 'Open TCP poorten';
+$wb["udp_port_txt"] = 'Open UDP poorten';
+$wb["tcp_port_help_txt"] = 'Gescheiden door komma';
+$wb["udp_port_help_txt"] = 'Gescheiden door komma';
+$wb["active_txt"] = 'Actief';
+$wb["firewall_error_unique"] = 'Er is al een firewall record voor deze server.';
+$wb["active_txt"] = 'Actief';
+$wb["tcp_ports_error_regex"] = 'Karakter niet toegestaan in tcp port definitie. Toegestane karakters zijn nummers, ":" en ",".';
+$wb["udp_ports_error_regex"] = 'Karakter niet toegestaan in udp port definitie. Toegestane karakters zijn nummers, ":" en ",".';
 ?>
+
+

@@ -97,7 +97,7 @@ class network_settings_plugin {
 				$network_tpl->setVar('broadcast',$this->broadcast($server_config['ip_address'],$server_config['netmask']));
 				$network_tpl->setVar('network',$this->network($server_config['ip_address'],$server_config['netmask']));
 				
-				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf['server_id']) . ' order by ip_address');
+				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf['server_id']) . ' ORDER BY server_ip_id ASC');
 				$ip_records = array();
 				$additionl_ip_records = 0;
 				$n = 0;
@@ -129,6 +129,8 @@ class network_settings_plugin {
 				 * main-server) because the LAST IP in the list is the IP mysql uses
 				 * to determine the host, the user is logging in from.
 				 */
+				/*
+				// Disabled this part as it causes problems on multiserver setups
 				if ($additionl_ip_records != 0)
 				{
 					$swap['ip_address'] = $ip_records[$n-1]['ip_address'];
@@ -149,6 +151,7 @@ class network_settings_plugin {
 					$network_tpl->setVar('broadcast',$this->broadcast($swap['ip_address'],$swap['netmask']));
 					$network_tpl->setVar('network',$this->network($swap['ip_address'],$swap['netmask']));
 				}
+				*/
 				
 				$network_tpl->setVar('additionl_ip_records',$additionl_ip_records);
 				$network_tpl->setLoop('interfaces',$ip_records);

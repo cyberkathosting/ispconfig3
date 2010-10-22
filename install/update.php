@@ -198,7 +198,7 @@ updateDbAndIni();
  * (if this is done at client side, only this client is updated.
  * If this is done at server side, all clients are updated.
  */
-//if($conf['mysql']['master_slave_setup'] == 'y') {
+//if($conf_old['dbmaster_user'] != '' or $conf_old['dbmaster_host'] != '') {
 	//** Update master database rights
 	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes','no'),'no');
 

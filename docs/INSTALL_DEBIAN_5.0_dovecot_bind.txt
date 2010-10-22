@@ -145,7 +145,10 @@ apt-get -y install bind9 dnsutils
 
 6) Install vlogger and webalizer
 
-apt-get -y install vlogger webalizer
+apt-get -y install vlogger webalizer awstats
+
+mkdir /usr/share/awstats/tools
+cp -prf /usr/share/doc/awstats/examples/awstats_buildstaticpages.pl /usr/share/awstats/tools/awstats_buildstaticpages.pl
 
 
 7) Install Jailkit (optional, only needed if you want to use chrooting for SSH users)

@@ -261,7 +261,18 @@ class page_action extends tform_actions {
 		
 		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
 		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
-
+		
+		//* Check database name and user against blacklist
+		$dbname_blacklist = array($conf['db_database'],'mysql');
+		if(in_array($dbname_prefix . $this->dataRecord['database_name'],$dbname_blacklist)) {
+			$app->tform->errorMessage .= $app->lng('Database name not allowed.').'<br />';
+		}
+		
+		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
+		if(in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
+			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
+		}
+		
 		if ($app->tform->errorMessage == ''){
 			/* restrict the names if there is no error */
             /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
@@ -287,7 +298,17 @@ class page_action extends tform_actions {
 		
 		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
 		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
-
+		
+		//* Check database name and user against blacklist
+		$dbname_blacklist = array($conf['db_database'],'mysql');
+		if(in_array($dbname_prefix . $this->dataRecord['database_name'],$dbname_blacklist)) {
+			$app->tform->errorMessage .= $app->lng('Database name not allowed.').'<br />';
+		}
+		
+		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
+		if(in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
+			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
+		}
 
 		/* restrict the names */
         /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */

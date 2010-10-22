@@ -1,14 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'A-Record';
-$wb['active_txt'] = 'Actief?';
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Naam';
-$wb['data_txt'] = 'Data';
-$wb['aux_txt'] = 'Prioriteit';
-$wb['type_txt'] = 'Type';
-$wb['add_new_record_txt'] = 'Nieuw DNS A-Record toevoegen';
-$wb['page_txt'] = 'Pagina';
-$wb['page_of_txt'] = 'van';
-$wb['delete_confirmation'] = 'Weet u zeker dat u dit record wilt verwijderen?';
+$wb["list_head_txt"] = 'A-record';
+$wb["active_txt"] = 'Actief';
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Naam';
+$wb["data_txt"] = 'Data';
+$wb["aux_txt"] = 'Prioriteit';
+$wb["type_txt"] = 'Type';
+$wb["add_new_record_txt"] = 'Toevoegen nieuw DNS A-record';
+$wb["page_txt"] = 'Pagina';
+$wb["page_of_txt"] = 'van';
+$wb['delete_confirmation'] = 'Wilt u dit record echt verwijderen?';
 ?>
+
+

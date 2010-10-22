@@ -1,11 +1,13 @@
 <?php
-$wb['email_txt'] = 'E-mail';
-$wb['destination_txt'] = 'Doorsturen aan account';
-$wb['active_txt'] = 'Actief?';
-$wb['email_error_isemail'] = 'E-mailadres is ongeldig.';
-$wb['email_error_unique'] = 'E-mailadres is reeds toegevoegd.';
-$wb['no_domain_perm'] = 'U heeft geen toestemming voor het aanmaken van een alias op dit domein.';
-$wb['destination_error_isemail'] = 'E-mailadres geadresseerde is ongeldig.';
-$wb['limit_mailalias_txt'] = 'Het max. aantal e-mailaliassen voor uw account is bereikt.';
-$wb['duplicate_mailbox_txt'] = 'Er is al een e-mailaccount ingesteld op het door u gewenste adres.';
+$wb["email_txt"] = 'E-mail';
+$wb["destination_txt"] = 'Bestemming';
+$wb["active_txt"] = 'Actief';
+$wb["email_error_isemail"] = 'E-mail address is ongeldig.';
+$wb["email_error_unique"] = 'Duplicaat E-mail adres.';
+$wb["no_domain_perm"] = "U heeft geen toestemming voor dit domein.";
+$wb["destination_error_isemail"] = 'Bestemming Emailaddres is ongeldig.';
+$wb["limit_mailalias_txt"] = 'Het max. aantal e-mail aliassen voor uw account is bereikt.';
+$wb["duplicate_mailbox_txt"] = 'Er is al een mailbox met dit e-mail adres';
 ?>
+
+

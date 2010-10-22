@@ -110,20 +110,22 @@ class remoteaction_core_module extends modules_base {
 		/*
 		 * process all actions
 		*/
-		foreach ($actions as $action) {
-			if ($action['action_type'] == 'os_update') {
-				/* do the update */
-				$this->_doOsUpdate($action);
-				/* this action takes so much time,
-				  * we stop executing the actions not to waste more time */
-				return;
-			}
-			if ($action['action_type'] == 'ispc_update') {
-				/* do the update */
-				$this->_doIspCUpdate($action);
-				/* this action takes so much time,
-				  * we stop executing the actions not to waste more time */
-				return;
+		if(is_array($actions)) {
+			foreach ($actions as $action) {
+				if ($action['action_type'] == 'os_update') {
+					/* do the update */
+					$this->_doOsUpdate($action);
+					/* this action takes so much time,
+					* we stop executing the actions not to waste more time */
+					return;
+				}
+				if ($action['action_type'] == 'ispc_update') {
+					/* do the update */
+					$this->_doIspCUpdate($action);
+					/* this action takes so much time,
+					* we stop executing the actions not to waste more time */
+					return;
+				}
 			}
 		}
 	}

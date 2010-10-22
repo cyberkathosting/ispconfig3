@@ -1,9 +1,10 @@
 <?php
-$wb['sys_groupid_txt'] = 'Client';
-$wb['list_head_txt'] = 'Websites';
-$wb['domain_id_txt'] = 'ID';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Add new website';
+$wb['sys_groupid_txt'] = "Klient";
+$wb['list_head_txt'] = "Strony www";
+$wb['domain_id_txt'] = "ID";
+$wb['active_txt'] = "Aktywne";
+$wb['server_id_txt'] = "Serwer";
+$wb['domain_txt'] = "Domena";
+$wb['add_new_record_txt'] = "Dodaj nową stronę";
 ?>
+

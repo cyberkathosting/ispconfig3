@@ -1,11 +1,12 @@
 <?php
-$wb['source_txt'] = 'Source';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['limit_mailaliasdomain_txt'] = 'The max. number of email alias domains for your account is reached.';
-$wb['source_destination_identical_txt'] = 'Source and target Domain are the same.';
-$wb['source_error_empty'] = 'Source Domain is empty.';
-$wb['source_error_unique'] = 'Duplicate source Domain.';
-$wb['source_error_regex'] = 'Invalid source domain name.';
+$wb['source_txt'] = "Źródło";
+$wb['destination_txt'] = "Cel";
+$wb['active_txt'] = "Aktywne";
+$wb['no_domain_perm'] = "Nie masz uprawnień dla tej domeny.";
+$wb['limit_mailaliasdomain_txt'] = "Maksymalna ilość aliasów e-mail dla domeny została przekroczona.";
+$wb['source_destination_identical_txt'] = "Źródło i cel domeny są takie same.";
+$wb['source_error_empty'] = "Domena źródłowa jest pusta.";
+$wb['source_error_unique'] = "Duplikat źródłowej domeny.";
+$wb['source_error_regex'] = "Nieprawidłowa nazwa domeny źródłowej.";
 ?>
+

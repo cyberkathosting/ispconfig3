@@ -4,3 +4,5 @@ $wb['Settings'] = 'Instellingen';
 $wb['ISPConfig Tools'] = 'ISPConfig Tools';
 $wb['Password and Language'] = 'Wachtwoord en taal';
 ?>
+
+

@@ -55,8 +55,6 @@ plugin {
 #auth_executable = /usr/lib/dovecot/dovecot-auth
 auth default {
   mechanisms = plain login
-  passdb pam {
-  }
 
   # SQL database <doc/wiki/AuthDatabase.SQL.txt>
   passdb sql {

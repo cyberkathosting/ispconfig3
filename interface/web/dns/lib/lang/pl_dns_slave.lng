@@ -1,14 +1,15 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'DNS Zone';
-$wb['ns_txt'] = 'NS';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_slave_zone_txt'] = 'The max. number of Secondary DNS zones for your account is reached.';
-$wb['client_txt'] = 'Client';
-$wb['xfer_txt'] = 'Allow zone transfers to <br />these IPs (comma separated list)';
-$wb['server_id_error_empty'] = 'No server selected';
-$wb['origin_error_empty'] = 'Zone empty.';
-$wb['origin_error_unique'] = 'There is already a record for this zone.';
-$wb['origin_error_regex'] = 'Zone has a invalid format.';
-$wb['ns_error_regex'] = 'NS has a invalid format.';
+$wb['server_id_txt'] = "Serwer";
+$wb['origin_txt'] = "Strefa DNS";
+$wb['ns_txt'] = "NS";
+$wb['active_txt'] = "Aktywne";
+$wb['limit_dns_slave_zone_txt'] = "Maksymalna ilość zapasowych wpisów DNS dla Twojego konta została przekroczona.";
+$wb['client_txt'] = "Klient";
+$wb['xfer_txt'] = "Zezwól na przeniesienie stref do <br />tych adresów IP (adresy rozdzielaj przecinkiem)";
+$wb['server_id_error_empty'] = "Nazwa serwera jest pusta.";
+$wb['origin_error_empty'] = "Strefa jest pusta";
+$wb['origin_error_unique'] = "Jest już rekord w tej strefie.";
+$wb['origin_error_regex'] = "Strefa ma niepoprawny format.";
+$wb['ns_error_regex'] = "NS ma niepoprawny format.";
 ?>
+

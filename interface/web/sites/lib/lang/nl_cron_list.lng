@@ -1,12 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Cron takenoverzicht';
-$wb['active_txt'] = 'Actief?';
-$wb['server_id_txt'] = 'Server';
-$wb['run_min_txt'] = 'Minuut';
-$wb['run_hour_txt'] = 'Uur';
-$wb['run_mday_txt'] = 'Dag van maand';
-$wb['run_month_txt'] = 'Maand';
-$wb['run_wday_txt'] = 'Dag van week';
-$wb['command_txt'] = 'Commando';
-$wb['add_new_cron_txt'] = 'Nieuwe Cron taak toevoegen';
+$wb["list_head_txt"] = 'Cron Jobs';
+$wb["active_txt"] = 'Actief';
+$wb["server_id_txt"] = 'Server';
+$wb["run_min_txt"] = 'Minuut';
+$wb["run_hour_txt"] = 'Uur';
+$wb["run_mday_txt"] = 'Dag van de maand';
+$wb["run_month_txt"] = 'Maand';
+$wb["run_wday_txt"] = 'Dag van de week';
+$wb["command_txt"] = 'Commando';
+$wb["add_new_cron_txt"] = 'Toevoegen nieuwe Cron job';
 ?>
+
+

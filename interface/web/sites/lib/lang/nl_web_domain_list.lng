@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Website overzicht';
-$wb['active_txt'] = 'Actief?';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domein';
-$wb['add_new_record_txt'] = 'Nieuwe website toevoegen';
-$wb['domain_id_txt'] = 'ID';
+$wb["list_head_txt"] = 'Websites';
+$wb["domain_id_txt"] = 'ID';
+$wb["active_txt"] = 'Actief';
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domein';
+$wb["add_new_record_txt"] = 'Toevoegen nieuwe website';
 ?>
+
+

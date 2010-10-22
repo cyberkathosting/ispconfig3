@@ -1,16 +1,17 @@
 <?php
-$wb['server_id_txt'] = 'Serwer';
-$wb['type_txt'] = 'Typ';
-$wb['source_server_txt'] = 'Pop3/Imap Serwer';
-$wb['source_username_txt'] = 'Nazwa uzytkownika';
-$wb['source_password_txt'] = 'Hasło';
-$wb['source_delete_txt'] = 'Usuń adresy e-mail po odzyskaniu';
-$wb['destination_txt'] = 'Element docelowy';
-$wb['active_txt'] = 'Aktywny';
-$wb['limit_fetchmail_txt'] = 'Maksymalna ilość wpisów Fetchmail dla Twojego konta została przekroczona.';
-$wb['source_server_error_isempty'] = 'Serwer jest pusty.';
-$wb['source_username_error_isempty'] = 'Nazwa użytkownika jest pusta.';
-$wb['source_password_error_isempty'] = 'Hasło jest puste.';
-$wb['destination_error_isemail'] = 'Nie wybrano elementu docelowego.';
-$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+$wb['server_id_txt'] = "Serwer";
+$wb['type_txt'] = "Typ";
+$wb['source_server_txt'] = "Pop3/Imap Serwer";
+$wb['source_username_txt'] = "Nazwa użytkownika";
+$wb['source_password_txt'] = "Hasło";
+$wb['source_delete_txt'] = "Usuń adresy e-mail po odzyskaniu";
+$wb['destination_txt'] = "Element docelowy";
+$wb['active_txt'] = "Aktywny";
+$wb['limit_fetchmail_txt'] = "Maksymalna ilość wpisów Fetchmail dla Twojego konta została przekroczona.";
+$wb['source_server_error_isempty'] = "Serwer jest pusty.";
+$wb['source_username_error_isempty'] = "Nazwa użytkownika jest pusta.";
+$wb['source_password_error_isempty'] = "Hasło jest puste.";
+$wb['destination_error_isemail'] = "Nie wybrano elementu docelowego.";
+$wb['source_server_error_regex'] = "Serwer Pop3/Imap nie jest poprawną nazwą domenową.";
 ?>
+

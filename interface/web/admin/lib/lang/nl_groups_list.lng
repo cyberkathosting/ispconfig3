@@ -1,7 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Gebruikersgroepen';
-$wb['description_txt'] = 'Omschrijving';
-$wb['name_txt'] = 'Groep';
-$wb['add_new_record_txt'] = 'Nieuwe groep toevoegen';
-$wb['warning_txt'] = '<b>LET OP:</b> Uitgevoerde wijzigingen in deze module kunnen gevolgen hebben voor gebruikers gekoppeld aan deze groepen!';
+$wb["list_head_txt"] = 'Systemuser groepen';
+$wb["description_txt"] = 'Omschrijving';
+$wb["name_txt"] = 'Groep';
+$wb["add_new_record_txt"] = 'Toevoegen nieuwe groep';
+$wb["warning_txt"] = '<b>WAARSCHUWING:</b> Wijzig hier geen enkele gebruikersinstelling. Voor het aanbrengen van wijzigingen gebruikt u de klanten module. Het hier wijzigen van gebruikers of groepen kan dataverlies tot gevolg hebben!!!';
 ?>
+
+

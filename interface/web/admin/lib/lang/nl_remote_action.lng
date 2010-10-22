@@ -1,10 +1,13 @@
 <?php
-$wb['select_server_txt'] = 'Select Server';
-$wb['btn_do_txt'] = 'Execute action';
-$wb['do_osupdate_caption'] = 'Do OS-Update at remote server';
-$wb['do_osupdate_desc'] = 'This Action does a aptitude -y upgrade at your selected server.<br><br><strong>USE THIS AT YOUR OWN RISK!</strong>';
-$wb['do_ispcupdate_caption'] = 'Do ISPConfig 3 - Update at remote server';
-$wb['do_ispcupdate_desc'] = 'This action does a ISPConfig3 update at your selected server.<br><br><strong>USE THIS AT YOUR OWN RISK!</strong>';
-$wb['action_scheduled'] = 'The action is scheduled for execution';
-$wb['select_all_server'] = 'All server';
+$wb['select_server_txt'] = 'Seleceert server';
+$wb['btn_do_txt'] = 'Actie uitvoeren';
+$wb['do_osupdate_caption'] = 'Voer een OS-update uit op de remote server';
+$wb['do_osupdate_desc'] = "Deze actie voert een 'aptitude -y upgrade' uit op de door u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>";
+$wb['do_ispcupdate_caption'] = 'Voer een ISPConfig 3 - update uit op de remote server';
+$wb['do_ispcupdate_desc'] = "Deze actie voert een ISPConfig3 update uit op de soor u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>";
+$wb['action_scheduled'] = "Deze actie is ingepland om uitgevoerd te worden";
+$wb['select_all_server'] = "Alle servers";
 ?>
+
+
+

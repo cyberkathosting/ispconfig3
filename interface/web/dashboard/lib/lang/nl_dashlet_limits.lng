@@ -1,29 +1,32 @@
 <?php
-$wb['limits_txt'] = 'Account limits';
-$wb['of_txt'] = 'of';
-$wb['unlimited_txt'] = 'Unlimited';
-$wb['limit_maildomain_txt'] = 'Number of email domains';
-$wb['limit_mailbox_txt'] = 'Number of mailboxes';
-$wb['limit_mailalias_txt'] = 'Number of email aliases';
-$wb['limit_mailaliasdomain_txt'] = 'Number of domain aliases';
-$wb['limit_mailforward_txt'] = 'Number of email forwarders';
-$wb['limit_mailcatchall_txt'] = 'Number of email catchall accounts';
-$wb['limit_mailrouting_txt'] = 'Number of email routes';
-$wb['limit_mailfilter_txt'] = 'Number of email filters';
-$wb['limit_fetchmail_txt'] = 'Number of fetchmail accounts';
-$wb['limit_spamfilter_wblist_txt'] = 'Number of spamfilter white / blacklist filters';
-$wb['limit_spamfilter_user_txt'] = 'Number of spamfilter users';
-$wb['limit_spamfilter_policy_txt'] = 'Number of spamfilter policys';
-$wb['limit_cron_txt'] = 'Number of cron jobs';
-$wb['limit_web_domain_txt'] = 'Number of web domains';
-$wb['limit_web_aliasdomain_txt'] = 'Number of web aliasdomains';
-$wb['limit_web_subdomain_txt'] = 'Number of web subdomains';
-$wb['limit_ftp_user_txt'] = 'Number of FTP users';
-$wb['limit_dns_zone_txt'] = 'Number of DNS zones';
-$wb['limit_dns_slave_zone_txt'] = 'Number of DNS slave zones';
-$wb['limit_dns_record_txt'] = 'Number DNS records';
-$wb['limit_shell_user_txt'] = 'Number of Shell users';
-$wb['limit_webdav_user_txt'] = 'Number of Webdav users';
-$wb['limit_client_txt'] = 'Number of Clients';
-$wb['limit_database_txt'] = 'Number of Databases';
+$wb['limits_txt'] = "Account limieten";
+$wb['of_txt'] = "van";
+$wb['unlimited_txt'] = "Ongelimiteerd";
+$wb['limit_maildomain_txt'] = "Aantal email domeinen";
+$wb['limit_mailbox_txt'] = "Aantal mailboxes";
+$wb["limit_mailalias_txt"] = 'Aantal e-mail aliassen';
+$wb["limit_mailaliasdomain_txt"] = 'Aantal domein aliassen';
+$wb["limit_mailforward_txt"] = 'Aantal e-mail forwarders';
+$wb["limit_mailcatchall_txt"] = 'Aantal e-mail catchall accounts';
+$wb["limit_mailrouting_txt"] = 'Aantal e-mail routes';
+$wb["limit_mailfilter_txt"] = 'Aantal e-mail filters';
+$wb["limit_fetchmail_txt"] = 'Aantal fetchmail accounts';
+$wb["limit_spamfilter_wblist_txt"] = 'Aantal spamfilter white / blacklist filters';
+$wb["limit_spamfilter_user_txt"] = 'Aantal spamfilter users';
+$wb["limit_spamfilter_policy_txt"] = 'Aantal spamfilter policys';
+$wb["limit_cron_txt"] = 'Aantal cron jobs';
+$wb["limit_web_domain_txt"] = 'Aantal web domeinen';
+$wb["limit_web_aliasdomain_txt"] = 'Aantal web aliasdomeinen';
+$wb["limit_web_subdomain_txt"] = 'Aantal web subdomeinen';
+$wb["limit_ftp_user_txt"] = 'Aantal FTP gebruikers';
+$wb["limit_dns_zone_txt"] = 'Aantal DNS zones';
+$wb["limit_dns_slave_zone_txt"] = 'Aantal DNS slave zones';
+$wb["limit_dns_record_txt"] = 'Aantal DNS records';
+$wb["limit_shell_user_txt"] = 'Aantal Shell users';
+$wb["limit_webdav_user_txt"] = 'Aantal Webdav users';
+$wb["limit_client_txt"] = 'Aantal klanten';
+$wb["limit_database_txt"] = 'Aantal databases';
 ?>
+
+
+

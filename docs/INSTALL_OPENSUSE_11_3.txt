@@ -64,6 +64,11 @@ then execute:
 mkdir -p /var/run/clamav
 ln -s /var/lib/clamav/clamd-socket /var/run/clamav/clamd
 
+# On 64Bit systems, run this command to symlink the dovecot library folder. Thats for 64Bit systems only, so do not exekute the ln command on 32bit systems.
+
+ln -s /usr/lib64/dovecot/modules /usr/lib/dovecot 
+
+
 chkconfig --add amavis
 chkconfig --add clamd
 /etc/init.d/amavis start

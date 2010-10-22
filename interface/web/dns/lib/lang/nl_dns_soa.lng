@@ -1,26 +1,28 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'DNS zone';
-$wb['ns_txt'] = 'Primaire nameserver';
-$wb['mbox_txt'] = 'E-mailadres zone-verantwoordelijke';
-$wb['serial_txt'] = 'Versienummer zonefile';
-$wb['refresh_txt'] = 'Sl. NS: Vernieuw zone na';
-$wb['retry_txt'] = 'Pr. NS: Bij fout, refresh na';
-$wb['expire_txt'] = 'Slave NS: Zone verloopt na';
-$wb['minimum_txt'] = 'TTL minimum';
-$wb['ttl_txt'] = 'TTL';
-$wb['xfer_txt'] = 'Toegestane IP-adressen voor zone-transfer';
-$wb['active_txt'] = 'Actief?';
-$wb['limit_dns_zone_txt'] = 'Het max. aantal aan DNS records voor uw account is bereikt.';
-$wb['client_txt'] = 'Klant';
-$wb['no_zone_perm'] = 'U heeft geen toestemming om een record aan deze DNS zone toe te voegen.';
-$wb['server_id_error_empty'] = 'Geen server geselecteerd.';
-$wb['origin_error_empty'] = 'DNS zone is leeg.';
-$wb['origin_error_unique'] = 'Er bestaat al een record voor deze zone.';
-$wb['origin_error_regex'] = 'DNS zone heeft een ongeldige indeling.';
-$wb['ns_error_regex'] = 'Nameserver heeft een ongeldige indeling.';
-$wb['mbox_error_empty'] = 'E-mailadres is leeg.';
-$wb['mbox_error_regex'] = 'De indeling van het e-mailadres is ongeldig.';
-$wb['also_notify_txt'] = 'Updates melden aan extra slaves (also-notify)';
-$wb['update_acl_txt'] = 'Update Access Control List';
+$wb["server_id_txt"] = 'Server';
+$wb["origin_txt"] = 'Zone (SOA)';
+$wb["ns_txt"] = 'NS';
+$wb["mbox_txt"] = 'E-mail';
+$wb["serial_txt"] = 'Serieel';
+$wb["refresh_txt"] = 'Ververs';
+$wb["retry_txt"] = 'Opnieuw proberen';
+$wb["expire_txt"] = 'Verlopen';
+$wb["minimum_txt"] = 'Minimum';
+$wb["ttl_txt"] = 'TTL';
+$wb["xfer_txt"] = 'Sta zone transfers toe naar <br />deze IPs (komma gescheiden waarden)';
+$wb["active_txt"] = 'Actief';
+$wb["limit_dns_zone_txt"] = 'Het max. aan DNS records voor uw account is bereikt.';
+$wb["client_txt"] = 'Klant';
+$wb["no_zone_perm"] = 'U heeft geen toestemming om een record toe te voegen aan deze DNS zone.';
+$wb["server_id_error_empty"] = 'Geen server geselecteerd';
+$wb["origin_error_empty"] = 'Zone is niet ingvuld.';
+$wb["origin_error_unique"] = 'Er is al een record voor deze zone.';
+$wb["origin_error_regex"] = 'Zone heeft een ongeldig format.';
+$wb["ns_error_regex"] = 'NS  heeft een ongeldig format.';
+$wb["mbox_error_empty"] = 'E-mail is niet ingvuld.';
+$wb["mbox_error_regex"] = 'E-mail formaat ongeldig.';
+$wb["also_notify_txt"] = 'ook notifcatie';
+$wb["update_acl_txt"] = 'Update ACL';
 ?>
+
+

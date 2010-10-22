@@ -1,9 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter blacklist';
-$wb['active_txt'] = 'Actief?';
-$wb['server_id_txt'] = 'Server';
-$wb['priority_txt'] = 'Prioriteit';
-$wb['rid_txt'] = 'Gebruiker';
-$wb['email_txt'] = 'Whitelisted e-mail';
-$wb['add_new_record_txt'] = 'Blacklist record toevoegen';
+$wb["list_head_txt"] = 'Spamfilter Blacklist';
+$wb["active_txt"] = 'Actief';
+$wb["server_id_txt"] = 'Server';
+$wb["priority_txt"] = 'Prioriteit';
+$wb["rid_txt"] = 'Gebruiker';
+$wb["email_txt"] = 'Blacklisted e-mail';
+$wb["add_new_record_txt"] = 'Toevoegen blacklist record';
 ?>
+
+

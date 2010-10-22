@@ -1,11 +1,13 @@
 <?php
-$wb['source_txt'] = 'Herkomst';
-$wb['destination_txt'] = 'Bestemming';
-$wb['active_txt'] = 'Actief?';
-$wb['no_domain_perm'] = 'U heeft geen toegang tot dit domein.';
-$wb['limit_mailaliasdomain_txt'] = 'Het maximum aantal e-mail domeinaliassen van uw account is bereikt.';
-$wb['source_destination_identical_txt'] = 'Herkomst en bestemming zijn hetzelfde.';
-$wb['source_error_empty'] = 'Herkomst is niet geselecteerd.';
-$wb['source_error_unique'] = 'Domeinnaam bij Herkomst is al elders gebruikt.';
-$wb['source_error_regex'] = 'Ongeldige herkomst domeinnaam';
+$wb["source_txt"] = 'Bron';
+$wb["destination_txt"] = 'Bestemming';
+$wb["active_txt"] = 'Actief';
+$wb["no_domain_perm"] = "U heeft geen toestemming voor dit domein.";
+$wb["limit_mailaliasdomain_txt"] = 'Het max. aantal e-mail alias domeinen voor uw account is bereikt.';
+$wb["source_destination_identical_txt"] = 'Bron en doel domein zijn identiek.';
+$wb["source_error_empty"] = 'Geen doel domein ingevuld.';
+$wb["source_error_unique"] = 'Duplicaat bron domein.';
+$wb["source_error_regex"] = 'Ongeldige bron domein naam.';
 ?>
+
+
