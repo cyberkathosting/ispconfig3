@@ -27,7 +27,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class remoteaction_core_module extends modules_base {
+class remoteaction_core_module {
 	var $module_name = 'remoteaction_core_module';
 	var $class_name = 'remoteaction_core_module';
 	/* No actions at this time. maybe later... */
