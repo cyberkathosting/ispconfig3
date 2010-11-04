@@ -101,4 +101,5 @@ $wb["limit_trafficquota_error_notint"] = 'Traffic Quota must be a number.';
 $wb["customer_no_txt"] = 'Customer No.';
 $wb["vat_id_txt"] = 'VAT ID';
 $wb["required_fields_txt"] = '* Required fields';
+$wb['company_id_txt'] = 'Company/Entrepreneur ID';
 ?>

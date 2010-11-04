@@ -1649,6 +1649,8 @@ CREATE TABLE `help_faq` (
 
 INSERT INTO `help_faq` VALUES (1,1,0,'I\'d like to know ...','Yes, of course.',1,1,'riud','riud','r');
 
+ALTER TABLE client ADD COLUMN company_id varchar(30);
+
 -- --------------------------------------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

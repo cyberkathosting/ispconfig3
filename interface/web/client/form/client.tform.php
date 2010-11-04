@@ -305,6 +305,17 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'company_id' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '20',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 		'notes' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXTAREA',
