@@ -275,13 +275,14 @@ cp -prf /usr/share/doc/awstats/examples/awstats_buildstaticpages.pl /usr/share/a
 
 apt-get -y install build-essential autoconf automake1.9 libtool flex bison debhelper
 cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.11.tar.gz
-tar xvfz jailkit-2.11.tar.gz
-cd jailkit-2.11
-./debian/rules binary
+wget http://olivier.sessink.nl/jailkit/jailkit-2.13.tar.gz
+tar xvfz jailkit-2.13.tar.gz
+cd jailkit-2.13
+./configure
+make
+make install
 cd ..
-dpkg -i jailkit_2.11-1_*.deb
-rm -rf jailkit-2.11*
+rm -rf jailkit-2.13*
 
 8) Install fail2ban (optional but recomended, because the monitor tries to show the log)
 More info at: http://www.howtoforge.com/fail2ban_debian_etch
