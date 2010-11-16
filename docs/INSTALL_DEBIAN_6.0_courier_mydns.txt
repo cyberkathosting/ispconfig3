@@ -1,8 +1,9 @@
 Installation
 -------------
 
-# It is recommended to use a clean (fresh) Debian Squeeze install where you just selected "Standard System" at the package selection during
-# setup (tasksel). Then follow the steps below to setup your server with ISPConfig 3. In this guide "vi" is used as text editor, but
+# It is recommended to use a clean (fresh) Debian Squeeze 6.0 install where you just selected "Standard System" at the package selection during
+# setup (tasksel). Journaled quota which this guide uses works on ext3 and ext4 file systems, so format disks either one if you are going to use
+# quota (recommended). Then follow the steps below to setup your server with ISPConfig 3. In this guide "vi" is used as text editor, but
 # you can use whatever you prefer. You should be root for doing all of this.
 
 
@@ -144,7 +145,8 @@ openssl req -x509 -nodes -newkey rsa:1024 -keyout /etc/ssl/private/pure-ftpd.pem
 chmod 600 /etc/ssl/private/pure-ftpd.pem 
 
 
-# Edit /etc/fstab. Mine looks like this (I added ,usrquota,grpquota to the partition with the mount point /):
+# Edit /etc/fstab. Add "usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0" to the partition where you want to use quota.
+# Mine looks like this (I want to use quota on the / partition):
 
 vi /etc/fstab
 
@@ -153,7 +155,7 @@ vi /etc/fstab
 #
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 proc            /proc           proc    defaults        0       0
-/dev/sda1       /               ext4    errors=remount-ro,usrquota,grpquota 0       1
+/dev/sda1       /               ext3    errors=remount-ro,usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0	0       1
 /dev/sda5       none            swap    sw              0       0
 /dev/hda        /media/cdrom0   udf,iso9660 user,noauto     0       0
 /dev/fd0        /media/floppy0  auto    rw,user,noauto  0       0
@@ -161,10 +163,10 @@ proc            /proc           proc    defaults        0       0
 
 # To enable quota, run these commands:
 
-touch /quota.user /quota.group &&
-chmod 600 /quota.* &&
-mount -o remount / &&
-quotacheck -avugm &&
+touch /aquota.user /aquota.group
+chmod 600 /aquota.*
+mount -o remount /
+quotacheck -F vfsv0 -afcvdugm
 quotaon -avug
 
 
