@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Impor berkas bahasa';
+$wb['language_import_txt'] = 'Pilih berkas bahasa';
+$wb['btn_save_txt'] = 'Impor berkas bahasa yang telah dipilih';
+$wb['language_overwrite_txt'] = 'Timpa berkas, jika sudah ada.';
+$wb['btn_cancel_txt'] = 'Kembali';
+$wb['ignore_version_txt'] = 'Lewati pemeriksaan versi ISPConfig';
+?>
+

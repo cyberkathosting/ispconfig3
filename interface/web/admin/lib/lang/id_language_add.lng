@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Tambah Bahasa Baru';
+$wb['language_select_txt'] = 'Pilih basis bahasa';
+$wb['language_new_txt'] = 'Bahasa baru';
+$wb['language_new_hint_txt'] = '2 karakter kode bahasa ISO 639-1 (Lihat http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['btn_save_txt'] = 'Buat kumpulan berkas bahasa baru';
+$wb['btn_cancel_txt'] = 'Kembali';
+?>
+

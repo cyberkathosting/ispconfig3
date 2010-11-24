@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Log ISPConfig';
+$wb['tstamp_txt'] = 'Tanggal';
+$wb['server_id_txt'] = 'Server';
+$wb['loglevel_txt'] = 'Tingkatan Log';
+$wb['message_txt'] = 'Pesan';
+?>
+

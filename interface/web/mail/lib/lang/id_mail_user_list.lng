@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Mailbox';
+$wb['email_txt'] = 'Email';
+$wb['autoresponder_txt'] = 'Penjawab otomtatis';
+$wb['add_new_record_txt'] = 'Tambah Mailbox Baru';
+$wb['name_txt'] = 'Nama Lengkap';
+?>
+

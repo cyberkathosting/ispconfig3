@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nama Host';
+$wb['type_txt'] = 'Tipe';
+$wb['data_txt'] = 'Penanggung Jawab';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_dns_record_txt'] = 'Jumlah maksimum record DNS untuk akun Anda telah tercapai.';
+$wb['no_zone_perm'] = 'Anda tidak memiliki hak untuk menambah record ke zona DNS ini.';
+$wb['name_error_empty'] = 'Nama Host kosong.';
+$wb['name_error_regex'] = 'Format Nama Host salah.';
+$wb['data_error_empty'] = 'Kolom Penanggung Jawab kosong';
+$wb['data_error_regex'] = 'Format kolom Penanggung Jawab salah';
+?>
+

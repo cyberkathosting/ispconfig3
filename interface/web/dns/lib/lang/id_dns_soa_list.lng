@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Zona DNS';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zona';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Tambah Zona DNS Baru (SOA)';
+$wb['add_new_record_wizard_txt'] = 'Tambah Zona DNS Baru dengan Wizard';
+?>
+

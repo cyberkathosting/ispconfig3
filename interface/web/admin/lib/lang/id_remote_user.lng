@@ -1,0 +1,43 @@
+<?php
+$wb['username_txt'] = 'Nama pengguna:';
+$wb['password_txt'] = 'Kata Sandi:';
+$wb['function_txt'] = 'Fungsi:';
+$wb['username_error_unique'] = 'Nama pengguna harus unik';
+$wb['username_error_empty'] = 'Nama pengguna tidak boleh kosong';
+$wb['password_error_empty'] = 'Kata sandi tidak boleh kosong';
+$wb['password_strength_txt'] = 'Kekuatan Sandi:';
+$wb['Mail domain functions'] = 'Fungsi-fungsi domain Mail';
+$wb['Mail user functions'] = 'Fungsi-fungsi pengguna Mail';
+$wb['Mail alias functions'] = 'Fungsi-fungsi alias Mail';
+$wb['Mail forward functions'] = 'Fungsi-fungsi penerusan Mail';
+$wb['Mail catchall functions'] = 'Fungsi-fungsi catchall Mail';
+$wb['Mail transport functions'] = 'Fungsi-fungsi transport Mail';
+$wb['Mail whitelist functions'] = 'Fungsi-fungsi whitelist Mail';
+$wb['Mail blacklist functions'] = 'Fungsi-fungsi blacklist Mail';
+$wb['Mail spamfilter user functions'] = 'Fungsi-fungsi pengguna spamfilter Mail';
+$wb['Mail spamfilter policy functions'] = 'Fungsi-fungsi kebijakan spamfilter Mail';
+$wb['Mail fetchmail functions'] = 'Fungsi-fungsi pengambilan Mail';
+$wb['Mail user filter functions'] = 'Fungsi-fungsi penyaringan pengguna Mail';
+$wb['Mail filter functions'] = 'Fungsi-fungsi penyaringan Mail';
+$wb['Client functions'] = 'Fungsi-fungsi Klien';
+$wb['Sites cron functions'] = 'Fungsi-fungsi cron Situs';
+$wb['Sites database functions'] = 'Fungsi-fungsi database Situs';
+$wb['Sites FTP-User functions'] = 'Fungsi-fungsi Pengguna FTP Situs';
+$wb['Sites Shell-User functions'] = 'Fungsi-fungsi Pengguna Shell Situs';
+$wb['Sites Domain functions'] = 'Fungsi-fungsi Domain Situs';
+$wb['Sites Aliasdomain functions'] = 'Fungsi-fungsi Alias Domain Situs';
+$wb['Sites Subdomain functions'] = 'Fungsi-fungsi Subdomain Situs';
+$wb['DNS zone functions'] = 'Fungsi-fungsi zona DNS';
+$wb['DNS a functions'] = 'Fungsi-fungsi A DNS';
+$wb['DNS aaaa functions'] = 'Fungsi-fungsi AAAA DNS';
+$wb['DNS alias functions'] = 'Fungsi-fungsi Alias DNS';
+$wb['DNS cname functions'] = 'Fungsi-fungsi CNAME DNS';
+$wb['DNS hinfo functions'] = 'Fungsi-fungsi HINFO DNS';
+$wb['DNS mx functions'] = 'Fungsi-fungsi MX DNS';
+$wb['DNS ns functions'] = 'Fungsi-fungsi NS DNS';
+$wb['DNS ptr functions'] = 'Fungsi-fungsi PTR DNS';
+$wb['DNS rp functions'] = 'Fungsi-fungsi RP DNS';
+$wb['DNS srv functions'] = 'Fungsi-fungsi SRV DNS';
+$wb['DNS txt functions'] = 'Fungsi-fungsi TXT DNS';
+?>
+

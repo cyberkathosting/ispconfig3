@@ -1,0 +1,25 @@
+<?php
+$wb['Database'] = 'Database';
+$wb['Options'] = 'Pilihan';
+$wb['Shell User'] = 'Pengguna Shell';
+$wb['Domain'] = 'Domain';
+$wb['Website'] = 'Situs Web';
+$wb['Redirect'] = 'Pengalihan';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Subdomain Situs Web';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Alias Domain Situs Web';
+$wb['FTP-User'] = 'Pengguna FTP';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Pengguna Shell';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Situs Web';
+$wb['Stats'] = 'Statistik';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron Job';
+$wb['Statistics'] = 'Statistik';
+$wb['Web traffic'] = 'Trafik Web';
+$wb['Webdav-User'] = 'Pengguna Webdav';
+$wb['Webdav'] = 'Webdav';
+?>
+

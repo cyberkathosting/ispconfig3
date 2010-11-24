@@ -903,6 +903,9 @@ class installer_dist extends installer_base {
 		exec('chown getmail /usr/local/bin/run-getmail.sh');
 		exec('chmod 744 /usr/local/bin/run-getmail.sh');
 		
+		// Edit the file Edit the file /etc/sudoers and comment out the requiregetty line, otherwise the backup function will fail
+		replaceLine('/etc/sudoers','Defaults    requiretty','#Defaults    requiretty',0,0);
+		
 		
 	}
 	

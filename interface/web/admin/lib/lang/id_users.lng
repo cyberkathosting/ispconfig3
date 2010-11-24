@@ -1,0 +1,29 @@
+<?php
+$wb['username_txt'] = 'Nama Pengguna';
+$wb['username_err'] = 'Nama pengguna terlalu panjang atau mengandung karakter yang tidak valid.';
+$wb['username_empty'] = 'Nama pengguna kosong.';
+$wb['username_unique'] = 'Sudah ada pengguna yang memakai nama ini.';
+$wb['passwort_txt'] = 'Kata Sandi';
+$wb['password_strength_txt'] = 'Kekuatan sandi';
+$wb['modules_txt'] = 'Modul';
+$wb['startmodule_txt'] = 'Modul awal';
+$wb['app_theme_txt'] = 'Desain';
+$wb['typ_txt'] = 'Tipe';
+$wb['active_txt'] = 'Aktif';
+$wb['language_txt'] = 'Bahasa';
+$wb['name_txt'] = 'Nama';
+$wb['vorname_txt'] = 'Nama kecil';
+$wb['unternehmen_txt'] = 'Perusahaan';
+$wb['strasse_txt'] = 'Jalan';
+$wb['ort_txt'] = 'Kota';
+$wb['plz_txt'] = 'Kode Pos';
+$wb['land_txt'] = 'Negara';
+$wb['email_txt'] = 'Email';
+$wb['url_txt'] = 'URL';
+$wb['telefon_txt'] = 'Telepon';
+$wb['fax_txt'] = 'Faks';
+$wb['groups_txt'] = 'Grup';
+$wb['default_group_txt'] = 'Grup Baku';
+$wb['startmodule_err'] = 'Modul awal tidak termasuk dalam modul.';
+?>
+

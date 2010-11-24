@@ -1,0 +1,19 @@
+<?php
+$wb['header_txt'] = 'Penyunting Form';
+$wb['title_txt'] = 'Judul Form';
+$wb['name_txt'] = 'Nama Form';
+$wb['delete_txt'] = 'Hapus';
+$wb['properties_txt'] = 'Properti';
+$wb['new_tab_txt'] = 'Tab Baru';
+$wb['edit_txt'] = 'Sunting';
+$wb['new_txt'] = 'Baru';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Modul';
+$wb['form_txt'] = 'Form';
+$wb['description_txt'] = 'Keterangan';
+$wb['module_del_txt'] = 'Hapus modul dan seluruh sub direktori?';
+$wb['menu_del_txt'] = 'Hapus menu dengan seluruh menuitem?';
+$wb['item_del_txt'] = 'Hapus menuitem?';
+?>
+

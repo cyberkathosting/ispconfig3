@@ -1,0 +1,39 @@
+<?php
+$wb['conf_format_dateshort'] = 'd-m-Y';
+$wb['conf_format_datelong'] = 'l dS of F Y';
+$wb['conf_format_timeshort'] = 'H:i';
+$wb['conf_format_timelong'] = 'H:i:s';
+$wb['conf_format_datetime'] = 'd-m-Y H:i';
+$wb['301'] = 'Modul tidak diperbolehkan diakses oleh pengguna saat ini.';
+$wb['302'] = 'Modul tidak valid.';
+$wb['1001'] = 'Nama pengguna dan kata sandi tidak boleh kosong !';
+$wb['1002'] = 'Nama pengguna dan/atau sandi salah !';
+$wb['1003'] = 'Pengguna tersebut telah dinonaktifkan!';
+$wb['delete_confirmation'] = 'Apakah Anda benar-benar ingin menghapus record ini?';
+$wb['error_no_view_permission'] = 'Anda tidak memiliki hak untuk melihat record ini atau record ini tidak ada!';
+$wb['error_no_delete_permission'] = 'Anda tidak memiliki hak untuk menghapus record ini!';
+$wb['page_txt'] = 'Halaman';
+$wb['page_of_txt'] = 'dari';
+$wb['page_and_txt'] = 'dan';
+$wb['page_next_txt'] = 'Lanjut';
+$wb['page_back_txt'] = 'Kembali';
+$wb['delete_txt'] = 'Hapus';
+$wb['filter_txt'] = 'Filter';
+$wb['add_new_record_txt'] = 'Tambah record baru';
+$wb['btn_save_txt'] = 'Simpan';
+$wb['btn_cancel_txt'] = 'Kembali';
+$wb['top_menu_system'] = 'Sistem';
+$wb['top_menu_client'] = 'Klien';
+$wb['top_menu_email'] = 'Email';
+$wb['top_menu_monitor'] = 'Monitor';
+$wb['top_menu_sites'] = 'Situs';
+$wb['top_menu_dns'] = 'DNS';
+$wb['top_menu_tools'] = 'Perkakas';
+$wb['top_menu_help'] = 'Bantuan';
+$wb['toolsarea_head_txt'] = 'Perkakas';
+$wb['top_menu_billing'] = 'Billing';
+$wb['top_menu_domain'] = 'Domain';
+$wb['top_menu_dashboard'] = 'Beranda';
+$wb['latest_news_txt'] = 'Berita terbaru';
+?>
+

@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Advanced Email Routing';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['transport_txt'] = 'Transport';
+$wb['sort_order_txt'] = 'Diurutkan berdasarkan';
+$wb['add_new_record_txt'] = 'Tambah Transport Baru';
+?>
+

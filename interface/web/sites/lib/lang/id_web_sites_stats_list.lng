@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Trafik Web';
+$wb['domain_txt'] = 'Domain';
+$wb['this_month_txt'] = 'Bulan ini';
+$wb['last_month_txt'] = 'Sebulan terakhir';
+$wb['this_year_txt'] = 'Tahun ini';
+$wb['last_year_txt'] = 'Setahun terakhir';
+?>
+

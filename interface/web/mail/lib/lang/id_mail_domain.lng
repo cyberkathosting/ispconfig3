@@ -1,0 +1,14 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['type_txt'] = 'Tipe';
+$wb['active_txt'] = 'Aktif';
+$wb['domain_error_empty'] = 'Domain kosong.';
+$wb['domain_error_unique'] = 'Domain ganda.';
+$wb['domain_error_regex'] = 'Nama domain tidak valid.';
+$wb['client_txt'] = 'Klien';
+$wb['limit_maildomain_txt'] = 'Jumlah maks domain email untuk akun Anda telah tercapai.';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- tidak aktif -';
+?>
+

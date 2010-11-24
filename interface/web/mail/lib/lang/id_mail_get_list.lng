@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Ambil email dari server POP3 / IMAP eksternal';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'Server Eksternal';
+$wb['source_username_txt'] = 'Nama Pengguna';
+$wb['destination_txt'] = 'Tujuan';
+$wb['add_new_record_txt'] = 'Tambah Akun Baru';
+?>
+

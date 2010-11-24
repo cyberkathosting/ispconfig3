@@ -177,7 +177,7 @@ $form["tabs"]['domain'] = array (
 		'subdomain' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
-			'default'	=> 'y',
+			'default'	=> 'www',
 			'value'		=> array('none' => 'none_txt', 'www' => 'www.', '*' => '*.')
 		),
 		'ssl' => array (

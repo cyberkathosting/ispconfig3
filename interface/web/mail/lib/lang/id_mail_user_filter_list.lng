@@ -1,0 +1,8 @@
+<?php
+$wb['rulename_txt'] = 'Nama';
+$wb['add_new_record_txt'] = 'Tambah Penyaringan Baru';
+$wb['page_txt'] = 'Halaman';
+$wb['page_of_txt'] = 'dari';
+$wb['delete_confirmation'] = 'Anda benar-benar ingin menghapus mailfilter?';
+?>
+

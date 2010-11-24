@@ -1,0 +1,23 @@
+<?php
+$wb['shell_txt'] = 'Shell';
+$wb['dir_txt'] = 'Dir';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Situs';
+$wb['username_txt'] = 'Nama Pengguna';
+$wb['password_txt'] = 'Kata Sandi';
+$wb['password_strength_txt'] = 'Kekuatan Sandi';
+$wb['chroot_txt'] = 'Shell Chroot';
+$wb['quota_size_txt'] = 'Kuota';
+$wb['active_txt'] = 'Aktif';
+$wb['username_error_empty'] = 'Nama Pengguna kosong.';
+$wb['username_error_unique'] = 'Nama Pengguna harus unik.';
+$wb['username_error_regex'] = 'Nama Pengguna mengandung karakter yang tidak diperbolehkan.';
+$wb['quota_size_error_empty'] = 'Kuota kosong.';
+$wb['uid_error_empty'] = 'GID kosong.';
+$wb['directory_error_empty'] = 'Direktori kosong.';
+$wb['limit_shell_user_txt'] = 'Jumlah maksimum pengguna shell telah tercapai.';
+$wb['parent_domain_id_error_empty'] = 'Tak ada situs web yang dipilih.';
+$wb['puser_txt'] = 'Nama Pengguna Web';
+$wb['pgroup_txt'] = 'Grup Web';
+?>
+

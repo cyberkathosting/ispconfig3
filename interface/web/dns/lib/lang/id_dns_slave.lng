@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zona DNS';
+$wb['ns_txt'] = 'NS';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_dns_slave_zone_txt'] = 'Jumlah maks zona DNS Sekunder untuk akun Anda telah tercapai.';
+$wb['client_txt'] = 'Klien';
+$wb['xfer_txt'] = 'Perbolehkan pemindahan zona ke <br />IP ini (daftar dipisahkan dengan koma)';
+$wb['server_id_error_empty'] = 'Tidak ada server yang dipilih';
+$wb['origin_error_empty'] = 'Zona kosong.';
+$wb['origin_error_unique'] = 'Sudah ada record untuk zona ini.';
+$wb['origin_error_regex'] = 'Zona memiliki format yang tidak valid.';
+$wb['ns_error_regex'] = 'NS memiliki format yang tidak valid.';
+?>
+

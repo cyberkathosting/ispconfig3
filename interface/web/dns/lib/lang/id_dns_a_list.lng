@@ -1,0 +1,15 @@
+<?php
+$wb['list_head_txt'] = 'Record-A';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nama';
+$wb['data_txt'] = 'Data';
+$wb['aux_txt'] = 'Prioritas';
+$wb['type_txt'] = 'Tipe';
+$wb['add_new_record_txt'] = 'Tambah Record-A DNS baru';
+$wb['page_txt'] = 'Halaman';
+$wb['page_of_txt'] = 'dari';
+$wb['delete_confirmation'] = 'Apakah Anda benar-benar ingin menghapus record ini?';
+?>
+

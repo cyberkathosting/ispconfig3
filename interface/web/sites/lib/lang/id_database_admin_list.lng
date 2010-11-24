@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Database';
+$wb['active_txt'] = 'Aktif';
+$wb['remote_access_txt'] = 'Akses Remote';
+$wb['server_id_txt'] = 'Server';
+$wb['database_user_txt'] = 'Pengguna Database';
+$wb['database_name_txt'] = 'Nama Database';
+$wb['add_new_record_txt'] = 'Tambah Database Baru';
+$wb['sys_groupid_txt'] = 'Klien';
+?>
+

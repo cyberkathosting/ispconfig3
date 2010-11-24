@@ -1157,9 +1157,11 @@ class system{
 		
 		if($found == 0) {
 			//* add \n if the last line does not end with \n or \r
-			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
+			if(substr($out,-1) != "\n" && substr($out,-1) != "\r" && filesize($filename) > 0) $out .= "\n";
 			//* add the new line at the end of the file
-			if($append == 1) $out .= $new_line."\n";
+			if($append == 1) {
+				$out .= $new_line."\n";
+			}
 		}
 		file_put_contents($filename,$out);
 	}
@@ -1198,8 +1200,8 @@ class system{
 			$user = escapeshellcmd($user);
 			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
 			$group = $user;
-			chown($dir,$user);
-			chgrp($dir,$group);
+			if(is_dir($dir)) chown($dir,$user);
+			if(is_dir($dir)) chgrp($dir,$group);
 
 			$chown_mdsub = true;
 		}
@@ -1207,7 +1209,7 @@ class system{
 		$maildirsubs = array('cur','new','tmp');
 
 		foreach ($maildirsubs as $mdsub) {
-			mkdir($dir.'/'.$mdsub, 0700, true);
+			if(!is_dir($dir.'/'.$mdsub)) mkdir($dir.'/'.$mdsub, 0700, true);
 			if ($chown_mdsub) {
 				chown($dir.'/'.$mdsub, $user);
 				chgrp($dir.'/'.$mdsub, $group);

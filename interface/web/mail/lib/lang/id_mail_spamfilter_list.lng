@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Spamfilter';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['server_name_txt'] = 'nama_server';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Tambah Record Spamfilter Baru';
+?>
+

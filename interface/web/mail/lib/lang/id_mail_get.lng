@@ -1,0 +1,17 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Tipe';
+$wb['source_server_txt'] = 'Server Pop3/Imap';
+$wb['source_username_txt'] = 'Nama Pengguna';
+$wb['source_password_txt'] = 'Kata Sandi';
+$wb['source_delete_txt'] = 'Hapus email setelah pengambilan';
+$wb['destination_txt'] = 'Tujuan';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_fetchmail_txt'] = 'Jumlah maks record Fetchmail untuk akun Anda telah tercapai.';
+$wb['source_server_error_isempty'] = 'Server kosong.';
+$wb['source_username_error_isempty'] = 'Nama Pengguna kosong.';
+$wb['source_password_error_isempty'] = 'Kata Sandi kosong.';
+$wb['destination_error_isemail'] = 'Tidak ada tujuan yang dipilih.';
+$wb['source_server_error_regex'] = 'Server Pop3/Imap bukan merupakan nama domain yang valid.';
+?>
+

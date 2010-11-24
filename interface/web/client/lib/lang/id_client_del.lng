@@ -1,0 +1,7 @@
+<?php
+$wb['confirm_action_txt'] = 'Konfirmasi Tindakan';
+$wb['delete_explanation'] = 'Tindakan ini akan menghapus sejumlah record yang terkait dengan klien ini';
+$wb['btn_save_txt'] = 'Hapus Klien';
+$wb['btn_cancel_txt'] = 'Batalkan Tanpa Menghapus Klien';
+?>
+

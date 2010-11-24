@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Antrian Pekerjaan';
+$wb['tstamp_txt'] = 'Tanggal';
+$wb['server_id_txt'] = 'Server';
+$wb['dbtable_txt'] = 'Tabel DB';
+$wb['action_txt'] = 'Tindakan';
+$wb['status_txt'] = 'Status';
+?>
+

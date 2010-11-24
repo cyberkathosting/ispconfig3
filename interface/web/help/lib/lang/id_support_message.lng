@@ -1,0 +1,8 @@
+<?php
+$wb['recipient_id_txt'] = 'ID Penerima';
+$wb['sender_id_txt'] = 'ID Pengirim';
+$wb['subject_txt'] = 'Judul';
+$wb['message_txt'] = 'Pesan';
+$wb['tstamp_txt'] = 'Tanda Waktu';
+?>
+

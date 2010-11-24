@@ -65,7 +65,7 @@ $wb["limit_maildomain_error_notint"] = 'De e-mail domein limiet moet een numerie
 $wb["limit_mailbox_error_notint"] = 'De mailbox limiet moet een numerieke waarde zijn.';
 $wb["limit_mailalias_error_notint"] = 'De e-mail alias limiet moet een numerieke waarde zijn.';
 $wb["limit_mailaliasdomain_error_notint"] = 'De e-mail domein alias limiet moet een numerieke waarde zijn.';
-$wb["limit_mailforward_error_notint"] = 'The e-mail forward limiet moet een numerieke waarde zijn.';
+$wb["limit_mailforward_error_notint"] = 'De e-mail forward limiet moet een numerieke waarde zijn.';
 $wb["limit_mailcatchall_error_notint"] = 'De e-mail catchall limiet moet een numerieke waarde zijn.';
 $wb["limit_mailrouting_error_notint"] = 'De em-ail routing limiet moet een numerieke waarde zijn.';
 $wb["limit_mailfilter_error_notint"] = 'De e-mail filter limiet moet een numerieke waarde zijn.';
@@ -86,7 +86,7 @@ $wb["limit_dns_zone_error_notint"] = 'De DNS record limiet moet een numerieke wa
 $wb["limit_client_error_notint"] = 'De sub klant limiet moet een numerieke waarde zijn.';
 $wb["default_dbserver_txt"] = 'Standaard Database server';
 $wb["limit_database_txt"] = 'Max. aantal databases';
-$wb["limit_database_error_notint"] = 'The database limiet moet een numerieke waarde zijn.';
+$wb["limit_database_error_notint"] = 'De database limiet moet een numerieke waarde zijn.';
 $wb["limit_cron_error_notint"] = 'De cron limiet moet een numerieke waarde zijn.';
 $wb["limit_cron_error_frequency"] = 'De cron frequency limiet moet een numerieke waarde zijn.';
 $wb["username_error_regex"] = 'De gebruikersnaam bevat ongeldige karakters.';
@@ -102,6 +102,7 @@ $wb["customer_no_txt"] = 'Klant nr.';
 $wb["vat_id_txt"] = 'BTW ID';
 $wb["required_fields_txt"] = '* Verplichte velden';
 ?>
+
 
 
 

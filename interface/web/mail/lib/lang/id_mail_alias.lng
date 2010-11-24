@@ -1,0 +1,12 @@
+<?php
+$wb['email_txt'] = 'Email';
+$wb['destination_txt'] = 'Tujuan';
+$wb['active_txt'] = 'Aktif';
+$wb['email_error_isemail'] = 'Alamat Email tidak valid.';
+$wb['email_error_unique'] = 'Alamat Email Ganda.';
+$wb['no_domain_perm'] = 'Anda tidak memiliki hak untuk domain ini.';
+$wb['destination_error_isemail'] = 'Alamat Email Tujuan tidak valid.';
+$wb['limit_mailalias_txt'] = 'Jumlah maks alias email untuk akun Anda telah tercapai.';
+$wb['duplicate_mailbox_txt'] = 'Sudah ada mailbox untuk alamat email ini';
+?>
+

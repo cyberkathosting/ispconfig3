@@ -1,0 +1,10 @@
+<?php
+$wb['Support Message'] = 'Pesan Dukungan';
+$wb['Message'] = 'Pesan';
+$wb['Send message'] = 'Kirim Pesan';
+$wb['View messages'] = 'Lihat Pesan';
+$wb['Support'] = 'Dukungan';
+$wb['About ISPConfig'] = 'Tentang ISPConfig';
+$wb['Version'] = 'Versi';
+?>
+

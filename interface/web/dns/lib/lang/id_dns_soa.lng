@@ -1,0 +1,27 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zona (SOA)';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['serial_txt'] = 'Serial';
+$wb['refresh_txt'] = 'Refresh';
+$wb['retry_txt'] = 'Retry';
+$wb['expire_txt'] = 'Expire';
+$wb['minimum_txt'] = 'Minimum';
+$wb['ttl_txt'] = 'TTL';
+$wb['xfer_txt'] = 'Izinkan transfer zona ke <br />IP ini (daftar dipisahkan dengan koma)';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_dns_zone_txt'] = 'Jumlah maksimum record DNS untuk akun Anda telah tercapai.';
+$wb['client_txt'] = 'Klien';
+$wb['no_zone_perm'] = 'Anda tidak memiliki hak untuk menambah record ke zona DNS ini.';
+$wb['server_id_error_empty'] = 'Tak ada server yang dipilih';
+$wb['origin_error_empty'] = 'Zone kosong.';
+$wb['origin_error_unique'] = 'Sudah ada record untuk zona ini.';
+$wb['origin_error_regex'] = 'Format Zona salah.';
+$wb['ns_error_regex'] = 'Format NS salah.';
+$wb['mbox_error_empty'] = 'Email kosong.';
+$wb['mbox_error_regex'] = 'Format Email tidak valid.';
+$wb['also_notify_txt'] = 'Notifikasi Juga';
+$wb['update_acl_txt'] = 'Mutakhirkan ACL';
+?>
+

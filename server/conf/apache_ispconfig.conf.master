@@ -40,6 +40,7 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
         Order allow,deny
         Allow from all
 </Directory>
+
 Alias /awstats-icon "/usr/share/awstats/icon"
 
 <tmpl_loop name="ip_adresses">

@@ -1,0 +1,13 @@
+<?php
+$wb['list_head_txt'] = 'Pekerjaan Cron';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['run_min_txt'] = 'Menit';
+$wb['run_hour_txt'] = 'Jam';
+$wb['run_mday_txt'] = 'Tanggal';
+$wb['run_month_txt'] = 'Bulan';
+$wb['run_wday_txt'] = 'Hari';
+$wb['command_txt'] = 'Perintah';
+$wb['add_new_cron_txt'] = 'Tambah Pekerjaan Cron Baru';
+?>
+

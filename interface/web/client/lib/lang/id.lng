@@ -1,0 +1,14 @@
+<?php
+$wb['Client'] = 'Klien';
+$wb['Address'] = 'Alamat';
+$wb['Limits'] = 'Batasan';
+$wb['Add Client'] = 'Tambah Klien';
+$wb['Edit Client'] = 'Sunting Klien';
+$wb['Clients'] = 'Klien';
+$wb['Edit Client-Templates'] = 'Sunting Template Klien';
+$wb['Add Reseller'] = 'Tambah Reseller';
+$wb['Edit Reseller'] = 'Sunting Reseller';
+$wb['Resellers'] = 'Reseller';
+$wb['error_has_clients'] = 'Reseller ini memiliki klien. Hapus klien dari reseller terlebih dahulu.';
+?>
+

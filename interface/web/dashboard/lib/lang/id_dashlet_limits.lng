@@ -1,0 +1,30 @@
+<?php
+$wb['limits_txt'] = 'Batasan Akun';
+$wb['of_txt'] = 'dari';
+$wb['unlimited_txt'] = 'Tak terbatas';
+$wb['limit_maildomain_txt'] = 'Jumlah domain email';
+$wb['limit_mailbox_txt'] = 'Jumlah mailbox';
+$wb['limit_mailalias_txt'] = 'Jumlah alias email';
+$wb['limit_mailaliasdomain_txt'] = 'Jumlah alias domain';
+$wb['limit_mailforward_txt'] = 'Jumlah forwarder email';
+$wb['limit_mailcatchall_txt'] = 'Jumlah akun catchall email';
+$wb['limit_mailrouting_txt'] = 'Jumlah rute email';
+$wb['limit_mailfilter_txt'] = 'Jumlah filter email';
+$wb['limit_fetchmail_txt'] = 'Jumlah akun fetchmail';
+$wb['limit_spamfilter_wblist_txt'] = 'Jumlah filter white/blacklist spamfilter';
+$wb['limit_spamfilter_user_txt'] = 'Jumlah pengguna spamfilter';
+$wb['limit_spamfilter_policy_txt'] = 'Jumlah pengguna spamfilter';
+$wb['limit_cron_txt'] = 'Jumlah cron job';
+$wb['limit_web_domain_txt'] = 'Jumlah domain web';
+$wb['limit_web_aliasdomain_txt'] = 'Jumlah alias domain web';
+$wb['limit_web_subdomain_txt'] = 'Jumlah subdomain web';
+$wb['limit_ftp_user_txt'] = 'Jumlah pengguna FTP';
+$wb['limit_dns_zone_txt'] = 'Jumlah zona DNS';
+$wb['limit_dns_slave_zone_txt'] = 'Jumlah zona slave DNS';
+$wb['limit_dns_record_txt'] = 'Jumlah record DNS';
+$wb['limit_shell_user_txt'] = 'Jumlah pengguna Shell';
+$wb['limit_webdav_user_txt'] = 'Jumlah pengguna Webdav';
+$wb['limit_client_txt'] = 'Jumlah Klien';
+$wb['limit_database_txt'] = 'Jumlah Database';
+?>
+

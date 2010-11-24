@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Tipe';
+$wb['database_name_txt'] = 'Nama Database';
+$wb['database_user_txt'] = 'Pengguna Database';
+$wb['database_password_txt'] = 'Kata Sandi Database';
+$wb['password_strength_txt'] = 'Kekuatan Sandi';
+$wb['database_charset_txt'] = 'Database charset';
+$wb['remote_access_txt'] = 'Akses Remote';
+$wb['remote_ips_txt'] = 'IP Akses Remote (dipisahkan oleh , dan biarkan kosong untuk memperbolehkan akses dari <i>semua</i> IP)';
+$wb['database_remote_error_ips'] = 'Setidaknya salah satu alamat ip yang dimasukkan tidak valid.';
+$wb['client_txt'] = 'Klien';
+$wb['active_txt'] = 'Aktif';
+$wb['database_name_error_empty'] = 'Nama Database kosong.';
+$wb['database_name_error_unique'] = 'Sudah ada database dengan nama ini di server. Untuk mendapatkan nama yang unik, mis. tambahkan nama domain Anda di depan nama database.';
+$wb['database_name_error_regex'] = 'Nama database tidak valid. Nama database diperbolehkan mengandung karakter-karakter ini: a-z, A-Z, 0-9 dan garis bawah. Panjang: 2 - 64 karakter.';
+$wb['database_user_error_empty'] = 'Pengguna Database kosong.';
+$wb['database_user_error_unique'] = 'Sudah ada pengguna database dengan nama ini di server. Untuk mendapatkan nama yang unik, mis. tambahkan nama domain Anda di depan nama pengguna.';
+$wb['database_user_error_regex'] = 'Nama pengguna database tidak valid. Nama pengguna diperbolehkan mengandung karakter-karakter ini: a-z, A-Z, 0-9 dan garis bawah. Panjang: 2 - 64 karekter.';
+$wb['limit_database_txt'] = 'Jumlah maks databases telah tercapai.';
+$wb['database_name_change_txt'] = 'Nama database tidak dapat diubah';
+$wb['database_charset_change_txt'] = 'Database charset tidak dapat diubah';
+$wb['database_name_error_len'] = 'Nama database - {db} - terlalu panjang. Panjang nama database maks termasuk prefiks adalah 64 karakter.';
+$wb['database_user_error_len'] = 'Nama pengguna database - {user}- terlalu panjang. Panjang nama pengguna database maks termasuk prefiks adalah 16 karakter.';
+?>
+

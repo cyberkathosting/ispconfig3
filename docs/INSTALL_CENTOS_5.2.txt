@@ -162,6 +162,18 @@ tar xvfz vlogger-1.3.tar.gz
 mv vlogger-1.3/vlogger /usr/sbin/
 rm -rf vlogger*
 
+Edit the file /etc/sudoers
+
+vi /etc/sudoers
+
+and change the line:
+
+Defaults    requiretty
+
+to:
+
+# Defaults    requiretty
+
 7) Install ISPConfig 3
 
 Disable the firewall:

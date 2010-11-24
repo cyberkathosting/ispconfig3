@@ -1,0 +1,21 @@
+<?php
+$wb['getmail_config_dir_txt'] = 'Path Konfigurasi Getmail';
+$wb['ip_address_txt'] = 'Alamat IP';
+$wb['netmask_txt'] = 'Netmask';
+$wb['gateway_txt'] = 'Gateway';
+$wb['hostname_txt'] = 'Nama Host';
+$wb['nameservers_txt'] = 'Nameserver';
+$wb['module_txt'] = 'Modul Server';
+$wb['maildir_path_txt'] = 'Path Maildir';
+$wb['homedir_path_txt'] = 'Path Homedir';
+$wb['mailuser_uid_txt'] = 'UID Mailuser';
+$wb['mailuser_gid_txt'] = 'GID Mailuser';
+$wb['mailuser_name_txt'] = 'Nama Mailuser';
+$wb['mailuser_group_txt'] = 'Grup Mailuser';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Kata Sandi Relayhost';
+$wb['mailbox_size_limit_txt'] = 'Batasan Ukuran Mailbox';
+$wb['message_size_limit_txt'] = 'Batasan Ukuran Pesan';
+?>
+

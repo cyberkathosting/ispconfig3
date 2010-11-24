@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Domain Email';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Tambah Domain Baru';
+$wb['active_txt'] = 'Aktif';
+?>
+

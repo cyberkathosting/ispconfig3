@@ -1,0 +1,43 @@
+<?php
+$wb['custom_mailfilter_txt'] = 'Resep penyaringan email kastem';
+$wb['email_txt'] = 'Email';
+$wb['cryptpwd_txt'] = 'Kata Sandi';
+$wb['password_strength_txt'] = 'Kekuatan Sandi';
+$wb['active_txt'] = 'Aktif';
+$wb['email_error_isemail'] = 'Alamat email tidak valid.';
+$wb['email_error_unique'] = 'Alamat Email Ganda.';
+$wb['autoresponder_text_txt'] = 'Teks';
+$wb['autoresponder_txt'] = 'Aktif';
+$wb['autoresponder_start_date_txt'] = 'Dimulai pada';
+$wb['autoresponder_start_date_isfuture'] = 'Tanggal mulai tidak boleh sebelum tanggal hari ini.';
+$wb['autoresponder_end_date_txt'] = 'Selesai pada';
+$wb['autoresponder_end_date_isgreater'] = 'Tanggal selesai harus diset dan harus lebih dari tanggal mulai.';
+$wb['no_domain_perm'] = 'Anda tidak memiliki hak untuk domain ini.';
+$wb['error_no_pwd'] = 'Kata sandi kosong.';
+$wb['quota_error_isint'] = 'Ukuran Mailbox harus berupa angka.';
+$wb['quota_txt'] = 'Kuota';
+$wb['server_id_txt'] = 'id_server';
+$wb['password_txt'] = 'Kata Sandi';
+$wb['maildir_txt'] = 'Maildir';
+$wb['postfix_txt'] = 'Dapat Menerima';
+$wb['access_txt'] = 'Dapat Mengakses';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- tidak diaktifkan -';
+$wb['limit_mailbox_txt'] = 'Jumlah maks mailbox untuk akun Anda sudah tercapai.';
+$wb['limit_mailquota_txt'] = 'Ruang maks untuk mailbox sudah tercapai. Ruang maks yang tersedia dalam MB adalah';
+$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
+$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
+$wb['welcome_mail_subject'] = 'Selamat Datang di Akun Email Baru Anda.';
+$wb['welcome_mail_message'] = 'Selamat datang di akun email baru Anda. Webmaster Anda.';
+$wb['disableimap_txt'] = 'Nonaktifkan IMAP';
+$wb['disablepop3_txt'] = 'Nonaktifkan POP3';
+$wb['duplicate_alias_or_forward_txt'] = 'Sudah ada alias atau forward untuk alamat email ini.';
+$wb['quota_error_value'] = 'Nilai kuota tidak valid. Nilai yang diperbolehkan adalah: 0 untuk tak terbatas atau angka > 1';
+$wb['move_junk_txt'] = 'Pindahkan Email Spam ke direktori Junk';
+$wb['name_txt'] = 'Nama Lengkap';
+$wb['name_optional_txt'] = '(Opsional)';
+$wb['autoresponder_active'] = 'Aktifkan Penjawab Otomatis';
+$wb['cc_txt'] = 'Kirim salinan ke';
+$wb['cc_error_isemail'] = 'Kolom Kirim salinan ke tidak berisi alamat email yang valid';
+?>
+

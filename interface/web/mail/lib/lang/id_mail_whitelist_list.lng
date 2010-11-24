@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Whitelist Email';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Alamat Whitelisted';
+$wb['type_txt'] = 'Tipe';
+$wb['recipient_txt'] = 'Penerima';
+$wb['add_new_record_txt'] = 'Tambah record Whitelist Baru';
+$wb['access_txt'] = 'akses';
+?>
+

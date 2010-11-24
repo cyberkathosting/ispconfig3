@@ -7,7 +7,7 @@ $wb["shelluser_prefix_txt"] = 'Shell gebruiker voorvoegsel';
 $wb["webdavuser_prefix_txt"] = 'Webdav gebruiker voorvoegsel';
 $wb["ftpuser_prefix_txt"] = 'FTP gebruiker voorvoegsel';
 $wb["dbname_prefix_error_regex"] = 'Char niet toegestaan in database naam voorvoegsel.';
-$wb["dbuser_prefix_error_regex"] = 'Charniet toegestaan in database gebruiker voorvoegsel.';
+$wb["dbuser_prefix_error_regex"] = 'Char niet toegestaan in database gebruiker voorvoegsel.';
 $wb["ftpuser_prefix_error_regex"] = 'Char niet toegestaan in ftp gebruiker voorvoegsel.';
 $wb["shelluser_prefix_error_regex"] = 'Char niet toegestaan in shell gebruiker voorvoegsel.';
 $wb["webdavuser_prefix_error_regex"] = 'Char niet toegestaan in webdav gebruiker voorvoegsel.';
@@ -20,6 +20,7 @@ $wb["use_domain_module_hint"] = 'Als u deze module gebruikt, kunnen uw klanten a
 $wb["new_domain_txt"] = 'HTML om een nieuw domein te maken';
 $wb["webftp_url_txt"] = 'WebFTP URL';
 ?>
+
 
 
 

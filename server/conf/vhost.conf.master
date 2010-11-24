@@ -150,15 +150,46 @@
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
     <IfModule mod_fcgid.c>
-      # SocketPath /tmp/fcgid_sock/
+      
+	  # SocketPath /tmp/fcgid_sock/
+	  
+	  # IdleTimeout n (3600 seconds)
+	  # An idle fastcgi application will be terminated after IdleTimeout seconds.
       IdleTimeout 3600
+	  
+	  # ProcessLifeTime n (7200 seconds)
+      # A fastcgi application will be terminated if lifetime expired, even no error is detected.
       ProcessLifeTime 7200
+	  
+	  # MaxProcessCount n (1000)
+      # The max count of total fastcgi process count.
       # MaxProcessCount 1000
-      DefaultMinClassProcessCount 3
+      
+	  # DefaultMinClassProcessCount n (3)
+      # The minimum number of fastcgi application instances for any one fastcgi application.
+      # Idle fastcgi will not be killed if their count is less than n
+      # Set this to 0, and tweak IdleTimeout
+	  DefaultMinClassProcessCount 0
+	  
+	  # DefaultMaxClassProcessCount n (100)
+      # The maximum number of fastcgi application instances allowed to run for
+      # particular one fastcgi application.
       DefaultMaxClassProcessCount 100
+	  
+	  # IPCConnectTimeout n (3 seconds)
+      # The connect timeout to a fastcgi application.
       IPCConnectTimeout 8
+	  
+	  # IPCCommTimeout n (20 seconds)
+      # The communication timeout to a fastcgi application. Please increase this
+      # value if your CGI have a slow initialization or slow respond.
       IPCCommTimeout 360
-      BusyTimeout 300
+      
+	  # BusyTimeout n (300 seconds)
+      # A fastcgi application will be terminated if handing a single request
+      # longer than busy timeout.
+	  BusyTimeout 300
+	  
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
@@ -348,14 +379,43 @@
     # php as fast-cgi enabled
     <IfModule mod_fcgid.c>
       # SocketPath /tmp/fcgid_sock/
+	  # IdleTimeout n (3600 seconds)
+	  # An idle fastcgi application will be terminated after IdleTimeout seconds.
       IdleTimeout 3600
+	  
+	  # ProcessLifeTime n (7200 seconds)
+      # A fastcgi application will be terminated if lifetime expired, even no error is detected.
       ProcessLifeTime 7200
+	  
+	  # MaxProcessCount n (1000)
+      # The max count of total fastcgi process count.
       # MaxProcessCount 1000
-      DefaultMinClassProcessCount 3
+      
+	  # DefaultMinClassProcessCount n (3)
+      # The minimum number of fastcgi application instances for any one fastcgi application.
+      # Idle fastcgi will not be killed if their count is less than n
+      # Set this to 0, and tweak IdleTimeout
+	  DefaultMinClassProcessCount 0
+	  
+	  # DefaultMaxClassProcessCount n (100)
+      # The maximum number of fastcgi application instances allowed to run for
+      # particular one fastcgi application.
       DefaultMaxClassProcessCount 100
+	  
+	  # IPCConnectTimeout n (3 seconds)
+      # The connect timeout to a fastcgi application.
       IPCConnectTimeout 8
+	  
+	  # IPCCommTimeout n (20 seconds)
+      # The communication timeout to a fastcgi application. Please increase this
+      # value if your CGI have a slow initialization or slow respond.
       IPCCommTimeout 360
-      BusyTimeout 300
+      
+	  # BusyTimeout n (300 seconds)
+      # A fastcgi application will be terminated if handing a single request
+      # longer than busy timeout.
+	  BusyTimeout 300
+	  
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5

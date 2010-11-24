@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Domain alias';
+$wb['active_txt'] = 'Aktif';
+$wb['source_txt'] = 'Sumber';
+$wb['destination_txt'] = 'Tujuan';
+$wb['add_new_record_txt'] = 'Tambah Alias Domain Baru';
+?>
+

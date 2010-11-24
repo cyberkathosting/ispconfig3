@@ -1,0 +1,12 @@
+<?php
+$wb['source_txt'] = 'Sumber';
+$wb['destination_txt'] = 'Tujuan';
+$wb['active_txt'] = 'Aktif';
+$wb['no_domain_perm'] = 'Anda tidak memiliki hak untuk domain ini.';
+$wb['limit_mailaliasdomain_txt'] = 'Jumlah maks domain alias email untuk akun Anda telah tercapai.';
+$wb['source_destination_identical_txt'] = 'Source and target Domain are the same.';
+$wb['source_error_empty'] = 'Domain Sumber kosong.';
+$wb['source_error_unique'] = 'Domain Sumber Ganda.';
+$wb['source_error_regex'] = 'Nama domain sumber tidak valid.';
+?>
+

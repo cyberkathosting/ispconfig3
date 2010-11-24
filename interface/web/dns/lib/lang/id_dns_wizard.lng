@@ -1,0 +1,30 @@
+<?php
+$wb['template_id_txt'] = 'Template';
+$wb['server_id_txt'] = 'Server';
+$wb['client_txt'] = 'Klien';
+$wb['btn_save_txt'] = 'Buat Record DNS';
+$wb['btn_cancel_txt'] = 'Batal';
+$wb['domain_txt'] = 'Domain';
+$wb['email_txt'] = 'Email';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'Alamat IP';
+$wb['error_origin_empty'] = 'Origin kosong.';
+$wb['error_ns_empty'] = 'NS kosong.';
+$wb['error_mbox_empty'] = 'Mbox kosong.';
+$wb['error_refresh_empty'] = 'Refresh kosong.';
+$wb['error_retry_empty'] = 'Retry kosong.';
+$wb['error_expire_empty'] = 'Expire kosong.';
+$wb['error_minimum_empty'] = 'Minimum kosong.';
+$wb['error_ttl_empty'] = 'TTL kosong.';
+$wb['error_domain_empty'] = 'Domain kosong';
+$wb['error_ip_empty'] = 'IP kosong.';
+$wb['error_ns1_empty'] = 'NS1 kosong.';
+$wb['error_ns2_empty'] = 'NS2 kosong.';
+$wb['error_email_empty'] = 'EMail kosong.';
+$wb['error_domain_regex'] = 'Domain mengandung karakter yang tidak valid.';
+$wb['error_ns1_regex'] = 'NS1 mengandung karakter yang tidak valid.';
+$wb['error_ns2_regex'] = 'NS2 mengandung karakter yang tidak valid.';
+$wb['error_email_regex'] = 'Email tidak mengandung alamat email yang valid.';
+?>
+

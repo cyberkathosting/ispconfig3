@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Pemeriksaan Header dan Body Postfix';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['pattern_txt'] = 'Pola';
+$wb['action_txt'] = 'Tindakan';
+$wb['add_new_record_txt'] = 'Tambah Penyaringan Konten Baru';
+?>
+

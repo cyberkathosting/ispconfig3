@@ -1,0 +1,12 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Port TCP yang dibuka';
+$wb['udp_port_txt'] = 'Port UDP yang dibuka';
+$wb['tcp_port_help_txt'] = 'Dipisahkan oleh koma';
+$wb['udp_port_help_txt'] = 'Dipisahkan oleh koma';
+$wb['active_txt'] = 'Aktif';
+$wb['firewall_error_unique'] = 'Telah ada record firewall untuk server ini.';
+$wb['tcp_ports_error_regex'] = 'Karakter di definisi port tcp tidak diperbolehkan. Karakter yang diizinkan adalah angka, : dan ,.';
+$wb['udp_ports_error_regex'] = 'Karakter di definisi port udp tidak diperbolehkan. Karakter yang diizinkan adalah angka, : dan ,.';
+?>
+

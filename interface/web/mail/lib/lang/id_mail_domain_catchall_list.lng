@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Email Catchall';
+$wb['active_txt'] = 'Aktif';
+$wb['source_txt'] = 'Sumber';
+$wb['destination_txt'] = 'Alamat email tujuan';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Tambah Catchall Baru';
+?>
+

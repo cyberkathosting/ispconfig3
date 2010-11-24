@@ -1,0 +1,11 @@
+<?php
+$wb['rulename_txt'] = 'Nama';
+$wb['action_txt'] = 'Tindakan';
+$wb['target_txt'] = 'Direktori';
+$wb['active_txt'] = 'Aktif';
+$wb['rulename_error_empty'] = 'Nama kosong.';
+$wb['searchterm_is_empty'] = 'Lema pencarian kosong.';
+$wb['source_txt'] = 'Sumber';
+$wb['target_error_regex'] = 'Target hanya boleh berisi karakter berikut ini: a-z, 0-9, -, ., _, dan {space}';
+?>
+

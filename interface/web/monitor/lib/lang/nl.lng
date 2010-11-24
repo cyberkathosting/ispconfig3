@@ -135,7 +135,7 @@ $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter-Log';
 $wb['monitor_updates_nosupport_txt'] = 'Uw distributie ondersteunt deze controle-software niet';
 $wb['monitor_title_fail2ban_txt'] = 'Fail2Ban Log';
 $wb['monitor_nosupportedraid1_txt'] = 'Op dit moment, worden ondersteund mdadm or mpt-status om RAID te monitoren.<br>Dit type kan niet op uw server worden gevonden.<br><br>Dit betekend dat uw RAID nog niet wordt ondersteund.';
-$wb['monitor_serverstate_beancounterok_txt'] = 'The beancounter is ok';
+$wb['monitor_serverstate_beancounterok_txt'] = 'De beancounter is ok';
 $wb['monitor_serverstate_beancounterinfo_txt'] = 'In de beancounter bevindt zich een foutmelding';
 $wb['monitor_serverstate_beancounterwarning_txt'] = 'In de beancounter bevinden zich foutmeldingen';
 $wb['monitor_serverstate_beancountercritical_txt'] = 'In de beancounter bevinden zich veel foutmeldingen';
@@ -143,6 +143,7 @@ $wb['monitor_serverstate_beancountererror_txt'] = 'In de beancounter bevinden zi
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'Deze server is geen OpenVz VE en heeft daarom geen beancounter informatie';
 ?>
+
 
 
 

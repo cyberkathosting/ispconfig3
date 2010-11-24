@@ -1,0 +1,25 @@
+<?php
+$wb['name_txt'] = 'Nama Form';
+$wb['title_txt'] = 'Judul Form';
+$wb['template_txt'] = 'Template';
+$wb['navframe_txt'] = 'Frame Navigasi';
+$wb['startpage_txt'] = 'Halaman Awal';
+$wb['tab_width_txt'] = 'Lebar Tab';
+$wb['save_txt'] = 'Simpan';
+$wb['cancel_txt'] = 'Batal';
+$wb['header_txt'] = 'Properti Form';
+$wb['description_txt'] = 'Keterangan';
+$wb['action_txt'] = 'Tindakan (skrip)';
+$wb['db_table_txt'] = 'Tabel DB';
+$wb['db_table_idx_txt'] = 'Indeks Tabel DB';
+$wb['db_history_txt'] = 'Undo Log';
+$wb['tab_default_txt'] = 'Tab Baku';
+$wb['list_default_txt'] = 'Daftar Baku';
+$wb['auth_txt'] = 'Hak Akses';
+$wb['auth_preset_userid_txt'] = 'ID Pengguna';
+$wb['auth_preset_groupid_txt'] = 'ID Grup';
+$wb['auth_preset_perm_user_txt'] = 'Hak Akses Pengguna';
+$wb['auth_preset_perm_group_txt'] = 'Hak Akses Grup';
+$wb['auth_preset_perm_other_txt'] = 'Hak Akses Lainnya';
+?>
+

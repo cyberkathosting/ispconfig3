@@ -1,0 +1,10 @@
+<?php
+$wb['Domains'] = 'Domain';
+$wb['domain_txt'] = 'Domain';
+$wb['client_txt'] = 'Klien';
+$wb['error_domain_in mailuse'] = 'Domain ini tidak bisa dihapus, karena sedang digunakan sebagai domain mail';
+$wb['error_domain_in webuse'] = 'Domain ini tidak bisa dihapus, karena sedang digunakan sebagai domain web';
+$wb['error_client_can_not_add_domain'] = 'Anda tidak dapat menambah domain baru';
+$wb['error_client_group_id_empty'] = 'Anda harus memilih pelanggan<br>';
+?>
+

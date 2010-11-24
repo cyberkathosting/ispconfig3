@@ -191,6 +191,18 @@ make
 make install
 rm -rf jailkit-2.11*
 
+Edit the file /etc/sudoers
+
+vi /etc/sudoers
+
+and change the line:
+
+Defaults    requiretty
+
+to:
+
+# Defaults    requiretty
+
 
 7) Install ISPConfig 3
 

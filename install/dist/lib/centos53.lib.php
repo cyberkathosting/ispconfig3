@@ -37,6 +37,7 @@ class installer extends installer_dist {
 		$configfile = 'fedora_amavisd_conf';
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
+		if(!is_dir($conf["amavis"]["config_dir"])) mkdir($conf["amavis"]["config_dir"]);
 		$content = rf("tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);

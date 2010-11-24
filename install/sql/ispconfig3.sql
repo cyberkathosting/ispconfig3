@@ -1102,7 +1102,6 @@ CREATE TABLE `web_domain` (
   `parent_domain_id` int(11) unsigned NOT NULL default '0',
   `vhost_type` varchar(32) default NULL,
   `document_root` varchar(255) default NULL,
-  `document_root_www` varchar(255) default NULL,
   `system_user` varchar(255) default NULL,
   `system_group` varchar(255) default NULL,
   `hd_quota` bigint(20) NOT NULL default '0',
@@ -1131,9 +1130,9 @@ CREATE TABLE `web_domain` (
   `stats_password` varchar(255) default NULL,
   `stats_type` varchar(255) default 'webalizer',
   `allow_override` varchar(255) NOT NULL default 'All',
-  `apache_directives` text,
-  `php_open_basedir` text,
-  `custom_php_ini` text,
+  `apache_directives` mediumtext,
+  `php_open_basedir` mediumtext,
+  `custom_php_ini` mediumtext,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
   `active` enum('n','y') NOT NULL default 'y',
@@ -1354,7 +1353,7 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.3');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.3.1');
 
 -- --------------------------------------------------------
 

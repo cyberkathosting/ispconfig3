@@ -1,0 +1,23 @@
+<?php
+$wb['warning'] = 'Sunting nilai-nilai ini dengan hati-hati! Jangan hapus prefiks di sistem yang memiliki lebih dari 1 klien.';
+$wb['dbname_prefix_txt'] = 'Prefiks nama database';
+$wb['dbuser_prefix_txt'] = 'Prefiks pengguna database';
+$wb['shelluser_prefix_txt'] = 'Prefiks pengguna shell';
+$wb['ftpuser_prefix_txt'] = 'Prefiks pengguna FTP';
+$wb['dbname_prefix_error_regex'] = 'Karakter tidak diperbolehkan di prefiks nama database.';
+$wb['dbuser_prefix_error_regex'] = 'Karakter tidak diperbolehkan di prefiks pengguna database.';
+$wb['ftpuser_prefix_error_regex'] = 'Karakter tidak diperbolehkan di prefiks pengguna ftp.';
+$wb['shelluser_prefix_error_regex'] = 'Karakter tidak diperbolehkan di prefiks pengguna shell.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Tautan ke phpmyadmin di daftar DB';
+$wb['mailboxlist_webmail_link_txt'] = 'Tautan ke webmail di daftar Mailbox';
+$wb['webmail_url_txt'] = 'URL Webmail';
+$wb['phpmyadmin_url_txt'] = 'URL PHPMyAdmin';
+$wb['dashboard_atom_url_txt'] = 'URL feed atom Dashboard';
+$wb['webdavuser_prefix_txt'] = 'Prefiks pengguna Webdav';
+$wb['webdavuser_prefix_error_regex'] = 'Karakter tidak diperbolehkan di prefiks pengguna webdav.';
+$wb['use_domain_module_txt'] = 'Gunakan modul domain untuk menambahkan domain baru';
+$wb['use_domain_module_hint'] = 'Jika Anda menggunakan modul ini, pelanggan Anda hanya dapat memilih salah satu domain yang dibuat oleh admin untuk mereka. Mereka tidak bisa menyunting dengan bebas kolom domain. Anda harus masuk kembali setelah mengubah nilai ini, agar perubahannya terlihat.';
+$wb['new_domain_txt'] = 'HTML untuk membuat domain baru';
+$wb['webftp_url_txt'] = 'URL WebFTP';
+?>
+

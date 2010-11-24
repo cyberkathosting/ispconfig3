@@ -295,7 +295,7 @@ if ($app->dbmaster == $app->db) {
 	$maxId = $res['max(action_id)'];
 	$sql =  "DELETE FROM sys_remoteaction " .
 			"WHERE tstamp < " . $tstamp . " " .
-			" AND action_status = 'ok' " .
+			" AND action_state = 'ok' " .
 			" AND action_id <" . intval($maxId);
 	$app->dbmaster->query($sql);
 

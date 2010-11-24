@@ -45,7 +45,23 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('dns');
 
-$app->uses("tform_actions");
-$app->tform_actions->onDelete();
+$app->uses('tpl,tform,tform_actions,validate_dns');
+$app->load('tform_actions');
+
+class page_action extends tform_actions {
+
+	function onAfterDelete() {
+		global $app; $conf;
+				
+		//* Update the serial number of the SOA record
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = '".intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
+		$soa_id = intval($this->dataRecord["zone"]);
+		$serial = $app->validate_dns->increase_serial($soa["serial"]);
+		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+	}
+}
+
+$page = new page_action;
+$page->onDelete();
 
 ?>

@@ -1,0 +1,44 @@
+<?php
+$wb['1001'] = 'Nama pengguna atau sandi kosong.';
+$wb['1002'] = 'Nama pengguna atau sandi salah.';
+$wb['Firewall'] = 'Firewall';
+$wb['Groups'] = 'Grup';
+$wb['groups_description'] = 'Form untuk menyunting grup pengguna sistem.';
+$wb['Server'] = 'Server';
+$wb['Services'] = 'Layanan';
+$wb['Config'] = 'Konfigurasi';
+$wb['Server Config'] = 'Konfigurasi Server';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Ambil Mail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'Sistem';
+$wb['Add user'] = 'Tambah Pengguna';
+$wb['Edit user'] = 'Sunting Pengguna';
+$wb['CP Users'] = 'Pengguna CP';
+$wb['Add group'] = 'Tambah Grup';
+$wb['Edit group'] = 'Sunting Grup';
+$wb['Edit server'] = 'Sunting Server';
+$wb['Edit Server IP'] = 'Alamat IP Server';
+$wb['Servers'] = 'Server';
+$wb['Sync. Now'] = 'Sinkronisasi Sekarang';
+$wb['DB Sync.'] = 'Sinkronisasi DB.';
+$wb['Languages'] = 'Bahasa';
+$wb['New Language'] = 'Bahasa Baru';
+$wb['Export'] = 'Ekspor';
+$wb['Import'] = 'Impor';
+$wb['Language Editor'] = 'Penyunting Bahasa';
+$wb['Software'] = 'Perangkat Lunak';
+$wb['Repositories'] = 'Repositori';
+$wb['Server Services'] = 'Layanan Server';
+$wb['Interface Config'] = 'Konfigurasi Antarmuka';
+$wb['Packages'] = 'Paket';
+$wb['Updates'] = 'Pemutakhiran';
+$wb['Merge'] = 'Gabung';
+$wb['Remote Users'] = 'Pengguna Remote';
+$wb['Remote Actions'] = 'Tindakan Remote';
+$wb['Do OS-Update'] = 'Lakukan Pemutakhiran OS';
+$wb['Do ISPConfig-Update'] = 'Lakukan Pemutakhiran ISPConfig';
+?>
+

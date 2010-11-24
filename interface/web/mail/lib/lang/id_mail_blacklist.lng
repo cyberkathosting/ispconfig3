@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Alamat Blacklist';
+$wb['recipient_txt'] = 'Penerima';
+$wb['active_txt'] = 'Aktif';
+$wb['source_error_notempty'] = 'Alamat kosong.';
+$wb['type_txt'] = 'Tipe';
+$wb['limit_mailfilter_txt'] = 'Jumlah maks penyaringan email untuk akun Anda telah tercapai.';
+?>
+

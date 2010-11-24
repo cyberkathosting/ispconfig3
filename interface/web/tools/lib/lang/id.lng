@@ -1,0 +1,7 @@
+<?php
+$wb['User Settings'] = 'Pengaturan Pengguna';
+$wb['Settings'] = 'Pengaturan';
+$wb['ISPConfig Tools'] = 'Perkakas ISPConfig';
+$wb['Password and Language'] = 'Sandi dan Bahasa';
+?>
+

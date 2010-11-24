@@ -155,15 +155,15 @@ class apache2_plugin {
 		}
 
 		//* Save a SSL certificate to disk
-		if($data['new']['ssl_action'] == 'save') {
-			$ssl_dir = $data['new']['document_root'].'/ssl';
-			$domain = $data['new']['ssl_domain'];
-			$csr_file = $ssl_dir.'/'.$domain.'.csr';
-			$crt_file = $ssl_dir.'/'.$domain.'.crt';
-			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-			file_put_contents($csr_file,$data['new']['ssl_request']);
-			file_put_contents($crt_file,$data['new']['ssl_cert']);
-			if(trim($data['new']['ssl_bundle']) != '') file_put_contents($bundle_file,$data['new']['ssl_bundle']);
+		if($data["new"]["ssl_action"] == 'save') {
+			$ssl_dir = $data["new"]["document_root"]."/ssl";
+			$domain = $data["new"]["ssl_domain"];
+			$csr_file = $ssl_dir.'/'.$domain.".csr";
+			$crt_file = $ssl_dir.'/'.$domain.".crt";
+			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
+			if(trim($data["new"]["ssl_request"]) != '') file_put_contents($csr_file,$data["new"]["ssl_request"]);
+			if(trim($data["new"]["ssl_cert"]) != '') file_put_contents($crt_file,$data["new"]["ssl_cert"]);
+			if(trim($data["new"]["ssl_bundle"]) != '') file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 			/* Update also the master-DB of the Server-Farm */
@@ -553,7 +553,11 @@ class apache2_plugin {
 			if($data['new']['php'] == 'mod') {
 				$master_php_ini_path = $web_config['php_ini_path_apache'];
 			} else {
-				$master_php_ini_path = $web_config['php_ini_path_cgi'];
+				if($data["new"]['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
+					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
+				} else {
+					$master_php_ini_path = $web_config['php_ini_path_cgi'];
+				}
 			}
 			if($master_php_ini_path != '' && substr($master_php_ini_path,-7) == 'php.ini' && is_file($master_php_ini_path)) {
 				$php_ini_content .= file_get_contents($master_php_ini_path)."\n";
@@ -890,6 +894,9 @@ class apache2_plugin {
 			$app->log('Apache status is: '.$apache_online_status_before_restart,LOGLEVEL_DEBUG);
 
 			$app->services->restartService('httpd','restart');
+			
+			// wait a few seconds, before we test the apache status again
+			sleep(2);
 		
 			//* Check if apache restarted successfully if it was online before
 			$apache_online_status_after_restart = $this->_checkTcp('localhost',80);
@@ -911,7 +918,7 @@ class apache2_plugin {
 		}
 		
 		// Remove the backup copy of the config file.
-		unlink($vhost_file.'~');
+		if(@is_file($vhost_file.'~')) unlink($vhost_file.'~');
 		
 
 		//* Unset action to clean it for next processed vhost.
@@ -1255,8 +1262,13 @@ class apache2_plugin {
 						*/
 						$fn = substr($file, 0, strlen($file) - strlen('.htdigest'));
 						$output .= "\n";
+<<<<<<< .working
 						$output .= "      Alias /" . $fn . ' ' . $webdavRoot . '/' . $fn . "\n";
 						$output .= "      <Location /" . $fn . ">\n";
+=======
+						$output .= "      Alias /webdav/" . $fn . ' ' . $webdavRoot . '/' . $fn . "\n";
+						$output .= "      <Location /webdav/" . $fn . ">\n";
+>>>>>>> .merge-right.r2129
 						$output .= "        DAV On\n";
 						$output .= "        AuthType Digest\n";
 						$output .= "        AuthName \"" . $fn . "\"\n";

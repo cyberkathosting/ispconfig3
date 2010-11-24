@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Penggabungan Bahasa';
+$wb['list_desc_txt'] = 'Gabungkan berkas bahasa yang dipilih dengan berkas master bahasa Inggris. <br />Ini akan menambahkan string yang tidak ada dari berkas master bahasa Inggris ke bahasa yang dipilih.';
+$wb['language_select_txt'] = 'Pilih bahasa';
+$wb['btn_save_txt'] = 'Gabungkan Berkas Sekarang';
+$wb['btn_cancel_txt'] = 'Kembali';
+?>
+

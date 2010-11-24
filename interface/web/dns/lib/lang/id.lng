@@ -1,0 +1,21 @@
+<?php
+$wb['DNS'] = 'DNS';
+$wb['Zones'] = 'Zona';
+$wb['DNS A'] = 'DNS A';
+$wb['DNS ALIAS'] = 'DNS ALIAS';
+$wb['DNS CNAME'] = 'DNS CNAME';
+$wb['DNS hinfo'] = 'DNS hinfo';
+$wb['DNS mx'] = 'DNS MX';
+$wb['DNS ns'] = 'DNS NS';
+$wb['DNS ptr'] = 'DNS PTR';
+$wb['DNS RP'] = 'DNS RP';
+$wb['DNS Zone'] = 'DNS Zone';
+$wb['Records'] = 'Record';
+$wb['DNS SRV'] = 'DNS SRV';
+$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT'] = 'DNS TXT';
+$wb['DNS Wizard'] = 'DNS Wizard';
+$wb['Add DNS Zone'] = 'Tambah Zona DNS';
+$wb['Templates'] = 'Template';
+?>
+

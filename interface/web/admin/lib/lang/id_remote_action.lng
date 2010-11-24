@@ -1,0 +1,11 @@
+<?php
+$wb['select_server_txt'] = 'Pilih Server';
+$wb['btn_do_txt'] = 'Jalankan Tindakan';
+$wb['do_osupdate_caption'] = 'Lakukan pemutakhiran OS di server remote';
+$wb['do_osupdate_desc'] = 'Tindakan ini menjalankan aptitude -y upgrade di server yang dipilih.<br><br><strong>PENGGUNAANNYA MENJADI TANGGUNG JAWAB ANDA SENDIRI!</strong>';
+$wb['do_ispcupdate_caption'] = 'Lakukan pemutakhiran ISPConfig 3 - di server remote';
+$wb['do_ispcupdate_desc'] = 'Tindakan ini melakukan pemutakhiran ISPConfig3 di server yang Anda pilih.<br><br><strong>PENGGUNAANNYA MENJADI TANGGUNG JAWAB ANDA SENDIRI!</strong>';
+$wb['action_scheduled'] = 'Tindakan dijadwalkan untuk dijalankan';
+$wb['select_all_server'] = 'Semua server';
+?>
+

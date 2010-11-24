@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Penyunting Berkas Bahasa';
+$wb['language_select_txt'] = 'Pemilihan bahasa';
+$wb['module_txt'] = 'Modul';
+$wb['lang_file_txt'] = 'Berkas bahasa';
+$wb['btn_save_txt'] = 'Simpan';
+$wb['btn_cancel_txt'] = 'Kembali';
+?>
+

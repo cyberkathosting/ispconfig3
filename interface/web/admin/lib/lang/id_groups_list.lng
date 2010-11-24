@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Grup';
+$wb['description_txt'] = 'Keterangan';
+$wb['name_txt'] = 'Grup';
+$wb['add_new_record_txt'] = 'Tambah Grup Baru';
+$wb['warning_txt'] = '<b>PERINGATAN:</b> Jangan menyunting atau memodifikasi pengaturan pengguna apapun di sini. Gunakan Pengaturan Klien dan Reseller di modul Klien. Memodifikasi atau mengubah Pengguna atau Grup di sini dapat mengakibatkan kehilangan data!';
+?>
+

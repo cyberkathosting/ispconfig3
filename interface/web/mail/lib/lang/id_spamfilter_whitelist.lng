@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Pengguna';
+$wb['email_txt'] = 'Email';
+$wb['priority_txt'] = 'Prioritas';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_spamfilter_wblist_txt'] = 'Jumlah maks record Whitelist atau Blacklist untuk akun Anda telah tercapai.';
+?>
+

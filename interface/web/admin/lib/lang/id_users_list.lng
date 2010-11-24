@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Pengguna';
+$wb['username_txt'] = 'Nama Pengguna';
+$wb['name_txt'] = 'Nama';
+$wb['vorname_txt'] = 'Nama Kecil';
+$wb['ort_txt'] = 'Kota';
+$wb['add_new_record_txt'] = 'Tambah pengguna baru';
+$wb['warning_txt'] = '<b>PERINGATAN:</b> Jangan menyunting atau memodifikasi pengaturan pengguna apapun di sini. Gunakan Pengaturan Klien dan Reseller di modul Klien. Memodifikasi atau mengubah Pengguna atau Grup di sini dapat mengakibatkan kehilangan data!';
+?>
+

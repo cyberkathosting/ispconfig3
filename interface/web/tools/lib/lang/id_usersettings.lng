@@ -1,0 +1,9 @@
+<?php
+$wb['passwort_txt'] = 'Kata Sandi';
+$wb['password_strength_txt'] = 'Kekuatan Sandi';
+$wb['language_txt'] = 'Bahasa';
+$wb['password_mismatch'] = 'Kata sandi di kolom kata sandi kedua tidak cocok dengan kata sandi pertama.';
+$wb['Form to edit the user password and language.'] = 'Form untuk menyunting kata sandi dan bahasa pengguna.';
+$wb['Settings'] = 'Pengaturan';
+?>
+

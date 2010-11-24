@@ -1,0 +1,23 @@
+<?php
+$wb['name_txt'] = 'Nama modul';
+$wb['title_txt'] = 'Judul modul';
+$wb['template_txt'] = 'Berkas Template';
+$wb['navframe_txt'] = 'Frame Navigasi';
+$wb['startpage_txt'] = 'Halaman Default';
+$wb['tab_width_txt'] = 'Lebar Tab';
+$wb['save_txt'] = 'Simpan';
+$wb['cancel_txt'] = 'Batal';
+$wb['header_txt'] = 'Properti Modul';
+$wb['description_txt'] = '
+<b>Keterangan</b>
+<br><br>
+<b>Nama Modul:</b> Nama direktori modul. Hanya angka, karakter dan garis bawah yang diizinkan.<br>
+<b>Judul Modul:</b> Akan terlihat di navigasi utama (bagian atas).<br>
+<b>Berkas Template:</b> Berkas Template modul. Yang tersedia saat ini: module.tpl.htm dan module_tree.tpl.htm. Defaultnya adalah module.tpl.htm.<br>
+<b>Frame Navigasi:</b> Jika memilih module_tree.tpl.htm sebagai berkas template, masukkan path ke berkas skrip untuk frame sebelah kiri.<br>
+<b>Halaman Default:</b> Halaman ini akan muncul ketika modul dibuka.<br>
+<b>Lebar Tab:</b> Lebar tab di navigasi utama. Kolom ini defaultnya kosong. Anda dapat memasukkan nilai pixel absolut (mis. 20) atau relatif (mis. 20%).<br>
+<b>Petunjuk:</b> Semua path adalah relatif terhadap direktori web.
+';
+?>
+

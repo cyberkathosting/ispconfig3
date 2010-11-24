@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Spamfilter Blacklist';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Server';
+$wb['priority_txt'] = 'Prioritas';
+$wb['rid_txt'] = 'Pengguna';
+$wb['email_txt'] = 'Email yang diblacklist';
+$wb['add_new_record_txt'] = 'Tambah Record Blacklist';
+?>
+

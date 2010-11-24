@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Tujuan';
+$wb['type_txt'] = 'Tipe';
+$wb['mx_txt'] = 'Jangan mencari MX';
+$wb['sort_order_txt'] = 'Urutkan berdasarkan';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_mailrouting_txt'] = 'Jumlah maks rute untuk akun Anda telah tercapai.';
+?>
+

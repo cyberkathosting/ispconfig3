@@ -106,9 +106,9 @@ function getClientID($dataRecord) {
 
 function convertClientName($name){
 	/**
-	 *  only allow 'a'..'z', '_', '-', '0'..'9'
+	 *  only allow 'a'..'z', '_', '0'..'9'
 	 */
-	$allowed = 'abcdefghijklmnopqrstuvwxyz0123456789_-';
+	$allowed = 'abcdefghijklmnopqrstuvwxyz0123456789_';
 	$res = '';
 	$name = strtolower(trim($name));
 	for ($i=0; $i < strlen($name); $i++){

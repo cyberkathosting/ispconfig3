@@ -1,0 +1,8 @@
+<?php
+$wb['email_txt'] = 'Email';
+$wb['destination_txt'] = 'Email Tujuan';
+$wb['active_txt'] = 'Aktif';
+$wb['limit_mailforward_txt'] = 'Jumlah maks forwarder email untuk akun Anda telah tercapai.';
+$wb['duplicate_mailbox_txt'] = 'Sudah ada mailbox untuk alamat email ini';
+?>
+

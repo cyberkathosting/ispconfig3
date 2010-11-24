@@ -1,0 +1,22 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Situs Web Induk';
+$wb['active_txt'] = 'Aktif';
+$wb['client_txt'] = 'Klien';
+$wb['run_min_txt'] = 'Menit';
+$wb['run_hour_txt'] = 'Jam';
+$wb['run_mday_txt'] = 'Tanggal';
+$wb['run_month_txt'] = 'Bulan';
+$wb['run_wday_txt'] = 'Hari';
+$wb['command_txt'] = 'Perintah yang akan dijalankan (perintah dieksekusi melalui sh, url melalui wget)';
+$wb['limit_cron_txt'] = 'Jumlah maks cron job yang diperbolehkan telah tercapai.';
+$wb['limit_cron_frequency_txt'] = 'Frekuensi cron job melampaui batasan yang diperbolehkan.';
+$wb['run_min_error_format'] = 'Format menit tidak valid.';
+$wb['run_hour_error_format'] = 'Format jam tidak valid.';
+$wb['run_mday_error_format'] = 'Format tanggal tidak valid.';
+$wb['run_month_error_format'] = 'Format bulan tidak valid.';
+$wb['run_wday_error_format'] = 'Format hari tidak valid.';
+$wb['command_error_format'] = 'Format perintah tidak valid. Harap dicatat untuk kasus pemanggilan url hanya http/https yang diizinkan.';
+$wb['unknown_fieldtype_error'] = 'Telah digunakan tipe kolom yang tidak dikenal.';
+?>
+

@@ -238,7 +238,7 @@ class monitor_core_module {
 		$state = 'ok';
 		
 		/** Fetch the data for all users*/
-		$dfData = shell_exec('repquota -asu');
+		$dfData = shell_exec('repquota -au');
 
 		// split into array
 		$df = explode("\n", $dfData);
@@ -253,14 +253,22 @@ class monitor_core_module {
 				*/
 				$s = preg_split ('/[\s]+/', $df[$i]);
 				$username = $s[0];
-				$data['user'][$username]['used'] = $s[2];
-				$data['user'][$username]['soft'] = $s[3];
-				$data['user'][$username]['hard'] = $s[4];
+				if(substr($username,0,3) == 'web') {
+				if(isset($data['user'][$username])) {
+					$data['user'][$username]['used'] += $s[2];
+					$data['user'][$username]['soft'] += $s[3];
+					$data['user'][$username]['hard'] += $s[4];
+				} else {
+					$data['user'][$username]['used'] = $s[2];
+					$data['user'][$username]['soft'] = $s[3];
+					$data['user'][$username]['hard'] = $s[4];
+				}
+				}
 			}
 		}
 		
 		/** Fetch the data for all users*/
-		$dfData = shell_exec('repquota -asg');
+		$dfData = shell_exec('repquota -ag');
 
 		// split into array
 		$df = explode("\n", $dfData);
@@ -275,9 +283,17 @@ class monitor_core_module {
 				*/
 				$s = preg_split ('/[\s]+/', $df[$i]);
 				$groupname = $s[0];
-				$data['group'][$groupname]['used'] = $s[1];
-				$data['group'][$groupname]['soft'] = $s[2];
-				$data['group'][$groupname]['hard'] = $s[3];
+				if(substr($groupname,0,6) == 'client') {
+				if(isset($data['group'][$groupname])) {
+					$data['group'][$groupname]['used'] += $s[1];
+					$data['group'][$groupname]['soft'] += $s[2];
+					$data['group'][$groupname]['hard'] += $s[3];
+				} else {
+					$data['group'][$groupname]['used'] = $s[1];
+					$data['group'][$groupname]['soft'] = $s[2];
+					$data['group'][$groupname]['hard'] = $s[3];
+				}
+				}
 			}
 		}
 
