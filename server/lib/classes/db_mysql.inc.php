@@ -33,6 +33,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		var $dbName = '';		// logical database name on that server
 		var $dbUser = '';		// database authorized user
 		var $dbPass = '';		// user's password
+		var $dbCharset = 'utf8';// Database charset
 		var $linkId = 0;		// last result of mysql_connect()
 		var $queryId = 0;		// last result of mysql_query()
 		var $record	= array();	// last record fetched
