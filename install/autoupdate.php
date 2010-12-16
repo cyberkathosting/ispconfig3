@@ -281,7 +281,7 @@ $inst->install_crontab();
 
 //** Restart services:
 swriteln('Restarting services ...');
-if($conf['mysql']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mysql']['init_script']))					system($conf['init_scripts'].'/'.$conf['mysql']['init_script'].' restart');
+if($conf['mysql']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mysql']['init_script']))					system($conf['init_scripts'].'/'.$conf['mysql']['init_script'].' reload');
 if($conf['services']['mail']) {
 	if($conf['postfix']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['postfix']['init_script']))				system($conf['init_scripts'].'/'.$conf['postfix']['init_script'].' restart');
 	if($conf['saslauthd']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['saslauthd']['init_script']))			system($conf['init_scripts'].'/'.$conf['saslauthd']['init_script'].' restart');

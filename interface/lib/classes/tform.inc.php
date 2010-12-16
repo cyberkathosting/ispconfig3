@@ -143,9 +143,9 @@ class tform {
 					if(!file_exists($lng_file)) $lng_file = "../$module/lib/lang/en_".$this->formDef["name"].".lng";
 					include($lng_file);
                 }
-				
+
 				if(is_array($wb_global)) {
-					$wb = array_merge($wb_global,$wb);
+					$wb = $wb_global + $wb;
 				}
 				if(isset($wb_global)) unset($wb_global);
 				
@@ -495,9 +495,7 @@ class tform {
                                                 $out = '';
                                                 foreach($field['value'] as $k => $v) {
                                                     $selected = ($k == $field["default"])?' SELECTED':'';
-													if(!empty($this->wordbook[$v]))
-                                                                    $v = $this->wordbook[$v];
-                                                    $out .= "<option value='$k'$selected>$v</option>\r\n";
+                                                    $out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
                                                 }
                                         }
                                         if(isset($out)) $new_record[$key] = $out;

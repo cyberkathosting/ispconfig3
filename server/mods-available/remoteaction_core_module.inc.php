@@ -150,6 +150,10 @@ class remoteaction_core_module {
 	}
 
 	private function _doIspCUpdate($action) {
+		
+		// Ensure that this code is not executed twice as this would cause a loop in case of a failure
+		$this->_actionDone($action['action_id'], 'ok');
+		
 		/*
 		 * Get the version-number of the newest version 
 		 */
@@ -195,7 +199,7 @@ class remoteaction_core_module {
 		/*
 		 * All well done!
 		 */
-		$this->_actionDone($action['action_id'], 'ok');
+		//$this->_actionDone($action['action_id'], 'ok');
 	}
 }
 ?>

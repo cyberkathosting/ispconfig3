@@ -203,8 +203,10 @@ class monitor_core_module {
 		$this->monitorMemUsage();
 		$this->monitorCpu();
 		$this->monitorServices();
-		$this->monitorOpenVzHost();
-		$this->monitorOpenVzUserBeancounter();
+		if(@file_exists('/proc/user_beancounters')) {
+			$this->monitorOpenVzHost();
+			$this->monitorOpenVzUserBeancounter();
+		}
 		$this->monitorMailLog();
 		$this->monitorMailWarnLog();
 		$this->monitorMailErrLog();
