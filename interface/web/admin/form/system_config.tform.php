@@ -180,6 +180,24 @@ $form["tabs"]['mail'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'mailmailinglist_link' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'mailmailinglist_url' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
+														'errmsg'=> 'mailinglist_url_error_regex'),
+										),
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'admin_mail' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

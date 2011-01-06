@@ -112,6 +112,11 @@ $conf['postfix']['vmail_groupid'] = '5000';
 $conf['postfix']['vmail_groupname'] = 'vmail';
 $conf['postfix']['vmail_mailbox_base'] = '/var/vmail';
 
+//* Mailman
+$conf['mailman']['installed'] = false; // will be detected automatically during installation
+$conf['mailman']['config_dir'] = '/etc/mailman';
+$conf['mailman']['init_script'] = 'mailman';
+
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['config_dir'] = '/etc/getmail';

@@ -113,6 +113,7 @@ class installer_base {
 
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
+		if(is_installed('mailman')) $conf['mailman']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
@@ -446,6 +447,59 @@ class installer_base {
 			copy('tpl/'.$jk_chrootsh.'.master', $config_dir.'/'.$jk_chrootsh);
 		}
 
+	}
+	
+	public function configure_mailman($status = 'insert') {
+		global $conf;
+
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'mm_cfg.py';
+		//* Backup exiting file
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'mm_cfg.py~');
+		}
+		
+		// load files
+		$content = rf('tpl/mm_cfg.py.master');
+		$old_file = rf($full_file_name);
+		
+		$old_options = array();
+		$lines = explode("\n", $old_file); 
+		foreach ($lines as $line)
+		{
+			if (strlen($line) && substr($line, 0, 1) != '#')
+			{
+				list($key, $value) = explode("=", $line);
+				if (!empty($value))
+				{
+					$key = rtrim($key);
+					$old_options[$key] = trim($value);
+				}
+			}
+		}
+		
+		$virtual_domains = '';
+		if($status == 'update')
+		{
+			// create virtual_domains list
+			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
+			
+			foreach($domainAll as $domain)
+			{
+				if ($domainAll[0]['domain'] == $domain['domain'])
+					$virtual_domains .= "'".$domain['domain']."'";
+				else
+					$virtual_domains .= ", '".$domain['domain']."'";
+			}
+		}
+		else
+			$virtual_domains = "' '";
+			
+		$content = str_replace('{hostname}', $conf['hostname'], $content);
+		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
+		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
+
+		wf($full_file_name, $content);
 	}
 
 	public function configure_postfix($options = '') {

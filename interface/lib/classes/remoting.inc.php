@@ -192,6 +192,53 @@ class remoting {
 		return $affected_rows;
 	}
 	
+	//* Get mail mailinglist details
+	public function mail_mailinglist_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_mailinglist_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_mailinglist.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a mail mailinglist
+	public function mail_mailinglist_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'mail_mailinglist_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$primary_id = $this->insertQuery('../mail/form/mail_mailinglist.tform.php',$client_id,$params);
+		return $primary_id;
+	}
+	
+	//* Update a mail mailinglist
+	public function mail_mailinglist_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'mail_mailinglist_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../mail/form/mail_mailinglist.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
+	}
+	
+	//* Delete a mail mailinglist
+	public function mail_mailinglist_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'mail_mailinglist_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../mail/form/mail_mailinglist.tform.php', $primary_id);
+		return $affected_rows;
+	}
+	
 	//* Get mail user details
 	public function mail_user_get($session_id, $primary_id)
     {

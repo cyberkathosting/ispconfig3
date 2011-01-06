@@ -103,6 +103,7 @@ CREATE TABLE `client` (
   `limit_cron_frequency` int(11) NOT NULL default '5',
   `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
+  `limit_mailmailinglist` int(11) NOT NULL default '-1',
   `parent_client_id` int(11) unsigned NOT NULL default '0',
   `username` varchar(64) default NULL,
   `password` varchar(64) default NULL,
@@ -159,6 +160,7 @@ CREATE TABLE `client_template` (
   `limit_cron_frequency` int(11) NOT NULL default '5',
   `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
+  `limit_mailmailinglist` int(11) NOT NULL default '-1',
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
@@ -492,19 +494,23 @@ CREATE TABLE `mail_greylist` (
 
 -- --------------------------------------------------------
 
--- 
--- Table structure for table  `mail_mailman_domain`
--- 
+--
+-- Tabellenstruktur für Tabelle `mail_mailinglist`
+--
 
-CREATE TABLE `mail_mailman_domain` (
-  `mailman_id` int(11) unsigned NOT NULL auto_increment,
+CREATE TABLE `mail_mailinglist` (
+  `mailinglist_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL,
+  `sys_perm_group` varchar(5) NOT NULL,
+  `sys_perm_other` varchar(5) NOT NULL,
   `server_id` int(11) unsigned NOT NULL default '0',
-  `domain` varchar(255) NOT NULL default '',
-  `mm_home` varchar(255) NOT NULL default '',
-  `mm_wrap` varchar(255) NOT NULL default '',
-  `mm_user` varchar(50) NOT NULL default '',
-  `mm_group` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`mailman_id`,`server_id`,`domain`)
+  `domain` varchar(255) NOT NULL,
+  `listname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY  (`mailinglist_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------

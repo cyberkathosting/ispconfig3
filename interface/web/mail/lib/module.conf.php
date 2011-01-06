@@ -75,6 +75,24 @@ if(count($items))
 								'items'	=> $items);
 }
 
+//**** Mailinglist menu
+$items = array();
+
+if($app->auth->get_client_limit($userid,'mailmailinglist') != 0)
+{
+	$items[] = array( 'title' 	=> 'Mailing List',
+					  'target' 	=> 'content',
+					  'link'	=> 'mail/mail_mailinglist_list.php',
+					  'html_id' => 'mail_mailinglist_list');
+}
+
+if(count($items))
+{
+	$module['nav'][] = array(	'title'	=> 'Mailing List',
+								'open' 	=> 1,
+								'items'	=> $items);
+}
+
 //**** Spamfilter menu
 $items = array();
 

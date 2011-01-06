@@ -216,6 +216,10 @@ if($reconfigure_services_answer == 'yes') {
 		//** Configure postfix
 		swriteln('Configuring Postfix');
 		$inst->configure_postfix('dont-create-certs');
+		
+		//** Configure mailman
+		swriteln('Configuring Mailman');
+		$inst->configure_mailman('update');
 	
 		//* Configure Jailkit
 		swriteln('Configuring Jailkit');
@@ -336,6 +340,7 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['courier']['courier-pop'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
 		if($conf['courier']['courier-pop-ssl'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 		if($conf['dovecot']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['dovecot']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['dovecot']['init_script'].' restart');
+		if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart');
 	}
 	if($conf['services']['web']) {
 		if($conf['apache']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');

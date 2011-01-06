@@ -7,6 +7,7 @@ $wb['username_error_empty'] = 'Username cannot be empty';
 $wb['password_error_empty'] = 'Password cannot be empty';
 $wb['password_strength_txt'] = 'Password Strength:';
 $wb['Mail domain functions'] = 'Mail domain functions';
+$wb['Mail mailing list functions'] = 'Mail mailinglist functions';
 $wb['Mail user functions'] = 'Mail user functions';
 $wb['Mail alias functions'] = 'Mail alias functions';
 $wb['Mail forward functions'] = 'Mail forward functions';

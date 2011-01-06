@@ -3,6 +3,7 @@ $wb['limits_txt'] = "Account limits";
 $wb['of_txt'] = "of";
 $wb['unlimited_txt'] = "Unlimited";
 $wb['limit_maildomain_txt'] = "Number of email domains";
+$wb['limit_mailmailinglist_txt'] = "Number of mailing lists";
 $wb['limit_mailbox_txt'] = "Number of mailboxes";
 $wb["limit_mailalias_txt"] = 'Number of email aliases';
 $wb["limit_mailaliasdomain_txt"] = 'Number of domain aliases';

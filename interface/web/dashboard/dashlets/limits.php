@@ -12,6 +12,10 @@ class dashlet_limits {
 		$limits[] = array('field' => 'limit_maildomain',
 						  'db_table' => 'mail_domain',
 						  'db_where' => '');
+						  
+		$limits[] = array('field' => 'limit_mailmailinglist',
+						  'db_table' => 'mail_mailinglist',
+						  'db_where' => '');
 		
 		$limits[] = array('field' => 'limit_mailbox',
 						  'db_table' => 'mail_user',

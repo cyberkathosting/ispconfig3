@@ -349,6 +349,9 @@ class page_action extends tform_actions {
 					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
+			
+			//* Update the mailinglist
+			$app->db->query("UPDATE mail_mailinglist SET sys_groupid = $sys_groupid WHERE domain = '".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
 
 			//* Delete the old spamfilter record
 			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->oldDataRecord["domain"])."'");
