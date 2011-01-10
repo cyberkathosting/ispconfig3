@@ -558,8 +558,10 @@ class installer_base {
 				'myhostname = '.$conf['hostname'],
 				'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
 				'mynetworks = 127.0.0.0/8 [::1]/128',
+				'alias_maps = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases',
+				'alias_database = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases',
 				'virtual_alias_domains =',
-				'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
+				'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf, hash:/var/lib/mailman/data/virtual-mailman',
 				'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
 				'virtual_mailbox_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailboxes.cf',
 				'virtual_mailbox_base = '.$cf['vmail_mailbox_base'],
@@ -591,7 +593,8 @@ class installer_base {
 				'header_checks = regexp:'.$config_dir.'/header_checks',
 				'mime_header_checks = regexp:'.$config_dir.'/mime_header_checks',
 				'nested_header_checks = regexp:'.$config_dir.'/nested_header_checks',
-				'body_checks = regexp:'.$config_dir.'/body_checks'
+				'body_checks = regexp:'.$config_dir.'/body_checks',
+				'owner_request_special = no'
 		);
 
 		//* Create the header and body check files

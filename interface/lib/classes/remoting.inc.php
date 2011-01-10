@@ -1238,13 +1238,16 @@ class remoting {
 	}
 	
 	//* Add a record
-	public function sites_web_domain_add($session_id, $client_id, $params)
+	public function sites_web_domain_add($session_id, $client_id, $params, $readonly = false)
     {
+		global $app;
 		if(!$this->checkPerm($session_id, 'sites_web_domain_add')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows =  $this->insertQuery('../sites/form/web_domain.tform.php',$client_id,$params, 'sites:web_domain:on_after_insert');
+		if ($readonly === true)
+			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ".$affected_rows);
 		return $affected_rows;		
 	}
 	
