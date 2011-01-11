@@ -116,7 +116,8 @@ class plugins {
 				$function_name = $event['function'];
 				// Call the processing function of the plugin
 				$app->log("Calling function '$function_name' from plugin '$plugin_name' raised by event '$event_name'.",LOGLEVEL_DEBUG);
-				call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
+				// call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
+				call_user_func(array($app->loaded_plugins[$plugin_name],$function_name),$event_name,$data);
 				unset($plugin_name);
 				unset($function_name);
 			}

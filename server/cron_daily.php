@@ -173,19 +173,22 @@ foreach($records as $rec) {
 	$awstats_conf_dir = $web_config['awstats_conf_dir'];
 	$awstats_website_conf_file = $web_config['awstats_conf_dir'].'/awstats.'.$domain.'.conf';
 	
+	if(is_file($awstats_website_conf_file)) unlink($awstats_website_conf_file);
+	
 	if(!is_file($awstats_website_conf_file)) {
 		$awstats_conf_file_content = 'Include "'.$awstats_conf_dir.'/awstats.conf"
-LogFile="/var/log/ispconfig/httpd/'.$domain.'/access.log"
+LogFile="/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log"
 SiteDomain="'.$domain.'"
 HostAliases="www.'.$domain.' localhost 127.0.0.1"';
 		file_put_contents($awstats_website_conf_file,$awstats_conf_file_content);
 	}
 	
-	
 	if(!@is_dir($statsdir)) mkdir($statsdir);
+	if(is_file('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
+	symlink($logfile,'/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
-	$command = "$awstats_buildstaticpages_pl -update -LogFile='$logfile' -config='$domain' -lang=en -dir='$statsdir' -awstatsprog='$awstats_pl'";
+	$command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=en -dir='$statsdir' -awstatsprog='$awstats_pl'";
 	
 	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
@@ -211,7 +214,7 @@ exec('chmod +r /var/log/ispconfig/httpd/*');
 $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	$yesterday = date('Ymd',time() - 86400);
+	$yesterday = date('Ymd',time() - 86400*2);
 	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
 	if(@is_file($logfile)) {
 		// Compress yesterdays logfile

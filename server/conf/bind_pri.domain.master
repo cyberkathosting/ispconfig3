@@ -42,7 +42,7 @@ $TTL        {tmpl_var name='ttl'}
 {tmpl_var name='name'}      SRV        {tmpl_var name='aux'} {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='TXT'>
-{tmpl_var name='name'}      TXT        {tmpl_var name='data'}
+{tmpl_var name='name'}      TXT        "{tmpl_var name='data'}"
 </tmpl_if>
 </tmpl_loop>
 

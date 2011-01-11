@@ -1005,7 +1005,7 @@ class remoting {
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
-			$affected_rows = $this->updateQuery('../client/form/client.tform.php', $client_id, $reseller_id, $params);
+			$affected_rows = $this->updateQuery('../client/form/client.tform.php', $reseller_id, $client_id, $params);
 			
 			$app->remoting_lib->ispconfig_sysuser_update($params,$client_id);
 			

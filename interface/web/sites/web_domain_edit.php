@@ -196,7 +196,8 @@ class page_action extends tform_actions {
 		}
 
 		$ssl_domain_select = '';
-		$ssl_domains = array($this->dataRecord["domain"],'www.'.$this->dataRecord["domain"]);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$this->id);
+		$ssl_domains = array($tmp["domain"],'www.'.$tmp["domain"]);
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
@@ -330,10 +331,14 @@ class page_action extends tform_actions {
 				}
 
 			}
+			
 
 			// Clients may not set the client_group_id, so we unset them if user is not a admin and the client is not a reseller
 			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
 		}
+		
+		//* make sure that the email domain is lowercase
+		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 
 
 		parent::onSubmit();

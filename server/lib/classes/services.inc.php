@@ -54,7 +54,8 @@ class services {
 			$module_name = $this->registered_services[$service_name]['module'];
 			$function_name = $this->registered_services[$service_name]['function'];
 			$app->log("Calling function '$function_name' from module '$module_name'.",LOGLEVEL_DEBUG);
-			call_user_method($function_name,$app->loaded_modules[$module_name],$action);
+			// call_user_method($function_name,$app->loaded_modules[$module_name],$action);
+			call_user_func(array($app->loaded_modules[$module_name],$function_name),$action);
 		} else {
 			$app->log("Unable to restart $service_name. Service not registered.",LOGLEVEL_WARNING);
 		}

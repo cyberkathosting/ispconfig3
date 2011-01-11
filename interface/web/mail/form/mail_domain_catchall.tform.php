@@ -74,7 +74,7 @@ $form["tabs"]['catchall'] = array (
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'domain_error_unique'),
 										2 => array (	'type'	=> 'REGEX',
-														'regex' => '/^\@[\w\.\-]{2,255}\.[a-zA-Z\-]{2,10}$/',
+														'regex' => '/^\@[\w\.\-]{2,255}\.[a-zA-Z\-]{2,30}$/',
 														'errmsg'=> 'domain_error_regex'),
 									),
 			'default'	=> '',

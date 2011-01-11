@@ -1694,13 +1694,13 @@ class monitor_core_module {
 			case 'log_freshclam':
 				if($dist == 'debian') { $logfile = '/var/log/clamav/freshclam.log'; }
 				elseif($dist == 'redhat') { $logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log'); }
-				elseif($dist == 'suse') { $logfile = ''; }
+				elseif($dist == 'suse') { $logfile = '/var/log/freshclam.log'; }
 				elseif($dist == 'gentoo') { $logfile = '/var/log/clamav/freshclam.log'; }
 				break;
 			case 'log_clamav':
 				if($dist == 'debian') { $logfile = '/var/log/clamav/clamav.log'; }
 				elseif($dist == 'redhat') { $logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog'); }
-				elseif($dist == 'suse') { $logfile = ''; }
+				elseif($dist == 'suse') { $logfile = '/var/log/clamd.log'; }
 				elseif($dist == 'gentoo') { $logfile = '/var/log/clamav/clamd.log'; }
 				break;
 			case 'log_fail2ban':

@@ -243,9 +243,10 @@ class modules {
 			foreach($hooks as $hook) {
 				$module_name = $hook['module'];
 				$function_name = $hook['function'];
-				// Claa the processing function of the module
+				// Call the processing function of the module
 				if($this->debug) $app->log("Call function '$function_name' in module '$module_name' raised by TableHook '$table_name'.",LOGLEVEL_DEBUG);
-				call_user_method($function_name,$app->loaded_modules[$module_name],$table_name,$action,$data);
+				// call_user_method($function_name,$app->loaded_modules[$module_name],$table_name,$action,$data);
+				call_user_func(array($app->loaded_modules[$module_name],$function_name),$table_name,$action,$data);
 				unset($module_name);
 				unset($function_name);
 			}

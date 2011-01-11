@@ -737,7 +737,7 @@ class tform {
                                         }
                                 break;
                                 case 'ISEMAIL':
-                                        if(!preg_match("/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-z\-]{2,10}$/i", $field_value)) {
+                                        if(!preg_match("/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-zA-Z0-9\-]{2,30}$/i", $field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
                                                     $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
@@ -860,14 +860,14 @@ class tform {
 																}
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
-																$record[$key] = crypt($record[$key],$salt);
+																$record[$key] = crypt(stripslashes($record[$key]),$salt);
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 														} elseif ($field['encryption'] == 'MYSQL') {
 																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
 														} elseif ($field['encryption'] == 'CLEARTEXT') {
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         } else {
-                                                                $record[$key] = md5($record[$key]);
+                                                                $record[$key] = md5(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         }
 														
@@ -895,14 +895,14 @@ class tform {
 																}
 																$salt.="$";
 																// $salt = substr(md5(time()),0,2);
-																$record[$key] = crypt($record[$key],$salt);
+																$record[$key] = crypt(stripslashes($record[$key]),$salt);
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
 																$sql_update .= "`$key` = PASSWORD('".$app->db->quote($record[$key])."'), ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') {
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         } else {
-                                                                $record[$key] = md5($record[$key]);
+                                                                $record[$key] = md5(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         }
                                                         

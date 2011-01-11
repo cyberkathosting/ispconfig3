@@ -148,7 +148,8 @@ class plugin {
 						$app->loaded_plugins[$plugin_name] = new $plugin_name;
 					}
 					if($this->debug) $app->log("Called method: '$function_name' in plugin '$plugin_name' for event '$event_name'",LOGLEVEL_DEBUG);
-					call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
+					// call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
+					call_user_func(array($app->loaded_plugins[$plugin_name],$function_name),$event_name,$data);
 				}
 			}
 			
