@@ -72,6 +72,8 @@ class validate_ftpuser {
         
         $doc_root .= "/";
         if(substr($field_value, 0, strlen($doc_root)) == $doc_root) $is_ok = true;
+		
+		if(stristr($field_value,'..') or stristr($field_value,'./') or stristr($field_value,'/.')) $is_ok = false;
         
         if($is_ok == false) {
             $errmsg = $validator['errmsg'];

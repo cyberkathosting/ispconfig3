@@ -126,7 +126,7 @@ $form["tabs"]['ftp'] = array (
 	)
 );
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
+if($app->auth->is_admin()) {
 
 $form["tabs"]['advanced'] = array (
     'title'     => "Options",

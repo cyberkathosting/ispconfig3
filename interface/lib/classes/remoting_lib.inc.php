@@ -661,11 +661,11 @@ class remoting_lib {
 		}
 
 		function ispconfig_sysuser_add($params,$insert_id){
-			global $app,$sql1;
+			global $conf,$app,$sql1;
 			$username = $app->db->quote($params["username"]);
 			$password = $app->db->quote($params["password"]);
 			if(!isset($params['modules'])) {
-				$modules = 'dashboard,mail,sites,dns,tools';
+				$modules = $conf['interface_modules_enabled'];
 			} else {
 				$modules = $app->db->quote($params['modules']);
 			}
