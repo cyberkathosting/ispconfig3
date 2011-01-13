@@ -145,7 +145,7 @@ class tform {
                 }
 
 				if(is_array($wb_global)) {
-					$wb = $wb_global + $wb;
+					$wb = $app->functions->array_merge($wb_global,$wb);
 				}
 				if(isset($wb_global)) unset($wb_global);
 				
@@ -363,7 +363,7 @@ class tform {
                                         if(isset($field['datasource']) && is_array($field['datasource'])) {
 												if(is_array($field["value"])) {
 													//$field["value"] = array_merge($field["value"],$this->getDatasourceData($field, $record));
-													$field["value"] = $field["value"]+$this->getDatasourceData($field, $record);
+													$field["value"] = $app->functions->array_merge($field["value"],$this->getDatasourceData($field, $record));
 												} else {
                                                 	$field["value"] = $this->getDatasourceData($field, $record);
 												}
@@ -478,7 +478,7 @@ class tform {
                                 // If Datasource is set, get the data from there
                                 if(@is_array($field['datasource'])) {
                                 	if(is_array($field["value"])) {
-										$field["value"] = array_merge($field["value"],$this->getDatasourceData($field, $record));
+										$field["value"] = $app->functions->array_merge($field["value"],$this->getDatasourceData($field, $record));
 									} else {
                                     	$field["value"] = $this->getDatasourceData($field, $record);
 									}

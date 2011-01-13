@@ -73,7 +73,7 @@ class app {
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
 
-		$this->uses('auth,plugin');
+		$this->uses('auth,plugin,functions');
 	}
 
 	public function uses($classes) {
