@@ -561,7 +561,7 @@ class installer_base {
 				'alias_maps = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases',
 				'alias_database = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases',
 				'virtual_alias_domains =',
-				'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf, hash:/var/lib/mailman/data/virtual-mailman',
+				'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, proxy:mysql:'.$config_dir.'/mysql-virtual_email2email.cf, hash:/var/lib/mailman/data/virtual-mailman',
 				'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
 				'virtual_mailbox_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailboxes.cf',
 				'virtual_mailbox_base = '.$cf['vmail_mailbox_base'],
@@ -602,7 +602,13 @@ class installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
-
+		
+		//* Create the mailman files
+		exec('mkdir -p /var/lib/mailman/data');
+		touch('/var/lib/mailman/data/aliases');
+		exec('postmap /var/lib/mailman/data/aliases');
+		touch('/var/lib/mailman/data/virtual-mailman');
+		exec('postmap /var/lib/mailman/data/virtual-mailman');
 
 		//* Make a backup copy of the main.cf file
 		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
