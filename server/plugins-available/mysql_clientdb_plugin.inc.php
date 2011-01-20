@@ -158,7 +158,7 @@ class mysql_clientdb_plugin {
 				}
 				
 				$db_host = 'localhost';
-				mysql_query("GRANT ALL ON ".mysql_real_escape_string($data['new']['database_name'],$link).".* TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data['new']['database_password'],$link)."';",$link);
+				mysql_query("GRANT ALL ON `".str_replace(array('_','%'),array('\\_','\\%'),mysql_real_escape_string($data['new']['database_name'],$link))."`.* TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data['new']['database_password'],$link)."';",$link);
 
 				
 			}
@@ -197,7 +197,7 @@ class mysql_clientdb_plugin {
 				}
 				
 				$db_host = 'localhost';
-				mysql_query("GRANT ALL ON ".mysql_real_escape_string($data['new']['database_name'],$link).".* TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data['new']['database_password'],$link)."';",$link);
+				mysql_query("GRANT ALL ON `".str_replace(array('_','%'),array('\\_','\\%'),mysql_real_escape_string($data['new']['database_name'],$link))."`.* TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data['new']['database_password'],$link)."';",$link);
 				
 				// mysql_query("GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"],$link).".* TO '".mysql_real_escape_string($data["new"]["database_user"],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"],$link)."';",$link);
 				//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
