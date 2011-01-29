@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Cota de Disco de Website';
-$wb['domain_txt'] = 'Domínio / Website';
-$wb['system_user_txt'] = 'Usuário no Linux';
-$wb['used_txt'] = 'Espaço Usado';
-$wb['hard_txt'] = 'Limite Hard';
-$wb['soft_txt'] = 'Limite Soft';
+$wb['list_head_txt'] = 'Cota de Disco';
+$wb['domain_txt'] = 'DomÃ­nio';
+$wb['system_user_txt'] = 'UsuÃ¡rio Linux';
+$wb['used_txt'] = 'EspaÃ§o usado';
+$wb['hard_txt'] = 'Limite hard';
+$wb['soft_txt'] = 'Limite soft';
 ?>

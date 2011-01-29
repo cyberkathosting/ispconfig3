@@ -93,9 +93,9 @@ $wb['limit_mailaliasdomain_error_notint'] = 'O domínio aliases de correio preci
 $wb['limit_web_quota_txt'] = 'Cota Web';
 $wb['limit_traffic_quota_txt'] = 'Cota de Tráfego';
 $wb['limit_trafficquota_error_notint'] = 'A cota de tráfego precisa ser um número..';
-$wb['limit_webdav_user_txt'] = 'Número máximo de usuários Webdav';
-$wb['limit_webdav_user_error_notint'] = 'O limite de usuários webdav deve ser um número.';
-$wb['customer_no_txt'] = 'Nº do Cliente';
+$wb['limit_webdav_user_txt'] = 'Max. number of Webdav users';
+$wb['limit_webdav_user_error_notint'] = 'The webdav user limit must be a number.';
+$wb['customer_no_txt'] = 'Customer No.';
 $wb['vat_id_txt'] = 'VAT ID';
-$wb['required_fields_txt'] = '* Campos requeridos';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

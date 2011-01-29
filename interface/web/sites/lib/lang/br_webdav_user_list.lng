@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Usuário-Webdav';
-$wb['active_txt'] = 'Ativo';
-$wb['server_id_txt'] = 'Servidor';
+$wb['list_head_txt'] = 'Webdav-User';
+$wb['active_txt'] = 'Active';
+$wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Usuário';
-$wb['add_new_record_txt'] = 'Adcionar um Usuário-Webdav';
+$wb['username_txt'] = 'Username';
+$wb['add_new_record_txt'] = 'Add new Webdav-User';
 ?>

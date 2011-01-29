@@ -8,5 +8,4 @@ $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
 $wb['destination_error_isemail'] = 'Endereço de destino inválido';
 $wb['limit_mailalias_txt'] = 'O número máximo de aliases para sua conta foi atingido.';
 $wb['duplicate_mailbox_txt'] = 'Já existe uma caixa de correio com este endereço.';
-$wb['domain_txt'] = 'Domain';
 ?>

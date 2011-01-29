@@ -93,7 +93,7 @@ $wb['limit_client_error_positive'] = 'O número de clientes precisa ser > 0';
 $wb['limit_web_quota_txt'] = 'Cota Web';
 $wb['limit_traffic_quota_txt'] = 'Cota de Tráfego';
 $wb['limit_trafficquota_error_notint'] = 'a cota de tráfego deve ser um número.';
-$wb['customer_no_txt'] = 'Nº do Cliente';
+$wb['customer_no_txt'] = 'Customer No.';
 $wb['vat_id_txt'] = 'VAT ID';
-$wb['required_fields_txt'] = '* Campos Requeridos';
+$wb['required_fields_txt'] = '* Required fields';
 ?>

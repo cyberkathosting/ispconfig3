@@ -1,15 +1,15 @@
 <?php
-$wb['dir_txt'] = 'Diretório';
-$wb['server_id_txt'] = 'Servidor';
+$wb['dir_txt'] = 'Directory';
+$wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Usuário';
-$wb['password_txt'] = 'Senha';
-$wb['password_strength_txt'] = 'Segurança da Senha';
-$wb['active_txt'] = 'Ativo';
-$wb['limit_webdav_user_txt'] = 'O número máximo de usuários webdav para esta conta foi atingido.';
-$wb['username_error_empty'] = 'O nome de usuário está vazio.';
-$wb['username_error_unique'] = 'O nome de usuário precisa ser único.';
-$wb['username_error_regex'] = 'Este nome de usuário possui caracteres não permitidos.';
-$wb['directory_error_empty'] = 'Diretório Vazio.';
-$wb['parent_domain_id_error_empty'] = 'Website não selecionado.';
+$wb['username_txt'] = 'Username';
+$wb['password_txt'] = 'Password';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['active_txt'] = 'Active';
+$wb['limit_webdav_user_txt'] = 'The max. number of webdav users for your account is reached.';
+$wb['username_error_empty'] = 'Username is empty.';
+$wb['username_error_unique'] = 'The username must be unique.';
+$wb['username_error_regex'] = 'The username contains charachters that are not allowed.';
+$wb['directory_error_empty'] = 'Directory empty.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>

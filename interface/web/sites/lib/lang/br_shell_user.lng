@@ -12,11 +12,11 @@ $wb['active_txt'] = 'Ativo';
 $wb['username_error_empty'] = 'Nome de usuário em branco.';
 $wb['username_error_unique'] = 'O nome de usuário deve ser único.';
 $wb['username_error_regex'] = 'O nome do usuário contém caracteres não permitidos.';
-$wb['quota_size_error_empty'] = 'Cota em branco.';
+$wb['quota_size_error_empty'] = 'Quota em branco.';
 $wb['uid_error_empty'] = 'GID em branco.';
 $wb['directory_error_empty'] = 'Diretório vazio.';
 $wb['limit_shell_user_txt'] = 'O número máximo de usuários shell para sua conta foi atingido.';
 $wb['parent_domain_id_error_empty'] = 'Nenhum website selecionado.';
-$wb['puser_txt'] = 'Usuário Web';
-$wb['pgroup_txt'] = 'Grupo Web';
+$wb['puser_txt'] = 'Web Username';
+$wb['pgroup_txt'] = 'Web Group';
 ?>
