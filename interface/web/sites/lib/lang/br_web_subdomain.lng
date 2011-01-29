@@ -1,4 +1,4 @@
-<?php
+]<?php
 $wb['ssl_state_txt'] = 'Estado';
 $wb['ssl_locality_txt'] = 'Localidade';
 $wb['ssl_organisation_txt'] = 'Empresa';
@@ -36,5 +36,7 @@ $wb['domain_error_empty'] = 'Domínio em branco.';
 $wb['domain_error_unique'] = 'Já existe alias ou sub-domínio com este nome.';
 $wb['domain_error_regex'] = 'Nome de domínio inválido.';
 $wb['host_txt'] = 'Host';
-$wb['redirect_error_regex'] = 'Caminho de redirecionamento inválido. Exemplo de caminho válido: /test/ ou http://www.domain.tld/test/';
+$wb['redirect_error_regex'] = 'Caminho de redirecionamento inválido. Exemplo de caminho válido: /test/ ou http://www.dominio.ext/test/';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
 ?>

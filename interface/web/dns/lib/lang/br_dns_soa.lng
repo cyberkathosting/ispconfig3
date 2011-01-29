@@ -23,4 +23,8 @@ $wb['mbox_error_empty'] = 'Correio está em branco.';
 $wb['mbox_error_regex'] = 'Correio com formato inválido.';
 $wb['also_notify_txt'] = 'Also Notify';
 $wb['update_acl_txt'] = 'Atualizar ACL';
+$wb['seconds_txt'] = 'Segundos';
+$wb['eg_domain_tld'] = 'e.x. dominio.ext';
+$wb['eg_ns1_domain_tld'] = 'e.x. ns1.dominio.ext';
+$wb['eg_webmaster_domain_tld'] = 'e.x. webmaster@dominio.ext';
 ?>

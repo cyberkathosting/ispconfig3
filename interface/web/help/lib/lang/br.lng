@@ -6,4 +6,9 @@ $wb['View messages'] = 'Ver Mensagem';
 $wb['Support'] = 'Suporte';
 $wb['About ISPConfig'] = 'Sobre o ISPConfig';
 $wb['Version'] = 'Versão';
+$wb['Frequently Asked Questions'] = 'Perguntas Mais Frequentes';
+$wb['FAQ Sections'] = 'Sessões FAQ';
+$wb['Manage Sections'] = 'Gerenciar Sessões';
+$wb['Add a Question & Answer Pair'] = 'Adcionar par Questã/Resposta';
+$wb['Manage Questions'] = 'Gerenciar Questões';
 ?>

@@ -15,8 +15,12 @@ $wb['phpmyadmin_url_txt'] = 'URL do PHPMyAdmin';
 $wb['use_domain_module_txt'] = 'Use o módulo domínios para adcionar novos domínios';
 $wb['use_domain_module_hint'] = 'Se você usar este módulo, os clientes podem selecionar apenas um dos domínios do administrador cria para eles. Eles não podem editar o campo domínio livremente.Você deve relogar-se depois de alterar esse valor, para que as mudanças sejam visíveis.';
 $wb['new_domain_txt'] = 'HTML para criar um novo domínio';
-$wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
-$wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
-$wb['webdavuser_prefix_error_regex'] = 'Char not allowed in webdav user prefix.';
-$wb['webftp_url_txt'] = 'WebFTP URL';
+$wb['dashboard_atom_url_txt'] = 'URL do Dashboard atom feed';
+$wb['webdavuser_prefix_txt'] = 'Prefixo do usuário Webdav';
+$wb['webdavuser_prefix_error_regex'] = 'Caractere não permitido no prefixo de usuário webdav.';
+$wb['webftp_url_txt'] = 'URL do WebFTP';
+$wb['mailmailinglist_link_txt'] = 'Link to mailing list';
+$wb['mailmailinglist_url_txt'] = 'Mailing list URL';
+$wb['admin_mail_txt'] = 'E-mail do administrador';
+$wb['admin_name_txt'] = 'Nome do administrador';
 ?>

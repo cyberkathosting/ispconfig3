@@ -26,4 +26,5 @@ $wb['limit_shell_user_txt'] = 'Número de usuários Shell';
 $wb['limit_webdav_user_txt'] = 'Número de usuários Webdav';
 $wb['limit_client_txt'] = 'Número de Clientes';
 $wb['limit_database_txt'] = 'Número de Banco de Dados';
+$wb['limit_mailmailinglist_txt'] = 'Número  de mailing lists';
 ?>
