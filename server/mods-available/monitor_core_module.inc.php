@@ -136,7 +136,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorServer() {
@@ -161,7 +161,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorOsVer() {
@@ -186,7 +186,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorIspcVer() {
@@ -211,7 +211,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorDiskUsage() {
@@ -236,7 +236,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorMemUsage() {
@@ -260,7 +260,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorCpu() {
@@ -284,7 +284,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorServices() {
@@ -309,7 +309,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorOpenVzHost() {
@@ -334,7 +334,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorOpenVzUserBeancounter() {
@@ -359,7 +359,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorSystemUpdate() {
@@ -394,7 +394,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorMailQueue() {
@@ -419,7 +419,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorRaid() {
@@ -444,7 +444,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorRkHunter() {
@@ -479,7 +479,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorFail2ban() {
@@ -504,7 +504,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorSysLog() {
@@ -529,7 +529,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorMailLog() {
@@ -554,7 +554,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorMailWarnLog() {
@@ -579,7 +579,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorMailErrLog() {
@@ -604,7 +604,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorMessagesLog() {
@@ -629,7 +629,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorISPCCronLog() {
@@ -654,7 +654,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorFreshClamLog() {
@@ -679,7 +679,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorClamAvLog() {
@@ -704,7 +704,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	private function _monitorIspConfigLog() {
@@ -729,7 +729,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, $res['server_id']);
+		$this->_delOldRecords($res['type'], $res['server_id']);
 	}
 
 	/**
