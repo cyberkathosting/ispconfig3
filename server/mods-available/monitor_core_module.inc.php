@@ -35,7 +35,7 @@ class monitor_core_module {
 	var $class_name = 'monitor_core_module';
 	/* No actions at this time. maybe later... */
 	var $actions_available = array();
-	/** The Tools*/
+	/** The Tools */
 	private $_tools = null;
 
 	/**
@@ -81,7 +81,7 @@ class monitor_core_module {
 		 */
 		$app->load('monitor_tools');
 		$this->_tools = new monitor_tools();
-		
+
 		/*
 		 * Calls the single Monitoring steps 
 		 */
@@ -120,7 +120,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorHDQuota();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -135,7 +135,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorServer() {
@@ -145,7 +145,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorServer();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -160,7 +160,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorOsVer() {
@@ -170,7 +170,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorOsVer();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -185,7 +185,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorIspcVer() {
@@ -195,7 +195,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorIspcVer();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -210,7 +210,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorDiskUsage() {
@@ -220,7 +220,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorDiskUsage();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -235,7 +235,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorMemUsage() {
@@ -244,7 +244,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorMemUsage();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -259,7 +259,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorCpu() {
@@ -268,7 +268,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorCpu();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -283,17 +283,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorServices() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorServices();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -308,17 +308,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorOpenVzHost() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorOpenVzHost();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -333,17 +333,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorOpenVzUserBeancounter() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorOpenVzUserBeancounter();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -358,7 +358,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorSystemUpdate() {
@@ -373,12 +373,12 @@ class monitor_core_module {
 		 * OK - here we go...
 		 */
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorSystemUpdate();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -393,17 +393,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorMailQueue() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorMailQueue();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -418,17 +418,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorRaid() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorRaid();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -443,7 +443,7 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorRkHunter() {
@@ -458,12 +458,12 @@ class monitor_core_module {
 		 * OK . here we go...
 		 */
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorRkHunter();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -478,17 +478,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorFail2ban() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorFail2ban();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -503,17 +503,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorSysLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorSysLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -528,17 +528,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorMailLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorMailLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -553,17 +553,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorMailWarnLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorMailWarnLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -578,17 +578,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorMailErrLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorMailErrLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -603,17 +603,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorMessagesLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorMessagesLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -628,17 +628,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorISPCCronLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorISPCCronLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -653,17 +653,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorFreshClamLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorFreshClamLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -678,17 +678,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorClamAvLog() {
-			global $app;
-		
+		global $app;
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorClamAvLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -703,17 +703,17 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
 	private function _monitorIspConfigLog() {
 		global $app;
-		
+
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorIspConfigLog();
-		
+
 		/*
 		 * Insert the data into the database
 		 */
@@ -728,23 +728,35 @@ class monitor_core_module {
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
-		$this->_delOldRecords($type, 4);
+		$this->_delOldRecords($type, $res['server_id']);
 	}
 
-	/*
-	  Deletes Records older than n.
+	/**
+	 * Deletes Records older than 4 minutes.
+	 * The monitor writes new data every 5 minutes or longer (4 hour, 1 day).
+	 * So if i delete all Date older than 4 minutes i can be sure, that all old data
+	 * are deleted...
 	 */
-
-	private function _delOldRecords($type, $min, $hour=0, $days=0) {
+	private function _delOldRecords($type, $serverId) {
 		global $app;
 
 		$now = time();
-		$old = $now - ($min * 60) - ($hour * 60 * 60) - ($days * 24 * 60 * 60);
+		$old = $now - (4 * 60); // 4 minutes
+		/*
+		 * ATTENTION if i do NOT pay attention of the server id, i delete all data (of the type)
+		 * of ALL servers. This means, if i have a multiserver-environment and a server has a 
+		 * time not synced with the others (for example, all server has 11:00 and ONE server has
+		 * 10:45) then the actual data of this server (with the time-stamp 10:45) get lost
+		 * even though it is the NEWEST data of this server. To avoid this i HAVE to include
+		 * the server-id!
+		 */
 		$sql = 'DELETE FROM monitor_data ' .
 				'WHERE ' .
-				'type =' . "'" . $app->dbmaster->quote($type) . "' " .
+				'  type =' . "'" . $app->dbmaster->quote($type) . "' " .
 				'AND ' .
-				'created < ' . $old;
+				'  created < ' . $old . ' ' .
+				'AND ' .
+				'  server_id = ' . $serverId;
 		$app->dbmaster->query($sql);
 	}
 
