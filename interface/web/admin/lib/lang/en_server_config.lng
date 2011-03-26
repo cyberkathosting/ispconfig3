@@ -1,8 +1,12 @@
 <?php
+$wb["try_rescue_txt"] = 'Activate rescue of all services installed at this server';
+$wb["do_not_try_rescue_apache_txt"] = 'If rescue ist activated, do NOT try to rescue Apache';
+$wb["do_not_try_rescue_mysql_txt"] = 'If rescue ist activated, do NOT try to rescue mysql';
+$wb["do_not_try_rescue_mail_txt"] = 'If rescue ist activated, do NOT try to rescue mail';
 $wb["jailkit_chroot_home_txt"] = 'Jailkit chroot home';
 $wb["jailkit_chroot_app_sections_txt"] = 'Jailkit chroot app sections';
 $wb["jailkit_chroot_app_programs_txt"] = 'Jailkit chrooted applications';
-$wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applications';
+$wb["jailkit_chroot_cron_programs_txt"] = 'Jailkit cron chrooted applications';
 $wb["website_path_txt"] = 'Website path';
 $wb["website_symlinks_txt"] = 'Website symlinks';
 $wb["website_basedir_txt"] = 'Website basedir';

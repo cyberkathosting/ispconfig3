@@ -1,0 +1,42 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_server_config">
+
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels"><legend>Rescue</legend>
+      <div class="ctrlHolder">
+				<p class="label" style="width:300px">{tmpl_var name='try_rescue_txt'}</p>
+					<div class="multiField" style="width:100px">
+						{tmpl_var name='try_rescue'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label" style="width:300px">{tmpl_var name='do_not_try_rescue_apache_txt'}</p>
+					<div class="multiField" style="width:100px">
+						{tmpl_var name='do_not_try_rescue_apache'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label" style="width:300px">{tmpl_var name='do_not_try_rescue_mysql_txt'}</p>
+					<div class="multiField" style="width:100px">
+						{tmpl_var name='do_not_try_rescue_mysql'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label" style="width:300px">{tmpl_var name='do_not_try_rescue_mail_txt'}</p>
+					<div class="multiField" style="width:100px">
+						{tmpl_var name='do_not_try_rescue_mail'}
+					</div>
+			</div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>
