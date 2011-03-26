@@ -1535,10 +1535,22 @@ class monitor_tools {
 		$fp = @fsockopen($host, $port, $errno, $errstr, 2);
 
 		if ($fp) {
+			/*
+			 * We got a connection, but maybe apache is not able to send data over this
+			 * connection?
+			 */
+		    fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
+			stream_set_timeout($fp, 2);
+			$res = fread($fp, 10);
+		    $info = stream_get_meta_data($fp);
 			fclose($fp);
-			return true;
+		    if ($info['timed_out']) {
+				return false; // Apache was not able to send data over this connection
+		    } else {
+				return true; // Apache was able to send data over this connection
+			}			
 		} else {
-			return false;
+			return false; // Apache was not able to establish a connection
 		}
 	}
 
