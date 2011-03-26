@@ -76,6 +76,7 @@ class monitor_core_module {
 	 */
 	// TODO: what monitoring is done should be a config-var
 	private function _doMonitor() {
+		global $app;
 		/*
 		 * We need the tools in almost every method, so initialize them once...
 		 */

@@ -1070,6 +1070,7 @@ class monitor_tools {
 	}
 
 	public function monitorSysLog() {
+		global $app;
 		global $conf;
 
 		/* the id of the server as int */
