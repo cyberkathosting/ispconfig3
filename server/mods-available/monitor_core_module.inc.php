@@ -129,7 +129,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -154,7 +154,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -179,7 +179,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -204,7 +204,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -229,7 +229,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -253,7 +253,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -277,7 +277,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -302,7 +302,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -327,7 +327,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -352,7 +352,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -387,7 +387,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -412,7 +412,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -437,7 +437,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -472,7 +472,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -497,7 +497,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -522,7 +522,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -547,7 +547,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -572,7 +572,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -597,7 +597,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -622,7 +622,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -647,7 +647,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -672,7 +672,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -697,7 +697,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
@@ -722,7 +722,7 @@ class monitor_core_module {
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				time() . ', ' .
+				'UNIX_TIMESTAMP(), ' .
 				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
 				"'" . $res['state'] . "'" .
 				')';
