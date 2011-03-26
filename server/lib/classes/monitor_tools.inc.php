@@ -332,7 +332,7 @@ class monitor_tools {
 
 		/* the ISPC-Version has no state. It is, what it is */
 		$state = 'no_state';
-		
+
 		/*
 		 * Return the Result
 		 */
@@ -446,7 +446,7 @@ class monitor_tools {
 		 * maybe someone knows better...???...
 		 */
 		$state = 'no_state';
-		
+
 		/*
 		 * Return the Result
 		 */
@@ -607,7 +607,7 @@ class monitor_tools {
 				$state = 'error'; // because service is down
 			}
 		}
-		
+
 		/*
 		 * Return the Result
 		 */
@@ -791,6 +791,28 @@ class monitor_tools {
 				$state = 'info';
 				$data['output'] = shell_exec('glsa-check -pv --nocolor affected 2>/dev/null');
 			}
+		} elseif (file_exists('/etc/SuSE-release')) {
+
+			/*
+			 * update and find the upgrade.
+			 * if there is any output, then there is a needed update
+			 */
+			$aptData = shell_exec('zypper -q lu');
+			if ($aptData == '') {
+				/* There is nothing to update! */
+				$state = 'ok';
+			} else {
+				/*
+				 * There is something to update! this is in most cases not critical, so we can
+				 * do a system-update once a month or so...
+				 */
+				$state = 'info';
+			}
+
+			/*
+			 * Fetch the output
+			 */
+			$data['output'] = shell_exec('zypper --non-interactive up');
 		} else {
 			/*
 			 * It is not Debian/Ubuntu, so there is no data and no state
