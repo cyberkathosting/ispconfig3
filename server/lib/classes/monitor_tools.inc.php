@@ -518,8 +518,16 @@ class monitor_tools {
 		/** the id of the server as int */
 		$server_id = intval($conf['server_id']);
 
-		/** get the "active" Services of the server from the DB */
+		/**  get the "active" Services of the server from the DB */
 		$services = $app->dbmaster->queryOneRecord('SELECT * FROM server WHERE server_id = ' . $server_id);
+		/*
+		 * If the DB is down, we have to set the db to "yes".
+		 * If we don't do this, then the monitor will NOT monitor, that the db is down and so the
+		 * rescue-module can not try to rescue the db
+		 */
+		if ($services == null) {
+			$services['db_server'] = 1;
+		}
 
 		/* The type of the Monitor-data */
 		$type = 'services';
@@ -1539,16 +1547,16 @@ class monitor_tools {
 			 * We got a connection, but maybe apache is not able to send data over this
 			 * connection?
 			 */
-		    fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
+			fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
 			stream_set_timeout($fp, 2);
 			$res = fread($fp, 10);
-		    $info = stream_get_meta_data($fp);
+			$info = stream_get_meta_data($fp);
 			fclose($fp);
-		    if ($info['timed_out']) {
+			if ($info['timed_out']) {
 				return false; // Apache was not able to send data over this connection
-		    } else {
+			} else {
 				return true; // Apache was able to send data over this connection
-			}			
+			}
 		} else {
 			return false; // Apache was not able to establish a connection
 		}
@@ -1577,6 +1585,67 @@ class monitor_tools {
 			return false;
 		}
 	}
+	
+    /*
+     * Set the state to the given level (or higher, but not lesser).
+     * * If the actual state is critical and you call the method with ok,
+     *   then the state is critical.
+     *
+     * * If the actual state is critical and you call the method with error,
+     *   then the state is error.
+     */
+    private function _setState($oldState, $newState)
+    {
+        /*
+         * Calculate the weight of the old state
+         */
+        switch ($oldState) {
+            case 'no_state': $oldInt = 0;
+                break;
+            case 'ok': $oldInt = 1;
+                break;
+            case 'unknown': $oldInt = 2;
+                break;
+            case 'info': $oldInt = 3;
+                break;
+            case 'warning': $oldInt = 4;
+                break;
+            case 'critical': $oldInt = 5;
+                break;
+            case 'error': $oldInt = 6;
+                break;
+        }
+        /*
+         * Calculate the weight of the new state
+         */
+        switch ($newState) {
+            case 'no_state': $newInt = 0 ;
+                break;
+            case 'ok': $newInt = 1 ;
+                break;
+            case 'unknown': $newInt = 2 ;
+                break;
+            case 'info': $newInt = 3 ;
+                break;
+            case 'warning': $newInt = 4 ;
+                break;
+            case 'critical': $newInt = 5 ;
+                break;
+            case 'error': $newInt = 6 ;
+                break;
+        }
+
+        /*
+         * Set to the higher level
+         */
+        if ($newInt > $oldInt){
+            return $newState;
+        }
+        else
+        {
+            return $oldState;
+        }
+    }
 
 	private function _getIntArray($line) {
 		/** The array of float found */

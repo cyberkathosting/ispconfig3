@@ -94,6 +94,11 @@ class rescue_core_module {
 		$this->_rescueApache();
 		
 		/*
+		 * rescue mysql if needed
+		 */
+		$this->_rescueMySql();
+		
+		/*
 		 * The last step is to save the rescue-data
 		 */
 		$this->_saveRescueData();
@@ -263,15 +268,94 @@ class rescue_core_module {
 		$app->log('Apache is down! Try rescue apache (try:' . $tryCount . ')...', LOGLEVEL_WARN);
 //		echo 'Apache is down! Try rescue apache (try:' . $tryCount . ')...';
 
-		/*
-		 * First we stop the running service "normally"
-		 */
-		$daemon = '';
 		if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
 			$daemon = 'httpd';
 		} else {
 			$daemon = 'apache2';
 		}
+		
+		$this->_rescueDaemon($daemon);
+	}
+	
+	/**
+	 * restarts mysql, if needed
+	 */
+	private function _rescueMySql(){
+		global $app, $conf;
+		
+		/*
+		 * do nothing, if it is not allowed to rescue mysql
+		 */
+		if ((isset($conf['serverconfig']['rescue']['do_not_try_rescue_mysql']) && ($conf['serverconfig']['rescue']['do_not_try_rescue_mysql']) == 'y')){
+			return;
+		}
+		
+		/*
+		 * if the service is up and running, or the service is not installed there is nothing to do...
+		 */
+		if ($this->_monitoringData[0][0]['data']['mysqlserver'] != 0){
+			/* Clear the try counter, because we do not have to try to rescue the service */
+			$this->_rescueData['mysqlserver']['try_counter'] = 0;
+			return;
+		}
+		
+		/*
+		 * OK, the service is installed and down.
+		 * Maybe this is because of a restart of the service by the admin.
+		 * This means, we check the data 1 minute ago
+		 */
+		if ((!isset($this->_monitoringData[1][0]['data']['mysqlserver'])) || 
+				((isset($this->_monitoringData[1][0]['data']['mysqlserver'])) && ($this->_monitoringData[1][0]['data']['mysqlserver'] != 0))){
+			/* 
+			 * We do NOT have this data or we have this data, but the webserver was not down 1 minute ago. 
+			 * This means, it could be, that the admin is restarting the server. 
+			 * We wait one more minute...
+			 */
+			return;
+		}
+		
+		/*#####
+		 * The service is down and it was down 1 minute ago.
+		 * We try to rescue it
+		 *#####*/
+		
+		/* Get the try counter */
+		$tryCount = (!isset($this->_rescueData['mysqlserver']['try_counter']))? 1 : $this->_rescueData['mysqlserver']['try_counter'] + 1;
+		
+		/* Set the new try counter */
+		$this->_rescueData['mysqlserver']['try_counter'] = $tryCount;
+		
+		/* if 5 times will not work, we have to give up... */
+		if ($tryCount > 5){
+			$app->log('MySQL is down! Rescue will not help!', LOGLEVEL_ERROR);
+			return;
+		}
+		
+		
+		$app->log('MySQL is down! Try rescue mysql (try:' . $tryCount . ')...', LOGLEVEL_WARN);
+//		echo 'MySQL is down! Try rescue mysql (try:' . $tryCount . ')...';
+
+		if(is_file($conf['init_scripts'] . '/' . 'mysqld')) {
+			$daemon = 'mysqld';
+		} else {
+			$daemon = 'mysql';
+		}
+		
+		$this->_rescueDaemon($daemon);
+	}
+
+	/**
+	 * Tries to stop and then restart the daemon
+	 * 
+	 * @param type $daemon the name of the daemon
+	 */
+	private function _rescueDaemon($daemon){
+		global $conf;
+		
+		// if you need to find all restarts search for "['init_scripts']"
+		/*
+		 * First we stop the running service "normally"
+		 */
 		
 		/*
 		 * ATTENTION!
@@ -292,7 +376,5 @@ class rescue_core_module {
 		 */
 		exec($conf['init_scripts'] . '/' . $daemon . ' start');
 	}
-	
-// if you need to find all restarts search for "['init_scripts']"
 }
 ?>

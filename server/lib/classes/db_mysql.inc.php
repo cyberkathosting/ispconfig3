@@ -61,8 +61,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		function updateError($location)
 		{
 			global $app;
-			$this->errorNumber = mysql_errno($this->linkId);
-			$this->errorMessage = mysql_error($this->linkId);
+			$this->errorNumber = @mysql_errno($this->linkId);
+			$this->errorMessage = @mysql_error($this->linkId);
 			$this->errorLocation = $location;
 			if($this->errorNumber && $this->show_error_messages && method_exists($app,'log'))
 			{
@@ -76,7 +76,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		{
 			if($this->linkId == 0)
 			{
-				$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
+				$this->linkId = @mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
 				if(!$this->linkId)
 				{
 					$this->updateError('DB::connect()-> mysql_connect');
@@ -463,7 +463,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        return $this->query($sql);
        }
        
-       // gibt Array mit Tabellennamen zurück
+       // gibt Array mit Tabellennamen zurï¿½ck
        function getTables($database_name = '') {
 	   	
 			if($database_name == '') $database_name = $this->dbName;
@@ -474,7 +474,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             return $tb_names;       
        }
        
-       // gibt Feldinformationen zur Tabelle zurück
+       // gibt Feldinformationen zur Tabelle zurï¿½ck
        /*
        $columns = array(action =>   add | alter | drop
                         name =>     Spaltenname
