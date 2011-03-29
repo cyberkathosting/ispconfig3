@@ -113,7 +113,7 @@ class rescue_core_module {
 	private function _getMonitoringData() {
 		global $app;
 		
-		$dataFilename = dirname(__FILE__) . "/../lib/rescue_module_monitoringdata.ser.txt";
+		$dataFilename = dirname(__FILE__) . "/../temp/rescue_module_monitoringdata.ser.txt";
 		
 		/*
 		 * If the file containing the data is too old (older than 5 minutes) it is better to
@@ -175,7 +175,7 @@ class rescue_core_module {
 	 * so we do not have parallel access.
 	 */
 	private function _getRescueData() {
-		$dataFilename = dirname(__FILE__) . "/../lib/rescue_module_rescuedata.ser.txt";
+		$dataFilename = dirname(__FILE__) . "/../temp/rescue_module_rescuedata.ser.txt";
 
 		/*
 		 * If the file containing the data is too old (older than 5 minutes) it is better to
@@ -206,7 +206,7 @@ class rescue_core_module {
 	 * so we do not have parallel access.
 	 */
 	private function _saveRescueData() {
-		$dataFilename = dirname(__FILE__) . "/../lib/rescue_module_rescuedata.ser.txt";
+		$dataFilename = dirname(__FILE__) . "/../temp/rescue_module_rescuedata.ser.txt";
 		file_put_contents($dataFilename, serialize($this->_rescueData));
 	}
 
