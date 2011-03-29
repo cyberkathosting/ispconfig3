@@ -519,7 +519,7 @@ class monitor_tools {
 		$server_id = intval($conf['server_id']);
 
 		/**  get the "active" Services of the server from the DB */
-		$services = $app->dbmaster->queryOneRecord('SELECT * FROM server WHERE server_id = ' . $server_id);
+		$services = $app->db->queryOneRecord('SELECT * FROM server WHERE server_id = ' . $server_id);
 		/*
 		 * If the DB is down, we have to set the db to "yes".
 		 * If we don't do this, then the monitor will NOT monitor, that the db is down and so the

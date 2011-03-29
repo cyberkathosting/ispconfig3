@@ -89,14 +89,14 @@ class rescue_core_module {
 		$this->_rescueData = $this->_getRescueData();
 		
 		/*
+		 * rescue mysql if needed (maybe apache depends on mysql, so try this first!)
+		 */
+		$this->_rescueMySql();
+		
+		/*
 		 * rescue apache if needed
 		 */
 		$this->_rescueApache();
-		
-		/*
-		 * rescue mysql if needed
-		 */
-		$this->_rescueMySql();
 		
 		/*
 		 * The last step is to save the rescue-data
@@ -273,7 +273,6 @@ class rescue_core_module {
 		
 		
 		$app->log('Apache is down! Try rescue apache (try:' . $tryCount . ')...', LOGLEVEL_WARN);
-//		echo 'Apache is down! Try rescue apache (try:' . $tryCount . ')...';
 
 		if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
 			$daemon = 'httpd';
@@ -340,7 +339,6 @@ class rescue_core_module {
 		
 		
 		$app->log('MySQL is down! Try rescue mysql (try:' . $tryCount . ')...', LOGLEVEL_WARN);
-//		echo 'MySQL is down! Try rescue mysql (try:' . $tryCount . ')...';
 
 		if(is_file($conf['init_scripts'] . '/' . 'mysqld')) {
 			$daemon = 'mysqld';

@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+  Copyright (c) 2007-2011, Till Brehm, projektfarm Gmbh
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification,
@@ -54,33 +54,68 @@ $conf['server_id'] = intval($conf['server_id']);
  * Try to Load the server configuration from the master-db
  */
 if ($app->dbmaster->connect()) {
-	// get the dalaog_id of the last performed record
 	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
+
 	$conf['last_datalog_id'] = (int) $server_db_record['updated'];
 	$conf['mirror_server_id'] = (int) $server_db_record['mirror_server_id'];
+
 	// Load the ini_parser
 	$app->uses('ini_parser');
+
 	// Get server configuration
 	$conf['serverconfig'] = $app->ini_parser->parse_ini_string(stripslashes($server_db_record['config']));
+
 	// Set the loglevel
 	$conf['log_priority'] = intval($conf['serverconfig']['server']['loglevel']);
 
+	// we do not need this variable anymore
 	unset($server_db_record);
+	
+	/*
+	 * Save the rescue-config, maybe we need it (because the database is down)
+	 */
+	$tmp['serverconfig']['server']['loglevel'] = $conf['log_priority'];
+	$tmp['serverconfig']['rescue'] = $conf['serverconfig']['rescue'];
+	file_put_contents(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt", serialize($tmp));
+	unset($tmp);
+
+	// protect the file
+	chmod(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt", 0600);
+	
 } else {
 	/*
 	 * The master-db is not available.
 	 * Problem: because we need to start the rescue-module (to rescue the DB if this IS the
 	 * server, the master-db is running at) we have to initialize some config...
 	 */
-	$conf['last_datalog_id'] = intval('9223372036854775807'); // maxint at 32 and 64 bit systems
-	$conf['mirror_server_id'] = 0; // no mirror
-	// Set the loglevel to warning
-	$conf['log_priority'] = LOGLEVEL_WARN;
+	
+	/*
+	 * If there is a temp-file with the data we could get from the database, then we use it
+	 */
+	$tmp = array();
+	if (file_exists(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt")){
+		$tmp = unserialize(file_get_contents(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt"));
+	}
+	
+	// maxint at 32 and 64 bit systems
+	$conf['last_datalog_id'] = intval('9223372036854775807'); 
+
+	// no mirror
+	$conf['mirror_server_id'] = 0; 
+
+	// Set the loglevel 
+	$conf['log_priority'] = (isset($tmp['serverconfig']['server']['loglevel']))? $tmp['serverconfig']['server']['loglevel'] : LOGLEVEL_ERROR;
 	/*
 	 * Set the configuration to rescue the database
 	 */
-	$conf['serverconfig']['rescue']['try_rescue'] = 'y';
-	$conf['serverconfig']['rescue']['do_not_try_rescue_mysql'] = 'n';
+	if (isset($tmp['serverconfig']['rescue'])){
+		$conf['serverconfig']['rescue'] = $tmp['serverconfig']['rescue'];
+	}
+	else{
+		$conf['serverconfig']['rescue']['try_rescue'] = 'n';
+	}
+	// we do not need this variable anymore
+	unset($tmp);
 }
 
 
