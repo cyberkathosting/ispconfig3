@@ -179,17 +179,16 @@ class remoteaction_core_module {
 		exec("tar xvfz ISPConfig-" . $new_version . ".tar.gz");
 
 		/*
-		 * Start the automated update
+		 * Initialize the automated update
+		 * (the update is then done next start of server.sh
 		 */
 		chdir("/tmp/ispconfig3_install/install");
 		exec("touch autoupdate");
-		exec("php -q autoupdate.php");
-
+		
 		/*
 		 * do some clean-up
 		 */
 		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
-		exec("rm /tmp/ispconfig3_install -R");
 
 		/*
 		 * go back to the "old path"
