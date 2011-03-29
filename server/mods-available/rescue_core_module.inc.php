@@ -161,8 +161,10 @@ class rescue_core_module {
 		
 		/*
 		 * We have the newest monitoring data. Save it!
+		 * (and protect it, because there may be sensible data in it)
 		 */
 		file_put_contents($dataFilename, serialize($data));
+		chmod($dataFilename, 0600);
 						
 		/* Thats it */
 		return $data;
@@ -207,7 +209,12 @@ class rescue_core_module {
 	 */
 	private function _saveRescueData() {
 		$dataFilename = dirname(__FILE__) . "/../temp/rescue_module_rescuedata.ser.txt";
+		/*
+		 * We have the newest data. Save it!
+		 * (and protect it, because there may be sensible data in it)
+		 */
 		file_put_contents($dataFilename, serialize($this->_rescueData));
+		chmod($dataFilename, 0600);
 	}
 
 	/**
