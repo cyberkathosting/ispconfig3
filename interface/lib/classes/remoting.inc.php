@@ -2004,6 +2004,14 @@ class remoting {
 			$new_rec = $app->remoting_lib->getDataRecord($insert_id);
 			$app->remoting_lib->datalogSave('INSERT',$primary_id,array(),$new_rec);			
 			$app->remoting_lib->ispconfig_sysuser_add($params,$insert_id);
+
+            if($reseller_id) {
+                $client_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = ".$insert_id);
+                $reseller_user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = ".$reseller_id);
+                $app->auth->add_group_to_user($reseller_user['userid'], $client_group['groupid']);
+                $app->db->query("UPDATE client SET parent_client_id = ".$reseller_id." WHERE client_id = ".$insert_id);
+            }   
+
 		}
 		return $insert_id;
 	}
