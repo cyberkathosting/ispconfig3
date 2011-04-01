@@ -347,7 +347,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// make sure that the record belongs to the clinet group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
