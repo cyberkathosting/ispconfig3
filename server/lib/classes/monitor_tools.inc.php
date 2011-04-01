@@ -597,7 +597,7 @@ class monitor_tools {
 		/* Monitor BIND-Server */
 		$data['bindserver'] = -1; // unknown - not needed
 		if ($services['dns_server'] == 1) {
-			if ($this->_checkTcp('localhost', 53)) {
+			if ($this->_checkUdp('localhost', 53)) {
 				$data['bindserver'] = 1;
 			} else {
 				$data['bindserver'] = 0;
