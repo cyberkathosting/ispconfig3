@@ -1539,26 +1539,36 @@ class monitor_tools {
 	}
 
 	private function _checkTcp($host, $port) {
-
+		/* Try to open a connection */
 		$fp = @fsockopen($host, $port, $errno, $errstr, 2);
 
 		if ($fp) {
 			/*
-			 * We got a connection, but maybe apache is not able to send data over this
-			 * connection?
+			 * We got a connection, this means, everything is O.K.
+			 * But maybe we are able to do more deep testing?
 			 */
-			fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
-			stream_set_timeout($fp, 2);
-			$res = fread($fp, 10);
-			$info = stream_get_meta_data($fp);
-			fclose($fp);
-			if ($info['timed_out']) {
-				return false; // Apache was not able to send data over this connection
-			} else {
-				return true; // Apache was able to send data over this connection
+			if ($port == 80) {
+				/*
+				 * Port 80 means, testing APACHE
+				 * So we can do a deepter test and try to get data over this connection.
+				 * (if apache hangs, we get a connection but a timeout by trying to GET the data!)
+				 */
+				fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
+				stream_set_timeout($fp, 5); // Timeout after 5 seconds
+				$res = fread($fp, 10);  // try to get 10 bytes (enough to test!)
+				$info = stream_get_meta_data($fp);
+				if ($info['timed_out']) {
+					return false; // Apache was not able to send data over this connection
+				}
 			}
+
+			/* The connection is no longer needed */
+			fclose($fp);
+			/* We are able to establish a connection */
+			return true;
 		} else {
-			return false; // Apache was not able to establish a connection
+			/* We are NOT able to establish a connection */
+			return false;
 		}
 	}
 
@@ -1585,67 +1595,64 @@ class monitor_tools {
 			return false;
 		}
 	}
-	
-    /*
-     * Set the state to the given level (or higher, but not lesser).
-     * * If the actual state is critical and you call the method with ok,
-     *   then the state is critical.
-     *
-     * * If the actual state is critical and you call the method with error,
-     *   then the state is error.
-     */
-    private function _setState($oldState, $newState)
-    {
-        /*
-         * Calculate the weight of the old state
-         */
-        switch ($oldState) {
-            case 'no_state': $oldInt = 0;
-                break;
-            case 'ok': $oldInt = 1;
-                break;
-            case 'unknown': $oldInt = 2;
-                break;
-            case 'info': $oldInt = 3;
-                break;
-            case 'warning': $oldInt = 4;
-                break;
-            case 'critical': $oldInt = 5;
-                break;
-            case 'error': $oldInt = 6;
-                break;
-        }
-        /*
-         * Calculate the weight of the new state
-         */
-        switch ($newState) {
-            case 'no_state': $newInt = 0 ;
-                break;
-            case 'ok': $newInt = 1 ;
-                break;
-            case 'unknown': $newInt = 2 ;
-                break;
-            case 'info': $newInt = 3 ;
-                break;
-            case 'warning': $newInt = 4 ;
-                break;
-            case 'critical': $newInt = 5 ;
-                break;
-            case 'error': $newInt = 6 ;
-                break;
-        }
 
-        /*
-         * Set to the higher level
-         */
-        if ($newInt > $oldInt){
-            return $newState;
-        }
-        else
-        {
-            return $oldState;
-        }
-    }
+	/**
+	 * Set the state to the given level (or higher, but not lesser).
+	 * * If the actual state is critical and you call the method with ok,
+	 *   then the state is critical.
+	 *
+	 * * If the actual state is critical and you call the method with error,
+	 *   then the state is error.
+	 */
+	private function _setState($oldState, $newState) {
+		/*
+		 * Calculate the weight of the old state
+		 */
+		switch ($oldState) {
+			case 'no_state': $oldInt = 0;
+				break;
+			case 'ok': $oldInt = 1;
+				break;
+			case 'unknown': $oldInt = 2;
+				break;
+			case 'info': $oldInt = 3;
+				break;
+			case 'warning': $oldInt = 4;
+				break;
+			case 'critical': $oldInt = 5;
+				break;
+			case 'error': $oldInt = 6;
+				break;
+		}
+		/*
+		 * Calculate the weight of the new state
+		 */
+		switch ($newState) {
+			case 'no_state': $newInt = 0;
+				break;
+			case 'ok': $newInt = 1;
+				break;
+			case 'unknown': $newInt = 2;
+				break;
+			case 'info': $newInt = 3;
+				break;
+			case 'warning': $newInt = 4;
+				break;
+			case 'critical': $newInt = 5;
+				break;
+			case 'error': $newInt = 6;
+				break;
+		}
+
+		/*
+		 * Set to the higher level
+		 */
+		if ($newInt > $oldInt) {
+			return $newState;
+		} else {
+			return $oldState;
+		}
+	}
 
 	private function _getIntArray($line) {
 		/** The array of float found */
