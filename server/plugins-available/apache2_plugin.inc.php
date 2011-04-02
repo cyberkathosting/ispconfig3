@@ -137,8 +137,18 @@ class apache2_plugin {
 			$crt_file = escapeshellcmd($crt_file);
 
 			if(is_file($ssl_cnf_file)) {
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 2048 && openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file && openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file && openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
-				$app->log('Creating SSL Cert for: '.$domain,LOGLEVEL_DEBUG);
+	    
+				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 2048");
+				exec("openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file");
+				if(isset($conf['CA-path']) && isset($conf['CA-pass']) )
+				{
+					exec("openssl ca -batch -out $crt_file -config ".$conf['CA-path']."/openssl.cnf -passin pass:".$conf['CA-pass']." -in $csr_file");
+					$app->log("Creating CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
+				} else{
+					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file ");
+					$app->log("Creating self-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
+				};
+			exec("openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
 			}
 
 			exec('chmod 400 '.$key_file2);
@@ -178,6 +188,11 @@ class apache2_plugin {
 			$csr_file = $ssl_dir.'/'.$domain.'.csr';
 			$crt_file = $ssl_dir.'/'.$domain.'.crt';
 			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
+			if(isset($conf['CA-path']) && isset($conf['CA-pass']) )
+				{
+					exec("openssl ca -batch -config ".$conf['CA-path']."/openssl.cnf -passin pass:".$conf['CA-pass']." -revoke $crt_file");
+					$app->log("Revoking CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
+				};
 			unlink($csr_file);
 			unlink($crt_file);
 			unlink($bundle_file);
@@ -597,7 +612,7 @@ class apache2_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
-		if($data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file)) {
+		if($data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$vhost_data['ssl_enabled'] = 1;
 			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
 		} else {

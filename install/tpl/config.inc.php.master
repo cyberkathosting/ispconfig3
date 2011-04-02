@@ -157,6 +157,10 @@ $conf['interface_logout_url'] = ''; // example: http://www.domain.tld/
 $conf['start_db'] = true;
 $conf['start_session'] = true;
 
+//** CA-configuration
+$conf['CA-path'] = '{CA-path}';
+$conf['CA-pass'] = '{CA-pass}';
+
 
 //** Constants
 define('LOGLEVEL_DEBUG',0);
