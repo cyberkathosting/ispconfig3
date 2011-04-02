@@ -1355,6 +1355,10 @@ class installer_base {
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		$content = str_replace('{language}', $conf['language'], $content);
 
+		if (!$conf['CA-enabled']) $content = str_replace('$conf[\'CA', '//$conf[\'CA', $content);
+		$content = str_replace('{CA-path}', $conf['CA-path'], $content);
+		$content = str_replace('{CA-pass}', $conf['CA-pass'], $content);
+
 		wf($install_dir.'/server/lib/'.$configfile, $content);
 
 		//* Create the config file for remote-actions (but only, if it does not exist, because
