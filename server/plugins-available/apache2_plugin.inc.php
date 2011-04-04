@@ -82,6 +82,12 @@ class apache2_plugin {
 	// Handle the creation of SSL certificates
 	function ssl($event_name,$data) {
 		global $app, $conf;
+
+		// load the server configuration options
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		if ($web_config['CA_path']!='' && !file_exists($web_config['CA_path'].'/openssl.cnf'))
+			$app->log("CA path error, file does not exist:".$web_config['CA_path'].'/openssl.conf',LOGLEVEL_ERROR);	
 		
 		//* Only vhosts can have a ssl cert
 		if($data["new"]["type"] != "vhost") return;
@@ -142,18 +148,22 @@ class apache2_plugin {
 			$crt_file = escapeshellcmd($crt_file);
 
 			if(is_file($ssl_cnf_file)) {
-	    
+				
 				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 2048");
 				exec("openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file");
-				if(isset($conf['CA-path']) && isset($conf['CA-pass']) )
+				exec("openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
+
+				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					exec("openssl ca -batch -out $crt_file -config ".$conf['CA-path']."/openssl.cnf -passin pass:".$conf['CA-pass']." -in $csr_file");
+					exec("openssl ca -batch -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file");
 					$app->log("Creating CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
-				} else{
+					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file",LOGLEVEL_ERROR);
+				};
+				if (filesize($crt_file)==0 || !file_exists($crt_file)){
 					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
 				};
-			exec("openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
+			
 			}
 
 			exec('chmod 400 '.$key_file2);
@@ -193,9 +203,9 @@ class apache2_plugin {
 			$csr_file = $ssl_dir.'/'.$domain.'.csr';
 			$crt_file = $ssl_dir.'/'.$domain.'.crt';
 			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-			if(isset($conf['CA-path']) && isset($conf['CA-pass']) )
+			if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					exec("openssl ca -batch -config ".$conf['CA-path']."/openssl.cnf -passin pass:".$conf['CA-pass']." -revoke $crt_file");
+					exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke $crt_file");
 					$app->log("Revoking CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
 				};
 			unlink($csr_file);
@@ -620,12 +630,12 @@ class apache2_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
-		if($data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
+		if($domain!='' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$vhost_data['ssl_enabled'] = 1;
 			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
 		} else {
 			$vhost_data['ssl_enabled'] = 0;
-			$app->log('Disable SSL for: '.$domain,LOGLEVEL_DEBUG);
+			$app->log('SSL Disabled. '.$domain,LOGLEVEL_DEBUG);
 		}
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
