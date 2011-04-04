@@ -74,4 +74,6 @@ $wb['named_conf_local_path_txt'] = 'Ścieżka named.conf.local BIND';
 $wb['php_ini_path_cgi_txt'] = 'Ścieżka CGI php.ini';
 $wb['php_ini_path_apache_txt'] = 'ŚcieżkaApache php.ini';
 $wb['check_apache_config_txt'] = 'Testuj konfigurację Apache przy restarcie';
+$wb["CA_path_txt"] = 'CA Path';
+$wb["CA_pass_txt"] = 'CA passphrase';
 ?>

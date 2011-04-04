@@ -74,4 +74,6 @@ $wb['named_conf_local_path_txt'] = 'BIND named.conf.local pad';
 $wb['php_ini_path_cgi_txt'] = 'CGI php.ini pad';
 $wb['php_ini_path_apache_txt'] = 'Apache php.ini pad';
 $wb['check_apache_config_txt'] = 'Test Apache configuratie tijdens restart';
+$wb["CA_path_txt"] = 'CA Path';
+$wb["CA_pass_txt"] = 'CA passphrase';
 ?>
