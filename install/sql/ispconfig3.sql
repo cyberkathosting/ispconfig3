@@ -736,6 +736,7 @@ CREATE TABLE `shell_user` (
   `shell` varchar(255) NOT NULL default '/bin/bash',
   `dir` varchar(255) default NULL,
   `chroot` varchar(255) NOT NULL,
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
   PRIMARY KEY  (`shell_user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
@@ -1070,6 +1071,8 @@ CREATE TABLE `sys_user` (
   `groups` varchar(255) NOT NULL default '',
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
+  `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
