@@ -660,10 +660,6 @@ class installer extends installer_base
 		
 		$this->write_config_file("$install_dir/interface/lib/$configfile", $content);
 		
-		if(!$conf['CA-enabled']) $content = str_replace('$conf[\'CA','//$conf[\'CA', $content);
-		$content = str_replace('{CA-path}', $conf['CA-path'], $content);
-		$content = str_replace('{CA-pass}', $conf['CA-pass'], $content);
-
 		//* Create the config file for ISPConfig server
 		$this->write_config_file("$install_dir/server/lib/$configfile", $content);
 		

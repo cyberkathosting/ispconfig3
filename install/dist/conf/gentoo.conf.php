@@ -203,6 +203,4 @@ $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['group'] = 'cron';
 $conf['cron']['wget'] = '/usr/bin/wget';
 
-$conf['CA-path'] = '/etc/ssl';
-
 ?>

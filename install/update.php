@@ -303,20 +303,6 @@ if($reconfigure_services_answer == 'yes') {
 	//}
 }
 
-	//** Configure CA
-	if(strtolower($inst->simple_query('Should this installation use a local CA to default-sign certificates?',array('y','n'),'n')) == 'y') {	
-		$conf['CA-enabled'] = true;
-		$conf['CA-path'] = $inst->free_query('Path to the CA folder: ', $conf['CA-path']);
-		$conf['CA-pass'] = $inst->free_query('Root Certificate Passphrase', '');
-		if(!is_file($conf['CA-path'].'/openssl.cnf'))
-		{
-		    swriteln('ERROR. '.$conf['CA-path'].'/openssl.cnf not found.');
-		    $conf['CA-enabled'] = false;
-		} 
-		//$inst->configure_ca();
-	} else {$conf['CA-enabled'] = false;};
-
-
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
 
