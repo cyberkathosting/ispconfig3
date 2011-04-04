@@ -64,4 +64,7 @@ $wb['ruby_txt'] = 'Ruby';
 $wb['stats_user_txt'] = 'Webstatistics username';
 $wb['stats_type_txt'] = 'Webstatistics program';
 $wb['custom_php_ini_txt'] = 'Custom php.ini settings';
+$wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
+$wb['hd_quota_error_regex'] = 'Harddisk quota: enter a -1 for unlimited or a number > 0';
+$wb['traffic_quota_error_regex'] = 'Traffic quota: enter a -1 for unlimited or a number > 0';
 ?>

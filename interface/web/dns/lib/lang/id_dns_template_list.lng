@@ -4,4 +4,3 @@ $wb['visible_txt'] = 'Terlihat';
 $wb['name_txt'] = 'Nama';
 $wb['add_new_record_txt'] = 'Tambah Template Baru';
 ?>
-

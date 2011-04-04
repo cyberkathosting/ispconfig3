@@ -6,17 +6,18 @@ $wb['parent_domain_id_txt'] = 'Weboldal';
 $wb['username_txt'] = 'Felhasználónév';
 $wb['password_txt'] = 'Jelszó';
 $wb['chroot_txt'] = 'Chroot Shell';
-$wb['quota_size_txt'] = 'Korlát';
+$wb['quota_size_txt'] = 'Kvóta';
 $wb['active_txt'] = 'Aktív';
-$wb['username_error_empty'] = 'Felhasználónév üres';
-$wb['username_error_unique'] = 'Felhasználónév már foglalt.';
+$wb['username_error_empty'] = 'A Felhasználónév üres';
+$wb['username_error_unique'] = 'A Felhasználónév már foglalt.';
 $wb['username_error_regex'] = 'Felhasználónév illegális karaktereket tartalmaz.';
-$wb['quota_size_error_empty'] = 'Korlát üres.';
+$wb['quota_size_error_empty'] = 'A kvóta üres.';
 $wb['uid_error_empty'] = 'GID üres.';
 $wb['directory_error_empty'] = 'Könyvtár üres.';
 $wb['limit_shell_user_txt'] = 'The max number of shell users is reached.';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
-$wb['puser_txt'] = 'Web Username';
-$wb['pgroup_txt'] = 'Web Group';
+$wb['password_strength_txt'] = 'Jelszó erőssége';
+$wb['parent_domain_id_error_empty'] = 'Nincs webhely kiválasztva.';
+$wb['puser_txt'] = 'Web Felhasználónév';
+$wb['pgroup_txt'] = 'Web Csoportnév';
 ?>
+

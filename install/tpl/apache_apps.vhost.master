@@ -11,6 +11,17 @@
   ServerAdmin webmaster@localhost
   {apps_vhost_servername}
   
+  <IfModule mod_php5.c>
+    DocumentRoot {apps_vhost_dir}
+    AddType application/x-httpd-php .php
+    <Directory {apps_vhost_dir}>
+      Options FollowSymLinks
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+    </Directory>
+  </IfModule>
+  
   <IfModule mod_fcgid.c>
     DocumentRoot {apps_vhost_dir}
     SuexecUserGroup ispapps ispapps
@@ -19,17 +30,6 @@
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
       FCGIWrapper {website_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
-      Order allow,deny
-      Allow from all
-    </Directory>
-  </IfModule>
-  
-  <IfModule mod_php5.c>
-    DocumentRoot {apps_vhost_dir}
-    AddType application/x-httpd-php .php
-    <Directory {apps_vhost_dir}>
-      Options FollowSymLinks
-      AllowOverride None
       Order allow,deny
       Allow from all
     </Directory>

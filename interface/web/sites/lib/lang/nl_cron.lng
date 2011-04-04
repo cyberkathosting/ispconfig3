@@ -1,5 +1,5 @@
 <?php
-$wb["server_id_txt"] = 'Server';
+$wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Parent website';
 $wb['active_txt'] = 'Actief';
 $wb['client_txt'] = 'Klant';
@@ -19,6 +19,3 @@ $wb['run_wday_error_format'] = 'Ongeldig format voor dagen van de week.';
 $wb['command_error_format'] = 'Ongeldig commando formaat. Opmerking: in het geval van een url call, alleen http/https is toegestaan.';
 $wb['unknown_fieldtype_error'] = 'Een onbekend veld type is gebruikt.';
 ?>
-
-
-

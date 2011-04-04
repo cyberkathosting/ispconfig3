@@ -6,4 +6,3 @@ $wb['language_new_hint_txt'] = '2 karakter kode bahasa ISO 639-1 (Lihat http://e
 $wb['btn_save_txt'] = 'Buat kumpulan berkas bahasa baru';
 $wb['btn_cancel_txt'] = 'Kembali';
 ?>
-

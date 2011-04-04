@@ -1,15 +1,14 @@
 <?php
-$wb['list_head_txt'] = "Rekord A";
-$wb['active_txt'] = "Aktywny";
-$wb['server_id_txt'] = "Serwer";
-$wb['zone_txt'] = "Strefa";
-$wb['name_txt'] = "Nazwa";
-$wb['data_txt'] = "Data";
-$wb['aux_txt'] = "Priorytet";
-$wb['type_txt'] = "Typ";
-$wb['add_new_record_txt'] = "Dodaj nowy rekord A DNS";
-$wb['page_txt'] = "Strona";
-$wb['page_of_txt'] = "z";
-$wb['delete_confirmation'] = "Czy jesteś pewny, że chcesz usunąć ten wpis?";
+$wb['list_head_txt'] = 'Rekord A';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['zone_txt'] = 'Strefa';
+$wb['name_txt'] = 'Nazwa';
+$wb['data_txt'] = 'Data';
+$wb['aux_txt'] = 'Priorytet';
+$wb['type_txt'] = 'Typ';
+$wb['add_new_record_txt'] = 'Dodaj nowy rekord A DNS';
+$wb['page_txt'] = 'Strona';
+$wb['page_of_txt'] = 'z';
+$wb['delete_confirmation'] = 'Czy jesteś pewny, że chcesz usunąć ten wpis?';
 ?>
-

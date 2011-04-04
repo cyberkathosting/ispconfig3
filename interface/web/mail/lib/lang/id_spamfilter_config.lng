@@ -18,4 +18,3 @@ $wb['relayhost_password_txt'] = 'Kata Sandi Relayhost';
 $wb['mailbox_size_limit_txt'] = 'Batasan Ukuran Mailbox';
 $wb['message_size_limit_txt'] = 'Batasan Ukuran Pesan';
 ?>
-

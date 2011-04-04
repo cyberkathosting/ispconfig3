@@ -1,12 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Gebruikers';
-$wb["username_txt"] = 'Gebruikersnaam';
-$wb["name_txt"] = 'Naam';
-$wb["vorname_txt"] = 'Voornaam';
-$wb["ort_txt"] = 'Plaatsnaam';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe gebruiker';
-$wb["warning_txt"] = '<b>WAARSCHUWING:</b> Wijzig hier geen enkele gebruikersinstelling. Voor het aanbrengen van wijzigingen gebruikt u de klanten module. Het hier wijzigen van gebruikers of groepen kan dataverlies tot gevolg hebben!!!';
+$wb['list_head_txt'] = 'Gebruikers';
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['name_txt'] = 'Naam';
+$wb['vorname_txt'] = 'Voornaam';
+$wb['ort_txt'] = 'Plaatsnaam';
+$wb['add_new_record_txt'] = 'Toevoegen nieuwe gebruiker';
+$wb['warning_txt'] = '<b>WAARSCHUWING:</b> Wijzig hier geen enkele gebruikersinstelling. Voor het aanbrengen van wijzigingen gebruikt u de klanten module. Het hier wijzigen van gebruikers of groepen kan dataverlies tot gevolg hebben!!!';
 ?>
-
-
-

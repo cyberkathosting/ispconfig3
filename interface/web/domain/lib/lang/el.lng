@@ -1,0 +1,9 @@
+<?php
+$wb['Domains'] = 'Domains';
+$wb['domain_txt'] = 'Domain';
+$wb['client_txt'] = 'Πελάτης';
+$wb['error_domain_in mailuse'] = 'Αυτό το domain δεν μπορεί να διαγραφεί γιατί χρησιμοποιείται ως mail-domain';
+$wb['error_domain_in webuse'] = 'Αυτό το domain δεν μπορεί να διαγραφεί γιατί χρησιμοποιείται ως web-domain';
+$wb['error_client_can_not_add_domain'] = 'Δεν μπορείτε να προσθέσετε νέο domain';
+$wb['error_client_group_id_empty'] = 'Πρέπει να επιλέξετε πελάτη<br>';
+?>

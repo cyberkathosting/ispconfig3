@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Οδηγός προτύπου DNS';
+$wb['visible_txt'] = 'Ορατός';
+$wb['name_txt'] = 'Όνομα';
+$wb['add_new_record_txt'] = 'Νέα εγγραφή';
+?>

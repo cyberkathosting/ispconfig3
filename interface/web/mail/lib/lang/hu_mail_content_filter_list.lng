@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Postfix Fejlés és levéltest ellenőzés';
+$wb['list_head_txt'] = 'Postfix Fejléc és levéltest ellenőzés';
 $wb['active_txt'] = 'Aktív';
 $wb['server_id_txt'] = 'Szerver';
 $wb['pattern_txt'] = 'Minta';
 $wb['action_txt'] = 'Művelet';
 $wb['add_new_record_txt'] = 'Új tartalom szűrő';
 ?>
+

@@ -1,0 +1,28 @@
+<?php
+$wb['username_txt'] = 'Όνομα Χρήστη';
+$wb['username_err'] = 'Το όνομα χρήστη είναι πολύ μεγάλο ή περιέχει μη επιτρεπόμενους χαρακτήρες';
+$wb['username_empty'] = 'Το όνομα χρήστη δεν έχει οριστεί.';
+$wb['username_unique'] = 'Υπάρχει ήδη ένας χρήστης με αυτό το όνομα χρήστη.';
+$wb['passwort_txt'] = 'Συνθηματικό';
+$wb['password_strength_txt'] = 'Δύναμη Συνθηματικού';
+$wb['modules_txt'] = 'Άρθρωμα';
+$wb['startmodule_txt'] = 'Άρθρωμα Εκκίνησης';
+$wb['app_theme_txt'] = 'Design';
+$wb['typ_txt'] = 'Τύπος';
+$wb['active_txt'] = 'Ενεργός';
+$wb['language_txt'] = 'Γλώσσα';
+$wb['name_txt'] = 'Όνομα';
+$wb['vorname_txt'] = 'Επίθετο';
+$wb['unternehmen_txt'] = 'Εταιρία';
+$wb['strasse_txt'] = 'Οδός';
+$wb['ort_txt'] = 'Πόλη';
+$wb['plz_txt'] = 'Τ.Κ.';
+$wb['land_txt'] = 'Χώρα';
+$wb['email_txt'] = 'Email';
+$wb['url_txt'] = 'Url';
+$wb['telefon_txt'] = 'Τηλέφωνο';
+$wb['fax_txt'] = 'Fax';
+$wb['groups_txt'] = 'Ομάδες';
+$wb['default_group_txt'] = 'Προκαθορισμένη Ομάδα';
+$wb['startmodule_err'] = 'Το άρθρωμα εκκίνησης δεν υπάρχει στα διαθέσιμα αρθρώματα.';
+?>

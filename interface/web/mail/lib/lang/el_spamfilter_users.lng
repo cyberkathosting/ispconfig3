@@ -1,0 +1,8 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['priority_txt'] = 'Προτεραιότητα';
+$wb['policy_id_txt'] = 'Πολιτική';
+$wb['email_txt'] = 'Email (Μοτίβο)';
+$wb['fullname_txt'] = 'Όνομα';
+$wb['local_txt'] = 'Τοπικός';
+?>

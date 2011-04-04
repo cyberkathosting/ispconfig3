@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Προώθηση Mail';
+$wb['active_txt'] = 'Ενεργή';
+$wb['source_txt'] = 'πηγή';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Νέα προώθηση Email';
+?>

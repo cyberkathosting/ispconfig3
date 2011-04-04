@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = "Odbiorcy przekierowania";
-$wb['active_txt'] = "Aktywne";
-$wb['server_id_txt'] = "Serwer";
-$wb['source_txt'] = "Adres odbiorcy";
-$wb['recipient_txt'] = "Odbiorca";
-$wb['add_new_record_txt'] = "Dodaj nowego odbiorcę przekierowania";
-$wb['access_txt'] = "dostęp";
+$wb['list_head_txt'] = 'Odbiorcy przekierowania';
+$wb['active_txt'] = 'Aktywne';
+$wb['server_id_txt'] = 'Serwer';
+$wb['source_txt'] = 'Adres odbiorcy';
+$wb['recipient_txt'] = 'Odbiorca';
+$wb['add_new_record_txt'] = 'Dodaj nowego odbiorcę przekierowania';
+$wb['access_txt'] = 'dostęp';
 ?>
-

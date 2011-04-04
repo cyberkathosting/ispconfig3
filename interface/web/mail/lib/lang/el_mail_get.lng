@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Τύπος';
+$wb['source_server_txt'] = 'Pop3/Imap Server';
+$wb['source_username_txt'] = 'Όνομα Χρήστη';
+$wb['source_password_txt'] = 'Συνθηματικό';
+$wb['source_delete_txt'] = 'Διαγραφή email μετά την απόκτηση';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['active_txt'] = 'Ενεργός';
+$wb['limit_fetchmail_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των εγγραφών Fetchmail για τον λογαριασμό σας.';
+$wb['source_server_error_isempty'] = 'Ο Server δεν έχει οριστεί.';
+$wb['source_username_error_isempty'] = 'Το Όνομα Χρήστη δεν έχει οριστεί.';
+$wb['source_password_error_isempty'] = 'Το Συνθηματικό δεν έχει οριστεί.';
+$wb['destination_error_isemail'] = 'Δεν επιλέχθηκε προορισμός.';
+$wb['source_server_error_regex'] = 'Το όνομα του Pop3/Imap Server δεν είναι έγκυρο.';
+?>

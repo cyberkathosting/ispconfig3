@@ -5,7 +5,3 @@ $wb['subject_txt'] = 'Onderwerp';
 $wb['message_txt'] = 'Bericht';
 $wb['tstamp_txt'] = 'Tijdstip';
 ?>
-
-
-
-

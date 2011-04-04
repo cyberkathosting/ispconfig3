@@ -8,4 +8,3 @@ $wb['database_name_txt'] = 'Nama Database';
 $wb['add_new_record_txt'] = 'Tambah Database Baru';
 $wb['sys_groupid_txt'] = 'Klien';
 ?>
-

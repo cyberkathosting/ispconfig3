@@ -6,9 +6,4 @@ $wb['View messages'] = 'Raadplegen berichten';
 $wb['Support'] = 'Support';
 $wb['About ISPConfig'] = 'Over ISPConfig';
 $wb['Version'] = 'Versie';
-
 ?>
-
-
-
-

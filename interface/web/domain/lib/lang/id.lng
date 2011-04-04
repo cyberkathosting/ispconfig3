@@ -7,4 +7,3 @@ $wb['error_domain_in webuse'] = 'Domain ini tidak bisa dihapus, karena sedang di
 $wb['error_client_can_not_add_domain'] = 'Anda tidak dapat menambah domain baru';
 $wb['error_client_group_id_empty'] = 'Anda harus memilih pelanggan<br>';
 ?>
-

@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Format zona salah.';
 $wb['data_error_empty'] = 'Nameserver kosong';
 $wb['data_error_regex'] = 'Format Nameserver tidak valid';
 ?>
-

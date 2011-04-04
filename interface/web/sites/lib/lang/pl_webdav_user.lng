@@ -1,16 +1,15 @@
 <?php
-$wb['dir_txt'] = "Katalog";
-$wb['server_id_txt'] = "Serwer";
-$wb['parent_domain_id_txt'] = "Strona";
-$wb['username_txt'] = "Nazwa użytkownika";
-$wb['password_txt'] = "Hasło";
-$wb['password_strength_txt'] = "Siła hasła";
-$wb['active_txt'] = "Aktywne";
-$wb['limit_webdav_user_txt'] = "Maksymalna liczba użytkowników webdav została przekroczona";
-$wb['username_error_empty'] = "Nazwa użytkownika jest pusta.";
-$wb['username_error_unique'] = "Nazwa użytkownika musi być unikalna.";
-$wb['username_error_regex'] = "Nazwa użytkownika zawiera niedozwolone znaki.";
-$wb['directory_error_empty'] = "Pusty katalog.";
-$wb['parent_domain_id_error_empty'] = "Nie wybrano strony www.";
+$wb['dir_txt'] = 'Katalog';
+$wb['server_id_txt'] = 'Serwer';
+$wb['parent_domain_id_txt'] = 'Strona';
+$wb['username_txt'] = 'Nazwa użytkownika';
+$wb['password_txt'] = 'Hasło';
+$wb['password_strength_txt'] = 'Siła hasła';
+$wb['active_txt'] = 'Aktywne';
+$wb['limit_webdav_user_txt'] = 'Maksymalna liczba użytkowników webdav została przekroczona';
+$wb['username_error_empty'] = 'Nazwa użytkownika jest pusta.';
+$wb['username_error_unique'] = 'Nazwa użytkownika musi być unikalna.';
+$wb['username_error_regex'] = 'Nazwa użytkownika zawiera niedozwolone znaki.';
+$wb['directory_error_empty'] = 'Pusty katalog.';
+$wb['parent_domain_id_error_empty'] = 'Nie wybrano strony www.';
 ?>
-

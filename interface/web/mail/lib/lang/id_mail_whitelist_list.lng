@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Penerima';
 $wb['add_new_record_txt'] = 'Tambah record Whitelist Baru';
 $wb['access_txt'] = 'akses';
 ?>
-

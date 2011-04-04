@@ -2,7 +2,8 @@
 $wb['list_head_txt'] = 'Új nyelv';
 $wb['language_select_txt'] = 'Válasszony nyelvet';
 $wb['language_new_txt'] = 'Új nyelv';
-$wb['btn_save_txt'] = 'Új nyelv csomag összeállítás';
+$wb['btn_save_txt'] = 'Új nyelvi csomag összeállítása';
 $wb['btn_cancel_txt'] = 'Vissza';
 $wb['language_new_hint_txt'] = '2 karakteres ISO 639-1 nyelvi kód (Lásd http://hu.wikipedia.org/wiki/ISO_639-1)';
 ?>
+

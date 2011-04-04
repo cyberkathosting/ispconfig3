@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Hapus modul dan seluruh sub direktori?';
 $wb['menu_del_txt'] = 'Hapus menu dengan seluruh menuitem?';
 $wb['item_del_txt'] = 'Hapus menuitem?';
 ?>
-

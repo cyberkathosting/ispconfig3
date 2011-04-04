@@ -1,5 +1,6 @@
 <?php
-$wb['description_txt'] = 'Description';
-$wb['name_txt'] = 'Group';
-$wb['name_err'] = 'Group must be min 1, max 30 Chars.';
+$wb['description_txt'] = 'Leírás';
+$wb['name_txt'] = 'Csoport';
+$wb['name_err'] = 'A csoportnév hossza 1-30.';
 ?>
+

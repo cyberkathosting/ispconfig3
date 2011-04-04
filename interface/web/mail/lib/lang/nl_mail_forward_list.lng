@@ -1,11 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Mail forward';
-$wb["active_txt"] = 'Actief';
-$wb["source_txt"] = 'bron';
-$wb["destination_txt"] = 'bestemming';
-$wb["email_txt"] = 'E-mail';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe E-mail forwarder';
+$wb['list_head_txt'] = 'Mail forward';
+$wb['active_txt'] = 'Actief';
+$wb['source_txt'] = 'bron';
+$wb['destination_txt'] = 'bestemming';
+$wb['email_txt'] = 'E-mail';
+$wb['add_new_record_txt'] = 'Toevoegen nieuwe E-mail forwarder';
 ?>
-
-
-

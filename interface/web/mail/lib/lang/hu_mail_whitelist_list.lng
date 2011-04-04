@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Email Fehérlista';
+$wb['list_head_txt'] = 'Postfix Fehérlista';
 $wb['active_txt'] = 'Aktív';
 $wb['server_id_txt'] = 'Szerver';
 $wb['source_txt'] = 'Fehérlistás cím';
@@ -8,3 +8,4 @@ $wb['recipient_txt'] = 'Címzett';
 $wb['add_new_record_txt'] = 'Új Fehérlista';
 $wb['access_txt'] = 'hozzáférés';
 ?>
+

@@ -27,4 +27,3 @@ $wb['limit_webdav_user_txt'] = 'Jumlah pengguna Webdav';
 $wb['limit_client_txt'] = 'Jumlah Klien';
 $wb['limit_database_txt'] = 'Jumlah Database';
 ?>
-

@@ -99,4 +99,3 @@ $wb['customer_no_txt'] = 'No. Pelanggan';
 $wb['vat_id_txt'] = 'VAT ID';
 $wb['required_fields_txt'] = '* Kolom yang dibutuhkan';
 ?>
-

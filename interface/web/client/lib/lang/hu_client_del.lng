@@ -4,3 +4,4 @@ $wb['delete_explanation'] = 'This action will delete the following number of rec
 $wb['btn_save_txt'] = 'Delete the client';
 $wb['btn_cancel_txt'] = 'Cancel without deleting the client';
 ?>
+

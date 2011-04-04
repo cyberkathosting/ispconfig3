@@ -1,5 +1,5 @@
 <?php
-$wb['warning'] = 'Edit these values carefully! Do not remove the prefixes on a systems with more then one client.';
+$wb['warning'] = 'Edit these values carefully! Do not remove the prefixes on a systems with more then one Ügyfél.';
 $wb['dbname_prefix_txt'] = 'Database name prefix';
 $wb['dbuser_prefix_txt'] = 'Database user prefix';
 $wb['shelluser_prefix_txt'] = 'Shell user prefix';
@@ -19,4 +19,9 @@ $wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
 $wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
 $wb['webdavuser_prefix_error_regex'] = 'Char not allowed in webdav user prefix.';
 $wb['webftp_url_txt'] = 'WebFTP URL';
+$wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
+$wb['mailmailinglist_url_txt'] = 'Mailing list URL';
+$wb['admin_mail_txt'] = 'Administrators e-mail';
+$wb['admin_name_txt'] = 'Administrators name';
 ?>
+

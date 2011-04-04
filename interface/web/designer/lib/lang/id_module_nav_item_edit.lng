@@ -6,4 +6,3 @@ $wb['header_txt'] = 'Properti Navigasi';
 $wb['save_txt'] = 'Simpan';
 $wb['cancel_txt'] = 'Batal';
 ?>
-

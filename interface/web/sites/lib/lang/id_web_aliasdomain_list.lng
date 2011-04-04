@@ -9,4 +9,3 @@ $wb['domain_error_empty'] = 'Domain kosong.';
 $wb['domain_error_unique'] = 'Domain harus unik.';
 $wb['domain_error_regex'] = 'Nama Domain tidak valid.';
 ?>
-

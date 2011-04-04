@@ -15,3 +15,4 @@ $wb['email_error_unique'] = 'Ehhez az emailhez tartozik már egy szűrő.';
 $wb['spam_redirect_maildir_purge_txt'] = 'Levelesládát kiüríti ';
 $wb['days_txt'] = 'nap után.';
 ?>
+

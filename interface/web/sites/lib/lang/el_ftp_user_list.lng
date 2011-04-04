@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Χρήστης FTP';
+$wb['active_txt'] = 'Ενεργός';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['username_txt'] = 'Όνομα Χρήστη';
+$wb['add_new_record_txt'] = 'Νεός χρήστης FTP';
+?>

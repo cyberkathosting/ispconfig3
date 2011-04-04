@@ -1,12 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Fetch e-mails van externe POP3 / IMAP servers';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["source_server_txt"] = 'Externe server';
-$wb["source_username_txt"] = 'Gebruikersnaam';
-$wb["destination_txt"] = 'Bestemmming';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe account';
+$wb['list_head_txt'] = 'Fetch e-mails van externe POP3 / IMAP servers';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'Externe server';
+$wb['source_username_txt'] = 'Gebruikersnaam';
+$wb['destination_txt'] = 'Bestemmming';
+$wb['add_new_record_txt'] = 'Toevoegen nieuwe account';
 ?>
-
-
-

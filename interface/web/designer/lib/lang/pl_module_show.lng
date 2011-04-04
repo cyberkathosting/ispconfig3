@@ -14,4 +14,3 @@ $wb['module_del_txt'] = 'Czy na pewno chcesz usunąć moduł wraz z wszystkimi p
 $wb['menu_del_txt'] = 'Czy na pewno chcesz usunąć menu z wszystkimi wpisami?';
 $wb['item_del_txt'] = 'Czy na pewno chcesz usunąć wpis w menu?';
 ?>
-

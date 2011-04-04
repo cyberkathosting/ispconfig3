@@ -7,3 +7,4 @@ $wb['no_domain_perm'] = 'Nincs joga ehhez a domainhez';
 $wb['domain_error_regex'] = 'Érvénytelen domain vagy a domain érvénytelen karaktereket tartalmaz.';
 $wb['limit_mailcatchall_txt'] = 'Nincs több catchall lehetőség.';
 ?>
+

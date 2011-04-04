@@ -1,12 +1,11 @@
 <?php
-$wb['email_txt'] = "E-mail";
-$wb['destination_txt'] = "Opis";
-$wb['active_txt'] = "Aktywny";
-$wb['email_error_isemail'] = "Adres e-mail jest niepoprawny.";
-$wb['email_error_unique'] = "Duplikat adresów e-mail.";
-$wb['no_domain_perm'] = "Nie masz dostępu do tej domeny.";
-$wb['destination_error_isemail'] = "Element docelowy adresów e-mail jest niepoprawny.";
-$wb['limit_mailalias_txt'] = "Maksymalna ilość aliasów e-mail dla Twojego konta została przekroczona.";
-$wb['duplicate_mailbox_txt'] = "Istnieje już skrzynka pocztowa z e-mailem o takiej nazwie.";
+$wb['email_txt'] = 'E-mail';
+$wb['destination_txt'] = 'Opis';
+$wb['active_txt'] = 'Aktywny';
+$wb['email_error_isemail'] = 'Adres e-mail jest niepoprawny.';
+$wb['email_error_unique'] = 'Duplikat adresów e-mail.';
+$wb['no_domain_perm'] = 'Nie masz dostępu do tej domeny.';
+$wb['destination_error_isemail'] = 'Element docelowy adresów e-mail jest niepoprawny.';
+$wb['limit_mailalias_txt'] = 'Maksymalna ilość aliasów e-mail dla Twojego konta została przekroczona.';
+$wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa z e-mailem o takiej nazwie.';
 ?>
-

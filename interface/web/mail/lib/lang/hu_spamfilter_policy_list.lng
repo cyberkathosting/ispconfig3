@@ -1,9 +1,10 @@
 <?php
 $wb['list_head_txt'] = 'Spamszűrő szabály';
 $wb['policy_name_txt'] = 'Név';
-$wb['virus_lover_txt'] = 'Virust szereti';
+$wb['virus_lover_txt'] = 'Vírust szereti';
 $wb['spam_lover_txt'] = 'Spamet szereti';
 $wb['banned_files_lover_txt'] = 'Tiltott fájlokat szereti';
 $wb['bad_header_lover_txt'] = 'Hibás fejlécet szereti';
 $wb['add_new_record_txt'] = 'Új Szabály';
 ?>
+

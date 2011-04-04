@@ -5,4 +5,3 @@ $wb['virtualhost_txt'] = 'Nama VirtualHost HTTP';
 $wb['ip_error_wrong'] = 'Alamat IP tidak valid';
 $wb['ip_error_unique'] = 'Alamat IP harus unik';
 ?>
-

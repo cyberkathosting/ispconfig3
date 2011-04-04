@@ -1,11 +1,10 @@
 <?php
-$wb['select_server_txt'] = "Wybierz serwer";
-$wb['btn_do_txt'] = "Uruchom akcję";
-$wb['do_osupdate_caption'] = "Wykonaj zdalną aktualizację systemu na serwerze";
-$wb['do_osupdate_desc'] = "Ta akcja wykona polecenie <b>aptitude -y upgrade</b> na wybranym serwerze.<br><br><strong>UŻYWASZ JEJ NA WŁASNĄ ODPOWIEDZIALNOŚĆ!</strong>";
-$wb['do_ispcupdate_caption'] = "Wykonaj zdalną aktualizację ISPConfig 3 na serwerze";
-$wb['do_ispcupdate_desc'] = "Ta akcja przeprowadzi aktualizację ISPConfig3 na wybranym serwerze.<br><br><strong>UŻYWASZ JEJ NA WŁASNĄ ODPOWIEDZIALNOŚĆ!</strong>";
-$wb['action_scheduled'] = "Akcja zaplanowana do wykonania";
-$wb['select_all_server'] = "Wszystkie serwery";
+$wb['select_server_txt'] = 'Wybierz serwer';
+$wb['btn_do_txt'] = 'Uruchom akcję';
+$wb['do_osupdate_caption'] = 'Wykonaj zdalną aktualizację systemu na serwerze';
+$wb['do_osupdate_desc'] = 'Ta akcja wykona polecenie <b>aptitude -y upgrade</b> na wybranym serwerze.<br><br><strong>UŻYWASZ JEJ NA WŁASNĄ ODPOWIEDZIALNOŚĆ!</strong>';
+$wb['do_ispcupdate_caption'] = 'Wykonaj zdalną aktualizację ISPConfig 3 na serwerze';
+$wb['do_ispcupdate_desc'] = 'Ta akcja przeprowadzi aktualizację ISPConfig3 na wybranym serwerze.<br><br><strong>UŻYWASZ JEJ NA WŁASNĄ ODPOWIEDZIALNOŚĆ!</strong>';
+$wb['action_scheduled'] = 'Akcja zaplanowana do wykonania';
+$wb['select_all_server'] = 'Wszystkie serwery';
 ?>
-

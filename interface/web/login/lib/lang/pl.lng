@@ -1,18 +1,17 @@
 <?php
-$wb['pass_reset_txt'] = "Nowe hasło zostanie wygenerowane i wysłane na Twój adres e-mail, jeśli podany adres e-mail będzie pasował do tego w ustawieniach Twojego profilu.";
-$wb['pw_reset'] = "Nowe hasło zostało wygenerowane i wysłane na Twój adres e-mail.";
-$wb['pw_error'] = "Nazwa użytkownika lub e-mail nie pasują do siebie.";
-$wb['pw_error_noinput'] = "Podaj nazwę użytkownika i adres e-mail.";
-$wb['pw_reset_mail_msg'] = "Hasło do Twojego panelu w ISPConfig 3 zostało z resetowane. Twoje nowe hasło to: ";
-$wb['pw_reset_mail_title'] = "Hasło do paneli w ISPConfig 3 zostało z resetowane.";
-$wb['user_regex_error'] = "Nazwa użytkownika zawiera niedozwolone znaki lub jest dłuższa niż 64 znaki.";
-$wb['pw_error_length'] = "Długość hasła jest > 64 znaki.";
-$wb['error_user_password_empty'] = "Pusta nazwa użytkownika lub hasło.";
-$wb['error_user_password_incorrect'] = "Niepoprawna nazwa użytownika lub hasło.";
-$wb['error_user_blocked'] = "Konto użytkownika zostało zablokowane.";
-$wb['error_user_too_many_logins'] = "Zbyt dużo niepoprawnych logowań. Prosimy spróbować ponownie za 15 minut.";
-$wb['username_txt'] = "Nazwa użytkownika";
-$wb['password_txt'] = "Hasło";
-$wb['login_button_txt'] = "Zaloguj";
+$wb['pass_reset_txt'] = 'Nowe hasło zostanie wygenerowane i wysłane na Twój adres e-mail, jeśli podany adres e-mail będzie pasował do tego w ustawieniach Twojego profilu.';
+$wb['pw_reset'] = 'Nowe hasło zostało wygenerowane i wysłane na Twój adres e-mail.';
+$wb['pw_error'] = 'Nazwa użytkownika lub e-mail nie pasują do siebie.';
+$wb['pw_error_noinput'] = 'Podaj nazwę użytkownika i adres e-mail.';
+$wb['pw_reset_mail_msg'] = 'Hasło do Twojego panelu w ISPConfig 3 zostało z resetowane. Twoje nowe hasło to: ';
+$wb['pw_reset_mail_title'] = 'Hasło do paneli w ISPConfig 3 zostało z resetowane.';
+$wb['user_regex_error'] = 'Nazwa użytkownika zawiera niedozwolone znaki lub jest dłuższa niż 64 znaki.';
+$wb['pw_error_length'] = 'Długość hasła jest > 64 znaki.';
+$wb['error_user_password_empty'] = 'Pusta nazwa użytkownika lub hasło.';
+$wb['error_user_password_incorrect'] = 'Niepoprawna nazwa użytownika lub hasło.';
+$wb['error_user_blocked'] = 'Konto użytkownika zostało zablokowane.';
+$wb['error_user_too_many_logins'] = 'Zbyt dużo niepoprawnych logowań. Prosimy spróbować ponownie za 15 minut.';
+$wb['username_txt'] = 'Nazwa użytkownika';
+$wb['password_txt'] = 'Hasło';
+$wb['login_button_txt'] = 'Zaloguj';
 ?>
-

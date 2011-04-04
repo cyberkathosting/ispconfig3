@@ -7,5 +7,5 @@ $wb['rulename_error_empty'] = 'Nama kosong.';
 $wb['searchterm_is_empty'] = 'Lema pencarian kosong.';
 $wb['source_txt'] = 'Sumber';
 $wb['target_error_regex'] = 'Target hanya boleh berisi karakter berikut ini: a-z, 0-9, -, ., _, dan {space}';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 ?>
-

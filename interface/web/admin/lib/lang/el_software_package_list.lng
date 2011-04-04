@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Πακέτα Εφαρμογών & Πρόσθετων';
+$wb['installed_txt'] = 'Κατάσταση';
+$wb['package_title_txt'] = 'Πακέτο';
+$wb['package_description_txt'] = 'Περιγραφή';
+$wb['action_txt'] = 'Ενέργεια';
+$wb['toolsarea_head_txt'] = 'Πακέτα';
+$wb['repoupdate_txt'] = 'Ενημέρωση λίστας πακκέτων';
+$wb['package_id_txt'] = 'local App-ID';
+?>

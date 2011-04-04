@@ -4,4 +4,6 @@ $wb['sender_id_txt'] = 'Küldő azonosító';
 $wb['subject_txt'] = 'Tárgy';
 $wb['message_txt'] = 'Üzenet';
 $wb['tstamp_txt'] = 'Időbélyeg';
+$wb['reply_txt'] = 'Reply';
 ?>
+

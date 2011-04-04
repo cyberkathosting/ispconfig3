@@ -1,10 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'DNS Zones';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
+$wb['list_head_txt'] = 'DNS Zónák';
+$wb['active_txt'] = 'Aktív';
+$wb['server_id_txt'] = 'Szerver';
+$wb['origin_txt'] = 'Zóna';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Add new DNS Zone (SOA)';
-$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
+$wb['add_new_record_txt'] = 'Új DNS Zóna (SOA)';
+$wb['add_new_record_wizard_txt'] = 'Új DNS Zóna hozzáadása varázslóval';
 ?>
+

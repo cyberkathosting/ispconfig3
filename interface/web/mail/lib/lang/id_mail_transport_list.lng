@@ -7,4 +7,3 @@ $wb['transport_txt'] = 'Transport';
 $wb['sort_order_txt'] = 'Diurutkan berdasarkan';
 $wb['add_new_record_txt'] = 'Tambah Transport Baru';
 ?>
-

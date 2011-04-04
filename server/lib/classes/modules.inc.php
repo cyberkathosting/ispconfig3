@@ -98,12 +98,14 @@ class modules {
 					$data = unserialize($d['data']);
 				}
 				//** Decode data back to locale
+				/*
 				foreach($data['old'] as $key => $val) {
 					$data['old'][$key] = utf8_decode($val);
 				}
 				foreach($data['new'] as $key => $val) {
 					$data['new'][$key] = utf8_decode($val);
 				}
+				*/
 				
 				$replication_error = false;
 				
@@ -206,12 +208,14 @@ class modules {
 					$data = unserialize($d['data']);
 				}
 				//** decode data back to current locale
+				/*
 				foreach($data['old'] as $key => $val) {
 					$data['old'][$key] = utf8_decode($val);
 				}
 				foreach($data['new'] as $key => $val) {
 					$data['new'][$key] = utf8_decode($val);
 				}
+				*/
 				
 				$this->current_datalog_id = $d['datalog_id'];
 				if(is_array($data['old']) || is_array($data['new'])) {

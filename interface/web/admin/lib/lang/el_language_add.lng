@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Νέα Γλώσσα';
+$wb['language_select_txt'] = 'Επιλογή βασικής γλώσσας';
+$wb['language_new_txt'] = 'Νέα Γλώσσα';
+$wb['language_new_hint_txt'] = 'Κωδικός γλώσσας 2 χαρακτήρων κατά ISO 639-1 (δείτε http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['btn_save_txt'] = 'Νέα ομάδα αρχείων γλώσσας';
+$wb['btn_cancel_txt'] = 'Επιστροφή';
+?>

@@ -76,6 +76,8 @@ class installer_dist extends installer_base {
 		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null', 
                 __FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
 		
+		if(!is_dir($cf['vmail_mailbox_base'])) mkdir($cf['vmail_mailbox_base']);
+		
 		//* Creating virtual mail user and group
 		if(is_group($cf['vmail_groupname'])) {
 			$command = 'groupmod -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
@@ -117,12 +119,6 @@ class installer_dist extends installer_base {
 			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
 			'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
 			'relay_recipient_maps = mysql:'.$config_dir.'/mysql-virtual_relayrecipientmaps.cf',
-			'virtual_create_maildirsize = yes',
-			'virtual_maildir_extended = yes',
-			'virtual_mailbox_limit_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailbox_limit_maps.cf',
-			'virtual_mailbox_limit_override = yes',
-			'virtual_maildir_limit_message = "The user you are trying to reach is over quota."',
-			'virtual_overquota_bounce = yes',
 			'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps',
 			'smtpd_sender_restrictions = check_sender_access mysql:'.$config_dir.'/mysql-virtual_sender.cf',
 			'smtpd_client_restrictions = check_client_access mysql:'.$config_dir.'/mysql-virtual_client.cf',

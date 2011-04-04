@@ -7,4 +7,3 @@ $wb['city_txt'] = 'Kota';
 $wb['country_txt'] = 'Negara';
 $wb['add_new_record_txt'] = 'Tambah Klien Baru';
 ?>
-

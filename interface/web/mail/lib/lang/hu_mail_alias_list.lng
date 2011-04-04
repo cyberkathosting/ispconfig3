@@ -4,5 +4,6 @@ $wb['active_txt'] = 'Aktív';
 $wb['source_txt'] = 'Forrás';
 $wb['destination_txt'] = 'Címzett';
 $wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Új email alias';
+$wb['add_new_record_txt'] = 'Új Email alias';
 ?>
+

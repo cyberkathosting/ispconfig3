@@ -50,8 +50,8 @@ $function_list['mail_spamfilter_whitelist_get,mail_spamfilter_whitelist_add,mail
 $function_list['mail_spamfilter_blacklist_get,mail_spamfilter_blacklist_add,mail_spamfilter_blacklist_update,mail_spamfilter_blacklist_delete'] = 'Mail spamfilter blacklist functions';
 $function_list['mail_user_filter_get,mail_user_filter_add,mail_user_filter_update,mail_user_filter_delete'] = 'Mail user filter functions';
 $function_list['mail_filter_get,mail_filter_add,mail_filter_update,mail_filter_delete'] = 'Mail filter functions';
-$function_list['client_get,client_add,client_update,client_delete,client_get_sites_by_user,client_get_by_username,client_change_password,client_get_id'] = 'Client functions';
-$function_list['server_get,get_function_list,client_templates_get_all'] = 'Server functions';
+$function_list['client_get,client_add,client_update,client_delete,client_get_sites_by_user,client_get_by_username,client_change_password,client_get_id,client_delete_everything'] = 'Client functions';
+$function_list['server_get,get_function_list,client_templates_get_all,server_get_serverid_by_ip'] = 'Server functions';
 $function_list['sites_cron_get,sites_cron_add,sites_cron_update,sites_cron_delete'] = 'Sites cron functions';
 $function_list['sites_database_get,sites_database_add,sites_database_update,sites_database_delete, sites_database_get_all_by_user'] = 'Sites database functions';
 $function_list['sites_ftp_user_get,sites_ftp_user_add,sites_ftp_user_update,sites_ftp_user_delete'] = 'Sites FTP-User functions';
@@ -71,7 +71,7 @@ $function_list['dns_ptr_get,dns_ptr_add,dns_ptr_update,dns_ptr_delete'] = 'DNS p
 $function_list['dns_rp_get,dns_rp_add,dns_rp_update,dns_rp_delete'] = 'DNS rp functions';
 $function_list['dns_srv_get,dns_srv_add,dns_srv_update,dns_srv_delete'] = 'DNS srv functions';
 $function_list['dns_txt_get,dns_txt_add,dns_txt_update,dns_txt_delete'] = 'DNS txt functions';
-
+$function_list['domains_domain_get,domains_domain_add,domains_domain_delete,domains_get_all_by_user'] = 'Domaintool functions';
 
 $form["title"] 			= "Remote user";
 $form["description"] 	= "";

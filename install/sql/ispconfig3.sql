@@ -1362,7 +1362,7 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.3.1');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.3.3');
 
 -- --------------------------------------------------------
 

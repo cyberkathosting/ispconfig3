@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Ψευδώνυμο Email';
+$wb['active_txt'] = 'Ενεργό';
+$wb['source_txt'] = 'πηγή';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Νέο Ψευδώνυμο Email';
+?>

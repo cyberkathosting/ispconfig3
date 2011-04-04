@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Firewall';
+$wb['active_txt'] = 'Ενεργό';
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Ανοιχτές θύρες TCP';
+$wb['udp_port_txt'] = 'Ανοιχτές θύρες UDP';
+$wb['add_new_record_txt'] = 'Νέα εγγραφή Firewall';
+?>

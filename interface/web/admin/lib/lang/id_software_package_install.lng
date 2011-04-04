@@ -4,4 +4,3 @@ $wb['install_key_txt'] = 'Masukkan kunci pemasangan';
 $wb['btn_save_txt'] = 'Mulai Pemasangan';
 $wb['btn_cancel_txt'] = 'Batal';
 ?>
-

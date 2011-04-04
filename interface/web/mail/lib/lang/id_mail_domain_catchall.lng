@@ -7,4 +7,3 @@ $wb['no_domain_perm'] = 'Anda tidak memiliki hak untuk domain ini.';
 $wb['domain_error_regex'] = 'Nama domain tidak valid atau domain mengandung karater yang tidak valid.';
 $wb['limit_mailcatchall_txt'] = 'Jumlah maks akun catchall email untuk akun Anda sudah tercapai.';
 ?>
-

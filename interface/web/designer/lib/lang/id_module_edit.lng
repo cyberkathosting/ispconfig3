@@ -20,4 +20,3 @@ $wb['description_txt'] = '
 <b>Petunjuk:</b> Semua path adalah relatif terhadap direktori web.
 ';
 ?>
-

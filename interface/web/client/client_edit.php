@@ -124,6 +124,7 @@ class page_action extends tform_actions {
 		}
 
 		$app->tpl->setVar('template_additional_list', $text);
+		$app->tpl->setVar('app_module','client');
 
 		parent::onShowEnd();
 

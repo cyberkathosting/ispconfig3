@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Ζώνη';
+$wb['name_txt'] = 'Hostname';
+$wb['type_txt'] = 'τύπος';
+$wb['data_txt'] = 'Κείμενο';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Ενεργή';
+$wb['limit_dns_record_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των εγγραφών DNS για τον λογαριασμό σας.';
+$wb['no_zone_perm'] = 'Δεν έχετε δικαίωμα να προσθέσετε εγγραφές σε αυτή τη ζώνη DNS.';
+$wb['name_error_empty'] = 'Το hostname δεν έχει οριστεί.';
+$wb['name_error_regex'] = 'Το hostname δεν έχει σωστή μορφοποίηση.';
+$wb['data_error_empty'] = 'Το κείμενο δεν έχει οριστεί';
+$wb['data_error_regex'] = 'Κείμενο με μη έγκυρη μορφοποίηση';
+?>

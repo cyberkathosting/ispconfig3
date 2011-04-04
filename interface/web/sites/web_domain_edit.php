@@ -278,12 +278,12 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
-			//* Check the website quota
+			//* Check the website quota of the client
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
 				$webquota = $tmp["webquota"];
 				$new_web_quota = intval($this->dataRecord["hd_quota"]);
-				if(($webquota + $new_web_quota > $client["limit_web_quota"]) || ($new_web_quota == -1 && $client["limit_web_quota"] != -1)) {
+				if(($webquota + $new_web_quota > $client["limit_web_quota"]) || ($new_web_quota < 0 && $client["limit_web_quota"] >= 0)) {
 					$max_free_quota = floor($client["limit_web_quota"] - $webquota);
 					if($max_free_quota < 0) $max_free_quota = 0;
 					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota." MB<br>";
@@ -294,12 +294,12 @@ class page_action extends tform_actions {
 				unset($tmp_quota);
 			}
 
-			//* Check the traffic quota
+			//* Check the traffic quota of the client
 			if(isset($_POST["traffic_quota"]) && $client["limit_traffic_quota"] > 0) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
 				$trafficquota = $tmp["trafficquota"];
 				$new_traffic_quota = intval($this->dataRecord["traffic_quota"]);
-				if(($trafficquota + $new_traffic_quota > $client["limit_traffic_quota"]) || ($new_traffic_quota == -1 && $client["limit_traffic_quota"] != -1)) {
+				if(($trafficquota + $new_traffic_quota > $client["limit_traffic_quota"]) || ($new_traffic_quota < 0 && $client["limit_traffic_quota"] >= 0)) {
 					$max_free_quota = floor($client["limit_traffic_quota"] - $trafficquota);
 					if($max_free_quota < 0) $max_free_quota = 0;
 					$app->tform->errorMessage .= $app->tform->lng("limit_traffic_quota_free_txt").": ".$max_free_quota." MB<br>";
@@ -308,6 +308,43 @@ class page_action extends tform_actions {
 				}
 				unset($tmp);
 				unset($tmp_quota);
+			}
+			
+			if($client['parent_client_id'] > 0) {
+				// Get the limits of the reseller
+				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+
+				//* Check the website quota of the client
+				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+					$webquota = $tmp["webquota"];
+					$new_web_quota = intval($this->dataRecord["hd_quota"]);
+					if(($webquota + $new_web_quota > $reseller["limit_web_quota"]) || ($new_web_quota < 0 && $reseller["limit_web_quota"] >= 0)) {
+						$max_free_quota = floor($reseller["limit_web_quota"] - $webquota);
+						if($max_free_quota < 0) $max_free_quota = 0;
+						$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota." MB<br>";
+						// Set the quota field to the max free space
+						$this->dataRecord["hd_quota"] = $max_free_quota;
+					}
+					unset($tmp);
+					unset($tmp_quota);
+				}
+
+				//* Check the traffic quota of the client
+				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0) {
+					$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+					$trafficquota = $tmp["trafficquota"];
+					$new_traffic_quota = intval($this->dataRecord["traffic_quota"]);
+					if(($trafficquota + $new_traffic_quota > $reseller["limit_traffic_quota"]) || ($new_traffic_quota < 0 && $reseller["limit_traffic_quota"] >= 0)) {
+						$max_free_quota = floor($reseller["limit_traffic_quota"] - $trafficquota);
+						if($max_free_quota < 0) $max_free_quota = 0;
+						$app->tform->errorMessage .= $app->tform->lng("limit_traffic_quota_free_txt").": ".$max_free_quota." MB<br>";
+						// Set the quota field to the max free space
+						$this->dataRecord["traffic_quota"] = $max_free_quota;
+					}
+					unset($tmp);
+					unset($tmp_quota);
+				}
 			}
 
 			// When the record is updated
@@ -491,7 +528,7 @@ class page_action extends tform_actions {
 			// Update the FTP user(s) too
 			$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('ftp_user', "uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $rec['ftp_user_id']);
+				$app->db->datalogUpdate('ftp_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $rec['ftp_user_id']);
 			}
 			unset($records);
 			unset($rec);
@@ -499,7 +536,15 @@ class page_action extends tform_actions {
 			// Update the Shell user(s) too
 			$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('shell_user', "puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $rec['shell_user_id']);
+				$app->db->datalogUpdate('shell_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $rec['shell_user_id']);
+			}
+			unset($records);
+			unset($rec);
+			
+			//* Update all subdomains and alias domains
+			$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE parent_domain_id = ".$this->id);
+			foreach($records as $rec) {
+				$app->db->datalogUpdate('web_domain', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'", 'domain_id', $rec['domain_id']);
 			}
 			unset($records);
 			unset($rec);
@@ -523,7 +568,7 @@ class page_action extends tform_actions {
 			$sql = "UPDATE web_domain SET allow_override = '".$app->db->quote($web_config["htaccess_allow_override"])."' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 		}
-		if($web_rec['php_open_basedir'] == '') {
+		if($web_rec['php_open_basedir'] == '' || (isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"])) {
 			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
 			$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);
 			$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));

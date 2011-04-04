@@ -1,0 +1,21 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Γονικό website';
+$wb['active_txt'] = 'Ενεργό';
+$wb['client_txt'] = 'Πελάτης';
+$wb['run_min_txt'] = 'Λεπτά';
+$wb['run_hour_txt'] = 'Ώρες';
+$wb['run_mday_txt'] = 'Μέρες του μήνα';
+$wb['run_month_txt'] = 'Μήνες';
+$wb['run_wday_txt'] = 'Μέρες της εδομάδας';
+$wb['command_txt'] = 'Εντολή προς εκτέλεση (Οι εντολές εκτελούνται με sh. Τα urls με wget)';
+$wb['limit_cron_txt'] = 'Το μέγιστο πλήθος των εργασιών cron έχει εξαντληθεί';
+$wb['limit_cron_frequency_txt'] = 'Η συχνότητα των εργασιών cron ξεπερνά το επιτρεπτό όριο.';
+$wb['run_min_error_format'] = 'Η μορφοποίηση για τα λεπτά δεν είναι έγκυρη';
+$wb['run_hour_error_format'] = 'Η μορφοποίηση για τις ώρες δεν είναι έγκυρη';
+$wb['run_mday_error_format'] = 'Η μορφοποίηση για τις μέρες του μήνα δεν είναι έγκυρη';
+$wb['run_month_error_format'] = 'Η μορφοποίηση για τους μήνες δεν είναι έγκυρη';
+$wb['run_wday_error_format'] = 'Η μορφοποίηση για τις ημέρες της εβδομάδας δεν είναι έγκυρη';
+$wb['command_error_format'] = 'Η μορφοποίηση για την εντολή δεν είναι έγκυρη. Παρακαλούμε σημειώστε ότι στην περίπτωση του url μόνο τα http/https επιτρέπονται.';
+$wb['unknown_fieldtype_error'] = 'Χρησιμοποιήθηκε άγνωστός τύπος πεδίου.';
+?>

@@ -7,3 +7,4 @@ $wb['source_username_txt'] = 'Felhasználónév';
 $wb['destination_txt'] = 'Címzett';
 $wb['add_new_record_txt'] = 'Új legyűjtés';
 ?>
+

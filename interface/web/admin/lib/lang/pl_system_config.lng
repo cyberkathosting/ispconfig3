@@ -1,23 +1,22 @@
 <?php
-$wb['warning'] = "Edytuj te wartości ostrożnie! Nie usuwaj prefiksów w systemie w więcej niż jednym kliencie.";
-$wb['dbname_prefix_txt'] = "Prefiks nazwy bazy danych";
-$wb['dbuser_prefix_txt'] = "Prefiks użytkownika bazy danych";
-$wb['shelluser_prefix_txt'] = "Prefiks użytkownika shell";
-$wb['ftpuser_prefix_txt'] = "Prefiks użytkownika FTP";
-$wb['dbname_prefix_error_regex'] = "Znak nie jest dozwolony w prefiksie nazwy bazy danych.";
-$wb['dbuser_prefix_error_regex'] = "Znak nie jest dozwolony w prefiksie nazwy użytkownika bazy danych.";
-$wb['ftpuser_prefix_error_regex'] = "Znak nie jest dozwolony w prefiksie nazwy użytkownika ftp.";
-$wb['shelluser_prefix_error_regex'] = "Znak nie jest dozwolony w prefiksie nazwy użytkownika shell.";
-$wb['dblist_phpmyadmin_link_txt'] = "Adres do phpMyAdmin w liście baz danych";
-$wb['mailboxlist_webmail_link_txt'] = "Adres do poczty e-mail w liście skrzynek pocztowych";
-$wb['webmail_url_txt'] = "Webmail URL";
-$wb['phpmyadmin_url_txt'] = "PHPMyAdmin URL";
-$wb['use_domain_module_txt'] = "Użyj modułu Domeny do dodawania nowych domen";
-$wb['use_domain_module_hint'] = "Jeżeli użyjesz tego modułu, Twoi użytkownicy będą mogli użyć tylko domeny stworzonej im przez administratora. Nie mogą edytować wpisów domeny. Musisz przelogować się po zmianie tej wartości, aby zobaczyć widoczne rezultaty.";
-$wb['new_domain_txt'] = "HTML do stworzenia nowej domeny";
-$wb['dashboard_atom_url_txt'] = "Dashboard atom feed URL";
-$wb['webdavuser_prefix_txt'] = "Prefiks użytkownika webdav";
-$wb['webdavuser_prefix_error_regex'] = "Niedozwolony znak w prefiksie użytkownika webdav.";
-$wb['webftp_url_txt'] = "WebFTP URL";
+$wb['warning'] = 'Edytuj te wartości ostrożnie! Nie usuwaj prefiksów w systemie w więcej niż jednym kliencie.';
+$wb['dbname_prefix_txt'] = 'Prefiks nazwy bazy danych';
+$wb['dbuser_prefix_txt'] = 'Prefiks użytkownika bazy danych';
+$wb['shelluser_prefix_txt'] = 'Prefiks użytkownika shell';
+$wb['ftpuser_prefix_txt'] = 'Prefiks użytkownika FTP';
+$wb['dbname_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy bazy danych.';
+$wb['dbuser_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy użytkownika bazy danych.';
+$wb['ftpuser_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy użytkownika ftp.';
+$wb['shelluser_prefix_error_regex'] = 'Znak nie jest dozwolony w prefiksie nazwy użytkownika shell.';
+$wb['dblist_phpmyadmin_link_txt'] = 'Adres do phpMyAdmin w liście baz danych';
+$wb['mailboxlist_webmail_link_txt'] = 'Adres do poczty e-mail w liście skrzynek pocztowych';
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
+$wb['use_domain_module_txt'] = 'Użyj modułu Domeny do dodawania nowych domen';
+$wb['use_domain_module_hint'] = 'Jeżeli użyjesz tego modułu, Twoi użytkownicy będą mogli użyć tylko domeny stworzonej im przez administratora. Nie mogą edytować wpisów domeny. Musisz przelogować się po zmianie tej wartości, aby zobaczyć widoczne rezultaty.';
+$wb['new_domain_txt'] = 'HTML do stworzenia nowej domeny';
+$wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
+$wb['webdavuser_prefix_txt'] = 'Prefiks użytkownika webdav';
+$wb['webdavuser_prefix_error_regex'] = 'Niedozwolony znak w prefiksie użytkownika webdav.';
+$wb['webftp_url_txt'] = 'WebFTP URL';
 ?>
-

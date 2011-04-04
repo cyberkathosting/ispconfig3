@@ -26,4 +26,3 @@ $wb['groups_txt'] = 'Grup';
 $wb['default_group_txt'] = 'Grup Baku';
 $wb['startmodule_err'] = 'Modul awal tidak termasuk dalam modul.';
 ?>
-

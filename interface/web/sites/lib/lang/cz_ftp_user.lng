@@ -24,4 +24,5 @@ $wb['uid_error_empty'] = 'GID je prázdné.';
 $wb['directory_error_empty'] = 'Adresář je prázdný.';
 $wb['directory_error_notinweb'] = 'Adresář není uvnitř webového kořenového adresáře.';
 $wb['parent_domain_id_error_empty'] = 'Nevybrána žádná webová stránka.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>

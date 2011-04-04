@@ -92,7 +92,7 @@ function setConfigVar( $filename, $varName, $varValue ) {
 		$out = '';
 		$found = 0;
 		foreach($lines as $line) {
-			list($key, $value) = preg_split('/[\t= ]+/', $line, 2);
+			@list($key, $value) = preg_split('/[\t= ]+/', $line, 2);
 			if($key == $varName) {
 				$out .= $varName.' '.$varValue."\n";
 				$found = 1;
@@ -184,7 +184,7 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1"';
 	}
 	
 	if(!@is_dir($statsdir)) mkdir($statsdir);
-	if(is_file('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
+	if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	symlink($logfile,'/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
@@ -418,7 +418,7 @@ if($backup_dir != '') {
 				$web_group = $rec['system_group'];
 				$web_id = $rec['domain_id'];
 				$web_backup_dir = $backup_dir.'/web'.$web_id;
-				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
+				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0755);
 				
 				chmod($web_backup_dir, 0755);
 				chown($web_backup_dir, 'root');
@@ -441,6 +441,7 @@ if($backup_dir != '') {
 				// Create backupdir symlink
 				if(is_link($web_path.'/backup')) unlink($web_path.'/backup');
 				symlink($web_backup_dir,$web_path.'/backup');
+				chmod($web_path.'/backup', 0755);
 				
 			}
 			

@@ -1,11 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Mail traffic';
-$wb["email_txt"] = 'E-mail';
-$wb["this_month_txt"] = 'Deze maand';
-$wb["last_month_txt"] = 'Vorige maand';
-$wb["this_year_txt"] = 'Dit jaar';
-$wb["last_year_txt"] = 'Vorig jaar';
+$wb['list_head_txt'] = 'Mail traffic';
+$wb['email_txt'] = 'E-mail';
+$wb['this_month_txt'] = 'Deze maand';
+$wb['last_month_txt'] = 'Vorige maand';
+$wb['this_year_txt'] = 'Dit jaar';
+$wb['last_year_txt'] = 'Vorig jaar';
 ?>
-
-
-

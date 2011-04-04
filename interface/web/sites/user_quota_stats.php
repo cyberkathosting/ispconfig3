@@ -45,6 +45,10 @@ class list_action extends listform_actions {
 		$rec['soft'] = $monitor_data['user'][$username]['soft'];
 		$rec['hard'] = $monitor_data['user'][$username]['hard'];
 		
+		if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
+		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
+		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
+		
 		if($rec['used'] > 1024) {
 			$rec['used'] = round($rec['used'] / 1024,2).' MB';
 		} else {

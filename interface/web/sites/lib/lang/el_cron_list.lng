@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Εργασίες Cron';
+$wb['active_txt'] = 'Ενεργή';
+$wb['server_id_txt'] = 'Server';
+$wb['run_min_txt'] = 'Λεπτό';
+$wb['run_hour_txt'] = 'Ώρα';
+$wb['run_mday_txt'] = 'Ημέρα του μήνα';
+$wb['run_month_txt'] = 'Μήνας';
+$wb['run_wday_txt'] = 'Ημέρα της εβδομάδας';
+$wb['command_txt'] = 'Εντολή';
+$wb['add_new_cron_txt'] = 'Νέα εργασία Cron';
+?>

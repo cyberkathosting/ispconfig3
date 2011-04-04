@@ -1,7 +1,7 @@
 <?php
-$wb['source_txt'] = 'Source';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
+$wb['source_txt'] = 'Forrás';
+$wb['destination_txt'] = 'Cél';
+$wb['active_txt'] = 'Aktív';
 $wb['no_domain_perm'] = 'You have no permission for this domain.';
 $wb['limit_mailaliasdomain_txt'] = 'The max. number of email alias domains for your account is reached.';
 $wb['source_destination_identical_txt'] = 'Source and target Domain are the same.';
@@ -9,3 +9,4 @@ $wb['source_error_empty'] = 'Source Domain is empty.';
 $wb['source_error_unique'] = 'Duplicate source Domain.';
 $wb['source_error_regex'] = 'Invalid source domain name.';
 ?>
+

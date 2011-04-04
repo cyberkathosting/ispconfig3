@@ -7,4 +7,5 @@ $wb['rulename_error_empty'] = 'Meno je prázdne';
 $wb['searchterm_is_empty'] = 'Hľadaný výraz je prázdny.';
 $wb['source_txt'] = 'Zdroj';
 $wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 ?>

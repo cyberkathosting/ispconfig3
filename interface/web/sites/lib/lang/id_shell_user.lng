@@ -20,4 +20,3 @@ $wb['parent_domain_id_error_empty'] = 'Tak ada situs web yang dipilih.';
 $wb['puser_txt'] = 'Nama Pengguna Web';
 $wb['pgroup_txt'] = 'Grup Web';
 ?>
-

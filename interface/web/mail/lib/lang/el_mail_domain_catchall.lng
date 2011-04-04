@@ -1,0 +1,9 @@
+<?php
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['active_txt'] = 'Ενεργό';
+$wb['domain_error_unique'] = 'Υπάρχει ήδη μία εγγραφή Catchall για αυτό το domain.';
+$wb['no_domain_perm'] = 'Δεν έχετε δικαιώματα για αυτό το domain.';
+$wb['domain_error_regex'] = 'Μη έγκρυρο όνομα domain ή το όνομα περιέχει μη επιτρεπόμενους χαρακτήρες';
+$wb['limit_mailcatchall_txt'] = 'Το μέγιστο πλήθος των email catchall για τον λογαριασμό σας, έχει εξαντληθεί.';
+?>

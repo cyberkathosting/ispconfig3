@@ -11,4 +11,3 @@ $wb['Edit Reseller'] = 'Sunting Reseller';
 $wb['Resellers'] = 'Reseller';
 $wb['error_has_clients'] = 'Reseller ini memiliki klien. Hapus klien dari reseller terlebih dahulu.';
 ?>
-

@@ -24,4 +24,5 @@ $wb['uid_error_empty'] = 'GID em branco.';
 $wb['directory_error_empty'] = 'Pasta vazia.';
 $wb['directory_error_notinweb'] = 'A pasta não esta dentro da pasta web principal.';
 $wb['parent_domain_id_error_empty'] = 'Nenhum website seleccionado.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>

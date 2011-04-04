@@ -6,4 +6,3 @@ $wb['password_mismatch'] = 'Kata sandi di kolom kata sandi kedua tidak cocok den
 $wb['Form to edit the user password and language.'] = 'Form untuk menyunting kata sandi dan bahasa pengguna.';
 $wb['Settings'] = 'Pengaturan';
 ?>
-

@@ -7,4 +7,5 @@ $wb['rulename_error_empty'] = 'Имя пустое.';
 $wb['searchterm_is_empty'] = 'Поле поиска пустое.';
 $wb['source_txt'] = 'Источник';
 $wb['target_error_regex'] = 'Назначение может содержать только следующие символы: a-z, 0-9, -, . и _';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 ?>

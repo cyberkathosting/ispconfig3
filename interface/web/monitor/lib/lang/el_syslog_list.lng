@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Αρχείο καταγραφής ISPConfig';
+$wb['tstamp_txt'] = 'Ημερομηνία';
+$wb['server_id_txt'] = 'Server';
+$wb['loglevel_txt'] = 'Επίπεδο καταγραφής';
+$wb['message_txt'] = 'Μήνυμα';
+?>

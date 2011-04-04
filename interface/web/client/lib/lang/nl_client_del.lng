@@ -1,10 +1,6 @@
 <?php
-$wb["confirm_action_txt"] = 'Bevestig actie';
-$wb["delete_explanation"] = 'Deze actie verwijderd het volgende aantal aan records die geassocieerd zijn met deze klant';
-$wb["btn_save_txt"] = 'Verwijder de klant';
-$wb["btn_cancel_txt"] = 'Annuleren zonder de klant te verwijderen';
+$wb['confirm_action_txt'] = 'Bevestig actie';
+$wb['delete_explanation'] = 'Deze actie verwijderd het volgende aantal aan records die geassocieerd zijn met deze klant';
+$wb['btn_save_txt'] = 'Verwijder de klant';
+$wb['btn_cancel_txt'] = 'Annuleren zonder de klant te verwijderen';
 ?>
-
-
-
-

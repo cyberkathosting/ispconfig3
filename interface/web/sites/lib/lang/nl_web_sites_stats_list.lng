@@ -1,11 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Web traffic';
-$wb["domain_txt"] = 'Domein';
-$wb["this_month_txt"] = 'Deze maand';
-$wb["last_month_txt"] = 'Vorige maand';
-$wb["this_year_txt"] = 'Dit jaar';
-$wb["last_year_txt"] = 'Vorig jaar';
+$wb['list_head_txt'] = 'Web traffic';
+$wb['domain_txt'] = 'Domein';
+$wb['this_month_txt'] = 'Deze maand';
+$wb['last_month_txt'] = 'Vorige maand';
+$wb['this_year_txt'] = 'Dit jaar';
+$wb['last_year_txt'] = 'Vorig jaar';
 ?>
-
-
-

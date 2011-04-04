@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Remote Users';
+$wb['list_head_txt'] = 'Távoli Felhasználók';
 $wb['list_desc_txt'] = '';
-$wb['add_new_record_txt'] = 'Add new user';
+$wb['add_new_record_txt'] = 'Új Felhasználó';
 $wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'Username';
+$wb['username_txt'] = 'Felhasználónév';
 ?>
+

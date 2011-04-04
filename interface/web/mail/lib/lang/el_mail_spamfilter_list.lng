@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Φίλτρο Spam';
+$wb['active_txt'] = 'Ενεργό';
+$wb['server_id_txt'] = 'Server';
+$wb['server_name_txt'] = 'Όνομα Server';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Νέα εγγραφή φίλτρου Spam';
+?>

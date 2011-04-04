@@ -1,0 +1,22 @@
+<?php
+$wb['puser_txt'] = 'Όνομα χρήστη Web';
+$wb['pgroup_txt'] = 'Ομάδα Web';
+$wb['shell_txt'] = 'Shell';
+$wb['dir_txt'] = 'Φάκελος';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Site';
+$wb['username_txt'] = 'Όνομα χρήστη';
+$wb['password_txt'] = 'Συνθηματικό';
+$wb['password_strength_txt'] = 'Δύναμη συνθηματικού';
+$wb['chroot_txt'] = 'Chroot Shell';
+$wb['quota_size_txt'] = 'Όρια';
+$wb['active_txt'] = 'Ενεργός';
+$wb['username_error_empty'] = 'Το όνομα χρήστη δεν έχει οριστεί';
+$wb['username_error_unique'] = 'Το όνομα χρήστη δεν έχει οριστεί και πρέπει να είναι μοναδικό.';
+$wb['username_error_regex'] = 'Το όνομα χρήστη περιέχει μη επιτρεπόμενους χαρακτήρες';
+$wb['quota_size_error_empty'] = 'Τα όρια είναι κενά';
+$wb['uid_error_empty'] = 'Το GID δεν έχει οριστεί';
+$wb['directory_error_empty'] = 'Ο φάκελος δεν έχει οριστεί';
+$wb['limit_shell_user_txt'] = 'Φτάσατε το μέγιστο πλήθος τον λογαριασμών Shell';
+$wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website';
+?>

@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Μηνύματα Υποστήριξης';
+$wb['sender_id_txt'] = 'Αποστολέας';
+$wb['subject_txt'] = 'Θέμα';
+$wb['add_new_record_txt'] = 'Νέο μήνυμα υποστήριξης';
+?>

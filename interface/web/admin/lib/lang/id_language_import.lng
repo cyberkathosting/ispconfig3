@@ -6,4 +6,3 @@ $wb['language_overwrite_txt'] = 'Timpa berkas, jika sudah ada.';
 $wb['btn_cancel_txt'] = 'Kembali';
 $wb['ignore_version_txt'] = 'Lewati pemeriksaan versi ISPConfig';
 ?>
-

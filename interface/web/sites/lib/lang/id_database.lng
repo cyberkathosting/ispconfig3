@@ -23,4 +23,3 @@ $wb['database_charset_change_txt'] = 'Database charset tidak dapat diubah';
 $wb['database_name_error_len'] = 'Nama database - {db} - terlalu panjang. Panjang nama database maks termasuk prefiks adalah 64 karakter.';
 $wb['database_user_error_len'] = 'Nama pengguna database - {user}- terlalu panjang. Panjang nama pengguna database maks termasuk prefiks adalah 16 karakter.';
 ?>
-

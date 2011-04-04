@@ -1,10 +1,7 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["ip_address_txt"] = 'IP adres';
-$wb["virtualhost_txt"] = 'HTTP NameVirtualHost';
-$wb["ip_error_wrong"] = 'Het IP adres is ongeldig';
-$wb["ip_error_unique"] = 'Het IP addres moet uniek zijn';
+$wb['server_id_txt'] = 'Server';
+$wb['ip_address_txt'] = 'IP adres';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_error_wrong'] = 'Het IP adres is ongeldig';
+$wb['ip_error_unique'] = 'Het IP addres moet uniek zijn';
 ?>
-
-
-

@@ -1,24 +1,25 @@
 <?php
 $wb['Database'] = 'Adatbázis';
 $wb['Options'] = 'Beállítások';
-$wb['Shell User'] = 'Shell felhasználó';
+$wb['Shell User'] = 'Shell Felhasználó';
 $wb['Domain'] = 'Domain';
 $wb['Redirect'] = 'Átirányítás';
 $wb['SSL'] = 'SSL';
 $wb['Subdomain'] = 'Aldomain';
 $wb['Sites'] = 'Weboldalak';
 $wb['Aliasdomain'] = 'Aliasdomain';
-$wb['FTP-User'] = 'FTP-felhasználó';
+$wb['FTP-User'] = 'FTP Felhasználó';
 $wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Shell-felhasználó';
+$wb['Shell-User'] = 'Shell Felhasználó';
 $wb['Shell'] = 'Shell';
-$wb['Websites'] = 'Weboldalak';
+$wb['Websites'] = 'Webhelyek';
 $wb['Stats'] = 'Statisztikák';
-$wb['Website'] = 'Website';
 $wb['Cron'] = 'Cron';
 $wb['Cron Jobs'] = 'Cron Jobs';
-$wb['Statistics'] = 'Statistics';
-$wb['Web traffic'] = 'Web Traffic';
-$wb['Webdav-User'] = 'Webdav User';
+$wb['Statistics'] = 'Statisztikák';
+$wb['Web traffic'] = 'Web forgalom';
+$wb['Webdav-User'] = 'Webdav Felhasználó';
 $wb['Webdav'] = 'Webdav';
+$wb['Website'] = 'Website';
 ?>
+

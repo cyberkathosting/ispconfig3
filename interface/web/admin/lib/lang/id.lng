@@ -41,4 +41,3 @@ $wb['Remote Actions'] = 'Tindakan Remote';
 $wb['Do OS-Update'] = 'Lakukan Pemutakhiran OS';
 $wb['Do ISPConfig-Update'] = 'Lakukan Pemutakhiran ISPConfig';
 ?>
-

@@ -10,4 +10,3 @@ $wb['run_wday_txt'] = 'Hari';
 $wb['command_txt'] = 'Perintah';
 $wb['add_new_cron_txt'] = 'Tambah Pekerjaan Cron Baru';
 ?>
-

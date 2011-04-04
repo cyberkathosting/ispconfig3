@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Επεξεργαστής αρχείου γλώσσας';
+$wb['language_select_txt'] = 'Επιλογή Γλώσσας';
+$wb['module_txt'] = 'Άρθρωμα';
+$wb['lang_file_txt'] = 'Αρχείο γλώσσας';
+$wb['btn_save_txt'] = 'Αποθήκευση';
+$wb['btn_cancel_txt'] = 'Επιστροφή';
+?>

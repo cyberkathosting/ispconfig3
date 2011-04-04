@@ -11,7 +11,7 @@ $wb["new_txt"] = 'New';
 $wb["up_txt"] = 'Up';
 $wb["down_txt"] = 'Down';
 $wb["module_txt"] = 'Module';
-$wb["module_del_txt"] = "Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse löschen?";
-$wb["menu_del_txt"] = "Wollen Sie das Menü mit allen Untereinträgen löschen?";
-$wb["item_del_txt"] = "Wollen Sie den Menüeintrag löschen?";
+$wb["module_del_txt"] = "Do you really want to delete the module and all its subdirectories?";
+$wb["menu_del_txt"] = "Do you really want to delete the menu with all sub entries?";
+$wb["item_del_txt"] = "Delete the menu entry?";
 ?>

@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Nyelvi fáljokat Exportál';
+$wb['list_head_txt'] = 'Nyelvi fáljok exportálása';
 $wb['language_select_txt'] = 'Válasszon nyelvet';
-$wb['btn_save_txt'] = 'Kiválasztott nyelv eportálása';
+$wb['btn_save_txt'] = 'Kiválasztott nyelv exportálása';
 $wb['btn_cancel_txt'] = 'Vissza';
 ?>
+

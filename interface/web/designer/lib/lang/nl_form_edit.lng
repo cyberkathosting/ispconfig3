@@ -1,29 +1,24 @@
 <?php
-$wb["name_txt"] = 'Formuliernaam';
-$wb["title_txt"] = 'Formuliertitel';
-$wb["template_txt"] = 'Template';
-$wb["navframe_txt"] = 'NaviFrame';
-$wb["startpage_txt"] = 'Startpagina';
-$wb["tab_width_txt"] = 'Tab breedte';
-$wb["save_txt"] = 'Opslaan';
-$wb["cancel_txt"] = 'Annuleren';
-$wb["header_txt"] = 'Formulier eigenschappen';
-$wb["description_txt"] = 'Omschrijving';
-$wb["action_txt"] = 'Actie (script)';
-$wb["db_table_txt"] = 'DB Tabe;';
-$wb["db_table_idx_txt"] = 'DB Tabel index';
-$wb["db_history_txt"] = 'Ongedaan maken Log';
-$wb["tab_default_txt"] = 'Standaard tab';
-$wb["list_default_txt"] = 'Standaard Lijst';
-$wb["tab_width_txt"] = 'Tab breedte';
-$wb["auth_txt"] = 'Permissies';
-$wb["auth_preset_userid_txt"] = 'GebruikerID';
-$wb["auth_preset_groupid_txt"] = 'GroepID';
-$wb["auth_preset_perm_user_txt"] = 'Perm. gebruiker';
-$wb["auth_preset_perm_group_txt"] = 'Perm. groep';
-$wb["auth_preset_perm_other_txt"] = 'Perm. overige';
-
+$wb['name_txt'] = 'Formuliernaam';
+$wb['title_txt'] = 'Formuliertitel';
+$wb['template_txt'] = 'Template';
+$wb['navframe_txt'] = 'NaviFrame';
+$wb['startpage_txt'] = 'Startpagina';
+$wb['tab_width_txt'] = 'Tab breedte';
+$wb['save_txt'] = 'Opslaan';
+$wb['cancel_txt'] = 'Annuleren';
+$wb['header_txt'] = 'Formulier eigenschappen';
+$wb['description_txt'] = 'Omschrijving';
+$wb['action_txt'] = 'Actie (script)';
+$wb['db_table_txt'] = 'DB Tabe;';
+$wb['db_table_idx_txt'] = 'DB Tabel index';
+$wb['db_history_txt'] = 'Ongedaan maken Log';
+$wb['tab_default_txt'] = 'Standaard tab';
+$wb['list_default_txt'] = 'Standaard Lijst';
+$wb['auth_txt'] = 'Permissies';
+$wb['auth_preset_userid_txt'] = 'GebruikerID';
+$wb['auth_preset_groupid_txt'] = 'GroepID';
+$wb['auth_preset_perm_user_txt'] = 'Perm. gebruiker';
+$wb['auth_preset_perm_group_txt'] = 'Perm. groep';
+$wb['auth_preset_perm_other_txt'] = 'Perm. overige';
 ?>
-
-
-

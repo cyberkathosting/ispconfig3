@@ -4,7 +4,18 @@ $wb['action_txt'] = 'Művelet';
 $wb['target_txt'] = 'Mappa';
 $wb['active_txt'] = 'Aktív';
 $wb['rulename_error_empty'] = 'A név üres';
-$wb['searchterm_is_empty'] = 'Keresési feltétel üres';
+$wb['searchterm_is_empty'] = 'A keresési feltétel üres';
 $wb['source_txt'] = 'Forrás';
+$wb['subject_txt'] = 'Tárgy';
+$wb['from_txt'] = 'From';
+$wb['to_txt'] = 'To';
+$wb['contains_txt'] = 'Tartalmazza';
+$wb['is_txt'] = 'Is';
+$wb['begins_with_txt'] = 'Begins with';
+$wb['ends_with_txt'] = 'Ends with';
+$wb['move_to_txt'] = 'Áthelyezés';
 $wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
+$wb['delete_txt'] = 'Delete';
 ?>
+

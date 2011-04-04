@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Hak Akses Pengguna';
 $wb['auth_preset_perm_group_txt'] = 'Hak Akses Grup';
 $wb['auth_preset_perm_other_txt'] = 'Hak Akses Lainnya';
 ?>
-

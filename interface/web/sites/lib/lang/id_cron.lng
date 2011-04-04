@@ -19,4 +19,3 @@ $wb['run_wday_error_format'] = 'Format hari tidak valid.';
 $wb['command_error_format'] = 'Format perintah tidak valid. Harap dicatat untuk kasus pemanggilan url hanya http/https yang diizinkan.';
 $wb['unknown_fieldtype_error'] = 'Telah digunakan tipe kolom yang tidak dikenal.';
 ?>
-

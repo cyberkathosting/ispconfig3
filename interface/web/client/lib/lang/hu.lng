@@ -5,9 +5,10 @@ $wb['Limits'] = 'Korlátok';
 $wb['Add Client'] = 'Ügyfél hozzáadása';
 $wb['Edit Client'] = 'Ügyfél adatok szerkesztése';
 $wb['Clients'] = 'Ügyfelek';
-$wb['Edit Client-Templates'] = 'Edit Client-Templates';
-$wb['Add Reseller'] = 'Add Reseller';
-$wb['Edit Reseller'] = 'Edit Reseller';
-$wb['Resellers'] = 'Resellers';
+$wb['Edit Client-Templates'] = 'Ügyfél-Sablonok szerkesztése';
+$wb['Add Reseller'] = 'Új Viszonteladó';
+$wb['Edit Reseller'] = 'Viszonteladók szerkesztése';
+$wb['Resellers'] = 'Viszonteladók';
 $wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
 ?>
+

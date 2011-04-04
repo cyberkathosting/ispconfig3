@@ -1,0 +1,13 @@
+<?php
+$wb['Client'] = 'Πελάτης';
+$wb['Address'] = 'Διεύθυνση';
+$wb['Limits'] = 'Όρια';
+$wb['Add Client'] = 'Νέος Πελάτης';
+$wb['Edit Client'] = 'Επεξεργασία Πελάτη';
+$wb['Clients'] = 'Πελάτες';
+$wb['Edit Client-Templates'] = 'Επεξεργασία προτύπων πελατών';
+$wb['Add Reseller'] = 'Νέος Μεταπωλητής';
+$wb['Edit Reseller'] = 'Επεξεργασία Μεταπωλητή';
+$wb['Resellers'] = 'Μεταπωλητές';
+$wb['error_has_clients'] = 'Ο Μεταπωλητής έχει πελάτες. Διαγράψτε πρώτα τους πελάτες.';
+?>

@@ -1,16 +1,13 @@
 <?php
-$wb["config_txt"] = 'config';
-$wb["server_name_txt"] = 'Servernaam';
-$wb["mail_server_txt"] = 'Mailserver';
-$wb["web_server_txt"] = 'Webserver';
-$wb["dns_server_txt"] = 'DNS-Server';
-$wb["file_server_txt"] = 'Fileserver';
-$wb["db_server_txt"] = 'DB-Server';
-$wb["vserver_server_txt"] = 'VServer-Server';
-$wb["active_txt"] = 'Actief';
-$wb["mirror_server_id_txt"] = 'Is mirror van server';
-$wb["- None -"] = '- Geen enkele -';
+$wb['config_txt'] = 'config';
+$wb['server_name_txt'] = 'Servernaam';
+$wb['mail_server_txt'] = 'Mailserver';
+$wb['web_server_txt'] = 'Webserver';
+$wb['dns_server_txt'] = 'DNS-Server';
+$wb['file_server_txt'] = 'Fileserver';
+$wb['db_server_txt'] = 'DB-Server';
+$wb['vserver_server_txt'] = 'VServer-Server';
+$wb['active_txt'] = 'Actief';
+$wb['mirror_server_id_txt'] = 'Is mirror van server';
+$wb['- None -'] = '- Geen enkele -';
 ?>
-
-
-

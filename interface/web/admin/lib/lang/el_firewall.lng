@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Ανοιχτές θύρες TCP';
+$wb['udp_port_txt'] = 'Ανοιχτές θύρες UDP';
+$wb['tcp_port_help_txt'] = 'Χωρισμένες με κόμα';
+$wb['udp_port_help_txt'] = 'Χωρισμένες με κόμα';
+$wb['active_txt'] = 'Ενεργό';
+$wb['firewall_error_unique'] = 'Υπάρχει ήδη μια εγγραφή firewall για αυτό τον σερωερ server.';
+$wb['tcp_ports_error_regex'] = 'Οι χαρακτήρες δεν επιτρέπονται στον ορισμό θυρών tcp. Επιτρέπονται μόνο αριθμοί, : και ,.';
+$wb['udp_ports_error_regex'] = 'Οι χαρακτήρες δεν επιτρέπονται στον ορισμό θυρών udp. Επιτρέπονται μόνο αριθμοί, : και ,.';
+?>

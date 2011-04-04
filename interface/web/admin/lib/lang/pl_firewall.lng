@@ -1,12 +1,11 @@
 <?php
-$wb['server_id_txt'] = "Serwer";
-$wb['tcp_port_txt'] = "Otwarty port TCP";
-$wb['udp_port_txt'] = "Otwarty port UDP";
-$wb['tcp_port_help_txt'] = "Odziel przecinkiem";
-$wb['udp_port_help_txt'] = "Odziel przecinkiem";
-$wb['active_txt'] = "Aktywny";
-$wb['firewall_error_unique'] = "Istnieje już wpis firewalla dla tego serwera.";
-$wb['tcp_ports_error_regex'] = "Znak nie jest dozwolony w formacie portu TCP. Dozwolone znaki to liczby, : oraz ,.";
-$wb['udp_ports_error_regex'] = "Znak nie jest dozwolony w formacie portu UDP. Dozwolone znaki to liczby, : oraz ,.";
+$wb['server_id_txt'] = 'Serwer';
+$wb['tcp_port_txt'] = 'Otwarty port TCP';
+$wb['udp_port_txt'] = 'Otwarty port UDP';
+$wb['tcp_port_help_txt'] = 'Odziel przecinkiem';
+$wb['udp_port_help_txt'] = 'Odziel przecinkiem';
+$wb['active_txt'] = 'Aktywny';
+$wb['firewall_error_unique'] = 'Istnieje już wpis firewalla dla tego serwera.';
+$wb['tcp_ports_error_regex'] = 'Znak nie jest dozwolony w formacie portu TCP. Dozwolone znaki to liczby, : oraz ,.';
+$wb['udp_ports_error_regex'] = 'Znak nie jest dozwolony w formacie portu UDP. Dozwolone znaki to liczby, : oraz ,.';
 ?>
-

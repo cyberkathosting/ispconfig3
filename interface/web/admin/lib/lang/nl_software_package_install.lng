@@ -1,9 +1,6 @@
 <?php
-$wb["head_txt"] = 'Install softwarepakket';
-$wb["install_key_txt"] = 'Voer installatie sleutel in';
-$wb["btn_save_txt"] = 'Start installatie';
-$wb["btn_cancel_txt"] = 'Annuleren';
+$wb['head_txt'] = 'Install softwarepakket';
+$wb['install_key_txt'] = 'Voer installatie sleutel in';
+$wb['btn_save_txt'] = 'Start installatie';
+$wb['btn_cancel_txt'] = 'Annuleren';
 ?>
-
-
-

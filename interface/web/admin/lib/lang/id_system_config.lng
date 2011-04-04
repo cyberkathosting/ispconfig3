@@ -20,4 +20,3 @@ $wb['use_domain_module_hint'] = 'Jika Anda menggunakan modul ini, pelanggan Anda
 $wb['new_domain_txt'] = 'HTML untuk membuat domain baru';
 $wb['webftp_url_txt'] = 'URL WebFTP';
 ?>
-

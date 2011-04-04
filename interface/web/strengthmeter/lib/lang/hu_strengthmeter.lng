@@ -6,3 +6,4 @@ $wb['password_strength_3_txt'] = 'Jó';
 $wb['password_strength_4_txt'] = 'Erős';
 $wb['password_strength_5_txt'] = 'Nagyon erős';
 ?>
+

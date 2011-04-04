@@ -1,20 +1,16 @@
 <?php
-$wb["header_txt"] = 'Menu editor';
-$wb["title_txt"] = 'Title';
-$wb["name_txt"] = 'Module';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["properties_txt"] = 'Eigenschappen';
-$wb["new_menu_txt"] = 'Menu nieuw';
-$wb["edit_txt"] = 'Wijzigen';
-$wb["delete_txt"] = 'Verwijderen';
-$wb["new_txt"] = 'Nieuw';
-$wb["up_txt"] = 'Op';
-$wb["down_txt"] = 'Neer';
-$wb["module_txt"] = 'Module';
-$wb["module_del_txt"] = "Wilt u de module en alle in de module aangelegde bestanden en subdirectories verwijderen?";
-$wb["menu_del_txt"] = "Wilt u het menu met alle menu items verwijderen?";
-$wb["item_del_txt"] = "Wilt u het menu item verwijderen?";
+$wb['header_txt'] = 'Menu editor';
+$wb['title_txt'] = 'Title';
+$wb['name_txt'] = 'Module';
+$wb['delete_txt'] = 'Verwijderen';
+$wb['properties_txt'] = 'Eigenschappen';
+$wb['new_menu_txt'] = 'Menu nieuw';
+$wb['edit_txt'] = 'Wijzigen';
+$wb['new_txt'] = 'Nieuw';
+$wb['up_txt'] = 'Op';
+$wb['down_txt'] = 'Neer';
+$wb['module_txt'] = 'Module';
+$wb['module_del_txt'] = 'Wilt u de module en alle in de module aangelegde bestanden en subdirectories verwijderen?';
+$wb['menu_del_txt'] = 'Wilt u het menu met alle menu items verwijderen?';
+$wb['item_del_txt'] = 'Wilt u het menu item verwijderen?';
 ?>
-
-
-

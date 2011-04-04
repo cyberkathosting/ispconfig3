@@ -1,0 +1,11 @@
+<?php
+$wb['source_txt'] = 'Πηγή';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['active_txt'] = 'Ενεργό';
+$wb['no_domain_perm'] = 'Δεν έχετε δικαιώματα σε αυτό το domain.';
+$wb['limit_mailaliasdomain_txt'] = 'Το μέγιστο πλήθος των ψευδωνύμων email domains για τον λογαριασμό σας, έχει εξαντληθεί';
+$wb['source_destination_identical_txt'] = 'Τα Domain Πηγή και Προορισμός είναι ίδια';
+$wb['source_error_empty'] = 'Το Domain Πηγή δεν έχει οριστεί';
+$wb['source_error_unique'] = 'Το Domain Πηγή πρέπει να είναι μοναδικό';
+$wb['source_error_regex'] = 'Μή έγκυρο όνομα για το Domain Πηγή';
+?>

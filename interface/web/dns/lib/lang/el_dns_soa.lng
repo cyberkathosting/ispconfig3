@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Ζώνη (SOA)';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['serial_txt'] = 'Serial';
+$wb['refresh_txt'] = 'Refresh';
+$wb['retry_txt'] = 'Retry';
+$wb['expire_txt'] = 'Expire';
+$wb['minimum_txt'] = 'Minimum';
+$wb['ttl_txt'] = 'TTL';
+$wb['xfer_txt'] = 'Άδεια μεταφοράς ζώνης από <br />αυτές τς IP (λίστα χωρισμένη με κόμα)';
+$wb['active_txt'] = 'Ενεργή';
+$wb['limit_dns_zone_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των ζωνών DNS για τον λογαριασμό σας';
+$wb['client_txt'] = 'Πελάτης';
+$wb['no_zone_perm'] = 'Δεν έχετε δικαίωμα να προσθέσε εγγραφές σε αυτή την ζώνη DNS';
+$wb['server_id_error_empty'] = 'Δεν επιλέχθηκε server';
+$wb['origin_error_empty'] = 'Η ζώνη είναι κενή.';
+$wb['origin_error_unique'] = 'Υπάρχει ήδη μια εγγραφή για αυτή τη ζώνη.';
+$wb['origin_error_regex'] = 'Η ζώνη δεν έχει έγκυρη μορφοποίηση.';
+$wb['ns_error_regex'] = 'NS με μη έγκυρη μορφοποίηση.';
+$wb['mbox_error_empty'] = 'Το Email δεν έχει οριστεί.';
+$wb['mbox_error_regex'] = 'Email με μη έγκυρη μορφοποίηση.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
+?>

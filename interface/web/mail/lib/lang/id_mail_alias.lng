@@ -9,4 +9,3 @@ $wb['destination_error_isemail'] = 'Alamat Email Tujuan tidak valid.';
 $wb['limit_mailalias_txt'] = 'Jumlah maks alias email untuk akun Anda telah tercapai.';
 $wb['duplicate_mailbox_txt'] = 'Sudah ada mailbox untuk alamat email ini';
 ?>
-

@@ -1,0 +1,6 @@
+<?php
+$wb['name_txt'] = 'Όνομα';
+$wb['fields_txt'] = 'Πεδία';
+$wb['template_txt'] = 'Πρότυπο';
+$wb['visible_txt'] = 'Ενεργό';
+?>

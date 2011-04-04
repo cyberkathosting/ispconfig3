@@ -75,4 +75,3 @@ $wb['php_ini_path_cgi_txt'] = 'Path php.ini CGI';
 $wb['php_ini_path_apache_txt'] = 'Path php.ini Apache';
 $wb['check_apache_config_txt'] = 'Periksa konfigurasi apache saat dijalankan ulang';
 ?>
-

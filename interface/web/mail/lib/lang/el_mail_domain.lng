@@ -1,0 +1,13 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['type_txt'] = 'Τύπος';
+$wb['active_txt'] = 'Ενεργό';
+$wb['domain_error_empty'] = 'Το Domain δεν έχει οριστεί.';
+$wb['domain_error_unique'] = 'Διπλό Domain.';
+$wb['domain_error_regex'] = 'Το όνομα domain δεν είναι έγκυρο.';
+$wb['client_txt'] = 'Πελάτης';
+$wb['limit_maildomain_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των email domains για τον λογαριασμό σας.';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- ανενεργό -';
+?>

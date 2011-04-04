@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Όριο αποθηκευτικού χώρου Website';
+$wb['domain_txt'] = 'Domain / Website';
+$wb['system_user_txt'] = 'Χρήστης Linux';
+$wb['used_txt'] = 'Χρησιμοποιούμενος χώρος';
+$wb['hard_txt'] = 'Απόλυτο όριο';
+$wb['soft_txt'] = 'Διαλακτικό όριο';
+?>

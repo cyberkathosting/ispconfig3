@@ -1,6 +1,7 @@
 <?php
-$wb['name_txt'] = 'Name';
-$wb['fields_txt'] = 'Fields';
+$wb['name_txt'] = 'Név';
+$wb['fields_txt'] = 'Mezők';
 $wb['template_txt'] = 'Template';
-$wb['visible_txt'] = 'Visible';
+$wb['visible_txt'] = 'Látható';
 ?>
+

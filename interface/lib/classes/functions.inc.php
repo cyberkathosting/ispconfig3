@@ -87,6 +87,15 @@ class functions {
 		return $out;
 	}
 	
+	public function currency_format($number) {
+		global $app;
+		$number_format_decimals = (int)$app->lng('number_format_decimals');
+		$number_format_dec_point = $app->lng('number_format_dec_point');
+		$number_format_thousands_sep = $app->lng('number_format_thousands_sep');
+		if($number_format_thousands_sep == 'number_format_thousands_sep') $number_format_thousands_sep = '';
+		return number_format((double)$number, $number_format_decimals, $number_format_dec_point, $number_format_thousands_sep);
+	}
+	
 	
 		
 }

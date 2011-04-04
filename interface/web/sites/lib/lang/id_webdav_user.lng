@@ -13,4 +13,3 @@ $wb['username_error_regex'] = 'Nama Pengguna mengandung karakter yang tidak dipe
 $wb['directory_error_empty'] = 'Direktori kosong.';
 $wb['parent_domain_id_error_empty'] = 'Tak ada situs web yang dipilih.';
 ?>
-

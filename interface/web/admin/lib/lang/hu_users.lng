@@ -1,8 +1,8 @@
 <?php
 $wb['username_txt'] = 'Felhasználónév';
-$wb['username_err'] = 'Felhasználónév túl hosszú vagy érvénytelen karaktereket tartalmaz';
-$wb['username_empty'] = 'Felhasználónév üres.';
-$wb['username_unique'] = 'Ez a felhasználónév már foglalt.';
+$wb['username_err'] = 'A Felhasználónév túl hosszú vagy érvénytelen karaktereket tartalmaz';
+$wb['username_empty'] = 'A Felhasználónév üres.';
+$wb['username_unique'] = 'Ez a Felhasználónév már foglalt.';
 $wb['passwort_txt'] = 'Jelszó';
 $wb['modules_txt'] = 'Modul';
 $wb['startmodule_txt'] = 'Kezdőmodul';
@@ -18,11 +18,12 @@ $wb['ort_txt'] = 'Város';
 $wb['plz_txt'] = 'Irányítószám';
 $wb['land_txt'] = 'Megye';
 $wb['email_txt'] = 'Email';
-$wb['url_txt'] = 'Url';
+$wb['url_txt'] = 'Webcím';
 $wb['telefon_txt'] = 'Telefon';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Csoportok';
 $wb['default_group_txt'] = 'Alapértelemezett csoport';
 $wb['startmodule_err'] = 'Kezdő modul nincs engedélyezve.';
-$wb['password_strength_txt'] = 'Jelszó erősség';
+$wb['password_strength_txt'] = 'Jelszó erőssége';
 ?>
+

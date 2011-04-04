@@ -9,9 +9,5 @@ $wb['Edit Client-Templates'] = 'Wijzig klant-template';
 $wb['Add Reseller'] = 'Toevoegen Reseller';
 $wb['Edit Reseller'] = 'Wijzigen Reseller';
 $wb['Resellers'] = 'Resellers';
-$wb["error_has_clients"] = 'Deze reseller heeft klanten. Verwijder eerst de klanten van de reseller';
-
+$wb['error_has_clients'] = 'Deze reseller heeft klanten. Verwijder eerst de klanten van de reseller';
 ?>
-
-
-

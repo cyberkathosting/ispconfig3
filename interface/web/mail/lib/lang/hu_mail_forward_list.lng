@@ -6,3 +6,4 @@ $wb['destination_txt'] = 'Címzett';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Új email továbbítás';
 ?>
+

@@ -1,11 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Firewall';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["tcp_port_txt"] = 'Open TCP poorten';
-$wb["udp_port_txt"] = 'Open UDP poorten';
-$wb["add_new_record_txt"] = 'Toevoegen Firewall record';
+$wb['list_head_txt'] = 'Firewall';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Open TCP poorten';
+$wb['udp_port_txt'] = 'Open UDP poorten';
+$wb['add_new_record_txt'] = 'Toevoegen Firewall record';
 ?>
-
-
-

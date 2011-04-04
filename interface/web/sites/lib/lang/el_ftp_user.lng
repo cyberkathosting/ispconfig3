@@ -1,0 +1,28 @@
+<?php
+$wb['uid_txt'] = 'UID';
+$wb['gid_txt'] = 'GID';
+$wb['dir_txt'] = 'Φάκελος';
+$wb['quota_files_txt'] = 'Πλήθος Αρχείων';
+$wb['quota_files_unity_txt'] = 'Αρχεία';
+$wb['ul_ratio_txt'] = 'Όριο Upload';
+$wb['dl_ratio_txt'] = 'Όριο Download';
+$wb['ul_bandwidth_txt'] = 'Ταχύτητα Upload';
+$wb['dl_bandwidth_txt'] = 'Ταχύτητα Download';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['username_txt'] = 'Όνομα Χρήστη';
+$wb['password_txt'] = 'Συνθηματικό';
+$wb['password_strength_txt'] = 'Δύναμη Συνθηματικου';
+$wb['quota_size_txt'] = 'Όριο χρήσης αποθηκευτικού χώρου';
+$wb['active_txt'] = 'Ενεργός';
+$wb['limit_ftp_user_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των χρηστών FTP για τον λογαριασμό σας.';
+$wb['username_error_empty'] = 'Το Όνομα Χρήστη δεν έχει οριστεί.';
+$wb['username_error_unique'] = 'Το Όνομα Χρήστη πρέπει να είναι μοναδικό.';
+$wb['username_error_regex'] = 'Το όνομα χρήστη περιέχει μη επιτρεπόμενους χαρακτήρες.';
+$wb['quota_size_error_empty'] = 'Το όριο δεν έχει οριστεί.';
+$wb['uid_error_empty'] = 'Το GID δεν έχει οριστεί.';
+$wb['directory_error_empty'] = 'Ο Φάκελος δεν έχει οριστεί.';
+$wb['directory_error_notinweb'] = 'Ο φάκελος δεν βρίσκεται μέσα στον ριζικό φάκελο web.';
+$wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
+?>

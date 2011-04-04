@@ -40,4 +40,3 @@ $wb['autoresponder_active'] = 'Aktifkan Penjawab Otomatis';
 $wb['cc_txt'] = 'Kirim salinan ke';
 $wb['cc_error_isemail'] = 'Kolom Kirim salinan ke tidak berisi alamat email yang valid';
 ?>
-

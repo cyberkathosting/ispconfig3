@@ -1,19 +1,16 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["type_txt"] = 'Type';
-$wb["source_server_txt"] = 'Pop3/Imap server';
-$wb["source_username_txt"] = 'Gebruikersnaam';
-$wb["source_password_txt"] = 'Wachtwoord';
-$wb["source_delete_txt"] = 'Verwijder e-mails na ontvangst';
-$wb["destination_txt"] = 'Bestemming';
-$wb["active_txt"] = 'Actief';
-$wb["limit_fetchmail_txt"] = 'Het max. aantal Fetchmail records voor uw account is bereikt.';
-$wb["source_server_error_isempty"] = 'Server is niet ingvuld.';
-$wb["source_username_error_isempty"] = 'Gebruikersnaam is niet ingvuld.';
-$wb["source_password_error_isempty"] = 'Wachtwoord is niet ingvuld.';
-$wb["destination_error_isemail"] = 'Geen bestemming geselecteerd.';
-$wb["source_server_error_regex"] = 'Pop3/Imap server is geen geldige domeinnaam.';
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Type';
+$wb['source_server_txt'] = 'Pop3/Imap server';
+$wb['source_username_txt'] = 'Gebruikersnaam';
+$wb['source_password_txt'] = 'Wachtwoord';
+$wb['source_delete_txt'] = 'Verwijder e-mails na ontvangst';
+$wb['destination_txt'] = 'Bestemming';
+$wb['active_txt'] = 'Actief';
+$wb['limit_fetchmail_txt'] = 'Het max. aantal Fetchmail records voor uw account is bereikt.';
+$wb['source_server_error_isempty'] = 'Server is niet ingvuld.';
+$wb['source_username_error_isempty'] = 'Gebruikersnaam is niet ingvuld.';
+$wb['source_password_error_isempty'] = 'Wachtwoord is niet ingvuld.';
+$wb['destination_error_isemail'] = 'Geen bestemming geselecteerd.';
+$wb['source_server_error_regex'] = 'Pop3/Imap server is geen geldige domeinnaam.';
 ?>
-
-
-

@@ -24,4 +24,5 @@ $wb['uid_error_empty'] = 'GID を指定してください。';
 $wb['directory_error_empty'] = 'ディレクトリを指定してください。';
 $wb['directory_error_notinweb'] = 'ディレクトリはウェブのルートディレクトリ以下にしてください。';
 $wb['parent_domain_id_error_empty'] = 'ウェブサイトを選択してください。';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>

@@ -635,6 +635,20 @@ $form["tabs"]['limits'] = array (
 			'separator' => ',',
 			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit')
 		),
+		'limit_webdav_user' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_webdav_user_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 		'default_dnsserver' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',

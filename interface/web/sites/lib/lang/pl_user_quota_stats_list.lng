@@ -1,9 +1,8 @@
 <?php
-$wb['list_head_txt'] = "Limit dyskowy strony";
-$wb['domain_txt'] = "Domena / Strona www";
-$wb['system_user_txt'] = "Użytkownik Linux";
-$wb['used_txt'] = "Wykorzystana przestrzeń";
-$wb['hard_txt'] = "Limit twardy";
-$wb['soft_txt'] = "Limit miękki";
+$wb['list_head_txt'] = 'Limit dyskowy strony';
+$wb['domain_txt'] = 'Domena / Strona www';
+$wb['system_user_txt'] = 'Użytkownik Linux';
+$wb['used_txt'] = 'Wykorzystana przestrzeń';
+$wb['hard_txt'] = 'Limit twardy';
+$wb['soft_txt'] = 'Limit miękki';
 ?>
-

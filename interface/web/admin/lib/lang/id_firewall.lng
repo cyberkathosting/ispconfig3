@@ -9,4 +9,3 @@ $wb['firewall_error_unique'] = 'Telah ada record firewall untuk server ini.';
 $wb['tcp_ports_error_regex'] = 'Karakter di definisi port tcp tidak diperbolehkan. Karakter yang diizinkan adalah angka, : dan ,.';
 $wb['udp_ports_error_regex'] = 'Karakter di definisi port udp tidak diperbolehkan. Karakter yang diizinkan adalah angka, : dan ,.';
 ?>
-

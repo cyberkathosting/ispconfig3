@@ -5,4 +5,3 @@ $wb['language_select_txt'] = 'Pilih bahasa';
 $wb['btn_save_txt'] = 'Gabungkan Berkas Sekarang';
 $wb['btn_cancel_txt'] = 'Kembali';
 ?>
-

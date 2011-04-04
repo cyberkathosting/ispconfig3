@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Email Catchall';
+$wb['active_txt'] = 'Ενεργό';
+$wb['source_txt'] = 'πηγή';
+$wb['destination_txt'] = 'Διεύθυνση email προορισμού';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Νέο Catchall';
+?>

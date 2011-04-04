@@ -38,4 +38,3 @@ $wb['domain_error_regex'] = 'Nama Domain tidak valid.';
 $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Path pengalihan tidak valid. Contoh pengalihan yang valid: /test/ or http://www.domain.tld/test/';
 ?>
-

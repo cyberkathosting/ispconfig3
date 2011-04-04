@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Ζώνες DNS';
+$wb['active_txt'] = 'Ενεργή';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Ζώνη';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['add_new_record_wizard_txt'] = 'Νέα ζώνη DNS με Οδηγό';
+$wb['add_new_record_txt'] = 'Νέα ζώνη DNS (χειροκίνητα)';
+?>

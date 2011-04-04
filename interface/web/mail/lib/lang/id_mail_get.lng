@@ -14,4 +14,3 @@ $wb['source_password_error_isempty'] = 'Kata Sandi kosong.';
 $wb['destination_error_isemail'] = 'Tidak ada tujuan yang dipilih.';
 $wb['source_server_error_regex'] = 'Server Pop3/Imap bukan merupakan nama domain yang valid.';
 ?>
-

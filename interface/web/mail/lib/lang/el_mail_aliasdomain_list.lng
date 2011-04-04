@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Ψευδώνυμο Domain';
+$wb['active_txt'] = 'Ενεργό';
+$wb['source_txt'] = 'Πηγή';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['add_new_record_txt'] = 'Νέο ψευδωνύμο Domain';
+?>

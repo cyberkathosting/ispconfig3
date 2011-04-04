@@ -1,0 +1,4 @@
+<?php
+$wb['list_head_txt'] = 'Ρυθμίσεις Server';
+$wb['server_name_txt'] = 'Server';
+?>

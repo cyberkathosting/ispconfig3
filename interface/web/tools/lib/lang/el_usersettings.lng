@@ -1,0 +1,8 @@
+<?php
+$wb['passwort_txt'] = 'Συνθηματικό';
+$wb['password_strength_txt'] = 'Δύναμη συνθηματικού';
+$wb['language_txt'] = 'Γλώσσα';
+$wb['password_mismatch'] = 'Το συνθηματικό στο δεύτερο πεδίο δεν ταιριάζει με το συνθηματικό στο πρώτο πεδίο.';
+$wb['Form to edit the user password and language.'] = 'Φόρμα επεξεργασίας συνθηματικού και γλώσσας';
+$wb['Settings'] = 'Ρυθμίσεις';
+?>

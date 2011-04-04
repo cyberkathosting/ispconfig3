@@ -72,4 +72,7 @@ $wb['no_flag_txt'] = 'No flag';
 $wb['save_certificate_txt'] = 'Salvar certificado';
 $wb['create_certificate_txt'] = 'Criar certificado';
 $wb['delete_certificate_txt'] = 'Deletar certificado';
+$wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
+$wb['hd_quota_error_regex'] = 'Harddisk quota: enter a -1 for unlimited or a number > 0';
+$wb['traffic_quota_error_regex'] = 'Traffic quota: enter a -1 for unlimited or a number > 0';
 ?>

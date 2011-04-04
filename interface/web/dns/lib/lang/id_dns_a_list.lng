@@ -12,4 +12,3 @@ $wb['page_txt'] = 'Halaman';
 $wb['page_of_txt'] = 'dari';
 $wb['delete_confirmation'] = 'Apakah Anda benar-benar ingin menghapus record ini?';
 ?>
-

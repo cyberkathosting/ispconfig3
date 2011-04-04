@@ -1,7 +1,3 @@
 <?php
-$wb['available_modules_txt'] = "Beschikbare modules";
+$wb['available_modules_txt'] = 'Beschikbare modules';
 ?>
-
-
-
-

@@ -1,20 +1,15 @@
 <?php
-$wb["dir_txt"] = 'Directory';
-$wb["server_id_txt"] = 'Server';
-$wb["parent_domain_id_txt"] = 'Website';
-$wb["username_txt"] = 'Gebruikersnaam';
-$wb["password_txt"] = 'Wachtwoord';
-$wb["password_strength_txt"] = 'Wachtwoord sterkte';
-$wb["active_txt"] = 'Actief';
-$wb["limit_webdav_user_txt"] = 'Het max. aantal webdav-gebruikers voor uw account is bereikt.';
-$wb["username_error_empty"] = 'Gebruikersnaam is niet ingvuld.';
-$wb["username_error_unique"] = 'De gebruikersnaam moet uniek zijn.';
-$wb["username_error_regex"] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
-$wb["directory_error_empty"] = 'Directory is niet ingvuld.';
-$wb["parent_domain_id_error_empty"] = 'Geen website geselecteerd.';
+$wb['dir_txt'] = 'Directory';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['password_txt'] = 'Wachtwoord';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
+$wb['active_txt'] = 'Actief';
+$wb['limit_webdav_user_txt'] = 'Het max. aantal webdav-gebruikers voor uw account is bereikt.';
+$wb['username_error_empty'] = 'Gebruikersnaam is niet ingvuld.';
+$wb['username_error_unique'] = 'De gebruikersnaam moet uniek zijn.';
+$wb['username_error_regex'] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
+$wb['directory_error_empty'] = 'Directory is niet ingvuld.';
+$wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
 ?>
-
-
-
-

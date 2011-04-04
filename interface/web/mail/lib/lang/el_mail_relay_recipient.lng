@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Παραλήπτης Relay';
+$wb['recipient_txt'] = 'Παραλήπτης';
+$wb['active_txt'] = 'Ενεργό';
+$wb['source_error_notempty'] = 'Η διεύθυνση είναι κενή';
+$wb['type_txt'] = 'Τύπος';
+$wb['limit_mailfilter_txt'] = 'Το μέγιστο πλήθος των φίλτρων email για τον λογαριασμό σας, εξαντλήθηκε.';
+?>

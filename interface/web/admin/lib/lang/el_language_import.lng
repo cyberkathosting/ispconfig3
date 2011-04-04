@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Εισαγωγή αρχείου γλώσσας';
+$wb['language_import_txt'] = 'Επιλογή αρχείου γλώσσας';
+$wb['btn_save_txt'] = 'Εισαγωγή του επιλεγμένου αρχείου γλώσσας';
+$wb['language_overwrite_txt'] = 'Αντικατάσταση αρχείου, αν υπάρχει.';
+$wb['btn_cancel_txt'] = 'Επιστροφή';
+$wb['ignore_version_txt'] = 'Παράλειψη ελέγχου έκδοσης ISPConfig';
+?>

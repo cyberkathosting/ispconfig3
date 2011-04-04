@@ -71,4 +71,7 @@ $wb['no_flag_txt'] = 'Žádný příznak';
 $wb['save_certificate_txt'] = 'Uložit certifikát';
 $wb['create_certificate_txt'] = 'Vytvořit certifikát';
 $wb['delete_certificate_txt'] = 'Smazat certifikát';
+$wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
+$wb['hd_quota_error_regex'] = 'Harddisk quota: enter a -1 for unlimited or a number > 0';
+$wb['traffic_quota_error_regex'] = 'Traffic quota: enter a -1 for unlimited or a number > 0';
 ?>

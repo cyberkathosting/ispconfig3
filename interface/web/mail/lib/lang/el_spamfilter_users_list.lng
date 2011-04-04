@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Χρήστες Φίλτρου Spam';
+$wb['local_txt'] = 'Τοπικός';
+$wb['server_id_txt'] = 'Server';
+$wb['priority_txt'] = 'Προτεραιότητα';
+$wb['policy_id_txt'] = 'Πολιτική';
+$wb['fullname_txt'] = 'Όνομα';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Νέος χρήστης Spamfilter';
+?>

@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Απομακρυσμένοι Χρήστες';
+$wb['list_desc_txt'] = '';
+$wb['add_new_record_txt'] = 'Νέος Χρήστης';
+$wb['parent_remote_userid_txt'] = 'ID';
+$wb['username_txt'] = 'Όνομα Χρήστη';
+?>

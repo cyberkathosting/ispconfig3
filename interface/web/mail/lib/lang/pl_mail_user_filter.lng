@@ -1,11 +1,11 @@
 <?php
-$wb['rulename_txt'] = "Nazwa";
-$wb['action_txt'] = "Akcja";
-$wb['target_txt'] = "Folder";
-$wb['active_txt'] = "Aktywny";
-$wb['rulename_error_empty'] = "Nazwa jest pusta.";
-$wb['searchterm_is_empty'] = "Szukany termin jest pusty.";
-$wb['source_txt'] = "Źródło";
-$wb['target_error_regex'] = "Cel może zawierać tylko następujące znaki: a-z, 0-9, -, ., _, oraz {spacja}";
+$wb['rulename_txt'] = 'Nazwa';
+$wb['action_txt'] = 'Akcja';
+$wb['target_txt'] = 'Folder';
+$wb['active_txt'] = 'Aktywny';
+$wb['rulename_error_empty'] = 'Nazwa jest pusta.';
+$wb['searchterm_is_empty'] = 'Szukany termin jest pusty.';
+$wb['source_txt'] = 'Źródło';
+$wb['target_error_regex'] = 'Cel może zawierać tylko następujące znaki: a-z, 0-9, -, ., _, oraz {spacja}';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 ?>
-

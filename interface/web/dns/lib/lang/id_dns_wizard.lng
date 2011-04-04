@@ -27,4 +27,3 @@ $wb['error_ns1_regex'] = 'NS1 mengandung karakter yang tidak valid.';
 $wb['error_ns2_regex'] = 'NS2 mengandung karakter yang tidak valid.';
 $wb['error_email_regex'] = 'Email tidak mengandung alamat email yang valid.';
 ?>
-

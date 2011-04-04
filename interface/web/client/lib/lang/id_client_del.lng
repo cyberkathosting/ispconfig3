@@ -4,4 +4,3 @@ $wb['delete_explanation'] = 'Tindakan ini akan menghapus sejumlah record yang te
 $wb['btn_save_txt'] = 'Hapus Klien';
 $wb['btn_cancel_txt'] = 'Batalkan Tanpa Menghapus Klien';
 ?>
-

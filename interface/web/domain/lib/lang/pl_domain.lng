@@ -1,7 +1,6 @@
 <?php
-$wb['domain_error_empty'] = "Nazwa domeny jest pusta";
-$wb['domain_error_unique'] = "Domena o podanej nazwie już istnieje";
-$wb['domain_error_regex'] = "Nazwa domeny jest niedopuszczalna";
-$wb['Domain'] = "Domena";
+$wb['domain_error_empty'] = 'Nazwa domeny jest pusta';
+$wb['domain_error_unique'] = 'Domena o podanej nazwie już istnieje';
+$wb['domain_error_regex'] = 'Nazwa domeny jest niedopuszczalna';
+$wb['Domain'] = 'Domena';
 ?>
-

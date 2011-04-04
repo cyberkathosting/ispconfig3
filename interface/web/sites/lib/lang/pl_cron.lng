@@ -1,22 +1,21 @@
 <?php
-$wb['server_id_txt'] = "Serwer";
-$wb['parent_domain_id_txt'] = "Macierzysta";
-$wb['active_txt'] = "Aktywny";
-$wb['client_txt'] = "Klient";
-$wb['run_min_txt'] = "Minuty";
-$wb['run_hour_txt'] = "Hours";
-$wb['run_mday_txt'] = "Dni w miesiącu";
-$wb['run_month_txt'] = "Miesiące";
-$wb['run_wday_txt'] = "Dni w tygodniu";
-$wb['command_txt'] = "Komenda uruchamiająca (komenda która wykona via sh, urls via wget)";
-$wb['limit_cron_txt'] = "Maksymalna ilość zadań crone została przekroczona.";
-$wb['limit_cron_frequency_txt'] = "Częstotliwość wykonywania zadań przez crone została przekroczona.";
-$wb['run_min_error_format'] = "Nieprawidłowy format minut.";
-$wb['run_hour_error_format'] = "Nieprawidłowy format godzin.";
-$wb['run_mday_error_format'] = "Niepoprawny format dni w miesiącu.";
-$wb['run_month_error_format'] = "Niepoprawny format miesięcy.";
-$wb['run_wday_error_format'] = "Niepoprawny format dni w tygodniu.";
-$wb['command_error_format'] = "Niepoprawny format polecenia. W zbiorze url może być tylko adres http/https który ma pozwolenie.";
-$wb['unknown_fieldtype_error'] = "Został użyty niepoprawny format pola.";
+$wb['server_id_txt'] = 'Serwer';
+$wb['parent_domain_id_txt'] = 'Macierzysta';
+$wb['active_txt'] = 'Aktywny';
+$wb['client_txt'] = 'Klient';
+$wb['run_min_txt'] = 'Minuty';
+$wb['run_hour_txt'] = 'Hours';
+$wb['run_mday_txt'] = 'Dni w miesiącu';
+$wb['run_month_txt'] = 'Miesiące';
+$wb['run_wday_txt'] = 'Dni w tygodniu';
+$wb['command_txt'] = 'Komenda uruchamiająca (komenda która wykona via sh, urls via wget)';
+$wb['limit_cron_txt'] = 'Maksymalna ilość zadań crone została przekroczona.';
+$wb['limit_cron_frequency_txt'] = 'Częstotliwość wykonywania zadań przez crone została przekroczona.';
+$wb['run_min_error_format'] = 'Nieprawidłowy format minut.';
+$wb['run_hour_error_format'] = 'Nieprawidłowy format godzin.';
+$wb['run_mday_error_format'] = 'Niepoprawny format dni w miesiącu.';
+$wb['run_month_error_format'] = 'Niepoprawny format miesięcy.';
+$wb['run_wday_error_format'] = 'Niepoprawny format dni w tygodniu.';
+$wb['command_error_format'] = 'Niepoprawny format polecenia. W zbiorze url może być tylko adres http/https który ma pozwolenie.';
+$wb['unknown_fieldtype_error'] = 'Został użyty niepoprawny format pola.';
 ?>
-

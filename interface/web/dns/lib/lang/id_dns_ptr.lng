@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Format Nama salah.';
 $wb['data_error_empty'] = 'Nama Host Canonical kosong';
 $wb['data_error_regex'] = 'Format Nama Host Canonical tidak valid';
 ?>
-

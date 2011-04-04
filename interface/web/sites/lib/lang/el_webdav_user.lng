@@ -1,0 +1,15 @@
+<?php
+$wb['dir_txt'] = 'Φάκελος';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['username_txt'] = 'Όνομα Χρήστη';
+$wb['password_txt'] = 'Συνθηματικό';
+$wb['password_strength_txt'] = 'Δύναμη Συνθηματικού';
+$wb['active_txt'] = 'Ενεργός';
+$wb['limit_webdav_user_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των webdav users για τον λογαριασμό σας.';
+$wb['username_error_empty'] = 'Όνομα Χρήστη δεν έχει οριστεί.';
+$wb['username_error_unique'] = 'Το Όνομα Χρήστη πρέπει να είναι μοναδικό.';
+$wb['username_error_regex'] = 'Το Όνομα Χρήστη περιέχει μη επιτρεπόμενους χαρακτήρες.';
+$wb['directory_error_empty'] = 'Ο φάκελος δεν έχει οριστεί.';
+$wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
+?>

@@ -1,11 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Shell gebruiker';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["parent_domain_id_txt"] = 'Site';
-$wb["username_txt"] = 'Gebruikersnaam';
-$wb["add_new_record_txt"] = 'Toevoegen nieuwe shell-user';
+$wb['list_head_txt'] = 'Shell gebruiker';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Site';
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['add_new_record_txt'] = 'Toevoegen nieuwe shell-user';
 ?>
-
-
-

@@ -3,4 +3,3 @@ $wb['description_txt'] = 'Keterangan';
 $wb['name_txt'] = 'Grup';
 $wb['name_err'] = 'Grup harus terdiri dari min 1, maks 30 Karakter.';
 ?>
-

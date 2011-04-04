@@ -1,10 +1,7 @@
 <?php
-$wb["list_head_txt"] = 'Samenvoegen taal';
-$wb["list_desc_txt"] = 'Voeg het geselecteerde taalbestand samen met het Engelse master taalbestand. <br />Dit voegt de nog missende strings toe van de Engelse master taalbestanden naar de geselecteerde taal.';
-$wb["language_select_txt"] = 'Selecteer taal';
+$wb['list_head_txt'] = 'Samenvoegen taal';
+$wb['list_desc_txt'] = 'Voeg het geselecteerde taalbestand samen met het Engelse master taalbestand. <br />Dit voegt de nog missende strings toe van de Engelse master taalbestanden naar de geselecteerde taal.';
+$wb['language_select_txt'] = 'Selecteer taal';
 $wb['btn_save_txt'] = 'Voeg bestanden nu samen';
 $wb['btn_cancel_txt'] = 'Terug';
 ?>
-
-
-

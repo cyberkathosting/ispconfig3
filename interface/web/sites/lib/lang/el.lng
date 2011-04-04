@@ -1,0 +1,25 @@
+<?php
+$wb['Database'] = 'Βάση Δεδομένων';
+$wb['Options'] = 'Επιλογές';
+$wb['Shell User'] = 'Χρήστης Shell';
+$wb['Domain'] = 'Domain';
+$wb['Website'] = 'Website';
+$wb['Redirect'] = 'Ανακατεύθυνση';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Subdomain για το website';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Ψευδώνυμο domain για το website';
+$wb['FTP-User'] = 'Χρήστης FTP';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Χρήστης Shell';
+$wb['Shell'] = 'Shell';
+$wb['Webdav-User'] = 'Χρήστης Webdav';
+$wb['Webdav'] = 'Webdav';
+$wb['Websites'] = 'Websites';
+$wb['Stats'] = 'Στατιστικά';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Εργασίες Cron';
+$wb['Statistics'] = 'Στατιστικά';
+$wb['Web traffic'] = 'Κίνηση Web';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+?>

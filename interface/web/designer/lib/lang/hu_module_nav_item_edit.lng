@@ -6,3 +6,4 @@ $wb['header_txt'] = 'Navi properties';
 $wb['save_txt'] = 'Save';
 $wb['cancel_txt'] = 'Cancel';
 ?>
+

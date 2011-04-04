@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Κατέβασμα emails από εξωτερικούς POP3 / IMAP servers';
+$wb['active_txt'] = 'Ενεργό';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'Εξωτερικός Server';
+$wb['source_username_txt'] = 'Όνομα Χρήστη';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['add_new_record_txt'] = 'Νέος Λογαρισμός';
+?>

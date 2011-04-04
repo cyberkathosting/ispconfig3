@@ -1,10 +1,7 @@
 <?php
-$wb["rulename_txt"] = 'Naam';
-$wb["add_new_record_txt"] = 'Toevoegen filter';
-$wb["page_txt"] = 'Pagina';
-$wb["page_of_txt"] = 'van';
-$wb["delete_confirmation"] = 'Weet u zeker dat u het mailfilter wilt verwijderen?';
+$wb['rulename_txt'] = 'Naam';
+$wb['add_new_record_txt'] = 'Toevoegen filter';
+$wb['page_txt'] = 'Pagina';
+$wb['page_of_txt'] = 'van';
+$wb['delete_confirmation'] = 'Weet u zeker dat u het mailfilter wilt verwijderen?';
 ?>
-
-
-

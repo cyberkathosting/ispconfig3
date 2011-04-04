@@ -7,7 +7,7 @@ $wb['bad_header_lover_txt'] = 'Hibás fejlécet szereti';
 $wb['bypass_virus_checks_txt'] = 'Vírus ellenőrzés';
 $wb['bypass_banned_checks_txt'] = 'Tiltottak ellenőrzése';
 $wb['bypass_header_checks_txt'] = 'Fejlécek ellenőrzése';
-$wb['virus_quarantine_to_txt'] = 'Vírus erre az email címre továbbítja';
+$wb['virus_quarantine_to_txt'] = 'Vírust erre az email címre továbbítja';
 $wb['spam_quarantine_to_txt'] = 'Spamet erre az email címre továbbítja';
 $wb['banned_quarantine_to_txt'] = 'Tiltottakat erre az email címre továbbítja';
 $wb['bad_header_quarantine_to_txt'] = 'Hibás fejéceket erre az email címre továbbítja';
@@ -36,3 +36,4 @@ $wb['spam_admin_txt'] = 'SPAM admin';
 $wb['message_size_limit_txt'] = 'Levél méret limit';
 $wb['banned_rulenames_txt'] = 'Tiltószabály nevek';
 ?>
+

@@ -1,10 +1,9 @@
 <?php
-
 $wb['template_id_txt'] = 'Template';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Klant';
-$wb["btn_save_txt"] = 'Aanmaken DNS Record';
-$wb["btn_cancel_txt"] = 'Annuleren';
+$wb['btn_save_txt'] = 'Aanmaken DNS Record';
+$wb['btn_cancel_txt'] = 'Annuleren';
 $wb['domain_txt'] = 'Domein';
 $wb['email_txt'] = 'E-mail';
 $wb['ns1_txt'] = 'NS 1';
@@ -28,6 +27,3 @@ $wb['error_ns1_regex'] = 'NS1 bevat ongeldige karakters.';
 $wb['error_ns2_regex'] = 'NS2 bevat ongeldige karakters.';
 $wb['error_email_regex'] = 'E-mail bevat geen geldig e-mailadres.';
 ?>
-
-
-

@@ -40,4 +40,3 @@ $wb['DNS rp functions'] = 'Fungsi-fungsi RP DNS';
 $wb['DNS srv functions'] = 'Fungsi-fungsi SRV DNS';
 $wb['DNS txt functions'] = 'Fungsi-fungsi TXT DNS';
 ?>
-

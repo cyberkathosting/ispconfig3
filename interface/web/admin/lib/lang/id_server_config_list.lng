@@ -2,4 +2,3 @@
 $wb['list_head_txt'] = 'Konfigurasi Server';
 $wb['server_name_txt'] = 'Server';
 ?>
-

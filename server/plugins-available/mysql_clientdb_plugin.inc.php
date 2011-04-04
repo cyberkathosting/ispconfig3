@@ -222,7 +222,7 @@ class mysql_clientdb_plugin {
 				$db_host = 'localhost';
 				mysql_query("RENAME USER '".mysql_real_escape_string($data['old']['database_user'],$link)."'@'$db_host' TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host'",$link);
 				if($data['old']['remote_access'] == 'y') {
-          $this->process_host_list('RENAME', '', $data['new']['database_user'], '', $data['new']['remote_ips'], $link, $data['new']['database_user']);
+					$this->process_host_list('RENAME', '', $data['old']['database_user'], '', $data['new']['remote_ips'], $link, $data['new']['database_user']);
 				}
 				$app->log('Renaming MySQL user: '.$data['old']['database_user'].' to '.$data['new']['database_user'],LOGLEVEL_DEBUG);
 			}

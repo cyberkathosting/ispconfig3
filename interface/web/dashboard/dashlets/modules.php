@@ -28,7 +28,9 @@ class dashlet_modules {
 					include_once('../' . $mt.'/lib/module.conf.php');
 					/* We don't want to show the dashboard */
 					if ($mt != 'dashboard') {
-						$mod[] = array(	'modules_title' 	=> $app->lng($module['title']),
+						$module_title = $app->lng($module['title']);
+						if(strlen($module_title) > 8) $module_title = substr($module_title,0,7).'..';
+						$mod[] = array(	'modules_title' 	=> $module_title,
 								'modules_startpage'	=> $module['startpage'],
 								'modules_name'  	=> $module['name']);
 					}

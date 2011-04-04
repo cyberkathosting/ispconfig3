@@ -2,13 +2,9 @@
 $wb['select_server_txt'] = 'Seleceert server';
 $wb['btn_do_txt'] = 'Actie uitvoeren';
 $wb['do_osupdate_caption'] = 'Voer een OS-update uit op de remote server';
-$wb['do_osupdate_desc'] = "Deze actie voert een 'aptitude -y upgrade' uit op de door u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>";
+$wb['do_osupdate_desc'] = 'Deze actie voert een aptitude -y upgrade uit op de door u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>';
 $wb['do_ispcupdate_caption'] = 'Voer een ISPConfig 3 - update uit op de remote server';
-$wb['do_ispcupdate_desc'] = "Deze actie voert een ISPConfig3 update uit op de soor u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>";
-$wb['action_scheduled'] = "Deze actie is ingepland om uitgevoerd te worden";
-$wb['select_all_server'] = "Alle servers";
+$wb['do_ispcupdate_desc'] = 'Deze actie voert een ISPConfig3 update uit op de soor u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>';
+$wb['action_scheduled'] = 'Deze actie is ingepland om uitgevoerd te worden';
+$wb['select_all_server'] = 'Alle servers';
 ?>
-
-
-
-

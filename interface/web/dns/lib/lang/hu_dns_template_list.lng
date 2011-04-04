@@ -1,6 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'DNS Wizard Template';
-$wb['visible_txt'] = 'Visible';
-$wb['name_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Add new record';
+$wb['visible_txt'] = 'Látható';
+$wb['name_txt'] = 'Név';
+$wb['add_new_record_txt'] = 'Új rekord';
 ?>
+

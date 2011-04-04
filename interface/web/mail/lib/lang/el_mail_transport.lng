@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Προορισμός';
+$wb['type_txt'] = 'Τύπος';
+$wb['mx_txt'] = 'Να μην γίνει lookup στον MX';
+$wb['sort_order_txt'] = 'Ταξινόμηση κατά';
+$wb['active_txt'] = 'Ενεργό';
+$wb['limit_mailrouting_txt'] = 'Το μέγιστο πλήθος των δρομολογήσεων email για τον λογαριασμό σας, εξαντλήθηκε.';
+?>

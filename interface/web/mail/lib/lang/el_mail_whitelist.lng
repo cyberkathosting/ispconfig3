@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Διεύθυνση Whitelist';
+$wb['recipient_txt'] = 'Παραλήπτης';
+$wb['active_txt'] = 'Ενεργή';
+$wb['source_error_notempty'] = 'Η διεύθυνση είναι κενή';
+$wb['type_txt'] = 'Τύπος';
+$wb['limit_mailfilter_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των φίλτρων email για τον λογαριασμό σας.';
+?>

@@ -1,20 +1,17 @@
 <?php
-$wb["email_txt"] = 'E-mail';
-$wb["spam_rewrite_score_int_txt"] = 'Herschrijf score';
-$wb["spam_redirect_score_int_txt"] = 'Redirect score';
-$wb["spam_delete_score_int_txt"] = 'Verwijder score';
-$wb["spam_rewrite_subject_txt"] = 'Herschrijf subject';
-$wb["spam_redirect_maildir_txt"] = 'Redirect mailbox';
-$wb["active_txt"] = 'Actief';
-$wb["spam_rewrite_txt"] = 'Herschrijf e-mail onderwerp boven deze score.';
-$wb["spam_redirect_txt"] = 'Redirect e-mail boven deze score naar de geselecteerde mailbox.';
-$wb["spam_delete_txt"] = 'Verwijder e-mail boven deze score.';
-$wb["disable_txt"] = 'Hint: Om een filter optie uit te schakelen, zet de score op 0.00.';
-$wb["email_error_isemail"] = 'E-mail adres is ongeldig.';
-$wb["email_error_unique"] = 'Er is al een spamfilter record voor dit e-mailadres.';
-$wb["spam_redirect_maildir_purge_txt"] = 'Leeg Maildir na';
-$wb["days_txt"] = 'dagen.';
+$wb['email_txt'] = 'E-mail';
+$wb['spam_rewrite_score_int_txt'] = 'Herschrijf score';
+$wb['spam_redirect_score_int_txt'] = 'Redirect score';
+$wb['spam_delete_score_int_txt'] = 'Verwijder score';
+$wb['spam_rewrite_subject_txt'] = 'Herschrijf subject';
+$wb['spam_redirect_maildir_txt'] = 'Redirect mailbox';
+$wb['active_txt'] = 'Actief';
+$wb['spam_rewrite_txt'] = 'Herschrijf e-mail onderwerp boven deze score.';
+$wb['spam_redirect_txt'] = 'Redirect e-mail boven deze score naar de geselecteerde mailbox.';
+$wb['spam_delete_txt'] = 'Verwijder e-mail boven deze score.';
+$wb['disable_txt'] = 'Hint: Om een filter optie uit te schakelen, zet de score op 0.00.';
+$wb['email_error_isemail'] = 'E-mail adres is ongeldig.';
+$wb['email_error_unique'] = 'Er is al een spamfilter record voor dit e-mailadres.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Leeg Maildir na';
+$wb['days_txt'] = 'dagen.';
 ?>
-
-
-

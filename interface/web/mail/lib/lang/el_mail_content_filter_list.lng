@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Έλεγχοι Postfix σε κεφαλίδες και κυρίως κείμενο';
+$wb['active_txt'] = 'Ενεργή';
+$wb['server_id_txt'] = 'Server';
+$wb['pattern_txt'] = 'Μοτίβο';
+$wb['action_txt'] = 'Ενέργεια';
+$wb['add_new_record_txt'] = 'Νέο φίλτρο περιεχομένου';
+?>

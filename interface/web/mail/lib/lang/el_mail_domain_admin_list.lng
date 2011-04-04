@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Email Domain';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Νέο Domain';
+$wb['active_txt'] = 'Ενεργό';
+$wb['sys_groupid_txt'] = 'Πελάτης';
+?>

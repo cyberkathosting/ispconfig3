@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'Email';
+$wb['spam_rewrite_score_int_txt'] = 'Σκορ Επανεγγαφής';
+$wb['spam_redirect_score_int_txt'] = 'Σκορ Ανακατεύθυνσης';
+$wb['spam_delete_score_int_txt'] = 'Σκορ Διαγραφής';
+$wb['spam_rewrite_subject_txt'] = 'Επανεγγαφή τίτλου';
+$wb['spam_redirect_maildir_txt'] = 'Ανακατεύθυνση θυρίδας';
+$wb['active_txt'] = 'Ενεργό';
+$wb['spam_rewrite_txt'] = 'Επανεγγαφή τίτλου πάνω από αυτό το σκορ.';
+$wb['spam_redirect_txt'] = 'Ανακατεύθυνση email με μεγαλύτερο σκορ σε αυτή την θυρίδα.';
+$wb['spam_delete_txt'] = 'Διαγραφή email με μεγαλύτερο σκορ';
+$wb['disable_txt'] = 'Σημείωση: Για να απενεργοποιήσετε μια επιλογή φίλτρου, βάλτε για σκορ 0.00.';
+$wb['email_error_isemail'] = 'Η διεύθυνση Email δεν είναι έγκυρη.';
+$wb['email_error_unique'] = 'Υπάρχει ήδη μια εγγραφή φίλτρου spam για αυτό το email.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Εκκαθάριση φακέλου mail μετά';
+$wb['days_txt'] = 'Ημέρες.';
+?>

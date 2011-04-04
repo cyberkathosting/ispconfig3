@@ -24,4 +24,5 @@ $wb['directory_error_empty'] = 'Directorio vacío';
 $wb['quota_files_unity_txt'] = 'Ficheros';
 $wb['directory_error_notinweb'] = 'El directorio no está dentro del directorio web raíz.';
 $wb['parent_domain_id_error_empty'] = 'No se ha seleccionado un sitio web.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>

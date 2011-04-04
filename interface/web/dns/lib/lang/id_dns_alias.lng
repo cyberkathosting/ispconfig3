@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Format Nama Host salah.';
 $wb['data_error_empty'] = 'Nama Host Target kosong';
 $wb['data_error_regex'] = 'Format Nama Host Target tidak valid';
 ?>
-

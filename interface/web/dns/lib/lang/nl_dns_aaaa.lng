@@ -1,18 +1,15 @@
 <?php
-$wb["server_id_txt"] = 'Server';
-$wb["zone_txt"] = 'Zone';
-$wb["name_txt"] = 'Hostnaam';
-$wb["type_txt"] = 'type';
-$wb["data_txt"] = 'IPv6-adres';
-$wb["ttl_txt"] = 'TTL';
-$wb["active_txt"] = 'Actief';
-$wb["limit_dns_record_txt"] = 'Het max. number of DNS records voor uw account is bereikt.';
-$wb["no_zone_perm"] = 'U heeft geen toestemming om een record toe te voegen aan deze DNS zone.';
-$wb["name_error_empty"] = 'De hostnaam is niet ingvuld';
-$wb["name_error_regex"] = 'De hostnaam heeft een onjuist formaat.';
-$wb["data_error_empty"] = 'IP-adres is niet ingevuld';
-$wb["data_error_regex"] = 'IP-adres formaat ongeldig';
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Hostnaam';
+$wb['type_txt'] = 'type';
+$wb['data_txt'] = 'IPv6-adres';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Actief';
+$wb['limit_dns_record_txt'] = 'Het max. number of DNS records voor uw account is bereikt.';
+$wb['no_zone_perm'] = 'U heeft geen toestemming om een record toe te voegen aan deze DNS zone.';
+$wb['name_error_empty'] = 'De hostnaam is niet ingvuld';
+$wb['name_error_regex'] = 'De hostnaam heeft een onjuist formaat.';
+$wb['data_error_empty'] = 'IP-adres is niet ingevuld';
+$wb['data_error_regex'] = 'IP-adres formaat ongeldig';
 ?>
-
-
-

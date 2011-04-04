@@ -7,6 +7,7 @@ $wb['rulename_error_empty'] = 'Název je prázdný.';
 $wb['searchterm_is_empty'] = 'Vyhledávací řádek je prázdný.';
 $wb['source_txt'] = 'Zdroj';
 $wb['target_error_regex'] = 'Cíl může obsahovat jen tyto znaky: a-z, 0-9, -, ., _, a {mezeru}';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 $wb['subject_txt'] = 'Předmět';
 $wb['from_txt'] = 'Odesílatel';
 $wb['to_txt'] = 'Adresát';

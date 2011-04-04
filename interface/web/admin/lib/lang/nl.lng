@@ -1,12 +1,11 @@
 <?php
-
-$wb[1001]	= "Gebruikersnaam of wachtwoord is niet ingvuld.";
-$wb[1002]	= "Gebruikersnaam of wachtwoord is niet ingvuld.";
+$wb['1001'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
+$wb['1002'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Groepen';
 $wb['groups_description'] = 'Formulier om systeemgebruiker groepen te wijzigen.';
-$wb['Server']	= 'Server';
-$wb['Services']	= 'Services';
+$wb['Server'] = 'Server';
+$wb['Services'] = 'Services';
 $wb['Config'] = 'Config';
 $wb['Server Config'] = 'Server Config';
 $wb['Mail'] = 'Mail';
@@ -20,7 +19,6 @@ $wb['Edit user'] = 'Wijzigen gebruiker';
 $wb['CP Users'] = 'CP Gebruikers';
 $wb['Add group'] = 'Toevoegen groep';
 $wb['Edit group'] = 'Wijzigen groep';
-$wb['Groups'] = 'Groepen';
 $wb['Edit server'] = 'Wijzigen server';
 $wb['Edit Server IP'] = 'Server IP adressen';
 $wb['Servers'] = 'Servers';
@@ -43,6 +41,3 @@ $wb['Remote Actions'] = 'Remote acties';
 $wb['Do OS-Update'] = 'Voer een OS-Update uit';
 $wb['Do ISPConfig-Update'] = 'Voer een ISPConfig-update uit';
 ?>
-
-
-

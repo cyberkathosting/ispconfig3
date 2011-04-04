@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Πολιτική Spamfilter';
+$wb['policy_name_txt'] = 'Όνομα';
+$wb['virus_lover_txt'] = 'Αποδοχή Ιών';
+$wb['spam_lover_txt'] = 'Αποδοχή Spam';
+$wb['banned_files_lover_txt'] = 'Αποδοχή μπλοκαρισμένων αρχείων';
+$wb['bad_header_lover_txt'] = 'Αποδοχή κακών κεφαλίδων';
+$wb['add_new_record_txt'] = 'Νέα εγγραφή Πολιτικής';
+?>

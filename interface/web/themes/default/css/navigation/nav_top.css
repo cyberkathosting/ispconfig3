@@ -102,5 +102,9 @@
 	.topnav-vm{
 		background-image: url('../../icons/x32/drawer.png') !important;
 	}
+	
+	.topnav-billing{
+		background-image: url('../../icons/x32/calculator.png') !important;
+	}
 
 }

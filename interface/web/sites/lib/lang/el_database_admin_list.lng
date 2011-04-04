@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Βάση Δεδομένων';
+$wb['active_txt'] = 'Ενεργή';
+$wb['remote_access_txt'] = 'Απομακρυσμένη Πρόσβαση';
+$wb['server_id_txt'] = 'Server';
+$wb['database_user_txt'] = 'Όνομα χρήστη';
+$wb['database_name_txt'] = 'Όνομα βάσης';
+$wb['add_new_record_txt'] = 'Νέα βάση δεδομένων';
+$wb['sys_groupid_txt'] = 'Πελάτης';
+?>

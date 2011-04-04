@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Shell felhasználó';
+$wb['list_head_txt'] = 'Shell Felhasználó';
 $wb['active_txt'] = 'Aktív';
 $wb['server_id_txt'] = 'Szerver';
-$wb['parent_domain_id_txt'] = 'Weboldal';
+$wb['parent_domain_id_txt'] = 'Webhely';
 $wb['username_txt'] = 'Felhasználónév';
-$wb['add_new_record_txt'] = 'Új Shell felhasználó';
+$wb['add_new_record_txt'] = 'Új Shell Felhasználó';
 ?>
+

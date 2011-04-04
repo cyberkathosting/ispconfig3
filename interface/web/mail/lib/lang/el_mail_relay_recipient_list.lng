@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Παραλήπτες Relay';
+$wb['active_txt'] = 'Ενεργός';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Διεύθυνση παραλήπτη';
+$wb['recipient_txt'] = 'Παραλήπτης';
+$wb['add_new_record_txt'] = 'Νέος παραλήπτης relay';
+$wb['access_txt'] = 'πρόσβαση';
+?>

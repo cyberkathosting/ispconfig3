@@ -1,11 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Website harddisk quota';
-$wb["domain_txt"] = 'Domain / Website';
-$wb["system_user_txt"] = 'Linux gebruiker';
-$wb["used_txt"] = 'Gebruikte ruimte';
-$wb["hard_txt"] = 'Harde limiet';
-$wb["soft_txt"] = 'Zachte limiet';
+$wb['list_head_txt'] = 'Website harddisk quota';
+$wb['domain_txt'] = 'Domain / Website';
+$wb['system_user_txt'] = 'Linux gebruiker';
+$wb['used_txt'] = 'Gebruikte ruimte';
+$wb['hard_txt'] = 'Harde limiet';
+$wb['soft_txt'] = 'Zachte limiet';
 ?>
-
-
-

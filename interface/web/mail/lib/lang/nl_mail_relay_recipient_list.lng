@@ -1,12 +1,9 @@
 <?php
-$wb["list_head_txt"] = 'Relay ontvangers';
-$wb["active_txt"] = 'Actief';
-$wb["server_id_txt"] = 'Server';
-$wb["source_txt"] = 'Ontvanger adres';
-$wb["recipient_txt"] = 'Ontvanger';
-$wb["add_new_record_txt"] = 'Toevoegen nieuw relay ontvanger';
-$wb["access_txt"] = 'toegang';
+$wb['list_head_txt'] = 'Relay ontvangers';
+$wb['active_txt'] = 'Actief';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Ontvanger adres';
+$wb['recipient_txt'] = 'Ontvanger';
+$wb['add_new_record_txt'] = 'Toevoegen nieuw relay ontvanger';
+$wb['access_txt'] = 'toegang';
 ?>
-
-
-

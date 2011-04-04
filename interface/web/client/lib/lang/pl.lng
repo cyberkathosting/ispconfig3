@@ -1,14 +1,13 @@
 <?php
-$wb['Client'] = "Klient";
-$wb['Address'] = "Adres";
-$wb['Limits'] = "Limity";
-$wb['Add Client'] = "Dodaj klienta";
-$wb['Edit Client'] = "Edytuj klienta";
-$wb['Clients'] = "Klienci";
-$wb['Edit Client-Templates'] = "Edytuj szablony klientów";
-$wb['Add Reseller'] = "Dodaj Resellera";
-$wb['Edit Reseller'] = "Edytuj Resellera";
-$wb['Resellers'] = "Resellerzy";
-$wb['error_has_clients'] = "Reseller posiada klientów. Usuń ich zanim usuniesz resellera.";
+$wb['Client'] = 'Klient';
+$wb['Address'] = 'Adres';
+$wb['Limits'] = 'Limity';
+$wb['Add Client'] = 'Dodaj klienta';
+$wb['Edit Client'] = 'Edytuj klienta';
+$wb['Clients'] = 'Klienci';
+$wb['Edit Client-Templates'] = 'Edytuj szablony klientów';
+$wb['Add Reseller'] = 'Dodaj Resellera';
+$wb['Edit Reseller'] = 'Edytuj Resellera';
+$wb['Resellers'] = 'Resellerzy';
+$wb['error_has_clients'] = 'Reseller posiada klientów. Usuń ich zanim usuniesz resellera.';
 ?>
-

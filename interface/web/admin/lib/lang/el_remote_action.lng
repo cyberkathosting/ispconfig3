@@ -1,0 +1,10 @@
+<?php
+$wb['select_server_txt'] = 'Επιλογή Server';
+$wb['btn_do_txt'] = 'Εκτέλεση ενέργειας';
+$wb['do_osupdate_caption'] = 'Εκκίνηση αναβάθμισης λειτουργικού συστήματος στον απομακρυσμένο server';
+$wb['do_osupdate_desc'] = 'Αυτή η ενέργεια εκτελεί την εντολή aptitude -y upgrade στον επιλεγμένο σας server.<br><br><strong>ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</strong>';
+$wb['do_ispcupdate_caption'] = 'Εκκίνηση αναβάθμισης ISPConfig 3 στον απομακρυσμένο server';
+$wb['do_ispcupdate_desc'] = 'Αυτή η ενέργεια κάνει αναβάθμιση στο ISPConfig3 στον επιλεγμένο σας server.<br><br><strong>ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</strong>';
+$wb['action_scheduled'] = 'Η ενέργεια προγραμματίστηκε για εκτέλεση';
+$wb['select_all_server'] = 'Σε όλους τους servers';
+?>

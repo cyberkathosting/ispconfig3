@@ -1,0 +1,7 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['ip_address_txt'] = 'Διεύθυνση IP';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_error_wrong'] = 'Η Διεύθυνση IP είναι άκυρη';
+$wb['ip_error_unique'] = 'Η Διεύθυνση IP πρέπει να είναι μοναδική';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Φίλτρο';
+$wb['pattern_txt'] = 'Regexp. Μοτίβο';
+$wb['data_txt'] = 'Δεδομένα';
+$wb['action_txt'] = 'Ενέργεια';
+$wb['active_txt'] = 'Ενεργό';
+$wb['pattern_error_empty'] = 'Το μοτίβο δεν έχει οριστεί.';
+?>

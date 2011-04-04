@@ -24,4 +24,5 @@ $wb['directory_error_empty'] = 'Le répertoire est vide.';
 $wb['quota_files_unity_txt'] = 'Fichiers';
 $wb['directory_error_notinweb'] = 'Le répertoire nest pas dans la racine web.';
 $wb['parent_domain_id_error_empty'] = 'Pas de site web sélectionné.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>

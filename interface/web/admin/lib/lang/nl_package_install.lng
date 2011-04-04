@@ -1,10 +1,7 @@
 <?php
-$wb["repo_name_txt"] = 'Repository';
-$wb["repo_url_txt"] = 'URL';
-$wb["repo_username_txt"] = 'Gebruiker (optionieel)';
-$wb["repo_password_txt"] = 'Wachtwoord (optionieel)';
-$wb["active_txt"] = 'Actief';
+$wb['repo_name_txt'] = 'Repository';
+$wb['repo_url_txt'] = 'URL';
+$wb['repo_username_txt'] = 'Gebruiker (optionieel)';
+$wb['repo_password_txt'] = 'Wachtwoord (optionieel)';
+$wb['active_txt'] = 'Actief';
 ?>
-
-
-

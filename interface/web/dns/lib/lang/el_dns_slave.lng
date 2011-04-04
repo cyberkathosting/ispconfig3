@@ -1,0 +1,14 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Ζώνη DNS';
+$wb['ns_txt'] = 'NS';
+$wb['active_txt'] = 'Ενεργή';
+$wb['limit_dns_slave_zone_txt'] = 'Το μέγιστο πλήθος των δευτερεύουσων ζωνών DNS για τον λογαριασμό σας, εξαντλήθηκε.';
+$wb['client_txt'] = 'Πελάτης';
+$wb['xfer_txt'] = 'Άδεια μεταφοράς ζώνης σε <br />αυτές τις IP (λίστα χωρισμένη με κόμμα)';
+$wb['server_id_error_empty'] = 'Δεν επιλέχθηκε server';
+$wb['origin_error_empty'] = 'Η ζώνη είναι κενή.';
+$wb['origin_error_unique'] = 'Υπάρχει ήδη μια εγγραφή για αυτή την ζώνη.';
+$wb['origin_error_regex'] = 'Η ζώνη δεν έχει έγκυρη μορφοποίηση.';
+$wb['ns_error_regex'] = 'Ο NS δεν έχει έγκυρη μορφοποίηση.';
+?>

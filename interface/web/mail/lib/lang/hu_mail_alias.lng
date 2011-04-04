@@ -8,4 +8,6 @@ $wb['no_domain_perm'] = 'Nincs joga ehhez a domainhoz.';
 $wb['destination_error_isemail'] = 'Címzett email címe érvénytelen';
 $wb['limit_mailalias_txt'] = 'Nincs több alias lehetőség.';
 $wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+$wb['domain_txt'] = 'Domain';
 ?>
+

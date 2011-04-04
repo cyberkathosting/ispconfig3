@@ -7,4 +7,3 @@ $wb['source_error_notempty'] = 'Alamat kosong.';
 $wb['type_txt'] = 'Tipe';
 $wb['limit_mailfilter_txt'] = 'Jumlah maks penyaringan email untuk akun Anda telah tercapai.';
 ?>
-

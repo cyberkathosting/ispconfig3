@@ -6,4 +6,3 @@ $wb['dbtable_txt'] = 'Tabel DB';
 $wb['action_txt'] = 'Tindakan';
 $wb['status_txt'] = 'Status';
 ?>
-

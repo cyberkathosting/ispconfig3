@@ -1,32 +1,28 @@
 <?php
-$wb["username_txt"] = 'Gebruikersnaam';
-$wb["username_err"] = 'De gebruikersnaam is te lang of bevat ongeldige karakters.';
-$wb["username_empty"] = 'De gebruikersnaam is niet ingvuld.';
-$wb["username_unique"] = 'Er is al een een gebruiker met deze gebruikersnaam.';
-$wb["passwort_txt"] = 'Wachtwoord';
-$wb["password_strength_txt"] = 'Wachtwoord sterkte';
-$wb["modules_txt"] = 'Module';
-$wb["startmodule_txt"] = 'Startmodule';
-$wb["app_theme_txt"] = 'Ontwerp';
-$wb["typ_txt"] = 'Type';
-$wb["active_txt"] = 'Actief';
-$wb["language_txt"] = 'Taal';
-$wb["name_txt"] = 'Naam';
-$wb["vorname_txt"] = 'Voornaam';
-$wb["unternehmen_txt"] = 'Bedrijfsnaam';
-$wb["strasse_txt"] = 'Adres';
-$wb["ort_txt"] = 'Plaatsnaam';
-$wb["plz_txt"] = 'Postcode/ZIP';
-$wb["land_txt"] = 'Land';
-$wb["email_txt"] = 'E-mail';
-$wb["url_txt"] = 'Url';
-$wb["telefon_txt"] = 'Telefoon';
-$wb["fax_txt"] = 'Fax';
-$wb["groups_txt"] = 'Groepen';
-$wb["default_group_txt"] = 'Standaard groep';
-$wb["startmodule_err"] = 'Start module maakt geen deel uit van de geselecteerde modules.';
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['username_err'] = 'De gebruikersnaam is te lang of bevat ongeldige karakters.';
+$wb['username_empty'] = 'De gebruikersnaam is niet ingvuld.';
+$wb['username_unique'] = 'Er is al een een gebruiker met deze gebruikersnaam.';
+$wb['passwort_txt'] = 'Wachtwoord';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
+$wb['modules_txt'] = 'Module';
+$wb['startmodule_txt'] = 'Startmodule';
+$wb['app_theme_txt'] = 'Ontwerp';
+$wb['typ_txt'] = 'Type';
+$wb['active_txt'] = 'Actief';
+$wb['language_txt'] = 'Taal';
+$wb['name_txt'] = 'Naam';
+$wb['vorname_txt'] = 'Voornaam';
+$wb['unternehmen_txt'] = 'Bedrijfsnaam';
+$wb['strasse_txt'] = 'Adres';
+$wb['ort_txt'] = 'Plaatsnaam';
+$wb['plz_txt'] = 'Postcode/ZIP';
+$wb['land_txt'] = 'Land';
+$wb['email_txt'] = 'E-mail';
+$wb['url_txt'] = 'Url';
+$wb['telefon_txt'] = 'Telefoon';
+$wb['fax_txt'] = 'Fax';
+$wb['groups_txt'] = 'Groepen';
+$wb['default_group_txt'] = 'Standaard groep';
+$wb['startmodule_err'] = 'Start module maakt geen deel uit van de geselecteerde modules.';
 ?>
-
-
-
-

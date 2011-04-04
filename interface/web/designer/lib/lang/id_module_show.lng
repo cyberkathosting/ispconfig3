@@ -14,4 +14,3 @@ $wb['module_del_txt'] = 'Apakah Anda ingin menghapus modul dan semua berkas dan 
 $wb['menu_del_txt'] = 'Apakah Anda ingin menghapus menu dan semua sub-entrinya?';
 $wb['item_del_txt'] = 'Apakah Anda ingin menghapus item menu?';
 ?>
-

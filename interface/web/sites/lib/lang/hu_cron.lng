@@ -1,14 +1,14 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Parent website';
-$wb['active_txt'] = 'Active';
-$wb['client_txt'] = 'Client';
-$wb['run_min_txt'] = 'Minutes';
-$wb['run_hour_txt'] = 'Hours';
-$wb['run_mday_txt'] = 'Days of month';
-$wb['run_month_txt'] = 'Months';
-$wb['run_wday_txt'] = 'Days of week';
-$wb['command_txt'] = 'Command to run (commands are executed via sh, urls via wget)';
+$wb['server_id_txt'] = 'Szerver';
+$wb['parent_domain_id_txt'] = 'Szülő webhely';
+$wb['active_txt'] = 'Aktív';
+$wb['client_txt'] = 'Ügyfél';
+$wb['run_min_txt'] = 'Perc';
+$wb['run_hour_txt'] = 'Óra';
+$wb['run_mday_txt'] = 'A hónap napja';
+$wb['run_month_txt'] = 'Hónap';
+$wb['run_wday_txt'] = 'A hét napja';
+$wb['command_txt'] = 'Futtatandó parancs (A parancsok sh-val, az url-ek wget-tel)';
 $wb['limit_cron_txt'] = 'The maximum number of allowed cron jobs was reached.';
 $wb['limit_cron_frequency_txt'] = 'The cron job frequency exceeds the allowed limit.';
 $wb['run_min_error_format'] = 'Invalid format for minutes.';
@@ -19,3 +19,4 @@ $wb['run_wday_error_format'] = 'Invalid format for days of the week.';
 $wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
 $wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
 ?>
+

@@ -12,4 +12,3 @@ $wb['origin_error_unique'] = 'Sudah ada record untuk zona ini.';
 $wb['origin_error_regex'] = 'Zona memiliki format yang tidak valid.';
 $wb['ns_error_regex'] = 'NS memiliki format yang tidak valid.';
 ?>
-

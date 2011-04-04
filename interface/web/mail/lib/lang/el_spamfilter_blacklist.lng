@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Θυρίδα Χρήστη';
+$wb['email_txt'] = 'Email';
+$wb['priority_txt'] = 'Προτεραιότητα';
+$wb['active_txt'] = 'Ενεργό';
+$wb['limit_spamfilter_wblist_txt'] = 'Το μέγιστο πλήθος των Whitelist ή Blacklist εγγραφών για τον λογαριασμό σας, έχει εξαντληθεί.';
+?>

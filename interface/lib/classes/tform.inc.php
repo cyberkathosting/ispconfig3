@@ -163,7 +163,8 @@ class tform {
         * @return record
         */
         function decode($record,$tab) {
-                if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
+                global $conf, $app;
+				if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
                 $new_record = '';
 				if(is_array($record)) {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
@@ -198,7 +199,7 @@ class tform {
                                 break;
 
                                 case 'CURRENCY':
-                                        $new_record[$key] = number_format((double)$record[$key], 2, ',', '');
+                                        $new_record[$key] = $app->functions->currency_format($record[$key]);
                                 break;
 
                                 default:
@@ -623,11 +624,18 @@ class tform {
                                 break;
 								case 'DATE':
                                         if($record[$key] != '' && $record[$key] != '0000-00-00') {
-												$date_parts = date_parse_from_format($this->dateformat,$record[$key]);
-												//list($tag,$monat,$jahr) = explode('.',$record[$key]);
-                                                $new_record[$key] = $date_parts['year'].'-'.$date_parts['month'].'-'.$date_parts['day'];
-												//$tmp = strptime($record[$key],$this->dateformat);
-												//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
+												if(function_exists('date_parse_from_format')) {
+													$date_parts = date_parse_from_format($this->dateformat,$record[$key]);
+													//list($tag,$monat,$jahr) = explode('.',$record[$key]);
+													$new_record[$key] = $date_parts['year'].'-'.$date_parts['month'].'-'.$date_parts['day'];
+													//$tmp = strptime($record[$key],$this->dateformat);
+													//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
+												} else {
+													//$tmp = strptime($record[$key],$this->dateformat);
+													//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
+													$tmp = strtotime($record[$key]);
+													$new_record[$key] = date('Y-m-d',$tmp);
+												}
                                         } else {
 											$new_record[$key] = '0000-00-00';
 										}

@@ -163,7 +163,7 @@ class app {
 			//* Load module wordbook, if it exists
 			if(isset($_SESSION['s']['module']['name']) && isset($_SESSION['s']['language'])) {
 				$lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng';
-				if(!file_exists(ISPC_ROOT_PATH.$lng_file)) $lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
+				if(!file_exists(ISPC_ROOT_PATH.'/'.$lng_file)) $lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
 				$this->load_language_file($lng_file);
 			}
 			$this->_language_inc = 1;
@@ -183,7 +183,7 @@ class app {
 		$filename = ISPC_ROOT_PATH.'/'.$filename;
 		if(substr($filename,-4) != '.lng') $this->error('Language file has wrong extension.');
 		if(file_exists($filename)) {
-			@include_once($filename);
+			@include($filename);
 			if(is_array($wb)) {
 				if(is_array($this->_wb)) {
 					$this->_wb = array_merge($this->_wb,$wb);

@@ -59,12 +59,17 @@ function applyClientTemplates($clientId){
 			/* maybe the template is deleted in the meantime */
 			if (is_array($addLimits)){
 				foreach($addLimits as $k => $v){
-					if ($limits[$k] > -1){
-						if ($v == -1) {
-							$limits[$k] = -1;
-						}
-						else {
-							$limits[$k] += $v;
+					if($k == 'limit_cron_type') {
+						$limits[$k] = $v;
+					} elseif($k == 'limit_cron_frequency') {
+						if($v < $limits[$k]) $limits[$k] = $v;
+					} else {
+						if ($limits[$k] > -1){
+							if ($v == -1) {
+								$limits[$k] = -1;
+							} else {
+								$limits[$k] += $v;
+							}
 						}
 					}
 				}

@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Tindakan';
 $wb['active_txt'] = 'Aktif';
 $wb['pattern_error_empty'] = 'Pola kosong.';
 ?>
-

@@ -1,0 +1,7 @@
+<?php
+$wb['rulename_txt'] = 'Όνομα';
+$wb['add_new_record_txt'] = 'Νέο φίλτρο';
+$wb['page_txt'] = 'Σελίδα';
+$wb['page_of_txt'] = 'από';
+$wb['delete_confirmation'] = 'Θέλετε οπωσδήποτε να διαγράψετε το φίλτρο mail;';
+?>

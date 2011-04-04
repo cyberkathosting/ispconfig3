@@ -129,11 +129,11 @@ class page_action extends tform_actions {
 				$this->dataRecord["server_id"] = $client["default_dnsserver"];
 				
 				// Check if the user may add anoter secondary domain.
-				if($client["limit_slave_dns_zone"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE sys_groupid = $client_group_id");
-					if($tmp["number"] >= $client["limit_dns_slave_zone"]) {
-						$app->error($app->tform->wordbook["limit_dns_slave_zone_txt"]);
-					}
+				if(!$app->tform->checkClientLimit('limit_dns_slave_zone')) {
+					$app->error($app->tform->wordbook["limit_dns_slave_zone_txt"]);
+				}
+				if(!$app->tform->checkResellerLimit('limit_dns_slave_zone')) {
+					$app->error('Reseller: '.$app->tform->wordbook["limit_dns_slave_zone_txt"]);
 				}
 			}
 		}

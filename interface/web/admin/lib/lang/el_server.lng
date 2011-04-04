@@ -1,0 +1,13 @@
+<?php
+$wb['config_txt'] = 'Ρυθμίσεις';
+$wb['server_name_txt'] = 'Όνομα Server';
+$wb['mail_server_txt'] = 'Mailserver';
+$wb['web_server_txt'] = 'Webserver';
+$wb['dns_server_txt'] = 'DNS-Server';
+$wb['file_server_txt'] = 'Fileserver';
+$wb['db_server_txt'] = 'DB-Server';
+$wb['vserver_server_txt'] = 'VServer-Server';
+$wb['active_txt'] = 'Ενεργός';
+$wb['mirror_server_id_txt'] = 'Είναι mirror του Server';
+$wb['- None -'] = '- Κανενός -';
+?>

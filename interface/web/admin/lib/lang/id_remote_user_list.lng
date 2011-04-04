@@ -5,4 +5,3 @@ $wb['add_new_record_txt'] = 'Tambah pengguna baru';
 $wb['parent_remote_userid_txt'] = 'ID';
 $wb['username_txt'] = 'Nama Pengguna';
 ?>
-

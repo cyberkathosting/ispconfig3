@@ -143,7 +143,3 @@ $wb['monitor_serverstate_beancountererror_txt'] = 'In de beancounter bevinden zi
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'Deze server is geen OpenVz VE en heeft daarom geen beancounter informatie';
 ?>
-
-
-
-

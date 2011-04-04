@@ -7,6 +7,7 @@ $wb['rulename_error_empty'] = 'Nome está em branco.';
 $wb['searchterm_is_empty'] = 'Termo de busca em branco.';
 $wb['source_txt'] = 'Origem';
 $wb['target_error_regex'] = 'O alvo não pode conter os caracteres: a-z, 0-9, -, ., _, e {espaço}';
+$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 $wb['limit_mailfilter_txt'] = 'Número máximo de filtros de correio foi atingido.';
 $wb['subject_txt'] = 'Assunto';
 $wb['from_txt'] = 'De';
