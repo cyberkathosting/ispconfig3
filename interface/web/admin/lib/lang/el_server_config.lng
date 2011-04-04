@@ -74,4 +74,6 @@ $wb['named_conf_local_path_txt'] = 'Διαδρομή του named.conf.local τ�
 $wb['php_ini_path_cgi_txt'] = 'Διαδρομή του php.ini για CGI';
 $wb['php_ini_path_apache_txt'] = 'Διαδρομή του php.ini για Apache';
 $wb['check_apache_config_txt'] = 'Έλεγχος των ρυθμίσεων του apache ή επαννεκίνηση';
+$wb["CA_path_txt"] = 'CA Path';
+$wb["CA_pass_txt"] = 'CA passphrase';
 ?>
