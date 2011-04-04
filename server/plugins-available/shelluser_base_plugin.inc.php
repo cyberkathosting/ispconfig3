@@ -88,6 +88,12 @@ class shelluser_base_plugin {
 				exec($command);
 				$app->log("Executed command: ".$command,LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'],LOGLEVEL_DEBUG);
+								
+				// call the ssh-rsa update function
+				$app->uses("getconf");
+				$this->data = $data;
+				$this->app = $app;
+				$this->_setup_ssh_rsa();
 				
 				//* Create .bash_history file
 				touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
@@ -134,7 +140,12 @@ class shelluser_base_plugin {
 					exec($command);
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
-					
+									
+					// call the ssh-rsa update function
+					$app->uses("getconf");
+					$this->data = $data;
+					$this->app = $app;
+					$this->_setup_ssh_rsa();
 					
 					//* Create .bash_history file
 					if(!is_file($data['new']['dir']).'/.bash_history') {
@@ -183,7 +194,63 @@ class shelluser_base_plugin {
 		
 	}
 	
-	
+	function _setup_ssh_rsa() {
+
+			// ssh-rsa authentication variables
+			$sshrsa = escapeshellcmd($this->data['new']['ssh_rsa']);
+			$usrdir = escapeshellcmd($this->data['new']['dir']);
+			$sshdir = escapeshellcmd($this->data['new']['dir']).'/.ssh';
+			$sshkeys= escapeshellcmd($this->data['new']['dir']).'/.ssh/authorized_keys';
+			global $app;
+			
+			// determine the client id
+			$id = $this->data['new']['sys_groupid'];
+			if ($id>0) $id = $id -1;
+			
+			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id  = ".$id);
+			$userkey = $user['ssh_rsa'];
+			$username= $user['username'];
+			
+			// If this user has no key yet, generate a pair
+			if ($userkey == '') 
+			{
+				//Generate ssh-rsa-keys
+				exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
+				
+				$privatekey = file_get_contents('/tmp/id_rsa');
+				$publickey  = file_get_contents('/tmp/id_rsa.pub');
+				
+				exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+				
+				// Set the missing keypair
+				$app->db->query("UPDATE sys_user SET id_rsa='$privatekey' ,ssh_rsa='$publickey' WHERE client_id = ".$id);
+				$userkey = $publickey;
+				
+				$this->app->log("ssh-rsa keypair generated for ".$username,LOGLEVEL_DEBUG);
+			
+			};
+			
+			if (!file_exists($sshkeys))
+			{
+				// add root's key
+				exec("mkdir '$sshdir'");
+				exec("cat /root/.ssh/authorized_keys > '$sshkeys'");
+				exec("echo '' >> '$sshkeys'");
+			
+				// add the user's key
+				exec("echo '$userkey' >> '$sshkeys'");
+				exec("echo '' >> '$sshkeys'");
+			}
+			// add the custom key 
+			exec("echo '$sshrsa' >> '$sshkeys'");
+			exec("echo '' >> '$sshkeys'");
+			
+			// set proper file permissions
+			exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$usrdir);
+			exec("chmod 600 '$sshkeys'");
+			
+			$this->app->log("ssh-rsa key added to ".$sshkeys,LOGLEVEL_DEBUG);
+	}
 	
 
 } // end class

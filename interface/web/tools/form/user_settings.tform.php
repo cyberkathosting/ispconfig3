@@ -133,6 +133,26 @@ $form['tabs']['users'] = array (
 			'maxlength'	=> '2',
 			'rows'		=> '',
 			'cols'		=> ''
+		),
+		'id_rsa' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT id_rsa FROM sys_user WHERE {AUTHSQL}',
+										'valuefield'=> 'id_rsa'
+									 ),
+			'value'		=> ''
+		),
+		'ssh_rsa' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT ssh_rsa FROM sys_user WHERE {AUTHSQL}',
+										'valuefield'=> 'ssh_rsa'
+									 ),
+			'value'		=> ''
 		)
 	##################################
 	# ENDE Datenbankfelder

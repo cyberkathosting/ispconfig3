@@ -127,6 +127,13 @@ $form["tabs"]['shell'] = array (
 			'default'	=> 'y',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
+		'ssh_rsa' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'maxlength'	=> '600'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

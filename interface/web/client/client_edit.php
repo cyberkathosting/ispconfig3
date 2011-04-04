@@ -149,9 +149,17 @@ class page_action extends tform_actions {
 		$active = 1;
 		$language = $app->db->quote($this->dataRecord["language"]);
 		
+		//Generate ssh-rsa-keys
+		exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
+		
+		$privatekey = file_get_contents('/tmp/id_rsa');
+		$publickey  = file_get_contents('/tmp/id_rsa.pub');
+		
+		exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+
 		// Create the controlpaneluser for the client
-		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
-		VALUES ('$username',md5('$password'),'$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,".$this->id.")";
+		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id,id_rsa,ssh_rsa)
+		VALUES ('$username',md5('$password'),'$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,".$this->id.",'$privatekey','$publickey')";
 		$app->db->query($sql);
 		
 		//* If the user who inserted the client is a reseller (not admin), we will have to add this new client group 
@@ -214,6 +222,7 @@ class page_action extends tform_actions {
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
 			$app->db->query($sql);
 		}
+		
 		/*
 		 *  If there is a client-template, process it */
 		applyClientTemplates($this->id);

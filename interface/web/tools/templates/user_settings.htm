@@ -24,6 +24,14 @@
 					{tmpl_var name='language'}
 				</select>
       </div>
+     <div class="ctrlHolder">
+      	<label for="id_rsa">id_rsa</label>
+        <textarea name="id_rsa" id="id_rsa" readonly rows='10' cols='30'>{tmpl_var name='id_rsa'}</textarea>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="ssh_rsa">ssh_rsa</label>
+        <input name="ssh_rsa" id="ssh_rsa" value="{tmpl_var name='ssh_rsa'}" size="30" maxlength="600" type="text" class="textInput" />
+      </div>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
