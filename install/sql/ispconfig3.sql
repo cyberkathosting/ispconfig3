@@ -112,6 +112,8 @@ CREATE TABLE `client` (
   `template_master` int(11) unsigned NOT NULL default '0',
   `template_additional` varchar(255) NOT NULL default '',
   `created_at` bigint(20) DEFAULT NULL,
+  `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
   PRIMARY KEY  (`client_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
@@ -1071,8 +1073,7 @@ CREATE TABLE `sys_user` (
   `groups` varchar(255) NOT NULL default '',
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
-  `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
-  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
+
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

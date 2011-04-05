@@ -139,7 +139,7 @@ $form['tabs']['users'] = array (
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT id_rsa FROM sys_user WHERE {AUTHSQL}',
+										'querystring' => 'SELECT id_rsa FROM client WHERE {AUTHSQL}',
 										'valuefield'=> 'id_rsa'
 									 ),
 			'value'		=> ''
@@ -149,7 +149,7 @@ $form['tabs']['users'] = array (
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT ssh_rsa FROM sys_user WHERE {AUTHSQL}',
+										'querystring' => 'SELECT ssh_rsa FROM client WHERE {AUTHSQL}',
 										'valuefield'=> 'ssh_rsa'
 									 ),
 			'value'		=> ''

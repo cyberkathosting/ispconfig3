@@ -272,7 +272,7 @@ class shelluser_jailkit_plugin {
 			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
-			
+			/*
 			// ssh-rsa authentication variables
 			$sshrsa = escapeshellcmd($this->data['new']['ssh_rsa']);
 			$usrdir = escapeshellcmd($this->data['new']['dir']).'/'.$jailkit_chroot_userhome;
@@ -327,7 +327,7 @@ class shelluser_jailkit_plugin {
 			exec("chmod 600 '$sshkeys'");
 			
 			$this->app->log("ssh-rsa key added to ".$sshkeys,LOGLEVEL_DEBUG);
-
+			*/
 	}
 	
 	//* Update the website root directory permissions depending on the security level

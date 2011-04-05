@@ -195,13 +195,17 @@ class shelluser_base_plugin {
 	}
 	
 	function _setup_ssh_rsa() {
-
+			//global $app, $conf;
+			//$app->uses('system');
+			// Okay, here we have a question, .. how to determine the client id
+			//$var = "Var:".intval($this->app->system->getuid($this->data['new']['puser']));
+			//exec("echo $var >> /tmp/debug");
+			/*
 			// ssh-rsa authentication variables
 			$sshrsa = escapeshellcmd($this->data['new']['ssh_rsa']);
 			$usrdir = escapeshellcmd($this->data['new']['dir']);
 			$sshdir = escapeshellcmd($this->data['new']['dir']).'/.ssh';
 			$sshkeys= escapeshellcmd($this->data['new']['dir']).'/.ssh/authorized_keys';
-			global $app;
 			
 			// determine the client id
 			$id = $this->data['new']['sys_groupid'];
@@ -213,18 +217,11 @@ class shelluser_base_plugin {
 			
 			// If this user has no key yet, generate a pair
 			if ($userkey == '') 
-			{
+			{		
 				//Generate ssh-rsa-keys
 				exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
-				
-				$privatekey = file_get_contents('/tmp/id_rsa');
-				$publickey  = file_get_contents('/tmp/id_rsa.pub');
-				
+				$app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".file_get_contents('/tmp/id_rsa.pub')."' WHERE client_id = ".$this->id;
 				exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
-				
-				// Set the missing keypair
-				$app->db->query("UPDATE sys_user SET id_rsa='$privatekey' ,ssh_rsa='$publickey' WHERE client_id = ".$id);
-				$userkey = $publickey;
 				
 				$this->app->log("ssh-rsa keypair generated for ".$username,LOGLEVEL_DEBUG);
 			
@@ -248,7 +245,7 @@ class shelluser_base_plugin {
 			// set proper file permissions
 			exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$usrdir);
 			exec("chmod 600 '$sshkeys'");
-			
+			*/
 			$this->app->log("ssh-rsa key added to ".$sshkeys,LOGLEVEL_DEBUG);
 	}
 	
