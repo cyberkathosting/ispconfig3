@@ -433,7 +433,7 @@ class tform {
                                                                         if(trim($tvl) == trim($k)) $checked = ' CHECKED';
                                                                 }
                                                                 // $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>\r\n";
-																$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v &nbsp;\r\n";
+																$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v <br/>\r\n";
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
