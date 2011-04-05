@@ -366,11 +366,11 @@ class shelluser_jailkit_plugin {
 	private function _setup_ssh_rsa() {
 		$this->app->log("ssh-rsa setup shelluser_jailkit",LOGLEVEL_DEBUG); 
 		// Get the client ID, username, and the key
-		$domain_data = $this->app->dbmaster->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = '.intval($this->data['new']['parent_domain_id']));
-		$sys_group_data = $this->app->dbmaster->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = '.intval($domain_data['sys_groupid']));
+		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = '.intval($this->data['new']['parent_domain_id']));
+		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = '.intval($domain_data['sys_groupid']));
 		$id = intval($sys_group_data['client_id']);
 		$username= $sys_group_data['name'];
-		$client_data = $this->app->dbmaster->queryOneRecord('SELECT * FROM client WHERE client.client_id = '.$id);
+		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = '.$id);
 		$userkey = $client_data['ssh_rsa'];
 		unset($domain_data);
 		unset($client_data);
@@ -387,7 +387,7 @@ class shelluser_jailkit_plugin {
 			//Generate ssh-rsa-keys
 			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
 			// save keypair in client table
-			$this->app->dbmaster->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".file_get_contents('/tmp/id_rsa.pub')."' WHERE client_id = ".$id);
+			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".file_get_contents('/tmp/id_rsa.pub')."' WHERE client_id = ".$id);
 			// and use the public key that has been generated
 			$userkey = file_get_contents('/tmp/id_rsa.pub')
 			;
