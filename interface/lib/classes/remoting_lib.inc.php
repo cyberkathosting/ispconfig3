@@ -701,7 +701,7 @@ class remoting_lib {
 		function ispconfig_sysuser_update($params,$client_id){
 			global $app;
 			$username = $app->db->quote($params["username"]);
-			$password = $app->db->quote($params["password"]);
+			$clear_password = $app->db->quote($params["password"]);
 			$client_id = intval($client_id);
 			$salt="$1$";
 			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -709,8 +709,9 @@ class remoting_lib {
 				$salt.=$base64_alphabet[mt_rand(0,63)];
 			}
 			$salt.="$";
-			$password = crypt(stripslashes($password),$salt);
-			$sql = "UPDATE sys_user set username = '$username', passwort = '$password' WHERE client_id = $client_id";
+			$password = crypt(stripslashes($clear_password),$salt);
+			if ($clear_password) $pwstring = ", passwort = '$password'"; else $pwstring ="" ;
+			$sql = "UPDATE sys_user set username = '$username' $pwstring WHERE client_id = $client_id";
 			$app->db->query($sql);
 		}
 		
@@ -718,6 +719,8 @@ class remoting_lib {
 			global $app;
 			$client_id = intval($client_id);
 			$sql = "DELETE FROM sys_user WHERE client_id = $client_id";
+			$app->db->query($sql);
+			$sql = "DELETE FROM sys_group WHERE client_id = $client_id";
 			$app->db->query($sql);
 		}
 

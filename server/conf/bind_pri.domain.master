@@ -12,7 +12,7 @@ $TTL        {tmpl_var name='ttl'}
 {tmpl_var name='name'}      NS        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='A'>
-{tmpl_var name='name'}      A        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'} A        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='AAAA'>
 {tmpl_var name='name'}      AAAA        {tmpl_var name='data'}

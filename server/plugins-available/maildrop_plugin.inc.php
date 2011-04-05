@@ -60,6 +60,7 @@ class maildrop_plugin {
 		Register for the events
 		*/
 		
+		$app->plugins->registerEvent('mail_user_update','maildrop_plugin','insert');
 		$app->plugins->registerEvent('mail_user_update','maildrop_plugin','update');
 		$app->plugins->registerEvent('mail_user_delete','maildrop_plugin','delete');
 		

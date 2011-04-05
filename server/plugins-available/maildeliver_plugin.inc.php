@@ -60,6 +60,7 @@ class maildeliver_plugin {
 		Register for the events
 		*/
 		
+		$app->plugins->registerEvent('mail_user_insert','maildeliver_plugin','update');
 		$app->plugins->registerEvent('mail_user_update','maildeliver_plugin','update');
 		$app->plugins->registerEvent('mail_user_delete','maildeliver_plugin','delete');
 		
