@@ -236,10 +236,11 @@ if($_POST['create'] == 1) {
 		$ttl = $app->db->quote($vars['ttl']);
 		$xfer = $app->db->quote($vars['xfer']);
 		$also_notify = $app->db->quote($vars['also_notify']);
+		$update_acl = $app->db->quote($vars['update_acl']);
 		$serial = $app->validate_dns->increase_serial(0);
 		
-		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`, `also_notify`) VALUES 
-		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer', '$also_notify')";
+		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`, `also_notify`, `update_acl`) VALUES 
+		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer', '$also_notify', '$update_acl')";
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 		
 		// Insert the dns_rr records
