@@ -91,6 +91,9 @@ class shelluser_jailkit_plugin {
 				
 				$this->_add_jailkit_user();
 				
+				// call the ssh-rsa update function
+				$this->_setup_ssh_rsa();
+				
 				$command .= 'usermod -U '.escapeshellcmd($data['new']['username']);
 				exec($command);
 				
@@ -128,6 +131,9 @@ class shelluser_jailkit_plugin {
 			
 				$this->_setup_jailkit_chroot();
 				$this->_add_jailkit_user();
+				
+				// call the ssh-rsa update function
+				$this->_setup_ssh_rsa();
 				
 				$this->_update_website_security_level();
 			}
@@ -272,6 +278,7 @@ class shelluser_jailkit_plugin {
 			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added created jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
+			
 			/*
 			// ssh-rsa authentication variables
 			$sshrsa = escapeshellcmd($this->data['new']['ssh_rsa']);
@@ -356,6 +363,61 @@ class shelluser_jailkit_plugin {
 		exec($command);
 	}
 
+	private function _setup_ssh_rsa() {
+		$this->app->log("ssh-rsa setup shelluser_jailkit",LOGLEVEL_DEBUG); 
+		// Get the client ID, username, and the key
+		$domain_data = $this->app->dbmaster->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = '.intval($this->data['new']['parent_domain_id']));
+		$sys_group_data = $this->app->dbmaster->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = '.intval($domain_data['sys_groupid']));
+		$id = intval($sys_group_data['client_id']);
+		$username= $sys_group_data['name'];
+		$client_data = $this->app->dbmaster->queryOneRecord('SELECT * FROM client WHERE client.client_id = '.$id);
+		$userkey = $client_data['ssh_rsa'];
+		unset($domain_data);
+		unset($client_data);
+		
+		// ssh-rsa authentication variables
+		$sshrsa = escapeshellcmd($this->data['new']['ssh_rsa']);
+		$usrdir = escapeshellcmd($this->data['new']['dir']).'/'.$this->_get_home_dir($this->data['new']['username']);
+			$sshdir = $usrdir.'/.ssh';
+			$sshkeys= $usrdir.'/.ssh/authorized_keys';
+		
+		// If this user has no key yet, generate a pair
+		if ($userkey == '' && $id>0) 
+		{
+			//Generate ssh-rsa-keys
+			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
+			// save keypair in client table
+			$this->app->dbmaster->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".file_get_contents('/tmp/id_rsa.pub')."' WHERE client_id = ".$id);
+			// and use the public key that has been generated
+			$userkey = file_get_contents('/tmp/id_rsa.pub')
+			;
+			exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+			$this->app->log("ssh-rsa keypair generated for ".$username,LOGLEVEL_DEBUG);
+		};
+		
+		if (!file_exists($sshkeys))
+		{
+			// add root's key
+			exec("mkdir '$sshdir'");
+			exec("cat /root/.ssh/authorized_keys > '$sshkeys'");
+			exec("echo '' >> '$sshkeys'");
+		
+			// add the user's key
+			exec("echo '$userkey' >> '$sshkeys'");
+			exec("echo '' >> '$sshkeys'");
+			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys,LOGLEVEL_DEBUG);
+		}
+		if ($sshrsa!=''){
+			// add the custom key 
+			exec("echo '$sshrsa' >> '$sshkeys'");
+			exec("echo '' >> '$sshkeys'");
+			$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
+		}
+		// set proper file permissions
+		exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$usrdir);
+		exec("chmod 600 '$sshkeys'");
+		
+	}
 } // end class
 
 ?>
