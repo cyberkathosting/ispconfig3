@@ -96,6 +96,14 @@ class functions {
 		return number_format((double)$number, $number_format_decimals, $number_format_dec_point, $number_format_thousands_sep);
 	}
 	
+	public function get_ispconfig_url() {
+		$url = (stristr($_SERVER['SERVER_PROTOCOL'],'HTTPS'))?'https':'http';
+		$url .= '://'.$_SERVER['SERVER_NAME'];
+		if($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
+			$url .= ':'.$_SERVER['SERVER_PORT'];
+		}
+		return $url;
+	}
 	
 		
 }
