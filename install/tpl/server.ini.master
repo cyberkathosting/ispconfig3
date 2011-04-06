@@ -84,3 +84,10 @@ config_dir=/etc
 init_script=cron
 crontab_dir=/etc/cron.d
 wget=/usr/bin/wget
+
+[rescue]
+try_rescue=n
+do_not_try_rescue_apache=n
+do_not_try_rescue_mysql=n
+do_not_try_rescue_mail=n
+

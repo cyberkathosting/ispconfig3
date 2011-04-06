@@ -30,10 +30,3 @@ new_domain_html=Please contact our support to create a new domain for you.
 
 [misc]
 dashboard_atom_url=http://www.ispconfig.org/atom
-
-[rescue]
-try_rescue=n
-do_not_try_rescue_apache=n
-do_not_try_rescue_mysql=n
-do_not_try_rescue_mail=n
-
