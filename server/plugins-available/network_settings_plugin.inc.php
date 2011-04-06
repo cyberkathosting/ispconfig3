@@ -238,7 +238,7 @@ class network_settings_plugin {
 			}
 			
 		} else {
-			$app->log('Network configuration disabled in server settings.',LOGLEVEL_WARN);
+			$app->log('Network configuration disabled in server settings.',LOGLEVEL_DEBUG);
 		}
 		
 	}
