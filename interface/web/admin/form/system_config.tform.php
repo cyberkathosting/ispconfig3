@@ -260,6 +260,12 @@ $form["tabs"]['misc'] = array (
 			'default'	=> 'http://www.ispconfig.org/atom',
 			'value'		=> ''
 		),
+		'monitor_key' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> ''
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
