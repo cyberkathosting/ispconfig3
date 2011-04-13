@@ -116,7 +116,8 @@ $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type
 $records = $app->db->queryAllRecords($sql);
 
 foreach($records as $rec) {
-	$yesterday = date('Ymd',time() - 86400);
+	//$yesterday = date('Ymd',time() - 86400);
+	$yesterday = date('Ymd',strtotime("-1 day", time()));
 	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
 		$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log.gz');
@@ -156,7 +157,8 @@ $records = $app->db->queryAllRecords($sql);
 $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
 foreach($records as $rec) {
-	$yesterday = date('Ymd',time() - 86400);
+	//$yesterday = date('Ymd',time() - 86400);
+	$yesterday = date('Ymd',strtotime("-1 day", time()));
 	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
 		$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log.gz');
