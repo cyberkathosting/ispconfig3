@@ -866,7 +866,7 @@ class apache2_plugin {
 
 		$vhost_file = escapeshellcmd($web_config['vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost');
 		//* Make a backup copy of vhost file
-		copy($vhost_file,$vhost_file.'~');
+		if(file_exists($vhost_file)) copy($vhost_file,$vhost_file.'~');
 		
 		//* Write vhost file
 		file_put_contents($vhost_file,$tpl->grab());
