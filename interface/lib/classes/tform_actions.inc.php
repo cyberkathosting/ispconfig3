@@ -322,6 +322,7 @@ class tform_actions {
                         }
 						
 						$this->onAfterDelete();
+						$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_after_delete',$this);
                 }
 
                 		//header("Location: ".$liste["file"]."?PHPSESSID=".$_SESSION["s"]["id"]);
