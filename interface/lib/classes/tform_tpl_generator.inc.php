@@ -147,7 +147,7 @@ class tform_tpl_generator {
 				
 		// speichere Template
 		if (!$handle = fopen($formDef['tabs'][$tab]['template'], 'w')) { 
-        	print "Cannot open file ($filename)"; 
+        	print "Cannot open file (".$formDef['tabs'][$tab]['template'].")"; 
         	exit; 
    		} 
  
