@@ -1,14 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Enregistrement A';
-$wb['active_txt'] = 'Actif';
-$wb['server_id_txt'] = 'Serveur';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Nom';
-$wb['data_txt'] = 'Donnes';
-$wb['aux_txt'] = 'Priorité';
-$wb['type_txt'] = 'Type';
-$wb['add_new_record_txt'] = 'Ajouter un nouvel enregistrement A';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'de';
-$wb['delete_confirmation'] = 'Voulez-vous vraiment supprimer cet enregistrement';
+$wb['list_head_txt'] = "Enregistrement A";
+$wb['active_txt'] = "Actif";
+$wb['server_id_txt'] = "Serveur";
+$wb['zone_txt'] = "Zone";
+$wb['name_txt'] = "Nom";
+$wb['data_txt'] = "Donnes";
+$wb['aux_txt'] = "Priorité";
+$wb['type_txt'] = "Type";
+$wb['add_new_record_txt'] = "Ajouter un nouvel enregistrement A";
+$wb['page_txt'] = "Page";
+$wb['page_of_txt'] = "de";
+$wb['delete_confirmation'] = "Voulez-vous vraiment supprimer cet enregistrement";
 ?>
+
+

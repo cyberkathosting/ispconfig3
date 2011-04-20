@@ -1,9 +1,11 @@
 <?php
-$wb['Support Message'] = 'Message de support';
-$wb['Message'] = 'Message';
-$wb['Send message'] = 'Envoyer un message';
-$wb['View messages'] = 'Voir les messages';
-$wb['Support'] = 'Support';
-$wb['About ISPConfig'] = 'About ISPConfig';
-$wb['Version'] = 'Version';
+$wb['Support Message'] = "Message de support";
+$wb['Message'] = "Message";
+$wb['Send message'] = "Envoyer un message";
+$wb['View messages'] = "Voir les messages";
+$wb['Support'] = "Support";
+$wb['About ISPConfig'] = "A propos de ISPConfig";
+$wb['Version'] = "Version";
 ?>
+
+

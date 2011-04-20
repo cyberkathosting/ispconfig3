@@ -1,7 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Fusion de langues';
-$wb['language_select_txt'] = 'Sélectionnez la langue';
-$wb['btn_save_txt'] = 'Fusionner les fichiers';
-$wb['btn_cancel_txt'] = 'Précédent';
-$wb['list_desc_txt'] = 'Fusionne la langue sélectionnée avec la langue principale anglaise. <br />Ceci ajoute les éléments manquants en anglais au fichier sélectionné.';
+$wb['list_head_txt'] = "Fusion de langues";
+$wb['language_select_txt'] = "Sélectionnez la langue";
+$wb['btn_save_txt'] = "Fusionner les fichiers";
+$wb['btn_cancel_txt'] = "Précédent";
+$wb['list_desc_txt'] = "Fusionne la langue sélectionnée avec la langue principale anglaise. <br />Ceci ajoute les éléments manquants en anglais au fichier sélectionné.";
 ?>
+
+

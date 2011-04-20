@@ -1,9 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter Whitelist';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['priority_txt'] = 'Priority';
-$wb['rid_txt'] = 'User';
-$wb['email_txt'] = 'Whitelisted Email';
-$wb['add_new_record_txt'] = 'Add Whitelist record';
+$wb['list_head_txt'] = "Liste blanche filtres courrier indésirable";
+$wb['active_txt'] = "Actif";
+$wb['server_id_txt'] = "Serveur";
+$wb['priority_txt'] = "Priorité";
+$wb['rid_txt'] = "Utilisateur";
+$wb['email_txt'] = "Email liste blanche";
+$wb['add_new_record_txt'] = "Ajouter un enregistrement dans la liste blanche";
 ?>
+
+

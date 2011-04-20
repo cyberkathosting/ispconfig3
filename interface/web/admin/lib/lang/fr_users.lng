@@ -1,28 +1,30 @@
 <?php
-$wb['username_txt'] = 'Nom dutilisateur';
-$wb['username_err'] = 'username_err';
-$wb['passwort_txt'] = 'Mot de passe';
-$wb['modules_txt'] = 'Module';
-$wb['startmodule_txt'] = 'Module de démarrage';
-$wb['app_theme_txt'] = 'Design';
-$wb['typ_txt'] = 'Type';
-$wb['active_txt'] = 'Actif';
-$wb['language_txt'] = 'Langue';
-$wb['name_txt'] = 'Nom';
-$wb['vorname_txt'] = 'Prénom';
-$wb['unternehmen_txt'] = 'Société';
-$wb['strasse_txt'] = 'Rue';
-$wb['ort_txt'] = 'Ville';
-$wb['plz_txt'] = 'Code Postal';
-$wb['land_txt'] = 'Pays';
-$wb['email_txt'] = 'E-mail';
-$wb['url_txt'] = 'Url';
-$wb['telefon_txt'] = 'Télephone';
-$wb['fax_txt'] = 'Fax';
-$wb['groups_txt'] = 'Groupes';
-$wb['default_group_txt'] = 'Groupe par Défaut';
-$wb['username_empty'] = 'Le nom dutilisateur est vide.';
-$wb['username_unique'] = 'Le nom dutilisateur entré existe déjà.';
-$wb['password_strength_txt'] = 'Force du mot de passe';
-$wb['startmodule_err'] = 'Le module de départ néxiste pas.';
+$wb['username_txt'] = "Nom d'utilisateur";
+$wb['username_err'] = "Erreur nom d'utilisateur";
+$wb['passwort_txt'] = "Mot de passe";
+$wb['modules_txt'] = "Module";
+$wb['startmodule_txt'] = "Module de démarrage";
+$wb['app_theme_txt'] = "Thème";
+$wb['typ_txt'] = "Type";
+$wb['active_txt'] = "Actif";
+$wb['language_txt'] = "Langue";
+$wb['name_txt'] = "Nom";
+$wb['vorname_txt'] = "Prénom";
+$wb['unternehmen_txt'] = "Société";
+$wb['strasse_txt'] = "Rue";
+$wb['ort_txt'] = "Ville";
+$wb['plz_txt'] = "Code Postal";
+$wb['land_txt'] = "Pays";
+$wb['email_txt'] = "E-mail";
+$wb['url_txt'] = "Url";
+$wb['telefon_txt'] = "Télephone";
+$wb['fax_txt'] = "Fax";
+$wb['groups_txt'] = "Groupes";
+$wb['default_group_txt'] = "Groupe par Défaut";
+$wb['username_empty'] = "Le nom d'utilisateur est vide.";
+$wb['username_unique'] = "Le nom d'utilisateur entré existe déjà.";
+$wb['password_strength_txt'] = "Force du mot de passe";
+$wb['startmodule_err'] = "Le module de départ n'existe pas.";
 ?>
+
+

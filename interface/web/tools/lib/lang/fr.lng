@@ -1,6 +1,8 @@
 <?php
-$wb['User Settings'] = 'Paramètres Utilisateur';
-$wb['Settings'] = 'Paramètres';
-$wb['ISPConfig Tools'] = 'Outils ISPConfig';
-$wb['Password and Language'] = 'Mot de passe et Langage';
+$wb['User Settings'] = "Paramètres Utilisateurs";
+$wb['Settings'] = "Paramètres";
+$wb['ISPConfig Tools'] = "Outils ISPConfig";
+$wb['Password and Language'] = "Mot de passe et Langage";
 ?>
+
+

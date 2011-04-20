@@ -1,10 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Utilisateurs du filtre à spam';
-$wb['local_txt'] = 'Local';
-$wb['server_id_txt'] = 'Serveur';
-$wb['priority_txt'] = 'Priorité';
-$wb['policy_id_txt'] = 'Politique';
-$wb['fullname_txt'] = 'Nom';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Ajouter un utilisateur du filtre à spam';
+$wb['list_head_txt'] = "Utilisateurs du filtre à spam";
+$wb['local_txt'] = "Local";
+$wb['server_id_txt'] = "Serveur";
+$wb['priority_txt'] = "Priorité";
+$wb['policy_id_txt'] = "Politique";
+$wb['fullname_txt'] = "Nom";
+$wb['email_txt'] = "Email";
+$wb['add_new_record_txt'] = "Ajouter un utilisateur du filtre à spam";
 ?>
+
+

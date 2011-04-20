@@ -1,8 +1,10 @@
 <?php
-$wb['title_txt'] = 'Titre';
-$wb['target_txt'] = 'Cible';
-$wb['link_txt'] = 'Lien';
-$wb['header_txt'] = 'Proprits Navig.';
-$wb['save_txt'] = 'Sauver';
-$wb['cancel_txt'] = 'Annuler';
+$wb['title_txt'] = "Titre";
+$wb['target_txt'] = "Cible";
+$wb['link_txt'] = "Lien";
+$wb['header_txt'] = "Propriétés Navig.";
+$wb['save_txt'] = "Sauver";
+$wb['cancel_txt'] = "Annuler";
 ?>
+
+

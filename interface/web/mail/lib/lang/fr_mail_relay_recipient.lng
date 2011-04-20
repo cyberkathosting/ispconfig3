@@ -1,9 +1,11 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Relay recipient';
-$wb['recipient_txt'] = 'Recipient';
-$wb['active_txt'] = 'Active';
-$wb['source_error_notempty'] = 'Address is empty.';
-$wb['type_txt'] = 'Type';
-$wb['limit_mailfilter_txt'] = 'The max. number of email filters for your account is reached.';
+$wb['server_id_txt'] = "Serveur";
+$wb['source_txt'] = "Destinataire relais";
+$wb['recipient_txt'] = "Destinataire";
+$wb['active_txt'] = "Actif";
+$wb['source_error_notempty'] = "L'adresse est vide.";
+$wb['type_txt'] = "Type";
+$wb['limit_mailfilter_txt'] = "Le nombre maximum de filtre d'email pour votre compte a été atteint.";
 ?>
+
+

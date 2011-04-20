@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Website harddisk quota';
-$wb['domain_txt'] = 'Domain / Website';
-$wb['system_user_txt'] = 'Linux user';
-$wb['used_txt'] = 'Used space';
-$wb['hard_txt'] = 'Hard limit';
-$wb['soft_txt'] = 'Soft limit';
+$wb['list_head_txt'] = "Quota espace disque pour le site web";
+$wb['domain_txt'] = "Domaine / site web";
+$wb['system_user_txt'] = "Utilisateur linux";
+$wb['used_txt'] = "Espace utilisé";
+$wb['hard_txt'] = "Limite hard";
+$wb['soft_txt'] = "Limite soft";
 ?>
+
+

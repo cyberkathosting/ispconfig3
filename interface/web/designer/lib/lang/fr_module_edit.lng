@@ -1,14 +1,16 @@
 <?php
-$wb['name_txt'] = 'Nom du Module';
-$wb['title_txt'] = 'Titre du Module';
-$wb['template_txt'] = 'Fichier Template';
-$wb['navframe_txt'] = 'Frame de Navigation';
-$wb['startpage_txt'] = 'Page par Dfaut';
-$wb['tab_width_txt'] = 'Largeur tableau';
-$wb['save_txt'] = 'Sauver';
-$wb['cancel_txt'] = 'Annuler';
-$wb['header_txt'] = 'Proprits du Module';
-$wb['description_txt'] = '
-<b>Description</b?><br><br?><b>Nom du Module:</b> Nom du rpertoire du module. Seulement nombres, lettres et underscore sont autoriss.<br?><b>Titre du Module:</b> Seras affich dans le menu de navigation (suprieur).<br?><b>Fichier Template:</b> Fichier Template du module. Disponible actuellement: module.tpl.htm et module_tree.tpl.htm. Par dfaut module.tpl.htm.<br?><b>Frame de Navigation:</b> Si module_tree.tpl.htm est choisi comme fichier template, entrer ici le chemin vers le script de la frame de gauche.<br?><b>Page par Dfaut:</b> Cette page seras affiche quand le module seras ouvert.<br?><b>Largeur tableau:</b> Largeur des tableau dans la frame principale. Le champ est vide par defaut. Vous pouvez entrer une valeur absolue en pixel (e.g 20) ou relative (e.g 20%).<br?><b>Note:</b> Tous les paths sont relatifs par rapport au dossier web.
-';
+$wb['name_txt'] = "Nom du Module";
+$wb['title_txt'] = "Titre du Module";
+$wb['template_txt'] = "Fichier Template";
+$wb['navframe_txt'] = "Frame de Navigation";
+$wb['startpage_txt'] = "Page par défaut";
+$wb['tab_width_txt'] = "Largeur tableau";
+$wb['save_txt'] = "Sauver";
+$wb['cancel_txt'] = "Annuler";
+$wb['header_txt'] = "Propriétés du Module";
+$wb['description_txt'] = "
+<b>Description</b?><br><br?><b>Nom du Module:</b> Nom du répertoire du module. Seulement nombres, lettres et underscore sont autorisés.<br?><b>Titre du Module:</b> Sera affiché dans le menu de navigation (supérieur).<br?><b>Fichier Template:</b> Fichier Template du module. Disponible actuellement: module.tpl.htm et module_tree.tpl.htm. Par défaut module.tpl.htm.<br?><b>Frame de Navigation:</b> Si module_tree.tpl.htm est choisi comme fichier template, entrer ici le chemin vers le script de la frame de gauche.<br?><b>Page par défaut:</b> Cette page sera affichée quand le module sera ouvert.<br?><b>Largeur tableau:</b> Largeur des tableaux dans la frame principale. Le champ est vide par défaut. Vous pouvez entrer une valeur absolue en pixel (e.g 20) ou relative (e.g 20%).<br?><b>Note:</b> Tous les paths sont relatifs par rapport au dossier web.
+";
 ?>
+
+

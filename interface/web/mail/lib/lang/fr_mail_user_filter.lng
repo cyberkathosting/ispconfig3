@@ -1,11 +1,12 @@
 <?php
-$wb['rulename_txt'] = 'Nom';
-$wb['action_txt'] = 'Action';
-$wb['target_txt'] = 'Répertoire';
-$wb['active_txt'] = 'Actif';
-$wb['rulename_error_empty'] = 'Le nom est vide.';
-$wb['searchterm_is_empty'] = 'Le terme recherché est vide.';
-$wb['source_txt'] = 'Source';
-$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
-$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
+$wb['rulename_txt'] = "Nom";
+$wb['action_txt'] = "Action";
+$wb['target_txt'] = "Répertoire";
+$wb['active_txt'] = "Actif";
+$wb['rulename_error_empty'] = "Le nom est vide.";
+$wb['searchterm_is_empty'] = "Le terme recherché est vide.";
+$wb['source_txt'] = "Source";
+$wb['target_error_regex'] = "La cible ne devrait contenir ces caractères : a-z, 0-9, -, ., _, et {espace}";
 ?>
+
+

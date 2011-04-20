@@ -1,7 +1,9 @@
 <?php
-$wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Email de destination';
-$wb['active_txt'] = 'Actif';
-$wb['limit_mailforward_txt'] = 'Le nombre max. demails de suivi pour votre compte a été atteint.';
-$wb['duplicate_mailbox_txt'] = 'Il y a déja une bôite à mails avec cette adresse email';
+$wb['email_txt'] = "Email";
+$wb['destination_txt'] = "Email de destination";
+$wb['active_txt'] = "Actif";
+$wb['limit_mailforward_txt'] = "Le nombre max. d'emails de suivi pour votre compte a été atteint.";
+$wb['duplicate_mailbox_txt'] = "Il y a déjà une boite à mails avec cette adresse email";
 ?>
+
+

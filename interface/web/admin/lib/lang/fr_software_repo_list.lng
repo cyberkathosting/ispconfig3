@@ -1,6 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Référence';
-$wb['active_txt'] = 'Actif';
-$wb['repo_name_txt'] = 'Référence';
-$wb['repo_url_txt'] = 'URL';
+$wb['list_head_txt'] = "Référence";
+$wb['active_txt'] = "Actif";
+$wb['repo_name_txt'] = "Référence";
+$wb['repo_url_txt'] = "URL";
 ?>
+
+
