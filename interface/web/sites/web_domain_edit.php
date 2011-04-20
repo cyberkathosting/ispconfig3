@@ -563,12 +563,16 @@ class page_action extends tform_actions {
 			unset($subdomain);
 		}
 
-		//* Set allow_override and php_open_basedir if empty
+		//* Set allow_override if empty
 		if($web_rec['allow_override'] == '') {
 			$sql = "UPDATE web_domain SET allow_override = '".$app->db->quote($web_config["htaccess_allow_override"])."' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 		}
-		if($web_rec['php_open_basedir'] == '' || (isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"])) {
+		
+		//* Set php_open_basedir if empty or domain or client has been changed
+		if($web_rec['php_open_basedir'] == '' || 
+		($this->dataRecord["domain"] != '' && $this->oldDataRecord["domain"] != '' && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) ||
+		(isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"]))
 			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
 			$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);
 			$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
