@@ -39,8 +39,7 @@ class sites_web_domain_plugin {
 		Function to create the sites_web_domain rule and insert it into the custom rules           
     */
     function sites_web_domain_edit($event_name, $page_form) {
-        global $app, $conf;            
-        
+        global $app, $conf;   
         // make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
         // also make sure that the user can not delete domain created by a admin
         if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {

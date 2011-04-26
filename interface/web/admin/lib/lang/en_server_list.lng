@@ -7,5 +7,7 @@ $wb["dns_server_txt"] = 'DNS';
 $wb["file_server_txt"] = 'File';
 $wb["db_server_txt"] = 'DB';
 $wb["vserver_server_txt"] = 'VServer';
+$wb["proxy_server_txt"] = 'Proxy';
+$wb["firewall_server_txt"] = 'Firewall';
 $wb["add_new_record_txt"] = 'Add new Server';
 ?>

@@ -1,0 +1,39 @@
+# /etc/default/ufw
+# 
+
+# set to yes to apply rules to support IPv6 (no means only IPv6 on loopback
+# accepted). You will need to 'disable' and then 'enable' the firewall for
+# the changes to take affect.
+IPV6={tmpl_var name='ipv6'}
+
+# set the default input policy to ACCEPT, DROP or REJECT.  Please note that if
+# you change this you will most likely want to adjust your rules
+DEFAULT_INPUT_POLICY="{tmpl_var name='default_input_policy'}"
+
+# set the default output policy to ACCEPT, DROP, or REJECT.  Please note that
+# if you change this you will most likely want to adjust your rules
+DEFAULT_OUTPUT_POLICY="{tmpl_var name='default_output_policy'}T"
+
+# set the default forward policy to ACCEPT, DROP or REJECT.  Please note that
+# if you change this you will most likely want to adjust your rules
+DEFAULT_FORWARD_POLICY="{tmpl_var name='default_forward_policy'}"
+
+# set the default application policy to ACCEPT, DROP, REJECT or SKIP. Please
+# note that setting this to ACCEPT may be a security risk. See 'man ufw' for
+# details
+DEFAULT_APPLICATION_POLICY="{tmpl_var name='default_application_policy'}"
+
+# By default, ufw only touches its own chains. Set this to 'yes' to have ufw
+# manage the built-in chains too. Warning: setting this to 'yes' will break
+# non-ufw managed firewall rules
+MANAGE_BUILTINS={tmpl_var name='manage_builtins'}
+
+#
+# IPT backend
+#
+# only enable if using iptables backend
+IPT_SYSCTL=/etc/ufw/sysctl.conf
+
+# extra connection tracking modules to load
+IPT_MODULES="nf_conntrack_ftp nf_nat_ftp nf_conntrack_irc nf_nat_irc"
+

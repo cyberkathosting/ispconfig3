@@ -1,0 +1,224 @@
+
+# This configuration file requires squid 2.5+.  It is untested with squid 3.x.
+
+# BASIC CONFIGURATION
+# ------------------------------------------------------------------------------
+
+visible_hostname {server_name}
+
+
+
+# port on which to listen
+
+http_port {ip_address}:80 vhost defaultsite={server_name}
+
+
+# set cache directory and size (1000 MB) - be sure to set the cache size to
+# about 10% less than the physical space available to leave room for squid's
+# swap files and other temp files
+cache_dir ufs /var/spool/squid 100 16 256
+cache_mgr webmaster@{server_name}
+
+
+
+
+# LOGS
+# ------------------------------------------------------------------------------
+log_icp_queries off
+cache_access_log /var/log/squid/access.log
+cache_log /var/log/squid/cache.log
+cache_store_log /var/log/squid/store.log
+cache_effective_user nobody
+cache_effective_group nogroup
+# emulate_httpd_log off
+
+
+# RESOURCES
+# ------------------------------------------------------------------------------
+# amount of memory used for caching recently accessed objects - defaults to 8 MB
+cache_mem 64 MB  
+maximum_object_size 10 MB 		# max cached object size
+maximum_object_size_in_memory 300 KB	# max cached-in-memory object size
+
+
+# ACCESS CONTROL
+# ------------------------------------------------------------------------------
+
+# Basic ACLs
+acl all src 0.0.0.0/0.0.0.0
+acl localhost src 127.0.0.1/32
+acl ssl_ports port 443 563
+acl safe_ports port 80 443
+
+acl openvz_instances src 192.168.1.0/24
+acl squid_server src localhost
+acl manager proto cache_object
+acl connect method connect
+
+
+# deny requests to unknown ports
+http_access deny !safe_ports
+
+acl accelerated_protocols proto http https
+acl accelerated_domains dstdomain url_regex -i "{config_dir}/domains.txt"
+acl accelerated_ports myport 80 443 
+
+http_access allow accelerated_domains
+http_access allow accelerated_ports
+http_access allow accelerated_protocols
+
+
+acl purge method PURGE
+http_access allow squid_server purge
+http_access allow openvz_instances purge
+http_access deny purge
+
+# Reply access
+http_reply_access allow all
+
+# Cache manager setup - cache manager can only connect from localhost
+# only allow cache manager access from localhost
+http_access allow manager localhost
+http_access deny manager
+# deny connect to other than ssl ports
+http_access deny connect !ssl_ports
+
+# ICP access - anybody can access icp methods
+icp_access allow localhost
+
+# And finally deny all other access to this proxy
+http_access deny all
+
+
+# CACHE PEERS
+# ------------------------------------------------------------------------------
+
+# CONFIGURE THE CACHE PEERS. FIRST PORT IS THE HTTP PORT, SECOND PORT
+# IS THE ICP PORT. REMEMBER TO ENABLE 'icp-server' ON YOUR 'zope.conf'
+# LISTENING ON THE ICP PORT YOU USE HERE.
+# acl in_backendpool dstdomain backendpool
+# cache_peer 127.0.0.1 parent 8080 9090 no-digest no-netdb-exchange
+# cache_peer 192.168.0.3 parent 8081 9091 no-digest no-netdb-exchange
+
+# cache_peer_access 127.0.0.1 allow in_backendpool
+# cache_peer_access 127.0.0.1 deny all
+
+# cache_peer_access 192.168.0.3 allow in_backendpool
+# cache_peer_access 192.168.0.3 deny all
+
+# IF YOU NEED TO FORWARD REQUESTS TO HOSTS NOT IN THE POOL THIS IS
+# WHERE YOU ALLOW THE TARGET DOMAINS
+# acl local_servers dstdomain some.mysite.com other.mysite.com
+always_direct allow all
+
+# THE FOLLOWING DIRECTIVE IS NEEDED TO MAKE 'backendpool' RESOLVE TO
+# THE POOL OF CACHE PEERS.
+# never_direct allow all
+# icp_access allow all
+
+# PROXY ON, NEEDED TO MAKE CACHE PEERS INTERCOMMUNICATE
+# httpd_accel_with_proxy on
+
+
+# REDIRECTOR PROGRAM
+# ------------------------------------------------------------------------------
+
+
+url_rewrite_program {config_dir}/iRedirector.py
+url_rewrite_children 1
+url_rewrite_concurrency 20
+url_rewrite_host_header off
+
+
+# SPECIFY WHAT REQUESTS SQUID SHOULD CACHE
+# ------------------------------------------------------------------------------
+
+# Control what squid caches.  We want to have squid handle content that is not
+# personalized and that does not require any kind of authorization.
+#
+# 1) Always cache static content in squid
+
+acl static_content urlpath_regex -i \.(jpg|jpeg|gif|png|tiff|tif|svg|swf|ico|css|js|vsd|doc|ppt|pps|xls|pdf|mp3|mp4|m4a|ogg|mov|avi|wmv|sxw|zip|gz|bz2|tgz|tar|rar|odc|odb|odf|odg|odi|odp|ods|odt|sxc|sxd|sxi|sxw|dmg|torrent|deb|msi|iso|rpm)$
+no_cache allow static_content
+
+# 2) (OPTIONAL) Prevent squid from caching an item that is the result of a POST
+
+acl post_requests method POST
+no_cache deny post_requests
+
+# 3) (OPTIONAL) Prevent squid from caching items with items in the query string
+# If this is uncommented, squid will treat a url with 2 different query strings
+# as 2 different urls when caching.
+
+# XXX: where did this example go?
+
+# 4) Prevent squid from caching requests from authenticated users or conditional
+# GETs with an If-None-Match header (since squid doesn't know about ETags)
+# We use an external python method to check these conditions and pass in the
+# value of the __ac cookie (two different ways to allow for different cookie
+# delimiters), the HTTP Authorization header, and the If-None-Match header.
+#
+# Squid caches the results of the external python method, so for debugging, set
+# the options ttl=0 negative_ttl=0 so you can see what is going on
+
+# external_acl_type is_cacheable_type children=20 ttl=0 negative_ttl=0 %{Cookie:__ac} %{Cookie:;__ac} %{Authorization} %{If-None-Match} /etc/squid/squidAcl.py
+
+#external_acl_type is_cacheable_type protocol=2.5 children=20 %{Cookie:__ac} %{Cookie:;__ac} %{Authorization} %{If-None-Match} /etc/squid/squidAcl.py
+#acl is_cacheable external is_cacheable_type
+#no_cache allow is_cacheable
+
+
+collapsed_forwarding on
+#refresh_stale_hit on
+
+
+# Explicitly disallow squid from handling anything else
+no_cache deny all
+
+
+# SPECIFY EFFECTS OF A BROWSER REFRESH
+# ------------------------------------------------------------------------------
+
+# RELOAD_INTO_IMS CAUSES WEIRD SQUID BEHAVIOR - IT APPEARS TO CAUSE FILES WITH
+# INAPPROPRIATE HEADERS TO END UP IN THE CACHE, AND AS A RESULT BROWSERS END
+# UP MAKING LOTS OF EXTRA (CONDITIONAL) REQUESTS WHEN THEY WOULD OTHERWISE MAKE
+# NO REQUESTS.  DO NOT USE!
+
+# Tell squid how to handle expiration times for content with no explicit expiration
+# Assume static content is fresh for at least an hour and at most a day
+#refresh_pattern -i  \.(jpg|jpeg|gif|png|tiff|tif|svg|swf|ico|css|js|vsd|doc|ppt|pps|xls|pdf|mp3|mp4|m4a|ogg|mov|avi|wmv|sxw|zip|gz|bz2|tar|rar|odc|odb|odf|odg|odi|odp|ods|odt|sxc|sxd|sxi|sxw|dmg|torrent|deb|msi|iso|rpm)$ 60 50% 1440 reload-into-ims
+#refresh_pattern . 0 20%	1440
+
+# Change force-refresh requests into conditional gets using if-modified-since
+#reload_into_ims on
+
+# DEBUGGING
+# ------------------------------------------------------------------------------
+# debug_options ALL,1 33,2 # use this for debugging acls
+ debug_options ALL,8
+
+
+# MISCELLANEOUS
+# ------------------------------------------------------------------------------
+# have squid handle all requests with ranges
+# range_offset_limit -1
+
+# amount of time squid waits for existing requests to be serviced before shutting down
+shutdown_lifetime 1 seconds
+
+# allow squid to process multiple requests simultaneously if client is pipelining
+pipeline_prefetch on
+
+# allow white spaces to be included in URLs
+uri_whitespace allow
+
+
+# OTHER PARAMETERS THAT MAY BE OF INTEREST
+# ------------------------------------------------------------------------------
+
+# logfile_rotate 0
+# reload_into_ims off
+#error_directory /usr/local/squid/share/errors/English
+
+ 
+

@@ -106,21 +106,27 @@ class login_index {
 	        	if($alreadyfailed['times'] > 5) {
 	        		$error = $app->lng('error_user_too_many_logins');
 	        	} else {
+	        		
 					if ($loginAs){
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
 						$user = $app->db->queryOneRecord($sql);
 					} else {
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
 						$user = $app->db->queryOneRecord($sql);
+
 						if($user && $user['active'] == 1) {
+							
 							$saved_password = stripslashes($user['passwort']);
+							
 							if(substr($saved_password,0,3) == '$1$') {
 								//* The password is crypt-md5 encrypted
 								$salt = '$1$'.substr($saved_password,3,8).'$';
+								
 								if(crypt($passwort,$salt) != $saved_password) {
 									$user = false;
 								}
 							} else {
+								
 								//* The password is md5 encrypted
 								if(md5($passwort) != $saved_password) {
 									$user = false;

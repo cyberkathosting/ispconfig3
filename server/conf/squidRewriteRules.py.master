@@ -1,0 +1,196 @@
+"""
+/**********************************************************************
+FILE     : $RCSfile: squidRewriteRules.py,v $
+PURPOSE  : Rule set for icoya redirector
+NOTES    :
+AUTHOR   : Simon Eisenmann
+COPYRIGHT: (c) 2003,2004 by struktur AG
+DATE     : 28JAN2003
+REVISION : $Revision: 1.12 $
+VERSION  : $Id: squidRewriteRules.py,v 1.12 2004/08/06 08:16:19 longsleep Exp $ (Author: $Author: longsleep $)
+
+struktur AG            Phone: +49 711 8966560
+Junghansstr. 5         Fax:   +49 711 89665610
+70469 Stuttgart        email: info@struktur.de
+GERMANY
+
+http://www.struktur.de
+http://www.strukturag.com
+
+**********************************************************************/
+
+ Reloadable module allows arbitrary url transformations.
+
+
+ Automatic reload of the rules
+ +++++++++++++++++++++++++++++++++++
+
+ NOTE: use the reload after parameter to auto reload this module
+       after x requests. Use -1 to disable auto reload
+
+
+ Logging
+ +++++++++++++++++++++++++++++++++++
+
+ NOTE: set debug to 1 to enable logging
+       define the logfile in the logfile variable (enter full path)
+
+
+"""
+import re, sys
+
+try:
+    import py
+except ImportError:
+    pass
+
+"""
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+begin of configuration
+"""
+
+# log mode (set to 1 to enable logging)
+debug = 0
+
+# logfile for debugging (only required when debug == 1)
+logfile = "/etc/squid/redirector_class.log"
+
+# set this to -1 to get best performance (no reload)
+reload_after = -1
+
+# define sitemap matching regex mapping
+
+# MODIFY THIS REWRITE RULE AS NEEDED FOR YOUR SITE
+
+rewrites = (
+  
+### HTTP SSL/encrypted webmail rewrite ### You can use this as an example for your ssl virtualhosted website
+
+<tmpl_loop name="squid_rewrite_rules">
+    (r'{tmpl_var name="rewrite_url_src"}', r'{tmpl_var name="rewrite_url_dest"}\1', 'P,L'),
+</tmpl_loop>
+
+  
+
+
+
+)
+
+
+
+"""
+end of configuration
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+"""
+
+compiled_rewrites = None
+
+def log(s):
+    """ Logging facility.
+    """
+    try:
+        f = open(logfile, "a")
+    except IOError:
+        print >> sys.stderr, s
+        return
+    f.write('%s\n' % s)
+    f.flush()
+    f.close()
+
+def init():
+    global compiled_rewrites
+
+    compiled_rewrites = []
+    for rewrite in rewrites:
+        regexp = re.compile(rewrite[0])
+        template = rewrite[1]
+        flags = {}
+        for flag in rewrite[2].split(','):
+            parts = flag.split('=')
+            flag = parts[0]
+            option = None
+            if flag == 'R':
+                if len(parts) > 1:
+                    option = "%s:" % parts[1]
+                else:
+                    option = '302:'
+            flags[flag] = option
+        compiled = (regexp, template, flags)
+        if debug:
+            log('compiled: %s' % str((regexp.pattern, template, flags)))
+        compiled_rewrites.append(compiled)
+    compiled_rewrites = tuple(compiled_rewrites)
+
+def rewrite(url, src_address=''):
+    """ just rewrites urls.
+    """
+
+    if debug:
+        log("args: %s" % str((url, src_address)))
+
+    newurl = None
+    for regexp, template, flags in compiled_rewrites:
+        m = regexp.match(url)
+        if m is not None and template != '-':
+            if debug:
+                log("match.groups ('%s'): %s" % (regexp.pattern, str(m.groups())))
+            url = newurl = "%s%s" % (flags.get('R', ''), m.expand(template))
+            if debug:
+                log('newurl: %s' % newurl)
+            if 'L' in flags:
+                break
+
+    if newurl is not None:
+        if debug:
+            log('finalurl: %s' % newurl)
+        return newurl
+
+    # redirect to something we can match by a squid acl
+    # this special non existing domain should be denied
+    # by squid with a http_reply_access line
+    return "http://denypool/denyme"
+
+def test_foobar_redirection():
+    assert rewrite('http://foobar.com/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    assert rewrite('http://foobar.de/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    assert rewrite('http://www.foobar.de/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    assert rewrite('http://foobar-portal.de/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    assert rewrite('http://www.foobar-portal.de/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    assert rewrite('http://foobar-portal-europe.de/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    assert rewrite('http://www.foobar-portal-europe.de/foo/bar') == '302:http://www.foobar.com/foo/bar'
+    # shouldn't redirect, just rewrite
+    assert not rewrite('http://www.foobar.com/foo/bar').startswith('302:')
+
+def test_foobarbacon_redirection():
+    assert rewrite('http://foobar-bacon.com/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://foobar-bacon.de/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://www.foobar-bacon.de/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://foobar-bacon-europe.de/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://www.foobar-bacon-europe.de/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://foobar-bacon-europe.com/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://www.foobar-bacon-europe.com/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://foobar-bacon.net/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    assert rewrite('http://www.foobar-bacon.net/foo/bar') == '302:http://www.foobar-bacon.com/foo/bar'
+    # shouldn't redirect, just rewrite
+    assert not rewrite('http://www.foobar-bacon.com/foo/bar').startswith('302:')
+
+def test_virtual_hosting():
+    assert rewrite('http://www.foobar.com/foo/bar') == 'http://backendpool/VirtualHostBase/http/www.foobar.com/foobarportal/VirtualHostRoot/foo/bar'
+    assert rewrite('http://www.foobar.com:8088/foo/bar') == 'http://backendpool/VirtualHostBase/http/www.foobar.com:8088/foobarportal/VirtualHostRoot/foo/bar'
+    assert rewrite('http://www.foobar-bacon.com/foo/bar') == 'http://backendpool/VirtualHostBase/http/www.foobar-bacon.com/foobarbacon/VirtualHostRoot/foo/bar'
+    assert rewrite('http://www.foobar-bacon.com:8088/foo/bar') == 'http://backendpool/VirtualHostBase/http/www.foobar-bacon.com:8088/foobarbacon/VirtualHostRoot/foo/bar'
+
+def test_zmi():
+    assert rewrite('http://www.foobar.com/--zmi--/foo/bar') == 'http://backendpool/VirtualHostBase/http/www.foobar.com/VirtualHostRoot/_vh_--zmi--/foo/bar'
+    assert rewrite('http://www.foobar.com:8088/--zmi--/foo/bar') == 'http://backendpool/VirtualHostBase/http/www.foobar.com:8088/VirtualHostRoot/_vh_--zmi--/foo/bar'
+
+def test_repos():
+    assert rewrite('http://www.foobar.com/--repos--/foo/bar') == 'http://localhost/--repos--/foo/bar'
+    assert rewrite('http://www.foobar.com:8088/--repos--/foo/bar') == 'http://localhost/--repos--/foo/bar'
+
+if debug:
+    log("reloading user redirector module")
+init()
+if debug:
+    log("reloaded user redirector module")
+

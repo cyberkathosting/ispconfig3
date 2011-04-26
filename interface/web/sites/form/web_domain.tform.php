@@ -485,9 +485,9 @@ $form["tabs"]['advanced'] = array (
 		'php_open_basedir' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+			/*'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'php_open_basedir_error_empty'),
-									),
+									),   */
 			'default'	=> 'All',
 			'value'		=> '',
 			'width'		=> '30',
@@ -509,6 +509,14 @@ $form["tabs"]['advanced'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+        'nginx_directives' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		)
 	##################################
 	# ENDE Datatable fields
 	##################################

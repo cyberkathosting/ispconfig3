@@ -315,7 +315,7 @@ class tform_actions {
 						$next_tab = $app->tform->getCurrentTab();
                 		$this->loadPlugins($next_tab);
 						
-						
+                	
                         // Call plugin
                         foreach($this->plugins as $plugin) {
                                 $plugin->onDelete();

@@ -15,6 +15,8 @@
             <th class="tbl_col_file_server" scope="col"><tmpl_var name="file_server_txt"></th>
             <th class="tbl_col_db_server" scope="col"><tmpl_var name="db_server_txt"></th>
             <th class="tbl_col_vserver_server" scope="col"><tmpl_var name="vserver_server_txt"></th>
+			<th class="tbl_col_proxy_server" scope="col"><tmpl_var name="proxy_server_txt"></th>
+            <th class="tbl_col_firewall_server" scope="col"><tmpl_var name="firewall_server_txt"></th>
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
@@ -25,7 +27,9 @@
             <td class="tbl_col_file_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_file_server'}</select></td>
             <td class="tbl_col_db_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_db_server'}</select></td>
             <td class="tbl_col_vserver_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_vserver_server'}</select></td>
-            <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/server_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+            <td class="tbl_col_proxy_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_proxy_server'}</select></td>
+            <td class="tbl_col_firewallserver"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_firewall_server'}</select></td>
+			<td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/server_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
         <tbody>
@@ -38,6 +42,8 @@
             <td class="tbl_col_file_server">{tmpl_var name="file_server"}</td>
             <td class="tbl_col_db_server">{tmpl_var name="db_server"}</td>
             <td class="tbl_col_vserver_server">{tmpl_var name="vserver_server"}</td>
+			<td class="tbl_col_proxy_server">{tmpl_var name="proxy_server"}</td>
+            <td class="tbl_col_firewall_server">{tmpl_var name="firewall_server"}</td>
             <td class="tbl_col_buttons">
               <div class="buttons icons16">    
                 <a class="icons16 icoDelete" href="javascript: del_record('admin/server_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>

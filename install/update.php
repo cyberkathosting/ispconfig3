@@ -256,7 +256,7 @@ if($reconfigure_services_answer == 'yes') {
 		$inst->configure_getmail();
 	}
 	
-	if($conf['services']['web']) {
+	if($conf['services']['web'] && $conf['pureftpd']['installed'] == true) {
 		//** Configure Pureftpd
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
@@ -295,25 +295,41 @@ if($reconfigure_services_answer == 'yes') {
 	swriteln('Configuring Database');
 	$inst->configure_dbserver();
 
-
-	//if(@is_dir('/etc/Bastille')) {
-	//* Configure Firewall
-	swriteln('Configuring Firewall');
-	$inst->configure_firewall();
-	//}
+	
+	if($conf['services']['firewall']) {
+		if($conf['bastille']['installed'] == true) {
+			//* Configure Bastille Firewall
+			swriteln('Configuring Bastille Firewall');
+			$inst->configure_firewall();
+		} elseif($conf['ufw']['installed'] == true) {
+			//* Configure Ubuntu Firewall
+			swriteln('Configuring Ubuntu Firewall');
+			$inst->configure_ufw_firewall();
+		}
+	}
+	
+	if($conf['squid']['installed'] == true) {
+		swriteln('Configuring Squid');
+		$inst->configure_squid();
+	} else if($conf['nginx']['installed'] == true) {
+		swriteln('Configuring Nginx');
+		$inst->configure_nginx();
+	}
 }
 
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
 
 
-//** Customise the port ISPConfig runs on
-$ispconfig_port_number = get_ispconfig_port_number();
-$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
-
-// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
-if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate',array('yes','no'),'no')) == 'yes') {
-	$inst->make_ispconfig_ssl_cert();
+if ($conf['services']['web'] && $inst->ispconfig_interface_installed) {
+	//** Customise the port ISPConfig runs on
+	$ispconfig_port_number = get_ispconfig_port_number();
+	$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
+	
+	// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
+	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate',array('yes','no'),'no')) == 'yes') {
+		$inst->make_ispconfig_ssl_cert();
+	}
 }
 
 $inst->install_ispconfig();
@@ -350,6 +366,15 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 		if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
 		if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['bind']['init_script']))					system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
+	}
+	
+	if($conf['services']['proxy']) {
+		if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
+		if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['nginx']['init_script']))					system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' restart &> /dev/null');
+	}
+	
+	if($conf['services']['firewall']) {
+		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 	}
 }
 

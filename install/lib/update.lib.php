@@ -95,6 +95,9 @@ function updateDbAndIni() {
 	$conf['services']['file'] = ($tmp['file_server'] == 1)?true:false;
 	$conf['services']['db'] = ($tmp['db_server'] == 1)?true:false;
 	$conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
+	$conf['services']['proxy'] = ($tmp['proxy_server'] == 1)?true:false;
+	$conf['services']['firewall'] = ($tmp['firewall_server'] == 1)?true:false;
+	
 	$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
 	
 	//* Do incremental DB updates only on installed ISPConfig versions > 3.0.3

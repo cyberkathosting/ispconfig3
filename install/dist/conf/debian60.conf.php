@@ -51,6 +51,8 @@ $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
 $conf['services']['vserver'] = true;
+$conf['services']['proxy'] = false;
+$conf['services']['firewall'] = false;
 
 //* MySQL
 $conf['mysql']['installed'] = false; // will be detected automatically during installation
@@ -182,6 +184,27 @@ $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
 $conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico';
 $conf['jailkit']['jailkit_chroot_cron_programs'] = '/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php';
+
+//* Squid
+$conf['squid']['installed'] = false; // will be detected automatically during installation
+$conf['squid']['config_dir'] = '/etc/squid';
+$conf['squid']['init_script'] = 'squid';
+
+//* Nginx
+$conf['nginx']['installed'] = false; // will be detected automatically during installation
+$conf['nginx']['config_dir'] = '/etc/nginx';
+$conf['nginx']['vhost_conf_dir'] = '/etc/nginx/sites-available';
+$conf['nginx']['vhost_conf_enabled_dir'] = '/etc/nginx/sites-enabled';
+$conf['nginx']['init_script'] = 'nginx';
+
+//* Ufw
+$conf['ufw']['installed'] = false;
+$conf['squid']['config_dir'] = '/etc/ufw';
+$conf['squid']['init_script'] = 'ufw';
+
+//*Bastille-Firwall
+$conf['bastille']['installed'] = false;
+$conf['bastille']['config_dir'] = '/etc/Bastille';
 
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc';

@@ -1,0 +1,8 @@
+# /etc/ufw/ufw.conf
+# 
+
+# set to yes to start on boot
+ENABLED=yes
+
+# set to one of 'off', 'low', 'medium', 'high'
+LOGLEVEL=low

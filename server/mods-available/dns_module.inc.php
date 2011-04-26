@@ -47,7 +47,11 @@ class dns_module {
 	function onInstall() {
 		global $conf;
 		
-		return true;
+		if($conf['services']['dns'] == true) {
+			return true;
+		} else {
+			return false;
+		}
 		
 	}
 	

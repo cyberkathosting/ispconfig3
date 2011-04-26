@@ -751,6 +751,68 @@ $form["tabs"]['jailkit'] = array(
 	)
 );
 
+$form["tabs"]['ufw_firewall'] = array (
+	'title' 	=> "UFW Firewall",
+	'width' 	=> 80,
+	'template' 	=> "templates/server_config_ufw_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'ufw_enable' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'no',
+			'value'		=> array(0 => 'no',1 => 'yes')
+		),
+		'ufw_manage_builtins' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'no',
+			'value'		=> array(0 => 'no',1 => 'yes')
+		),
+		'ufw_ipv6' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'no',
+			'value'		=> array(0 => 'no',1 => 'yes')
+		),
+		'ufw_default_input_policy' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'ACCEPT',
+			'value'		=> array('ACCEPT' => 'accept', 'DROP' => 'drop', 'REJECT' => 'reject')
+		),
+		'ufw_default_output_policy' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'ACCEPT',
+			'value'		=> array('ACCEPT' => 'accept', 'DROP' => 'drop', 'REJECT' => 'reject')
+		),
+		'ufw_default_forward_policy' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'ACCEPT',
+			'value'		=> array('ACCEPT' => 'accept', 'DROP' => 'drop', 'REJECT' => 'reject')
+		),
+		'ufw_default_application_policy' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'DROP',
+			'value'		=> array('ACCEPT' => 'accept', 'DROP' => 'drop', 'REJECT' => 'reject')
+		),
+		'ufw_log_level' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'low',
+			'value'		=> array('low' => 'low', 'medium' => 'medium', 'high' => 'high')
+		)
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
 
 $form["tabs"]['vlogger'] = array(
 	'title' => "vlogger",

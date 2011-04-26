@@ -50,7 +50,7 @@ define('ISPC_APP_VERSION', '3.0.2');
 //** Database
 $conf['db_type'] = 'mysql';
 $conf['db_host'] = 'localhost';
-$conf['db_database'] = 'ispconfig3_stable';
+$conf['db_database'] = 'dbispconfig';
 $conf['db_user'] = 'root';
 $conf['db_password'] = '';
 $conf['db_charset'] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL: "utf-8" --> "utf8", "iso-8859-1" --> "latin1")
@@ -132,6 +132,7 @@ $conf['logo'] = 'themes/default/images/ispc_logo.png';
 //** Default Language
 $conf['language'] = 'en';
 $conf['debug_language'] = false;
+
 
 //** Misc.
 $conf['interface_logout_url'] = ''; // example: http://www.domain.tld/

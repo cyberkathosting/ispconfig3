@@ -1,0 +1,34 @@
+proxy_cache global;
+proxy_redirect          off;
+proxy_set_header        Host            $host;
+proxy_set_header        X-Real-IP       $remote_addr;
+proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_pass_header       Set-Cookie;
+client_max_body_size    10m;
+client_body_buffer_size 128k;
+proxy_connect_timeout   90;
+proxy_send_timeout      90;
+proxy_read_timeout      90;
+proxy_buffers           32 4k;
+
+set $cache_key $scheme$host$uri$is_args$args$cookie_user;
+proxy_cache_key $cache_key;
+proxy_cache_valid 200 10h;
+expires 3d;
+
+### force timeouts if one of backend is died ##
+proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+
+location = /status {
+        stub_status on;
+        allow 127.0.0.1;
+        allow 192.168.1.0;
+        deny all;
+}
+
+location ~ /purge(/.*) {
+        allow 127.0.0.1;
+        allow 192.168.1.0;
+        deny all;
+        proxy_cache_purge global $cache_key;
+}

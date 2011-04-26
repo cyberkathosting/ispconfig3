@@ -85,11 +85,27 @@ $module['nav'][] = array(	'title'	=> 'System',
 // cleanup
 unset($items);
 
-
+/*
 $items[] = array( 'title' 	=> 'Firewall',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/firewall_list.php',
-				  'html_id'=> 'firewall_list');
+				  'html_id'=> 'firewall_list');*/
+                  
+$items[] = array( 'title' 	=> 'Basic',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/firewall_list.php');				  
+
+$items[] = array( 'title' 	=> 'Packet Filter',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/firewall_filter_list.php');				  
+
+
+$items[] = array( 'title' 	=> 'Port Forward',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/firewall_forward_list.php');				  
+
+
+	
 
 
 $module['nav'][] = array(	'title'	=> 'Firewall',

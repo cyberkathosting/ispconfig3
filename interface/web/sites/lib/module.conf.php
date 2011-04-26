@@ -156,5 +156,17 @@ $module['nav'][] = array(   'title' => 'Statistics',
 // clean up
 unset($items);
 
+$items[] = array( 'title' 	=> "Rewrite Rules",
+				  'target' 	=> 'content',
+				  'link'	=> 'sites/proxy_reverse_list.php');
+
+
+$module["nav"][] = array(	'title'	=> 'Reverse Proxy',
+							'open' 	=> 1,
+							'items'	=> $items);
+
+// clean up
+unset($items);
+
 
 ?>

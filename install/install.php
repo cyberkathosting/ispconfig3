@@ -230,9 +230,31 @@ if($install_mode == 'standard') {
 	$inst->configure_apps_vhost();
     
 	//* Configure Firewall
-	swriteln('Configuring Firewall');
-	$inst->configure_firewall();
-
+	//swriteln('Configuring Firewall');
+	//$inst->configure_firewall();
+	//** Configure Firewall	
+	if($conf['bastille']['installed'] == true) {
+		//* Configure Bastille Firewall
+		$conf['services']['firewall'] = true;
+		swriteln('Configuring Bastille Firewall');
+		$inst->configure_firewall();
+	} elseif($conf['ufw']['installed'] == true) {
+		//* Configure Ubuntu Firewall
+		$conf['services']['firewall'] = true;
+		swriteln('Configuring Ubuntu Firewall');
+		$inst->configure_ufw_firewall();
+	}
+	
+	if($conf['squid']['installed'] == true) {
+		$conf['services']['proxy'] = true;
+		swriteln('Configuring Squid');
+		$inst->configure_squid();
+	} else if($conf['nginx']['installed'] == true) {
+		$conf['services']['proxy'] = true;
+		swriteln('Configuring Nginx');
+		$inst->configure_nginx();
+	}
+	
 	//* Configure ISPConfig
 	swriteln('Installing ISPConfig');
 	
@@ -267,7 +289,9 @@ if($install_mode == 'standard') {
 	if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mydns']['init_script']))					system($conf['init_scripts'].'/'.$conf['mydns']['init_script'].' restart &> /dev/null');
 	if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['powerdns']['init_script']))					system($conf['init_scripts'].'/'.$conf['powerdns']['init_script'].' restart &> /dev/null');
 	if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['bind']['init_script']))					system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
-	
+	if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
+	if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['nginx']['init_script']))					system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' restart &> /dev/null');
+	if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 }else{
 	
 	//* In expert mode, we select the services in the following steps, only db is always available
@@ -275,6 +299,8 @@ if($install_mode == 'standard') {
 	$conf['services']['web'] = false;
 	$conf['services']['dns'] = false;
 	$conf['services']['db'] = true;
+	$conf['services']['firewall'] = false;
+	$conf['services']['proxy'] = false;
 	
 	
 	//** Get Server ID
@@ -416,6 +442,21 @@ if($install_mode == 'standard') {
 		
 	}
 	
+	//** Configure Squid
+	if(strtolower($inst->simple_query('Configure Proxy Server', array('y','n'),'y') ) == 'y') {	
+		if($conf['squid']['installed'] == true) {
+			$conf['services']['proxy'] = true;
+			swriteln('Configuring Squid');
+			$inst->configure_squid();
+			if($conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
+		} else if($conf['nginx']['installed'] == true) {
+			$conf['services']['proxy'] = true;
+			swriteln('Configuring Nginx');
+			$inst->configure_nginx();
+			if($conf['nginx']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['nginx']['init_script']))system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' restart &> /dev/null');
+		}
+	}
+	
 	//** Configure Apache
 	swriteln("\nHint: If this server shall run the ISPConfig interface, select 'y' in the 'Configure Apache Server' option.\n");
 	if(strtolower($inst->simple_query('Configure Apache Server',array('y','n'),'y')) == 'y') {	
@@ -434,9 +475,25 @@ if($install_mode == 'standard') {
 	
 	//** Configure Firewall
 	if(strtolower($inst->simple_query('Configure Firewall Server',array('y','n'),'y')) == 'y') {	
+		if($conf['bastille']['installed'] == true) {
+			//* Configure Bastille Firewall
+			$conf['services']['firewall'] = true;
+			swriteln('Configuring Bastille Firewall');
+			$inst->configure_firewall();
+		} elseif($conf['ufw']['installed'] == true) {
+			//* Configure Ubuntu Firewall
+			$conf['services']['firewall'] = true;
+			swriteln('Configuring Ubuntu Firewall');
+			$inst->configure_ufw_firewall();
+		}
+	}
+	
+	//** Configure Firewall
+	/*if(strtolower($inst->simple_query('Configure Firewall Server',array('y','n'),'y')) == 'y') {	
 		swriteln('Configuring Firewall');
 		$inst->configure_firewall();
-	}
+	}*/
+	
 	//** Configure ISPConfig :-)
 	if(strtolower($inst->simple_query('Install ISPConfig Web Interface',array('y','n'),'y')) == 'y') {
 		swriteln('Installing ISPConfig');

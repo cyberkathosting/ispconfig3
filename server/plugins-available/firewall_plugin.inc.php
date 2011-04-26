@@ -38,7 +38,11 @@ class firewall_plugin {
 	function onInstall() {
 		global $conf;
 		
-		return true;
+		if($conf['bastille']['installed'] = true && $conf['services']['firewall'] == true) {
+			return true;
+		} else {
+			return false;
+		}
 		
 	}
 	

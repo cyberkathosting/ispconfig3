@@ -691,6 +691,8 @@ CREATE TABLE `server` (
   `file_server` tinyint(1) NOT NULL default '0',
   `db_server` tinyint(1) NOT NULL default '0',
   `vserver_server` tinyint(1) NOT NULL default '0',
+  `proxy_server` tinyint(1) NOT NULL default '0',
+  `firewall_server` tinyint(1) NOT NULL default '0',
   `config` text NOT NULL,
   `updated` bigint(20) unsigned NOT NULL default '0',
   `mirror_server_id` int(11) unsigned NOT NULL default '0',
@@ -1141,6 +1143,7 @@ CREATE TABLE `web_domain` (
   `stats_type` varchar(255) default 'webalizer',
   `allow_override` varchar(255) NOT NULL default 'All',
   `apache_directives` mediumtext,
+  `nginx_directives` mediumtext,
   `php_open_basedir` mediumtext,
   `custom_php_ini` mediumtext,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
@@ -1149,6 +1152,8 @@ CREATE TABLE `web_domain` (
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
+
+
 
 -- --------------------------------------------------------
 
@@ -1659,6 +1664,70 @@ CREATE TABLE `help_faq` (
 INSERT INTO `help_faq` VALUES (1,1,0,'I\'d like to know ...','Yes, of course.',1,1,'riud','riud','r');
 
 ALTER TABLE client ADD COLUMN company_id varchar(30);
+
+
+CREATE TABLE `proxy_reverse` (
+  `rewrite_id` int(11) NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `rewrite_url_src` varchar(100) NOT NULL,
+  `rewrite_url_dst` varchar(100) NOT NULL,
+  `active` enum('n','y') NOT NULL default 'y',
+  PRIMARY KEY  (`rewrite_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `firewall_filter` (
+  `firewall_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `domain_id` int(11) NOT NULL,
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `rule_name` varchar(100) default NULL,
+  `rule_id` int(11) default 1,
+  `src_ip` varchar(20) NOT NULL,
+  `src_netmask` varchar(20) NOT NULL,
+  `dst_ip` varchar(20) NOT NULL,
+  `dst_netmask` varchar(20) NOT NULL,
+  `src_from_port` varchar(10) NOT NULL,
+  `src_to_port` varchar(10) NOT NULL,
+  `dst_to_port` varchar(10) NOT NULL,
+  `dst_from_port` varchar(10) NOT NULL,
+  `protocol` varchar(10) default 'tcp',
+  `inbound_policy` enum('allow','deny','reject','limit') default 'allow',
+  `outbound_policy` enum('allow','deny','reject','limit') default 'allow',
+  `active` enum('n','y') NOT NULL default 'y',
+  `client_id` int(11) NOT NULL,
+  PRIMARY KEY  (`firewall_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `firewall_forward` (
+  `firewall_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `domain_id` int(11) NOT NULL,
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) default NULL,
+  `sys_perm_group` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `application_name` varchar(100) default NULL,
+  `dst_ip` varchar(20) NOT NULL,
+  `src_from_port` varchar(10) NOT NULL,
+  `src_to_port` varchar(10) NOT NULL,
+  `dst_to_port` varchar(10) NOT NULL,
+  `dst_from_port` varchar(10) NOT NULL,
+  `protocol` int(3) default 0,
+  `active` enum('n','y') NOT NULL default 'y',
+  `client_id` int(11) NOT NULL,
+  PRIMARY KEY  (`firewall_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

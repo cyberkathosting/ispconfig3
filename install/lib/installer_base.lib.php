@@ -130,7 +130,12 @@ class installer_base {
 		if(is_installed('jk_chrootsh')) $conf['jailkit']['installed'] = true;
 		if(is_installed('pdns_server') || is_installed('pdns_control')) $conf['powerdns']['installed'] = true;
 		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
-
+		if(is_installed('squid')) $conf['squid']['installed'] = true;
+		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
+		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
+		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
+		
+		if ($conf['services']['web'] && $conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) $this->ispconfig_interface_installed = true;
 	}
 
 	/** Create the database for ISPConfig */
@@ -227,6 +232,11 @@ class installer_base {
 		$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
 		$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
 		
+		if ($conf['nginx']['installed'] == true) {
+			$tpl_ini_array['nginx']['vhost_conf_dir'] = $conf['nginx']['vhost_conf_dir'];
+			$tpl_ini_array['nginx']['vhost_conf_enabled_dir'] = $conf['nginx']['vhost_conf_enabled_dir'];
+		}
+		
 		if (array_key_exists('awstats', $conf)) {
 			foreach ($conf['awstats'] as $aw_sett => $aw_value) {
 				$tpl_ini_array['web']['awstats_'.$aw_sett] = $aw_value;
@@ -242,6 +252,8 @@ class installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
+		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
 		
 		//** Get the database version number based on the patchfiles
 		$found = true;
@@ -261,13 +273,13 @@ class installer_base {
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
 			$this->dbmaster->query($sql);
 			$conf['server_id'] = $this->dbmaster->insertID();
 			$conf['server_id'] = $conf['server_id'];
 
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version);";
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
 			$this->db->query($sql);
 
 			//* username for the ispconfig user
@@ -277,7 +289,7 @@ class installer_base {
 
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
 			$this->db->query($sql);
 			$conf['server_id'] = $this->db->insertID();
 			$conf['server_id'] = $conf['server_id'];
@@ -1108,6 +1120,67 @@ class installer_base {
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 	}
+	
+	public function configure_nginx()
+	{
+		global $conf;
+		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+		$ip_address = gethostbyname($row["server_name"]);
+		$server_name = $row["server_name"];
+
+        //setup proxy.conf
+		$configfile = 'proxy.conf';
+		if(is_file($conf["nginx"]["config_dir"].'/'.$configfile)) copy($conf["nginx"]["config_dir"].'/'.$configfile,$conf["nginx"]["config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["nginx"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["nginx"]["config_dir"].'/'.$configfile.'~');
+		$content = rf("tpl/nginx_".$configfile.".master");
+		wf($conf["nginx"]["config_dir"].'/'.$configfile,$content);
+		exec('chmod 600 '.$conf["nginx"]["config_dir"].'/'.$configfile);
+		exec('chown root:root '.$conf["nginx"]["config_dir"].'/'.$configfile);
+
+        //setup conf.d/cache.conf
+        $configfile = 'cache.conf';
+		if(is_file($conf["nginx"]["config_dir"].'/conf.d/'.$configfile)) copy($conf["nginx"]["config_dir"].'/conf.d/'.$configfile,$conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~');
+		if(is_file($conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~')) exec('chmod 400 '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~');
+		$content = rf("tpl/nginx_".$configfile.".master");
+		wf($conf["nginx"]["config_dir"].'/conf.d/'.$configfile,$content);
+		exec('chmod 600 '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile);
+		exec('chown root:root '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile);
+
+        //setup cache directories
+        mkdir('/var/cache/nginx/cache');
+        exec('chown www-data:www-data /var/cache/nginx/cache');
+        mkdir('/var/cache/nginx/temp');
+        exec('chown www-data:www-data /var/cache/nginx/temp');
+	}
+	
+	public function configure_squid()
+	{
+		global $conf;
+		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+		$ip_address = gethostbyname($row["server_name"]);
+		$server_name = $row["server_name"];
+		
+		$configfile = 'squid.conf';
+		if(is_file($conf["squid"]["config_dir"].'/'.$configfile)) copy($conf["squid"]["config_dir"].'/'.$configfile,$conf["squid"]["config_dir"].'/'.$configfile.'~');
+		if(is_file($conf["squid"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["squid"]["config_dir"].'/'.$configfile.'~');
+		$content = rf("tpl/".$configfile.".master");
+		$content = str_replace('{server_name}',$server_name,$content);
+		$content = str_replace('{ip_address}',$ip_address, $content);
+		$content = str_replace('{config_dir}',$conf['squid']['config_dir'], $content);
+		wf($conf["squid"]["config_dir"].'/'.$configfile,$content);
+		exec('chmod 600 '.$conf["squid"]["config_dir"].'/'.$configfile);
+		exec('chown root:root '.$conf["squid"]["config_dir"].'/'.$configfile);
+	}
+	
+	public function configure_ufw_firewall()
+	{
+		$configfile = 'ufw.conf';
+		if(is_file('/etc/ufw/ufw.conf')) copy('/etc/ufw/ufw.conf','/etc/ufw/ufw.conf~');
+		$content = rf("tpl/".$configfile.".master");
+		wf('/etc/ufw/ufw.conf',$content);
+		exec('chmod 600 /etc/ufw/ufw.conf');
+		exec('chown root:root /etc/ufw/ufw.conf');	
+	}
 
 	public function configure_firewall() {
 		global $conf;
@@ -1426,13 +1499,14 @@ class installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
+		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
 
 
 
 
 
-
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ".intval($conf['server_id']);
 
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			$this->dbmaster->query($sql);

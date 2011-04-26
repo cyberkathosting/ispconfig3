@@ -1,0 +1,6 @@
+proxy_temp_path /var/cache/nginx/temp;
+proxy_cache_path /var/cache/nginx/cache levels=1:2 keys_zone=global:60m inactive=15m max_size=1G;
+proxy_cache_valid    200 302 10m;
+proxy_cache_valid    301 1h;
+proxy_cache_valid    404 3m;
+proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
