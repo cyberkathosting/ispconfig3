@@ -79,6 +79,21 @@ $form["tabs"]['mailuser'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+    'login' => array (
+      'datatype'  => 'VARCHAR',
+      'formtype'  => 'TEXT',
+      'validators'  => array (
+                    0 => array (  'type'  => 'UNIQUE',
+                            'errmsg'=> 'login_error_unique'),
+                    1 => array (  'type'  => 'REGEX',
+                            'regex' => '/^[a-z][\w\.\-_\+@]{1,63}$/',
+                            'errmsg'=> 'login_error_regex'),
+                  ),
+      'default' => '',
+      'value'   => '',
+      'width'   => '30',
+      'maxlength' => '255'
+    ),
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',

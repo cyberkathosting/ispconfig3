@@ -7,6 +7,7 @@
 [dns]
 
 [mail]
+enable_custom_login=n
 mailboxlist_webmail_link=y
 webmail_url=
 

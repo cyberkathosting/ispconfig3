@@ -589,6 +589,7 @@ CREATE TABLE `mail_user` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `email` varchar(255) NOT NULL default '',
+  `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL default '',
   `uid` int(11) unsigned NOT NULL default '5000',

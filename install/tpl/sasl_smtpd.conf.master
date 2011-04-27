@@ -6,4 +6,4 @@ sql_hostnames: {mysql_server_ip}
 sql_user: {mysql_server_ispconfig_user}
 sql_passwd: {mysql_server_ispconfig_password}
 sql_database: {mysql_server_database}
-sql_select: select password from mail_user where email = '%u'
+sql_select: select password from mail_user where login = '%u'

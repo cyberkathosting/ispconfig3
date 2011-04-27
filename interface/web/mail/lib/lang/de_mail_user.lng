@@ -39,4 +39,8 @@ $wb['name_optional_txt'] = '(optional)';
 $wb['autoresponder_active'] = 'Enable the autoresponder';
 $wb['cc_txt'] = 'Send copy to';
 $wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
+$wb['login_error_unique'] = 'Login wird bereits verwendet.';
+$wb['login_error_regex'] = 'Zulässige Zeichen sind A-Z, a-z, 0-9, ., _ und -.';
+$wb['login_txt'] = 'Login (optional)';
+$wb['error_login_email_txt'] = 'Dieser Loginname ist nicht zulässig. Bitte verwenden Sie einen anderen Loginnamen oder die E-Mail-Adresse als Login.';
 ?>

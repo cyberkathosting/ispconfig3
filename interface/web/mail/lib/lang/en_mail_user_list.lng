@@ -4,4 +4,5 @@ $wb["email_txt"] = 'Email';
 $wb["autoresponder_txt"] = 'Autoresponder';
 $wb["add_new_record_txt"] = 'Add new Mailbox';
 $wb["name_txt"] = 'Realname';
+$wb["login_txt"] = 'Login';
 ?>

@@ -75,7 +75,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email_local_part",$email_parts[0]);
 		
 		// Getting Domains of the user
-		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
+		$sql = "SELECT domain, server_id FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		if(is_array($domains)) {
@@ -112,6 +112,14 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ar_active", 'checked="checked"');
 		} else {
 			$app->tpl->setVar("ar_active", '');
+		}
+		
+    $app->uses('getconf');
+    $mail_config = $app->getconf->get_global_config('mail');
+		if($mail_config["enable_custom_login"] == "y") {
+		    $app->tpl->setVar("enable_custom_login", 1);
+		} else {
+		    $app->tpl->setVar("enable_custom_login", 0);
 		}
 		
 		parent::onShowEnd();
@@ -165,6 +173,9 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 		
 
+    $app->uses('getconf');
+    $mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
+		
 		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
 			$this->dataRecord["email"] = strtolower($_POST["email_local_part"]."@".$_POST["email_domain"]);
@@ -179,8 +190,6 @@ class page_action extends tform_actions {
 			if($this->dataRecord["quota"] != -1) $this->dataRecord["quota"] = $this->dataRecord["quota"] * 1024 * 1024;
 		
 			// setting Maildir, Homedir, UID and GID
-			$app->uses('getconf');
-			$mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
 			$maildir = str_replace("[domain]",$domain["domain"],$mail_config["maildir_path"]);
 			$maildir = str_replace("[localpart]",strtolower($_POST["email_local_part"]),$maildir);
 			$this->dataRecord["maildir"] = $maildir;
@@ -195,6 +204,13 @@ class page_action extends tform_actions {
 			
 		}
 		
+    $sys_config = $app->getconf->get_global_config('mail');
+    if($sys_config["enable_custom_login"] == "y") {
+        if(!isset($_POST["login"])) $this->dataRecord["login"] = $this->dataRecord["email"];
+        elseif(strpos($_POST["login"], '@') !== false && $_POST["login"] != $this->dataRecord["email"]) $app->tform->errorMessage .= $app->tform->lng("error_login_email_txt")."<br>";
+		} else {
+        $this->dataRecord["login"] = $this->dataRecord["email"];
+		}
 		//* if autoresponder checkbox not selected, do not save dates
 		if (!isset($_POST['autoresponder']) && array_key_exists('autoresponder_start_date', $_POST)) {
 			$this->dataRecord['autoresponder_start_date'] = array_map(create_function('$item','return 0;'), $this->dataRecord['autoresponder_start_date']);

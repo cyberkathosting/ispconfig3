@@ -162,6 +162,12 @@ $form["tabs"]['mail'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+    'enable_custom_login' => array(
+      'datatype' => 'VARCHAR',
+      'formtype' => 'CHECKBOX',
+      'default' => 'n',
+      'value' => array(0 => 'n', 1 => 'y')
+    ),
 		'mailboxlist_webmail_link' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
