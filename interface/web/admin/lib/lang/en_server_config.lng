@@ -84,4 +84,6 @@ $wb["php_ini_path_cgi_txt"] = 'CGI php.ini path';
 $wb["php_ini_path_apache_txt"] = 'Apache php.ini path';
 $wb["check_apache_config_txt"] = 'Test apache configuration on restart';
 $wb["network_config_warning_txt"] = 'The network configuration option is only available for Debian and Ubuntu Servers. Do not enable this option if your network interface is not eth0.';
+$wb["CA_path_txt"] = 'CA Path';
+$wb["CA_pass_txt"] = 'CA passphrase';
 ?>
