@@ -12,6 +12,11 @@ $items[] = array( 'title' 	=> "Add DNS Zone",
 				  'link'	=> 'dns/dns_wizard.php',
 				  'html_id' => 'dns_wizard');
 
+$items[] = array( 'title' 	=> "Import Zone File",
+				  'target' 	=> 'content',
+				  'link'	=> 'dns/dns_import.php',
+				  'html_id' => 'dns_import');
+
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
   $items[] = array( 	'title' 	=> "Templates",
 				  'target' 	=> 'content',

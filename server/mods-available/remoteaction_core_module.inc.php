@@ -135,7 +135,7 @@ class remoteaction_core_module {
 		 * Do the update
 		 */
 		exec("aptitude update");
-		exec("aptitude upgrade -y");
+		exec("aptitude safe-upgrade -y");
 
 		//TODO : change this when distribution information has been integrated into server record
 		if(file_exists('/etc/gentoo-release')) {
