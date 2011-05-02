@@ -1151,6 +1151,7 @@ CREATE TABLE `web_domain` (
   `backup_copies` INT NOT NULL DEFAULT '1',
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
+  `logs` MEDIUMTEXT NOT NULL,
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
