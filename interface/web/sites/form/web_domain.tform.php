@@ -395,33 +395,6 @@ $form["tabs"]['stats'] = array (
 	)
 );
 
-
-//* Logs
-$form["tabs"]['logs'] = array (
-	'title' 	=> "logs",
-	'width' 	=> 100,
-	'template' 	=> "templates/web_domain_logs.htm",
-	'readonly'	=> true,
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
-		'logs' => array (
-			'datatype'	=> 'TEXT',
-			'formtype'	=> 'TEXTAREA',
-			'default'	=> 'DEFAULT',
-			'value'		=> 'VALUE',
-			'cols'		=> '30',
-			'rows'		=> '10'
-		)
-	##################################
-	# ENDE Datatable fields
-	##################################
-	)
-);
-
-
-
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 //* Backup
