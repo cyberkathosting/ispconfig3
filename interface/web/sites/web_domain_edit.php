@@ -262,6 +262,32 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("domain_option",$domain_select);
 		}
 
+		// Code to display the error log for the site.
+
+		// Query the logfile name
+		$tmp  = $app->db->queryOneRecord("SELECT document_root FROM web_domain WHERE domain_id = ".$this->id);
+		$logfile = $tmp["document_root"]."/log/error.log";
+
+		$lines = count(file($logfile));
+
+		// the "tail" function
+		$handle = @fopen($logfile, "r");
+		if ($handle) {
+			while (($buffer = fgets($handle)) !== false) {
+				$lines = $lines -1;
+				// this constant defines how many lines to display
+				if ($lines<60) $tail .= $buffer; // TODO: We need a newline here.
+			}
+		   	if (!feof($handle)) {
+				$tail =  "Error.";
+		    	}
+			fclose($handle);
+		}
+		
+		// store the tail so it can be displayed in the interface
+		$app->db->query("UPDATE web_domain SET logs = '$tail' WHERE domain_id = ".$this->id);
+
+
 		parent::onShowEnd();
 	}
 
