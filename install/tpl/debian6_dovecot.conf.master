@@ -1,3 +1,7 @@
+## ISPConfig3 Template file.
+## This file was installed by ISPConfig3
+## It will be replaced if ISPConfig3 is updated.
+
 ## Dovecot configuration file
 base_dir = /var/run/dovecot/
 
@@ -45,6 +49,13 @@ protocol lda {
 ## Plugin settings
 plugin {
   quota = maildir
+
+  # Disabled user quota reporting for the first upload
+  # quota = dict:user::file:/var/vmail/%n_%d_quota
+  # Because the mail quota is called in the user query 
+  # the maildir quota does not need to be set.
+  # You do not need: quota = maildir
+
   sieve=/var/vmail/%d/%n/.sieve
 }
 

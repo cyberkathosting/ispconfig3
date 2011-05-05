@@ -149,35 +149,69 @@ class monitor_tools {
 		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
 	}
 
+/*
+    //** Email Quota
+    public function monitorEmailQuota() {
+        global $conf;
+
+		//* Initialize data array
+		$data = array();
+
+		//* the id of the server as int
+		$server_id = intval($conf['server_id']);
+
+		//* The type of the data
+		$type = 'email_quota';
+
+		//* The state of the email_quota.
+		$state = 'ok';
+
+        //* Dovecot quota check Courier in progress lathama@gmail.com
+        if($dir = opendir("/var/vmail")){
+            while (($quotafiles = readdir($dir)) !== false){
+                if(preg_match('/.\_quota$/', $quotafiles)){
+                    $quotafile = (file("/var/vmail/" . $quotafiles));
+                    $emailaddress = preg_replace('/_quota/',"", $quotafiles);
+                    $emailaddress = preg_replace('/_/',"@", $emailaddress);
+                    $data[$emailaddress]['used'] = trim($quotafile['1']);
+                }
+            }
+            closedir($dir);
+        }
+		$res['server_id'] = $server_id;
+		$res['type'] = $type;
+		$res['data'] = $data;
+		$res['state'] = $state;
+        return $res;
+    }
+*/
+
+    //** Filesystem Quota
 	public function monitorHDQuota() {
 		global $conf;
 
-		/* Initialize data array */
+		//* Initialize data array
 		$data = array();
 
-		/* the id of the server as int */
+		//* the id of the server as int
 		$server_id = intval($conf['server_id']);
 
-		/** The type of the data */
+		//* The type of the data
 		$type = 'harddisk_quota';
 
-		/** The state of the harddisk_quota. */
+		//* The state of the harddisk_quota.
 		$state = 'ok';
 
-		/** Fetch the data for all users */
+		//* Fetch the data for all users
 		$dfData = shell_exec('repquota -au');
 
-		// split into array
+		//* Split into array
 		$df = explode("\n", $dfData);
 
-		/*
-		 * ignore the first 5 lines, process the rest
-		 */
+		//* ignore the first 5 lines, process the rest
 		for ($i = 5; $i <= sizeof($df); $i++) {
 			if ($df[$i] != '') {
-				/*
-				 * Make a array of the data
-				 */
+				//* Make a array of the data
 				$s = preg_split('/[\s]+/', $df[$i]);
 				$username = $s[0];
 				if (substr($username, 0, 3) == 'web') {
@@ -194,20 +228,16 @@ class monitor_tools {
 			}
 		}
 
-		/** Fetch the data for all users */
+		//** Fetch the data for all users
 		$dfData = shell_exec('repquota -ag');
 
-		// split into array
+		//* split into array
 		$df = explode("\n", $dfData);
 
-		/*
-		 * ignore the first 5 lines, process the rest
-		 */
+		//* ignore the first 5 lines, process the rest
 		for ($i = 5; $i <= sizeof($df); $i++) {
 			if ($df[$i] != '') {
-				/*
-				 * Make a array of the data
-				 */
+				//* Make a array of the data
 				$s = preg_split('/[\s]+/', $df[$i]);
 				$groupname = $s[0];
 				if (substr($groupname, 0, 6) == 'client') {
@@ -224,9 +254,7 @@ class monitor_tools {
 			}
 		}
 
-		/*
-		 * Return the Result
-		 */
+		//* Return the Result
 		$res['server_id'] = $server_id;
 		$res['type'] = $type;
 		$res['data'] = $data;
