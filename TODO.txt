@@ -16,8 +16,8 @@ Installer
 Server
 --------------------------------------
 
-- Add a backend plugin to configure network card settings. The IP address settings
-  are stored in the server_ip table.
+- Add a backend plugin to configure network card settings. The IP address
+  settings are stored in the server_ip table.
 
 
 Mail module
@@ -26,15 +26,17 @@ Mail module
 - Show mail statistics in the interface. The mail statistics are stored
   in the database table mail_traffic and are collected by the file
   server/cron_daily.php
+- Show mail quota usage in the interface. This is started for Dovecot and
+  requires testing
 
 
 DNS module
 --------------------------------------
 
-- Add some kind of wizard to create DNS records easily. The idea is to have some
-  kind of template(s) to create all needed A and MX records defined in the template
-  with one click and the user has just to enter IP, domain, nameserver and select the
-  template that he wants to use.
+- Add some kind of wizard to create DNS records easily. The idea is to have
+  some kind of template(s) to create all needed A and MX records defined in the
+  template with one click and the user has just to enter IP, domain, nameserver
+  and select the template that he wants to use.
 
 
 Administration module
@@ -62,15 +64,15 @@ Sites (web) module
 BE-Designer module
 --------------------------------------
 
-WARNING: Please do not use the BE Designer at the moment, the serializing function
-of the module editor may break some of the existing modules.
+WARNING: Please do not use the BE Designer at the moment, the serializing
+ function of the module editor may break some of the existing modules.
 
 - Add a language file editor.
 
 
 Remoting framework
 --------------------------------------
-
+- Add more connections to other data.  Remoting hooks for FS and Email Quota
 
 Interface
 --------------------------------------
@@ -78,11 +80,13 @@ Interface
 - Enhance the list function to allow sorting by column
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
 - Use graphical Icons in the lists for on / off columns.
+  CSS icons are also an option.
 - Add a graphical delete button to the lists.
-
+  CSS icons are also an option.
+  
 
 General tasks
 --------------------------------------
 
-- Add, extend or modify comments in PEAR syntax so that they can be read with phpdocumentor.
-
+- Add, extend or modify comments in PEAR syntax so that they can be read with
+  phpdocumentor.
