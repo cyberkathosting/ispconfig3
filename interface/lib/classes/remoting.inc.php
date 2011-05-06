@@ -2450,24 +2450,29 @@ class remoting {
 			return false;
         }
     }
-    
+
+    /**
+    * Fetch the mail_domain record for the provided domain.
+    * @param int session_id
+    * @param string the fully qualified domain (or subdomain)
+    * @return array array of arrays corresponding to the mail_domain table's records
+    * @author till, benlake
+    */
 	public function mail_domain_get_by_domain($session_id, $domain) {
         global $app;
         if(!$this->checkPerm($session_id, 'mail_domain_get_by_domain')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
         }        
-        if (!empty($domain_id)) {
+        if (!empty($domain)) {
         	$domain      	= $app->db->quote($domain);        	
-    	    $sql            = "SELECT * FROM mail_domain WHERE domain = $domain";
+    	    $sql            = "SELECT * FROM mail_domain WHERE domain = '$domain'";
         	$result         = $app->db->queryAllRecords($sql);
         	return          $result;
         }
         return false;
     }
-    
-    
-    
+
 	/**
    	* Get a list of functions
    	* @param 	int		session id
