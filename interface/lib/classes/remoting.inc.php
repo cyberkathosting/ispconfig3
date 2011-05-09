@@ -2139,6 +2139,8 @@ class remoting {
 		
 		$app->db->query($sql);
 		
+		$app->plugin->raiseEvent('client:client:on_after_insert',$this);
+		
 		if($app->db->errorMessage != '') {
 			$this->server->fault('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
