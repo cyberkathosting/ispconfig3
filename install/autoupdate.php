@@ -169,7 +169,7 @@ $inst->dbmaster = $inst->db;
  * If it is NOT a master-slave - Setup then we are at the Master-DB. So set all rights
 */
 if($conf['mysql']['master_slave_setup'] != 'y') {
-	$inst->grant_master_database_rights();
+	$inst->grant_master_database_rights(true);
 }
 
 /*

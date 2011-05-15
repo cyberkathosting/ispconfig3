@@ -298,7 +298,7 @@ class installer_base {
 
 	}
 
-	public function grant_master_database_rights() {
+	public function grant_master_database_rights($verbose = false) {
 		global $conf;
 
 		/*
@@ -353,6 +353,9 @@ class installer_base {
 			 */
 			if ($value['pwd'] != ''){
 				$query = "CREATE USER '".$value['user']."'@'".$host."' IDENTIFIED BY '" . $value['pwd'] . "'";
+				if ($verbose){
+					echo "\n\n" . $query ."\n";
+				}
 				$this->dbmaster->query($query); // ignore the error
 			}
 
@@ -361,60 +364,96 @@ class installer_base {
 			 *  In Case that it will not exist, do nothing (ignore the error!)
 			 */
 			$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+					echo "\n\n" . $query ."\n";
+			}
 			$this->dbmaster->query($query); // ignore the error
 
 			//* Create the ISPConfig database user in the remote database
 			$query = "GRANT SELECT ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, INSERT ON ".$value['db'].".`sys_log` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`sys_datalog` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`software_update_inst` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, UPDATE(`updated`) ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`) ON ".$value['db'].".`web_domain` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT ON ".$value['db'].".`sys_group` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ".$value['db'].".`sys_remoteaction` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, INSERT , DELETE ON ".$value['db'].".`monitor_data` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`mail_traffic` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
 			$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`web_traffic` TO '".$value['user']."'@'".$host."' ";
+			if ($verbose){
+				echo $query ."\n";
+			}
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
