@@ -14,7 +14,7 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 
 mail_privileged_group = mail
 
-login_greeting = my-domain.tld IMAP server ready...
+login_greeting = ISPConfig3 IMAP server ready...
 
 ## IMAP specific settings
 protocol imap {
