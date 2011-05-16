@@ -28,7 +28,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//***  Debian 4.0 default settings
+//***  Debian 6.0 default settings
 
 //* Main
 $conf['language'] = 'en';
