@@ -14,9 +14,15 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 
 # Do not allow access to the root file system of the server for security reasons
 <Directory />
-       AllowOverride None
-       Order Deny,Allow
-       Deny from all
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+<Directory /var/www/conf>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
 </Directory>
 
 # Except of the following directories that contain website scripts

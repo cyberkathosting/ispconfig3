@@ -20,6 +20,12 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
        Deny from all
 </Directory>
 
+<Directory /var/www/conf>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
 # Except of the following directories that contain website scripts
 <Directory /usr/share/phpmyadmin>
         Order allow,deny
