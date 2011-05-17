@@ -5,4 +5,6 @@ $wb['language_txt'] = 'Idioma';
 $wb['password_mismatch'] = 'La contraseña indicada en el segundo campo no coincide con la del primero.';
 $wb['Form to edit the user password and language.'] = 'Formulario para editar el usuario y la contraseña.';
 $wb['Settings'] = 'Configuraciones';
+$wb['id_rsa_txt'] = 'id_rsa';
+$wb['ssh_rsa_txt'] = 'ssh_rsa';
 ?>

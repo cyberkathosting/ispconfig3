@@ -21,6 +21,6 @@ $wb['origin_error_regex'] = 'Formato de zona no válido.';
 $wb['ns_error_regex'] = 'Formato de NS no válido.';
 $wb['mbox_error_empty'] = 'Correo vacío.';
 $wb['mbox_error_regex'] = 'Formato de correo no válido.';
-$wb['also_notify_txt'] = 'Also Notify';
-$wb['update_acl_txt'] = 'Update ACL';
+$wb['also_notify_txt'] = 'Notificar también a';
+$wb['update_acl_txt'] = 'Actualizar ACL';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'DNS Secondary Zones';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
+$wb['list_head_txt'] = 'Zonas Secundarias';
+$wb['active_txt'] = 'Activa';
+$wb['server_id_txt'] = 'Servidor';
+$wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Add new secondary DNS Zone';
+$wb['add_new_record_txt'] = 'Añadir nueva zona DNS secundaria';
 ?>
