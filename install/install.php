@@ -200,7 +200,6 @@ if($install_mode == 'standard') {
 	swriteln('Configuring Getmail');
 	$inst->configure_getmail();
 	
-
 	//* Configure Pureftpd
 	swriteln('Configuring Pureftpd');
 	$inst->configure_pureftpd();
@@ -244,6 +243,11 @@ if($install_mode == 'standard') {
 		swriteln('Configuring Ubuntu Firewall');
 		$inst->configure_ufw_firewall();
 	}
+
+    //* Configure Fail2ban
+    if($conf['fail2ban']['installed'] == true) {
+        swriteln('Configuring Fail2ban');
+        $inst->configure_fail2ban();
 	
 	if($conf['squid']['installed'] == true) {
 		$conf['services']['proxy'] = true;

@@ -105,6 +105,10 @@ class installer extends installer_base {
 		parent::configure_apache();
 	}
 
+    public function configure_fail2ban() {
+        copy('tpl/dovecot-pop3imap.conf.master',"/etc/fail2ban/filter.d/dovecot-pop3imap.conf");
+        copy('tpl/dovecot_fail2ban_jail.local.master','/etc/fail2ban/jail.local');
+    }
 }
 
 ?>
