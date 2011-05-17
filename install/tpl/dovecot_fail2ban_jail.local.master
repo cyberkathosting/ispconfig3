@@ -1,0 +1,10 @@
+[dovecot-pop3imap]
+enabled = true
+filter = dovecot-pop3imap
+action = iptables-multiport[name=dovecot-pop3imap, port="pop3,pop3s,imap,imaps", protocol=tcp]
+# optionaly mail notification # mail[name=dovecot-pop3imap, dest=root@domain] # see /etc/fail2ban/action.d/ or Fail2Ban doc
+logpath = /var/log/maillog
+maxretry = 20
+findtime = 1200
+bantime = 1200
+

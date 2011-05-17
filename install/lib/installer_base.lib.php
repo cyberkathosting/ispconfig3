@@ -133,6 +133,7 @@ class installer_base {
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
 		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
+		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
 		
 		if ($conf['services']['web'] && $conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) $this->ispconfig_interface_installed = true;
