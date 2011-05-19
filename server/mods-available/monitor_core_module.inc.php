@@ -86,7 +86,7 @@ class monitor_core_module {
 		/*
 		 * Calls the single Monitoring steps 
 		 */
-        //*  $this->_monitorEmailQuota(); in process
+//		$this->_monitorEmailQuota();
 		$this->_monitorHDQuota();
 		$this->_monitorServer();
 		$this->_monitorOsVer();
@@ -114,6 +114,31 @@ class monitor_core_module {
 		$this->_monitorFail2ban();
 		$this->_monitorSysLog();
 	}
+
+    private function _monitorEmailQuota() {
+        global $app;
+
+        /*
+         * First we get the Monitoring-data from the tools
+         */
+        $res = $this->_tools->monitorEmailQuota();
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+                'VALUES (' .
+                $res['server_id'] . ', ' .
+                "'" . $app->dbmaster->quote($res['type']) . "', " .
+                'UNIX_TIMESTAMP(), ' .
+                "'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+                "'" . $res['state'] . "'" .
+                ')';
+        $app->dbmaster->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($res['type'], $res['server_id']);
+    }
 
 	private function _monitorHDQuota() {
 		global $app;

@@ -1073,10 +1073,11 @@ CREATE TABLE `sys_user` (
   `typ` varchar(16) NOT NULL default 'user',
   `active` tinyint(1) NOT NULL default '1',
   `language` varchar(2) NOT NULL default 'de',
-  `groups` varchar(255) NOT NULL default '',
+  `groups` TEXT NOT NULL default '',
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
-
+  `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '', 
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 

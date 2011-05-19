@@ -9,7 +9,7 @@
 [mail]
 enable_custom_login=n
 mailboxlist_webmail_link=y
-webmail_url=
+webmail_url=/webmail
 
 [monitor]
 
@@ -20,7 +20,7 @@ ftpuser_prefix=[CLIENTNAME]
 shelluser_prefix=[CLIENTNAME]
 webdavuser_prefix=[CLIENTNAME]
 dblist_phpmyadmin_link=y
-phpmyadmin_url=
+phpmyadmin_url=/phpmyadmin
 webftp_url=
 
 [tools]
