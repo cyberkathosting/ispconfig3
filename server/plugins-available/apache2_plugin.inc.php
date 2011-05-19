@@ -441,6 +441,9 @@ class apache2_plugin {
 			// copy the standard index page
 			if (file_exists('/usr/local/ispconfig/server/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2))) {
 				exec('cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+				if(is_file('/usr/local/ispconfig/server/conf-custom/index/favicon.ico')) exec('cp /usr/local/ispconfig/server/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
+				if(is_file('/usr/local/ispconfig/server/conf-custom/index/robots.txt')) exec('cp /usr/local/ispconfig/server/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
+				if(is_file('/usr/local/ispconfig/server/conf-custom/index/.htaccess')) exec('cp /usr/local/ispconfig/server/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
 			}
 			else {
 				if (file_exists('/usr/local/ispconfig/server/conf-custom/index/standard_index.html')) {
