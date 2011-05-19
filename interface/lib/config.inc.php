@@ -133,6 +133,9 @@ $conf['logo'] = 'themes/default/images/ispc_logo.png';
 $conf['language'] = 'en';
 $conf['debug_language'] = false;
 
+//** Default Country
+$conf['country'] = 'DE';
+
 
 //** Misc.
 $conf['interface_logout_url'] = ''; // example: http://www.domain.tld/
