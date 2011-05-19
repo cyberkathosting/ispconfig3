@@ -248,6 +248,7 @@ if($install_mode == 'standard') {
     if($conf['fail2ban']['installed'] == true) {
         swriteln('Configuring Fail2ban');
         $inst->configure_fail2ban();
+    }
 	
 	if($conf['squid']['installed'] == true) {
 		$conf['services']['proxy'] = true;
