@@ -67,7 +67,7 @@ The mydns installer is a bit tricky, you will have to select to create a new dat
 
 6) Install vlogger and webalizer
 
-apt-get install vlogger webalizer
+apt-get install vlogger webalizer awstats geoip-bin
 
 
 7) Install ISPConfig 3

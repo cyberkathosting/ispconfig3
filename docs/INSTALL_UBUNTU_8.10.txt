@@ -240,7 +240,7 @@ ___
 7) Install vlogger, webalizer and firewall
 *******************************************************************************
 ___
-apt-get install vlogger webalizer bastille
+apt-get install vlogger webalizer bastille awstats geoip-bin
 ___
 
 7.1) OPTIONAL: Installing Jailkit
