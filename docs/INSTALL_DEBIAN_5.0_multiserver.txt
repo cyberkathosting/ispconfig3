@@ -28,7 +28,7 @@ STANDALONE_OR_INETD=standalone
 VIRTUALCHROOT=true
 [...]
 
-apt-get install vlogger webalizer awstats
+apt-get install vlogger webalizer awstats geoip-bin
 
 mkdir /usr/share/awstats/tools
 cp -prf /usr/share/doc/awstats/examples/awstats_buildstaticpages.pl /usr/share/awstats/tools/awstats_buildstaticpages.pl

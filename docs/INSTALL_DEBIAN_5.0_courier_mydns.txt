@@ -262,7 +262,7 @@ exit 0
 chmod +x /etc/init.d/mydns
 update-rc.d mydns defaults
 
-6) Install vlogger and webalizer
+6) Install vlogger and webalizer awstats geoip-bin
 
 apt-get -y install vlogger webalizer awstats
 
