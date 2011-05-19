@@ -78,7 +78,7 @@ $form["tabs"]['users'] = array (
 		'policy_id' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
-			'default'	=> '',
+			'default'	=> '5',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
 										'querystring' => 'SELECT id,policy_name FROM spamfilter_policy WHERE {AUTHSQL} ORDER BY policy_name',
 										'keyfield'=> 'id',

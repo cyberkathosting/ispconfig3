@@ -13,7 +13,7 @@ $module['template']  = 'module.tpl.htm';
 if(isset($_GET['go2_faq_sections_list']))
 	$module['startpage'] = 'help/faq_sections_list.php';
 else
-	$module['startpage'] = 'help/index.php';
+	$module['startpage'] = 'help/version.php';
 
 //* The width of the tab. Normally you should leave this empty and let the browser define the width automatically.
 $module['tab_width'] = '';
