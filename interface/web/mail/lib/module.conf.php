@@ -153,13 +153,12 @@ if($app->auth->get_client_limit($userid,'fetchmail') != 0)
 //**** Statistics menu
 $items = array();
 
-/*
+
 //** Email Quotas
 $items[] = array( 'title'   => 'Mailbox quota',
                   'target'  => 'content',
                   'link'    => 'mail/user_quota_stats.php',
                   'html_id' => 'user_quota_stats');
-*/
 
 $items[] = array( 'title' 	=> 'Mailbox traffic',
 				  'target' 	=> 'content',
