@@ -86,7 +86,7 @@ class monitor_core_module {
 		/*
 		 * Calls the single Monitoring steps 
 		 */
-//		$this->_monitorEmailQuota();
+		$this->_monitorEmailQuota();
 		$this->_monitorHDQuota();
 		$this->_monitorServer();
 		$this->_monitorOsVer();

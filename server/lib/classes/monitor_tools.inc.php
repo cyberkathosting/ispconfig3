@@ -149,7 +149,6 @@ class monitor_tools {
 		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
 	}
 
-/*
     //** Email Quota
     public function monitorEmailQuota() {
         global $conf;
@@ -184,7 +183,6 @@ class monitor_tools {
 		$res['state'] = $state;
         return $res;
     }
-*/
 
     //** Filesystem Quota
 	public function monitorHDQuota() {
