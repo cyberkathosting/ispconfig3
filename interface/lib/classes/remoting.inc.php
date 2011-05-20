@@ -2543,7 +2543,23 @@ class remoting {
         return false;
     }
     
-    
+	/**
+	 * 	Get all dns records for a zone
+	 *	@param 	int		session id
+	 *	@param 	int		dns zone id
+	 *	@author	Sebastian Mogilowski <sebastian@mogilowski.net> 2011
+	 */
+	public function dns_rr_get_all_by_zone($session_id, $zone_id) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+			 $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+        $sql    = "SELECT * FROM dns_rr WHERE zone = ".intval($zone_id);;
+		$result = $app->db->queryAllRecords($sql);
+        return $result;
+   }
+
 	/**
 	 * Changes DNS zone status 
 	 *	@param 	int		session id
