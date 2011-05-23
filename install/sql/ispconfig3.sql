@@ -1072,7 +1072,7 @@ CREATE TABLE `sys_user` (
   `app_theme` varchar(32) NOT NULL default 'default',
   `typ` varchar(16) NOT NULL default 'user',
   `active` tinyint(1) NOT NULL default '1',
-  `language` varchar(2) NOT NULL default 'de',
+  `language` varchar(2) NOT NULL default 'en',
   `groups` TEXT NOT NULL default '',
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
@@ -1316,7 +1316,7 @@ CREATE TABLE `country` (
 -- Dumping data for table `dns_template`
 -- 
 
-INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=28800\nretry=7200\nexpire=604800\nminimum=86400\nttl=86400\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|86400\nA|www|{IP}|0|86400\nA|mail|{IP}|0|86400\nNS|{DOMAIN}.|{NS1}.|0|86400\nNS|{DOMAIN}.|{NS2}.|0|86400\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|86400', 'y');
+INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=86400\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600', 'y');
 
 -- --------------------------------------------------------
 
