@@ -50,6 +50,17 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+//* Load themes
+$themes_list = array();
+$handle = @opendir(ISPC_THEMES_PATH);
+while ($file = @readdir ($handle)) {
+    if (substr($file, 0, 1) != '.') {
+        if(@is_dir(ISPC_THEMES_PATH."/$file")) {
+            $themes_list[$file] = $file;
+        }
+    }
+}
+
 //* Languages
 $language_list = array();
 $handle = @opendir(ISPC_ROOT_PATH.'/lib/lang');
@@ -153,8 +164,8 @@ $form["tabs"]['address'] = array (
 		'usertheme' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
-			'default'	=> 'default',
-			'value'		=> array('default' => 'default'),
+			'default'	=> $conf["theme"],
+			'value'		=> $themes_list,
 			'separator'	=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255',
