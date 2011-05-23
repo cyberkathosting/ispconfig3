@@ -4,7 +4,11 @@
 
 Example local config.  Here you can add your own custom
 settings to override the defaults. These will also be
-protected from updates.
+protected from updates. This is added at the end of the
+config.inc.php to allow you to override settings. Be 
+careful as this can override settings for the database.  
+
+** Check your config before using in production. **
 
 */
 
@@ -24,6 +28,6 @@ protected from updates.
 // $conf['language'] = 'en';
 
 // $conf['interface_logout_url'] = 'http://www.mycompany.com';
-*/
+
 
 ?>
