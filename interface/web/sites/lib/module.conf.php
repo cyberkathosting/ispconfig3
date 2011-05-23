@@ -64,7 +64,7 @@ if($app->auth->get_client_limit($userid,'ftp_user') != 0)
 }
 
 /*
-	FTP User menu
+	Shell User menu
 */
 if($app->auth->get_client_limit($userid,'shell_user') != 0)
 {
