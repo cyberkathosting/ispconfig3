@@ -420,40 +420,54 @@ class apache2_plugin {
 		}
 
 
+
+        // Install the Standard or Custom Error, Index and other related files
+        // /usr/local/ispconfig/server/conf is for the standard files
+        // /usr/local/ispconfig/server/conf-custom is for the custom files
+        // setting a local var here
+           
+        // normally $conf['templates'] = "/usr/local/ispconfig/server/conf";
+
 		if($this->action == 'insert' && $data['new']['type'] == 'vhost') {
 			// Copy the error pages
 			if($data['new']['errordocs']) {
 				$error_page_path = escapeshellcmd($data['new']['document_root']).'/web/error/';
-				if (file_exists('/usr/local/ispconfig/server/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
-					exec('cp /usr/local/ispconfig/server/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+				if (file_exists($conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
+					exec('cp ' . $conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 				}
 				else {
-					if (file_exists('/usr/local/ispconfig/server/conf-custom/error/400.html')) {
-						exec('cp /usr/local/ispconfig/server/conf-custom/error/*.html '.$error_page_path);
+					if (file_exists($conf['templates'] . '-custom/error/400.html')) {
+						exec('cp '. $conf['templates'] .'-custom/error/*.html '.$error_page_path);
 					}
 					else {
-						exec('cp /usr/local/ispconfig/server/conf/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+						exec('cp ' . $conf['templates'] . '/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 					}
 				}
 				exec('chmod -R a+r '.$error_page_path);
 			}
 
-			// copy the standard index page
-			if (file_exists('/usr/local/ispconfig/server/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2))) {
-				exec('cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
-				if(is_file('/usr/local/ispconfig/server/conf-custom/index/favicon.ico')) exec('cp /usr/local/ispconfig/server/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
-				if(is_file('/usr/local/ispconfig/server/conf-custom/index/robots.txt')) exec('cp /usr/local/ispconfig/server/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
-				if(is_file('/usr/local/ispconfig/server/conf-custom/index/.htaccess')) exec('cp /usr/local/ispconfig/server/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
-			}
+			if (file_exists($conf['templates'] . '-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2))) {
+				exec('cp ' . $conf['templates'] . '-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+            
+			if(is_file($conf['templates'] . '-custom/index/favicon.ico')) {
+                exec('cp ' . $conf['templates'] . '-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
+            }
+			if(is_file($conf['templates'] . '-custom/index/robots.txt')) {
+                exec('cp ' . $conf['templates'] . '-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
+                }
+                if(is_file($conf['templates'] . '-custom/index/.htaccess')) {
+                    exec('cp ' . $conf['templates'] . '-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
+                }
+            }
 			else {
-				if (file_exists('/usr/local/ispconfig/server/conf-custom/index/standard_index.html')) {
-					exec('cp /usr/local/ispconfig/server/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+				if (file_exists($conf['templates'] . '-custom/index/standard_index.html')) {
+					exec('cp ' . $conf['templates'] . '-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
 				}
 				else {
-					exec('cp /usr/local/ispconfig/server/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
-					if(is_file('/usr/local/ispconfig/server/conf/index/favicon.ico')) exec('cp /usr/local/ispconfig/server/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
-					if(is_file('/usr/local/ispconfig/server/conf/index/robots.txt')) exec('cp /usr/local/ispconfig/server/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
-					if(is_file('/usr/local/ispconfig/server/conf/index/.htaccess')) exec('cp /usr/local/ispconfig/server/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
+					exec('cp ' . $conf['templates'] . '/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+					if(is_file($conf['templates'] . '/index/favicon.ico')) exec('cp ' . $conf['templates'] . '/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
+					if(is_file($conf['templates'] . '/index/robots.txt')) exec('cp ' . $conf['templates'] . '/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
+					if(is_file($conf['templates'] . '/index/.htaccess')) exec('cp ' . $conf['templates'] . '/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
 				}
 			}
 			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/web/');
@@ -462,15 +476,15 @@ class apache2_plugin {
 		} elseif ($this->action == 'update' && $data['new']['type'] == 'vhost' && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
 
 			$error_page_path = escapeshellcmd($data['new']['document_root']).'/web/error/';
-			if (file_exists('/usr/local/ispconfig/server/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
-				exec('cp /usr/local/ispconfig/server/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+			if (file_exists($conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
+				exec('cp ' . $conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 			}
 			else {
-				if (file_exists('/usr/local/ispconfig/server/conf-custom/error/400.html')) {
-					exec('cp /usr/local/ispconfig/server/conf-custom/error/*.html '.$error_page_path);
+				if (file_exists($conf['templates'] . '-custom/error/400.html')) {
+					exec('cp ' . $conf['templates'] . '-custom/error/*.html '.$error_page_path);
 				}
 				else {
-					exec('cp /usr/local/ispconfig/server/conf/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+					exec('cp ' . $conf['templates'] . '/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 				}
 			}
 			exec('chmod -R a+r '.$error_page_path);

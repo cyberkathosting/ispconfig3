@@ -25,7 +25,9 @@ careful as this can override settings for the database.
 // $conf['theme'] = 'mycustom_theme'; // Must be installed.
 // $conf['logo'] = 'themes/default/images/ispc_logo.png';
 
-// $conf['language'] = 'en';
+// $conf['templates'] = '/opt/tecnoera/templates';
+
+// $conf['language'] = 'es';
 
 // $conf['interface_logout_url'] = 'http://www.mycompany.com';
 
