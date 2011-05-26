@@ -92,5 +92,34 @@ public function do_something($x, $y, $foo){
 ... do something interesting    
 }
 
+//*****************************************************************************
+// Where to store custom settings
+//*****************************************************************************
+
+-- Interface settings
+
+The recommended place to store global interface settings is the ini style global config system 
+(see system.ini.master file in install/tpl/ to set defaults). The settings file 
+gets stored inside the ispconfig database. Settings can be accessed with the function:
+
+$app->uses('ini_parser,getconf');
+$interface_settings = $app->getconf->get_global_config('modulename');
+
+where modulename corresponds to the config section in the system.ini.master file.
+To make the settings editable under System > interface config, add the new configuration
+fields to the file interface/web/admin/form/system_config.tform.php and the corresponding
+tempalte file in the templates subfolder of the admin module.
+
+-- Server settings
+
+Server settings are stored in the ini style server config system (see server.ini.master template file)
+The settings file gets stored inside the ispconfig database in the server table. Settings can be 
+accessed with the function $app->getconf->get_server_config(....)
+
+Example to access the web configuration:
+
+$app->uses('ini_parser,getconf');
+$web_config = $app->getconf->get_server_config($server_id,'web');
+
 
 
