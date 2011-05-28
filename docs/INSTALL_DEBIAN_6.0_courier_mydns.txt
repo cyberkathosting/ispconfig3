@@ -380,6 +380,18 @@ then pureftpd is not able to resolve the hostname. Name resolving can be disable
 echo 'yes' > /etc/pure-ftpd/conf/DontResolve
 /etc/init.d/pure-ftpd-mysql restart
 
+-----------------------------------------------------------------------------------------------------------
+Fail2ban also working with ipv6:
+# Download here and install the package: http://homes.dcc.ufba.br/~rogeriobastos/files/fail2ban/
+# Set banaction = route in jail.conf
+# Create or modify route.conf in /etc/fail2ban/action.d
+[Definition]
+actionban = ip route add unreachable <ip>
+actionunban = ip route del unreachable <ip>
+action6ban = ip route add unreachable <ip>
+action6unban = ip route del unreachable <ip>
+-----------------------------------------------------------------------------------------------------------
+
 
 
 
