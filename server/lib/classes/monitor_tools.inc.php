@@ -993,32 +993,34 @@ class monitor_tools {
 				 * Then calc the state.
 				 */
 				$state = 'ok';
-				foreach ($data['output'] as $item) {
-					/*
-					 * The output contains information for every RAID and every HDD.
-					 * We only need the state of the RAID
-					 */
-					if (strpos($item, 'raidlevel:') !== false) {
+				if(is_array($data['output'])) {
+					foreach ($data['output'] as $item) {
 						/*
-						 * We found a raid, process the state of it
-						 */
-						if (strpos($item, ' ONLINE ') !== false) {
-							$this->_setState($state, 'ok');
-						} elseif (strpos($item, ' OPTIMAL ') !== false) {
-							$this->_setState($state, 'ok');
-						} elseif (strpos($item, ' INITIAL ') !== false) {
-							$this->_setState($state, 'info');
-						} elseif (strpos($item, ' INACTIVE ') !== false) {
-							$this->_setState($state, 'critical');
-						} elseif (strpos($item, ' RESYNC ') !== false) {
-							$this->_setState($state, 'info');
-						} elseif (strpos($item, ' DEGRADED ') !== false) {
-							$this->_setState($state, 'critical');
-						} else {
-							/* we don't know the state. so we set the state to critical, that the
-							 * admin is warned, that something is wrong
-							 */
-							$this->_setState($state, 'critical');
+						* The output contains information for every RAID and every HDD.
+						* We only need the state of the RAID
+						*/
+						if (strpos($item, 'raidlevel:') !== false) {
+							/*
+							* We found a raid, process the state of it
+							*/
+							if (strpos($item, ' ONLINE ') !== false) {
+								$this->_setState($state, 'ok');
+							} elseif (strpos($item, ' OPTIMAL ') !== false) {
+								$this->_setState($state, 'ok');
+							} elseif (strpos($item, ' INITIAL ') !== false) {
+								$this->_setState($state, 'info');
+							} elseif (strpos($item, ' INACTIVE ') !== false) {
+								$this->_setState($state, 'critical');
+							} elseif (strpos($item, ' RESYNC ') !== false) {
+								$this->_setState($state, 'info');
+							} elseif (strpos($item, ' DEGRADED ') !== false) {
+								$this->_setState($state, 'critical');
+							} else {
+								/* we don't know the state. so we set the state to critical, that the
+								* admin is warned, that something is wrong
+								*/
+								$this->_setState($state, 'critical');
+							}
 						}
 					}
 				}
