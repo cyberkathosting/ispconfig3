@@ -57,7 +57,7 @@ class functions {
 			$header .= "Content-Type: multipart/mixed; boundary=$uid\n";
 
 			$header .= "--$uid\n";
-			$header .= "Content-Type: text/plain\n";
+			$header .= "Content-Type: text/plain;\n\tcharset=\"UTF-8\"\n";
 			$header .= "Content-Transfer-Encoding: 8bit\n\n";
 			$header .= "$text\n";
 
