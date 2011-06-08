@@ -84,7 +84,7 @@ class postfix_filter_plugin {
 			$rules = $app->db->queryAllRecords($sql);
 			$content = '';
 			foreach($rules as $rule) {
-				$content .= $rule["pattern"]."\n";
+				$content .= $rule["pattern"];
 				$content .= "  ".$rule["action"]." ".$rule["data"]."\n";
 			}
 		
@@ -115,7 +115,7 @@ class postfix_filter_plugin {
 			$rules = $app->db->queryAllRecords($sql);
 			$content = '';
 			foreach($rules as $rule) {
-				$content .= $rule["pattern"]."\n";
+				$content .= $rule["pattern"];
 				$content .= "  ".$rule["action"]." ".$rule["data"]."\n";
 			}
 		
