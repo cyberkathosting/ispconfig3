@@ -175,6 +175,10 @@ $form["tabs"]['dns_soa'] = array (
 		'also_notify' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+			'validators'    => array (  0 => array (    'type'  => 'ISIPV4',
+														'errmsg'=> 'also_notify_error_regex'
+													),
+									),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

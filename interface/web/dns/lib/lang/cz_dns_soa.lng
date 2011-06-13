@@ -22,6 +22,7 @@ $wb['ns_error_regex'] = 'NS má chybný formát.';
 $wb['mbox_error_empty'] = 'Email je prázdný.';
 $wb['mbox_error_regex'] = 'Email má chybný formát.';
 $wb['also_notify_txt'] = 'Také upozornit';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Aktualizovat ACL';
 $wb['seconds_txt'] = 'vteřin';
 $wb['eg_domain_tld'] = 'např. domena.cz';

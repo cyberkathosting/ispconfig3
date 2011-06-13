@@ -22,5 +22,6 @@ $wb['ns_error_regex'] = 'Nimipalvelin-kenttä on tyhjä.';
 $wb['mbox_error_empty'] = 'Sähköpostiosoite on tyhjä.';
 $wb['mbox_error_regex'] = 'Sähköpostiosoite on vääränlainen';
 $wb['also_notify_txt'] = 'Läheta ilmoitus';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Päivitä ACL';
 ?>

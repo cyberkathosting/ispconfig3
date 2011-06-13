@@ -22,5 +22,6 @@ $wb['ns_error_regex'] = 'NS are un format invalid';
 $wb['mbox_error_empty'] = 'Email-ul este gol';
 $wb['mbox_error_regex'] = 'Format email invalid.';
 $wb['also_notify_txt'] = 'Also Notify';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Update ACL';
 ?>

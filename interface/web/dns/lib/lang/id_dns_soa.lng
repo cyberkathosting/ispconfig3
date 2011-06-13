@@ -22,5 +22,6 @@ $wb['ns_error_regex'] = 'Format NS salah.';
 $wb['mbox_error_empty'] = 'Email kosong.';
 $wb['mbox_error_regex'] = 'Format Email tidak valid.';
 $wb['also_notify_txt'] = 'Notifikasi Juga';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Mutakhirkan ACL';
 ?>

@@ -22,5 +22,6 @@ $wb['ns_error_regex'] = 'NS má neplatný formát.';
 $wb['mbox_error_empty'] = 'Email je prázdny.';
 $wb['mbox_error_regex'] = 'Email má neplatný formát.';
 $wb['also_notify_txt'] = 'Also Notify';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Update ACL';
 ?>

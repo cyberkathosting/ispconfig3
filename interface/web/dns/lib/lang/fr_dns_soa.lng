@@ -22,6 +22,7 @@ $wb['mbox_error_empty'] = "L'adresse e-mail est vide.";
 $wb['mbox_error_regex'] = "L'adresse e-mail est dun format invalide.";
 $wb['limit_dns_zone_txt'] = "Le nombre maximal de zones DNS pour votre compte est atteint.";
 $wb['also_notify_txt'] = "Notifier également";
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = "Mettre à jour ACL";
 ?>
 

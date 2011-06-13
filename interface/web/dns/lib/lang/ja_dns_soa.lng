@@ -22,5 +22,6 @@ $wb['ns_error_regex'] = 'NS が不正な文字を含んでいます。';
 $wb['mbox_error_empty'] = 'メールアドレスを指定してください';
 $wb['mbox_error_regex'] = 'メールアドレスの形式が不正です。';
 $wb['also_notify_txt'] = 'Also Notify';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Update ACL';
 ?>
