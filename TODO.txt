@@ -6,6 +6,11 @@
 Please feel free to edit this file, add new tasks,
 remove done tasks or assign yourself to a task.
 
+Form Validators
+--------------------------------------
+ISIPV4 does a manual check, PHP5 now has FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 which may be better.
+There also will be a time to add ISIPV6 or ISIPADDR to validate for IPv6 or both
+
 Installer
 --------------------------------------
 
