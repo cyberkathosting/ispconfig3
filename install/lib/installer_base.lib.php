@@ -122,7 +122,7 @@ class installer_base {
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
-		if(is_installed('saslsauthd')) $conf['saslauthd']['installed'] = true;
+		if(is_installed('saslauthd')) $conf['saslauthd']['installed'] = true;
 		if(is_installed('amavisd-new')) $conf['amavis']['installed'] = true;
 		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
 		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
