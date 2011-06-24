@@ -229,19 +229,17 @@ if($install_mode == 'standard') {
 	$inst->configure_apps_vhost();
     
 	//* Configure Firewall
-	//swriteln('Configuring Firewall');
-	//$inst->configure_firewall();
 	//** Configure Firewall	
-	if($conf['bastille']['installed'] == true) {
+	if($conf['ufw']['installed'] == true) {
+		//* Configure UFW Firewall
+		$conf['services']['firewall'] = true;
+		swriteln('Configuring UFW Firewall');
+		$inst->configure_ufw_firewall();
+	} else {
 		//* Configure Bastille Firewall
 		$conf['services']['firewall'] = true;
 		swriteln('Configuring Bastille Firewall');
 		$inst->configure_firewall();
-	} elseif($conf['ufw']['installed'] == true) {
-		//* Configure Ubuntu Firewall
-		$conf['services']['firewall'] = true;
-		swriteln('Configuring Ubuntu Firewall');
-		$inst->configure_ufw_firewall();
 	}
 
     //* Configure Fail2ban
