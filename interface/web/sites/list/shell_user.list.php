@@ -25,7 +25,7 @@ $liste["table_idx"]			= "shell_user_id";
 $liste["search_prefix"] 	= "search_";
 
 // Records per page
-$liste["records_per_page"] 	= 15;
+$liste["records_per_page"] 	= "15";
 
 // Script File of the list
 $liste["file"]				= "shell_user_list.php";
