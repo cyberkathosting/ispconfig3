@@ -22,7 +22,7 @@ $liste['table_idx']			= 'userid';
 $liste['search_prefix'] 	= 'search_';
 
 //* Records per page
-$liste['records_per_page'] 	= 15;
+$liste['records_per_page'] 	= "15";
 
 //* Script file for list
 $liste['file']				= 'users_list.php';
