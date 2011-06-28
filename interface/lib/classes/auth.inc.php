@@ -123,6 +123,15 @@ class auth {
 			exit;
 		}
 	}
+	
+	public function get_random_password($length = 8) {
+		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+		$password = '';
+		for ($n=0;$n<$length;$n++) {
+			$password.=$base64_alphabet[mt_rand(0,63)];
+		}
+		return $password;
+	}
 		
 }
 

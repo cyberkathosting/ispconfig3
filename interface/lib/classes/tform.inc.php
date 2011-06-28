@@ -166,6 +166,9 @@ class tform {
                 global $conf, $app;
 				if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
                 $new_record = '';
+				$table_idx = $this->formDef['db_table_idx'];
+				if(isset($record[$table_idx])) $new_record[$table_idx] = intval($record[$table_idx ]);
+				
 				if(is_array($record)) {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
                                 switch ($field['datatype']) {
@@ -236,11 +239,12 @@ class tform {
                         $table_idx = $this->formDef['db_table_idx'];
 						
 						$tmp_recordid = (isset($record[$table_idx]))?$record[$table_idx]:0;
+						//$tmp_recordid = intval($this->primary_id);
                         $querystring = str_replace("{RECORDID}",$tmp_recordid,$querystring);
 						unset($tmp_recordid);
 						
                         $querystring = str_replace("{AUTHSQL}",$this->getAuthSQL('r'),$querystring);
-
+						
                         // Getting the records
                         $tmp_records = $app->db->queryAllRecords($querystring);
                         if($app->db->errorMessage != '') die($app->db->errorMessage);
