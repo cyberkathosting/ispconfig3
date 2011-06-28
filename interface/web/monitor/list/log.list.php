@@ -22,7 +22,7 @@ $liste['table_idx']			= 'syslog_id';
 $liste['search_prefix'] 	= 'search_';
 
 //* Records per page
-$liste['records_per_page'] 	= 15;
+$liste['records_per_page'] 	= "15";
 
 //* Script file for listing
 $liste['file']				= 'log_list.php';
