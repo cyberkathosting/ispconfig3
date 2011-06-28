@@ -25,7 +25,7 @@ $liste["table_idx"]			= "relay_recipient_id";
 $liste["search_prefix"] 	= "search_";
 
 // Records per page
-$liste["records_per_page"] 	= 15;
+$liste["records_per_page"] 	= "15";
 
 // Script File of the list
 $liste["file"]				= "mail_relay_recipient_list.php";
