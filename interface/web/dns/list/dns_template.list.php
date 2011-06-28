@@ -25,7 +25,7 @@ $liste["table_idx"]			= "template_id";
 $liste["search_prefix"] 	= "search_";
 
 // Records per page
-$liste["records_per_page"] 	= 15;
+$liste["records_per_page"] 	= "15";
 
 // Script File of the list
 $liste["file"]				= "dns_template_list.php";
