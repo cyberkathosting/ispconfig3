@@ -8,4 +8,7 @@ $wb['add_new_record_txt'] = 'Pridať novú alias doménu';
 $wb['domain_error_empty'] = 'Doména je prázdna.';
 $wb['domain_error_unique'] = 'Doména musí byť unikátna.';
 $wb['domain_error_regex'] = 'Doménové meno neplatné.';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['none_txt'] = 'None';
 ?>

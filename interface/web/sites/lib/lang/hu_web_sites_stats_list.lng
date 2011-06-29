@@ -6,4 +6,3 @@ $wb['last_month_txt'] = 'Előző hónapban';
 $wb['this_year_txt'] = 'Ebben az évben';
 $wb['last_year_txt'] = 'Előző évben';
 ?>
-

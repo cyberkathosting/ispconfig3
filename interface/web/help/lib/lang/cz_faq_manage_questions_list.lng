@@ -1,10 +1,9 @@
 <?php
-$wb['faq_question_txt'] = "Otázka";
-$wb['faq_section_name_txt'] = "Název sekce";
-$wb['faq_delete_txt'] = "Smazat";
-$wb['faq_edit_txt'] = "Upravit";
-$wb['faq_sections_txt'] = "Sekce";
-$wb['faq_faq_questions_txt'] = "Často kladené dotazy";
-$wb['faq_new_question_txt'] = "Přidat nový dotaz";
+$wb['faq_question_txt'] = 'Otázka';
+$wb['faq_section_name_txt'] = 'Název sekce';
+$wb['faq_delete_txt'] = 'Smazat';
+$wb['faq_edit_txt'] = 'Upravit';
+$wb['faq_sections_txt'] = 'Sekce';
+$wb['faq_faq_questions_txt'] = 'Často kladené dotazy';
+$wb['faq_new_question_txt'] = 'Přidat nový dotaz';
 ?>
-

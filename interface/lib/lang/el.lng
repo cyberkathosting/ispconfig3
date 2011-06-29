@@ -38,4 +38,5 @@ $wb['latest_news_txt'] = 'Τελευταία Νέα';
 $wb['number_format_decimals'] = '2';
 $wb['number_format_dec_point'] = '.';
 $wb['number_format_thousands_sep'] = '';
+$wb['top_menu_vm'] = 'VServer';
 ?>

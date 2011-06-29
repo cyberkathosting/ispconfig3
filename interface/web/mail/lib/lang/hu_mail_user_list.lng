@@ -4,5 +4,5 @@ $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Automatikus válasz';
 $wb['add_new_record_txt'] = 'Levelező fiók létrehozása';
 $wb['name_txt'] = 'Név';
+$wb['login_txt'] = 'Login';
 ?>
-

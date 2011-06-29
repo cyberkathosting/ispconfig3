@@ -5,4 +5,3 @@ $wb['name_txt'] = 'Csoport';
 $wb['add_new_record_txt'] = 'Új csoport';
 $wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Ügyfél- and Reseller settings in the Ügyfél module instead. Modifying or changing Users or groups here may cause data loss!';
 ?>
-

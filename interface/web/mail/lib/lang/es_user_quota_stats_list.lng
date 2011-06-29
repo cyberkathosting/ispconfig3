@@ -1,7 +1,7 @@
 <?php
-$wb["list_head_txt"] = 'Cuota de Correo';
-$wb["quota_txt"] = 'Cuota';
-$wb["name_txt"] = 'Nombre';
-$wb["email_txt"] = 'Correo';
-$wb["used_txt"] = 'Usado';
+$wb['list_head_txt'] = 'Cuota de Correo';
+$wb['quota_txt'] = 'Cuota';
+$wb['name_txt'] = 'Nombre';
+$wb['email_txt'] = 'Correo';
+$wb['used_txt'] = 'Usado';
 ?>

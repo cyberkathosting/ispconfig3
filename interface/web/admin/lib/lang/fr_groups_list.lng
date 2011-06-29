@@ -1,9 +1,7 @@
 <?php
-$wb['list_head_txt'] = "Groupes d'utilisateurs systèmes";
-$wb['description_txt'] = "Description";
-$wb['name_txt'] = "Groupe";
-$wb['add_new_record_txt'] = "Ajouter nouveau groupe";
-$wb['warning_txt'] = "<b>ATTENTION :</b> Ne pas éditer ou modifier ces réglages. Utilisez les paramètres Clients / Revendeurs dans le module client. Modifier les utilisateurs ou les groupes ici pourrait causer des pertes de données !";
+$wb['list_head_txt'] = 'Groupes dutilisateurs systèmes';
+$wb['description_txt'] = 'Description';
+$wb['name_txt'] = 'Groupe';
+$wb['add_new_record_txt'] = 'Ajouter nouveau groupe';
+$wb['warning_txt'] = '<b>ATTENTION :</b> Ne pas éditer ou modifier ces réglages. Utilisez les paramètres Clients / Revendeurs dans le module client. Modifier les utilisateurs ou les groupes ici pourrait causer des pertes de données !';
 ?>
-
-

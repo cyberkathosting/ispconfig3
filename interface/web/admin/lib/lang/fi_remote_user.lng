@@ -39,4 +39,5 @@ $wb['DNS ptr functions'] = 'DNS ptr-tietuetoiminnot';
 $wb['DNS rp functions'] = 'DNS rp-tietuetoiminnot';
 $wb['DNS srv functions'] = 'DNS srv-tietuetoiminnot';
 $wb['DNS txt functions'] = 'DNS txt-tietuetoiminnot';
+$wb['Mail mailing list functions'] = 'Mail mailinglist functions';
 ?>

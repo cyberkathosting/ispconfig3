@@ -6,5 +6,4 @@ $wb['domain_error_unique'] = 'Pro tuto doménu již existuje koš.';
 $wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu.';
 $wb['domain_error_regex'] = 'Chybné doménové jméno nebo doména obsahuje chybné znaky.';
 $wb['limit_mailcatchall_txt'] = 'Dosažen maximální počet košů účtů pro Váš účet.';
-$wb['domain_txt'] = 'Doména';
 ?>

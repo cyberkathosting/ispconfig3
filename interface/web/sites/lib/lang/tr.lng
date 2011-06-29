@@ -21,4 +21,5 @@ $wb['Statistics'] = 'İstatistikler';
 $wb['Web traffic'] = 'Web Trafiği';
 $wb['Webdav-User'] = 'Webdav User';
 $wb['Webdav'] = 'Webdav';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
 ?>

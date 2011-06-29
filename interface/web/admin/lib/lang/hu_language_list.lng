@@ -5,4 +5,3 @@ $wb['module_txt'] = 'Modul';
 $wb['lang_file_txt'] = 'Nyelvi fájl';
 $wb['lang_file_date_txt'] = 'Utolsó módosítás';
 ?>
-

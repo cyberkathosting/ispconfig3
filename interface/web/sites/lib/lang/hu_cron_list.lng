@@ -10,4 +10,3 @@ $wb['run_wday_txt'] = 'A hét napja';
 $wb['command_txt'] = 'Parancs';
 $wb['add_new_cron_txt'] = 'Új Cron feladat';
 ?>
-

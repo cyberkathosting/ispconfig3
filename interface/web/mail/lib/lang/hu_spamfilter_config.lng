@@ -18,4 +18,3 @@ $wb['mailbox_size_limit_txt'] = 'Mailbox Méret korlát';
 $wb['message_size_limit_txt'] = 'Üzenet méret korlát';
 $wb['hostname_txt'] = 'Hostname';
 ?>
-

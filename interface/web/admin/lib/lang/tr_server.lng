@@ -10,4 +10,6 @@ $wb['vserver_server_txt'] = 'VServer sunucusu';
 $wb['active_txt'] = 'Aktif';
 $wb['mirror_server_id_txt'] = 'Sunucu kopyası mı';
 $wb['- None -'] = '- Hiçbiri -';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
 ?>

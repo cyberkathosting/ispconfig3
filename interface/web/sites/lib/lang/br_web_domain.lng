@@ -64,7 +64,7 @@ $wb['ruby_txt'] = 'Ruby';
 $wb['stats_user_txt'] = 'Estátisticas Web usuário';
 $wb['stats_type_txt'] = 'Tipo de Estatística Web';
 $wb['custom_php_ini_txt'] = 'php.ini personalizado';
-$wb['error_ssl_cert_empty'] = 'O Certificado SSL está vazio';
+$wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
 $wb['none_txt'] = 'Não';
 $wb['disabled_txt'] = 'Desativado';
 $wb['no_redirect_txt'] = 'No redirect';
@@ -72,7 +72,4 @@ $wb['no_flag_txt'] = 'No flag';
 $wb['save_certificate_txt'] = 'Salvar certificado';
 $wb['create_certificate_txt'] = 'Criar certificado';
 $wb['delete_certificate_txt'] = 'Deletar certificado';
-$wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
-$wb['hd_quota_error_regex'] = 'Harddisk quota: enter a -1 for unlimited or a number > 0';
-$wb['traffic_quota_error_regex'] = 'Traffic quota: enter a -1 for unlimited or a number > 0';
 ?>

@@ -8,4 +8,5 @@ $wb['no_domain_perm'] = 'Nie masz dostępu do tej domeny.';
 $wb['destination_error_isemail'] = 'Element docelowy adresów e-mail jest niepoprawny.';
 $wb['limit_mailalias_txt'] = 'Maksymalna ilość aliasów e-mail dla Twojego konta została przekroczona.';
 $wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa z e-mailem o takiej nazwie.';
+$wb['domain_txt'] = 'Domain';
 ?>

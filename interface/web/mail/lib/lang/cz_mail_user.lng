@@ -38,7 +38,11 @@ $wb['name_txt'] = 'Skutečné jméno';
 $wb['name_optional_txt'] = '(volitelné)';
 $wb['autoresponder_active'] = 'Povolit automatický odpovídač';
 $wb['cc_txt'] = 'Přeposílat na';
-$wb['cc_error_isemail'] = 'Adresa uvedená v poli "Přeposílat na" je neplatná';
+$wb['cc_error_isemail'] = 'Adresa uvedená v poli Přeposílat na je neplatná';
 $wb['domain_txt'] = 'Doména';
-$wb['now_txt']='Nyní';
+$wb['now_txt'] = 'Nyní';
+$wb['login_error_unique'] = 'Login is already taken.';
+$wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
+$wb['login_txt'] = 'Login (optional)';
+$wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
 ?>

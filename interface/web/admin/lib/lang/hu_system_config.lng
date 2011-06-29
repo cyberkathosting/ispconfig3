@@ -23,5 +23,6 @@ $wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
 $wb['mailmailinglist_url_txt'] = 'Mailing list URL';
 $wb['admin_mail_txt'] = 'Administrators e-mail';
 $wb['admin_name_txt'] = 'Administrators name';
+$wb['enable_custom_login_txt'] = 'Allow custom login name';
+$wb['monitor_key_txt'] = 'Monitor keyword';
 ?>
-

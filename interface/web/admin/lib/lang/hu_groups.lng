@@ -3,4 +3,3 @@ $wb['description_txt'] = 'Leírás';
 $wb['name_txt'] = 'Csoport';
 $wb['name_err'] = 'A csoportnév hossza 1-30.';
 ?>
-

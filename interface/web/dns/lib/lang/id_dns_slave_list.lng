@@ -5,4 +5,5 @@ $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Tambah Zona DNS Sekunder Baru';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
 ?>

@@ -23,4 +23,3 @@ $wb['database_remote_error_ips'] = 'Legalább egy megadott IP cím hibás.';
 $wb['database_name_error_len'] = 'Database name - {db} - too long. The max. database name length incl. prefix is 64 chars.';
 $wb['database_user_error_len'] = 'Database username - {user}- too long. The max. database username length incl. prefix is 16 chars.';
 ?>
-

@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Ügyfél-Sablonok';
 $wb['template_type_txt'] = 'típus';
 $wb['template_name_txt'] = 'Sablon neve';
 ?>
-

@@ -8,4 +8,3 @@ $wb['do_ispcupdate_desc'] = 'This action does a ISPConfig3 update at your select
 $wb['action_scheduled'] = 'The action is scheduled for execution';
 $wb['select_all_server'] = 'Összes szerver';
 ?>
-

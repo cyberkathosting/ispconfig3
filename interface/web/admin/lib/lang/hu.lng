@@ -41,4 +41,3 @@ $wb['Do OS-Update'] = 'OR-Frissítés';
 $wb['Do ISPConfig-Update'] = 'ISPConfig-Frissítés';
 $wb['Server'] = 'Server';
 ?>
-

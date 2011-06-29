@@ -7,4 +7,3 @@ $wb['database_name_txt'] = 'Adatbázis neve';
 $wb['add_new_record_txt'] = 'Új adatbázis';
 $wb['database_user_txt'] = 'Adatbázis Felhasználó';
 ?>
-

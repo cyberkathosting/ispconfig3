@@ -24,4 +24,8 @@ $wb['mbox_error_regex'] = 'E-mail ma niepoprawny format.';
 $wb['also_notify_txt'] = 'Także powiadom';
 $wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['update_acl_txt'] = 'Zaktualizuj ACL';
+$wb['seconds_txt'] = 'Seconds';
+$wb['eg_domain_tld'] = 'e.g. domain.tld';
+$wb['eg_ns1_domain_tld'] = 'e.g. ns1.domain.tld';
+$wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld';
 ?>

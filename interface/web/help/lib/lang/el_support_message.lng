@@ -4,4 +4,5 @@ $wb['sender_id_txt'] = 'ID Αποστολέα';
 $wb['subject_txt'] = 'Θέμα';
 $wb['message_txt'] = 'Μήνυμα';
 $wb['tstamp_txt'] = 'Ημερομηνία/Ώρα';
+$wb['reply_txt'] = 'Reply';
 ?>

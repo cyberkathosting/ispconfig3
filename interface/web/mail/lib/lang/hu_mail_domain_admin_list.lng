@@ -6,4 +6,3 @@ $wb['add_new_record_txt'] = 'Új Domain';
 $wb['active_txt'] = 'Aktív';
 $wb['sys_groupid_txt'] = 'Ügyfél';
 ?>
-

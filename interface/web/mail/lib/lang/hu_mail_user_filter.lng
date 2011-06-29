@@ -18,4 +18,3 @@ $wb['target_error_regex'] = 'The target may only contain these characters: a-z, 
 $wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 $wb['delete_txt'] = 'Delete';
 ?>
-

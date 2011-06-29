@@ -1,8 +1,6 @@
 <?php
-$wb['confirm_action_txt'] = "Confirmez";
-$wb['delete_explanation'] = "Cette action va supprimer le nombre suivant d'enregistrements associés à ce client";
-$wb['btn_save_txt'] = "Supprime le client";
-$wb['btn_cancel_txt'] = "Annuler sans supprimer le client";
+$wb['confirm_action_txt'] = 'Confirmez';
+$wb['delete_explanation'] = 'Cette action va supprimer le nombre suivant denregistrements associés à ce client';
+$wb['btn_save_txt'] = 'Supprime le client';
+$wb['btn_cancel_txt'] = 'Annuler sans supprimer le client';
 ?>
-
-

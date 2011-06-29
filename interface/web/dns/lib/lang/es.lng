@@ -17,6 +17,4 @@ $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'Asistente DNS';
 $wb['Add DNS Zone'] = 'Agregar Zona DNS';
 $wb['Templates'] = 'Plantillas';
-$wb['Secondary Zones'] = 'Zonas de DNS Secundario';
-$wb['Secondary DNS'] = 'DNS Secundario';
 ?>

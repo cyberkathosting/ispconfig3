@@ -99,4 +99,6 @@ $wb['customer_no_txt'] = 'Customer No.';
 $wb['vat_id_txt'] = 'VAT ID';
 $wb['required_fields_txt'] = '* Required fields';
 $wb['company_id_txt'] = 'IČO';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

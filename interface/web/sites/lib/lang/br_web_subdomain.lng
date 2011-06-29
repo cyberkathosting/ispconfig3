@@ -1,4 +1,4 @@
-]<?php
+<?php
 $wb['ssl_state_txt'] = 'Estado';
 $wb['ssl_locality_txt'] = 'Localidade';
 $wb['ssl_organisation_txt'] = 'Empresa';

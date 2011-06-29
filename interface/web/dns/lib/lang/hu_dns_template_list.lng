@@ -4,4 +4,3 @@ $wb['visible_txt'] = 'Látható';
 $wb['name_txt'] = 'Név';
 $wb['add_new_record_txt'] = 'Új rekord';
 ?>
-

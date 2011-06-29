@@ -38,4 +38,5 @@ $wb['top_menu_billing'] = 'Biling';
 $wb['top_menu_domain'] = 'Domeny';
 $wb['top_menu_dashboard'] = 'Strona główna';
 $wb['latest_news_txt'] = 'Ostatnie wiadomości';
+$wb['top_menu_vm'] = 'VServer';
 ?>

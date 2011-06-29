@@ -7,4 +7,3 @@ $wb['ort_txt'] = 'Város';
 $wb['add_new_record_txt'] = 'Új felhasználó';
 $wb['warning_txt'] = '<b>FIGYELEM:</b> Ne módosítsa a felhasználók adatait ezen a helyen. Használja az Ügyfél vagy Viszonteladó szerkesztését az Ügyfél modulban!';
 ?>
-

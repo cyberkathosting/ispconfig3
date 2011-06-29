@@ -1,26 +1,24 @@
 <?php
-$wb['name_txt'] = "Nom du Formulaire";
-$wb['title_txt'] = "Titre du formulaire";
-$wb['template_txt'] = "Template";
-$wb['navframe_txt'] = "FrameNavigation";
-$wb['startpage_txt'] = "Page de démarrage";
-$wb['tab_width_txt'] = "Largeur Tableau";
-$wb['save_txt'] = "Sauver";
-$wb['cancel_txt'] = "Annuler";
-$wb['header_txt'] = "Propriétés du Formulaire";
-$wb['description_txt'] = "Description";
-$wb['action_txt'] = "Action (script)";
-$wb['db_table_txt'] = "Table BDD";
-$wb['db_table_idx_txt'] = "Table Index BDD";
-$wb['db_history_txt'] = "Effacer Log";
-$wb['tab_default_txt'] = "Onglet par défaut";
-$wb['list_default_txt'] = "Liste par défaut";
-$wb['auth_txt'] = "Permissions";
-$wb['auth_preset_userid_txt'] = "ID Utilisateur";
-$wb['auth_preset_groupid_txt'] = "ID Groupe";
-$wb['auth_preset_perm_user_txt'] = "Perm. Utilisateur";
-$wb['auth_preset_perm_group_txt'] = "Perm. Groupe";
-$wb['auth_preset_perm_other_txt'] = "Perm. Autre";
+$wb['name_txt'] = 'Nom du Formulaire';
+$wb['title_txt'] = 'Titre du formulaire';
+$wb['template_txt'] = 'Template';
+$wb['navframe_txt'] = 'FrameNavigation';
+$wb['startpage_txt'] = 'Page de démarrage';
+$wb['tab_width_txt'] = 'Largeur Tableau';
+$wb['save_txt'] = 'Sauver';
+$wb['cancel_txt'] = 'Annuler';
+$wb['header_txt'] = 'Propriétés du Formulaire';
+$wb['description_txt'] = 'Description';
+$wb['action_txt'] = 'Action (script)';
+$wb['db_table_txt'] = 'Table BDD';
+$wb['db_table_idx_txt'] = 'Table Index BDD';
+$wb['db_history_txt'] = 'Effacer Log';
+$wb['tab_default_txt'] = 'Onglet par défaut';
+$wb['list_default_txt'] = 'Liste par défaut';
+$wb['auth_txt'] = 'Permissions';
+$wb['auth_preset_userid_txt'] = 'ID Utilisateur';
+$wb['auth_preset_groupid_txt'] = 'ID Groupe';
+$wb['auth_preset_perm_user_txt'] = 'Perm. Utilisateur';
+$wb['auth_preset_perm_group_txt'] = 'Perm. Groupe';
+$wb['auth_preset_perm_other_txt'] = 'Perm. Autre';
 ?>
-
-

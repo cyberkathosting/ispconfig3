@@ -19,4 +19,10 @@ $wb['use_domain_module_txt'] = 'Gunakan modul domain untuk menambahkan domain ba
 $wb['use_domain_module_hint'] = 'Jika Anda menggunakan modul ini, pelanggan Anda hanya dapat memilih salah satu domain yang dibuat oleh admin untuk mereka. Mereka tidak bisa menyunting dengan bebas kolom domain. Anda harus masuk kembali setelah mengubah nilai ini, agar perubahannya terlihat.';
 $wb['new_domain_txt'] = 'HTML untuk membuat domain baru';
 $wb['webftp_url_txt'] = 'URL WebFTP';
+$wb['enable_custom_login_txt'] = 'Allow custom login name';
+$wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
+$wb['mailmailinglist_url_txt'] = 'Mailing list URL';
+$wb['admin_mail_txt'] = 'Administrators e-mail';
+$wb['monitor_key_txt'] = 'Monitor keyword';
+$wb['admin_name_txt'] = 'Administrators name';
 ?>

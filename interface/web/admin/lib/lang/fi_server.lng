@@ -10,4 +10,6 @@ $wb['vserver_server_txt'] = 'Virtuaalipalvelin';
 $wb['active_txt'] = 'Käytössä';
 $wb['mirror_server_id_txt'] = 'Peilinä palvelimelle';
 $wb['- None -'] = '- Ei mikään -';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
 ?>

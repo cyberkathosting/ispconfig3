@@ -10,7 +10,6 @@ $wb['Subdomain'] = 'Subdoména pro webovou stránku';
 $wb['Sites'] = 'Stránky';
 $wb['Aliasdomain'] = 'Alias doména pro webovou stránku';
 $wb['FTP-User'] = 'FTP uživatel';
-$wb['FTP User'] = 'FTP uživatel';
 $wb['FTP'] = 'FTP';
 $wb['Shell-User'] = 'Shell uživatel';
 $wb['Shell'] = 'Shell';
@@ -22,7 +21,5 @@ $wb['Web traffic'] = 'Přenesená data';
 $wb['Webdav-User'] = 'Webdav User';
 $wb['Webdav'] = 'Webdav';
 $wb['Statistics'] = 'Statistiky';
-$wb['Website quota (Harddisk)'] = 'Disková kvóta';
-$wb['Web Domain'] = 'Webová doména';
 $wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
 ?>

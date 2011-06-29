@@ -37,4 +37,6 @@ $wb['domain_error_unique'] = 'Domain muss eindeutig sein.';
 $wb['domain_error_regex'] = 'Domainname ist ungültig.';
 $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Ungültiger redirect Pfad. Gültige Pfade sind beispielsweise: /test/ oder http://www.domain.tld/test/';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
 ?>

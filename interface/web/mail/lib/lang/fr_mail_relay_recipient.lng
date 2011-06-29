@@ -1,11 +1,9 @@
 <?php
-$wb['server_id_txt'] = "Serveur";
-$wb['source_txt'] = "Destinataire relais";
-$wb['recipient_txt'] = "Destinataire";
-$wb['active_txt'] = "Actif";
-$wb['source_error_notempty'] = "L'adresse est vide.";
-$wb['type_txt'] = "Type";
-$wb['limit_mailfilter_txt'] = "Le nombre maximum de filtre d'email pour votre compte a été atteint.";
+$wb['server_id_txt'] = 'Serveur';
+$wb['source_txt'] = 'Destinataire relais';
+$wb['recipient_txt'] = 'Destinataire';
+$wb['active_txt'] = 'Actif';
+$wb['source_error_notempty'] = 'Ladresse est vide.';
+$wb['type_txt'] = 'Type';
+$wb['limit_mailfilter_txt'] = 'Le nombre maximum de filtre demail pour votre compte a été atteint.';
 ?>
-
-

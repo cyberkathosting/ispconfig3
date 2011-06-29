@@ -4,4 +4,3 @@ $wb['language_select_txt'] = 'Válasszon nyelvet';
 $wb['btn_save_txt'] = 'Kiválasztott nyelv exportálása';
 $wb['btn_cancel_txt'] = 'Vissza';
 ?>
-

@@ -11,4 +11,3 @@ $wb['policy_txt'] = 'Spamszűrő';
 $wb['no_policy'] = '- nem engedélyezett -';
 $wb['client_txt'] = 'Client';
 ?>
-

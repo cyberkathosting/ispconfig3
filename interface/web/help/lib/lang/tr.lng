@@ -6,4 +6,9 @@ $wb['View messages'] = 'Mesajlara bak';
 $wb['Support'] = 'Destek';
 $wb['About ISPConfig'] = 'ISPConfig Hakkında';
 $wb['Version'] = 'Versiyon';
+$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
+$wb['FAQ Sections'] = 'FAQ Sections';
+$wb['Manage Sections'] = 'Manage Sections';
+$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
+$wb['Manage Questions'] = 'Manage Questions';
 ?>

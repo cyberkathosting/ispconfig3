@@ -41,4 +41,10 @@ $wb['name_optional_txt'] = '(Optional)';
 $wb['autoresponder_active'] = 'Enable the autoresponder';
 $wb['cc_txt'] = 'Send copy to';
 $wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
+$wb['domain_txt'] = 'Domain';
+$wb['now_txt'] = 'Now';
+$wb['login_error_unique'] = 'Login is already taken.';
+$wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
+$wb['login_txt'] = 'Login (optional)';
+$wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
 ?>

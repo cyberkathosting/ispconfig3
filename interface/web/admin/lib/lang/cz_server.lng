@@ -10,4 +10,6 @@ $wb['vserver_server_txt'] = 'VServer server';
 $wb['active_txt'] = 'Aktivní';
 $wb['mirror_server_id_txt'] = 'Je zrcadlem serveru';
 $wb['- None -'] = '- Žádný -';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
 ?>

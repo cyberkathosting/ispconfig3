@@ -33,7 +33,6 @@ $wb['email_txt'] = 'Correo';
 $wb['internet_txt'] = 'Internet';
 $wb['icq_txt'] = 'ICQ';
 $wb['notes_txt'] = 'Notas';
-$wb['company_id_txt'] = 'Empresa ID';
 $wb['title_txt'] = 'Título';
 $wb['firstname_txt'] = 'Nombre';
 $wb['surname_txt'] = 'Apellidos';
@@ -100,4 +99,6 @@ $wb['vat_id_txt'] = 'VAT ID';
 $wb['required_fields_txt'] = '* Campos Requeridos';
 $wb['limit_webdav_user_txt'] = 'Numero máximo de usuarios Webdav';
 $wb['limit_webdav_user_error_notint'] = 'El límite de usuarios Webdav debe ser un número.';
+$wb['company_txt'] = 'Company';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

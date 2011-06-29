@@ -24,4 +24,5 @@ $wb['uid_error_empty'] = 'GID boş.';
 $wb['directory_error_empty'] = 'Dizin boş.';
 $wb['directory_error_notinweb'] = 'Dizin, web kök dizini içerisinde değil.';
 $wb['parent_domain_id_error_empty'] = 'Seçili websitesi yok.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>

@@ -1,8 +1,6 @@
 <?php
-$wb['head_txt'] = "Paquet d'installation";
-$wb['install_key_txt'] = "Entrer la clé d'installation";
-$wb['btn_save_txt'] = "Commencer l'installation";
-$wb['btn_cancel_txt'] = "Annuler";
+$wb['head_txt'] = 'Paquet dinstallation';
+$wb['install_key_txt'] = 'Entrer la clé dinstallation';
+$wb['btn_save_txt'] = 'Commencer linstallation';
+$wb['btn_cancel_txt'] = 'Annuler';
 ?>
-
-

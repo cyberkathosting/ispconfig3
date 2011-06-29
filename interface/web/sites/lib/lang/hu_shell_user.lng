@@ -20,4 +20,3 @@ $wb['parent_domain_id_error_empty'] = 'Nincs webhely kiválasztva.';
 $wb['puser_txt'] = 'Web Felhasználónév';
 $wb['pgroup_txt'] = 'Web Csoportnév';
 ?>
-

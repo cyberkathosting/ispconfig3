@@ -1,0 +1,10 @@
+<?php
+$wb["list_head_txt"] = 'Virtual server';
+$wb["active_txt"] = 'Active';
+$wb["server_id_txt"] = 'Hostserver';
+$wb["ostemplate_id_txt"] = 'OSTemplate';
+$wb["template_id_txt"] = 'Template';
+$wb["hostname_txt"] = 'Hostname';
+$wb["ip_address_txt"] = 'IP address';
+$wb["veid_txt"] = 'VEID';
+?>

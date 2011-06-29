@@ -143,5 +143,3 @@ $wb['monitor_serverstate_beancountererror_txt'] = 'There are too much failure in
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'This server is not a OpenVz VE and has no beancounter information';
 ?>
-
-

@@ -60,4 +60,6 @@ $wb['limit_web_quota_txt'] = 'Όριο Web';
 $wb['limit_traffic_quota_txt'] = 'Όριο Κίνησης δεδομένων';
 $wb['limit_trafficquota_error_notint'] = 'Το Όριο Κίνησης δεδομένων πρέπει να είναι αριθμός.';
 $wb['template_del_aborted_txt'] = 'Η διαγραφή ακυρώθηκε. Υπάρχει τουλάχιστον ένας πελάτης που έχει το πρότυπο ενεργοποιημένο.';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

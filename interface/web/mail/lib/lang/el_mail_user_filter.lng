@@ -8,4 +8,13 @@ $wb['searchterm_is_empty'] = 'Ο όρος αναζήτησης δεν έχει �
 $wb['source_txt'] = 'Πηγή';
 $wb['target_error_regex'] = 'Ο προορισμός μπορεί να περιέχει μόνο αυτούς τους χαρακτήρες: a-z, 0-9, -, ., _, και {κενό}';
 $wb['limit_mailfilter_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των φίλτρων mail.';
+$wb['subject_txt'] = 'Subject';
+$wb['from_txt'] = 'From';
+$wb['to_txt'] = 'To';
+$wb['contains_txt'] = 'Contains';
+$wb['is_txt'] = 'Is';
+$wb['begins_with_txt'] = 'Begins with';
+$wb['ends_with_txt'] = 'Ends with';
+$wb['move_to_txt'] = 'Move to';
+$wb['delete_txt'] = 'Delete';
 ?>

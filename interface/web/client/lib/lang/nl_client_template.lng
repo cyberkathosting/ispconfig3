@@ -60,4 +60,6 @@ $wb['limit_web_quota_txt'] = 'Web quota';
 $wb['limit_traffic_quota_txt'] = 'Traffic quota';
 $wb['limit_trafficquota_error_notint'] = 'Traffic quota moet een numerieke waarde zijn.';
 $wb['template_del_aborted_txt'] = 'Verwijderen afgebroken. Er is een klant die deze template heeft geselecteerd.';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

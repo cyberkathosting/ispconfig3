@@ -17,7 +17,4 @@ $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'DNS průvodce';
 $wb['Add DNS Zone'] = 'Přidat DNS zónu';
 $wb['Templates'] = 'Šablony';
-$wb['Secondary DNS'] = 'Sekundární DNS zóny';
-$wb['Secondary Zones'] = 'Sekundární DNS zóny';
-$wb['Secondary DNS Zone'] = 'Sekundární DNS zóna';
 ?>

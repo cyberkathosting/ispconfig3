@@ -14,4 +14,3 @@ $wb['ns_error_regex'] = 'NS has a invalid format.';
 $wb['eg_domain_tld'] = 'e.g. domain.tld.';
 $wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 ?>
-

@@ -11,4 +11,6 @@ $wb['origin_error_empty'] = 'Zone empty.';
 $wb['origin_error_unique'] = 'There is already a record for this zone.';
 $wb['origin_error_regex'] = 'Zone has a invalid format.';
 $wb['ns_error_regex'] = 'NS has a invalid format.';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 ?>

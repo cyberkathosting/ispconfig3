@@ -37,4 +37,6 @@ $wb['domain_error_unique'] = 'Já existe um alias ou sub-domínio com este nome.
 $wb['domain_error_regex'] = 'Nome de domínio inválido.';
 $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Pasta de redireccionamento inválida. Exemplos de redireccionamentos válidos: /test/ or http://www.dominio.pt/test/';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
 ?>

@@ -8,4 +8,5 @@ $wb['no_domain_perm'] = 'Δεν έχετε δικαιώματα σε αυτό τ
 $wb['destination_error_isemail'] = 'Η διεύθυνση Email παραλήπτη δεν είναι έγκυρη';
 $wb['limit_mailalias_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των ψευδωνύμων email για τον λογαριασμό σας.';
 $wb['duplicate_mailbox_txt'] = 'Υπάρχει ήδη μια θυρίδα με αυτή τη διεύθυνση email';
+$wb['domain_txt'] = 'Domain';
 ?>

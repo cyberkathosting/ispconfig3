@@ -41,4 +41,8 @@ $wb['cc_txt'] = 'Enviar cópia para';
 $wb['cc_error_isemail'] = 'O campo enviar cópia para deve conter um endereço de e-mail válido';
 $wb['domain_txt'] = 'Domínio';
 $wb['now_txt'] = 'Agora';
+$wb['login_error_unique'] = 'Login is already taken.';
+$wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
+$wb['login_txt'] = 'Login (optional)';
+$wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
 ?>

@@ -4,4 +4,5 @@ $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Otomatik cevaplayıcı';
 $wb['add_new_record_txt'] = 'Yeni Mail kutusu';
 $wb['name_txt'] = 'Gerçek ad';
+$wb['login_txt'] = 'Login';
 ?>

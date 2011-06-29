@@ -1,10 +1,8 @@
 <?php
-$wb['list_head_txt'] = "Filtre à spam";
-$wb['active_txt'] = "Actif";
-$wb['server_id_txt'] = "Serveur";
-$wb['server_name_txt'] = "Nom du serveur";
-$wb['email_txt'] = "Email";
-$wb['add_new_record_txt'] = "Ajouter un nouvel enregistrement";
+$wb['list_head_txt'] = 'Filtre à spam';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
+$wb['server_name_txt'] = 'Nom du serveur';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Ajouter un nouvel enregistrement';
 ?>
-
-

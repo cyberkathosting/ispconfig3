@@ -1,5 +1,4 @@
 <?php
-$wb['secondary_dns_zone_txt'] = 'Zonas Secundarias DNS';
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona DNS';
 $wb['ns_txt'] = 'NS';
@@ -12,4 +11,6 @@ $wb['origin_error_empty'] = 'Zona vacía.';
 $wb['origin_error_unique'] = 'Ya existe un registro para esta zona.';
 $wb['origin_error_regex'] = 'La zona tiene un formato inválido.';
 $wb['ns_error_regex'] = 'Registro NS tiene un formato inválido.';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 ?>

@@ -8,4 +8,6 @@ $wb['file_server_txt'] = 'Súbor';
 $wb['db_server_txt'] = 'DB';
 $wb['vserver_server_txt'] = 'VServer';
 $wb['add_new_record_txt'] = 'Pridať nový Server';
+$wb['proxy_server_txt'] = 'Proxy';
+$wb['firewall_server_txt'] = 'Firewall';
 ?>

@@ -10,4 +10,6 @@ $wb['vserver_server_txt'] = 'VСервер';
 $wb['active_txt'] = 'Активен?';
 $wb['mirror_server_id_txt'] = 'Зеркало сервера';
 $wb['- None -'] = '- нет -';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
 ?>

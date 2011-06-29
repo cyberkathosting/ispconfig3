@@ -1,5 +1,4 @@
 <?php
-$wb['name_error_empty'] = 'Por favor, introduzca un nombre válido.';
 $wb['name_txt'] = 'Nombre';
 $wb['fields_txt'] = 'Campos';
 $wb['template_txt'] = 'Plantilla';

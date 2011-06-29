@@ -60,4 +60,6 @@ $wb['limit_trafficquota_error_notint'] = 'Limit przestrzeni musi być liczbą.';
 $wb['template_del_aborted_txt'] = 'Usuwanie przerwane. Istnieje klient używający ciągle tego szablonu.';
 $wb['limit_webdav_user_txt'] = 'Maksymalna ilość użytkowników webdav';
 $wb['limit_webdav_user_error_notint'] = 'Limit użytkowników webdav musi być liczbą.';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

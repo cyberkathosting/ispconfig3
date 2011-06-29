@@ -8,4 +8,5 @@ $wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
 $wb['destination_error_isemail'] = 'Zieladresse ist ungültig.';
 $wb['limit_mailalias_txt'] = 'Die maximale Anzahl an E-Mail-Aliassen für ihr Konto wurde erreicht.';
 $wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine Mailbox mit dieser E-Mail-Adresse';
+$wb['domain_txt'] = 'Domain';
 ?>

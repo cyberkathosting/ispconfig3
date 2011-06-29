@@ -11,4 +11,6 @@ $wb['origin_error_empty'] = 'Η ζώνη είναι κενή.';
 $wb['origin_error_unique'] = 'Υπάρχει ήδη μια εγγραφή για αυτή την ζώνη.';
 $wb['origin_error_regex'] = 'Η ζώνη δεν έχει έγκυρη μορφοποίηση.';
 $wb['ns_error_regex'] = 'Ο NS δεν έχει έγκυρη μορφοποίηση.';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 ?>

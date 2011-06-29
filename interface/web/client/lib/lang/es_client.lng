@@ -91,7 +91,6 @@ $wb['limit_cron_frequency_txt'] = 'Espera mínima entre ejecuciones';
 $wb['limit_cron_error_notint'] = 'El límite de tareas cron debe ser un número.';
 $wb['limit_cron_error_frequency'] = 'El límite de la frecuencia de cron debe ser un número.';
 $wb['limit_client_error'] = 'Se ha alcanzado el número máximo de clientes.';
-$wb['limit_mailaliasdomain_txt'] = 'Número máximo de alias de dominio de correo';
 $wb['limit_mailaliasdomain_error_notint'] = 'El límite de alias de dominio de correodebe ser un número.';
 $wb['limit_web_quota_txt'] = 'Cuota Web';
 $wb['limit_traffic_quota_txt'] = 'Cuota de Tráfico';
@@ -101,4 +100,5 @@ $wb['limit_webdav_user_error_notint'] = 'El límite de usuarios Webdav debe ser 
 $wb['customer_no_txt'] = 'Número Cliente';
 $wb['vat_id_txt'] = 'VAT ID';
 $wb['required_fields_txt'] = '* Campos Requeridos';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

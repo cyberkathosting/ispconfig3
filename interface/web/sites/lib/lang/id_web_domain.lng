@@ -65,6 +65,11 @@ $wb['stats_user_txt'] = 'Nama Pengguna Statistik Web';
 $wb['stats_type_txt'] = 'Program Statistik Web';
 $wb['custom_php_ini_txt'] = 'Pengaturan php.ini kastem';
 $wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
-$wb['hd_quota_error_regex'] = 'Harddisk quota: enter a -1 for unlimited or a number > 0';
-$wb['traffic_quota_error_regex'] = 'Traffic quota: enter a -1 for unlimited or a number > 0';
+$wb['none_txt'] = 'None';
+$wb['disabled_txt'] = 'Disabled';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['save_certificate_txt'] = 'Save certificate';
+$wb['create_certificate_txt'] = 'Create certificate';
+$wb['delete_certificate_txt'] = 'Delete certificate';
 ?>

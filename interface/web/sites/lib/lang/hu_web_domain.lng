@@ -73,4 +73,3 @@ $wb['stats_type_txt'] = 'Webstatistika program';
 $wb['custom_php_ini_txt'] = 'Custom php.ini settings';
 $wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
 ?>
-

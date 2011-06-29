@@ -60,4 +60,6 @@ $wb['limit_webdav_user_txt'] = 'Jumlah maks pengguna Webdav';
 $wb['limit_webdav_user_error_notint'] = 'Batasan pengguna webdav harus berupa angka.';
 $wb['limit_dns_slave_zone_error_notint'] = 'Batasan zona slave dns harus berupa angka.';
 $wb['limit_dns_record_error_notint'] = 'Batasan record dns harus berupa angka.';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

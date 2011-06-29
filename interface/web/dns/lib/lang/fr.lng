@@ -1,22 +1,20 @@
 <?php
-$wb['DNS'] = "DNS";
-$wb['Zones'] = "Zones";
-$wb['DNS A'] = "DNS A";
-$wb['DNS ALIAS'] = "DNS ALIAS";
-$wb['DNS CNAME'] = "DNS CNAME";
-$wb['DNS hinfo'] = "DNS hinfo";
-$wb['DNS mx'] = "DNS mx";
-$wb['DNS ns'] = "DNS ns";
-$wb['DNS ptr'] = "DNS ptr";
-$wb['DNS RP'] = "DNS RP";
-$wb['DNS Zone'] = "Zone DNS";
-$wb['Records'] = "Enregistrements";
-$wb['DNS SRV'] = "DNS SRV";
-$wb['DNS TXT Record'] = "Enregistrement DNS TXT";
-$wb['DNS TXT'] = "DNS TXT";
-$wb['DNS Wizard'] = "DNS Wizard";
-$wb['Add DNS Zone'] = "Add DNS Zone";
-$wb['Templates'] = "Templates";
+$wb['DNS'] = 'DNS';
+$wb['Zones'] = 'Zones';
+$wb['DNS A'] = 'DNS A';
+$wb['DNS ALIAS'] = 'DNS ALIAS';
+$wb['DNS CNAME'] = 'DNS CNAME';
+$wb['DNS hinfo'] = 'DNS hinfo';
+$wb['DNS mx'] = 'DNS mx';
+$wb['DNS ns'] = 'DNS ns';
+$wb['DNS ptr'] = 'DNS ptr';
+$wb['DNS RP'] = 'DNS RP';
+$wb['DNS Zone'] = 'Zone DNS';
+$wb['Records'] = 'Enregistrements';
+$wb['DNS SRV'] = 'DNS SRV';
+$wb['DNS TXT Record'] = 'Enregistrement DNS TXT';
+$wb['DNS TXT'] = 'DNS TXT';
+$wb['DNS Wizard'] = 'DNS Wizard';
+$wb['Add DNS Zone'] = 'Add DNS Zone';
+$wb['Templates'] = 'Templates';
 ?>
-
-

@@ -6,4 +6,9 @@ $wb['View messages'] = 'Просмотр сообщений';
 $wb['Support'] = 'Поддержка';
 $wb['About ISPConfig'] = 'Об ISPConfig';
 $wb['Version'] = 'Показать версию';
+$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
+$wb['FAQ Sections'] = 'FAQ Sections';
+$wb['Manage Sections'] = 'Manage Sections';
+$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
+$wb['Manage Questions'] = 'Manage Questions';
 ?>

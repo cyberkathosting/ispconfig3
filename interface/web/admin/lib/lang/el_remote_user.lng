@@ -39,4 +39,5 @@ $wb['DNS ptr functions'] = 'Ενέργειες εγγραφών ptr του DNS';
 $wb['DNS rp functions'] = 'Ενέργειες εγγραφών rp του DNS';
 $wb['DNS srv functions'] = 'Ενέργειες εγγραφών srv του DNS';
 $wb['DNS txt functions'] = 'Ενέργειες εγγραφών txt του DNS';
+$wb['Mail mailing list functions'] = 'Mail mailinglist functions';
 ?>

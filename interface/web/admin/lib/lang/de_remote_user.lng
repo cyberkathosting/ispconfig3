@@ -39,4 +39,5 @@ $wb['DNS ptr functions'] = 'DNS ptr Funktionen';
 $wb['DNS rp functions'] = 'DNS rp Funktionen';
 $wb['DNS srv functions'] = 'DNS srv Funktionen';
 $wb['DNS txt functions'] = 'DNS txt Funktionen';
+$wb['Mail mailing list functions'] = 'Mail mailinglist functions';
 ?>

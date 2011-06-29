@@ -6,4 +6,3 @@ $wb['used_txt'] = 'Felhasznált hely';
 $wb['hard_txt'] = 'Hard limit';
 $wb['soft_txt'] = 'Soft limit';
 ?>
-

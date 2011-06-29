@@ -38,4 +38,5 @@ $wb['top_menu_domain'] = 'ÇáãÌÇáÇÊ';
 $wb['top_menu_dashboard'] = 'ÇáÑÆíÓÉ';
 $wb['toolsarea_head_txt'] = 'ÃÏæÇÊ';
 $wb['latest_news_txt'] = 'Latest news';
+$wb['top_menu_vm'] = 'VServer';
 ?>

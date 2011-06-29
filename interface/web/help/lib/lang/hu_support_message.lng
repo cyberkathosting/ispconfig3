@@ -6,4 +6,3 @@ $wb['message_txt'] = 'Üzenet';
 $wb['tstamp_txt'] = 'Időbélyeg';
 $wb['reply_txt'] = 'Reply';
 ?>
-

@@ -1,0 +1,6 @@
+<?php
+$wb["server_id_txt"] = 'Hostserver';
+$wb["ip_address_txt"] = 'IP address';
+$wb["vm_id_txt"] = 'Virtual server';
+$wb["reserved_txt"] = 'Reserved';
+?>

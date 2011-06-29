@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Címzett';
 $wb['add_new_record_txt'] = 'Új Fehérlista';
 $wb['access_txt'] = 'hozzáférés';
 ?>
-

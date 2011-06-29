@@ -1,18 +1,16 @@
 <?php
-$wb['server_id_txt'] = "Serveur";
-$wb['zone_txt'] = "Zone";
-$wb['name_txt'] = "Hôte";
-$wb['type_txt'] = "Type";
-$wb['data_txt'] = "Adresse IP";
-$wb['ttl_txt'] = "TTL";
-$wb['active_txt'] = "Actif";
-$wb['limit_dns_record_txt'] = "Le nombre maximum d'enregistrements DNS pour votre compte a été atteint.";
-$wb['no_zone_perm'] = "Vous n'avez pas la permissions d'ajouter un enregistrement dans cette zone DNS.";
-$wb['name_error_empty'] = "L'hôte est vide.";
-$wb['name_error_regex'] = "L'hôte a un format invalide.";
-$wb['data_error_empty'] = "L'adresse IP est vide.";
-$wb['data_error_regex'] = "L'adresse IP a un format invalide.";
-$wb['data_error_duplicate'] = "Dupliquer l'enregistrement A";
+$wb['server_id_txt'] = 'Serveur';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Hôte';
+$wb['type_txt'] = 'Type';
+$wb['data_txt'] = 'Adresse IP';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Actif';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a été atteint.';
+$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
+$wb['name_error_empty'] = 'Lhôte est vide.';
+$wb['name_error_regex'] = 'Lhôte a un format invalide.';
+$wb['data_error_empty'] = 'Ladresse IP est vide.';
+$wb['data_error_regex'] = 'Ladresse IP a un format invalide.';
+$wb['data_error_duplicate'] = 'Dupliquer lenregistrement A';
 ?>
-
-

@@ -98,4 +98,7 @@ $wb['vat_id_txt'] = 'BTW ID';
 $wb['required_fields_txt'] = '* Verplichte velden';
 $wb['limit_webdav_user_txt'] = 'Max. number of Webdav users';
 $wb['limit_webdav_user_error_notint'] = 'The webdav user limit must be a number.';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

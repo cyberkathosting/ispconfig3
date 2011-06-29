@@ -36,5 +36,7 @@ $wb['top_menu_domain'] = 'Domainek';
 $wb['top_menu_dashboard'] = 'Főoldal';
 $wb['latest_news_txt'] = 'Legfrissebb hírek';
 $wb['top_menu_vm'] = 'VM';
+$wb['number_format_decimals'] = '2';
+$wb['number_format_dec_point'] = '.';
+$wb['number_format_thousands_sep'] = '';
 ?>
-

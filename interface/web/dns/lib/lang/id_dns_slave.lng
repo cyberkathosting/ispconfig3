@@ -11,4 +11,6 @@ $wb['origin_error_empty'] = 'Zona kosong.';
 $wb['origin_error_unique'] = 'Sudah ada record untuk zona ini.';
 $wb['origin_error_regex'] = 'Zona memiliki format yang tidak valid.';
 $wb['ns_error_regex'] = 'NS memiliki format yang tidak valid.';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 ?>

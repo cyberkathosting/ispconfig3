@@ -30,7 +30,7 @@ $wb['top_menu_system'] = 'System';
 $wb['top_menu_client'] = 'Kunden';
 $wb['top_menu_email'] = 'E-Mail';
 $wb['top_menu_monitor'] = 'Überwachung';
-$wb['top_menu_sites'] = 'Internet-Auftritt'; 
+$wb['top_menu_sites'] = 'Internet-Auftritt';
 $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Einstellungen';
 $wb['top_menu_help'] = 'Support';
@@ -38,4 +38,5 @@ $wb['top_menu_billing'] = 'Billing';
 $wb['top_menu_domain'] = 'Domains';
 $wb['top_menu_dashboard'] = 'Home';
 $wb['latest_news_txt'] = 'Latest news';
+$wb['top_menu_vm'] = 'VServer';
 ?>

@@ -24,5 +24,5 @@ $wb['quota_files_unity_txt'] = 'Fájlok';
 $wb['password_strength_txt'] = 'Jelszó erősségee';
 $wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
 $wb['parent_domain_id_error_empty'] = 'Nincs webhely kiválasztva.';
+$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>
-

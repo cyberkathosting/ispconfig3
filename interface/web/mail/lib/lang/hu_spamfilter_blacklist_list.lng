@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Felhasználó';
 $wb['email_txt'] = 'Fehérlistás Email';
 $wb['add_new_record_txt'] = 'Új Feketelista';
 ?>
-

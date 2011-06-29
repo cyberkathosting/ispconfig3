@@ -8,4 +8,7 @@ $wb['add_new_record_txt'] = 'Neue Aliasdomain hinzufügen';
 $wb['domain_error_empty'] = 'Domain ist leer.';
 $wb['domain_error_unique'] = 'Domain muss eindeutig sein.';
 $wb['domain_error_regex'] = 'Domainname ist ungültig.';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['none_txt'] = 'None';
 ?>

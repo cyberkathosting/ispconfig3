@@ -1,11 +1,9 @@
 <?php
-$wb['list_head_txt'] = "Utilisateurs";
-$wb['username_txt'] = "Nom d'utilisateur";
-$wb['name_txt'] = "Nom";
-$wb['vorname_txt'] = "Prénom";
-$wb['ort_txt'] = "Ville";
-$wb['add_new_record_txt'] = "Ajouter un nouvel utilisateur";
-$wb['warning_txt'] = "<b>ATTENTION:</b> Ne pas modifier ou éditer. Utiliser le module Client. Toute modification ici pourrait entraîner des pertes de données.";
+$wb['list_head_txt'] = 'Utilisateurs';
+$wb['username_txt'] = 'Nom dutilisateur';
+$wb['name_txt'] = 'Nom';
+$wb['vorname_txt'] = 'Prénom';
+$wb['ort_txt'] = 'Ville';
+$wb['add_new_record_txt'] = 'Ajouter un nouvel utilisateur';
+$wb['warning_txt'] = '<b>ATTENTION:</b> Ne pas modifier ou éditer. Utiliser le module Client. Toute modification ici pourrait entraîner des pertes de données.';
 ?>
-
-

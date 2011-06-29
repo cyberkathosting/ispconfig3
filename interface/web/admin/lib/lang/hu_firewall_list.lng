@@ -6,4 +6,3 @@ $wb['tcp_port_txt'] = 'TCP portok megnyitása';
 $wb['udp_port_txt'] = 'UDP portok megnyitása';
 $wb['add_new_record_txt'] = 'Új tűzfal bejegyzés';
 ?>
-

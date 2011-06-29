@@ -10,4 +10,6 @@ $wb['vserver_server_txt'] = 'Servidor VServer';
 $wb['active_txt'] = 'Ativado';
 $wb['mirror_server_id_txt'] = 'É um espelho de servidor';
 $wb['- None -'] = '- Não -';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
 ?>

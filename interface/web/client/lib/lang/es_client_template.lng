@@ -60,4 +60,6 @@ $wb['limit_trafficquota_error_notint'] = 'Cuota de Tráfico debe ser un número.
 $wb['template_del_aborted_txt'] = 'Eliminación abortada. Hay un cliente que tiene esta plantilla seleccionada.';
 $wb['limit_webdav_user_txt'] = 'Número máximo de usuarios Webdav';
 $wb['limit_webdav_user_error_notint'] = 'El límite de usuarios Webdav debe ser un número.';
+$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
+$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
 ?>

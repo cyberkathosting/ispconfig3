@@ -38,4 +38,5 @@ $wb['top_menu_billing'] = 'Cobranza';
 $wb['top_menu_domain'] = 'Dominios';
 $wb['top_menu_dashboard'] = 'Inicio';
 $wb['latest_news_txt'] = 'Noticias';
+$wb['top_menu_vm'] = 'VServer';
 ?>

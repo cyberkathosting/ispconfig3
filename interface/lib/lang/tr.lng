@@ -4,7 +4,7 @@ $wb['conf_format_datelong'] = 'l dS of F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
 $wb['conf_format_datetime'] = 'Y-m-d H:i';
-$wb['number_format_decimals'] = 2;
+$wb['number_format_decimals'] = '2';
 $wb['number_format_dec_point'] = '.';
 $wb['number_format_thousands_sep'] = '';
 $wb['301'] = 'Modül, bu kullanıcı için izin vermiyor.';
@@ -38,4 +38,5 @@ $wb['top_menu_billing'] = 'Billing';
 $wb['top_menu_domain'] = 'Domains';
 $wb['top_menu_dashboard'] = 'Home';
 $wb['latest_news_txt'] = 'Latest news';
+$wb['top_menu_vm'] = 'VServer';
 ?>

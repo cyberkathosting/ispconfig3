@@ -5,4 +5,5 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Añadir nueva zona DNS secundaria';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
 ?>
