@@ -183,14 +183,6 @@ class page_action extends tform_actions {
 		
 	}
 	
-	function onAfterDelete() {
-		global $app, $conf;
-		
-		//* Release all IP addresses which are assigned to this VM
-		$app->db->query("UPDATE openvz_ip SET vm_id = 0 WHERE vm_id = '".$this->id."'");
-		
-	}
-	
 	function applyTemplate() {
 		global $app, $conf;
 		
