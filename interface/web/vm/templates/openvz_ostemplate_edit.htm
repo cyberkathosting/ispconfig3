@@ -1,0 +1,48 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_openvz_ostemplate">
+
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels"><legend>Domain</legend>
+      <div class="ctrlHolder">
+      	<label for="template_name">{tmpl_var name='template_name_txt'}</label>
+        <input name="template_name" id="template_name" value="{tmpl_var name='template_name'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="template_file">{tmpl_var name='template_file_txt'}</label>
+        <input name="template_file" id="template_file" value="{tmpl_var name='template_file'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="server_id">{tmpl_var name='server_id_txt'}</label>
+        <select name="server_id" id="server_id" class="selectInput">
+					{tmpl_var name='server_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='allservers_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='allservers'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="description">{tmpl_var name='description_txt'}</label>
+        <textarea name="description" id="description" rows='10' cols='30'>{tmpl_var name='description'}</textarea>
+      </div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','vm/openvz_ostemplate_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('vm/openvz_ostemplate_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>
