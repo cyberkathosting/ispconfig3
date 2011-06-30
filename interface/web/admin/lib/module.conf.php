@@ -85,7 +85,7 @@ $module['nav'][] = array(	'title'	=> 'System',
 // cleanup
 unset($items);
 /*
-$items[] = array( 'title' 	=> 'IPTables',
+$items[] = array( 'title' 	=> 'Firewall IPTables',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/iptables_list.php');
 
