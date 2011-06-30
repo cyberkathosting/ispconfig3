@@ -3,5 +3,6 @@ $wb['list_head_txt'] = 'Alias de domaine';
 $wb['active_txt'] = 'Actif';
 $wb['source_txt'] = 'Source';
 $wb['destination_txt'] = 'Destination';
-$wb['add_new_record_txt'] = 'Ajouter un nouvel alias de domaine';
+$wb['add_new_record_txt'] = 'Ajouter un alias de domaine';
 ?>
+

@@ -14,12 +14,13 @@ $wb['Shell-User'] = 'Utilisateur Shell';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Sites Web';
 $wb['Stats'] = 'Statistiques';
-$wb['Website'] = 'Website';
-$wb['Cron'] = 'Cron';
-$wb['Cron Jobs'] = 'Cron Jobs';
-$wb['Statistics'] = 'Statistiques';
-$wb['Web traffic'] = 'Trafic web';
+$wb['Website'] = 'Site web';
 $wb['Webdav-User'] = 'Utilisateur Webdav';
 $wb['Webdav'] = 'Webdav';
-$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Tâches cron';
+$wb['Statistics'] = 'Statistiques';
+$wb['Web traffic'] = 'Trafic web';
+$wb['Website quota (Harddisk)'] = 'Quota du site web (disque dur)';
 ?>
+

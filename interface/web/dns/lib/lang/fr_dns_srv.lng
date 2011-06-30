@@ -6,12 +6,13 @@ $wb['type_txt'] = 'Type';
 $wb['data_txt'] = 'Enregistrement serveur';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Actif';
-$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a été atteint.';
-$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
-$wb['name_error_empty'] = 'Lhôte est vide.';
-$wb['name_error_regex'] = 'Lhôte a un format invalide.';
-$wb['data_error_empty'] = 'Lenregistrement serveur est vide.';
-$wb['data_error_regex'] = 'Lenregistrement serveur a un format invalide.';
-$wb['srv_error_regex'] = 'Format de lenregistrement serveur invalide. Lenregistrement doit contenir trois chaînes de texte séparées par des espaces.';
-$wb['aux_txt'] = 'Priorité';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum d\'enregistrements DNS pour votre compte a été atteint.';
+$wb['no_zone_perm'] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement dans cette zone DNS.';
+$wb['name_error_empty'] = 'L\'hôte est vide.';
+$wb['name_error_regex'] = 'L\'hôte est d\'un format invalide.';
+$wb['data_error_empty'] = 'L\'enregistrement serveur est vide.';
+$wb['data_error_regex'] = 'L\'enregistrement serveur est d\'un format invalide.';
+$wb['aux_txt'] = 'Priority';
+$wb['srv_error_regex'] = 'Format d\'enregistrement serveur invalide. L\'enregistrement serveur doit contenir 3 chaînes de caractères séparées par des espaces.';
 ?>
+

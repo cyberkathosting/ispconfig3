@@ -8,7 +8,5 @@ $wb['add_new_record_txt'] = 'Nouvel alias de domaine';
 $wb['domain_error_empty'] = 'Le nom de domaine est vide.';
 $wb['domain_error_unique'] = 'Le nom de domaine doit être unique.';
 $wb['domain_error_regex'] = 'Le nom de domaine est invalide.';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
-$wb['none_txt'] = 'None';
 ?>
+

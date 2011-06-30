@@ -12,7 +12,8 @@ $wb['down_txt'] = 'v';
 $wb['module_txt'] = 'Module';
 $wb['form_txt'] = 'Formulaire';
 $wb['description_txt'] = 'Description';
-$wb['module_del_txt'] = 'Effacer le module et tout ses sous-répertoires';
-$wb['menu_del_txt'] = 'Effacer le menu et tout ses items';
-$wb['item_del_txt'] = 'Effacer litem';
+$wb['module_del_txt'] = 'Effacer le module et tous ses sous-répertoires';
+$wb['menu_del_txt'] = 'Effacer le menu et toutes ses entrées';
+$wb['item_del_txt'] = 'Effacer l\'entrée';
 ?>
+

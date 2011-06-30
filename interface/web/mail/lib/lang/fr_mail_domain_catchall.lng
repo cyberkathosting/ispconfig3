@@ -2,8 +2,9 @@
 $wb['domain_txt'] = 'Domaine';
 $wb['destination_txt'] = 'Destination';
 $wb['active_txt'] = 'Actif';
-$wb['domain_error_unique'] = 'Il y a déja un enregistrement Catchall pour ce domaine.';
-$wb['no_domain_perm'] = 'Vous navez pas de permissions pour ce domaine.';
+$wb['domain_error_unique'] = 'Il y a déja un enregistrement collecteur pour ce domaine.';
+$wb['no_domain_perm'] = 'Vous navez pas de permission pour ce domaine.';
 $wb['domain_error_regex'] = 'Nom de domaine invalide, ou contient des caractères invalides.';
-$wb['limit_mailcatchall_txt'] = 'Le nombre max. de comptes Catchall pour votre compte a été atteint.';
+$wb['limit_mailcatchall_txt'] = 'Le nombre maximal de comptes collecteurs pour votre compte a été atteint.';
 ?>
+

@@ -6,10 +6,11 @@ $wb['type_txt'] = 'Type';
 $wb['data_txt'] = 'Hôte du serveur de nom';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Actif';
-$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a été atteint.';
-$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum d\'enregistrements DNS pour votre compte a été atteint.';
+$wb['no_zone_perm'] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement dans cette zone DNS.';
 $wb['name_error_empty'] = 'La zone est vide.';
-$wb['name_error_regex'] = 'La zone a un format invalide.';
-$wb['data_error_empty'] = 'Lhôte du serveur de nom est vide.';
-$wb['data_error_regex'] = 'Lhôte du serveur de nom a un format invalide.';
+$wb['name_error_regex'] = 'La zone est d\'un format invalide.';
+$wb['data_error_empty'] = 'L\'hôte du serveur de nom est vide.';
+$wb['data_error_regex'] = 'L\'hôte du serveur de nom est d\'un format invalide.';
 ?>
+

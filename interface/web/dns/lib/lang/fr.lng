@@ -4,17 +4,18 @@ $wb['Zones'] = 'Zones';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
-$wb['DNS hinfo'] = 'DNS hinfo';
-$wb['DNS mx'] = 'DNS mx';
-$wb['DNS ns'] = 'DNS ns';
-$wb['DNS ptr'] = 'DNS ptr';
+$wb['DNS hinfo'] = 'DNS HINFO';
+$wb['DNS mx'] = 'DNS MX';
+$wb['DNS ns'] = 'DNS NS';
+$wb['DNS ptr'] = 'DNS PTR';
 $wb['DNS RP'] = 'DNS RP';
 $wb['DNS Zone'] = 'Zone DNS';
 $wb['Records'] = 'Enregistrements';
 $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'Enregistrement DNS TXT';
 $wb['DNS TXT'] = 'DNS TXT';
-$wb['DNS Wizard'] = 'DNS Wizard';
-$wb['Add DNS Zone'] = 'Add DNS Zone';
-$wb['Templates'] = 'Templates';
+$wb['DNS Wizard'] = 'Assistant DNS';
+$wb['Add DNS Zone'] = 'Ajout zone DNS';
+$wb['Templates'] = 'Gabarits';
 ?>
+

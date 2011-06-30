@@ -3,11 +3,12 @@ $wb['Client'] = 'Client';
 $wb['Address'] = 'Adresse';
 $wb['Limits'] = 'Limites';
 $wb['Add Client'] = 'Ajouter un Client';
-$wb['Edit Client'] = 'Editer Client';
+$wb['Edit Client'] = 'Editer un Client';
 $wb['Clients'] = 'Clients';
 $wb['Edit Client-Templates'] = 'Editer les modèles de Clients';
 $wb['Add Reseller'] = 'Ajouter un Revendeur';
-$wb['Edit Reseller'] = 'Editer Revendeur';
+$wb['Edit Reseller'] = 'Editer un Revendeur';
 $wb['Resellers'] = 'Revendeurs';
-$wb['error_has_clients'] = 'Ce revendeur a des clients, supprimer les clients du revendeur en premier.';
+$wb['error_has_clients'] = 'Ce revendeur a des clients. Effacez d\'abord les clients de ce revendeur.';
 ?>
+

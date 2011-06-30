@@ -3,13 +3,14 @@ $wb['server_id_txt'] = 'Serveur';
 $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Hôte';
 $wb['type_txt'] = 'Type';
-$wb['data_txt'] = 'Informations Hôte';
+$wb['data_txt'] = 'Informations hôte';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Actif';
-$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a été atteint.';
-$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
-$wb['name_error_empty'] = 'Lhôte est vide.';
-$wb['name_error_regex'] = 'Lhôte est dun format invalide.';
-$wb['data_error_empty'] = 'Les informations Hôte sont vides.';
-$wb['data_error_regex'] = 'Les informations Hôte ont un format invalide.';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum d\'enregistrements DNS pour votre compte a été atteint.';
+$wb['no_zone_perm'] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement dans cette zone DNS.';
+$wb['name_error_empty'] = 'L\'hôte est vide.';
+$wb['name_error_regex'] = 'L\'hôte est d\'un format invalide.';
+$wb['data_error_empty'] = 'Les informations hôte sont vides.';
+$wb['data_error_regex'] = 'Les informations hôte sont d\'un format invalide.';
 ?>
+

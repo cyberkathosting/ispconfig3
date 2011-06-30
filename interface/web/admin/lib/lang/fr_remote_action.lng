@@ -1,10 +1,11 @@
 <?php
-$wb['select_server_txt'] = 'Choisir un serveur';
-$wb['btn_do_txt'] = 'Exécuter';
-$wb['do_osupdate_caption'] = 'Exécuter une mise à jour de lOS sur le serveur distant';
-$wb['do_osupdate_desc'] = 'Cette action exécute aptitude -y upgrade sur le serveur selectionné.<br><br><strong>UTILISER A VOS PROPRES RISQUES !</strong>';
-$wb['do_ispcupdate_caption'] = 'Mise à jour ISPConfig 3 sur le serveur distant';
-$wb['do_ispcupdate_desc'] = 'Cette action exécute une mise à jour ISPConfig 3 sur le serveur selectionné.<br><br><strong>UTILISER A VOS PROPRES RISQUES !</strong>';
-$wb['action_scheduled'] = 'Cette action a été planifiée';
-$wb['select_all_server'] = 'Tous les serveurs';
+$wb['select_server_txt'] = 'Sélectionner un serveur';
+$wb['btn_do_txt'] = 'Exécuter l\'action';
+$wb['do_osupdate_caption'] = 'Mettre à jour l\'OS du serveur distant';
+$wb['do_osupdate_desc'] = 'Cette action effectue aptitude -y upgrade sur le serveur sélectionné.<br><br><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
+$wb['do_ispcupdate_caption'] = 'Mettre à jour ISPConfig 3 sur le serveur distant';
+$wb['do_ispcupdate_desc'] = 'Cette action met à jour ISPConfig3 sur le serveur sélectionné.<br><br><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
+$wb['action_scheduled'] = 'L\'action est marquée pour exécution';
+$wb['select_all_server'] = 'Tout serveur';
 ?>
+

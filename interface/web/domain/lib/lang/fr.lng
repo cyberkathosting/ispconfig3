@@ -2,8 +2,9 @@
 $wb['Domains'] = 'Domaines';
 $wb['domain_txt'] = 'Domaine';
 $wb['client_txt'] = 'Client';
-$wb['error_domain_in mailuse'] = 'Ce domaine ne peut pas être supprimé, parce quil est actuellement utilisé comme domaine e-mail';
-$wb['error_domain_in webuse'] = 'Ce domaine ne peut pas être supprimé, parce quil est actuellement utilisé comme domaine web';
+$wb['error_domain_in mailuse'] = 'Ce domaine ne peut pas être supprimé, parce qu\'il est actuellement utilisé comme domaine e-mail';
+$wb['error_domain_in webuse'] = 'Ce domaine ne peut pas être supprimé, parce qu\'il est actuellement utilisé comme domaine web';
 $wb['error_client_can_not_add_domain'] = 'Vous ne pouvez créer un nouveau domaine';
-$wb['error_client_group_id_empty'] = 'Vous devez choisir un client<br>';
+$wb['error_client_group_id_empty'] = 'Vous devez choisir un client<br />';
 ?>
+

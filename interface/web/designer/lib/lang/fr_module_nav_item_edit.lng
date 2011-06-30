@@ -2,7 +2,8 @@
 $wb['title_txt'] = 'Titre';
 $wb['target_txt'] = 'Cible';
 $wb['link_txt'] = 'Lien';
-$wb['header_txt'] = 'Propriétés Navig.';
+$wb['header_txt'] = 'Propriétés de navigation';
 $wb['save_txt'] = 'Sauver';
 $wb['cancel_txt'] = 'Annuler';
 ?>
+

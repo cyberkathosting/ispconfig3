@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Boîte mail';
 $wb['email_txt'] = 'Email';
-$wb['autoresponder_txt'] = 'Auto répondeur';
-$wb['add_new_record_txt'] = 'Ajouter une nouvelle boîte mail';
-$wb['name_txt'] = 'Nom réel';
-$wb['login_txt'] = 'Login';
+$wb['autoresponder_txt'] = 'Autorépondeur';
+$wb['add_new_record_txt'] = 'Ajouter une nouvelle boîte email';
+$wb['name_txt'] = 'Nom véritable';
 ?>
+

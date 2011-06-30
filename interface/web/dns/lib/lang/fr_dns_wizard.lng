@@ -2,7 +2,7 @@
 $wb['template_id_txt'] = 'Modèle';
 $wb['server_id_txt'] = 'Serveur';
 $wb['client_txt'] = 'Client';
-$wb['btn_save_txt'] = 'Créer lenregistrement DNS';
+$wb['btn_save_txt'] = 'Créer l\'enregistrement DNS';
 $wb['btn_cancel_txt'] = 'Annuler';
 $wb['domain_txt'] = 'Domaine';
 $wb['email_txt'] = 'Email';
@@ -11,19 +11,20 @@ $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'Adresse IP';
 $wb['error_origin_empty'] = 'Origine vide.';
 $wb['error_ns_empty'] = 'Serveur de nom vide.';
-$wb['error_mbox_empty'] = 'MBox vide.';
-$wb['error_refresh_empty'] = 'Rafraichissement vide.';
+$wb['error_mbox_empty'] = 'Mbox vide.';
+$wb['error_refresh_empty'] = 'Rafraîchissement vide.';
 $wb['error_retry_empty'] = 'Réésai vide.';
 $wb['error_expire_empty'] = 'Expiration vide.';
 $wb['error_minimum_empty'] = 'Minimum vide.';
 $wb['error_ttl_empty'] = 'TTL vide.';
-$wb['error_domain_empty'] = 'Domaine evide';
+$wb['error_domain_empty'] = 'Domaine vide';
 $wb['error_ip_empty'] = 'IP vide.';
 $wb['error_ns1_empty'] = 'NS1 vide.';
 $wb['error_ns2_empty'] = 'NS2 vide.';
 $wb['error_email_empty'] = 'Email vide.';
-$wb['error_domain_regex'] = 'Domaine contient des caractères invalides.';
+$wb['error_domain_regex'] = 'Le domaine contient des caractères invalides.';
 $wb['error_ns1_regex'] = 'NS1 contient des caractères invalides.';
 $wb['error_ns2_regex'] = 'NS2 contient des caractères invalides.';
-$wb['error_email_regex'] = 'Email ne contient pas une adresse mail valide.';
+$wb['error_email_regex'] = 'L\'email ne contient pas une adresse email valide.';
 ?>
+
