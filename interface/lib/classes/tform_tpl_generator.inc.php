@@ -309,9 +309,9 @@ class tform_tpl_generator {
 		
 		if(is_array($wb_out)) {
 			$fp = fopen ($lng_file, "w");
-			fwrite($fp,"<?php\r\n");
+			fwrite($fp,"<?php\n");
 			foreach($wb_out as $key => $val) {
-				$new_line = '$wb["'.$key.'"] = '."'$val';\r\n";
+				$new_line = '$wb["'.$key.'"] = '."'$val';\n";
 				fwrite($fp,$new_line);
 				
 			}

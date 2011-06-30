@@ -61,7 +61,7 @@ class listform_tpl_generator {
 		$lang["list_head_txt"] = $listDef["name"];
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
-			$html .= "            <th class=\"tbl_col_".$key."\" scope=\"col\"><tmpl_var name=\"".$key."_txt\"></th>\r\n";
+			$html .= "            <th class=\"tbl_col_".$key."\" scope=\"col\"><tmpl_var name=\"".$key."_txt\"></th>\n";
 			$lang[$key."_txt"] = $key;
 		}
 		
@@ -73,9 +73,9 @@ class listform_tpl_generator {
   		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
 			if($field["formtype"] == 'SELECT') {
-				$html .= "            <td class=\"tbl_col_".$key."\"><select name=\"".$listDef["search_prefix"].$key."\" onChange=\"submitForm('pageForm','".$module."/".$listDef["file"]."');\">{tmpl_var name='".$listDef["search_prefix"].$key."'}</select></td>\r\n";
+				$html .= "            <td class=\"tbl_col_".$key."\"><select name=\"".$listDef["search_prefix"].$key."\" onChange=\"submitForm('pageForm','".$module."/".$listDef["file"]."');\">{tmpl_var name='".$listDef["search_prefix"].$key."'}</select></td>\n";
 			} else {
-				$html .= "            <td class=\"tbl_col_".$key."\"><input type=\"text\" name=\"".$listDef["search_prefix"].$key."\" value=\"{tmpl_var name='".$listDef["search_prefix"].$key."'}\" /></td>\r\n";
+				$html .= "            <td class=\"tbl_col_".$key."\"><input type=\"text\" name=\"".$listDef["search_prefix"].$key."\" value=\"{tmpl_var name='".$listDef["search_prefix"].$key."'}\" /></td>\n";
 			}
 		}
 		
@@ -89,7 +89,7 @@ class listform_tpl_generator {
 		
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
-			$html .= "            <td class=\"tbl_col_".$key."\"><a href=\"#\" onClick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\">{tmpl_var name=\"".$key."\"}</a></td>\r\n";
+			$html .= "            <td class=\"tbl_col_".$key."\"><a href=\"#\" onClick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\">{tmpl_var name=\"".$key."\"}</a></td>\n";
 		}
 		
 		$html .= "            <td class=\"tbl_col_buttons\">
@@ -164,9 +164,9 @@ class listform_tpl_generator {
 		
 		if(is_array($wb_out)) {
 			$fp = fopen ($lng_file, "w");
-			fwrite($fp,"<?php\r\n");
+			fwrite($fp,"<?php\n");
 			foreach($wb_out as $key => $val) {
-				$new_line = '$wb["'.$key.'"] = '."'$val';\r\n";
+				$new_line = '$wb["'.$key.'"] = '."'$val';\n";
 				fwrite($fp,$new_line);
 				
 			}
