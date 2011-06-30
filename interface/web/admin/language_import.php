@@ -84,7 +84,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 						$langfile_path = trim(ISPC_WEB_PATH.'/'.$module_name.'/lib/lang/'.$file_name);
 					}
 				} else {
-					$buffer .= $line;
+					$buffer .= trim($line)."\n";
 				}
 			}
 		}
