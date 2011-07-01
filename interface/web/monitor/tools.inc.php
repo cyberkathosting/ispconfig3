@@ -450,6 +450,28 @@ function showFail2ban() {
 	return $html;
 }
 
+function showIPTables() {
+    global $app;
+    $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'iptables_rules' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+    if(isset($record['data'])) {
+        $html =
+                '<div class="systemmonitor-state state-'.$record['state'].'">
+            <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
+        $data = unserialize($record['data']);
+        if ($data == '') {
+            $html .= '<p>Problem, there are no rules listed for the server</p>';
+        }
+        else {
+			$html = nl2br($data['output']);
+        }
+        $html .= '</div></div>';
+    } else {
+        $html = '<p>There is no data available at the moment.</p>';
+    }
+    return $html;
+}
+
+
 function showMailq() {
 	global $app;
 

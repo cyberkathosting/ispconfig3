@@ -112,6 +112,7 @@ class monitor_core_module {
 		$this->_monitorRaid();
 		$this->_monitorRkHunter();
 		$this->_monitorFail2ban();
+		$this->_monitorIPTables();
 		$this->_monitorSysLog();
 	}
 
@@ -509,12 +510,38 @@ class monitor_core_module {
 	}
 
 	private function _monitorFail2ban() {
+        global $app;
+
+        /*
+         * First we get the Monitoring-data from the tools
+         */
+        $res = $this->_tools->monitorFail2ban();
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+                'VALUES (' .
+                $res['server_id'] . ', ' .
+                "'" . $app->dbmaster->quote($res['type']) . "', " .
+                'UNIX_TIMESTAMP(), ' .
+                "'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+                "'" . $res['state'] . "'" .
+                ')';
+        $app->dbmaster->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($res['type'], $res['server_id']);
+    }
+
+
+	private function _monitorIPTables() {
 		global $app;
 
 		/*
 		 * First we get the Monitoring-data from the tools
 		 */
-		$res = $this->_tools->monitorFail2ban();
+		$res = $this->_tools->monitorIPTables();
 
 		/*
 		 * Insert the data into the database

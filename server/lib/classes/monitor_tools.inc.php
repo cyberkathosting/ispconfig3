@@ -1127,6 +1127,40 @@ class monitor_tools {
 		return $res;
 	}
 
+	public function monitorIPTables() {
+        global $conf;
+
+        /* the id of the server as int */
+        $server_id = intval($conf['server_id']);
+
+        /** The type of the data */
+        $type = 'iptables_rules';
+
+        /* This monitoring is only available if fail2ban is installed */
+        system('which iptables', $retval); // Debian, Ubuntu, Fedora
+        if ($retval === 0) {
+            /*  Get the data of the log */
+            $data['output'] = shell_exec('iptables -S');
+
+            /*
+             * At this moment, there is no state (maybe later)
+             */
+            $state = 'no_state';
+        } else {
+            $state = 'no_state';
+            $data = '';
+        }
+
+        /*
+         * Return the Result
+         */
+        $res['server_id'] = $server_id;
+        $res['type'] = $type;
+        $res['data'] = $data;
+        $res['state'] = $state;
+        return $res;
+    }
+
 	public function monitorSysLog() {
 		global $app;
 		global $conf;

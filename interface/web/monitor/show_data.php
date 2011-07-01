@@ -124,6 +124,13 @@ switch($dataType) {
         $title = $app->lng("monitor_title_fail2ban_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
         $description = '';
         break;
+    case 'iptables':
+        $template = 'templates/show_data.htm';
+        $output .= showIPTables();
+        $time = getDataTime('iptables_rules');
+        $title = $app->lng("monitor_title_iptables_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
+        $description = '';
+        break;
     default:
         $template = '';
         break;

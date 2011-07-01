@@ -180,6 +180,11 @@ $items[] = array( 'title' 	=> "Show fail2ban-Log",
                   'link'	=> 'monitor/show_data.php?type=fail2ban',
                   'html_id' => 'fai2ban');
 
+$items[] = array( 'title' 	=> "Show IPTables",
+                  'target' 	=> 'content',
+                  'link'	=> 'monitor/show_data.php?type=iptables',
+                  'html_id' => 'iptables');
+
 $module["nav"][] = array(	'title'	=> 'Logfiles',
                             'open' 	=> 1,
                             'items'	=> $items);
