@@ -8,8 +8,11 @@ class iptables_plugin
  function onInstall()
  {
   global $conf;
+  /*
   if($conf['iptables']['installed'] = true) return true;
   else return false;
+  */
+  return false;
  }
 
  function onLoad()
