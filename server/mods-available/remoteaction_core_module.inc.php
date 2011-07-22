@@ -126,6 +126,41 @@ class remoteaction_core_module {
 					* we stop executing the actions not to waste more time */
 					return;
 				}
+				if ($action['action_type'] == 'openvz_start_vm') {
+					$veid = intval($action['action_param']);
+					if($veid > 0) {
+						exec("vzctl start $veid");
+					}
+				}
+				if ($action['action_type'] == 'openvz_stop_vm') {
+					$veid = intval($action['action_param']);
+					if($veid > 0) {
+						exec("vzctl stop $veid");
+					}
+				}
+				if ($action['action_type'] == 'openvz_restart_vm') {
+					$veid = intval($action['action_param']);
+					if($veid > 0) {
+						exec("vzctl restart $veid");
+					}
+				}
+				if ($action['action_type'] == 'openvz_create_ostpl') {
+					$parts = explode(':',$action['action_param']);
+					$veid = intval($parts[0]);
+					$template_cache_dir = '/vz/template/cache/';
+					$template_name = escapeshellcmd($parts[1]);
+					if($veid > 0 && $template_name != '' && is_dir($template_cache_dir)) {
+						$command = "vzdump --suspend --compress --stdexcludes --dumpdir $template_cache_dir $veid";
+						exec($command);
+						exec("mv ".$template_cache_dir."vzdump-openvz-".$veid."*.tgz ".$template_cache_dir.$template_name.".tar.gz");
+						exec("rm -f ".$template_cache_dir."vzdump-openvz-".$veid."*.log");
+					}
+					/* this action takes so much time,
+					* we stop executing the actions not to waste more time */
+					return;
+				}
+				
+				
 			}
 		}
 	}

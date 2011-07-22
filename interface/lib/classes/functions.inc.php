@@ -52,7 +52,7 @@ class functions {
 				unset($path_parts);
 			}
 
-			$header = "From: $from\nReply-To: $from\n";
+			$header = "Return-Path: $form\nFrom: $from\nReply-To: $from\n";
 			$header .= "MIME-Version: 1.0\n";
 			$header .= "Content-Type: multipart/mixed; boundary=$uid\n";
 

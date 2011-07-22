@@ -49,7 +49,8 @@
             <td class="tbl_col_ip_address"><a href="#" onClick="loadContent('vm/openvz_vm_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="ip_address"}</a></td>
             <td class="tbl_col_buttons">
               <div class="buttons icons16">    
-                <a class="icons16 icoDelete" href="javascript: del_record('vm/openvz_vm_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+                <a class="icons16" href="#" onClick="loadContent('vm/openvz_action.php?id={tmpl_var name='id'}')" style="background-image: url('themes/default/icons/x16/arrow.png');"><span>&nbsp;</span></a>
+				<a class="icons16 icoDelete" href="javascript: del_record('vm/openvz_vm_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
               </div>
             </td>
           </tr>
