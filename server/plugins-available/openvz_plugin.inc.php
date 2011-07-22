@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2009, Till Brehm, projektfarm Gmbh
+Copyright (c) 2011, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

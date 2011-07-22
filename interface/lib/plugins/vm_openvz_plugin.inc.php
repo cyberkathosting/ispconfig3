@@ -23,6 +23,7 @@ class vm_openvz_plugin {
 		//* Register for events        
         $app->plugin->registerEvent('vm:openvz_vm:on_after_insert','vm_openvz_plugin','openvz_vm_insert');
 		$app->plugin->registerEvent('vm:openvz_vm:on_after_update','vm_openvz_plugin','openvz_vm_update');
+		$app->plugin->registerEvent('vm:openvz_vm:on_after_delete','vm_openvz_plugin','openvz_vm_delete');
     }
 
     /*
@@ -103,6 +104,16 @@ class vm_openvz_plugin {
 			$this->createDNS();
 		}
         
+	}
+	
+	function openvz_vm_delete($event_name, $page_form) {
+        global $app, $conf;
+		
+		//* Free the IP address
+		$tmp = $app->db->queryOneRecord("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ".$page_form->id);
+		$app->db->datalogUpdate('openvz_ip', 'vm_id = 0', 'ip_address_id', $tmp['ip_address_id']);
+		unset($tmp);
+		
 	}
 	
 	private function applyTemplate() {
