@@ -523,9 +523,9 @@ class installer_base {
 		$lines = explode("\n", $old_file); 
 		foreach ($lines as $line)
 		{
-			if (strlen($line) && substr($line, 0, 1) != '#')
+			if (trim($line) != '' && substr($line, 0, 1) != '#')
 			{
-				list($key, $value) = explode("=", $line);
+				@list($key, $value) = @explode("=", $line);
 				if (!empty($value))
 				{
 					$key = rtrim($key);
@@ -540,12 +540,14 @@ class installer_base {
 			// create virtual_domains list
 			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
 			
+			if(is_array($domainAll)) {
 			foreach($domainAll as $domain)
 			{
 				if ($domainAll[0]['domain'] == $domain['domain'])
 					$virtual_domains .= "'".$domain['domain']."'";
 				else
 					$virtual_domains .= ", '".$domain['domain']."'";
+			}
 			}
 		}
 		else
