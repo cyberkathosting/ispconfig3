@@ -143,6 +143,7 @@ class openvz_plugin {
 			return;
 		}
 		
+		exec("vzctl stop $veid");
 		exec("vzctl destroy $veid");
 		$app->log("Destroying OpenVZ VM: vzctl destroy $veid",LOGLEVEL_DEBUG);
 			
