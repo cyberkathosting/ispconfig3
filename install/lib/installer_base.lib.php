@@ -554,6 +554,7 @@ class installer_base {
 			$virtual_domains = "' '";
 			
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
+		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = ''
 		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
 		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
 
