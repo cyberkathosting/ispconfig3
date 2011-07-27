@@ -72,6 +72,7 @@ $function_list['dns_rp_get,dns_rp_add,dns_rp_update,dns_rp_delete'] = 'DNS rp fu
 $function_list['dns_srv_get,dns_srv_add,dns_srv_update,dns_srv_delete'] = 'DNS srv functions';
 $function_list['dns_txt_get,dns_txt_add,dns_txt_update,dns_txt_delete'] = 'DNS txt functions';
 $function_list['domains_domain_get,domains_domain_add,domains_domain_delete,domains_get_all_by_user'] = 'Domaintool functions';
+$function_list['vm_openvz'] = 'OpenVZ VM functions';
 
 $form["title"] 			= "Remote user";
 $form["description"] 	= "";

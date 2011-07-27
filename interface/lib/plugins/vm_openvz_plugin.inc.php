@@ -140,13 +140,14 @@ class vm_openvz_plugin {
 	private function makeOpenVZConfig() {
 		global $app, $conf;
 		
-		$vm = $app->tform->getDataRecord($this->id);
+		$vm = $app->db->queryOneRecord("SELECT * FROM openvz_vm WHERE vm_id = ".$this->id);
 		$vm_template = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = ".$vm['template_id']);
 		$burst_ram = $vm['ram_burst']*256;
 		$guar_ram = $vm['ram']*256;
 		
+		$app->load('tpl');
 		$tpl = new tpl();
-		$tpl->newTemplate('templates/openvz.conf.tpl');
+		$tpl->newTemplate('../vm/templates/openvz.conf.tpl');
 		
 		$onboot = ($vm['start_boot'] == 'y')?'yes':'no';
 		$tpl->setVar('onboot',$onboot);
@@ -205,7 +206,7 @@ class vm_openvz_plugin {
 	private function createDNS() {
 		global $app, $conf;
 		
-		$vm = $app->tform->getDataRecord($this->id);
+		$vm = $app->db->queryOneRecord("SELECT * FROM openvz_vm WHERE vm_id = ".$this->id);
 		
 		if($vm['create_dns'] != 'y') return;
 		

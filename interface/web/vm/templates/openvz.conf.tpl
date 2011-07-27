@@ -43,6 +43,7 @@ ORIGIN_SAMPLE="vps.basic"
 HOSTNAME="{tmpl_var name='hostname'}"
 IP_ADDRESS="{tmpl_var name='ip_address'}"
 NAMESERVER="{tmpl_var name='nameserver'}"
-MEMINFO="pages:256000"
+# alternative meminfo: "pages:256000"
+MEMINFO="privvmpages:1"
 
 CAPABILITY="{tmpl_var name='capability'}"

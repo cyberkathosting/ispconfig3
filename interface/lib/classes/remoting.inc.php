@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2011, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -2257,7 +2257,7 @@ class remoting {
 		return $affected_rows;
 	}
 	
-	private function deleteQuery($formdef_file, $primary_id)
+	private function deleteQuery($formdef_file, $primary_id, $event_identifier = '')
     {
 		global $app;
 		
@@ -2282,6 +2282,9 @@ class remoting {
 		$app->db->query($sql);
 		
 		if($app->db->errorMessage != '') {
+			
+			if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
+			
 			$this->server->fault('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
@@ -2611,5 +2614,302 @@ class remoting {
 			return false;
         }  
     }
+	
+	//* Functions for virtual machine management
+	
+	//* Get OpenVZ OStemplate details
+	public function openvz_ostemplate_get($session_id, $ostemplate_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_ostemplate.tform.php');
+		return $app->remoting_lib->getDataRecord($ostemplate_id);
+	}
+	
+	//* Add a openvz ostemplate record
+	public function openvz_ostemplate_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../vm/form/openvz_ostemplate.tform.php',$client_id,$params);
+	}
+	
+	//* Update openvz ostemplate record
+	public function openvz_ostemplate_update($session_id, $client_id, $ostemplate_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../vm/form/openvz_ostemplate.tform.php',$client_id,$ostemplate_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete openvz ostemplate record
+	public function openvz_ostemplate_delete($session_id, $ostemplate_id)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../vm/form/openvz_ostemplate.tform.php',$ostemplate_id);
+		return $affected_rows;
+	}
+	
+	//* Get OpenVZ template details
+	public function openvz_template_get($session_id, $template_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_template.tform.php');
+		return $app->remoting_lib->getDataRecord($template_id);
+	}
+	
+	//* Add a openvz template record
+	public function openvz_template_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../vm/form/openvz_template.tform.php',$client_id,$params);
+	}
+	
+	//* Update openvz template record
+	public function openvz_template_update($session_id, $client_id, $template_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../vm/form/openvz_template.tform.php',$client_id,$template_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete openvz template record
+	public function openvz_template_delete($session_id, $template_id)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../vm/form/openvz_template.tform.php',$template_id);
+		return $affected_rows;
+	}
+	
+	//* Get OpenVZ ip details
+	public function openvz_ip_get($session_id, $ip_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_ip.tform.php');
+		return $app->remoting_lib->getDataRecord($ip_id);
+	}
+	
+	//* Get OpenVZ a free IP address
+	public function openvz_get_free_ip($session_id, $server_id = 0)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$server_id = intval($server_id);
+		
+		if($server_id > 0) {
+			$tmp = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = $server_id LIMIT 0,1");
+		} else {
+			$tmp = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 LIMIT 0,1");
+		}
+		
+		if(count($tmp) > 0) {
+			return $tmp;
+		} else {
+			$this->server->fault('no_free_ip', 'There is no free IP available.');
+		}
+	}
+	
+	//* Add a openvz ip record
+	public function openvz_ip_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../vm/form/openvz_ip.tform.php',$client_id,$params);
+	}
+	
+	//* Update openvz ip record
+	public function openvz_ip_update($session_id, $client_id, $ip_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../vm/form/openvz_ip.tform.php',$client_id,$ip_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete openvz ip record
+	public function openvz_ip_delete($session_id, $ip_id)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../vm/form/openvz_ip.tform.php',$ip_id);
+		return $affected_rows;
+	}
+	
+	//* Get OpenVZ vm details
+	public function openvz_vm_get($session_id, $vm_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_vm.tform.php');
+		return $app->remoting_lib->getDataRecord($vm_id);
+	}
+	
+	//* Add a openvz vm record
+	public function openvz_vm_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../vm/form/openvz_vm.tform.php',$client_id,$params);
+	}
+	
+	//* Add a openvz vm record from template
+	public function openvz_vm_add_from_template($session_id, $client_id, $ostemplate_id, $template_id, $override_params = array())
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		
+		$template_id = intval($template_id);
+		$ostemplate_id = intval($ostemplate_id);
+		
+		//* Verify parameters
+		if($template_id == 0) {
+			$this->server->fault('template_id_error', 'Template ID must be > 0.');
+			return false;
+		}
+		if($ostemplate_id == 0) {
+			$this->server->fault('ostemplate_id_error', 'OSTemplate ID must be > 0.');
+			return false;
+		}
+		
+		// Verify if template and ostemplate exist
+		$tmp = $app->db->queryOneRecord("SELECT template_id FROM openvz_template WHERE template_id = $template_id");
+		if(!is_array($tmp)) {
+			$this->server->fault('template_id_error', 'Template does not exist.');
+			return false;
+		}
+		$tmp = $app->db->queryOneRecord("SELECT ostemplate_id FROM openvz_ostemplate WHERE ostemplate_id = $ostemplate_id");
+		if(!is_array($tmp)) {
+			$this->server->fault('ostemplate_id_error', 'OSTemplate does not exist.');
+			return false;
+		}
+		
+		//* Get the template
+		$vtpl = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = $template_id");
+		
+		//* Get the IP address and server_id
+		if($override_params['server_id'] > 0) {
+			$vmip = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = ".$override_params['server_id']." LIMIT 0,1");
+		} else {
+			$vmip = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 LIMIT 0,1");
+		}
+		if(!is_array($vmip)) {
+			$this->server->fault('vm_ip_error', 'Unable to get a free VM IP.');
+			return false;
+		}
+		
+		//* Build the $params array
+		$params = array();
+		$params['server_id'] = $vmip['server_id'];
+		$params['ostemplate_id'] = $ostemplate_id;
+		$params['template_id'] = $template_id;
+		$params['ip_address'] = $vmip['ip_address'];
+		$params['hostname'] = (isset($override_params['hostname']))?$override_params['hostname']:$vtpl['hostname'];
+		$params['vm_password'] = (isset($override_params['vm_password']))?$override_params['vm_password']:$app->auth->get_random_password(10);
+		$params['start_boot'] = (isset($override_params['start_boot']))?$override_params['start_boot']:'y';
+		$params['active'] = (isset($override_params['active']))?$override_params['active']:'y';
+		$params['active_until_date'] = (isset($override_params['active_until_date']))?$override_params['active_until_date']:'0000-00-00';
+		$params['description'] = (isset($override_params['description']))?$override_params['description']:'';
+		
+		//* The next params get filled with pseudo values, as the get replaced 
+		//* by the openvz event plugin anyway with values from the template
+		$params['veid'] = 1;
+		$params['diskspace'] = 1;
+		$params['ram'] = 1;
+		$params['ram_burst'] = 1;
+		$params['cpu_units'] = 1;
+		$params['cpu_num'] = 1;
+		$params['cpu_limit'] = 1;
+		$params['io_priority'] = 1;
+		$params['nameserver'] = '8.8.8.8 8.8.4.4';
+		$params['create_dns'] = 'n';
+		$params['capability'] = '';
+		
+		return $this->insertQuery('../vm/form/openvz_vm.tform.php',$client_id,$params,'vm:openvz_vm:on_after_insert');
+	}
+	
+	//* Update openvz vm record
+	public function openvz_vm_update($session_id, $client_id, $vm_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../vm/form/openvz_vm.tform.php',$client_id,$vm_id,$params,'vm:openvz_vm:on_after_update');
+		return $affected_rows;
+	}
+	
+	//* Delete openvz vm record
+	public function openvz_vm_delete($session_id, $vm_id)
+    {
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../vm/form/openvz_vm.tform.php',$vm_id,'vm:openvz_vm:on_after_delete');
+		return $affected_rows;
+	}
+	
+	
+	
+	
+	
+	
+	
 }
 ?>
