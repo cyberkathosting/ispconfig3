@@ -488,6 +488,7 @@ class apache2_plugin {
 				}
 			}
 			exec('chmod -R a+r '.$error_page_path);
+			exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.$error_page_path);
 		}  // end copy error docs
 
 		// Create group and user, if not exist
