@@ -2107,12 +2107,12 @@ class remoting {
         
 
 
-	//** private functions -----------------------------------------------------------------------------------
+	//** protected functions -----------------------------------------------------------------------------------
 	
 	
 
 
-	private function klientadd($formdef_file, $reseller_id, $params)
+	protected function klientadd($formdef_file, $reseller_id, $params)
     {
 		global $app, $tform, $remoting_lib;
 		$app->uses('remoting_lib');
@@ -2167,7 +2167,7 @@ class remoting {
 		return $insert_id;
 	}
 
-	private function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
+	protected function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
     {
 		global $app, $tform, $remoting_lib;
 		
@@ -2211,7 +2211,7 @@ class remoting {
 	}
 	
 	
-	private function updateQuery($formdef_file, $client_id, $primary_id, $params, $event_identifier = '')
+	protected function updateQuery($formdef_file, $client_id, $primary_id, $params, $event_identifier = '')
     {
 		global $app;
 		
@@ -2257,7 +2257,7 @@ class remoting {
 		return $affected_rows;
 	}
 	
-	private function deleteQuery($formdef_file, $primary_id, $event_identifier = '')
+	protected function deleteQuery($formdef_file, $primary_id, $event_identifier = '')
     {
 		global $app;
 		
@@ -2301,7 +2301,7 @@ class remoting {
 	}
 	
 	
-	private function checkPerm($session_id, $function_name)
+	protected function checkPerm($session_id, $function_name)
     {
 	$dobre=array();
 	$session = $this->getSession($session_id);
@@ -2314,7 +2314,7 @@ class remoting {
 	}
 	
 	
-	private function getSession($session_id)
+	protected function getSession($session_id)
     {	
 		global $app;
 		
