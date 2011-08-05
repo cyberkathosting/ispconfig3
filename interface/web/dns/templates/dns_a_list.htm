@@ -53,9 +53,9 @@
           <tr>
             <td class="tbl_col_active"><select name="search_active" onChange="changeTab('dns_records','dns/dns_soa_edit.php');">{tmpl_var name='search_active'}</select></td>
             <td class="tbl_col_type"><select name="search_type" onChange="changeTab('dns_records','dns/dns_soa_edit.php');">{tmpl_var name='search_type'}</select></td>
-            <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-            <td class="tbl_col_data"><input type="text" name="search_data" value="{tmpl_var name='search_data'}" /></td>
-            <td class="tbl_col_aux"><input type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
+            <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" onblur="changeTab('dns_records','dns/dns_soa_edit.php');" /></td>
+            <td class="tbl_col_data"><input type="text" name="search_data" value="{tmpl_var name='search_data'}" onblur="changeTab('dns_records','dns/dns_soa_edit.php');" /></td>
+            <td class="tbl_col_aux"><input type="text" name="search_aux" value="{tmpl_var name='search_aux'}" onblur="changeTab('dns_records','dns/dns_soa_edit.php');" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="changeTab('dns_records','dns/dns_soa_edit.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

@@ -20,7 +20,7 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_server_name"><input type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" /></td>
+            <td class="tbl_col_server_name"><input type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" onblur="submitForm('pageForm','admin/server_list.php');" /></td>
             <td class="tbl_col_mail_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_mail_server'}</select></td>
             <td class="tbl_col_web_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_web_server'}</select></td>
             <td class="tbl_col_dns_server"><select name="search_active" onChange="submitForm('pageForm','admin/server_list.php');">{tmpl_var name='search_dns_server'}</select></td>

@@ -28,9 +28,9 @@
           <tr>
             <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','mail/mail_transport_list.php');">{tmpl_var name='search_active'}</select></td>
             <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','mail/mail_transport_list.php');">{tmpl_var name='search_server_id'}</select></td>
-            <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
-            <td class="tbl_col_transport"><input type="text" name="search_transport" value="{tmpl_var name='search_transport'}" /></td>
-            <td class="tbl_col_sort_order"><input type="text" name="search_sort_order" value="{tmpl_var name='search_sort_order'}" /></td>
+            <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" onblur="submitForm('pageForm','mail/mail_transport_list.php');" /></td>
+            <td class="tbl_col_transport"><input type="text" name="search_transport" value="{tmpl_var name='search_transport'}" onblur="submitForm('pageForm','mail/mail_transport_list.php');" /></td>
+            <td class="tbl_col_sort_order"><input type="text" name="search_sort_order" value="{tmpl_var name='search_sort_order'}" onblur="submitForm('pageForm','mail/mail_transport_list.php');" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/mail_transport_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

@@ -18,7 +18,7 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_rulename"><input type="text" name="search_rulename" value="{tmpl_var name='search_rulename'}" /></td>
+            <td class="tbl_col_rulename"><input type="text" name="search_rulename" value="{tmpl_var name='search_rulename'}" onblur="submitForm('pageForm','mail/mail_user_edit.php');" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

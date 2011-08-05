@@ -24,8 +24,8 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-            <td class="tbl_col_description"><input type="text" name="search_description" value="{tmpl_var name='search_description'}" /></td>
+            <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" onblur="submitForm('pageForm','admin/groups_list.php');" /></td>
+            <td class="tbl_col_description"><input type="text" name="search_description" value="{tmpl_var name='search_description'}" onblur="submitForm('pageForm','admin/groups_list.php');" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/groups_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

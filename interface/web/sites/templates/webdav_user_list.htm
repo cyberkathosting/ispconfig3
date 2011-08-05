@@ -28,7 +28,7 @@
             <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','sites/webdav_user_list.php');">{tmpl_var name='search_active'}</select></td>
             <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','sites/webdav_user_list.php');">{tmpl_var name='search_server_id'}</select></td>
             <td class="tbl_col_parent_domain_id"><select name="search_parent_domain_id" onChange="submitForm('pageForm','sites/webdav_user_list.php');">{tmpl_var name='search_parent_domain_id'}</select></td>
-            <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
+            <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" onblur="submitForm('pageForm','sites/shell_user_list.php');" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/shell_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

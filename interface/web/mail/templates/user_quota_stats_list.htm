@@ -14,8 +14,8 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_domain"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
-            <td class="tbl_col_system_user"><input type="text" name="search_system_user" value="{tmpl_var name='search_name'}" /></td>
+            <td class="tbl_col_domain"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" onblur="submitForm('pageForm','mail/user_quota_stats.php');" /></td>
+            <td class="tbl_col_system_user"><input type="text" name="search_system_user" value="{tmpl_var name='search_name'}" onblur="submitForm('pageForm','mail/user_quota_stats.php');" /></td>
 			<td class="tbl_col_system_user">&nbsp;</td>
 			<td class="tbl_col_system_user">&nbsp;</td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>

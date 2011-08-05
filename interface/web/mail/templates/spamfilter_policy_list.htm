@@ -26,7 +26,7 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_policy_name"><input type="text" name="search_policy_name" value="{tmpl_var name='search_policy_name'}" /></td>
+            <td class="tbl_col_policy_name"><input type="text" name="search_policy_name" value="{tmpl_var name='search_policy_name'}" onblur="submitForm('pageForm','mail/spamfilter_policy_list.php');" /></td>
             <td class="tbl_col_virus_lover"><select name="search_virus_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_virus_lover'}</select></td>
             <td class="tbl_col_spam_lover"><select name="search_spam_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_spam_lover'}</select></td>
             <td class="tbl_col_banned_files_lover"><select name="search_banned_files_lover" onChange="submitForm('pageForm','mail/spamfilter_policy_list.php');">{tmpl_var name='search_banned_files_lover'}</select></td>

@@ -26,7 +26,7 @@
           <tr>
             <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','vm/openvz_ip_list.php');">{tmpl_var name='search_server_id'}</select></td>
             <td class="tbl_col_vm_id"><select name="search_vm_id" onChange="submitForm('pageForm','vm/openvz_ip_list.php');">{tmpl_var name='search_vm_id'}</select></td>
-            <td class="tbl_col_ip_address"><input type="text" name="search_ip_address" value="{tmpl_var name='search_ip_address'}" /></td>
+            <td class="tbl_col_ip_address"><input type="text" name="search_ip_address" value="{tmpl_var name='search_ip_address'}" onblur="submitForm('pageForm','vm/openvz_ip_list.php');" /></td>
             <td class="tbl_col_reserved"><select name="search_reserved" onChange="submitForm('pageForm','vm/openvz_ip_list.php');">{tmpl_var name='search_reserved'}</select></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','vm/openvz_ip_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
