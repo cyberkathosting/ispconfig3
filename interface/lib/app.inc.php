@@ -158,11 +158,12 @@ class app {
 	/** Translates strings in current language */
 	public function lng($text) {
 		if($this->_language_inc != 1) {
+			$language = (isset($_SESSION['s']['language']))?$_SESSION['s']['language']:$conf['language'];
 			//* loading global Wordbook
-			$this->load_language_file('/lib/lang/'.$_SESSION['s']['language'].'.lng');
+			$this->load_language_file('lib/lang/'.$language.'.lng');
 			//* Load module wordbook, if it exists
-			if(isset($_SESSION['s']['module']['name']) && isset($_SESSION['s']['language'])) {
-				$lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+			if(isset($_SESSION['s']['module']['name'])) {
+				$lng_file = 'web/'.$_SESSION['s']['module']['name'].'/lib/lang/'.$language.'.lng';
 				if(!file_exists(ISPC_ROOT_PATH.'/'.$lng_file)) $lng_file = '/web/'.$_SESSION['s']['module']['name'].'/lib/lang/en.lng';
 				$this->load_language_file($lng_file);
 			}
