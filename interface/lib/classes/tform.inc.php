@@ -430,6 +430,7 @@ class tform {
 
                                                         // HTML schreiben
                                                         $out = '';
+                                                        $elementNo = 0;
                                                         foreach($field['value'] as $k => $v) {
 
                                                                 $checked = '';
@@ -437,7 +438,8 @@ class tform {
                                                                         if(trim($tvl) == trim($k)) $checked = ' CHECKED';
                                                                 }
                                                                 // $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>\r\n";
-																$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v <br/>\r\n";
+																$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label><br/>\r\n";
+                                                                $elementNo++;
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
@@ -448,10 +450,12 @@ class tform {
 
                                                         // HTML schreiben
                                                         $out = '';
+                                                        $elementNo = 0;
                                                         foreach($field['value'] as $k => $v) {
                                                                 $checked = ($k == $val)?' CHECKED':'';
                                                                 //$out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
-																$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v\r\n";
+																$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"radio\" $checked/> $v </label>\r\n";
+                                                                $elementNo++;
                                                         }
                                                 }
                                                 $new_record[$key] = $out;
@@ -539,6 +543,7 @@ class tform {
 
                                                 // HTML schreiben
                                                 $out = '';
+                                                $elementNo = 0;
                                                 foreach($field['value'] as $k => $v) {
 
                                                         $checked = '';
@@ -546,7 +551,8 @@ class tform {
                                                                 if(trim($tvl) == trim($k)) $checked = ' CHECKED';
                                                         }
                                                         // $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>\r\n";
-														$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v &nbsp;\r\n";
+														$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label> &nbsp;\r\n";
+                                                        $elementNo++;
                                                 }
                                         }
                                         $new_record[$key] = $out;
@@ -557,10 +563,12 @@ class tform {
 
                                                 // HTML schreiben
                                                 $out = '';
+                                                $elementNo = 0;
                                                 foreach($field['value'] as $k => $v) {
                                                         $checked = ($k == $field["default"])?' CHECKED':'';
                                                         //$out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
-														$out .= "<input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v\r\n";
+														$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
+                                                        $elementNo++;
                                                 }
                                         }
                                         $new_record[$key] = $out;
