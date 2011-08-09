@@ -48,6 +48,11 @@ Administration module
    like to look at a pure IPTables (firewall_iptables) which can allow for 
    other modules.
 -- Note: make sure to not interupt fail2ban
+-- Note: I'd love a pure iptables firewall as well. I've made such a script for
+   my work, which uses a simple config file to open/close ports and support for 
+   ip exclusions. I think we could use it as a base to start with, it's up on the dev forum
+   url: http://www.howtoforge.com/forums/showthread.php?p=261311 (Mark_NL)
+   
 
 Clients module
 --------------------------------------
