@@ -145,6 +145,11 @@ if( empty($conf["mysql"]["admin_password"]) ) {
 }
 
 /*
+ *  Check all tables
+*/
+checkDbHealth();
+
+/*
  *  Prepare the dump of the database 
 */
 prepareDBDump();

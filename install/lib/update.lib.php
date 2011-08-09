@@ -79,6 +79,32 @@ function prepareDBDump() {
 	}
 }
 
+function checkDbHealth() {
+	global $conf;
+
+	//* Array containing non OK tables (can be repaired, crashed, corrupt)
+	$notok = array();
+
+	echo "Checking ISPConfig database .. ";
+	exec("mysqlcheck -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -r ".$conf["mysql"]["database"], $result);
+	for( $i=0; $i<sizeof($result);$i++) {
+		if ( substr($result[$i], -2) != "OK" ) {
+			$notok[] = $result[$i];
+		}
+	}
+
+	if ( sizeof($notok) > 0 ) {
+		echo "\nSome tables where not 'OK'. Please check the list below.\n\n";
+		foreach ($notok as $key => $value) {
+			echo "$value\n";
+		}
+		echo "\nPress enter to continue or CTRL-C to cancel the installation ..";
+		sread();
+	}
+	else
+	  echo "OK\n";
+}
+
 function updateDbAndIni() {
 	global $inst, $conf;
 

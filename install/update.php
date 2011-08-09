@@ -187,6 +187,10 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	$inst->dbmaster = $inst->db;
 }
 
+/*
+ *  Check all tables
+*/
+checkDbHealth();
 
 /*
  *  dump the new Database and reconfigure the server.ini
