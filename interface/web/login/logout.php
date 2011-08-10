@@ -64,6 +64,7 @@ $app->plugin->raiseEvent('logout',true);
 $_SESSION["s"]["user"] = null;
 $_SESSION["s"]["module"] = null;
 $_SESSION['s_old'] = null;
+session_write_close();
 
 //header("Location: ../index.php?phpsessid=".$_SESSION["s"]["id"]);
 
