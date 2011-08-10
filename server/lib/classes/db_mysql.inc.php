@@ -45,8 +45,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		var $show_error_messages = true;
 
 		// constructor
-		function db()
-		{
+		public function __construct() {
 			
 			global $conf;
 			$this->dbHost = $conf['db_host'];
@@ -55,6 +54,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			$this->dbPass = $conf['db_password'];
 			$this->dbCharset = $conf['db_charset'];
 			//$this->connect();
+		}
+		
+		public function __destruct() {
+			$this->closeConn();
 		}
 
 		// error handler
