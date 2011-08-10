@@ -1,5 +1,7 @@
 <?php
-$wb['dashboard_atom_url_txt'] = 'URL των atom δημοσιεύσεων του Dashboard';
+$wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
+$wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
+$wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
 $wb['warning'] = 'Επεξεργαστείτε τις τιμές με προσοχή! ΜΗΝ αφαιρείτε τα προθέματα σε συστήματα με περισσότερους από έναν πελάτες.';
 $wb['dbname_prefix_txt'] = 'Πρόθεμα Ονόματος Βάσης Δεδομένων';
 $wb['dbuser_prefix_txt'] = 'Πρόθεμα Χρήστη Βάσης Δεδομένων';

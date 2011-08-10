@@ -29,18 +29,32 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $app->uses('simplepie');
+$app->uses('auth');
 
 $app->tpl->newTemplate('dashboard/templates/custom_menu.htm');
 
 $app->uses('getconf');
-		$misc_config = $app->getconf->get_global_config('misc');
+$misc_config = $app->getconf->get_global_config('misc');
 
-//* We want to show the news only to the admin user
-if($misc_config['dashboard_atom_url'] != '') {
 
+switch($_SESSION['s']['user']['typ']) {
+	case 'admin':
+		$atom_url = $misc_config['dashboard_atom_url_admin'];
+		break;
+	case 'user':
+		if ($app->auth->has_clients($_SESSION['s']['user']['userid']) === true)
+			$atom_url = $misc_config['dashboard_atom_url_reseller'];
+		else
+			$atom_url = $misc_config['dashboard_atom_url_client'];
+		break;
+	default:
+		$atom_url = "";
+}
+
+if( $atom_url != '' ) {
 	if(!isset($_SESSION['s']['rss_news'])) {
 		
-		$app->simplepie->set_feed_url($misc_config['dashboard_atom_url']);
+		$app->simplepie->set_feed_url($atom_url);
 		$app->simplepie->enable_cache(false);
 		$app->simplepie->init();
 		$items = $app->simplepie->get_items();

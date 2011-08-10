@@ -260,7 +260,19 @@ $form["tabs"]['misc'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
-		'dashboard_atom_url' => array (
+		'dashboard_atom_url_admin' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> 'http://www.ispconfig.org/atom',
+			'value'		=> ''
+		),
+		'dashboard_atom_url_reseller' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> 'http://www.ispconfig.org/atom',
+			'value'		=> ''
+		),
+		'dashboard_atom_url_client' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> 'http://www.ispconfig.org/atom',

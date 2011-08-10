@@ -1,5 +1,7 @@
 <?php
-$wb['dashboard_atom_url_txt'] = 'Dashboard atom feed URL';
+$wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
+$wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
+$wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
 $wb['warning'] = 'Edit these values carefully! Verwijder de voorvoegsels niet op systemen met meer dan â™ªÃ©Ã©n klant.';
 $wb['dbname_prefix_txt'] = 'Database naam voorvoegsel';
 $wb['dbuser_prefix_txt'] = 'Database gebruiker voorvoegsel';
