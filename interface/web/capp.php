@@ -31,21 +31,21 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../lib/config.inc.php');
 require_once('../lib/app.inc.php');
 
-// importiere Modul
+//* Import module variable
 $mod = $_REQUEST["mod"];
 
-// Checke ob User eingeloggt
+//* Check if user is logged in
 if($_SESSION["s"]["user"]['active'] != 1) {
 	header("Location: index.php?phpsessid=".$_SESSION["s"]["id"]);
 	die();
 }
 
-// checke ob User Modul verwenden darf
+//* Check if user may use the module.
 $user_modules = explode(",",$_SESSION["s"]["user"]["modules"]);
 
 if(!in_array($mod,$user_modules)) $app->error($app->lng(301));
 
-// lade Moduldaten in Session
+//* Load module configuration into the session.
 if(is_file($mod."/lib/module.conf.php")) {
 	include_once($mod."/lib/module.conf.php");
 	$_SESSION["s"]["module"] = $module;
