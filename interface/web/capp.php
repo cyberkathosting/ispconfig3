@@ -49,6 +49,7 @@ if(!in_array($mod,$user_modules)) $app->error($app->lng(301));
 if(is_file($mod."/lib/module.conf.php")) {
 	include_once($mod."/lib/module.conf.php");
 	$_SESSION["s"]["module"] = $module;
+	session_write_close();
 	echo "HEADER_REDIRECT:".$_SESSION["s"]["module"]["startpage"];
 } else {
 	$app->error($app->lng(302));
