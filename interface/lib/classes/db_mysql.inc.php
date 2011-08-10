@@ -54,6 +54,10 @@ class db {
 		//$this->connect();
 	}
 
+	public function __destruct() {
+		$this->closeConn();
+	}
+
 	/**  Error handler */
 	public function updateError($location)
     {
