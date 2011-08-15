@@ -7,3 +7,4 @@ $wb['action_txt'] = 'Action';
 $wb['active_txt'] = 'Active';
 $wb['pattern_error_empty'] = 'Pattern is empty.';
 ?>
+

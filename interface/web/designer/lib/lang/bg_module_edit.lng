@@ -10,3 +10,4 @@ $wb['cancel_txt'] = 'Отказ';
 $wb['header_txt'] = 'Характеристики';
 $wb['description_txt'] = '<b>Description</b> <br><br> <b>Modulename:</b> Name of the module directory. Only numbers, chars and underscore allowed.<br> <b>Moduletitle:</b> Will be shown in the (upper) main navigation.<br> <b>Template file:</b> Template file of the module. Currently';
 ?>
+

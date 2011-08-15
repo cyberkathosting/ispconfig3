@@ -74,15 +74,5 @@ $wb['named_conf_local_path_txt'] = 'BIND named.conf.local path';
 $wb['php_ini_path_cgi_txt'] = 'CGI php.ini path';
 $wb['php_ini_path_apache_txt'] = 'Apache php.ini path';
 $wb['check_apache_config_txt'] = 'Test apache configuration on restart';
-$wb['ufw_enable_txt'] = 'Enable';
-$wb['ufw_manage_builtins_txt'] = 'Manage Builtin Rules';
-$wb['ufw_ipv6_txt'] = 'Enable IPv6';
-$wb['ufw_default_input_policy_txt'] = 'Default Input Policy';
-$wb['ufw_default_output_policy_txt'] = 'Default Output Policy';
-$wb['ufw_default_forward_policy_txt'] = 'Default Forward Policy';
-$wb['ufw_default_application_policy_txt'] = 'Default Application Policy';
-$wb['ufw_log_level_txt'] = 'Log Level';
-$wb['network_config_warning_txt'] = 'The network configuration option is only available for Debian and Ubuntu Servers. Do not enable this option if your network interface is not eth0.';
-$wb['CA_path_txt'] = 'CA Path';
-$wb['CA_pass_txt'] = 'CA passphrase';
 ?>
+

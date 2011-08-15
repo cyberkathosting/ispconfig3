@@ -7,3 +7,4 @@ $wb['recipient_txt'] = 'Recipient';
 $wb['add_new_record_txt'] = 'Add new relay recipient';
 $wb['access_txt'] = 'access';
 ?>
+

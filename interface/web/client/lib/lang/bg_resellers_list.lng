@@ -7,3 +7,4 @@ $wb['city_txt'] = 'City';
 $wb['country_txt'] = 'Country';
 $wb['add_new_record_txt'] = 'Add new reseller';
 ?>
+
