@@ -52,7 +52,13 @@ Administration module
    my work, which uses a simple config file to open/close ports and support for 
    ip exclusions. I think we could use it as a base to start with, it's up on the dev forum
    url: http://www.howtoforge.com/forums/showthread.php?p=261311 (Mark_NL)
-   
+--- The complete PHP IPTables script is currently working on my test platform.
+	I am developing a wizard and a method of reporting if the rules in the database
+	and the running rules do not match.  This is taking a lot of effort to effectivly
+	"bend over backwards" to allow both the ISPConfig admin and the system admin
+	to work with the rules.  This will work with all distros and most any version.
+	Most of the code is in trunk now.   
+		lathama...  lathama@gmail.com
 
 Clients module
 --------------------------------------
