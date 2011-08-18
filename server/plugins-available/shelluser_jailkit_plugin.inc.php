@@ -94,7 +94,7 @@ class shelluser_jailkit_plugin {
 				// call the ssh-rsa update function
 				$this->_setup_ssh_rsa();
 				
-				$command .= 'usermod -U '.escapeshellcmd($data['new']['username']);
+				$command .= 'usermod -s /usr/sbin/jk_chrootsh -U '.escapeshellcmd($data['new']['username']);
 				exec($command);
 				
 				$this->_update_website_security_level();
