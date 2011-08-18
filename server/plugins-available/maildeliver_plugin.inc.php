@@ -115,6 +115,8 @@ class maildeliver_plugin {
 				
 			// Autoresponder
 			$tpl->setVar('autoresponder',$data["new"]["autoresponder"]);
+			
+			$data["new"]["autoresponder_text"] = str_replace("\"","'",$data["new"]["autoresponder_text"]); 
 			$tpl->setVar('autoresponder_text',$data["new"]["autoresponder_text"]);
 				
 			file_put_contents($sieve_file,$tpl->grab());
