@@ -2127,7 +2127,7 @@ class remoting {
 		if(isset($params['template_master']) and $params['template_master'] > 0)
 		{
 			$template=$app->db->queryOneRecord("SELECT * FROM client_template WHERE template_id=".intval($params['template_master']));
-			$params=array_merge($params,$template);
+			if(is_array($template)) $params=array_merge($params,$template);
 		}
 		
 		//* Get the SQL query
@@ -2791,6 +2791,26 @@ class remoting {
 		$app->uses('remoting_lib');
 		$app->remoting_lib->loadFormDef('../vm/form/openvz_vm.tform.php');
 		return $app->remoting_lib->getDataRecord($vm_id);
+	}
+	
+	//* Get OpenVZ list
+	public function openvz_vm_get_by_client($session_id, $client_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		if (!empty($client_id)) {
+        	$client_id      = intval($client_id);
+			$tmp 			= $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
+    	    $sql            = "SELECT * FROM openvz_vm WHERE sys_groupid = ".intval($tmp['groupid']);
+        	$result         = $app->db->queryAllRecords($sql);
+        	return          $result;
+        }
+        return false;
 	}
 	
 	//* Add a openvz vm record

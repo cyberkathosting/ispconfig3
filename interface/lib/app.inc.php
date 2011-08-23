@@ -162,6 +162,7 @@ class app {
 
 	/** Translates strings in current language */
 	public function lng($text) {
+		global $conf;
 		if($this->_language_inc != 1) {
 			$language = (isset($_SESSION['s']['language']))?$_SESSION['s']['language']:$conf['language'];
 			//* loading global Wordbook
