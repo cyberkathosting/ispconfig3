@@ -131,18 +131,21 @@ class remoteaction_core_module {
 					if($veid > 0) {
 						exec("vzctl start $veid");
 					}
+					$this->_actionDone($action['action_id'], 'ok');
 				}
 				if ($action['action_type'] == 'openvz_stop_vm') {
 					$veid = intval($action['action_param']);
 					if($veid > 0) {
 						exec("vzctl stop $veid");
 					}
+					$this->_actionDone($action['action_id'], 'ok');
 				}
 				if ($action['action_type'] == 'openvz_restart_vm') {
 					$veid = intval($action['action_param']);
 					if($veid > 0) {
 						exec("vzctl restart $veid");
 					}
+					$this->_actionDone($action['action_id'], 'ok');
 				}
 				if ($action['action_type'] == 'openvz_create_ostpl') {
 					$parts = explode(':',$action['action_param']);
@@ -155,6 +158,7 @@ class remoteaction_core_module {
 						exec("mv ".$template_cache_dir."vzdump-openvz-".$veid."*.tgz ".$template_cache_dir.$template_name.".tar.gz");
 						exec("rm -f ".$template_cache_dir."vzdump-openvz-".$veid."*.log");
 					}
+					$this->_actionDone($action['action_id'], 'ok');
 					/* this action takes so much time,
 					* we stop executing the actions not to waste more time */
 					return;

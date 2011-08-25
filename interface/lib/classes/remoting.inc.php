@@ -2132,23 +2132,28 @@ class remoting {
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'INSERT',0);
+		$app->db->query($sql);
+		
 		if($app->remoting_lib->errorMessage != '') {
 			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
 		
-		$app->db->query($sql);
+		$insert_id = $app->db->insertID();
+		
+		$this->id = $insert_id;
+		$this->dataRecord = $params;
 		
 		$app->plugin->raiseEvent('client:client:on_after_insert',$this);
 		
+		/*
 		if($app->db->errorMessage != '') {
 			$this->server->fault('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
+		*/
 		
-					
-		
-		$insert_id = $app->db->insertID();	
+			
 		//$app->uses('tform');
 		//* Save changes to Datalog
 		if($app->remoting_lib->formDef["db_history"] == 'yes') {
