@@ -630,6 +630,7 @@ CREATE TABLE `mail_get` (
   `source_username` varchar(255) default NULL,
   `source_password` varchar(64) default NULL,
   `source_delete` varchar(255) NOT NULL default 'y',
+  `source_read_all` varchar(255) NOT NULL default 'y',
   `destination` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`mailget_id`)

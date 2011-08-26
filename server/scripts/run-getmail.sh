@@ -14,7 +14,7 @@ if [ -f /tmp/.getmail_lock ]; then
 else
   touch /tmp/.getmail_lock
   if [ "$rcfiles" != "" ]; then
-    /usr/bin/getmail -n -v -g /etc/getmail $rcfiles
+    /usr/bin/getmail -v -g /etc/getmail $rcfiles
   fi
   rm -f /tmp/.getmail_lock
 fi
