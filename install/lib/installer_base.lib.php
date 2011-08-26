@@ -640,6 +640,7 @@ class installer_base {
 				'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps',
 				'smtpd_sender_restrictions = check_sender_access mysql:'.$config_dir.'/mysql-virtual_sender.cf',
 				'smtpd_client_restrictions = check_client_access mysql:'.$config_dir.'/mysql-virtual_client.cf',
+				'smtpd_client_message_rate_limit = 100',
 				'maildrop_destination_concurrency_limit = 1',
 				'maildrop_destination_recipient_limit   = 1',
 				'virtual_transport = maildrop',
