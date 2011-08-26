@@ -74,6 +74,15 @@ $liste["item"][] = array(	'field'		=> "contact_name",
 							'width'		=> "",
 							'value'		=> "");  
 
+$liste["item"][] = array(	'field'		=> "username",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "TEXT",
+							'op'		=> "like",
+							'prefix'	=> "%",
+							'suffix'	=> "%",
+							'width'		=> "",
+							'value'		=> ""); 
+
 $liste["item"][] = array(	'field'		=> "city",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "TEXT",
