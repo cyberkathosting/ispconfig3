@@ -64,7 +64,6 @@ $app->plugin->raiseEvent('logout',true);
 $_SESSION["s"]["user"] = null;
 $_SESSION["s"]["module"] = null;
 $_SESSION['s_old'] = null;
-session_write_close();
 
 //header("Location: ../index.php?phpsessid=".$_SESSION["s"]["id"]);
 
@@ -77,5 +76,8 @@ if($_SESSION["s"]["site"]["logout"] != '') {
 		echo('URL_REDIRECT:index.php');
 	}
 }
-exit;
+// Destroy the session completely now
+$_SESSION = array();
+session_destroy();
+session_write_close();
 ?>
