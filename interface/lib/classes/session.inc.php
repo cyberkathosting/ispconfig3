@@ -77,7 +77,7 @@ class session {
 		}
 		
 
-        if ($this->session_array['session_id'] == '') {
+        if (@$this->session_array['session_id'] == '') {
 			$session_id   = $this->db->quote($session_id);
             $date_created = date('Y-m-d H:i:s');
             $last_updated = date('Y-m-d H:i:s');
