@@ -1,5 +1,4 @@
 <?php
-
 /*
   Copyright (c) 2007-2011, Till Brehm, projektfarm Gmbh
   All rights reserved.
@@ -28,8 +27,11 @@
   EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-require('lib/config.inc.php');
-require('lib/app.inc.php');
+// $script_path allows development work of using a symbolic link farm 
+// to use along side git or svn
+$script_path = dirname($_SERVER["SCRIPT_FILENAME"]);
+require("$script_path/lib/config.inc.php");
+require("$script_path/lib/app.inc.php");
 
 set_time_limit(0);
 ini_set('error_reporting', E_ALL & ~E_NOTICE);

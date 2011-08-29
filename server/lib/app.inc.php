@@ -75,7 +75,7 @@ class app {
 		if(is_array($cl)) {
 			foreach($cl as $classname) {
 				if(!@is_object($this->$classname)) {
-					if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && !is_link($conf['classpath'].'/'.$classname.'.inc.php')) {
+					if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && (DEVSYSTEM ||  !is_link($conf['classpath'].'/'.$classname.'.inc.php'))) {
 						include_once($conf['classpath'].'/'.$classname.'.inc.php');
 						$this->$classname = new $classname;
 					}
@@ -91,7 +91,7 @@ class app {
 		$cl = explode(',',$classes);
 		if(is_array($cl)) {
 			foreach($cl as $classname) {
-				if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && !is_link($conf['classpath'].'/'.$classname.'.inc.php')) {
+				if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && (DEVSYSTEM || !is_link($conf['classpath'].'/'.$classname.'.inc.php'))) {
 					include_once($conf['classpath'].'/'.$classname.'.inc.php');
 				} else {
 					die('Unable to load: '.$conf['classpath'].'/'.$classname.'.inc.php');
