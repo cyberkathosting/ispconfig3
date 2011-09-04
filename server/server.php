@@ -27,11 +27,9 @@
   EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// $script_path allows development work of using a symbolic link farm 
-// to use along side git or svn
-$script_path = dirname($_SERVER["SCRIPT_FILENAME"]);
-require("$script_path/lib/config.inc.php");
-require("$script_path/lib/app.inc.php");
+define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
+require(SCRIPT_PATH."/lib/config.inc.php");
+require(SCRIPT_PATH."/lib/app.inc.php");
 
 set_time_limit(0);
 ini_set('error_reporting', E_ALL & ~E_NOTICE);

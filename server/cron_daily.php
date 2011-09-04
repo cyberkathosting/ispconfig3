@@ -28,8 +28,9 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require('lib/config.inc.php');
-require('lib/app.inc.php');
+define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
+require(SCRIPT_PATH."/lib/config.inc.php");
+require(SCRIPT_PATH."/lib/app.inc.php");
 
 set_time_limit(0);
 

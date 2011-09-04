@@ -95,7 +95,7 @@ class remoteaction_core_module {
 		 * stop a service, a admin stopped some days before! To avoid this, we ignore
 		 * the status (it is only for the interface to show) and use our own maxid
 		*/
-		include_once (dirname(__FILE__) .  "/../lib/remote_action.inc.php");
+		include_once (SCRIPT_PATH."/lib/remote_action.inc.php");
 
 		/*
 		 * Get all actions this server should execute
