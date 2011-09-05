@@ -125,7 +125,7 @@ class maildrop_plugin {
 			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.vacation.msg';
 			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
 			$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.autoresponder';
-			if(is_file($file)) unlink($ar_file) or $app->log("Unable to delete file: $ar_file",LOGLEVEL_WARN);
+			if(is_file($file)) unlink($file) or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
 			
 			
 			//Now we create the new autoresponder, if it is enabled
