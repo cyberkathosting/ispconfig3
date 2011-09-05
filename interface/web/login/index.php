@@ -122,7 +122,7 @@ class login_index {
 								//* The password is crypt-md5 encrypted
 								$salt = '$1$'.substr($saved_password,3,8).'$';
 								
-								if(crypt($passwort,$salt) != $saved_password) {
+								if(crypt(stripslashes($passwort),$salt) != $saved_password) {
 									$user = false;
 								}
 							} else {
