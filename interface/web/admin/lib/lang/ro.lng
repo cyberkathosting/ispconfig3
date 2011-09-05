@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Utilizator sau parola necompletata';
-$wb['1002'] = 'utilizator sau parola gresite';
+$wb['error_1001'] = 'Utilizator sau parola necompletata';
+$wb['error_1002'] = 'utilizator sau parola gresite';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Grupuri';
 $wb['groups_description'] = 'Form pentru editare  systemuser grupuri.';

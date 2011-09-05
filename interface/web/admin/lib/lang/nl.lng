@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
-$wb['1002'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
+$wb['error_1001'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
+$wb['error_1002'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Groepen';
 $wb['groups_description'] = 'Formulier om systeemgebruiker groepen te wijzigen.';

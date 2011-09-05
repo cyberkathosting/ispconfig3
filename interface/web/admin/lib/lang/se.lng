@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Användarnamnet eller lösenordet är tomt.';
-$wb['1002'] = 'Felaktigt användarnamn eller lösenord.';
+$wb['error_1001'] = 'Användarnamnet eller lösenordet är tomt.';
+$wb['error_1002'] = 'Felaktigt användarnamn eller lösenord.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Groups';
 $wb['groups_description'] = 'Form to edit systemuser groups.';

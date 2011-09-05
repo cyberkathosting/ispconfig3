@@ -7,11 +7,11 @@ $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
 $wb['conf_format_datetime'] = 'Y-m-d H:i';
 
-$wb['301'] = 'Module not permitted for the current user.';
-$wb['302'] = 'Module invalid.';
-$wb['1001'] = 'The username and password cannot be empty !';
-$wb['1002'] = 'The username and/or password are not correct !';
-$wb['1003'] = 'The username is deactivated!';
+$wb['error_301'] = 'Module not permitted for the current user.';
+$wb['error_302'] = 'Module invalid.';
+$wb['error_1001'] = 'The username and password cannot be empty !';
+$wb['error_1002'] = 'The username and/or password are not correct !';
+$wb['error_1003'] = 'The username is deactivated!';
 $wb['delete_confirmation'] = 'Do you really want to delete this record?';
 $wb['error_no_view_permission'] = 'You dont have the permission to view this record or this record does not exist!';
 $wb['error_no_delete_permission'] = 'You dont have the permission to delete this record!';

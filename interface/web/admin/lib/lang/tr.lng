@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Kullanıcı adı veya şifre boş.';
-$wb['1002'] = 'Kullanıcı adı veya şifre yanlış.';
+$wb['error_1001'] = 'Kullanıcı adı veya şifre boş.';
+$wb['error_1002'] = 'Kullanıcı adı veya şifre yanlış.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Gruplar';
 $wb['groups_description'] = 'Sistem kullanıcılarını düzenleme formu.';

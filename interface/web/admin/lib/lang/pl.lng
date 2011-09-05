@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Nazwa użytkownika lub hasło jest puste.';
-$wb['1002'] = 'Nazwa użytkownika lub hasło jest złe.';
+$wb['error_1001'] = 'Nazwa użytkownika lub hasło jest puste.';
+$wb['error_1002'] = 'Nazwa użytkownika lub hasło jest złe.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Grupy';
 $wb['groups_description'] = 'Formularz do edycji grup użytkowników w systemie.';

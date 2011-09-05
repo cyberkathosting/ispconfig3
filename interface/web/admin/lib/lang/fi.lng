@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Käyttäjätunnus ja/tai salasana on tyhjä.';
-$wb['1002'] = 'Käyttäjätunnus ja/tai salasana on väärin.';
+$wb['error_1001'] = 'Käyttäjätunnus ja/tai salasana on tyhjä.';
+$wb['error_1002'] = 'Käyttäjätunnus ja/tai salasana on väärin.';
 $wb['Firewall'] = 'Palomuuri';
 $wb['Groups'] = 'Käyttäjäryhmät';
 $wb['groups_description'] = 'Lomake käyttäjäryhmien muokkaukseen.';

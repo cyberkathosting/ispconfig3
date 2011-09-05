@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Felhasználónév vagy Jelszó üres.';
-$wb['1002'] = 'Felhasználónév vagy Jelszó hibás.';
+$wb['error_1001'] = 'Felhasználónév vagy Jelszó üres.';
+$wb['error_1002'] = 'Felhasználónév vagy Jelszó hibás.';
 $wb['Firewall'] = 'Tűzfal';
 $wb['Groups'] = 'Csoportok';
 $wb['groups_description'] = 'Rendszercsoport módosító oldal.';

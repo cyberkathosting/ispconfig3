@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Nama pengguna atau sandi kosong.';
-$wb['1002'] = 'Nama pengguna atau sandi salah.';
+$wb['error_1001'] = 'Nama pengguna atau sandi kosong.';
+$wb['error_1002'] = 'Nama pengguna atau sandi salah.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Grup';
 $wb['groups_description'] = 'Form untuk menyunting grup pengguna sistem.';

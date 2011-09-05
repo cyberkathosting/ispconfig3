@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'El usuario o la contraseña están vacíos.';
-$wb['1002'] = 'El usuario o la contraseña son erróneos';
+$wb['error_1001'] = 'El usuario o la contraseña están vacíos.';
+$wb['error_1002'] = 'El usuario o la contraseña son erróneos';
 $wb['Firewall'] = 'Cortafuegos';
 $wb['Groups'] = 'Grupos';
 $wb['groups_description'] = 'Formulario para editar los grupos del usuario de sistema.';

@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Por favor, preencha o nome do usuário e senha!';
-$wb['1002'] = 'Nome do usuário ou senha incorretos!';
+$wb['error_1001'] = 'Por favor, preencha o nome do usuário e senha!';
+$wb['error_1002'] = 'Nome do usuário ou senha incorretos!';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Grupos';
 $wb['groups_description'] = 'Formulário para edição dos Grupos de usuários do sistema.';

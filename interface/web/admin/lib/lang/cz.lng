@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Uživatelské jméno nebo heslo je prázdné.';
-$wb['1002'] = 'Uživatelské jméno nebo heslo je špatně.';
+$wb['error_1001'] = 'Uživatelské jméno nebo heslo je prázdné.';
+$wb['error_1002'] = 'Uživatelské jméno nebo heslo je špatně.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Skupiny';
 $wb['groups_description'] = 'Úprava skupin systémových uživatelů.';
