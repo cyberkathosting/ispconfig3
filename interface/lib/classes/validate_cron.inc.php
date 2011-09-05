@@ -52,7 +52,7 @@ class validate_cron {
             
             if($parsed["scheme"] != "http" && $parsed["scheme"] != "https") return $this->get_error($validator['errmsg']);
             
-            if(preg_match("'^([a-z0-9][a-z0-9-]{0,62}\.)+([a-z]{2,4})$'i", $parsed["host"]) == false) return $this->get_error($validator['errmsg']);
+            if(preg_match("'^([a-z0-9][a-z0-9-]{0,62}\.)+([a-z]{2,30})$'i", $parsed["host"]) == false) return $this->get_error($validator['errmsg']);
         }
     }
     
