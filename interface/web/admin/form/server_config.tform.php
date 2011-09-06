@@ -690,7 +690,7 @@ $form["tabs"]['fastcgi'] = array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
 			'default' => '2',
-			'value' => array('1' => 'Old', '2' => 'New'),
+			'value' => array('1' => 'Old (apache 2.0)', '2' => 'New (apache 2.2)'),
 			'width' => '40',
 			'maxlength' => '255'
 		),
