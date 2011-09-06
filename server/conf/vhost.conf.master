@@ -151,16 +151,7 @@
     # php as fast-cgi enabled
 	# For config options see: http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
     <IfModule mod_fcgid.c>
-	  <tmpl_if name='fastcgi_config_syntax' op='==' value='1'>
-	  IdleTimeout 300
-	  ProcessLifeTime 3600
-	  MaxProcessCount 1000
-	  DefaultMinClassProcessCount 0
-	  DefaultMaxClassProcessCount 100
-	  IPCConnectTimeout 3
-	  IPCCommTimeout 360
-	  BusyTimeout 300
-	  <tmpl_else>
+<tmpl_if name='fastcgi_config_syntax' op='==' value='2'>
 	  FcgidIdleTimeout 300
 	  FcgidProcessLifeTime 3600
 	  FcgidMaxProcesses 1000
@@ -169,7 +160,16 @@
 	  FcgidConnectTimeout 3
 	  FcgidIOTimeout 360
 	  FcgidBusyTimeout 300
-	  </tmpl_if>
+<tmpl_else>
+	  IdleTimeout 300
+	  ProcessLifeTime 3600
+	  MaxProcessCount 1000
+	  DefaultMinClassProcessCount 0
+	  DefaultMaxClassProcessCount 100
+	  IPCConnectTimeout 3
+	  IPCCommTimeout 360
+	  BusyTimeout 300
+</tmpl_if>
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
@@ -359,16 +359,7 @@
     # php as fast-cgi enabled
 	# See: http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
     <IfModule mod_fcgid.c>
-	  <tmpl_if name='fastcgi_config_syntax' op='==' value='1'>
-	  IdleTimeout 300
-	  ProcessLifeTime 3600
-	  MaxProcessCount 1000
-	  DefaultMinClassProcessCount 0
-	  DefaultMaxClassProcessCount 100
-	  IPCConnectTimeout 3
-	  IPCCommTimeout 360
-	  BusyTimeout 300
-	  <tmpl_else>
+<tmpl_if name='fastcgi_config_syntax' op='==' value='2'>
 	  FcgidIdleTimeout 300
 	  FcgidProcessLifeTime 3600
 	  FcgidMaxProcesses 1000
@@ -377,7 +368,16 @@
 	  FcgidConnectTimeout 3
 	  FcgidIOTimeout 360
 	  FcgidBusyTimeout 300
-	  </tmpl_if>
+<tmpl_else>
+	  IdleTimeout 300
+	  ProcessLifeTime 3600
+	  MaxProcessCount 1000
+	  DefaultMinClassProcessCount 0
+	  DefaultMaxClassProcessCount 100
+	  IPCConnectTimeout 3
+	  IPCCommTimeout 360
+	  BusyTimeout 300
+</tmpl_if>
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
