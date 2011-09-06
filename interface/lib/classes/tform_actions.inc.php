@@ -537,7 +537,7 @@ class tform_actions {
                         if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
                 } else {
                         // $record = $app->tform->encode($_POST,$this->active_tab);
-						$record = $app->tform->encode($this->dataRecord,$this->active_tab);
+						$record = $app->tform->encode($this->dataRecord,$this->active_tab,false);
                 }
 
                 $this->dataRecord = $record;

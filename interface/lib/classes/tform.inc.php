@@ -600,7 +600,7 @@ class tform {
         * @param record = Datensatz als Array
         * @return record
         */
-        function encode($record,$tab) {
+        function encode($record,$tab,$dbencode = true) {
 			global $app;
 			
                 if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: $tab).");
@@ -614,14 +614,14 @@ class tform {
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         if(!@is_array($record[$key])) {
-												$new_record[$key] = (isset($record[$key]))?$app->db->quote($record[$key]):'';
+												$new_record[$key] = (isset($record[$key]))?$record[$key]:'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
                                 break;
                                 case 'TEXT':
                                         if(!is_array($record[$key])) {
-                                                $new_record[$key] = $app->db->quote($record[$key]);
+                                                $new_record[$key] = $record[$key];
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
@@ -658,7 +658,7 @@ class tform {
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
                                 case 'DOUBLE':
-                                        $new_record[$key] = $app->db->quote($record[$key]);
+                                        $new_record[$key] = $record[$key];
                                 break;
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);
@@ -686,8 +686,9 @@ class tform {
                                                 $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
                                         }
                                 }
-
-
+								
+								//* Add slashes to all records, when we encode data which shall be inserted into mysql.
+								if($dbencode == true) $new_record[$key] = $app->db->quote($new_record[$key]);
                         }
                 }
                 return $new_record;
