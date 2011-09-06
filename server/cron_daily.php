@@ -201,7 +201,7 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1"'.$aliasdomain;
 	symlink($logfile,'/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
-	$command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=en -dir='$statsdir' -awstatsprog='$awstats_pl'";
+	$command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
 	
 	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
