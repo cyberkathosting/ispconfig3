@@ -7,11 +7,10 @@ $wb["ufw_default_output_policy_txt"] = 'Default Output Policy';
 $wb["ufw_default_forward_policy_txt"] = 'Default Forward Policy';
 $wb["ufw_default_application_policy_txt"] = 'Default Application Policy';
 $wb["ufw_log_level_txt"] = 'Log Level';
-
 $wb["jailkit_chroot_home_txt"] = 'Jailkit chroot home';
 $wb["jailkit_chroot_app_sections_txt"] = 'Jailkit chroot app sections';
 $wb["jailkit_chroot_app_programs_txt"] = 'Jailkit chrooted applications';
-$wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applications';
+$wb["jailkit_chroot_cron_programs_txt"] = 'Jailkit cron chrooted applications';
 $wb["website_path_txt"] = 'Website path';
 $wb["website_symlinks_txt"] = 'Website symlinks';
 $wb["website_basedir_txt"] = 'Website basedir';
@@ -86,4 +85,5 @@ $wb["check_apache_config_txt"] = 'Test apache configuration on restart';
 $wb["network_config_warning_txt"] = 'The network configuration option is only available for Debian and Ubuntu Servers. Do not enable this option if your network interface is not eth0.';
 $wb["CA_path_txt"] = 'CA Path';
 $wb["CA_pass_txt"] = 'CA passphrase';
+$wb["fastcgi_config_syntax_txt"] = 'FastCGI config syntax';
 ?>

@@ -33,6 +33,12 @@
       	<label for="fastcgi_bin">{tmpl_var name='fastcgi_bin_txt'}</label>
         <input name="fastcgi_bin" id="fastcgi_bin" value="{tmpl_var name='fastcgi_bin'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
+	  <div class="ctrlHolder">
+      	<label for="fastcgi_config_syntax">{tmpl_var name='fastcgi_config_syntax_txt'}</label>
+        <select name="fastcgi_config_syntax" id="fastcgi_config_syntax" class="selectInput">
+					{tmpl_var name='fastcgi_config_syntax'}
+				</select>
+      </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

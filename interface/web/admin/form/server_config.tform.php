@@ -686,6 +686,14 @@ $form["tabs"]['fastcgi'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'fastcgi_config_syntax' => array(
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '2',
+			'value' => array('1' => 'Old', '2' => 'New'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

@@ -155,40 +155,48 @@
 	  
 	  # IdleTimeout n (300 seconds)
 	  # An idle fastcgi application will be terminated after IdleTimeout seconds.
-	  FcgidIdleTimeout 300
+	  # FcgidIdleTimeout 300
+	  IdleTimeout 300
 	  
 	  # ProcessLifeTime n (3600 seconds)
       # A fastcgi application will be terminated if lifetime expired, even no error is detected.
-      FcgidProcessLifeTime 3600
+      # FcgidProcessLifeTime 3600
+	  ProcessLifeTime 3600
 	  
 	  # MaxProcessCount n (1000)
       # The max count of total fastcgi process count.
       # FcgidMaxProcesses 1000
+	  MaxProcessCount 1000
       
 	  # DefaultMinClassProcessCount n (3)
       # The minimum number of fastcgi application instances for any one fastcgi application.
       # Idle fastcgi will not be killed if their count is less than n
       # Set this to 0, and tweak IdleTimeout
-	  FcgidMinProcessesPerClass 0
+	  # FcgidMinProcessesPerClass 0
+	  DefaultMinClassProcessCount 0
 	  
 	  # DefaultMaxClassProcessCount n (100)
       # The maximum number of fastcgi application instances allowed to run for
       # particular one fastcgi application.
-      FcgidMaxProcessesPerClass 100
+      # FcgidMaxProcessesPerClass 100
+	  DefaultMaxClassProcessCount 100
 	  
 	  # IPCConnectTimeout n (3 seconds)
       # The connect timeout to a fastcgi application.
-      FcgidConnectTimeout 3
+      # FcgidConnectTimeout 3
+	  IPCConnectTimeout 3
 	  
 	  # IPCCommTimeout n (20 seconds)
       # The communication timeout to a fastcgi application. Please increase this
       # value if your CGI have a slow initialization or slow respond.
-      FcgidIOTimeout 360
+      # FcgidIOTimeout 360
+	  IPCCommTimeout 360
       
 	  # BusyTimeout n (300 seconds)
       # A fastcgi application will be terminated if handing a single request
       # longer than busy timeout.
-	  FcgidBusyTimeout 300
+	  # FcgidBusyTimeout 300
+	  BusyTimeout 300
 	  
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
@@ -377,44 +385,27 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
     # php as fast-cgi enabled
+	# See: http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
     <IfModule mod_fcgid.c>
-	  # IdleTimeout n (300 seconds)
-	  # An idle fastcgi application will be terminated after IdleTimeout seconds.
+	  <tmpl_if name='fastcgi_config_syntax' op='==' value='1'>
+	  IdleTimeout 300
+	  ProcessLifeTime 3600
+	  MaxProcessCount 1000
+	  DefaultMinClassProcessCount 0
+	  DefaultMaxClassProcessCount 100
+	  IPCConnectTimeout 3
+	  IPCCommTimeout 360
+	  BusyTimeout 300
+	  <tmpl_else>
 	  FcgidIdleTimeout 300
-	  
-	  # ProcessLifeTime n (3600 seconds)
-      # A fastcgi application will be terminated if lifetime expired, even no error is detected.
-      FcgidProcessLifeTime 3600
-	  
-	  # MaxProcessCount n (1000)
-      # The max count of total fastcgi process count.
-      # FcgidMaxProcesses 1000
-      
-	  # DefaultMinClassProcessCount n (3)
-      # The minimum number of fastcgi application instances for any one fastcgi application.
-      # Idle fastcgi will not be killed if their count is less than n
-      # Set this to 0, and tweak IdleTimeout
+	  FcgidProcessLifeTime 3600
+	  FcgidMaxProcesses 1000
 	  FcgidMinProcessesPerClass 0
-	  
-	  # DefaultMaxClassProcessCount n (100)
-      # The maximum number of fastcgi application instances allowed to run for
-      # particular one fastcgi application.
-      FcgidMaxProcessesPerClass 100
-	  
-	  # IPCConnectTimeout n (3 seconds)
-      # The connect timeout to a fastcgi application.
-      FcgidConnectTimeout 3
-	  
-	  # IPCCommTimeout n (20 seconds)
-      # The communication timeout to a fastcgi application. Please increase this
-      # value if your CGI have a slow initialization or slow respond.
-      FcgidIOTimeout 360
-      
-	  # BusyTimeout n (300 seconds)
-      # A fastcgi application will be terminated if handing a single request
-      # longer than busy timeout.
+	  FcgidMaxProcessesPerClass 100
+	  FcgidConnectTimeout 3
+	  FcgidIOTimeout 360
 	  FcgidBusyTimeout 300
-	  
+	  </tmpl_if>
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
