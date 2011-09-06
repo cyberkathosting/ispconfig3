@@ -9,40 +9,40 @@ $TTL        {tmpl_var name='ttl'}
 
 <tmpl_loop name='zones'>
 <tmpl_if name="type" op='==' value='NS'>
-{tmpl_var name='name'}      NS        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      NS        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='A'>
 {tmpl_var name='name'} {tmpl_var name='ttl'} A        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='AAAA'>
-{tmpl_var name='name'}      AAAA        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      AAAA        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='ALIAS'>
-{tmpl_var name='name'}      CNAME        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      CNAME        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='CNAME'>
-{tmpl_var name='name'}      CNAME        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      CNAME        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='HINFO'>
-{tmpl_var name='name'}      HINFO        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      HINFO        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='MX'>
-{tmpl_var name='name'}      MX    {tmpl_var name='aux'}   {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      MX    {tmpl_var name='aux'}   {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='NAPTR'>
-{tmpl_var name='name'}      NAPTR        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      NAPTR        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='PTR'>
-{tmpl_var name='name'}      PTR        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      PTR        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='RP'>
-{tmpl_var name='name'}      RP        {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      RP        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='SRV'>
-{tmpl_var name='name'}      SRV        {tmpl_var name='aux'} {tmpl_var name='data'}
+{tmpl_var name='name'} {tmpl_var name='ttl'}      SRV        {tmpl_var name='aux'} {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='TXT'>
-{tmpl_var name='name'}      TXT        "{tmpl_var name='data'}"
+{tmpl_var name='name'} {tmpl_var name='ttl'}      TXT        "{tmpl_var name='data'}"
 </tmpl_if>
 </tmpl_loop>
 
