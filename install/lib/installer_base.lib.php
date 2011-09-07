@@ -717,10 +717,10 @@ class installer_base {
 		}
 
 		//* Chmod and chown the .mailfilter file
-		$command = 'chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';
+		$command = 'chown '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-		$command = 'chmod -R 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
+		$command = 'chmod 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 	}
