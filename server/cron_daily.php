@@ -461,9 +461,12 @@ if($backup_dir != '') {
 				
 				// Rename or remove old backups
 				$backup_copies = intval($rec['backup_copies']);
-			
-				if(is_file($web_backup_dir.'/web.'.$backup_copies.'.zip')) unlink($web_backup_dir.'/web.'.$backup_copies.'.zip');
-			
+				
+				//* delete any older backup copies that previously existed
+				for ($n = $backup_copies; $n <= 10; $n++) {
+					if(is_file($web_backup_dir.'/web.'.$n.'.zip')) unlink($web_backup_dir.'/web.'.$n.'.zip');
+				}
+				
 				for($n = $backup_copies - 1; $n >= 1; $n--) {
 					if(is_file($web_backup_dir.'/web.'.$n.'.zip')) {
 						rename($web_backup_dir.'/web.'.$n.'.zip',$web_backup_dir.'/web.'.($n+1).'.zip');
