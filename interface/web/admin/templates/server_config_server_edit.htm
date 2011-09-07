@@ -42,6 +42,12 @@
       	<label for="backup_dir">{tmpl_var name='backup_dir_txt'}</label>
         <input name="backup_dir" id="backup_dir" value="{tmpl_var name='backup_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 	  </div>
+	  <div class="ctrlHolder">
+		<p class="label">{tmpl_var name='backup_dir_ftpread_txt'}</p>
+		  <div class="multiField">
+			{tmpl_var name='backup_dir_ftpread'}
+		  </div>
+	  </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

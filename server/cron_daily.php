@@ -435,8 +435,16 @@ $backup_dir = $server_config['backup_dir'];
 
 if($backup_dir != '') {
 	
+	if(isset($server_config['backup_dir_ftpread']) && $server_config['backup_dir_ftpread'] == 'y') {
+		$backup_dir_permissions = 0755;
+	} else {
+		$backup_dir_permissions = 0750;
+	}
+	
 	if(!is_dir($backup_dir)) {
-		mkdir(escapeshellcmd($backup_dir), 0750, true);
+		mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
+	} else {
+		chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 	}
 	
 	$sql = "SELECT * FROM web_domain WHERE type = 'vhost'";

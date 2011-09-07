@@ -86,4 +86,5 @@ $wb["network_config_warning_txt"] = 'The network configuration option is only av
 $wb["CA_path_txt"] = 'CA Path';
 $wb["CA_pass_txt"] = 'CA passphrase';
 $wb["fastcgi_config_syntax_txt"] = 'FastCGI config syntax';
+$wb["backup_dir_ftpread_txt"] = 'Backup dir. readable for website FTP users.';
 ?>
