@@ -291,6 +291,9 @@ class cron_jailkit_plugin {
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
 			mkdir(escapeshellcmd($this->parent_domain['document_root'].$jailkit_chroot_userhome), 0755, true);
+			chown(escapeshellcmd($this->parent_domain['document_root'].$jailkit_chroot_userhome, escapeshellcmd($this->parent_domain['system_user']));
+			chgrp(escapeshellcmd($this->parent_domain['document_root'].$jailkit_chroot_userhome, escapeshellcmd($this->parent_domain['system_group']));
+			
 	}
 	
     function _get_home_dir($username)
