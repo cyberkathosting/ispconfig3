@@ -185,7 +185,8 @@ class mail_plugin {
 		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
 		$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
 		$mailTarget       = $data["new"]["email"];
-		$mailSubject = "=?utf-8?Q?" . imap_8bit($welcome_mail_subject) . "?=";
+		// $mailSubject = "=?utf-8?Q?" . imap_8bit($welcome_mail_subject) . "?=";
+		$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
 
 		mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
 		
