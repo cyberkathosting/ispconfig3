@@ -129,7 +129,7 @@ $form["tabs"]['cron'] = array (
             'formtype'  => 'TEXT',
             'validators'    => array (  0 => array (    'type'  => 'CUSTOM',
                                                         'class' => 'validate_cron',
-                                                        'function' => 'run_time_format',
+                                                        'function' => 'run_month_format',
                                                         'errmsg'=> 'run_month_error_format'),
                                     ),
             'default'   => '',

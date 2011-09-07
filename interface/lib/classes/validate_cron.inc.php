@@ -55,6 +55,14 @@ class validate_cron {
             if(preg_match("'^([a-z0-9][a-z0-9-]{0,62}\.)+([a-z]{2,30})$'i", $parsed["host"]) == false) return $this->get_error($validator['errmsg']);
         }
     }
+	
+	function run_month_format($field_name, $field_value, $validator) {
+		global $app;
+		//* allow value @reboot in month field
+		if($field_value != '@reboot') {
+			return $this->run_time_format($field_name, $field_value, $validator);
+		}
+	}
     
 	/*
 		Validator function to check if a given cron time is in correct form.
