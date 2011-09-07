@@ -169,8 +169,10 @@ class mail_plugin {
 			$tmp = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
 		}
 		
-		$welcome_mail_subject  = trim(substr($tmp[0],8));
+		$welcome_mail_from  = trim(substr($tmp[0],5));
+		$welcome_mail_subject  = trim(substr($tmp[1],8));
 		unset($tmp[0]);
+		unset($tmp[1]);
 		$welcome_mail_message = trim(implode($tmp));
 		unset($tmp);
 		
@@ -180,8 +182,8 @@ class mail_plugin {
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
 		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
 		$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
-		$mailHeaders     .= "From: $welcomeFromName <$welcomeFromEmail>" . "\n";
-		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
+		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
+		$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
 		$mailTarget       = $data["new"]["email"];
 		$mailSubject = "=?utf-8?Q?" . imap_8bit($welcome_mail_subject) . "?=";
 
