@@ -211,10 +211,14 @@ class maildrop_plugin {
 					unset($config_file_path);
 				} else {
 					// Delete the mailfilter recipe
-					$email_parts = explode("@",$data["old"]["email"]);
-					$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
-					if(is_file($file)) unlink($file)  or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
-					$app->log("Deleting custom Mailfiter".$file,LOGLEVEL_DEBUG);
+					if(isset($data["old"]["email"])) {
+						$email_parts = explode("@",$data["old"]["email"]);
+						$file = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
+						if(is_file($file)) {
+							unlink($file)  or $app->log("Unable to delete file: $file",LOGLEVEL_WARN);
+							$app->log("Deleting custom Mailfiter".$file,LOGLEVEL_DEBUG);
+						}
+					}
 				}
 		}
 	}
