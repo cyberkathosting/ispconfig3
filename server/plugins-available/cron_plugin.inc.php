@@ -194,8 +194,12 @@ class cron_plugin {
         $cron_jobs = $app->db->queryAllRecords("SELECT `run_min`, `run_hour`, `run_mday`, `run_month`, `run_wday`, `command`, `type` FROM `cron` WHERE `parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND `active` = 'y'");
         if($cron_jobs && count($cron_jobs) > 0) {
             foreach($cron_jobs as $job) {
-                $command = "{$job['run_min']}\t{$job['run_hour']}\t{$job['run_mday']}\t{$job['run_month']}\t{$job['run_wday']}";
-                $command .= "\t{$this->parent_domain['system_user']}"; //* running as user
+				if($job['run_month'] == '@reboot') {
+					$command = "@reboot";
+				} else {
+					$command = "{$job['run_min']}\t{$job['run_hour']}\t{$job['run_mday']}\t{$job['run_month']}\t{$job['run_wday']}";
+                }
+				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
                 if($job['type'] == 'url') {
                     $command .= "\t{$cron_config['wget']} -q -O /dev/null " . escapeshellarg($job['command']) . " >/dev/null 2>&1";
                 } else {
