@@ -906,9 +906,11 @@ class installer_dist extends installer_base {
 		if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir']);
 		if(!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) exec('touch '.$conf['ispconfig_log_dir'].'/ispconfig.log');
 		
-		exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
-		exec('chown getmail /usr/local/bin/run-getmail.sh');
-		exec('chmod 744 /usr/local/bin/run-getmail.sh');
+		if(is_user('getmail')) {
+			exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');
+			exec('chown getmail /usr/local/bin/run-getmail.sh');
+			exec('chmod 744 /usr/local/bin/run-getmail.sh');
+		}
 		
 		
 	}

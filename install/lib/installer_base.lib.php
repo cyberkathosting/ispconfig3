@@ -1680,10 +1680,12 @@ class installer_base {
 			if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir'], 0755);
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
-
-		rename($install_dir.'/server/scripts/run-getmail.sh','/usr/local/bin/run-getmail.sh');
-		if(is_user('getmail')) chown('/usr/local/bin/run-getmail.sh', 'getmail');
-		chmod('/usr/local/bin/run-getmail.sh', 0744);
+		
+		if(is_user('getmail')) {
+			rename($install_dir.'/server/scripts/run-getmail.sh','/usr/local/bin/run-getmail.sh');
+			if(is_user('getmail')) chown('/usr/local/bin/run-getmail.sh', 'getmail');
+			chmod('/usr/local/bin/run-getmail.sh', 0744);
+		}
 
 		//* Add Log-Rotation
 		if (is_dir('/etc/logrotate.d')) {
