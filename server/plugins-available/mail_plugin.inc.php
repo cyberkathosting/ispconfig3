@@ -157,6 +157,37 @@ class mail_plugin {
 				$app->log('Set Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			}
 		}
+		
+		//* Send the welcome email message
+		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
+			$tmp = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
+			$tmp = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt')) {
+			$tmp = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
+		} else {
+			$tmp = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
+		}
+		
+		$welcome_mail_subject  = trim(substr($tmp[0],8));
+		unset($tmp[0]);
+		$welcome_mail_message = trim(implode($tmp));
+		unset($tmp);
+		
+		$welcomeFromEmail = $mail_config['admin_mail'];
+		$welcomeFromName = $mail_config['admin_name'];
+		
+		$mailHeaders      = "MIME-Version: 1.0" . "\n";
+		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+		$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+		$mailHeaders     .= "From: $welcomeFromName <$welcomeFromEmail>" . "\n";
+		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
+		$mailTarget       = $data["new"]["email"];
+		$mailSubject = "=?utf-8?Q?" . imap_8bit($welcome_mail_subject) . "?=";
+
+		mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
+		
+		
 	}
 	
 	function user_update($event_name,$data) {

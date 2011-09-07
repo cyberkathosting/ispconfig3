@@ -227,55 +227,6 @@ class page_action extends tform_actions {
 		$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
 		$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
 		
-		// send a welcome email to create the mailbox
-//		mail($this->dataRecord["email"],$app->tform->wordbook["welcome_mail_subject"],$app->tform->wordbook["welcome_mail_message"]);
-		
-		/*
-		// the conversion to iso-8859-1 causes compatibility problems, therefore the transition to utf-8
-
-		// tries to detect current charset, and encode subject-header and body from it to ISO-8859-1.
-		$fromCharset      = mb_detect_encoding($app->tform->lng("welcome_mail_subject"));
-		$iconvPreferences = array("input-charset" => $fromCharset,
-					"output-charset" => "ISO-8859-1",
-					"line-length" => 76,
-					"line-break-chars" => "\n",
-					"scheme" => "Q");
-
-		$welcomeFromName  = $app->tform->lng("welcome_mail_fromname_txt");
-		$welcomeFromEmail = $app->tform->lng("welcome_mail_fromemail_txt");
-		$mailHeaders      = "MIME-Version: 1.0" . "\n";
-		$mailHeaders     .= "Content-type: text/plain; charset=iso-8859-1" . "\n";
-		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\n";
-		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
-		$mailTarget       = $this->dataRecord["email"];
-		$mailSubject      = iconv_mime_encode("trimoff", $app->tform->lng("welcome_mail_subject"), $iconvPreferences);
-		$mailSubject      = str_replace("trimoff: ", "", $mailSubject);
-		$mailBody         = iconv ($fromCharset, "ISO-8859-1", $app->tform->lng("welcome_mail_message"));
-
-		mail($mailTarget, $mailSubject, $mailBody, $mailHeaders);
-		
-		*/
-
-		$welcomeFromName  = $app->tform->lng("welcome_mail_fromname_txt");
-		$welcomeFromEmail = $app->tform->lng("welcome_mail_fromemail_txt");
-		
-		$app->uses('getconf');
-		$global_config = $app->getconf->get_global_config('mail');
-		if(!empty($global_config['admin_mail']))$welcomeFromEmail = $global_config['admin_mail'];
-		if(!empty($global_config['admin_name']))$welcomeFromName = $global_config['admin_name'];
-		
-		$mailHeaders      = "MIME-Version: 1.0" . "\n";
-		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
-		$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
-		$mailHeaders     .= "From: $welcomeFromName  <$welcomeFromEmail>" . "\n";
-		$mailHeaders     .= "Reply-To: <$welcomeFromEmail>" . "\n";
-		$mailTarget       = $this->dataRecord["email"];
-		$mailSubject = "=?utf-8?Q?" . imap_8bit($app->tform->lng("welcome_mail_subject")) . "?=";
-		
-		$mailBody = $app->tform->lng("welcome_mail_message");
-
-		mail($mailTarget, $mailSubject, $mailBody, $mailHeaders);
-		
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
