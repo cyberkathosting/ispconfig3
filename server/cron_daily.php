@@ -200,12 +200,44 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1"'.$aliasdomain;
 	if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	symlink($logfile,'/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	
+	$awmonth = date("m");
+	if (date("d") == 1)	{
+		$awmonth = date("m")-1;
+	}
+
+	$awyear = date("Y");
+	if (date("m") == 1) {
+		$awyear = date("Y")-1;
+		$awmonth = "12";
+	}
+	
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
-	$command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
+	// $command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
+	
+	$command = "$awstats_buildstaticpages_pl -month='$awmonth' -year='$awyear' -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
+
+	if (date("d") == 2) {
+		$awmonth = date("m")-1;
+		if (date("m") == 1) {
+			$awyear = date("Y")-1;
+			$awmonth = "12";
+		}
+
+		$statsdirold = $statsdir."/".$awyear."-".$awmonth."/";
+		mkdir($statsdirold);
+		$files = scandir($statsdir);
+		foreach ($files as $file) {
+			if (substr($file,0,1) != "." && !is_dir($file) && substr($file,0,1) != "w" && substr($file,0,1) != "i") copy("$statsdir"."/"."$file","$statsdirold"."$file");
+		}
+	}
+	
 	
 	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
-		rename($rec['document_root'].'/web/stats/awstats.'.$domain.'.html',$rec['document_root'].'/web/stats/index.html');
+		if(is_file($rec['document_root'].'/web/stats/index.html')) unlink($rec['document_root'].'/web/stats/index.html');
+		rename($rec['document_root'].'/web/stats/awstats.'.$domain.'.html',$rec['document_root'].'/web/stats/awsindex.html');
+		if(!is_file($rec['document_root']."/web/stats/index.php")) copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$rec['document_root']."/web/stats/index.php");
+		
 		$app->log('Created awstats statistics with command: '.$command,LOGLEVEL_DEBUG);
 	} else {
 		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_buildstaticpages_pl is not owned by root user.",LOGLEVEL_WARN);
