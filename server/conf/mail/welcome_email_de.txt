@@ -1,4 +1,4 @@
-From: ISPConfig <postmaster@localhost.localdomain>
+﻿From: ISPConfig <postmaster@localhost.localdomain>
 Subject: Ihr Mailaccount ist aktiv.
 
-Ihr Mailaccount ist jetzt aktiv. Viel Vergn�gen.
+Ihr Mailaccount ist jetzt aktiv. Viel Vergnügen.

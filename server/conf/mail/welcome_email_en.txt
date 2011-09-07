@@ -1,4 +1,4 @@
-From: ISPConfig <postmaster@localhost.localdomain>
+﻿From: ISPConfig <postmaster@localhost.localdomain>
 Subject: Welcome to your new email account.
 
 Welcome to your new email account. Your webmaster.
