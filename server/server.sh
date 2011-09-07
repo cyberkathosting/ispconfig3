@@ -21,5 +21,6 @@ else
 	# 
 	# there is no update waiting, so lets start the ISPConfig-System
 	#
+	cd /usr/local/ispconfig/server
 	/usr/bin/php -q /usr/local/ispconfig/server/server.php
 fi
