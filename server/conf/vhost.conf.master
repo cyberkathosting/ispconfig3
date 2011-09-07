@@ -163,7 +163,7 @@
 <tmpl_else>
 	  IdleTimeout 300
 	  ProcessLifeTime 3600
-	  MaxProcessCount 1000
+	  # MaxProcessCount 1000
 	  DefaultMinClassProcessCount 0
 	  DefaultMaxClassProcessCount 100
 	  IPCConnectTimeout 3
