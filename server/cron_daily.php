@@ -280,6 +280,15 @@ foreach($records as $rec) {
 	if(@is_file($logfile)) {
 		unlink($logfile);
 	}
+	
+	//* Delete older Log files, in case that we missed them before due to serverdowntimes.
+	$datepart = date('Ym',time() - 86400 * 31 * 2);
+	
+	$logfile = escapeshellcmd($rec['document_root']).'/log/'.$datepart.'*-access.log.gz';
+	exec('rm -f '.$logfile);
+	
+	$logfile = escapeshellcmd($rec['document_root']).'/log/'.$datepart.'*-access.log';
+	exec('rm -f '.$logfile);
 }
 
 #######################################################################################################
