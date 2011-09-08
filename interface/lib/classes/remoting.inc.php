@@ -1342,6 +1342,17 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		if(!isset($params['client_group_id']) or (isset($params['client_group_id']) && empty($params['client_group_id']))) {
+			$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($client_id));
+			$params['client_group_id'] = $rec['groupid'];
+		}
+		
+		//* Set a few params to "not empty" values which get overwritten by the sites_web_domain_plugin
+		if($params['document_root'] == '') $params['document_root'] = '-';
+		if($params['system_user'] == '') $params['system_user'] = '-';
+		if($params['system_group'] == '') $params['system_group'] = '-';
+		
 		$domain_id = $this->insertQuery('../sites/form/web_domain.tform.php',$client_id,$params, 'sites:web_domain:on_after_insert');
 		if ($readonly === true)
 			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ".$domain_id);
