@@ -35,18 +35,18 @@ if (!$SENDER)
 # Autocreate maildir, if not existant
 #
 
-`test -e {dist_postfix_vmail_mailbox_base}/$HOST`
-if ( $RETURNCODE != 0 )
-{
-  `mkdir {dist_postfix_vmail_mailbox_base}/$HOST`
-}
+#`test -e {dist_postfix_vmail_mailbox_base}/$HOST`
+#if ( $RETURNCODE != 0 )
+#{
+#  `mkdir {dist_postfix_vmail_mailbox_base}/$HOST`
+#}
 
-`test -e {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
-if ( $RETURNCODE != 0 )
-{
-  `maildirmake {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
-  `chmod -R 0700 {dist_postfix_vmail_mailbox_base}/$HOST`
-}
+#`test -e {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
+#if ( $RETURNCODE != 0 )
+#{
+#  `maildirmake {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
+#  `chmod -R 0700 {dist_postfix_vmail_mailbox_base}/$HOST`
+#}
 
 # Check if the user has a autoresponder enabled
 
