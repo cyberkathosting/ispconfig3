@@ -897,24 +897,48 @@ class apache2_plugin {
 		*/
 		$this->_patchVhostWebdav($vhost_file, $data['new']['document_root'] . '/webdav');
 
-		// Set the symlink to enable the vhost
+		//* Set the symlink to enable the vhost
+		//* First we check if there is a old type of symlink and remove it
 		$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/'.$data['new']['domain'].'.vhost');
+		if(is_link($vhost_symlink)) unlink($vhost_symlink);
+		
+		//* Remove old or changed symlinks
+		if($data['new']['subdomain'] != $data['old']['subdomain'] or $data['new']['active'] == 'n') {
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/900-'.$data['new']['domain'].'.vhost');
+			if(is_link($vhost_symlink)) {
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/100-'.$data['new']['domain'].'.vhost');
+			if(is_link($vhost_symlink)) {
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
+		}
+		
+		//* New symlink
+		if($data['new']['subdomain'] == '*') {
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/900-'.$data['new']['domain'].'.vhost');
+		} else {
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/100-'.$data['new']['domain'].'.vhost');
+		}
 		if($data['new']['active'] == 'y' && !is_link($vhost_symlink)) {
 			symlink($vhost_file,$vhost_symlink);
 			$app->log('Creating symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
 		}
 
-		// Remove the symlink, if site is inactive
-		if($data['new']['active'] == 'n' && is_link($vhost_symlink)) {
-			unlink($vhost_symlink);
-			$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
-		}
-
 		// remove old symlink and vhost file, if domain name of the site has changed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
-			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
-			unlink($vhost_symlink);
-			$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/900-'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)) {
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/100-'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)) {
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
 			$vhost_file = escapeshellcmd($web_config['vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
 			unlink($vhost_file);
 			$app->log('Removing file: '.$vhost_file,LOGLEVEL_DEBUG);
