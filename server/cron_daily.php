@@ -501,12 +501,19 @@ if($backup_dir != '') {
 				$web_group = $rec['system_group'];
 				$web_id = $rec['domain_id'];
 				$web_backup_dir = $backup_dir.'/web'.$web_id;
-				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0755);
-				
-				chmod($web_backup_dir, 0755);
-				chown($web_backup_dir, 'root');
-				chgrp($web_backup_dir, 'root');
+				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
+				chmod($web_backup_dir, 0750); 
+				if(isset($server_config['backup_dir_ftpread']) && $server_config['backup_dir_ftpread'] == 'y') {
+					chown($web_backup_dir, $rec['system_user']); 
+					chgrp($web_backup_dir, $rec['system_group']);
+				} else {
+					chown($web_backup_dir, 'root');
+					chgrp($web_backup_dir, 'root');
+				}
 				exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print | zip -y '.escapeshellarg($web_backup_dir.'/web.zip').' -@');
+				chown($web_backup_dir.'/web.zip', $rec['system_user']); 
+				chgrp($web_backup_dir.'/web.zip', $rec['system_group']);
+				chmod($web_backup_dir.'/web.zip', 0750);
 				
 				// Rename or remove old backups
 				$backup_copies = intval($rec['backup_copies']);
@@ -527,7 +534,9 @@ if($backup_dir != '') {
 				// Create backupdir symlink
 				if(is_link($web_path.'/backup')) unlink($web_path.'/backup');
 				symlink($web_backup_dir,$web_path.'/backup');
-				chmod($web_path.'/backup', 0755);
+				// chmod($web_path.'/backup', 0755);
+				chown($web_path.'/backup', $rec['system_user']); 
+				chgrp($web_path.'/backup', $rec['system_group']);
 				
 			}
 			

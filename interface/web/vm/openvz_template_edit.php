@@ -43,6 +43,7 @@ require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('vm');
+if($_SESSION["s"]["user"]["typ"] != 'admin') die('permission denied');
 
 // Loading classes
 $app->uses('tpl,tform');

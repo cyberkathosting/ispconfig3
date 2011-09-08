@@ -164,6 +164,7 @@ $form["tabs"]['main'] = array (
 	)
 );
 
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
 $form["tabs"]['advanced'] = array (
 	'title' 	=> "Advanced",
 	'width' 	=> 100,
@@ -292,6 +293,7 @@ $form["tabs"]['advanced'] = array (
 	##################################
 	)
 );
+}
 
 
 ?>

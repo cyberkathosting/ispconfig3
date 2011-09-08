@@ -43,6 +43,7 @@ $list_def_file = "list/openvz_ostemplate.list.php";
 
 //* Check permissions for module
 $app->auth->check_module_permissions('vm');
+if($_SESSION["s"]["user"]["typ"] != 'admin') die('permission denied');
 
 $app->uses('listform_actions');
 

@@ -14,6 +14,7 @@ $items[] = array( 'title' 	=> 'Virtual Servers',
 				  'link'	=> 'vm/openvz_vm_list.php',
 				  'html_id' => 'openvz_vm_list');
 
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
 $items[] = array( 'title' 	=> 'OS Templates',
 				  'target' 	=> 'content',
 				  'link'	=> 'vm/openvz_ostemplate_list.php',
@@ -28,7 +29,7 @@ $items[] = array( 'title' 	=> 'IP addresses',
 				  'target' 	=> 'content',
 				  'link'	=> 'vm/openvz_ip_list.php',
 				  'html_id' => 'openvz_ip_list');
-
+}
 if(count($items))
 {
 	$module['nav'][] = array(	'title'	=> 'OpenVZ',
