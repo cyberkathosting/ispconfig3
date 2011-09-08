@@ -407,6 +407,15 @@ class monitor_tools {
 				 * calculate the state
 				 */
 				$usePercent = floatval($data[$i]['percent']);
+				
+				//* get the free memsize
+				if(substr($data[$i]['available'],-1) == 'G') {
+					$freesize = floatval($data[$i]['available'])*1024;
+				} elseif(substr($data[$i]['available'],-1) == 'T') {
+					$freesize = floatval($data[$i]['available'])*1024*1024;
+				} else {
+					$freesize = floatval($data[$i]['available']);
+				}
 
 				//* We don't want to check some filesystem which have no sensible filling levels
 				switch ($data[$i]['type']) {
@@ -418,13 +427,13 @@ class monitor_tools {
 					case 'udev':
 						break;
 					default:
-						if ($usePercent > 75)
+						if ($usePercent > 75 && $freesize < 2000)
 							$state = $this->_setState($state, 'info');
-						if ($usePercent > 80)
+						if ($usePercent > 80 && $freesize < 1000)
 							$state = $this->_setState($state, 'warning');
-						if ($usePercent > 90)
+						if ($usePercent > 90 && $freesize < 500)
 							$state = $this->_setState($state, 'critical');
-						if ($usePercent > 95)
+						if ($usePercent > 95 && $freesize < 100)
 							$state = $this->_setState($state, 'error');
 						break;
 				}
