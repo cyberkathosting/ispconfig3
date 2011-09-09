@@ -196,7 +196,7 @@ function _getServerState($serverId, $serverName) {
 	$ispcData = null;
 	foreach($records as $record) {
 		/* get the state from the db-data */
-		_processDbState($record['type'], $serverId, &$serverState, &$messages);
+		_processDbState($record['type'], $serverId, $serverState, $messages);
 		/* if we have the os-info, get it */
 		if ($record['type'] == 'os_info') {
 			$osData = unserialize($record['data']);
