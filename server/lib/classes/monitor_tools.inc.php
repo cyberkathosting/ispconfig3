@@ -1035,6 +1035,61 @@ class monitor_tools {
 				}
 			}
 		}
+		
+		/*
+		* 3ware Controller
+		*/
+		system('which tw_cli', $retval);
+		if($retval === 0) {
+
+			$data['output'] = shell_exec('tw_cli info c0');
+
+			$state = 'ok';
+			foreach ($data['output'] as $item) {
+				if (strpos($item, 'RAID') !== false) {
+					if (strpos($item, ' VERIFYING ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' MIGRATE-PAUSED ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' MIGRATING ') !== false) {
+						$this->_setState($state, 'ok');
+					}
+					else if (strpos($item, ' INITIALIZING ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' INIT-PAUSED ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' REBUILDING ') !== false) {
+						$this->_setState($state, 'info');
+					}
+					else if (strpos($item, ' REBUILD-PAUSED ') !== false) {
+						$this->_setState($state, 'warning');
+					}
+					else if (strpos($item, ' RECOVERY ') !== false) {
+						$this->_setState($state, 'warning');
+					}
+					else if (strpos($item, ' DEGRADED ') !== false) {
+						$this->_setState($state, 'critical');
+					}
+					else if (strpos($item, ' UNKNOWN ') !== false) {
+						$this->_setState($state, 'critical');
+					}
+					else if (strpos($item, ' OK ') !== false) {
+						$this->_setState($state, 'ok');
+					}
+					else if (strpos($item, ' OPTIMAL ') !== false) {
+						$this->_setState($state, 'ok');
+					}
+					else {
+						$this->_setState($state, 'critical');
+					}
+				}
+			}
+		}
+		
 
 		/*
 		 * Return the Result
