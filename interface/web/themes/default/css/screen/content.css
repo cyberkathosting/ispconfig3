@@ -95,6 +95,14 @@
 	  border-bottom: .1em dashed #c00;
 	  cursor: help;
 	}
+
+	/* Set a background-color, no system backgorund used anymore */
+	select, input, textarea {
+	  background: #FFFFFF;
+	  border: 1px solid #DFDFDF;
+	  padding: 1px;
+	}
+
 	
 	/**
 	 * Generic Content Classes
