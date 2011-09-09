@@ -4,6 +4,7 @@ $wb['jailkit_chroot_app_sections_txt'] = 'Раздел программы Jailki
 $wb['jailkit_chroot_app_programs_txt'] = 'Программы Jailkit chrooted';
 $wb['website_path_txt'] = 'Путь web-сайта';
 $wb['website_symlinks_txt'] = 'Симлинки Web-сайта';
+$wb['website_symlinks_rel_txt'] = 'Make relative symlinks';
 $wb['vhost_conf_dir_txt'] = 'Папка конфига Vhost';
 $wb['vhost_conf_enabled_dir_txt'] = 'Папка конфига включенного Vhost';
 $wb['getmail_config_dir_txt'] = 'Папка конфига Getmail';

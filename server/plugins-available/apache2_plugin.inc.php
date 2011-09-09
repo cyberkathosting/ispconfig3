@@ -357,7 +357,13 @@ class apache2_plugin {
 		// Create the symlink for the logfiles
 		if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data['new']['domain']);
 		if(!is_link($data['new']['document_root'].'/log')) {
-			exec('ln -s /var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/log');
+//			exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
+			if ($web_config["website_symlinks_rel"] == 'y') {
+				$this->create_relative_link("/var/log/ispconfig/httpd/".$data["new"]["domain"], $data["new"]["document_root"]."/log");
+			} else {
+				exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
+			}
+
 			$app->log('Creating symlink: ln -s /var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/log',LOGLEVEL_DEBUG);
 		}
 		/*
@@ -413,7 +419,13 @@ class apache2_plugin {
 				}
 				// create the symlinks, if not exist
 				if(!is_link($tmp_symlink)) {
-					exec('ln -s '.escapeshellcmd($data['new']['document_root']).'/ '.escapeshellcmd($tmp_symlink));
+//					exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
+					if ($web_config["website_symlinks_rel"] == 'y') {
+						$this->create_relative_link(escapeshellcmd($data["new"]["document_root"]), escapeshellcmd($tmp_symlink));
+					} else {
+						exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
+					}
+
 					$app->log('Creating symlink: ln -s '.$data['new']['document_root'].'/ '.$tmp_symlink,LOGLEVEL_DEBUG);
 				}
 			}
@@ -1458,6 +1470,31 @@ class apache2_plugin {
 		}
 	}
 
+	public function create_relative_link($f, $t) {
+		// $from already exists
+		$from = realpath($f);
+
+		// realpath requires the traced file to exist - so, lets touch it first, then remove
+		@unlink($t); touch($t);
+		$to = realpath($t);
+		@unlink($t);
+
+		// Remove from the left side matching path elements from $from and $to
+		// and get path elements counts
+		$a1 = explode('/', $from); $a2 = explode('/', $to);
+		for ($c = 0; $a1[$c] == $a2[$c]; $c++) {
+			unset($a1[$c]); unset($a2[$c]);
+		}
+		$cfrom = implode('/', $a1);
+
+		// Check if a path is fully a subpath of another - no way to create symlink in the case
+		if (count($a1) == 0 || count($a2) == 0) return false;
+
+		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
+		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
+
+		return symlink($cfrom, $to);
+	}
 
 } // end class
 

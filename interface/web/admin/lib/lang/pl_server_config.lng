@@ -5,6 +5,7 @@ $wb['jailkit_chroot_app_programs_txt'] = 'Ścieżki aplikacji roota Jailkit';
 $wb['jailkit_chroot_cron_programs_txt'] = 'Aplikacje cron roota Jailkit';
 $wb['website_path_txt'] = 'Adres strony WWW';
 $wb['website_symlinks_txt'] = 'Symulowany link strony WWW';
+$wb['website_symlinks_rel_txt'] = 'Make relative symlinks';
 $wb['website_basedir_txt'] = 'Ścieżka bazowa strony WWW';
 $wb['vhost_conf_dir_txt'] = 'Ścieżka do konfiguracyji wirtualnego serwera';
 $wb['vhost_conf_enabled_dir_txt'] = 'Ścieżka do aktywnej konfiguracyji Vhost';

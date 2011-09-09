@@ -4,6 +4,7 @@ $wb['jailkit_chroot_app_sections_txt'] = 'Jailkit chroot-ohjelmaosiot';
 $wb['jailkit_chroot_app_programs_txt'] = 'Jailkit chrooted-ohjelmat';
 $wb['website_path_txt'] = 'Verkkotunnuksen kotihakemisto';
 $wb['website_symlinks_txt'] = 'Verkkotunnuksen symmetriset linkit';
+$wb['website_symlinks_rel_txt'] = 'Make relative symlinks';
 $wb['vhost_conf_dir_txt'] = 'Virtuaalipalvelimen asetuskansio';
 $wb['vhost_conf_enabled_dir_txt'] = 'Virtuaalipalvelimen käyttöönottokansio';
 $wb['getmail_config_dir_txt'] = 'Getmail-asetuskansio';

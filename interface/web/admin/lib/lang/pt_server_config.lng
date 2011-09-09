@@ -4,6 +4,7 @@ $wb['jailkit_chroot_app_sections_txt'] = 'Aplicações Jailkit chroot (Sessões)
 $wb['jailkit_chroot_app_programs_txt'] = 'Aplicações Jailkit em ambiente chroot';
 $wb['website_path_txt'] = 'Pasta do Website';
 $wb['website_symlinks_txt'] = 'Website symlinks: link simbólico';
+$wb['website_symlinks_rel_txt'] = 'Make relative symlinks';
 $wb['website_basedir_txt'] = 'Website basedir: pasta base ';
 $wb['vhost_conf_dir_txt'] = 'Vhost config dir';
 $wb['vhost_conf_enabled_dir_txt'] = 'Vhost pasta de configuração activo';

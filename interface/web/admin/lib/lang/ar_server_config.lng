@@ -5,6 +5,7 @@ $wb['jailkit_chroot_app_programs_txt'] = 'Jailkit chrooted applications';
 $wb['jailkit_chroot_cron_programs_txt'] = 'Jailkit cron chrooted applications';
 $wb['website_path_txt'] = 'Website path';
 $wb['website_symlinks_txt'] = 'Website symlinks';
+$wb['website_symlinks_rel_txt'] = 'Make relative symlinks';
 $wb['website_basedir_txt'] = 'Website basedir';
 $wb['vhost_conf_dir_txt'] = 'Vhost config dir';
 $wb['vhost_conf_enabled_dir_txt'] = 'Vhost config enabled dir';

@@ -4,6 +4,7 @@ $wb['jailkit_chroot_app_sections_txt'] = 'Sections des applications chrootées J
 $wb['jailkit_chroot_app_programs_txt'] = 'Applications chrootées Jailkit';
 $wb['website_path_txt'] = 'Chemin du site web';
 $wb['website_symlinks_txt'] = 'Liens symboliques du site web';
+$wb['website_symlinks_rel_txt'] = 'Make relative symlinks';
 $wb['vhost_conf_dir_txt'] = 'Répertoire de configuration des VHosts';
 $wb['vhost_conf_enabled_dir_txt'] = 'Répertoire de configuration des VHosts actifs';
 $wb['getmail_config_dir_txt'] = 'Répertoire de configuration de Getmail';

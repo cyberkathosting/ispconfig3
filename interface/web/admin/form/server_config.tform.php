@@ -354,6 +354,12 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'website_symlinks_rel' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n',1 => 'y')
+		),
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
