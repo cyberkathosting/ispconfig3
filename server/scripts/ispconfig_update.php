@@ -86,7 +86,7 @@ echo " _____ ___________   _____              __ _
                                              |___/ ";
 echo "\n".str_repeat('-',80)."\n";
 echo "\n\n>> Update  \n\n";
-echo "Please choose the update method. For production systems select 'stable'. \nThe update from svn is only for development systems and may break your current setup.\n\n";
+echo "Please choose the update method. For production systems select 'stable'. \nThe update from svn is only for development systems and may break your current setup.\nNote: Update all slave server, before you update master server.\n\n";
 
 $method = simple_query('Select update method', array('stable','svn'), 'stable');
 
