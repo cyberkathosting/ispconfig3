@@ -295,7 +295,7 @@ class listform {
                     case 'DATETSTAMP':
                         if ($record[$key] > 0) {
 							// is value int?
-							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
+							if (preg_match("/^[0-9]+[.]?[0-9]*$/", $record[$key], $p)) {
 	                        	$record[$key] = date($this->lng('conf_format_dateshort'), $record[$key]);
 							} else {
 	                        	$record[$key] = date($this->lng('conf_format_dateshort'), strtotime($record[$key]));
@@ -305,7 +305,7 @@ class listform {
 					case 'DATE':
                         if ($record[$key] > 0) {
 							// is value int?
-							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
+							if (preg_match("/^[0-9]+[.]?[0-9]*$/", $record[$key], $p)) {
 	                        	$record[$key] = date($this->lng('conf_format_dateshort'), $record[$key]);
 							} else {
 	                        	$record[$key] = date($this->lng('conf_format_dateshort'), strtotime($record[$key]));
@@ -316,7 +316,7 @@ class listform {
                     case 'DATETIME':
                         if ($record[$key] > 0) {
 							// is value int?
-							if (ereg("^[0-9]+[.]?[0-9]*$", $record[$key], $p)) {
+							if (preg_match("/^[0-9]+[.]?[0-9]*$/", $record[$key], $p)) {
 	                        	$record[$key] = date($this->lng('conf_format_datetime'), $record[$key]);
 							} else {
 	                        	$record[$key] = date($this->lng('conf_format_datetime'), strtotime($record[$key]));
