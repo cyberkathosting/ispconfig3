@@ -770,6 +770,8 @@ CREATE TABLE `mail_user` (
   `disablepop3` enum('n','y') NOT NULL default 'n',
   `disabledeliver` enum('n','y') NOT NULL default 'n',
   `disablesmtp` enum('n','y') NOT NULL default 'n',
+  `disablesieve` enum('n','y') NOT NULL default 'n',
+  `disablelda` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`),
   KEY `email_access` (`email`,`access`)
@@ -1085,8 +1087,11 @@ CREATE TABLE `server_ip` (
   `sys_perm_group` varchar(5) default NULL,
   `sys_perm_other` varchar(5) default NULL,
   `server_id` int(11) unsigned NOT NULL default '0',
+  `client_id` int(11) unsigned NOT NULL default '0',
+  `ip_type` enum(  'IPv4',  'IPv6' ) NOT NULL DEFAULT  'IPv4',
   `ip_address` varchar(39) default NULL,
   `virtualhost` enum('n','y') NOT NULL default 'y',
+  `virtualhost_port` varchar(255) default '80,443',
   PRIMARY KEY  (`server_ip_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
