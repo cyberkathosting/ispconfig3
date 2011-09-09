@@ -29,14 +29,14 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','sites/cron_list.php');">{tmpl_var name='search_active'}</select></td>
-            <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','sites/cron_list.php');">{tmpl_var name='search_server_id'}</select></td>
-            <td class="tbl_col_run_min"><input type="text" name="search_run_min" size="3" value="{tmpl_var name='search_run_min'}" onblur="submitForm('pageForm','sites/cron_list.php');" /></td>
-            <td class="tbl_col_run_hour"><input type="text" name="search_run_hour" size="3" value="{tmpl_var name='search_run_hour'}" onblur="submitForm('pageForm','sites/cron_list.php');" /></td>
-            <td class="tbl_col_run_mday"><input type="text" name="search_run_mday" size="3" value="{tmpl_var name='search_run_mday'}" onblur="submitForm('pageForm','sites/cron_list.php');" /></td>
-            <td class="tbl_col_run_month"><input type="text" name="search_run_month" size="3" value="{tmpl_var name='search_run_month'}" onblur="submitForm('pageForm','sites/cron_list.php');" /></td>
-            <td class="tbl_col_run_wday"><input type="text" name="search_run_wday" size="3" value="{tmpl_var name='search_run_wday'}" onblur="submitForm('pageForm','sites/cron_list.php');" /></td>
-            <td class="tbl_col_command"><input type="text" name="search_command" value="{tmpl_var name='search_command'}" onblur="submitForm('pageForm','sites/cron_list.php');" /></td>
+            <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
+            <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+            <td class="tbl_col_run_min"><input type="text" name="search_run_min" size="3" value="{tmpl_var name='search_run_min'}" /></td>
+            <td class="tbl_col_run_hour"><input type="text" name="search_run_hour" size="3" value="{tmpl_var name='search_run_hour'}" /></td>
+            <td class="tbl_col_run_mday"><input type="text" name="search_run_mday" size="3" value="{tmpl_var name='search_run_mday'}" /></td>
+            <td class="tbl_col_run_month"><input type="text" name="search_run_month" size="3" value="{tmpl_var name='search_run_month'}" /></td>
+            <td class="tbl_col_run_wday"><input type="text" name="search_run_wday" size="3" value="{tmpl_var name='search_run_wday'}" /></td>
+            <td class="tbl_col_command"><input type="text" name="search_command" value="{tmpl_var name='search_command'}" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/cron_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

@@ -28,14 +28,14 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','admin/iptables_list.php');">{tmpl_var name='search_active'}</select></td>
-            <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','admin/iptables_list.php');">{tmpl_var name='search_server_id'}</select></td>
+            <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
+            <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
             <td class="tbl_col_table"></td>
-	        <td class="tbl_col_protocol"><select name="search_protocol" onChange="submitForm('pageForm','admin/iptables_list.php');">{tmpl_var name='search_protocol'}</select></td>
+	        <td class="tbl_col_protocol"><select name="search_protocol">{tmpl_var name='search_protocol'}</select></td>
             <td class="tbl_col_singleport"></td>
             <td class="tbl_col_multiport"></td>
             <td class="tbl_col_state"></td>
-            <td class="tbl_col_target"><select name="search_target" onChange="submitForm('pageForm','admin/iptables_list.php');">{tmpl_var name='search_target'}</select></td>
+            <td class="tbl_col_target"><select name="search_target">{tmpl_var name='search_target'}</select></td>
             <td class="tbl_col_buttons"><div class="buttons">
 				<button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/iptables_list.php');">
 				<span>{tmpl_var name="filter_txt"}filter_txt</span></button></div>

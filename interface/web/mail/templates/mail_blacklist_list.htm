@@ -25,10 +25,10 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','mail/mail_blacklist_list.php');">{tmpl_var name='search_active'}</select></td>
-            <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','mail/mail_blacklist_list.php');">{tmpl_var name='search_server_id'}</select></td>
-            <td class="tbl_col_source"><input type="text" name="search_source" value="{tmpl_var name='search_source'}" onblur="submitForm('pageForm','mail/mail_blacklist_list.php');" /></td>
-            <td class="tbl_col_type"><select name="search_type" onChange="submitForm('pageForm','mail/mail_blacklist_list.php');">{tmpl_var name='search_type'}</select></td>
+            <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
+            <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+            <td class="tbl_col_source"><input type="text" name="search_source" value="{tmpl_var name='search_source'}" /></td>
+            <td class="tbl_col_type"><select name="search_type">{tmpl_var name='search_type'}</select></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/mail_blacklist_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

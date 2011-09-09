@@ -32,11 +32,11 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_active"><select name="search_active" onChange="submitForm('pageForm','dns/dns_soa_list.php');">{tmpl_var name='search_active'}</select></td>
-            <td class="tbl_col_server_id"><select name="search_server_id" onChange="submitForm('pageForm','dns/dns_soa_list.php');">{tmpl_var name='search_server_id'}</select></td>
-            <td class="tbl_col_origin"><input type="text" name="search_origin" value="{tmpl_var name='search_origin'}" onblur="submitForm('pageForm','dns/dns_soa_list.php');" /></td>
-            <td class="tbl_col_ns"><input type="text" name="search_ns" value="{tmpl_var name='search_ns'}" onblur="submitForm('pageForm','dns/dns_soa_list.php');" /></td>
-            <td class="tbl_col_mbox"><input type="text" name="search_mbox" value="{tmpl_var name='search_mbox'}" onblur="submitForm('pageForm','dns/dns_soa_list.php');" /></td>
+            <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
+            <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+            <td class="tbl_col_origin"><input type="text" name="search_origin" value="{tmpl_var name='search_origin'}" /></td>
+            <td class="tbl_col_ns"><input type="text" name="search_ns" value="{tmpl_var name='search_ns'}" /></td>
+            <td class="tbl_col_mbox"><input type="text" name="search_mbox" value="{tmpl_var name='search_mbox'}" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','dns/dns_soa_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>

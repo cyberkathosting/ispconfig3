@@ -25,10 +25,10 @@
             <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
-            <td class="tbl_col_email"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" onblur="submitForm('pageForm','mail/mail_user_list.php');" /></td>
-			<td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" onblur="submitForm('pageForm','mail/mail_user_list.php');" /></td>
-<tmpl_if name="enable_custom_login"><td class="tbl_col_login"><input type="text" name="search_login" value="{tmpl_var name='search_login'}" onblur="submitForm('pageForm','mail/mail_user_list.php');" /></td></tmpl_if>
-            <td class="tbl_col_autoresponder"><input type="text" name="search_autoresponder" value="{tmpl_var name='search_autoresponder'}" onblur="submitForm('pageForm','mail/mail_user_list.php');" /></td>
+            <td class="tbl_col_email"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
+			<td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+<tmpl_if name="enable_custom_login"><td class="tbl_col_login"><input type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
+            <td class="tbl_col_autoresponder"><input type="text" name="search_autoresponder" value="{tmpl_var name='search_autoresponder'}" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/mail_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
