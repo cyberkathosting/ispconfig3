@@ -806,6 +806,36 @@ class tform {
 										  }
 										}
                                 break;
+								case 'ISIP':
+								//* Check if its a IPv4 or IPv6 address
+								if(function_exists('filter_var')) {
+									if(!filter_var($field_value,FILTER_VALIDATE_IP)) {
+										$errmsg = $validator['errmsg'];
+										if(isset($this->wordbook[$errmsg])) {
+											$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+										} else {
+											$this->errorMessage .= $errmsg."<br />\r\n";
+										}
+									}
+								} else {
+									//* Check content with regex, if we use php < 5.2
+									$ip_ok = 0;
+									if(preg_match("/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i", $field_value)){
+										$ip_ok = 1;
+									}
+									if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+										$ip_ok = 1;
+									}
+									if($ip_ok == 0) {
+										$errmsg = $validator['errmsg'];
+										if(isset($this->wordbook[$errmsg])) {
+											$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+										} else {
+											$this->errorMessage .= $errmsg."<br />\r\n";
+										}
+									}
+								}
+                                break;
                                 case 'CUSTOM':
                                         // Calls a custom class to validate this record
                                         if($validator['class'] != '' and $validator['function'] != '') {

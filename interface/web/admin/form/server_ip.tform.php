@@ -95,10 +95,27 @@ $form["tabs"]['server_ip'] = array (
 									 ),
 			'value'		=> ''
 		),
+		'client_id' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT client_id,contact_name FROM client WHERE {AUTHSQL} ORDER BY contact_name',
+										'keyfield'=> 'client_id',
+										'valuefield'=> 'contact_name'
+									 ),
+			'value'		=> array(0 => ' ')
+		),
+		'ip_type' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('IPv4' => 'IPv4', 'IPv6' => 'IPv6')
+		),
 		'ip_address' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISIPV4',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISIP',
 														'errmsg'=> 'ip_error_wrong'),
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'ip_error_unique'),
@@ -116,6 +133,17 @@ $form["tabs"]['server_ip'] = array (
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> 'y',
 			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'virtualhost_port' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '15',
+			'maxlength'	=> '15',
+			'rows'		=> '',
+			'cols'		=> ''
 		),
 	##################################
 	# ENDE Datenbankfelder

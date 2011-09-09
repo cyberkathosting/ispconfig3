@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
     Datatypes:
     - INTEGER
@@ -58,11 +58,51 @@ $liste['item'][] = array(	'field'		=> 'server_id',
 							'width'		=> '',
 							'value'		=> '');
 
+$liste['item'][] = array(	'field'		=> 'client_id',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'SELECT',
+							'op'		=> 'like',
+							'prefix'	=> '%',
+							'suffix'	=> '%',
+							'datasource'	=> array ( 	'type'	=> 'SQL',
+														'querystring' => 'SELECT client_id,contact_name FROM client WHERE {AUTHSQL} ORDER BY contact_name',
+														'keyfield'=> 'client_id',
+														'valuefield'=> 'contact_name'
+									 				  ),
+							'width'		=> '',
+							'value'		=> '');
+
+$liste['item'][] = array(	'field'		=> 'ip_type',
+							'datatype'	=> 'VARCHAR',
+							'formtype'	=> 'SELECT',
+							'op'		=> '=',
+							'prefix'	=> '',
+							'suffix'	=> '',
+							'width'		=> '',
+							'value'		=> array('IPv4' => 'IPv4', 'IPv6' => 'IPv6'));
+
 $liste['item'][] = array(	'field'		=> 'ip_address',
 							'datatype'	=> 'VARCHAR',
 							'op'		=> '=',
 							'prefix'	=> '',
 							'suffix'	=> '',
 							'width'		=> '');  
+
+$liste["item"][] = array(	'field'		=> "virtualhost",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'width'		=> "",
+							'value'		=> array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
+
+$liste['item'][] = array(	'field'		=> 'virtualhost_port',
+							'datatype'	=> 'VARCHAR',
+							'op'		=> '=',
+							'prefix'	=> '',
+							'suffix'	=> '',
+							'width'		=> ''); 
 
 ?>
