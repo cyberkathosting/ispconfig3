@@ -118,7 +118,21 @@ class maildeliver_plugin {
 			
 			$data["new"]["autoresponder_text"] = str_replace("\"","'",$data["new"]["autoresponder_text"]); 
 			$tpl->setVar('autoresponder_text',$data["new"]["autoresponder_text"]);
-				
+			
+			//* Set alias addresses for autoresponder
+			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = '".$app->db->quote($data["new"]["email"])."'";
+			$records = $app->db->queryAllRecords($sql);
+			$addresses = '';
+			if(is_array($records)) {
+				$addresses .= ':addresses [';
+				foreach($records as $rec) {
+					$addresses .= '"'.$rec['source'].'",';
+				}
+				$addresses = substr($addresses,0,-1);
+				$addresses .= ']';
+			}
+			$tpl->setVar('addresses',$addresses);
+			
 			file_put_contents($sieve_file,$tpl->grab());
 			
 			unset($tpl);

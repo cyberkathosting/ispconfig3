@@ -31,6 +31,6 @@ if header :contains "X-Spam-Flag" "YES" {
 }
 vacation  :days 1
   :subject "Out of office reply"
-  # :addresses ["test@test.int", "till@test.int"]
+  <tmpl_var name='addresses'>
   "<tmpl_var name='autoresponder_text'>";
 </tmpl_if>
