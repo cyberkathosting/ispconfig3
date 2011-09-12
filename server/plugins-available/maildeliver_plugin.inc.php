@@ -123,8 +123,8 @@ class maildeliver_plugin {
 			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = '".$app->db->quote($data["new"]["email"])."'";
 			$records = $app->db->queryAllRecords($sql);
 			$addresses = '';
-			if(is_array($records)) {
-				$addresses .= ':addresses [';
+			if(is_array($records) && count($records) > 0) {
+				$addresses .= ':addresses ["'.$data["new"]["email"].'",';
 				foreach($records as $rec) {
 					$addresses .= '"'.$rec['source'].'",';
 				}
