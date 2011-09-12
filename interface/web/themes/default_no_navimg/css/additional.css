@@ -28,6 +28,10 @@
 	.topnav-monitor {
 		background-image: none !important;
 	}
+	
+	.topnav-vm {
+		background-image: none !important;
+	}
 
 	.topnav-sites {
 		background-image: none !important;

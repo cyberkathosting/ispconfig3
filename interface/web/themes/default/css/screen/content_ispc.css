@@ -254,6 +254,7 @@
 	}
 
 	.dashboard-modules.admin { background-image: url('../../icons/x32/system.png') !important; }
+	.dashboard-modules.vm { background-image: url('../../icons/x32/drawer.png') !important; }
 	.dashboard-modules.client { background-image: url('../../icons/x32/client.png') !important; }
 	.dashboard-modules.mail { background-image: url('../../icons/x32/email.png') !important; }
 	.dashboard-modules.monitor { background-image: url('../../icons/x32/monitor.png') !important; }
