@@ -530,15 +530,7 @@ class remoting_lib {
                                                 if($field['formtype'] == 'PASSWORD') {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
-                                                                $salt="$1$";
-																$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-																for ($n=0;$n<8;$n++) {
-																	//$salt.=chr(mt_rand(64,126));
-																	$salt.=$base64_alphabet[mt_rand(0,63)];
-																}
-																$salt.="$";
-																// $salt = substr(md5(time()),0,2);
-																$record[$key] = crypt($record[$key],$salt);
+                                                                $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
                                                         }
@@ -559,15 +551,7 @@ class remoting_lib {
                                         } else {
                                                 if($field['formtype'] == 'PASSWORD') {
 														if($field['encryption'] == 'CRYPT') {
-                                                                $salt="$1$";
-																$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-																for ($n=0;$n<8;$n++) {
-																	//$salt.=chr(mt_rand(64,126));
-																	$salt.=$base64_alphabet[mt_rand(0,63)];
-																}
-																$salt.="$";
-																// $salt = substr(md5(time()),0,2);
-																$record[$key] = crypt($record[$key],$salt);
+                                                                $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
                                                         }
@@ -693,14 +677,7 @@ class remoting_lib {
 			$language = $app->db->quote($params["language"]);
 			$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('$username','','$insert_id')", 'groupid');
 			$groups = $groupid;
-			
-			$salt="$1$";
-			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0,63)];
-			}
-			$salt.="$";
-			$password = crypt(stripslashes($password),$salt);
+			$password = $app->auth->crypt_password(stripslashes($password));
 			$sql1 = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
 			VALUES ('$username','$password','$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,$insert_id)";
 			$app->db->query($sql1);
@@ -711,13 +688,7 @@ class remoting_lib {
 			$username = $app->db->quote($params["username"]);
 			$clear_password = $app->db->quote($params["password"]);
 			$client_id = intval($client_id);
-			$salt="$1$";
-			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0,63)];
-			}
-			$salt.="$";
-			$password = crypt(stripslashes($clear_password),$salt);
+			$password = $app->auth->crypt_password(stripslashes($clear_password));
 			if ($clear_password) $pwstring = ", passwort = '$password'"; else $pwstring ="" ;
 			$sql = "UPDATE sys_user set username = '$username' $pwstring WHERE client_id = $client_id";
 			$app->db->query($sql);
