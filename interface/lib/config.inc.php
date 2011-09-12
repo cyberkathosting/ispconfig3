@@ -54,6 +54,8 @@ $conf['db_database'] = 'ispconfig3';
 $conf['db_user'] = 'root';
 $conf['db_password'] = '';
 $conf['db_charset'] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL: "utf-8" --> "utf8", "iso-8859-1" --> "latin1")
+$conf['db_new_link'] = false;
+$conf['db_client_flags'] = 0;
 
 define('DB_TYPE',$conf['db_type']);
 define('DB_HOST',$conf['db_host']);
@@ -69,6 +71,8 @@ $conf['dbmaster_host']			= '{mysql_master_server_host}';
 $conf['dbmaster_database']		= '{mysql_master_server_database}';
 $conf['dbmaster_user']			= '{mysql_master_server_ispconfig_user}';
 $conf['dbmaster_password']		= '{mysql_master_server_ispconfig_password}';
+$conf['dbmaster_new_link'] 		= false;
+$conf['dbmaster_client_flags']  = 0;
 
 
 //** Paths

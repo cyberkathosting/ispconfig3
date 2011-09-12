@@ -33,6 +33,8 @@ class db {
 	private $dbUser = '';		   // database authorized user
 	private $dbPass = '';		   // user's password
 	private $dbCharset = '';	   // what charset comes and goes to mysql: utf8 / latin1
+	private $dbNewLink = false;    // Return a new linkID when connect is called again
+	private $dbClientFlags = 0;    // MySQL Client falgs
 	private $linkId = 0;		   // last result of mysql_connect()
 	private $queryId = 0;		   // last result of mysql_query()
 	private $record	= array();	   // last record fetched
@@ -51,6 +53,8 @@ class db {
 		$this->dbUser = $conf['db_user'];
 		$this->dbPass = $conf['db_password'];
 		$this->dbCharset = $conf['db_charset'];
+		$this->dbNewLink = $conf['db_new_link'];
+		$this->dbClientFlags = $conf['db_client_flags'];
 		//$this->connect();
 	}
 
@@ -69,7 +73,7 @@ class db {
 	public function connect()
 	{
 		if($this->linkId == 0){
-			$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
+			$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbNewLink, $this->dbClientFlags);
 			if(!$this->linkId){
 				$this->updateError('DB::connect()<br />mysql_connect');
 				return false;

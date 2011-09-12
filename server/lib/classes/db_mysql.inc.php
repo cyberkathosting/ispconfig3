@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		var $dbUser = '';		// database authorized user
 		var $dbPass = '';		// user's password
 		var $dbCharset = 'utf8';// Database charset
+		var $dbNewLink = false; // Return a new linkID when connect is called again
+		var $dbClientFlags = 0; // MySQL Client falgs
 		var $linkId = 0;		// last result of mysql_connect()
 		var $queryId = 0;		// last result of mysql_query()
 		var $record	= array();	// last record fetched
@@ -53,6 +55,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			$this->dbUser = $conf['db_user'];
 			$this->dbPass = $conf['db_password'];
 			$this->dbCharset = $conf['db_charset'];
+			$this->dbNewLink = $conf['db_new_link'];
+			$this->dbClientFlags = $conf['db_client_flags'];
 			//$this->connect();
 		}
 		
@@ -79,7 +83,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		{
 			if($this->linkId == 0)
 			{
-				$this->linkId = @mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
+				$this->linkId = @mysql_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbNewLink, $this->dbClientFlags);
 				if(!$this->linkId)
 				{
 					$this->updateError('DB::connect()-> mysql_connect');
