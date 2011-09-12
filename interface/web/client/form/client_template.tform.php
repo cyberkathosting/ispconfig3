@@ -325,6 +325,14 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'web_php_options' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOXARRAY',
+			'default'	=> '',
+			'separator' => ',',
+			'valuelimit' => 'client:web_php_options',
+			'value'		=> array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
+		),
 		'limit_web_aliasdomain' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -380,6 +388,14 @@ $form["tabs"]['limits'] = array (
 			'maxlength'	=> '10',
 			'rows'		=> '',
 			'cols'		=> ''
+		),
+		'ssh_chroot' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOXARRAY',
+			'default'	=> '',
+			'separator' => ',',
+			'valuelimit' => 'client:ssh_chroot',
+			'value'		=> array('no' => 'None', 'jailkit' => 'Jailkit')
 		),
 		'limit_webdav_user' => array (
 			'datatype'	=> 'INTEGER',

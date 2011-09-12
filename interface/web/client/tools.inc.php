@@ -59,16 +59,57 @@ function applyClientTemplates($clientId){
 			/* maybe the template is deleted in the meantime */
 			if (is_array($addLimits)){
 				foreach($addLimits as $k => $v){
-					if($k == 'limit_cron_type') {
-						$limits[$k] = $v;
-					} elseif($k == 'limit_cron_frequency') {
-						if($v < $limits[$k]) $limits[$k] = $v;
-					} else {
-						if ($limits[$k] > -1){
-							if ($v == -1) {
-								$limits[$k] = -1;
-							} else {
-								$limits[$k] += $v;
+					/* we can remove this condition, but it is easier to debug with it (don't add ids and other non-limit values) */
+					if (strpos($k, 'limit') !== false){
+						/* process the numerical limits */
+						if (is_numeric($v)){
+							/* switch for special cases */
+							switch ($k){
+							case 'limit_cron_frequency':
+								if ($v < $limits[$k]) $limits[$k] = $v;
+								/* silent adjustment of the minimum cron frequency to 1 minute */
+								/* maybe this control test should be done via validator definition in tform.php file, but I don't know how */
+								if ($limits[$k] < 1) $limits[$k] = 1;
+							break;
+
+							default:
+								if ($limits[$k] > -1){
+									if ($v == -1){
+										$limits[$k] = -1;
+									}
+									else {
+										$limits[$k] += $v;
+									}
+								}
+							}
+						}
+						/* process the string limits (CHECKBOXARRAY, SELECT etc.) */
+						elseif (is_string($v)){
+							switch ($app->tform->formDef["tabs"]["limits"]["fields"][$k]['formtype']){
+							case 'CHECKBOXARRAY':
+								if (!isset($limits[$k])){
+									$limits[$k] = array();
+								}
+
+								$limits_values = $limits[$k];
+								if (is_string($limits[$k])){
+									$limits_values = explode($app->tform->formDef["tabs"]["limits"]["fields"][$k]["separator"],$limits[$k]);
+								}
+								$additional_values = explode($app->tform->formDef["tabs"]["limits"]["fields"][$k]["separator"],$v);
+
+								/* unification of limits_values (master template) and additional_values (additional template) */
+								$limits_unified = array();
+								foreach($app->tform->formDef["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
+									if (in_array($key,$limits_values) || in_array($key,$additional_values)) $limits_unified[] = $key;
+								}
+								$limits[$k] = implode($app->tform->formDef["tabs"]["limits"]["fields"][$k]["separator"],$limits_unified);
+							break;
+							
+							case 'SELECT':
+								$limit_values = array_keys($app->tform->formDef["tabs"]["limits"]["fields"][$k]["value"]);
+								/* choose the lower index of the two SELECT items */
+								$limits[$k] = $limit_values[min(array_search($limits[$k], $limit_values), array_search($v, $limit_values))];
+							break;
 							}
 						}
 					}
@@ -82,7 +123,7 @@ function applyClientTemplates($clientId){
 	 */
 	$update = '';
 	foreach($limits as $k => $v){
-		if (strpos($k, 'limit') !== false && !is_array($v)){
+		if ((strpos($k, 'limit') !== false or $k == 'ssh_chroot' or $k == 'web_php_options') && !is_array($v)){
 			if ($update != '') $update .= ', ';
 			$update .= '`' . $k . "`='" . $v . "'";
 		}

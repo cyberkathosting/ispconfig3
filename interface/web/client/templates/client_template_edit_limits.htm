@@ -70,6 +70,12 @@
 				<input name="limit_web_quota" id="limit_web_quota" value="{tmpl_var name='limit_web_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
 			</div>
 			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='web_php_options_txt'}</p>
+				<div class="multiField">
+						{tmpl_var name='web_php_options'}
+				</div>
+			</div>
+			<div class="ctrlHolder">
 				<label for="limit_web_aliasdomain">{tmpl_var name='limit_web_aliasdomain_txt'}</label>
 				<input name="limit_web_aliasdomain" id="limit_web_aliasdomain" value="{tmpl_var name='limit_web_aliasdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
@@ -84,6 +90,12 @@
 			<div class="ctrlHolder">
 				<label for="limit_shell_user">{tmpl_var name='limit_shell_user_txt'}</label>
 				<input name="limit_shell_user" id="limit_shell_user" value="{tmpl_var name='limit_shell_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='ssh_chroot_txt'}</p>
+				<div class="multiField">
+						{tmpl_var name='ssh_chroot'}
+				</div>
 			</div>
 			<div class="ctrlHolder">
 				<label for="limit_webdav_user">{tmpl_var name='limit_webdav_user_txt'}</label>

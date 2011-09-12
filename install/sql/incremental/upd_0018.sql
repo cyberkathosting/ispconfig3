@@ -1,0 +1,2 @@
+alter table client_template add column web_php_options varchar(255) not null default 'no' after limit_web_quota;
+alter table client_template add column ssh_chroot varchar(255) not null default 'no' after limit_shell_user;
