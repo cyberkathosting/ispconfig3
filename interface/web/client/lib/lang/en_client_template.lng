@@ -64,4 +64,7 @@ $wb["limit_web_quota_txt"] = 'Web Quota';
 $wb["limit_traffic_quota_txt"] = 'Traffic Quota';
 $wb["limit_trafficquota_error_notint"] = 'Traffic Quota must be a number.';
 $wb["template_del_aborted_txt"] = 'Delete aborted. There is still a client which has this template selected.';
+$wb["limit_openvz_vm_txt"] = 'Max. number of virtual servers';
+$wb["limit_openvz_vm_template_id_txt"] = 'Force virtual server template';
+$wb["limit_openvz_vm_error_notint"] = 'The virtual server limit must be a number.';
 ?>

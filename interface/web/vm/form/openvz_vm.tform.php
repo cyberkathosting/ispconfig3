@@ -63,7 +63,7 @@ $form["tabs"]['main'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 ORDER BY server_name',
 										'keyfield'=> 'server_id',
 										'valuefield'=> 'server_name'
 									 ),
@@ -74,7 +74,7 @@ $form["tabs"]['main'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT ostemplate_id,template_name FROM openvz_ostemplate WHERE {AUTHSQL} ORDER BY template_name',
+										'querystring' => 'SELECT ostemplate_id,template_name FROM openvz_ostemplate WHERE 1 ORDER BY template_name',
 										'keyfield'=> 'ostemplate_id',
 										'valuefield'=> 'template_name'
 									 ),
@@ -84,11 +84,13 @@ $form["tabs"]['main'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
+			/*
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT template_id,template_name FROM openvz_template WHERE {AUTHSQL} ORDER BY template_name',
+										'querystring' => 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name',
 										'keyfield'=> 'template_id',
 										'valuefield'=> 'template_name'
 									 ),
+			*/
 			'value'		=> ''
 		),
 		'ip_address' => array (
@@ -99,7 +101,7 @@ $form["tabs"]['main'] = array (
 									),
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND (vm_id = 0 or vm_id = '{RECORDID}') AND {AUTHSQL} ORDER BY ip_address",
+										'querystring' => "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND (vm_id = 0 or vm_id = '{RECORDID}') ORDER BY ip_address",
 										'keyfield'=> 'ip_address',
 										'valuefield'=> 'ip_address'
 									 ),

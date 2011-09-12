@@ -189,6 +189,16 @@
 				<label for="limit_traffic_quota">{tmpl_var name='limit_traffic_quota_txt'}</label>
 				<input name="limit_traffic_quota" id="limit_traffic_quota" value="{tmpl_var name='limit_traffic_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
 			</div>
+			<div class="ctrlHolder">
+				<label for="limit_openvz_vm">{tmpl_var name='limit_openvz_vm_txt'}</label>
+				<input name="limit_openvz_vm" id="limit_openvz_vm" value="{tmpl_var name='limit_openvz_vm'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_openvz_vm_template_id">{tmpl_var name='limit_openvz_vm_template_id_txt'}</label>
+				<select name="limit_openvz_vm_template_id" id="limit_openvz_vm_template_id" class="selectInput">
+					{tmpl_var name='limit_openvz_vm_template_id'}
+				</select>
+			</div>
 		</fieldset>
 
 		<input type="hidden" name="id" value="{tmpl_var name='id'}">

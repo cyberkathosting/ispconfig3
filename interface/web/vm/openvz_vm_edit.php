@@ -50,18 +50,53 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	function onShowNew() {
+		global $app, $conf;
+		
+		// we will check only users, not admins
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			if(!$app->tform->checkClientLimit('limit_openvz_vm')) {
+				$app->error($app->tform->wordbook["limit_openvz_vm_txt"]);
+			}
+			if(!$app->tform->checkResellerLimit('limit_openvz_vm')) {
+				$app->error('Reseller: '.$app->tform->wordbook["limit_openvz_vm_txt"]);
+			}
+		}
+		
+		parent::onShowNew();
+	}
+	
 	function onShowEnd() {
 		global $app, $conf;
 
 		//* Client: If the logged in user is not admin and has no sub clients (no rseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-
+			
+			//* Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			
+			//* Fill the template_id field
+			if($client['limit_openvz_vm_template_id'] == 0) {
+				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name';
+			} else {
+				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE template_id = '.$client['limit_openvz_vm_template_id'].' ORDER BY template_name';
+			}
+			$records = $app->db->queryAllRecords($sql);
+			if(is_array($records)) {
+				foreach( $records as $rec) {
+					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
+					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("template_id_select",$template_id_select);
+			
 			//* Reseller: If the logged in user is not admin and has sub clients (is a rseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			
 			//* Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			
 			//* Fill the client select field
@@ -77,6 +112,21 @@ class page_action extends tform_actions {
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
+			
+			//* Fill the template_id field
+			if($client['limit_openvz_vm_template_id'] == 0) {
+				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name';
+			} else {
+				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE template_id = '.$client['limit_openvz_vm_template_id'].' ORDER BY template_name';
+			}
+			$records = $app->db->queryAllRecords($sql);
+			if(is_array($records)) {
+				foreach( $records as $rec) {
+					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
+					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("template_id_select",$template_id_select);
 
 			//* Admin: If the logged in user is admin
 		} else {
@@ -93,6 +143,17 @@ class page_action extends tform_actions {
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
+			
+			//* Fill the template_id field
+			$sql = 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name';
+			$records = $app->db->queryAllRecords($sql);
+			if(is_array($records)) {
+				foreach( $records as $rec) {
+					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
+					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("template_id_select",$template_id_select);
 
 		}
 		
