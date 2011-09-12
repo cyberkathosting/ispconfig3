@@ -149,14 +149,7 @@ class page_action extends tform_actions {
 		$type = 'user';
 		$active = 1;
 		$language = $app->db->quote($this->dataRecord["language"]);
-		
-		$salt="$1$";
-		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-		for ($n=0;$n<8;$n++) {
-			$salt.=$base64_alphabet[mt_rand(0,63)];
-		}
-		$salt.="$";
-		$password = crypt(stripslashes($password),$salt);
+		$password = $app->auth->crypt_password($password);
 		
 		// Create the controlpaneluser for the client
 		//Generate ssh-rsa-keys

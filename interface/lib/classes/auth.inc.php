@@ -132,6 +132,16 @@ class auth {
 		}
 		return $password;
 	}
+	
+	public function crypt_password($cleartext_password) {
+		$salt="$1$";
+		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+		for ($n=0;$n<8;$n++) {
+			$salt.=$base64_alphabet[mt_rand(0,63)];
+		}
+		$salt.="$";
+		return crypt($cleartext_password,$salt);
+	}
 		
 }
 

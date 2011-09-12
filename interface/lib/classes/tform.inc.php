@@ -903,15 +903,7 @@ class tform {
                                                 if($field['formtype'] == 'PASSWORD') {
                                                         $sql_insert_key .= "`$key`, ";
                                                         if($field['encryption'] == 'CRYPT') {
-                                                                $salt="$1$";
-																$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-																for ($n=0;$n<8;$n++) {
-																	//$salt.=chr(mt_rand(64,126));
-																	$salt.=$base64_alphabet[mt_rand(0,63)];
-																}
-																$salt.="$";
-																// $salt = substr(md5(time()),0,2);
-																$record[$key] = crypt(stripslashes($record[$key]),$salt);
+																$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 														} elseif ($field['encryption'] == 'MYSQL') {
 																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
@@ -938,15 +930,7 @@ class tform {
                                         } else {
                                                 if($field['formtype'] == 'PASSWORD') {
 														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
-                                                                $salt="$1$";
-																$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-																for ($n=0;$n<8;$n++) {
-																	//$salt.=chr(mt_rand(64,126));
-																	$salt.=$base64_alphabet[mt_rand(0,63)];
-																}
-																$salt.="$";
-																// $salt = substr(md5(time()),0,2);
-																$record[$key] = crypt(stripslashes($record[$key]),$salt);
+                                                                $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
 																$sql_update .= "`$key` = PASSWORD('".$app->db->quote($record[$key])."'), ";

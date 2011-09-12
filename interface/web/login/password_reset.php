@@ -52,15 +52,8 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE username = '$username' AND email = '$email'");
 	
 	if($client['client_id'] > 0) {
-		$new_password = md5 (uniqid (rand()));
-		$salt="$1$";
-		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-		for ($n=0;$n<8;$n++) {
-			//$salt.=chr(mt_rand(64,126));
-			$salt.=$base64_alphabet[mt_rand(0,63)];
-		}
-		$salt.="$";
-		$new_password_encrypted = crypt($new_password,$salt);
+		$new_password = $app->auth->get_random_password();
+		$new_password_encrypted = $app->auth->crypt_password($new_password);
 		$new_password_encrypted = $app->db->quote($new_password_encrypted);
 		
 		$username = $app->db->quote($client['username']);
