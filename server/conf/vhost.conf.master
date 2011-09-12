@@ -203,6 +203,12 @@
     </IfModule>
 
     <IfModule mod_dav_fs.c>
+	  # Do not execute PHP files in webdav directory
+	  <Directory {tmpl_var name='document_root'}/webdav>
+	    <FilesMatch "\.ph(p3?|tml)$">
+          SetHandler None
+        </FilesMatch>
+	  </Directory>
       # DO NOT REMOVE THE COMMENTS!
       # IF YOU REMOVE THEM, WEBDAV WILL NOT WORK ANYMORE!
       # WEBDAV BEGIN
@@ -411,6 +417,12 @@
     </IfModule>
 
     <IfModule mod_dav_fs.c>
+	  # Do not execute PHP files in webdav directory
+	  <Directory {tmpl_var name='document_root'}/webdav>
+	    <FilesMatch "\.ph(p3?|tml)$">
+          SetHandler None
+        </FilesMatch>
+	  </Directory>
       # DO NOT REMOVE THE COMMENTS!
       # IF YOU REMOVE THEM, WEBDAV WILL NOT WORK ANYMORE!
       # WEBDAV BEGIN

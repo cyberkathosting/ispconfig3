@@ -139,7 +139,7 @@ class tform_actions {
                                 session_write_close();
                                 header($redirect);
 							// When a returnto variable is set
-							} elseif ($_SESSION["s"]["form"]["return_to_url"] != '') {
+							} elseif (isset($_SESSION["s"]["form"]["return_to_url"]) && $_SESSION["s"]["form"]["return_to_url"] != '') {
 								$redirect = $_SESSION["s"]["form"]["return_to_url"];
 								$_SESSION["s"]["form"]["return_to_url"] = '';
 								session_write_close();
