@@ -90,18 +90,20 @@ $info = array();
  * Check the ISPConfig-Version (only for the admin)
 */
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
-	$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
-	$new_version = trim($new_version);
+	if(!isset($_SESSION['s']['new_ispconfig_version'])) {
+		$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
+		$_SESSION['s']['new_ispconfig_version'] = trim($new_version);
+	}
 	$v1 = ISPC_APP_VERSION;
-	$v2 = $new_version;
-	$this_version = explode(".",ISPC_APP_VERSION);
+	$v2 = $_SESSION['s']['new_ispconfig_version'];
+	$this_version = explode(".",$v1);
 	$this_fullversion = (($this_version[0] < 10) ? '0'.$this_version[0] : $this_version[0]) .
 			    (($this_version[1] < 10) ? '0'.$this_version[1] : $this_version[1]) .
 			    (($this_version[2] < 10) ? '0'.$this_version[2] : $this_version[2]) .
 			    (($this_version[3] < 10) ? (($this_version[3] < 1) ? '00' : '0'.$this_version[3]) : $this_version[3]);
 
 
-	$new_version = explode(".",$new_version);
+	$new_version = explode(".",$v2);
 	$new_fullversion =  (($new_version[0] < 10) ? '0'.$new_version[0] : $new_version[0]) .
 			    (($new_version[1] < 10) ? '0'.$new_version[1] : $new_version[1]) .
 			    (($new_version[2] < 10) ? '0'.$new_version[2] : $new_version[2]) .
