@@ -200,15 +200,15 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1"'.$aliasdomain;
 	if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	symlink($logfile,'/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	
-	$awmonth = date("m");
-	if (date("d") == 1)	{
-		$awmonth = date("m")-1;
-	}
-
+	$awmonth = date("n");
 	$awyear = date("Y");
-	if (date("m") == 1) {
-		$awyear = date("Y")-1;
-		$awmonth = "12";
+
+	if (date("d") == 1) {
+		$awmonth = date("m")-1;
+		if (date("m") == 1) {
+			$awyear = date("Y")-1;
+			$awmonth = "12";
+		}
 	}
 	
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
