@@ -1,5 +1,3 @@
-@media all
-{
 /*
  * jQuery UI CSS Framework 1.8.16
  *
@@ -368,6 +366,3 @@ input.ui-button { padding: .4em 1em; }
 
 /* workarounds */
 button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra padding in Firefox */
-
-
-}
