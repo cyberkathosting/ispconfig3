@@ -30,10 +30,12 @@ function loadContentRefresh(pagename) {
   if(document.getElementById('refreshinterval').value > 0) {
   	/*var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename+"&refresh="+document.getElementById('refreshinterval').value, pageContentCallbackRefresh);*/
 	var pageContentObject2 = jQuery.ajax({	type: "GET", 
-											url: pagename, 
+											url: pagename,
 											data: "refresh="+document.getElementById('refreshinterval').value,
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
-												document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+												//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+												jQuery('#pageContent').html(jqXHR.responseText);
 											},
 											error: function() {
 												reportError('Ajax Request was not successful.'+pagename);
@@ -66,6 +68,7 @@ function capp(module) {
 	var submitFormObj = jQuery.ajax({		type: "GET", 
 											url: "capp.php", 
 											data: "mod="+module,
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText != '') {
 													if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
@@ -103,6 +106,7 @@ function submitLoginForm(formname) {
 	var submitFormObj = jQuery.ajax({		type: "POST", 
 											url: "content.php",
 											data: jQuery('#'+formname).serialize(),
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -114,7 +118,8 @@ function submitLoginForm(formname) {
 													// Go to the login page
 													document.location.href = 'index.php';
 												} else {
-													document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													jQuery('#pageContent').html(jqXHR.responseText);
 												}
 												loadMenus();
 											},
@@ -158,6 +163,7 @@ function submitForm(formname,target) {
 	var submitFormObj = jQuery.ajax({		type: "POST", 
 											url: target,
 											data: jQuery('#'+formname).serialize(),
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -166,7 +172,8 @@ function submitForm(formname,target) {
 													//redirect = parts[1];
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
-													document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													jQuery('#pageContent').html(jqXHR.responseText);
 												}
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
@@ -219,6 +226,7 @@ function submitUploadForm(formname,target) {
 	var submitFormObj = jQuery.ajax({		type: "POST", 
 											url: target,
 											data: jQuery('#'+formname).serialize(),
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -227,7 +235,8 @@ function submitUploadForm(formname,target) {
 													//redirect = parts[1];
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
-													document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													jQuery('#pageContent').html(jqXHR.responseText);
 												}
 											},
 											error: function() {
@@ -297,10 +306,10 @@ function loadContent(pagename) {
 		}
 	}
 	*/
-
   /*var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, pageContentCallback2);*/
   var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -309,8 +318,13 @@ function loadContent(pagename) {
 													var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
 													document.location.href = newUrl;
 												} else {
-													document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													//var reponse = jQuery(jqXHR.responseText);
+													//var reponseScript = reponse.filter("script");
+													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
+													jQuery('#pageContent').html(jqXHR.responseText);
 												}
+												
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 113');
@@ -339,12 +353,14 @@ function loadInitContent() {
 	var pageContentObject = jQuery.ajax({	type: "GET", 
 											url: "content.php",
 											data: "s_mod=login&s_pg=index",
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(":");
 													loadContent(parts[1]);
 												} else {
-													document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+													jQuery('#pageContent').html(jqXHR.responseText);
 												}
 											},
 											error: function() {
@@ -400,8 +416,10 @@ function loadMenus() {
   var sideNavObject = jQuery.ajax({			type: "GET", 
 											url: "nav.php",
 											data: "nav=side",
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
-												document.getElementById('sideNav').innerHTML = jqXHR.responseText;
+												//document.getElementById('sideNav').innerHTML = jqXHR.responseText;
+												jQuery('#sideNav').html(jqXHR.responseText);
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 115');
@@ -423,8 +441,10 @@ function loadMenus() {
   var topNavObject = jQuery.ajax({			type: "GET", 
 											url: "nav.php",
 											data: "nav=top",
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
-												document.getElementById('topNav').innerHTML = jqXHR.responseText;
+												//document.getElementById('topNav').innerHTML = jqXHR.responseText;
+												jQuery('#topNav').html(jqXHR.responseText);
 											},
 											error: function(o) {
 												reportError('Ajax Request was not successful. 116');
@@ -461,8 +481,10 @@ function loadContentInto(elementid,pagename) {
   /*var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);*/
   var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
-												document.getElementById(elementid).innerHTML = jqXHR.responseText;
+												//document.getElementById(elementid).innerHTML = jqXHR.responseText;
+												jQuery('#'+elementid).html(jqXHR.responseText);
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 118');
@@ -494,6 +516,7 @@ function loadOptionInto(elementid,pagename) {
 	/*var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);*/
 	var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												var teste = jqXHR.responseText;
 												var elemente = teste.split('#');
@@ -528,6 +551,7 @@ function keepalive() {
   	/*var pageContentObject3 = YAHOO.util.Connect.asyncRequest('GET', 'keepalive.php', pageContentCallbackKeepalive);*/
 	var pageContentObject3 = jQuery.ajax({	type: "GET", 
 											url: "keepalive.php",
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												setTimeout( keepalive, 1000000 );
 											},
@@ -735,6 +759,7 @@ function loadwebip(elementid,pagename) {
 	/*var pageContentObject2 = YAHOO.util.Connect.asyncRequest('GET', pagename, itemContentCallback);*/
 	var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
+											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												var teste = jqXHR.responseText;
 												var elemente = teste.split('#');
