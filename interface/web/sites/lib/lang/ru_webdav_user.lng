@@ -13,3 +13,4 @@ $wb['username_error_regex'] = 'The username contains charachters that are not al
 $wb['directory_error_empty'] = 'Directory empty.';
 $wb['parent_domain_id_error_empty'] = 'No website selected.';
 ?>
+

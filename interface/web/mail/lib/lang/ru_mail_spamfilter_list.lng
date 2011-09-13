@@ -6,3 +6,4 @@ $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Добавить новую спам запись';
 $wb['list_head_txt'] = 'Спам-фильтр';
 ?>
+

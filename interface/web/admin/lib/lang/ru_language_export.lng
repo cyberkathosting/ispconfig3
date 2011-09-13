@@ -4,3 +4,4 @@ $wb['language_select_txt'] = 'Выбрать язык';
 $wb['btn_save_txt'] = 'Экспортировать выбранный язык в файл';
 $wb['btn_cancel_txt'] = 'Назад';
 ?>
+

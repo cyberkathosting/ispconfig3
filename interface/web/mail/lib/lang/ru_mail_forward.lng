@@ -4,5 +4,5 @@ $wb['destination_txt'] = 'Получатель E-mail';
 $wb['active_txt'] = 'Активен?';
 $wb['limit_mailforward_txt'] = 'Максимальное число forwarders достигнуто.';
 $wb['duplicate_mailbox_txt'] = 'Ящик с таким именем уже существует';
-$wb['domain_txt'] = 'Domain';
 ?>
+

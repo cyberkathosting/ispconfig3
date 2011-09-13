@@ -26,3 +26,4 @@ $wb['directory_error_notinweb'] = 'Директория снаружи web-root 
 $wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран.';
 $wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
 ?>
+

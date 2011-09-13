@@ -14,3 +14,4 @@ $wb['data_error_empty'] = 'Целевое имя узла пустое';
 $wb['data_error_regex'] = 'Целевое имя узла имеет неправильный формат';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>
+

@@ -6,3 +6,4 @@ $wb['btn_save_txt'] = 'Создать новый языковый файл';
 $wb['btn_cancel_txt'] = 'Назад';
 $wb['language_new_hint_txt'] = '2 символа в языковом обозначении ISO 639-1 (Смотри http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>
+
