@@ -78,19 +78,17 @@
 			}
 		});
 
-// 		jQuery(document).ready( function(){
-// 		  
-// 		});
-
 		(function( $ ) {
 		$.widget( "ui.combobox", {
 			_create: function() {
 				var self = this,
+					oldWidth = this.element.width(),
 					select = this.element.hide(),
 					selected = select.children( ":selected" ),
 					value = selected.val() ? selected.text() : "";
 				var input = this.input = $( "<input>" )
 					.insertAfter( select )
+					.width( oldWidth )
 					.val( value )
 					.autocomplete({
 						delay: 0,
@@ -99,7 +97,7 @@
 							var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
 							response( select.children( "option" ).map(function() {
 								var text = $( this ).text();
-								if ( this.value && ( !request.term || matcher.test(text) ) )
+								//if ( this.value && ( !request.term || matcher.test(text) ) )
 									return {
 										label: text.replace(
 											new RegExp(
@@ -183,10 +181,11 @@
 			}
 		});
 	})( jQuery );
+ 
 
-	jQuery("#pageContent").live("mouseover", function(){
-	  if(jQuery(".panel select").css("display") != "none"){
-	    jQuery(".panel select").combobox();
+	jQuery("body").live("mouseover", function(){
+	  if(jQuery(".panel .list td select").css("display") != "none"){
+	    jQuery(".panel .list td select").combobox();
 	  }
 	});
 	</script>
