@@ -1,5 +1,5 @@
 
-require ["fileinto", "regex", "vacation"];
+require ["fileinto", "regex", "date", "relational", "vacation"];
 
 <tmpl_if name="cc">
 # Send a copy of email to
@@ -29,8 +29,11 @@ if header :contains "X-Spam-Flag" "YES" {
   # Stop here so that we do not reply on spams
   stop;
 }
+
+if allof(currentdate :value "ge" "date" "<tmpl_var name='start_date'>", currentdate :value "le" "date" "<tmpl_var name='end_date'>") {
 vacation  :days 1
   :subject "Out of office reply"
   <tmpl_var name='addresses'>
   "<tmpl_var name='autoresponder_text'>";
+}
 </tmpl_if>

@@ -112,7 +112,13 @@ class maildeliver_plugin {
 				
 			// Move junk
 			$tpl->setVar('move_junk',$data["new"]["move_junk"]);
-				
+
+			// Set autoresponder start date
+			$tpl->setVar('start_date',$data["new"]["autoresponder_start_date"]);
+
+			// Set autoresponder end date
+			$tpl->setVar('end_date',$data["new"]["autoresponder_end_date"]);
+
 			// Autoresponder
 			$tpl->setVar('autoresponder',$data["new"]["autoresponder"]);
 			
