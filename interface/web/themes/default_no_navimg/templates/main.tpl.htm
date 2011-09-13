@@ -55,9 +55,8 @@
     <![endif]-->
     <link href="themes/default_no_navimg/css/additional.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="/themes/default/images/favicon.ico" />
-    <script type="text/javascript" src="js/yui-combo.js"></script>
+    <script type="text/javascript" src="js/jquery-1.6.3.min.js"></script>
     <script type="text/javascript" src="js/scrigo.js.php"></script>
-    <script type="text/javascript" src="js/uni-form/jquery.js"></script>
     <script type="text/javascript" src="js/uni-form/uni-form.jquery.js"></script>
 	<script language="JavaScript" type="text/javascript">
 		var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -66,15 +65,21 @@
 			style.innerHTML = '#page_margins { min-width: 980px; max-width: 80%; background: #fff; display: table;}';
 			document.getElementsByTagName("head")[0].appendChild(style);
 		}
+
+		jQuery(document).ready(function() {
+			loadInitContent();
+		});
+
 		//Use jQuery submit with kespress Enter in panel filterbar
 		jQuery(document).bind("keypress", function(event) {
 			if (event.which == '13' && $(".panel #Filter").length > 0) {
 				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
 			}
 		});
+
 	</script>
 </head>
-<body onload="loadInitContent()">
+<body>
     <div id="page_margins">
         <div id="page">
             <div id="header">
