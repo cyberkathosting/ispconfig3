@@ -183,7 +183,7 @@
 		});
 	})( jQuery );
 
-	jQuery("#pageContent").live("blur", function(){
+	jQuery("#pageContent").live("mouseover", function(){
 	  if(jQuery(".panel select").css("display") != "none"){
 	    jQuery(".panel select").combobox();
 	  }
