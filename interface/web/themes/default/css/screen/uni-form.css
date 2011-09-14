@@ -12,8 +12,8 @@
     .uniForm .buttonHolder{ 
 		text-align: right; 
 		background: #CEDEEF url("../../images/buttonHolder_bg.gif") no-repeat right;
-		margin: 1em 0;
-		padding: 8px;	 
+		margin: 3em 0 1em;
+		padding: 8px;
 	 }
       .uniForm .resetButton{ float: left; }
       .uniForm .primaryAction{ font-weight: bold; }

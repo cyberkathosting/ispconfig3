@@ -359,7 +359,7 @@
 	/* Button with icon and text */
 	.iconstxt {
 		background-repeat: no-repeat; 
-		background-position: 4px 4px;
+		background-position: 4px center;
 	}
 	.iconstxt span { padding-left: 20px; }
 	.iconstxt.icoPositive { background-image: url("../../icons/x16/tick_circle_frame.png"); }
