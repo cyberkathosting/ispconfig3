@@ -10,7 +10,7 @@
     .uniForm .ctrlHolder{ padding: 3px; border-bottom: 1px dotted #dfdfdf; }
     
     .uniForm .buttonHolder{ 
-		text-align: right; 
+		text-align: left; 
 		background: #CEDEEF url("../../images/buttonHolder_bg.gif") no-repeat right;
 		margin: 3em 0 1em;
 		padding: 8px;
