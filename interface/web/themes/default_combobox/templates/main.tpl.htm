@@ -91,6 +91,7 @@
 					.insertAfter( select )
 					.width( oldWidth )
 					.val( value )
+					.css("float","left")
 					.autocomplete({
 						delay: 0,
 						minLength: 0,
@@ -150,6 +151,7 @@
 					.attr( "tabIndex", -1 )
 					.attr( "title", "Show All Items" )
 					.height($(input).outerHeight())
+					.css("float","left")
 					.insertAfter( input )
 					.button({
 						icons: {
