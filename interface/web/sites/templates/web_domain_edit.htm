@@ -89,12 +89,7 @@
 						{tmpl_var name='errordocs'}
 					</div>
 			</div>
-      <div class="ctrlHolder">
-				<p class="label">{tmpl_var name='is_subdomainwww_txt'}</p>
-					<div class="multiField">
-						{tmpl_var name='is_subdomainwww'}
-					</div>
-			</div>
+
       <div class="ctrlHolder">
       	<label for="subdomain">{tmpl_var name='subdomain_txt'}</label>
         <select name="subdomain" id="subdomain" class="selectInput formLengthHalf">
@@ -130,3 +125,38 @@
   </div>
   
 </div>
+<script language="JavaScript" type="text/javascript">
+		var serverId;
+		var serverIdDisabled = jQuery('#server_id_disabled').val();
+		if(serverIdDisabled > 0){
+			serverId = serverIdDisabled;
+		} else {
+			serverId = jQuery('#server_id').val();
+			jQuery('#server_id').change(function(){
+				serverId = $(this).val();
+				serverType(serverId);
+			});
+		}
+		serverType(serverId);
+		
+		function serverType(serverId){
+			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
+				if(data.servertype == "nginx"){
+					var selected = jQuery('#php').val();
+					jQuery('#ruby').closest('div.ctrlHolder').hide();
+					jQuery('#suexec').closest('div.ctrlHolder').hide();
+					jQuery('#php option[value="cgi"]').hide();
+					jQuery('#php option[value="mod"]').hide();
+					jQuery('#php option[value="suphp"]').hide();
+					if(selected != "no" && selected != "fast-cgi") jQuery('#php option[value="fast-cgi"]').attr('selected', 'selected');
+				} else {
+					jQuery('#ruby').closest('div.ctrlHolder').show();
+					jQuery('#suexec').closest('div.ctrlHolder').show();
+					jQuery('#php option[value="cgi"]').show();
+					jQuery('#php option[value="mod"]').show();
+					jQuery('#php option[value="suphp"]').show();
+				}
+			});
+		}
+			
+</script>

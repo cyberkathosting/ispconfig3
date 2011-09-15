@@ -36,7 +36,7 @@ $wb["client_txt"] = 'Client';
 $wb["limit_web_domain_txt"] = 'The max. number of web domains for your account is reached.';
 $wb["limit_web_aliasdomain_txt"] = 'The max. number of aliasdomains for your account is reached.';
 $wb["limit_web_subdomain_txt"] = 'The max. number of web subdomains for your account is reached.';
-$wb["apache_directives_txt"] = 'Apache directives';
+$wb["apache_directives_txt"] = 'Apache Directives';
 $wb["domain_error_empty"] = 'Domain is empty.';
 $wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain with this domain name.';
 $wb["domain_error_regex"] = 'Domain name invalid.';
@@ -72,4 +72,5 @@ $wb['no_flag_txt'] = 'No flag';
 $wb['save_certificate_txt'] = 'Save certificate';
 $wb['create_certificate_txt'] = 'Create certificate';
 $wb['delete_certificate_txt'] = 'Delete certificate';
+$wb["nginx_directives_txt"] = 'nginx Directives';
 ?>

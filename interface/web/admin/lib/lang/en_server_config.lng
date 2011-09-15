@@ -88,4 +88,7 @@ $wb["CA_path_txt"] = 'CA Path';
 $wb["CA_pass_txt"] = 'CA passphrase';
 $wb["fastcgi_config_syntax_txt"] = 'FastCGI config syntax';
 $wb["backup_dir_ftpread_txt"] = 'Backup dir. readable for website FTP users.';
+$wb["server_type_txt"] = 'Server Type';
+$wb["nginx_vhost_conf_dir_txt"] = 'nginx Vhost config dir';
+$wb["nginx_vhost_conf_enabled_dir_txt"] = 'nginx Vhost config enabled dir';
 ?>

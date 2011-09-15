@@ -321,6 +321,12 @@ $form["tabs"]['web'] = array(
 		##################################
 		# Begin Datatable fields
 		##################################
+		'server_type' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'apache',
+			'value' => array('apache' => 'Apache', 'nginx' => 'nginx')
+		),
 		'website_basedir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -377,6 +383,28 @@ $form["tabs"]['web'] = array(
 			'default' => '',
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'vhost_conf_enabled_dir_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'nginx_vhost_conf_dir' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'nginx_vhost_conf_dir_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'nginx_vhost_conf_enabled_dir' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'nginx_vhost_conf_enabled_dir_error_empty'),
 			),
 			'value' => '',
 			'width' => '40',
@@ -463,7 +491,7 @@ $form["tabs"]['web'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '4000'
 		),
 		'htaccess_allow_override' => array(
 			'datatype' => 'VARCHAR',

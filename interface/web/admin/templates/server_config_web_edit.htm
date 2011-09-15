@@ -5,6 +5,14 @@
   
   <div class="pnl_formsarea">
     <fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='server_type_txt'}</p>
+					<div class="multiField">
+						<select name="server_type" id="server_type" class="selectInput">
+					{tmpl_var name='server_type'}
+				</select>
+					</div>
+			</div>
       <div class="ctrlHolder">
       	<label for="website_basedir">{tmpl_var name='website_basedir_txt'}</label>
         <input name="website_basedir" id="website_basedir" value="{tmpl_var name='website_basedir'}" size="40" maxlength="255" type="text" class="textInput" />
@@ -30,6 +38,14 @@
       <div class="ctrlHolder">
       	<label for="vhost_conf_enabled_dir">{tmpl_var name='vhost_conf_enabled_dir_txt'}</label>
         <input name="vhost_conf_enabled_dir" id="vhost_conf_enabled_dir" value="{tmpl_var name='vhost_conf_enabled_dir'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+	<div class="ctrlHolder">
+      	<label for="nginx_vhost_conf_dir">{tmpl_var name='nginx_vhost_conf_dir_txt'}</label>
+        <input name="nginx_vhost_conf_dir" id="nginx_vhost_conf_dir" value="{tmpl_var name='nginx_vhost_conf_dir'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="nginx_vhost_conf_enabled_dir">{tmpl_var name='nginx_vhost_conf_enabled_dir_txt'}</label>
+        <input name="nginx_vhost_conf_enabled_dir" id="nginx_vhost_conf_enabled_dir" value="{tmpl_var name='nginx_vhost_conf_enabled_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
       <div class="ctrlHolder">
       	<label for="CA_path">{tmpl_var name='CA_path_txt'}</label>
@@ -71,7 +87,7 @@
 	  </div>
 	  <div class="ctrlHolder">
       	<label for="php_open_basedir">{tmpl_var name='php_open_basedir_txt'}</label>
-        <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="40" maxlength="255" type="text" class="textInput" />
+        <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="40" type="text" class="textInput" />
 	  </div>
 	  <div class="ctrlHolder">
       	<label for="htaccess_allow_override">{tmpl_var name='htaccess_allow_override_txt'}</label>
@@ -116,3 +132,39 @@
   </div>
   
 </div>
+<script language="JavaScript" type="text/javascript">
+		var serverType = jQuery('#server_type').val();
+		adjustForm(serverType);
+		jQuery('#server_type').change(function(){
+			serverType = $(this).val();
+			adjustForm(serverType);
+		});
+		
+		function adjustForm(serverType){
+			if(serverType == "nginx"){
+				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').hide();
+				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
+				jQuery('#nginx_vhost_conf_dir').closest('div.ctrlHolder').show();
+				jQuery('#nginx_vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
+				
+				jQuery('#security_level').closest('div.ctrlHolder').hide();
+				jQuery('#check_apache_config').closest('div.ctrlHolder').hide();
+				jQuery('#user').closest('div.ctrlHolder').hide();
+				jQuery('#group').closest('div.ctrlHolder').hide();
+				jQuery('#php_ini_path_apache').closest('div.ctrlHolder').hide();
+				jQuery('#htaccess_allow_override').closest('div.ctrlHolder').hide();
+			} else {
+				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').show();
+				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
+				jQuery('#nginx_vhost_conf_dir').closest('div.ctrlHolder').hide();
+				jQuery('#nginx_vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
+				
+				jQuery('#security_level').closest('div.ctrlHolder').show();
+				jQuery('#check_apache_config').closest('div.ctrlHolder').show();
+				jQuery('#user').closest('div.ctrlHolder').show();
+				jQuery('#group').closest('div.ctrlHolder').show();
+				jQuery('#php_ini_path_apache').closest('div.ctrlHolder').show();
+				jQuery('#htaccess_allow_override').closest('div.ctrlHolder').show();
+			}
+		}
+</script>

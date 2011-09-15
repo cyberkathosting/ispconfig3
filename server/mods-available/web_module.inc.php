@@ -129,11 +129,21 @@ class web_module {
 	function restartHttpd($action = 'restart') {
 		global $app,$conf;
 		
+		// load the server configuration options
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		
 		$daemon = '';
-		if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
-			$daemon = 'httpd';
-		} else {
-			$daemon = 'apache2';
+		switch ($web_config['server_type']) {
+			case 'nginx':
+				$daemon = $web_config['server_type'];
+				break;
+			default:
+				if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
+					$daemon = 'httpd';
+				} else {
+					$daemon = 'apache2';
+				}
 		}
 		
 		if($action == 'restart') {

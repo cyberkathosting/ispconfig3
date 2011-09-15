@@ -47,3 +47,28 @@
   </div>
   
 </div>
+<script language="JavaScript" type="text/javascript">
+		var webId = jQuery('input[name="id"]').val();
+		var serverId;
+		getServerId(webId);
+		serverType(serverId);
+		
+		function getServerId(webId){
+			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getserverid"}, function(data) {
+				serverId = data.serverid;
+			});
+		}
+		
+		function serverType(serverId){
+			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
+				if(data.servertype == "nginx"){
+					jQuery('#allow_override').closest('div.ctrlHolder').hide();
+					jQuery('#apache_directives').closest('div.ctrlHolder').hide();
+				} else {
+					jQuery('#allow_override').closest('div.ctrlHolder').show();
+					jQuery('#apache_directives').closest('div.ctrlHolder').show();
+				}
+			});
+		}
+			
+</script>
