@@ -1204,7 +1204,23 @@ class monitor_tools {
         system('which iptables', $retval); // Debian, Ubuntu, Fedora
         if ($retval === 0) {
             /*  Get the data of the log */
-            $data['output'] = shell_exec('iptables -S');
+            $data['output'] = '<h2>iptables -S (ipv4)</h2>'.shell_exec('iptables -S');
+
+            /*
+             * At this moment, there is no state (maybe later)
+             */
+            $state = 'no_state';
+        } else {
+            $state = 'no_state';
+            $data = '';
+        }
+        
+        
+        /* This monitoring is only available if fail2ban is installed */
+        system('which ip6tables', $retval); // Debian, Ubuntu, Fedora
+        if ($retval === 0) {
+            /*  Get the data of the log */
+            $data['output'] .= '<br><h2>ip6tables -S (ipv6)</h2>'.shell_exec('ip6tables -S');
 
             /*
              * At this moment, there is no state (maybe later)
