@@ -375,66 +375,6 @@ CREATE TABLE `firewall` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table  `firewall_filter`
--- 
-
-CREATE TABLE `firewall_filter` (
-  `firewall_id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL default '0',
-  `domain_id` int(11) NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL default '0',
-  `sys_perm_user` varchar(5) default NULL,
-  `sys_perm_group` varchar(5) default NULL,
-  `sys_perm_other` varchar(5) default NULL,
-  `server_id` int(11) unsigned NOT NULL default '0',
-  `rule_name` varchar(100) default NULL,
-  `rule_id` int(11) default 1,
-  `src_ip` varchar(20) NOT NULL,
-  `src_netmask` varchar(20) NOT NULL,
-  `dst_ip` varchar(20) NOT NULL,
-  `dst_netmask` varchar(20) NOT NULL,
-  `src_from_port` varchar(10) NOT NULL,
-  `src_to_port` varchar(10) NOT NULL,
-  `dst_to_port` varchar(10) NOT NULL,
-  `dst_from_port` varchar(10) NOT NULL,
-  `protocol` varchar(10) default 'tcp',
-  `inbound_policy` enum('allow','deny','reject','limit') default 'allow',
-  `outbound_policy` enum('allow','deny','reject','limit') default 'allow',
-  `active` enum('n','y') NOT NULL default 'y',
-  `client_id` int(11) NOT NULL,
-  PRIMARY KEY  (`firewall_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table  `firewall_forward`
--- 
-
-CREATE TABLE `firewall_forward` (
-  `firewall_id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL default '0',
-  `domain_id` int(11) NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL default '0',
-  `sys_perm_user` varchar(5) default NULL,
-  `sys_perm_group` varchar(5) default NULL,
-  `sys_perm_other` varchar(5) default NULL,
-  `server_id` int(11) unsigned NOT NULL default '0',
-  `application_name` varchar(100) default NULL,
-  `dst_ip` varchar(20) NOT NULL,
-  `src_from_port` varchar(10) NOT NULL,
-  `src_to_port` varchar(10) NOT NULL,
-  `dst_to_port` varchar(10) NOT NULL,
-  `dst_from_port` varchar(10) NOT NULL,
-  `protocol` int(3) default 0,
-  `active` enum('n','y') NOT NULL default 'y',
-  `client_id` int(11) NOT NULL,
-  PRIMARY KEY  (`firewall_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
 -- Table structure for table  `ftp_user`
 -- 
 
@@ -636,23 +576,6 @@ CREATE TABLE `mail_get` (
   `destination` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`mailget_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table  `mail_greylist`
--- 
-
-CREATE TABLE `mail_greylist` (
-  `greylist_id` int(11) unsigned NOT NULL auto_increment,
-  `relay_ip` varchar(39) default NULL,
-  `from_domain` varchar(255) default NULL,
-  `block_expires` datetime NOT NULL default '0000-00-00 00:00:00',
-  `record_expires` datetime NOT NULL default '0000-00-00 00:00:00',
-  `origin_type` enum('MANUAL','AUTO') NOT NULL default 'AUTO',
-  `create_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`greylist_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -989,26 +912,6 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
 --
 -- Dumping data for table `openvz_vm`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `proxy_reverse`
---
-
-CREATE TABLE `proxy_reverse` (
-  `rewrite_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
-  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
-  `sys_perm_user` varchar(5) DEFAULT NULL,
-  `sys_perm_group` varchar(5) DEFAULT NULL,
-  `sys_perm_other` varchar(5) DEFAULT NULL,
-  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `rewrite_url_src` varchar(100) NOT NULL,
-  `rewrite_url_dst` varchar(100) NOT NULL,
-  `active` enum('n','y') NOT NULL DEFAULT 'y',
-  PRIMARY KEY (`rewrite_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1610,6 +1513,55 @@ CREATE TABLE `web_domain` (
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_folder`
+--
+
+CREATE TABLE IF NOT EXISTS `web_folder` (
+  `web_folder_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sys_userid` int(11) NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) DEFAULT NULL,
+  `sys_perm_group` varchar(5) DEFAULT NULL,
+  `sys_perm_other` varchar(5) DEFAULT NULL,
+  `server_id` int(11) NOT NULL DEFAULT '0',
+  `parent_domain_id` int(11) NOT NULL DEFAULT '0',
+  `path` varchar(255) DEFAULT NULL,
+  `active` varchar(255) NOT NULL DEFAULT 'y',
+  PRIMARY KEY (`web_folder_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `web_folder`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_folder_user`
+--
+
+CREATE TABLE IF NOT EXISTS `web_folder_user` (
+  `web_folder_user_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sys_userid` int(11) NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) DEFAULT NULL,
+  `sys_perm_group` varchar(5) DEFAULT NULL,
+  `sys_perm_other` varchar(5) DEFAULT NULL,
+  `web_folder_id` int(11) NOT NULL DEFAULT '0',
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `active` varchar(255) NOT NULL DEFAULT 'y',
+  PRIMARY KEY (`web_folder_user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `web_folder_user`
+--
 
 -- --------------------------------------------------------
 
