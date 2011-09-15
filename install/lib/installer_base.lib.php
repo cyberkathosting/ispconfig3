@@ -909,10 +909,19 @@ class installer_base {
 
 
 		// Adding the amavisd commands to the postfix configuration
-		$postconf_commands = array (
-				'content_filter = amavis:[127.0.0.1]:10024',
-				'receive_override_options = no_address_mappings'
-		);
+		// Add array for no error in foreach and maybe future options
+		$postconf_commands = array ();
+		
+		// Check for amavisd -> pure webserver with postfix for mailing without antispam
+		// Check for different names
+		system('which amavisd-new', $retval); // Debian, Ubuntu, ?
+		if ($retval !== 0){
+			system('which amavisd', $retval); // CentOS
+		}
+		if ($retval === 0) {
+			$postconf_commands[] = 'content_filter = amavis:[127.0.0.1]:10024';
+			$postconf_commands[] = 'receive_override_options = no_address_mappings';
+		}
 
 		// Make a backup copy of the main.cf file
 		copy($conf['postfix']['config_dir'].'/main.cf',$conf['postfix']['config_dir'].'/main.cf~2');
