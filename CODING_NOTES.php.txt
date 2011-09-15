@@ -6,6 +6,8 @@ Some guidelines for web development with php.
 * every php file starts and end with <?php ?> no spaces before or after
 * error_reporting(E_ALL|E_STRICT) , yep php5
 * Magic quotes is gone in php6, get used to it now. config = magic_quotes_gpc() Everything must be quoted
+* Don't use ereg,split and other old function -> gone in php 5.4 or 6 (different information on php.net) http://www.php.net/manual/en/migration53.deprecated.php
+* Don't use shorttags. A Shorttag is <? and that is confusing with <?xml -> always <?php
 
 please mark any section that need review or work on with
 // TODO 
