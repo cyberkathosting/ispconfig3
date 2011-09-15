@@ -53,9 +53,7 @@
 	}
 	
 	.pnl_toolsarea fieldset, .pnl_listarea fieldset, .pnl_formsarea fieldset {
-		border-color: #6299c5 -moz-use-text-color -moz-use-text-color;
-		border-style: solid none none;
-		border-width: 1px medium medium;
+		border-color: 1px solid #949494;
 		margin: 20px 0;
 	}
 	.pnl_toolsarea fieldset legend , .pnl_listarea fieldset legend {
