@@ -82,7 +82,7 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
-		//* Client: If the logged in user is not admin and has no sub clients (no rseller)
+		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
@@ -95,9 +95,7 @@ class page_action extends tform_actions {
 			unset($tmp);
 
 			// Fill the IP select field with the IP addresses that are allowed for this client
-			// $ip_select = "<option value='*'>*</option>";
-			// $app->tpl->setVar("ip_address",$ip_select);
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver'];
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND client_id=0 OR client_id=".$_SESSION['s']['user']['client_id'];
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value='*'>*</option>";
 			//$ip_select = "";
@@ -111,7 +109,7 @@ class page_action extends tform_actions {
 			unset($tmp);
 			unset($ips);
 
-			//* Reseller: If the logged in user is not admin and has sub clients (is a rseller)
+			//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
@@ -138,9 +136,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id",$client_select);
 
 			// Fill the IP select field with the IP addresses that are allowed for this client
-			//$ip_select = "<option value='*'>*</option>";
-			//$app->tpl->setVar("ip_address",$ip_select);
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver'];
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND client_id=0 OR client_id=".$_SESSION['s']['user']['client_id'];
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value='*'>*</option>";
 			//$ip_select = "";
