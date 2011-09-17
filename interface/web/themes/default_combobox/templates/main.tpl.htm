@@ -136,7 +136,19 @@
 									return false;
 								}
 							}
-						}
+						},
+						// open: function(event, ui) { }, alternativ event for check by enter input
+						search: function(event, ui) {
+							if ( !ui.item ) {
+								var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),
+									valid = false;
+								select.children( "option" ).each(function() {
+									if ( $( this ).text().match( matcher ) ) {
+										this.selected = valid = true;
+										return false;
+									}
+								});
+							} }
 					})
 					.addClass( "ui-widget ui-widget-content ui-corner-left" );
 
