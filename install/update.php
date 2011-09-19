@@ -281,13 +281,19 @@ if($reconfigure_services_answer == 'yes') {
 	}
 	
 	if($conf['services']['web']) {
-		//** Configure Apache
-		swriteln('Configuring Apache');
-		$inst->configure_apache();
+		if($conf['webserver']['server_type'] == 'apache'){
+			//** Configure Apache
+			swriteln('Configuring Apache');
+			$inst->configure_apache();
         
-        //** Configure vlogger
-        swriteln('Configuring vlogger');
-        $inst->configure_vlogger();
+			//** Configure vlogger
+			swriteln('Configuring vlogger');
+			$inst->configure_vlogger();
+		} else {
+			//** Configure nginx
+			swriteln('Configuring nginx');
+			$inst->configure_nginx();
+		}
 		
 		//** Configure apps vhost
 		swriteln('Configuring Apps vhost');
@@ -312,6 +318,7 @@ if($reconfigure_services_answer == 'yes') {
 		}
 	}
 	
+	/*
 	if($conf['squid']['installed'] == true) {
 		swriteln('Configuring Squid');
 		$inst->configure_squid();
@@ -319,6 +326,7 @@ if($reconfigure_services_answer == 'yes') {
 		swriteln('Configuring Nginx');
 		$inst->configure_nginx();
 	}
+	*/
 }
 
 //** Configure ISPConfig
@@ -328,7 +336,12 @@ swriteln('Updating ISPConfig');
 if ($conf['services']['web'] && $inst->ispconfig_interface_installed) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
-	$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
+	if($conf['webserver']['server_type'] == 'nginx'){
+		$conf['nginx']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
+	} else {
+		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
+	}
+	
 	
 	// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
 	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate',array('yes','no'),'no')) == 'yes') {
@@ -363,7 +376,12 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart');
 	}
 	if($conf['services']['web']) {
-		if($conf['apache']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+		if($conf['webserver']['server_type'] == 'apache' && $conf['apache']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+		//* Reload is enough for nginx
+		if($conf['webserver']['server_type'] == 'nginx'){
+			if($conf['nginx']['php_fpm_init_script'] != '' && @is_file($conf['init_scripts'].'/'.$conf['nginx']['php_fpm_init_script'])) system($conf['init_scripts'].'/'.$conf['nginx']['php_fpm_init_script'].' reload');
+			if($conf['nginx']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['nginx']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' reload');
+		}
 		if($conf['pureftpd']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 	}
 	if($conf['services']['dns']) {

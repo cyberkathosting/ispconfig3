@@ -325,7 +325,7 @@ $form["tabs"]['web'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'apache',
-			'value' => array('apache' => 'Apache', 'nginx' => 'nginx')
+			'value' => array('apache' => 'Apache', 'nginx' => 'Nginx')
 		),
 		'website_basedir' => array(
 			'datatype' => 'VARCHAR',
@@ -460,6 +460,28 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'nginx_user' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'nginx_user_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'nginx_group' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'nginx_group_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'php_ini_path_apache' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -482,6 +504,50 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_fpm_init_script' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'php_fpm_init_script_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'php_fpm_ini_path' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'php_fpm_ini_path_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'php_fpm_pool_dir' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'php_fpm_pool_dir_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'php_fpm_start_port' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'php_fpm_start_port_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'php_open_basedir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -492,6 +558,17 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '4000'
+		),
+		'nginx_cgi_socket' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'nginx_cgi_socket_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
 		),
 		'htaccess_allow_override' => array(
 			'datatype' => 'VARCHAR',

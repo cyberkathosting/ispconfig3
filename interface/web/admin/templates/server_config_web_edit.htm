@@ -31,19 +31,19 @@
 				{tmpl_var name='website_symlinks_rel'}
 			</div>
 	  </div>
-      <div class="ctrlHolder">
+      <div class="ctrlHolder apache">
       	<label for="vhost_conf_dir">{tmpl_var name='vhost_conf_dir_txt'}</label>
         <input name="vhost_conf_dir" id="vhost_conf_dir" value="{tmpl_var name='vhost_conf_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
-      <div class="ctrlHolder">
+      <div class="ctrlHolder apache">
       	<label for="vhost_conf_enabled_dir">{tmpl_var name='vhost_conf_enabled_dir_txt'}</label>
         <input name="vhost_conf_enabled_dir" id="vhost_conf_enabled_dir" value="{tmpl_var name='vhost_conf_enabled_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
-	<div class="ctrlHolder">
+	<div class="ctrlHolder nginx">
       	<label for="nginx_vhost_conf_dir">{tmpl_var name='nginx_vhost_conf_dir_txt'}</label>
         <input name="nginx_vhost_conf_dir" id="nginx_vhost_conf_dir" value="{tmpl_var name='nginx_vhost_conf_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
-      <div class="ctrlHolder">
+      <div class="ctrlHolder nginx">
       	<label for="nginx_vhost_conf_enabled_dir">{tmpl_var name='nginx_vhost_conf_enabled_dir_txt'}</label>
         <input name="nginx_vhost_conf_enabled_dir" id="nginx_vhost_conf_enabled_dir" value="{tmpl_var name='nginx_vhost_conf_enabled_dir'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
@@ -55,7 +55,7 @@
       	<label for="CA_pass">{tmpl_var name='CA_pass_txt'}</label>
         <input name="CA_pass" id="CA_pass" value="{tmpl_var name='CA_pass'}" size="40" maxlength="255" type="password" class="textInput" />
 			</div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder apache">
 				<p class="label">{tmpl_var name='security_level_txt'}</p>
 					<div class="multiField">
 						<select name="security_level" id="security_level" class="selectInput">
@@ -63,21 +63,29 @@
 				</select>
 					</div>
 			</div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder apache">
 				<p class="label">{tmpl_var name='check_apache_config_txt'}</p>
 					<div class="multiField">
 						{tmpl_var name='check_apache_config'}
 					</div>
 			</div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder apache">
       	<label for="user">{tmpl_var name='web_user_txt'}</label>
         <input name="user" id="user" value="{tmpl_var name='user'}" size="40" maxlength="255" type="text" class="textInput" />
 			</div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder apache">
       	<label for="group">{tmpl_var name='web_group_txt'}</label>
         <input name="group" id="group" value="{tmpl_var name='group'}" size="40" maxlength="255" type="text" class="textInput" />
 	  </div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder nginx">
+      	<label for="nginx_user">{tmpl_var name='nginx_user_txt'}</label>
+        <input name="nginx_user" id="nginx_user" value="{tmpl_var name='nginx_user'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+	  <div class="ctrlHolder nginx">
+      	<label for="nginx_group">{tmpl_var name='nginx_group_txt'}</label>
+        <input name="nginx_group" id="nginx_group" value="{tmpl_var name='nginx_group'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder apache">
       	<label for="php_ini_path_apache">{tmpl_var name='php_ini_path_apache_txt'}</label>
         <input name="php_ini_path_apache" id="php_ini_path_apache" value="{tmpl_var name='php_ini_path_apache'}" size="40" maxlength="255" type="text" class="textInput" />
 	  </div>
@@ -85,11 +93,31 @@
       	<label for="php_ini_path_cgi">{tmpl_var name='php_ini_path_cgi_txt'}</label>
         <input name="php_ini_path_cgi" id="php_ini_path_cgi" value="{tmpl_var name='php_ini_path_cgi'}" size="40" maxlength="255" type="text" class="textInput" />
 	  </div>
+	  <div class="ctrlHolder nginx">
+      	<label for="php_fpm_init_script">{tmpl_var name='php_fpm_init_script_txt'}</label>
+        <input name="php_fpm_init_script" id="php_fpm_init_script" value="{tmpl_var name='php_fpm_init_script'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder nginx">
+      	<label for="php_fpm_ini_path">{tmpl_var name='php_fpm_ini_path_txt'}</label>
+        <input name="php_fpm_ini_path" id="php_fpm_ini_path" value="{tmpl_var name='php_fpm_ini_path'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder nginx">
+      	<label for="php_fpm_pool_dir">{tmpl_var name='php_fpm_pool_dir_txt'}</label>
+        <input name="php_fpm_pool_dir" id="php_fpm_pool_dir" value="{tmpl_var name='php_fpm_pool_dir'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder nginx">
+      	<label for="php_fpm_start_port">{tmpl_var name='php_fpm_start_port_txt'}</label>
+        <input name="php_fpm_start_port" id="php_fpm_start_port" value="{tmpl_var name='php_fpm_start_port'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
 	  <div class="ctrlHolder">
       	<label for="php_open_basedir">{tmpl_var name='php_open_basedir_txt'}</label>
         <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="40" type="text" class="textInput" />
 	  </div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder nginx">
+      	<label for="nginx_cgi_socket">{tmpl_var name='nginx_cgi_socket_txt'}</label>
+        <input name="nginx_cgi_socket" id="nginx_cgi_socket" value="{tmpl_var name='nginx_cgi_socket'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder apache">
       	<label for="htaccess_allow_override">{tmpl_var name='htaccess_allow_override_txt'}</label>
         <input name="htaccess_allow_override" id="htaccess_allow_override" value="{tmpl_var name='htaccess_allow_override'}" size="40" maxlength="255" type="text" class="textInput" />
 	  </div>
@@ -142,29 +170,47 @@
 		
 		function adjustForm(serverType){
 			if(serverType == "nginx"){
-				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').hide();
-				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
+				jQuery('.nginx').show();
+				/*
 				jQuery('#nginx_vhost_conf_dir').closest('div.ctrlHolder').show();
 				jQuery('#nginx_vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
+				jQuery('#nginx_user').closest('div.ctrlHolder').show();
+				jQuery('#nginx_group').closest('div.ctrlHolder').show();
+				jQuery('#nginx_cgi_socket').closest('div.ctrlHolder').show();
+				*/
 				
+				jQuery('.apache').hide();
+				/*
+				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').hide();
+				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
 				jQuery('#security_level').closest('div.ctrlHolder').hide();
 				jQuery('#check_apache_config').closest('div.ctrlHolder').hide();
 				jQuery('#user').closest('div.ctrlHolder').hide();
 				jQuery('#group').closest('div.ctrlHolder').hide();
 				jQuery('#php_ini_path_apache').closest('div.ctrlHolder').hide();
 				jQuery('#htaccess_allow_override').closest('div.ctrlHolder').hide();
+				*/
 			} else {
-				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').show();
-				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
+				jQuery('.nginx').hide();
+				/*
 				jQuery('#nginx_vhost_conf_dir').closest('div.ctrlHolder').hide();
 				jQuery('#nginx_vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
+				jQuery('#nginx_user').closest('div.ctrlHolder').hide();
+				jQuery('#nginx_group').closest('div.ctrlHolder').hide();
+				jQuery('#nginx_cgi_socket').closest('div.ctrlHolder').hide();
+				*/
 				
+				jQuery('.apache').show();
+				/*
+				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').show();
+				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
 				jQuery('#security_level').closest('div.ctrlHolder').show();
 				jQuery('#check_apache_config').closest('div.ctrlHolder').show();
 				jQuery('#user').closest('div.ctrlHolder').show();
 				jQuery('#group').closest('div.ctrlHolder').show();
 				jQuery('#php_ini_path_apache').closest('div.ctrlHolder').show();
 				jQuery('#htaccess_allow_override').closest('div.ctrlHolder').show();
+				*/
 			}
 		}
 </script>

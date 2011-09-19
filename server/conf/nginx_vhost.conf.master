@@ -67,7 +67,7 @@ server {
         <tmpl_if name='php' op='==' value='fast-cgi'>
 		
         location ~ \.php$ {
-            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param PATH_INFO $fastcgi_script_name;

@@ -16,7 +16,7 @@
 		<label for="system_group">{tmpl_var name='system_group'}</label>
         <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
 			</div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder apache">
       	<label for="allow_override">{tmpl_var name='allow_override_txt'}</label>
         <input name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" size="30" maxlength="255" type="text" class="textInput" />
 	  </div>
@@ -28,11 +28,11 @@
       	<label for="custom_php_ini">{tmpl_var name='custom_php_ini_txt'}</label>
       	<textarea name="custom_php_ini" id="custom_php_ini" rows='10' cols='50' style="width:400px;">{tmpl_var name='custom_php_ini'}</textarea>
 	  </div>
-      <div class="ctrlHolder">
+      <div class="ctrlHolder apache">
       	<label for="apache_directives">{tmpl_var name='apache_directives_txt'}</label>
       	<textarea name="apache_directives" id="apache_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='apache_directives'}</textarea>
 	  </div>
-      <div class="ctrlHolder">
+      <div class="ctrlHolder nginx">
       	<label for="nginx_directives">{tmpl_var name='nginx_directives_txt'}</label>
       	<textarea name="nginx_directives" id="nginx_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='nginx_directives'}</textarea>
 	  </div>
@@ -51,7 +51,7 @@
 		var webId = jQuery('input[name="id"]').val();
 		var serverId;
 		getServerId(webId);
-		serverType(serverId);
+		adjustForm(serverId);
 		
 		function getServerId(webId){
 			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getserverid"}, function(data) {
@@ -59,14 +59,22 @@
 			});
 		}
 		
-		function serverType(serverId){
+		function adjustForm(serverId){
 			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
 				if(data.servertype == "nginx"){
+					jQuery('.nginx').show();
+					jQuery('.apache').hide();
+					/*
 					jQuery('#allow_override').closest('div.ctrlHolder').hide();
 					jQuery('#apache_directives').closest('div.ctrlHolder').hide();
+					*/
 				} else {
+					jQuery('.nginx').hide();
+					jQuery('.apache').show();
+					/*
 					jQuery('#allow_override').closest('div.ctrlHolder').show();
 					jQuery('#apache_directives').closest('div.ctrlHolder').show();
+					*/
 				}
 			});
 		}

@@ -249,15 +249,21 @@ if($conf['services']['dns'] == true) {
 	}
 }
 
-if($conf['services']['web'] == true) {
-	//** Configure Apache
-	swriteln('Configuring Apache');
-	$inst->configure_apache();
-
-	//** Configure vlogger
-	swriteln('Configuring vlogger');
-	$inst->configure_vlogger();
-
+if($conf['services']['web']) {
+	if($conf['webserver']['server_type'] == 'apache'){
+		//** Configure Apache
+		swriteln('Configuring Apache');
+		$inst->configure_apache();
+       
+		//** Configure vlogger
+		swriteln('Configuring vlogger');
+		$inst->configure_vlogger();
+	} else {
+		//** Configure nginx
+		swriteln('Configuring nginx');
+		$inst->configure_nginx();
+	}
+	
 	//** Configure apps vhost
 	swriteln('Configuring Apps vhost');
 	$inst->configure_apps_vhost();
@@ -305,7 +311,9 @@ if($conf['services']['mail']) {
 	if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart');
 }
 if($conf['services']['web']) {
-	if($conf['apache']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+	if($conf['webserver']['server_type'] == 'apache' && $conf['apache']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
+	//* Reload is enough for nginx
+	if($conf['webserver']['server_type'] == 'nginx' && $conf['nginx']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['nginx']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' reload');
 	if($conf['pureftpd']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['pureftpd']['init_script']))				system($conf['init_scripts'].'/'.$conf['pureftpd']['init_script'].' restart');
 }
 if($conf['services']['dns']) {

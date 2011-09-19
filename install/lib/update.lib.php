@@ -126,6 +126,18 @@ function updateDbAndIni() {
 	
 	$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
 	
+	if($ini_array['web']['server_type'] != ''){
+		$conf['webserver']['server_type'] = $ini_array['web']['server_type'];
+		if($conf['webserver']['server_type'] == 'nginx'){
+			$conf['apache']['installed'] = false;
+		} else {
+			$conf['nginx']['installed'] = false;
+		}
+	} else {
+		$conf['webserver']['server_type'] = 'apache';
+		$conf['nginx']['installed'] = false;
+	}
+	
 	//* Do incremental DB updates only on installed ISPConfig versions > 3.0.3
 	if(compare_ispconfig_version('3.0.3',ISPC_APP_VERSION) >= 0) {
 		
@@ -226,8 +238,6 @@ function updateDbAndIni() {
 	
 	//* Update further distribution specific parameters for server config here
 	//* HINT: Every line added here has to be added in installer_base.lib.php too!!
-	$tpl_ini_array['web']['vhost_conf_dir'] = $conf['apache']['vhost_conf_dir'];
-	$tpl_ini_array['web']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_enabled_dir'];
 	$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
 	$tpl_ini_array['fastcgi']['fastcgi_phpini_path'] = $conf['fastcgi']['fastcgi_phpini_path'];
 	$tpl_ini_array['fastcgi']['fastcgi_starter_path'] = $conf['fastcgi']['fastcgi_starter_path'];
@@ -249,6 +259,20 @@ function updateDbAndIni() {
 	$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
 	$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
 	$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
+	
+	if ($conf['nginx']['installed'] == true) {
+		$tpl_ini_array['web']['nginx_vhost_conf_dir'] = $conf['nginx']['vhost_conf_dir'];
+		$tpl_ini_array['web']['nginx_vhost_conf_enabled_dir'] = $conf['nginx']['vhost_conf_enabled_dir'];
+		$tpl_ini_array['web']['nginx_user'] = $conf['nginx']['user'];
+		$tpl_ini_array['web']['nginx_group'] = $conf['nginx']['group'];
+		$tpl_ini_array['web']['nginx_cgi_socket'] = $conf['nginx']['cgi_socket'];
+		$tpl_ini_array['web']['php_fpm_init_script'] = $conf['nginx']['php_fpm_init_script'];
+		$tpl_ini_array['web']['php_fpm_ini_path'] = $conf['nginx']['php_fpm_ini_path'];
+		$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
+		$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
+		$tpl_ini_array['web']['server_type'] = 'nginx';
+		$tpl_ini_array['global']['webserver'] = 'nginx';
+	}
 
 	// update the new template with the old values
 	if(is_array($old_ini_array)) {

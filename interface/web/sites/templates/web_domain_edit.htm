@@ -71,13 +71,13 @@
 						{tmpl_var name='ssi'}
 					</div>
 	  </div>
-	  <div class="ctrlHolder">
+	  <div class="ctrlHolder apache">
 				<p class="label">{tmpl_var name='ruby_txt'}</p>
 					<div class="multiField">
 						{tmpl_var name='ruby'}
 					</div>
 	  </div>
-      <div class="ctrlHolder">
+      <div class="ctrlHolder apache">
 				<p class="label">{tmpl_var name='suexec_txt'}</p>
 					<div class="multiField">
 						{tmpl_var name='suexec'}
@@ -134,24 +134,24 @@
 			serverId = jQuery('#server_id').val();
 			jQuery('#server_id').change(function(){
 				serverId = $(this).val();
-				serverType(serverId);
+				adjustForm(serverId);
 			});
 		}
-		serverType(serverId);
+		adjustForm(serverId);
 		
-		function serverType(serverId){
+		function adjustForm(serverId){
 			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
 				if(data.servertype == "nginx"){
 					var selected = jQuery('#php').val();
-					jQuery('#ruby').closest('div.ctrlHolder').hide();
-					jQuery('#suexec').closest('div.ctrlHolder').hide();
+					jQuery('.apache').hide();
+					jQuery('.apache').hide();
 					jQuery('#php option[value="cgi"]').hide();
 					jQuery('#php option[value="mod"]').hide();
 					jQuery('#php option[value="suphp"]').hide();
 					if(selected != "no" && selected != "fast-cgi") jQuery('#php option[value="fast-cgi"]').attr('selected', 'selected');
 				} else {
-					jQuery('#ruby').closest('div.ctrlHolder').show();
-					jQuery('#suexec').closest('div.ctrlHolder').show();
+					jQuery('.apache').show();
+					jQuery('.apache').show();
 					jQuery('#php option[value="cgi"]').show();
 					jQuery('#php option[value="mod"]').show();
 					jQuery('#php option[value="suphp"]').show();

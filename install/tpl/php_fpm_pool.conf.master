@@ -1,0 +1,14 @@
+[{fpm_pool}]
+
+listen = 127.0.0.1:{fpm_port}
+
+user = {fpm_user}
+group = {fpm_group}
+
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 20
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+
+chdir = /

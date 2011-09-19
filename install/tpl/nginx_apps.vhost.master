@@ -1,0 +1,28 @@
+server {
+        listen {apps_vhost_ip}{apps_vhost_port};
+
+        server_name {apps_vhost_servername};
+
+        root   {apps_vhost_dir};
+
+        location / {
+               index index.php index.html;
+        }
+
+        # serve static files directly
+        location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
+               access_log        off;
+        }
+
+        location ~ \.php$ {
+               fastcgi_pass 127.0.0.1:{fpm_port};
+               fastcgi_index index.php;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+               fastcgi_param PATH_INFO $fastcgi_script_name;
+               include /etc/nginx/fastcgi_params;
+        }
+
+        location ~ /\. {
+               deny  all;
+        }
+}

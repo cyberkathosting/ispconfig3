@@ -633,11 +633,17 @@ function compare_ispconfig_version($current,$new) {
 
 function get_ispconfig_port_number() {
 	global $conf;
-	$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
-
+	if($conf['nginx']['installed'] == true){
+		$ispconfig_vhost_file = $conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost';
+		$regex = '/listen (\d+)/';
+	} else {
+		$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
+		$regex = '/\<VirtualHost.*\:(\d{1,})\>/';
+	}
+	
 	if(is_file($ispconfig_vhost_file)) {
 		$tmp = file_get_contents($ispconfig_vhost_file);
-		preg_match('/\<VirtualHost.*\:(\d{1,})\>/',$tmp,$matches);
+		preg_match($regex,$tmp,$matches);
 		$port_number = intval($matches[1]);
 		if($port_number > 0) {
 			return $port_number;

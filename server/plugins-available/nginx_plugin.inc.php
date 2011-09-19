@@ -435,42 +435,42 @@ class nginx_plugin {
 			// Copy the error pages
 			if($data['new']['errordocs']) {
 				$error_page_path = escapeshellcmd($data['new']['document_root']).'/web/error/';
-				if (file_exists($conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
-					exec('cp ' . $conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+				if (file_exists($conf['rootpath'].'/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
+					exec('cp ' . $conf['rootpath'].'/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 				}
 				else {
-					if (file_exists($conf['templates'] . '-custom/error/400.html')) {
-						exec('cp '. $conf['templates'] .'-custom/error/*.html '.$error_page_path);
+					if (file_exists($conf['rootpath'].'/conf-custom/error/400.html')) {
+						exec('cp '. $conf['rootpath'].'/conf-custom/error/*.html '.$error_page_path);
 					}
 					else {
-						exec('cp ' . $conf['templates'] . '/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+						exec('cp ' . $conf['rootpath'] . '/conf/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 					}
 				}
 				exec('chmod -R a+r '.$error_page_path);
 			}
 
-			if (file_exists($conf['templates'] . '-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2))) {
-				exec('cp ' . $conf['templates'] . '-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+			if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2))) {
+				exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
             
-			if(is_file($conf['templates'] . '-custom/index/favicon.ico')) {
-                exec('cp ' . $conf['templates'] . '-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
+			if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
+                exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
             }
-			if(is_file($conf['templates'] . '-custom/index/robots.txt')) {
-                exec('cp ' . $conf['templates'] . '-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
+			if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
+                exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
                 }
-                if(is_file($conf['templates'] . '-custom/index/.htaccess')) {
-                    exec('cp ' . $conf['templates'] . '-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
+                if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
+                    exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
                 }
             }
 			else {
-				if (file_exists($conf['templates'] . '-custom/index/standard_index.html')) {
-					exec('cp ' . $conf['templates'] . '-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
+					exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
 				}
 				else {
-					exec('cp ' . $conf['templates'] . '/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
-					if(is_file($conf['templates'] . '/index/favicon.ico')) exec('cp ' . $conf['templates'] . '/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
-					if(is_file($conf['templates'] . '/index/robots.txt')) exec('cp ' . $conf['templates'] . '/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
-					if(is_file($conf['templates'] . '/index/.htaccess')) exec('cp ' . $conf['templates'] . '/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
+					exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']),0,2).' '.escapeshellcmd($data['new']['document_root']).'/web/index.html');
+					if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/web/');
+					if(is_file($conf['rootpath'] . '/conf/index/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/web/');
+					if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/web/');
 				}
 			}
 			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/web/');
@@ -479,15 +479,15 @@ class nginx_plugin {
 		} elseif ($this->action == 'update' && $data['new']['type'] == 'vhost' && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
 
 			$error_page_path = escapeshellcmd($data['new']['document_root']).'/web/error/';
-			if (file_exists($conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
-				exec('cp ' . $conf['templates'] . '-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+			if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2))) {
+				exec('cp ' . $conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 			}
 			else {
-				if (file_exists($conf['templates'] . '-custom/error/400.html')) {
-					exec('cp ' . $conf['templates'] . '-custom/error/*.html '.$error_page_path);
+				if (file_exists($conf['rootpath'] . '/conf-custom/error/400.html')) {
+					exec('cp ' . $conf['rootpath'] . '/conf-custom/error/*.html '.$error_page_path);
 				}
 				else {
-					exec('cp ' . $conf['templates'] . '/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
+					exec('cp ' . $conf['rootpath'] . '/conf/error/'.substr(escapeshellcmd($conf['language']),0,2).'/* '.$error_page_path);
 				}
 			}
 			exec('chmod -R a+r '.$error_page_path);
@@ -644,6 +644,7 @@ class nginx_plugin {
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
 		//$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
 		//$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
+		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'];
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
@@ -843,6 +844,8 @@ class nginx_plugin {
 			$this->awstats_update($data,$web_config);
 		}
 		
+		$this->php_fpm_pool_update($data,$web_config);
+		
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if nginx starts with the new configuration file
 			$nginx_online_status_before_restart = $this->_checkTcp('localhost',80);
@@ -976,6 +979,10 @@ class nginx_plugin {
 			if($data['old']['stats_type'] == 'awstats') {
 				$this->awstats_delete($data,$web_config);
 			}
+			
+			if($data['old']['php'] == 'fast-cgi') {
+				$this->php_fpm_pool_delete($data,$web_config);
+			}
 
 		}
 	}
@@ -1036,6 +1043,64 @@ class nginx_plugin {
 		if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
 			unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
 			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf',LOGLEVEL_DEBUG);
+		}
+	}
+	
+	//* Update the PHP-FPM pool configuration file
+	private function php_fpm_pool_update ($data,$web_config) {
+		global $app, $conf;
+		
+		$pool_dir = $web_config['php_fpm_pool_dir'];
+		//$reload = false;
+		
+		if($data['new']['php'] == 'no'){
+			if(@is_file($pool_dir.'/'.$data['old']['domain'].'.conf')){
+				unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
+				//$reload = true;
+			}
+			if(@is_file($pool_dir.'/'.$data['new']['domain'].'.conf')){
+				unlink($pool_dir.'/'.$data['new']['domain'].'.conf');
+				//$reload = true;
+			}
+			//if($reload == true) $app->services->restartService('php-fpm','reload');
+			return;
+		}
+		
+		if(!@is_file($pool_dir.'/'.$data['new']['domain'].'.conf') || ($data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain'])) {
+			if ( @is_file($pool_dir.'/'.$data['old']['domain'].'.conf') ) {
+				unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
+			}
+			
+			$app->uses("getconf");
+			$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+			
+			$app->load('tpl');
+			$tpl = new tpl();
+			$tpl->newTemplate('php_fpm_pool.conf.master');
+
+			$tpl->setVar('fpm_pool', $data['new']['domain']);
+			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id']);
+			$tpl->setVar('fpm_user', $data['new']['system_user']);
+			$tpl->setVar('fpm_group', $data['new']['system_group']);
+			
+			file_put_contents($pool_dir.'/'.$data['new']['domain'].'.conf',$tpl->grab());
+			$app->log('Writing the PHP-FPM config file: '.$pool_dir.'/'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
+			unset($tpl);
+			//$reload = true;
+		}
+		//if($reload == true) $app->services->restartService('php-fpm','reload');
+	}
+	
+	//* Delete the PHP-FPM pool configuration file
+	private function php_fpm_pool_delete ($data,$web_config) {
+		global $app;
+		
+		$pool_dir = $web_config['php_fpm_pool_dir'];
+		
+		if ( @is_file($pool_dir.'/'.$data['old']['domain'].'.conf') ) {
+			unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
+			$app->log('Removed PHP-FPM config file: '.$pool_dir.'/'.$data['old']['domain'].'.conf',LOGLEVEL_DEBUG);
+			$app->services->restartService('php-fpm','reload');
 		}
 	}
 	

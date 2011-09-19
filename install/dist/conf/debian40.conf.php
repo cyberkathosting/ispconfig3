@@ -192,10 +192,18 @@ $conf['squid']['init_script'] = 'squid';
 
 //* Nginx
 $conf['nginx']['installed'] = false; // will be detected automatically during installation
+$conf['nginx']['user'] = 'www-data';
+$conf['nginx']['group'] = 'www-data';
 $conf['nginx']['config_dir'] = '/etc/nginx';
 $conf['nginx']['vhost_conf_dir'] = '/etc/nginx/sites-available';
 $conf['nginx']['vhost_conf_enabled_dir'] = '/etc/nginx/sites-enabled';
 $conf['nginx']['init_script'] = 'nginx';
+$conf['nginx']['vhost_port'] = '8080';
+$conf['nginx']['cgi_socket'] = '/var/run/fcgiwrap.socket';
+$conf['nginx']['php_fpm_init_script'] = 'php5-fpm';
+$conf['nginx']['php_fpm_ini_path'] = '/etc/php5/fpm/php.ini';
+$conf['nginx']['php_fpm_pool_dir'] = '/etc/php5/fpm/pool.d';
+$conf['nginx']['php_fpm_start_port'] = 9010;
 
 //*Ufw
 $conf['ufw']['installed'] = false;

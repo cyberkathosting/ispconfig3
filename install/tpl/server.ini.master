@@ -35,15 +35,20 @@ message_size_limit=0
 getmail_config_dir=/etc/getmail
 
 [web]
+server_type=apache
 website_basedir=/var/www
 website_path=/var/www/clients/client[client_id]/web[website_id]
 website_symlinks=/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/
 website_symlinks_rel=n
 vhost_conf_dir=/etc/apache2/sites-available
 vhost_conf_enabled_dir=/etc/apache2/sites-enabled
+nginx_vhost_conf_dir=/etc/nginx/sites-available
+nginx_vhost_conf_enabled_dir=/etc/nginx/sites-enabled
 security_level=10
 user=www-data
 group=www-data
+nginx_user=www-data
+nginx_group=www-data
 apps_vhost_port=8081
 apps_vhost_ip=_default_
 apps_vhost_servername=
@@ -56,6 +61,11 @@ awstats_buildstaticpages_pl=/usr/share/awstats/tools/awstats_buildstaticpages.pl
 php_ini_path_apache=/etc/php5/apache2/php.ini
 php_ini_path_cgi=/etc/php5/cgi/php.ini
 check_apache_config=y
+nginx_cgi_socket=/var/run/fcgiwrap.socket
+php_fpm_init_script=php5-fpm
+php_fpm_ini_path=/etc/php5/fpm/php.ini
+php_fpm_pool_dir=/etc/php5/fpm/pool.d
+php_fpm_start_port=9010
 
 [dns]
 bind_user=root

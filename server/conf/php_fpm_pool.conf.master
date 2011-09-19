@@ -1,0 +1,14 @@
+[<tmpl_var name='fpm_pool'>]
+
+listen = 127.0.0.1:<tmpl_var name='fpm_port'>
+
+user = <tmpl_var name='fpm_user'>
+group = <tmpl_var name='fpm_group'>
+
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 20
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+
+chdir = /

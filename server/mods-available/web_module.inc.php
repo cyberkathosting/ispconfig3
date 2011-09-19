@@ -137,6 +137,9 @@ class web_module {
 		switch ($web_config['server_type']) {
 			case 'nginx':
 				$daemon = $web_config['server_type'];
+				// Reload PHP-FPM as well
+				$restart_second_service['daemon'] = $web_config['php_fpm_init_script'];
+				$restart_second_service['action'] = 'reload';
 				break;
 			default:
 				if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
@@ -144,6 +147,10 @@ class web_module {
 				} else {
 					$daemon = 'apache2';
 				}
+		}
+		
+		if($restart_second_service['daemon'] != '' && $restart_second_service['action'] != ''){
+			exec($conf['init_scripts'] . '/' . $restart_second_service['daemon'] . ' ' . $restart_second_service['action']);
 		}
 		
 		if($action == 'restart') {
