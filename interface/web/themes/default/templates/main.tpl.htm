@@ -68,7 +68,14 @@
 		jQuery(document).ready(function() {
 			loadInitContent();
 		});
-
+		
+		
+		jQuery(document).bind("change", function(event) {
+			if ($(".panel #Filter").length > 0 && event.target.localName == 'select') {
+				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
+			}
+		});
+		
 		//Use jQuery submit with kespress Enter in panel filterbar
 		jQuery(document).bind("keypress", function(event) {
 			if (event.which == '13' && $(".panel #Filter").length > 0) {
@@ -117,7 +124,7 @@
                     <div id="col3_content" class="clearfix">
                         <a id="content" name="content"></a>
                         <!-- skiplink anchor: Content -->
-                        <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm">
+                        <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm" onSubmit="return false;">
                         <div id="pageContent"><!-- AJAX CONTENT --></div>
                         </form>
                     </div>
