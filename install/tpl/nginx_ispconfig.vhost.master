@@ -17,6 +17,7 @@ server {
         }
 
         location ~ \.php$ {
+               try_files $uri =404;
                fastcgi_pass 127.0.0.1:{fpm_port};
                fastcgi_index index.php;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -32,6 +33,7 @@ server {
                root /usr/share/;
                index index.php index.html index.htm;
                location ~ ^/phpmyadmin/(.+\.php)$ {
+                       try_files $uri =404;
                        root /usr/share/;
                        fastcgi_pass 127.0.0.1:{fpm_port};
                        {ssl_comment}fastcgi_param  HTTPS {fastcgi_ssl};

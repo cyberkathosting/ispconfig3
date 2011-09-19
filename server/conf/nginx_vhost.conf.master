@@ -10,6 +10,13 @@ server {
         server_name <tmpl_var name='domain'> <tmpl_var name='alias'>;
 
         root   <tmpl_var name='web_document_root_www'>;
+		
+        <tmpl_loop name="redirects">
+		
+        if ($http_host ~* "<tmpl_var name='rewrite_domain'>$") {
+            rewrite ^/(.+)$ <tmpl_var name='rewrite_target'>$1 <tmpl_var name='rewrite_type'>;
+        }
+        </tmpl_loop>
 
         location / {
             index index.html index.php;
@@ -47,7 +54,7 @@ server {
             log_not_found off;
         }
 		
-        location = /favicon.ico {
+        location /favicon.ico {
             log_not_found off;
             access_log off;
         }
@@ -67,6 +74,7 @@ server {
         <tmpl_if name='php' op='==' value='fast-cgi'>
 		
         location ~ \.php$ {
+            try_files $uri =404;
             fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -83,6 +91,7 @@ server {
 		<tmpl_if name='cgi' op='==' value='y'>
 		
         location /cgi-bin/ {
+            try_files $uri =404;
             root <tmpl_var name='document_root'>;
             gzip off;
             fastcgi_pass  unix:/var/run/fcgiwrap.socket;

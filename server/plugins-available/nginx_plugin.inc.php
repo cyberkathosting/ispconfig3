@@ -675,22 +675,24 @@ class nginx_plugin {
 			}
 			*/
 
-			$rewrite_rules[] = array(	'rewrite_domain' 	=> $data['new']['domain'],
-					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
-					'rewrite_target' 	=> $data['new']['redirect_path']);
-
 			switch($data['new']['subdomain']) {
 				case 'www':
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$data['new']['domain'],
-							'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
+					'rewrite_target' 	=> $data['new']['redirect_path']);
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$data['new']['domain'],
+							'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
 							'rewrite_target' 	=> $data['new']['redirect_path']);
 					break;
 				case '*':
-				// TODO
-				//$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias['domain'],
-				//							'rewrite_type' 		=> $alias['redirect_type'],
-				//							'rewrite_target' 	=> $alias['redirect_path']);
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> $data['new']['domain'],
+						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
+						'rewrite_target' 	=> $data['new']['redirect_path']);
 					break;
+				default:
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
+					'rewrite_target' 	=> $data['new']['redirect_path']);
 			}
 		}
 
@@ -727,21 +729,25 @@ class nginx_plugin {
 						$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';
 					}
 					*/
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
-							'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
-							'rewrite_target' 	=> $alias['redirect_path']);
+					
 					switch($alias['subdomain']) {
 						case 'www':
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$alias['domain'],
-									'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
+								'rewrite_target' 	=> $alias['redirect_path']);
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$alias['domain'],
+									'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 									'rewrite_target' 	=> $alias['redirect_path']);
 							break;
 						case '*':
-						// TODO
-						//$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias['domain'],
-						//							'rewrite_type' 		=> $alias['redirect_type'],
-						//							'rewrite_target' 	=> $alias['redirect_path']);
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
+								'rewrite_target' 	=> $alias['redirect_path']);
 							break;
+						default:
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+							'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
+							'rewrite_target' 	=> $alias['redirect_path']);
 					}
 				}
 			}

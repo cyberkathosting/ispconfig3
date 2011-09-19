@@ -64,17 +64,9 @@
 				if(data.servertype == "nginx"){
 					jQuery('.nginx').show();
 					jQuery('.apache').hide();
-					/*
-					jQuery('#allow_override').closest('div.ctrlHolder').hide();
-					jQuery('#apache_directives').closest('div.ctrlHolder').hide();
-					*/
 				} else {
 					jQuery('.nginx').hide();
 					jQuery('.apache').show();
-					/*
-					jQuery('#allow_override').closest('div.ctrlHolder').show();
-					jQuery('#apache_directives').closest('div.ctrlHolder').show();
-					*/
 				}
 			});
 		}
