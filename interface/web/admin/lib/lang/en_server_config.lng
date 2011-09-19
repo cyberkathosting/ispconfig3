@@ -141,5 +141,10 @@ $wb["php_fpm_pool_dir_txt"] = 'PHP-FPM pool directory';
 $wb["php_fpm_pool_dir_error_empty"] = 'PHP-FPM pool directory is empty.';
 $wb["php_fpm_start_port_txt"] = 'PHP-FPM start port';
 $wb["php_fpm_start_port_error_empty"] = 'PHP-FPM start port is empty.';
+$wb["try_rescue_txt"] = 'Enable service monitoring and restart on failure';
+$wb["do_not_try_rescue_apache_txt"] = 'Disable apache monitoring';
+$wb["do_not_try_rescue_mysql_txt"] = 'Disable MySQL monitoring';
+$wb["do_not_try_rescue_mail_txt"] = 'Disable Email monitoring';
+$wb["rescue_description_txt"] = '<b>Information:</b> If you want to shut down mysql you have to select the "Disable MySQL monitor" checkbox and then wait 2-3 minutes.<br>if you do not wait 2-3 minutes, rescue will try to restart mysql!';
 
 ?>

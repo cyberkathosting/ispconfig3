@@ -876,6 +876,7 @@ $form["tabs"]['jailkit'] = array(
 	)
 );
 
+/*
 $form["tabs"]['ufw_firewall'] = array (
 	'title' 	=> "UFW Firewall",
 	'width' 	=> 80,
@@ -937,7 +938,7 @@ $form["tabs"]['ufw_firewall'] = array (
 	##################################
 	)
 );
-
+*/
 
 $form["tabs"]['vlogger'] = array(
 	'title' => "vlogger",
