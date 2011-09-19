@@ -12,3 +12,5 @@ pm.min_spare_servers = 5
 pm.max_spare_servers = 35
 
 chdir = /
+
+<tmpl_var name='enable_php_open_basedir'>php_admin_value[open_basedir] = <tmpl_var name='php_open_basedir'>

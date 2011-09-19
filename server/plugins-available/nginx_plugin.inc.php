@@ -640,7 +640,6 @@ class nginx_plugin {
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
 		$vhost_data['security_level'] = $web_config['security_level'];
 		$vhost_data['allow_override'] = ($data['new']['allow_override'] == '')?'All':$data['new']['allow_override'];
-		//$vhost_data['php_open_basedir'] = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
 		//$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
 		//$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
@@ -1082,6 +1081,13 @@ class nginx_plugin {
 			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id']);
 			$tpl->setVar('fpm_user', $data['new']['system_user']);
 			$tpl->setVar('fpm_group', $data['new']['system_group']);
+			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
+			$tpl->setVar('php_open_basedir', $php_open_basedir);
+			if($php_open_basedir != ''){
+				$tpl->setVar('enable_php_open_basedir', '');
+			} else {
+				$tpl->setVar('enable_php_open_basedir', ';');
+			}
 			
 			file_put_contents($pool_dir.'/'.$data['new']['domain'].'.conf',$tpl->grab());
 			$app->log('Writing the PHP-FPM config file: '.$pool_dir.'/'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
