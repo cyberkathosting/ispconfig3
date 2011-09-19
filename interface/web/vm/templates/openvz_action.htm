@@ -38,7 +38,7 @@
 	    <p class="label">{tmpl_var name='ostemplate_txt'}</p>
 		<div class="multiField">
 		  <input style="float:left; margin-right:10px;" id="action" type="radio" value="ostemplate" name="action" {tmpl_var name='ostemplate_option_enabled'}/>
-		  <input name="ostemplate_name" size="30" maxlength="255" type="text" class="textInput" value="{tmpl_var name='ostemplate_name'}" /> &nbsp;{tmpl_var name='ostemplate_desc_txt'}
+		  <input name="ostemplate_name" size="30" maxlength="255" type="text" class="textInput" value="{tmpl_var name='ostemplate_name'}" onclick="$('[name=action]').filter('[value=ostemplate]').attr('checked','checked');" /> &nbsp;{tmpl_var name='ostemplate_desc_txt'}
 		</div>
 	  </div>
 
