@@ -77,9 +77,9 @@
 		});
 		
 		//Use jQuery submit with kespress Enter in panel filterbar
-		jQuery(".panel .list input").live("keypress", function(event) {
-			if (event.which == '13' && $(this).parents("tr").find("#Filter")) {
-				$(this).parents("tr").find("#Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
+		jQuery(document).bind("keypress", function(event) {
+			if (event.which == '13' && $(".panel #Filter").length > 0) {
+				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
 			}
 		});
 	</script>
