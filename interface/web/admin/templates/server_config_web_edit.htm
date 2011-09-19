@@ -171,46 +171,14 @@
 		function adjustForm(serverType){
 			if(serverType == "nginx"){
 				jQuery('.nginx').show();
-				/*
-				jQuery('#nginx_vhost_conf_dir').closest('div.ctrlHolder').show();
-				jQuery('#nginx_vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
-				jQuery('#nginx_user').closest('div.ctrlHolder').show();
-				jQuery('#nginx_group').closest('div.ctrlHolder').show();
-				jQuery('#nginx_cgi_socket').closest('div.ctrlHolder').show();
-				*/
-				
 				jQuery('.apache').hide();
-				/*
-				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').hide();
-				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
-				jQuery('#security_level').closest('div.ctrlHolder').hide();
-				jQuery('#check_apache_config').closest('div.ctrlHolder').hide();
-				jQuery('#user').closest('div.ctrlHolder').hide();
-				jQuery('#group').closest('div.ctrlHolder').hide();
-				jQuery('#php_ini_path_apache').closest('div.ctrlHolder').hide();
-				jQuery('#htaccess_allow_override').closest('div.ctrlHolder').hide();
-				*/
+				//jQuery('.tabbox_tabs li').find(":contains('FastCGI')").hide();
+				//jQuery('.tabbox_tabs li').find(":contains('FastCGI')").remove();
 			} else {
 				jQuery('.nginx').hide();
-				/*
-				jQuery('#nginx_vhost_conf_dir').closest('div.ctrlHolder').hide();
-				jQuery('#nginx_vhost_conf_enabled_dir').closest('div.ctrlHolder').hide();
-				jQuery('#nginx_user').closest('div.ctrlHolder').hide();
-				jQuery('#nginx_group').closest('div.ctrlHolder').hide();
-				jQuery('#nginx_cgi_socket').closest('div.ctrlHolder').hide();
-				*/
-				
 				jQuery('.apache').show();
-				/*
-				jQuery('#vhost_conf_dir').closest('div.ctrlHolder').show();
-				jQuery('#vhost_conf_enabled_dir').closest('div.ctrlHolder').show();
-				jQuery('#security_level').closest('div.ctrlHolder').show();
-				jQuery('#check_apache_config').closest('div.ctrlHolder').show();
-				jQuery('#user').closest('div.ctrlHolder').show();
-				jQuery('#group').closest('div.ctrlHolder').show();
-				jQuery('#php_ini_path_apache').closest('div.ctrlHolder').show();
-				jQuery('#htaccess_allow_override').closest('div.ctrlHolder').show();
-				*/
+				//jQuery('.tabbox_tabs li').find(":contains('FastCGI')").show();
+				//jQuery('.tabbox_tabs li:eq(4)').after('<li><a href="javascript:changeTab(\'fastcgi\',\'admin/server_config_edit.php\')">FastCGI</a></li>');
 			}
 		}
 </script>

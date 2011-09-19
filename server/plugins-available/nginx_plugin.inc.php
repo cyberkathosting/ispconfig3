@@ -1065,7 +1065,7 @@ class nginx_plugin {
 			return;
 		}
 		
-		if(!@is_file($pool_dir.'/'.$data['new']['domain'].'.conf') || ($data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain'])) {
+		//if(!@is_file($pool_dir.'/'.$data['new']['domain'].'.conf') || ($data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain'])) {
 			if ( @is_file($pool_dir.'/'.$data['old']['domain'].'.conf') ) {
 				unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
 			}
@@ -1089,11 +1089,46 @@ class nginx_plugin {
 				$tpl->setVar('enable_php_open_basedir', ';');
 			}
 			
+			// Custom php.ini settings
+			$final_php_ini_settings = array();
+			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+			if($custom_php_ini_settings != ''){
+				// Make sure we only have Unix linebreaks
+				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
+				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
+				$ini_settings = explode("\n", $custom_php_ini_settings);
+				if(is_array($ini_settings) && !empty($ini_settings)){
+					foreach($ini_settings as $ini_setting){
+							list($key, $value) = explode('=', $ini_setting);
+							if($value){
+								$value = trim($value);
+								$key = trim($key);
+								switch (strtolower($value)) {
+									case 'on':
+									case 'off':
+									case '1':
+									case '0':
+									case 'true':
+									case 'false':
+									case 'yes':
+									case 'no':
+										$final_php_ini_settings[] = array('ini_setting' => 'php_admin_flag['.$key.'] = '.$value);
+										break;
+									default:
+										$final_php_ini_settings[] = array('ini_setting' => 'php_admin_value['.$key.'] = '.$value);
+								}
+							}
+					}
+				}
+			}
+			
+			$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
+			
 			file_put_contents($pool_dir.'/'.$data['new']['domain'].'.conf',$tpl->grab());
 			$app->log('Writing the PHP-FPM config file: '.$pool_dir.'/'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
 			unset($tpl);
 			//$reload = true;
-		}
+		//}
 		//if($reload == true) $app->services->restartService('php-fpm','reload');
 	}
 	

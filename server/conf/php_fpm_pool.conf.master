@@ -14,3 +14,6 @@ pm.max_spare_servers = 35
 chdir = /
 
 <tmpl_var name='enable_php_open_basedir'>php_admin_value[open_basedir] = <tmpl_var name='php_open_basedir'>
+<tmpl_loop name="custom_php_ini_settings">
+<tmpl_var name='ini_setting'>
+</tmpl_loop>
