@@ -176,10 +176,12 @@ CREATE TABLE `client_template` (
   `limit_web_ip` text,
   `limit_web_domain` int(11) NOT NULL default '-1',
   `limit_web_quota` int(11) NOT NULL default '-1',
+  `web_php_options` varchar(255) NOT NULL DEFAULT 'no',
   `limit_web_subdomain` int(11) NOT NULL default '-1',
   `limit_web_aliasdomain` int(11) NOT NULL default '-1',
   `limit_ftp_user` int(11) NOT NULL default '-1',
   `limit_shell_user` int(11) NOT NULL default '0',
+  `ssh_chroot` varchar(255) NOT NULL DEFAULT 'no',
   `limit_webdav_user` int(11) NOT NULL default '0',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_slave_zone` int(11) NOT NULL default '-1',
@@ -191,6 +193,8 @@ CREATE TABLE `client_template` (
   `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
   `limit_mailmailinglist` int(11) NOT NULL default '-1',
+  `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
+  `limit_openvz_vm_template` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
