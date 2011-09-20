@@ -131,7 +131,7 @@ class page_action extends tform_actions {
 			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
 			
 			// Delete all records (sub-clients, mail, web, etc....)  of this client.
-			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic';
+			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic,web_folder,web_folder_user';
 			$tables_array = explode(',',$tables);
 			$client_group_id = intval($client_group['groupid']);
 			if($client_group_id > 1) {

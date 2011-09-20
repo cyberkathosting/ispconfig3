@@ -77,6 +77,13 @@ class apache2_plugin {
 		$app->plugins->registerEvent('webdav_user_delete',$this->plugin_name,'webdav');
 		
 		$app->plugins->registerEvent('client_delete',$this->plugin_name,'client_delete');
+		
+		$app->plugins->registerEvent('web_folder_user_insert',$this->plugin_name,'web_folder_user');
+		$app->plugins->registerEvent('web_folder_user_update',$this->plugin_name,'web_folder_user');
+		$app->plugins->registerEvent('web_folder_user_delete',$this->plugin_name,'web_folder_user');
+		
+		$app->plugins->registerEvent('web_folder_delete',$this->plugin_name,'web_folder_delete');
+		
 	}
 
 	// Handle the creation of SSL certificates
@@ -1183,6 +1190,104 @@ class apache2_plugin {
 		$app->log('Writing the conf file: '.$vhost_file,LOGLEVEL_DEBUG);
 		unset($tpl);
 
+	}
+	
+	//* Create or update the .htaccess folder protection
+	function web_folder_user($event_name,$data) {
+		global $app, $conf;
+		
+		$app->uses('system');
+		
+		if($event_name == 'web_folder_user_delete') {
+			$folder_id = $data['old']['web_folder_id'];
+		} else {
+			$folder_id = $data['new']['web_folder_id'];
+		}
+		
+		$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ".intval($folder_id));
+		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($folder['parent_domain_id']));
+		
+		if(!is_array($folder) or !is_array($website)) {
+			$app->log('Not able to retrieve folder or website record.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		
+		//* Get the folder path.
+		$folder_path = realpath($website['document_root'].'/web/'.$folder['path']);
+		if(substr($folder_path,-1 != '/')) $folder_path .= '/';
+		
+		//* Check if the resulting path is inside the docroot
+		if(substr($folder_path,0,strlen($website['document_root'])) != $website['document_root']) {
+			$app->log('Folder path is outside of docroot.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		
+		//* Create the folder path, if it does not exist
+		if(!is_dir($folder_path)) exec('mkdir -p '.escapehsellarg($folder_path));
+		
+		//* Create empty .htpasswd file, if it does not exist
+		if(!is_file($folder_path.'.htpasswd')) {
+			touch($folder_path.'.htpasswd');
+			chmod($folder_path.'.htpasswd',0755);
+			$app->log('Created file'.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+		}
+		
+		//* Add or remove the user from .htpasswd file
+		if($event_name == 'web_folder_user_delete') {
+			$app->system->removeLine($folder_path.'.htpasswd',$data['new']['username'].':');
+			$app->log('Removed user: '.$data['new']['username'],LOGLEVEL_DEBUG);
+		} else {
+			$app->system->replaceLine($folder_path.'.htpasswd',$data['new']['username'].':',$data['new']['username'].':'.$data['new']['password'],0,1);
+			$app->log('Added or updated user: '.$data['new']['username'],LOGLEVEL_DEBUG);
+		}
+		
+		//* Create the .htaccess file
+		if(!is_file($folder_path.'.htaccess')) {
+			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user";
+			file_put_contents($folder_path.'.htaccess',$ht_file);
+			chmod($folder_path.'.htpasswd',0755);
+			$app->log('Created file'.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+		}
+		
+	}
+	
+	//* Remove .htaccess and .htpasswd file, when folder protection is removed
+	function web_folder_delete($event_name,$data) {
+		global $app, $conf;
+		
+		$folder_id = $data['old']['web_folder_id'];
+		
+		$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ".intval($folder_id));
+		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($folder['parent_domain_id']));
+		
+		if(!is_array($folder) or !is_array($website)) {
+			$app->log('Not able to retrieve folder or website record.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		
+		//* Get the folder path.
+		$folder_path = realpath($website['document_root'].'/web/'.$folder['path']);
+		if(substr($folder_path,-1 != '/')) $folder_path .= '/';
+		
+		//* Check if the resulting path is inside the docroot
+		if(substr($folder_path,0,strlen($website['document_root'])) != $website['document_root']) {
+			$app->log('Folder path is outside of docroot.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		
+		//* Remove .htpasswd file
+		if(is_file($folder_path.'.htpasswd')) {
+			unlink($folder_path.'.htpasswd');
+			$app->log('Removed file'.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+		}
+		
+		//* Remove .htaccess file
+		if(is_file($folder_path.'.htaccess')) {
+			unlink($folder_path.'.htaccess');
+			$app->log('Removed file'.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+		}
+		
+		
 	}
 
 	/**

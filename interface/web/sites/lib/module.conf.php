@@ -117,6 +117,26 @@ if($app->auth->get_client_limit($userid,'webdav_user') != 0)
 }
 
 /*
+ *	Web folder menu
+ */
+	$items=array();
+	
+	$items[] = array( 'title' 	=> "Folder",
+			'target' 	=> 'content',
+			'link'	=> 'sites/web_folder_list.php',
+			'html_id' => 'web_folder_list');
+	
+	$items[] = array( 'title' 	=> "Folder users",
+			'target' 	=> 'content',
+			'link'	=> 'sites/web_folder_user_list.php',
+			'html_id' => 'web_folder_user_list');
+	
+	$module["nav"][] = array(	'title'	=> 'Folder protection',
+			'open' 	=> 1,
+			'items'	=> $items);
+
+
+/*
     Cron menu
 */
 if($app->auth->get_client_limit($userid,'cron') != 0)
@@ -152,18 +172,6 @@ $module['nav'][] = array(   'title' => 'Statistics',
 		'items' => $items);
 
 
-
-// clean up
-unset($items);
-
-$items[] = array( 'title' 	=> "Rewrite Rules",
-				  'target' 	=> 'content',
-				  'link'	=> 'sites/proxy_reverse_list.php');
-
-
-$module["nav"][] = array(	'title'	=> 'Reverse Proxy',
-							'open' 	=> 1,
-							'items'	=> $items);
 
 // clean up
 unset($items);

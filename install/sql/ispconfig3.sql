@@ -1557,6 +1557,7 @@ CREATE TABLE IF NOT EXISTS `web_folder_user` (
   `sys_perm_user` varchar(5) DEFAULT NULL,
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
+  `server_id` int(11) NOT NULL DEFAULT '0',
   `web_folder_id` int(11) NOT NULL DEFAULT '0',
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,

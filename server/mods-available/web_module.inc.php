@@ -43,7 +43,13 @@ class web_module {
 									'shell_user_delete',
 									'webdav_user_insert',
 									'webdav_user_update',
-									'webdav_user_delete');
+									'webdav_user_delete',
+									'web_folder_insert',
+									'web_folder_update',
+									'web_folder_delete',
+									'web_folder_user_insert',
+									'web_folder_user_update',
+									'web_folder_user_delete');
 	
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -120,6 +126,16 @@ class web_module {
 				if($action == 'i') $app->plugins->raiseEvent('webdav_user_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('webdav_user_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('webdav_user_delete',$data);
+			break;
+			case 'web_folder':
+				if($action == 'i') $app->plugins->raiseEvent('web_folder_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('web_folder_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('web_folder_delete',$data);
+			break;
+			case 'web_folder_user':
+				if($action == 'i') $app->plugins->raiseEvent('web_folder_user_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('web_folder_user_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('web_folder_user_delete',$data);
 			break;
 		} // end switch
 	} // end function

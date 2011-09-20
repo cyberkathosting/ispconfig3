@@ -1,0 +1,38 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_web_folder_user">
+
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels"><legend>Folder</legend>
+      <div class="ctrlHolder">
+      	<label for="web_folder_id">{tmpl_var name='web_folder_id_txt'}</label>
+        <select name="web_folder_id" id="web_folder_id" class="selectInput">
+					{tmpl_var name='web_folder_id'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="username">{tmpl_var name='username_txt'}</label>
+        <input name="username" id="username" value="{tmpl_var name='username'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="password">{tmpl_var name='password_txt'}</label>
+        <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='active_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='active'}
+					</div>
+			</div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_folder_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_folder_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>
