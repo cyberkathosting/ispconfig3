@@ -693,8 +693,13 @@ class apache2_plugin {
 		$rewrite_rules = array();
 		if($data['new']['redirect_type'] != '') {
 			if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
-			$rewrite_target = $data['new']['redirect_path'];
-			$rewrite_target_ssl = $data['new']['redirect_path'];
+			if(substr($data['new']['redirect_path'],0,8) == '[scheme]'){
+				$rewrite_target = 'http'.substr($data['new']['redirect_path'],8);
+				$rewrite_target_ssl = 'https'.substr($data['new']['redirect_path'],8);
+			} else {
+				$rewrite_target = $data['new']['redirect_path'];
+				$rewrite_target_ssl = $data['new']['redirect_path'];
+			}
 			/* Disabled path extension
 			if($data['new']['redirect_type'] == 'no' && substr($data['new']['redirect_path'],0,4) != 'http') {
 				$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';
