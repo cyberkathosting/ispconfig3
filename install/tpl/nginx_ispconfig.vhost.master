@@ -45,4 +45,7 @@ server {
                        root /usr/share/;
                }
         }
+        location /phpMyAdmin {
+               rewrite ^/* /phpmyadmin last;
+        }
 }
