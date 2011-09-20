@@ -1077,15 +1077,12 @@ class nginx_plugin {
 		global $app, $conf;
 		
 		$pool_dir = $web_config['php_fpm_pool_dir'];
+		$pool_name = 'web'.$data['new']['domain_id'];
 		//$reload = false;
 		
 		if($data['new']['php'] == 'no'){
-			if(@is_file($pool_dir.'/'.$data['old']['domain'].'.conf')){
-				unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
-				//$reload = true;
-			}
-			if(@is_file($pool_dir.'/'.$data['new']['domain'].'.conf')){
-				unlink($pool_dir.'/'.$data['new']['domain'].'.conf');
+			if(@is_file($pool_dir.'/'.$pool_name.'.conf')){
+				unlink($pool_dir.'/'.$pool_name.'.conf');
 				//$reload = true;
 			}
 			//if($reload == true) $app->services->restartService('php-fpm','reload');
@@ -1093,9 +1090,9 @@ class nginx_plugin {
 		}
 		
 		//if(!@is_file($pool_dir.'/'.$data['new']['domain'].'.conf') || ($data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain'])) {
-			if ( @is_file($pool_dir.'/'.$data['old']['domain'].'.conf') ) {
-				unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
-			}
+			//if ( @is_file($pool_dir.'/'.$pool_name.'.conf') ) {
+			//	unlink($pool_dir.'/'.$pool_name.'.conf');
+			//}
 			
 			$app->uses("getconf");
 			$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
@@ -1104,7 +1101,7 @@ class nginx_plugin {
 			$tpl = new tpl();
 			$tpl->newTemplate('php_fpm_pool.conf.master');
 
-			$tpl->setVar('fpm_pool', $data['new']['domain']);
+			$tpl->setVar('fpm_pool', $pool_name);
 			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1);
 			$tpl->setVar('fpm_user', $data['new']['system_user']);
 			$tpl->setVar('fpm_group', $data['new']['system_group']);
@@ -1154,8 +1151,8 @@ class nginx_plugin {
 			
 			$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 			
-			file_put_contents($pool_dir.'/'.$data['new']['domain'].'.conf',$tpl->grab());
-			$app->log('Writing the PHP-FPM config file: '.$pool_dir.'/'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
+			file_put_contents($pool_dir.'/'.$pool_name.'.conf',$tpl->grab());
+			$app->log('Writing the PHP-FPM config file: '.$pool_dir.'/'.$pool_name.'.conf',LOGLEVEL_DEBUG);
 			unset($tpl);
 			//$reload = true;
 		//}
@@ -1167,11 +1164,12 @@ class nginx_plugin {
 		global $app;
 		
 		$pool_dir = $web_config['php_fpm_pool_dir'];
+		$pool_name = 'web'.$data['old']['domain_id'];
 		
-		if ( @is_file($pool_dir.'/'.$data['old']['domain'].'.conf') ) {
-			unlink($pool_dir.'/'.$data['old']['domain'].'.conf');
-			$app->log('Removed PHP-FPM config file: '.$pool_dir.'/'.$data['old']['domain'].'.conf',LOGLEVEL_DEBUG);
-			$app->services->restartService('php-fpm','reload');
+		if ( @is_file($pool_dir.'/'.$pool_name.'.conf') ) {
+			unlink($pool_dir.'/'.$pool_name.'.conf');
+			$app->log('Removed PHP-FPM config file: '.$pool_dir.'/'.$pool_name.'.conf',LOGLEVEL_DEBUG);
+			//$app->services->restartService('php-fpm','reload');
 		}
 	}
 	
