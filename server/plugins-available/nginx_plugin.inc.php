@@ -1101,7 +1101,7 @@ class nginx_plugin {
 			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id']);
 			$tpl->setVar('fpm_user', $data['new']['system_user']);
 			$tpl->setVar('fpm_group', $data['new']['system_group']);
-			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
+			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
 			$tpl->setVar('php_open_basedir', $php_open_basedir);
 			if($php_open_basedir != ''){
 				$tpl->setVar('enable_php_open_basedir', '');
@@ -1121,8 +1121,8 @@ class nginx_plugin {
 					foreach($ini_settings as $ini_setting){
 							list($key, $value) = explode('=', $ini_setting);
 							if($value){
-								$value = trim($value);
-								$key = trim($key);
+								$value = escapeshellcmd(trim($value));
+								$key = escapeshellcmd(trim($key));
 								switch (strtolower($value)) {
 									case 'on':
 									case 'off':
