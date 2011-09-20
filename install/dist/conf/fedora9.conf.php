@@ -188,9 +188,9 @@ $conf['nginx']['vhost_conf_enabled_dir'] = '/etc/nginx/sites-enabled';
 $conf['nginx']['init_script'] = 'nginx';
 $conf['nginx']['vhost_port'] = '8080';
 $conf['nginx']['cgi_socket'] = '/var/run/fcgiwrap.socket';
-$conf['nginx']['php_fpm_init_script'] = 'php5-fpm';
-$conf['nginx']['php_fpm_ini_path'] = '/etc/php5/fpm/php.ini';
-$conf['nginx']['php_fpm_pool_dir'] = '/etc/php5/fpm/pool.d';
+$conf['nginx']['php_fpm_init_script'] = 'php-fpm';
+$conf['nginx']['php_fpm_ini_path'] = '/etc/php.ini';
+$conf['nginx']['php_fpm_pool_dir'] = '/etc/php-fpm.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 
 //* vlogger
