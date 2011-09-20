@@ -671,34 +671,58 @@ class apache2_plugin {
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
 
 		//$vhost_data['document_root'] = $data['new']['document_root'].'/web';
+		
+		// Set SEO Redirect
+		if($data['new']['seo_redirect'] != '' && ($data['new']['subdomain'] == 'www' || $data['new']['subdomain'] == '*')){
+			$vhost_data['seo_redirect_enabled'] = 1;
+			if($data['new']['seo_redirect'] == 'non_www_to_www'){
+				$vhost_data['seo_redirect_origin_domain'] = $data['new']['domain'];
+				$vhost_data['seo_redirect_target_domain'] = 'www.'.$data['new']['domain'];
+			}
+			if($data['new']['seo_redirect'] == 'www_to_non_www'){
+				$vhost_data['seo_redirect_origin_domain'] = 'www.'.$data['new']['domain'];
+				$vhost_data['seo_redirect_target_domain'] = $data['new']['domain'];
+			}
+		} else {
+			$vhost_data['seo_redirect_enabled'] = 0;
+		}
+		
 		$tpl->setVar($vhost_data);
 
 		// Rewrite rules
 		$rewrite_rules = array();
 		if($data['new']['redirect_type'] != '') {
 			if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
+			$rewrite_target = $data['new']['redirect_path'];
+			$rewrite_target_ssl = $data['new']['redirect_path'];
 			/* Disabled path extension
 			if($data['new']['redirect_type'] == 'no' && substr($data['new']['redirect_path'],0,4) != 'http') {
 				$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';
 			}
 			*/
 
-			$rewrite_rules[] = array(	'rewrite_domain' 	=> $data['new']['domain'],
-					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
-					'rewrite_target' 	=> $data['new']['redirect_path']);
-
 			switch($data['new']['subdomain']) {
 				case 'www':
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
+						'rewrite_target' 	=> $rewrite_target,
+						'rewrite_target_ssl' => $rewrite_target_ssl);
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$data['new']['domain'],
 							'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
-							'rewrite_target' 	=> $data['new']['redirect_path']);
+							'rewrite_target' 	=> $rewrite_target,
+							'rewrite_target_ssl' => $rewrite_target_ssl);
 					break;
 				case '*':
-				// TODO
-				//$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias['domain'],
-				//							'rewrite_type' 		=> $alias['redirect_type'],
-				//							'rewrite_target' 	=> $alias['redirect_path']);
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> $data['new']['domain'],
+						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
+						'rewrite_target' 	=> $rewrite_target,
+						'rewrite_target_ssl' => $rewrite_target_ssl);
 					break;
+				default:
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
+						'rewrite_target' 	=> $rewrite_target,
+						'rewrite_target_ssl' => $rewrite_target_ssl);
 			}
 		}
 
@@ -729,27 +753,42 @@ class apache2_plugin {
 				$app->log('Add server alias: '.$alias['domain'],LOGLEVEL_DEBUG);
 				// Rewriting
 				if($alias['redirect_type'] != '') {
-					if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
+					if(substr($alias['redirect_path'],-1) != '/') $alias['redirect_path'] .= '/';
+					if(substr($alias['redirect_path'],0,8) == '[scheme]'){
+						$rewrite_target = 'http'.substr($alias['redirect_path'],8);
+						$rewrite_target_ssl = 'https'.substr($alias['redirect_path'],8);
+					} else {
+						$rewrite_target = $alias['redirect_path'];
+						$rewrite_target_ssl = $alias['redirect_path'];
+					}
 					/* Disabled the path extension
 					if($data['new']['redirect_type'] == 'no' && substr($data['new']['redirect_path'],0,4) != 'http') {
 						$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';
 					}
 					*/
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
-							'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
-							'rewrite_target' 	=> $alias['redirect_path']);
+					
 					switch($alias['subdomain']) {
 						case 'www':
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
+								'rewrite_target' 	=> $rewrite_target,
+								'rewrite_target_ssl' => $rewrite_target_ssl);
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$alias['domain'],
 									'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
-									'rewrite_target' 	=> $alias['redirect_path']);
+									'rewrite_target' 	=> $rewrite_target,
+									'rewrite_target_ssl' => $rewrite_target_ssl);
 							break;
 						case '*':
-						// TODO
-						//$rewrite_rules[] = array(	'rewrite_domain' 	=> '*'.$alias['domain'],
-						//							'rewrite_type' 		=> $alias['redirect_type'],
-						//							'rewrite_target' 	=> $alias['redirect_path']);
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
+								'rewrite_target' 	=> $rewrite_target,
+								'rewrite_target_ssl' => $rewrite_target_ssl);
 							break;
+						default:
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
+								'rewrite_target' 	=> $rewrite_target,
+								'rewrite_target_ssl' => $rewrite_target_ssl);
 					}
 				}
 			}

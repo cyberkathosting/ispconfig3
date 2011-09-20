@@ -73,4 +73,7 @@ $wb['save_certificate_txt'] = 'Save certificate';
 $wb['create_certificate_txt'] = 'Create certificate';
 $wb['delete_certificate_txt'] = 'Delete certificate';
 $wb['nginx_directives_txt'] = 'nginx Direktiven';
+$wb["seo_redirect_txt"] = 'SEO Redirect';
+$wb["non_www_to_www_txt"] = 'Nicht-www -&gt; www';
+$wb["www_to_non_www_txt"] = 'www -&gt; Nicht-www';
 ?>

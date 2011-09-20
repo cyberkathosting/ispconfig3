@@ -650,7 +650,6 @@ class nginx_plugin {
 		$domain = $data['new']['ssl_domain'];
 		$key_file = $ssl_dir.'/'.$domain.'.key';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
-		//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
 		if($domain!='' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$vhost_data['ssl_enabled'] = 1;
@@ -660,9 +659,21 @@ class nginx_plugin {
 			$app->log('SSL Disabled. '.$domain,LOGLEVEL_DEBUG);
 		}
 
-		//if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
-
-		//$vhost_data['document_root'] = $data['new']['document_root'].'/web';
+		// Set SEO Redirect
+		if($data['new']['seo_redirect'] != '' && ($data['new']['subdomain'] == 'www' || $data['new']['subdomain'] == '*')){
+			$vhost_data['seo_redirect_enabled'] = 1;
+			if($data['new']['seo_redirect'] == 'non_www_to_www'){
+				$vhost_data['seo_redirect_origin_domain'] = $data['new']['domain'];
+				$vhost_data['seo_redirect_target_domain'] = 'www.'.$data['new']['domain'];
+			}
+			if($data['new']['seo_redirect'] == 'www_to_non_www'){
+				$vhost_data['seo_redirect_origin_domain'] = 'www.'.$data['new']['domain'];
+				$vhost_data['seo_redirect_target_domain'] = $data['new']['domain'];
+			}
+		} else {
+			$vhost_data['seo_redirect_enabled'] = 0;
+		}
+		
 		$tpl->setVar($vhost_data);
 
 		// Rewrite rules
@@ -723,7 +734,9 @@ class nginx_plugin {
 				$app->log('Add server alias: '.$alias['domain'],LOGLEVEL_DEBUG);
 				// Rewriting
 				if($alias['redirect_type'] != '') {
-					if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
+					if(substr($alias['redirect_path'],-1) != '/') $alias['redirect_path'] .= '/';
+					if(substr($alias['redirect_path'],0,8) == '[scheme]') $alias['redirect_path'] = '$scheme'.substr($alias['redirect_path'],8);
+					
 					/* Disabled the path extension
 					if($data['new']['redirect_type'] == 'no' && substr($data['new']['redirect_path'],0,4) != 'http') {
 						$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';

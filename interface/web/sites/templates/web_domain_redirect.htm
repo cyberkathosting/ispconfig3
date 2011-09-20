@@ -15,6 +15,12 @@
       	<label for="redirect_path">{tmpl_var name='redirect_path_txt'}</label>
         <input name="redirect_path" id="redirect_path" value="{tmpl_var name='redirect_path'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
+		<div class="ctrlHolder">
+      	<label for="seo_redirect">{tmpl_var name='seo_redirect_txt'}</label>
+        <select name="seo_redirect" id="seo_redirect" class="selectInput formLengthHalf">
+					{tmpl_var name='seo_redirect'}
+				</select>
+			</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

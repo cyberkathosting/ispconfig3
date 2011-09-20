@@ -11,6 +11,13 @@ server {
 
         root   <tmpl_var name='web_document_root_www'>;
 		
+        <tmpl_if name='seo_redirect_enabled'>
+
+        if ($http_host = "<tmpl_var name='seo_redirect_origin_domain'>") {
+            rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri permanent;
+        }
+		</tmpl_if>
+		
         <tmpl_loop name="redirects">
 		
         if ($http_host ~* "<tmpl_var name='rewrite_domain'>$") {

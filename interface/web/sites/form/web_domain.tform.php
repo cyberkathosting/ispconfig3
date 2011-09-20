@@ -245,6 +245,12 @@ $form["tabs"]['redirect'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'seo_redirect' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('' => 'no_redirect_txt', 'non_www_to_www' => 'non_www_to_www_txt', 'www_to_non_www' => 'www_to_non_www_txt')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

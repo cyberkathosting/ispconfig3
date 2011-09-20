@@ -191,6 +191,14 @@
 <tmpl_if name="rewrite_enabled">
     
     RewriteEngine on
+	
+<tmpl_if name='seo_redirect_enabled'>
+
+    RewriteCond %{HTTP_HOST} ^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
+    RewriteRule ^(.*)$ http://<tmpl_var name='seo_redirect_target_domain'>/$1 [R=301,L]
+
+</tmpl_if>
+
 <tmpl_loop name="redirects">
     RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]
     RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
@@ -405,9 +413,17 @@
 <tmpl_if name="rewrite_enabled">
     
     RewriteEngine on
+	
+<tmpl_if name='seo_redirect_enabled'>
+
+    RewriteCond %{HTTP_HOST} ^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
+    RewriteRule ^(.*)$ https://<tmpl_var name='seo_redirect_target_domain'>/$1 [R=301,L]
+
+</tmpl_if>
+
 <tmpl_loop name="redirects">
     RewriteCond %{HTTP_HOST}   ^<tmpl_var name='rewrite_domain'> [NC]
-    RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
+    RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target_ssl'>$1  <tmpl_var name='rewrite_type'>
 </tmpl_loop>
 </tmpl_if>
 

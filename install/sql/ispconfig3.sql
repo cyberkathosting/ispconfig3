@@ -1493,6 +1493,7 @@ CREATE TABLE `web_domain` (
   `ruby` enum('n','y') NOT NULL default 'n',
   `redirect_type` varchar(255) default NULL,
   `redirect_path` varchar(255) default NULL,
+  `seo_redirect` varchar(255) default NULL,
   `ssl` enum('n','y') NOT NULL default 'n',
   `ssl_state` varchar(255) NULL,
   `ssl_locality` varchar(255) NULL,
