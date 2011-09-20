@@ -1459,9 +1459,18 @@ class installer_base {
 			$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
 			$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
 			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
-			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
+			
+			// PHP-FPM
+			// Dont just copy over the php-fpm pool template but add some custom settings
+			$content = rf('tpl/php_fpm_pool.conf.master');
+			$content = str_replace('{fpm_pool}', 'apps', $content);
+			$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
+			$content = str_replace('{fpm_user}', $apps_vhost_user, $content);
+			$content = str_replace('{fpm_group}', $apps_vhost_group, $content);
+			wf($conf['nginx']['php_fpm_pool_dir'].'/apps.conf', $content);
 
 			//copy('tpl/nginx_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink

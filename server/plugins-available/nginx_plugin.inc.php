@@ -638,12 +638,10 @@ class nginx_plugin {
 		$vhost_data['web_document_root'] = $data['new']['document_root'].'/web';
 		$vhost_data['web_document_root_www'] = $web_config['website_basedir'].'/'.$data['new']['domain'].'/web';
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
-		$vhost_data['security_level'] = $web_config['security_level'];
-		$vhost_data['allow_override'] = ($data['new']['allow_override'] == '')?'All':$data['new']['allow_override'];
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
 		//$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
 		//$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
-		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'];
+		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1;
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
@@ -1098,9 +1096,10 @@ class nginx_plugin {
 			$tpl->newTemplate('php_fpm_pool.conf.master');
 
 			$tpl->setVar('fpm_pool', $data['new']['domain']);
-			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id']);
+			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1);
 			$tpl->setVar('fpm_user', $data['new']['system_user']);
 			$tpl->setVar('fpm_group', $data['new']['system_group']);
+			$tpl->setVar('security_level',$web_config['security_level']);
 			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
 			$tpl->setVar('php_open_basedir', $php_open_basedir);
 			if($php_open_basedir != ''){
