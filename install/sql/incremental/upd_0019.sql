@@ -1,4 +1,4 @@
-CREATE TABLE `help_faq` (
+CREATE TABLE IF NOT EXISTS `help_faq` (
   `hf_id` int(11) NOT NULL AUTO_INCREMENT,
   `hf_section` int(11) DEFAULT NULL,
   `hf_order` int(11) DEFAULT '0',
@@ -12,7 +12,7 @@ CREATE TABLE `help_faq` (
   PRIMARY KEY (`hf_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `help_faq_sections` (
+CREATE TABLE IF NOT EXISTS `help_faq_sections` (
   `hfs_id` int(11) NOT NULL AUTO_INCREMENT,
   `hfs_name` varchar(255) DEFAULT NULL,
   `hfs_order` int(11) DEFAULT '0',
