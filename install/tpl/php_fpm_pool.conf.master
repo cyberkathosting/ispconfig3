@@ -2,6 +2,8 @@
 
 listen = 127.0.0.1:{fpm_port}
 
+listen.allowed_clients = 127.0.0.1
+
 user = {fpm_user}
 group = {fpm_group}
 

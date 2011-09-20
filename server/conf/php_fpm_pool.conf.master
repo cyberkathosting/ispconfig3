@@ -2,6 +2,8 @@
 
 listen = 127.0.0.1:<tmpl_var name='fpm_port'>
 
+listen.allowed_clients = 127.0.0.1
+
 user = <tmpl_var name='fpm_user'>
 group = <tmpl_var name='fpm_group'>
 
