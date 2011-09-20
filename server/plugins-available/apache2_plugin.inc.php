@@ -1195,7 +1195,7 @@ class apache2_plugin {
 	//* Create or update the .htaccess folder protection
 	function web_folder_user($event_name,$data) {
 		global $app, $conf;
-		
+
 		$app->uses('system');
 		
 		if($event_name == 'web_folder_user_delete') {
@@ -1213,17 +1213,19 @@ class apache2_plugin {
 		}
 		
 		//* Get the folder path.
-		$folder_path = realpath($website['document_root'].'/web/'.$folder['path']);
+		if(substr($folder['path'],0,1) == '/') $folder['path'] = substr($folder['path'],1);
+		if(substr($folder['path'],-1) == '/') $folder['path'] = substr($folder['path'],0,-1);
+		$folder_path = escapeshellcmd($website['document_root'].'/web/'.$folder['path']);
 		if(substr($folder_path,-1 != '/')) $folder_path .= '/';
 		
 		//* Check if the resulting path is inside the docroot
-		if(substr($folder_path,0,strlen($website['document_root'])) != $website['document_root']) {
-			$app->log('Folder path is outside of docroot.',LOGLEVEL_DEBUG);
+		if(stristr($folder_path,'..') || stristr($folder_path,'./') || stristr($folder_path,'\\')) {
+			$app->log('Folder path "'.$folder_path.'" contains .. or ./.',LOGLEVEL_DEBUG);
 			return false;
 		}
 		
 		//* Create the folder path, if it does not exist
-		if(!is_dir($folder_path)) exec('mkdir -p '.escapehsellarg($folder_path));
+		if(!is_dir($folder_path)) exec('mkdir -p '.$folder_path);
 		
 		//* Create empty .htpasswd file, if it does not exist
 		if(!is_file($folder_path.'.htpasswd')) {
@@ -1232,13 +1234,20 @@ class apache2_plugin {
 			$app->log('Created file'.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 		}
 		
+		if($data['new']['username'] != $data['old']['username'] || $data['new']['active'] == 'n') {
+			$app->system->removeLine($folder_path.'.htpasswd',$data['old']['username'].':');
+			$app->log('Removed user: '.$data['old']['username'],LOGLEVEL_DEBUG);
+		}
+		
 		//* Add or remove the user from .htpasswd file
 		if($event_name == 'web_folder_user_delete') {
-			$app->system->removeLine($folder_path.'.htpasswd',$data['new']['username'].':');
-			$app->log('Removed user: '.$data['new']['username'],LOGLEVEL_DEBUG);
+			$app->system->removeLine($folder_path.'.htpasswd',$data['old']['username'].':');
+			$app->log('Removed user: '.$data['old']['username'],LOGLEVEL_DEBUG);
 		} else {
-			$app->system->replaceLine($folder_path.'.htpasswd',$data['new']['username'].':',$data['new']['username'].':'.$data['new']['password'],0,1);
-			$app->log('Added or updated user: '.$data['new']['username'],LOGLEVEL_DEBUG);
+			if($data['new']['active'] == 'y') {
+				$app->system->replaceLine($folder_path.'.htpasswd',$data['new']['username'].':',$data['new']['username'].':'.$data['new']['password'],0,1);
+				$app->log('Added or updated user: '.$data['new']['username'],LOGLEVEL_DEBUG);
+			}
 		}
 		
 		//* Create the .htaccess file

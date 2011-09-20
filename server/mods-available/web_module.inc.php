@@ -92,6 +92,8 @@ class web_module {
 		$app->modules->registerTableHook('ftp_user','web_module','process');
 		$app->modules->registerTableHook('shell_user','web_module','process');
 		$app->modules->registerTableHook('webdav_user','web_module','process');
+		$app->modules->registerTableHook('web_folder','web_module','process');
+		$app->modules->registerTableHook('web_folder_user','web_module','process');
 		
 		// Register service
 		$app->services->registerService('httpd','web_module','restartHttpd');
