@@ -639,9 +639,21 @@ class nginx_plugin {
 		$vhost_data['web_document_root_www'] = $web_config['website_basedir'].'/'.$data['new']['domain'].'/web';
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
-		//$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
-		//$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
 		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1;
+		
+		// Custom nginx directives
+		$final_nginx_directives = array();
+		$nginx_directives = $data['new']['nginx_directives'];
+		// Make sure we only have Unix linebreaks
+		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);
+		$nginx_directives = str_replace("\r", "\n", $nginx_directives);
+		$nginx_directive_lines = explode("\n", $nginx_directives);
+		if(is_array($nginx_directive_lines) && !empty($nginx_directive_lines)){
+			foreach($nginx_directive_lines as $nginx_directive_line){
+				$final_nginx_directives[] = array('nginx_directive' => $nginx_directive_line);
+			}
+		}
+		$tpl->setLoop('nginx_directives', $final_nginx_directives);
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
@@ -781,11 +793,8 @@ class nginx_plugin {
 		}
 
 		if(count($rewrite_rules) > 0) {
-			$tpl->setVar('rewrite_enabled',1);
-		} else {
-			$tpl->setVar('rewrite_enabled',0);
+			$tpl->setLoop('redirects',$rewrite_rules);
 		}
-		$tpl->setLoop('redirects',$rewrite_rules);
 		
 		//* Create basic http auth for website statistics
 		$tpl->setVar('stats_auth_passwd_file', $data['new']['document_root']."/.htpasswd_stats");

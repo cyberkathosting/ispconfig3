@@ -24,10 +24,8 @@ server {
             rewrite ^/(.+)$ <tmpl_var name='rewrite_target'>$1 <tmpl_var name='rewrite_type'>;
         }
         </tmpl_loop>
-
-        location / {
-            index index.html index.php;
-        }
+		
+        index index.html index.htm index.php index.cgi index.pl index.xhtml;
 		
 		<tmpl_if name='ssi' op='==' value='y'>
 		
@@ -49,11 +47,6 @@ server {
 		
         error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
 
-        # serve static files directly
-        location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
-            access_log        off;
-        }
-
         ## Disable .htaccess and other hidden files
         location ~ /\. {
             deny all;
@@ -61,7 +54,7 @@ server {
             log_not_found off;
         }
 		
-        location /favicon.ico {
+        location = /favicon.ico {
             log_not_found off;
             access_log off;
         }
@@ -108,8 +101,8 @@ server {
         }
 		</tmpl_if>
 
-        <tmpl_if name='nginx_directives'>
-            <tmpl_var name='nginx_directives'>
-        </tmpl_if>
+        <tmpl_loop name="nginx_directives">
+        <tmpl_var name='nginx_directive'>
+        </tmpl_loop>
 		
 }
