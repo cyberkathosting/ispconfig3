@@ -1,8 +1,12 @@
 [<tmpl_var name='fpm_pool'>]
 
-listen = 127.0.0.1:<tmpl_var name='fpm_port'>
+<tmpl_var name='use_tcp'>listen = 127.0.0.1:<tmpl_var name='fpm_port'>
+<tmpl_var name='use_tcp'>listen.allowed_clients = 127.0.0.1
 
-listen.allowed_clients = 127.0.0.1
+<tmpl_var name='use_socket'>listen = <tmpl_var name='fpm_socket'>
+<tmpl_var name='use_socket'>listen.owner = <tmpl_var name='fpm_user'>
+<tmpl_var name='use_socket'>listen.group = <tmpl_var name='fpm_group'>
+<tmpl_var name='use_socket'>listen.mode = 0660
 
 user = <tmpl_var name='fpm_user'>
 group = <tmpl_var name='fpm_group'>

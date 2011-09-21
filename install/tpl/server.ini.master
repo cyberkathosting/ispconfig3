@@ -66,6 +66,7 @@ php_fpm_init_script=php5-fpm
 php_fpm_ini_path=/etc/php5/fpm/php.ini
 php_fpm_pool_dir=/etc/php5/fpm/pool.d
 php_fpm_start_port=9010
+php_fpm_socket_dir=/var/run/php5-fpm
 
 [dns]
 bind_user=root

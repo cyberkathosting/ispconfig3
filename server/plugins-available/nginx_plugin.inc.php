@@ -639,6 +639,25 @@ class nginx_plugin {
 		$vhost_data['web_document_root_www'] = $web_config['website_basedir'].'/'.$data['new']['domain'].'/web';
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
+		
+		// PHP-FPM
+		$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		if(substr($pool_dir,-1) != '/') $pool_dir .= '/';
+		$pool_name = 'web'.$data['new']['domain_id'];
+		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+		if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
+		
+		if($data['new']['php_fpm_use_socket'] == 'y'){
+			$use_tcp = '#';
+			$use_socket = '';
+		} else {
+			$use_tcp = '';
+			$use_socket = '#';
+		}
+		$tpl->setVar('use_tcp', $use_tcp);
+		$tpl->setVar('use_socket', $use_socket);
+		$fpm_socket = $socket_dir.$pool_name.'.sock';
+		$tpl->setVar('fpm_socket', $fpm_socket);
 		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1;
 		
 		// Custom nginx directives
@@ -870,7 +889,7 @@ class nginx_plugin {
 			$this->awstats_update($data,$web_config);
 		}
 		
-		$this->php_fpm_pool_update($data,$web_config);
+		$this->php_fpm_pool_update($data,$web_config,$pool_dir,$pool_name,$socket_dir);
 		
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if nginx starts with the new configuration file
@@ -1073,89 +1092,95 @@ class nginx_plugin {
 	}
 	
 	//* Update the PHP-FPM pool configuration file
-	private function php_fpm_pool_update ($data,$web_config) {
+	private function php_fpm_pool_update ($data,$web_config,$pool_dir,$pool_name,$socket_dir) {
 		global $app, $conf;
-		
-		$pool_dir = $web_config['php_fpm_pool_dir'];
-		$pool_name = 'web'.$data['new']['domain_id'];
 		//$reload = false;
 		
 		if($data['new']['php'] == 'no'){
-			if(@is_file($pool_dir.'/'.$pool_name.'.conf')){
-				unlink($pool_dir.'/'.$pool_name.'.conf');
+			if(@is_file($pool_dir.$pool_name.'.conf')){
+				unlink($pool_dir.$pool_name.'.conf');
 				//$reload = true;
 			}
 			//if($reload == true) $app->services->restartService('php-fpm','reload');
 			return;
 		}
-		
-		//if(!@is_file($pool_dir.'/'.$data['new']['domain'].'.conf') || ($data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain'])) {
-			//if ( @is_file($pool_dir.'/'.$pool_name.'.conf') ) {
-			//	unlink($pool_dir.'/'.$pool_name.'.conf');
-			//}
 			
-			$app->uses("getconf");
-			$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 			
-			$app->load('tpl');
-			$tpl = new tpl();
-			$tpl->newTemplate('php_fpm_pool.conf.master');
+		$app->load('tpl');
+		$tpl = new tpl();
+		$tpl->newTemplate('php_fpm_pool.conf.master');
 
-			$tpl->setVar('fpm_pool', $pool_name);
-			$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1);
-			$tpl->setVar('fpm_user', $data['new']['system_user']);
-			$tpl->setVar('fpm_group', $data['new']['system_group']);
-			$tpl->setVar('security_level',$web_config['security_level']);
-			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
-			$tpl->setVar('php_open_basedir', $php_open_basedir);
-			if($php_open_basedir != ''){
-				$tpl->setVar('enable_php_open_basedir', '');
-			} else {
-				$tpl->setVar('enable_php_open_basedir', ';');
-			}
+		if($data['new']['php_fpm_use_socket'] == 'y'){
+			$use_tcp = ';';
+			$use_socket = '';
+			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
+		} else {
+			$use_tcp = '';
+			$use_socket = ';';
+		}
+		$tpl->setVar('use_tcp', $use_tcp);
+		$tpl->setVar('use_socket', $use_socket);
 			
-			// Custom php.ini settings
-			$final_php_ini_settings = array();
-			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
-			if($custom_php_ini_settings != ''){
-				// Make sure we only have Unix linebreaks
-				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
-				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
-				$ini_settings = explode("\n", $custom_php_ini_settings);
-				if(is_array($ini_settings) && !empty($ini_settings)){
-					foreach($ini_settings as $ini_setting){
-							list($key, $value) = explode('=', $ini_setting);
-							if($value){
-								$value = escapeshellcmd(trim($value));
-								$key = escapeshellcmd(trim($key));
-								switch (strtolower($value)) {
-									case 'on':
-									case 'off':
-									case '1':
-									case '0':
-										// PHP-FPM might complain about invalid boolean value if you use 0
-										$value = 'off';
-									case 'true':
-									case 'false':
-									case 'yes':
-									case 'no':
-										$final_php_ini_settings[] = array('ini_setting' => 'php_admin_flag['.$key.'] = '.$value);
-										break;
-									default:
-										$final_php_ini_settings[] = array('ini_setting' => 'php_admin_value['.$key.'] = '.$value);
-								}
+		$fpm_socket = $socket_dir.$pool_name.'.sock';
+		$tpl->setVar('fpm_socket', $fpm_socket);
+			
+		$tpl->setVar('fpm_pool', $pool_name);
+		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1);
+		$tpl->setVar('fpm_user', $data['new']['system_user']);
+		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('security_level',$web_config['security_level']);
+		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
+		$tpl->setVar('php_open_basedir', $php_open_basedir);
+		if($php_open_basedir != ''){
+			$tpl->setVar('enable_php_open_basedir', '');
+		} else {
+			$tpl->setVar('enable_php_open_basedir', ';');
+		}
+			
+		// Custom php.ini settings
+		$final_php_ini_settings = array();
+		$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+		if($custom_php_ini_settings != ''){
+			// Make sure we only have Unix linebreaks
+			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
+			$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
+			$ini_settings = explode("\n", $custom_php_ini_settings);
+			if(is_array($ini_settings) && !empty($ini_settings)){
+				foreach($ini_settings as $ini_setting){
+						list($key, $value) = explode('=', $ini_setting);
+						if($value){
+							$value = escapeshellcmd(trim($value));
+							$key = escapeshellcmd(trim($key));
+							switch (strtolower($value)) {
+								case 'on':
+								case 'off':
+								case '1':
+								case '0':
+									// PHP-FPM might complain about invalid boolean value if you use 0
+									$value = 'off';
+								case 'true':
+								case 'false':
+								case 'yes':
+								case 'no':
+									$final_php_ini_settings[] = array('ini_setting' => 'php_admin_flag['.$key.'] = '.$value);
+									break;
+								default:
+									$final_php_ini_settings[] = array('ini_setting' => 'php_admin_value['.$key.'] = '.$value);
 							}
-					}
+						}
 				}
 			}
+		}
 			
-			$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
+		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 			
-			file_put_contents($pool_dir.'/'.$pool_name.'.conf',$tpl->grab());
-			$app->log('Writing the PHP-FPM config file: '.$pool_dir.'/'.$pool_name.'.conf',LOGLEVEL_DEBUG);
-			unset($tpl);
-			//$reload = true;
-		//}
+		file_put_contents($pool_dir.$pool_name.'.conf',$tpl->grab());
+		$app->log('Writing the PHP-FPM config file: '.$pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
+		unset($tpl);
+		//$reload = true;
+
 		//if($reload == true) $app->services->restartService('php-fpm','reload');
 	}
 	
@@ -1163,12 +1188,13 @@ class nginx_plugin {
 	private function php_fpm_pool_delete ($data,$web_config) {
 		global $app;
 		
-		$pool_dir = $web_config['php_fpm_pool_dir'];
-		$pool_name = 'web'.$data['old']['domain_id'];
+		$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		if(substr($pool_dir,-1) != '/') $pool_dir .= '/';
+		$pool_name = 'web'.$data['new']['domain_id'];
 		
-		if ( @is_file($pool_dir.'/'.$pool_name.'.conf') ) {
-			unlink($pool_dir.'/'.$pool_name.'.conf');
-			$app->log('Removed PHP-FPM config file: '.$pool_dir.'/'.$pool_name.'.conf',LOGLEVEL_DEBUG);
+		if ( @is_file($pool_dir.$pool_name.'.conf') ) {
+			unlink($pool_dir.$pool_name.'.conf');
+			$app->log('Removed PHP-FPM config file: '.$pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
 			//$app->services->restartService('php-fpm','reload');
 		}
 	}

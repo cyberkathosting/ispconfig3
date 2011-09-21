@@ -75,7 +75,8 @@ server {
 		
         location ~ \.php$ {
             try_files $uri =404;
-            fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
+            <tmpl_var name='use_tcp'>fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
+            <tmpl_var name='use_socket'>fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param PATH_INFO $fastcgi_script_name;

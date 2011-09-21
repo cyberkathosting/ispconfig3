@@ -139,4 +139,6 @@ $wb["php_fpm_pool_dir_txt"] = 'PHP-FPM pool Verzeichnis';
 $wb["php_fpm_pool_dir_error_empty"] = 'PHP-FPM pool Verzeichnis ist leer.';
 $wb["php_fpm_start_port_txt"] = 'PHP-FPM Start-Port';
 $wb["php_fpm_start_port_error_empty"] = 'PHP-FPM Start-Port ist leer.';
+$wb["php_fpm_socket_dir_txt"] = 'PHP-FPM Socket-Verzeichnis';
+$wb["php_fpm_socket_dir_error_empty"] = 'PHP-FPM Socket-Verzeichnis ist leer.';
 ?>

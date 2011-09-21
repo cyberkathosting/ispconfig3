@@ -20,6 +20,12 @@
       	<label for="allow_override">{tmpl_var name='allow_override_txt'}</label>
         <input name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" size="30" maxlength="255" type="text" class="textInput" />
 	  </div>
+	  <div class="ctrlHolder nginx">
+				<p class="label">{tmpl_var name='php_fpm_use_socket_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='php_fpm_use_socket'}
+					</div>
+			</div>
 	  <div class="ctrlHolder">
       	<label for="php_open_basedir">{tmpl_var name='php_open_basedir_txt'}</label>
         <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="30" type="text" class="textInput"  style="width:400px;" />

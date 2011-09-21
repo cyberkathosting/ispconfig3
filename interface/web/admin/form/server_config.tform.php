@@ -548,6 +548,17 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_fpm_socket_dir' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'php_fpm_socket_dir_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'php_open_basedir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

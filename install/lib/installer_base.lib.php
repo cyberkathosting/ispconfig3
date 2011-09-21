@@ -243,6 +243,7 @@ class installer_base {
 			$tpl_ini_array['web']['php_fpm_ini_path'] = $conf['nginx']['php_fpm_ini_path'];
 			$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
 			$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
+			$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
 			$tpl_ini_array['web']['server_type'] = 'nginx';
 			$tpl_ini_array['global']['webserver'] = 'nginx';
 		}

@@ -488,6 +488,12 @@ $form["tabs"]['advanced'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'php_fpm_use_socket' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 		'php_open_basedir' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
