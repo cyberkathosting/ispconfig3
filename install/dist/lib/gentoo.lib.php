@@ -455,6 +455,7 @@ class installer extends installer_base
     {	
 		global $conf;
 		
+		if($conf['apache']['installed'] == false) return;
 		//* Create the logging directory for the vhost logfiles
 		if (!is_dir($conf['ispconfig_log_dir'].'/httpd')) {
 			mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
@@ -553,60 +554,120 @@ class installer extends installer_base
 		global $conf;
 		
 		//* Create the ispconfig apps vhost user and group
+		if($conf['apache']['installed'] == true){
+			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
+			$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
+			$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
 		
-		$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
-		$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
-		$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
+			$command = 'groupadd '.$apps_vhost_user;
+			if ( !is_group($apps_vhost_group) ) {
+				caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			}
 		
-		$command = 'groupadd '.$apps_vhost_user;
-		if ( !is_group($apps_vhost_group) ) {
-			caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		}
+			$command = "useradd -g '$apps_vhost_group' -d $install_dir $apps_vhost_group";
+			if ( !is_user($apps_vhost_user) ) {
+				caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			}
 		
-		$command = "useradd -g '$apps_vhost_group' -d $install_dir $apps_vhost_group";
-		if ( !is_user($apps_vhost_user) ) {
-			caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		}
+			$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			if (!@is_dir($install_dir)) {
+				mkdir($install_dir, 0755, true);
+			}
+			chown($install_dir, $apps_vhost_user);
+			chgrp($install_dir, $apps_vhost_group);
 		
-		if (!@is_dir($install_dir)) {
-			mkdir($install_dir, 0755, true);
-		}
-		chown($install_dir, $apps_vhost_user);
-		chgrp($install_dir, $apps_vhost_group);
-		
-		//* Copy the apps vhost file
-        $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
-        $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
-        $apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '') ? '' : 'ServerName '.$conf['web']['apps_vhost_servername'];
+			//* Copy the apps vhost file
+			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
+			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
+			$apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '') ? '' : 'ServerName '.$conf['web']['apps_vhost_servername'];
         
-        //* Dont just copy over the virtualhost template but add some custom settings
-        $content = $this->get_template_file('apache_apps.vhost', true);
+			//* Dont just copy over the virtualhost template but add some custom settings
+			$content = $this->get_template_file('apache_apps.vhost', true);
         
-        $content = str_replace('{apps_vhost_ip}', $conf['web']['apps_vhost_ip'], $content);
-		$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
-		$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
-		$content = str_replace('{website_basedir}', $conf['web']['website_basedir'], $content);
-		$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
+			$content = str_replace('{apps_vhost_ip}', $conf['web']['apps_vhost_ip'], $content);
+			$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
+			$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
+			$content = str_replace('{website_basedir}', $conf['web']['website_basedir'], $content);
+			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
 		
-		//* comment out the listen directive if port is 80 or 443
-		if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
-			$content = str_replace('{vhost_port_listen}', '#', $content);
-		} else {
-			$content = str_replace('{vhost_port_listen}', '', $content);
-		}
+			//* comment out the listen directive if port is 80 or 443
+			if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
+				$content = str_replace('{vhost_port_listen}', '#', $content);
+			} else {
+				$content = str_replace('{vhost_port_listen}', '', $content);
+			}
 		
-		$this->write_config_file("$vhost_conf_dir/apps.vhost", $content);
+			$this->write_config_file("$vhost_conf_dir/apps.vhost", $content);
 		
-		if ( !is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter') ) 
-		{
-			mkdir($conf['web']['website_basedir'].'/php-fcgi-scripts/apps', 0755, true);
-			copy('tpl/apache_apps_fcgi_starter.master',$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
-			exec('chmod +x '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
-			exec('chown -R ispapps:ispapps '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
+			if ( !is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter') ) 
+			{
+				mkdir($conf['web']['website_basedir'].'/php-fcgi-scripts/apps', 0755, true);
+				copy('tpl/apache_apps_fcgi_starter.master',$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
+				exec('chmod +x '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
+				exec('chown -R ispapps:ispapps '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
 			
+			}
+		}
+		if($conf['nginx']['installed'] == true){
+			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
+			$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
+			$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
+
+			$command = 'groupadd '.$apps_vhost_user;
+			if(!is_group($apps_vhost_group)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+			$command = 'useradd -g '.$apps_vhost_group.' -d '.$install_dir.' '.$apps_vhost_group;
+			if(!is_user($apps_vhost_user)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+
+			$command = 'adduser '.$conf['nginx']['user'].' '.$apps_vhost_group;
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+			if(!@is_dir($install_dir)) mkdir($install_dir, 0755, true);
+			chown($install_dir, $apps_vhost_user);
+			chgrp($install_dir, $apps_vhost_group);
+
+			//* Copy the apps vhost file
+			$vhost_conf_dir = $conf['nginx']['vhost_conf_dir'];
+			$vhost_conf_enabled_dir = $conf['nginx']['vhost_conf_enabled_dir'];
+			$apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '')?'_':$conf['web']['apps_vhost_servername'];
+
+			// Dont just copy over the virtualhost template but add some custom settings
+			$content = rf('tpl/nginx_apps.vhost.master');
+			
+			if($conf['web']['apps_vhost_ip'] == '_default_'){
+				$apps_vhost_ip = '';
+			} else {
+				$apps_vhost_ip = $conf['web']['apps_vhost_ip'].':';
+			}
+
+			$content = str_replace('{apps_vhost_ip}', $apps_vhost_ip, $content);
+			$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
+			$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
+			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
+			$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
+
+			wf($vhost_conf_dir.'/apps.vhost', $content);
+			
+			// PHP-FPM
+			// Dont just copy over the php-fpm pool template but add some custom settings
+			$content = rf('tpl/php_fpm_pool.conf.master');
+			$content = str_replace('{fpm_pool}', 'apps', $content);
+			$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
+			$content = str_replace('{fpm_user}', $apps_vhost_user, $content);
+			$content = str_replace('{fpm_group}', $apps_vhost_group, $content);
+			wf($conf['nginx']['php_fpm_pool_dir'].'/apps.conf', $content);
+
+			//copy('tpl/nginx_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+			//* and create the symlink
+			if($this->install_ispconfig_interface == true) {
+				if(@is_link($vhost_conf_enabled_dir.'/apps.vhost')) unlink($vhost_conf_enabled_dir.'/apps.vhost');
+				if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
+					symlink($vhost_conf_dir.'/apps.vhost',$vhost_conf_enabled_dir.'/000-apps.vhost');
+				}
+			}
 		}
 	}
     
@@ -703,6 +764,8 @@ class installer extends installer_base
 		if (is_dir($dir)) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
+					if($conf['apache']['installed'] == true && $file == 'nginx_plugin.inc.php') continue;
+					if($conf['nginx']['installed'] == true && $file == 'apache2_plugin.inc.php') continue;
 					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
 						include_once($install_dir.'/server/plugins-available/'.$file);
 						$plugin_name = substr($file,0,-8);
@@ -798,34 +861,80 @@ class installer extends installer_base
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		//* Copy the ISPConfig vhost for the controlpanel
-		$content = $this->get_template_file("apache_ispconfig.vhost", true);
-		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
+		if($conf['apache']['installed'] == true){
+			//* Copy the ISPConfig vhost for the controlpanel
+			$content = $this->get_template_file("apache_ispconfig.vhost", true);
+			$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
 		
-		//* comment out the listen directive if port is 80 or 443
-		if ($conf['apache']['vhost_port'] == 80 or $conf['apache']['vhost_port'] == 443) {
-			$content = str_replace('{vhost_port_listen}', '#', $content);
-		} else {
-			$content = str_replace('{vhost_port_listen}', '', $content);
+			//* comment out the listen directive if port is 80 or 443
+			if ($conf['apache']['vhost_port'] == 80 or $conf['apache']['vhost_port'] == 443) {
+				$content = str_replace('{vhost_port_listen}', '#', $content);
+			} else {
+				$content = str_replace('{vhost_port_listen}', '', $content);
+			}
+		
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
+				$content = str_replace('{ssl_comment}', '', $content);
+			} else {
+				$content = str_replace('{ssl_comment}', '#', $content);
+			}
+		
+			$vhost_path = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
+			$this->write_config_file($vhost_path, $content);
+		
+			if (!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) 
+			{
+				mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
+				copy('tpl/apache_ispconfig_fcgi_starter.master', '/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+				exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+				chmod('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', 0755);
+				symlink($install_dir.'/interface/web', '/var/www/ispconfig');
+				exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
+			}
 		}
+
+		if($conf['nginx']['installed'] == true){
+			//* Copy the ISPConfig vhost for the controlpanel
+			$vhost_conf_dir = $conf['nginx']['vhost_conf_dir'];
+			$vhost_conf_enabled_dir = $conf['nginx']['vhost_conf_enabled_dir'];
+
+			// Dont just copy over the virtualhost template but add some custom settings
+			$content = rf('tpl/nginx_ispconfig.vhost.master');
+			$content = str_replace('{vhost_port}', $conf['nginx']['vhost_port'], $content);
 		
-		if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
-			$content = str_replace('{ssl_comment}', '', $content);
-		} else {
-			$content = str_replace('{ssl_comment}', '#', $content);
-		}
-		
-		$vhost_path = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
-		$this->write_config_file($vhost_path, $content);
-		
-    	if (!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) 
-    	{
-			mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
-			copy('tpl/apache_ispconfig_fcgi_starter.master', '/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-			chmod('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', 0755);
-			symlink($install_dir.'/interface/web', '/var/www/ispconfig');
-			exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
+				$content = str_replace('{ssl_on}', ' ssl', $content);
+				$content = str_replace('{ssl_comment}', '', $content);
+				$content = str_replace('{fastcgi_ssl}', 'on', $content);
+			} else {
+				$content = str_replace('{ssl_on}', '', $content);
+				$content = str_replace('{ssl_comment}', '#', $content);
+				$content = str_replace('{fastcgi_ssl}', 'off', $content);
+			}
+			
+			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+
+			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
+			
+			unset($content);
+			
+			// PHP-FPM
+			// Dont just copy over the php-fpm pool template but add some custom settings
+			$content = rf('tpl/php_fpm_pool.conf.master');
+			$content = str_replace('{fpm_pool}', 'ispconfig', $content);
+			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			$content = str_replace('{fpm_user}', 'ispconfig', $content);
+			$content = str_replace('{fpm_group}', 'ispconfig', $content);
+			wf($conf['nginx']['php_fpm_pool_dir'].'/ispconfig.conf', $content);
+
+			//copy('tpl/nginx_ispconfig.vhost.master', $vhost_conf_dir.'/ispconfig.vhost');
+			//* and create the symlink
+			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+				if(@is_link($vhost_conf_enabled_dir.'/ispconfig.vhost')) unlink($vhost_conf_enabled_dir.'/ispconfig.vhost');
+				if(!@is_link($vhost_conf_enabled_dir.'/000-ispconfig.vhost')) {
+					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');
+				}
+			}
 		}
 		
 		//* Install the update script
