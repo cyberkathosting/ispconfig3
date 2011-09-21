@@ -48,4 +48,24 @@ server {
         location /phpMyAdmin {
                rewrite ^/* /phpmyadmin last;
         }
+		
+        location /squirrelmail {
+               root /usr/share/;
+               index index.php index.html index.htm;
+               location ~ ^/squirrelmail/(.+\.php)$ {
+                       try_files $uri =404;
+                       root /usr/share/;
+                       fastcgi_pass 127.0.0.1:9000;
+                       {ssl_comment}fastcgi_param  HTTPS {fastcgi_ssl};
+                       fastcgi_index index.php;
+                       fastcgi_param SCRIPT_FILENAME $request_filename;
+                       include /etc/nginx/fastcgi_params;
+               }
+               location ~* ^/squirrelmail/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
+                       root /usr/share/;
+               }
+        }
+        location /webmail {
+               rewrite ^/* /squirrelmail last;
+        }
 }
