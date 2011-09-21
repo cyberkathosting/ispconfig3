@@ -497,6 +497,7 @@ class installer_dist extends installer_base {
     {	
 		global $conf;
 		
+		if($conf['apache']['installed'] == false) return;
 		if(is_file('/etc/suphp.conf')) {
 			//replaceLine('/etc/suphp.conf','php=php:/usr/bin','x-httpd-suphp=php:/usr/bin/php-cgi',0);
 			replaceLine('/etc/suphp.conf','docroot=','docroot=/var/www',0);
@@ -741,6 +742,8 @@ class installer_dist extends installer_base {
 		if (is_dir($dir)) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
+					if($conf['apache']['installed'] == true && $file == 'nginx_plugin.inc.php') continue;
+					if($conf['nginx']['installed'] == true && $file == 'apache2_plugin.inc.php') continue;
 					if($file != '.' && $file != '..' && substr($file,-8,8) == '.inc.php') {
 						include_once($install_dir.'/server/plugins-available/'.$file);
 						$plugin_name = substr($file,0,-8);
@@ -822,55 +825,100 @@ class installer_dist extends installer_base {
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		//* Copy the ISPConfig vhost for the controlpanel
-        // TODO: These are missing! should they be "vhost_dist_*_dir" ?
-        $vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
-        $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
+		if($conf['apache']['installed'] == true){
+			//* Copy the ISPConfig vhost for the controlpanel
+			// TODO: These are missing! should they be "vhost_dist_*_dir" ?
+			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
+			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
         
         
-        // Dont just copy over the virtualhost template but add some custom settings
-        $content = rf("tpl/apache_ispconfig.vhost.master");
-		$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
+			// Dont just copy over the virtualhost template but add some custom settings
+			$content = rf("tpl/apache_ispconfig.vhost.master");
+			$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
 		
-		// comment out the listen directive if port is 80 or 443
-		if($conf['apache']['vhost_port'] == 80 or $conf['apache']['vhost_port'] == 443) {
-			$content = str_replace('{vhost_port_listen}', '#', $content);
-		} else {
-			$content = str_replace('{vhost_port_listen}', '', $content);
+			// comment out the listen directive if port is 80 or 443
+			if($conf['apache']['vhost_port'] == 80 or $conf['apache']['vhost_port'] == 443) {
+				$content = str_replace('{vhost_port_listen}', '#', $content);
+			} else {
+				$content = str_replace('{vhost_port_listen}', '', $content);
+			}
+		
+			if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+				$content = str_replace('{ssl_comment}', '', $content);
+			} else {
+				$content = str_replace('{ssl_comment}', '#', $content);
+			}
+		
+			wf("$vhost_conf_dir/ispconfig.vhost", $content);
+		
+			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+			//* and create the symlink
+			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+				if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
+				if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
+					exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
+				}
+			
+				exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
+				exec('cp tpl/apache_ispconfig_fcgi_starter.master /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+				exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+				exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
+				exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
+			
+				replaceLine('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter','PHPRC=','PHPRC=/etc/',0,0);
+			}
+		
+			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
+			//* and create the symlink
+			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+				if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
+				if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
+					exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
+				}
+			}
 		}
 		
-		if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
-			$content = str_replace('{ssl_comment}', '', $content);
-		} else {
-			$content = str_replace('{ssl_comment}', '#', $content);
-		}
+		if($conf['nginx']['installed'] == true){
+			//* Copy the ISPConfig vhost for the controlpanel
+			$vhost_conf_dir = $conf['nginx']['vhost_conf_dir'];
+			$vhost_conf_enabled_dir = $conf['nginx']['vhost_conf_enabled_dir'];
+
+			// Dont just copy over the virtualhost template but add some custom settings
+			$content = rf('tpl/nginx_ispconfig.vhost.master');
+			$content = str_replace('{vhost_port}', $conf['nginx']['vhost_port'], $content);
 		
-		wf("$vhost_conf_dir/ispconfig.vhost", $content);
-		
-		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
-		//* and create the symlink
-		if($this->install_ispconfig_interface == true && $this->is_update == false) {
-			if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
-			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
-				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
+				$content = str_replace('{ssl_on}', ' ssl', $content);
+				$content = str_replace('{ssl_comment}', '', $content);
+				$content = str_replace('{fastcgi_ssl}', 'on', $content);
+			} else {
+				$content = str_replace('{ssl_on}', '', $content);
+				$content = str_replace('{ssl_comment}', '#', $content);
+				$content = str_replace('{fastcgi_ssl}', 'off', $content);
 			}
 			
-			exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
-			exec('cp tpl/apache_ispconfig_fcgi_starter.master /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-			exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-			exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
-			exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
+			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+
+			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
 			
-			replaceLine('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter','PHPRC=','PHPRC=/etc/',0,0);
+			unset($content);
 			
-		}
-		
-		//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
-		//* and create the symlink
-		if($this->install_ispconfig_interface == true && $this->is_update == false) {
-			if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
-			if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
-				exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
+			// PHP-FPM
+			// Dont just copy over the php-fpm pool template but add some custom settings
+			$content = rf('tpl/php_fpm_pool.conf.master');
+			$content = str_replace('{fpm_pool}', 'ispconfig', $content);
+			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			$content = str_replace('{fpm_user}', 'ispconfig', $content);
+			$content = str_replace('{fpm_group}', 'ispconfig', $content);
+			wf($conf['nginx']['php_fpm_pool_dir'].'/ispconfig.conf', $content);
+
+			//copy('tpl/nginx_ispconfig.vhost.master', $vhost_conf_dir.'/ispconfig.vhost');
+			//* and create the symlink
+			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+				if(@is_link($vhost_conf_enabled_dir.'/ispconfig.vhost')) unlink($vhost_conf_enabled_dir.'/ispconfig.vhost');
+				if(!@is_link($vhost_conf_enabled_dir.'/000-ispconfig.vhost')) {
+					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');
+				}
 			}
 		}
 		
