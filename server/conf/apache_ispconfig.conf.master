@@ -50,7 +50,6 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 Alias /awstats-icon "/usr/share/awstats/icon"
 
 <tmpl_loop name="ip_adresses">
-NameVirtualHost {tmpl_var name="ip_address"}:80
-NameVirtualHost {tmpl_var name="ip_address"}:443
+NameVirtualHost {tmpl_var name="ip_address"}:{tmpl_var name="port"}
 </tmpl_loop>
 

@@ -1181,9 +1181,30 @@ class apache2_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('apache_ispconfig.conf.master');
 		$records = $app->db->queryAllRecords('SELECT * FROM server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
-
-		if(count($records) > 0) {
-			$tpl->setLoop('ip_adresses',$records);
+		
+		$records_out= array();
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				if($rec['ip_type'] == 'IPv6') {
+					$ip_address = '['.$rec['ip_address'].']';
+				} else {
+					$ip_address = $rec['ip_address'];
+				}
+				$ports = explode(',',$rec['virtualhost_port']);
+				if(is_array($ports)) {
+					foreach($ports as $port) {
+						$port = intval($port);
+						if($port > 0 && $port < 65536 && $ip_address != '') {
+							$records_out[] = array('ip_address' => $ip_address, 'port' => $port);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		if(count($records_out) > 0) {
+			$tpl->setLoop('ip_adresses',$records_out);
 		}
 
 		$vhost_file = escapeshellcmd($web_config['vhost_conf_dir'].'/ispconfig.conf');

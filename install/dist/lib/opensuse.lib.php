@@ -535,14 +535,28 @@ class installer_dist extends installer_base {
         $vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
         
 		//copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
-		$content = rf("tpl/apache_ispconfig.conf.master");
-		$records = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
+		$content = rf('tpl/apache_ispconfig.conf.master');
+		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
+
 		if(is_array($records) && count($records) > 0) {
 			foreach($records as $rec) {
-				$content .= "NameVirtualHost ".$rec["ip_address"].":80\n";
-				$content .= "NameVirtualHost ".$rec["ip_address"].":443\n";
+				if($rec['ip_type'] == 'IPv6') {
+					$ip_address = '['.$rec['ip_address'].']';
+				} else {
+					$ip_address = $rec['ip_address'];
+				}
+				$ports = explode(',',$rec['virtualhost_port']);
+				if(is_array($ports)) {
+					foreach($ports as $port) {
+						$port = intval($port);
+						if($port > 0 && $port < 65536 && $ip_address != '') {
+							$content .= 'NameVirtualHost '.$ip_address.":".$port."\n";
+						}
+					}
+				}
 			}
 		}
+		
 		$content .= "\n";
 		wf($vhost_conf_dir.'/ispconfig.conf',$content);
 		

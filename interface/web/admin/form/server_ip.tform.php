@@ -137,7 +137,11 @@ $form["tabs"]['server_ip'] = array (
 		'virtualhost_port' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'default'	=> '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([0-9]{1,5}\,{0,1}){1,}$/i',
+														'errmsg'=> 'error_port_syntax'),
+									),
+			'default'	=> '80,443',
 			'value'		=> '',
 			'separator'	=> '',
 			'width'		=> '15',
