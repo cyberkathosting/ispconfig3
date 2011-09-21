@@ -126,7 +126,7 @@ function updateDbAndIni() {
 	
 	$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
 	
-	if($ini_array['web']['server_type'] != ''){
+	if(isset($ini_array['web']['server_type']) && $ini_array['web']['server_type'] != ''){
 		$conf['webserver']['server_type'] = $ini_array['web']['server_type'];
 		if($conf['webserver']['server_type'] == 'nginx'){
 			$conf['apache']['installed'] = false;
