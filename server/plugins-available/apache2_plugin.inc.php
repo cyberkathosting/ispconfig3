@@ -82,6 +82,7 @@ class apache2_plugin {
 		$app->plugins->registerEvent('web_folder_user_update',$this->plugin_name,'web_folder_user');
 		$app->plugins->registerEvent('web_folder_user_delete',$this->plugin_name,'web_folder_user');
 		
+		$app->plugins->registerEvent('web_folder_update',$this->plugin_name,'web_folder_update');
 		$app->plugins->registerEvent('web_folder_delete',$this->plugin_name,'web_folder_delete');
 		
 	}
@@ -1294,6 +1295,79 @@ class apache2_plugin {
 		if(is_file($folder_path.'.htaccess')) {
 			unlink($folder_path.'.htaccess');
 			$app->log('Removed file'.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+		}
+	}
+	
+	//* Update folder protection, when path has been changed
+	function web_folder_update($event_name,$data) {
+		global $app, $conf;
+		
+		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+	
+		if(!is_array($website)) {
+			$app->log('Not able to retrieve folder or website record.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		
+		//* Get the folder path.
+		$old_folder_path = realpath($website['document_root'].'/web/'.$data['old']['path']);
+		if(substr($old_folder_path,-1 != '/')) $old_folder_path .= '/';
+			
+		$new_folder_path = escapeshellcmd($website['document_root'].'/web/'.$data['new']['path']);
+		if(substr($new_folder_path,-1 != '/')) $new_folder_path .= '/';
+		
+		//* Check if the resulting path is inside the docroot
+		if(stristr($new_folder_path,'..') || stristr($new_folder_path,'./') || stristr($new_folder_path,'\\')) {
+			$app->log('Folder path "'.$new_folder_path.'" contains .. or ./.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		if(stristr($old_folder_path,'..') || stristr($old_folder_path,'./') || stristr($old_folder_path,'\\')) {
+			$app->log('Folder path "'.$old_folder_path.'" contains .. or ./.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		
+		//* Check if the resulting path is inside the docroot
+		if(substr($old_folder_path,0,strlen($website['document_root'])) != $website['document_root']) {
+			$app->log('Old folder path '.$old_folder_path.' is outside of docroot.',LOGLEVEL_DEBUG);
+			return false;
+		}
+		if(substr($new_folder_path,0,strlen($website['document_root'])) != $website['document_root']) {
+			$app->log('New folder path '.$new_folder_path.' is outside of docroot.',LOGLEVEL_DEBUG);
+			return false;
+		}
+			
+		//* Create the folder path, if it does not exist
+		if(!is_dir($new_folder_path)) exec('mkdir -p '.$new_folder_path);
+		
+		if($data['old']['path'] != $data['new']['path']) {
+
+		
+			//* move .htpasswd file
+			if(is_file($old_folder_path.'.htpasswd')) {
+				rename($old_folder_path.'.htpasswd',$new_folder_path.'.htpasswd');
+				$app->log('Moved file'.$new_folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+			}
+			
+			//* move .htpasswd file
+			if(is_file($old_folder_path.'.htaccess')) {
+				rename($old_folder_path.'.htaccess',$new_folder_path.'.htaccess');
+				$app->log('Moved file'.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+			}
+		
+		}
+		
+		//* Create the .htaccess file
+		if($data['new']['active'] == 'y' && !is_file($new_folder_path.'.htaccess')) {
+			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user";
+			file_put_contents($new_folder_path.'.htaccess',$ht_file);
+			chmod($new_folder_path.'.htpasswd',0755);
+			$app->log('Created file'.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+		}
+		
+		//* Remove .htaccess file
+		if($data['new']['active'] == 'n' && is_file($new_folder_path.'.htaccess')) {
+			unlink($new_folder_path.'.htaccess');
+			$app->log('Removed file'.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		}
 		
 		
