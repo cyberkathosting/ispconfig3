@@ -233,17 +233,18 @@ class installer_base {
 		$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
 		$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
 		
+		$tpl_ini_array['web']['nginx_vhost_conf_dir'] = $conf['nginx']['vhost_conf_dir'];
+		$tpl_ini_array['web']['nginx_vhost_conf_enabled_dir'] = $conf['nginx']['vhost_conf_enabled_dir'];
+		$tpl_ini_array['web']['nginx_user'] = $conf['nginx']['user'];
+		$tpl_ini_array['web']['nginx_group'] = $conf['nginx']['group'];
+		$tpl_ini_array['web']['nginx_cgi_socket'] = $conf['nginx']['cgi_socket'];
+		$tpl_ini_array['web']['php_fpm_init_script'] = $conf['nginx']['php_fpm_init_script'];
+		$tpl_ini_array['web']['php_fpm_ini_path'] = $conf['nginx']['php_fpm_ini_path'];
+		$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
+		$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
+		$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
+		
 		if ($conf['nginx']['installed'] == true) {
-			$tpl_ini_array['web']['nginx_vhost_conf_dir'] = $conf['nginx']['vhost_conf_dir'];
-			$tpl_ini_array['web']['nginx_vhost_conf_enabled_dir'] = $conf['nginx']['vhost_conf_enabled_dir'];
-			$tpl_ini_array['web']['nginx_user'] = $conf['nginx']['user'];
-			$tpl_ini_array['web']['nginx_group'] = $conf['nginx']['group'];
-			$tpl_ini_array['web']['nginx_cgi_socket'] = $conf['nginx']['cgi_socket'];
-			$tpl_ini_array['web']['php_fpm_init_script'] = $conf['nginx']['php_fpm_init_script'];
-			$tpl_ini_array['web']['php_fpm_ini_path'] = $conf['nginx']['php_fpm_ini_path'];
-			$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
-			$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
-			$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
 			$tpl_ini_array['web']['server_type'] = 'nginx';
 			$tpl_ini_array['global']['webserver'] = 'nginx';
 		}

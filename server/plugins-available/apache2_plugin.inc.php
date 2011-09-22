@@ -289,6 +289,23 @@ class apache2_plugin {
 			$app->log('Websites cannot be owned by the root user or group.',LOGLEVEL_WARN);
 			return 0;
 		}
+		
+		// Create group and user, if not exist
+		$app->uses('system');
+
+		$groupname = escapeshellcmd($data['new']['system_group']);
+		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
+			exec('groupadd '.$groupname);
+			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
+			$app->log('Adding the group: '.$groupname,LOGLEVEL_DEBUG);
+		}
+
+		$username = escapeshellcmd($data['new']['system_user']);
+		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
+			exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
+			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
+			$app->log('Adding the user: '.$username,LOGLEVEL_DEBUG);
+		}
 
 		//* If the client of the site has been changed, we have a change of the document root
 		if($this->action == 'update' && $data['new']['document_root'] != $data['old']['document_root']) {
@@ -510,23 +527,6 @@ class apache2_plugin {
 			exec('chmod -R a+r '.$error_page_path);
 			exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.$error_page_path);
 		}  // end copy error docs
-
-		// Create group and user, if not exist
-		$app->uses('system');
-
-		$groupname = escapeshellcmd($data['new']['system_group']);
-		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
-			exec('groupadd '.$groupname);
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
-			$app->log('Adding the group: '.$groupname,LOGLEVEL_DEBUG);
-		}
-
-		$username = escapeshellcmd($data['new']['system_user']);
-		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
-			exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
-			$app->log('Adding the user: '.$username,LOGLEVEL_DEBUG);
-		}
 
 		// Set the quota for the user
 		if($username != '' && $app->system->is_user($username)) {
