@@ -15,14 +15,14 @@
 		<input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
 		<tmpl_else>
 		<label for="server_id">{tmpl_var name='server_id_txt'}</label>
-        <select name="server_id" id="server_id" class="selectInput" onChange="loadOptionInto('ip_address','sites/ajax_get_ip.php?server_id='+document.getElementById('server_id').value)">
+        <select name="server_id" id="server_id" class="selectInput" onChange="reloadWebIP()">
 		  {tmpl_var name='server_id'}
 		</select>
 		</tmpl_if>
       </div>
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
-        <select name="client_group_id" id="client_group_id" class="selectInput">
+        <select name="client_group_id" id="client_group_id" class="selectInput" onChange="reloadWebIP()">
 					{tmpl_var name='client_group_id'}
 				</select>
       </div>
@@ -30,7 +30,7 @@
       <tmpl_if name="is_reseller">
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
-        <select name="client_group_id" id="client_group_id" class="selectInput">
+        <select name="client_group_id" id="client_group_id" class="selectInput" onChange="reloadWebIP()">
 					{tmpl_var name='client_group_id'}
 				</select>
       </div>
@@ -39,6 +39,12 @@
       	<label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
         <select name="ip_address" id="ip_address" class="selectInput formLengthIPv4">
 					{tmpl_var name='ip_address'}
+				</select>
+      </div>
+	  <div class="ctrlHolder">
+      	<label for="ipv6_address">{tmpl_var name='ipv6_address_txt'}</label>
+        <select name="ipv6_address" id="ipv6_address" class="selectInput formLengthIPv4">
+					{tmpl_var name='ipv6_address'}
 				</select>
       </div>
       <div class="ctrlHolder">
@@ -157,6 +163,11 @@
 					jQuery('#php option[value="suphp"]').show();
 				}
 			});
+		}
+		
+		function reloadWebIP() {
+			loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+document.getElementById('server_id').value)&client_group_id='+document.getElementById('client_group_id').value);
+			loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+document.getElementById('server_id').value)&client_group_id='+document.getElementById('client_group_id').value);
 		}
 			
 </script>

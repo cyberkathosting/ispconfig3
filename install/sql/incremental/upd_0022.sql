@@ -1,0 +1,1 @@
+ALTER TABLE  `web_domain` ADD  `ipv6_address` VARCHAR( 255 ) default NULL AFTER  `ip_address`;

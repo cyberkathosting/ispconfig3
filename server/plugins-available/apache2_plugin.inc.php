@@ -651,6 +651,7 @@ class apache2_plugin {
 		$tpl->newTemplate('vhost.conf.master');
 
 		$vhost_data = $data['new'];
+		//unset($vhost_data['ip_address']);
 		$vhost_data['web_document_root'] = $data['new']['document_root'].'/web';
 		$vhost_data['web_document_root_www'] = $web_config['website_basedir'].'/'.$data['new']['domain'].'/web';
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
@@ -668,6 +669,7 @@ class apache2_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
+		/*
 		if($domain!='' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$vhost_data['ssl_enabled'] = 1;
 			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
@@ -675,6 +677,7 @@ class apache2_plugin {
 			$vhost_data['ssl_enabled'] = 0;
 			$app->log('SSL Disabled. '.$domain,LOGLEVEL_DEBUG);
 		}
+		*/
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
 
@@ -950,6 +953,32 @@ class apache2_plugin {
 		$vhost_file = escapeshellcmd($web_config['vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost');
 		//* Make a backup copy of vhost file
 		if(file_exists($vhost_file)) copy($vhost_file,$vhost_file.'~');
+		
+		//* create empty vhost array
+		$vhosts = array();
+		
+		//* Add vhost for ipv4 IP
+		$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80 );
+		
+		//* Add vhost for ipv4 IP with SSL
+		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
+			$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443' );
+			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
+		}
+		
+		//* Add vhost for IPv6 IP
+		if($data['new']['ipv6_address'] != '') {
+			$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80 );
+		
+			//* Add vhost for ipv6 IP with SSL
+			if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
+				$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443' );
+				$app->log('Enable SSL for IPv6: '.$domain,LOGLEVEL_DEBUG);
+			}
+		}
+		
+		//* Set the vhost loop
+		$tpl->setLoop('vhosts',$vhosts);
 		
 		//* Write vhost file
 		file_put_contents($vhost_file,$tpl->grab());

@@ -82,11 +82,22 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT ip_address,ip_address FROM server_ip WHERE {AUTHSQL} ORDER BY ip_address',
+			/*'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT ip_address,ip_address FROM server_ip WHERE ip_type = 'IPv4' AND {AUTHSQL} ORDER BY ip_address",
 										'keyfield'=> 'ip_address',
 										'valuefield'=> 'ip_address'
-									 ),
+									 ),*/
+			'value'		=> ''
+		),
+		'ipv6_address' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			/*'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT ip_address,ip_address FROM server_ip WHERE ip_type = 'IPv6' AND {AUTHSQL} ORDER BY ip_address",
+										'keyfield'=> 'ip_address',
+										'valuefield'=> 'ip_address'
+									 ),*/
 			'value'		=> ''
 		),
 		'domain' => array (

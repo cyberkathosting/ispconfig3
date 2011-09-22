@@ -1,8 +1,0 @@
-# /etc/ufw/ufw.conf
-# 
-
-# set to yes to start on boot
-ENABLED={tmpl_var name='enable'}
-
-# set to one of 'off', 'low', 'medium', 'high'
-LOGLEVEL={tmpl_var name='log_level'}
