@@ -156,6 +156,7 @@ prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
+$inst->db->dbName = $conf["mysql"]["database"];
 
 /*
  * The next line is a bit tricky!

@@ -152,6 +152,7 @@ prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
+$inst->db->dbName = $conf["mysql"]["database"];
 
 //* initialize the master DB, if we have a multiserver setup
 if($conf['mysql']['master_slave_setup'] == 'y') {

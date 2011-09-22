@@ -286,7 +286,8 @@ function updateDbAndIni() {
 	}
 
 	$new_ini = array_to_ini($tpl_ini_array);
-	$inst->db->query("UPDATE server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id']);
+	$sql = "UPDATE server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
+	$inst->db->query($sql);
 	unset($old_ini_array);
 	unset($tpl_ini_array);
 	unset($new_ini);
