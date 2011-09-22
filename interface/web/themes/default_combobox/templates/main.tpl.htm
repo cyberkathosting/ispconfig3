@@ -77,6 +77,12 @@
 				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
 			}
 		});
+
+		jQuery(".ui-autocomplete a").live("click", function(event) {
+			if ($(".panel #Filter").length > 0) {
+				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
+			}
+		});
 		
 		//Use jQuery submit with kespress Enter in panel filterbar
 		jQuery(document).bind("keypress", function(event) {
