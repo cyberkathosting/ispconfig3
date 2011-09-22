@@ -191,7 +191,7 @@ class cron_plugin {
         $chr_cmd_count = 0;
         
         //* read all active cron jobs from database and write them to file
-        $cron_jobs = $app->db->queryAllRecords("SELECT `run_min`, `run_hour`, `run_mday`, `run_month`, `run_wday`, `command`, `type` FROM `cron` WHERE `parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND `active` = 'y'");
+        $cron_jobs = $app->db->queryAllRecords("SELECT c.`run_min`, c.`run_hour`, c.`run_mday`, c.`run_month`, c.`run_wday`, c.`command`, c.`type`, `web_domain`.`domain` as `domain` FROM `cron` as c INNER JOIN `web_domain` ON `web_domain`.`domain_id` = c.`parent_domain_id` WHERE c.`parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND c.`active` = 'y'");
         if($cron_jobs && count($cron_jobs) > 0) {
             foreach($cron_jobs as $job) {
 				if($job['run_month'] == '@reboot') {
@@ -216,10 +216,10 @@ class cron_plugin {
                 }
                 
                 if($job['type'] == 'chrooted') {
-                    $chr_cron_content .= $command . "\n";
+                    $chr_cron_content .= $command . "\t#{$job['domain']}\n";
                     $chr_cmd_count++;
                 } else {
-                    $cron_content .= $command . "\n";
+                    $cron_content .= $command . "\t#{$job['domain']}\n";
                     $cmd_count++;
                 }
             }

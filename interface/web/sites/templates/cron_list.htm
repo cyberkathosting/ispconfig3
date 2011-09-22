@@ -20,6 +20,7 @@
           <tr>
             <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
             <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
+            <th class="tbl_col_parent_domain_id" scope="col"><tmpl_var name="parent_domain_id_txt"></th>
             <th class="tbl_col_run_min" scope="col"><tmpl_var name="run_min_txt"></th>
             <th class="tbl_col_run_hour" scope="col"><tmpl_var name="run_hour_txt"></th>
             <th class="tbl_col_run_mday" scope="col"><tmpl_var name="run_mday_txt"></th>
@@ -31,11 +32,12 @@
           <tr>
             <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
             <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
-            <td class="tbl_col_run_min"><input type="text" name="search_run_min" size="3" value="{tmpl_var name='search_run_min'}" /></td>
-            <td class="tbl_col_run_hour"><input type="text" name="search_run_hour" size="3" value="{tmpl_var name='search_run_hour'}" /></td>
-            <td class="tbl_col_run_mday"><input type="text" name="search_run_mday" size="3" value="{tmpl_var name='search_run_mday'}" /></td>
-            <td class="tbl_col_run_month"><input type="text" name="search_run_month" size="3" value="{tmpl_var name='search_run_month'}" /></td>
-            <td class="tbl_col_run_wday"><input type="text" name="search_run_wday" size="3" value="{tmpl_var name='search_run_wday'}" /></td>
+            <td class="tbl_col_parent_domain_id"><select name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
+            <td class="tbl_col_run_min"><input type="text" name="search_run_min" size="1" value="{tmpl_var name='search_run_min'}" /></td>
+            <td class="tbl_col_run_hour"><input type="text" name="search_run_hour" size="1" value="{tmpl_var name='search_run_hour'}" /></td>
+            <td class="tbl_col_run_mday"><input type="text" name="search_run_mday" size="1" value="{tmpl_var name='search_run_mday'}" /></td>
+            <td class="tbl_col_run_month"><input type="text" name="search_run_month" size="1" value="{tmpl_var name='search_run_month'}" /></td>
+            <td class="tbl_col_run_wday"><input type="text" name="search_run_wday" size="1" value="{tmpl_var name='search_run_wday'}" /></td>
             <td class="tbl_col_command"><input type="text" name="search_command" value="{tmpl_var name='search_command'}" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/cron_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
@@ -45,6 +47,7 @@
           <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
             <td class="tbl_col_active"><a href="#" onClick="loadContent('sites/cron_edit.php?id={tmpl_var name='id'}');"><img src="themes/{tmpl_var name='theme'}/icons/{tmpl_var name='_active_'}" border="0" /></a></td>
             <td class="tbl_col_server_id"><a href="#" onClick="loadContent('sites/cron_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
+            <td class="tbl_col_parent_domain_id"><a href="#" onClick="loadContent('sites/cron_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="parent_domain_id"}</a></td>
             <td class="tbl_col_run_min"><a href="#" onClick="loadContent('sites/cron_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="run_min"}</a></td>
             <td class="tbl_col_run_hour"><a href="#" onClick="loadContent('sites/cron_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="run_hour"}</a></td>
             <td class="tbl_col_run_mday"><a href="#" onClick="loadContent('sites/cron_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="run_mday"}</a></td>
