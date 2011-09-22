@@ -2516,7 +2516,7 @@ class remoting {
 	public function sites_database_get_all_by_user($session_id, $client_id)
     {
         global $app;
-		if(!$this->checkPerm($session_id, 'sites_database_get_all_by_user')) {
+		if(!$this->checkPerm($session_id, 'sites_database_get')) {
         	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
