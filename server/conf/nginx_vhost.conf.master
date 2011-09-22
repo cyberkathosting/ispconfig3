@@ -46,6 +46,7 @@ server {
         </tmpl_if>
 		
         error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
+        access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log combined;
 
         ## Disable .htaccess and other hidden files
         location ~ /\. {
