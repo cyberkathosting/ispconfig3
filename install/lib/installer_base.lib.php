@@ -123,7 +123,7 @@ class installer_base {
 		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
 		if(is_installed('saslauthd')) $conf['saslauthd']['installed'] = true;
-		if(is_installed('amavisd-new')) $conf['amavis']['installed'] = true;
+		if(is_installed('amavisd-new') || is_installed('amavisd')) $conf['amavis']['installed'] = true;
 		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
 		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
 		if(is_installed('mydns') || is_installed('mydns-ng')) $conf['mydns']['installed'] = true;
@@ -924,12 +924,7 @@ class installer_base {
 		$postconf_commands = array ();
 		
 		// Check for amavisd -> pure webserver with postfix for mailing without antispam
-		// Check for different names
-		system('which amavisd-new', $retval); // Debian, Ubuntu, ?
-		if ($retval !== 0){
-			system('which amavisd', $retval); // CentOS
-		}
-		if ($retval === 0) {
+		if ($conf['amavis']['installed']) {
 			$postconf_commands[] = 'content_filter = amavis:[127.0.0.1]:10024';
 			$postconf_commands[] = 'receive_override_options = no_address_mappings';
 		}
