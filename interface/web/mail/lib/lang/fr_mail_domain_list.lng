@@ -5,4 +5,3 @@ $wb['domain_txt'] = 'Domaine';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau domaine';
 $wb['active_txt'] = 'Actif';
 ?>
-

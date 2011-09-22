@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Benutzername oder Passwort ist leer.';
-$wb['error_1002'] = 'Benutzername oder Passwort ist falsch.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Gruppen';
 $wb['groups_description'] = 'Formular zur Bearbeitung von Systembenutzer Gruppen.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Remote-Benutzer';
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

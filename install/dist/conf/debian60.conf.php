@@ -206,10 +206,8 @@ $conf['nginx']['php_fpm_pool_dir'] = '/etc/php5/fpm/pool.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 $conf['nginx']['php_fpm_socket_dir'] = '/var/run/php5-fpm';
 
-//* Ufw
-$conf['ufw']['installed'] = false;
-$conf['squid']['config_dir'] = '/etc/ufw';
-$conf['squid']['init_script'] = 'ufw';
+//* OpenVZ
+$conf['openvz']['installed'] = false;
 
 //*Bastille-Firwall
 $conf['bastille']['installed'] = false;

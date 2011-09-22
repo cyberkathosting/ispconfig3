@@ -1,6 +1,6 @@
 <?php
-$wb['Email Alias'] = 'Alias d\'emails';
-$wb['Email Blacklist'] = 'Liste noire d\'emails';
+$wb['Email Alias'] = 'Alias demails';
+$wb['Email Blacklist'] = 'Liste noire demails';
 $wb['Blacklist'] = 'Liste noire';
 $wb['Mail Content Filter'] = 'Filtre de contenu des mails';
 $wb['Filter'] = 'Filtre';
@@ -10,14 +10,14 @@ $wb['Email Catchall'] = 'Email collecteur';
 $wb['Email Forward'] = 'Email de transfert';
 $wb['Get Email'] = 'Obtenir un Email';
 $wb['Spamfilter'] = 'Filtre antispam';
-$wb['Email Routing'] = 'Routage d\'emails';
-$wb['Email transport'] = 'Transport d\'emails';
+$wb['Email Routing'] = 'Routage demails';
+$wb['Email transport'] = 'Transport demails';
 $wb['Mailbox'] = 'Boîte email';
 $wb['Autoresponder'] = 'Autorépondeur';
 $wb['Mail Filter'] = 'Filtre email';
 $wb['Custom Rules'] = 'Règles personnalisées';
 $wb['Email filter'] = 'Filtre email';
-$wb['Email Whitelist'] = 'Liste blanche d\'emails';
+$wb['Email Whitelist'] = 'Liste blanche demails';
 $wb['Whitelist'] = 'Liste blanche';
 $wb['Spamfilter blacklist'] = 'Liste noire du filtre antispam';
 $wb['Spamfilter Config'] = 'Configuration du filtre antispam';
@@ -45,4 +45,3 @@ $wb['Mailbox traffic'] = 'Trafic de la boite email';
 $wb['Domain Alias'] = 'Alias de domaine';
 $wb['Relay Recipients'] = 'Destinataires de relais';
 ?>
-

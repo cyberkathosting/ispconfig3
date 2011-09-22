@@ -13,4 +13,5 @@ $wb['source_username_error_isempty'] = 'Utilizador em branco.';
 $wb['source_password_error_isempty'] = 'Senha em branco.';
 $wb['destination_error_isemail'] = 'Destino não seleccionado.';
 $wb['source_server_error_regex'] = 'Servidor Pop3/Imap não é um nome de domínio válido.';
+$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
 ?>

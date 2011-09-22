@@ -13,4 +13,5 @@ $wb['source_username_error_isempty'] = 'Käyttäjänimi on tyjä.';
 $wb['source_password_error_isempty'] = 'Salasana-kenttä on tyhjä.';
 $wb['destination_error_isemail'] = 'Ei kohdetta valittuna.';
 $wb['source_server_error_regex'] = 'Pop3/Imap-palvelin ei ole kelvollinen osoite.';
+$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
 ?>

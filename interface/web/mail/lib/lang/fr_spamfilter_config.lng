@@ -3,7 +3,7 @@ $wb['getmail_config_dir_txt'] = 'Chemin de configuration Getmail';
 $wb['ip_address_txt'] = 'Adresse IP';
 $wb['netmask_txt'] = 'Masque réseau';
 $wb['gateway_txt'] = 'Passerelle';
-$wb['hostname_txt'] = 'Nom d\'hôte';
+$wb['hostname_txt'] = 'Nom dhôte';
 $wb['nameservers_txt'] = 'Serveurs de nom';
 $wb['module_txt'] = 'Module serveur';
 $wb['maildir_path_txt'] = 'Chemin du dossier de mails';
@@ -18,4 +18,3 @@ $wb['relayhost_password_txt'] = 'Mot de passe hôte de relais';
 $wb['mailbox_size_limit_txt'] = 'Limite de taille de la boite email';
 $wb['message_size_limit_txt'] = 'Limite de taille des messages';
 ?>
-

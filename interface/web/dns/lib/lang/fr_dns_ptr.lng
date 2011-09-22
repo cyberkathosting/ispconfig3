@@ -6,11 +6,10 @@ $wb['type_txt'] = 'Type';
 $wb['data_txt'] = 'Hôte canonique';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Actif';
-$wb['limit_dns_record_txt'] = 'Le nombre maximum d\'enregistrements DNS pour votre compte a été atteint.';
-$wb['no_zone_perm'] = 'Vous navez pas la permission d\'ajouter un enregistrement dans cette zone DNS.';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a été atteint.';
+$wb['no_zone_perm'] = 'Vous navez pas la permission dajouter un enregistrement dans cette zone DNS.';
 $wb['name_error_empty'] = 'Le nom est vide.';
-$wb['name_error_regex'] = 'Le nom est d\'un format invalide.';
-$wb['data_error_empty'] = 'L\'hôte canonique est vide.';
-$wb['data_error_regex'] = 'L\'hôte canonique est d\'un format invalide.';
+$wb['name_error_regex'] = 'Le nom est dun format invalide.';
+$wb['data_error_empty'] = 'Lhôte canonique est vide.';
+$wb['data_error_regex'] = 'Lhôte canonique est dun format invalide.';
 ?>
-

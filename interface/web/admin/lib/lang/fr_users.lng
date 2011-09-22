@@ -1,6 +1,6 @@
 <?php
-$wb['username_txt'] = 'Nom d\'utilisateur';
-$wb['username_err'] = 'Le nom d\'utilisateur est trop long ou contient des caractères invalides.';
+$wb['username_txt'] = 'Nom dutilisateur';
+$wb['username_err'] = 'Le nom dutilisateur est trop long ou contient des caractères invalides.';
 $wb['passwort_txt'] = 'Mot de passe';
 $wb['modules_txt'] = 'Module';
 $wb['startmodule_txt'] = 'Module de démarrage';
@@ -21,9 +21,8 @@ $wb['telefon_txt'] = 'Télephone';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Groupes';
 $wb['default_group_txt'] = 'Groupe par Défaut';
-$wb['username_empty'] = 'Le nom d\'utilisateur est vide.';
-$wb['username_unique'] = 'Le nom d\'utilisateur entré existe déja.';
+$wb['username_empty'] = 'Le nom dutilisateur est vide.';
+$wb['username_unique'] = 'Le nom dutilisateur entré existe déja.';
 $wb['password_strength_txt'] = 'Force du mot de passe';
-$wb['startmodule_err'] = 'Le module de départ n\'existe pas.';
+$wb['startmodule_err'] = 'Le module de départ nexiste pas.';
 ?>
-

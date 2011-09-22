@@ -9,5 +9,5 @@ $wb['run_month_txt'] = 'Месяц';
 $wb['run_wday_txt'] = 'День недели';
 $wb['command_txt'] = 'Команда';
 $wb['add_new_cron_txt'] = 'Добавить задачу Cron';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>
-

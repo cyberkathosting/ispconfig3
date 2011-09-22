@@ -6,4 +6,5 @@ $wb['city_txt'] = 'Kaupunki';
 $wb['country_txt'] = 'Maa';
 $wb['client_id_txt'] = 'Tunnus';
 $wb['add_new_record_txt'] = 'Add new client';
+$wb['username_txt'] = 'Username';
 ?>

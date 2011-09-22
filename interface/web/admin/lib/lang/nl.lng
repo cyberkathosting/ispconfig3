@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
-$wb['error_1002'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Groepen';
 $wb['groups_description'] = 'Formulier om systeemgebruiker groepen te wijzigen.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Remote gebruikers';
 $wb['Remote Actions'] = 'Remote acties';
 $wb['Do OS-Update'] = 'Voer een OS-Update uit';
 $wb['Do ISPConfig-Update'] = 'Voer een ISPConfig-update uit';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

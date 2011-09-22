@@ -4,4 +4,3 @@ $wb['Settings'] = 'Paramètres';
 $wb['ISPConfig Tools'] = 'Outils ISPConfig';
 $wb['Password and Language'] = 'Mot de passe et Langage';
 ?>
-

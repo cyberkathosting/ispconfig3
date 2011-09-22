@@ -9,4 +9,5 @@ $wb['run_month_txt'] = '月';
 $wb['run_wday_txt'] = '曜日';
 $wb['command_txt'] = 'コマンド';
 $wb['add_new_cron_txt'] = 'cronジョブを追加する';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

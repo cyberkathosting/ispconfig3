@@ -8,5 +8,7 @@ $wb['add_new_record_txt'] = 'Добавить новый алиас';
 $wb['domain_error_empty'] = 'Домен пустой.';
 $wb['domain_error_unique'] = 'Домен должен быть уникальным.';
 $wb['domain_error_regex'] = 'Имя домена неправильно.';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['none_txt'] = 'None';
 ?>
-

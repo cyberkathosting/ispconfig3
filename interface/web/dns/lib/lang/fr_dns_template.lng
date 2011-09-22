@@ -4,4 +4,3 @@ $wb['fields_txt'] = 'Champs';
 $wb['template_txt'] = 'Modèle';
 $wb['visible_txt'] = 'Visible';
 ?>
-

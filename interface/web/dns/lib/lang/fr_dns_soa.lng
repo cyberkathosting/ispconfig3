@@ -12,16 +12,20 @@ $wb['ttl_txt'] = 'TTL';
 $wb['xfer_txt'] = 'Autoriser les transfers de zones vers <br />ces IP (liste séparée par des virgules)';
 $wb['active_txt'] = 'Actif';
 $wb['client_txt'] = 'Client';
-$wb['no_zone_perm'] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement dans cette zone DNS.';
+$wb['no_zone_perm'] = 'Vous navez pas la permission dajouter un enregistrement dans cette zone DNS.';
 $wb['server_id_error_empty'] = 'Aucun serveur sélectionné';
 $wb['origin_error_empty'] = 'Zone vide.';
 $wb['origin_error_unique'] = 'Il y a déja un enregistrement pour cette zone.';
-$wb['origin_error_regex'] = 'La zone est d\'un format invalide.';
-$wb['ns_error_regex'] = 'Le serveur de nom est d\'un format invalide.';
-$wb['mbox_error_empty'] = 'L\'adresse email est vide.';
-$wb['mbox_error_regex'] = 'L\'adresse email est d\'un format invalide.';
+$wb['origin_error_regex'] = 'La zone est dun format invalide.';
+$wb['ns_error_regex'] = 'Le serveur de nom est dun format invalide.';
+$wb['mbox_error_empty'] = 'Ladresse email est vide.';
+$wb['mbox_error_regex'] = 'Ladresse email est dun format invalide.';
 $wb['limit_dns_zone_txt'] = 'Le nombre maximal de zones DNS pour votre compte est atteint.';
 $wb['also_notify_txt'] = 'Notifier aussi';
-$wb['update_acl_txt'] = 'Mettre à jour l\'ACL';
+$wb['update_acl_txt'] = 'Mettre à jour lACL';
+$wb['also_notify_error_regex'] = 'Please use an IP address.';
+$wb['seconds_txt'] = 'Seconds';
+$wb['eg_domain_tld'] = 'e.g. domain.tld';
+$wb['eg_ns1_domain_tld'] = 'e.g. ns1.domain.tld';
+$wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld';
 ?>
-

@@ -13,4 +13,5 @@ $wb['source_username_error_isempty'] = 'Uživatelské jméno je prázdné.';
 $wb['source_password_error_isempty'] = 'Heslo je prázdné.';
 $wb['destination_error_isemail'] = 'Nevybrán žádný cíl.';
 $wb['source_server_error_regex'] = 'POP3/IMAP server není validní doménový název.';
+$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
 ?>

@@ -1,13 +1,13 @@
 <?php
-$wb['warning'] = 'Editez ces valeurs prudemment ! Il n\'est pas conseillé de modifier les préfixes lorsque vous avez des clients !';
+$wb['warning'] = 'Editez ces valeurs prudemment ! Il nest pas conseillé de modifier les préfixes lorsque vous avez des clients !';
 $wb['dbname_prefix_txt'] = 'Préfixe du nom de la BDD';
-$wb['dbuser_prefix_txt'] = 'Préfixe de l\'utilisateur de la BDD';
-$wb['shelluser_prefix_txt'] = 'Préfixe l\'utilisateur Shell';
-$wb['ftpuser_prefix_txt'] = 'Préfixe de l\'utilisateur FTP';
+$wb['dbuser_prefix_txt'] = 'Préfixe de lutilisateur de la BDD';
+$wb['shelluser_prefix_txt'] = 'Préfixe lutilisateur Shell';
+$wb['ftpuser_prefix_txt'] = 'Préfixe de lutilisateur FTP';
 $wb['dbname_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe du nom de la BDD.';
-$wb['dbuser_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe de l\'utilisateur de la BDD.';
-$wb['ftpuser_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe de l\'utilisateur FTP.';
-$wb['shelluser_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe de l\'utilisateur Shell.';
+$wb['dbuser_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe de lutilisateur de la BDD.';
+$wb['ftpuser_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe de lutilisateur FTP.';
+$wb['shelluser_prefix_error_regex'] = 'Caractère non autorisé dans le préfixe de lutilisateur Shell.';
 $wb['dblist_phpmyadmin_link_txt'] = 'Lien vers PHPMyAdmin dans la liste des bases';
 $wb['mailboxlist_webmail_link_txt'] = 'Lien vers le Webmail dans la liste des boites mail';
 $wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
@@ -18,9 +18,13 @@ $wb['webdavuser_prefix_error_regex'] = 'Caractère non autorisé dans le préfix
 $wb['webmail_url_txt'] = 'URL du Webmail';
 $wb['phpmyadmin_url_txt'] = 'URL de PHPMyAdmin';
 $wb['use_domain_module_txt'] = 'Utiliser le module de domaine pour ajouter de nouveaux domaines';
-$wb['use_domain_module_hint'] = 'Si vous utilisez ce module, vos utilisateurs peuvent uniquement sélectionner un des domaines que l\'admin crée pour eux. Ils ne peuvent pas éditer librement le champ domaine. Vous devez vous identifier à nouveau après avoir modifié cette valeur pour rendre les modifications visibles.';
+$wb['use_domain_module_hint'] = 'Si vous utilisez ce module, vos utilisateurs peuvent uniquement sélectionner un des domaines que ladmin crée pour eux. Ils ne peuvent pas éditer librement le champ domaine. Vous devez vous identifier à nouveau après avoir modifié cette valeur pour rendre les modifications visibles.';
 $wb['new_domain_txt'] = 'HTML pour créer un nouveau domaine';
 $wb['webftp_url_txt'] = 'URL WebFTP';
 $wb['monitor_key_txt'] = 'Mot-clé du moniteur';
+$wb['enable_custom_login_txt'] = 'Allow custom login name';
+$wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
+$wb['mailmailinglist_url_txt'] = 'Mailing list URL';
+$wb['admin_mail_txt'] = 'Administrators e-mail';
+$wb['admin_name_txt'] = 'Administrators name';
 ?>
-

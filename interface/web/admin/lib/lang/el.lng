@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Το Όνομα Χρήστη ή το Συνθηματικό δεν έχει οριστεί';
-$wb['error_1002'] = 'Το Όνομα Χρήστη ή το Συνθηματικό είναι λάθος';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Ομάδες';
 $wb['groups_description'] = 'Φόρμα επεξεργασίας ομάδων χρηστών συστήματος.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Απομακρυσμένοι Χρήστες';
 $wb['Remote Actions'] = 'Απομακρυσμένες Ενέργειες';
 $wb['Do OS-Update'] = 'Αναβάθμιση λειτουργικού συστήματος';
 $wb['Do ISPConfig-Update'] = 'Αναβάθμιση ISPConfig';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

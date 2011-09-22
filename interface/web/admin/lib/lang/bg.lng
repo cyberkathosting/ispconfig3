@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Не е въведено потребителско име или парола.';
-$wb['error_1002'] = 'Грешно потребителско име или парола.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Групи';
 $wb['groups_description'] = 'Редактиране на групи';
@@ -40,5 +38,6 @@ $wb['Remote Users'] = 'Remote Users';
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>
-

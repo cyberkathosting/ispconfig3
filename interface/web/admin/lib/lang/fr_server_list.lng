@@ -8,5 +8,6 @@ $wb['file_server_txt'] = 'Fichier';
 $wb['db_server_txt'] = 'Serveur BDD';
 $wb['vserver_server_txt'] = 'Serveur VServer';
 $wb['add_new_record_txt'] = 'Ajouter nouveau serveur';
+$wb['proxy_server_txt'] = 'Proxy';
+$wb['firewall_server_txt'] = 'Firewall';
 ?>
-

@@ -1,0 +1,15 @@
+<?php
+
+$wb["server_id_txt"] = 'Server';
+$wb["multiport_txt"] = 'Multi Port';
+$wb["singleport_txt"] = 'Single Port';
+$wb["protocol_txt"] = 'Protocol';
+$wb["table_txt"] = 'Table';
+$wb["target_txt"] = 'Target';
+$wb["state_txt"] = 'State';
+$wb["destination_ip_txt"] = 'Destination Address';
+$wb["source_ip_txt"] = 'Source Address';
+$wb["active_txt"] = 'Active';
+$wb["iptables_error_unique"] = 'There is already a firewall record for this server.';
+
+?>

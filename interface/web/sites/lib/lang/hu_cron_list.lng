@@ -9,4 +9,5 @@ $wb['run_month_txt'] = 'Hónap';
 $wb['run_wday_txt'] = 'A hét napja';
 $wb['command_txt'] = 'Parancs';
 $wb['add_new_cron_txt'] = 'Új Cron feladat';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

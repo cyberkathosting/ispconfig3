@@ -62,4 +62,9 @@ $wb['limit_trafficquota_error_notint'] = 'Το Όριο Κίνησης δεδο�
 $wb['template_del_aborted_txt'] = 'Η διαγραφή ακυρώθηκε. Υπάρχει τουλάχιστον ένας πελάτης που έχει το πρότυπο ενεργοποιημένο.';
 $wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
 $wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
+$wb['limit_openvz_vm_txt'] = 'Max. number of virtual servers';
+$wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
+$wb['limit_openvz_vm_error_notint'] = 'The virtual server limit must be a number.';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
+$wb['web_php_options_txt'] = 'PHP Options';
 ?>

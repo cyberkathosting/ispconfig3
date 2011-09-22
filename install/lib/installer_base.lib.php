@@ -134,6 +134,7 @@ class installer_base {
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
 		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
+		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
 		
 		if ($conf['services']['web'] && $conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) $this->ispconfig_interface_installed = true;
@@ -263,7 +264,7 @@ class installer_base {
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
-		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
 		

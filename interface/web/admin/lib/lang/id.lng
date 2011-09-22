@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Nama pengguna atau sandi kosong.';
-$wb['error_1002'] = 'Nama pengguna atau sandi salah.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Grup';
 $wb['groups_description'] = 'Form untuk menyunting grup pengguna sistem.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Pengguna Remote';
 $wb['Remote Actions'] = 'Tindakan Remote';
 $wb['Do OS-Update'] = 'Lakukan Pemutakhiran OS';
 $wb['Do ISPConfig-Update'] = 'Lakukan Pemutakhiran ISPConfig';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

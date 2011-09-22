@@ -6,4 +6,3 @@ $wb['destination_txt'] = 'Получатель';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Добавить новую Email пересылку';
 ?>
-

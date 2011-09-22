@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Сайт';
 $wb['username_txt'] = 'Потребител';
 $wb['add_new_record_txt'] = 'Нов FTP потребител';
 ?>
-

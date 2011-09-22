@@ -6,4 +6,3 @@ $wb['language_overwrite_txt'] = 'Перезаписать, если есть.';
 $wb['btn_cancel_txt'] = 'Назад';
 $wb['ignore_version_txt'] = 'Пропустить проверку версий ISPConfig';
 ?>
-

@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Groupes d\'utilisateurs système';
+$wb['list_head_txt'] = 'Groupes dutilisateurs système';
 $wb['description_txt'] = 'Description';
 $wb['name_txt'] = 'Groupe';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau groupe';
 $wb['warning_txt'] = '<b>ATTENTION:</b> Ne pas éditer ou modifier de paramètre utilisateur ici. Utilisez les paramètres Client et Revendeur dans le module Client à la place. Modifier ou changer les informations ici peut conduire à la perte de données';
 ?>
-

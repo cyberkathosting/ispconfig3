@@ -6,4 +6,5 @@ $wb['contact_name_txt'] = 'Contact nume';
 $wb['city_txt'] = 'Oras';
 $wb['country_txt'] = 'Tara';
 $wb['add_new_record_txt'] = 'Adauga client nou';
+$wb['username_txt'] = 'Username';
 ?>

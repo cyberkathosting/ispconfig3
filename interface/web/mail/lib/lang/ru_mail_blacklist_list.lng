@@ -8,4 +8,3 @@ $wb['recipient_txt'] = 'Получатель';
 $wb['add_new_record_txt'] = 'Добавить новую запись в чернрый список';
 $wb['access_txt'] = 'доступ';
 ?>
-

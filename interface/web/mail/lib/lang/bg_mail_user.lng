@@ -23,8 +23,6 @@ $wb['limit_mailbox_txt'] = 'The max. number of mailboxes for your account is rea
 $wb['limit_mailquota_txt'] = 'The max space for mailboxes is reached. The max. available space in MB is';
 $wb['disableimap_txt'] = 'Disable IMAP';
 $wb['disablepop3_txt'] = 'Disable POP3';
-$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
-$wb['welcome_mail_fromemail_txt'] = 'webmaster@localhost.tld';
 $wb['duplicate_alias_or_forward_txt'] = 'There is already an alias or forwrd with this email address.';
 $wb['quota_error_value'] = 'Invalid quota value. Allowed values are: 0 for unlimited or numbers > 1';
 $wb['autoresponder_start_date_txt'] = 'Start on';
@@ -37,5 +35,10 @@ $wb['name_optional_txt'] = '(Optional)';
 $wb['autoresponder_active'] = 'Enable the autoresponder';
 $wb['cc_txt'] = 'Send copy to';
 $wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
+$wb['domain_txt'] = 'Domain';
+$wb['now_txt'] = 'Now';
+$wb['login_error_unique'] = 'Login is already taken.';
+$wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
+$wb['login_txt'] = 'Login (optional)';
+$wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
 ?>
-

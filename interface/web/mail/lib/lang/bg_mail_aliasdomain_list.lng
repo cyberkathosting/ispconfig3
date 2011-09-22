@@ -5,4 +5,3 @@ $wb['source_txt'] = 'Source';
 $wb['destination_txt'] = 'Destination';
 $wb['add_new_record_txt'] = 'Add new Domain alias';
 ?>
-

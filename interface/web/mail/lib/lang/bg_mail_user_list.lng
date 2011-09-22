@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = "Пощенска кутия";
-$wb['email_txt'] = "Email";
-$wb['autoresponder_txt'] = "Авто отговор";
-$wb['add_new_record_txt'] = "Добави нова Пощенска кутия";
-$wb['name_txt'] = "Истинско име";
+$wb['list_head_txt'] = 'Пощенска кутия';
+$wb['email_txt'] = 'Email';
+$wb['autoresponder_txt'] = 'Авто отговор';
+$wb['add_new_record_txt'] = 'Добави нова Пощенска кутия';
+$wb['name_txt'] = 'Истинско име';
+$wb['login_txt'] = 'Login';
 ?>
-

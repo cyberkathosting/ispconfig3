@@ -142,4 +142,5 @@ $wb['monitor_serverstate_beancountercritical_txt'] = 'In de beancounter bevinden
 $wb['monitor_serverstate_beancountererror_txt'] = 'In de beancounter bevinden zich te veel foutmeldingen';
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'Deze server is geen OpenVz VE en heeft daarom geen beancounter informatie';
+$wb['monitor_title_iptables_txt'] = 'IPTables Rules';
 ?>

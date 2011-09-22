@@ -7,8 +7,7 @@ $wb['domain_error_empty'] = 'Le domaine est vide.';
 $wb['domain_error_unique'] = 'Dupliquer le domaine.';
 $wb['domain_error_regex'] = 'Le domaine est invalide.';
 $wb['client_txt'] = 'Client';
-$wb['limit_maildomain_txt'] = 'Le nombre maximal de domaines d\'email pour votre compte a été atteint.';
+$wb['limit_maildomain_txt'] = 'Le nombre maximal de domaines demail pour votre compte a été atteint.';
 $wb['policy_txt'] = 'Filtre antispam';
 $wb['no_policy'] = '- inactif -';
 ?>
-

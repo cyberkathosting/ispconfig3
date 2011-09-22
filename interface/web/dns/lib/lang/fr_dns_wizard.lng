@@ -2,7 +2,7 @@
 $wb['template_id_txt'] = 'Modèle';
 $wb['server_id_txt'] = 'Serveur';
 $wb['client_txt'] = 'Client';
-$wb['btn_save_txt'] = 'Créer l\'enregistrement DNS';
+$wb['btn_save_txt'] = 'Créer lenregistrement DNS';
 $wb['btn_cancel_txt'] = 'Annuler';
 $wb['domain_txt'] = 'Domaine';
 $wb['email_txt'] = 'Email';
@@ -25,6 +25,5 @@ $wb['error_email_empty'] = 'Email vide.';
 $wb['error_domain_regex'] = 'Le domaine contient des caractères invalides.';
 $wb['error_ns1_regex'] = 'NS1 contient des caractères invalides.';
 $wb['error_ns2_regex'] = 'NS2 contient des caractères invalides.';
-$wb['error_email_regex'] = 'L\'email ne contient pas une adresse email valide.';
+$wb['error_email_regex'] = 'Lemail ne contient pas une adresse email valide.';
 ?>
-

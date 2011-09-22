@@ -9,4 +9,5 @@ $wb['run_month_txt'] = 'Mesiac';
 $wb['run_wday_txt'] = 'Deň v týždni';
 $wb['command_txt'] = 'Príkaz';
 $wb['add_new_cron_txt'] = 'Pridať nový Cron job';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

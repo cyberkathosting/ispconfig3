@@ -1,18 +1,17 @@
 <?php
-$wb['pass_reset_txt'] = "Нова парола ще бъде генерирана и изпратена на електронната ви поща, ако адресът съвпада с въведения в потребителския ви профил.";
-$wb['pw_reset'] = "Новата ви парола беше изпратена на електронната ви поща.";
-$wb['pw_error'] = "Греяно потребителското име или електронна поща.";
-$wb['pw_error_noinput'] = "Моля въведете потребителско име и електронна поща.";
-$wb['pw_reset_mail_msg'] = "Новата парола за вашия ISPConfig 3 контролен панел е:";
-$wb['pw_reset_mail_title'] = "Нова парола за вашия ISPConfig 3 контролен панел";
-$wb['user_regex_error'] = "Username contains unallowed characters or is longer then 64 characters.";
-$wb['pw_error_length'] = "The password length is > 64 characters.";
-$wb['error_user_password_empty'] = "Username or Password empty.";
-$wb['error_user_password_incorrect'] = "Username or Password wrong.";
-$wb['error_user_blocked'] = "User is blocked.";
-$wb['error_user_too_many_logins'] = "To many wrong logins, Please retry it after 15 minutes";
-$wb['username_txt'] = "Username";
-$wb['password_txt'] = "Password";
-$wb['login_button_txt'] = "Login";
+$wb['pass_reset_txt'] = 'Нова парола ще бъде генерирана и изпратена на електронната ви поща, ако адресът съвпада с въведения в потребителския ви профил.';
+$wb['pw_reset'] = 'Новата ви парола беше изпратена на електронната ви поща.';
+$wb['pw_error'] = 'Греяно потребителското име или електронна поща.';
+$wb['pw_error_noinput'] = 'Моля въведете потребителско име и електронна поща.';
+$wb['pw_reset_mail_msg'] = 'Новата парола за вашия ISPConfig 3 контролен панел е:';
+$wb['pw_reset_mail_title'] = 'Нова парола за вашия ISPConfig 3 контролен панел';
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
+$wb['error_user_password_empty'] = 'Username or Password empty.';
+$wb['error_user_password_incorrect'] = 'Username or Password wrong.';
+$wb['error_user_blocked'] = 'User is blocked.';
+$wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after 15 minutes';
+$wb['username_txt'] = 'Username';
+$wb['password_txt'] = 'Password';
+$wb['login_button_txt'] = 'Login';
 ?>
-

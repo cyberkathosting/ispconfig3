@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Routage d\'email avancé';
+$wb['list_head_txt'] = 'Routage demail avancé';
 $wb['active_txt'] = 'Actif';
 $wb['server_id_txt'] = 'Serveur';
 $wb['domain_txt'] = 'Domaine';
@@ -7,4 +7,3 @@ $wb['transport_txt'] = 'Déplacement';
 $wb['sort_order_txt'] = 'Trier par';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau déplacement';
 ?>
-

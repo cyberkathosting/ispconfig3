@@ -3,4 +3,8 @@ $wb['list_head_txt'] = 'IPアドレス';
 $wb['server_id_txt'] = 'サーバー';
 $wb['ip_address_txt'] = 'IPアドレス';
 $wb['add_new_record_txt'] = 'IPアドレスを追加する';
+$wb['client_id_txt'] = 'Client';
+$wb['virtualhost_txt'] = 'HTTP Vhost';
+$wb['virtualhost_port_txt'] = 'HTTP Ports';
+$wb['ip_type_txt'] = 'Type';
 ?>

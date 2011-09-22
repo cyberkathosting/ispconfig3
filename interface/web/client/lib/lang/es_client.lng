@@ -101,4 +101,7 @@ $wb['customer_no_txt'] = 'Número Cliente';
 $wb['vat_id_txt'] = 'VAT ID';
 $wb['required_fields_txt'] = '* Campos Requeridos';
 $wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
+$wb['limit_openvz_vm_txt'] = 'Max. number of virtual servers';
+$wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
+$wb['limit_openvz_vm_error_notint'] = 'The virtual server limit must be a number.';
 ?>

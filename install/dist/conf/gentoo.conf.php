@@ -219,4 +219,7 @@ $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['group'] = 'cron';
 $conf['cron']['wget'] = '/usr/bin/wget';
 
+//* OpenVZ
+$conf['openvz']['installed'] = false;
+
 ?>

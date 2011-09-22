@@ -4,5 +4,5 @@ $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Autorépondeur';
 $wb['add_new_record_txt'] = 'Ajouter une nouvelle boîte email';
 $wb['name_txt'] = 'Nom véritable';
+$wb['login_txt'] = 'Login';
 ?>
-

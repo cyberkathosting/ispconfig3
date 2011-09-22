@@ -7,12 +7,12 @@ $wb['bad_header_lover_txt'] = 'Aime les mauvaises entêtes';
 $wb['bypass_virus_checks_txt'] = 'Contourner la vérification des virus';
 $wb['bypass_banned_checks_txt'] = 'Contourner la vérification des bannissements.';
 $wb['bypass_header_checks_txt'] = 'Contourner la vérification des entêtes';
-$wb['virus_quarantine_to_txt'] = 'Faire suivre les virus vers l\'email';
-$wb['spam_quarantine_to_txt'] = 'Faire suivre le spam vers l\'email';
-$wb['banned_quarantine_to_txt'] = 'Faire suivre les bannis vers l\'email';
-$wb['bad_header_quarantine_to_txt'] = 'Faire suivre les mauvaises entêtes vers l\'email';
-$wb['clean_quarantine_to_txt'] = 'Faire suivre ce qui est propre vers l\'email';
-$wb['other_quarantine_to_txt'] = 'Faire suivre les autres vers l\'email';
+$wb['virus_quarantine_to_txt'] = 'Faire suivre les virus vers lemail';
+$wb['spam_quarantine_to_txt'] = 'Faire suivre le spam vers lemail';
+$wb['banned_quarantine_to_txt'] = 'Faire suivre les bannis vers lemail';
+$wb['bad_header_quarantine_to_txt'] = 'Faire suivre les mauvaises entêtes vers lemail';
+$wb['clean_quarantine_to_txt'] = 'Faire suivre ce qui est propre vers lemail';
+$wb['other_quarantine_to_txt'] = 'Faire suivre les autres vers lemail';
 $wb['spam_tag_level_txt'] = 'Niveau du tag de SPAM';
 $wb['spam_tag2_level_txt'] = 'Niveau du tag2 de SPAM';
 $wb['spam_kill_level_txt'] = 'Niveau du kill de SPAM';
@@ -36,4 +36,3 @@ $wb['spam_admin_txt'] = 'Admin SPAM';
 $wb['message_size_limit_txt'] = 'Limite de taille de message';
 $wb['banned_rulenames_txt'] = 'Noms des règles bannir';
 ?>
-

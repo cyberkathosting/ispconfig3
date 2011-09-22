@@ -10,6 +10,7 @@ $wb['server_id_error_empty'] = 'Aucun serveur sélectionné';
 $wb['origin_error_empty'] = 'zone vide.';
 $wb['origin_error_unique'] = 'Il y a déjà un enregistrement pour cette zone.';
 $wb['origin_error_regex'] = 'La zone a un format invalide.';
-$wb['ns_error_regex'] = 'L\'enregistrement NS a un format invalide.';
+$wb['ns_error_regex'] = 'Lenregistrement NS a un format invalide.';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 ?>
-

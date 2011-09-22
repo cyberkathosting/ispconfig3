@@ -20,4 +20,3 @@ $wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран';
 $wb['puser_txt'] = 'Web Username';
 $wb['pgroup_txt'] = 'Web Group';
 ?>
-

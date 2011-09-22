@@ -13,4 +13,5 @@ $wb['source_username_error_isempty'] = 'Gebruikersnaam is niet ingvuld.';
 $wb['source_password_error_isempty'] = 'Wachtwoord is niet ingvuld.';
 $wb['destination_error_isemail'] = 'Geen bestemming geselecteerd.';
 $wb['source_server_error_regex'] = 'Pop3/Imap server is geen geldige domeinnaam.';
+$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
 ?>

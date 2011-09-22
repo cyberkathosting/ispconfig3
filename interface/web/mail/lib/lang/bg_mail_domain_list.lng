@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = "Email Домейн";
-$wb['server_id_txt'] = "Сървър";
-$wb['domain_txt'] = "Домейн";
-$wb['add_new_record_txt'] = "Добави нов Домейн";
-$wb['active_txt'] = "Активен";
+$wb['list_head_txt'] = 'Email Домейн';
+$wb['server_id_txt'] = 'Сървър';
+$wb['domain_txt'] = 'Домейн';
+$wb['add_new_record_txt'] = 'Добави нов Домейн';
+$wb['active_txt'] = 'Активен';
 ?>
-

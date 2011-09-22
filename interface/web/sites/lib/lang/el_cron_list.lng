@@ -9,4 +9,5 @@ $wb['run_month_txt'] = 'Μήνας';
 $wb['run_wday_txt'] = 'Ημέρα της εβδομάδας';
 $wb['command_txt'] = 'Εντολή';
 $wb['add_new_cron_txt'] = 'Νέα εργασία Cron';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

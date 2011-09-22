@@ -10,5 +10,6 @@ $wb['db_server_txt'] = 'Serveur BDD';
 $wb['vserver_server_txt'] = 'Serveur VServer';
 $wb['mirror_server_id_txt'] = 'Est miroir du serveur';
 $wb['- None -'] = '- Aucun -';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
 ?>
-

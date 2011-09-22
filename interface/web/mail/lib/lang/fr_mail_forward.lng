@@ -2,7 +2,7 @@
 $wb['email_txt'] = 'Email';
 $wb['destination_txt'] = 'Email de destination';
 $wb['active_txt'] = 'Actif';
-$wb['limit_mailforward_txt'] = 'Le nombre maximal de transferts d\'email pour votre compte a été atteint.';
+$wb['limit_mailforward_txt'] = 'Le nombre maximal de transferts demail pour votre compte a été atteint.';
 $wb['duplicate_mailbox_txt'] = 'Il y a déja une boite email avec cette adresse email';
+$wb['domain_txt'] = 'Domain';
 ?>
-

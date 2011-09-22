@@ -2,7 +2,7 @@
 $wb['ssl_state_txt'] = 'Pays';
 $wb['ssl_locality_txt'] = 'Lieu';
 $wb['ssl_organisation_txt'] = 'Organisation';
-$wb['ssl_organisation_unit_txt'] = 'Unité d\'organisation';
+$wb['ssl_organisation_unit_txt'] = 'Unité dorganisation';
 $wb['ssl_country_txt'] = 'Pays';
 $wb['ssl_request_txt'] = 'Requête SSL';
 $wb['ssl_cert_txt'] = 'Certificat SSL';
@@ -28,7 +28,7 @@ $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Client';
 $wb['limit_web_domain_txt'] = 'Le nombre maximum de noms de domaine pour votre compte a été atteint.';
-$wb['limit_web_aliasdomain_txt'] = 'Le nombre maximum d\'alias de domaine pour votre compte a été atteint.';
+$wb['limit_web_aliasdomain_txt'] = 'Le nombre maximum dalias de domaine pour votre compte a été atteint.';
 $wb['limit_web_subdomain_txt'] = 'Le nombre maximum de sous-domaines pour votre compte a été atteint.';
 $wb['apache_directives_txt'] = 'Directives Apache';
 $wb['domain_error_empty'] = 'Le nom de domaine est vide.';
@@ -37,5 +37,6 @@ $wb['domain_error_regex'] = 'Le nom de domaine est invalide.';
 $wb['host_txt'] = 'Hôte';
 $wb['traffic_quota_txt'] = 'Quota de trafic';
 $wb['redirect_error_regex'] = 'Chemin de redirection invalide. Exemples de redirections valides: /test/ ou http://www.domain.tld/test/';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
 ?>
-

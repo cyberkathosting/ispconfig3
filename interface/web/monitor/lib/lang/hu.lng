@@ -142,4 +142,5 @@ $wb['monitor_serverstate_beancountercritical_txt'] = 'There are many failure in 
 $wb['monitor_serverstate_beancountererror_txt'] = 'There are too much failure in the beancounter';
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'This server is not a OpenVz VE and has no beancounter information';
+$wb['monitor_title_iptables_txt'] = 'IPTables Rules';
 ?>

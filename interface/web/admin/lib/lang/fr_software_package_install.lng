@@ -1,7 +1,6 @@
 <?php
 $wb['head_txt'] = 'Installer un paquet logiciel';
-$wb['install_key_txt'] = 'Entrez la clef d\'installation';
-$wb['btn_save_txt'] = 'Démarrer l\'installation';
+$wb['install_key_txt'] = 'Entrez la clef dinstallation';
+$wb['btn_save_txt'] = 'Démarrer linstallation';
 $wb['btn_cancel_txt'] = 'Annuler';
 ?>
-

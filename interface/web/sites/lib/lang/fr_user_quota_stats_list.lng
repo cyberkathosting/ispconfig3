@@ -6,4 +6,3 @@ $wb['used_txt'] = 'Espace utilisé';
 $wb['hard_txt'] = 'Limite dure';
 $wb['soft_txt'] = 'Limite douce';
 ?>
-

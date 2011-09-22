@@ -2,8 +2,8 @@
 $wb['username_txt'] = 'Identifiant :';
 $wb['password_txt'] = 'Mot de passe :';
 $wb['function_txt'] = 'Fonctions :';
-$wb['username_error_unique'] = 'L\'identifiant doit être unique';
-$wb['username_error_empty'] = 'L\'identifiant ne peut être vide';
+$wb['username_error_unique'] = 'Lidentifiant doit être unique';
+$wb['username_error_empty'] = 'Lidentifiant ne peut être vide';
 $wb['password_error_empty'] = 'Le mot de passe ne peut être vide';
 $wb['password_strength_txt'] = 'Force du mot de passe :';
 $wb['Mail domain functions'] = 'Fonctions domaine email';
@@ -17,7 +17,7 @@ $wb['Mail blacklist functions'] = 'Fonctions liste noire email';
 $wb['Mail spamfilter user functions'] = 'Fonctions utilisateur filtre antispam';
 $wb['Mail spamfilter policy functions'] = 'Fonctions politique du filtre antispam';
 $wb['Mail fetchmail functions'] = 'Fonctions récupérateur email';
-$wb['Mail user filter functions'] = 'Fonctions filtre d\'utilisateur email';
+$wb['Mail user filter functions'] = 'Fonctions filtre dutilisateur email';
 $wb['Mail filter functions'] = 'Fonctions filtre email';
 $wb['Client functions'] = 'Fonctions client';
 $wb['Sites cron functions'] = 'Fonctions cron des sites';
@@ -39,5 +39,5 @@ $wb['DNS ptr functions'] = 'Fonctions PTR DNS';
 $wb['DNS rp functions'] = 'Fonctions RP DNS';
 $wb['DNS srv functions'] = 'Fonctions SRV DNS';
 $wb['DNS txt functions'] = 'Fonctions TXT DNS';
+$wb['Mail mailing list functions'] = 'Mail mailinglist functions';
 ?>
-

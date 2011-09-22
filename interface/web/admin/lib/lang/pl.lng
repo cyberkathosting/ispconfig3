@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Nazwa użytkownika lub hasło jest puste.';
-$wb['error_1002'] = 'Nazwa użytkownika lub hasło jest złe.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Grupy';
 $wb['groups_description'] = 'Formularz do edycji grup użytkowników w systemie.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Użytkownicy zdalni';
 $wb['Remote Actions'] = 'Akcje zdalne';
 $wb['Do OS-Update'] = 'Wykonaj aktualizację systemu';
 $wb['Do ISPConfig-Update'] = 'Wykonaj aktualizację ISPConfig';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

@@ -20,15 +20,9 @@ $wb['policy_txt'] = 'Спам-фильтр';
 $wb['no_policy'] = '- не включено -';
 $wb['limit_mailbox_txt'] = 'Число почтовых ящиков превышено.';
 $wb['limit_mailquota_txt'] = 'Место под почтовые ящики превышено. Максимально доступно MB';
-$wb['welcome_mail_subject'] = 'Добро пожаловать в ваш новый счет электронной почты.';
-$wb['welcome_mail_message'] = 'Добро пожаловать в ваш новый счет электронной почты.
-
-Ваш вебмастер.';
 $wb['password_strength_txt'] = 'Стойкость пароля';
 $wb['disableimap_txt'] = 'Запретить IMAP';
 $wb['disablepop3_txt'] = 'Запретить POP3';
-$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
-$wb['welcome_mail_fromemail_txt'] = 'info@youdomain.com';
 $wb['duplicate_alias_or_forward_txt'] = 'Алиас или пересылка уже существуют для этого адреса.';
 $wb['quota_error_value'] = 'Неверное значение квоты. Допустимые значения: 0 не ограничено, или число больше 1';
 $wb['autoresponder_start_date_txt'] = 'Запускать';
@@ -41,5 +35,10 @@ $wb['name_optional_txt'] = '(Optional)';
 $wb['autoresponder_active'] = 'Enable the autoresponder';
 $wb['cc_txt'] = 'Send copy to';
 $wb['cc_error_isemail'] = 'The Send copy to field does not conatin a valid email address';
+$wb['domain_txt'] = 'Domain';
+$wb['now_txt'] = 'Now';
+$wb['login_error_unique'] = 'Login is already taken.';
+$wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
+$wb['login_txt'] = 'Login (optional)';
+$wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
 ?>
-

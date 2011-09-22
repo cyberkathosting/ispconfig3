@@ -9,4 +9,5 @@ $wb['run_month_txt'] = 'Maand';
 $wb['run_wday_txt'] = 'Dag van de week';
 $wb['command_txt'] = 'Commando';
 $wb['add_new_cron_txt'] = 'Toevoegen nieuwe Cron job';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

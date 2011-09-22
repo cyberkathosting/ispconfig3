@@ -4,4 +4,3 @@ $wb['language_select_txt'] = 'Изберете език';
 $wb['btn_save_txt'] = 'Експортиране';
 $wb['btn_cancel_txt'] = 'Отказ';
 ?>
-

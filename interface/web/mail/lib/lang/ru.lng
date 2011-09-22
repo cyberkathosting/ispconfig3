@@ -45,4 +45,3 @@ $wb['Global Filters'] = 'Глобальные фильтры';
 $wb['Domain Alias'] = 'Алиасы доменов';
 $wb['Relay Recipients'] = 'Relay получатели';
 ?>
-

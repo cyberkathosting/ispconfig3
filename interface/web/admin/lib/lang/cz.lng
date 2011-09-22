@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Uživatelské jméno nebo heslo je prázdné.';
-$wb['error_1002'] = 'Uživatelské jméno nebo heslo je špatně.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Skupiny';
 $wb['groups_description'] = 'Úprava skupin systémových uživatelů.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Vzdálení uživatelé';
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Felhasználónév vagy Jelszó üres.';
-$wb['error_1002'] = 'Felhasználónév vagy Jelszó hibás.';
 $wb['Firewall'] = 'Tűzfal';
 $wb['Groups'] = 'Csoportok';
 $wb['groups_description'] = 'Rendszercsoport módosító oldal.';
@@ -40,4 +38,6 @@ $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'OR-Frissítés';
 $wb['Do ISPConfig-Update'] = 'ISPConfig-Frissítés';
 $wb['Server'] = 'Server';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>

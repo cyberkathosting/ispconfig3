@@ -13,4 +13,5 @@ $wb['source_username_error_isempty'] = 'Nazwa użytkownika jest pusta.';
 $wb['source_password_error_isempty'] = 'Hasło jest puste.';
 $wb['destination_error_isemail'] = 'Nie wybrano elementu docelowego.';
 $wb['source_server_error_regex'] = 'Serwer Pop3/Imap nie jest poprawną nazwą domenową.';
+$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
 ?>

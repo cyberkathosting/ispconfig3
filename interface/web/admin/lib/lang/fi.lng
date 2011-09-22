@@ -1,6 +1,4 @@
 <?php
-$wb['error_1001'] = 'Käyttäjätunnus ja/tai salasana on tyhjä.';
-$wb['error_1002'] = 'Käyttäjätunnus ja/tai salasana on väärin.';
 $wb['Firewall'] = 'Palomuuri';
 $wb['Groups'] = 'Käyttäjäryhmät';
 $wb['groups_description'] = 'Lomake käyttäjäryhmien muokkaukseen.';
@@ -40,4 +38,6 @@ $wb['Remote Users'] = 'Etäkäyttäjät';
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 ?>
