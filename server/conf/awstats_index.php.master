@@ -5,9 +5,10 @@ function load_content(url)
     iframe.src = url;
 }
 </script>
+
 <?php
 $aw['aw_jump_text'] = 'Jump to previous stats: ';
-$aw['aw_renamed_index'] = 'awsindex.html';
+$aw['aw_renamed_index'] = 'fixedindex.html';
 
 if ($handle = opendir('.'))
 {
@@ -19,22 +20,21 @@ if ($handle = opendir('.'))
                 }
         }
 
-        $month = date("m")+1-1;
+        $month = date("n");
+        $year = date("Y");
 
         if (date("d") == 1)
         {
-                        $month = date("m")-1;
-        }
-
-        $year = date("Y");
-
-        if (date("m") == 1)
-        {
-                        $year = date("Y")-1;
-                        $month = "12";
+                $awmonth = date("m")-1;
+                if (date("m") == 1)
+                {
+                        $awyear = date("Y")-1;
+                        $awmonth = "12";
+                }
         }
 
         $awprev[] = $year."-".$month;
+
         closedir($handle);
 }
 

@@ -1698,6 +1698,9 @@ class apache2_plugin {
 			file_put_contents($awstats_conf_dir.'/awstats.'.$data['new']['domain'].'.conf',$content);
 			$app->log('Created AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
 		}
+		
+		unlink($data['new']['document_root']."/web/stats/index.html");
+		copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$data['new']['document_root']."/web/stats/index.php");
 	}
 	
 	//* Delete the awstats configuration file

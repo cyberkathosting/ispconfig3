@@ -438,6 +438,12 @@ $form["tabs"]['web'] = array(
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'enable_sni' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

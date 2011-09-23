@@ -61,6 +61,7 @@ awstats_buildstaticpages_pl=/usr/share/awstats/tools/awstats_buildstaticpages.pl
 php_ini_path_apache=/etc/php5/apache2/php.ini
 php_ini_path_cgi=/etc/php5/cgi/php.ini
 check_apache_config=y
+enable_sni=y
 nginx_cgi_socket=/var/run/fcgiwrap.socket
 php_fpm_init_script=php5-fpm
 php_fpm_ini_path=/etc/php5/fpm/php.ini

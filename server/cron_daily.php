@@ -132,6 +132,8 @@ foreach($records as $rec) {
 	$webalizer = '/usr/bin/webalizer';
 	$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
 	$webalizer_conf = escapeshellcmd($rec['document_root'].'/log/webalizer.conf');
+	
+	unlink($statsdir.'/index.php');
 
 	if(!@is_file($webalizer_conf)) {
 		copy($webalizer_conf_main,$webalizer_conf);
