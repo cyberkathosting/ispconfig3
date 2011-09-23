@@ -56,16 +56,16 @@
 <script language="JavaScript" type="text/javascript">
 		var webId = jQuery('input[name="id"]').val();
 		var serverId;
-		getServerId(webId);
-		adjustForm(serverId);
+		getServerId();
+		adjustForm();
 		
-		function getServerId(webId){
+		function getServerId(){
 			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getserverid"}, function(data) {
 				serverId = data.serverid;
 			});
 		}
 		
-		function adjustForm(serverId){
+		function adjustForm(){
 			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
 				if(data.servertype == "nginx"){
 					jQuery('.nginx').show();

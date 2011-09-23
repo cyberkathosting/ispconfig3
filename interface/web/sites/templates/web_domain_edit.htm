@@ -15,14 +15,14 @@
 		<input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
 		<tmpl_else>
 		<label for="server_id">{tmpl_var name='server_id_txt'}</label>
-        <select name="server_id" id="server_id" class="selectInput" onChange="reloadWebIP()">
+        <select name="server_id" id="server_id" class="selectInput">
 		  {tmpl_var name='server_id'}
 		</select>
 		</tmpl_if>
       </div>
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
-        <select name="client_group_id" id="client_group_id" class="selectInput" onChange="reloadWebIP()">
+        <select name="client_group_id" id="client_group_id" class="selectInput">
 					{tmpl_var name='client_group_id'}
 				</select>
       </div>
@@ -30,7 +30,7 @@
       <tmpl_if name="is_reseller">
       <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
-        <select name="client_group_id" id="client_group_id" class="selectInput" onChange="reloadWebIP()">
+        <select name="client_group_id" id="client_group_id" class="selectInput">
 					{tmpl_var name='client_group_id'}
 				</select>
       </div>
@@ -133,6 +133,7 @@
 </div>
 <script language="JavaScript" type="text/javascript">
 		var serverId;
+		var clientGroupId = jQuery('#client_group_id').val();
 		var serverIdDisabled = jQuery('#server_id_disabled').val();
 		if(serverIdDisabled > 0){
 			serverId = serverIdDisabled;
@@ -140,12 +141,18 @@
 			serverId = jQuery('#server_id').val();
 			jQuery('#server_id').change(function(){
 				serverId = $(this).val();
-				adjustForm(serverId);
+				adjustForm();
+				reloadWebIP();
 			});
 		}
-		adjustForm(serverId);
+		adjustForm();
 		
-		function adjustForm(serverId){
+		jQuery('#client_group_id').change(function(){
+			clientGroupId = $(this).val();
+			reloadWebIP();
+		});
+		
+		function adjustForm(){
 			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
 				if(data.servertype == "nginx"){
 					var selected = jQuery('#php').val();
@@ -166,8 +173,8 @@
 		}
 		
 		function reloadWebIP() {
-			loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+document.getElementById('server_id').value)&client_group_id='+document.getElementById('client_group_id').value);
-			loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+document.getElementById('server_id').value)&client_group_id='+document.getElementById('client_group_id').value);
+			loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId);
+			loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId);
 		}
 			
 </script>

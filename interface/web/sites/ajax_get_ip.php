@@ -43,7 +43,11 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	$sql = "SELECT ip_address FROM server_ip WHERE ip_type = '$ip_type' AND server_id = $server_id";
 	$ips = $app->db->queryAllRecords($sql);
 	// $ip_select = "<option value=''></option>";
-	$ip_select = "*";
+	if($ip_type == 'IPv4'){
+		$ip_select = "*";
+	} else {
+		$ip_select = "";
+	}
 	if(is_array($ips)) {
 		foreach( $ips as $ip) {
 			//$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';

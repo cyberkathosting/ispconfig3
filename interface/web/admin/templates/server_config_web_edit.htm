@@ -69,7 +69,7 @@
 						{tmpl_var name='check_apache_config'}
 					</div>
 			</div>
-	  <div class="ctrlHolder apache">
+	  <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='enable_sni_txt'}</p>
 					<div class="multiField">
 						{tmpl_var name='enable_sni'}
@@ -173,13 +173,13 @@
 <script language="JavaScript" type="text/javascript">
 		var serverType = jQuery('#server_type').val();
 		jQuery('#server_type').replaceWith('<label for="server_Type">'+serverType+'</label><input type="hidden" name="server_type" value="'+serverType+'">');
-		adjustForm(serverType);
+		adjustForm();
 		jQuery('#server_type').change(function(){
 			serverType = $(this).val();
-			adjustForm(serverType);
+			adjustForm();
 		});
 		
-		function adjustForm(serverType){
+		function adjustForm(){
 			if(serverType == "nginx"){
 				jQuery('.nginx').show();
 				jQuery('.apache').hide();
