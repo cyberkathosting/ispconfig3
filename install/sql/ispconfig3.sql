@@ -1511,7 +1511,7 @@ CREATE TABLE `web_domain` (
   `allow_override` varchar(255) NOT NULL default 'All',
   `apache_directives` mediumtext,
   `nginx_directives` mediumtext,
-  `php_fpm_use_socket` ENUM('n','y') NOT NULL DEFAULT 'n'
+  `php_fpm_use_socket` ENUM('n','y') NOT NULL DEFAULT 'n',
   `php_open_basedir` mediumtext,
   `custom_php_ini` mediumtext,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
