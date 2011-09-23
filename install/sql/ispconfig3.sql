@@ -1474,7 +1474,7 @@ CREATE TABLE `web_domain` (
   `sys_perm_other` varchar(5) default NULL,
   `server_id` int(11) unsigned NOT NULL default '0',
   `ip_address` varchar(39) default NULL,
-  `ipv6_address` VARCHAR( 255 ) default NULL
+  `ipv6_address` VARCHAR( 255 ) default NULL,
   `domain` varchar(255) default NULL,
   `type` varchar(32) default NULL,
   `parent_domain_id` int(11) unsigned NOT NULL default '0',
