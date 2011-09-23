@@ -638,7 +638,9 @@ class nginx_plugin {
 		$vhost_data['web_document_root'] = $data['new']['document_root'].'/web';
 		$vhost_data['web_document_root_www'] = $web_config['website_basedir'].'/'.$data['new']['domain'].'/web';
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
-		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
+		
+		// IPv6
+		if($data['new']['ipv6_address'] != '') $tpl->setVar('ipv6_enabled', 1);
 		
 		// PHP-FPM
 		$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
@@ -648,11 +650,11 @@ class nginx_plugin {
 		if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
 		
 		if($data['new']['php_fpm_use_socket'] == 'y'){
-			$use_tcp = '#';
-			$use_socket = '';
+			$use_tcp = 0;
+			$use_socket = 1;
 		} else {
-			$use_tcp = '';
-			$use_socket = '#';
+			$use_tcp = 1;
+			$use_socket = 0;
 		}
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
@@ -1113,12 +1115,12 @@ class nginx_plugin {
 		$tpl->newTemplate('php_fpm_pool.conf.master');
 
 		if($data['new']['php_fpm_use_socket'] == 'y'){
-			$use_tcp = ';';
-			$use_socket = '';
+			$use_tcp = 0;
+			$use_socket = 1;
 			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
 		} else {
-			$use_tcp = '';
-			$use_socket = ';';
+			$use_tcp = 1;
+			$use_socket = 0;
 		}
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);

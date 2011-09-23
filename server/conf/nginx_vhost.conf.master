@@ -1,41 +1,43 @@
 server {
         listen <tmpl_var name='ip_address'>:80;
-		<tmpl_if name='ssl_enabled'>
+<tmpl_if name='ipv6_enabled'>
+        listen [<tmpl_var name='ipv6_address'>]:80;
+</tmpl_if>
 		
+<tmpl_if name='ssl_enabled'>
         listen <tmpl_var name='ip_address'>:443 ssl;
+<tmpl_if name='ipv6_enabled'>
+        listen [<tmpl_var name='ipv6_address'>]:443 ssl;
+</tmpl_if>
         ssl_certificate <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt;
         ssl_certificate_key <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key;
-		</tmpl_if>
+</tmpl_if>
         
         server_name <tmpl_var name='domain'> <tmpl_var name='alias'>;
 
         root   <tmpl_var name='web_document_root_www'>;
 		
-        <tmpl_if name='seo_redirect_enabled'>
-
+<tmpl_if name='seo_redirect_enabled'>
         if ($http_host = "<tmpl_var name='seo_redirect_origin_domain'>") {
             rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri permanent;
         }
-		</tmpl_if>
+</tmpl_if>
 		
-        <tmpl_loop name="redirects">
-		
+<tmpl_loop name="redirects">		
         if ($http_host ~* "<tmpl_var name='rewrite_domain'>$") {
             rewrite ^/(.+)$ <tmpl_var name='rewrite_target'>$1 <tmpl_var name='rewrite_type'>;
         }
-        </tmpl_loop>
+</tmpl_loop>
 		
         index index.html index.htm index.php index.cgi index.pl index.xhtml;
 		
-		<tmpl_if name='ssi' op='==' value='y'>
-		
+<tmpl_if name='ssi' op='==' value='y'>		
         location ~ \.shtml$ {
             ssi on;
         }
-		</tmpl_if>
+</tmpl_if>
 
-        <tmpl_if name='errordocs'>
-		
+<tmpl_if name='errordocs'>		
         error_page 400 /error/400.html;
         error_page 401 /error/401.html;
         error_page 403 /error/403.html;
@@ -43,7 +45,7 @@ server {
         error_page 405 /error/405.html;
         error_page 500 /error/500.html;
         error_page 503 /error/503.html;
-        </tmpl_if>
+</tmpl_if>
 		
         error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
         access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log combined;
@@ -72,26 +74,27 @@ server {
             auth_basic_user_file <tmpl_var name='stats_auth_passwd_file'>;
         }
 
-        <tmpl_if name='php' op='==' value='fast-cgi'>
-		
+<tmpl_if name='php' op='==' value='fast-cgi'>
         location ~ \.php$ {
             try_files $uri =404;
-            <tmpl_var name='use_tcp'>fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
-            <tmpl_var name='use_socket'>fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
+<tmpl_if name='use_tcp'>
+            fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
+</tmpl_if>
+<tmpl_if name='use_socket'>
+            fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
+</tmpl_if>
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param PATH_INFO $fastcgi_script_name;
             include /etc/nginx/fastcgi_params;
         }
-		</tmpl_else>
-		
+</tmpl_else>
         location ~ \.php$ {
             deny all;
         }
-        </tmpl_if>
+</tmpl_if>
 		
-		<tmpl_if name='cgi' op='==' value='y'>
-		
+<tmpl_if name='cgi' op='==' value='y'>
         location /cgi-bin/ {
             try_files $uri =404;
             root <tmpl_var name='document_root'>;
@@ -101,10 +104,9 @@ server {
             fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
             include /etc/nginx/fastcgi_params;
         }
-		</tmpl_if>
+</tmpl_if>
 
-        <tmpl_loop name="nginx_directives">
+<tmpl_loop name="nginx_directives">
         <tmpl_var name='nginx_directive'>
-        </tmpl_loop>
-		
+</tmpl_loop>	
 }

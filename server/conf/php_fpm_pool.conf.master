@@ -1,12 +1,15 @@
 [<tmpl_var name='fpm_pool'>]
 
-<tmpl_var name='use_tcp'>listen = 127.0.0.1:<tmpl_var name='fpm_port'>
-<tmpl_var name='use_tcp'>listen.allowed_clients = 127.0.0.1
-
-<tmpl_var name='use_socket'>listen = <tmpl_var name='fpm_socket'>
-<tmpl_var name='use_socket'>listen.owner = <tmpl_var name='fpm_user'>
-<tmpl_var name='use_socket'>listen.group = <tmpl_var name='fpm_group'>
-<tmpl_var name='use_socket'>listen.mode = 0660
+<tmpl_if name='use_tcp'>
+listen = 127.0.0.1:<tmpl_var name='fpm_port'>
+listen.allowed_clients = 127.0.0.1
+</tmpl_if>
+<tmpl_if name='use_socket'>
+listen = <tmpl_var name='fpm_socket'>
+listen.owner = <tmpl_var name='fpm_user'>
+listen.group = <tmpl_var name='fpm_group'>
+listen.mode = 0660
+</tmpl_if>
 
 user = <tmpl_var name='fpm_user'>
 group = <tmpl_var name='fpm_group'>
@@ -20,7 +23,6 @@ pm.max_spare_servers = 35
 chdir = /
 
 <tmpl_if name='security_level' op='==' value='20'>
-
 <tmpl_var name='enable_php_open_basedir'>php_admin_value[open_basedir] = <tmpl_var name='php_open_basedir'>
 </tmpl_if>
 
