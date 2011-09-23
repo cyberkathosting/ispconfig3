@@ -192,7 +192,7 @@ $conf['nginx']['php_fpm_init_script'] = 'php-fpm';
 $conf['nginx']['php_fpm_ini_path'] = '/etc/php.ini';
 $conf['nginx']['php_fpm_pool_dir'] = '/etc/php-fpm.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
-$conf['nginx']['php_fpm_socket_dir'] = '/var/run/php5-fpm';
+$conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php5-fpm';
 
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc';
