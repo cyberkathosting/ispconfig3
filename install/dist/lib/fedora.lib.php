@@ -581,7 +581,7 @@ class installer_dist extends installer_base {
 		exec('mkdir -p '.$conf['nginx']['vhost_conf_enabled_dir']);
 		exec('mkdir -p '.$conf['nginx']['vhost_conf_dir']);
 
-		wf('/etc/nginx/conf.d/ispconfig_vhosts.conf',"include /etc/nginx/sites-enabled/*.conf;");
+		wf('/etc/nginx/conf.d/ispconfig_vhosts.conf',"include /etc/nginx/sites-enabled/*;");
 
 		//* make sure that webalizer finds its config file when it is directly in /etc
 		if(@is_file('/etc/webalizer.conf') && !@is_dir('/etc/webalizer')) {
@@ -854,8 +854,14 @@ class installer_dist extends installer_base {
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
-		$command = 'usermod -a -G ispconfig '.$conf['apache']['user'];
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if($conf['apache']['installed'] == true){
+			$command = 'usermod -a -G ispconfig '.$conf['apache']['user'];
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		if($conf['nginx']['installed'] == true){
+			$command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
 		
 		//* Make the shell scripts executable
 		$command = "chmod +x $install_dir/server/scripts/*.sh";

@@ -831,8 +831,14 @@ class installer_dist extends installer_base {
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
-		$command = 'groupmod --add-user wwwrun ispconfig';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		if($conf['apache']['installed'] == true){
+			$command = 'groupmod --add-user '.$conf['apache']['user'].' ispconfig';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+		if($conf['nginx']['installed'] == true){
+			$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispconfig';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
 		
 		//* Make the shell scripts executable
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
