@@ -567,7 +567,7 @@ class nginx_plugin {
 			}
 
 			//* add the nginx user to the client group
-			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
 
 			$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
 
