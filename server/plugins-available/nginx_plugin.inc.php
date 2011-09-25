@@ -1132,6 +1132,7 @@ class nginx_plugin {
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('document_root', $data['new']['document_root']);
 		$tpl->setVar('security_level',$web_config['security_level']);
 		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
 		$tpl->setVar('php_open_basedir', $php_open_basedir);

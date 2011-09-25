@@ -14,3 +14,6 @@ pm.min_spare_servers = 5
 pm.max_spare_servers = 35
 
 chdir = /
+
+php_admin_value[session.save_path] = /usr/local/ispconfig/server/temp
+php_admin_flag[magic_quotes_gpc] = off
