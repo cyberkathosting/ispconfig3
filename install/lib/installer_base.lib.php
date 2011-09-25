@@ -1256,6 +1256,10 @@ class installer_base {
 		*/
 	}
 	
+	public function configure_fail2ban() {
+        // To Do
+    }
+	
 	public function configure_squid()
 	{
 		global $conf;
