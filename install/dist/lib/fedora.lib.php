@@ -570,6 +570,42 @@ class installer_dist extends installer_base {
 		
 	}
 	
+	public function configure_nginx(){
+		global $conf;
+		
+		if($conf['nginx']['installed'] == false) return;
+		//* Create the logging directory for the vhost logfiles
+		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
+		
+		// Sites enabled and avaulable dirs
+		exec('mkdir -p '.$conf['nginx']['vhost_conf_enabled_dir']);
+		exec('mkdir -p '.$conf['nginx']['vhost_conf_dir']);
+
+		wf('/etc/nginx/conf.d/ispconfig_vhosts.conf',"include /etc/nginx/sites-enabled/*.conf;");
+
+		//* make sure that webalizer finds its config file when it is directly in /etc
+		if(@is_file('/etc/webalizer.conf') && !@is_dir('/etc/webalizer')) {
+			mkdir('/etc/webalizer');
+			symlink('/etc/webalizer.conf','/etc/webalizer/webalizer.conf');
+		}
+
+		if(is_file('/etc/webalizer/webalizer.conf')) {
+			// Change webalizer mode to incremental
+			replaceLine('/etc/webalizer/webalizer.conf','#IncrementalName','IncrementalName webalizer.current',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','#Incremental','Incremental     yes',0,0);
+			replaceLine('/etc/webalizer/webalizer.conf','#HistoryName','HistoryName     webalizer.hist',0,0);
+		}
+		
+		// Check the awsatst script
+		if(!is_dir('/usr/share/awstats/tools')) exec('mkdir -p /usr/share/awstats/tools');
+		if(!file_exists('/usr/share/awstats/tools/awstats_buildstaticpages.pl') && file_exists('/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl')) symlink('/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl','/usr/share/awstats/tools/awstats_buildstaticpages.pl');
+		if(file_exists('/etc/awstats/awstats.conf.local')) replaceLine('/etc/awstats/awstats.conf.local','LogFormat=4','LogFormat=1',0,1);
+		
+		//* add a sshusers group
+		$command = 'groupadd sshusers';
+		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+	}
+	
 	public function configure_firewall()
 	{
 		global $conf;
