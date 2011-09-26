@@ -29,7 +29,7 @@ server {
                deny  all;
         }
 		
-        location /phpmyadmin/ {
+        location /phpmyadmin {
                root /usr/share/;
                index index.php index.html index.htm;
                location ~ ^/phpmyadmin/(.+\.php)$ {

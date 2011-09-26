@@ -247,18 +247,10 @@ if($install_mode == 'standard') {
 	$inst->configure_apps_vhost();
     
 	//* Configure Firewall
-	//** Configure Firewall	
-	if($conf['ufw']['installed'] == true) {
-		//* Configure UFW Firewall
-		$conf['services']['firewall'] = true;
-		swriteln('Configuring UFW Firewall');
-		$inst->configure_ufw_firewall();
-	} else {
-		//* Configure Bastille Firewall
-		$conf['services']['firewall'] = true;
-		swriteln('Configuring Bastille Firewall');
-		$inst->configure_firewall();
-	}
+	//* Configure Bastille Firewall
+	$conf['services']['firewall'] = true;
+	swriteln('Configuring Bastille Firewall');
+	$inst->configure_firewall();
 
     //* Configure Fail2ban
     if($conf['fail2ban']['installed'] == true) {
