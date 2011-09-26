@@ -79,4 +79,5 @@ $wb["non_www_to_www_txt"] = 'Non-www -&gt; www';
 $wb["www_to_non_www_txt"] = 'www -&gt; non-www';
 $wb["php_fpm_use_socket_txt"] = 'Use Socket For PHP-FPM';
 $wb["error_no_sni_txt"] = 'SNI for SSL is not activated on this server. You can enable only one SSL certificate on each IP address.';
+$wb["python_txt"] = 'Python';
 ?>

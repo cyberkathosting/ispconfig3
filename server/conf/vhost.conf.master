@@ -105,6 +105,16 @@
     </IfModule>
 </tmpl_if>
 
+<tmpl_if name='python' op='==' value='y'>
+    <IfModule mod_python.c>
+      <Directory {tmpl_var name='web_document_root'}>
+        AddHandler mod_python .py
+        PythonHandler mod_python.publisher
+        PythonDebug On
+      </Directory>
+    </IfModule>
+</tmpl_if>
+
 <tmpl_if name='cgi' op='==' value='y'>
     # cgi enabled
 	<Directory {tmpl_var name='document_root'}/cgi-bin>

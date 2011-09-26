@@ -1,0 +1,1 @@
+ALTER TABLE `web_domain` ADD `python` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `ruby`;
