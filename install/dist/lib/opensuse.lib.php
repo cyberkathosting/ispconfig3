@@ -996,6 +996,10 @@ class installer_dist extends installer_base {
 					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');
 				}
 			}
+			
+			// create symlinks from /usr/share to phpMyAdmin and SquirrelMail, if they are installed
+			if(!@file_exists('/usr/share/phpmyadmin') && @is_dir('/srv/www/htdocs/phpMyAdmin')) symlink('/srv/www/htdocs/phpMyAdmin/','/usr/share/phpmyadmin');
+			if(!@file_exists('/usr/share/squirrelmail') && @is_dir('/srv/www/htdocs/squirrelmail')) symlink('/srv/www/htdocs/squirrelmail/','/usr/share/squirrelmail');
 		}
 		
 		
