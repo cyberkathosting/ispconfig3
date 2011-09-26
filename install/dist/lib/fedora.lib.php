@@ -581,7 +581,7 @@ class installer_dist extends installer_base {
 		exec('mkdir -p '.$conf['nginx']['vhost_conf_enabled_dir']);
 		exec('mkdir -p '.$conf['nginx']['vhost_conf_dir']);
 
-		wf('/etc/nginx/conf.d/ispconfig_vhosts.conf',"include /etc/nginx/sites-enabled/*;");
+		wf('/etc/nginx/conf.d/ispconfig_vhosts.conf',"include /etc/nginx/sites-enabled/*.vhost;");
 
 		//* make sure that webalizer finds its config file when it is directly in /etc
 		if(@is_file('/etc/webalizer.conf') && !@is_dir('/etc/webalizer')) {
