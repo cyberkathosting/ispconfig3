@@ -182,7 +182,7 @@ $form["tabs"]['domain'] = array (
 		'suexec' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'n',
+			'default'	=> 'y',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 		'errordocs' => array (
