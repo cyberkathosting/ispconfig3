@@ -73,11 +73,11 @@ class mailman_plugin {
 		
 		$this->update_config();
 		
-		exec("/usr/lib/mailman/bin/newlist -u ".$data["new"]["domain"]." -e ".$data["new"]["domain"]." ".$data["new"]["listname"]." ".$data["new"]["email"]." ".$data["new"]["password"]."");
+		exec("/usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])."");
 		
 		exec($conf['init_scripts'] . '/' . 'mailman reload &> /dev/null');
 		
-		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$data["new"]['mailinglist_id']);
+		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
 		
 	}
 	
@@ -85,12 +85,11 @@ class mailman_plugin {
 	function update($event_name,$data) {
 		global $app, $conf;
 		
-		exec("/usr/lib/mailman/bin/change_pw -l ".$data["new"]["listname"]." -p ".$data["new"]["password"]."");
-		
-		exec($conf['init_scripts'] . '/' . 'mailman reload &> /dev/null');
-		
-		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$data["new"]['mailinglist_id']);
-		
+		if($data["new"]["password"] != $data["old"]["password"] && $data["new"]["password"] != '') {
+			exec("/usr/lib/mailman/bin/change_pw -l ".escapeshellcmd($data["new"]["listname"])." -p ".escapeshellcmd($data["new"]["password"])."");
+			exec($conf['init_scripts'] . '/' . 'mailman reload &> /dev/null');
+			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
+		}
 	}
 	
 	function delete($event_name,$data) {
@@ -98,7 +97,7 @@ class mailman_plugin {
 		
 		$this->update_config();
 		
-		exec("/usr/lib/mailman/bin/rmlist -a ".$data["old"]["listname"]);
+		exec("/usr/lib/mailman/bin/rmlist -a ".escapeshellcmd($data["old"]["listname"]));
 		
 		exec($conf['init_scripts'] . '/' . 'mailman reload &> /dev/null');
 		
