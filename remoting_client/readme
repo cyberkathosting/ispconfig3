@@ -1,0 +1,14 @@
+
+--------------------------------------------------------
+- Remote API example files
+--------------------------------------------------------
+
+The examples folder contains a example script for every 
+Remote api function. The login details and URL for the
+remote connection are defined in the file soap_config.php
+
+--------------------------------------------------------
+- Remote API documentation
+--------------------------------------------------------
+
+The startpage of the API documentation is main.html

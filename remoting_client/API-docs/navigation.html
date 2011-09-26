@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+  <title>ISCPConfig 3 API Functions</title>
+
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+  
+  <style type="text/css">
+<!--
+.command {
+    padding: 1em;
+    border: 1px dashed #2f6fab;
+    color: black;
+    background-color: #f9f9f9;
+    line-height: 1.1em;
+        font-family: Courier New, Courier, mono;
+        font-size: 12px;
+        font-style: italic;
+}
+
+.system {
+    color: black;
+        font-family: Courier New, Courier, mono;
+        font-size: 12px;
+        font-style: italic;
+}
+
+.highlight {
+    color: #FF0000;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+	text-decoration: underline;
+}
+-->
+  </style>
+</head><body style= "background-color:#DADADA">
+<p><a href="content.html" target="content">Home</a></p><br>
+<h2>Functions</h2><br>
+
+<h3>C</h3>
+<p><a href="client_add.html" target="content">client_add</a></p>
+<p><a href="client_change_password.html" target="content">client_change_password</a></p>
+<p><a href="client_delete.html" target="content">client_delete</a></p>
+<p><a href="client_delete_everything.html" target="content">client_delete_everything</a></p>
+<p><a href="client_get.html" target="content">client_get</a></p>
+<p><a href="client_get_by_username.html" target="content">client_get_by_username</a></p>
+<p><a href="client_get_id.html" target="content">client_get_id</a></p>
+<p><a href="client_get_sites_by_user.html" target="content">client_get_sites_by_user</a></p>
+<p><a href="client_templates_get_all.html" target="content">client_templates_get_all</a></p>
+<p><a href="client_update.html" target="content">client_update</a></p>
+<h3>D</h3>
+<p><a href="dns_a_add.html" target="content">dns_a_add</a></p>
+<p><a href="dns_a_delete.html" target="content">dns_a_delete</a></p>
+<p><a href="dns_a_get.html" target="content">dns_a_get</a></p>
+<p><a href="dns_a_update.html" target="content">dns_a_update</a></p>
+<p><a href="dns_aaaa_add.html" target="content">dns_aaaa_add</a></p>
+<p><a href="dns_aaaa_delete.html" target="content">dns_aaaa_delete</a></p>
+<p><a href="dns_aaaa_get.html" target="content">dns_aaaa_get</a></p>
+<p><a href="dns_aaaa_update.html" target="content">dns_aaaa_update</a></p>
+<p><a href="dns_alias_add.html" target="content">dns_alias_add</a></p>
+<p><a href="dns_alias_delete.html" target="content">dns_alias_delete</a></p>
+<p><a href="dns_alias_get.html" target="content">dns_alias_get</a></p>
+<p><a href="dns_alias_update.html" target="content">dns_alias_update</a></p>
+<p><a href="dns_cname_add.html" target="content">dns_cname_add</a></p>
+<p><a href="dns_cname_delete.html" target="content">dns_cname_delete</a></p>
+<p><a href="dns_cname_get.html" target="content">dns_cname_get</a></p>
+<p><a href="dns_cname_update.html" target="content">dns_cname_update</a></p>
+<p><a href="dns_hinfo_add.html" target="content">dns_hinfo_add</a></p>
+<p><a href="dns_hinfo_delete.html" target="content">dns_hinfo_delete</a></p>
+<p><a href="dns_hinfo_get.html" target="content">dns_hinfo_get</a></p>
+<p><a href="dns_hinfo_update.html" target="content">dns_hinfo_update</a></p>
+<p><a href="dns_mx_add.html" target="content">dns_mx_add</a></p>
+<p><a href="dns_mx_delete.html" target="content">dns_mx_delete</a></p>
+<p><a href="dns_mx_get.html" target="content">dns_mx_get</a></p>
+<p><a href="dns_mx_update.html" target="content">dns_mx_update</a></p>
+<p><a href="dns_ns_add.html" target="content">dns_ns_add</a></p>
+<p><a href="dns_ns_delete.html" target="content">dns_ns_delete</a></p>
+<p><a href="dns_ns_get.html" target="content">dns_ns_get</a></p>
+<p><a href="dns_ns_update.html" target="content">dns_ns_update</a></p>
+<p><a href="dns_ptr_add.html" target="content">dns_ptr_add</a></p>
+<p><a href="dns_ptr_delete.html" target="content">dns_ptr_delete</a></p>
+<p><a href="dns_ptr_get.html" target="content">dns_ptr_get</a></p>
+<p><a href="dns_ptr_update.html" target="content">dns_ptr_update</a></p>
+<p><a href="dns_rp_add.html" target="content">dns_rp_add</a></p>
+<p><a href="dns_rp_delete.html" target="content">dns_rp_delete</a></p>
+<p><a href="dns_rp_get.html" target="content">dns_rp_get</a></p>
+<p><a href="dns_rp_update.html" target="content">dns_rp_update</a></p>
+<p><a href="dns_rr_get_all_by_zone.html" target="content">dns_rr_get_all_by_zone</a></p>
+<p><a href="dns_srv_add.html" target="content">dns_srv_add</a></p>
+<p><a href="dns_srv_delete.html" target="content">dns_srv_delete</a></p>
+<p><a href="dns_srv_get.html" target="content">dns_srv_get</a></p>
+<p><a href="dns_srv_update.html" target="content">dns_srv_update</a></p>
+<p><a href="dns_txt_add.html" target="content">dns_txt_add</a></p>
+<p><a href="dns_txt_delete.html" target="content">dns_txt_delete</a></p>
+<p><a href="dns_txt_get.html" target="content">dns_txt_get</a></p>
+<p><a href="dns_txt_update.html" target="content">dns_txt_update</a></p>
+<p><a href="dns_zone_add.html" target="content">dns_zone_add</a></p>
+<p><a href="dns_zone_delete.html" target="content">dns_zone_delete</a></p>
+<p><a href="dns_zone_get.html" target="content">dns_zone_get</a></p>
+<p><a href="dns_zone_get_by_user.html" target="content">dns_zone_get_by_user</a></p>
+<p><a href="dns_zone_set_status.html" target="content">dns_zone_set_status</a></p>
+<p><a href="dns_zone_update.html" target="content">dns_zone_update</a></p>
+<p><a href="domains_domain_add.html" target="content">domains_domain_add</a></p>
+<p><a href="domains_domain_delete.html" target="content">domains_domain_delete</a></p>
+<p><a href="domains_domain_get.html" target="content">domains_domain_get</a></p>
+<p><a href="domains_get_all_by_user.html" target="content">domains_get_all_by_user</a></p>
+<h3>G</h3>
+<p><a href="get_function_list.html" target="content">get_function_list</a></p>
+<h3>L</h3>
+<p><a href="login.html" target="content">login</a></p>
+<p><a href="logout.html" target="content">logout</a></p>
+<h3>M</h3>
+<p><a href="mail_alias_add.html" target="content">mail_alias_add</a></p>
+<p><a href="mail_alias_delete.html" target="content">mail_alias_delete</a></p>
+<p><a href="mail_alias_get.html" target="content">mail_alias_get</a></p>
+<p><a href="mail_alias_update.html" target="content">mail_alias_update</a></p>
+<p><a href="mail_blacklist_add.html" target="content">mail_blacklist_add</a></p>
+<p><a href="mail_blacklist_delete.html" target="content">mail_blacklist_delete</a></p>
+<p><a href="mail_blacklist_get.html" target="content">mail_blacklist_get</a></p>
+<p><a href="mail_blacklist_update.html" target="content">mail_blacklist_update</a></p>
+<p><a href="mail_catchall_add.html" target="content">mail_catchall_add</a></p>
+<p><a href="mail_catchall_delete.html" target="content">mail_catchall_delete</a></p>
+<p><a href="mail_catchall_get.html" target="content">mail_catchall_get</a></p>
+<p><a href="mail_catchall_update.html" target="content">mail_catchall_update</a></p>
+<p><a href="mail_domain_add.html" target="content">mail_domain_add</a></p>
+<p><a href="mail_domain_delete.html" target="content">mail_domain_delete</a></p>
+<p><a href="mail_domain_get.html" target="content">mail_domain_get</a></p>
+<p><a href="mail_domain_get_by_domain.html" target="content">mail_domain_get_by_domain</a></p>
+<p><a href="mail_domain_update.html" target="content">mail_domain_update</a></p>
+<p><a href="mail_fetchmail_add.html" target="content">mail_fetchmail_add</a></p>
+<p><a href="mail_fetchmail_delete.html" target="content">mail_fetchmail_delete</a></p>
+<p><a href="mail_fetchmail_get.html" target="content">mail_fetchmail_get</a></p>
+<p><a href="mail_fetchmail_update.html" target="content">mail_fetchmail_update</a></p>
+<p><a href="mail_forward_add.html" target="content">mail_forward_add</a></p>
+<p><a href="mail_forward_delete.html" target="content">mail_forward_delete</a></p>
+<p><a href="mail_forward_get.html" target="content">mail_forward_get</a></p>
+<p><a href="mail_forward_update.html" target="content">mail_forward_update</a></p>
+<p><a href="mail_mailinglist_add.html" target="content">mail_mailinglist_add</a></p>
+<p><a href="mail_mailinglist_delete.html" target="content">mail_mailinglist_delete</a></p>
+<p><a href="mail_mailinglist_get.html" target="content">mail_mailinglist_get</a></p>
+<p><a href="mail_mailinglist_update.html" target="content">mail_mailinglist_update</a></p>
+<p><a href="mail_policy_add.html" target="content">mail_policy_add</a></p>
+<p><a href="mail_policy_delete.html" target="content">mail_policy_delete</a></p>
+<p><a href="mail_policy_get.html" target="content">mail_policy_get</a></p>
+<p><a href="mail_policy_update.html" target="content">mail_policy_update</a></p>
+<p><a href="mail_spamfilter_blacklist_add.html" target="content">mail_spamfilter_blacklist_add</a></p>
+<p><a href="mail_spamfilter_blacklist_delete.html" target="content">mail_spamfilter_blacklist_delete</a></p>
+<p><a href="mail_spamfilter_blacklist_get.html" target="content">mail_spamfilter_blacklist_get</a></p>
+<p><a href="mail_spamfilter_blacklist_update.html" target="content">mail_spamfilter_blacklist_update</a></p>
+<p><a href="mail_spamfilter_user_add.html" target="content">mail_spamfilter_user_add</a></p>
+<p><a href="mail_spamfilter_user_delete.html" target="content">mail_spamfilter_user_delete</a></p>
+<p><a href="mail_spamfilter_user_get.html" target="content">mail_spamfilter_user_get</a></p>
+<p><a href="mail_spamfilter_user_update.html" target="content">mail_spamfilter_user_update</a></p>
+<p><a href="mail_spamfilter_whitelist_add.html" target="content">mail_spamfilter_whitelist_add</a></p>
+<p><a href="mail_spamfilter_whitelist_delete.html" target="content">mail_spamfilter_whitelist_delete</a></p>
+<p><a href="mail_spamfilter_whitelist_get.html" target="content">mail_spamfilter_whitelist_get</a></p>
+<p><a href="mail_spamfilter_whitelist_update.html" target="content">mail_spamfilter_whitelist_update</a></p>
+<p><a href="mail_transport_add.html" target="content">mail_transport_add</a></p>
+<p><a href="mail_transport_delete.html" target="content">mail_transport_delete</a></p>
+<p><a href="mail_transport_get.html" target="content">mail_transport_get</a></p>
+<p><a href="mail_transport_update.html" target="content">mail_transport_update</a></p>
+<p><a href="mail_user_add.html" target="content">mail_user_add</a></p>
+<p><a href="mail_user_delete.html" target="content">mail_user_delete</a></p>
+<p><a href="mail_user_get.html" target="content">mail_user_get</a></p>
+<p><a href="mail_user_update.html" target="content">mail_user_update</a></p>
+<p><a href="mail_user_filter_add.html" target="content">mail_user_filter_add</a></p>
+<p><a href="mail_user_filter_delete.html" target="content">mail_user_filter_delete</a></p>
+<p><a href="mail_user_filter_get.html" target="content">mail_user_filter_get</a></p>
+<p><a href="mail_user_filter_update.html" target="content">mail_user_filter_update</a></p>
+<p><a href="mail_whitelist_add.html" target="content">mail_whitelist_add</a></p>
+<p><a href="mail_whitelist_delete.html" target="content">mail_whitelist_delete</a></p>
+<p><a href="mail_whitelist_get.html" target="content">mail_whitelist_get</a></p>
+<p><a href="mail_whitelist_update.html" target="content">mail_whitelist_update</a></p>
+<h3>O</h3>
+<p><a href="openvz_get_free_ip.html" target="content">openvz_get_free_ip</a></p>
+<p><a href="openvz_ip_add.html" target="content">openvz_ip_add</a></p>
+<p><a href="openvz_ip_delete.html" target="content">openvz_ip_delete</a></p>
+<p><a href="openvz_ip_get.html" target="content">openvz_ip_get</a></p>
+<p><a href="openvz_ip_update.html" target="content">openvz_ip_update</a></p>
+<p><a href="openvz_ostemplate_add.html" target="content">openvz_ostemplate_add</a></p>
+<p><a href="openvz_ostemplate_delete.html" target="content">openvz_ostemplate_delete</a></p>
+<p><a href="openvz_ostemplate_get.html" target="content">openvz_ostemplate_get</a></p>
+<p><a href="openvz_ostemplate_update.html" target="content">openvz_ostemplate_update</a></p>
+<p><a href="openvz_template_add.html" target="content">openvz_template_add</a></p>
+<p><a href="openvz_template_delete.html" target="content">openvz_template_delete</a></p>
+<p><a href="openvz_template_get.html" target="content">openvz_template_get</a></p>
+<p><a href="openvz_template_update.html" target="content">openvz_template_update</a></p>
+<p><a href="openvz_vm_add.html" target="content">openvz_vm_add</a></p>
+<p><a href="openvz_vm_add_from_template.html" target="content">openvz_vm_add_from_template</a></p>
+<p><a href="openvz_vm_delete.html" target="content">openvz_vm_delete</a></p>
+<p><a href="openvz_vm_get.html" target="content">openvz_vm_get</a></p>
+<p><a href="openvz_vm_get_by_client.html" target="content">openvz_vm_get_by_client</a></p>
+<p><a href="openvz_vm_update.html" target="content">openvz_vm_update</a></p>
+<h3>S</h3>
+<p><a href="server_get.html" target="content">server_get</a></p>
+<p><a href="server_get_serverid_by_ip.html" target="content">server_get_serverid_by_ip</a></p>
+<p><a href="sites_cron_add.html" target="content">sites_cron_add</a></p>
+<p><a href="sites_cron_delete.html" target="content">sites_cron_delete</a></p>
+<p><a href="sites_cron_get.html" target="content">sites_cron_get</a></p>
+<p><a href="sites_cron_update.html" target="content">sites_cron_update</a></p>
+<p><a href="sites_database_add.html" target="content">sites_database_add</a></p>
+<p><a href="sites_database_delete.html" target="content">sites_database_delete</a></p>
+<p><a href="sites_database_get.html" target="content">sites_database_get</a></p>
+<p><a href="sites_database_get_all_by_user.html" target="content">sites_database_get_all_by_user</a></p>
+<p><a href="sites_database_update.html" target="content">sites_database_update</a></p>
+<p><a href="sites_ftp_user_add.html" target="content">sites_ftp_user_add</a></p>
+<p><a href="sites_ftp_user_delete.html" target="content">sites_ftp_user_delete</a></p>
+<p><a href="sites_ftp_user_get.html" target="content">sites_ftp_user_get</a></p>
+<p><a href="sites_ftp_user_update.html" target="content">sites_ftp_user_update</a></p>
+<p><a href="sites_shell_user_add.html" target="content">sites_shell_user_add</a></p>
+<p><a href="sites_shell_user_delete.html" target="content">sites_shell_user_delete</a></p>
+<p><a href="sites_shell_user_get.html" target="content">sites_shell_user_get</a></p>
+<p><a href="sites_shell_user_update.html" target="content">sites_shell_user_update</a></p>
+<p><a href="sites_web_aliasdomain_add.html" target="content">sites_web_aliasdomain_add</a></p>
+<p><a href="sites_web_aliasdomain_delete.html" target="content">sites_web_aliasdomain_delete</a></p>
+<p><a href="sites_web_aliasdomain_get.html" target="content">sites_web_aliasdomain_get</a></p>
+<p><a href="sites_web_aliasdomain_update.html" target="content">sites_web_aliasdomain_update</a></p>
+<p><a href="sites_web_domain_add.html" target="content">sites_web_domain_add</a></p>
+<p><a href="sites_web_domain_delete.html" target="content">sites_web_domain_delete</a></p>
+<p><a href="sites_web_domain_get.html" target="content">sites_web_domain_get</a></p>
+<p><a href="sites_web_domain_set_status.html" target="content">sites_web_domain_set_status</a></p>
+<p><a href="sites_web_domain_update.html" target="content">sites_web_domain_update</a></p>
+<p><a href="sites_web_subdomain_add.html" target="content">sites_web_subdomain_add</a></p>
+<p><a href="sites_web_subdomain_delete.html" target="content">sites_web_subdomain_delete</a></p>
+<p><a href="sites_web_subdomain_get.html" target="content">sites_web_subdomain_get</a></p>
+<p><a href="sites_web_subdomain_update.html" target="content">sites_web_subdomain_update</a></p>
+
+<p><a href=""></a></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</body></html>

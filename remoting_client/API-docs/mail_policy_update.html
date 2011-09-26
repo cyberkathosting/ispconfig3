@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Postfix Monitoring With Mailgraph And pflogsumm</title>
+
+  
+
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="definitionen.css">
+  <style type="text/css">
+  </style></head>
+
+<body>
+<div style="padding:40px">
+<h1>mail_policy_update(<span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$primary_id</span>, <span class="var">$params</span>);</h1>
+<br>
+<b>Description: </b>
+<p class="margin"> Updates a mail policy.</p><br>
+<b>Input Variables: </b> 
+<p class="margin"> <span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$primary_id</span>, <span class="var">$params</span></p>
+<b>Parameters (in <span class="var">$params</span>): </b>
+<p class="margin"> policy_name&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> virus_lover&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> spam_lover&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> banned_files_lover&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> bad_header_lover&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> bypass_virus_checks&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> bypass_spam_checks&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> bypass_banned_checks&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> bypass_header_checks&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> spam_modifies_subj&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> virus_quarantine_to&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> spam_quarantine_to&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> banned_quarantine_to&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> bad_header_quarantine_to&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> clean_quarantine_to&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> other_quarantine_to&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> spam_tag_level&nbsp;&nbsp;(<span class="paratype">float</span>)</p>
+<p class="margin"> spam_tag2_level&nbsp;&nbsp;(<span class="paratype">float</span>)</p>
+<p class="margin"> spam_kill_level&nbsp;&nbsp;(<span class="paratype">float</span>)</p>
+<p class="margin"> spam_dsn_cutoff_level&nbsp;&nbsp;(<span class="paratype">float</span>)</p>
+<p class="margin"> spam_quarantine_cutoff_level&nbsp;&nbsp;(<span class="paratype">float</span>)</p>
+<p class="margin"> addr_extension_virus&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> addr_extension_spam&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> addr_extension_banned&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> addr_extension_bad_header&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> warnvirusrecip&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> warnbannedrecip&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> warnbadhrecip&nbsp;&nbsp;(<span class="paratype">enum('N','Y')</span>)</p>
+<p class="margin"> newvirus_admin&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> virus_admin&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> banned_admin&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> bad_header_admin&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> spam_admin&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> spam_subject_tag&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> spam_subject_tag2&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> message_size_limit&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> banned_rulenames&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<b>Output: </b> 
+<p class="margin"> Returns the number of affected rows.</p>
+<!--<b>Output:</b> 
+<p style="margin-left:100px">Gives a record of </p> -->
+</div>
+
+</body></html>

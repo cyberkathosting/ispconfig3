@@ -18,34 +18,19 @@ try {
 	$client_id = 1;
 	$params = array(
 			'server_id' => 1,
-			'veid' => 1,
-			'ostemplate_id' => 0,
-			'template_id' => 0,
-			'ip_address' => '192.168.0.111',
-			'hostname' => 'host',
-			'vm_password' => 'password',
-			'start_boot' => 'y',
+			'type' => 'pop3',
+			'source_server' => 'webzor.ext',
+			'source_username' => 'someguy',
+			'source_password' => 'somepassword',
+			'source_delete' => 'n',
+			'destination' => 'hmmnoe@test.int',
 			'active' => 'y',
-			'active_until_date' => '',
-			'description' => '',
-			'diskspace' => 10,
-			'traffic' => -1,
-			'bandwidth' => -1,
-			'ram' => 256,
-			'ram_burst' => 512,
-			'cpu_units' => 1000,
-			'cpu_num' => 4,
-			'cpu_limit' => 400,
-			'io_priority' => 4,
-			'nameserver' => '8.8.8.8 8.8.4.4',
-			'create_dns' => 'n',
-			'capability' => '',
-			'config' => ''
+			'source_read_all' => 'y',
 			);
 	
-	$vm_id = $client->openvz_vm_add($session_id, $client_id, $params);
+	$fetchmail_id = $client->mail_fetchmail_add($session_id, $client_id, $params);
 
-	echo "VM ID: ".$vm_id."<br>";
+	echo "Fetchmail ID: ".$fetchmail_id."<br>";
 	
 	if($client->logout($session_id)) {
 		echo 'Logged out.<br />';

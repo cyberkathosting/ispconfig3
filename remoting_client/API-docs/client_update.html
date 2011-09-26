@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>Postfix Monitoring With Mailgraph And pflogsumm</title>
+
+  
+
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="definitionen.css">
+  <style type="text/css">
+  </style></head>
+
+<body>
+<div style="padding:40px">
+<h1>client_update(<span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$reseller_id</span>, <span class="var">$params</span>);</h1>
+<br>
+<b>Description: </b>
+<p class="margin"> Updates a client.</p><br>
+<b>Input Variables: </b> 
+<p class="margin"> <span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$reseller_id</span>, <span class="var">$params</span></p>
+<b>Parameters (in <span class="var">$params</span>): </b>
+<p class="margin"> company_name&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> contact_name&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> customer_no&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> vat_id&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> street&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> zip&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> city&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> state&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> country&nbsp;&nbsp;(<span class="paratype">char(2)</span>)</p>
+<p class="margin"> telephone&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> mobile&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> fax&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> email&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> internet&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> icq&nbsp;&nbsp;(<span class="paratype">varchar(16)</span>)</p>
+<p class="margin"> notes&nbsp;&nbsp;(<span class="paratype">text</span>)</p>
+<p class="margin"> default_mailserver&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_maildomain&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailbox&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailalias&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailaliasdomain&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailforward&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailcatchall&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailrouting&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailfilter&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_fetchmail&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_mailquota&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_spamfilter_wblist&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_spamfilter_user&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_spamfilter_policy&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> default_webserver&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_web_ip&nbsp;&nbsp;(<span class="paratype">text</span>)</p>
+<p class="margin"> limit_web_domain&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_web_quota&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> web_php_options&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> limit_web_subdomain&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_web_aliasdomain&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_ftp_user&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_shell_user&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> ssh_chroot&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> limit_webdav_user&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> default_dnsserver&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_dns_zone&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_dns_slave_zone&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_dns_record&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> default_dbserver&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_database&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_cron&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_cron_type&nbsp;&nbsp;(<span class="paratype">enum('url','chrooted','full')</span>)</p>
+<p class="margin"> limit_cron_frequency&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_traffic_quota&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> limit_client&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> parent_client_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> username&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> password&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> language&nbsp;&nbsp;(<span class="paratype">char(2)</span>)</p>
+<p class="margin"> usertheme&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> template_master&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> template_additional&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> created_at&nbsp;&nbsp;(<span class="paratype">bigint(20)</span>)</p>
+<b>Output: </b> 
+<p class="margin"> Returns the number of affected rows.</p>
+<!--<b>Output:</b> 
+<p style="margin-left:100px">Gives a record of </p> -->
+</div>
+
+</body></html>

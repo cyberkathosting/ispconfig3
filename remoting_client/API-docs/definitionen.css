@@ -1,0 +1,61 @@
+.command {
+    padding: 1em;
+    border: 1px dashed #2f6fab;
+    color: black;
+    background-color: #f9f9f9;
+    line-height: 1.1em;
+        font-family: Courier New, Courier, mono;
+        font-size: 12px;
+        font-style: italic;
+}
+
+.system {
+    color: black;
+        font-family: Courier New, Courier, mono;
+        font-size: 12px;
+        font-style: italic;
+}
+
+.highlight {
+    color: #FF0000;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+	text-decoration: underline;
+}
+
+.headdescr {
+    color: black;
+	font-weight: bold;
+}
+
+.headinput {
+    color: black;
+	font-weight: bold;
+}
+
+.headparams {
+    color: black;
+	font-weight: bold;
+}
+
+.headoutput {
+    color: black;
+	font-weight: bold;
+}
+
+.headgrp {
+    color: black;
+	font-weight: bold;
+}
+
+.var {
+    color: #A17FFF;
+}
+
+.margin {
+    margin-left: 100px;
+}
+
+.paratype {
+    color: #2B8A60;
+}

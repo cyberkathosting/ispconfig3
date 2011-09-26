@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title>ISCPConfig 3 API Functions</title>
+
+  
+
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="definitionen.css">
+  <style type="text/css">
+  </style></head>
+
+<body>
+<div style="padding:40px">
+<h1>sites_web_domain_update(<span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$primary_id</span>, <span class="var">$params</span>);</h1>
+<br>
+<b>Description: </b>
+<p class="margin"> Updates a web domain.</p><br>
+<b>Input Variables: </b> 
+<p class="margin"> <span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$primary_id</span>, <span class="var">$params</span></p>
+<b>Parameters (in <span class="var">$params</span>): </b>
+<p class="margin"> server_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> ip_address&nbsp;&nbsp;(<span class="paratype">varchar(39)</span>)</p>
+<p class="margin"> domain&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> type&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> parent_domain_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> vhost_type&nbsp;&nbsp;(<span class="paratype">varchar(32)</span>)</p>
+<p class="margin"> document_root&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> system_user&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> system_group&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> hd_quota&nbsp;&nbsp;(<span class="paratype">bigint(20)</span>)</p>
+<p class="margin"> traffic_quota&nbsp;&nbsp;(<span class="paratype">bigint(20)</span>)</p>
+<p class="margin"> cgi&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> ssi&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> suexec&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> errordocs&nbsp;&nbsp;(<span class="paratype">tinyint(1)</span>)</p>
+<p class="margin"> is_subdomainwww&nbsp;&nbsp;(<span class="paratype">tinyint(1)</span>)</p>
+<p class="margin"> subdomain&nbsp;&nbsp;(<span class="paratype">enum('none','www','*')</span>)</p>
+<p class="margin"> php&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> ruby&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> redirect_type&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> redirect_path&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> ssl_state&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl_locality&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl_organisation&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl_organisation_unit&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl_country&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl_domain&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> ssl_request&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
+<p class="margin"> ssl_cert&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
+<p class="margin"> ssl_bundle&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
+<p class="margin"> ssl_action&nbsp;&nbsp;(<span class="paratype">varchar(16)</span>)</p>
+<p class="margin"> stats_password&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> stats_type&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> allow_override&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> apache_directives&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
+<p class="margin"> php_open_basedir&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
+<p class="margin"> custom_php_ini&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
+<p class="margin"> backup_interval&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> backup_copies&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> active&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> traffic_quota_lock&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<b>Output: </b> 
+<p class="margin"> Returns the number of affected rows.</p>
+<!--<b>Output:</b> 
+<p style="margin-left:100px">Gives a record of </p> -->
+</div>
+
+</body></html>
