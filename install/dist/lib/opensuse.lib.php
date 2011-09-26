@@ -521,7 +521,7 @@ class installer_dist extends installer_base {
 		replaceLine('/etc/suphp.conf','umask=0077','umask=0022',0);
 		//}
 		
-		// Sites enabled and avaulable dirs
+		// Sites enabled and available dirs
 		exec('mkdir -p '.$conf['apache']['vhost_conf_enabled_dir']);
 		exec('mkdir -p '.$conf['apache']['vhost_conf_dir']);
 		
@@ -591,13 +591,16 @@ class installer_dist extends installer_base {
 		//* Create the logging directory for the vhost logfiles
 		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 		
-		// Sites enabled and avaulable dirs
+		// Sites enabled and available dirs
 		exec('mkdir -p '.$conf['nginx']['vhost_conf_enabled_dir']);
 		exec('mkdir -p '.$conf['nginx']['vhost_conf_dir']);
 		
-		$content = trim(rf('/etc/nginx/nginx.conf'));
-		$content = substr($content,0,-1)."\n    include /etc/nginx/sites-enabled/*.vhost;\n}";
-		wf('/etc/nginx/nginx.conf',$content);
+		$content = rf('/etc/nginx/nginx.conf');
+		if(stripos($content, 'include /etc/nginx/sites-enabled/*.vhost;') === false){
+			$content = trim($content);
+			$content = substr($content,0,-1)."\n    include /etc/nginx/sites-enabled/*.vhost;\n}";
+			wf('/etc/nginx/nginx.conf',$content);
+		}
 		unset($content);
 		
 		// create PHP-FPM pool dir
