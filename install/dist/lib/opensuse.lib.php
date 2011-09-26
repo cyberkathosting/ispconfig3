@@ -608,6 +608,15 @@ class installer_dist extends installer_base {
 			af('/etc/php5/fpm/php-fpm.conf',"\ninclude=/etc/php5/fpm/pool.d/*.conf");
 		}
 		unset($content);
+		if(!@is_file($conf['nginx']['php_fpm_ini_path'])){
+			if(@is_file('/etc/php5/cli/php.ini')){
+				exec('cp -f /etc/php5/cli/php.ini '.$conf['nginx']['php_fpm_ini_path']);
+			} elseif(@is_file('/etc/php5/fastcgi/php.ini')){
+				exec('cp -f /etc/php5/fastcgi/php.ini '.$conf['nginx']['php_fpm_ini_path']);
+			} elseif(@is_file('/etc/php5/apache2/php.ini')){
+				exec('cp -f /etc/php5/apache2/php.ini '.$conf['nginx']['php_fpm_ini_path']);
+			}
+		}
 
 		//* make sure that webalizer finds its config file when it is directly in /etc
 		if(@is_file('/etc/webalizer.conf') && !@is_dir('/etc/webalizer')) {
