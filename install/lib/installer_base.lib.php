@@ -132,7 +132,7 @@ class installer_base {
 		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
-		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
+		// if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
@@ -265,8 +265,8 @@ class installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
-		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
-		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
+		$proxy_server_enabled = (isset($conf['services']['proxy']) && $conf['services']['proxy'])?1:0;
+		$firewall_server_enabled = (isset($conf['services']['firewall']) && $conf['services']['firewall'])?1:0;
 		
 		//** Get the database version number based on the patchfiles
 		$found = true;
@@ -1279,6 +1279,7 @@ class installer_base {
 		exec('chown root:root '.$conf["squid"]["config_dir"].'/'.$configfile);
 	}
 	
+	/*
 	public function configure_ufw_firewall()
 	{
 		$configfile = 'ufw.conf';
@@ -1288,6 +1289,7 @@ class installer_base {
 		exec('chmod 600 /etc/ufw/ufw.conf');
 		exec('chown root:root /etc/ufw/ufw.conf');	
 	}
+	*/
 
 	public function configure_firewall() {
 		global $conf;

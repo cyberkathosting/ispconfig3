@@ -112,6 +112,11 @@ $conf['postfix']['vmail_groupid'] = '5000';
 $conf['postfix']['vmail_groupname'] = 'vmail';
 $conf['postfix']['vmail_mailbox_base'] = '/var/vmail';
 
+//* Mailman
+$conf['mailman']['installed'] = false; // will be detected automatically during installation
+$conf['mailman']['config_dir'] = '/etc/mailman';
+$conf['mailman']['init_script'] = 'mailman';
+
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['config_dir'] = '/etc/getmail';
@@ -177,6 +182,11 @@ $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
 $conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /bin/basename /usr/bin/dirname /usr/bin/nano';
 $conf['jailkit']['jailkit_chroot_cron_programs'] = '/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php';
+
+//* Squid
+$conf['squid']['installed'] = false; // will be detected automatically during installation
+$conf['squid']['config_dir'] = '/etc/squid';
+$conf['squid']['init_script'] = 'squid';
 
 //* Nginx
 $conf['nginx']['installed'] = false; // will be detected automatically during installation

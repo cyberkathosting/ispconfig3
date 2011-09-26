@@ -13,7 +13,7 @@ class nginx_reverseproxy_plugin {
 	function onInstall() {
 		global $conf;
 
-		if($conf['services']['proxy'] == true && $conf['nginx']['installed'] == true) {
+		if(isset($conf['services']['proxy']) && $conf['services']['proxy'] == true && isset($conf['nginx']['installed']) && $conf['nginx']['installed'] == true) {
 			return true;
 		} else {
 			return false;

@@ -41,7 +41,7 @@ class squid_plugin {
 	function onInstall() {
 		global $conf;
 		
-		if($conf['services']['proxy'] == true && $conf['squid']['installed'] == true) {
+		if(isset($conf['services']['proxy']) &&$conf['services']['proxy'] == true && isset($conf['squid']['installed']) && $conf['squid']['installed'] == true) {
 			return true;
 		} else {
 			return false;

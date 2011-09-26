@@ -312,10 +312,6 @@ if($reconfigure_services_answer == 'yes') {
 			//* Configure Bastille Firewall
 			swriteln('Configuring Bastille Firewall');
 			$inst->configure_firewall();
-		} elseif($conf['ufw']['installed'] == true) {
-			//* Configure Ubuntu Firewall
-			swriteln('Configuring Ubuntu Firewall');
-			$inst->configure_ufw_firewall();
 		}
 	}
 	
@@ -392,12 +388,12 @@ if($reconfigure_services_answer == 'yes') {
 	}
 	
 	if($conf['services']['proxy']) {
-		if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
+		// if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 		if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['nginx']['init_script']))					system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' restart &> /dev/null');
 	}
 	
 	if($conf['services']['firewall']) {
-		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
+		//if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
 
