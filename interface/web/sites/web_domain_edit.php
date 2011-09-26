@@ -397,9 +397,8 @@ class page_action extends tform_actions {
 				unset($tmp);
 				// When the record is inserted
 			} else {
-				// set the server ID to the default mailserver of the client
+				//* set the server ID to the default webserver of the client
 				$this->dataRecord["server_id"] = $client["default_webserver"];
-
 
 				// Check if the user may add another web_domain
 				if($client["limit_web_domain"] >= 0) {
@@ -410,7 +409,6 @@ class page_action extends tform_actions {
 				}
 
 			}
-			
 
 			// Clients may not set the client_group_id, so we unset them if user is not a admin and the client is not a reseller
 			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
@@ -418,7 +416,17 @@ class page_action extends tform_actions {
 		
 		//* make sure that the email domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
-
+		
+		//* get the server config for this server
+			$app->uses("getconf");
+			$web_config = $app->getconf->get_server_config(intval($this->dataRecord["server_id"]),'web');
+			//* Check for duplicate ssl certs per IP if SNI is disabled
+			if(isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y' && $web_config['enable_sni'] != 'y') {
+				$sql = "SELECT count(domain_id) as number FROM web_domain WHERE `ssl` = 'y' AND ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."' and domain_id != ".$this->id;
+				$tmp = $app->db->queryOneRecord($sql);
+				if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("error_no_sni_txt");
+			}
+		
 
 		parent::onSubmit();
 	}
