@@ -674,7 +674,7 @@ class installer_base {
 		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
 		exec('postalias /var/lib/mailman/data/aliases');
 		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
-		exec('postalias /var/lib/mailman/data/virtual-mailman');
+		exec('postmap /var/lib/mailman/data/virtual-mailman');
 
 		//* Make a backup copy of the main.cf file
 		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
