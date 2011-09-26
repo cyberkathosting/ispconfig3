@@ -1,0 +1,1 @@
+ALTER TABLE  `sys_session` CHANGE  `session_id`  `session_id` VARCHAR( 64 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;

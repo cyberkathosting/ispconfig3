@@ -1375,7 +1375,7 @@ CREATE TABLE `sys_remoteaction` (
 --
 
 CREATE TABLE `sys_session` (
-  `session_id` varchar(32) NOT NULL DEFAULT '',
+  `session_id` varchar(64) NOT NULL DEFAULT '',
   `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `session_data` longtext,
