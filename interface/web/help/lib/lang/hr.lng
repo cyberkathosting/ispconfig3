@@ -1,0 +1,10 @@
+<?php
+$wb['Support Message'] = "Poruka podršci";
+$wb['Message'] = "Poruka";
+$wb['Send message'] = "Pošalji poruku";
+$wb['View messages'] = "Pogledaj poruke";
+$wb['Support'] = "Podrška";
+$wb['About ISPConfig'] = "O control panelu";
+$wb['Version'] = "Verzija";
+?>
+

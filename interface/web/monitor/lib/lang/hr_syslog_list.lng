@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = "Control panel logovi";
+$wb['tstamp_txt'] = "Datum";
+$wb['server_id_txt'] = "Server";
+$wb['loglevel_txt'] = "Logovi";
+$wb['message_txt'] = "Poruka";
+?>
+

@@ -1,0 +1,24 @@
+<?php
+$wb["puser_txt"] = 'Web Username';
+$wb["pgroup_txt"] = 'Web Group';
+$wb["shell_txt"] = 'Shell';
+$wb["dir_txt"] = 'Dir';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Site';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["chroot_txt"] = 'Chroot Shell';
+$wb["quota_size_txt"] = 'Quota';
+$wb["active_txt"] = 'Active';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["username_error_regex"] = 'The username contains charachters that are not allowed.';
+$wb["quota_size_error_empty"] = 'Quota is empty.';
+$wb["uid_error_empty"] = 'UID empty.';
+$wb["uid_error_empty"] = 'GID empty.';
+$wb["directory_error_empty"] = 'Directory empty.';
+$wb["limit_shell_user_txt"] = 'The max number of shell users is reached.';
+$wb["parent_domain_id_error_empty"] = 'No website selected.';
+?>
+

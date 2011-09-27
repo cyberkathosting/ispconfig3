@@ -1,0 +1,7 @@
+<?php
+$wb['User Settings'] = "Korisničke postavke";
+$wb['Settings'] = "Postavke";
+$wb['ISPConfig Tools'] = "Control panel alati";
+$wb['Password and Language'] = "Šifra i jezik";
+?>
+

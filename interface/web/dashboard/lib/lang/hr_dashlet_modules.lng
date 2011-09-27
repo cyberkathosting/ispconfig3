@@ -1,0 +1,4 @@
+<?php
+$wb['available_modules_txt'] = "Dostupni moduli";
+?>
+

@@ -1,0 +1,30 @@
+<?php
+$wb['limits_txt'] = "Ograničenja";
+$wb['of_txt'] = "od";
+$wb['unlimited_txt'] = "neograničeno";
+$wb['limit_maildomain_txt'] = "Mail domene";
+$wb['limit_mailbox_txt'] = "Mailboxi";
+$wb['limit_mailalias_txt'] = "Mail aliasi";
+$wb['limit_mailaliasdomain_txt'] = "Domain aliasi";
+$wb['limit_mailforward_txt'] = "Mail forwarderi";
+$wb['limit_mailcatchall_txt'] = "Mail catchall računi";
+$wb['limit_mailrouting_txt'] = "Mail route";
+$wb['limit_mailfilter_txt'] = "Mail filteri";
+$wb['limit_fetchmail_txt'] = "Fetchmail računi";
+$wb['limit_spamfilter_wblist_txt'] = "Broj white / blacklist spam filtera";
+$wb['limit_spamfilter_user_txt'] = "Broj spam filter računa";
+$wb['limit_spamfilter_policy_txt'] = "Broj spam filtera";
+$wb['limit_cron_txt'] = "Broj cron-ova";
+$wb['limit_web_domain_txt'] = "Domene";
+$wb['limit_web_aliasdomain_txt'] = "Alias domene";
+$wb['limit_web_subdomain_txt'] = "Subdomene";
+$wb['limit_ftp_user_txt'] = "FTP računi";
+$wb['limit_dns_zone_txt'] = "DNS primarne zone";
+$wb['limit_dns_slave_zone_txt'] = "DNS sekundarne zone";
+$wb['limit_dns_record_txt'] = "DNS zapisi";
+$wb['limit_shell_user_txt'] = "Shell računi";
+$wb['limit_webdav_user_txt'] = "Webdav računi";
+$wb['limit_client_txt'] = "Klijenti";
+$wb['limit_database_txt'] = "Baze";
+?>
+

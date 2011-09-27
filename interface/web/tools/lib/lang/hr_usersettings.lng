@@ -1,0 +1,9 @@
+<?php
+$wb['passwort_txt'] = "Šifra";
+$wb['password_strength_txt'] = "Jačina šifre";
+$wb['language_txt'] = "Jezik";
+$wb['password_mismatch'] = "Šifra u drugom polju ne odgovara šifri iz prvog polja.";
+$wb['Form to edit the user password and language.'] = "Formular za izmjenu šifre i jezika.";
+$wb['Settings'] = "Postavke";
+?>
+
