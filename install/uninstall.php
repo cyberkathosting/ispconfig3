@@ -60,8 +60,17 @@ exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
 exec("/etc/init.d/mysql start");
 
 // Deleting the symlink in /var/www
-unlink("/etc/apache2/sites-enabled/000-ispconfig.vhost");
-unlink("/etc/apache2/sites-available/ispconfig.vhost");
+// Apache
+@unlink("/etc/apache2/sites-enabled/000-ispconfig.vhost");
+@unlink("/etc/apache2/sites-available/ispconfig.vhost");
+@unlink("/etc/apache2/sites-enabled/000-apps.vhost");
+@unlink("/etc/apache2/sites-available/apps.vhost");
+
+// nginx
+@unlink("/etc/nginx/sites-enabled/000-ispconfig.vhost");
+@unlink("/etc/nginx/sites-available/ispconfig.vhost");
+@unlink("/etc/nginx/sites-enabled/000-apps.vhost");
+@unlink("/etc/nginx/sites-available/apps.vhost");
 
 // Delete the ispconfig files
 exec('rm -rf /usr/local/ispconfig');
