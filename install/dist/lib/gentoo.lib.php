@@ -653,7 +653,7 @@ class installer extends installer_base
 			
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
-			$content = rf('tpl/php_fpm_pool.conf.master');
+			$content = rf('tpl/apps_php_fpm_pool.conf.master');
 			$content = str_replace('{fpm_pool}', 'apps', $content);
 			$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
 			$content = str_replace('{fpm_user}', $apps_vhost_user, $content);

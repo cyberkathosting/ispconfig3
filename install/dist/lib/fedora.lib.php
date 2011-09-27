@@ -861,8 +861,8 @@ class installer_dist extends installer_base {
 		if($conf['nginx']['installed'] == true){
 			$command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-			// Allow the ISPConfig vhost access to /etc/squirrelmail
-			$command = 'usermod -a -G '.$conf['apache']['group'].' ispconfig';
+			// Allow the ispapps vhost access to /etc/squirrelmail
+			$command = 'usermod -a -G '.$conf['apache']['group'].' ispapps';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		
