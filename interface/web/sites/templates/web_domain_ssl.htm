@@ -21,10 +21,12 @@
       	<label for="ssl_organisation_unit">{tmpl_var name='ssl_organisation_unit_txt'}</label>
         <input name="ssl_organisation_unit" id="ssl_organisation_unit" value="{tmpl_var name='ssl_organisation_unit'}" size="30" maxlength="255" type="text" class="textInput" />
 			</div>
-      <div class="ctrlHolder">
+		<div class="ctrlHolder">
       	<label for="ssl_country">{tmpl_var name='ssl_country_txt'}</label>
-        <input name="ssl_country" id="ssl_country" value="{tmpl_var name='ssl_country'}" size="2" maxlength="2" type="text" class="textInput" />
-			</div>
+        <select name="ssl_country" id="ssl_country" class="selectInput withicons">
+					{tmpl_var name='ssl_country'}
+				</select>
+      </div>
 	  <div class="ctrlHolder">
       	<label for="client_group_id">{tmpl_var name='ssl_domain_txt'}</label>
         <select name="ssl_domain" id="ssl_domain" class="selectInput">

@@ -331,6 +331,7 @@ $form["tabs"]['ssl'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		/*
 		'ssl_country' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
@@ -342,6 +343,18 @@ $form["tabs"]['ssl'] = array (
 			'value'		=> '',
 			'width'		=> '2',
 			'maxlength'	=> '2'
+		),
+		*/
+		'ssl_country' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT iso,printable_name FROM country ORDER BY printable_name',
+										'keyfield'=> 'iso',
+										'valuefield'=> 'printable_name'
+									 ),
+			'value'		=> ''
 		),
 		'ssl_domain' => array (
 			'datatype'	=> 'VARCHAR',
