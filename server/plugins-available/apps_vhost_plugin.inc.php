@@ -122,7 +122,7 @@ class apps_vhost_plugin {
 			$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);
 			$content = str_replace('{apps_vhost_dir}', $web_config['website_basedir'].'/apps', $content);
 			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
-			$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port'], $content);
+			$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $content);
 		}
 		
 		file_put_contents("$vhost_conf_dir/apps.vhost", $content);
