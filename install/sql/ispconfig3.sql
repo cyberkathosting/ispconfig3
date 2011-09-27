@@ -131,7 +131,7 @@ CREATE TABLE `client` (
   `limit_client` int(11) NOT NULL DEFAULT '0',
   `limit_mailmailinglist` int(11) NOT NULL DEFAULT '-1',
   `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
-  `limit_openvz_vm_template` int(11) NOT NULL DEFAULT '0',
+  `limit_openvz_vm_template_id` int(11) NOT NULL DEFAULT '0',
   `parent_client_id` int(11) unsigned NOT NULL DEFAULT '0',
   `username` varchar(64) DEFAULT NULL,
   `password` varchar(64) DEFAULT NULL,
@@ -194,7 +194,7 @@ CREATE TABLE `client_template` (
   `limit_client` int(11) NOT NULL default '0',
   `limit_mailmailinglist` int(11) NOT NULL default '-1',
   `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
-  `limit_openvz_vm_template` int(11) NOT NULL DEFAULT '0',
+  `limit_openvz_vm_template_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
