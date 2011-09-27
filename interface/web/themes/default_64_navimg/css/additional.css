@@ -56,5 +56,9 @@
 	.topnav-dashboard {
 		background-image: url('/themes/default/icons/x64/dashboard.png') !important;
 	}
+	
+	.topnav-vm {
+		background-image: url("/themes/default/icons/x64/drawer.png") !important;
+	}
 
 }
