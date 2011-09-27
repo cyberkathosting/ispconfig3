@@ -418,15 +418,23 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 		
 		//* get the server config for this server
-			$app->uses("getconf");
-			$web_config = $app->getconf->get_server_config(intval($this->dataRecord["server_id"]),'web');
-			//* Check for duplicate ssl certs per IP if SNI is disabled
-			if(isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y' && $web_config['enable_sni'] != 'y') {
-				$sql = "SELECT count(domain_id) as number FROM web_domain WHERE `ssl` = 'y' AND ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."' and domain_id != ".$this->id;
-				$tmp = $app->db->queryOneRecord($sql);
-				if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("error_no_sni_txt");
-			}
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config(intval($this->dataRecord["server_id"]),'web');
+		//* Check for duplicate ssl certs per IP if SNI is disabled
+		if(isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y' && $web_config['enable_sni'] != 'y') {
+			$sql = "SELECT count(domain_id) as number FROM web_domain WHERE `ssl` = 'y' AND ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."' and domain_id != ".$this->id;
+			$tmp = $app->db->queryOneRecord($sql);
+			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("error_no_sni_txt");
+		}
 		
+		// Check if pm.max_children >= pm.max_spare_servers >= pm.start_servers >= pm.min_spare_servers > 0
+		if(isset($this->dataRecord['pm_max_children'])) {
+			if(intval($this->dataRecord['pm_max_children']) >= intval($this->dataRecord['pm_max_spare_servers']) && intval($this->dataRecord['pm_max_spare_servers']) >= intval($this->dataRecord['pm_start_servers']) && intval($this->dataRecord['pm_start_servers']) >= intval($this->dataRecord['pm_min_spare_servers']) && intval($this->dataRecord['pm_min_spare_servers']) > 0){
+		
+			} else {
+				$app->tform->errorMessage .= $app->tform->lng("error_php_fpm_pm_settings_txt").'<br>';
+			}
+		}
 
 		parent::onSubmit();
 	}

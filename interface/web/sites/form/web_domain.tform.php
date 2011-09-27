@@ -511,6 +511,54 @@ $form["tabs"]['advanced'] = array (
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
+		'pm_max_children' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([1-9][0-9]{0,10})$/',
+														'errmsg'=> 'pm_max_children_error_regex'),
+									),
+			'default'	=> '50',
+			'value'		=> '',
+			'width'		=> '3',
+			'maxlength'	=> '3'
+		),
+		'pm_start_servers' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([1-9][0-9]{0,10})$/',
+														'errmsg'=> 'pm_start_servers_error_regex'),
+									),
+			'default'	=> '20',
+			'value'		=> '',
+			'width'		=> '3',
+			'maxlength'	=> '3'
+		),
+		'pm_min_spare_servers' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([1-9][0-9]{0,10})$/',
+														'errmsg'=> 'pm_min_spare_servers_error_regex'),
+									),
+			'default'	=> '5',
+			'value'		=> '',
+			'width'		=> '3',
+			'maxlength'	=> '3'
+		),
+		'pm_max_spare_servers' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([1-9][0-9]{0,10})$/',
+														'errmsg'=> 'pm_max_spare_servers_error_regex'),
+									),
+			'default'	=> '35',
+			'value'		=> '',
+			'width'		=> '3',
+			'maxlength'	=> '3'
+		),
 		'php_open_basedir' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
