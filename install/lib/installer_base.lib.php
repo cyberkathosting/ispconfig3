@@ -118,7 +118,7 @@ class installer_base {
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('mailman')) $conf['mailman']['installed'] = true;
-		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd')) $conf['apache']['installed'] = true;
+		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
