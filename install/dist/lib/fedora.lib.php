@@ -966,7 +966,7 @@ class installer_dist extends installer_base {
 				}
 			}
 			
-			// create symlinks from /usr/share to phpMyAdmin and SquirrelMail, if they are installed
+			// create symlink from /usr/share/phpmyadmin to /usr/share/phpMyAdmin, if it is installed
 			if(!@file_exists('/usr/share/phpmyadmin') && @is_dir('/usr/share/phpMyAdmin')) symlink('/usr/share/phpMyAdmin/','/usr/share/phpmyadmin');
 		}
 		
