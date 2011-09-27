@@ -114,7 +114,7 @@ class login_index {
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
 						$user = $app->db->queryOneRecord($sql);
 
-						if($user && $user['active'] == 1) {
+						if($user) {
 							
 							$saved_password = stripslashes($user['passwort']);
 							
