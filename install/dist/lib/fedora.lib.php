@@ -965,6 +965,9 @@ class installer_dist extends installer_base {
 					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');
 				}
 			}
+			
+			// create symlinks from /usr/share to phpMyAdmin and SquirrelMail, if they are installed
+			if(!@file_exists('/usr/share/phpmyadmin') && @is_dir('/usr/share/phpMyAdmin')) symlink('/usr/share/phpMyAdmin/','/usr/share/phpmyadmin');
 		}
 		
 		// Make the Clamav log files readable by ISPConfig
