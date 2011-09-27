@@ -15,11 +15,16 @@ server {
         }
 
         location ~ \.php$ {
+               try_files $uri =404;
+               include /etc/nginx/fastcgi_params;
                fastcgi_pass 127.0.0.1:{fpm_port};
                fastcgi_index index.php;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_param PATH_INFO $fastcgi_script_name;
-               include /etc/nginx/fastcgi_params;
+               fastcgi_buffer_size 128k;
+               fastcgi_buffers 256 4k;
+               fastcgi_busy_buffers_size 256k;
+               fastcgi_temp_file_write_size 256k;
         }
 
         location ~ /\. {

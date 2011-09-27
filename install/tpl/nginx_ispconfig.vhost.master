@@ -18,11 +18,15 @@ server {
 
         location ~ \.php$ {
                try_files $uri =404;
+               include /etc/nginx/fastcgi_params;
                fastcgi_pass 127.0.0.1:{fpm_port};
                fastcgi_index index.php;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_param PATH_INFO $fastcgi_script_name;
-               include /etc/nginx/fastcgi_params;
+               fastcgi_buffer_size 128k;
+               fastcgi_buffers 256 4k;
+               fastcgi_busy_buffers_size 256k;
+               fastcgi_temp_file_write_size 256k;
         }
 
         location ~ /\. {
@@ -35,11 +39,11 @@ server {
                location ~ ^/phpmyadmin/(.+\.php)$ {
                        try_files $uri =404;
                        root /usr/share/;
+                       include /etc/nginx/fastcgi_params;
                        fastcgi_pass 127.0.0.1:{fpm_port};
                        {ssl_comment}fastcgi_param  HTTPS {fastcgi_ssl};
                        fastcgi_index index.php;
                        fastcgi_param SCRIPT_FILENAME $request_filename;
-                       include /etc/nginx/fastcgi_params;
                }
                location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
                        root /usr/share/;
@@ -55,11 +59,11 @@ server {
                location ~ ^/squirrelmail/(.+\.php)$ {
                        try_files $uri =404;
                        root /usr/share/;
+                       include /etc/nginx/fastcgi_params;
                        fastcgi_pass 127.0.0.1:{fpm_port};
                        {ssl_comment}fastcgi_param  HTTPS {fastcgi_ssl};
                        fastcgi_index index.php;
                        fastcgi_param SCRIPT_FILENAME $request_filename;
-                       include /etc/nginx/fastcgi_params;
                }
                location ~* ^/squirrelmail/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
                        root /usr/share/;
