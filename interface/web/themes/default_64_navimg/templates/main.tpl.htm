@@ -68,6 +68,13 @@
 
 		jQuery(document).ready(function() {
 			loadInitContent();
+			
+			$("#pageForm").submit(function(e){
+				//Prevent form submit: e.preventDefault() in lists
+				if ($(".panel #Filter").length > 0) {
+					e.preventDefault();
+				}
+			});
 		});
 
 		jQuery(document).bind("change", function(event) {
