@@ -660,7 +660,7 @@ class nginx_plugin {
 		$tpl->setVar('use_socket', $use_socket);
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
-		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1;
+		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1;
 		
 		// Custom nginx directives
 		$final_nginx_directives = array();
@@ -1129,7 +1129,7 @@ class nginx_plugin {
 		$tpl->setVar('fpm_socket', $fpm_socket);
 			
 		$tpl->setVar('fpm_pool', $pool_name);
-		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] + 1);
+		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);

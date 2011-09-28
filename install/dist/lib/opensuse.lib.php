@@ -976,7 +976,13 @@ class installer_dist extends installer_base {
 				$content = str_replace('{fastcgi_ssl}', 'off', $content);
 			}
 			
-			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			$socket_dir = escapeshellcmd($conf['nginx']['php_fpm_socket_dir']);
+			if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
+			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
+			$fpm_socket = $socket_dir.'ispconfig.sock';
+			
+			//$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 
 			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
 			
@@ -986,7 +992,8 @@ class installer_dist extends installer_base {
 			// Dont just copy over the php-fpm pool template but add some custom settings
 			$content = rf('tpl/php_fpm_pool.conf.master');
 			$content = str_replace('{fpm_pool}', 'ispconfig', $content);
-			$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			//$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
+			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{fpm_user}', 'ispconfig', $content);
 			$content = str_replace('{fpm_group}', 'ispconfig', $content);
 			wf($conf['nginx']['php_fpm_pool_dir'].'/ispconfig.conf', $content);

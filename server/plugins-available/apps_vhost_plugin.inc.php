@@ -117,12 +117,18 @@ class apps_vhost_plugin {
 			} else {
 				$apps_vhost_ip = $web_config['apps_vhost_ip'].':';
 			}
+			
+			$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+			if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
+			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
+			$fpm_socket = $socket_dir.'apps.sock';
 		
 			$content = str_replace('{apps_vhost_ip}', $apps_vhost_ip, $content);
 			$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);
 			$content = str_replace('{apps_vhost_dir}', $web_config['website_basedir'].'/apps', $content);
 			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
-			$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $content);
+			//$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $content);
+			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 		}
 		
 		file_put_contents("$vhost_conf_dir/apps.vhost", $content);

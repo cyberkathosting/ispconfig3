@@ -1,8 +1,9 @@
 [{fpm_pool}]
 
-listen = 127.0.0.1:{fpm_port}
-
-listen.allowed_clients = 127.0.0.1
+listen = {fpm_socket}
+listen.owner = {fpm_user}
+listen.group = {fpm_group}
+listen.mode = 0660
 
 user = {fpm_user}
 group = {fpm_group}
