@@ -1,0 +1,19 @@
+[{fpm_pool}]
+
+listen = {fpm_socket}
+listen.owner = {fpm_user}
+listen.group = {fpm_group}
+listen.mode = 0660
+
+user = {fpm_user}
+group = {fpm_group}
+
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 20
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+
+chdir = /
+
+php_admin_flag[magic_quotes_gpc] = off

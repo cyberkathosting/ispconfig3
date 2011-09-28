@@ -894,9 +894,13 @@ class installer_dist extends installer_base {
 		if($conf['apache']['installed'] == true){
 			$command = 'groupmod --add-user '.$conf['apache']['user'].' ispconfig';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			$command = 'groupmod --add-user '.$conf['apache']['user'].' ispapps';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		if($conf['nginx']['installed'] == true){
 			$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispconfig';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispapps';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		

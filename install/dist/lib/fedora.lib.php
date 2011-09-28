@@ -857,12 +857,16 @@ class installer_dist extends installer_base {
 		if($conf['apache']['installed'] == true){
 			$command = 'usermod -a -G ispconfig '.$conf['apache']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			$command = 'usermod -a -G ispapps '.$conf['apache']['user'];
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		if($conf['nginx']['installed'] == true){
 			$command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			// Allow the ispapps vhost access to /etc/squirrelmail
 			$command = 'usermod -a -G '.$conf['apache']['group'].' ispapps';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			$command = 'usermod -a -G ispapps '.$conf['nginx']['user']';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		

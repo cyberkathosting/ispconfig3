@@ -99,6 +99,9 @@ class apps_vhost_plugin {
 			} else {
 				$content = str_replace('{vhost_port_listen}', '', $content);
 			}
+			
+			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
+			$app->services->restartServiceDelayed('httpd','restart');
 		}
 		
 		if($web_config['server_type'] == 'nginx'){
@@ -108,6 +111,9 @@ class apps_vhost_plugin {
 			$vhost_conf_dir = $web_config['nginx_vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $web_config['nginx_vhost_conf_enabled_dir'];
 			$apps_vhost_servername = ($web_config['apps_vhost_servername'] == '')?'_':$web_config['apps_vhost_servername'];
+			
+			$apps_vhost_user = 'ispapps';
+			$apps_vhost_group = 'ispapps';
 		
 			$web_config['apps_vhost_port'] = (empty($web_config['apps_vhost_port']))?8081:$web_config['apps_vhost_port'];
 			$web_config['apps_vhost_ip'] = (empty($web_config['apps_vhost_ip']))?'_default_':$web_config['apps_vhost_ip'];
@@ -129,10 +135,20 @@ class apps_vhost_plugin {
 			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
 			//$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
+			
+			// PHP-FPM
+			// Dont just copy over the php-fpm pool template but add some custom settings
+			$fpm_content = file_get_contents($conf["rootpath"]."/conf/apps_php_fpm_pool.conf.master");
+			$fpm_content = str_replace('{fpm_pool}', 'apps', $fpm_content);
+			//$fpm_content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $fpm_content);
+			$fpm_content = str_replace('{fpm_socket}', $fpm_socket, $fpm_content);
+			$fpm_content = str_replace('{fpm_user}', $apps_vhost_user, $fpm_content);
+			$fpm_content = str_replace('{fpm_group}', $apps_vhost_group, $fpm_content);
+			file_put_contents($web_config['php_fpm_pool_dir'].'/apps.conf', $fpm_content);
+			
+			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
+			$app->services->restartServiceDelayed('httpd','reload');
 		}
-		
-		file_put_contents("$vhost_conf_dir/apps.vhost", $content);
-		$app->services->restartServiceDelayed('httpd','restart');
 	}
 	
 

@@ -1396,7 +1396,11 @@ class installer_base {
 			$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-			if(!@is_dir($install_dir)) mkdir($install_dir, 0755, true);
+			if(!@is_dir($install_dir)){
+				mkdir($install_dir, 0755, true);
+			} else {
+				chmod($install_dir, 0755);
+			}
 			chown($install_dir, $apps_vhost_user);
 			chgrp($install_dir, $apps_vhost_group);
 
@@ -1744,9 +1748,13 @@ class installer_base {
 		if($conf['apache']['installed'] == true){
 			$command = 'adduser '.$conf['apache']['user'].' ispconfig';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			$command = 'adduser '.$conf['apache']['user'].' ispapps';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		if($conf['nginx']['installed'] == true){
 			$command = 'adduser '.$conf['nginx']['user'].' ispconfig';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			$command = 'adduser '.$conf['nginx']['user'].' ispapps';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
