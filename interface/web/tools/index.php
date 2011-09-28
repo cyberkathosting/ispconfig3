@@ -45,6 +45,6 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('tools');
 
-echo '<h2 class="frmTextHead">'.$app->lng('ISPConfig Tools').'</h2>';
+echo '<h2 class="frmTextHead">'.$app->lng('ISPConfig Tools').'</h2><p>'.$app->lng('ispconfig_tools_note').'</p>';
 
 ?>

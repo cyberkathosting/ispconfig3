@@ -46,7 +46,7 @@ $error = '';
 // Resyncing dns zones
 if(isset($_POST['resync']) && $_POST['resync'] == 1) {
 	$zones = $app->db->queryAllRecords("SELECT id,origin,serial FROM dns_soa WHERE active = 'Y'");
-	if(is_array($zones)) {
+	if(is_array($zones) && !empty($zones)) {
 		foreach($zones as $zone) {
 			$records = $app->db->queryAllRecords("SELECT id,serial FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
 			if(is_array($records)) {
@@ -60,6 +60,8 @@ if(isset($_POST['resync']) && $_POST['resync'] == 1) {
 			$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
 			$msg .= "Resynced: ".$zone['origin'].'<br />';
 		}
+	} else {
+		$error .= "No zones found to sync.<br />";
 	}
 	
 }
