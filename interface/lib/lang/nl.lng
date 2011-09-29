@@ -39,4 +39,9 @@ $wb['top_menu_domain'] = 'Domeinen';
 $wb['top_menu_dashboard'] = 'Home';
 $wb['latest_news_txt'] = 'Laatste nieuws';
 $wb['top_menu_vm'] = 'VServer';
+$wb['datepicker_dayNamesMin'] = "'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'";
+$wb['datepicker_dayNames'] = "'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'";
+$wb['datepicker_monthNamesShort'] = "'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'";
+$wb['datepicker_nextText'] = "Next";
+$wb['datepicker_prevText'] = "Prev";
 ?>

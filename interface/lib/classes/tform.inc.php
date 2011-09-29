@@ -150,6 +150,8 @@ class tform {
 				if(isset($wb_global)) unset($wb_global);
 				
                 $this->wordbook = $wb;
+				
+				$this->dateformat = $app->lng('conf_format_dateshort');
 
                 return true;
         }

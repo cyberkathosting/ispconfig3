@@ -166,6 +166,17 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
 
+		// Datepicker
+		$date_format = $app->lng('conf_format_dateshort');
+		$trans = array("d" => "dd", "m" => "mm", "Y" => "yy");
+		$date_format = strtr($date_format, $trans);
+		$app->tpl->setVar("date_format", $date_format);
+		$app->tpl->setVar("datepicker_dayNamesMin", $app->lng('datepicker_dayNamesMin'));
+		$app->tpl->setVar("datepicker_dayNames", $app->lng('datepicker_dayNames'));
+		$app->tpl->setVar("datepicker_monthNamesShort", $app->lng('datepicker_monthNamesShort'));
+		$app->tpl->setVar("datepicker_nextText", $app->lng('datepicker_nextText'));
+		$app->tpl->setVar("datepicker_prevText", $app->lng('datepicker_prevText'));
+		
 		parent::onShowEnd();
 	}
 
