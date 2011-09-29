@@ -491,30 +491,3 @@ function getInternetExplorerVersion() {
     }
     return rv;
 }
-
-function loadwebip(elementid,pagename) {
-	var pageContentObject2 = jQuery.ajax({	type: "GET", 
-											url: pagename,
-											dataType: "html",
-											success: function(data, textStatus, jqXHR) {
-												var teste = jqXHR.responseText;
-												var elemente = teste.split('#');
-												el=document.getElementById(elementid);
-												el.innerHTML='';
-												for (var i = 0; i < elemente.length; ++i){
-
-													var foo2 = document.createElement("option");
-													foo2.appendChild(document.createTextNode(elemente[i]));
-													foo2.value=elemente[i];
-													el.appendChild(foo2);
-												}
-											},
-											error: function() {
-												reportError('Ajax Request was not successful. 119');
-											},
-										});
-	var ruby = document.getElementById('ruby');
-	ruby.style.display = 'none'; 
-}
-
-
