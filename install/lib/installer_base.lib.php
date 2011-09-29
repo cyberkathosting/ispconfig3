@@ -1683,13 +1683,9 @@ class installer_base {
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
-		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
+		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
-
-
-
-
 
 		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ".intval($conf['server_id']);
 
