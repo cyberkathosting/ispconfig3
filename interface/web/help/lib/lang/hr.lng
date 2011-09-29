@@ -1,10 +1,14 @@
 <?php
-$wb['Support Message'] = "Poruka podršci";
-$wb['Message'] = "Poruka";
-$wb['Send message'] = "Pošalji poruku";
-$wb['View messages'] = "Pogledaj poruke";
-$wb['Support'] = "Podrška";
-$wb['About ISPConfig'] = "O control panelu";
-$wb['Version'] = "Verzija";
+$wb['Support Message'] = 'Poruka podršci';
+$wb['Message'] = 'Poruka';
+$wb['Send message'] = 'Pošalji poruku';
+$wb['View messages'] = 'Pogledaj poruke';
+$wb['Support'] = 'Podrška';
+$wb['About ISPConfig'] = 'O control panelu';
+$wb['Version'] = 'Verzija';
+$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
+$wb['FAQ Sections'] = 'FAQ Sections';
+$wb['Manage Sections'] = 'Manage Sections';
+$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
+$wb['Manage Questions'] = 'Manage Questions';
 ?>
-

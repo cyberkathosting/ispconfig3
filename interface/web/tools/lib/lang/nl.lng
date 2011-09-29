@@ -3,4 +3,5 @@ $wb['User Settings'] = 'Gebruikersinstellingen';
 $wb['Settings'] = 'Instellingen';
 $wb['ISPConfig Tools'] = 'ISPConfig Tools';
 $wb['Password and Language'] = 'Wachtwoord en taal';
+$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
 ?>

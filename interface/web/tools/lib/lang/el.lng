@@ -3,4 +3,5 @@ $wb['User Settings'] = 'Ρυθμίσεις Χρήστη';
 $wb['Settings'] = 'Ρυθμίσεις';
 $wb['ISPConfig Tools'] = 'Εργαλεία ISPConfig';
 $wb['Password and Language'] = 'Συνθηματικό και Γλώσσα';
+$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
 ?>

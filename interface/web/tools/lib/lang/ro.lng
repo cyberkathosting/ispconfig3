@@ -3,4 +3,5 @@ $wb['User Settings'] = 'Setari User ';
 $wb['Settings'] = 'Setari';
 $wb['ISPConfig Tools'] = 'ISPConfig Utilitare';
 $wb['Password and Language'] = 'Parola si Limba';
+$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
 ?>

@@ -1,9 +1,8 @@
 <?php
-$wb['password_strength_0_txt'] = "Prekratka";
-$wb['password_strength_1_txt'] = "Slaba";
-$wb['password_strength_2_txt'] = "OK";
-$wb['password_strength_3_txt'] = "Odlična";
-$wb['password_strength_4_txt'] = "Jaka";
-$wb['password_strength_5_txt'] = "Vrlo jaka";
+$wb['password_strength_0_txt'] = 'Prekratka';
+$wb['password_strength_1_txt'] = 'Slaba';
+$wb['password_strength_2_txt'] = 'OK';
+$wb['password_strength_3_txt'] = 'Odlična';
+$wb['password_strength_4_txt'] = 'Jaka';
+$wb['password_strength_5_txt'] = 'Vrlo jaka';
 ?>
-

@@ -1,7 +1,6 @@
 <?php
-$wb['name_txt'] = "Naziv";
-$wb['fields_txt'] = "Polja";
-$wb['template_txt'] = "Template";
-$wb['visible_txt'] = "Vidljivo";
+$wb['name_txt'] = 'Naziv';
+$wb['fields_txt'] = 'Polja';
+$wb['template_txt'] = 'Template';
+$wb['visible_txt'] = 'Vidljivo';
 ?>
-

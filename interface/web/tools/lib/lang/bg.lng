@@ -3,4 +3,5 @@ $wb['User Settings'] = 'Потребителски настройки';
 $wb['Settings'] = 'Настройки';
 $wb['ISPConfig Tools'] = 'ISPConfig инструменти';
 $wb['Password and Language'] = 'Парола и език';
+$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
 ?>

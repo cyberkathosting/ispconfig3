@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Import language file';
-$wb["language_import_txt"] = 'Select language file';
+$wb['list_head_txt'] = 'Import language file';
+$wb['language_import_txt'] = 'Select language file';
 $wb['btn_save_txt'] = 'Import the selected language file';
-$wb["language_overwrite_txt"] = 'Overwrite file, if exists.';
+$wb['language_overwrite_txt'] = 'Overwrite file, if exists.';
 $wb['btn_cancel_txt'] = 'Back';
 $wb['ignore_version_txt'] = 'Skip ISPConfig version check';
 ?>

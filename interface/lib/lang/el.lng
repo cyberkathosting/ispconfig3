@@ -39,4 +39,9 @@ $wb['number_format_decimals'] = '2';
 $wb['number_format_dec_point'] = '.';
 $wb['number_format_thousands_sep'] = '';
 $wb['top_menu_vm'] = 'VServer';
+$wb['datepicker_dayNamesMin'] = 'Su, Mo, Tu, We, Th, Fr, Sa';
+$wb['datepicker_dayNames'] = 'Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday';
+$wb['datepicker_monthNamesShort'] = 'Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec';
+$wb['datepicker_nextText'] = 'Next';
+$wb['datepicker_prevText'] = 'Prev';
 ?>

@@ -1,7 +1,6 @@
 <?php
-$wb['list_head_txt'] = "Podrška";
-$wb['sender_id_txt'] = "Pošiljatelj";
-$wb['subject_txt'] = "Naslov poruke";
-$wb['add_new_record_txt'] = "Pošalji novu poruku";
+$wb['list_head_txt'] = 'Podrška';
+$wb['sender_id_txt'] = 'Pošiljatelj';
+$wb['subject_txt'] = 'Naslov poruke';
+$wb['add_new_record_txt'] = 'Pošalji novu poruku';
 ?>
-

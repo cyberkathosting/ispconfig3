@@ -1,10 +1,9 @@
 <?php
-$wb['Domains'] = "Domene";
-$wb['domain_txt'] = "Domena";
-$wb['client_txt'] = "Klijent";
-$wb['error_domain_in mailuse'] = "Ova domena ne može biti obrisana jer se koristi za email.";
-$wb['error_domain_in webuse'] = "Ova domena ne može biti obrisana jer se koristi za web.";
-$wb['error_client_can_not_add_domain'] = "Ne možete dodati novu domenu.";
-$wb['error_client_group_id_empty'] = "Morate izabrati klijenta<br>";
+$wb['Domains'] = 'Domene';
+$wb['domain_txt'] = 'Domena';
+$wb['client_txt'] = 'Klijent';
+$wb['error_domain_in mailuse'] = 'Ova domena ne može biti obrisana jer se koristi za email.';
+$wb['error_domain_in webuse'] = 'Ova domena ne može biti obrisana jer se koristi za web.';
+$wb['error_client_can_not_add_domain'] = 'Ne možete dodati novu domenu.';
+$wb['error_client_group_id_empty'] = 'Morate izabrati klijenta<br>';
 ?>
-

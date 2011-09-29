@@ -1,0 +1,22 @@
+<?php
+
+$wb['error_user_password_empty']	= "Username or Password empty.";
+$wb['error_user_password_incorrect']	= "Username or Password wrong.";
+$wb['error_user_blocked']	= "User is blocked.";
+$wb['error_user_too_many_logins']	= "To many wrong login's, Please retry it after 15 minutes";
+$wb['pass_reset_txt'] = 'A new password will be generated and send to your email address if the email address entered below matches the email address in your client settings.';
+$wb['pw_reset'] = 'The password has been reset and send to your email address.';
+$wb['pw_error'] = 'Username or email address does not match.';
+$wb['pw_error_noinput'] = 'Please enter email address and username.';
+
+$wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
+$wb['pw_reset_mail_title'] = 'ISPConfig 3 Control panel password has been reset.';
+
+$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
+$wb['pw_error_length'] = 'The password length is > 64 characters.';
+
+$wb['username_txt']	= "Username";
+$wb['password_txt']	= "Password";
+$wb['login_button_txt']	= "Login";
+
+?>

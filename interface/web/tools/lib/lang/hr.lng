@@ -1,7 +1,7 @@
 <?php
-$wb['User Settings'] = "Korisničke postavke";
-$wb['Settings'] = "Postavke";
-$wb['ISPConfig Tools'] = "Control panel alati";
-$wb['Password and Language'] = "Šifra i jezik";
+$wb['User Settings'] = 'Korisničke postavke';
+$wb['Settings'] = 'Postavke';
+$wb['ISPConfig Tools'] = 'Control panel alati';
+$wb['Password and Language'] = 'Šifra i jezik';
+$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
 ?>
-

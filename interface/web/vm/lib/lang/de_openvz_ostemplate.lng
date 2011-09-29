@@ -5,7 +5,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['allservers_txt'] = 'Existiert auf allen Servern';
 $wb['active_txt'] = 'Aktiv';
 $wb['description_txt'] = 'Beschreibung';
-$wb["template_name_error_empty"] = 'Template-Name ist leer.';
-$wb["template_file_error_empty"] = 'Template-Dateiname ist leer.';
+$wb['template_name_error_empty'] = 'Template-Name ist leer.';
+$wb['template_file_error_empty'] = 'Template-Dateiname ist leer.';
 $wb['Template'] = 'Template';
 ?>

@@ -39,4 +39,9 @@ $wb['error_1001'] = 'The username and password cannot be empty !';
 $wb['error_1002'] = 'The username and/or password are not correct !';
 $wb['error_1003'] = 'The username is deactivated!';
 $wb['top_menu_vm'] = 'VServer';
+$wb['datepicker_dayNamesMin'] = 'Su, Mo, Tu, We, Th, Fr, Sa';
+$wb['datepicker_dayNames'] = 'Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday';
+$wb['datepicker_monthNamesShort'] = 'Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec';
+$wb['datepicker_nextText'] = 'Next';
+$wb['datepicker_prevText'] = 'Prev';
 ?>

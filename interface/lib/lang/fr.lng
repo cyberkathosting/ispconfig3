@@ -39,9 +39,9 @@ $wb['number_format_decimals'] = '2';
 $wb['number_format_dec_point'] = '.';
 $wb['number_format_thousands_sep'] = '';
 $wb['top_menu_vm'] = 'VServer';
-$wb['datepicker_dayNamesMin'] = "'Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'";
-$wb['datepicker_dayNames'] = "'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'";
-$wb['datepicker_monthNamesShort'] = "'Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'";
-$wb['datepicker_nextText'] = "Suivant";
-$wb['datepicker_prevText'] = "Précédent";
+$wb['datepicker_dayNamesMin'] = 'Di, Lu, Ma, Me, Je, Ve, Sa';
+$wb['datepicker_dayNames'] = 'Dimanche, Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi';
+$wb['datepicker_monthNamesShort'] = 'Jan, Fev, Mar, Avr, Mai, Juin, Juil, Aout, Sep, Oct, Nov, Dec';
+$wb['datepicker_nextText'] = 'Suivant';
+$wb['datepicker_prevText'] = 'Précédent';
 ?>

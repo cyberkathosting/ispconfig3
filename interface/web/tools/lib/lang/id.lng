@@ -3,4 +3,5 @@ $wb['User Settings'] = 'Pengaturan Pengguna';
 $wb['Settings'] = 'Pengaturan';
 $wb['ISPConfig Tools'] = 'Perkakas ISPConfig';
 $wb['Password and Language'] = 'Sandi dan Bahasa';
+$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
 ?>
