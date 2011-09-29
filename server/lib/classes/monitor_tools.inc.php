@@ -164,8 +164,25 @@ class monitor_tools {
 
 		//* The state of the email_quota.
 		$state = 'ok';
+		
+		$mailboxes = $app->db->queryAllRecords("SELECT email FROM mail_user WHERE server_id = $server_id");
+		if(is_array($mailboxes)) {
+			foreach($mailboxes as $mb) {
+				$email = $mb['email'];
+				$email_parts = explode('@',$mb['email']);
+				$filename = '/var/vmail/'.$email_parts[1].'/'.$email_parts[0].'/.quotausage';
+				if(file_exists($filename)) {
+					$quotafile = file($filename);
+					$data[$email]['used'] = trim($quotafile['1']);
+					unset($quotafile);
+				}   
+			}
+		}
+		
+		unset($mailboxes);
 
         //* Dovecot quota check Courier in progress lathama@gmail.com
+		/*
         if($dir = opendir("/var/vmail")){
             while (($quotafiles = readdir($dir)) !== false){
                 if(preg_match('/.\_quota$/', $quotafiles)){
@@ -177,6 +194,7 @@ class monitor_tools {
             }
             closedir($dir);
         }
+		*/
 		$res['server_id'] = $server_id;
 		$res['type'] = $type;
 		$res['data'] = $data;

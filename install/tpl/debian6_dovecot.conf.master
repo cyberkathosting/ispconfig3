@@ -48,7 +48,7 @@ protocol lda {
 
 ## Plugin settings
 plugin {
-  quota = dict:user::file:/var/vmail/%n_%d_quota
+  quota = dict:user::file:/var/vmail/%d/%n/.quotausage
   # Because the mail quota is called in the user query 
   # the maildir quota does not need to be set.
   # You do not need: quota = maildir
