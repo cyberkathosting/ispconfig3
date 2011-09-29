@@ -870,14 +870,18 @@ class installer extends installer_base
 		if($conf['apache']['installed'] == true){
 			$command = 'usermod -a -G ispconfig '.$conf['apache']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-			$command = 'usermod -a -G ispapps '.$conf['apache']['user'];
-			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			if(is_group('ispapps')){
+				$command = 'usermod -a -G ispapps '.$conf['apache']['user'];
+				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			}
 		}
 		if($conf['nginx']['installed'] == true){
 			$command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-			$command = 'usermod -a -G ispapps '.$conf['nginx']['user'];
-			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			if(is_group('ispapps')){
+				$command = 'usermod -a -G ispapps '.$conf['nginx']['user'];
+				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			}
 		}
 		
 		//* Make the shell scripts executable
