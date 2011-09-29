@@ -170,10 +170,37 @@ class page_action extends tform_actions {
 		$date_format = $app->lng('conf_format_dateshort');
 		$trans = array("d" => "dd", "m" => "mm", "Y" => "yy");
 		$date_format = strtr($date_format, $trans);
-		$app->tpl->setVar("date_format", $date_format);
-		$app->tpl->setVar("datepicker_dayNamesMin", $app->lng('datepicker_dayNamesMin'));
-		$app->tpl->setVar("datepicker_dayNames", $app->lng('datepicker_dayNames'));
-		$app->tpl->setVar("datepicker_monthNamesShort", $app->lng('datepicker_monthNamesShort'));
+		$app->tpl->setVar("date_format", $date_format);		
+		
+		$app->tpl->setVar("daynamesmin_su", $app->lng('daynamesmin_su'));
+		$app->tpl->setVar("daynamesmin_mo", $app->lng('daynamesmin_mo'));
+		$app->tpl->setVar("daynamesmin_tu", $app->lng('daynamesmin_tu'));
+		$app->tpl->setVar("daynamesmin_we", $app->lng('daynamesmin_we'));
+		$app->tpl->setVar("daynamesmin_th", $app->lng('daynamesmin_th'));
+		$app->tpl->setVar("daynamesmin_fr", $app->lng('daynamesmin_fr'));
+		$app->tpl->setVar("daynamesmin_sa", $app->lng('daynamesmin_sa'));
+		
+		$app->tpl->setVar("daynames_sunday", $app->lng('daynames_sunday'));
+		$app->tpl->setVar("daynames_monday", $app->lng('daynames_monday'));
+		$app->tpl->setVar("daynames_tuesday", $app->lng('daynames_tuesday'));
+		$app->tpl->setVar("daynames_wednesday", $app->lng('daynames_wednesday'));
+		$app->tpl->setVar("daynames_thursday", $app->lng('daynames_thursday'));
+		$app->tpl->setVar("daynames_friday", $app->lng('daynames_friday'));
+		$app->tpl->setVar("daynames_saturday", $app->lng('daynames_saturday'));
+		
+		$app->tpl->setVar("monthnamesshort_jan", $app->lng('monthnamesshort_jan'));
+		$app->tpl->setVar("monthnamesshort_feb", $app->lng('monthnamesshort_feb'));
+		$app->tpl->setVar("monthnamesshort_mar", $app->lng('monthnamesshort_mar'));
+		$app->tpl->setVar("monthnamesshort_apr", $app->lng('monthnamesshort_apr'));
+		$app->tpl->setVar("monthnamesshort_may", $app->lng('monthnamesshort_may'));
+		$app->tpl->setVar("monthnamesshort_jun", $app->lng('monthnamesshort_jun'));
+		$app->tpl->setVar("monthnamesshort_jul", $app->lng('monthnamesshort_jul'));
+		$app->tpl->setVar("monthnamesshort_aug", $app->lng('monthnamesshort_aug'));
+		$app->tpl->setVar("monthnamesshort_sep", $app->lng('monthnamesshort_sep'));
+		$app->tpl->setVar("monthnamesshort_oct", $app->lng('monthnamesshort_oct'));
+		$app->tpl->setVar("monthnamesshort_nov", $app->lng('monthnamesshort_nov'));
+		$app->tpl->setVar("monthnamesshort_dec", $app->lng('monthnamesshort_dec'));		
+		
 		$app->tpl->setVar("datepicker_nextText", $app->lng('datepicker_nextText'));
 		$app->tpl->setVar("datepicker_prevText", $app->lng('datepicker_prevText'));
 		
