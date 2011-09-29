@@ -154,15 +154,14 @@ function submitUploadForm(formname,target) {
 	
 	var frame_id = 'ajaxUploader-iframe-' + Math.round(new Date().getTime() / 1000);
 	jQuery('body').after('<iframe width="0" height="0" style="display:none;" name="'+frame_id+'" id="'+frame_id+'"/>');
-	var submitFormObj = jQuery('input[type="file"]').closest("form").attr({target: frame_id, action: target}).submit();
+	jQuery('input[type="file"]').closest("form").attr({target: frame_id, action: target}).submit();
 	jQuery('#'+frame_id).load(function() {
         var msg = handleResponse(this);
 		jQuery('#errorMsg').remove();
 		jQuery('#OKMsg').remove();
 		jQuery('input[name="id"]').before(msg);
+		jQuery(this).remove();
       });
-	//jQuery('#'+frame_id).remove();
-	
 
 	/*
 	if(redirect != '') {
