@@ -151,7 +151,7 @@ class monitor_tools {
 
     //** Email Quota
     public function monitorEmailQuota() {
-        global $conf;
+        global $conf, $app;
 
 		//* Initialize data array
 		$data = array();
