@@ -282,6 +282,14 @@ $form["tabs"]['mail'] = array(
 			'width' => '10',
 			'maxlength' => '15'
 		),
+		'realtime_blackhole_list' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################

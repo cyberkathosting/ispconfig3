@@ -71,6 +71,10 @@
         <label for="message_size_limit">{tmpl_var name='message_size_limit_txt'}</label>
         <input name="message_size_limit" id="message_size_limit" value="{tmpl_var name='message_size_limit'}" size="10" maxlength="15" type="text" class="textInput formLengthLimit" />&nbsp;MB
       </div>
+      <div class="ctrlHolder">
+        <label for="realtime_blackhole_list">{tmpl_var name='realtime_blackhole_list_txt'}</label>
+        <input name="realtime_blackhole_list" id="realtime_blackhole_list" value="{tmpl_var name='realtime_blackhole_list'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='realtime_blackhole_list_note_txt'}
+      </div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
@@ -80,5 +84,4 @@
       <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
   </div>
-  
 </div>

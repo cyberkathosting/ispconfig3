@@ -625,6 +625,21 @@ class installer_base {
 		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		unset($server_ini_rec);
+
+		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
+		$rbl_list = '';
+		if ($server_ini_array['mail']['realtime_blackhole_list'] != '') {
+			$rbl_hosts = explode(",",str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
+			foreach ($rbl_hosts as $key => $value) {
+				$rbl_list .= ", reject_rbl_client ". $value;
+			}
+		}
+		unset($rbl_hosts);
+		unset($server_ini_array);
+
 		$postconf_commands = array (
 				'myhostname = '.$conf['hostname'],
 				'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
@@ -641,7 +656,7 @@ class installer_base {
 				'smtpd_sasl_auth_enable = yes',
 				'broken_sasl_auth_clients = yes',
 				'smtpd_sasl_authenticated_header = yes',
-				'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
+				'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination'. $rbl_list,
 				'smtpd_use_tls = yes',
 				'smtpd_tls_security_level = may',
 				'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',

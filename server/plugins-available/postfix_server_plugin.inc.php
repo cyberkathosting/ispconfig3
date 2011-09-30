@@ -106,7 +106,22 @@ class postfix_server_plugin {
 		} else {
 			exec("postconf -e 'relayhost ='");
 		}
-		
+
+		if($mail_config['realtime_blackhole_list'] != '') {
+			$rbl_hosts = explode(",",str_replace(" ", "", $mail_config['realtime_blackhole_list']));
+			$options = explode(", ", exec("postconf -h smtpd_recipient_restrictions"));
+			foreach ($options as $key => $value) {
+				if (!preg_match('/reject_rbl_client/', $value)) {
+					$new_options[] = $value;
+				}
+			}
+			foreach ($rbl_hosts as $key => $value) {
+				$new_options[] = "reject_rbl_client ".$value;
+			}
+			
+			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+		}
+
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
 		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");
 		
