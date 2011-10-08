@@ -78,7 +78,7 @@ class validate_cron {
         if(preg_match("'^[0-9\-\,\/\*]+$'", $field_value) == false) return $this->get_error($validator['errmsg']); // allowed characters are 0-9, comma, *, -, /
         elseif(preg_match("'[\-\,\/][\-\,\/]'", $field_value) == true) return $this->get_error($validator['errmsg']); // comma, - and / never stand together
         //* now split list and check each entry. store used values in array for later limit-check
-        $time_list = split(",", $field_value);
+        $time_list = explode(",", $field_value);
         if(count($time_list) < 1) return $this->get_error($validator['errmsg']);
         
         $max_entry = 0;

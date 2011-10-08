@@ -39,7 +39,7 @@ class validate_database {
     if($_POST["remote_access"] == "y") {
         if(trim($field_value) == "") return;
         
-        $values = split(",", $field_value);
+        $values = explode(",", $field_value);
         foreach($values as $cur_value) {
             $cur_value = trim($cur_value);
             

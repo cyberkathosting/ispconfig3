@@ -2067,7 +2067,7 @@ class installer_base {
 		if ( is_file($tConf) ) {
 			$stat = exec('stat -c \'%a %U %G\' '.escapeshellarg($tConf), $output, $res);
 			if ($res == 0) { // stat successfull
-				list($access, $user, $group) = split(" ", $stat);
+				list($access, $user, $group) = explode(" ", $stat);
 			}
 
 			if ( copy($tConf, $tConf.'~') ) {
