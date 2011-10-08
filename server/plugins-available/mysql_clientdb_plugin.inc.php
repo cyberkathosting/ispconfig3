@@ -75,7 +75,7 @@ class mysql_clientdb_plugin {
       if(trim($host_list) == '') $host_list = '%';
       
       // process arrays and comma separated strings
-      if(!is_array($host_list)) $host_list = split(',', $host_list);
+      if(!is_array($host_list)) $host_list = explode(',', $host_list);
       
       $success = true;
       
