@@ -827,12 +827,13 @@ class apache2_plugin {
 			$tpl->setVar('alias','');
 		}
 
-		if(count($rewrite_rules) > 0) {
+		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0) {
 			$tpl->setVar('rewrite_enabled',1);
 		} else {
 			$tpl->setVar('rewrite_enabled',0);
 		}
-		$tpl->setLoop('redirects',$rewrite_rules);
+
+		//$tpl->setLoop('redirects',$rewrite_rules);
 
 		/**
 		 * install fast-cgi starter script and add script aliasd config
@@ -957,22 +958,39 @@ class apache2_plugin {
 		//* create empty vhost array
 		$vhosts = array();
 		
-		//* Add vhost for ipv4 IP
-		$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80 );
+		//* Add vhost for ipv4 IP	
+		if(count($rewrite_rules) > 0){
+			$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80, 'redirects' => $rewrite_rules);
+		} else {
+			$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80);
+		}
 		
 		//* Add vhost for ipv4 IP with SSL
 		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
-			$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443' );
+			if(count($rewrite_rules) > 0){
+				$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443', 'redirects' => $rewrite_rules);
+			} else {
+				$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443');
+			}
 			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
 		}
 		
 		//* Add vhost for IPv6 IP
 		if($data['new']['ipv6_address'] != '') {
-			$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80 );
+			if(count($rewrite_rules) > 0){
+				$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80, 'redirects' => $rewrite_rules);
+			} else {
+				$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80);
+			}
 		
 			//* Add vhost for ipv6 IP with SSL
 			if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
-				$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443' );
+				
+				if(count($rewrite_rules) > 0){
+					$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443', 'redirects' => $rewrite_rules);
+				} else {
+					$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443');
+				}
 				$app->log('Enable SSL for IPv6: '.$domain,LOGLEVEL_DEBUG);
 			}
 		}
@@ -1125,11 +1143,24 @@ class apache2_plugin {
 		} else {
 			//* This is a website
 			// Deleting the vhost file, symlink and the data directory
-			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
-			unlink($vhost_symlink);
-			$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
-
 			$vhost_file = escapeshellcmd($web_config['vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
+			
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)){
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/900-'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)){
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/100-'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)){
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
+			
 			unlink($vhost_file);
 			$app->log('Removing vhost file: '.$vhost_file,LOGLEVEL_DEBUG);
 
@@ -1192,6 +1223,13 @@ class apache2_plugin {
 			//* Remove the awstats configuration file
 			if($data['old']['stats_type'] == 'awstats') {
 				$this->awstats_delete($data,$web_config);
+			}
+			
+			if($apache_chrooted) {
+				$app->services->restartServiceDelayed('httpd','restart');
+			} else {
+				// request a httpd reload when all records have been processed
+				$app->services->restartServiceDelayed('httpd','reload');
 			}
 
 		}
@@ -1267,7 +1305,7 @@ class apache2_plugin {
 		if(substr($folder['path'],0,1) == '/') $folder['path'] = substr($folder['path'],1);
 		if(substr($folder['path'],-1) == '/') $folder['path'] = substr($folder['path'],0,-1);
 		$folder_path = escapeshellcmd($website['document_root'].'/web/'.$folder['path']);
-		if(substr($folder_path,-1 != '/')) $folder_path .= '/';
+		if(substr($folder_path,-1) != '/') $folder_path .= '/';
 		
 		//* Check if the resulting path is inside the docroot
 		if(stristr($folder_path,'..') || stristr($folder_path,'./') || stristr($folder_path,'\\')) {
@@ -1282,10 +1320,23 @@ class apache2_plugin {
 		if(!is_file($folder_path.'.htpasswd')) {
 			touch($folder_path.'.htpasswd');
 			chmod($folder_path.'.htpasswd',0755);
-			$app->log('Created file'.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+			$app->log('Created file '.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 		}
 		
-		if($data['new']['username'] != $data['old']['username'] || $data['new']['active'] == 'n') {
+		/*
+		$auth_users = $app->db->queryAllRecords("SELECT * FROM web_folder_user WHERE active = 'y' AND web_folder_id = ".intval($folder_id));
+		$htpasswd_content = '';
+		if(is_array($auth_users) && !empty($auth_users)){
+			foreach($auth_users as $auth_user){
+				$htpasswd_content .= $auth_user['username'].':'.$auth_user['password']."\n";
+			}
+		}
+		$htpasswd_content = trim($htpasswd_content);
+		@file_put_contents($folder_path.'.htpasswd', $htpasswd_content);
+		$app->log('Changed .htpasswd file: '.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+		*/
+		
+		if(($data['new']['username'] != $data['old']['username'] || $data['new']['active'] == 'n') && $data['old']['username'] != '') {
 			$app->system->removeLine($folder_path.'.htpasswd',$data['old']['username'].':');
 			$app->log('Removed user: '.$data['old']['username'],LOGLEVEL_DEBUG);
 		}
@@ -1301,13 +1352,14 @@ class apache2_plugin {
 			}
 		}
 		
+		
 		//* Create the .htaccess file
-		if(!is_file($folder_path.'.htaccess')) {
+		//if(!is_file($folder_path.'.htaccess')) {
 			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user";
 			file_put_contents($folder_path.'.htaccess',$ht_file);
 			chmod($folder_path.'.htpasswd',0755);
-			$app->log('Created file'.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
-		}
+			$app->log('Created file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+		//}
 		
 	}
 	
@@ -1317,7 +1369,7 @@ class apache2_plugin {
 		
 		$folder_id = $data['old']['web_folder_id'];
 		
-		$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ".intval($folder_id));
+		$folder = $data['old'];
 		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($folder['parent_domain_id']));
 		
 		if(!is_array($folder) or !is_array($website)) {
@@ -1326,8 +1378,10 @@ class apache2_plugin {
 		}
 		
 		//* Get the folder path.
+		if(substr($folder['path'],0,1) == '/') $folder['path'] = substr($folder['path'],1);
+		if(substr($folder['path'],-1) == '/') $folder['path'] = substr($folder['path'],0,-1);
 		$folder_path = realpath($website['document_root'].'/web/'.$folder['path']);
-		if(substr($folder_path,-1 != '/')) $folder_path .= '/';
+		if(substr($folder_path,-1) != '/') $folder_path .= '/';
 		
 		//* Check if the resulting path is inside the docroot
 		if(substr($folder_path,0,strlen($website['document_root'])) != $website['document_root']) {
@@ -1338,13 +1392,13 @@ class apache2_plugin {
 		//* Remove .htpasswd file
 		if(is_file($folder_path.'.htpasswd')) {
 			unlink($folder_path.'.htpasswd');
-			$app->log('Removed file'.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+			$app->log('Removed file '.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 		}
 		
 		//* Remove .htaccess file
 		if(is_file($folder_path.'.htaccess')) {
 			unlink($folder_path.'.htaccess');
-			$app->log('Removed file'.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+			$app->log('Removed file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		}
 	}
 	
@@ -1360,11 +1414,15 @@ class apache2_plugin {
 		}
 		
 		//* Get the folder path.
+		if(substr($data['old']['path'],0,1) == '/') $data['old']['path'] = substr($data['old']['path'],1);
+		if(substr($data['old']['path'],-1) == '/') $data['old']['path'] = substr($data['old']['path'],0,-1);
 		$old_folder_path = realpath($website['document_root'].'/web/'.$data['old']['path']);
-		if(substr($old_folder_path,-1 != '/')) $old_folder_path .= '/';
+		if(substr($old_folder_path,-1) != '/') $old_folder_path .= '/';
 			
+		if(substr($data['new']['path'],0,1) == '/') $data['new']['path'] = substr($data['new']['path'],1);
+		if(substr($data['new']['path'],-1) == '/') $data['new']['path'] = substr($data['new']['path'],0,-1);
 		$new_folder_path = escapeshellcmd($website['document_root'].'/web/'.$data['new']['path']);
-		if(substr($new_folder_path,-1 != '/')) $new_folder_path .= '/';
+		if(substr($new_folder_path,-1) != '/') $new_folder_path .= '/';
 		
 		//* Check if the resulting path is inside the docroot
 		if(stristr($new_folder_path,'..') || stristr($new_folder_path,'./') || stristr($new_folder_path,'\\')) {
@@ -1395,29 +1453,29 @@ class apache2_plugin {
 			//* move .htpasswd file
 			if(is_file($old_folder_path.'.htpasswd')) {
 				rename($old_folder_path.'.htpasswd',$new_folder_path.'.htpasswd');
-				$app->log('Moved file'.$new_folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+				$app->log('Moved file '.$old_folder_path.'.htpasswd to '.$new_folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 			}
 			
-			//* move .htpasswd file
+			//* delete old .htaccess file
 			if(is_file($old_folder_path.'.htaccess')) {
-				rename($old_folder_path.'.htaccess',$new_folder_path.'.htaccess');
-				$app->log('Moved file'.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+				unlink($old_folder_path.'.htaccess');
+				$app->log('Deleted file '.$old_folder_path.'.htaccess',LOGLEVEL_DEBUG);
 			}
 		
 		}
 		
 		//* Create the .htaccess file
-		if($data['new']['active'] == 'y' && !is_file($new_folder_path.'.htaccess')) {
-			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user";
+		if($data['new']['active'] == 'y') {
+			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user";
 			file_put_contents($new_folder_path.'.htaccess',$ht_file);
 			chmod($new_folder_path.'.htpasswd',0755);
-			$app->log('Created file'.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+			$app->log('Created file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		}
 		
 		//* Remove .htaccess file
 		if($data['new']['active'] == 'n' && is_file($new_folder_path.'.htaccess')) {
 			unlink($new_folder_path.'.htaccess');
-			$app->log('Removed file'.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+			$app->log('Removed file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		}
 		
 		
@@ -1699,7 +1757,7 @@ class apache2_plugin {
 			$app->log('Created AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
 		}
 		
-		unlink($data['new']['document_root']."/web/stats/index.html");
+		if(is_file($data['new']['document_root']."/web/stats/index.html")) unlink($data['new']['document_root']."/web/stats/index.html");
 		copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$data['new']['document_root']."/web/stats/index.php");
 	}
 	

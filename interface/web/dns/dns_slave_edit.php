@@ -76,10 +76,10 @@ class page_action extends tform_actions {
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
-			$tmp_data_record = $app->tform->getDataRecord($this->id);
+			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
-					$selected = ($client["groupid"] == @$tmp_data_record["sys_groupid"])?'SELECTED':'';
+					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}
@@ -95,10 +95,10 @@ class page_action extends tform_actions {
 			$clients = $app->db->queryAllRecords($sql);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
-			$tmp_data_record = $app->tform->getDataRecord($this->id);
+			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
-					$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
+					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}

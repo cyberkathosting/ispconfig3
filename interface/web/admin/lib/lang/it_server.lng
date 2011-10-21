@@ -1,15 +1,15 @@
 <?php
 $wb['config_txt'] = 'config';
-$wb['server_name_txt'] = 'Nome Server';
-$wb['mail_server_txt'] = 'Mailserver';
-$wb['web_server_txt'] = 'Webserver';
-$wb['dns_server_txt'] = 'DNS-Server';
-$wb['file_server_txt'] = 'Fileserver';
-$wb['db_server_txt'] = 'DB-Server';
-$wb['vserver_server_txt'] = 'VServer-Server';
+$wb['server_name_txt'] = 'Name Server';
+$wb['mail_server_txt'] = 'Mail server';
+$wb['web_server_txt'] = 'Web server';
+$wb['dns_server_txt'] = 'DNS server';
+$wb['file_server_txt'] = 'File server';
+$wb['db_server_txt'] = 'DB server';
+$wb['vserver_server_txt'] = 'VServer server';
 $wb['active_txt'] = 'Attivo';
-$wb['mirror_server_id_txt'] = 'Is mirror of Server';
-$wb['- None -'] = '- None -';
+$wb['mirror_server_id_txt'] = 'Mirror del server';
+$wb['- None -'] = '- Nessuno -';
 $wb['proxy_server_txt'] = 'Proxy-Server';
 $wb['firewall_server_txt'] = 'Firewall-Server';
 ?>

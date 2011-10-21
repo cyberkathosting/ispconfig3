@@ -195,6 +195,7 @@ class shelluser_base_plugin {
 	}
 	
 	private function _setup_ssh_rsa() {
+		global $app;
 		$this->app->log("ssh-rsa setup shelluser_base",LOGLEVEL_DEBUG);
 		// Get the client ID, username, and the key
 		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = '.intval($this->data['new']['parent_domain_id']));
@@ -207,41 +208,68 @@ class shelluser_base_plugin {
 		unset($client_data);
 		
 		// ssh-rsa authentication variables
-		$sshrsa = escapeshellcmd($this->data['new']['ssh_rsa']);
+		$sshrsa = $this->data['new']['ssh_rsa'];
 		$usrdir = escapeshellcmd($this->data['new']['dir']);
 		$sshdir = $usrdir.'/.ssh';
 		$sshkeys= $usrdir.'/.ssh/authorized_keys';
 		
+		$app->uses('file');
+		$sshrsa = $app->file->unix_nl($sshrsa);
+		$sshrsa = $app->file->remove_blank_lines($sshrsa,0);
+		
 		// If this user has no key yet, generate a pair
-		if ($userkey == '' && $id>0) 
-		{
+		if ($userkey == '' && $id > 0){
 			//Generate ssh-rsa-keys
 			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
+			
+			// use the public key that has been generated
+			$userkey = file_get_contents('/tmp/id_rsa.pub');
+			
 			// save keypair in client table
-			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".file_get_contents('/tmp/id_rsa.pub')."' WHERE client_id = ".$id);
-			// and use the public key that has been generated
-			$userkey = file_get_contents('/tmp/id_rsa.pub')
-			;
+			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".$userkey."' WHERE client_id = ".$id);
+			
 			exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
 			$this->app->log("ssh-rsa keypair generated for ".$username,LOGLEVEL_DEBUG);
 		};
-		
-		if (!file_exists($sshkeys))
-		{
+
+		if (!file_exists($sshkeys)){
 			// add root's key
-			exec("mkdir '$sshdir'");
-			exec("cat /root/.ssh/authorized_keys > '$sshkeys'");
-			exec("echo '' >> '$sshkeys'");
+			$app->file->mkdirs($sshdir, '0755');
+			file_put_contents($sshkeys, file_get_contents('/root/.ssh/authorized_keys'));
 		
+			// Remove duplicate keys
+			$existing_keys = file($sshkeys);
+			$new_keys = explode("\n", $userkey);
+			$final_keys_arr = array_merge($existing_keys, $new_keys);
+			$new_final_keys_arr = array();
+			if(is_array($final_keys_arr) && !empty($final_keys_arr)){
+				foreach($final_keys_arr as $key => $val){
+					$new_final_keys_arr[$key] = trim($val);
+				}
+			}
+			$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
+			
 			// add the user's key
-			exec("echo '$userkey' >> '$sshkeys'");
-			exec("echo '' >> '$sshkeys'");
+			file_put_contents($sshkeys, $final_keys);
+			$app->file->remove_blank_lines($sshkeys);
 			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys,LOGLEVEL_DEBUG);
 		}
-		if ($sshrsa!=''){
+		if ($sshrsa != ''){
+			// Remove duplicate keys
+			$existing_keys = file($sshkeys);
+			$new_keys = explode("\n", $sshrsa);
+			$final_keys_arr = array_merge($existing_keys, $new_keys);
+			$new_final_keys_arr = array();
+			if(is_array($final_keys_arr) && !empty($final_keys_arr)){
+				foreach($final_keys_arr as $key => $val){
+					$new_final_keys_arr[$key] = trim($val);
+				}
+			}
+			$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
+			
 			// add the custom key 
-			exec("echo '$sshrsa' >> '$sshkeys'");
-			exec("echo '' >> '$sshkeys'");
+			file_put_contents($sshkeys, $final_keys);
+			$app->file->remove_blank_lines($sshkeys);
 			$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
 		}
 		// set proper file permissions

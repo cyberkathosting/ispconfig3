@@ -143,4 +143,7 @@ $wb['monitor_title_fail2ban_txt'] = 'Log Fail2Ban';
 $wb['monitor_title_beancounter_txt'] = 'Compteur OpenVz VE';
 $wb['monitor_beancounter_nosupport_txt'] = 'Ce serveur nest pas un VE OpenVz et na pas dinformation de compteur';
 $wb['monitor_title_iptables_txt'] = 'IPTables Rules';
+$wb['Show fail2ban-Log'] = 'Show fail2ban-Log';
+$wb['Show IPTables'] = 'Show IPTables';
+$wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>

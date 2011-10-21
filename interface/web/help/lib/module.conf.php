@@ -10,10 +10,15 @@ $module['title']     = 'top_menu_help';
 $module['template']  = 'module.tpl.htm';
 
 //* The page that is displayed when the module is loaded. the path must is relative to the web directory
-if(isset($_GET['go2_faq_sections_list']))
+if(isset($_GET['go2_faq_sections_list'])){
 	$module['startpage'] = 'help/faq_sections_list.php';
-else
-	$module['startpage'] = 'help/version.php';
+} else {
+	if($_SESSION['s']['user']['typ'] == 'admin') {
+		$module['startpage'] = 'help/version.php';
+	} else {
+		$module['startpage'] = 'help/support_message_list.php';
+	}
+}
 
 //* The width of the tab. Normally you should leave this empty and let the browser define the width automatically.
 $module['tab_width'] = '';
@@ -46,30 +51,34 @@ $module['nav'][] = array( 'title' => 'Support',
 $itemsfaq = array();
 //* admin's tools
 if($_SESSION['s']['user']['typ'] == 'admin') {
-	$itemsfaq[] = array( 	'title'		=> 'Manage Questions',
-							'target'	=> 'content',
-							'link'		=> 'help/faq_manage_questions_list.php');
 	$itemsfaq[] = array( 	'title'		=> 'Manage Sections',
 							'target'	=> 'content',
 							'link'		=> 'help/faq_sections_list.php');
+	$itemsfaq[] = array( 	'title'		=> 'Manage Questions',
+							'target'	=> 'content',
+							'link'		=> 'help/faq_manage_questions_list.php');
+							
+	$module['nav'][] = array( 	'title'	=> 'FAQ',
+								'open'	=> 1,
+								'items'	=> $itemsfaq);
 }
 else
 { //* the user
 	$sql = "SELECT * FROM help_faq_sections";
 	$res = $app->db->queryAllRecords($sql);
 	//* all the content sections
-	if(is_array($res)) {
+	if(is_array($res) && !empty($res)) {
 		foreach($res as $v) {
 			$itemsfaq[] = array( 	'title'		=> $v['hfs_name'],
 									'target'	=> 'content',
 									'link'		=> 'help/faq_list.php?hfs_id='.$v['hfs_id']);
 		}
+		// Display 'FAQ' menu only if there are sections
+		$module['nav'][] = array( 	'title'	=> 'FAQ',
+									'open'	=> 1,
+									'items'	=> $itemsfaq);
 	}
 }
-
-$module['nav'][] = array( 	'title'	=> 'FAQ',
-							'open'	=> 1,
-							'items'	=> $itemsfaq);
 //* -- end of the FAQ menu section
 
 

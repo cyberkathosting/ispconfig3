@@ -887,6 +887,9 @@ class monitor_tools {
 			$state = 'no_state';
 			$data['output'] = '';
 		}
+		
+		//* Encode data
+		$data['output'] = htmlentities($data['output']);
 
 		/*
 		 * Return the Result

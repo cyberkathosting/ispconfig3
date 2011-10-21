@@ -2,7 +2,7 @@
 $wb['list_head_txt'] = 'Stanje';
 $wb['tstamp_txt'] = 'Datum';
 $wb['server_id_txt'] = 'Server';
-$wb['dbtable_txt'] = 'DB tablica';
+$wb['dbtable_txt'] = 'Tablica u bazi';
 $wb['action_txt'] = 'Akcija';
 $wb['status_txt'] = 'Status';
 ?>

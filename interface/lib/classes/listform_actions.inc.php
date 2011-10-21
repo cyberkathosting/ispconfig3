@@ -86,15 +86,17 @@ class listform_actions {
 		$rec['bgcolor'] = $this->DataRowColor;
 		
 		//* substitute value for select fields
-		foreach($app->listform->listDef['item'] as $field) {
-			$key = $field['field'];
-			if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
-				if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
-					// Set a additional image variable for bolean fields
-					$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
+		if(is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
+			foreach($app->listform->listDef['item'] as $field) {
+				$key = $field['field'];
+				if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
+					if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
+						// Set a additional image variable for bolean fields
+						$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
+					}
+					//* substitute value for select field
+					$rec[$key] = @$field['value'][$rec[$key]];
 				}
-				//* substitute value for select field
-				$rec[$key] = @$field['value'][$rec[$key]];
 			}
 		}
 		

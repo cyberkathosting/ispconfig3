@@ -1,9 +1,9 @@
 <?php
-$wb['Domains'] = 'Domains';
-$wb['domain_txt'] = 'Domain';
-$wb['client_txt'] = 'Client';
-$wb['error_domain_in mailuse'] = 'This domain cannot be deleted, because it is in use as mail-domain';
-$wb['error_domain_in webuse'] = 'This domain cannot be deleted, because it is in use as web-domain';
-$wb['error_client_can_not_add_domain'] = 'You cannot add a new domain';
-$wb['error_client_group_id_empty'] = 'You have to select a customer<br>';
+$wb['Domains'] = 'Domini';
+$wb['domain_txt'] = 'Dominio';
+$wb['client_txt'] = 'Cliente';
+$wb['error_domain_in mailuse'] = 'Questo dominio non può essere cancellato in quanto utilizzato come dominio di posta';
+$wb['error_domain_in webuse'] = 'Questo dominio non può essere cancellato in quanto utilizzato come dominio web';
+$wb['error_client_can_not_add_domain'] = 'Impossibile aggiungere nuovo dominio';
+$wb['error_client_group_id_empty'] = 'Devessere selezionato un cliente<br>';
 ?>

@@ -19,4 +19,5 @@ $wb['password_strength_txt'] = 'Jelszó erőssége';
 $wb['parent_domain_id_error_empty'] = 'Nincs webhely kiválasztva.';
 $wb['puser_txt'] = 'Web Felhasználónév';
 $wb['pgroup_txt'] = 'Web Csoportnév';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

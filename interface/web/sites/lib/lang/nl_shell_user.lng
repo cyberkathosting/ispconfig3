@@ -19,4 +19,5 @@ $wb['uid_error_empty'] = 'GID is niet ingvuld.';
 $wb['directory_error_empty'] = 'Directory is niet ingvuld.';
 $wb['limit_shell_user_txt'] = 'Het max. aantal shell-gebruikers is bereikt.';
 $wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

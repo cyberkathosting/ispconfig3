@@ -19,4 +19,5 @@ $wb['limit_shell_user_txt'] = 'Shellユーザーが最大数に達しました�
 $wb['parent_domain_id_error_empty'] = 'ウェブサイトを選択してください。';
 $wb['puser_txt'] = 'Web Username';
 $wb['pgroup_txt'] = 'Web Group';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

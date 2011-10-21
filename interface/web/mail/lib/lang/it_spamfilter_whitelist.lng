@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'User';
+$wb['rid_txt'] = 'Utente';
 $wb['email_txt'] = 'Email';
-$wb['priority_txt'] = 'Priority';
-$wb['active_txt'] = 'Active';
-$wb['limit_spamfilter_wblist_txt'] = 'The max. number of White- or Blacklist records for your account is reached.';
+$wb['priority_txt'] = 'Priorità';
+$wb['active_txt'] = 'Attivo';
+$wb['limit_spamfilter_wblist_txt'] = 'Raggiunto numero massimo di record white/blacklist per questo account.';
 ?>

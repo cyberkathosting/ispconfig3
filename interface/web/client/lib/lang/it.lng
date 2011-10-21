@@ -6,8 +6,8 @@ $wb['Add Client'] = 'Aggiungi cliente';
 $wb['Edit Client'] = 'Modifica cliente';
 $wb['Clients'] = 'Clienti';
 $wb['Edit Client-Templates'] = 'Modifica modelli cliente';
-$wb['Add Reseller'] = 'Add Reseller';
-$wb['Edit Reseller'] = 'Edit Reseller';
-$wb['Resellers'] = 'Resellers';
-$wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
+$wb['Add Reseller'] = 'Aggiungi rivenditore';
+$wb['Edit Reseller'] = 'Modifica rivenditore';
+$wb['Resellers'] = 'Rivenditori';
+$wb['error_has_clients'] = 'Questo rivenditore ha dei clienti, bisogna cancellarli prima di procedere.';
 ?>

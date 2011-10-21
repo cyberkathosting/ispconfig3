@@ -4,7 +4,7 @@ $TTL        {tmpl_var name='ttl'}
                         {tmpl_var name='refresh'}              ; refresh, seconds
                         {tmpl_var name='retry'}              ; retry, seconds
                         {tmpl_var name='expire'}              ; expire, seconds
-                        {tmpl_var name='ttl'} )            ; minimum, seconds
+                        {tmpl_var name='minimum'} )            ; minimum, seconds
 ;
 
 <tmpl_loop name='zones'>

@@ -16,7 +16,12 @@ if ($handle = opendir('.'))
         {
                 if (substr($file,0,1) != "." && is_dir($file))
                 {
-                        $awprev[] = $file;
+                        $orderkey = substr($file,0,4).substr($file,5,2);
+                        if (substr($file,5,2) < 10 )
+                        {
+                                $orderkey = substr($file,0,4)."0".substr($file,5,2);
+                        }
+                        $awprev[$orderkey] = $file;
                 }
         }
 
@@ -25,15 +30,16 @@ if ($handle = opendir('.'))
 
         if (date("d") == 1)
         {
-                $awmonth = date("m")-1;
+                $month = date("m")-1;
                 if (date("m") == 1)
                 {
-                        $awyear = date("Y")-1;
-                        $awmonth = "12";
+                        $year = date("Y")-1;
+                        $month = "12";
                 }
         }
 
-        $awprev[] = $year."-".$month;
+        $current = $year.$month;
+        $awprev[$current] = $year."-".$month;
 
         closedir($handle);
 }
@@ -41,11 +47,11 @@ if ($handle = opendir('.'))
 echo '<div style="width: 97%; margin-left: 4px; height: 20px; background-color: #FFFFFF; position: fixed; padding: 7px; border: 2px solid #cccccc;><div align="left"><font color="#000000" size="2" face="Verdana, Arial, Helvetica,  sans-serif">' .$aw["aw_jump_text"]. '</font </div>';
 
 echo "<select name='awdate' onchange=\"load_content(this.value)\">";
-rsort($awprev);
+krsort($awprev);
 
 foreach ($awprev as $key => $value)
 {
-        if($key == 0)
+        if($key == $current)
         {
                 echo "<option selected=\"selected\" value=\"".$aw['aw_renamed_index']."\"> $value</option>";
         }

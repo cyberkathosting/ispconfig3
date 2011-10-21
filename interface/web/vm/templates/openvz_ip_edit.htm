@@ -17,7 +17,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="vm_id">{tmpl_var name='vm_id_txt'}</label>
-        <select name="vm_id" id="vm_id" class="selectInput">
+        <select name="vm_id" id="vm_id" class="selectInput" disabled="disabled">
 					{tmpl_var name='vm_id'}
 				</select>
       </div>
@@ -38,3 +38,9 @@
   </div>
   
 </div>
+<script language="JavaScript" type="text/javascript">
+		var vm_id = jQuery('#vm_id').val();
+		jQuery('#vm_id').attr({name: 'vm_id_disabled', id: 'vm_id_disabled'});
+		jQuery('#vm_id_disabled').after('<input type="hidden" name="vm_id" value="'+vm_id+'">');
+			
+</script>

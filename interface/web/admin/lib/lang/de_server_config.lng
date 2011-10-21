@@ -143,10 +143,10 @@ $wb['php_fpm_socket_dir_txt'] = 'PHP-FPM Socket-Verzeichnis';
 $wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM Socket-Verzeichnis ist leer.';
 $wb['fastcgi_config_syntax_txt'] = 'FastCGI config syntax';
 $wb['backup_dir_ftpread_txt'] = 'Backup dir. readable for website FTP users.';
-$wb['try_rescue_txt'] = 'Enable service monitoring and restart on failure';
-$wb['do_not_try_rescue_apache_txt'] = 'Disable apache monitoring';
-$wb['do_not_try_rescue_mysql_txt'] = 'Disable MySQL monitoring';
-$wb['do_not_try_rescue_mail_txt'] = 'Disable Email monitoring';
-$wb['rescue_description_txt'] = '<b>Information:</b> If you want to shut down mysql you have to select the Disable MySQL monitor checkbox and then wait 2-3 minutes.<br>if you do not wait 2-3 minutes, rescue will try to restart mysql!';
+$wb['try_rescue_txt'] = 'Aktiviere Service Monitoring und Neustart bei Unerreichbarkeit';
+$wb['do_not_try_rescue_httpd_txt'] = 'Deaktiviere HTTPD Monitoring';
+$wb['do_not_try_rescue_mysql_txt'] = 'Deaktiviere MySQL Monitoring';
+$wb['do_not_try_rescue_mail_txt'] = 'Deaktiviere Email Monitoring';
+$wb['rescue_description_txt'] = '<b>Information:</b> Falls Sie MySQL stoppen m&ouml;chten, w&auml;hlen Sie die &quot;Deaktiviere MySQL Monitoring&quot; Checkbox und warten Sie 2-3 Minuten.<br>Falls Sie nicht 2-3 Minuten warten, wird Rescue versuchen, MySQL neu zu starten!';
 $wb['enable_sni_txt'] = 'Enable SNI';
 ?>

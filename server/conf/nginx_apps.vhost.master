@@ -38,9 +38,15 @@ server {
                        try_files $uri =404;
                        root /usr/share/;
                        include /etc/nginx/fastcgi_params;
-                       fastcgi_pass unix:{fpm_socket};
+                       # To access phpMyAdmin, the default user (like www-data on Debian/Ubuntu) must be used
+                       fastcgi_pass 127.0.0.1:9000;
                        fastcgi_index index.php;
                        fastcgi_param SCRIPT_FILENAME $request_filename;
+                       fastcgi_param PATH_INFO $fastcgi_script_name;
+                       fastcgi_buffer_size 128k;
+                       fastcgi_buffers 256 4k;
+                       fastcgi_busy_buffers_size 256k;
+                       fastcgi_temp_file_write_size 256k;
                }
                location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
                        root /usr/share/;
@@ -57,9 +63,15 @@ server {
                        try_files $uri =404;
                        root /usr/share/;
                        include /etc/nginx/fastcgi_params;
-                       fastcgi_pass unix:{fpm_socket};
+                       # To access SquirrelMail, the default user (like www-data on Debian/Ubuntu) must be used
+                       fastcgi_pass 127.0.0.1:9000;
                        fastcgi_index index.php;
                        fastcgi_param SCRIPT_FILENAME $request_filename;
+                       fastcgi_param PATH_INFO $fastcgi_script_name;
+                       fastcgi_buffer_size 128k;
+                       fastcgi_buffers 256 4k;
+                       fastcgi_busy_buffers_size 256k;
+                       fastcgi_temp_file_write_size 256k;
                }
                location ~* ^/squirrelmail/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
                        root /usr/share/;
@@ -67,5 +79,25 @@ server {
         }
         location /webmail {
                rewrite ^/* /squirrelmail last;
+        }
+
+        location /cgi-bin/mailman {
+               root /usr/lib/;
+               fastcgi_split_path_info (^/cgi-bin/mailman/[^/]*)(.*)$;
+               include /etc/nginx/fastcgi_params;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+               fastcgi_param PATH_INFO $fastcgi_path_info;
+               fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+               fastcgi_intercept_errors on;
+               fastcgi_pass unix:{cgi_socket};
+        }
+
+        location /images/mailman {
+               alias /usr/share/images/mailman;
+        }
+
+        location /pipermail {
+               alias /var/lib/mailman/archives/public;
+               autoindex on;
         }
 }

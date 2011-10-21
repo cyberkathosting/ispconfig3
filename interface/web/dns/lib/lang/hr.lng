@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Zone';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -9,12 +9,15 @@ $wb['DNS mx'] = 'DNS mx';
 $wb['DNS ns'] = 'DNS ns';
 $wb['DNS ptr'] = 'DNS ptr';
 $wb['DNS RP'] = 'DNS RP';
-$wb['DNS Zone'] = 'DNS Zone';
-$wb['Records'] = 'Records';
+$wb['DNS Zone'] = 'DNS zona';
+$wb['Records'] = 'DNS zapisi';
 $wb['DNS SRV'] = 'DNS SRV';
-$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT Record'] = 'DNS TXT zapis';
 $wb['DNS TXT'] = 'DNS TXT';
-$wb['DNS Wizard'] = 'DNS Wizard';
-$wb['Add DNS Zone'] = 'Add DNS Zone';
-$wb['Templates'] = 'Templates';
+$wb['DNS Wizard'] = 'DNS čarobnjak';
+$wb['Add DNS Zone'] = 'Dodaj DNS zonu';
+$wb['Templates'] = 'Predlošci';
+$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
+$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
+$wb['zonefile_to_import_txt'] = 'Zone File';
 ?>

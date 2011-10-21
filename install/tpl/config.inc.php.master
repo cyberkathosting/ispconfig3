@@ -122,7 +122,7 @@ $conf['init_scripts'] = '/etc/init.d';
 
 
 //** Interface
-$conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools';
+$conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools,help';
 
 //** Demo mode
 /* The demo mode is an option to restrict certain actions in the interface like 

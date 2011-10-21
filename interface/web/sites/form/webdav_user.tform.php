@@ -73,10 +73,9 @@ $form["tabs"]['webdav'] = array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND {AUTHSQL} ORDER BY domain",
-										'keyfield'=> 'domain_id',
-										'valuefield'=> 'domain'
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'webdav_domains'
 									 ),
 			'value'		=> ''
 		),

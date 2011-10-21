@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Jobqueue';
+$wb['list_head_txt'] = 'Coda lavori';
 $wb['tstamp_txt'] = 'Data';
 $wb['server_id_txt'] = 'Server';
 $wb['dbtable_txt'] = 'Tabella DB';

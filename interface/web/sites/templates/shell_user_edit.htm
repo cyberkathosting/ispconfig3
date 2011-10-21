@@ -44,8 +44,8 @@
         <input name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="formInputUnity">&nbsp;MB</p>
 			</div>
 	<div class="ctrlHolder">
-      		<label for="ssh_rsa">ssh_rsa</label>
-        	<input name="ssh_rsa" id="ssh_rsa" value="" maxlength="600" type="text" class="textInput" />
+      		<label for="ssh_rsa">{tmpl_var name='ssh_rsa_txt'}</label>
+			<textarea name="ssh_rsa" id="ssh_rsa" rows="10" cols="30">{tmpl_var name='ssh_rsa'}</textarea>
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='active_txt'}</p>

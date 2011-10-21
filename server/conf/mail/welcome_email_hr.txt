@@ -1,0 +1,4 @@
+﻿From: ISPConfig <postmaster@localhost.localdomain>
+Subject: Dobrodošli u vaš novi email račun.
+
+Dobrodošli u vaš novi email račun. Vaš webmajstor.

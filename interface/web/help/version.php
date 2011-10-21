@@ -43,8 +43,10 @@ require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
-$app->auth->check_module_permissions('admin');
+$app->auth->check_module_permissions('help');
 
-echo '<p>&nbsp;</p><p>&nbsp;</p><p class="frmTextHead" style="text-align:center;">'.$app->lng('ISPConfig Version:').' '.ISPC_APP_VERSION.'</p>';
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	echo '<p>&nbsp;</p><p>&nbsp;</p><p class="frmTextHead" style="text-align:center;">'.$app->lng('ISPConfig Version:').' '.ISPC_APP_VERSION.'</p>';
+}
 
 ?>

@@ -19,4 +19,5 @@ $wb['limit_shell_user_txt'] = 'Dosažen max. počet shell uživatelů.';
 $wb['parent_domain_id_error_empty'] = 'Nevybrána žádná webová stránka.';
 $wb['puser_txt'] = 'Web: Uživatelské jméno';
 $wb['pgroup_txt'] = 'Web: Skupina';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

@@ -19,4 +19,5 @@ $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['parent_domain_id_error_empty'] = 'Ei www-sivua valittuna.';
 $wb['puser_txt'] = 'Web Username';
 $wb['pgroup_txt'] = 'Web Group';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

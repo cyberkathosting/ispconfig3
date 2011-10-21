@@ -10,7 +10,7 @@ $wb['new_txt'] = 'New';
 $wb['up_txt'] = 'Up';
 $wb['down_txt'] = 'Down';
 $wb['module_txt'] = 'Module';
-$wb['module_del_txt'] = 'Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse löschen?';
-$wb['menu_del_txt'] = 'Wollen Sie das Menü mit allen Untereinträgen löschen?';
-$wb['item_del_txt'] = 'Wollen Sie den Menüeintrag löschen?';
+$wb['module_del_txt'] = 'Wollen Sie das Modul und alle im Modul angelegten Dateien und Unterverzeichnisse lÃ¶schen?';
+$wb['menu_del_txt'] = 'Wollen Sie das MenÃ¼ mit allen UntereintrÃ¤gen lÃ¶schen?';
+$wb['item_del_txt'] = 'Wollen Sie den MenÃ¼eintrag lÃ¶schen?';
 ?>

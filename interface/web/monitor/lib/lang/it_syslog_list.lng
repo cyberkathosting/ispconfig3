@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'Log ISPConfig';
 $wb['tstamp_txt'] = 'Data';
 $wb['server_id_txt'] = 'Server';
-$wb['loglevel_txt'] = 'Livello Log';
+$wb['loglevel_txt'] = 'Livello log';
 $wb['message_txt'] = 'Messaggio';
 ?>

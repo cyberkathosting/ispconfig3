@@ -89,14 +89,14 @@ class rescue_core_module {
 		$this->_rescueData = $this->_getRescueData();
 		
 		/*
-		 * rescue mysql if needed (maybe apache depends on mysql, so try this first!)
+		 * rescue mysql if needed (maybe httpd depends on mysql, so try this first!)
 		 */
 		$this->_rescueMySql();
 		
 		/*
-		 * rescue apache if needed
+		 * rescue httpd if needed
 		 */
-		$this->_rescueApache();
+		$this->_rescueHttpd();
 		
 		/*
 		 * The last step is to save the rescue-data
@@ -218,15 +218,15 @@ class rescue_core_module {
 	}
 
 	/**
-	 * restarts apache, if needed
+	 * restarts httpd, if needed
 	 */
-	private function _rescueApache(){
+	private function _rescueHttpd(){
 		global $app, $conf;
 		
 		/*
-		 * do nothing, if it is not allowed to rescue apache
+		 * do nothing, if it is not allowed to rescue httpd
 		 */
-		if ((isset($conf['serverconfig']['rescue']['do_not_try_rescue_apache']) && ($conf['serverconfig']['rescue']['do_not_try_rescue_apache']) == 'y')){
+		if ((isset($conf['serverconfig']['rescue']['do_not_try_rescue_httpd']) && ($conf['serverconfig']['rescue']['do_not_try_rescue_httpd']) == 'y')){
 			return;
 		}
 		
@@ -267,17 +267,23 @@ class rescue_core_module {
 		
 		/* if 5 times will not work, we have to give up... */
 		if ($tryCount > 5){
-			$app->log('Apache is down! Rescue will not help!', LOGLEVEL_ERROR);
+			$app->log('httpd is down! Rescue will not help!', LOGLEVEL_ERROR);
 			return;
 		}
 		
 		
-		$app->log('Apache is down! Try rescue apache (try:' . $tryCount . ')...', LOGLEVEL_WARN);
-
-		if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
-			$daemon = 'httpd';
+		$app->log('httpd is down! Try rescue httpd (try:' . $tryCount . ')...', LOGLEVEL_WARN);
+		
+		if($conf['serverconfig']['web']['server_type'] == 'nginx'){
+			$daemon = 'nginx';
 		} else {
-			$daemon = 'apache2';
+			if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
+				$daemon = 'httpd';
+			} elseif(is_file($conf['init_scripts'] . '/' . 'httpd2')){
+				$daemon = 'httpd2';
+			} else {
+				$daemon = 'apache2';
+			}
 		}
 		
 		$this->_rescueDaemon($daemon);

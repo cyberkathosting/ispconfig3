@@ -1026,7 +1026,7 @@ CREATE TABLE `shell_user` (
   `shell` varchar(255) NOT NULL default '/bin/bash',
   `dir` varchar(255) default NULL,
   `chroot` varchar(255) NOT NULL,
-  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
+  `ssh_rsa` text NOT NULL,
   PRIMARY KEY  (`shell_user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

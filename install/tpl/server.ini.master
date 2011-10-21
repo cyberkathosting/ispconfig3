@@ -103,7 +103,7 @@ wget=/usr/bin/wget
 
 [rescue]
 try_rescue=n
-do_not_try_rescue_apache=n
+do_not_try_rescue_httpd=n
 do_not_try_rescue_mysql=n
 do_not_try_rescue_mail=n
 

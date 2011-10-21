@@ -19,4 +19,5 @@ $wb['limit_shell_user_txt'] = 'Jumlah maksimum pengguna shell telah tercapai.';
 $wb['parent_domain_id_error_empty'] = 'Tak ada situs web yang dipilih.';
 $wb['puser_txt'] = 'Nama Pengguna Web';
 $wb['pgroup_txt'] = 'Grup Web';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

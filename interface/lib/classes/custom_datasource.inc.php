@@ -63,6 +63,31 @@ class custom_datasource {
 		return $records_new;
 	}
 	
+	function webdav_domains($field, $record) {
+		global $app, $conf;
+		
+		$servers = $app->db->queryAllRecords("SELECT * FROM server WHERE active = 1 AND mirror_server_id = 0");
+		$server_ids = array();
+		$app->uses('getconf');
+		if(is_array($servers) && !empty($servers)){
+			foreach($servers as $server){
+				$web_config = $app->getconf->get_server_config($server['server_id'], 'web');
+				if($web_config['server_type'] != 'nginx') $server_ids[] = $server['server_id'];
+			}
+		}
+		$server_ids = implode(',', $server_ids);
+		$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND server_id IN (".$server_ids.") AND ".$app->tform->getAuthSQL('r')." ORDER BY domain");
+		
+		$records_new = array();
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				$key = $rec['domain_id'];
+				$records_new[$key] = $rec['domain'];
+			}
+		}
+		return $records_new;
+	}
+	
 	
 	function client_servers($field, $record) {
 		global $app, $conf;

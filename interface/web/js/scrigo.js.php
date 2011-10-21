@@ -101,7 +101,7 @@ function submitLoginForm(formname) {
 	
 }
 
-function submitForm(formname,target) {	
+function submitForm(formname,target) {
 	var submitFormObj = jQuery.ajax({		type: "POST", 
 											url: target,
 											data: jQuery('#'+formname).serialize(),

@@ -1,6 +1,6 @@
 <?php
-$wb['title_txt'] = 'Title';
-$wb['header_txt'] = 'Navi properties';
-$wb['save_txt'] = 'Save';
-$wb['cancel_txt'] = 'Cancel';
+$wb['title_txt'] = 'Titolo';
+$wb['header_txt'] = 'Proprietà Navi';
+$wb['save_txt'] = 'Salva';
+$wb['cancel_txt'] = 'Annulla';
 ?>

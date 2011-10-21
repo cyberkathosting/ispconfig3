@@ -174,23 +174,23 @@
 	# For config options see: http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
     <IfModule mod_fcgid.c>
 <tmpl_if name='fastcgi_config_syntax' op='==' value='2'>
-	  FcgidIdleTimeout 300
-	  FcgidProcessLifeTime 3600
-	  FcgidMaxProcesses 1000
-	  FcgidMinProcessesPerClass 0
-	  FcgidMaxProcessesPerClass 100
-	  FcgidConnectTimeout 3
-	  FcgidIOTimeout 360
-	  FcgidBusyTimeout 300
+        FcgidIdleTimeout 300
+        FcgidProcessLifeTime 3600
+        FcgidMaxProcesses 1000
+        FcgidMinProcessesPerClass 0
+        FcgidMaxProcessesPerClass 100
+        FcgidConnectTimeout 3
+        FcgidIOTimeout 360
+        FcgidBusyTimeout 300
 <tmpl_else>
-	  IdleTimeout 300
-	  ProcessLifeTime 3600
-	  # MaxProcessCount 1000
-	  DefaultMinClassProcessCount 0
-	  DefaultMaxClassProcessCount 100
-	  IPCConnectTimeout 3
-	  IPCCommTimeout 360
-	  BusyTimeout 300
+        IdleTimeout 300
+        ProcessLifeTime 3600
+        # MaxProcessCount 1000
+        DefaultMinClassProcessCount 0
+        DefaultMaxClassProcessCount 100
+        IPCConnectTimeout 3
+        IPCCommTimeout 360
+        BusyTimeout 300
 </tmpl_if>
     </IfModule>
     <Directory {tmpl_var name='web_document_root_www'}>
@@ -201,7 +201,7 @@
         Order allow,deny
         Allow from all
     </Directory>
-	<Directory {tmpl_var name='web_document_root'}>
+    <Directory {tmpl_var name='web_document_root'}>
         AddHandler fcgid-script .php .php3 .php4 .php5
         FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
         Options +ExecCGI
@@ -210,17 +210,13 @@
         Allow from all
     </Directory>
 </tmpl_if>
-<tmpl_if name="rewrite_enabled">
-    
-    RewriteEngine on
-	
-<tmpl_if name='seo_redirect_enabled'>
 
+<tmpl_if name="rewrite_enabled">
+    RewriteEngine on
+<tmpl_if name='seo_redirect_enabled'>
     RewriteCond %{HTTP_HOST} ^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
     RewriteRule ^(.*)$ http://<tmpl_var name='seo_redirect_target_domain'>/$1 [R=301,L]
-
 </tmpl_if>
-
 <tmpl_loop name="redirects">
     RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]
     RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
@@ -234,11 +230,11 @@
 
     <IfModule mod_dav_fs.c>
 	  # Do not execute PHP files in webdav directory
-	  <Directory {tmpl_var name='document_root'}/webdav>
+      <Directory {tmpl_var name='document_root'}/webdav>
 	    <FilesMatch "\.ph(p3?|tml)$">
           SetHandler None
         </FilesMatch>
-	  </Directory>
+      </Directory>
       # DO NOT REMOVE THE COMMENTS!
       # IF YOU REMOVE THEM, WEBDAV WILL NOT WORK ANYMORE!
       # WEBDAV BEGIN

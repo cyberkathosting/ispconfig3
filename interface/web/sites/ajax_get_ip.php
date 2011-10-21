@@ -38,7 +38,7 @@ $server_id = intval($_GET["server_id"]);
 $client_group_id = intval($_GET["client_group_id"]);
 $ip_type = $app->db->quote($_GET['ip_type']);
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
+if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 	$sql = "SELECT ip_address FROM server_ip WHERE ip_type = '$ip_type' AND server_id = $server_id";
 	$ips = $app->db->queryAllRecords($sql);

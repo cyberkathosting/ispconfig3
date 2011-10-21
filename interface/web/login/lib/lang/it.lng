@@ -1,17 +1,17 @@
 <?php
-$wb['pass_reset_txt'] = 'Una nuova password sarà generata e spedita alla tua email se l`email inserita corrisponde a quella delle impostazioni dell`utente.';
+$wb['pass_reset_txt'] = 'Una nuova password sarà  generata e spedita alla tua email se lemail inserita corrisponde a quella delle impostazioni dellutente.';
 $wb['pw_reset'] = 'La password è stata reimpostata e spedita al tuo indirizzo mail.';
 $wb['pw_error'] = 'Nome utente o email non corrispondenti.';
 $wb['pw_error_noinput'] = 'Inserisci nome utente e indirizzo email.';
 $wb['pw_reset_mail_msg'] = 'La password nel tuo pannello di controllo ISPConfig 3 è stata reimpostata. La nuova password è: ';
 $wb['pw_reset_mail_title'] = 'Password del pannello di controllo ISPConfig 3 reimpostata.';
-$wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';
-$wb['pw_error_length'] = 'The password length is > 64 characters.';
-$wb['error_user_password_empty'] = 'Username or Password empty.';
-$wb['error_user_password_incorrect'] = 'Username or Password wrong.';
-$wb['error_user_blocked'] = 'User is blocked.';
-$wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after 15 minutes';
-$wb['username_txt'] = 'Username';
+$wb['user_regex_error'] = 'Nome utente contenente caratteri non permessi oppure più lungo di 64 caratteri.';
+$wb['pw_error_length'] = 'Lunghezza password maggiore di 64 caratteri.';
+$wb['error_user_password_empty'] = 'Nome utente o password vuoti.';
+$wb['error_user_password_incorrect'] = 'Nome utente o password errati.';
+$wb['error_user_blocked'] = 'Utente bloccato.';
+$wb['error_user_too_many_logins'] = 'Troppi tentativi errati di login. Riprovare tra 15 minuti';
+$wb['username_txt'] = 'Nome utente';
 $wb['password_txt'] = 'Password';
 $wb['login_button_txt'] = 'Login';
 ?>

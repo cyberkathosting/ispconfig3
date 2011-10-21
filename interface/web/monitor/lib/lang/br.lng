@@ -143,4 +143,7 @@ $wb['monitor_serverstate_beancountererror_txt'] = 'Existem diversas falhas no be
 $wb['monitor_title_beancounter_txt'] = 'BeanCounter OpenVz VE';
 $wb['monitor_beancounter_nosupport_txt'] = 'Este servidor não é um um conteiner openVZ e não contém informações de beancounter';
 $wb['monitor_title_iptables_txt'] = 'IPTables Rules';
+$wb['Show fail2ban-Log'] = 'Show fail2ban-Log';
+$wb['Show IPTables'] = 'Show IPTables';
+$wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>

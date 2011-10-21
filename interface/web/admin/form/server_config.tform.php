@@ -1053,7 +1053,7 @@ $form["tabs"]['rescue'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
-		'do_not_try_rescue_apache' => array(
+		'do_not_try_rescue_httpd' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',

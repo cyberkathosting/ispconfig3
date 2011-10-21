@@ -5,7 +5,7 @@ $wb['unlimited_txt'] = 'neograničeno';
 $wb['limit_maildomain_txt'] = 'Mail domene';
 $wb['limit_mailbox_txt'] = 'Mailboxi';
 $wb['limit_mailalias_txt'] = 'Mail aliasi';
-$wb['limit_mailaliasdomain_txt'] = 'Domain aliasi';
+$wb['limit_mailaliasdomain_txt'] = 'Aliasi domene';
 $wb['limit_mailforward_txt'] = 'Mail forwarderi';
 $wb['limit_mailcatchall_txt'] = 'Mail catchall računi';
 $wb['limit_mailrouting_txt'] = 'Mail route';
@@ -26,5 +26,5 @@ $wb['limit_shell_user_txt'] = 'Shell računi';
 $wb['limit_webdav_user_txt'] = 'Webdav računi';
 $wb['limit_client_txt'] = 'Klijenti';
 $wb['limit_database_txt'] = 'Baze';
-$wb['limit_mailmailinglist_txt'] = 'Number of mailing lists';
+$wb['limit_mailmailinglist_txt'] = 'Mail liste';
 ?>

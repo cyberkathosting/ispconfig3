@@ -19,4 +19,5 @@ $wb['uid_error_empty'] = 'Το GID δεν έχει οριστεί';
 $wb['directory_error_empty'] = 'Ο φάκελος δεν έχει οριστεί';
 $wb['limit_shell_user_txt'] = 'Φτάσατε το μέγιστο πλήθος τον λογαριασμών Shell';
 $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 ?>

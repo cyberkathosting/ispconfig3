@@ -1,4 +1,6 @@
 <?php
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 $wb['Firewall'] = 'Firewall';
 $wb['Groups'] = 'Gruppi';
 $wb['groups_description'] = 'Form to edit systemuser groups.';
@@ -28,16 +30,14 @@ $wb['Export'] = 'Esporta';
 $wb['Import'] = 'Importa';
 $wb['Language Editor'] = 'Editor lingua';
 $wb['Software'] = 'Programmi';
-$wb['Repositories'] = 'Repositories';
-$wb['Server Services'] = 'Server Services';
-$wb['Interface Config'] = 'Interface Config';
-$wb['Packages'] = 'Packages';
-$wb['Updates'] = 'Updates';
+$wb['Repositories'] = 'Repository';
+$wb['Server Services'] = 'Servizi server';
+$wb['Interface Config'] = 'Configurazione interfaccia';
+$wb['Packages'] = 'Pacchetti';
+$wb['Updates'] = 'Aggiornamenti';
 $wb['Merge'] = 'Merge';
-$wb['Remote Users'] = 'Remote Users';
-$wb['Remote Actions'] = 'Remote Actions';
-$wb['Do OS-Update'] = 'Do OS-Update';
-$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
-$wb['1001'] = 'Username or password is empty.';
-$wb['1002'] = 'Username or password is wrong.';
+$wb['Remote Users'] = 'Utenti remoti';
+$wb['Remote Actions'] = 'Azioni remote';
+$wb['Do OS-Update'] = 'Aggiorna OS';
+$wb['Do ISPConfig-Update'] = 'Aggiorna ISPconfig';
 ?>

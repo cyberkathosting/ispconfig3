@@ -143,4 +143,7 @@ $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_updates_nosupport_txt'] = 'Your distribution is not supported for this monitoring';
 $wb['monitor_beancounter_nosupport_txt'] = 'This server is not a OpenVz VE and has no beancounter information';
 $wb['monitor_title_iptables_txt'] = 'IPTables Rules';
+$wb['Show fail2ban-Log'] = 'Show fail2ban-Log';
+$wb['Show IPTables'] = 'Show IPTables';
+$wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>
