@@ -142,7 +142,6 @@ class page_action extends tform_actions {
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			print_r($this->dataRecord);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
