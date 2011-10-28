@@ -254,7 +254,7 @@ CREATE TABLE `dns_rr` (
   `server_id` int(11) NOT NULL default '1',
   `zone` int(11) unsigned NOT NULL,
   `name` varchar(64) NOT NULL,
-  `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
+  `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SPF','SRV','TXT') default NULL,
   `data` varchar(255) NOT NULL,
   `aux` int(11) unsigned NOT NULL default '0',
   `ttl` int(11) unsigned NOT NULL default '86400',
