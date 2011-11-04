@@ -86,6 +86,7 @@ class maildeliver_plugin {
 		// Write the custom mailfilter script, if mailfilter recipe has changed
 		if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]
 			   or $data["old"]["move_junk"] != $data["new"]["move_junk"]
+			   or $data["old"]["autoresponder_subject"] != $data["new"]["autoresponder_subject"] 
 			   or $data["old"]["autoresponder_text"] != $data["new"]["autoresponder_text"] 
 			   or $data["old"]["autoresponder"] != $data["new"]["autoresponder"]
 			   or (isset($data["new"]["email"]) and $data["old"]["email"] != $data["new"]["email"])
@@ -114,14 +115,21 @@ class maildeliver_plugin {
 			$tpl->setVar('move_junk',$data["new"]["move_junk"]);
 
 			// Set autoresponder start date
+			$data["new"]["autoresponder_start_date"] = str_replace (" ", "T", $data["new"]["autoresponder_start_date"]);
 			$tpl->setVar('start_date',$data["new"]["autoresponder_start_date"]);
 
 			// Set autoresponder end date
+			$data["new"]["autoresponder_end_date"] = str_replace (" ", "T", $data["new"]["autoresponder_end_date"]);
 			$tpl->setVar('end_date',$data["new"]["autoresponder_end_date"]);
 
 			// Autoresponder
 			$tpl->setVar('autoresponder',$data["new"]["autoresponder"]);
-			
+
+			// Autoresponder Subject			
+			$data["new"]["autoresponder_subject"] = str_replace("\"","'",$data["new"]["autoresponder_subject"]); 
+			$tpl->setVar('autoresponder_subject',$data["new"]["autoresponder_subject"]);
+
+			// Autoresponder Text
 			$data["new"]["autoresponder_text"] = str_replace("\"","'",$data["new"]["autoresponder_text"]); 
 			$tpl->setVar('autoresponder_text',$data["new"]["autoresponder_text"]);
 			
