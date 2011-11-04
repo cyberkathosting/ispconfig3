@@ -45,6 +45,7 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 		/*
 		 * If the dashboard is in the list of modules it always has to be the first!
 		 */
+		asort($modules);
 		if (in_array('dashboard', $modules)) {
 			$key = array_search('dashboard', $modules);
 			unset($modules[$key]);
