@@ -688,6 +688,7 @@ CREATE TABLE `mail_user` (
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_start_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `autoresponder_end_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `autoresponder_subject` varchar(255) NOT NULL default 'Out of office reply',
   `autoresponder_text` mediumtext NULL,
   `move_junk` enum('n','y') NOT NULL default 'n',
   `custom_mailfilter` mediumtext,
