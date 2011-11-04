@@ -124,7 +124,7 @@ $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE t
 if(isset($record['data'])) {
 	$data = unserialize($record['data']);
 
-	$logData = nl2br($data);
+	$logData = nl2br(htmlspecialchars($data));
 
 	$app->tpl->setVar("log_data", $logData);
 } else {
