@@ -8,13 +8,10 @@ remove done tasks or assign yourself to a task.
 
 Form Validators
 --------------------------------------
-ISIPV4 does a manual check, PHP5 now has FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 which may be better.
-There also will be a time to add ISIPV6 or ISIPADDR to validate for IPv6 or both
 
 Installer
 --------------------------------------
 
-- Load and update system config from file into sql database during installation.
 - Add a function to let a server join a existing installation.
 
 
@@ -32,33 +29,41 @@ Mail module
 - Show mail statistics in the interface. The mail statistics are stored
   in the database table mail_traffic and are collected by the file
   server/cron_daily.php
-- Show mail quota usage in the interface. This is started for Dovecot and
-  requires testing
--- Functional on Debian Squeeze with newer Dovecot 2011-06-28
--- Needs more cross platform support
-
+-- For Courier this works but not Dovecot. Maybe the intention needs
+	reviewed as some clients think this should be the number of emails
+	and not the size of the emails.  (I agree that size is important)
+		lathama
 
 Administration module
 --------------------------------------
 
-- Add a firewall configuration form. Any suggestions for a good firewall
-  script that runs on many Linux distributions, or shall we stay with Bastille
-  firewall that is used in ISPConfig 2?
--- There are a few options here. Some are already started. I (lathama) would
-   like to look at a pure IPTables (firewall_iptables) which can allow for 
-   other modules.
--- Note: make sure to not interupt fail2ban
+
+- Firewall Solution -- Andrew lathama Latham lathama@gmail.com
+	* Monitor existing IPTABLES rules is done and in the monitor page.
+	* Add IPTABLES rules
+		semi-functional and in development also functional in multiserver
+	* Delete IPTABLES rules
+		semi-functional and in development also functional in multiserver
+	* Merge IPTABLES rules made from the CLI with those made from ISPConfig3
+		Interesting topic about merging control with with the GUI and the CLI
+		interface for a systems adminitstrator who might add a rule during an
+		attack or for trouble shooting and forget to remove it.
+	* Fail2Ban
+		Add configuration for fail2ban on certian systems.  Imagine an admin
+		wishes to use fail2ban on one service but not others. Rare but an issue
+		when a large number of clients use a single NAT for all users and failed
+		logins and traffic looks like an attack.  Maybe a whitelist configuration
+		as an optional setting.
+	* Remoting
+		Enable remoting hooks for updating IPTABLES
+	* Service Checks
+		Adding saftey checks to make sure that the admin does not lock his/herself
+		out of the system by accident.  We all make mistakes.
+
 -- Note: I'd love a pure iptables firewall as well. I've made such a script for
    my work, which uses a simple config file to open/close ports and support for 
    ip exclusions. I think we could use it as a base to start with, it's up on the dev forum
    url: http://www.howtoforge.com/forums/showthread.php?p=261311 (Mark_NL)
---- The complete PHP IPTables script is currently working on my test platform.
-	I am developing a wizard and a method of reporting if the rules in the database
-	and the running rules do not match.  This is taking a lot of effort to effectivly
-	"bend over backwards" to allow both the ISPConfig admin and the system admin
-	to work with the rules.  This will work with all distros and most any version.
-	Most of the code is in trunk now.   
-		lathama...  lathama@gmail.com
 
 Clients module
 --------------------------------------
@@ -66,11 +71,6 @@ Clients module
 
 Sites (web) module
 --------------------------------------
-
-- Add a function to the Sites module to create SSL certificates or upload
-  existing SSL certs and SSL chain files. It might be a good idea to add
-  this as a new tab named "SSL" to the exiting domain settings form.
--- This exists to some extent, review
 
 - Make sure that changes in the domain name do not break the configuration.
 
@@ -93,13 +93,6 @@ Interface
 
 - Enhance the list function to allow sorting by column
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
-- Use graphical Icons in the lists for on / off columns.
-  CSS icons are also an option. lathama 2011
-   http://nicolasgallagher.com/pure-css-gui-icons/
-- Add a graphical delete button to the lists.
-  CSS icons are also an option. lathama 2011
-   http://nicolasgallagher.com/pure-css-gui-icons/
-  
 
 General tasks
 --------------------------------------
