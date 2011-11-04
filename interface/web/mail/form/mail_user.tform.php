@@ -196,7 +196,7 @@ $form["tabs"]['mailuser'] = array (
 			'value'		=> array(1 => 'y',0 => 'n')
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
@@ -209,6 +209,14 @@ $form["tabs"]['autoresponder'] = array (
 	##################################
 	# Begin Datatable fields
 	##################################
+		'autoresponder_subject' => array (
+			'datatype'  => 'VARCHAR',
+			'formtype'  => 'TEXT',
+			'default'   => 'Out of office reply',
+			'value'     => '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 		'autoresponder_text' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXTAREA',
@@ -242,7 +250,7 @@ $form["tabs"]['autoresponder'] = array (
 								 ),
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
@@ -262,7 +270,7 @@ $form["tabs"]['filter_records'] = array (
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	),
 	'plugins' => array (
@@ -296,7 +304,7 @@ $form["tabs"]['mailfilter'] = array (
 			'rows'		=> '15'
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
