@@ -72,16 +72,12 @@ Clients module
 Sites (web) module
 --------------------------------------
 
-- Make sure that changes in the domain name do not break the configuration.
-
 
 BE-Designer module
 --------------------------------------
 
 WARNING: Please do not use the BE Designer at the moment, the serializing
  function of the module editor may break some of the existing modules.
-
-- Add a language file editor.
 
 
 Remoting framework
