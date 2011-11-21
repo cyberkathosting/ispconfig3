@@ -167,7 +167,7 @@ class apache2_plugin {
 					$app->log("Creating CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
 					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file",LOGLEVEL_ERROR);
 				};
-				if (filesize($crt_file)==0 || !file_exists($crt_file)){
+				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
 					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
 				};

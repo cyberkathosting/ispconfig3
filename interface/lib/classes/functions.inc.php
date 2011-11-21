@@ -73,6 +73,8 @@ class functions {
 			mail($to, $subject, "", $header);
 		} else {
 			$header = "From: $from\nReply-To: $from\n";
+			$header .= "Content-Type: text/plain;\n\tcharset=\"UTF-8\"\n";
+			$header .= "Content-Transfer-Encoding: 8bit\n\n";
 			mail($to, $subject, $text, $header);
 		}
 
