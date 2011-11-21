@@ -6,3 +6,4 @@ $wb['password_mismatch'] = 'Το συνθηματικό στο δεύτερο π
 $wb['Form to edit the user password and language.'] = 'Φόρμα επεξεργασίας συνθηματικού και γλώσσας';
 $wb['Settings'] = 'Ρυθμίσεις';
 ?>
+

@@ -1,0 +1,3 @@
+<?php
+$wb['edit_txt'] = 'Edit';
+?>

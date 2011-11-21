@@ -1372,6 +1372,13 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		//* Set a few defaults for nginx servers
+		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
+		if($params['pm_start_servers'] == '') $params['pm_start_servers'] = 1;
+		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
+		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
+		
 		$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php',$client_id,$primary_id,$params);
 		return $affected_rows;
 	}

@@ -6,15 +6,16 @@ $wb['gateway_txt'] = 'Gateway';
 $wb['hostname_txt'] = 'Hostname';
 $wb['nameservers_txt'] = 'Nameservers';
 $wb['module_txt'] = 'Άρθρωμα Server';
-$wb['maildir_path_txt'] = 'Maildir Path';
-$wb['homedir_path_txt'] = 'Homedir Path';
+$wb['maildir_path_txt'] = 'Διαδρομή Maildir';
+$wb['homedir_path_txt'] = 'Διαδρομή Homedir';
 $wb['mailuser_uid_txt'] = 'Mailuser UID';
 $wb['mailuser_gid_txt'] = 'Mailuser GID';
-$wb['mailuser_name_txt'] = 'Mailuser Name';
-$wb['mailuser_group_txt'] = 'Mailuser Group';
+$wb['mailuser_name_txt'] = 'Όνομα Mailuser';
+$wb['mailuser_group_txt'] = 'Ομάδα Mailuser';
 $wb['relayhost_txt'] = 'Relayhost';
-$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_user_txt'] = 'Χρήστης Relayhost';
 $wb['relayhost_password_txt'] = 'Συνθηματικό Relayhost';
 $wb['mailbox_size_limit_txt'] = 'Όριο μεγέθους θυρίδας';
 $wb['message_size_limit_txt'] = 'Όριο μεγέθους μηνύματος';
 ?>
+

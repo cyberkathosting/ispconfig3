@@ -1,7 +1,8 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
-$wb['active_txt'] = 'Active';
-$wb['path_error_regex'] = 'Invalid folder path.';
+$wb['path_txt'] = 'Διαδρομή';
+$wb['active_txt'] = 'Ενεργό';
+$wb['path_error_regex'] = 'Μη έγκυρη διαδρομή φακέλου.';
 ?>
+

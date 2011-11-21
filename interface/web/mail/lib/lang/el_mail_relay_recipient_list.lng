@@ -7,3 +7,4 @@ $wb['recipient_txt'] = 'Παραλήπτης';
 $wb['add_new_record_txt'] = 'Νέος παραλήπτης relay';
 $wb['access_txt'] = 'πρόσβαση';
 ?>
+

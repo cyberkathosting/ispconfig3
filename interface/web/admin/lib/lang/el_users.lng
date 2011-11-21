@@ -7,7 +7,7 @@ $wb['passwort_txt'] = 'Συνθηματικό';
 $wb['password_strength_txt'] = 'Δύναμη Συνθηματικού';
 $wb['modules_txt'] = 'Άρθρωμα';
 $wb['startmodule_txt'] = 'Άρθρωμα Εκκίνησης';
-$wb['app_theme_txt'] = 'Design';
+$wb['app_theme_txt'] = 'Θεματική Παραλλαγή';
 $wb['typ_txt'] = 'Τύπος';
 $wb['active_txt'] = 'Ενεργός';
 $wb['language_txt'] = 'Γλώσσα';
@@ -26,3 +26,4 @@ $wb['groups_txt'] = 'Ομάδες';
 $wb['default_group_txt'] = 'Προκαθορισμένη Ομάδα';
 $wb['startmodule_err'] = 'Το άρθρωμα εκκίνησης δεν υπάρχει στα διαθέσιμα αρθρώματα.';
 ?>
+

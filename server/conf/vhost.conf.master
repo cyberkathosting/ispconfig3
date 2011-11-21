@@ -176,7 +176,7 @@
 <tmpl_if name='fastcgi_config_syntax' op='==' value='2'>
         FcgidIdleTimeout 300
         FcgidProcessLifeTime 3600
-        FcgidMaxProcesses 1000
+        # FcgidMaxProcesses 1000
         FcgidMinProcessesPerClass 0
         FcgidMaxProcessesPerClass 100
         FcgidConnectTimeout 3
@@ -215,7 +215,7 @@
     RewriteEngine on
 <tmpl_if name='seo_redirect_enabled'>
     RewriteCond %{HTTP_HOST} ^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
-    RewriteRule ^(.*)$ http://<tmpl_var name='seo_redirect_target_domain'>/$1 [R=301,L]
+    RewriteRule ^(.*)$ http://<tmpl_var name='seo_redirect_target_domain'>$1 [R=301,L]
 </tmpl_if>
 <tmpl_loop name="redirects">
     RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]

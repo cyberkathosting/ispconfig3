@@ -38,19 +38,6 @@ ini_set('error_reporting', E_ALL & ~E_NOTICE);
 $conf['server_id'] = intval($conf['server_id']);
 
 /*
-  // Get server record, if updates where available for this server
-  $server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE update = 1 AND server_id = ".$conf['server_id']);
-  if($server_db_record == false) {
-  $app->log('Nothing to update for server_id '.$conf['server_id']);
-  die();
-  } else {
-  // Set update status to 0, so we dont start the update process twice
-  $app->db->query("UPDATE server SET update = 0 WHERE server_id = ".$conf['server_id']);
-  $app->log('Begin update.');
-  }
- */
-
-/*
  * Try to Load the server configuration from the master-db
  */
 if ($app->dbmaster->connect()) {

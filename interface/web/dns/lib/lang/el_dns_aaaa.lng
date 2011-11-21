@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Το hostname δεν έχει σωστή μορφοπ
 $wb['data_error_empty'] = 'Διεύθυνση IP κενή';
 $wb['data_error_regex'] = 'Διεύθυνση IP με μη έγκυρη μορφοποίηση';
 ?>
+

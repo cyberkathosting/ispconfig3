@@ -21,7 +21,7 @@ CHROOT_APP_SECTIONS=$2
 chown root:root $CHROOT_HOMEDIR
 
 ## Initialize the chroot into the specified directory with the specified applications
-jk_init -f -k -j $CHROOT_HOMEDIR $CHROOT_APP_SECTIONS
+jk_init -f -k -c /etc/jailkit/jk_init.ini -j $CHROOT_HOMEDIR $CHROOT_APP_SECTIONS
 
 ## Create the temp directory
 if [ ! -d "$CHROOT_HOMEDIR/tmp" ]

@@ -139,11 +139,17 @@ $clientdb_host			= '';
 $clientdb_user			= '';
 $clientdb_password		= '';
 
-//** Ask user for mysql admin_password if empty
-if( empty($conf["mysql"]["admin_password"]) ) {
-
-	$conf["mysql"]["admin_password"] = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
-}
+//** Test mysql root connection
+$finished = false;
+do {
+	if(@mysql_connect($conf["mysql"]["host"],$conf["mysql"]["admin_user"],$conf["mysql"]["admin_password"])) {
+		$finished = true;
+	} else {
+		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+		$conf["mysql"]["admin_password"] = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
+	}
+} while ($finished == false);
+unset($finished);
 
 /*
  *  Prepare the dump of the database 
@@ -152,7 +158,6 @@ prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
-$inst->db->dbName = $conf["mysql"]["database"];
 
 //* initialize the master DB, if we have a multiserver setup
 if($conf['mysql']['master_slave_setup'] == 'y') {

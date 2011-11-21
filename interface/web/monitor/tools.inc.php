@@ -314,7 +314,7 @@ function showSystemUpdate() {
 		}
 		else {
 			$data = unserialize($record['data']);
-			$html .= nl2br($data['output']);
+			$html .= nl2br(html_entity_decode($data['output']));
 		}
 		$html .= '</div></div>';
 	} else {

@@ -144,6 +144,11 @@ if( empty($conf["mysql"]["admin_password"]) ) {
 	die("internal error - MYSQL-Root passord not known");
 }
 
+//** Test mysql root connection
+if(!@mysql_connect($conf["mysql"]["host"],$conf["mysql"]["admin_user"],$conf["mysql"]["admin_password"])) {
+	die("internal error - MYSQL-Root passord wrong");
+}
+
 /*
  *  Check all tables
 */
@@ -156,7 +161,6 @@ prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
-$inst->db->dbName = $conf["mysql"]["database"];
 
 /*
  * The next line is a bit tricky!

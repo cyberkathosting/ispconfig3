@@ -1,15 +1,16 @@
 <?php
-$wb['limit_mailmailinglist_txt'] = 'Limit reached';
-$wb['domain_error_empty'] = 'Domain is empty.';
-$wb['listname_error_empty'] = 'Listname is empty.';
-$wb['domain_error_regex'] = 'Invalid domain name.';
-$wb['email_in_use_txt'] = 'Email is in use';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['listname_txt'] = 'Listname';
-$wb['client_txt'] = 'Client';
-$wb['email_txt'] = 'Email';
-$wb['password_txt'] = 'Password';
+$wb['limit_mailmailinglist_txt'] = "Το όριο ξεπεράστηκε.";
+$wb['domain_error_empty'] = "Το Domain είναι άδειο.";
+$wb['listname_error_empty'] = "Η λίστα είναι άδεια.";
+$wb['domain_error_regex'] = "Το όνομα domain δεν είναι έγκυρο/";
+$wb['email_in_use_txt'] = "Το email χρησιμοποιείται ήδη.";
+$wb['no_domain_perm'] = "Δεν έχετε δικαιώματα σε αυτό το domain.";
+$wb['password_strength_txt'] = "Δύναμη συνθηματικού";
+$wb['server_id_txt'] = "Server";
+$wb['domain_txt'] = "Domain";
+$wb['listname_txt'] = "Όνομα λίστας";
+$wb['client_txt'] = "Πελάτης";
+$wb['email_txt'] = "Email";
+$wb['password_txt'] = "Συνθηματικό";
 ?>
+

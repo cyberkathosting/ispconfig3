@@ -8,3 +8,4 @@ $wb['country_txt'] = 'Χώρα';
 $wb['add_new_record_txt'] = 'Νέος Πελάτης';
 $wb['username_txt'] = 'Username';
 ?>
+

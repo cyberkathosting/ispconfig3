@@ -6,3 +6,4 @@ $wb['last_month_txt'] = 'Το τελευταίο μήνα';
 $wb['this_year_txt'] = 'Αυτό το χρόνο';
 $wb['last_year_txt'] = 'Τον τελευταίο χρόνο';
 ?>
+

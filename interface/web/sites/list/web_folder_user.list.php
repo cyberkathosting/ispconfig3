@@ -42,6 +42,8 @@ $liste["paging_tpl"]		= "templates/paging.tpl.htm";
 // Enable auth
 $liste["auth"]				= "yes";
 
+$auth_sql = $app->tform->getAuthSQL('r', 'web_domain');
+
 
 /*****************************************************
 * Suchfelder
@@ -65,7 +67,7 @@ $liste["item"][] = array(	'field'		=> "web_folder_id",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "Select concat(web_domain.domain,' ',web_folder.path) as name, web_folder.web_folder_id from web_domain, web_folder WHERE web_domain.domain_id = web_folder.parent_domain_id AND {AUTHSQL} ORDER BY web_domain.domain",
+										'querystring' => "Select concat(web_domain.domain,' ',web_folder.path) as name, web_folder.web_folder_id from web_domain, web_folder WHERE web_domain.domain_id = web_folder.parent_domain_id AND ".$auth_sql." ORDER BY web_domain.domain",
 										'keyfield'=> 'web_folder_id',
 										'valuefield'=> 'name'
 									 ),

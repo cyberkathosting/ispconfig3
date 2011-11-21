@@ -37,6 +37,7 @@ $wb['domain_error_unique'] = 'Υπάρχει ήδη ένα website ή sub / alia
 $wb['domain_error_regex'] = 'Το όνομα του Domain δεν είναι έγκυρο.';
 $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Η διαδρομή ανακατεύθυνσης δεν είναι έγκυρη. Έγκυρες διαδρομές είναι για παράδειγμα οι: /test/ ή http://www.domain.tld/test/';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
+$wb['no_redirect_txt'] = 'Χωρίς Ανακατεύθυνση';
+$wb['no_flag_txt'] = 'Χωρίς Σημαία';
 ?>
+

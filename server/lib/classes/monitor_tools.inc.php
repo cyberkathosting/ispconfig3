@@ -175,7 +175,13 @@ class monitor_tools {
 					$quotafile = file($filename);
 					$data[$email]['used'] = trim($quotafile['1']);
 					unset($quotafile);
-				}   
+				} else {
+					exec('du -s '.escapeshellcmd('/var/vmail/'.$email_parts[1].'/'.$email_parts[0]),$out);
+					$parts = explode(' ',$out[0]);
+					$data[$email]['used'] = intval($parts[0])*1024;
+					unset($out);
+					unset($parts);
+				}
 			}
 		}
 		
@@ -887,9 +893,6 @@ class monitor_tools {
 			$state = 'no_state';
 			$data['output'] = '';
 		}
-		
-		//* Encode data
-		$data['output'] = htmlentities($data['output']);
 
 		/*
 		 * Return the Result

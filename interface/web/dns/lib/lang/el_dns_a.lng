@@ -14,3 +14,4 @@ $wb['data_error_empty'] = 'Η διεύθυνση IP είναι κενή';
 $wb['data_error_regex'] = 'Διεύθυνση IP με μη έγκυρη μορφοποίηση';
 $wb['data_error_duplicate'] = 'Διπλή εγγραφή A-Record ή CNAME-Record';
 ?>
+

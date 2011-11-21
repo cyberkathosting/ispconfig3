@@ -13,3 +13,4 @@ $wb['username_error_regex'] = 'Το Όνομα Χρήστη περιέχει μ�
 $wb['directory_error_empty'] = 'Ο φάκελος δεν έχει οριστεί.';
 $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
 ?>
+

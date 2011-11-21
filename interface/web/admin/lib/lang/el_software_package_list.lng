@@ -6,5 +6,6 @@ $wb['package_description_txt'] = 'Περιγραφή';
 $wb['action_txt'] = 'Ενέργεια';
 $wb['toolsarea_head_txt'] = 'Πακέτα';
 $wb['repoupdate_txt'] = 'Ενημέρωση λίστας πακκέτων';
-$wb['package_id_txt'] = 'local App-ID';
+$wb['package_id_txt'] = 'τοπικό App-ID';
 ?>
+

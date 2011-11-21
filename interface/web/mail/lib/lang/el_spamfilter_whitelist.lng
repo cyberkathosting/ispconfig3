@@ -7,3 +7,4 @@ $wb['priority_txt'] = 'Προτεραιότητα';
 $wb['active_txt'] = 'Ενεργό';
 $wb['limit_spamfilter_wblist_txt'] = 'Το μέγιστο πλήθος των White η Blacklist εγγραφών έχει εξαντληθεί.';
 ?>
+

@@ -1,7 +1,8 @@
 <?php
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
-$wb['active_txt'] = 'Active';
-$wb['folder_error_empty'] = 'No web folder selecetd.';
+$wb['web_folder_id_txt'] = "Φάκελος";
+$wb['username_txt'] = "Όνομα Χρήστη";
+$wb['password_txt'] = "Συνθηματικό";
+$wb['active_txt'] = "Ενεργός";
+$wb['folder_error_empty'] = "Δεν επιλέχθηκε φάκελος web.";
 ?>
+

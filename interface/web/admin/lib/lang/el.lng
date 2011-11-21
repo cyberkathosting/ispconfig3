@@ -30,7 +30,7 @@ $wb['Language Editor'] = 'Επεξεργαστής Γλώσσας';
 $wb['Software'] = 'Εφαρμογές & Πρόσθετα';
 $wb['Repositories'] = 'Αποθετήρια';
 $wb['Server Services'] = 'Υπηρεσίες Server';
-$wb['Interface Config'] = 'Ρύθμιση Εμφάνισης';
+$wb['Interface Config'] = 'Ρυθμίσεις Εμφάνισης';
 $wb['Packages'] = 'Πακέτα';
 $wb['Updates'] = 'Ενημερώσεις';
 $wb['Merge'] = 'Συγχώνευση';
@@ -38,6 +38,7 @@ $wb['Remote Users'] = 'Απομακρυσμένοι Χρήστες';
 $wb['Remote Actions'] = 'Απομακρυσμένες Ενέργειες';
 $wb['Do OS-Update'] = 'Αναβάθμιση λειτουργικού συστήματος';
 $wb['Do ISPConfig-Update'] = 'Αναβάθμιση ISPConfig';
-$wb['1001'] = 'Username or password is empty.';
-$wb['1002'] = 'Username or password is wrong.';
+$wb['1001'] = 'Το όνομα χρήστη ή το συνθηματικό είναι κενό.';
+$wb['1002'] = 'Το όνομα χρήστη ή το συνθηματικό είναι λάθος.';
 ?>
+

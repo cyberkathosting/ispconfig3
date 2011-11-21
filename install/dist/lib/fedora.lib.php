@@ -1029,6 +1029,11 @@ class installer_dist extends installer_base {
 		// Edit the file Edit the file /etc/sudoers and comment out the requiregetty line, otherwise the backup function will fail
 		replaceLine('/etc/sudoers','Defaults    requiretty','#Defaults    requiretty',0,0);
 		
+		if(is_file($install_dir.'/interface/invoices')) {
+			chmod($install_dir.'/interface/invoices', 0770);
+			chown($install_dir.'/interface/invoices', 'ispconfig');
+			chgrp($install_dir.'/interface/invoices', 'ispconfig');
+		}
 		
 	}
 	

@@ -866,6 +866,12 @@ class installer extends installer_base
 			chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 		}
 		
+		if(is_file($install_dir.'/interface/invoices')) {
+			chmod($install_dir.'/interface/invoices', 0770);
+			chown($install_dir.'/interface/invoices', 'ispconfig');
+			chgrp($install_dir.'/interface/invoices', 'ispconfig');
+		}
+		
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!

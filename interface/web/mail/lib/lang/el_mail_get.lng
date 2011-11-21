@@ -13,5 +13,6 @@ $wb['source_username_error_isempty'] = 'Το Όνομα Χρήστη δεν έχ
 $wb['source_password_error_isempty'] = 'Το Συνθηματικό δεν έχει οριστεί.';
 $wb['destination_error_isemail'] = 'Δεν επιλέχθηκε προορισμός.';
 $wb['source_server_error_regex'] = 'Το όνομα του Pop3/Imap Server δεν είναι έγκυρο.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
+$wb['source_read_all_txt'] = 'Ανάκτηση όλων των emails (συμπερ. αναγνωσμένων mails)';
 ?>
+

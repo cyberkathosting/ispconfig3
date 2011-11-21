@@ -17,7 +17,8 @@ $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'Οδηγός DNS';
 $wb['Add DNS Zone'] = 'Νέα ζώνη DNS';
 $wb['Templates'] = 'Πρότυπα';
-$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
-$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
-$wb['zonefile_to_import_txt'] = 'Zone File';
+$wb['zone_file_successfully_imported_txt'] = 'Το αρχείο ζώνης εισήχθηκε επιτυχώς!';
+$wb['error_no_valid_zone_file_txt'] = 'Το αρχείο ζώνης φαίνεται να μην είναι έγκυρο!';
+$wb['zonefile_to_import_txt'] = 'Αρχείο Ζώνης';
 ?>
+

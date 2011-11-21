@@ -6,3 +6,4 @@ $wb['add_new_record_txt'] = 'Νέα Θυρίδα';
 $wb['name_txt'] = 'Πραγματικό Όνομα';
 $wb['login_txt'] = 'Login';
 ?>
+

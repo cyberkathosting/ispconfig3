@@ -256,6 +256,12 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 						$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
 						$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 						break;
+					case 'txt':
+						$dns_rr[$r]['aux'] = 0;
+						$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
+						if(substr($dns_rr[$r]['data'],0,1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],1);
+						if(substr($dns_rr[$r]['data'],-1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],0,-1);
+						break;
 					default:
 						$dns_rr[$r]['aux'] = 0;
 						$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
@@ -273,6 +279,12 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 						case 'srv':
 							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
+							break;
+						case 'txt':
+							$dns_rr[$r]['aux'] = 0;
+							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
+							if(substr($dns_rr[$r]['data'],0,1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],1);
+							if(substr($dns_rr[$r]['data'],-1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],0,-1);
 							break;
 						default:
 							$dns_rr[$r]['aux'] = 0;
@@ -292,6 +304,12 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 							break;
+						case 'txt':
+							$dns_rr[$r]['aux'] = 0;
+							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
+							if(substr($dns_rr[$r]['data'],0,1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],1);
+							if(substr($dns_rr[$r]['data'],-1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],0,-1);
+							break;
 						default:
 							$dns_rr[$r]['aux'] = 0;
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
@@ -309,6 +327,12 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 						case 'srv':
 							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
+							break;
+						case 'txt':
+							$dns_rr[$r]['aux'] = 0;
+							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
+							if(substr($dns_rr[$r]['data'],0,1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],1);
+							if(substr($dns_rr[$r]['data'],-1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],0,-1);
 							break;
 						default:
 							$dns_rr[$r]['aux'] = 0;
@@ -329,6 +353,12 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 						case 'srv':
 							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
+							break;
+						case 'txt':
+							$dns_rr[$r]['aux'] = 0;
+							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+1));
+							if(substr($dns_rr[$r]['data'],0,1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],1);
+							if(substr($dns_rr[$r]['data'],-1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'],0,-1);
 							break;
 						default:
 							$dns_rr[$r]['aux'] = 0;

@@ -58,7 +58,7 @@
 ### END INIT INFO
 
 
-REALSCRIPT=/sbin/bastille-ipchains
+REALSCRIPT=/sbin/bastille-netfilter
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 # exit function to be called in place of regular Bourne exit
@@ -76,13 +76,6 @@ if [ $? -ne 0 ]; then
   echo "ERROR: bastille-firewall currently being reset or lock is stuck."
   echo "To un-stick, remove the directory /var/lock/bastille-firewall"
   exit 1
-fi
-
-if [ -n "$(uname -r | awk -F. ' $1 == 2 && $2 > 2 {print}')" ]; then
-	# We are using Linux 2.3 or newer; use the netfilter script if available
-	if [ -x /sbin/bastille-netfilter ]; then
-		REALSCRIPT=/sbin/bastille-netfilter
-	fi
 fi
 
 if [ ! -x ${REALSCRIPT} ]; then

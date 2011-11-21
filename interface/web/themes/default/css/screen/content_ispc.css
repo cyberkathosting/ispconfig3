@@ -261,6 +261,7 @@
 	.dashboard-modules.help { background-image: url('../../icons/x32/help.png') !important; }
 	.dashboard-modules.domain { background-image: url('../../icons/x32/domain.png') !important; }
 	.dashboard-modules.sites { background-image: url('../../icons/x32/sites.png') !important; }
+	.dashboard-modules.billing { background-image: url('../../icons/x32/calculator.png') !important; }
 	
 	.panel_dashboard h2 {
 		font-size:20px;

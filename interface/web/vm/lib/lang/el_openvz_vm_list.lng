@@ -1,10 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Virtual server';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Εικονικός server';
+$wb['active_txt'] = 'Ενεργός';
 $wb['server_id_txt'] = 'Hostserver';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
-$wb['template_id_txt'] = 'Template';
+$wb['template_id_txt'] = 'Πρότυπο';
 $wb['hostname_txt'] = 'Hostname';
-$wb['ip_address_txt'] = 'IP address';
+$wb['ip_address_txt'] = 'Διεύθυνση IP';
 $wb['veid_txt'] = 'VEID';
 ?>
+

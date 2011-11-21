@@ -13,20 +13,6 @@ driver = mysql
 connect = host={mysql_server_host} dbname={mysql_server_database} user={mysql_server_ispconfig_user} password={mysql_server_ispconfig_password}
 default_pass_scheme = CRYPT
 
-password_query = SELECT password FROM mail_user \
-	WHERE login = '%u' AND disable%Ls = 'n'
-
-# Old user query quota part
-#	CONCAT('*:storage=', quota , 'B') AS quota_rule
-# Old user query with email instead of login
-#	WHERE email = '%u' AND disable%Ls = 'n'
-
-user_query = SELECT email as user, \
-	maildir as home, \
-	CONCAT('maildir:', maildir, '/Maildir') as mail, \
-	uid, \
-	gid, \
-	CONCAT('*:storage=', floor(quota/1024), 'B') AS quota_rule, \
-	CONCAT(maildir, '/.sieve') as sieve \
-	FROM mail_user \
-	WHERE email = '%u' AND disable%Ls = 'n'
+password_query = SELECT password FROM mail_user WHERE login = '%u' AND disable%Ls = 'n'
+# user_query = SELECT email AS user, maildir AS home, CONCAT('*:storage=', quota , 'B') AS quota_rule FROM mail_user WHERE login = '%u' AND disable%Ls = 'n'
+user_query = SELECT email as user, maildir as home, CONCAT('maildir:', maildir, '/Maildir') as mail, uid, gid, CONCAT('*:storage=', quota, 'B') AS quota_rule, CONCAT(maildir, '/.sieve') as sieve FROM mail_user WHERE email = '%u' AND disable%Ls = 'n'

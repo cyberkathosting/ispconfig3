@@ -6,3 +6,4 @@ $wb['language_overwrite_txt'] = 'Αντικατάσταση αρχείου, αν
 $wb['btn_cancel_txt'] = 'Επιστροφή';
 $wb['ignore_version_txt'] = 'Παράλειψη ελέγχου έκδοσης ISPConfig';
 ?>
+

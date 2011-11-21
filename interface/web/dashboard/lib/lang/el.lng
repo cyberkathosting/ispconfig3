@@ -2,3 +2,4 @@
 $wb['welcome_user_txt'] = 'Καλωσήρθατε %s';
 $wb['available_modules_txt'] = 'Διαθέσιμα αρθρώματα';
 ?>
+

@@ -113,7 +113,7 @@ function updateDbAndIni() {
 	$ini_array = ini_to_array(stripslashes($tmp['config']));
 	$current_db_version = (isset($tmp['dbversion']))?intval($tmp['dbversion']):0;
 
-	if(count($ini_array) == 0) die('Unable to read server configuration from database.');
+	if(!is_array($ini_array) or count($ini_array) == 0) die('Unable to read server configuration from database.');
 
 	$conf['services']['mail'] = ($tmp['mail_server'] == 1)?true:false;
 	$conf['services']['web'] = ($tmp['web_server'] == 1)?true:false;
@@ -231,7 +231,7 @@ function updateDbAndIni() {
 
 
 	//** Update server ini
-	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
+	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
 	$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
 	unset($tmp_server_rec);
 	$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
@@ -286,7 +286,7 @@ function updateDbAndIni() {
 	}
 
 	$new_ini = array_to_ini($tpl_ini_array);
-	$sql = "UPDATE server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
+	$sql = "UPDATE ".$conf["mysql"]["database"].".server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
 	$inst->db->query($sql);
 	unset($old_ini_array);
 	unset($tpl_ini_array);
@@ -294,7 +294,7 @@ function updateDbAndIni() {
 
 
 	//** Update system ini
-	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM sys_ini WHERE sysini_id = 1");
+	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM ".$conf["mysql"]["database"].".sys_ini WHERE sysini_id = 1");
 	$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
 	unset($tmp_server_rec);
 	$tpl_ini_array = ini_to_array(rf('tpl/system.ini.master'));
@@ -309,11 +309,11 @@ function updateDbAndIni() {
 	}
 
 	$new_ini = array_to_ini($tpl_ini_array);
-	$tmp = $inst->db->queryOneRecord('SELECT count(sysini_id) as number FROM sys_ini WHERE 1');
+	$tmp = $inst->db->queryOneRecord('SELECT count(sysini_id) as number FROM '.$conf["mysql"]["database"].'.sys_ini WHERE 1');
 	if($tmp['number'] == 0) {
-		$inst->db->query("INSERT INTO sys_ini (sysini_id, config) VALUES (1,'".mysql_real_escape_string($new_ini)."')");
+		$inst->db->query("INSERT INTO ".$conf["mysql"]["database"].".sys_ini (sysini_id, config) VALUES (1,'".mysql_real_escape_string($new_ini)."')");
 	} else {
-		$inst->db->query("UPDATE sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
+		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
 	}
 	unset($old_ini_array);
 	unset($tpl_ini_array);

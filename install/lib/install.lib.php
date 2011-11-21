@@ -582,8 +582,8 @@ function removeLine($filename,$search_pattern,$strict = 0) {
 }
 
 function is_installed($appname) {
-	exec('which '.escapeshellcmd($appname).' 2> /dev/null',$out);
-	if(isset($out[0]) && stristr($out[0],$appname)) {
+	exec('which '.escapeshellcmd($appname).' 2> /dev/null',$out,$returncode);
+	if(isset($out[0]) && stristr($out[0],$appname) && $returncode == 0) {
 		return true;
 	} else {
 		return false;

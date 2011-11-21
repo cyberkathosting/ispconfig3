@@ -282,7 +282,7 @@ class listform {
     public function decode($record) 
     {
         global $conf, $app;
-        if(is_array($record) && count($record) > 0) {
+        if(is_array($record) && count($record) > 0 && is_array($this->listDef['item'])) {
             foreach($this->listDef['item'] as $field){
                 $key = $field['field'];
 				if(isset($record[$key])) {

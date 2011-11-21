@@ -190,7 +190,7 @@ class apache2_plugin {
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
-			$domain = $data["new"]["ssl_domain"];
+			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
 			$csr_file = $ssl_dir.'/'.$domain.".csr";
 			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
@@ -207,7 +207,7 @@ class apache2_plugin {
 		//* Delete a SSL certificate
 		if($data['new']['ssl_action'] == 'del') {
 			$ssl_dir = $data['new']['document_root'].'/ssl';
-			$domain = $data['new']['ssl_domain'];
+			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
 			$csr_file = $ssl_dir.'/'.$domain.'.csr';
 			$crt_file = $ssl_dir.'/'.$domain.'.crt';
 			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
@@ -227,7 +227,6 @@ class apache2_plugin {
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 			$app->log('Deleting SSL Cert for: '.$domain,LOGLEVEL_DEBUG);
 		}
-
 
 	}
 
@@ -542,74 +541,76 @@ class apache2_plugin {
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+			$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/web');
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/web');
 			} else {
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/web');
 			}
 		}
 
 
 
 		//* If the security level is set to high
-		if($web_config['security_level'] == 20) {
+		if($this->action == 'insert' && $data['new']['type'] == 'vhost') {
+			if($web_config['security_level'] == 20) {
 
-			$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
-			$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']).'/*');
-			$this->_exec('chmod 710 '.escapeshellcmd($data['new']['document_root'].'/web'));
+				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']).'/*');
+				$this->_exec('chmod 710 '.escapeshellcmd($data['new']['document_root'].'/web'));
 
-			// make tmp directory writable for Apache and the website users
-			$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				// make tmp directory writable for Apache and the website users
+				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 			
-			// Set Log symlink to 755 to make the logs accessible by the FTP user
-			$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"])."/log");
+				// Set Log symlink to 755 to make the logs accessible by the FTP user
+				$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"])."/log");
 
-			$command = 'usermod';
-			$command .= ' --groups sshusers';
-			$command .= ' '.escapeshellcmd($data['new']['system_user']);
-			$this->_exec($command);
+				$command = 'usermod';
+				$command .= ' --groups sshusers';
+				$command .= ' '.escapeshellcmd($data['new']['system_user']);
+				$this->_exec($command);
 
-			//* if we have a chrooted Apache environment
-			if($apache_chrooted) {
-				$this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+				//* if we have a chrooted Apache environment
+				if($apache_chrooted) {
+					$this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
-				//* add the apache user to the client group in the chroot environment
-				$tmp_groupfile = $app->system->server_conf['group_datei'];
-				$app->system->server_conf['group_datei'] = $web_config['website_basedir'].'/etc/group';
+					//* add the apache user to the client group in the chroot environment
+					$tmp_groupfile = $app->system->server_conf['group_datei'];
+					$app->system->server_conf['group_datei'] = $web_config['website_basedir'].'/etc/group';
+					$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+					$app->system->server_conf['group_datei'] = $tmp_groupfile;
+					unset($tmp_groupfile);
+				}
+
+				//* add the Apache user to the client group
 				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
-				$app->system->server_conf['group_datei'] = $tmp_groupfile;
-				unset($tmp_groupfile);
-			}
 
-			//* add the Apache user to the client group
-			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
 
-			$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				/*
+				* Workaround for jailkit: If jailkit is enabled for the site, the 
+				* website root has to be owned by the root user and we have to chmod it to 755 then
+				*/
 
-			/*
-			* Workaround for jailkit: If jailkit is enabled for the site, the 
-			* website root has to be owned by the root user and we have to chmod it to 755 then
-			*/
+				//* Check if there is a jailkit user for this site
+				$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
+				if($tmp['number'] > 0) {
+					$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
+					$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				}
+				unset($tmp);
 
-			//* Check if there is a jailkit user for this site
-			$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
-			if($tmp['number'] > 0) {
+				// If the security Level is set to medium
+			} else {
+
 				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/*'));
 				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+
+				// make temp directory writable for Apache and the website users
+				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 			}
-			unset($tmp);
-
-			// If the security Level is set to medium
-		} else {
-
-			$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
-			$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/*'));
-			$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
-
-			// make temp directory writable for Apache and the website users
-			$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 		}
 
 		// Change the ownership of the error log to the owner of the website

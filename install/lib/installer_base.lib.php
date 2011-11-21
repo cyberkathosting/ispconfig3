@@ -514,6 +514,10 @@ class installer_base {
 			copy('tpl/'.$jk_init.'.master', $config_dir.'/'.$jk_init);
 			copy('tpl/'.$jk_chrootsh.'.master', $config_dir.'/'.$jk_chrootsh);
 		}
+		
+		//* help jailkit fo find its ini files
+		if(!is_link('/usr/jk_socketd.ini')) exec('ln -s /etc/jailkit/jk_socketd.ini /usr/jk_socketd.ini');
+		if(!is_link('/usr/jk_init.ini')) exec('ln -s /etc/jailkit/jk_init.ini /usr/jk_init.ini');
 
 	}
 	
@@ -903,7 +907,7 @@ class installer_base {
 		if(is_file($config_dir.'/'.$configfile)) {
 			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
 		}
-		chmod($config_dir.'/'.$configfile.'~', 0400);
+		if(is_file($config_dir.'/'.$configfile.'~')) chmod($config_dir.'/'.$configfile.'~', 0400);
 		$content = rf('tpl/debian_dovecot-sql.conf.master');
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
@@ -1758,6 +1762,12 @@ class installer_base {
 			chown($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 			chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 		}
+		
+		if(is_file($install_dir.'/interface/invoices')) {
+			chmod($install_dir.'/interface/invoices', 0770);
+			chown($install_dir.'/interface/invoices', 'ispconfig');
+			chgrp($install_dir.'/interface/invoices', 'ispconfig');
+		}
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
@@ -1952,7 +1962,7 @@ class installer_base {
 		wf($install_dir.'/server/lib/mysql_clientdb.conf',$content);
 		chmod($install_dir.'/server/lib/mysql_clientdb.conf', 0600);
 		chown($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
-		chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
+		chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');		
 
 	}
 

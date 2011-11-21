@@ -5,5 +5,6 @@ $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Ζώνη';
 $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Νέα Δευτερεύουσα ζώνη DNS';
-$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['eg_domain_tld'] = 'π.χ. domain.tld.';
 ?>
+

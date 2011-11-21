@@ -1,8 +1,9 @@
 <?php
 $wb['title_txt'] = 'Τίτλος';
-$wb['target_txt'] = 'Προορισμός';
+$wb['target_txt'] = 'Στόχος';
 $wb['link_txt'] = 'Σύνδεσμος';
 $wb['header_txt'] = 'Ιδιότητες Navi';
 $wb['save_txt'] = 'Αποθήκευση';
 $wb['cancel_txt'] = 'Ακύρωση';
 ?>
+

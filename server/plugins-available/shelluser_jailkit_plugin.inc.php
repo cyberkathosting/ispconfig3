@@ -266,14 +266,14 @@ class shelluser_jailkit_plugin {
 			exec($command);
 				
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
-				
-			mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), 0755, true);
+						
+			if(!is_dir($this->data['new']['dir'].$jailkit_chroot_userhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), 0755, true);
 			chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['username']);
 			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 			
-			mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), 0755, true);
+			if(!is_dir($this->data['new']['dir'].$jailkit_chroot_puserhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), 0755, true);
 			chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['puser']);
 			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
 				
@@ -404,7 +404,7 @@ class shelluser_jailkit_plugin {
 		if (!file_exists($sshkeys)){
 			// add root's key
 			$app->file->mkdirs($sshdir, '0755');
-			file_put_contents($sshkeys, file_get_contents('/root/.ssh/authorized_keys'));
+			if(is_file('/root/.ssh/authorized_keys')) file_put_contents($sshkeys, file_get_contents('/root/.ssh/authorized_keys'));
 		
 			// Remove duplicate keys
 			$existing_keys = file($sshkeys);
@@ -442,7 +442,7 @@ class shelluser_jailkit_plugin {
 			$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
 		}
 		// set proper file permissions
-		exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$usrdir);
+		// exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$usrdir);
 		exec("chmod 600 '$sshkeys'");
 		
 	}

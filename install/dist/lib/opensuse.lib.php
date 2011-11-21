@@ -1060,6 +1060,12 @@ class installer_dist extends installer_base {
 			exec('chmod 744 /usr/local/bin/run-getmail.sh');
 		}
 		
+		if(is_file($install_dir.'/interface/invoices')) {
+			chmod($install_dir.'/interface/invoices', 0770);
+			chown($install_dir.'/interface/invoices', 'ispconfig');
+			chgrp($install_dir.'/interface/invoices', 'ispconfig');
+		}
+		
 		
 	}
 	

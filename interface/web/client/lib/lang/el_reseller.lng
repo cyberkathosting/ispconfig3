@@ -96,12 +96,13 @@ $wb['limit_trafficquota_error_notint'] = 'Το Όριο ταχύτητας πρ�
 $wb['customer_no_txt'] = 'Α/Α Πελάτη';
 $wb['vat_id_txt'] = 'Α.Φ.Μ.';
 $wb['required_fields_txt'] = '* Υποχρεωτικά Πεδία';
-$wb['limit_webdav_user_txt'] = 'Max. number of Webdav users';
-$wb['limit_webdav_user_error_notint'] = 'The webdav user limit must be a number.';
-$wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
-$wb['limit_mailaliasdomain_txt'] = 'Max. number of domain aliases';
-$wb['limit_mailmailinglist_error_notint'] = 'The mailing list record limit must be a number.';
-$wb['limit_openvz_vm_txt'] = 'Max. number of virtual servers';
-$wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
-$wb['limit_openvz_vm_error_notint'] = 'The virtual server limit must be a number.';
+$wb['limit_webdav_user_txt'] = 'Μέγιστο πλήθος χρηστών Webdav';
+$wb['limit_webdav_user_error_notint'] = 'Το όριο χρηστών webdav user πρέπει να είναι αριθμός.';
+$wb['limit_mailmailinglist_txt'] = 'Μέγιστο πλήθος mailing lists';
+$wb['limit_mailaliasdomain_txt'] = 'Μέγιστο πλήθος ψευδονύμων domain';
+$wb['limit_mailmailinglist_error_notint'] = 'Το πλήθος εγγραφών της mailing list πρέπει να είναι αριθμός.';
+$wb['limit_openvz_vm_txt'] = 'Μέγιστο πλήθος εικονικών servers';
+$wb['limit_openvz_vm_template_id_txt'] = 'Εξαναγκασμός προτύπου εικονικού server';
+$wb['limit_openvz_vm_error_notint'] = 'Το όριο εικονικών server πρέπει να είναι αριθμός.';
 ?>
+
