@@ -635,7 +635,7 @@ class installer_base {
 
 		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
 		$rbl_list = '';
-		if ($server_ini_array['mail']['realtime_blackhole_list'] != '') {
+		if (isset($server_ini_array['mail']['realtime_blackhole_list']) && $server_ini_array['mail']['realtime_blackhole_list'] != '') {
 			$rbl_hosts = explode(",",str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
 			foreach ($rbl_hosts as $key => $value) {
 				$rbl_list .= ", reject_rbl_client ". $value;
