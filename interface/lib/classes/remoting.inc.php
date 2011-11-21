@@ -2325,6 +2325,7 @@ class remoting {
 	
 	protected function checkPerm($session_id, $function_name)
     {
+        global $app;
 	$dobre=array();
 	$session = $this->getSession($session_id);
         if(!$session){
@@ -2332,7 +2333,11 @@ class remoting {
         }
 		
 		$dobre= str_replace(';',',',$session['remote_functions']);
-		return in_array($function_name, explode(',', $dobre) );
+		$check = in_array($function_name, explode(',', $dobre) );
+		if(!$check) {
+		  $app->log("REMOTE-LIB DENY: ".$session_id ." /". $function_name, LOGLEVEL_WARN);
+		}
+		return $check;
 	}
 	
 	
@@ -2445,6 +2450,26 @@ class remoting {
 			return false;
         }
     }
+      /**
+       * Get All client_id's from database
+       * @param int	session_id
+       * @return Array of all client_id's
+       */
+	public function client_get_all($session_id) {
+	  global $app;
+	  if(!$this->checkPerm($session_id, 'client_get_all')) {
+	    $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+	    return false;
+	  }
+	  $result = $app->db->queryAllRecords("SELECT client_id FROM client WHERE 1");
+	  if(!$result) {
+	    return false;
+	  }
+	  foreach( $result as $record) {
+	    $rarrary[] = $record['client_id'];
+	  }
+	  return $rarrary;
+	}
 
     /**
      * Changes client password
