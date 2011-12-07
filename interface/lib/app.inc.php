@@ -78,7 +78,6 @@ class app {
 	
 	public function __destruct() {
 		session_write_close();
-		if(isset($this->db)) $this->db->closeConn();
 	}
 
 	public function uses($classes) {

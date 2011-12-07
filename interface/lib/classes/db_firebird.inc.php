@@ -45,7 +45,7 @@ class db {
 	var $transID;
 
 	// constructor
-	function db()
+	function __construct()
 	{
 		
 		global $conf;
@@ -55,6 +55,9 @@ class db {
 		$this->dbPass = $conf["db_password"];
 		$this->connect();
 	}
+	function __destruct() {
+		$this->closeConn();
+        }
 
 	// error handler
 	function updateError($location)
