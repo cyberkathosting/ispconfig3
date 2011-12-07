@@ -7,3 +7,4 @@ $wb['no_domain_perm'] = 'Nie masz dostępu do tej domeny.';
 $wb['domain_error_regex'] = 'Nieprawidłowa nazwa domeny. Domena zawiera niedozolone znaki.';
 $wb['limit_mailcatchall_txt'] = 'Maksymalna ilość kont e-mail catchall dla Twojej domeny została przekroczona.';
 ?>
+

@@ -10,3 +10,5 @@ $wb['cancel_txt'] = 'Annuler';
 $wb['header_txt'] = 'Propriétés du module';
 $wb['description_txt'] = ' <b>Description</b><br /><br /><b>Nom du Module:</b> Nom du répertoire du module. Seuls les nombres, lettres et underscores sont autorisés.<br/><b>Titre du module:</b> Sera affiché dans le menu de navigation (supérieur).<br/><b>Fichier gabarit:</b> Fichier';
 ?>
+
+

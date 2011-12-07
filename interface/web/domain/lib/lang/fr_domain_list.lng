@@ -3,3 +3,5 @@ $wb['list_head_txt'] = 'Domaines';
 $wb['add_new_record_txt'] = 'Ajouter nouveau Domaine';
 $wb['domain_txt'] = 'Domaine';
 ?>
+
+

@@ -13,3 +13,4 @@ $wb['username_error_regex'] = 'Nazwa użytkownika zawiera niedozwolone znaki.';
 $wb['directory_error_empty'] = 'Pusty katalog.';
 $wb['parent_domain_id_error_empty'] = 'Nie wybrano strony www.';
 ?>
+

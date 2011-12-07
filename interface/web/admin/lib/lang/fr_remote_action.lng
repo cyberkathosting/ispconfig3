@@ -2,9 +2,11 @@
 $wb['select_server_txt'] = 'Sélectionner un serveur';
 $wb['btn_do_txt'] = 'Exécuter laction';
 $wb['do_osupdate_caption'] = 'Mettre à jour lOS du serveur distant';
-$wb['do_osupdate_desc'] = 'Cette action effectue aptitude -y upgrade sur le serveur sélectionné.<br><br><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
+$wb['do_osupdate_desc'] = 'Cette action effectue aptitude -y upgrade sur le serveur sélectionné.<br/><br/><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
 $wb['do_ispcupdate_caption'] = 'Mettre à jour ISPConfig 3 sur le serveur distant';
-$wb['do_ispcupdate_desc'] = 'Cette action met à jour ISPConfig3 sur le serveur sélectionné.<br><br><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
+$wb['do_ispcupdate_desc'] = 'Cette action met à jour ISPConfig3 sur le serveur sélectionné.<br/><br/><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
 $wb['action_scheduled'] = 'Laction est marquée pour exécution';
 $wb['select_all_server'] = 'Tout serveur';
 ?>
+
+

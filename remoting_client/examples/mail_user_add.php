@@ -19,6 +19,7 @@ try {
 	$params = array(
 			'server_id' => 1,
 			'email' => 'hmmnoe@test.int',
+			'login' => 'hmmnoe@test.int',
 			'password' => 'howtoforge',
 			'name' => 'hmmnoe',
 			'uid' => 5000,

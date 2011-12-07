@@ -1,9 +1,11 @@
 <?php
 $wb['list_head_txt'] = 'Utilisateurs';
-$wb['username_txt'] = 'Nom dutilisateur';
+$wb['username_txt'] = 'Nom d\'utilisateur';
 $wb['name_txt'] = 'Nom';
 $wb['vorname_txt'] = 'Prénom';
 $wb['ort_txt'] = 'Ville';
 $wb['add_new_record_txt'] = 'Ajouter un nouvel utilisateur';
 $wb['warning_txt'] = '<b>ATTENTION:</b> Ne pas éditer ou modifier de paramètre utilisateur ici. Utilisez les paramètres Client et Revendeur dans le module Client à la place. Modifier ou changer les informations ici peut conduire à la perte de données';
 ?>
+
+

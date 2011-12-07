@@ -119,12 +119,14 @@ class remoteaction_core_module {
 					* we stop executing the actions not to waste more time */
 					return;
 				}
+				
 				if ($action['action_type'] == 'ispc_update') {
 					/* do the update */
-					$this->_doIspCUpdate($action);
+					// Update function has been removed
+					// $this->_doIspCUpdate($action);
 					/* this action takes so much time,
 					* we stop executing the actions not to waste more time */
-					return;
+					$this->_actionDone($action['action_id'], 'ok');
 				}
 				if ($action['action_type'] == 'openvz_start_vm') {
 					$veid = intval($action['action_param']);

@@ -27,3 +27,4 @@ $wb['error_ns1_regex'] = 'NS1 zawiera niepoprawne znaki.';
 $wb['error_ns2_regex'] = 'NS2 zawiera niepoprawne znaki.';
 $wb['error_email_regex'] = 'Pole E-mail nie zawiera poprawnego adresu e-mail.';
 ?>
+

@@ -5,5 +5,6 @@ $wb['server_id_txt'] = 'Serwer';
 $wb['origin_txt'] = 'Strefa';
 $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Dodaj nową zapasową strefę DNS';
-$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['eg_domain_tld'] = 'np. domena.pl.';
 ?>
+

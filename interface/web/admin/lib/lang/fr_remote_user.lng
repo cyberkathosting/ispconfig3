@@ -17,7 +17,7 @@ $wb['Mail blacklist functions'] = 'Fonctions liste noire email';
 $wb['Mail spamfilter user functions'] = 'Fonctions utilisateur filtre antispam';
 $wb['Mail spamfilter policy functions'] = 'Fonctions politique du filtre antispam';
 $wb['Mail fetchmail functions'] = 'Fonctions récupérateur email';
-$wb['Mail user filter functions'] = 'Fonctions filtre dutilisateur email';
+$wb['Mail user filter functions'] = 'Fonctions filtre d\'utilisateur email';
 $wb['Mail filter functions'] = 'Fonctions filtre email';
 $wb['Client functions'] = 'Fonctions client';
 $wb['Sites cron functions'] = 'Fonctions cron des sites';
@@ -39,5 +39,7 @@ $wb['DNS ptr functions'] = 'Fonctions PTR DNS';
 $wb['DNS rp functions'] = 'Fonctions RP DNS';
 $wb['DNS srv functions'] = 'Fonctions SRV DNS';
 $wb['DNS txt functions'] = 'Fonctions TXT DNS';
-$wb['Mail mailing list functions'] = 'Mail mailinglist functions';
+$wb['Mail mailing list functions'] = 'Fonctions Mailinglist Mail';
 ?>
+
+

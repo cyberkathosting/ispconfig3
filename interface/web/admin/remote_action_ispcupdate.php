@@ -27,6 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+die('Function has been removed.');
+
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 

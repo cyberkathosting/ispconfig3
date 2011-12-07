@@ -39,7 +39,11 @@ class apps_vhost_plugin {
 	function onInstall() {
 		global $conf;
 		
-		return true;
+		if($conf['services']['web'] == true) {
+			return true;
+		} else {
+			return false;
+		}
 		
 	}
 	

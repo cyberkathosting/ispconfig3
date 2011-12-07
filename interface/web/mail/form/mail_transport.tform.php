@@ -72,9 +72,6 @@ $form["tabs"]['transport'] = array (
 		'domain' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'domain_error_unique'),
-									),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

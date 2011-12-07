@@ -38,7 +38,7 @@ $server_id = intval($_GET["server_id"]);
 $web_id = intval($_GET["web_id"]);
 $type = $_GET["type"];
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
+//if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 	if($type == 'getservertype'){
 		$json = '{"servertype":"';
@@ -60,7 +60,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 		$json .= '"}';
 	}
 
-}
+//}
 
 echo $json;
 ?>

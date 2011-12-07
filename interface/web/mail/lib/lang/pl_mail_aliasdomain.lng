@@ -9,3 +9,4 @@ $wb['source_error_empty'] = 'Domena źródłowa jest pusta.';
 $wb['source_error_unique'] = 'Duplikat źródłowej domeny.';
 $wb['source_error_regex'] = 'Nieprawidłowa nazwa domeny źródłowej.';
 ?>
+

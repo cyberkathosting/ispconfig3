@@ -8,7 +8,7 @@ $wb['run_hour_txt'] = 'Heures';
 $wb['run_mday_txt'] = 'Jours du mois';
 $wb['run_month_txt'] = 'Mois';
 $wb['run_wday_txt'] = 'Jours de la semaine';
-$wb['command_txt'] = 'Commande à éxécuter (commandes via sh, urls via wget)';
+$wb['command_txt'] = 'Commande à éxécuter (commandes via sh, URLs via wget)';
 $wb['limit_cron_txt'] = 'La nombre maximum de tâches cron autorisés a été atteint.';
 $wb['limit_cron_frequency_txt'] = 'La fréquence du cron excède la limite autorisée.';
 $wb['run_min_error_format'] = 'Format invalide pour les minutes.';
@@ -19,3 +19,5 @@ $wb['run_wday_error_format'] = 'Format invalide pour les jours du mois.';
 $wb['command_error_format'] = 'Format de la commande invalide.';
 $wb['unknown_fieldtype_error'] = 'Un champ inconnu a été utilisé';
 ?>
+
+

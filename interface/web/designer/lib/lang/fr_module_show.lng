@@ -14,3 +14,5 @@ $wb['module_del_txt'] = 'Voulez-vous supprimer le module et tous les fichiers et
 $wb['menu_del_txt'] = 'Voulez-vous supprimer le menu avec tous ses sous-menus ';
 $wb['item_del_txt'] = 'Voulez-vous supprimer lentrée de menu ';
 ?>
+
+

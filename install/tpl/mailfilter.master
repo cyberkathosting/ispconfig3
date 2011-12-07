@@ -57,7 +57,11 @@ if ( $RETURNCODE == 0 )
 }
 
 # Create a mailsize file
+`test -e {dist_postfix_vmail_mailbox_base}/$HOST/$USER`
+if ( $RETURNCODE == 0 )
+{
 `echo $SIZE >> {dist_postfix_vmail_mailbox_base}/$HOST/$USER/ispconfig_mailsize`
+}
 
 
 #

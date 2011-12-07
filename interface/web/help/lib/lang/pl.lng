@@ -6,9 +6,10 @@ $wb['View messages'] = 'Pokaż wiadomość';
 $wb['Support'] = 'Pomoc';
 $wb['About ISPConfig'] = 'O ISPConfig';
 $wb['Version'] = 'Wersja';
-$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
-$wb['FAQ Sections'] = 'FAQ Sections';
-$wb['Manage Sections'] = 'Manage Sections';
-$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
-$wb['Manage Questions'] = 'Manage Questions';
+$wb['Frequently Asked Questions'] = 'Pomoc Techniczna';
+$wb['FAQ Sections'] = 'Sekcje FAQ';
+$wb['Manage Sections'] = 'Zarządzaj sekcjami';
+$wb['Add a Question & Answer Pair'] = 'Dodaj nowe pytanie i odpowiedź';
+$wb['Manage Questions'] = 'Zarządzaj pytaniami';
 ?>
+

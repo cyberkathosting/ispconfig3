@@ -1,6 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Folder User';
-$wb['active_txt'] = 'Active';
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
+$wb['list_head_txt'] = 'Utilisateur du dossier';
+$wb['active_txt'] = 'Actif';
+$wb['web_folder_id_txt'] = 'Dossier';
+$wb['username_txt'] = 'Nom de l\'utilisateur';
 ?>
+
+

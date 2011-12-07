@@ -1,25 +1,27 @@
 <?php
-$wb['server_id_txt'] = 'Serveur';
-$wb['type_txt'] = 'Type';
-$wb['database_name_txt'] = 'Nom de la base';
-$wb['database_user_txt'] = 'Nom dutilisateur';
-$wb['database_password_txt'] = 'Mot de passe';
-$wb['password_strength_txt'] = 'Force du mot de passe';
-$wb['database_charset_txt'] = 'Jeu de caractères de la base';
-$wb['remote_access_txt'] = 'Accès à Distance';
-$wb['client_txt'] = 'Client';
-$wb['active_txt'] = 'Actif';
-$wb['database_name_error_empty'] = 'Le nom de la base ne peut être vide.';
-$wb['database_name_error_unique'] = 'Il y a déja une base portant ce nom sur le serveur.';
-$wb['database_name_error_regex'] = 'Nom de la base incorrect. Le nom de la base peut uniquement contenir ces caractères: a-z, A-Z, 0-9 et le tiret bas. Taille: 2 - 64 caractères.';
-$wb['database_user_error_empty'] = 'Le nom dutilisateur ne peut être vide.';
-$wb['database_user_error_unique'] = 'Il y a déja un utilisateur de base avec ce nom.';
-$wb['database_user_error_regex'] = 'Nom dutilisateur incorrect. Le nom dutilisateur peut uniquement contenir ces caractères: a-z, A-Z, 0-9 et le tiret bas. Taille: 2 - 64 caractères.';
-$wb['limit_database_txt'] = 'Le nombre maximum de bases de données a été atteint.';
-$wb['database_name_change_txt'] = 'Le nom de la base ne peut être modifié';
-$wb['database_charset_change_txt'] = 'Le charset de la base ne peut être modifié';
-$wb['remote_ips_txt'] = 'IP daccès à distance (séparés par des virgules, ne rien mettre pour tout autoriser)';
-$wb['database_remote_error_ips'] = 'Lune des IP entrées nest pas valide';
-$wb['database_name_error_len'] = 'Nom de base de données - {db} - trop long. La longueur maximale incluant le préfixe est de 64 caractères.';
-$wb['database_user_error_len'] = 'Nom dutilisateur de base de données - {user}- trop long. La longueur maximale incluant le préfixe est de 16 caractères.';
+$wb["server_id_txt"] = 'Serveur';
+$wb["type_txt"] = 'Type';
+$wb["database_name_txt"] = 'Nom de la base';
+$wb["database_user_txt"] = 'Nom d\'utilisateur';
+$wb["database_password_txt"] = 'Mot de passe';
+$wb["password_strength_txt"] = 'Force du mot de passe';
+$wb["database_charset_txt"] = 'Jeu de caractères de la base';
+$wb["remote_access_txt"] = 'Accès à Distance';
+$wb["remote_ips_txt"] = 'IP d\'accès à distance (séparés par des virgules, ne rien mettre pour tout autoriser)';
+$wb["database_remote_error_ips"] = 'Lune des IP entrées nest pas valide';
+$wb["client_txt"] = 'Client';
+$wb["active_txt"] = 'Actif';
+$wb["database_name_error_empty"] = 'Le nom de la base ne peut être vide.';
+$wb["database_name_error_unique"] = 'Il y a déja une base portant ce nom sur le serveur.';
+$wb["database_name_error_regex"] = 'Nom de la base incorrect. Le nom de la base peut uniquement contenir ces caractères: a-z, A-Z, 0-9 et le tiret bas. Taille: 2 - 64 caractères.';
+$wb["database_user_error_empty"] = 'Le nom d\'utilisateur ne peut être vide.';
+$wb["database_user_error_unique"] = 'Il y a déja un utilisateur de base avec ce nom.';
+$wb["database_user_error_regex"] = 'Nom d\'utilisateur incorrect. Le nom d\'utilisateur peut uniquement contenir ces caractères: a-z, A-Z, 0-9 et le tiret bas. Taille: 2 - 64 caractères.';
+$wb["limit_database_txt"] = 'Le nombre maximum de bases de données a été atteint.';
+$wb["database_name_change_txt"] = 'Le nom de la base ne peut être modifié';
+$wb["database_charset_change_txt"] = 'Le charset de la base ne peut être modifié';
+$wb["database_name_error_len"] = 'Nom de base de données - {db} - trop long. La longueur maximale incluant le préfixe est de 64 caractères.';
+$wb["database_user_error_len"] = 'Nom d\'utilisateur de base de données - {user}- trop long. La longueur maximale incluant le préfixe est de 16 caractères.';
 ?>
+
+

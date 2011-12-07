@@ -31,6 +31,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	ISPConfig 3 updater.
 */
 
+die("Autoupdate has been removed.\nPlease start the update on the shell with the command ispconfig_update.sh as root user.\n");
+
 error_reporting(E_ALL|E_STRICT);
 
 /*

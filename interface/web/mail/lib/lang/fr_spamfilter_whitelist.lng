@@ -5,5 +5,7 @@ $wb['rid_txt'] = 'Utilisateur';
 $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Priorité';
 $wb['active_txt'] = 'Actif';
-$wb['limit_spamfilter_wblist_txt'] = 'Le nombre maximal denregistrements de liste blanche ou noire est atteint pour votre compte.';
+$wb['limit_spamfilter_wblist_txt'] = 'Le nombre maximal d\'enregistrements de liste blanche ou noire est atteint pour votre compte.';
 ?>
+
+

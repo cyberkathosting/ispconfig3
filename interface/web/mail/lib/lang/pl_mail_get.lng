@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Serwer';
 $wb['type_txt'] = 'Typ';
-$wb['source_server_txt'] = 'Pop3/Imap Serwer';
+$wb['source_server_txt'] = 'Serwer Pop3/Imap';
 $wb['source_username_txt'] = 'Nazwa użytkownika';
 $wb['source_password_txt'] = 'Hasło';
 $wb['source_delete_txt'] = 'Usuń adresy e-mail po odzyskaniu';
@@ -13,5 +13,6 @@ $wb['source_username_error_isempty'] = 'Nazwa użytkownika jest pusta.';
 $wb['source_password_error_isempty'] = 'Hasło jest puste.';
 $wb['destination_error_isemail'] = 'Nie wybrano elementu docelowego.';
 $wb['source_server_error_regex'] = 'Serwer Pop3/Imap nie jest poprawną nazwą domenową.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
+$wb['source_read_all_txt'] = 'Pobierz wszystkie maile (razem z przeczytanymi)';
 ?>
+

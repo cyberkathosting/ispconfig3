@@ -22,10 +22,11 @@ $wb['ns_error_regex'] = 'NS ma niepoprawny format.';
 $wb['mbox_error_empty'] = 'E-mail jest pusty.';
 $wb['mbox_error_regex'] = 'E-mail ma niepoprawny format.';
 $wb['also_notify_txt'] = 'Także powiadom';
-$wb['also_notify_error_regex'] = 'Please use an IP address.';
+$wb['also_notify_error_regex'] = 'Proszę wpisać adresu IP';
 $wb['update_acl_txt'] = 'Zaktualizuj ACL';
-$wb['seconds_txt'] = 'Seconds';
-$wb['eg_domain_tld'] = 'e.g. domain.tld';
-$wb['eg_ns1_domain_tld'] = 'e.g. ns1.domain.tld';
-$wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld';
+$wb['seconds_txt'] = 'Sekund';
+$wb['eg_domain_tld'] = 'np. domena.pl';
+$wb['eg_ns1_domain_tld'] = 'np. ns1.domena.pl';
+$wb['eg_webmaster_domain_tld'] = 'np. webmaster@domena.pl';
 ?>
+

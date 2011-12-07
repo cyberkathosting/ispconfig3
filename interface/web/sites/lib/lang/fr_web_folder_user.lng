@@ -1,7 +1,9 @@
 <?php
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
-$wb['active_txt'] = 'Active';
-$wb['folder_error_empty'] = 'No web folder selecetd.';
+$wb['web_folder_id_txt'] = 'Dossier';
+$wb['username_txt'] = 'Nom de \'utilisateur';
+$wb['password_txt'] = 'Mot de passe';
+$wb['active_txt'] = 'Actif';
+$wb['folder_error_empty'] = 'Aucun dossier web sélectionné.';
 ?>
+
+

@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Modèle dassistant DNS';
+$wb['list_head_txt'] = 'Modèle de l\'assistant DNS';
 $wb['visible_txt'] = 'Visible';
 $wb['name_txt'] = 'Nom';
 $wb['add_new_record_txt'] = 'Ajouter un nouvel enregistrement';
 ?>
+

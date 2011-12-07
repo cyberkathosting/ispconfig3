@@ -193,11 +193,13 @@ $items[] = array( 'title' 	=> 'Do OS-Update',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/remote_action_osupdate.php',
 				  'html_id'=> 'osupdate');
-
+/*
+// ISPConfig interface update has been removed. Please use ispconfig_update.sh on the shell instead.
 $items[] = array( 'title' 	=> 'Do ISPConfig-Update',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/remote_action_ispcupdate.php',
 				  'html_id'=> 'ispcupdate');
+*/
 
 $module['nav'][] = array(	'title'	=> 'Remote Actions',
 							'open' 	=> 1,

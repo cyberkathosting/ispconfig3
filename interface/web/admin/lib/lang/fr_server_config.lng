@@ -18,10 +18,10 @@ $wb['fastcgi_bin_txt'] = 'Exécutable FastCGI';
 $wb['module_txt'] = 'Module';
 $wb['maildir_path_txt'] = 'Chemin Maildir';
 $wb['homedir_path_txt'] = 'Chemin Homedir';
-$wb['mailuser_uid_txt'] = 'Utilisateur mail UID';
-$wb['mailuser_gid_txt'] = 'Utilisateur mail GID';
-$wb['mailuser_name_txt'] = 'Nom dutilisateur mail';
-$wb['mailuser_group_txt'] = 'Groupe de lutilisateur mail';
+$wb['mailuser_uid_txt'] = 'UID de l\'utilisateur mail';
+$wb['mailuser_gid_txt'] = 'GID de l\'utilisateur mail';
+$wb['mailuser_name_txt'] = 'Nom d\'utilisateur mail';
+$wb['mailuser_group_txt'] = 'Groupe de l\'utilisateur mail';
 $wb['relayhost_txt'] = 'Hôte de relais';
 $wb['relayhost_user_txt'] = 'Utilisateur du relais';
 $wb['relayhost_password_txt'] = 'Mot de passe du relais';
@@ -150,3 +150,5 @@ $wb['rescue_description_txt'] = '<b>Information:</b> If you want to shut down my
 $wb['enable_sni_txt'] = 'Enable SNI';
 $wb['do_not_try_rescue_httpd_txt'] = 'Disable HTTPD monitoring';
 ?>
+
+

@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Transfert demail';
+$wb['list_head_txt'] = 'Transfert d\'email';
 $wb['active_txt'] = 'Actif';
 $wb['source_txt'] = 'source';
 $wb['destination_txt'] = 'Destination';
 $wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Ajouter un nouveau transfert demail';
+$wb['add_new_record_txt'] = 'Ajouter un nouveau transfert d\'email';
 ?>
+
+

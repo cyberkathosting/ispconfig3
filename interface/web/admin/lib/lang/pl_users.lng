@@ -22,7 +22,8 @@ $wb['email_txt'] = 'E-mail';
 $wb['url_txt'] = 'Url';
 $wb['telefon_txt'] = 'Telefon';
 $wb['fax_txt'] = 'Fax';
-$wb['groups_txt'] = 'Groupy';
+$wb['groups_txt'] = 'Grupy';
 $wb['default_group_txt'] = 'Domyślna grupa';
 $wb['startmodule_err'] = 'Modułu startowego nie ma wśród modułów.';
 ?>
+

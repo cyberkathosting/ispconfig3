@@ -142,8 +142,9 @@ $wb['monitor_serverstate_beancountercritical_txt'] = 'Jest wiele problemów w be
 $wb['monitor_serverstate_beancountererror_txt'] = 'Jest za dużo problemów w beancounterze';
 $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'Ten serwer nie jest serwerem OpenVz VE i nie posiada informacji o beancounterach';
-$wb['monitor_title_iptables_txt'] = 'IPTables Rules';
-$wb['Show fail2ban-Log'] = 'Show fail2ban-Log';
-$wb['Show IPTables'] = 'Show IPTables';
+$wb['monitor_title_iptables_txt'] = 'Reguły IPTables';
+$wb['Show fail2ban-Log'] = 'Pokaż log fail2ban';
+$wb['Show IPTables'] = 'Pokaż IPTables';
 $wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>
+

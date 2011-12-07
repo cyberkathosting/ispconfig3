@@ -20,11 +20,12 @@ $wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
 $wb['webdavuser_prefix_txt'] = 'Prefiks użytkownika webdav';
 $wb['webdavuser_prefix_error_regex'] = 'Niedozwolony znak w prefiksie użytkownika webdav.';
-$wb['webftp_url_txt'] = 'WebFTP URL';
-$wb['enable_custom_login_txt'] = 'Allow custom login name';
-$wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
-$wb['mailmailinglist_url_txt'] = 'Mailing list URL';
-$wb['admin_mail_txt'] = 'Administrators e-mail';
-$wb['monitor_key_txt'] = 'Monitor keyword';
-$wb['admin_name_txt'] = 'Administrators name';
+$wb['webftp_url_txt'] = 'Link do WebFTP';
+$wb['enable_custom_login_txt'] = 'Zezwalaj na dowolną nazwę loginu';
+$wb['mailmailinglist_link_txt'] = 'Link do listy mailingowej na liście list mailingowych';
+$wb['mailmailinglist_url_txt'] = 'URL listy mailingowej';
+$wb['admin_mail_txt'] = 'E-Mail administratorów';
+$wb['monitor_key_txt'] = 'Klucz monitora';
+$wb['admin_name_txt'] = 'Nazwy administratorów';
 ?>
+

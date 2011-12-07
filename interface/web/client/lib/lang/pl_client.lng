@@ -105,3 +105,4 @@ $wb['limit_openvz_vm_txt'] = 'Max. number of virtual servers';
 $wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
 $wb['limit_openvz_vm_error_notint'] = 'The virtual server limit must be a number.';
 ?>
+

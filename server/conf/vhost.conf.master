@@ -90,7 +90,7 @@
 
 <tmpl_if name='ruby' op='==' value='y'>
     <IfModule mod_ruby.c>
-      <Directory {tmpl_var name='web_document_root'}>
+      <Directory {tmpl_var name='web_document_root_www'}>
         Options +ExecCGI
       </Directory>
       RubyRequire apache/ruby-run

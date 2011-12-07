@@ -2979,8 +2979,152 @@ class remoting {
 		return $affected_rows;
 	}
 	
+	//* Start VM
+	public function openvz_vm_start($session_id, $vm_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_vm.tform.php');
+		$vm = $app->remoting_lib->getDataRecord($vm_id);
+		
+		if(!is_array($vm)) {
+			$this->server->fault('action_pending', 'No VM with this ID available.');
+			return false;
+		}
+		
+		if($vm['active'] == 'n') {
+			$this->server->fault('action_pending', 'VM is not in active state.');
+			return false;
+		}
+		
+		$action = 'openvz_start_vm';
+		
+		$tmp = $app->db->queryOneRecord("SELECT count(action_id) as actions FROM sys_remoteaction 
+				WHERE server_id = '".$vm['server_id']."' 
+				AND action_type = '$action'
+				AND action_param = '".$vm['veid']."'
+				AND action_state = 'pending'");
+		
+		if($tmp['actions'] > 0) {
+			$this->server->fault('action_pending', 'There is already a action pending for this VM.');
+			return false;
+		} else {
+			$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
+					"VALUES (".
+					(int)$vm['server_id'] . ", ".
+					time() . ", ".
+					"'".$action."', ".
+					$vm['veid'].", ".
+					"'pending', ".
+					"''".
+					")";
+			$app->db->query($sql);
+		}
+	}
 	
+	//* Stop VM
+	public function openvz_vm_stop($session_id, $vm_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_vm.tform.php');
+		$vm = $app->remoting_lib->getDataRecord($vm_id);
+		
+		if(!is_array($vm)) {
+			$this->server->fault('action_pending', 'No VM with this ID available.');
+			return false;
+		}
+		
+		if($vm['active'] == 'n') {
+			$this->server->fault('action_pending', 'VM is not in active state.');
+			return false;
+		}
+		
+		$action = 'openvz_stop_vm';
+		
+		$tmp = $app->db->queryOneRecord("SELECT count(action_id) as actions FROM sys_remoteaction 
+				WHERE server_id = '".$vm['server_id']."' 
+				AND action_type = '$action'
+				AND action_param = '".$vm['veid']."'
+				AND action_state = 'pending'");
+		
+		if($tmp['actions'] > 0) {
+			$this->server->fault('action_pending', 'There is already a action pending for this VM.');
+			return false;
+		} else {
+			$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
+					"VALUES (".
+					(int)$vm['server_id'] . ", ".
+					time() . ", ".
+					"'".$action."', ".
+					$vm['veid'].", ".
+					"'pending', ".
+					"''".
+					")";
+			$app->db->query($sql);
+		}
+	}
 	
+	//* Restart VM
+	public function openvz_vm_restart($session_id, $vm_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'vm_openvz')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../vm/form/openvz_vm.tform.php');
+		$vm = $app->remoting_lib->getDataRecord($vm_id);
+		
+		if(!is_array($vm)) {
+			$this->server->fault('action_pending', 'No VM with this ID available.');
+			return false;
+		}
+		
+		if($vm['active'] == 'n') {
+			$this->server->fault('action_pending', 'VM is not in active state.');
+			return false;
+		}
+		
+		$action = 'openvz_restart_vm';
+		
+		$tmp = $app->db->queryOneRecord("SELECT count(action_id) as actions FROM sys_remoteaction 
+				WHERE server_id = '".$vm['server_id']."' 
+				AND action_type = '$action'
+				AND action_param = '".$vm['veid']."'
+				AND action_state = 'pending'");
+		
+		if($tmp['actions'] > 0) {
+			$this->server->fault('action_pending', 'There is already a action pending for this VM.');
+			return false;
+		} else {
+			$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
+					"VALUES (".
+					(int)$vm['server_id'] . ", ".
+					time() . ", ".
+					"'".$action."', ".
+					$vm['veid'].", ".
+					"'pending', ".
+					"''".
+					")";
+			$app->db->query($sql);
+		}
+	}
 	
 	
 	

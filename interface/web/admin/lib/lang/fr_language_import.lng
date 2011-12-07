@@ -4,5 +4,7 @@ $wb['language_import_txt'] = 'Sélectionnez le fichier de langue';
 $wb['btn_save_txt'] = 'Importer le fichier de langue sélectionné';
 $wb['language_overwrite_txt'] = 'Ecraser le fichier sil existe déja.';
 $wb['btn_cancel_txt'] = 'Précédent';
-$wb['ignore_version_txt'] = 'Sauter le test de version ISPConfig';
+$wb['ignore_version_txt'] = 'Ignorer le test de version ISPConfig';
 ?>
+
+

@@ -37,6 +37,7 @@ $wb['domain_error_unique'] = 'Istnieje już domena, alias lub subdomena o podane
 $wb['domain_error_regex'] = 'Nazwa domeny jest nieprawidłowa.';
 $wb['host_txt'] = 'Serwer';
 $wb['redirect_error_regex'] = 'Nieprawidłowa ścieżka przekierowania. Poprawne przekierowanie to np.: /test/ lub http://www.domain.tld/test/';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
+$wb['no_redirect_txt'] = 'Bez przekierowania';
+$wb['no_flag_txt'] = 'Bez flagi';
 ?>
+

@@ -9,3 +9,5 @@ $wb['firewall_error_unique'] = 'Il y a déjà un enregistrement dans le pare-feu
 $wb['tcp_ports_error_regex'] = 'Caractère non autorisé dans la définition du port TCP. Les caractères autorisés sont les nombres, : et ,.';
 $wb['udp_ports_error_regex'] = 'Caractère non autorisé dans la définition du port UDP. Les caractères autorisés sont les nombres, : et ,.';
 ?>
+
+

@@ -8,7 +8,8 @@ $wb['add_new_record_txt'] = 'Dodaj nowy alias domeny';
 $wb['domain_error_empty'] = 'Domena jest pusta.';
 $wb['domain_error_unique'] = 'Domena musi być unikatowa.';
 $wb['domain_error_regex'] = 'Nazwa domeny ma niepoprawny format.';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
-$wb['none_txt'] = 'None';
+$wb['no_redirect_txt'] = 'Bez przekierowania';
+$wb['no_flag_txt'] = 'Bez flagi';
+$wb['none_txt'] = 'Brak';
 ?>
+

@@ -1,6 +1,6 @@
 <?php
-$wb['Email Alias'] = 'Alias demails';
-$wb['Email Blacklist'] = 'Liste noire demails';
+$wb['Email Alias'] = 'Alias d\'emails';
+$wb['Email Blacklist'] = 'Liste noire d\'emails';
 $wb['Blacklist'] = 'Liste noire';
 $wb['Mail Content Filter'] = 'Filtre de contenu des mails';
 $wb['Filter'] = 'Filtre';
@@ -10,26 +10,26 @@ $wb['Email Catchall'] = 'Email collecteur';
 $wb['Email Forward'] = 'Email de transfert';
 $wb['Get Email'] = 'Obtenir un Email';
 $wb['Spamfilter'] = 'Filtre antispam';
-$wb['Email Routing'] = 'Routage demails';
-$wb['Email transport'] = 'Transport demails';
+$wb['Email Routing'] = 'Routage d\'emails';
+$wb['Email transport'] = 'Transport d\'emails';
 $wb['Mailbox'] = 'Boîte email';
-$wb['Autoresponder'] = 'Autorépondeur';
+$wb['Autoresponder'] = 'Répondeur automatique';
 $wb['Mail Filter'] = 'Filtre email';
 $wb['Custom Rules'] = 'Règles personnalisées';
 $wb['Email filter'] = 'Filtre email';
-$wb['Email Whitelist'] = 'Liste blanche demails';
+$wb['Email Whitelist'] = 'Liste blanche d\'emails';
 $wb['Whitelist'] = 'Liste blanche';
-$wb['Spamfilter blacklist'] = 'Liste noire du filtre antispam';
-$wb['Spamfilter Config'] = 'Configuration du filtre antispam';
+$wb['Spamfilter blacklist'] = 'Liste noire de l\'anti-spam';
+$wb['Spamfilter Config'] = 'Configuration de l\'anti-spam';
 $wb['Server'] = 'Serveur';
-$wb['Spamfilter policy'] = 'Règles du filtre antispam';
-$wb['Policy'] = 'Règles';
+$wb['Spamfilter policy'] = 'Stratégie de l\'anti-spam';
+$wb['Policy'] = 'Stratégie';
 $wb['Quarantine'] = 'Quarantaine';
 $wb['Tag-Level'] = 'Niveau du tag';
 $wb['Other'] = 'Autre';
-$wb['Spamfilter users'] = 'Utilisateurs du filtre antispam';
+$wb['Spamfilter users'] = 'Utilisateurs de l\'anti-spam';
 $wb['Users'] = 'Utilisateurs';
-$wb['Spamfilter Whitelist'] = 'Liste blanche du filtre antispam';
+$wb['Spamfilter Whitelist'] = 'Liste blanche de l\'anti-spam';
 $wb['Email'] = 'Email';
 $wb['Email Mailbox'] = 'Boîte email';
 $wb['Email Accounts'] = 'Comptes email';
@@ -45,3 +45,5 @@ $wb['Mailbox traffic'] = 'Trafic de la boite email';
 $wb['Domain Alias'] = 'Alias de domaine';
 $wb['Relay Recipients'] = 'Destinataires de relais';
 ?>
+
+

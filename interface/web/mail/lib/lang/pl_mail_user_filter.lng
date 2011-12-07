@@ -7,14 +7,15 @@ $wb['rulename_error_empty'] = 'Nazwa jest pusta.';
 $wb['searchterm_is_empty'] = 'Szukany termin jest pusty.';
 $wb['source_txt'] = 'Źródło';
 $wb['target_error_regex'] = 'Cel może zawierać tylko następujące znaki: a-z, 0-9, -, ., _, oraz {spacja}';
-$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
-$wb['subject_txt'] = 'Subject';
-$wb['from_txt'] = 'From';
-$wb['to_txt'] = 'To';
-$wb['contains_txt'] = 'Contains';
-$wb['is_txt'] = 'Is';
-$wb['begins_with_txt'] = 'Begins with';
-$wb['ends_with_txt'] = 'Ends with';
-$wb['move_to_txt'] = 'Move to';
-$wb['delete_txt'] = 'Delete';
+$wb['limit_mailfilter_txt'] = 'Maks. ilość filtrów email jest przekroczona.';
+$wb['subject_txt'] = 'Temat';
+$wb['from_txt'] = 'Od';
+$wb['to_txt'] = 'Do';
+$wb['contains_txt'] = 'Zawiera';
+$wb['is_txt'] = 'Jest';
+$wb['begins_with_txt'] = 'Zaczyna się od';
+$wb['ends_with_txt'] = 'Kończy się na';
+$wb['move_to_txt'] = 'Przenieś do';
+$wb['delete_txt'] = 'Usuń';
 ?>
+

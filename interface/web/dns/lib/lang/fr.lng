@@ -1,4 +1,5 @@
 <?php
+
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zones';
 $wb['DNS A'] = 'DNS A';
@@ -16,8 +17,9 @@ $wb['DNS TXT Record'] = 'Enregistrement DNS TXT';
 $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'Assistant DNS';
 $wb['Add DNS Zone'] = 'Ajout zone DNS';
-$wb['Templates'] = 'Gabarits';
-$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
-$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
-$wb['zonefile_to_import_txt'] = 'Zone File';
+$wb['Templates'] = 'Modèles';
+$wb['zone_file_successfully_imported_txt'] = 'Le fichier de zone a été importé avec succès !';
+$wb['error_no_valid_zone_file_txt'] = 'Ce fichier de zone semble être invalide !';
+$wb['zonefile_to_import_txt'] = 'Fichier de zone';
 ?>
+

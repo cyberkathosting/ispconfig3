@@ -7,3 +7,5 @@ $wb['server_id_txt'] = 'Serveur';
 $wb['domain_txt'] = 'Domaine';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau collecteur';
 ?>
+
+

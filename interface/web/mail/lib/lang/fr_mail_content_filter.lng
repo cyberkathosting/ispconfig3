@@ -7,3 +7,5 @@ $wb['action_txt'] = 'Action';
 $wb['active_txt'] = 'Actif';
 $wb['pattern_error_empty'] = 'Le schéma est vide.';
 ?>
+
+
