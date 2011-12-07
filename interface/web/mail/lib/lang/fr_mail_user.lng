@@ -28,8 +28,8 @@ $wb['autoresponder_start_date_txt'] = 'Démarrer le';
 $wb['autoresponder_start_date_isfuture'] = 'La date de démarrage ne peut être une date passée.';
 $wb['autoresponder_end_date_txt'] = 'Terminer le';
 $wb['autoresponder_end_date_isgreater'] = 'La date de fin doit être saisie et doit être ultérieure à la date de début.';
-$wb['quota_error_value'] = 'Valuer de quota invalide. Les valeurs de quota autorisées sont: 0 pour illimité ou nombres > 1';
-$wb['move_junk_txt'] = 'Déplacer le spam vers le dossier pourris';
+$wb['quota_error_value'] = 'Valeur de quota invalide. Les valeurs de quota autorisées sont : 0 pour illimité ou nombres > 1';
+$wb['move_junk_txt'] = 'Déplacer le spam vers le dossier Junk';
 $wb['name_txt'] = 'Nom véritable';
 $wb['name_optional_txt'] = '(Optionnel)';
 $wb['autoresponder_active'] = 'Activer le répondeur automatique';
@@ -39,8 +39,7 @@ $wb['domain_txt'] = 'Domaine';
 $wb['now_txt'] = 'Maintenant';
 $wb['login_error_unique'] = 'Ce nom d\'utilisateur est déjà pris.';
 $wb['login_error_regex'] = 'Les caractères valides sont A-Z, a-z, 0-9, ., _ et -.';
-$wb['login_txt'] = 'Nom d\'utilisateur (optinnel)';
-$wb['error_login_email_txt'] = 'Ce nom d\'utilisaeur n'est pas autorisé. Veuilez entrer un nom différent ou utiliser l\'adresse email comme nom d\'utilisateur.';
+$wb['login_txt'] = 'Nom d\'utilisateur (optionnel)';
+$wb['error_login_email_txt'] = 'Ce nom d\'utilisaeur n\'est pas autorisé. Veuilez entrer un nom différent ou utiliser l\'adresse email comme nom d\'utilisateur.';
 ?>
-
 
