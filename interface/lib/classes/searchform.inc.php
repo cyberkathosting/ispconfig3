@@ -244,7 +244,7 @@ class searchform {
 		$list_name = $this->listDef['name'];
 		$settings = $_SESSION['search'][$list_name];
 		unset($settings['page']);
-		$data = mysql_real_escape_string(serialize($settings));
+		$data = $app->db->quote(serialize($settings));
 		
 		$userid = $_SESSION['s']['user']['userid'];
 		$groupid = $_SESSION['s']['user']['default_group'];
@@ -301,6 +301,7 @@ class searchform {
 
     public function encode($record)
     {
+	global $app;
         if(is_array($record)) {
             foreach($this->listDef['item'] as $field) {
                 $key = $field['field'];
@@ -309,7 +310,7 @@ class searchform {
                     case 'VARCHAR':
                     case 'TEXT':
                         if(!is_array($record[$key])) {
-                            $record[$key] = mysql_real_escape_string($record[$key]);
+                            $record[$key] = $app->db->quote($record[$key]);
                         } else {
                             $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
                         }
@@ -327,7 +328,7 @@ class searchform {
                         break;
 
                     case 'DOUBLE':
-                        $record[$key] = mysql_real_escape_string($record[$key]);
+                        $record[$key] = $app->db->quote($record[$key]);
                         break;
 
                     case 'CURRENCY':

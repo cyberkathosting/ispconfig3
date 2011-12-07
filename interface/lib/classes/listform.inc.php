@@ -347,6 +347,7 @@ class listform {
 
     public function encode($record)
     {
+	global $app;
         if(is_array($record)) {
             foreach($this->listDef['item'] as $field){
                 $key = $field['field'];
@@ -355,7 +356,7 @@ class listform {
                     case 'VARCHAR':
                     case 'TEXT':
                         if(!is_array($record[$key])) {
-                            $record[$key] = mysql_real_escape_string($record[$key]);
+                            $record[$key] = $app->db->quote($record[$key]);
                         } else {
                             $record[$key] = implode($this->tableDef[$key]['separator'],$record[$key]);
                         }
@@ -384,7 +385,7 @@ class listform {
                         break;
 
                     case 'DOUBLE':
-                        $record[$key] = mysql_real_escape_string($record[$key]);
+                        $record[$key] = $app->db->quote($record[$key]);
                         break;
 
                     case 'CURRENCY':
