@@ -139,9 +139,7 @@ class page_action extends tform_actions {
 		
 		$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid', sys_groupid = '$sys_groupid' WHERE ftp_user_id = ".$this->id;
 		$app->db->query($sql);
-		
-		
-	}
+		}
 
 	function onBeforeUpdate() {
 		global $app, $conf, $interfaceConf;
@@ -165,7 +163,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		//* When the site of the FTP user has been changed
-		if($this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
+		if(isset($this->dataRecord['parent_domain_id']) && $this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
 			$server_id = $web["server_id"];
 			$dir = $web["document_root"];
