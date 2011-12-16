@@ -40,7 +40,7 @@ $conf['server_id'] = intval($conf['server_id']);
 /*
  * Try to Load the server configuration from the master-db
  */
-if ($app->dbmaster->connect()) {
+if ($app->dbmaster->connect_error == NULL) {
 	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
 
 	$conf['last_datalog_id'] = (int) $server_db_record['updated'];
@@ -133,7 +133,7 @@ $needStartCore = true;
 /*
  * Next we try to process the datalog
  */
-if ($app->db->connect() && $app->dbmaster->connect()) {
+if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 
 	// Check if there is anything to update
 	if ($conf['mirror_server_id'] > 0) {
@@ -166,7 +166,7 @@ if ($app->db->connect() && $app->dbmaster->connect()) {
 		$needStartCore = false;
 	}
 } else {
-	if (!$app->db->connect()) {
+	if ($app->db->connect->connect_error == NULL) {
 		$app->log('Unable to connect to local server.' . $app->db->errorMessage, LOGLEVEL_WARN);
 	} else {
 		$app->log('Unable to connect to master server.' . $app->dbmaster->errorMessage, LOGLEVEL_WARN);

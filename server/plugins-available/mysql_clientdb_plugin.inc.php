@@ -100,15 +100,15 @@ class mysql_clientdb_plugin {
           if($valid == false) continue;
           
           if($action == 'GRANT') {
-              if(!mysql_query("GRANT ALL ON ".mysql_real_escape_string($database_name,$link).".* TO '".mysql_real_escape_string($database_user,$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($database_password,$link)."';",$link)) $success = false;
+              if(!$link->query("GRANT ALL ON ".$link->escape_string($database_name).".* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY '".$link->escape_string($database_password)."';")) $success = false;
           } elseif($action == 'REVOKE') {
               //mysql_query("REVOKE ALL PRIVILEGES ON ".mysql_real_escape_string($database_name,$link).".* FROM '".mysql_real_escape_string($database_user,$link)."';",$link);
           } elseif($action == 'DROP') {
-              if(!mysql_query("DROP USER '".mysql_real_escape_string($database_user,$link)."'@'$db_host';",$link)) $success = false;
+              if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host';")) $success = false;
           } elseif($action == 'RENAME') {
-              if(!mysql_query("RENAME USER '".mysql_real_escape_string($database_user,$link)."'@'$db_host' TO '".mysql_real_escape_string($database_rename_user,$link)."'@'$db_host'",$link)) $success = false;
+              if(!$link->query("RENAME USER '".$link->escape_string($database_user)."'@'$db_host' TO '".$link->escape_string($database_rename_user)."'@'$db_host'")) $success = false;
           } elseif($action == 'PASSWORD') {
-              if(!mysql_query("SET PASSWORD FOR '".mysql_real_escape_string($database_user,$link)."'@'$db_host' = PASSWORD('".mysql_real_escape_string($database_password,$link)."');",$link)) $success = false;
+              if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = PASSWORD('".$link->escape_string($database_password)."');")) $success = false;
           }
       }
       
@@ -130,9 +130,9 @@ class mysql_clientdb_plugin {
 			}
 		
 			//* Connect to the database
-			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
-			if (!$link) {
-				$app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_ERROR);
+			$link = new mysqli($clientdb_host, $clientdb_user, $clientdb_password);
+			if (!$link->connect_error) {
+				$app->log('Unable to connect to mysql'.$link->connect_error,LOGLEVEL_ERROR);
 				return;
 			}
 
@@ -144,10 +144,10 @@ class mysql_clientdb_plugin {
 			}
 
 			//* Create the new database
-			if (mysql_query('CREATE DATABASE '.mysql_real_escape_string($data['new']['database_name']).$query_charset_table,$link)) {
+			if ($link->query('CREATE DATABASE '.$link->escape_string($data['new']['database_name']).$query_charset_table)) {
 				$app->log('Created MySQL database: '.$data['new']['database_name'],LOGLEVEL_DEBUG);
 			} else {
-				$app->log('Unable to create the database: '.mysql_error($link),LOGLEVEL_WARNING);
+				$app->log('Unable to create the database: '.$link->error,LOGLEVEL_WARNING);
 			}
 			
 			// Create the database user if database is active
@@ -158,13 +158,13 @@ class mysql_clientdb_plugin {
 				}
 				
 				$db_host = 'localhost';
-				mysql_query("GRANT ALL ON `".str_replace(array('_','%'),array('\\_','\\%'),mysql_real_escape_string($data['new']['database_name'],$link))."`.* TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data['new']['database_password'],$link)."';",$link);
+				$link->query("GRANT ALL ON `".str_replace(array('_','%'),array('\\_','\\%'),$link->escape_string($data['new']['database_name']))."`.* TO '".$link->escape_string($data['new']['database_user'])."'@'$db_host' IDENTIFIED BY '".$link->escape_string($data['new']['database_password'])."';");
 
 				
 			}
 			
-			mysql_query('FLUSH PRIVILEGES;',$link);
-			mysql_close($link);
+			$link->query('FLUSH PRIVILEGES;');
+			$link->close();
 		}
 	}
 	
@@ -183,9 +183,9 @@ class mysql_clientdb_plugin {
 			}
 			
 			//* Connect to the database
-			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+			$link = new mysqli($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
-				$app->log('Unable to connect to the database: '.mysql_error($link),LOGLEVEL_ERROR);
+				$app->log('Unable to connect to the database: '.$link->connect_error,LOGLEVEL_ERROR);
 				return;
 			}
 			
@@ -193,11 +193,11 @@ class mysql_clientdb_plugin {
 			if($data['new']['active'] == 'y' && $data['old']['active'] == 'n') {
 				
 				if($data['new']['remote_access'] == 'y') {
-          $this->process_host_list('GRANT', $data['new']['database_name'], $data['new']['database_user'], $data['new']['database_password'], $data['new']['remote_ips'], $link);
+				  $this->process_host_list('GRANT', $data['new']['database_name'], $data['new']['database_user'], $data['new']['database_password'], $data['new']['remote_ips'], $link);
 				}
 				
 				$db_host = 'localhost';
-				mysql_query("GRANT ALL ON `".str_replace(array('_','%'),array('\\_','\\%'),mysql_real_escape_string($data['new']['database_name'],$link))."`.* TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data['new']['database_password'],$link)."';",$link);
+				$link->query("GRANT ALL ON `".str_replace(array('_','%'),array('\\_','\\%'),$link->escape_string($data['new']['database_name']))."`.* TO '".$link->escape_string($data['new']['database_user'])."'@'$db_host' IDENTIFIED BY '".$link->escape_string($data['new']['database_password'])."';");
 				
 				// mysql_query("GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"],$link).".* TO '".mysql_real_escape_string($data["new"]["database_user"],$link)."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"],$link)."';",$link);
 				//echo "GRANT ALL ON ".mysql_real_escape_string($data["new"]["database_name"]).".* TO '".mysql_real_escape_string($data["new"]["database_user"])."'@'$db_host' IDENTIFIED BY '".mysql_real_escape_string($data["new"]["database_password"])."';";
@@ -211,16 +211,14 @@ class mysql_clientdb_plugin {
 				}
 				
 				$db_host = 'localhost';
-				mysql_query("DROP USER '".mysql_real_escape_string($data['old']['database_user'],$link)."'@'$db_host';",$link);
-				
-				
+				$link->query("DROP USER '".$link->escape_string($data['old']['database_user'])."'@'$db_host';");
 				//mysql_query("REVOKE ALL PRIVILEGES ON ".mysql_real_escape_string($data["new"]["database_name"],$link).".* FROM '".mysql_real_escape_string($data["new"]["database_user"],$link)."';",$link);
 			}
 			
 			//* Rename User
 			if($data['new']['database_user'] != $data['old']['database_user']) {
 				$db_host = 'localhost';
-				mysql_query("RENAME USER '".mysql_real_escape_string($data['old']['database_user'],$link)."'@'$db_host' TO '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host'",$link);
+				$link->query("RENAME USER '".$link->escape_string($data['old']['database_user'])."'@'$db_host' TO '".$link->escape_string($data['new']['database_user'])."'@'$db_host'");
 				if($data['old']['remote_access'] == 'y') {
 					$this->process_host_list('RENAME', '', $data['old']['database_user'], '', $data['new']['remote_ips'], $link, $data['new']['database_user']);
 				}
@@ -249,16 +247,19 @@ class mysql_clientdb_plugin {
 			//* Change password
 			if($data['new']['database_password'] != $data['old']['database_password']) {
 				$db_host = 'localhost';
-				mysql_query("SET PASSWORD FOR '".mysql_real_escape_string($data['new']['database_user'],$link)."'@'$db_host' = PASSWORD('".mysql_real_escape_string($data['new']['database_password'],$link)."');",$link);
+				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = PASSWORD('".$link->escape_string($data['new']['database_password'])."');");
+				if($link->error) {
+					error_log($link->error);
+				}
 
 				if($data['new']['remote_access'] == 'y') {
-          $this->process_host_list('PASSWORD', '', $data['new']['database_user'], $data['new']['database_password'], $data['new']['remote_ips'], $link);
+					$this->process_host_list('PASSWORD', '', $data['new']['database_user'], $data['new']['database_password'], $data['new']['remote_ips']);
 				}
 				$app->log('Changing MySQL user password for: '.$data['new']['database_user'],LOGLEVEL_DEBUG);
 			}
 			
-			mysql_query('FLUSH PRIVILEGES;',$link);
-			mysql_close($link);
+			$link->query('FLUSH PRIVILEGES;');
+			$link->close();
 		}
 		
 	}
@@ -273,9 +274,9 @@ class mysql_clientdb_plugin {
 			}
 		
 			//* Connect to the database
-			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
-			if (!$link) {
-				$app->log('Unable to connect to the database: '.mysql_error($link),LOGLEVEL_ERROR);
+			$link = new mysqli($clientdb_host, $clientdb_user, $clientdb_password);
+			if ($link->connect_error) {
+				$app->log('Unable to connect to mysql: '.$link->connect_error,LOGLEVEL_ERROR);
 				return;
 			}
 			
@@ -284,24 +285,24 @@ class mysql_clientdb_plugin {
 			 	if($this->process_host_list('DROP', '', $data['old']['database_user'], '', $data['old']['remote_ips'], $link)) {
         	$app->log('Dropping MySQL user: '.$data['old']['database_user'],LOGLEVEL_DEBUG);
 				} else {
-					$app->log('Error while dropping MySQL user: '.$data['old']['database_user'].' '.mysql_error($link),LOGLEVEL_WARNING);
+					$app->log('Error while dropping MySQL user: '.$data['old']['database_user'].' '.$link->error,LOGLEVEL_WARNING);
 				}
 			}
 			$db_host = 'localhost';
-			if(mysql_query("DROP USER '".mysql_real_escape_string($data['old']['database_user'],$link)."'@'$db_host';",$link)) {
+			if($link->query("DROP USER '".$link->escape_string($data['old']['database_user'])."'@'$db_host';")) {
 				$app->log('Dropping MySQL user: '.$data['old']['database_user'],LOGLEVEL_DEBUG);
 			} else {
 				$app->log('Error while dropping MySQL user: '.$data['old']['database_user'].' '.mysql_error($link),LOGLEVEL_WARNING);
 			}
 			
-			if(mysql_query('DROP DATABASE '.mysql_real_escape_string($data['old']['database_name'],$link),$link)) {
+			if($link->query('DROP DATABASE '.$link->escape_string($data['old']['database_name']))) {
 				$app->log('Dropping MySQL database: '.$data['old']['database_name'],LOGLEVEL_DEBUG);
 			} else {
 				$app->log('Error while dropping MySQL database: '.$data['old']['database_name'].' '.mysql_error($link),LOGLEVEL_WARNING);
 			}
 			
-			mysql_query('FLUSH PRIVILEGES;',$link);
-			mysql_close($link);
+			$link->query('FLUSH PRIVILEGES;');
+			$link->close();
 		}
 		
 		

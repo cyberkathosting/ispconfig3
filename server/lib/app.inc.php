@@ -33,7 +33,7 @@ class app {
 	var $loaded_modules = array();
 	var $loaded_plugins = array();
         
-	function app() {
+	function __construct() {
 
                 global $conf;
 
@@ -47,7 +47,7 @@ class app {
 					*/
 					
 					if($conf['dbmaster_host'] != '' && $conf['dbmaster_host'] != $conf['db_host']) {
-						$this->dbmaster = new db;
+						$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database']);
 					} else {
 						$this->dbmaster = $this->db;
 					}

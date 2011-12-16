@@ -30,7 +30,7 @@
 
 class db extends mysqli
 {
-  private $dbHost = '';		// hostname of the MySQL server
+  protected $dbHost = '';		// hostname of the MySQL server
   private $dbName = '';		// logical database name on that server
   private $dbUser = '';		// database authorized user
   private $dbPass = '';		// user's password
@@ -48,28 +48,33 @@ class db extends mysqli
   public $show_error_messages = false; // false in server, true in interface
 
   // constructor
-  public function __construct() {
-    global $conf;
-    $this->dbHost = $conf['db_host'];
-    $this->dbName = $conf['db_database'];
-    $this->dbUser = $conf['db_user'];
-    $this->dbPass = $conf['db_password'];
+  public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL) {
+    global $app, $conf;
+
+    $this->dbHost = $host ? $host  : $conf['db_host'];
+    $this->dbName = $database ? $database : $conf['db_database'];
+    $this->dbUser = $user ? $user : $conf['db_user'];
+    $this->dbPass = $pass ? $pass : $conf['db_password'];
     $this->dbCharset = $conf['db_charset'];
     $this->dbNewLink = $conf['db_new_link'];
     $this->dbClientFlags = $conf['db_client_flags'];
-    parent::__construct($conf['db_host'], $conf['db_user'],$conf['db_password'],$conf['db_database']);
+
+    parent::__construct($this->dbHost, $this->dbUser, $this->dbPass,$this->dbName);
     if ($this->connect_error) {
       $this->updateError('DB::__construct');
-      return false;
     }
     parent::query( 'SET NAMES '.$this->dbCharset); 
     parent::query( "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
-
   }
 
   public function __destruct() {
     $this->close(); // helps avoid memory leaks, and persitent connections that don't go away.
   }
+
+  /* This allows our private variables to be "read" out side of the class */
+   public function __get($var) {
+	   return isset($this->$var) ? $this->$var : NULL;
+   }
 
   // error handler
   public function updateError($location) {
@@ -89,8 +94,11 @@ class db extends mysqli
       // This right here will allow us to use the samefile for server & interface
       if($this->show_error_messages) {
 	echo $error_msg;
-      } else if(method_exists($app, 'log')) {
+      } else if(is_object($app) && method_exists($app, 'log')) {
 	$app->log($error_msg, LOGLEVEL_WARN);
+      } else {
+	      /* This could be called before $app is ever declared..  In that case we should just spit out to error_log() */
+	   error_log($error_msg);
       }
     }
   }
