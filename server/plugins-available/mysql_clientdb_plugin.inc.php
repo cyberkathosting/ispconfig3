@@ -131,7 +131,7 @@ class mysql_clientdb_plugin {
 		
 			//* Connect to the database
 			$link = new mysqli($clientdb_host, $clientdb_user, $clientdb_password);
-			if (!$link->connect_error) {
+			if ($link->connect_error) {
 				$app->log('Unable to connect to mysql'.$link->connect_error,LOGLEVEL_ERROR);
 				return;
 			}
@@ -184,7 +184,7 @@ class mysql_clientdb_plugin {
 			
 			//* Connect to the database
 			$link = new mysqli($clientdb_host, $clientdb_user, $clientdb_password);
-			if (!$link) {
+			if ($link->connect_error) {
 				$app->log('Unable to connect to the database: '.$link->connect_error,LOGLEVEL_ERROR);
 				return;
 			}
