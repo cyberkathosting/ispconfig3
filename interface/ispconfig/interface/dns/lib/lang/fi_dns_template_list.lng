@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'DNS-velhon malli';
+$wb['visible_txt'] = 'Näkyvissä';
+$wb['name_txt'] = 'Mallin nimi';
+$wb['add_new_record_txt'] = 'Lisää uusi mallitietue';
+?>

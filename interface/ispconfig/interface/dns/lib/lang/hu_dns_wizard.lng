@@ -1,0 +1,29 @@
+<?php
+$wb['template_id_txt'] = 'Template';
+$wb['server_id_txt'] = 'Server';
+$wb['client_txt'] = 'Client';
+$wb['btn_save_txt'] = 'Create DNS Record';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['domain_txt'] = 'Domain';
+$wb['email_txt'] = 'Email';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'IP Address';
+$wb['error_origin_empty'] = 'Origin empty.';
+$wb['error_ns_empty'] = 'NS empty.';
+$wb['error_mbox_empty'] = 'Mbox empty.';
+$wb['error_refresh_empty'] = 'Refresh empty.';
+$wb['error_retry_empty'] = 'Retry empty.';
+$wb['error_expire_empty'] = 'Expire empty.';
+$wb['error_minimum_empty'] = 'Minimum empty.';
+$wb['error_ttl_empty'] = 'TTL empty.';
+$wb['error_domain_empty'] = 'Domain empty';
+$wb['error_ip_empty'] = 'IP empty.';
+$wb['error_ns1_empty'] = 'NS1 empty.';
+$wb['error_ns2_empty'] = 'NS2 empty.';
+$wb['error_email_empty'] = 'EMail empty.';
+$wb['error_domain_regex'] = 'Domain contains invalid characters.';
+$wb['error_ns1_regex'] = 'NS1 contains invalid characters.';
+$wb['error_ns2_regex'] = 'NS2 contains invalid characters.';
+$wb['error_email_regex'] = 'Email does not contain a valid email address.';
+?>

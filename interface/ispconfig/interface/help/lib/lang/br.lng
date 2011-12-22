@@ -1,0 +1,9 @@
+<?php
+$wb['Support Message'] = 'Mensagem de Suporte';
+$wb['Message'] = 'Mensagem';
+$wb['Send message'] = 'Enviar Mensagem';
+$wb['View messages'] = 'Ver Mensagem';
+$wb['Support'] = 'Suporte';
+$wb['About ISPConfig'] = 'Sobre o ISPConfig';
+$wb['Version'] = 'Versão';
+?>

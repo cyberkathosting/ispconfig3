@@ -1,0 +1,24 @@
+<?php
+$wb['name_txt'] = 'Nombre del formulario';
+$wb['title_txt'] = 'Título del formulario';
+$wb['template_txt'] = 'Plantilla';
+$wb['navframe_txt'] = 'Marco de navegación';
+$wb['startpage_txt'] = 'Página inicial';
+$wb['tab_width_txt'] = 'Ancho de pestaña';
+$wb['save_txt'] = 'Guardar';
+$wb['cancel_txt'] = 'Cancelar';
+$wb['header_txt'] = 'Propiedades del formulario';
+$wb['description_txt'] = 'Descripción';
+$wb['action_txt'] = 'Acción (script)';
+$wb['db_table_txt'] = 'Tabla de BD';
+$wb['db_table_idx_txt'] = 'Indice  de tabla de BD';
+$wb['db_history_txt'] = 'Anular registro';
+$wb['tab_default_txt'] = 'Pestaña por defecto';
+$wb['list_default_txt'] = 'Lista por defecto';
+$wb['auth_txt'] = 'Permisos';
+$wb['auth_preset_userid_txt'] = 'ID usuario';
+$wb['auth_preset_groupid_txt'] = 'ID grupo';
+$wb['auth_preset_perm_user_txt'] = 'Permisos del usuario';
+$wb['auth_preset_perm_group_txt'] = 'Permisos del grupo';
+$wb['auth_preset_perm_other_txt'] = 'Permisos de otros';
+?>

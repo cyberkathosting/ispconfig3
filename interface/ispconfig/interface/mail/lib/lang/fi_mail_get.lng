@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['type_txt'] = 'Palvelimen tyyppi';
+$wb['source_server_txt'] = 'Pop3/Imap-palvelin';
+$wb['source_username_txt'] = 'Käyttäjätunnus';
+$wb['source_password_txt'] = 'Salasana';
+$wb['source_delete_txt'] = 'Poista sähköpostit noudettavasta laatikosta noudon jälkeen';
+$wb['destination_txt'] = 'Kohdepostilaatikko';
+$wb['active_txt'] = 'Käytössä';
+$wb['limit_fetchmail_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä noudettavia osoitteita.';
+$wb['source_server_error_isempty'] = 'Palvelin-kenttä on tyhjä.';
+$wb['source_username_error_isempty'] = 'Käyttäjänimi on tyjä.';
+$wb['source_password_error_isempty'] = 'Salasana-kenttä on tyhjä.';
+$wb['destination_error_isemail'] = 'Ei kohdetta valittuna.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+?>

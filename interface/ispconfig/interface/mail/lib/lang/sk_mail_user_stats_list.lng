@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Mailová komunikácia';
+$wb['email_txt'] = 'Email';
+$wb['this_month_txt'] = 'Tento mesiac';
+$wb['last_month_txt'] = 'Minulý mesiac';
+$wb['this_year_txt'] = 'Tento rok';
+$wb['last_year_txt'] = 'Minulý rok';
+?>

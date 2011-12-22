@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Hte';
+$wb['type_txt'] = 'Type';
+$wb['data_txt'] = 'Adresse IP';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Actif';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a t atteint.';
+$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
+$wb['name_error_empty'] = 'Lhte est vide.';
+$wb['name_error_regex'] = 'Lhte est dun format invalide.';
+$wb['data_error_empty'] = 'Ladresse IP est vide.';
+$wb['data_error_regex'] = 'Ladresse IP est dun format invalide.';
+?>

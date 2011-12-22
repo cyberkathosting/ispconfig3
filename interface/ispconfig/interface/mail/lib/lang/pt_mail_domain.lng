@@ -1,0 +1,14 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['domain_txt'] = 'Domínio';
+$wb['type_txt'] = 'Tipo';
+$wb['active_txt'] = 'Activo';
+$wb['domain_error_empty'] = 'Domínio em branco.';
+$wb['domain_error_unique'] = 'Domínio duplicado';
+$wb['domain_error_regex'] = 'Nome de domínio inválido';
+$wb['client_txt'] = 'Cliente';
+$wb['limit_maildomain_txt'] = 'O número máximo de contas de correio eletrônico para este domínio foi atingido.';
+$wb['policy_txt'] = 'Filtro Anti-Spam';
+$wb['no_policy'] = '- desactivado -';
+?>
+

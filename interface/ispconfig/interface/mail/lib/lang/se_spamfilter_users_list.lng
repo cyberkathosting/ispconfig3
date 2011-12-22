@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Spamfilter Users';
+$wb['local_txt'] = 'Local';
+$wb['server_id_txt'] = 'Server';
+$wb['priority_txt'] = 'Priority';
+$wb['policy_id_txt'] = 'Policy';
+$wb['fullname_txt'] = 'Name';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Add Spamfilter User';
+?>

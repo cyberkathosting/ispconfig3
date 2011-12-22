@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Lataa kielitiedosto';
+$wb['language_select_txt'] = 'Valitse ladattava kieli';
+$wb['btn_save_txt'] = 'Lataa valittu kielitiedosto';
+$wb['btn_cancel_txt'] = 'Takaisin';
+?>

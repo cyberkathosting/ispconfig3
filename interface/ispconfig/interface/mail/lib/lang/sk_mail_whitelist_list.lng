@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Email biela listina';
+$wb['active_txt'] = 'Aktívne';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Adresy v bielej listine';
+$wb['type_txt'] = 'Typ';
+$wb['recipient_txt'] = 'Príjemca';
+$wb['add_new_record_txt'] = 'Prida? nový záznam do  bielej listiny';
+$wb['access_txt'] = 'prístup';
+?>

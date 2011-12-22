@@ -1,0 +1,27 @@
+<?php
+$wb['server_id_txt'] = 'Сервер';
+$wb['origin_txt'] = 'Зона (SOA)';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['serial_txt'] = 'Serial';
+$wb['refresh_txt'] = 'Refresh';
+$wb['retry_txt'] = 'Retry';
+$wb['expire_txt'] = 'Expire';
+$wb['minimum_txt'] = 'Minimum';
+$wb['ttl_txt'] = 'TTL';
+$wb['xfer_txt'] = 'Xfer (IP)';
+$wb['active_txt'] = 'Активна?';
+$wb['limit_dns_zone_txt'] = 'Максимальное число DNS зон для учетной записи, достигнуто';
+$wb['client_txt'] = 'Клиент';
+$wb['no_zone_perm'] = 'Вы не имеет прав для добавления записи в DNS зону.';
+$wb['server_id_error_empty'] = 'Сервер не выбран';
+$wb['origin_error_empty'] = 'Зона пуста.';
+$wb['origin_error_unique'] = 'Для этой зоны уже есть запись.';
+$wb['origin_error_regex'] = 'Зона имеет неправильный формат.';
+$wb['ns_error_regex'] = 'NS имеет неправильный формат.';
+$wb['mbox_error_empty'] = 'Email пуст.';
+$wb['mbox_error_regex'] = 'Email имеет неправильный формат.';
+$wb['also_notify_txt'] = 'Известить';
+$wb['update_acl_txt'] = 'Обновить ACL';
+?>
+

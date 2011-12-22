@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['source_txt'] = 'Adresse de la liste noire';
+$wb['recipient_txt'] = 'Bénéficiaire';
+$wb['active_txt'] = 'Actif';
+$wb['source_error_notempty'] = 'Ladresse est vide.';
+$wb['type_txt'] = 'Type';
+$wb['limit_mailfilter_txt'] = 'Le nombre max. de filtres demails pour votre compte a été atteint.';
+?>

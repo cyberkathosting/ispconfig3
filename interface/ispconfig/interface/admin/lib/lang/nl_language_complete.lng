@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Samenvoegen';
+$wb['language_select_txt'] = 'Selecteer taal';
+$wb['btn_save_txt'] = 'Bestanden nu samenvoegen';
+$wb['btn_cancel_txt'] = 'Terug';
+$wb['list_desc_txt'] = 'Laat ontbrekende teksten in de geselecteerde taal aanvullen vanuit de Engelstalige master.';
+?>

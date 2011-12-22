@@ -1,0 +1,21 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['parent_domain_id_txt'] = 'Sitio web padre';
+$wb['active_txt'] = 'Activar';
+$wb['client_txt'] = 'Cliente';
+$wb['run_min_txt'] = 'Minutos';
+$wb['run_hour_txt'] = 'Horas';
+$wb['run_mday_txt'] = 'Días del mes';
+$wb['run_month_txt'] = 'Meses';
+$wb['run_wday_txt'] = 'Días de la semana';
+$wb['command_txt'] = 'Comando a ejecutar (los comandos son ejecutados via sh y las URLs via wget)';
+$wb['limit_cron_txt'] = 'Se ha alcanzado el número máximo de tareas cron.';
+$wb['limit_cron_frequency_txt'] = 'La frecuencia de la tarea cron excede el límite permitido.';
+$wb['run_min_error_format'] = 'Formato no válido para los minutos.';
+$wb['run_hour_error_format'] = 'Formato no válido para las horas.';
+$wb['run_mday_error_format'] = 'Formato no válido para los días del mes.';
+$wb['run_month_error_format'] = 'Formato no válido para los meses.';
+$wb['run_wday_error_format'] = 'Formato no válido para los días de la semana.';
+$wb['command_error_format'] = 'Formato de comando no válido. En el caso de las llamadas a URLs sólo se permite http o https.';
+$wb['unknown_fieldtype_error'] = 'Se ha usado un tipo de campo desconocido.';
+?>

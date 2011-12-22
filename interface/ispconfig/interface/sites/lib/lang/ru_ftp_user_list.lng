@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'FTP-Пользователь';
+$wb['active_txt'] = 'Активен?';
+$wb['server_id_txt'] = 'Сервер';
+$wb['parent_domain_id_txt'] = 'Веб сайт';
+$wb['username_txt'] = 'Пользователь';
+$wb['add_new_record_txt'] = 'Добавить нового FTP-Пользователя';
+?>
+

@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Сервер';
+$wb['domain_txt'] = 'Домен';
+$wb['destination_txt'] = 'Получатель';
+$wb['type_txt'] = 'Тип';
+$wb['mx_txt'] = 'Не просматривать MX';
+$wb['sort_order_txt'] = 'Сортировать по';
+$wb['active_txt'] = 'Активен?';
+$wb['limit_mailrouting_txt'] = 'Достигнуто макс. количество маршрутов для вашего аккаунта.';
+?>
+

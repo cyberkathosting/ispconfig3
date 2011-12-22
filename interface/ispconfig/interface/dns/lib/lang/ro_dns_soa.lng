@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zone (SOA)';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['serial_txt'] = 'Serial';
+$wb['refresh_txt'] = 'Reincarca';
+$wb['retry_txt'] = 'Reincearca';
+$wb['expire_txt'] = 'Expire';
+$wb['minimum_txt'] = 'Minimum';
+$wb['ttl_txt'] = 'TTL';
+$wb['xfer_txt'] = 'Accepta transfer zone catre <br />aceste  IP-uri (comma separated list)';
+$wb['active_txt'] = 'Active';
+$wb['limit_dns_zone_txt'] = 'numar max  DNS zone pentru contul dumnevoastra a fost atins.';
+$wb['client_txt'] = 'Client';
+$wb['no_zone_perm'] = 'Nu aveti permisiunea de a adauga aceasta inregistrare in  zona DNS .';
+$wb['server_id_error_empty'] = 'Nu a fost ales serverul';
+$wb['origin_error_empty'] = 'Zone goale';
+$wb['origin_error_unique'] = 'Exista deja o inregistrare pentru aceasta zona';
+$wb['origin_error_regex'] = 'Zona are un format invalid';
+$wb['ns_error_regex'] = 'NS are un format invalid';
+$wb['mbox_error_empty'] = 'Email-ul este gol';
+$wb['mbox_error_regex'] = 'Format email invalid.';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
+?>

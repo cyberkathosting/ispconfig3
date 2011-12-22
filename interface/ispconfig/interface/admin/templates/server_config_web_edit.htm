@@ -1,0 +1,74 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_server_config">
+  
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels">
+      <div class="ctrlHolder">
+      	<label for="website_basedir">{tmpl_var name='website_basedir_txt'}</label>
+        <input name="website_basedir" id="website_basedir" value="{tmpl_var name='website_basedir'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="website_path">{tmpl_var name='website_path_txt'}</label>
+        <input name="website_path" id="website_path" value="{tmpl_var name='website_path'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="website_symlinks">{tmpl_var name='website_symlinks_txt'}</label>
+        <input name="website_symlinks" id="website_symlinks" value="{tmpl_var name='website_symlinks'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+      <div class="ctrlHolder">
+      	<label for="vhost_conf_dir">{tmpl_var name='vhost_conf_dir_txt'}</label>
+        <input name="vhost_conf_dir" id="vhost_conf_dir" value="{tmpl_var name='vhost_conf_dir'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="vhost_conf_enabled_dir">{tmpl_var name='vhost_conf_enabled_dir_txt'}</label>
+        <input name="vhost_conf_enabled_dir" id="vhost_conf_enabled_dir" value="{tmpl_var name='vhost_conf_enabled_dir'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+	  <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='security_level_txt'}</p>
+					<div class="multiField">
+						<select name="security_level" id="security_level" class="selectInput">
+					{tmpl_var name='security_level'}
+				</select>
+					</div>
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="user">{tmpl_var name='web_user_txt'}</label>
+        <input name="user" id="user" value="{tmpl_var name='user'}" size="40" maxlength="255" type="text" class="textInput" />
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="group">{tmpl_var name='web_group_txt'}</label>
+        <input name="group" id="group" value="{tmpl_var name='group'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="php_open_basedir">{tmpl_var name='php_open_basedir_txt'}</label>
+        <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="htaccess_allow_override">{tmpl_var name='htaccess_allow_override_txt'}</label>
+        <input name="htaccess_allow_override" id="htaccess_allow_override" value="{tmpl_var name='htaccess_allow_override'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="apps_vhost_port">{tmpl_var name='apps_vhost_port_txt'}</label>
+        <input name="apps_vhost_port" id="apps_vhost_port" value="{tmpl_var name='apps_vhost_port'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="apps_vhost_ip">{tmpl_var name='apps_vhost_ip_txt'}</label>
+        <input name="apps_vhost_ip" id="apps_vhost_ip" value="{tmpl_var name='apps_vhost_ip'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="apps_vhost_servername">{tmpl_var name='apps_vhost_servername_txt'}</label>
+        <input name="apps_vhost_servername" id="apps_vhost_servername" value="{tmpl_var name='apps_vhost_servername'}" size="40" maxlength="255" type="text" class="textInput" />
+	  </div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

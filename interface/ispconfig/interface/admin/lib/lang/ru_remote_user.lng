@@ -1,0 +1,43 @@
+<?php
+$wb['username_txt'] = 'Лоигн:';
+$wb['password_txt'] = 'Пароль:';
+$wb['function_txt'] = 'Функции:';
+$wb['username_error_unique'] = 'Логин должен быть уникальным';
+$wb['username_error_empty'] = 'Логин не должен быть пустым';
+$wb['password_error_empty'] = 'Пароль не должен быть пустым';
+$wb['password_strength_txt'] = 'Стойкость пароля:';
+$wb['Mail domain functions'] = 'Функции почтового домена';
+$wb['Mail user functions'] = 'Функции почтовых пользователей';
+$wb['Mail alias functions'] = 'Функции почтовых алиасов';
+$wb['Mail forward functions'] = 'Функции почтовых пересылок';
+$wb['Mail catchall functions'] = 'Функции catchall';
+$wb['Mail transport functions'] = 'Функции почтового транспорта';
+$wb['Mail whitelist functions'] = 'Функции белых списков почты';
+$wb['Mail blacklist functions'] = 'Функции черных списков почты';
+$wb['Mail spamfilter user functions'] = 'Функции почтового спам-фильтра';
+$wb['Mail spamfilter policy functions'] = 'Функции правил почтового спам-фильтра';
+$wb['Mail fetchmail functions'] = 'Функции fetchmail';
+$wb['Mail user filter functions'] = 'Функции пользовательских фильтров почты';
+$wb['Mail filter functions'] = 'Функции почтовых фильтров';
+$wb['Client functions'] = 'Функции клиентов';
+$wb['Sites cron functions'] = 'Функции cron сайтов';
+$wb['Sites database functions'] = 'Функции БД сайтов';
+$wb['Sites FTP-User functions'] = 'Функции FTP-пользователей';
+$wb['Sites Shell-User functions'] = 'Функции Shell-пользователей';
+$wb['Sites Domain functions'] = 'Функции доменов';
+$wb['Sites Aliasdomain functions'] = 'Функции алиасов доменов';
+$wb['Sites Subdomain functions'] = 'Функции субдоменов';
+$wb['DNS zone functions'] = 'Функции DNS зон';
+$wb['DNS a functions'] = 'Функции DNS';
+$wb['DNS aaaa functions'] = 'Функции DNS aaaa';
+$wb['DNS alias functions'] = 'Функции DNS alias';
+$wb['DNS cname functions'] = 'Функции DNS cname';
+$wb['DNS hinfo functions'] = 'Функции DNS hinfo';
+$wb['DNS mx functions'] = 'Функции DNS mx';
+$wb['DNS ns functions'] = 'Функции DNS ns';
+$wb['DNS ptr functions'] = 'Функции DNS ptr';
+$wb['DNS rp functions'] = 'Функции DNS rp';
+$wb['DNS srv functions'] = 'Функции DNS srv';
+$wb['DNS txt functions'] = 'Функции DNS txt';
+?>
+

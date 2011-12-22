@@ -1,0 +1,16 @@
+<?php
+$wb['header_txt'] = 'Editor de menú';
+$wb['title_txt'] = 'Título';
+$wb['name_txt'] = 'Módulo';
+$wb['delete_txt'] = 'Eliminar';
+$wb['properties_txt'] = 'Propiedades';
+$wb['new_menu_txt'] = 'Nuevo menú';
+$wb['edit_txt'] = 'Editar';
+$wb['new_txt'] = 'Nuevo';
+$wb['up_txt'] = 'Arriba';
+$wb['down_txt'] = 'Abajo';
+$wb['module_txt'] = 'Módulo';
+$wb['module_del_txt'] = '¿Quiere eliminar el módulo y eliminar todos los ficheros creados dentro de él?';
+$wb['menu_del_txt'] = '¿Quiere eliminar el menú con todo sus elementos?';
+$wb['item_del_txt'] = '¿Quiere eliminar el elemento del menú?';
+?>

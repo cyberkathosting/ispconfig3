@@ -1,0 +1,18 @@
+<?php
+$wb['pass_reset_txt'] = 'Uma nova senha foi gerada e ser-lhe-á enviada para o correio eletrônico registado no sistema.';
+$wb['pw_reset'] = 'Senha restabelecida! Ser-lhe-á enviada para o correio eletrônico registado no sistema.';
+$wb['pw_error'] = 'Nome de utilizador ou correio eletrônico não coincidem.';
+$wb['pw_error_noinput'] = 'Favor informar nome de utilizador e endereço de correio válidos.';
+$wb['pw_reset_mail_msg'] = 'A senha do painel de controle foi restabelecida. A nova senha é: ';
+$wb['pw_reset_mail_title'] = 'A senha do painel de controle foi restabelecida.';
+$wb['user_regex_error'] = 'O nome de utilizador contém mais de 64 caracteres ou contém caracteres inválidos.';
+$wb['pw_error_length'] = 'Tamanho da senha não pode ser maior do que 64 caracteres.';
+$wb['error_user_password_empty'] = 'Utilizador ou Senha em branco.';
+$wb['error_user_password_incorrect'] = 'Utilizador ou Senha inválida(o).';
+$wb['error_user_blocked'] = 'O utilizador está bloqueado.';
+$wb['error_user_too_many_logins'] = 'Várias tentativas de logins inválidas, faça uma nova tentativa dentro de 15 minutos.';
+$wb['username_txt'] = 'Utilizador ';
+$wb['password_txt'] = 'Senha';
+$wb['login_button_txt'] = 'Entrar';
+?>
+

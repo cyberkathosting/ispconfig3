@@ -1,0 +1,22 @@
+<?php
+$wb['Database'] = 'Databases';
+$wb['Options'] = 'Opties';
+$wb['Shell User'] = 'Shell gebruiker';
+$wb['Domain'] = 'Overzicht';
+$wb['Redirect'] = 'Redirect';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Website subdomeinen';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Website domeinaliassen';
+$wb['FTP-User'] = 'FTP gebruikers';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell gebruikers';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Websites';
+$wb['Stats'] = 'Statistieken';
+$wb['Website'] = 'Website overzicht';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistics';
+$wb['Web traffic'] = 'Web Traffic';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Taalbestand editor';
+$wb['language_select_txt'] = 'Selecteer taal';
+$wb['module_txt'] = 'Module';
+$wb['lang_file_txt'] = 'Taalbestand';
+$wb['btn_save_txt'] = 'Opslaan';
+$wb['btn_cancel_txt'] = 'Terug';
+?>

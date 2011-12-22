@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Clienti';
+$wb['client_id_txt'] = 'ID';
+$wb['company_name_txt'] = 'Nume companie';
+$wb['contact_name_txt'] = 'Contact nume';
+$wb['city_txt'] = 'Oras';
+$wb['country_txt'] = 'Tara';
+$wb['add_new_record_txt'] = 'Adauga client nou';
+?>

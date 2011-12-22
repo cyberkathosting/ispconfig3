@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'スパムフィルターブラックリスト';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['priority_txt'] = '優先度';
+$wb['rid_txt'] = 'ユーザー';
+$wb['email_txt'] = 'ブラックリストアドレス';
+$wb['add_new_record_txt'] = 'ブラックリストを追加する';
+?>

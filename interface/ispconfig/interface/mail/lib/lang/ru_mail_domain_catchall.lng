@@ -1,0 +1,10 @@
+<?php
+$wb['domain_txt'] = 'Домен';
+$wb['destination_txt'] = 'Получатель';
+$wb['active_txt'] = 'Активен?';
+$wb['domain_error_unique'] = 'Уже есть Catchall запись для этого домена.';
+$wb['no_domain_perm'] = 'Вы не имеете прав для этого домена.';
+$wb['domain_error_regex'] = 'Неправльная запись или неразрешенные символы.';
+$wb['limit_mailcatchall_txt'] = 'Максимальное число catchall записей, достигнуто.';
+?>
+

@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Haladó Email irányítás';
+$wb['active_txt'] = 'Aktív';
+$wb['server_id_txt'] = 'Szerver';
+$wb['domain_txt'] = 'Domain';
+$wb['transport_txt'] = 'Szállító közeg';
+$wb['sort_order_txt'] = 'Rendezés';
+$wb['add_new_record_txt'] = 'Új irányítás';
+?>

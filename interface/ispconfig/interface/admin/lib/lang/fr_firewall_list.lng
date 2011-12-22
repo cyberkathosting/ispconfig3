@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Pare-feu';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
+$wb['tcp_port_txt'] = 'Ouvrir des ports TCP';
+$wb['udp_port_txt'] = 'Ouvrir des ports UDP';
+$wb['add_new_record_txt'] = 'Ajouter un enregistrement au pare-feu';
+?>

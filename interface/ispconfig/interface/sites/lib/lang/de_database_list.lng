@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Datenbank';
+$wb['active_txt'] = 'Aktiv';
+$wb['remote_access_txt'] = 'Remotezugang';
+$wb['server_id_txt'] = 'Server';
+$wb['database_name_txt'] = 'Datenbankname';
+$wb['add_new_record_txt'] = 'Neue Datenbank hinzufügen';
+?>

@@ -1,0 +1,27 @@
+<?php
+$wb['uid_txt'] = 'UID';
+$wb['gid_txt'] = 'GID';
+$wb['dir_txt'] = 'Directory';
+$wb['quota_files_txt'] = 'Filequota';
+$wb['quota_files_unity_txt'] = 'Files';
+$wb['ul_ratio_txt'] = 'Uploadratio';
+$wb['dl_ratio_txt'] = 'Downloadratio';
+$wb['ul_bandwidth_txt'] = 'Upload bandwidth';
+$wb['dl_bandwidth_txt'] = 'Download bandwidth';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['username_txt'] = 'Username';
+$wb['password_txt'] = 'Password';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['quota_size_txt'] = 'Harddisk-Quota';
+$wb['active_txt'] = 'Active';
+$wb['limit_ftp_user_txt'] = 'Numarul maxim de useri FTP pe contul dumneavoastra a fost atins';
+$wb['username_error_empty'] = 'Username necompletat';
+$wb['username_error_unique'] = 'username trebuie sa fie unic.';
+$wb['username_error_regex'] = 'username are caractere nepermise';
+$wb['quota_size_error_empty'] = 'Quota necompletat';
+$wb['uid_error_empty'] = 'GID necompletat';
+$wb['directory_error_empty'] = 'Directory necompletat';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb['parent_domain_id_error_empty'] = 'No website selected.';
+?>

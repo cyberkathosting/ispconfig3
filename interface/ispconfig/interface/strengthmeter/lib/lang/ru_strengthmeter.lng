@@ -1,0 +1,9 @@
+<?php
+$wb['password_strength_0_txt'] = 'Никакой';
+$wb['password_strength_1_txt'] = 'Короткий';
+$wb['password_strength_2_txt'] = 'Средний';
+$wb['password_strength_3_txt'] = 'Хороший';
+$wb['password_strength_4_txt'] = 'Сильный';
+$wb['password_strength_5_txt'] = 'Очень стойкий';
+?>
+

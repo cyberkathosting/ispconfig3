@@ -1,0 +1,22 @@
+<?php
+$wb['Database'] = 'Database';
+$wb['Options'] = 'Opzioni';
+$wb['Shell User'] = 'Utente Shell';
+$wb['Domain'] = 'Domini';
+$wb['Redirect'] = 'Redirect';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Sottodomini';
+$wb['Sites'] = 'Sites';
+$wb['Aliasdomain'] = 'Alias domini';
+$wb['FTP-User'] = 'Utenti FTP';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Utenti Shell';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Siti';
+$wb['Stats'] = 'Statistics';
+$wb['Website'] = 'Website';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistics';
+$wb['Web traffic'] = 'Web Traffic';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Geavanceerde e-mail routing';
+$wb['active_txt'] = 'Actief?';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domeinnaam';
+$wb['transport_txt'] = 'Bestemming';
+$wb['sort_order_txt'] = 'Sorteren op';
+$wb['add_new_record_txt'] = 'Nieuw e-mail route toevoegen';
+?>

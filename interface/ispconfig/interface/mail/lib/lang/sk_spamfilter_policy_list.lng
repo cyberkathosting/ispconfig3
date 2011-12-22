@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Spamfilter Politika';
+$wb['policy_name_txt'] = 'Meno';
+$wb['virus_lover_txt'] = 'Milovník vírusov';
+$wb['spam_lover_txt'] = 'Milovník Spamu';
+$wb['banned_files_lover_txt'] = 'Milovník Zakázaných súborov';
+$wb['bad_header_lover_txt'] = 'Milovník  Zlých hlavi?iek';
+$wb['add_new_record_txt'] = 'Prida? záznam do politiky';
+?>

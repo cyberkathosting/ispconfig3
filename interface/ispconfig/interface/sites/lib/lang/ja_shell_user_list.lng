@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Shellユーザー';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['parent_domain_id_txt'] = 'サイト';
+$wb['username_txt'] = 'ユーザー名';
+$wb['add_new_record_txt'] = 'Shellユーザーを追加する';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['source_txt'] = 'Direcciones de lista negra';
+$wb['recipient_txt'] = 'Destinatario';
+$wb['active_txt'] = 'Activar';
+$wb['source_error_notempty'] = 'La dirección está vacía';
+$wb['type_txt'] = 'Tipo';
+$wb['limit_mailfilter_txt'] = 'Se ha alcanzado el número máximo de filtros de spam para esta cuenta';
+?>

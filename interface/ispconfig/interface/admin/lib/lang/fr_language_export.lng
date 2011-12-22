@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Exporter les fichiers de langue';
+$wb['language_select_txt'] = 'Sélectionnez le langage';
+$wb['btn_save_txt'] = 'Exporte la langue sélectionnée dans un fichier';
+$wb['btn_cancel_txt'] = 'Précédent';
+?>

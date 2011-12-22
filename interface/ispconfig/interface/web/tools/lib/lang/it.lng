@@ -1,0 +1,6 @@
+<?php
+$wb['User Settings'] = 'Impostazioni utente';
+$wb['Settings'] = 'Impostazioni';
+$wb['ISPConfig Tools'] = 'Strumenti ISPConfig';
+$wb['Password and Language'] = 'Password e Lingua';
+?>

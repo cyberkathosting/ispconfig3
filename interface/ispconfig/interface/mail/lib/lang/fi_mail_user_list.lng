@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Postilaatikko';
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['autoresponder_txt'] = 'Lomavastaaja';
+$wb['add_new_record_txt'] = 'Lisää uusi postilaatikko';
+$wb['name_txt'] = 'Realname';
+?>

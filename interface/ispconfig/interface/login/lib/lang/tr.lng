@@ -1,0 +1,17 @@
+<?php
+$wb['error_user_password_empty'] = 'Kullanıcı adı veya şifre boş';
+$wb['error_user_password_incorrect'] = 'Kullanıcı adı veya şifre yanlış';
+$wb['error_user_blocked'] = 'Kullanıcı engellendi.';
+$wb['error_user_too_many_logins'] = 'Çok fazla yanlış giriş, Lütfen 15 dakika sonra tekrar deneyiniz.';
+$wb['pass_reset_txt'] = 'Eğer girilen mail adresi hesabınızdaki ile eşleşirse, oluşturucak olan yeni şifreniz mail adresinize gönderilecektir.';
+$wb['pw_reset'] = 'Şifreniz resetlenmiş ve mail adresinize gönderilmiştir.';
+$wb['pw_error'] = 'Kullanıcı adı veya Mail adresiniz eşleşmemektedir.';
+$wb['pw_error_noinput'] = 'Lütfen Mail adresinizi veya Kullanıcı adınızı giriniz.';
+$wb['pw_reset_mail_msg'] = 'ISPConfig 3 Kontrol Paneldeki şifreniz resetlenmiştir. Yeni şifreniz: ';
+$wb['pw_reset_mail_title'] = 'ISPConfig 3 Kontrol Panel şifresi resetlenmiştir.';
+$wb['user_regex_error'] = 'Kullanıcı adınız izin verilmeyen karakterler içermekte veya 64 karakterden uzundur.';
+$wb['pw_error_length'] = 'Şifre 64 karakterden fazla.';
+$wb['username_txt'] = 'Kullanıcı adı';
+$wb['password_txt'] = 'Şifre';
+$wb['login_button_txt'] = 'Giriş';
+?>

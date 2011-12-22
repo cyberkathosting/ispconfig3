@@ -1,0 +1,5 @@
+<?php
+$wb['list_head_txt'] = 'Template client';
+$wb['template_type_txt'] = 'Tp';
+$wb['template_name_txt'] = 'Nume Template';
+?>

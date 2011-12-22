@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'クライアント';
+$wb['client_id_txt'] = 'ID';
+$wb['company_name_txt'] = '社名';
+$wb['contact_name_txt'] = '担当者名';
+$wb['city_txt'] = '市区町村';
+$wb['country_txt'] = '国';
+$wb['add_new_record_txt'] = 'クライアントを追加する';
+?>

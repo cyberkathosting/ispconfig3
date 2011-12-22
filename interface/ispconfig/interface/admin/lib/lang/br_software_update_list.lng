@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Atualizações de Programas';
+$wb['server_select_txt'] = 'Selecione o servidor';
+$wb['installed_txt'] = 'Ações';
+$wb['update_title_txt'] = 'Atualizar';
+$wb['version_txt'] = 'Versão';
+$wb['action_txt'] = 'Ação';
+?>

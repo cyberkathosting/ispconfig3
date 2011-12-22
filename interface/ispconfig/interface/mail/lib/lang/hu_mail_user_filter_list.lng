@@ -1,0 +1,7 @@
+<?php
+$wb['rulename_txt'] = 'Név';
+$wb['page_txt'] = 'Oldal';
+$wb['page_of_txt'] = 'Összesen';
+$wb['add_new_record_txt'] = 'Új szűrő';
+$wb['delete_confirmation'] = 'Do you really want to Delete the mailfilter?';
+?>

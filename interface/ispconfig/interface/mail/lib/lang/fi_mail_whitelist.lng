@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['source_txt'] = 'Luotettu sähköpostiosoite';
+$wb['recipient_txt'] = 'Vastaanottaja';
+$wb['active_txt'] = 'Käytössä';
+$wb['source_error_notempty'] = 'Osoite on tyhjä';
+$wb['type_txt'] = 'Tyyppi';
+$wb['limit_mailfilter_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä suodattimia.';
+?>

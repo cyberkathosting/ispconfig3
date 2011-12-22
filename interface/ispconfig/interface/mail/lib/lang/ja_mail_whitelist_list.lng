@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'メールホワイトリスト';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['source_txt'] = 'ホワイトリストアドレス';
+$wb['type_txt'] = '種別';
+$wb['recipient_txt'] = '宛先';
+$wb['add_new_record_txt'] = 'ホワイトリストに追加する';
+$wb['access_txt'] = 'access';
+?>

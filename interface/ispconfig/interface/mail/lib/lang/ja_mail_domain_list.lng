@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'メールドメイン';
+$wb['server_id_txt'] = 'サーバー';
+$wb['domain_txt'] = 'ドメイン';
+$wb['add_new_record_txt'] = 'ドメインを追加する';
+$wb['active_txt'] = '有効';
+?>

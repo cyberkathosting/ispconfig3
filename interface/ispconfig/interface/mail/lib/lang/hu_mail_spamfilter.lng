@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'Email';
+$wb['spam_rewrite_score_int_txt'] = 'Újra pontoz';
+$wb['spam_redirect_score_int_txt'] = 'Átirányítás forrás';
+$wb['spam_delete_score_int_txt'] = 'Pontokat töröl';
+$wb['spam_rewrite_subject_txt'] = 'Tárgy mezőt átír';
+$wb['spam_redirect_maildir_txt'] = 'Átirányít ebbe a levelezőládába';
+$wb['active_txt'] = 'Aktív';
+$wb['spam_rewrite_txt'] = 'Átírja az email tárgyát ha eléri ezt a pontszámot';
+$wb['spam_redirect_txt'] = 'A kiválasztott levelezőládába átirányítja a levelet, ha eléri ezt a pontszámot.';
+$wb['spam_delete_txt'] = 'Törli az email ha eléri ezt a pontszámot';
+$wb['disable_txt'] = 'Tipp: A szürés tiltásához, állítsa a pontot 0.00-ra.';
+$wb['email_error_isemail'] = 'Email cím érvénytelen.';
+$wb['email_error_unique'] = 'Ehhez az emailhez tartozik már egy szűrő.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Levelesládát kiüríti ';
+$wb['days_txt'] = 'nap után.';
+?>

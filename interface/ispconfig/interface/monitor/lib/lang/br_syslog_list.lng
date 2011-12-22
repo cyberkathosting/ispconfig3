@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Log do Painel';
+$wb['tstamp_txt'] = 'Data';
+$wb['server_id_txt'] = 'Servidor';
+$wb['loglevel_txt'] = 'Nível do Log';
+$wb['message_txt'] = 'Mensagem';
+?>

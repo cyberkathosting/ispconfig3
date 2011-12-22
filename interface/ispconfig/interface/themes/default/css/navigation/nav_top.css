@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Horizontal list navigation - ISPConfig 3: default theme
+ * (de) Horizontale Navigationsliste - ISPConfig 3: default theme
+ *
+ * @copyright       Copyright 2005-2008, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.0.6
+ * @revision        $Revision: 202 $
+ * @lastmodified    $Date: 2008-06-07 14:29:18 +0200 (Sa, 07 Jun 2008) $
+ */
+
+@media all
+{
+  	#topNav ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	
+	#topNav li {
+		display: inline;
+		margin: 0 2px 0 0;
+	}
+	
+	#topNav a {
+		padding: 0 1.5em;
+		text-decoration: none;
+		color: black;
+		background: #d3d3d3;
+	}
+	
+	#topNav a:hover {
+		background: #fc0;
+		color: #540;
+	}
+	
+	#topNav #topNav_current {
+	}
+	
+	#topNav #topNav_current a {
+		padding-bottom: 2px;
+		font-weight: bold;
+		color: #ff6600;
+		background: #ffffff;
+	}
+}

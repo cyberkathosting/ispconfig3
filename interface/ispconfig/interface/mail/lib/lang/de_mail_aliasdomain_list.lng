@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Domainalias';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_txt'] = 'Quelle';
+$wb['destination_txt'] = 'Ziel';
+$wb['add_new_record_txt'] = 'Neuen Domainalias hinzufügen';
+?>

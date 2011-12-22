@@ -1,0 +1,20 @@
+<?php
+$wb['getmail_config_dir_txt'] = 'Getmail Config Path';
+$wb['ip_address_txt'] = 'IP Address';
+$wb['netmask_txt'] = 'Netmask';
+$wb['gateway_txt'] = 'Gateway';
+$wb['hostname_txt'] = 'Hostname';
+$wb['nameservers_txt'] = 'Nameservers';
+$wb['module_txt'] = 'Server Module';
+$wb['maildir_path_txt'] = 'Maildir Path';
+$wb['homedir_path_txt'] = 'Homedir Path';
+$wb['mailuser_uid_txt'] = 'Mailuser UID';
+$wb['mailuser_gid_txt'] = 'Mailuser GID';
+$wb['mailuser_name_txt'] = 'Mailuser Name';
+$wb['mailuser_group_txt'] = 'Mailuser Group';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Relayhost Password';
+$wb['mailbox_size_limit_txt'] = 'Mailbox Size Limit';
+$wb['message_size_limit_txt'] = 'Message Size Limit';
+?>

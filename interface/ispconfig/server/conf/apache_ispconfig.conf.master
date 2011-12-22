@@ -1,0 +1,43 @@
+
+################################################
+# ISPConfig Logfile configuration for vlogger
+################################################
+
+LogFormat "%v %h %l %u %t \"%r\" %>s %B \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
+CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m%d-access.log\" -d \"/etc/vlogger-dbi.conf\" /var/log/ispconfig/httpd" combined_ispconfig
+
+<Directory /var/www/clients>
+    AllowOverride None
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+# Do not allow access to the root file system of the server for security reasons
+<Directory />
+       AllowOverride None
+       Order Deny,Allow
+       Deny from all
+</Directory>
+
+# Except of the following directories that contain website scripts
+<Directory /usr/share/phpmyadmin>
+        Order allow,deny
+        Allow from all
+</Directory>
+
+<Directory /usr/share/phpMyAdmin>
+        Order allow,deny
+        Allow from all
+</Directory>
+
+<Directory /usr/share/squirrelmail>
+        Order allow,deny
+        Allow from all
+</Directory>
+
+
+<tmpl_loop name="ip_adresses">
+NameVirtualHost {tmpl_var name="ip_address"}:80
+NameVirtualHost {tmpl_var name="ip_address"}:443
+</tmpl_loop>
+

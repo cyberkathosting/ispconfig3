@@ -1,0 +1,14 @@
+<?php
+$wb['Client'] = 'Cliente';
+$wb['Address'] = 'Endereço';
+$wb['Limits'] = 'Limites';
+$wb['Add Client'] = 'Adicionar Cliente';
+$wb['Edit Client'] = 'Editar Cliente';
+$wb['Clients'] = 'Clientes';
+$wb['Edit Client-Templates'] = 'Editar Templates de Clientes';
+$wb['Add Reseller'] = 'Adicionar Revendedor';
+$wb['Edit Reseller'] = 'Editar Revendedor';
+$wb['Resellers'] = 'Revendedores';
+$wb['error_has_clients'] = 'Este revendedor possui clientes. Deve remover os clientes primeiro.';
+?>
+

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Алиас домена';
+$wb['active_txt'] = 'Активен?';
+$wb['source_txt'] = 'Исходный';
+$wb['destination_txt'] = 'Назначение';
+$wb['add_new_record_txt'] = 'Добавить алиас';
+?>
+

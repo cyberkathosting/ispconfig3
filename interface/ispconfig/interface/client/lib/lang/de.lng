@@ -1,0 +1,13 @@
+<?php
+$wb['Client'] = 'Kunden';
+$wb['Address'] = 'Adresse';
+$wb['Limits'] = 'Limits';
+$wb['Add Client'] = 'Kunde hinzufügen';
+$wb['Edit Client'] = 'Kunde bearbeiten';
+$wb['Clients'] = 'Kunden';
+$wb['Edit Client-Templates'] = 'Kundenvorlagen bearbeiten';
+$wb['Add Reseller'] = 'Reseller hinzufügen';
+$wb['Edit Reseller'] = 'Reseller bearbeiten';
+$wb['Resellers'] = 'Reseller';
+$wb['error_has_clients'] = 'Dieser Reseller besitzt Kunden. Bitte zuerst die Kunden löschen.';
+?>

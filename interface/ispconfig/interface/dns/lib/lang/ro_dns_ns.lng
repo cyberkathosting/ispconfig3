@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Zone';
+$wb['type_txt'] = 'tip';
+$wb['data_txt'] = 'Nameserver Hostname';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Active';
+$wb['limit_dns_record_txt'] = 'Numarul maxim de inregistrari DNS pe contul dumneavoastra a ajuns la limita';
+$wb['no_zone_perm'] = 'Nu aveti permisiunea e a adauga inregistrari la aceasta zona DNS';
+$wb['name_error_empty'] = 'Zona e necompletata';
+$wb['name_error_regex'] = 'Zona are format gresit';
+$wb['data_error_empty'] = 'Nameserver necompletat';
+$wb['data_error_regex'] = 'Nameserver format invalid';
+?>

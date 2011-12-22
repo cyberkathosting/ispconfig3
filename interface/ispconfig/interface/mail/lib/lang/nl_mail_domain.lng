@@ -1,0 +1,13 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domeinnaam';
+$wb['type_txt'] = 'Type';
+$wb['active_txt'] = 'Actief?';
+$wb['domain_error_empty'] = 'Domeinnaam is leeg.';
+$wb['domain_error_unique'] = 'Domeinnaam is reeds aanwezig.';
+$wb['domain_error_regex'] = 'Ongeldige domeinnaam.';
+$wb['client_txt'] = 'Klant';
+$wb['limit_maildomain_txt'] = 'Het max. aantal aan e-maildomeinen voor uw account is bereikt.';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- niet ingeschakeld -';
+?>

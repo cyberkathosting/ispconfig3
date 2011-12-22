@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Tip';
+$wb['source_server_txt'] = 'Pop3/Imap Server';
+$wb['source_username_txt'] = 'Username';
+$wb['source_password_txt'] = 'Password';
+$wb['source_delete_txt'] = 'Sterge email dupa preluare ';
+$wb['destination_txt'] = 'Destinatie';
+$wb['active_txt'] = 'Active';
+$wb['limit_fetchmail_txt'] = 'Numarul maxim de FETCHMAIL a fost atins  pentru contul dumneavoastra';
+$wb['source_server_error_isempty'] = 'Server este necompletat';
+$wb['source_username_error_isempty'] = 'Username este necompletat';
+$wb['source_password_error_isempty'] = 'Password este necompletat';
+$wb['destination_error_isemail'] = 'Nici o destinatie nu e selectata';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+?>

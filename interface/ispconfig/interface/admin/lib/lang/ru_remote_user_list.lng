@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Удаленные пользователи';
+$wb['list_desc_txt'] = '';
+$wb['add_new_record_txt'] = 'Добавить нового пользователя';
+$wb['parent_remote_userid_txt'] = 'ID';
+$wb['username_txt'] = 'Логин';
+?>
+

@@ -1,0 +1,8 @@
+<?php
+$wb['passwort_txt'] = 'Jelszó';
+$wb['language_txt'] = 'Nyelv';
+$wb['password_mismatch'] = 'Jelszavak nem egyeznek meg.';
+$wb['Form to edit the user password and language.'] = 'Jelszó és nyelv beállító oldal.';
+$wb['Settings'] = 'Beállítások';
+$wb['password_strength_txt'] = 'Jelszó erősség';
+?>

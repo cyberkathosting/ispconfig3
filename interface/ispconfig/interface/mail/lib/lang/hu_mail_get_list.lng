@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Legyüjtés külső POP3 / IMAP szerverről';
+$wb['active_txt'] = 'Aktív';
+$wb['server_id_txt'] = 'Szerver';
+$wb['source_server_txt'] = 'Külső szerver';
+$wb['source_username_txt'] = 'Felhasználónév';
+$wb['destination_txt'] = 'Címzett';
+$wb['add_new_record_txt'] = 'Új legyűjtés';
+?>

@@ -1,0 +1,822 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Uniform design of ISPConfig elements - ISPConfig 3: default theme
+ * (de) Einheitliche Standardformatierungen f�r ISPConfig-Elemente - ISPConfig 3: default theme
+ *
+ * @copyright       Copyright 2005-2008, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.0.6
+ * @revision        $Revision: 202 $
+ * @lastmodified    $Date: 2008-06-07 14:29:18 +0200 (Sa, 07 Jun 2008) $
+ * @appdef yaml
+ */
+
+@media all
+{
+	.pageForm_description {
+		font-size: 12px;
+	}
+	
+	/* Tab-Box */
+	.tabbox_tabs {
+    	border-bottom: 1px solid #d3d3d3;
+	}
+	.tabbox_tabs ul {
+    	list-style: none;
+    	padding: 0;
+    	margin: 0;
+	}
+	.tabbox_tabs li {
+    	display: inline;
+    	margin: 0 2px 0 0;
+	}
+	.tabbox_tabs a {
+    	padding: 0 1em;
+    	text-decoration: none;
+    	color: black;
+    	background: #d3d3d3;
+    	border: 1px solid #d3d3d3;
+	}
+	.tabbox_tabs a:hover {
+    	background: #fc0;
+    	color: #540;
+	}
+	.tabbox_tabs .active a {
+    	font-weight: bold;
+    	color: #ff6600;
+    	background: #ffffff;
+	}
+	
+	.pnl_toolsarea fieldset, .pnl_listarea fieldset, .pnl_formsarea fieldset {
+		border-color: #6299c5 -moz-use-text-color -moz-use-text-color;
+		border-style: solid none none;
+		border-width: 1px medium medium;
+		margin: 20px 0;
+	}
+	.pnl_toolsarea fieldset legend , .pnl_listarea fieldset legend {
+		font-weight: bold;
+		color: #6299c5;
+	}
+	.pnl_formarea fieldset {
+		font-weight: bold;
+	}
+
+	/* hide line and legend when inside tabbed content */
+	#tabbox_content * .pnl_toolsarea fieldset, #tabbox_content * .pnl_listarea fieldset, #tabbox_content * .pnl_formsarea fieldset { border: none !important; }
+	#tabbox_content * .pnl_toolsarea fieldset legend, #tabbox_content * .pnl_listarea fieldset legend, #tabbox_content * .pnl_formsarea fieldset legend { display: none !important; }
+	
+	.codeview {
+		margin:20px 0;
+		padding:2px;
+		border: 1px solid #ffcc00;
+		background: #fffaea;
+		font-family: Consolas, "Lucida Console", "Courier New", monospace;
+		font-size: 0.9em;
+	}
+	
+	/* Lists */
+	table.list {
+		width: 100%;
+		border: 1px solid #d3d3d3 !important;
+	}
+	table.list thead th { font-size: 10px; }
+	table.list tbody { border: 1px solid #d3d3d3 !important; }
+	table.list tfoot td { text-align: center;  background: #f8f8f8 url(../../images/lists_tfoot_bg.png) repeat-x bottom left;  padding: 24px 8px 8px 8px; }
+	table.list .tbl_row_even { background: #fcfcfc; }
+	table.list .tbl_row_uneven { background: #f0f8ff; }
+	table.list tr:hover { background: #fffacd; }
+
+    /* Password Strength */
+    #passBar {
+        width: 101px; height: 10px;
+        background: url(../../images/meter_bg.gif) repeat-x bottom left;
+        margin: 2px 0;
+        float: left;
+    }
+    #passText {
+        padding: 0;
+        float: left;
+    }
+  
+	/* Systemmonitor */
+    .systemmonitor-state {
+		margin: 10px 0;
+		font-family: Consolas, "Lucida Console", "Courier New", monospace;
+		font-size: 0.9em;
+    }
+    .systemmonitor-state.state-no_state {
+		border-top: 4px solid #95A19F;
+		background-color: #f8f8ff;
+    }
+    .systemmonitor-state.state-unknown {
+		border-top: 4px solid #30302e;
+		background-color: #cecfc5;
+    }
+    .systemmonitor-state.state-ok {
+		border-top: 4px solid #23fb00;
+		background-color: #adffa2;
+    }
+    .systemmonitor-state.state-info {
+		border-top: 4px solid #fdff00;
+		background-color: #fdffa2;
+    }
+    .systemmonitor-state.state-warning {
+		border-top: 4px solid #ffa800;
+		background-color: #ffda93;
+    }
+    .systemmonitor-state.state-critical {
+		border-top: 4px solid #ff0000;
+		background-color: #ffb9b9;
+    }
+    .systemmonitor-state.state-error {
+		border-top: 4px solid #ff0000;
+		background-color: #ff7f7f;
+    }
+
+    .systemmonitor-device {
+        background-repeat: no-repeat;
+        background-position: 12px 4px;
+        min-height: 80px;
+    }
+    .systemmonitor-device.device-system { background-image: url("../../icons/x64/network.png"); }
+    .systemmonitor-device.device-server { background-image: url("../../icons/x64/server.png"); }
+
+    .systemmonitor-content.icons32 {
+		padding:2px 10px 2px 80px;
+        background-repeat: no-repeat;
+        background-position: 12px 4px;
+    }
+    .systemmonitor-content.icons32.ico-no_state { /*background-image:url("../../icons/x32/state_no.png"); */ }
+    .systemmonitor-content.icons32.ico-unknown { background-image:url("../../icons/x32/state_unknown.png"); }
+    .systemmonitor-content.icons32.ico-ok { background-image:url("../../icons/x32/state_ok.png"); }
+    .systemmonitor-content.icons32.ico-info { background-image:url("../../icons/x32/state_info.png"); }
+    .systemmonitor-content.icons32.ico-warning { background-image:url("../../icons/x32/state_warning.png"); }
+    .systemmonitor-content.icons32.ico-critical { background-image:url("../../icons/x32/state_critical.png"); }
+    .systemmonitor-content.icons32.ico-error { background-image:url("../../icons/x32/state_error.png"); }
+
+    .systemmonitor-content table {
+		border: none;
+		margin-top: 10px;
+	}
+
+    .systemmonitor-content * .online {
+      border: 1px solid #ffffff;
+		background-color: #E3FFB8;
+      color: #000000;
+		padding:0px 5px;
+	}
+	.systemmonitor-content * .offline {
+      border: 1px solid #ffffff;
+		background-color: #d12f19; 
+		color:#ffffff;
+		padding:0px 5px;
+	}
+
+	/* Image-Replacement */
+	.swap { background-repeat:no-repeat; }
+	.swap span { display:none; height:16px; } 
+	#ir-HeaderLogo { background-image:url("../../images/header_logo.png"); height:32px; } 
+	#ir-Yes { background-image:url("../../icons/x16/tick_circle.png"); height:16px; } 
+	#ir-No { background-image:url("../../icons/x16/cross_circle.png"); height:16px; } 
+  	
+	/* BUTTONS */
+	.buttons a, .buttons button{
+	    display:block;
+	    float:left;
+	    margin:0 7px 0 0;
+	    background-color:#f5f5f5;
+	    border:1px solid #777777;
+	    border-top: 1px solid #c8c8c8;
+	    border-left:1px solid #c8c8c8;
+	
+	    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	    font-size:90%;
+	    line-height:130%;
+	    text-decoration:none;
+	    font-weight:bold;
+	    color:#565656;
+	    cursor:pointer;
+	    padding:5px 10px 6px 7px; /* Links */
+	}
+	.buttons button{
+	    width:auto;
+	    overflow:visible;
+	    padding:4px 10px 3px 7px; /* IE6 */
+	}
+	.buttons button[type]{
+	    padding:5px 10px 5px 7px; /* Firefox */
+	    line-height:17px; /* Safari */
+	}
+	*:first-child+html button[type]{
+	    padding:4px 10px 3px 7px; /* IE7 */
+	}
+	.buttons button img, .buttons a img{
+	    margin:0 3px -3px 0 !important;
+	    padding:0;
+	    border:none;
+	    width:16px;
+	    height:16px;
+	}
+	
+	/* BUTTONS STANDARD */
+	button:hover, .buttons a:hover{
+	    background-color:#dff4ff;
+	    border:1px solid #c2e1ef;
+	    color:#336699;
+	}
+	.buttons a:active{
+	    background-color:#6299c5;
+	    border:1px solid #6299c5;
+	    color:#fff;
+	}
+	
+	/* BUTTONS POSITIVE */
+	button.positive, .buttons a.positive{
+	    color:#529214;
+	}
+	.buttons a.positive:hover, button.positive:hover{
+	    background-color:#E6EFC2;
+	    border:1px solid #C6D880;
+	    color:#529214;
+	}
+	.buttons a.positive:active{
+	    background-color:#529214;
+	    border:1px solid #529214;
+	    color:#fff;
+	}
+	
+	/* BUTTONS NEGATIVE */
+	.buttons a.negative, button.negative{
+	    color:#d12f19;
+	}
+	.buttons a.negative:hover, button.negative:hover{
+	    background-color:#fbe3e4;
+	    border:1px solid #fbc2c4;
+	    color:#d12f19;
+	}
+	.buttons a.negative:active{
+	    background-color:#d12f19;
+	    border:1px solid #d12f19;
+	    color:#fff;
+	}
+
+	/* Button with icon and text */
+	.iconstxt {
+		background-repeat: no-repeat; 
+		background-position: 4px 4px;
+	}
+	.iconstxt span { padding-left: 20px; }
+	.iconstxt.icoPositive { background-image: url("../../icons/x16/tick_circle_frame.png"); }
+	.iconstxt.icoNegative { background-image: url("../../icons/x16/cross_circle_frame.png"); }
+	.iconstxt.icoAdd { background-image: url(../../icons/x16/plus_circle_frame.png); }
+	.iconstxt.icoKey { background-image: url("../../icons/x16/key.png"); }
+	.iconstxt.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
+	
+	/* Button with icon and without text */
+	.icons16 span { display: none; }
+	a.icons16 { height: 18px; width: 18px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+	button.icons16 { height: 20px; width: 20px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+
+	.icons16.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
+	.icons16.icoFilter { background-image: url(../../icons/x16/funnel.png); }
+	.icons16.icoEdit { background-image: url("../../icons/x16/wrench.png"); }
+	.icons16.icoDbAdmin { background-image: url("../../icons/x16/database.png"); }
+	.icons16.icoLoginAs { background-image: url("../../icons/x16/user_go.png"); }
+	.icons16.icoWebmailer { background-image: url("../../icons/x16/mails_arrow.png"); }
+
+
+
+	.blockLabel.email_at {
+		width: 20px !important;
+		margin: 1.6em 0.3em 0 0 !important
+	}
+	.textDisplay { display: block; }
+	
+	/* Form Length Classes */
+	.textInput.formLengthBool { width: 25px !important; }
+	.selectInput.formLengthBool { width: 60px !important; }
+	.textInput.formLengthLimit { width: 50px !important; }
+	.selectInput.formLengthLimit { width: 85px !important; }
+	.formLengthDate { width: 75px !important; }
+	.formLengthIPv4 { width: 125px !important; }
+	.formLengthIPv6 { width: 100% !important; }
+	.formLengthEmailUser { width: 30% !important; }
+	.formLengthEmailDomain { width: 30% !important; }
+	.formLengthHalf { width: 15% !important; }
+	.formLengthDouble { width: 50% !important; }
+
+	/* Individual Form Lengths */
+	.textInput#username, .textInput#password, .textInput#passwort, .textInput#source_password { width: 100px; }
+	.selectInput#language {	width: 75px; }
+	.selectInput#client_group_id, .selectInput#default_group { width: 125px; }
+	input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px !important; }
+
+	/* --- */
+	
+	a[href $='#logout'] { padding-right: 18px; background: transparent url("../../icons/x16/logout.png") no-repeat right top !important;	}
+	
+	/* Select Menu with Images */
+	select.withicons option {
+		background-repeat:no-repeat;
+		background-position: 1px;
+		padding-left:24px;
+	}
+	select.withicons#country option[value="AD"] { background-image:url(../../icons/flags/ad.png); }
+	select.withicons#country option[value="AE"] { background-image:url(../../icons/flags/ae.png); }
+	select.withicons#country option[value="AF"] { background-image:url(../../icons/flags/af.png); }
+	select.withicons#country option[value="AG"] { background-image:url(../../icons/flags/ag.png); }
+	select.withicons#country option[value="AI"] { background-image:url(../../icons/flags/ai.png); }
+	select.withicons#country option[value="AL"] { background-image:url(../../icons/flags/al.png); }
+	select.withicons#country option[value="AM"] { background-image:url(../../icons/flags/am.png); }
+	select.withicons#country option[value="AN"] { background-image:url(../../icons/flags/an.png); }
+	select.withicons#country option[value="AO"] { background-image:url(../../icons/flags/ao.png); }
+	select.withicons#country option[value="AQ"] { background-image:url(../../icons/flags/aq.png); }
+	select.withicons#country option[value="AR"] { background-image:url(../../icons/flags/ar.png); }
+	select.withicons#country option[value="AS"] { background-image:url(../../icons/flags/as.png); }
+	select.withicons#country option[value="AT"] { background-image:url(../../icons/flags/at.png); }
+	select.withicons#country option[value="AU"] { background-image:url(../../icons/flags/au.png); }
+	select.withicons#country option[value="AW"] { background-image:url(../../icons/flags/aw.png); }
+	select.withicons#country option[value="AX"] { background-image:url(../../icons/flags/ax.png); }
+	select.withicons#country option[value="AZ"] { background-image:url(../../icons/flags/az.png); }
+	select.withicons#country option[value="BA"] { background-image:url(../../icons/flags/ba.png); }
+	select.withicons#country option[value="BB"] { background-image:url(../../icons/flags/bb.png); }
+	select.withicons#country option[value="BD"] { background-image:url(../../icons/flags/bd.png); }
+	select.withicons#country option[value="BE"] { background-image:url(../../icons/flags/be.png); }
+	select.withicons#country option[value="BF"] { background-image:url(../../icons/flags/bf.png); }
+	select.withicons#country option[value="BG"] { background-image:url(../../icons/flags/bg.png); }
+	select.withicons#country option[value="BH"] { background-image:url(../../icons/flags/bh.png); }
+	select.withicons#country option[value="BI"] { background-image:url(../../icons/flags/bi.png); }
+	select.withicons#country option[value="BJ"] { background-image:url(../../icons/flags/bj.png); }
+	select.withicons#country option[value="BM"] { background-image:url(../../icons/flags/bm.png); }
+	select.withicons#country option[value="BN"] { background-image:url(../../icons/flags/bn.png); }
+	select.withicons#country option[value="BO"] { background-image:url(../../icons/flags/bo.png); }
+	select.withicons#country option[value="BR"] { background-image:url(../../icons/flags/br.png); }
+	select.withicons#country option[value="BS"] { background-image:url(../../icons/flags/bs.png); }
+	select.withicons#country option[value="BT"] { background-image:url(../../icons/flags/bt.png); }
+	select.withicons#country option[value="BV"] { background-image:url(../../icons/flags/bv.png); }
+	select.withicons#country option[value="BW"] { background-image:url(../../icons/flags/bw.png); }
+	select.withicons#country option[value="BY"] { background-image:url(../../icons/flags/by.png); }
+	select.withicons#country option[value="BZ"] { background-image:url(../../icons/flags/bz.png); }
+	select.withicons#country option[value="CA"] { background-image:url(../../icons/flags/ca.png); }
+	select.withicons#country option[value="CC"] { background-image:url(../../icons/flags/cc.png); }
+	select.withicons#country option[value="CD"] { background-image:url(../../icons/flags/cd.png); }
+	select.withicons#country option[value="CF"] { background-image:url(../../icons/flags/cf.png); }
+	select.withicons#country option[value="CG"] { background-image:url(../../icons/flags/cg.png); }
+	select.withicons#country option[value="CH"] { background-image:url(../../icons/flags/ch.png); }
+	select.withicons#country option[value="CI"] { background-image:url(../../icons/flags/ci.png); }
+	select.withicons#country option[value="CK"] { background-image:url(../../icons/flags/ck.png); }
+	select.withicons#country option[value="CL"] { background-image:url(../../icons/flags/cl.png); }
+	select.withicons#country option[value="CM"] { background-image:url(../../icons/flags/cm.png); }
+	select.withicons#country option[value="CN"] { background-image:url(../../icons/flags/cn.png); }
+	select.withicons#country option[value="CO"] { background-image:url(../../icons/flags/co.png); }
+	select.withicons#country option[value="CR"] { background-image:url(../../icons/flags/cr.png); }
+	select.withicons#country option[value="CS"] { background-image:url(../../icons/flags/cs.png); }
+	select.withicons#country option[value="CU"] { background-image:url(../../icons/flags/cu.png); }
+	select.withicons#country option[value="CV"] { background-image:url(../../icons/flags/cv.png); }
+	select.withicons#country option[value="CX"] { background-image:url(../../icons/flags/cx.png); }
+	select.withicons#country option[value="CY"] { background-image:url(../../icons/flags/cy.png); }
+	select.withicons#country option[value="CZ"] { background-image:url(../../icons/flags/cz.png); }
+	select.withicons#country option[value="DE"] { background-image:url(../../icons/flags/de.png); }
+	select.withicons#country option[value="DJ"] { background-image:url(../../icons/flags/dj.png); }
+	select.withicons#country option[value="DK"] { background-image:url(../../icons/flags/dk.png); }
+	select.withicons#country option[value="DM"] { background-image:url(../../icons/flags/dm.png); }
+	select.withicons#country option[value="DO"] { background-image:url(../../icons/flags/do.png); }
+	select.withicons#country option[value="DZ"] { background-image:url(../../icons/flags/dz.png); }
+	select.withicons#country option[value="EC"] { background-image:url(../../icons/flags/ec.png); }
+	select.withicons#country option[value="EE"] { background-image:url(../../icons/flags/ee.png); }
+	select.withicons#country option[value="EG"] { background-image:url(../../icons/flags/eg.png); }
+	select.withicons#country option[value="EH"] { background-image:url(../../icons/flags/eh.png); }
+	select.withicons#country option[value="ER"] { background-image:url(../../icons/flags/er.png); }
+	select.withicons#country option[value="ES"] { background-image:url(../../icons/flags/es.png); }
+	select.withicons#country option[value="ET"] { background-image:url(../../icons/flags/et.png); }
+	select.withicons#country option[value="FI"] { background-image:url(../../icons/flags/fi.png); }
+	select.withicons#country option[value="FJ"] { background-image:url(../../icons/flags/fj.png); }
+	select.withicons#country option[value="FK"] { background-image:url(../../icons/flags/fk.png); }
+	select.withicons#country option[value="FM"] { background-image:url(../../icons/flags/fm.png); }
+	select.withicons#country option[value="FO"] { background-image:url(../../icons/flags/fo.png); }
+	select.withicons#country option[value="FR"] { background-image:url(../../icons/flags/fr.png); }
+	select.withicons#country option[value="GA"] { background-image:url(../../icons/flags/ga.png); }
+	select.withicons#country option[value="GB"] { background-image:url(../../icons/flags/gb.png); }
+	select.withicons#country option[value="GD"] { background-image:url(../../icons/flags/gd.png); }
+	select.withicons#country option[value="GE"] { background-image:url(../../icons/flags/ge.png); }
+	select.withicons#country option[value="GF"] { background-image:url(../../icons/flags/gf.png); }
+	select.withicons#country option[value="GH"] { background-image:url(../../icons/flags/gh.png); }
+	select.withicons#country option[value="GI"] { background-image:url(../../icons/flags/gi.png); }
+	select.withicons#country option[value="GL"] { background-image:url(../../icons/flags/gl.png); }
+	select.withicons#country option[value="GM"] { background-image:url(../../icons/flags/gm.png); }
+	select.withicons#country option[value="GN"] { background-image:url(../../icons/flags/gn.png); }
+	select.withicons#country option[value="GP"] { background-image:url(../../icons/flags/gp.png); }
+	select.withicons#country option[value="GQ"] { background-image:url(../../icons/flags/gq.png); }
+	select.withicons#country option[value="GR"] { background-image:url(../../icons/flags/gr.png); }
+	select.withicons#country option[value="GS"] { background-image:url(../../icons/flags/gs.png); }
+	select.withicons#country option[value="GT"] { background-image:url(../../icons/flags/gt.png); }
+	select.withicons#country option[value="GU"] { background-image:url(../../icons/flags/gu.png); }
+	select.withicons#country option[value="GW"] { background-image:url(../../icons/flags/gw.png); }
+	select.withicons#country option[value="GY"] { background-image:url(../../icons/flags/gy.png); }
+	select.withicons#country option[value="HK"] { background-image:url(../../icons/flags/hk.png); }
+	select.withicons#country option[value="HM"] { background-image:url(../../icons/flags/hm.png); }
+	select.withicons#country option[value="HN"] { background-image:url(../../icons/flags/hn.png); }
+	select.withicons#country option[value="HR"] { background-image:url(../../icons/flags/hr.png); }
+	select.withicons#country option[value="HT"] { background-image:url(../../icons/flags/ht.png); }
+	select.withicons#country option[value="HU"] { background-image:url(../../icons/flags/hu.png); }
+	select.withicons#country option[value="ID"] { background-image:url(../../icons/flags/id.png); }
+	select.withicons#country option[value="IE"] { background-image:url(../../icons/flags/ie.png); }
+	select.withicons#country option[value="IL"] { background-image:url(../../icons/flags/il.png); }
+	select.withicons#country option[value="IN"] { background-image:url(../../icons/flags/in.png); }
+	select.withicons#country option[value="IO"] { background-image:url(../../icons/flags/io.png); }
+	select.withicons#country option[value="IQ"] { background-image:url(../../icons/flags/iq.png); }
+	select.withicons#country option[value="IR"] { background-image:url(../../icons/flags/ir.png); }
+	select.withicons#country option[value="IS"] { background-image:url(../../icons/flags/is.png); }
+	select.withicons#country option[value="IT"] { background-image:url(../../icons/flags/it.png); }
+	select.withicons#country option[value="JM"] { background-image:url(../../icons/flags/jm.png); }
+	select.withicons#country option[value="JO"] { background-image:url(../../icons/flags/jo.png); }
+	select.withicons#country option[value="JP"] { background-image:url(../../icons/flags/jp.png); }
+	select.withicons#country option[value="KE"] { background-image:url(../../icons/flags/ke.png); }
+	select.withicons#country option[value="KG"] { background-image:url(../../icons/flags/kg.png); }
+	select.withicons#country option[value="KH"] { background-image:url(../../icons/flags/kh.png); }
+	select.withicons#country option[value="KI"] { background-image:url(../../icons/flags/ki.png); }
+	select.withicons#country option[value="KM"] { background-image:url(../../icons/flags/km.png); }
+	select.withicons#country option[value="KN"] { background-image:url(../../icons/flags/kn.png); }
+	select.withicons#country option[value="KP"] { background-image:url(../../icons/flags/kp.png); }
+	select.withicons#country option[value="KR"] { background-image:url(../../icons/flags/kr.png); }
+	select.withicons#country option[value="KW"] { background-image:url(../../icons/flags/kw.png); }
+	select.withicons#country option[value="KY"] { background-image:url(../../icons/flags/ky.png); }
+	select.withicons#country option[value="KZ"] { background-image:url(../../icons/flags/kz.png); }
+	select.withicons#country option[value="LA"] { background-image:url(../../icons/flags/la.png); }
+	select.withicons#country option[value="LB"] { background-image:url(../../icons/flags/lb.png); }
+	select.withicons#country option[value="LC"] { background-image:url(../../icons/flags/lc.png); }
+	select.withicons#country option[value="LI"] { background-image:url(../../icons/flags/li.png); }
+	select.withicons#country option[value="LK"] { background-image:url(../../icons/flags/lk.png); }
+	select.withicons#country option[value="LR"] { background-image:url(../../icons/flags/lr.png); }
+	select.withicons#country option[value="LS"] { background-image:url(../../icons/flags/ls.png); }
+	select.withicons#country option[value="LT"] { background-image:url(../../icons/flags/lt.png); }
+	select.withicons#country option[value="LU"] { background-image:url(../../icons/flags/lu.png); }
+	select.withicons#country option[value="LV"] { background-image:url(../../icons/flags/lv.png); }
+	select.withicons#country option[value="LY"] { background-image:url(../../icons/flags/ly.png); }
+	select.withicons#country option[value="MA"] { background-image:url(../../icons/flags/ma.png); }
+	select.withicons#country option[value="MC"] { background-image:url(../../icons/flags/mc.png); }
+	select.withicons#country option[value="MD"] { background-image:url(../../icons/flags/md.png); }
+	select.withicons#country option[value="ME"] { background-image:url(../../icons/flags/me.png); }
+	select.withicons#country option[value="MG"] { background-image:url(../../icons/flags/mg.png); }
+	select.withicons#country option[value="MH"] { background-image:url(../../icons/flags/mh.png); }
+	select.withicons#country option[value="MK"] { background-image:url(../../icons/flags/mk.png); }
+	select.withicons#country option[value="ML"] { background-image:url(../../icons/flags/ml.png); }
+	select.withicons#country option[value="MM"] { background-image:url(../../icons/flags/mm.png); }
+	select.withicons#country option[value="MN"] { background-image:url(../../icons/flags/mn.png); }
+	select.withicons#country option[value="MO"] { background-image:url(../../icons/flags/mo.png); }
+	select.withicons#country option[value="MP"] { background-image:url(../../icons/flags/mp.png); }
+	select.withicons#country option[value="MQ"] { background-image:url(../../icons/flags/mq.png); }
+	select.withicons#country option[value="MR"] { background-image:url(../../icons/flags/mr.png); }
+	select.withicons#country option[value="MS"] { background-image:url(../../icons/flags/ms.png); }
+	select.withicons#country option[value="MT"] { background-image:url(../../icons/flags/mt.png); }
+	select.withicons#country option[value="MU"] { background-image:url(../../icons/flags/mu.png); }
+	select.withicons#country option[value="MV"] { background-image:url(../../icons/flags/mv.png); }
+	select.withicons#country option[value="MW"] { background-image:url(../../icons/flags/mw.png); }
+	select.withicons#country option[value="MX"] { background-image:url(../../icons/flags/mx.png); }
+	select.withicons#country option[value="MY"] { background-image:url(../../icons/flags/my.png); }
+	select.withicons#country option[value="MZ"] { background-image:url(../../icons/flags/mz.png); }
+	select.withicons#country option[value="NA"] { background-image:url(../../icons/flags/na.png); }
+	select.withicons#country option[value="NC"] { background-image:url(../../icons/flags/nc.png); }
+	select.withicons#country option[value="NE"] { background-image:url(../../icons/flags/ne.png); }
+	select.withicons#country option[value="NF"] { background-image:url(../../icons/flags/nf.png); }
+	select.withicons#country option[value="NG"] { background-image:url(../../icons/flags/ng.png); }
+	select.withicons#country option[value="NI"] { background-image:url(../../icons/flags/ni.png); }
+	select.withicons#country option[value="NL"] { background-image:url(../../icons/flags/nl.png); }
+	select.withicons#country option[value="NO"] { background-image:url(../../icons/flags/no.png); }
+	select.withicons#country option[value="NP"] { background-image:url(../../icons/flags/np.png); }
+	select.withicons#country option[value="NR"] { background-image:url(../../icons/flags/nr.png); }
+	select.withicons#country option[value="NU"] { background-image:url(../../icons/flags/nu.png); }
+	select.withicons#country option[value="NZ"] { background-image:url(../../icons/flags/nz.png); }
+	select.withicons#country option[value="OM"] { background-image:url(../../icons/flags/om.png); }
+	select.withicons#country option[value="PA"] { background-image:url(../../icons/flags/pa.png); }
+	select.withicons#country option[value="PE"] { background-image:url(../../icons/flags/pe.png); }
+	select.withicons#country option[value="PF"] { background-image:url(../../icons/flags/pf.png); }
+	select.withicons#country option[value="PG"] { background-image:url(../../icons/flags/pg.png); }
+	select.withicons#country option[value="PH"] { background-image:url(../../icons/flags/ph.png); }
+	select.withicons#country option[value="PK"] { background-image:url(../../icons/flags/pk.png); }
+	select.withicons#country option[value="PL"] { background-image:url(../../icons/flags/pl.png); }
+	select.withicons#country option[value="PM"] { background-image:url(../../icons/flags/pm.png); }
+	select.withicons#country option[value="PN"] { background-image:url(../../icons/flags/pn.png); }
+	select.withicons#country option[value="PR"] { background-image:url(../../icons/flags/pr.png); }
+	select.withicons#country option[value="PS"] { background-image:url(../../icons/flags/ps.png); }
+	select.withicons#country option[value="PT"] { background-image:url(../../icons/flags/pt.png); }
+	select.withicons#country option[value="PW"] { background-image:url(../../icons/flags/pw.png); }
+	select.withicons#country option[value="PY"] { background-image:url(../../icons/flags/py.png); }
+	select.withicons#country option[value="QA"] { background-image:url(../../icons/flags/qa.png); }
+	select.withicons#country option[value="RE"] { background-image:url(../../icons/flags/re.png); }
+	select.withicons#country option[value="RO"] { background-image:url(../../icons/flags/ro.png); }
+	select.withicons#country option[value="RS"] { background-image:url(../../icons/flags/rs.png); }
+	select.withicons#country option[value="RU"] { background-image:url(../../icons/flags/ru.png); }
+	select.withicons#country option[value="RW"] { background-image:url(../../icons/flags/rw.png); }
+	select.withicons#country option[value="SA"] { background-image:url(../../icons/flags/sa.png); }
+	select.withicons#country option[value="SB"] { background-image:url(../../icons/flags/sb.png); }
+	select.withicons#country option[value="SC"] { background-image:url(../../icons/flags/sc.png); }
+	select.withicons#country option[value="SD"] { background-image:url(../../icons/flags/sd.png); }
+	select.withicons#country option[value="SE"] { background-image:url(../../icons/flags/se.png); }
+	select.withicons#country option[value="SG"] { background-image:url(../../icons/flags/sg.png); }
+	select.withicons#country option[value="SH"] { background-image:url(../../icons/flags/sh.png); }
+	select.withicons#country option[value="SI"] { background-image:url(../../icons/flags/si.png); }
+	select.withicons#country option[value="SJ"] { background-image:url(../../icons/flags/sj.png); }
+	select.withicons#country option[value="SK"] { background-image:url(../../icons/flags/sk.png); }
+	select.withicons#country option[value="SL"] { background-image:url(../../icons/flags/sl.png); }
+	select.withicons#country option[value="SM"] { background-image:url(../../icons/flags/sm.png); }
+	select.withicons#country option[value="SN"] { background-image:url(../../icons/flags/sn.png); }
+	select.withicons#country option[value="SO"] { background-image:url(../../icons/flags/so.png); }
+	select.withicons#country option[value="SR"] { background-image:url(../../icons/flags/sr.png); }
+	select.withicons#country option[value="ST"] { background-image:url(../../icons/flags/st.png); }
+	select.withicons#country option[value="SV"] { background-image:url(../../icons/flags/sv.png); }
+	select.withicons#country option[value="SY"] { background-image:url(../../icons/flags/sy.png); }
+	select.withicons#country option[value="SZ"] { background-image:url(../../icons/flags/sz.png); }
+	select.withicons#country option[value="TC"] { background-image:url(../../icons/flags/tc.png); }
+	select.withicons#country option[value="TD"] { background-image:url(../../icons/flags/td.png); }
+	select.withicons#country option[value="TF"] { background-image:url(../../icons/flags/tf.png); }
+	select.withicons#country option[value="TG"] { background-image:url(../../icons/flags/tg.png); }
+	select.withicons#country option[value="TH"] { background-image:url(../../icons/flags/th.png); }
+	select.withicons#country option[value="TJ"] { background-image:url(../../icons/flags/tj.png); }
+	select.withicons#country option[value="TK"] { background-image:url(../../icons/flags/tk.png); }
+	select.withicons#country option[value="TL"] { background-image:url(../../icons/flags/tl.png); }
+	select.withicons#country option[value="TM"] { background-image:url(../../icons/flags/tm.png); }
+	select.withicons#country option[value="TN"] { background-image:url(../../icons/flags/tn.png); }
+	select.withicons#country option[value="TO"] { background-image:url(../../icons/flags/to.png); }
+	select.withicons#country option[value="TR"] { background-image:url(../../icons/flags/tr.png); }
+	select.withicons#country option[value="TT"] { background-image:url(../../icons/flags/tt.png); }
+	select.withicons#country option[value="TV"] { background-image:url(../../icons/flags/tv.png); }
+	select.withicons#country option[value="TW"] { background-image:url(../../icons/flags/tw.png); }
+	select.withicons#country option[value="TZ"] { background-image:url(../../icons/flags/tz.png); }
+	select.withicons#country option[value="UA"] { background-image:url(../../icons/flags/ua.png); }
+	select.withicons#country option[value="UG"] { background-image:url(../../icons/flags/ug.png); }
+	select.withicons#country option[value="UM"] { background-image:url(../../icons/flags/um.png); }
+	select.withicons#country option[value="US"] { background-image:url(../../icons/flags/us.png); }
+	select.withicons#country option[value="UY"] { background-image:url(../../icons/flags/uy.png); }
+	select.withicons#country option[value="UZ"] { background-image:url(../../icons/flags/uz.png); }
+	select.withicons#country option[value="VA"] { background-image:url(../../icons/flags/va.png); }
+	select.withicons#country option[value="VC"] { background-image:url(../../icons/flags/vc.png); }
+	select.withicons#country option[value="VE"] { background-image:url(../../icons/flags/ve.png); }
+	select.withicons#country option[value="VG"] { background-image:url(../../icons/flags/vg.png); }
+	select.withicons#country option[value="VI"] { background-image:url(../../icons/flags/vi.png); }
+	select.withicons#country option[value="VN"] { background-image:url(../../icons/flags/vn.png); }
+	select.withicons#country option[value="VU"] { background-image:url(../../icons/flags/vu.png); }
+	select.withicons#country option[value="WF"] { background-image:url(../../icons/flags/wf.png); }
+	select.withicons#country option[value="WS"] { background-image:url(../../icons/flags/ws.png); }
+	select.withicons#country option[value="YE"] { background-image:url(../../icons/flags/ye.png); }
+	select.withicons#country option[value="YT"] { background-image:url(../../icons/flags/yt.png); }
+	select.withicons#country option[value="ZA"] { background-image:url(../../icons/flags/za.png); }
+	select.withicons#country option[value="ZM"] { background-image:url(../../icons/flags/zm.png); }
+	select.withicons#country option[value="ZW"] { background-image:url(../../icons/flags/zw.png); }
+	
+	select.withicons#language option[value="ad"] { background-image:url(../../icons/flags/ad.png); }
+	select.withicons#language option[value="ae"] { background-image:url(../../icons/flags/ae.png); }
+	select.withicons#language option[value="af"] { background-image:url(../../icons/flags/af.png); }
+	select.withicons#language option[value="ag"] { background-image:url(../../icons/flags/ag.png); }
+	select.withicons#language option[value="ai"] { background-image:url(../../icons/flags/ai.png); }
+	select.withicons#language option[value="al"] { background-image:url(../../icons/flags/al.png); }
+	select.withicons#language option[value="am"] { background-image:url(../../icons/flags/am.png); }
+	select.withicons#language option[value="an"] { background-image:url(../../icons/flags/an.png); }
+	select.withicons#language option[value="ao"] { background-image:url(../../icons/flags/ao.png); }
+	select.withicons#language option[value="aq"] { background-image:url(../../icons/flags/aq.png); }
+	select.withicons#language option[value="ar"] { background-image:url(../../icons/flags/ar.png); }
+	select.withicons#language option[value="as"] { background-image:url(../../icons/flags/as.png); }
+	select.withicons#language option[value="at"] { background-image:url(../../icons/flags/at.png); }
+	select.withicons#language option[value="au"] { background-image:url(../../icons/flags/au.png); }
+	select.withicons#language option[value="aw"] { background-image:url(../../icons/flags/aw.png); }
+	select.withicons#language option[value="ax"] { background-image:url(../../icons/flags/ax.png); }
+	select.withicons#language option[value="az"] { background-image:url(../../icons/flags/az.png); }
+	select.withicons#language option[value="ba"] { background-image:url(../../icons/flags/ba.png); }
+	select.withicons#language option[value="bb"] { background-image:url(../../icons/flags/bb.png); }
+	select.withicons#language option[value="bd"] { background-image:url(../../icons/flags/bd.png); }
+	select.withicons#language option[value="be"] { background-image:url(../../icons/flags/be.png); }
+	select.withicons#language option[value="bf"] { background-image:url(../../icons/flags/bf.png); }
+	select.withicons#language option[value="bg"] { background-image:url(../../icons/flags/bg.png); }
+	select.withicons#language option[value="bh"] { background-image:url(../../icons/flags/bh.png); }
+	select.withicons#language option[value="bi"] { background-image:url(../../icons/flags/bi.png); }
+	select.withicons#language option[value="bj"] { background-image:url(../../icons/flags/bj.png); }
+	select.withicons#language option[value="bm"] { background-image:url(../../icons/flags/bm.png); }
+	select.withicons#language option[value="bn"] { background-image:url(../../icons/flags/bn.png); }
+	select.withicons#language option[value="bo"] { background-image:url(../../icons/flags/bo.png); }
+	select.withicons#language option[value="br"] { background-image:url(../../icons/flags/br.png); }
+	select.withicons#language option[value="bs"] { background-image:url(../../icons/flags/bs.png); }
+	select.withicons#language option[value="bt"] { background-image:url(../../icons/flags/bt.png); }
+	select.withicons#language option[value="bv"] { background-image:url(../../icons/flags/bv.png); }
+	select.withicons#language option[value="bw"] { background-image:url(../../icons/flags/bw.png); }
+	select.withicons#language option[value="by"] { background-image:url(../../icons/flags/by.png); }
+	select.withicons#language option[value="bz"] { background-image:url(../../icons/flags/bz.png); }
+	select.withicons#language option[value="ca"] { background-image:url(../../icons/flags/ca.png); }
+	select.withicons#language option[value="cc"] { background-image:url(../../icons/flags/cc.png); }
+	select.withicons#language option[value="cd"] { background-image:url(../../icons/flags/cd.png); }
+	select.withicons#language option[value="cf"] { background-image:url(../../icons/flags/cf.png); }
+	select.withicons#language option[value="cg"] { background-image:url(../../icons/flags/cg.png); }
+	select.withicons#language option[value="ch"] { background-image:url(../../icons/flags/ch.png); }
+	select.withicons#language option[value="ci"] { background-image:url(../../icons/flags/ci.png); }
+	select.withicons#language option[value="ck"] { background-image:url(../../icons/flags/ck.png); }
+	select.withicons#language option[value="cl"] { background-image:url(../../icons/flags/cl.png); }
+	select.withicons#language option[value="cm"] { background-image:url(../../icons/flags/cm.png); }
+	select.withicons#language option[value="cn"] { background-image:url(../../icons/flags/cn.png); }
+	select.withicons#language option[value="co"] { background-image:url(../../icons/flags/co.png); }
+	select.withicons#language option[value="cr"] { background-image:url(../../icons/flags/cr.png); }
+	select.withicons#language option[value="cs"] { background-image:url(../../icons/flags/cs.png); }
+	select.withicons#language option[value="cu"] { background-image:url(../../icons/flags/cu.png); }
+	select.withicons#language option[value="cv"] { background-image:url(../../icons/flags/cv.png); }
+	select.withicons#language option[value="cx"] { background-image:url(../../icons/flags/cx.png); }
+	select.withicons#language option[value="cy"] { background-image:url(../../icons/flags/cy.png); }
+	select.withicons#language option[value="cz"] { background-image:url(../../icons/flags/cz.png); }
+	select.withicons#language option[value="de"] { background-image:url(../../icons/flags/de.png); }
+	select.withicons#language option[value="dj"] { background-image:url(../../icons/flags/dj.png); }
+	select.withicons#language option[value="dk"] { background-image:url(../../icons/flags/dk.png); }
+	select.withicons#language option[value="dm"] { background-image:url(../../icons/flags/dm.png); }
+	select.withicons#language option[value="do"] { background-image:url(../../icons/flags/do.png); }
+	select.withicons#language option[value="dz"] { background-image:url(../../icons/flags/dz.png); }
+	select.withicons#language option[value="ec"] { background-image:url(../../icons/flags/ec.png); }
+	select.withicons#language option[value="ee"] { background-image:url(../../icons/flags/ee.png); }
+	select.withicons#language option[value="eg"] { background-image:url(../../icons/flags/eg.png); }
+	select.withicons#language option[value="eh"] { background-image:url(../../icons/flags/eh.png); }
+	select.withicons#language option[value="en"] { background-image:url(../../icons/flags/gb.png); }
+	select.withicons#language option[value="er"] { background-image:url(../../icons/flags/er.png); }
+	select.withicons#language option[value="es"] { background-image:url(../../icons/flags/es.png); }
+	select.withicons#language option[value="et"] { background-image:url(../../icons/flags/et.png); }
+	select.withicons#language option[value="fi"] { background-image:url(../../icons/flags/fi.png); }
+	select.withicons#language option[value="fj"] { background-image:url(../../icons/flags/fj.png); }
+	select.withicons#language option[value="fk"] { background-image:url(../../icons/flags/fk.png); }
+	select.withicons#language option[value="fm"] { background-image:url(../../icons/flags/fm.png); }
+	select.withicons#language option[value="fo"] { background-image:url(../../icons/flags/fo.png); }
+	select.withicons#language option[value="fr"] { background-image:url(../../icons/flags/fr.png); }
+	select.withicons#language option[value="ga"] { background-image:url(../../icons/flags/ga.png); }
+	select.withicons#language option[value="gb"] { background-image:url(../../icons/flags/gb.png); }
+	select.withicons#language option[value="gd"] { background-image:url(../../icons/flags/gd.png); }
+	select.withicons#language option[value="ge"] { background-image:url(../../icons/flags/ge.png); }
+	select.withicons#language option[value="gf"] { background-image:url(../../icons/flags/gf.png); }
+	select.withicons#language option[value="gh"] { background-image:url(../../icons/flags/gh.png); }
+	select.withicons#language option[value="gi"] { background-image:url(../../icons/flags/gi.png); }
+	select.withicons#language option[value="gl"] { background-image:url(../../icons/flags/gl.png); }
+	select.withicons#language option[value="gm"] { background-image:url(../../icons/flags/gm.png); }
+	select.withicons#language option[value="gn"] { background-image:url(../../icons/flags/gn.png); }
+	select.withicons#language option[value="gp"] { background-image:url(../../icons/flags/gp.png); }
+	select.withicons#language option[value="gq"] { background-image:url(../../icons/flags/gq.png); }
+	select.withicons#language option[value="gr"] { background-image:url(../../icons/flags/gr.png); }
+	select.withicons#language option[value="gs"] { background-image:url(../../icons/flags/gs.png); }
+	select.withicons#language option[value="gt"] { background-image:url(../../icons/flags/gt.png); }
+	select.withicons#language option[value="gu"] { background-image:url(../../icons/flags/gu.png); }
+	select.withicons#language option[value="gw"] { background-image:url(../../icons/flags/gw.png); }
+	select.withicons#language option[value="gy"] { background-image:url(../../icons/flags/gy.png); }
+	select.withicons#language option[value="hk"] { background-image:url(../../icons/flags/hk.png); }
+	select.withicons#language option[value="hm"] { background-image:url(../../icons/flags/hm.png); }
+	select.withicons#language option[value="hn"] { background-image:url(../../icons/flags/hn.png); }
+	select.withicons#language option[value="hr"] { background-image:url(../../icons/flags/hr.png); }
+	select.withicons#language option[value="ht"] { background-image:url(../../icons/flags/ht.png); }
+	select.withicons#language option[value="hu"] { background-image:url(../../icons/flags/hu.png); }
+	select.withicons#language option[value="id"] { background-image:url(../../icons/flags/id.png); }
+	select.withicons#language option[value="ie"] { background-image:url(../../icons/flags/ie.png); }
+	select.withicons#language option[value="il"] { background-image:url(../../icons/flags/il.png); }
+	select.withicons#language option[value="in"] { background-image:url(../../icons/flags/in.png); }
+	select.withicons#language option[value="io"] { background-image:url(../../icons/flags/io.png); }
+	select.withicons#language option[value="iq"] { background-image:url(../../icons/flags/iq.png); }
+	select.withicons#language option[value="ir"] { background-image:url(../../icons/flags/ir.png); }
+	select.withicons#language option[value="is"] { background-image:url(../../icons/flags/is.png); }
+	select.withicons#language option[value="it"] { background-image:url(../../icons/flags/it.png); }
+	select.withicons#language option[value="jm"] { background-image:url(../../icons/flags/jm.png); }
+	select.withicons#language option[value="jo"] { background-image:url(../../icons/flags/jo.png); }
+	select.withicons#language option[value="jp"] { background-image:url(../../icons/flags/jp.png); }
+	select.withicons#language option[value="ke"] { background-image:url(../../icons/flags/ke.png); }
+	select.withicons#language option[value="kg"] { background-image:url(../../icons/flags/kg.png); }
+	select.withicons#language option[value="kh"] { background-image:url(../../icons/flags/kh.png); }
+	select.withicons#language option[value="ki"] { background-image:url(../../icons/flags/ki.png); }
+	select.withicons#language option[value="km"] { background-image:url(../../icons/flags/km.png); }
+	select.withicons#language option[value="kn"] { background-image:url(../../icons/flags/kn.png); }
+	select.withicons#language option[value="kp"] { background-image:url(../../icons/flags/kp.png); }
+	select.withicons#language option[value="kr"] { background-image:url(../../icons/flags/kr.png); }
+	select.withicons#language option[value="kw"] { background-image:url(../../icons/flags/kw.png); }
+	select.withicons#language option[value="ky"] { background-image:url(../../icons/flags/ky.png); }
+	select.withicons#language option[value="kz"] { background-image:url(../../icons/flags/kz.png); }
+	select.withicons#language option[value="la"] { background-image:url(../../icons/flags/la.png); }
+	select.withicons#language option[value="lb"] { background-image:url(../../icons/flags/lb.png); }
+	select.withicons#language option[value="lc"] { background-image:url(../../icons/flags/lc.png); }
+	select.withicons#language option[value="li"] { background-image:url(../../icons/flags/li.png); }
+	select.withicons#language option[value="lk"] { background-image:url(../../icons/flags/lk.png); }
+	select.withicons#language option[value="lr"] { background-image:url(../../icons/flags/lr.png); }
+	select.withicons#language option[value="ls"] { background-image:url(../../icons/flags/ls.png); }
+	select.withicons#language option[value="lt"] { background-image:url(../../icons/flags/lt.png); }
+	select.withicons#language option[value="lu"] { background-image:url(../../icons/flags/lu.png); }
+	select.withicons#language option[value="lv"] { background-image:url(../../icons/flags/lv.png); }
+	select.withicons#language option[value="ly"] { background-image:url(../../icons/flags/ly.png); }
+	select.withicons#language option[value="ma"] { background-image:url(../../icons/flags/ma.png); }
+	select.withicons#language option[value="mc"] { background-image:url(../../icons/flags/mc.png); }
+	select.withicons#language option[value="md"] { background-image:url(../../icons/flags/md.png); }
+	select.withicons#language option[value="me"] { background-image:url(../../icons/flags/me.png); }
+	select.withicons#language option[value="mg"] { background-image:url(../../icons/flags/mg.png); }
+	select.withicons#language option[value="mh"] { background-image:url(../../icons/flags/mh.png); }
+	select.withicons#language option[value="mk"] { background-image:url(../../icons/flags/mk.png); }
+	select.withicons#language option[value="ml"] { background-image:url(../../icons/flags/ml.png); }
+	select.withicons#language option[value="mm"] { background-image:url(../../icons/flags/mm.png); }
+	select.withicons#language option[value="mn"] { background-image:url(../../icons/flags/mn.png); }
+	select.withicons#language option[value="mo"] { background-image:url(../../icons/flags/mo.png); }
+	select.withicons#language option[value="mp"] { background-image:url(../../icons/flags/mp.png); }
+	select.withicons#language option[value="mq"] { background-image:url(../../icons/flags/mq.png); }
+	select.withicons#language option[value="mr"] { background-image:url(../../icons/flags/mr.png); }
+	select.withicons#language option[value="ms"] { background-image:url(../../icons/flags/ms.png); }
+	select.withicons#language option[value="mt"] { background-image:url(../../icons/flags/mt.png); }
+	select.withicons#language option[value="mu"] { background-image:url(../../icons/flags/mu.png); }
+	select.withicons#language option[value="mv"] { background-image:url(../../icons/flags/mv.png); }
+	select.withicons#language option[value="mw"] { background-image:url(../../icons/flags/mw.png); }
+	select.withicons#language option[value="mx"] { background-image:url(../../icons/flags/mx.png); }
+	select.withicons#language option[value="my"] { background-image:url(../../icons/flags/my.png); }
+	select.withicons#language option[value="mz"] { background-image:url(../../icons/flags/mz.png); }
+	select.withicons#language option[value="na"] { background-image:url(../../icons/flags/na.png); }
+	select.withicons#language option[value="nc"] { background-image:url(../../icons/flags/nc.png); }
+	select.withicons#language option[value="ne"] { background-image:url(../../icons/flags/ne.png); }
+	select.withicons#language option[value="nf"] { background-image:url(../../icons/flags/nf.png); }
+	select.withicons#language option[value="ng"] { background-image:url(../../icons/flags/ng.png); }
+	select.withicons#language option[value="ni"] { background-image:url(../../icons/flags/ni.png); }
+	select.withicons#language option[value="nl"] { background-image:url(../../icons/flags/nl.png); }
+	select.withicons#language option[value="no"] { background-image:url(../../icons/flags/no.png); }
+	select.withicons#language option[value="np"] { background-image:url(../../icons/flags/np.png); }
+	select.withicons#language option[value="nr"] { background-image:url(../../icons/flags/nr.png); }
+	select.withicons#language option[value="nu"] { background-image:url(../../icons/flags/nu.png); }
+	select.withicons#language option[value="nz"] { background-image:url(../../icons/flags/nz.png); }
+	select.withicons#language option[value="om"] { background-image:url(../../icons/flags/om.png); }
+	select.withicons#language option[value="pa"] { background-image:url(../../icons/flags/pa.png); }
+	select.withicons#language option[value="pe"] { background-image:url(../../icons/flags/pe.png); }
+	select.withicons#language option[value="pf"] { background-image:url(../../icons/flags/pf.png); }
+	select.withicons#language option[value="pg"] { background-image:url(../../icons/flags/pg.png); }
+	select.withicons#language option[value="ph"] { background-image:url(../../icons/flags/ph.png); }
+	select.withicons#language option[value="pk"] { background-image:url(../../icons/flags/pk.png); }
+	select.withicons#language option[value="pl"] { background-image:url(../../icons/flags/pl.png); }
+	select.withicons#language option[value="pm"] { background-image:url(../../icons/flags/pm.png); }
+	select.withicons#language option[value="pn"] { background-image:url(../../icons/flags/pn.png); }
+	select.withicons#language option[value="pr"] { background-image:url(../../icons/flags/pr.png); }
+	select.withicons#language option[value="ps"] { background-image:url(../../icons/flags/ps.png); }
+	select.withicons#language option[value="pt"] { background-image:url(../../icons/flags/pt.png); }
+	select.withicons#language option[value="pw"] { background-image:url(../../icons/flags/pw.png); }
+	select.withicons#language option[value="py"] { background-image:url(../../icons/flags/py.png); }
+	select.withicons#language option[value="qa"] { background-image:url(../../icons/flags/qa.png); }
+	select.withicons#language option[value="re"] { background-image:url(../../icons/flags/re.png); }
+	select.withicons#language option[value="ro"] { background-image:url(../../icons/flags/ro.png); }
+	select.withicons#language option[value="rs"] { background-image:url(../../icons/flags/rs.png); }
+	select.withicons#language option[value="ru"] { background-image:url(../../icons/flags/ru.png); }
+	select.withicons#language option[value="rw"] { background-image:url(../../icons/flags/rw.png); }
+	select.withicons#language option[value="sa"] { background-image:url(../../icons/flags/sa.png); }
+	select.withicons#language option[value="sb"] { background-image:url(../../icons/flags/sb.png); }
+	select.withicons#language option[value="sc"] { background-image:url(../../icons/flags/sc.png); }
+	select.withicons#language option[value="sd"] { background-image:url(../../icons/flags/sd.png); }
+	select.withicons#language option[value="se"] { background-image:url(../../icons/flags/se.png); }
+	select.withicons#language option[value="sg"] { background-image:url(../../icons/flags/sg.png); }
+	select.withicons#language option[value="sh"] { background-image:url(../../icons/flags/sh.png); }
+	select.withicons#language option[value="si"] { background-image:url(../../icons/flags/si.png); }
+	select.withicons#language option[value="sj"] { background-image:url(../../icons/flags/sj.png); }
+	select.withicons#language option[value="sk"] { background-image:url(../../icons/flags/sk.png); }
+	select.withicons#language option[value="sl"] { background-image:url(../../icons/flags/sl.png); }
+	select.withicons#language option[value="sm"] { background-image:url(../../icons/flags/sm.png); }
+	select.withicons#language option[value="sn"] { background-image:url(../../icons/flags/sn.png); }
+	select.withicons#language option[value="so"] { background-image:url(../../icons/flags/so.png); }
+	select.withicons#language option[value="sr"] { background-image:url(../../icons/flags/sr.png); }
+	select.withicons#language option[value="st"] { background-image:url(../../icons/flags/st.png); }
+	select.withicons#language option[value="sv"] { background-image:url(../../icons/flags/sv.png); }
+	select.withicons#language option[value="sy"] { background-image:url(../../icons/flags/sy.png); }
+	select.withicons#language option[value="sz"] { background-image:url(../../icons/flags/sz.png); }
+	select.withicons#language option[value="tc"] { background-image:url(../../icons/flags/tc.png); }
+	select.withicons#language option[value="td"] { background-image:url(../../icons/flags/td.png); }
+	select.withicons#language option[value="tf"] { background-image:url(../../icons/flags/tf.png); }
+	select.withicons#language option[value="tg"] { background-image:url(../../icons/flags/tg.png); }
+	select.withicons#language option[value="th"] { background-image:url(../../icons/flags/th.png); }
+	select.withicons#language option[value="tj"] { background-image:url(../../icons/flags/tj.png); }
+	select.withicons#language option[value="tk"] { background-image:url(../../icons/flags/tk.png); }
+	select.withicons#language option[value="tl"] { background-image:url(../../icons/flags/tl.png); }
+	select.withicons#language option[value="tm"] { background-image:url(../../icons/flags/tm.png); }
+	select.withicons#language option[value="tn"] { background-image:url(../../icons/flags/tn.png); }
+	select.withicons#language option[value="to"] { background-image:url(../../icons/flags/to.png); }
+	select.withicons#language option[value="tr"] { background-image:url(../../icons/flags/tr.png); }
+	select.withicons#language option[value="tt"] { background-image:url(../../icons/flags/tt.png); }
+	select.withicons#language option[value="tv"] { background-image:url(../../icons/flags/tv.png); }
+	select.withicons#language option[value="tw"] { background-image:url(../../icons/flags/tw.png); }
+	select.withicons#language option[value="tz"] { background-image:url(../../icons/flags/tz.png); }
+	select.withicons#language option[value="ua"] { background-image:url(../../icons/flags/ua.png); }
+	select.withicons#language option[value="ug"] { background-image:url(../../icons/flags/ug.png); }
+	select.withicons#language option[value="um"] { background-image:url(../../icons/flags/um.png); }
+	select.withicons#language option[value="us"] { background-image:url(../../icons/flags/us.png); }
+	select.withicons#language option[value="uy"] { background-image:url(../../icons/flags/uy.png); }
+	select.withicons#language option[value="uz"] { background-image:url(../../icons/flags/uz.png); }
+	select.withicons#language option[value="va"] { background-image:url(../../icons/flags/va.png); }
+	select.withicons#language option[value="vc"] { background-image:url(../../icons/flags/vc.png); }
+	select.withicons#language option[value="ve"] { background-image:url(../../icons/flags/ve.png); }
+	select.withicons#language option[value="vg"] { background-image:url(../../icons/flags/vg.png); }
+	select.withicons#language option[value="vi"] { background-image:url(../../icons/flags/vi.png); }
+	select.withicons#language option[value="vn"] { background-image:url(../../icons/flags/vn.png); }
+	select.withicons#language option[value="vu"] { background-image:url(../../icons/flags/vu.png); }
+	select.withicons#language option[value="wf"] { background-image:url(../../icons/flags/wf.png); }
+	select.withicons#language option[value="ws"] { background-image:url(../../icons/flags/ws.png); }
+	select.withicons#language option[value="ye"] { background-image:url(../../icons/flags/ye.png); }
+	select.withicons#language option[value="yt"] { background-image:url(../../icons/flags/yt.png); }
+	select.withicons#language option[value="za"] { background-image:url(../../icons/flags/za.png); }
+	select.withicons#language option[value="zm"] { background-image:url(../../icons/flags/zm.png); }
+	select.withicons#language option[value="zw"] { background-image:url(../../icons/flags/zw.png); }
+	
+	.panel_login {
+		max-width: 80%;
+		min-width: 680px;
+	}
+
+}
+

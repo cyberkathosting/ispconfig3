@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Sähköpostiosoitteen aliastunnus';
+$wb['active_txt'] = 'Käytössä';
+$wb['source_txt'] = 'Lähde';
+$wb['destination_txt'] = 'Kohde';
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['add_new_record_txt'] = 'Lisää uusi aliastunnus';
+?>

@@ -1,0 +1,7 @@
+<?php
+$wb['rulename_txt'] = 'Suodatussäännön nimi';
+$wb['add_new_record_txt'] = 'Lisää uusi suodatussääntö';
+$wb['page_txt'] = 'Sivu';
+$wb['page_of_txt'] = '/';
+$wb['delete_confirmation'] = 'Tahdotko varmasti poistaa tämän suodattimen?';
+?>

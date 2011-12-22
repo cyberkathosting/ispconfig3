@@ -1,0 +1,15 @@
+<?php
+$wb['warning'] = 'Upravte tieto hodnoty pozorne! Neodstra?ujte predpony na systémoch s viac ako jedného klienta.';
+$wb['dbname_prefix_txt'] = 'Predpona názvu databázy ';
+$wb['dbuser_prefix_txt'] = 'Predpona databáza užívate?';
+$wb['shelluser_prefix_txt'] = 'Predpona Shell užívate?';
+$wb['ftpuser_prefix_txt'] = 'Predpona FTP užívate?';
+$wb['dbname_prefix_error_regex'] = 'Char nie je povolený v prefix názov databázy.';
+$wb['dbuser_prefix_error_regex'] = 'Char nie je povolené v databáze predpone user.';
+$wb['ftpuser_prefix_error_regex'] = 'Char nie je povolené v ftp užívate? predpone .';
+$wb['shelluser_prefix_error_regex'] = 'Char nie je povolené škrupiny užívate? predpone .';
+$wb['dblist_phpmyadmin_link_txt'] = 'Odkaz na phpmyadmin v NR zozname';
+$wb['mailboxlist_webmail_link_txt'] = 'Odkaz na webmail v zozname schránky';
+$wb['webmail_url_txt'] = 'Webmail URL';
+$wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
+?>

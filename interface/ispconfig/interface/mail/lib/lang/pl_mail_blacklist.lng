@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Serwer';
+$wb['source_txt'] = 'Adres Czarnej listy';
+$wb['recipient_txt'] = 'Odbiorca';
+$wb['active_txt'] = 'Aktywny';
+$wb['source_error_notempty'] = 'Adres jest pusty.';
+$wb['type_txt'] = 'Typ';
+$wb['limit_mailfilter_txt'] = 'Maksymalna ilość filtrów dla Twojego konta została przekroczona.';
+?>

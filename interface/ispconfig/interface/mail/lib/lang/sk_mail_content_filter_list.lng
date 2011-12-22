@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Postfix Kontrola Hlavi?ky a Tela ';
+$wb['active_txt'] = 'Aktívne';
+$wb['server_id_txt'] = 'Server';
+$wb['pattern_txt'] = 'Vzorka';
+$wb['action_txt'] = 'Akcia';
+$wb['add_new_record_txt'] = 'Prida? nový filter obsahu';
+?>

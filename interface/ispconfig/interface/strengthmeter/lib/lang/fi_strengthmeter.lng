@@ -1,0 +1,8 @@
+<?php
+$wb['password_strength_0_txt'] = 'Liian lyhyt';
+$wb['password_strength_1_txt'] = 'Heikko';
+$wb['password_strength_2_txt'] = 'Kohtuullinen';
+$wb['password_strength_3_txt'] = 'Hyvä';
+$wb['password_strength_4_txt'] = 'Vahva';
+$wb['password_strength_5_txt'] = 'Erittäin vahva';
+?>

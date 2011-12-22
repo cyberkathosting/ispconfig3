@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['spam_rewrite_score_int_txt'] = 'Merkintäpisteet';
+$wb['spam_redirect_score_int_txt'] = 'Edelleenohjauspisteet';
+$wb['spam_delete_score_int_txt'] = 'Poistopisteet';
+$wb['spam_rewrite_subject_txt'] = 'Roskapostin merkintä';
+$wb['spam_redirect_maildir_txt'] = 'Edelleenohjauksen postilaatikko';
+$wb['active_txt'] = 'Käytössä';
+$wb['spam_rewrite_txt'] = 'Merkitse roskapostiksi tämän pistearvon ylittävät sähköpostit.';
+$wb['spam_redirect_txt'] = 'Edelleenohjaa tämän pistearvon ylittävät postit valittuun sähköpostiosoitteeseen.';
+$wb['spam_delete_txt'] = 'Poista tämän pistearvon ylittävät sähköpostit.';
+$wb['disable_txt'] = 'Vihje: poistaaksesi suodatuksen käytöstä, aseta pisteiksi 0.00.';
+$wb['email_error_isemail'] = 'Sähköpostiosoite on virheellinen.';
+$wb['email_error_unique'] = 'Tälle sähköpostiosoitteelle on jo olemassa suodatussääntö.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Poista edelleenohjauslaatikosta';
+$wb['days_txt'] = 'päivää vanhemmat viestit.';
+?>

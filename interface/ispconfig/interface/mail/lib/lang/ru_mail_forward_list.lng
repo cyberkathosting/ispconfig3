@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Пересылка почты';
+$wb['active_txt'] = 'Активен?';
+$wb['source_txt'] = 'Отправитель';
+$wb['destination_txt'] = 'Получатель';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Добавить новую Email пересылку';
+?>
+

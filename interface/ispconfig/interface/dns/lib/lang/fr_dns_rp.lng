@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Hôte';
+$wb['type_txt'] = 'Type';
+$wb['data_txt'] = 'Personne responsable';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Actif';
+$wb['limit_dns_record_txt'] = 'Le nombre maximum denregistrements DNS pour votre compte a été atteint.';
+$wb['no_zone_perm'] = 'Vous navez pas la permissions dajouter un enregistrement dans cette zone DNS.';
+$wb['name_error_empty'] = 'Lhôte est vide.';
+$wb['name_error_regex'] = 'Lhôte est dun format invalide.';
+$wb['data_error_empty'] = 'La personne responsable est vide.';
+$wb['data_error_regex'] = 'La personne responsable est dun format invalide.';
+?>

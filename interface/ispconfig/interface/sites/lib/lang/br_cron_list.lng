@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Tarefas no Cron';
+$wb['active_txt'] = 'Ativas';
+$wb['server_id_txt'] = 'Servidor';
+$wb['run_min_txt'] = 'Minutos';
+$wb['run_hour_txt'] = 'Horas';
+$wb['run_mday_txt'] = 'Dias do mês';
+$wb['run_month_txt'] = 'Mês';
+$wb['run_wday_txt'] = 'Dia da semana';
+$wb['command_txt'] = 'Comando';
+$wb['add_new_cron_txt'] = 'Adcionar uma nova tarefa no cron';
+?>

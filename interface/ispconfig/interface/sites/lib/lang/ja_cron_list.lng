@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Cronジョブ';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['run_min_txt'] = '分';
+$wb['run_hour_txt'] = '時間';
+$wb['run_mday_txt'] = '日';
+$wb['run_month_txt'] = '月';
+$wb['run_wday_txt'] = '曜日';
+$wb['command_txt'] = 'コマンド';
+$wb['add_new_cron_txt'] = 'cronジョブを追加する';
+?>

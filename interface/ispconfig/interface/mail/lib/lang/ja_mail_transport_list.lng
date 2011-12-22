@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'メール配送経路の詳細設定';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['domain_txt'] = 'ドメイン';
+$wb['transport_txt'] = 'トランスポート';
+$wb['sort_order_txt'] = '優先度';
+$wb['add_new_record_txt'] = '配送経路を追加する';
+?>

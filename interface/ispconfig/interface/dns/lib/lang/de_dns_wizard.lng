@@ -1,0 +1,29 @@
+<?php
+$wb['template_id_txt'] = 'Vorlage';
+$wb['server_id_txt'] = 'Server';
+$wb['client_txt'] = 'Kunde';
+$wb['btn_save_txt'] = 'DNS Eintrag hinzufügen';
+$wb['btn_cancel_txt'] = 'Abbrechen';
+$wb['domain_txt'] = 'Domain';
+$wb['email_txt'] = 'Email';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'IP Adresse';
+$wb['error_origin_empty'] = 'Origin leer.';
+$wb['error_ns_empty'] = 'NS leer.';
+$wb['error_mbox_empty'] = 'Mbox leer.';
+$wb['error_refresh_empty'] = 'Refresh leer.';
+$wb['error_retry_empty'] = 'Retry leer.';
+$wb['error_expire_empty'] = 'Expire leer.';
+$wb['error_minimum_empty'] = 'Minimum leer.';
+$wb['error_ttl_empty'] = 'TTL leer.';
+$wb['error_domain_empty'] = 'Domain leer';
+$wb['error_ip_empty'] = 'IP leer.';
+$wb['error_ns1_empty'] = 'NS1 leer.';
+$wb['error_ns2_empty'] = 'NS2 leer.';
+$wb['error_email_empty'] = 'EMail leer.';
+$wb['error_domain_regex'] = 'Domain beinhaltet ungültige Zeichen.';
+$wb['error_ns1_regex'] = 'NS1 beinhaltet ungültige Zeichen.';
+$wb['error_ns2_regex'] = 'NS2 beinhaltet ungültige Zeichen.';
+$wb['error_email_regex'] = 'Email beinhaltet keine gültige Email Adresse.';
+?>

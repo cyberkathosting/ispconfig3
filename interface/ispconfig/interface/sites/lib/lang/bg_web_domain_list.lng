@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Сайтове';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
+$wb['domain_txt'] = 'Домейн';
+$wb['add_new_record_txt'] = 'Нов сайт';
+?>

@@ -1,0 +1,16 @@
+<?php
+$wb['header_txt'] = 'Menu editor';
+$wb['title_txt'] = 'Názov';
+$wb['name_txt'] = 'Modul';
+$wb['delete_txt'] = 'Zmaza?';
+$wb['properties_txt'] = 'Vlastnosti';
+$wb['new_menu_txt'] = 'Menu nové';
+$wb['edit_txt'] = 'Upravi?';
+$wb['new_txt'] = 'Nový';
+$wb['up_txt'] = 'Hore';
+$wb['down_txt'] = 'Dolu';
+$wb['module_txt'] = 'Modul';
+$wb['module_del_txt'] = 'Chcete zmazat modul?';
+$wb['menu_del_txt'] = 'Chcete zmazat menu?';
+$wb['item_del_txt'] = 'Chcete zmazat položku?';
+?>

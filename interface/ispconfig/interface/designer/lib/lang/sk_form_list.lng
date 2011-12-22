@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Backend Formulár';
+$wb['form_txt'] = 'Formulár';
+$wb['module_txt'] = 'Modul';
+$wb['title_txt'] = 'Nadpis';
+$wb['description_txt'] = 'Popis';
+?>

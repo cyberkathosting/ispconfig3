@@ -1,0 +1,11 @@
+<?php
+$wb['email_txt'] = 'Sähköpostialias';
+$wb['destination_txt'] = 'Kohdeosoite';
+$wb['active_txt'] = 'Käytössä';
+$wb['email_error_isemail'] = 'Sähköpostiosoite on virheellinen.';
+$wb['email_error_unique'] = 'Tämä aliasosoite on jo olemassa';
+$wb['no_domain_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia tähän verkkotunnukseen.';
+$wb['destination_error_isemail'] = 'Kohteena oleva sähköpostiosoite on vääränlainen.';
+$wb['limit_mailalias_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä aliasosoitteita.';
+$wb['duplicate_mailbox_txt'] = 'Aliastunnus on jo olemassa tälle osoitteelle.';
+?>

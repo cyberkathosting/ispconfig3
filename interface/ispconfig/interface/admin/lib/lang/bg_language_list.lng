@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Редактор за езиците';
+$wb['language_select_txt'] = 'Изберете език';
+$wb['module_txt'] = 'Модул';
+$wb['lang_file_txt'] = 'Файл';
+$wb['lang_file_date_txt'] = 'Последна редакция';
+?>

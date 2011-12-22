@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'Mail traffic';
+$wb["email_txt"] = 'Email';
+$wb["this_month_txt"] = 'This month';
+$wb["last_month_txt"] = 'Last month';
+$wb["this_year_txt"] = 'This year';
+$wb["last_year_txt"] = 'Last year';
+?>

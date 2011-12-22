@@ -1,0 +1,26 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_support_message">
+
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels"><legend>Message</legend>
+      <div class="ctrlHolder">
+      	<label for="subject">{tmpl_var name='subject_txt'}</label>
+        <input name="subject" id="subject" value="{tmpl_var name='subject'}" size="30" maxlength="255" type="text" class="textInput" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="message">{tmpl_var name='message_txt'}</label>
+        <textarea name="message" id="message" rows='10' cols='30'>{tmpl_var name='message'}</textarea>
+      </div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','help/support_message_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('help/support_message_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'DNS Šablónový  Sprievodca ';
+$wb['visible_txt'] = 'Vidite?ný';
+$wb['name_txt'] = 'Meno';
+$wb['add_new_record_txt'] = 'Prida? nový záznam';
+?>

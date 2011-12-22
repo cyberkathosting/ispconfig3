@@ -1,0 +1,13 @@
+<?php
+$wb['config_txt'] = 'beállítás';
+$wb['server_name_txt'] = 'Szervernév';
+$wb['mail_server_txt'] = 'Mailszerver';
+$wb['web_server_txt'] = 'Webszerver';
+$wb['dns_server_txt'] = 'DNS-Szerver';
+$wb['file_server_txt'] = 'Fájlszerver';
+$wb['db_server_txt'] = 'DB-Szerver';
+$wb['vserver_server_txt'] = 'VServer-Szerver';
+$wb['active_txt'] = 'Aktív';
+$wb['mirror_server_id_txt'] = 'Is mirror of Server';
+$wb['- None -'] = '- None -';
+?>

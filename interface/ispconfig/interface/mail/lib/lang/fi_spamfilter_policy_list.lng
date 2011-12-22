@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Roskapostisuodattimen kohtelutapa';
+$wb['policy_name_txt'] = 'Kohtelutavan nimi';
+$wb['virus_lover_txt'] = 'Pitää viruksista';
+$wb['spam_lover_txt'] = 'Pitää roskapostista';
+$wb['banned_files_lover_txt'] = 'Pitää estetyistä tiedostoista';
+$wb['bad_header_lover_txt'] = 'Pitää osikkovirheistä';
+$wb['add_new_record_txt'] = 'Lisää kohtelutapa';
+?>

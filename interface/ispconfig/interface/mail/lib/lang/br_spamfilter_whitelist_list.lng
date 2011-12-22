@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Spamfilter Lista Branca';
+$wb['active_txt'] = 'Ativo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['priority_txt'] = 'Prioridade';
+$wb['rid_txt'] = 'Usuário';
+$wb['email_txt'] = 'Correio na lista branca';
+$wb['add_new_record_txt'] = 'Adcionar um novo correio';
+?>

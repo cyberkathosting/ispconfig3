@@ -1,0 +1,7 @@
+<?php
+$wb['repo_name_txt'] = 'リポジトリー';
+$wb['repo_url_txt'] = 'URL';
+$wb['repo_username_txt'] = 'ユーザー（必要があれば）';
+$wb['repo_password_txt'] = 'パスワード（必要があれば）';
+$wb['active_txt'] = '有効';
+?>

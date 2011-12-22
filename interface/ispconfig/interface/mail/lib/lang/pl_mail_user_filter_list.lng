@@ -1,0 +1,7 @@
+<?php
+$wb['rulename_txt'] = 'Nazwa';
+$wb['add_new_record_txt'] = 'Dodaj nowy filtr';
+$wb['page_txt'] = 'Strona';
+$wb['page_of_txt'] = 'z';
+$wb['delete_confirmation'] = 'Do you really want to Delete the mailfilter?';
+?>

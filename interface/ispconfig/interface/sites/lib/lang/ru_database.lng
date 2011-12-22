@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Сервер';
+$wb['type_txt'] = 'Тип';
+$wb['database_name_txt'] = 'Имя БД';
+$wb['database_user_txt'] = 'Логин БД';
+$wb['database_password_txt'] = 'Пароль БД';
+$wb['database_charset_txt'] = 'Кодировка БД';
+$wb['remote_access_txt'] = 'Удаленный доступ';
+$wb['client_txt'] = 'Клиент';
+$wb['active_txt'] = 'Активна?';
+$wb['database_name_error_empty'] = 'Пустое имя БД.';
+$wb['database_name_error_unique'] = 'Имя БД уже существует. Что бы получить уникальное название, сложите название сайта и имя БД.';
+$wb['database_name_error_regex'] = 'Неверное имя БД. Имя БД может содержать только следующие символы: a-z, A-Z, 0-9 и нижний пробел _. Длина: 2 - 64 символа.';
+$wb['database_user_error_empty'] = 'Логин БД пустой';
+$wb['database_user_error_unique'] = 'Такой пользователь БД уже существует. Что бы получить уникальное имя, сложите название сайта и ваше имя.';
+$wb['database_user_error_regex'] = 'Неверный логин для БД. Логин может содержать только следующие символы: a-z, A-Z, 0-9 и нижний пробел _. Длина: 2 - 16 символов.';
+$wb['limit_database_txt'] = 'Достигнуто максимальное количество БД.';
+$wb['database_name_change_txt'] = 'Имя БД не может быть изменено';
+$wb['database_charset_change_txt'] = 'Кодировка БД не может быть изменена';
+$wb['password_strength_txt'] = 'Стойкость пароля';
+$wb['remote_ips_txt'] = 'IP-адреса для удаленного доступа (разделяются , оставьте поле пустым для <i>любого</i>)';
+$wb['database_remote_error_ips'] = 'Минимум один введенный адрес неверен.';
+$wb['database_name_error_len'] = 'Имя БД - {db} - cлишком длинное. Максимальная длина имени БД включая префикс - 64 символа';
+$wb['database_user_error_len'] = 'Логин для БД - {user} - cлишком длинное. Максимальная длина логина - 16 символов';
+?>
+

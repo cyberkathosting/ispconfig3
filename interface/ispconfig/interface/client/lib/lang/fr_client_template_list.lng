@@ -1,0 +1,5 @@
+<?php
+$wb['list_head_txt'] = 'Modèles de clients';
+$wb['template_type_txt'] = 'Type';
+$wb['template_name_txt'] = 'Nom du modèle';
+?>

@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'Language file editor';
+$wb["language_select_txt"] = 'Select language';
+$wb["module_txt"] = 'Module';
+$wb["lang_file_txt"] = 'Language file';
+$wb["lang_file_date_txt"] = 'Last modify';
+?>

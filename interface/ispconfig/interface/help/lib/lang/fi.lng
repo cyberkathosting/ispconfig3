@@ -1,0 +1,9 @@
+<?php
+$wb['Support Message'] = 'Tukipyyntö';
+$wb['Message'] = 'Tukipyyntö';
+$wb['Send message'] = 'Lähetä tukipyyntö';
+$wb['View messages'] = 'Näytä tukipyynnöt';
+$wb['Support'] = 'Käyttäjätuki';
+$wb['About ISPConfig'] = 'About ISPConfig';
+$wb['Version'] = 'Version';
+?>

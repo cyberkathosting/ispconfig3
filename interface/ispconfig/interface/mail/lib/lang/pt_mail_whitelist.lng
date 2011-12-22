@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['source_txt'] = 'Endereço Lista Branca';
+$wb['recipient_txt'] = 'Recipiente';
+$wb['active_txt'] = 'Activo';
+$wb['source_error_notempty'] = 'Endereço em Branco.';
+$wb['type_txt'] = 'Tipo';
+$wb['limit_mailfilter_txt'] = 'O número máximo de filtros para a conta foi atingido.';
+?>
+

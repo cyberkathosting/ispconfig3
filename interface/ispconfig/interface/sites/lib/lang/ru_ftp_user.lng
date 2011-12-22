@@ -1,0 +1,28 @@
+<?php
+$wb['uid_txt'] = 'UID';
+$wb['gid_txt'] = 'GID';
+$wb['dir_txt'] = 'Директория';
+$wb['quota_files_txt'] = 'Квота файлов';
+$wb['ul_ratio_txt'] = 'Квота на аплоад';
+$wb['dl_ratio_txt'] = 'Квота на скачивание';
+$wb['ul_bandwidth_txt'] = 'Скорость аплоада';
+$wb['dl_bandwidth_txt'] = 'Скорость скачивания';
+$wb['server_id_txt'] = 'Сервер';
+$wb['parent_domain_id_txt'] = 'Web-сайт';
+$wb['username_txt'] = 'Пользователь';
+$wb['password_txt'] = 'Пароль';
+$wb['quota_size_txt'] = 'Квота HDD';
+$wb['active_txt'] = 'Активен?';
+$wb['limit_ftp_user_txt'] = 'Максимальное число FTP пользователей достигнуто.';
+$wb['username_error_empty'] = 'Имя пользователя пустое.';
+$wb['username_error_unique'] = 'Имя пользователя должно быть уникальным.';
+$wb['username_error_regex'] = 'Имя пользователя содержит недопустимые символы.';
+$wb['quota_size_error_empty'] = 'Размер квоты пустой.';
+$wb['uid_error_empty'] = 'Значениче GID пустое.';
+$wb['directory_error_empty'] = 'Пустая папка';
+$wb['password_strength_txt'] = 'Стойкость паоля';
+$wb['quota_files_unity_txt'] = 'Файлы';
+$wb['directory_error_notinweb'] = 'Директория снаружи web-root папки.';
+$wb['parent_domain_id_error_empty'] = 'Web-сайт не выбран.';
+?>
+

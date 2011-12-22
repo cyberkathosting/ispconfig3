@@ -1,0 +1,7 @@
+<?php
+$wb['email_txt'] = 'Epost';
+$wb['destination_txt'] = 'Mottagande Epost';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
+$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+?>

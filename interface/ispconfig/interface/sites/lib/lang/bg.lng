@@ -1,0 +1,22 @@
+<?php
+$wb['Database'] = 'База данни';
+$wb['Options'] = 'Настройки';
+$wb['Shell User'] = 'Shell потребител';
+$wb['Domain'] = 'Домейн';
+$wb['Redirect'] = 'Пренасочване';
+$wb['SSL'] = 'SSL';
+$wb['Subdomain'] = 'Поддомейн';
+$wb['Sites'] = 'Сайтове';
+$wb['Aliasdomain'] = 'Aliasdomain';
+$wb['FTP-User'] = 'FTP потребител';
+$wb['FTP'] = 'FTP';
+$wb['Shell-User'] = 'Shell потребител';
+$wb['Shell'] = 'Shell';
+$wb['Websites'] = 'Websites';
+$wb['Stats'] = 'Statistics';
+$wb['Website'] = 'Website';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistics';
+$wb['Web traffic'] = 'Web Traffic';
+?>

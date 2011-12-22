@@ -1,0 +1,5 @@
+<?php
+$wb['description_txt'] = '説明';
+$wb['name_txt'] = 'グループ';
+$wb['name_err'] = 'グループ名は1〜30文字で指定してください。';
+?>

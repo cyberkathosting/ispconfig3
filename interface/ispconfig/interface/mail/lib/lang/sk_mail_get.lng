@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Typ';
+$wb['source_server_txt'] = 'Pop3/Imap Server';
+$wb['source_username_txt'] = 'Uživate?';
+$wb['source_password_txt'] = 'Heslo';
+$wb['source_delete_txt'] = 'Zmaza? e-maily po na?ítaní';
+$wb['destination_txt'] = 'Cie?';
+$wb['active_txt'] = 'Aktívne';
+$wb['limit_fetchmail_txt'] = 'Max. po?et záznamov Fetchmail pre váš ú?et je dosiahnutý.';
+$wb['source_server_error_isempty'] = 'Server je prázdny.';
+$wb['source_username_error_isempty'] = 'Uživate? je prázdny.';
+$wb['source_password_error_isempty'] = 'Heslo je prázdne.';
+$wb['destination_error_isemail'] = 'Žiadny cie? nebol vybraný.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+?>

@@ -1,0 +1,29 @@
+<?php
+$wb['template_id_txt'] = 'Plantilla';
+$wb['server_id_txt'] = 'Servidor';
+$wb['client_txt'] = 'Cliente';
+$wb['btn_save_txt'] = 'Crear registro DNS';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['domain_txt'] = 'Dominio';
+$wb['email_txt'] = 'Correo';
+$wb['ns1_txt'] = 'NS 1';
+$wb['ns2_txt'] = 'NS 2';
+$wb['ip_txt'] = 'Dirección IP';
+$wb['error_origin_empty'] = 'El campo Origen está vacío.';
+$wb['error_ns_empty'] = 'El campo NS está vacío.';
+$wb['error_mbox_empty'] = 'El campo Mbox está vacío.';
+$wb['error_refresh_empty'] = 'El campo Refresco está vacío.';
+$wb['error_retry_empty'] = 'El campo Reintentar está vacío.';
+$wb['error_expire_empty'] = 'El campo Expirar está vacío.';
+$wb['error_minimum_empty'] = 'El campo Mínimo está vacío.';
+$wb['error_ttl_empty'] = 'El campo TTL está vacío.';
+$wb['error_domain_empty'] = 'El campo Dominio está vacío.';
+$wb['error_ip_empty'] = 'El campo IP está vacío.';
+$wb['error_ns1_empty'] = 'El campo NS1 está vacío.';
+$wb['error_ns2_empty'] = 'El campo NS2 está vacío.';
+$wb['error_email_empty'] = 'El campo Correo electrónico está vacío.';
+$wb['error_domain_regex'] = 'Domain contains invalid characters.';
+$wb['error_ns1_regex'] = 'NS1 contains invalid characters.';
+$wb['error_ns2_regex'] = 'NS2 contains invalid characters.';
+$wb['error_email_regex'] = 'Email does not contain a valid email address.';
+?>

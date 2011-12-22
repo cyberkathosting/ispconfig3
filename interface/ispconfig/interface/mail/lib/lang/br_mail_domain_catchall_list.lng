@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Catchall de Correio';
+$wb['active_txt'] = 'Ativo';
+$wb['source_txt'] = 'origem';
+$wb['destination_txt'] = 'Endereço de destino';
+$wb['server_id_txt'] = 'Servidor';
+$wb['domain_txt'] = 'Domínio';
+$wb['add_new_record_txt'] = 'Adcionar novo Catchall';
+?>

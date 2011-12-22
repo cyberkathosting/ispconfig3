@@ -1,0 +1,6 @@
+<?php
+$wb['name_txt'] = 'Meno';
+$wb['fields_txt'] = 'Polia';
+$wb['template_txt'] = 'Šablóna';
+$wb['visible_txt'] = 'Vidite?né';
+?>

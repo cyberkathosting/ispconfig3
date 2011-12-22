@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Postfix によるヘッダと本文のチェック';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['pattern_txt'] = 'パターン';
+$wb['action_txt'] = '操作';
+$wb['add_new_record_txt'] = 'コンテンツフィルタを追加する';
+?>

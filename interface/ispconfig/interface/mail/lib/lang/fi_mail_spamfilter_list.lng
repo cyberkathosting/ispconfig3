@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Roskapostisuodatin';
+$wb['active_txt'] = 'Käytössä';
+$wb['server_id_txt'] = 'Palvelimen ID';
+$wb['server_name_txt'] = 'Palvelimen nimi';
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['add_new_record_txt'] = 'Lisää osoite estolistalle';
+?>

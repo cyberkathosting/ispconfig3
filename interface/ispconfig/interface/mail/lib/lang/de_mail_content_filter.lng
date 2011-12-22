@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Filter';
+$wb['pattern_txt'] = 'Regexp. Pattern';
+$wb['data_txt'] = 'Daten';
+$wb['action_txt'] = 'Aktion';
+$wb['active_txt'] = 'Aktiv';
+$wb['pattern_error_empty'] = 'Zeichenkette ist leer';
+?>

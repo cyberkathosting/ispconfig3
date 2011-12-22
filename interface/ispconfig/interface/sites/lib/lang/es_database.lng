@@ -1,0 +1,25 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['type_txt'] = 'Tipo';
+$wb['database_name_txt'] = 'Nombre BD';
+$wb['database_user_txt'] = 'Usuario BD';
+$wb['database_password_txt'] = 'Contraseña usuario BD';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
+$wb['database_charset_txt'] = 'Tabla de caracteres BD';
+$wb['remote_access_txt'] = 'Acceso remoto';
+$wb['client_txt'] = 'Cliente';
+$wb['active_txt'] = 'Activar';
+$wb['database_name_error_empty'] = 'El nombre de la base de datos está vacío';
+$wb['database_name_error_unique'] = 'Ya existe una base de datos con este nombre. Para conseguir un nombre único, anteponga su nombre de dominio al nombre de la base de datos';
+$wb['database_name_error_regex'] = 'El nombre de la base de datos no es válido. El nombre de la base de datos puede contener estos caracteres: a-z, A-Z, 0-9 y _ (sin ñ;ç;áéíóú ni signos de puntuación). Longitud: 2-64 caracteres.';
+$wb['database_user_error_empty'] = 'El usuario de la base de datos está vacío';
+$wb['database_user_error_unique'] = 'Ya existe un usuario de base de datos con este nombre. Para conseguir un nombre único, anteponga su nombre de dominio al nombre del usuario';
+$wb['database_user_error_regex'] = 'El nombre de usuario no es válido. El nombre del usuario de la base de datos puede contener estos caracteres: a-z, A-Z, 0-9 y _ (sin ñ;ç;áéíóú ni signos de puntuación). Longitud: 2-64 caracteres.';
+$wb['limit_database_txt'] = 'Se ha alcanzado el número máximo de bases de datos';
+$wb['database_name_change_txt'] = 'El nombre de la base de datos no se puede cambiar';
+$wb['database_charset_change_txt'] = 'La tabla de caracteres de la base de datos no se puede cambiar';
+$wb['remote_ips_txt'] = 'IPs de acceso remoto (separadas por ,) (dejar en blanco para admitir <i>cualquiera</i>)';
+$wb['database_remote_error_ips'] = 'Al menos una de las IP introducidas no es válida.';
+$wb['database_name_error_len'] = 'El nombre de la base de datos - {db} - es demasiado largo. La longitud máxima del nombre de la base de datos, incluyendo el prefijo, es de 64 caracteres.';
+$wb['database_user_error_len'] = 'El nombre de usuario de la base de datos - {user}- es demasiado largo. La longitud máxima del nombre de usuario de la base de datos, incluyendo el prefijo, es de 16 caracteres.';
+?>

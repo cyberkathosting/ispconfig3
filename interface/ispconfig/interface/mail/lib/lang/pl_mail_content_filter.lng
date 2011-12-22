@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Serwer';
+$wb['type_txt'] = 'Filtr';
+$wb['pattern_txt'] = 'Wyrażenie regularne, wzór';
+$wb['data_txt'] = 'Data';
+$wb['action_txt'] = 'Akcja';
+$wb['active_txt'] = 'Aktywny';
+$wb['pattern_error_empty'] = 'Wzór jest pusty.';
+?>

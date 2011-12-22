@@ -1,0 +1,5 @@
+<?php
+$wb['description_txt'] = 'Opis';
+$wb['name_txt'] = 'Grupa';
+$wb['name_err'] = 'Nazwa grupy musi mieć od 1 do 30 znaków.';
+?>

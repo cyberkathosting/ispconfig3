@@ -1,0 +1,9 @@
+
+<tmpl_loop name='zones'>
+<tmpl_if name='zone'>
+zone "<tmpl_var name='zone'>" {
+        type master;
+<tmpl_var name='options'>        file "<tmpl_var name='zonefile_path'>";
+};
+</tmpl_if>
+</tmpl_loop>

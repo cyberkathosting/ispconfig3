@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Nouda sähköposteja ulkoisilta POP3 / IMAP palvelimilta';
+$wb['active_txt'] = 'Käytössä';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['source_server_txt'] = 'Noudettavan postilaatikon palvelin';
+$wb['source_username_txt'] = 'Käyttäjätunnus';
+$wb['destination_txt'] = 'Kohdepostilaatikko';
+$wb['add_new_record_txt'] = 'Lisää uusi tili';
+?>

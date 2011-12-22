@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Szerver';
+$wb['type_txt'] = 'Szűrő';
+$wb['pattern_txt'] = 'Keresendő. Minta';
+$wb['data_txt'] = 'Adat';
+$wb['action_txt'] = 'Teendő';
+$wb['active_txt'] = 'Aktív';
+$wb['pattern_error_empty'] = 'Minta mező üres.';
+?>

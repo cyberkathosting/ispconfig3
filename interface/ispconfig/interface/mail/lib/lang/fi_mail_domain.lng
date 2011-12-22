@@ -1,0 +1,13 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['domain_txt'] = 'Postiverkkotunnus';
+$wb['type_txt'] = 'Tyyppi';
+$wb['active_txt'] = 'Käytössä';
+$wb['domain_error_empty'] = 'Postiverkkotunnus on tyhjä.';
+$wb['domain_error_unique'] = 'Postiverkkotunnus on jo olemassa.';
+$wb['domain_error_regex'] = 'Vääränlainen postiverkkotunnus.';
+$wb['client_txt'] = 'Asiakastunnus';
+$wb['limit_maildomain_txt'] = 'Käyttäjatunnuksella on jo sallittu määrä postiverkkotunnuksia.';
+$wb['policy_txt'] = 'Roskapostisuodatin';
+$wb['no_policy'] = '- ei käytössä -';
+?>

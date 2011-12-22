@@ -1,0 +1,5 @@
+<?php
+$wb['list_head_txt'] = 'Klient-Šablóny';
+$wb['template_type_txt'] = 'Typ';
+$wb['template_name_txt'] = 'Meno šablóny';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Pokaż adresy e-mail z zewnętrznych serwerów POP3 / IMAP';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['source_server_txt'] = 'Zewnętrzny Serwer';
+$wb['source_username_txt'] = 'Nazwa użytkownika';
+$wb['destination_txt'] = 'Element docelowy';
+$wb['add_new_record_txt'] = 'Dodaj nowe konto';
+?>

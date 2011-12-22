@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Whitelist adres';
+$wb['recipient_txt'] = 'Ontvanger';
+$wb['active_txt'] = 'Actief?';
+$wb['source_error_notempty'] = 'Adres is niet ingevuld.';
+$wb['type_txt'] = 'Type';
+$wb['limit_mailfilter_txt'] = 'Het max. aantal e-mailfilters voor uw account is bereikt.';
+?>

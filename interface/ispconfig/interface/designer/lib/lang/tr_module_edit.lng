@@ -1,0 +1,22 @@
+<?php
+$wb['name_txt'] = 'Modül adı';
+$wb['title_txt'] = 'Modül başlığı';
+$wb['template_txt'] = 'Şablon dosyası';
+$wb['navframe_txt'] = 'NaviFrame';
+$wb['startpage_txt'] = 'Varsayılan sayfa';
+$wb['tab_width_txt'] = 'Sekme genişliği';
+$wb['save_txt'] = 'Kaydet';
+$wb['cancel_txt'] = 'İptal';
+$wb['header_txt'] = 'Modül özellikleri';
+$wb['description_txt'] = '
+<b>Açıklama</b>
+<br><br>
+<b>Modül adı:</b> Modül klasörünün adı. Sadece sayı, rakam ve alttan çizgi kullanabilirsiniz.<br>
+<b>Modül başlığı:</b> Üst ana menüde gösterilecek olan isim.<br>
+<b>Şablon dosyası:</b> Şablon dosyası veya modülü. Şu anda geçerli olan dosyalar: module.tpl.htm ve module_tree.tpl.htm. Varsayılan dosya: module.tpl.htm.<br>
+<b>NaviFrame:</b> Eğer module_tree.tpl.htm dosyası şablon dosyası olarak seçilirse, buraya sol frame için betik dosyası yolu girebilirsiniz.<br>
+<b>Varsayılan sayfa:</b> Modül açıldığı zaman görünecek sayfa.<br>
+<b>Sekme Genişliği:</b> Temel navigasyonun genişliği. Bu alan varsayılan olarak boştur. Siz bir piksel değeri(20 gibi) veya bir oran(20%) değeri girebilirsiniz.<br>
+<b>İşaret:</b> Tüm yollar web klasörüyle ilişkilidir..
+';
+?>

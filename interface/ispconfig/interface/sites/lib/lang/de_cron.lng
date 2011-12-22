@@ -1,0 +1,21 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Zugeordnete Website';
+$wb['active_txt'] = 'Aktiv';
+$wb['client_txt'] = 'Kunde';
+$wb['run_min_txt'] = 'Minuten';
+$wb['run_hour_txt'] = 'Stunden';
+$wb['run_mday_txt'] = 'Tage des Monats';
+$wb['run_month_txt'] = 'Monate';
+$wb['run_wday_txt'] = 'Tage der Woche';
+$wb['command_txt'] = 'Auszuführender Befehl (Befehle werden mit sh ausgeführt, urls mit wget)';
+$wb['limit_cron_txt'] = 'Die maximale Anzahl von erlaubten Cron Jobs ist bereits erreicht.';
+$wb['limit_cron_frequency_txt'] = 'Die Ausführungshäufigkeit übersteigt Ihr erlaubtes Limit.';
+$wb['run_min_error_format'] = 'Das Format für Minuten ist nicht korrekt.';
+$wb['run_hour_error_format'] = 'Das Format für Stunden ist nicht korrekt.';
+$wb['run_mday_error_format'] = 'Das Format für Tage des Monats ist nicht korrekt.';
+$wb['run_month_error_format'] = 'Das Format für Monate ist nicht korrekt.';
+$wb['run_wday_error_format'] = 'Das Format für Wochentage ist nicht korrekt.';
+$wb['command_error_format'] = 'Das Format für den Befehl ist nicht korrekt. Beachten Sie, dass bei einem URL Aufruf nur http und https erlaubt ist.';
+$wb['unknown_fieldtype_error'] = 'Es wurde ein unbekanntes Feld verwendet.';
+?>

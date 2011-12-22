@@ -1,0 +1,25 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Type';
+$wb['database_name_txt'] = 'Databasenaam';
+$wb['database_user_txt'] = 'Database gebruikersnaam';
+$wb['database_password_txt'] = 'Database wachtwoord';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
+$wb['database_charset_txt'] = 'Database karakterset';
+$wb['remote_access_txt'] = 'Externe toegang';
+$wb['client_txt'] = 'Klant';
+$wb['active_txt'] = 'Actief?';
+$wb['database_name_error_empty'] = 'Databasenaam is leeg.';
+$wb['database_name_error_unique'] = 'De databasenaam is al in gebruik. Kies een andere naam. U zou bijv. ook uw domeinnaam als databasenaam kunnen gebruiken.';
+$wb['database_name_error_regex'] = 'Ongeldige databasenaam. Gebruik alleen deze karakters: a-z, A-Z, 0-9 en de underscore. Lengte: 2 - 64 karakters.';
+$wb['database_user_error_empty'] = 'Gebruikersnaam niet ingevuld.';
+$wb['database_user_error_unique'] = 'Er bestaat al een database gebruiker met deze naam op de server. Om een unieke naam te verkrijgen, kunt u bijv. uw domeinnaam als gebruikersnaam gebruiken.';
+$wb['database_user_error_regex'] = 'Ongeldige gebruikersnaam. Gebruik alleen deze karakters: a-z, A-Z, 0-9 en de underscore. Lengte: 2 - 64 karakters.';
+$wb['limit_database_txt'] = 'The max. aantal databases is bereikt.';
+$wb['database_name_change_txt'] = 'De databasenaam kan niet worden gewijzigd.';
+$wb['database_charset_change_txt'] = 'De database karakterset kan niet gewijzigd worden.';
+$wb['remote_ips_txt'] = 'Externe toegang IP-adressen.<br />(Komma-gescheiden, lege waarden = iedereen accepteren)';
+$wb['database_remote_error_ips'] = 'Tenminste 1 IP-adres is ongeldig.';
+$wb['database_name_error_len'] = 'Databasenaam - {db} - is te lang. De maximale lengte is 64 tekens.';
+$wb['database_user_error_len'] = 'Database gebruikersnaam - {user} - is te lang. De maximale lengte inclusief prefix is 16 tekens.';
+?>

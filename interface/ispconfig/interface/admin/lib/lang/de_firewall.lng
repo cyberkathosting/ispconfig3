@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Offene TCP Ports';
+$wb['udp_port_txt'] = 'Offene UDP Ports';
+$wb['tcp_port_help_txt'] = 'Getrennt durch Beistrich';
+$wb['udp_port_help_txt'] = 'Getrennt durch Beistrich';
+$wb['active_txt'] = 'Aktiv';
+$wb['firewall_error_unique'] = 'Es gibt bereits einen Firewalldatensatz für diesen Server.';
+$wb['tcp_ports_error_regex'] = 'Zeichen nicht erlaubt in TCP Port Definition. Erlaubte Zeichen sind Nummern, : und ,.';
+$wb['udp_ports_error_regex'] = 'Zeichen nicht erlaubt in TCP Port Definition. Erlaubte Zeichen sind Nummern, : und ,.';
+?>

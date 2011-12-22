@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['origin_txt'] = 'Alue (SOA)';
+$wb['ns_txt'] = 'Nimipalvelin';
+$wb['mbox_txt'] = 'Sähköpostiosoite';
+$wb['serial_txt'] = 'Sarjanumero';
+$wb['refresh_txt'] = 'Päivitysaika';
+$wb['retry_txt'] = 'Uudelleenyritysaika';
+$wb['expire_txt'] = 'Vanhentumisaika';
+$wb['minimum_txt'] = 'Vähimmäisaika';
+$wb['ttl_txt'] = 'Elinaika (TTL)';
+$wb['xfer_txt'] = 'Salli aluetietojen (axfr) siirto näihin IP-osoitteisiin. (pilkulla erotettu lista)';
+$wb['active_txt'] = 'Käytössä';
+$wb['limit_dns_zone_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä DNS-tietueita.';
+$wb['client_txt'] = 'Asiakas';
+$wb['no_zone_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia lisätä tietueita tälle DNS-alueelle.';
+$wb['server_id_error_empty'] = 'Ei palvelimia valittuna';
+$wb['origin_error_empty'] = 'Alue (SOA)-kenttä on tyhjä.';
+$wb['origin_error_unique'] = 'Tällä alueella on jo tietue.';
+$wb['origin_error_regex'] = 'Alue (SOA)-kenttä on vääränlainen.';
+$wb['ns_error_regex'] = 'Nimipalvelin-kenttä on tyhjä.';
+$wb['mbox_error_empty'] = 'Sähköpostiosoite on tyhjä.';
+$wb['mbox_error_regex'] = 'Sähköpostiosoite on vääränlainen';
+$wb['also_notify_txt'] = 'Also Notify';
+$wb['update_acl_txt'] = 'Update ACL';
+?>

@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'サーバー';
+$wb['tcp_port_txt'] = '許可済みTCPポート';
+$wb['udp_port_txt'] = '許可済みUDPポート';
+$wb['tcp_port_help_txt'] = 'カンマで区切ってください。';
+$wb['udp_port_help_txt'] = 'カンマで区切ってください。';
+$wb['active_txt'] = '有効';
+$wb['firewall_error_unique'] = 'このサーバーでは既にファイアウォールが設定されています。';
+$wb['tcp_ports_error_regex'] = 'TCPポートの設定に文字列は利用できません。利用可能な文字は数字、:、, のみです。';
+$wb['udp_ports_error_regex'] = 'UDPポートの設定に文字列は利用できません。利用可能な文字は数字、:、, のみです。';
+?>

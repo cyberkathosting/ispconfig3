@@ -1,0 +1,6 @@
+<?php
+$wb['User Settings'] = 'Kullanıcı Ayarları';
+$wb['Settings'] = 'Ayarlar';
+$wb['ISPConfig Tools'] = 'ISPConfig Araçları';
+$wb['Password and Language'] = 'Şifre ve Dil';
+?>

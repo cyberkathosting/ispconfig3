@@ -1,0 +1,6 @@
+<?php
+$wb['User Settings'] = 'Užívate?ské nastavenia';
+$wb['Settings'] = 'Nastavenia';
+$wb['ISPConfig Tools'] = 'Nástroje';
+$wb['Password and Language'] = 'Heslo a jazyk';
+?>

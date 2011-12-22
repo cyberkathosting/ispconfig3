@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Sähköpostin CatchAll';
+$wb['active_txt'] = 'Käytössä';
+$wb['source_txt'] = 'Verkkotunnus';
+$wb['destination_txt'] = 'Kohdeosoite';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['domain_txt'] = 'Verkkotunnus';
+$wb['add_new_record_txt'] = 'Lisää uusi CatchAll-osoite';
+?>

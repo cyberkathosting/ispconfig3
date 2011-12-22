@@ -1,0 +1,18 @@
+<?php
+$wb['header_txt'] = 'Edytor formularza';
+$wb['title_txt'] = 'Tytuł formularza';
+$wb['name_txt'] = 'Nazwa formularza';
+$wb['delete_txt'] = 'Usuń';
+$wb['properties_txt'] = 'Preferencje';
+$wb['new_tab_txt'] = 'Nowa zakładka';
+$wb['edit_txt'] = 'Edytuj';
+$wb['new_txt'] = 'Nowy';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Moduł';
+$wb['form_txt'] = 'Formularz';
+$wb['description_txt'] = 'Opis';
+$wb['module_del_txt'] = 'Usunąć moduł i wszystkie podkatalogi?';
+$wb['menu_del_txt'] = 'Usunąć menu i wszystkie jego elementy?';
+$wb['item_del_txt'] = 'Usunąc element menu?';
+?>

@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['zone_txt'] = 'Alue (Zone)';
+$wb['name_txt'] = 'Verkkotunnus';
+$wb['type_txt'] = 'Tyyppi';
+$wb['data_txt'] = 'Vastuuhenkilö';
+$wb['ttl_txt'] = 'Elinaika (TTL)';
+$wb['active_txt'] = 'Käytössä';
+$wb['limit_dns_record_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä DNS-tietueita.';
+$wb['no_zone_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia lisätä tietueita tälle DNS-alueelle.';
+$wb['name_error_empty'] = 'Pääverkkotunnus on tyhjä.';
+$wb['name_error_regex'] = 'Pääverkkotunnus on vääränlainen.';
+$wb['data_error_empty'] = 'Vastuuhenkilö-kenttä tyhjä';
+$wb['data_error_regex'] = 'Vastuuhenkilö-kenttä on vääränlainen';
+?>

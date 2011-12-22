@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Epost Whitelist';
+$wb['server_id_txt'] = 'Server';
+$wb['add_new_record_txt'] = 'Lägg till ny Whitelist epostadress';
+$wb['active_txt'] = 'Active';
+$wb['source_txt'] = 'Whitelisted address';
+$wb['type_txt'] = 'Type';
+$wb['recipient_txt'] = 'Recipient';
+$wb['access_txt'] = 'access';
+?>

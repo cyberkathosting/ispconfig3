@@ -1,0 +1,5 @@
+<?php
+$wb['list_head_txt'] = 'Gabarito de Cliente ';
+$wb['template_type_txt'] = 'Tipo';
+$wb['template_name_txt'] = 'Nome do Gabarito';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'データベース';
+$wb['active_txt'] = '有効';
+$wb['remote_access_txt'] = 'リモートアドレス';
+$wb['server_id_txt'] = 'サーバー';
+$wb['database_name_txt'] = 'データベース名';
+$wb['add_new_record_txt'] = 'データベースを追加する';
+?>

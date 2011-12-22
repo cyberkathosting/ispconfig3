@@ -1,0 +1,8 @@
+<?php
+$wb['passwort_txt'] = 'Wachtwoord';
+$wb['language_txt'] = 'Teksten tonen in de taal';
+$wb['password_mismatch'] = 'Het wachtwoord in het tweede veld komt niet overeen met het eerste wachtwoord.';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
+$wb['Form to edit the user password and language.'] = 'Wijzig in het onderstaande formulier het wachtwoord en/of taal.';
+$wb['Settings'] = 'Instellingen';
+?>

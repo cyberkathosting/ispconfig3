@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'E-mail account aliassen';
+$wb['active_txt'] = 'Actief?';
+$wb['source_txt'] = 'Geadresseerde';
+$wb['destination_txt'] = 'Doorsturen naar account';
+$wb['email_txt'] = 'E-mail';
+$wb['add_new_record_txt'] = 'Nieuwe e-mailalias toevoegen';
+?>

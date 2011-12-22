@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Бази данни';
+$wb['active_txt'] = 'Активна';
+$wb['remote_access_txt'] = 'Отдалечен достъп';
+$wb['server_id_txt'] = 'Сървър';
+$wb['database_name_txt'] = 'База данни';
+$wb['add_new_record_txt'] = 'Нова база данни';
+?>

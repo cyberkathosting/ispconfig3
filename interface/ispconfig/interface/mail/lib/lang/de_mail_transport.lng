@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Ziel';
+$wb['type_txt'] = 'Typ';
+$wb['mx_txt'] = 'Kein MX Lookup';
+$wb['sort_order_txt'] = 'Sortiert nach';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_mailrouting_txt'] = 'Die maximale Anzahl an Routen für ihr Konto wurde erreicht.';
+?>

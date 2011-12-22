@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Forwarding mailov';
+$wb['active_txt'] = 'Aktívny';
+$wb['source_txt'] = 'Zdroj';
+$wb['destination_txt'] = 'Cie?';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Prida? nový email forwarding';
+?>

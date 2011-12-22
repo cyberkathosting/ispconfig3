@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Roskapostisuodattimen käyttäjät';
+$wb['local_txt'] = 'Paikallinen';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['priority_txt'] = 'Tärkeysjärjestys';
+$wb['policy_id_txt'] = 'Kohtelutapa';
+$wb['fullname_txt'] = 'Koko nimi';
+$wb['email_txt'] = 'Sähköpostiosoite';
+$wb['add_new_record_txt'] = 'Lisää Roskapostisuodattimen käyttäjä';
+?>

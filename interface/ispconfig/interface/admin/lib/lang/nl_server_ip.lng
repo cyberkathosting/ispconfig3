@@ -1,0 +1,7 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['ip_address_txt'] = 'IP-adres (ipv4)';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost activeren?';
+$wb['ip_error_wrong'] = 'Opgegeven IP-adres is ongeldig';
+$wb['ip_error_unique'] = 'Het IP-adres moet uniek zijn.';
+?>

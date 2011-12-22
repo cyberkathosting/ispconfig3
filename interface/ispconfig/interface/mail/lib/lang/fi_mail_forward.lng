@@ -1,0 +1,7 @@
+<?php
+$wb['email_txt'] = 'Sähköposti';
+$wb['destination_txt'] = 'Vastaanottajan sähköposti';
+$wb['active_txt'] = 'Käytössä';
+$wb['limit_mailforward_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä edelleenlähetysosoitteita.';
+$wb['duplicate_mailbox_txt'] = 'Edelleenlähetyssääntö osoitteelle on jo olemassa.';
+?>

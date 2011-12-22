@@ -1,0 +1,20 @@
+<?php
+$wb['getmail_config_dir_txt'] = 'Getmail-asetuspolku';
+$wb['ip_address_txt'] = 'IP-osoite';
+$wb['netmask_txt'] = 'Verkkopeite';
+$wb['gateway_txt'] = 'Yhdyskäytävä';
+$wb['hostname_txt'] = 'Isäntänimi';
+$wb['nameservers_txt'] = 'Nimipalvelimet';
+$wb['module_txt'] = 'Palvelimen moduuli';
+$wb['maildir_path_txt'] = 'Maildir-polku';
+$wb['homedir_path_txt'] = 'Kotikansion polku';
+$wb['mailuser_uid_txt'] = 'Käyttäjätunnus';
+$wb['mailuser_gid_txt'] = 'Käyttäjäryhmä';
+$wb['mailuser_name_txt'] = 'Sähköpostitunnus';
+$wb['mailuser_group_txt'] = 'Sähköpostiryhmä';
+$wb['relayhost_txt'] = 'Edelleenlähetyspalvelin';
+$wb['relayhost_user_txt'] = 'Käyttäjätunnus';
+$wb['relayhost_password_txt'] = 'Salasana';
+$wb['mailbox_size_limit_txt'] = 'Postilaatikon koko';
+$wb['message_size_limit_txt'] = 'Viestien enimmäiskoko';
+?>

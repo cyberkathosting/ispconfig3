@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Nimitietueet';
+$wb['active_txt'] = 'Käytössä';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['zone_txt'] = 'Alue (Zone)';
+$wb['name_txt'] = 'Nimi';
+$wb['data_txt'] = 'Data';
+$wb['type_txt'] = 'Tyyppi';
+$wb['add_new_record_txt'] = 'Lisää uusi tietue';
+$wb['aux_txt'] = 'Tärkeysjärjestys';
+$wb['page_txt'] = 'Sivu';
+$wb['page_of_txt'] = '/';
+$wb['delete_confirmation'] = 'Haluatko varmasti poistaa tämän tietueen?';
+?>

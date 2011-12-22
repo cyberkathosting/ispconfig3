@@ -1,0 +1,6 @@
+<?php
+$wb['title_txt'] = 'Başlık';
+$wb['header_txt'] = 'Navi özellikleri';
+$wb['save_txt'] = 'Kaydet';
+$wb['cancel_txt'] = 'İptal';
+?>

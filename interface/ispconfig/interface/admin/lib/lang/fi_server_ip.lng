@@ -1,0 +1,7 @@
+<?php
+$wb['server_id_txt'] = 'Palvelin';
+$wb['ip_address_txt'] = 'IP-osoite';
+$wb['virtualhost_txt'] = 'Virtuaalipalvelin';
+$wb['ip_error_wrong'] = 'IP-osoite vääränlainen';
+$wb['ip_error_unique'] = 'IP-osoitteen on oltava yksilöllinen';
+?>

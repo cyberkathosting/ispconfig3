@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['type_txt'] = 'Type';
+$wb['source_server_txt'] = 'Serveur Pop3/Imap';
+$wb['source_username_txt'] = 'Utilisateur';
+$wb['source_password_txt'] = 'Mot de passe';
+$wb['source_delete_txt'] = 'Supprimer les emails après récupération';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Actif';
+$wb['limit_fetchmail_txt'] = 'Le nombre max. denregistrements Fetchmail pour votre compte a été atteint.';
+$wb['source_server_error_isempty'] = 'Le serveur est vide.';
+$wb['source_username_error_isempty'] = 'Lutilisateur est vide.';
+$wb['source_password_error_isempty'] = 'Le mot de passe est vide.';
+$wb['destination_error_isemail'] = 'Pas de destination sélectionnée.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
+?>

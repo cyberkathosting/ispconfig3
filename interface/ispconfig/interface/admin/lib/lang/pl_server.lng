@@ -1,0 +1,13 @@
+<?php
+$wb['config_txt'] = 'Konfiguracja';
+$wb['server_name_txt'] = 'Nazwa serwera';
+$wb['mail_server_txt'] = 'Serwer poczty E-Mail';
+$wb['web_server_txt'] = 'Serwer WWW';
+$wb['dns_server_txt'] = 'Serwer DNS';
+$wb['file_server_txt'] = 'Serwer plików';
+$wb['db_server_txt'] = 'Serwer bazy danych';
+$wb['vserver_server_txt'] = 'Witrualny serwer';
+$wb['active_txt'] = 'Aktywny';
+$wb['mirror_server_id_txt'] = 'Is mirror of Server';
+$wb['- None -'] = '- None -';
+?>

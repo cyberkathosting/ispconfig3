@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Veritabanı';
+$wb['active_txt'] = 'Aktif';
+$wb['remote_access_txt'] = 'Uzaktan Erişim';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['database_name_txt'] = 'Veritabanı adı';
+$wb['add_new_record_txt'] = 'Yeni Veritabanı';
+?>

@@ -1,0 +1,21 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Rodi?ovská webstránka';
+$wb['active_txt'] = 'Aktívne';
+$wb['client_txt'] = 'Klient';
+$wb['run_min_txt'] = 'Minúty';
+$wb['run_hour_txt'] = 'Hodiny';
+$wb['run_mday_txt'] = 'Dni v mesiaci';
+$wb['run_month_txt'] = 'Mesiace';
+$wb['run_wday_txt'] = 'Dni v týždni';
+$wb['command_txt'] = 'Príkaz na spustenie (príkazy sú vykonávané pomocou sh, urls cez wget)';
+$wb['limit_cron_txt'] = 'Maximálny po?et povolených cron pracovných miest bolo dosiahnuté.';
+$wb['limit_cron_frequency_txt'] = 'Cron frekvencia prekra?uje povolený limit.';
+$wb['run_min_error_format'] = 'Neplatný formát minút.';
+$wb['run_hour_error_format'] = 'Neplatný formát hodín.';
+$wb['run_mday_error_format'] = 'Neplatný formát pre dni v mesiaci.';
+$wb['run_month_error_format'] = 'Neplatný formát mesiaca.';
+$wb['run_wday_error_format'] = 'Neplatný formát pre dni v týždni.';
+$wb['command_error_format'] = 'Neplatný formát príkazu. Upozor?ujeme, že v prípade url volania iba http / https, sú povolené.';
+$wb['unknown_fieldtype_error'] = 'Neznámy druh pola bol použitý.';
+?>

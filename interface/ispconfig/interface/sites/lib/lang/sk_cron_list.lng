@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Cron Joby';
+$wb['active_txt'] = 'Aktíne';
+$wb['server_id_txt'] = 'Server';
+$wb['run_min_txt'] = 'Minúta';
+$wb['run_hour_txt'] = 'Hodina';
+$wb['run_mday_txt'] = 'De? v mesiaci';
+$wb['run_month_txt'] = 'Mesiac';
+$wb['run_wday_txt'] = 'De? v týždni';
+$wb['command_txt'] = 'Príkaz';
+$wb['add_new_cron_txt'] = 'Prida? nový Cron job';
+?>

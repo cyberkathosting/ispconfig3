@@ -1,0 +1,28 @@
+<?php
+$wb["uid_txt"] = 'UID';
+$wb["gid_txt"] = 'GID';
+$wb["dir_txt"] = 'Directory';
+$wb["quota_files_txt"] = 'Filequota';
+$wb["quota_files_unity_txt"] = 'Files';
+$wb["ul_ratio_txt"] = 'Uploadratio';
+$wb["dl_ratio_txt"] = 'Downloadratio';
+$wb["ul_bandwidth_txt"] = 'Uploadbandwidth';
+$wb["dl_bandwidth_txt"] = 'Downloadbandwidth';
+$wb["server_id_txt"] = 'Server';
+$wb["parent_domain_id_txt"] = 'Website';
+$wb["username_txt"] = 'Username';
+$wb["password_txt"] = 'Password';
+$wb["password_strength_txt"] = 'Password strength';
+$wb["quota_size_txt"] = 'Harddisk-Quota';
+$wb["active_txt"] = 'Active';
+$wb["limit_ftp_user_txt"] = 'The max. number of FTP users for your account is reached.';
+$wb["username_error_empty"] = 'Username is empty.';
+$wb["username_error_unique"] = 'The username must be unique.';
+$wb["username_error_regex"] = 'The username contains charachters that are not allowed.';
+$wb["quota_size_error_empty"] = 'Quota is empty.';
+$wb["uid_error_empty"] = 'UID empty.';
+$wb["uid_error_empty"] = 'GID empty.';
+$wb["directory_error_empty"] = 'Directory empty.';
+$wb['directory_error_notinweb'] = 'Directory not inside of web root directory.';
+$wb["parent_domain_id_error_empty"] = 'No website selected.';
+?>

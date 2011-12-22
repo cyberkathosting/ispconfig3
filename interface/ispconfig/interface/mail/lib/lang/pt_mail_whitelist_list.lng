@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Correio Lista Branca';
+$wb['active_txt'] = 'Activo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['source_txt'] = 'Endereços na Lista Branca';
+$wb['type_txt'] = 'Tipo';
+$wb['recipient_txt'] = 'Recipiente';
+$wb['add_new_record_txt'] = 'Adicionar Endereço';
+$wb['access_txt'] = 'acesso';
+?>
+

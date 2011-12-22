@@ -1,0 +1,15 @@
+<?php
+$wb['warning'] = 'Let op bij het wijzigen van deze waarden. Verwijder de prefix niet op systemen met meer dan 1 klant.';
+$wb['dbname_prefix_txt'] = 'Databasenaam prefix';
+$wb['dbuser_prefix_txt'] = 'Gebruiker prefix';
+$wb['shelluser_prefix_txt'] = 'Shell user prefix';
+$wb['ftpuser_prefix_txt'] = 'FTP gebruiker prefix';
+$wb['dbname_prefix_error_regex'] = 'Teken niet toegestaan in databasenaam';
+$wb['dbuser_prefix_error_regex'] = 'Teken niet toegestaan in gebruiker prefix';
+$wb['ftpuser_prefix_error_regex'] = 'Teken niet toegestaan in FTP gebruiker prefix';
+$wb['shelluser_prefix_error_regex'] = 'Teken niet toegestaan in Shell gebruiker prefix';
+$wb['dblist_phpmyadmin_link_txt'] = 'Link phpMyAdmin weergeven?';
+$wb['mailboxlist_webmail_link_txt'] = 'Link Webmail weergeven?';
+$wb['webmail_url_txt'] = 'URL naar Webmail';
+$wb['phpmyadmin_url_txt'] = 'URL naar phpMyAdmin';
+?>

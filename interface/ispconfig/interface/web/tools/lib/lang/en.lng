@@ -1,0 +1,6 @@
+<?php
+$wb['User Settings'] = 'User Settings';
+$wb['Settings'] = 'Settings';
+$wb['ISPConfig Tools'] = 'Hosting Panel Tools';
+$wb['Password and Language'] = 'Password and Language';
+?>

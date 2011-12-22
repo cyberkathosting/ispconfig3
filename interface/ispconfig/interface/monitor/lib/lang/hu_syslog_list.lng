@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'ISPConfig Log';
+$wb['tstamp_txt'] = 'Dátum';
+$wb['server_id_txt'] = 'Szerver';
+$wb['loglevel_txt'] = 'Naplózási szint';
+$wb['message_txt'] = 'Üzenet';
+?>

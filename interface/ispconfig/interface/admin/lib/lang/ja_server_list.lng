@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'サーバー';
+$wb['server_name_txt'] = 'サーバー名';
+$wb['mail_server_txt'] = 'メール';
+$wb['web_server_txt'] = 'ウェブ';
+$wb['dns_server_txt'] = 'DNS';
+$wb['file_server_txt'] = 'ファイルサーバー';
+$wb['db_server_txt'] = 'DB';
+$wb['vserver_server_txt'] = 'VServer';
+$wb['add_new_record_txt'] = 'サーバーを追加する';
+?>

@@ -1,0 +1,25 @@
+<?php
+$wb['name_txt'] = 'Название формы';
+$wb['title_txt'] = 'Заголовок формы';
+$wb['template_txt'] = 'Шаблон';
+$wb['navframe_txt'] = 'Навигация';
+$wb['startpage_txt'] = 'Стартовая страница';
+$wb['tab_width_txt'] = 'Ширина таба';
+$wb['save_txt'] = 'Сохранить';
+$wb['cancel_txt'] = 'Закончить';
+$wb['header_txt'] = 'Свойства формы';
+$wb['description_txt'] = 'Описание';
+$wb['action_txt'] = 'Действие (скрипт)';
+$wb['db_table_txt'] = 'Таблица БД';
+$wb['db_table_idx_txt'] = 'Индекс таблицы БД';
+$wb['db_history_txt'] = 'Undo-лог';
+$wb['tab_default_txt'] = 'Таб по-умолчанию';
+$wb['list_default_txt'] = 'Список по-умолчанию';
+$wb['auth_txt'] = 'Права';
+$wb['auth_preset_userid_txt'] = 'ПользовательID';
+$wb['auth_preset_groupid_txt'] = 'GroupID';
+$wb['auth_preset_perm_user_txt'] = 'Perm. User';
+$wb['auth_preset_perm_group_txt'] = 'Perm. Group';
+$wb['auth_preset_perm_other_txt'] = 'Perm. Other';
+?>
+

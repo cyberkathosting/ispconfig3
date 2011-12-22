@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Задачи';
+$wb['tstamp_txt'] = 'Дата';
+$wb['server_id_txt'] = 'Сервер';
+$wb['dbtable_txt'] = 'Таблица БД';
+$wb['action_txt'] = 'Действие';
+$wb['status_txt'] = 'Статус';
+?>
+

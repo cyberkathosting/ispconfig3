@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'E-mail białej listy';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['source_txt'] = 'Adres dodany do białej listy';
+$wb['type_txt'] = 'Typ';
+$wb['recipient_txt'] = 'odbiorca';
+$wb['add_new_record_txt'] = 'Dodaj nowy wpis białej listy';
+$wb['access_txt'] = 'dostęp';
+?>

@@ -1,0 +1,28 @@
+<?php
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['username_err'] = 'De gebruikersnaam is te lang of bevat ongeldige karakters.';
+$wb['username_empty'] = 'De gebruikersnaam is leeg.';
+$wb['username_unique'] = 'Er bestaat reeds een gebruiker met deze gebruikersnaam.';
+$wb['passwort_txt'] = 'Wachtwoord';
+$wb['modules_txt'] = 'Beschikbare modulen';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
+$wb['startmodule_txt'] = 'Vervolgmodule na aanmelding';
+$wb['app_theme_txt'] = 'ISPConfig Thema';
+$wb['typ_txt'] = 'Type gebruiker';
+$wb['active_txt'] = 'Actief?';
+$wb['language_txt'] = 'Taal';
+$wb['name_txt'] = 'Naam';
+$wb['vorname_txt'] = 'Voornaam';
+$wb['unternehmen_txt'] = 'Bedrijf';
+$wb['strasse_txt'] = 'Adres';
+$wb['ort_txt'] = 'Plaats';
+$wb['plz_txt'] = 'Postcode';
+$wb['land_txt'] = 'Land';
+$wb['email_txt'] = 'E-mail';
+$wb['url_txt'] = 'Website';
+$wb['telefon_txt'] = 'Telefoon';
+$wb['fax_txt'] = 'Fax';
+$wb['groups_txt'] = 'Gebruiker is lid van groep';
+$wb['default_group_txt'] = 'Standaard groep';
+$wb['startmodule_err'] = 'Module is niet binnen de lijst van beschikbare modulen.';
+?>

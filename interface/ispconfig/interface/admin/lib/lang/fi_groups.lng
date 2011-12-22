@@ -1,0 +1,5 @@
+<?php
+$wb['description_txt'] = 'Ryhmän kuvaus';
+$wb['name_txt'] = 'Käyttäjäryhmä';
+$wb['name_err'] = 'Käyttäjäryhmän nimen on oltava vähintään 1, enintään 30 merkkiä pitkä.';
+?>

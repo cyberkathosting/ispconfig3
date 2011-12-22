@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Zamanlanmış Görevler';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['run_min_txt'] = 'Dakika';
+$wb['run_hour_txt'] = 'Saat';
+$wb['run_mday_txt'] = 'Ayın Günleri';
+$wb['run_month_txt'] = 'Ay';
+$wb['run_wday_txt'] = 'Haftanın Günleri';
+$wb['command_txt'] = 'Komut';
+$wb['add_new_cron_txt'] = 'Yeni Görev';
+?>

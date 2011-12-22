@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Registro (A)';
+$wb['active_txt'] = 'Ativo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nome';
+$wb['data_txt'] = 'Data';
+$wb['aux_txt'] = 'Prioridade';
+$wb['type_txt'] = 'Tipo';
+$wb['add_new_record_txt'] = 'Adcionar um novo registro DNS (A)';
+$wb['page_txt'] = 'Página';
+$wb['page_of_txt'] = 'de';
+$wb['delete_confirmation'] = 'Tem certeza que deseja remover este registro?';
+?>

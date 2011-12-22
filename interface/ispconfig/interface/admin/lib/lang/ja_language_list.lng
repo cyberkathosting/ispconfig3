@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = '言語ファイルエディタ';
+$wb['language_select_txt'] = '言語を選んでください';
+$wb['module_txt'] = 'モジュール';
+$wb['lang_file_txt'] = '言語ファイル';
+$wb['lang_file_date_txt'] = '最終更新日時';
+?>

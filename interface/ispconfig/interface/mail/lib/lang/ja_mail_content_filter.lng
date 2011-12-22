@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'サーバー';
+$wb['type_txt'] = 'フィルター';
+$wb['pattern_txt'] = '正規表現パターン';
+$wb['data_txt'] = '値';
+$wb['action_txt'] = '操作';
+$wb['active_txt'] = '有効';
+$wb['pattern_error_empty'] = 'パターンを指定してください';
+?>

@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'Email';
+$wb['spam_rewrite_score_int_txt'] = 'Rewrite Bewertung';
+$wb['spam_redirect_score_int_txt'] = 'Redirect Bewertung';
+$wb['spam_delete_score_int_txt'] = 'Delete Bewertung';
+$wb['spam_rewrite_subject_txt'] = 'Rewrite Betreff';
+$wb['spam_redirect_maildir_txt'] = 'Redirect Mailbox';
+$wb['active_txt'] = 'Aktiv';
+$wb['spam_rewrite_txt'] = 'Schreibe Email Betreff über dieser Bewertung um.';
+$wb['spam_redirect_txt'] = 'Leite Emails über dieser Bewertung zur ausgewählten Mailbox weiter.';
+$wb['spam_delete_txt'] = 'Lösche Emails über dieser Bewertung.';
+$wb['disable_txt'] = 'Hint: Um eine Filteroption zu deaktivieren, müssen Sie die Bewertung auf 0.00 setzen.';
+$wb['email_error_isemail'] = 'Email Adresse ist ungültig.';
+$wb['email_error_unique'] = 'Es existiert bereits ein Spamfilter Eintrag für diese Email Adresse.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Purge Maildir nach';
+$wb['days_txt'] = 'Tagen.';
+?>

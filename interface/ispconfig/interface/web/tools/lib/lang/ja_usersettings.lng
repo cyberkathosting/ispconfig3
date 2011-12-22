@@ -1,0 +1,8 @@
+<?php
+$wb['passwort_txt'] = 'パスワード';
+$wb['password_strength_txt'] = 'パスワードの強度';
+$wb['language_txt'] = '言語';
+$wb['password_mismatch'] = 'パスワードの1つめの欄と2つめの欄が一致していません。';
+$wb['Form to edit the user password and language.'] = 'ユーザーのパスワードと言語を指定してください。';
+$wb['Settings'] = '設定';
+?>

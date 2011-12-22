@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'E-mail accounts';
+$wb['email_txt'] = 'E-mail';
+$wb['autoresponder_txt'] = 'Autoresponder';
+$wb['add_new_record_txt'] = 'Nieuw e-mailaccount toevoegen';
+$wb['name_txt'] = 'Realname';
+?>

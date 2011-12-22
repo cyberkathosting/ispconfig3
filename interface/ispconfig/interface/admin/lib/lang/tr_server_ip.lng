@@ -1,0 +1,7 @@
+<?php
+$wb['server_id_txt'] = 'Sunucu';
+$wb['ip_address_txt'] = 'IP Adresleri';
+$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
+$wb['ip_error_wrong'] = 'The IP address is invalid';
+$wb['ip_error_unique'] = 'The IP address must be unique';
+?>

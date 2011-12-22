@@ -1,0 +1,5 @@
+<?php
+$wb['description_txt'] = 'Description';
+$wb['name_txt'] = 'Groupe';
+$wb['name_err'] = 'Le groupe doit avoir entre 1 et 30 caractères.';
+?>

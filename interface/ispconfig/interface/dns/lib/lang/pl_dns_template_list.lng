@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Instalator szablonów DNS';
+$wb['visible_txt'] = 'Widoczność';
+$wb['name_txt'] = 'Nazwa';
+$wb['add_new_record_txt'] = 'Dodaj nowy wpis';
+?>

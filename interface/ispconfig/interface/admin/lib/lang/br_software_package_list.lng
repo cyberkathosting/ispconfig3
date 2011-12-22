@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Pacotes de Software';
+$wb['installed_txt'] = 'Status';
+$wb['package_title_txt'] = 'Pacote';
+$wb['package_description_txt'] = 'Descrição';
+$wb['action_txt'] = 'Acão';
+?>

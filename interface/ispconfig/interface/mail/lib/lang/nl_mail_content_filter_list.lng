@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Postfix header en body checks';
+$wb['active_txt'] = 'Actief?';
+$wb['server_id_txt'] = 'Server';
+$wb['pattern_txt'] = 'Patroon';
+$wb['action_txt'] = 'Actie';
+$wb['add_new_record_txt'] = 'Nieuw content filter toevoegen';
+?>

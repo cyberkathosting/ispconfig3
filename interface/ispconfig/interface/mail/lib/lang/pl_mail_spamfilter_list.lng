@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Filtr spamu';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['server_name_txt'] = 'nazwa_serwera';
+$wb['email_txt'] = 'E-mail';
+$wb['add_new_record_txt'] = 'Dodaj nowy wpis z filtrem spamu';
+?>

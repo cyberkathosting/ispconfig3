@@ -1,0 +1,15 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nombre de la máquina';
+$wb['type_txt'] = 'tipo';
+$wb['data_txt'] = 'Dirección IPv6';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Activar';
+$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registros DNS de su cuenta.';
+$wb['no_zone_perm'] = 'No tiene permisos para añadir un registro a esta zona DNS.';
+$wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
+$wb['name_error_regex'] = 'El nombre de la máquina tiene un formato incorrecto.';
+$wb['data_error_empty'] = 'La dirección IP está vacía.';
+$wb['data_error_regex'] = 'La dirección IP tiene un formato no válido.';
+?>

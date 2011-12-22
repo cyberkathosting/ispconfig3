@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Fetch emails from external POP3 / IMAP servers';
+$wb['active_txt'] = 'Active';
+$wb['server_id_txt'] = 'Server';
+$wb['source_server_txt'] = 'External Server';
+$wb['source_username_txt'] = 'Username';
+$wb['destination_txt'] = 'Destination';
+$wb['add_new_record_txt'] = 'Add new Account';
+?>

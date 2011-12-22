@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Пользователи спам-фильтра';
+$wb['local_txt'] = 'Локальный';
+$wb['server_id_txt'] = 'Сервер';
+$wb['priority_txt'] = 'Приоритет';
+$wb['policy_id_txt'] = 'Правило';
+$wb['fullname_txt'] = 'Имя';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Добавить пользователя спам-фильтра';
+?>
+

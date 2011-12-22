@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = '言語ファイルをインポートする';
+$wb['language_import_txt'] = '言語を選んでください';
+$wb['btn_save_txt'] = '選んだ言語へインポートする';
+$wb['language_overwrite_txt'] = '同名のファイルが存在する場合に上書きする';
+$wb['btn_cancel_txt'] = '戻る';
+$wb['ignore_version_txt'] = 'Skip ISPConfig version check';
+?>

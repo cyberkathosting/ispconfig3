@@ -1,0 +1,20 @@
+<?php
+$wb['getmail_config_dir_txt'] = 'Legyűjtés beállítás elérés';
+$wb['ip_address_txt'] = 'IP cím';
+$wb['netmask_txt'] = 'Netmask';
+$wb['gateway_txt'] = 'Átjáró';
+$wb['hostname_txt'] = 'Állomásnév';
+$wb['nameservers_txt'] = 'Névszerverek';
+$wb['module_txt'] = 'Szerver Modul';
+$wb['maildir_path_txt'] = 'Maildir elérési út';
+$wb['homedir_path_txt'] = 'Home könyvtár elérési út';
+$wb['mailuser_uid_txt'] = 'Mailfelhasználó UID';
+$wb['mailuser_gid_txt'] = 'Mailfelhasználó GID';
+$wb['mailuser_name_txt'] = 'Mailfelhasználó Név';
+$wb['mailuser_group_txt'] = 'Mailfelhasználó Csoport';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost felhasználó';
+$wb['relayhost_password_txt'] = 'Relayhost jelszó';
+$wb['mailbox_size_limit_txt'] = 'Mailbox Méret korlát';
+$wb['message_size_limit_txt'] = 'Üzenet méret korlát';
+?>

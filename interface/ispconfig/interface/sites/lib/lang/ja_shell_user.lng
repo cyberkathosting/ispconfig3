@@ -1,0 +1,22 @@
+<?php
+$wb['uid_txt'] = 'ユーザー';
+$wb['gid_txt'] = 'グループ';
+$wb['shell_txt'] = 'Shell';
+$wb['dir_txt'] = 'ディレクトリ';
+$wb['server_id_txt'] = 'サーバー';
+$wb['parent_domain_id_txt'] = 'サイト';
+$wb['username_txt'] = 'ユーザー名';
+$wb['password_txt'] = 'パスワード';
+$wb['password_strength_txt'] = 'パスワードの強度';
+$wb['chroot_txt'] = 'Chroot の方式';
+$wb['quota_size_txt'] = 'ディスクの容量';
+$wb['active_txt'] = '有効';
+$wb['username_error_empty'] = 'ユーザー名を指定してください';
+$wb['username_error_unique'] = '既に登録済みのユーザー名です。別の名前に変更してください。';
+$wb['username_error_regex'] = 'ユーザー名に不正な文字が使われています。修正してください。';
+$wb['quota_size_error_empty'] = 'ディスクの容量を指定してください';
+$wb['uid_error_empty'] = 'GID を指定してください。';
+$wb['directory_error_empty'] = 'ディレクトリを指定してください。';
+$wb['limit_shell_user_txt'] = 'Shellユーザーが最大数に達しました。';
+$wb['parent_domain_id_error_empty'] = 'ウェブサイトを選択してください。';
+?>

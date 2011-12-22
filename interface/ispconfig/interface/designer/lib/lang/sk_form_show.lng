@@ -1,0 +1,18 @@
+<?php
+$wb['header_txt'] = 'Formulár editor';
+$wb['title_txt'] = 'Formulár stránok';
+$wb['name_txt'] = 'Názov formulára';
+$wb['delete_txt'] = 'Odstráni?';
+$wb['properties_txt'] = 'Vlastnosti';
+$wb['new_tab_txt'] = 'Tab nové';
+$wb['edit_txt'] = 'Upravi?';
+$wb['new_txt'] = 'Nové';
+$wb['up_txt'] = '^';
+$wb['down_txt'] = 'v';
+$wb['module_txt'] = 'Modul';
+$wb['form_txt'] = 'Formulár';
+$wb['description_txt'] = 'Popis';
+$wb['module_del_txt'] = 'Odstráni? modul a vo všetky podadresáre?';
+$wb['menu_del_txt'] = 'Zmaza? z ponuky položky menu?';
+$wb['item_del_txt'] = 'Zmaza? položky z menu?';
+?>

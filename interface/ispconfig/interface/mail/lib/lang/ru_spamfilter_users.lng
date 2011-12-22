@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Сервер';
+$wb['priority_txt'] = 'Приоритет';
+$wb['policy_id_txt'] = 'Политика';
+$wb['email_txt'] = 'Email (Шаблон)';
+$wb['fullname_txt'] = 'Имя';
+$wb['local_txt'] = 'Локальный';
+?>
+

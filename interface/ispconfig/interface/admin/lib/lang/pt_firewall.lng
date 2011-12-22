@@ -1,0 +1,12 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['tcp_port_txt'] = 'Portas TCP abertas';
+$wb['udp_port_txt'] = 'Portas UDP abertas';
+$wb['tcp_port_help_txt'] = 'Separado por vírgula';
+$wb['udp_port_help_txt'] = 'Separado por vírgula';
+$wb['active_txt'] = 'Activo';
+$wb['firewall_error_unique'] = 'Já existe uma regra de firewall para este servidor!';
+$wb['tcp_ports_error_regex'] = 'Caractere não permitido para definição de porta tcp. Apenas são permitidos números, : e ,.';
+$wb['udp_ports_error_regex'] = 'Caractere não permitido para definição de porta udp. Apenas são permitidos números, : e ,.';
+?>
+

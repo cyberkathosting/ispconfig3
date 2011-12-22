@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['wb_txt'] = 'wb';
+$wb['rid_txt'] = 'Utilizador ';
+$wb['email_txt'] = 'Correio Eletrônico';
+$wb['priority_txt'] = 'Prioridade';
+$wb['active_txt'] = 'Activo';
+$wb['limit_spamfilter_wblist_txt'] = 'O número máximo de registos da lista branca / negra foi atingido para esta conta.';
+?>
+

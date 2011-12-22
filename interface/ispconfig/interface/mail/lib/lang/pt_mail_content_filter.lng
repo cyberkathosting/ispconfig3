@@ -1,0 +1,10 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['type_txt'] = 'Filtro';
+$wb['pattern_txt'] = 'Padrão de Expressão Regular.';
+$wb['data_txt'] = 'Data';
+$wb['action_txt'] = 'Acção';
+$wb['active_txt'] = 'Activo';
+$wb['pattern_error_empty'] = 'Padrão em branco';
+?>
+

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Firewall';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['tcp_port_txt'] = 'Otwarte porty TCP';
+$wb['udp_port_txt'] = 'Otwarte porty UDP';
+$wb['add_new_record_txt'] = 'Dodaj wpis Firewall-a';
+?>

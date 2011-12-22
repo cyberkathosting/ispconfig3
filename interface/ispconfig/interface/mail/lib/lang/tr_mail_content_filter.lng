@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Sunucu';
+$wb['type_txt'] = 'Filtre';
+$wb['pattern_txt'] = 'Regexp. Pattern';
+$wb['data_txt'] = 'Veri';
+$wb['action_txt'] = 'Eylem';
+$wb['active_txt'] = 'Aktif';
+$wb['pattern_error_empty'] = 'Desen boş.';
+?>

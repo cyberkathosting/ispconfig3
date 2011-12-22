@@ -1,0 +1,42 @@
+<?php
+$wb['custom_mailfilter_txt'] = 'Custom mail filter recipe';
+$wb['email_txt'] = 'Email';
+$wb['cryptpwd_txt'] = 'Пароль';
+$wb['active_txt'] = 'Активен?';
+$wb['email_error_isemail'] = 'Почтовый адрес неправилен.';
+$wb['email_error_unique'] = 'Email дублируется.';
+$wb['autoresponder_text_txt'] = 'Текст';
+$wb['autoresponder_txt'] = 'Автоответчик';
+$wb['no_domain_perm'] = 'Вы не имеете разрешений для этого домена.';
+$wb['error_no_pwd'] = 'Пароль пустой.';
+$wb['quota_error_isint'] = 'Размер должен быть цифрой.';
+$wb['quota_txt'] = 'квота in MB';
+$wb['server_id_txt'] = 'server_id';
+$wb['password_txt'] = 'пароль';
+$wb['maildir_txt'] = 'maildir';
+$wb['postfix_txt'] = 'Разрешить получение';
+$wb['access_txt'] = 'Включить доступ';
+$wb['policy_txt'] = 'Спам-фильтр';
+$wb['no_policy'] = '- не включено -';
+$wb['limit_mailbox_txt'] = 'Число почтовых ящиков превышено.';
+$wb['limit_mailquota_txt'] = 'Место под почтовые ящики превышено. Максимально доступно MB';
+$wb['welcome_mail_subject'] = 'Добро пожаловать в ваш новый счет электронной почты.';
+$wb['welcome_mail_message'] = 'Добро пожаловать в ваш новый счет электронной почты.
+
+Ваш вебмастер.';
+$wb['password_strength_txt'] = 'Стойкость пароля';
+$wb['disableimap_txt'] = 'Запретить IMAP';
+$wb['disablepop3_txt'] = 'Запретить POP3';
+$wb['welcome_mail_fromname_txt'] = 'ISPConfig3';
+$wb['welcome_mail_fromemail_txt'] = 'info@youdomain.com';
+$wb['duplicate_alias_or_forward_txt'] = 'Алиас или пересылка уже существуют для этого адреса.';
+$wb['quota_error_value'] = 'Неверное значение квоты. Допустимые значения: 0 не ограничено, или число больше 1';
+$wb['autoresponder_start_date_txt'] = 'Запускать';
+$wb['autoresponder_start_date_isfuture'] = 'Дата запуска не может быть в прошлом.';
+$wb['autoresponder_end_date_txt'] = 'Окончание';
+$wb['autoresponder_end_date_isgreater'] = 'Дата окончания должна быть позже даты запуска.';
+$wb['move_junk_txt'] = 'Перемещать спам в директорию Junk';
+$wb['name_txt'] = 'Realname';
+$wb['name_optional_txt'] = '(Optional)';
+?>
+

@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Relay Empfänger';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Empfänger Adresse';
+$wb['recipient_txt'] = 'Empfänger';
+$wb['add_new_record_txt'] = 'Neuen Relay Empfänger hinzufügen';
+$wb['access_txt'] = 'Zugriff';
+?>

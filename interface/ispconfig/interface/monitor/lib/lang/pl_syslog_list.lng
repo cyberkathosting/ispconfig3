@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Log ISPConfig';
+$wb['tstamp_txt'] = 'Data';
+$wb['server_id_txt'] = 'Serwer';
+$wb['loglevel_txt'] = 'Poziom Logu';
+$wb['message_txt'] = 'Wiadomość';
+?>

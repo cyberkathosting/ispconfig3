@@ -1,0 +1,41 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_web_domain">
+
+  <div class="pnl_formsarea">
+    <fieldset class="inlineLabels">
+        <input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="hidden" class="textInput" />
+      <div class="ctrlHolder">
+      	<label for="system_user">{tmpl_var name='system_user_txt'}</label>
+		<label for="system_user">{tmpl_var name='system_user'}</label>
+        <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" type="hidden" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="system_group">{tmpl_var name='system_group_txt'}</label>
+		<label for="system_group">{tmpl_var name='system_group'}</label>
+        <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="allow_override">{tmpl_var name='allow_override_txt'}</label>
+        <input name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" size="30" maxlength="255" type="text" class="textInput" />
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="php_open_basedir">{tmpl_var name='php_open_basedir_txt'}</label>
+        <input name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" size="30" maxlength="255" type="text" class="textInput" />
+	  </div>
+      <div class="ctrlHolder">
+      	<label for="apache_directives">{tmpl_var name='apache_directives_txt'}</label>
+      	<textarea name="apache_directives" id="apache_directives" rows='10' cols='30'>{tmpl_var name='apache_directives'}</textarea>
+			</div>
+    </fieldset>
+
+    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+    <div class="buttonHolder buttons">
+      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+    </div>
+  </div>
+  
+</div>

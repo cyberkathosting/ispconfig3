@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'メールアドレス';
+$wb['spam_rewrite_score_int_txt'] = '書き換えスコア';
+$wb['spam_redirect_score_int_txt'] = 'リダイレクトスコア';
+$wb['spam_delete_score_int_txt'] = '削除スコア';
+$wb['spam_rewrite_subject_txt'] = '書き換えサブジェクト';
+$wb['spam_redirect_maildir_txt'] = 'リダイレクト先メールボックス';
+$wb['active_txt'] = '有効';
+$wb['spam_rewrite_txt'] = 'このスコアを超えるメールのサブジェクトを書き換えます。';
+$wb['spam_redirect_txt'] = 'このスコアを超えるメールを指定したメールボックスにリダイレクトします。';
+$wb['spam_delete_txt'] = 'このスコアを超えるメールを削除します。';
+$wb['disable_txt'] = '注意：スコアを 0.00 にするとフィルタリングが無効になります。';
+$wb['email_error_isemail'] = 'メールアドレスが不正です。';
+$wb['email_error_unique'] = 'このメールアドレスには既にスパムフィルターが設定されています。';
+$wb['spam_redirect_maildir_purge_txt'] = '受信してからメールを削除するまでの日数';
+$wb['days_txt'] = '日';
+?>

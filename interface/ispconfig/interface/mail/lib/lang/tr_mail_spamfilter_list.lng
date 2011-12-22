@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Spam filtresi';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['server_name_txt'] = 'sunucu adı';
+$wb['email_txt'] = 'Email';
+$wb['add_new_record_txt'] = 'Yeni Spam Filtresi';
+?>
