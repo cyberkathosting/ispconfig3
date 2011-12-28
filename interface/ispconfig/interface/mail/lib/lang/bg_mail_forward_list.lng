@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mail Forward';
-$wb['active_txt'] = 'Active';
-$wb['source_txt'] = 'source';
-$wb['destination_txt'] = 'Destination';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Add new Email forward';
-?>

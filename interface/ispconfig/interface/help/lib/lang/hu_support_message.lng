@@ -1,7 +1,0 @@
-<?php
-$wb['recipient_id_txt'] = 'Címzett azonosító';
-$wb['sender_id_txt'] = 'Küldő azonosító';
-$wb['subject_txt'] = 'Tárgy';
-$wb['message_txt'] = 'Üzenet';
-$wb['tstamp_txt'] = 'Időbélyeg';
-?>

@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'DNS Zone';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
-$wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'E-mail';
-$wb['add_new_record_txt'] = 'Adauga  o noua zona  DNS  (SOA)';
-?>

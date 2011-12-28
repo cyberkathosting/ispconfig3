@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Roskapostisuodattimen estolista';
-$wb['active_txt'] = 'Käytössä';
-$wb['server_id_txt'] = 'Palvelimen tunnus';
-$wb['priority_txt'] = 'Tärkeysjärjestys';
-$wb['rid_txt'] = 'Käyttäjätunnus';
-$wb['email_txt'] = 'Estettävä sähköpostiosoite';
-$wb['add_new_record_txt'] = 'Lisää osoite estolistalle';
-?>

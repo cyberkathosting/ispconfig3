@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Szerver';
-$wb['source_txt'] = 'Feketelistás cím';
-$wb['recipient_txt'] = 'Címzett';
-$wb['active_txt'] = 'Aktív';
-$wb['source_error_notempty'] = 'Cím üres.';
-$wb['type_txt'] = 'Típus';
-$wb['limit_mailfilter_txt'] = 'Nincs több szűrő lehetőség.';
-?>

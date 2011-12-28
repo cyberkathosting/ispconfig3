@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Zlú?i? jazyk';
-$wb['list_desc_txt'] = 'Zlú?i? vybraný súbor s jazykom angli?tina master súbor. <br /> dop??a chýbajúce re?azce z anglického súboru  jazyka do zvoleného jazyka.';
-$wb['language_select_txt'] = 'Vyber jazyk';
-$wb['btn_save_txt'] = 'Zlú?i? súbory teraz';
-$wb['btn_cancel_txt'] = 'Spä?';
-?>

@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Importuj plik języka';
-$wb['language_import_txt'] = 'Wybierz plik języka';
-$wb['btn_save_txt'] = 'Importuj wybrane pliki języka';
-$wb['language_overwrite_txt'] = 'Nadpisz plik jeśli istnieje.';
-$wb['btn_cancel_txt'] = 'Wróć';
-$wb['ignore_version_txt'] = 'Skip ISPConfig version check';
-?>

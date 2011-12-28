@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'リポジトリー';
-$wb['active_txt'] = '有効';
-$wb['repo_name_txt'] = 'リポジトリー';
-$wb['repo_url_txt'] = 'URL';
-?>

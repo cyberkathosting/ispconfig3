@@ -1,7 +1,0 @@
-<?php
-$wb['rulename_txt'] = 'Meno';
-$wb['add_new_record_txt'] = 'Prida? nový filter';
-$wb['page_txt'] = 'Strana';
-$wb['page_of_txt'] = 'z';
-$wb['delete_confirmation'] = 'Naozaj chcete zmaza? mailfilter?';
-?>

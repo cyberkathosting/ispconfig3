@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Tráfico web';
-$wb['domain_txt'] = 'Dominio';
-$wb['this_month_txt'] = 'Este mes';
-$wb['last_month_txt'] = 'Último mes';
-$wb['this_year_txt'] = 'Este año';
-$wb['last_year_txt'] = 'Último año';
-?>

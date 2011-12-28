@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Rota Avançada de Correio';
-$wb['active_txt'] = 'Ativa';
-$wb['server_id_txt'] = 'Servidor';
-$wb['domain_txt'] = 'Domínio';
-$wb['transport_txt'] = 'Transporte';
-$wb['sort_order_txt'] = 'Ordenar por';
-$wb['add_new_record_txt'] = 'Adcionar um novo transporte';
-?>

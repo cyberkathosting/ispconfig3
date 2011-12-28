@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Szoftvare csomag';
-$wb['installed_txt'] = 'Állapot';
-$wb['package_title_txt'] = 'Csomag';
-$wb['package_description_txt'] = 'Leírás';
-$wb['action_txt'] = 'Művelet';
-?>

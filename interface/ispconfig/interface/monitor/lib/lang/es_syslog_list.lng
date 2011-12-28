@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Registro de ISPConfig';
-$wb['tstamp_txt'] = 'Fecha';
-$wb['server_id_txt'] = 'Servidor';
-$wb['loglevel_txt'] = 'Nivel de registro';
-$wb['message_txt'] = 'Mensaje';
-?>

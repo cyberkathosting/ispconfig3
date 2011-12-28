@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Spamszűrő Feketelista';
-$wb['active_txt'] = 'Aktív';
-$wb['server_id_txt'] = 'Szerver';
-$wb['priority_txt'] = 'Sorrend';
-$wb['rid_txt'] = 'Felhasználó';
-$wb['email_txt'] = 'Fehérlistás Email';
-$wb['add_new_record_txt'] = 'Új Feketelista';
-?>

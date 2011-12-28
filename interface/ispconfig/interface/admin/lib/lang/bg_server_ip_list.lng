@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'IP Addresses';
-$wb['server_id_txt'] = 'Server';
-$wb['ip_address_txt'] = 'IP Address';
-$wb['add_new_record_txt'] = 'Add new IP Address';
-?>

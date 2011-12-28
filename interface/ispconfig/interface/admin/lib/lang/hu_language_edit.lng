@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Nyelvi fájl szerkesztő';
-$wb['language_select_txt'] = 'Válasszon nyelvet';
-$wb['module_txt'] = 'Modul';
-$wb['lang_file_txt'] = 'Nyelvi fájl';
-$wb['btn_save_txt'] = 'Ment';
-$wb['btn_cancel_txt'] = 'Mégse';
-?>

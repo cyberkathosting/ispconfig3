@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Email továbbítás';
-$wb['active_txt'] = 'aktív';
-$wb['source_txt'] = 'Forrás';
-$wb['destination_txt'] = 'Címzett';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Új email továbbítás';
-?>

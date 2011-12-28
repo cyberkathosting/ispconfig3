@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'サーバー';
-$wb['source_txt'] = 'ホワイトリストアドレス';
-$wb['recipient_txt'] = '宛先';
-$wb['active_txt'] = '有効';
-$wb['source_error_notempty'] = 'アドレスを指定してください';
-$wb['type_txt'] = '種別';
-$wb['limit_mailfilter_txt'] = 'メールフィルターが最大数に達したため、これ以上追加できません。';
-?>

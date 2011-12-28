@@ -1,9 +1,0 @@
-<?php
-$wb["list_head_txt"] = 'Spamfilter Blacklist';
-$wb["active_txt"] = 'Active';
-$wb["server_id_txt"] = 'Server';
-$wb["priority_txt"] = 'Priority';
-$wb["rid_txt"] = 'User';
-$wb["email_txt"] = 'Blacklisted Email';
-$wb["add_new_record_txt"] = 'Add Blacklist record';
-?>

@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Firewall';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Open TCP ports';
-$wb['udp_port_txt'] = 'Open UDP ports';
-$wb['add_new_record_txt'] = 'Add Firewall record';
-?>

@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Server';
-$wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'Gebruiker';
-$wb['email_txt'] = 'E-mail';
-$wb['priority_txt'] = 'Prioriteit';
-$wb['active_txt'] = 'Actief?';
-$wb['limit_spamfilter_wblist_txt'] = 'Het max. aantal white- en blacklist-records van uw account is bereikt.';
-?>

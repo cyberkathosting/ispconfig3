@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Shell потребител';
-$wb['active_txt'] = 'Активен';
-$wb['server_id_txt'] = 'Сървър';
-$wb['parent_domain_id_txt'] = 'Сайт';
-$wb['username_txt'] = 'Потребителско име';
-$wb['add_new_record_txt'] = 'Нов Shell потребител';
-?>

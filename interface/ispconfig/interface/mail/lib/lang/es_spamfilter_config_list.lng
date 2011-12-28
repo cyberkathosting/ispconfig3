@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Configuración de servidor';
-$wb['server_name_txt'] = 'Servidor';
-$wb['server_id_txt'] = 'server_id';
-?>

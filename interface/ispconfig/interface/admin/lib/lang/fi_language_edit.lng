@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Kielimuokkain';
-$wb['language_select_txt'] = 'Valitse kieli';
-$wb['module_txt'] = 'Ohjelmaosio';
-$wb['lang_file_txt'] = 'Kielitiedosto';
-$wb['btn_save_txt'] = 'Tallenna';
-$wb['btn_cancel_txt'] = 'Keskeytä';
-?>

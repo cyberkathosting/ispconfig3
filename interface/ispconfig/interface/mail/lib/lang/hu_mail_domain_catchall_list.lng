@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Email Catchall';
-$wb['active_txt'] = 'Aktív';
-$wb['source_txt'] = 'Forrás';
-$wb['destination_txt'] = 'Címzett email címe';
-$wb['server_id_txt'] = 'Szerver';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Új Catchall';
-?>

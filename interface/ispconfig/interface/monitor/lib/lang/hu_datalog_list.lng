@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Munkamenet sor';
-$wb['tstamp_txt'] = 'Dátum';
-$wb['server_id_txt'] = 'Szerver';
-$wb['dbtable_txt'] = 'DB Tábla';
-$wb['action_txt'] = 'Művelet';
-$wb['status_txt'] = 'Állapot';
-?>

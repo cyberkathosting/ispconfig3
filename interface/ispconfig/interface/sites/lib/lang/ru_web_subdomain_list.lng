@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Субдомены';
-$wb['active_txt'] = 'Активен?';
-$wb['server_id_txt'] = 'Сервер';
-$wb['parent_domain_id_txt'] = 'Web-сайт';
-$wb['domain_txt'] = 'Субдомен';
-$wb['add_new_record_txt'] = 'Добавить новый Субдомен';
-?>
-

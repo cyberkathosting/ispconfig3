@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = '言語ファイルをエクスポートする';
-$wb['language_select_txt'] = '言語を選んでください';
-$wb['btn_save_txt'] = '選んだ言語をエクスポートする';
-$wb['btn_cancel_txt'] = '戻る';
-?>

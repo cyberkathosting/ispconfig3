@@ -1,7 +1,0 @@
-<?php
-$wb['email_txt'] = 'E-mail';
-$wb['destination_txt'] = 'Doorsturen naar e-mailadres';
-$wb['active_txt'] = 'Actief?';
-$wb['limit_mailforward_txt'] = 'Het max. aantal email forwarders voor uw account is bereikt.';
-$wb['duplicate_mailbox_txt'] = 'Er is al een e-mailaccount aanwezig op het door u gewenste adres.';
-?>

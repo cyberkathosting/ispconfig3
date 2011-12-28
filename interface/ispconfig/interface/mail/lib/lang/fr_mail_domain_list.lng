@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Domaine E-mail';
-$wb['server_id_txt'] = 'Serveur';
-$wb['domain_txt'] = 'Domaine';
-$wb['add_new_record_txt'] = 'Ajouter un nouveau domaine';
-$wb['active_txt'] = 'Actif';
-?>

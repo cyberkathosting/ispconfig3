@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Базы данных';
-$wb['active_txt'] = 'Активен?';
-$wb['remote_access_txt'] = 'Удаленный доступ';
-$wb['server_id_txt'] = 'Сервер';
-$wb['database_name_txt'] = 'Имя БД';
-$wb['add_new_record_txt'] = 'Добавить новую БД';
-?>
-

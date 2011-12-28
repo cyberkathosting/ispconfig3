@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Palvelin';
-$wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'Käyttäjä';
-$wb['email_txt'] = 'Sähköpostiosoite';
-$wb['priority_txt'] = 'Tärkeysjärjestys';
-$wb['active_txt'] = 'Käytössä';
-$wb['limit_spamfilter_wblist_txt'] = 'Käyttäjätunnuksesi sallima määrä estettyjä tai sallittuja osoitteita on saavutettu.';
-?>

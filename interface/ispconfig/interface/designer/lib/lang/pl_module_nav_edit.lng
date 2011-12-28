@@ -1,6 +1,0 @@
-<?php
-$wb['title_txt'] = 'Tytuł';
-$wb['header_txt'] = 'Paramtery nawigacyjne';
-$wb['save_txt'] = 'Zapisz';
-$wb['cancel_txt'] = 'Usuń';
-?>

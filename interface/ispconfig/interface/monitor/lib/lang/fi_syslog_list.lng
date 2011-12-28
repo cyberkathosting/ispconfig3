@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'ISPConfig Loki';
-$wb['tstamp_txt'] = 'Päiväys';
-$wb['server_id_txt'] = 'Palvelin';
-$wb['loglevel_txt'] = 'Lokitaso';
-$wb['message_txt'] = 'Viesti';
-?>

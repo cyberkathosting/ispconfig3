@@ -1,8 +1,0 @@
-<?php
-$wb['password_strength_0_txt'] = 'Za krótkie';
-$wb['password_strength_1_txt'] = 'Słabe';
-$wb['password_strength_2_txt'] = 'Zadowalające';
-$wb['password_strength_3_txt'] = 'Dobre';
-$wb['password_strength_4_txt'] = 'Silne';
-$wb['password_strength_5_txt'] = 'Bardzo mocne';
-?>

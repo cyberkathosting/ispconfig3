@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'ジョブのキュー';
-$wb['tstamp_txt'] = '日付';
-$wb['server_id_txt'] = 'サーバー';
-$wb['dbtable_txt'] = 'DBテーブル';
-$wb['action_txt'] = '操作';
-$wb['status_txt'] = '状態';
-?>

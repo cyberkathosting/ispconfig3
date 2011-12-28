@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mail трафик';
-$wb['email_txt'] = 'Email';
-$wb['this_month_txt'] = 'Этот месяц';
-$wb['last_month_txt'] = 'Последний месяц';
-$wb['this_year_txt'] = 'Этот год';
-$wb['last_year_txt'] = 'Последний год';
-?>
-

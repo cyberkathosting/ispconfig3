@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Ohjelmapakettien varastot';
-$wb['active_txt'] = 'Käytössä';
-$wb['repo_name_txt'] = 'Ohjelmapakettien varasto';
-$wb['repo_url_txt'] = 'Ohjelmapakettien varaston osoite';
-?>

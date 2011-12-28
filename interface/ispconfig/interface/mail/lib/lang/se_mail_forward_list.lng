@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Epost Skicka vidare';
-$wb['active_txt'] = 'Aktiv';
-$wb['email_txt'] = 'Epost';
-$wb['destination_txt'] = 'Mottagare';
-$wb['add_new_record_txt'] = 'Lägg till ny Skicka vidare';
-$wb['source_txt'] = 'source';
-?>

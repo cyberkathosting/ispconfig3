@@ -1,5 +1,0 @@
-<?php
-$wb['description_txt'] = 'Beschreibung';
-$wb['name_txt'] = 'Gruppe';
-$wb['name_err'] = 'Das Feld Gruppe muss min. 1, max. 30 Zeichen lang sein.';
-?>

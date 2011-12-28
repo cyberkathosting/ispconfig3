@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Políticas de Spam';
-$wb['policy_name_txt'] = 'Nome';
-$wb['virus_lover_txt'] = 'Permitir Virus';
-$wb['spam_lover_txt'] = 'Permitir Spam';
-$wb['banned_files_lover_txt'] = 'Permitir Arquivos Banidos';
-$wb['bad_header_lover_txt'] = 'Permitir Bad Header';
-$wb['add_new_record_txt'] = 'Adcionar Registro';
-?>

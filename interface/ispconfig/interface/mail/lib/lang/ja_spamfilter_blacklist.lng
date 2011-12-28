@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'サーバー';
-$wb['wb_txt'] = 'wb';
-$wb['rid_txt'] = 'ユーザー';
-$wb['email_txt'] = 'メールアドレス';
-$wb['priority_txt'] = '優先度';
-$wb['active_txt'] = '有効';
-$wb['limit_spamfilter_wblist_txt'] = 'ホワイトリストまたはブラックリストが最大数に達しました。';
-?>

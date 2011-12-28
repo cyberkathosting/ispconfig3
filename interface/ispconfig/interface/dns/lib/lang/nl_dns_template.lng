@@ -1,6 +1,0 @@
-<?php
-$wb['name_txt'] = 'Naam template';
-$wb['fields_txt'] = 'Toon invoervelden tijdens DNS wizard';
-$wb['template_txt'] = 'Template-data<br /><br /><a href=http://www.howtoforge.com/forums/showthread.php?p=215031 target=_blank style=font-weight:bold;>Voorbeeld (in nieuw venster)</a>';
-$wb['visible_txt'] = 'Geactiveerd voor DNS wizard?';
-?>

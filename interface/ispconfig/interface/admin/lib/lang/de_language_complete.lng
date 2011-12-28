@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Sprachdatei zusammenführen';
-$wb['list_desc_txt'] = 'Die ausgewählte Sprache mit der englischen Master Sprachdatei zusammenführen. <br />Dies fügt fehlende Sätze aus der englischen Master Sprachdatei in der gewählten Sprache ein.';
-$wb['language_select_txt'] = 'Sprache auswählen';
-$wb['btn_save_txt'] = 'Dateien jetzt zusammenführen';
-$wb['btn_cancel_txt'] = 'Zurück';
-?>

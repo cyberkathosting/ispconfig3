@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Editor jazykového súboru';
-$wb['language_select_txt'] = 'Vyberte jazyk';
-$wb['module_txt'] = 'Modul';
-$wb['lang_file_txt'] = 'Jazykový súbor';
-$wb['lang_file_date_txt'] = 'Posledná modifikácia';
-?>

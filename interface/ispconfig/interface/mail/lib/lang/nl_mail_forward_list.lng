@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'E-mail doorsturen naar account';
-$wb['active_txt'] = 'Actief?';
-$wb['source_txt'] = 'Geadresseerde';
-$wb['destination_txt'] = 'Doorsturen naar e-mailadres';
-$wb['email_txt'] = 'E-mail';
-$wb['add_new_record_txt'] = 'Nieuwe e-mail forward toevoegen';
-?>

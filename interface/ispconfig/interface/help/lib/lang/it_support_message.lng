@@ -1,7 +1,0 @@
-<?php
-$wb['recipient_id_txt'] = 'ID del Destinatario';
-$wb['sender_id_txt'] = 'ID del Mittente';
-$wb['subject_txt'] = 'Oggetto';
-$wb['message_txt'] = 'Messaggio';
-$wb['tstamp_txt'] = 'Timestamp';
-?>

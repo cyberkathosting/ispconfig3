@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = '新しい言語を追加する';
-$wb['language_select_txt'] = 'ベースにする言語を選んでください';
-$wb['language_new_txt'] = '新しい言語';
-$wb['language_new_hint_txt'] = '2文字の ISO 639-1 言語コード（http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes を参照してください）';
-$wb['btn_save_txt'] = '新しい言語ファイルセットを作る';
-$wb['btn_cancel_txt'] = '戻る';
-?>

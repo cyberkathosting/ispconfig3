@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Firewall';
-$wb['active_txt'] = 'Aktiv';
-$wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Offene TCP Ports';
-$wb['udp_port_txt'] = 'Offene UDP Ports';
-$wb['add_new_record_txt'] = 'Firewalleintrag hinzufügen';
-?>

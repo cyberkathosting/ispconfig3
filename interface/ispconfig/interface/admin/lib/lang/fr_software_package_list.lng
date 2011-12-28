@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Packages de logiciels';
-$wb['installed_txt'] = 'Status';
-$wb['package_title_txt'] = 'Package';
-$wb['package_description_txt'] = 'Description';
-$wb['action_txt'] = 'Action';
-?>

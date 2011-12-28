@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'メールフォワード';
-$wb['active_txt'] = '有効';
-$wb['source_txt'] = '転送元';
-$wb['destination_txt'] = '転送先';
-$wb['email_txt'] = 'メールアドレス';
-$wb['add_new_record_txt'] = 'メールフォワードを追加する';
-?>

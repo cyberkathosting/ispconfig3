@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Kolejka zadań';
-$wb['tstamp_txt'] = 'Data';
-$wb['server_id_txt'] = 'Serwer';
-$wb['dbtable_txt'] = 'Tabele DB';
-$wb['action_txt'] = 'Akcja';
-$wb['status_txt'] = 'Status';
-?>

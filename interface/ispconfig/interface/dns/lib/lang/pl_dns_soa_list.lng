@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Strefy DNS';
-$wb['active_txt'] = 'Aktywny';
-$wb['server_id_txt'] = 'Serwer';
-$wb['origin_txt'] = 'Strefa';
-$wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'E-mail';
-$wb['add_new_record_txt'] = 'Dodaj nową stefę DNS (SOA)';
-?>

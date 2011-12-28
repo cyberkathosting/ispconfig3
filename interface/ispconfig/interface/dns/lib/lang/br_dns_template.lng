@@ -1,6 +1,0 @@
-<?php
-$wb['name_txt'] = 'Nome';
-$wb['fields_txt'] = 'Campos';
-$wb['template_txt'] = 'Gabarito';
-$wb['visible_txt'] = 'Visível';
-?>

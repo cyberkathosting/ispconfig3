@@ -1,7 +1,0 @@
-<?php
-$wb['email_txt'] = 'E-mail';
-$wb['destination_txt'] = 'Element docelowy E-mail';
-$wb['active_txt'] = 'Aktywny';
-$wb['limit_mailforward_txt'] = 'Maksymalna ilość przekierowań e-mail dla Twojego konta została przekroczona.';
-$wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa o podanym adresie e-mail';
-?>

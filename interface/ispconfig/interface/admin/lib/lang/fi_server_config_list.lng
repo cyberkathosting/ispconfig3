@@ -1,4 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Palvelimen asetukset';
-$wb['server_name_txt'] = 'Palvelin';
-?>

@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Support Messages';
-$wb['sender_id_txt'] = 'Sender';
-$wb['subject_txt'] = 'Subject';
-$wb['add_new_record_txt'] = 'Create new support message';
-?>

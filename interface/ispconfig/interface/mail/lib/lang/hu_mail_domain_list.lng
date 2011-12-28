@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Email Domain';
-$wb['server_id_txt'] = 'Szerver';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Új domain';
-$wb['active_txt'] = 'Aktív';
-?>

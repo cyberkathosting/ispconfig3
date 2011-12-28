@@ -1,8 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Sunucu';
-$wb['priority_txt'] = 'Öncelik';
-$wb['policy_id_txt'] = 'Kural';
-$wb['email_txt'] = 'Email (Desen)';
-$wb['fullname_txt'] = 'İsim';
-$wb['local_txt'] = 'Yerel';
-?>

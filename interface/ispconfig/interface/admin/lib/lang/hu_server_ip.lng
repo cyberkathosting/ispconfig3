@@ -1,7 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Szerver';
-$wb['ip_address_txt'] = 'IP cím';
-$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
-$wb['ip_error_wrong'] = 'IP cím érvénytelen';
-$wb['ip_error_unique'] = 'The IP address must be unique';
-?>

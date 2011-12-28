@@ -1,7 +1,0 @@
-<?php
-$wb["repo_name_txt"] = 'Repository';
-$wb["repo_url_txt"] = 'URL';
-$wb["repo_username_txt"] = 'User (optional)';
-$wb["repo_password_txt"] = 'Password (optional)';
-$wb["active_txt"] = 'Active';
-?>

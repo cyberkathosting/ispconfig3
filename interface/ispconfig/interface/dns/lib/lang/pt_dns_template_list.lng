@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Assistente de Templates DNS';
-$wb['visible_txt'] = 'Visível';
-$wb['name_txt'] = 'Nome';
-$wb['add_new_record_txt'] = 'Adicionar novo registo';
-?>
-

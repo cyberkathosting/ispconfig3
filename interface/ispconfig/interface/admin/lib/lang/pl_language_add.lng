@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Dodaj nowy język';
-$wb['language_select_txt'] = 'Wybierz domyślny język';
-$wb['language_new_txt'] = 'Nowy język';
-$wb['language_new_hint_txt'] = '2 znakowe kodowanie języka ISO 639-1 (Zobacz http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
-$wb['btn_save_txt'] = 'Utwórz nowy zbiór plików z językami';
-$wb['btn_cancel_txt'] = 'Wróć';
-?>

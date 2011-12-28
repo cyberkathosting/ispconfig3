@@ -1,8 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Serwer';
-$wb['priority_txt'] = 'Priorytet';
-$wb['policy_id_txt'] = 'Polityka';
-$wb['email_txt'] = 'Email (Wzór)';
-$wb['fullname_txt'] = 'Nazwa';
-$wb['local_txt'] = 'Lokalne';
-?>

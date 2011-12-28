@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Työjono';
-$wb['tstamp_txt'] = 'Päiväys';
-$wb['server_id_txt'] = 'Palvelin';
-$wb['dbtable_txt'] = 'Tietokannan taulu';
-$wb['action_txt'] = 'Toiminto';
-$wb['status_txt'] = 'Tila';
-?>

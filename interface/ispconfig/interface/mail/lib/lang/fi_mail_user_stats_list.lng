@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Sähköpostiliikenne';
-$wb['email_txt'] = 'Sähköpostiosoite';
-$wb['this_month_txt'] = 'Tässä kuussa';
-$wb['last_month_txt'] = 'Viime kuussa';
-$wb['this_year_txt'] = 'Tänä vuonna';
-$wb['last_year_txt'] = 'Viime vuonna';
-?>

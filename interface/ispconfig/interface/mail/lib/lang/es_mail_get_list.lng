@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Recoger el correo de servidores POP3 / IMAP externos';
-$wb['active_txt'] = 'Activar';
-$wb['server_id_txt'] = 'Servidor';
-$wb['source_server_txt'] = 'Servidor externo';
-$wb['source_username_txt'] = 'Usuario';
-$wb['destination_txt'] = 'Destino';
-$wb['add_new_record_txt'] = 'Añadir nueva cuenta';
-?>

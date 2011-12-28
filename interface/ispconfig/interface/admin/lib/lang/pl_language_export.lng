@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Exportuj pliki języka';
-$wb['language_select_txt'] = 'Wybierz język';
-$wb['btn_save_txt'] = 'Exportuj pliki wybranego języka';
-$wb['btn_cancel_txt'] = 'Wróć';
-?>

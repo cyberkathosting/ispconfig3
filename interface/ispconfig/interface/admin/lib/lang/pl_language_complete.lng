@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Połącz język';
-$wb['list_desc_txt'] = 'Połącz pliki wybranego języka z plikiami języka angielskiego. <br />Ta opcja dodaje do wybranego języka brakujące zmienne językowe z plików języka angielskiego.';
-$wb['language_select_txt'] = 'Wybierz język';
-$wb['btn_save_txt'] = 'Połącz pliki teraz';
-$wb['btn_cancel_txt'] = 'Wróć';
-?>

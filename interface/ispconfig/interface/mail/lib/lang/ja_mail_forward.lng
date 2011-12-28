@@ -1,7 +1,0 @@
-<?php
-$wb['email_txt'] = 'メールアドレス';
-$wb['destination_txt'] = '転送先メールアドレス';
-$wb['active_txt'] = '有効';
-$wb['limit_mailforward_txt'] = 'メールフォワードが最大数に達したため、これ以上追加できません。';
-$wb['duplicate_mailbox_txt'] = 'このメールアドレス向けのメールボックスが既に存在します。';
-?>

@@ -1,5 +1,0 @@
-<?php
-$wb['description_txt'] = 'Omschrijving';
-$wb['name_txt'] = 'Groep';
-$wb['name_err'] = 'Groepsnaam moet tussen 1 en 30 karakters bevatten.';
-?>

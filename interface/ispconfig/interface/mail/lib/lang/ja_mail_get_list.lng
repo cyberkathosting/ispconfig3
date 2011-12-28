@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = '外部の POP3 / IMAP サーバーからメールを取り込みます';
-$wb['active_txt'] = '有効';
-$wb['server_id_txt'] = 'サーバー';
-$wb['source_server_txt'] = '外部サーバー';
-$wb['source_username_txt'] = 'ユーザー名';
-$wb['destination_txt'] = '宛先';
-$wb['add_new_record_txt'] = '設定を追加する';
-?>

@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Filtrs spamu białej listy';
-$wb['active_txt'] = 'Aktywny';
-$wb['server_id_txt'] = 'Serwer';
-$wb['priority_txt'] = 'Priorytet';
-$wb['rid_txt'] = 'Użytkownik';
-$wb['email_txt'] = 'Adres e-mail dodany do białej listy';
-$wb['add_new_record_txt'] = 'Dodaj wpis do białej listy';
-?>

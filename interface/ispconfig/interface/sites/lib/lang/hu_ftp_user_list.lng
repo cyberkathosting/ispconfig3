@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'FTP-felhasználó';
-$wb['active_txt'] = 'Aktív';
-$wb['server_id_txt'] = 'Szerver';
-$wb['parent_domain_id_txt'] = 'Weboldal';
-$wb['username_txt'] = 'Felhasználónév';
-$wb['add_new_record_txt'] = 'Új FTP-felhasználó';
-?>

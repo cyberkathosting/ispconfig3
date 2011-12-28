@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mailweiterleitung';
-$wb['active_txt'] = 'Aktiv';
-$wb['source_txt'] = 'Quelle';
-$wb['destination_txt'] = 'Ziel';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Neue Mailweiterleitung hinzufügen';
-?>

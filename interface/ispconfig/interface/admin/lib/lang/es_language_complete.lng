@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mezclar el fichero de idioma seleccionado con el fichero de idioma maestro en inglés. <br />Esto añade las cadenas perdidas desde el fichero maestro en inglés.';
-$wb['language_select_txt'] = 'Elegir idioma';
-$wb['btn_save_txt'] = 'Mezclar los ficheros ahora';
-$wb['btn_cancel_txt'] = 'Atrás';
-$wb['list_desc_txt'] = 'Mezclar el fichero de idioma seleccionado con el fichero de idioma maestro en inglés. <br />Esto añade cadenas perdidas desde el fichero de idioma maestro en inglés al idioma seleccionado.';
-?>

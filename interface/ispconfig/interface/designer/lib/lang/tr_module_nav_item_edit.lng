@@ -1,8 +1,0 @@
-<?php
-$wb['title_txt'] = 'Başlık';
-$wb['target_txt'] = 'Hedef';
-$wb['link_txt'] = 'Link';
-$wb['header_txt'] = 'Navi özellikleri';
-$wb['save_txt'] = 'Kaydet';
-$wb['cancel_txt'] = 'İptal';
-?>

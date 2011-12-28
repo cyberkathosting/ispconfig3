@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Editor de Ficheiros de Idioma';
-$wb['language_select_txt'] = 'Seleccione o idioma';
-$wb['module_txt'] = 'Módulo';
-$wb['lang_file_txt'] = 'Ficheiro de Idioma';
-$wb['btn_save_txt'] = 'Guardar';
-$wb['btn_cancel_txt'] = 'Voltar';
-?>
-

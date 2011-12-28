@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'リモートユーザー';
-$wb['list_desc_txt'] = '';
-$wb['add_new_record_txt'] = 'ユーザーを追加する';
-$wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'ユーザー名';
-?>

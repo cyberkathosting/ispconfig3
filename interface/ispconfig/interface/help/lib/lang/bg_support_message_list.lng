@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Съобщения до поддръжката';
-$wb['sender_id_txt'] = 'Подател';
-$wb['subject_txt'] = 'Тема';
-$wb['add_new_record_txt'] = 'Ново съобщение';
-?>

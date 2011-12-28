@@ -1,8 +1,0 @@
-<?php
-$wb['password_strength_0_txt'] = 'Túl rövid';
-$wb['password_strength_1_txt'] = 'Gyenge';
-$wb['password_strength_2_txt'] = 'Megfelel';
-$wb['password_strength_3_txt'] = 'Jó';
-$wb['password_strength_4_txt'] = 'Erős';
-$wb['password_strength_5_txt'] = 'Nagyon erős';
-?>

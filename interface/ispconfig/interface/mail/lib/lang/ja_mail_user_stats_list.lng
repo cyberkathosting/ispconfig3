@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'メールの流量';
-$wb['email_txt'] = 'メールアドレス';
-$wb['this_month_txt'] = '今月';
-$wb['last_month_txt'] = '先月';
-$wb['this_year_txt'] = '今年';
-$wb['last_year_txt'] = '去年';
-?>

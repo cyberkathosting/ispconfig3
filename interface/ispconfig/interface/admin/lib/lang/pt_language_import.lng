@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Importar ficheiro de idioma';
-$wb['language_import_txt'] = 'Procurar ficheiro de idioma';
-$wb['btn_save_txt'] = 'Importar Ficheiro de Idioma Seleccionado';
-$wb['language_overwrite_txt'] = 'Sobre-escrever o ficheiro se existir.';
-$wb['btn_cancel_txt'] = 'Voltar';
-$wb['ignore_version_txt'] = 'Ignorar verificação da versão do ISPConfig';
-?>
-

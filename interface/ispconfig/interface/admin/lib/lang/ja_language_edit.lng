@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = '言語ファイルエディタ';
-$wb['language_select_txt'] = '言語を選んでください';
-$wb['module_txt'] = 'モジュール';
-$wb['lang_file_txt'] = '言語ファイル';
-$wb['btn_save_txt'] = '保存する';
-$wb['btn_cancel_txt'] = '戻る';
-?>

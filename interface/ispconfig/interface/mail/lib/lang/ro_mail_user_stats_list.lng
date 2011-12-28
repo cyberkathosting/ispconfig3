@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mail trafic';
-$wb['email_txt'] = 'Email';
-$wb['this_month_txt'] = 'Luna aceasta';
-$wb['last_month_txt'] = 'Ultima luna';
-$wb['this_year_txt'] = 'Anul acesta';
-$wb['last_year_txt'] = 'Ultimul an';
-?>

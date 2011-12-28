@@ -1,7 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Server';
-$wb['ip_address_txt'] = 'IP Adresa';
-$wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
-$wb['ip_error_wrong'] = 'IP adresa je neplatná';
-$wb['ip_error_unique'] = 'IP adresa musí by? unikátna';
-?>

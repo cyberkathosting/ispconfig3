@@ -1,7 +1,0 @@
-<?php
-$wb['recipient_id_txt'] = 'Príjemca ID';
-$wb['sender_id_txt'] = 'Odosielate? ID';
-$wb['subject_txt'] = 'Predmet';
-$wb['message_txt'] = 'Správa';
-$wb['tstamp_txt'] = '?asová pe?iatka';
-?>

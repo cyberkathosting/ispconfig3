@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Etäkäyttäjät';
-$wb['list_desc_txt'] = '';
-$wb['add_new_record_txt'] = 'Lisää uusi etäkäyttäjä';
-$wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'Käyttäjätunnus';
-?>

@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'DNS template overzicht';
-$wb['visible_txt'] = 'Geactiveerd voor DNS Wizard?';
-$wb['name_txt'] = 'Template naam';
-$wb['add_new_record_txt'] = 'Nieuw DNS template toevoegen';
-?>

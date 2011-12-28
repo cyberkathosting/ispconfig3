@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Tráfego de Correio';
-$wb['email_txt'] = 'Correio';
-$wb['this_month_txt'] = 'Este Mês';
-$wb['last_month_txt'] = 'Último Mês';
-$wb['this_year_txt'] = 'Este Ano';
-$wb['last_year_txt'] = 'Último Ano';
-?>

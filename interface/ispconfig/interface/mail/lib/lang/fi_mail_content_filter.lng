@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Palvelin';
-$wb['type_txt'] = 'Suodatin';
-$wb['pattern_txt'] = 'Etsintäkuvio (RegExp)';
-$wb['data_txt'] = 'Data';
-$wb['action_txt'] = 'Toiminto';
-$wb['active_txt'] = 'Käytössä';
-$wb['pattern_error_empty'] = 'Etsintäkuvio on tyhjä.';
-?>

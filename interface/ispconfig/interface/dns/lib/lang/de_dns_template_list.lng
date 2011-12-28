@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'DNS Wizard Vorlage';
-$wb['visible_txt'] = 'Sichtbar';
-$wb['name_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Neuen Eintrag hinzufügen';
-?>

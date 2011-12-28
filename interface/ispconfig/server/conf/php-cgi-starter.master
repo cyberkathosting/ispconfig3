@@ -1,7 +1,0 @@
-#!/bin/sh
-
-exec <tmpl_var name='php_cgi_bin'> \
--d open_basedir=<tmpl_var name='open_basedir'> \
--d upload_tmp_dir=<tmpl_var name='document_root'>/tmp \
--d session.save_path=<tmpl_var name='document_root'>/tmp
-# -d safe_mode=${SAFE_MODE}

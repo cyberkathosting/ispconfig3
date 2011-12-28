@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Sähköpostipalvelimen otsikko- ja viestisuodattimet';
-$wb['active_txt'] = 'Käytössä';
-$wb['server_id_txt'] = 'Palvelin';
-$wb['pattern_txt'] = 'Suodatuskuvio (RegExp)';
-$wb['action_txt'] = 'Toiminto';
-$wb['add_new_record_txt'] = 'Lisää uusi suodatussääntö';
-?>

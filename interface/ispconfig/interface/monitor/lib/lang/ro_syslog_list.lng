@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'ISPConfig Log';
-$wb['tstamp_txt'] = 'Data';
-$wb['server_id_txt'] = 'Server';
-$wb['loglevel_txt'] = 'Loglevel';
-$wb['message_txt'] = 'Mesaj';
-?>

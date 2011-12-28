@@ -1,7 +1,0 @@
-<?php
-$wb['recipient_id_txt'] = '宛先ID';
-$wb['sender_id_txt'] = '送信者ID';
-$wb['subject_txt'] = '件名';
-$wb['message_txt'] = '本文';
-$wb['tstamp_txt'] = '送信日時';
-?>

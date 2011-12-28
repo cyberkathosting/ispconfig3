@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Cabeçalhos Postfix e Body Checks';
-$wb['active_txt'] = 'Ativo';
-$wb['server_id_txt'] = 'Servidor';
-$wb['pattern_txt'] = 'Padrão';
-$wb['action_txt'] = 'Ação';
-$wb['add_new_record_txt'] = 'Adcionar um novo filtro de conteúdo';
-?>

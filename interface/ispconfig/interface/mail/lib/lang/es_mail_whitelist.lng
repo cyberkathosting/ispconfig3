@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Dirección de lista blanca';
-$wb['recipient_txt'] = 'Receptor';
-$wb['active_txt'] = 'Activar';
-$wb['source_error_notempty'] = 'La dirección está vacía';
-$wb['type_txt'] = 'Tipo';
-$wb['limit_mailfilter_txt'] = 'Se ha alcanzado el número máximo de filtros de correo para esta cuenta';
-?>

@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'FTPユーザー';
-$wb['active_txt'] = '有効';
-$wb['server_id_txt'] = 'サーバー';
-$wb['parent_domain_id_txt'] = 'ウェブサイト';
-$wb['username_txt'] = 'ユーザー名';
-$wb['add_new_record_txt'] = 'FTPユーザーを追加する';
-?>

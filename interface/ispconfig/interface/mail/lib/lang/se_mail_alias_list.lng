@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'epost_alias';
-$wb['email_txt'] = 'epost';
-$wb['destination_txt'] = 'mål';
-$wb['active_txt'] = 'Active';
-$wb['source_txt'] = 'source';
-$wb['add_new_record_txt'] = 'Add new Email alias';
-?>

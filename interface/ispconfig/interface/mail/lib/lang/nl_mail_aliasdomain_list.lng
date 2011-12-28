@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'E-mail domeinaliassen';
-$wb['active_txt'] = 'Actief?';
-$wb['source_txt'] = 'Geadresseerd aan';
-$wb['destination_txt'] = 'Doorsturen naar';
-$wb['add_new_record_txt'] = 'Nieuwe domeinalias toevoegen';
-?>

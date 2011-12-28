@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Spamfilter  biela listina';
-$wb['active_txt'] = 'Aktívne';
-$wb['server_id_txt'] = 'Server';
-$wb['priority_txt'] = 'Priorita';
-$wb['rid_txt'] = 'Uživate?';
-$wb['email_txt'] = 'Email v bielej listine';
-$wb['add_new_record_txt'] = 'Prida? záznam do bielej listiny';
-?>

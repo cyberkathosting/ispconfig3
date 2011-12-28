@@ -1,7 +1,0 @@
-<?php
-$wb['confirm_action_txt'] = 'Confirmar acção';
-$wb['delete_explanation'] = 'Atenção: está acção ira remover todos os objectos associados ao cliente!';
-$wb['btn_save_txt'] = 'Remover o cliente';
-$wb['btn_cancel_txt'] = 'Cancelar sem remover o cliente';
-?>
-

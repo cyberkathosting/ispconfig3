@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Scoate mail de pe conturi externe pop3 / imap';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['source_server_txt'] = 'Server Extern ';
-$wb['source_username_txt'] = 'Username';
-$wb['destination_txt'] = 'Destinatie';
-$wb['add_new_record_txt'] = 'Adauga cont nou';
-?>

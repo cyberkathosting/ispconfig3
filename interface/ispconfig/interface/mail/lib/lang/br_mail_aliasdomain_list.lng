@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Domínio Aliase';
-$wb['active_txt'] = 'Ativo';
-$wb['source_txt'] = 'Origem';
-$wb['destination_txt'] = 'Destino';
-$wb['add_new_record_txt'] = 'Adcionar novo domínio aliase';
-?>

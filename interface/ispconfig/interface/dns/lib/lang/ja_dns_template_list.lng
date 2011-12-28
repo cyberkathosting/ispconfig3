@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'DNSウィザードテンプレート';
-$wb['visible_txt'] = '公開する';
-$wb['name_txt'] = 'サーバー名';
-$wb['add_new_record_txt'] = 'レコードを追加する';
-?>

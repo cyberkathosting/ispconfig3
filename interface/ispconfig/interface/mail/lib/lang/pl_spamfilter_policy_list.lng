@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Polityka filtrów spamu';
-$wb['policy_name_txt'] = 'Nazwa';
-$wb['virus_lover_txt'] = 'Przyjmuj wirusy';
-$wb['spam_lover_txt'] = 'Przyjmuj spam';
-$wb['banned_files_lover_txt'] = 'Przyjmuj zablokowane pliki';
-$wb['bad_header_lover_txt'] = 'Przyjmuj złe nagłowki';
-$wb['add_new_record_txt'] = 'Dodaj wpis plityki';
-?>

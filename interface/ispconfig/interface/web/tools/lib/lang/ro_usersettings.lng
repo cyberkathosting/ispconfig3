@@ -1,8 +1,0 @@
-<?php
-$wb['passwort_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['language_txt'] = 'Limba';
-$wb['password_mismatch'] = 'Parola in al doilea camp nu coincide cu primul.';
-$wb['Form to edit the user password and language.'] = 'Formular de editare parola si limba';
-$wb['Settings'] = 'Setari';
-?>

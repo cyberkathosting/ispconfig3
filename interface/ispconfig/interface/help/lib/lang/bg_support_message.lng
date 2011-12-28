@@ -1,7 +1,0 @@
-<?php
-$wb['recipient_id_txt'] = 'Получател';
-$wb['sender_id_txt'] = 'Подател';
-$wb['subject_txt'] = 'Тема';
-$wb['message_txt'] = 'Съобщение';
-$wb['tstamp_txt'] = 'Дата';
-?>

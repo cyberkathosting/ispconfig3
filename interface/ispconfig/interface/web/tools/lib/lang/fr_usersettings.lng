@@ -1,8 +1,0 @@
-<?php
-$wb['passwort_txt'] = 'Mot de passe';
-$wb['password_strength_txt'] = 'Force du mot de passe';
-$wb['language_txt'] = 'Langage';
-$wb['password_mismatch'] = 'Le mot de passe de confirmation ne correspond avec le premier.';
-$wb['Form to edit the user password and language.'] = 'Formulaire dédition du mot de passe et du langage.';
-$wb['Settings'] = 'Paramètres';
-?>

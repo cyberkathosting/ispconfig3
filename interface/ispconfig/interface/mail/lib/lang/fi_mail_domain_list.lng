@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Postiverkkotunnus';
-$wb['server_id_txt'] = 'Palvelin';
-$wb['domain_txt'] = 'Postiverkkotunnus';
-$wb['add_new_record_txt'] = 'Lisää uusi postiverkkotunnus.';
-$wb['active_txt'] = 'Käytössä';
-?>

@@ -1,8 +1,0 @@
-<?php
-$wb['passwort_txt'] = 'Şifre';
-$wb['password_strength_txt'] = 'Şifre Gücü';
-$wb['language_txt'] = 'Dil';
-$wb['password_mismatch'] = 'Şifreler uyuşmuyor.';
-$wb['Form to edit the user password and language.'] = 'Şifre ve dil ayarlarını değiştirme formu.';
-$wb['Settings'] = 'Ayarlar';
-?>

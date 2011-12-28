@@ -1,9 +1,0 @@
-<?php
-$wb["list_head_txt"] = 'Spamfilter Policy';
-$wb["policy_name_txt"] = 'Name';
-$wb["virus_lover_txt"] = 'Virus lover';
-$wb["spam_lover_txt"] = 'Spam lover';
-$wb["banned_files_lover_txt"] = 'Banned Files lover';
-$wb["bad_header_lover_txt"] = 'Bad Header lover';
-$wb["add_new_record_txt"] = 'Add Policy record';
-?>

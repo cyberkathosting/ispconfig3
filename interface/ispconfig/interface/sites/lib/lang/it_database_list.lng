@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Database';
-$wb['active_txt'] = 'Attivo';
-$wb['remote_access_txt'] = 'Accesso remoto';
-$wb['server_id_txt'] = 'Server';
-$wb['database_name_txt'] = 'Nome Database';
-$wb['add_new_record_txt'] = 'Aggiungi nuovo Database';
-?>

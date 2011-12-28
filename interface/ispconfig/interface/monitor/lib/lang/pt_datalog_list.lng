@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Fila de Trabalho';
-$wb['tstamp_txt'] = 'Data';
-$wb['server_id_txt'] = 'Servidor';
-$wb['dbtable_txt'] = 'Tabela BD';
-$wb['action_txt'] = 'Acção';
-$wb['status_txt'] = 'Situação';
-?>
-

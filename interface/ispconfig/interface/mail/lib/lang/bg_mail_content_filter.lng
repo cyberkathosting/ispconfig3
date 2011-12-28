@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Filter';
-$wb['pattern_txt'] = 'Regexp. Pattern';
-$wb['data_txt'] = 'Data';
-$wb['action_txt'] = 'Action';
-$wb['active_txt'] = 'Active';
-$wb['pattern_error_empty'] = 'Pattern is empty.';
-?>
