@@ -42,7 +42,7 @@ class db extends mysqli
   private $record	= array();	// last record fetched
   private $autoCommit = 1;    // Autocommit Transactions
   private $currentRow;		// current row number
-  private $errorNumber = 0;	// last error number
+  public $errorNumber = 0;	// last error number
   public $errorMessage = '';	// last error message
   private $errorLocation = '';// last error location
   public $show_error_messages = false; // false in server, true in interface

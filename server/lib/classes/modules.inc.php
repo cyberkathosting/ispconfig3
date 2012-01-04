@@ -139,7 +139,7 @@ class modules {
 						$app->db->query($sql);
 						if($app->db->errorNumber > 0) {
 							$replication_error = true;
-							$app->log("Replication failed. Error: (" . $d[dbtable] . ") in MySQL server: (".$app->db->dbHost.") " . $app->db->errorMessage . " # SQL: " . $sql,LOGLEVEL_ERROR);
+							$app->log("Replication failed. Error: (" . $d['dbtable'] . ") in MySQL server: (".$app->db->dbHost.") " . $app->db->errorMessage . " # SQL: " . $sql,LOGLEVEL_ERROR);
 						}
 						$app->log('Replicated from master: '.$sql,LOGLEVEL_DEBUG);
 					}
