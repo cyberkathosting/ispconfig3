@@ -169,7 +169,7 @@ if ( ".'$RETURNCODE'." != 1 )
 ";
 			}
 
-			$content .= "if (/^".$page_form->dataRecord["source"].":";
+			$content .= "if (/^".$page_form->dataRecord["source"].": ";
 
 			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
 
@@ -178,7 +178,7 @@ if ( ".'$RETURNCODE'." != 1 )
 			} elseif ($page_form->dataRecord["op"] == 'is') {
 				$content .= $searchterm."$/:h)\n";
 			} elseif ($page_form->dataRecord["op"] == 'begins') {
-				$content .= " ".$searchterm."/:h)\n";
+				$content .= $searchterm."/:h)\n";
 			} elseif ($page_form->dataRecord["op"] == 'ends') {
 				$content .= ".*".$searchterm."$/:h)\n";
 			}
