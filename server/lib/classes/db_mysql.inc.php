@@ -253,24 +253,10 @@ public function toLower($record) {
       return array('diff_num' => $diff_num, 'diff_rec' => $diffrec_full);
 
     }
-
-		if($diff_num > 0) {
-			//print_r($diff_num);
-			//print_r($diffrec_full);
-			$diffstr = $app->db->quote(serialize($diffrec_full));
-			if(isset($_SESSION)) {
-				$username = $app->db->quote($_SESSION['s']['user']['username']);
-			} else {
-				$username = 'admin';
-			}
-			$dbidx = $primary_field.':'.$primary_id;
-						
-			if($action == 'INSERT') $action = 'i';
-			if($action == 'UPDATE') $action = 'u';
-			if($action == 'DELETE') $action = 'd';
-			$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$db_table."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
-			$app->db->query($sql);
-		}
+	
+	//** Function to fill the datalog with a full differential record.
+    public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new) {
+      global $app,$conf;
 
       // Insert backticks only for incomplete table names.
       if(stristr($db_table,'.')) {
