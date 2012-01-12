@@ -275,19 +275,21 @@ public function toLower($record) {
       if(isset($record_new['server_id'])) $server_id = $record_new['server_id'];
 
 
-      if($diff_num > 0) {
-	//print_r($diff_num);
-	//print_r($diffrec_full);
-	$diffstr = $app->db->quote(serialize($diffrec_full));
-	$username = $app->db->quote($_SESSION['s']['user']['username']);
-	$dbidx = $primary_field.':'.$primary_id;
+	if($diff_num > 0) {
+		$diffstr = $app->db->quote(serialize($diffrec_full));
+		if(isset($_SESSION)) {
+			$username = $app->db->quote($_SESSION['s']['user']['username']);
+		} else {
+			$username = 'admin';
+		}
+		$dbidx = $primary_field.':'.$primary_id;
 
-	if($action == 'INSERT') $action = 'i';
-	if($action == 'UPDATE') $action = 'u';
-	if($action == 'DELETE') $action = 'd';
-	$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$db_table."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
-	$app->db->query($sql);
-      }
+		if($action == 'INSERT') $action = 'i';
+		if($action == 'UPDATE') $action = 'u';
+		if($action == 'DELETE') $action = 'd';
+		$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$db_table."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
+		$app->db->query($sql);
+	}
 
       return true;
     }
