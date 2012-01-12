@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Spamfilter Whitelist';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
 $wb['priority_txt'] = 'Priority';
 $wb['rid_txt'] = 'User';

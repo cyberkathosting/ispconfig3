@@ -6,5 +6,3 @@ $wb['language_overwrite_txt'] = 'Ecraser le fichier sil existe déja.';
 $wb['btn_cancel_txt'] = 'Précédent';
 $wb['ignore_version_txt'] = 'Ignorer le test de version ISPConfig';
 ?>
-
-

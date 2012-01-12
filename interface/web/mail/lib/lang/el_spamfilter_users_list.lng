@@ -9,3 +9,4 @@ $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Νέος χρήστης Spamfilter';
 ?>
 
+

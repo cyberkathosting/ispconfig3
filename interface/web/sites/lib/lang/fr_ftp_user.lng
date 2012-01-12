@@ -26,5 +26,3 @@ $wb['directory_error_notinweb'] = 'Le répertoire nest pas dans la racine web.';
 $wb['parent_domain_id_error_empty'] = 'Pas de site web sélectionné.';
 $wb['quota_size_error_regex'] = 'Quota: entrez -1 pour illimité ou un nombre > 0';
 ?>
-
-

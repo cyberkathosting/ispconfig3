@@ -29,3 +29,4 @@ $wb['limit_database_txt'] = 'Πλήθος Databases';
 $wb['limit_mailmailinglist_txt'] = 'Number of mailing lists';
 ?>
 
+

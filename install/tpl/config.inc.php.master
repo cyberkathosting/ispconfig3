@@ -56,7 +56,7 @@ $revision = str_replace(array('Revision:','$',' '), '', $svn_revision);
 
 //** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
-define('ISPC_APP_VERSION', '3.0.4.1');
+define('ISPC_APP_VERSION', '3.0.4.2');
 define('DEVSYSTEM', 0);
 
 
@@ -148,9 +148,10 @@ $conf['theme'] = 'default';
 $conf['html_content_encoding'] = 'utf-8'; // example: utf-8, iso-8859-1, ...
 $conf['logo'] = 'themes/default/images/ispc_logo.png';
 
-//** Default Language
+//** Default Language and Timezone
 $conf['language'] = '{language}';
 $conf['debug_language'] = false;
+$conf['timezone'] = '{timezone}';
 
 
 //** Misc.

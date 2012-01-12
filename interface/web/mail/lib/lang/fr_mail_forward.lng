@@ -6,5 +6,3 @@ $wb['limit_mailforward_txt'] = 'Le nombre maximal de transferts d\'email pour vo
 $wb['duplicate_mailbox_txt'] = 'Il y a déja une boite email avec cette adresse email';
 $wb['domain_txt'] = 'Domaine';
 ?>
-
-

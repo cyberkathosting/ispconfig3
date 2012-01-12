@@ -15,3 +15,4 @@ $wb['data_error_empty'] = 'Το hostname Mailserver δεν έχει οριστε
 $wb['data_error_regex'] = 'Mailserver hostname με μη έγκυρη μορφοποίηση';
 ?>
 
+

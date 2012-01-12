@@ -12,3 +12,4 @@ $wb['active_txt'] = 'Ενεργή';
 $wb['iptables_error_unique'] = 'Υπάρχει ήδη μια εγγραφή του firewall για αυτόν τον server.';
 ?>
 
+

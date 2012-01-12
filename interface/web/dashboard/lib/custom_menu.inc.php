@@ -51,6 +51,8 @@ switch($_SESSION['s']['user']['typ']) {
 		$atom_url = "";
 }
 
+$rows = array();
+
 if( $atom_url != '' ) {
 	if(!isset($_SESSION['s']['rss_news'])) {
 		

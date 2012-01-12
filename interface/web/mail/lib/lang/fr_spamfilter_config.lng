@@ -18,5 +18,3 @@ $wb['relayhost_password_txt'] = 'Mot de passe hôte de relais';
 $wb['mailbox_size_limit_txt'] = 'Limite de taille de la boite email';
 $wb['message_size_limit_txt'] = 'Limite de taille des messages';
 ?>
-
-

@@ -5,5 +5,3 @@ $wb['path_txt'] = 'Chemin';
 $wb['active_txt'] = 'Actif';
 $wb['path_error_regex'] = 'Chemin de dossier invalide.';
 ?>
-
-

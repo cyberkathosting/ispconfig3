@@ -7,5 +7,3 @@ $wb['transport_txt'] = 'Déplacement';
 $wb['sort_order_txt'] = 'Trier par';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau déplacement';
 ?>
-
-

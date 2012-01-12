@@ -154,7 +154,7 @@ foreach($records as $rec) {
 // Create awstats statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, system_user, system_group FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -180,7 +180,7 @@ foreach($records as $rec) {
 	
 	if(is_file($awstats_website_conf_file)) unlink($awstats_website_conf_file);
 	
-	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR AND type = 'subdomain') server_id = ".$conf['server_id'];
+	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') server_id = ".$conf['server_id'];
 	$aliases = $app->db->queryAllRecords($sql);
 	$aliasdomain = '';
 	
@@ -229,7 +229,7 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1"'.$aliasdomain;
 		mkdir($statsdirold);
 		$files = scandir($statsdir);
 		foreach ($files as $file) {
-			if (substr($file,0,1) != "." && !is_dir($file) && substr($file,0,1) != "w" && substr($file,0,1) != "i") copy("$statsdir"."/"."$file","$statsdirold"."$file");
+			if (substr($file,0,1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file,0,1) != "w" && substr($file,0,1) != "i") copy("$statsdir"."/"."$file","$statsdirold"."$file");
 		}
 	}
 	
@@ -243,6 +243,11 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1"'.$aliasdomain;
 		$app->log('Created awstats statistics with command: '.$command,LOGLEVEL_DEBUG);
 	} else {
 		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_buildstaticpages_pl is not owned by root user.",LOGLEVEL_WARN);
+	}
+	
+	if(is_file($rec['document_root']."/web/stats/index.php")) {
+		chown($rec['document_root']."/web/stats/index.php",$rec['system_user']);
+		chgrp($rec['document_root']."/web/stats/index.php",$rec['system_group']);
 	}
 	
 }
@@ -406,7 +411,7 @@ if ($app->dbmaster == $app->db) {
 	$current_month = date('Y-m');
 
 	//* Check website traffic quota
-	$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE traffic_quota > 0 and type = 'vhost'";
+	$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE (traffic_quota > 0 or traffic_quota_lock = 'y') and type = 'vhost'";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {

@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Le format du nom d\'hôte est invalide.';
 $wb['data_error_empty'] = 'Le champ de la personne responsable est vide.';
 $wb['data_error_regex'] = 'Le format du champ de la personne responsable est invalide.';
 ?>
-

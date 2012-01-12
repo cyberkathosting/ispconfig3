@@ -26,4 +26,3 @@ $wb['groups_txt'] = 'Grupy';
 $wb['default_group_txt'] = 'Domyślna grupa';
 $wb['startmodule_err'] = 'Modułu startowego nie ma wśród modułów.';
 ?>
-

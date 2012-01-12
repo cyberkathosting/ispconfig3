@@ -75,6 +75,10 @@ server {
             auth_basic_user_file <tmpl_var name='stats_auth_passwd_file'>;
         }
 
+        location /awstats-icon {
+            alias /usr/share/awstats/icon;
+        }
+
 <tmpl_if name='php' op='==' value='fast-cgi'>
         location ~ \.php$ {
             try_files $uri =404;

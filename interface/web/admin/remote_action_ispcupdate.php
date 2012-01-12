@@ -27,7 +27,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-die('Function has been removed.');
+//die('Function has been removed.');
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
@@ -50,6 +50,7 @@ include($lng_file);
 /*
  * We need a list of all Servers
  */
+
 $sysServers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
 $dropDown = "<option value='*'>" . $wb['select_all_server'] . "</option>";
 foreach ($sysServers as $server) {
@@ -62,7 +63,9 @@ $msg = '';
 /*
  * If the user wants to do the action, write this to our db
 */
-if (isset($_POST['server_select'])) {
+
+//* Note: Disabled post action
+if (1 == 0 && isset($_POST['server_select'])) {
 	$server = $_POST['server_select'];
 	$servers = array();
 	if ($server == '*') {

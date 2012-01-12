@@ -100,14 +100,14 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	$this_fullversion = (($this_version[0] < 10) ? '0'.$this_version[0] : $this_version[0]) .
 			    ((isset($this_version[1]) && $this_version[1] < 10) ? '0'.$this_version[1] : $this_version[1]) .
 			    ((isset($this_version[2]) && $this_version[2] < 10) ? '0'.$this_version[2] : $this_version[2]) .
-			    ((isset($this_version[3]) && $this_version[3] < 10) ? (($this_version[3] < 1) ? '00' : '0'.$this_version[3]) : $this_version[3]);
+			    ((isset($this_version[3]) && $this_version[3] < 10) ? (($this_version[3] < 1) ? '00' : '0'.$this_version[3]) : @$this_version[3]);
 
 
 	$new_version = explode(".",$v2);
 	$new_fullversion =  (($new_version[0] < 10) ? '0'.$new_version[0] : $new_version[0]) .
 			    ((isset($new_version[1]) && $new_version[1] < 10) ? '0'.$new_version[1] : $new_version[1]) .
 			    ((isset($new_version[2]) && $new_version[2] < 10) ? '0'.$new_version[2] : $new_version[2]) .
-			    ((isset($new_version[3]) && $new_version[3] < 10) ? (($new_version[3] < 1) ? '00' : '0'.$new_version[3]) : $new_version[3]);
+			    ((isset($new_version[3]) && $new_version[3] < 10) ? (($new_version[3] < 1) ? '00' : '0'.$new_version[3]) : @$new_version[3]);
 	if($new_fullversion > $this_fullversion) {
 		$info[] = array('info_msg' => 'There is a new Version of ISPConfig 3 available!<br>' . 
 			'This Version: ' . $v1 . '<br>' . 

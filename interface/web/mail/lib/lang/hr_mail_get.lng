@@ -1,12 +1,12 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Type';
+$wb['type_txt'] = 'Vrsta';
 $wb['source_server_txt'] = 'Pop3/Imap Server';
-$wb['source_username_txt'] = 'Username';
-$wb['source_password_txt'] = 'Password';
+$wb['source_username_txt'] = 'Korisničko ime';
+$wb['source_password_txt'] = 'Šifra';
 $wb['source_delete_txt'] = 'Delete emails after retrieval';
 $wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivno';
 $wb['limit_fetchmail_txt'] = 'The max. number of Fetchmail records for your account is reached.';
 $wb['source_server_error_isempty'] = 'Server is empty.';
 $wb['source_username_error_isempty'] = 'Username is empty.';

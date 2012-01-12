@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Parent website';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivno';
 $wb['client_txt'] = 'Client';
 $wb['run_min_txt'] = 'Minutes';
 $wb['run_hour_txt'] = 'Hours';

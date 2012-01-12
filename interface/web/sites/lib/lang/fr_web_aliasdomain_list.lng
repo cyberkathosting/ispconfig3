@@ -12,5 +12,3 @@ $wb['no_redirect_txt'] = 'Aucune redirection';
 $wb['no_flag_txt'] = 'Aucun flag';
 $wb['none_txt'] = 'Aucun';
 ?>
-
-

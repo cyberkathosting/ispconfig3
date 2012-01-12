@@ -12,6 +12,9 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 # ssl_cert_file = /etc/ssl/_.my-domain.tld/_.my-domain.tld.crt
 # ssl_key_file = /etc/ssl/_.my-domain.tld/_.my-domain.tld.key
 
+ssl_cert_file = /etc/postfix/smtpd.cert
+ssl_key_file = /etc/postfix/smtpd.key
+
 mail_privileged_group = mail
 
 login_greeting = ISPConfig3 IMAP server ready...

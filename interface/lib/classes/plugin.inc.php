@@ -136,7 +136,7 @@ class plugin {
 	 	global $app;
 
 	 	//* execute the functions for the events
-		if(is_array($_SESSION['s']['plugin_cache'][$event_name])) {
+		if(@is_array($_SESSION['s']['plugin_cache'][$event_name])) {
 			foreach($_SESSION['s']['plugin_cache'][$event_name] as $rec) {
 				$plugin_name = $rec['plugin'];
 				$function_name = $rec['function'];

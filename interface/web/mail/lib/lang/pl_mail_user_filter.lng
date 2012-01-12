@@ -18,4 +18,3 @@ $wb['ends_with_txt'] = 'Kończy się na';
 $wb['move_to_txt'] = 'Przenieś do';
 $wb['delete_txt'] = 'Usuń';
 ?>
-

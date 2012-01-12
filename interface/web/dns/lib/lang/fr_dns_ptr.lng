@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Le format du nom est invalide.';
 $wb['data_error_empty'] = 'Le nom d\'hôte canonique est vide';
 $wb['data_error_regex'] = 'Le format du nom d\'hôte canonique est invalide';
 ?>
-

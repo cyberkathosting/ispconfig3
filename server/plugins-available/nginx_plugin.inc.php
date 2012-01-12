@@ -168,7 +168,7 @@ class nginx_plugin {
 					$app->log("Creating CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
 					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file",LOGLEVEL_ERROR);
 				};
-				if (filesize($crt_file)==0 || !file_exists($crt_file)){
+				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
 					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
 				};
@@ -191,14 +191,24 @@ class nginx_plugin {
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
-			$domain = $data["new"]["ssl_domain"];
+			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
 			$csr_file = $ssl_dir.'/'.$domain.".csr";
 			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			//$bundle_file = $ssl_dir.'/'.$domain.".bundle";
 			if(trim($data["new"]["ssl_request"]) != '') file_put_contents($csr_file,$data["new"]["ssl_request"]);
 			if(trim($data["new"]["ssl_cert"]) != '') file_put_contents($crt_file,$data["new"]["ssl_cert"]);
 			// for nginx, bundle files have to be appended to the certificate file
-			if(trim($data["new"]["ssl_bundle"]) != '') file_put_contents($crt_file,$data["new"]["ssl_bundle"], FILE_APPEND);
+			if(trim($data["new"]["ssl_bundle"]) != ''){				
+				if(file_exists($crt_file)){
+					$crt_file_contents = trim(file_get_contents($crt_file));
+				} else {
+					$crt_file_contents = '';
+				}
+				if($crt_file_contents != '') $crt_file_contents .= "\n";
+				$crt_file_contents .= $data["new"]["ssl_bundle"];
+				file_put_contents($crt_file,$app->file->unix_nl($crt_file_contents));
+				unset($crt_file_contents);
+			}
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 			/* Update also the master-DB of the Server-Farm */
@@ -209,7 +219,7 @@ class nginx_plugin {
 		//* Delete a SSL certificate
 		if($data['new']['ssl_action'] == 'del') {
 			$ssl_dir = $data['new']['document_root'].'/ssl';
-			$domain = $data['new']['ssl_domain'];
+			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
 			$csr_file = $ssl_dir.'/'.$domain.'.csr';
 			$crt_file = $ssl_dir.'/'.$domain.'.crt';
 			//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
@@ -229,7 +239,6 @@ class nginx_plugin {
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 			$app->log('Deleting SSL Cert for: '.$domain,LOGLEVEL_DEBUG);
 		}
-
 
 	}
 
@@ -503,18 +512,42 @@ class nginx_plugin {
 
 		// Create group and user, if not exist
 		$app->uses('system');
+		
+		if($web_config['connect_userid_to_webid'] == 'y') {
+			//* Calculate the uid and gid
+			$connect_userid_to_webid_start = ($web_config['connect_userid_to_webid_start'] < 1000)?1000:intval($web_config['connect_userid_to_webid_start']);
+			$fixed_uid_gid = intval($connect_userid_to_webid_start + $data['new']['domain_id']);
+			$fixed_uid_param = '--uid '.$fixed_uid_gid;
+			$fixed_gid_param = '--gid '.$fixed_uid_gid;
+			
+			//* Check if a ispconfigend user and group exists and create them
+			if(!$app->system->is_group('ispconfigend')) {
+				exec('groupadd --gid '.($connect_userid_to_webid_start + 10000).' ispconfigend');
+			}
+			if(!$app->system->is_user('ispconfigend')) {
+				exec('useradd -g ispconfigend -d /usr/local/ispconfig --uid '.($connect_userid_to_webid_start + 10000).' ispconfigend');
+			}
+		} else {
+			$fixed_uid_param = '';
+			$fixed_gid_param = '';
+		}
 
 		$groupname = escapeshellcmd($data['new']['system_group']);
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
-			exec('groupadd '.$groupname);
+			exec('groupadd '.$fixed_gid_param.' '.$groupname);
 			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
 			$app->log('Adding the group: '.$groupname,LOGLEVEL_DEBUG);
 		}
 
 		$username = escapeshellcmd($data['new']['system_user']);
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
-			exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
+			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
+				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+			} else {
+				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+			}
 			$app->log('Adding the user: '.$username,LOGLEVEL_DEBUG);
 		}
 
@@ -532,74 +565,91 @@ class nginx_plugin {
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+			$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/web');
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/web');
 			} else {
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/web');
 			}
 		}
-
-
-
+		
 		//* If the security level is set to high
-		if($web_config['security_level'] == 20) {
+		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost')) {
+			if($web_config['security_level'] == 20) {
 
-			$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
-			$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']).'/*');
-			$this->_exec('chmod 710 '.escapeshellcmd($data['new']['document_root'].'/web'));
+				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']).'/*');
+				$this->_exec('chmod 710 '.escapeshellcmd($data['new']['document_root'].'/web'));
 
-			// make tmp directory writable for nginx and the website users
-			$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				// make tmp directory writable for nginx and the website users
+				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 			
-			// Set Log symlink to 755 to make the logs accessible by the FTP user
-			$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"])."/log");
+				// Set Log symlink to 755 to make the logs accessible by the FTP user
+				$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"])."/log");
 
-			$command = 'usermod';
-			$command .= ' --groups sshusers';
-			$command .= ' '.escapeshellcmd($data['new']['system_user']);
-			$this->_exec($command);
+				if($web_config['add_web_users_to_sshusers_group'] == 'y') {
+					$command = 'usermod';
+					$command .= ' --groups sshusers';
+					$command .= ' '.escapeshellcmd($data['new']['system_user']);
+					$this->_exec($command);
+				}
 
-			//* if we have a chrooted nginx environment
-			if($nginx_chrooted) {
-				$this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+				//* if we have a chrooted nginx environment
+				if($nginx_chrooted) {
+					$this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
-				//* add the nginx user to the client group in the chroot environment
-				$tmp_groupfile = $app->system->server_conf['group_datei'];
-				$app->system->server_conf['group_datei'] = $web_config['website_basedir'].'/etc/group';
-				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
-				$app->system->server_conf['group_datei'] = $tmp_groupfile;
-				unset($tmp_groupfile);
-			}
+					//* add the nginx user to the client group in the chroot environment
+					$tmp_groupfile = $app->system->server_conf['group_datei'];
+					$app->system->server_conf['group_datei'] = $web_config['website_basedir'].'/etc/group';
+					$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
+					$app->system->server_conf['group_datei'] = $tmp_groupfile;
+					unset($tmp_groupfile);
+				}
 
-			//* add the nginx user to the client group
-			$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
+				//* add the nginx user to the client group
+				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
+				
+				//* Chown all default directories
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 
-			$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				/*
+				* Workaround for jailkit: If jailkit is enabled for the site, the 
+				* website root has to be owned by the root user and we have to chmod it to 755 then
+				*/
 
-			/*
-			* Workaround for jailkit: If jailkit is enabled for the site, the 
-			* website root has to be owned by the root user and we have to chmod it to 755 then
-			*/
+				//* Check if there is a jailkit user for this site
+				$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
+				if($tmp['number'] > 0) {
+					$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
+					$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				}
+				unset($tmp);
 
-			//* Check if there is a jailkit user for this site
-			$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
-			if($tmp['number'] > 0) {
+				// If the security Level is set to medium
+			} else {
+
 				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/web'));
+				
+				// make temp directory writable for nginx and the website users
+				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				
 				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 			}
-			unset($tmp);
-
-			// If the security Level is set to medium
-		} else {
-
-			$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
-			$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/*'));
-			$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
-
-			// make temp directory writable for nginx and the website users
-			$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 		}
 
 		// Change the ownership of the error log to the owner of the website
@@ -882,6 +932,11 @@ class nginx_plugin {
 				unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
 			}
+			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)) {
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
 			$vhost_file = escapeshellcmd($web_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
 			unlink($vhost_file);
 			$app->log('Removing file: '.$vhost_file,LOGLEVEL_DEBUG);
@@ -920,7 +975,13 @@ class nginx_plugin {
 			if($nginx_online_status_before_restart && !$nginx_online_status_after_restart) {
 				$app->log('nginx did not restart after the configuration change for website '.$data['new']['domain'].' Reverting the configuration. Saved non-working config as '.$vhost_file.'.err',LOGLEVEL_WARN);
 				copy($vhost_file,$vhost_file.'.err');
-				copy($vhost_file.'~',$vhost_file);
+				if(is_file($vhost_file.'~')) {
+					//* Copy back the last backup file
+					copy($vhost_file.'~',$vhost_file);
+				} else {
+					//* There is no backup file, so we create a empty vhost file with a warning message inside
+					file_put_contents($vhost_file,"# nginx did not start after modifying this vhost file.\n# Please check file $vhost_file.err for syntax errors.");
+				}
 				$app->services->restartService('httpd','restart');
 			}
 		} else {
@@ -1058,27 +1119,7 @@ class nginx_plugin {
 
 	//* This function is called when a IP on the server is inserted, updated or deleted
 	function server_ip($event_name,$data) {
-		global $app, $conf;
-
-		// load the server configuration options
-		$app->uses('getconf');
-		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
-
-		$app->load('tpl');
-
-		$tpl = new tpl();
-		$tpl->newTemplate('apache_ispconfig.conf.master');
-		$records = $app->db->queryAllRecords('SELECT * FROM server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
-
-		if(count($records) > 0) {
-			$tpl->setLoop('ip_adresses',$records);
-		}
-
-		$vhost_file = escapeshellcmd($web_config['nginx_vhost_conf_dir'].'/ispconfig.conf');
-		file_put_contents($vhost_file,$tpl->grab());
-		$app->log('Writing the conf file: '.$vhost_file,LOGLEVEL_DEBUG);
-		unset($tpl);
-
+		return;
 	}
 	
 	//* Create or update the .htaccess folder protection
@@ -1114,12 +1155,18 @@ class nginx_plugin {
 		}
 		
 		//* Create the folder path, if it does not exist
-		if(!is_dir($folder_path)) exec('mkdir -p '.$folder_path);
+		if(!is_dir($folder_path)) {
+			exec('mkdir -p '.$folder_path);
+			chown($folder_path,$website['system_user']);
+			chgrp($folder_path,$website['system_group']);
+		}
 		
 		//* Create empty .htpasswd file, if it does not exist
 		if(!is_file($folder_path.'.htpasswd')) {
 			touch($folder_path.'.htpasswd');
 			chmod($folder_path.'.htpasswd',0755);
+			chown($folder_path.'.htpasswd',$website['system_user']);
+			chgrp($folder_path.'.htpasswd',$website['system_group']);
 			$app->log('Created file'.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 		}
 		
@@ -1305,6 +1352,9 @@ class nginx_plugin {
 			file_put_contents($awstats_conf_dir.'/awstats.'.$data['new']['domain'].'.conf',$content);
 			$app->log('Created AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['new']['domain'].'.conf',LOGLEVEL_DEBUG);
 		}
+		
+		if(is_file($data['new']['document_root']."/web/stats/index.html")) unlink($data['new']['document_root']."/web/stats/index.html");
+		copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$data['new']['document_root']."/web/stats/index.php");
 	}
 	
 	//* Delete the awstats configuration file

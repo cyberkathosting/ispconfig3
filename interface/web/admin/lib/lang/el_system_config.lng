@@ -21,11 +21,12 @@ $wb['use_domain_module_txt'] = 'Χρήση του αρθρώματος-domain γ
 $wb['use_domain_module_hint'] = 'Αν χρησιμοποιήσετε αυτό το άρθρωμα, οι πελάτες σας μπορούν μόνο να διαλέξουν ένα από τα domains που δημιούργησε για αυτούς ο διαχειριστής. Δεν μπορούν να επεξεργαστούν ελεύθερα τα πεδία του domain.Πρέπει να επανασυνδεθείτε αν αλλάξετε αυτή την τιμή, για να γίνουν οι αλλαγές σας, ορατές.';
 $wb['new_domain_txt'] = 'HTML για την δημιουργία domain';
 $wb['webftp_url_txt'] = 'URL του WebFTP';
-$wb['enable_custom_login_txt'] = 'Allow custom login name';
+$wb['enable_custom_login_txt'] = 'Αποδοχή  προσαρμοσμένου ονόματος login';
 $wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
-$wb['mailmailinglist_url_txt'] = 'Mailing list URL';
+$wb['mailmailinglist_url_txt'] = 'URL της Mailing list ';
 $wb['admin_mail_txt'] = 'e-mail Διαχειριστών';
 $wb['monitor_key_txt'] = 'Monitor keyword';
-$wb['admin_name_txt'] = 'Administrators name';
+$wb['admin_name_txt'] = 'Όνομα Administrator';
 ?>
+
 

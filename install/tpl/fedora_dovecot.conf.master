@@ -87,7 +87,7 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 #ssl_listen =
 
 # SSL/TLS support: yes, no, required. <doc/wiki/SSL.txt>
-#ssl = yes
+ssl = yes
 
 # PEM encoded X.509 SSL/TLS certificate and private key. They're opened before
 # dropping root privileges, so keep the key file unreadable by anyone but
@@ -95,6 +95,9 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 # certificate, just make sure to update the domains in dovecot-openssl.cnf
 #ssl_cert_file = /etc/pki/dovecot/certs/dovecot.pem
 #ssl_key_file = /etc/pki/dovecot/private/dovecot.pem
+
+ssl_cert_file = /etc/postfix/smtpd.cert
+ssl_key_file = /etc/postfix/smtpd.key
 
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter. Since this file is often

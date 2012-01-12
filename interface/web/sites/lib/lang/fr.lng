@@ -16,12 +16,10 @@ $wb['Shell'] = 'Shell';
 $wb['Webdav-User'] = 'Utilisateur WebDav';
 $wb['Webdav'] = 'WebDav';
 $wb['Websites'] = 'Sites web';
-$wb["Stats"] = 'Statistiques';
-$wb["Cron"] = 'Cron';
-$wb["Cron Jobs"] = 'Tâches cron';
-$wb["Statistics"] = 'Statistiques';
-$wb["Web traffic"] = 'Trafic web';
-$wb["Website quota (Harddisk)"] = 'Quota du site web (disque dur)';
+$wb['Stats'] = 'Statistiques';
+$wb['Cron'] = 'Cron';
+$wb['Cron Jobs'] = 'Tâches cron';
+$wb['Statistics'] = 'Statistiques';
+$wb['Web traffic'] = 'Trafic web';
+$wb['Website quota (Harddisk)'] = 'Quota du site web (disque dur)';
 ?>
-
-

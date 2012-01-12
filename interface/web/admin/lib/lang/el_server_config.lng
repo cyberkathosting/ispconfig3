@@ -87,7 +87,7 @@ $wb['ufw_default_application_policy_txt'] = 'Προκαθορισμένη Πολ
 $wb['ufw_log_level_txt'] = 'Επίπεδο Καταγραφής';
 $wb['network_config_warning_txt'] = 'Η επιλογή για την παραμετροποίηση του δικτύου είναι διαθέσιμη μόνο για Debian και Ubuntu Servers. Μην ενεργοποιείτε αυτή την επιλογή αν η (διεπαφή) κάρτα δικτύου δεν είναι η eth0.';
 $wb['fastcgi_config_syntax_txt'] = 'FastCGI config syntax';
-$wb['backup_dir_ftpread_txt'] = 'Backup dir. readable for website FTP users.';
+$wb['backup_dir_ftpread_txt'] = 'Δικαιώματα ανάγνωσης backup για τους χρήστες FTP του website.';
 $wb['server_type_txt'] = 'Τύπος Server';
 $wb['nginx_vhost_conf_dir_txt'] = 'Nginx Vhost config dir';
 $wb['nginx_vhost_conf_enabled_dir_txt'] = 'Nginx Vhost config enabled dir';
@@ -132,7 +132,7 @@ $wb['jailkit_chroot_cron_programs_error_empty'] = 'Jailkit cron chrooted applica
 $wb['vlogger_config_dir_error_empty'] = 'Config directory is empty.';
 $wb['cron_init_script_error_empty'] = 'Cron init script name is empty.';
 $wb['crontab_dir_error_empty'] = 'Path for individual crontabs is empty.';
-$wb['cron_wget_error_empty'] = 'Path to wget program is empty.';
+$wb['cron_wget_error_empty'] = 'Η διαδρομή για το wget δεν δόθηκε.';
 $wb['php_fpm_init_script_txt'] = 'PHP-FPM init script';
 $wb['php_fpm_init_script_error_empty'] = 'PHP-FPM init script is empty.';
 $wb['php_fpm_ini_path_txt'] = 'PHP-FPM php.ini path';
@@ -143,11 +143,12 @@ $wb['php_fpm_start_port_txt'] = 'PHP-FPM start port';
 $wb['php_fpm_start_port_error_empty'] = 'PHP-FPM start port is empty.';
 $wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
 $wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM socket directory is empty.';
-$wb['try_rescue_txt'] = 'Enable service monitoring and restart on failure';
-$wb['do_not_try_rescue_mysql_txt'] = 'Disable MySQL monitoring';
-$wb['do_not_try_rescue_mail_txt'] = 'Disable Email monitoring';
-$wb['rescue_description_txt'] = '<b>Information:</b> If you want to shut down mysql you have to select the Disable MySQL monitor checkbox and then wait 2-3 minutes.<br>if you do not wait 2-3 minutes, rescue will try to restart mysql!';
-$wb['enable_sni_txt'] = 'Enable SNI';
-$wb['do_not_try_rescue_httpd_txt'] = 'Disable HTTPD monitoring';
+$wb['try_rescue_txt'] = 'Ενεργοποίηση εποπτείας υπηρεσιών και επανεκκινησης σε περίπτωση αποτυχίας';
+$wb['do_not_try_rescue_mysql_txt'] = 'Απενεργοποίηση εποπτείας MySQL';
+$wb['do_not_try_rescue_mail_txt'] = 'Απενεργοποίηση εποπτείας Email';
+$wb['rescue_description_txt'] = '<b>Πληροφορία:</b> Αν θέλετε να τερματίσετε την MySQL πρέπει να επιλέξετε την επιλογή Απενεργοποίηση εποπτείας MySQL και μετά να περιμένετε 2-3 λεπτά.<br>Αν δεν περιμένετε 2-3 λεπτά, η εποπτεία και αποκατάσταση θα προσπαθήσει να επανεκκινήσει την MySQL!';
+$wb['enable_sni_txt'] = 'Ενεργοποίηση SNI';
+$wb['do_not_try_rescue_httpd_txt'] = 'Απενεργοποίηση εποπτείας HTTPD';
 ?>
+
 

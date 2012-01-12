@@ -40,5 +40,3 @@ $wb['redirect_error_regex'] = 'Chemin de redirection invalide. Exemples de redir
 $wb['no_redirect_txt'] = 'Aucune redirecton';
 $wb['no_flag_txt'] = 'Aucun flag';
 ?>
-
-

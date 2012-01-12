@@ -41,4 +41,3 @@ $wb['DNS srv functions'] = 'Funkcje rekordu SRV DNS';
 $wb['DNS txt functions'] = 'Funkcje rekordu TXT DNS';
 $wb['Mail mailing list functions'] = 'Funkcje listy mailingowej';
 ?>
-

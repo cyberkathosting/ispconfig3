@@ -364,7 +364,12 @@ class tform {
                         $record = $this->decode($record,$tab);
                         if(is_array($record)) {
                                 foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
-                                        $val = $record[$key];
+								
+                                        if(isset($record[$key])) {
+											$val = $record[$key];
+										} else {
+											$val = '';
+										}
 
                                         // If Datasource is set, get the data from there
                                         if(isset($field['datasource']) && is_array($field['datasource'])) {
@@ -478,7 +483,11 @@ class tform {
                                         break;
 
                                         default:
+											if(isset($record[$key])) {
                                                 $new_record[$key] = htmlspecialchars($record[$key]);
+											} else {
+												$new_record[$key] = '';
+											}
                                         }
                                 }
                         }

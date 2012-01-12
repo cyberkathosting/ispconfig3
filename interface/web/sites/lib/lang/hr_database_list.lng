@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Database';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivno';
 $wb['remote_access_txt'] = 'Remote Access';
 $wb['server_id_txt'] = 'Server';
 $wb['database_user_txt'] = 'Database user';

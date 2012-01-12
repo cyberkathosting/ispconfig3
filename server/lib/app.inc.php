@@ -28,6 +28,9 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+//* Set timezone
+if(isset($conf['timezone']) && $conf['timezone'] != '') date_default_timezone_set($conf['timezone']);
+
 class app {
 		
 	var $loaded_modules = array();

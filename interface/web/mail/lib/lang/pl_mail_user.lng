@@ -42,4 +42,3 @@ $wb['login_error_regex'] = 'Poprawne znaki to A-Z, a-z, 0-9, ., _ oraz -.';
 $wb['login_txt'] = 'Login (opcjonalnie)';
 $wb['error_login_email_txt'] = 'Ten login nie jest poprawny. Proszę wpisać inny lub użyć adresu e-mail jako loginu.';
 ?>
-

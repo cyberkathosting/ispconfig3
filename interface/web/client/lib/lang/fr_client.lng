@@ -104,6 +104,6 @@ $wb['company_id_txt'] = 'Company/Entrepreneur ID';
 $wb['limit_openvz_vm_txt'] = 'Max. number of virtual servers';
 $wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
 $wb['limit_openvz_vm_error_notint'] = 'The virtual server limit must be a number.';
+$wb['web_php_options_notempty'] = 'No PHP option(s) selected. Select at least one PHP option.';
+$wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one SSH option.';
 ?>
-
-

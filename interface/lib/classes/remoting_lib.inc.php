@@ -208,7 +208,13 @@ class remoting_lib {
                                 break;
 
                                 case 'INTEGER':
-                                        $new_record[$key] = intval($record[$key]);
+										//* We use + 0 to force the string to be a number as 
+										//* intval return value is too limited on 32bit systems
+                                        if(intval($record[$key]) == 2147483647) {
+											$new_record[$key] = $record[$key] + 0;
+										} else {
+											$new_record[$key] = intval($record[$key]);
+										}
                                 break;
 
                                 case 'DOUBLE':

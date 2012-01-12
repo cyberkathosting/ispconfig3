@@ -5,7 +5,7 @@ $wb['groups_description'] = 'Φόρμα επεξεργασίας ομάδων χ
 $wb['Server'] = 'Server';
 $wb['Services'] = 'Υπηρεσίες';
 $wb['Config'] = 'Ρυθμίσεις';
-$wb['Server Config'] = 'Ρύθμιση Server';
+$wb['Server Config'] = 'Ρυθμίσεις Server';
 $wb['Mail'] = 'Mail';
 $wb['Getmail'] = 'Getmail';
 $wb['Web'] = 'Web';
@@ -41,4 +41,5 @@ $wb['Do ISPConfig-Update'] = 'Αναβάθμιση ISPConfig';
 $wb['1001'] = 'Το όνομα χρήστη ή το συνθηματικό είναι κενό.';
 $wb['1002'] = 'Το όνομα χρήστη ή το συνθηματικό είναι λάθος.';
 ?>
+
 

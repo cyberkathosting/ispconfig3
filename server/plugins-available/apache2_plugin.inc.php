@@ -291,18 +291,42 @@ class apache2_plugin {
 		
 		// Create group and user, if not exist
 		$app->uses('system');
+		
+		if($web_config['connect_userid_to_webid'] == 'y') {
+			//* Calculate the uid and gid
+			$connect_userid_to_webid_start = ($web_config['connect_userid_to_webid_start'] < 1000)?1000:intval($web_config['connect_userid_to_webid_start']);
+			$fixed_uid_gid = intval($connect_userid_to_webid_start + $data['new']['domain_id']);
+			$fixed_uid_param = '--uid '.$fixed_uid_gid;
+			$fixed_gid_param = '--gid '.$fixed_uid_gid;
+			
+			//* Check if a ispconfigend user and group exists and create them
+			if(!$app->system->is_group('ispconfigend')) {
+				exec('groupadd --gid '.($connect_userid_to_webid_start + 10000).' ispconfigend');
+			}
+			if(!$app->system->is_user('ispconfigend')) {
+				exec('useradd -g ispconfigend -d /usr/local/ispconfig --uid '.($connect_userid_to_webid_start + 10000).' ispconfigend');
+			}
+		} else {
+			$fixed_uid_param = '';
+			$fixed_gid_param = '';
+		}
 
 		$groupname = escapeshellcmd($data['new']['system_group']);
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
-			exec('groupadd '.$groupname);
+			exec('groupadd '.$fixed_gid_param.' '.$groupname);
 			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
 			$app->log('Adding the group: '.$groupname,LOGLEVEL_DEBUG);
 		}
 
 		$username = escapeshellcmd($data['new']['system_user']);
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
-			exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname -G sshusers $username -s /bin/false");
+			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
+				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+			} else {
+				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+			}
 			$app->log('Adding the user: '.$username,LOGLEVEL_DEBUG);
 		}
 
@@ -553,7 +577,7 @@ class apache2_plugin {
 
 
 		//* If the security level is set to high
-		if($this->action == 'insert' && $data['new']['type'] == 'vhost') {
+		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost')) {
 			if($web_config['security_level'] == 20) {
 
 				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
@@ -565,11 +589,13 @@ class apache2_plugin {
 			
 				// Set Log symlink to 755 to make the logs accessible by the FTP user
 				$this->_exec("chmod 755 ".escapeshellcmd($data["new"]["document_root"])."/log");
-
-				$command = 'usermod';
-				$command .= ' --groups sshusers';
-				$command .= ' '.escapeshellcmd($data['new']['system_user']);
-				$this->_exec($command);
+				
+				if($web_config['add_web_users_to_sshusers_group'] == 'y') {
+					$command = 'usermod';
+					$command .= ' --groups sshusers';
+					$command .= ' '.escapeshellcmd($data['new']['system_user']);
+					$this->_exec($command);
+				}
 
 				//* if we have a chrooted Apache environment
 				if($apache_chrooted) {
@@ -585,8 +611,14 @@ class apache2_plugin {
 
 				//* add the Apache user to the client group
 				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
-
+				
+				//* Chown all default directories
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 
 				/*
 				* Workaround for jailkit: If jailkit is enabled for the site, the 
@@ -605,11 +637,20 @@ class apache2_plugin {
 			} else {
 
 				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/*'));
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
-
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/web'));
+				
 				// make temp directory writable for Apache and the website users
 				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 			}
 		}
 
@@ -637,7 +678,7 @@ class apache2_plugin {
 			if($master_php_ini_path != '' && substr($master_php_ini_path,-7) == 'php.ini' && is_file($master_php_ini_path)) {
 				$php_ini_content .= file_get_contents($master_php_ini_path)."\n";
 			}
-			$php_ini_content .= trim($data['new']['custom_php_ini']);
+			$php_ini_content .= str_replace("\r",'',trim($data['new']['custom_php_ini']));
 			file_put_contents($custom_php_ini_dir.'/php.ini',$php_ini_content);
 		} else {
 			$has_custom_php_ini = false;
@@ -730,7 +771,7 @@ class apache2_plugin {
 							'rewrite_target_ssl' => $rewrite_target_ssl);
 					break;
 				case '*':
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> $data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$data['new']['domain'],
 						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 						'rewrite_target' 	=> $rewrite_target,
 						'rewrite_target_ssl' => $rewrite_target_ssl);
@@ -796,7 +837,7 @@ class apache2_plugin {
 									'rewrite_target_ssl' => $rewrite_target_ssl);
 							break;
 						case '*':
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$alias['domain'],
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
 								'rewrite_target' 	=> $rewrite_target,
 								'rewrite_target_ssl' => $rewrite_target_ssl);
@@ -1051,6 +1092,11 @@ class apache2_plugin {
 				unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
 			}
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			if(is_link($vhost_symlink)) {
+				unlink($vhost_symlink);
+				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file,LOGLEVEL_DEBUG);
+			}
 			$vhost_file = escapeshellcmd($web_config['vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
 			unlink($vhost_file);
 			$app->log('Removing file: '.$vhost_file,LOGLEVEL_DEBUG);
@@ -1095,7 +1141,13 @@ class apache2_plugin {
 			if($apache_online_status_before_restart && !$apache_online_status_after_restart) {
 				$app->log('Apache did not restart after the configuration change for website '.$data['new']['domain'].' Reverting the configuration. Saved non-working config as '.$vhost_file.'.err',LOGLEVEL_WARN);
 				copy($vhost_file,$vhost_file.'.err');
-				copy($vhost_file.'~',$vhost_file);
+				if(is_file($vhost_file.'~')) {
+					//* Copy back the last backup file
+					copy($vhost_file.'~',$vhost_file);
+				} else {
+					//* There is no backup file, so we create a empty vhost file with a warning message inside
+					file_put_contents($vhost_file,"# Apache did not start after modifying this vhost file.\n# Please check file $vhost_file.err for syntax errors.");
+				}
 				$app->services->restartService('httpd','restart');
 			}
 		} else {
@@ -1315,12 +1367,18 @@ class apache2_plugin {
 		}
 		
 		//* Create the folder path, if it does not exist
-		if(!is_dir($folder_path)) exec('mkdir -p '.$folder_path);
+		if(!is_dir($folder_path)) {
+			exec('mkdir -p '.$folder_path);
+			chown($folder_path,$website['system_user']);
+			chgrp($folder_path,$website['system_group']);
+		}
 		
 		//* Create empty .htpasswd file, if it does not exist
 		if(!is_file($folder_path.'.htpasswd')) {
 			touch($folder_path.'.htpasswd');
 			chmod($folder_path.'.htpasswd',0755);
+			chown($folder_path.'.htpasswd',$website['system_user']);
+			chgrp($folder_path.'.htpasswd',$website['system_group']);
 			$app->log('Created file '.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 		}
 		
@@ -1358,7 +1416,9 @@ class apache2_plugin {
 		//if(!is_file($folder_path.'.htaccess')) {
 			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user";
 			file_put_contents($folder_path.'.htaccess',$ht_file);
-			chmod($folder_path.'.htpasswd',0755);
+			chmod($folder_path.'.htaccess',0755);
+			chown($folder_path.'.htaccess',$website['system_user']);
+			chgrp($folder_path.'.htaccess',$website['system_group']);
 			$app->log('Created file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		//}
 		
@@ -1470,7 +1530,9 @@ class apache2_plugin {
 			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user";
 			file_put_contents($new_folder_path.'.htaccess',$ht_file);
 			chmod($new_folder_path.'.htpasswd',0755);
-			$app->log('Created file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+			chown($folder_path.'.htpasswd',$website['system_user']);
+			chgrp($folder_path.'.htpasswd',$website['system_group']);
+			$app->log('Created file '.$new_folder_path.'.htpasswd',LOGLEVEL_DEBUG);
 		}
 		
 		//* Remove .htaccess file

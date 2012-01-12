@@ -234,13 +234,13 @@ class shelluser_base_plugin {
 
 		if (!file_exists($sshkeys)){
 			// add root's key
-			$app->file->mkdirs($sshdir, '0755');
+			$app->file->mkdirs($sshdir, '0700');
 			if(is_file('/root/.ssh/authorized_keys')) file_put_contents($sshkeys, file_get_contents('/root/.ssh/authorized_keys'));
 		
 			// Remove duplicate keys
-			$existing_keys = file($sshkeys);
+			$existing_keys = @file($sshkeys);
 			$new_keys = explode("\n", $userkey);
-			$final_keys_arr = array_merge($existing_keys, $new_keys);
+			$final_keys_arr = @array_merge($existing_keys, $new_keys);
 			$new_final_keys_arr = array();
 			if(is_array($final_keys_arr) && !empty($final_keys_arr)){
 				foreach($final_keys_arr as $key => $val){
@@ -254,26 +254,42 @@ class shelluser_base_plugin {
 			$app->file->remove_blank_lines($sshkeys);
 			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys,LOGLEVEL_DEBUG);
 		}
-		if ($sshrsa != ''){
-			// Remove duplicate keys
-			$existing_keys = file($sshkeys);
-			$new_keys = explode("\n", $sshrsa);
-			$final_keys_arr = array_merge($existing_keys, $new_keys);
-			$new_final_keys_arr = array();
-			if(is_array($final_keys_arr) && !empty($final_keys_arr)){
-				foreach($final_keys_arr as $key => $val){
-					$new_final_keys_arr[$key] = trim($val);
-				}
-			}
-			$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
 			
-			// add the custom key 
-			file_put_contents($sshkeys, $final_keys);
-			$app->file->remove_blank_lines($sshkeys);
-			$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
+		//* Get the keys
+		$existing_keys = file($sshkeys);
+		$new_keys = explode("\n", $sshrsa);
+		$old_keys = explode("\n",$this->data['old']['ssh_rsa']);
+			
+		//* Remove all old keys
+		if(is_array($old_keys)) {
+			foreach($old_keys as $key => $val) {
+				$k = array_search(trim($val),$existing_keys);
+				unset($existing_keys[$k]);
+			}
 		}
+			
+		//* merge the remaining keys and the ones fom the ispconfig database.
+		if(is_array($new_keys)) {
+			$final_keys_arr = array_merge($existing_keys, $new_keys);
+		} else {
+			$final_keys_arr = $existing_keys;
+		}
+			
+		$new_final_keys_arr = array();
+		if(is_array($final_keys_arr) && !empty($final_keys_arr)){
+			foreach($final_keys_arr as $key => $val){
+				$new_final_keys_arr[$key] = trim($val);
+			}
+		}
+		$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
+			
+		// add the custom key 
+		file_put_contents($sshkeys, $final_keys);
+		$app->file->remove_blank_lines($sshkeys);
+		$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
+		
 		// set proper file permissions
-		// exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$usrdir);
+		exec("chown -R ".escapeshellcmd($this->data['new']['puser']).":".escapeshellcmd($this->data['new']['pgroup'])." ".$sshdir);
 		exec("chmod 600 '$sshkeys'");
 		
 	}

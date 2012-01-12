@@ -440,6 +440,18 @@ $form["tabs"]['web'] = array(
 			'default' => '20',
 			'value' => array('10' => 'Medium', '20' => 'High')
 		),
+		'set_folder_permissions_on_update' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'add_web_users_to_sshusers_group' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'check_apache_config' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -469,6 +481,23 @@ $form["tabs"]['web'] = array(
 			'default' => '',
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'apache_group_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'connect_userid_to_webid' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'connect_userid_to_webid_start' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '10000',
+			'validators' => array(0 => array('type' => 'ISINT',
+					'errmsg' => 'connect_userid_to_webid_startid_isint'),
 			),
 			'value' => '',
 			'width' => '40',

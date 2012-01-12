@@ -7,5 +7,3 @@ $wb['no_domain_perm'] = 'Vous n\'avez pas de permission pour ce domaine.';
 $wb['domain_error_regex'] = 'Nom de domaine invalide, ou contient des caractères invalides.';
 $wb['limit_mailcatchall_txt'] = 'Le nombre maximal de comptes collecteurs pour votre compte a été atteint.';
 ?>
-
-

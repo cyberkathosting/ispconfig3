@@ -6,5 +6,3 @@ $wb['add_new_record_txt'] = 'Ajouter un domaine';
 $wb['active_txt'] = 'Actif';
 $wb['sys_groupid_txt'] = 'Client';
 ?>
-
-

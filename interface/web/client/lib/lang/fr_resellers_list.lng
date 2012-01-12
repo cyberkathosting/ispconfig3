@@ -7,5 +7,3 @@ $wb['city_txt'] = 'Ville';
 $wb['country_txt'] = 'Pays';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau client';
 ?>
-
-

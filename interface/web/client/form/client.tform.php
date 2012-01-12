@@ -604,6 +604,9 @@ $form["tabs"]['limits'] = array (
 		'web_php_options' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOXARRAY',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'web_php_options_notempty'),
+									),
 			'default'	=> '',
 			'separator' => ',',
 			'valuelimit' => 'client:web_php_options',
@@ -668,6 +671,9 @@ $form["tabs"]['limits'] = array (
 		'ssh_chroot' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOXARRAY',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
+														'errmsg'=> 'ssh_chroot_notempty'),
+									),
 			'default'	=> '',
 			'separator' => ',',
 			'valuelimit' => 'client:ssh_chroot',

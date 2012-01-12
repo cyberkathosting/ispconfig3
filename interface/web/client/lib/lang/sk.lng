@@ -10,4 +10,6 @@ $wb['Add Reseller'] = 'Pridať nového predajcu';
 $wb['Edit Reseller'] = 'Upraviť predajcu';
 $wb['Resellers'] = 'Predajcovia';
 $wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
+$wb['add_additional_template_txt'] = 'Add additional template';
+$wb['delete_additional_template_txt'] = 'Delete additional template';
 ?>

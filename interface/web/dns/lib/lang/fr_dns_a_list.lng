@@ -12,4 +12,3 @@ $wb['page_txt'] = 'Page';
 $wb['page_of_txt'] = 'de';
 $wb['delete_confirmation'] = 'Voulez-vous vraiment supprimer cet enregistrement';
 ?>
-

@@ -41,4 +41,3 @@ $wb['Do ISPConfig-Update'] = 'Wykonaj aktualizację ISPConfig';
 $wb['1001'] = 'Nazwa użytkownika lub hasło jest puste.';
 $wb['1002'] = 'Nazwa użytkownika lub hasło jest błędne.';
 ?>
-

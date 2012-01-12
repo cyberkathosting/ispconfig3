@@ -20,4 +20,6 @@ $wb['Templates'] = 'Vorlagen';
 $wb['zone_file_successfully_imported_txt'] = 'Die Zone-Datei ist erfolgreich importiert worden!';
 $wb['error_no_valid_zone_file_txt'] = 'Es scheint, als ob dies keine g&uuml;ltige Zone-Datei ist!';
 $wb['zonefile_to_import_txt'] = 'Zone-Datei';
+$wb['Secondary Zones'] = 'Secondary Zones';
+$wb['Import Zone File'] = 'Import Zone File';
 ?>

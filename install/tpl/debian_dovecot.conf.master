@@ -99,6 +99,9 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 #ssl_cert_file = /etc/ssl/certs/dovecot.pem
 #ssl_key_file = /etc/ssl/private/dovecot.pem
 
+ssl_cert_file = /etc/postfix/smtpd.cert
+ssl_key_file = /etc/postfix/smtpd.key
+
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter.
 #ssl_key_password =

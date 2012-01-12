@@ -26,4 +26,3 @@ $wb['directory_error_notinweb'] = 'Katalog nie jest wewnątrz katalogu root www.
 $wb['parent_domain_id_error_empty'] = 'Nie wybrano żadnej strony www.';
 $wb['quota_size_error_regex'] = 'Quota: wpisz -1 dla wartości bez limitu lub liczbę > 0';
 ?>
-

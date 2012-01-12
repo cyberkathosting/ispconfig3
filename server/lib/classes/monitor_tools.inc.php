@@ -879,7 +879,7 @@ class monitor_tools {
 			/*
 			 * Fetch the output
 			 */
-			$data['output'] = shell_exec('zypper --non-interactive up');
+			$data['output'] = shell_exec('zypper lu');
 		} else {
 			/*
 			 * It is not Debian/Ubuntu, so there is no data and no state
@@ -1719,7 +1719,13 @@ class monitor_tools {
 				 * So we can do a deepter test and try to get data over this connection.
 				 * (if apache hangs, we get a connection but a timeout by trying to GET the data!)
 				 */
-				fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
+				// fwrite($fp, "GET / HTTP/1.0\r\n\r\n");
+				$out = "GET / HTTP/1.1\r\n";
+				$out .= "Host: localhost\r\n";
+				$out .= "User-Agent: Mozilla/5.0 (ISPConfig monitor)\r\n";
+				$out .= "Accept: application/xml,application/xhtml+xml,text/html\r\n";
+				$out .= "Connection: Close\r\n\r\n";
+				fwrite($fp, $out);
 				stream_set_timeout($fp, 5); // Timeout after 5 seconds
 				$res = fread($fp, 10);  // try to get 10 bytes (enough to test!)
 				$info = stream_get_meta_data($fp);

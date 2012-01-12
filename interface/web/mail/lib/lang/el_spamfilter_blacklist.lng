@@ -8,3 +8,4 @@ $wb['active_txt'] = 'Ενεργό';
 $wb['limit_spamfilter_wblist_txt'] = 'Το μέγιστο πλήθος των Whitelist ή Blacklist εγγραφών για τον λογαριασμό σας, έχει εξαντληθεί.';
 ?>
 
+

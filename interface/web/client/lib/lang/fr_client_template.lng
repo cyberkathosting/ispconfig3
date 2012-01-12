@@ -70,5 +70,3 @@ $wb['web_php_options_txt'] = 'PHP Options';
 $wb['template_type_txt'] = 'Template type';
 $wb['template_name_txt'] = 'Template name';
 ?>
-
-

@@ -15,5 +15,3 @@ $wb['username_txt'] = 'Nom d\'utilisateur';
 $wb['password_txt'] = 'Mot de passe';
 $wb['login_button_txt'] = 'Connexion';
 ?>
-
-

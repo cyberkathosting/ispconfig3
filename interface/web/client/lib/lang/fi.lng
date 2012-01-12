@@ -10,4 +10,6 @@ $wb['Add Reseller'] = 'Lisää uusi jälleenmyyjä';
 $wb['Edit Reseller'] = 'Muokkaa jälleenmyyjää';
 $wb['Resellers'] = 'Jälleenmyyjät';
 $wb['error_has_clients'] = 'Tällä jälleenmyyjällä on asiakkaita, poista ne ensin.';
+$wb['add_additional_template_txt'] = 'Add additional template';
+$wb['delete_additional_template_txt'] = 'Delete additional template';
 ?>

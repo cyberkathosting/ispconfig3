@@ -13,5 +13,3 @@ $wb['name_error_regex'] = 'Le format du nom d\'hôte est invalide.';
 $wb['data_error_empty'] = 'Le nom d\'hôte cible est vide.';
 $wb['data_error_regex'] = 'Le format du nom d\'hôte est invalide.';
 ?>
-
-

@@ -1,7 +1,7 @@
 <?php
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
-$wb['active_txt'] = 'Active';
-$wb['folder_error_empty'] = 'No web folder selecetd.';
+$wb['web_folder_id_txt'] = 'Direktorij';
+$wb['username_txt'] = 'Korisničko ime';
+$wb['password_txt'] = 'Šifra';
+$wb['active_txt'] = 'Aktivno';
+$wb['folder_error_empty'] = 'Nije izabran web direktorij.';
 ?>

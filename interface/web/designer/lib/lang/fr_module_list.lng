@@ -3,5 +3,3 @@ $wb['list_head_txt'] = 'Module dadministration';
 $wb['module_txt'] = 'Module';
 $wb['title_txt'] = 'Titre';
 ?>
-
-

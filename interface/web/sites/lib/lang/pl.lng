@@ -23,4 +23,3 @@ $wb['Webdav-User'] = 'Użytkownik Webdav';
 $wb['Webdav'] = 'Webdav';
 $wb['Website quota (Harddisk)'] = 'Uzycie dysku strony (Harddisk)';
 ?>
-

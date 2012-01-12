@@ -97,7 +97,6 @@ class page_action extends tform_actions {
 		parent::onSubmit();
 	}
 
-
 	function onShowEnd() {
 
 		global $app;
@@ -169,8 +168,19 @@ class page_action extends tform_actions {
 			$app->db->query("UPDATE client SET parent_client_id = ".intval($_SESSION['s']['user']['client_id'])." WHERE client_id = ".$this->id);
 		}
 		
+		//* Set the default servers
+		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE mail_server = 1 LIMIT 0,1');
+		$default_mailserver = intval($tmp['server_id']);
+		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE web_server = 1 LIMIT 0,1');
+		$default_webserver = intval($tmp['server_id']);
+		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE dns_server = 1 LIMIT 0,1');
+		$default_dnsserver = intval($tmp['server_id']);
+		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 LIMIT 0,1');
+		$default_dbserver = intval($tmp['server_id']);
 		
-
+		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
+		$app->db->query($sql);
+		
 		/* If there is a client-template, process it */
 		applyClientTemplates($this->id);
 

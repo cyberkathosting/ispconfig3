@@ -149,5 +149,8 @@ $wb['do_not_try_rescue_mail_txt'] = 'Disable Email monitoring';
 $wb['rescue_description_txt'] = '<b>Information:</b> If you want to shut down mysql you have to select the Disable MySQL monitor checkbox and then wait 2-3 minutes.<br>if you do not wait 2-3 minutes, rescue will try to restart mysql!';
 $wb['enable_sni_txt'] = 'Włącz SNI';
 $wb['do_not_try_rescue_httpd_txt'] = 'Disable HTTPD monitoring';
+$wb['set_folder_permissions_on_update_txt'] = 'Set folder permissions on update';
+$wb['add_web_users_to_sshusers_group_txt'] = 'Add web users to -sshusers- group';
+$wb['connect_userid_to_webid_txt'] = 'Connect Linux userid to webid';
+$wb['connect_userid_to_webid_start_txt'] = 'Start ID for userid/webid connect';
 ?>
-

@@ -28,4 +28,3 @@ $wb['admin_mail_txt'] = 'E-Mail administratorów';
 $wb['monitor_key_txt'] = 'Klucz monitora';
 $wb['admin_name_txt'] = 'Nazwy administratorów';
 ?>
-

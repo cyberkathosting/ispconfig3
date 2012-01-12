@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox quota';
-$wb['quota_txt'] = 'Quota';
-$wb['name_txt'] = 'Name';
-$wb['email_txt'] = 'Email Address';
-$wb['used_txt'] = 'Used space';
+$wb['list_head_txt'] = 'Όριο Mailbox';
+$wb['quota_txt'] = 'Όριο';
+$wb['name_txt'] = 'Όνομα';
+$wb['email_txt'] = 'Διεύθυνση Email';
+$wb['used_txt'] = 'Χώρος σε χρήση';
 ?>
+
 

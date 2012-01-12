@@ -7,4 +7,3 @@ $wb['error_domain_in webuse'] = 'Domena nie może zostać skasowana, ponieważ w
 $wb['error_client_can_not_add_domain'] = 'Nie możesz dodać nowej domeny';
 $wb['error_client_group_id_empty'] = 'Musisz wybrać klienta<br>';
 ?>
-

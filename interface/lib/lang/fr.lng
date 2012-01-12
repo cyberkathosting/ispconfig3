@@ -67,5 +67,5 @@ $wb['monthnamesshort_nov'] = 'Nov';
 $wb['monthnamesshort_dec'] = 'Dec';
 $wb['datepicker_nextText'] = 'Suivant';
 $wb['datepicker_prevText'] = 'Précédent';
+$wb['logout_txt'] = 'LOGOUT';
 ?>
-

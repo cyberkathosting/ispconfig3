@@ -40,4 +40,3 @@ $wb['redirect_error_regex'] = 'Nieprawidłowa ścieżka przekierowania. Poprawne
 $wb['no_redirect_txt'] = 'Bez przekierowania';
 $wb['no_flag_txt'] = 'Bez flagi';
 ?>
-

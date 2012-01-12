@@ -4,4 +4,6 @@ $wb['Settings'] = 'Configurações';
 $wb['ISPConfig Tools'] = 'Ferramentas';
 $wb['Password and Language'] = 'Senha e Idioma';
 $wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
+$wb['Dns Tools'] = 'Dns Tools';
+$wb['Resync'] = 'Resync';
 ?>

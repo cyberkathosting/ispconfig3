@@ -1,6 +1,6 @@
 <?php
-$wb['backup_interval_txt'] = 'Χρονοδιάστημα Backup';
-$wb['backup_copies_txt'] = 'Πλήθος αντιγράφων backup';
+$wb['backup_interval_txt'] = 'Προγραμματισμός Backup';
+$wb['backup_copies_txt'] = 'Πλήθος αντιγράφων';
 $wb['ssl_state_txt'] = 'Κατάσταση';
 $wb['ssl_locality_txt'] = 'Τοποθεσία';
 $wb['ssl_organisation_txt'] = 'Οργανισμός';
@@ -65,7 +65,7 @@ $wb['ruby_txt'] = 'Ruby';
 $wb['stats_user_txt'] = 'Όνομα Χρήστη Στατιστικών Web';
 $wb['stats_type_txt'] = 'Πρόγραμμα Στατιστικών Web';
 $wb['custom_php_ini_txt'] = 'Προσαρμοσμένες ρυθμίσεις php.ini';
-$wb['none_txt'] = 'Κανάνα';
+$wb['none_txt'] = 'Καμία';
 $wb['disabled_txt'] = 'Απενεργοπ.';
 $wb['no_redirect_txt'] = 'Χωρίς Ανακατεύθυνση';
 $wb['no_flag_txt'] = 'Χωρίς Σημαία';
@@ -90,4 +90,5 @@ $wb['pm_start_servers_error_regex'] = 'PHP-FPM pm.start_servers must be a positi
 $wb['pm_min_spare_servers_error_regex'] = 'PHP-FPM pm.min_spare_servers must be a positive integer value.';
 $wb['pm_max_spare_servers_error_regex'] = 'PHP-FPM pm.max_spare_servers must be a positive integer value.';
 ?>
+
 

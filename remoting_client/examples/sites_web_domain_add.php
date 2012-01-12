@@ -18,8 +18,8 @@ try {
 	$client_id = 1;
 	
 	$params = array(
-			'server_id' => 0,
-			'ip_address' => '',
+			'server_id' => 1,
+			'ip_address' => '*',
 			'domain' => 'test2.int',
 			'type' => 'vhost',
 			'parent_domain_id' => 0,

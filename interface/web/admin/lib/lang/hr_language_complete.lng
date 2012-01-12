@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Merge language';
-$wb['list_desc_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
-$wb['language_select_txt'] = 'Select language';
-$wb['btn_save_txt'] = 'Merge files now';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Spoji jezike';
+$wb['list_desc_txt'] = 'Spoji izabrani jezik sa glavnim datotekom engleskog jezika. <br />Ovime ćete dodati podatke iz datoteke engleskog jezika koji nedostaju u izabrani jezik.';
+$wb['language_select_txt'] = 'Izaberi jezik';
+$wb['btn_save_txt'] = 'Spoji jezike sada';
+$wb['btn_cancel_txt'] = 'Natrag';
 ?>

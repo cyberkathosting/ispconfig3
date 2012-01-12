@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Email Alias';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivno';
 $wb['source_txt'] = 'source';
 $wb['destination_txt'] = 'Destination';
 $wb['email_txt'] = 'Email';

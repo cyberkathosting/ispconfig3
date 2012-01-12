@@ -102,8 +102,9 @@ if(is_dir('/usr/local/ispconfig')) {
 //** Detect the installed applications
 $inst->find_installed_apps();
 
-//** Select the language
+//** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
+$conf['timezone'] = 'UTC';
 
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('standard','expert'), 'standard');
@@ -126,6 +127,12 @@ do {
 	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
 	$tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database']);
 	$tmp_mysql_server_charset = $inst->free_query('MySQL charset', $conf['mysql']['charset']);
+	
+	if($install_mode == 'expert') {
+		swriteln("The next two questions are about the internal ISPConfig database user and password.\nIt is recommended to accept the defaults which are 'ispconfig' as username and a random password.\nIf you use a different password, use only numbers and chars for the password.\n");
+		$conf['mysql']['ispconfig_user'] = $inst->free_query('ISPConfig mysql database username', $conf['mysql']['ispconfig_user']);
+		$conf['mysql']['ispconfig_password'] = $inst->free_query('ISPConfig mysql database password', $conf['mysql']['ispconfig_password']);
+	}
 	
 	//* Initialize the MySQL server connection
 	if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {

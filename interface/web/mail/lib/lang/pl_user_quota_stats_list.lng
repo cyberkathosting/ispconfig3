@@ -5,4 +5,3 @@ $wb['name_txt'] = 'Nazwa';
 $wb['email_txt'] = 'Adres e-mail';
 $wb['used_txt'] = 'Użycie dysku';
 ?>
-

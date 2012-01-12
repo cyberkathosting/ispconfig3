@@ -1,5 +1,4 @@
 <?php
-
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zones';
 $wb['DNS A'] = 'DNS A';
@@ -21,5 +20,6 @@ $wb['Templates'] = 'Modèles';
 $wb['zone_file_successfully_imported_txt'] = 'Le fichier de zone a été importé avec succès !';
 $wb['error_no_valid_zone_file_txt'] = 'Ce fichier de zone semble être invalide !';
 $wb['zonefile_to_import_txt'] = 'Fichier de zone';
+$wb['Secondary Zones'] = 'Secondary Zones';
+$wb['Import Zone File'] = 'Import Zone File';
 ?>
-

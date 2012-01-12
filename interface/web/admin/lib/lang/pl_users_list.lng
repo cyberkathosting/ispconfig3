@@ -7,4 +7,3 @@ $wb['ort_txt'] = 'Miasto';
 $wb['add_new_record_txt'] = 'Dodaj nowego użytkownika';
 $wb['warning_txt'] = '<b>OSTRZEŻENIE:</b> Nie edytuj żadnych ustawień tutaj. Użyj do tego celu ustawień Klienta i Resellera w module Klienta. Zmiana użytkowników i grup w tym miejscu może spowodować utratę danych!';
 ?>
-

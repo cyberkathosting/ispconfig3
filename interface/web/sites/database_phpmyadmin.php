@@ -56,15 +56,23 @@ $serverData = $app->db->queryOneRecord(
 	
 $app->uses('getconf');
 $global_config = $app->getconf->get_global_config('sites');
+$web_config = $app->getconf->get_server_config($serverId,'web');
 
 /*
  * We only redirect to the login-form, so there is no need, to check any rights
  */
+ 
 if($global_config['phpmyadmin_url'] != '') {
-	header('Location:'.$global_config['phpmyadmin_url']);
+	$phpmyadmin_url = $global_config['phpmyadmin_url'];
+	$phpmyadmin_url = str_replace('[SERVERNAME]',$serverData['server_name'],$phpmyadmin_url);
+	header('Location:'.$phpmyadmin_url);
 } else {
 	isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
-	header('location:' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
+	if($web_config['server_type'] == 'nginx') {
+		header('location:' . $http . '://' . $serverData['server_name'] . ':8081/phpmyadmin');
+	} else {
+		header('location:' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
+	}
 }
 exit;
 ?>

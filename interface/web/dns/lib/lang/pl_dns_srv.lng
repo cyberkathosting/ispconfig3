@@ -15,4 +15,3 @@ $wb['data_error_regex'] = 'Wpis serwera ma niepoprawny format';
 $wb['srv_error_regex'] = 'Niepoprawny format rekordu serwera. Rekord serwera musi zawierać 3 łańcuchy znakowe oddzielone spacjami.';
 $wb['aux_txt'] = 'Priorytet';
 ?>
-

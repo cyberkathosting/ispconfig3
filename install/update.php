@@ -96,6 +96,8 @@ $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 $conf['language'] = $conf_old['language'];
 if($conf['language'] == '{language}') $conf['language'] = 'en';
+$conf['timezone'] = $conf_old['timezone'];
+if($conf['timezone'] == '{timezone}' or trim($conf['timezone']) == '') $conf['timezone'] = 'UTC';
 
 if(isset($conf_old["dbmaster_host"])) $conf["mysql"]["master_host"] = $conf_old["dbmaster_host"];
 if(isset($conf_old["dbmaster_database"])) $conf["mysql"]["master_database"] = $conf_old["dbmaster_database"];
@@ -119,7 +121,32 @@ $inst->is_update = true;
 //** Detect the installed applications
 $inst->find_installed_apps();
 
-echo "This application will update ISPConfig 3 on your server.\n";
+echo "This application will update ISPConfig 3 on your server.\n\n";
+
+//* Make a backup before we start the update
+$do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in /var/backup/ now?', array('yes','no'),'yes');
+if($do_backup == 'yes') {
+	
+	//* Create the backup directory
+	$backup_path = '/var/backup/ispconfig_'.date('Y-m-d_H-i');
+	$conf['backup_path'] = $backup_path;
+	exec("mkdir -p $backup_path");
+	exec("chown root:root $backup_path");
+	exec("chmod 700 $backup_path");
+	
+	//* Do the backup
+	swriteln('Creating backup of "/usr/local/ispconfig" directory...');
+	exec("tar pcfz $backup_path/ispconfig_software.tar.gz /usr/local/ispconfig 2> /dev/null",$out,$returnvar);
+	if($returnvar != 0) die("Backup failed. We stop here...\n");
+	
+	swriteln('Creating backup of "/etc" directory...');
+	exec("tar pcfz $backup_path/etc.tar.gz /etc 2> /dev/null",$out,$returnvar);
+	if($returnvar != 0) die("Backup failed. We stop here...\n");
+	
+	exec("chown root:root $backup_path/*.tar.gz");
+	exec("chmod 700 $backup_path/*.tar.gz");
+}
+
 
 //** Initialize the MySQL server connection
 include_once('lib/mysql.lib.php');

@@ -23,4 +23,3 @@ $wb['database_charset_change_txt'] = 'Nie można zmienić kodowania bazy danych.
 $wb['database_name_error_len'] = 'Nazwa bazy danych - {db} - za długa. Maksymalna długość wynosi 64 znaki łącznie z prefiksem.';
 $wb['database_user_error_len'] = 'Nazwa użytkownika bazy - {user}- za długa. Maksymalna długość wynosi 16 znaków łącznie z prefiksem.';
 ?>
-

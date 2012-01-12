@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Software updates';
-$wb['server_select_txt'] = 'Select server';
-$wb['installed_txt'] = 'Action';
-$wb['update_title_txt'] = 'Update';
-$wb['version_txt'] = 'Version';
-$wb['action_txt'] = 'Action';
+$wb['list_head_txt'] = 'Softverske nadogradnje';
+$wb['server_select_txt'] = 'Izaberi server';
+$wb['installed_txt'] = 'Akcija';
+$wb['update_title_txt'] = 'Nadogradi';
+$wb['version_txt'] = 'Verzija';
+$wb['action_txt'] = 'Akcija';
 ?>

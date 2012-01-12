@@ -67,4 +67,5 @@ $wb['monthnamesshort_sep'] = 'Sep';
 $wb['monthnamesshort_oct'] = 'Oct';
 $wb['monthnamesshort_nov'] = 'Nov';
 $wb['monthnamesshort_dec'] = 'Dec';
+$wb['logout_txt'] = 'LOGOUT';
 ?>

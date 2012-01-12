@@ -107,7 +107,8 @@ $form["tabs"]['database'] = array (
 		),
 		'database_password' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
+			'formtype'	=> 'PASSWORD',
+			'encryption' => 'MYSQL',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

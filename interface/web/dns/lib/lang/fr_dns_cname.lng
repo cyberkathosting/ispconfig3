@@ -14,5 +14,3 @@ $wb['data_error_empty'] = 'Le nom d\'hôte cible est vide.';
 $wb['data_error_regex'] = 'Le format du nom d\'hôte cible invalide.';
 $wb['data_error_duplicate'] = 'Enregistrement A ou CNAME en double';
 ?>
-
-

@@ -41,5 +41,3 @@ $wb['DNS srv functions'] = 'Fonctions SRV DNS';
 $wb['DNS txt functions'] = 'Fonctions TXT DNS';
 $wb['Mail mailing list functions'] = 'Fonctions Mailinglist Mail';
 ?>
-
-

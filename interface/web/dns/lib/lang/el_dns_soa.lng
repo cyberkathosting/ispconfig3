@@ -4,10 +4,10 @@ $wb['origin_txt'] = 'Ζώνη (SOA)';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
 $wb['serial_txt'] = 'Serial';
-$wb['refresh_txt'] = 'Refresh';
-$wb['retry_txt'] = 'Retry';
-$wb['expire_txt'] = 'Expire';
-$wb['minimum_txt'] = 'Minimum';
+$wb['refresh_txt'] = 'Ανανέωση';
+$wb['retry_txt'] = 'Επαναπροσπάθεια';
+$wb['expire_txt'] = 'Λήξη';
+$wb['minimum_txt'] = 'Ελάχιστο';
 $wb['ttl_txt'] = 'TTL';
 $wb['xfer_txt'] = 'Άδεια μεταφοράς ζώνης από <br />αυτές τς IP (λίστα χωρισμένη με κόμα)';
 $wb['active_txt'] = 'Ενεργή';
@@ -29,4 +29,5 @@ $wb['eg_domain_tld'] = 'π.χ. domain.tld';
 $wb['eg_ns1_domain_tld'] = 'π.χ. ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'π.χ. webmaster@domain.tld';
 ?>
+
 

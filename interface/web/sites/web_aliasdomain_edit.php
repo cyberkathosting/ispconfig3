@@ -130,7 +130,7 @@ class page_action extends tform_actions {
 		
 		$this->parent_domain_record = $parent_domain;
 		
-		//* make sure that the email domain is lowercase
+		//* make sure that the domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 		
 		parent::onSubmit();
@@ -140,6 +140,31 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+		
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		//* Check if parent domain has been changed
+		if($this->dataRecord['parent_domain_id'] != $this->oldDataRecord['parent_domain_id']) {
+			
+			//* Update the domain owner
+			$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+			
+			//* Update the old website, so that the vhost alias gets removed
+			//* We force the update by inserting a transaction record without changes manually.
+			$old_website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$this->oldDataRecord['domain_id']);
+			$diffrec_full = array();
+			$diffrec_full['old'] = $old_website;
+			$diffrec_full['new'] = $old_website;
+			$diffstr = $app->db->quote(serialize($diffrec_full));
+			$username = $app->db->quote($_SESSION['s']['user']['username']);
+			$dbidx = 'domsin_id:'.$this->id;
+			$server_id = $this->oldDataRecord['server_id'];
+			$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('web_domain','$dbidx','$server_id','u','".time()."','$username','$diffstr')";
+			$app->db->query($sql);
+		}
 		
 	}
 	

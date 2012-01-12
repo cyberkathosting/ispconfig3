@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'DNS Zone';
 $wb['ns_txt'] = 'NS';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivno';
 $wb['limit_dns_slave_zone_txt'] = 'The max. number of Secondary DNS zones for your account is reached.';
 $wb['client_txt'] = 'Client';
 $wb['xfer_txt'] = 'Allow zone transfers to <br />these IPs (comma separated list)';

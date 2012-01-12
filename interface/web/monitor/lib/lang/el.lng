@@ -101,7 +101,7 @@ $wb['monitor_serverstate_mailqhigher_txt'] = 'Ο φόρτος της ουράς 
 $wb['monitor_serverstate_mailqhighest_txt'] = 'Ο φόρτος της ουράς Mail είναι μέγιστος';
 $wb['monitor_serverstate_mailqunknown_txt'] = 'Ουρά Mail: ???';
 $wb['monitor_serverstate_raidok_txt'] = 'Η κατάσταση του RAID είναι εντάξει';
-$wb['monitor_serverstate_raidresync_txt'] = 'Το RAID είναι σε κατάσταση RESYNC';
+$wb['monitor_serverstate_raid_txt'] = 'Το RAID είναι σε κατάσταση RESYNC';
 $wb['monitor_serverstate_raidfault_txt'] = 'Στο RAID υπάρχει ελαττωματικός δίσκος. Αντικαταστήστε τον το συντομότερο δυνατό!';
 $wb['monitor_serverstate_raiderror_txt'] = 'Το RAID δεν λειτουργεί πλέον';
 $wb['monitor_serverstate_raidunknown_txt'] = 'Κατάσταση RAID: ???';
@@ -147,4 +147,5 @@ $wb['Show fail2ban-Log'] = 'Εμφάνιση fail2ban-Log';
 $wb['Show IPTables'] = 'Εμφάνιση IPTables';
 $wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>
+
 

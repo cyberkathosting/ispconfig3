@@ -10,7 +10,7 @@ $wb['Email Catchall'] = 'Email Catchall';
 $wb['Email Forward'] = 'Email Προώθησης';
 $wb['Get Email'] = 'Λήψη Email';
 $wb['Spamfilter'] = 'Φίλτρο Spam';
-$wb['Email Routing'] = 'Δρομολογήση Email';
+$wb['Email Routing'] = 'Δρομολόγηση Email';
 $wb['Email transport'] = 'Μεταφορά Email';
 $wb['Mailbox'] = 'Θυρίδα';
 $wb['Autoresponder'] = 'Αυτόματη απάντηση';
@@ -45,4 +45,5 @@ $wb['Global Filters'] = 'Καθολικά Φίλτρα';
 $wb['Domain Alias'] = 'Ψευδώνυμο Domain';
 $wb['Relay Recipients'] = 'Παραλήπτες Relay';
 ?>
+
 

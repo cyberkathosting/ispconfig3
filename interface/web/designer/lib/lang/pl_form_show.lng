@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Usunąć moduł i wszystkie podkatalogi?';
 $wb['menu_del_txt'] = 'Usunąć menu i wszystkie jego elementy?';
 $wb['item_del_txt'] = 'Usunąc element menu?';
 ?>
-

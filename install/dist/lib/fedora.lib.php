@@ -718,6 +718,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		$content = str_replace('{language}', $conf['language'], $content);
+		$content = str_replace('{timezone}', $conf['timezone'], $content);
 		
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
@@ -740,6 +741,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		$content = str_replace('{language}', $conf['language'], $content);
+		$content = str_replace('{timezone}', $conf['timezone'], $content);
 
 		wf("$install_dir/server/lib/$configfile", $content);
 		
@@ -1029,7 +1031,7 @@ class installer_dist extends installer_base {
 		// Edit the file Edit the file /etc/sudoers and comment out the requiregetty line, otherwise the backup function will fail
 		replaceLine('/etc/sudoers','Defaults    requiretty','#Defaults    requiretty',0,0);
 		
-		if(is_file($install_dir.'/interface/invoices')) {
+		if(is_dir($install_dir.'/interface/invoices')) {
 			chmod($install_dir.'/interface/invoices', 0770);
 			chown($install_dir.'/interface/invoices', 'ispconfig');
 			chgrp($install_dir.'/interface/invoices', 'ispconfig');

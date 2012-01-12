@@ -19,3 +19,4 @@ $wb['mailbox_size_limit_txt'] = 'Όριο μεγέθους θυρίδας';
 $wb['message_size_limit_txt'] = 'Όριο μεγέθους μηνύματος';
 ?>
 
+

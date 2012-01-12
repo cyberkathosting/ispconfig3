@@ -1,5 +1,4 @@
 <?php
-
 $wb['template_id_txt'] = 'Modèle';
 $wb['server_id_txt'] = 'Serveur';
 $wb['client_txt'] = 'Client';
@@ -28,4 +27,3 @@ $wb['error_ns1_regex'] = 'NS1 contient des caractères invalides.';
 $wb['error_ns2_regex'] = 'NS2 contient des caractères invalides.';
 $wb['error_email_regex'] = 'L\'email ne contient pas une adresse email valide.';
 ?>
-

@@ -29,4 +29,3 @@ $wb['eg_domain_tld'] = 'np. domena.pl';
 $wb['eg_ns1_domain_tld'] = 'np. ns1.domena.pl';
 $wb['eg_webmaster_domain_tld'] = 'np. webmaster@domena.pl';
 ?>
-

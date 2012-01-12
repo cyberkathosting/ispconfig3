@@ -29,4 +29,3 @@ $wb['eg_domain_tld'] = 'ex. domain.tld';
 $wb['eg_ns1_domain_tld'] = 'ex. ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'ex. webmaster@domain.tld';
 ?>
-

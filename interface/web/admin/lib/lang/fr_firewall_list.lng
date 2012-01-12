@@ -6,5 +6,3 @@ $wb['tcp_port_txt'] = 'Ouvrir des ports TCP';
 $wb['udp_port_txt'] = 'Ouvrir des ports UDP';
 $wb['add_new_record_txt'] = 'Ajouter un enregistrement au pare-feu';
 ?>
-
-

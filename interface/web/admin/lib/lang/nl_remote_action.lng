@@ -7,4 +7,6 @@ $wb['do_ispcupdate_caption'] = 'Voer een ISPConfig 3 - update uit op de remote s
 $wb['do_ispcupdate_desc'] = 'Deze actie voert een ISPConfig3 update uit op de soor u geselecteerde server.<br><br><strong>GEBRUIK OP EIGEN RISICO!</strong>';
 $wb['action_scheduled'] = 'Deze actie is ingepland om uitgevoerd te worden';
 $wb['select_all_server'] = 'Alle servers';
+$wb['ispconfig_update_title'] = 'ISPConfig update instructions';
+$wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Click here for detailed update instructins</a>';
 ?>

@@ -10,4 +10,6 @@ $wb['Add Reseller'] = 'Aggiungi rivenditore';
 $wb['Edit Reseller'] = 'Modifica rivenditore';
 $wb['Resellers'] = 'Rivenditori';
 $wb['error_has_clients'] = 'Questo rivenditore ha dei clienti, bisogna cancellarli prima di procedere.';
+$wb['add_additional_template_txt'] = 'Add additional template';
+$wb['delete_additional_template_txt'] = 'Delete additional template';
 ?>

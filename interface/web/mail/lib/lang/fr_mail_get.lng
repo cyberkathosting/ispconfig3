@@ -15,5 +15,3 @@ $wb['destination_error_isemail'] = 'Pas de destination sélectionnée.';
 $wb['source_server_error_regex'] = 'Le serveur POP3 / IMAP n\'est pas un nom de domaine valide.';
 $wb['source_read_all_txt'] = 'Récupérer tous les emails (incl. les emails lus)';
 ?>
-
-

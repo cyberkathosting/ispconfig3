@@ -28,5 +28,3 @@ $wb['admin_mail_txt'] = 'E-mail de l\'administrateur';
 $wb['monitor_key_txt'] = 'Mot-clé du moniteur';
 $wb['admin_name_txt'] = 'Nom des administrateurs';
 ?>
-
-

@@ -70,4 +70,3 @@ $wb['web_php_options_txt'] = 'Opcje PHP';
 $wb['template_type_txt'] = 'Rodzaj szablonu';
 $wb['template_name_txt'] = 'Nazwa szablonu';
 ?>
-

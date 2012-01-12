@@ -51,6 +51,8 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	
+	/*
+	//* Code moved to mailfilter plugin
 	function onAfterDelete() {
 		global $app, $conf;
 		
@@ -74,6 +76,7 @@ class page_action extends tform_actions {
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
 	
 	}
+	*/
 	
 }
 

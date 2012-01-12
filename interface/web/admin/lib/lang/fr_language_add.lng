@@ -6,5 +6,3 @@ $wb['btn_save_txt'] = 'Créer un nouveau fichier de langue';
 $wb['btn_cancel_txt'] = 'Précédent';
 $wb['language_new_hint_txt'] = 'Code langage à 2 caractères ISO 639-1 (Voir http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>
-
-

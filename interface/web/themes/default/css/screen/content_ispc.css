@@ -481,6 +481,7 @@
     select.withicons option[value="EE"] { background-image:url(../../icons/flags/ee.png); }
     select.withicons option[value="EG"] { background-image:url(../../icons/flags/eg.png); }
     select.withicons option[value="EH"] { background-image:url(../../icons/flags/eh.png); }
+	select.withicons option[value="EL"] { background-image:url(../../icons/flags/gr.png); }
     select.withicons option[value="ER"] { background-image:url(../../icons/flags/er.png); }
     select.withicons option[value="ES"] { background-image:url(../../icons/flags/es.png); }
     select.withicons option[value="ET"] { background-image:url(../../icons/flags/et.png); }
@@ -724,6 +725,7 @@
     select.withicons option[value="ee"] { background-image:url(../../icons/flags/ee.png); }
     select.withicons option[value="eg"] { background-image:url(../../icons/flags/eg.png); }
     select.withicons option[value="eh"] { background-image:url(../../icons/flags/eh.png); }
+	select.withicons option[value="el"] { background-image:url(../../icons/flags/gr.png); }
     select.withicons option[value="en"] { background-image:url(../../icons/flags/gb.png); }
     select.withicons option[value="er"] { background-image:url(../../icons/flags/er.png); }
     select.withicons option[value="es"] { background-image:url(../../icons/flags/es.png); }
@@ -769,6 +771,7 @@
     select.withicons option[value="it"] { background-image:url(../../icons/flags/it.png); }
     select.withicons option[value="jm"] { background-image:url(../../icons/flags/jm.png); }
     select.withicons option[value="jo"] { background-image:url(../../icons/flags/jo.png); }
+	select.withicons option[value="ja"] { background-image:url(../../icons/flags/jp.png); }
     select.withicons option[value="jp"] { background-image:url(../../icons/flags/jp.png); }
     select.withicons option[value="ke"] { background-image:url(../../icons/flags/ke.png); }
     select.withicons option[value="kg"] { background-image:url(../../icons/flags/kg.png); }

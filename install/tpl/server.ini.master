@@ -45,7 +45,7 @@ vhost_conf_dir=/etc/apache2/sites-available
 vhost_conf_enabled_dir=/etc/apache2/sites-enabled
 nginx_vhost_conf_dir=/etc/nginx/sites-available
 nginx_vhost_conf_enabled_dir=/etc/nginx/sites-enabled
-security_level=10
+security_level=20
 user=www-data
 group=www-data
 nginx_user=www-data
@@ -69,6 +69,10 @@ php_fpm_ini_path=/etc/php5/fpm/php.ini
 php_fpm_pool_dir=/etc/php5/fpm/pool.d
 php_fpm_start_port=9010
 php_fpm_socket_dir=/var/lib/php5-fpm
+set_folder_permissions_on_update=y
+add_web_users_to_sshusers_group=y
+connect_userid_to_webid=n
+connect_userid_to_webid_start=10000
 
 [dns]
 bind_user=root

@@ -13,4 +13,3 @@ $wb['client_txt'] = 'Klient';
 $wb['email_txt'] = 'Email';
 $wb['password_txt'] = 'Hasło';
 ?>
-

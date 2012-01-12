@@ -733,6 +733,7 @@ class installer extends installer_base
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		$content = str_replace('{language}', $conf['language'], $content);
+		$content = str_replace('{timezone}', $conf['timezone'], $content);
 		
 		$this->write_config_file("$install_dir/interface/lib/$configfile", $content);
 		
@@ -866,7 +867,7 @@ class installer extends installer_base
 			chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 		}
 		
-		if(is_file($install_dir.'/interface/invoices')) {
+		if(is_dir($install_dir.'/interface/invoices')) {
 			chmod($install_dir.'/interface/invoices', 0770);
 			chown($install_dir.'/interface/invoices', 'ispconfig');
 			chgrp($install_dir.'/interface/invoices', 'ispconfig');

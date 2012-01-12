@@ -28,12 +28,20 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+//* Enable gzip compression for the interface
+ob_start('ob_gzhandler');
+
+//* Set timezone
+if(isset($conf['timezone']) && $conf['timezone'] != '') date_default_timezone_set($conf['timezone']);
+
+//* Set error reporting level when we are not on a developer system
+if(DEVSYSTEM == 0) {
+	@ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+}
+
 /*
     Application Class
 */
-
-ob_start('ob_gzhandler');
-
 class app {
 
 	private $_language_inc = 0;
@@ -233,6 +241,7 @@ class app {
 		/* Show username */
 		if(isset($_SESSION['s']['user'])) {
 			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username']);
+			$this->tpl->setVar('logout_txt', $this->lng('logout_txt'));
 		}
 	}
 

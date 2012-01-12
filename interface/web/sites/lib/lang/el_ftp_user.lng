@@ -27,3 +27,4 @@ $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
 $wb['quota_size_error_regex'] = 'Όριο: εισάγετε -1 για απεριόριστα ή έναν αριθμό > 0';
 ?>
 
+

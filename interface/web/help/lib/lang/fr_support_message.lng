@@ -6,5 +6,3 @@ $wb['message_txt'] = 'Message';
 $wb['tstamp_txt'] = 'Timestamp';
 $wb['reply_txt'] = 'Répondre';
 ?>
-
-

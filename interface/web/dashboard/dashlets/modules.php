@@ -29,7 +29,11 @@ class dashlet_modules {
 					/* We don't want to show the dashboard */
 					if ($mt != 'dashboard') {
 						$module_title = $app->lng($module['title']);
-						if(strlen($module_title) > 8) $module_title = substr($module_title,0,7).'..';
+						if(function_exists('mb_strlen')) {
+							if(mb_strlen($module_title,"UTF-8") > 8) $module_title = mb_substr($module_title,0,7,"UTF-8").'..';
+						} else {
+							if(strlen($module_title) > 8) $module_title = substr($module_title,0,7).'..';
+						}
 						$mod[] = array(	'modules_title' 	=> $module_title,
 								'modules_startpage'	=> $module['startpage'],
 								'modules_name'  	=> $module['name']);

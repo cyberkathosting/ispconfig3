@@ -26,5 +26,3 @@ $wb['username_unique'] = 'Le nom d\'utilisateur entré existe déja.';
 $wb['password_strength_txt'] = 'Force du mot de passe';
 $wb['startmodule_err'] = 'Le module de départ nexiste pas.';
 ?>
-
-

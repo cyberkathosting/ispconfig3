@@ -5,29 +5,36 @@ $script = "<script>function load_content(url){var iframe = document.getElementBy
 
 if ($handle = opendir('.'))
 {
-	while(false !== ($file = readdir($handle)))
-	{
-		if (substr($file,0,1) != "." && is_dir($file))
-		{
-			$orderkey = substr($file,0,4).substr($file,5,2);
-			if (substr($file,5,2) < 10 ) $orderkey = substr($file,0,4)."0".substr($file,5,2);
-			$awprev[$orderkey] = $file;
-		}
-	}
-	$month = date("n");
-	$year = date("Y");
-	if (date("d") == 1)
-	{
-		$month = date("m")-1;
-		if (date("m") == 1)
-		{
-			$year = date("Y")-1;
-			$month = "12";
-		}
-	}
-	$current = $year.$month;
-	$awprev[$current] = $year."-".$month;
-	closedir($handle);
+        while(false !== ($file = readdir($handle)))
+        {
+                if (substr($file,0,1) != "." && is_dir($file))
+                {
+                        $orderkey = substr($file,0,4).substr($file,5,2);
+                        if (substr($file,5,2) < 10 )
+                        {
+                                $orderkey = substr($file,0,4)."0".substr($file,5,2);
+                        }
+                        $awprev[$orderkey] = $file;
+                }
+        }
+
+        $month = date("n");
+        $year = date("Y");
+		
+        if (date("d") == 1)
+        {
+                $month = date("m")-1;
+                if (date("m") == 1)
+                {
+                        $year = date("Y")-1;
+                        $month = "12";
+                }
+        }
+
+        $current = $year.$month;
+        $awprev[$current] = $year."-".$month;
+
+        closedir($handle);
 }
 
 arsort($awprev);

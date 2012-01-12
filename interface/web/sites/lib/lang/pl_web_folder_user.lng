@@ -5,4 +5,3 @@ $wb['password_txt'] = 'Hasło';
 $wb['active_txt'] = 'Aktywny';
 $wb['folder_error_empty'] = 'Nie wybrano katalogu.';
 ?>
-
