@@ -392,6 +392,12 @@ $form["tabs"]['limits'] = array (
 		'ssh_chroot' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOXARRAY',
+			'validators'	=> array (
+			  0 => array (
+			    'type'=> 'NOTEMPTY',
+			    'errmsg'=> 'ssh_chroot_notempty'
+			  ),
+			),
 			'default'	=> '',
 			'separator' => ',',
 			'valuelimit' => 'client:ssh_chroot',
