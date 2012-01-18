@@ -1558,6 +1558,30 @@ class remoting {
 		$app->remoting_lib->loadFormDef('../dns/form/dns_soa.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
+    
+    //* Get record id by origin
+    public function dns_zone_get_id($session_id, $origin)
+    {
+        global $app;
+        
+        if(!$this->checkPerm($session_id, 'dns_zone_get_id')) {
+            $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+        }
+        
+        if (preg_match('/^[a-z0-9][a-z0-9\-]+[a-z0-9](\.[a-z]{2,4})+$/i', $origin)) {
+            $this->server->fault('no_domain_found', 'Invalid domain name.');
+            return false;
+        }
+
+        $rec = $app->db->queryOneRecord("SELECT id FROM dns_soa WHERE origin like '".$origin.'%');
+        if(isset($rec['id'])) {
+            return intval($rec['id']);
+        } else {
+            $this->server->fault('no_domain_found', 'There is no domain ID with informed domain name.');
+            return false;
+        }
+    }
 	
 	//* Add a record
 	public function dns_zone_add($session_id, $client_id, $params)
