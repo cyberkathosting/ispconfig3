@@ -363,7 +363,13 @@ class apache2_plugin {
 			unset($tmp_docroot[count($tmp_docroot)-1]);
 			$old_dir = implode('/',$tmp_docroot);
 
-			exec('rm -rf '.$data['new']['document_root']);
+			//* Check if there is already some data in the new docroot and rename it as we need a clean path to move the existing site to the new path
+			if(@is_dir($data['new']['document_root'])) {
+				rename($data['new']['document_root'],$data['new']['document_root'].'_bak_'.date('Y_m_d'));
+				$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d'),LOGLEVEL_DEBUG);
+			}
+			
+			//* Create new base directory, if it does not exist yet
 			if(!is_dir($new_dir)) exec('mkdir -p '.$new_dir);
 			exec('mv '.$data['old']['document_root'].' '.$new_dir);
 			$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);

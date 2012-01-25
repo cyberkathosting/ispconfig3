@@ -18,6 +18,7 @@ try {
 	$forwarding_id = 1;
 	
 	$mail_forwarding_record = $client->mail_forward_get($session_id, $forwarding_id);
+	// $mail_forwarding_record = $client->mail_forward_get($session_id, array('source' => '%@test.int'));
 
 	print_r($mail_forwarding_record);
 	

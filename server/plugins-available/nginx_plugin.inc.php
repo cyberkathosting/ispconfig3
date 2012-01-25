@@ -41,7 +41,7 @@ class nginx_plugin {
 	function onInstall() {
 		global $conf;
 
-		if($conf['services']['web'] == true) {
+		if($conf['services']['web'] == true && !@is_link('/usr/local/ispconfig/server/plugins-enabled/apache2_plugin.inc.php')) {
 			return true;
 		} else {
 			return false;
@@ -256,7 +256,13 @@ class nginx_plugin {
 
 	function update($event_name,$data) {
 		global $app, $conf;
-
+		
+		//* Check if the apache plugin is enabled
+		if(@is_link('/usr/local/ispconfig/server/plugins-enabled/apache2_plugin.inc.php')) {
+			$app->log('The nginx plugin can not be used together with the apache2 plugin..',LOGLEVEL_WARN);
+			return 0;
+		}
+		
 		if($this->action != 'insert') $this->action = 'update';
 
 		if($data['new']['type'] != 'vhost' && $data['new']['parent_domain_id'] > 0) {
@@ -333,8 +339,14 @@ class nginx_plugin {
 			$tmp_docroot = explode('/',$data['old']['document_root']);
 			unset($tmp_docroot[count($tmp_docroot)-1]);
 			$old_dir = implode('/',$tmp_docroot);
-
-			exec('rm -rf '.$data['new']['document_root']);
+			
+			//* Check if there is already some data in the new docroot and rename it as we need a clean path to move the existing site to the new path
+			if(@is_dir($data['new']['document_root'])) {
+				rename($data['new']['document_root'],$data['new']['document_root'].'_bak_'.date('Y_m_d'));
+				$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d'),LOGLEVEL_DEBUG);
+			}
+			
+			//* Create new base directory, if it does not exist yet
 			if(!is_dir($new_dir)) exec('mkdir -p '.$new_dir);
 			exec('mv '.$data['old']['document_root'].' '.$new_dir);
 			$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);

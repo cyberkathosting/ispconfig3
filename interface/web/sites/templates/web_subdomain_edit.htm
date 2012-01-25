@@ -65,6 +65,7 @@
 					jQuery('#redirect_type option[value="R"]').hide();
 					jQuery('#redirect_type option[value="L"]').hide();
 					jQuery('#redirect_type option[value="R,L"]').hide();
+					jQuery('#redirect_type option[value="R=301,L"]').hide();
 					
 					jQuery('#redirect_type option[value="last"]').show();
 					jQuery('#redirect_type option[value="break"]').show();
@@ -81,8 +82,9 @@
 					jQuery('#redirect_type option[value="R"]').show();
 					jQuery('#redirect_type option[value="L"]').show();
 					jQuery('#redirect_type option[value="R,L"]').show();
+					jQuery('#redirect_type option[value="R=301,L"]').show();
 					
-					if(selected != "no" && selected != "" && selected != "R"  && selected != "L"  && selected != "R,L") jQuery('#redirect_type option[value="no"]').attr('selected', 'selected');
+					if(selected != "no" && selected != "" && selected != "R"  && selected != "L"  && selected != "R,L" && selected != "R=301,L") jQuery('#redirect_type option[value="no"]').attr('selected', 'selected');
 				}
 			});
 		}

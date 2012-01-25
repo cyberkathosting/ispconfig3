@@ -32,9 +32,12 @@ if ($handle = opendir('.'))
         }
 
         $current = $year.$month;
-        $awprev[$current] = $year."-".$month;
+		if ( $month < 10 ) {
+			$current = $year."0".$month;
+		}
+		$awprev[$current] = $year."-".$month;
 
-        closedir($handle);
+		closedir($handle);
 }
 
 arsort($awprev);

@@ -94,7 +94,7 @@ $form["tabs"]['dns_slave'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{1,64}$/',
+														'regex' => '/^[\w\.\-]{1,255}$/',
 														'errmsg'=> 'ns_error_regex'),
 									),
 			'default'	=> '',

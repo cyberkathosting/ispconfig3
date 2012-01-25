@@ -18,12 +18,12 @@ try {
 	$client_id = 1;
 	$params = array(
 			'server_id' => 1,
-			'type' => 'y',
-			'database_name' => 'db_o',
-			'database_user' => 'test',
-			'database_password' => 'test',
+			'type' => 'mysql',
+			'database_name' => 'db_name1',
+			'database_user' => 'db_name1',
+			'database_password' => 'db_name1',
 			'database_charset' => 'UTF8',
-			'remote_access' => 'y',
+			'remote_access' => 'n',
 			'remote_ips' => '',
 			'active' => 'y'
 			);

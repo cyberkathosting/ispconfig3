@@ -180,7 +180,7 @@ foreach($records as $rec) {
 	
 	if(is_file($awstats_website_conf_file)) unlink($awstats_website_conf_file);
 	
-	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') server_id = ".$conf['server_id'];
+	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') AND server_id = ".$conf['server_id'];
 	$aliases = $app->db->queryAllRecords($sql);
 	$aliasdomain = '';
 	

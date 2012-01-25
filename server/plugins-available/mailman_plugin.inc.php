@@ -113,7 +113,11 @@ class mailman_plugin {
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		
 		// load files
-		$content = file_get_contents($conf["rootpath"]."/conf/mm_cfg.py.master");
+		if(file_exists($conf["rootpath"]."/conf/mm_cfg.py.master")) {
+			$content = file_get_contents($conf["rootpath"]."/conf-custom/mm_cfg.py.master");
+		} else {
+			$content = file_get_contents($conf["rootpath"]."/conf/mm_cfg.py.master");
+		}
 		$old_file = file_get_contents($this->mailman_config_dir."/mm_cfg.py");
 		
 		$old_options = array();

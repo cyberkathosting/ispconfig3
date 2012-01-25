@@ -208,6 +208,16 @@ class bind_plugin {
 			if(is_file($filename)) unset($filename);
 		}
 		
+		//* Ensure that the named slave directory is writable by the named user
+		if (file_exists('/etc/gentoo-release')) {
+			$slave_record_dir = $dns_config['bind_zonefiles_dir'].'/sec';
+		} else {
+			$slave_record_dir = $dns_config['bind_zonefiles_dir'].'/slave';
+		}
+		if(!@is_dir($slave_record_dir)) mkdir($slave_record_dir,0770);
+		chown($slave_record_dir,$dns_config['bind_user']);
+		chgrp($slave_record_dir,$dns_config['bind_group']);
+		
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind','reload');
      		

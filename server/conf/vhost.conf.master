@@ -26,7 +26,7 @@
     ErrorLog /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log
 
 <tmpl_if name='errordocs'>
-
+    Alias /error/ "<tmpl_var name='web_document_root_www'>/error/"
     ErrorDocument 400 /error/400.html
     ErrorDocument 401 /error/401.html
     ErrorDocument 403 /error/403.html

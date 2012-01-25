@@ -106,6 +106,14 @@ class page_action extends tform_actions {
 		
 		}
 		
+		if($this->id > 0) {
+			//* we are editing a existing record
+			$app->tpl->setVar("edit_disabled", 1);
+			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
+		} else {
+			$app->tpl->setVar("edit_disabled", 0);
+		}
+		
 		parent::onShowEnd();
 	}
 	

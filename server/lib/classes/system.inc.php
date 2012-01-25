@@ -1253,6 +1253,24 @@ class system{
 		$app->log('Created Maildir '.$maildir_path.' with subfolder: '.$subfolder,LOGLEVEL_DEBUG);
 		
 	}
+	
+	//* Function to create directory paths and chown them to a user and group
+	function mkdirpath($path, $mode = 0755, $user = '', $group = '') {
+		$path_parts = explode('/',$path);
+		$new_path = '';
+		if(is_array($path_parts)) {
+			foreach($path_parts as $part) {
+				$new_path .= '/'.$part;
+				if(!@is_dir($new_path)) {
+					mkdir($new_path);
+					chmod($new_path,$mode);
+					if($user != '') chown($new_path,$user);
+					if($group != '') chgrp($new_path,$group);
+				}
+			}
+		}
+		
+	}
 
 }
 ?>

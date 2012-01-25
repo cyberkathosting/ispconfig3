@@ -85,10 +85,16 @@ class page_action extends tform_actions {
 			}
 		} // end if user is not admin
 		
+		
 		// Set the server ID according to the selected destination
 		$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
 		$this->dataRecord["server_id"] = $tmp["server_id"];
 		unset($tmp);
+		
+		//* Check that no illegal combination of options is set
+		if((!isset($this->dataRecord['source_delete']) || @$this->dataRecord['source_delete'] == 'n') && $this->dataRecord['source_read_all'] == 'y') {
+			$app->tform->errorMessage .= $app->tform->lng('error_delete_read_all_combination')."<br>";
+		}
 		
 		parent::onSubmit();
 	}

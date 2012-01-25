@@ -348,8 +348,8 @@ class remoting {
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../mail/form/mail_user_filter.tform.php', $primary_id);
-		$app->plugin->raiseEvent('mail:mail_user_filter:on_after_delete',$this);
+		$affected_rows = $this->deleteQuery('../mail/form/mail_user_filter.tform.php', $primary_id,'mail:mail_user_filter:on_after_delete');
+		// $app->plugin->raiseEvent('mail:mail_user_filter:on_after_delete',$this);
 		return $affected_rows;
 	}
 
@@ -2180,19 +2180,28 @@ class remoting {
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'INSERT',0);
-		$app->db->query($sql);
 		
 		//* Check if no system user with that username exists
 		$username = $app->db->quote($params["username"]);
-		$tmp = $app->db->queryOneRecord("SELECT count(userid) as number FROm sys_user WHERE username = '$username'");
+		$tmp = $app->db->queryOneRecord("SELECT count(userid) as number FROM sys_user WHERE username = '$username'");
 		if($tmp['number'] > 0) $app->remoting_lib->errorMessage .= "Duplicate username<br />";
 		
+		//* Stop on error while preparing the sql query
 		if($app->remoting_lib->errorMessage != '') {
 			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
 		
+		//* Execute the SQL query
+		$app->db->query($sql);
 		$insert_id = $app->db->insertID();
+		
+		
+		//* Stop on error while executing the sql query
+		if($app->remoting_lib->errorMessage != '') {
+			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
+			return false;
+		}
 		
 		$this->id = $insert_id;
 		$this->dataRecord = $params;
@@ -2332,22 +2341,23 @@ class remoting {
 		// set a few values for compatibility with tform actions, mostly used by plugins
 		$this->oldDataRecord = $old_rec;
 		$this->id = $primary_id;
-		$this->dataRecord = $params;
+		$this->dataRecord = $old_rec;
+		//$this->dataRecord = $params;
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getDeleteSQL($primary_id);
-		
+		$app->db->errorMessage = '';
 		$app->db->query($sql);
+		$affected_rows = $app->db->affectedRows();
 		
 		if($app->db->errorMessage != '') {
-			
-			if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
-			
 			$this->server->fault('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
 		
-		$affected_rows = $app->db->affectedRows();
+		if($event_identifier != '') {
+			$app->plugin->raiseEvent($event_identifier,$this);
+		}
 		
 		//* Save changes to Datalog
 		if($app->remoting_lib->formDef["db_history"] == 'yes') {

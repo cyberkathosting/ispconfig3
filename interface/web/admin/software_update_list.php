@@ -161,7 +161,7 @@ if(is_array($installed_packages)) {
 	foreach($installed_packages as $ip) {
 		
 		// Get version number of the latest installed version
-		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = 1 ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
+		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = ".$server_id." ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
 		$lu = $app->db->queryOneRecord($sql);
 		
 		// Get all installable updates

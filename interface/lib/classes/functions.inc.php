@@ -45,6 +45,7 @@ class functions {
 			$content = file_get_contents($filepath);
 			$content = chunk_split(base64_encode($content));
 			$uid = strtoupper(md5(uniqid(time())));
+			$subject      = "=?utf-8?B?".base64_encode($subject)."?=";
 			
 			if($filename == '') {
 				$path_parts = pathinfo($filepath);
@@ -75,6 +76,7 @@ class functions {
 			$header = "From: $from\nReply-To: $from\n";
 			$header .= "Content-Type: text/plain;\n\tcharset=\"UTF-8\"\n";
 			$header .= "Content-Transfer-Encoding: 8bit\n\n";
+			$subject      = "=?utf-8?B?".base64_encode($subject)."?=";
 			mail($to, $subject, $text, $header);
 		}
 

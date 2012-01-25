@@ -91,18 +91,18 @@ class mail_plugin {
 		$tmp_basepath_parts = explode('/',$tmp_basepath);
 		unset($tmp_basepath_parts[count($tmp_basepath_parts)-1]);
 		$base_path = implode('/',$tmp_basepath_parts);
-		
-		
 
 		//* Create the mail domain directory, if it does not exist
 		if(!empty($base_path) && !is_dir($base_path)) {
-			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
+			//exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
+			$app->system->mkdirpath($base_path, 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
 		
 		// Dovecot uses a different mail layout with a separate 'Maildir' subdirectory.
 		if($mail_config['pop3_imap_daemon'] == 'dovecot') {
-			exec("su -c 'mkdir -p ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			//exec("su -c 'mkdir -p ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			$app->system->mkdirpath($maildomain_path, 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			$app->log('Created Directory: '.$maildomain_path,LOGLEVEL_DEBUG);
 			$maildomain_path .= '/Maildir';
 		}
@@ -160,24 +160,30 @@ class mail_plugin {
 		
 		//* Send the welcome email message
 		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
-			$tmp = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
 		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
-			$tmp = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
 		} elseif(file_exists($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt')) {
-			$tmp = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
+			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
 		} else {
-			$tmp = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
+			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
 		}
 		
-		$welcome_mail_from  = trim(substr($tmp[0],5));
-		$welcome_mail_subject  = trim(substr($tmp[1],8));
-		unset($tmp[0]);
-		unset($tmp[1]);
-		$welcome_mail_message = trim(implode($tmp));
-		unset($tmp);
+		//* Get from address
+		$parts = explode(':',trim($lines[0]));
+		unset($parts[0]);
+		$welcome_mail_from  = implode(':',$parts);
+		unset($lines[0]);
 		
-		$welcomeFromEmail = $mail_config['admin_mail'];
-		$welcomeFromName = $mail_config['admin_name'];
+		//* Get subject
+		$parts = explode(':',trim($lines[1]));
+		unset($parts[0]);
+		$welcome_mail_subject  = implode(':',$parts);
+		unset($lines[1]);
+		
+		//* Get message
+		$welcome_mail_message = trim(implode($lines));
+		unset($tmp);
 		
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
 		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
@@ -185,11 +191,9 @@ class mail_plugin {
 		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
 		$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
 		$mailTarget       = $data["new"]["email"];
-		// $mailSubject = "=?utf-8?Q?" . imap_8bit($welcome_mail_subject) . "?=";
 		$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
 
 		mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
-		
 		
 	}
 	
@@ -221,13 +225,14 @@ class mail_plugin {
 
 		//* Create the mail domain directory, if it does not exist
 		if(!empty($base_path) && !is_dir($base_path)) {
-			exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
+			//exec("su -c 'mkdir -p ".escapeshellcmd($base_path)."' ".$mail_config['mailuser_name']);
+			$app->system->mkdirpath($base_path, 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 		}
 		
 		// Dovecot uses a different mail layout with a separate 'Maildir' subdirectory.
 		if($mail_config['pop3_imap_daemon'] == 'dovecot') {
-			exec("su -c 'mkdir -p ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
+			$app->system->mkdirpath($maildomain_path, 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			$app->log('Created Directory: '.$base_path,LOGLEVEL_DEBUG);
 			$maildomain_path .= '/Maildir';
 		}
