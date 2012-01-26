@@ -308,12 +308,25 @@ class installer_dist extends installer_base {
 			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 		
-		//* copy dovecot.conf
+		//* backup dovecot.conf
 		$configfile = 'dovecot.conf';
 		if(is_file("$config_dir/$configfile")){
             copy("$config_dir/$configfile", "$config_dir/$configfile~");
         }
-		copy('tpl/fedora_dovecot.conf.master',"$config_dir/$configfile");
+		
+		//* Get the dovecot version
+		exec('dovecot --version',$tmp);
+		$parts = explode('.',trim($tmp[0]));
+		$dovecot_version = $parts[0];
+		unset($tmp);
+		unset($parts);
+		
+		//* Copy dovecot configuration file
+		if($dovecot_version == 2) {
+			copy('tpl/fedora_dovecot2.conf.master',$config_dir.'/'.$configfile);
+		} else {
+			copy('tpl/fedora_dovecot.conf.master',$config_dir.'/'.$configfile);
+		}
 		
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';

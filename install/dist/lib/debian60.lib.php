@@ -76,7 +76,20 @@ class installer extends installer_base {
 		if(is_file($config_dir.'/'.$configfile)){
 			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
 		}
-		copy('tpl/debian6_dovecot.conf.master',$config_dir.'/'.$configfile);
+		
+		//* Get the dovecot version
+		exec('dovecot --version',$tmp);
+		$parts = explode('.',trim($tmp[0]));
+		$dovecot_version = $parts[0];
+		unset($tmp);
+		unset($parts);
+		
+		//* Copy dovecot configuration file
+		if($dovecot_version == 2) {
+			copy('tpl/debian6_dovecot2.conf.master',$config_dir.'/'.$configfile);
+		} else {
+			copy('tpl/debian6_dovecot.conf.master',$config_dir.'/'.$configfile);
+		}
 		
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';

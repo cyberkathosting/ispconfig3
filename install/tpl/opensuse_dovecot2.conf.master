@@ -1,0 +1,42 @@
+protocols = imap pop3
+auth_mechanisms = plain login
+disable_plaintext_auth = no
+log_timestamp = "%Y-%m-%d %H:%M:%S "
+mail_privileged_group = vmail
+ssl_cert = </etc/postfix/smtpd.cert
+ssl_key = </etc/postfix/smtpd.key
+passdb {
+  args = /etc/dovecot/dovecot-sql.conf
+  driver = sql
+}
+userdb {
+  args = /etc/dovecot/dovecot-sql.conf
+  driver = sql
+}
+plugin {
+  quota = dict:user::file:/var/vmail/%d/%n/.quotausage
+  sieve=/var/vmail/%d/%n/.sieve
+}
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+  unix_listener auth-userdb {
+    group = vmail
+    mode = 0600
+    user = vmail
+  }
+  user = root
+}
+protocol imap {
+  mail_plugins = quota imap_quota
+}
+protocol pop3 {
+  pop3_uidl_format = %08Xu%08Xv
+  mail_plugins = quota
+}
+protocol lda {
+  mail_plugins = sieve quota
+}
