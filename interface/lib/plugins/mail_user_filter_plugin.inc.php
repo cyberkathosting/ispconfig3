@@ -47,6 +47,9 @@ class mail_user_filter_plugin {
 		$app->plugin->registerEvent('mail:mail_user_filter:on_after_insert','mail_user_filter_plugin','mail_user_filter_edit');
 		$app->plugin->registerEvent('mail:mail_user_filter:on_after_update','mail_user_filter_plugin','mail_user_filter_edit');
 		$app->plugin->registerEvent('mail:mail_user_filter:on_after_delete','mail_user_filter_plugin','mail_user_filter_del');
+		$app->plugin->registerEvent('mailuser:mail_user_filter:on_after_insert','mail_user_filter_plugin','mail_user_filter_edit');
+		$app->plugin->registerEvent('mailuser:mail_user_filter:on_after_update','mail_user_filter_plugin','mail_user_filter_edit');
+		$app->plugin->registerEvent('mailuser:mail_user_filter:on_after_delete','mail_user_filter_plugin','mail_user_filter_del');
 		
 	}
 	

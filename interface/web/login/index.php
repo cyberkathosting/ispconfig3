@@ -60,7 +60,7 @@ class login_index {
 		if(count($_POST) > 0) {
 			
 			//** Check variables
-			if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
+			if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
 			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = $app->lng('pw_error_length');
 			
 	        //** iporting variables
@@ -111,29 +111,57 @@ class login_index {
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
 						$user = $app->db->queryOneRecord($sql);
 					} else {
-			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
-						$user = $app->db->queryOneRecord($sql);
-
-						if($user) {
-							
-							$saved_password = stripslashes($user['passwort']);
-							
-							if(substr($saved_password,0,3) == '$1$') {
-								//* The password is crypt-md5 encrypted
+						if(stristr($username,'@')) {
+							//* mailuser login
+							$sql = "SELECT * FROM mail_user WHERE login = '$username'";
+							$mailuser = $app->db->queryOneRecord($sql);
+							$user = false;
+							if($mailuser) {
+								$saved_password = stripslashes($mailuser['password']);
 								$salt = '$1$'.substr($saved_password,3,8).'$';
-								
-								if(crypt(stripslashes($passwort),$salt) != $saved_password) {
-									$user = false;
-								}
-							} else {
-								
-								//* The password is md5 encrypted
-								if(md5($passwort) != $saved_password) {
-									$user = false;
+								//* Check if mailuser password is correct
+								if(crypt(stripslashes($passwort),$salt) == $saved_password) {
+									//* we build a fake user here which has access to the mailuser module only and userid 0
+									$user = array();
+									$user['userid'] = 0;
+									$user['active'] = 1;
+									$user['startmodule'] = 'mailuser';
+									$user['modules'] = 'mailuser';
+									$user['typ'] = 'user';
+									$user['email'] = $mailuser['email'];
+									$user['username'] = $username;
+									$user['language'] = $conf['language'];
+									$user['theme'] = $conf['theme'];
+									$user['mailuser_id'] = $mailuser['mailuser_id'];
+									$user['default_group'] = $mailuser['sys_groupid'];
 								}
 							}
+							
 						} else {
-							$user = false;
+							//* normal cp user login
+							$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
+							$user = $app->db->queryOneRecord($sql);
+							
+							if($user) {
+								$saved_password = stripslashes($user['passwort']);
+							
+								if(substr($saved_password,0,3) == '$1$') {
+									//* The password is crypt-md5 encrypted
+									$salt = '$1$'.substr($saved_password,3,8).'$';
+								
+									if(crypt(stripslashes($passwort),$salt) != $saved_password) {
+										$user = false;
+									}
+								} else {
+								
+									//* The password is md5 encrypted
+									if(md5($passwort) != $saved_password) {
+										$user = false;
+									}
+								}
+							} else {
+								$user = false;
+							}
 						}
 					}
 		            
@@ -143,12 +171,13 @@ class login_index {
 		                	$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
 		                	$app->db->query($sql);
 		                	$user = $app->db->toLower($user);
+							
 							if ($loginAs) $oldSession = $_SESSION['s'];
-		                    $_SESSION = array();
+							$_SESSION = array();
 							if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
-		                    $_SESSION['s']['user'] = $user;
-		                    $_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
-		                    $_SESSION['s']['language'] = $user['language'];
+							$_SESSION['s']['user'] = $user;
+							$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
+							$_SESSION['s']['language'] = $user['language'];
 							$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
 										
 							if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {

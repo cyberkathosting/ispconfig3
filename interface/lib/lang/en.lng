@@ -34,6 +34,7 @@ $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Tools';
 $wb['top_menu_help'] = 'Help';
 $wb['top_menu_billing'] = 'Billing';
+$wb['top_menu_mailuser'] = 'Mailuser';
 $wb['top_menu_domain'] = 'Domains';
 $wb['top_menu_dashboard'] = 'Home';
 $wb['top_menu_vm'] = 'VServer';

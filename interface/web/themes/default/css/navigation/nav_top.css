@@ -66,6 +66,10 @@
 	.topnav-mail {
 		background-image: url('../../icons/x32/email.png') !important;
 	}
+	
+	.topnav-mailuser {
+		background-image: url('../../icons/x32/email.png') !important;
+	}
 
 	.topnav-monitor {
 		background-image: url('../../icons/x32/monitor.png') !important;
