@@ -1,4 +1,3 @@
-
 <?php
 /*
    Copyright (c) 2005, Till Brehm, projektfarm Gmbh
