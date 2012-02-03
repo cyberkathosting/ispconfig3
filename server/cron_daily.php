@@ -525,8 +525,8 @@ if($backup_dir != '') {
 				if($backup_mode == 'userzip') {
 					//* Create a .zip backup as web user and include also files owned by apache / nginx user
 					$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.zip';
-					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip --exclude=backup\* --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@');
-					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip --exclude=backup\* --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@');
+					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b /tmp --exclude=backup\* --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@');
+					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b /tmp --exclude=backup\* --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@');
 				} else {
 					//* Create a tar.gz backup as root user
 					$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
