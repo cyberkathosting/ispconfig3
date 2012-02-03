@@ -1438,6 +1438,23 @@ CREATE TABLE `webdav_user` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `web_backup`
+--
+
+CREATE TABLE `web_backup` (
+  `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) unsigned NOT NULL,
+  `parent_domain_id` int(10) unsigned NOT NULL,
+  `backup_type` enum('web','mysql') NOT NULL DEFAULT 'web',
+  `backup_mode` varchar(64) NOT NULL DEFAULT  '',
+  `tstamp` int(10) unsigned NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  PRIMARY KEY (`backup_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `web_database`
 --
 
@@ -1449,6 +1466,7 @@ CREATE TABLE `web_database` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `server_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `parent_domain_id` int(11) unsigned NOT NULL DEFAULT  '0',
   `type` varchar(16) NOT NULL DEFAULT 'y',
   `database_name` varchar(64) DEFAULT NULL,
   `database_user` varchar(64) DEFAULT NULL,
@@ -1456,6 +1474,8 @@ CREATE TABLE `web_database` (
   `database_charset` varchar(64) DEFAULT NULL,
   `remote_access` enum('n','y') NOT NULL DEFAULT 'y',
   `remote_ips` text NOT NULL,
+  `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
+  `backup_copies` INT NOT NULL DEFAULT '1',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`database_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

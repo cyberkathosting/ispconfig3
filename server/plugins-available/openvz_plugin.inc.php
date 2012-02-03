@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2011, Till Brehm, projektfarm Gmbh
+Copyright (c) 2011-2012, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -63,6 +63,14 @@ class openvz_plugin {
 		$app->plugins->registerEvent('openvz_vm_insert',$this->plugin_name,'vm_insert');
 		$app->plugins->registerEvent('openvz_vm_update',$this->plugin_name,'vm_update');
 		$app->plugins->registerEvent('openvz_vm_delete',$this->plugin_name,'vm_delete');
+		
+		//* Register for actions
+		$app->plugins->registerAction('openvz_start_vm',$this->plugin_name,'actions');
+		$app->plugins->registerAction('openvz_stop_vm',$this->plugin_name,'actions');
+		$app->plugins->registerAction('openvz_restart_vm',$this->plugin_name,'actions');
+		$app->plugins->registerAction('openvz_create_ostpl',$this->plugin_name,'actions');
+		
+		
 		
 	}
 	
@@ -146,6 +154,50 @@ class openvz_plugin {
 		exec("vzctl stop $veid");
 		exec("vzctl destroy $veid");
 		$app->log("Destroying OpenVZ VM: vzctl destroy $veid",LOGLEVEL_DEBUG);
+			
+	}
+	
+	function actions($action_name,$data) {
+		global $app, $conf;
+		
+		if ($action_name == 'openvz_start_vm') {
+			$veid = intval($data);
+			if($veid > 0) {
+				exec("vzctl start $veid");
+				$app->log("Start VM: vzctl start $veid",LOGLEVEL_DEBUG);
+			}
+			return 'ok';
+		}
+		if ($action_name == 'openvz_stop_vm') {
+			$veid = intval($data);
+			if($veid > 0) {
+				exec("vzctl stop $veid");
+				$app->log("Stop VM: vzctl stop $veid",LOGLEVEL_DEBUG);
+			}
+			return 'ok';
+		}
+		if ($action_name == 'openvz_restart_vm') {
+			$veid = intval($data);
+			if($veid > 0) {
+				exec("vzctl restart $veid");
+				$app->log("Restart VM: vzctl restart $veid",LOGLEVEL_DEBUG);
+			}
+			return 'ok';
+		}
+		if ($action_name == 'openvz_create_ostpl') {
+			$parts = explode(':',$data);
+			$veid = intval($parts[0]);
+			$template_cache_dir = '/vz/template/cache/';
+			$template_name = escapeshellcmd($parts[1]);
+			if($veid > 0 && $template_name != '' && is_dir($template_cache_dir)) {
+				$command = "vzdump --suspend --compress --stdexcludes --dumpdir $template_cache_dir $veid";
+				exec($command);
+				exec("mv ".$template_cache_dir."vzdump-openvz-".$veid."*.tgz ".$template_cache_dir.$template_name.".tar.gz");
+				exec("rm -f ".$template_cache_dir."vzdump-openvz-".$veid."*.log");
+			}
+			$app->log("Created OpenVZ OStemplate $template_name from VM $veid",LOGLEVEL_DEBUG);
+			return 'ok';
+		}
 			
 	}
 	

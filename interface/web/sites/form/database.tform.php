@@ -69,6 +69,17 @@ $form["tabs"]['database'] = array (
 									 ),
 			'value'		=> ''
 		),
+		'parent_domain_id' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND {AUTHSQL} ORDER BY domain",
+										'keyfield'=> 'domain_id',
+										'valuefield'=> 'domain'
+									 ),
+			'value'		=> array('0' => $app->tform->lng('select_site_txt'))
+		),
 		'type' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',

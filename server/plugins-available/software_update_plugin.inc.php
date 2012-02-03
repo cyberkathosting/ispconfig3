@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2012, Till Brehm, projektfarm Gmbh, Oliver Vogel www.muv.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -35,7 +35,7 @@ class software_update_plugin {
 	
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
-	function onInstall() {
+	public function onInstall() {
 		global $conf;
 		
 		return true;
@@ -47,29 +47,31 @@ class software_update_plugin {
 	 	This function is called when the plugin is loaded
 	*/
 	
-	function onLoad() {
+	public function onLoad() {
 		global $app;
 		
 		/*
 		Register for the events
 		*/
 		
-		//* Mailboxes
 		$app->plugins->registerEvent('software_update_inst_insert',$this->plugin_name,'process');
 		//$app->plugins->registerEvent('software_update_inst_update',$this->plugin_name,'process');
 		//$app->plugins->registerEvent('software_update_inst_delete',$this->plugin_name,'process');
 		
+		//* Register for actions
+		$app->plugins->registerAction('os_update',$this->plugin_name,'os_update');
+		
 		
 	}
 	
-	function set_install_status($inst_id, $status) {
+	private function set_install_status($inst_id, $status) {
         global $app;
         
         $app->db->query("UPDATE software_update_inst SET status = '{$status}' WHERE software_update_inst_id = '{$inst_id}'");
         $app->dbmaster->query("UPDATE software_update_inst SET status = '{$status}' WHERE software_update_inst_id = '{$inst_id}'");
     }
     
-	function process($event_name,$data) {
+	public function process($event_name,$data) {
 		global $app, $conf;
 		
 		//* Get the info of the package:
@@ -270,6 +272,26 @@ class software_update_plugin {
 			
 		}
 		
+	}
+	
+	//* Operating system update
+	public function os_update($action_name,$data) {
+		global $app;
+		 
+		//** Debian and compatible Linux distributions
+		if(file_exists('/etc/debian_version')) {
+			exec("aptitude update");
+			exec("aptitude safe-upgrade -y");
+			$app->log('Execeuted Debian / Ubuntu update',LOGLEVEL_DEBUG);
+		}
+
+		//** Gentoo Linux
+		if(file_exists('/etc/gentoo-release')) {
+			exec("glsa-check -f --nocolor affected");
+			$app->log('Execeuted Gentoo update',LOGLEVEL_DEBUG);
+		}
+		
+		return 'ok';
 	}
 
 } // end class

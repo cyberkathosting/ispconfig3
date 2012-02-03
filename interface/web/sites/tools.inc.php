@@ -96,7 +96,7 @@ function getClientID($dataRecord) {
       	}
     }
     /* get the name of the client */
-    $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $client_group_id);
+    $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . intval($client_group_id));
     $clientID = $tmp['client_id'];
     if ($clientID == '') $clientID = '0';
     return $clientID;

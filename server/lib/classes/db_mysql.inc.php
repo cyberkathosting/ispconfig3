@@ -1,4 +1,3 @@
-
 <?php
 /*
    Copyright (c) 2005, Till Brehm, projektfarm Gmbh
@@ -226,10 +225,10 @@ public function toLower($record) {
     if(is_array($record_old) && count($record_old) > 0) {
       foreach($record_old as $key => $val) {
 	// if(!isset($record_new[$key]) || $record_new[$key] != $val) {
-	if($record_new[$key] != $val) {
+	if(@$record_new[$key] != $val) {
 	  // Record has changed
 	  $diffrec_full['old'][$key] = $val;
-	  $diffrec_full['new'][$key] = $record_new[$key];
+	  $diffrec_full['new'][$key] = @$record_new[$key];
 	  $diff_num++;
 	} else {
 	  $diffrec_full['old'][$key] = $val;

@@ -91,20 +91,6 @@ class page_action extends tform_actions {
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
-			
-			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
-			$clients = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
-				}
-			}
-			$app->tpl->setVar("client_group_id",$client_select);
 
 		} else {
 
@@ -116,33 +102,6 @@ class page_action extends tform_actions {
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
 				$server_id = $tmp['server_id'];
 			}
-
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = $server_id";
-			$ips = $app->db->queryAllRecords($sql);
-			$ip_select = "<option value='*'>*</option>";
-			//$ip_select = "";
-			if(is_array($ips)) {
-				foreach( $ips as $ip) {
-					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
-				}
-			}
-			$app->tpl->setVar("ip_address",$ip_select);
-			unset($tmp);
-			unset($ips);
-
-			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
-			$clients = $app->db->queryAllRecords($sql);
-			$client_select = "<option value='0'></option>";
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
-				}
-			}
-			$app->tpl->setVar("client_group_id",$client_select);
 
 		}
 
@@ -212,9 +171,6 @@ class page_action extends tform_actions {
 				}
 
 			}
-
-			// Clients may not set the client_group_id, so we unset them if user is not a admin and the client is not a reseller
-			if(!$app->auth->has_clients($_SESSION['s']['user']['userid'])) unset($this->dataRecord["client_group_id"]);
 		}
 
 
@@ -224,10 +180,8 @@ class page_action extends tform_actions {
 	function onBeforeUpdate() {
 		global $app, $conf, $interfaceConf;
 
-		/*
-		* If the names should be restricted -> do it!
-		*/
-		
+		//* Site shell not be empty
+		if($this->dataRecord['parent_domain_id'] == 0) $app->tform->errorMessage .= $app->tform->lng("database_site_error_empty").'<br />';
 		
 		//* Get the database name and database user prefix
 		$app->uses('getconf');
@@ -290,6 +244,9 @@ class page_action extends tform_actions {
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
 		
+		//* Site shell not be empty
+		if($this->dataRecord['parent_domain_id'] == 0) $app->tform->errorMessage .= $app->tform->lng("database_site_error_empty").'<br />';
+		
 		//* Database username and database name shall not be empty
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
@@ -330,31 +287,33 @@ class page_action extends tform_actions {
 
 	function onAfterInsert() {
 		global $app, $conf;
-
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
-		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE database_id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_id = ".$this->id);
+		
+		if($this->dataRecord["parent_domain_id"] > 0) {
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+		
+			//* The Database user shall be owned by the same group then the website
+			$sys_groupid = $web['sys_groupid'];
+			$backup_interval = $web['backup_interval'];
+			$backup_copies = $web['backup_copies'];
+		
+			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
+			$app->db->query($sql);
 		}
 	}
 
 	function onAfterUpdate() {
 		global $app, $conf;
 
-		// make sure that the record belongs to the client group and not the admin group when a admin inserts it
-		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE database_id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_id = ".$this->id);
+		if($this->dataRecord["parent_domain_id"] > 0) {
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+		
+			//* The Database user shall be owned by the same group then the website
+			$sys_groupid = $web['sys_groupid'];
+			$backup_interval = $web['backup_interval'];
+			$backup_copies = $web['backup_copies'];
+		
+			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
+			$app->db->query($sql);
 		}
 
 	}

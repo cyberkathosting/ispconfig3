@@ -431,7 +431,7 @@ $form["tabs"]['stats'] = array (
 	)
 );
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
+// if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 //* Backup
 $form["tabs"]['backup'] = array (
@@ -458,10 +458,17 @@ $form["tabs"]['backup'] = array (
 	##################################
 	# ENDE Datatable fields
 	##################################
+	),
+	'plugins' => array (
+     	'backup_records' => array (
+         	'class'   => 'plugin_backuplist',
+     		'options' => array(
+			)
+        )
 	)
 );
 
-}
+// }
 
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 

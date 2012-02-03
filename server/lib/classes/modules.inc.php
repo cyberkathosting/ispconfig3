@@ -229,8 +229,46 @@ class modules {
 				$app->log('Processed datalog_id '.$d['datalog_id'],LOGLEVEL_DEBUG);
 			}
 		}
+	}
+	
+	function processActions() {
+		global $app,$conf;
 		
+		//* get the server_id of the local server
+		$server_id = intval($conf["server_id"]);
 		
+		include_once (SCRIPT_PATH."/lib/remote_action.inc.php");
+		
+		//* SQL query to get all pending actions
+		$sql = "SELECT action_id, action_type, action_param " .
+				"FROM sys_remoteaction " .
+				"WHERE server_id = " . $server_id . " ".
+				" AND  action_id > " . intval($maxid_remote_action) . " ".
+				"ORDER BY action_id";
+		
+		$actions = $app->dbmaster->queryAllRecords($sql);
+		
+		if(is_array($actions)) {
+			foreach($actions as $action) {
+				
+				//* Raise the action
+				$state = $app->plugins->raiseAction($action['action_type'],$action['action_param']);
+				
+				//* Update the action state
+				$sql = "UPDATE sys_remoteaction " .
+						"SET action_state = '" . $app->dbmaster->quote($state) . "' " .
+						"WHERE action_id = " . intval($action['action_id']);
+				$app->dbmaster->query($sql);
+
+				/*
+				* Then save the maxid for the next time...
+				*/
+				$fp = fopen(ISPC_LIB_PATH."/remote_action.inc.php", 'wb');
+				$content = '<?php' . "\n" . '$maxid_remote_action = ' . $action['action_id'] . ';' . "\n?>";
+				fwrite($fp, $content);
+				fclose($fp);
+			}
+		}
 		
 		
 		

@@ -607,6 +607,14 @@ class page_action extends tform_actions {
 			}
 			unset($records);
 			unset($rec);
+			
+			//* Update all databases
+			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$this->id);
+			foreach($records as $rec) {
+				$app->db->datalogUpdate('web_database', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'", 'database_id', $rec['database_id']);
+			}
+			unset($records);
+			unset($rec);
 
 		}
 
@@ -637,6 +645,21 @@ class page_action extends tform_actions {
 			$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
 			$sql = "UPDATE web_domain SET php_open_basedir = '$php_open_basedir' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
+		}
+		
+		//* Change database backup options when web backup options have been changed
+		if(isset($this->dataRecord['backup_interval']) && ($this->dataRecord['backup_interval'] != $this->oldDataRecord['backup_interval'] || $this->dataRecord['backup_copies'] != $this->oldDataRecord['backup_copies'])) {
+			//* Update all databases
+			$backup_interval = $this->dataRecord['backup_interval'];
+			$backup_copies = $this->dataRecord['backup_copies'];
+			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$this->id);
+			foreach($records as $rec) {
+				$app->db->datalogUpdate('web_database', "backup_interval = '$backup_interval', backup_copies = '$backup_copies'", 'database_id', $rec['database_id']);
+			}
+			unset($records);
+			unset($rec);
+			unset($backup_copies);
+			unset($backup_interval);
 		}
 
 	}

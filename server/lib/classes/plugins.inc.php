@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2012, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -32,6 +32,7 @@ class plugins {
 	
 	var $available_events = array();
 	var $subscribed_events = array();
+	var $subscribed_actions = array();
 	var $debug = false;
 	
 	/*
@@ -124,6 +125,45 @@ class plugins {
 		}
 		unset($event);
 		unset($events);
+	}
+	
+	/*
+	 This function is called by the plugin to register for an action
+	*/
+	
+	function registerAction($action_name,$plugin_name,$function_name) {
+		global $app;
+		$this->subscribed_actions[$action_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
+		if($this->debug)  $app->log("Registered function '$function_name' from plugin '$plugin_name' for action '$event_name'.",LOGLEVEL_DEBUG);
+	}
+	
+	
+	function raiseAction($action_name,$data) {
+		global $app;
+		
+		//* Get the subscriptions for this action
+		$actions = (isset($this->subscribed_actions[$action_name]))?$this->subscribed_actions[$action_name]:'';
+		if($this->debug) $app->log('Raised action: '.$action_name,LOGLEVEL_DEBUG);
+		
+		if(is_array($actions)) {
+			foreach($actions as $action) {
+				$plugin_name = $action['plugin'];
+				$function_name = $action['function'];
+				$state_out = 'ok';
+				//* Call the processing function of the plugin
+				$app->log("Calling function '$function_name' from plugin '$plugin_name' raised by action '$action_name'.",LOGLEVEL_DEBUG);
+				$state = call_user_func(array($app->loaded_plugins[$plugin_name],$function_name),$action_name,$data);
+				//* ensure that we return the highest warning / error level if a error occured in one of the functions
+				if($state == 'warning' && $state_out != 'error') $state_out = 'warning';
+				if($state == 'error') $state_out = 'error';
+				unset($plugin_name);
+				unset($function_name);
+			}
+		}
+		unset($action);
+		unset($actions);
+		
+		return $state_out;
 	}
 	
 }

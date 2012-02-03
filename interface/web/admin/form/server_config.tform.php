@@ -138,11 +138,13 @@ $form["tabs"]['server'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-		'backup_dir_ftpread' => array(
+		'backup_mode' => array(
 			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'y',
-			'value' => array(0 => 'n', 1 => 'y')
+			'formtype' => 'SELECT',
+			'default' => 'userzip',
+			'value' => array('userzip' => 'backup_mode_userzip', 'rootgz' => 'backup_mode_rootgz'),
+			'width' => '40',
+			'maxlength' => '255'
 		),
 	##################################
 	# ENDE Datatable fields

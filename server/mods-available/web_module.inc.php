@@ -49,7 +49,10 @@ class web_module {
 									'web_folder_delete',
 									'web_folder_user_insert',
 									'web_folder_user_update',
-									'web_folder_user_delete');
+									'web_folder_user_delete',
+									'web_backup_insert',
+									'web_backup_update',
+									'web_backup_delete');
 	
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -94,6 +97,7 @@ class web_module {
 		$app->modules->registerTableHook('webdav_user','web_module','process');
 		$app->modules->registerTableHook('web_folder','web_module','process');
 		$app->modules->registerTableHook('web_folder_user','web_module','process');
+		$app->modules->registerTableHook('web_backup','web_module','process');
 		
 		// Register service
 		$app->services->registerService('httpd','web_module','restartHttpd');
@@ -138,6 +142,11 @@ class web_module {
 				if($action == 'i') $app->plugins->raiseEvent('web_folder_user_insert',$data);
 				if($action == 'u') $app->plugins->raiseEvent('web_folder_user_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('web_folder_user_delete',$data);
+			break;
+			case 'web_backup':
+				if($action == 'i') $app->plugins->raiseEvent('web_backup_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('web_backup_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('web_backup_delete',$data);
 			break;
 		} // end switch
 	} // end function

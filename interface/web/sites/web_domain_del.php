@@ -91,6 +91,12 @@ class page_action extends tform_actions {
             $app->db->datalogDelete('webdav_user','webdav_user_id',$rec['webdav_user_id']);
         }
 		
+		//* Delete all records that belog to this web
+        $records = $app->db->queryAllRecords("SELECT backup_id FROM web_backup WHERE parent_domain_id = '".intval($this->id)."'");
+        foreach($records as $rec) {
+            $app->db->datalogDelete('web_backup','backup_id',$rec['backup_id']);
+        }
+		
 		//* Delete all web folders
         $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".intval($this->id)."'");
         foreach($records as $rec) {

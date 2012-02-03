@@ -22,4 +22,9 @@ $wb["database_name_change_txt"] = 'The database name can not be changed';
 $wb["database_charset_change_txt"] = 'The database charset can not be changed';
 $wb["database_name_error_len"] = 'Database name - {db} - too long. The max. database name length incl. prefix is 64 chars.';
 $wb["database_user_error_len"] = 'Database username - {user}- too long. The max. database username length incl. prefix is 16 chars.';
+$wb["parent_domain_id_txt"] = 'Site';
+$wb["database_site_error_empty"] = 'Select the site to which the database belongs.';
+$wb["select_site_txt"] = '- Select Site -';
+$wb["btn_save_txt"] = 'Save';
+$wb["btn_cancel_txt"] = 'Cancel';
 ?>

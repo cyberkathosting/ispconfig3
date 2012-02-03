@@ -366,6 +366,8 @@
 	.iconstxt.icoAdd { background-image: url(../../icons/x16/plus_circle_frame.png); }
 	.iconstxt.icoKey { background-image: url("../../icons/x16/key.png"); }
 	.iconstxt.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
+	.iconstxt.icoDownload { background-image: url("../../icons/x16/arrow_270.png"); }
+	.iconstxt.icoRestore { background-image: url("../../icons/x16/arrow_circle_225.png"); }
 	
 	/* Button with icon and without text */
 	.icons16 span { display: none; }

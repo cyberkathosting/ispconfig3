@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
+Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh, Oliver Vogel www.muv.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -35,7 +35,7 @@ class remoteaction_core_module {
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
-		return true;
+		return false;
 	}
 
 	/*
@@ -45,7 +45,8 @@ class remoteaction_core_module {
 		/*
        	 * Check for actions to execute
 		*/
-		$this->_execActions();
+		//* This module has been replaced by the new action framework.
+		// $this->_execActions();
 	}
 
 	/*

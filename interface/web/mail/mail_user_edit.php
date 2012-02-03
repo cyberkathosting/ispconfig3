@@ -231,14 +231,14 @@ class page_action extends tform_actions {
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".mysql_real_escape_string($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
 				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
 			} else {
 				// We create a new record
 				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 10, ".$policy_id.", '".mysql_real_escape_string($this->dataRecord["email"])."', '".mysql_real_escape_string($this->dataRecord["email"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 10, ".$policy_id.", '".$app->db->quote($this->dataRecord["email"])."', '".$app->db->quote($this->dataRecord["email"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 			}
 		}  // endif spamfilter policy
@@ -266,7 +266,7 @@ class page_action extends tform_actions {
 		
 			// Spamfilter policy
 			$policy_id = intval($this->dataRecord["policy"]);
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".mysql_real_escape_string($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {
 					// There is already a record that we will update
@@ -274,7 +274,7 @@ class page_action extends tform_actions {
 				} else {
 					// We create a new record
 					$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`) 
-				        	VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 10, ".$policy_id.", '".mysql_real_escape_string($this->dataRecord["email"])."', '".mysql_real_escape_string($this->dataRecord["email"])."', 'Y')";
+				        	VALUES (".$_SESSION["s"]["user"]["userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 10, ".$policy_id.", '".$app->db->quote($this->dataRecord["email"])."', '".$app->db->quote($this->dataRecord["email"])."', 'Y')";
 					$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				}
 			}else {

@@ -269,6 +269,12 @@ function del_record(link,confirmation) {
   }
 }
 
+function confirm_action(link,confirmation) {
+  if(window.confirm(confirmation)) {
+          loadContent(link);
+  }
+}
+
 function loadContentInto(elementid,pagename) {
   var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,

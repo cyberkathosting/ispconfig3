@@ -144,27 +144,26 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 
 	$tmp_num_records = $tmp_rec['number'];
 	unset($tmp_rec);
-
+	
+	//** Load required base-classes
+	$app->uses('modules,plugins,file,services');
+	//** Load the modules that are in the mods-enabled folder
+	$app->modules->loadModules('all');
+	//** Load the plugins that are in the plugins-enabled folder
+	$app->plugins->loadPlugins('all');
 	if ($tmp_num_records > 0) {
-		/*
-		  There is something to do, triggert by the database -> do it!
-		 */
-		// Write the Log
 		$app->log("Found $tmp_num_records changes, starting update process.", LOGLEVEL_DEBUG);
-		// Load required base-classes
-		$app->uses('modules,plugins,file,services');
-		// Load the modules that are in the mods-enabled folder
-		$app->modules->loadModules('all');
-		// Load the plugins that are in the plugins-enabled folder
-		$app->plugins->loadPlugins('all');
-		// Go through the sys_datalog table and call the processing functions
-		// from the modules that are hooked on to the table actions
+		//** Go through the sys_datalog table and call the processing functions
+		//** from the modules that are hooked on to the table actions
 		$app->modules->processDatalog();
-		// Restart services that need to after configuration
-		$app->services->processDelayedActions();
-		// All modules are already loaded and processed, so there is NO NEED to load the core once again...
-		$needStartCore = false;
 	}
+	//** Process actions from sys_remoteaction table
+	$app->modules->processActions();
+	//** Restart services that need to after configuration
+	$app->services->processDelayedActions();
+	//** All modules are already loaded and processed, so there is NO NEED to load the core once again...
+	$needStartCore = false;
+	
 } else {
 	if ($app->db->connect->connect_error == NULL) {
 		$app->log('Unable to connect to local server.' . $app->db->errorMessage, LOGLEVEL_WARN);
