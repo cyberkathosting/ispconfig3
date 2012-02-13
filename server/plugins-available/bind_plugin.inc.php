@@ -113,10 +113,19 @@ class bind_plugin {
         		$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'],0,-1)));
         	}
         	
-			$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
 			file_put_contents($filename,$tpl->grab());
 			chown($filename, escapeshellcmd($dns_config['bind_user']));
 			chgrp($filename, escapeshellcmd($dns_config['bind_group']));
+			
+			//* Check the zonefile
+			if(is_file($filename.'.err')) unlink($filename.'.err');
+			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename),$out,$return_status);
+			if($return_status === 0) {
+				$app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
+			} else {
+				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ',$out),LOGLEVEL_WARN);
+				rename($filename,$filename.'.err');
+			}
 			unset($tpl);
 			unset($records);
 			unset($records_out);
@@ -138,7 +147,8 @@ class bind_plugin {
         		$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'],0,-1));
         	}
 			
-			if(is_file($filename)) unset($filename);
+			if(is_file($filename)) unlink($filename);
+			if(is_file($filename.'.err')) unlink($filename.'.err');
 		}
 		
 		//* Reload bind nameserver
@@ -166,6 +176,7 @@ class bind_plugin {
         }
 		
 		if(is_file($zone_file_name)) unlink($zone_file_name);
+		if(is_file($zone_file_name.'.err')) unlink($zone_file_name.'.err');
 		$app->log("Deleting BIND domain file: ".$zone_file_name,LOGLEVEL_DEBUG);
 		
 		//* Reload bind nameserver
@@ -298,12 +309,14 @@ class bind_plugin {
 		$zones = array();
 		
 		//* Check if the current zone that triggered this function has at least one NS record
+		/* Has been replaced by a better zone check
 		$rec_num = $app->db->queryOneRecord("SELECT count(id) as ns FROM dns_rr WHERE type = 'NS' AND zone = ".intval($data['new']['id'])." AND active = 'Y'");
 		if($rec_num['ns'] == 0) {
 			$exclude_zone = $data['new']['origin'];
 		} else {
 			$exclude_zone = '';
 		}
+		*/
 		
 		//TODO : change this when distribution information has been integrated into server record
 	    if (file_exists('/etc/gentoo-release')) {
@@ -319,6 +332,8 @@ class bind_plugin {
 		//* Loop trough zones
 		foreach($tmps as $tmp) {
 			
+			$zone_file = $pri_zonefiles_path.str_replace("/", "_",substr($tmp['origin'],0,-1));
+			
 			$options = '';
 			if(trim($tmp['xfer']) != '') {
 				$options .= "        allow-transfer {".str_replace(',',';',$tmp['xfer']).";};\n";
@@ -327,9 +342,9 @@ class bind_plugin {
 			}
 			if(trim($tmp['also_notify']) != '') $options .= '        also-notify {'.str_replace(',',';',$tmp['also_notify']).";};\n";
 			
-			if($tmp['origin'] != $exclude_zone) {
+			if(file_exists($zone_file)) {
 				$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
-									'zonefile_path' => $pri_zonefiles_path.str_replace("/", "_",substr($tmp['origin'],0,-1)),
+									'zonefile_path' => $zone_file,
 									'options' => $options
 								);
 			}
