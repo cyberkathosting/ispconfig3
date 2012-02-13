@@ -1,0 +1,1 @@
+ALTER TABLE `web_domain` CHANGE `pm_max_children` `pm_max_children` INT( 11 ) NOT NULL DEFAULT '10', CHANGE `pm_start_servers` `pm_start_servers` INT( 11 ) NOT NULL DEFAULT '2', CHANGE `pm_min_spare_servers` `pm_min_spare_servers` INT( 11 ) NOT NULL DEFAULT '1', CHANGE `pm_max_spare_servers` `pm_max_spare_servers` INT( 11 ) NOT NULL DEFAULT '5';
