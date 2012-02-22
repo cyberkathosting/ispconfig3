@@ -27,6 +27,7 @@ NameVirtualHost *:{vhost_port}
     DocumentRoot /usr/local/ispconfig/interface/web/
     AddType application/x-httpd-php .php
     <Directory /usr/local/ispconfig/interface/web>
+      # php_admin_value open_basedir "/usr/local/ispconfig/interface:/usr/share:/tmp"
       Options FollowSymLinks
       AllowOverride None
       Order allow,deny

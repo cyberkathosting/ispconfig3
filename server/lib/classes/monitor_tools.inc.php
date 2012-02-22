@@ -1020,7 +1020,7 @@ class monitor_tools {
 				/*
 				 * Fetch the output
 				 */
-				$data['output'] = shell_exec('mpt-status --autoload -n');
+				$data['output'] = shell_exec('mpt-status --autoload');
 
 				/*
 				 * Then calc the state.
@@ -1032,7 +1032,7 @@ class monitor_tools {
 						* The output contains information for every RAID and every HDD.
 						* We only need the state of the RAID
 						*/
-						if (strpos($item, 'raidlevel:') !== false) {
+						if (strpos($item, 'state ') !== false) {
 							/*
 							* We found a raid, process the state of it
 							*/

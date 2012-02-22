@@ -9,12 +9,13 @@ user = {fpm_user}
 group = {fpm_group}
 
 pm = dynamic
-pm.max_children = 50
-pm.start_servers = 20
-pm.min_spare_servers = 5
-pm.max_spare_servers = 35
+pm.max_children = 10
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 5
 
 chdir = /
 
+; php_admin_value[open_basedir] = /usr/local/ispconfig/interface:/usr/share
 php_admin_value[session.save_path] = /usr/local/ispconfig/server/temp
 php_admin_flag[magic_quotes_gpc] = off

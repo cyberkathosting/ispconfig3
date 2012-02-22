@@ -15,6 +15,7 @@
     DocumentRoot {apps_vhost_dir}
     AddType application/x-httpd-php .php
     <Directory {apps_vhost_dir}>
+      # php_admin_value open_basedir "{apps_vhost_dir}:/usr/share:/tmp"
       Options FollowSymLinks
       AllowOverride None
       Order allow,deny

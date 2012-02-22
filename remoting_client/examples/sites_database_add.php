@@ -19,11 +19,11 @@ try {
 	$params = array(
 			'server_id' => 1,
 			'type' => 'mysql',
-			'database_name' => 'db_name1',
-			'database_user' => 'db_name1',
-			'database_password' => 'db_name1',
+			'database_name' => 'db_name2',
+			'database_user' => 'db_name2',
+			'database_password' => 'db_name2',
 			'database_charset' => 'UTF8',
-			'remote_access' => 'n',
+			'remote_access' => 'y',
 			'remote_ips' => '',
 			'active' => 'y'
 			);

@@ -16,4 +16,5 @@ pm.max_spare_servers = 35
 
 chdir = /
 
+; php_admin_value[open_basedir] = /var/www/apps:/srv/www/apps:/usr/share
 php_admin_flag[magic_quotes_gpc] = off

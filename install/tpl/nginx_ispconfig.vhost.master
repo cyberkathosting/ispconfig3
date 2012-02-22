@@ -8,6 +8,8 @@ server {
 
         root   /usr/local/ispconfig/interface/web/;
 
+        client_max_body_size 20M;
+
         location / {
                index index.php index.html;
         }
