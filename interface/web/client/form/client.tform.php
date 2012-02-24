@@ -316,6 +316,61 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'bank_account_number' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'bank_code' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'bank_name' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'bank_account_iban' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'bank_account_swift' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 		'notes' => array (
 			'datatype'	=> 'TEXT',
 			'formtype'	=> 'TEXTAREA',

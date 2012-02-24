@@ -106,4 +106,9 @@ $wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
 $wb['limit_openvz_vm_error_notint'] = 'The virtual server limit must be a number.';
 $wb['web_php_options_notempty'] = 'No PHP option(s) selected. Select at least one PHP option.';
 $wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one SSH option.';
+$wb['bank_account_number_txt'] = 'Kontonr.';
+$wb['bank_code_txt'] = 'BLZ';
+$wb['bank_name_txt'] = 'Bank';
+$wb['bank_account_iban_txt'] = 'IBAN';
+$wb['bank_account_swift_txt'] = 'BIC';
 ?>
