@@ -241,10 +241,12 @@ class monitor_tools {
 						$data['user'][$username]['used'] += $s[2];
 						$data['user'][$username]['soft'] += $s[3];
 						$data['user'][$username]['hard'] += $s[4];
+						$data['user'][$username]['files'] += $s[5];
 					} else {
 						$data['user'][$username]['used'] = $s[2];
 						$data['user'][$username]['soft'] = $s[3];
 						$data['user'][$username]['hard'] = $s[4];
+						$data['user'][$username]['files'] = $s[5];
 					}
 				}
 			}
