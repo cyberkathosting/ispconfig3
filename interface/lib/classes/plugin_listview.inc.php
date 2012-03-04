@@ -82,7 +82,43 @@ class plugin_listview extends plugin_base {
 				if(isset($this->options["sql_order_by"])) {
 					$sql_order_by = $this->options["sql_order_by"];
 				}
-				
+
+		//* Limit each page
+		$limits = array('5'=>'5','15'=>'15','25'=>'25','50'=>'50','100'=>'100','999999999' => 'all');
+
+		//* create options and set selected, if default -> 15 is selected
+		foreach($limits as $key => $val){
+		  $options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
+		}
+		$listTpl->setVar('search_limit','<select name="search_limit" style="width:50px">'.$options.'</select>');
+
+
+		//Sorting
+		if(!isset($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
+		  $_SESSION['search'][$app->listform->listDef["name"]]['order'] = '';
+		}
+
+		if(!empty($_GET['orderby'])){
+		  $order = str_replace('tbl_col_','',$_GET['orderby']);
+		  //* Check the css class submited value
+		  if (preg_match("/^[a-z\_]{1,}$/",$order)) {
+		    if($_SESSION['search'][$app->listform->listDef["name"]]['order'] == $order){
+		      $_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order.' DESC';
+		    } else {
+		      $_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order;
+		    }
+		  }
+		}
+
+		// If a manuel oder by like customers isset the sorting will be infront
+		if(!empty($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
+		  if(empty($sql_order_by)){
+		    $sql_order_by = "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'];
+		  } else {
+		    $sql_order_by = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'].', ',$sql_order_by);
+		  }
+		}
+		
 				// Loading language field
                 $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
                 include($lng_file);

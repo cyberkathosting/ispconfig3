@@ -100,6 +100,28 @@
 			}
 		});
 
+		(function( $ ){
+		  $(".pnl_listarea th").live("click",  function(){
+		    if($(this).attr('class').length > 0 && $("#Filter").length > 0){
+		      eval($("#Filter").attr("onclick").replace(".php');",".php?orderby="+$(this).attr('class')+"');"));
+		      var element = $(this).attr('class');
+		      $("#pageForm").ajaxComplete(function() {
+			  if($("th."+element).css("background-position") == '0px -15px'){
+			    if($("th."+element).css("text-align") == "right"){
+			      $("th."+element).css("text-align","left");
+			    } else {
+			      $("th."+element).css("text-align","right");
+			    }
+			  } else {
+			    $(".pnl_listarea th").css("text-align","");
+			  }
+			  $(".pnl_listarea th").css("background-position","0 0");
+			  $("th."+element).css("background-position","0 -15px");
+		      });
+		    }
+		});
+		})( jQuery );
+
 		(function( $ ) {
 		$.widget( "ui.combobox", {
 			_create: function() {

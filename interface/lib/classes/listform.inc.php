@@ -191,11 +191,16 @@ class listform {
     public function getPagingSQL($sql_where = '1') 
     {
         global $app, $conf;
+        
+        //* Add Global Limit from selectbox
+        if(!empty($_POST['search_limit']) AND intval($_POST['search_limit'])){
+	  $_SESSION['search']['limit'] = $_POST['search_limit'];
+	}
 
         //* Get Config variables
         $list_name          = $this->listDef['name'];
         $search_prefix      = $this->listDef['search_prefix'];
-        $records_per_page   = $this->listDef['records_per_page'];
+        $records_per_page   = (empty($_SESSION['search']['limit']) ? $this->listDef['records_per_page'] : $_SESSION['search']['limit']) ;
         $table              = $this->listDef['table'];
 
         //* set PAGE to zero, if in session not set

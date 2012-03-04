@@ -45,6 +45,16 @@ $liste["auth"]				= "yes";
 * Suchfelder
 *****************************************************/
 
+$liste["item"][] = array(	'field'		=> "template_id",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "TEXT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'width'		=> "",
+							'value'		=> "");
+
+
 $liste["item"][] = array(	'field'		=> "template_type",
 							'datatype'	=> "VARCHAR",
 							'formtype'	=> "SELECT",
