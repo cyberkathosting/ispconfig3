@@ -159,39 +159,39 @@ class listform_actions {
 
 		$extselect = '';
 		$join = '';
-		if(!empty($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
-		  $order = str_replace(' DESC','',$_SESSION['search'][$app->listform->listDef["name"]]['order']);
+		if(!empty($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
+		  $order = str_replace(' DESC','',$_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order']);
 		  if($order == 'server_id' && $app->listform->listDef['table'] != 'server'){
 		    $join .= ' LEFT JOIN server as s ON '.$app->listform->listDef['table'].'.server_id = s.server_id ';
-		    $order_by_sql = str_replace('server_id','server_name',$order_by_sql);
+		    $order_by_sql = str_replace('server_id','s.server_name',$order_by_sql);
 		  } elseif($order == 'client_id' && $app->listform->listDef['table'] != 'client'){
 		    $join .= ' LEFT JOIN client as c ON '.$app->listform->listDef['table'].'.client_id = c.client_id ';
-		    $order_by_sql = str_replace('client_id','contact_name',$order_by_sql);
+		    $order_by_sql = str_replace('client_id','c.contact_name',$order_by_sql);
 		  } elseif($order == 'parent_domain_id'){
 		    $join .= ' LEFT JOIN web_domain as wd ON '.$app->listform->listDef['table'].'.parent_domain_id = wd.domain_id ';
 		    $order_by_sql = str_replace('parent_domain_id','wd.domain',$order_by_sql);
 		    $sql_where = str_replace('type',$app->listform->listDef['table'].'.type',$sql_where);
 		  } elseif($order == 'sys_groupid'){
 		    $join .= ' LEFT JOIN sys_group as sg ON '.$app->listform->listDef['table'].'.sys_groupid = sg.groupid ';
-		    $order_by_sql = str_replace('sys_groupid','name',$order_by_sql);
+		    $order_by_sql = str_replace('sys_groupid','sg.name',$order_by_sql);
 		  } elseif($order == 'rid'){
 		    $join .= ' LEFT JOIN spamfilter_users as su ON '.$app->listform->listDef['table'].'.rid = su.id ';
-		    $order_by_sql = str_replace('rid','email',$order_by_sql);
+		    $order_by_sql = str_replace('rid','su.email',$order_by_sql);
 		  } elseif($order == 'policy_id'){
 		    $join .= ' LEFT JOIN spamfilter_policy as sp ON '.$app->listform->listDef['table'].'.policy_id = sp.id ';
-		    $order_by_sql = str_replace('policy_id','policy_name',$order_by_sql);
+		    $order_by_sql = str_replace('policy_id','sp.policy_name',$order_by_sql);
 		  } elseif($order == 'web_folder_id'){
 		    $join .= ' LEFT JOIN web_folder as wf ON '.$app->listform->listDef['table'].'.web_folder_id = wf.web_folder_id ';
-		    $order_by_sql = str_replace('web_folder_id','path',$order_by_sql);
+		    $order_by_sql = str_replace('web_folder_id','wf.path',$order_by_sql);
 		  } elseif($order == 'ostemplate_id' && $app->listform->listDef['table'] != 'openvz_ostemplate'){
 		    $join .= ' LEFT JOIN openvz_ostemplate as oo ON '.$app->listform->listDef['table'].'.ostemplate_id = oo.ostemplate_id ';
-		    $order_by_sql = str_replace('ostemplate_id','template_name',$order_by_sql);
+		    $order_by_sql = str_replace('ostemplate_id','oo.template_name',$order_by_sql);
 		  } elseif($order == 'template_id' && $app->listform->listDef['table'] != 'openvz_template'){
 		    $join .= ' LEFT JOIN openvz_template as ot ON '.$app->listform->listDef['table'].'.template_id = ot.template_id ';
-		    $order_by_sql = str_replace('template_id','template_name',$order_by_sql);
+		    $order_by_sql = str_replace('template_id','ot.template_name',$order_by_sql);
 		  } elseif($order == 'sender_id' && $app->listform->listDef['table'] != 'sys_user'){
 		    $join .= ' LEFT JOIN sys_user as su ON '.$app->listform->listDef['table'].'.sender_id = su.userid ';
-		    $order_by_sql = str_replace('sender_id','username',$order_by_sql);
+		    $order_by_sql = str_replace('sender_id','su.username',$order_by_sql);
 		  } elseif($order == 'web_traffic_last_month'){
 		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		    $tmp_month = date('m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
