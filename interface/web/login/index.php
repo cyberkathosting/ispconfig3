@@ -54,7 +54,15 @@ class login_index {
 	    $error = '';
 		
 		$app->load_language_file('web/login/lib/lang/'.$conf["language"].'.lng');
-	
+		
+		// Maintenance mode
+		$maintenance_mode = false;
+		$app->uses('ini_parser,getconf');
+		$server_config_array = $app->getconf->get_global_config('misc');
+		if($server_config_array['maintenance_mode'] == 'y'){
+			$maintenance_mode = true;
+			$maintenance_mode_error = $app->lng('error_maintenance_mode');
+		}
 	
 		//* Login Form was send
 		if(count($_POST) > 0) {
@@ -167,33 +175,36 @@ class login_index {
 		            
 		            if($user) {
 		                if($user['active'] == 1) {
-		                	// User login right, so attempts can be deleted
-		                	$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
-		                	$app->db->query($sql);
-		                	$user = $app->db->toLower($user);
+							// Maintenance mode - allow logins only when maintenance mode is off or if the user is admin
+							if(!$maintenance_mode || $user['typ'] == 'admin'){
+								// User login right, so attempts can be deleted
+								$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
+								$app->db->query($sql);
+								$user = $app->db->toLower($user);
 							
-							if ($loginAs) $oldSession = $_SESSION['s'];
-							$_SESSION = array();
-							if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
-							$_SESSION['s']['user'] = $user;
-							$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
-							$_SESSION['s']['language'] = $user['language'];
-							$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
+								if ($loginAs) $oldSession = $_SESSION['s'];
+								$_SESSION = array();
+								if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
+								$_SESSION['s']['user'] = $user;
+								$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
+								$_SESSION['s']['language'] = $user['language'];
+								$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
 										
-							if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
-								include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
-								$_SESSION['s']['module'] = $module;
+								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
+									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
+									$_SESSION['s']['module'] = $module;
+								}
+							
+								$app->plugin->raiseEvent('login',$this);
+							
+								/*
+								* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
+								* new theme, if the logged-in user has another
+								*/
+								echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
+										
+								exit;
 							}
-							
-							$app->plugin->raiseEvent('login',$this);
-							
-							/*
-							 * We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
-							 * new theme, if the logged-in user has another
-							 */
-							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
-										
-		                   	exit;
 		             	} else {
 		                	$error = $app->lng('error_user_blocked');
 		                }
@@ -222,11 +233,12 @@ class login_index {
 				$app->plugin->raiseEvent('login_empty',$this);
 	        }
 		}
+		
+		// Maintenance mode - show message when people try to log in and also when people are forcedly logged off
+		if($maintenance_mode_error != '') $error = '<strong>'.$maintenance_mode_error.'</strong><br><br>'.$error;
 		if($error != ''){
 	  		$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
 		}
-	
-	
 	
 		$app->tpl->setVar('error', $error);
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));

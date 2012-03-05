@@ -14,4 +14,5 @@ $wb['error_user_too_many_logins'] = 'Zu viele falsche Logins. Bitte warten Sie 1
 $wb['username_txt'] = 'Benutzername';
 $wb['password_txt'] = 'Passwort';
 $wb['login_button_txt'] = 'Login';
+$wb['error_maintenance_mode'] = 'Diese ISPConfig-Installation wird gerade gewartet. Wir sind in Kürze wieder für Sie da. Vielen Dank für Ihre Geduld.';
 ?>

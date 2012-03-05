@@ -36,8 +36,8 @@ $mod = $_REQUEST["mod"];
 
 //* Check if user is logged in
 if($_SESSION["s"]["user"]['active'] != 1) {
-	header("Location: index.php?phpsessid=".$_SESSION["s"]["id"]);
-	die();
+	die("URL_REDIRECT: /index.php");
+	//die();
 }
 
 //* Check if user may use the module.

@@ -34,3 +34,4 @@ dashboard_atom_url_admin=http://www.ispconfig.org/atom
 dashboard_atom_url_reseller=http://www.ispconfig.org/atom
 dashboard_atom_url_client=http://www.ispconfig.org/atom
 monitor_key=
+maintenance_mode=n

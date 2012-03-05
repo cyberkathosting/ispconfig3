@@ -20,6 +20,12 @@
 				<label for="monitor_key">{tmpl_var name='monitor_key_txt'}</label>
 				<input name="monitor_key" id="monitor_key" value="{tmpl_var name='monitor_key'}" size="" maxlength="" type="text" class="textInput" />
 			</div>
+			<div class="ctrlHolder">
+			<p class="label">{tmpl_var name='maintenance_mode_txt'}</p>
+			<div class="multiField">
+				{tmpl_var name='maintenance_mode'}
+			</div>
+		</div>
 		</fieldset>
 		<input type="hidden" name="id" value="{tmpl_var name='id'}">
 		<div class="buttonHolder buttons">

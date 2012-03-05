@@ -67,13 +67,21 @@ class remoting {
     {
 		global $app, $conf, $server;
 		
+		// Maintenance mode
+		$app->uses('ini_parser,getconf');
+		$server_config_array = $app->getconf->get_global_config('misc');
+		if($server_config_array['maintenance_mode'] == 'y'){
+			$this->server->fault('maintenance_mode', 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.');
+			return false;
+		}
+		
 		if(empty($username)) {
-			$this->server->fault('login_username_empty', 'The login username is empty');
+			$this->server->fault('login_username_empty', 'The login username is empty.');
 			return false;
 		}
 		
 		if(empty($password)) {
-			$this->server->fault('login_password_empty', 'The login password is empty');
+			$this->server->fault('login_password_empty', 'The login password is empty.');
 			return false;
 		}
 		

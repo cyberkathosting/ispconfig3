@@ -43,8 +43,11 @@ function capp(module) {
 													if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 														var parts = jqXHR.responseText.split(':');
 														loadContent(parts[1]);
+													} else if (jqXHR.responseText.indexOf('URL_REDIRECT:') > -1) {
+														var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
+														document.location.href = newUrl;
 													} else {
-														alert(jqXHR.responseText);
+														//alert(jqXHR.responseText);
 													}
 												}
 												loadMenus();

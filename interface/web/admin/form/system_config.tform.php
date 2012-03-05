@@ -284,6 +284,12 @@ $form["tabs"]['misc'] = array (
 			'default'	=> '',
 			'value'		=> ''
 		),
+		'maintenance_mode' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
