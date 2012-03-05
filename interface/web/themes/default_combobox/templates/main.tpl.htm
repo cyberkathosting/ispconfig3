@@ -242,7 +242,7 @@
 	})( jQuery );
  
 
-	jQuery("body").live("mouseover", function(){
+	jQuery("html").ajaxComplete( function(){
 	  if(jQuery(".panel .list td select").css("display") != "none"){
 	    jQuery(".panel .list td select").combobox();
 	  }
