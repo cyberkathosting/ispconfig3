@@ -58,28 +58,28 @@ class listform_actions {
 		
 		//* Manipulate order by for sorting / Every list has a stored value
 		//* Against notice error
-		if(!isset($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
-		  $_SESSION['search'][$app->listform->listDef["name"]]['order'] = '';
+		if(!isset($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
+		  $_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = '';
 		}
 
 		if(!empty($_GET['orderby'])){
 		  $order = str_replace('tbl_col_','',$_GET['orderby']);
 		  //* Check the css class submited value
 		  if (preg_match("/^[a-z\_]{1,}$/",$order)) {
-		    if($_SESSION['search'][$app->listform->listDef["name"]]['order'] == $order){
-		      $_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order.' DESC';
+		    if($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] == $order){
+		      $_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order.' DESC';
 		    } else {
-		      $_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order;
+		      $_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order;
 		    }
 		  }
 		}
 
 		// If a manuel oder by like customers isset the sorting will be infront
-		if(!empty($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
+		if(!empty($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
 		  if(empty($this->SQLOrderBy)){
-		    $this->SQLOrderBy = "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'];
+		    $this->SQLOrderBy = "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
 		  } else {
-		    $this->SQLOrderBy = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'].', ',$this->SQLOrderBy);
+		    $this->SQLOrderBy = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'].', ',$this->SQLOrderBy);
 		  }
 		}
 		
@@ -196,7 +196,7 @@ class listform_actions {
 		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		    $tmp_month = date('m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
 		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
 		    $order_by_sql = str_replace('web_traffic_last_month','calctraffic',$order_by_sql);
 		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
@@ -204,45 +204,45 @@ class listform_actions {
 		    $tmp_year = date('Y');
 		    $tmp_month = date('m');
 		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
 		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
 		    $order_by_sql = str_replace('web_traffic_this_month','calctraffic',$order_by_sql);
 		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
 		  } elseif($order == 'web_traffic_last_year'){
 		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
 		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
 		    $order_by_sql = str_replace('web_traffic_last_year','calctraffic',$order_by_sql);
 		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
 		  } elseif($order == 'web_traffic_this_year'){
 		    $tmp_year = date('Y');
 		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
 		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
 		    $order_by_sql = str_replace('web_traffic_this_year','calctraffic',$order_by_sql);
 		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
 		  } elseif($order == 'mail_traffic_last_month'){
 		    $tmp_date = date('Y-m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $join .= ' JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
+		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
 		    $sql_where .= " AND mt.month like '$tmp_date%'";
 		    $order_by_sql = str_replace('mail_traffic_last_month','traffic',$order_by_sql);
 		  } elseif($order == 'mail_traffic_this_month'){
 		    $tmp_date = date('Y-m');
-		    $join .= ' JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
+		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
 		    $sql_where .= " AND mt.month like '$tmp_date%'";
 		    $order_by_sql = str_replace('mail_traffic_this_month','traffic',$order_by_sql);
 		  } elseif($order == 'mail_traffic_last_year'){
 		    $tmp_date = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		    $extselect .= ', SUM(mt.traffic) as calctraffic';
-		    $join .= ' JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
+		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
 		    $sql_where .= " AND mt.month like '$tmp_date%'";;
 		    $order_by_sql = str_replace('mail_traffic_last_year','calctraffic',$order_by_sql);
 		    $order_by_sql = "GROUP BY mailuser_id ".$order_by_sql;
 		  } elseif($order == 'mail_traffic_this_year'){
 		    $tmp_date = date('Y');
 		    $extselect .= ', SUM(mt.traffic) as calctraffic';
-		    $join .= ' JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
+		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
 		    $sql_where .= " AND mt.month like '$tmp_date%'";
 		    $order_by_sql = str_replace('mail_traffic_this_year','calctraffic',$order_by_sql);
 		    $order_by_sql = "GROUP BY mailuser_id ".$order_by_sql;
