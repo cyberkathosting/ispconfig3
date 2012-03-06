@@ -210,6 +210,17 @@ $form["tabs"]['domain'] = array (
 			'valuelimit' => 'client:web_php_options',
 			'value'		=> array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
 		),
+		'fastcgi_php_version' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			/*'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT ip_address,ip_address FROM server_ip WHERE ip_type = 'IPv4' AND {AUTHSQL} ORDER BY ip_address",
+										'keyfield'=> 'ip_address',
+										'valuefield'=> 'ip_address'
+									 ),*/
+			'value'		=> ''
+		),
 		'ruby' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',

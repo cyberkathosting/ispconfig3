@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions');
+$app->uses('tpl,tform,tform_actions,ini_parser,getconf');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -128,6 +128,19 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ipv6_address",$ip_select);
 			unset($tmp);
 			unset($ips);
+			
+			//PHP Version Selection (FastCGI)
+			$fastcgi = $app->getconf->get_server_config($client['default_webserver'],'fastcgi');
+			$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+			$php_select = "<option value=''>Default</option>";
+			if(is_array($php_versions)) {
+				foreach( $php_versions as $php_version) {
+					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
+					$php_select .= "<option value='$php_version' $selected>$php_version</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("fastcgi_php_version",$php_select);
+			unset($php_versions);
 
 			//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -184,6 +197,19 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ipv6_address",$ip_select);
 			unset($tmp);
 			unset($ips);
+			
+			//PHP Version Selection (FastCGI)
+			$fastcgi = $app->getconf->get_server_config($client['default_webserver'],'fastcgi');
+			$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+			$php_select = "<option value=''>Default</option>";
+			if(is_array($php_versions)) {
+				foreach( $php_versions as $php_version) {
+					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
+					$php_select .= "<option value='$php_version' $selected>$php_version</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("fastcgi_php_version",$php_select);
+			unset($php_versions);
 
 			//* Admin: If the logged in user is admin
 		} else {
@@ -226,6 +252,19 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ipv6_address",$ip_select);
 			unset($tmp);
 			unset($ips);
+			
+			//PHP Version Selection (FastCGI)
+			$fastcgi = $app->getconf->get_server_config($server_id,'fastcgi');
+			$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+			$php_select = "<option value=''>Default</option>";
+			if(is_array($php_versions)) {
+				foreach( $php_versions as $php_version) {
+					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
+					$php_select .= "<option value='$php_version' $selected>$php_version</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("fastcgi_php_version",$php_select);
+			unset($php_versions);
 
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";

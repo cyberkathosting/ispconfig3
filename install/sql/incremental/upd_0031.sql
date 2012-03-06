@@ -1,0 +1,1 @@
+ALTER TABLE `web_domain` ADD `fastcgi_php_version` VARCHAR( 255 ) NULL DEFAULT NULL;

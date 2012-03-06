@@ -122,6 +122,12 @@
 					{tmpl_var name='php'}
 				</select>
       </div>
+	  <div class="ctrlHolder fastcgi_php_version">
+      	<label for="fastcgi_php_version">{tmpl_var name='fastcgi_php_version_txt'}</label>
+        <select name="fastcgi_php_version" id="fastcgi_php_version" class="selectInput formLengthHalf">
+					{tmpl_var name='fastcgi_php_version'}
+				</select>
+      </div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='active_txt'}</p>
 					<div class="multiField">
@@ -151,6 +157,7 @@
 				serverId = $(this).val();
 				adjustForm();
 				reloadWebIP();
+				reloadFastcgiPHPVersions();
 			});
 		}
 		adjustForm();
@@ -158,6 +165,14 @@
 		jQuery('#client_group_id').change(function(){
 			clientGroupId = $(this).val();
 			reloadWebIP();
+		});
+		
+		jQuery('#php').change(function(){
+			if(jQuery(this).val() == 'fast-cgi'){
+				jQuery('.fastcgi_php_version').show();
+			} else {
+				jQuery('.fastcgi_php_version').hide();
+			}
 		});
 		
 		function adjustForm(){
@@ -183,6 +198,10 @@
 		function reloadWebIP() {
 			loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId);
 			loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId);
+		}
+		
+		function reloadFastcgiPHPVersions() {
+			loadOptionInto('fastcgi_php_version','sites/ajax_get_fastcgi_php_versions.php?server_id='+serverId+'&client_group_id='+clientGroupId);
 		}
 			
 </script>

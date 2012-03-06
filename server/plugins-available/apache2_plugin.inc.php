@@ -909,15 +909,32 @@ class apache2_plugin {
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate('php-fcgi-starter.master');
 			
+			// Support for multiple PHP versions (FastCGI)
+			if(trim($data['new']['fastcgi_php_version']) != ''){
+				$default_fastcgi_php = false;
+				list($custom_fastcgi_php_name, $custom_fastcgi_php_executable, $custom_fastcgi_php_ini_dir) = explode(';', trim($data['new']['fastcgi_php_version']));
+				if(substr($custom_fastcgi_php_ini_dir,-1) != '/') $custom_fastcgi_php_ini_dir .= '/';
+			} else {
+				$default_fastcgi_php = true;
+			}
+			
 			if($has_custom_php_ini) {
 				$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($custom_php_ini_dir));
 			} else {
-				$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($fastcgi_config['fastcgi_phpini_path']));
+				if($default_fastcgi_php){
+					$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($fastcgi_config['fastcgi_phpini_path']));
+				} else {
+					$fcgi_tpl->setVar('php_ini_path',escapeshellcmd($custom_fastcgi_php_ini_dir));
+				}
 			}
 			$fcgi_tpl->setVar('document_root',escapeshellcmd($data['new']['document_root']));
 			$fcgi_tpl->setVar('php_fcgi_children',escapeshellcmd($fastcgi_config['fastcgi_children']));
 			$fcgi_tpl->setVar('php_fcgi_max_requests',escapeshellcmd($fastcgi_config['fastcgi_max_requests']));
-			$fcgi_tpl->setVar('php_fcgi_bin',escapeshellcmd($fastcgi_config['fastcgi_bin']));
+			if($default_fastcgi_php){
+				$fcgi_tpl->setVar('php_fcgi_bin',escapeshellcmd($fastcgi_config['fastcgi_bin']));
+			} else {
+				$fcgi_tpl->setVar('php_fcgi_bin',escapeshellcmd($custom_fastcgi_php_executable));
+			}
 			$fcgi_tpl->setVar('security_level',intval($web_config['security_level']));
 
 			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
