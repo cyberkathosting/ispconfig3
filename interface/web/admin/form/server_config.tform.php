@@ -867,14 +867,6 @@ $form["tabs"]['fastcgi'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-		'fastcgi_additional_php_versions' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
-		),
 	##################################
 	# ENDE Datatable fields
 	##################################

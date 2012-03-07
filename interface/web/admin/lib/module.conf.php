@@ -78,6 +78,11 @@ $items[] = array( 'title' 	=> 'Edit Server IP',
 $items[] = array( 'title' 	=> 'Interface Config',
 				  'target' 	=> 'content',
 				  'link'	=> 'admin/system_config_edit.php?id=1');
+				  
+$items[] = array( 'title' 	=> 'Additional PHP Versions',
+				  'target' 	=> 'content',
+				  'link'	=> 'admin/server_php_list.php',
+				  'html_id'=> 'server_php_list');
 
 $module['nav'][] = array(	'title'	=> 'System',
 							'open' 	=> 1,

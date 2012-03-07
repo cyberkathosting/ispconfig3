@@ -167,11 +167,17 @@
 			reloadWebIP();
 		});
 		
+		if(jQuery('#php').val() == 'fast-cgi'){
+			jQuery('.fastcgi_php_version:hidden').show();
+		} else {
+			jQuery('.fastcgi_php_version:visible').hide();
+		}
 		jQuery('#php').change(function(){
+		reloadFastcgiPHPVersions();
 			if(jQuery(this).val() == 'fast-cgi'){
-				jQuery('.fastcgi_php_version').show();
+				jQuery('.fastcgi_php_version:hidden').show();
 			} else {
-				jQuery('.fastcgi_php_version').hide();
+				jQuery('.fastcgi_php_version:visible').hide();
 			}
 		});
 		
@@ -201,7 +207,19 @@
 		}
 		
 		function reloadFastcgiPHPVersions() {
-			loadOptionInto('fastcgi_php_version','sites/ajax_get_fastcgi_php_versions.php?server_id='+serverId+'&client_group_id='+clientGroupId);
+			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getphpfastcgi"}, function(data) {
+				var options = '<option value="">Default</option>';
+				var phpfastcgiselected = '';
+				$.each(data, function(key, val) {
+					if($('#fastcgi_php_version').val() == key){
+						phpfastcgiselected = ' selected="selected"';
+					} else {
+						phpfastcgiselected = '';
+					}
+					options += '<option value="'+key+'"'+phpfastcgiselected+'>'+val+'</option>';
+				});
+				$('#fastcgi_php_version').html(options);
+			});
 		}
 			
 </script>

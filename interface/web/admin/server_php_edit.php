@@ -1,7 +1,6 @@
 <?php
-
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -28,55 +27,47 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+
+/******************************************
+* Begin Form configuration
+******************************************/
+
+$tform_def_file = "form/server_php.tform.php";
+
+/******************************************
+* End Form configuration
+******************************************/
+
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
-$app->auth->check_module_permissions('sites');
+$app->auth->check_module_permissions('admin');
 
-$server_id = intval($_GET["server_id"]);
-$web_id = intval($_GET["web_id"]);
-$type = $_GET["type"];
+// Loading classes
+$app->uses('tpl,tform,tform_actions');
+$app->load('tform_actions');
 
-//if($_SESSION["s"]["user"]["typ"] == 'admin') {
+class page_action extends tform_actions {
 
-	if($type == 'getservertype'){
-		$json = '{"servertype":"';
-		$server_type = 'apache';
-		$app->uses('getconf');
-		$web_config = $app->getconf->get_server_config($server_id, 'web');
-		if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
-		$json .= $server_type;
-		unset($webconfig);
-		$json .= '"}';
-	}
-	
-	if($type == 'getserverid'){
-		$json = '{"serverid":"';
-		$sql = "SELECT server_id FROM web_domain WHERE domain_id = $web_id";
-		$server = $app->db->queryOneRecord($sql);
-		$json .= $server['server_id'];
-		unset($server);
-		$json .= '"}';
-	}
-	
-	if($type == 'getphpfastcgi'){
-		$json = '{';
-		$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id";
-		$php_records = $app->db->queryAllRecords($sql);
-		$php_select = "";
-		if(is_array($php_records) && !empty($php_records)) {
-			foreach( $php_records as $php_record) {
-				$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
-				$json .= '"'.$php_version.'": "'.$php_record['name'].'",';
+	function onBeforeUpdate() {
+		global $app, $conf;
+
+		//* Check if the server has been changed
+		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
+		if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) && isset($this->dataRecord["server_id"])) {
+			$rec = $app->db->queryOneRecord("SELECT server_id from server_php WHERE server_php_id = ".$this->id);
+			if($rec['server_id'] != $this->dataRecord["server_id"]) {
+				//* Add a error message and switch back to old server
+				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
+				$this->dataRecord["server_id"] = $rec['server_id'];
 			}
+			unset($rec);
 		}
-		unset($php_records);
-		if(substr($json,-1) == ',') $json = substr($json,0,-1);
-		$json .= '}';
 	}
+}
 
-//}
+$page = new page_action;
+$page->onLoad();
 
-echo $json;
 ?>

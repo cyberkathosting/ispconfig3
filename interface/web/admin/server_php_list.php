@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2005, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -31,28 +31,24 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 
+/******************************************
+* Begin Form configuration
+******************************************/
+
+$list_def_file = "list/server_php.list.php";
+
+/******************************************
+* End Form configuration
+******************************************/
+
 //* Check permissions for module
-$app->auth->check_module_permissions('sites');
+$app->auth->check_module_permissions('admin');
 
-$server_id = intval($_GET["server_id"]);
-$client_group_id = intval($_GET["client_group_id"]);
+$app->uses('listform_actions');
 
-if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+$app->listform_actions->SQLOrderBy = "ORDER BY server_id, name";
 
-	$app->uses('ini_parser,getconf');
-	$fastcgi = $app->getconf->get_server_config($server_id,'fastcgi');
-	$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+$app->listform_actions->onLoad();
 
-	$php_select = "";
 
-	if(is_array($php_versions)) {
-		foreach( $php_versions as $php_version) {
-			$php_select .= "#$php_version";
-		}
-	}
-
-	unset($php_versions);
-}
-
-echo $php_select;
 ?>

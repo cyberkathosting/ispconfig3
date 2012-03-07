@@ -157,6 +157,4 @@ $wb["connect_userid_to_webid_txt"] = 'Connect Linux userid to webid';
 $wb["connect_userid_to_webid_start_txt"] = 'Start ID for userid/webid connect';
 $wb["realtime_blackhole_list_txt"] = 'Real-time Blackhole List';
 $wb["realtime_blackhole_list_note_txt"] = '(Separate RBL\'s with commas)';
-$wb["fastcgi_additional_php_versions_txt"] = 'Additional PHP Versions';
-$wb["fastcgi_additional_php_versions_hint_txt"] = 'Format:<br>&lt;name&gt;;&lt;path_to_executable&gt;;&lt;path_to_php.ini_dir&gt;<br>e.g.:<br>PHP 5.2.17;/opt/php52/bin/php-cgi;/opt/php52/etc/';
 ?>

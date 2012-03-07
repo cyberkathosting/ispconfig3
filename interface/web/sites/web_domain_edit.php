@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions,ini_parser,getconf');
+$app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -130,17 +130,18 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//PHP Version Selection (FastCGI)
-			$fastcgi = $app->getconf->get_server_config($client['default_webserver'],'fastcgi');
-			$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$php_records = $app->db->queryAllRecords($sql);
 			$php_select = "<option value=''>Default</option>";
-			if(is_array($php_versions)) {
-				foreach( $php_versions as $php_version) {
+			if(is_array($php_records) && !empty($php_records)) {
+				foreach( $php_records as $php_record) {
+					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>$php_version</option>\r\n";
+					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version",$php_select);
-			unset($php_versions);
+			unset($php_records);
 
 			//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -199,17 +200,18 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//PHP Version Selection (FastCGI)
-			$fastcgi = $app->getconf->get_server_config($client['default_webserver'],'fastcgi');
-			$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$php_records = $app->db->queryAllRecords($sql);
 			$php_select = "<option value=''>Default</option>";
-			if(is_array($php_versions)) {
-				foreach( $php_versions as $php_version) {
+			if(is_array($php_records) && !empty($php_records)) {
+				foreach( $php_records as $php_record) {
+					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>$php_version</option>\r\n";
+					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version",$php_select);
-			unset($php_versions);
+			unset($php_records);
 
 			//* Admin: If the logged in user is admin
 		} else {
@@ -254,17 +256,18 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//PHP Version Selection (FastCGI)
-			$fastcgi = $app->getconf->get_server_config($server_id,'fastcgi');
-			$php_versions = explode('\n',$fastcgi['fastcgi_additional_php_versions']);
+			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id";
+			$php_records = $app->db->queryAllRecords($sql);
 			$php_select = "<option value=''>Default</option>";
-			if(is_array($php_versions)) {
-				foreach( $php_versions as $php_version) {
+			if(is_array($php_records) && !empty($php_records)) {
+				foreach( $php_records as $php_record) {
+					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>$php_version</option>\r\n";
+					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version",$php_select);
-			unset($php_versions);
+			unset($php_records);
 
 			// Fill the client select field
 			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";

@@ -42,4 +42,5 @@ $wb['Remote Users'] = 'Remote Users';
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
 ?>

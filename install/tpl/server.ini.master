@@ -90,7 +90,6 @@ fastcgi_children=8
 fastcgi_max_requests=5000
 fastcgi_bin=/usr/bin/php-cgi
 fastcgi_config_syntax=1
-fastcgi_additional_php_versions=
 
 [jailkit]
 jailkit_chroot_home=/home/[username]
