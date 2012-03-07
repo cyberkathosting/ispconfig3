@@ -297,10 +297,14 @@ public function toLower($record) {
     }
 
     //** Updates a record and saves the changes into the datalog
-    public function datalogUpdate($tablename, $update_data, $index_field, $index_value) {
+    public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
       global $app;
-
-      $old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+      
+	  if($force_update == true) {
+		$old_rec = array();
+	  } else {
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+	  }
       $this->query("UPDATE $tablename SET $update_data WHERE $index_field = '$index_value'");
       $new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
       $this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec);
