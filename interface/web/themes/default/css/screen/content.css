@@ -194,4 +194,9 @@
 	  border:0;
 	  border-bottom: 1px #eee solid;
 	}
+
+	/* Sorting cusror and backgorund */
+	.pnl_listarea th[class^="tbl_col"]{cursor:pointer}
+	.pnl_listarea th[class^="tbl_col"]:hover{background-position:0 -15px!important}
+
 }

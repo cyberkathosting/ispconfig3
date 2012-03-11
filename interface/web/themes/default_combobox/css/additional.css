@@ -151,5 +151,3 @@ input.ui-button { padding: .4em 1em; }
 
 /* workarounds */
 button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra padding in Firefox */
-.pnl_listarea th{cursor:pointer}
-.pnl_listarea th:hover{background-position:0 -15px!important}
