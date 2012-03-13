@@ -104,7 +104,10 @@ $inst->find_installed_apps();
 
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
-$conf['timezone'] = 'UTC';
+
+exec('date +%Z', $tmp_out);
+$conf['timezone'] = $tmp_out[0];
+unset($tmp_out);
 
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('standard','expert'), 'standard');
