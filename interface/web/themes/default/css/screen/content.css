@@ -174,7 +174,8 @@
 	table { width: auto; border-collapse:collapse; margin-bottom: 0.5em; }
 	table.full { width: 100%; }
 	table.fixed { table-layout:fixed }
-	
+
+	table.list td{max-width: 350px;min-width: px;overflow:hidden;text-overflow: ellipsis; -o-text-overflow: ellipsis; -icab-text-overflow: ellipsis; -khtml-text-overflow: ellipsis; -moz-text-overflow: ellipsis; -webkit-text-overflow: ellipsis;}
 	th,td { padding: 0.5em;text-align:left; }
 	thead th { background: #444 url(../../images/lists_thead_bg.png) repeat-x; color: #fff }
 	tbody th { background: #ccc; color: #333 }
