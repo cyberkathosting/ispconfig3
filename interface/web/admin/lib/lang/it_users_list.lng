@@ -1,9 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Utenti';
 $wb['username_txt'] = 'Nome utente';
-$wb['name_txt'] = 'Nome';
-$wb['vorname_txt'] = 'Cognome';
-$wb['ort_txt'] = 'Città';
+$wb["client_id_txt"] = 'Client ID';
+$wb["active_txt"] = 'Active';
 $wb['add_new_record_txt'] = 'Add new user';
 $wb['warning_txt'] = '<b>ATTENZIONE:</b> non editare o modificare alcuna impostazione utente in questa schermata. Usare piuttosto le impostazioni Cliente/Rivenditore del modulo Clienti. Modificare Utenti o gruppi in questa schermata può provocare la perdita di dati.';
 ?>

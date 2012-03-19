@@ -1,9 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Felhasználók';
 $wb['username_txt'] = 'Felhasználónév';
-$wb['name_txt'] = 'Név';
-$wb['vorname_txt'] = 'Családi név';
-$wb['ort_txt'] = 'Város';
+$wb["client_id_txt"] = 'Client ID';
+$wb["active_txt"] = 'Active';
 $wb['add_new_record_txt'] = 'Új felhasználó';
 $wb['warning_txt'] = '<b>FIGYELEM:</b> Ne módosítsa a felhasználók adatait ezen a helyen. Használja az Ügyfél vagy Viszonteladó szerkesztését az Ügyfél modulban!';
 ?>

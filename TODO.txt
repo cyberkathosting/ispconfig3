@@ -86,8 +86,6 @@ Remoting framework
 
 Interface
 --------------------------------------
-
-- Enhance the list function to allow sorting by column
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
 
 General tasks

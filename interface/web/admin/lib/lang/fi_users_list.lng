@@ -1,9 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Käyttäjätunnukset';
 $wb['username_txt'] = 'Käyttäjätunnus';
-$wb['name_txt'] = 'Etunimi';
-$wb['vorname_txt'] = 'Sukunimi';
-$wb['ort_txt'] = 'Kaupunki';
+$wb["client_id_txt"] = 'Client ID';
+$wb["active_txt"] = 'Active';
 $wb['add_new_record_txt'] = 'Lisää uusi käyttäjä';
 $wb['warning_txt'] = '<b>VAROITUS:</b> Aälä muokkaa mitään käyttäjäasetuksia täällä. Käytä Asiakas- ja Jälleenmyyjä-asetuksia Asiakkaat-moduulissa. Käyttäjien tai ryhmien muokkaus tässä voi aiheuttaa tietojen katoamista!';
 ?>

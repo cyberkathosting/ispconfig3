@@ -44,28 +44,26 @@ $liste['auth']				= 'no';
 * Suchfelder
 *****************************************************/
 
+$liste["item"][] = array(	'field'		=> "client_id",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "TEXT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'width'		=> "",
+							'value'		=> "");
+
+$liste["item"][] = array(	'field'		=> "active",
+							'datatype'	=> "VARCHAR",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'width'		=> "",
+							'value'		=> array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
+
 $liste['item'][] = array(	'field'		=> 'username',
-							'datatype'	=> 'VARCHAR',
-							'op'		=> 'like',
-							'prefix'	=> '%',
-							'suffix'	=> '%',
-							'width'		=> '');
-
-$liste['item'][] = array(	'field'		=> 'vorname',
-							'datatype'	=> 'VARCHAR',
-							'op'		=> 'like',
-							'prefix'	=> '%',
-							'suffix'	=> '%',
-							'width'		=> '');
-
-$liste['item'][] = array(	'field'		=> 'name',
-							'datatype'	=> 'VARCHAR',
-							'op'		=> 'like',
-							'prefix'	=> '%',
-							'suffix'	=> '%',
-							'width'		=> '');  
-
-$liste['item'][] = array(	'field'		=> 'ort',
 							'datatype'	=> 'VARCHAR',
 							'op'		=> 'like',
 							'prefix'	=> '%',
