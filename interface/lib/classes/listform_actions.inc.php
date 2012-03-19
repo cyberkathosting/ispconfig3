@@ -248,7 +248,6 @@ class listform_actions {
 		    $order_by_sql = "GROUP BY mailuser_id ".$order_by_sql;
 		  }
 		}
-
 		return 'SELECT '.$app->listform->listDef['table'].'.*'.$extselect.' FROM '.$app->listform->listDef['table']."$join WHERE $sql_where $order_by_sql $limit_sql";
 	}
 	
