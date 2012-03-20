@@ -142,7 +142,7 @@ class page_action extends tform_actions {
 		$username = $app->db->quote($this->dataRecord["username"]);
 		$password = $app->db->quote($this->dataRecord["password"]);
 		$modules = $conf['interface_modules_enabled'];
-		if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
+		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] > 0) $modules .= ',client';
 		$startmodule = (stristr($modules,'dashboard'))?'dashboard':'client';
 		$usertheme = $app->db->quote($this->dataRecord["usertheme"]);
 		$type = 'user';
@@ -194,9 +194,8 @@ class page_action extends tform_actions {
 	*/
 	function onAfterUpdate() {
 		global $app;
-		
 		// username changed
-		if($conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = $app->db->quote($this->dataRecord["username"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
@@ -208,7 +207,7 @@ class page_action extends tform_actions {
 		}
 		
 		// password changed
-		if($conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = $app->db->quote($this->dataRecord["password"]);
 			$salt="$1$";
 			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -223,7 +222,7 @@ class page_action extends tform_actions {
 		}
 		
 		// language changed
-		if($conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
 			$language = $app->db->quote($this->dataRecord["language"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET language = '$language' WHERE client_id = $client_id";
