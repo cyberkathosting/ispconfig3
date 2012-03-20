@@ -57,6 +57,7 @@ class login_index {
 		
 		// Maintenance mode
 		$maintenance_mode = false;
+		$maintenance_mode_error = '';
 		$app->uses('ini_parser,getconf');
 		$server_config_array = $app->getconf->get_global_config('misc');
 		if($server_config_array['maintenance_mode'] == 'y'){
