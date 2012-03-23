@@ -41,7 +41,7 @@ class list_action extends listform_actions {
 		$rec['bgcolor'] = $this->DataRowColor;
 		$email = $rec['email'];
 		
-		$rec['used'] = $monitor_data[$email]['used'];
+		$rec['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
 		
 		if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
 

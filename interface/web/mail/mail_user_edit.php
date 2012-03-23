@@ -109,7 +109,7 @@ class page_action extends tform_actions {
 		if($this->dataRecord["quota"] != -1) $app->tpl->setVar("quota",$this->dataRecord["quota"] / 1024 / 1024);
 		
 		// Is autoresponder set?
-		if ($this->dataRecord['autoresponder'] == 'y') {
+		if (!empty($this->dataRecord['autoresponder']) && $this->dataRecord['autoresponder'] == 'y') {
 			$app->tpl->setVar("ar_active", 'checked="checked"');
 		} else {
 			$app->tpl->setVar("ar_active", '');
@@ -175,7 +175,7 @@ class page_action extends tform_actions {
 		
 
     $app->uses('getconf');
-    $mail_config = $app->getconf->get_server_config($domain["server_id"],'mail');
+    $mail_config = $app->getconf->get_server_config(!empty($domain["server_id"]) ? $domain["server_id"] : '','mail');
 		
 		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
@@ -210,7 +210,7 @@ class page_action extends tform_actions {
         if(!isset($_POST["login"])) $this->dataRecord["login"] = $this->dataRecord["email"];
         elseif(strpos($_POST["login"], '@') !== false && $_POST["login"] != $this->dataRecord["email"]) $app->tform->errorMessage .= $app->tform->lng("error_login_email_txt")."<br>";
 		} else {
-        $this->dataRecord["login"] = $this->dataRecord["email"];
+        $this->dataRecord["login"] = isset($this->dataRecord["email"]) ? $this->dataRecord["email"] : '';
 		}
 		//* if autoresponder checkbox not selected, do not save dates
 		if (!isset($_POST['autoresponder']) && array_key_exists('autoresponder_start_date', $_POST)) {
@@ -287,8 +287,8 @@ class page_action extends tform_actions {
 		
 		// Set the fields for dovecot
 		if(isset($this->dataRecord["email"])) {
-			$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
-			$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
+			$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
+			$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 		

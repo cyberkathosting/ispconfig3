@@ -80,9 +80,9 @@ class page_action extends tform_actions {
 				$rec["type"] = $tmp_parts[0];
 			}
 		}
-		if(@$tmp_parts[2] != '') {
+		if(!empty($tmp_parts[2])) {
 			$dest = @$tmp_parts[1].':'.@$tmp_parts[2];
-		} elseif($tmp_parts[1] != '') {
+		} elseif(!empty($tmp_parts[1])) {
 			$dest = $tmp_parts[1];
 		} else {
 			$dest = $this->dataRecord["transport"];

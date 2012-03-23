@@ -148,6 +148,7 @@ class page_action extends tform_actions {
 			$sql = 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name';
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records)) {
+				$template_id_select='';
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
 					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";

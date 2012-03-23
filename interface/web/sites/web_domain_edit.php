@@ -467,7 +467,7 @@ class page_action extends tform_actions {
 		
 		//* get the server config for this server
 		$app->uses("getconf");
-		$web_config = $app->getconf->get_server_config(intval($this->dataRecord["server_id"]),'web');
+		$web_config = $app->getconf->get_server_config(intval(isset($this->dataRecord["server_id"]) ? $this->dataRecord["server_id"] : 0),'web');
 		//* Check for duplicate ssl certs per IP if SNI is disabled
 		if(isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y' && $web_config['enable_sni'] != 'y') {
 			$sql = "SELECT count(domain_id) as number FROM web_domain WHERE `ssl` = 'y' AND ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."' and domain_id != ".$this->id;
@@ -600,10 +600,11 @@ class page_action extends tform_actions {
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config(intval($web_rec["server_id"]),'web');
 		$document_root = str_replace("[website_id]",$this->id,$web_config["website_path"]);
-		$document_root = str_replace("[website_idhash_1]",$this->id_hash($page_form->id,1),$document_root);
-		$document_root = str_replace("[website_idhash_2]",$this->id_hash($page_form->id,1),$document_root);
-		$document_root = str_replace("[website_idhash_3]",$this->id_hash($page_form->id,1),$document_root);
-		$document_root = str_replace("[website_idhash_4]",$this->id_hash($page_form->id,1),$document_root);
+		$page_formid = isset($page_form->id) ? $page_form->id : '';
+		$document_root = str_replace("[website_idhash_1]",$this->id_hash($page_formid,1),$document_root);
+		$document_root = str_replace("[website_idhash_2]",$this->id_hash($page_formid,1),$document_root);
+		$document_root = str_replace("[website_idhash_3]",$this->id_hash($page_formid,1),$document_root);
+		$document_root = str_replace("[website_idhash_4]",$this->id_hash($page_formid,1),$document_root);
 
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -666,7 +667,7 @@ class page_action extends tform_actions {
 		}
 
 		//* If the domain name has been changed, we will have to change all subdomains
-		if($this->dataRecord["domain"] != '' && $this->oldDataRecord["domain"] != '' && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
+		if(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
 			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'subdomain' AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
 			foreach($records as $rec) {
 				$subdomain = $app->db->quote(str_replace($this->oldDataRecord["domain"],$this->dataRecord["domain"],$rec['domain']));
@@ -684,8 +685,8 @@ class page_action extends tform_actions {
 		}
 		
 		//* Set php_open_basedir if empty or domain or client has been changed
-		if($web_rec['php_open_basedir'] == '' || 
-		($this->dataRecord["domain"] != '' && $this->oldDataRecord["domain"] != '' && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) ||
+		if(empty($web_rec['php_open_basedir']) ||
+		(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) ||
 		(isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"])) {
 			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
 			$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);

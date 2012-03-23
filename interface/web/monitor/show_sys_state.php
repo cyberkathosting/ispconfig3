@@ -69,7 +69,7 @@ else {
 $app->tpl->setVar("state_data",$output);
 $app->tpl->setVar("state_type",$stateType);
 $app->tpl->setVar("list_head_txt",$title);
-$app->tpl->setVar("list_desc_txt",$description);
+$app->tpl->setVar("list_desc_txt",(isset($description) ? $description : ''));
 $app->tpl->setVar("monTransRefreshsq", $monTransRefreshsq);
 
 /*
@@ -234,7 +234,7 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a "normal" Server or a OpenVz-Host
 	*/
-	$html_server .= '<div class="systemmonitor-state state-' . $serverState . '">';
+	$html_server = '<div class="systemmonitor-state state-' . $serverState . '">';
 	$html_server .= '<div class="systemmonitor-device device-server">';
 	$html_server .= '<div class="systemmonitor-content icons32 ico-' . $serverState . '">';
 	$html_server .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
@@ -252,11 +252,11 @@ function _getServerState($serverId, $serverName) {
 	}
 
 	$html_server .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
-	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listunknown_txt")]) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
-	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listinfo_txt")]) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
-	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listwarning_txt")]) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ', ';
-	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listcritical_txt")]) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ', ';
-	$html_server .= sizeof($messages[$app->lng("monitor_serverstate_listerror_txt")]) . ' ' . $app->lng("monitor_serverstate_error_txt") . '';
+	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listunknown_txt")]) ? $messages[$app->lng("monitor_serverstate_listunknown_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
+	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listinfo_txt")]) ? $messages[$app->lng("monitor_serverstate_listinfo_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
+	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listwarning_txt")]) ? $messages[$app->lng("monitor_serverstate_listwarning_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ', ';
+	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listcritical_txt")]) ? $messages[$app->lng("monitor_serverstate_listcritical_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ', ';
+	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listerror_txt")]) ? $messages[$app->lng("monitor_serverstate_listerror_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_error_txt") . '';
 	$html_server .= ')<br />';
 
 	/*

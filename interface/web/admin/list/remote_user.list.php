@@ -7,7 +7,7 @@ $liste['name'] = 'remote_user';
 $liste['table'] = 'remote_user';
 
 // Index index field of the database table
-$liste['table_idx'] = 'userid';
+$liste['table_idx'] = 'remote_userid';
 
 // Search Field Prefix
 $liste['search_prefix'] = 'search_';

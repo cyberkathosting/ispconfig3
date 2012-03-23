@@ -59,11 +59,10 @@ class plugin_listview extends plugin_base {
 				$listTpl->setVar('theme', $_SESSION['s']['theme']);
 
                 // Generate the SQL for searching
+                $sql_where = "";
                 if($app->listform->listDef["auth"] != 'no') {
-                        if($_SESSION["s"]["user"]["typ"] == "admin") {
-                                $sql_where = "";
-                        } else {
-                                $sql_where = $app->tform->getAuthSQL('r')." and";
+                        if($_SESSION["s"]["user"]["typ"] != "admin") {
+				$sql_where = $app->tform->getAuthSQL('r')." and";
                         }
                 }
 
@@ -87,6 +86,7 @@ class plugin_listview extends plugin_base {
 		$limits = array('5'=>'5','15'=>'15','25'=>'25','50'=>'50','100'=>'100','999999999' => 'all');
 
 		//* create options and set selected, if default -> 15 is selected
+		$options='';
 		foreach($limits as $key => $val){
 		  $options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
 		}
