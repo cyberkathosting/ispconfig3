@@ -34,6 +34,8 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
+$app->uses('getconf');
+
 $server_id = intval($_GET["server_id"]);
 $web_id = intval($_GET["web_id"]);
 $type = $_GET["type"];
@@ -43,7 +45,6 @@ $type = $_GET["type"];
 	if($type == 'getservertype'){
 		$json = '{"servertype":"';
 		$server_type = 'apache';
-		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($server_id, 'web');
 		if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 		$json .= $server_type;
@@ -62,12 +63,24 @@ $type = $_GET["type"];
 	
 	if($type == 'getphpfastcgi'){
 		$json = '{';
-		$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id";
+		
+		$server_type = 'apache';
+		$web_config = $app->getconf->get_server_config($server_id, 'web');
+		if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
+		if($server_type == 'nginx'){
+			$sql = "SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = $server_id";
+		} else {
+			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id";
+		}
 		$php_records = $app->db->queryAllRecords($sql);
 		$php_select = "";
 		if(is_array($php_records) && !empty($php_records)) {
 			foreach( $php_records as $php_record) {
-				$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+				if($server_type == 'nginx'){
+					$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
+				} else {
+					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+				}
 				$json .= '"'.$php_version.'": "'.$php_record['name'].'",';
 			}
 		}

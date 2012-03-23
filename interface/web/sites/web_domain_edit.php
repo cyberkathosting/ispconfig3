@@ -86,6 +86,8 @@ class page_action extends tform_actions {
 
 	function onShowEnd() {
 		global $app, $conf;
+		
+		$app->uses('ini_parser,getconf');
 
 		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -130,12 +132,23 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//PHP Version Selection (FastCGI)
-			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$server_type = 'apache';
+			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
+			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
+			if($server_type == 'nginx'){
+				$sql = "SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			} else {
+				$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			}
 			$php_records = $app->db->queryAllRecords($sql);
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					if($server_type == 'nginx'){
+						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
+					} else {
+						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
 					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
 				}
@@ -200,12 +213,23 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//PHP Version Selection (FastCGI)
-			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$server_type = 'apache';
+			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
+			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
+			if($server_type == 'nginx'){
+				$sql = "SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			} else {
+				$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$client['default_webserver']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			}
 			$php_records = $app->db->queryAllRecords($sql);
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					if($server_type == 'nginx'){
+						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
+					} else {
+						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
 					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
 				}
@@ -256,12 +280,23 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//PHP Version Selection (FastCGI)
-			$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id";
+			$server_type = 'apache';
+			$web_config = $app->getconf->get_server_config($server_id, 'web');
+			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
+			if($server_type == 'nginx'){
+				$sql = "SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = $server_id";
+			} else {
+				$sql = "SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id";
+			}
 			$php_records = $app->db->queryAllRecords($sql);
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					if($server_type == 'nginx'){
+						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
+					} else {
+						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
 					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
 				}
@@ -314,7 +349,6 @@ class page_action extends tform_actions {
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
 		 */
-		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
 			/*
