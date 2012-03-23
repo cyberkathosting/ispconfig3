@@ -10865,7 +10865,7 @@ class SimplePie_Misc
 		return $output . $data;
 	}
 
-	function parse_date($dt)
+	static function parse_date($dt)
 	{
 		$parser = SimplePie_Parse_Date::get();
 		return $parser->parse($dt);
@@ -13065,7 +13065,7 @@ class SimplePie_Parse_Date
 	 *
 	 * @access public
 	 */
-	function get()
+	static function get()
 	{
 		static $object;
 		if (!$object)
