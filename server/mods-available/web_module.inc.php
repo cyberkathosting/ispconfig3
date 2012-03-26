@@ -101,6 +101,7 @@ class web_module {
 		
 		// Register service
 		$app->services->registerService('httpd','web_module','restartHttpd');
+		$app->services->registerService('php-fpm','web_module','restartPHP_FPM');
 		
 	}
 	
@@ -164,9 +165,6 @@ class web_module {
 		switch ($web_config['server_type']) {
 			case 'nginx':
 				$daemon = $web_config['server_type'];
-				// Reload PHP-FPM as well
-				$restart_second_service['daemon'] = $web_config['php_fpm_init_script'];
-				$restart_second_service['action'] = 'reload';
 				break;
 			default:
 				if(is_file($conf['init_scripts'] . '/' . 'httpd')) {
@@ -175,17 +173,27 @@ class web_module {
 					$daemon = 'apache2';
 				}
 		}
-		
-		if($restart_second_service['daemon'] != '' && $restart_second_service['action'] != ''){
-			exec($conf['init_scripts'] . '/' . $restart_second_service['daemon'] . ' ' . $restart_second_service['action']);
-		}
-		
+
 		if($action == 'restart') {
 			exec($conf['init_scripts'] . '/' . $daemon . ' restart');
 		} else {
 			exec($conf['init_scripts'] . '/' . $daemon . ' reload');
 		}
 		
+	}
+	
+	function restartPHP_FPM($action = 'restart') {
+		global $app,$conf;
+		
+		// load the server configuration options
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		
+		list($action, $init_script) = explode(':', $action);
+		
+		if(!$init_script) $init_script = $conf['init_scripts'].'/'.$web_config['php_fpm_init_script'];
+		
+		exec($init_script.' '.$action);
 	}
 
 } // end class

@@ -1407,18 +1407,25 @@ class nginx_plugin {
 			$default_php_fpm = true;
 		}
 		
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
 		if($data['new']['php'] == 'no'){
 			if(@is_file($pool_dir.$pool_name.'.conf')){
 				unlink($pool_dir.$pool_name.'.conf');
 				//$reload = true;
 			}
+			if($data['old']['php'] != 'no'){
+				if(!$default_php_fpm){
+					$app->services->restartService('php-fpm','reload:'.$custom_php_fpm_init_script);
+				} else {
+					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+				}
+			}
 			//if($reload == true) $app->services->restartService('php-fpm','reload');
 			return;
 		}
-			
-		$app->uses("getconf");
-		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
-			
+				
 		$app->load('tpl');
 		$tpl = new tpl();
 		$tpl->newTemplate('php_fpm_pool.conf.master');
@@ -1503,7 +1510,7 @@ class nginx_plugin {
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
 					unlink($default_pool_dir.$pool_name.'.conf');
 					$app->log('Removed PHP-FPM config file: '.$default_pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
-					exec($conf['init_scripts'] . '/' . $web_config['php_fpm_init_script'] . ' reload');
+					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 			}
 		}
 		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$conf["server_id"]);
@@ -1514,15 +1521,17 @@ class nginx_plugin {
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
 						unlink($php_version['php_fpm_pool_dir'].$pool_name.'.conf');
 						$app->log('Removed PHP-FPM config file: '.$php_version['php_fpm_pool_dir'].$pool_name.'.conf',LOGLEVEL_DEBUG);
-						exec($php_version['php_fpm_init_script'] . ' reload');
+						$app->services->restartService('php-fpm','reload:'.$php_version['php_fpm_init_script']);
 					}
 				}
 			}
 		}
 		// Reload current PHP-FPM after all others
+		sleep(1);
 		if(!$default_php_fpm){
-			sleep(1);
-			exec($custom_php_fpm_init_script . ' reload');
+			$app->services->restartService('php-fpm','reload:'.$custom_php_fpm_init_script);
+		} else {
+			$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
 		
 		//$reload = true;
@@ -1565,7 +1574,7 @@ class nginx_plugin {
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
 					unlink($default_pool_dir.$pool_name.'.conf');
 					$app->log('Removed PHP-FPM config file: '.$default_pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
-					exec($conf['init_scripts'] . '/' . $web_config['php_fpm_init_script'] . ' reload');
+					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 			}
 		}	
 		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$data['old']['server_id']);
@@ -1576,16 +1585,18 @@ class nginx_plugin {
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
 						unlink($php_version['php_fpm_pool_dir'].$pool_name.'.conf');
 						$app->log('Removed PHP-FPM config file: '.$php_version['php_fpm_pool_dir'].$pool_name.'.conf',LOGLEVEL_DEBUG);
-						exec($php_version['php_fpm_init_script'] . ' reload');
+						$app->services->restartService('php-fpm','reload:'.$php_version['php_fpm_init_script']);
 					}
 				}
 			}
 		}
 		
 		// Reload current PHP-FPM after all others
+		sleep(1);
 		if(!$default_php_fpm){
-			sleep(1);
-			exec($custom_php_fpm_init_script . ' reload');
+			$app->services->restartService('php-fpm','reload:'.$custom_php_fpm_init_script);
+		} else {
+			$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
 	}
 	
