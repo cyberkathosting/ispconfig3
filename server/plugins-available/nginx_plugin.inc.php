@@ -911,7 +911,7 @@ class nginx_plugin {
 		if(file_exists($vhost_file)) copy($vhost_file,$vhost_file.'~');
 		
 		//* Write vhost file
-		file_put_contents($vhost_file,$tpl->grab());
+		file_put_contents($vhost_file,$this->nginx_merge_locations($tpl->grab()));
 		$app->log('Writing the vhost file: '.$vhost_file,LOGLEVEL_DEBUG);
 		unset($tpl);
 
@@ -1598,6 +1598,74 @@ class nginx_plugin {
 		} else {
 			$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
+	}
+	
+	private function nginx_merge_locations($vhost_conf){
+
+		$lines = explode("\n", $vhost_conf);
+		
+		if(is_array($lines) && !empty($lines)){
+		
+			$locations = array();
+			$islocation = false;
+			$linecount = sizeof($lines);
+
+			for($i=0;$i<$linecount;$i++){
+				$l = trim($lines[$i]);
+				if(substr($l, 0, 8) == 'location' && !$islocation){
+				
+					$islocation = true;
+					$level = 0;
+					
+					// Remove unnecessary whitespace
+					$l = preg_replace('/\s\s+/', ' ', $l);
+					
+					$loc_parts = explode(' ', $l);
+					// see http://wiki.nginx.org/HttpCoreModule#location
+					if($loc_parts[1] == '=' || $loc_parts[1] == '~' || $loc_parts[1] == '~*' || $loc_parts[1] == '^~'){
+						$location = $loc_parts[1].' '.$loc_parts[2];
+					} else {
+						$location = $loc_parts[1];
+					}
+					unset($loc_parts);
+					
+					if(!isset($locations[$location]['open_tag'])) $locations[$location]['open_tag'] = '        location '.$location.' {';
+					if(!isset($locations[$location]['location'])) $locations[$location]['location'] = '';
+					if(!isset($locations[$location]['end_tag'])) $locations[$location]['end_tag'] = '        }';
+					if(!isset($locations[$location]['start_line'])) $locations[$location]['start_line'] = $i;
+					unset($lines[$i]);
+					
+				} else {
+				
+					if($islocation){
+						if(strpos($l, '{') !== false){
+							$level += 1;
+						}
+						if(strpos($l, '}') !== false && $level > 0){
+							$level -= 1;
+							$locations[$location]['location'] .= $lines[$i]."\n";
+						} elseif(strpos($l, '}') !== false && $level == 0){
+							$islocation = false;
+						} else {
+							$locations[$location]['location'] .= $lines[$i]."\n";
+						}
+						unset($lines[$i]);
+					}
+					
+				}
+			}
+			
+			if(is_array($locations) && !empty($locations)){
+				foreach($locations as $key => $val){
+					$new_location = $val['open_tag']."\n".$val['location'].$val['end_tag'];
+					$lines[$val['start_line']] = $new_location;
+				}
+			}
+			ksort($lines);
+			$vhost_conf = implode("\n", $lines);
+		}
+		
+		return $vhost_conf;
 	}
 	
 	function client_delete($event_name,$data) {
