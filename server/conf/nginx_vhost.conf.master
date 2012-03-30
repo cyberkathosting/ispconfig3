@@ -118,7 +118,7 @@ server {
 </tmpl_loop>
 
 <tmpl_loop name="basic_auth_locations">
-        location <tmpl_var name='htpasswd_location'> {
+        location <tmpl_var name='htpasswd_location'> { ##merge##
                 auth_basic "Members Only";
                 auth_basic_user_file <tmpl_var name='htpasswd_path'>.htpasswd;
         }

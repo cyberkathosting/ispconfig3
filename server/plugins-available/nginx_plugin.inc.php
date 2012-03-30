@@ -1629,10 +1629,16 @@ class nginx_plugin {
 					}
 					unset($loc_parts);
 					
+					if(!isset($locations[$location]['action'])) $locations[$location]['action'] = 'replace';
+					if(substr($l, -9) == '##merge##'){
+						$locations[$location]['action'] = 'merge';
+					}
+					
 					if(!isset($locations[$location]['open_tag'])) $locations[$location]['open_tag'] = '        location '.$location.' {';
-					if(!isset($locations[$location]['location'])) $locations[$location]['location'] = '';
+					if(!isset($locations[$location]['location']) || $locations[$location]['action'] == 'replace') $locations[$location]['location'] = '';
 					if(!isset($locations[$location]['end_tag'])) $locations[$location]['end_tag'] = '        }';
 					if(!isset($locations[$location]['start_line'])) $locations[$location]['start_line'] = $i;
+
 					unset($lines[$i]);
 					
 				} else {
