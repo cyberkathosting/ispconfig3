@@ -25,7 +25,8 @@ server {
 		
 <tmpl_loop name="redirects">		
         if ($http_host ~* "<tmpl_var name='rewrite_domain'>$") {
-            rewrite ^/(.+)$ <tmpl_var name='rewrite_target'>$1 <tmpl_var name='rewrite_type'>;
+            #rewrite ^/(.+)$ <tmpl_var name='rewrite_target'>$1 <tmpl_var name='rewrite_type'>;
+            rewrite ^<tmpl_var name='rewrite_exclude'>/(.+)$ <tmpl_var name='rewrite_target'>$2 <tmpl_var name='rewrite_type'>;
         }
 </tmpl_loop>
 		

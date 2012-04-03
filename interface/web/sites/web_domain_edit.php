@@ -242,6 +242,11 @@ class page_action extends tform_actions {
 
 			// The user is admin, so we fill in all IP addresses of the server
 			if($this->id > 0) {
+				if(!isset($this->dataRecord["server_id"])){
+					$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".intval($this->id));
+					$this->dataRecord["server_id"] = $tmp["server_id"];
+					unset($tmp);
+				}
 				$server_id = @$this->dataRecord["server_id"];
 			} else {
 				// Get the first server ID
