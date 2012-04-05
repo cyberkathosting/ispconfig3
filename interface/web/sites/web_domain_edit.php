@@ -650,9 +650,13 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = $client_group_id");
 			$client_id = intval($client["client_id"]);
-		} else {
-			//$client_id = intval(@$web_rec["client_group_id"]);
+		} elseif (isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = $this->dataRecord["client_group_id"];
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval(@$this->dataRecord["client_group_id"]));
+			$client_id = intval($client["client_id"]);
+		} else {
+			$client_group_id = $web_rec['sys_groupid'];
+			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($client_group_id));
 			$client_id = intval($client["client_id"]);
 		}
 

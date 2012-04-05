@@ -96,11 +96,9 @@ class installer_dist extends installer_base {
 		}
 		
 		if($cf['vmail_mailbox_base'] != '' && strlen($cf['vmail_mailbox_base']) >= 10 && $this->is_update === false) exec('chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base']);
-
+		
+		//* These postconf commands will be executed on installation and update
 		$postconf_commands = array (
-			'myhostname = '.$conf['hostname'],
-			'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
-			'mynetworks = 127.0.0.0/8 [::1]/128',
 			'virtual_alias_domains =',
 			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
 			'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
@@ -131,6 +129,15 @@ class installer_dist extends installer_base {
 			'body_checks = regexp:'.$config_dir.'/body_checks',
 			'inet_interfaces = all'
 		);
+		
+		//* These postconf commands will be executed on installation only
+		if($this->is_update == false) {
+			$postconf_commands = array_merge($postconf_commands,array(
+				'myhostname = '.$conf['hostname'],
+				'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
+				'mynetworks = 127.0.0.0/8 [::1]/128'
+			));
+		}
 		
 		//* Create the header and body check files
 		touch($config_dir.'/header_checks');
@@ -373,8 +380,9 @@ class installer_dist extends installer_base {
 		$configfile = 'dovecot-sql.conf';
 		if(is_file("$config_dir/$configfile")){
             copy("$config_dir/$configfile", "$config_dir/$configfile~");
+			exec("chmod 400 $config_dir/$configfile~");
         }
-		exec("chmod 400 $config_dir/$configfile~");
+		
 		$content = rf("tpl/opensuse_dovecot-sql.conf.master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);

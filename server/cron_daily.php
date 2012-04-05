@@ -180,7 +180,7 @@ foreach($records as $rec) {
 	
 	if(is_file($awstats_website_conf_file)) unlink($awstats_website_conf_file);
 	
-	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') AND server_id = ".$conf['server_id'];
+	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') AND parent_domain_id = ".$rec['domain_id'];
 	$aliases = $app->db->queryAllRecords($sql);
 	$aliasdomain = '';
 	
@@ -194,7 +194,7 @@ foreach($records as $rec) {
 		$awstats_conf_file_content = 'Include "'.$awstats_conf_dir.'/awstats.conf"
 LogFile="/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log"
 SiteDomain="'.$domain.'"
-HostAliases="www.'.$domain.' localhost 127.0.0.1"'.$aliasdomain;
+HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 		file_put_contents($awstats_website_conf_file,$awstats_conf_file_content);
 	}
 	

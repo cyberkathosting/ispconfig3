@@ -5,5 +5,3 @@ $wb['page_txt'] = 'Σελίδα';
 $wb['page_of_txt'] = 'από';
 $wb['delete_confirmation'] = 'Θέλετε οπωσδήποτε να διαγράψετε το φίλτρο mail;';
 ?>
-
-

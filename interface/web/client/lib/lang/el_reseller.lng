@@ -104,6 +104,6 @@ $wb['limit_mailmailinglist_error_notint'] = 'Το πλήθος εγγραφών 
 $wb['limit_openvz_vm_txt'] = 'Μέγιστο πλήθος εικονικών servers';
 $wb['limit_openvz_vm_template_id_txt'] = 'Εξαναγκασμός προτύπου εικονικού server';
 $wb['limit_openvz_vm_error_notint'] = 'Το όριο εικονικών server πρέπει να είναι αριθμός.';
+$wb['web_php_options_notempty'] = 'No PHP option(s) selected. Select at least one PHP option.';
+$wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one SSH option.';
 ?>
-
-

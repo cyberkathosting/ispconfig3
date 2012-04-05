@@ -8,5 +8,3 @@ $wb['recipient_txt'] = 'Παραλήπτης';
 $wb['add_new_record_txt'] = 'Νέα εγγραφή Blacklist';
 $wb['access_txt'] = 'πρόσβαση';
 ?>
-
-

@@ -13,4 +13,6 @@ $wb["username_error_regex"] = 'The username contains charachters that are not al
 $wb["directory_error_empty"] = 'Directory empty.';
 $wb["parent_domain_id_error_empty"] = 'No website selected.';
 $wb['password_strength_txt'] = 'Password strength';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

@@ -72,6 +72,13 @@ class shelluser_base_plugin {
 		
 		$app->uses('system');
 		
+		//* Check if the resulting path is inside the docroot
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+		if(substr(realpath($data['new']['dir']),0,strlen($web['document_root'])) != $web['document_root']) {
+			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
+			return false;
+		}
+		
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
@@ -120,6 +127,13 @@ class shelluser_base_plugin {
 		global $app, $conf;
 		
 		$app->uses('system');
+		
+		//* Check if the resulting path is inside the docroot
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+		if(substr(realpath($data['new']['dir']),0,strlen($web['document_root'])) != $web['document_root']) {
+			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
+			return false;
+		}
 		
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user

@@ -14,4 +14,5 @@ $wb['source_password_error_isempty'] = 'Heslo je prázdne.';
 $wb['destination_error_isemail'] = 'Žiadny Cieľ nebol vybraný.';
 $wb['source_server_error_regex'] = 'Pop3/Imap Server nie je valídne doménové meno.';
 $wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>

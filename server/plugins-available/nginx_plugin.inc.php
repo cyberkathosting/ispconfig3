@@ -1502,6 +1502,7 @@ class nginx_plugin {
 		
 		$awstats_conf_dir = $web_config['awstats_conf_dir'];
 		
+		if(!is_dir($data['new']['document_root']."/web/stats/")) mkdir($data['new']['document_root']."/web/stats");
 		if(!@is_file($awstats_conf_dir.'/awstats.'.$data['new']['domain'].'.conf') || ($data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain'])) {
 			if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
 				unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');

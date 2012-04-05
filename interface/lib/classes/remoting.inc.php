@@ -165,6 +165,38 @@ class remoting {
         return $all;
 	}
 	
+	//* Add a IP address record
+	public function server_ip_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'server_ip_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../admin/form/server_ip.tform.php',$client_id,$params);
+	}
+	
+	//* Update IP address record
+	public function server_ip_update($session_id, $client_id, $ip_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'server_ip_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../admin/form/server_ip.tform.php',$client_id,$ip_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete IP address record
+	public function server_ip_delete($session_id, $ip_id)
+    {
+		if(!$this->checkPerm($session_id, 'server_ip_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../admin/form/server_ip.tform.php',$ip_id);
+		return $affected_rows;
+	}
+	
 	//* Get mail domain details
 	public function mail_domain_get($session_id, $primary_id)
     {
@@ -1003,6 +1035,26 @@ class remoting {
 		
 	}
 	
+	public function client_get_groupid($session_id, $client_id)
+    {
+		global $app;
+		if(!$this->checkPerm($session_id, 'client_get_id')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$client_id = intval($client_id);
+		
+		$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client_id);
+		if(isset($rec['groupid'])) {
+			return intval($rec['groupid']);
+		} else {
+			$this->server->fault('no_group_found', 'There is no group for this client ID.');
+			return false;
+		}
+		
+	}
+	
 	
 	public function client_add($session_id, $reseller_id, $params)
 	{
@@ -1552,6 +1604,116 @@ class remoting {
 	
 	
 	// DNS Function --------------------------------------------------------------------------------------------------
+	
+	//* Create Zone with Template
+	public function dns_templatezone_add($session_id, $client_id, $template_id, $domain, $ip, $ns1, $ns2, $email)
+    {
+        global $app, $conf;
+		if(!$this->checkPerm($session_id, 'dns_templatezone_add')) {
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+
+		$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM client WHERE client_id = ".intval($client_id));
+		$server_id = $client["default_dnsserver"];
+		$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = '$template_id'");
+		$fields = explode(',',$template_record['fields']);
+		$tform_def_file = "../../web/dns/form/dns_soa.tform.php";
+		$app->uses('tform');
+		$app->tform->loadFormDef($tform_def_file);
+		$app->uses('tpl,validate_dns');
+		
+		//* replace template placeholders
+		$tpl_content = $template_record['template'];
+		if($domain != '') $tpl_content = str_replace('{DOMAIN}',$domain,$tpl_content);
+		if($ip != '') $tpl_content = str_replace('{IP}',$ip,$tpl_content);
+		if($ns1 != '') $tpl_content = str_replace('{NS1}',$ns1,$tpl_content);
+		if($ns2 != '') $tpl_content = str_replace('{NS2}',$ns2,$tpl_content);
+		if($email != '') $tpl_content = str_replace('{EMAIL}',$email,$tpl_content);
+		
+		//* Parse the template
+		$tpl_rows = explode("\n",$tpl_content);
+		$section = '';
+		$vars = array();
+		$dns_rr = array();
+		foreach($tpl_rows as $row) {
+			$row = trim($row);
+			if(substr($row,0,1) == '[') {
+				if($row == '[ZONE]') {
+					$section = 'zone';
+				} elseif($row == '[DNS_RECORDS]') {
+					$section = 'dns_records';
+				} else {
+					die('Unknown section type');
+				}
+			} else {
+				if($row != '') {
+					//* Handle zone section
+					if($section == 'zone') {
+						$parts = explode('=',$row);
+						$key = trim($parts[0]);
+						$val = trim($parts[1]);
+						if($key != '') $vars[$key] = $val;
+					}
+					//* Handle DNS Record rows
+					if($section == 'dns_records') {
+						$parts = explode('|',$row);
+						$dns_rr[] = array(
+							'name' => $app->db->quote($parts[1]),
+							'type' => $app->db->quote($parts[0]),
+							'data' => $app->db->quote($parts[2]),
+							'aux'  => $app->db->quote($parts[3]),
+							'ttl'  => $app->db->quote($parts[4])
+						);
+					}
+				}
+			}		
+		} // end foreach
+		
+		if($vars['origin'] == '') $error .= $app->lng('error_origin_empty').'<br />';
+		if($vars['ns'] == '') $error .= $app->lng('error_ns_empty').'<br />';
+		if($vars['mbox'] == '') $error .= $app->lng('error_mbox_empty').'<br />';
+		if($vars['refresh'] == '') $error .= $app->lng('error_refresh_empty').'<br />';
+		if($vars['retry'] == '') $error .= $app->lng('error_retry_empty').'<br />';
+		if($vars['expire'] == '') $error .= $app->lng('error_expire_empty').'<br />';
+		if($vars['minimum'] == '') $error .= $app->lng('error_minimum_empty').'<br />';
+		if($vars['ttl'] == '') $error .= $app->lng('error_ttl_empty').'<br />';	
+		
+		if($error == '') {
+			// Insert the soa record
+			$tmp = $app->db->queryOneRecord("SELECT userid,default_group FROM sys_user WHERE client_id = ".intval($client_id));
+			$sys_userid = $tmp['userid'];
+			$sys_groupid = $tmp['default_group'];
+			unset($tmp);
+			$origin = $app->db->quote($vars['origin']);
+			$ns = $app->db->quote($vars['ns']);
+			$mbox = $app->db->quote(str_replace('@','.',$vars['mbox']));
+			$refresh = $app->db->quote($vars['refresh']);
+			$retry = $app->db->quote($vars['retry']);
+			$expire = $app->db->quote($vars['expire']);
+			$minimum = $app->db->quote($vars['minimum']);
+			$ttl = $app->db->quote($vars['ttl']);
+			$xfer = $app->db->quote($vars['xfer']);
+			$also_notify = $app->db->quote($vars['also_notify']);
+			$update_acl = $app->db->quote($vars['update_acl']);
+			$serial = $app->validate_dns->increase_serial(0);		
+			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`, `also_notify`, `update_acl`) VALUES 
+			('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer', '$also_notify', '$update_acl')";
+			$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');	
+			// Insert the dns_rr records
+			if(is_array($dns_rr) && $dns_soa_id > 0) {
+				foreach($dns_rr as $rr) {
+					$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES 
+					('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$rr[name]', '$rr[type]', '$rr[data]', '$rr[aux]', '$rr[ttl]', 'Y')";
+					$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
+				}
+			}
+			exit;
+		} else {
+			$this->server->fault('permission_denied', $error);
+		}
+	}
+	
 	
 	//* Get record details
 	public function dns_zone_get($session_id, $primary_id)

@@ -412,21 +412,21 @@ class remoting_lib {
                                         if(!preg_match($validator['regex'], $field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                	$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
                                 case 'UNIQUE':
-                                        if($this->action == 'INSERT') {
+                                        if($this->action == 'NEW') {
                                                 $num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
 														if(isset($this->wordbook[$errmsg])) {
-                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 														} else {
-															$this->errorMessage .= $errmsg."<br>\r\n";
+															$this->errorMessage .= $errmsg."<br />\r\n";
 														}
                                                 }
                                         } else {
@@ -434,9 +434,9 @@ class remoting_lib {
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
                                                         if(isset($this->wordbook[$errmsg])) {
-                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                        	$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 														} else {
-															$this->errorMessage .= $errmsg."<br>\r\n";
+															$this->errorMessage .= $errmsg."<br />\r\n";
 														}
                                                 }
                                         }
@@ -445,19 +445,19 @@ class remoting_lib {
                                         if(empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
                                 case 'ISEMAIL':
-                                        if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $field_value)) {
+                                        if(!preg_match("/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-zA-Z0-9\-]{2,30}$/i", $field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
@@ -466,9 +466,9 @@ class remoting_lib {
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
-                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                                    $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 												} else {
-													$this->errorMessage .= $errmsg."<br>\r\n";
+													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
                                 break;
@@ -476,11 +476,59 @@ class remoting_lib {
                                         if(!is_numeric($field_value) || $field_value <= 0){
                                           $errmsg = $validator['errmsg'];
                                           if(isset($this->wordbook[$errmsg])) {
-                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br>\r\n";
+                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 										  } else {
-											 $this->errorMessage .= $errmsg."<br>\r\n";
+											 $this->errorMessage .= $errmsg."<br />\r\n";
 										  }
                                         }
+                                break;
+								case 'ISIPV4':
+								$vip=1;
+								if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+								$groups=explode(".",$field_value);
+								foreach($groups as $group){
+									if($group<0 OR $group>255)
+									$vip=0;
+								}
+								}else{$vip=0;}
+                                        if($vip==0) {
+										$errmsg = $validator['errmsg'];
+                                          if(isset($this->wordbook[$errmsg])) {
+                                             $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+										  } else {
+											 $this->errorMessage .= $errmsg."<br />\r\n";
+										  }
+										}
+                                break;
+								case 'ISIP':
+								//* Check if its a IPv4 or IPv6 address
+								if(function_exists('filter_var')) {
+									if(!filter_var($field_value,FILTER_VALIDATE_IP)) {
+										$errmsg = $validator['errmsg'];
+										if(isset($this->wordbook[$errmsg])) {
+											$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+										} else {
+											$this->errorMessage .= $errmsg."<br />\r\n";
+										}
+									}
+								} else {
+									//* Check content with regex, if we use php < 5.2
+									$ip_ok = 0;
+									if(preg_match("/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i", $field_value)){
+										$ip_ok = 1;
+									}
+									if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+										$ip_ok = 1;
+									}
+									if($ip_ok == 0) {
+										$errmsg = $validator['errmsg'];
+										if(isset($this->wordbook[$errmsg])) {
+											$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+										} else {
+											$this->errorMessage .= $errmsg."<br />\r\n";
+										}
+									}
+								}
                                 break;
                                 case 'CUSTOM':
                                         // Calls a custom class to validate this record
@@ -490,7 +538,7 @@ class remoting_lib {
                                                 $app->uses($validator_class);
                                                 $this->errorMessage .= $app->$validator_class->$validator_function($field_name, $field_value, $validator);
                                         } else {
-                                                $this->errorMessage .= "Custom validator class or function is empty<br>\r\n";
+                                                $this->errorMessage .= "Custom validator class or function is empty<br />\r\n";
                                         }
                                 break;
 								default:
@@ -563,6 +611,10 @@ class remoting_lib {
                                                 if($field['formtype'] == 'PASSWORD') {
 														if($field['encryption'] == 'CRYPT') {
                                                                 $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
+                                                        } elseif ($field['encryption'] == 'MYSQL') {
+																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
+														} elseif ($field['encryption'] == 'CLEARTEXT') {
+																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5($record[$key]);
                                                         }

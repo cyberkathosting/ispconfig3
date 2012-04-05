@@ -6,5 +6,3 @@ $wb['lang_file_txt'] = 'Αρχείο γλώσσας';
 $wb['btn_save_txt'] = 'Αποθήκευση';
 $wb['btn_cancel_txt'] = 'Επιστροφή';
 ?>
-
-

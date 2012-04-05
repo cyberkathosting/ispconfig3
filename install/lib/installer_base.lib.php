@@ -628,7 +628,8 @@ class installer_base {
 
 		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
+		
+		//* These postconf commands will be executed on installation and update
 		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
@@ -645,9 +646,6 @@ class installer_base {
 		unset($server_ini_array);
 
 		$postconf_commands = array (
-				'myhostname = '.$conf['hostname'],
-				'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
-				'mynetworks = 127.0.0.0/8 [::1]/128',
 				'alias_maps = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases',
 				'alias_database = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases',
 				'virtual_alias_domains =',
@@ -681,6 +679,15 @@ class installer_base {
 				'body_checks = regexp:'.$config_dir.'/body_checks',
 				'owner_request_special = no'
 		);
+		
+		//* These postconf commands will be executed on installation only
+		if($this->is_update == false) {
+			$postconf_commands = array_merge($postconf_commands,array(
+				'myhostname = '.$conf['hostname'],
+				'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
+				'mynetworks = 127.0.0.0/8 [::1]/128'
+			));
+		}
 
 		//* Create the header and body check files
 		touch($config_dir.'/header_checks');

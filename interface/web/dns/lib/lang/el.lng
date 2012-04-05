@@ -20,6 +20,6 @@ $wb['Templates'] = 'Πρότυπα';
 $wb['zone_file_successfully_imported_txt'] = 'Το αρχείο ζώνης εισήχθηκε επιτυχώς!';
 $wb['error_no_valid_zone_file_txt'] = 'Το αρχείο ζώνης φαίνεται να μην είναι έγκυρο!';
 $wb['zonefile_to_import_txt'] = 'Αρχείο Ζώνης';
+$wb['Secondary Zones'] = 'Secondary Zones';
+$wb['Import Zone File'] = 'Import Zone File';
 ?>
-
-

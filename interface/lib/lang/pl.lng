@@ -68,4 +68,5 @@ $wb['monthnamesshort_dec'] = 'Gru';
 $wb['datepicker_nextText'] = 'Nast';
 $wb['datepicker_prevText'] = 'Poprz';
 $wb['logout_txt'] = 'LOGOUT';
+$wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
 ?>

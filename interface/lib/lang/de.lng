@@ -1,5 +1,6 @@
 <?php
 $wb['conf_format_dateshort'] = 'd.m.Y';
+$wb['conf_format_dateshort_human_readable'] = 'tt.mm.jjjj';
 $wb['conf_format_datelong'] = 'l, d. F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
@@ -68,4 +69,5 @@ $wb['monthnamesshort_dec'] = 'Dez';
 $wb['datepicker_nextText'] = 'Vor';
 $wb['datepicker_prevText'] = 'Zur&uuml;ck';
 $wb['logout_txt'] = 'LOGOUT';
+$wb['submit_confirmation'] = "Wollen Sie diese Aktion wirlich ausführen?";
 ?>

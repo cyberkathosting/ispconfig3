@@ -14,5 +14,3 @@ $wb['ostemplate_name_error'] = 'Το OSTemplate περιέχει μη επιτρ
 $wb['ostemplate_name_unique_error'] = 'Υπάρχει ήδη ένα OSTemplate με αυτό το όνομα.';
 $wb['ostemplate_exec_txt'] = 'Η εντολή δημιουργίας του OSTemplate εστάλει στον server. Μπορεί να διαρκέσει αρκετά λεπτά η πλήρης δημιουργία του OSTemplate.';
 ?>
-
-

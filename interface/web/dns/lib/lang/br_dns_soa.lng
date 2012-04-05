@@ -28,4 +28,5 @@ $wb['seconds_txt'] = 'Segundos';
 $wb['eg_domain_tld'] = 'e.x. dominio.ext';
 $wb['eg_ns1_domain_tld'] = 'e.x. ns1.dominio.ext';
 $wb['eg_webmaster_domain_tld'] = 'e.x. webmaster@dominio.ext';
+$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
 ?>

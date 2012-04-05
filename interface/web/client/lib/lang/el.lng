@@ -10,6 +10,6 @@ $wb['Add Reseller'] = 'Νέος Μεταπωλητής';
 $wb['Edit Reseller'] = 'Επεξεργασία Μεταπωλητή';
 $wb['Resellers'] = 'Μεταπωλητές';
 $wb['error_has_clients'] = 'Ο Μεταπωλητής έχει πελάτες. Διαγράψτε πρώτα τους πελάτες.';
+$wb['add_additional_template_txt'] = 'Add additional template';
+$wb['delete_additional_template_txt'] = 'Delete additional template';
 ?>
-
-

@@ -116,7 +116,7 @@ $install_mode = $inst->simple_query('Installation mode', array('standard','exper
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', $tmp_out[0]);
+$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', @$tmp_out[0]);
 unset($tmp_out);
 
 // Check if the mysql functions are loaded in PHP

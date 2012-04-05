@@ -106,6 +106,8 @@ class page_action extends tform_actions {
 		
 		if(isset($this->dataRecord['username']) && trim($this->dataRecord['username']) == '') $app->tform->errorMessage .= $app->tform->lng('username_error_empty').'<br />';
 		if(isset($this->dataRecord['username']) && empty($this->dataRecord['parent_domain_id'])) $app->tform->errorMessage .= $app->tform->lng('parent_domain_id_error_empty').'<br />';
+		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'],'..')) $app->tform->errorMessage .= $app->tform->lng('dir_dot_error').'<br />';
+		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'],'./')) $app->tform->errorMessage .= $app->tform->lng('dir_slashdot_error').'<br />';
 		
 		parent::onSubmit();
 	}

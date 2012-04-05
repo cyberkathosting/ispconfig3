@@ -362,7 +362,7 @@ if($reconfigure_services_answer == 'yes') {
 swriteln('Updating ISPConfig');
 
 
-if ($conf['services']['web'] && $inst->ispconfig_interface_installed) {
+if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
 	if($conf['webserver']['server_type'] == 'nginx'){

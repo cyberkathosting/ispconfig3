@@ -7,5 +7,3 @@ $wb['city_txt'] = 'Πόλη';
 $wb['country_txt'] = 'Χώρα';
 $wb['add_new_record_txt'] = 'Νεός Μεταπωλητής';
 ?>
-
-

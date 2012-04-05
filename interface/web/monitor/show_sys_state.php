@@ -196,7 +196,10 @@ function _getServerState($serverId, $serverName) {
 	$ispcData = null;
 	foreach($records as $record) {
 		/* get the state from the db-data */
-		_processDbState($record['type'], $serverId, $serverState, $messages);
+		$tmp = _processDbState($record['type'], $serverId, $serverState, $messages);
+		$serverState = $tmp['serverState'];
+		$messages = $tmp['messages'];
+		
 		/* if we have the os-info, get it */
 		if ($record['type'] == 'os_info') {
 			$osData = unserialize($record['data']);
@@ -299,8 +302,8 @@ function _getServerState($serverId, $serverName) {
 /*
 * gets the state from the db and process it
 */
-function _processDbState($type, $serverId, $serverState, $messages) {
-	global $app;
+function _processDbState($type, $serverId) {
+	global $app, $serverState, $messages;
 
 	/*
     * Always the NEWEST record of each monitoring is responsible for the
@@ -574,6 +577,8 @@ function _processDbState($type, $serverId, $serverState, $messages) {
 	if ($type == 'rkhunter') {
 		/* this type has no state */
 	}
+	
+	return array('serverState' => $serverState,'messages' => $messages);
 }
 
 /*

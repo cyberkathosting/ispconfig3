@@ -4,5 +4,3 @@ $wb['header_txt'] = 'Ιδιότητες Navi';
 $wb['save_txt'] = 'Αποθήκευση';
 $wb['cancel_txt'] = 'Άκυρο';
 ?>
-
-

@@ -31,7 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class plugin {
 	
 	private $subscribed_events = array();
-	private $debug = true;
+	private $debug = false;
 	
 	
 	/*

@@ -45,5 +45,3 @@ $wb['Global Filters'] = 'Καθολικά Φίλτρα';
 $wb['Domain Alias'] = 'Ψευδώνυμο Domain';
 $wb['Relay Recipients'] = 'Παραλήπτες Relay';
 ?>
-
-

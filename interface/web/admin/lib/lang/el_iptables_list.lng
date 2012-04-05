@@ -13,5 +13,3 @@ $wb['source_ip_txt'] = 'Διεύθυνση Εκκίνησης';
 $wb['active_txt'] = 'Ενεργός';
 $wb['iptables_error_unique'] = 'Υπάρχει ήδη μια εγγραφή firewall για αυτόν τον server.';
 ?>
-
-

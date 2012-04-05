@@ -129,7 +129,9 @@
 </tmpl_if>
 <tmpl_if name='suexec' op='==' value='y'>
     # suexec enabled
-    SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    <IfModule mod_suexec.c>
+      SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
+    </IfModule>
 </tmpl_if>
     # Clear PHP settings of this website
     <FilesMatch "\.ph(p3?|tml)$">

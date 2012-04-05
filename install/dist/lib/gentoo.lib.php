@@ -80,10 +80,8 @@ class installer extends installer_base
 			caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
 		}
 
+		//* These postconf commands will be executed on installation and update
 		$postconf_commands = array (
-			'myhostname = '.$conf['hostname'],
-			'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
-			'mynetworks = 127.0.0.0/8 [::1]/128',
 			'virtual_alias_domains =',
 			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
 			'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
@@ -112,6 +110,15 @@ class installer extends installer_base
 			'nested_header_checks = regexp:'.$config_dir.'/nested_header_checks',
 			'body_checks = regexp:'.$config_dir.'/body_checks'
 		);
+		
+		//* These postconf commands will be executed on installation only
+		if($this->is_update == false) {
+			$postconf_commands = array_merge($postconf_commands,array(
+				'myhostname = '.$conf['hostname'],
+				'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
+				'mynetworks = 127.0.0.0/8 [::1]/128'
+			));
+		}
 		
 		//* Create the header and body check files
 		touch($config_dir.'/header_checks');

@@ -13,5 +13,3 @@ $wb['name_error_regex'] = 'Το hostname δεν έχει σωστή μορφοπ
 $wb['data_error_empty'] = 'Οι πληροφορίες του Host είναι κενές';
 $wb['data_error_regex'] = 'Οι πληροφορίες Host έχουν μη έγκυρη μορφοποίηση';
 ?>
-
-

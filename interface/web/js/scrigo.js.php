@@ -133,6 +133,31 @@ function submitForm(formname,target) {
 	*/
 }
 
+function submitFormConfirm(formname,target,confirmation) {
+	if(window.confirm(confirmation)) {
+		var submitFormObj = jQuery.ajax({	type: "POST", 
+											url: target,
+											data: jQuery('#'+formname).serialize(),
+											dataType: "html",
+											success: function(data, textStatus, jqXHR) {
+												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+													var parts = jqXHR.responseText.split(':');
+													//alert(parts[1]);
+													loadContent(parts[1]);
+													//redirect = parts[1];
+													//window.setTimeout('loadContent(redirect)', 1000);
+												} else {
+													jQuery('#pageContent').html(jqXHR.responseText);
+												}
+											},
+											error: function(jqXHR, textStatus, errorThrown) {
+												var parts = jqXHR.responseText.split(':');
+												reportError('Ajax Request was not successful. 111');
+											},
+									});
+	}
+}
+
 function submitUploadForm(formname,target) {		
 	var handleResponse = function(loadedFrame) {
 		var response, responseStr = loadedFrame.contentWindow.document.body.innerHTML;

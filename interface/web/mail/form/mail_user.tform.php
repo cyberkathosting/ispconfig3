@@ -234,11 +234,6 @@ $form["tabs"]['autoresponder'] = array (
 		'autoresponder_start_date' => array (
 			'datatype'	=> 'DATETIME',
 			'formtype'	=> 'DATETIME',
-			'validators'=> array ( 	0 => array (	'type'	=> 'CUSTOM',
-													'class' => 'validate_autoresponder',
-													'function' => 'start_date',
-													'errmsg'=> 'autoresponder_start_date_isfuture'),
-								 ),
 		),
 		'autoresponder_end_date' => array (
 			'datatype'	=> 'DATETIME',

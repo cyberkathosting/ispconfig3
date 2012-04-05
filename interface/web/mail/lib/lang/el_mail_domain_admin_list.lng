@@ -6,5 +6,3 @@ $wb['add_new_record_txt'] = 'Νέο Domain';
 $wb['active_txt'] = 'Ενεργό';
 $wb['sys_groupid_txt'] = 'Πελάτης';
 ?>
-
-

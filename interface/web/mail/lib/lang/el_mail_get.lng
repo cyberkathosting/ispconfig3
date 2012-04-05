@@ -14,6 +14,5 @@ $wb['source_password_error_isempty'] = 'Το Συνθηματικό δεν έχ�
 $wb['destination_error_isemail'] = 'Δεν επιλέχθηκε προορισμός.';
 $wb['source_server_error_regex'] = 'Το όνομα του Pop3/Imap Server δεν είναι έγκυρο.';
 $wb['source_read_all_txt'] = 'Ανάκτηση όλων των emails (συμπερ. αναγνωσμένων mails)';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
 ?>
-
-

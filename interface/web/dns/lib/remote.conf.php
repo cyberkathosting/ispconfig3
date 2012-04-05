@@ -1,6 +1,6 @@
 <?php
 
-$function_list['dns_zone_get,dns_zone_get_id,dns_zone_add,dns_zone_update,dns_zone_delete,dns_zone_set_status'] = 'DNS zone functions';
+$function_list['dns_zone_get,dns_zone_get_id,dns_zone_add,dns_zone_update,dns_zone_delete,dns_zone_set_status,dns_templatezone_add'] = 'DNS zone functions';
 $function_list['dns_a_get,dns_a_add,dns_a_update,dns_a_delete'] = 'DNS a functions';
 $function_list['dns_aaaa_get,dns_aaaa_add,dns_aaaa_update,dns_aaaa_delete'] = 'DNS aaaa functions';
 $function_list['dns_alias_get,dns_alias_add,dns_alias_update,dns_alias_delete'] = 'DNS alias functions';

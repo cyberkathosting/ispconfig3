@@ -23,5 +23,3 @@ $wb['Statistics'] = 'Στατιστικά';
 $wb['Web traffic'] = 'Κίνηση Web';
 $wb['Website quota (Harddisk)'] = 'Όριο δίσκου Website (Harddisk)';
 ?>
-
-

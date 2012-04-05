@@ -1,8 +1,6 @@
 <?php
-$wb['faq_faq_txt'] = "Συχνές Ερωτήσεις";
-$wb['faq_question_txt'] = "Ερώτηση";
-$wb['faq_answer_txt'] = "Απάντηση";
-$wb['faq_section_txt'] = "Ενότητα";
+$wb['faq_faq_txt'] = 'Συχνές Ερωτήσεις';
+$wb['faq_question_txt'] = 'Ερώτηση';
+$wb['faq_answer_txt'] = 'Απάντηση';
+$wb['faq_section_txt'] = 'Ενότητα';
 ?>
-
-

@@ -47,6 +47,31 @@ server {
         error_page 500 /error/500.html;
         error_page 502 /error/502.html;
         error_page 503 /error/503.html;
+        recursive_error_pages on;
+        location = /error/400.html {
+            internal;
+        }
+        location = /error/401.html {
+            internal;
+        }
+        location = /error/403.html {
+            internal;
+        }
+        location = /error/404.html {
+            internal;
+        }
+        location = /error/405.html {
+            internal;
+        }
+        location = /error/500.html {
+            internal;
+        }
+        location = /error/502.html {
+            internal;
+        }
+        location = /error/503.html {
+            internal;
+        }
 </tmpl_if>
 		
         error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
@@ -76,7 +101,7 @@ server {
             auth_basic_user_file <tmpl_var name='stats_auth_passwd_file'>;
         }
 
-        location /awstats-icon {
+        location ^~ /awstats-icon {
             alias /usr/share/awstats/icon;
         }
 

@@ -70,5 +70,3 @@ $wb['web_php_options_txt'] = 'Επιλογές PHP';
 $wb['template_type_txt'] = 'Τύπος προτύπου';
 $wb['template_name_txt'] = 'Όνομα προτύπου';
 ?>
-
-

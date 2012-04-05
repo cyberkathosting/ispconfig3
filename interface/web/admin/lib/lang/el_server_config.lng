@@ -149,6 +149,8 @@ $wb['do_not_try_rescue_mail_txt'] = 'Απενεργοποίηση εποπτεί
 $wb['rescue_description_txt'] = '<b>Πληροφορία:</b> Αν θέλετε να τερματίσετε την MySQL πρέπει να επιλέξετε την επιλογή Απενεργοποίηση εποπτείας MySQL και μετά να περιμένετε 2-3 λεπτά.<br>Αν δεν περιμένετε 2-3 λεπτά, η εποπτεία και αποκατάσταση θα προσπαθήσει να επανεκκινήσει την MySQL!';
 $wb['enable_sni_txt'] = 'Ενεργοποίηση SNI';
 $wb['do_not_try_rescue_httpd_txt'] = 'Απενεργοποίηση εποπτείας HTTPD';
+$wb['set_folder_permissions_on_update_txt'] = 'Set folder permissions on update';
+$wb['add_web_users_to_sshusers_group_txt'] = 'Add web users to -sshusers- group';
+$wb['connect_userid_to_webid_txt'] = 'Connect Linux userid to webid';
+$wb['connect_userid_to_webid_start_txt'] = 'Start ID for userid/webid connect';
 ?>
-
-

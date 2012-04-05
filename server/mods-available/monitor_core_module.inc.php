@@ -807,8 +807,10 @@ class monitor_core_module {
 	private function _delOldRecords($type, $serverId) {
 		global $app;
 
-		$now = time();
-		$old = $now - (4 * 60); // 4 minutes
+		// $now = time();
+		// $old = $now - (4 * 60); // 4 minutes
+		$old = 'UNIX_TIMESTAMP() - 240';
+		
 		/*
 		 * ATTENTION if i do NOT pay attention of the server id, i delete all data (of the type)
 		 * of ALL servers. This means, if i have a multiserver-environment and a server has a 

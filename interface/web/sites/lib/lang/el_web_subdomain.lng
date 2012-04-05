@@ -40,5 +40,3 @@ $wb['redirect_error_regex'] = 'Η διαδρομή ανακατεύθυνσης 
 $wb['no_redirect_txt'] = 'Χωρίς Ανακατεύθυνση';
 $wb['no_flag_txt'] = 'Χωρίς Σημαία';
 ?>
-
-

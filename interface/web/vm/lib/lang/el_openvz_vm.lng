@@ -38,5 +38,3 @@ $wb['template_nameserver_error_empty'] = 'Το Nameserver(s) είναι κενό
 $wb['Virtual server'] = 'Εικονικός server';
 $wb['Advanced'] = 'Για προχωρημένους';
 ?>
-
-

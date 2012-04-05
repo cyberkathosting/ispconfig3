@@ -5,5 +5,3 @@ $wb['source_txt'] = 'Πηγή';
 $wb['destination_txt'] = 'Προορισμός';
 $wb['add_new_record_txt'] = 'Νέο ψευδωνύμο Domain';
 ?>
-
-

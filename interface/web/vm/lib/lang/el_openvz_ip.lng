@@ -7,5 +7,3 @@ $wb['ip_error_wrong'] = 'Παρακαλούμε συμπληρώστε μια έ
 $wb['ip_error_unique'] = 'Η διεύθυνση IP υπάρχει ήδη.';
 $wb['IP address'] = 'Διεύθυνση IP';
 ?>
-
-

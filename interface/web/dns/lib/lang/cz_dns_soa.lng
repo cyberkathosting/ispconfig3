@@ -28,4 +28,5 @@ $wb['seconds_txt'] = 'vteřin';
 $wb['eg_domain_tld'] = 'např. domena.cz';
 $wb['eg_ns1_domain_tld'] = 'např. ns1.domena.cz';
 $wb['eg_webmaster_domain_tld'] = 'např. webmaster@domena.cz';
+$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
 ?>

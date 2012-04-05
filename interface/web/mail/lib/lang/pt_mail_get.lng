@@ -14,4 +14,5 @@ $wb['source_password_error_isempty'] = 'Senha em branco.';
 $wb['destination_error_isemail'] = 'Destino não seleccionado.';
 $wb['source_server_error_regex'] = 'Servidor Pop3/Imap não é um nome de domínio válido.';
 $wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
 ?>

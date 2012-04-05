@@ -63,4 +63,4 @@ CREATE TABLE IF NOT EXISTS `firewall_forward` (
 
 alter table `server` add column `proxy_server` tinyint(1) not null after `vserver_server`;
 alter table `server` add column `firewall_server` tinyint(1) not null after `proxy_server`;
-alter table `web_domain` add column `nginx_directives` mediumtext not null after `apache_directives`;
+alter table `web_domain` add column `nginx_directives` mediumtext null after `apache_directives`;

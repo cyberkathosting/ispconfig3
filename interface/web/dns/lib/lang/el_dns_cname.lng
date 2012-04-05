@@ -14,5 +14,3 @@ $wb['data_error_empty'] = 'Το hostname Προορισμός δεν έχει ο
 $wb['data_error_regex'] = 'Hostname Προορισμός με μη έγκυρη μορφοποίηση';
 $wb['data_error_duplicate'] = 'Διπλοεγγραφή A-Record ή CNAME-Record';
 ?>
-
-

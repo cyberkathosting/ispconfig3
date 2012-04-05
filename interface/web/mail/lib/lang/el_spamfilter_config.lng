@@ -18,5 +18,3 @@ $wb['relayhost_password_txt'] = 'Συνθηματικό Relayhost';
 $wb['mailbox_size_limit_txt'] = 'Όριο μεγέθους θυρίδας';
 $wb['message_size_limit_txt'] = 'Όριο μεγέθους μηνύματος';
 ?>
-
-
