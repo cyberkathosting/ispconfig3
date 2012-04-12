@@ -286,9 +286,21 @@ public function toLower($record) {
     //** Inserts a record and saves the changes into the datalog
     public function datalogInsert($tablename, $insert_data, $index_field) {
       global $app;
+	  
+	  if(is_array($insert_data)) {
+			$key_str = '';
+			$val_str = '';
+			foreach($insert_data as $key => $val) {
+				$key_str .= "`".$key ."`,";
+				$val_str .= "'".$this->quote($val)."',";
+			}
+			$insert_data_str = '('.$key_str.') VALUES ('.$val_str.')';
+		} else {
+			$insert_data_str = $insert_data;
+		}
 
       $old_rec = array();
-      $this->query("INSERT INTO $tablename $insert_data");
+      $this->query("INSERT INTO $tablename $insert_data_str");
       $index_value = $this->insertID();
       $new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
       $this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
@@ -298,13 +310,23 @@ public function toLower($record) {
 
     //** Updates a record and saves the changes into the datalog
     public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
-      global $app;
+		global $app;
       
 	  if($force_update == true) {
 		$old_rec = array();
 	  } else {
 		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
 	  }
+	  
+	  if(is_array($update_data)) {
+			$update_data_str = '';
+			foreach($update_data as $key => $val) {
+				$update_data_str .= "`".$key ."` = '".$this->quote($val)."',";
+			}
+		} else {
+			$update_data_str = $update_data;
+		}
+		
       $this->query("UPDATE $tablename SET $update_data WHERE $index_field = '$index_value'");
       $new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
       $this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec);
