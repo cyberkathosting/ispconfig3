@@ -12,4 +12,6 @@ $wb['username_error_unique'] = 'Το Όνομα Χρήστη πρέπει να �
 $wb['username_error_regex'] = 'Το Όνομα Χρήστη περιέχει μη επιτρεπόμενους χαρακτήρες.';
 $wb['directory_error_empty'] = 'Ο φάκελος δεν έχει οριστεί.';
 $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

@@ -17,9 +17,6 @@ $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'DNS čarobnjak';
 $wb['Add DNS Zone'] = 'Dodaj';
 $wb['Templates'] = 'Predlošci';
-$wb['zone_file_successfully_imported_txt'] = 'Zonska datoteka je uspješno učitana!';
-$wb['error_no_valid_zone_file_txt'] = 'Ovo nije ispravna zonska datoteka!';
-$wb['zonefile_to_import_txt'] = 'Datoteka';
-$wb['Secondary Zones'] = 'Secondary Zones';
-$wb['Import Zone File'] = 'Import Zone File';
+$wb['Secondary Zones'] = 'Sekundarne zone';
+$wb['Import Zone File'] = 'Importiraj zonsku datoteku';
 ?>

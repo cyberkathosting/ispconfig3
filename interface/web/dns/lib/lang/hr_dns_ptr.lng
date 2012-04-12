@@ -1,15 +1,15 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Name';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Naziv';
 $wb['type_txt'] = 'Vrsta';
-$wb['data_txt'] = 'Canonical Hostname';
+$wb['data_txt'] = 'Canonical naziv hosta';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivno';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The name is empty.';
-$wb['name_error_regex'] = 'The name has the wrong format.';
-$wb['data_error_empty'] = 'Canonical hostname empty';
-$wb['data_error_regex'] = 'Canonical hostname format invalid';
+$wb['limit_dns_record_txt'] = 'Iskorišten je maksimalan broj DNS zapisa za vaš račun.';
+$wb['no_zone_perm'] = 'Nemate dozvolu za dodavanja zapisa ovoj domeni.';
+$wb['name_error_empty'] = 'Naziv hosta nije upisan.';
+$wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
+$wb['data_error_empty'] = 'Polje Canonical naziv hosta je prazno';
+$wb['data_error_regex'] = 'Neispravan format Canonical host zapisa';
 ?>

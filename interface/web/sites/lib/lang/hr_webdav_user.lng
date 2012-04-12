@@ -1,15 +1,17 @@
 <?php
-$wb['dir_txt'] = 'Directory';
+$wb['dir_txt'] = 'Direktorij';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Web stranica';
 $wb['username_txt'] = 'Korisničko ime';
 $wb['password_txt'] = 'Šifra';
-$wb['password_strength_txt'] = 'Password strength';
+$wb['password_strength_txt'] = 'Jačina šifre';
 $wb['active_txt'] = 'Aktivno';
-$wb['limit_webdav_user_txt'] = 'The max. number of webdav users for your account is reached.';
-$wb['username_error_empty'] = 'Username is empty.';
-$wb['username_error_unique'] = 'The username must be unique.';
-$wb['username_error_regex'] = 'The username contains charachters that are not allowed.';
-$wb['directory_error_empty'] = 'Directory empty.';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
+$wb['limit_webdav_user_txt'] = 'Iskoristili ste maksimalan broj webdav korisnika za ovaj račun.';
+$wb['username_error_empty'] = 'Nije upisano korisničko ime.';
+$wb['username_error_unique'] = 'Izabrano korisničko ime već postoji.';
+$wb['username_error_regex'] = 'Korisničko ime sadrži znakove koji nisu dopušteni.';
+$wb['directory_error_empty'] = 'Direktorij je prazan.';
+$wb['parent_domain_id_error_empty'] = 'Nije izabrana web stranica.';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

@@ -4,6 +4,6 @@ $wb['Settings'] = 'Postavke';
 $wb['ISPConfig Tools'] = 'Control panel alati';
 $wb['Password and Language'] = 'Šifra i jezik';
 $wb['ispconfig_tools_note'] = 'Ovaj modul omogućava promjenu šifre i jezika te možete pokrenuti sinkronizaciju DNS zapisa.';
-$wb['Dns Tools'] = 'Dns Tools';
-$wb['Resync'] = 'Resync';
+$wb['Dns Tools'] = 'DNS alati';
+$wb['Resync'] = 'Sinkroniziraj DNS zapise';
 ?>

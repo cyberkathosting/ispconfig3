@@ -1,5 +1,5 @@
 <?php
-$wb['Client'] = 'Klijent';
+$wb['Client'] = 'Klijenti';
 $wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limiti';
 $wb['Add Client'] = 'Dodaj klijenta';
@@ -10,6 +10,6 @@ $wb['Add Reseller'] = 'Dodaj preprodavača';
 $wb['Edit Reseller'] = 'Editiraj preprodavača';
 $wb['Resellers'] = 'Preprodavači';
 $wb['error_has_clients'] = 'Ovaj preprodavač ima klijente. Prvo morate obrisati klijente preprodavača.';
-$wb['add_additional_template_txt'] = 'Add additional template';
-$wb['delete_additional_template_txt'] = 'Delete additional template';
+$wb['add_additional_template_txt'] = 'Dodaj dodatni predložak';
+$wb['delete_additional_template_txt'] = 'Obriši dodatni predložak';
 ?>

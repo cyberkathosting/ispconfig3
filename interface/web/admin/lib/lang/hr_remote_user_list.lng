@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Udaljeni klijenti';
 $wb['list_desc_txt'] = 'Udaljeni klijenti';
-$wb['add_new_record_txt'] = 'Dodaj';
+$wb['add_new_record_txt'] = 'Dodaj udaljenog klijenta';
 $wb['parent_remote_userid_txt'] = 'ID';
 $wb['username_txt'] = 'Korisničko ime';
 ?>

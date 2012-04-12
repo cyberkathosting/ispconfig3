@@ -4,5 +4,5 @@ $wb['sender_id_txt'] = 'ID pošiljatelja';
 $wb['subject_txt'] = 'Naslov poruke';
 $wb['message_txt'] = 'Poruka';
 $wb['tstamp_txt'] = 'Vrijeme';
-$wb['reply_txt'] = 'Reply';
+$wb['reply_txt'] = 'Odgovori';
 ?>

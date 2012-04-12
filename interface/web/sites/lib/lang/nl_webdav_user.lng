@@ -12,4 +12,6 @@ $wb['username_error_unique'] = 'De gebruikersnaam moet uniek zijn.';
 $wb['username_error_regex'] = 'De gebruikersnaam bevat karakters die niet zijn toegestaan.';
 $wb['directory_error_empty'] = 'Directory is niet ingvuld.';
 $wb['parent_domain_id_error_empty'] = 'Geen website geselecteerd.';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

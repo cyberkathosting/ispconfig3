@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Server';
-$wb['server_name_txt'] = 'Ime';
+$wb['server_name_txt'] = 'Naziv';
 $wb['mail_server_txt'] = 'Mail';
 $wb['web_server_txt'] = 'Web';
 $wb['dns_server_txt'] = 'DNS';

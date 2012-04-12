@@ -3,6 +3,6 @@ $wb['list_head_txt'] = 'Postfix Header and Body Checks';
 $wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
 $wb['pattern_txt'] = 'Pattern';
-$wb['action_txt'] = 'Action';
+$wb['action_txt'] = 'Akcija';
 $wb['add_new_record_txt'] = 'Add new Content Filter';
 ?>

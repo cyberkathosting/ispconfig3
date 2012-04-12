@@ -9,4 +9,5 @@ $wb['destination_error_isemail'] = 'Cílová email adresa je chybná.';
 $wb['limit_mailalias_txt'] = 'Dosažen maximální počet email aliasů pro Váš účet.';
 $wb['duplicate_mailbox_txt'] = 'Mailbox s touto adresou již existuje';
 $wb['domain_txt'] = 'Doména';
+$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>

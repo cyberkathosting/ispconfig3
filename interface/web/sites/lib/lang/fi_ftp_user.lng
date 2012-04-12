@@ -25,4 +25,6 @@ $wb['quota_files_unity_txt'] = 'Tiedostot';
 $wb['directory_error_notinweb'] = 'Kansio ei ole www-juurikansion sisällä.';
 $wb['parent_domain_id_error_empty'] = 'Ei www-sivua valittuna.';
 $wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

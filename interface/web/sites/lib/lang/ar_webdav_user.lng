@@ -12,4 +12,6 @@ $wb['username_error_unique'] = 'The username must be unique.';
 $wb['username_error_regex'] = 'The username contains charachters that are not allowed.';
 $wb['directory_error_empty'] = 'Directory empty.';
 $wb['parent_domain_id_error_empty'] = 'No website selected.';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

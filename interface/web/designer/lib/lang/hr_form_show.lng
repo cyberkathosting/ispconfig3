@@ -1,18 +1,18 @@
 <?php
-$wb['header_txt'] = 'Formeditor';
-$wb['title_txt'] = 'Formtitle';
-$wb['name_txt'] = 'Formname';
-$wb['delete_txt'] = 'Delete';
-$wb['properties_txt'] = 'Properties';
-$wb['new_tab_txt'] = 'Tab new';
-$wb['edit_txt'] = 'Edit';
-$wb['new_txt'] = 'New';
+$wb['header_txt'] = 'Editor forme';
+$wb['title_txt'] = 'Naslov forme';
+$wb['name_txt'] = 'Naziv forme';
+$wb['delete_txt'] = 'Obriši';
+$wb['properties_txt'] = 'Postavke';
+$wb['new_tab_txt'] = 'Novi tab';
+$wb['edit_txt'] = 'Promijeni';
+$wb['new_txt'] = 'Novo';
 $wb['up_txt'] = '^';
 $wb['down_txt'] = 'v';
-$wb['module_txt'] = 'Module';
-$wb['form_txt'] = 'Form';
-$wb['description_txt'] = 'Description';
-$wb['module_del_txt'] = 'Delete the module and all subdirectories?';
-$wb['menu_del_txt'] = 'Delete menu with all menuitems?';
-$wb['item_del_txt'] = 'Delete menuitem?';
+$wb['module_txt'] = 'Modul';
+$wb['form_txt'] = 'Forma';
+$wb['description_txt'] = 'Opis';
+$wb['module_del_txt'] = 'Obrisati modul i sve poddirektorije?';
+$wb['menu_del_txt'] = 'Obrisati meni i sve izbornike menia?';
+$wb['item_del_txt'] = 'Obrisati izbornik menia?';
 ?>

@@ -131,7 +131,7 @@ $conf['software_updates_enabled'] = false;
 //** Themes
 $conf['theme'] = 'default';
 $conf['html_content_encoding'] = 'utf-8'; // example: utf-8, iso-8859-1, ...
-$conf['logo'] = 'themes/default/images/ispc_logo.png';
+$conf['logo'] = 'themes/default/images/header_logo.png';
 
 //** Templates
 $conf['templates'] = '/usr/local/ispconfig/server/conf';

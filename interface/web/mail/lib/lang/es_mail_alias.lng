@@ -9,4 +9,5 @@ $wb['destination_error_isemail'] = 'La dirección de correo de destino no es vá
 $wb['limit_mailalias_txt'] = 'Ha alcanzado el número máximo de alias de correo para esta cuenta';
 $wb['duplicate_mailbox_txt'] = 'Ya existe un buzón de correo con esta dirección';
 $wb['domain_txt'] = 'Domain';
+$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>

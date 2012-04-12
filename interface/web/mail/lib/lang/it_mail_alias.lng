@@ -9,4 +9,5 @@ $wb['destination_error_isemail'] = 'Email destinatario non valida.';
 $wb['limit_mailalias_txt'] = 'Raggiunto numero massimo di alias email per questo account.';
 $wb['duplicate_mailbox_txt'] = 'Cé già una casella di posta con questo indirizzo email.';
 $wb['domain_txt'] = 'Domain';
+$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>

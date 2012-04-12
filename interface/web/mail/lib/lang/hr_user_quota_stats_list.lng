@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Mailbox quota';
-$wb['quota_txt'] = 'Quota';
+$wb['quota_txt'] = 'Kvota';
 $wb['name_txt'] = 'Name';
 $wb['email_txt'] = 'Email Address';
 $wb['used_txt'] = 'Used space';

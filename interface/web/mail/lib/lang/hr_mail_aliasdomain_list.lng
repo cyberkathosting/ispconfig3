@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Domain alias';
 $wb['active_txt'] = 'Aktivno';
-$wb['source_txt'] = 'Source';
-$wb['destination_txt'] = 'Destination';
+$wb['source_txt'] = 'Izvor';
+$wb['destination_txt'] = 'Destinacija';
 $wb['add_new_record_txt'] = 'Add new Domain alias';
 ?>

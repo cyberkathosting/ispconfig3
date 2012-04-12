@@ -69,5 +69,5 @@ $wb['monthnamesshort_dec'] = 'Dez';
 $wb['datepicker_nextText'] = 'Vor';
 $wb['datepicker_prevText'] = 'Zur&uuml;ck';
 $wb['logout_txt'] = 'LOGOUT';
-$wb['submit_confirmation'] = "Wollen Sie diese Aktion wirlich ausführen?";
+$wb['submit_confirmation'] = 'Wollen Sie diese Aktion wirlich ausführen?';
 ?>

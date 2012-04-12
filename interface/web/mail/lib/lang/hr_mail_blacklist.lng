@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Blacklist Address';
-$wb['recipient_txt'] = 'Recipient';
+$wb['recipient_txt'] = 'Pimatelj';
 $wb['active_txt'] = 'Aktivno';
-$wb['source_error_notempty'] = 'Address is empty.';
+$wb['source_error_notempty'] = 'Adresa je prazna';
 $wb['type_txt'] = 'Vrsta';
 $wb['limit_mailfilter_txt'] = 'The max. number of email filters for your account is reached.';
 ?>

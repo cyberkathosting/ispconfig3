@@ -1,16 +1,16 @@
 <?php
-$wb['header_txt'] = 'Menu editor';
-$wb['title_txt'] = 'Title';
-$wb['name_txt'] = 'Module';
-$wb['delete_txt'] = 'Delete';
-$wb['properties_txt'] = 'Properties';
-$wb['new_menu_txt'] = 'Menu new';
-$wb['edit_txt'] = 'Edit';
-$wb['new_txt'] = 'New';
-$wb['up_txt'] = 'Up';
-$wb['down_txt'] = 'Down';
-$wb['module_txt'] = 'Module';
-$wb['module_del_txt'] = 'Do you really want to delete the module and all its subdirectories?';
-$wb['menu_del_txt'] = 'Do you really want to delete the menu with all sub entries?';
-$wb['item_del_txt'] = 'Delete the menu entry?';
+$wb['header_txt'] = 'Editor menia';
+$wb['title_txt'] = 'Naziv';
+$wb['name_txt'] = 'Modul';
+$wb['delete_txt'] = 'Obriši';
+$wb['properties_txt'] = 'Postavke';
+$wb['new_menu_txt'] = 'Novi meni';
+$wb['edit_txt'] = 'Editiraj';
+$wb['new_txt'] = 'Novo';
+$wb['up_txt'] = 'Gore';
+$wb['down_txt'] = 'Dolje';
+$wb['module_txt'] = 'Modul';
+$wb['module_del_txt'] = 'Da li stvarno želite obrisati modul i sve poddirektorije?';
+$wb['menu_del_txt'] = 'Da li stvarno želite obrisati meni i sve podmenije?';
+$wb['item_del_txt'] = 'Obrisati meni?';
 ?>

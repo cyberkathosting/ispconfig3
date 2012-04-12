@@ -14,5 +14,5 @@ $wb['source_password_error_isempty'] = 'Пустой пароль.';
 $wb['destination_error_isemail'] = 'Не выбран получатель.';
 $wb['source_server_error_regex'] = 'Неверное доменное имя для сервера Pop3/Imap.';
 $wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>

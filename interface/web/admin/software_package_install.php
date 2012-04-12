@@ -114,10 +114,11 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 
 			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
 			$package['package_config'] = $package_config_str;
+			$remote_password_md5 = md5($remote_password);
 			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id',$package['package_id']);
 			
 			$sql = "INSERT INTO `remote_user` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `remote_username`, `remote_password`, `remote_functions`) VALUES
-					(1, 1, 'riud', 'riud', '', '$remote_user', '$remote_password', '$remote_functions');";
+					(1, 1, 'riud', 'riud', '', '$remote_user', '$remote_password_md5', '$remote_functions');";
 			
 			$app->db->query($sql);
 			

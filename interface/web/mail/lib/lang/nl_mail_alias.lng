@@ -9,4 +9,5 @@ $wb['destination_error_isemail'] = 'Bestemming Emailaddres is ongeldig.';
 $wb['limit_mailalias_txt'] = 'Het max. aantal e-mail aliassen voor uw account is bereikt.';
 $wb['duplicate_mailbox_txt'] = 'Er is al een mailbox met dit e-mail adres';
 $wb['domain_txt'] = 'Domain';
+$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>

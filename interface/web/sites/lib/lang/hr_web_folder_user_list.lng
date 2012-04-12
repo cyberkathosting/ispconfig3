@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Folder User';
+$wb['list_head_txt'] = 'Web direktorij korisnik';
 $wb['active_txt'] = 'Aktivno';
-$wb['web_folder_id_txt'] = 'Folder';
+$wb['web_folder_id_txt'] = 'Web direkotrij';
 $wb['username_txt'] = 'Korisničko ime';
 ?>

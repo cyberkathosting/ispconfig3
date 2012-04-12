@@ -1,16 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Hostname';
+$wb['name_txt'] = 'Naziv hosta';
 $wb['type_txt'] = 'vrsta';
-$wb['data_txt'] = 'Naziv mail hostname-a';
+$wb['data_txt'] = 'Naziv mail hosta';
 $wb['aux_txt'] = 'Prioritet';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivno';
-$wb['limit_dns_record_txt'] = 'Iskoristili ste maksimalan broj DNS zapisa.';
-$wb['no_zone_perm'] = 'Nemate dozvolu za dodavanje zapisa u ovu DNS zonu.';
-$wb['name_error_empty'] = 'Ime hosta je prazno.';
-$wb['name_error_regex'] = 'Hostname je u krivom formatu.';
-$wb['data_error_empty'] = 'Mail hostname polje je prazno';
-$wb['data_error_regex'] = 'Pogrešan format mail hostname-a';
+$wb['limit_dns_record_txt'] = 'Iskorišten je maksimalan broj DNS zapisa za vaš račun.';
+$wb['no_zone_perm'] = 'Nemate dozvolu za dodavanja zapisa ovoj domeni.';
+$wb['name_error_empty'] = 'Naziv hosta nije upisan.';
+$wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
+$wb['data_error_empty'] = 'Naziv mail hosta polje je prazno';
+$wb['data_error_regex'] = 'Neispravan format naziva mail host zapisa';
 ?>

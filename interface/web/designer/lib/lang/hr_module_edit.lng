@@ -1,22 +1,12 @@
 <?php
-$wb['name_txt'] = 'Modulename';
-$wb['title_txt'] = 'Moduletitle';
-$wb['template_txt'] = 'Template file';
-$wb['navframe_txt'] = 'NaviFrame';
-$wb['startpage_txt'] = 'Default page';
-$wb['tab_width_txt'] = 'Tab width';
-$wb['save_txt'] = 'Save';
-$wb['cancel_txt'] = 'Cancel';
-$wb['header_txt'] = 'Module properties';
-$wb['description_txt'] = '
-<b>Description</b>
-<br><br>
-<b>Modulename:</b> Name of the module directory. Only numbers, chars and underscore allowed.<br>
-<b>Moduletitle:</b> Will be shown in the (upper) main navigation.<br>
-<b>Template file:</b> Template file of the module. Currently available: module.tpl.htm and module_tree.tpl.htm. Default is module.tpl.htm.<br>
-<b>NaviFrame:</b> If module_tree.tpl.htm selected as template file, enter here the path to the script file for the left frame.<br>
-<b>Default page:</b> These page will be shown when the module is opened.<br>
-<b>Tab width:</b> Width of the Tabs in the main navigation. The field is empty by default. You can enter values absolute in pixel (e.g 20) or relative (e.g 20%).<br>
-<b>Hint:</b> All paths are relative to the directory web.
-';
+$wb['name_txt'] = 'Naziv modula';
+$wb['title_txt'] = 'Naslov modula';
+$wb['template_txt'] = 'Predložak';
+$wb['navframe_txt'] = 'Navi frame';
+$wb['startpage_txt'] = 'Standardna stranica';
+$wb['tab_width_txt'] = 'Širina taba';
+$wb['save_txt'] = 'Spremi';
+$wb['cancel_txt'] = 'Odustani';
+$wb['header_txt'] = 'Postavke modula';
+$wb['description_txt'] = '<b>Opis</b><br><br><b>Naziv modula:</b> Naziv direktorija sa modulima. Dozvoljeni samo brojevi, znakovi i podcrta.<br><b>Moduletitle:</b> Will be shown in the (upper) main navigation.<br><b>Template file:</b> Template file of the module. Currently available: module.tpl.htm and module_tree.tpl.htm. Default is module.tpl.htm.<br><b>NaviFrame:</b> If module_tree.tpl.htm selected as template file, enter here the path to the script file for the left frame.<br><b>Default page:</b> These page will be shown when the module is opened.<br><b>Tab width:</b> Width of the Tabs in the main navigation. The field is empty by default. You can enter values absolute in pixel (e.g 20) or relative (e.g 20%).<br><b>Hint:</b> All paths are relative to the directory web.';
 ?>

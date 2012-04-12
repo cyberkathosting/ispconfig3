@@ -4,5 +4,5 @@ $wb['username_txt'] = 'Korisničko ime';
 $wb["client_id_txt"] = 'Client ID';
 $wb["active_txt"] = 'Active';
 $wb['add_new_record_txt'] = 'Dodaj klijenta';
-$wb['warning_txt'] = '<b>UPOZORENJE:</b> Ovdje nemojte mijenjati podatke klijenta. Koristite Klijent i Preprodavač postavke u Klijent modulu. Mijenjanjem postavki klijenata ili grupa može doći do gubitka podataka!';
+$wb['warning_txt'] = '<b>UPOZORENJE:</b> Ovdje nemojte mijenjati podatke klijenta. Koristite \\"Klijent\\" i \\"Preprodavač\\" postavke u Klijent modulu. Mijenjanjem postavki klijenata ili grupa može doći do gubitka podataka!';
 ?>

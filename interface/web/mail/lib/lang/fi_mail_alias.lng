@@ -9,4 +9,5 @@ $wb['destination_error_isemail'] = 'Kohteena oleva sähköpostiosoite on väär�
 $wb['limit_mailalias_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä aliasosoitteita.';
 $wb['duplicate_mailbox_txt'] = 'Aliastunnus on jo olemassa tälle osoitteelle.';
 $wb['domain_txt'] = 'Domain';
+$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>

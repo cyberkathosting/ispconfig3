@@ -1,13 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Cron Jobs';
+$wb['list_head_txt'] = 'Cron zadaci';
 $wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
 $wb['run_min_txt'] = 'Minute';
-$wb['run_hour_txt'] = 'Hour';
-$wb['run_mday_txt'] = 'Day of month';
-$wb['run_month_txt'] = 'Month';
-$wb['run_wday_txt'] = 'Day of week';
-$wb['command_txt'] = 'Command';
-$wb['add_new_cron_txt'] = 'Add new Cron job';
+$wb['run_hour_txt'] = 'Sati';
+$wb['run_mday_txt'] = 'Dan u mjesecu';
+$wb['run_month_txt'] = 'Mjesec';
+$wb['run_wday_txt'] = 'Dan u tjednu';
+$wb['command_txt'] = 'Komanda';
+$wb['add_new_cron_txt'] = 'Dodaj novi cron zadatak';
 $wb['parent_domain_id_txt'] = 'Web stranica';
 ?>

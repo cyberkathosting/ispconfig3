@@ -97,7 +97,7 @@ $conf['web']['apps_vhost_user'] = 'ispapps';
 $conf['web']['apps_vhost_group'] = 'ispapps';
 
 //* Fastcgi
-$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php5/cgi/';
+$conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php5/fastcgi/';
 $conf['fastcgi']['fastcgi_starter_path'] = '/srv/www/php-fcgi-scripts/[system_user]/';
 
 //* Postfix

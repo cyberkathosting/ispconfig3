@@ -3,7 +3,7 @@ $wb['list_head_txt'] = 'Relay recipients';
 $wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Recipient address';
-$wb['recipient_txt'] = 'Recipient';
+$wb['recipient_txt'] = 'Pimatelj';
 $wb['add_new_record_txt'] = 'Add new relay recipient';
-$wb['access_txt'] = 'access';
+$wb['access_txt'] = 'pristup';
 ?>

@@ -1,17 +1,17 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Naziv hosta';
 $wb['type_txt'] = 'Vrsta';
-$wb['data_txt'] = 'Server Record';
+$wb['data_txt'] = 'Server zapis';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivno';
-$wb['aux_txt'] = 'Priority';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['data_error_empty'] = 'Server record empty';
-$wb['data_error_regex'] = 'Server record format invalid';
-$wb['srv_error_regex'] = 'Invalid server record format. The server record must contain 3 text strings separated by spaces.';
+$wb['aux_txt'] = 'Prioritet';
+$wb['limit_dns_record_txt'] = 'Iskorišten je maksimalan broj DNS zapisa za vaš račun.';
+$wb['no_zone_perm'] = 'Nemate dozvolu za dodavanja zapisa ovoj domeni.';
+$wb['name_error_empty'] = 'Naziv hosta nije upisan.';
+$wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
+$wb['data_error_empty'] = 'Polje serverski zapis je prazno';
+$wb['data_error_regex'] = 'Neispravan format serverskog zapisa';
+$wb['srv_error_regex'] = 'Neispravan format serverskog zapisa. Mora sadržavati barem 3 tekstualne riječi odvojene razmakom.';
 ?>

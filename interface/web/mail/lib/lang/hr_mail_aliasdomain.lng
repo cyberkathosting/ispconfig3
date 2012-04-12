@@ -1,11 +1,11 @@
 <?php
-$wb['source_txt'] = 'Source';
-$wb['destination_txt'] = 'Destination';
+$wb['source_txt'] = 'Izvor';
+$wb['destination_txt'] = 'Destinacija';
 $wb['active_txt'] = 'Aktivno';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['limit_mailaliasdomain_txt'] = 'The max. number of email alias domains for your account is reached.';
-$wb['source_destination_identical_txt'] = 'Source and target Domain are the same.';
-$wb['source_error_empty'] = 'Source Domain is empty.';
-$wb['source_error_unique'] = 'Duplicate source Domain.';
-$wb['source_error_regex'] = 'Invalid source domain name.';
+$wb['no_domain_perm'] = 'Nemate dozvoljen pristup za ovu domenu.';
+$wb['limit_mailaliasdomain_txt'] = 'Iskorišten je maksimalan broj email alias domena.';
+$wb['source_destination_identical_txt'] = 'Izvorna i ciljana domena su iste.';
+$wb['source_error_empty'] = 'Izvorna domena je prazna.';
+$wb['source_error_unique'] = 'Duplicirana izvorna domena.';
+$wb['source_error_regex'] = 'Neispravan naziv izvorne domene.';
 ?>

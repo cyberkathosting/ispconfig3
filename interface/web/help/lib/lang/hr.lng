@@ -4,11 +4,11 @@ $wb['Message'] = 'Poruka';
 $wb['Send message'] = 'Pošalji poruku';
 $wb['View messages'] = 'Pogledaj poruke';
 $wb['Support'] = 'Podrška';
-$wb['About ISPConfig'] = 'O control panelu';
+$wb['About ISPConfig'] = 'O ISPConfig-u';
 $wb['Version'] = 'Verzija';
-$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
-$wb['FAQ Sections'] = 'FAQ Sections';
-$wb['Manage Sections'] = 'Manage Sections';
-$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
-$wb['Manage Questions'] = 'Manage Questions';
+$wb['Frequently Asked Questions'] = 'Često postavljana pitanja (FAQ)';
+$wb['FAQ Sections'] = 'FAQ rubrike';
+$wb['Manage Sections'] = 'Upravljaj rubrikama';
+$wb['Add a Question & Answer Pair'] = 'Dodaj pitanje i odgovor';
+$wb['Manage Questions'] = 'Upravljaj pitanjima';
 ?>

@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Email Catchall';
+$wb['list_head_txt'] = 'Email catchall';
 $wb['active_txt'] = 'Aktivno';
-$wb['source_txt'] = 'source';
-$wb['destination_txt'] = 'Destination email address';
+$wb['source_txt'] = 'izvor';
+$wb['destination_txt'] = 'Odredišna email adresa';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domena';
-$wb['add_new_record_txt'] = 'Add new Catchall';
+$wb['add_new_record_txt'] = 'Dodaj catchall';
 ?>

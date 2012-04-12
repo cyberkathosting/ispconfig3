@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Database';
+$wb['list_head_txt'] = 'Baza';
 $wb['active_txt'] = 'Aktivno';
-$wb['remote_access_txt'] = 'Remote Access';
+$wb['remote_access_txt'] = 'Udaljeni pristup';
 $wb['server_id_txt'] = 'Server';
-$wb['database_user_txt'] = 'Database user';
-$wb['database_name_txt'] = 'Database name';
-$wb['add_new_record_txt'] = 'Add new Database';
+$wb['database_user_txt'] = 'Korisnik baze';
+$wb['database_name_txt'] = 'Naziv baze';
+$wb['add_new_record_txt'] = 'Dodaj bazu';
 ?>

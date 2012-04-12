@@ -20,4 +20,6 @@ $wb['parent_domain_id_error_empty'] = 'Aucun site web sélectionné.';
 $wb['puser_txt'] = 'Utilisateur web';
 $wb['pgroup_txt'] = 'Groupe web';
 $wb['ssh_rsa_txt'] = 'Clé publique SSH-RSA (pour les authentifications par clé)';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

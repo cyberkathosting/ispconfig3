@@ -126,6 +126,15 @@ class page_action extends tform_actions {
 		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_mailbox_txt")."<br>";
 		unset($tmp);
 		
+		//* Check if email alias exists
+		if($this->id > 0) {
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["source"])."' AND destination = '".$app->db->quote($this->dataRecord["destination"])."' AND forwarding_id != ".$this->id);
+		} else {
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["source"])."' AND destination = '".$app->db->quote($this->dataRecord["destination"])."'");
+		}
+		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_email_alias_txt")."<br>";
+		unset($tmp);
+		
 		parent::onSubmit();
 	}
 	

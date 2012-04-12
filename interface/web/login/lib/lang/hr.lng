@@ -13,5 +13,5 @@ $wb['user_regex_error'] = 'Korisničko ime sadrži nedozvoljene znakove ili je d
 $wb['pw_error_length'] = 'Duljina šifre je > 64 znakova.';
 $wb['username_txt'] = 'Korisničko ime';
 $wb['password_txt'] = 'Šifra';
-$wb['login_button_txt'] = 'Login';
+$wb['login_button_txt'] = 'Prijava';
 ?>

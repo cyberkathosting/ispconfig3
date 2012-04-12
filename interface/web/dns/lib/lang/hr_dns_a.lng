@@ -1,16 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Hostname';
+$wb['name_txt'] = 'Naziv hosta';
 $wb['type_txt'] = 'vrsta';
 $wb['data_txt'] = 'IP adresa';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivno';
-$wb['limit_dns_record_txt'] = 'Unešen je maksimalan broj DNS zapisa za ovaj račun.';
-$wb['no_zone_perm'] = 'Nemate dozvolu za dodavanje zapisa ovoj DNS. zoni.';
-$wb['name_error_empty'] = 'Hostname je prazan.';
-$wb['name_error_regex'] = 'Hostname je pogrešnog formata.';
+$wb['limit_dns_record_txt'] = 'Iskorišten je maksimalan broj DNS zapisa za vaš račun.';
+$wb['no_zone_perm'] = 'Nemate dozvolu za dodavanja zapisa ovoj domeni.';
+$wb['name_error_empty'] = 'Naziv hosta nije upisan.';
+$wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
 $wb['data_error_empty'] = 'Polje IP adresa je prazno';
-$wb['data_error_regex'] = 'Neispravan format polja IP adresa';
+$wb['data_error_regex'] = 'Neispravan format A zapisa';
 $wb['data_error_duplicate'] = 'Već postoji ovaj A ili CNAME zapis';
 ?>

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2007-2011, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2012, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -1970,6 +1970,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.4.3');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.4.4');
 
 SET FOREIGN_KEY_CHECKS = 1;

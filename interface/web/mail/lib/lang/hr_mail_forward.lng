@@ -1,8 +1,8 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Destination Email';
+$wb['destination_txt'] = 'Proslijedi na';
 $wb['active_txt'] = 'Aktivno';
-$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
+$wb['limit_mailforward_txt'] = 'Iskorišten je maksimalan broj email forwardera.';
+$wb['duplicate_mailbox_txt'] = 'Već postoji mailbox sa tom email adresom';
 $wb['domain_txt'] = 'Domena';
 ?>

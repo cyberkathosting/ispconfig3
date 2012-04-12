@@ -14,5 +14,5 @@ $wb['source_password_error_isempty'] = 'Password este necompletat';
 $wb['destination_error_isemail'] = 'Nici o destinatie nu e selectata';
 $wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
 $wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>

@@ -6,6 +6,6 @@ $wb['tcp_port_help_txt'] = 'Odvojeno zarezom';
 $wb['udp_port_help_txt'] = 'Odvojeno zarezom';
 $wb['active_txt'] = 'Aktivno';
 $wb['firewall_error_unique'] = 'Već postoji firewall zapis za ovaj server.';
-$wb['tcp_ports_error_regex'] = 'Nedozvoljeni znak pri definiciji tcp porta. Dozvoljeni znakovi su znamenke, : i ,.';
-$wb['udp_ports_error_regex'] = 'Nedozvoljeni znak pri definiciji udp porta. Dozvoljeni znakovi su znamenke, : i ,.';
+$wb['tcp_ports_error_regex'] = 'Nedozvoljeni znak pri definiciji TCP porta. Dozvoljeni znakovi su znamenke, : i ,.';
+$wb['udp_ports_error_regex'] = 'Nedozvoljeni znak pri definiciji UDP porta. Dozvoljeni znakovi su znamenke, : i ,.';
 ?>

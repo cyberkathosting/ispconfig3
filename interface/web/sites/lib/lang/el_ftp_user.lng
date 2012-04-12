@@ -25,4 +25,6 @@ $wb['directory_error_empty'] = 'Ο Φάκελος δεν έχει οριστεί
 $wb['directory_error_notinweb'] = 'Ο φάκελος δεν βρίσκεται μέσα στον ριζικό φάκελο web.';
 $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
 $wb['quota_size_error_regex'] = 'Όριο: εισάγετε -1 για απεριόριστα ή έναν αριθμό > 0';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>

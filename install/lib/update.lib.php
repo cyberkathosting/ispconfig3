@@ -33,20 +33,20 @@ function prepareDBDump() {
 	//** load the pre update sql script do perform modifications on the database before the database is dumped
 	if(is_file(ISPC_INSTALL_ROOT."/install/sql/pre_update.sql")) {
 		if($conf['mysql']['admin_password'] == '') {
-			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+			caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 		} else {
-			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['mysql']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+			caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 		}
 	}
 
 	//** export the current database data
 	if( !empty($conf["mysql"]["admin_password"]) ) {
 
-		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
+		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 	}
 	else {
 
-		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
+		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 	}
 
 	/*
@@ -69,9 +69,9 @@ function prepareDBDump() {
 	if ($conf['powerdns']['installed']) {
 		//** export the current PowerDNS database data
         	if( !empty($conf["mysql"]["admin_password"]) ) {
-            		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
+            		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
         	} else {
-            		system("mysqldump -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
+            		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
         	}
 
 		// create a backup copy of the PowerDNS database in the root folder
@@ -90,7 +90,7 @@ function checkDbHealth() {
 	$notok = array();
 
 	echo "Checking ISPConfig database .. ";
-	exec("mysqlcheck -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' -r ".$conf["mysql"]["database"], $result);
+	exec("mysqlcheck -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -r ".escapeshellarg($conf["mysql"]["database"]), $result);
 	for( $i=0; $i<sizeof($result);$i++) {
 		if ( substr($result[$i], -2) != "OK" ) {
 			$notok[] = $result[$i];
@@ -155,9 +155,9 @@ function updateDbAndIni() {
 			if(is_file($patch_filename)) {
 				//* Load patch file into database
 				if( !empty($conf["mysql"]["admin_password"]) ) {
-					system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < ".$patch_filename);
+					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < ".$patch_filename);
 				} else {
-					system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < ".$patch_filename);
+					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$patch_filename);
 				}
 				swriteln($inst->lng('Loading SQL patch file').': '.$patch_filename);
 				$current_db_version = $next_db_version;
@@ -193,9 +193,9 @@ function updateDbAndIni() {
 
 		//** load old data back into database
 		if( !empty($conf["mysql"]["admin_password"]) ) {
-			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['mysql']['database']." < existing_db.sql");
+			system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < existing_db.sql");
 		} else {
-			system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['mysql']['database']." < existing_db.sql");
+			system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < existing_db.sql");
 		}
 		
 		//** Get the database version number based on the patchfile
@@ -228,9 +228,9 @@ function updateDbAndIni() {
 
             //** load old data back into the PowerDNS database
             if( !empty($conf["mysql"]["admin_password"]) ) {
-            	system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' ".$conf['powerdns']['database']." < existing_powerdns_db.sql");
+            	system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['powerdns']['database'])." < existing_powerdns_db.sql");
             } else {
-            	system("mysql --default-character-set=".$conf['mysql']['charset']." --force -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' ".$conf['powerdns']['database']." < existing_powerdns_db.sql");
+            	system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['powerdns']['database'])." < existing_powerdns_db.sql");
             }
 		}
 	}

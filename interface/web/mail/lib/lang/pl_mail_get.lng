@@ -14,5 +14,5 @@ $wb['source_password_error_isempty'] = 'Hasło jest puste.';
 $wb['destination_error_isemail'] = 'Nie wybrano elementu docelowego.';
 $wb['source_server_error_regex'] = 'Serwer Pop3/Imap nie jest poprawną nazwą domenową.';
 $wb['source_read_all_txt'] = 'Pobierz wszystkie maile (razem z przeczytanymi)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>

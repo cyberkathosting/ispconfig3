@@ -10,5 +10,5 @@ $wb['type_txt'] = 'Vrsta';
 $wb['add_new_record_txt'] = 'Dodaj novi A zapis';
 $wb['page_txt'] = 'Stranica';
 $wb['page_of_txt'] = 'od';
-$wb['delete_confirmation'] = 'Sigurno želite obrisati obaj zapis?';
+$wb['delete_confirmation'] = 'Sigurno želite obrisati ovaj zapis?';
 ?>

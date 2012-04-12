@@ -1,15 +1,15 @@
 <?php
-$wb['limit_mailmailinglist_txt'] = 'Limit reached';
-$wb['domain_error_empty'] = 'Domain is empty.';
-$wb['listname_error_empty'] = 'Listname is empty.';
-$wb['domain_error_regex'] = 'Invalid domain name.';
-$wb['email_in_use_txt'] = 'Email is in use';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['password_strength_txt'] = 'Password strength';
+$wb['limit_mailmailinglist_txt'] = 'Iskorišten je maksimalan broj email lista.';
+$wb['domain_error_empty'] = 'Domena je prazna.';
+$wb['listname_error_empty'] = 'Naziv liste je prazan.';
+$wb['domain_error_regex'] = 'Neispravan naziv domene.';
+$wb['email_in_use_txt'] = 'Email je u upotrebi';
+$wb['no_domain_perm'] = 'Nemate dozvole za ovu domenu.';
+$wb['password_strength_txt'] = 'Jačina šifre';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domena';
-$wb['listname_txt'] = 'Listname';
-$wb['client_txt'] = 'Client';
+$wb['listname_txt'] = 'Naziv liste';
+$wb['client_txt'] = 'Klijent';
 $wb['email_txt'] = 'Email';
 $wb['password_txt'] = 'Šifra';
 ?>

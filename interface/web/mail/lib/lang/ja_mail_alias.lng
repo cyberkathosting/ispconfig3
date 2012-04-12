@@ -9,4 +9,5 @@ $wb['destination_error_isemail'] = '転送先メールアドレスが不正で�
 $wb['limit_mailalias_txt'] = 'メールエイリアスが最大数に達したため、これ以上追加できません。';
 $wb['duplicate_mailbox_txt'] = 'このメールアドレス向けのメールボックスが既に存在します。';
 $wb['domain_txt'] = 'Domain';
+$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>

@@ -216,11 +216,14 @@ class app {
 			$this->tpl->setVar('app_version', '');
 		}
 		$this->tpl->setVar('app_link', $this->_conf['app_link']);
+		/*
 		if(isset($this->_conf['app_logo']) && $this->_conf['app_logo'] != '' && @is_file($this->_conf['app_logo'])) {
 			$this->tpl->setVar('app_logo', '<img src="'.$this->_conf['app_logo'].'">');
 		} else {
 			$this->tpl->setVar('app_logo', '&nbsp;');
 		}
+		*/
+		$this->tpl->setVar('app_logo', $this->_conf['logo']);
 
 		$this->tpl->setVar('phpsessid', session_id());
 

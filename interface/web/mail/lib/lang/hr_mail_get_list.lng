@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Fetch emails from external POP3 / IMAP servers';
+$wb['list_head_txt'] = 'Prikupljanje emailova sa vanjskog POP3 / IMAP servera';
 $wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
-$wb['source_server_txt'] = 'External Server';
+$wb['source_server_txt'] = 'Eksterni server';
 $wb['source_username_txt'] = 'Korisničko ime';
-$wb['destination_txt'] = 'Destination';
-$wb['add_new_record_txt'] = 'Add new Account';
+$wb['destination_txt'] = 'Destinacija';
+$wb['add_new_record_txt'] = 'Dodaj novi račun';
 ?>

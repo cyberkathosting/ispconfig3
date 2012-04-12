@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Web stranica';
-$wb['path_txt'] = 'Path';
+$wb['path_txt'] = 'Putanja';
 $wb['active_txt'] = 'Aktivno';
-$wb['path_error_regex'] = 'Invalid folder path.';
+$wb['path_error_regex'] = 'Neispravna putanja direktorija.';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Mail Forward';
+$wb['list_head_txt'] = 'Proslijeđivanje emaila';
 $wb['active_txt'] = 'Aktivno';
-$wb['source_txt'] = 'source';
-$wb['destination_txt'] = 'Destination';
+$wb['source_txt'] = 'izvor';
+$wb['destination_txt'] = 'Destinacija';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Add new Email forward';
 ?>

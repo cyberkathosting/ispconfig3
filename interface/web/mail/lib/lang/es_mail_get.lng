@@ -14,5 +14,5 @@ $wb['source_password_error_isempty'] = 'La contraseña está vacía.';
 $wb['destination_error_isemail'] = 'No se ha seleccionado el destino.';
 $wb['source_server_error_regex'] = 'Servidor POP3/IMAP no es un nombre de dominio válido.';
 $wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>
