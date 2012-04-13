@@ -150,14 +150,12 @@ class db extends mysqli
   }
 
 
-  // Check der variablen
-  // Really.. using quote should be phased out in favor of using bind_param's.  Though, for legacy code..
-  // here's the equivalent
+  //* Function to quote strings
   public function quote($formfield) {
     return $this->escape_string($formfield);
   }
 
-  // Check der variablen
+  //* Function to unquotae strings
   public function unquote($formfield) {
     return stripslashes($formfield);
   }
@@ -171,44 +169,6 @@ public function toLower($record) {
     }
     return $out;
   }
-
-  /*
-  //* These functions are deprecated and will be removed.
-  function insert($tablename,$form,$debug = 0)
-  {
-  if(is_array($form)){
-  foreach($form as $key => $value) 
-  {
-  $sql_key .= "$key, ";
-  $sql_value .= "'".$this->check($value)."', ";
-  }
-  $sql_key = substr($sql_key,0,strlen($sql_key) - 2);
-  $sql_value = substr($sql_value,0,strlen($sql_value) - 2);
-
-  $sql = "INSERT INTO $tablename (" . $sql_key . ") VALUES (" . $sql_value .")";
-
-  if($debug == 1) echo "SQL-Statement: ".$sql."<br><br>";
-  $this->query($sql);
-  if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
-  }
-  }
-
-  function update($tablename,$form,$bedingung,$debug = 0)
-  {
-
-  if(is_array($form)){
-  foreach($form as $key => $value) 
-  {
-  $insql .= "$key = '".$this->check($value)."', ";
-  }
-  $insql = substr($insql,0,strlen($insql) - 2);
-  $sql = "UPDATE $tablename SET " . $insql . " WHERE $bedingung";
-  if($debug == 1) echo "SQL-Statement: ".$sql."<br><br>";
-  $this->query($sql);
-  if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
-  }
-  }
-   */
 
   public function diffrec($record_old, $record_new) {
     $diffrec_full = array();
