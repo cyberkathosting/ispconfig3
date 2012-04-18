@@ -88,6 +88,15 @@ $type = $_GET["type"];
 		if(substr($json,-1) == ',') $json = substr($json,0,-1);
 		$json .= '}';
 	}
+	
+	if($type == 'getphptype'){
+		$json = '{"phptype":"';
+		$sql = "SELECT php FROM web_domain WHERE domain_id = $web_id";
+		$php = $app->db->queryOneRecord($sql);
+		$json .= $php['php'];
+		unset($php);
+		$json .= '"}';
+	}
 
 //}
 

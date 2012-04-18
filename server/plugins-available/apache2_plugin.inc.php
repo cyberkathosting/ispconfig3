@@ -961,6 +961,41 @@ class apache2_plugin {
 			$tpl->setVar('fastcgi_config_syntax',$fastcgi_config['fastcgi_config_syntax']);
 
 		}
+		
+		/**
+		* PHP-FPM
+		*/
+		// Support for multiple PHP versions
+		if(trim($data['new']['fastcgi_php_version']) != ''){
+			$default_php_fpm = false;
+			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
+			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+		} else {
+			$default_php_fpm = true;
+		}
+		
+		if($default_php_fpm){
+			$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		} else {
+			$pool_dir = $custom_php_fpm_pool_dir;
+		}
+		if(substr($pool_dir,-1) != '/') $pool_dir .= '/';
+		$pool_name = 'web'.$data['new']['domain_id'];
+		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+		if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
+		
+		if($data['new']['php_fpm_use_socket'] == 'y'){
+			$use_tcp = 0;
+			$use_socket = 1;
+		} else {
+			$use_tcp = 1;
+			$use_socket = 0;
+		}
+		$tpl->setVar('use_tcp', $use_tcp);
+		$tpl->setVar('use_socket', $use_socket);
+		$fpm_socket = $socket_dir.$pool_name.'.sock';
+		$tpl->setVar('fpm_socket', $fpm_socket);
+		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 
 		/**
 		 * install cgi starter script and add script alias to config.
@@ -1153,6 +1188,8 @@ class apache2_plugin {
 			$this->awstats_update($data,$web_config);
 		}
 		
+		$this->php_fpm_pool_update($data,$web_config,$pool_dir,$pool_name,$socket_dir);
+		
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if apache starts with the new configuration file
 			$apache_online_status_before_restart = $this->_checkTcp('localhost',80);
@@ -1255,6 +1292,11 @@ class apache2_plugin {
 				if (is_dir($fastcgi_starter_path)) {
 					exec('rm -rf '.$fastcgi_starter_path);
 				}
+			}
+			
+			// remove PHP-FPM pool
+			if ($data['old']['php'] == 'php-fpm') {
+				$this->php_fpm_pool_delete($data,$web_config);
 			}
 
 			//remove the php cgi starter script if available
@@ -1876,6 +1918,212 @@ class apache2_plugin {
 		if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
 			unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
 			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf',LOGLEVEL_DEBUG);
+		}
+	}
+	
+	//* Update the PHP-FPM pool configuration file
+	private function php_fpm_pool_update ($data,$web_config,$pool_dir,$pool_name,$socket_dir) {
+		global $app, $conf;
+		//$reload = false;
+		
+		if(trim($data['new']['fastcgi_php_version']) != ''){
+			$default_php_fpm = false;
+			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
+			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+		} else {
+			$default_php_fpm = true;
+		}
+		
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
+		if($data['new']['php'] != 'php-fpm'){
+			if(@is_file($pool_dir.$pool_name.'.conf')){
+				unlink($pool_dir.$pool_name.'.conf');
+				//$reload = true;
+			}
+			if($data['old']['php'] == 'php-fpm'){
+				if(!$default_php_fpm){
+					$app->services->restartService('php-fpm','reload:'.$custom_php_fpm_init_script);
+				} else {
+					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+				}
+			}
+			//if($reload == true) $app->services->restartService('php-fpm','reload');
+			return;
+		}
+				
+		$app->load('tpl');
+		$tpl = new tpl();
+		$tpl->newTemplate('php_fpm_pool.conf.master');
+
+		if($data['new']['php_fpm_use_socket'] == 'y'){
+			$use_tcp = 0;
+			$use_socket = 1;
+			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
+		} else {
+			$use_tcp = 1;
+			$use_socket = 0;
+		}
+		$tpl->setVar('use_tcp', $use_tcp);
+		$tpl->setVar('use_socket', $use_socket);
+			
+		$fpm_socket = $socket_dir.$pool_name.'.sock';
+		$tpl->setVar('fpm_socket', $fpm_socket);
+			
+		$tpl->setVar('fpm_pool', $pool_name);
+		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
+		$tpl->setVar('fpm_user', $data['new']['system_user']);
+		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);
+		$tpl->setVar('pm_start_servers', $data['new']['pm_start_servers']);
+		$tpl->setVar('pm_min_spare_servers', $data['new']['pm_min_spare_servers']);
+		$tpl->setVar('pm_max_spare_servers', $data['new']['pm_max_spare_servers']);
+		$tpl->setVar('document_root', $data['new']['document_root']);
+		$tpl->setVar('security_level',$web_config['security_level']);
+		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
+		$tpl->setVar('php_open_basedir', $php_open_basedir);
+		if($php_open_basedir != ''){
+			$tpl->setVar('enable_php_open_basedir', '');
+		} else {
+			$tpl->setVar('enable_php_open_basedir', ';');
+		}
+			
+		// Custom php.ini settings
+		$final_php_ini_settings = array();
+		$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+		if($custom_php_ini_settings != ''){
+			// Make sure we only have Unix linebreaks
+			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
+			$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
+			$ini_settings = explode("\n", $custom_php_ini_settings);
+			if(is_array($ini_settings) && !empty($ini_settings)){
+				foreach($ini_settings as $ini_setting){
+						list($key, $value) = explode('=', $ini_setting);
+						if($value){
+							$value = escapeshellcmd(trim($value));
+							$key = escapeshellcmd(trim($key));
+							switch (strtolower($value)) {
+								case 'on':
+								case 'off':
+								case '1':
+								case '0':
+									// PHP-FPM might complain about invalid boolean value if you use 0
+									$value = 'off';
+								case 'true':
+								case 'false':
+								case 'yes':
+								case 'no':
+									$final_php_ini_settings[] = array('ini_setting' => 'php_admin_flag['.$key.'] = '.$value);
+									break;
+								default:
+									$final_php_ini_settings[] = array('ini_setting' => 'php_admin_value['.$key.'] = '.$value);
+							}
+						}
+				}
+			}
+		}
+			
+		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
+			
+		file_put_contents($pool_dir.$pool_name.'.conf',$tpl->grab());
+		$app->log('Writing the PHP-FPM config file: '.$pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
+		unset($tpl);
+		
+		// delete pool in all other PHP versions
+		$default_pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		if(substr($default_pool_dir,-1) != '/') $default_pool_dir .= '/';
+		if($default_pool_dir != $pool_dir){
+			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
+					unlink($default_pool_dir.$pool_name.'.conf');
+					$app->log('Removed PHP-FPM config file: '.$default_pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
+					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+			}
+		}
+		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$conf["server_id"]);
+		if(is_array($php_versions) && !empty($php_versions)){
+			foreach($php_versions as $php_version){
+				if(substr($php_version['php_fpm_pool_dir'],-1) != '/') $php_version['php_fpm_pool_dir'] .= '/';
+				if($php_version['php_fpm_pool_dir'] != $pool_dir){
+					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
+						unlink($php_version['php_fpm_pool_dir'].$pool_name.'.conf');
+						$app->log('Removed PHP-FPM config file: '.$php_version['php_fpm_pool_dir'].$pool_name.'.conf',LOGLEVEL_DEBUG);
+						$app->services->restartService('php-fpm','reload:'.$php_version['php_fpm_init_script']);
+					}
+				}
+			}
+		}
+		// Reload current PHP-FPM after all others
+		sleep(1);
+		if(!$default_php_fpm){
+			$app->services->restartService('php-fpm','reload:'.$custom_php_fpm_init_script);
+		} else {
+			$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+		}
+		
+		//$reload = true;
+
+		//if($reload == true) $app->services->restartService('php-fpm','reload');
+	}
+	
+	//* Delete the PHP-FPM pool configuration file
+	private function php_fpm_pool_delete ($data,$web_config) {
+		global $app, $conf;
+		
+		if(trim($data['old']['fastcgi_php_version']) != ''){
+			$default_php_fpm = false;
+			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
+			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+		} else {
+			$default_php_fpm = true;
+		}
+		
+		if($default_php_fpm){
+			$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		} else {
+			$pool_dir = $custom_php_fpm_pool_dir;
+		}
+		
+		if(substr($pool_dir,-1) != '/') $pool_dir .= '/';
+		$pool_name = 'web'.$data['old']['domain_id'];
+		
+		if ( @is_file($pool_dir.$pool_name.'.conf') ) {
+			unlink($pool_dir.$pool_name.'.conf');
+			$app->log('Removed PHP-FPM config file: '.$pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
+			
+			//$app->services->restartService('php-fpm','reload');
+		}
+		
+		// delete pool in all other PHP versions
+		$default_pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		if(substr($default_pool_dir,-1) != '/') $default_pool_dir .= '/';
+		if($default_pool_dir != $pool_dir){
+			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
+					unlink($default_pool_dir.$pool_name.'.conf');
+					$app->log('Removed PHP-FPM config file: '.$default_pool_dir.$pool_name.'.conf',LOGLEVEL_DEBUG);
+					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+			}
+		}	
+		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$data['old']['server_id']);
+		if(is_array($php_versions) && !empty($php_versions)){
+			foreach($php_versions as $php_version){
+				if(substr($php_version['php_fpm_pool_dir'],-1) != '/') $php_version['php_fpm_pool_dir'] .= '/';
+				if($php_version['php_fpm_pool_dir'] != $pool_dir){
+					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
+						unlink($php_version['php_fpm_pool_dir'].$pool_name.'.conf');
+						$app->log('Removed PHP-FPM config file: '.$php_version['php_fpm_pool_dir'].$pool_name.'.conf',LOGLEVEL_DEBUG);
+						$app->services->restartService('php-fpm','reload:'.$php_version['php_fpm_init_script']);
+					}
+				}
+			}
+		}
+		
+		// Reload current PHP-FPM after all others
+		sleep(1);
+		if(!$default_php_fpm){
+			$app->services->restartService('php-fpm','reload:'.$custom_php_fpm_init_script);
+		} else {
+			$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
 	}
 	

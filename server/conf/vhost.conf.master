@@ -214,6 +214,23 @@
         Allow from all
     </Directory>
 </tmpl_if>
+<tmpl_if name='php' op='==' value='php-fpm'>
+    <IfModule mod_fastcgi.c>
+        <Directory /usr/lib/cgi-bin>
+            Order allow,deny
+            Allow from all
+        </Directory>
+        AddHandler php5-fcgi .php
+        Action php5-fcgi /php5-fcgi
+        Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
+<tmpl_if name='use_tcp'>
+        FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
+</tmpl_if>
+<tmpl_if name='use_socket'>
+        FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
+</tmpl_if>
+    </IfModule>
+</tmpl_if>
 
 <tmpl_if name="rewrite_enabled">
     RewriteEngine on
