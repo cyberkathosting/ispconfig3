@@ -91,5 +91,5 @@ $wb['pm_min_spare_servers_error_regex'] = 'PHP-FPM pm.min_spare_servers mu&szlig
 $wb['pm_max_spare_servers_error_regex'] = 'PHP-FPM pm.max_spare_servers mu&szlig; eine positive ganze Zahl sein.';
 $wb['hd_quota_error_regex'] = 'Harddisk Quota ist ungültig.';
 $wb['traffic_quota_error_regex'] = 'Traffic Quota ist ungültig.';
-$wb["fastcgi_php_version_txt"] = 'FastCGI-PHP-Version';
+$wb["fastcgi_php_version_txt"] = 'PHP-Version';
 ?>

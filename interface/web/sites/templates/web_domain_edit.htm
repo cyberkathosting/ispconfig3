@@ -167,13 +167,14 @@
 			reloadWebIP();
 		});
 		
-		if(jQuery('#php').val() == 'fast-cgi'){
+		if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm'){
 			jQuery('.fastcgi_php_version:hidden').show();
 		} else {
 			jQuery('.fastcgi_php_version:visible').hide();
 		}
 		jQuery('#php').change(function(){
-			if(jQuery(this).val() == 'fast-cgi'){
+			reloadFastcgiPHPVersions();
+			if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm'){
 				jQuery('.fastcgi_php_version:hidden').show();
 			} else {
 				jQuery('.fastcgi_php_version:visible').hide();
@@ -206,7 +207,7 @@
 		}
 		
 		function reloadFastcgiPHPVersions() {
-			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getphpfastcgi"}, function(data) {
+			jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi"}, function(data) {
 				var options = '<option value="">Default</option>';
 				var phpfastcgiselected = '';
 				$.each(data, function(key, val) {

@@ -960,18 +960,38 @@ class apache2_plugin {
 			$tpl->setVar('fastcgi_starter_script',$fastcgi_config['fastcgi_starter_script']);
 			$tpl->setVar('fastcgi_config_syntax',$fastcgi_config['fastcgi_config_syntax']);
 
+		} else {
+			//remove the php fastgi starter script if available
+			if ($data['old']['php'] == 'fast-cgi') {
+				$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
+				$fastcgi_starter_path = str_replace('[system_user]',$data['old']['system_user'],$fastcgi_config['fastcgi_starter_path']);
+				$fastcgi_starter_path = str_replace('[client_id]',$client_id,$fastcgi_starter_path);
+				if (is_dir($fastcgi_starter_path)) {
+					exec('rm -rf '.$fastcgi_starter_path);
+				}
+			}
 		}
 		
 		/**
 		* PHP-FPM
 		*/
 		// Support for multiple PHP versions
-		if(trim($data['new']['fastcgi_php_version']) != ''){
-			$default_php_fpm = false;
-			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+		if($data['new']['php'] == 'php-fpm'){
+			if(trim($data['new']['fastcgi_php_version']) != ''){
+				$default_php_fpm = false;
+				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
+				if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+			} else {
+				$default_php_fpm = true;
+			}
 		} else {
-			$default_php_fpm = true;
+			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
+				$default_php_fpm = false;
+				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
+				if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+			} else {
+				$default_php_fpm = true;
+			}
 		}
 		
 		if($default_php_fpm){
@@ -1926,12 +1946,22 @@ class apache2_plugin {
 		global $app, $conf;
 		//$reload = false;
 		
-		if(trim($data['new']['fastcgi_php_version']) != ''){
-			$default_php_fpm = false;
-			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+		if($data['new']['php'] == 'php-fpm'){
+			if(trim($data['new']['fastcgi_php_version']) != ''){
+				$default_php_fpm = false;
+				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
+				if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+			} else {
+				$default_php_fpm = true;
+			}
 		} else {
-			$default_php_fpm = true;
+			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
+				$default_php_fpm = false;
+				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
+				if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
+			} else {
+				$default_php_fpm = true;
+			}
 		}
 		
 		$app->uses("getconf");
@@ -2070,7 +2100,7 @@ class apache2_plugin {
 	private function php_fpm_pool_delete ($data,$web_config) {
 		global $app, $conf;
 		
-		if(trim($data['old']['fastcgi_php_version']) != ''){
+		if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
 			$default_php_fpm = false;
 			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
 			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
