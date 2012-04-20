@@ -187,13 +187,15 @@
 					var selected = jQuery('#php').val();
 					jQuery('.apache').hide();
 					jQuery('.apache').hide();
+					jQuery('#php option[value="fast-cgi"]').hide();
 					jQuery('#php option[value="cgi"]').hide();
 					jQuery('#php option[value="mod"]').hide();
 					jQuery('#php option[value="suphp"]').hide();
-					if(selected != "no" && selected != "fast-cgi") jQuery('#php option[value="fast-cgi"]').attr('selected', 'selected');
+					if(selected != "no" && selected != "php-fpm") jQuery('#php option[value="php-fpm"]').attr('selected', 'selected');
 				} else {
 					jQuery('.apache').show();
 					jQuery('.apache').show();
+					jQuery('#php option[value="fast-cgi"]').show();
 					jQuery('#php option[value="cgi"]').show();
 					jQuery('#php option[value="mod"]').show();
 					jQuery('#php option[value="suphp"]').show();

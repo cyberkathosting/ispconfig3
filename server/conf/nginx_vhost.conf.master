@@ -105,7 +105,7 @@ server {
             alias /usr/share/awstats/icon;
         }
 
-<tmpl_if name='php' op='==' value='fast-cgi'>
+<tmpl_if name='php' op='==' value='php-fpm'>
         location ~ \.php$ {
             try_files $uri =404;
             include /etc/nginx/fastcgi_params;

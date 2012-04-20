@@ -744,6 +744,9 @@ class nginx_plugin {
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1;
 		
+		// backwards compatibility; since ISPConfig 3.0.5, the PHP mode for nginx is called 'php-fpm' instead of 'fast-cgi'. The following line makes sure that old web sites that have 'fast-cgi' in the database still get PHP-FPM support.
+		if($vhost_data['php'] == 'fast-cgi') $vhost_data['php'] = 'php-fpm';
+		
 		// Custom nginx directives
 		$final_nginx_directives = array();
 		$nginx_directives = $data['new']['nginx_directives'];
@@ -1226,6 +1229,11 @@ class nginx_plugin {
 					exec('rm -rf '.$fastcgi_starter_path);
 				}
 			}
+			
+			// remove PHP-FPM pool
+			if ($data['old']['php'] == 'php-fpm') {
+				$this->php_fpm_pool_delete($data,$web_config);
+			}
 
 			//remove the php cgi starter script if available
 			if ($data['old']['php'] == 'cgi') {
@@ -1537,7 +1545,6 @@ class nginx_plugin {
 	//* Update the PHP-FPM pool configuration file
 	private function php_fpm_pool_update ($data,$web_config,$pool_dir,$pool_name,$socket_dir) {
 		global $app, $conf;
-		//$reload = false;
 		
 		if(trim($data['new']['fastcgi_php_version']) != ''){
 			$default_php_fpm = false;
@@ -1553,7 +1560,6 @@ class nginx_plugin {
 		if($data['new']['php'] == 'no'){
 			if(@is_file($pool_dir.$pool_name.'.conf')){
 				unlink($pool_dir.$pool_name.'.conf');
-				//$reload = true;
 			}
 			if($data['old']['php'] != 'no'){
 				if(!$default_php_fpm){
@@ -1562,7 +1568,6 @@ class nginx_plugin {
 					$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 				}
 			}
-			//if($reload == true) $app->services->restartService('php-fpm','reload');
 			return;
 		}
 				
@@ -1673,10 +1678,6 @@ class nginx_plugin {
 		} else {
 			$app->services->restartService('php-fpm','reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
-		
-		//$reload = true;
-
-		//if($reload == true) $app->services->restartService('php-fpm','reload');
 	}
 	
 	//* Delete the PHP-FPM pool configuration file
