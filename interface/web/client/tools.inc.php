@@ -128,7 +128,7 @@ function applyClientTemplates($clientId){
 			$update .= '`' . $k . "`='" . $v . "'";
 		}
 	}
-	$sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . intval($clientId);
+	if($update != '') $sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . intval($clientId);
 	$app->db->query($sql);
 }
 ?>

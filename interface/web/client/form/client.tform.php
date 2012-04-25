@@ -665,7 +665,7 @@ $form["tabs"]['limits'] = array (
 			'default'	=> '',
 			'separator' => ',',
 			'valuelimit' => 'client:web_php_options',
-			'value'		=> array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP')
+			'value'		=> array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM')
 		),
 		'limit_web_aliasdomain' => array (
 			'datatype'	=> 'INTEGER',
