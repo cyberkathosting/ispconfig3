@@ -157,4 +157,9 @@ $wb["connect_userid_to_webid_txt"] = 'Connect Linux userid to webid';
 $wb["connect_userid_to_webid_start_txt"] = 'Start ID for userid/webid connect';
 $wb["realtime_blackhole_list_txt"] = 'Real-time Blackhole List';
 $wb["realtime_blackhole_list_note_txt"] = '(Separate RBL\'s with commas)';
+$wb["ssl_settings_txt"] = 'SSL Settings';
+$wb["permissions_txt"] = 'Permissions';
+$wb["php_settings_txt"] = 'PHP Settings';
+$wb["apps_vhost_settings_txt"] = 'Apps Vhost Settings';
+$wb["awstats_settings_txt"] = 'AWStats Settings';
 ?>

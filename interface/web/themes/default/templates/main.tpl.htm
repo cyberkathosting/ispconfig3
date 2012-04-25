@@ -77,6 +77,10 @@
 					e.preventDefault();
 				}
 			});
+			
+			jQuery('.subsectiontoggle').live("click", function(){
+				jQuery(this).children().toggleClass('showing').end().next().slideToggle();
+			});
 		});
 		
 		
@@ -86,13 +90,12 @@
 			}
 		});
 		
-		//Use jQuery submit with kespress Enter in panel filterbar
+		//Use jQuery submit with keypress Enter in panel filterbar
 		jQuery(document).bind("keypress", function(event) {
 			if (event.which == '13' && $(".panel #Filter").length > 0) {
 				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
 			}
 		});
-
 	</script>
 </head>
 <body>
