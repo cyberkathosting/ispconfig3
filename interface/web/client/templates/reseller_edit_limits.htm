@@ -26,7 +26,66 @@
 	  </div>
 </tmpl_if>
 -->
+		<div class="ctrlHolder">
+      	<label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
+        <input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+      <div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
+			<div>
       <div class="ctrlHolder">
+      	<label for="default_webserver">{tmpl_var name='default_webserver_txt'}</label>
+        <select name="default_webserver" id="default_webserver" class="selectInput">
+					{tmpl_var name='default_webserver'}
+				</select>
+      </div>
+      <div class="ctrlHolder">
+      	<label for="limit_web_domain">{tmpl_var name='limit_web_domain_txt'}</label>
+        <input name="limit_web_domain" id="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+	  <div class="ctrlHolder">
+      	<label for="limit_web_quota">{tmpl_var name='limit_web_quota_txt'}</label>
+        <input name="limit_web_quota" id="limit_web_quota" value="{tmpl_var name='limit_web_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
+	  </div>
+	  <div class="ctrlHolder">
+      	<label for="limit_traffic_quota">{tmpl_var name='limit_traffic_quota_txt'}</label>
+        <input name="limit_traffic_quota" id="limit_traffic_quota" value="{tmpl_var name='limit_traffic_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
+	  </div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='web_php_options_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='web_php_options'}
+					</div>
+			</div>
+      <div class="ctrlHolder">
+      	<label for="limit_web_aliasdomain">{tmpl_var name='limit_web_aliasdomain_txt'}</label>
+        <input name="limit_web_aliasdomain" id="limit_web_aliasdomain" value="{tmpl_var name='limit_web_aliasdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="limit_web_subdomain">{tmpl_var name='limit_web_subdomain_txt'}</label>
+        <input name="limit_web_subdomain" id="limit_web_subdomain" value="{tmpl_var name='limit_web_subdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="limit_ftp_user">{tmpl_var name='limit_ftp_user_txt'}</label>
+        <input name="limit_ftp_user" id="limit_ftp_user" value="{tmpl_var name='limit_ftp_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+      <div class="ctrlHolder">
+      	<label for="limit_shell_user">{tmpl_var name='limit_shell_user_txt'}</label>
+        <input name="limit_shell_user" id="limit_shell_user" value="{tmpl_var name='limit_shell_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+      <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='ssh_chroot_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='ssh_chroot'}
+					</div>
+			</div>
+	  <div class="ctrlHolder">
+				<label for="limit_webdav_user">{tmpl_var name='limit_webdav_user_txt'}</label>
+				<input name="limit_webdav_user" id="limit_webdav_user" value="{tmpl_var name='limit_webdav_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+		</div>
+		<div class="subsectiontoggle"><span></span>{tmpl_var name='email_limits_txt'}<em></em></div>
+			<div style="display:none;">
+		<div class="ctrlHolder">
       	<label for="default_mailserver">{tmpl_var name='default_mailserver_txt'}</label>
         <select name="default_mailserver" id="default_mailserver" class="selectInput">
 					{tmpl_var name='default_mailserver'}
@@ -88,53 +147,40 @@
       	<label for="limit_spamfilter_policy">{tmpl_var name='limit_spamfilter_policy_txt'}</label>
         <input name="limit_spamfilter_policy" id="limit_spamfilter_policy" value="{tmpl_var name='limit_spamfilter_policy'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
+		</div>
+		<div class="subsectiontoggle"><span></span>{tmpl_var name='database_limits_txt'}<em></em></div>
+			<div style="display:none;">
       <div class="ctrlHolder">
-      	<label for="default_webserver">{tmpl_var name='default_webserver_txt'}</label>
-        <select name="default_webserver" id="default_webserver" class="selectInput">
-					{tmpl_var name='default_webserver'}
+      	<label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
+        <select name="default_dbserver" id="default_dbserver" class="selectInput">
+					{tmpl_var name='default_dbserver'}
 				</select>
       </div>
       <div class="ctrlHolder">
-      	<label for="limit_web_domain">{tmpl_var name='limit_web_domain_txt'}</label>
-        <input name="limit_web_domain" id="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+      	<label for="limit_database">{tmpl_var name='limit_database_txt'}</label>
+        <input name="limit_database" id="limit_database" value="{tmpl_var name='limit_database'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
-	  <div class="ctrlHolder">
-      	<label for="limit_web_quota">{tmpl_var name='limit_web_quota_txt'}</label>
-        <input name="limit_web_quota" id="limit_web_quota" value="{tmpl_var name='limit_web_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
-	  </div>
+		</div>
+		<div class="subsectiontoggle"><span></span>{tmpl_var name='cron_job_limits_txt'}<em></em></div>
+			<div style="display:none;">
       <div class="ctrlHolder">
-				<p class="label">{tmpl_var name='web_php_options_txt'}</p>
-					<div class="multiField">
-						{tmpl_var name='web_php_options'}
-					</div>
-			</div>
+        <label for="limit_cron">{tmpl_var name='limit_cron_txt'}</label>
+        <input name="limit_cron" id="limit_cron" value="{tmpl_var name='limit_cron'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+            </div>
       <div class="ctrlHolder">
-      	<label for="limit_web_aliasdomain">{tmpl_var name='limit_web_aliasdomain_txt'}</label>
-        <input name="limit_web_aliasdomain" id="limit_web_aliasdomain" value="{tmpl_var name='limit_web_aliasdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
+        <label for="limit_cron_type">{tmpl_var name='limit_cron_type_txt'}</label>
+        <select name="limit_cron_type" id="limit_cron_type" class="selectInput formLengthHalf">
+          {tmpl_var name='limit_cron_type'}
+        </select>
+            </div>
       <div class="ctrlHolder">
-      	<label for="limit_web_subdomain">{tmpl_var name='limit_web_subdomain_txt'}</label>
-        <input name="limit_web_subdomain" id="limit_web_subdomain" value="{tmpl_var name='limit_web_subdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-      <div class="ctrlHolder">
-      	<label for="limit_ftp_user">{tmpl_var name='limit_ftp_user_txt'}</label>
-        <input name="limit_ftp_user" id="limit_ftp_user" value="{tmpl_var name='limit_ftp_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-      <div class="ctrlHolder">
-      	<label for="limit_shell_user">{tmpl_var name='limit_shell_user_txt'}</label>
-        <input name="limit_shell_user" id="limit_shell_user" value="{tmpl_var name='limit_shell_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-      <div class="ctrlHolder">
-				<p class="label">{tmpl_var name='ssh_chroot_txt'}</p>
-					<div class="multiField">
-						{tmpl_var name='ssh_chroot'}
-					</div>
-			</div>
-	  <div class="ctrlHolder">
-				<label for="limit_webdav_user">{tmpl_var name='limit_webdav_user_txt'}</label>
-				<input name="limit_webdav_user" id="limit_webdav_user" value="{tmpl_var name='limit_webdav_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-      <div class="ctrlHolder">
+        <label for="limit_cron_frequency">{tmpl_var name='limit_cron_frequency_txt'}</label>
+        <input name="limit_cron_frequency" id="limit_cron_frequency" value="{tmpl_var name='limit_cron_frequency'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+            </div>
+		</div>
+		<div class="subsectiontoggle"><span></span>{tmpl_var name='dns_limits_txt'}<em></em></div>
+			<div style="display:none;">
+		<div class="ctrlHolder">
       	<label for="default_dnsserver">{tmpl_var name='default_dnsserver_txt'}</label>
         <select name="default_dnsserver" id="default_dnsserver" class="selectInput">
 					{tmpl_var name='default_dnsserver'}
@@ -152,38 +198,9 @@
       	<label for="limit_dns_record">{tmpl_var name='limit_dns_record_txt'}</label>
         <input name="limit_dns_record" id="limit_dns_record" value="{tmpl_var name='limit_dns_record'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
-      <div class="ctrlHolder">
-      	<label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
-        <input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-      <div class="ctrlHolder">
-      	<label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
-        <select name="default_dbserver" id="default_dbserver" class="selectInput">
-					{tmpl_var name='default_dbserver'}
-				</select>
-      </div>
-      <div class="ctrlHolder">
-      	<label for="limit_database">{tmpl_var name='limit_database_txt'}</label>
-        <input name="limit_database" id="limit_database" value="{tmpl_var name='limit_database'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-      <div class="ctrlHolder">
-        <label for="limit_cron">{tmpl_var name='limit_cron_txt'}</label>
-        <input name="limit_cron" id="limit_cron" value="{tmpl_var name='limit_cron'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-            </div>
-      <div class="ctrlHolder">
-        <label for="limit_cron_type">{tmpl_var name='limit_cron_type_txt'}</label>
-        <select name="limit_cron_type" id="limit_cron_type" class="selectInput formLengthHalf">
-          {tmpl_var name='limit_cron_type'}
-        </select>
-            </div>
-      <div class="ctrlHolder">
-        <label for="limit_cron_frequency">{tmpl_var name='limit_cron_frequency_txt'}</label>
-        <input name="limit_cron_frequency" id="limit_cron_frequency" value="{tmpl_var name='limit_cron_frequency'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-            </div>
-	  <div class="ctrlHolder">
-      	<label for="limit_traffic_quota">{tmpl_var name='limit_traffic_quota_txt'}</label>
-        <input name="limit_traffic_quota" id="limit_traffic_quota" value="{tmpl_var name='limit_traffic_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
-	  </div>
+		</div>
+	  <div class="subsectiontoggle"><span></span>{tmpl_var name='virtualization_limits_txt'}<em></em></div>
+			<div style="display:none;">
 	  <div class="ctrlHolder">
 				<label for="limit_openvz_vm">{tmpl_var name='limit_openvz_vm_txt'}</label>
 				<input name="limit_openvz_vm" id="limit_openvz_vm" value="{tmpl_var name='limit_openvz_vm'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
@@ -194,6 +211,7 @@
 					{tmpl_var name='limit_openvz_vm_template_id'}
 				</select>
 			</div>
+		</div>
     </fieldset>
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">

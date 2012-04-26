@@ -5,6 +5,55 @@
 
 	<div class="pnl_formsarea">
 		<fieldset class="inlineLabels"><legend>Limits</legend>
+			<div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
+			<div>
+			<div class="ctrlHolder">
+				<label for="limit_web_domain">{tmpl_var name='limit_web_domain_txt'}</label>
+				<input name="limit_web_domain" id="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_web_quota">{tmpl_var name='limit_web_quota_txt'}</label>
+				<input name="limit_web_quota" id="limit_web_quota" value="{tmpl_var name='limit_web_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_traffic_quota">{tmpl_var name='limit_traffic_quota_txt'}</label>
+				<input name="limit_traffic_quota" id="limit_traffic_quota" value="{tmpl_var name='limit_traffic_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
+			</div>
+			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='web_php_options_txt'}</p>
+				<div class="multiField">
+						{tmpl_var name='web_php_options'}
+				</div>
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_web_aliasdomain">{tmpl_var name='limit_web_aliasdomain_txt'}</label>
+				<input name="limit_web_aliasdomain" id="limit_web_aliasdomain" value="{tmpl_var name='limit_web_aliasdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_web_subdomain">{tmpl_var name='limit_web_subdomain_txt'}</label>
+				<input name="limit_web_subdomain" id="limit_web_subdomain" value="{tmpl_var name='limit_web_subdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_ftp_user">{tmpl_var name='limit_ftp_user_txt'}</label>
+				<input name="limit_ftp_user" id="limit_ftp_user" value="{tmpl_var name='limit_ftp_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_shell_user">{tmpl_var name='limit_shell_user_txt'}</label>
+				<input name="limit_shell_user" id="limit_shell_user" value="{tmpl_var name='limit_shell_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='ssh_chroot_txt'}</p>
+				<div class="multiField">
+						{tmpl_var name='ssh_chroot'}
+				</div>
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_webdav_user">{tmpl_var name='limit_webdav_user_txt'}</label>
+				<input name="limit_webdav_user" id="limit_webdav_user" value="{tmpl_var name='limit_webdav_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			</div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='email_limits_txt'}<em></em></div>
+			<div style="display:none;">
 			<div class="ctrlHolder">
 				<label for="limit_maildomain">{tmpl_var name='limit_maildomain_txt'}</label>
 				<input name="limit_maildomain" id="limit_maildomain" value="{tmpl_var name='limit_maildomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
@@ -61,62 +110,16 @@
 				<label for="limit_spamfilter_policy">{tmpl_var name='limit_spamfilter_policy_txt'}</label>
 				<input name="limit_spamfilter_policy" id="limit_spamfilter_policy" value="{tmpl_var name='limit_spamfilter_policy'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
-			<div class="ctrlHolder">
-				<label for="limit_web_domain">{tmpl_var name='limit_web_domain_txt'}</label>
-				<input name="limit_web_domain" id="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
-			<div class="ctrlHolder">
-				<label for="limit_web_quota">{tmpl_var name='limit_web_quota_txt'}</label>
-				<input name="limit_web_quota" id="limit_web_quota" value="{tmpl_var name='limit_web_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
-			</div>
-			<div class="ctrlHolder">
-				<p class="label">{tmpl_var name='web_php_options_txt'}</p>
-				<div class="multiField">
-						{tmpl_var name='web_php_options'}
-				</div>
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_web_aliasdomain">{tmpl_var name='limit_web_aliasdomain_txt'}</label>
-				<input name="limit_web_aliasdomain" id="limit_web_aliasdomain" value="{tmpl_var name='limit_web_aliasdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_web_subdomain">{tmpl_var name='limit_web_subdomain_txt'}</label>
-				<input name="limit_web_subdomain" id="limit_web_subdomain" value="{tmpl_var name='limit_web_subdomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_ftp_user">{tmpl_var name='limit_ftp_user_txt'}</label>
-				<input name="limit_ftp_user" id="limit_ftp_user" value="{tmpl_var name='limit_ftp_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_shell_user">{tmpl_var name='limit_shell_user_txt'}</label>
-				<input name="limit_shell_user" id="limit_shell_user" value="{tmpl_var name='limit_shell_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<p class="label">{tmpl_var name='ssh_chroot_txt'}</p>
-				<div class="multiField">
-						{tmpl_var name='ssh_chroot'}
-				</div>
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_webdav_user">{tmpl_var name='limit_webdav_user_txt'}</label>
-				<input name="limit_webdav_user" id="limit_webdav_user" value="{tmpl_var name='limit_webdav_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_dns_zone">{tmpl_var name='limit_dns_zone_txt'}</label>
-				<input name="limit_dns_zone" id="limit_dns_zone" value="{tmpl_var name='limit_dns_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_dns_slave_zone">{tmpl_var name='limit_dns_slave_zone_txt'}</label>
-				<input name="limit_dns_slave_zone" id="limit_dns_slave_zone" value="{tmpl_var name='limit_dns_slave_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
-			<div class="ctrlHolder">
-				<label for="limit_dns_record">{tmpl_var name='limit_dns_record_txt'}</label>
-				<input name="limit_dns_record" id="limit_dns_record" value="{tmpl_var name='limit_dns_record'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-			</div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='database_limits_txt'}<em></em></div>
+			<div style="display:none;">
 			<div class="ctrlHolder">
 				<label for="limit_database">{tmpl_var name='limit_database_txt'}</label>
 				<input name="limit_database" id="limit_database" value="{tmpl_var name='limit_database'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
 			</div>
+			</div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='cron_job_limits_txt'}<em></em></div>
+			<div style="display:none;">
 			<div class="ctrlHolder">
 				<label for="limit_cron">{tmpl_var name='limit_cron_txt'}</label>
 				<input name="limit_cron" id="limit_cron" value="{tmpl_var name='limit_cron'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
@@ -131,10 +134,24 @@
 				<label for="limit_cron_frequency">{tmpl_var name='limit_cron_frequency_txt'}</label>
 				<input name="limit_cron_frequency" id="limit_cron_frequency" value="{tmpl_var name='limit_cron_frequency'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
             </div>
-			<div class="ctrlHolder">
-				<label for="limit_traffic_quota">{tmpl_var name='limit_traffic_quota_txt'}</label>
-				<input name="limit_traffic_quota" id="limit_traffic_quota" value="{tmpl_var name='limit_traffic_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
 			</div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='dns_limits_txt'}<em></em></div>
+			<div style="display:none;">
+			<div class="ctrlHolder">
+				<label for="limit_dns_zone">{tmpl_var name='limit_dns_zone_txt'}</label>
+				<input name="limit_dns_zone" id="limit_dns_zone" value="{tmpl_var name='limit_dns_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_dns_slave_zone">{tmpl_var name='limit_dns_slave_zone_txt'}</label>
+				<input name="limit_dns_slave_zone" id="limit_dns_slave_zone" value="{tmpl_var name='limit_dns_slave_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			<div class="ctrlHolder">
+				<label for="limit_dns_record">{tmpl_var name='limit_dns_record_txt'}</label>
+				<input name="limit_dns_record" id="limit_dns_record" value="{tmpl_var name='limit_dns_record'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+			</div>
+			</div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='virtualization_limits_txt'}<em></em></div>
+			<div style="display:none;">
 			<div class="ctrlHolder">
 				<label for="limit_openvz_vm">{tmpl_var name='limit_openvz_vm_txt'}</label>
 				<input name="limit_openvz_vm" id="limit_openvz_vm" value="{tmpl_var name='limit_openvz_vm'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
@@ -144,6 +161,7 @@
 				<select name="limit_openvz_vm_template_id" id="limit_openvz_vm_template_id" class="selectInput">
 					{tmpl_var name='limit_openvz_vm_template_id'}
 				</select>
+			</div>
 			</div>
 		</fieldset>
 

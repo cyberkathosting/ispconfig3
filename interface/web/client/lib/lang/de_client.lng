@@ -111,4 +111,10 @@ $wb['bank_code_txt'] = 'BLZ';
 $wb['bank_name_txt'] = 'Bank';
 $wb['bank_account_iban_txt'] = 'IBAN';
 $wb['bank_account_swift_txt'] = 'BIC';
+$wb["web_limits_txt"] = 'Web-Limits';
+$wb["email_limits_txt"] = 'Email-Limits';
+$wb["database_limits_txt"] = 'Datenbank-Limits';
+$wb["cron_job_limits_txt"] = 'Cron Job-Limits';
+$wb["dns_limits_txt"] = 'DNS-Limits';
+$wb["virtualization_limits_txt"] = 'Virtualisierungs-Limits';
 ?>
