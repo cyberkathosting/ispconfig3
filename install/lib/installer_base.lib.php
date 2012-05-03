@@ -1420,7 +1420,7 @@ class installer_base {
 		global $conf;
 
 		//* Create the ispconfig apps vhost user and group
-		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
+		if($conf['apache']['installed'] == true){
 			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
 			$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
 			$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
@@ -1482,7 +1482,7 @@ class installer_base {
 
 			}
 		}
-		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
+		if($conf['nginx']['installed'] == true){
 			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
 			$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
 			$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
