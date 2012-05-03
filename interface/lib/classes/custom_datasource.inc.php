@@ -75,6 +75,7 @@ class custom_datasource {
 				if($web_config['server_type'] != 'nginx') $server_ids[] = $server['server_id'];
 			}
 		}
+		if(count($server_ids) == 0) return array();
 		$server_ids = implode(',', $server_ids);
 		$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND server_id IN (".$server_ids.") AND ".$app->tform->getAuthSQL('r')." ORDER BY domain");
 		

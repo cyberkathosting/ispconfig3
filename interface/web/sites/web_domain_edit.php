@@ -162,7 +162,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, default_webserver, client.contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, default_webserver, client.contact_name, CONCAT(company_name,' :: ',contact_name) as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
@@ -170,15 +170,15 @@ class page_action extends tform_actions {
 			unset($tmp);
 
 			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
+			$sql = "SELECT groupid, name, CONCAT(company_name,' :: ',contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
 			$records = $app->db->queryAllRecords($sql);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
+			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['name'].'::'.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$rec[groupid]' $selected>$rec[name]</option>\r\n";
+					$client_select .= "<option value='$rec[groupid]' $selected>$rec[name]::$rec[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
@@ -313,7 +313,7 @@ class page_action extends tform_actions {
 			unset($php_records);
 
 			// Fill the client select field
-			$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
+			$sql = "SELECT groupid, name, CONCAT(company_name,' :: ',contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = "<option value='0'></option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -321,7 +321,7 @@ class page_action extends tform_actions {
 				foreach( $clients as $client) {
 					//$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name]::$client[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
