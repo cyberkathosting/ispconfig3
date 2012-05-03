@@ -561,7 +561,7 @@ class installer extends installer_base
 		global $conf;
 		
 		//* Create the ispconfig apps vhost user and group
-		if($conf['apache']['installed'] == true){
+		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
 			$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
 			$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
@@ -619,7 +619,7 @@ class installer extends installer_base
 			
 			}
 		}
-		if($conf['nginx']['installed'] == true){
+		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
 			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
 			$apps_vhost_group = escapeshellcmd($conf['web']['apps_vhost_group']);
 			$install_dir = escapeshellcmd($conf['web']['website_basedir'].'/apps');
@@ -684,12 +684,11 @@ class installer extends installer_base
 
 			//copy('tpl/nginx_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink
-			if($this->install_ispconfig_interface == true) {
-				if(@is_link($vhost_conf_enabled_dir.'/apps.vhost')) unlink($vhost_conf_enabled_dir.'/apps.vhost');
-				if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
-					symlink($vhost_conf_dir.'/apps.vhost',$vhost_conf_enabled_dir.'/000-apps.vhost');
-				}
+			if(@is_link($vhost_conf_enabled_dir.'/apps.vhost')) unlink($vhost_conf_enabled_dir.'/apps.vhost');
+			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
+				symlink($vhost_conf_dir.'/apps.vhost',$vhost_conf_enabled_dir.'/000-apps.vhost');
 			}
+			
 		}
 	}
     
@@ -904,7 +903,7 @@ class installer extends installer_base
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
-		if($conf['apache']['installed'] == true){
+		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			$content = $this->get_template_file("apache_ispconfig.vhost", true);
 			$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
@@ -936,7 +935,7 @@ class installer extends installer_base
 			}
 		}
 
-		if($conf['nginx']['installed'] == true){
+		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			$vhost_conf_dir = $conf['nginx']['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $conf['nginx']['vhost_conf_enabled_dir'];
@@ -979,7 +978,7 @@ class installer extends installer_base
 
 			//copy('tpl/nginx_ispconfig.vhost.master', $vhost_conf_dir.'/ispconfig.vhost');
 			//* and create the symlink
-			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+			if($this->is_update == false) {
 				if(@is_link($vhost_conf_enabled_dir.'/ispconfig.vhost')) unlink($vhost_conf_enabled_dir.'/ispconfig.vhost');
 				if(!@is_link($vhost_conf_enabled_dir.'/000-ispconfig.vhost')) {
 					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');

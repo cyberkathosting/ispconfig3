@@ -936,7 +936,7 @@ class installer_dist extends installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
 		
-		if($conf['apache']['installed'] == true){
+		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			// TODO: These are missing! should they be "vhost_dist_*_dir" ?
 			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
@@ -976,7 +976,7 @@ class installer_dist extends installer_base {
 		
 			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink
-			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+			if($this->is_update == false) {
 				if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
 				if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 					exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
@@ -988,7 +988,7 @@ class installer_dist extends installer_base {
 			replaceLine('/usr/local/ispconfig/server/conf/vhost.conf.master',"suPHP_UserGroup","        suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>",0);
 		}
 
-		if($conf['nginx']['installed'] == true){
+		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			$vhost_conf_dir = $conf['nginx']['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $conf['nginx']['vhost_conf_enabled_dir'];
@@ -1031,7 +1031,7 @@ class installer_dist extends installer_base {
 
 			//copy('tpl/nginx_ispconfig.vhost.master', $vhost_conf_dir.'/ispconfig.vhost');
 			//* and create the symlink
-			if($this->install_ispconfig_interface == true && $this->is_update == false) {
+			if($this->is_update == false) {
 				if(@is_link($vhost_conf_enabled_dir.'/ispconfig.vhost')) unlink($vhost_conf_enabled_dir.'/ispconfig.vhost');
 				if(!@is_link($vhost_conf_enabled_dir.'/000-ispconfig.vhost')) {
 					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');
