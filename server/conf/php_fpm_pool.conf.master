@@ -14,11 +14,17 @@ listen.mode = 0660
 user = <tmpl_var name='fpm_user'>
 group = <tmpl_var name='fpm_group'>
 
-pm = dynamic
+pm = <tmpl_var name='pm'>
 pm.max_children = <tmpl_var name='pm_max_children'>
+<tmpl_if name='pm' op='==' value='dynamic'>
 pm.start_servers = <tmpl_var name='pm_start_servers'>
 pm.min_spare_servers = <tmpl_var name='pm_min_spare_servers'>
 pm.max_spare_servers = <tmpl_var name='pm_max_spare_servers'>
+</tmpl_if>
+<tmpl_if name='pm' op='==' value='ondemand'>
+pm.process_idle_timeout = <tmpl_var name='pm_process_idle_timeout'>s;
+</tmpl_if>
+pm.max_requests = <tmpl_var name='pm_max_requests'>
 
 chdir = /
 

@@ -1630,10 +1630,13 @@ class nginx_plugin {
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);
 		$tpl->setVar('pm_start_servers', $data['new']['pm_start_servers']);
 		$tpl->setVar('pm_min_spare_servers', $data['new']['pm_min_spare_servers']);
 		$tpl->setVar('pm_max_spare_servers', $data['new']['pm_max_spare_servers']);
+		$tpl->setVar('pm_process_idle_timeout', $data['new']['pm_process_idle_timeout']);
+		$tpl->setVar('pm_max_requests', $data['new']['pm_max_requests']);
 		$tpl->setVar('document_root', $data['new']['document_root']);
 		$tpl->setVar('security_level',$web_config['security_level']);
 		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);

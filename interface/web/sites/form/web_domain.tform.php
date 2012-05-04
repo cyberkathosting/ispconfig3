@@ -542,6 +542,12 @@ $form["tabs"]['advanced'] = array (
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
+		'pm' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> 'dynamic',
+			'value'		=> array('static' => 'static', 'dynamic' => 'dynamic', 'ondemand' => 'ondemand (PHP Version >= 5.3.9)')
+		),
 		'pm_max_children' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -589,6 +595,30 @@ $form["tabs"]['advanced'] = array (
 			'value'		=> '',
 			'width'		=> '3',
 			'maxlength'	=> '3'
+		),
+		'pm_process_idle_timeout' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([1-9][0-9]{0,10})$/',
+														'errmsg'=> 'pm_process_idle_timeout_error_regex'),
+									),
+			'default'	=> '10',
+			'value'		=> '',
+			'width'		=> '3',
+			'maxlength'	=> '6'
+		),
+		'pm_max_requests' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([0-9]{1,11})$/',
+														'errmsg'=> 'pm_max_requests_error_regex'),
+									),
+			'default'	=> '0',
+			'value'		=> '',
+			'width'		=> '3',
+			'maxlength'	=> '6'
 		),
 		'php_open_basedir' => array (
 			'datatype'	=> 'VARCHAR',

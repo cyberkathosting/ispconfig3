@@ -518,7 +518,7 @@ class page_action extends tform_actions {
 		}
 		
 		// Check if pm.max_children >= pm.max_spare_servers >= pm.start_servers >= pm.min_spare_servers > 0
-		if(isset($this->dataRecord['pm_max_children'])) {
+		if(isset($this->dataRecord['pm_max_children']) && $this->dataRecord['pm'] == 'dynamic') {
 			if(intval($this->dataRecord['pm_max_children']) >= intval($this->dataRecord['pm_max_spare_servers']) && intval($this->dataRecord['pm_max_spare_servers']) >= intval($this->dataRecord['pm_start_servers']) && intval($this->dataRecord['pm_start_servers']) >= intval($this->dataRecord['pm_min_spare_servers']) && intval($this->dataRecord['pm_min_spare_servers']) > 0){
 		
 			} else {
