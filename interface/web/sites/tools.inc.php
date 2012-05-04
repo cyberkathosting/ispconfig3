@@ -65,13 +65,15 @@ function getClientName($dataRecord) {
 		} elseif (isset($dataRecord['parent_domain_id'])) {
 			$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = " . $dataRecord['parent_domain_id']);
 			$client_group_id = $tmp['sys_groupid'];
-      	} else {
+      	} elseif(isset($dataRecord['sys_groupid'])) {
 			$client_group_id = $dataRecord['sys_groupid'];
-      	}
+      	} else {
+			$client_group_id = 0;
+		}
     }
 	
     /* get the name of the client */
-    $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
+    $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . intval($client_group_id));
     $clientName = $tmp['name'];
     if ($clientName == "") $clientName = 'default';
     $clientName = convertClientName($clientName);
@@ -91,9 +93,11 @@ function getClientID($dataRecord) {
       	} elseif (isset($dataRecord['parent_domain_id'])) {
 			$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = " . $dataRecord['parent_domain_id']);
 			$client_group_id = $tmp['sys_groupid'];
-		} else {
+		} elseif(isset($dataRecord['sys_groupid'])) {
 			$client_group_id = $dataRecord['sys_groupid'];
-      	}
+      	} else {
+			$client_group_id = 0;
+		}
     }
     /* get the name of the client */
     $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . intval($client_group_id));
