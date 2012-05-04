@@ -69,9 +69,9 @@ $form["tabs"]['message'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> $sm_default_recipient_id,
 			'datasource'	=> array ( 	'type'			=> 'SQL',
-										'querystring' 	=> 'SELECT userid,username FROM sys_user WHERE userid != 1 AND {AUTHSQL} ORDER BY username',
+										'querystring' 	=> "SELECT sys_user.userid, CONCAT(sys_user.username,' :: ',client.company_name,' :: ',client.contact_name) as contactname FROM sys_user, client WHERE sys_user.userid != 1 AND sys_user.client_id = client.client_id AND {AUTHSQL} ORDER BY sys_user.username",
 										'keyfield'		=> 'userid',
-										'valuefield'	=> 'username'
+										'valuefield'	=> 'contactname'
 									 ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'recipient_id_is_not_integer'),

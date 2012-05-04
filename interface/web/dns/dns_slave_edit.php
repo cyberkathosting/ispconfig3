@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 		// If user is admin, we will allow him to select to whom this record belongs
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Domains of the user
-			$sql = "SELECT groupid, name, CONCAT(company_name,' :: ',contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
@@ -80,7 +80,7 @@ class page_action extends tform_actions {
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]::$client[contactname]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name] :: $client[contactname]</option>\r\n";
 				}
 			}
 		$app->tpl->setVar("client_group_id",$client_select);
@@ -88,18 +88,18 @@ class page_action extends tform_actions {
 		
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, sys_group.name, client.contact_name, CONCAT(company_name,' :: ',contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, sys_group.name, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Fill the client select field
-			$sql = "SELECT groupid, name, CONCAT(company_name,' :: ',contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY name";
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['name'].'::'.$client['contactname'].'</option>';
+			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['name'].' :: '.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]::$client[contactname]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>$client[name] :: $client[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
