@@ -305,7 +305,7 @@ class bind_plugin {
 		global $app, $conf;
 	
 		//* Only write the master file for the current server	
-		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify FROM dns_soa WHERE active = 'Y' AND server_id=".$conf["server_id"]);
+		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl FROM dns_soa WHERE active = 'Y' AND server_id=".$conf["server_id"]);
 		$zones = array();
 		
 		//* Check if the current zone that triggered this function has at least one NS record
@@ -341,6 +341,7 @@ class bind_plugin {
 				$options .= "        allow-transfer {none;};\n";
 			}
 			if(trim($tmp['also_notify']) != '') $options .= '        also-notify {'.str_replace(',',';',$tmp['also_notify']).";};\n";
+			if(trim($tmp['update_acl']) != '') $options .= "        allow-update {".str_replace(',',';',$tmp['update_acl']).";};\n";
 			
 			if(file_exists($zone_file)) {
 				$zones[] = array(	'zone' => substr($tmp['origin'],0,-1),
