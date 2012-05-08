@@ -143,6 +143,10 @@ class db extends mysqli
   public function numRows() {
     return $this->queryId->num_rows;
   }
+  
+  public function affectedRows() {
+	return $this->queryId->affected_rows;
+  }
 
   // returns mySQL insert id
   public function insertID() {
@@ -206,7 +210,7 @@ public function toLower($record) {
     }
 
     //** Function to fill the datalog with a full differential record.
-    public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new) {
+    public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
       global $app,$conf;
 
       // Insert backticks only for incomplete table names.
@@ -216,10 +220,17 @@ public function toLower($record) {
 	$escape = '`';
       }
 
-      $tmp = $this->diffrec($record_old, $record_new);
-      $diffrec_full = $tmp['diff_rec'];
-      $diff_num = $tmp['diff_num'];
-      unset($tmp);
+		if($force_update == true) {
+			//* We force a update even if no record has changed
+			$diffrec_full = array('new' => $record_new,'old' => $record_old);
+			$diff_num = count($record_new);
+		} else {
+			//* get the difference record between old and new record
+			$tmp = $this->diffrec($record_old, $record_new);
+			$diffrec_full = $tmp['diff_rec'];
+			$diff_num = $tmp['diff_num'];
+			unset($tmp);
+		}
 
       // Insert the server_id, if the record has a server_id
       $server_id = (isset($record_old['server_id']) && $record_old['server_id'] > 0)?$record_old['server_id']:0;
@@ -254,6 +265,8 @@ public function toLower($record) {
 				$key_str .= "`".$key ."`,";
 				$val_str .= "'".$this->quote($val)."',";
 			}
+			$key_str = substr($key_str,0,-1);
+			$val_str = substr($val_str,0,-1);
 			$insert_data_str = '('.$key_str.') VALUES ('.$val_str.')';
 		} else {
 			$insert_data_str = $insert_data;
@@ -272,24 +285,21 @@ public function toLower($record) {
     public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
 		global $app;
       
-	  if($force_update == true) {
-		$old_rec = array();
-	  } else {
-		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
-	  }
+	  $old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
 	  
 	  if(is_array($update_data)) {
 			$update_data_str = '';
 			foreach($update_data as $key => $val) {
 				$update_data_str .= "`".$key ."` = '".$this->quote($val)."',";
 			}
+			$update_data_str = substr($update_data_str,0,-1);
 		} else {
 			$update_data_str = $update_data;
 		}
 		
       $this->query("UPDATE $tablename SET $update_data WHERE $index_field = '$index_value'");
       $new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
-      $this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec);
+      $this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec, $force_update);
 
       return true;
     }
