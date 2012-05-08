@@ -111,7 +111,7 @@ class mail_user_filter_plugin {
 			}
 		}
 		
-		$out = mysql_real_escape_string($out);
+		$out = $app->db->quote($out);
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
 	}
 	

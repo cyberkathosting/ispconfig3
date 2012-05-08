@@ -138,7 +138,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		// Create the group for the reseller
-		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".mysql_real_escape_string($this->dataRecord["username"])."','',".$this->id.")", 'groupid');
+		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".$app->db->quote($this->dataRecord["username"])."','',".$this->id.")", 'groupid');
 		$groups = $groupid;
 		
 		$username = $app->db->quote($this->dataRecord["username"]);

@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 			}
 		}
 		
-		$out = mysql_real_escape_string($out);
+		$out = $app->db->quote($out);
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
 	
 	}

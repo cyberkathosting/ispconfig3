@@ -54,7 +54,7 @@ class page_action extends tform_actions {
 	function onBeforeDelete() {
 		global $app; $conf;
 			
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".mysql_real_escape_string($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
 			$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 			
 			$tmp_filters = $app->db->queryAllRecords("SELECT filter_id FROM mail_user_filter WHERE mailuser_id = '".$this->id."'");

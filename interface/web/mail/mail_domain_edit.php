@@ -238,7 +238,7 @@ class page_action extends tform_actions {
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->dataRecord["domain"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
 				$app->db->datalogUpdate('spamfilter_users', "policy_id = $ploicy_id", 'id', $tmp_user["id"]);
@@ -297,7 +297,7 @@ class page_action extends tform_actions {
 
 		// Spamfilter policy
 		$policy_id = intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->dataRecord["domain"])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
@@ -322,7 +322,7 @@ class page_action extends tform_actions {
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"],'mail');
 
 			//* Update the mailboxes
-			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
+			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
 			$sys_groupid = (isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid'];
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
@@ -330,27 +330,27 @@ class page_action extends tform_actions {
 					$mail_parts = explode("@",$rec['email']);
 					$maildir = str_replace("[domain]",$this->dataRecord['domain'],$mail_config["maildir_path"]);
 					$maildir = str_replace("[localpart]",$mail_parts[0],$maildir);
-					$maildir = mysql_real_escape_string($maildir);
-					$email = mysql_real_escape_string($mail_parts[0].'@'.$this->dataRecord['domain']);
+					$maildir = $app->db->quote($maildir);
+					$email = $app->db->quote($mail_parts[0].'@'.$this->dataRecord['domain']);
 					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
 
 			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."' OR destination like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = mysql_real_escape_string(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
-					$source = mysql_real_escape_string(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
+					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
+					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
 					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 			
 			//* Update the mailinglist
-			$app->db->query("UPDATE mail_mailinglist SET sys_groupid = $sys_groupid WHERE domain = '".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
+			$app->db->query("UPDATE mail_mailinglist SET sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
 
 			//* Delete the old spamfilter record
-			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".mysql_real_escape_string($this->oldDataRecord["domain"])."'");
+			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
 			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
 			unset($tmp);
 
