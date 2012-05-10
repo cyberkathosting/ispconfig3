@@ -33,10 +33,10 @@ function loadContentRefresh(pagename) {
   }
 }
 
-function capp(module) {
+function capp(module, redirect) {
 	var submitFormObj = jQuery.ajax({		type: "GET", 
 											url: "capp.php", 
-											data: "mod="+module,
+											data: "mod="+module+((redirect != undefined) ? '&redirect='+redirect : ''),
 											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText != '') {

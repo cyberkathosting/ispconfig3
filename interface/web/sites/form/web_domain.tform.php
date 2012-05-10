@@ -29,6 +29,11 @@
 	Hint:
 	The ID field of the database table is not part of the datafield definition.
 	The ID field must be always auto incement (int or bigint).
+	
+	Search:
+	- searchable = 1 or searchable = 2 include the field in the search
+	- searchable = 1: this field will be the title of the search result
+	- searchable = 2: this field will be included in the description of the search result
 
 
 */
@@ -87,7 +92,8 @@ $form["tabs"]['domain'] = array (
 										'keyfield'=> 'ip_address',
 										'valuefield'=> 'ip_address'
 									 ),*/
-			'value'		=> ''
+			'value'		=> '',
+			'searchable' => 2
 		),
 		'ipv6_address' => array (
 			'datatype'	=> 'VARCHAR',
@@ -98,7 +104,8 @@ $form["tabs"]['domain'] = array (
 										'keyfield'=> 'ip_address',
 										'valuefield'=> 'ip_address'
 									 ),*/
-			'value'		=> ''
+			'value'		=> '',
+			'searchable' => 2
 		),
 		'domain' => array (
 			'datatype'	=> 'VARCHAR',
@@ -114,7 +121,8 @@ $form["tabs"]['domain'] = array (
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
-			'maxlength'	=> '255'
+			'maxlength'	=> '255',
+			'searchable' => 1
 		),
 		'type' => array (
 			'datatype'	=> 'VARCHAR',
@@ -208,7 +216,8 @@ $form["tabs"]['domain'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> 'fast-cgi',
 			'valuelimit' => 'client:web_php_options',
-			'value'		=> array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM')
+			'value'		=> array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM'),
+			'searchable' => 2
 		),
 		'fastcgi_php_version' => array (
 			'datatype'	=> 'VARCHAR',

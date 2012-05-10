@@ -60,6 +60,7 @@
 	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
     <script type="text/javascript" src="js/scrigo.js.php"></script>
     <script type="text/javascript" src="js/uni-form/uni-form.jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.ispconfigsearch.js"></script>
 	<script language="JavaScript" type="text/javascript">
 		var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 		if(!is_chrome && getInternetExplorerVersion() > 8.0) {
@@ -81,6 +82,11 @@
 			jQuery('.subsectiontoggle').live("click", function(){
 				jQuery(this).children().toggleClass('showing').end().next().slideToggle();
 			});
+			
+			jQuery('#globalsearch').ispconfigSearch({
+				dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch'
+			});
+
 		});
 		
 		
@@ -109,6 +115,7 @@
                     <!-- end: skip link navigation -->
 			        <tmpl_if name="cpuser">
                     <span><a href="#logout" onclick="loadContent('login/logout.php');"><tmpl_var name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>--></span>
+					<input type="text" id="globalsearch" size="30" value="" />
 			        </tmpl_if>
                 </div>
                 <h1 id="ir-HeaderLogo" class="swap" style="background-image:url('{tmpl_var name='app_logo'}');"><span>ISPConfig 3</span></h1>

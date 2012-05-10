@@ -29,6 +29,11 @@
 	Hint:
 	The ID field of the database table is not part of the datafield definition.
 	The ID field must be always auto incement (int or bigint).
+	
+	Search:
+	- searchable = 1 or searchable = 2 include the field in the search
+	- searchable = 1: this field will be the title of the search result
+	- searchable = 2: this field will be included in the description of the search result
 
 
 */
@@ -83,7 +88,8 @@ $form["tabs"]['domain'] = array (
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
-			'maxlength'	=> '255'
+			'maxlength'	=> '255',
+			'searchable' => 1
 		),
 		'active' => array (
 			'datatype'	=> 'VARCHAR',

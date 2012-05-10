@@ -101,6 +101,6 @@ $type = $_GET["type"];
 	}
 
 //}
-
+header('Content-type: application/json');
 echo $json;
 ?>

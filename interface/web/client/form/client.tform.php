@@ -29,6 +29,11 @@
 	Hint:
 	The ID field of the database table is not part of the datafield definition.
 	The ID field must be always auto incement (int or bigint).
+	
+	Search:
+	- searchable = 1 or searchable = 2 include the field in the search
+	- searchable = 1: this field will be the title of the search result
+	- searchable = 2: this field will be included in the description of the search result
 
 
 */
@@ -90,7 +95,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'contact_name' => array (
 			'datatype'	=> 'VARCHAR',
@@ -104,7 +110,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 1
 		),
 		'customer_no' => array (
 			'datatype'	=> 'VARCHAR',
@@ -115,7 +122,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'username' => array (
 			'datatype'	=> 'VARCHAR',
@@ -136,7 +144,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
@@ -181,7 +190,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'zip' => array (
 			'datatype'	=> 'VARCHAR',
@@ -192,7 +202,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '10',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'city' => array (
 			'datatype'	=> 'VARCHAR',
@@ -203,7 +214,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'state' => array (
 			'datatype'	=> 'VARCHAR',
@@ -214,7 +226,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'country' => array (
 			'datatype'	=> 'VARCHAR',
@@ -237,7 +250,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'mobile' => array (
 			'datatype'	=> 'VARCHAR',
@@ -248,7 +262,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'fax' => array (
 			'datatype'	=> 'VARCHAR',
@@ -259,7 +274,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'email' => array (
 			'datatype'	=> 'VARCHAR',
@@ -270,7 +286,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'internet' => array (
 			'datatype'	=> 'VARCHAR',
@@ -281,7 +298,8 @@ $form["tabs"]['address'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 2
 		),
 		'icq' => array (
 			'datatype'	=> 'VARCHAR',
