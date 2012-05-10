@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Nom';
 $wb['data_txt'] = 'Données';
 $wb['aux_txt'] = 'Priorité';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Ajouter un nouvel enregistrement A';
 $wb['page_txt'] = 'Page';

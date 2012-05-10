@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'İsim';
 $wb['data_txt'] = 'Veri';
 $wb['aux_txt'] = 'Öncelik';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Çeşit';
 $wb['add_new_record_txt'] = 'Yeni DNS A-Kaydı';
 $wb['page_txt'] = 'Sayfa';

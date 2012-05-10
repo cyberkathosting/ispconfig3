@@ -8,6 +8,7 @@ $wb['data_txt'] = 'Data';
 $wb['type_txt'] = 'Tyyppi';
 $wb['add_new_record_txt'] = 'Lisää uusi tietue';
 $wb['aux_txt'] = 'Prioriteetti';
+$wb['ttl_txt'] = 'TTL';
 $wb['page_txt'] = 'Sivu';
 $wb['page_of_txt'] = '/';
 $wb['delete_confirmation'] = 'Haluatko varmasti poistaa tämän tietueen?';

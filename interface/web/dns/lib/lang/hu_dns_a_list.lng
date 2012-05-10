@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zóna';
 $wb['name_txt'] = 'Név';
 $wb['data_txt'] = 'Adat';
 $wb['aux_txt'] = 'Prioritás';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Típus';
 $wb['page_txt'] = 'Oldal';
 $wb['page_of_txt'] = '-';

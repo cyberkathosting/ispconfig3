@@ -7,6 +7,7 @@ $wb['name_txt'] = 'Nome';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Prioridade';
 $wb['type_txt'] = 'Tipo';
+$wb['ttl_txt'] = 'TTL';
 $wb['add_new_record_txt'] = 'Adcionar um novo registro DNS (A)';
 $wb['page_txt'] = 'Página';
 $wb['page_of_txt'] = 'de';

@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zona';
 $wb['name_txt'] = 'Ime';
 $wb['data_txt'] = 'Podaci';
 $wb['aux_txt'] = 'Prioritet';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Vrsta';
 $wb['add_new_record_txt'] = 'Dodaj novi A zapis';
 $wb['page_txt'] = 'Stranica';

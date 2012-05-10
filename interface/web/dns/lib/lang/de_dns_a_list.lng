@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Name';
 $wb['data_txt'] = 'Daten';
 $wb['aux_txt'] = 'Priorität';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Typ';
 $wb['add_new_record_txt'] = 'Neuen DNS A-Eintrag hinzufügen';
 $wb['page_txt'] = 'Seite';

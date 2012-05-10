@@ -1,14 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Aレコード';
-$wb['active_txt'] = '有効';
-$wb['server_id_txt'] = 'サーバー';
-$wb['zone_txt'] = 'ゾーン';
-$wb['name_txt'] = '名前';
-$wb['data_txt'] = '値';
-$wb['aux_txt'] = '優先度';
-$wb['type_txt'] = '種別';
-$wb['add_new_record_txt'] = 'Aレコードを追加する';
-$wb['page_txt'] = 'ページ';
+$wb['list_head_txt'] = 'Aãƒ¬ã‚³ãƒ¼ãƒ‰';
+$wb['active_txt'] = 'æœ‰åŠ¹';
+$wb['server_id_txt'] = 'ã‚µãƒ¼ãƒ�ãƒ¼';
+$wb['zone_txt'] = 'ã‚¾ãƒ¼ãƒ³';
+$wb['name_txt'] = 'å��å‰�';
+$wb['data_txt'] = 'å€¤';
+$wb['aux_txt'] = 'å„ªå…ˆåº¦';
+$wb['ttl_txt'] = 'TTL';
+$wb['type_txt'] = 'ç¨®åˆ¥';
+$wb['add_new_record_txt'] = 'Aãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã�™ã‚‹';
+$wb['page_txt'] = 'ãƒšãƒ¼ã‚¸';
 $wb['page_of_txt'] = '/';
-$wb['delete_confirmation'] = '本当にこのレコードを削除してもいいですか？';
+$wb['delete_confirmation'] = 'æœ¬å½“ã�«ã�“ã�®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤ã�—ã�¦ã‚‚ã�„ã�„ã�§ã�™ã�‹ï¼Ÿ';
 ?>

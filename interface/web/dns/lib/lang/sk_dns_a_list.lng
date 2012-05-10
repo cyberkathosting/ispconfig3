@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zóna';
 $wb['name_txt'] = 'Meno';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Priorita';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Typ';
 $wb['add_new_record_txt'] = 'Pridať nový DNS-Záznam';
 $wb['page_txt'] = 'Strana';

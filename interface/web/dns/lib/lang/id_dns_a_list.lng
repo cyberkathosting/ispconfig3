@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zona';
 $wb['name_txt'] = 'Nama';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Prioritas';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Tipe';
 $wb['add_new_record_txt'] = 'Tambah Record-A DNS baru';
 $wb['page_txt'] = 'Halaman';

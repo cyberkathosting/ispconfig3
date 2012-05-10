@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Naam';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Prioriteit';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Toevoegen nieuw DNS A-record';
 $wb['page_txt'] = 'Pagina';

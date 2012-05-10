@@ -6,6 +6,7 @@ $wb['zone_txt'] = 'Ζώνη';
 $wb['name_txt'] = 'Όνομα';
 $wb['data_txt'] = 'Δεδομένα';
 $wb['aux_txt'] = 'Προτεραιότητα';
+$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Τύπος';
 $wb['add_new_record_txt'] = 'Νέα εγγραφή A στον DNS';
 $wb['page_txt'] = 'Σελίδα';

@@ -48,6 +48,7 @@
             <th class="tbl_col_name" scope="col"><tmpl_var name="name_txt"></th>
             <th class="tbl_col_data" scope="col"><tmpl_var name="data_txt"></th>
             <th class="tbl_col_aux" scope="col"><tmpl_var name="aux_txt"></th>
+            <th class="tbl_col_ttl" scope="col"><tmpl_var name="ttl_txt"></th>
             <th class="" scope="col">{tmpl_var name='search_limit'}</th>
           </tr>
           <tr>
@@ -56,6 +57,7 @@
             <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
             <td class="tbl_col_data"><input type="text" name="search_data" value="{tmpl_var name='search_data'}" /></td>
             <td class="tbl_col_aux"><input type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
+            <td class="tbl_col_ttl"><input type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" /></td>
             <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="changeTab('dns_records','dns/dns_soa_edit.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
@@ -67,6 +69,7 @@
             <td class="tbl_col_name"><a href="#" onClick="loadContent('dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="name"}</a></td>
             <td class="tbl_col_data"><a href="#" onClick="loadContent('dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="data"}</a></td>
             <td class="tbl_col_aux"><a href="#" onClick="loadContent('dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="aux"}</a></td>
+            <td class="tbl_col_ttl"><a href="#" onClick="loadContent('dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="ttl"}</a></td>
             <td class="tbl_col_buttons">
               <div class="buttons icons16">    
                 <a class="icons16 icoDelete" href="javascript: del_record('dns/dns_rr_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
@@ -77,7 +80,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td class="tbl_footer tbl_paging" colspan="6"><tmpl_var name="paging"></td>
+            <td class="tbl_footer tbl_paging" colspan="7"><tmpl_var name="paging"></td>
           </tr>
         </tfoot>
       </table>
