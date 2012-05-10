@@ -52,9 +52,19 @@ $items[] = array( 'title' 	=> "Add Reseller",
 $module["nav"][] = array(	'title'	=> 'Resellers',
 							'open' 	=> 1,
 							'items'	=> $items);
+
+unset($items);
 }
 
+$items[] = array( 'title' 	=> "Send email",
+				  'target' 	=> 'content',
+				  'link'	=> 'client/client_message.php',
+				  'html_id' => 'reseller_add');
 
+$module["nav"][] = array(	'title'	=> 'Messaging',
+							'open' 	=> 1,
+							'items'	=> $items);
 
+unset($items);
 
 ?>

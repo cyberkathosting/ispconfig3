@@ -9,10 +9,10 @@ $items = array();
 
 $items[] = array( 'title' 	=> 'Resync',
 				  'target' 	=> 'content',
-				  'link'	=> 'tools/dns_resync.php');
+				  'link'	=> 'tools/resync.php');
 
 
-$module['nav'][] = array(	'title'	=> 'DNS Tools',
+$module['nav'][] = array(	'title'	=> 'Sync Tools',
 							'open' 	=> 1,
 							'items'	=> $items);
 

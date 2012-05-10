@@ -18,7 +18,7 @@ try {
 	$client_id = 1;
 	$params = array(
 			'server_id' => 1,
-			'source' => 'hallo@test.int',
+			'source' => '@test.int',
 			'destination' => 'ciao@test.int',
 			'type' => 'catchall',
 			'active' => 'y'

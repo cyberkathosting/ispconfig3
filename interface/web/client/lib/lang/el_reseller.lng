@@ -106,4 +106,5 @@ $wb['limit_openvz_vm_template_id_txt'] = 'Εξαναγκασμός προτύπ�
 $wb['limit_openvz_vm_error_notint'] = 'Το όριο εικονικών server πρέπει να είναι αριθμός.';
 $wb['web_php_options_notempty'] = 'No PHP option(s) selected. Select at least one PHP option.';
 $wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one SSH option.';
+$wb['username_error_collision'] = 'The username may not start with the word -web- or -web- followed by a number.';
 ?>

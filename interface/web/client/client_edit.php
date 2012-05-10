@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2005 - 2008, Till Brehm, projektfarm Gmbh
+Copyright (c) 2005 - 2012, Till Brehm, projektfarm Gmbh, ISPConfig UG
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

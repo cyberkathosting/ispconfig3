@@ -12,4 +12,6 @@ $wb['Resellers'] = 'Revendedores';
 $wb['error_has_clients'] = 'Este revendedor possui clientes. Deve remover os clientes primeiro.';
 $wb['add_additional_template_txt'] = 'Add additional template';
 $wb['delete_additional_template_txt'] = 'Delete additional template';
+$wb['Messaging'] = 'Messaging';
+$wb['Send Email'] = 'Send Email';
 ?>

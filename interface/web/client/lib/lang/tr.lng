@@ -12,4 +12,6 @@ $wb['Resellers'] = 'Resellerlar';
 $wb['error_has_clients'] = 'Bu reseller müşterilere sahip. Resellerı silmeden önce müşterilerini silmelisiniz.';
 $wb['add_additional_template_txt'] = 'Add additional template';
 $wb['delete_additional_template_txt'] = 'Delete additional template';
+$wb['Messaging'] = 'Messaging';
+$wb['Send Email'] = 'Send Email';
 ?>

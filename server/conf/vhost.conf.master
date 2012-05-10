@@ -256,6 +256,7 @@
           SetHandler None
         </FilesMatch>
       </Directory>
+      DavLockDB {tmpl_var name='document_root'}/tmp/DavLock
       # DO NOT REMOVE THE COMMENTS!
       # IF YOU REMOVE THEM, WEBDAV WILL NOT WORK ANYMORE!
       # WEBDAV BEGIN

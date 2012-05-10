@@ -173,6 +173,7 @@ class vm_openvz_plugin {
 		$tpl->setVar('numfile',$vm_template['numfile']);
 		$tpl->setVar('avnumproc',$vm_template['avnumproc']);
 		$tpl->setVar('numiptent',$vm_template['numiptent']);
+		$tpl->setVar('swappages',$vm_template['swappages']);
 		
 		$diskspace = $vm['diskspace']*1048576;
 		$diskinodes = $vm['diskspace']*524288;

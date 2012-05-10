@@ -3,7 +3,6 @@ require ["fileinto", "regex", "vacation"];
 <tmpl_if name="cc">
 # Send a copy of email to
 redirect "<tmpl_var name='cc'>";
-keep;
 </tmpl_if>
 
 <tmpl_if name="move_junk" op="==" value="y">
@@ -16,6 +15,8 @@ if header :contains "X-Spam-Flag" "YES" {
 </tmpl_if>
 
 <tmpl_var name='custom_mailfilter'>
+
+keep;
 
 <tmpl_if name="autoresponder" op="==" value="y">
 #################################################################

@@ -45,5 +45,6 @@ IP_ADDRESS="{tmpl_var name='ip_address'}"
 NAMESERVER="{tmpl_var name='nameserver'}"
 # alternative meminfo: "pages:256000"
 MEMINFO="privvmpages:1"
+# SWAPPAGES="{tmpl_var name='swappages'}"
 
 CAPABILITY="{tmpl_var name='capability'}"

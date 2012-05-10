@@ -110,6 +110,13 @@ class apache2_plugin {
 
 		//* Create a SSL Certificate
 		if($data['new']['ssl_action'] == 'create') {
+			
+			//* Rename files if they exist
+			if(file_exists($key_file)) rename($key_file,$key_file.'.bak');
+			if(file_exists($key_file2)) rename($key_file2,$key_file2.'.bak');
+			if(file_exists($csr_file)) rename($csr_file,$csr_file.'.bak');
+			if(file_exists($crt_file)) rename($crt_file,$crt_file.'.bak');
+			
 			$rand_file = $ssl_dir.'/random_file';
 			$rand_data = md5(uniqid(microtime(),1));
 			for($i=0; $i<1000; $i++) {
@@ -133,11 +140,11 @@ class apache2_plugin {
         output_password        = $ssl_password
 
         [ req_distinguished_name ]
-        C                      = ".$data['new']['ssl_country']."
-        ST                     = ".$data['new']['ssl_state']."
-        L                      = ".$data['new']['ssl_locality']."
-        O                      = ".$data['new']['ssl_organisation']."
-        OU                     = ".$data['new']['ssl_organisation_unit']."
+        C                      = ".trim($data['new']['ssl_country'])."
+        ST                     = ".trim($data['new']['ssl_state'])."
+        L                      = ".trim($data['new']['ssl_locality'])."
+        O                      = ".trim($data['new']['ssl_organisation'])."
+        OU                     = ".trim($data['new']['ssl_organisation_unit'])."
         CN                     = $domain
         emailAddress           = webmaster@".$data['new']['domain']."
 
@@ -286,6 +293,10 @@ class apache2_plugin {
 		}
 		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
 			$app->log('Websites cannot be owned by the root user or group.',LOGLEVEL_WARN);
+			return 0;
+		}
+		if(trim($data['new']['domain']) == '') {
+			$app->log('domain is empty',LOGLEVEL_WARN);
 			return 0;
 		}
 		

@@ -1,9 +1,8 @@
 <?php
-
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Client';
-$wb["btn_save_txt"] = 'Import Zonefile';
-$wb["btn_cancel_txt"] = 'Cancel';
+$wb['btn_save_txt'] = 'Import Zonefile';
+$wb['btn_cancel_txt'] = 'Cancel';
 $wb['domain_txt'] = 'Domain';
 $wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
 $wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';

@@ -4,6 +4,9 @@ $wb['Settings'] = 'Postavke';
 $wb['ISPConfig Tools'] = 'Control panel alati';
 $wb['Password and Language'] = 'Šifra i jezik';
 $wb['ispconfig_tools_note'] = 'Ovaj modul omogućava promjenu šifre i jezika te možete pokrenuti sinkronizaciju DNS zapisa.';
-$wb['Dns Tools'] = 'DNS alati';
 $wb['Resync'] = 'Sinkroniziraj DNS zapise';
+$wb['Sync Tools'] = 'Sync Tools';
+$wb['Import'] = 'Import';
+$wb['ISPConfig 3 mail'] = 'ISPConfig 3 mail';
+$wb['PDNS Tupa'] = 'PowerDNS Tupa';
 ?>

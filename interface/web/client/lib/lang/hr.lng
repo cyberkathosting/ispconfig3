@@ -12,4 +12,6 @@ $wb['Resellers'] = 'Preprodavači';
 $wb['error_has_clients'] = 'Ovaj preprodavač ima klijente. Prvo morate obrisati klijente preprodavača.';
 $wb['add_additional_template_txt'] = 'Dodaj dodatni predložak';
 $wb['delete_additional_template_txt'] = 'Obriši dodatni predložak';
+$wb['Messaging'] = 'Messaging';
+$wb['Send Email'] = 'Send Email';
 ?>

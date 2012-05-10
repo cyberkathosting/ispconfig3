@@ -302,8 +302,8 @@ function _getServerState($serverId, $serverName) {
 /*
 * gets the state from the db and process it
 */
-function _processDbState($type, $serverId) {
-	global $app, $serverState, $messages;
+function _processDbState($type, $serverId, $serverState, $messages) {
+	global $app;
 
 	/*
     * Always the NEWEST record of each monitoring is responsible for the

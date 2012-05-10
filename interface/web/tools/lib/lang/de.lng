@@ -4,6 +4,9 @@ $wb['Settings'] = 'Einstellungen';
 $wb['ISPConfig Tools'] = 'Einstellungen';
 $wb['Password and Language'] = 'Passwort und Sprache';
 $wb['ispconfig_tools_note'] = 'Dieses Modul erlaubt Ihnen, das Passwort und die Sprache zu &auml;ndern sowie einen Resync der DNS-Records anzusto&szlig;en.';
-$wb['Dns Tools'] = 'Dns Tools';
 $wb['Resync'] = 'Resync';
+$wb['Sync Tools'] = 'Sync Tools';
+$wb['Import'] = 'Import';
+$wb['ISPConfig 3 mail'] = 'ISPConfig 3 mail';
+$wb['PDNS Tupa'] = 'PowerDNS Tupa';
 ?>

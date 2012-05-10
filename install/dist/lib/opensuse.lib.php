@@ -1084,9 +1084,8 @@ class installer_dist extends installer_base {
 		}
 		
 		if(is_dir($install_dir.'/interface/invoices')) {
-			chmod($install_dir.'/interface/invoices', 0770);
-			chown($install_dir.'/interface/invoices', 'ispconfig');
-			chgrp($install_dir.'/interface/invoices', 'ispconfig');
+			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
+			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
 		}
 		
 		

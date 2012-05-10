@@ -106,4 +106,5 @@ $wb['limit_openvz_vm_template_id_txt'] = 'Primjeni predložak virtualnog servera
 $wb['limit_openvz_vm_error_notint'] = 'Broj virtualnih servera mora biti znamenka.';
 $wb['web_php_options_notempty'] = 'Nisu izabrane PHP opcije. Izaberite jednu PHP opciju.';
 $wb['ssh_chroot_notempty'] = 'Nisu izabrane SSH opcije. Izaberite jednu SSH opciju.';
+$wb['username_error_collision'] = 'The username may not start with the word -web- or -web- followed by a number.';
 ?>
