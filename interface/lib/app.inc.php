@@ -246,6 +246,13 @@ class app {
 			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username']);
 			$this->tpl->setVar('logout_txt', $this->lng('logout_txt'));
 		}
+		
+		/* Global Search */
+		$this->tpl->setVar('globalsearch_resultslimit_of_txt', $this->lng('globalsearch_resultslimit_of_txt'));
+		$this->tpl->setVar('globalsearch_resultslimit_results_txt', $this->lng('globalsearch_resultslimit_results_txt'));
+		$this->tpl->setVar('globalsearch_noresults_text_txt', $this->lng('globalsearch_noresults_text_txt'));
+		$this->tpl->setVar('globalsearch_noresults_limit_txt', $this->lng('globalsearch_noresults_limit_txt'));
+		$this->tpl->setVar('globalsearch_searchfield_watermark_txt', $this->lng('globalsearch_searchfield_watermark_txt'));
 	}
 
 } // end class

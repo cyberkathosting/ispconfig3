@@ -46,17 +46,22 @@ $type = $_GET["type"];
 		$authsql = " AND ".$app->tform->getAuthSQL('r');
 		$modules = explode(',', $_SESSION['s']['user']['modules']);
 		
+		$result = array();
+		
 		// clients
-		$result_clients = _search('client', 'client');
+		$result[] = _search('client', 'client', "AND limit_client = 0");
+		
+		// resellers
+		$result[] = _search('client', 'reseller', "AND limit_client != 0");
 		
 		// web sites
-		$result_webs = _search('sites', 'web_domain');
+		$result[] = _search('sites', 'web_domain');
 		
 		// FTP users
-		$result_ftp_users = _search('sites', 'ftp_user');
+		$result[] = _search('sites', 'ftp_user');
 		
 		// shell users
-		$result_shell_users = _search('sites', 'shell_user');
+		$result[] = _search('sites', 'shell_user');
 		
 		// databases
 		/*
@@ -81,42 +86,60 @@ $type = $_GET["type"];
 			}
 		}
 		*/
-		$result_databases = _search('sites', 'database');
+		$result[] = _search('sites', 'database');
 		
 		// email domains
-		$result_email_domains = _search('mail', 'mail_domain');
+		$result[] = _search('mail', 'mail_domain');
+		
+		// email alias domains
+		$result[] = _search('mail', 'mail_aliasdomain', "AND type = 'aliasdomain'");
 		
 		// email mailboxes
-		$result_email_mailboxes = _search('mail', 'mail_user');
+		$result[] = _search('mail', 'mail_user');
+		
+		// email aliases
+		$result[] = _search('mail', 'mail_alias', "AND type = 'alias'");
+		
+		// email forwards
+		$result[] = _search('mail', 'mail_forward', "AND type = 'forward'");
+		
+		// email catchalls
+		$result[] = _search('mail', 'mail_domain_catchall', "AND type = 'catchall'");
+		
+		// email transports
+		$result[] = _search('mail', 'mail_transport');
+		
+		// mailinglists
+		$result[] = _search('mail', 'mail_mailinglist');
+		
+		// getmails
+		$result[] = _search('mail', 'mail_get');
 		
 		// dns zones
-		$result_dns_zones = _search('dns', 'dns_soa');
+		$result[] = _search('dns', 'dns_soa');
 		
 		// secondary dns zones
-		$result_secondary_dns_zones = _search('dns', 'dns_slave');
+		$result[] = _search('dns', 'dns_slave');
 		
 		// virtual machines
-		$result_vms = _search('vm', 'openvz_vm');
+		$result[] = _search('vm', 'openvz_vm');
 		
 		// virtual machines os templates
-		$result_vm_ostemplates = _search('vm', 'openvz_ostemplate');
+		$result[] = _search('vm', 'openvz_ostemplate');
 		
 		// virtual machines vm templates
-		$result_vm_vmtemplates = _search('vm', 'openvz_template');
+		$result[] = _search('vm', 'openvz_template');
 		
 		// virtual machines ip addresses
-		$result_vm_ip_addresses = _search('vm', 'openvz_ip');
+		$result[] = _search('vm', 'openvz_ip');
 
-		$json = $app->functions->json_encode(array($result_clients, $result_webs, $result_ftp_users, $result_shell_users, $result_databases, $result_email_domains, $result_email_mailboxes, $result_dns_zones, $result_secondary_dns_zones, $result_vms, $result_vm_ostemplates, $result_vm_vmtemplates, $result_vm_ip_addresses));
+		$json = $app->functions->json_encode($result);
 	}
 
 //}
 
-function _search($module, $section){
+function _search($module, $section, $additional_sql = ''){
 	global $app, $q, $authsql, $modules;
-	//$q = $app->db->quote($_GET["q"]);
-	//$authsql = " AND ".$app->tform->getAuthSQL('r');
-	//$user_modules = explode(',', $_SESSION['s']['user']['modules']);
 
 	$result_array = array('cheader' => array(), 'cdata' => array());
 	if(in_array($module, $modules)){
@@ -159,10 +182,13 @@ function _search($module, $section){
 			// valid SQL query which returns an empty result set
 			$where_clause = '1 = 0';
 		}
+		if($where_clause != '') $where_clause = '('.$where_clause.')';
+		if($additional_sql != '') $where_clause .= ' '.$additional_sql.' ';
 		$order_clause = '';
 		if($order_by != '') $order_clause = ' ORDER BY '.$order_by;
 		
-		$results = $app->db->queryAllRecords("SELECT * FROM ".$db_table." WHERE ".$where_clause.$authsql.$order_clause);
+		$sql = "SELECT * FROM ".$db_table." WHERE ".$where_clause.$authsql.$order_clause." LIMIT 0,10";
+		$results = $app->db->queryAllRecords($sql);
 		
 		if(is_array($results) && !empty($results)){	
 			$lng_file = '../'.$module.'/lib/lang/'.$_SESSION['s']['language'].'_'.$section.'.lng';

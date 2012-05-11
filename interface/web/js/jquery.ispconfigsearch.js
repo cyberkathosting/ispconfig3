@@ -36,8 +36,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			cssPrefix: 'gs-',
 			fillSearchField: false,
 			fillSearchFieldWith: 'title',
-			resultsText: '$ of % results',
+			resultsLimit: '$ of % results',
 			noResultsText: 'No results.',
+			noResultsLimit: '0 results',
+			searchFieldWatermark: 'Search',
 			displayEmptyCategories: false,
 			runJS: true
 		};
@@ -48,6 +50,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		settings.resultBox = $(this).attr('id')+settings.resultBox;
 		
 		$(this).attr('autocomplete', 'off');
+		$(this).val(settings.searchFieldWatermark);
 		$(this).wrap('<div class="'+settings.cssPrefix+'container" />');
 		$(this).after('<ul id="'+settings.resultBox+'" class="'+settings.cssPrefix+'resultbox" style="display:none;"></ul>');
 		var searchField = $(this);
@@ -91,7 +94,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								}
 
 								if (!resultsFound){
-									output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+settings.noResultsText+'</p><p class="'+settings.cssPrefix+'cheader-limit">0 results</p></li>';
+									output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+settings.noResultsText+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.noResultsLimit+'</p></li>';
 								} else {
 								
 									$.each(data, function(i, category){
@@ -100,7 +103,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 											var limit = category['cheader']['limit'];
 											var cnt = 0;
 
-											output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+category['cheader']['title']+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.resultsText.replace("%", category['cheader']['total']).replace("$", (category['cheader']['limit'] < category['cdata'].length ? category['cheader']['limit'] : category['cdata'].length))+'</p></li>';
+											output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+category['cheader']['title']+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.resultsLimit.replace("%", category['cheader']['total']).replace("$", (category['cheader']['limit'] < category['cdata'].length ? category['cheader']['limit'] : category['cdata'].length))+'</p></li>';
 
 											var fillSearchFieldCode = (settings.fillSearchField) ? 'document.getElementById(\''+searchField.attr('id')+'\').value = \'%\';' : '';
 											//var fillSearchFieldCode = 'document.getElementById(\''+searchField.attr('id')+'\').value = \'%\';';
@@ -137,11 +140,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		searchField.blur(function(){
 			resultBox.fadeOut();
+			if (searchField.val() == ''){
+				searchField.val(settings.searchFieldWatermark);
+			}
 		});
 
 		searchField.focus(function(){
 			if (searchField.val() == previousQ && searchField.val() != ''){
 				resultBox.fadeIn();
+			} else if(searchField.val() == settings.searchFieldWatermark){
+				searchField.val('');
 			} else if (searchField.val() != ''){
 				searchField.trigger('keyup');
 			}

@@ -70,4 +70,9 @@ $wb['datepicker_nextText'] = 'Vor';
 $wb['datepicker_prevText'] = 'Zur&uuml;ck';
 $wb['logout_txt'] = 'LOGOUT';
 $wb['submit_confirmation'] = 'Wollen Sie diese Aktion wirlich ausführen?';
+$wb['globalsearch_resultslimit_of_txt'] = "von";
+$wb['globalsearch_resultslimit_results_txt'] = "Treffern";
+$wb['globalsearch_noresults_text_txt'] = "Keine Treffer.";
+$wb['globalsearch_noresults_limit_txt'] = "0 Treffer";
+$wb['globalsearch_searchfield_watermark_txt'] = "Suche";
 ?>

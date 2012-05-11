@@ -6,4 +6,5 @@ $wb['domain_error_unique'] = 'Es besteht bereits einen Catchall Eintrag für die
 $wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
 $wb['domain_error_regex'] = 'Ungültiger Domainname oder ungültige Zeichen im Domainnamen.';
 $wb['limit_mailcatchall_txt'] = 'Die maximale Anzahl an Catchall Einträgen für ihr Konto wurde erreicht.';
+$wb["source_txt"] = 'Quelle';
 ?>

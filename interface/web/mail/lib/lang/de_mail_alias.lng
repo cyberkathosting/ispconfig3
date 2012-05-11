@@ -10,4 +10,5 @@ $wb['limit_mailalias_txt'] = 'Die maximale Anzahl an E-Mail-Aliassen für ihr Ko
 $wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine Mailbox mit dieser E-Mail-Adresse.';
 $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'Dieser E-Mail-Alias existiert bereits.';
+$wb["source_txt"] = 'Alias';
 ?>
