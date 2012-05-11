@@ -42,7 +42,7 @@ $type = $_GET["type"];
 
 	
 	if($type == 'globalsearch'){
-		$q = $app->db->quote($_GET["q"]);
+		$q = $app->db->quote(trim($_GET["q"]));
 		$authsql = " AND ".$app->tform->getAuthSQL('r');
 		$modules = explode(',', $_SESSION['s']['user']['modules']);
 		
