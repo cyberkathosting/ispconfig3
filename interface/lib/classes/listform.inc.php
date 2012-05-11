@@ -126,7 +126,7 @@ class listform {
 
     public function getSearchSQL($sql_where = '') 
     {
-        global $db;
+        global $app, $db;
 
         //* Get config variable
         $list_name = $this->listDef['name'];
@@ -151,9 +151,10 @@ class listform {
                 }
 
                 //* Store field in session
-                if(isset($_REQUEST[$search_prefix.$field])){
+                if(isset($_REQUEST[$search_prefix.$field]) && !stristr($_REQUEST[$search_prefix.$field],"'")){
                     $_SESSION['search'][$list_name][$search_prefix.$field] = $_REQUEST[$search_prefix.$field];
-                }
+					if(preg_match("/['\\\\]/", $_SESSION['search'][$list_name][$search_prefix.$field])) $_SESSION['search'][$list_name][$search_prefix.$field] = '';
+				}
 
                 if(isset($i['formtype']) && $i['formtype'] == 'SELECT'){
                     if(is_array($i['value'])) {
@@ -181,7 +182,7 @@ class listform {
                 $field = $i['field'];
                 // if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
 		        if(isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_SESSION['search'][$list_name][$search_prefix.$field] != ''){
-                    $sql_where .= " $field ".$i['op']." '".$i['prefix'].$_SESSION['search'][$list_name][$search_prefix.$field].$i['suffix']."' and";
+                    $sql_where .= " $field ".$i['op']." '".$app->db->quote($i['prefix'].$_SESSION['search'][$list_name][$search_prefix.$field].$i['suffix'])."' and";
                 }
             }
         }
@@ -209,12 +210,12 @@ class listform {
         }
 
         //* set PAGE to worth request variable "PAGE" - ? setze page auf wert der request variablen "page"
-        if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = $_REQUEST["page"];
+        if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = intval($_REQUEST["page"]);
 
         //* PAGE to 0 set, if look for themselves ?  page auf 0 setzen, wenn suche sich ge�ndert hat.
         if($this->searchChanged == 1) $_SESSION['search'][$list_name]['page'] = 0;
 
-        $sql_von = $_SESSION['search'][$list_name]['page'] * $records_per_page;
+        $sql_von = intval($_SESSION['search'][$list_name]['page'] * $records_per_page);
         $record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table WHERE $sql_where");
         $pages = intval(($record_count['anzahl'] - 1) / $records_per_page);
 
