@@ -55,6 +55,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	Hinweis:
 	Das ID-Feld ist nicht bei den Table Values einzufügen.
+	
+	Search:
+	- searchable = 1 or searchable = 2 include the field in the search
+	- searchable = 1: this field will be the title of the search result
+	- searchable = 2: this field will be included in the description of the search result
 
 
 */
@@ -110,7 +115,8 @@ $form["tabs"]['server_ip'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('IPv4' => 'IPv4', 'IPv6' => 'IPv6')
+			'value'		=> array('IPv4' => 'IPv4', 'IPv6' => 'IPv6'),
+			'searchable' => 2
 		),
 		'ip_address' => array (
 			'datatype'	=> 'VARCHAR',
@@ -126,7 +132,8 @@ $form["tabs"]['server_ip'] = array (
 			'width'		=> '15',
 			'maxlength'	=> '15',
 			'rows'		=> '',
-			'cols'		=> ''
+			'cols'		=> '',
+			'searchable' => 1
 		),
 		'virtualhost' => array (
 			'datatype'	=> 'VARCHAR',

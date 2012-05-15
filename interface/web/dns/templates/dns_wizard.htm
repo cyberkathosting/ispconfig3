@@ -78,3 +78,18 @@
   </div>
   
 </div>
+<script language="JavaScript" type="text/javascript">
+		jQuery('#ip').ispconfigSearch({
+			dataSrc: '/dns/ajax_get_json.php?type=get_ipv4',
+			resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
+			ResultsTextPrefix: '<tmpl_var name="globalsearch_suggestions_text_txt">',
+			noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
+			noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
+			minChars: 0,
+			cssPrefix: 'df-',
+			fillSearchField: true,
+			fillSearchFieldWith: 'fill_text',
+			searchFieldWatermark: '',
+			resultBoxPosition: 'e'
+		});	
+</script>

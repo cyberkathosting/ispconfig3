@@ -26,4 +26,10 @@ $wb['error_domain_regex'] = 'Domain beinhaltet ungültige Zeichen.';
 $wb['error_ns1_regex'] = 'NS1 beinhaltet ungültige Zeichen.';
 $wb['error_ns2_regex'] = 'NS2 beinhaltet ungültige Zeichen.';
 $wb['error_email_regex'] = 'E-Mail-Adresse beinhaltet keine gültige Adresse.';
+$wb['globalsearch_resultslimit_of_txt'] = "von";
+$wb['globalsearch_resultslimit_results_txt'] = "Treffern";
+$wb['globalsearch_noresults_text_txt'] = "Keine Treffer.";
+$wb['globalsearch_noresults_limit_txt'] = "0 Treffer";
+$wb['globalsearch_searchfield_watermark_txt'] = "Suche";
+$wb['globalsearch_suggestions_text_txt'] = "Vorschläge";
 ?>

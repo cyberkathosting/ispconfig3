@@ -33,9 +33,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			timeout: 500,
 			minChars: 2,
 			resultBox: '-resultbox',
+			resultBoxPosition: 's', // n = north, e = east, s = south, w = west
 			cssPrefix: 'gs-',
 			fillSearchField: false,
 			fillSearchFieldWith: 'title',
+			ResultsTextPrefix: '',
 			resultsLimit: '$ of % results',
 			noResultsText: 'No results.',
 			noResultsLimit: '0 results',
@@ -50,7 +52,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		settings.resultBox = $(this).attr('id')+settings.resultBox;
 		
 		$(this).attr('autocomplete', 'off');
-		$(this).val(settings.searchFieldWatermark);
+		if($(this).val() == '') $(this).val(settings.searchFieldWatermark);
 		$(this).wrap('<div class="'+settings.cssPrefix+'container" />');
 		$(this).after('<ul id="'+settings.resultBox+'" class="'+settings.cssPrefix+'resultbox" style="display:none;"></ul>');
 		var searchField = $(this);
@@ -63,7 +65,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				// query value
 				var q = searchField.val();
 				
-				if (settings.minChars > q.length || q == ''){
+				if (settings.minChars > q.length || (q == '' && settings.minChars > 0)){
 					resultBox.fadeOut();
 					resetTimer(timeout);
 				} else {
@@ -94,7 +96,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								}
 
 								if (!resultsFound){
-									output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+settings.noResultsText+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.noResultsLimit+'</p></li>';
+									output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+(settings.ResultsTextPrefix == '' ? '' : settings.ResultsTextPrefix+': ')+settings.noResultsText+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.noResultsLimit+'</p></li>';
 								} else {
 								
 									$.each(data, function(i, category){
@@ -103,7 +105,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 											var limit = category['cheader']['limit'];
 											var cnt = 0;
 
-											output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+category['cheader']['title']+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.resultsLimit.replace("%", category['cheader']['total']).replace("$", (category['cheader']['limit'] < category['cdata'].length ? category['cheader']['limit'] : category['cdata'].length))+'</p></li>';
+											output += '<li class="'+settings.cssPrefix+'cheader"><p class="'+settings.cssPrefix+'cheader-title">'+(settings.ResultsTextPrefix == '' ? '' : settings.ResultsTextPrefix+': ')+category['cheader']['title']+'</p><p class="'+settings.cssPrefix+'cheader-limit">'+settings.resultsLimit.replace("%", category['cheader']['total']).replace("$", (category['cheader']['limit'] < category['cdata'].length ? category['cheader']['limit'] : category['cdata'].length))+'</p></li>';
 
 											var fillSearchFieldCode = (settings.fillSearchField) ? 'document.getElementById(\''+searchField.attr('id')+'\').value = \'%\';' : '';
 											//var fillSearchFieldCode = 'document.getElementById(\''+searchField.attr('id')+'\').value = \'%\';';
@@ -128,7 +130,19 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									});
 								}
 
-								resultBox.html(output).css({'position' : 'absolute', 'top' : searchField.position().top+searchField.outerHeight(), 'right' : '0'}).fadeIn();
+								//resultBox.html(output).css({'position' : 'absolute', 'top' : searchField.position().top+searchField.outerHeight(), 'right' : '0'}).fadeIn();
+								if(settings.resultBoxPosition == 'n'){
+									resultBox.html(output).css({'position' : 'absolute', 'top' : searchField.position().top-resultBox.outerHeight(), 'left' : searchField.position().left+searchField.outerWidth()-resultBox.outerWidth()}).fadeIn();
+								}
+								if(settings.resultBoxPosition == 'e'){
+									resultBox.html(output).css({'position' : 'absolute', 'top' : searchField.position().top, 'left' : searchField.position().left+searchField.outerWidth()}).fadeIn();
+								}
+								if(settings.resultBoxPosition == 's'){
+									resultBox.html(output).css({'position' : 'absolute', 'top' : searchField.position().top+searchField.outerHeight(), 'left' : searchField.position().left+searchField.outerWidth()-resultBox.outerWidth()}).fadeIn();
+								}
+								if(settings.resultBoxPosition == 'w'){
+									resultBox.html(output).css({'position' : 'absolute', 'top' : searchField.position().top, 'left' : searchField.position().left-resultBox.outerWidth()}).fadeIn();
+								}
 
 								searchField.removeClass(settings.cssPrefix+'loading');
 							}
@@ -150,6 +164,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				resultBox.fadeIn();
 			} else if(searchField.val() == settings.searchFieldWatermark){
 				searchField.val('');
+				if(settings.minChars == 0) searchField.trigger('keyup');
 			} else if (searchField.val() != ''){
 				searchField.trigger('keyup');
 			}
