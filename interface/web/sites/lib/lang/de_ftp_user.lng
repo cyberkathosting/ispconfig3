@@ -24,7 +24,8 @@ $wb['directory_error_empty'] = 'Verzeichnis ist leer.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['directory_error_notinweb'] = 'Das Verzeichnis befindet sich nicht innerhalb des Verzeichnisses der Website.';
 $wb['parent_domain_id_error_empty'] = 'Keine Domain ausgewählt.';
-$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
+$wb['quota_size_error_regex'] = 'Quota: Geben Sie -1 ein für unlimitiert oder eine Nummer > 0';
+$wb['dir_dot_error'] = 'Kein .. im Pfad erlaubt.';
+$wb['dir_slashdot_error'] = 'Kein ./ im Pfad erlaubt.';
+$wb['generate_password_txt'] = 'Passwort erzeugen';
 ?>

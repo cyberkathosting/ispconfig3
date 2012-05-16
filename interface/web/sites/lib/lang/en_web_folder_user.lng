@@ -4,4 +4,5 @@ $wb["username_txt"] = 'Username';
 $wb["password_txt"] = 'Password';
 $wb["active_txt"] = 'Active';
 $wb["folder_error_empty"] = 'No web folder selecetd.';
+$wb['generate_password_txt'] = 'Generate Password';
 ?>

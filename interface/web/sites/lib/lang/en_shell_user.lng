@@ -23,4 +23,5 @@ $wb["parent_domain_id_error_empty"] = 'No website selected.';
 $wb["ssh_rsa_txt"] = 'SSH-RSA Public Key (for key-based logins)';
 $wb['dir_dot_error'] = 'No .. in path allowed.';
 $wb['dir_slashdot_error'] = 'No ./ in path allowed.';
+$wb['generate_password_txt'] = 'Generate Password';
 ?>
