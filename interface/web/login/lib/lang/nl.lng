@@ -7,11 +7,17 @@ $wb['pass_reset_txt'] = 'Een nieuw wachtwoord zal worden gegenereerd en per e-ma
 $wb['pw_reset'] = 'Het wachtwoord is gereset en is verzonden naar uw e-mailadres.';
 $wb['pw_error'] = 'Gebruikersnaam of e-mailadres komt niet overeen.';
 $wb['pw_error_noinput'] = 'Voer a.u.b. een e-mailadres en gebruikersnaam in.';
+
 $wb['pw_reset_mail_msg'] = 'Het wachtwoord  dat toegang biedt tot uw ISPConfig 3 control panel account is gereset. Het nieuwe wachtwoord is: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Control panel wachtwoord is gereset.';
+
 $wb['user_regex_error'] = 'Gebruikersnaam bevat karakters die niet zijn toegestaan of is langer dan 64 karakters.';
 $wb['pw_error_length'] = 'De lengte van het wachtwoord is > 64 karakters.';
+
 $wb['username_txt'] = 'Gebruikersnaam';
 $wb['password_txt'] = 'Wachtwoord';
 $wb['login_button_txt'] = 'Login';
+$wb['pw_lost_txt']	= "Password lost";
+
+$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 ?>

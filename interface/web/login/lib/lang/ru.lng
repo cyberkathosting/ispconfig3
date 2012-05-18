@@ -1,17 +1,23 @@
 <?php
-$wb['pass_reset_txt'] = 'Новый пароль будет сгенерирован и выслан на ваш email адрес, если он совпадает с тем адресом, что вы ввели здесь.';
-$wb['pw_reset'] = 'Пароль был сброшен и и отправлен вам на почту.';
-$wb['pw_error'] = 'Логин или email адрес не совпадают.';
-$wb['pw_error_noinput'] = 'Введите email адрес и логин.';
-$wb['pw_reset_mail_msg'] = 'Пароль в панель управления ISPConfig 3Был сброшен. Новый пароль: ';
-$wb['pw_reset_mail_title'] = 'Пароль для контрольной панеои ISPConfig 3 был сброшен.';
-$wb['user_regex_error'] = 'Логин содержит неправильные символы, или длиннее 64 символов.';
-$wb['pw_error_length'] = 'Длина пароля больше 64 символов.';
 $wb['error_user_password_empty'] = 'Логин или пароль пустые.';
 $wb['error_user_password_incorrect'] = 'Логин или пароль неправильные.';
 $wb['error_user_blocked'] = 'Пользователь заблокирован.';
 $wb['error_user_too_many_logins'] = 'Слишком много неверных попыток, пробуйте снова через 15 минут';
+$wb['pass_reset_txt'] = 'Новый пароль будет сгенерирован и выслан на ваш email адрес, если он совпадает с тем адресом, что вы ввели здесь.';
+$wb['pw_reset'] = 'Пароль был сброшен и и отправлен вам на почту.';
+$wb['pw_error'] = 'Логин или email адрес не совпадают.';
+$wb['pw_error_noinput'] = 'Введите email адрес и логин.';
+
+$wb['pw_reset_mail_msg'] = 'Пароль в панель управления ISPConfig 3Был сброшен. Новый пароль: ';
+$wb['pw_reset_mail_title'] = 'Пароль для контрольной панеои ISPConfig 3 был сброшен.';
+
+$wb['user_regex_error'] = 'Логин содержит неправильные символы, или длиннее 64 символов.';
+$wb['pw_error_length'] = 'Длина пароля больше 64 символов.';
+
 $wb['username_txt'] = 'Логин';
 $wb['password_txt'] = 'Пароль';
 $wb['login_button_txt'] = 'Войти';
+$wb['pw_lost_txt']	= "Password lost";
+
+$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 ?>

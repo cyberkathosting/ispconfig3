@@ -7,7 +7,7 @@
 	<div id="OKMsg"><p><tmpl_var name="msg"></p></div>
   </tmpl_if>
   <tmpl_if name="error">
-	<div id="errorMsg"><h3>ERROR</h3><ol><li><tmpl_var name="error"></li></ol><br /><a href="#" onclick="loadContent('login/password_reset.php');">Password lost?</a></div>
+	<div id="errorMsg"><h3>ERROR</h3><ol><li><tmpl_var name="error"></li></ol><br /><a href="#" onclick="loadContent('login/password_reset.php');">{tmpl_var name='pw_lost_txt'}</a></div>
   </tmpl_if>
   
   <div class="pnl_formsarea">

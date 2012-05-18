@@ -1,17 +1,23 @@
 <?php
-$wb['pass_reset_txt'] = 'Un nouveau mot de passe vous sera envoyé à votre adresse e-mail si celle-ci correspond à celle dans votre espace client.';
-$wb['pw_reset'] = 'Le mot de passe a été réinitialisé, et vous a été envoyé à votre adresse e-mail.';
-$wb['pw_error'] = 'Le nom d\'utilisateur et/ou L\'adresse e-mail ne correspondent pas.';
-$wb['pw_error_noinput'] = 'Entrez votre nom d\'utilisateur et votre adresse e-mail.';
-$wb['pw_reset_mail_msg'] = 'Le mot de passe d\'accès à votre panel a été réinitialisé. Le nouveau mot de passe est : ';
-$wb['pw_reset_mail_title'] = 'Le mot de passe d\'accès à votre panel a été réinitialisé.';
-$wb['user_regex_error'] = 'Le nom d\'utilisateur contient des caractères incorrects ou contient plus de 64 caractères.';
-$wb['pw_error_length'] = 'Le nom d\'utilisateur contient plus de que 64 caractères.';
 $wb['error_user_password_empty'] = 'Le nom d\'utilisateur ou le mot de passe sont vides.';
 $wb['error_user_password_incorrect'] = 'Le nom d\'utilisateur ou le mot de passe sont incorrects.';
 $wb['error_user_blocked'] = 'Lutilisateur a été bloqué.';
 $wb['error_user_too_many_logins'] = 'Trop de tentatives effectuées, essayez dans 15 minutes.';
+$wb['pass_reset_txt'] = 'Un nouveau mot de passe vous sera envoyé à votre adresse e-mail si celle-ci correspond à celle dans votre espace client.';
+$wb['pw_reset'] = 'Le mot de passe a été réinitialisé, et vous a été envoyé à votre adresse e-mail.';
+$wb['pw_error'] = 'Le nom d\'utilisateur et/ou L\'adresse e-mail ne correspondent pas.';
+$wb['pw_error_noinput'] = 'Entrez votre nom d\'utilisateur et votre adresse e-mail.';
+
+$wb['pw_reset_mail_msg'] = 'Le mot de passe d\'accès à votre panel a été réinitialisé. Le nouveau mot de passe est : ';
+$wb['pw_reset_mail_title'] = 'Le mot de passe d\'accès à votre panel a été réinitialisé.';
+
+$wb['user_regex_error'] = 'Le nom d\'utilisateur contient des caractères incorrects ou contient plus de 64 caractères.';
+$wb['pw_error_length'] = 'Le nom d\'utilisateur contient plus de que 64 caractères.';
+
 $wb['username_txt'] = 'Nom d\'utilisateur';
 $wb['password_txt'] = 'Mot de passe';
 $wb['login_button_txt'] = 'Connexion';
+$wb['pw_lost_txt']	= "Password lost";
+
+$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 ?>

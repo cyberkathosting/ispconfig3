@@ -7,11 +7,17 @@ $wb['pass_reset_txt'] = 'Nova šifra će biti generirana i poslana na email ako 
 $wb['pw_reset'] = 'Šifra je resetirana i poslana na vašu email adresu.';
 $wb['pw_error'] = 'Korisničko ime ili šifra nisu ispravni.';
 $wb['pw_error_noinput'] = 'Unesite email adresu i korisničko ime.';
+
 $wb['pw_reset_mail_msg'] = 'Šifra za ISPConfig 3 control panel račun je resetirana. Vaša nova šifra je: ';
 $wb['pw_reset_mail_title'] = 'Resetirana ISPConfig 3 control panel šifra.';
+
 $wb['user_regex_error'] = 'Korisničko ime sadrži nedozvoljene znakove ili je dulje od 64 znaka.';
 $wb['pw_error_length'] = 'Duljina šifre je > 64 znakova.';
+
 $wb['username_txt'] = 'Korisničko ime';
 $wb['password_txt'] = 'Šifra';
 $wb['login_button_txt'] = 'Prijava';
+$wb['pw_lost_txt']	= "Password lost";
+
+$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 ?>

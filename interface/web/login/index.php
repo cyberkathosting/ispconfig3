@@ -242,6 +242,7 @@ class login_index {
 		}
 	
 		$app->tpl->setVar('error', $error);
+                $app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
 		$app->tpl->setVar('password_txt', $app->lng('password_txt'));
 		$app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
