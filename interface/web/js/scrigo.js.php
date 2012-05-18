@@ -555,7 +555,7 @@ function generatePassword(passwordFieldID){
 	var newPWField = oldPWField.clone();
 	newPWField.attr('type', 'text').attr('id', 'tmp'+passwordFieldID).insertBefore(oldPWField);
 	oldPWField.remove();
-	newPWField.attr('id', passwordFieldID).val(password(10, true)).trigger('keyup');
+	newPWField.attr('id', passwordFieldID).val(password(10, false)).trigger('keyup');
 }
 
 function checkPassMatch(pwField1,pwField2){
