@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'Email-Filter-Regeln';
+$wb["rulename_txt"] = 'Name';
+$wb["add_new_record_txt"] = 'Neuen Filter hinzuf&uuml;gen';
+$wb["page_txt"] = 'Seite';
+$wb["page_of_txt"] = 'von';
+$wb["delete_confirmation"] = 'M&ouml;chten Sie die Mailfilter-Regel wirklich l&ouml;schen?';
+?>

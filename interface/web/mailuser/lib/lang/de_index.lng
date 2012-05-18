@@ -1,0 +1,11 @@
+<?php
+$wb["page_head_txt"] = 'Mailbox-Einstellungen';
+$wb["page_desc_txt"] = 'Hier k&ouml;nnen Sie die Einstellungen des Email-Kontos &auml;ndern.';
+$wb["email_txt"] = 'Email-Adresse';
+$wb["login_txt"] = 'Login';
+$wb["cc_txt"] = 'Kopie senden an';
+$wb["quota_txt"] = 'Mailbox-Gr&ouml;&szlig;e';
+$wb["unlimited_txt"] = 'Unlimitiert';
+$wb["mb_txt"] = 'MB';
+$wb["none_txt"] = 'Niemanden';
+?>
