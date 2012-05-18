@@ -248,9 +248,9 @@ class listform {
         //* Show Back 
         if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
             $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
-                        .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_180.png"></a> ';
+                        .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_180.png"></a> &nbsp; ';
         }
-        $content .= ' '.$this->lng('page_txt').' '.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' ';
+        $content .= ' '.$this->lng('page_txt').' '.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' &nbsp; ';
         //* Show Next
         if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
             $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
