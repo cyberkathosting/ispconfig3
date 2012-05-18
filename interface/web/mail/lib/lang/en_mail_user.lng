@@ -43,4 +43,5 @@ $wb['login_error_unique'] = 'Login is already taken.';
 $wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
 $wb['login_txt'] = 'Login';
 $wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
+$wb['generate_password_txt'] = 'Generate Password';
 ?>

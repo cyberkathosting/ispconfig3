@@ -118,4 +118,5 @@ $wb["database_limits_txt"] = 'Datenbank-Limits';
 $wb["cron_job_limits_txt"] = 'Cron Job-Limits';
 $wb["dns_limits_txt"] = 'DNS-Limits';
 $wb["virtualization_limits_txt"] = 'Virtualisierungs-Limits';
+$wb['generate_password_txt'] = 'Passwort erzeugen';
 ?>

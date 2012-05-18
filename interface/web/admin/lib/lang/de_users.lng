@@ -25,4 +25,5 @@ $wb['username_empty'] = 'Der Benutzername ist leer';
 $wb['username_unique'] = 'Es gibt bereits einen Benutzer mit diesem Namen';
 $wb['startmodule_err'] = 'Start Modul ist nicht innerhalb der Module.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
+$wb['generate_password_txt'] = 'Passwort erzeugen';
 ?>

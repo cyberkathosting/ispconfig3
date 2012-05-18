@@ -526,11 +526,13 @@ function getInternetExplorerVersion() {
     return rv;
 }
 
-function password(length, special) {
+function password(minLength, special){
 	var iteration = 0;
 	var password = "";
 	var randomNumber;
-	length = length || 10;
+	minLength = minLength || 10;
+	var maxLength = minLength + 5;
+	var length = getRandomInt(minLength, maxLength);
 	if(special == undefined){
 		var special = false;
 	}
@@ -555,3 +557,8 @@ function generatePassword(passwordFieldID){
 	oldPWField.remove();
 	newPWField.attr('id', passwordFieldID).val(password(10, true)).trigger('keyup');
 }
+
+function getRandomInt(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+

@@ -69,7 +69,7 @@
 			</div>
       <div class="ctrlHolder">
       	<label for="vm_password">{tmpl_var name='vm_password_txt'}</label>
-        <input name="vm_password" id="vm_password" value="{tmpl_var name='vm_password'}" size="30" maxlength="255" type="text" class="textInput" />
+        <input name="vm_password" id="vm_password" value="{tmpl_var name='vm_password'}" size="30" maxlength="255" type="text" class="textInput" />&nbsp;<a href="javascript:void(0);" onClick="generatePassword('vm_password');">{tmpl_var name='generate_password_txt'}</a>
 			</div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='start_boot_txt'}</p>
