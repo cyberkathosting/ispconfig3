@@ -245,6 +245,12 @@ class app {
 		if(isset($_SESSION['s']['user'])) {
 			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username']);
 			$this->tpl->setVar('logout_txt', $this->lng('logout_txt'));
+			/* Show search field only for normal users, not mail users */
+			if(stristr($_SESSION['s']['user']['username'],'@')){
+				$this->tpl->setVar('usertype', 'mailuser');
+			} else {
+				$this->tpl->setVar('usertype', 'normaluser');
+			}
 		}
 		
 		/* Global Search */
