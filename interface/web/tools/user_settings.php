@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 		
 		if($conf['demo_mode'] == true && $this->id <= 3) $app->tform->errorMessage .= 'This function is disabled in demo mode.';
 		
-		if($_POST['passwort'] != $_POST['passwort2']) {
+		if($_POST['passwort'] != $_POST['repeat_password']) {
 			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}
 		$_SESSION['s']['user']['language'] = $_POST['language'];

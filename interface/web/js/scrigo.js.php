@@ -558,6 +558,23 @@ function generatePassword(passwordFieldID){
 	newPWField.attr('id', passwordFieldID).val(password(10, true)).trigger('keyup');
 }
 
+function checkPassMatch(pwField1,pwField2){
+    var rpass = jQuery('#'+pwField2).val();
+    var npass = jQuery('#'+pwField1).val();
+    if(npass!= rpass) {
+		jQuery('#confirmpasswordOK').hide();
+        jQuery('#confirmpasswordError').show();
+		jQuery('button.positive').attr('disabled','disabled');
+		jQuery('.tabbox_tabs ul li a').attr('onclick','return false;');
+        return false;
+    } else {
+		jQuery('#confirmpasswordError').hide();
+        jQuery('#confirmpasswordOK').show();
+		jQuery('button.positive').removeAttr('disabled');
+		jQuery('.tabbox_tabs ul li a').removeAttr('onclick');
+    }
+}
+
 function getRandomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }

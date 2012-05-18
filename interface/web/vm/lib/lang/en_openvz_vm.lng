@@ -37,5 +37,4 @@ $wb["io_priority_error_empty"] = 'I/O priority is empty.';
 $wb["template_nameserver_error_empty"] = 'Nameserver(s) is empty.';
 $wb["Virtual server"] = 'Virtual server';
 $wb["Advanced"] = 'Advanced';
-$wb['generate_password_txt'] = 'Generate Password';
 ?>

@@ -99,4 +99,7 @@ $wb["pm_process_idle_timeout_error_regex"] = 'PHP-FPM pm.process_idle_timeout mu
 $wb["pm_max_requests_error_regex"] = 'PHP-FPM pm.max_requests mu&szlig; eine ganze Zahl >= 0 sein.';
 $wb["pm_ondemand_hint_txt"] = 'Bitte beachten Sie, daß Ihre PHP-Version >= 5.3.9 sein muß, wenn Sie den ondemand Process-Manager nutzen möchten. Wenn Sie ondemand für eine ältere PHP-Version auswählen, wird PHP nicht mehr starten!';
 $wb['generate_password_txt'] = 'Passwort erzeugen';
+$wb['repeat_password_txt'] = 'Passwort wiederholen';
+$wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
+$wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 ?>

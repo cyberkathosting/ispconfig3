@@ -6,4 +6,7 @@ $wb["password_mismatch"] = 'The password in the second password field does not m
 $wb["Form to edit the user password and language."] = 'Form to edit the user password and language.';
 $wb["Settings"] = 'Settings';
 $wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
