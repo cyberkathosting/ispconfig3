@@ -1,13 +1,13 @@
 <?php
-$wb["btn_send_txt"] = 'Send email';
-$wb["btn_cancel_txt"] = 'Cancel';
-$wb["sender_txt"] = 'Sender email address';
-$wb["subject_txt"] = 'Subject';
-$wb["message_txt"] = 'Message';
-$wb["form_legend_client_txt"] = 'Send email message to all clients.';
-$wb["form_legend_admin_txt"] = 'Send email message to all clients and resellers.';
-$wb["sender_invalid_error"] = 'Sender email invalid.';
-$wb["subject_invalid_error"] = 'Subject is empty.';
-$wb["message_invalid_error"] = 'Message is empty.';
-$wb["email_sent_to_txt"] = 'Email sent to:';
+$wb["btn_send_txt"] = 'Sende Email';
+$wb["btn_cancel_txt"] = 'Abbrechen';
+$wb["sender_txt"] = 'Absender-Email-Adresse';
+$wb["subject_txt"] = 'Betreff';
+$wb["message_txt"] = 'Nachricht';
+$wb["form_legend_client_txt"] = 'Versenden Sie eine Email-Nachricht an alle Kunden.';
+$wb["form_legend_admin_txt"] = 'Versenden Sie eine Email-Nachricht an alle Kunden und Wiederverk&auml;ufer.';
+$wb["sender_invalid_error"] = 'Absender-Email-Adresse ist ung&uuml;ltig.';
+$wb["subject_invalid_error"] = 'Betreff ist leer.';
+$wb["message_invalid_error"] = 'Nachricht ist leer.';
+$wb["email_sent_to_txt"] = 'Email verschickt an:';
 ?>
