@@ -22,4 +22,5 @@ $wb['Web traffic'] = 'Web Traffic';
 $wb['Webdav-User'] = 'Webdav User';
 $wb['Webdav'] = 'Webdav';
 $wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+// UTF8 Test öäü
 ?>
