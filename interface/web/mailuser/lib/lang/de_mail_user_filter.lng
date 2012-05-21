@@ -11,10 +11,10 @@ $wb["limit_mailfilter_txt"] = 'Die max. Anzahl an Mailfiltern ist erreicht.';
 $wb['subject_txt'] = 'Betreff';
 $wb['from_txt'] = 'Von';
 $wb['to_txt'] = 'An';
-$wb['contains_txt'] = 'Enth&auml;lt';
+$wb['contains_txt'] = 'Enthält';
 $wb['is_txt'] = 'Ist';
 $wb['begins_with_txt'] = 'Startet mit';
 $wb['ends_with_txt'] = 'Endet mit';
 $wb['move_to_txt'] = 'Umziehen nach';
-$wb['delete_txt'] = 'L&ouml;schen';
+$wb['delete_txt'] = 'Löschen';
 ?>

@@ -1,7 +1,7 @@
 <?php
 $wb["mailbox_spamfilter_txt"] = 'Spamfilter';
 $wb["spamfilter_txt"] = 'Spamfilter';
-$wb["email_txt"] = 'Email';
+$wb["email_txt"] = 'E-Mail';
 $wb["no_policy"] = '- nicht aktiviert -';
 $wb["policy_txt"] = 'Richtlinie';
 ?>
