@@ -7,8 +7,8 @@ $wb['Support'] = 'Support';
 $wb['About ISPConfig'] = 'Über ISPConfig';
 $wb['Version'] = 'Version';
 $wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
-$wb['FAQ Sections'] = 'FAQ Sections';
-$wb['Manage Sections'] = 'Manage Sections';
-$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
-$wb['Manage Questions'] = 'Manage Questions';
+$wb['FAQ Sections'] = 'FAQ Kategorie';
+$wb['Manage Sections'] = 'Kategorien verwalten';
+$wb['Add a Question & Answer Pair'] = 'Neues Frage-Antwort-Paar hinzufügen';
+$wb['Manage Questions'] = 'Fragen verwalten';
 ?>
