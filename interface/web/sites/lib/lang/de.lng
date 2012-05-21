@@ -1,16 +1,16 @@
 <?php
 $wb['Database'] = 'Datenbank';
 $wb['Options'] = 'Optionen';
-$wb['Shell User'] = 'Shell Benutzer';
+$wb['Shell User'] = 'Shell-Benutzer';
 $wb['Domain'] = 'Domain';
 $wb['Redirect'] = 'Umleitung';
 $wb['SSL'] = 'SSL';
 $wb['Subdomain'] = 'Subdomain';
 $wb['Sites'] = 'Sites';
 $wb['Aliasdomain'] = 'Aliasdomain';
-$wb['FTP-User'] = 'FTP Benutzer';
+$wb['FTP-User'] = 'FTP-Benutzer';
 $wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Shell Benutzer';
+$wb['Shell-User'] = 'Shell-Benutzer';
 $wb['Shell'] = 'Shell';
 $wb['Websites'] = 'Domains';
 $wb['Stats'] = 'Statistiken';
@@ -19,7 +19,7 @@ $wb['Cron'] = 'Cron';
 $wb['Cron Jobs'] = 'Cron Jobs';
 $wb['Statistics'] = 'Statistik';
 $wb['Web traffic'] = 'Web Traffic';
-$wb['Webdav-User'] = 'Webdav User';
-$wb['Webdav'] = 'Webdav';
+$wb['Webdav-User'] = 'WebDAV-Benutzer';
+$wb['Webdav'] = 'WebDAV';
 $wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
 ?>
