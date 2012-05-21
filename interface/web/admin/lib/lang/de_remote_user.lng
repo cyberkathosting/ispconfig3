@@ -1,7 +1,7 @@
 <?php
-$wb['username_txt'] = 'Banutzername:';
-$wb['password_txt'] = 'Passwort:';
-$wb['function_txt'] = 'Funktionen:';
+$wb['username_txt'] = 'Benutzername';
+$wb['password_txt'] = 'Passwort';
+$wb['function_txt'] = 'Funktionen';
 $wb['username_error_unique'] = 'Benutzername muss einzigartig sein';
 $wb['username_error_empty'] = 'Benutzername darf nicht leer sein';
 $wb['password_error_empty'] = 'Passwort darf nicht leer sein';

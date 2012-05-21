@@ -5,6 +5,6 @@ $wb['package_title_txt'] = 'Paket';
 $wb['package_description_txt'] = 'Beschreibung';
 $wb['action_txt'] = 'Aktion';
 $wb['toolsarea_head_txt'] = 'Packages';
-$wb['repoupdate_txt'] = 'Update package list';
-$wb['package_id_txt'] = 'local App-ID';
+$wb['repoupdate_txt'] = 'Softwarepakete-Liste updaten';
+$wb['package_id_txt'] = 'lokale App-ID';
 ?>
