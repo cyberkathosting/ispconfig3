@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Erweitertes E-Mmail-Routing';
+$wb['list_head_txt'] = 'Erweitertes E-Mail-Routing';
 $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';

@@ -11,7 +11,7 @@ $wb['start_exec_txt'] = 'Start command has been sent to the VM host server. It m
 $wb['stop_exec_txt'] = 'Stop command has been sent to the VM host server. It may take a minute until the VM is stopped.';
 $wb['restart_exec_txt'] = 'Restart command has been sent to the VM host server. It may take a minute until the VM is restarted.';
 $wb['ostemplate_name_error'] = 'The OSTemplate name conatains unallowed characters.';
-$wb['ostemplate_name_unique_error'] = 'There is already a OSTemplate with that name.';
+$wb['ostemplate_name_unique_error'] = 'There is already an OSTemplate with that name.';
 $wb['ostemplate_exec_txt'] = 'The command to create a OSTemplate has been sent to the host server. It will take several minutes until the OSTemplate has been created.';
 
 ?>

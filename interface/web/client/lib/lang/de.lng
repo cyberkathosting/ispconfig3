@@ -10,8 +10,8 @@ $wb['Add Reseller'] = 'Reseller hinzufügen';
 $wb['Edit Reseller'] = 'Reseller bearbeiten';
 $wb['Resellers'] = 'Reseller';
 $wb['error_has_clients'] = 'Dieser Reseller besitzt Kunden. Bitte zuerst die Kunden löschen.';
-$wb['add_additional_template_txt'] = 'Zus&auml;tzliches Template hinzuf&uuml;gen';
-$wb['delete_additional_template_txt'] = 'Zus&auml;tzliches Template l&ouml;schen';
+$wb['add_additional_template_txt'] = 'Zusätzliches Template hinzufügen';
+$wb['delete_additional_template_txt'] = 'Zusätzliches Template löschen';
 $wb['Messaging'] = 'Benachrichtigungen';
-$wb['Send email'] = 'Email versenden';
+$wb['Send email'] = 'E-Mail versenden';
 ?>

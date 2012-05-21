@@ -1,6 +1,6 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Blacklist Adresse';
+$wb['source_txt'] = 'Blacklist-E-Mail-Adresse';
 $wb['recipient_txt'] = 'Empfänger';
 $wb['active_txt'] = 'Aktiv';
 $wb['source_error_notempty'] = 'Adresse ist leer.';

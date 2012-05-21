@@ -1,6 +1,6 @@
 <?php
-$wb["uid_txt"] = 'UID';
-$wb["gid_txt"] = 'GID';
+$wb["uid_txt"] = 'User identifier (UID)';
+$wb["gid_txt"] = 'Group identifier (GID)';
 $wb["dir_txt"] = 'Directory';
 $wb["quota_files_txt"] = 'Filequota';
 $wb["quota_files_unity_txt"] = 'Files';

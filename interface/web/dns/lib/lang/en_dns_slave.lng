@@ -1,6 +1,6 @@
 <?php
 $wb["server_id_txt"] = 'Server';
-$wb["origin_txt"] = 'DNS Zone';
+$wb["origin_txt"] = 'DNS-Zone';
 $wb["ns_txt"] = 'NS';
 $wb["active_txt"] = 'Active';
 $wb["limit_dns_slave_zone_txt"] = 'The max. number of Secondary DNS zones for your account is reached.';

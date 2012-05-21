@@ -1,5 +1,5 @@
 <?php
-$wb["list_head_txt"] = 'DNS Zones';
+$wb["list_head_txt"] = 'DNS-Zones';
 $wb["active_txt"] = 'Active';
 $wb["server_id_txt"] = 'Server';
 $wb["origin_txt"] = 'Zone';

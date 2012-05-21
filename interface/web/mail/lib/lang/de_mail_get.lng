@@ -7,12 +7,12 @@ $wb['source_password_txt'] = 'Passwort';
 $wb['source_delete_txt'] = 'Mails nach Empfang löschen';
 $wb['destination_txt'] = 'Ziel';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_fetchmail_txt'] = 'Die maximale Anzahl an Fetchmail Einträgen wurde erreicht.';
+$wb['limit_fetchmail_txt'] = 'Die maximale Anzahl an Fetchmail-Einträgen für ihr Konto wurde erreicht.';
 $wb['source_server_error_isempty'] = 'Server ist leer.';
 $wb['source_username_error_isempty'] = 'Benutzername ist leer.';
 $wb['source_password_error_isempty'] = 'Passwort ist leer.';
 $wb['destination_error_isemail'] = 'Kein Ziel gewählt.';
 $wb['source_server_error_regex'] = 'POP3/IMAP Server ist kein gültiger Domainname.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
+$wb['source_read_all_txt'] = 'Alle E-Mails abrufen (incl. bereits gelesene E-Mails)';
+$wb['error_delete_read_all_combination'] = 'Unzulässige Kombination von Optionen. Sie können \\"Mails nach Empfang löschen\\" nicht deaktivieren während sie \\"Alle E-Mails abrufen\\" aktiviert haben.';
 ?>

@@ -2,7 +2,7 @@
 $wb['template_id_txt'] = 'Vorlage';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Kunde';
-$wb['btn_save_txt'] = 'DNS Eintrag hinzufügen';
+$wb['btn_save_txt'] = 'DNS-Eintrag hinzufügen';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['domain_txt'] = 'Domain';
 $wb['email_txt'] = 'E-Mail-Adresse';

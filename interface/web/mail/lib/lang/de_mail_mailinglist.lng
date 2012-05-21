@@ -1,19 +1,19 @@
 <?php
-$wb['limit_mailmailinglist_txt'] = 'Limit reached';
-$wb['domain_error_empty'] = 'Domain is empty.';
-$wb['listname_error_empty'] = 'Listname is empty.';
-$wb['domain_error_regex'] = 'Invalid domain name.';
-$wb['email_in_use_txt'] = 'Email is in use';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['password_strength_txt'] = 'Password strength';
+$wb['limit_mailmailinglist_txt'] = 'Limit erreicht';
+$wb['domain_error_empty'] = 'Domain ist leer.';
+$wb['listname_error_empty'] = 'Listenname ist leer.';
+$wb['domain_error_regex'] = 'Domain-Name ist nicht gültig.';
+$wb['email_in_use_txt'] = 'E-Mail-Adresse ist bereits in Benutzung';
+$wb['no_domain_perm'] = 'Sie haben keine Rechte für diese Domain.';
+$wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';
-$wb['listname_txt'] = 'Listname';
-$wb['client_txt'] = 'Client';
-$wb['email_txt'] = 'Email';
-$wb['password_txt'] = 'Password';
+$wb['listname_txt'] = 'Listenname';
+$wb['client_txt'] = 'Kunde';
+$wb['email_txt'] = 'E-Mail-Adresse';
+$wb['password_txt'] = 'Passwort';
 $wb['generate_password_txt'] = 'Passwort erzeugen';
 $wb['repeat_password_txt'] = 'Passwort wiederholen';
-$wb['password_mismatch_txt'] = 'Die Passw&ouml;rter stimmen nicht &uuml;berein.';
-$wb['password_match_txt'] = 'Die Passw&ouml;rter stimmen &uuml;berein.';
+$wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
+$wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 ?>
