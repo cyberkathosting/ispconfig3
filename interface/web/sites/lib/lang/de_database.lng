@@ -2,12 +2,12 @@
 $wb['server_id_txt'] = 'Server';
 $wb['type_txt'] = 'Typ';
 $wb['database_name_txt'] = 'Datenbankname';
-$wb['database_user_txt'] = 'Datenbank Benutzer';
-$wb['database_password_txt'] = 'Datenbank Passwort';
+$wb['database_user_txt'] = 'Datenbank-Benutzer';
+$wb['database_password_txt'] = 'Datenbank-Passwort';
 $wb['database_charset_txt'] = 'Datenbank Zeichensatz';
 $wb['remote_access_txt'] = 'Remotezugang';
 $wb['remote_ips_txt'] = 'Remotezugang-IPs (mit Komma trennen, keine Eingabe für <i>alle</i>)';
-$wb['database_remote_error_ips'] = 'Mindestens eine der eingegebenen IP Adressen ist ungültig.';
+$wb['database_remote_error_ips'] = 'Mindestens eine der eingegebenen IP-Adressen ist ungültig.';
 $wb['client_txt'] = 'Kunde';
 $wb['active_txt'] = 'Aktiv';
 $wb['database_name_error_empty'] = 'Datenbankname ist leer.';
