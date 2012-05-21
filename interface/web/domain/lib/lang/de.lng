@@ -1,9 +1,9 @@
 <?php
-$wb['Domains'] = 'Domänen';
-$wb['domain_txt'] = 'Domäne';
+$wb['Domains'] = 'Domains';
+$wb['domain_txt'] = 'Domain';
 $wb['client_txt'] = 'Kunde';
-$wb['error_domain_in mailuse'] = 'Diese Domäne kann nicht gelöscht werden, da sie zur Zeit noch als E-mail - Domäne verwendet wird';
-$wb['error_domain_in webuse'] = 'Diese Domäne kann nicht gelöscht werden, da sie zur Zeit noch als Web - Domäne verwendet wird';
-$wb['error_client_can_not_add_domain'] = 'Sie haben nicht das Recht, eine neue Domäne anzulegen';
-$wb['error_client_group_id_empty'] = 'Sie müssen einen Kunden auswählen<br>';
+$wb['error_domain_in mailuse'] = 'Diese Domain kann nicht gelöscht werden, da sie zur Zeit noch als E-Mail-Domain verwendet wird';
+$wb['error_domain_in webuse'] = 'Diese Domain kann nicht gelöscht werden, da sie zur Zeit noch als Web-Domain verwendet wird';
+$wb['error_client_can_not_add_domain'] = 'Sie haben nicht das Berechtigung, eine neue Domain anzulegen';
+$wb['error_client_group_id_empty'] = 'Sie müssen einen Kunden auswählen';
 ?>
