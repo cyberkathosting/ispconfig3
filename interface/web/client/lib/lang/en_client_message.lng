@@ -4,10 +4,12 @@ $wb["btn_cancel_txt"] = 'Cancel';
 $wb["sender_txt"] = 'Sender email address';
 $wb["subject_txt"] = 'Subject';
 $wb["message_txt"] = 'Message';
-$wb["form_legend_client_txt"] = 'Send email message to all clients.';
-$wb["form_legend_admin_txt"] = 'Send email message to all clients and resellers.';
+$wb["form_legend_client_txt"] = 'Send email message to clients.';
+$wb["form_legend_admin_txt"] = 'Send email message to clients and resellers.';
 $wb["sender_invalid_error"] = 'Sender email invalid.';
 $wb["subject_invalid_error"] = 'Subject is empty.';
 $wb["message_invalid_error"] = 'Message is empty.';
 $wb["email_sent_to_txt"] = 'Email sent to:';
+$wb["recipient_txt"] = 'Recipient';
+$wb["all_clients_resellers_txt"] = 'All clients and resellers';
 ?>

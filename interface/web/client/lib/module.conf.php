@@ -56,6 +56,11 @@ $module["nav"][] = array(	'title'	=> 'Resellers',
 unset($items);
 }
 
+$items[] = array( 'title' 	=> "Edit Client Circle",
+				  'target' 	=> 'content',
+				  'link'	=> 'client/client_circle_list.php',
+				  'html_id' => 'client_circle_list');
+
 $items[] = array( 'title' 	=> "Send email",
 				  'target' 	=> 'content',
 				  'link'	=> 'client/client_message.php',

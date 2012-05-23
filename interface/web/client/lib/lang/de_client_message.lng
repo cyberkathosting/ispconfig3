@@ -4,10 +4,12 @@ $wb["btn_cancel_txt"] = 'Abbrechen';
 $wb["sender_txt"] = 'Absender-E-Mail-Adresse';
 $wb["subject_txt"] = 'Betreff';
 $wb["message_txt"] = 'Nachricht';
-$wb["form_legend_client_txt"] = 'E-Mail-Nachricht an alle Kunden versenden.';
-$wb["form_legend_admin_txt"] = 'E-Mail-Nachricht an alle Kunden und Reseller versenden.';
+$wb["form_legend_client_txt"] = 'E-Mail-Nachricht an Kunden versenden.';
+$wb["form_legend_admin_txt"] = 'E-Mail-Nachricht an Kunden und Reseller versenden.';
 $wb["sender_invalid_error"] = 'Absender-E-Mail-Adresse ist ungültig.';
 $wb["subject_invalid_error"] = 'Betreff ist leer.';
 $wb["message_invalid_error"] = 'Nachricht ist leer.';
 $wb["email_sent_to_txt"] = 'E-Mail verschickt an:';
+$wb["recipient_txt"] = 'Empfänger';
+$wb["all_clients_resellers_txt"] = 'Alle Kunden und Reseller';
 ?>

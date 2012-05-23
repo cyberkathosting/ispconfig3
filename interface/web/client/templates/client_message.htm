@@ -15,6 +15,12 @@
         <input name="sender" id="sender" value="{tmpl_var name='sender'}" style="width:500px" size="30" maxlength="255" type="text" class="textInput" />
 	  </div>
 	  <div class="ctrlHolder">
+					<label for="recipient">{tmpl_var name='recipient_txt'}</label>
+					<select name="recipient" id="recipient" class="selectInput">
+					{tmpl_var name='recipient'}
+					</select>
+	  </div>
+	  <div class="ctrlHolder">
       	<label for="subject">{tmpl_var name='subject_txt'}</label>
         <input name="subject" id="subject" value="{tmpl_var name='subject'}" style="width:500px" size="30" maxlength="255" type="text" class="textInput" />
 	  </div>

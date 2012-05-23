@@ -14,4 +14,5 @@ $wb['add_additional_template_txt'] = 'Zusätzliches Template hinzufügen';
 $wb['delete_additional_template_txt'] = 'Zusätzliches Template löschen';
 $wb['Messaging'] = 'Benachrichtigungen';
 $wb['Send email'] = 'E-Mail versenden';
+$wb['Edit Client Circle'] = 'Kundenkreis bearbeiten';
 ?>

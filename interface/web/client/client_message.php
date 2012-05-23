@@ -59,13 +59,28 @@ if(isset($_POST) && count($_POST) > 1) {
 	
 	//* Send message
 	if($error == '') {
-		//* Select all clients and resellers
-		if($_SESSION["s"]["user"]["typ"] == 'admin'){
-			$sql = "SELECT * FROM client WHERE email != ''";
+		if(intval($_POST['recipient']) > 0){
+			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".intval($_POST['recipient']));
+			if(isset($circle['client_ids']) && $circle['client_ids'] != ''){
+				$tmp_client_ids = explode(',',$circle['client_ids']);
+				$where = array();
+				foreach($tmp_client_ids as $tmp_client_id){
+					$where[] = 'client_id = '.$tmp_client_id;
+				}
+				if(!empty($where)) $where_clause = ' AND ('.implode(' OR ', $where).')';
+				$sql = "SELECT * FROM client WHERE email != ''".$where_clause;
+			} else {
+				$sql = "SELECT * FROM client WHERE 0";
+			}
 		} else {
-			$client_id = intval($_SESSION['s']['user']['client_id']);
-			if($client_id == 0) die('Invalid Client ID.');
-			$sql = "SELECT * FROM client WHERE email != '' AND parent_client_id = '$client_id'";
+			//* Select all clients and resellers
+			if($_SESSION["s"]["user"]["typ"] == 'admin'){
+				$sql = "SELECT * FROM client WHERE email != ''";
+			} else {
+				$client_id = intval($_SESSION['s']['user']['client_id']);
+				if($client_id == 0) die('Invalid Client ID.');
+				$sql = "SELECT * FROM client WHERE email != '' AND parent_client_id = '$client_id'";
+			}
 		}
 		
 		//* Get clients
@@ -73,7 +88,6 @@ if(isset($_POST) && count($_POST) > 1) {
 		if(is_array($clients)) {
 			$msg = $wb['email_sent_to_txt'].' ';
 			foreach($clients as $client) {
-				
 				//* Parse cleint details into message
 				$message = $_POST['message'];
 				foreach($client as $key => $val) {
@@ -93,6 +107,17 @@ if(isset($_POST) && count($_POST) > 1) {
 		$app->tpl->setVar('message',$_POST['message']);
 	}
 }
+
+// Recipient Drop-Down
+$recipient = '<option value="0">'.$wb['all_clients_resellers_txt'].'</option>';
+$sql = "SELECT * FROM client_circle WHERE active = 'y'";
+$circles = $app->db->queryAllRecords($sql);
+if(is_array($circles) && !empty($circles)){
+	foreach($circles as $circle){
+		$recipient .= '<option value="'.$circle['circle_id'].'">'.$circle['circle_name'].'</option>';
+	}
+}
+$app->tpl->setVar('recipient',$recipient);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin'){
 	$app->tpl->setVar('form_legend_txt',$wb['form_legend_admin_txt']);
