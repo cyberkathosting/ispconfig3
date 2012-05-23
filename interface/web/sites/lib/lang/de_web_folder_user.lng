@@ -4,6 +4,7 @@ $wb['username_txt'] = 'Benutzername';
 $wb['password_txt'] = 'Passwort';
 $wb['active_txt'] = 'Aktiv';
 $wb['folder_error_empty'] = 'Kein Web-Ordner ausgewählt.';
+$wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['generate_password_txt'] = 'Passwort erzeugen';
 $wb['repeat_password_txt'] = 'Passwort wiederholen';
 $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
