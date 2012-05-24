@@ -33,7 +33,7 @@
 
 */
 
-$form["title"] 			= "Email filter";
+$form["title"] 			= "mailbox_filter_txt";
 $form["description"] 	= "";
 $form["name"] 			= "mail_user_filter";
 $form["action"]			= "mail_user_filter_edit.php";
