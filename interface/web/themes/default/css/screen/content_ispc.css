@@ -381,7 +381,10 @@
 	.icons16.icoLoginAs { background-image: url("../../icons/x16/user_go.png"); }
 	.icons16.icoWebmailer { background-image: url("../../icons/x16/mails_arrow.png"); }
 
-
+	#ajaxloader {
+		text-align:center;
+		margin-top: 180px;
+	}
 
 	.blockLabel.email_at {
 		width: 20px !important;

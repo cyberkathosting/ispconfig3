@@ -153,6 +153,34 @@ if($app->auth->get_client_limit($userid,'cron') != 0)
 	                            'items' => $items);
 }
 
+//*** APS menu
+$items = array();
+
+$items[] = array('title'   => 'Available packages',
+                 'target'  => 'content',
+                 'link'    => 'sites/aps_availablepackages_list.php',
+                 'html_id' => 'aps_availablepackages_list');
+
+$items[] = array('title'   => 'Installed packages',
+                 'target'  => 'content',
+                 'link'    => 'sites/aps_installedpackages_list.php',
+                 'html_id' => 'aps_installedpackages_list');
+                
+
+// Second menu group, available only for admins
+if($_SESSION['s']['user']['typ'] == 'admin') 
+{
+	$items[] = array('title'   => 'Update Packagelist',
+                 'target'  => 'content',
+                 'link'    => 'sites/aps_cron_apscrawler_if.php',
+                 'html_id' => 'aps_packagedetails_show');
+}
+
+$module['nav'][] = array('title' => 'APS Installer',
+                         'open'  => 1,
+                         'items' => $items);
+
+
 //**** Statistics menu
 $items = array();
 

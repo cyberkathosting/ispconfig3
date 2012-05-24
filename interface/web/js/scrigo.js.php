@@ -203,6 +203,9 @@ function loadContent(pagename) {
   var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
 											dataType: "html",
+											beforeSend: function() {
+												jQuery('#pageContent').html('<div id="ajaxloader"><img src="themes/default/images/ajax-loader.gif" /></div>');
+											},
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -215,9 +218,9 @@ function loadContent(pagename) {
 													//var reponse = jQuery(jqXHR.responseText);
 													//var reponseScript = reponse.filter("script");
 													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
+													
 													jQuery('#pageContent').html(jqXHR.responseText);
 												}
-												
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 113');

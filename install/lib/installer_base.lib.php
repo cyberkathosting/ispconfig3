@@ -1767,6 +1767,10 @@ class installer_base {
 				}
 			}
 		}
+		
+		//* Make the APS directories group writable
+		exec("chmod -R 770 $install_dir/interface/web/sites/aps_meta_packages");
+		exec("chmod -R 770 $install_dir/server/aps_packages");
 
 		//* make sure that the server config file (not the interface one) is only readable by the root user
 		chmod($install_dir.'/server/lib/'.$configfile, 0600);

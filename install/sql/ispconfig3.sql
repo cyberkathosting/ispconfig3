@@ -54,6 +54,67 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `aps_instances`
+--
+
+CREATE TABLE IF NOT EXISTS `aps_instances` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `server_id` int(11) NOT NULL DEFAULT '0',
+  `customer_id` int(4) NOT NULL,
+  `package_id` int(4) NOT NULL,
+  `instance_status` int(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aps_instances_settings`
+--
+
+CREATE TABLE IF NOT EXISTS `aps_instances_settings` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `server_id` int(11) NOT NULL DEFAULT '0',
+  `instance_id` int(4) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aps_packages`
+--
+
+CREATE TABLE IF NOT EXISTS `aps_packages` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `path` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `version` varchar(20) NOT NULL,
+  `release` int(4) NOT NULL,
+  `package_status` int(1) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `aps_settings`
+--
+
+CREATE TABLE IF NOT EXISTS `aps_settings` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `attempts_login`
 --
 
@@ -123,6 +184,7 @@ CREATE TABLE `client` (
   `limit_shell_user` int(11) NOT NULL DEFAULT '0',
   `ssh_chroot` varchar(255) NOT NULL DEFAULT 'no,jailkit,ssh-chroot',
   `limit_webdav_user` int(11) NOT NULL DEFAULT '0',
+  `limit_aps` int(11) NOT NULL DEFAULT '0',
   `default_dnsserver` int(11) unsigned NOT NULL DEFAULT '1',
   `limit_dns_zone` int(11) NOT NULL DEFAULT '-1',
   `limit_dns_slave_zone` int(11) NOT NULL DEFAULT '-1',
@@ -208,6 +270,7 @@ CREATE TABLE `client_template` (
   `limit_shell_user` int(11) NOT NULL default '0',
   `ssh_chroot` varchar(255) NOT NULL DEFAULT 'no',
   `limit_webdav_user` int(11) NOT NULL default '0',
+  `limit_aps` int(11) NOT NULL DEFAULT '0',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_slave_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
@@ -1669,6 +1732,14 @@ CREATE TABLE `web_traffic` (
 -- DB-DATA
 -- --------------------------------------------------------
 -- --------------------------------------------------------
+
+--
+-- Dumping data for table `aps_settings`
+--
+
+INSERT INTO `aps_settings` (`id`, `name`, `value`) VALUES(1, 'ignore-php-extension', '');
+INSERT INTO `aps_settings` (`id`, `name`, `value`) VALUES(2, 'ignore-php-configuration', '');
+INSERT INTO `aps_settings` (`id`, `name`, `value`) VALUES(3, 'ignore-webserver-module', '');
 
 -- --------------------------------------------------------
 
