@@ -49,7 +49,6 @@ $app->log($log_prefix.'Execution time: '.round($time, 3).' seconds');
 
 // Load the language file
 $lngfile = 'lib/lang/'.$_SESSION['s']['language'].'_aps.lng';
-require_once($lngfile);
 $app->load_language_file('web/sites/'.$lngfile);
 
 echo '<div id="OKMsg"><p>'.$app->lng('packagelist_update_finished_txt').'</p></div>';

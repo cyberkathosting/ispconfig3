@@ -520,7 +520,7 @@ class ApsCrawler extends ApsBase
                     '".$this->db->quote($pkg_category)."', '".$this->db->quote($pkg_version)."',
                     ".$this->db->quote($pkg_release).", ".PACKAGE_ENABLED.");";
 				
-				$app->db->datalogInsert('aps_packages', $insert_data, 'id');
+				$this->app->db->datalogInsert('aps_packages', $insert_data, 'id');
             }
         }
         catch(Exception $e)
