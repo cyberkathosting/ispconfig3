@@ -12,4 +12,5 @@ $wb["message_invalid_error"] = 'Nachricht ist leer.';
 $wb["email_sent_to_txt"] = 'E-Mail verschickt an:';
 $wb["recipient_txt"] = 'Empfänger';
 $wb["all_clients_resellers_txt"] = 'Alle Kunden und Reseller';
+$wb["all_clients_txt"] = 'Alle Kunden';
 ?>

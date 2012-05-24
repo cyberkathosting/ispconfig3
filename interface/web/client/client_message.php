@@ -36,7 +36,7 @@ $app->auth->check_module_permissions('client');
 //* This function is not available in demo mode
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
-$app->uses('tpl');
+$app->uses('tpl,tform');
 
 $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/client_message.htm');
@@ -60,7 +60,7 @@ if(isset($_POST) && count($_POST) > 1) {
 	//* Send message
 	if($error == '') {
 		if(intval($_POST['recipient']) > 0){
-			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".intval($_POST['recipient']));
+			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".intval($_POST['recipient'])." AND ".$app->tform->getAuthSQL('r'));
 			if(isset($circle['client_ids']) && $circle['client_ids'] != ''){
 				$tmp_client_ids = explode(',',$circle['client_ids']);
 				$where = array();
@@ -106,15 +106,25 @@ if(isset($_POST) && count($_POST) > 1) {
 		$app->tpl->setVar('subject',$_POST['subject']);
 		$app->tpl->setVar('message',$_POST['message']);
 	}
+} else {
+	// pre-fill Sender field with reseller's email address
+	if($_SESSION["s"]["user"]["typ"] != 'admin'){
+		$client_id = intval($_SESSION['s']['user']['client_id']);
+		if($client_id > 0){
+			$sql = "SELECT email FROM client WHERE client_id = ".$client_id;
+			$client = $app->db->queryOneRecord($sql);
+			if($client['email'] != '') $app->tpl->setVar('sender',$client['email']);
+		}
+	}
 }
 
 // Recipient Drop-Down
-$recipient = '<option value="0">'.$wb['all_clients_resellers_txt'].'</option>';
-$sql = "SELECT * FROM client_circle WHERE active = 'y'";
+$recipient = '<option value="0"'.(intval($_POST['recipient']) == 0 ? ' selected="selected"' : '').'>'.($_SESSION["s"]["user"]["typ"] == 'admin'? $wb['all_clients_resellers_txt'] : $wb['all_clients_txt']).'</option>';
+$sql = "SELECT * FROM client_circle WHERE active = 'y' AND ".$app->tform->getAuthSQL('r');
 $circles = $app->db->queryAllRecords($sql);
 if(is_array($circles) && !empty($circles)){
 	foreach($circles as $circle){
-		$recipient .= '<option value="'.$circle['circle_id'].'">'.$circle['circle_name'].'</option>';
+		$recipient .= '<option value="'.$circle['circle_id'].'"'.(intval($_POST['recipient']) == $circle['circle_id'] ? ' selected="selected"' : '').'>'.$circle['circle_name'].'</option>';
 	}
 }
 $app->tpl->setVar('recipient',$recipient);

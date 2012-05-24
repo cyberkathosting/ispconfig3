@@ -12,4 +12,5 @@ $wb["message_invalid_error"] = 'Message is empty.';
 $wb["email_sent_to_txt"] = 'Email sent to:';
 $wb["recipient_txt"] = 'Recipient';
 $wb["all_clients_resellers_txt"] = 'All clients and resellers';
+$wb["all_clients_txt"] = 'All clients';
 ?>
