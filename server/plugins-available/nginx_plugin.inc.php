@@ -1662,12 +1662,12 @@ class nginx_plugin {
 							$value = escapeshellcmd(trim($value));
 							$key = escapeshellcmd(trim($key));
 							switch (strtolower($value)) {
-								case 'on':
-								case 'off':
-								case '1':
 								case '0':
 									// PHP-FPM might complain about invalid boolean value if you use 0
 									$value = 'off';
+								case '1':
+								case 'on':
+								case 'off':
 								case 'true':
 								case 'false':
 								case 'yes':
