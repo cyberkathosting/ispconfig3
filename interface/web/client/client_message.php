@@ -88,10 +88,14 @@ if(isset($_POST) && count($_POST) > 1) {
 		if(is_array($clients)) {
 			$msg = $wb['email_sent_to_txt'].' ';
 			foreach($clients as $client) {
-				//* Parse cleint details into message
+				//* Parse client details into message
 				$message = $_POST['message'];
 				foreach($client as $key => $val) {
-					$message = str_replace('{'.$key.'}', $val, $message);
+					if($key != 'password'){
+						$message = str_replace('{'.$key.'}', $val, $message);
+					} else {
+						$message = str_replace('{'.$key.'}', '---', $message);
+					}
 				}
 				
 				//* Send the email
@@ -134,6 +138,17 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 } else {
 	$app->tpl->setVar('form_legend_txt',$wb['form_legend_client_txt']);
 }
+
+//message variables
+$message_variables = '';
+$sql = "SHOW COLUMNS FROM client WHERE Field NOT IN ('client_id', 'sys_userid', 'sys_groupid', 'sys_perm_user', 'sys_perm_group', 'sys_perm_other', 'password', 'parent_client_id', 'id_rsa', 'ssh_rsa', 'created_at', 'default_mailserver', 'default_webserver', 'web_php_options', 'ssh_chroot', 'default_dnsserver', 'default_dbserver', 'template_master', 'template_additional') AND Field NOT LIKE 'limit_%'";
+$field_names = $app->db->queryAllRecords($sql);
+if(!empty($field_names) && is_array($field_names)){
+	foreach($field_names as $field_name){
+		if($field_name['Field'] != '') $message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{'.$field_name['Field'].'}</a> ';
+	}
+}
+$app->tpl->setVar('message_variables',trim($message_variables));
 
 $app->tpl->setVar('okmsg',$msg);
 $app->tpl->setVar('error',$error);
