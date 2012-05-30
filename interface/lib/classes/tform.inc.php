@@ -790,16 +790,17 @@ class tform {
 									}
                                 break;
                                 case 'ISINT':
-									if(function_exists('filter_var')) {
-										if(!filter_var($field_value, FILTER_VALIDATE_INT)) {
-											$errmsg = $validator['errmsg'];
-                                            if(isset($this->wordbook[$errmsg])) {
-                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
-											} else {
-												$this->errorMessage .= $errmsg."<br />\r\n";
-											}
-                                        }
-									} else {
+									// Commented out the filter_var part because we do allow 0
+									//if(function_exists('filter_var')) {
+									//	if(!filter_var($field_value, FILTER_VALIDATE_INT)) {
+									//		$errmsg = $validator['errmsg'];
+                                    //		if(isset($this->wordbook[$errmsg])) {
+                                    //            $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+									//		} else {
+									//			$this->errorMessage .= $errmsg."<br />\r\n";
+									//		}
+                                    //    }
+									//} else {
                                         $tmpval = intval($field_value);
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
@@ -809,7 +810,7 @@ class tform {
 													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
-									}
+									//}
                                 break;
                                 case 'ISPOSITIVE':
                                         if(!is_numeric($field_value) || $field_value <= 0){
