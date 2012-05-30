@@ -770,7 +770,7 @@ class tform {
                                 break;
                                 case 'ISEMAIL':
                                     if(function_exists('filter_var')) {
-										if(!filter_var($field_value, FILTER_VALIDATE_EMAIL)) {
+										if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
 											$errmsg = $validator['errmsg'];
                                             if(isset($this->wordbook[$errmsg])) {
                                                 $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
@@ -790,17 +790,16 @@ class tform {
 									}
                                 break;
                                 case 'ISINT':
-									// Commented out the filter_var part because we do allow 0
-									//if(function_exists('filter_var')) {
-									//	if(!filter_var($field_value, FILTER_VALIDATE_INT)) {
-									//		$errmsg = $validator['errmsg'];
-                                    //		if(isset($this->wordbook[$errmsg])) {
-                                    //            $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
-									//		} else {
-									//			$this->errorMessage .= $errmsg."<br />\r\n";
-									//		}
-                                    //    }
-									//} else {
+									if(function_exists('filter_var')) {
+										if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
+											$errmsg = $validator['errmsg'];
+											if(isset($this->wordbook[$errmsg])) {
+                                                $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+											} else {
+												$this->errorMessage .= $errmsg."<br />\r\n";
+											}
+                                        }
+									} else {
                                         $tmpval = intval($field_value);
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
@@ -810,7 +809,7 @@ class tform {
 													$this->errorMessage .= $errmsg."<br />\r\n";
 												}
                                         }
-									//}
+									}
                                 break;
                                 case 'ISPOSITIVE':
                                         if(!is_numeric($field_value) || $field_value <= 0){
