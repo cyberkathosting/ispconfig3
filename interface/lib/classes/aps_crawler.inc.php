@@ -34,6 +34,9 @@ require_once('aps_base.inc.php');
 
 class ApsCrawler extends ApsBase
 {
+   
+   public $app_download_url_list = array();
+   
    /**
     * Constructor
     *
@@ -290,6 +293,8 @@ class ApsCrawler extends ApsBase
                             $app_dl = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@href");
                             $app_filesize = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@length");
                             $app_metafile = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='meta']/@href");
+							
+							$this->app_download_url_list[$app_name.'-'.$new_ver.'.app.zip'] = $app_dl;
 
                             // Skip ASP.net packages because they can't be used at all
                             $asp_handler = parent::getXPathValue($sxe, '//aspnet:handler');
@@ -476,12 +481,13 @@ class ApsCrawler extends ApsBase
             $path_query = $this->db->queryAllRecords('SELECT path AS Path FROM aps_packages;');
             foreach($path_query as $path) $existing_packages[] = $path['Path']; 
             $diff = array_diff($existing_packages, $pkg_list);
-            foreach($diff as $todelete)
+            foreach($diff as $todelete) {
                 /*$this->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_ERROR_NOMETA."' 
                     WHERE path = '".$this->db->quote($todelete)."';");*/
 				$tmp = $this->db->queryOneRecord("SELECT id FROM aps_packages WHERE path = '".$this->db->quote($todelete)."';");
 				$this->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_ERROR_NOMETA, 'id', $tmp['id']);
 				unset($tmp);
+			}
             
             // Register all new packages
             $new_packages = array_diff($pkg_list, $existing_packages);
@@ -515,10 +521,10 @@ class ApsCrawler extends ApsBase
                     ".$this->db->quote($pkg_release).", ".PACKAGE_ENABLED.");");
 				*/
 				
-				$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_status`) VALUES 
+				$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_url`, `package_status`) VALUES 
                     ('".$this->db->quote($pkg)."', '".$this->db->quote($pkg_name)."',
                     '".$this->db->quote($pkg_category)."', '".$this->db->quote($pkg_version)."',
-                    ".$this->db->quote($pkg_release).", ".PACKAGE_ENABLED.");";
+                    ".$this->db->quote($pkg_release).", '".$this->db->quote($this->app_download_url_list[$pkg])."', ".PACKAGE_ENABLED.");";
 				
 				$this->app->db->datalogInsert('aps_packages', $insert_data, 'id');
             }

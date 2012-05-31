@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `aps_packages` (
   `category` varchar(255) NOT NULL,
   `version` varchar(20) NOT NULL,
   `release` int(4) NOT NULL,
+  `package_url` TEXT NOT NULL,
   `package_status` int(1) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;

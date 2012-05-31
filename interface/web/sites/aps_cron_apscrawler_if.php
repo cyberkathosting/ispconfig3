@@ -32,6 +32,9 @@ require_once('../../lib/app.inc.php');
 //require_once('classes/class.crawler.php');
 $app->load('aps_crawler');
 
+if(!@ini_get('allow_url_fopen')) $app->error('allow_url_fopen is not enabled');
+if(!function_exists('curl_version')) $app->error('cURL is not available');
+
 $log_prefix = 'APS crawler cron: ';
 
 $aps = new ApsCrawler($app, true); // true = Interface mode, false = Server mode

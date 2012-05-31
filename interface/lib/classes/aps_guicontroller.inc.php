@@ -199,6 +199,8 @@ class ApsGUIController extends ApsBase
     {
 		global $app;
 		
+		include_once(ISPC_WEB_PATH.'/sites/tools.inc.php');
+		
 		$webserver_id = 0;
         $websrv = $this->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$this->db->quote($settings['main_domain'])."';");
         if(!empty($websrv)) $webserver_id = $websrv['server_id'];
@@ -256,9 +258,11 @@ class ApsGUIController extends ApsBase
 				if($tmp['number'] == 0) break;
 			}
 			
+			$mysql_db_password = $settings['main_database_password'];
+			
 			//* Create the mysql database
 			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `parent_domain_id`, `type`, `database_name`, `database_user`, `database_password`, `database_charset`, `remote_access`, `remote_ips`, `backup_copies`, `active`, `backup_interval`) 
-					  VALUES( ".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', $mysql_db_server_id, ".$websrv['domain_id'].", 'mysql', '$mysql_db_name', '$mysql_db_user', '$mysql_db_password', '', '$mysql_db_remote_access', '$mysql_db_remote_ips', ".$websrv['backup_copies'].", 'y', '".$websrv['backup_interval']."')";
+					  VALUES( ".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', $mysql_db_server_id, ".$websrv['domain_id'].", 'mysql', '$mysql_db_name', '$mysql_db_user', PASSWORD('$mysql_db_password'), '', '$mysql_db_remote_access', '$mysql_db_remote_ips', ".$websrv['backup_copies'].", 'y', '".$websrv['backup_interval']."')";
 			$app->db->datalogInsert('web_database', $insert_data, 'database_id');
 			
 			//* Add db details to package settings
