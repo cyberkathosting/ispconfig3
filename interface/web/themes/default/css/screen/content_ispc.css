@@ -1260,5 +1260,17 @@
 		width:20px;
 		margin:0 7px 0 0;
 	}
+	
+	.ttip{
+		width:16px;
+		height:16px;
+		cursor:pointer;
+		background: url(../../icons/x16/question_frame.png) no-repeat center center;
+		float:right;
+		display:inline;
+		position:absolute;
+		right:-2px;
+		top:-2px;
+	}
 }
 

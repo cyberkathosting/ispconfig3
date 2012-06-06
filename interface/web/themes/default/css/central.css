@@ -26,6 +26,7 @@
 @import url(screen/content.css);
 @import url(screen/uni-form-generic.css);
 @import url(screen/uni-form.css);
+@import url(screen/tipsy.css);
 @import url(screen/content_ispc.css);
 
 /* import print layout | Druck-Layout einbinden */

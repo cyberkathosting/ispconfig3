@@ -61,6 +61,7 @@
     <script type="text/javascript" src="js/scrigo.js.php"></script>
     <script type="text/javascript" src="js/uni-form/uni-form.jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.ispconfigsearch.js"></script>
+	<script type="text/javascript" src="js/jquery.tipsy.js"></script>
 	<script language="JavaScript" type="text/javascript">
 		var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 		if(!is_chrome && getInternetExplorerVersion() > 8.0) {
@@ -90,6 +91,8 @@
 				noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
 				searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">'
 			});
+			
+			jQuery('.ttip').tipsy({live: true, gravity: 'sw'});
 		});
 		
 		
