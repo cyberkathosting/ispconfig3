@@ -1268,7 +1268,7 @@
 		background: url(../../icons/x16/question_frame.png) no-repeat center center;
 		float:right;
 		display:inline;
-		position:absolute;
+		position:relative;
 		right:-2px;
 		top:-2px;
 	}
