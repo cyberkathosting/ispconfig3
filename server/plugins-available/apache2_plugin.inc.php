@@ -85,6 +85,8 @@ class apache2_plugin {
 		$app->plugins->registerEvent('web_folder_update',$this->plugin_name,'web_folder_update');
 		$app->plugins->registerEvent('web_folder_delete',$this->plugin_name,'web_folder_delete');
 		
+		$app->plugins->registerEvent('ftp_user_delete',$this->plugin_name,'ftp_user_delete');
+		
 	}
 
 	// Handle the creation of SSL certificates
@@ -642,9 +644,10 @@ class apache2_plugin {
 				* website root has to be owned by the root user and we have to chmod it to 755 then
 				*/
 
-				//* Check if there is a jailkit user for this site
+				//* Check if there is a jailkit user or cronjob for this site
 				$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
-				if($tmp['number'] > 0) {
+				$tmp2 = $app->db->queryOneRecord('SELECT count(id) as number FROM cron WHERE parent_domain_id = '.$data['new']['domain_id']." AND `type` = 'chrooted'");
+				if($tmp['number'] > 0 || $tmp2['number'] > 0) {
 					$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
 					$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
 				}
@@ -676,9 +679,15 @@ class apache2_plugin {
 		$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/log/error.log');
 
 
-		//* Write the custom php.ini file, if custom_php_ini filed is not empty
+		//* Write the custom php.ini file, if custom_php_ini fieled is not empty
 		$custom_php_ini_dir = $web_config['website_basedir'].'/conf/'.$data['new']['system_user'];
 		if(!is_dir($web_config['website_basedir'].'/conf')) mkdir($web_config['website_basedir'].'/conf');
+		
+		//* add open_basedir restriction to custom php.ini content, required for suphp only
+		if(!stristr($data['new']['custom_php_ini'],'open_basedir') && $data['new']['php'] == 'suphp') {
+			$data['new']['custom_php_ini'] .= "\nopen_basedir = '".$data['new']['php_open_basedir']."'\n";
+		}
+		//* Create custom php.ini
 		if(trim($data['new']['custom_php_ini']) != '') {
 			$has_custom_php_ini = true;
 			if(!is_dir($custom_php_ini_dir)) mkdir($custom_php_ini_dir);
@@ -1644,6 +1653,16 @@ class apache2_plugin {
 		
 		
 	}
+	
+	public function ftp_user_delete($event_name,$data) {
+		global $app, $conf;
+		
+		$ftpquota_file = $data['old']['dir'].'/.ftpquota';
+		if(file_exists($ftpquota_file)) unlink($ftpquota_file);
+		
+	}
+	
+	
 
 	/**
 	 * This function is called when a Webdav-User is inserted, updated or deleted.

@@ -630,17 +630,19 @@ class remoting_lib {
                                                         $sql_insert_val .= "'".$record[$key]."', ";
                                                 }
                                         } else {
+										
                                                 if($field['formtype'] == 'PASSWORD') {
-														if($field['encryption'] == 'CRYPT') {
+														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
                                                                 $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
-                                                        } elseif ($field['encryption'] == 'MYSQL') {
-																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
-														} elseif ($field['encryption'] == 'CLEARTEXT') {
-																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
+														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
+																$sql_update .= "`$key` = PASSWORD('".$app->db->quote($record[$key])."'), ";
+														} elseif (isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') {
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         } else {
-                                                                $record[$key] = md5($record[$key]);
+                                                                $record[$key] = md5(stripslashes($record[$key]));
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         }
-                                                        $sql_update .= "`$key` = '".$record[$key]."', ";
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
 														if($record[$key] == '') {
 															// if a checkbox is not set, we set it to the unchecked value

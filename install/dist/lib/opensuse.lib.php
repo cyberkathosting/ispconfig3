@@ -542,6 +542,10 @@ class installer_dist extends installer_base {
 		replaceLine('/etc/suphp.conf','umask=0077','umask=0022',0);
 		//}
 		
+		if(!file_exists('/srv/www/cgi-bin/php5') && file_exists('/srv/www/cgi-bin/php')) {
+			symlink('/srv/www/cgi-bin/php','/srv/www/cgi-bin/php5');
+		}
+		
 		// Sites enabled and available dirs
 		exec('mkdir -p '.$conf['apache']['vhost_conf_enabled_dir']);
 		exec('mkdir -p '.$conf['apache']['vhost_conf_dir']);

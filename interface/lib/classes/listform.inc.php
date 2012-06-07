@@ -195,13 +195,13 @@ class listform {
         
         //* Add Global Limit from selectbox
         if(!empty($_POST['search_limit']) AND intval($_POST['search_limit'])){
-	  $_SESSION['search']['limit'] = $_POST['search_limit'];
-	}
+			$_SESSION['search']['limit'] = intval($_POST['search_limit']);
+		}
 
         //* Get Config variables
         $list_name          = $this->listDef['name'];
         $search_prefix      = $this->listDef['search_prefix'];
-        $records_per_page   = (empty($_SESSION['search']['limit']) ? $this->listDef['records_per_page'] : $_SESSION['search']['limit']) ;
+        $records_per_page   = (empty($_SESSION['search']['limit']) ? intval($this->listDef['records_per_page']) : intval($_SESSION['search']['limit'])) ;
         $table              = $this->listDef['table'];
 
         //* set PAGE to zero, if in session not set

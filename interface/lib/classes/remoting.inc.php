@@ -2462,6 +2462,7 @@ class remoting {
 		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'UPDATE',$primary_id);
+		// $this->server->fault('debug', $sql);
 		if($app->remoting_lib->errorMessage != '') {
 			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;

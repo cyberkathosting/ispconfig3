@@ -158,6 +158,27 @@ class page_action extends tform_actions {
 
 		}
 		
+		//* Fill the IPv4 select field with the IP addresses that are allowed for this client
+		//$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+		if(isset($this->dataRecord["server_id"])) {
+			$vm_server_id = intval($this->dataRecord["server_id"]);
+		} else {
+			$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 ORDER BY server_name LIMIT 0,1');
+			$vm_server_id = $tmp['server_id'];
+		}
+		$sql = "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND (vm_id = 0 or vm_id = '".$this->id."') AND server_id = ".$vm_server_id." ORDER BY ip_address";
+		$ips = $app->db->queryAllRecords($sql);
+		$ip_select = "";
+		if(is_array($ips)) {
+			foreach( $ips as $ip) {
+				$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
+				$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+			}
+		}
+		$app->tpl->setVar("ip_address",$ip_select);
+		unset($tmp);
+		unset($ips);
+		
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);

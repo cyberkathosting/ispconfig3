@@ -105,13 +105,14 @@ $form["tabs"]['main'] = array (
 														'errmsg'=> 'ip_address_error_empty'),
 									),
 			'default'	=> '',
+			/*
 			'datasource'	=> array ( 	'type'	=> 'SQL',
 										'querystring' => "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND (vm_id = 0 or vm_id = '{RECORDID}') ORDER BY ip_address",
 										'keyfield'=> 'ip_address',
 										'valuefield'=> 'ip_address'
 									 ),
-			'value'		=> '',
-			'searchable' => 2
+			*/
+			'value'		=> ''
 		),
 		'hostname' => array (
 			'datatype'	=> 'VARCHAR',

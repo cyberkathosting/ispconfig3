@@ -260,14 +260,46 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 exec('chmod +r /var/log/ispconfig/httpd/*');
 
 #######################################################################################################
-// Manage and compress web logfiles
+// Manage and compress web logfiles and create traffic statistics
 #######################################################################################################
 
 $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	$yesterday = date('Ymd',time() - 86400*2);
-	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
+	
+	//* create traffic statistics based on yesterdays access log file
+	$yesterday = date('Ymd',time() - 86400);
+	$logfile = $rec['document_root'].'/log/'.$yesterday.'-access.log';
+	$total_bytes = 0;
+	
+	$handle = @fopen($logfile, "r");
+	if ($handle) {
+		while (($line = fgets($handle, 4096)) !== false) {
+			if (preg_match('/^\S+ \S+ \S+ \[.*?\] "\S+.*?" \d+ (\d+) ".*?" ".*?"/', $line, $m)) {
+				$total_bytes += intval($m[1]);
+			}
+		}
+		
+		//* Insert / update traffic in master database
+		$traffic_date = date('Y-m-d',time() - 86400);
+		$tmp = $app->dbmaster->queryOneRecord("select hostname from web_traffic where hostname='".$rec['domain']."' and traffic_date='".$traffic_date."'");
+		if(is_array($tmp) && count($tmp) > 0) {
+			$sql = "update web_traffic set traffic_bytes=traffic_bytes+"
+                  . $total_bytes
+                  . " where hostname='" . $rec['domain']
+                  . "' and traffic_date='" . $traffic_date . "'";
+		} else {
+			$sql = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('".$rec['domain']."', '".$traffic_date."', '".$total_bytes."')";
+		}
+		$app->dbmaster->query($sql);
+		
+		fclose($handle);
+	}
+	
+	$yesterday2 = date('Ymd',time() - 86400*2);
+	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday2.'-access.log');
+	
+	//* Compress logfile
 	if(@is_file($logfile)) {
 		// Compress yesterdays logfile
 		exec("gzip -c $logfile > $logfile.gz");

@@ -2065,6 +2065,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.4.4');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.4.5');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -118,11 +118,25 @@ if(isset($_POST['resync_db']) && $_POST['resync_db'] == 1) {
 	}
 }
 
+//* Resyncing Mailbox Domains 
+if(isset($_POST['resync_mailbox']) && $_POST['resync_mailbox'] == 1) { 
+    $db_table = 'mail_domain'; 
+    $index_field = 'domain_id'; 
+    $sql = "SELECT * FROM ".$db_table." WHERE active = 'y'"; 
+    $records = $app->db->queryAllRecords($sql); 
+    if(is_array($records)) { 
+        foreach($records as $rec) { 
+            $app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true); 
+            $msg .= "Resynced Mail Domain: ".$rec['domain'].'<br />'; 
+        } 
+    } 
+}
+
 //* Resyncing Mailboxes
 if(isset($_POST['resync_mailbox']) && $_POST['resync_mailbox'] == 1) {
 	$db_table = 'mail_user';
 	$index_field = 'mailuser_id';
-	$sql = "SELECT * FROM ".$db_table." WHERE active = 'y'";
+	$sql = "SELECT * FROM ".$db_table;
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {
@@ -131,7 +145,6 @@ if(isset($_POST['resync_mailbox']) && $_POST['resync_mailbox'] == 1) {
 		}
 	}
 }
-
 
 //* Resyncing dns zones
 if(isset($_POST['resync_dns']) && $_POST['resync_dns'] == 1) {

@@ -775,9 +775,22 @@ class installer_base {
 
 	public function configure_saslauthd() {
 		global $conf;
+		
+		//* Get saslsauthd version
+		exec('saslauthd -v 2>&1',$out);
+		$parts = explode(' ',$out[0]);
+		$saslversion = $parts[1];
+		unset($parts);
+		unset($out);
 
-
-		$configfile = 'sasl_smtpd.conf';
+		if(version_compare($saslversion , '2.1.23') > 0) {
+			//* Configfile for saslauthd versions 2.1.24 and newer
+			$configfile = 'sasl_smtpd2.conf';
+		} else {
+			//* Configfile for saslauthd versions up to 2.1.23
+			$configfile = 'sasl_smtpd.conf';
+		}
+		
 		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf')) copy($conf['postfix']['config_dir'].'/sasl/smtpd.conf',$conf['postfix']['config_dir'].'/sasl/smtpd.conf~');
 		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf~')) chmod($conf['postfix']['config_dir'].'/sasl/smtpd.conf~', 0400);
 		$content = rf('tpl/'.$configfile.'.master');
@@ -1417,7 +1430,7 @@ class installer_base {
 			$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 			$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 			$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
-			$content = str_replace('{mysql_server_ip}',$conf['mysql']['host'],$content);
+			$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
 		}
 		wf($conf['vlogger']['config_dir'].'/'.$configfile,$content);
 		chmod($conf['vlogger']['config_dir'].'/'.$configfile, 0600);

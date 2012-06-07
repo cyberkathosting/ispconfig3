@@ -315,7 +315,7 @@ if($install_mode == 'standard') {
 	if($conf['courier']['courier-pop'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
 	if($conf['courier']['courier-pop-ssl'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 	if($conf['dovecot']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['dovecot']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['dovecot']['init_script'].' restart');
-	if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart');
+	if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system('nohup '.$conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart >/dev/null 2>&1 &');
 	if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['apache']['init_script'])) 				system($conf['init_scripts'].'/'.$conf['apache']['init_script'].' restart');
 	//* Reload is enough for nginx
 	if($conf['nginx']['installed'] == true){
@@ -453,7 +453,7 @@ if($install_mode == 'standard') {
 		if($conf['courier']['courier-pop'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop'])) 				system($conf['init_scripts'].'/'.$conf['courier']['courier-pop'].' restart');
 		if($conf['courier']['courier-pop-ssl'] != '' && is_executable($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'])) 		system($conf['init_scripts'].'/'.$conf['courier']['courier-pop-ssl'].' restart');
 		if($conf['dovecot']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['dovecot']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['dovecot']['init_script'].' restart');
-		if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system($conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart');
+		if($conf['mailman']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['mailman']['init_script'])) 		system('nohup '.$conf['init_scripts'].'/'.$conf['mailman']['init_script'].' restart >/dev/null 2>&1 &');
 	}
 	
 	//** Configure Jailkit
