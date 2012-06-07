@@ -664,6 +664,7 @@ class installer_base {
 				'virtual_mailbox_base = '.$cf['vmail_mailbox_base'],
 				'virtual_uid_maps = static:'.$cf['vmail_userid'],
 				'virtual_gid_maps = static:'.$cf['vmail_groupid'],
+				'inet_protocols=all',
 				'smtpd_sasl_auth_enable = yes',
 				'broken_sasl_auth_clients = yes',
 				'smtpd_sasl_authenticated_header = yes',

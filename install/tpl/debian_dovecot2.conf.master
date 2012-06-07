@@ -1,3 +1,4 @@
+listen = *,[::]
 protocols = imap pop3
 auth_mechanisms = plain login
 disable_plaintext_auth = no

@@ -5,6 +5,7 @@
 ## Dovecot configuration file
 base_dir = /var/run/dovecot/
 
+listen = *,[::]
 protocols = imap imaps pop3 pop3s
 disable_plaintext_auth = no
 log_timestamp = "%Y-%m-%d %H:%M:%S "
