@@ -98,8 +98,8 @@
 		});
 
 		jQuery(document).bind("change", function(event) {
-			if ($(".panel #Filter").length > 0 && event.target.localName == 'select') {
-				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
+			if (jQuery(".panel #Filter").length > 0 && event.target.localName == 'select') {
+				jQuery(".panel #Filter").trigger('click');
 			}
 		});
 
@@ -109,10 +109,14 @@
 			}
 		});
 		
-		//Use jQuery submit with keypress Enter in panel filterbar
 		jQuery(document).bind("keypress", function(event) {
-			if (event.which == '13' && $(".panel #Filter").length > 0) {
-				$(".panel #Filter").attr("onsubmit",$(".panel #Filter").attr("onclick")).submit();
+			//Use jQuery submit with keypress Enter in panel filterbar
+			if (event.which == '13' && jQuery(".panel #Filter").length > 0) {
+				jQuery(".panel #Filter").trigger('click');
+			}
+			//Use jQuery submit with keypress Enter in forms
+			if (event.which == '13' && jQuery(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea') {
+				jQuery(".pnl_formsarea button.positive:first").trigger('click');
 			}
 		});
 

@@ -216,9 +216,10 @@ class tform_actions {
                             header($redirect);
 							exit;
                         } elseif ($_SESSION["s"]["form"]["return_to_url"] != '') {
+							$redirect = $_SESSION["s"]["form"]["return_to_url"];
 							$_SESSION["s"]["form"]["return_to_url"] = '';
 							session_write_close();
-							header("Location: ".$_SESSION["s"]["form"]["return_to_url"]);
+							header("Location: ".$redirect);
 							exit;
 						} else {
                                 header("Location: ".$app->tform->formDef['list_default']);
