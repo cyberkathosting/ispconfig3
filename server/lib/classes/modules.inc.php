@@ -108,6 +108,7 @@ class modules {
 				*/
 				
 				$replication_error = false;
+				$data['mirrored'] = false;
 				
 				$this->current_datalog_id = $d['datalog_id'];
 				
@@ -115,9 +116,16 @@ class modules {
 				* If we are in a mirror setup, rewrite the server_id of records that originally 
 				* belonged to the mirrored server to the local server_id
 				*/
+				
 				if($conf['mirror_server_id'] > 0 && $d['dbtable'] != 'server') {
-					if(isset($data['new']['server_id']) && $data['new']['server_id'] == $conf['mirror_server_id']) $data['new']['server_id'] = $conf['server_id'];
-					if(isset($data['old']['server_id']) && $data['old']['server_id'] == $conf['mirror_server_id']) $data['old']['server_id'] = $conf['server_id'];
+					if(isset($data['new']['server_id']) && $data['new']['server_id'] == $conf['mirror_server_id']) {
+						$data['new']['server_id'] = $conf['server_id'];
+						$data['mirrored'] = true;
+					}
+					if(isset($data['old']['server_id']) && $data['old']['server_id'] == $conf['mirror_server_id']) {
+						$data['old']['server_id'] = $conf['server_id'];
+						$data['mirrored'] = true;
+					}
 				}
 				
 				if(count($data['new']) > 0) {
@@ -216,6 +224,9 @@ class modules {
 					$data['new'][$key] = utf8_decode($val);
 				}
 				*/
+				
+				//* Data on a single server is never mirrored
+				$data['mirrored'] = false;
 				
 				$this->current_datalog_id = $d['datalog_id'];
 				if(is_array($data['old']) || is_array($data['new'])) {

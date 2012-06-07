@@ -79,8 +79,9 @@ class network_settings_plugin {
 		$app->uses('getconf');
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		
-		// Configure the debian network card settings
-		if($server_config['auto_network_configuration'] == 'y') {
+		//* Configure the debian network card settings.
+		//* Dont configure
+		if($server_config['auto_network_configuration'] == 'y' && $data['mirrored'] == false) {
 			
 			if (is_file('/etc/debian_version')) 
 			{
@@ -238,7 +239,7 @@ class network_settings_plugin {
 			}
 			
 		} else {
-			$app->log('Network configuration disabled in server settings.',LOGLEVEL_DEBUG);
+			$app->log('Network configuration disabled in server settings or server is a mirror server.',LOGLEVEL_DEBUG);
 		}
 		
 	}
