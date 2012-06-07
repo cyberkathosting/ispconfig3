@@ -33,6 +33,7 @@ require_once('../../lib/app.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
+$app->uses('getconf');
 
 $server_id = intval($_GET["server_id"]);
 $client_group_id = intval($_GET["client_group_id"]);
@@ -40,23 +41,26 @@ $ip_type = $app->db->quote($_GET['ip_type']);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
+	//* Get global web config
+	$web_config = $app->getconf->get_server_config($server_id, 'web');
+	
 	$sql = "SELECT ip_address FROM server_ip WHERE ip_type = '$ip_type' AND server_id = $server_id";
 	$ips = $app->db->queryAllRecords($sql);
 	// $ip_select = "<option value=''></option>";
 	if($ip_type == 'IPv4'){
-		$ip_select = "*";
+		$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"*#":"";
 	} else {
-		$ip_select = "";
+		$ip_select = "#";
 	}
 	if(is_array($ips)) {
 		foreach( $ips as $ip) {
 			//$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-			$ip_select .= "#$ip[ip_address]";
+			$ip_select .= "$ip[ip_address]#";
 		}
 	}
 	unset($tmp);
 	unset($ips);
 }
 
-echo $ip_select;
+echo substr($ip_select,0,-1);
 ?>

@@ -89,13 +89,17 @@ class page_action extends tform_actions {
 		
 		$app->uses('ini_parser,getconf');
 
+
 		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-
+			
+			//* Get global web config
+			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
+			
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
@@ -104,7 +108,7 @@ class page_action extends tform_actions {
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
-			$ip_select = "<option value='*'>*</option>";
+			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
@@ -133,7 +137,6 @@ class page_action extends tform_actions {
 			
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
-			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
@@ -163,7 +166,10 @@ class page_action extends tform_actions {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-
+			
+			//* Get global web config
+			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
+			
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
@@ -186,7 +192,7 @@ class page_action extends tform_actions {
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
-			$ip_select = "<option value='*'>*</option>";
+			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
@@ -215,7 +221,6 @@ class page_action extends tform_actions {
 			
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
-			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
@@ -255,11 +260,14 @@ class page_action extends tform_actions {
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
 				$server_id = $tmp['server_id'];
 			}
+			
+			//* get global web config
+			$web_config = $app->getconf->get_server_config($server_id, 'web');
 		
 			//* Fill the IPv4 select field
 			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND server_id = $server_id";
 			$ips = $app->db->queryAllRecords($sql);
-			$ip_select = "<option value='*'>*</option>";
+			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
@@ -288,7 +296,6 @@ class page_action extends tform_actions {
 			
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
-			$web_config = $app->getconf->get_server_config($server_id, 'web');
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){

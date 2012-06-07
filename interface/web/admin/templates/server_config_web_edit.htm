@@ -85,6 +85,12 @@
       	<label for="htaccess_allow_override">{tmpl_var name='htaccess_allow_override_txt'}</label>
         <input name="htaccess_allow_override" id="htaccess_allow_override" value="{tmpl_var name='htaccess_allow_override'}" size="40" maxlength="255" type="text" class="textInput" />
 	  </div>
+	  <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='enable_ip_wildcard_txt'}</p>
+					<div class="multiField">
+						{tmpl_var name='enable_ip_wildcard'}
+					</div>
+			</div>
 	  <div class="subsectiontoggle"><span></span>{tmpl_var name='ssl_settings_txt'}<em></em></div>
 		<div style="display:none;">
 		<div class="ctrlHolder">

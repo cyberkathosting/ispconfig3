@@ -163,5 +163,6 @@ $wb["php_settings_txt"] = 'PHP Settings';
 $wb["apps_vhost_settings_txt"] = 'Apps Vhost Settings';
 $wb["awstats_settings_txt"] = 'AWStats Settings';
 $wb["firewall_txt"] = 'Firewall';
-$wb["mailbox_quota_stats_txt"] = 'Mailbox quota statistic';
+$wb["mailbox_quota_stats_txt"] = 'Mailbox quota statistics';
+$wb["enable_ip_wildcard_txt"] = 'Enable IP wildcard (*)';
 ?>
