@@ -48,7 +48,14 @@ $app->tpl_defaults();
 /*
  * Let the user welcome
 */
-$welcome = sprintf($wb['welcome_user_txt'], $_SESSION['s']['user']['username']);
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$name = $_SESSION['s']['user']['username'];
+} else {
+	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."'");
+	$name = $tmp['contact_name'];
+}
+
+$welcome = sprintf($wb['welcome_user_txt'], $name);
 $app->tpl->setVar('welcome_user', $welcome);
 
 
