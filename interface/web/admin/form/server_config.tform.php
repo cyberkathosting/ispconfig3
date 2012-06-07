@@ -292,6 +292,12 @@ $form["tabs"]['mail'] = array(
 			'width' => '10',
 			'maxlength' => '15'
 		),
+		'mailbox_quota_stats' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n',1 => 'y')
+		),
 		'realtime_blackhole_list' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

@@ -31,6 +31,7 @@ relayhost_user=
 relayhost_password=
 mailbox_size_limit=0
 message_size_limit=0
+mailbox_quota_stats=y
 realtime_blackhole_list=
 
 [getmail]

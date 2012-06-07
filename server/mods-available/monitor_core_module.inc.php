@@ -117,13 +117,17 @@ class monitor_core_module {
 	}
 
     private function _monitorEmailQuota() {
-        global $app;
+        global $app, $conf;
 
         /*
 		 *  This monitoring is expensive, so do it only every 15 minutes
 		 */
 		$min = @date('i');
 		if ($min % 15 != 0) return;
+		
+		$app->uses('getconf');
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+		if($mail_config['mailbox_quota_stats'] == 'n') return;
 		
 		
 		/*
