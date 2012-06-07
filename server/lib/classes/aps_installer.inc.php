@@ -586,9 +586,14 @@ class ApsInstaller extends ApsBase
         else return false;
         
         // Get all instance metadata
+		/*
         $task = $this->app->db->queryOneRecord("SELECT * FROM aps_instances AS i 
             INNER JOIN aps_packages AS p ON i.package_id = p.id 
             INNER JOIN client AS c ON i.customer_id = c.client_id
+            WHERE i.id = ".$instanceid.";");
+		*/
+		$task = $this->app->db->queryOneRecord("SELECT * FROM aps_instances AS i 
+            INNER JOIN aps_packages AS p ON i.package_id = p.id
             WHERE i.id = ".$instanceid.";");
         if(!$task) return false;  // formerly: throw new Exception('The InstanceID doesn\'t exist.');
         if(!isset($task['instance_id'])) $task['instance_id'] = $instanceid;

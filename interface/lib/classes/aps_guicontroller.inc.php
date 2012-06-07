@@ -87,7 +87,7 @@ class ApsGUIController extends ApsBase
      */
     private function getCustomerIDFromDomain($domain)
     {
-        $customerid = '';
+        $customerid = 0;
         
         $customerdata = $this->db->queryOneRecord("SELECT client_id FROM sys_group, web_domain
             WHERE web_domain.sys_groupid = sys_group.groupid 
@@ -206,7 +206,7 @@ class ApsGUIController extends ApsBase
         if(!empty($websrv)) $webserver_id = $websrv['server_id'];
         $customerid = $this->getCustomerIDFromDomain($settings['main_domain']);
         
-        if(empty($settings) || empty($customerid) || empty($webserver_id)) return false;
+        if(empty($settings) || empty($webserver_id)) return false;
 		
 		//* Get server config of the web server
 		$this->app->uses("getconf");
@@ -306,6 +306,11 @@ class ApsGUIController extends ApsBase
         $datalog = array('Instance_id' => $instanceid, 'server_id' => $webserver_id);
         $this->db->datalogSave('aps', 'DELETE', 'id', $instanceid, array(), $datalog);
 		*/
+		
+		$sql = "SELECT web_database.database_id as database_id FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
+		$tmp = $this->db->queryOneRecord($sql);
+		if($tmp['database_id'] > 0) $this->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
+		
 		$this->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
     }
     
@@ -327,6 +332,11 @@ class ApsGUIController extends ApsBase
         $datalog = array('instance_id' => $instanceid, 'server_id' => $webserver_id);
         $this->db->datalogSave('aps', 'INSERT', 'id', $instanceid, array(), $datalog);
 		*/
+		
+		$sql = "SELECT web_database.database_id as database_id FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
+		$tmp = $this->db->queryOneRecord($sql);
+		if($tmp['database_id'] > 0) $this->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
+		
 		$this->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_INSTALL, 'id', $instanceid);
     }
 

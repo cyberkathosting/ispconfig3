@@ -30,35 +30,35 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('classes/class.guicontroller.php');
+$app->load('aps_guicontroller');
 
 // Check the module permissions
-$app->auth->check_module_permissions('aps');
+$app->auth->check_module_permissions('sites');
 
 $gui = new ApsGUIController($app);
 
 // An action and ID are required in any case
-if(!isset($_GET['action'])) die;
+if(!isset($_GET['action'])) die('No action');
 
 // List of operations which can be performed
 if($_GET['action'] == 'change_status')
 {
     // Only admins can perform this operation
-    if($_SESSION['s']['user']['typ'] != 'admin') die;
+    if($_SESSION['s']['user']['typ'] != 'admin') die('For admin use only.');
     
     // Make sure a valid package ID is given
     if(!$gui->isValidPackageID($_GET['id'], true)) die($app->lng('Invalid ID'));
     
     // Change the existing status to the opposite
-    $get_status = $app->db->queryOneRecord("SELECT PackageStatus FROM aps_packages WHERE ID = '".intval($_GET['id'])."';");
-    if($get_status['PackageStatus'] == strval(PACKAGE_LOCKED))
+    $get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = '".intval($_GET['id'])."';");
+    if($get_status['package_status'] == strval(PACKAGE_LOCKED))
     {
-        $app->db->query("UPDATE aps_packages SET PackageStatus = ".PACKAGE_ENABLED." WHERE ID = '".intval($_GET['id'])."';");
+        $app->db->query("UPDATE aps_packages SET package_status = ".PACKAGE_ENABLED." WHERE id = '".intval($_GET['id'])."';");
         echo '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>';
     }
     else
     {
-        $app->db->query("UPDATE aps_packages SET PackageStatus = ".PACKAGE_LOCKED." WHERE ID = '".intval($_GET['id'])."';");
+        $app->db->query("UPDATE aps_packages SET Package_status = ".PACKAGE_LOCKED." WHERE id = '".intval($_GET['id'])."';");
         echo '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>';
     }
 }
@@ -76,9 +76,9 @@ else if($_GET['action'] == 'delete_instance')
     if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
     
     // Only delete the instance if the status is "installed" or "flawed"
-    $check = $app->db->queryOneRecord("SELECT ID FROM aps_instances 
-        WHERE ID = ".$app->db->quote($_GET['id'])." AND 
-        (InstanceStatus = ".INSTANCE_SUCCESS." OR InstanceStatus = ".INSTANCE_ERROR.");");
+    $check = $app->db->queryOneRecord("SELECT id FROM aps_instances 
+        WHERE id = ".$app->db->quote($_GET['id'])." AND 
+        (instance_status = ".INSTANCE_SUCCESS." OR instance_status = ".INSTANCE_ERROR.");");
     if(!empty($check)) $gui->deleteInstance($_GET['id']);
     
     echo $app->lng('Installation_remove');
@@ -96,13 +96,13 @@ else if($_GET['action'] == 'reinstall_instance')
     // Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
     if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
     
-    // We've an InstanceID, so make sure the package is no enabled and InstanceStatus is still "installed"
-    $check = $app->db->queryOneRecord("SELECT aps_instances.ID FROM aps_instances, aps_packages 
-        WHERE aps_instances.PackageID = aps_packages.ID 
-        AND aps_instances.InstanceStatus = ".INSTANCE_SUCCESS." 
-        AND aps_packages.PackageStatus = ".PACKAGE_ENABLED." 
-        AND aps_instances.ID = ".$app->db->quote($_GET['id']).";");
-    if(!$check) die; // normally this might not happen at all, so just die
+    // We've an InstanceID, so make sure the package is not enabled and InstanceStatus is still "installed"
+    $check = $app->db->queryOneRecord("SELECT aps_instances.id FROM aps_instances, aps_packages 
+        WHERE aps_instances.package_id = aps_packages.id 
+        AND aps_instances.instance_status = ".INSTANCE_SUCCESS." 
+        AND aps_packages.package_status = ".PACKAGE_ENABLED." 
+        AND aps_instances.id = ".$app->db->quote($_GET['id']).";");
+    if(!$check) die('Check failed'); // normally this might not happen at all, so just die
     
     $gui->reinstallInstance($_GET['id']);
     echo $app->lng('Installation_task');

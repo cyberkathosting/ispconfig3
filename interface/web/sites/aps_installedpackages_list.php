@@ -82,6 +82,7 @@ $app->tpl->setVar($app->listform->searchValues);
 $limit_sql = $app->listform->getPagingSQL($sql_where);
 $app->tpl->setVar('paging', $app->listform->pagingHTML);
 
+if(!$is_admin) {
 // Our query over multiple tables
 $query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id, 
                  aps_instances.customer_id AS customer_id, client.username AS customer_name, 
@@ -92,7 +93,20 @@ $query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,
                  '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id)) 
                   AS install_location  
           FROM aps_instances, aps_packages, client 
-          WHERE client.client_id = aps_instances.Customer_id AND ".$sql_where." ".$app->listform_actions->SQLOrderBy." ".$limit_sql;
+          WHERE client.client_id = aps_instances.customer_id AND ".$sql_where." ".$app->listform_actions->SQLOrderBy." ".$limit_sql;
+} else {
+$query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,  
+                 aps_instances.customer_id AS customer_id, sys_group.name AS customer_name,
+				 aps_instances.instance_status AS instance_status, aps_packages.name AS package_name, 
+                 aps_packages.version AS package_version, aps_packages.release AS package_release, 
+                 aps_packages.package_status AS package_status, 
+              CONCAT ((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
+                 '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id)) 
+                  AS install_location  
+          FROM aps_instances, aps_packages, sys_group 
+          WHERE sys_group.client_id = aps_instances.customer_id AND ".$sql_where." ".$app->listform_actions->SQLOrderBy." ".$limit_sql;
+
+}	  
 
 $records = $app->db->queryAllRecords($query);
 $app->listform_actions->DataRowColor = '#FFFFFF';

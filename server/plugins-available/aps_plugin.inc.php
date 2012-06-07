@@ -57,7 +57,7 @@ class aps_plugin
         global $app;
         
         // Register the available events
-        $app->plugins->registerEvent('aps_instance_install', $this->plugin_name, 'install');
+        $app->plugins->registerEvent('aps_instance_insert', $this->plugin_name, 'install');
         $app->plugins->registerEvent('aps_instance_update', $this->plugin_name, 'install');
         $app->plugins->registerEvent('aps_instance_delete', $this->plugin_name, 'delete');
     }
@@ -77,6 +77,12 @@ class aps_plugin
 			$aps = new ApsInstaller($app);
 			$app->log("Running installHandler",LOGLEVEL_DEBUG);
 			$aps->installHandler($instanceid, 'install');
+		}
+		
+		if($data['new']['instance_status'] == INSTANCE_REMOVE) {
+			$aps = new ApsInstaller($app);
+			$app->log("Running installHandler",LOGLEVEL_DEBUG);
+			$aps->installHandler($instanceid, 'delete');
 		}
     }
     
