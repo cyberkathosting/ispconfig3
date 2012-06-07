@@ -33,6 +33,12 @@
 				<p class="formHint">{tmpl_var name='nameservers_hint_txt'}</p>
 			</div>
 	  <div class="ctrlHolder">
+      	<label for="firewall">{tmpl_var name='firewall_txt'}</label>
+        <select name="firewall" id="firewall" class="selectInput">
+					{tmpl_var name='firewall'}
+				</select>
+      </div>
+	  <div class="ctrlHolder">
       	<label for="loglevel">{tmpl_var name='loglevel_txt'}</label>
         <select name="loglevel" id="loglevel" class="selectInput">
 					{tmpl_var name='loglevel'}

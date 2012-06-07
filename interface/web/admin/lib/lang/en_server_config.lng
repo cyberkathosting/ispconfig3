@@ -162,4 +162,5 @@ $wb["permissions_txt"] = 'Permissions';
 $wb["php_settings_txt"] = 'PHP Settings';
 $wb["apps_vhost_settings_txt"] = 'Apps Vhost Settings';
 $wb["awstats_settings_txt"] = 'AWStats Settings';
+$wb["firewall_txt"] = 'Firewall';
 ?>

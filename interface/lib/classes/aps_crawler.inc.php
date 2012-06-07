@@ -61,7 +61,7 @@ class ApsCrawler extends ApsBase
             // Check if the cURL module is available
             if(!function_exists('curl_version')) throw new Exception('cURL is not available');
             
-            // Check if used folders are writable (chmod 777)
+            // Check if used folders are writable
             if($this->interface_mode)
             {
                 if(!is_writable($this->interface_pkg_dir)) 

@@ -1271,6 +1271,16 @@ class system{
 		}
 		
 	}
+	
+	//* Check if a application is installed
+	function is_installed($appname) {
+		exec('which '.escapeshellcmd($appname).' 2> /dev/null',$out,$returncode);
+		if(isset($out[0]) && stristr($out[0],$appname) && $returncode == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
 ?>

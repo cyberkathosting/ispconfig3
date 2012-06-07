@@ -97,6 +97,14 @@ $form["tabs"]['server'] = array(
 			'width' => '15',
 			'maxlength' => '255'
 		),
+		'firewall' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'bastille',
+			'value' => array('bastille' => 'bastille', 'ufw' => 'ufw'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'hostname' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
