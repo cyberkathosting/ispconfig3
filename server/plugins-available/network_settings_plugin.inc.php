@@ -239,7 +239,12 @@ class network_settings_plugin {
 			}
 			
 		} else {
-			$app->log('Network configuration disabled in server settings or server is a mirror server.',LOGLEVEL_DEBUG);
+			if($data['mirrored'] == true) {
+				$app->log('Skipping network config request. IP addresses from amster are not configured on the mirror.',LOGLEVEL_DEBUG);
+			} 
+			if($server_config['auto_network_configuration'] == 'n') {
+				$app->log('Network configuration disabled in server settings.',LOGLEVEL_DEBUG);
+			}
 		}
 		
 	}
