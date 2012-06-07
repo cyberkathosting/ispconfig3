@@ -90,13 +90,15 @@ $form["tabs"]['catchall'] = array (
 		),
 		'destination' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
+			'formtype'	=> 'TEXT',
 			'default'	=> '',
+			/*
 			'datasource'	=> array ( 	'type'			=> 'SQL',
 										'querystring' 	=> 'SELECT email FROM mail_user WHERE {AUTHSQL} ORDER BY email',
 										'keyfield'		=> 'email',
 										'valuefield'	=> 'email'
 									 ),
+			*/
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
 														'errmsg'=> 'destination_error_isemail'),
 									),

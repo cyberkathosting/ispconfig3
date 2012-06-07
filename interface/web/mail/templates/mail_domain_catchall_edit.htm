@@ -14,9 +14,7 @@
       </div>
       <div class="ctrlHolder">
       	<label for="destination">{tmpl_var name='destination_txt'}</label>
-        <select name="destination" id="destination" class="selectInput">
-					{tmpl_var name='destination'}
-				</select>
+        <input name="destination" id="destination" value="{tmpl_var name='destination'}" size="30" maxlength="255" type="text" class="textInput" />
       </div>
       <div class="ctrlHolder">
 				<p class="label">{tmpl_var name='active_txt'}</p>
