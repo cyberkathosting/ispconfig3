@@ -88,6 +88,8 @@
 	table.list .tbl_row_even { background: #fcfcfc; }
 	table.list .tbl_row_uneven { background: #f0f8ff; }
 	table.list tr:hover { background: #fffacd; }
+	table.list td { word-wrap:break-word;white-space:pre-wrap; }
+	table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal; }
 
     /* Password Strength */
     #passBar {
