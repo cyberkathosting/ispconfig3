@@ -71,6 +71,7 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 		
 		$app->uses('system');
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
 		
 		if($app->system->is_user($data['new']['username'])) {
 		
@@ -79,6 +80,8 @@ class shelluser_jailkit_plugin {
 		 	*/
 			if ($data['new']['chroot'] == "jailkit")
 			{
+				$app->system->web_folder_protection($web['document_root'],false);
+				
 				// load the server configuration options
 				$app->uses("getconf");
 				$this->data = $data;
@@ -98,6 +101,7 @@ class shelluser_jailkit_plugin {
 				exec($command);
 				
 				$this->_update_website_security_level();
+				$app->system->web_folder_protection($web['document_root'],true);
 			}
 		
 			$app->log("Jailkit Plugin -> insert username:".$data['new']['username'],LOGLEVEL_DEBUG);
@@ -113,6 +117,7 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 		
 		$app->uses('system');
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
 		
 		if($app->system->is_user($data['new']['username'])) {
 		
@@ -121,6 +126,8 @@ class shelluser_jailkit_plugin {
 		 	*/
 			if ($data['new']['chroot'] == "jailkit")
 			{
+				$app->system->web_folder_protection($web['document_root'],false);
+				
 				// load the server configuration options
 				$app->uses("getconf");
 				$this->data = $data;
@@ -136,6 +143,8 @@ class shelluser_jailkit_plugin {
 				$this->_setup_ssh_rsa();
 				
 				$this->_update_website_security_level();
+				
+				$app->system->web_folder_protection($web['document_root'],true);
 			}
 		
 			$app->log("Jailkit Plugin -> update username:".$data['new']['username'],LOGLEVEL_DEBUG);
@@ -155,6 +164,8 @@ class shelluser_jailkit_plugin {
 		
 		$app->uses('system');
 		
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['old']['parent_domain_id']);
+		
 		if ($data['old']['chroot'] == "jailkit")
 		{
 			$app->uses("getconf");
@@ -165,12 +176,16 @@ class shelluser_jailkit_plugin {
 			//commented out proved to be dangerous on config errors
 			//exec('rm -rf '.$data['old']['dir'].$jailkit_chroot_userhome);
 			
+			$app->system->web_folder_protection($web['document_root'],false);
+			
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
 				$command = 'userdel -f';
 				$command .= ' '.escapeshellcmd($data['old']['username']);
 				exec($command);
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 			}
+			
+			$app->system->web_folder_protection($web['document_root'],true);
 			
 		}
 		

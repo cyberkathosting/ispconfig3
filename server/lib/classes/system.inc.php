@@ -1281,6 +1281,22 @@ class system{
 			return false;
 		}
 	}
+	
+	function web_folder_protection($document_root,$protect) {
+		global $app,$conf;
+		
+		//* load the server configuration options
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		
+		if($protect == true && $web_config['web_folder_protection'] == 'y') {
+			//* Add protection
+			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root,'..')) exec('chattr +i '.escapeshellcmd($document_root));
+		} else {
+			//* Remove protection
+			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root,'..')) exec('chattr -i '.escapeshellcmd($document_root));
+		}
+	}
 
 }
 ?>

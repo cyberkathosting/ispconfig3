@@ -80,6 +80,10 @@ class shelluser_base_plugin {
 		}
 		
 		if($app->system->is_user($data['new']['puser'])) {
+			
+			//* Remove webfolder protection
+			$app->system->web_folder_protection($web['document_root'],false);
+			
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
@@ -114,6 +118,9 @@ class shelluser_base_plugin {
 					exec($command);
 					$app->log("Disabling shelluser temporarily: ".$command,LOGLEVEL_DEBUG);
 				}
+				
+				//* Add webfolder protection again
+				$app->system->web_folder_protection($web['document_root'],true);
 			
 			} else {
 				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.",LOGLEVEL_ERROR);

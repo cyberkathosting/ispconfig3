@@ -462,6 +462,12 @@ $form["tabs"]['web'] = array(
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'web_folder_protection' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'add_web_users_to_sshusers_group' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

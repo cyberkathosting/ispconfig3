@@ -116,6 +116,8 @@ class cron_jailkit_plugin {
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				
+				$app->system->web_folder_protection($parent_domain['document_root'],false);
+				
 				$this->_update_website_security_level();
 			
 				$this->_setup_jailkit_chroot();
@@ -126,6 +128,8 @@ class cron_jailkit_plugin {
 				exec($command);
 				
 				$this->_update_website_security_level();
+				
+				$app->system->web_folder_protection($parent_domain['document_root'],true);
 			}
 		
 			$app->log("Jailkit Plugin (Cron) -> insert username:".$parent_domain['system_user'],LOGLEVEL_DEBUG);
@@ -182,12 +186,14 @@ class cron_jailkit_plugin {
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				
+				$app->system->web_folder_protection($parent_domain['document_root'],false);
 				$this->_update_website_security_level();
 			
 				$this->_setup_jailkit_chroot();
 				$this->_add_jailkit_user();
 				
 				$this->_update_website_security_level();
+				$app->system->web_folder_protection($parent_domain['document_root'],true);
 			}
 		
 			$app->log("Jailkit Plugin (Cron) -> update username:".$parent_domain['system_user'],LOGLEVEL_DEBUG);

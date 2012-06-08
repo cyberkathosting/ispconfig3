@@ -366,6 +366,9 @@ class apache2_plugin {
 					}
 				}
 			}
+			
+			//* Remove protection of old folders
+			$app->system->web_folder_protection($data['old']['document_root'],false);
 
 			//* Move the site data
 			$tmp_docroot = explode('/',$data['new']['document_root']);
@@ -414,7 +417,7 @@ class apache2_plugin {
 		if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) exec('mkdir -p '.$data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) exec('mkdir -p '.$data['new']['document_root'].'/tmp');
-
+		
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/httpd/'.$data['old']['domain']);
@@ -593,10 +596,11 @@ class apache2_plugin {
 			}
 		}
 
-
-
 		//* If the security level is set to high
 		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost')) {
+			
+			$app->system->web_folder_protection($data['new']['document_root'],false);
+			
 			if($web_config['security_level'] == 20) {
 
 				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
@@ -673,6 +677,9 @@ class apache2_plugin {
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 			}
 		}
+		
+		//* Protect web folders
+		$app->system->web_folder_protection($data['new']['document_root'],true);
 
 		// Change the ownership of the error log to the owner of the website
 		if(!@is_file($data['new']['document_root'].'/log/error.log')) exec('touch '.escapeshellcmd($data['new']['document_root']).'/log/error.log');
@@ -1217,7 +1224,9 @@ class apache2_plugin {
 		if(!is_file($data['new']['document_root'].'/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
 			if(trim($data['new']['stats_password']) != '') {
 				$htp_file = 'admin:'.trim($data['new']['stats_password']);
+				$app->system->web_folder_protection($data['new']['document_root'],false);
 				file_put_contents($data['new']['document_root'].'/.htpasswd_stats',$htp_file);
+				$app->system->web_folder_protection($data['new']['document_root'],true);
 				chmod($data['new']['document_root'].'/.htpasswd_stats',0755);
 				unset($htp_file);
 			}
@@ -1280,6 +1289,8 @@ class apache2_plugin {
 		// load the server configuration options
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		
+		$app->system->web_folder_protection($data['new']['document_root'],false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {

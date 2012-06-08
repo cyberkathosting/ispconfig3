@@ -76,6 +76,7 @@ set_folder_permissions_on_update=y
 add_web_users_to_sshusers_group=y
 connect_userid_to_webid=n
 connect_userid_to_webid_start=10000
+web_folder_protection=n
 
 [dns]
 bind_user=root
