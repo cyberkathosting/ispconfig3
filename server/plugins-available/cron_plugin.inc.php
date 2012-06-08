@@ -198,7 +198,7 @@ class cron_plugin {
 				if($job['run_month'] == '@reboot') {
 					$command = "@reboot";
 				} else {
-					$command = "{$job['run_min']}\t{$job['run_hour']}\t{$job['run_mday']}\t{$job['run_month']}\t{$job['run_wday']}";
+					$command = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
                 }
 				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
                 if($job['type'] == 'url') {
