@@ -732,8 +732,7 @@ class tform {
         function filterField($field_name, $field_value, $filters, $filter_event) {
 
 			global $app;
-			
-			$returnval = '';
+			$returnval = $field_value;
 				
 			//* Loop trough all filters
 			foreach($filters as $filter) {
@@ -744,6 +743,20 @@ class tform {
 						break;
 						case 'TOUPPER':
 							$returnval = strtoupper($field_value);
+						break;
+						case 'IDNTOASCII':
+							if(function_exists('idn_to_ascii')) {
+								$returnval = idn_to_ascii($field_value);
+							} else {
+								$returnval = $field_value;
+							}
+						break;
+						case 'IDNTOUTF8':
+							if(function_exists('idn_to_utf8')) {
+								$returnval = idn_to_utf8($field_value);
+							} else {
+								$returnval = $field_value;
+							}
 						break;
 						default:
 							$this->errorMessage .= "Unknown Filter: ".$filter['type'];
