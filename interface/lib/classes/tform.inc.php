@@ -172,8 +172,14 @@ class tform {
 				if(isset($record[$table_idx])) $new_record[$table_idx] = intval($record[$table_idx ]);
 				
 				if(is_array($record)) {
-                        foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
-                                switch ($field['datatype']) {
+						foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
+                                
+								//* Apply filter to record value.
+								if(isset($field['filters']) && is_array($field['filters'])) {
+									$record[$key] = $this->filterField($key, (isset($record[$key]))?$record[$key]:'', $field['filters'], 'SHOW');
+								}
+								
+								switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         $new_record[$key] = $record[$key];
                                 break;
@@ -619,8 +625,16 @@ class tform {
 
                 if(is_array($record)) {
                         foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
-
-                                if(isset($field['validators']) && is_array($field['validators'])) $this->validateField($key, (isset($record[$key]))?$record[$key]:'', $field['validators']);
+								
+								//* Apply filter to record value
+                                if(isset($field['filters']) && is_array($field['filters'])) {
+									$record[$key] = $this->filterField($key, (isset($record[$key]))?$record[$key]:'', $field['filters'], 'SAVE');
+								}
+								
+								//* Validate record value
+								if(isset($field['validators']) && is_array($field['validators'])) {
+									$this->validateField($key, (isset($record[$key]))?$record[$key]:'', $field['validators']);
+								}
 
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
@@ -703,6 +717,42 @@ class tform {
                         }
                 }
                 return $new_record;
+        }
+		
+		/**
+        * process the filters for a given field.
+        *
+        * @param field_name = Name of the field
+        * @param field_value = value of the field
+        * @param filters = Array of filters
+		* @param filter_event = 'SAVE'or 'SHOW'
+        * @return record
+        */
+
+        function filterField($field_name, $field_value, $filters, $filter_event) {
+
+			global $app;
+			
+			$returnval = '';
+				
+			//* Loop trough all filters
+			foreach($filters as $filter) {
+				if($filter['event'] == $filter_event) {
+					switch ($filter['type']) {
+						case 'TOLOWER':
+							$returnval = strtolower($field_value);
+						break;
+						case 'TOUPPER':
+							$returnval = strtoupper($field_value);
+						break;
+						default:
+							$this->errorMessage .= "Unknown Filter: ".$filter['type'];
+						break;
+					}
+				}
+			}
+
+			return $returnval;
         }
 
         /**

@@ -77,6 +77,9 @@ $form["tabs"]['domain'] = array (
 		'domain' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+			'filters'	=> array ( 		0 => array (	'type'	=> 'TOLOWER',
+														'event'=> 'SAVE'),
+									),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'domain_error_empty'),
 										1 => array (	'type'	=> 'UNIQUE',
