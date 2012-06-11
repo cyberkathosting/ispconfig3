@@ -34,7 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class functions {
 	
 
-	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '') {
+	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '') {
 		global $app,$conf;
 		
 		if($conf['demo_mode'] == true) $app->error("Mail sending disabled in demo mode.");
@@ -53,7 +53,9 @@ class functions {
 				unset($path_parts);
 			}
 
-			$header = "Return-Path: $form\nFrom: $from\nReply-To: $from\n";
+			$header = "Return-Path: $from\nFrom: $from\nReply-To: $from\n";
+			if($cc != '') $header .= "Cc: $cc\n";
+			if($bcc != '') $header .= "Bcc: $bcc\n";
 			$header .= "MIME-Version: 1.0\n";
 			$header .= "Content-Type: multipart/mixed; boundary=$uid\n";
 
@@ -74,6 +76,8 @@ class functions {
 			mail($to, $subject, "", $header);
 		} else {
 			$header = "From: $from\nReply-To: $from\n";
+			if($cc != '') $header .= "Cc: $cc\n";
+			if($bcc != '') $header .= "Bcc: $bcc\n";
 			$header .= "Content-Type: text/plain;\n\tcharset=\"UTF-8\"\n";
 			$header .= "Content-Transfer-Encoding: 8bit\n\n";
 			$subject      = "=?utf-8?B?".base64_encode($subject)."?=";
