@@ -21,5 +21,8 @@ $wb['Statistics'] = 'Statistik';
 $wb['Web traffic'] = 'Web-Traffic';
 $wb['Webdav-User'] = 'WebDAV-Benutzer';
 $wb['Webdav'] = 'WebDAV';
-$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Website quota (Harddisk)'] = 'Website Quota (Harddisk)';
+$wb['Folder'] = 'Ordner';
+$wb['Folder users'] = 'Ordner-Benutzer';
+$wb['Folder protection'] = 'Ordner-Schutz';
 ?>
