@@ -1,7 +1,7 @@
 <?php
 $wb['limit_maildomain_txt'] = 'Max. Anzahl an E-Mail Domains';
 $wb['limit_mailbox_txt'] = 'Max. Anzahl an Mailboxen';
-$wb['limit_mailalias_txt'] = 'Max. Anzahl an E-Mail-Aliassen';
+$wb['limit_mailalias_txt'] = 'Max. Anzahl an E-Mail-Aliases';
 $wb['limit_mailforward_txt'] = 'Max. Anzahl an E-Mail-Weiterleitungen';
 $wb['limit_mailcatchall_txt'] = 'Max. Anzahl an E-Mail-Catchallkonten';
 $wb['limit_mailrouting_txt'] = 'Max. Anzahl an E-Mail-Routen';
