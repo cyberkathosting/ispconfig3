@@ -58,7 +58,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		
 		$username = $app->db->quote($client['username']);
 		$app->db->query("UPDATE sys_user SET passwort = '$new_password_encrypted' WHERE username = '$username'");
-		$app->db->query("UPDATE client SET ´password´ = '$new_password_encrypted' WHERE username = '$username'");
+		$app->db->query("UPDATE client SET password = '$new_password_encrypted' WHERE username = '$username'");
 		$app->tpl->setVar("message",$wb['pw_reset']);
 		
 		mail($client['email'],$wb['pw_reset_mail_title'],$wb['pw_reset_mail_msg'].$new_password);
