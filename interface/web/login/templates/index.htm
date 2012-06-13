@@ -11,7 +11,7 @@
   </tmpl_if>
   
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Login</legend>
+    <fieldset class="inlineLabels"><legend>{tmpl_var name='login_txt'}Login</legend>
       <div class="ctrlHolder">
       	<label for="username">{tmpl_var name='username_txt'}</label>
         <input name="username" id="username" value="" size="30" maxlength="255" type="text" class="textInput"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />

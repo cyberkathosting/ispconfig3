@@ -14,10 +14,14 @@ $wb['pw_reset_mail_title']  = 'ISPConfig 3 Control panel password has been reset
 $wb['user_regex_error'] = 'Username contains unallowed characters or is longer than 64 characters.';
 $wb['pw_error_length']  = 'The password length is > 64 characters.';
 
+$wb['login_txt']	= "Login";
 $wb['username_txt']	= "Username";
 $wb['password_txt']	= "Password";
 $wb['login_button_txt']	= "Login";
 $wb['pw_lost_txt']	= "Password lost";
+$wb['pw_reset_txt']	= "Password reset";
+$wb['pw_button_txt']	= "Resend password";
+$wb['email_txt']	= "Email";
 
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 ?>
