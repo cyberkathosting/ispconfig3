@@ -105,8 +105,12 @@ server {
             alias /usr/share/awstats/icon;
         }
 
-<tmpl_if name='php' op='==' value='php-fpm'>
         location ~ \.php$ {
+            try_files /non_existing_file.htm @php;
+        }
+
+<tmpl_if name='php' op='==' value='php-fpm'>
+        location @php {
             try_files $uri =404;
             include /etc/nginx/fastcgi_params;
 <tmpl_if name='use_tcp'>
@@ -121,7 +125,7 @@ server {
             fastcgi_intercept_errors on;
         }
 </tmpl_else>
-        location ~ \.php$ {
+        location @php {
             deny all;
         }
 </tmpl_if>
@@ -147,6 +151,10 @@ server {
         location <tmpl_var name='htpasswd_location'> { ##merge##
                 auth_basic "Members Only";
                 auth_basic_user_file <tmpl_var name='htpasswd_path'>.htpasswd;
+				
+                location ~ \.php$ {
+                    try_files /non_existing_file.htm @php;
+                }
         }
 </tmpl_loop>
 	
