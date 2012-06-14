@@ -106,7 +106,7 @@ server {
         }
 
         location ~ \.php$ {
-            try_files /non_existing_file.htm @php;
+            try_files @php @php;
         }
 
 <tmpl_if name='php' op='==' value='php-fpm'>
@@ -153,7 +153,7 @@ server {
                 auth_basic_user_file <tmpl_var name='htpasswd_path'>.htpasswd;
 				
                 location ~ \.php$ {
-                    try_files /non_existing_file.htm @php;
+                    try_files @php @php;
                 }
         }
 </tmpl_loop>
