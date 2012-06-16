@@ -56,19 +56,22 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 	$msg .= 'Connecting to external database...<br />';
 	
 	//* Backup DB login details
-	$conf_bak['db_host'] = $conf['db_host'];
+	/*$conf_bak['db_host'] = $conf['db_host'];
 	$conf_bak['db_database'] = $conf['db_database'];
 	$conf_bak['db_user'] = $conf['db_user'];
-	$conf_bak['db_password'] = $conf['db_password'];
+	$conf_bak['db_password'] = $conf['db_password'];*/
 	
 	//* Set external Login details
-	$conf['db_host'] = $_POST['dbhost'];
-	$conf['db_database'] = $_POST['dbname'];
-	$conf['db_user'] = $_POST['dbuser'];
-	$conf['db_password'] = $_POST['dbpassword'];
+	$conf['imp_db_host'] = $_POST['dbhost'];
+	$conf['imp_db_database'] = $_POST['dbname'];
+	$conf['imp_db_user'] = $_POST['dbuser'];
+	$conf['imp_db_password'] = $_POST['dbpassword'];
+    $conf['imp_db_charset'] = $conf['db_charset'];
+    $conf['imp_db_new_link'] = $conf['db_new_link'];
+    $conf['imp_db_client_flags'] = $conf['db_client_flags'];
 	
 	//* create new db object
-	$exdb = new db();
+	$exdb = new db('imp');
 	
 	$server_id = 1;
 	$sys_userid = 1;
@@ -138,10 +141,10 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 	}
 	
 	//* restore db login details
-	$conf['db_host'] = $conf_bak['db_host'];
+	/*$conf['db_host'] = $conf_bak['db_host'];
 	$conf['db_database'] = $conf_bak['db_database'];
 	$conf['db_user'] = $conf_bak['db_user'];
-	$conf['db_password'] = $conf_bak['db_password'];
+	$conf['db_password'] = $conf_bak['db_password'];*/
 	
 }
 

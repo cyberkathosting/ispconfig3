@@ -47,16 +47,17 @@ class db extends mysqli
   public $show_error_messages = true; // false in server, true in interface
 
   // constructor
-  public function __construct() {
+  public function __construct($prefix = '') {
     global $conf;
-    $this->dbHost = $conf['db_host'];
-    $this->dbName = $conf['db_database'];
-    $this->dbUser = $conf['db_user'];
-    $this->dbPass = $conf['db_password'];
-    $this->dbCharset = $conf['db_charset'];
-    $this->dbNewLink = $conf['db_new_link'];
-    $this->dbClientFlags = $conf['db_client_flags'];
-    parent::__construct($conf['db_host'], $conf['db_user'],$conf['db_password'],$conf['db_database']);
+    if($prefix != '') $prefix .= '_';
+    $this->dbHost = $conf[$prefix.'db_host'];
+    $this->dbName = $conf[$prefix.'db_database'];
+    $this->dbUser = $conf[$prefix.'db_user'];
+    $this->dbPass = $conf[$prefix.'db_password'];
+    $this->dbCharset = $conf[$prefix.'db_charset'];
+    $this->dbNewLink = $conf[$prefix.'db_new_link'];
+    $this->dbClientFlags = $conf[$prefix.'db_client_flags'];
+    parent::__construct($conf[$prefix.'db_host'], $conf[$prefix.'db_user'],$conf[$prefix.'db_password'],$conf[$prefix.'db_database']);
     if ($this->connect_error) {
       $this->updateError('DB::__construct');
       return false;
