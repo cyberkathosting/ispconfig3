@@ -44,9 +44,9 @@ Copyright (c) Tri-Plex technology
 *        Tabellendefinition
 *
 *        Datentypen:
-*        - INTEGER (Wandelt Ausdrücke in Int um)
+*        - INTEGER (Wandelt Ausdrï¿½cke in Int um)
 *        - DOUBLE
-*        - CURRENCY (Formatiert Zahlen nach Währungsnotation)
+*        - CURRENCY (Formatiert Zahlen nach Wï¿½hrungsnotation)
 *        - VARCHAR (kein weiterer Format Check)
 *        - DATE (Datumsformat, Timestamp Umwandlung)
 *
@@ -60,10 +60,10 @@ Copyright (c) Tri-Plex technology
 *        - Wert oder Array
 *
 *        SEPARATOR
-*        - Trennzeichen für multiple Felder
+*        - Trennzeichen fï¿½r multiple Felder
 *
 *        Hinweis:
-*        Das ID-Feld ist nicht bei den Table Values einzufügen.
+*        Das ID-Feld ist nicht bei den Table Values einzufï¿½gen.
 */
 
 class remoting_lib {
@@ -121,7 +121,7 @@ class remoting_lib {
     	function loadFormDef($file) {
 			global $app,$conf;
             
-			include_once($file);
+			include($file);
 				
 			$this->formDef = $form;
 			unset($this->formDef['tabs']);
@@ -474,7 +474,7 @@ class remoting_lib {
                                 break;
                                 case 'ISINT':
 									if(function_exists('filter_var')) {
-										if(!filter_var($field_value, FILTER_VALIDATE_INT)) {
+										if($vield_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
 											$errmsg = $validator['errmsg'];
                                             if(isset($this->wordbook[$errmsg])) {
                                                 $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
