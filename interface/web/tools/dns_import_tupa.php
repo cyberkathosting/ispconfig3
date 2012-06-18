@@ -82,7 +82,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 	}
 	
 	//* Connect to DB
-	if($exdb->connect()) {
+	if($exdb !== false) {
 		$domains = $exdb->queryAllRecords("SELECT * FROM domains WHERE type = 'MASTER'");
 		if(is_array($domains)) {
 			foreach($domains as $domain) {
