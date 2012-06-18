@@ -39,7 +39,7 @@ class remoting {
 	//* remote session timeout in seconds
 	private $session_timeout = 600;
 	
-	private $server;
+	protected $server;
 	public $oldDataRecord;
 	public $dataRecord;
 	public $id;

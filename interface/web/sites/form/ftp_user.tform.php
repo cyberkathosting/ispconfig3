@@ -160,7 +160,7 @@ $form["tabs"]['advanced'] = array (
             'datatype'  => 'VARCHAR',
             'formtype'  => 'TEXT',
             'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
-                                                        'errmsg'=> 'uid_error_empty'),
+                                                        'errmsg'=> 'gid_error_empty'),
                                     ),
             'default'   => '0',
             'value'     => '',
