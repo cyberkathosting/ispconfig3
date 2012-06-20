@@ -35,6 +35,7 @@ class apache2_plugin {
 
 	// private variables
 	var $action = '';
+	var $ssl_certificate_changed = false;
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -112,6 +113,8 @@ class apache2_plugin {
 
 		//* Create a SSL Certificate
 		if($data['new']['ssl_action'] == 'create') {
+			
+			$this->ssl_certificate_changed = true;
 			
 			//* Rename files if they exist
 			if(file_exists($key_file)) rename($key_file,$key_file.'.bak');
@@ -198,16 +201,30 @@ class apache2_plugin {
 
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
+			$this->ssl_certificate_changed = true;
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
 			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
+			$key_file = $ssl_dir.'/'.$domain.'.key.org';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key';
 			$csr_file = $ssl_dir.'/'.$domain.".csr";
 			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
+			
+			//* Backup files
+			if(file_exists($key_file)) copy($key_file,$key_file.'~');
+			if(file_exists($key_file2)) copy($key_file2,$key_file2.'~');
+			if(file_exists($csr_file)) copy($csr_file,$csr_file.'~');
+			if(file_exists($crt_file)) copy($crt_file,$crt_file.'~');
+			if(file_exists($bundle_file)) copy($bundle_file,$bundle_file.'~');
+			
+			//* Write new ssl files
 			if(trim($data["new"]["ssl_request"]) != '') file_put_contents($csr_file,$data["new"]["ssl_request"]);
 			if(trim($data["new"]["ssl_cert"]) != '') file_put_contents($crt_file,$data["new"]["ssl_cert"]);
 			if(trim($data["new"]["ssl_bundle"]) != '') file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
+			
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			
 			/* Update also the master-DB of the Server-Farm */
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 			$app->log('Saving SSL Cert for: '.$domain,LOGLEVEL_DEBUG);
@@ -606,6 +623,7 @@ class apache2_plugin {
 				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
 				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']).'/*');
 				$this->_exec('chmod 710 '.escapeshellcmd($data['new']['document_root'].'/web'));
+				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/ssl'));
 
 				// make tmp directory writable for Apache and the website users
 				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
@@ -639,7 +657,7 @@ class apache2_plugin {
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/ssl'));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 				$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 
@@ -673,7 +691,7 @@ class apache2_plugin {
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
 				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/log'));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
+				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/ssl'));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
 			}
 		}
@@ -1118,6 +1136,11 @@ class apache2_plugin {
 		}
 		
 		//* Add vhost for ipv4 IP with SSL
+		$ssl_dir = $data['new']['document_root'].'/ssl';
+		$domain = $data['new']['ssl_domain'];
+		$key_file = $ssl_dir.'/'.$domain.'.key';
+		$crt_file = $ssl_dir.'/'.$domain.'.crt';
+		
 		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			if(count($rewrite_rules) > 0){
 				$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443', 'redirects' => $rewrite_rules);
@@ -1262,6 +1285,33 @@ class apache2_plugin {
 					//* There is no backup file, so we create a empty vhost file with a warning message inside
 					file_put_contents($vhost_file,"# Apache did not start after modifying this vhost file.\n# Please check file $vhost_file.err for syntax errors.");
 				}
+				if($this->ssl_certificate_changed === true) {
+
+					$ssl_dir = $data['new']['document_root'].'/ssl';
+					$domain = $data['new']['ssl_domain'];
+					$key_file = $ssl_dir.'/'.$domain.'.key.org';
+					$key_file2 = $ssl_dir.'/'.$domain.'.key';
+					$csr_file = $ssl_dir.'/'.$domain.'.csr';
+					$crt_file = $ssl_dir.'/'.$domain.'.crt';
+					$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
+					
+					//* Backup the files that might have caused the error
+					if(is_file($key_file)) copy($key_file,$key_file.'.err');
+					if(is_file($key_file2)) copy($key_file2,$key_file2.'.err');
+					if(is_file($csr_file)) copy($csr_file,$csr_file.'.err');
+					if(is_file($crt_file)) copy($crt_file,$crt_file.'.err');
+					if(is_file($bundle_file)) copy($bundle_file,$bundle_file.'.err');
+					
+					//* Restore the ~ backup files
+					if(is_file($key_file.'~')) copy($key_file.'~',$key_file);
+					if(is_file($key_file2.'~')) copy($key_file2.'~',$key_file2);
+					if(is_file($crt_file.'~')) copy($crt_file.'~',$crt_file);
+					if(is_file($csr_file.'~')) copy($csr_file.'~',$csr_file);
+					if(is_file($bundle_file.'~')) copy($bundle_file.'~',$bundle_file);
+					
+					$app->log('Apache did not restart after the configuration change for website '.$data['new']['domain'].' Reverting the SSL configuration. Saved non-working SSL files with .err extension.',LOGLEVEL_WARN);
+				}
+				
 				$app->services->restartService('httpd','restart');
 			}
 		} else {
@@ -1274,9 +1324,26 @@ class apache2_plugin {
 			}
 		}
 		
+		//* The vhost is written and apache has been restarted, so we 
+		// can reset the ssl changed var to false and cleanup some files
+		$this->ssl_certificate_changed = false;
+		
+		$ssl_dir = $data['new']['document_root'].'/ssl';
+		$domain = $data['new']['ssl_domain'];
+		$key_file = $ssl_dir.'/'.$domain.'.key.org';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key';
+		$csr_file = $ssl_dir.'/'.$domain.'.csr';
+		$crt_file = $ssl_dir.'/'.$domain.'.crt';
+		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
+		
+		if(@is_file($key_file.'~')) unlink($key_file.'~');
+		if(@is_file($key2_file.'~')) unlink($key2_file.'~');
+		if(@is_file($crt_file.'~')) unlink($crt_file.'~');
+		if(@is_file($csr_file.'~')) unlink($csr_file.'~');
+		if(@is_file($bundle_file.'~')) unlink($bundle_file.'~');
+		
 		// Remove the backup copy of the config file.
 		if(@is_file($vhost_file.'~')) unlink($vhost_file.'~');
-		
 
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';
