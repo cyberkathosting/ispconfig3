@@ -50,15 +50,15 @@ $somecontent = $app->tpl->grab();
 // Sichergehen, dass die Datei existiert und beschreibbar ist
 
 
-    // Wir öffnen $filename im "Anhänge" - Modus.
+    // Wir Ã¶ffnen $filename im "AnhÃ¤nge" - Modus.
     // Der Dateizeiger befindet sich am Ende der Datei, und
-    // dort wird $somecontent später mit fwrite() geschrieben.
+    // dort wird $somecontent spÃ¤ter mit fwrite() geschrieben.
     if (!$handle = fopen($filename, "w")) {
-         print "Kann die Datei $filename nicht öffnen";
+         print "Kann die Datei $filename nicht Ã¶ffnen";
          exit;
     }
 
-    // Schreibe $somecontent in die geöffnete Datei.
+    // Schreibe $somecontent in die geÃ¶ffnete Datei.
     if (!fwrite($handle, $somecontent)) {
         print "Kann in die Datei $filename nicht schreiben";
         exit;
