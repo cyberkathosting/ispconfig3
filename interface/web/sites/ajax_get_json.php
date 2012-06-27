@@ -99,8 +99,29 @@ $type = $_GET["type"];
 		unset($php);
 		$json .= '"}';
 	}
+	
+	if($type == 'get_ipv4'){		
+		$result = array();
+		
+		// ipv4
+		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		$result[] = $app->functions->suggest_ips('IPv4');
+
+		$json = $app->functions->json_encode($result);
+	}
+	
+	if($type == 'get_ipv6'){		
+		$result = array();
+		
+		// ipv6
+		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		$result[] = $app->functions->suggest_ips('IPv6');
+		
+		$json = $app->functions->json_encode($result);
+	}
 
 //}
+
 header('Content-type: application/json');
 echo $json;
 ?>

@@ -113,7 +113,7 @@ class functions {
 		return $url;
 	}
 	
-    function json_encode($data) {
+    public function json_encode($data) {
 		if(!function_exists('json_encode')){
 			if(is_array($data) || is_object($data)){
 				$islist = is_array($data) && (empty($data) || array_keys($data) === range(0,count($data)-1));
@@ -177,6 +177,105 @@ class functions {
 			return json_encode($data);
 		}
     }
+	
+	public function suggest_ips($type = 'IPv4'){
+		global $app;
+	
+		if($type == 'IPv4'){
+			$regex = "/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/";
+		} else {
+			// IPv6
+			$regex = "/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i";
+		}
+	
+		$ips = array();
+		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM server_ip WHERE ip_type = '".$type."'");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+			}
+		}
+		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM openvz_ip");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+			}
+		}
+		$results = $app->db->queryAllRecords("SELECT data AS ip FROM dns_rr WHERE type = 'A' OR type = 'AAAA'");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+			}
+		}
+		$results = $app->db->queryAllRecords("SELECT ns AS ip FROM dns_slave");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+			}
+		}
+	
+		$results = $app->db->queryAllRecords("SELECT xfer FROM dns_slave WHERE xfer != ''");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				$tmp_ips = explode(',', $result['xfer']);
+				foreach($tmp_ips as $tmp_ip){
+					$tmp_ip = trim($tmp_ip);
+					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
+				}
+			}
+		}
+		$results = $app->db->queryAllRecords("SELECT xfer FROM dns_soa WHERE xfer != ''");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				$tmp_ips = explode(',', $result['xfer']);
+				foreach($tmp_ips as $tmp_ip){
+					$tmp_ip = trim($tmp_ip);
+					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
+				}
+			}
+		}
+		$results = $app->db->queryAllRecords("SELECT also_notify FROM dns_soa WHERE also_notify != ''");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				$tmp_ips = explode(',', $result['also_notify']);
+				foreach($tmp_ips as $tmp_ip){
+					$tmp_ip = trim($tmp_ip);
+					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
+				}
+			}
+		}
+		$results = $app->db->queryAllRecords("SELECT remote_ips FROM web_database WHERE remote_ips != ''");
+		if(!empty($results) && is_array($results)){
+			foreach($results as $result){
+				$tmp_ips = explode(',', $result['remote_ips']);
+				foreach($tmp_ips as $tmp_ip){
+					$tmp_ip = trim($tmp_ip);
+					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
+				}
+			}
+		}
+		$ips = array_unique($ips);
+		sort($ips, SORT_NUMERIC);
+
+		$result_array = array('cheader' => array(), 'cdata' => array());
+	
+		if(!empty($ips)){
+			$result_array['cheader'] = array('title' => 'IPs',
+											'total' => count($ips),
+											'limit' => count($ips)
+											);
+	
+			foreach($ips as $ip){
+				$result_array['cdata'][] = array(	'title' => $ip,
+													'description' => $type,
+													'onclick' => '',
+													'fill_text' => $ip
+												);
+			}
+		}
+	
+		return $result_array;
+	}
 
 	
 		

@@ -34,7 +34,7 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('dns');
 
-$app->uses('tform');
+//$app->uses('tform');
 
 $type = $_GET["type"];
 
@@ -42,34 +42,37 @@ $type = $_GET["type"];
 
 	
 	if($type == 'get_ipv4'){
-		$q = $app->db->quote(trim($_GET["q"]));
-		$authsql = " AND ".$app->tform->getAuthSQL('r');
-		$modules = explode(',', $_SESSION['s']['user']['modules']);
+		//$q = $app->db->quote(trim($_GET["q"]));
+		//$authsql = " AND ".$app->tform->getAuthSQL('r');
+		//$modules = explode(',', $_SESSION['s']['user']['modules']);
 		
 		$result = array();
 		
 		// ipv4
-		$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		$result[] = $app->functions->suggest_ips('IPv4');
 
 		$json = $app->functions->json_encode($result);
 	}
 	
 	if($type == 'get_ipv6'){
-		$q = $app->db->quote(trim($_GET["q"]));
-		$authsql = " AND ".$app->tform->getAuthSQL('r');
-		$modules = explode(',', $_SESSION['s']['user']['modules']);
+		//$q = $app->db->quote(trim($_GET["q"]));
+		//$authsql = " AND ".$app->tform->getAuthSQL('r');
+		//$modules = explode(',', $_SESSION['s']['user']['modules']);
 		
 		$result = array();
 		
-		// ipv4
-		$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
-
+		// ipv6
+		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		$result[] = $app->functions->suggest_ips('IPv6');
+		
 		$json = $app->functions->json_encode($result);
 	}
 
 //}
 
-function _search($module, $section, $additional_sql = ''){
+/*
+function _search($module, $section, $additional_sql = '', $unique = false){
 	global $app, $q, $authsql, $modules;
 
 	$result_array = array('cheader' => array(), 'cdata' => array());
@@ -143,11 +146,16 @@ function _search($module, $section, $additional_sql = ''){
 													'onclick' => '',
 													'fill_text' => $result[$title_key]
 												);
-			}	
+			}
+			if($unique === true){
+				$result_array['cdata'] = array_unique($result_array['cdata']);
+				$result_array['cheader']['total'] = $result_array['cheader']['limit'] = count($result_array['cdata']);
+			}
 		}
 	}
 	return $result_array;
 }
+*/
 		
 header('Content-type: application/json');
 echo $json;
