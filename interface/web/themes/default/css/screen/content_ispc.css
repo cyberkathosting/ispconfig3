@@ -181,7 +181,13 @@
 		border-top: 4px solid #ff0000;
 		background-color: #ff7f7f;
     }
-
+    .systemmonitor-state:hover {
+        background-color: #FFFACD;
+    }
+    .systemmonitor-state p {
+        float:left;
+        margin: 5px;
+    }
     .systemmonitor-device {
         background-position: -6px 4px;
         background-repeat: no-repeat;
