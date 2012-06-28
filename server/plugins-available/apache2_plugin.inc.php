@@ -1355,6 +1355,7 @@ class apache2_plugin {
 
 		// load the server configuration options
 		$app->uses('getconf');
+		$app->uses('system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		
 		$app->system->web_folder_protection($data['new']['document_root'],false);
