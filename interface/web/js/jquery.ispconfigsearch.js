@@ -116,12 +116,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 													var link = '<a href="'+((item['url'] != undefined) ? item['url'] : 'javascript:void(0);')+'" '+((item['onclick'] != undefined) ? ' onclick="'+fillSearchFieldCode.replace("%", item[settings.fillSearchFieldWith])+(settings.runJS ? item['onclick'] : '')+'"' : '')+((item['target'] != undefined) ? ' target="'+item['target']+'"' : '')+'>';
 
 													output += '<li class="'+settings.cssPrefix+'cdata">'+link+"\n";
-													output += '<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td>';
 													output += '<p>';
-													output += (item['title'] != undefined) ? '<span class="'+settings.cssPrefix+'cdata-title">'+item['title']+"</span><br />\n" : '';
+													output += (item['title'] != undefined) ? '<span class="'+settings.cssPrefix+'cdata-title">'+item['title']+"</span>\n": '';
 													output += (item['description'] != undefined) ? ''+item['description']+''+"\n" : '';
 													output += '</p>'+"\n";
-													output += '</td></tr></table>';
 													output += '</a></li>'+"\n";
 												}
 												cnt++;
