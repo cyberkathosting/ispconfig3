@@ -44,8 +44,80 @@ class monitor_tools {
 
 		//** Debian or Ubuntu
 		if (file_exists('/etc/debian_version')) {
-
-			if (trim(file_get_contents('/etc/debian_version')) == '4.0') {
+if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
+			if (strstr(trim(file_get_contents('/etc/issue')), 'LTS')) {
+			$lts=" LTS";
+			}else{
+			$lts="";
+			}
+				$issue=file_get_contents('/etc/issue');
+				$distname = 'Ubuntu';
+				$distid = 'debian40';
+				$distbaseid = 'debian';
+				$ver = explode(' ',$issue);
+				$ver = array_filter($ver);
+				$ver = next($ver);
+				$mainver = explode('.',$ver);
+				$mainver = array_filter($mainver);
+				$mainver = current($mainver).'.'.next($mainver);
+				switch ($mainver){
+				case "12.10":
+					$relname = "(Quantal Quetzal)";
+					break;
+				case "12.04":
+					$relname = "(Precise Pangolin)";
+					break;
+				case "11.10":
+					$relname = "(Oneiric Ocelot)";
+					break;
+				case "11.14":
+					$relname = "(Natty Narwhal)";
+					break;
+				case "10.10":
+					$relname = "(Maverick Meerkat)";
+					break;
+				case "10.04":
+					$relname = "(Lucid Lynx)";
+					break;
+				case "9.10":
+					$relname = "(Karmic Koala)";
+					break;
+				case "9.04":
+					$relname = "(Jaunty Jackpole)";
+					break;
+				case "8.10":
+					$relname = "(Intrepid Ibex)";
+					break;
+				case "8.04":
+					$relname = "(Hardy Heron)";
+					break;
+				case "7.10":
+					$relname = "(Gutsy Gibbon)";
+					break;
+				case "7.04":
+					$relname = "(Feisty Fawn)";
+					break;
+				case "6.10":
+					$relname = "(Edgy Eft)";
+					break;
+				case "6.06":
+					$relname = "(Dapper Drake)";
+					break;
+				case "5.10":
+					$relname = "(Breezy Badger)";
+					break;
+				case "5.04":
+					$relname = "(Hoary Hedgehog)";
+					break;
+				case "4.10":
+					$relname = "(Warty Warthog)";
+					break;
+				default:
+					$relname = "UNKNOWN";
+				}
+				$distver = $ver.$lts." ".$relname;
+				echo $distver;
+			} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 				$distname = 'Debian';
 				$distver = '4.0';
 				$distid = 'debian40';
