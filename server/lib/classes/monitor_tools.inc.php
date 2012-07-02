@@ -44,12 +44,13 @@ class monitor_tools {
 
 		//** Debian or Ubuntu
 		if (file_exists('/etc/debian_version')) {
-if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
-			if (strstr(trim(file_get_contents('/etc/issue')), 'LTS')) {
-			$lts=" LTS";
-			}else{
-			$lts="";
-			}
+			if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
+				if (strstr(trim(file_get_contents('/etc/issue')), 'LTS')) {
+					$lts=" LTS";
+				} else {
+					$lts="";
+				}
+
 				$issue=file_get_contents('/etc/issue');
 				$distname = 'Ubuntu';
 				$distid = 'debian40';
@@ -63,60 +64,60 @@ if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
 				switch ($mainver){
 				case "12.10":
 					$relname = "(Quantal Quetzal)";
-					break;
+				break;
 				case "12.04":
 					$relname = "(Precise Pangolin)";
-					break;
+				break;
 				case "11.10":
 					$relname = "(Oneiric Ocelot)";
-					break;
+				break;
 				case "11.14":
 					$relname = "(Natty Narwhal)";
-					break;
+				break;
 				case "10.10":
 					$relname = "(Maverick Meerkat)";
-					break;
+				break;
 				case "10.04":
 					$relname = "(Lucid Lynx)";
-					break;
+				break;
 				case "9.10":
 					$relname = "(Karmic Koala)";
-					break;
+				break;
 				case "9.04":
 					$relname = "(Jaunty Jackpole)";
-					break;
+				break;
 				case "8.10":
-					$relname = "(Intrepid Ibex)";
-					break;
+				$relname = "(Intrepid Ibex)";
+				break;
 				case "8.04":
 					$relname = "(Hardy Heron)";
-					break;
+				break;
 				case "7.10":
 					$relname = "(Gutsy Gibbon)";
-					break;
+				break;
 				case "7.04":
 					$relname = "(Feisty Fawn)";
-					break;
+				break;
 				case "6.10":
 					$relname = "(Edgy Eft)";
-					break;
+				break;
 				case "6.06":
 					$relname = "(Dapper Drake)";
-					break;
+				break;
 				case "5.10":
 					$relname = "(Breezy Badger)";
-					break;
+				break;
 				case "5.04":
 					$relname = "(Hoary Hedgehog)";
-					break;
+				break;
 				case "4.10":
 					$relname = "(Warty Warthog)";
-					break;
+				break;
 				default:
 					$relname = "UNKNOWN";
 				}
 				$distver = $ver.$lts." ".$relname;
-				echo $distver;
+				swriteln("Operating System: ".$distver."\n");
 			} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 				$distname = 'Debian';
 				$distver = '4.0';
