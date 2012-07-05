@@ -3,20 +3,20 @@
 
 <div class="panel panel_mail_user">
 
-  <div class="pnl_formsarea">
-    <fieldset class="inlineLabels">
-      <div class="ctrlHolder">
-      	<label for="custom_mailfilter">{tmpl_var name='custom_mailfilter_txt'}</label>
-        <textarea name="custom_mailfilter" id="custom_mailfilter" rows='15' cols='30'>{tmpl_var name='custom_mailfilter'}</textarea>
-      </div>
-    </fieldset>
+    <div class="pnl_formsarea">
+        <fieldset class="inlineLabels">
+            <div class="ctrlHolder">
+                <label for="custom_mailfilter">{tmpl_var name='custom_mailfilter_txt'}</label>
+                <textarea name="custom_mailfilter" id="custom_mailfilter" rows='15' cols='30'>{tmpl_var name='custom_mailfilter'}</textarea>
+            </div>
+        </fieldset>
 
-    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="buttonHolder buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        <div class="buttonHolder buttons">
+            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div>
     </div>
-  </div>
-  
+
 </div>

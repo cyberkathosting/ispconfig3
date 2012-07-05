@@ -3,20 +3,20 @@
 
 <div class="panel panel_ftp_user">
 
-  <div class="pnl_formsarea">
-    <fieldset class="inlineLabels">
-      <div class="ctrlHolder">
-      	<label for="dir">{tmpl_var name='dir_txt'}</label>
-        <input name="dir" id="dir" value="{tmpl_var name='dir'}" size="30" maxlength="255" type="text" class="textInput" />
-			</div>
-    </fieldset>
+    <div class="pnl_formsarea">
+        <fieldset class="inlineLabels">
+            <div class="ctrlHolder">
+                <label for="dir">{tmpl_var name='dir_txt'}</label>
+                <input name="dir" id="dir" value="{tmpl_var name='dir'}" size="30" maxlength="255" type="text" class="textInput" />
+            </div>
+        </fieldset>
 
-    <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-    <div class="buttonHolder buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/ftp_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/ftp_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        <div class="buttonHolder buttons">
+            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/ftp_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/ftp_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div>
     </div>
-  </div>
-  
+
 </div>

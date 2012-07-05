@@ -3,22 +3,20 @@
 
 <div class="panel panel_support_message">
 
-  <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Message</legend>
-      <div class="ctrlHolder">
-      	<label for="subject">{tmpl_var name='subject_txt'}</label>
-        <p>{tmpl_var name='subject'}</p>
-			</div>
-      <div class="ctrlHolder">
-      	<label for="message">{tmpl_var name='message_txt'}</label>
-        <p>{tmpl_var name='message'}</p>
-      </div>
-    </fieldset>
-<div class="buttonHolder buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='reply_txt'}" onClick="loadContent('help/support_message_edit.php?reply={tmpl_var name='id'}');"><span>{tmpl_var name='reply_txt'}</span></button>
+    <div class="pnl_formsarea">
+        <fieldset class="inlineLabels"><legend>Message</legend>
+            <div class="ctrlHolder">
+                <label for="subject">{tmpl_var name='subject_txt'}</label>
+                <p>{tmpl_var name='subject'}</p>
+            </div>
+            <div class="ctrlHolder">
+                <label for="message">{tmpl_var name='message_txt'}</label>
+                <p>{tmpl_var name='message'}</p>
+            </div>
+        </fieldset>
+        <div class="buttonHolder buttons">
+            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='reply_txt'}" onClick="loadContent('help/support_message_edit.php?reply={tmpl_var name='id'}');"><span>{tmpl_var name='reply_txt'}</span></button>
+        </div>
     </div>
-  </div>
 
-  </div>
-  
 </div>

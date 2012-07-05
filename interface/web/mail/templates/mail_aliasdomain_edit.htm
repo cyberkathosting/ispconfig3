@@ -3,35 +3,35 @@
 
 <div class="panel panel_mail_aliasdomain">
 
-  <div class="pnl_formsarea">
-    <fieldset class="inlineLabels">
-      <div class="ctrlHolder">
-      	<label for="destination">{tmpl_var name='source_txt'}</label>
-        <select name="source" id="source" class="selectInput">
-					{tmpl_var name='source_domain'}
-				</select>
-      </div>
-      <div class="ctrlHolder">
-      	<label for="destination">{tmpl_var name='destination_txt'}</label>
-        <select name="destination" id="destination" class="selectInput">
-					{tmpl_var name='destination_domain'}
-				</select>
-      </div>
-      <div class="ctrlHolder">
-				<p class="label">{tmpl_var name='active_txt'}</p>
-					<div class="multiField">
-						{tmpl_var name='active'}
-					</div>
-			</div>
-    </fieldset>
+    <div class="pnl_formsarea">
+        <fieldset class="inlineLabels">
+            <div class="ctrlHolder">
+                <label for="destination">{tmpl_var name='source_txt'}</label>
+                <select name="source" id="source" class="selectInput">
+                    {tmpl_var name='source_domain'}
+                </select>
+            </div>
+            <div class="ctrlHolder">
+                <label for="destination">{tmpl_var name='destination_txt'}</label>
+                <select name="destination" id="destination" class="selectInput">
+                    {tmpl_var name='destination_domain'}
+                </select>
+            </div>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='active_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='active'}
+                </div>
+            </div>
+        </fieldset>
 
-    <input type="hidden" name="id" value="{tmpl_var name='id'}">
-    <input type="hidden" name="type" value="aliasdomain">
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="type" value="aliasdomain">
 
-    <div class="buttonHolder buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_aliasdomain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_aliasdomain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        <div class="buttonHolder buttons">
+            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','mail/mail_aliasdomain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('mail/mail_aliasdomain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div>
     </div>
-  </div>
-  
+
 </div>
