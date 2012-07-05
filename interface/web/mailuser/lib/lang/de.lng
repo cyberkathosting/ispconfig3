@@ -1,5 +1,6 @@
 <?php
 $wb["Email Account"] = 'E-Mail-Konto';
+$wb["Overview"] = 'Übersicht';
 $wb["Password"] = 'Passwort';
 $wb["Autoresponder"] = 'Autoresponder';
 $wb["Send copy"] = 'Kopie senden an';
