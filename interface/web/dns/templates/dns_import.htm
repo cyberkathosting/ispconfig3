@@ -4,7 +4,7 @@
 <div class="panel panel_dns_wizard">
 
     <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>Zone File Import</legend>
+        <fieldset class="inlineLabels"><legend><tmpl_var name="zone_file_import_txt"></legend>
             <tmpl_if name="is_admin">
                 <div class="ctrlHolder">
                     <label for="server_id">{tmpl_var name='server_id_txt'}</label>
@@ -20,12 +20,11 @@
                 </div>
             </tmpl_if>
             <div class="ctrlHolder">
-                <label for="domain">{tmpl_var name='domain_txt'}. {tmpl_var name='domain_field_desc_txt'}</label>
-                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" onkeydown="keydown(event.which);" />
-            </div>
-                
+                <label for="domain">{tmpl_var name='domain_txt'}</label>
+                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" onkeydown="keydown(event.which);" /><p class="value"><tmpl_var name='domain_field_desc_txt'}</p>
+            </div>    
             <div class="ctrlHolder"">
-                 <label for="file">{tmpl_var name='zonefile_to_import_txt'}</label>
+                <label for="file">{tmpl_var name='zonefile_to_import_txt'}</label>
                 <input name="file" id="file" size="30" type="file" class="fileUpload" />
             </div>
                 
