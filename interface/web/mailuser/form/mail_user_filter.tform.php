@@ -34,14 +34,14 @@
 */
 
 $form["title"] 			= "mailbox_filter_txt";
-$form["description"] 	= "";
+$form["description"]            = "";
 $form["name"] 			= "mail_user_filter";
 $form["action"]			= "mail_user_filter_edit.php";
 $form["db_table"]		= "mail_user_filter";
-$form["db_table_idx"]	= "filter_id";
+$form["db_table_idx"]           = "filter_id";
 $form["db_history"]		= "no";
-$form["tab_default"]	= "filter";
-$form["list_default"]	= "mail_user_filter_list.php";
+$form["tab_default"]            = "filter";
+$form["list_default"]           = "mail_user_filter_list.php";
 $form["auth"]			= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user

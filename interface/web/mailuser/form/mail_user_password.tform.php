@@ -34,14 +34,14 @@
 */
 
 $form["title"] 			= "mailbox_password_txt";
-$form["description"] 	= "";
+$form["description"]            = "";
 $form["name"] 			= "mail_user_password";
 $form["action"]			= "mail_user_password_edit.php";
 $form["db_table"]		= "mail_user";
-$form["db_table_idx"]	= "mailuser_id";
+$form["db_table_idx"]           = "mailuser_id";
 $form["db_history"]		= "yes";
-$form["tab_default"]	= "mailuser";
-$form["list_default"]	= "index.php";
+$form["tab_default"]            = "mailuser";
+$form["list_default"]           = "index.php";
 $form["auth"]			= 'no'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -61,7 +61,7 @@ $form["tabs"]['mailuser'] = array (
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
-			'encryption'=> 'CRYPT',
+			'encryption'    => 'CRYPT',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
