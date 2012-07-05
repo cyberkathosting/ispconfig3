@@ -1,4 +1,5 @@
 <?php
+$wb["page_head_txt"] = 'Send customer information';
 $wb["btn_send_txt"] = 'Send email';
 $wb["btn_cancel_txt"] = 'Cancel';
 $wb["sender_txt"] = 'Sender email address';

@@ -1,4 +1,5 @@
 <?php
+$wb["page_head_txt"] = 'Kundenbenachrichtigung versenden';
 $wb["btn_send_txt"] = 'Absenden';
 $wb["btn_cancel_txt"] = 'Abbrechen';
 $wb["sender_txt"] = 'Absender-E-Mail-Adresse';
