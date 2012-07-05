@@ -1045,4 +1045,12 @@
             margin: 0;
             text-align: right;
         }
+        p.label {
+            float: left;
+            margin: 5px 15px 0 0;
+        }
+        p.value {
+            float:left;
+            margin: 0;
+        }
 }
