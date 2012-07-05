@@ -4,14 +4,18 @@ $userid=$app->auth->get_user_id();
 
 $module['name'] 		= 'mailuser';
 $module['title'] 		= 'top_menu_mailuser';
-$module['template'] 	= 'module.tpl.htm';
-$module['startpage'] 	= 'mailuser/index.php';
-$module['tab_width']    = '';
+$module['template']             = 'module.tpl.htm';
+$module['startpage']            = 'mailuser/index.php';
+$module['tab_width']            = '';
 
 
 //**** menu
 $items = array();
 
+$items[] = array( 	'title' 	=> 'Overview',
+					'target' 	=> 'content',
+					'link'	=> 'mailuser/index.php',
+					'html_id' => 'mail_user_index');
 
 $items[] = array( 	'title' 	=> 'Password',
 					'target' 	=> 'content',
