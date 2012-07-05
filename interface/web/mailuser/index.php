@@ -30,6 +30,11 @@ if($rec['cc'] == '') $rec['cc'] = $wb['none_txt'];
 
 $app->tpl->setVar($rec);
 
+$sql2 = "SELECT * FROM server WHERE server_id = ".$rec['server_id'];
+$rec2 = $app->db->queryOneRecord($sql2);
+
+$app->tpl->setVar($rec2);
+
 $app->tpl->setVar('msg',$msg);
 $app->tpl->setVar('error',$error);
 
@@ -38,6 +43,4 @@ $app->tpl->setVar('error',$error);
 
 $app->tpl_defaults();
 $app->tpl->pparse();
-
-
 ?>
