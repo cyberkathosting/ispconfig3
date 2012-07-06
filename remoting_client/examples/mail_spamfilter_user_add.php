@@ -19,7 +19,7 @@ try {
 	$params = array(
 			'server_id' => 1,
 			'priority' => 3,
-			'policy_ID' => 1,
+			'policy_id' => 1,
 			'email' => 'hmmnoe@test.int',
 			'fullname' => 'Max Mustermann',
 			'local' => ''
