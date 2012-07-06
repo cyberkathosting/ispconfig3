@@ -1,0 +1,39 @@
+<h2><tmpl_var name="page_head_txt"></h2>
+<p><tmpl_var name="form_desc_txt"></p>
+
+<div class="panel panel_client">
+    
+    <div class="pnl_formsarea">
+        <fieldset class="inlineLabels"><legend>{tmpl_var name='form_legend_txt'}</legend>
+            <tmpl_if name="okmsg">
+                <div id="OKMsg"><p><tmpl_var name="okmsg"></p></div>
+            </tmpl_if>
+            <tmpl_if name="error">
+                <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+            </tmpl_if>
+            <div class="ctrlHolder">
+                <label for="sender">{tmpl_var name='sender_txt'}</label>
+                <input name="sender" id="sender" value="{tmpl_var name='sender'}" size="30" maxlength="255" type="text" class="textInput" />
+            </div>
+            <div class="ctrlHolder">
+                <label for="recipient">{tmpl_var name='recipient_txt'}</label>
+                <select name="recipient" id="recipient" class="selectInput">
+                    {tmpl_var name='recipient'}
+                </select>
+            </div>
+            <div class="ctrlHolder">
+                <label for="subject">{tmpl_var name='subject_txt'}</label>
+                <input name="subject" id="subject" value="{tmpl_var name='subject'}" style="width:500px" size="30" maxlength="255" type="text" class="textInput" />
+            </div>
+            <div class="ctrlHolder">
+                <label for="message">{tmpl_var name='message_txt'}</label>
+                <textarea name="message" id="message" rows='' cols='' style="width:500px">{tmpl_var name='message'}</textarea>&nbsp;{tmpl_var name="variables_txt"}&nbsp;{tmpl_var name="message_variables"}
+            </div>
+        </fieldset>
+        <div class="buttonHolder buttons">
+            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_send_txt'}" onClick="submitForm('pageForm','client/client_message.php');"><span>{tmpl_var name='btn_send_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/client_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div>
+    </div>
+    
+</div>

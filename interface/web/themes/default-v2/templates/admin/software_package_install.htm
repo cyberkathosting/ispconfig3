@@ -1,0 +1,30 @@
+<h2><tmpl_var name="head_txt"></h2>
+<p><tmpl_var name="desc_txt"></p>
+
+<div class="panel panel_software_repo">
+    <tmpl_if name="message_err">
+        <div id="errorMsg"><tmpl_var name="message_err"></div>
+    </tmpl_if>
+    <tmpl_if name="message_ok">
+        <div id="OKMsg"><tmpl_var name="message_ok"></div>
+    </tmpl_if>
+    <tmpl_if name="insert_key">
+        <div class="pnl_formsarea">
+            <fieldset class="inlineLabels">
+                <p>&nbsp;</p>
+                <div class="ctrlHolder">
+                    <label for="install_key">{tmpl_var name='install_key_txt'}</label>
+                    <input name="install_key" id="install_key" value="{tmpl_var name='install_key'}" size="40" maxlength="40" type="text" class="textInput" />
+                </div>
+                    
+                <input type="hidden" name="package" value="{tmpl_var name='package_name'}">
+                <input type="hidden" name="server_id" value="{tmpl_var name='server_id'}">
+                <p>&nbsp;</p>
+                <div class="buttonHolder buttons">
+                    <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/software_package_install.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+                    <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/software_package_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+                </div>
+            </fieldset>
+        </div>
+    </tmpl_if>
+</div>

@@ -1,0 +1,1830 @@
+@charset "UTF-8";
+/* 
+    Document   : styles.css
+    Created on : 06.07.2012, 12:21:59
+    Author     : Christian Foellmann (foe-services.de)
+    Description:
+        Basis was css-code from the "ISPConfig 3: default theme" which was based on
+        "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework 3.0.6
+        by Copyright 2005-2008, Dirk Jesse (http://www.yaml.de)
+*/
+
+/* overall
+-------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+}
+header, #nav, #main, footer {
+    clear: both;
+}
+ul, ol, dl {
+    margin: 0 0 1em 1em;
+}
+.skip, .hideme, .print {
+    height: 1px;
+    left: -1000em;
+    position: absolute;
+    top: -1000em;
+    width: 1px;
+}
+
+/* header
+-------------------------------------------------------------- */
+header {
+    position: relative;
+    color: #faf0e6;
+    padding: 15px 2em 5px 20px;
+    background: #9a9a9a url(../images/header_bg.png) repeat-x top left;
+}
+header h1 {
+    font-size:2.5em;
+    letter-spacing:-2px;
+    line-height:65%;
+    color: silver;
+}
+header span {
+    color: #333333;
+}
+
+/* header/topsubnav
+-------------------------------------------------------------- */
+#topsubnav {
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+}
+#topsubnav a { color: #f0f8ff; font-weight: normal; background:transparent; text-decoration:none; }
+#topsubnav a:focus, 
+#topsubnav a:hover,
+#topsubnav a:active { text-decoration:underline; background-color: transparent;}
+
+/* nav
+    TODO: sprite image
+-------------------------------------------------------------- */
+#topNav ul {
+    list-style: none;
+    padding: 0 0 0 20px;
+    margin: 0;
+    background: #9a9a9a
+}
+
+#topNav ul li {
+    display: inline;
+    margin: 0 2px 0 0;
+}
+
+#topNav a {
+    background-color: #D3D3D3;
+    background-position: center 5px;
+    background-repeat: no-repeat;
+    color:black;
+    display:inline-block;
+    height:20px;
+    padding-top:37px;
+    text-align:center;
+    text-decoration:none;
+    width:78px;
+}
+
+#topNav a:hover {
+    background-color: #eeeeee;
+    color: #000000;
+}
+
+#topNav #topNav_current {
+}
+
+#topNav #topNav_current a {
+    font-weight: bold;
+    color: black;
+    background-color: #ffffff;
+}
+
+.topnav-admin {
+    background-image: url('../icons/x32/system.png') !important;
+}
+
+.topnav-client {
+    background-image: url('../icons/x32/client.png') !important;
+}
+
+.topnav-mail {
+    background-image: url('../icons/x32/email.png') !important;
+}
+
+.topnav-mailuser {
+    background-image: url('../icons/x32/email.png') !important;
+}
+
+.topnav-monitor {
+    background-image: url('../icons/x32/monitor.png') !important;
+}
+
+.topnav-sites {
+    background-image: url('../icons/x32/sites.png') !important;
+}
+
+.topnav-dns {
+    background-image: url('../icons/x32/dns.png') !important;
+}
+
+.topnav-tools {
+    background-image: url('../icons/x32/tools.png') !important;
+}
+
+.topnav-help {
+    background-image: url('../icons/x32/help.png') !important;
+}
+
+.topnav- {
+    background-image: url('../icons/x32/login.png') !important;
+}
+
+.topnav-domain {
+    background-image: url('../icons/x32/domain.png') !important;
+}
+
+.topnav-dashboard {
+    background-image: url('../icons/x32/dashboard.png') !important;
+}
+
+.topnav-vm{
+    background-image: url('../icons/x32/drawer.png') !important;
+}
+
+.topnav-billing{
+    background-image: url('../icons/x32/calculator.png') !important;
+}
+
+/* main
+-------------------------------------------------------------- */
+#main { 
+    background: #fff;
+    padding: 1em 0;
+}
+
+/* main/sideNav + submenu
+-------------------------------------------------------------- */
+#sideNav { width: 200px; 
+           float:left;
+           padding: 0 10px 0 0; 
+}
+
+#submenu {
+    width: 100%;
+    overflow: hidden;
+    margin: 0px;
+    list-style-type: none;
+    border-bottom: 2px #ddd solid;
+}
+
+#submenu ul { list-style-type: none; margin:0; padding: 0; }
+#submenu li { float:left; width: 100%; margin:0; padding: 0; font-size:0.9em; }
+
+#submenu a,
+#submenu strong {
+    display:block;
+    width: 90%;
+    padding: 2px 0px 2px 10%;
+    text-decoration: none;
+    background-color:#fff;
+    color: #444;
+    border-bottom: 1px #eee solid;
+}
+
+/* Menu Title */
+#submenu li.title {
+    width: 100%;
+    padding: 0px;
+    font-weight: bold;
+    color: #444;
+    background-color: #fff;
+    border-top: 2px #888 solid;
+    font-size: 1.1em;
+}
+
+#submenu li.title a {
+    background-color: #f0f8ff;
+    color: #444;
+}
+#submenu li.title a:hover {
+    color: white;
+}
+
+#submenu li span {
+    display:block;
+    width: 90%;
+    padding: 3px 0px 3px 10%;
+    font-weight: bold;
+    border-bottom: 1px #ddd solid;
+}
+
+/* Level 1 */
+#submenu li.active,
+#submenu li strong {
+    width: 90%;
+    padding: 3px 0px 3px 10%;
+    font-weight: bold;
+    color: #fff;
+    background-color:#aab;
+    border-bottom: 1px #eee solid;
+}
+
+#submenu li a { width: 90%; padding-left: 10%; background-color:#fff; color: #444; }
+#submenu li a:focus,
+#submenu li a:hover,
+#submenu li a:active { background-color:#f63; color: #fff; }
+
+/* Form-Elements in the Menu*/
+#submenu * select#server_id {
+    margin: 3px 10%;
+    padding: 1px;
+    width: 80%;
+}
+
+/* main/content
+-------------------------------------------------------------- */
+#content { 
+    margin-left: 200px; 
+    margin-right: 0;
+    padding: 0px 10px 10px 20px;
+    border-left: 1px #ddd solid;
+}
+
+/* footer
+-------------------------------------------------------------- */
+
+footer { 
+    color:#666; 
+    background: #f9f9f9;
+    padding: 10px 20px;
+    border-top: 5px #efefef solid;
+    font-size: 0.8em;
+    text-align: center;
+}
+footer a { color: #999; background:transparent; font-weight: bold;}
+footer a:hover, footer a:active {
+    color: #4D87C7; 
+    background-color: transparent; 
+    text-decoration:underline;
+}
+
+
+
+
+/* basemod
+-------------------------------------------------------------- */
+
+/**
+* (en) Formatting YAML's  basic layout elements
+* (de) Gestaltung des YAML Basis-Layouts
+*/
+
+/* (en) Marginal areas & page background */
+/* (de) Randbereiche & Seitenhintergrund */
+body { background: #EEEEEE url("../images/screen_bg.png") repeat-x top left fixed; padding: 10px 0; }
+
+/* (en) Centering layout in old IE-versions */
+/* (de) Zentrierung des Layouts in alten IE-versionen */
+body { text-align: center; }
+#page { text-align:left; margin: 0 auto; }
+
+/* (en) Layout: width, background, borders */
+/* (de) Layout: Breite, Hintergrund, Rahmen */
+/*#page_margins { min-width: 980px; max-width: 80%; background: #fff;}*/
+/* #page_margins { min-width: 980px; max-width: 80%; background: #fff; display: inline-block;}*/
+
+/*WARNING: ADded a overrode for this setting in main.tpl with javascript to target non chrome browsers,
+This has to be changed too in case that page_margins get changed. Reason: Chrome does not support the 
+display: table; attribute correctly*/
+#page { min-width: 980px; max-width: 80%; background: #fff;}
+/*#page_margins { min-width: 980px; max-width: 80%; background: #fff; display: table;}*/
+
+#page{ padding: 10px; }
+
+
+
+
+/* content
+-------------------------------------------------------------- */
+
+/**
+    * Fonts
+    * (en) font-family and font-size selection for headings and standard text elements
+    * (de) Zeichensatz und Schriftgrößen für Überschriften und übliche Text-Elemente
+    *
+    * @section content-fonts
+*/
+
+/* (en) reset font size for all elements to standard (16 Pixel) */
+/* (de) Alle Schriftgrößen auf Standardgröße (16 Pixel) zurücksetzen */
+html * { font-size: 100.01% }
+
+/* (en) reset monospaced elements to font size 16px in Gecko browsers */
+/* (de) Schriftgröße von monospaced Elemente auf 16 Pixel setzen */
+textarea, pre, tt, code {
+    font-family: Consolas,"Lucida Console","Courier New",monospace;
+    font-size: 0.9em;	
+}
+
+/* (en) base layout gets standard font size 12px */
+/* (de) Basis-Layout erhält Standardschriftgröße von 12 Pixeln */
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 75.00%; 
+    color: #444;  
+}
+
+h1,h2,h3,h4,h5,h6 { 
+    font-family: 'Trebuchet MS', sans-serif;
+    font-weight:bold; 
+    color:#666;
+    margin: 0 0 0.25em 0; 
+}
+
+h1 { font-size: 200% }                        /* 24px */
+h2 { font-size: 200% }          /* 24px */
+h3 { font-size: 150% }                        /* 18px */
+h4 { font-size: 133.33% }                     /* 16px */
+h5 { font-size: 116.67% }                     /* 14px */
+h6 { font-size: 116.67%; font-style:italic }  /* 14px */
+
+
+
+p { line-height: 1.5em; margin: 0 0 1em 0; }
+
+/* ### Lists | Listen  #### */
+
+ul, ol, dl { line-height: 1.5em; margin: 0 0 1em 1em }
+li { margin-left: 1.5em; line-height: 1.5em }
+
+dt { font-weight: bold }
+dd { margin: 0 0 1em 2em }
+
+/* ### text formatting | Textauszeichnung ### */
+
+cite, blockquote { font-style:italic }
+blockquote { margin: 0 0 1em 1.5em }
+
+strong,b { font-weight: bold }
+em,i { font-style:italic }
+
+pre, code { font-family: monospace; font-size: 1.1em; }
+
+acronym, abbr {
+    letter-spacing: .07em;
+    border-bottom: .1em dashed #c00;
+    cursor: help;
+}
+
+/* Set a background-color, no system backgorund used anymore */
+select, input, textarea {
+    background: #FFFFFF;
+    border: 1px solid #DFDFDF;
+    padding: 1px;
+    outline:none;
+}
+
+
+/**
+ * Generic Content Classes
+ * (en) standard classes for positioning and highlighting
+ * (de) Standardklassen zur Positionierung und Hervorhebung
+ *
+ * @section content-generic-classes
+*/
+
+.note {background: #dfd; padding: 1em; border-top: 1px #bdb dotted; border-bottom: 1px #bdb dotted;}
+.important {background: #ffd; padding: 1em; border-top: 1px #ddb dotted; border-bottom: 1px #ddb dotted;}
+.warning {background: #fdd; padding: 1em; border-top: 1px #dbb dotted; border-bottom: 1px #dbb dotted;}
+
+.float_left { float: left; display:inline; margin-right: 1em; margin-bottom: 0.15em;  }
+.float_right { float: right; display:inline; margin-left: 1em; margin-bottom: 0.15em;  }
+.center { text-align:center; margin: 0.5em auto }
+
+/**
+ * External Links
+ *
+ * (en) Formatting of hyperlinks
+ * (de) Gestaltung von Hyperlinks
+ *
+*/
+
+a {color: #4D87C7; text-decoration:none;}
+a:focus,
+a:hover,
+a:active {color:#182E7A; text-decoration:underline;}
+
+
+
+
+
+/**
+ * (en) Emphasizing external Hyperlinks via CSS
+ * (de) Hervorhebung externer Hyperlinks mit CSS
+ *
+ * @section             content-external-links
+ * @app-yaml-default    disabled
+*/
+
+/*
+#main a[href^="http://www.my-domain.com"],
+#main a[href^="https://www.my-domain.com"]
+{
+  padding-left: 12px;
+  background-image: url('your_image.gif');
+  background-repeat: no-repeat;
+  background-position: 0 0.45em;
+}
+*/
+
+/**
+ * Tables | Tabellen
+ * (en) Generic classes for table-width and design definition
+ * (de) Generische Klassen für die Tabellenbreite und Gestaltungsvorschriften für Tabellen
+ *
+ * @section content-tables
+*/
+
+table { width: auto; border-collapse:collapse; margin-bottom: 0.5em; }
+table.full { width: 100%; }
+table.fixed { table-layout:fixed }
+
+table.list td{max-width:350px;min-width: 32px;white-space: nowrap;overflow:hidden;text-overflow: ellipsis; -o-text-overflow: ellipsis; -icab-text-overflow: ellipsis; -khtml-text-overflow: ellipsis; -moz-text-overflow: ellipsis; -webkit-text-overflow: ellipsis;}
+th,td { padding: 0.5em;text-align:left;}
+thead th { background: #444 url(../images/lists_thead_bg.png) repeat-x; color: #fff }
+tbody th { background: #ccc; color: #333 }
+tbody th.sub { background: #ddd; color: #333 }
+
+/**
+ * Miscellaneous | Sonstiges
+ *
+ * @section content-misc
+*/
+
+hr {
+    color: #fff;
+    background:transparent;
+    margin: 0 0 0.5em 0;
+    padding: 0 0 0.5em 0;
+    border:0;
+    border-bottom: 1px #eee solid;
+}
+
+/* Sorting cusror and backgorund */
+.pnl_listarea th[class^="tbl_col"]{cursor:pointer}
+.pnl_listarea th[class^="tbl_col"]:hover{background-position:0 -15px!important}
+
+/* content_ispc
+-------------------------------------------------------------- */
+
+.pageForm_description {
+    font-size: 12px;
+}
+
+/* Tab-Box */
+.tabbox_tabs {
+    border-bottom: 1px solid #d3d3d3;
+}
+.tabbox_tabs ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.tabbox_tabs li {
+    display: inline;
+    margin: 0 2px 0 0;
+}
+.tabbox_tabs a {
+    padding: 0 1em;
+    text-decoration: none;
+    color: black;
+    background: #d3d3d3;
+    border: 1px solid #d3d3d3;
+}
+.tabbox_tabs a:hover {
+    background: #fc0;
+    color: #540;
+}
+.tabbox_tabs .active a {
+    font-weight: bold;
+    color: #ff6600;
+    background: #ffffff;
+}
+
+.pnl_toolsarea fieldset, .pnl_listarea fieldset, .pnl_formsarea fieldset {
+    border-top: 1px solid #949494;
+    margin: 20px 0;
+}
+.pnl_toolsarea fieldset legend , .pnl_listarea fieldset legend {
+    font-weight: bold;
+    color: #6299c5;
+}
+.pnl_formarea fieldset {
+    font-weight: bold;
+}
+
+/* hide line and legend when inside tabbed content */
+#tabbox_content * .pnl_toolsarea fieldset, #tabbox_content * .pnl_listarea fieldset, #tabbox_content * .pnl_formsarea fieldset { border: none !important; }
+#tabbox_content * .pnl_toolsarea fieldset legend, #tabbox_content * .pnl_listarea fieldset legend, #tabbox_content * .pnl_formsarea fieldset legend { display: none !important; }
+
+.codeview {
+    margin:20px 0;
+    padding:2px;
+    border: 1px solid #ffcc00;
+    background: #fffaea;
+    font-family: Consolas, "Lucida Console", "Courier New", monospace;
+    font-size: 0.9em;
+}
+
+/* Lists */
+table.list {
+    width: 100%;
+    border: 1px solid #d3d3d3 !important;
+}
+table.list thead th { font-size: 10px; }
+table.list tbody { border: 1px solid #d3d3d3 !important; }
+table.list tfoot td { text-align: center;  background: #f8f8f8 url(../images/lists_tfoot_bg.png) repeat-x bottom left;  padding: 24px 8px 8px 8px; }
+table.list .tbl_row_even { background: #fcfcfc; }
+table.list .tbl_row_uneven { background: #f0f8ff; }
+table.list tr:hover { background: #fffacd; }
+table.list td { word-wrap:break-word;white-space:pre-wrap; }
+table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal; }
+
+/* Password Strength */
+#passBar {
+    width: 101px; height: 10px;
+    background: url(../images/meter_bg.gif) repeat-x bottom left;
+    margin: 2px 0;
+    float: left;
+}
+#passText {
+    padding: 0;
+    float: left;
+}
+
+/* Systemmonitor */
+.systemmonitor-state {
+    margin: 10px 5px;
+    font-family: Consolas, "Lucida Console", "Courier New", monospace;
+    font-size: 0.9em;
+    float: left;
+    width: 100%;
+}
+.systemmonitor-state.state-no_state {
+    border-top: 4px solid #95A19F;
+    background-color: #f8f8ff;
+}
+.systemmonitor-state.state-unknown {
+    border-top: 4px solid #30302e;
+    background-color: #cecfc5;
+}
+.systemmonitor-state.state-ok {
+    border-top: 4px solid #23fb00;
+    background-color: #adffa2;
+}
+.systemmonitor-state.state-info {
+    border-top: 4px solid #183e99;
+    background-color: #d4e2ff;
+}
+.systemmonitor-state.state-warning {
+    border-top: 4px solid #ffa800;
+    background-color: #ffda93;
+}
+.systemmonitor-state.state-critical {
+    border-top: 4px solid #ff0000;
+    background-color: #ffb9b9;
+}
+.systemmonitor-state.state-error {
+    border-top: 4px solid #ff0000;
+    background-color: #ff7f7f;
+}
+.systemmonitor-state.state-no_state-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #95A19F;
+    background-color: #f8f8ff;
+}
+.systemmonitor-state.state-unknown-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #30302e;
+    background-color: #cecfc5;
+}
+.systemmonitor-state.state-ok-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #23fb00;
+    background-color: #adffa2;
+}
+.systemmonitor-state.state-info-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #183e99;
+    background-color: #d4e2ff;
+}
+.systemmonitor-state.state-warning-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #ffa800;
+    background-color: #ffda93;
+}
+.systemmonitor-state.state-critical-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #ff0000;
+    background-color: #ffb9b9;
+}
+.systemmonitor-state.state-error-ve {
+    float: left;
+    width: 213px;
+    border-top: 4px solid #ff0000;
+    background-color: #ff7f7f;
+}
+.systemmonitor-state:hover {
+    background-color: #FFFACD;
+}
+.systemmonitor-state p {
+    float:left;
+    margin: 5px;
+}
+.systemmonitor-device {
+    background-position: -6px 4px;
+    background-repeat: no-repeat;
+    min-height: 80px;
+}
+.systemmonitor-device.device-system { background-image: url("../icons/x64/network.png"); }
+.systemmonitor-device.device-server { 
+    background-image: url("../icons/x64/server.png");
+}
+.systemmonitor-device.device-ve {
+    background-image: url("../icons/x64/server.png");
+    width: 213px;
+    float: left;
+    border: 1px dashed #aaaaaa;
+    border-top: none;
+}
+
+.systemmonitor-content.icons32 {
+    padding:2px 10px 2px 56px;
+    background-repeat: no-repeat;
+    background-position: 12px 4px;
+}
+.systemmonitor-content.icons32.ico-no_state { /*background-image:url("../icons/x32/state_no.png"); */ }
+.systemmonitor-content.icons32.ico-unknown { background-image:url("../icons/x32/state_unknown.png"); }
+.systemmonitor-content.icons32.ico-ok { background-image:url("../icons/x32/state_ok.png"); }
+.systemmonitor-content.icons32.ico-info { background-image:url("../icons/x32/state_info.png"); }
+.systemmonitor-content.icons32.ico-warning { background-image:url("../icons/x32/state_warning.png"); }
+.systemmonitor-content.icons32.ico-critical { background-image:url("../icons/x32/state_critical.png"); }
+.systemmonitor-content.icons32.ico-error { background-image:url("../icons/x32/state_error.png"); }
+
+.systemmonitor-content table {
+    border: none;
+    margin-top: 10px;
+}
+
+.systemmonitor-content * .online {
+    border: 1px solid #ffffff;
+    background-color: #E3FFB8;
+    color: #000000;
+    padding:0px 5px;
+}
+.systemmonitor-content * .offline {
+    border: 1px solid #ffffff;
+    background-color: #d12f19; 
+    color:#ffffff;
+    padding:0px 5px;
+}
+
+/* Dashboard */
+.dashboard-modules {
+    float:left;
+    width:60px;
+    height: 60px;
+    border:1px dotted #888888;
+    background-color: #cccccc;
+    margin:10px;
+    background-position: center 5px;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+.dashboard-modules a, .dashboard-modules a:hover{
+    color:Black;
+    display:block;
+    font-weight:bold;
+    height:30px;
+    padding-top:42px;
+    width:60px;
+    text-decoration: none;
+}
+
+.dashboard-modules.admin { background-image: url('../icons/x32/system.png') !important; }
+.dashboard-modules.vm { background-image: url('../icons/x32/drawer.png') !important; }
+.dashboard-modules.client { background-image: url('../icons/x32/client.png') !important; }
+.dashboard-modules.mail { background-image: url('../icons/x32/email.png') !important; }
+.dashboard-modules.monitor { background-image: url('../icons/x32/monitor.png') !important; }
+.dashboard-modules.dns { background-image: url('../icons/x32/dns.png') !important; }
+.dashboard-modules.tools { background-image: url('../icons/x32/tools.png') !important; }
+.dashboard-modules.help { background-image: url('../icons/x32/help.png') !important; }
+.dashboard-modules.domain { background-image: url('../icons/x32/domain.png') !important; }
+.dashboard-modules.sites { background-image: url('../icons/x32/sites.png') !important; }
+.dashboard-modules.billing { background-image: url('../icons/x32/calculator.png') !important; }
+
+.panel_dashboard h2 {
+    font-size:20px;
+}
+
+/* Image-Replacement */
+.swap { background-repeat:no-repeat; }
+.swap span { display:none; height:16px; } 
+#ir-HeaderLogo { background-image:url("../images/header_logo.png"); height:32px;margin:0 0 0.2em; } 
+#ir-Yes { background-image:url("../icons/x16/tick_circle.png"); height:16px; } 
+#ir-No { background-image:url("../icons/x16/cross_circle.png"); height:16px; } 
+
+/* BUTTONS */
+.buttons a, .buttons button{
+    display:block;
+    float:left;
+    margin:0 7px 0 0;
+    background-color:#f5f5f5;
+    border:1px solid #777777;
+    border-top: 1px solid #c8c8c8;
+    border-left:1px solid #c8c8c8;
+
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:90%;
+    line-height:130%;
+    text-decoration:none;
+    font-weight:bold;
+    color:#565656;
+    cursor:pointer;
+    padding:5px 10px 6px 7px; /* Links */
+}
+.buttons button{
+    width:auto;
+    overflow:visible;
+    padding:4px 10px 3px 7px; /* IE6 */
+}
+.buttons button[type]{
+    padding:5px 10px 5px 7px; /* Firefox */
+    line-height:17px; /* Safari */
+}
+*:first-child+html button[type]{
+    padding:4px 10px 3px 7px; /* IE7 */
+}
+.buttons button img, .buttons a img{
+    margin:0 3px -3px 0 !important;
+    padding:0;
+    border:none;
+    width:16px;
+    height:16px;
+}
+
+/* BUTTONS STANDARD */
+button:hover, .buttons a:hover{
+    background-color:#dff4ff;
+    border:1px solid #c2e1ef;
+    color:#336699;
+}
+.buttons a:active{
+    background-color:#6299c5;
+    border:1px solid #6299c5;
+    color:#fff;
+}
+
+/* BUTTONS POSITIVE */
+button.positive, .buttons a.positive{
+    color:#529214;
+}
+.buttons a.positive:hover, button.positive:hover{
+    background-color:#E6EFC2;
+    border:1px solid #C6D880;
+    color:#529214;
+}
+.buttons a.positive:active{
+    background-color:#529214;
+    border:1px solid #529214;
+    color:#fff;
+}
+
+/* BUTTONS NEGATIVE */
+.buttons a.negative, button.negative{
+    color:#d12f19;
+}
+.buttons a.negative:hover, button.negative:hover{
+    background-color:#fbe3e4;
+    border:1px solid #fbc2c4;
+    color:#d12f19;
+}
+.buttons a.negative:active{
+    background-color:#d12f19;
+    border:1px solid #d12f19;
+    color:#fff;
+}
+
+/* Button with icon and text */
+.iconstxt {
+    background-repeat: no-repeat; 
+    background-position: 4px center;
+}
+.iconstxt span { padding-left: 20px; }
+.iconstxt.icoPositive { background-image: url("../icons/x16/tick_circle_frame.png"); }
+.iconstxt.icoNegative { background-image: url("../icons/x16/cross_circle_frame.png"); }
+.iconstxt.icoAdd { background-image: url(../icons/x16/plus_circle_frame.png); }
+.iconstxt.icoKey { background-image: url("../icons/x16/key.png"); }
+.iconstxt.icoDelete { background-image: url("../icons/x16/minus_circle_frame.png"); }
+.iconstxt.icoDownload { background-image: url("../icons/x16/arrow_270.png"); }
+.iconstxt.icoRestore { background-image: url("../icons/x16/arrow_circle_225.png"); }
+
+/* Button with icon and without text */
+.icons16 span { display: none; }
+a.icons16 { height: 18px; width: 18px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+button.icons16 { height: 20px; width: 20px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+
+.icons16.icoDelete { background-image: url("../icons/x16/minus_circle_frame.png"); }
+.icons16.icoFilter { background-image: url(../icons/x16/funnel.png); }
+.icons16.icoEdit { background-image: url("../icons/x16/wrench.png"); }
+.icons16.icoDbAdmin { background-image: url("../icons/x16/database.png"); }
+.icons16.icoLoginAs { background-image: url("../icons/x16/user_go.png"); }
+.icons16.icoWebmailer { background-image: url("../icons/x16/mails_arrow.png"); }
+
+#ajaxloader {
+    text-align:center;
+    margin-top: 180px;
+}
+
+.blockLabel.email_at {
+    width: 20px !important;
+    margin: 1.6em 0.3em 0 0 !important
+}
+.textDisplay { display: block; }
+
+/* Form Length Classes */
+.textInput.formLengthBool { width: 25px !important; }
+.selectInput.formLengthBool { width: 60px !important; }
+.textInput.formLengthLimit { width: 50px !important; }
+.selectInput.formLengthLimit { width: 85px !important; }
+.formLengthDate { width: 75px !important; }
+.formLengthIPv4 { width: 125px !important; }
+.formLengthIPv6 { width: 100% !important; }
+.formLengthEmailUser { width: 30% !important; }
+.formLengthEmailDomain { width: 30% !important; }
+.formLengthHalf { width: 15% !important; }
+.formLengthDouble { width: 50% !important; }
+
+/* Individual Form Lengths */
+.textInput#username, .textInput#password, .textInput#passwort, .textInput#source_password { width: 100px; }
+.selectInput#language {	width: 75px; }
+.selectInput#client_group_id, .selectInput#default_group { width: 125px; }
+input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px !important; }
+
+/* --- */
+
+a[href $='#logout'] { padding-right: 18px; background: transparent url("../icons/x16/logout.png") no-repeat right top !important;	}
+
+/* Select Menu with Images */
+select.withicons option {
+    background-repeat:no-repeat;
+    background-position: 1px;
+    padding-left:24px;
+}	
+select.flags option {
+    background-image: url("../icons/flags_sprite.png");
+    background-repeat: no-repeat;
+    padding: 1px 0 1px 30px;
+}
+
+select.flags option[value=EL] {background-position:0 -1475px}
+select.flags option[value=AD], select.flags option[value=ad] {background-position:0 -1px}
+select.flags option[value=AE], select.flags option[value=ae] {background-position:0 -23px}
+select.flags option[value=AF], select.flags option[value=af] {background-position:0 -45px}
+select.flags option[value=AG], select.flags option[value=ag] {background-position:0 -67px}
+select.flags option[value=AI], select.flags option[value=ai] {background-position:0 -89px}
+select.flags option[value=AL], select.flags option[value=al] {background-position:0 -111px}
+select.flags option[value=AM], select.flags option[value=am] {background-position:0 -133px}
+select.flags option[value=AN], select.flags option[value=an] {background-position:0 -155px}
+select.flags option[value=AO], select.flags option[value=ao] {background-position:0 -177px}
+select.flags option[value=AQ], select.flags option[value=aq] {background-position:0 -199px}
+select.flags option[value=AR], select.flags option[value=ar] {background-position:0 -221px}
+select.flags option[value=AS], select.flags option[value=as] {background-position:0 -243px}
+select.flags option[value=AT], select.flags option[value=at] {background-position:0 -265px}
+select.flags option[value=AU], select.flags option[value=au] {background-position:0 -287px}
+select.flags option[value=AW], select.flags option[value=aw] {background-position:0 -309px}
+select.flags option[value=AX], select.flags option[value=ax] {background-position:0 -331px}
+select.flags option[value=AZ], select.flags option[value=az] {background-position:0 -353px}
+select.flags option[value=BA], select.flags option[value=ba] {background-position:0 -375px}
+select.flags option[value=BB], select.flags option[value=bb] {background-position:0 -397px}
+select.flags option[value=BD], select.flags option[value=bd] {background-position:0 -419px}
+select.flags option[value=BE], select.flags option[value=be] {background-position:0 -441px}
+select.flags option[value=BF], select.flags option[value=bf] {background-position:0 -463px}
+select.flags option[value=BG], select.flags option[value=bg] {background-position:0 -485px}
+select.flags option[value=BH], select.flags option[value=bh] {background-position:0 -507px}
+select.flags option[value=BI], select.flags option[value=bi] {background-position:0 -529px}
+select.flags option[value=BJ], select.flags option[value=bj] {background-position:0 -551px}
+select.flags option[value=BM], select.flags option[value=bm] {background-position:0 -573px}
+select.flags option[value=BN], select.flags option[value=bn] {background-position:0 -595px}
+select.flags option[value=BO], select.flags option[value=bo] {background-position:0 -617px}
+select.flags option[value=BR], select.flags option[value=br] {background-position:0 -639px}
+select.flags option[value=BS], select.flags option[value=bs] {background-position:0 -661px}
+select.flags option[value=BT], select.flags option[value=bt] {background-position:0 -683px}
+select.flags option[value=BV], select.flags option[value=bv] {background-position:0 -705px}
+select.flags option[value=BW], select.flags option[value=bw] {background-position:0 -727px}
+select.flags option[value=BY], select.flags option[value=by] {background-position:0 -749px}
+select.flags option[value=BZ], select.flags option[value=bz] {background-position:0 -771px}
+select.flags option[value=CA], select.flags option[value=ca] {background-position:0 -793px}
+select.flags option[value=CC], select.flags option[value=cc] {background-position:0 -837px}
+select.flags option[value=CD], select.flags option[value=cd] {background-position:0 -859px}
+select.flags option[value=CF], select.flags option[value=cf] {background-position:0 -881px}
+select.flags option[value=CG], select.flags option[value=cg] {background-position:0 -903px}
+select.flags option[value=CH], select.flags option[value=ch] {background-position:0 -925px}
+select.flags option[value=CI], select.flags option[value=ci] {background-position:0 -947px}
+select.flags option[value=CK], select.flags option[value=ck] {background-position:0 -969px}
+select.flags option[value=CL], select.flags option[value=cl] {background-position:0 -991px}
+select.flags option[value=CM], select.flags option[value=cm] {background-position:0 -1013px}
+select.flags option[value=CN], select.flags option[value=cn] {background-position:0 -1035px}
+select.flags option[value=CO], select.flags option[value=co] {background-position:0 -1057px}
+select.flags option[value=CR], select.flags option[value=cr] {background-position:0 -1079px}
+select.flags option[value=CS], select.flags option[value=cs] {background-position:0 -1101px}
+select.flags option[value=CU], select.flags option[value=cu] {background-position:0 -1123px}
+select.flags option[value=CV], select.flags option[value=cv] {background-position:0 -1145px}
+select.flags option[value=CX], select.flags option[value=cx] {background-position:0 -1167px}
+select.flags option[value=CY], select.flags option[value=cy] {background-position:0 -1189px}
+select.flags option[value=CZ], select.flags option[value=cz] {background-position:0 -1211px}
+select.flags option[value=DE], select.flags option[value=de] {background-position:0 -1233px}
+select.flags option[value=DJ], select.flags option[value=dj] {background-position:0 -1255px}
+select.flags option[value=DK], select.flags option[value=dk] {background-position:0 -1277px}
+select.flags option[value=DM], select.flags option[value=dm] {background-position:0 -1299px}
+select.flags option[value=DO], select.flags option[value=do] {background-position:0 -1321px}
+select.flags option[value=DZ], select.flags option[value=dz] {background-position:0 -1343px}
+select.flags option[value=EC], select.flags option[value=ec] {background-position:0 -1365px}
+select.flags option[value=EE], select.flags option[value=ee] {background-position:0 -1387px}
+select.flags option[value=EG], select.flags option[value=eg] {background-position:0 -1409px}
+select.flags option[value=EH], select.flags option[value=eh] {background-position:0 -1431px}
+select.flags option[value=ER], select.flags option[value=er] {background-position:0 -1497px}
+select.flags option[value=ES], select.flags option[value=ET], select.flags option[value=es], select.flags option[value=et] {background-position:0 -1519px}
+select.flags option[value=FI], select.flags option[value=fi] {background-position:0 -1585px}
+select.flags option[value=FJ], select.flags option[value=fj] {background-position:0 -1607px}
+select.flags option[value=FK], select.flags option[value=fk] {background-position:0 -1629px}
+select.flags option[value=FM], select.flags option[value=fm] {background-position:0 -1651px}
+select.flags option[value=FO], select.flags option[value=fo] {background-position:0 -1673px}
+select.flags option[value=FR], select.flags option[value=fr] {background-position:0 -1695px}
+select.flags option[value=GA], select.flags option[value=ga] {background-position:0 -1717px}
+select.flags option[value=GB], select.flags option[value=en], select.flags option[value=gb] {background-position:0 -1739px}
+select.flags option[value=GD], select.flags option[value=gd] {background-position:0 -1761px}
+select.flags option[value=GE], select.flags option[value=ge] {background-position:0 -1783px}
+select.flags option[value=GF], select.flags option[value=gf] {background-position:0 -1805px}
+select.flags option[value=GH], select.flags option[value=gh] {background-position:0 -1827px}
+select.flags option[value=GI], select.flags option[value=gi] {background-position:0 -1849px}
+select.flags option[value=GL], select.flags option[value=gl] {background-position:0 -1871px}
+select.flags option[value=GM], select.flags option[value=gm] {background-position:0 -1893px}
+select.flags option[value=GN], select.flags option[value=gn] {background-position:0 -1915px}
+select.flags option[value=GP], select.flags option[value=gp] {background-position:0 -1937px}
+select.flags option[value=GQ], select.flags option[value=gq] {background-position:0 -1959px}
+select.flags option[value=GR], select.flags option[value=el], select.flags option[value=gr] {background-position:0 -1981px}
+select.flags option[value=GS], select.flags option[value=gs] {background-position:0 -2003px}
+select.flags option[value=GT], select.flags option[value=gt] {background-position:0 -2025px}
+select.flags option[value=GU], select.flags option[value=gu] {background-position:0 -2047px}
+select.flags option[value=GW], select.flags option[value=gw] {background-position:0 -2069px}
+select.flags option[value=GY], select.flags option[value=gy] {background-position:0 -2091px}
+select.flags option[value=HK], select.flags option[value=hk] {background-position:0 -2113px}
+select.flags option[value=HM], select.flags option[value=hm] {background-position:0 -2135px}
+select.flags option[value=HN], select.flags option[value=hn] {background-position:0 -2157px}
+select.flags option[value=HR], select.flags option[value=hr] {background-position:0 -2179px}
+select.flags option[value=HT], select.flags option[value=ht] {background-position:0 -2201px}
+select.flags option[value=HU], select.flags option[value=hu] {background-position:0 -2223px}
+select.flags option[value=ID], select.flags option[value=id] {background-position:0 -2245px}
+select.flags option[value=IE], select.flags option[value=ie] {background-position:0 -2267px}
+select.flags option[value=IL], select.flags option[value=il] {background-position:0 -2289px}
+select.flags option[value=IN], select.flags option[value=in] {background-position:0 -2311px}
+select.flags option[value=IO], select.flags option[value=io] {background-position:0 -2333px}
+select.flags option[value=IQ], select.flags option[value=iq] {background-position:0 -2355px}
+select.flags option[value=IR], select.flags option[value=ir] {background-position:0 -2377px}
+select.flags option[value=IS], select.flags option[value=is] {background-position:0 -2399px}
+select.flags option[value=IT], select.flags option[value=it] {background-position:0 -2421px}
+select.flags option[value=JM], select.flags option[value=jm] {background-position:0 -2443px}
+select.flags option[value=JO], select.flags option[value=jo] {background-position:0 -2465px}
+select.flags option[value=JP], select.flags option[value=ja], select.flags option[value=jp] {background-position:0 -2487px}
+select.flags option[value=KE], select.flags option[value=ke] {background-position:0 -2509px}
+select.flags option[value=KG], select.flags option[value=kg] {background-position:0 -2531px}
+select.flags option[value=KH], select.flags option[value=kh] {background-position:0 -2553px}
+select.flags option[value=KI], select.flags option[value=ki] {background-position:0 -2575px}
+select.flags option[value=KM], select.flags option[value=km] {background-position:0 -2597px}
+select.flags option[value=KN], select.flags option[value=kn] {background-position:0 -2619px}
+select.flags option[value=KP], select.flags option[value=kp] {background-position:0 -2641px}
+select.flags option[value=KR], select.flags option[value=kr] {background-position:0 -2663px}
+select.flags option[value=KW], select.flags option[value=kw] {background-position:0 -2685px}
+select.flags option[value=KY], select.flags option[value=ky] {background-position:0 -2707px}
+select.flags option[value=KZ], select.flags option[value=kz] {background-position:0 -2729px}
+select.flags option[value=LA], select.flags option[value=la] {background-position:0 -2751px}
+select.flags option[value=LB], select.flags option[value=lb] {background-position:0 -2773px}
+select.flags option[value=LC], select.flags option[value=lc] {background-position:0 -2795px}
+select.flags option[value=LI], select.flags option[value=li] {background-position:0 -2817px}
+select.flags option[value=LK], select.flags option[value=lk] {background-position:0 -2839px}
+select.flags option[value=LR], select.flags option[value=lr] {background-position:0 -2861px}
+select.flags option[value=LS], select.flags option[value=ls] {background-position:0 -2883px}
+select.flags option[value=LT], select.flags option[value=lt] {background-position:0 -2905px}
+select.flags option[value=LU], select.flags option[value=lu] {background-position:0 -2927px}
+select.flags option[value=LV], select.flags option[value=lv] {background-position:0 -2949px}
+select.flags option[value=LY], select.flags option[value=ly] {background-position:0 -2971px}
+select.flags option[value=MA], select.flags option[value=ma] {background-position:0 -2993px}
+select.flags option[value=MC], select.flags option[value=mc] {background-position:0 -3015px}
+select.flags option[value=MD], select.flags option[value=md] {background-position:0 -3037px}
+select.flags option[value=ME], select.flags option[value=me] {background-position:0 -3059px}
+select.flags option[value=MG], select.flags option[value=mg] {background-position:0 -3081px}
+select.flags option[value=MH], select.flags option[value=mh] {background-position:0 -3103px}
+select.flags option[value=MK], select.flags option[value=mk] {background-position:0 -3125px}
+select.flags option[value=ML], select.flags option[value=ml] {background-position:0 -3147px}
+select.flags option[value=MM], select.flags option[value=mm] {background-position:0 -3169px}
+select.flags option[value=MN], select.flags option[value=mn] {background-position:0 -3191px}
+select.flags option[value=MO], select.flags option[value=mo] {background-position:0 -3213px}
+select.flags option[value=MP], select.flags option[value=mp] {background-position:0 -3235px}
+select.flags option[value=MQ], select.flags option[value=mq] {background-position:0 -3257px}
+select.flags option[value=MR], select.flags option[value=mr] {background-position:0 -3279px}
+select.flags option[value=MS], select.flags option[value=ms] {background-position:0 -3301px}
+select.flags option[value=MT], select.flags option[value=mt] {background-position:0 -3323px}
+select.flags option[value=MU], select.flags option[value=mu] {background-position:0 -3345px}
+select.flags option[value=MV], select.flags option[value=mv] {background-position:0 -3367px}
+select.flags option[value=MW], select.flags option[value=mw] {background-position:0 -3389px}
+select.flags option[value=MX], select.flags option[value=mx] {background-position:0 -3411px}
+select.flags option[value=MY], select.flags option[value=my] {background-position:0 -3433px}
+select.flags option[value=MZ], select.flags option[value=mz] {background-position:0 -3455px}
+select.flags option[value=NA], select.flags option[value=na] {background-position:0 -3477px}
+select.flags option[value=NC], select.flags option[value=nc] {background-position:0 -3499px}
+select.flags option[value=NE], select.flags option[value=ne] {background-position:0 -3521px}
+select.flags option[value=NF], select.flags option[value=nf] {background-position:0 -3543px}
+select.flags option[value=NG], select.flags option[value=ng] {background-position:0 -3565px}
+select.flags option[value=NI], select.flags option[value=ni] {background-position:0 -3587px}
+select.flags option[value=NL], select.flags option[value=nl] {background-position:0 -3609px}
+select.flags option[value=NO], select.flags option[value=no] {background-position:0 -3631px}
+select.flags option[value=NP], select.flags option[value=np] {background-position:0 -3653px}
+select.flags option[value=NR], select.flags option[value=nr] {background-position:0 -3675px}
+select.flags option[value=NU], select.flags option[value=nu] {background-position:0 -3697px}
+select.flags option[value=NZ], select.flags option[value=nz] {background-position:0 -3719px}
+select.flags option[value=OM], select.flags option[value=om] {background-position:0 -3741px}
+select.flags option[value=PA], select.flags option[value=pa] {background-position:0 -3763px}
+select.flags option[value=PE], select.flags option[value=pe] {background-position:0 -3785px}
+select.flags option[value=PF], select.flags option[value=pf] {background-position:0 -3807px}
+select.flags option[value=PG], select.flags option[value=pg] {background-position:0 -3829px}
+select.flags option[value=PH], select.flags option[value=ph] {background-position:0 -3851px}
+select.flags option[value=PK], select.flags option[value=pk] {background-position:0 -3873px}
+select.flags option[value=PL], select.flags option[value=pl] {background-position:0 -3895px}
+select.flags option[value=PM], select.flags option[value=pm] {background-position:0 -3917px}
+select.flags option[value=PN], select.flags option[value=pn] {background-position:0 -3939px}
+select.flags option[value=PR], select.flags option[value=pr] {background-position:0 -3961px}
+select.flags option[value=PS], select.flags option[value=ps] {background-position:0 -3983px}
+select.flags option[value=PT], select.flags option[value=pt] {background-position:0 -4005px}
+select.flags option[value=PW], select.flags option[value=pw] {background-position:0 -4027px}
+select.flags option[value=PY], select.flags option[value=py] {background-position:0 -4049px}
+select.flags option[value=QA], select.flags option[value=qa] {background-position:0 -4071px}
+select.flags option[value=RE], select.flags option[value=re] {background-position:0 -4093px}
+select.flags option[value=RO], select.flags option[value=ro] {background-position:0 -4115px}
+select.flags option[value=RS], select.flags option[value=rs] {background-position:0 -4137px}
+select.flags option[value=RU], select.flags option[value=ru] {background-position:0 -4159px}
+select.flags option[value=RW], select.flags option[value=rw] {background-position:0 -4181px}
+select.flags option[value=SA], select.flags option[value=sa] {background-position:0 -4203px}
+select.flags option[value=SB], select.flags option[value=sb] {background-position:0 -4225px}
+select.flags option[value=SC], select.flags option[value=sc] {background-position:0 -4247px}
+select.flags option[value=SD], select.flags option[value=sd] {background-position:0 -4291px}
+select.flags option[value=SE], select.flags option[value=se] {background-position:0 -4313px}
+select.flags option[value=SG], select.flags option[value=sg] {background-position:0 -4335px}
+select.flags option[value=SH], select.flags option[value=sh] {background-position:0 -4357px}
+select.flags option[value=SI], select.flags option[value=si] {background-position:0 -4379px}
+select.flags option[value=SJ], select.flags option[value=sj] {background-position:0 -4401px}
+select.flags option[value=SK], select.flags option[value=sk] {background-position:0 -4423px}
+select.flags option[value=SL], select.flags option[value=sl] {background-position:0 -4445px}
+select.flags option[value=SM], select.flags option[value=sm] {background-position:0 -4467px}
+select.flags option[value=SN], select.flags option[value=sn] {background-position:0 -4489px}
+select.flags option[value=SO], select.flags option[value=so] {background-position:0 -4511px}
+select.flags option[value=SR], select.flags option[value=sr] {background-position:0 -4533px}
+select.flags option[value=ST], select.flags option[value=st] {background-position:0 -4555px}
+select.flags option[value=SV], select.flags option[value=sv] {background-position:0 -4577px}
+select.flags option[value=SY], select.flags option[value=sy] {background-position:0 -4599px}
+select.flags option[value=SZ], select.flags option[value=sz] {background-position:0 -4621px}
+select.flags option[value=TC], select.flags option[value=tc] {background-position:0 -4643px}
+select.flags option[value=TD], select.flags option[value=td] {background-position:0 -4665px}
+select.flags option[value=TF], select.flags option[value=tf] {background-position:0 -4687px}
+select.flags option[value=TG], select.flags option[value=tg] {background-position:0 -4709px}
+select.flags option[value=TH], select.flags option[value=th] {background-position:0 -4731px}
+select.flags option[value=TJ], select.flags option[value=tj] {background-position:0 -4753px}
+select.flags option[value=TK], select.flags option[value=tk] {background-position:0 -4775px}
+select.flags option[value=TL], select.flags option[value=tl] {background-position:0 -4797px}
+select.flags option[value=TM], select.flags option[value=tm] {background-position:0 -4819px}
+select.flags option[value=TN], select.flags option[value=tn] {background-position:0 -4841px}
+select.flags option[value=TO], select.flags option[value=to] {background-position:0 -4863px}
+select.flags option[value=TR], select.flags option[value=tr] {background-position:0 -4885px}
+select.flags option[value=TT], select.flags option[value=tt] {background-position:0 -4907px}
+select.flags option[value=TV], select.flags option[value=tv] {background-position:0 -4929px}
+select.flags option[value=TW], select.flags option[value=tw] {background-position:0 -4951px}
+select.flags option[value=TZ], select.flags option[value=tz] {background-position:0 -4973px}
+select.flags option[value=UA], select.flags option[value=ua] {background-position:0 -4995px}
+select.flags option[value=UG], select.flags option[value=ug] {background-position:0 -5017px}
+select.flags option[value=UM], select.flags option[value=um] {background-position:0 -5039px}
+select.flags option[value=US], select.flags option[value=us] {background-position:0 -5061px}
+select.flags option[value=UY], select.flags option[value=uy] {background-position:0 -5083px}
+select.flags option[value=UZ], select.flags option[value=uz] {background-position:0 -5105px}
+select.flags option[value=VA], select.flags option[value=va] {background-position:0 -5127px}
+select.flags option[value=VC], select.flags option[value=vc] {background-position:0 -5149px}
+select.flags option[value=VE], select.flags option[value=ve] {background-position:0 -5171px}
+select.flags option[value=VG], select.flags option[value=vg] {background-position:0 -5193px}
+select.flags option[value=VI], select.flags option[value=vi] {background-position:0 -5215px}
+select.flags option[value=VN], select.flags option[value=vn] {background-position:0 -5237px}
+select.flags option[value=VU], select.flags option[value=vu] {background-position:0 -5259px}
+select.flags option[value=WF], select.flags option[value=wf] {background-position:0 -5303px}
+select.flags option[value=WS], select.flags option[value=ws] {background-position:0 -5325px}
+select.flags option[value=YE], select.flags option[value=ye] {background-position:0 -5347px}
+select.flags option[value=YT], select.flags option[value=yt] {background-position:0 -5369px}
+select.flags option[value=ZA], select.flags option[value=za] {background-position:0 -5391px}
+select.flags option[value=ZM], select.flags option[value=zm] {background-position:0 -5413px}
+select.flags option[value=ZW], select.flags option[value=zw] {background-position:0 -5435px}
+
+.panel_login {
+    max-width: 80%;
+    min-width: 680px;
+}
+
+div.subsectiontoggle {
+    border:1px solid #ccc;
+    font-weight:bold;
+    font-size:14px;
+    padding-top:10px;
+    padding-bottom:0;
+    margin-top:5px;
+    text-indent:15px;
+    cursor:pointer;
+    margin-bottom:10px;
+    background-color:#f4f4f4;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    border-radius:5px;
+}
+div.subsectiontoggle span{
+    display:inline-block;
+    margin-bottom:-3px;
+    margin-right:10px;
+    width:16px;
+    height:16px;
+    background:url(../icons/x16/plus_circle_frame.png) top left no-repeat;
+}
+div.subsectiontoggle span.showing{
+    background:url(../icons/x16/minus_circle_frame.png) top left no-repeat;
+}
+div.subsectiontoggle em{
+    display:block;
+    position:relative;
+    left:425px;
+    top:-13px;
+    margin-bottom:-3px;
+    width:13px;
+    height:13px;
+    background:url(../images/chevron.png) top left no-repeat;
+    -webkit-transform:none;
+    -moz-transform:none;
+    -khtml-transform:none;
+    -o-transform:none;
+    -ms-transform:none;
+    transform:none;
+    -webkit-transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    -khtml-transition-duration: .2s;
+    -o-transition-duration: .2s;
+    -ms-transition-duration: .2s;
+    transition-duration: .2s;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -khtml-transition-property: -khtml-transform;
+    -o-transition-property: -o-transform;
+    -ms-transition-property: -ms-transform;
+    transition-property: transform;
+}
+div.subsectiontoggle em.showing{
+    display:block;
+    position:relative;
+    left:425px;
+    top:-13px;
+    background:url(../images/chevron.png) top left no-repeat;
+    width:13px;
+    height:13px;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -khtml-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+}
+div.subsectiontoggle:hover em{
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -khtml-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+}
+
+div.gs-container{
+    margin-top:10px;
+}
+div.gs-container *{
+    margin: 0;
+    padding: 0;
+    background-position: 0 0;
+    text-decoration: none;
+    font-size: 1em;
+}
+div.gs-container input{
+    background: url("../icons/x16/magnifier_left.png") no-repeat 4px 3px #FFFFFF;
+    height:20px;
+    border:1px solid #444;
+    padding:0 22px 2px;
+    color:#444;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    border-radius:5px;
+}
+input.gs-loading{
+    background-image: url(../icons/x16/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+ul.gs-resultbox{
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 300px;
+    z-index: 999999;
+    border: 1px solid #777;
+    font-size: 11px;
+    background: #fff;
+    -moz-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -webkit-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -khtml-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -o-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -ms-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    box-shadow: 2px 2px 5px 0 #c5c5c5;
+    list-style: none;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    border-radius:5px;
+}
+ul.gs-resultbox li{
+    float: left;
+    width: 100%;
+    clear: both;
+    cursor: pointer;
+}
+ul.gs-resultbox li.gs-cheader{
+    height: 13px;
+    overflow: hidden;
+    padding: 5px 0;
+    color: #fff;
+    background: #6ea6d1;
+    cursor:default;
+    padding-bottom:10px;
+}
+ul.gs-resultbox li.gs-cheader p.gs-cheader-title{
+    margin: 0 !important;
+    padding: 0 0 0 10px !important;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+}
+ul.gs-resultbox li.gs-cheader p.gs-cheader-limit{
+    margin: 0 !important;
+    padding: 0 10px 0 0 !important;
+    float: right;
+    font-size: 11px;
+    font-weight: normal;
+}
+ul.gs-resultbox li.gs-cdata{
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #c5c5c5;
+}
+ul.gs-resultbox li.gs-cdata:last-child{
+    border-bottom: none;
+}
+ul.gs-resultbox li.gs-cdata:hover{
+    background: #eaf4fd;
+}
+ul.gs-resultbox li.gs-cdata a{
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none !important;
+    background: #fff;
+}
+ul.gs-resultbox li.gs-cdata a:hover{
+    background: #cde0ff;
+}
+ul.gs-resultbox li.gs-cdata img{
+    margin-right: 12px;
+}
+ul.gs-resultbox li.gs-cdata p{
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #444;
+    font-size: 10px;
+    min-height:30px;
+}
+ul.gs-resultbox li.gs-cdata p span.gs-cdata-title{
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000;
+}
+ul.gs-resultbox li:first-child{
+    -moz-border-radius:5px 5px 0 0;
+    -webkit-border-radius:5px 5px 0 0;
+    -khtml-border-radius:5px 5px 0 0;
+    -o-border-radius:5px 5px 0 0;
+    -ms-border-radius:5px 5px 0 0;
+    border-radius:5px 5px 0 0;
+}
+ul.gs-resultbox li:last-child{
+    -moz-border-radius:0 0 5px 5px;
+    -webkit-border-radius:0 0 5px 5px;
+    -khtml-border-radius:0 0 5px 5px;
+    -o-border-radius:0 0 5px 5px;
+    -ms-border-radius:0 0 5px 5px;
+    border-radius:0 0 5px 5px;
+}
+
+div.df-container{
+}
+div.df-container *{
+    margin: 0;
+    padding: 0;
+    background-position: 0 0;
+    text-decoration: none;
+    font-size: 1em;
+}
+div.df-container input{
+}
+input.df-loading{
+    background-image: url(../icons/x16/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+ul.df-resultbox{
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 250px;
+    max-width: 500px;
+    z-index: 999999;
+    border: 1px solid #777;
+    font-size: 11px;
+    background: #fff;
+    -moz-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -webkit-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -khtml-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -o-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    -ms-box-shadow: 2px 2px 5px 0 #c5c5c5;
+    box-shadow: 2px 2px 5px 0 #c5c5c5;
+    list-style: none;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    border-radius:5px;
+}
+ul.df-resultbox li{
+    float: left;
+    width: 100%;
+    clear: both;
+    cursor: pointer;
+}
+ul.df-resultbox li.df-cheader{
+    height: 13px;
+    overflow: hidden;
+    padding: 5px 0;
+    color: #fff;
+    background: #6ea6d1;
+    cursor:default;
+    padding-bottom:10px;
+}
+ul.df-resultbox li.df-cheader p.df-cheader-title{
+    margin: 0 !important;
+    padding: 0 0 0 10px !important;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+}
+ul.df-resultbox li.df-cheader p.df-cheader-limit{
+    margin: 0 !important;
+    padding: 0 10px 0 0 !important;
+    float: right;
+    font-size: 11px;
+    font-weight: normal;
+}
+ul.df-resultbox li.df-cdata{
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #c5c5c5;
+}
+ul.df-resultbox li.df-cdata:last-child{
+    border-bottom: none;
+}
+ul.df-resultbox li.df-cdata:hover{
+    background: #eaf4fd;
+}
+ul.df-resultbox li.df-cdata a{
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none !important;
+    background: #fff;
+}
+ul.df-resultbox li.df-cdata a:hover{
+    background: #cde0ff;
+}
+ul.df-resultbox li.df-cdata img{
+    margin-right: 12px;
+}
+ul.df-resultbox li.df-cdata p{
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #444;
+    font-size: 10px;
+    min-height:30px;
+}
+ul.df-resultbox li.df-cdata p span.df-cdata-title{
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000;
+}
+ul.df-resultbox li:first-child{
+    -moz-border-radius:5px 5px 0 0;
+    -webkit-border-radius:5px 5px 0 0;
+    -khtml-border-radius:5px 5px 0 0;
+    -o-border-radius:5px 5px 0 0;
+    -ms-border-radius:5px 5px 0 0;
+    border-radius:5px 5px 0 0;
+}
+ul.df-resultbox li:last-child{
+    -moz-border-radius:0 0 5px 5px;
+    -webkit-border-radius:0 0 5px 5px;
+    -khtml-border-radius:0 0 5px 5px;
+    -o-border-radius:0 0 5px 5px;
+    -ms-border-radius:0 0 5px 5px;
+    border-radius:0 0 5px 5px;
+}
+
+span.icons16-empty{
+    float:left;
+    display:block;
+    height:20px;
+    width:20px;
+    margin:0 7px 0 0;
+}
+
+.ttip{
+    width:16px;
+    height:16px;
+    cursor:pointer;
+    background: url(../icons/x16/question_frame.png) no-repeat center center;
+    float:right;
+    display:inline;
+    position:relative;
+    right:-2px;
+    top:-2px;
+}
+
+p.prefix {
+    float: left;
+    margin: 0;
+    text-align: right;
+}
+p.label {
+    float: left;
+    margin: 5px 15px 0 0;
+}
+p.value {
+    float:left;
+    margin: 0 0 0 2px;
+}
+
+/* content_ispc
+-------------------------------------------------------------- */
+.tipsy { font-size: 10px; position: absolute; padding: 5px; z-index: 100000; }
+.tipsy-inner { background-color: #000; color: #FFF; max-width: 350px; padding: 5px 8px 4px 8px; text-align: left; }
+
+/* Rounded corners */
+.tipsy-inner { border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+
+/* Uncomment for shadow */
+/*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
+
+.tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }
+
+/* Rules to colour arrows */
+.tipsy-arrow-n { border-bottom-color: #000; }
+.tipsy-arrow-s { border-top-color: #000; }
+.tipsy-arrow-e { border-left-color: #000; }
+.tipsy-arrow-w { border-right-color: #000; }
+
+.tipsy-n .tipsy-arrow { top: 0px; left: 50%; margin-left: -5px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent; }
+.tipsy-nw .tipsy-arrow { top: 0; left: 10px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent;}
+.tipsy-ne .tipsy-arrow { top: 0; right: 10px; border-bottom-style: solid; border-top: none;  border-left-color: transparent; border-right-color: transparent;}
+.tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -5px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+.tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+.tipsy-se .tipsy-arrow { bottom: 0; right: 10px; border-top-style: solid; border-bottom: none; border-left-color: transparent; border-right-color: transparent; }
+.tipsy-e .tipsy-arrow { right: 0; top: 50%; margin-top: -5px; border-left-style: solid; border-right: none; border-top-color: transparent; border-bottom-color: transparent; }
+.tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: -5px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; }
+
+/* uni-form-generic
+-------------------------------------------------------------- */
+
+/* Uni-Form by Dragan Babic [Superawesome Industries]  - http: //sprawsm.com/uni-form/ */ 
+/* Some rights reserved - http: //creativecommons.org/licenses/by-sa/2.5/ */
+/* Do not edit this file directly, make your changes to uni-form.css in the same folder */
+
+/* ------------------------------------------------------------------------------ */
+
+.uniForm{ margin: 0; padding: 0; position: relative; z-index: 1; } /* reset stuff */
+
+/* Some generals and more resets */
+.uniForm fieldset{ border: none; margin: 0; padding: 0; }
+.uniForm fieldset legend{ margin: 0; padding: 0; }
+
+/* This is the main unit that contains our form elements */
+.uniForm .ctrlHolder,
+.uniForm .buttonHolder{ margin: 0; padding: 0; clear: both; }
+
+/* Clear all floats */ 
+.uniForm:after,
+.uniForm .buttonHolder:after, 
+.uniForm .ctrlHolder:after, 
+.uniForm .ctrlHolder .multiField:after,
+.uniForm .inlineLabel:after{ content: "."; display: block; height: 0; line-height: 0; font-size: 0; clear: both; min-height: 0; visibility: hidden; }
+
+/* A class to be used on a label that contains a checkbox or a radio button */
+.uniForm .inlineLabel,
+.uniForm .inlineLabels .inlineLabel,
+.uniForm .blockLabels .inlineLabel{ width: auto; float: none; margin: 0; display: block; }
+/* IE shows borders & padding on checkboxes and radio buttons if they are declared on an input element, remove them */
+/* Legacy/Inheritance fix */
+.uniForm .inlineLabel input,
+.uniForm .inlineLabels .inlineLabel input,
+.uniForm .blockLabels .inlineLabel input{ border: none; padding: 0; margin: 0; }
+
+/* ------------------------------------------------------------------------------ */
+
+/* Styles for form controls where labels are above the input elements */
+/* Set the class of the parent (preferably to a fieldset) to .blockLabels */
+
+.uniForm label,
+.uniForm .label,
+.uniForm .blockLabels label,
+.uniForm .blockLabels .label{ display: block; float: none; padding: 0; line-height: 100%; width: auto; }
+
+/* Float the input elements */
+.uniForm .textInput,
+.uniForm .blockLabels .textInput,
+.uniForm .blockLabels .fileUpload,
+.uniForm .selectInput,
+.uniForm .blockLabels .selectInput,
+.uniForm .blockLabels select,
+.uniForm textarea,
+.uniForm .blockLabels textarea{ float: left; }
+
+/* Postition the hints */
+.uniForm .formHint,
+.uniForm .blockLabels .formHint{ float: right; margin: 0; clear: none; }
+
+/* Position the elements inside combo boxes (multiple selects/checkboxes/radio buttons per unit) */
+.uniForm .multiField,
+.uniForm .blockLabels .multiField{ width: auto; float: left; }
+.uniForm .multiField .inlineLabel,
+.uniForm .blockLabels .multiField .inlineLabel{ display: block; margin: 0 0 .5em 0; }
+.uniForm .multiField .blockLabel,
+.uniForm .blockLabels .multiField .blockLabel{ float: left; width: auto; margin: 0; }
+.uniForm .multiField .blockLabel .textInput,
+.uniForm .multiField .blockLabel .selectInput,
+.uniForm .multiField .blockLabel select,
+.uniForm .blockLabels .multiField .blockLabel .textInput,
+.uniForm .blockLabels .multiField .blockLabel .selectInput,
+.uniForm .blockLabels .multiField .blockLabel select{ width: 100%; margin: 0; }
+
+/* ------------------------------------------------------------------------------ */
+
+/* Styles for form controls where labels are in line with the input elements */
+/* Set the class of the parent (preferably to a fieldset) to .inlineLabels */
+.uniForm .inlineLabels label,
+.uniForm .inlineLabels .label{ float: left; margin: 0; padding: 0; line-height: 100%; position: relative; }
+
+/* Float the input elements */
+.uniForm .inlineLabels .textInput,
+.uniForm .inlineLabels .fileUpload,        
+.uniForm .inlineLabels .selectInput,
+.uniForm .inlineLabels select,
+.uniForm .inlineLabels textarea{ float: left; }
+
+/* Postition the hints */
+.uniForm .inlineLabels .formHint{ clear: both; float: none; }
+.uniForm .inlineLabels .multiField{ float: left; }
+.uniForm .inlineLabels .multiField .inlineLabel{}
+.uniForm .inlineLabels .multiField .blockLabel{}
+.uniForm .inlineLabels .multiField .blockLabel .textInput,
+.uniForm .inlineLabels .multiField .blockLabel .selectInput,
+.uniForm .inlineLabels .multiField .blockLabel select{ display: block; width: 100%; float: none; }
+.uniForm .inlineLabels .multiField select{ float: left; }
+
+/* ------------------------------------------------------------------------------ */
+
+/* Required fields asterisk styling for .blockLabels */
+.uniForm label em,
+.uniForm .label em,
+.uniForm .blockLabels label em,
+.uniForm .blockLabels .label em{ position: absolute; left: -7px; }
+
+/* Required fields asterisk styling for .inlineLabels */
+.uniForm .inlineLabels label em,
+.uniForm .inlineLabels .label em{ display: block; position: absolute; left: auto; right: 0; font-style: normal; font-weight: bold; }
+.uniForm .inlineLabel em{ position: absolute; left: 7px; }
+
+/* ------------------------------------------------------------------------------ */
+
+/* Messages */
+.uniForm #errorMsg,
+.uniForm .error{
+}
+.uniForm #errorMsg dt,
+.uniForm #errorMsg h3{
+}
+.uniForm #errorMsg dd{
+}
+.uniForm #errorMsg ol{
+}
+.uniForm #errorMsg ol li{
+}
+.uniForm .errorField{
+}
+
+.uniForm #OKMsg{
+}
+
+/* ------------------------------------------------------------------------------ */
+
+/* Columns */
+
+.uniForm .col{ float: left; }
+.uniForm .col.first{}
+.uniForm .col.last{}
+
+/* uni-form
+-------------------------------------------------------------- */
+
+/* Keep in mind that wherever you see 'Required property' it means that the property must exist */
+
+/* ------------------------------------------------------------------------------ */
+
+/* Generals */
+.uniForm fieldset{}
+.uniForm fieldset legend{ color: #333; font-weight: bold; font-size: 100%; margin: 0; padding: 1.5em 1.5em 1.5em 0; }
+
+/* This is the main unit that contains our form elements */
+.uniForm .ctrlHolder{ padding: 3px; border-bottom: 1px dotted #dfdfdf; }
+
+.uniForm .buttonHolder{ 
+    text-align: left; 
+    background: #CEDEEF url("../images/buttonHolder_bg.gif") no-repeat right;
+    margin: 3em 0 1em;
+    padding: 8px;
+}
+.uniForm .resetButton{ float: left; }
+.uniForm .primaryAction{ font-weight: bold; }
+
+/* This class gets added to div.ctrlHolder to highlight the row */
+.uniForm .focused{ background: #fffcdf; }
+
+/* .inlineLabel is used for inputs within labels - checkboxes and radio buttons */
+.uniForm .inlineLabel input,
+.uniForm .inlineLabels .inlineLabel input,
+.uniForm .blockLabels .inlineLabel input{ float: left; margin: 0 .4em 0 0; }
+.uniForm .inlineLabel span{ float: left; width: 90%; }
+
+/* ------------------------------------------------------------------------------ */
+
+/* .blockLabels (default style, will be applied even if you don't class the parent element) */
+.uniForm .blockLabels .ctrlHolder{}
+
+.uniForm label,
+.uniForm .blockLabels label,
+.uniForm .blockLabels .label{ margin: 0 0 .5em 0; }
+
+.uniForm .textInput,
+.uniForm .blockLabels .textInput,
+.uniForm .blockLabels .fileUpload{ width: 43%; /* <- Required property */ }
+
+.uniForm .selectInput,
+.uniForm select,
+.uniForm .blockLabels .selectInput,
+.uniForm .blockLabels select{ width: 43.5%; /* <- Required property */ }
+.uniForm textarea,
+.uniForm .blockLabels textarea{ width: 43%; /* <- Required property */ height: 12em; }
+
+.uniForm .formHint,
+.uniForm .blockLabels .formHint{ width: 55%; /* <- Required property */ font-size: .9em; color: #777; position: relative; top: -.5em; }
+
+.uniForm .multiField,
+.uniForm .blockLabels .multiField{ width: 43%; }
+.uniForm .multiField .inlineLabel,
+.uniForm .blockLabels .multiField .inlineLabel{ display: block; margin: 0 0 .5em 0; }
+.uniForm .multiField .blockLabel,
+.uniForm .blockLabels .multiField .blockLabel{ width: 30%; margin: 0 10px 0 0; }
+.uniForm .multiField .blockLabel .textInput,
+.uniForm .multiField .blockLabel .selectInput,
+.uniForm .multiField .blockLabel select,
+.uniForm .blockLabels .multiField .blockLabel .textInput,
+.uniForm .blockLabels .multiField .blockLabel .selectInput,
+.uniForm .blockLabels .multiField .blockLabel select{ width: 100%; margin: .3em 0 0 0; }
+
+/* ------------------------------------------------------------------------------ */
+
+/* .inlineLabels */
+.uniForm .inlineLabels .ctrlHolder{}
+
+.uniForm .inlineLabels label,
+.uniForm .inlineLabels .label{ width: 20%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
+
+.uniForm .inlineLabels .textInput,
+.uniForm .inlineLabels .fileUpload{ width: 35%; /* <- Required property */ }
+
+.uniForm .inlineLabels .selectInput,
+.uniForm .inlineLabels select{ width: 35%; /* <- Required property */ }
+
+.uniForm .inlineLabels textarea{  width: 35%; /* <- Required property */ height: 12em; }
+
+.uniForm .inlineLabels .formHint{ margin-top: 0; margin-left: 22%; font-size: .9em; color: #777; position: static; }
+
+.uniForm .inlineLabels .multiField{ width: 60%; /* <- Required property */ margin: 0 0 .3em 0; }
+.uniForm .inlineLabels .multiField .inlineLabel{ display: block; margin: 0 0 .5em 0; }
+.uniForm .inlineLabels .multiField .blockLabel{ float: left; width: 26%; margin: 0 3% 0 0; }
+.uniForm .inlineLabels .multiField .blockLabel .textInput,
+.uniForm .inlineLabels .multiField .blockLabel .selectInput,
+.uniForm .inlineLabels .multiField .blockLabel select{ width: 100%; margin: .3em 0 0 0; }
+
+/* Focus pseudoclasses */
+.uniForm .ctrlHolder .textInput:focus{ outline: none; /* Get rid of the 'glow' effect in WebKit, optional */ }
+.uniForm .ctrlHolder textarea:focus{ outline: none; /* Get rid of the 'glow' effect in WebKit, optional */ }
+.uniForm div.focused .formHint{ color: #333; }
+
+/* Columns (they are floated left by default) */
+.uniForm .col{ width: 37.9%; /* <- Required property */ margin: 0 2% 20px 0; }
+/* Use .first and .last classes to control the layout/spacing of your columns */
+.uniForm .col.first{ width: 39%; /* <- Required property */ float: left; clear: none; }
+.uniForm .col.last{ width: 39%; /* <- Required property */ float: right; clear: none; margin-right: 0; }
+
+/* Messages */
+.uniForm #errorMsg, .confirmpassworderror{ background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px; }
+.uniForm .error{ background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; }
+
+.uniForm #errorMsg dt, .uniForm #errorMsg h3{ margin: 0 0 .5em 0; font-size: 100%; line-height: 100%; font-weight: bold; }
+.uniForm #errorMsg dd{ margin: 0; padding: 0; }
+.uniForm #errorMsg ol{ margin: 0; padding: 0; list-style:none;}
+.uniForm #errorMsg ol li{ margin: 0; padding: 2px; list-style-position: inside; border-bottom: 1px dotted #df7d7d; position: relative; }
+.uniForm .errorField{ color: #af4c4c; margin: 0 0 6px 0; padding: 4px; background: #ffbfbf; }
+
+.uniForm #OKMsg, .confirmpasswordok{ background: #C8FFBF; border: 1px solid #A2EF95; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px; }
+.uniForm #OKMsg p{ margin: 0; }
+
+/*
+IT IS STRONGLY ADVISED TO MAKE YOUR CHANGES AFTER THIS COMMENT BY REPEATING (COPYING) THE SELECTOR FROM ABOVE, 
+AND MODIFYING IT WITH YOUR OWN PROPERTIES/VALUES. THIS IS RECOMMENDED BECAUSE IF YOU HAPPEN TO RUN INTO TROUBLE, 
+YOU CAN VERY EASILY REVERT TO A GENERIC STYLE OF UNI-FORM. BEST OF LUCK... 
+*/
+
+/* ------------------------------------------------------------------------------ */
+
+/* This is the main unit that contains our form elements */
+
+.uniForm .textInput, .uniForm .selectInput, .uniForm textarea {
+    background:#FFFFFF none repeat scroll 0 0;
+    color: #000000;
+    border: 1px solid #DFDFDF;
+    padding: 1px;
+}
+
+/* jquery-ui-custom
+-------------------------------------------------------------- */
+.ui-datepicker-calendar thead tr th {
+    background-image:none;
+    background-color:#FFFFFF;
+    color:#000000;
+}
+.ui-widget { font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 100%; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 100%; }
