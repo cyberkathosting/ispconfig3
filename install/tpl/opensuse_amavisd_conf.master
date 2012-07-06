@@ -778,7 +778,7 @@ $spam_admin = undef;
 $DO_SYSLOG = 1;
 $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 
-$log_level = 5;                # (defaults to 0)
+$log_level = 0;                # (defaults to 0)
 
 
 1;  # insure a defined return
