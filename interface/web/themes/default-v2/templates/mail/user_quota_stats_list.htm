@@ -19,9 +19,7 @@
                         <td class="tbl_col_system_user">&nbsp;</td>
                         <td class="tbl_col_system_user">&nbsp;</td>
                         <td class="tbl_col_buttons">
-                            <div class="buttons">
-                                <button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
-                            </div>
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
                         </td>
                     </tr>
                 </thead>
@@ -32,11 +30,7 @@
                             <td class="tbl_col_name"><a href="#" onClick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="name"}</a></td>
                             <td class="tbl_col_used" style="text-align:right;"><a href="#" onClick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="used"}</a></td>
                             <td class="tbl_col_limit" style="text-align:right;"><a href="#" onClick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="quota"}</a></td>
-                            <td class="tbl_col_buttons">
-                                <div class="buttons icons16">    
-                                    &nbsp;
-                                </div>
-                            </td>
+                            <td class="tbl_col_buttons"></td>
                         </tr>
                     </tmpl_loop>
                 </tbody>

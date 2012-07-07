@@ -5,7 +5,7 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="iconstxt icoAdd" type="button" onClick="loadContent('admin/remote_user_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('admin/remote_user_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
             </div>
@@ -24,7 +24,9 @@
                     <tr class="filter">
                         <td class="tbl_col_remote_userid"></td>           
                         <td class="tbl_col_remote_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
-                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/remote_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                        <td class="tbl_col_buttons">
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/remote_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,9 +35,7 @@
                             <td class="tbl_col_remote_userid"><a href="#" onClick="loadContent('admin/remote_user_edit.php?id={tmpl_var name='remote_userid'}');">{tmpl_var name="remote_userid"}</a></td>
                             <td class="tbl_col_remote_username"><a href="#" onClick="loadContent('admin/remote_user_edit.php?id={tmpl_var name='remote_userid'}');">{tmpl_var name="remote_username"}</a></td>
                             <td class="tbl_col_buttons">
-                                <div class="buttons icons16">    
-                                    <a class="icons16 icoDelete" href="javascript: del_record('admin/remote_user_del.php?id={tmpl_var name='remote_userid'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
-                                </div>
+                                <a class="button icons16 icoDelete" href="javascript: del_record('admin/remote_user_del.php?id={tmpl_var name='remote_userid'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
                             </td>
                         </tr>
                     </tmpl_loop>

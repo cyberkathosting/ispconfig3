@@ -6,7 +6,7 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="iconstxt icoAdd" type="button" onClick="loadContent('admin/users_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('admin/users_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
                 <p><tmpl_var name="warning_txt"></p>
@@ -28,7 +28,9 @@
                         <td class="tbl_col_client_id"><input type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
                         <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
-                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/users_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                        <td class="tbl_col_buttons">
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/users_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,12 +40,10 @@
                             <td class="tbl_col_active"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
                             <td class="tbl_col_username"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="username"}</a></td>
                             <td class="tbl_col_buttons">
-                                <div class="buttons icons16">    
-                                    <tmpl_if name="username" op="!=" value="admin">
-                                        <a class="icons16 icoLoginAs" href="javascript: loadContent('admin/login_as.php?id={tmpl_var name='id'}');"><span>{tmpl_var name='login_as_txt'}</span></a>
-                                        <a class="icons16 icoDelete" href="javascript: del_record('admin/users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
-                                    </tmpl_if>
-                                </div>
+                                <tmpl_if name="username" op="!=" value="admin">
+                                    <a class="button icons16 icoLoginAs" href="javascript: loadContent('admin/login_as.php?id={tmpl_var name='id'}');"><span>{tmpl_var name='login_as_txt'}</span></a>
+                                    <a class="button icons16 icoDelete" href="javascript: del_record('admin/users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+                                </tmpl_if>
                             </td>
                         </tr>
                     </tmpl_loop>

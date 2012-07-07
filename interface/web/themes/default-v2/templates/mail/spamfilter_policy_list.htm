@@ -6,7 +6,7 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="iconstxt icoAdd" type="button" onClick="loadContent('mail/spamfilter_policy_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('mail/spamfilter_policy_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
             </div>
@@ -31,7 +31,9 @@
                         <td class="tbl_col_spam_lover"><select name="search_spam_lover">{tmpl_var name='search_spam_lover'}</select></td>
                         <td class="tbl_col_banned_files_lover"><select name="search_banned_files_lover">{tmpl_var name='search_banned_files_lover'}</select></td>
                         <td class="tbl_col_bad_header_lover"><select name="search_bad_header_lover">{tmpl_var name='search_bad_header_lover'}</select></td>
-                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/spamfilter_policy_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                        <td class="tbl_col_buttons">
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','mail/spamfilter_policy_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,9 +45,7 @@
                         <td class="tbl_col_banned_files_lover"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="banned_files_lover"}</a></td>
                         <td class="tbl_col_bad_header_lover"><a href="#" onClick="loadContent('mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="bad_header_lover"}</a></td>
                         <td class="tbl_col_buttons">
-                            <div class="buttons icons16">    
-                                <a class="icons16 icoDelete" href="javascript: del_record('mail/spamfilter_policy_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
-                            </div>
+                            <a class="button icons16 icoDelete" href="javascript: del_record('mail/spamfilter_policy_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
                         </td>
                     </tr>
                 </tmpl_loop>

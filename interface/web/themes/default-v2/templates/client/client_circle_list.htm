@@ -6,7 +6,7 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="iconstxt icoAdd" type="button" onClick="loadContent('client/client_circle_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('client/client_circle_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
             </div>
@@ -29,7 +29,7 @@
                         <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td class="tbl_col_circle_name"><input type="text" name="search_circle_name" value="{tmpl_var name='search_circle_name'}" style="width:120px;" /></td>
                         <td class="tbl_col_description"><input type="text" name="search_description" value="{tmpl_var name='search_description'}" style="width:120px;" /></td>
-                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','client/client_circle_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','client/client_circle_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,9 +40,7 @@
                             <td class="tbl_col_circle_name"><a href="#" onClick="loadContent('client/client_circle_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="circle_name"}</a></td>
                             <td class="tbl_col_description"><a href="#" onClick="loadContent('client/client_circle_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="description"}</a></td>
                             <td class="tbl_col_buttons">
-                                <div class="buttons icons16" style="width:60px;">
-                                    <a class="icons16 icoDelete" href="javascript: del_record('client/client_circle_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
-                                </div>
+                                <a class="button icons16 icoDelete" href="javascript: del_record('client/client_circle_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
                             </td>
                         </tr>
                     </tmpl_loop>

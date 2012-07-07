@@ -22,7 +22,9 @@
                     <td class="tbl_col_system_user">&nbsp;</td>
                     <td class="tbl_col_system_user">&nbsp;</td>
                     <td class="tbl_col_system_user">&nbsp;</td>
-                    <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                    <td class="tbl_col_buttons">
+                        <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                    </td>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,11 +36,7 @@
                             <td class="tbl_col_soft" style="text-align:right;"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="soft"}</a></td>
                             <td class="tbl_col_hard" style="text-align:right;"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="hard"}</a></td>
                             <td class="tbl_col_files" style="text-align:right;"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="files"}</a></td>
-                            <td class="tbl_col_buttons">
-                                <div class="buttons icons16">    
-                                    &nbsp;
-                                </div>
-                            </td>
+                            <td class="tbl_col_buttons"></td>
                         </tr>
                     </tmpl_loop>
                 </tbody>
