@@ -272,7 +272,7 @@ class listform_actions {
 		foreach($limits as $key => $val){
 		  $options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
 		}
-		$app->tpl->setVar('search_limit','<select name="search_limit" style="width:50px">'.$options.'</select>');
+		$app->tpl->setVar('search_limit','<select name="search_limit" class="search_limit">'.$options.'</select>');
 		
 		$app->tpl->setVar('toolsarea_head_txt',$app->lng('toolsarea_head_txt'));
 		$app->tpl->setVar($app->listform->wordbook);
