@@ -850,8 +850,8 @@ button.icons16 { height: 20px; width: 20px; padding: 0; background-repeat: no-re
 .icons16.icoDbAdmin { background-image: url("../icons/x16/database.png"); }
 .icons16.icoLoginAs { background-image: url("../icons/x16/user_go.png"); }
 .icons16.icoWebmailer { background-image: url("../icons/x16/mails_arrow.png"); }
-.icons16.icoPDF { background-image: url("icons/x16/pdficon_small.png"); }
-.icons16.icoAction { background-image: url("icons/x16/arrow.png"); }
+.icons16.icoPDF { background-image: url("../icons/x16/pdf.png"); }
+.icons16.icoAction { background-image: url("../icons/x16/arrow.png"); }
 
 #ajaxloader {
     text-align:center;
