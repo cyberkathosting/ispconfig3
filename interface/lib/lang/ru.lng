@@ -68,6 +68,6 @@ $wb['monthnamesshort_oct'] = 'Окт';
 $wb['monthnamesshort_nov'] = 'Ноя';
 $wb['monthnamesshort_dec'] = 'Дек';
 $wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
-$wb['logout_txt'] = 'LOGOUT';
+$wb['logout_txt'] = 'Logout';
 $wb['submit_confirmation'] = 'Do you really want to perform this action?';
 ?>

@@ -67,7 +67,7 @@ $wb['monthnamesshort_nov'] = 'Lis';
 $wb['monthnamesshort_dec'] = 'Gru';
 $wb['datepicker_nextText'] = 'Nast';
 $wb['datepicker_prevText'] = 'Poprz';
-$wb['logout_txt'] = 'LOGOUT';
+$wb['logout_txt'] = 'Logout';
 $wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
 $wb['submit_confirmation'] = 'Do you really want to perform this action?';
 ?>
