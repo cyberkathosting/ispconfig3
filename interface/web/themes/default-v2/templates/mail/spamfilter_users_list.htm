@@ -17,7 +17,7 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_local" scope="col"><tmpl_var name="local_txt"></th>
                         <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
                         <th class="tbl_col_priority" scope="col"><tmpl_var name="priority_txt"></th>
@@ -25,7 +25,7 @@
                         <th class="tbl_col_fullname" scope="col"><tmpl_var name="fullname_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_local"><select name="search_local">{tmpl_var name='search_local'}</select></td>
                         <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td class="tbl_col_priority"><select name="search_priority">{tmpl_var name='search_priority'}</select></td>

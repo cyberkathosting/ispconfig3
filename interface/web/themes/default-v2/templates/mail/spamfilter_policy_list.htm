@@ -17,7 +17,7 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_policy_name" scope="col"><tmpl_var name="policy_name_txt"></th>
                         <th class="tbl_col_virus_lover" scope="col"><tmpl_var name="virus_lover_txt"></th>
                         <th class="tbl_col_spam_lover" scope="col"><tmpl_var name="spam_lover_txt"></th>
@@ -25,7 +25,7 @@
                         <th class="tbl_col_bad_header_lover" scope="col"><tmpl_var name="bad_header_lover_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_policy_name"><input type="text" name="search_policy_name" value="{tmpl_var name='search_policy_name'}" /></td>
                         <td class="tbl_col_virus_lover"><select name="search_virus_lover">{tmpl_var name='search_virus_lover'}</select></td>
                         <td class="tbl_col_spam_lover"><select name="search_spam_lover">{tmpl_var name='search_spam_lover'}</select></td>

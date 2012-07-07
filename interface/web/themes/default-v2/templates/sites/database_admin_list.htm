@@ -16,7 +16,7 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
                         <th class="tbl_col_remote_access" scope="col"><tmpl_var name="remote_access_txt"></th>
                         <th class="tbl_col_sys_groupid" scope="col"><tmpl_var name="sys_groupid_txt"></th>
@@ -25,7 +25,7 @@
                         <th class="tbl_col_database_name" scope="col"><tmpl_var name="database_name_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td class="tbl_col_remote_access"><select name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
                         <td class="tbl_col_sys_groupid"><select name="search_sys_groupid">{tmpl_var name='search_sys_groupid'}</select></td>

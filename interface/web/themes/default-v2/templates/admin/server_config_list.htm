@@ -7,11 +7,11 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_server_name" scope="col"><tmpl_var name="server_name_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_server_name"><input type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" /></td>
                         <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/server_config_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
                     </tr>

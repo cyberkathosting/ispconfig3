@@ -6,7 +6,7 @@
         <fieldset><legend>{tmpl_var name="list_head_txt"} ({tmpl_var name='package_count'})</legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_name" scope="col">{tmpl_var name='name_txt'}</th>
                         <th class="tbl_col_version" scope="col">{tmpl_var name='version_txt'}</th>
                         <th class="tbl_col_category" scope="col">{tmpl_var name='category_txt'}</th>
@@ -15,7 +15,7 @@
                             </tmpl_if>
                         <th class="tbl_col_buttons" scope="col" width="60px;">&nbsp;</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td class="tbl_col_version"><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
                         <td class="tbl_col_customerid"><select name="search_category" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>

@@ -18,13 +18,13 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_client_id" scope="col"><tmpl_var name="client_id_txt"></th>
                         <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
                         <th class="tbl_col_username" scope="col"><tmpl_var name="username_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_client_id"><input type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
                         <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>

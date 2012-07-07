@@ -13,11 +13,11 @@
     <fieldset><legend><tmpl_var name="list_head_txt"></legend>
         <table class="list">
             <thead>
-                <tr>
+                <tr class="caption">
                     <th class="tbl_col_rulename" scope="col"><tmpl_var name="rulename_txt"></th>
                     <th class="tbl_col_buttons" scope="col">{tmpl_var name='search_limit'}</th>
                 </tr>
-                <tr>
+                <tr class="filter">
                     <td class="tbl_col_rulename"><input type="text" name="search_rulename" value="{tmpl_var name='search_rulename'}" /></td>
                     <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="changeTab('filter_records','mail/mail_user_edit.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
                 </tr>

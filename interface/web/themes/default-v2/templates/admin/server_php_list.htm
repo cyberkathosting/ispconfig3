@@ -16,13 +16,13 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
                         <th class="tbl_col_client_id" scope="col"><tmpl_var name="client_id_txt"></th>
                         <th class="tbl_col_ip_address" scope="col"><tmpl_var name="name_txt"></th>
                         <th class="tbl_col_buttons" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td class="tbl_col_client_id"><select name="search_client_id">{tmpl_var name='search_client_id'}</select></td>
                         <td class="tbl_col_ip_address"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
