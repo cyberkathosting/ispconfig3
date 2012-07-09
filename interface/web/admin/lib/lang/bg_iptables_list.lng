@@ -1,15 +1,19 @@
 <?php
 $wb['list_head_txt'] = 'IPTables';
-$wb['add_new_rule_txt'] = 'Add IPTables Rule';
-$wb['server_id_txt'] = 'Server';
-$wb['multiport_txt'] = 'Multi Port';
-$wb['singleport_txt'] = 'Single Port';
-$wb['protocol_txt'] = 'Protocol';
+$wb['add_new_rule_txt'] = 'Добави IPTables правила';
+$wb['server_id_txt'] = 'Сървър';
+$wb['multiport_txt'] = 'Много Port';
+$wb['singleport_txt'] = 'Единичен Port';
+$wb['protocol_txt'] = 'Протокол';
 $wb['table_txt'] = 'Table';
-$wb['target_txt'] = 'Target';
+$wb['target_txt'] = 'Целл';
 $wb['state_txt'] = 'State';
-$wb['destination_ip_txt'] = 'Destination Address';
-$wb['source_ip_txt'] = 'Source Address';
-$wb['active_txt'] = 'Active';
-$wb['iptables_error_unique'] = 'There is already a firewall record for this server.';
+$wb['destination_ip_txt'] = 'Краен адрес';
+$wb['source_ip_txt'] = 'Изходящ адрес';
+$wb['active_txt'] = 'Активен';
+$wb['iptables_error_unique'] = 'Вече има запис за firewall на този сървър.';
 ?>
+
+
+
+

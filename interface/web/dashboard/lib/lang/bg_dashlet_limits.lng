@@ -26,5 +26,9 @@ $wb['limit_shell_user_txt'] = 'Брой на Shell потребители';
 $wb['limit_webdav_user_txt'] = 'Брой на Webdav потребители';
 $wb['limit_client_txt'] = 'Брой на Клиенти';
 $wb['limit_database_txt'] = 'Брой на Бази данни';
-$wb['limit_mailmailinglist_txt'] = 'Number of mailing lists';
+$wb['limit_mailmailinglist_txt'] = 'Брой на mailing листа';
 ?>
+
+
+
+

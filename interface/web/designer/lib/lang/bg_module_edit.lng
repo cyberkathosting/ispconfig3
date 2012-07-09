@@ -8,5 +8,9 @@ $wb['tab_width_txt'] = 'Широчина на таб-а';
 $wb['save_txt'] = 'Запис';
 $wb['cancel_txt'] = 'Отказ';
 $wb['header_txt'] = 'Характеристики';
-$wb['description_txt'] = '<b>Description</b> <br><br> <b>Modulename:</b> Name of the module directory. Only numbers, chars and underscore allowed.<br> <b>Moduletitle:</b> Will be shown in the (upper) main navigation.<br> <b>Template file:</b> Template file of the module. Currently';
+$wb['description_txt'] = '<b>Описание</b> <br><br> <b>Имена модула:</b> Име на директорията за модули. разрешени са числа и букви  малки.<br> <b>Име на модул:</b> Will be shown in the (upper) main navigation.<br> <b>Template file:</b> Template file of the module. Currently';
 ?>
+
+
+
+

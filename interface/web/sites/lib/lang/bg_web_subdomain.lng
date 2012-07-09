@@ -21,7 +21,7 @@ $wb['system_group_txt'] = 'Linux група';
 $wb['ip_address_txt'] = 'IP адрес';
 $wb['vhost_type_txt'] = 'VHost Type';
 $wb['hd_quota_txt'] = 'Harddisk Quota';
-$wb['traffic_quota_txt'] = 'Traffic Quota';
+$wb['traffic_quota_txt'] = 'Трафик квота';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['ssl_txt'] = 'SSL';
@@ -36,7 +36,11 @@ $wb['domain_error_empty'] = 'Не е посочен домейн.';
 $wb['domain_error_unique'] = 'Вече съществува такъв домейн.';
 $wb['domain_error_regex'] = 'Невалидно име на домейн.';
 $wb['host_txt'] = 'Host';
-$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
-$wb['no_redirect_txt'] = 'No redirect';
+$wb['redirect_error_regex'] = 'Грешен път за редирект. Валидният адрес трябва да бъде примерно: /test/ or http://www.domain.tld/test/';
+$wb['no_redirect_txt'] = 'Без редирект';
 $wb['no_flag_txt'] = 'No flag';
 ?>
+
+
+
+

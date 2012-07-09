@@ -11,3 +11,4 @@ $wb['resync_dns_txt'] = 'Resync DNS records';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Cancel';
 ?>
+

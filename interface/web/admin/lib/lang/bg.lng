@@ -1,11 +1,11 @@
 <?php
-$wb['Firewall'] = 'Firewall';
+$wb['Firewall'] = 'Защитна стена';
 $wb['Groups'] = 'Групи';
 $wb['groups_description'] = 'Редактиране на групи';
 $wb['Server'] = 'Сървър';
 $wb['Services'] = 'Услуги';
-$wb['Config'] = 'Настрйки';
-$wb['Server Config'] = 'Настрйки на сървъра';
+$wb['Config'] = 'Настройки';
+$wb['Server Config'] = 'Настройки на сървъра';
 $wb['Mail'] = 'Поща';
 $wb['Getmail'] = 'Getmail';
 $wb['Web'] = 'Уеб';
@@ -18,9 +18,9 @@ $wb['CP Users'] = 'Потребители';
 $wb['Add group'] = 'Нова група';
 $wb['Edit group'] = 'Редактиране на група';
 $wb['Edit server'] = 'Редактиране на сървър';
-$wb['Edit Server IP'] = 'Edit Server IP';
+$wb['Edit Server IP'] = 'Редактиране на IP адреса';
 $wb['Servers'] = 'Сървъри';
-$wb['Sync. Now'] = 'Sync. Now';
+$wb['Sync. Now'] = 'Синхронизирай сега';
 $wb['DB Sync.'] = 'DB Sync.';
 $wb['Languages'] = 'Езици';
 $wb['New Language'] = 'Нов език';
@@ -28,16 +28,20 @@ $wb['Export'] = 'Експортиране';
 $wb['Import'] = 'Импортиране';
 $wb['Language Editor'] = 'Редактор за езиците';
 $wb['Software'] = 'Софтуер';
-$wb['Repositories'] = 'Repositories';
-$wb['Server Services'] = 'Server Services';
-$wb['Interface Config'] = 'Interface Config';
-$wb['Packages'] = 'Packages';
-$wb['Updates'] = 'Updates';
+$wb['Repositories'] = 'Хранилища';
+$wb['Server Services'] = 'Услуги на сървъра';
+$wb['Interface Config'] = 'Конфигуриране на интерфейса';
+$wb['Packages'] = 'Пакети';
+$wb['Updates'] = 'Ъпдейти';
 $wb['Merge'] = 'Merge';
-$wb['Remote Users'] = 'Remote Users';
-$wb['Remote Actions'] = 'Remote Actions';
-$wb['Do OS-Update'] = 'Do OS-Update';
-$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
-$wb['1001'] = 'Username or password is empty.';
-$wb['1002'] = 'Username or password is wrong.';
+$wb['Remote Users'] = 'Дистанционни потребители';
+$wb['Remote Actions'] = 'Дистанционни действия';
+$wb['Do OS-Update'] = 'Ъпдейт на системата';
+$wb['Do ISPConfig-Update'] = 'Ъпдейт на ISPConfig';
+$wb['1001'] = 'Потребителско име паролата са празни.';
+$wb['1002'] = 'Потребителско име или паролата са сгрешени.';
 ?>
+
+
+
+

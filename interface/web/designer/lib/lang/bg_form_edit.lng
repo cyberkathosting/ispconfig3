@@ -9,16 +9,20 @@ $wb['save_txt'] = 'Запис';
 $wb['cancel_txt'] = 'Отказ';
 $wb['header_txt'] = 'Характеристики на формата';
 $wb['description_txt'] = 'Описание';
-$wb['action_txt'] = 'Action (script)';
+$wb['action_txt'] = 'Действие (script)';
 $wb['db_table_txt'] = 'DB Table';
 $wb['db_table_idx_txt'] = 'DB Table Index';
 $wb['db_history_txt'] = 'Undo Log';
 $wb['tab_default_txt'] = 'Default Tab';
 $wb['list_default_txt'] = 'Default Liste';
-$wb['auth_txt'] = 'Permissions';
-$wb['auth_preset_userid_txt'] = 'UserID';
-$wb['auth_preset_groupid_txt'] = 'GroupID';
-$wb['auth_preset_perm_user_txt'] = 'Perm. User';
-$wb['auth_preset_perm_group_txt'] = 'Perm. Group';
-$wb['auth_preset_perm_other_txt'] = 'Perm. Other';
+$wb['auth_txt'] = 'Разрешения';
+$wb['auth_preset_userid_txt'] = 'ПотребителскоID';
+$wb['auth_preset_groupid_txt'] = 'ГруповоID';
+$wb['auth_preset_perm_user_txt'] = 'Разр. Потребител';
+$wb['auth_preset_perm_group_txt'] = 'Разр. Група';
+$wb['auth_preset_perm_other_txt'] = 'Разр. Други';
 ?>
+
+
+
+

@@ -1,7 +1,11 @@
 <?php
 $wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
+$wb['username_txt'] = 'Потребителско име';
 $wb['password_txt'] = 'Password';
 $wb['active_txt'] = 'Active';
 $wb['folder_error_empty'] = 'No web folder selecetd.';
 ?>
+
+
+
+

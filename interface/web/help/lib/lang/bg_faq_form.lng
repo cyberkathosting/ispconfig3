@@ -1,6 +1,10 @@
 <?php
-$wb['faq_faq_txt'] = 'Frequently Asked Questions';
-$wb['faq_question_txt'] = 'Question';
-$wb['faq_answer_txt'] = 'Answer';
-$wb['faq_section_txt'] = 'Section';
+$wb['faq_faq_txt'] = 'Често Задавани Въпроси';
+$wb['faq_question_txt'] = 'Въпрос';
+$wb['faq_answer_txt'] = 'Отговор';
+$wb['faq_section_txt'] = 'Секция';
 ?>
+
+
+
+

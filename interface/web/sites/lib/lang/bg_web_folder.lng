@@ -1,7 +1,11 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
-$wb['active_txt'] = 'Active';
-$wb['path_error_regex'] = 'Invalid folder path.';
+$wb['server_id_txt'] = 'Сървър';
+$wb['parent_domain_id_txt'] = 'Уебсайт';
+$wb['path_txt'] = 'Път';
+$wb['active_txt'] = 'Активен';
+$wb['path_error_regex'] = 'Грешен път на директорията.';
 ?>
+
+
+
+

@@ -1,7 +1,11 @@
 <?php
-$wb['rulename_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Add new Filter';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to Delete the mailfilter?';
+$wb['rulename_txt'] = 'Име';
+$wb['add_new_record_txt'] = 'Добави нов филтър';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'от';
+$wb['delete_confirmation'] = 'Наистина ли искаш да изтриеш този имеил филтър?';
 ?>
+
+
+
+

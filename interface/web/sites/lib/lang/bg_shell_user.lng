@@ -7,19 +7,23 @@ $wb['username_txt'] = 'Потребител';
 $wb['password_txt'] = 'Парола';
 $wb['password_strength_txt'] = 'Сила на паролата';
 $wb['chroot_txt'] = 'Chroot Shell';
-$wb['quota_size_txt'] = 'Quota';
+$wb['quota_size_txt'] = 'Квота';
 $wb['active_txt'] = 'Активен';
 $wb['username_error_empty'] = 'Не е посочено потребителско име.';
 $wb['username_error_unique'] = 'Вече съществува потребител с това име.';
 $wb['username_error_regex'] = 'Невалидно потребителско име.';
-$wb['quota_size_error_empty'] = 'Quota is empty.';
+$wb['quota_size_error_empty'] = 'Полето за квота е празно.';
 $wb['uid_error_empty'] = 'Не е посочено GID.';
 $wb['directory_error_empty'] = 'Не е посочена директория.';
 $wb['limit_shell_user_txt'] = 'Достигнат е максималният разрешен брой Shell потребители.';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
-$wb['puser_txt'] = 'Web Username';
-$wb['pgroup_txt'] = 'Web Group';
+$wb['parent_domain_id_error_empty'] = 'Няма селектиран сайт.';
+$wb['puser_txt'] = 'Web потребителско име';
+$wb['pgroup_txt'] = 'Web Група';
 $wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 $wb['dir_dot_error'] = 'No .. in path allowed.';
 $wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 ?>
+
+
+
+

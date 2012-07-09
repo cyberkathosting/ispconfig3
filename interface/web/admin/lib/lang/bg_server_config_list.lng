@@ -1,4 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Server Configuration';
-$wb['server_name_txt'] = 'Server';
+$wb['list_head_txt'] = 'Конфигурация на сървъра';
+$wb['server_name_txt'] = 'Сървър';
 ?>
+
+
+
+

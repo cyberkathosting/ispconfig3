@@ -1,8 +1,12 @@
 <?php
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'Имейл';
 $wb['destination_txt'] = 'Destination Email';
-$wb['active_txt'] = 'Active';
-$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
-$wb['domain_txt'] = 'Domain';
+$wb['active_txt'] = 'Активен';
+$wb['limit_mailforward_txt'] = 'Максималният брой за имейл препращания за твоят акаунт е достигнат.';
+$wb['duplicate_mailbox_txt'] = 'Вече съществува пощенска кутия с такъв адрес.';
+$wb['domain_txt'] = 'Домейн';
 ?>
+
+
+
+

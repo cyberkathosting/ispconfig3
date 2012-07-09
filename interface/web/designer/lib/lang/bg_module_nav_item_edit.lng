@@ -1,8 +1,12 @@
 <?php
-$wb['title_txt'] = 'Title';
-$wb['target_txt'] = 'Target';
+$wb['title_txt'] = 'Заглвие';
+$wb['target_txt'] = 'Цел';
 $wb['link_txt'] = 'Линк';
 $wb['header_txt'] = 'Navi properties';
 $wb['save_txt'] = 'Запис';
 $wb['cancel_txt'] = 'Отказ';
 ?>
+
+
+
+

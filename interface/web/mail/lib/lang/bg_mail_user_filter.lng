@@ -1,20 +1,24 @@
 <?php
-$wb['rulename_txt'] = 'Name';
-$wb['action_txt'] = 'Action';
+$wb['rulename_txt'] = 'Име';
+$wb['action_txt'] = 'Действие';
 $wb['target_txt'] = 'Folder';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Активен';
 $wb['rulename_error_empty'] = 'Name is empty.';
 $wb['searchterm_is_empty'] = 'Search term is empty.';
 $wb['source_txt'] = 'Source';
-$wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
-$wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
-$wb['subject_txt'] = 'Subject';
-$wb['from_txt'] = 'From';
-$wb['to_txt'] = 'To';
-$wb['contains_txt'] = 'Contains';
-$wb['is_txt'] = 'Is';
-$wb['begins_with_txt'] = 'Begins with';
-$wb['ends_with_txt'] = 'Ends with';
-$wb['move_to_txt'] = 'Move to';
-$wb['delete_txt'] = 'Delete';
+$wb['target_error_regex'] = 'Позволените символи са: a-z, 0-9, -, ., _, и {интервал}';
+$wb['limit_mailfilter_txt'] = 'Максималният брой на емайл филтрите е достигнат.';
+$wb['subject_txt'] = 'Тема';
+$wb['from_txt'] = 'От';
+$wb['to_txt'] = 'До';
+$wb['contains_txt'] = 'Описание';
+$wb['is_txt'] = 'е';
+$wb['begins_with_txt'] = 'Начало с';
+$wb['ends_with_txt'] = 'Край с';
+$wb['move_to_txt'] = 'Премести в';
+$wb['delete_txt'] = 'Изтрий';
 ?>
+
+
+
+

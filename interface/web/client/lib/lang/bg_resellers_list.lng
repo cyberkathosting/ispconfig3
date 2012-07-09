@@ -1,9 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Resellers';
+$wb['list_head_txt'] = 'Дилъри';
 $wb['client_id_txt'] = 'ID';
-$wb['company_name_txt'] = 'Company name';
-$wb['contact_name_txt'] = 'Contact name';
-$wb['city_txt'] = 'City';
-$wb['country_txt'] = 'Country';
-$wb['add_new_record_txt'] = 'Add new reseller';
+$wb['company_name_txt'] = 'Име на фирмата';
+$wb['contact_name_txt'] = 'Име за контакти';
+$wb['city_txt'] = 'Град';
+$wb['country_txt'] = 'Страна';
+$wb['add_new_record_txt'] = 'Добави нов дилър';
 ?>
+
+
+
+

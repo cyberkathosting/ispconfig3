@@ -14,12 +14,12 @@ $wb['Email Routing'] = 'Email Рутиране';
 $wb['Email transport'] = 'Email transport';
 $wb['Mailbox'] = 'Mail кутия';
 $wb['Autoresponder'] = 'Авто отговор';
-$wb['Mail Filter'] = 'Mail Филтъл';
+$wb['Mail Filter'] = 'Mail Филтър';
 $wb['Custom Rules'] = 'Потребителски Правила';
 $wb['Email filter'] = 'Email filter';
-$wb['Email Whitelist'] = 'Email Whitelist';
-$wb['Whitelist'] = 'Whitelist';
-$wb['Spamfilter blacklist'] = 'Spamfilter blacklist';
+$wb['Email Whitelist'] = 'Email Бял лист';
+$wb['Whitelist'] = 'Бял Лист';
+$wb['Spamfilter blacklist'] = 'Spamfilter Черен списък';
 $wb['Spamfilter Config'] = 'Spamfilter Config';
 $wb['Server'] = 'Server';
 $wb['Spamfilter policy'] = 'Spamfilter policy';
@@ -33,15 +33,19 @@ $wb['Spamfilter Whitelist'] = 'Spamfilter Whitelist';
 $wb['Email'] = 'Email';
 $wb['Email Mailbox'] = 'Email Пощенски кутии';
 $wb['Email Accounts'] = 'Email Акаунти';
-$wb['User / Domain'] = 'User / Domain';
-$wb['Server Settings'] = 'Server Settings';
+$wb['User / Domain'] = 'Потребител / Домейн';
+$wb['Server Settings'] = 'Сървър настройки';
 $wb['Fetchmail'] = 'Fetchmail';
 $wb['Mailbox traffic'] = 'Пощенска кутия трафик';
 $wb['Statistics'] = 'Статистики';
 $wb['Postfix Whitelist'] = 'Postfix Whitelist';
 $wb['Postfix Blacklist'] = 'Postfix Blacklist';
 $wb['Content Filter'] = 'Content Filter';
-$wb['Global Filters'] = 'Global Filters';
+$wb['Global Filters'] = 'Глобални филтри';
 $wb['Domain Alias'] = 'Domain Alias';
 $wb['Relay Recipients'] = 'Relay Recipients';
 ?>
+
+
+
+

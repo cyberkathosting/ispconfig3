@@ -1,7 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Folder';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
+$wb['list_head_txt'] = 'Директория';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
+$wb['parent_domain_id_txt'] = 'Уебсайт';
+$wb['path_txt'] = 'Път';
 ?>
+
+
+
+

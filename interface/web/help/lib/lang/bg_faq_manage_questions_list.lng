@@ -1,9 +1,13 @@
 <?php
-$wb['faq_question_txt'] = 'Question';
-$wb['faq_section_name_txt'] = 'Section';
-$wb['faq_delete_txt'] = 'Delete';
-$wb['faq_edit_txt'] = 'Edit';
-$wb['faq_sections_txt'] = 'Section';
-$wb['faq_faq_questions_txt'] = 'Frequently Asked Questions';
-$wb['faq_new_question_txt'] = 'Add a new question & answer pair';
+$wb['faq_question_txt'] = 'Въпрос';
+$wb['faq_section_name_txt'] = 'Секция';
+$wb['faq_delete_txt'] = 'Изтрии';
+$wb['faq_edit_txt'] = 'Редактирай';
+$wb['faq_sections_txt'] = 'Секция';
+$wb['faq_faq_questions_txt'] = 'Често Задавани Въпроси';
+$wb['faq_new_question_txt'] = 'Добави нов въпрос и отговор';
 ?>
+
+
+
+

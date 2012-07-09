@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Сървър';
 $wb['type_txt'] = 'Тип';
-$wb['database_name_txt'] = 'Ине на базата данни';
+$wb['database_name_txt'] = 'Име на базата данни';
 $wb['database_user_txt'] = 'Потребител за базата данни';
 $wb['database_password_txt'] = 'Парола за базата данни';
 $wb['password_strength_txt'] = 'Сила на паролата';
@@ -18,8 +18,12 @@ $wb['database_user_error_regex'] = 'Невалидно потребителск�
 $wb['limit_database_txt'] = 'Достигнат е максималният разрешен брой бази данни.';
 $wb['database_name_change_txt'] = 'Името на базата данни не може да бъде променено.';
 $wb['database_charset_change_txt'] = 'Charset на базата данни не може да бъде променен.';
-$wb['remote_ips_txt'] = 'Remote Access IPs (separate by , and leave blank for <i>any</i>)';
+$wb['remote_ips_txt'] = 'Дистанционнен достъп IPs (разделени с , и празно за  <i>всички</i>)';
 $wb['database_remote_error_ips'] = 'At least one of the entered ip addresses is invalid.';
-$wb['database_name_error_len'] = 'Database name - {db} - too long. The max. database name length incl. prefix is 64 chars.';
-$wb['database_user_error_len'] = 'Database username - {user}- too long. The max. database username length incl. prefix is 16 chars.';
+$wb['database_name_error_len'] = 'Името на базата данни - {db} - е твърде дълго. Максималната дължина трябва да бъде 64 символа включително и префикса';
+$wb['database_user_error_len'] = 'Потребителско име на базата данни- {user}- е твърде дълго. Максималната дължина трябва да е 16 символа включително префикса.';
 ?>
+
+
+
+

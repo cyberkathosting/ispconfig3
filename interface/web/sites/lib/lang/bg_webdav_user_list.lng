@@ -3,6 +3,10 @@ $wb['list_head_txt'] = 'Webdav-User';
 $wb['active_txt'] = 'Active';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Username';
+$wb['username_txt'] = 'Потребителско име';
 $wb['add_new_record_txt'] = 'Add new Webdav-User';
 ?>
+
+
+
+

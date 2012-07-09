@@ -1,10 +1,14 @@
 <?php
 $wb['list_head_txt'] = 'Email Whitelist';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
 $wb['source_txt'] = 'Whitelisted address';
-$wb['type_txt'] = 'Type';
-$wb['recipient_txt'] = 'Recipient';
-$wb['add_new_record_txt'] = 'Add new Whitelist record';
+$wb['type_txt'] = 'Тип';
+$wb['recipient_txt'] = 'Получател';
+$wb['add_new_record_txt'] = 'Добави нов запис за Бял лист';
 $wb['access_txt'] = 'access';
 ?>
+
+
+
+

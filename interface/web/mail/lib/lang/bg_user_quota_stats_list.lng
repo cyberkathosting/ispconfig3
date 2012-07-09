@@ -1,7 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox quota';
-$wb['quota_txt'] = 'Quota';
-$wb['name_txt'] = 'Name';
-$wb['email_txt'] = 'Email Address';
-$wb['used_txt'] = 'Used space';
+$wb['list_head_txt'] = 'Mailbox квота';
+$wb['quota_txt'] = 'Квота';
+$wb['name_txt'] = 'Име';
+$wb['email_txt'] = 'Емайл адрес';
+$wb['used_txt'] = 'Използвано място';
 ?>
+
+
+
+

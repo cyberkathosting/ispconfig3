@@ -1,6 +1,10 @@
 <?php
-$wb['name_txt'] = 'Name';
-$wb['fields_txt'] = 'Fields';
-$wb['template_txt'] = 'Template';
-$wb['visible_txt'] = 'Visible';
+$wb['name_txt'] = 'Име';
+$wb['fields_txt'] = 'Полета';
+$wb['template_txt'] = 'Шаблон';
+$wb['visible_txt'] = 'Видим';
 ?>
+
+
+
+

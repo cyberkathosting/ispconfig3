@@ -6,10 +6,13 @@ $wb['zone_txt'] = 'Zone';
 $wb['name_txt'] = 'Name';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Priority';
-$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Type';
 $wb['add_new_record_txt'] = 'Add new DNS A-Record';
 $wb['page_txt'] = 'Page';
 $wb['page_of_txt'] = 'of';
 $wb['delete_confirmation'] = 'Do you really want to delete this record?';
 ?>
+
+
+
+

@@ -30,3 +30,7 @@ $wb['eg_ns1_domain_tld'] = 'e.g. ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
 ?>
+
+
+
+

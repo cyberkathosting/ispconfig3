@@ -11,3 +11,7 @@ $wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email addre
 $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
 ?>
+
+
+
+

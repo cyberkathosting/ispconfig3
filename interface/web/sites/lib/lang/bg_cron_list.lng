@@ -1,13 +1,17 @@
 <?php
 $wb['list_head_txt'] = 'Cron Jobs';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['run_min_txt'] = 'Minute';
-$wb['run_hour_txt'] = 'Hour';
-$wb['run_mday_txt'] = 'Day of month';
-$wb['run_month_txt'] = 'Month';
-$wb['run_wday_txt'] = 'Day of week';
-$wb['command_txt'] = 'Command';
-$wb['add_new_cron_txt'] = 'Add new Cron job';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
+$wb['run_min_txt'] = 'Минута';
+$wb['run_hour_txt'] = 'Час';
+$wb['run_mday_txt'] = 'Ден от месеца;
+$wb['run_month_txt'] = 'Месец';
+$wb['run_wday_txt'] = 'Ден от седмицата';
+$wb['command_txt'] = 'Команда:';
+$wb['add_new_cron_txt'] = 'Добави новCron job';
+$wb['parent_domain_id_txt'] = 'Уебсайт';
 ?>
+
+
+
+

@@ -1,11 +1,15 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['ip_address_txt'] = 'IP Address';
+$wb['server_id_txt'] = 'Сървър';
+$wb['ip_address_txt'] = 'IP адрес';
 $wb['virtualhost_txt'] = 'HTTP NameVirtualHost';
-$wb['ip_error_wrong'] = 'The IP address is invalid';
-$wb['ip_error_unique'] = 'The IP address must be unique';
-$wb['client_id_txt'] = 'Client';
-$wb['ip_type_txt'] = 'Type';
-$wb['virtualhost_port_txt'] = 'HTTP Ports';
-$wb['error_port_syntax'] = 'Invalid chars in port field, please enter only comma separated numbers. Example: 80,443';
+$wb['ip_error_wrong'] = 'IP адресът е грешен';
+$wb['ip_error_unique'] = 'IP адресът трябва да бъде уникален';
+$wb['client_id_txt'] = 'Клиент';
+$wb['ip_type_txt'] = 'Тип';
+$wb['virtualhost_port_txt'] = 'HTTP портове';
+$wb['error_port_syntax'] = 'Грешни символи в полето за портове, моля въвеждайте само числа разделени с запетая. Пример: 80,443';
 ?>
+
+
+
+

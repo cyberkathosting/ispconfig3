@@ -1,9 +1,13 @@
 <?php
-$wb['domain_txt'] = 'Domain';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
-$wb['domain_error_unique'] = 'There is already a Catchall record for this domain.';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['domain_error_regex'] = 'Invalid domain name od domain contains invalid characters.';
-$wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts for your account is reached.';
+$wb['domain_txt'] = 'Домейн';
+$wb['destination_txt'] = 'Направление';
+$wb['active_txt'] = 'Активен';
+$wb['domain_error_unique'] = 'Вече има запис в този домейн за Catchall.';
+$wb['no_domain_perm'] = 'Нямаш права за този домейн.';
+$wb['domain_error_regex'] = 'Грешен домейн или непозволени символи.';
+$wb['limit_mailcatchall_txt'] = 'Максималният брой записи за catchall в твоят акоунт е достигнат.';
 ?>
+
+
+
+

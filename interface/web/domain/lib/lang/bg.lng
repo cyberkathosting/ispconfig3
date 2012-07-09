@@ -1,9 +1,13 @@
 <?php
-$wb['Domains'] = 'Domains';
-$wb['domain_txt'] = 'Domain';
-$wb['client_txt'] = 'Client';
-$wb['error_domain_in mailuse'] = 'This domain cannot be deleted, because it is in use as mail-domain';
-$wb['error_domain_in webuse'] = 'This domain cannot be deleted, because it is in use as web-domain';
-$wb['error_client_can_not_add_domain'] = 'You cannot add a new domain';
-$wb['error_client_group_id_empty'] = 'You have to select a customer<br>';
+$wb['Domains'] = 'Домейни';
+$wb['domain_txt'] = 'Домейн';
+$wb['client_txt'] = 'Клиент';
+$wb['error_domain_in mailuse'] = 'Този домейн неможе да бъде изтрит защото се използва като меил домейн.';
+$wb['error_domain_in webuse'] = 'Този домейн неможе да бъде изтрит защото се използва като уеб домейн';
+$wb['error_client_can_not_add_domain'] = 'Не можете да добавите нов домейн';
+$wb['error_client_group_id_empty'] = 'Трябва да изберете клиент<br>';
 ?>
+
+
+
+

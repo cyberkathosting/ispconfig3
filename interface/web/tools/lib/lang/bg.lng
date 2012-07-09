@@ -3,10 +3,11 @@ $wb['User Settings'] = 'Потребителски настройки';
 $wb['Settings'] = 'Настройки';
 $wb['ISPConfig Tools'] = 'ISPConfig инструменти';
 $wb['Password and Language'] = 'Парола и език';
-$wb['ispconfig_tools_note'] = 'This module allows you to change the password and language and to start a resync of the DNS records.';
-$wb['Resync'] = 'Resync';
-$wb['Sync Tools'] = 'Sync Tools';
-$wb['Import'] = 'Import';
-$wb['ISPConfig 3 mail'] = 'ISPConfig 3 mail';
-$wb['PDNS Tupa'] = 'PowerDNS Tupa';
+$wb['ispconfig_tools_note'] = 'Този модул позволлява да смениш езика и паролата си  както и да стартираш синхронизиране на DNS записите.';
+$wb['Dns Tools'] = 'Dns инструменти';
+$wb['Resync'] = 'Синхронизирай';
 ?>
+
+
+
+

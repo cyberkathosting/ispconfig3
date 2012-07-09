@@ -4,11 +4,15 @@ $wb['Message'] = 'Съобщение';
 $wb['Send message'] = 'Изпращане на съобщение';
 $wb['View messages'] = 'Преглед на съобщенията';
 $wb['Support'] = 'Поддръжка';
-$wb['About ISPConfig'] = 'About ISPConfig';
-$wb['Version'] = 'Version';
-$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
-$wb['FAQ Sections'] = 'FAQ Sections';
-$wb['Manage Sections'] = 'Manage Sections';
-$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
-$wb['Manage Questions'] = 'Manage Questions';
+$wb['About ISPConfig'] = 'За ISPConfig';
+$wb['Version'] = 'Версия';
+$wb['Frequently Asked Questions'] = 'Често задавани въпроси';
+$wb['FAQ Sections'] = 'ЧЗВ секция';
+$wb['Manage Sections'] = 'Редактирай секциите';
+$wb['Add a Question & Answer Pair'] = 'Добави въпрос & Отговор ';
+$wb['Manage Questions'] = 'Редактирай въпроса';
 ?>
+
+
+
+

@@ -5,6 +5,10 @@ $wb['company_name_txt'] = 'Компания';
 $wb['contact_name_txt'] = 'Лице за контакт';
 $wb['city_txt'] = 'Град';
 $wb['country_txt'] = 'Държава';
-$wb['add_new_record_txt'] = 'Add new client';
-$wb['username_txt'] = 'Username';
+$wb['add_new_record_txt'] = 'Добави нов клиент';
+$wb['username_txt'] = 'Потребителско име';
 ?>
+
+
+
+

@@ -1,8 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Firewall';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['tcp_port_txt'] = 'Open TCP ports';
-$wb['udp_port_txt'] = 'Open UDP ports';
-$wb['add_new_record_txt'] = 'Add Firewall record';
+$wb['list_head_txt'] = 'Защитна стена';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
+$wb['tcp_port_txt'] = 'Отвори TCP портове';
+$wb['udp_port_txt'] = 'Отвори UDP портове';
+$wb['add_new_record_txt'] = 'Добави запис за Защитната стена';
 ?>
+
+
+
+

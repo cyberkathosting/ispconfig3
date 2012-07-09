@@ -5,13 +5,15 @@ $wb['Limits'] = 'Ограничения';
 $wb['Add Client'] = 'Добавяне на клиент';
 $wb['Edit Client'] = 'Редактиране на клиент';
 $wb['Clients'] = 'Клиенти';
-$wb['Edit Client-Templates'] = 'Edit Client-Templates';
-$wb['Add Reseller'] = 'Add Reseller';
-$wb['Edit Reseller'] = 'Edit Reseller';
-$wb['Resellers'] = 'Resellers';
+$wb['Edit Client-Templates'] = 'Редактирай Клиентски-Шаблон';
+$wb['Add Reseller'] = 'Добави дистрибутор';
+$wb['Edit Reseller'] = 'Редактирай дистрибутор';
+$wb['Resellers'] = 'Дистрибутори';
 $wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
-$wb['add_additional_template_txt'] = 'Add additional template';
-$wb['delete_additional_template_txt'] = 'Delete additional template';
-$wb['Messaging'] = 'Messaging';
-$wb['Send Email'] = 'Send Email';
+$wb['add_additional_template_txt'] = 'Добави допулнителен шаблон';
+$wb['delete_additional_template_txt'] = 'Изтрий допулнителният шаблон';
 ?>
+
+
+
+

@@ -9,7 +9,11 @@ $wb['db_server_txt'] = 'DB-Server';
 $wb['vserver_server_txt'] = 'VServer-Server';
 $wb['active_txt'] = 'Active';
 $wb['mirror_server_id_txt'] = 'Is mirror of Server';
-$wb['- None -'] = '- None -';
+$wb['- None -'] = '- Нищо -';
 $wb['proxy_server_txt'] = 'Proxy-Server';
 $wb['firewall_server_txt'] = 'Firewall-Server';
 ?>
+
+
+
+

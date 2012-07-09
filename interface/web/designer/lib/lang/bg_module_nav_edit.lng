@@ -1,6 +1,10 @@
 <?php
-$wb['title_txt'] = 'Title';
+$wb['title_txt'] = 'Заглавие';
 $wb['header_txt'] = 'Navi properties';
 $wb['save_txt'] = 'Запис';
 $wb['cancel_txt'] = 'Отказ';
 ?>
+
+
+
+
