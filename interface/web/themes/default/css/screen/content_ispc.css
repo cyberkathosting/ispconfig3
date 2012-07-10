@@ -84,7 +84,7 @@
 	}
 	table.list thead th { font-size: 10px; }
 	table.list tbody { border: 1px solid #d3d3d3 !important; }
-	table.list tfoot td { text-align: center;  background: #f8f8f8 url(../../images/lists_tfoot_bg.png) repeat-x bottom left;  padding: 24px 8px 8px 8px; }
+	table.list tfoot td { text-align: center;  background: #f8f8f8 url("../../images/lists_tfoot_bg.png") repeat-x bottom left;  padding: 24px 8px 8px 8px; }
 	table.list .tbl_row_even { background: #fcfcfc; }
 	table.list .tbl_row_uneven { background: #f0f8ff; }
 	table.list tr:hover { background: #fffacd; }
@@ -94,7 +94,7 @@
         /* Password Strength */
         #passBar {
             width: 101px; height: 10px;
-            background: url(../../images/meter_bg.gif) repeat-x bottom left;
+            background: url("../../images/meter_bg.gif") repeat-x bottom left;
             margin: 2px 0;
             float: left;
         }
@@ -259,17 +259,17 @@
                 text-decoration: none;
         }
 
-        .dashboard-modules.admin { background-image: url('../../icons/x32/system.png') !important; }
-        .dashboard-modules.vm { background-image: url('../../icons/x32/drawer.png') !important; }
-        .dashboard-modules.client { background-image: url('../../icons/x32/client.png') !important; }
-        .dashboard-modules.mail { background-image: url('../../icons/x32/email.png') !important; }
-        .dashboard-modules.monitor { background-image: url('../../icons/x32/monitor.png') !important; }
-        .dashboard-modules.dns { background-image: url('../../icons/x32/dns.png') !important; }
-        .dashboard-modules.tools { background-image: url('../../icons/x32/tools.png') !important; }
-        .dashboard-modules.help { background-image: url('../../icons/x32/help.png') !important; }
-        .dashboard-modules.domain { background-image: url('../../icons/x32/domain.png') !important; }
-        .dashboard-modules.sites { background-image: url('../../icons/x32/sites.png') !important; }
-        .dashboard-modules.billing { background-image: url('../../icons/x32/calculator.png') !important; }
+        .dashboard-modules.admin { background-image: url("../../icons/x32/system.png") !important; }
+        .dashboard-modules.vm { background-image: url("../../icons/x32/drawer.png") !important; }
+        .dashboard-modules.client { background-image: url("../../icons/x32/client.png") !important; }
+        .dashboard-modules.mail { background-image: url("../../icons/x32/email.png") !important; }
+        .dashboard-modules.monitor { background-image: url("../../icons/x32/monitor.png") !important; }
+        .dashboard-modules.dns { background-image: url("../../icons/x32/dns.png") !important; }
+        .dashboard-modules.tools { background-image: url("../../icons/x32/tools.png") !important; }
+        .dashboard-modules.help { background-image: url("../../icons/x32/help.png") !important; }
+        .dashboard-modules.domain { background-image: url("../../icons/x32/domain.png") !important; }
+        .dashboard-modules.sites { background-image: url("../../icons/x32/sites.png") !important; }
+        .dashboard-modules.billing { background-image: url("../../icons/x32/calculator.png") !important; }
 
         .panel_dashboard h2 {
                 font-size:20px;
@@ -371,7 +371,7 @@
         .iconstxt span { padding-left: 20px; }
         .iconstxt.icoPositive { background-image: url("../../icons/x16/tick_circle_frame.png"); }
         .iconstxt.icoNegative { background-image: url("../../icons/x16/cross_circle_frame.png"); }
-        .iconstxt.icoAdd { background-image: url(../../icons/x16/plus_circle_frame.png); }
+        .iconstxt.icoAdd { background-image: url("../../icons/x16/plus_circle_frame.png"); }
         .iconstxt.icoKey { background-image: url("../../icons/x16/key.png"); }
         .iconstxt.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
         .iconstxt.icoDownload { background-image: url("../../icons/x16/arrow_270.png"); }
@@ -383,7 +383,7 @@
         button.icons16 { height: 20px; width: 20px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
 
         .icons16.icoDelete { background-image: url("../../icons/x16/minus_circle_frame.png"); }
-        .icons16.icoFilter { background-image: url(../../icons/x16/funnel.png); }
+        .icons16.icoFilter { background-image: url("../../icons/x16/funnel.png"); }
         .icons16.icoEdit { background-image: url("../../icons/x16/wrench.png"); }
         .icons16.icoDbAdmin { background-image: url("../../icons/x16/database.png"); }
         .icons16.icoLoginAs { background-image: url("../../icons/x16/user_go.png"); }
@@ -709,10 +709,10 @@
 		margin-right:10px;
 		width:16px;
 		height:16px;
-		background:url(../../icons/x16/plus_circle_frame.png) top left no-repeat;
+		background:url("../../icons/x16/plus_circle_frame.png") top left no-repeat;
 	}
 	div.subsectiontoggle span.showing{
-		background:url(../../icons/x16/minus_circle_frame.png) top left no-repeat;
+		background:url("../../icons/x16/minus_circle_frame.png") top left no-repeat;
 	}
 	div.subsectiontoggle em{
 		display:block;
@@ -722,7 +722,7 @@
 		margin-bottom:-3px;
 		width:13px;
 		height:13px;
-		background:url(../../images/chevron.png) top left no-repeat;
+		background:url("../../images/chevron.png") top left no-repeat;
 		-webkit-transform:none;
 		-moz-transform:none;
 		-khtml-transform:none;
@@ -747,7 +747,7 @@
 		position:relative;
 		left:425px;
 		top:-13px;
-		background:url(../../images/chevron.png) top left no-repeat;
+		background:url("../../images/chevron.png") top left no-repeat;
 		width:13px;
 		height:13px;
 		-webkit-transform:rotate(90deg);
@@ -790,7 +790,7 @@
 		border-radius:5px;
 	}
 	input.gs-loading{
-		background-image: url(../../icons/x16/loading.gif);
+		background-image: url("../../icons/x16/loading.gif");
 		background-repeat: no-repeat;
 		background-position: center right;
 	}
@@ -912,7 +912,7 @@
 	div.df-container input{
 	}
 	input.df-loading{
-		background-image: url(../../icons/x16/loading.gif);
+		background-image: url("../../icons/x16/loading.gif");
 		background-repeat: no-repeat;
 		background-position: center right;
 	}
@@ -1035,7 +1035,7 @@
 		width:16px;
 		height:16px;
 		cursor:pointer;
-		background: url(../../icons/x16/question_frame.png) no-repeat center center;
+		background: url("../../icons/x16/question_frame.png") no-repeat center center;
 		float:right;
 		display:inline;
 		position:relative;
