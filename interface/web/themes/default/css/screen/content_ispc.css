@@ -104,137 +104,107 @@
         }
 
             /* Systemmonitor */
-        .systemmonitor-state {
-                    margin: 10px 5px;
-                    font-family: Consolas, "Lucida Console", "Courier New", monospace;
-                    font-size: 0.9em;
-                    float: left;
-                    width: 100%;
+        .systemmonitor-server,
+        .systemmonitor-ve {
+            margin: 10px 5px;
+            font-family: Consolas, "Lucida Console", "Courier New", monospace;
+            font-size: 0.9em;
+            float: left;
+            width: 100%;
         }
-        .systemmonitor-state.state-no_state {
-                    border-top: 4px solid #95A19F;
-                    background-color: #f8f8ff;
+        .systemmonitor-server:hover,
+        .systemmonitor-vm:hover { background-color: #FFFACD; }
+        .state-no_state,
+        .state-no_state-ve {
+            border-top: 4px solid #95A19F;
+            background-color: #f8f8ff;
         }
-        .systemmonitor-state.state-unknown {
-                    border-top: 4px solid #30302e;
-                    background-color: #cecfc5;
+        .state-unknown,
+        .state-unknown-ve {
+            border-top: 4px solid #30302e;
+            background-color: #cecfc5;
         }
-        .systemmonitor-state.state-ok {
-                    border-top: 4px solid #23fb00;
-                    background-color: #adffa2;
+        .state-ok,
+        .state-ok-ve {
+            border-top: 4px solid #23fb00;
+            background-color: #adffa2;
         }
-        .systemmonitor-state.state-info {
-                    border-top: 4px solid #183e99;
-                    background-color: #d4e2ff;
+        .state-info,
+        .state-info-ve {
+            border-top: 4px solid #183e99;
+            background-color: #d4e2ff;
         }
-        .systemmonitor-state.state-warning {
-                    border-top: 4px solid #ffa800;
-                    background-color: #ffda93;
+        .state-warning,
+        .state-warning-ve {
+            border-top: 4px solid #ffa800;
+            background-color: #ffda93;
         }
-        .systemmonitor-state.state-critical {
-                    border-top: 4px solid #ff0000;
-                    background-color: #ffb9b9;
+        .state-critical,
+        .state-critical-ve {
+            border-top: 4px solid #ff0000;
+            background-color: #ffb9b9;
         }
-        .systemmonitor-state.state-error {
-                    border-top: 4px solid #ff0000;
-                    background-color: #ff7f7f;
-        }
-        .systemmonitor-state.state-no_state-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #95A19F;
-                    background-color: #f8f8ff;
-        }
-        .systemmonitor-state.state-unknown-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #30302e;
-                    background-color: #cecfc5;
-        }
-        .systemmonitor-state.state-ok-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #23fb00;
-                    background-color: #adffa2;
-        }
-        .systemmonitor-state.state-info-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #183e99;
-                    background-color: #d4e2ff;
-        }
-        .systemmonitor-state.state-warning-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #ffa800;
-                    background-color: #ffda93;
-        }
-        .systemmonitor-state.state-critical-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #ff0000;
-                    background-color: #ffb9b9;
-        }
-        .systemmonitor-state.state-error-ve {
-                    float: left;
-                    width: 213px;
-                    border-top: 4px solid #ff0000;
-                    background-color: #ff7f7f;
-        }
-        .systemmonitor-state:hover {
-            background-color: #FFFACD;
-        }
-        .systemmonitor-state p {
-            float:left;
+        .state-error,
+        .state-error-ve {
+            border-top: 4px solid #ff0000;
+            background-color: #ff7f7f;
+        }       
+        div.icoDevice {
+            float: left;
+            width: 64px;
+            height: 64px;
             margin: 5px;
+            background: url("../../icons/device_sprite.png") no-repeat transparent;
         }
-        .systemmonitor-device {
-            background-position: -6px 4px;
-            background-repeat: no-repeat;
-            min-height: 80px;
-        }
-        .systemmonitor-device.device-system { background-image: url("../../icons/x64/network.png"); }
-        .systemmonitor-device.device-server { 
-                    background-image: url("../../icons/x64/server.png");
-        }
-        .systemmonitor-device.device-ve {
-                    background-image: url("../../icons/x64/server.png");
-                    width: 213px;
-                    float: left;
-                    border: 1px dashed #aaaaaa;
-                    border-top: none;
-        }
+        .systemmonitor-server div.icoDevice { background-position: 0 0; }
+        .systemmonitor-ve div.icoDevice { background-position: -64px 0; }
+        .systemmonitor-network div.icoDevice { background-position: -128px -0; }
+        div.statusDevice { float: left; }
+        
+        p.status {
+            float: right;
+            width: 32px;
+            height: 32px;
+            background: url("../../icons/x32_sprite.png") no-repeat transparent;
+        }       
+        .state-no_state p.status,
+        .state-no_state-ve p.status,
+        .state-unknown p.status,
+        .state-unknown-ve p.status { background-position: 0 -207px; }
+        
+        .state-ok p.status,
+        .state-ok-ve p.status { background-position: 0 -270px; }
+        
+        .state-info p.status,
+        .state-info-ve p.status { background-position: 0 -336px; }
+        
+        .state-warning p.status,
+        .state-warning-ve p.status { background-position: 0 -143px; }
+        
+        .state-critical p.status,
+        .state-critical-ve p.status { background-position: 0 -463px; }
+        
+        .state-error p.status,
+        .state-error-ve p.status { background-position: 0 -400px; }
 
-        .systemmonitor-content.icons32 {
-                    padding:2px 10px 2px 56px;
-            background-repeat: no-repeat;
-            background-position: 12px 4px;
-        }
-        .systemmonitor-content.icons32.ico-no_state { /*background-image:url("../../icons/x32/state_no.png"); */ }
-        .systemmonitor-content.icons32.ico-unknown { background-image:url("../../icons/x32/state_unknown.png"); }
-        .systemmonitor-content.icons32.ico-ok { background-image:url("../../icons/x32/state_ok.png"); }
-        .systemmonitor-content.icons32.ico-info { background-image:url("../../icons/x32/state_info.png"); }
-        .systemmonitor-content.icons32.ico-warning { background-image:url("../../icons/x32/state_warning.png"); }
-        .systemmonitor-content.icons32.ico-critical { background-image:url("../../icons/x32/state_critical.png"); }
-        .systemmonitor-content.icons32.ico-error { background-image:url("../../icons/x32/state_error.png"); }
-
+        /* Usage unknown  
         .systemmonitor-content table {
-                    border: none;
-                    margin-top: 10px;
+            border: none;
+            margin-top: 10px;
         }
 
         .systemmonitor-content * .online {
             border: 1px solid #ffffff;
-                    background-color: #E3FFB8;
+            background-color: #E3FFB8;
             color: #000000;
-                    padding:0px 5px;
+            padding:0px 5px;
         }
         .systemmonitor-content * .offline {
-        border: 1px solid #ffffff;
-                background-color: #d12f19; 
-                color:#ffffff;
-                padding:0px 5px;
-        }
+            border: 1px solid #ffffff;
+            background-color: #d12f19; 
+            color:#ffffff;
+            padding:0px 5px;
+        }*/
 
         /* Dashboard */
         .dashboard-modules {

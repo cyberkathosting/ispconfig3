@@ -222,45 +222,53 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a VE inside a OpenVz-Host
 	*/
-	$html_ve  = '<div class="systemmonitor-state state-' . $serverState . '-ve">';
-	$html_ve .= '<div class="systemmonitor-device device-ve">';
-	$html_ve .= '<div class="systemmonitor-content icons32 ico-' . $serverState . '">';
-	$html_ve .= $serverName . '<br>';
+	$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve">';
+        if ($osData != null) {
+            $html_ve .= '<div class="icoDevice os-' . $osData['name'] . '"><p class="status"></p></div>';
+        }
+        else {
+            $html_ve .= '<div class="icoDevice"><p class="status"></p></div>';
+        }
+	$html_ve .= '<div class="statusDevice"><p>' . $serverName;
 	if ($osData != null) {
-		$html_ve .= $osData['name'] . ' ' . $osData['version'] . '<br>';
+		$html_ve .= ' (' . $osData['name'] . ' ' . $osData['version'] . ') ';
 	}
 	if ($ispcData != null) {
-		$html_ve .= $ispcData['name'] . ' ' . $ispcData['version'] . '<br>';
+		$html_ve .= $ispcData['name'] . ' ' . $ispcData['version'] . '</p>';
 	}
-	$html_ve .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '<br>';
+        else {
+            $html_ve .= '</p>';
+        }
+	$html_ve .= '<p>' . $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '</p>';
 
 	/*
 	 * Info of a "normal" Server or a OpenVz-Host
 	*/
-	$html_server = '<div class="systemmonitor-state state-' . $serverState . '">';
-	$html_server .= '<div class="systemmonitor-device device-server">';
-	$html_server .= '<div class="systemmonitor-content icons32 ico-' . $serverState . '">';
-	$html_server .= $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
+	$html_server = '<div class="systemmonitor-server state-' . $serverState . '">';
 	if ($osData != null) {
-		$html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ')<br>';
-	}
-	else {
-		$html_server .= '<br />';
+            $html_server .= '<div class="icoDevice os-' . $osData['name'] . '"><p class="status"></p></div>';
+        }
+        else {
+            $html_server .= '<div class="icoDevice"><p class="status"></p></div>';
+        }
+	$html_server .= '<div class="statusDevice"><p>' . $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
+	if ($osData != null) {
+            $html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ') ';
 	}
 	if ($ispcData != null) {
-		$html_server .= $ispcData['name'] . ' ' . $ispcData['version'] . '<br>';
+            $html_server .= $ispcData['name'] . ' ' . $ispcData['version'] . '</p>';
 	}
-	else {
-		$html_server .= '<br />';
-	}
+        else {
+            $html_server .= '</p>';
+        }
 
-	$html_server .= $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
+	$html_server .= '<p>' . $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listunknown_txt")]) ? $messages[$app->lng("monitor_serverstate_listunknown_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listinfo_txt")]) ? $messages[$app->lng("monitor_serverstate_listinfo_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listwarning_txt")]) ? $messages[$app->lng("monitor_serverstate_listwarning_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_warning_txt") . ', ';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listcritical_txt")]) ? $messages[$app->lng("monitor_serverstate_listcritical_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_critical_txt") . ', ';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listerror_txt")]) ? $messages[$app->lng("monitor_serverstate_listerror_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_error_txt") . '';
-	$html_server .= ')<br />';
+	$html_server .= ')</p>';
 
 	/*
 	 * Verbose - Info 
