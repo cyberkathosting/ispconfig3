@@ -15,6 +15,15 @@
     margin: 0;
     padding: 0;
 }
+html * { font-size: 100.01% }
+body {
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 75.00%; 
+    color: #444;
+    background: url("../images/screen_bg.png") repeat-x top left fixed #EEEEEE;
+    padding: 10px 0;
+}
+
 header, #nav, #main, footer {
     clear: both;
 }
@@ -28,6 +37,31 @@ ul, ol, dl {
     top: -1000em;
     width: 1px;
 }
+a {color: #4D87C7; text-decoration:none;}
+a:focus,
+a:hover,
+a:active {color:#182E7A; text-decoration:underline;}
+
+hr {
+    color: #fff;
+    background:transparent;
+    margin: 0 0 0.5em 0;
+    padding: 0 0 0.5em 0;
+    border:0;
+    border-bottom: 1px #eee solid;
+}
+
+
+
+
+#page {
+    min-width: 980px;
+    max-width: 80%;
+    background: #fff;
+    text-align:left;
+    margin: 0 auto;
+    padding: 10px;
+}
 
 /* header
 -------------------------------------------------------------- */
@@ -35,7 +69,7 @@ header {
     position: relative;
     color: #faf0e6;
     padding: 15px 2em 5px 20px;
-    background: #9a9a9a url(../images/header_bg.png) repeat-x top left;
+    background: url("../images/header_bg.png") repeat-x top left #9a9a9a;
 }
 header h1 {
     font-size:2.5em;
@@ -76,9 +110,7 @@ header span {
 }
 
 #topNav a {
-    background-color: #D3D3D3;
-    background-position: center 5px;
-    background-repeat: no-repeat;
+    background: url("../images/x32_sprite.png") no-repeat #D3D3D3;
     color:black;
     display:inline-block;
     height:20px;
@@ -92,71 +124,26 @@ header span {
     background-color: #eeeeee;
     color: #000000;
 }
-
-#topNav #topNav_current {
-}
-
 #topNav #topNav_current a {
     font-weight: bold;
     color: black;
     background-color: #ffffff;
 }
 
-.topnav-admin {
-    background-image: url('../icons/x32/system.png') !important;
-}
-
-.topnav-client {
-    background-image: url('../icons/x32/client.png') !important;
-}
-
-.topnav-mail {
-    background-image: url('../icons/x32/email.png') !important;
-}
-
-.topnav-mailuser {
-    background-image: url('../icons/x32/email.png') !important;
-}
-
-.topnav-monitor {
-    background-image: url('../icons/x32/monitor.png') !important;
-}
-
-.topnav-sites {
-    background-image: url('../icons/x32/sites.png') !important;
-}
-
-.topnav-dns {
-    background-image: url('../icons/x32/dns.png') !important;
-}
-
-.topnav-tools {
-    background-image: url('../icons/x32/tools.png') !important;
-}
-
-.topnav-help {
-    background-image: url('../icons/x32/help.png') !important;
-}
-
-.topnav- {
-    background-image: url('../icons/x32/login.png') !important;
-}
-
-.topnav-domain {
-    background-image: url('../icons/x32/domain.png') !important;
-}
-
-.topnav-dashboard {
-    background-image: url('../icons/x32/dashboard.png') !important;
-}
-
-.topnav-vm{
-    background-image: url('../icons/x32/drawer.png') !important;
-}
-
-.topnav-billing{
-    background-image: url('../icons/x32/calculator.png') !important;
-}
+.topnav-admin { background-position: 22px -74px !important; }
+.topnav-client { background-position: 22px -1098px !important; }
+.topnav-mail { background-position: 22px -780px !important; }
+.topnav-mailuser { background-position: 22px -780px !important; }
+.topnav-monitor { background-position: 22px -585px !important; }
+.topnav-sites { background-position: 22px -523px !important; }
+.topnav-dns { background-position: 22px -970px !important; }
+.topnav-tools { background-position: 22px -10px !important; }
+.topnav-help { background-position: 22px -715px !important; }
+.topnav- { background-position: 22px -650px !important; }
+.topnav-domain { background-position: 22px -905px !important; }
+.topnav-dashboard { background-position: 22px -1035px !important; }
+.topnav-vm { background-position: 22px -842px !important; }
+.topnav-billing { background-position: 22px -1162px !important; }
 
 /* main
 -------------------------------------------------------------- */
@@ -274,56 +261,7 @@ footer a:hover, footer a:active {
 
 
 
-/* basemod
--------------------------------------------------------------- */
 
-/**
-* (en) Formatting YAML's  basic layout elements
-* (de) Gestaltung des YAML Basis-Layouts
-*/
-
-/* (en) Marginal areas & page background */
-/* (de) Randbereiche & Seitenhintergrund */
-body { background: #EEEEEE url("../images/screen_bg.png") repeat-x top left fixed; padding: 10px 0; }
-
-/* (en) Centering layout in old IE-versions */
-/* (de) Zentrierung des Layouts in alten IE-versionen */
-body { text-align: center; }
-#page { text-align:left; margin: 0 auto; }
-
-/* (en) Layout: width, background, borders */
-/* (de) Layout: Breite, Hintergrund, Rahmen */
-/*#page_margins { min-width: 980px; max-width: 80%; background: #fff;}*/
-/* #page_margins { min-width: 980px; max-width: 80%; background: #fff; display: inline-block;}*/
-
-/*WARNING: ADded a overrode for this setting in main.tpl with javascript to target non chrome browsers,
-This has to be changed too in case that page_margins get changed. Reason: Chrome does not support the 
-display: table; attribute correctly*/
-#page { min-width: 980px; max-width: 80%; background: #fff;}
-/*#page_margins { min-width: 980px; max-width: 80%; background: #fff; display: table;}*/
-
-#page{ padding: 10px; }
-
-
-
-
-/* content
--------------------------------------------------------------- */
-
-/**
-    * Fonts
-    * (en) font-family and font-size selection for headings and standard text elements
-    * (de) Zeichensatz und Schriftgrößen für Überschriften und übliche Text-Elemente
-    *
-    * @section content-fonts
-*/
-
-/* (en) reset font size for all elements to standard (16 Pixel) */
-/* (de) Alle Schriftgrößen auf Standardgröße (16 Pixel) zurücksetzen */
-html * { font-size: 100.01% }
-
-/* (en) reset monospaced elements to font size 16px in Gecko browsers */
-/* (de) Schriftgröße von monospaced Elemente auf 16 Pixel setzen */
 textarea, pre, tt, code {
     font-family: Consolas,"Lucida Console","Courier New",monospace;
     font-size: 0.9em;	
@@ -331,14 +269,10 @@ textarea, pre, tt, code {
 
 /* (en) base layout gets standard font size 12px */
 /* (de) Basis-Layout erhält Standardschriftgröße von 12 Pixeln */
-body {
-    font-family: 'Trebuchet MS', sans-serif;
-    font-size: 75.00%; 
-    color: #444;  
-}
+
 
 h1,h2,h3,h4,h5,h6 { 
-    font-family: 'Trebuchet MS', sans-serif;
+    font-family: "Trebuchet MS", sans-serif;
     font-weight:bold; 
     color:#666;
     margin: 0 0 0.25em 0; 
@@ -387,74 +321,13 @@ select, input, textarea {
     outline:none;
 }
 
-
-/**
- * Generic Content Classes
- * (en) standard classes for positioning and highlighting
- * (de) Standardklassen zur Positionierung und Hervorhebung
- *
- * @section content-generic-classes
-*/
-
-.note {background: #dfd; padding: 1em; border-top: 1px #bdb dotted; border-bottom: 1px #bdb dotted;}
-.important {background: #ffd; padding: 1em; border-top: 1px #ddb dotted; border-bottom: 1px #ddb dotted;}
-.warning {background: #fdd; padding: 1em; border-top: 1px #dbb dotted; border-bottom: 1px #dbb dotted;}
-
-.float_left { float: left; display:inline; margin-right: 1em; margin-bottom: 0.15em;  }
-.float_right { float: right; display:inline; margin-left: 1em; margin-bottom: 0.15em;  }
-.center { text-align:center; margin: 0.5em auto }
-
-/**
- * External Links
- *
- * (en) Formatting of hyperlinks
- * (de) Gestaltung von Hyperlinks
- *
-*/
-
-a {color: #4D87C7; text-decoration:none;}
-a:focus,
-a:hover,
-a:active {color:#182E7A; text-decoration:underline;}
-
-
-
-
-
-/**
- * (en) Emphasizing external Hyperlinks via CSS
- * (de) Hervorhebung externer Hyperlinks mit CSS
- *
- * @section             content-external-links
- * @app-yaml-default    disabled
-*/
-
-/*
-#main a[href^="http://www.my-domain.com"],
-#main a[href^="https://www.my-domain.com"]
-{
-  padding-left: 12px;
-  background-image: url('your_image.gif');
-  background-repeat: no-repeat;
-  background-position: 0 0.45em;
-}
-*/
-
-/**
- * Tables | Tabellen
- * (en) Generic classes for table-width and design definition
- * (de) Generische Klassen für die Tabellenbreite und Gestaltungsvorschriften für Tabellen
- *
- * @section content-tables
-*/
-
 table { width: auto; border-collapse:collapse; margin-bottom: 0.5em; }
 table.full { width: 100%; }
 table.fixed { table-layout:fixed }
 
 table.list td{max-width:350px;min-width: 32px;white-space: nowrap;overflow:hidden;text-overflow: ellipsis; -o-text-overflow: ellipsis; -icab-text-overflow: ellipsis; -khtml-text-overflow: ellipsis; -moz-text-overflow: ellipsis; -webkit-text-overflow: ellipsis;}
 th,td { padding: 0.5em;text-align:left;}
-thead th { background: #444 url(../images/lists_thead_bg.png) repeat-x; color: #fff }
+thead th { background: #444 url("../images/lists_thead_bg.png") repeat-x; color: #fff }
 tbody th { background: #ccc; color: #333 }
 tbody th.sub { background: #ddd; color: #333 }
 
@@ -464,14 +337,7 @@ tbody th.sub { background: #ddd; color: #333 }
  * @section content-misc
 */
 
-hr {
-    color: #fff;
-    background:transparent;
-    margin: 0 0 0.5em 0;
-    padding: 0 0 0.5em 0;
-    border:0;
-    border-bottom: 1px #eee solid;
-}
+
 
 /* Sorting cusror and backgorund */
 .pnl_listarea th[class^="tbl_col"]{cursor:pointer}
@@ -546,7 +412,7 @@ table.list {
 }
 table.list thead th { font-size: 10px; }
 table.list tbody { border: 1px solid #d3d3d3 !important; }
-table.list tfoot td { text-align: center;  background: #f8f8f8 url(../images/lists_tfoot_bg.png) repeat-x bottom left;  padding: 24px 8px 8px 8px; }
+table.list tfoot td { text-align: center;  background: #f8f8f8 url("../images/lists_tfoot_bg.png") repeat-x bottom left;  padding: 24px 8px 8px 8px; }
 table.list .tbl_row_even { background: #fcfcfc; }
 table.list .tbl_row_uneven { background: #f0f8ff; }
 table.list tr:hover { background: #fffacd; }
@@ -556,7 +422,7 @@ table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal; }
 /* Password Strength */
 #passBar {
     width: 101px; height: 10px;
-    background: url(../images/meter_bg.gif) repeat-x bottom left;
+    background: url("../images/meter_bg.gif") repeat-x bottom left;
     margin: 2px 0;
     float: left;
 }
@@ -711,7 +577,9 @@ table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal; }
     text-align: center;
 }
 
-.dashboard-modules a, .dashboard-modules a:hover{
+.dashboard-modules a, 
+.dashboard-modules a:hover {
+    background: url("../images/x32_sprite.png") no-repeat transparent;
     color:Black;
     display:block;
     font-weight:bold;
@@ -721,17 +589,17 @@ table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal; }
     text-decoration: none;
 }
 
-.dashboard-modules.admin { background-image: url('../icons/x32/system.png') !important; }
-.dashboard-modules.vm { background-image: url('../icons/x32/drawer.png') !important; }
-.dashboard-modules.client { background-image: url('../icons/x32/client.png') !important; }
-.dashboard-modules.mail { background-image: url('../icons/x32/email.png') !important; }
-.dashboard-modules.monitor { background-image: url('../icons/x32/monitor.png') !important; }
-.dashboard-modules.dns { background-image: url('../icons/x32/dns.png') !important; }
-.dashboard-modules.tools { background-image: url('../icons/x32/tools.png') !important; }
-.dashboard-modules.help { background-image: url('../icons/x32/help.png') !important; }
-.dashboard-modules.domain { background-image: url('../icons/x32/domain.png') !important; }
-.dashboard-modules.sites { background-image: url('../icons/x32/sites.png') !important; }
-.dashboard-modules.billing { background-image: url('../icons/x32/calculator.png') !important; }
+.dashboard-modules.admin a { background-position: 12px -73px; }
+.dashboard-modules.vm a { background-position: 14px -842px; }
+.dashboard-modules.client a { background-position: 13px -1096px; }
+.dashboard-modules.mail a { background-position: 12px -776px; }
+.dashboard-modules.monitor a { background-position: 13px -585px; }
+.dashboard-modules.dns a { background-position: 12px -970px; }
+.dashboard-modules.tools a { background-position: 12px -9px; }
+.dashboard-modules.help a { background-position: 13px -716px; }
+.dashboard-modules.domain a { background-position: 12px -905px; }
+.dashboard-modules.sites a { background-position: 12px -520px; }
+.dashboard-modules.billing a { background-position: 14px -1162px; }
 
 .panel_dashboard h2 {
     font-size:20px;
@@ -746,7 +614,8 @@ table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal; }
 
 /* BUTTONS */
 a.button,
-.button {
+.button,
+.buttons button {
     display: inline-block;
     margin: 0 2px;
     padding: 2px 5px;
@@ -754,12 +623,7 @@ a.button,
     text-shadow: 0px 1px 1px #fff;
     border: 1px solid #c6c6c6;
     border-radius: 4px;
-    background: #f7f7f7;
-    background: -moz-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#e6e6e6));
-    background: -o-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
-    background: -ms-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
-    background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+    background-color: #f7f7f7;
     box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
     -o-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
     -webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
@@ -767,7 +631,8 @@ a.button,
     text-decoration: none;
 }
 a.button:focus,
-input.button:focus {
+input.button:focus,
+.buttons button:focus {
     border-color: #4fadd5;
     box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
     -moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.6);
@@ -834,32 +699,39 @@ button.positive, .buttons a.positive{
 }
 
 /* Button with icon and text */
-.iconstxt {
-    background-repeat: no-repeat; 
-    background-position: 4px center;
-}
-.iconstxt span { padding-left: 20px; }
-.iconstxt.icoPositive { background-image: url("../icons/x16/tick_circle_frame.png"); }
-.iconstxt.icoNegative { background-image: url("../icons/x16/cross_circle_frame.png"); }
-.iconstxt.icoAdd { background-image: url(../icons/x16/plus_circle_frame.png); }
-.iconstxt.icoKey { background-image: url("../icons/x16/key.png"); }
-.iconstxt.icoDelete { background-image: url("../icons/x16/minus_circle_frame.png"); }
-.iconstxt.icoDownload { background-image: url("../icons/x16/arrow_270.png"); }
-.iconstxt.icoRestore { background-image: url("../icons/x16/arrow_circle_225.png"); }
+.iconstxt { background: url("../images/button_sprite.png") no-repeat transparent; }
+.iconstxt span { padding-left: 20px; font-weight: bold; }
+.iconstxt.icoPositive { background-position: 6px -130px; }
+.iconstxt.icoNegative { background-position: 6px -98px; }
+.iconstxt.icoAdd { background-position: 6px -66px; }
+.iconstxt.icoKey { background-position: 6px -1px; }
+.iconstxt.icoDelete { background-position: 6px -34px; }
+.iconstxt.icoDownload { background-position: 6px -1px; }
+.iconstxt.icoRestore { background-position: 6px -1px; }
 
 /* Button with icon and without text */
 .icons16 span { display: none; }
-a.icons16 { height: 18px; width: 18px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
-button.icons16 { height: 20px; width: 20px; padding: 0; background-repeat: no-repeat; background-position: 1px 1px;}
+a.icons16 {
+    height: 18px;
+    width: 18px;
+    padding: 0;
+    background: url("../images/x16_sprite.png") no-repeat transparent;
+}
+button.icons16 {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    background: url("../images/x16_sprite.png") no-repeat transparent;
+}
 
-.icons16.icoDelete { background-image: url("../icons/x16/minus_circle_frame.png"); }
-.icons16.icoFilter { background-image: url(../icons/x16/funnel.png); }
-.icons16.icoEdit { background-image: url("../icons/x16/wrench.png"); }
-.icons16.icoDbAdmin { background-image: url("../icons/x16/database.png"); }
-.icons16.icoLoginAs { background-image: url("../icons/x16/user_go.png"); }
-.icons16.icoWebmailer { background-image: url("../icons/x16/mails_arrow.png"); }
-.icons16.icoPDF { background-image: url("../icons/x16/pdf.png"); }
-.icons16.icoAction { background-image: url("../icons/x16/arrow.png"); }
+.icons16.icoDelete { background-position: -1px -141px; }
+.icons16.icoFilter { background-position: -1px -161px; }
+.icons16.icoEdit { background-position: -1px -1px; }
+.icons16.icoDbAdmin { background-position: -1px -221px; }
+.icons16.icoLoginAs { background-position: -1px -21px; }
+.icons16.icoWebmailer { background-position: -1px -81px; }
+.icons16.icoPDF { background-position: -1px -61px; }
+.icons16.icoAction { background-position: -1px -241px; }
 
 #ajaxloader {
     text-align:center;
@@ -893,7 +765,7 @@ input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px
 
 /* --- */
 
-a[href $='#logout'] { padding-right: 18px; background: transparent url("../icons/x16/logout.png") no-repeat right top !important;	}
+a[href $="#logout"] { padding-right: 20px; background: url("../images/x16_sprite.png") no-repeat right -123px transparent !important; }
 
 /* Select Menu with Images */
 select.withicons option {
@@ -1192,7 +1064,7 @@ div.subsectiontoggle em{
     margin-bottom:-3px;
     width:13px;
     height:13px;
-    background:url(../images/chevron.png) top left no-repeat;
+    background:url("../images/chevron.png") top left no-repeat;
     -webkit-transform:none;
     -moz-transform:none;
     -khtml-transform:none;
@@ -1217,7 +1089,7 @@ div.subsectiontoggle em.showing{
     position:relative;
     left:425px;
     top:-13px;
-    background:url(../images/chevron.png) top left no-repeat;
+    background:url("../images/chevron.png") top left no-repeat;
     width:13px;
     height:13px;
     -webkit-transform:rotate(90deg);
@@ -1247,7 +1119,7 @@ div.gs-container *{
     font-size: 1em;
 }
 div.gs-container input{
-    background: url("../icons/x16/magnifier_left.png") no-repeat 4px 3px #FFFFFF;
+    background: url("../images/x16_sprite.png") no-repeat 2px -99px #FFFFFF;
     height:20px;
     border:1px solid #444;
     padding:0 22px 2px;
@@ -1260,7 +1132,7 @@ div.gs-container input{
     border-radius:5px;
 }
 input.gs-loading{
-    background-image: url(../icons/x16/loading.gif);
+    background-image: url("../images/loading.gif");
     background-repeat: no-repeat;
     background-position: center right;
 }
@@ -1382,7 +1254,7 @@ div.df-container *{
 div.df-container input{
 }
 input.df-loading{
-    background-image: url(../icons/x16/loading.gif);
+    background-image: url("../images/loading.gif");
     background-repeat: no-repeat;
     background-position: center right;
 }
@@ -1505,7 +1377,7 @@ span.icons16-empty{
     width:16px;
     height:16px;
     cursor:pointer;
-    background: url(../icons/x16/question_frame.png) no-repeat center center;
+    background: url("../images/x16_sprite.png") no-repeat center center transparent;
     float:right;
     display:inline;
     position:relative;
@@ -1698,7 +1570,7 @@ p.value {
 /* uni-form
 -------------------------------------------------------------- */
 
-/* Keep in mind that wherever you see 'Required property' it means that the property must exist */
+/* Keep in mind that wherever you see "Required property" it means that the property must exist */
 
 /* ------------------------------------------------------------------------------ */
 
@@ -1729,7 +1601,7 @@ p.value {
 
 /* ------------------------------------------------------------------------------ */
 
-/* .blockLabels (default style, will be applied even if you don't class the parent element) */
+/* .blockLabels (default style, will be applied even if you don"t class the parent element) */
 .uniForm .blockLabels .ctrlHolder{}
 
 .uniForm label,
@@ -1789,8 +1661,8 @@ p.value {
 .uniForm .inlineLabels .multiField .blockLabel select{ width: 100%; margin: .3em 0 0 0; }
 
 /* Focus pseudoclasses */
-.uniForm .ctrlHolder .textInput:focus{ outline: none; /* Get rid of the 'glow' effect in WebKit, optional */ }
-.uniForm .ctrlHolder textarea:focus{ outline: none; /* Get rid of the 'glow' effect in WebKit, optional */ }
+.uniForm .ctrlHolder .textInput:focus{ outline: none; /* Get rid of the "glow" effect in WebKit, optional */ }
+.uniForm .ctrlHolder textarea:focus{ outline: none; /* Get rid of the "glow" effect in WebKit, optional */ }
 .uniForm div.focused .formHint{ color: #333; }
 
 /* Columns (they are floated left by default) */
@@ -1836,5 +1708,5 @@ YOU CAN VERY EASILY REVERT TO A GENERIC STYLE OF UNI-FORM. BEST OF LUCK...
     background-color:#FFFFFF;
     color:#000000;
 }
-.ui-widget { font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 100%; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 100%; }
+.ui-widget { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
