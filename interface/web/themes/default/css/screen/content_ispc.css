@@ -103,9 +103,10 @@
             float: left;
         }
 
-            /* Systemmonitor */
+        /* Systemmonitor */
         .systemmonitor-server,
-        .systemmonitor-ve {
+        .systemmonitor-ve,
+        .systemmonitor-state {
             margin: 10px 5px;
             font-family: Consolas, "Lucida Console", "Courier New", monospace;
             font-size: 0.9em;
@@ -159,40 +160,50 @@
         .systemmonitor-server div.icoDevice { background-position: 0 0; }
         .systemmonitor-ve div.icoDevice { background-position: -64px 0; }
         .systemmonitor-network div.icoDevice { background-position: -128px -0; }
-        div.statusDevice { float: left; }
-        
-        p.status {
+        div.statusDevice, div.statusMsg { float: left; }
+
+        div.statusMsg p { 
+            float: left;
+            padding: 5px;
+        }
+        .systemmonitor-state .status {
+            margin: 5px;
+        }
+        .status {
             float: right;
             width: 32px;
             height: 32px;
             background: url("../../icons/x32_sprite.png") no-repeat transparent;
-        }       
-        .state-no_state p.status,
-        .state-no_state-ve p.status,
-        .state-unknown p.status,
-        .state-unknown-ve p.status { background-position: 0 -207px; }
-        
-        .state-ok p.status,
-        .state-ok-ve p.status { background-position: 0 -270px; }
-        
-        .state-info p.status,
-        .state-info-ve p.status { background-position: 0 -336px; }
-        
-        .state-warning p.status,
-        .state-warning-ve p.status { background-position: 0 -143px; }
-        
-        .state-critical p.status,
-        .state-critical-ve p.status { background-position: 0 -463px; }
-        
-        .state-error p.status,
-        .state-error-ve p.status { background-position: 0 -400px; }
+        }
+        div.status {
+            float: left !important;
+        }
+        .state-no_state .status,
+        .state-no_state-ve .status,
+        .state-unknown .status,
+        .state-unknown-ve .status { background-position: 0 -207px; }
+
+        .state-ok .status,
+        .state-ok-ve .status { background-position: 0 -270px; }
+
+        .state-info .status,
+        .state-info-ve .status { background-position: 0 -336px; }
+
+        .state-warning .status,
+        .state-warning-ve .status { background-position: 0 -143px; }
+
+        .state-critical .status,
+        .state-critical-ve .status { background-position: 0 -463px; }
+
+        .state-error .status,
+        .state-error-ve .status { background-position: 0 -400px; }
 
         /* Usage unknown  
         .systemmonitor-content table {
             border: none;
             margin-top: 10px;
         }
-
+        
         .systemmonitor-content * .online {
             border: 1px solid #ffffff;
             background-color: #E3FFB8;
