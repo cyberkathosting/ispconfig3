@@ -65,6 +65,7 @@ $dbData = $app->db->queryOneRecord(
 
 /*
  * Now generate the login-Form
+ * TODO: move the login_as form to a template file -> themeability
  */
 echo '
 	<br /> <br />	<br /> <br />
