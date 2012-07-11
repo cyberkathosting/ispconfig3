@@ -2,6 +2,7 @@ CHANGELOG
 default -> default-v2
 source: default $3241 07/06/2012 @ 12:00 UTC+2
 
+- changed doctype to <!DOCTYPE html> (HTML5)
 - rm yaml/*
 - rm css/patches/*
 - cp yaml/patches/iehacks.css css/*
@@ -18,10 +19,10 @@ source: default $3241 07/06/2012 @ 12:00 UTC+2
 - mv css media-recognition from css-files to <head>-link tag
 - change most div-containers to new html5 tags in main.tpl.htm
 - rm dom elements from main.tpl.htm
-- add html5shiv.js
+- add html5shiv.js (https://github.com/aFarkas/html5shiv) for better HTML5-compatibility
 - reduction of dom elements
 - reduction of css rules
 - removed all single icons
     - all icons separate:  https://github.com/downloads/foe-services/ispc-larry/ispc-default_separate.zip
     - all used icons as layers and sprite as .psd: https://github.com/downloads/foe-services/ispc-larry/ispc-default_psd.zip
-- added sprites for all used icons
+- added sprites for (nearly) all used icons where suitable
