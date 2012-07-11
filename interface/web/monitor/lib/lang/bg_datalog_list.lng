@@ -1,12 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Jobqueue';
 $wb['tstamp_txt'] = 'Дата';
-$wb['server_id_txt'] = 'Сървър
+$wb['server_id_txt'] = 'Сървър';
 $wb['dbtable_txt'] = 'DB Table';
 $wb['action_txt'] = 'Действие';
 $wb['status_txt'] = 'Статус';
 ?>
-
-
-
-
