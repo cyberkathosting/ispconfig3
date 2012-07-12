@@ -394,7 +394,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             
             $params = array(
                             'server_id' => $server_id,
-                            //'ip_address' => '',
+                            'ip_address' => '*',
                             //'ipv6_address' => '',
                             'domain' => $entry['name'],
                             'type' => 'vhost', // can be vhost or alias
@@ -404,12 +404,12 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'traffic_quota' => byte_to_mbyte(get_limit($limits, $entry['id'], 'max_traffic', -1)),
                             'cgi' => yes_no(get_option($hosting, 'cgi', 'false') === 'true' ? 1 : 0),
                             'ssi' => yes_no(get_option($hosting, 'ssi', 'false') === 'true' ? 1 : 0),
-                            'suexec' => yes_no(0), // does plesk use this?!
+                            'suexec' => yes_no(1), // does plesk use this?!
                             'errordocs' => get_option($options, 'apacheErrorDocs', 'false') === 'true' ? 1 : 0,
                             'subdomain' => 'www', // plesk always uses this option
                             'ssl' => yes_no(get_option($hosting, 'ssl', 'false') === 'true' ? 1 : 0),
                             'php' => $phpmode,
-                            'fastcgi_php_version' => '', // plsek has no different php versions
+                            'fastcgi_php_version' => '', // plesk has no different php versions
                             'ruby' => yes_no(0), // plesk has no ruby support
                             'python' => yes_no(get_option($hosting, 'python', 'false') === 'true' ? 1 : 0),
                             'active' => yes_no(($entry['status'] == 0 && get_option($hosting, 'maintenance_mode', 'false') !== 'true') ? 1 : 0),
@@ -609,7 +609,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             
             $params = array(
                             'server_id' => $server_id,
-                            //'ip_address' => '',
+                            'ip_address' => '*',
                             //'ipv6_address' => '',
                             'domain' => $entry['name'] . '.' . $parent_domain['name'],
                             'type' => 'vhost', // can be vhost or alias
@@ -619,12 +619,12 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'traffic_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'max_traffic', -1)),
                             'cgi' => yes_no(get_option($hosting, 'cgi', 'false') === 'true' ? 1 : 0),
                             'ssi' => yes_no(get_option($hosting, 'ssi', 'false') === 'true' ? 1 : 0),
-                            'suexec' => yes_no(0), // does plesk use this?!
+                            'suexec' => yes_no(1), // does plesk use this?!
                             'errordocs' => get_option($options, 'apacheErrorDocs', 'false') === 'true' ? 1 : 0,
                             'subdomain' => 'www', // plesk always uses this option
                             'ssl' => yes_no(get_option($hosting, 'ssl', 'false') === 'true' ? 1 : 0),
                             'php' => $phpmode,
-                            'fastcgi_php_version' => '', // plsek has no different php versions
+                            'fastcgi_php_version' => '', // plesk has no different php versions
                             'ruby' => yes_no(0), // plesk has no ruby support
                             'python' => yes_no(get_option($hosting, 'python', 'false') === 'true' ? 1 : 0),
                             'active' => yes_no(($entry['status'] == 0 && get_option($hosting, 'maintenance_mode', 'false') !== 'true') ? 1 : 0),
@@ -1077,7 +1077,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         
         //$client_traffic = $exdb->queryAllRecords("SELECT t.cl_id, t.date, t.http_in, t.http_out, t.ftp_in, t.ftp_out, t.smtp_in, t.smtp_out, t.pop3_imap_in, t.pop3_imap_out FROM ClientsTraffic as t");
         
-        $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id");
+        $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id FROM databases as d");
         $db_users  = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.db_id, a.password, a.type as `pwtype` FROM db_users as u LEFT JOIN accounts as a ON (a.id = u.account_id)");
         
         // do we need table disk_usage for import? i think we don't
