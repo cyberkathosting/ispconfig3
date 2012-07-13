@@ -222,9 +222,9 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a VE inside a OpenVz-Host
 	*/
-	$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve">';
+	$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve os-' . $osData['name'] . '">';
         if ($osData != null) {
-            $html_ve .= '<div class="icoDevice os-' . $osData['name'] . '"><p class="status"></p></div>';
+            $html_ve .= '<div class="icoDevice"><p class="status"></p></div>';
         }
         else {
             $html_ve .= '<div class="icoDevice"><p class="status"></p></div>';
@@ -244,9 +244,9 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a "normal" Server or a OpenVz-Host
 	*/
-	$html_server = '<div class="systemmonitor-server state-' . $serverState . '">';
+	$html_server = '<div class="systemmonitor-server state-' . $serverState . ' os-' . $osData['name'] . '">';
 	if ($osData != null) {
-            $html_server .= '<div class="icoDevice os-' . $osData['name'] . '"><p class="status"></p></div>';
+            $html_server .= '<div class="icoDevice"><p class="status"></p></div>';
         }
         else {
             $html_server .= '<div class="icoDevice"><p class="status"></p></div>';
