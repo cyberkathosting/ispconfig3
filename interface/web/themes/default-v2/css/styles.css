@@ -138,7 +138,6 @@ header span {
 }
 
 /* nav
-    TODO: sprite image
 -------------------------------------------------------------- */
 #topNav ul {
     list-style: none;
@@ -599,15 +598,26 @@ div.status {
     height:32px;
     margin:0 0 0.2em;
 } 
+div#ir-Yes,
+div#ir-No {
+    text-align: center;
+    background: url("../icons/x16_sprite.png") no-repeat transparent;
+}
 #ir-Yes {
-    background-image: url("../icons/x16/tick_circle.png");
-    height:16px;
-} 
+    background-position: left -342px !important;
+    height: 16px;
+}
 #ir-No {
-    background-image: url("../icons/x16/cross_circle.png");
-    height:16px;
-} 
-
+    background-position: left -362px !important;
+    height: 16px;
+}
+.swap {
+    background-repeat: no-repeat;
+}
+.swap span {
+    display: none;
+    height: 16px;
+}
 /* BUTTONS */
 a.button,
 .button,
@@ -725,8 +735,8 @@ button.icons16 {
 .icons16.icoEdit { background-position: -1px -1px; }
 .icons16.icoLoginAs { background-position: -1px -21px; }
 .icons16.icoPDF { background-position: -1px -61px; }
-.icons16.icoWebmailer { background-position: -1px -81px; }
-.icons16.icoDelete { background-position: -1px -141px; }
+.icons16.icoDelete { background-position: -1px -81px; }
+.icons16.icoWebmailer { background-position: -1px -101px; }
 .icons16.icoFilter { background-position: -1px -161px; }
 .icons16.icoDbAdmin { background-position: -1px -221px; }
 .icons16.icoAction { background-position: -1px -241px; }
@@ -767,7 +777,7 @@ input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px
 
 a[href $="#logout"] {
     padding-right: 20px;
-    background: url("../icons/x16_sprite.png") no-repeat right -123px transparent !important;
+    background: url("../icons/x16_sprite.png") no-repeat right -143px transparent !important;
 }
 
 /* Select Menu with Images */
@@ -1121,7 +1131,7 @@ div.gs-container * {
     font-size: 1em;
 }
 div.gs-container input {
-    background: url("../icons/x16_sprite.png") no-repeat 2px -99px #FFFFFF;
+    background: url("../icons/x16_sprite.png") no-repeat 2px -119px #FFFFFF;
     height:20px;
     border:1px solid #444;
     padding:0 22px 2px;
