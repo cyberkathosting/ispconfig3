@@ -363,7 +363,22 @@ tbody th.sub {
     background: #ddd;
     color: #333;
 }
-
+table.list th[class$="_pid"],
+table.list td[class$="_pid"],
+table.list th[class$="_active"],
+table.list td[class$="_active"],
+table.list th.tbl_col_autoresponder,
+table.list td.tbl_col_autoresponder {
+    width: 70px;
+    text-align: center;
+}
+table.list .tbl_col_buttons,
+table.list .tbl_col_limit {
+    width: 150px;
+}
+.tbl_col_client_pid input {
+    width: 50px;
+}
 .pnl_listarea th[class^="tbl_col"] { cursor:pointer; }
 .pnl_listarea th[class^="tbl_col"]:hover { background-position:0 -15px!important; }
 
@@ -604,11 +619,11 @@ div#ir-No {
     background: url("../icons/x16_sprite.png") no-repeat transparent;
 }
 #ir-Yes {
-    background-position: left -342px !important;
+    background-position: center -342px !important;
     height: 16px;
 }
 #ir-No {
-    background-position: left -362px !important;
+    background-position: center -362px !important;
     height: 16px;
 }
 .swap {
@@ -741,6 +756,21 @@ button.icons16 {
 .icons16.icoDbAdmin { background-position: -1px -221px; }
 .icons16.icoAction { background-position: -1px -241px; }
 
+div.group-icon {
+    float: left;
+    padding: 2px 0;
+}
+.group-admin,
+.group-user {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    float: left;
+    background: url("../icons/x16_sprite.png") no-repeat transparent;
+}
+.group-admin { background-position: 0 -380px; }
+.group-user { background-position: 0 -400px; }
+
 #ajaxloader {
     text-align:center;
     margin-top: 180px;
@@ -786,6 +816,15 @@ select.withicons option {
     background-position: 1px;
     padding-left:24px;
 }	
+div[class^=country-] {
+    background-image: url("../icons/flags_sprite.png");
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 26px;
+}
+div[class^=country-] span {
+    display: none;
+}
 select.flags option {
     background-image: url("../icons/flags_sprite.png");
     background-repeat: no-repeat;
@@ -794,7 +833,7 @@ select.flags option {
 select.flags option[value=EL] {background-position:0 -1475px}
 select.flags option[value=AD], select.flags option[value=ad] {background-position:0 -1px}
 select.flags option[value=AE], select.flags option[value=ae] {background-position:0 -23px}
-select.flags option[value=AF], select.flags option[value=af] {background-position:0 -45px}
+select.flags option[value=AF], select.flags option[value=af], .country-AF {background-position:0 -45px}
 select.flags option[value=AG], select.flags option[value=ag] {background-position:0 -67px}
 select.flags option[value=AI], select.flags option[value=ai] {background-position:0 -89px}
 select.flags option[value=AL], select.flags option[value=al] {background-position:0 -111px}
@@ -847,7 +886,7 @@ select.flags option[value=CV], select.flags option[value=cv] {background-positio
 select.flags option[value=CX], select.flags option[value=cx] {background-position:0 -1167px}
 select.flags option[value=CY], select.flags option[value=cy] {background-position:0 -1189px}
 select.flags option[value=CZ], select.flags option[value=cz] {background-position:0 -1211px}
-select.flags option[value=DE], select.flags option[value=de] {background-position:0 -1233px}
+select.flags option[value=DE], select.flags option[value=de], .country-DE {background-position:0 -1233px}
 select.flags option[value=DJ], select.flags option[value=dj] {background-position:0 -1255px}
 select.flags option[value=DK], select.flags option[value=dk] {background-position:0 -1277px}
 select.flags option[value=DM], select.flags option[value=dm] {background-position:0 -1299px}
@@ -866,7 +905,7 @@ select.flags option[value=FM], select.flags option[value=fm] {background-positio
 select.flags option[value=FO], select.flags option[value=fo] {background-position:0 -1673px}
 select.flags option[value=FR], select.flags option[value=fr] {background-position:0 -1695px}
 select.flags option[value=GA], select.flags option[value=ga] {background-position:0 -1717px}
-select.flags option[value=GB], select.flags option[value=en], select.flags option[value=gb] {background-position:0 -1739px}
+select.flags option[value=GB], select.flags option[value=en], select.flags option[value=gb], .country-GB, .country-EN {background-position:0 -1739px}
 select.flags option[value=GD], select.flags option[value=gd] {background-position:0 -1761px}
 select.flags option[value=GE], select.flags option[value=ge] {background-position:0 -1783px}
 select.flags option[value=GF], select.flags option[value=gf] {background-position:0 -1805px}
