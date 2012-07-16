@@ -25,9 +25,7 @@
                         <td class="tbl_col_installlocation">&nbsp;</td>
                         <td class="tbl_col_instancestatus"><select name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
                         <td class="tbl_col_buttons">
-                        <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onClick="submitForm('pageForm','sites/aps_installedpackages_list.php');">
-                            <span>{tmpl_var name='filter_txt'}</span>
-                        </button>
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onClick="submitForm('pageForm','sites/aps_installedpackages_list.php');"><span>{tmpl_var name='filter_txt'}</span></button>
                         </td>
                     </tr>
                 </thead>
@@ -42,10 +40,12 @@
                             <td class="tbl_col_installlocation"><a href="http://{tmpl_var name='install_location'}" target="_blank">{tmpl_var name='install_location_short'}</a></td>
                             <td class="tbl_col_instancestatus"><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
                             <td class="tbl_col_buttons">
-                                <div class="buttons icons16" style="width:60px;">
-                                    <tmpl_if name='delete_possible'><a class="button icons16 icoDelete" href="javascript:if(window.confirm('{tmpl_var name='pkg_delete_confirmation'}')){ loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}'); }"><span>{tmpl_var name='delete_txt'}</span></a></tmpl_if>
-                                    <tmpl_if name='reinstall_possible'><a class="button icons16 icoEdit" href="javascript:if(window.confirm('{tmpl_var name='pkg_reinstall_confirmation'}')){ loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=reinstall_instance&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}'); }"><span>{tmpl_var name='reinstall_txt'}</span></a></tmpl_if>
-                                </div>
+                                <tmpl_if name='delete_possible'>
+                                    <a class="button icons16 icoDelete" href="javascript:if(window.confirm('{tmpl_var name='pkg_delete_confirmation'}')){ loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}'); }"><span>{tmpl_var name='delete_txt'}</span></a>
+                                </tmpl_if>
+                                <tmpl_if name='reinstall_possible'>
+                                    <a class="button icons16 icoEdit" href="javascript:if(window.confirm('{tmpl_var name='pkg_reinstall_confirmation'}')){ loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=reinstall_instance&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}'); }"><span>{tmpl_var name='reinstall_txt'}</span></a>
+                                </tmpl_if>
                             </td>        
                         </tr>
                     </tmpl_loop>
