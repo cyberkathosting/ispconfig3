@@ -44,5 +44,6 @@ $app->auth->check_module_permissions('client');
 if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
 
 $app->uses('listform_actions');
+$app->listform_actions->SQLOrderBy = 'ORDER BY template_name';
 $app->listform_actions->onLoad();
 ?>

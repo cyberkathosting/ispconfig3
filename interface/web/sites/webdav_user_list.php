@@ -44,7 +44,7 @@ $list_def_file = "list/webdav_user.list.php";
 $app->auth->check_module_permissions('sites');
 
 $app->uses('listform_actions');
-
+$app->listform_actions->SQLOrderBy = 'ORDER BY username';
 $app->listform_actions->onLoad();
 
 

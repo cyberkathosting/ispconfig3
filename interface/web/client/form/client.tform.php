@@ -38,16 +38,16 @@
 
 */
 
-$form["title"] 			= "Client";
-$form["description"] 	= "";
-$form["name"] 			= "client";
-$form["action"]			= "client_edit.php";
-$form["db_table"]		= "client";
+$form["title"] 		= "Client";
+$form["description"]    = "";
+$form["name"] 		= "client";
+$form["action"]		= "client_edit.php";
+$form["db_table"]	= "client";
 $form["db_table_idx"]	= "client_id";
-$form["db_history"]		= "yes";
+$form["db_history"]	= "yes";
 $form["tab_default"]	= "address";
 $form["list_default"]	= "client_list.php";
-$form["auth"]			= 'yes';
+$form["auth"]		= 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -101,9 +101,9 @@ $form["tabs"]['address'] = array (
 		'contact_name' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'contact_error_empty'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'NOTEMPTY',
+                                                                'errmsg'=> 'contact_error_empty'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',
@@ -129,19 +129,19 @@ $form["tabs"]['address'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'username_error_empty'),
-										1 => array (	'type'	=> 'CUSTOM',
-														'class' => 'validate_client',
-														'function' => 'username_unique',
-														'errmsg'=> 'username_error_unique'),
-										2 => array (	'type'	=> 'CUSTOM',
-														'class' => 'validate_client',
-														'function' => 'username_collision',
-														'errmsg'=> 'username_error_collision'),
-										3 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-\_]{0,64}$/',
-														'errmsg'=> 'username_error_regex'),
-										),
+                                                                        'errmsg'=> 'username_error_empty'),
+                                                        1 => array (	'type'	=> 'CUSTOM',
+                                                                        'class' => 'validate_client',
+                                                                        'function' => 'username_unique',
+                                                                        'errmsg'=> 'username_error_unique'),
+                                                        2 => array (	'type'	=> 'CUSTOM',
+                                                                        'class' => 'validate_client',
+                                                                        'function' => 'username_collision',
+                                                                        'errmsg'=> 'username_error_collision'),
+                                                        3 => array (	'type'	=> 'REGEX',
+                                                                        'regex' => '/^[\w\.\-\_]{0,64}$/',
+                                                                        'errmsg'=> 'username_error_regex'),
+                                                        ),
 			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',
@@ -235,14 +235,13 @@ $form["tabs"]['address'] = array (
 		),
 		'country' => array (
 			'datatype'	=> 'VARCHAR',
-
 			'formtype'	=> 'SELECT',
 			'default'	=> (isset($conf['language']) ? strtoupper($conf['language']) : ''),
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT iso,printable_name FROM country ORDER BY printable_name',
-										'keyfield'=> 'iso',
-										'valuefield'=> 'printable_name'
-									 ),
+			'datasource'	=> array (  'type'          => 'SQL',
+                                                    'querystring'   => 'SELECT iso,printable_name FROM country ORDER BY iso ASC',
+                                                    'keyfield'      => 'iso',
+                                                    'valuefield'    => 'printable_name'
+                                                ),
 			'value'		=> ''
 		),
 		'telephone' => array (

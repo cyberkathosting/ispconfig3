@@ -48,7 +48,7 @@ $app->uses('listform_actions');
 
 // Limit the results to alias domains
 $app->listform_actions->SQLExtWhere = "type = 'alias'";
-
+$app->listform_actions->SQLOrderBy = 'ORDER BY domain';
 $app->listform_actions->onLoad();
 
 

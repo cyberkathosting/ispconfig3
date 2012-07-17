@@ -56,7 +56,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 
 
 // Load the templates
-$records = $app->db->queryAllRecords("SELECT * FROM dns_template WHERE visible = 'Y'");
+$records = $app->db->queryAllRecords("SELECT * FROM dns_template WHERE visible = 'Y' ORDER BY name ASC");
 $template_id_option = '';
 $n = 0;
 foreach($records as $rec){

@@ -46,6 +46,7 @@ $app->auth->check_module_permissions('domain');
 
 $app->uses('listform_actions');
 
+$app->listform_actions->SQLOrderBy = 'ORDER BY domain';
 $app->listform_actions->onLoad();
 
 ?>
