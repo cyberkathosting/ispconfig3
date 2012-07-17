@@ -159,13 +159,14 @@ header span {
     padding-top:37px;
     text-align:center;
     text-decoration:none;
-    width:78px;
+    min-width:78px;
 }
 
 #topNav a:hover {
     background-color: #eeeeee;
     color: #000000;
 }
+
 #topNav #topNav_current a {
     font-weight: bold;
     color: black;
@@ -185,7 +186,9 @@ header span {
 .topnav-dashboard { background-position: 22px -1035px !important; }
 .topnav-client { background-position: 22px -1098px !important; }
 .topnav-billing { background-position: 22px -1162px !important; }
-
+#topNav a span {
+            padding: 0 3px;
+        }
 /* main
 -------------------------------------------------------------- */
 #main { 

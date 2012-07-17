@@ -38,14 +38,16 @@
 		padding-top:37px;
 		text-align:center;
 		text-decoration:none;
-		width:78px;
+		min-width:78px;
 	}
 	
 	#topNav a:hover {
 		background-color: #eeeeee;
 		color: #000000;
 	}
-	
+        #topNav a span {
+            padding: 0 3px;
+        }
 	#topNav #topNav_current {
 	}
 	
