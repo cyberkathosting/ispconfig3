@@ -679,7 +679,9 @@ input.button:focus,
     width:16px;
     height:16px;
 }
-
+.topbuttons {
+    margin-bottom: 10px;
+}
 /* BUTTONS STANDARD */
 button:hover,
 .buttons a:hover {
@@ -1104,10 +1106,10 @@ div.subsectiontoggle span {
     margin-right:10px;
     width:16px;
     height:16px;
-    background:url("../icons/x16/plus_circle_frame.png") top left no-repeat;
+    background: url("../icons/button_sprite.png") 0 -72px no-repeat transparent;
 }
 div.subsectiontoggle span.showing{
-    background:url("../icons/x16/minus_circle_frame.png") top left no-repeat;
+    background-position: 0 -40px;
 }
 div.subsectiontoggle em {
     display:block;
