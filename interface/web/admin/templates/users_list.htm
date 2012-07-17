@@ -22,12 +22,14 @@
                         <th class="tbl_col_client_id" scope="col"><tmpl_var name="client_id_txt"></th>
                         <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
                         <th class="tbl_col_username" scope="col"><tmpl_var name="username_txt"></th>
+                        <th class="tbl_col_groups" scope="col"><tmpl_var name="groups_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td class="tbl_col_client_id"><input type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
                         <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
+                        <td class="tbl_col_groups"><select name="search_groups">{tmpl_var name='search_groups'}</select></td>
                         <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/users_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
                     </tr>
                 </thead>
@@ -37,6 +39,7 @@
                             <td class="tbl_col_client_id"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="client_id"}</a></td>
                             <td class="tbl_col_active"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
                             <td class="tbl_col_username"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="username"}</a></td>
+                            <td class="tbl_col_groups">{tmpl_var name="groups"}</td>
                             <td class="tbl_col_buttons">
                                 <div class="buttons icons16">    
                                     <tmpl_if name="username" op="!=" value="admin">
