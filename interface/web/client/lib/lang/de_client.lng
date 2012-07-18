@@ -1,7 +1,7 @@
 <?php
 $wb['limit_maildomain_txt'] = 'Max. Anzahl an E-Mail-Domains';
 $wb['limit_mailbox_txt'] = 'Max. Anzahl an Mailboxen';
-$wb['limit_mailalias_txt'] = 'Max. Anzahl an E-Mail-Aliassen';
+$wb['limit_mailalias_txt'] = 'Max. Anzahl an E-Mail-Aliases';
 $wb['limit_mailforward_txt'] = 'Max. Anzahl an E-Mail Weiterleitungen';
 $wb['limit_mailcatchall_txt'] = 'Max. Anzahl an E-Mail Catchall Konten';
 $wb['limit_mailrouting_txt'] = 'Max. Anzahl an E-Mail Routen';
@@ -22,7 +22,7 @@ $wb['street_txt'] = 'Straße';
 $wb['zip_txt'] = 'PLZ';
 $wb['city_txt'] = 'Ort';
 $wb['state_txt'] = 'Bundesland';
-$wb['country_txt'] = 'Staat';
+$wb['country_txt'] = 'Land';
 $wb['telephone_txt'] = 'Telefon';
 $wb['mobile_txt'] = 'Handy';
 $wb['fax_txt'] = 'Fax';
@@ -83,6 +83,8 @@ $wb['username_error_regex'] = 'Der Benutzername enthält ungültige Zeichen.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['template_master_txt'] = 'Mastervorlage';
 $wb['template_additional_txt'] = 'Add-Ons';
+$wb["add_additional_template_txt"] = 'Zusätzliches Template hinzufügen';
+$wb["delete_additional_template_txt"] = 'Zusätzliches Template löschen';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Optionen';
 $wb['web_php_options_txt'] = 'PHP Optionen';
 $wb['limit_client_error'] = 'Die maximale Anzahl an Kunden wurde erreicht.';
