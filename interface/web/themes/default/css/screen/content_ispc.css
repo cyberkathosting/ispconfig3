@@ -796,6 +796,8 @@
 		-o-border-radius:5px;
 		-ms-border-radius:5px;
 		border-radius:5px;
+                max-height:500px;
+                overflow:auto;
 	}
 	ul.gs-resultbox li{
 		float: left;
