@@ -1,42 +1,60 @@
 <?php
+//Errors
 $wb['1001'] = 'Имя пользователя или пароль пусты.';
 $wb['1002'] = 'Имя пользователя или пароль неправильны.';
-$wb['Firewall'] = 'Файрволл';
+
 $wb['Groups'] = 'Группы';
 $wb['groups_description'] = 'Форма для редактирования группы системного пользователя.';
-$wb['Server'] = 'Сервер';
-$wb['Services'] = 'Службы';
+
+$wb['Servers'] = 'Серверы';
 $wb['Config'] = 'Конфигурация';
-$wb['Server Config'] = 'Конфигурация сервера';
-$wb['Mail'] = 'Почта';
-$wb['Getmail'] = 'Getmail';
-$wb['Web'] = 'Web';
-$wb['FastCGI'] = 'FastCGI';
-$wb['Jailkit'] = 'Jailkit';
-$wb['System'] = 'Система';
+
 $wb['Add user'] = 'Добавить пользователя';
 $wb['Edit user'] = 'Редактировать пользователя';
-$wb['CP Users'] = 'CP пользователя';
 $wb['Add group'] = 'Добавить группу';
 $wb['Edit group'] = 'Изменить пользователя';
 $wb['Edit server'] = 'Редактировать сервер';
-$wb['Edit Server IP'] = 'Изменить IP сервера';
-$wb['Servers'] = 'Серверы';
+
 $wb['Sync. Now'] = 'Синхронизировать сейчас';
 $wb['DB Sync.'] = 'Синхронизировать БД';
-$wb['Languages'] = 'Языки';
-$wb['New Language'] = 'Новый язык';
-$wb['Export'] = 'Экспорт';
-$wb['Import'] = 'Импорт';
-$wb['Language Editor'] = 'Редактор языков';
+
+// subnav
+$wb['User Management'] = 'User Management';
+$wb['CP Users'] = 'CP пользователя';
+$wb['Remote Users'] = 'Удаленные пользователи';
+
+$wb['System'] = 'Система';
+$wb['Server Services'] = 'Службы сервера';
+    $wb['Services'] = 'Службы';
+$wb['Server Config'] = 'Конфигурация сервера';
+    $wb['Server'] = 'Сервер';
+    $wb['Mail'] = 'Почта';
+    $wb['Getmail'] = 'Getmail';
+    $wb['Web'] = 'Web';
+    $wb['FastCGI'] = 'FastCGI';
+    $wb['Jailkit'] = 'Jailkit';
+    $wb['Rescue'] = 'Rescue';
+$wb['Server IP addresses'] = 'Изменить IP сервера';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
+$wb['Firewall'] = 'Файрволл';
+
+$wb['Interface'] = 'Interface';
+$wb['Interface Config'] = 'Конфиг интерфейса';
+    $wb['Domains'] = 'Domains';
+    $wb['Misc'] = 'Misc';
+
 $wb['Software'] = 'Софт';
 $wb['Repositories'] = 'Репозитарии';
-$wb['Server Services'] = 'Службы сервера';
-$wb['Interface Config'] = 'Конфиг интерфейса';
 $wb['Packages'] = 'Пакеты';
 $wb['Updates'] = 'Обновления';
+
+$wb['Language Editor'] = 'Редактор языков';
+$wb['Languages'] = 'Языки';
+$wb['New Language'] = 'Новый язык';
 $wb['Merge'] = 'Объеденить';
-$wb['Remote Users'] = 'Удаленные пользователи';
+$wb['Export'] = 'Экспорт';
+$wb['Import'] = 'Импорт';
+
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';

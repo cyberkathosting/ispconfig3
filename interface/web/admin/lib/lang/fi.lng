@@ -1,43 +1,61 @@
 <?php
-$wb['Firewall'] = 'Palomuuri';
+//Errors
+$wb[1001] = "Username or password is empty.";
+$wb[1002] = "Username or password is wrong.";
+
 $wb['Groups'] = 'Käyttäjäryhmät';
 $wb['groups_description'] = 'Lomake käyttäjäryhmien muokkaukseen.';
-$wb['Server'] = 'Palvelin';
-$wb['Services'] = 'Palvelut';
+
+$wb['Servers'] = 'Palvelimet';
 $wb['Config'] = 'Asetukset';
-$wb['Server Config'] = 'Palvelimen asetukset';
-$wb['Mail'] = 'Posti';
-$wb['Getmail'] = 'Postin nouto';
-$wb['Web'] = 'WWW';
-$wb['FastCGI'] = 'FastCGI';
-$wb['Jailkit'] = 'Jailkit';
-$wb['System'] = 'Järjestelmä';
+
 $wb['Add user'] = 'Lisää käyttäjä';
 $wb['Edit user'] = 'Muokkaa käyttäjää';
-$wb['CP Users'] = 'Hallintapaneelin käyttäjät';
 $wb['Add group'] = 'Lisää käyttäjäryhmä';
 $wb['Edit group'] = 'Muokkaa ryhmää';
 $wb['Edit server'] = 'Muokkaa palvelinta';
-$wb['Edit Server IP'] = 'Muokkaa palvelimen IP-osoitteita';
-$wb['Servers'] = 'Palvelimet';
+
 $wb['Sync. Now'] = 'Synkronoi nyt';
 $wb['DB Sync.'] = 'Tietokannan synkronointi.';
-$wb['Languages'] = 'Hallintapaneelin kielet';
-$wb['New Language'] = 'Lisää uusi kieli';
-$wb['Export'] = 'Lataa';
-$wb['Import'] = 'Asenna';
-$wb['Language Editor'] = 'Kielimuokkain';
+
+// subnav
+$wb['User Management'] = 'User Management';
+$wb['CP Users'] = 'Hallintapaneelin käyttäjät';
+$wb['Remote Users'] = 'Etäkäyttäjät';
+
+$wb['System'] = 'Järjestelmä';
+$wb['Server Services'] = 'Palvelimen palvelut';
+    $wb['Services'] = 'Palvelut';
+$wb['Server Config'] = 'Palvelimen asetukset';
+    $wb['Server'] = 'Palvelin';
+    $wb['Mail'] = 'Posti';
+    $wb['Getmail'] = 'Postin nouto';
+    $wb['Web'] = 'WWW';
+    $wb['FastCGI'] = 'FastCGI';
+    $wb['Jailkit'] = 'Jailkit';
+    $wb['Rescue'] = 'Rescue';
+$wb['Server IP addresses'] = 'Server IP addresses';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
+$wb['Firewall'] = 'Palomuuri';
+
+$wb['Interface'] = 'Interface';
+$wb['Interface Config'] = 'Main Config';
+    $wb['Domains'] = 'Domains';
+    $wb['Misc'] = 'Misc';
+
 $wb['Software'] = 'Ohjelmat';
 $wb['Repositories'] = 'Ohjelmapakettien varastot';
-$wb['Server Services'] = 'Palvelimen palvelut';
-$wb['Interface Config'] = 'Käyttöliittynän asetukset';
 $wb['Packages'] = 'Paketit';
 $wb['Updates'] = 'Päivitykset';
+
+$wb['Language Editor'] = 'Kielimuokkain';
+$wb['Languages'] = 'Hallintapaneelin kielet';
+$wb['New Language'] = 'Lisää uusi kieli';
 $wb['Merge'] = 'Yhdistä';
-$wb['Remote Users'] = 'Etäkäyttäjät';
+$wb['Export'] = 'Lataa';
+$wb['Import'] = 'Asenna';
+
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
-$wb['1001'] = 'Username or password is empty.';
-$wb['1002'] = 'Username or password is wrong.';
 ?>

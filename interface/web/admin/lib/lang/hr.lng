@@ -1,42 +1,60 @@
 <?php
+//Errors
 $wb['1001'] = 'Nije upisano korisničko ime ili šifra.';
 $wb['1002'] = 'Pogrešno korisničko ime ili šifra.';
-$wb['Firewall'] = 'Firewall';
+
 $wb['Groups'] = 'Grupe';
 $wb['groups_description'] = 'Forma za editiranje grupe korisnika sistema.';
-$wb['Server'] = 'Server';
-$wb['Services'] = 'Servisi';
+
+$wb['Servers'] = 'Serveri';
 $wb['Config'] = 'Konfiguracija';
-$wb['Server Config'] = 'Konfiguracija servera';
-$wb['Mail'] = 'Mail';
-$wb['Getmail'] = 'Getmail';
-$wb['Web'] = 'Web';
-$wb['FastCGI'] = 'FastCGI';
-$wb['Jailkit'] = 'Jailkit';
-$wb['System'] = 'Sistem';
+
 $wb['Add user'] = 'Dodaj korisnika';
 $wb['Edit user'] = 'Editiraj korisnika';
-$wb['CP Users'] = 'Control panel korisnici';
 $wb['Add group'] = 'Dodaj grupu';
 $wb['Edit group'] = 'Editiraj grupu';
 $wb['Edit server'] = 'Editiraj server';
-$wb['Edit Server IP'] = 'IP adresa servera';
-$wb['Servers'] = 'Serveri';
+
 $wb['Sync. Now'] = 'Sinkroniziraj';
 $wb['DB Sync.'] = 'Sinkroniziraj bazu';
-$wb['Languages'] = 'Jezici';
-$wb['New Language'] = 'Novi jezik';
-$wb['Export'] = 'Eksportiraj';
-$wb['Import'] = 'Importiraj';
-$wb['Language Editor'] = 'Jezični editor';
+
+// subnav
+$wb['User Management'] = 'User Management';
+$wb['CP Users'] = 'CP korisnici';
+$wb['Remote Users'] = 'Udaljeni korisnici';
+
+$wb['System'] = 'Sistem';
+$wb['Server Services'] = 'Serverski servisi';
+    $wb['Services'] = 'Servisi';
+$wb['Server Config'] = 'Konfiguracija servera';
+    $wb['Server'] = 'Server';
+    $wb['Mail'] = 'Mail';
+    $wb['Getmail'] = 'Getmail';
+    $wb['Web'] = 'Web';
+    $wb['FastCGI'] = 'FastCGI';
+    $wb['Jailkit'] = 'Jailkit';
+    $wb['Rescue'] = 'Rescue';
+$wb['Server IP addresses'] = 'IP adresa servera';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
+$wb['Firewall'] = 'Firewall';
+
+$wb['Interface'] = 'Interface';
+$wb['Interface Config'] = 'Main Config';
+    $wb['Domains'] = 'Domains';
+    $wb['Misc'] = 'Misc';
+
 $wb['Software'] = 'Aplikacije i dodaci';
 $wb['Repositories'] = 'Repozitoriji';
-$wb['Server Services'] = 'Serverski servisi';
-$wb['Interface Config'] = 'Konfiguracija sistema';
 $wb['Packages'] = 'Paketi';
 $wb['Updates'] = 'Nadogradnje';
+
+$wb['Language Editor'] = 'Jezični editor';
+$wb['Languages'] = 'Jezici';
+$wb['New Language'] = 'Novi jezik';
 $wb['Merge'] = 'Spoji';
-$wb['Remote Users'] = 'Udaljeni korisnici';
+$wb['Export'] = 'Eksportiraj';
+$wb['Import'] = 'Importiraj';
+
 $wb['Remote Actions'] = 'Udaljene akcije';
 $wb['Do OS-Update'] = 'Nadogradnja sistema';
 $wb['Do ISPConfig-Update'] = 'Nadogradnja control panela';

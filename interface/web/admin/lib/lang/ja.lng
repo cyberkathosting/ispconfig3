@@ -1,43 +1,61 @@
 <?php
-$wb['Firewall'] = 'ファイアウォール';
+//Errors
+$wb[1001] = "Username or password is empty.";
+$wb[1002] = "Username or password is wrong.";
+
 $wb['Groups'] = 'グループ';
 $wb['groups_description'] = 'システムユーザーグループの編集';
-$wb['Server'] = 'サーバー';
-$wb['Services'] = 'サービス';
+
+$wb['Servers'] = 'サーバー';
 $wb['Config'] = '設定';
-$wb['Server Config'] = 'サーバーの設定';
-$wb['Mail'] = 'メール';
-$wb['Getmail'] = 'Getmail';
-$wb['Web'] = 'ウェブ';
-$wb['FastCGI'] = 'FastCGI';
-$wb['Jailkit'] = 'Jailkit';
-$wb['System'] = 'システム';
+
 $wb['Add user'] = 'ユーザーを追加する';
 $wb['Edit user'] = 'ユーザーを編集する';
-$wb['CP Users'] = 'コントロールパネルユーザー';
 $wb['Add group'] = 'グループを追加する';
 $wb['Edit group'] = 'グループを編集する';
 $wb['Edit server'] = 'サーバーを編集する';
-$wb['Edit Server IP'] = 'サーバーのIPアドレスを編集する';
-$wb['Servers'] = 'サーバー';
-$wb['Sync. Now'] = 'Sync.Now';
+
+$wb['Sync. Now'] = 'Sync. Now';
 $wb['DB Sync.'] = 'DB Sync.';
-$wb['Languages'] = '言語';
-$wb['New Language'] = '言語を追加する';
-$wb['Export'] = 'エクスポート';
-$wb['Import'] = 'インポート';
-$wb['Language Editor'] = '言語エディタ';
+
+// subnav
+$wb['User Management'] = 'User Management';
+$wb['CP Users'] = 'コントロールパネルユーザー';
+$wb['Remote Users'] = 'Remote Users';
+
+$wb['System'] = 'システム';
+$wb['Server Services'] = 'Server Services';
+    $wb['Services'] = 'サービス';
+$wb['Server Config'] = 'サーバーの設定';
+    $wb['Server'] = 'サーバー';
+    $wb['Mail'] = 'メール';
+    $wb['Getmail'] = 'Getmail';
+    $wb['Web'] = 'ウェブ';
+    $wb['FastCGI'] = 'FastCGI';
+    $wb['Jailkit'] = 'Jailkit';
+    $wb['Rescue'] = 'Rescue';
+$wb['Server IP addresses'] = 'サーバーのIPアドレスを編集する';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
+$wb['Firewall'] = 'ファイアウォール';
+
+$wb['Interface'] = 'Interface';
+$wb['Interface Config'] = 'Main Config';
+    $wb['Domains'] = 'Domains';
+    $wb['Misc'] = 'Misc';
+
 $wb['Software'] = 'ソフトウェア';
 $wb['Repositories'] = 'リポジトリー';
-$wb['Server Services'] = 'Server Services';
-$wb['Interface Config'] = 'Interface Config';
 $wb['Packages'] = 'Packages';
 $wb['Updates'] = 'Updates';
+
+$wb['Language Editor'] = '言語エディタ';
+$wb['Languages'] = '言語';
+$wb['New Language'] = '言語を追加する';
 $wb['Merge'] = 'Merge';
-$wb['Remote Users'] = 'Remote Users';
+$wb['Export'] = 'エクスポート';
+$wb['Import'] = 'インポート';
+
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
-$wb['1001'] = 'Username or password is empty.';
-$wb['1002'] = 'Username or password is wrong.';
 ?>
