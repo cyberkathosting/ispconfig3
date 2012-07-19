@@ -257,7 +257,7 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 // Make the web logfiles directories world readable to enable ftp access
 #######################################################################################################
 
-exec('chmod +r /var/log/ispconfig/httpd/*');
+if(is_dir('/var/log/ispconfig/httpd')) exec('chmod +r /var/log/ispconfig/httpd/*');
 
 #######################################################################################################
 // Manage and compress web logfiles and create traffic statistics
