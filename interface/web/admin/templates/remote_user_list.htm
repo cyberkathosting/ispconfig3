@@ -22,7 +22,7 @@
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td class="tbl_col_remote_userid"></td>           
+                        <td class="tbl_col_remote_userid"><input type="text" name="search_remote_userid" value="{tmpl_var name='search_remote_userid'}" /></td>           
                         <td class="tbl_col_remote_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/remote_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
                     </tr>
