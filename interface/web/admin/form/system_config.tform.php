@@ -33,16 +33,16 @@
 
 */
 
-$form["title"] 			= "System Config";
-$form["description"] 	= "";
-$form["name"] 			= "system_config";
-$form["action"]			= "system_config_edit.php";
-$form["db_table"]		= "sys_ini";
+$form["title"] 		= "System Config";
+$form["description"] 	= "system_config_desc_txt";
+$form["name"] 		= "system_config";
+$form["action"]		= "system_config_edit.php";
+$form["db_table"]	= "sys_ini";
 $form["db_table_idx"]	= "sysini_id";
-$form["db_history"]		= "yes";
+$form["db_history"]	= "yes";
 $form["tab_default"]	= "sites";
 $form["list_default"]	= "server_list.php";
-$form["auth"]			= 'yes'; // yes / no
+$form["auth"]		= 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -61,10 +61,10 @@ $form["tabs"]['sites'] = array (
 		'dbname_prefix' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
-														'errmsg'=> 'dbname_prefix_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+                                                                'errmsg'=> 'dbname_prefix_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -73,10 +73,10 @@ $form["tabs"]['sites'] = array (
 		'dbuser_prefix' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
-														'errmsg'=> 'dbuser_prefix_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+                                                                'errmsg'=> 'dbuser_prefix_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -85,10 +85,10 @@ $form["tabs"]['sites'] = array (
 		'ftpuser_prefix' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
-														'errmsg'=> 'ftpuser_prefix_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+                                                                'errmsg'=> 'ftpuser_prefix_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -97,10 +97,10 @@ $form["tabs"]['sites'] = array (
 		'shelluser_prefix' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
-														'errmsg'=> 'shelluser_prefix_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+                                                                'errmsg'=> 'shelluser_prefix_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -109,10 +109,10 @@ $form["tabs"]['sites'] = array (
 		'webdavuser_prefix' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
-														'errmsg'=> 'webdavuser_prefix_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+                                                                'errmsg'=> 'webdavuser_prefix_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -127,10 +127,10 @@ $form["tabs"]['sites'] = array (
 		'phpmyadmin_url' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
-														'errmsg'=> 'phpmyadmin_url_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+                                                                'errmsg'=> 'phpmyadmin_url_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -139,10 +139,10 @@ $form["tabs"]['sites'] = array (
 		'webftp_url' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
-														'errmsg'=> 'webftp_url_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
+                                                                'errmsg'=> 'webftp_url_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -177,10 +177,10 @@ $form["tabs"]['mail'] = array (
 		'webmail_url' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
-														'errmsg'=> 'webmail_url_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
+                                                                'errmsg'=> 'webmail_url_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -195,10 +195,10 @@ $form["tabs"]['mail'] = array (
 		'mailmailinglist_url' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
-														'errmsg'=> 'mailinglist_url_error_regex'),
-										),
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.]{0,255}$/',
+                                                                'errmsg'=> 'mailinglist_url_error_regex'),
+                                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
@@ -252,6 +252,30 @@ $form["tabs"]['domains'] = array (
 	)
 );
 
+/* TODO_ BEGIN: Branding
+
+$form["tabs"]['domains'] = array (
+	'title' 	=> "Branding",
+	'width' 	=> 70,
+	'template' 	=> "templates/system_config_branding_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+                'logo' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> 'themes/default/images/header_logo.png',
+			'value'		=> ''
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+
+ END: Branding */
 $form["tabs"]['misc'] = array (
 	'title' 	=> "Misc",
 	'width' 	=> 70,
