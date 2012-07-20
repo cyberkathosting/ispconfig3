@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Edit these values carefully! Do not remove the prefixes on a systems with more then one client.';
 $wb['dbname_prefix_txt'] = 'Database name prefix';
 $wb['dbuser_prefix_txt'] = 'Database user prefix';

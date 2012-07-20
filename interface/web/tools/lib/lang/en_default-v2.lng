@@ -1,5 +1,0 @@
-<?php
-$wb["language_txt"] = 'Language';
-$wb["startmodule_txt"] = 'Startmodule';
-$wb["app_theme_txt"] = 'Design';
-?>

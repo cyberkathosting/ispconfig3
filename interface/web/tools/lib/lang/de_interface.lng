@@ -1,4 +1,6 @@
 <?php
+$wb["interface_head_txt"] = 'Interface Einstellungen';
+$wb["interface_desc_txt"] = 'Passe das Interface für dich an';
 $wb['language_txt'] = 'Sprache';
 $wb['startmodule_txt'] = 'Startmodul';
 $wb['app_theme_txt'] = 'Design';

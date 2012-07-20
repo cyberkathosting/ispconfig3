@@ -32,7 +32,7 @@ $items[] = array(   'title'     => 'Interface',
                     'link'	=> 'tools/interface_settings.php',
                     'html_id'   => 'interface_settings');
 
-include_once(ISPC_WEB_PATH.'/tools/lib/interface.d/' . $_SESSION['s']['user']['app_theme'] . '.menu.php');
+include_once(ISPC_WEB_PATH.'/tools/lib/interface.d/tpl_' . $_SESSION['s']['user']['app_theme'] . '.menu.php');
 				  
 $module['nav'][] = array(	'title'	=> 'Interface',
                                 'open' 	=> 1,

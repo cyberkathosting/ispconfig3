@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Oprezno mijenjajte prefikse i postavke! Nemojte brisati prefikse na sistemima gdje postoji više od jednog klijenata.';
 $wb['dbname_prefix_txt'] = 'Prefiks nazivu baze';
 $wb['dbuser_prefix_txt'] = 'Prefiks nazivu korisnika baze';

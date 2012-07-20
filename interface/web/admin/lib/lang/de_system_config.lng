@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Bearbeiten Sie diese Werte sorgfältig! Entfernen Sie die Prefixe nicht auf Systemen mit mehr als einem Client.';
 $wb['dbname_prefix_txt'] = 'Datenbanknamen Prefix';
 $wb['dbuser_prefix_txt'] = 'Datenbankbenutzer Prefix';

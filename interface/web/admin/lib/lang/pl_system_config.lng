@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Edytuj te wartości ostrożnie! Nie usuwaj prefiksów w systemie w więcej niż jednym kliencie.';
 $wb['dbname_prefix_txt'] = 'Prefiks nazwy bazy danych';
 $wb['dbuser_prefix_txt'] = 'Prefiks użytkownika bazy danych';

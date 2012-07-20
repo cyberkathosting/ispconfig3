@@ -60,10 +60,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form['title'] 		= 'Default-v2 Settings';
-$form['description'] 	= '';
-$form['name'] 		= 'default-v2';
-$form['action']		= 'default-v2_settings.php';
+$form['title'] 		= 'tpl_default_head_txt';
+$form['description'] 	= 'tpl_default_desc_txt';
+$form['name'] 		= 'tpl_default';
+$form['action']		= 'tpl_default.php';
 $form['db_table']	= 'sys_user'; // needs to be 'sys_user_theme'
 $form['db_table_idx']	= 'userid'; //??
 $form["db_history"]	= "no";
@@ -126,7 +126,51 @@ $form['tabs']['main'] = array (
 	##################################
 	# Beginn Datenbankfelder
 	##################################
-                
+                'startmodule' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'regex'		=> '',
+			'errmsg'	=> '',
+			'default'	=> '',
+			'value'		=> $modules_list,
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'language' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+                        'validators'	=> array ( 0 => array (	'type'	=> 'NOTEMPTY',
+                                                                'errmsg'=> 'language_is_empty'),
+                                                   1 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[a-z]{2}$/i',
+                                                                'errmsg'=> 'language_regex_mismatch'),
+                                                ),
+			'regex'		=> '',
+			'errmsg'	=> '',
+			'default'	=> '',
+			'value'		=> $language_list,
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '2',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+                'app_theme' => array (
+                            'datatype'	=> 'VARCHAR',
+                            'formtype'	=> 'SELECT',
+                            'regex'	=> '',
+                            'errmsg'	=> '',
+                            'default'	=> 'default',
+                            'value'	=> $themes_list,
+                            'separator'	=> '',
+                            'width'	=> '30',
+                            'maxlength'	=> '255',
+                            'rows'	=> '',
+                            'cols'	=> ''
+                    )
 	##################################
 	# ENDE Datenbankfelder
 	##################################

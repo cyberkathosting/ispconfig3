@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Muokkaa näitä arvoja varoen! Älä poista etuliitteitä jos järjestelmässä on enemmän kuin yksi asiakas.';
 $wb['dbname_prefix_txt'] = 'Tietokannan nimen etuliite';
 $wb['dbuser_prefix_txt'] = 'Tietokannan käyttäjätunnuksen etuliite';
