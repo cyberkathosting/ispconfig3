@@ -656,7 +656,8 @@ class apache2_plugin {
 				//* Chown all default directories
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
+				// $this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
+				$this->_exec('chown root:'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
 				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/ssl'));
 				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
 				$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
