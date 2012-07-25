@@ -610,18 +610,89 @@ class system{
 	 * Edit the owner of a file
 	 *
 	 */
-	function chown($file, $owner, $group = ''){
-	  $owner_change = @chown($file, $owner);
-	  if($group != ''){
-	    $group_change = @chgrp($file, $group);
-	  } else {
-	    $group_change = 1;
+	function chown($file, $owner, $allow_symlink = false){
+	  if($allow_symlink == false && $this->checkpath($file) == false) {
+		$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
+		return false;
 	  }
-	  if($owner_change && $group_change){
-	    return true;
-	  } else {
-	    return false;
+	  return chown($file, $owner);
+	}
+	
+	function chgrp($file, $group = '', $allow_symlink = false){
+	  if($allow_symlink == false && $this->checkpath($file) == false) {
+		$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
+		return false;
 	  }
+	  return chgrp($file, $group);
+	}
+	
+	//* Change the mode of a file
+	function chmod($file, $mode, $allow_symlink = false) {
+		if($allow_symlink == false && $this->checkpath($file) == false) {
+			$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
+			return false;
+		}
+		return chmod($file, $mode);
+	}
+	
+	function file_put_contents($filename, $data, $allow_symlink = false) {
+		if($allow_symlink == false && $this->checkpath($filename) == false) {
+			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
+			return false;
+		}
+		unlink($filename);
+		return file_put_contents($filename, $data);
+	}
+	
+	function file_get_contents($filename, $allow_symlink = false) {
+		if($allow_symlink == false && $this->checkpath($filename) == false) {
+			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
+			return false;
+		}
+		return file_put_contents($filename, $data);
+	}
+	
+	function rename($filename, $new_filename, $allow_symlink = false) {
+		if($allow_symlink == false && $this->checkpath($filename) == false) {
+			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
+			return false;
+		}
+		return rename($filename, $new_filename);
+	}
+	
+	function mkdir($dirname, $allow_symlink = false) {
+		if($allow_symlink == false && $this->checkpath($dirname) == false) {
+			$app->log("Action aborted, file is a symlink: $dirname",LOGLEVEL_WARN);
+			return false;
+		}
+		return mkdir($dirname);
+	}
+	
+	function unlink($file) {
+		return unlink($file);
+	}
+	
+	function copy($file1,$file2) {
+		return copy($file1,$file2);
+	}
+	
+	function checkpath($path) {
+		$path = trim($path);
+		//* We allow only absolute paths
+		if(substr($path,0,1) != '/') return false;
+		
+		//* We allow only some characters in the path
+		if(!preg_match('/[a-zA-Z0-9_\.\-]{1,}/',$path)) return false;
+		
+		//* Check path for symlinks
+		$path_parts = explode($path);
+		$testpath = '';
+		foreach($path_parts as $p) {
+			$testpath .= '/'.$p;
+			if(is_link($testpath)) return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -1132,6 +1203,10 @@ class system{
 	}
 	
 	function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1) {
+		if($this->checkpath($filename) == false) {
+			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
+			return false;
+		}
 		$lines = @file($filename);
 		$out = '';
 		$found = 0;
@@ -1167,6 +1242,10 @@ class system{
 	}
 	
 	function removeLine($filename,$search_pattern,$strict = 0) {
+	if($this->checkpath($filename) == false) {
+		$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
+		return false;
+	}
 	if($lines = @file($filename)) {
 		$out = '';
 		foreach($lines as $line) {
@@ -1200,8 +1279,8 @@ class system{
 			$user = escapeshellcmd($user);
 			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
 			$group = $user;
-			if(is_dir($dir)) chown($dir,$user);
-			if(is_dir($dir)) chgrp($dir,$group);
+			if(is_dir($dir)) $this->chown($dir,$user);
+			if(is_dir($dir)) $this->chgrp($dir,$group);
 
 			$chown_mdsub = true;
 		}
@@ -1262,10 +1341,10 @@ class system{
 			foreach($path_parts as $part) {
 				$new_path .= '/'.$part;
 				if(!@is_dir($new_path)) {
-					mkdir($new_path);
-					chmod($new_path,$mode);
-					if($user != '') chown($new_path,$user);
-					if($group != '') chgrp($new_path,$group);
+					$this->mkdir($new_path);
+					$this->chmod($new_path,$mode);
+					if($user != '') $this->chown($new_path,$user);
+					if($group != '') $this->chgrp($new_path,$group);
 				}
 			}
 		}
@@ -1284,6 +1363,11 @@ class system{
 	
 	function web_folder_protection($document_root,$protect) {
 		global $app,$conf;
+		
+		if($this->checkpath($document_root) == false) {
+			$app->log("Action aborted, target is a symlink: $document_root",LOGLEVEL_DEBUG);
+			return false;
+		}
 		
 		//* load the server configuration options
 		$app->uses('getconf');
