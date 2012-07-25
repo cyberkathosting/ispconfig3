@@ -611,23 +611,30 @@ class system{
 	 *
 	 */
 	function chown($file, $owner, $allow_symlink = false){
+	  global $app;
 	  if($allow_symlink == false && $this->checkpath($file) == false) {
 		$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
 		return false;
 	  }
-	  return chown($file, $owner);
+	  if(file_exists($file)) {
+		return chown($file, $owner);
+	  }
 	}
 	
 	function chgrp($file, $group = '', $allow_symlink = false){
+	  global $app;
 	  if($allow_symlink == false && $this->checkpath($file) == false) {
 		$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
 		return false;
 	  }
-	  return chgrp($file, $group);
+	  if(file_exists($file)) {
+		return chgrp($file, $group);
+	  }
 	}
 	
 	//* Change the mode of a file
 	function chmod($file, $mode, $allow_symlink = false) {
+		global $app;
 		if($allow_symlink == false && $this->checkpath($file) == false) {
 			$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
 			return false;
@@ -636,15 +643,17 @@ class system{
 	}
 	
 	function file_put_contents($filename, $data, $allow_symlink = false) {
+		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
 			return false;
 		}
-		unlink($filename);
+		if(file_exists($filename)) unlink($filename);
 		return file_put_contents($filename, $data);
 	}
 	
 	function file_get_contents($filename, $allow_symlink = false) {
+		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
 			return false;
@@ -653,6 +662,7 @@ class system{
 	}
 	
 	function rename($filename, $new_filename, $allow_symlink = false) {
+		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
 			return false;
@@ -661,6 +671,7 @@ class system{
 	}
 	
 	function mkdir($dirname, $allow_symlink = false) {
+		global $app;
 		if($allow_symlink == false && $this->checkpath($dirname) == false) {
 			$app->log("Action aborted, file is a symlink: $dirname",LOGLEVEL_WARN);
 			return false;
@@ -669,7 +680,9 @@ class system{
 	}
 	
 	function unlink($file) {
-		return unlink($file);
+		if(file_exists($filename)) {
+			return unlink($filename);
+		}
 	}
 	
 	function copy($file1,$file2) {
@@ -685,7 +698,7 @@ class system{
 		if(!preg_match('/[a-zA-Z0-9_\.\-]{1,}/',$path)) return false;
 		
 		//* Check path for symlinks
-		$path_parts = explode($path);
+		$path_parts = explode('/',$path);
 		$testpath = '';
 		foreach($path_parts as $p) {
 			$testpath .= '/'.$p;
@@ -1203,6 +1216,7 @@ class system{
 	}
 	
 	function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1) {
+		global $app;
 		if($this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
 			return false;
@@ -1242,6 +1256,7 @@ class system{
 	}
 	
 	function removeLine($filename,$search_pattern,$strict = 0) {
+	global $app;
 	if($this->checkpath($filename) == false) {
 		$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
 		return false;
