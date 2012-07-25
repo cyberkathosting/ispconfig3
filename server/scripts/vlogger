@@ -171,9 +171,9 @@ if ( $OPTS{'h'} || !$ARGV[0] ) {
 # log directory
 my $LOGDIR;
 if ( $ARGV[0] ) {
-    if ( !-d $ARGV[0] ) {
+    if ( !-d $ARGV[0] || -l $ARGV[0]) {
         print STDERR
-          "[vlogger] target directory $ARGV[0] does not exist - exiting.\n\n";
+          "[vlogger] target directory $ARGV[0] does not exist or is a symlink - exiting.\n\n";
         exit;
     }
     $LOGDIR = $ARGV[0];
@@ -429,6 +429,11 @@ else {
             unless ( -d "${vhost}" ) {
                 mkdir("${vhost}");
             }
+			
+			# Dont log to symlinks
+			if( -l "${vhost}/".time2str( $TEMPLATE, time() ) ) {
+				die("Log target is a symlink: $LOGDIR/${vhost}/".time2str( $TEMPLATE, time() ));
+			}
 
             # open the file using the template
             open $vhost, ">>${vhost}/" . time2str( $TEMPLATE, time() )
