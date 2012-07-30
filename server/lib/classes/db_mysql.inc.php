@@ -275,9 +275,9 @@ public function toLower($record) {
 
 
 	if($diff_num > 0) {
-		$diffstr = $app->db->quote(serialize($diffrec_full));
+		$diffstr = $this->quote(serialize($diffrec_full));
 		if(isset($_SESSION)) {
-			$username = $app->db->quote($_SESSION['s']['user']['username']);
+			$username = $this->quote($_SESSION['s']['user']['username']);
 		} else {
 			$username = 'admin';
 		}
@@ -287,7 +287,7 @@ public function toLower($record) {
 		if($action == 'UPDATE') $action = 'u';
 		if($action == 'DELETE') $action = 'd';
 		$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES ('".$db_table."','$dbidx','$server_id','$action','".time()."','$username','$diffstr')";
-		$app->db->query($sql);
+		$this->query($sql);
 	}
 
       return true;
