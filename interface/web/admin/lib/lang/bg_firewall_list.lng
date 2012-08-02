@@ -6,7 +6,3 @@ $wb['tcp_port_txt'] = 'Отвори TCP портове';
 $wb['udp_port_txt'] = 'Отвори UDP портове';
 $wb['add_new_record_txt'] = 'Добави запис за Защитната стена';
 ?>
-
-
-
-

@@ -6,8 +6,6 @@ $wb['domain_error_unique'] = 'Вече има запис в този домей�
 $wb['no_domain_perm'] = 'Нямаш права за този домейн.';
 $wb['domain_error_regex'] = 'Грешен домейн или непозволени символи.';
 $wb['limit_mailcatchall_txt'] = 'Максималният брой записи за catchall в твоят акоунт е достигнат.';
+$wb['source_txt'] = 'Source';
+$wb['destination_error_isemail'] = 'Destination is no valid email address.';
 ?>
-
-
-
-

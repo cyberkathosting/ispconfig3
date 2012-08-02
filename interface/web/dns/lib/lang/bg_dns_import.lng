@@ -1,17 +1,14 @@
 <?php
-
-$wb['server_id_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb["btn_save_txt"] = 'Import Zonefile';
-$wb["btn_cancel_txt"] = 'Cancel';
-$wb['domain_txt'] = 'Domain';
-$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
-$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
-$wb['zonefile_to_import_txt'] = 'Zone File';
-$wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filename or the zone-file content.';
-$wb['title'] = 'Import Zone Files';
-$wb['no_file_uploaded_error'] = 'No zonefile uploaded';
+$wb['server_id_txt'] = 'Сървър';
+$wb['client_txt'] = 'Клиент';
+$wb['btn_save_txt'] = 'Въведи файла с зоната';
+$wb['btn_cancel_txt'] = 'Отказ';
+$wb['domain_txt'] = 'Домейн';
+$wb['zone_file_successfully_imported_txt'] = 'Файла със зоната е успешно импортиран!';
+$wb['error_no_valid_zone_file_txt'] = 'Това изглежда не е валиден файл със зона!';
+$wb['zonefile_to_import_txt'] = 'Файл с зона';
+$wb['domain_field_desc_txt'] = 'Може да се остави празно, ако името на домейна е в името на файла или зона файл съдържание.';
+$wb['title'] = 'Въвеждане на файл с зона';
+$wb['no_file_uploaded_error'] = 'Не е качен файла с зоната';
+$wb['zone_file_import_txt'] = 'Zone File Import';
 ?>
-
-
-

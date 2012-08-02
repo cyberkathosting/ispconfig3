@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Зони';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -9,18 +9,14 @@ $wb['DNS mx'] = 'DNS mx';
 $wb['DNS ns'] = 'DNS ns';
 $wb['DNS ptr'] = 'DNS ptr';
 $wb['DNS RP'] = 'DNS RP';
-$wb['DNS Zone'] = 'DNS Zone';
-$wb['Records'] = 'Records';
+$wb['DNS Zone'] = 'DNS Зона';
+$wb['Records'] = 'Записи';
 $wb['DNS SRV'] = 'DNS SRV';
-$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT Record'] = 'DNS TXT Запис';
 $wb['DNS TXT'] = 'DNS TXT';
-$wb['DNS Wizard'] = 'DNS Wizard';
-$wb['Add DNS Zone'] = 'Add DNS Zone';
-$wb['Templates'] = 'Templates';
-$wb['Secondary Zones'] = 'Secondary Zones';
-$wb['Import Zone File'] = 'Import Zone File';
+$wb['DNS Wizard'] = 'DNS Помощник';
+$wb['Add DNS Zone'] = 'Добави DNS зона';
+$wb['Templates'] = 'Шаблон';
+$wb['Secondary Zones'] = 'Вторична зона';
+$wb['Import Zone File'] = 'Въведи зона чрез файл';
 ?>
-
-
-
-

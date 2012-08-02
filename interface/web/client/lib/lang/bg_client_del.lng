@@ -4,7 +4,3 @@ $wb['delete_explanation'] = 'This action will delete the following number of rec
 $wb['btn_save_txt'] = 'Изтрии клиента';
 $wb['btn_cancel_txt'] = 'Отказ, без изтриване на клиента';
 ?>
-
-
-
-

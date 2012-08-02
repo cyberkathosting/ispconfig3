@@ -70,8 +70,11 @@ $wb['monthnamesshort_dec'] = 'Дек';
 $wb['logout_txt'] = 'Изход';
 $wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
 $wb['submit_confirmation'] = 'Наистина ли си съгласен с това действие?';
+$wb['top_menu_mailuser'] = 'Mailuser';
+$wb['globalsearch_resultslimit_of_txt'] = 'of';
+$wb['globalsearch_resultslimit_results_txt'] = 'results';
+$wb['globalsearch_noresults_text_txt'] = 'No results.';
+$wb['globalsearch_noresults_limit_txt'] = '0 results';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
+$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 ?>
-
-
-
-

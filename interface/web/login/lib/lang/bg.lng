@@ -14,8 +14,10 @@ $wb['error_user_too_many_logins'] = 'To many wrong logins, Please retry it after
 $wb['username_txt'] = 'Потребителско име';
 $wb['password_txt'] = 'Парола';
 $wb['login_button_txt'] = 'Вход';
+$wb['login_txt'] = 'Login';
+$wb['pw_lost_txt'] = 'Password lost';
+$wb['pw_reset_txt'] = 'Password reset';
+$wb['pw_button_txt'] = 'Resend password';
+$wb['email_txt'] = 'Email';
+$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 ?>
-
-
-
-

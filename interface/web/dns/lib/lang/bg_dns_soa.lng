@@ -1,36 +1,32 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone (SOA)';
+$wb['server_id_txt'] = 'Сървър';
+$wb['origin_txt'] = 'Зона (SOA)';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
 $wb['serial_txt'] = 'Serial';
-$wb['refresh_txt'] = 'Refresh';
-$wb['retry_txt'] = 'Retry';
-$wb['expire_txt'] = 'Expire';
-$wb['minimum_txt'] = 'Minimum';
+$wb['refresh_txt'] = 'Опресни';
+$wb['retry_txt'] = 'Повторен опит';
+$wb['expire_txt'] = 'Изтича';
+$wb['minimum_txt'] = 'Минимум';
 $wb['ttl_txt'] = 'TTL';
-$wb['xfer_txt'] = 'Allow zone transfers to <br />these IPs (comma separated list)';
-$wb['active_txt'] = 'Active';
+$wb['xfer_txt'] = 'Разреши трансфер на зоната до <br />тези IPта (изброените IPта трябва да са разделени с запетайка)';
+$wb['active_txt'] = 'Активен';
 $wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
-$wb['client_txt'] = 'Client';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['server_id_error_empty'] = 'No server selected';
-$wb['origin_error_empty'] = 'Zone empty.';
-$wb['origin_error_unique'] = 'There is already a record for this zone.';
+$wb['client_txt'] = 'Клиент';
+$wb['no_zone_perm'] = 'Вие намате права да добавяте запис в тази DNS зона.';
+$wb['server_id_error_empty'] = 'Няма избран сървър';
+$wb['origin_error_empty'] = 'Зоната е празна.';
+$wb['origin_error_unique'] = 'Вече има такъв запис в тази зона.';
 $wb['origin_error_regex'] = 'Zone has a invalid format.';
-$wb['ns_error_regex'] = 'NS has a invalid format.';
-$wb['mbox_error_empty'] = 'Email is empty.';
-$wb['mbox_error_regex'] = 'Email format invalid.';
+$wb['ns_error_regex'] = 'NS запис ае в грешен формат.';
+$wb['mbox_error_empty'] = 'Полето с емайл е празно.';
+$wb['mbox_error_regex'] = 'Полето е емайл е в грешен формат.';
 $wb['also_notify_txt'] = 'Also Notify';
-$wb['update_acl_txt'] = 'Update ACL';
+$wb['update_acl_txt'] = 'Обнови ACL';
 $wb['also_notify_error_regex'] = 'Please use an IP address.';
 $wb['seconds_txt'] = 'Seconds';
 $wb['eg_domain_tld'] = 'e.g. domain.tld';
 $wb['eg_ns1_domain_tld'] = 'e.g. ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld';
-$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
+$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'Този домейн неможе да бъде променен. Попитайте Администратора ако искате да правите промени по домейна.';
 ?>
-
-
-
-

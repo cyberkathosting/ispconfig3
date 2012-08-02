@@ -2,7 +2,3 @@
 $wb['welcome_user_txt'] = 'Добре дошъл %s';
 $wb['available_modules_txt'] = 'Налични Модули';
 ?>
-
-
-
-

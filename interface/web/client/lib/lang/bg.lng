@@ -12,8 +12,7 @@ $wb['Resellers'] = 'Дистрибутори';
 $wb['error_has_clients'] = 'This reseller has clients. Delete the clients of the reseller first.';
 $wb['add_additional_template_txt'] = 'Добави допулнителен шаблон';
 $wb['delete_additional_template_txt'] = 'Изтрий допулнителният шаблон';
+$wb['Messaging'] = 'Messaging';
+$wb['Send email'] = 'Send Email';
+$wb['Edit Client Circle'] = 'Edit Client Circle';
 ?>
-
-
-
-

@@ -12,8 +12,8 @@ $wb['listname_txt'] = 'Listname';
 $wb['client_txt'] = 'Клиент';
 $wb['email_txt'] = 'Емайл';
 $wb['password_txt'] = 'Парола';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-

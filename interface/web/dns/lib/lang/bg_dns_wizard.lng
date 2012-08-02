@@ -1,14 +1,14 @@
 <?php
-$wb['template_id_txt'] = 'Template';
-$wb['server_id_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb['btn_save_txt'] = 'Create DNS Record';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['domain_txt'] = 'Domain';
-$wb['email_txt'] = 'Email';
+$wb['template_id_txt'] = 'Шаблон';
+$wb['server_id_txt'] = 'Сървър';
+$wb['client_txt'] = 'Клиент';
+$wb['btn_save_txt'] = 'Направи DNS Запис';
+$wb['btn_cancel_txt'] = 'Отказ';
+$wb['domain_txt'] = 'Домейн';
+$wb['email_txt'] = 'Емайл';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
-$wb['ip_txt'] = 'IP Address';
+$wb['ip_txt'] = 'IP адрес';
 $wb['error_origin_empty'] = 'Origin empty.';
 $wb['error_ns_empty'] = 'NS empty.';
 $wb['error_mbox_empty'] = 'Mbox empty.';
@@ -21,13 +21,16 @@ $wb['error_domain_empty'] = 'Domain empty';
 $wb['error_ip_empty'] = 'IP empty.';
 $wb['error_ns1_empty'] = 'NS1 empty.';
 $wb['error_ns2_empty'] = 'NS2 empty.';
-$wb['error_email_empty'] = 'EMail empty.';
-$wb['error_domain_regex'] = 'Domain contains invalid characters.';
-$wb['error_ns1_regex'] = 'NS1 contains invalid characters.';
-$wb['error_ns2_regex'] = 'NS2 contains invalid characters.';
-$wb['error_email_regex'] = 'Email does not contain a valid email address.';
+$wb['error_email_empty'] = 'Полето с имейла е празно';
+$wb['error_domain_regex'] = 'Домейн съдържа невалидни символи.';
+$wb['error_ns1_regex'] = 'NS1 съдържа невалидни символи.';
+$wb['error_ns2_regex'] = 'NS2 съдържа невалидни символи.';
+$wb['error_email_regex'] = 'Полето с имайла не е валидно.';
+$wb['dns_zone_txt'] = 'DNS Zone';
+$wb['globalsearch_resultslimit_of_txt'] = 'of';
+$wb['globalsearch_resultslimit_results_txt'] = 'results';
+$wb['globalsearch_noresults_text_txt'] = 'No results.';
+$wb['globalsearch_noresults_limit_txt'] = '0 results';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
+$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 ?>
-
-
-
-

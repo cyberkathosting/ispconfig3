@@ -11,7 +11,3 @@ $wb['limit_maildomain_txt'] = 'The max. number of email domains for your account
 $wb['policy_txt'] = 'Спамфилтър';
 $wb['no_policy'] = '- не е разрешен -';
 ?>
-
-
-
-

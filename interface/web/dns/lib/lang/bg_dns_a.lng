@@ -1,20 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'IP-Address';
+$wb['server_id_txt'] = 'Сървър';
+$wb['zone_txt'] = 'Зона';
+$wb['name_txt'] = 'Име на хоста';
+$wb['type_txt'] = 'тип';
+$wb['data_txt'] = 'IP-адрес';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['data_error_empty'] = 'IP-Address empty';
-$wb['data_error_regex'] = 'IP-Address format invalid';
-$wb['data_error_duplicate'] = 'Duplicate A-Record';
+$wb['active_txt'] = 'Активен';
+$wb['limit_dns_record_txt'] = 'Максималният брой за DNS записи в твоят профил е достигнат.';
+$wb['no_zone_perm'] = 'Нямате права да добавяте записи за DNS в тази зона.';
+$wb['name_error_empty'] = 'Полето за хост име е празно.';
+$wb['name_error_regex'] = 'Избраното име на хост е в грешен формат.';
+$wb['data_error_empty'] = 'Полето за IP-адреса е празно';
+$wb['data_error_regex'] = 'Формата на IP-адреса е грешен';
+$wb['data_error_duplicate'] = 'Дублиран A-Запис';
 ?>
-
-
-
-

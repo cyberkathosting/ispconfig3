@@ -1,13 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'DNS Secondary Zones';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
+$wb['list_head_txt'] = 'DNS вторична зона';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
+$wb['origin_txt'] = 'Зона';
 $wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Add new secondary DNS Zone';
+$wb['add_new_record_txt'] = 'Добави нова вторична DNS зона';
 $wb['eg_domain_tld'] = 'e.g. domain.tld.';
 ?>
-
-
-
-

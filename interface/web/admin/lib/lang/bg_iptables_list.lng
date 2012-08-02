@@ -13,7 +13,3 @@ $wb['source_ip_txt'] = 'Изходящ адрес';
 $wb['active_txt'] = 'Активен';
 $wb['iptables_error_unique'] = 'Вече има запис за firewall на този сървър.';
 ?>
-
-
-
-

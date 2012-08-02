@@ -22,8 +22,8 @@ $wb['pgroup_txt'] = 'Web Група';
 $wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
 $wb['dir_dot_error'] = 'No .. in path allowed.';
 $wb['dir_slashdot_error'] = 'No ./ in path allowed.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-

@@ -106,8 +106,22 @@ $wb['limit_openvz_vm_template_id_txt'] = 'Force virtual server template';
 $wb['limit_openvz_vm_error_notint'] = 'The virtual server трябва да е число';
 $wb['web_php_options_notempty'] = 'No PHP option(s) selected. Select at least one PHP option.';
 $wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one SSH option.';
+$wb['add_additional_template_txt'] = 'Add additional template';
+$wb['delete_additional_template_txt'] = 'Delete additional template';
+$wb['username_error_collision'] = 'The username may not start with the word -web- or -web- followed by a number.';
+$wb['bank_account_number_txt'] = 'Bank account no.';
+$wb['bank_code_txt'] = 'Bank code';
+$wb['bank_name_txt'] = 'Bank name';
+$wb['bank_account_iban_txt'] = 'IBAN';
+$wb['bank_account_swift_txt'] = 'BIC / Swift';
+$wb['web_limits_txt'] = 'Web Limits';
+$wb['email_limits_txt'] = 'Email Limits';
+$wb['database_limits_txt'] = 'Database Limits';
+$wb['cron_job_limits_txt'] = 'Cron Job Limits';
+$wb['dns_limits_txt'] = 'DNS Limits';
+$wb['virtualization_limits_txt'] = 'Virtualization Limits';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-

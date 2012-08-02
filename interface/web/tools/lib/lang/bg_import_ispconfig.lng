@@ -1,25 +1,23 @@
 <?php
-$wb['head_txt'] = 'Import email configuration from ISPConfig 3';
-$wb['legend_txt'] = 'Remote server connection details';
-$wb['legend2_txt'] = 'Import email domain';
-$wb['resync_sites_txt'] = 'Resync Websites';
-$wb['resync_ftp_txt'] = 'Resync FTP users';
-$wb['resync_shell_txt'] = 'Resync shell users';
-$wb['resync_cron_txt'] = 'Resync cronjobs';
-$wb['resync_db_txt'] = 'Resync clientdb config';
-$wb['resync_mailbox_txt'] = 'Resync Mailboxes';
-$wb['resync_dns_txt'] = 'Resync DNS records';
+$wb['head_txt'] = 'Въвеждане на емайлконфигурация от ISPConfig 3';
+$wb['legend_txt'] = 'Детайли за връзка с отдалечен сървър';
+$wb['legend2_txt'] = 'Въвеждане на домейн';
+$wb['resync_sites_txt'] = 'Повторно синхронизиране на уеб сайтовете';
+$wb['resync_ftp_txt'] = 'Повторно синхронизиране на FTP потребителите';
+$wb['resync_shell_txt'] = 'Повторно синхронизиране на shell потребителите';
+$wb['resync_cron_txt'] = 'Повторно синхронизиране на cronjobs';
+$wb['resync_db_txt'] = 'Повторно синхронизиране на clientdb конфигурация';
+$wb['resync_mailbox_txt'] = 'Повторно синхронизиране на пощрнските кутии';
+$wb['resync_dns_txt'] = 'Повторно синхронизиране на DNS записите';
 $wb['btn_start_txt'] = 'Start Import';
-$wb['btn_connect_txt'] = 'Connect to remote server';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['client_group_id_txt'] = 'Local client';
-$wb['mail_domain_txt'] = 'Remote email domain';
+$wb['btn_connect_txt'] = 'Връзка до отдалеченият сървър';
+$wb['btn_cancel_txt'] = 'Отказ';
+$wb['client_group_id_txt'] = 'Локален клиент';
+$wb['mail_domain_txt'] = 'Отдалечен емайл домейн';
 $wb['import_mailbox_txt'] = 'Import mailbox';
 $wb['import_aliasdomain_txt'] = 'Import alias domain';
 $wb['import_alias_txt'] = 'Import email alias';
 $wb['import_forward_txt'] = 'Import forward';
 $wb['import_user_filter_txt'] = 'Import user filter';
 $wb['import_spamfilter_txt'] = 'Import spamfilter';
-
 ?>
-

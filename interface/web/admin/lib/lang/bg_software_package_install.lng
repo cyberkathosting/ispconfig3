@@ -4,7 +4,3 @@ $wb['install_key_txt'] = 'Инсталационен ключ';
 $wb['btn_save_txt'] = 'Стартирай инсталацията';
 $wb['btn_cancel_txt'] = 'Отказ';
 ?>
-
-
-
-

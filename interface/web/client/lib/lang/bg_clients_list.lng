@@ -8,7 +8,3 @@ $wb['country_txt'] = 'Държава';
 $wb['add_new_record_txt'] = 'Добави нов клиент';
 $wb['username_txt'] = 'Потребителско име';
 ?>
-
-
-
-

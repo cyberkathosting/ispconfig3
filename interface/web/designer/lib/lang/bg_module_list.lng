@@ -3,7 +3,3 @@ $wb['list_head_txt'] = 'Модули';
 $wb['module_txt'] = 'Модул';
 $wb['title_txt'] = 'Име';
 ?>
-
-
-
-

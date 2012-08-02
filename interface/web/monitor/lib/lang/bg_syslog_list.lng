@@ -5,7 +5,3 @@ $wb['server_id_txt'] = 'Сървър';
 $wb['loglevel_txt'] = 'Loglevel';
 $wb['message_txt'] = 'Съобщение';
 ?>
-
-
-
-

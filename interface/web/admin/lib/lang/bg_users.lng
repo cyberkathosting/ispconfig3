@@ -25,8 +25,8 @@ $wb['fax_txt'] = 'Факс';
 $wb['groups_txt'] = 'Групи';
 $wb['default_group_txt'] = 'Група по подразбиране';
 $wb['startmodule_err'] = 'Start module is not within modules.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-

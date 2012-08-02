@@ -6,7 +6,3 @@ $wb['parent_domain_id_txt'] = 'Сайт';
 $wb['domain_txt'] = 'Поддомейн';
 $wb['add_new_record_txt'] = 'Нов поддомейн';
 ?>
-
-
-
-

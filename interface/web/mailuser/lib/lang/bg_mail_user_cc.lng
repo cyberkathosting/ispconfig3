@@ -1,0 +1,7 @@
+<?php
+$wb['mailbox_cc_txt'] = 'Send copy to email address';
+$wb['cc_txt'] = 'Send copy to';
+$wb['email_txt'] = 'Email';
+$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
+$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
+?>

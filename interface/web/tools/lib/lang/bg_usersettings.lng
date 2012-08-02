@@ -5,8 +5,8 @@ $wb['language_txt'] = 'Език';
 $wb['password_mismatch'] = 'Паролите в двете полета не съвпадат.';
 $wb['Form to edit the user password and language.'] = 'Форма за промяна на езика и паролата';
 $wb['Settings'] = 'Настройки';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-

@@ -10,7 +10,3 @@ $wb['cancel_txt'] = 'Отказ';
 $wb['header_txt'] = 'Характеристики';
 $wb['description_txt'] = '<b>Описание</b> <br><br> <b>Имена модула:</b> Име на директорията за модули. разрешени са числа и букви  малки.<br> <b>Име на модул:</b> Will be shown in the (upper) main navigation.<br> <b>Template file:</b> Template file of the module. Currently';
 ?>
-
-
-
-

@@ -4,7 +4,3 @@ $wb['faq_question_txt'] = 'Въпрос';
 $wb['faq_answer_txt'] = 'Отговор';
 $wb['faq_section_txt'] = 'Секция';
 ?>
-
-
-
-

@@ -69,8 +69,10 @@ $wb['ssh_chroot_txt'] = 'SSH-Chroot опции';
 $wb['web_php_options_txt'] = 'PHP опции';
 $wb['template_type_txt'] = 'Шаблон тип';
 $wb['template_name_txt'] = 'Име на шаблона';
+$wb['web_limits_txt'] = 'Web Limits';
+$wb['email_limits_txt'] = 'Email Limits';
+$wb['database_limits_txt'] = 'Database Limits';
+$wb['cron_job_limits_txt'] = 'Cron Job Limits';
+$wb['dns_limits_txt'] = 'DNS Limits';
+$wb['virtualization_limits_txt'] = 'Virtualization Limits';
 ?>
-
-
-
-

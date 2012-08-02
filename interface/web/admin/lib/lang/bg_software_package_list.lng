@@ -8,7 +8,3 @@ $wb['toolsarea_head_txt'] = 'Пакети';
 $wb['repoupdate_txt'] = 'Обновяване на пакетите ';
 $wb['package_id_txt'] = 'local App-ID';
 ?>
-
-
-
-

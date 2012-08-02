@@ -18,7 +18,3 @@ $wb['ends_with_txt'] = 'Край с';
 $wb['move_to_txt'] = 'Премести в';
 $wb['delete_txt'] = 'Изтрий';
 ?>
-
-
-
-

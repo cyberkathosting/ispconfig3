@@ -13,7 +13,7 @@ $wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
 $wb['webmail_url_txt'] = 'Webmail URL';
 $wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 $wb['use_domain_module_txt'] = 'Use the domain-module to add new domains';
-$wb['use_domain_module_hint'] = 'If you use this module, your customers can only select one of the domains the admin creates for them. They cannot free edit the domain-field.You have to re-login after changing this value, to make the changes visible.';
+$wb['use_domain_module_hint'] = 'Ако използвате този модул, вашите клиенти могат да изберет само един от домейните, които администратора създава за тях. Те не могат да освободят и редактират домейн - полето. Вие , трябва отново да влезете след промяна на тази стойност, за да направите промените видими.';
 $wb['new_domain_txt'] = 'HTML to create a new domain';
 $wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
 $wb['webdavuser_prefix_error_regex'] = 'Неразрешени символи в името на webdav префикса.';
@@ -27,8 +27,6 @@ $wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
 $wb['mailmailinglist_url_txt'] = 'Мейлинг лист адрес URL';
 $wb['admin_mail_txt'] = 'Администраторски емаил';
 $wb['admin_name_txt'] = 'Администраторски имена';
+$wb['system_config_desc_txt'] = '';
+$wb['maintenance_mode_txt'] = 'Maintenance Mode';
 ?>
-
-
-
-

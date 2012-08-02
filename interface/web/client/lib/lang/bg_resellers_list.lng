@@ -7,7 +7,3 @@ $wb['city_txt'] = 'Град';
 $wb['country_txt'] = 'Страна';
 $wb['add_new_record_txt'] = 'Добави нов дилър';
 ?>
-
-
-
-

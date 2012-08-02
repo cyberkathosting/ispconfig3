@@ -1,15 +1,18 @@
 <?php
-$wb["btn_send_txt"] = 'Изпрати емайл';
-$wb["btn_cancel_txt"] = 'Отказ';
-$wb["sender_txt"] = 'Емайл адреса на изпращача';
-$wb["subject_txt"] = 'Тема';
-$wb["message_txt"] = 'Съобщение';
-$wb["form_legend_client_txt"] = 'Изпрати пощата до всички клиенти.';
-$wb["form_legend_admin_txt"] = 'Изпрати пощата до всички Клиенти и Дистрибутори.';
-$wb["sender_invalid_error"] = 'Sender email invalid.';
-$wb["subject_invalid_error"] = 'Полето с Тема е празно.';
-$wb["message_invalid_error"] = 'Полето с съобщение е празно.';
-$wb["email_sent_to_txt"] = 'Изпрати до:';
+$wb['btn_send_txt'] = 'Изпрати емайл';
+$wb['btn_cancel_txt'] = 'Отказ';
+$wb['sender_txt'] = 'Емайл адреса на изпращача';
+$wb['subject_txt'] = 'Тема';
+$wb['message_txt'] = 'Съобщение';
+$wb['form_legend_client_txt'] = 'Изпрати пощата до всички клиенти.';
+$wb['form_legend_admin_txt'] = 'Изпрати пощата до всички Клиенти и Дистрибутори.';
+$wb['sender_invalid_error'] = 'Sender email invalid.';
+$wb['subject_invalid_error'] = 'Полето с Тема е празно.';
+$wb['message_invalid_error'] = 'Полето с съобщение е празно.';
+$wb['email_sent_to_txt'] = 'Изпрати до:';
+$wb['page_head_txt'] = 'Send customer information';
+$wb['recipient_txt'] = 'Recipient';
+$wb['all_clients_resellers_txt'] = 'All clients and resellers';
+$wb['all_clients_txt'] = 'All clients';
+$wb['variables_txt'] = 'Variables:';
 ?>
-
-

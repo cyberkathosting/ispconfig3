@@ -19,7 +19,3 @@ $wb['run_wday_error_format'] = 'Грешен формат за ден от се�
 $wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
 $wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
 ?>
-
-
-
-

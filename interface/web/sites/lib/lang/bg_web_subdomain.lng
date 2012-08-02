@@ -40,7 +40,3 @@ $wb['redirect_error_regex'] = 'Грешен път за редирект. Вал
 $wb['no_redirect_txt'] = 'Без редирект';
 $wb['no_flag_txt'] = 'No flag';
 ?>
-
-
-
-

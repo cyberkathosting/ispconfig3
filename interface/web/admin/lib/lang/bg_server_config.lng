@@ -87,14 +87,13 @@ $wb['network_config_warning_txt'] = 'Опцията за мрежова конф
 $wb['CA_path_txt'] = 'CA Path';
 $wb['CA_pass_txt'] = 'CA passphrase';
 $wb['fastcgi_config_syntax_txt'] = 'FastCGI config syntax';
-$wb['backup_dir_ftpread_txt'] = 'Backup dir. readable for website FTP users.';
-$wb['server_type_txt'] = 'Server Type';
+$wb['server_type_txt'] = 'Сървър тип';
 $wb['nginx_vhost_conf_dir_txt'] = 'Nginx Vhost config dir';
 $wb['nginx_vhost_conf_enabled_dir_txt'] = 'Nginx Vhost config enabled dir';
 $wb['nginx_user_txt'] = 'Nginx user';
 $wb['nginx_group_txt'] = 'Nginx group';
 $wb['nginx_cgi_socket_txt'] = 'Nginx CGI Socket';
-$wb['backup_dir_error_empty'] = 'Backup директорията е празна.';
+$wb['backup_dir_error_empty'] = 'Бекъп директорията е празна.';
 $wb['maildir_path_error_empty'] = 'Maildir Path е празна.';
 $wb['homedir_path_error_empty'] = 'Homedir Path е празна.';
 $wb['mailuser_uid_error_empty'] = 'Mailuser UID е празна.';
@@ -144,17 +143,27 @@ $wb['php_fpm_start_port_error_empty'] = 'PHP-FPM start port is empty.';
 $wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
 $wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM socket directory is empty.';
 $wb['try_rescue_txt'] = 'Enable service monitoring and restart on failure';
-$wb['do_not_try_rescue_mysql_txt'] = 'Disable MySQL monitoring';
-$wb['do_not_try_rescue_mail_txt'] = 'Disable Email monitoring';
-$wb['rescue_description_txt'] = '<b>Information:</b> If you want to shut down mysql you have to select the Disable MySQL monitor checkbox and then wait 2-3 minutes.<br>if you do not wait 2-3 minutes, rescue will try to restart mysql!';
+$wb['do_not_try_rescue_mysql_txt'] = 'Забрани MySQL мониторинга';
+$wb['do_not_try_rescue_mail_txt'] = 'Забрани Email мониторинга';
+$wb['rescue_description_txt'] = '<b>ИНФОРМАЦИЯ:</b> Ако искате да изключвате MySQL, вие трябва да изберете Забрани MySQL монитор кутийката и след това изчакайте 2-3 минути.<br>ако не изчакайте 2-3 минути, MySQL ще се опита да рестартира !';
 $wb['enable_sni_txt'] = 'Enable SNI';
 $wb['do_not_try_rescue_httpd_txt'] = 'Disable HTTPD monitoring';
 $wb['set_folder_permissions_on_update_txt'] = 'Set folder permissions on update';
 $wb['add_web_users_to_sshusers_group_txt'] = 'Add web users to -sshusers- group';
 $wb['connect_userid_to_webid_txt'] = 'Connect Linux userid to webid';
 $wb['connect_userid_to_webid_start_txt'] = 'Start ID for userid/webid connect';
+$wb['backup_mode_txt'] = 'Backup mode';
+$wb['backup_mode_userzip'] = 'Backup web files owned by web user as zip';
+$wb['backup_mode_rootgz'] = 'Backup all files in web directory as root user';
+$wb['realtime_blackhole_list_txt'] = 'Real-time Blackhole List';
+$wb['realtime_blackhole_list_note_txt'] = '(Separate RBL\'s with commas)';
+$wb['ssl_settings_txt'] = 'SSL Settings';
+$wb['permissions_txt'] = 'Permissions';
+$wb['php_settings_txt'] = 'PHP Settings';
+$wb['apps_vhost_settings_txt'] = 'Apps Vhost Settings';
+$wb['awstats_settings_txt'] = 'AWStats Settings';
+$wb['firewall_txt'] = 'Firewall';
+$wb['mailbox_quota_stats_txt'] = 'Mailbox quota statistics';
+$wb['enable_ip_wildcard_txt'] = 'Enable IP wildcard (*)';
+$wb['web_folder_protection_txt'] = 'Web folder protection';
 ?>
-
-
-
-

@@ -28,7 +28,3 @@ $wb['limit_client_txt'] = 'Брой на Клиенти';
 $wb['limit_database_txt'] = 'Брой на Бази данни';
 $wb['limit_mailmailinglist_txt'] = 'Брой на mailing листа';
 ?>
-
-
-
-

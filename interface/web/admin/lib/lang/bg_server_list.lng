@@ -11,7 +11,3 @@ $wb['add_new_record_txt'] = 'Добави нов сървър';
 $wb['proxy_server_txt'] = 'Прокси';
 $wb['firewall_server_txt'] = 'Защитна стена';
 ?>
-
-
-
-

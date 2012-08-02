@@ -4,7 +4,3 @@ $wb['domain_error_unique'] = 'Домейна съществува';
 $wb['domain_error_regex'] = 'Това име на домейн не е разрешен.';
 $wb['Domain'] = 'Домейн';
 ?>
-
-
-
-

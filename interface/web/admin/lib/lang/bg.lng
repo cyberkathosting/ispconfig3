@@ -1,61 +1,49 @@
 <?php
-//Errors
-$wb['1001'] = 'Потребителско име паролата са празни.';
-$wb['1002'] = 'Потребителско име или паролата са сгрешени.';
-
+$wb['Firewall'] = 'Защитна стена';
 $wb['Groups'] = 'Групи';
 $wb['groups_description'] = 'Редактиране на групи';
-
-$wb['Servers'] = 'Сървъри';
+$wb['Server'] = 'Сървър';
+$wb['Services'] = 'Услуги';
 $wb['Config'] = 'Настройки';
-
+$wb['Server Config'] = 'Настройки на сървъра';
+$wb['Mail'] = 'Поща';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Уеб';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['System'] = 'Система';
 $wb['Add user'] = 'Нов потребител';
 $wb['Edit user'] = 'Редактиране на потребител';
+$wb['CP Users'] = 'Потребители';
 $wb['Add group'] = 'Нова група';
 $wb['Edit group'] = 'Редактиране на група';
 $wb['Edit server'] = 'Редактиране на сървър';
-
+$wb['Servers'] = 'Сървъри';
 $wb['Sync. Now'] = 'Синхронизирай сега';
 $wb['DB Sync.'] = 'DB Sync.';
-
-// subnav
-$wb['User Management'] = 'User Management';
-$wb['CP Users'] = 'Потребители';
-$wb['Remote Users'] = 'Дистанционни потребители';
-
-$wb['System'] = 'Система';
-$wb['Server Services'] = 'Услуги на сървъра';
-    $wb['Services'] = 'Услуги';
-$wb['Server Config'] = 'Настройки на сървъра';
-    $wb['Server'] = 'Сървър';
-    $wb['Mail'] = 'Поща';
-    $wb['Getmail'] = 'Getmail';
-    $wb['Web'] = 'Уеб';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
-$wb['Server IP addresses'] = 'Редактиране на IP адреса';
-$wb['Additional PHP Versions'] = 'Additional PHP Versions';
-$wb['Firewall'] = 'Firewall';
-
-$wb['Interface'] = 'Interface';
-$wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
-$wb['Software'] = 'Софтуер';
-$wb['Repositories'] = 'Хранилища';
-$wb['Packages'] = 'Пакети';
-$wb['Updates'] = 'Ъпдейти';
-
-$wb['Language Editor'] = 'Редактор за езиците';
 $wb['Languages'] = 'Езици';
 $wb['New Language'] = 'Нов език';
-$wb['Merge'] = 'Merge';
 $wb['Export'] = 'Експортиране';
 $wb['Import'] = 'Импортиране';
-
+$wb['Language Editor'] = 'Редактор за езиците';
+$wb['Software'] = 'Софтуер';
+$wb['Repositories'] = 'Хранилища';
+$wb['Server Services'] = 'Услуги на сървъра';
+$wb['Interface Config'] = 'Конфигуриране на интерфейса';
+$wb['Packages'] = 'Пакети';
+$wb['Updates'] = 'Ъпдейти';
+$wb['Merge'] = 'Merge';
+$wb['Remote Users'] = 'Дистанционни потребители';
 $wb['Remote Actions'] = 'Дистанционни действия';
 $wb['Do OS-Update'] = 'Ъпдейт на системата';
 $wb['Do ISPConfig-Update'] = 'Ъпдейт на ISPConfig';
+$wb['1001'] = 'Потребителско име паролата са празни.';
+$wb['1002'] = 'Потребителско име или паролата са сгрешени.';
+$wb['User Management'] = 'User Management';
+$wb['Rescue'] = 'Rescue';
+$wb['Server IP addresses'] = 'Server IP addresses';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
+$wb['Interface'] = 'Interface';
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 ?>

@@ -6,7 +6,3 @@ $wb['add_new_record_txt'] = 'Добави нов домейн';
 $wb['active_txt'] = 'Активен';
 $wb['sys_groupid_txt'] = 'Клиент';
 ?>
-
-
-
-

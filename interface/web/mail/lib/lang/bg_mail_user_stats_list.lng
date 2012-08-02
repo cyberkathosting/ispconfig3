@@ -6,7 +6,3 @@ $wb['last_month_txt'] = 'Последен месец';
 $wb['this_year_txt'] = 'Тази година';
 $wb['last_year_txt'] = 'Последната година';
 ?>
-
-
-
-

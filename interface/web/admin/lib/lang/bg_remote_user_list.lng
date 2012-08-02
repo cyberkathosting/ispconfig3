@@ -5,7 +5,3 @@ $wb['add_new_record_txt'] = 'Добави нов потребител';
 $wb['parent_remote_userid_txt'] = 'ID';
 $wb['username_txt'] = 'Потребителско име';
 ?>
-
-
-
-

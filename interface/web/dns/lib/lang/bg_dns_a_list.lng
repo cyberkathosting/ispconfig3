@@ -1,18 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'A-Record';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Name';
-$wb['data_txt'] = 'Data';
-$wb['aux_txt'] = 'Priority';
-$wb['type_txt'] = 'Type';
-$wb['add_new_record_txt'] = 'Add new DNS A-Record';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to delete this record?';
+$wb['list_head_txt'] = 'A-Запис';
+$wb['active_txt'] = 'Активен';
+$wb['server_id_txt'] = 'Сървър';
+$wb['zone_txt'] = 'Зона';
+$wb['name_txt'] = 'Име';
+$wb['data_txt'] = 'Дата';
+$wb['aux_txt'] = 'Приоритед';
+$wb['type_txt'] = 'Тип';
+$wb['add_new_record_txt'] = 'Добави нов DNS A Запис';
+$wb['page_txt'] = 'Страница';
+$wb['page_of_txt'] = 'от';
+$wb['delete_confirmation'] = 'Наистина ли искате да изтриете този запис?';
+$wb['ttl_txt'] = 'TTL';
 ?>
-
-
-
-

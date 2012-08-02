@@ -2,8 +2,5 @@
 $wb['list_head_txt'] = 'Домейни';
 $wb['add_new_record_txt'] = 'Добави нов домейн';
 $wb['domain_txt'] = 'Домейн';
+$wb['user_txt'] = 'Client';
 ?>
-
-
-
-

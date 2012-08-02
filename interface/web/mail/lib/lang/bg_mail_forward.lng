@@ -5,8 +5,5 @@ $wb['active_txt'] = 'Активен';
 $wb['limit_mailforward_txt'] = 'Максималният брой за имейл препращания за твоят акаунт е достигнат.';
 $wb['duplicate_mailbox_txt'] = 'Вече съществува пощенска кутия с такъв адрес.';
 $wb['domain_txt'] = 'Домейн';
+$wb['source_txt'] = 'Source Email';
 ?>
-
-
-
-

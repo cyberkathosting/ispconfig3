@@ -3,9 +3,5 @@ $wb['list_head_txt'] = 'Сливане на файловете на избран
 $wb['language_select_txt'] = 'Изберете език';
 $wb['btn_save_txt'] = 'Сливане';
 $wb['btn_cancel_txt'] = 'Отказ';
-$wb['list_desc_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
+$wb['list_desc_txt'] = 'Сливане на избрания езиков файл с английския език <br />Това добавя липсващите низове от английския език файлове към избраният език.';
 ?>
-
-
-
-

@@ -41,8 +41,10 @@ $wb['login_error_unique'] = 'Login is already taken.';
 $wb['login_error_regex'] = 'Валидните символи са A-Z, a-z, 0-9, ., _ и -.';
 $wb['login_txt'] = 'Вход (По желание)';
 $wb['error_login_email_txt'] = 'Вход не е разрешен. Моля изберете друг адрес за вход.';
+$wb['autoresponder_subject_txt'] = 'Email Subject';
+$wb['autoresponder_subject'] = 'Out of office reply';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-

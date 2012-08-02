@@ -9,7 +9,3 @@ $wb['source_error_empty'] = 'Source Domain is empty.';
 $wb['source_error_unique'] = 'Duplicate source Domain.';
 $wb['source_error_regex'] = 'Invalid source domain name.';
 ?>
-
-
-
-

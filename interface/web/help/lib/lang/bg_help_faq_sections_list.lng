@@ -6,7 +6,3 @@ $wb['faq_sections_txt'] = 'Секции';
 $wb['faq_faq_sections_txt'] = 'ЧЗВ секция';
 $wb['faq_new_section_txt'] = 'Добави нова секция';
 ?>
-
-
-
-

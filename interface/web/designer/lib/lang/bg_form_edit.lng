@@ -22,7 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Разр. Потребител';
 $wb['auth_preset_perm_group_txt'] = 'Разр. Група';
 $wb['auth_preset_perm_other_txt'] = 'Разр. Други';
 ?>
-
-
-
-

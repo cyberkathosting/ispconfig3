@@ -4,8 +4,9 @@ $wb['username_txt'] = 'Потребителско име';
 $wb['password_txt'] = 'Password';
 $wb['active_txt'] = 'Active';
 $wb['folder_error_empty'] = 'No web folder selecetd.';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-
-
-
-
