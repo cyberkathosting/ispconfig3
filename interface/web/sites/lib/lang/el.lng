@@ -1,25 +1,34 @@
 <?php
-$wb['Database'] = 'Βάση Δεδομένων';
+$wb['Websites'] = 'Websites';
+    $wb['Website'] = 'Website';
+    $wb['Subdomain'] = 'Subdomain για το website';
+    $wb['Aliasdomain'] = 'Ψευδώνυμο domain για το website';
+
+    $wb['Database'] = 'Βάση Δεδομένων';
+    $wb['Database Users'] = 'Database Users';
+
+$wb['Web Access'] = 'Web Access';
+    $wb['FTP-User'] = 'Χρήστης FTP';
+    $wb['Webdav-User'] = 'Χρήστης Webdav';
+    $wb['Folder'] = 'Protected Folders';
+    $wb['Folder users'] = 'Protected Folder Users';
+
+$wb['Command Line'] = 'Command Line';
+    $wb['Shell-User'] = 'Χρήστης Shell';
+    $wb["Cron Jobs"] = 'Εργασίες Cron';
+
+$wb["Statistics"] = 'Στατιστικά';
+    $wb["Web traffic"] = 'Κίνηση Web';
+    $wb["Website quota (Harddisk)"] = 'Όριο δίσκου Website (Harddisk)';
+    
+$wb["Cron"] = 'Cron';
+$wb["Stats"] = 'Στατιστικά';
+$wb['Shell'] = 'Shell';
+$wb['Webdav'] = 'WebDAV';
+$wb['FTP'] = 'FTP';
 $wb['Options'] = 'Επιλογές';
-$wb['Shell User'] = 'Χρήστης Shell';
 $wb['Domain'] = 'Domain';
-$wb['Website'] = 'Website';
 $wb['Redirect'] = 'Ανακατεύθυνση';
 $wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Subdomain για το website';
 $wb['Sites'] = 'Sites';
-$wb['Aliasdomain'] = 'Ψευδώνυμο domain για το website';
-$wb['FTP-User'] = 'Χρήστης FTP';
-$wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Χρήστης Shell';
-$wb['Shell'] = 'Shell';
-$wb['Webdav-User'] = 'Χρήστης Webdav';
-$wb['Webdav'] = 'Webdav';
-$wb['Websites'] = 'Websites';
-$wb['Stats'] = 'Στατιστικά';
-$wb['Cron'] = 'Cron';
-$wb['Cron Jobs'] = 'Εργασίες Cron';
-$wb['Statistics'] = 'Στατιστικά';
-$wb['Web traffic'] = 'Κίνηση Web';
-$wb['Website quota (Harddisk)'] = 'Όριο δίσκου Website (Harddisk)';
 ?>

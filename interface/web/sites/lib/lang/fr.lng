@@ -1,25 +1,34 @@
 <?php
-$wb['Database'] = 'Base de données';
+$wb['Websites'] = 'Sites web';
+    $wb['Website'] = 'Sites web';
+    $wb['Subdomain'] = 'Sous-domaine';
+    $wb['Aliasdomain'] = 'Alias';
+
+    $wb['Database'] = 'Base de données';
+    $wb['Database Users'] = 'Database Users';
+
+$wb['Web Access'] = 'Web Access';
+    $wb['FTP-User'] = 'Utilisateur FTP';
+    $wb['Webdav-User'] = 'Utilisateur WebDav';
+    $wb['Folder'] = 'Protected Folders';
+    $wb['Folder users'] = 'Protected Folder Users';
+
+$wb['Command Line'] = 'Command Line';
+    $wb['Shell-User'] = 'Utilisateur Shell';
+    $wb["Cron Jobs"] = 'Tâches cron';
+
+$wb["Statistics"] = 'Statistiques';
+    $wb["Web traffic"] = 'Trafic web';
+    $wb["Website quota (Harddisk)"] = 'Quota du site web (disque dur)';
+    
+$wb["Cron"] = 'Cron';
+$wb["Stats"] = 'Statistiques';
+$wb['Shell'] = 'Shell';
+$wb['Webdav'] = 'WebDAV';
+$wb['FTP'] = 'FTP';
 $wb['Options'] = 'Options';
-$wb['Shell User'] = 'Utilisateur Shell';
 $wb['Domain'] = 'Domaine';
-$wb['Website'] = 'Site web';
 $wb['Redirect'] = 'Redirection';
 $wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Sous-domaine';
 $wb['Sites'] = 'Sites';
-$wb['Aliasdomain'] = 'Alias';
-$wb['FTP-User'] = 'Utilisateur FTP';
-$wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Utilisateur Shell';
-$wb['Shell'] = 'Shell';
-$wb['Webdav-User'] = 'Utilisateur WebDav';
-$wb['Webdav'] = 'WebDav';
-$wb['Websites'] = 'Sites web';
-$wb['Stats'] = 'Statistiques';
-$wb['Cron'] = 'Cron';
-$wb['Cron Jobs'] = 'Tâches cron';
-$wb['Statistics'] = 'Statistiques';
-$wb['Web traffic'] = 'Trafic web';
-$wb['Website quota (Harddisk)'] = 'Quota du site web (disque dur)';
 ?>

@@ -1,25 +1,34 @@
 <?php
-$wb['Database'] = 'База данных';
+$wb['Websites'] = 'Web-сайты';
+    $wb['Website'] = 'Web-сайты';
+    $wb['Subdomain'] = 'Субдомен';
+    $wb['Aliasdomain'] = 'Алиас домена';
+
+    $wb['Database'] = 'База данных';
+    $wb['Database Users'] = 'Database Users';
+
+$wb['Web Access'] = 'Web Access';
+    $wb['FTP-User'] = 'Пользователь FTP';
+    $wb['Webdav-User'] = 'WebDAV-Users';
+    $wb['Folder'] = 'Protected Folders';
+    $wb['Folder users'] = 'Protected Folder Users';
+
+$wb['Command Line'] = 'Command Line';
+    $wb['Shell-User'] = 'Пользователь Shell';
+    $wb["Cron Jobs"] = 'Задачи Cron';
+
+$wb["Statistics"] = 'Статистика';
+    $wb["Web traffic"] = 'Трафик Web';
+    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
+    
+$wb["Cron"] = 'Cron';
+$wb["Stats"] = 'Статистика';
+$wb['Shell'] = 'Shell';
+$wb['Webdav'] = 'WebDAV';
+$wb['FTP'] = 'FTP';
 $wb['Options'] = 'Опции';
-$wb['Shell User'] = 'Пользователь Shell';
 $wb['Domain'] = 'Домен';
 $wb['Redirect'] = 'Редирект';
 $wb['SSL'] = 'SSL';
-$wb['Subdomain'] = 'Субдомен';
 $wb['Sites'] = 'Сайт';
-$wb['Aliasdomain'] = 'Алиас домена';
-$wb['FTP-User'] = 'Пользователь FTP';
-$wb['FTP'] = 'FTP';
-$wb['Shell-User'] = 'Пользователь Shell';
-$wb['Shell'] = 'Shell';
-$wb['Websites'] = 'Web-сайты';
-$wb['Stats'] = 'Статистика';
-$wb['Website'] = 'Web-сайт';
-$wb['Cron'] = 'Cron';
-$wb['Cron Jobs'] = 'Задачи Cron';
-$wb['Statistics'] = 'Статистика';
-$wb['Web traffic'] = 'Трафик Web';
-$wb['Webdav-User'] = 'Webdav User';
-$wb['Webdav'] = 'Webdav';
-$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
 ?>
