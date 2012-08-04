@@ -1,0 +1,22 @@
+<h2><tmpl_var name="tpl_default-v2_head_txt"></h2>
+<p><tmpl_var name="tpl_default-v2_desc_txt"></p>
+
+<div class="panel panel_tools_interface">
+
+    <div class="pnl_formsarea">
+        <fieldset class="inlineLabels">
+            <div class="ctrlHolder">
+                <label for="logo_url">{tmpl_var name='logo_url_txt'}Logo URL</label>
+                <input name="logo_url" id="logo_url" value="{tmpl_var name='logo_url'}" size="" maxlength="" type="text" class="textInput" /> 152x46px
+            </div>
+        </fieldset>
+        
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+            
+        <div class="buttonHolder buttons">
+            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','admin/tpl_default-v2.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('admin/server_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div>
+    </div>
+  
+</div>

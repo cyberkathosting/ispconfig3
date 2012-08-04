@@ -252,30 +252,6 @@ $form["tabs"]['domains'] = array (
 	)
 );
 
-/* TODO_ BEGIN: Branding
-
-$form["tabs"]['domains'] = array (
-	'title' 	=> "Branding",
-	'width' 	=> 70,
-	'template' 	=> "templates/system_config_branding_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
-                'logo' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> 'themes/default/images/header_logo.png',
-			'value'		=> ''
-		),
-	##################################
-	# ENDE Datatable fields
-	##################################
-	)
-);
-
-
- END: Branding */
 $form["tabs"]['misc'] = array (
 	'title' 	=> "Misc",
 	'width' 	=> 70,

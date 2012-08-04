@@ -59,15 +59,15 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"] 		= "tpl_default-v2_admin_head_txt";
-$form["description"] 	= "tpl_default-v2_admin_desc_txt";
-$form["name"] 		= "tpl_default-v2_admin";
-$form["action"]		= "tpl_default-v2_admin.php";
-$form["db_table"]	= "server_php";
-$form["db_table_idx"]	= "server_php_id";
+$form["title"] 		= "tpl_default_head_txt";
+$form["description"] 	= "tpl_default_desc_txt";
+$form["name"] 		= "tpl_default";
+$form["action"]		= "tpl_default.php";
+$form["db_table"]	= "default";
+$form["db_table_idx"]	= "var_id";
 $form["db_history"]	= "yes";
-$form["tab_default"]	= "php_name";
-$form["list_default"]	= "server_php_list.php";
+$form["tab_default"]	= "basic";
+$form["list_default"]	= "system_config_edit.php";
 $form["auth"]		= 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -76,42 +76,28 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['php_name'] = array (
-	'title' 	=> "Name",
+$form["tabs"]['basic'] = array (
+	'title' 	=> "Basic Settings",
 	'width' 	=> 80,
-	'template' 	=> "templates/server_php_name_edit.htm",
+	'template' 	=> "templates/tpl_default_basic.htm",
 	'fields' 	=> array (
 	##################################
 	# Beginn Datenbankfelder
 	##################################
-		'server_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
-										'keyfield'=> 'server_id',
-										'valuefield'=> 'server_name'
-									 ),
-			'value'		=> ''
-		),
-		'client_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT client_id,CONCAT(contact_name,' :: ',username) as name FROM client WHERE {AUTHSQL} ORDER BY contact_name",
-										'keyfield'=> 'client_id',
-										'valuefield'=> 'name'
-									 ),
-			'value'		=> array(0 => ' ')
-		),
-		'name' => array (
+		'username' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators' => array(0 => array('type' => 'NOTEMPTY',
-											 'errmsg' => 'server_php_name_error_empty'),
-			),
+			'validators'    => '',
+			'default'	=> 'global',
+			'value'		=> 'global',
+			'separator'	=> '',
+			'width'		=> '40',
+			'maxlength'	=> '64'
+		),
+		'logo_url' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'validators'    => '',
 			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',
@@ -124,71 +110,4 @@ $form["tabs"]['php_name'] = array (
 	)
 );
 
-$form["tabs"]['php_fastcgi'] = array(
-	'title' => "FastCGI Settings",
-	'width' => 80,
-	'template' => "templates/server_php_fastcgi_edit.htm",
-	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
-		'php_fastcgi_binary' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
-		),
-		'php_fastcgi_ini_dir' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
-		),
-	##################################
-	# ENDE Datatable fields
-	##################################
-	)
-);
-
-$form["tabs"]['php_fpm'] = array(
-	'title' => "PHP-FPM Settings",
-	'width' => 80,
-	'template' => "templates/server_php_fpm_edit.htm",
-	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
-		'php_fpm_init_script' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
-		),
-		'php_fpm_ini_dir' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
-		),
-		'php_fpm_pool_dir' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
-		),
-	##################################
-	# ENDE Datatable fields
-	##################################
-	)
-);
 ?>

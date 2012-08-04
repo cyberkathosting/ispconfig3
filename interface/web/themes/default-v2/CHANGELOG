@@ -29,3 +29,4 @@ resources @ https://github.com/foe-services/ispc-resources
 - added sprites for (nearly) all used icons where suitable
 - added flags for country text in lists
 - added some list column widths
+- limited height (500px) for the globalsearch results
