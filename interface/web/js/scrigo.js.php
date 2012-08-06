@@ -553,12 +553,14 @@ function password(minLength, special){
 	return password;
 }
 
-function generatePassword(passwordFieldID){
+function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	var oldPWField = jQuery('#'+passwordFieldID);
 	var newPWField = oldPWField.clone();
 	newPWField.attr('type', 'text').attr('id', 'tmp'+passwordFieldID).insertBefore(oldPWField);
 	oldPWField.remove();
-	newPWField.attr('id', passwordFieldID).val(password(10, false)).trigger('keyup');
+	var pword = password(10, false);
+	jQuery('#'+repeatPasswordFieldID).val(pword);
+	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
 }
 
 function checkPassMatch(pwField1,pwField2){
