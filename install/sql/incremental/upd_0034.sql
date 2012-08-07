@@ -65,6 +65,34 @@ CREATE TABLE IF NOT EXISTS `aps_settings` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tpl_default`
+--
+
+CREATE TABLE IF NOT EXISTS `tpl_default` (
+  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `logo_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`var_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `tpl_default-v2`
+--
+
+CREATE TABLE IF NOT EXISTS `tpl_default-v2` (
+  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `logo_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`var_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
 --
 -- Dumping data for table `aps_settings`
 --
@@ -75,3 +103,6 @@ INSERT INTO `aps_settings` (`id`, `name`, `value`) VALUES(3, 'ignore-webserver-m
 
 ALTER TABLE  `client` ADD  `limit_aps` int(11) NOT NULL DEFAULT '0' AFTER  `limit_webdav_user`;
 ALTER TABLE  `client_template` ADD  `limit_aps` int(11) NOT NULL DEFAULT '0' AFTER  `limit_webdav_user`;
+
+-- INSERT INTO `tpl_default` (`var_id`, `username`, `logo_url`) VALUES('', 'global', 'themes/default/images/header_logo.png');
+-- INSERT INTO `tpl_default-2` (`var_id`, `username`, `logo_url`) VALUES('', 'global', 'themes/default-v2/images/header_logo.png');
