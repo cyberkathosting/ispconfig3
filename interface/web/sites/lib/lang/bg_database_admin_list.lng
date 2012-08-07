@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'База данни';
+$wb['active_txt'] = 'Активна';
+$wb['remote_access_txt'] = 'Дистанционен достъп';
+$wb['server_id_txt'] = 'Сървър';
+$wb['database_user_txt'] = 'Потребителско име на база данни';
+$wb['database_name_txt'] = 'Име на базата данни';
+$wb['add_new_record_txt'] = 'Добави нова база данни';
+$wb['sys_groupid_txt'] = 'Клиент';
+?>
