@@ -71,12 +71,12 @@ CREATE TABLE IF NOT EXISTS `aps_settings` (
 -- Tabellenstruktur für Tabelle `tpl_default`
 --
 
-CREATE TABLE IF NOT EXISTS `tpl_default` (
-  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL,
-  `logo_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`var_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+-- CREATE TABLE IF NOT EXISTS `tpl_default` (
+--  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+--  `username` varchar(64) NOT NULL,
+--  `logo_url` varchar(255) NOT NULL,
+--  PRIMARY KEY (`var_id`)
+--) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -84,12 +84,12 @@ CREATE TABLE IF NOT EXISTS `tpl_default` (
 -- Tabellenstruktur für Tabelle `tpl_default-v2`
 --
 
-CREATE TABLE IF NOT EXISTS `tpl_default-v2` (
-  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL,
-  `logo_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`var_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+--CREATE TABLE IF NOT EXISTS `tpl_default-v2` (
+--  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+--  `username` varchar(64) NOT NULL,
+--  `logo_url` varchar(255) NOT NULL,
+--  PRIMARY KEY (`var_id`)
+--) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
