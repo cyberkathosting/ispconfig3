@@ -139,25 +139,6 @@ $form['tabs']['main'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
-		'language' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-                        'validators'	=> array ( 0 => array (	'type'	=> 'NOTEMPTY',
-                                                                'errmsg'=> 'language_is_empty'),
-                                                   1 => array (	'type'	=> 'REGEX',
-                                                                'regex' => '/^[a-z]{2}$/i',
-                                                                'errmsg'=> 'language_regex_mismatch'),
-                                                ),
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> $language_list,
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '2',
-			'rows'		=> '',
-			'cols'		=> ''
-		),
                 'app_theme' => array (
                             'datatype'	=> 'VARCHAR',
                             'formtype'	=> 'SELECT',
