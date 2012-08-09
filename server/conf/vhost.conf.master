@@ -255,7 +255,11 @@
 		<IfModule mod_dav_fs.c>
 		# Do not execute PHP files in webdav directory
 			<Directory {tmpl_var name='document_root'}/webdav>
-			<FilesMatch "\.ph(p3?|tml)$">
+				<ifModule mod_security2.c>
+					SecRuleRemoveById 960015
+					SecRuleRemoveById 960032
+				</ifModule>
+				<FilesMatch "\.ph(p3?|tml)$">
 					SetHandler None
 				</FilesMatch>
 			</Directory>
