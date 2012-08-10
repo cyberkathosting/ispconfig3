@@ -238,18 +238,18 @@ class monitor_tools {
 		//* The state of the email_quota.
 		$state = 'ok';
 		
-		$mailboxes = $app->db->queryAllRecords("SELECT email FROM mail_user WHERE server_id = $server_id");
+		$mailboxes = $app->db->queryAllRecords("SELECT email,maildir FROM mail_user WHERE server_id = $server_id");
 		if(is_array($mailboxes)) {
 			foreach($mailboxes as $mb) {
 				$email = $mb['email'];
 				$email_parts = explode('@',$mb['email']);
-				$filename = '/var/vmail/'.$email_parts[1].'/'.$email_parts[0].'/.quotausage';
-				if(file_exists($filename)) {
+				$filename = $mb['maildir'].'/.quotausage';
+				if(file_exists($filename) && !is_link($filename)) {
 					$quotafile = file($filename);
 					$data[$email]['used'] = trim($quotafile['1']);
 					unset($quotafile);
 				} else {
-					exec('du -s '.escapeshellcmd('/var/vmail/'.$email_parts[1].'/'.$email_parts[0]),$out);
+					exec('du -s '.escapeshellcmd($mb['maildir']),$out);
 					$parts = explode(' ',$out[0]);
 					$data[$email]['used'] = intval($parts[0])*1024;
 					unset($out);
