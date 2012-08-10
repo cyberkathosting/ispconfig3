@@ -708,7 +708,7 @@ class monitor_core_module {
 		$res = $this->_tools->monitorISPCCronLog();
 		
 		//* Ensure that output is encoded so that it does not break the serialize
-		$res['data']['output'] = htmlentities($res['data']['output']);
+		$res['data'] = htmlentities($res['data']);
 
 		/*
 		 * Insert the data into the database
