@@ -996,7 +996,7 @@ class monitor_tools {
 		 */
 		$tmp = explode("\n", $data['output']);
 		$more = $tmp[sizeof($tmp) - 1];
-		$this->_getIntArray($more);
+		$res = $this->_getIntArray($more);
 		$data['bytes'] = $res[0];
 		$data['requests'] = $res[1];
 
