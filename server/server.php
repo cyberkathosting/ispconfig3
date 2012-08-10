@@ -42,7 +42,9 @@ $conf['server_id'] = intval($conf['server_id']);
  */
 if ($app->dbmaster->connect_error == NULL) {
 	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
-
+	
+	if(!is_array($server_db_record)) die('Unable to load the server configuration from database.');
+	
 	$conf['last_datalog_id'] = (int) $server_db_record['updated'];
 	$conf['mirror_server_id'] = (int) $server_db_record['mirror_server_id'];
 
