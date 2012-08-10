@@ -85,9 +85,9 @@ class modules {
 		//* If its a multiserver setup
 		if($app->db->dbHost != $app->dbmaster->dbHost || ($app->db->dbHost == $app->dbmaster->dbHost && $app->db->dbName != $app->dbmaster->dbName)) {
 			if($conf['mirror_server_id'] > 0) {
-				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = ".$conf['mirror_server_id']." OR server_id = 0) ORDER BY datalog_id";
+				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = ".$conf['mirror_server_id']." OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
 			} else {
-				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0) ORDER BY datalog_id";
+				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
 			}
 			
 			$records = $app->dbmaster->queryAllRecords($sql);
@@ -207,7 +207,7 @@ class modules {
 			
 		//* if we have a single server setup
 		} else {
-			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0) ORDER BY datalog_id";
+			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
 			$records = $app->db->queryAllRecords($sql);
 			foreach($records as $d) {
 				
