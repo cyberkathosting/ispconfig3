@@ -1683,7 +1683,7 @@ class monitor_tools {
 				break;
 			case 'log_messages':
 				if ($dist == 'debian') {
-					$logfile = '/var/log/messages';
+					$logfile = '/var/log/syslog';
 				} elseif ($dist == 'redhat') {
 					$logfile = '/var/log/messages';
 				} elseif ($dist == 'suse') {
