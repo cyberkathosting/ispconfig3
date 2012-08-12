@@ -36,25 +36,25 @@ class login_index {
 	private $target = '';
 	private $app;
 	private $conf;
-	
+
 	public function render() {
-		
+
 		global $app, $conf;
-		
+
 		/* Redirect to page, if login form was NOT send */
 		if(count($_POST) == 0) {
 			if(isset($_SESSION['s']['user']) && is_array($_SESSION['s']['user']) && is_array($_SESSION['s']['module'])) {
 				die('HEADER_REDIRECT:'.$_SESSION['s']['module']['startpage']);
 			}
 		}
-		
+
 		$app->uses('tpl');
 		$app->tpl->newTemplate('form.tpl.htm');
-	    
+
 	    $error = '';
-		
+
 		$app->load_language_file('web/login/lib/lang/'.$conf["language"].'.lng');
-		
+
 		// Maintenance mode
 		$maintenance_mode = false;
 		$maintenance_mode_error = '';
@@ -64,21 +64,22 @@ class login_index {
 			$maintenance_mode = true;
 			$maintenance_mode_error = $app->lng('error_maintenance_mode');
 		}
-	
+
 		//* Login Form was send
 		if(count($_POST) > 0) {
-			
+
 			//** Check variables
 			if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
 			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = $app->lng('pw_error_length');
-			
+
 	        //** iporting variables
 	        $ip 	  = $app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
 	        $username = $app->db->quote($_POST['username']);
 	        $passwort = $app->db->quote($_POST['passwort']);
 			$loginAs  = false;
 			$time = time();
-	
+			$logging = 'Failed login for user '. $username .' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
+
 	        if($username != '' && $passwort != '' && $error == '') {
 				/*
 				 *  Check, if there is a "login as" instead of a "normal" login
@@ -115,7 +116,7 @@ class login_index {
 	        	if($alreadyfailed['times'] > 5) {
 	        		$error = $app->lng('error_user_too_many_logins');
 	        	} else {
-	        		
+
 					if ($loginAs){
 			        	$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
 						$user = $app->db->queryOneRecord($sql);
@@ -145,24 +146,24 @@ class login_index {
 									$user['default_group'] = $mailuser['sys_groupid'];
 								}
 							}
-							
+
 						} else {
 							//* normal cp user login
 							$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
 							$user = $app->db->queryOneRecord($sql);
-							
+
 							if($user) {
 								$saved_password = stripslashes($user['passwort']);
-							
+
 								if(substr($saved_password,0,3) == '$1$') {
 									//* The password is crypt-md5 encrypted
 									$salt = '$1$'.substr($saved_password,3,8).'$';
-								
+
 									if(crypt(stripslashes($passwort),$salt) != $saved_password) {
 										$user = false;
 									}
 								} else {
-								
+
 									//* The password is md5 encrypted
 									if(md5($passwort) != $saved_password) {
 										$user = false;
@@ -173,7 +174,7 @@ class login_index {
 							}
 						}
 					}
-		            
+
 		            if($user) {
 		                if($user['active'] == 1) {
 							// Maintenance mode - allow logins only when maintenance mode is off or if the user is admin
@@ -182,7 +183,7 @@ class login_index {
 								$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
 								$app->db->query($sql);
 								$user = $app->db->toLower($user);
-							
+
 								if ($loginAs) $oldSession = $_SESSION['s'];
 								$_SESSION = array();
 								if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
@@ -190,20 +191,20 @@ class login_index {
 								$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
 								$_SESSION['s']['language'] = $user['language'];
 								$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
-										
+
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 									$_SESSION['s']['module'] = $module;
 								}
-							
+
 								$app->plugin->raiseEvent('login',$this);
-							
+
 								/*
 								* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
 								* new theme, if the logged-in user has another
 								*/
 								echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
-										
+
 								exit;
 							}
 		             	} else {
@@ -223,36 +224,39 @@ class login_index {
 		            	//* Incorrect login - Username and password incorrect
 		                $error = $app->lng('error_user_password_incorrect');
 		                if($app->db->errorMessage != '') $error .= '<br />'.$app->db->errorMessage != '';
-						
-						$app->plugin->raiseEvent('login_failed',$this);	
+
+						$app->plugin->raiseEvent('login_failed',$this);
+
+						//* write to log (e.g. for fail2ban)
+						exec('echo '. $logging .' >> /tmp/login.log');
 		           	}
 	        	}
 	      	} else {
 	       		//* Username or password empty
 	            if($error == '') $error = $app->lng('error_user_password_empty');
-				
+
 				$app->plugin->raiseEvent('login_empty',$this);
 	        }
 		}
-		
+
 		// Maintenance mode - show message when people try to log in and also when people are forcedly logged off
 		if($maintenance_mode_error != '') $error = '<strong>'.$maintenance_mode_error.'</strong><br><br>'.$error;
 		if($error != ''){
 	  		$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
 		}
-	
+
 		$app->tpl->setVar('error', $error);
-                $app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
+        $app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
 		$app->tpl->setVar('password_txt', $app->lng('password_txt'));
 		$app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
 		$app->tpl->setInclude('content_tpl','login/templates/index.htm');
 		$app->tpl_defaults();
-		
+
 		$this->status = 'OK';
-		
+
 		return $app->tpl->grab();
-		
+
 	} // << end function
 
 } // << end class
