@@ -7,14 +7,14 @@ All rights reserved.
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice,
-      this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice,
-      this list of conditions and the following disclaimer in the documentation
-      and/or other materials provided with the distribution.
-    * Neither the name of ISPConfig nor the names of its contributors
-      may be used to endorse or promote products derived from this software without
-      specific prior written permission.
+		* Redistributions of source code must retain the above copyright notice,
+			this list of conditions and the following disclaimer.
+		* Redistributions in binary form must reproduce the above copyright notice,
+			this list of conditions and the following disclaimer in the documentation
+			and/or other materials provided with the distribution.
+		* Neither the name of ISPConfig nor the names of its contributors
+			may be used to endorse or promote products derived from this software without
+			specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -47,7 +47,7 @@ for( $i = 0 ; $i <= $argc -1 ;$i++)
 {
 echo "Argument $i : $argv[$i] \n";
 }
-?> 
+?>
 
 */
 error_reporting(E_ALL|E_STRICT);
@@ -60,12 +60,12 @@ $FILE = realpath('../install.php');
 //   This is the same code as in server/lib/classes/monitor_tools.inc.php
 //   So if you change it here, you also have to change it in there!
 function get_distname() {
-	
+
 	$distname = '';
 	$distver = '';
 	$distid = '';
 	$distbaseid = '';
-	
+
 	//** Debian or Ubuntu
 	if(file_exists('/etc/debian_version')) {
 		if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
@@ -141,7 +141,7 @@ function get_distname() {
 					$relname = "UNKNOWN";
 			}
 			$distver = $ver.$lts." ".$relname;
-			swriteln("Operating System: ".$distver."\n");		
+			swriteln("Operating System: ".$distver."\n");
 		} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 			$distname = 'Debian';
 			$distver = '4.0';
@@ -160,7 +160,13 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
-		}  else {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'6.0') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+			$distname = 'Debian';
+			$distver = 'Wheezy/Sid';
+			$distid = 'debian70';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
+		} else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
 			$distid = 'debian40';
@@ -168,7 +174,7 @@ function get_distname() {
 			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}
 	}
-	
+
 	//** OpenSuSE
 	elseif(file_exists('/etc/SuSE-release')) {
 		if(stristr(file_get_contents('/etc/SuSE-release'),'11.0')) {
@@ -197,13 +203,13 @@ function get_distname() {
 			swriteln("Operating System: openSUSE or compatible, unknown version.\n");
 		}
 	}
-	
-	
+
+
 	//** Redhat
 	elseif(file_exists('/etc/redhat-release')) {
-		
+
 		$content = file_get_contents('/etc/redhat-release');
-		
+
 		if(stristr($content,'Fedora release 9 (Sulphur)')) {
 			$distname = 'Fedora';
 			$distver = '9';
@@ -248,29 +254,29 @@ function get_distname() {
 			swriteln("Operating System: Redhat or compatible, unknown version.\n");
 		}
 	}
-	
+
 	//** Gentoo
- 	elseif(file_exists('/etc/gentoo-release')) {
- 		
- 		$content = file_get_contents('/etc/gentoo-release');
- 
-        preg_match_all('/([0-9]{1,2})/', $content, $version);
- 		$distname = 'Gentoo';
- 		$distver = $version[0][0].$version[0][1];
- 		$distid = 'gentoo';
- 		$distbaseid = 'gentoo';
- 		swriteln("Operating System: Gentoo $distver or compatible\n");
-		
+	elseif(file_exists('/etc/gentoo-release')) {
+
+		$content = file_get_contents('/etc/gentoo-release');
+
+				preg_match_all('/([0-9]{1,2})/', $content, $version);
+		$distname = 'Gentoo';
+		$distver = $version[0][0].$version[0][1];
+		$distid = 'gentoo';
+		$distbaseid = 'gentoo';
+		swriteln("Operating System: Gentoo $distver or compatible\n");
+
 	} else {
 		die('Unrecognized GNU/Linux distribution');
 	}
-	
+
 	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
 }
 
 function sread() {
-    $input = fgets(STDIN);
-    return rtrim($input);
+		$input = fgets(STDIN);
+		return rtrim($input);
 }
 
 function swrite($text = '') {
@@ -282,7 +288,7 @@ function swriteln($text = '') {
 }
 
 function ilog($msg){
-  	exec("echo `date` \"- [ISPConfig] - \"".$msg.' >> '.ISPC_LOG_FILE);
+		exec("echo `date` \"- [ISPConfig] - \"".$msg.' >> '.ISPC_LOG_FILE);
 }
 
 function error($msg){
@@ -448,60 +454,60 @@ function comment_out($file, $string){
 }
 
 function is_word($string, $text, $params = ''){
-  //* params: i ??
-  return preg_match("/\b$string\b/$params", $text);
-  /*
-  if(preg_match("/\b$string\b/$params", $text)) {
-    return true;
-  } else {
-    return false;
-  }
-  */
+	//* params: i ??
+	return preg_match("/\b$string\b/$params", $text);
+	/*
+	if(preg_match("/\b$string\b/$params", $text)) {
+		return true;
+	} else {
+		return false;
+	}
+	*/
 }
 
 function grep($content, $string, $params = ''){
-  // params: i, v, w
-  $content = unix_nl($content);
-  $lines = explode("\n", $content);
-  foreach($lines as $line){
-    if(!strstr($params, 'w')){
-      if(strstr($params, 'i')){
-        if(strstr($params, 'v')){
-          if(!stristr($line, $string)) $find[] = $line;
-        } else {
-          if(stristr($line, $string)) $find[] = $line;
-        }
-      } else {
-        if(strstr($params, 'v')){
-          if(!strstr($line, $string)) $find[] = $line;
-        } else {
-          if(strstr($line, $string)) $find[] = $line;
-        }
-      }
-    } else {
-      if(strstr($params, 'i')){
-        if(strstr($params, 'v')){
-          if(!is_word($string, $line, 'i')) $find[] = $line;
-        } else {
-          if(is_word($string, $line, 'i')) $find[] = $line;
-        }
-      } else {
-        if(strstr($params, 'v')){
-          if(!is_word($string, $line)) $find[] = $line;
-        } else {
-          if(is_word($string, $line)) $find[] = $line;
-        }
-      }
-    }
-  }
-  if(is_array($find)){
-    $ret_val = implode("\n", $find);
-    if(substr($ret_val,-1) != "\n") $ret_val .= "\n";
-    $find = NULL;
-    return $ret_val;
-  } else {
-    return false;
-  }
+	// params: i, v, w
+	$content = unix_nl($content);
+	$lines = explode("\n", $content);
+	foreach($lines as $line){
+		if(!strstr($params, 'w')){
+			if(strstr($params, 'i')){
+				if(strstr($params, 'v')){
+					if(!stristr($line, $string)) $find[] = $line;
+				} else {
+					if(stristr($line, $string)) $find[] = $line;
+				}
+			} else {
+				if(strstr($params, 'v')){
+					if(!strstr($line, $string)) $find[] = $line;
+				} else {
+					if(strstr($line, $string)) $find[] = $line;
+				}
+			}
+		} else {
+			if(strstr($params, 'i')){
+				if(strstr($params, 'v')){
+					if(!is_word($string, $line, 'i')) $find[] = $line;
+				} else {
+					if(is_word($string, $line, 'i')) $find[] = $line;
+				}
+			} else {
+				if(strstr($params, 'v')){
+					if(!is_word($string, $line)) $find[] = $line;
+				} else {
+					if(is_word($string, $line)) $find[] = $line;
+				}
+			}
+		}
+	}
+	if(is_array($find)){
+		$ret_val = implode("\n", $find);
+		if(substr($ret_val,-1) != "\n") $ret_val .= "\n";
+		$find = NULL;
+		return $ret_val;
+	} else {
+		return false;
+	}
 }
 
 function edit_xinetd_conf($service){
@@ -543,7 +549,7 @@ function ini_to_array($ini) {
 	$ini = str_replace("\r\n", "\n", $ini);
 	$lines = explode("\n", $ini);
 	foreach($lines as $line) {
-        $line = trim($line);                
+				$line = trim($line);
 		if($line != '') {
 			if(preg_match("/^\[([\w\d_]+)\]$/", $line, $matches)) {
 				$section = strtolower($matches[1]);
@@ -555,8 +561,8 @@ function ini_to_array($ini) {
 	}
 	return $config;
 }
-	
-	
+
+
 //* Converts a config array to a string
 function array_to_ini($config_array = '') {
 	if($config_array == '') $config_array = $this->config;
@@ -565,8 +571,8 @@ function array_to_ini($config_array = '') {
 		$content .= "[$section]\n";
 		foreach($data as $item => $value) {
 			if($item != ''){
-                $content .= "$item=$value\n";
-            }
+								$content .= "$item=$value\n";
+						}
 		}
 		$content .= "\n";
 	}
@@ -574,35 +580,35 @@ function array_to_ini($config_array = '') {
 }
 
 function is_user($user){
-  global $mod;
-  $user_datei = '/etc/passwd';
-  $users = no_comments($user_datei);
-  $lines = explode("\n", $users);
-  if(is_array($lines)){
-    foreach($lines as $line){
-      if(trim($line) != ''){
-        list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(':', $line);
-        if($f1 == $user) return true;
-      }
-    }
-  }
-  return false;
+	global $mod;
+	$user_datei = '/etc/passwd';
+	$users = no_comments($user_datei);
+	$lines = explode("\n", $users);
+	if(is_array($lines)){
+		foreach($lines as $line){
+			if(trim($line) != ''){
+				list($f1, $f2, $f3, $f4, $f5, $f6, $f7) = explode(':', $line);
+				if($f1 == $user) return true;
+			}
+		}
+	}
+	return false;
 }
 
 function is_group($group){
-  global $mod;
-  $group_datei = '/etc/group';
-  $groups = no_comments($group_datei);
-  $lines = explode("\n", $groups);
-  if(is_array($lines)){
-    foreach($lines as $line){
-      if(trim($line) != ''){
-        list($f1, $f2, $f3, $f4) = explode(':', $line);
-        if($f1 == $group) return true;
-      }
-    }
-  }
-  return false;
+	global $mod;
+	$group_datei = '/etc/group';
+	$groups = no_comments($group_datei);
+	$lines = explode("\n", $groups);
+	if(is_array($lines)){
+		foreach($lines as $line){
+			if(trim($line) != ''){
+				list($f1, $f2, $f3, $f4) = explode(':', $line);
+				if($f1 == $group) return true;
+			}
+		}
+	}
+	return false;
 }
 
 function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1) {
@@ -635,7 +641,7 @@ function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1
 		file_put_contents($filename,$out);
 	}
 }
-	
+
 function removeLine($filename,$search_pattern,$strict = 0) {
 	if($lines = @file($filename)) {
 		$out = '';
@@ -675,7 +681,7 @@ function compare_ispconfig_version($current,$new) {
 	if( $current == $new) {
 		return 0;
 	}
-	
+
 	$p = explode('.',$current);
 	$tmp = '';
 	$tmp .= str_pad(intval($p[0]), 3, '0', STR_PAD_LEFT);
@@ -683,7 +689,7 @@ function compare_ispconfig_version($current,$new) {
 	$tmp .= (isset($p[2]))?str_pad(intval($p[2]), 3, '0', STR_PAD_LEFT):'000';
 	$tmp .= (isset($p[3]))?str_pad(intval($p[3]), 3, '0', STR_PAD_LEFT):'000';
 	$current = $tmp;
-	
+
 	$p = explode('.',$new);
 	$tmp = '';
 	$tmp .= str_pad(intval($p[0]), 3, '0', STR_PAD_LEFT);
@@ -691,13 +697,13 @@ function compare_ispconfig_version($current,$new) {
 	$tmp .= (isset($p[2]))?str_pad(intval($p[2]), 3, '0', STR_PAD_LEFT):'000';
 	$tmp .= (isset($p[3]))?str_pad(intval($p[3]), 3, '0', STR_PAD_LEFT):'000';
 	$new = $tmp;
-	
+
 	if($new > $current) {
 		return 1;
 	} else {
 		return -1;
 	}
-	
+
 }
 
 /*
@@ -713,7 +719,7 @@ function get_ispconfig_port_number() {
 		$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
 		$regex = '/\<VirtualHost.*\:(\d{1,})\>/';
 	}
-	
+
 	if(is_file($ispconfig_vhost_file)) {
 		$tmp = file_get_contents($ispconfig_vhost_file);
 		preg_match($regex,$tmp,$matches);

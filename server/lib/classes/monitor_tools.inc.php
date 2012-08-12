@@ -1,31 +1,31 @@
 <?php
 
 /*
-  Copyright (c) 2007-2011, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
-  All rights reserved.
+	Copyright (c) 2007-2011, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
+	All rights reserved.
 
-  Redistribution and use in source and binary forms, with or without modification,
-  are permitted provided that the following conditions are met:
+	Redistribution and use in source and binary forms, with or without modification,
+	are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
+	this list of conditions and the following disclaimer.
  * Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
+	this list of conditions and the following disclaimer in the documentation
+	and/or other materials provided with the distribution.
  * Neither the name of ISPConfig nor the names of its contributors
-  may be used to endorse or promote products derived from this software without
-  specific prior written permission.
+	may be used to endorse or promote products derived from this software without
+	specific prior written permission.
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
-  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+	OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+	NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+	EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 class monitor_tools {
@@ -133,6 +133,11 @@ class monitor_tools {
 				$distver = 'Squeeze/Sid';
 				$distid = 'debian60';
 				$distbaseid = 'debian';
+			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+				$distname = 'Debian';
+				$distver = 'Wheezy/Sid';
+				$distid = 'debian70';
+				$distbaseid = 'debian';
 			} else {
 				$distname = 'Debian';
 				$distver = 'Unknown';
@@ -222,9 +227,9 @@ class monitor_tools {
 		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
 	}
 
-    //** Email Quota
-    public function monitorEmailQuota() {
-        global $conf, $app;
+		//** Email Quota
+		public function monitorEmailQuota() {
+				global $conf, $app;
 
 		//* Initialize data array
 		$data = array();
@@ -237,7 +242,7 @@ class monitor_tools {
 
 		//* The state of the email_quota.
 		$state = 'ok';
-		
+
 		$mailboxes = $app->db->queryAllRecords("SELECT email,maildir FROM mail_user WHERE server_id = $server_id");
 		if(is_array($mailboxes)) {
 			foreach($mailboxes as $mb) {
@@ -257,31 +262,31 @@ class monitor_tools {
 				}
 			}
 		}
-		
+
 		unset($mailboxes);
 
-        //* Dovecot quota check Courier in progress lathama@gmail.com
+				//* Dovecot quota check Courier in progress lathama@gmail.com
 		/*
-        if($dir = opendir("/var/vmail")){
-            while (($quotafiles = readdir($dir)) !== false){
-                if(preg_match('/.\_quota$/', $quotafiles)){
-                    $quotafile = (file("/var/vmail/" . $quotafiles));
-                    $emailaddress = preg_replace('/_quota/',"", $quotafiles);
-                    $emailaddress = preg_replace('/_/',"@", $emailaddress);
-                    $data[$emailaddress]['used'] = trim($quotafile['1']);
-                }
-            }
-            closedir($dir);
-        }
+				if($dir = opendir("/var/vmail")){
+						while (($quotafiles = readdir($dir)) !== false){
+								if(preg_match('/.\_quota$/', $quotafiles)){
+										$quotafile = (file("/var/vmail/" . $quotafiles));
+										$emailaddress = preg_replace('/_quota/',"", $quotafiles);
+										$emailaddress = preg_replace('/_/',"@", $emailaddress);
+										$data[$emailaddress]['used'] = trim($quotafile['1']);
+								}
+						}
+						closedir($dir);
+				}
 		*/
 		$res['server_id'] = $server_id;
 		$res['type'] = $type;
 		$res['data'] = $data;
 		$res['state'] = $state;
-        return $res;
-    }
+				return $res;
+		}
 
-    //** Filesystem Quota
+		//** Filesystem Quota
 	public function monitorHDQuota() {
 		global $conf;
 
@@ -369,7 +374,7 @@ class monitor_tools {
 		$type = 'server_load';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		$procUptime = shell_exec("cat /proc/uptime | cut -f1 -d' '");
 		$data['up_days'] = floor($procUptime / 86400);
@@ -420,7 +425,7 @@ class monitor_tools {
 		$type = 'os_info';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		$dist = $this->get_distname();
 
@@ -450,7 +455,7 @@ class monitor_tools {
 		$type = 'ispc_info';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		$data['name'] = ISPC_APP_TITLE;
 		$data['version'] = ISPC_APP_VERSION;
@@ -506,7 +511,7 @@ class monitor_tools {
 				 * calculate the state
 				 */
 				$usePercent = floatval($data[$i]['percent']);
-				
+
 				//* get the free memsize
 				if(substr($data[$i]['available'],-1) == 'G') {
 					$freesize = floatval($data[$i]['available'])*1024;
@@ -559,7 +564,7 @@ class monitor_tools {
 		$type = 'mem_usage';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		$miData = shell_exec('cat /proc/meminfo');
 
@@ -601,7 +606,7 @@ class monitor_tools {
 		$type = 'cpu_info';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		if (file_exists('/proc/cpuinfo')) {
 			$cpuData = shell_exec('cat /proc/cpuinfo');
@@ -771,7 +776,7 @@ class monitor_tools {
 		$type = 'openvz_veinfo';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		$app->load(openvz_tools);
 		$openVzTools = new openvz_tools();
@@ -801,7 +806,7 @@ class monitor_tools {
 		$type = 'openvz_beancounter';
 
 		/*
-		  Fetch the data into a array
+			Fetch the data into a array
 		 */
 		$app->load(openvz_tools);
 		$openVzTools = new openvz_tools();
@@ -1134,7 +1139,7 @@ class monitor_tools {
 				}
 			}
 		}
-		
+
 		/*
 		* 3ware Controller
 		*/
@@ -1188,7 +1193,7 @@ class monitor_tools {
 				}
 			}
 		}
-		
+
 
 		/*
 		 * Return the Result
@@ -1291,54 +1296,54 @@ class monitor_tools {
 	}
 
 	public function monitorIPTables() {
-        global $conf;
+				global $conf;
 
-        /* the id of the server as int */
-        $server_id = intval($conf['server_id']);
+				/* the id of the server as int */
+				$server_id = intval($conf['server_id']);
 
-        /** The type of the data */
-        $type = 'iptables_rules';
+				/** The type of the data */
+				$type = 'iptables_rules';
 
-        /* This monitoring is only available if fail2ban is installed */
-        system('which iptables', $retval); // Debian, Ubuntu, Fedora
-        if ($retval === 0) {
-            /*  Get the data of the log */
-            $data['output'] = '<h2>iptables -S (ipv4)</h2>'.shell_exec('iptables -S');
+				/* This monitoring is only available if fail2ban is installed */
+				system('which iptables', $retval); // Debian, Ubuntu, Fedora
+				if ($retval === 0) {
+						/*  Get the data of the log */
+						$data['output'] = '<h2>iptables -S (ipv4)</h2>'.shell_exec('iptables -S');
 
-            /*
-             * At this moment, there is no state (maybe later)
-             */
-            $state = 'no_state';
-        } else {
-            $state = 'no_state';
-            $data = '';
-        }
-        
-        
-        /* This monitoring is only available if fail2ban is installed */
-        system('which ip6tables', $retval); // Debian, Ubuntu, Fedora
-        if ($retval === 0) {
-            /*  Get the data of the log */
-            $data['output'] .= '<br><h2>ip6tables -S (ipv6)</h2>'.shell_exec('ip6tables -S');
+						/*
+						 * At this moment, there is no state (maybe later)
+						 */
+						$state = 'no_state';
+				} else {
+						$state = 'no_state';
+						$data = '';
+				}
 
-            /*
-             * At this moment, there is no state (maybe later)
-             */
-            $state = 'no_state';
-        } else {
-            $state = 'no_state';
-            $data = '';
-        }
 
-        /*
-         * Return the Result
-         */
-        $res['server_id'] = $server_id;
-        $res['type'] = $type;
-        $res['data'] = $data;
-        $res['state'] = $state;
-        return $res;
-    }
+				/* This monitoring is only available if fail2ban is installed */
+				system('which ip6tables', $retval); // Debian, Ubuntu, Fedora
+				if ($retval === 0) {
+						/*  Get the data of the log */
+						$data['output'] .= '<br><h2>ip6tables -S (ipv6)</h2>'.shell_exec('ip6tables -S');
+
+						/*
+						 * At this moment, there is no state (maybe later)
+						 */
+						$state = 'no_state';
+				} else {
+						$state = 'no_state';
+						$data = '';
+				}
+
+				/*
+				 * Return the Result
+				 */
+				$res['server_id'] = $server_id;
+				$res['type'] = $type;
+				$res['data'] = $data;
+				$res['state'] = $state;
+				return $res;
+		}
 
 	public function monitorSysLog() {
 		global $app;
