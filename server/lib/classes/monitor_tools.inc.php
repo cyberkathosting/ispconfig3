@@ -117,7 +117,6 @@ class monitor_tools {
 					$relname = "UNKNOWN";
 				}
 				$distver = $ver.$lts." ".$relname;
-				swriteln("Operating System: ".$distver."\n");
 			} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 				$distname = 'Debian';
 				$distver = '4.0';
@@ -1149,6 +1148,7 @@ class monitor_tools {
 			$data['output'] = shell_exec('tw_cli info c0');
 
 			$state = 'ok';
+			if(is_array($data['output'])) {
 			foreach ($data['output'] as $item) {
 				if (strpos($item, 'RAID') !== false) {
 					if (strpos($item, ' VERIFYING ') !== false) {
@@ -1191,6 +1191,7 @@ class monitor_tools {
 						$this->_setState($state, 'critical');
 					}
 				}
+			}
 			}
 		}
 

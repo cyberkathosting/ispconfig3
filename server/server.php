@@ -148,7 +148,7 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 	unset($tmp_rec);
 	
 	//** Load required base-classes
-	$app->uses('modules,plugins,file,services');
+	$app->uses('modules,plugins,file,services,system');
 	//** Load the modules that are in the mods-enabled folder
 	$app->modules->loadModules('all');
 	//** Load the plugins that are in the plugins-enabled folder

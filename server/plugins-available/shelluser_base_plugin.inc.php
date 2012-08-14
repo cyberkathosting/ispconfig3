@@ -148,6 +148,7 @@ class shelluser_base_plugin {
 			if($uid > $this->min_uid) {
 				// Check if the user that we want to update exists, if not, we insert it
 				if($app->system->is_user($data['old']['username'])) {
+					/*
 					$command = 'usermod';
 					$command .= ' --home '.escapeshellcmd($data['new']['dir']);
 					$command .= ' --gid '.escapeshellcmd($data['new']['pgroup']);
@@ -160,6 +161,9 @@ class shelluser_base_plugin {
 			
 					exec($command);
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
+					*/
+					$groupinfo = posix_getgrnam($data['new']['pgroup']);
+					$app->system->usermod($data['old']['username'],0, $groupinfo[gid], $data['new']['dir'], $data['new']['shell'], $data['new']['password'], $data['new']['username']);
 					$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
 									
 					// call the ssh-rsa update function

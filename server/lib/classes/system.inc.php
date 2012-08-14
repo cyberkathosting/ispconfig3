@@ -737,6 +737,7 @@ class system{
 	  	}
 	}
 	
+	/*
 	function usermod($user, $groups){
 		global $app;
 	  	if($this->is_user($user)){
@@ -776,6 +777,7 @@ class system{
 		    return false;
 	  	}
 	}
+	*/
 	
 	/**boot autostart etc
 	 *
@@ -1394,6 +1396,102 @@ class system{
 		} else {
 			//* Remove protection
 			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root,'..')) exec('chattr -i '.escapeshellcmd($document_root));
+		}
+	}
+	
+	function usermod($username, $uid = 0, $gid = 0, $home = '', $shell = '', $password = '', $login = '') {
+		global $app;
+		
+		if($login == '') $login = $username;
+		
+		//* Change values in /etc/passwd
+		$passwd_file_array = file('/etc/passwd');
+		if(is_array($passwd_file_array)) {
+			foreach($passwd_file_array as $line) {
+				$line = trim($line);
+				$parts = explode(':',$line);
+				if($parts[0] == $username) {
+					if(trim($login) != '' && trim($login) != trim($username)) $parts[0] = trim($login);
+					if(!empty($uid)) $parts[2] = trim($uid);
+					if(!empty($gid)) $parts[3] = trim($gid);
+					if(trim($home) != '') $parts[5] = trim($home);
+					if(trim($shell) != '') $parts[6] = trim($shell);
+					$new_line = implode(':',$parts);
+					copy('/etc/passwd','/etc/passwd~');
+					chmod('/etc/passwd~',0600);
+					$app->uses('system');
+					$app->system->replaceLine('/etc/passwd',$line,$new_line,1,0);
+				}
+			}
+			unset($passwd_file_array);
+		}
+		
+		//* If username != login, change username in group and gshadow file
+		if($username  != $login) {
+			$group_file_array = file('/etc/group');
+			if(is_array($group_file_array)) {
+				foreach($group_file_array as $line) {
+					$line = trim($line);
+					$parts = explode(':',$line);
+					if(strstr($parts[3],$username)) {
+						$uparts = explode(',',$parts[3]);
+						if(is_array($uparts)) {
+							foreach($uparts as $key => $val) {
+								if($val == $username) $uparts[$key] = $login;
+							}
+						}
+						$parts[3] = implode(',',$uparts);
+						$new_line = implode(':',$parts);
+						copy('/etc/group','/etc/group~');
+						chmod('/etc/group~',0600);
+						$app->system->replaceLine('/etc/group',$line,$new_line,1,0);
+					}
+				}
+			}
+			unset($group_file_array);
+			
+			$gshadow_file_array = file('/etc/gshadow');
+			if(is_array($gshadow_file_array)) {
+				foreach($gshadow_file_array as $line) {
+					$line = trim($line);
+					$parts = explode(':',$line);
+					if(strstr($parts[3],$username)) {
+						$uparts = explode(',',$parts[3]);
+						if(is_array($uparts)) {
+							foreach($uparts as $key => $val) {
+								if($val == $username) $uparts[$key] = $login;
+							}
+						}
+						$parts[3] = implode(',',$uparts);
+						$new_line = implode(':',$parts);
+						copy('/etc/gshadow','/etc/gshadow~');
+						chmod('/etc/gshadow~',0600);
+						$app->system->replaceLine('/etc/gshadow',$line,$new_line,1,0);
+					}
+				}
+			}
+			unset($group_file_array);
+		}
+		
+		
+		//* When password or login name has been changed
+		if($password != '' || $username  != $login) {
+			$shadow_file_array = file('/etc/shadow');
+			if(is_array($shadow_file_array)) {
+				foreach($shadow_file_array as $line) {
+					$line = trim($line);
+					$parts = explode(':',$line);
+					if($parts[0] == $username) {
+						if(trim($login) != '' && trim($login) != trim($username)) $parts[0] = trim($login);
+						if(trim($password) != '') $parts[1] = trim($password);
+						$new_line = implode(':',$parts);
+						copy('/etc/shadow','/etc/shadow~');
+						chmod('/etc/shadow~',0600);
+						$app->system->replaceLine('/etc/shadow',$line,$new_line,1,0);
+					}
+				}
+			}
+			unset($shadow_file_array);
 		}
 	}
 

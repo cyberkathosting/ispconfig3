@@ -71,7 +71,7 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 		
 		$app->uses('system');
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 		
 		if($app->system->is_user($data['new']['username'])) {
 		
@@ -97,7 +97,12 @@ class shelluser_jailkit_plugin {
 				//* call the ssh-rsa update function
 				$this->_setup_ssh_rsa();
 				
-				$command .= 'usermod -s /usr/sbin/jk_chrootsh -U '.escapeshellcmd($data['new']['username']);
+				//$command .= 'usermod -s /usr/sbin/jk_chrootsh -U '.escapeshellcmd($data['new']['username']);
+				//exec($command);
+				$app->system->usermod($data['new']['username'], 0, 0, '', '/usr/sbin/jk_chrootsh', '', '');
+				
+				//* Unlock user
+				$command = 'usermod -U '.escapeshellcmd($data['new']['username']);
 				exec($command);
 				
 				$this->_update_website_security_level();
@@ -117,7 +122,7 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 		
 		$app->uses('system');
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 		
 		if($app->system->is_user($data['new']['username'])) {
 		
@@ -164,7 +169,7 @@ class shelluser_jailkit_plugin {
 		
 		$app->uses('system');
 		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['old']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['old']['parent_domain_id']);
 		
 		if ($data['old']['chroot'] == "jailkit")
 		{
@@ -285,6 +290,7 @@ class shelluser_jailkit_plugin {
 			//* Change the homedir of the shell user and parent user
 			//* We have to do this manually as the usermod command fails 
 			//* when the user is logged in or a command is running under that user
+			/*
 			$passwd_file_array = file('/etc/passwd');
 			$passwd_out = '';
 			if(is_array($passwd_file_array)) {
@@ -301,8 +307,10 @@ class shelluser_jailkit_plugin {
 						$app->system->replaceLine('/etc/passwd',$line,$new_line,1,0);
 					}
 				}
-			}
+			}*/
 			
+			$app->system->usermod($this->data['new']['username'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, '/usr/sbin/jk_chrootsh');
+			$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, '/usr/sbin/jk_chrootsh');
 				
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 						
@@ -333,9 +341,12 @@ class shelluser_jailkit_plugin {
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
 		
 		//* If the security level is set to high
-		if($web_config['security_level'] == 20) {
-			$this->_exec('chmod 755 '.escapeshellcmd($web["document_root"]));
-			$this->_exec('chown root:root '.escapeshellcmd($web["document_root"]));
+		if($web_config['security_level'] == 20 && is_array($web)) {
+			$app->system->web_folder_protection($web["document_root"],false);
+			$app->system->chmod($web["document_root"],0755);
+			$app->system->chown($web["document_root"],'root');
+			$app->system->chgrp($web["document_root"],'root');
+			$app->system->web_folder_protection($web["document_root"],true);
 		}
 		
 	}
