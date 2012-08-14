@@ -433,6 +433,8 @@ class apache2_plugin {
 		//print_r($data);
 
 		// Check if the directories are there and create them if necessary.
+		$app->system->web_folder_protection($data['new']['document_root'],false);
+		
 		if(!is_dir($data['new']['document_root'].'/web')) $app->system->mkdirpath($data['new']['document_root'].'/web');
 		if(!is_dir($data['new']['document_root'].'/web/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/web/error');
 		//if(!is_dir($data['new']['document_root'].'/log')) exec('mkdir -p '.$data['new']['document_root'].'/log');
@@ -440,6 +442,16 @@ class apache2_plugin {
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) $app->system->mkdirpath($data['new']['document_root'].'/tmp');
 		if(!is_dir($data['new']['document_root'].'/webdav')) $app->system->mkdirpath($data['new']['document_root'].'/webdav');
+		
+		//* Create the new private directory
+		if(!is_dir($data['new']['document_root'].'/private')) {
+			$app->system->mkdirpath($data['new']['document_root'].'/private');
+			$app->system->chmod($data['new']['document_root'].'/private',0710);
+			$app->system->chown($data['new']['document_root'].'/private',$username);
+			$app->system->chgrp($data['new']['document_root'].'/private',$groupname);
+		}
+		
+		$app->system->web_folder_protection($data['new']['document_root'],true);
 		
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
@@ -459,21 +471,6 @@ class apache2_plugin {
 
 			$app->log('Creating symlink: ln -s /var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/log',LOGLEVEL_DEBUG);
 		}
-		/*
-		// Create the symlink for the logfiles
-		// This does not work as vlogger cannot log trough symlinks.
-		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
-			if(is_dir($data['old']['document_root'].'/log')) exec('rm -rf '.$data['old']['document_root'].'/log');
-			if(is_link('/var/log/ispconfig/httpd/'.$data['old']['domain'])) $app->system->unlink('/var/log/ispconfig/httpd/'.$data['old']['domain']);
-		}
-		
-		// Create the symlink for the logfiles
-		if(!is_dir($data['new']['document_root'].'/log')) exec('mkdir -p '.$data['new']['document_root'].'/log');
-		if(!is_link('/var/log/ispconfig/httpd/'.$data['new']['domain'])) {
-			exec('ln -s '.$data['new']['document_root'].'/log /var/log/ispconfig/httpd/'.$data['new']['domain']);
-			$app->log('Creating symlink: ln -s '.$data['new']['document_root'].'/log /var/log/ispconfig/httpd/'.$data['new']['domain'],LOGLEVEL_DEBUG);
-		}
-		*/
 
 		// Get the client ID
 		$client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = '.intval($data['new']['sys_groupid']));
@@ -624,19 +621,16 @@ class apache2_plugin {
 			
 			$app->system->web_folder_protection($data['new']['document_root'],false);
 			
+			//* Check if we have the new private folder and create it if nescessary
+			if(!is_dir($data['new']['document_root'].'/private')) $app->system->mkdir($data['new']['document_root'].'/private');
+			
 			if($web_config['security_level'] == 20) {
 				
-				$app->system->chmod($data['new']['document_root'],0751);
+				$app->system->chmod($data['new']['document_root'],0755);
 				$app->system->chmod($data['new']['document_root'].'/web',0710);
 				$app->system->chmod($data['new']['document_root'].'/webdav',0710);
+				$app->system->chmod($data['new']['document_root'].'/private',0710);
 				$app->system->chmod($data['new']['document_root'].'/ssl',0755);
-				
-				/*
-				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']));
-				$this->_exec('chmod 751 '.escapeshellcmd($data['new']['document_root']).'/*');
-				$this->_exec('chmod 710 '.escapeshellcmd($data['new']['document_root'].'/web'));
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/ssl'));
-				*/
 
 				// make tmp directory writable for Apache and the website users
 				$app->system->chmod($data['new']['document_root'].'/tmp',0777);
@@ -669,16 +663,8 @@ class apache2_plugin {
 				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['user']));
 				
 				//* Chown all default directories
-				/*
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
-				$this->_exec('chown root:'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/ssl'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
-				$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
-				*/
-				$app->system->chown($data['new']['document_root'],$username);
-				$app->system->chgrp($data['new']['document_root'],$groupname);
+				$app->system->chown($data['new']['document_root'],'root');
+				$app->system->chgrp($data['new']['document_root'],'root');
 				$app->system->chown($data['new']['document_root'].'/cgi-bin',$username);
 				$app->system->chgrp($data['new']['document_root'].'/cgi-bin',$groupname);
 				if(realpath($data['new']['document_root'].'/log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
@@ -697,22 +683,8 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web/stats',$groupname);
 				$app->system->chown($data['new']['document_root'].'/webdav',$username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
-				
-				
-				/*
-				* Workaround for jailkit: If jailkit is enabled for the site, the 
-				* website root has to be owned by the root user and we have to chmod it to 755 then
-				*/
-
-				//* Check if there is a jailkit user or cronjob for this site
-				$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
-				$tmp2 = $app->db->queryOneRecord('SELECT count(id) as number FROM cron WHERE parent_domain_id = '.$data['new']['domain_id']." AND `type` = 'chrooted'");
-				if($tmp['number'] > 0 || $tmp2['number'] > 0) {
-					$app->system->chmod($data['new']['document_root'],0755);
-					$app->system->chown($data['new']['document_root'],'root');
-					$app->system->chgrp($data['new']['document_root'],'root');
-				}
-				unset($tmp);
+				$app->system->chown($data['new']['document_root'].'/private',$username);
+				$app->system->chgrp($data['new']['document_root'].'/private',$groupname);
 
 				// If the security Level is set to medium
 			} else {
@@ -755,10 +727,10 @@ class apache2_plugin {
 		//* Protect web folders
 		$app->system->web_folder_protection($data['new']['document_root'],true);
 
-		// Change the ownership of the error log to the owner of the website
+		// Change the ownership of the error log to the root user
 		if(!@is_file('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log')) exec('touch '.escapeshellcmd('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log'));
-		$app->system->chown('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log',$username);
-		$app->system->chgrp('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log',$groupname);
+		$app->system->chown('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log','root');
+		$app->system->chgrp('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log','root');
 
 
 		//* Write the custom php.ini file, if custom_php_ini fieled is not empty

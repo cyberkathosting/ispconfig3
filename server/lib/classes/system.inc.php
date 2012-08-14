@@ -617,7 +617,12 @@ class system{
 		return false;
 	  }
 	  if(file_exists($file)) {
-		return chown($file, $owner);
+		if(@chown($file, $owner)) {
+			return true;
+		} else {
+			$app->log("chown failed: $file : $owner",LOGLEVEL_DEBUG);
+			return false;
+		}
 	  }
 	}
 	
@@ -628,7 +633,12 @@ class system{
 		return false;
 	  }
 	  if(file_exists($file)) {
-		return chgrp($file, $group);
+		if(@chgrp($file, $group)) {
+			return true;
+		} else {
+			$app->log("chgrp failed: $file : $group",LOGLEVEL_DEBUG);
+			return false;
+		}
 	  }
 	}
 	
@@ -639,7 +649,12 @@ class system{
 			$app->log("Action aborted, file is a symlink: $file",LOGLEVEL_WARN);
 			return false;
 		}
-		return chmod($file, $mode);
+		if(@chmod($file, $mode)) {
+			return true;
+		} else {
+			$app->log("chmod failed: $file : $mode",LOGLEVEL_DEBUG);
+			return false;
+		}
 	}
 	
 	function file_put_contents($filename, $data, $allow_symlink = false) {
@@ -676,7 +691,12 @@ class system{
 			$app->log("Action aborted, file is a symlink: $dirname",LOGLEVEL_WARN);
 			return false;
 		}
-		return mkdir($dirname);
+		if(@mkdir($dirname)) {
+			return true;
+		} else {
+			$app->log("mkdir failed: $dirname",LOGLEVEL_DEBUG);
+			return false;
+		}
 	}
 	
 	function unlink($file) {
