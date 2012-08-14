@@ -135,7 +135,7 @@ class monitor_tools {
 			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 				$distname = 'Debian';
 				$distver = 'Wheezy/Sid';
-				$distid = 'debian70';
+				$distid = 'debian60';
 				$distbaseid = 'debian';
 			} else {
 				$distname = 'Debian';
