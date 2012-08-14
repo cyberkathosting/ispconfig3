@@ -451,14 +451,14 @@ class apache2_plugin {
 			$app->system->chgrp($data['new']['document_root'].'/private',$groupname);
 		}
 		
-		$app->system->web_folder_protection($data['new']['document_root'],true);
 		
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/httpd/'.$data['old']['domain']);
 			if(is_link($data['old']['document_root'].'/log')) $app->system->unlink($data['old']['document_root'].'/log');
 		}
-
+		
+		/*
 		// Create the symlink for the logfiles
 		if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) $app->system->mkdirpath('/var/log/ispconfig/httpd/'.$data['new']['domain']);
 		if(!is_link($data['new']['document_root'].'/log')) {
@@ -471,6 +471,22 @@ class apache2_plugin {
 
 			$app->log('Creating symlink: ln -s /var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/log',LOGLEVEL_DEBUG);
 		}
+		*/
+		
+		//* Create the log dir if nescessary and mount it
+		if(!is_dir($data['new']['document_root'].'/log') || is_link($data['new']['document_root'].'/log')) {
+			if(is_link($data['new']['document_root'].'/log')) unlink($data['new']['document_root'].'/log');
+			$app->system->mkdir($data['new']['document_root'].'/log');
+			$app->system->chown($data['new']['document_root'].'/log','root');
+			$app->system->chgrp($data['new']['document_root'].'/log','root');
+			$app->system->chmod($data['new']['document_root'].'/log',0755);
+			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/log'));
+			//* add mountpoint to fstab
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/log    none    bind    0 0';
+			$app->system->replaceLine('/etc/fstab',$fstab_line,$fstab_line,1,1);
+		}
+		
+		$app->system->web_folder_protection($data['new']['document_root'],true);
 
 		// Get the client ID
 		$client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = '.intval($data['new']['sys_groupid']));
