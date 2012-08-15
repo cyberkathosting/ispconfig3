@@ -68,20 +68,6 @@ CREATE TABLE IF NOT EXISTS `aps_settings` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sys_theme`
---
-
-CREATE TABLE IF NOT EXISTS `sys_theme` (
-  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `tpl_name` varchar(32) NOT NULL,
-  `username` varchar(64) NOT NULL,
-  `logo_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`var_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
-
--- --------------------------------------------------------
-
---
 -- Dumping data for table `aps_settings`
 --
 
@@ -91,6 +77,3 @@ INSERT INTO `aps_settings` (`id`, `name`, `value`) VALUES(3, 'ignore-webserver-m
 
 ALTER TABLE  `client` ADD  `limit_aps` int(11) NOT NULL DEFAULT '0' AFTER  `limit_webdav_user`;
 ALTER TABLE  `client_template` ADD  `limit_aps` int(11) NOT NULL DEFAULT '0' AFTER  `limit_webdav_user`;
-
-INSERT INTO `dbispconfig`.`sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (NULL, 'default', 'global', 'themes/default/images/header_logo.png');
-INSERT INTO `dbispconfig`.`sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (NULL, 'default-v2', 'global', 'themes/default-v2/images/header_logo.png');

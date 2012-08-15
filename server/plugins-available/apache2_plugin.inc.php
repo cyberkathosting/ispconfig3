@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2012, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -458,21 +458,6 @@ class apache2_plugin {
 			if(is_link($data['old']['document_root'].'/log')) $app->system->unlink($data['old']['document_root'].'/log');
 		}
 		
-		/*
-		// Create the symlink for the logfiles
-		if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) $app->system->mkdirpath('/var/log/ispconfig/httpd/'.$data['new']['domain']);
-		if(!is_link($data['new']['document_root'].'/log')) {
-//			exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
-			if ($web_config["website_symlinks_rel"] == 'y') {
-				$this->create_relative_link("/var/log/ispconfig/httpd/".$data["new"]["domain"], $data["new"]["document_root"]."/log");
-			} else {
-				exec("ln -s /var/log/ispconfig/httpd/".$data["new"]["domain"]." ".$data["new"]["document_root"]."/log");
-			}
-
-			$app->log('Creating symlink: ln -s /var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/log',LOGLEVEL_DEBUG);
-		}
-		*/
-		
 		//* Create the log dir if nescessary and mount it
 		if(!is_dir($data['new']['document_root'].'/log') || is_link($data['new']['document_root'].'/log')) {
 			if(is_link($data['new']['document_root'].'/log')) unlink($data['new']['document_root'].'/log');
@@ -651,7 +636,7 @@ class apache2_plugin {
 				// make tmp directory writable for Apache and the website users
 				$app->system->chmod($data['new']['document_root'].'/tmp',0777);
 			
-				// Set Log symlink to 755 to make the logs accessible by the FTP user
+				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
 					$app->system->chmod($data['new']['document_root'].'/log',0755);
 				}

@@ -41,9 +41,9 @@ class system{
 	 * @return system
 	 */
 	public function system(){
-		global $go_info;
-	  	$this->server_id = $go_info['isp']['server_id'];
-	  	$this->server_conf = $go_info['isp']['server_conf'];
+		//global $go_info;
+	  	//$this->server_id = $go_info['isp']['server_id'];
+	  	//$this->server_conf = $go_info['isp']['server_conf'];
 	  	$this->server_conf['passwd_datei'] = '/etc/passwd';
 	  	$this->server_conf['shadow_datei'] = '/etc/shadow';
 	  	$this->server_conf['group_datei'] = '/etc/group';

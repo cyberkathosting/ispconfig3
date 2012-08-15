@@ -789,6 +789,7 @@ CREATE TABLE `mail_user` (
   `disablesmtp` enum('n','y') NOT NULL default 'n',
   `disablesieve` enum('n','y') NOT NULL default 'n',
   `disablelda` enum('n','y') NOT NULL default 'n',
+  `disabledoveadm` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`),
   KEY `email_access` (`email`,`access`)
@@ -1500,6 +1501,20 @@ CREATE TABLE `sys_session` (
 
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `sys_theme`
+--
+
+CREATE TABLE IF NOT EXISTS `sys_theme` (
+  `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tpl_name` varchar(32) NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `logo_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`var_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
 -- 
 -- Table structure for table  `sys_user`
 -- 
@@ -1641,6 +1656,7 @@ CREATE TABLE `web_domain` (
   `ssl_request` mediumtext NULL,
   `ssl_cert` mediumtext NULL,
   `ssl_bundle` mediumtext NULL,
+  `ssl_key` mediumtext NULL,
   `ssl_action` varchar(16) NULL,
   `stats_password` varchar(255) default NULL,
   `stats_type` varchar(255) default 'webalizer',
@@ -2050,6 +2066,15 @@ INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (
 -- 
 
 INSERT INTO `sys_ini` (`sysini_id`, `config`) VALUES (1, '');
+
+-- --------------------------------------------------------
+
+-- 
+-- Dumping data for table `sys_user`
+-- 
+
+INSERT INTO `sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (NULL, 'default', 'global', 'themes/default/images/header_logo.png');
+INSERT INTO `sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (NULL, 'default-v2', 'global', 'themes/default-v2/images/header_logo.png');
 
 -- --------------------------------------------------------
 
