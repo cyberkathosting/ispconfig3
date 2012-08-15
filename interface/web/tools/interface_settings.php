@@ -90,10 +90,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($conf['demo_mode'] == true && $this->id <= 3) $app->tform->errorMessage .= 'This function is disabled in demo mode.';
-		
-		$_SESSION['s']['user']['language'] = $_POST['language'];
-		$_SESSION['s']['language'] = $_POST['language'];
-                
+		               
                 if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
