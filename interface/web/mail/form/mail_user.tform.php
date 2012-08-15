@@ -136,7 +136,7 @@ $form["tabs"]['mailuser'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-z\-]{2,10}){0,1}$/i',
+														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}$/i',
 														'errmsg'=> 'cc_error_isemail'),
 									),
 			'default'	=> '',
