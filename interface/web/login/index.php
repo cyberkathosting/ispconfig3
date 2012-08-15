@@ -185,6 +185,7 @@ class login_index {
 								$user = $app->db->toLower($user);
 
 								if ($loginAs) $oldSession = $_SESSION['s'];
+								session_regenerate_id();
 								$_SESSION = array();
 								if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
 								$_SESSION['s']['user'] = $user;
