@@ -141,6 +141,7 @@ class login_index {
 									$user['username'] = $username;
 									$user['language'] = $conf['language'];
 									$user['theme'] = $conf['theme'];
+									$user['app_theme'] = $conf['theme'];
 									$user['mailuser_id'] = $mailuser['mailuser_id'];
 									$user['default_group'] = $mailuser['sys_groupid'];
 								}
