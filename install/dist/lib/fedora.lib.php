@@ -279,6 +279,9 @@ class installer_dist extends installer_base {
 		
 		$config_dir = $conf['dovecot']['config_dir'];
 		
+		//* Use /etc/dovecot as config dir if exists
+		if(is_dir('/etc/dovecot')) $config_dir = '/etc/dovecot';
+		
 		//* Configure master.cf and add a line for deliver
 		if(is_file($config_dir.'/master.cf')){
             copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
