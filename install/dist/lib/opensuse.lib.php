@@ -1115,6 +1115,7 @@ class installer_dist extends installer_base {
 		}
 		
 		$content = rf("tpl/mysql_clientdb.conf.master");
+		$content = str_replace('{hostname}',$conf['mysql']['host'],$content);
 		$content = str_replace('{username}',$conf['mysql']['admin_user'],$content);
 		$content = str_replace('{password}',$conf['mysql']['admin_password'], $content);
 		wf("$install_dir/server/lib/mysql_clientdb.conf",$content);
