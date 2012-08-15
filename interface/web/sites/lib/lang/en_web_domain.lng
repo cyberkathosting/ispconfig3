@@ -6,6 +6,7 @@ $wb["ssl_locality_txt"] = 'Locality';
 $wb["ssl_organisation_txt"] = 'Organisation';
 $wb["ssl_organisation_unit_txt"] = 'Organisation Unit';
 $wb["ssl_country_txt"] = 'Country';
+$wb["ssl_key_txt"] = 'SSL Key';
 $wb["ssl_request_txt"] = 'SSL Request';
 $wb["ssl_cert_txt"] = 'SSL Certificate';
 $wb["ssl_bundle_txt"] = 'SSL Bundle';

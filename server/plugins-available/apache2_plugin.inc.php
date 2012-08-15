@@ -195,11 +195,12 @@ class apache2_plugin {
 			@$app->system->unlink($rand_file);
 			$ssl_request = $app->db->quote($app->system->file_get_contents($csr_file));
 			$ssl_cert = $app->db->quote($app->system->file_get_contents($crt_file));
+			$ssl_key2 = $app->db->quote($app->system->file_get_contents($key_file2));
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data['new']['domain']."'");
+			$app->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key2' WHERE domain = '".$data['new']['domain']."'");
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert' WHERE domain = '".$data['new']['domain']."'");
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key2' WHERE domain = '".$data['new']['domain']."'");
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
 		}
 
@@ -209,7 +210,7 @@ class apache2_plugin {
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
 			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
 			$key_file = $ssl_dir.'/'.$domain.'.key.org';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key';
+			$key_file2 = $ssl_dir.'/'.$domain.'.key';
 			$csr_file = $ssl_dir.'/'.$domain.".csr";
 			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
@@ -225,6 +226,7 @@ class apache2_plugin {
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file,$data["new"]["ssl_request"]);
 			if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file,$data["new"]["ssl_cert"]);
 			if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
+			if(trim($data["new"]["ssl_key"]) != '') $app->system->file_put_contents($key_file2,$data["new"]["ssl_key"]);
 			
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
