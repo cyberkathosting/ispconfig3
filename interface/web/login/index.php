@@ -78,7 +78,6 @@ class login_index {
 	        $passwort = $app->db->quote($_POST['passwort']);
 			$loginAs  = false;
 			$time = time();
-			$logging = 'Failed login for user '. $username .' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
 
 	        if($username != '' && $passwort != '' && $error == '') {
 				/*
@@ -200,6 +199,12 @@ class login_index {
 
 								$app->plugin->raiseEvent('login',$this);
 
+								//* Save successfull login message to var
+								$authlog = 'Successful login for user \''. $username .'\' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
+								$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
+								fwrite($authlog_handle, $authlog ."\n");
+								fclose($authlog_handle);
+
 								/*
 								* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
 								* new theme, if the logged-in user has another
@@ -211,6 +216,7 @@ class login_index {
 		             	} else {
 		                	$error = $app->lng('error_user_blocked');
 		                }
+
 		        	} else {
 		        		if(!$alreadyfailed['times'] )
 		        		{
@@ -228,10 +234,14 @@ class login_index {
 
 						$app->plugin->raiseEvent('login_failed',$this);
 
-						//* write to log (e.g. for fail2ban)
-						exec('echo '. $logging .' >> /tmp/login.log');
+						//* Save failed login message to var
+						$authlog = 'Failed login for user \''. $username .'\' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
+						$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
+						fwrite($authlog_handle, $authlog ."\n");
+						fclose($authlog_handle);
 		           	}
 	        	}
+
 	      	} else {
 	       		//* Username or password empty
 	            if($error == '') $error = $app->lng('error_user_password_empty');

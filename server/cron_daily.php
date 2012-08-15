@@ -132,7 +132,7 @@ foreach($records as $rec) {
 	$webalizer = '/usr/bin/webalizer';
 	$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
 	$webalizer_conf = escapeshellcmd($rec['document_root'].'/log/webalizer.conf');
-	
+
 	if(is_file($statsdir.'/index.php')) unlink($statsdir.'/index.php');
 
 	if(!@is_file($webalizer_conf)) {
@@ -169,27 +169,27 @@ foreach($records as $rec) {
 			continue;
 		}
 	}
-	
+
 	$domain = escapeshellcmd($rec['domain']);
 	$statsdir = escapeshellcmd($rec['document_root'].'/web/stats');
 	$awstats_pl = $web_config['awstats_pl'];
 	$awstats_buildstaticpages_pl = $web_config['awstats_buildstaticpages_pl'];
-	
+
 	$awstats_conf_dir = $web_config['awstats_conf_dir'];
 	$awstats_website_conf_file = $web_config['awstats_conf_dir'].'/awstats.'.$domain.'.conf';
-	
+
 	if(is_file($awstats_website_conf_file)) unlink($awstats_website_conf_file);
-	
+
 	$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') AND parent_domain_id = ".$rec['domain_id'];
 	$aliases = $app->db->queryAllRecords($sql);
 	$aliasdomain = '';
-	
+
 	if(is_array($aliases)) {
 		foreach ($aliases as $alias) {
 			$aliasdomain.= ' '.$alias['domain']. ' www.'.$alias['domain'];
 		}
 	}
-	
+
 	if(!is_file($awstats_website_conf_file)) {
 		$awstats_conf_file_content = 'Include "'.$awstats_conf_dir.'/awstats.conf"
 LogFile="/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log"
@@ -197,11 +197,11 @@ SiteDomain="'.$domain.'"
 HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 		file_put_contents($awstats_website_conf_file,$awstats_conf_file_content);
 	}
-	
+
 	if(!@is_dir($statsdir)) mkdir($statsdir);
 	if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	symlink($logfile,'/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
-	
+
 	$awmonth = date("n");
 	$awyear = date("Y");
 
@@ -212,10 +212,10 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 			$awmonth = "12";
 		}
 	}
-	
+
 	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
 	// $command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
-	
+
 	$command = "$awstats_buildstaticpages_pl -month='$awmonth' -year='$awyear' -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
 
 	if (date("d") == 2) {
@@ -232,24 +232,24 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 			if (substr($file,0,1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file,0,1) != "w" && substr($file,0,1) != "i") copy("$statsdir"."/"."$file","$statsdirold"."$file");
 		}
 	}
-	
-	
+
+
 	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
 		if(is_file($rec['document_root'].'/web/stats/index.html')) unlink($rec['document_root'].'/web/stats/index.html');
 		rename($rec['document_root'].'/web/stats/awstats.'.$domain.'.html',$rec['document_root'].'/web/stats/awsindex.html');
 		if(!is_file($rec['document_root']."/web/stats/index.php")) copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$rec['document_root']."/web/stats/index.php");
-		
+
 		$app->log('Created awstats statistics with command: '.$command,LOGLEVEL_DEBUG);
 	} else {
 		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_buildstaticpages_pl is not owned by root user.",LOGLEVEL_WARN);
 	}
-	
+
 	if(is_file($rec['document_root']."/web/stats/index.php")) {
 		chown($rec['document_root']."/web/stats/index.php",$rec['system_user']);
 		chgrp($rec['document_root']."/web/stats/index.php",$rec['system_group']);
 	}
-	
+
 }
 
 
@@ -266,12 +266,12 @@ if(is_dir('/var/log/ispconfig/httpd')) exec('chmod +r /var/log/ispconfig/httpd/*
 $sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
-	
+
 	//* create traffic statistics based on yesterdays access log file
 	$yesterday = date('Ymd',time() - 86400);
 	$logfile = $rec['document_root'].'/log/'.$yesterday.'-access.log';
 	$total_bytes = 0;
-	
+
 	$handle = @fopen($logfile, "r");
 	if ($handle) {
 		while (($line = fgets($handle, 4096)) !== false) {
@@ -279,7 +279,7 @@ foreach($records as $rec) {
 				$total_bytes += intval($m[1]);
 			}
 		}
-		
+
 		//* Insert / update traffic in master database
 		$traffic_date = date('Y-m-d',time() - 86400);
 		$tmp = $app->dbmaster->queryOneRecord("select hostname from web_traffic where hostname='".$rec['domain']."' and traffic_date='".$traffic_date."'");
@@ -292,20 +292,20 @@ foreach($records as $rec) {
 			$sql = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('".$rec['domain']."', '".$traffic_date."', '".$total_bytes."')";
 		}
 		$app->dbmaster->query($sql);
-		
+
 		fclose($handle);
 	}
-	
+
 	$yesterday2 = date('Ymd',time() - 86400*2);
 	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday2.'-access.log');
-	
+
 	//* Compress logfile
 	if(@is_file($logfile)) {
 		// Compress yesterdays logfile
 		exec("gzip -c $logfile > $logfile.gz");
 		unlink($logfile);
 	}
-	
+
 	// rotate and compress the error.log when it exceeds a size of 10 MB
 	$logfile = escapeshellcmd($rec['document_root'].'/log/error.log');
 	if(is_file($logfile) && filesize($logfile) > 10000000) {
@@ -319,13 +319,13 @@ foreach($records as $rec) {
 	if(@is_file($logfile)) {
 		unlink($logfile);
 	}
-	
+
 	//* Delete older Log files, in case that we missed them before due to serverdowntimes.
 	$datepart = date('Ym',time() - 86400 * 31 * 2);
-	
+
 	$logfile = escapeshellcmd($rec['document_root']).'/log/'.$datepart.'*-access.log.gz';
 	exec('rm -f '.$logfile);
-	
+
 	$logfile = escapeshellcmd($rec['document_root']).'/log/'.$datepart.'*-access.log';
 	exec('rm -f '.$logfile);
 }
@@ -343,6 +343,13 @@ if(is_file($logfile) && filesize($logfile) > 10000000) {
 
 // rotate the cron.log when it exceeds a size of 10 MB
 $logfile = $conf['ispconfig_log_dir'].'/cron.log';
+if(is_file($logfile) && filesize($logfile) > 10000000) {
+	exec("gzip -c $logfile > $logfile.1.gz");
+	exec("cat /dev/null > $logfile");
+}
+
+// rotate the auth.log when it exceeds a size of 10 MB
+$logfile = $conf['ispconfig_log_dir'].'/auth.log';
 if(is_file($logfile) && filesize($logfile) > 10000000) {
 	exec("gzip -c $logfile > $logfile.1.gz");
 	exec("cat /dev/null > $logfile");
@@ -519,36 +526,36 @@ $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 $http_server_user = $web_config['user'];
 
 if($backup_dir != '') {
-	
+
 	if(isset($server_config['backup_dir_ftpread']) && $server_config['backup_dir_ftpread'] == 'y') {
 		$backup_dir_permissions = 0755;
 	} else {
 		$backup_dir_permissions = 0750;
 	}
-	
+
 	if(!is_dir($backup_dir)) {
 		mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
 	} else {
 		chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 	}
-	
+
 	$sql = "SELECT * FROM web_domain WHERE server_id = '".$conf['server_id']."' AND type = 'vhost' AND backup_interval != 'none'";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {
-			
+
 			//* Do the website backup
 			if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
-				
+
 				$web_path = $rec['document_root'];
 				$web_user = $rec['system_user'];
 				$web_group = $rec['system_group'];
 				$web_id = $rec['domain_id'];
 				$web_backup_dir = $backup_dir.'/web'.$web_id;
 				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
-				chmod($web_backup_dir, 0750); 
+				chmod($web_backup_dir, 0750);
 				//if(isset($server_config['backup_dir_ftpread']) && $server_config['backup_dir_ftpread'] == 'y') {
-				chown($web_backup_dir, $rec['system_user']); 
+				chown($web_backup_dir, $rec['system_user']);
 				chgrp($web_backup_dir, $rec['system_group']);
 				/*} else {
 					chown($web_backup_dir, 'root');
@@ -564,17 +571,17 @@ if($backup_dir != '') {
 					$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
 					exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=backup\* --directory '.escapeshellarg($web_path).' .');
 				}
-				chown($web_backup_dir.'/'.$web_backup_file, 'root'); 
+				chown($web_backup_dir.'/'.$web_backup_file, 'root');
 				chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
 				chmod($web_backup_dir.'/'.$web_backup_file, 0750);
-				
+
 				//* Insert web backup record in database
 				$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
 				$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-				
+
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);
-				
+
 				$dir_handle = dir($web_backup_dir);
 				$files = array();
 				while (false !== ($entry = $dir_handle->read())) {
@@ -583,9 +590,9 @@ if($backup_dir != '') {
 					}
 				}
 				$dir_handle->close();
-				
+
 				rsort($files);
-				
+
 				for ($n = $backup_copies; $n <= 10; $n++) {
 					if(isset($files[$n]) && is_file($web_backup_dir.'/'.$files[$n])) {
 						unlink($web_backup_dir.'/'.$files[$n]);
@@ -594,23 +601,23 @@ if($backup_dir != '') {
 						$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
 					}
 				}
-				
+
 				unset($files);
 				unset($dir_handle);
-				
+
 				//* Remove backupdir symlink and create as directory instead
 				if(is_link($web_path.'/backup')) {
 					unlink($web_path.'/backup');
 				}
 				if(!is_dir($web_path.'/backup')) {
 					mkdir($web_path.'/backup');
-					chown($web_path.'/backup', $rec['system_user']); 
+					chown($web_path.'/backup', $rec['system_user']);
 					chgrp($web_path.'/backup', $rec['system_group']);
 				}
-				
+
 			}
-			
-			/* If backup_interval is set to none and we have a 
+
+			/* If backup_interval is set to none and we have a
 			backup directory for the website, then remove the backups */
 			if($rec['backup_interval'] == 'none') {
 				$web_id = $rec['domain_id'];
@@ -622,22 +629,22 @@ if($backup_dir != '') {
 			}
 		}
 	}
-	
+
 	$sql = "SELECT * FROM web_database WHERE server_id = '".$conf['server_id']."' AND backup_interval != 'none'";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
-		
+
 		include('lib/mysql_clientdb.conf');
-		
+
 		foreach($records as $rec) {
-			
+
 			//* Do the database backup
 			if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
-				
+
 				$web_id = $rec['parent_domain_id'];
 				$db_backup_dir = $backup_dir.'/web'.$web_id;
 				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
-				chmod($web_backup_dir, 0750); 
+				chmod($web_backup_dir, 0750);
 				chown($web_backup_dir, 'root');
 				chgrp($web_backup_dir, 'root');
 
@@ -647,23 +654,23 @@ if($backup_dir != '') {
 				$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
 				$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
 				exec($command);
-				
+
 				//* Compress the backup with gzip
 				exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'");
 				chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
-				chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir)); 
+				chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
 				chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
-				
+
 				//* Insert web backup record in database
 				$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
 				$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-				
+
 				//* Remove the uncompressed file
 				unlink($db_backup_dir.'/'.$db_backup_file);
-				
+
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);
-				
+
 				$dir_handle = dir($db_backup_dir);
 				$files = array();
 				while (false !== ($entry = $dir_handle->read())) {
@@ -672,9 +679,9 @@ if($backup_dir != '') {
 					}
 				}
 				$dir_handle->close();
-				
+
 				rsort($files);
-				
+
 				for ($n = $backup_copies; $n <= 10; $n++) {
 					if(isset($files[$n]) && is_file($db_backup_dir.'/'.$files[$n])) {
 						unlink($db_backup_dir.'/'.$files[$n]);
@@ -683,16 +690,16 @@ if($backup_dir != '') {
 						$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
 					}
 				}
-				
+
 				unset($files);
 				unset($dir_handle);
 			}
 		}
-		
+
 		unset($clientdb_host);
 		unset($clientdb_user);
 		unset($clientdb_password);
-		
+
 	}
 }
 

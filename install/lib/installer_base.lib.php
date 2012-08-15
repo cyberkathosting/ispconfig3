@@ -55,7 +55,7 @@ class installer_base {
 	public function warning($msg) {
 		echo('WARNING: '.$msg."\n");
 	}
-	
+
 	public function simple_query($query, $answers, $default) {
 		$finished = false;
 		do {
@@ -104,10 +104,10 @@ class installer_base {
 	/*
 	// TODO: this function is not used atmo I think - pedro
 	function request_language(){
-		
+
 		swriteln(lng('Enter your language'));
 		swriteln(lng('de, en'));
-		
+
 	}
 	*/
 
@@ -136,7 +136,7 @@ class installer_base {
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
-		
+
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
 
@@ -233,7 +233,7 @@ class installer_base {
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
 		$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
 		$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
-		
+
 		$tpl_ini_array['web']['nginx_vhost_conf_dir'] = $conf['nginx']['vhost_conf_dir'];
 		$tpl_ini_array['web']['nginx_vhost_conf_enabled_dir'] = $conf['nginx']['vhost_conf_enabled_dir'];
 		$tpl_ini_array['web']['nginx_user'] = $conf['nginx']['user'];
@@ -244,12 +244,12 @@ class installer_base {
 		$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
 		$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
 		$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
-		
+
 		if ($conf['nginx']['installed'] == true) {
 			$tpl_ini_array['web']['server_type'] = 'nginx';
 			$tpl_ini_array['global']['webserver'] = 'nginx';
 		}
-		
+
 		if (array_key_exists('awstats', $conf)) {
 			foreach ($conf['awstats'] as $aw_sett => $aw_value) {
 				$tpl_ini_array['web']['awstats_'.$aw_sett] = $aw_value;
@@ -267,7 +267,7 @@ class installer_base {
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = (isset($conf['services']['proxy']) && $conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = (isset($conf['services']['firewall']) && $conf['services']['firewall'])?1:0;
-		
+
 		//** Get the database version number based on the patchfiles
 		$found = true;
 		$current_db_version = 1;
@@ -323,7 +323,7 @@ class installer_base {
 		 *   2) it is the MASTER of n clients
 		*/
 		$hosts = array();
-		
+
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			/*
 			 * it is a master-slave - Setup so the slave has to grant its rights in the master
@@ -333,7 +333,7 @@ class installer_base {
 			//* insert the ispconfig user in the remote server
 			$from_host = $conf['hostname'];
 			$from_ip = gethostbyname($conf['hostname']);
-			
+
 			$hosts[$from_host]['user'] = $conf['mysql']['master_ispconfig_user'];
 			$hosts[$from_host]['db'] = $conf['mysql']['master_database'];
 			$hosts[$from_host]['pwd'] = $conf['mysql']['master_ispconfig_password'];
@@ -357,7 +357,7 @@ class installer_base {
 				$hosts[$item['Host']]['pwd'] = ''; // the user already exists, so we need no pwd!
 			}
 		}
-		
+
 		if(count($hosts) > 0) {
 		foreach($hosts as $host => $value) {
 			/*
@@ -470,7 +470,7 @@ class installer_base {
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
-			
+
 			$query = "GRANT SELECT, UPDATE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
 			if ($verbose){
 				echo $query ."\n";
@@ -478,7 +478,7 @@ class installer_base {
 			if(!$this->dbmaster->query($query)) {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
-			
+
 		}
 
 		/*
@@ -523,13 +523,13 @@ class installer_base {
 			copy('tpl/'.$jk_init.'.master', $config_dir.'/'.$jk_init);
 			copy('tpl/'.$jk_chrootsh.'.master', $config_dir.'/'.$jk_chrootsh);
 		}
-		
+
 		//* help jailkit fo find its ini files
 		if(!is_link('/usr/jk_socketd.ini')) exec('ln -s /etc/jailkit/jk_socketd.ini /usr/jk_socketd.ini');
 		if(!is_link('/usr/jk_init.ini')) exec('ln -s /etc/jailkit/jk_init.ini /usr/jk_init.ini');
 
 	}
-	
+
 	public function configure_mailman($status = 'insert') {
 		global $conf;
 
@@ -539,13 +539,13 @@ class installer_base {
 		if(is_file($full_file_name)) {
 			copy($full_file_name, $config_dir.'mm_cfg.py~');
 		}
-		
+
 		// load files
 		$content = rf('tpl/mm_cfg.py.master');
 		$old_file = rf($full_file_name);
-		
+
 		$old_options = array();
-		$lines = explode("\n", $old_file); 
+		$lines = explode("\n", $old_file);
 		foreach ($lines as $line)
 		{
 			if (trim($line) != '' && substr($line, 0, 1) != '#')
@@ -558,13 +558,13 @@ class installer_base {
 				}
 			}
 		}
-		
+
 		$virtual_domains = '';
 		if($status == 'update')
 		{
 			// create virtual_domains list
 			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
-			
+
 			if(is_array($domainAll)) {
 			foreach($domainAll as $domain)
 			{
@@ -577,7 +577,7 @@ class installer_base {
 		}
 		else
 			$virtual_domains = "' '";
-			
+
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = '';
 		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
@@ -637,7 +637,7 @@ class installer_base {
 
 		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* These postconf commands will be executed on installation and update
 		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
@@ -689,7 +689,7 @@ class installer_base {
 				'body_checks = regexp:'.$config_dir.'/body_checks',
 				'owner_request_special = no'
 		);
-		
+
 		//* These postconf commands will be executed on installation only
 		if($this->is_update == false) {
 			$postconf_commands = array_merge($postconf_commands,array(
@@ -704,7 +704,7 @@ class installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
-		
+
 		//* Create the mailman files
 		exec('mkdir -p /var/lib/mailman/data');
 		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
@@ -775,7 +775,7 @@ class installer_base {
 
 	public function configure_saslauthd() {
 		global $conf;
-		
+
 		//* Get saslsauthd version
 		exec('saslauthd -v 2>&1',$out);
 		$parts = explode(' ',$out[0]);
@@ -790,7 +790,7 @@ class installer_base {
 			//* Configfile for saslauthd versions up to 2.1.23
 			$configfile = 'sasl_smtpd.conf';
 		}
-		
+
 		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf')) copy($conf['postfix']['config_dir'].'/sasl/smtpd.conf',$conf['postfix']['config_dir'].'/sasl/smtpd.conf~');
 		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf~')) chmod($conf['postfix']['config_dir'].'/sasl/smtpd.conf~', 0400);
 		$content = rf('tpl/'.$configfile.'.master');
@@ -930,14 +930,14 @@ class installer_base {
 		if(is_file($config_dir.'/'.$configfile)) {
 			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
 		}
-		
+
 		//* Get the dovecot version
 		exec('dovecot --version',$tmp);
 		$parts = explode('.',trim($tmp[0]));
 		$dovecot_version = $parts[0];
 		unset($tmp);
 		unset($parts);
-		
+
 		//* Copy dovecot configuration file
 		if($dovecot_version == 2) {
 			copy('tpl/debian_dovecot2.conf.master',$config_dir.'/'.$configfile);
@@ -985,7 +985,7 @@ class installer_base {
 		// Adding the amavisd commands to the postfix configuration
 		// Add array for no error in foreach and maybe future options
 		$postconf_commands = array ();
-		
+
 		// Check for amavisd -> pure webserver with postfix for mailing without antispam
 		if ($conf['amavis']['installed']) {
 			$postconf_commands[] = 'content_filter = amavis:[127.0.0.1]:10024';
@@ -1204,7 +1204,7 @@ class installer_base {
 		$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 
 		// copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
-		
+
 		$content = rf('tpl/apache_ispconfig.conf.master');
 		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
 
@@ -1226,7 +1226,7 @@ class installer_base {
 				}
 			}
 		}
-		
+
 		$content .= "\n";
 		wf($vhost_conf_dir.'/ispconfig.conf',$content);
 
@@ -1246,21 +1246,21 @@ class installer_base {
 			replaceLine('/etc/webalizer/webalizer.conf','#Incremental','Incremental     yes',0,0);
 			replaceLine('/etc/webalizer/webalizer.conf','#HistoryName','HistoryName     webalizer.hist',0,0);
 		}
-		
+
 		// Check the awsatst script
 		if(!is_dir('/usr/share/awstats/tools')) exec('mkdir -p /usr/share/awstats/tools');
 		if(!file_exists('/usr/share/awstats/tools/awstats_buildstaticpages.pl') && file_exists('/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl')) symlink('/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl','/usr/share/awstats/tools/awstats_buildstaticpages.pl');
 		if(file_exists('/etc/awstats/awstats.conf.local')) replaceLine('/etc/awstats/awstats.conf.local','LogFormat=4','LogFormat=1',0,1);
-		
+
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 	}
-	
+
 	public function configure_nginx(){
 		global $conf;
-		
+
 		if($conf['nginx']['installed'] == false) return;
 		//* Create the logging directory for the vhost logfiles
 		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
@@ -1277,16 +1277,16 @@ class installer_base {
 			replaceLine('/etc/webalizer/webalizer.conf','#Incremental','Incremental     yes',0,0);
 			replaceLine('/etc/webalizer/webalizer.conf','#HistoryName','HistoryName     webalizer.hist',0,0);
 		}
-		
+
 		// Check the awsatst script
 		if(!is_dir('/usr/share/awstats/tools')) exec('mkdir -p /usr/share/awstats/tools');
 		if(!file_exists('/usr/share/awstats/tools/awstats_buildstaticpages.pl') && file_exists('/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl')) symlink('/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl','/usr/share/awstats/tools/awstats_buildstaticpages.pl');
 		if(file_exists('/etc/awstats/awstats.conf.local')) replaceLine('/etc/awstats/awstats.conf.local','LogFormat=4','LogFormat=1',0,1);
-		
+
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		/*
 		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
 		$ip_address = gethostbyname($row["server_name"]);
@@ -1317,18 +1317,18 @@ class installer_base {
         exec('chown www-data:www-data /var/cache/nginx/temp');
 		*/
 	}
-	
+
 	public function configure_fail2ban() {
         // To Do
     }
-	
+
 	public function configure_squid()
 	{
 		global $conf;
 		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
 		$ip_address = gethostbyname($row["server_name"]);
 		$server_name = $row["server_name"];
-		
+
 		$configfile = 'squid.conf';
 		if(is_file($conf["squid"]["config_dir"].'/'.$configfile)) copy($conf["squid"]["config_dir"].'/'.$configfile,$conf["squid"]["config_dir"].'/'.$configfile.'~');
 		if(is_file($conf["squid"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["squid"]["config_dir"].'/'.$configfile.'~');
@@ -1340,7 +1340,7 @@ class installer_base {
 		exec('chmod 600 '.$conf["squid"]["config_dir"].'/'.$configfile);
 		exec('chown root:root '.$conf["squid"]["config_dir"].'/'.$configfile);
 	}
-	
+
 	/*
 	public function configure_ufw_firewall()
 	{
@@ -1349,7 +1349,7 @@ class installer_base {
 		$content = rf("tpl/".$configfile.".master");
 		wf('/etc/ufw/ufw.conf',$content);
 		exec('chmod 600 /etc/ufw/ufw.conf');
-		exec('chown root:root /etc/ufw/ufw.conf');	
+		exec('chown root:root /etc/ufw/ufw.conf');
 	}
 	*/
 
@@ -1496,7 +1496,7 @@ class installer_base {
 			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
 				symlink($vhost_conf_dir.'/apps.vhost',$vhost_conf_enabled_dir.'/000-apps.vhost');
 			}
-			
+
 			if(!is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter')) {
 				mkdir($conf['web']['website_basedir'].'/php-fcgi-scripts/apps', 0755, true);
 				copy('tpl/apache_apps_fcgi_starter.master',$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
@@ -1535,13 +1535,13 @@ class installer_base {
 
 			// Dont just copy over the virtualhost template but add some custom settings
 			$content = rf('tpl/nginx_apps.vhost.master');
-			
+
 			if($conf['web']['apps_vhost_ip'] == '_default_'){
 				$apps_vhost_ip = '';
 			} else {
 				$apps_vhost_ip = $conf['web']['apps_vhost_ip'].':';
 			}
-			
+
 			$socket_dir = escapeshellcmd($conf['nginx']['php_fpm_socket_dir']);
 			if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
 			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
@@ -1557,7 +1557,7 @@ class installer_base {
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
-			
+
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
 			$content = rf('tpl/apps_php_fpm_pool.conf.master');
@@ -1574,21 +1574,21 @@ class installer_base {
 			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
 				symlink($vhost_conf_dir.'/apps.vhost',$vhost_conf_enabled_dir.'/000-apps.vhost');
 			}
-			
+
 		}
 	}
-	
+
 	public function make_ispconfig_ssl_cert() {
 		global $conf;
 
 		$install_dir = $conf['ispconfig_install_dir'];
-		
+
 		$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
 		$ssl_csr_file = $install_dir.'/interface/ssl/ispserver.csr';
 		$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
-		
+
 		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
-		
+
 		$ssl_pw = substr(md5(mt_rand()),0,6);
 		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
 		exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
@@ -1596,7 +1596,7 @@ class installer_base {
 		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
 		rename($ssl_key_file,$ssl_key_file.'.secure');
 		rename($ssl_key_file.'.insecure',$ssl_key_file);
-		
+
 	}
 
 	public function install_ispconfig() {
@@ -1790,7 +1790,7 @@ class installer_base {
 				}
 			}
 		}
-		
+
 		//* Make the APS directories group writable
 		exec("chmod -R 770 $install_dir/interface/web/sites/aps_meta_packages");
 		exec("chmod -R 770 $install_dir/server/aps_packages");
@@ -1809,7 +1809,7 @@ class installer_base {
 			chown($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 			chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 		}
-		
+
 		if(is_dir($install_dir.'/interface/invoices')) {
 			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
 			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
@@ -1854,7 +1854,7 @@ class installer_base {
 			} else {
 				$content = str_replace('{vhost_port_listen}', '', $content);
 			}
-		
+
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
 				$content = str_replace('{ssl_comment}', '', $content);
 			} else {
@@ -1880,7 +1880,7 @@ class installer_base {
 
 			}
 		}
-		
+
 		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			$vhost_conf_dir = $conf['nginx']['vhost_conf_dir'];
@@ -1889,7 +1889,7 @@ class installer_base {
 			// Dont just copy over the virtualhost template but add some custom settings
 			$content = rf('tpl/nginx_ispconfig.vhost.master');
 			$content = str_replace('{vhost_port}', $conf['nginx']['vhost_port'], $content);
-		
+
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
 				$content = str_replace('{ssl_on}', 'on', $content);
 				$content = str_replace('{ssl_comment}', '', $content);
@@ -1899,19 +1899,19 @@ class installer_base {
 				$content = str_replace('{ssl_comment}', '#', $content);
 				$content = str_replace('{fastcgi_ssl}', 'off', $content);
 			}
-			
+
 			$socket_dir = escapeshellcmd($conf['nginx']['php_fpm_socket_dir']);
 			if(substr($socket_dir,-1) != '/') $socket_dir .= '/';
 			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
 			$fpm_socket = $socket_dir.'ispconfig.sock';
-			
+
 			//$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
-			
+
 			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
-			
+
 			unset($content);
-			
+
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
 			$content = rf('tpl/php_fpm_pool.conf.master');
@@ -1956,7 +1956,12 @@ class installer_base {
 			if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir'], 0755);
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
-		
+
+		//* Create the ispconfig auth log file
+		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {
+			touch($conf['ispconfig_log_dir'].'/auth.log', 0666);
+		}
+
 		if(is_user('getmail')) {
 			rename($install_dir.'/server/scripts/run-getmail.sh','/usr/local/bin/run-getmail.sh');
 			if(is_user('getmail')) chown('/usr/local/bin/run-getmail.sh', 'getmail');
@@ -2008,7 +2013,7 @@ class installer_base {
 		wf($install_dir.'/server/lib/mysql_clientdb.conf',$content);
 		chmod($install_dir.'/server/lib/mysql_clientdb.conf', 0600);
 		chown($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
-		chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');		
+		chgrp($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
 
 	}
 
@@ -2030,11 +2035,11 @@ class installer_base {
 				"* * * * * ".$install_dir."/server/server.sh > /dev/null 2>> ".$conf['ispconfig_log_dir']."/cron.log",
 				"30 00 * * * ".$install_dir."/server/cron_daily.sh > /dev/null 2>> ".$conf['ispconfig_log_dir']."/cron.log"
 		);
-		
+
 		if ($conf['nginx']['installed'] == true) {
 			$root_cron_jobs[] = "0 0 * * * ".$install_dir."/server/scripts/create_daily_nginx_access_logs.sh &> /dev/null";
 		}
-		
+
 		foreach($root_cron_jobs as $cron_job) {
 			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
 				$existing_root_cron_jobs[] = $cron_job."\n";
