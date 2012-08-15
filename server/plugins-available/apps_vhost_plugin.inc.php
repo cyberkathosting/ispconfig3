@@ -98,7 +98,7 @@ class apps_vhost_plugin {
 		
 		
 			// comment out the listen directive if port is 80 or 443
-			if($web_config['apps_vhost_ip'] == 80 or $web_config['apps_vhost_ip'] == 443) {
+			if($web_config['apps_vhost_port'] == 80 or $web_config['apps_vhost_port'] == 443) {
 				$content = str_replace('{vhost_port_listen}', '#', $content);
 			} else {
 				$content = str_replace('{vhost_port_listen}', '', $content);
