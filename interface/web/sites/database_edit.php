@@ -238,6 +238,18 @@ class page_action extends tform_actions {
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$this->dataRecord['database_name']."' AND server_id = '".$this->dataRecord["server_id"]."' AND database_id != '".$this->id."'");
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->lng('database_name_error_unique').'<br />';
 		
+        // get the web server ip (parent domain)
+        $tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
+        if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
+            // we need remote access rights for this server, so get it's ip address
+            $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
+            if($server_config['ip_address']!='') {
+                $this->dataRecord['remote_access'] = 'y';
+                $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
+            }
+        }
+        
+        
 		parent::onBeforeUpdate();
 	}
 
@@ -282,6 +294,17 @@ class page_action extends tform_actions {
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$this->dataRecord['database_name']."' AND server_id = '".$this->dataRecord["server_id"]."'");
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->tform->lng('database_name_error_unique').'<br />';
 
+        // get the web server ip (parent domain)
+        $tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
+        if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
+            // we need remote access rights for this server, so get it's ip address
+            $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
+            if($server_config['ip_address']!='') {
+                $this->dataRecord['remote_access'] = 'y';
+                $this->dataRecord['remote_ips'] .= (trim($this->dataRecord['remote_ips']) != '' ? ',' : '') . $server_config['ip_address'];
+            }
+        }
+        
 		parent::onBeforeInsert();
 	}
 
