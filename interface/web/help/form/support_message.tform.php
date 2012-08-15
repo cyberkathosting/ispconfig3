@@ -54,6 +54,8 @@ if(isset($_GET['reply']))
 	}
 }
 
+$authsql = $app->tform->getAuthSQL('r', 'client');
+
 //* Begin of the form definition of the first tab. The name of the tab is called "message". We refer
 //* to this name in the $form["tab_default"] setting above.
 $form["tabs"]['message'] = array (
@@ -69,7 +71,7 @@ $form["tabs"]['message'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> $sm_default_recipient_id,
 			'datasource'	=> array ( 	'type'			=> 'SQL',
-										'querystring' 	=> "SELECT sys_user.userid, CONCAT(sys_user.username,' :: ',client.company_name,' :: ',client.contact_name) as contactname FROM sys_user, client WHERE sys_user.userid != 1 AND sys_user.client_id = client.client_id AND {AUTHSQL} ORDER BY sys_user.username",
+										'querystring' 	=> "SELECT sys_user.userid, CONCAT(sys_user.username,' :: ',client.company_name,' :: ',client.contact_name) as contactname FROM sys_user, client WHERE sys_user.userid != 1 AND sys_user.client_id = client.client_id AND $authsql ORDER BY sys_user.username",
 										'keyfield'		=> 'userid',
 										'valuefield'	=> 'contactname'
 									 ),
