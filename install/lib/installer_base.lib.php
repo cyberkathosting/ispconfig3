@@ -1957,9 +1957,11 @@ class installer_base {
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
 
-		//* Create the ispconfig auth log file
+		//* Create the ispconfig auth log file and set uid/gid
 		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {
-			touch($conf['ispconfig_log_dir'].'/auth.log', 0666);
+			touch($conf['ispconfig_log_dir'].'/auth.log');
+			exec('chown ispconfig:ispconfig '. $conf['ispconfig_log_dir'].'/auth.log');
+			exec('chmod 660 '. $conf['ispconfig_log_dir'].'/auth.log');
 		}
 
 		if(is_user('getmail')) {
