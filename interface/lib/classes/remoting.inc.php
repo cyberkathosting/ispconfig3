@@ -1550,6 +1550,112 @@ class remoting {
 		return $affected_rows;
 	}
 	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_web_folder_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_web_folder_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/web_folder.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_web_folder_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_folder_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/web_folder.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_web_folder_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_folder_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/web_folder.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_web_folder_delete($session_id, $primary_id)
+    {
+		global $app;
+		if(!$this->checkPerm($session_id, 'sites_web_folder_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+        // Delete all users that belong to this folder. - taken from web_folder_delete.php
+		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".intval($primary_id)."'");
+		foreach($records as $rec) {
+			$this->deleteQuery('../sites/form/web_folder_user.tform.php',$rec['web_folder_user_id']);
+			//$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec['web_folder_user_id']);
+		}
+		unset($records);
+        
+		$affected_rows = $this->deleteQuery('../sites/form/web_folder.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// -----------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_web_folder_user_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_web_folder_user_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/web_folder_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_web_folder_user_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_folder_user_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/web_folder_user.tform.php',$client_id,$params);
+	}
+	
+	//* Update a record
+	public function sites_web_folder_user_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_folder_user_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/web_folder_user.tform.php',$client_id,$primary_id,$params);
+		return $affected_rows;
+	}
+	
+	//* Delete a record
+	public function sites_web_folder_user_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_web_folder_user_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/web_folder_user.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
 	// -----------------------------------------------------------------------------------------------
 	
 	//* Get record details
