@@ -80,6 +80,7 @@ $wb['php_fpm_use_socket_txt'] = 'Benutze Socket für PHP-FPM';
 $wb['ipv6_address_txt'] = 'IPv6-Adresse';
 $wb['error_no_sni_txt'] = 'SNI for SSL is not activated on this server. You can enable only one SSL certificate on each IP address.';
 $wb['python_txt'] = 'Python';
+$wb['perl_txt'] = 'Perl';
 $wb['pm_max_children_txt'] = 'PHP-FPM pm.max_children';
 $wb['pm_start_servers_txt'] = 'PHP-FPM pm.start_servers';
 $wb['pm_min_spare_servers_txt'] = 'PHP-FPM pm.min_spare_servers';

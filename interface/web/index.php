@@ -31,6 +31,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once('../lib/config.inc.php');
 require_once('../lib/app.inc.php');
 
+if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 'login';
+
 $app->uses('tpl');
 $app->tpl->newTemplate('main.tpl.htm');
 

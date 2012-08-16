@@ -109,6 +109,19 @@
 		</IfModule>
 </tmpl_if>
 
+<tmpl_if name='perl' op='==' value='y'>
+		<IfModule mod_perl.c>
+			PerlModule ModPerl::Registry
+			PerlModule Apache2::Reload
+			<Directory {tmpl_var name='web_document_root_www'}>
+				SetHandler perl-script
+				PerlResponseHandler ModPerl::Registry
+				PerlOptions +ParseHeaders
+				Options +ExecCGI
+			</Directory>
+		</IfModule>
+</tmpl_if>
+
 <tmpl_if name='python' op='==' value='y'>
 		<IfModule mod_python.c>
 			<Directory {tmpl_var name='web_document_root_www'}>

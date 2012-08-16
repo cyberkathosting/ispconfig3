@@ -1643,6 +1643,7 @@ CREATE TABLE `web_domain` (
   `php` varchar(32) NOT NULL default 'y',
   `ruby` enum('n','y') NOT NULL default 'n',
   `python` enum('n','y') NOT NULL default 'n',
+  `perl` enum('n','y') NOT NULL default 'n',
   `redirect_type` varchar(255) default NULL,
   `redirect_path` varchar(255) default NULL,
   `seo_redirect` varchar(255) default NULL,

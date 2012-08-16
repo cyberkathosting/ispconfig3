@@ -230,6 +230,12 @@ $form["tabs"]['domain'] = array (
 									 ),*/
 			'value'		=> ''
 		),
+		'perl' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 		'ruby' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
