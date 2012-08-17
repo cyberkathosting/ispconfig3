@@ -89,7 +89,12 @@ $liste["item"][] = array(   'field'	=> "country",
                             'op'	=> "=",
                             'prefix'	=> "",
                             'suffix'	=> "",
+                            'datasource'=> array (  'type'          => 'SQL',
+                                                    'querystring'   => 'SELECT iso,printable_name FROM country ORDER BY printable_name ASC',
+                                                    'keyfield'      => 'iso',
+                                                    'valuefield'    => 'printable_name'
+                                                ),
                             'width'	=> "",
-                            'value'	=> "");
+                            'value'	=> "" );
 
 ?>
