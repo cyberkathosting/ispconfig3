@@ -95,6 +95,7 @@ $conf['mysql']['charset'] = 'utf8';
 $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
 $conf['language'] = $conf_old['language'];
+$conf['theme'] = $conf_old['theme'];
 if($conf['language'] == '{language}') $conf['language'] = 'en';
 $conf['timezone'] = (isset($conf_old['timezone']))?$conf_old['timezone']:'UTC';
 if($conf['timezone'] == '{timezone}' or trim($conf['timezone']) == '') $conf['timezone'] = 'UTC';
