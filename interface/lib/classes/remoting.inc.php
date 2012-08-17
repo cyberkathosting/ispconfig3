@@ -1341,11 +1341,11 @@ class remoting {
 		}
 		
 		$data = $app->db->queryOneRecord("SELECT server_id FROM ftp_user WHERE username = '".$app->db->quote($ftp_user)."'");
-		file_put_contents('/tmp/test.txt', serialize($data));
+		//file_put_contents('/tmp/test.txt', serialize($data));
         if(!isset($data['server_id'])) return false;
 		
         $server = $this->server_get($session_id, $data['server_id'], 'server');
-        file_put_contents('/tmp/test2.txt', serialize($server));
+        //file_put_contents('/tmp/test2.txt', serialize($server));
         
 		return $server;
 	}
