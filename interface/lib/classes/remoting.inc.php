@@ -1330,6 +1330,26 @@ class remoting {
 		return $affected_rows;
 	}
 	
+	//* Get server for an ftp user
+	public function sites_ftp_user_server_get($session_id, $ftp_user)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_ftp_user_server_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$data = $app->db->queryOneRecord("SELECT server_id FROM ftp_user WHERE username = '".$app->db->quote($ftp_user)."'");
+		file_put_contents('/tmp/test.txt', serialize($data));
+        if(!isset($data['server_id'])) return false;
+		
+        $server = $this->server_get($session_id, $data['server_id'], 'server');
+        file_put_contents('/tmp/test2.txt', serialize($server));
+        
+		return $server;
+	}
+	
 	// ----------------------------------------------------------------------------------------------------------
 	
 	//* Get record details
