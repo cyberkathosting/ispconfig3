@@ -330,7 +330,7 @@ class installer_dist extends installer_base {
 		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
 		// Only add the content if we had not addded it before
 		if(!stristr($content,"dovecot/deliver")) {
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DROhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
 			af($conf["postfix"]["config_dir"].'/master.cf',$deliver_content);
 		}
 		unset($content);
