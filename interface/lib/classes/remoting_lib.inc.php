@@ -552,6 +552,27 @@ class remoting_lib {
 									}
 								}
                                 break;
+								case 'RANGE':
+                                        //* Checks if the value is within the given range or above / below a value
+										//* Range examples: < 10 = ":10", between 2 and 10 = "2:10", above 5 = "5:".
+										$range_parts = explode(':',trim($validator['range']));
+										$ok = true;
+                                        if($range_parts[0] != '' && $field_value < $range_parts[0]) {
+											$ok = false;
+										}
+										if($range_parts[1] != '' && $field_value > $range_parts[1]) {
+											$ok = false;
+										}
+										if($ok != true) {
+											$errmsg = $validator['errmsg'];
+											if(isset($this->wordbook[$errmsg])) {
+												$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+											} else {
+												$this->errorMessage .= $errmsg."<br />\r\n";
+											}
+                                        }
+										unset($range_parts);
+                                break;
                                 case 'CUSTOM':
                                         // Calls a custom class to validate this record
                                         if($validator['class'] != '' and $validator['function'] != '') {
