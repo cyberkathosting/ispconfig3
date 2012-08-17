@@ -167,6 +167,7 @@
         });
     }
     adjustForm();
+    reloadFastcgiPHPVersions();
 		
     jQuery('#client_group_id').change(function(){
         clientGroupId = $(this).val();
@@ -229,5 +230,9 @@
             $('#fastcgi_php_version').html(options);
         });
     }
+    
+    <tmpl_if name="readonly_tab">
+        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').attr('disabled', 'disabled');
+    </tmpl_if>
 			
 </script>

@@ -1170,7 +1170,7 @@ class tform {
                      $app->uses('tform_tpl_generator');
                      $app->tform_tpl_generator->buildHTML($this->formDef,$tab['name']);
                 }
-
+                $app->tpl->setVar('readonly_tab', (isset($tab['readonly']) && $tab['readonly'] == true));
                 $app->tpl->setInclude('content_tpl',$tab["template"]);
                 $tab["active"] = 1;
                 $_SESSION["s"]["form"]["tab"] = $tab['name'];
