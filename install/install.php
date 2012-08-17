@@ -109,6 +109,9 @@ exec('date +%Z', $tmp_out);
 $conf['timezone'] = $tmp_out[0];
 unset($tmp_out);
 
+//* Set defaukt theme
+$conf['theme'] = 'default';
+
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('standard','expert'), 'standard');
 

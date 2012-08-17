@@ -1650,6 +1650,7 @@ class installer_base {
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		$content = str_replace('{language}', $conf['language'], $content);
 		$content = str_replace('{timezone}', $conf['timezone'], $content);
+		$content = str_replace('{theme}', $conf['theme'], $content);
 
 		wf($install_dir.'/interface/lib/'.$configfile, $content);
 
@@ -1673,6 +1674,7 @@ class installer_base {
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
 		$content = str_replace('{language}', $conf['language'], $content);
 		$content = str_replace('{timezone}', $conf['timezone'], $content);
+		$content = str_replace('{theme}', $conf['theme'], $content);
 
 		wf($install_dir.'/server/lib/'.$configfile, $content);
 
