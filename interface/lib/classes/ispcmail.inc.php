@@ -1,0 +1,567 @@
+<?php
+
+/*
+Copyright (c) 2012, Marius Cramer, pixcept KG
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+    * Neither the name of ISPConfig nor the names of its contributors
+      may be used to endorse or promote products derived from this software without
+      specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/**
+ * email class
+ * 
+ * @package pxFramework
+ *
+ */
+class ispcmail {
+    
+    /**#@+
+     * @access private
+     */
+    private $html_part;
+    private $text_part;
+    
+    private $headers;
+    
+    private $_logged_in = false;
+    private $_smtp_conn = null;
+    
+    private $_crlf = "\n";
+    
+    private $attach_type = 'application/octet-stream';
+    private $attachments;
+    private $mime_boundary;
+    private $body = '';
+    private $_mail_sender = '';
+    /**#@-*/
+    
+    /**
+     * set the mail charset
+     */
+    private $mail_charset  = 'UTF-8';//'ISO-8859-1';
+    
+    /**#@+
+     * Provide smtp credentials for smtp mail sending
+     *
+     * @access public
+     */
+    /**
+     * if set to true smtp is used instead of mail() to send emails
+     * @see mail
+     */
+    private $use_smtp = false;
+    /**
+     * the smtp helo string - use the mail server name here!
+     */
+    private $smtp_helo = '';
+    /**
+     * the smtp server to send mails
+     */
+    private $smtp_host = '';
+    /**
+     * the smtp port
+     */
+    private $smtp_port = 25;
+    /**
+     * if the smtp server needs authentication you can set the smtp user here
+     */
+    private $smtp_user = '';
+    /**
+     * if the smtp server needs authentication you can set the smtp password here
+     */
+    private $smtp_pass = '';
+    /**
+     * If you want to use tls/ssl specify it here
+     */
+    private $smtp_crypt = ''; // tls or ssl
+    /**#@-*/
+    
+    public function __construct($options = array()) {
+        $rand = md5(microtime());
+        $this->mime_boundary = '==Multipart_Boundary_x' . $rand . 'x';
+        
+        $this->headers = array();
+        $this->attachments = array();
+        
+        $this->headers['MIME-Version'] = '1.0';
+        $this->setOptions($options);
+    }
+    
+    public function __destruct() {
+        $this->finish();
+    }
+    
+    /**
+     * Set option
+     * 
+     * @param string $key the option to set
+     * @param string $value the option value to set
+     */
+    public function setOption($key, $value) {
+        switch($key) {
+            case 'smtp_helo':
+                $this->smtp_helo = $value;
+                break;
+            case 'smtp_host':
+                $this->smtp_host = $value;
+                break;
+            case 'smtp_server':
+                $this->smtp_host = $value;
+                break;
+            case 'smtp_port':
+                $this->smtp_port = $value;
+                break;
+            case 'smtp_user':
+                $this->smtp_user = $value;
+                break;
+            case 'smtp_pass':
+                $this->smtp_pass = $value;
+                break;
+            case 'use_smtp':
+                $this->use_smtp = ($value == true ? true : false);
+                if($value == true) $this->_crlf = "\r\n";
+                break;
+            case 'smtp_crypt':
+                if($value != 'ssl' && $value != 'tls') $value = '';
+                $this->smtp_crypt = $value;
+                break;
+            case 'mail_charset':
+                $this->mail_charset = $value;
+                break;
+        }
+    }
+    
+    private function detectHelo() {
+        if(isset($_SERVER['SERVER_NAME'])) $this->smtp_helo = $_SERVER['SERVER_NAME'];
+        else $this->smtp_helo = php_uname('n');
+        if($this->smtp_helo == '') $this->smtp_helo = 'localhost';
+    }
+    
+    /**
+     * Set options
+     * 
+     * @param array $options the options to set as an associative array key => value
+     */
+    public function setOptions($options) {
+        foreach($options as $key => $value) $this->setOption($key, $value);
+    }
+    
+    /**
+     * Read a file's contents
+     *
+     * Simply gets the file's content
+     *
+     * @access public
+     * @param string $filename name and path of file to read
+     * @return string file content (can be binary)
+     */
+    public function read_File($filename) {
+        $content = '';
+        
+        $fp = fopen($filename, 'r');
+        if(!$fp) return false;
+        
+        while(!feof($fp)) {
+            $content .= fread($fp, 1024);
+        }
+        fclose($fp);
+        
+        return $content;
+    }
+    
+    /**
+     * set smtp connection encryption
+     * 
+     * @access public
+     * @param string $mode encryption mode (tls, ssl or empty string)
+     */
+    public function setSMTPEncryption($mode = '') {
+        if($mode != 'ssl' && $mode != 'tls') $mode = '';
+        $this->smtp_crypt = $mode;
+    }
+
+    /**
+     * set a mail header
+     *
+     * Sets a single mail header to a given value
+     *
+     * @access public
+     * @param string $header header name to set
+     * @param string $value value to set in header field
+     */
+    public function setHeader($header, $value) {
+        $this->headers["$header"] = $value;
+    }
+    
+    /**
+     * get a mail header value
+     *
+     * Returns a value of a single mail header
+     *
+     * @access public
+     * @param string $header header name to get
+     * @return string header value
+     */
+    public function getHeader($header) {
+        return $this->headers["$header"];
+    }
+    
+    /**
+     * Set email sender
+     *
+     * Sets the email sender and optionally the sender's name
+     *
+     * @access public
+     * @param string $email sender email address
+     * @param string $name sender name
+     */
+    public function setSender($email, $name = '') {
+        if($name) $header = '"' . $name . '" <' . $email . '>';
+        else $header = '<' . $email . '>';
+        
+        $this->_mail_sender = $email;
+        
+        $this->setHeader('From', $header);
+    }
+    
+    /**
+     * Set mail subject
+     *
+     * @access public
+     * @param string $subject the mail subject
+     * @return string where-string for db query
+     */
+    public function setSubject($subject) {
+        $this->setHeader('Subject', $subject);
+    }
+    
+    /**
+     * Get current mail subject
+     *
+     * @access public
+     * @return string mail subject
+     */
+    public function getSubject() {
+        return $this->headers['Subject'];
+    }
+    
+    /**
+     * Set mail content
+     *
+     * Sets the mail html and plain text content
+     *
+     * @access public
+     * @param string $text plain text mail content (can be empty)
+     * @param string $html html mail content
+     */
+    public function setMailText($text, $html = '') {
+        $this->text_part = $text;
+        $this->html_part = $html;
+    }
+    
+    /**
+     * Read and attach a file
+     *
+     * Reads a file and attaches it to the current email
+     *
+     * @access public
+     * @param string $filename the file to read and attach
+     * @param string $display_name the name that will be displayed in the mail
+     * @see read_File
+     */
+    public function readAttachFile($filename, $display_name = '') {
+        if($display_name == '') {
+            $path_parts = pathinfo($filename);
+            $display_name = $path_parts["basename"];
+            unset($path_parts);
+        }
+        $this->attachFile($this->read_File($filename), $display_name);
+    }
+    
+    /**
+     * Attach a file
+     *
+     * Attaches a string (can be binary) as a file to the mail
+     *
+     * @access public
+     * @param string $content attachment data string
+     * @param string $filename name for file attachment
+     */
+    public function attachFile($content, $filename) {
+        $attachment = array('content' => $content,
+                            'filename' => $filename,
+                            'type' => 'application/octet-stream',
+                            'encoding' => 'base64'
+                           );
+        $this->attachments[] = $attachment;
+    }
+    
+    /**
+     * @access private
+     */
+    private function create() {
+        $attach = false;
+        $html = false;
+        $text = false;
+        
+        if($this->html_part) $html = true;
+        if($this->text_part) $text = true;
+        if(count($this->attachments) > 0) $attach = true;
+        
+        $textonly = false;
+        $htmlonly = false;
+        if($text == true && $html == false && $attach == false) {
+            // only text
+            $content_type = 'text/plain; charset="' . strtolower($this->mail_charset) . '"';
+            $textonly = true;
+        } elseif($text == true && $html == false && $attach == true) {
+            // text and attachment
+            $content_type = 'multipart/mixed;';
+            $content_type .= "\n" . ' boundary="' . $this->mime_boundary . '"';
+        } elseif($html == true && $text == true && $attach == false) {
+            // html only (or text too)
+            $content_type = 'multipart/alternative;';
+            $content_type .= "\n" . ' boundary="' . $this->mime_boundary . '"';
+        } elseif($html == true && $text == false && $attach == false) {
+            // html only (or text too)
+            $content_type = 'text/html; charset="' . strtolower($this->mail_charset) . '"';
+            $htmlonly = true;
+        } elseif($html == true && $attach == true) {
+            // html and attachments
+            $content_type = 'multipart/mixed;';
+            $content_type .= "\n" . ' boundary="' . $this->mime_boundary . '"';
+        }
+        
+        $this->headers['Content-Type'] = $content_type;
+        
+        if($textonly == false && $htmlonly == false) {
+            $this->body = "This is a multi-part message in MIME format.\n\n";
+            
+            if($text) {
+                $this->body .= "--{$this->mime_boundary}\n" .
+                              "Content-Type:text/plain; charset=\"" . strtolower($this->mail_charset) . "\"\n" .
+                              "Content-Transfer-Encoding: 7bit\n\n" . $this->text_part . "\n\n";
+            }
+            
+            if($html) {
+                $this->body .= "--{$this->mime_boundary}\n" .
+                               "Content-Type:text/html; charset=\"" . strtolower($this->mail_charset) . "\"\n" . 
+                               "Content-Transfer-Encoding: 7bit\n\n" . $this->html_part . "\n\n";
+            }
+            
+            if($attach) {
+                foreach($this->attachments as $att) {
+                    $this->body .= "--{$this->mime_boundary}\n" .
+                                   "Content-Type: " . $att['type'] . ";\n" .
+                                   " name=\"" . $att['filename'] . "\"\n" .
+                                   "Content-Transfer-Encoding: base64\n\n" .
+                                   chunk_split(base64_encode($att['content'])) . "\n\n";
+                }
+            }
+            $this->body .= "--{$this->mime_boundary}--\n";
+        } elseif($htmlonly == true) {
+            $this->body = $this->html_part;
+        } else {
+            $this->body = $this->text_part;
+        }
+        
+        if (isset($this->body)) {
+            // Add message ID header
+            $message_id = sprintf('<%s.%s@%s>', base_convert(time(), 10, 36), base_convert(rand(), 10, 36), !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+            $this->headers['Message-ID'] = $message_id;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+    * Function to encode a header if necessary
+    * according to RFC2047
+    * @access private
+    */
+    private function _encodeHeader($input, $charset = 'ISO-8859-1') {
+        preg_match_all('/(\s?\w*[\x80-\xFF]+\w*\s?)/', $input, $matches);
+        foreach ($matches[1] as $value) {
+            $replacement = preg_replace('/([\x20\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
+            $input = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $input);
+        }
+        
+        return $input;
+    }
+    
+    /**
+     * @access private
+     */
+    private function _smtp_login() {
+        $this->_smtp_conn = fsockopen(($this->smtp_crypt == 'ssl' ? 'ssl://' : '') . $this->smtp_host, $this->smtp_port, $errno, $errstr, 30);
+        $response = fgets($this->_smtp_conn, 515);
+        if(empty($this->_smtp_conn)) return false;
+        
+        // ENCRYPTED?
+        if($this->smtp_crypt == 'tls') {
+            fputs($this->_smtp_conn, 'STARTTLS' . $this->_crlf);
+            fgets($this->_smtp_conn, 515);
+            stream_socket_enable_crypto($this->_smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+        }
+        
+        //Say Hello to SMTP
+        if($this->smtp_helo == '') $this->detectHelo();
+        fputs($this->_smtp_conn, 'HELO ' . $this->smtp_helo . $this->_crlf);
+        $response = fgets($this->_smtp_conn, 515);
+        
+        //AUTH LOGIN
+        fputs($this->_smtp_conn, 'AUTH LOGIN' . $this->_crlf);
+        $response = fgets($this->_smtp_conn, 515);
+        
+        //Send username
+        fputs($this->_smtp_conn, base64_encode($this->smtp_user) . $this->_crlf);
+        $response = fgets($this->_smtp_conn, 515);
+        
+        //Send password
+        fputs($this->_smtp_conn, base64_encode($this->smtp_pass) . $this->_crlf);
+        $response = fgets($this->_smtp_conn, 515);
+        
+        $this->_logged_in = true;
+        return true;
+    }
+    
+    /**
+     * @access private
+     */
+    private function _smtp_close() {
+        $this->_logged_in = false;
+        
+        if(empty($this->_smtp_conn)) {
+            return false;
+        }
+        
+        fputs($this->_smtp_conn, 'QUIT' . $this->_crlf);
+        $response = @fgets($this->_smtp_conn, 515);
+        return true;
+    }
+    
+    /**
+     * Send the mail to one or more recipients
+     *
+     * The recipients can be either a string (1 recipient email without name) or an associative array of recipients with names as keys and email addresses as values.
+     *
+     * @access public
+     * @param mixed $recipients one email address or array of recipients with names as keys and email addresses as values
+     */
+    public function send($recipients) {
+        if(!is_array($recipients)) $recipients = array($recipients);
+        
+        $this->create();
+        
+        $subject = '';
+        if (!empty($this->headers['Subject'])) {
+            //$subject = $this->_encodeHeader($this->headers['Subject'], $this->mail_charset);
+            $subject = $this->headers['Subject'];
+            
+            $enc_subject = $this->_encodeHeader($subject, $this->mail_charset);
+            unset($this->headers['Subject']);
+        }
+        
+        unset($this->headers['To']); // always reset the To header to prevent from sending to multiple users at once
+        $this->headers['Date'] = date('r'); //date('D, d M Y H:i:s O');
+
+        // Get flat representation of headers
+        foreach ($this->headers as $name => $value) {
+            if(strtolower($name) == 'to') continue; // never add the To header
+            $headers[] = $name . ': ' . $this->_encodeHeader($value, $this->mail_charset);
+        }
+        
+        if($this->use_smtp == true) {
+            if(!$this->_logged_in || !$this->_smtp_conn) {
+                $result = $this->_smtp_login();
+                if(!$result) return false;
+            }
+            foreach($recipients as $recipname => $recip) {
+                $recipname = trim(str_replace('"', '', $recipname));
+                $recip = $this->_encodeHeader($recip, $this->mail_charset);
+                $recipname = $this->_encodeHeader($recipname, $this->mail_charset);
+                
+                //Email From
+                fputs($this->_smtp_conn, 'MAIL FROM: ' . $this->_mail_sender . $this->_crlf);
+                $response = fgets($this->_smtp_conn, 515);
+                
+                //Email To
+                fputs($this->_smtp_conn, 'RCPT TO: ' . $recip . $this->_crlf);
+                $response = fgets($this->_smtp_conn, 515);
+                
+                //The Email
+                fputs($this->_smtp_conn, 'DATA' . $this->_crlf);
+                $response = fgets($this->_smtp_conn, 515);
+                
+                //Construct Headers
+                if($recipname && !is_numeric($recipname)) $this->setHeader('To', $recipname . ' <' . $recip . '>');
+                else $this->setHeader('To', $recip);
+                
+                
+                $mail_content = 'To: ' . $this->getHeader('To') . $this->_crlf . 'Subject: ' . $enc_subject . $this->_crlf;
+                $mail_content .= implode($this->_crlf, $headers) . $this->_crlf . $this->_crlf . $this->body;
+                
+                fputs($this->_smtp_conn, $mail_content . $this->_crlf . '.' . $this->_crlf);
+                $response = fgets($this->_smtp_conn, 515);
+                
+                // hopefully message was correctly sent now
+                $result = true;
+            }
+        } else {
+            $rec_string = '';
+            foreach($recipients as $recipname => $recip) {
+                $recipname = trim(str_replace('"', '', $recipname));
+                
+                if($rec_string != '') $rec_string .= ', ';
+                if($recipname && !is_numeric($recipname)) $rec_string .= $recipname . '<' . $recip . '>';
+                else $rec_string .= $recip;
+            }
+            $to = $this->_encodeHeader($rec_string, $this->mail_charset);
+            $result = mail($to, $subject, $this->body, implode($this->_crlf, $headers));
+        }
+        
+        // Reset the subject in case mail is resent
+        if ($subject !== '') {
+            $this->headers['Subject'] = $subject;
+        }
+        
+        // Return
+        return $result;
+    }
+    
+    /**
+     * Close mail connections
+     *
+     * This closes an open smtp connection so you should always call this function in your script if you have finished sending all emails
+     *
+     * @access public
+     */
+    public function finish() {
+        if($this->use_smtp == true) $this->_smtp_close();
+        return;
+    }
+}
+
+?>

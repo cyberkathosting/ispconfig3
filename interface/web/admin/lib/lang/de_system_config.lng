@@ -29,4 +29,11 @@ $wb['admin_mail_txt'] = 'Administrator E-Mail';
 $wb['monitor_key_txt'] = 'Monitor-Passwort';
 $wb['admin_name_txt'] = 'Name des Administrators';
 $wb['maintenance_mode_txt'] = 'Wartungsmodus';
+$wb['smtp_enabled_txt'] = 'SMTP zum System-Mailversand nutzen';
+$wb['smtp_host_txt'] = 'SMTP Server';
+$wb['smtp_port_txt'] = 'SMTP Port';
+$wb['smtp_user_txt'] = 'SMTP User';
+$wb['smtp_pass_txt'] = 'SMTP Passwort';
+$wb['smtp_crypt_txt'] = 'SSL/TLS verschlüsselte Verbindung für SMTP';
+
 ?>

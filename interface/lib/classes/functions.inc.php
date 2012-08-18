@@ -39,6 +39,28 @@ class functions {
 		
 		if($conf['demo_mode'] == true) $app->error("Mail sending disabled in demo mode.");
 		
+        $app->uses('getconf,ispcmail');
+		$mail_config = $app->getconf->get_global_config('mail');
+		if($mail_config['smtp_enabled'] == 'y') {
+			$mail_config['use_smtp'] = true;
+			$app->ispcmail->setOptions($mail_config);
+		}
+		$app->ispcmail->setSender($from);
+		$app->ispcmail->setSubject($subject);
+		$app->ispcmail->setMailText($text);
+		
+		if($filepath != '') {
+			if(!file_exists($filepath)) $app->error("Mail attachement does not exist ".$filepath);
+			$app->ispcmail->readAttachFile($filepath);
+		}
+		
+		if($cc != '') $app->ispcmail->setHeader('Cc', $cc);
+		if($bcc != '') $app->ispcmail->setHeader('Bcc', $bcc);
+		
+		$app->ispcmail->send($to);
+		$app->ispcmail->finish();
+		
+		/* left in here just for the case...
 		if($filepath != '') {
 			if(!file_exists($filepath)) $app->error("Mail attachement does not exist ".$filepath);
 			
@@ -83,7 +105,7 @@ class functions {
 			$subject      = "=?utf-8?B?".base64_encode($subject)."?=";
 			mail($to, $subject, $text, $header);
 		}
-
+		*/
 		return true;
 	}
 	

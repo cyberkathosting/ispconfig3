@@ -50,7 +50,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	$email = $app->db->quote($_POST['email']);
 	
 	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE username = '$username' AND email = '$email'");
-	
+
 	if($client['client_id'] > 0) {
 		$new_password = $app->auth->get_random_password();
 		$new_password_encrypted = $app->auth->crypt_password($new_password);
@@ -61,7 +61,17 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		$app->db->query("UPDATE client SET password = '$new_password_encrypted' WHERE username = '$username'");
 		$app->tpl->setVar("message",$wb['pw_reset']);
 		
-		mail($client['email'],$wb['pw_reset_mail_title'],$wb['pw_reset_mail_msg'].$new_password);
+		$app->uses('getconf,ispcmail');
+		$mail_config = $app->getconf->get_global_config('mail');
+		if($mail_config['smtp_enabled'] == 'y') {
+			$mail_config['use_smtp'] = true;
+			$app->ispcmail->setOptions($mail_config);
+		}
+		$app->ispcmail->setSender($mail_config['admin_mail'], $mail_config['admin_name']);
+		$app->ispcmail->setSubject($wb['pw_reset_mail_title']);
+		$app->ispcmail->setMailText($wb['pw_reset_mail_msg'].$new_password);
+		$app->ispcmail->send(array($client['contact_name'] => $client['email']));
+		$app->ispcmail->finish();
 		
 		$app->plugin->raiseEvent('password_reset',true);
 		
@@ -72,7 +82,6 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 } else {
 	$app->tpl->setVar("message",$wb['pw_error_noinput']);
 }
-
 
 
 $app->tpl_defaults();
