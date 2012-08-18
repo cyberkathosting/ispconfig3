@@ -233,6 +233,9 @@
     
     <tmpl_if name="readonly_tab">
         jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').attr('disabled', 'disabled');
+        jQuery('div.tabbox_tabs').find('a').click(function() {
+               jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').removeAttr('disabled');
+        });
     </tmpl_if>
 			
 </script>
