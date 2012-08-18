@@ -4,6 +4,7 @@ $wb['ssl_locality_txt'] = 'Ort';
 $wb['ssl_organisation_txt'] = 'Firma';
 $wb['ssl_organisation_unit_txt'] = 'Abteilung';
 $wb['ssl_country_txt'] = 'Land';
+$wb["ssl_key_txt"] = 'SSL-Key';
 $wb['ssl_request_txt'] = 'SSL-Request';
 $wb['ssl_cert_txt'] = 'SSL-Zertifikat';
 $wb['ssl_bundle_txt'] = 'SSL-Bundle';
