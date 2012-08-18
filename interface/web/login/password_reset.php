@@ -74,13 +74,13 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		$app->ispcmail->finish();
 		
 		$app->plugin->raiseEvent('password_reset',true);
-		
+		$app->tpl->setVar("msg",$wb['pw_reset']);
 	} else {
-		$app->tpl->setVar("message",$wb['pw_error']);
+		$app->tpl->setVar("error",$wb['pw_error']);
 	}
 	
 } else {
-	$app->tpl->setVar("message",$wb['pw_error_noinput']);
+	$app->tpl->setVar("msg",$wb['pw_error_noinput']);
 }
 
 
