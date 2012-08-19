@@ -390,6 +390,14 @@ $form["tabs"]['web'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n',1 => 'y')
 		),
+		'website_autoalias' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

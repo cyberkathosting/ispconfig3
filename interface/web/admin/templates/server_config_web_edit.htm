@@ -31,6 +31,10 @@
                     {tmpl_var name='website_symlinks_rel'}
                 </div>
             </div>
+            <div class="ctrlHolder">
+                <label for="website_autoalias">{tmpl_var name='website_autoalias_txt'}</label>
+                <input name="website_autoalias" id="website_autoalias" value="{tmpl_var name='website_autoalias'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='website_autoalias_note_txt'}
+            </div>
             <div class="ctrlHolder apache">
                 <label for="vhost_conf_dir">{tmpl_var name='vhost_conf_dir_txt'}</label>
                 <input name="vhost_conf_dir" id="vhost_conf_dir" value="{tmpl_var name='vhost_conf_dir'}" size="40" maxlength="255" type="text" class="textInput" />

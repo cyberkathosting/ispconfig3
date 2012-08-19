@@ -871,10 +871,25 @@ class apache2_plugin {
 						'rewrite_target_ssl' => $rewrite_target_ssl);
 			}
 		}
-
+		
+		$server_alias = array();
+		
+		// get autoalias
+		$auto_alias = $web_config['website_autoalias'];
+		if($auto_alias != '') {
+			// get the client username
+			$client = $app->db->queryOneRecord("SELECT `username` FROM `client` WHERE `client_id` = '" . intval($client_id) . "'");
+			$aa_search = array('[client_id]', '[website_id]', '[client_username]', '[website_domain]');
+			$aa_replace = array($client_id, $data['new']['domain_id'], $client['username'], $data['new']['domain']);
+			$auto_alias = str_replace($aa_search, $aa_replace, $auto_alias);
+			unset($client);
+			unset($aa_search);
+			unset($aa_replace);
+			$server_alias[] .= $auto_alias;
+		}
+		
 		// get alias domains (co-domains and subdomains)
 		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y'");
-		$server_alias = array();
 		switch($data['new']['subdomain']) {
 			case 'www':
 				$server_alias[] .= 'www.'.$data['new']['domain'].' ';
