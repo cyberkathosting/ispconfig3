@@ -29,4 +29,9 @@ $wb['eg_domain_tld'] = 'Format: domain.tld';
 $wb['eg_ns1_domain_tld'] = 'Format: ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'Format: webmaster@domain.tld';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'Die Domain kann nicht verändert werden. Bitte kontaktieren sie ihren Administrator um den Domain-Namen zu ändern.';
+$wb['refresh_range_error'] = 'Min. Refresh ist 60 Sekunden.';
+$wb['retry_range_error'] = 'Min. Refresh ist 60 Sekunden.';
+$wb['expire_range_error'] = 'Min. Expire ist 60 Sekunden.';
+$wb['minimum_range_error'] = 'Min. Minimum ist 60 Sekunden.';
+$wb['ttl_range_error'] = 'Min. TTL ist 60 Sekunden.';
 ?>

@@ -162,4 +162,12 @@ $wb["permissions_txt"] = 'Berechtigungen';
 $wb["php_settings_txt"] = 'PHP-Einstellungen';
 $wb["apps_vhost_settings_txt"] = 'Apps-Vhost-Einstellungen';
 $wb["awstats_settings_txt"] = 'AWStats-Einstellungen';
+$wb["backup_mode_txt"] = 'Backupmodus';
+$wb["backup_mode_userzip"] = 'Backup Dateien gehören dem Web-User (ZIP-Datei)';
+$wb["backup_mode_rootgz"] = 'Backup aller Dateien des Webverzeichnisses als Root-User';
+$wb["firewall_txt"] = 'Firewall';
+$wb["mailbox_quota_stats_txt"] = 'Mailbox Quota Statistiken';
+$wb["enable_ip_wildcard_txt"] = 'IP Wildcard (*) aktivieren';
+$wb["web_folder_protection_txt"] = 'Webordner-Schutz (HTTP AUTH)';
+
 ?>

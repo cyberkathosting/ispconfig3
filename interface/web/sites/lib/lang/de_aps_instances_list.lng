@@ -1,0 +1,13 @@
+<?php
+$wb['list_head_txt'] = 'Installierte Pakete';
+$wb['name_txt'] = 'Name';
+$wb['version_txt'] = 'Version';
+$wb['customer_txt'] = 'Kunde';
+$wb['status_txt'] = 'Status';
+$wb['install_location_txt'] = 'Installationsort';
+$wb['pkg_delete_confirmation'] = 'Soll diese Installation wirklich gelöscht werden?';
+$wb['pkg_reinstall_confirmation'] = 'Soll das Paket wirklich mit den gleichen Einstellungen erneut installiert werden?';
+$wb['filter_txt'] = 'Suche';
+$wb['delete_txt'] = 'Löschen';
+$wb['reinstall_txt'] = 'Neuinstallieren';
+?>

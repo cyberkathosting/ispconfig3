@@ -1,10 +1,10 @@
 <?php
-$wb['head_txt'] = 'Virtual server actions for VM:';
+$wb['head_txt'] = 'Virtual Server Aktionen für VM:';
 $wb['start_txt'] = 'virtuellen Server starten';
 $wb['stop_txt'] = 'virtuellen Server stoppen';
 $wb['restart_txt'] = 'virtuellen Server neustarten';
 $wb['ostemplate_txt'] = 'OS-Template anlegen';
-$wb['ostemplate_desc_txt'] = '(example: debian-6.0-i386-custom)';
+$wb['ostemplate_desc_txt'] = '(z. B.: debian-6.0-i386-custom)';
 $wb['btn_save_txt'] = 'Gewählte Befehle ausführen';
 $wb['btn_cancel_txt'] = 'Zurück';
 $wb['start_exec_txt'] = 'Der Start-Befehl wurde an den VM-Host gesendet. Der Start der VM kann wenige Minuten dauern.';

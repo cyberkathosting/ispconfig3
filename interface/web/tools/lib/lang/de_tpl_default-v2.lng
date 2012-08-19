@@ -1,6 +1,6 @@
 <?php
-$wb["tpl_default-v2_head_txt"] = 'Default-v2 Theme settings';
-$wb["tpl_default-v2_desc_txt"] = 'Passe default-v2-theme-spezifische Optionen';
+$wb["tpl_default-v2_head_txt"] = 'Default-v2 Theme Einstellungen';
+$wb["tpl_default-v2_desc_txt"] = 'Passe default-v2-theme-spezifische Optionen an';
 $wb['language_txt'] = 'Sprache';
 $wb['startmodule_txt'] = 'Startmodul';
 $wb['app_theme_txt'] = 'Design';
