@@ -67,48 +67,48 @@
                 <label for="traffic_quota">{tmpl_var name='traffic_quota_txt'}</label>
                 <input name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" />&nbsp;MB <tmpl_var name='traffic_quota_exceeded_txt'>
             </div>
-            <div class="ctrlHolder">
+            <tmpl_if name="limit_cgi" op="==" value="y"><div class="ctrlHolder">
                 <p class="label">{tmpl_var name='cgi_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='cgi'}
                 </div>
-            </div>
-            <div class="ctrlHolder">
+            </div></tmpl_if>
+            <tmpl_if name="limit_ssi" op="==" value="y"><div class="ctrlHolder">
                 <p class="label">{tmpl_var name='ssi_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='ssi'}
                 </div>
-            </div>
-            <div class="ctrlHolder apache">
+            </div></tmpl_if>
+            <tmpl_if name="limit_perl" op="==" value="y"><div class="ctrlHolder apache">
                 <p class="label">{tmpl_var name='perl_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='perl'}
                 </div>
-            </div>
-            <div class="ctrlHolder apache">
+            </div></tmpl_if>
+            <tmpl_if name="limit_ruby" op="==" value="y"><div class="ctrlHolder apache">
                 <p class="label">{tmpl_var name='ruby_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='ruby'}
                 </div>
-            </div>
-            <div class="ctrlHolder apache">
+            </div></tmpl_if>
+            <tmpl_if name="limit_python" op="==" value="y"><div class="ctrlHolder apache">
                 <p class="label">{tmpl_var name='python_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='python'}
                 </div>
-            </div>
-            <div class="ctrlHolder apache">
+            </div></tmpl_if>
+            <tmpl_if name="force_suexec" op="==" value="n"><div class="ctrlHolder apache">
                 <p class="label">{tmpl_var name='suexec_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='suexec'}
                 </div>
-            </div>
-            <div class="ctrlHolder">
+            </div></tmpl_if>
+            <tmpl_if name="limit_hterror" op="==" value="y"><div class="ctrlHolder">
                 <p class="label">{tmpl_var name='errordocs_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='errordocs'}
                 </div>
-            </div>
+            </div></tmpl_if>
 
             <div class="ctrlHolder">
                 <label for="subdomain">{tmpl_var name='subdomain_txt'}</label>
@@ -116,12 +116,12 @@
                     {tmpl_var name='subdomain'}
                 </select>
             </div>
-            <div class="ctrlHolder">
+            <tmpl_if name="limit_ssl" op="==" value="y"><div class="ctrlHolder">
                 <p class="label">{tmpl_var name='ssl_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='ssl'}
                 </div>
-            </div>
+            </div></tmpl_if>
             <div class="ctrlHolder">
                 <label for="php">{tmpl_var name='php_txt'}</label>
                 <select name="php" id="php" class="selectInput formLengthHalf">
@@ -145,7 +145,7 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
         <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','sites/web_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
+            <button id="dom-edit-submit" class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}"><span>{tmpl_var name='btn_save_txt'}</span></button>
             <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
         </div>
     </div>
@@ -235,6 +235,14 @@
         jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').attr('disabled', 'disabled');
         jQuery('div.tabbox_tabs').find('a').click(function() {
                jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').removeAttr('disabled');
+        });
+        jQuery('#dom-edit-submit').click(function() {
+               jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').removeAttr('disabled');
+               submitForm('pageForm','sites/web_domain_edit.php');
+        });
+    <tmpl_else>
+        jQuery('#dom-edit-submit').click(function() {
+            submitForm('pageForm','sites/web_domain_edit.php');
         });
     </tmpl_if>
 			

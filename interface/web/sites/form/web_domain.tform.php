@@ -62,6 +62,15 @@ if($app->auth->has_clients($_SESSION['s']['user']['userid']) || $app->auth->is_a
 	$web_domain_edit_readonly = true;
 }
 
+$wildcard_available = true;
+$ssl_available = true;
+if(!$app->auth->is_admin()) {
+    $client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+    
+    if($client['limit_wildcard'] != 'y') $wildcard_available = false;
+    if($client['limit_ssl'] != 'y') $ssl_available = false;
+}
 
 $form["tabs"]['domain'] = array (
 	'title' 	=> "Domain",
@@ -203,7 +212,7 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'www',
-			'value'		=> array('none' => 'none_txt', 'www' => 'www.', '*' => '*.')
+			'value'		=> ($wildcard_available ? array('none' => 'none_txt', 'www' => 'www.', '*' => '*.') : array('none' => 'none_txt', 'www' => 'www.'))
 		),
 		'ssl' => array (
 			'datatype'	=> 'VARCHAR',
@@ -300,6 +309,7 @@ $form["tabs"]['redirect'] = array (
 	)
 );
 
+if($ssl_available) {
 $form["tabs"]['ssl'] = array (
 	'title' 	=> "SSL",
 	'width' 	=> 100,
@@ -433,6 +443,7 @@ $form["tabs"]['ssl'] = array (
 	##################################
 	)
 );
+}
 
 //* Statistics
 $form["tabs"]['stats'] = array (

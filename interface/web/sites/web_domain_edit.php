@@ -89,13 +89,14 @@ class page_action extends tform_actions {
 		
 		$app->uses('ini_parser,getconf');
 
+        $read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
 
 		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.default_webserver, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			//* Get global web config
 			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
@@ -160,12 +161,16 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("fastcgi_php_version",$php_select);
 			unset($php_records);
 
+            // add limits to template to be able to hide settings
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
+            
+            
 			//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			//* Get global web config
 			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
@@ -243,7 +248,11 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("fastcgi_php_version",$php_select);
 			unset($php_records);
-
+            
+            // add limits to template to be able to hide settings
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
+            
+            
 			//* Admin: If the logged in user is admin
 		} else {
 
@@ -332,7 +341,8 @@ class page_action extends tform_actions {
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
-
+            
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, 'y');
 		}
 
 		$ssl_domain_select = '';
@@ -403,6 +413,12 @@ class page_action extends tform_actions {
 
 		parent::onShowEnd();
 	}
+    
+    function onShowEdit() {
+        global $app;
+        if($app->tform->checkPerm($this->id, 'riud')) $app->tform->formDef['tabs']['domain']['readonly'] = false;
+        parent::onShowEdit();
+    }
 
 	function onSubmit() {
 		global $app, $conf;
@@ -412,11 +428,24 @@ class page_action extends tform_actions {
 		$this->dataRecord["type"] = 'vhost';
 		$this->dataRecord["vhost_type"] = 'name';
 
+        $read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
+
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-
+			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+            
+            if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = '-';
+            if($client['limit_ssi'] != 'y') $this->dataRecord['ssi'] = '-';
+            if($client['limit_perl'] != 'y') $this->dataRecord['perl'] = '-';
+            if($client['limit_ruby'] != 'y') $this->dataRecord['ruby'] = '-';
+            if($client['limit_python'] != 'y') $this->dataRecord['python'] = '-';
+            if($client['force_suexec'] != 'n') $this->dataRecord['suexec'] = '-';
+            if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
+            if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
+            if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
+            
 			//* Check the website quota of the client
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
@@ -489,8 +518,20 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
+                
+                // set the settings to current if not provided (or cleared due to limits)
+                if($this->dataRecord['cgi'] == '-') $this->dataRecord['cgi'] = $tmp['cgi'];
+                if($this->dataRecord['ssi'] == '-') $this->dataRecord['ssi'] = $tmp['ssi'];
+                if($this->dataRecord['perl'] == '-') $this->dataRecord['perl'] = $tmp['perl'];
+                if($this->dataRecord['ruby'] == '-') $this->dataRecord['ruby'] = $tmp['ruby'];
+                if($this->dataRecord['python'] == '-') $this->dataRecord['python'] = $tmp['python'];
+                if($this->dataRecord['suexec'] == '-') $this->dataRecord['suexec'] = $tmp['suexec'];
+                if($this->dataRecord['errordocs'] == '-') $this->dataRecord['errordocs'] = $tmp['errordocs'];
+                if($this->dataRecord['subdomain'] == '-') $this->dataRecord['subdomain'] = $tmp['subdomain'];
+                if($this->dataRecord['ssl'] == '-') $this->dataRecord['ssl'] = $tmp['ssl'];
+                
 				unset($tmp);
 				// When the record is inserted
 			} else {
@@ -606,12 +647,18 @@ class page_action extends tform_actions {
 			//* If the user is neither admin nor reseller
 		} else {
 			//* We do not allow users to change a domain which has been created by the admin
-			$rec = $app->db->queryOneRecord("SELECT domain from web_domain WHERE domain_id = ".$this->id);
+			$rec = $app->db->queryOneRecord("SELECT sys_perm_group, domain, ip_address, ipv6_address from web_domain WHERE domain_id = ".$this->id);
 			if(isset($this->dataRecord["domain"]) && $rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id,'u')) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
 				$this->dataRecord["domain"] = $rec['domain'];
 			}
+			if(isset($this->dataRecord["ip_address"]) && $rec['ip_address'] != $this->dataRecord["ip_address"] && $rec['sys_perm_group'] != 'riud') {
+                $this->dataRecord["ip_address"] = $rec['ip_address'];
+            }
+			if(isset($this->dataRecord["ipv6_address"]) && $rec['ipv6_address'] != $this->dataRecord["ipv6_address"] && $rec['sys_perm_group'] != 'riud') {
+                $this->dataRecord["ipv6_address"] = $rec['ipv6_address'];
+            }
 			unset($rec);
 		}
 
