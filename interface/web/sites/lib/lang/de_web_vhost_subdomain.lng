@@ -1,6 +1,8 @@
 <?php
 $wb["parent_domain_id_txt"] = 'Website';
 $wb["web_folder_txt"] = 'Basisordner';
+$wb["web_folder_invalid_txt"] = 'Dieser Ordner darf nicht als Basisordner verwendet werden.';
+$wb["web_folder_unique_txt"] = 'Dieser Ordner wird bereits verwendet, bitte geben Sie einen anderen Basisordner an.';
 $wb['ssl_state_txt'] = 'Bundesland';
 $wb['ssl_locality_txt'] = 'Ort';
 $wb['ssl_organisation_txt'] = 'Firma';
