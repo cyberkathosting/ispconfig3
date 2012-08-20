@@ -5,6 +5,7 @@
 
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels">
+            <input type="hidden" name="server_id" id="server_id" value="{tmpl_var name='server_id_value'}" />
             <div class="ctrlHolder">
                 <label for="domain">{tmpl_var name='host_txt'}</label>
                 <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
@@ -15,7 +16,7 @@
             </div>
             <div class="ctrlHolder">
                 <label for="web_folder">{tmpl_var name='web_folder_txt'}</label>
-                <input name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" size="30" maxlength="100" type="text" class="textInput formLengthHalf" />
+                <input name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" size="30" maxlength="100" type="text" class="textInput formLengthHalf"<tmpl_if name='fixed_folder' op='==' value='y'> readonly="readonly"</tmpl_if> />
             </div>
             <div class="ctrlHolder">
                 <label for="hd_quota">{tmpl_var name='hd_quota_txt'}</label>

@@ -86,7 +86,7 @@ class page_action extends tform_actions {
         $read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
 		
         $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
-
+        
 		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
@@ -209,8 +209,13 @@ class page_action extends tform_actions {
 			}
 		}
         
-        if($this->id > 0) $app->tpl->setVar('fixed_folder', 'y');
-        else $app->tpl->setVar('fixed_folder', 'n');
+        if($this->id > 0) {
+            $app->tpl->setVar('fixed_folder', 'y');
+            $app->tpl->setVar('server_id_value', $parent_domain['server_id']);
+        } else {
+            $app->tpl->setVar('fixed_folder', 'n');
+            $app->tpl->setVar('server_id_value', $parent_domain['server_id']);
+        }
         
 		$app->tpl->setVar("ssl_domain",$ssl_domain_select);
 		unset($ssl_domain_select);
