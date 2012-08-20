@@ -63,7 +63,7 @@ class nginx_reverseproxy_plugin {
 
 		if($this->action != 'insert') $this->action = 'update';
 
-		if($data['new']['type'] != 'vhost' && $data['new']['parent_domain_id'] > 0) {
+		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['parent_domain_id'] > 0) {
 
 			$old_parent_domain_id = intval($data['old']['parent_domain_id']);
 			$new_parent_domain_id = intval($data['new']['parent_domain_id']);
@@ -130,7 +130,7 @@ class nginx_reverseproxy_plugin {
 		
 
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->dbmaster->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y'");
+		$aliases = $app->dbmaster->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND type != 'vhostsubdomain' AND active = 'y'");
 		$server_alias = array();
 		switch($data['new']['subdomain']) {
 			case 'www':
@@ -280,7 +280,7 @@ class nginx_reverseproxy_plugin {
 		$nginx_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
 
-		if($data['old']['type'] == 'vhost') {
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
 
 			//* This is a website
 			// Deleting the vhost file, symlink and the data directory

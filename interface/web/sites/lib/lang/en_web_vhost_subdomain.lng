@@ -1,4 +1,6 @@
 <?php
+$wb["parent_domain_id_txt"] = 'Parent Website';
+$wb["web_folder_txt"] = 'Web folder';
 $wb["backup_interval_txt"] = 'Backup interval';
 $wb["backup_copies_txt"] = 'Number of backup copies';
 $wb["ssl_state_txt"] = 'State';

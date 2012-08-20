@@ -768,7 +768,7 @@ class page_action extends tform_actions {
 
 		//* If the domain name has been changed, we will have to change all subdomains
 		if(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
-			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'subdomain' AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
+			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE (type = 'subdomain' OR type = 'vhostsubdomain') AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
 			foreach($records as $rec) {
 				$subdomain = $app->db->quote(str_replace($this->oldDataRecord["domain"],$this->dataRecord["domain"],$rec['domain']));
 				$app->db->datalogUpdate('web_domain', "domain = '".$subdomain."'", 'domain_id', $rec['domain_id']);

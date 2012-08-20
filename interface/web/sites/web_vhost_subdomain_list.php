@@ -35,7 +35,7 @@ require_once('../../lib/app.inc.php');
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/web_domain.list.php";
+$list_def_file = "list/web_vhost_subdomain.list.php";
 
 /******************************************
 * End Form configuration
@@ -44,16 +44,12 @@ $list_def_file = "list/web_domain.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-$app->load('listform_actions');
+$app->uses('listform_actions');
 
+// Limit the results to alias domains
+$app->listform_actions->SQLExtWhere = "type = 'vhostsubdomain'";
+$app->listform_actions->SQLOrderBy = 'ORDER BY domain';
+$app->listform_actions->onLoad();
 
-class list_action extends listform_actions {
-	
-}
-
-$list = new list_action;
-$list->SQLExtWhere = "type = 'vhost' AND parent_domain_id = '0'";
-$list->SQLOrderBy = 'ORDER BY domain';
-$list->onLoad();
 
 ?>

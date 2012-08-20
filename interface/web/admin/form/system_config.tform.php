@@ -148,6 +148,12 @@ $form["tabs"]['sites'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'vhost_subdomains' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
@@ -252,7 +258,7 @@ $form["tabs"]['mail'] = array (
 		),
 		'smtp_pass' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
+			'formtype'	=> 'PASSWORD',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

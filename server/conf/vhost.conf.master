@@ -114,11 +114,13 @@
 			PerlModule ModPerl::Registry
 			PerlModule Apache2::Reload
 			<Directory {tmpl_var name='web_document_root_www'}>
-				SetHandler perl-script
 				PerlResponseHandler ModPerl::Registry
 				PerlOptions +ParseHeaders
 				Options +ExecCGI
 			</Directory>
+            <Files *.pl>
+				SetHandler perl-script
+            </Files>
 		</IfModule>
 </tmpl_if>
 

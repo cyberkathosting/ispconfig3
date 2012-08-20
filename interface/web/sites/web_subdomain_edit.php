@@ -57,10 +57,10 @@ class page_action extends tform_actions {
 		
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
-			if(!$app->tform->checkClientLimit('limit_web_subdomain',"type = 'subdomain'")) {
+			if(!$app->tform->checkClientLimit('limit_web_subdomain',"(type = 'subdomain' OR type = 'vhostsubdomain')")) {
 				$app->error($app->tform->wordbook["limit_web_subdomain_txt"]);
 			}
-			if(!$app->tform->checkResellerLimit('limit_web_subdomain',"type = 'subdomain'")) {
+			if(!$app->tform->checkResellerLimit('limit_web_subdomain',"(type = 'subdomain' OR type = 'vhostsubdomain')")) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_web_subdomain_txt"]);
 			}
 		}

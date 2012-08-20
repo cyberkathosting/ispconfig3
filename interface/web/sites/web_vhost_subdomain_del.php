@@ -28,32 +28,45 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
-
 /******************************************
 * Begin Form configuration
 ******************************************/
 
-$list_def_file = "list/web_domain.list.php";
+$list_def_file = "list/web_vhost_subdomain.list.php";
+$tform_def_file = "form/web_vhost_subdomain.tform.php";
 
 /******************************************
 * End Form configuration
 ******************************************/
 
+require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
+
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-$app->load('listform_actions');
+$app->uses('tpl,tform,tform_actions');
+$app->load("tform_actions");
+class page_action extends tform_actions {
 
+	function onBeforeDelete() {
+		global $app; $conf;
+		
+		//* Delete all web folders
+        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".intval($this->id)."'");
+        foreach($records as $rec) {
+            //* Delete all web folder users
+			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$rec['web_folder_id']."'");
+			foreach($records2 as $rec2) {
+				$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec2['web_folder_user_id']);
+        }
+			$app->db->datalogDelete('web_folder','web_folder_id',$rec['web_folder_id']);
+        }
 
-class list_action extends listform_actions {
-	
+	}
 }
 
-$list = new list_action;
-$list->SQLExtWhere = "type = 'vhost' AND parent_domain_id = '0'";
-$list->SQLOrderBy = 'ORDER BY domain';
-$list->onLoad();
+$page = new page_action;
+$page->onDelete();
 
 ?>

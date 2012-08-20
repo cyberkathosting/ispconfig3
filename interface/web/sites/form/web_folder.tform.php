@@ -74,7 +74,7 @@ $form["tabs"]['folder'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND {AUTHSQL} ORDER BY domain",
+										'querystring' => "SELECT domain_id,domain FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain') AND {AUTHSQL} ORDER BY domain",
 										'keyfield'=> 'domain_id',
 										'valuefield'=> 'domain'
 									 ),

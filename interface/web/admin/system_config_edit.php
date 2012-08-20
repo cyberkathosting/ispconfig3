@@ -85,8 +85,17 @@ class page_action extends tform_actions {
 		
 		$section = $app->tform->getCurrentTab();
 		
+        
 		$server_config_array = $app->getconf->get_global_config();
-		$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
+		$new_config = $app->tform->encode($this->dataRecord,$section);
+        if($section == 'sites' && $new_config['vhost_subdomains'] != $server_config_array['vhost_subdomains']) {
+            // check for existing subdomains
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'subdomain' OR `type` = 'vhostsubdomain'");
+            if($check['cnt'] > 0) {
+                $new_config['vhost_subdomains'] = $server_config_array['vhost_subdomains'];
+            }
+        }
+        $server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		
 		$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
