@@ -166,4 +166,6 @@ $wb['firewall_txt'] = 'Firewall';
 $wb['mailbox_quota_stats_txt'] = 'Mailbox quota statistics';
 $wb['enable_ip_wildcard_txt'] = 'Enable IP wildcard (*)';
 $wb['web_folder_protection_txt'] = 'Web folder protection';
+$wb['website_autoalias_txt'] = 'Website auto alias';
+$wb['website_autoalias_note_txt'] = 'Placeholders: [client_id], [client_username], [website_id], [website_domain]';
 ?>

@@ -25,4 +25,8 @@ $wb['groups_txt'] = 'Käyttäjäryhmät';
 $wb['default_group_txt'] = 'Oletusryhmä';
 $wb['startmodule_err'] = 'Aloitusosio ei ole sallittu.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

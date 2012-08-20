@@ -26,4 +26,11 @@ $wb['error_domain_regex'] = 'Домен содержит неверные сим
 $wb['error_ns1_regex'] = 'NS1 содержит неверные символы.';
 $wb['error_ns2_regex'] = 'NS2 содержит неверные символы.';
 $wb['error_email_regex'] = 'E-mail не содержит правильного e-mail адреса.';
+$wb['dns_zone_txt'] = 'DNS Zone';
+$wb['globalsearch_resultslimit_of_txt'] = 'of';
+$wb['globalsearch_resultslimit_results_txt'] = 'results';
+$wb['globalsearch_noresults_text_txt'] = 'No results.';
+$wb['globalsearch_noresults_limit_txt'] = '0 results';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
+$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 ?>

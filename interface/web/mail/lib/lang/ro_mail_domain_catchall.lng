@@ -6,4 +6,6 @@ $wb['domain_error_unique'] = 'exista deja un CATCHALL activ pe domeniu';
 $wb['no_domain_perm'] = 'nu aveti drepturi pe acest domeniu';
 $wb['domain_error_regex'] = 'nume de domeniu invalid sau caractere nepermise';
 $wb['limit_mailcatchall_txt'] = 'numarul maxim de CATCHALL pe contul dumneavoatra a fost atins';
+$wb['source_txt'] = 'Source';
+$wb['destination_error_isemail'] = 'Destination is no valid email address.';
 ?>

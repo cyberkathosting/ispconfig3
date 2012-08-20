@@ -4,4 +4,9 @@ $wb['username_txt'] = 'Login';
 $wb['password_txt'] = 'Hasło';
 $wb['active_txt'] = 'Aktywny';
 $wb['folder_error_empty'] = 'Nie wybrano katalogu.';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

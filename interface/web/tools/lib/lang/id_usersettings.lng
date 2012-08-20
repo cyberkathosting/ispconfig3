@@ -5,4 +5,8 @@ $wb['language_txt'] = 'Bahasa';
 $wb['password_mismatch'] = 'Kata sandi di kolom kata sandi kedua tidak cocok dengan kata sandi pertama.';
 $wb['Form to edit the user password and language.'] = 'Form untuk menyunting kata sandi dan bahasa pengguna.';
 $wb['Settings'] = 'Pengaturan';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

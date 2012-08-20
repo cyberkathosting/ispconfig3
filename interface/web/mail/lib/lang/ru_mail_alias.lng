@@ -10,4 +10,5 @@ $wb['limit_mailalias_txt'] = 'Максимальное число алиасов
 $wb['duplicate_mailbox_txt'] = 'Ящик с таким e-mail уже существует';
 $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
+$wb['source_txt'] = 'Alias';
 ?>

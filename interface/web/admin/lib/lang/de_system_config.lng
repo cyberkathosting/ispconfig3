@@ -35,5 +35,4 @@ $wb['smtp_port_txt'] = 'SMTP Port';
 $wb['smtp_user_txt'] = 'SMTP User';
 $wb['smtp_pass_txt'] = 'SMTP Passwort';
 $wb['smtp_crypt_txt'] = 'SSL/TLS verschlüsselte Verbindung für SMTP';
-
 ?>

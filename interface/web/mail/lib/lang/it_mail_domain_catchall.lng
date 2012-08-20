@@ -6,4 +6,6 @@ $wb['domain_error_unique'] = 'There is already a Catchall record for this domain
 $wb['no_domain_perm'] = 'You have no permission for this domain.';
 $wb['domain_error_regex'] = 'Invalid domain name od domain contains invalid characters.';
 $wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts for your account is reached.';
+$wb['source_txt'] = 'Source';
+$wb['destination_error_isemail'] = 'Destination is no valid email address.';
 ?>

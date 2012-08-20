@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'Geen MX lookup';
 $wb['sort_order_txt'] = 'Gesorteerd op';
 $wb['active_txt'] = 'Actief';
 $wb['limit_mailrouting_txt'] = 'Het max. aantal routes voor uw account is bereikt.';
+$wb['transport_txt'] = 'Transport';
 ?>

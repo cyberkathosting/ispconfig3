@@ -1,0 +1,6 @@
+<?php
+$wb['domain_error_empty'] = 'Το όνομα domain δεν έχει οριστεί';
+$wb['domain_error_unique'] = 'Το όνομα domain υπάρχει';
+$wb['domain_error_regex'] = 'Το όνομα domain δεν επιτρέπεται';
+$wb['Domain'] = 'Domain';
+?>

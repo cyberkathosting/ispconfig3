@@ -1,60 +1,48 @@
 <?php
-//Errors
-$wb[1001] = "Username or password is empty.";
-$wb[1002] = "Username or password is wrong.";
-
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 $wb['Groups'] = 'Groepen';
 $wb['groups_description'] = 'Formulier om systeemgebruiker groepen te wijzigen.';
-
 $wb['Servers'] = 'Servers';
 $wb['Config'] = 'Config';
-
 $wb['Add user'] = 'Toevoegen gebruiker';
 $wb['Edit user'] = 'Wijzigen gebruiker';
 $wb['Add group'] = 'Toevoegen groep';
 $wb['Edit group'] = 'Wijzigen groep';
 $wb['Edit server'] = 'Wijzigen server';
-
 $wb['Sync. Now'] = 'Sync. nu';
 $wb['DB Sync.'] = 'DB Sync.';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'CP Gebruikers';
 $wb['Remote Users'] = 'Remote gebruikers';
-
 $wb['System'] = 'System';
 $wb['Server Services'] = 'Server Services';
-    $wb['Services'] = 'Services';
+$wb['Services'] = 'Services';
 $wb['Server Config'] = 'Server Config';
-    $wb['Server'] = 'Server';
-    $wb['Mail'] = 'Mail';
-    $wb['Getmail'] = 'Getmail';
-    $wb['Web'] = 'Web';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Server';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Server IP adressen';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Firewall';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Apps & addons';
 $wb['Repositories'] = 'Repositories';
 $wb['Packages'] = 'Paketten';
 $wb['Updates'] = 'Updates';
-
 $wb['Language Editor'] = 'Taal editor';
 $wb['Languages'] = 'Talen';
 $wb['New Language'] = 'Nieuwe taal';
 $wb['Merge'] = 'Samenvoegen';
 $wb['Export'] = 'Exporteer';
 $wb['Import'] = 'Importeer';
-
 $wb['Remote Actions'] = 'Remote acties';
 $wb['Do OS-Update'] = 'Voer een OS-Update uit';
 $wb['Do ISPConfig-Update'] = 'Voer een ISPConfig-update uit';

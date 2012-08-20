@@ -72,4 +72,20 @@ $module["nav"][] = array(	'title'	=> 'Messaging',
 
 unset($items);
 
+$app->uses('ini_parser,getconf');
+$settings = $app->getconf->get_global_config('domains');
+
+if ($settings['use_domain_module'] == 'y') {
+	$items = array();
+	$items[] = array( 'title' 	=> 'Domains',
+					'target' 	=> 'content',
+					'link'	=> 'client/domain_list.php');
+
+	$module['nav'][] = array(	'title'	=> 'Domains',
+								'open' 	=> 1,
+								'items'	=> $items);
+
+	unset($items);
+}
+							
 ?>

@@ -4,4 +4,9 @@ $wb['username_txt'] = 'Korisničko ime';
 $wb['password_txt'] = 'Šifra';
 $wb['active_txt'] = 'Aktivno';
 $wb['folder_error_empty'] = 'Nije izabran web direktorij.';
+$wb['password_strength_txt'] = 'Password strength';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

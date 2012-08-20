@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'Ei MX-tietoa';
 $wb['sort_order_txt'] = 'Järjestä..';
 $wb['active_txt'] = 'Käytössä';
 $wb['limit_mailrouting_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä sähköpostireitityksiä.';
+$wb['transport_txt'] = 'Transport';
 ?>

@@ -10,4 +10,5 @@ $wb['limit_mailalias_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä ali
 $wb['duplicate_mailbox_txt'] = 'Aliastunnus on jo olemassa tälle osoitteelle.';
 $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
+$wb['source_txt'] = 'Alias';
 ?>

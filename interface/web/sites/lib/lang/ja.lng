@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'ウェブサイト';
-    $wb['Website'] = 'ウェブサイト';
-    $wb['Subdomain'] = 'サブドメイン';
-    $wb['Aliasdomain'] = 'エイリアスドメイン';
-
-    $wb['Database'] = 'データベース';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'ウェブサイト';
+$wb['Subdomain'] = 'サブドメイン';
+$wb['Aliasdomain'] = 'エイリアスドメイン';
+$wb['Database'] = 'データベース';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'FTPユーザー';
-    $wb['Webdav-User'] = 'WebDAV-Users';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'FTPユーザー';
+$wb['Webdav-User'] = 'WebDAV-Users';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Shellユーザー';
-    $wb["Cron Jobs"] = 'Cron Jobs';
-
-$wb["Statistics"] = '利用状況';
-    $wb["Web traffic"] = 'Web Traffic';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = '利用状況';
+$wb['Shell-User'] = 'Shellユーザー';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = '利用状況';
+$wb['Web traffic'] = 'Web Traffic';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = '利用状況';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

@@ -5,4 +5,8 @@ $wb['password_mismatch'] = 'Salasanat eivät täsmää.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['Form to edit the user password and language.'] = 'Lomake käyttäjän salasanan ja kieliasetusten muokkaamiseen.';
 $wb['Settings'] = 'Asetukset';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

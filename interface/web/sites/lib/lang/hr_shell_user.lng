@@ -22,4 +22,8 @@ $wb['parent_domain_id_error_empty'] = 'Nije izabrana web stranica.';
 $wb['ssh_rsa_txt'] = 'SSH-RSA javni ključ (za logiranje ključevima)';
 $wb['dir_dot_error'] = 'No .. in path allowed.';
 $wb['dir_slashdot_error'] = 'No ./ in path allowed.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

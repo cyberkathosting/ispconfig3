@@ -5,4 +5,5 @@ $wb['system_user_txt'] = 'Linux gebruiker';
 $wb['used_txt'] = 'Gebruikte ruimte';
 $wb['hard_txt'] = 'Harde limiet';
 $wb['soft_txt'] = 'Zachte limiet';
+$wb['files_txt'] = 'Single files';
 ?>

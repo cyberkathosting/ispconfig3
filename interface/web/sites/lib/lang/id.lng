@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Situs Web';
-    $wb['Website'] = 'Situs Web';
-    $wb['Subdomain'] = 'Subdomain Situs Web';
-    $wb['Aliasdomain'] = 'Alias Domain Situs Web';
-
-    $wb['Database'] = 'Databases';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Situs Web';
+$wb['Subdomain'] = 'Subdomain Situs Web';
+$wb['Aliasdomain'] = 'Alias Domain Situs Web';
+$wb['Database'] = 'Databases';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'Pengguna FTP';
-    $wb['Webdav-User'] = 'Pengguna Webdav';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'Pengguna FTP';
+$wb['Webdav-User'] = 'Pengguna Webdav';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Pengguna Shell';
-    $wb["Cron Jobs"] = 'Cron Jobs';
-
-$wb["Statistics"] = 'Statistics';
-    $wb["Web traffic"] = 'Trafik Web';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Statistics';
+$wb['Shell-User'] = 'Pengguna Shell';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistics';
+$wb['Web traffic'] = 'Trafik Web';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Statistics';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

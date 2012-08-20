@@ -5,4 +5,8 @@ $wb['language_txt'] = 'Jazyk';
 $wb['password_mismatch'] = 'Heslo v overovacom poli nezodpovedá prvému heslu.';
 $wb['Form to edit the user password and language.'] = 'Formulár pre úpravu Užívateľského hesla a jazyka.';
 $wb['Settings'] = 'Nastavenia';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Siti';
-    $wb['Website'] = 'Siti';
-    $wb['Subdomain'] = 'Sottodomini';
-    $wb['Aliasdomain'] = 'Alias dominio';
-
-    $wb['Database'] = 'Databases';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Siti';
+$wb['Subdomain'] = 'Sottodomini';
+$wb['Aliasdomain'] = 'Alias dominio';
+$wb['Database'] = 'Databases';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'Utente FTP';
-    $wb['Webdav-User'] = 'Utente Webdav';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'Utente FTP';
+$wb['Webdav-User'] = 'Utente Webdav';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Utente Shell';
-    $wb["Cron Jobs"] = 'Cron Jobs';
-
-$wb["Statistics"] = 'Statistiche';
-    $wb["Web traffic"] = 'Traffico web';
-    $wb["Website quota (Harddisk)"] = 'Quota sito web (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Statistiche';
+$wb['Shell-User'] = 'Utente Shell';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistiche';
+$wb['Web traffic'] = 'Traffico web';
+$wb['Website quota (Harddisk)'] = 'Quota sito web (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Statistiche';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

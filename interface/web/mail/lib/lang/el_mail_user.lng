@@ -41,4 +41,10 @@ $wb['login_error_unique'] = 'Το όνομα χρησιμοποιείται ήδ
 $wb['login_error_regex'] = 'Έγγυροι χαρακτήρες είναι οι A-Z, a-z, 0-9, ., _ και -.';
 $wb['login_txt'] = 'Login (προαιτερικά)';
 $wb['error_login_email_txt'] = 'Το όνομα δεν επιτρέπεται. Παρακαλούμε εισάγεται ένα διαφορετικό όνομα ή χρησιμοποιείστε την διεύθυνση e-mail.';
+$wb['autoresponder_subject_txt'] = 'Email Subject';
+$wb['autoresponder_subject'] = 'Out of office reply';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

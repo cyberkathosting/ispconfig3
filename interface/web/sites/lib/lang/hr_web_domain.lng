@@ -91,4 +91,17 @@ $wb['pm_min_spare_servers_error_regex'] = 'PHP-FPM pm.min_spare_servers mora bit
 $wb['pm_max_spare_servers_error_regex'] = 'PHP-FPM pm.max_spare_servers mora biti pozitivan broj.';
 $wb['hd_quota_error_regex'] = 'Harddisk quota is invalid.';
 $wb['traffic_quota_error_regex'] = 'Traffic quota is invalid.';
+$wb['ssl_key_txt'] = 'SSL Key';
+$wb['perl_txt'] = 'Perl';
+$wb['fastcgi_php_version_txt'] = 'PHP Version';
+$wb['pm_txt'] = 'PHP-FPM Process Manager';
+$wb['pm_process_idle_timeout_txt'] = 'PHP-FPM pm.process_idle_timeout';
+$wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
+$wb['pm_process_idle_timeout_error_regex'] = 'PHP-FPM pm.process_idle_timeout must be a positive integer value.';
+$wb['pm_max_requests_error_regex'] = 'PHP-FPM pm.max_requests must be an integer value >= 0.';
+$wb['pm_ondemand_hint_txt'] = 'Please note that you must have PHP version >= 5.3.9 in order to use the ondemand process manager. If you select ondemand for an older PHP version, PHP will not start anymore!';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

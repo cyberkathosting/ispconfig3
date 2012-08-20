@@ -1,9 +1,9 @@
 <?php
-$wb["Client Circle"] = 'Kundenkreis';
-$wb["Circle"] = 'Kreis';
-$wb["circle_txt"] = 'Kreis';
-$wb["circle_name_txt"] = 'Kreisname';
-$wb["client_ids_txt"] = 'Kunden/Reseller';
-$wb["description_txt"] = 'Beschreibung';
-$wb["active_txt"] = 'Aktiv';
+$wb['Client Circle'] = 'Kundenkreis';
+$wb['Circle'] = 'Kreis';
+$wb['circle_txt'] = 'Kreis';
+$wb['circle_name_txt'] = 'Kreisname';
+$wb['client_ids_txt'] = 'Kunden/Reseller';
+$wb['description_txt'] = 'Beschreibung';
+$wb['active_txt'] = 'Aktiv';
 ?>

@@ -7,17 +7,17 @@ $wb['pass_reset_txt'] = 'Kata sandi baru telah dibuat dan dikirim ke alamat emai
 $wb['pw_reset'] = 'Kata sandi telah direset dan telah dikirim ke alamat email Anda.';
 $wb['pw_error'] = 'Nama pengguna atau alamat email tidak cocok.';
 $wb['pw_error_noinput'] = 'Masukkan alamat email dan nama pengguna.';
-
 $wb['pw_reset_mail_msg'] = 'Kata sandi untuk control panel ISPConfig 3 Anda telah direset. Kata sandi yang baru adalah: ';
 $wb['pw_reset_mail_title'] = 'Kata sandi Control Panel ISPConfig 3 telah direset.';
-
 $wb['user_regex_error'] = 'Nama Pengguna mengandung karakter yang tidak diperbolehkan atau lebih dari 64 karakter.';
 $wb['pw_error_length'] = 'Panjang kata sandi > 64 karakter.';
-
 $wb['username_txt'] = 'Nama Pengguna';
 $wb['password_txt'] = 'Kata Sandi';
 $wb['login_button_txt'] = 'Masuk';
-$wb['pw_lost_txt']	= "Password lost";
-
+$wb['pw_lost_txt'] = 'Password lost';
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
+$wb['login_txt'] = 'Login';
+$wb['pw_reset_txt'] = 'Password reset';
+$wb['pw_button_txt'] = 'Resend password';
+$wb['email_txt'] = 'Email';
 ?>

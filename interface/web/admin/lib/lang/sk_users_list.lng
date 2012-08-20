@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Užívatelia';
 $wb['username_txt'] = 'Užívateľské meno';
-$wb["client_id_txt"] = 'Client ID';
-$wb["active_txt"] = 'Active';
+$wb['client_id_txt'] = 'Client ID';
+$wb['active_txt'] = 'Active';
 $wb['add_new_record_txt'] = 'Pridať nového užívateľa';
 $wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
+$wb['groups_txt'] = 'Groups';
 ?>

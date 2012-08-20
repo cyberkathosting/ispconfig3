@@ -40,4 +40,8 @@ $wb['DNS rp functions'] = 'Fonctions RP DNS';
 $wb['DNS srv functions'] = 'Fonctions SRV DNS';
 $wb['DNS txt functions'] = 'Fonctions TXT DNS';
 $wb['Mail mailing list functions'] = 'Fonctions Mailinglist Mail';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

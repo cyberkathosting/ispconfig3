@@ -1,60 +1,48 @@
 <?php
-//Errors
-$wb[1001] = "Username or password is empty.";
-$wb[1002] = "Username or password is wrong.";
-
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 $wb['Groups'] = 'Csoportok';
 $wb['groups_description'] = 'Rendszercsoport módosító oldal.';
-
 $wb['Servers'] = 'Szerverek';
 $wb['Config'] = 'Beállítások';
-
 $wb['Add user'] = 'Felhasználót hozzáad';
 $wb['Edit user'] = 'Felhasználót szerkeszt';
 $wb['Add group'] = 'Csoport hozzáadása';
 $wb['Edit group'] = 'Csoport szerkesztése';
 $wb['Edit server'] = 'Szerver módosítása';
-
 $wb['Sync. Now'] = 'Szinkrornizálás Most';
 $wb['DB Sync.'] = 'Adatbázis Szinkronizálás';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'Admin felület Felhasználói';
 $wb['Remote Users'] = 'Távoli Felhasználók';
-
 $wb['System'] = 'Rendszer';
 $wb['Server Services'] = 'Server Services';
-    $wb['Services'] = 'Szolgáltatások';
+$wb['Services'] = 'Szolgáltatások';
 $wb['Server Config'] = 'Szerver Szolgáltatások';
-    $wb['Server'] = 'Server';
-    $wb['Mail'] = 'Mail';
-    $wb['Getmail'] = 'Getmail';
-    $wb['Web'] = 'Web';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Server';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Szerver IP';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Tűzfal';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Program';
 $wb['Repositories'] = 'Repositories';
 $wb['Packages'] = 'Csomagok';
 $wb['Updates'] = 'Frissítések';
-
 $wb['Language Editor'] = 'Nyelv szerkesztő';
 $wb['Languages'] = 'Nyelvek';
 $wb['New Language'] = 'Új Nyelv';
 $wb['Merge'] = 'Merge';
 $wb['Export'] = 'Export';
 $wb['Import'] = 'Import';
-
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'OR-Frissítés';
 $wb['Do ISPConfig-Update'] = 'ISPConfig-Frissítés';

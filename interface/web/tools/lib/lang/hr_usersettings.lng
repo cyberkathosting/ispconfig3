@@ -5,4 +5,8 @@ $wb['language_txt'] = 'Jezik';
 $wb['password_mismatch'] = 'Šifra u drugom polju ne odgovara šifri iz prvog polja.';
 $wb['Form to edit the user password and language.'] = 'Formular za izmjenu šifre i jezika.';
 $wb['Settings'] = 'Postavke';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

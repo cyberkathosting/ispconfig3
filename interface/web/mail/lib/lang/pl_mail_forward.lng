@@ -5,4 +5,5 @@ $wb['active_txt'] = 'Aktywny';
 $wb['limit_mailforward_txt'] = 'Maksymalna ilość przekierowań e-mail dla Twojego konta została przekroczona.';
 $wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa o podanym adresie e-mail';
 $wb['domain_txt'] = 'Domain';
+$wb['source_txt'] = 'Source Email';
 ?>

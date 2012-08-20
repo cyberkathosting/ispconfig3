@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Пользователи';
 $wb['username_txt'] = 'Логин';
-$wb["client_id_txt"] = 'Client ID';
-$wb["active_txt"] = 'Active';
+$wb['client_id_txt'] = 'Client ID';
+$wb['active_txt'] = 'Active';
 $wb['add_new_record_txt'] = 'Добавить нового пользователя';
 $wb['warning_txt'] = '<b>ВНИМАНИЕ:</b>Не удаляйте и не меняйте никаких настроек здесь. Используйте настройки клиента и реселлера в модуле КЛИЕНТ. Изменение пользователей или групп здесь может вызвать потерю данных!';
+$wb['groups_txt'] = 'Groups';
 ?>

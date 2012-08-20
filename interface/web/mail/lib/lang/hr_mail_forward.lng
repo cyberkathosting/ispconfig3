@@ -5,4 +5,5 @@ $wb['active_txt'] = 'Aktivno';
 $wb['limit_mailforward_txt'] = 'Iskorišten je maksimalan broj email forwardera.';
 $wb['duplicate_mailbox_txt'] = 'Već postoji mailbox sa tom email adresom';
 $wb['domain_txt'] = 'Domena';
+$wb['source_txt'] = 'Source Email';
 ?>

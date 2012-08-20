@@ -13,4 +13,5 @@ $wb['origin_error_regex'] = 'Zona je u pogrešnom formatu.';
 $wb['ns_error_regex'] = 'NS je u pogrešnom formatu.';
 $wb['eg_domain_tld'] = 'npr. domena.tld.';
 $wb['ipv4_form_txt'] = 'IPv4 forma - npr. 1.2.3.4';
+$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
 ?>

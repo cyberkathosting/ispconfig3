@@ -13,4 +13,5 @@ $wb['origin_error_regex'] = 'Formato inválido para esta zona.';
 $wb['ns_error_regex'] = 'Formato inválido para este NS.';
 $wb['eg_domain_tld'] = 'e.x. dominio.ext.';
 $wb['ipv4_form_txt'] = 'Formato IPv4 - e.x. 1.2.3.4';
+$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
 ?>

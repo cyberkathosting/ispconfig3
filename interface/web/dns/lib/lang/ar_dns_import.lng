@@ -10,4 +10,5 @@ $wb['zonefile_to_import_txt'] = 'Zone File';
 $wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filename or the zone-file content.';
 $wb['title'] = 'Import Zone Files';
 $wb['no_file_uploaded_error'] = 'No zonefile uploaded';
+$wb['zone_file_import_txt'] = 'Zone File Import';
 ?>

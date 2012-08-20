@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Weboldalak';
-    $wb['Website'] = 'Weboldalak';
-    $wb['Subdomain'] = 'Subdomain for website';
-    $wb['Aliasdomain'] = 'Aliasdomain';
-
-    $wb['Database'] = 'Adatbázis';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Weboldalak';
+$wb['Subdomain'] = 'Subdomain for website';
+$wb['Aliasdomain'] = 'Aliasdomain';
+$wb['Database'] = 'Adatbázis';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'FTP Felhasználó';
-    $wb['Webdav-User'] = 'Webdav Felhasználó';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'FTP Felhasználó';
+$wb['Webdav-User'] = 'Webdav Felhasználó';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Shell Felhasználó';
-    $wb["Cron Jobs"] = 'Cron Jobs';
-
-$wb["Statistics"] = 'Statisztikák';
-    $wb["Web traffic"] = 'Web forgalom';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Statisztikák';
+$wb['Shell-User'] = 'Shell Felhasználó';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statisztikák';
+$wb['Web traffic'] = 'Web forgalom';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Statisztikák';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

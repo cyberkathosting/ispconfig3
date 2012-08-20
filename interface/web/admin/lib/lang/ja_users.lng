@@ -25,4 +25,8 @@ $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'グループ';
 $wb['default_group_txt'] = 'デフォルトのグループ';
 $wb['startmodule_err'] = '「ログイン直後のモジュール」は選択した「モジュール」から選んでください。';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

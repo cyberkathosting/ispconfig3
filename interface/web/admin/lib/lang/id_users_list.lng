@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Pengguna';
 $wb['username_txt'] = 'Nama Pengguna';
-$wb["client_id_txt"] = 'Client ID';
-$wb["active_txt"] = 'Active';
+$wb['client_id_txt'] = 'Client ID';
+$wb['active_txt'] = 'Active';
 $wb['add_new_record_txt'] = 'Tambah pengguna baru';
 $wb['warning_txt'] = '<b>PERINGATAN:</b> Jangan menyunting atau memodifikasi pengaturan pengguna apapun di sini. Gunakan Pengaturan Klien dan Reseller di modul Klien. Memodifikasi atau mengubah Pengguna atau Grup di sini dapat mengakibatkan kehilangan data!';
+$wb['groups_txt'] = 'Groups';
 ?>

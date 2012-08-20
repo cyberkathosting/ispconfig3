@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Verkkotunnukset';
-    $wb['Website'] = 'Verkkotunnukset';
-    $wb['Subdomain'] = 'Aliverkkotunnus';
-    $wb['Aliasdomain'] = 'Aliasverkkotunnus';
-
-    $wb['Database'] = 'Tietokanta';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Verkkotunnukset';
+$wb['Subdomain'] = 'Aliverkkotunnus';
+$wb['Aliasdomain'] = 'Aliasverkkotunnus';
+$wb['Database'] = 'Tietokanta';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'FTP-käyttäjätunnus';
-    $wb['Webdav-User'] = 'WebDAV-Users';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'FTP-käyttäjätunnus';
+$wb['Webdav-User'] = 'WebDAV-Users';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Shell-käyttäjä';
-    $wb["Cron Jobs"] = 'Ajastetut tehtävät';
-
-$wb["Statistics"] = 'Tilastot';
-    $wb["Web traffic"] = 'WWW-liikenne';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Tilastot';
+$wb['Shell-User'] = 'Shell-käyttäjä';
+$wb['Cron Jobs'] = 'Ajastetut tehtävät';
+$wb['Statistics'] = 'Tilastot';
+$wb['Web traffic'] = 'WWW-liikenne';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Tilastot';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

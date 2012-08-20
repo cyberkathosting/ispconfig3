@@ -28,4 +28,11 @@ $wb['mailmailinglist_url_txt'] = 'URL της Mailing list ';
 $wb['admin_mail_txt'] = 'e-mail Διαχειριστών';
 $wb['monitor_key_txt'] = 'Monitor keyword';
 $wb['admin_name_txt'] = 'Όνομα Administrator';
+$wb['maintenance_mode_txt'] = 'Maintenance Mode';
+$wb['smtp_enabled_txt'] = 'Use SMTP to send system mails';
+$wb['smtp_host_txt'] = 'SMTP host';
+$wb['smtp_port_txt'] = 'SMTP port';
+$wb['smtp_user_txt'] = 'SMTP user';
+$wb['smtp_pass_txt'] = 'SMTP password';
+$wb['smtp_crypt_txt'] = 'Use SSL/TLS encrypted connection for SMTP';
 ?>

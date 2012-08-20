@@ -5,4 +5,8 @@ $wb['language_txt'] = 'Γλώσσα';
 $wb['password_mismatch'] = 'Το συνθηματικό στο δεύτερο πεδίο δεν ταιριάζει με το συνθηματικό στο πρώτο πεδίο.';
 $wb['Form to edit the user password and language.'] = 'Φόρμα επεξεργασίας συνθηματικού και γλώσσας';
 $wb['Settings'] = 'Ρυθμίσεις';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

@@ -26,4 +26,11 @@ $wb['error_domain_regex'] = 'Domain contains invalid characters.';
 $wb['error_ns1_regex'] = 'NS1 contains invalid characters.';
 $wb['error_ns2_regex'] = 'NS2 contains invalid characters.';
 $wb['error_email_regex'] = 'Email does not contain a valid email address.';
+$wb['dns_zone_txt'] = 'DNS Zone';
+$wb['globalsearch_resultslimit_of_txt'] = 'of';
+$wb['globalsearch_resultslimit_results_txt'] = 'results';
+$wb['globalsearch_noresults_text_txt'] = 'No results.';
+$wb['globalsearch_noresults_limit_txt'] = '0 results';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
+$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 ?>

@@ -1,8 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Utilizadores';
 $wb['username_txt'] = 'Nome de Utilizador ';
-$wb["client_id_txt"] = 'Client ID';
-$wb["active_txt"] = 'Active';
+$wb['client_id_txt'] = 'Client ID';
+$wb['active_txt'] = 'Active';
 $wb['add_new_record_txt'] = 'Adicionar Utilizador';
 $wb['warning_txt'] = '<b>AVISO:</b> Não modifique ou edite qualquer configuração de utilizador aqui. Use o módulo de cliente ou revendedor. Modificar ou alterar utilizadors e grupos aqui pode resultar na perda de dados!';
+$wb['groups_txt'] = 'Groups';
 ?>

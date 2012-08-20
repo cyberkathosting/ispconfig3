@@ -124,4 +124,13 @@ $wb['generate_password_txt'] = 'Generate Password';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
+$wb['limit_cgi_txt'] = 'CGI available';
+$wb['limit_ssi_txt'] = 'SSI available';
+$wb['limit_perl_txt'] = 'Perl available';
+$wb['limit_ruby_txt'] = 'Ruby available';
+$wb['limit_python_txt'] = 'Python available';
+$wb['force_suexec_txt'] = 'SuEXEC forced';
+$wb['limit_hterror_txt'] = 'Custom error docs available';
+$wb['limit_wildcard_txt'] = 'Wildcard subdomain available';
+$wb['limit_ssl_txt'] = 'SSL available';
 ?>

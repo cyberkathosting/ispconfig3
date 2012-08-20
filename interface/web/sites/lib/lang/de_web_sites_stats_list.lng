@@ -5,5 +5,4 @@ $wb['this_month_txt'] = 'diesen Monat';
 $wb['last_month_txt'] = 'letzten Monat';
 $wb['this_year_txt'] = 'dieses Jahr';
 $wb['last_year_txt'] = 'letztes Jahr';
-
 ?>

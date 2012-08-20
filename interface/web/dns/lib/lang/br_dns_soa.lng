@@ -29,4 +29,9 @@ $wb['eg_domain_tld'] = 'e.x. dominio.ext';
 $wb['eg_ns1_domain_tld'] = 'e.x. ns1.dominio.ext';
 $wb['eg_webmaster_domain_tld'] = 'e.x. webmaster@dominio.ext';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
+$wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
+$wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
+$wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
+$wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

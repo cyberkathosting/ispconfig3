@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Websites';
-    $wb['Website'] = 'Website';
-    $wb['Subdomain'] = 'Subdomain για το website';
-    $wb['Aliasdomain'] = 'Ψευδώνυμο domain για το website';
-
-    $wb['Database'] = 'Βάση Δεδομένων';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Website';
+$wb['Subdomain'] = 'Subdomain για το website';
+$wb['Aliasdomain'] = 'Ψευδώνυμο domain για το website';
+$wb['Database'] = 'Βάση Δεδομένων';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'Χρήστης FTP';
-    $wb['Webdav-User'] = 'Χρήστης Webdav';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'Χρήστης FTP';
+$wb['Webdav-User'] = 'Χρήστης Webdav';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Χρήστης Shell';
-    $wb["Cron Jobs"] = 'Εργασίες Cron';
-
-$wb["Statistics"] = 'Στατιστικά';
-    $wb["Web traffic"] = 'Κίνηση Web';
-    $wb["Website quota (Harddisk)"] = 'Όριο δίσκου Website (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Στατιστικά';
+$wb['Shell-User'] = 'Χρήστης Shell';
+$wb['Cron Jobs'] = 'Εργασίες Cron';
+$wb['Statistics'] = 'Στατιστικά';
+$wb['Web traffic'] = 'Κίνηση Web';
+$wb['Website quota (Harddisk)'] = 'Όριο δίσκου Website (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Στατιστικά';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

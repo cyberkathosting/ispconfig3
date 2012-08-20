@@ -6,4 +6,6 @@ $wb['domain_error_unique'] = 'Tällä verkkotunnuksella on jo käytössä CatchA
 $wb['no_domain_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia tähän verkkotunnukseen.';
 $wb['domain_error_regex'] = 'Vääränlainen verkkotunnus tai se sisältää kiellettyjä merkkejä.';
 $wb['limit_mailcatchall_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä CatchAll-tunnuksia.';
+$wb['source_txt'] = 'Source';
+$wb['destination_error_isemail'] = 'Destination is no valid email address.';
 ?>

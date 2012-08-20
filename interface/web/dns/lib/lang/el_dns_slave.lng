@@ -13,4 +13,5 @@ $wb['origin_error_regex'] = 'Η ζώνη δεν έχει έγκυρη μορφο
 $wb['ns_error_regex'] = 'Ο NS δεν έχει έγκυρη μορφοποίηση.';
 $wb['eg_domain_tld'] = 'π.χ. domain.tld.';
 $wb['ipv4_form_txt'] = 'μορφή IPv4 - π.χ. 1.2.3.4';
+$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
 ?>

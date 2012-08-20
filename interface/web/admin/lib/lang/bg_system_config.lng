@@ -29,4 +29,10 @@ $wb['admin_mail_txt'] = 'Администраторски емаил';
 $wb['admin_name_txt'] = 'Администраторски имена';
 $wb['system_config_desc_txt'] = '';
 $wb['maintenance_mode_txt'] = 'Maintenance Mode';
+$wb['smtp_enabled_txt'] = 'Use SMTP to send system mails';
+$wb['smtp_host_txt'] = 'SMTP host';
+$wb['smtp_port_txt'] = 'SMTP port';
+$wb['smtp_user_txt'] = 'SMTP user';
+$wb['smtp_pass_txt'] = 'SMTP password';
+$wb['smtp_crypt_txt'] = 'Use SSL/TLS encrypted connection for SMTP';
 ?>

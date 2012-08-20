@@ -7,17 +7,17 @@ $wb['pass_reset_txt'] = 'Una nuova password sarà  generata e spedita alla tua e
 $wb['pw_reset'] = 'La password è stata reimpostata e spedita al tuo indirizzo mail.';
 $wb['pw_error'] = 'Nome utente o email non corrispondenti.';
 $wb['pw_error_noinput'] = 'Inserisci nome utente e indirizzo email.';
-
 $wb['pw_reset_mail_msg'] = 'La password nel tuo pannello di controllo ISPConfig 3 è stata reimpostata. La nuova password è: ';
 $wb['pw_reset_mail_title'] = 'Password del pannello di controllo ISPConfig 3 reimpostata.';
-
 $wb['user_regex_error'] = 'Nome utente contenente caratteri non permessi oppure più lungo di 64 caratteri.';
 $wb['pw_error_length'] = 'Lunghezza password maggiore di 64 caratteri.';
-
 $wb['username_txt'] = 'Nome utente';
 $wb['password_txt'] = 'Password';
 $wb['login_button_txt'] = 'Login';
-$wb['pw_lost_txt']	= "Password lost";
-
+$wb['pw_lost_txt'] = 'Password lost';
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
+$wb['login_txt'] = 'Login';
+$wb['pw_reset_txt'] = 'Password reset';
+$wb['pw_button_txt'] = 'Resend password';
+$wb['email_txt'] = 'Email';
 ?>

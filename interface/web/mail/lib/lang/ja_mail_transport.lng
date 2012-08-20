@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'MX を参照しない';
 $wb['sort_order_txt'] = '優先度';
 $wb['active_txt'] = '有効';
 $wb['limit_mailrouting_txt'] = '最大数に達した為、これ以上配送経路を追加できません。';
+$wb['transport_txt'] = 'Transport';
 ?>

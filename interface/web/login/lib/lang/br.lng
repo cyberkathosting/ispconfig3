@@ -7,17 +7,17 @@ $wb['pass_reset_txt'] = 'Uma nova senha foi gerada e será enviada para você vi
 $wb['pw_reset'] = 'Senha restabelecida! Será enviada para você via correio eletrônico cadastrado no sistema.';
 $wb['pw_error'] = 'Nome de usuário ou correio eletrônico não coincidem.';
 $wb['pw_error_noinput'] = 'Favor informar nome de usuário e endereço de correio válidos.';
-
 $wb['pw_reset_mail_msg'] = 'Sua senha do painel de controle foi restabelecida. A sua nova senha é: ';
 $wb['pw_reset_mail_title'] = 'Sua senha do painel de controle foi restabelecida.';
-
 $wb['user_regex_error'] = 'O nome de usuário contém mais de 64 caracteres ou contém caracteres inválidos.';
 $wb['pw_error_length'] = 'Tamanho da senha não pode ser maior do que 64 caracteres.';
-
 $wb['username_txt'] = 'Usuário';
 $wb['password_txt'] = 'Senha';
 $wb['login_button_txt'] = 'Entrar';
-$wb['pw_lost_txt']	= "Password lost";
-
+$wb['pw_lost_txt'] = 'Password lost';
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
+$wb['login_txt'] = 'Login';
+$wb['pw_reset_txt'] = 'Password reset';
+$wb['pw_button_txt'] = 'Resend password';
+$wb['email_txt'] = 'Email';
 ?>

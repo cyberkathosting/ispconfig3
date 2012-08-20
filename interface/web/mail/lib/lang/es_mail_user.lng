@@ -28,7 +28,6 @@ $wb['disablepop3_txt'] = 'Inhabilitar POP3';
 $wb['duplicate_alias_or_forward_txt'] = 'Ya existe un alias o reenvío con esta dirección de correo electrónico.';
 $wb['quota_error_value'] = 'Valor de cuota no válido. Los valores permitidos son: 0 para ilimitado o números > 1';
 $wb['autoresponder_start_date_txt'] = 'Comenzará el';
-$wb['autoresponder_start_date_isfuture'] = 'Fecha de inicio no puede ser en el pasado.';
 $wb['autoresponder_end_date_txt'] = 'Finalizará el';
 $wb['autoresponder_end_date_isgreater'] = 'Fecha de finalización se debe establecer y ser posterior a la fecha de inicio.';
 $wb['move_junk_txt'] = 'Mover mensajes de spam en el directorio deseado.';
@@ -43,4 +42,9 @@ $wb['login_error_unique'] = 'Inicio de sesión ya está tomada.';
 $wb['login_error_regex'] = 'Los caracteres válidos son A-Z, a-z, 0-9, ., _ y -.';
 $wb['login_txt'] = 'Login (opcional)';
 $wb['error_login_email_txt'] = 'Este inicio de sesión no está permitido. Por favor, introduzca un nombre de usuario diferente o utilizar la dirección de correo electrónico como nombre de usuario';
+$wb['autoresponder_start_date_ispast'] = 'Start date cannot be in the past.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

@@ -1,60 +1,48 @@
 <?php
-//Errors
-$wb[1001] = "Nazwa użytkownika lub hasło jest puste.";
-$wb[1002] = "Nazwa użytkownika lub hasło jest błędne.";
-
+$wb['1001'] = 'Nazwa użytkownika lub hasło jest puste.';
+$wb['1002'] = 'Nazwa użytkownika lub hasło jest błędne.';
 $wb['Groups'] = 'Grupy';
 $wb['groups_description'] = 'Formularz do edycji grup użytkowników w systemie.';
-
 $wb['Servers'] = 'Serwery';
 $wb['Config'] = 'Konfiguracja';
-
 $wb['Add user'] = 'Dodaj użytkownika';
 $wb['Edit user'] = 'Edytuj użytkownika';
 $wb['Add group'] = 'Dodaj grupę';
 $wb['Edit group'] = 'Edytuj grupę';
 $wb['Edit server'] = 'Edytuj serwer';
-
 $wb['Sync. Now'] = 'Synchronizuj teraz.';
 $wb['DB Sync.'] = 'Synchronizacja bazy danych.';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'Użytkownicy';
 $wb['Remote Users'] = 'Użytkownicy zdalni';
-
 $wb['System'] = 'System';
 $wb['Server Services'] = 'Usługi serwera';
-    $wb['Services'] = 'Usługi';
+$wb['Services'] = 'Usługi';
 $wb['Server Config'] = 'Konfiguracja serwera';
-    $wb['Server'] = 'Serwer';
-    $wb['Mail'] = 'Mail';
-    $wb['Getmail'] = 'Getmail';
-    $wb['Web'] = 'Web';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Serwer';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Server IP addresses';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Firewall';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Oprogramowanie';
 $wb['Repositories'] = 'Repozytoria';
 $wb['Packages'] = 'Pakiety';
 $wb['Updates'] = 'Aktualizacje';
-
 $wb['Language Editor'] = 'Edytor języków';
 $wb['Languages'] = 'Języki';
 $wb['New Language'] = 'Nowy język';
 $wb['Merge'] = 'Połącz';
 $wb['Export'] = 'Eksport';
 $wb['Import'] = 'Import';
-
 $wb['Remote Actions'] = 'Akcje zdalne';
 $wb['Do OS-Update'] = 'Wykonaj aktualizację systemu';
 $wb['Do ISPConfig-Update'] = 'Wykonaj aktualizację ISPConfig';

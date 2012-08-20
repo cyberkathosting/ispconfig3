@@ -41,5 +41,10 @@ $wb['login_error_unique'] = 'Ce nom d\'utilisateur est déjà pris.';
 $wb['login_error_regex'] = 'Les caractères valides sont A-Z, a-z, 0-9, ., _ et -.';
 $wb['login_txt'] = 'Nom d\'utilisateur (optionnel)';
 $wb['error_login_email_txt'] = 'Ce nom d\'utilisaeur n\'est pas autorisé. Veuilez entrer un nom différent ou utiliser l\'adresse email comme nom d\'utilisateur.';
+$wb['autoresponder_subject_txt'] = 'Email Subject';
+$wb['autoresponder_subject'] = 'Out of office reply';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
-

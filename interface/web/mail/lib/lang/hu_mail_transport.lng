@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'MX rekord ellenőrzés nélkül';
 $wb['sort_order_txt'] = 'Rendezés';
 $wb['active_txt'] = 'Aktív';
 $wb['limit_mailrouting_txt'] = 'Nincs több Email irányítás lehetőség.';
+$wb['transport_txt'] = 'Transport';
 ?>

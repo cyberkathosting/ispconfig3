@@ -7,17 +7,17 @@ $wb['pass_reset_txt'] = 'Eğer girilen mail adresi hesabınızdaki ile eşleşir
 $wb['pw_reset'] = 'Şifreniz resetlenmiş ve mail adresinize gönderilmiştir.';
 $wb['pw_error'] = 'Kullanıcı adı veya Mail adresiniz eşleşmemektedir.';
 $wb['pw_error_noinput'] = 'Lütfen Mail adresinizi veya Kullanıcı adınızı giriniz.';
-
 $wb['pw_reset_mail_msg'] = 'ISPConfig 3 Kontrol Paneldeki şifreniz resetlenmiştir. Yeni şifreniz: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Kontrol Panel şifresi resetlenmiştir.';
-
 $wb['user_regex_error'] = 'Kullanıcı adınız izin verilmeyen karakterler içermekte veya 64 karakterden uzundur.';
 $wb['pw_error_length'] = 'Şifre 64 karakterden fazla.';
-
 $wb['username_txt'] = 'Kullanıcı adı';
 $wb['password_txt'] = 'Şifre';
 $wb['login_button_txt'] = 'Giriş';
-$wb['pw_lost_txt']	= "Password lost";
-
+$wb['pw_lost_txt'] = 'Password lost';
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
+$wb['login_txt'] = 'Login';
+$wb['pw_reset_txt'] = 'Password reset';
+$wb['pw_button_txt'] = 'Resend password';
+$wb['email_txt'] = 'Email';
 ?>

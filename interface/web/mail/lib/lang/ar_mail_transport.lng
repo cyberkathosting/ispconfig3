@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'No MX lookup';
 $wb['sort_order_txt'] = 'Sort by';
 $wb['active_txt'] = 'Active';
 $wb['limit_mailrouting_txt'] = 'The max. number of routes for your account is reached.';
+$wb['transport_txt'] = 'Transport';
 ?>

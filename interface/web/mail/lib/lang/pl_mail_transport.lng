@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'Brak MX';
 $wb['sort_order_txt'] = 'Sortuj według';
 $wb['active_txt'] = 'Aktywny';
 $wb['limit_mailrouting_txt'] = 'Maksymalna ilość ścieżek dla Twojego konta została przekroczona.';
+$wb['transport_txt'] = 'Transport';
 ?>

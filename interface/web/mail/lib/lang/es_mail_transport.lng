@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'Sin búsqueda MX';
 $wb['sort_order_txt'] = 'Ordenado por';
 $wb['active_txt'] = 'Activar';
 $wb['limit_mailrouting_txt'] = 'Se ha alcanzado el número máximo de rutas para este nivel';
+$wb['transport_txt'] = 'Transport';
 ?>

@@ -1,60 +1,48 @@
 <?php
-//Errors
 $wb['1001'] = 'Το όνομα χρήστη ή το συνθηματικό είναι κενό.';
 $wb['1002'] = 'Το όνομα χρήστη ή το συνθηματικό είναι λάθος.';
-
 $wb['Groups'] = 'Ομάδες';
 $wb['groups_description'] = 'Φόρμα επεξεργασίας ομάδων χρηστών συστήματος.';
-
 $wb['Servers'] = 'Servers';
 $wb['Config'] = 'Ρυθμίσεις';
-
 $wb['Add user'] = 'Νέος Χρήστης';
 $wb['Edit user'] = 'Επεξεργασία Χρήστη';
 $wb['Add group'] = 'Νέα Ομάδα';
 $wb['Edit group'] = 'Επεξεργασία Ομάδας';
 $wb['Edit server'] = 'Επεξεργασία server';
-
 $wb['Sync. Now'] = 'Συγχρον. τώρα';
 $wb['DB Sync.'] = 'Συγχρον. Βάσης Δεδ.';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'Χρήστες CP';
 $wb['Remote Users'] = 'Απομακρυσμένοι Χρήστες';
-
 $wb['System'] = 'Σύστημα';
 $wb['Server Services'] = 'Υπηρεσίες Server';
-    $wb['Services'] = 'Υπηρεσίες';
+$wb['Services'] = 'Υπηρεσίες';
 $wb['Server Config'] = 'Ρυθμίσεις Server';
-    $wb['Server'] = 'Server';
-    $wb['Mail'] = 'Mail';
-    $wb['Getmail'] = 'Getmail';
-    $wb['Web'] = 'Web';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Server';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Server IP addresses';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Firewall';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Εφαρμογές & Πρόσθετα';
 $wb['Repositories'] = 'Αποθετήρια';
 $wb['Packages'] = 'Πακέτα';
 $wb['Updates'] = 'Ενημερώσεις';
-
 $wb['Language Editor'] = 'Επεξεργαστής Γλώσσας';
 $wb['Languages'] = 'Γλώσσες';
 $wb['New Language'] = 'Νέα Γλώσσα';
 $wb['Merge'] = 'Συγχώνευση';
 $wb['Export'] = 'Εξαγωγή';
 $wb['Import'] = 'Εισαγωγή';
-
 $wb['Remote Actions'] = 'Απομακρυσμένες Ενέργειες';
 $wb['Do OS-Update'] = 'Αναβάθμιση λειτουργικού συστήματος';
 $wb['Do ISPConfig-Update'] = 'Αναβάθμιση ISPConfig';

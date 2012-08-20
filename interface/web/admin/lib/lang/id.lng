@@ -1,60 +1,48 @@
 <?php
-//Errors
-$wb[1001] = "Username or password is empty.";
-$wb[1002] = "Username or password is wrong.";
-
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 $wb['Groups'] = 'Grup';
 $wb['groups_description'] = 'Form untuk menyunting grup pengguna sistem.';
-
 $wb['Servers'] = 'Server';
 $wb['Config'] = 'Konfigurasi';
-
 $wb['Add user'] = 'Tambah Pengguna';
 $wb['Edit user'] = 'Sunting Pengguna';
 $wb['Add group'] = 'Tambah Grup';
 $wb['Edit group'] = 'Sunting Grup';
 $wb['Edit server'] = 'Sunting Server';
-
 $wb['Sync. Now'] = 'Sinkronisasi Sekarang';
 $wb['DB Sync.'] = 'Sinkronisasi DB.';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'Pengguna CP';
 $wb['Remote Users'] = 'Pengguna Remote';
-
 $wb['System'] = 'Sistem';
 $wb['Server Services'] = 'Layanan Server';
-    $wb['Services'] = 'Layanan';
+$wb['Services'] = 'Layanan';
 $wb['Server Config'] = 'Konfigurasi Server';
-    $wb['Server'] = 'Server';
-    $wb['Mail'] = 'Mail';
-    $wb['Getmail'] = 'Ambil Mail';
-    $wb['Web'] = 'Web';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Server';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Ambil Mail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Alamat IP Server';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Firewall';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Perangkat Lunak';
 $wb['Repositories'] = 'Repositori';
 $wb['Packages'] = 'Paket';
 $wb['Updates'] = 'Pemutakhiran';
-
 $wb['Language Editor'] = 'Penyunting Bahasa';
 $wb['Languages'] = 'Bahasa';
 $wb['New Language'] = 'Bahasa Baru';
 $wb['Merge'] = 'Gabung';
 $wb['Export'] = 'Ekspor';
 $wb['Import'] = 'Impor';
-
 $wb['Remote Actions'] = 'Tindakan Remote';
 $wb['Do OS-Update'] = 'Lakukan Pemutakhiran OS';
 $wb['Do ISPConfig-Update'] = 'Lakukan Pemutakhiran ISPConfig';

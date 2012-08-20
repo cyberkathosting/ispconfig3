@@ -5,4 +5,8 @@ $wb['language_txt'] = 'Język';
 $wb['password_mismatch'] = 'Hasła nie pasują do siebie.';
 $wb['Form to edit the user password and language.'] = 'Formularz do edycji języka i hasła użytkownika.';
 $wb['Settings'] = 'Ustawienia';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

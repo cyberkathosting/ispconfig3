@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'No MX lookup';
 $wb['sort_order_txt'] = 'Sırala';
 $wb['active_txt'] = 'Aktif';
 $wb['limit_mailrouting_txt'] = 'Hesabınızdaki max. rota sayısına ulaştınız.';
+$wb['transport_txt'] = 'Transport';
 ?>

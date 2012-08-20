@@ -1,60 +1,48 @@
 <?php
-//Errors
-$wb[1001] = "Username or password is empty.";
-$wb[1002] = "Username or password is wrong.";
-
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 $wb['Groups'] = 'Skupiny';
 $wb['groups_description'] = 'Formulár pre úpravu systemových skupín.';
-
 $wb['Servers'] = 'Servery';
 $wb['Config'] = 'Konfigurovať';
-
 $wb['Add user'] = 'Pridať Užívateľa';
 $wb['Edit user'] = 'Upraviť Užívateľa';
 $wb['Add group'] = 'Pridať skupinu';
 $wb['Edit group'] = 'Upraviť skupinu';
 $wb['Edit server'] = 'Upraviť server';
-
 $wb['Sync. Now'] = 'Synchronizovať teraz';
 $wb['DB Sync.'] = 'DB Synchronizácia';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'CP uživatelia';
 $wb['Remote Users'] = 'Remote Users';
-
 $wb['System'] = 'Systém';
 $wb['Server Services'] = 'Server Services';
-    $wb['Services'] = 'Služby';
+$wb['Services'] = 'Služby';
 $wb['Server Config'] = 'Konfigurácia servera';
-    $wb['Server'] = 'Server';
-    $wb['Mail'] = 'Mail';
-    $wb['Getmail'] = 'Getmail';
-    $wb['Web'] = 'Web';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Server';
+$wb['Mail'] = 'Mail';
+$wb['Getmail'] = 'Getmail';
+$wb['Web'] = 'Web';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Server IP addresses';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Firewall';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Skladisko';
 $wb['Packages'] = 'Packages';
 $wb['Updates'] = 'Updates';
-
 $wb['Language Editor'] = 'Editor jazyka';
 $wb['Languages'] = 'Jazyky';
 $wb['New Language'] = 'Nový jazyk';
 $wb['Merge'] = 'Merge';
 $wb['Export'] = 'Export';
 $wb['Import'] = 'Import';
-
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';

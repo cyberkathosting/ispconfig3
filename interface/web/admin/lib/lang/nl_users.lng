@@ -25,4 +25,8 @@ $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Groepen';
 $wb['default_group_txt'] = 'Standaard groep';
 $wb['startmodule_err'] = 'Start module maakt geen deel uit van de geselecteerde modules.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

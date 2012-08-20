@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Web stranice';
-    $wb['Website'] = 'Web stranice';
-    $wb['Subdomain'] = 'Poddomena';
-    $wb['Aliasdomain'] = 'Alias za web stranicu';
-
-    $wb['Database'] = 'Baza';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Web stranice';
+$wb['Subdomain'] = 'Poddomena';
+$wb['Aliasdomain'] = 'Alias za web stranicu';
+$wb['Database'] = 'Baza';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'FTP korisnik';
-    $wb['Webdav-User'] = 'Webdav korisnik';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'FTP korisnik';
+$wb['Webdav-User'] = 'Webdav korisnik';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Shell korisnik';
-    $wb["Cron Jobs"] = 'Cron zadaci';
-
-$wb["Statistics"] = 'Statistike';
-    $wb["Web traffic"] = 'Promet web stranice';
-    $wb["Website quota (Harddisk)"] = 'Kvota web stranice (tvrdi disk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Statistike';
+$wb['Shell-User'] = 'Shell korisnik';
+$wb['Cron Jobs'] = 'Cron zadaci';
+$wb['Statistics'] = 'Statistike';
+$wb['Web traffic'] = 'Promet web stranice';
+$wb['Website quota (Harddisk)'] = 'Kvota web stranice (tvrdi disk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Statistike';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

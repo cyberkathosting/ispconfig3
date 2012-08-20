@@ -1,60 +1,48 @@
 <?php
-//Errors
-$wb[1001] = "Username or password is empty.";
-$wb[1002] = "Username or password is wrong.";
-
+$wb['1001'] = 'Username or password is empty.';
+$wb['1002'] = 'Username or password is wrong.';
 $wb['Groups'] = 'Käyttäjäryhmät';
 $wb['groups_description'] = 'Lomake käyttäjäryhmien muokkaukseen.';
-
 $wb['Servers'] = 'Palvelimet';
 $wb['Config'] = 'Asetukset';
-
 $wb['Add user'] = 'Lisää käyttäjä';
 $wb['Edit user'] = 'Muokkaa käyttäjää';
 $wb['Add group'] = 'Lisää käyttäjäryhmä';
 $wb['Edit group'] = 'Muokkaa ryhmää';
 $wb['Edit server'] = 'Muokkaa palvelinta';
-
 $wb['Sync. Now'] = 'Synkronoi nyt';
 $wb['DB Sync.'] = 'Tietokannan synkronointi.';
-
-// subnav
 $wb['User Management'] = 'User Management';
 $wb['CP Users'] = 'Hallintapaneelin käyttäjät';
 $wb['Remote Users'] = 'Etäkäyttäjät';
-
 $wb['System'] = 'Järjestelmä';
 $wb['Server Services'] = 'Palvelimen palvelut';
-    $wb['Services'] = 'Palvelut';
+$wb['Services'] = 'Palvelut';
 $wb['Server Config'] = 'Palvelimen asetukset';
-    $wb['Server'] = 'Palvelin';
-    $wb['Mail'] = 'Posti';
-    $wb['Getmail'] = 'Postin nouto';
-    $wb['Web'] = 'WWW';
-    $wb['FastCGI'] = 'FastCGI';
-    $wb['Jailkit'] = 'Jailkit';
-    $wb['Rescue'] = 'Rescue';
+$wb['Server'] = 'Palvelin';
+$wb['Mail'] = 'Posti';
+$wb['Getmail'] = 'Postin nouto';
+$wb['Web'] = 'WWW';
+$wb['FastCGI'] = 'FastCGI';
+$wb['Jailkit'] = 'Jailkit';
+$wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Server IP addresses';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Firewall'] = 'Palomuuri';
-
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
-    $wb['Domains'] = 'Domains';
-    $wb['Misc'] = 'Misc';
-
+$wb['Domains'] = 'Domains';
+$wb['Misc'] = 'Misc';
 $wb['Software'] = 'Ohjelmat';
 $wb['Repositories'] = 'Ohjelmapakettien varastot';
 $wb['Packages'] = 'Paketit';
 $wb['Updates'] = 'Päivitykset';
-
 $wb['Language Editor'] = 'Kielimuokkain';
 $wb['Languages'] = 'Hallintapaneelin kielet';
 $wb['New Language'] = 'Lisää uusi kieli';
 $wb['Merge'] = 'Yhdistä';
 $wb['Export'] = 'Lataa';
 $wb['Import'] = 'Asenna';
-
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';

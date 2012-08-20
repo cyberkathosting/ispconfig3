@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Webová stránka';
-    $wb['Website'] = 'Webová stránka';
-    $wb['Subdomain'] = 'Subdoména pro webovou stránku';
-    $wb['Aliasdomain'] = 'Alias doména pro webovou stránku';
-
-    $wb['Database'] = 'Databáze';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Webová stránka';
+$wb['Subdomain'] = 'Subdoména pro webovou stránku';
+$wb['Aliasdomain'] = 'Alias doména pro webovou stránku';
+$wb['Database'] = 'Databáze';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'FTP uživatel';
-    $wb['Webdav-User'] = 'WebDAV-Users';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'FTP uživatel';
+$wb['Webdav-User'] = 'WebDAV-Users';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Shell uživatel';
-    $wb["Cron Jobs"] = 'Cron úlohy';
-
-$wb["Statistics"] = 'Statistiky';
-    $wb["Web traffic"] = 'Přenesená data';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Statistiky';
+$wb['Shell-User'] = 'Shell uživatel';
+$wb['Cron Jobs'] = 'Cron úlohy';
+$wb['Statistics'] = 'Statistiky';
+$wb['Web traffic'] = 'Přenesená data';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Statistiky';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

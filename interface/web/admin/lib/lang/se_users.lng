@@ -25,4 +25,8 @@ $wb['username_empty'] = 'The username is empty.';
 $wb['username_unique'] = 'There is already a user with this username.';
 $wb['password_strength_txt'] = 'Password strength';
 $wb['startmodule_err'] = 'Start module is not within modules.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

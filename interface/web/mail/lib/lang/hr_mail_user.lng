@@ -41,4 +41,10 @@ $wb['login_error_regex'] = 'Valid characters are A-Z, a-z, 0-9, ., _ and -.';
 $wb['login_txt'] = 'Login (optional)';
 $wb['error_login_email_txt'] = 'This login is not allowed. Please enter a different login or use the mail address as login.';
 $wb['autoresponder_start_date_ispast'] = 'Start date cannot be in the past.';
+$wb['autoresponder_subject_txt'] = 'Email Subject';
+$wb['autoresponder_subject'] = 'Out of office reply';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

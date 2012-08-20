@@ -10,4 +10,5 @@ $wb['limit_mailalias_txt'] = 'メールエイリアスが最大数に達した�
 $wb['duplicate_mailbox_txt'] = 'このメールアドレス向けのメールボックスが既に存在します。';
 $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
+$wb['source_txt'] = 'Alias';
 ?>

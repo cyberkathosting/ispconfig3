@@ -7,17 +7,17 @@ $wb['pass_reset_txt'] = '新しいパスワードをメールで送りました�
 $wb['pw_reset'] = 'パスワードをリセットしました。新しいパスワードをメールで送信したのでメールボックスを確認してください。';
 $wb['pw_error'] = 'ユーザー名またはメールアドレスが一致しません。';
 $wb['pw_error_noinput'] = 'メールアドレスとユーザー名を入力してください。';
-
 $wb['pw_reset_mail_msg'] = 'ISPConfig 3 のコントロールパネルのパスワードをリセットしました。新しいパスワードは次の通りです：';
 $wb['pw_reset_mail_title'] = 'ISPConfig3 のコントロールパネルのパスワードをリセットしました。';
-
 $wb['user_regex_error'] = 'ユーザー名に不正な文字が含まれているか、または64文字を超えています。';
 $wb['pw_error_length'] = 'パスワードの長さが64文字を超えています。短くしてください。';
-
 $wb['username_txt'] = 'ユーザー名';
 $wb['password_txt'] = 'パスワード';
 $wb['login_button_txt'] = 'ログイン';
-$wb['pw_lost_txt']	= "Password lost";
-
+$wb['pw_lost_txt'] = 'Password lost';
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
+$wb['login_txt'] = 'Login';
+$wb['pw_reset_txt'] = 'Password reset';
+$wb['pw_button_txt'] = 'Resend password';
+$wb['email_txt'] = 'Email';
 ?>

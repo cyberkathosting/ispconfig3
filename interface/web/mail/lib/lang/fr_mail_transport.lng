@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'Pas de résolution MX';
 $wb['sort_order_txt'] = 'Trier par';
 $wb['active_txt'] = 'Actif';
 $wb['limit_mailrouting_txt'] = 'Le nombre maximal de routes pour votre compte a été atteint.';
+$wb['transport_txt'] = 'Transport';
 ?>

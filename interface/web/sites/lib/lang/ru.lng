@@ -1,28 +1,23 @@
 <?php
 $wb['Websites'] = 'Web-сайты';
-    $wb['Website'] = 'Web-сайты';
-    $wb['Subdomain'] = 'Субдомен';
-    $wb['Aliasdomain'] = 'Алиас домена';
-
-    $wb['Database'] = 'База данных';
-    $wb['Database Users'] = 'Database Users';
-
+$wb['Website'] = 'Web-сайты';
+$wb['Subdomain'] = 'Субдомен';
+$wb['Aliasdomain'] = 'Алиас домена';
+$wb['Database'] = 'База данных';
+$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'Пользователь FTP';
-    $wb['Webdav-User'] = 'WebDAV-Users';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'Пользователь FTP';
+$wb['Webdav-User'] = 'WebDAV-Users';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Пользователь Shell';
-    $wb["Cron Jobs"] = 'Задачи Cron';
-
-$wb["Statistics"] = 'Статистика';
-    $wb["Web traffic"] = 'Трафик Web';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
-$wb["Cron"] = 'Cron';
-$wb["Stats"] = 'Статистика';
+$wb['Shell-User'] = 'Пользователь Shell';
+$wb['Cron Jobs'] = 'Задачи Cron';
+$wb['Statistics'] = 'Статистика';
+$wb['Web traffic'] = 'Трафик Web';
+$wb['Website quota (Harddisk)'] = 'Website quota (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Статистика';
 $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';

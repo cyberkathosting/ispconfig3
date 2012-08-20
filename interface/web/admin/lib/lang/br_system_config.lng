@@ -28,4 +28,11 @@ $wb['admin_mail_txt'] = 'E-mail do administrador';
 $wb['admin_name_txt'] = 'Nome do administrador';
 $wb['enable_custom_login_txt'] = 'Allow custom login name';
 $wb['monitor_key_txt'] = 'Monitor keyword';
+$wb['maintenance_mode_txt'] = 'Maintenance Mode';
+$wb['smtp_enabled_txt'] = 'Use SMTP to send system mails';
+$wb['smtp_host_txt'] = 'SMTP host';
+$wb['smtp_port_txt'] = 'SMTP port';
+$wb['smtp_user_txt'] = 'SMTP user';
+$wb['smtp_pass_txt'] = 'SMTP password';
+$wb['smtp_crypt_txt'] = 'Use SSL/TLS encrypted connection for SMTP';
 ?>

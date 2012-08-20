@@ -25,4 +25,8 @@ $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Gruplar';
 $wb['default_group_txt'] = 'Varsayılan Grup';
 $wb['startmodule_err'] = 'Başlangıç modülü, modüllerin arasında değil.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>

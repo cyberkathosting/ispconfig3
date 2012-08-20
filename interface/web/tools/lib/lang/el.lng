@@ -9,4 +9,5 @@ $wb['Sync Tools'] = 'Sync Tools';
 $wb['Import'] = 'Import';
 $wb['ISPConfig 3 mail'] = 'ISPConfig 3 mail';
 $wb['PDNS Tupa'] = 'PowerDNS Tupa';
+$wb['Interface'] = 'Interface';
 ?>

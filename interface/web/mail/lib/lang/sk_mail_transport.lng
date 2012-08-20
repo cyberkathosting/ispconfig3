@@ -7,4 +7,5 @@ $wb['mx_txt'] = 'Žiadne vyhľadávanie MX';
 $wb['sort_order_txt'] = 'Triediť podľa';
 $wb['active_txt'] = 'Aktívny';
 $wb['limit_mailrouting_txt'] = 'Max. počet trás pre váš účet je dosiahnutý.';
+$wb['transport_txt'] = 'Transport';
 ?>

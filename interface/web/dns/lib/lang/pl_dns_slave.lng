@@ -13,4 +13,5 @@ $wb['origin_error_regex'] = 'Strefa ma niepoprawny format.';
 $wb['ns_error_regex'] = 'NS ma niepoprawny format.';
 $wb['eg_domain_tld'] = 'e.g. domain.tld.';
 $wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
+$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
 ?>
