@@ -634,7 +634,7 @@ class nginx_plugin {
 				$app->system->chmod($data['new']['document_root'].'/tmp',0777);
 			
 				// Set Log directory to 755 to make the logs accessible by the FTP user
-				if(realpath($data['new']['document_root'].'/'.$log_folder) == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
+				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
 					$app->system->chmod($data['new']['document_root'].'/'.$log_folder,0755);
 				}
 				
