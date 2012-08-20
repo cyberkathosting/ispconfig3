@@ -1,9 +1,0 @@
-<?php
-$wb['Domains'] = 'Domini';
-$wb['domain_txt'] = 'Dominio';
-$wb['client_txt'] = 'Cliente';
-$wb['error_domain_in mailuse'] = 'Questo dominio non può essere cancellato in quanto utilizzato come dominio di posta';
-$wb['error_domain_in webuse'] = 'Questo dominio non può essere cancellato in quanto utilizzato come dominio web';
-$wb['error_client_can_not_add_domain'] = 'Impossibile aggiungere nuovo dominio';
-$wb['error_client_group_id_empty'] = 'Devessere selezionato un cliente<br>';
-?>

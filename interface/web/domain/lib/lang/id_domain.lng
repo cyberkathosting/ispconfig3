@@ -1,6 +1,0 @@
-<?php
-$wb['domain_error_empty'] = 'Nama Domain kosong';
-$wb['domain_error_unique'] = 'Domain sudah ada';
-$wb['domain_error_regex'] = 'Nama Domain ini tidak diperbolehkan';
-$wb['Domain'] = 'Domain';
-?>

@@ -1,9 +1,0 @@
-<?php
-$wb['Domains'] = 'Домейни';
-$wb['domain_txt'] = 'Домейн';
-$wb['client_txt'] = 'Клиент';
-$wb['error_domain_in mailuse'] = 'Този домейн неможе да бъде изтрит защото се използва като меил домейн.';
-$wb['error_domain_in webuse'] = 'Този домейн неможе да бъде изтрит защото се използва като уеб домейн';
-$wb['error_client_can_not_add_domain'] = 'Не можете да добавите нов домейн';
-$wb['error_client_group_id_empty'] = 'Трябва да изберете клиент<br>';
-?>

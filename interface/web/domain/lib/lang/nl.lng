@@ -1,9 +1,0 @@
-<?php
-$wb['Domains'] = 'Domeinen';
-$wb['domain_txt'] = 'Domein';
-$wb['client_txt'] = 'Klant';
-$wb['error_domain_in mailuse'] = 'Dit domein kan niet worden verwijderd, omdat het in gebruik is als e-mail domein';
-$wb['error_domain_in webuse'] = 'Dit domein kan niet worden verwijderd, omdat het in gebruik is als web domein';
-$wb['error_client_can_not_add_domain'] = 'U kunt geen nieuw domein toevoegen';
-$wb['error_client_group_id_empty'] = 'U dient een klant selecteren<br>';
-?>

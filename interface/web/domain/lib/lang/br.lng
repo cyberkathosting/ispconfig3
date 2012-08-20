@@ -1,9 +1,0 @@
-<?php
-$wb['Domains'] = 'Domínios';
-$wb['domain_txt'] = 'Domínio';
-$wb['client_txt'] = 'Cliente';
-$wb['error_domain_in mailuse'] = 'Este domínio não pode ser removido. O mesmo está sendo usado como domínio de correio.';
-$wb['error_domain_in webuse'] = 'Este domínio não pode ser removido. O mesmo está sendo usado como domínio web.';
-$wb['error_client_can_not_add_domain'] = 'Você não pode adcionar um novo domínio';
-$wb['error_client_group_id_empty'] = 'Você deve selecionar um cliente<br>';
-?>

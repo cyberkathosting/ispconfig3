@@ -1,9 +1,0 @@
-<?php
-$wb['Domains'] = 'Domeny';
-$wb['domain_txt'] = 'Domena';
-$wb['client_txt'] = 'Klient';
-$wb['error_domain_in mailuse'] = 'Domena nie może zostać skasowana, ponieważ wykorzystywana jest przez e-mail';
-$wb['error_domain_in webuse'] = 'Domena nie może zostać skasowana, ponieważ wykorzystywana jest przez stronę www';
-$wb['error_client_can_not_add_domain'] = 'Nie możesz dodać nowej domeny';
-$wb['error_client_group_id_empty'] = 'Musisz wybrać klienta<br>';
-?>

@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Tambah Domain Baru';
-$wb['domain_txt'] = 'Domain';
-$wb['user_txt'] = 'Client';
-?>
