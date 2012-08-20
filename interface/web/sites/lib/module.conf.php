@@ -21,13 +21,20 @@ $items[] = array(   'title' 	=> "Website",
 
 if($app->auth->get_client_limit($userid,'web_subdomain') != 0)
 {
+$items[] = array(   'title' 	=> "Subdomain",
+                    'target' 	=> 'content',
+                    'link'      => 'sites/web_subdomain_list.php',
+                    'html_id'   => 'subdomain_list');
+
     // read web config
     $app->uses('getconf');
     $sys_config = $app->getconf->get_global_config('sites');
-$items[] = array(   'title' 	=> "Subdomain",
+    if($sys_config['vhost_subdomains'] == 'y') {
+$items[] = array(   'title' 	=> "Subdomain (Vhost)",
                     'target' 	=> 'content',
-                    'link'      => 'sites/' . ($sys_config['vhost_subdomains'] == 'y' ? 'web_vhost_subdomain_list.php' : 'web_subdomain_list.php'),
+                    'link'      => 'sites/web_vhost_subdomain_list.php',
                     'html_id'   => 'subdomain_list');
+    }
 }
 
 if($app->auth->get_client_limit($userid,'web_aliasdomain') != 0)

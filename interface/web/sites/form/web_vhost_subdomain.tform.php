@@ -277,7 +277,7 @@ $form["tabs"]['domain'] = array (
 $form["tabs"]['redirect'] = array (
 	'title' 	=> "Redirect",
 	'width' 	=> 100,
-	'template' 	=> "templates/web_domain_redirect.htm",
+	'template' 	=> "templates/web_vhost_subdomain_redirect.htm",
 	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
@@ -317,7 +317,7 @@ if($ssl_available) {
 $form["tabs"]['ssl'] = array (
 	'title' 	=> "SSL",
 	'width' 	=> 100,
-	'template' 	=> "templates/web_domain_ssl.htm",
+	'template' 	=> "templates/web_vhost_subdomain_ssl.htm",
 	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
@@ -453,7 +453,7 @@ $form["tabs"]['ssl'] = array (
 $form["tabs"]['stats'] = array (
 	'title' 	=> "Stats",
 	'width' 	=> 100,
-	'template' 	=> "templates/web_domain_stats.htm",
+	'template' 	=> "templates/web_vhost_subdomain_stats.htm",
 	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
@@ -486,7 +486,7 @@ $form["tabs"]['stats'] = array (
 $form["tabs"]['backup'] = array (
 	'title' 	=> "Backup",
 	'width' 	=> 100,
-	'template' 	=> "templates/web_domain_backup.htm",
+	'template' 	=> "templates/web_vhost_subdomain_backup.htm",
 	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################
@@ -524,7 +524,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 $form["tabs"]['advanced'] = array (
 	'title' 	=> "Options",
 	'width' 	=> 100,
-	'template' 	=> "templates/web_domain_advanced.htm",
+	'template' 	=> "templates/web_vhost_subdomain_advanced.htm",
 	'readonly'	=> false,
 	'fields' 	=> array (
 	##################################

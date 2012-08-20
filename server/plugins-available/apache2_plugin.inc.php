@@ -328,8 +328,12 @@ class apache2_plugin {
         $web_folder = 'web';
         $log_folder = 'log';
         if($data['new']['type'] == 'vhostsubdomain') {
+            $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['new']['parent_domain_id']));
+            $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['new']['domain']);
+            if($subdomain_host == '') $subdomain_host = 'web'.$data['new']['domain_id'];
             $web_folder = $data['new']['web_folder'];
-            $log_folder .= '_web' . $data['new']['domain_id'];
+            $log_folder .= '/' . $subdomain_host;
+            unset($tmp);
         }
 
 		// Create group and user, if not exist
@@ -471,7 +475,7 @@ class apache2_plugin {
         if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data['new']['domain']);
 		if(!is_dir($data['new']['document_root'].'/'.$log_folder) || is_link($data['new']['document_root'].'/'.$log_folder)) {
 			if(is_link($data['new']['document_root'].'/'.$log_folder)) unlink($data['new']['document_root'].'/'.$log_folder);
-			$app->system->mkdir($data['new']['document_root'].'/'.$log_folder);
+			$app->system->mkdirpath($data['new']['document_root'].'/'.$log_folder);
 			$app->system->chown($data['new']['document_root'].'/'.$log_folder,'root');
 			$app->system->chgrp($data['new']['document_root'].'/'.$log_folder,'root');
 			$app->system->chmod($data['new']['document_root'].'/'.$log_folder,0755);

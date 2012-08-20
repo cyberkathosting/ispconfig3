@@ -18,6 +18,7 @@ $wb["ssl_action_txt"] = 'SSL Action';
 $wb["ssl_domain_txt"] = 'SSL Domain';
 $wb["server_id_txt"] = 'Server';
 $wb["domain_txt"] = 'Domain';
+$wb["host_txt"] = 'Hostname';
 $wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
 $wb["type_txt"] = 'Type';
 $wb["parent_domain_id_txt"] = 'Parent Website';

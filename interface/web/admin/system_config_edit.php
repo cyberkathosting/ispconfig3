@@ -88,11 +88,11 @@ class page_action extends tform_actions {
         
 		$server_config_array = $app->getconf->get_global_config();
 		$new_config = $app->tform->encode($this->dataRecord,$section);
-        if($section == 'sites' && $new_config['vhost_subdomains'] != $server_config_array['vhost_subdomains']) {
-            // check for existing subdomains
-            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'subdomain' OR `type` = 'vhostsubdomain'");
+        if($section == 'sites' && $new_config['vhost_subdomains'] != 'y' && $server_config_array['vhost_subdomains'] == 'y') {
+            // check for existing vhost subdomains, if found the mode cannot be disabled
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain'");
             if($check['cnt'] > 0) {
-                $new_config['vhost_subdomains'] = $server_config_array['vhost_subdomains'];
+                $new_config['vhost_subdomains'] = 'y';
             }
         }
         $server_config_array[$section] = $new_config;

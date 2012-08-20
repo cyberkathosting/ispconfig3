@@ -15,6 +15,7 @@ $wb['ssl_bundle_txt'] = 'SSL-Bundle';
 $wb['ssl_action_txt'] = 'SSL-Aktion';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';
+$wb["host_txt"] = 'Host';
 $wb['type_txt'] = 'Typ';
 $wb['parent_domain_id_txt'] = 'Zugehörige Website';
 $wb['web_folder_error_regex'] = 'Ungültige Ordnerangabe, bitte keinen / eingeben.';

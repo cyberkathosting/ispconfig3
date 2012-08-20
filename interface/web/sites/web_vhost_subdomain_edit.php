@@ -196,7 +196,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("fastcgi_php_version",$php_select);
 			unset($php_records);
 
-            foreach($read_limits as $limit) $app->tpl->setVar($limit, 'y');
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, ($limit == 'force_suexec' ? 'n' : 'y'));
 		}
 
 		$ssl_domain_select = '';
@@ -245,17 +245,20 @@ class page_action extends tform_actions {
 		$this->parent_domain_record = $parent_domain;
         
         $read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
-        $this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
-        $forbidden_folders = array('', 'cgi-bin', 'web', 'log', 'private', 'ssl', 'tmp', 'webdav');
-        if(in_array($this->dataRecord['web_folder'], $forbidden_folders) || preg_match('/^log_web\d+$/', $this->dataRecord['web_folder'])) {
-            $app->tform->errorMessage .= $app->tform->lng("web_folder_invalid_txt")."<br>";
+        
+        if($app->tform->getCurrentTab() == 'domain') {
+            $this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
+            $forbidden_folders = array('', 'cgi-bin', 'web', 'log', 'private', 'ssl', 'tmp', 'webdav');
+            if(in_array($this->dataRecord['web_folder'], $forbidden_folders)) {
+                $app->tform->errorMessage .= $app->tform->lng("web_folder_invalid_txt")."<br>";
+            }
+            // check for duplicate folder usage
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain' AND `parent_domain_id` = '" . intval($this->dataRecord['parent_domain_id']) . "' AND `web_folder` = '" . $app->db->quote($this->dataRecord['web_folder']) . "' AND `domain_id` != '" . intval($this->id) . "'");
+            if($check && $check['cnt'] > 0) {
+                $app->tform->errorMessage .= $app->tform->lng("web_folder_unique_txt")."<br>";
+            }
         }
-        // check for duplicate folder usage
-        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain' AND `parent_domain_id` = '" . intval($this->dataRecord['parent_domain_id']) . "' AND `web_folder` = '" . $app->db->quote($this->dataRecord['web_folder']) . "'");
-        if($check && $check['cnt'] > 0) {
-            $app->tform->errorMessage .= $app->tform->lng("web_folder_unique_txt")."<br>";
-        }
-
+        
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];

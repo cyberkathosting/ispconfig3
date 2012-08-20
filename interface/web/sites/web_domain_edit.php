@@ -342,7 +342,7 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
             
-            foreach($read_limits as $limit) $app->tpl->setVar($limit, 'y');
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, ($limit == 'force_suexec' ? 'n' : 'y'));
 		}
 
 		$ssl_domain_select = '';
