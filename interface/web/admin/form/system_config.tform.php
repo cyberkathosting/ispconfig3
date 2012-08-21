@@ -258,7 +258,7 @@ $form["tabs"]['mail'] = array (
 		),
 		'smtp_pass' => array (
 			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'PASSWORD',
+			'formtype'	=> 'TEXT',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',
