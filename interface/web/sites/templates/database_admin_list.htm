@@ -30,7 +30,7 @@
                         <td class="tbl_col_remote_access"><select name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
                         <td class="tbl_col_sys_groupid"><select name="search_sys_groupid">{tmpl_var name='search_sys_groupid'}</select></td>
                         <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
-                        <td class="tbl_col_database_user"><input type="text" name="search_database_user" value="{tmpl_var name='search_database_user'}" /></td>
+                        <td class="tbl_col_database_user"><select name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
                         <td class="tbl_col_database_name"><input type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
                         <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/database_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
                     </tr>
@@ -42,7 +42,7 @@
                             <td class="tbl_col_remote_access"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="remote_access"}</a></td>
                             <td class="tbl_col_sys_groupid"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="sys_groupid"}</a></td>
                             <td class="tbl_col_server_id"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
-                            <td class="tbl_col_database_user"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_user"}</a></td>
+                            <td class="tbl_col_database_user"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_user_id"}</a></td>
                             <td class="tbl_col_database_name"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_name"}</a></td>
                             <td class="tbl_col_buttons">
                                 <div class="buttons icons16">

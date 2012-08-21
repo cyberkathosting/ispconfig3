@@ -62,15 +62,12 @@ $items[] = array(   'title'     => "Database",
                     'link'	=> 'sites/database_list.php',
                     'html_id'   => 'database_list');
 
-/*
-Database User (for future development)
 
 $items[] = array(   'title'     => "Database User",
                     'target' 	=> 'content',
                     'link'	=> 'sites/database_user_list.php',
                     'html_id'   => 'database_user_list'
 );
-*/
 
 $module["nav"][] = array(   'title' => 'Database',
                             'open'  => 1,

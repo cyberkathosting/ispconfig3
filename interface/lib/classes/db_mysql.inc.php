@@ -299,7 +299,7 @@ public function toLower($record) {
 			$update_data_str = $update_data;
 		}
 		
-      $this->query("UPDATE $tablename SET $update_data WHERE $index_field = '$index_value'");
+      $this->query("UPDATE $tablename SET $update_data_str WHERE $index_field = '$index_value'");
       $new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
       $this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec, $force_update);
 

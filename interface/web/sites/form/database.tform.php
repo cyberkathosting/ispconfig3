@@ -106,31 +106,27 @@ $form["tabs"]['database'] = array (
 			'maxlength'	=> '255',
 			'searchable' => 1
 		),
-		'database_user' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'database_user_error_empty'),
-										1 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'database_user_error_unique'),
-										2 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-9_]{2,64}$/',
-														'errmsg'=> 'database_user_error_regex'),
-									),
+		'database_user_id' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'searchable' => 2
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT database_user_id,database_user FROM web_database_user WHERE {AUTHSQL} ORDER BY database_user",
+										'keyfield'=> 'database_user_id',
+										'valuefield'=> 'database_user'
+									 ),
+			'value'		=> array('0' => $app->tform->lng('select_dbuser_txt'))
 		),
-		'database_password' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'PASSWORD',
-			'encryption' => 'MYSQL',
+		'database_ro_user_id' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => "SELECT database_user_id,database_user FROM web_database_user WHERE {AUTHSQL} ORDER BY database_user",
+										'keyfield'=> 'database_user_id',
+										'valuefield'=> 'database_user'
+									 ),
+			'value'		=> array('0' => $app->tform->lng('no_dbuser_txt'))
 		),
 		'database_charset' => array (
 			'datatype'	=> 'VARCHAR',

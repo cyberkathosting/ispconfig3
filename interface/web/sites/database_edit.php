@@ -114,20 +114,16 @@ class page_action extends tform_actions {
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
-		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 		
 		if ($this->dataRecord['database_name'] != ""){
 			/* REMOVE the restriction */
 			$app->tpl->setVar("database_name", str_replace($dbname_prefix , '', $this->dataRecord['database_name']));
-			$app->tpl->setVar("database_user", str_replace($dbuser_prefix , '', $this->dataRecord['database_user']));
 		}
 		
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			$app->tpl->setVar("database_name_prefix", $global_config['dbname_prefix']);
-			$app->tpl->setVar("database_user_prefix", $global_config['dbuser_prefix']);
 		} else {
 			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
-			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
 		}
 		
 		if($this->id > 0) {
@@ -187,8 +183,7 @@ class page_action extends tform_actions {
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
-		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
-
+		
 		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
 		if($old_record["database_name"] != $dbname_prefix . $this->dataRecord["database_name"]) {
@@ -200,8 +195,7 @@ class page_action extends tform_actions {
 		
 		//* Database username and database name shall not be empty
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
-		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
-
+		
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -214,7 +208,6 @@ class page_action extends tform_actions {
 		unset($old_record);
 		
 		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
-		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
 		
 		//* Check database name and user against blacklist
 		$dbname_blacklist = array($conf['db_database'],'mysql');
@@ -222,16 +215,10 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->lng('Database name not allowed.').'<br />';
 		}
 		
-		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
-		if(in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
-			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
-		}
-		
 		if ($app->tform->errorMessage == ''){
 			/* restrict the names if there is no error */
             /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
 			$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
-			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 		}
 		
 		//* Check for duplicates
@@ -244,8 +231,11 @@ class page_action extends tform_actions {
             // we need remote access rights for this server, so get it's ip address
             $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
             if($server_config['ip_address']!='') {
+                if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
                 $this->dataRecord['remote_access'] = 'y';
-                $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
+                if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
+                    $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
+                }
             }
         }
         
@@ -261,16 +251,13 @@ class page_action extends tform_actions {
 		
 		//* Database username and database name shall not be empty
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
-		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
 
 		//* Get the database name and database user prefix
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
-		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 		
 		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
-		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
 		
 		//* Check database name and user against blacklist
 		$dbname_blacklist = array($conf['db_database'],'mysql');
@@ -278,16 +265,10 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->lng('Database name not allowed.').'<br />';
 		}
 		
-		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
-		if(in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
-			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
-		}
-
 		/* restrict the names */
         /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
 		if ($app->tform->errorMessage == ''){
 			$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
-			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 		}
 		
 		//* Check for duplicates
@@ -300,14 +281,139 @@ class page_action extends tform_actions {
             // we need remote access rights for this server, so get it's ip address
             $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
             if($server_config['ip_address']!='') {
+                if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
                 $this->dataRecord['remote_access'] = 'y';
-                $this->dataRecord['remote_ips'] .= (trim($this->dataRecord['remote_ips']) != '' ? ',' : '') . $server_config['ip_address'];
+                if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
+                    $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
+                }
             }
         }
         
 		parent::onBeforeInsert();
 	}
 
+    function onInsertSave($sql) {
+        global $app, $conf;
+
+		if($this->dataRecord["parent_domain_id"] > 0) {
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+		
+			//* The Database user shall be owned by the same group then the website
+			$sys_groupid = $web['sys_groupid'];
+        } else {
+            $sys_groupid = $this->dataRecord['sys_groupid'];
+        }
+        
+
+        if($this->dataRecord['database_user_id']) {
+            // check if there has already been a database on this server with that user
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+            
+            if($check && $check['cnt'] < 1) {
+                // we need to make a datalog insert for the database users that are connected to this database
+                $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                if($db_user) {
+                    $db_user['server_id'] = $this->dataRecord['server_id'];
+                    $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
+                }
+            }
+        }
+
+        if($this->dataRecord['database_ro_user_id']) {
+            // check if there has already been a database on this server with that user
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+            
+            if($check && $check['cnt'] < 1) {
+                // we need to make a datalog insert for the database users that are connected to this database
+                $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                if($db_user) {
+                    $db_user['server_id'] = $this->dataRecord['server_id'];
+                    $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
+                }
+            }
+        }
+        
+        $app->db->query($sql);
+        if($app->db->errorMessage != '') die($app->db->errorMessage);
+        $new_id = $app->db->insertID();
+        
+        return $new_id;
+    }
+
+    function onUpdateSave($sql) {
+        global $app;
+        if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(),$this->id)) {
+            $old_record = $app->tform->getDataRecord($this->id);
+            
+            if($this->dataRecord["parent_domain_id"] > 0) {
+                $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+            
+                //* The Database user shall be owned by the same group then the website
+                $sys_groupid = $web['sys_groupid'];
+            } else {
+                $sys_groupid = $this->dataRecord['sys_groupid'];
+            }
+            
+            // check if database user has changed
+            if($old_record['database_user_id'] && $old_record['database_user_id'] != $this->dataRecord['database_user_id'] && $old_record['database_user_id'] != $this->dataRecord['database_ro_user_id']) {
+                // check if any database on the server still uses this one
+                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($old_record['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($old_record['database_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "' AND `database_id` != '" . intval($this->id) . "'");
+                if($check['cnt'] < 1) {
+                    // send a datalog delete
+                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($old_record['database_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                    if($db_user) {
+                        $db_user['server_id'] = $this->dataRecord['server_id'];
+                        $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $db_user['database_user_id'], $db_user, array());
+                    }
+                }
+            }
+            // check if readonly database user has changed
+            if($old_record['database_ro_user_id'] && $old_record['database_ro_user_id'] != $this->dataRecord['database_ro_user_id'] && $old_record['database_ro_user_id'] != $this->dataRecord['database_user_id']) {
+                // check if any database on the server still uses this one
+                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($old_record['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($old_record['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "' AND `database_id` != '" . intval($this->id) . "'");
+                if($check['cnt'] < 1) {
+                    // send a datalog delete
+                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($old_record['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                    if($db_user) {
+                        $db_user['server_id'] = $this->dataRecord['server_id'];
+                        $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $db_user['database_user_id'], $db_user, array());
+                    }
+                }
+            }
+            
+            if($this->dataRecord['database_user_id']) {
+                // check if there has already been a database on this server with that user
+                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                
+                if($check && $check['cnt'] < 1) {
+                    // we need to make a datalog insert for the database users that are connected to this database
+                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                    if($db_user) {
+                        $db_user['server_id'] = $this->dataRecord['server_id'];
+                        $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
+                    }
+                }
+            }
+
+            if($this->dataRecord['database_ro_user_id']) {
+                // check if there has already been a database on this server with that user
+                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                
+                if($check && $check['cnt'] < 1) {
+                    // we need to make a datalog insert for the database users that are connected to this database
+                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
+                    if($db_user) {
+                        $db_user['server_id'] = $this->dataRecord['server_id'];
+                        $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
+                    }
+                }
+            }
+
+            $app->db->query($sql);
+            if($app->db->errorMessage != '') die($app->db->errorMessage);
+        }
+    }
+    
 	function onAfterInsert() {
 		global $app, $conf;
 		

@@ -100,12 +100,17 @@ $liste["item"][] = array(	'field'		=> "server_id",
 							'width'		=> "",
 							'value'		=> "");
 
-$liste["item"][] = array(	'field'		=> "database_user",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "TEXT",
-							'op'		=> "like",
-							'prefix'	=> "%",
-							'suffix'	=> "%",
+$liste["item"][] = array(	'field'		=> "database_user_id",
+							'datatype'	=> "INTEGER",
+							'formtype'	=> "SELECT",
+							'op'		=> "=",
+							'prefix'	=> "",
+							'suffix'	=> "",
+							'datasource'	=> array ( 	'type'	=> 'SQL',
+														'querystring' => 'SELECT database_user_id, database_user FROM web_database_user WHERE {AUTHSQL} ORDER BY database_user',
+														'keyfield'=> 'database_user_id',
+														'valuefield'=> 'database_user'
+									 				  ),
 							'width'		=> "",
 							'value'		=> "");
 

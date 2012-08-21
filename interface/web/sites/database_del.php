@@ -46,6 +46,41 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 
 $app->uses("tform_actions");
-$app->tform_actions->onDelete();
+class page_action extends tform_actions {
+	function onBeforeDelete() {
+		global $app; $conf;
+		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
+        
+        $old_record = $app->tform->getDataRecord($this->id);
+        if($old_record['database_user_id']) {
+            // check if any database on the server still uses this one
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($old_record['server_id']) . "' AND (`database_user_id` = '" . intval($old_record['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($old_record['database_user_id']) . "') AND `sys_groupid` = '" . intval($old_record['sys_groupid']) . "' AND `database_id` != '" . intval($this->id) . "'");
+            if($check['cnt'] < 1) {
+                // send a datalog delete
+                $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($old_record['database_user_id']) . "' AND `sys_groupid` = '" . intval($old_record['sys_groupid']) . "'");
+                if($db_user) {
+                    $db_user['server_id'] = $old_record['server_id'];
+                    $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $db_user['database_user_id'], $db_user, array());
+                }
+            }
+        }
+        if($old_record['database_ro_user_id']) {
+            // check if any database on the server still uses this one
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($old_record['server_id']) . "' AND (`database_user_id` = '" . intval($old_record['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($old_record['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($old_record['sys_groupid']) . "' AND `database_id` != '" . intval($this->id) . "'");
+            if($check['cnt'] < 1) {
+                // send a datalog delete
+                $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($old_record['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($old_record['sys_groupid']) . "'");
+                if($db_user) {
+                    $db_user['server_id'] = $old_record['server_id'];
+                    $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $db_user['database_user_id'], $db_user, array());
+                }
+            }
+        }
+        
+	}
+}
+
+$page = new page_action;
+$page->onDelete();
 
 ?>

@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Datenbank User';
+$wb['add_new_record_txt'] = 'Neuen User hinzufügen';
+$wb['database_user_txt'] = 'Datenbank User';
+$wb['sys_groupid_txt'] = 'Kunde';
+?>

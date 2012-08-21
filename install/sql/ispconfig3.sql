@@ -1616,16 +1616,36 @@ CREATE TABLE `web_database` (
   `parent_domain_id` int(11) unsigned NOT NULL DEFAULT  '0',
   `type` varchar(16) NOT NULL DEFAULT 'y',
   `database_name` varchar(64) DEFAULT NULL,
-  `database_user` varchar(64) DEFAULT NULL,
-  `database_password` varchar(64) DEFAULT NULL,
+  `database_user_id` int(11) unsigned DEFAULT NULL,
+  `database_ro_user_id` int(11) unsigned DEFAULT NULL,
   `database_charset` varchar(64) DEFAULT NULL,
   `remote_access` enum('n','y') NOT NULL DEFAULT 'y',
   `remote_ips` text NOT NULL,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
-  PRIMARY KEY (`database_id`)
+  PRIMARY KEY (`database_id`),
+  KEY `database_user_id` (`database_user_id`),
+  KEY `database_ro_user_id` (`database_ro_user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `web_database_user`
+--
+
+CREATE TABLE IF NOT EXISTS `web_database_user` (
+  `database_user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) DEFAULT NULL,
+  `sys_perm_group` varchar(5) DEFAULT NULL,
+  `sys_perm_other` varchar(5) DEFAULT NULL,
+  `database_user` varchar(64) DEFAULT NULL,
+  `database_password` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`database_user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
