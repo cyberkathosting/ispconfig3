@@ -1,5 +1,6 @@
 <?php
 $wb['system_config_desc_txt'] = '';
+$wb['smtp_missing_admin_mail_txt'] = 'Please enter the admin name and admin mail address if you want to use smtp mail sending.';
 $wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';

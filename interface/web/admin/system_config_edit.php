@@ -77,6 +77,25 @@ class page_action extends tform_actions {
 		$app->tpl->setVar($record);
 	}
 	
+    function onSubmit() {
+        global $app;
+        
+        $app->uses('ini_parser,getconf');
+		
+        $section = $app->tform->getCurrentTab();
+		
+		$server_config_array = $app->getconf->get_global_config();
+		$new_config = $app->tform->encode($this->dataRecord,$section);
+        if($section == 'mail') {
+            if($new_config['smtp_pass'] == '') $new_config['smtp_pass'] = $server_config_array['smtp_pass'];
+            if($new_config['smtp_enabled'] == 'y' && ($new_config['admin_mail'] == '' || $new_config['admin_name'] == '')) {
+                $app->tform->errorMessage .= $app->tform->lng("smtp_missing_admin_mail_txt");
+            }
+        }
+        
+        parent::onSubmit();
+    }
+    
 	function onUpdateSave($sql) {
 		global $app,$conf;
 		
@@ -85,7 +104,6 @@ class page_action extends tform_actions {
 		
 		$section = $app->tform->getCurrentTab();
 		
-        
 		$server_config_array = $app->getconf->get_global_config();
 		$new_config = $app->tform->encode($this->dataRecord,$section);
         if($section == 'sites' && $new_config['vhost_subdomains'] != 'y' && $server_config_array['vhost_subdomains'] == 'y') {
@@ -94,6 +112,8 @@ class page_action extends tform_actions {
             if($check['cnt'] > 0) {
                 $new_config['vhost_subdomains'] = 'y';
             }
+        } elseif($section == 'mail') {
+            if($new_config['smtp_pass'] == '') $new_config['smtp_pass'] = $server_config_array['smtp_pass'];
         }
         $server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);

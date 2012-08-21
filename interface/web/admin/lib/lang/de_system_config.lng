@@ -1,5 +1,6 @@
 <?php
 $wb['system_config_desc_txt'] = '';
+$wb['smtp_missing_admin_mail_txt'] = 'Bitte geben Sie die Administrator E-Mail und den Namen ein, wenn Sie SMTP Versand nutzen wollen.';
 $wb['warning'] = 'Bearbeiten Sie diese Werte sorgfältig! Entfernen Sie die Prefixe nicht auf Systemen mit mehr als einem Client.';
 $wb['dbname_prefix_txt'] = 'Datenbanknamen Prefix';
 $wb['dbuser_prefix_txt'] = 'Datenbankbenutzer Prefix';
