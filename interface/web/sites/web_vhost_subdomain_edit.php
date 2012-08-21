@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.default_webserver, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.limit_web_subdomain, client.default_webserver, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			//* Get global web config
 			$web_config = $app->getconf->get_server_config($parent_domain['server_id'], 'web');
@@ -131,7 +131,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_subdomain, client.default_webserver, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			//* Get global web config
 			$web_config = $app->getconf->get_server_config($parent_domain['server_id'], 'web');
@@ -267,7 +267,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
             
             if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = '-';
             if($client['limit_ssi'] != 'y') $this->dataRecord['ssi'] = '-';
@@ -313,7 +313,7 @@ class page_action extends tform_actions {
 			
 			if($client['parent_client_id'] > 0) {
 				// Get the limits of the reseller
-				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
 
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0) {
