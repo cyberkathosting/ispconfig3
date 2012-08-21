@@ -75,6 +75,7 @@ class database_module {
 		*/
 		
 		$app->modules->registerTableHook('web_database','database_module','process');
+		//$app->modules->registerTableHook('web_database_user','database_module','process');
 		
 		// Register service
 		//$app->services->registerService('httpd','web_module','restartHttpd');
@@ -95,6 +96,13 @@ class database_module {
 				if($action == 'u') $app->plugins->raiseEvent('database_update',$data);
 				if($action == 'd') $app->plugins->raiseEvent('database_delete',$data);
 			break;
+			/*
+			case 'web_database_user':
+				if($action == 'i') $app->plugins->raiseEvent('database_user_insert',$data);
+				if($action == 'u') $app->plugins->raiseEvent('database_user_update',$data);
+				if($action == 'd') $app->plugins->raiseEvent('database_user_delete',$data);
+			break;
+			*/
 		} // end switch
 	} // end function
 

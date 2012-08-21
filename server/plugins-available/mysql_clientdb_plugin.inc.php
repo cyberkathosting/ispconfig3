@@ -58,10 +58,15 @@ class mysql_clientdb_plugin {
 		Register for the events
 		*/
 		
-		//* Mailboxes
+		//* Databases
 		$app->plugins->registerEvent('database_insert',$this->plugin_name,'db_insert');
 		$app->plugins->registerEvent('database_update',$this->plugin_name,'db_update');
 		$app->plugins->registerEvent('database_delete',$this->plugin_name,'db_delete');
+		
+		//* Database users
+		//$app->plugins->registerEvent('database_user_insert',$this->plugin_name,'db_user_insert');
+		//$app->plugins->registerEvent('database_user_update',$this->plugin_name,'db_user_update');
+		//$app->plugins->registerEvent('database_user_delete',$this->plugin_name,'db_user_delete');
 		
 		
 	}
@@ -305,7 +310,22 @@ class mysql_clientdb_plugin {
 		
 	}
 	
+	/*
+	function db_user_insert($event_name,$data) {
+		global $app, $conf;
+		
+	}
 	
+	function db_user_update($event_name,$data) {
+		global $app, $conf;
+		
+	}
+	
+	function db_user_delete($event_name,$data) {
+		global $app, $conf;
+		
+	}
+	*/
 	
 
 } // end class
