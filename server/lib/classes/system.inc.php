@@ -699,7 +699,7 @@ class system{
 		}
 	}
 	
-	function unlink($file) {
+	function unlink($filename) {
 		if(file_exists($filename)) {
 			return unlink($filename);
 		}

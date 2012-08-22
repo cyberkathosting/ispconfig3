@@ -1452,7 +1452,7 @@ class apache2_plugin {
 		$app->uses('system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		
-		$app->system->web_folder_protection($data['new']['document_root'],false);
+		$app->system->web_folder_protection($data['old']['document_root'],false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
