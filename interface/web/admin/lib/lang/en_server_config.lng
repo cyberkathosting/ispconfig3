@@ -168,4 +168,6 @@ $wb["firewall_txt"] = 'Firewall';
 $wb["mailbox_quota_stats_txt"] = 'Mailbox quota statistics';
 $wb["enable_ip_wildcard_txt"] = 'Enable IP wildcard (*)';
 $wb["web_folder_protection_txt"] = 'Web folder protection';
+$wb["overtraffic_notify_admin_txt"] = 'Send overtraffic notification to admin';
+$wb["overtraffic_notify_client_txt"] = 'Send overtraffic notification to client';
 ?>

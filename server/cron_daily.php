@@ -447,6 +447,8 @@ if ($app->dbmaster == $app->db) {
 
 if ($app->dbmaster == $app->db) {
 
+	$global_config = $app->getconf->get_global_config('mail');
+	
 	$current_month = date('Y-m');
 
 	//* Check website traffic quota
@@ -478,12 +480,63 @@ if ($app->dbmaster == $app->db) {
 				($reseller_traffic_quota > 0 && $web_traffic > $reseller_traffic_quota)) {*/
 			if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
 				$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
-				$app->log('Traffic quota for '.$rec['domain_id'].' exceeded. Disabling website.',LOGLEVEL_DEBUG);
+				$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.',LOGLEVEL_DEBUG);
+				
+				//* Send traffic notifications
+				if($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y') {
+					
+					if(file_exists($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_'.$conf['language'].'.txt')) {
+						$lines = file($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_'.$conf['language'].'.txt');
+					} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_en.txt')) {
+						$lines = file($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_en.txt');
+					} elseif(file_exists($conf['rootpath'].'/conf/mail/web_traffic_notification_'.$conf['language'].'.txt')) {
+						$lines = file($conf['rootpath'].'/conf/mail/web_traffic_notification_'.$conf['language'].'.txt');
+					} else {
+						$lines = file($conf['rootpath'].'/conf/mail/web_traffic_notification_en.txt');
+					}
+					
+					//* Get subject
+					$parts = explode(':',trim($lines[0]));
+					unset($parts[0]);
+					$traffic_mail_subject  = implode(':',$parts);
+					unset($lines[0]);
+		
+					//* Get message
+					$traffic_mail_message = trim(implode($lines));
+					unset($tmp);
+					
+					//* Replace placeholders
+					$traffic_mail_message = str_replace('{domain}',$rec['domain'],$traffic_mail_message);
+						
+					$mailHeaders      = "MIME-Version: 1.0" . "\n";
+					$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+					$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+					$mailHeaders     .= "From: ". $global_config['admin_mail'] . "\n";
+					$mailHeaders     .= "Reply-To: ". $global_config['admin_mail'] . "\n";
+					$mailSubject      = "=?utf-8?B?".base64_encode($traffic_mail_subject)."?=";
+					
+					//* send email to admin
+					if($global_config['admin_mail'] != '' && $web_config['overtraffic_notify_admin'] == 'y') {
+						mail($global_config['admin_mail'], $mailSubject, $traffic_mail_message, $mailHeaders);
+					}
+					
+					//* Send email to client
+					if($web_config['overtraffic_notify_admin'] == 'y') {
+						$client_group_id = $rec["sys_groupid"];
+						$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+						if($client['email'] != '') {
+							mail($client['email'], $mailSubject, $traffic_mail_message, $mailHeaders);
+						}
+					}
+					
+				}
+				
+				
 			} else {
 				//* unlock the website, if traffic is lower then quota
 				if($rec['traffic_quota_lock'] == 'y') {
 					$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'n',active = 'y'", 'domain_id', $rec['domain_id']);
-					$app->log('Traffic quota for '.$rec['domain_id'].' ok again. Re-enabling website.',LOGLEVEL_DEBUG);
+					$app->log('Traffic quota for '.$rec['domain'].' ok again. Re-enabling website.',LOGLEVEL_DEBUG);
 				}
 			}
 		}

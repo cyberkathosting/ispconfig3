@@ -1,0 +1,3 @@
+Subject:Website traffic notification
+
+The website {domain} is over traffic and has been disabled.
