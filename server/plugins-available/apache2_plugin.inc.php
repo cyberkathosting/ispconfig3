@@ -1470,13 +1470,9 @@ class apache2_plugin {
             if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
             $web_folder = $data['old']['web_folder'];
             $log_folder .= '/' . $subdomain_host;
-			$parent_web_document_root = $tmp['document_root'];
-			$app->system->web_folder_protection($parent_web_document_root,false);
             unset($tmp);
-        } else {
-			$app->system->web_folder_protection($data['old']['document_root'],false);
 		}
-		
+        
 		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 		
 		//* remove mountpoint from fstab
