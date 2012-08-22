@@ -1606,6 +1606,7 @@ class apache2_plugin {
 			}
 
 		}
+        if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'],true);
 	}
 
 	//* This function is called when a IP on the server is inserted, updated or deleted
