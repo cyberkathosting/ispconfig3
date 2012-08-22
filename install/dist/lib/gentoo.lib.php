@@ -1038,6 +1038,10 @@ class installer extends installer_base
 			chown('/usr/local/bin/run-getmail.sh', 'getmail');
 		}
 		chmod('/usr/local/bin/run-getmail.sh', 0744);
+		
+		//* Remove Domain module as its functions are available in the client module now
+		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+		
     }
 }
 

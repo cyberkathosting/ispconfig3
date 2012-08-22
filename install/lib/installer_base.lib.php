@@ -1995,6 +1995,11 @@ class installer_base {
 			fclose($fh);
 			*/
 		}
+		
+		//* Remove Domain module as its functions are available in the client module now
+		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+	
+	
 	}
 
 	public function configure_dbserver() {
