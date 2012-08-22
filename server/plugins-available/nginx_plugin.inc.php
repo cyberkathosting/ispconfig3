@@ -1310,9 +1310,12 @@ class nginx_plugin {
 			$app->system->unlink($vhost_file);
 			$app->log('Removing vhost file: '.$vhost_file,LOGLEVEL_DEBUG);
             
-            if($data['old']['type'] == 'vhost') {
+            if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
                 $docroot = escapeshellcmd($data['old']['document_root']);
-                if($docroot != '' && !stristr($docroot,'..')) exec('rm -rf '.$docroot);
+                if($docroot != '' && !stristr($docroot,'..')) {
+                    if($data['old']['type'] == 'vhost') exec('rm -rf '.$docroot);
+                    elseif(!stristr($data['old']['web_folder'], '..')) exec('rm -rf '.$docroot.'/'.$web_folder;
+                }
 			
                 //remove the php fastgi starter script if available
                 if ($data['old']['php'] == 'fast-cgi') {

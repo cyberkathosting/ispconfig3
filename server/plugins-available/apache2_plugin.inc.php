@@ -1463,6 +1463,7 @@ class apache2_plugin {
 		
 		//* Remove the mounts
 		$log_folder = 'log';
+        $web_folder = '';
         if($data['old']['type'] == 'vhostsubdomain') {
             $tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
             $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
@@ -1516,9 +1517,12 @@ class apache2_plugin {
 			$app->system->unlink($vhost_file);
 			$app->log('Removing vhost file: '.$vhost_file,LOGLEVEL_DEBUG);
             
-            if($data['old']['type'] == 'vhost') {
+            if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
                 $docroot = escapeshellcmd($data['old']['document_root']);
-                if($docroot != '' && !stristr($docroot,'..')) exec('rm -rf '.$docroot);
+                if($docroot != '' && !stristr($docroot,'..')) {
+                    if($data['old']['type'] == 'vhost') exec('rm -rf '.$docroot);
+                    elseif(!stristr($data['old']['web_folder'], '..')) exec('rm -rf '.$docroot.'/'.$web_folder;
+                }
 			
                 //remove the php fastgi starter script if available
                 if ($data['old']['php'] == 'fast-cgi') {
@@ -1579,8 +1583,6 @@ class apache2_plugin {
                     }
                 }
                 // end removing symlinks
-            } else {
-                // vhost subdomain
             }
 
             // Delete the log file directory
