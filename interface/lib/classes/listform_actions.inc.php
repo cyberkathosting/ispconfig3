@@ -282,7 +282,7 @@ class listform_actions {
 		$this->onShowEnd();
 	}
 	
-	private function onShowEnd()
+	public function onShowEnd()
     {
 		global $app;
 		$app->tpl_defaults();
