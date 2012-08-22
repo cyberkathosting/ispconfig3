@@ -67,7 +67,7 @@ class dashlet_limits {
 		
 		$limits[] = array('field' => 'limit_web_subdomain',
 						  'db_table' => 'web_domain',
-						  'db_where' => "type = 'subdomain'");
+						  'db_where' => "(type = 'subdomain' OR type = 'vhostsubdomain')");
 		
 		$limits[] = array('field' => 'limit_web_aliasdomain',
 						  'db_table' => 'web_domain',
