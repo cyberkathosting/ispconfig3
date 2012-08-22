@@ -26,6 +26,10 @@ ADD INDEX ( `database_ro_user_id` ) ;
 
 -- --------------------------------------------------------
 
+INSERT INTO `web_database_user` SELECT NULL, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, '0', `database_user`, `database_password` FROM `web_database` WHERE 1;
+
+-- --------------------------------------------------------
+
 UPDATE `web_database`, `web_database_user` SET `web_database`.`database_user_id` = `web_database_user`.`database_user_id` WHERE `web_database_user`.`database_user` = `web_database`.`database_user`;
 
 -- --------------------------------------------------------
