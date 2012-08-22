@@ -1314,7 +1314,7 @@ class nginx_plugin {
                 $docroot = escapeshellcmd($data['old']['document_root']);
                 if($docroot != '' && !stristr($docroot,'..')) {
                     if($data['old']['type'] == 'vhost') exec('rm -rf '.$docroot);
-                    elseif(!stristr($data['old']['web_folder'], '..')) exec('rm -rf '.$docroot.'/'.$web_folder;
+                    elseif(!stristr($data['old']['web_folder'], '..')) exec('rm -rf '.$docroot.'/'.$web_folder);
                 }
 			
                 //remove the php fastgi starter script if available
