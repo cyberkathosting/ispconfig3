@@ -107,7 +107,8 @@ class tform_actions {
 						
 						// Save record in database
 						$this->onUpdateSave($sql);
-						
+						$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_update_save',array('page_form'=>$this, 'sql'=>$sql));
+                        
 						// loading plugins
 						$next_tab = $app->tform->getCurrentTab();
                 		$this->loadPlugins($next_tab);
@@ -185,7 +186,8 @@ class tform_actions {
                 if($app->tform->errorMessage == '') {
 						
 						$this->id = $this->onInsertSave($sql);
-						
+						$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_insert_save',array('page_form'=>$this, 'sql'=>$sql));
+                        
 						// loading plugins
 						$next_tab = $app->tform->getCurrentTab();
                 		$this->loadPlugins($next_tab);

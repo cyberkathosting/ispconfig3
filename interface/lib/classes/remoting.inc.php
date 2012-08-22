@@ -1113,7 +1113,7 @@ class remoting {
         $client_id = intval($client_id);
 	$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
 
-	$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic';
+	$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
 		$tables_array = explode(',',$tables);
 		$client_group_id = intval($client_group['groupid']);
 		
@@ -1143,7 +1143,7 @@ class remoting {
 			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
 			
 			// Delete all records (sub-clients, mail, web, etc....)  of this client.
-			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic';
+			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
 			$tables_array = explode(',',$tables);
 			$client_group_id = intval($client_group['groupid']);
 			if($client_group_id > 1) {
@@ -1257,7 +1257,19 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->insertQuery('../sites/form/database.tform.php',$client_id,$params);
+
+        $sql = $this->insertQueryPrepare('../sites/form/database.tform.php', $client_id, $params);
+        if($sql !== false) {
+            $app->uses('sites_database_plugin');
+            
+            $this->id = 0;
+            $this->dataRecord = $params;
+            $app->sites_database_plugin->processDatabaseInsert($this);
+
+            return $this->insertQueryExecute($sql, $params);
+        }
+        
+        return false;
 	}
 	
 	//* Update a record
@@ -1267,8 +1279,18 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->updateQuery('../sites/form/database.tform.php',$client_id,$primary_id,$params);
-		return $affected_rows;
+        
+		$sql = $this->updateQueryPrepare('../sites/form/database.tform.php', $client_id, $primary_id, $params);
+        if($sql !== false) {
+            $app->uses('sites_database_plugin');
+            
+            $this->id = $primary_id;
+            $this->dataRecord = $params;
+            $app->sites_database_plugin->processDatabaseUpdate($this);
+            return $this->updateQueryExecute($sql, $primary_id, $params);
+        }
+        
+        return false;
 	}
 	
 	//* Delete a record
@@ -1278,7 +1300,61 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+        
+        $app->uses('sites_database_plugin');
+        $app->sites_database_plugin->processDatabaseDelete($primary_id);
+        
 		$affected_rows = $this->deleteQuery('../sites/form/database.tform.php',$primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function sites_database_user_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'sites_database_user_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/database_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Add a record
+	public function sites_database_user_add($session_id, $client_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_database_user_add')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+        return $this->insertQuery('../sites/form/database_user.tform.php', $client_id, $params);
+	}
+	
+	//* Update a record
+	public function sites_database_user_update($session_id, $client_id, $primary_id, $params)
+    {
+		if(!$this->checkPerm($session_id, 'sites_database_user_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+        
+		return $this->updateQuery('../sites/form/database_user.tform.php', $client_id, $primary_id, $params);
+ 	}
+	
+	//* Delete a record
+	public function sites_database_user_delete($session_id, $primary_id)
+    {
+		if(!$this->checkPerm($session_id, 'sites_database_user_delete')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+        
+		$affected_rows = $this->deleteQuery('../sites/form/database_user.tform.php',$primary_id);
 		return $affected_rows;
 	}
 	
@@ -2527,7 +2603,7 @@ class remoting {
 
 	protected function klientadd($formdef_file, $reseller_id, $params)
     {
-		global $app, $tform, $remoting_lib;
+		global $app;
 		$app->uses('remoting_lib');
 			
 		//* Load the form definition
@@ -2599,9 +2675,16 @@ class remoting {
 		return $insert_id;
 	}
 
-	protected function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
+    protected function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
     {
-		global $app, $tform, $remoting_lib;
+        $sql = $this->insertQueryPrepare($formdef_file, $client_id, $params);
+        if($sql !== false) return $this->insertQueryExecute($sql, $params,$event_identifier = '');
+        else return false;
+    }
+
+	protected function insertQueryPrepare($formdef_file, $client_id, $params)
+    {
+		global $app;
 		
 		$app->uses('remoting_lib');
 		
@@ -2618,6 +2701,15 @@ class remoting {
 			return false;
 		}
 		
+        return $sql;
+	}
+	
+	protected function insertQueryExecute($sql, $params,$event_identifier = '')
+    {
+		global $app;
+		
+		$app->uses('remoting_lib');
+        
 		$app->db->query($sql);
 		
 		if($app->db->errorMessage != '') {
@@ -2641,9 +2733,17 @@ class remoting {
 		}		
 		return $insert_id;
 	}
-	
-	
+    
 	protected function updateQuery($formdef_file, $client_id, $primary_id, $params, $event_identifier = '')
+    {
+		global $app;
+		
+		$sql = $this->updateQueryPrepare($formdef_file, $client_id, $primary_id, $params);
+        if($sql !== false) return $this->updateQueryExecute($sql, $primary_id, $params,$event_identifier = '');
+        else return false;
+	}
+	
+	protected function updateQueryPrepare($formdef_file, $client_id, $primary_id, $params)
     {
 		global $app;
 		
@@ -2662,6 +2762,15 @@ class remoting {
 			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
+		
+        return $sql;
+	}
+
+	protected function updateQueryExecute($sql, $primary_id, $params, $event_identifier = '')
+    {
+		global $app;
+		
+		$app->uses('remoting_lib');
 		
 		$old_rec = $app->remoting_lib->getDataRecord($primary_id);
 		
@@ -2689,7 +2798,7 @@ class remoting {
 		
 		return $affected_rows;
 	}
-	
+
 	protected function deleteQuery($formdef_file, $primary_id, $event_identifier = '')
     {
 		global $app;
@@ -2964,7 +3073,7 @@ class remoting {
             return false;
 		}
         $client_id = intval($client_id);
-        $sql = "SELECT d.database_id, d.database_name, d.database_user, d.database_password FROM web_database d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id";
+        $sql = "SELECT d.database_id, d.database_name, d.database_user_id, d.database_ro_user_id, du.database_user, du.database_password FROM web_database d LEFT JOIN web_database_user du ON (du.database_user_id = d.database_user_id) INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id";
 		$all = $app->db->queryAllRecords($sql);
         return $all;
 	}

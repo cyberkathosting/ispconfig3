@@ -294,44 +294,10 @@ class page_action extends tform_actions {
 
     function onInsertSave($sql) {
         global $app, $conf;
-
-		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-		
-			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $web['sys_groupid'];
-        } else {
-            $sys_groupid = $this->dataRecord['sys_groupid'];
-        }
         
-
-        if($this->dataRecord['database_user_id']) {
-            // check if there has already been a database on this server with that user
-            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-            
-            if($check && $check['cnt'] < 1) {
-                // we need to make a datalog insert for the database users that are connected to this database
-                $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                if($db_user) {
-                    $db_user['server_id'] = $this->dataRecord['server_id'];
-                    $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
-                }
-            }
-        }
-
-        if($this->dataRecord['database_ro_user_id']) {
-            // check if there has already been a database on this server with that user
-            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-            
-            if($check && $check['cnt'] < 1) {
-                // we need to make a datalog insert for the database users that are connected to this database
-                $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                if($db_user) {
-                    $db_user['server_id'] = $this->dataRecord['server_id'];
-                    $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
-                }
-            }
-        }
+        $app->uses('sites_database_plugin');
+        
+        $app->sites_database_plugin->processDatabaseInsert($this);
         
         $app->db->query($sql);
         if($app->db->errorMessage != '') die($app->db->errorMessage);
@@ -343,71 +309,8 @@ class page_action extends tform_actions {
     function onUpdateSave($sql) {
         global $app;
         if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(),$this->id)) {
-            $old_record = $app->tform->getDataRecord($this->id);
             
-            if($this->dataRecord["parent_domain_id"] > 0) {
-                $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
-            
-                //* The Database user shall be owned by the same group then the website
-                $sys_groupid = $web['sys_groupid'];
-            } else {
-                $sys_groupid = $this->dataRecord['sys_groupid'];
-            }
-            
-            // check if database user has changed
-            if($old_record['database_user_id'] && $old_record['database_user_id'] != $this->dataRecord['database_user_id'] && $old_record['database_user_id'] != $this->dataRecord['database_ro_user_id']) {
-                // check if any database on the server still uses this one
-                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($old_record['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($old_record['database_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "' AND `database_id` != '" . intval($this->id) . "'");
-                if($check['cnt'] < 1) {
-                    // send a datalog delete
-                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($old_record['database_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                    if($db_user) {
-                        $db_user['server_id'] = $this->dataRecord['server_id'];
-                        $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $db_user['database_user_id'], $db_user, array());
-                    }
-                }
-            }
-            // check if readonly database user has changed
-            if($old_record['database_ro_user_id'] && $old_record['database_ro_user_id'] != $this->dataRecord['database_ro_user_id'] && $old_record['database_ro_user_id'] != $this->dataRecord['database_user_id']) {
-                // check if any database on the server still uses this one
-                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($old_record['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($old_record['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "' AND `database_id` != '" . intval($this->id) . "'");
-                if($check['cnt'] < 1) {
-                    // send a datalog delete
-                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($old_record['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                    if($db_user) {
-                        $db_user['server_id'] = $this->dataRecord['server_id'];
-                        $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $db_user['database_user_id'], $db_user, array());
-                    }
-                }
-            }
-            
-            if($this->dataRecord['database_user_id']) {
-                // check if there has already been a database on this server with that user
-                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                
-                if($check && $check['cnt'] < 1) {
-                    // we need to make a datalog insert for the database users that are connected to this database
-                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                    if($db_user) {
-                        $db_user['server_id'] = $this->dataRecord['server_id'];
-                        $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
-                    }
-                }
-            }
-
-            if($this->dataRecord['database_ro_user_id']) {
-                // check if there has already been a database on this server with that user
-                $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . intval($this->dataRecord['server_id']) . "' AND (`database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "') AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                
-                if($check && $check['cnt'] < 1) {
-                    // we need to make a datalog insert for the database users that are connected to this database
-                    $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . intval($this->dataRecord['database_ro_user_id']) . "' AND `sys_groupid` = '" . intval($sys_groupid) . "'");
-                    if($db_user) {
-                        $db_user['server_id'] = $this->dataRecord['server_id'];
-                        $app->db->datalogSave('web_database_user', 'INSERT', 'database_user_id', $db_user['database_user_id'], array(), $db_user);
-                    }
-                }
-            }
+            $app->sites_database_plugin->processDatabaseUpdate($this);
 
             $app->db->query($sql);
             if($app->db->errorMessage != '') die($app->db->errorMessage);
