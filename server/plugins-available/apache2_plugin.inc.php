@@ -1460,6 +1460,23 @@ class apache2_plugin {
 		} else {
 			$apache_chrooted = false;
 		}
+		
+		//* Remove the mounts
+		$log_folder = 'log';
+        if($data['old']['type'] == 'vhostsubdomain') {
+            $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+            $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
+            if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
+            $web_folder = $data['old']['web_folder'];
+            $log_folder .= '/' . $subdomain_host;
+            unset($tmp);
+        }
+		
+		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+		
+		//* remove mountpoint from fstab
+		$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind    0 0';
+		$app->system->removeLine('/etc/fstab',$fstab_line);
 
 		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
