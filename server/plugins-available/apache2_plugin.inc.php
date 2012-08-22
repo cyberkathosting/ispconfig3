@@ -1464,13 +1464,17 @@ class apache2_plugin {
 		//* Remove the mounts
 		$log_folder = 'log';
         if($data['old']['type'] == 'vhostsubdomain') {
-            $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+            $tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
             $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
             if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
             $web_folder = $data['old']['web_folder'];
             $log_folder .= '/' . $subdomain_host;
+			$parent_web_document_root = $tmp['document_root'];
+			$app->system->web_folder_protection($parent_web_document_root,false);
             unset($tmp);
-        }
+        } else {
+			$app->system->web_folder_protection($data['old']['document_root'],false);
+		}
 		
 		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 		
@@ -1597,6 +1601,10 @@ class apache2_plugin {
             if($data['old']['stats_type'] == 'awstats') {
                 $this->awstats_delete($data,$web_config);
             }
+			
+			if($data['old']['type'] == 'vhostsubdomain') {
+				$app->system->web_folder_protection($parent_web_document_root,true);
+			}
 			
 			if($apache_chrooted) {
 				$app->services->restartServiceDelayed('httpd','restart');
