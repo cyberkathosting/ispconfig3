@@ -723,7 +723,7 @@ function get_ispconfig_port_number() {
 	if(is_file($ispconfig_vhost_file)) {
 		$tmp = file_get_contents($ispconfig_vhost_file);
 		preg_match($regex,$tmp,$matches);
-		$port_number = intval($matches[1]);
+		$port_number = @intval($matches[1]);
 		if($port_number > 0) {
 			return $port_number;
 		} else {

@@ -1098,6 +1098,13 @@ class installer_dist extends installer_base {
 			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
 		}
 		
+		//* Create the ispconfig auth log file and set uid/gid
+		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {
+			touch($conf['ispconfig_log_dir'].'/auth.log');
+		}
+		exec('chown ispconfig:ispconfig '. $conf['ispconfig_log_dir'].'/auth.log');
+		exec('chmod 660 '. $conf['ispconfig_log_dir'].'/auth.log');
+		
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
 		
