@@ -134,12 +134,14 @@ function submitForm(formname,target) {
 }
 
 function submitFormConfirm(formname,target,confirmation) {
+	var successMessage = arguments[3];
 	if(window.confirm(confirmation)) {
 		var submitFormObj = jQuery.ajax({	type: "POST", 
 											url: target,
 											data: jQuery('#'+formname).serialize(),
 											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
+												if(successMessage) alert(successMessage);
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
 													//alert(parts[1]);
