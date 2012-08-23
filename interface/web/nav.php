@@ -56,6 +56,8 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 				if(is_file($mt.'/lib/module.conf.php')) {
 					if(!preg_match("/^[a-z]{2,20}$/i", $mt)) die('module name contains unallowed chars.');
 					include_once($mt.'/lib/module.conf.php');
+					$language = (isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language'];
+					$app->load_language_file('web/'.$mt.'/lib/'.$language.'.lng');
 					$active = ($module['name'] == $_SESSION['s']['module']['name']) ? 1 : 0;
 					$topnav[] = array(	'title' 	=> $app->lng($module['title']),
 							'active' 	=> $active,
