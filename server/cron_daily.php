@@ -113,7 +113,7 @@ function setConfigVar( $filename, $varName, $varValue ) {
 }
 
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, web_folder, type FROM web_domain WHERE stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 foreach($records as $rec) {
@@ -128,7 +128,7 @@ foreach($records as $rec) {
 	}
 
 	$domain = escapeshellcmd($rec['domain']);
-	$statsdir = escapeshellcmd($rec['document_root'].'/web/stats');
+	$statsdir = escapeshellcmd($rec['document_root'].'/'.($rec['type'] == 'vhostsubdomain' ? $rec['web_folder'] : 'web').'/stats');
 	$webalizer = '/usr/bin/webalizer';
 	$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
 	$webalizer_conf = escapeshellcmd($rec['document_root'].'/log/webalizer.conf');
@@ -154,7 +154,7 @@ foreach($records as $rec) {
 // Create awstats statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root, system_user, system_group FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -169,9 +169,9 @@ foreach($records as $rec) {
 			continue;
 		}
 	}
-
+    $web_folder = ($rec['type'] == 'vhostsubdomain' ? $rec['web_folder'] : 'web');
 	$domain = escapeshellcmd($rec['domain']);
-	$statsdir = escapeshellcmd($rec['document_root'].'/web/stats');
+	$statsdir = escapeshellcmd($rec['document_root'].'/'.$web_folder.'/stats');
 	$awstats_pl = $web_config['awstats_pl'];
 	$awstats_buildstaticpages_pl = $web_config['awstats_buildstaticpages_pl'];
 
@@ -213,7 +213,7 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 		}
 	}
 
-	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/web/stats -awstatsprog=/path/to/awstats.pl
+	// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/'.$web_folder.'/stats -awstatsprog=/path/to/awstats.pl
 	// $command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
 
 	$command = "$awstats_buildstaticpages_pl -month='$awmonth' -year='$awyear' -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
@@ -236,18 +236,18 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 
 	if($awstats_pl != '' && $awstats_buildstaticpages_pl != '' && fileowner($awstats_pl) == 0 && fileowner($awstats_buildstaticpages_pl) == 0) {
 		exec($command);
-		if(is_file($rec['document_root'].'/web/stats/index.html')) unlink($rec['document_root'].'/web/stats/index.html');
-		rename($rec['document_root'].'/web/stats/awstats.'.$domain.'.html',$rec['document_root'].'/web/stats/awsindex.html');
-		if(!is_file($rec['document_root']."/web/stats/index.php")) copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$rec['document_root']."/web/stats/index.php");
+		if(is_file($rec['document_root'].'/'.$web_folder.'/stats/index.html')) unlink($rec['document_root'].'/'.$web_folder.'/stats/index.html');
+		rename($rec['document_root'].'/'.$web_folder.'/stats/awstats.'.$domain.'.html',$rec['document_root'].'/'.$web_folder.'/stats/awsindex.html');
+		if(!is_file($rec['document_root']."/'.$web_folder.'/stats/index.php")) copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$rec['document_root']."/".$web_folder."/stats/index.php");
 
 		$app->log('Created awstats statistics with command: '.$command,LOGLEVEL_DEBUG);
 	} else {
 		$app->log("No awstats statistics created. Either $awstats_pl or $awstats_buildstaticpages_pl is not owned by root user.",LOGLEVEL_WARN);
 	}
 
-	if(is_file($rec['document_root']."/web/stats/index.php")) {
-		chown($rec['document_root']."/web/stats/index.php",$rec['system_user']);
-		chgrp($rec['document_root']."/web/stats/index.php",$rec['system_group']);
+	if(is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
+		chown($rec['document_root']."/".$web_folder."/stats/index.php",$rec['system_user']);
+		chgrp($rec['document_root']."/".$web_folder."/stats/index.php",$rec['system_group']);
 	}
 
 }
