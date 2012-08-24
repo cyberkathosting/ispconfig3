@@ -77,4 +77,6 @@ $wb['globalsearch_noresults_text_txt'] = "No results.";
 $wb['globalsearch_noresults_limit_txt'] = "0 results";
 $wb['globalsearch_searchfield_watermark_txt'] = "Search";
 $wb['globalsearch_suggestions_text_txt'] = "Suggestions";
+$wb['global_tabchange_warning_txt'] = 'Changed data in this tab will be changed if you press OK. On cancel they will be discarded.';
+$wb['global_tabchange_discard_txt'] = 'You have unsaved changes in this tab. Changes will be discarded if you continue.';
 ?>

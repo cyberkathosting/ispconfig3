@@ -22,6 +22,18 @@
                 <input name="monitor_key" id="monitor_key" value="{tmpl_var name='monitor_key'}" size="" maxlength="" type="text" class="textInput" />
             </div>
             <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='tab_change_discard_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='tab_change_discard'}
+                </div>
+            </div>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='tab_change_warning_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='tab_change_warning'}<br/>{tmpl_var name='tab_change_warning_note_txt'}
+                </div>
+            </div>
+            <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='maintenance_mode_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='maintenance_mode'}

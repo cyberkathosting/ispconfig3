@@ -2,6 +2,9 @@
 $wb['system_config_desc_txt'] = '';
 $wb['smtp_missing_admin_mail_txt'] = 'Bitte geben Sie die Administrator E-Mail und den Namen ein, wenn Sie SMTP Versand nutzen wollen.';
 $wb['warning'] = 'Bearbeiten Sie diese Werte sorgfältig! Entfernen Sie die Prefixe nicht auf Systemen mit mehr als einem Client.';
+$wb['tab_change_warning_txt'] = 'Tab-Wechsel-Warnung';
+$wb['tab_change_discard_txt'] = 'Verwerfe Änderungen bei Tab-Wechsel';
+$wb['tab_change_warning_note_txt'] = 'Zeigt eine Warnung an, wenn der Tab in einem Formular gewechselt wird und Daten geändert wurden.';
 $wb['dbname_prefix_txt'] = 'Datenbanknamen Prefix';
 $wb['dbuser_prefix_txt'] = 'Datenbankbenutzer Prefix';
 $wb['shelluser_prefix_txt'] = 'Shellbenutzer Prefix';

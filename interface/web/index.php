@@ -36,6 +36,21 @@ if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 
 $app->uses('tpl');
 $app->tpl->newTemplate('main.tpl.htm');
 
+// tab change warning?
+// read misc config
+$app->uses('getconf');
+$sys_config = $app->getconf->get_global_config('misc');
+if($sys_config['tab_change_warning'] == 'y') {
+    $app->tpl->setVar('tabchange_warning_enabled', 'y');
+    $app->tpl->setVar('global_tabchange_warning_txt', $app->lng('global_tabchange_warning_txt'));
+} else {
+    $app->tpl->setVar('tabchange_warning_enabled', 'n');
+}
+$app->tpl->setVar('tabchange_discard_enabled', $sys_config['tab_change_discard']);
+if($sys_config['tab_change_discard'] == 'y') {
+    $app->tpl->setVar('global_tabchange_discard_txt', $app->lng('global_tabchange_discard_txt'));
+}
+
 $app->tpl_defaults();
 $app->tpl->pparse();
 ?>

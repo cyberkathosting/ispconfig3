@@ -4,7 +4,11 @@
 	$lang = (isset($_SESSION['s']['language']) && $_SESSION['s']['language'] != '')?$_SESSION['s']['language']:'en';
 	include_once(ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$lang.'_strengthmeter.lng');
 ?>
-
+var pageFormChanged = false;
+var tabChangeWarningTxt = '';
+var tabChangeDiscardTxt = '';
+var tabChangeWarning = false;
+var tabChangeDiscard = false;
 redirect = '';
 
 function reportError(request) {
@@ -24,6 +28,7 @@ function loadContentRefresh(pagename) {
 											dataType: "html",
 											success: function(data, textStatus, jqXHR) {
 												jQuery('#pageContent').html(jqXHR.responseText);
+                                                pageFormChanged = false;
 											},
 											error: function() {
 												reportError('Ajax Request was not successful.'+pagename);
@@ -87,6 +92,7 @@ function submitLoginForm(formname) {
 													document.location.href = 'index.php';
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    pageFormChanged = false;
 												}
 												loadMenus();
 											},
@@ -118,6 +124,7 @@ function submitForm(formname,target) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    pageFormChanged = false;
 												}
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
@@ -150,6 +157,7 @@ function submitFormConfirm(formname,target,confirmation) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    pageFormChanged = false;
 												}
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
@@ -202,8 +210,10 @@ function submitUploadForm(formname,target) {
 }
 
 function loadContent(pagename) {
+  var params = arguments[1];
   var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
+                                            data: (params ? params : null),
 											dataType: "html",
 											beforeSend: function() {
 												jQuery('#pageContent').html('<div id="ajaxloader"><img src="themes/default/images/ajax-loader.gif" /></div>');
@@ -222,6 +232,7 @@ function loadContent(pagename) {
 													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
 													
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    pageFormChanged = false;
 												}
 											},
 											error: function() {
@@ -242,6 +253,7 @@ function loadInitContent() {
 													loadContent(parts[1]);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    pageFormChanged = false;
 												}
 											},
 											error: function() {
@@ -293,7 +305,28 @@ function loadMenus() {
 function changeTab(tab,target) {
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
-	submitForm('pageForm',target);
+    
+    var id = document.pageForm.id.value;
+    if(tabChangeDiscard == 'y') {
+        if(id && (pageFormChanged == false || window.confirm(tabChangeDiscardTxt))) {
+            var next_tab = tab;
+            loadContent(target, {'next_tab': next_tab, 'id': id});
+        } else {
+            return false;
+        }
+    } else {
+        if(id && tabChangeWarning == 'y' && pageFormChanged == true) {
+            if(window.confirm(tabChangeWarningTxt)) {
+                submitForm('pageForm', target);
+            } else {
+                var next_tab = tab;
+                var id = document.pageForm.id.value;
+                loadContent(target, {'next_tab': next_tab, 'id': id});
+            }
+        } else {
+            submitForm('pageForm',target);
+        }
+    }
 }
 	
 function del_record(link,confirmation) {

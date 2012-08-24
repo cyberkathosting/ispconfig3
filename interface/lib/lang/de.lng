@@ -77,4 +77,6 @@ $wb['globalsearch_noresults_text_txt'] = 'Keine Treffer.';
 $wb['globalsearch_noresults_limit_txt'] = '0 Treffer';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Suche';
 $wb['globalsearch_suggestions_text_txt'] = 'Vorschläge';
+$wb['global_tabchange_warning_txt'] = 'Die Eingaben in diesem Tab werden gespeichert, wenn Sie OK klicken, bei Abbrechen werden die Änderungen verworfen.';
+$wb['global_tabchange_discard_txt'] = 'Achtung, Sie haben ungespeicherte Änderungen in diesem Tab. Wenn Sie fortfahren werden die Änderungen verworfen.';
 ?>
