@@ -29,20 +29,20 @@
                 <tbody>
                 <tmpl_loop name="records">
                     <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td class="tbl_col_domain"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain"}</a></td>
-                        <td class="tbl_col_this_month"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_month"} MB</a></td>
-                        <td class="tbl_col_last_month"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"} MB</a></td>
-                        <td class="tbl_col_this_year"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"} MB</a></td>
-                        <td class="tbl_col_last_year"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"} MB</a></td>
+                        <td class="tbl_col_domain"><a href="#" onClick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain"}</a></td>
+                        <td class="tbl_col_this_month"><a href="#" onClick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_month"} MB</a></td>
+                        <td class="tbl_col_last_month"><a href="#" onClick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"} MB</a></td>
+                        <td class="tbl_col_this_year"><a href="#" onClick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"} MB</a></td>
+                        <td class="tbl_col_last_year"><a href="#" onClick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"} MB</a></td>
                         <td class="tbl_col_buttons"></td>
                     </tr>
                 </tmpl_loop>
 				<tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td class="tbl_col_domain"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');" style="font-weight:bold;">{tmpl_var name="sum_txt"}</a></td>
-                        <td class="tbl_col_this_month"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');" style="font-weight:bold;">{tmpl_var name="sum_this_month"} MB</a></td>
-                        <td class="tbl_col_last_month"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');" style="font-weight:bold;">{tmpl_var name="sum_last_month"} MB</a></td>
-                        <td class="tbl_col_this_year"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');" style="font-weight:bold;">{tmpl_var name="sum_this_year"} MB</a></td>
-                        <td class="tbl_col_last_year"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');" style="font-weight:bold;">{tmpl_var name="sum_last_year"} MB</a></td>
+                        <td class="tbl_col_domain"><a href="#" onClick="return false;" style="font-weight:bold;">{tmpl_var name="sum_txt"}</a></td>
+                        <td class="tbl_col_this_month"><a href="#" onClick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_month"} MB</a></td>
+                        <td class="tbl_col_last_month"><a href="#" onClick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_month"} MB</a></td>
+                        <td class="tbl_col_this_year"><a href="#" onClick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_year"} MB</a></td>
+                        <td class="tbl_col_last_year"><a href="#" onClick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_year"} MB</a></td>
                         <td class="tbl_col_buttons">
                             <div class="buttons icons16">    
                             </div>

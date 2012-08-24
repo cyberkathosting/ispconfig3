@@ -452,7 +452,7 @@ if ($app->dbmaster == $app->db) {
 	$current_month = date('Y-m');
 
 	//* Check website traffic quota
-	$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE (traffic_quota > 0 or traffic_quota_lock = 'y') and type = 'vhost'";
+	$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE (traffic_quota > 0 or traffic_quota_lock = 'y') and (type = 'vhost' OR type = 'vhostsubdomain')";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {
@@ -592,7 +592,7 @@ if($backup_dir != '') {
 		chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 	}
 
-	$sql = "SELECT * FROM web_domain WHERE server_id = '".$conf['server_id']."' AND type = 'vhost' AND backup_interval != 'none'";
+	$sql = "SELECT * FROM web_domain WHERE server_id = '".$conf['server_id']."' AND (type = 'vhost' OR type = 'vhostsubdomain') AND backup_interval != 'none'";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {
