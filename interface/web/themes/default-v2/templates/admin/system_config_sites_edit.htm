@@ -39,6 +39,12 @@
                 <label for="webftp_url">{tmpl_var name='webftp_url_txt'}</label>
                 <input name="webftp_url" id="webftp_url" value="{tmpl_var name='webftp_url'}" size="30" maxlength="255" type="text" class="textInput" />
             </div>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='vhost_subdomains_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='vhost_subdomains'}&nbsp;{tmpl_var name='vhost_subdomains_note_txt'}
+                </div>
+            </div>
         </fieldset>
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

@@ -5,59 +5,18 @@
 
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels">
-            <tmpl_if name="is_admin">
-                <div class="ctrlHolder">
-                    <tmpl_if name="edit_disabled">
-                        <label for="server_id_disabled">{tmpl_var name='server_id_txt'}</label>
-                        <select name="server_id_disabled" id="server_id_disabled" class="selectInput" disabled="disabled">
-                            {tmpl_var name='server_id'}
-                        </select>
-                        <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
-                        <tmpl_else>
-                            <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                            <select name="server_id" id="server_id" class="selectInput">
-                                {tmpl_var name='server_id'}
-                            </select>
-                    </tmpl_if>
-                </div>
-                <div class="ctrlHolder">
-                    <label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
-                    <select name="client_group_id" id="client_group_id" class="selectInput">
-                        {tmpl_var name='client_group_id'}
-                    </select>
-                </div>
-                <tmpl_else>
-                    <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
-            </tmpl_if>
-            <tmpl_if name="is_reseller">
-                <div class="ctrlHolder">
-                    <label for="client_group_id">{tmpl_var name='client_group_id_txt'}</label>
-                    <select name="client_group_id" id="client_group_id" class="selectInput">
-                        {tmpl_var name='client_group_id'}
-                    </select>
-                </div>
-            </tmpl_if>
+            <input type="hidden" name="server_id" id="server_id" value="{tmpl_var name='server_id_value'}" />
             <div class="ctrlHolder">
-                <label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
-                <select name="ip_address" id="ip_address" class="selectInput formLengthIPv4">
-                    {tmpl_var name='ip_address'}
-                </select>
+                <label for="domain">{tmpl_var name='host_txt'}</label>
+                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
             </div>
             <div class="ctrlHolder">
-                <label for="ipv6_address">{tmpl_var name='ipv6_address_txt'}</label>
-                <select name="ipv6_address" id="ipv6_address" class="selectInput formLengthIPv4">
-                    {tmpl_var name='ipv6_address'}
-                </select>
+                <label for="parent_domain_id">{tmpl_var name='domain_txt'}</label>
+                <select id="parent_domain_id" name="parent_domain_id" class="selectInput formLengthHalf">{tmpl_var name='parent_domain_id'}</select>
             </div>
             <div class="ctrlHolder">
-                <label for="domain">{tmpl_var name='domain_txt'}</label>
-                <tmpl_if name="domain_option">
-                    <select name="domain" id="domain" class="selectInput">
-                        {tmpl_var name='domain_option'}
-                    </select>
-                    <tmpl_else>
-                        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
-                </tmpl_if>
+                <label for="web_folder">{tmpl_var name='web_folder_txt'}</label>
+                <input name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" size="30" maxlength="100" type="text" class="textInput formLengthHalf"<tmpl_if name='fixed_folder' op='==' value='y'> readonly="readonly"</tmpl_if> />
             </div>
             <div class="ctrlHolder">
                 <label for="hd_quota">{tmpl_var name='hd_quota_txt'}</label>
@@ -146,7 +105,7 @@
 
         <div class="buttonHolder buttons">
             <button id="dom-edit-submit" class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('sites/web_vhost_subdomain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
         </div>
     </div>
 
@@ -238,11 +197,11 @@
         });
         jQuery('#dom-edit-submit').click(function() {
                jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').removeAttr('disabled');
-               submitForm('pageForm','sites/web_domain_edit.php');
+               submitForm('pageForm','sites/web_vhost_subdomain_edit.php');
         });
     <tmpl_else>
         jQuery('#dom-edit-submit').click(function() {
-            submitForm('pageForm','sites/web_domain_edit.php');
+            submitForm('pageForm','sites/web_vhost_subdomain_edit.php');
         });
     </tmpl_if>
 			

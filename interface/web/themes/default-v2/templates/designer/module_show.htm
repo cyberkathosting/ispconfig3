@@ -1,0 +1,31 @@
+<div class="frmTextHead"><tmpl_var name="header_txt"></div><br />
+<fieldset style="width:250px;"><legend class="frmText11"><b>{tmpl_var name='module_txt'}</b></legend>
+<table border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td width="126" class="frmText11"><tmpl_var name="title_txt">:</td>
+    <td width="366" class="frmText11">{tmpl_var name='title'}</td>
+  </tr>
+  <tr>
+    <td width="126" class="frmText11"><tmpl_var name="name_txt">:</td>
+    <td width="366" class="frmText11">{tmpl_var name='name'}</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="frmText11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="frmText11">
+	  <input type="button" name="ed1" value="{tmpl_var name='properties_txt'}" onClick="loadContent('designer/module_edit.php?id={tmpl_var name='name'}')" class="button" /><div class="buttonEnding"></div>
+	  <input type="button" name="ed2" value="{tmpl_var name='delete_txt'}" onClick="del_record('designer/module_del.php?id={tmpl_var name='name'}');" class="button" /><div class="buttonEnding"></div>
+	  <input type="button" name="ed3" value="{tmpl_var name='new_menu_txt'}" onClick="loadContent('designer/module_nav_edit.php?module_name={tmpl_var name='name'}')" class="button" /><div class="buttonEnding"></div></td>
+  </tr>
+</table>
+</fieldset>
+<table width="500" border="0" cellspacing="0" cellpadding="2">
+  <tr>
+    <td colspan="2" class="frmText11">&nbsp;</td>
+  </tr>
+  <tmpl_var name="nav">
+  <tr>
+    <td colspan="2" class="frmText11">&nbsp;</td>
+  </tr>
+</table>
