@@ -98,6 +98,7 @@
             
             jQuery(document).bind("change", function(event) {
                 if (jQuery(".panel #Filter").length > 0 && event.target.localName == 'select') {
+                    event.preventDefault();
                     jQuery(".panel #Filter").trigger('click');
                 }
             });
@@ -105,10 +106,12 @@
             jQuery(document).bind("keypress", function(event) {
                 //Use jQuery submit with keypress Enter in panel filterbar
                 if (event.which == '13' && jQuery(".panel #Filter").length > 0) {
+                    event.preventDefault();
                     jQuery(".panel #Filter").trigger('click');
                 }
                 //Use jQuery submit with keypress Enter in forms
                 if (event.which == '13' && jQuery(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea') {
+                    event.preventDefault();
                     jQuery(".pnl_formsarea button.positive:first").trigger('click');
                 }
             });
