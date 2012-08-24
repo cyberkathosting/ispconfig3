@@ -6,7 +6,7 @@
     <div class="pnl_listsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="iconstxt icoAdd" type="button" onClick="loadContent('sites/web_aliasdomain_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('sites/web_aliasdomain_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
             </div>
@@ -17,19 +17,21 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
                         <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
                         <th class="tbl_col_parent_domain_id" scope="col"><tmpl_var name="parent_domain_id_txt"></th>
                         <th class="tbl_col_domain" scope="col"><tmpl_var name="domain_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td class="tbl_col_parent_domain_id"><select name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
-                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/web_aliasdomain_list.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                        <td class="tbl_col_buttons">
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/web_aliasdomain_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,9 +42,7 @@
                             <td class="tbl_col_parent_domain_id"><a href="#" onClick="loadContent('sites/web_aliasdomain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="parent_domain_id"}</a></td>
                             <td class="tbl_col_domain"><a href="#" onClick="loadContent('sites/web_aliasdomain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain"}</a></td>
                             <td class="tbl_col_buttons">
-                                <div class="buttons icons16">    
-                                    <a class="icons16 icoDelete" href="javascript: del_record('sites/web_aliasdomain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
-                                </div>
+                                <a class="button icons16 icoDelete" href="javascript: del_record('sites/web_aliasdomain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
                             </td>
                         </tr>
                     </tmpl_loop>

@@ -7,7 +7,7 @@
         <fieldset><legend><tmpl_var name="list_head_txt"></legend>
             <table class="list">
                 <thead>
-                    <tr>
+                    <tr class="caption">
                         <th class="tbl_col_domain" scope="col"><tmpl_var name="domain_txt"></th>
                         <th class="tbl_col_web_traffic_this_month" scope="col"><tmpl_var name="this_month_txt"></th>
                         <th class="tbl_col_web_traffic_last_month" scope="col"><tmpl_var name="last_month_txt"></th>
@@ -15,13 +15,15 @@
                         <th class="tbl_col_web_traffic_last_year" scope="col"><tmpl_var name="last_year_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr>
+                    <tr class="filter">
                         <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                         <td class="tbl_col_this_month"></td>
                         <td class="tbl_col_last_month"></td>
                         <td class="tbl_col_this_year"></td>
                         <td class="tbl_col_last_year"></td>
-                        <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/web_sites_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+                        <td class="tbl_col_buttons">
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/web_sites_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,10 +34,7 @@
                         <td class="tbl_col_last_month"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"} MB</a></td>
                         <td class="tbl_col_this_year"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"} MB</a></td>
                         <td class="tbl_col_last_year"><a href="#" onClick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"} MB</a></td>
-                        <td class="tbl_col_buttons">
-                            <div class="buttons icons16">    
-                            </div>
-                        </td>
+                        <td class="tbl_col_buttons"></td>
                     </tr>
                 </tmpl_loop>
 				<tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
