@@ -108,6 +108,8 @@ $module["nav"][] = array(   'title' => 'Web Access',
 
 
 // CMD menu
+if($app->auth->get_client_limit($userid,'shell_user') != 0 OR $app->auth->get_client_limit($userid,'cron') != 0)
+{
 $items=array();
 
 if($app->auth->get_client_limit($userid,'shell_user') != 0)
@@ -127,7 +129,7 @@ $items[] = array(   'title'   => "Cron Jobs",
 $module["nav"][] = array(   'title' => 'Command Line',
                             'open'  => 1,
                             'items' => $items);
-
+}
 
 // APS menu
 $items = array();
