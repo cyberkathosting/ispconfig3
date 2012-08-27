@@ -169,6 +169,7 @@ if(is_array($packages)) {
 				}
 			}
 		}
+		$packages[$key]['software_update_inst_id'] = $inst['software_update_inst_id'];
 		$packages[$key]['installed'] = $installed_txt;
 	}
 }
