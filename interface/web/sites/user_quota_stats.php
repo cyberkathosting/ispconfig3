@@ -46,7 +46,13 @@ class list_action extends listform_actions {
 		$rec['hard'] = $monitor_data['user'][$username]['hard'];
 		$rec['files'] = $monitor_data['user'][$username]['files'];
 		
-		if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
+		if (!is_numeric($rec['used'])){
+			if ($rec['used'][0] > $rec['used'][1]){
+				$rec['used'] = $rec['used'][0];
+			} else {
+				$rec['used'] = $rec['used'][1];
+			}
+		}
 		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
 		if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];
