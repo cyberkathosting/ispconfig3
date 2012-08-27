@@ -306,11 +306,14 @@ function changeTab(tab,target) {
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
     
-    var id = document.pageForm.id.value;
+    var idel = jQuery('form#pageForm').find('[name="id"]');
+    var id = null;
+    if(idel.length > 0) id = idel.val();
     if(tabChangeDiscard == 'y') {
-        if(id && (pageFormChanged == false || window.confirm(tabChangeDiscardTxt))) {
+        if((idel.length < 1 || id) && (pageFormChanged == false || window.confirm(tabChangeDiscardTxt))) {
             var next_tab = tab;
-            loadContent(target, {'next_tab': next_tab, 'id': id});
+            if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
+            else loadContent(target, {'next_tab': next_tab});
         } else {
             return false;
         }
@@ -320,8 +323,8 @@ function changeTab(tab,target) {
                 submitForm('pageForm', target);
             } else {
                 var next_tab = tab;
-                var id = document.pageForm.id.value;
-                loadContent(target, {'next_tab': next_tab, 'id': id});
+                if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
+                else loadContent(target, {'next_tab': next_tab});
             }
         } else {
             submitForm('pageForm',target);

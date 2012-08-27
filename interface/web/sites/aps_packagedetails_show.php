@@ -68,9 +68,10 @@ if(isset($details['error'])) $app->error($details['error']);
 
 // Set the active and default tab
 $next_tab = 'details';
-if(isset($_POST['next_tab']))
+if(isset($_POST['next_tab']) || isset($_GET['next_tab']))
 {
-    switch($_POST['next_tab'])
+    $tab = (isset($_POST['next_tab']) ? $_POST['next_tab'] : $_GET['next_tab']);
+    switch($tab)
     {
         case 'details': $next_tab = 'details'; break;
         case 'settings': $next_tab = 'settings'; break;
