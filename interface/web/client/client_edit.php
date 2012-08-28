@@ -117,8 +117,8 @@ class page_action extends tform_actions {
 		$text = '';
 		foreach($tplAdd as $item){
 			if (trim($item) != ''){
-				if ($text != '') $text .= '<br />';
-				$text .= $tpl[$item];
+				if ($text != '') $text .= '';
+				$text .= '<li>' . $tpl[$item]. '</li>';
 			}
 		}
 

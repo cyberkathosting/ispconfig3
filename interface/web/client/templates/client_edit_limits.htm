@@ -28,7 +28,14 @@
                     <select name="tpl_add_select" id="tpl_add_select" class="selectInput">
                         {tmpl_var name='tpl_add_select'}
                     </select>
-                    <div id="template_additional_list"><br /><br />{tmpl_var name='template_additional_list'}</div>
+                </div>
+                <div class="ctrlHolder">
+                    <p class="label">{tmpl_var name='active_template_additional_txt'}</p>
+                    <div id="template_additional_list" class="multiField">
+                        <ul>
+                        {tmpl_var name='template_additional_list'}
+                        </ul>
+                    </div>
                     <input type="hidden" id="template_additional" name="template_additional" value="{tmpl_var name='template_additional'}">
                 </div>
                 <div class="ctrlHolder">

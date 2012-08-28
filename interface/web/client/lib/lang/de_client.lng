@@ -83,6 +83,7 @@ $wb['username_error_regex'] = 'Der Benutzername enthält ungültige Zeichen.';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['template_master_txt'] = 'Mastervorlage';
 $wb['template_additional_txt'] = 'Add-Ons';
+$wb["active_template_additional_txt"] = 'Aktive Add-Ons';
 $wb['add_additional_template_txt'] = 'Zusätzliches Template hinzufügen';
 $wb['delete_additional_template_txt'] = 'Zusätzliches Template löschen';
 $wb['ssh_chroot_txt'] = 'SSH-Chroot Optionen';
