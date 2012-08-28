@@ -253,16 +253,26 @@ class ApsGUIController extends ApsBase
 			//* Find a free db name for the app
 			for($n = 1; $n <= 1000; $n++) {
 				$mysql_db_name = $dbname_prefix.'aps'.$n;
+				$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = '".$app->db->quote($mysql_db_name)."'");
+				if($tmp['number'] == 0) break;
+			}
+			//* Find a free db username for the app
+			for($n = 1; $n <= 1000; $n++) {
 				$mysql_db_user = $dbuser_prefix.'aps'.$n;
-				$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = '".$app->db->quote($mysql_db_user)."' OR database_user = '".$app->db->quote($mysql_db_name)."'");
+				$tmp = $app->db->queryOneRecord("SELECT count(database_user_id) as number FROM web_database_user WHERE database_user = '".$app->db->quote($mysql_db_user)."'");
 				if($tmp['number'] == 0) break;
 			}
 			
 			$mysql_db_password = $settings['main_database_password'];
 			
+			//* Create the mysql database user
+			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `database_user`, `database_password`) 
+					  VALUES( ".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', 0, '$mysql_db_user', PASSWORD('$mysql_db_password'))";
+			$mysql_db_user_id = $app->db->datalogInsert('web_database_user', $insert_data, 'database_user_id');
+            
 			//* Create the mysql database
-			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `parent_domain_id`, `type`, `database_name`, `database_user`, `database_password`, `database_charset`, `remote_access`, `remote_ips`, `backup_copies`, `active`, `backup_interval`) 
-					  VALUES( ".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', $mysql_db_server_id, ".$websrv['domain_id'].", 'mysql', '$mysql_db_name', '$mysql_db_user', PASSWORD('$mysql_db_password'), '', '$mysql_db_remote_access', '$mysql_db_remote_ips', ".$websrv['backup_copies'].", 'y', '".$websrv['backup_interval']."')";
+			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `parent_domain_id`, `type`, `database_name`, `database_user_id`, `database_ro_user_id`, `database_charset`, `remote_access`, `remote_ips`, `backup_copies`, `active`, `backup_interval`) 
+					  VALUES( ".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', $mysql_db_server_id, ".$websrv['domain_id'].", 'mysql', '$mysql_db_name', '$mysql_db_user_id', 0, '', '$mysql_db_remote_access', '$mysql_db_remote_ips', ".$websrv['backup_copies'].", 'y', '".$websrv['backup_interval']."')";
 			$app->db->datalogInsert('web_database', $insert_data, 'database_id');
 			
 			//* Add db details to package settings
