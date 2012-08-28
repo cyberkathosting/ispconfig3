@@ -164,7 +164,7 @@ class page_action extends tform_actions {
 		
 		//* Check database user against blacklist
 		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
-		if(in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
+		if(is_array($dbname_blacklist) && in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
 			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
 		}
 
