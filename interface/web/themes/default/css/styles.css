@@ -760,6 +760,7 @@ button.icons16 {
 .icons16.icoFilter { background-position: -1px -161px; }
 .icons16.icoDbAdmin { background-position: -1px -221px; }
 .icons16.icoAction { background-position: -1px -241px; }
+.icons16.icoLink { background-position: -1px -442px; float: right; }
 
 div.group-icon {
     float: left;
