@@ -81,7 +81,7 @@ class page_action extends tform_actions {
 		$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
 		
 		// Get all records (sub-clients, mail, web, etc....)  of this client.
-		$tables = 'cron,client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic';
+		$tables = 'cron,client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain';
 		$tables_array = explode(',',$tables);
 		$client_group_id = intval($client_group['groupid']);
 		
@@ -131,7 +131,7 @@ class page_action extends tform_actions {
 			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
 			
 			// Delete all records (sub-clients, mail, web, etc....)  of this client.
-			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_traffic,web_folder,web_folder_user,domain';
+			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_domain,web_folder,web_folder_user,domain';
 			$tables_array = explode(',',$tables);
 			$client_group_id = intval($client_group['groupid']);
 			if($client_group_id > 1) {
@@ -149,6 +149,14 @@ class page_action extends tform_actions {
 							if(is_array($records)) {
 								foreach($records as $rec) {
 									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
+									//* Delete traffic records that dont have a sys_groupid column
+									if($table == 'web_domain') {
+										$app->db->query("DELETE FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."'");
+									}
+									//* Delete mail_traffic records that dont have a sys_groupid
+									if($table == 'mail_user') {
+										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = '".$app->db->quote($rec['mailuser_id'])."'");
+									}
 								}
 							}
 						}
