@@ -81,7 +81,10 @@ class network_settings_plugin {
 		
 		//* Configure the debian network card settings.
 		//* Dont configure
-		if($server_config['auto_network_configuration'] == 'y' && $data['mirrored'] == false) {
+		if($server_config['auto_network_configuration'] == 'y' && 
+		   $data['mirrored'] == false &&
+		   $server_config['ip_address'] != '0.0.0.0' && 
+		   $server_config['gateway'] != '0.0.0.0') {
 			
 			if (is_file('/etc/debian_version')) 
 			{

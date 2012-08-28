@@ -6,11 +6,11 @@ dnsserver=mydns
 
 [server]
 auto_network_configuration=n
-ip_address=192.168.0.105
+ip_address=0.0.0.0
 netmask=255.255.255.0
-gateway=192.168.0.1
+gateway=0.0.0.0
 hostname=server1.domain.tld
-nameservers=192.168.0.1,192.168.0.2
+nameservers=8.8.8.8,8.8.4.4
 firewall=bastille
 loglevel=2
 backup_dir=/var/backup
