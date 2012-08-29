@@ -317,10 +317,14 @@ class ApsGUIController extends ApsBase
         $this->db->datalogSave('aps', 'DELETE', 'id', $instanceid, array(), $datalog);
 		*/
 		
-		$sql = "SELECT web_database.database_id as database_id FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
+		$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
 		$tmp = $this->db->queryOneRecord($sql);
 		if($tmp['database_id'] > 0) $this->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
 		
+        $database_user = $tmp['database_user_id'];
+        $tmp = $this->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . intval($database_user) . "' OR `database_ro_user_id` = '" . intval($database_user) . "'");
+        if($tmp['cnt'] < 1) $this->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
+        
 		$this->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
     }
     
