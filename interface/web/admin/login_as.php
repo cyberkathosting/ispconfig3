@@ -78,8 +78,8 @@ echo '
 	<input type="hidden" name="s_mod" value="login" />
 	<input type="hidden" name="s_pg" value="index" />
     <div class="wf_actions buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="Yes, login as Client" onClick="submitLoginForm(' . "'pageForm'" . ');"><span>Yes, login as Client</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="No, back to list" onClick="loadContent('. "'$backlink'" . ');"><span>No, back to list</span></button>
+      <button class="positive iconstxt icoPositive" type="button" value="Yes, login as Client" onclick="submitLoginForm(' . "'pageForm'" . ');"><span>Yes, login as Client</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="No, back to list" onclick="loadContent('. "'$backlink'" . ');"><span>No, back to list</span></button>
     </div>
 ';
 ?>

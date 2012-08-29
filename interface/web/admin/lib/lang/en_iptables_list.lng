@@ -13,7 +13,7 @@ templates/iptables_list.htm:            <th class="tbl_col_protocol" scope="col"
 templates/iptables_list.htm:                    <th class="tbl_col_table" scope="col"><tmpl_var name="table_txt"></th>
 templates/iptables_list.htm:                <th class="tbl_col_target" scope="col"><tmpl_var name="target_txt"></th>
 templates/iptables_list.htm:                <th class="tbl_col_state" scope="col"><tmpl_var name="state_txt"></th>
-templates/iptables_list.htm:                            <button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/iptables_list.php');">
+templates/iptables_list.htm:                            <button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/iptables_list.php');">
 templates/iptables_list.htm:                            <span>{tmpl_var name="filter_txt"}filter_txt</span></button></div>
 templates/iptables_list.htm:                                    <span>{tmpl_var name='delete_txt'}</span></a>
 */

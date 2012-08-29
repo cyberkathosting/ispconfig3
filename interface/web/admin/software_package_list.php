@@ -165,7 +165,7 @@ if(is_array($packages)) {
 				if($p['package_installable'] == 'no') {
 					$installed_txt .= $s['server_name'].": ".$app->lng("Package can not be installed.")."<br />";
 				} else {
-					$installed_txt .= $s['server_name'].": <a href=\"#\" onClick=\"loadContent('admin/software_package_install.php?package=".$p["package_name"]."&server_id=".$s["server_id"]."');\">Install now</a><br />";
+					$installed_txt .= $s['server_name'].": <a href=\"#\" onclick=\"loadContent('admin/software_package_install.php?package=".$p["package_name"]."&server_id=".$s["server_id"]."');\">Install now</a><br />";
 				}
 			}
 		}

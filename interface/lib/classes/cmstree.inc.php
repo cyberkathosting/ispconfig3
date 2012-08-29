@@ -100,9 +100,9 @@ class cmstree
 				*/
 				$val_id = $val->id;
 				if($_SESSION['s']['cat_open'][$val_id] == 1) {
-					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onClick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder.png' border='0'> ".$val->btext."</a></div>";
+					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onclick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder.png' border='0'> ".$val->btext."</a></div>";
 				} else {
-					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onClick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder_closed.png' border='0'> ".$val->btext."</a></div>";
+					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onclick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder_closed.png' border='0'> ".$val->btext."</a></div>";
 				}
 				
 				$optionlist[] = array( 	media_cat 		=> $kategorie,

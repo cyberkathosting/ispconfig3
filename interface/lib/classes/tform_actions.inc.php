@@ -486,7 +486,7 @@ class tform_actions {
 						$navibar .= '<a href="'.$app->tform->formDef['action'].'?id='.$this->id.'&print_form=1" target="_blank"><img src="../themes/iprg/icons/printer.png" border="0" alt="Drucken" /></a> &nbsp;';
 					}
 					if($app->tform->formDef['template_mailsend'] != '') {
-						$navibar .= "<a href=\"#\" onClick=\"window.open('".$app->tform->formDef['action'].'?id='.$this->id."&send_form_by_mail=1','send','width=370,height=240')\"><img src=\"../themes/iprg/icons/mail.png\" border=\"0\" alt=\"Als E-Mail versenden\" /></a>";
+						$navibar .= "<a href=\"#\" onclick=\"window.open('".$app->tform->formDef['action'].'?id='.$this->id."&send_form_by_mail=1','send','width=370,height=240')\"><img src=\"../themes/iprg/icons/mail.png\" border=\"0\" alt=\"Als E-Mail versenden\" /></a>";
 					}
 					$app->tpl->setVar('form_navibar',$navibar);
 				}

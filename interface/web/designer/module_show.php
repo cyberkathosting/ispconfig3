@@ -66,11 +66,11 @@ foreach($navi as $nav_id => $section) {
 	  	<tr>
 		  <td class='tblHead'>$section[title]</td>
 		  <td class='tblHead' width='280' align='right'>
-		  <input type=\"button\" name=\"bt1$n2\" value=\"$wb[edit_txt]\" onClick=\"loadContent('designer/module_nav_edit.php?module_name=$module_name&nav_id=$nav_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt2$n2\" value=\"$wb[delete_txt]\" onClick=\"del_record('designer/module_nav_del.php?module_name=$module_name&nav_id=$nav_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt3$n2\" value=\"$wb[new_txt]\" onClick=\"loadContent('designer/module_nav_item_edit.php?module_name=$module_name&nav_id=$nav_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt4$n2\" value=\"$wb[up_txt]\" onClick=\"loadContent('designer/module_nav_flip.php?module_name=$module_name&nav_id=$nav_id&dir=up');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt5$n2\" value=\"$wb[down_txt]\" onClick=\"loadContent('designer/module_nav_flip.php?module_name=$module_name&nav_id=$nav_id&dir=down');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt1$n2\" value=\"$wb[edit_txt]\" onclick=\"loadContent('designer/module_nav_edit.php?module_name=$module_name&nav_id=$nav_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt2$n2\" value=\"$wb[delete_txt]\" onclick=\"del_record('designer/module_nav_del.php?module_name=$module_name&nav_id=$nav_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt3$n2\" value=\"$wb[new_txt]\" onclick=\"loadContent('designer/module_nav_item_edit.php?module_name=$module_name&nav_id=$nav_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt4$n2\" value=\"$wb[up_txt]\" onclick=\"loadContent('designer/module_nav_flip.php?module_name=$module_name&nav_id=$nav_id&dir=up');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt5$n2\" value=\"$wb[down_txt]\" onclick=\"loadContent('designer/module_nav_flip.php?module_name=$module_name&nav_id=$nav_id&dir=down');\" class=\"button\" /><div class=\"buttonEnding\"></div>
 		  </td>
 		</tr>";
 	//$content .= "<tr><td bgcolor='#EEEEEE' class='frmText11'>Bereich:</td><td class='frmText11' bgcolor='#EEEEEE'><input name=\"module[nav][$n1][title]\" type=\"text\" class=\"text\" value=\"$section[title]\" size=\"30\" maxlength=\"255\"><input name=\"module[nav][$n1][open]\" type=\"hidden\" value=\"$section[open]\"></td></tr>\r\n";
@@ -81,10 +81,10 @@ foreach($navi as $nav_id => $section) {
 		$content .= "<tr>
 		  <td class='frmText11'>$item[title]</td>
 		  <td class='frmText11' width='280' align='right'>
-		  <input type=\"button\" name=\"bt6$n2\" value=\"$wb[edit_txt]\" onClick=\"loadContent('designer/module_nav_item_edit.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt7$n2\" value=\"$wb[delete_txt]\" onClick=\"del_record('designer/module_nav_item_del.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt8$n2\" value=\"$wb[up_txt]\" onClick=\"loadContent('designer/module_nav_item_flip.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id&dir=up');\" class=\"button\" /><div class=\"buttonEnding\"></div>
-		  <input type=\"button\" name=\"bt9$n2\" value=\"$wb[down_txt]\" onClick=\"loadContent('designer/module_nav_item_flip.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id&dir=down');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt6$n2\" value=\"$wb[edit_txt]\" onclick=\"loadContent('designer/module_nav_item_edit.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt7$n2\" value=\"$wb[delete_txt]\" onclick=\"del_record('designer/module_nav_item_del.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt8$n2\" value=\"$wb[up_txt]\" onclick=\"loadContent('designer/module_nav_item_flip.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id&dir=up');\" class=\"button\" /><div class=\"buttonEnding\"></div>
+		  <input type=\"button\" name=\"bt9$n2\" value=\"$wb[down_txt]\" onclick=\"loadContent('designer/module_nav_item_flip.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id&dir=down');\" class=\"button\" /><div class=\"buttonEnding\"></div>
 		  </td>
 		</tr>";
 		$n2++;

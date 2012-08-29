@@ -269,7 +269,7 @@ function loadInitContent() {
 
 function setFocus() {
 	try {
-		document.pageForm.username.focus();
+		jQuery('form#pageForm').find('input[name="username"]').focus();
 	} catch (e) {
 	}
 }
@@ -601,6 +601,8 @@ function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
 }
 
+var funcDisableClick = function(e) { e.preventDefault(); return false; };
+
 function checkPassMatch(pwField1,pwField2){
     var rpass = jQuery('#'+pwField2).val();
     var npass = jQuery('#'+pwField1).val();
@@ -608,13 +610,22 @@ function checkPassMatch(pwField1,pwField2){
 		jQuery('#confirmpasswordOK').hide();
         jQuery('#confirmpasswordError').show();
 		jQuery('button.positive').attr('disabled','disabled');
-		jQuery('.tabbox_tabs ul li a').attr('onclick','return false;');
+        jQuery('.tabbox_tabs ul li a').each(function() {
+            var $this = $(this);
+            $this.data('saved_onclick', $this.attr('onclick'));
+            $this.removeAttr('onclick');
+            $this.click(funcDisableClick);
+        });
         return false;
     } else {
 		jQuery('#confirmpasswordError').hide();
         jQuery('#confirmpasswordOK').show();
 		jQuery('button.positive').removeAttr('disabled');
-		jQuery('.tabbox_tabs ul li a').removeAttr('onclick');
+		jQuery('.tabbox_tabs ul li a').each(function() {
+            var $this = $(this);
+            $this.unbind('click', funcDisableClick);
+            if($this.data('saved_onclick') && !$this.attr('onclick')) $this.attr('onclick', $this.data('saved_onclick'));
+        });
     }
 }
 

@@ -72,11 +72,11 @@ foreach($tabs as $tab_id => $tab) {
 	  	<tr>
 		  <td class='tblHead'>$tab[title]</td>
 		  <td class='tblHead' width='220' align='right'>
-		  <input type=\"button\" name=\"bt1$n2\" value=\"$wb[edit_txt]\" onClick=\"location.href='form_tab_edit.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id'\" class=\"button\" />
-		  <input type=\"button\" name=\"bt2$n2\" value=\"$wb[delete_txt]\" onClick=\"del_menu('form_tab_del.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id');\" class=\"button\" />
-		  <input type=\"button\" name=\"bt3$n2\" value=\"$wb[new_txt]\" onClick=\"location.href='form_tab_item_edit.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id'\" class=\"button\" />
-		  <input type=\"button\" name=\"bt4$n2\" value=\"$wb[up_txt]\" onClick=\"location.href='form_tab_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&dir=up'\" class=\"button\" />
-		  <input type=\"button\" name=\"bt5$n2\" value=\"$wb[down_txt]\" onClick=\"location.href='form_tab_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&dir=down'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt1$n2\" value=\"$wb[edit_txt]\" onclick=\"location.href='form_tab_edit.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt2$n2\" value=\"$wb[delete_txt]\" onclick=\"del_menu('form_tab_del.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id');\" class=\"button\" />
+		  <input type=\"button\" name=\"bt3$n2\" value=\"$wb[new_txt]\" onclick=\"location.href='form_tab_item_edit.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt4$n2\" value=\"$wb[up_txt]\" onclick=\"location.href='form_tab_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&dir=up'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt5$n2\" value=\"$wb[down_txt]\" onclick=\"location.href='form_tab_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&dir=down'\" class=\"button\" />
 		  </td>
 		</tr>";
 	//$content .= "<tr><td bgcolor='#EEEEEE' class='frmText11'>Bereich:</td><td class='frmText11' bgcolor='#EEEEEE'><input name=\"module[nav][$n1][title]\" type=\"text\" class=\"text\" value=\"$section[title]\" size=\"30\" maxlength=\"255\"><input name=\"module[nav][$n1][open]\" type=\"hidden\" value=\"$section[open]\"></td></tr>\r\n";
@@ -87,10 +87,10 @@ foreach($tabs as $tab_id => $tab) {
 		$content .= "<tr>
 		  <td class='frmText11'>$field_id</td>
 		  <td class='frmText11' width='220' align='right'>
-		  <input type=\"button\" name=\"bt6$n2\" value=\"$wb[edit_txt]\" onClick=\"location.href='form_field_edit.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id'\" class=\"button\" />
-		  <input type=\"button\" name=\"bt7$n2\" value=\"$wb[delete_txt]\" onClick=\"del_menuitem('form_field_del.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id');\" class=\"button\" />
-		  <input type=\"button\" name=\"bt8$n2\" value=\"$wb[up_txt]\" onClick=\"location.href='form_field_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id&dir=up'\" class=\"button\" />
-		  <input type=\"button\" name=\"bt9$n2\" value=\"$wb[down_txt]\" onClick=\"location.href='form_field_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id&dir=down'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt6$n2\" value=\"$wb[edit_txt]\" onclick=\"location.href='form_field_edit.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt7$n2\" value=\"$wb[delete_txt]\" onclick=\"del_menuitem('form_field_del.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id');\" class=\"button\" />
+		  <input type=\"button\" name=\"bt8$n2\" value=\"$wb[up_txt]\" onclick=\"location.href='form_field_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id&dir=up'\" class=\"button\" />
+		  <input type=\"button\" name=\"bt9$n2\" value=\"$wb[down_txt]\" onclick=\"location.href='form_field_flip.php?module_name=$module_name&form_name=$form_name&tab_id=$tab_id&field_id=$field_id&dir=down'\" class=\"button\" />
 		  </td>
 		</tr>";
 		$n2++;

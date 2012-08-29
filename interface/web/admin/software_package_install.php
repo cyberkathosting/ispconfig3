@@ -129,7 +129,7 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 	//* Add the record to start the install process
 	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$install_server_id', '$software_update_id','installing')";
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
-	$message_ok = 'Starting package installation '."<a href=\"#\" onClick=\"submitForm('pageForm','admin/software_package_list.php');\">".$app->lng('next')."</a>";
+	$message_ok = 'Starting package installation '."<a href=\"#\" onclick=\"submitForm('pageForm','admin/software_package_list.php');\">".$app->lng('next')."</a>";
 	
 }
 

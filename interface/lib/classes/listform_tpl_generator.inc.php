@@ -44,7 +44,7 @@ class listform_tpl_generator {
   <div class="pnl_toolsarea">
     <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
       <div class="buttons">
-        <button class="iconstxt icoAdd" type="button" onClick="'."loadContent('".$module."/".$listDef["edit_file"]."');".'">
+        <button class="iconstxt icoAdd" type="button" onclick="'."loadContent('".$module."/".$listDef["edit_file"]."');".'">
           <span>{tmpl_var name="add_new_record_txt"}</span>
         </button>
       </div>
@@ -79,7 +79,7 @@ class listform_tpl_generator {
 			}
 		}
 		
-		$html .= '            <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="'."submitForm('pageForm','".$module."/".$listDef["file"]."');".'"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
+		$html .= '            <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="'."submitForm('pageForm','".$module."/".$listDef["file"]."');".'"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
         <tbody>
@@ -89,7 +89,7 @@ class listform_tpl_generator {
 		
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
-			$html .= "            <td class=\"tbl_col_".$key."\"><a href=\"#\" onClick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\">{tmpl_var name=\"".$key."\"}</a></td>\n";
+			$html .= "            <td class=\"tbl_col_".$key."\"><a href=\"#\" onclick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\">{tmpl_var name=\"".$key."\"}</a></td>\n";
 		}
 		
 		$html .= "            <td class=\"tbl_col_buttons\">

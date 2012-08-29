@@ -6,7 +6,7 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('admin/users_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('admin/users_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
                 <p><tmpl_var name="warning_txt"></p>
@@ -31,16 +31,16 @@
                         <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td class="tbl_col_groups"><select name="search_groups">{tmpl_var name='search_groups'}</select></td>
                         <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','admin/users_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/users_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
                         <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_client_pid"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="client_id"}</a></td>
-                            <td class="tbl_col_active"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
-                            <td class="tbl_col_username"><div class="icons16 group-{tmpl_var name="typ"}" title="{tmpl_var name="typ"}"><span>{tmpl_var name="typ"}</span></div> <div class="group-icon"><a href="#" onClick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="username"}</a></div></td>
+                            <td class="tbl_col_client_pid"><a href="#" onclick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="client_id"}</a></td>
+                            <td class="tbl_col_active"><a href="#" onclick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
+                            <td class="tbl_col_username"><div class="icons16 group-{tmpl_var name="typ"}" title="{tmpl_var name="typ"}"><span>{tmpl_var name="typ"}</span></div> <div class="group-icon"><a href="#" onclick="loadContent('admin/users_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="username"}</a></div></td>
                             <td class="tbl_col_groups">{tmpl_var name="groups"}</td>
                             <td class="tbl_col_buttons">
                                 <tmpl_if name="username" op="!=" value="admin">

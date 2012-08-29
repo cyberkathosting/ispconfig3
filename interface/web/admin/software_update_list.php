@@ -175,7 +175,7 @@ if(is_array($installed_packages)) {
 			
 			foreach($updates as $key => $u) {
 				$version = $u['v1'].'.'.$u['v2'].'.'.$u['v3'].'.'.$u['v4'];
-				$installed_txt = "<a href=\"#\" onClick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install Update</a><br />";
+				$installed_txt = "<a href=\"#\" onclick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install Update</a><br />";
 				$records_out[] = array('version' => $version, 'update_title' => $u["update_title"], 'installed' => $installed_txt);
 		
 			}
@@ -199,7 +199,7 @@ if(is_array($updates)) {
 		if($u['status'] == 'installed' || $u['status'] == 'installing' || $u['status'] == 'deleting') {
 			$installed_txt .= "Installed version $version<br />";
 		} else {
-			$installed_txt .= "<a href=\"#\" onClick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install now</a><br />";
+			$installed_txt .= "<a href=\"#\" onclick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install now</a><br />";
 		}
 		$updates[$key]['installed'] = $installed_txt;
 		

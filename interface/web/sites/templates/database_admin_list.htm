@@ -5,7 +5,7 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <button class="button iconstxt icoAdd" type="button" onClick="loadContent('sites/database_edit.php');">
+                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('sites/database_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
             </div>
@@ -33,19 +33,19 @@
                         <td class="tbl_col_database_user"><select name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
                         <td class="tbl_col_database_name"><input type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
                         <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','sites/database_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
                         <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_active"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
-                            <td class="tbl_col_remote_access"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="remote_access"}</a></td>
-                            <td class="tbl_col_sys_groupid"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="sys_groupid"}</a></td>
-                            <td class="tbl_col_server_id"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
-                            <td class="tbl_col_database_user"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_user_id"}</a></td>
-                            <td class="tbl_col_database_name"><a href="#" onClick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_name"}</a></td>
+                            <td class="tbl_col_active"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
+                            <td class="tbl_col_remote_access"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="remote_access"}</a></td>
+                            <td class="tbl_col_sys_groupid"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="sys_groupid"}</a></td>
+                            <td class="tbl_col_server_id"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
+                            <td class="tbl_col_database_user"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_user_id"}</a></td>
+                            <td class="tbl_col_database_name"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_name"}</a></td>
                             <td class="tbl_col_buttons">
                                 <tmpl_if name="dblist_phpmyadmin_link">
                                     <a class="button icons16 icoDbAdmin" href="sites/database_phpmyadmin.php?id={tmpl_var name='id'}" target="phpmyadmin"><span>{tmpl_var name='admin_txt'}</span></a>
