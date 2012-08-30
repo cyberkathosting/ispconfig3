@@ -40,7 +40,6 @@ $tform_def_file = "form/database.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -111,9 +110,9 @@ class page_action extends tform_actions {
 		 */
 		
 		//* Get the database name and database user prefix
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
+		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
 		
 		if ($this->dataRecord['database_name'] != ""){
 			/* REMOVE the restriction */
@@ -180,9 +179,9 @@ class page_action extends tform_actions {
 		if($this->dataRecord['parent_domain_id'] == 0) $app->tform->errorMessage .= $app->tform->lng("database_site_error_empty").'<br />';
 		
 		//* Get the database name and database user prefix
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
+		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
 		
 		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
@@ -253,9 +252,9 @@ class page_action extends tform_actions {
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
 
 		//* Get the database name and database user prefix
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
+		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
 		
 		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
 		

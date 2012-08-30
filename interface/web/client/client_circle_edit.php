@@ -40,7 +40,6 @@ $tform_def_file = "form/client_circle.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');

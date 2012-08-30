@@ -40,7 +40,6 @@ $tform_def_file = "form/ftp_user.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -74,10 +73,9 @@ class page_action extends tform_actions {
 		 * data can be edited
 		 */
 		
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		// $ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
-		$ftpuser_prefix = replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
+		$ftpuser_prefix = $app->tools_sites->replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
 		
 		if ($this->dataRecord['username'] != ""){
 			/* REMOVE the restriction */
@@ -115,10 +113,9 @@ class page_action extends tform_actions {
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
 		
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		//$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
-		$ftpuser_prefix = replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
+		$ftpuser_prefix = $app->tools_sites->replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
 		
 		if ($app->tform->errorMessage == '') {
 			$this->dataRecord['username'] = $ftpuser_prefix . $this->dataRecord['username'];
@@ -150,10 +147,9 @@ class page_action extends tform_actions {
 		 * If the names should be restricted -> do it!
 		 */
 		
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		//$ftpuser_prefix = ($global_config['ftpuser_prefix'] == '')?'':str_replace('[CLIENTNAME]', $this->getClientName(), $global_config['ftpuser_prefix']);
-		$ftpuser_prefix = replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
+		$ftpuser_prefix = $app->tools_sites->replacePrefix($global_config['ftpuser_prefix'], $this->dataRecord);
 		
 		/* restrict the names */
 		if ($app->tform->errorMessage == '') {
@@ -180,27 +176,6 @@ class page_action extends tform_actions {
 		}
 		
 	}
-	
-	function getClientName() {
-		global $app, $conf;
-	
-		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			// Get the group-id of the user
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-		} else {
-			// Get the group-id from the data itself
-			$web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord['parent_domain_id']));
-			$client_group_id = $web['sys_groupid'];
-		}
-		/* get the name of the client */
-		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-		$clientName = $tmp['name'];
-		if ($clientName == "") $clientName = 'default';
-		$clientName = convertClientName($clientName);
-		return $clientName;
-	
-	}
-	
 }
 
 $page = new page_action;

@@ -40,7 +40,6 @@ $tform_def_file = "form/webdav_user.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -73,9 +72,9 @@ class page_action extends tform_actions {
 		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
 		*/
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$webdavuser_prefix = replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
+		$webdavuser_prefix = $app->tools_sites->replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
 
 		if ($this->dataRecord['username'] != "") {
 			/* REMOVE the restriction */
@@ -128,9 +127,9 @@ class page_action extends tform_actions {
 		*/
 		if ($app->tform->errorMessage == '') {
 
-			$app->uses('getconf');
+			$app->uses('getconf,tools_sites');
 			$global_config = $app->getconf->get_global_config('sites');
-			$webdavuser_prefix = replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
+			$webdavuser_prefix = $app->tools_sites->replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
 
 			/* restrict the names */
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];

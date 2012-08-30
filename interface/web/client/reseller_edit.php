@@ -40,7 +40,6 @@ $tform_def_file = "form/reseller.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
@@ -179,9 +178,6 @@ class page_action extends tform_actions {
 		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);
 
-		/* If there is a client-template, process it */
-		applyClientTemplates($this->id);
-
 		parent::onAfterInsert();
 	}
 	
@@ -243,9 +239,6 @@ class page_action extends tform_actions {
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
 			$app->db->query($sql);
 		}
-		/*
-		 *  If there is a client-template, process it */
-		applyClientTemplates($this->id);
 
 		parent::onAfterUpdate();
 	}

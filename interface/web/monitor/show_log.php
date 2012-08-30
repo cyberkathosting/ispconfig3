@@ -30,10 +30,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('monitor');
+
+$app->uses('tools_monitor');
 
 // Loading the template
 $app->uses('tpl');
@@ -134,7 +135,7 @@ if(isset($record['data'])) {
 $app->tpl->setVar("list_head_txt", $title);
 $app->tpl->setVar("log_id",$logId);
 $app->tpl->setVar("list_desc_txt", $description);
-$app->tpl->setVar("time", getDataTime($logId));
+$app->tpl->setVar("time", $app->tools_monitor->getDataTime($logId));
 $app->tpl->setVar("monTransDate", $monTransDate);
 $app->tpl->setVar("monTransRefreshsq", $monTransRefreshsq);
 

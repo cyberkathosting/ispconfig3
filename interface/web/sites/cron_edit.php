@@ -191,27 +191,6 @@ class page_action extends tform_actions {
 		
 		
 	}
-    
-    function getClientName() {
-        global $app, $conf;
-    
-        if($_SESSION["s"]["user"]["typ"] != 'admin') {
-            // Get the group-id of the user
-            $client_group_id = $_SESSION["s"]["user"]["default_group"];
-        } else {
-            // Get the group-id from the data itself
-            $web = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ".intval($this->dataRecord['parent_domain_id']));
-            $client_group_id = $web['sys_groupid'];
-        }
-        /* get the name of the client */
-        $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $client_group_id);
-        $clientName = $tmp['name'];
-        if ($clientName == "") $clientName = 'default';
-        $clientName = convertClientName($clientName);
-        
-        return $clientName;
-    
-    }
 	
 }
 

@@ -40,7 +40,6 @@ $tform_def_file = "form/client_template.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
@@ -75,6 +74,7 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app;
 		
+        $app->uses('client_templates');
 		/*
 		 * the template has changed. apply the new data to all clients
 		 */
@@ -86,7 +86,7 @@ class page_action extends tform_actions {
 		$clients = $app->db->queryAllRecords($sql);
 		if (is_array($clients)){
 			foreach ($clients as $client){
-				applyClientTemplates($client['client_id']);
+                $app->client_templates->apply_client_templates($client['client_id']);
 			}
 		}
 	}

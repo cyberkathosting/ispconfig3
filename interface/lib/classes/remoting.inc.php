@@ -1063,7 +1063,7 @@ class remoting {
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
-		$affected_rows = $this->klientadd('../client/form/client.tform.php',$reseller_id, $params);
+		$affected_rows = $this->klientadd('../client/form/' . ($reseller_id ? 'reseller' : 'client') . '.tform.php',$reseller_id, $params);
 		return $affected_rows;  
 				  
 	}
@@ -1077,7 +1077,7 @@ class remoting {
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
-			$affected_rows = $this->updateQuery('../client/form/client.tform.php', $reseller_id, $client_id, $params);
+			$affected_rows = $this->updateQuery('../client/form/' . ($reseller_id ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params);
 			
 			$app->remoting_lib->ispconfig_sysuser_update($params,$client_id);
 			
@@ -2612,13 +2612,6 @@ class remoting {
 		//* load the user profile of the client
 		$app->remoting_lib->loadUserProfile($reseller_id);
 		
-		//* load the client template
-		if(isset($params['template_master']) and $params['template_master'] > 0)
-		{
-			$template=$app->db->queryOneRecord("SELECT * FROM client_template WHERE template_id=".intval($params['template_master']));
-			if(is_array($template)) $params=array_merge($params,$template);
-		}
-		
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params,'INSERT',0);
 		
@@ -2647,7 +2640,7 @@ class remoting {
 		$this->id = $insert_id;
 		$this->dataRecord = $params;
 		
-		$app->plugin->raiseEvent('client:client:on_after_insert',$this);
+		$app->plugin->raiseEvent('client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_insert',$this);
 		
 		/*
 		if($app->db->errorMessage != '') {

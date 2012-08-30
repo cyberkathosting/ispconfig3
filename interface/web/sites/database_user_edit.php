@@ -40,7 +40,6 @@ $tform_def_file = "form/database_user.tform.php";
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
-require_once('tools.inc.php');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -60,9 +59,9 @@ class page_action extends tform_actions {
 		 */
 		
 		//* Get the database user prefix
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
+		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 		
         if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			// Get the limits of the client
@@ -125,9 +124,9 @@ class page_action extends tform_actions {
 		global $app, $conf, $interfaceConf;
 
 		//* Get the database user prefix
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
+		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 
 		//* Database username shall not be empty
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
@@ -136,7 +135,7 @@ class page_action extends tform_actions {
 		
 		//* Check database user against blacklist
 		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
-		if(in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
+		if(in_array($dbuser_prefix . $this->dataRecord['database_user'],$dbuser_blacklist)) {
 			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
 		}
 		
@@ -156,15 +155,15 @@ class page_action extends tform_actions {
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
 
 		//* Get the database name and database user prefix
-		$app->uses('getconf');
+		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
-		$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
+		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 		
 		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
 		
 		//* Check database user against blacklist
 		$dbuser_blacklist = array($conf['db_user'],'mysql','root');
-		if(is_array($dbname_blacklist) && in_array($dbname_prefix . $this->dataRecord['database_user'],$dbname_blacklist)) {
+		if(is_array($dbuser_blacklist) && in_array($dbuser_prefix . $this->dataRecord['database_user'],$dbuser_blacklist)) {
 			$app->tform->errorMessage .= $app->lng('Database user not allowed.').'<br />';
 		}
 

@@ -199,8 +199,8 @@ class ApsGUIController extends ApsBase
     {
 		global $app;
 		
-		include_once(ISPC_WEB_PATH.'/sites/tools.inc.php');
-		
+		$app->uses('tools_sites');
+        
 		$webserver_id = 0;
         $websrv = $this->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$this->db->quote($settings['main_domain'])."';");
         if(!empty($websrv)) $webserver_id = $websrv['server_id'];
@@ -231,8 +231,8 @@ class ApsGUIController extends ApsBase
 			$tmp = array();
 			$tmp['parent_domain_id'] = $websrv['domain_id'];
 			$tmp['sys_groupid'] = $websrv['sys_groupid'];
-			$dbname_prefix = replacePrefix($global_config['dbname_prefix'], $tmp);
-			$dbuser_prefix = replacePrefix($global_config['dbuser_prefix'], $tmp);
+			$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $tmp);
+			$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $tmp);
 			unset($tmp);
 			
 			//* get the default database server of the client
