@@ -290,9 +290,9 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Finish all html's
 	*/
-	$html_ve      .= '</div></div></div>';
-	$html_server  .= '<div>##VE_INFO##</div></div></div></div>';
-	$html_verbose .= '</div></div></div>';
+	$html_ve      .= '</div></div>';
+	$html_server  .= '<div>##VE_INFO##</div></div></div>';
+	$html_verbose .= '</div></div>';
 
 	/*
 	 * create and return the result

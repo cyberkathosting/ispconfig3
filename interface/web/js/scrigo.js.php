@@ -32,7 +32,7 @@ function loadContentRefresh(pagename) {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful.'+pagename);
-											},
+											}
 										});
   	setTimeout( "loadContentRefresh('"+pagename+"&refresh="+document.getElementById('refreshinterval').value+"')", document.getElementById('refreshinterval').value*1000 );
   }
@@ -59,7 +59,7 @@ function capp(module, redirect) {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful.'+module);
-											},
+											}
 									});
 }
 
@@ -98,7 +98,7 @@ function submitLoginForm(formname) {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful.110');
-											},
+											}
 									});
 	/*
 	if(redirect != '') {
@@ -130,7 +130,7 @@ function submitForm(formname,target) {
 											error: function(jqXHR, textStatus, errorThrown) {
 												var parts = jqXHR.responseText.split(':');
 												reportError('Ajax Request was not successful. 111');
-											},
+											}
 									});
 	/*
 	if(redirect != '') {
@@ -163,7 +163,7 @@ function submitFormConfirm(formname,target,confirmation) {
 											error: function(jqXHR, textStatus, errorThrown) {
 												var parts = jqXHR.responseText.split(':');
 												reportError('Ajax Request was not successful. 111');
-											},
+											}
 									});
 	}
 }
@@ -237,7 +237,7 @@ function loadContent(pagename) {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 113');
-											},
+											}
 									});
 }
 
@@ -258,7 +258,7 @@ function loadInitContent() {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 114');
-											},
+											}
 										});
   
   loadMenus();
@@ -285,7 +285,7 @@ function loadMenus() {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 115');
-											},
+											}
 									});
 	
   var topNavObject = jQuery.ajax({			type: "GET", 
@@ -297,7 +297,7 @@ function loadMenus() {
 											},
 											error: function(o) {
 												reportError('Ajax Request was not successful. 116');
-											},
+											}
 								});
 
 }
@@ -353,7 +353,7 @@ function loadContentInto(elementid,pagename) {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 118');
-											},
+											}
 										});
 }
 
@@ -376,7 +376,7 @@ function loadOptionInto(elementid,pagename) {
 											},
 											error: function() {
 												reportError('Ajax Request was not successful. 119');
-											},
+											}
 										});
 }
 
@@ -389,7 +389,7 @@ function keepalive() {
 											},
 											error: function() {
 												reportError('Session expired. Please login again.');
-											},
+											}
 										});
   	//setTimeout( keepalive, 1000000 );
 }
