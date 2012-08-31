@@ -1063,7 +1063,8 @@ class remoting {
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
-		$affected_rows = $this->klientadd('../client/form/' . ($reseller_id ? 'reseller' : 'client') . '.tform.php',$reseller_id, $params);
+        if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
+		$affected_rows = $this->klientadd('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php',$reseller_id, $params);
 		return $affected_rows;  
 				  
 	}
@@ -1077,7 +1078,8 @@ class remoting {
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
-			$affected_rows = $this->updateQuery('../client/form/' . ($reseller_id ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params);
+            if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
+			$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params);
 			
 			$app->remoting_lib->ispconfig_sysuser_update($params,$client_id);
 			
