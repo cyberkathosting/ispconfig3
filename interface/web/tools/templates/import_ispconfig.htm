@@ -1,4 +1,4 @@
-<h2>{tmpl_var name="head_txt"}</h2>
+<h2><tmpl_var name="head_txt"></h2>
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_import">
@@ -91,13 +91,13 @@
     <input type="hidden" name="connected" value="{tmpl_var name='connected'}">
     <tmpl_if name="connected">
         <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="Import" onclick="submitForm('pageForm','tools/import_ispconfig.php');"><span>{tmpl_var name="btn_start_txt"}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onclick="loadContent('tools/index.php');"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
+            <button class="positive iconstxt icoPositive" type="button" value="Import" onClick="submitForm('pageForm','tools/import_ispconfig.php');"><span>{tmpl_var name="btn_start_txt"}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onClick="loadContent('tools/index.php');"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
         </div>
     <tmpl_else>
         <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="Import" onclick="submitForm('pageForm','tools/import_ispconfig.php');"><span>{tmpl_var name="btn_connect_txt"}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onclick="loadContent('tools/index.php');"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
+            <button class="positive iconstxt icoPositive" type="button" value="Import" onClick="submitForm('pageForm','tools/import_ispconfig.php');"><span>{tmpl_var name="btn_connect_txt"}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onClick="loadContent('tools/index.php');"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
         </div>
     </tmpl_if>
   </div>

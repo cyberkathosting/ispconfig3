@@ -1,4 +1,6 @@
 <?php
+$wb['list_head_txt'] = 'DNS-Zonen Assistent';
+$wb['list_desc_txt'] = 'Erstelle eine DNS-Zone per Assistent';
 $wb['dns_zone_txt'] = 'DNS-Zone';
 $wb['template_id_txt'] = 'Vorlage';
 $wb['server_id_txt'] = 'Server';

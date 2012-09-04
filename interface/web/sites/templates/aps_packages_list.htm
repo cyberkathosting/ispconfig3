@@ -13,7 +13,7 @@
                             <tmpl_if name='is_admin'>
                                 <th class="tbl_col_status" scope="col">{tmpl_var name='status_txt'}</th>
                             </tmpl_if>
-                        <th class="tbl_col_buttons" scope="col" width="60px;">&nbsp;</th>
+                        <th class="tbl_col_limit" scope="col">&nbsp;</th>
                     </tr>
                     <tr class="filter">
                         <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
@@ -34,7 +34,7 @@
                                 <tmpl_if name='is_admin'>
                                     <td class="tbl_col_status"><a href="javascript:loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=change_status&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');"><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='package_status'}</span></a></td>
                                 </tmpl_if>
-                            <td>&nbsp;</td>
+                            <td class="tbl_col_buttons">&nbsp;</td>
                         </tr>
                     </tmpl_loop>
                 </tbody>

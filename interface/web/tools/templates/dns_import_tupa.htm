@@ -1,7 +1,7 @@
-<h2>Import DNS recods from Tupa PowerDNS controlpanel</h2>
+<h2><tmpl_var name="list_head_txt">Import DNS recods from Tupa PowerDNS controlpanel</h2>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_language_import">
+<div class="panel panel_tupa_import">
   
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels"><legend>PowerDNS Tupa import</legend>
@@ -28,8 +28,7 @@
                 <div class="multiField">
                     <input id="dbpassword" type="text" value="{tmpl_var name='dbpassword'}" name="dbpassword" />
                 </div>
-            </div>
-                
+            </div>                
             <div class="ctrlHolder">
                 <p class="label">Import DNS Records</p>
                 <div class="multiField">
@@ -48,8 +47,8 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
         <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="Import" onclick="submitForm('pageForm','tools/dns_import_tupa.php');"><span>Start</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onclick="loadContent('tools/index.php');"><span>Cancel</span></button>
+            <button class="positive iconstxt icoPositive" type="button" value="Import" onClick="submitForm('pageForm','tools/dns_import_tupa.php');"><span>Start</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onClick="loadContent('tools/index.php');"><span>Cancel</span></button>
         </div>
     </div>
   

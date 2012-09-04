@@ -1,4 +1,6 @@
 <?php
+$wb['list_head_txt'] = 'DNS Zone Wizard';
+$wb['list_desc_txt'] = 'Create a DNS Zone via a wizard';
 $wb['dns_zone_txt'] = 'DNS Zone';
 $wb['template_id_txt'] = 'Template';
 $wb['server_id_txt'] = 'Server';

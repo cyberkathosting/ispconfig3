@@ -13,8 +13,13 @@
                 <input name="stats_password" id="stats_password" value="{tmpl_var name='stats_password'}" size="15" maxlength="100" type="password" class="textInput" style="width:100px;" onkeyup="checkPassMatch('stats_password','repeat_password');" />&nbsp;<a href="javascript:void(0);" onclick="generatePassword('stats_password','repeat_password');">{tmpl_var name='generate_password_txt'}</a>
             </div>
             <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='password_strength_txt'}</p>
+                <div id="passBar"></div>
+                <p class="formHint"><span id="passText">&nbsp;</span></p>
+            </div>
+            <div class="ctrlHolder">
                 <label for="repeat_password">{tmpl_var name='repeat_password_txt'}</label>
-                <input name="repeat_password" id="repeat_password" value="" size="15" maxlength="100" type="password" class="textInput" style="width:100px;"  onkeyup="checkPassMatch('stats_password','repeat_password');" />
+                <input name="repeat_password" id="repeat_password" value="" size="15" maxlength="100" type="password" class="textInput" style="width:100px;" onkeyup="checkPassMatch('stats_password','repeat_password');" />
             </div>
             <div id="confirmpasswordError" style="display:none;" class="confirmpassworderror">{tmpl_var name='password_mismatch_txt'}</div>
             <div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>
