@@ -28,7 +28,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-if(defined(ISPC_ROOT_PATH)) include_once(ISPC_ROOT_PATH.'/lib/classes/aps_installer.inc.php');
+if(defined('ISPC_ROOT_PATH')) include_once(ISPC_ROOT_PATH.'/lib/classes/aps_installer.inc.php');
 //require_once(ISPC_ROOT_PATH.'/lib/classes/class.installer.php');
 
 class aps_plugin
