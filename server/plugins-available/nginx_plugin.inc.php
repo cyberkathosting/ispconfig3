@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007 - 2009, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2012, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -35,6 +35,7 @@ class nginx_plugin {
 
 	// private variables
 	var $action = '';
+	var $ssl_certificate_changed = false;
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -115,6 +116,15 @@ class nginx_plugin {
 
 		//* Create a SSL Certificate
 		if($data['new']['ssl_action'] == 'create') {
+		
+			$this->ssl_certificate_changed = true;
+			
+			//* Rename files if they exist
+			if(file_exists($key_file)) $app->system->rename($key_file,$key_file.'.bak');
+			if(file_exists($key_file2)) $app->system->rename($key_file2,$key_file2.'.bak');
+			if(file_exists($csr_file)) $app->system->rename($csr_file,$csr_file.'.bak');
+			if(file_exists($crt_file)) $app->system->rename($crt_file,$crt_file.'.bak');
+			
 			$rand_file = $ssl_dir.'/random_file';
 			$rand_data = md5(uniqid(microtime(),1));
 			for($i=0; $i<1000; $i++) {
@@ -195,6 +205,7 @@ class nginx_plugin {
 
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
+			$this->ssl_certificate_changed = true;
 			$ssl_dir = $data["new"]["document_root"]."/ssl";
 			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
 			$key_file = $ssl_dir.'/'.$domain.'.key.org';
@@ -202,18 +213,30 @@ class nginx_plugin {
 			$csr_file = $ssl_dir.'/'.$domain.".csr";
 			$crt_file = $ssl_dir.'/'.$domain.".crt";
 			//$bundle_file = $ssl_dir.'/'.$domain.".bundle";
-			if(trim($data["new"]["ssl_request"]) != '') file_put_contents($csr_file,$data["new"]["ssl_request"]);
-			if(trim($data["new"]["ssl_cert"]) != '') file_put_contents($crt_file,$data["new"]["ssl_cert"]);
+			
+			//* Backup files
+			if(file_exists($key_file)) $app->system->copy($key_file,$key_file.'~');
+			if(file_exists($key_file2)) $app->system->copy($key_file2,$key_file2.'~');
+			if(file_exists($csr_file)) $app->system->copy($csr_file,$csr_file.'~');
+			if(file_exists($crt_file)) $app->system->copy($crt_file,$crt_file.'~');
+			//if(file_exists($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'~');
+			
+			//* Write new ssl files
+			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file,$data["new"]["ssl_request"]);
+			if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file,$data["new"]["ssl_cert"]);
+			//if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
+			if(trim($data["new"]["ssl_key"]) != '') $app->system->file_put_contents($key_file2,$data["new"]["ssl_key"]);
+			
 			// for nginx, bundle files have to be appended to the certificate file
 			if(trim($data["new"]["ssl_bundle"]) != ''){				
 				if(file_exists($crt_file)){
-					$crt_file_contents = trim(file_get_contents($crt_file));
+					$crt_file_contents = trim($app->system->file_get_contents($crt_file));
 				} else {
 					$crt_file_contents = '';
 				}
 				if($crt_file_contents != '') $crt_file_contents .= "\n";
 				$crt_file_contents .= $data["new"]["ssl_bundle"];
-				file_put_contents($crt_file,$app->file->unix_nl($crt_file_contents));
+				$app->system->file_put_contents($crt_file,$app->file->unix_nl($crt_file_contents));
 				unset($crt_file_contents);
 			}
 			/* Update the DB of the (local) Server */
@@ -231,7 +254,7 @@ class nginx_plugin {
 			$csr_file = $ssl_dir.'/'.$domain.'.csr';
 			$crt_file = $ssl_dir.'/'.$domain.'.crt';
 			//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-			if(file_exists($web_config['CA_path'].'/openssl.cnf'))
+			if(file_exists($web_config['CA_path'].'/openssl.cnf') && !is_link($web_config['CA_path'].'/openssl.cnf'))
 				{
 					exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke $crt_file");
 					$app->log("Revoking CA-signed SSL Cert for: $domain",LOGLEVEL_DEBUG);
@@ -267,7 +290,7 @@ class nginx_plugin {
 		
 		//* Check if the apache plugin is enabled
 		if(@is_link('/usr/local/ispconfig/server/plugins-enabled/apache2_plugin.inc.php')) {
-			$app->log('The nginx plugin can not be used together with the apache2 plugin..',LOGLEVEL_WARN);
+			$app->log('The nginx plugin cannot be used together with the apache2 plugin.',LOGLEVEL_WARN);
 			return 0;
 		}
 		
@@ -355,7 +378,7 @@ class nginx_plugin {
 		$groupname = escapeshellcmd($data['new']['system_group']);
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
 			exec('groupadd '.$fixed_gid_param.' '.$groupname);
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
+			if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
 			$app->log('Adding the group: '.$groupname,LOGLEVEL_DEBUG);
 		}
 
@@ -363,10 +386,10 @@ class nginx_plugin {
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
 			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
 				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
-				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
 			} else {
 				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
-				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
 			}
 			$app->log('Adding the user: '.$username,LOGLEVEL_DEBUG);
 		}
@@ -437,12 +460,15 @@ class nginx_plugin {
 		//print_r($data);
 
 		// Check if the directories are there and create them if necessary.
+		$app->system->web_folder_protection($data['new']['document_root'],false);
+		
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
 		//if(!is_dir($data['new']['document_root'].'/'.$log_folder)) exec('mkdir -p '.$data['new']['document_root'].'/'.$log_folder);
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) $app->system->mkdirpath($data['new']['document_root'].'/tmp');
+		//if(!is_dir($data['new']['document_root'].'/webdav')) $app->system->mkdirpath($data['new']['document_root'].'/webdav');
 		
 		//* Create the new private directory
 		if(!is_dir($data['new']['document_root'].'/private')) {
@@ -472,6 +498,8 @@ class nginx_plugin {
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind    0 0';
 			$app->system->replaceLine('/etc/fstab',$fstab_line,$fstab_line,1,1);
 		}
+		
+		$app->system->web_folder_protection($data['new']['document_root'],true);
 
 		// Get the client ID
 		$client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = '.intval($data['new']['sys_groupid']));
@@ -619,6 +647,9 @@ class nginx_plugin {
 
 		//* If the security level is set to high
 		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost')) {
+		
+			$app->system->web_folder_protection($data['new']['document_root'],false);
+			
 			//* Check if we have the new private folder and create it if nescessary
 			if(!is_dir($data['new']['document_root'].'/private')) $app->system->mkdir($data['new']['document_root'].'/private');
 			
@@ -626,7 +657,7 @@ class nginx_plugin {
 				
 				$app->system->chmod($data['new']['document_root'],0755);
 				$app->system->chmod($data['new']['document_root'].'/web',0710);
-				$app->system->chmod($data['new']['document_root'].'/webdav',0710);
+				//$app->system->chmod($data['new']['document_root'].'/webdav',0710);
 				$app->system->chmod($data['new']['document_root'].'/private',0710);
 				$app->system->chmod($data['new']['document_root'].'/ssl',0755);
 
@@ -661,45 +692,67 @@ class nginx_plugin {
 				$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
 				
 				//* Chown all default directories
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']));
+				$app->system->chown($data['new']['document_root'],'root');
+				$app->system->chgrp($data['new']['document_root'],'root');
 				$app->system->chown($data['new']['document_root'].'/cgi-bin',$username);
 				$app->system->chgrp($data['new']['document_root'].'/cgi-bin',$groupname);
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/log'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
-				$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
-
-				/*
-				* Workaround for jailkit: If jailkit is enabled for the site, the 
-				* website root has to be owned by the root user and we have to chmod it to 755 then
-				*/
-
-				//* Check if there is a jailkit user for this site
-				$tmp = $app->db->queryOneRecord('SELECT count(shell_user_id) as number FROM shell_user WHERE parent_domain_id = '.$data['new']['domain_id']." AND chroot = 'jailkit'");
-				if($tmp['number'] > 0) {
-					$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
-					$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
+				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
+					$app->system->chown($data['new']['document_root'].'/'.$log_folder,'root',false);
+					$app->system->chgrp($data['new']['document_root'].'/'.$log_folder,$groupname,false);
 				}
-				unset($tmp);
+				$app->system->chown($data['new']['document_root'].'/ssl','root');
+				$app->system->chgrp($data['new']['document_root'].'/ssl','root');
+				$app->system->chown($data['new']['document_root'].'/tmp',$username);
+				$app->system->chgrp($data['new']['document_root'].'/tmp',$groupname);
+				$app->system->chown($data['new']['document_root'].'/web',$username);
+				$app->system->chgrp($data['new']['document_root'].'/web',$groupname);
+				$app->system->chown($data['new']['document_root'].'/web/error',$username);
+				$app->system->chgrp($data['new']['document_root'].'/web/error',$groupname);
+				$app->system->chown($data['new']['document_root'].'/web/stats',$username);
+				$app->system->chgrp($data['new']['document_root'].'/web/stats',$groupname);
+				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
+				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
+				$app->system->chown($data['new']['document_root'].'/private',$username);
+				$app->system->chgrp($data['new']['document_root'].'/private',$groupname);
 
 				// If the security Level is set to medium
 			} else {
 
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root']));
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/log'));
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/ssl'));
-				$this->_exec('chmod 755 '.escapeshellcmd($data['new']['document_root'].'/web'));
+				$app->system->chmod($data['new']['document_root'],0755);
+				$app->system->chmod($data['new']['document_root'].'/web',0755);
+				//$app->system->chmod($data['new']['document_root'].'/webdav',0755);
+				$app->system->chmod($data['new']['document_root'].'/ssl',0755);
+				$app->system->chmod($data['new']['document_root'].'/cgi-bin',0755);
 				
 				// make temp directory writable for nginx and the website users
-				$this->_exec('chmod 777 '.escapeshellcmd($data['new']['document_root'].'/tmp'));
+				$app->system->chmod($data['new']['document_root'].'/tmp',0777);
 				
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/cgi-bin'));
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root'].'/log'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/tmp'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/ssl'));
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root'].'/web'));
+				// Set Log directory to 755 to make the logs accessible by the FTP user
+				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
+					$app->system->chmod($data['new']['document_root'].'/'.$log_folder,0755);
+				}
+				
+				$app->system->chown($data['new']['document_root'],'root');
+				$app->system->chgrp($data['new']['document_root'],'root');
+				$app->system->chown($data['new']['document_root'].'/cgi-bin',$username);
+				$app->system->chgrp($data['new']['document_root'].'/cgi-bin',$groupname);
+				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
+					$app->system->chown($data['new']['document_root'].'/'.$log_folder,'root',false);
+					$app->system->chgrp($data['new']['document_root'].'/'.$log_folder,$groupname,false);
+				}
+				
+                $app->system->chown($data['new']['document_root'].'/ssl','root');
+				$app->system->chgrp($data['new']['document_root'].'/ssl','root');
+				$app->system->chown($data['new']['document_root'].'/tmp',$username);
+				$app->system->chgrp($data['new']['document_root'].'/tmp',$groupname);
+				$app->system->chown($data['new']['document_root'].'/web',$username);
+				$app->system->chgrp($data['new']['document_root'].'/web',$groupname);
+				$app->system->chown($data['new']['document_root'].'/web/error',$username);
+				$app->system->chgrp($data['new']['document_root'].'/web/error',$groupname);
+				$app->system->chown($data['new']['document_root'].'/web/stats',$username);
+				$app->system->chgrp($data['new']['document_root'].'/web/stats',$groupname);
+				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
+				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
 			}
 		} elseif(($this->action == 'insert' && $data['new']['type'] == 'vhostsubdomain') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhostsubdomain')) {
 			if($web_config['security_level'] == 20) {
@@ -720,10 +773,23 @@ class nginx_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats',$groupname);
             }
         }
+		
+		//* Protect web folders
+		$app->system->web_folder_protection($data['new']['document_root'],true);
+		
+		if($data['new']['type'] == 'vhost') {
+            // Change the ownership of the error log to the root user
+            if(!@is_file('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log')) exec('touch '.escapeshellcmd('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log'));
+            $app->system->chown('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log','root');
+            $app->system->chgrp('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log','root');
+        }
 
 		// Change the ownership of the error log to the owner of the website
+		/*
 		if(!@is_file($data['new']['document_root'].'/log/error.log')) exec('touch '.escapeshellcmd($data['new']['document_root']).'/log/error.log');
-		$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/log/error.log');
+		$app->system->chown($data['new']['document_root'].'/log/error.log',$username);
+		$app->system->chgrp($data['new']['document_root'].'/log/error.log',$groupname);
+		*/
 
 
 		/*
@@ -1146,7 +1212,7 @@ class nginx_plugin {
 		if(file_exists($vhost_file)) copy($vhost_file,$vhost_file.'~');
 		
 		//* Write vhost file
-		file_put_contents($vhost_file,$this->nginx_merge_locations($tpl->grab()));
+		$app->system->file_put_contents($vhost_file,$this->nginx_merge_locations($tpl->grab()));
 		$app->log('Writing the vhost file: '.$vhost_file,LOGLEVEL_DEBUG);
 		unset($tpl);
 
@@ -1206,8 +1272,8 @@ class nginx_plugin {
 		if(!is_file($data['new']['document_root'].'/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
 			if(trim($data['new']['stats_password']) != '') {
 				$htp_file = 'admin:'.trim($data['new']['stats_password']);
-				file_put_contents($data['new']['document_root'].'/.htpasswd_stats',$htp_file);
-				chmod($data['new']['document_root'].'/.htpasswd_stats',0755);
+				$app->system->file_put_contents($data['new']['document_root'].'/.htpasswd_stats',$htp_file);
+				$app->system->chmod($data['new']['document_root'].'/.htpasswd_stats',0755);
 				unset($htp_file);
 			}
 		}
@@ -1234,14 +1300,42 @@ class nginx_plugin {
 			$app->log('nginx online status after restart is: '.$nginx_online_status_after_restart,LOGLEVEL_DEBUG);
 			if($nginx_online_status_before_restart && !$nginx_online_status_after_restart) {
 				$app->log('nginx did not restart after the configuration change for website '.$data['new']['domain'].' Reverting the configuration. Saved non-working config as '.$vhost_file.'.err',LOGLEVEL_WARN);
-				copy($vhost_file,$vhost_file.'.err');
+				$app->system->copy($vhost_file,$vhost_file.'.err');
 				if(is_file($vhost_file.'~')) {
 					//* Copy back the last backup file
 					$app->system->copy($vhost_file.'~',$vhost_file);
 				} else {
 					//* There is no backup file, so we create a empty vhost file with a warning message inside
-					file_put_contents($vhost_file,"# nginx did not start after modifying this vhost file.\n# Please check file $vhost_file.err for syntax errors.");
+					$app->system->file_put_contents($vhost_file,"# nginx did not start after modifying this vhost file.\n# Please check file $vhost_file.err for syntax errors.");
 				}
+				
+				if($this->ssl_certificate_changed === true) {
+
+					$ssl_dir = $data['new']['document_root'].'/ssl';
+					$domain = $data['new']['ssl_domain'];
+					$key_file = $ssl_dir.'/'.$domain.'.key.org';
+					$key_file2 = $ssl_dir.'/'.$domain.'.key';
+					$csr_file = $ssl_dir.'/'.$domain.'.csr';
+					$crt_file = $ssl_dir.'/'.$domain.'.crt';
+					//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
+					
+					//* Backup the files that might have caused the error
+					if(is_file($key_file)) $app->system->copy($key_file,$key_file.'.err');
+					if(is_file($key_file2)) $app->system->copy($key_file2,$key_file2.'.err');
+					if(is_file($csr_file)) $app->system->copy($csr_file,$csr_file.'.err');
+					if(is_file($crt_file)) $app->system->copy($crt_file,$crt_file.'.err');
+					//if(is_file($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'.err');
+					
+					//* Restore the ~ backup files
+					if(is_file($key_file.'~')) $app->system->copy($key_file.'~',$key_file);
+					if(is_file($key_file2.'~')) $app->system->copy($key_file2.'~',$key_file2);
+					if(is_file($crt_file.'~')) $app->system->copy($crt_file.'~',$crt_file);
+					if(is_file($csr_file.'~')) $app->system->copy($csr_file.'~',$csr_file);
+					//if(is_file($bundle_file.'~')) $app->system->copy($bundle_file.'~',$bundle_file);
+					
+					$app->log('nginx did not restart after the configuration change for website '.$data['new']['domain'].' Reverting the SSL configuration. Saved non-working SSL files with .err extension.',LOGLEVEL_WARN);
+				}
+				
 				$app->services->restartService('httpd','restart');
 			}
 		} else {
@@ -1253,6 +1347,24 @@ class nginx_plugin {
 				$app->services->restartServiceDelayed('httpd','reload');
 			}
 		}
+		
+		//* The vhost is written and apache has been restarted, so we 
+		// can reset the ssl changed var to false and cleanup some files
+		$this->ssl_certificate_changed = false;
+		
+		$ssl_dir = $data['new']['document_root'].'/ssl';
+		$domain = $data['new']['ssl_domain'];
+		$key_file = $ssl_dir.'/'.$domain.'.key.org';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key';
+		$csr_file = $ssl_dir.'/'.$domain.'.csr';
+		$crt_file = $ssl_dir.'/'.$domain.'.crt';
+		//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
+		
+		if(@is_file($key_file.'~')) $app->system->unlink($key_file.'~');
+		if(@is_file($key2_file.'~')) $app->system->unlink($key2_file.'~');
+		if(@is_file($crt_file.'~')) $app->system->unlink($crt_file.'~');
+		if(@is_file($csr_file.'~')) $app->system->unlink($csr_file.'~');
+		//if(@is_file($bundle_file.'~')) $app->system->unlink($bundle_file.'~');
 		
 		// Remove the backup copy of the config file.
 		if(@is_file($vhost_file.'~')) $app->system->unlink($vhost_file.'~');
@@ -1269,6 +1381,8 @@ class nginx_plugin {
 		$app->uses('getconf');
 		$app->uses('system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		
+		$app->system->web_folder_protection($data['old']['document_root'],false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
@@ -1276,6 +1390,24 @@ class nginx_plugin {
 		} else {
 			$nginx_chrooted = false;
 		}
+		
+		//* Remove the mounts
+		$log_folder = 'log';
+        $web_folder = '';
+        if($data['old']['type'] == 'vhostsubdomain') {
+            $tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+            $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
+            if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
+            $web_folder = $data['old']['web_folder'];
+            $log_folder .= '/' . $subdomain_host;
+            unset($tmp);
+		}
+        
+		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+		
+		//* remove mountpoint from fstab
+		$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind    0 0';
+		$app->system->removeLine('/etc/fstab',$fstab_line);
 
 		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
@@ -1404,6 +1536,9 @@ class nginx_plugin {
 			$app->services->restartServiceDelayed('httpd','reload');
 
 		}
+		
+		
+		if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'],true);
 	}
 
 	//* This function is called when a IP on the server is inserted, updated or deleted
@@ -2001,6 +2136,32 @@ class nginx_plugin {
 		} else {
 			return false;
 		}
+	}
+	
+	public function create_relative_link($f, $t) {
+		// $from already exists
+		$from = realpath($f);
+
+		// realpath requires the traced file to exist - so, lets touch it first, then remove
+		@$app->system->unlink($t); touch($t);
+		$to = realpath($t);
+		@$app->system->unlink($t);
+
+		// Remove from the left side matching path elements from $from and $to
+		// and get path elements counts
+		$a1 = explode('/', $from); $a2 = explode('/', $to);
+		for ($c = 0; $a1[$c] == $a2[$c]; $c++) {
+			unset($a1[$c]); unset($a2[$c]);
+		}
+		$cfrom = implode('/', $a1);
+
+		// Check if a path is fully a subpath of another - no way to create symlink in the case
+		if (count($a1) == 0 || count($a2) == 0) return false;
+
+		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
+		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
+
+		return symlink($cfrom, $to);
 	}
 
 

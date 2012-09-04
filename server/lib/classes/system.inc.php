@@ -673,7 +673,7 @@ class system{
 			$app->log("Action aborted, file is a symlink: $filename",LOGLEVEL_WARN);
 			return false;
 		}
-		return file_put_contents($filename, $data);
+		return file_get_contents($filename, $data);
 	}
 	
 	function rename($filename, $new_filename, $allow_symlink = false) {
@@ -700,7 +700,7 @@ class system{
 	}
 	
 	function unlink($filename) {
-		if(file_exists($filename)) {
+		if(file_exists($filename) || is_link($filename)) {
 			return unlink($filename);
 		}
 	}
