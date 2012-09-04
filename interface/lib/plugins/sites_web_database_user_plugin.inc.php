@@ -30,11 +30,12 @@ class sites_web_database_user_plugin {
         // also make sure that the user can not delete domain created by a admin
         if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
             $client_group_id = intval($page_form->dataRecord["client_group_id"]);
-            $app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$page_form->id);
+            $app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE database_user_id = ".$page_form->id);
         }
         if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {
             $client_group_id = intval($page_form->dataRecord["client_group_id"]);
-            $app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$page_form->id);
+            $app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$page_form->id);
         }
+        $app->db->query("UPDATE web_database_user SET server_id = '" . intval($conf['server_id']) . "' WHERE database_user_id = ".$page_form->id);
 	}
 }              	

@@ -145,6 +145,8 @@ class page_action extends tform_actions {
 			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 		}
 		
+        $this->dataRecord['server_id'] = $conf['server_id'];
+        
 		parent::onBeforeUpdate();
 	}
 
@@ -173,6 +175,8 @@ class page_action extends tform_actions {
 			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 		}
 		
+        $this->dataRecord['server_id'] = $conf['server_id'];
+        
 		parent::onBeforeInsert();
 	}
 
@@ -200,7 +204,16 @@ class page_action extends tform_actions {
 			$client_group_id = intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
 		}
-
+        
+        $old_rec = $app->db->queryOneRecord("SELECT * FROM web_database_user WHERE database_user_id = '".$this->id."'");
+        
+        $records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".intval($this->id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".intval($this->id)."'");
+        foreach($records as $rec) {
+            $new_rec = $this->dataRecord;
+            $new_rec['server_id'] = $rec['server_id'];
+            $app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->id, $old_rec, $new_rec);
+        }
+        unset($new_rec);
 	}
 
 }

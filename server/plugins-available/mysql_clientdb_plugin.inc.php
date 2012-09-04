@@ -88,9 +88,11 @@ class mysql_clientdb_plugin {
       foreach($host_list as $db_host) {
           $db_host = trim($db_host);
           
+          $app->log($action . ' for user ' . $database_user . ' at host ' . $db_host, LOGLEVEL_DEBUG);
+          
           // check if entry is valid ip address
           $valid = true;
-		  if($db_host == '%') {
+		  if($db_host == '%' || $db_host == 'localhost') {
 		  	$valid = true;
 		  } elseif(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $db_host)) {
               $groups = explode('.', $db_host);
@@ -106,6 +108,7 @@ class mysql_clientdb_plugin {
           
           if($action == 'GRANT') {
               if(!$link->query("GRANT " . ($user_read_only ? "SELECT" : "ALL") . " ON ".$link->escape_string($database_name).".* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
+              $app->log("GRANT " . ($user_read_only ? "SELECT" : "ALL") . " ON ".$link->escape_string($database_name).".* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'; success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
           } elseif($action == 'REVOKE') {
               if(!$link->query("REVOKE ALL PRIVILEGES ON ".$link->escape_string($database_name).".* FROM '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
           } elseif($action == 'DROP') {
@@ -388,9 +391,8 @@ class mysql_clientdb_plugin {
 			}
 
 			if($data['new']['database_password'] != $data['old']['database_password']) {
-				$db_host = 'localhost';
-				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = '".$link->escape_string($data['new']['database_password'])."';");
-				$app->log('Changing MySQL user password for: '.$data['new']['database_user'],LOGLEVEL_DEBUG);
+				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = PASSWORD('".$link->escape_string($data['new']['database_password'])."');"); // is contained in clear text so PASSWORD() func is needed
+				$app->log('Changing MySQL user password for: '.$data['new']['database_user'].'@'.$db_host,LOGLEVEL_DEBUG);
 			}
         }
         

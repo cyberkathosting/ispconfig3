@@ -309,6 +309,7 @@ class page_action extends tform_actions {
         global $app;
         if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(),$this->id)) {
             
+            $app->uses('sites_database_plugin');
             $app->sites_database_plugin->processDatabaseUpdate($this);
 
             $app->db->query($sql);
