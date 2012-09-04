@@ -1904,8 +1904,8 @@ class nginx_plugin {
 				foreach($ini_settings as $ini_setting){
 						list($key, $value) = explode('=', $ini_setting);
 						if($value){
-							$value = escapeshellcmd(trim($value));
-							$key = escapeshellcmd(trim($key));
+							$value = trim($value);
+							$key = trim($key);
 							switch (strtolower($value)) {
 								case '0':
 									// PHP-FPM might complain about invalid boolean value if you use 0
