@@ -819,6 +819,7 @@ class nginx_plugin {
 		$tpl->setVar('use_socket', $use_socket);
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
+		$tpl->setVar('rnd_php_dummy_file', '/'.md5(uniqid(microtime(),1)).'.htm');
 		$vhost_data['fpm_port'] = $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1;
 		
 		// backwards compatibility; since ISPConfig 3.0.5, the PHP mode for nginx is called 'php-fpm' instead of 'fast-cgi'. The following line makes sure that old web sites that have 'fast-cgi' in the database still get PHP-FPM support.

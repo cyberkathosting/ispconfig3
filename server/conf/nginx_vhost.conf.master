@@ -106,7 +106,7 @@ server {
         }
 
         location ~ \.php$ {
-            try_files @php @php;
+            try_files <tmpl_var name='rnd_php_dummy_file'> @php;
         }
 
 <tmpl_if name='php' op='==' value='php-fpm'>
