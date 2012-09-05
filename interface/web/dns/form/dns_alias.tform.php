@@ -102,7 +102,7 @@ $form["tabs"]['dns'] = array (
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'data_error_empty'),
 										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{1,64}$/',
+														'regex' => '/^[\w\.\-]{1,255}$/',
 														'errmsg'=> 'data_error_regex'),
 									),
 			'default'	=> '',
