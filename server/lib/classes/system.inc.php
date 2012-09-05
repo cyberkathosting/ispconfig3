@@ -1152,7 +1152,7 @@ class system{
 	function make_trashscan(){
 		global $app;
 	  	//trashscan erstellen
-	  	// Template Öffnen
+	  	// Template Ã–ffnen
 	  	$app->tpl->clear_all();
 	  	$app->tpl->define( array(table    => 'trashscan.master'));
 	

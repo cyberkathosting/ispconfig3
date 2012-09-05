@@ -128,7 +128,7 @@ class tree
     }
     
     /*
-    	Löschen von Einträgen ohne Child's
+    	LÃ¶schen von EintrÃ¤gen ohne Child's
     */
     
     function del($id) {
@@ -142,16 +142,16 @@ class tree
     }
     
     /*
-    	Rekursives löschen von Einträgen
+    	Rekursives lÃ¶schen von EintrÃ¤gen
     */
     
     function deltree($tree_id) {
-    	// lösche Einträge recursiv
+    	// lÃ¶sche EintrÃ¤ge recursiv
     	$this->_deltree_recurse(&$this->obj[$this->root_id],$tree_id, 0);
     }
     
     /*
-    	Hilfsfunktion für deltree
+    	Hilfsfunktion fÃ¼r deltree
     */
     
     function _deltree_recurse($myobj,$tree_id,$delete) {
@@ -166,7 +166,7 @@ class tree
                 // recurse durch Objekte
             	$this->_deltree_recurse(&$val,$tree_id,$delete);
                 
-                // lösche Eintrag
+                // lÃ¶sche Eintrag
                 if($delete == 1) {
                 	$tmp_id = $val->id;
                 	$this->obj[$tmp_id] = NULL;
@@ -207,7 +207,7 @@ class tree
     }
     
     /*
-    	Funktion zum Verschieben von Einträgen
+    	Funktion zum Verschieben von EintrÃ¤gen
     */
     
     function move($id, $new_parent) {
@@ -237,7 +237,7 @@ class tree
     
     /*
     	Funktion zum registrieren von Events
-    	mögliche events: insert, update, delete
+    	mÃ¶gliche events: insert, update, delete
     	
     */
     

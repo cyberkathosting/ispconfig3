@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Användare';
-$wb['username_txt'] = 'Användarnamn';
+$wb['list_head_txt'] = 'AnvÃ¤ndare';
+$wb['username_txt'] = 'AnvÃ¤ndarnamn';
 $wb['client_id_txt'] = 'Client ID';
 $wb['active_txt'] = 'Active';
 $wb['add_new_record_txt'] = 'Add new user';

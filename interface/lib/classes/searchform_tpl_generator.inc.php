@@ -68,7 +68,7 @@ $html .= '
 <tmpl_if name="searchresult_visible">
 <p>
 [<a class="frmText11" href="domain_search.php?searchform_visible=yes&searchresult_visible=no&empty_searchfields=yes">Neue Suche</a>] 
-[<a class="frmText11" href="domain_search.php?searchform_visible=yes&searchresult_visible=no&empty_searchfields=no">Suchkriterien ändern</a>]
+[<a class="frmText11" href="domain_search.php?searchform_visible=yes&searchresult_visible=no&empty_searchfields=no">Suchkriterien Ã¤ndern</a>]
 Suche speichern unter: <input type="text" name="search_save_as" /> <input type="submit" name="btn_submit_search_save" value="Speichern" /> 
 </p>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">

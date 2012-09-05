@@ -111,7 +111,7 @@ class file{
     }
     
     function remove_blank_lines($input, $file = 1){
-      //Leerzeilen löschen
+      //Leerzeilen lÃ¶schen
       if($file){
         $content = $this->unix_nl($this->rf($input));
       } else {

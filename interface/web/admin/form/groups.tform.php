@@ -34,9 +34,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	Tabellendefinition
 
 	Datentypen:
-	- INTEGER (Wandelt Ausdrücke in Int um)
+	- INTEGER (Wandelt AusdrÃ¼cke in Int um)
 	- DOUBLE
-	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
+	- CURRENCY (Formatiert Zahlen nach WÃ¤hrungsnotation)
 	- VARCHAR (kein weiterer Format Check)
 	- TEXT (kein weiterer Format Check)
 	- DATE (Datumsformat, Timestamp Umwandlung)
@@ -54,7 +54,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	- Wert oder Array
 
 	Hinweis:
-	Das ID-Feld ist nicht bei den Table Values einzufügen.
+	Das ID-Feld ist nicht bei den Table Values einzufÃ¼gen.
 
 
 */

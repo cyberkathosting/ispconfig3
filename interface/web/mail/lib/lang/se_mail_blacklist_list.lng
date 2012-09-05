@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Epost Svartlista';
 $wb['server_id_txt'] = 'Server';
-$wb['add_new_record_txt'] = 'Lägga till ny Svartlistad epostadress';
+$wb['add_new_record_txt'] = 'LÃ¤gga till ny Svartlistad epostadress';
 $wb['active_txt'] = 'Active';
 $wb['source_txt'] = 'Blacklisted address';
 $wb['type_txt'] = 'Type';

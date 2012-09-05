@@ -1,16 +1,16 @@
 <?php
-$wb['username_txt'] = 'Användarnamn';
-$wb['username_err'] = 'användarnamn_fel';
-$wb['passwort_txt'] = 'Lösenord';
+$wb['username_txt'] = 'AnvÃ¤ndarnamn';
+$wb['username_err'] = 'anvÃ¤ndarnamn_fel';
+$wb['passwort_txt'] = 'LÃ¶senord';
 $wb['modules_txt'] = 'Modul';
 $wb['startmodule_txt'] = 'Startmodul';
 $wb['app_theme_txt'] = 'Design';
 $wb['typ_txt'] = 'Typ';
 $wb['active_txt'] = 'Aktiv';
-$wb['language_txt'] = 'Språk';
+$wb['language_txt'] = 'SprÃ¥k';
 $wb['name_txt'] = 'Namn';
-$wb['vorname_txt'] = 'Förnamn';
-$wb['unternehmen_txt'] = 'Företag';
+$wb['vorname_txt'] = 'FÃ¶rnamn';
+$wb['unternehmen_txt'] = 'FÃ¶retag';
 $wb['strasse_txt'] = 'Gata';
 $wb['ort_txt'] = 'Stad';
 $wb['plz_txt'] = 'Postnr';

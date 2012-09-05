@@ -9,7 +9,7 @@ dpkg-reconfigure locales
 #For now my "locale -a" outputs this:
 
 bokmal
-bokmål
+bokmÃ¥l
 C
 de_DE
 de_DE@euro
@@ -27,7 +27,7 @@ fi_FI.iso88591
 fi_FI.iso885915@euro
 fi_FI.utf8
 finnish
-français
+franÃ§ais
 french
 fr_FR
 fr_FR@euro

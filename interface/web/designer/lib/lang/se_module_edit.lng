@@ -7,16 +7,16 @@ $wb['startpage_txt'] = 'Standard sida';
 $wb['tab_width_txt'] = 'Flik bredd';
 $wb['save_txt'] = 'Spara';
 $wb['cancel_txt'] = 'Avbryt';
-$wb['header_txt'] = 'Modul inst‰llningar';
+$wb['header_txt'] = 'Modul inst√§llningar';
 $wb['description_txt'] = '
 <b>Description</b>
 <br><br>
-<b>Modulename:</b> Namn pÂ modul mappen. Endast siffror, bokst‰ver och understreck ‰r tillÂtna.<br>
-<b>Moduletitle:</b> Kommer att visas i (ˆvre) huvud navigerigsramen.<br>
-<b>Template file:</b> Mall fil fˆr modulen. Just nu finns: module.tpl.htm och module_tree.tpl.htm. Standard ‰r module.tpl.htm.<br>
-<b>NaviFrame:</b> Om module module_tree.tpl.htm v‰ljs som mall file, skriv h‰r sˆkv‰gen till skriptfilen fˆr den v‰nstra ramen.<br>
-<b>Default page:</b> Dessa sidor kommer att visas n‰r modulen ˆppnas.<br>
-<b>Tab width:</b> Bredd pÂ Flikarna i huvud navigerings ramen. Detta f‰lt ‰r tomt som standard. Du kan skriva in ett absolutv‰rde i pixlar (ex. 20) eller relativt v‰rde (ex. 20%).<br>
-<b>Hint:</b> Alla sˆkv‰gar ‰r relativa till mappen web.
+<b>Modulename:</b> Namn p√• modul mappen. Endast siffror, bokst√§ver och understreck √§r till√•tna.<br>
+<b>Moduletitle:</b> Kommer att visas i (√∂vre) huvud navigerigsramen.<br>
+<b>Template file:</b> Mall fil f√∂r modulen. Just nu finns: module.tpl.htm och module_tree.tpl.htm. Standard √§r module.tpl.htm.<br>
+<b>NaviFrame:</b> Om module module_tree.tpl.htm v√§ljs som mall file, skriv h√§r s√∂kv√§gen till skriptfilen f√∂r den v√§nstra ramen.<br>
+<b>Default page:</b> Dessa sidor kommer att visas n√§r modulen √∂ppnas.<br>
+<b>Tab width:</b> Bredd p√• Flikarna i huvud navigerings ramen. Detta f√§lt √§r tomt som standard. Du kan skriva in ett absolutv√§rde i pixlar (ex. 20) eller relativt v√§rde (ex. 20%).<br>
+<b>Hint:</b> Alla s√∂kv√§gar √§r relativa till mappen web.
 ';
 ?>

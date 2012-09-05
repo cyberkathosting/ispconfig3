@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Huvud Formulär';
-$wb['form_txt'] = 'Formulär';
+$wb['list_head_txt'] = 'Huvud FormulÃ¤r';
+$wb['form_txt'] = 'FormulÃ¤r';
 $wb['module_txt'] = 'Modul';
 $wb['title_txt'] = 'Titel';
 $wb['description_txt'] = 'Beskrivning';

@@ -119,10 +119,10 @@ class tform_tpl_generator {
 				break;
 			}
 			
-			// Language File Eintrag für "Feld-Titel" anlegen
+			// Language File Eintrag fÃ¼r "Feld-Titel" anlegen
 			$lang[$key."_txt"] = $key;
 			
-			// language File Eintrag, für error-Text anlegen
+			// language File Eintrag, fÃ¼r error-Text anlegen
 			if(isset($field["errmsg"]) && $field["errmsg"] != '') {
 				$errmsg = $field["errmsg"];
 				$lang[$errmsg] = $errmsg;
@@ -159,7 +159,7 @@ class tform_tpl_generator {
 		
 		$this->lng_add($lang,$formDef);
 		
-		// überprüfe, ob es die Tabelle schon gibt,
+		// Ã¼berprÃ¼fe, ob es die Tabelle schon gibt,
 		// ansonsten wird sie angelegt
 		$tables = $app->db->getTables();
 		
@@ -168,7 +168,7 @@ class tform_tpl_generator {
 			
 			$columns = array();
 			
-			// füge ID Feld hinzu
+			// fÃ¼ge ID Feld hinzu
 			$col = array(	'action' 		=> 'add',
 							'name'			=> $formDef["db_table_idx"],
 							'type'			=> 'int64',

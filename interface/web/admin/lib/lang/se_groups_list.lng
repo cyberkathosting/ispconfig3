@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Systemanvändar grupper';
+$wb['list_head_txt'] = 'SystemanvÃ¤ndar grupper';
 $wb['description_txt'] = 'Beskrivning';
 $wb['name_txt'] = 'Grupp';
 $wb['add_new_record_txt'] = 'Add new Group';

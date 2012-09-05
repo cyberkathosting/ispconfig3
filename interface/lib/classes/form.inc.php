@@ -38,9 +38,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *	Tabellendefinition
 *	
 *	Datentypen:
-*	- INTEGER (Wandelt Ausdrücke in Int um)
+*	- INTEGER (Wandelt AusdrÃ¼cke in Int um)
 *	- DOUBLE
-*	- CURRENCY (Formatiert Zahlen nach Währungsnotation)
+*	- CURRENCY (Formatiert Zahlen nach WÃ¤hrungsnotation)
 *	- VARCHAR (kein weiterer Format Check)
 *	- DATE (Datumsformat, Timestamp Umwandlung)
 *	
@@ -54,10 +54,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *	- Wert oder Array
 *	
 *	SEPARATOR
-*	- Trennzeichen für multiple Felder
+*	- Trennzeichen fÃ¼r multiple Felder
 *
 *	Hinweis:
-*	Das ID-Feld ist nicht bei den Table Values einzufügen.
+*	Das ID-Feld ist nicht bei den Table Values einzufÃ¼gen.
 *
 * @package form
 * @author Till Brehm
@@ -97,7 +97,7 @@ class form {
 	var $table_index;
 	
 	/**
-	* enthält die Fehlermeldung bei Überprüfung
+	* enthÃ¤lt die Fehlermeldung bei ÃœberprÃ¼fung
 	* der Variablen mit Regex
 	* @var errorMessage
 	*/
@@ -132,9 +132,9 @@ class form {
 	
 	
 	/**
-	* Konvertiert die Daten des übergebenen assoziativen
+	* Konvertiert die Daten des Ã¼bergebenen assoziativen
 	* Arrays in "menschenlesbare" Form.
-	* Datentyp Konvertierung, z.B. für Ausgabe in Listen.
+	* Datentyp Konvertierung, z.B. fÃ¼r Ausgabe in Listen.
 	*
 	* @param record
 	* @return record
@@ -175,7 +175,7 @@ class form {
 	}
 	
 	/**
-	* Record für Ausgabe in Formularen vorbereiten.
+	* Record fÃ¼r Ausgabe in Formularen vorbereiten.
 	*
 	* @param record = Datensatz als Array
 	* @param action = NEW oder EDIT 
@@ -279,8 +279,8 @@ class form {
 	}
 	
 	/**
-	* Record in "maschinen lesbares" Format überführen
-	* und Werte gegen reguläre Ausdrücke prüfen.
+	* Record in "maschinen lesbares" Format Ã¼berfÃ¼hren
+	* und Werte gegen regulÃ¤re AusdrÃ¼cke prÃ¼fen.
 	*
 	* @param record = Datensatz als Array
 	* @return record
@@ -330,7 +330,7 @@ class form {
 	}
 	
 	/**
-	* SQL Statement für Record erzeugen.
+	* SQL Statement fÃ¼r Record erzeugen.
 	*
 	* @param record = Datensatz als Array
 	* @param action = INSERT oder UPDATE
@@ -390,7 +390,7 @@ class form {
 		}
         }
 		
-		// Füge Backticks nur bei unvollständigen Tabellennamen ein
+		// FÃ¼ge Backticks nur bei unvollstÃ¤ndigen Tabellennamen ein
 		if(stristr($this->table_name,'.')) {
 			$escape = '';
 		} else {
@@ -437,7 +437,7 @@ class form {
         if($this->errorMessage == '') {
         	// wenn kein Fehler vorliegt
 			if($_REQUEST["next_tab"] != '') {
-            	// wenn nächster Tab bekannt
+            	// wenn nÃ¤chster Tab bekannt
             	$active_tab = $_REQUEST["next_tab"];
             } else {
             	// ansonsten ersten tab nehmen

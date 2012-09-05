@@ -1,6 +1,6 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domän';
+$wb['domain_txt'] = 'DomÃ¤n';
 $wb['type_txt'] = 'Typ';
 $wb['active_txt'] = 'Aktiv';
 $wb['domain_error_empty'] = 'Domain is empty.';
