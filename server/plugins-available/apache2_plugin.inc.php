@@ -1745,8 +1745,8 @@ class apache2_plugin {
 		//* Create the .htaccess file
 		//if(!is_file($folder_path.'.htaccess')) {
 			$begin_marker = '### ISPConfig folder protection begin ###';
-            $end_marker = '### ISPConfig folder protection end ###';
-            $ht_file = $begin_marker."\nAuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user\n".$end_marker."\n\n";
+            $end_marker = "### ISPConfig folder protection end ###\n\n";
+            $ht_file = $begin_marker."\nAuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user\n".$end_marker;
 			
             if(file_exists($folder_path.'.htaccess')) {
                 $old_content = $app->system->file_get_contents($folder_path.'.htaccess');
@@ -1806,7 +1806,7 @@ class apache2_plugin {
 		//* Remove .htaccess file
 		if(is_file($folder_path.'.htaccess')) {
             $begin_marker = '### ISPConfig folder protection begin ###';
-            $end_marker = '### ISPConfig folder protection end ###';
+            $end_marker = "### ISPConfig folder protection end ###\n\n";
             
             $ht_file = $app->system->file_get_contents($folder_path.'.htaccess');
             
@@ -1873,7 +1873,7 @@ class apache2_plugin {
 		if(!is_dir($new_folder_path)) $app->system->mkdirpath($new_folder_path);
 		
         $begin_marker = '### ISPConfig folder protection begin ###';
-        $end_marker = '### ISPConfig folder protection end ###';
+        $end_marker = "### ISPConfig folder protection end ###\n\n";
         
 		if($data['old']['path'] != $data['new']['path']) {
 
@@ -1905,7 +1905,7 @@ class apache2_plugin {
 		
 		//* Create the .htaccess file
 		if($data['new']['active'] == 'y') {
-            $ht_file = $begin_marker."\nAuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user\n".$end_marker."\n\n";
+            $ht_file = $begin_marker."\nAuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user\n".$end_marker;
 			
             if(file_exists($new_folder_path.'.htaccess')) {
                 $old_content = $app->system->file_get_contents($new_folder_path.'.htaccess');
