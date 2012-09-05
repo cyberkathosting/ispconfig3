@@ -1744,12 +1744,26 @@ class apache2_plugin {
 		
 		//* Create the .htaccess file
 		//if(!is_file($folder_path.'.htaccess')) {
-			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user";
-			$app->system->file_put_contents($folder_path.'.htaccess',$ht_file);
+			$begin_marker = '### ISPConfig folder protection begin ###';
+            $end_marker = '### ISPConfig folder protection end ###';
+            $ht_file = $begin_marker."\nAuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user\n".$end_marker."\n\n";
+			
+            if(file_exists($folder_path.'.htaccess')) {
+                $old_content = $app->system->file_get_contents($folder_path.'.htaccess');
+                
+                if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $old_content, $matches)) {
+                    $ht_file = str_replace($matches[0], $ht_file, $old_content);
+                } else {
+                    $ht_file .= $old_content;
+                }
+            }
+            unset($old_content);
+            
+            $app->system->file_put_contents($folder_path.'.htaccess',$ht_file);
 			$app->system->chmod($folder_path.'.htaccess',0755);
 			$app->system->chown($folder_path.'.htaccess',$website['system_user']);
 			$app->system->chgrp($folder_path.'.htaccess',$website['system_group']);
-			$app->log('Created file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+			$app->log('Created/modified file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		//}
 		
 	}
@@ -1791,8 +1805,22 @@ class apache2_plugin {
 		
 		//* Remove .htaccess file
 		if(is_file($folder_path.'.htaccess')) {
-			$app->system->unlink($folder_path.'.htaccess');
-			$app->log('Removed file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+            $begin_marker = '### ISPConfig folder protection begin ###';
+            $end_marker = '### ISPConfig folder protection end ###';
+            
+            $ht_file = $app->system->file_get_contents($folder_path.'.htaccess');
+            
+            if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $ht_file, $matches)) {
+                $ht_file = str_replace($matches[0], '', $ht_file);
+            }
+            
+            if(trim($ht_file) == '') {
+                $app->system->unlink($folder_path.'.htaccess');
+                $app->log('Removed file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+            } else {
+                $app->system->file_put_contents($folder_path.'.htaccess', $ht_file);
+                $app->log('Removed protection content from file '.$folder_path.'.htaccess',LOGLEVEL_DEBUG);
+            }
 		}
 	}
 	
@@ -1844,6 +1872,9 @@ class apache2_plugin {
 		//* Create the folder path, if it does not exist
 		if(!is_dir($new_folder_path)) $app->system->mkdirpath($new_folder_path);
 		
+        $begin_marker = '### ISPConfig folder protection begin ###';
+        $end_marker = '### ISPConfig folder protection end ###';
+        
 		if($data['old']['path'] != $data['new']['path']) {
 
 		
@@ -1855,26 +1886,59 @@ class apache2_plugin {
 			
 			//* delete old .htaccess file
 			if(is_file($old_folder_path.'.htaccess')) {
-				$app->system->unlink($old_folder_path.'.htaccess');
-				$app->log('Deleted file '.$old_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+                $ht_file = $app->system->file_get_contents($old_folder_path.'.htaccess');
+                
+                if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $ht_file, $matches)) {
+                    $ht_file = str_replace($matches[0], '', $ht_file);
+                }
+                
+                if(trim($ht_file) == '') {
+                    $app->system->unlink($old_folder_path.'.htaccess');
+                    $app->log('Removed file '.$old_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+                } else {
+                    $app->system->file_put_contents($old_folder_path.'.htaccess', $ht_file);
+                    $app->log('Removed protection content from file '.$old_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+                }
 			}
 		
 		}
 		
 		//* Create the .htaccess file
 		if($data['new']['active'] == 'y') {
-			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user";
-			$app->system->file_put_contents($new_folder_path.'.htaccess',$ht_file);
-			$app->system->chmod($new_folder_path.'.htpasswd',0755);
-			$app->system->chown($folder_path.'.htpasswd',$website['system_user']);
-			$app->system->chgrp($folder_path.'.htpasswd',$website['system_group']);
-			$app->log('Created file '.$new_folder_path.'.htpasswd',LOGLEVEL_DEBUG);
+            $ht_file = $begin_marker."\nAuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user\n".$end_marker."\n\n";
+			
+            if(file_exists($new_folder_path.'.htaccess')) {
+                $old_content = $app->system->file_get_contents($new_folder_path.'.htaccess');
+                
+                if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $old_content, $matches)) {
+                    $ht_file = str_replace($matches[0], $ht_file, $old_content);
+                } else {
+                    $ht_file .= $old_content;
+                }
+            }
+            
+            $app->system->file_put_contents($new_folder_path.'.htaccess',$ht_file);
+			$app->system->chmod($new_folder_path.'.htaccess',0755);
+			$app->system->chown($new_folder_path.'.htaccess',$website['system_user']);
+			$app->system->chgrp($new_folder_path.'.htaccess',$website['system_group']);
+			$app->log('Created/modified file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
 		}
 		
 		//* Remove .htaccess file
 		if($data['new']['active'] == 'n' && is_file($new_folder_path.'.htaccess')) {
-			$app->system->unlink($new_folder_path.'.htaccess');
-			$app->log('Removed file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+            $ht_file = $app->system->file_get_contents($new_folder_path.'.htaccess');
+            
+            if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $ht_file, $matches)) {
+                $ht_file = str_replace($matches[0], '', $ht_file);
+            }
+            
+            if(trim($ht_file) == '') {
+                $app->system->unlink($new_folder_path.'.htaccess');
+                $app->log('Removed file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+            } else {
+                $app->system->file_put_contents($new_folder_path.'.htaccess', $ht_file);
+                $app->log('Removed protection content from file '.$new_folder_path.'.htaccess',LOGLEVEL_DEBUG);
+            }
 		}
 		
 		
