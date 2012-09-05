@@ -51,6 +51,16 @@ if($sys_config['tab_change_discard'] == 'y') {
     $app->tpl->setVar('global_tabchange_discard_txt', $app->lng('global_tabchange_discard_txt'));
 }
 
+if(isset($_SESSION['show_info_msg'])) {
+    $app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
+    unset($_SESSION['show_info_msg']);
+}
+if(isset($_SESSION['show_error_msg'])) {
+    $app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
+    unset($_SESSION['show_error_msg']);
+}
+
+
 $app->tpl_defaults();
 $app->tpl->pparse();
 ?>

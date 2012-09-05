@@ -491,6 +491,14 @@ class tform_actions {
 					$app->tpl->setVar('form_navibar',$navibar);
 				}
 				
+                if(isset($_SESSION['show_info_msg'])) {
+                    $app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
+                    unset($_SESSION['show_info_msg']);
+                }
+                if(isset($_SESSION['show_error_msg'])) {
+                    $app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
+                    unset($_SESSION['show_error_msg']);
+                }
 				
 				// loading plugins
                 $this->loadPlugins($this->active_tab);

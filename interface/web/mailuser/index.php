@@ -38,6 +38,14 @@ $app->tpl->setVar($rec2);
 $app->tpl->setVar('msg',$msg);
 $app->tpl->setVar('error',$error);
 
+if(isset($_SESSION['show_info_msg'])) {
+    $app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
+    unset($_SESSION['show_info_msg']);
+}
+if(isset($_SESSION['show_error_msg'])) {
+    $app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
+    unset($_SESSION['show_error_msg']);
+}
 
 
 

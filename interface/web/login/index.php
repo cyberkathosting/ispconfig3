@@ -65,7 +65,7 @@ class login_index {
 			$maintenance_mode_error = $app->lng('error_maintenance_mode');
 		}
 
-		//* Login Form was send
+		//* Login Form was sent
 		if(count($_POST) > 0) {
 
 			//** Check variables
@@ -197,6 +197,17 @@ class login_index {
 									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 									$_SESSION['s']['module'] = $module;
 								}
+                                
+                                // check if the user theme is valid
+                                if($_SESSION['s']['user']['theme'] != 'default') {
+                                    $tmp_path = ISPC_THEMES_PATH."/".$_SESSION['s']['user']['theme'];
+                                    if(!@is_dir($tmp_path) || !@file_exists($tmp_path."/ISPC_VERSION") || trim(file_get_contents($tmp_path."/ISPC_VERSION")) != ISPC_APP_VERSION) {
+                                        // fall back to default theme if this one is not compatible with current ispc version
+                                        $_SESSION['s']['user']['theme'] = 'default';
+                                        $_SESSION['s']['theme'] = 'default';
+                                        $_SESSION['show_error_msg'] = $app->lng('theme_not_compatible');
+                                    }
+                                }
 
 								$app->plugin->raiseEvent('login',$this);
 

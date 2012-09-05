@@ -73,7 +73,9 @@ $handle = @opendir(ISPC_THEMES_PATH);
 while ($file = @readdir ($handle)) { 
     if (substr($file, 0, 1) != '.') {
         if(@is_dir(ISPC_THEMES_PATH."/$file")) {
-			$themes_list[$file] = $file;
+			if($file == 'default' || (@file_exists(ISPC_THEMES_PATH."/$file/ISPC_VERSION") && trim(@file_get_contents(ISPC_THEMES_PATH."/$file/ISPC_VERSION")) == ISPC_APP_VERSION)) {
+                $themes_list[$file] = $file;
+            }
         }
 	}
 }

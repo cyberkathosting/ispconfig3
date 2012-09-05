@@ -20,4 +20,5 @@ $wb['pw_reset_txt'] = 'Passwort zurücksetzen';
 $wb['pw_button_txt'] = 'Passwort zusenden';
 $wb['email_txt'] = 'E-Mail';
 $wb['error_maintenance_mode'] = 'Diese ISPConfig-Installation wird gerade gewartet. Wir sind in Kürze wieder für Sie da. Vielen Dank für Ihre Geduld.';
+$wb['theme_not_compatible'] = 'Das gewählte Theme ist mit dieser ISPConfig Version nicht kompatibel. Bitte prüfen Sie, ob ein Update des Themes verfügbar ist.<br />Es wurde nun automatisch das Standard-Theme aktiviert.';
 ?>
