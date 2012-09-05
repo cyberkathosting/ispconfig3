@@ -1812,6 +1812,8 @@ class apache2_plugin {
             
             if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $ht_file, $matches)) {
                 $ht_file = str_replace($matches[0], '', $ht_file);
+            } else {
+                $ht_file = str_replace("AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$folder_path.".htpasswd\nrequire valid-user", '', $ht_file);
             }
             
             if(trim($ht_file) == '') {
@@ -1890,6 +1892,8 @@ class apache2_plugin {
                 
                 if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $ht_file, $matches)) {
                     $ht_file = str_replace($matches[0], '', $ht_file);
+                } else {
+                    $ht_file = str_replace("AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$old_folder_path.".htpasswd\nrequire valid-user", '', $ht_file);
                 }
                 
                 if(trim($ht_file) == '') {
@@ -1930,6 +1934,8 @@ class apache2_plugin {
             
             if(preg_match('/' . preg_quote($begin_marker, '/') . '(.*?)' . preg_quote($end_marker, '/') . '/s', $ht_file, $matches)) {
                 $ht_file = str_replace($matches[0], '', $ht_file);
+            } else {
+                $ht_file = str_replace("AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$new_folder_path.".htpasswd\nrequire valid-user", '', $ht_file);
             }
             
             if(trim($ht_file) == '') {
