@@ -94,11 +94,11 @@ $app->tpl->setVar('welcome_user', $welcome);
 $info = array();
 
 if(isset($_SESSION['show_info_msg'])) {
-    $info[] = array('info_msg' => $_SESSION['show_info_msg']);
+    $info[] = array('info_msg' => '<p>'.$_SESSION['show_info_msg'].'</p>');
     unset($_SESSION['show_info_msg']);
 }
 if(isset($_SESSION['show_error_msg'])) {
-    $app->tpl->setloop('error', array(array('error_msg' => $_SESSION['show_error_msg'])));
+    $app->tpl->setloop('error', array(array('error_msg' => '<p>'.$_SESSION['show_error_msg'].'</p>')));
     unset($_SESSION['show_error_msg']);
 }
 

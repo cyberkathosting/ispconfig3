@@ -49,7 +49,8 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+	var $_theme_changed = false;
+    
 	function onLoad() {
                 global $app, $conf, $tform_def_file;
 
@@ -80,6 +81,7 @@ class page_action extends tform_actions {
 		if(!in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
+        $this->updateSessionTheme();
 	}
         
 	function onInsert() {
@@ -94,8 +96,38 @@ class page_action extends tform_actions {
                 if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
+        $this->updateSessionTheme();
 	}
+    
+    function updateSessionTheme() {
+        global $app, $conf;
+        
+        if($this->dataRecord['app_theme'] != 'default') {
+            $tmp_path = ISPC_THEMES_PATH."/".$this->dataRecord['app_theme'];
+            if(!@is_dir($tmp_path) || !@file_exists($tmp_path."/ISPC_VERSION") || trim(file_get_contents($tmp_path."/ISPC_VERSION")) != ISPC_APP_VERSION) {
+                // fall back to default theme if this one is not compatible with current ispc version
+                $this->dataRecord['app_theme'] = 'default';
+            }
+        }
+        if($this->dataRecord['app_theme'] != $_SESSION['s']['user']['theme']) $this->_theme_changed = true;
+        $_SESSION['s']['theme'] = $this->dataRecord['app_theme'];
+        $_SESSION['s']['user']['theme'] = $_SESSION['s']['theme'];
+        $_SESSION['s']['user']['app_theme'] = $_SESSION['s']['theme'];
+    }
 	
+    function onAfterInsert() {
+        $this->onAfterUpdate();
+    }
+    function onAfterUpdate() {
+        if($this->_theme_changed == true) {
+            // not the best way, but it works
+            header('Content-Type: text/html');
+            print '<script type="text/javascript">document.location.reload();</script>';
+            exit;
+        }
+        else parent::onShow();
+    }
+    
 	
 }
 
