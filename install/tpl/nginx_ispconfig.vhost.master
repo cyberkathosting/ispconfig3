@@ -1,8 +1,11 @@
 server {
         listen {vhost_port};
-	ssl {ssl_on};
+		ssl {ssl_on};
         {ssl_comment}ssl_certificate /usr/local/ispconfig/interface/ssl/ispserver.crt;
         {ssl_comment}ssl_certificate_key /usr/local/ispconfig/interface/ssl/ispserver.key;
+		
+		# redirect to https if accessed with http
+		{ssl_comment}error_page 497 https://$host:{vhost_port}$request_uri;
 
         server_name _;
 
