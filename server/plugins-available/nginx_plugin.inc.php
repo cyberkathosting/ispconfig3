@@ -1051,7 +1051,7 @@ class nginx_plugin {
 			unset($client);
 			unset($aa_search);
 			unset($aa_replace);
-			$server_alias[] .= $auto_alias;
+			$server_alias[] .= $auto_alias.' ';
 		}
 		
 		// get alias domains (co-domains and subdomains)
