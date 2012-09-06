@@ -47,6 +47,11 @@ $items[] = array(   'title' 	=> 'Additional PHP Versions',
                     'target' 	=> 'content',
                     'link'	=> 'admin/server_php_list.php',
                     'html_id'   => 'server_php_list');
+					
+$items[] = array(   'title' 	=> 'Directive Snippets',
+                    'target' 	=> 'content',
+                    'link'	=> 'admin/directive_snippets_list.php',
+                    'html_id'   => 'directive_snippets_list');
 
 $items[] = array(   'title' 	=> 'Firewall',
                     'target' 	=> 'content',

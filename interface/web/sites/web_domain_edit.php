@@ -343,6 +343,41 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id",$client_select);
             
             foreach($read_limits as $limit) $app->tpl->setVar($limit, ($limit == 'force_suexec' ? 'n' : 'y'));
+			
+			// Directive Snippets
+			$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y'");
+			$php_directive_snippets_txt = '';
+			if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
+					foreach($php_directive_snippets as $php_directive_snippet){
+						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$php_directive_snippet['snippet'].'</pre></a> ';
+					}
+			}
+			if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
+			$app->tpl->setVar("php_directive_snippets_txt",$php_directive_snippets_txt);
+			
+			if($server_type == 'apache'){
+				$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y'");
+				$apache_directive_snippets_txt = '';
+				if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
+						foreach($apache_directive_snippets as $apache_directive_snippet){
+							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$apache_directive_snippet['snippet'].'</pre></a> ';
+						}
+				}
+				if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
+				$app->tpl->setVar("apache_directive_snippets_txt",$apache_directive_snippets_txt);
+			}
+			
+			if($server_type = 'nginx'){
+				$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y'");
+				$nginx_directive_snippets_txt = '';
+				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
+						foreach($nginx_directive_snippets as $nginx_directive_snippet){
+							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$nginx_directive_snippet['snippet'].'</pre></a> ';
+						}
+				}
+				if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
+				$app->tpl->setVar("nginx_directive_snippets_txt",$nginx_directive_snippets_txt);
+			}
 		}
 
 		$ssl_domain_select = '';

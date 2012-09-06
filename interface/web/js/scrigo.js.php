@@ -638,6 +638,12 @@ jQuery('.addPlaceholder').live("click", function(){
 	var template = jQuery(this).siblings(':input');
 	template.insertAtCaret(placeholderText);
 });
+
+jQuery('.addPlaceholderContent').live("click", function(){
+	var placeholderContentText = jQuery(this).find('.addPlaceholderContent').text();
+	var template2 = jQuery(this).siblings(':input');
+	template2.insertAtCaret(placeholderContentText);
+});
 		
 jQuery.fn.extend({
 	insertAtCaret: function(myValue){

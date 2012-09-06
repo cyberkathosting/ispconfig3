@@ -28,6 +28,7 @@ $wb['Jailkit'] = 'Jailkit';
 $wb['Rescue'] = 'Rescue';
 $wb['Server IP addresses'] = 'Server IP-Adressen';
 $wb['Additional PHP Versions'] = 'Zusätzliche PHP-Versionen';
+$wb['Directive Snippets'] = 'Direktiven-Schnipsel';
 $wb['Firewall'] = 'Firewall';
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
