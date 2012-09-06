@@ -367,7 +367,7 @@ class page_action extends tform_actions {
 				$app->tpl->setVar("apache_directive_snippets_txt",$apache_directive_snippets_txt);
 			}
 			
-			if($server_type = 'nginx'){
+			if($server_type == 'nginx'){
 				$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y'");
 				$nginx_directive_snippets_txt = '';
 				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
