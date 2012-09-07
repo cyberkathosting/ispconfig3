@@ -1667,6 +1667,7 @@ CREATE TABLE IF NOT EXISTS `web_database_user` (
   `sys_perm_user` varchar(5) DEFAULT NULL,
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
+  `server_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
   `database_user` varchar(64) DEFAULT NULL,
   `database_password` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`database_user_id`)
