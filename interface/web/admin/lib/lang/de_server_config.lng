@@ -167,5 +167,5 @@ $wb['backup_mode_rootgz'] = 'Backup aller Dateien des Webverzeichnisses als Root
 $wb['firewall_txt'] = 'Firewall';
 $wb['mailbox_quota_stats_txt'] = 'Mailbox Quota Statistiken';
 $wb['enable_ip_wildcard_txt'] = 'IP Wildcard (*) aktivieren';
-$wb['web_folder_protection_txt'] = 'Webordner-Schutz (HTTP AUTH)';
+$wb['web_folder_protection_txt'] = 'Webordner unveränderlich machen (erweiterte Attribute)';
 ?>
