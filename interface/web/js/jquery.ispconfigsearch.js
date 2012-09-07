@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2012, ISPConfig UG
+Copyright (c) 2012, ISPConfig UG (haftungsbeschränkt)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

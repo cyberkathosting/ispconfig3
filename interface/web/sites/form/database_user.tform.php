@@ -89,7 +89,7 @@ $form["tabs"]['database_user'] = array (
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255',
-			'searchable' => 2
+			'searchable' => 1
 		),
 		'database_password' => array (
 			'datatype'	=> 'VARCHAR',

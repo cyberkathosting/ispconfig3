@@ -88,6 +88,9 @@ $type = $_GET["type"];
 		*/
 		$result[] = _search('sites', 'database');
 		
+		// database users
+		$result[] = _search('sites', 'database_user');
+		
 		// email domains
 		$result[] = _search('mail', 'mail_domain');
 		
@@ -132,6 +135,9 @@ $type = $_GET["type"];
 		
 		// virtual machines ip addresses
 		$result[] = _search('vm', 'openvz_ip');
+		
+		// directive snippets
+		$result[] = _search('admin', 'directive_snippets');
 
 		$json = $app->functions->json_encode($result);
 	}
