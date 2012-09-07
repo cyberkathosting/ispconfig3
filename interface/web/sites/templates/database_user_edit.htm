@@ -37,7 +37,7 @@
             </div>
             <div class="ctrlHolder">
                 <label for="repeat_password">{tmpl_var name='repeat_password_txt'}</label>
-                <input name="repeat_password" id="repeat_password" value="" size="15" maxlength="100" type="password" class="textInput" style="width:100px;"  onkeyup="checkPassMatch('database_password','repeat_password');" />
+                <input name="repeat_password" id="repeat_password" value="" size="30" maxlength="100" type="password" class="textInput formLengthHalf"  onkeyup="checkPassMatch('database_password','repeat_password');" />
             </div>
             <div id="confirmpasswordError" style="display:none;" class="confirmpassworderror">{tmpl_var name='password_mismatch_txt'}</div>
             <div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>

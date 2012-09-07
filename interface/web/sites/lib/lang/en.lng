@@ -5,7 +5,7 @@ $wb['Websites'] = 'Websites';
     $wb['Aliasdomain'] = 'Aliasdomain for website';
 
     $wb['Database'] = 'Databases';
-    $wb['Database Users'] = 'Database Users';
+    $wb['Database User'] = 'Database Users';
 
 $wb['Web Access'] = 'Web Access';
     $wb['FTP-User'] = 'FTP-Accounts';
