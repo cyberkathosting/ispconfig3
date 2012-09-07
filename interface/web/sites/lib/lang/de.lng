@@ -26,4 +26,8 @@ $wb['Domain'] = 'Domain';
 $wb['Redirect'] = 'Umleitung';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Sites';
+$wb['APS Installer'] = 'APS-Installer';
+$wb['Available packages'] = 'Verfügbare Pakete';
+$wb['Installed packages'] = 'Installierte Pakete';
+$wb['Update Packagelist'] = 'Paketliste aktualisieren';
 ?>

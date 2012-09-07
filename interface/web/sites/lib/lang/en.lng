@@ -1,26 +1,21 @@
 <?php
 $wb['Websites'] = 'Websites';
-    $wb['Website'] = 'Website';
-    $wb['Subdomain'] = 'Subdomain for website';
-    $wb['Aliasdomain'] = 'Aliasdomain for website';
-
-    $wb['Database'] = 'Databases';
-    $wb['Database User'] = 'Database Users';
-
+$wb['Website'] = 'Website';
+$wb['Subdomain'] = 'Subdomain for website';
+$wb['Aliasdomain'] = 'Aliasdomain for website';
+$wb['Database'] = 'Databases';
+$wb['Database User'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
-    $wb['FTP-User'] = 'FTP-Accounts';
-    $wb['Webdav-User'] = 'WebDAV-Users';
-    $wb['Folder'] = 'Protected Folders';
-    $wb['Folder users'] = 'Protected Folder Users';
-
+$wb['FTP-User'] = 'FTP-Accounts';
+$wb['Webdav-User'] = 'WebDAV-Users';
+$wb['Folder'] = 'Protected Folders';
+$wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
-    $wb['Shell-User'] = 'Shell-User';
-    $wb["Cron Jobs"] = 'Cron Jobs';
-
+$wb['Shell-User'] = 'Shell-User';
+$wb["Cron Jobs"] = 'Cron Jobs';
 $wb["Statistics"] = 'Statistics';
-    $wb["Web traffic"] = 'Web Traffic';
-    $wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
-    
+$wb["Web traffic"] = 'Web Traffic';
+$wb["Website quota (Harddisk)"] = 'Website quota (Harddisk)';
 $wb["Cron"] = 'Cron';
 $wb["Stats"] = 'Statistics';
 $wb['Shell'] = 'Shell';
@@ -31,4 +26,8 @@ $wb['Domain'] = 'Domain';
 $wb['Redirect'] = 'Redirect';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Sites';
+$wb['APS Installer'] = 'APS Installer';
+$wb['Available packages'] = 'Available packages';
+$wb['Installed packages'] = 'Installed packages';
+$wb['Update Packagelist'] = 'Update Packagelist';
 ?>
