@@ -141,6 +141,15 @@ class apps_vhost_plugin {
 			//$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
+			if(file_exists('/var/run/php5-fpm.sock')){
+				$use_tcp = '#';
+				$use_socket = '';
+			} else {
+				$use_tcp = '';
+				$use_socket = '#';
+			}
+			$content = str_replace('{use_tcp}', $use_tcp, $content);
+			$content = str_replace('{use_socket}', $use_socket, $content);
 			
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings

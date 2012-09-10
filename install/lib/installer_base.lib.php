@@ -1555,6 +1555,16 @@ class installer_base {
 			//$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
+			
+			if(file_exists('/var/run/php5-fpm.sock')){
+				$use_tcp = '#';
+				$use_socket = '';
+			} else {
+				$use_tcp = '';
+				$use_socket = '#';
+			}
+			$content = str_replace('{use_tcp}', $use_tcp, $content);
+			$content = str_replace('{use_socket}', $use_socket, $content);
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
 
