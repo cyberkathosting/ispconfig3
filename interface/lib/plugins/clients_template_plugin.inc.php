@@ -29,6 +29,6 @@ class clients_template_plugin {
         global $app;
         
         $app->uses('client_templates');
-        $app->client_templates->apply_client_templates($page_form->id, $page_form->dataRecord);
+        $app->client_templates->apply_client_templates($page_form->id);
     }
 }

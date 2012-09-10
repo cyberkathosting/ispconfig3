@@ -9,10 +9,8 @@
  
 class client_templates {
 
-	function apply_client_templates($clientId, $limits = array()) {
+	function apply_client_templates($clientId) {
         global $app;
-        
-        if(!is_array($limits)) $limits = array();
         
         /*
          * Get the master-template for the client
@@ -28,6 +26,11 @@ class client_templates {
         if ($masterTemplateId > 0){
             $sql = "SELECT * FROM client_template WHERE template_id = " . intval($masterTemplateId);
             $limits = $app->db->queryOneRecord($sql);
+        } else {
+            // if there is no master template it makes NO SENSE adding sub templates.
+            // adding subtemplates are stored in client limits, so they would add up
+            // on every save action for the client -> too high limits!
+            return;
         }
 
         /*
