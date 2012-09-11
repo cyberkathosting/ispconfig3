@@ -39,7 +39,7 @@ $app->auth->check_module_permissions('client');
 $app->uses('ini_parser,getconf');
 $settings = $app->getconf->get_global_config('domains');
 if ($settings['use_domain_module'] == 'y') {
-	echo $settings[new_domain_html];
+	echo $settings['new_domain_html'];
 }
 
 ?>

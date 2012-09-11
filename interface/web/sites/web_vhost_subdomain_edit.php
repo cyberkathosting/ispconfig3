@@ -225,9 +225,52 @@ class page_action extends tform_actions {
 		$tmp_txt = ($this->dataRecord['traffic_quota_lock'] == 'y')?'<b>('.$app->tform->lng('traffic_quota_exceeded_txt').')</b>':'';
 		$app->tpl->setVar("traffic_quota_exceeded_txt", $tmp_txt);
 
-		// remove the parent domain part of the domain name before we show it in the text field.
-		$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"],'',$this->dataRecord["domain"]);
-		$app->tpl->setVar("domain",$this->dataRecord["domain"]);
+
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y') {
+			/*
+			 * The domain-module is in use.
+			*/
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			/*
+			 * The admin can select ALL domains, the user only the domains assigned to him
+			 */
+			$sql = "SELECT domain_id, domain FROM domain ";
+			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+				$sql .= "WHERE sys_groupid =" . $client_group_id;
+			}
+			$sql .= " ORDER BY domain";
+			$domains = $app->db->queryAllRecords($sql);
+			$domain_select = '';
+            $selected_domain = '';
+			if(is_array($domains) && sizeof($domains) > 0) {
+				/* We have domains in the list, so create the drop-down-list */
+				foreach( $domains as $domain) {
+					$domain_select .= "<option value=" . $domain['domain_id'] ;
+					if ('.' . $domain['domain'] == substr($this->dataRecord["domain"], -strlen($domain['domain']) - 1)) {
+						$domain_select .= " selected";
+                        $selected_domain = $domain['domain'];
+					}
+					$domain_select .= ">" . $domain['domain'] . "</option>\r\n";
+				}
+			}
+			else {
+				/*
+				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+				 * To avoid, that the variable "domain_option" is empty and so the user can
+				 * free enter a domain, we have to create a empty option!
+				*/
+				$domain_select .= "<option value=''></option>\r\n";
+			}
+			$app->tpl->setVar("domain_option",$domain_select);
+            $this->dataRecord['domain'] = substr($this->dataRecord["domain"], 0, strlen($this->dataRecord['domain']) - strlen($selected_domain) - 1);
+		} else {
+        
+            // remove the parent domain part of the domain name before we show it in the text field.
+            $this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"],'',$this->dataRecord["domain"]);
+        }
+        $app->tpl->setVar("domain",$this->dataRecord["domain"]);
 
 		parent::onShowEnd();
 	}
@@ -252,6 +295,29 @@ class page_action extends tform_actions {
         $read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
         
         if($app->tform->getCurrentTab() == 'domain') {
+            
+            /* check if the domain module is used - and check if the selected domain can be used! */
+            $app->uses('ini_parser,getconf');
+            $settings = $app->getconf->get_global_config('domains');
+            if ($settings['use_domain_module'] == 'y') {
+                $client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
+                
+                $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($this->dataRecord['sel_domain']);
+                if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+                    $sql .= "AND sys_groupid =" . $client_group_id;
+                }
+                $domain_check = $app->db->queryOneRecord($sql);
+                if(!$domain_check) {
+                    // invalid domain selected
+                    $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
+                } else {
+                    $this->dataRecord['domain'] = $this->dataRecord['domain'] . '.' . $domain_check['domain'];
+                }
+            } else {
+                $this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
+            }
+            
+            
             $this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
             $forbidden_folders = array('', 'cgi-bin', 'web', 'log', 'private', 'ssl', 'tmp', 'webdav');
             if(in_array($this->dataRecord['web_folder'], $forbidden_folders)) {

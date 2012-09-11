@@ -5,14 +5,29 @@
 
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels">
+            <tmpl_if name="domain_option">
+            <div class="ctrlHolder">
+                <label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
+                <select id="parent_domain_id" name="parent_domain_id" class="selectInput formLengthHalf">{tmpl_var name='parent_domain_id'}</select>
+            </div>
+            </tmpl_if>
             <div class="ctrlHolder">
                 <label for="domain">{tmpl_var name='host_txt'}</label>
                 <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
             </div>
+            <tmpl_if name="domain_option">
+            <div class="ctrlHolder">
+                <label for="sel_domain">{tmpl_var name='domain_txt'}</label>
+                    <select name="sel_domain" id="sel_domain" class="selectInput">
+                        {tmpl_var name='domain_option'}
+                    </select>
+            </div>
+            <tmpl_else>
             <div class="ctrlHolder">
                 <label for="parent_domain_id">{tmpl_var name='domain_txt'}</label>
                 <select id="parent_domain_id" name="parent_domain_id" class="selectInput formLengthHalf">{tmpl_var name='parent_domain_id'}</select>
             </div>
+            </tmpl_if>
             <div class="ctrlHolder">
                 <label for="redirect_type">{tmpl_var name='redirect_type_txt'}</label>
                 <select name="redirect_type" id="redirect_type" class="selectInput formLengthHalf">
