@@ -1835,7 +1835,7 @@ class remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../domain/form/domain.tform.php');
+		$app->remoting_lib->loadFormDef('../client/form/domain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -1846,7 +1846,7 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->insertQuery('../domain/form/domain.tform.php',$client_id,$params);
+		return $this->insertQuery('../client/form/domain.tform.php',$client_id,$params);
 	}
 
 	//* Delete a record
@@ -1856,7 +1856,7 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../domain/form/domain.tform.php',$primary_id);
+		$affected_rows = $this->deleteQuery('../client/form/domain.tform.php',$primary_id);
 		return $affected_rows;
 	}
 
