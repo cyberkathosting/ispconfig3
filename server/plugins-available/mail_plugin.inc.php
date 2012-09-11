@@ -124,7 +124,7 @@ class mail_plugin {
 
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
-				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
+				if(is_dir($maildomain_path)) exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
 				$app->log('Created Maildir: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			}
 		}
@@ -153,7 +153,7 @@ class mail_plugin {
 		//* Set the maildir quota
 		if(is_dir($data['new']['maildir'].'/new') && $mail_config['pop3_imap_daemon'] != 'dovecot') {
 			if($data['new']['quota'] > 0) {
-				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
+				if(is_dir($data['new']['maildir'])) exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
 				$app->log('Set Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			}
 		}
@@ -254,7 +254,7 @@ class mail_plugin {
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
 				if($data['new']['quota'] > 0) {
-					exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
+					if(is_dir($maildomain_path)) exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']); // Avoid maildirmake quota bug, see debian bug #214911
 					$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 				} else {
 					if(file_exists($data['new']['maildir'].'/maildirsize')) unlink($data['new']['maildir'].'/maildirsize');
@@ -300,7 +300,7 @@ class mail_plugin {
 		// Courier Layout
 		if(is_dir($data['new']['maildir'].'/new') && $mail_config['pop3_imap_daemon'] != 'dovecot') {
 			if($data['new']['quota'] > 0) {
-				exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
+				if(is_dir($data['new']['maildir'])) exec("su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name']);
 				$app->log('Updated Maildir quota: '."su -c 'maildirmake -q ".$data['new']['quota']."S ".escapeshellcmd($data['new']['maildir'])."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
 			} else {
 				if(file_exists($data['new']['maildir'].'/maildirsize')) unlink($data['new']['maildir'].'/maildirsize');
