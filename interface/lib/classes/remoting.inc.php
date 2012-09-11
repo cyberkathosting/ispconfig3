@@ -2651,6 +2651,12 @@ class remoting {
 		}
 		*/
 		
+        /* copied from the client_edit php */
+		exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
+		$app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote(@file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote(@file_get_contents('/tmp/id_rsa.pub'))."' WHERE client_id = ".$this->id);
+		exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+        
+        
 			
 		//$app->uses('tform');
 		//* Save changes to Datalog
