@@ -2673,7 +2673,7 @@ class remoting {
     protected function insertQuery($formdef_file, $client_id, $params,$event_identifier = '')
     {
         $sql = $this->insertQueryPrepare($formdef_file, $client_id, $params);
-        if($sql !== false) return $this->insertQueryExecute($sql, $params,$event_identifier = '');
+        if($sql !== false) return $this->insertQueryExecute($sql, $params,$event_identifier);
         else return false;
     }
 
@@ -2695,7 +2695,7 @@ class remoting {
 			$this->server->fault('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
-		
+		$app->log('Executed insertQueryPrepare', LOGLEVEL_DEBUG);
         return $sql;
 	}
 	
@@ -2717,7 +2717,7 @@ class remoting {
 		// set a few values for compatibility with tform actions, mostly used by plugins
 		$this->id = $insert_id;
 		$this->dataRecord = $params;
-		
+		$app->log('Executed insertQueryExecute, raising events now if any: ' . $event_identifier, LOGLEVEL_DEBUG);
 		if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
 	
 		//$app->uses('tform');
@@ -2734,7 +2734,7 @@ class remoting {
 		global $app;
 		
 		$sql = $this->updateQueryPrepare($formdef_file, $client_id, $primary_id, $params);
-        if($sql !== false) return $this->updateQueryExecute($sql, $primary_id, $params,$event_identifier = '');
+        if($sql !== false) return $this->updateQueryExecute($sql, $primary_id, $params,$event_identifier);
         else return false;
 	}
 	
