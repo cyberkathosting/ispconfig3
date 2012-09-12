@@ -459,21 +459,23 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
         /* check if the domain module is used - and check if the selected domain can be used! */
-		$app->uses('ini_parser,getconf');
-		$settings = $app->getconf->get_global_config('domains');
-		if ($settings['use_domain_module'] == 'y') {
-			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
-			
-            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($this->dataRecord['domain']);
-			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-				$sql .= "AND sys_groupid =" . $client_group_id;
-			}
-			$domain_check = $app->db->queryOneRecord($sql);
-            if(!$domain_check) {
-                // invalid domain selected
-                $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
-            } else {
-                $this->dataRecord['domain'] = $domain_check['domain'];
+		if($app->tform->getCurrentTab() == 'domain') {
+            $app->uses('ini_parser,getconf');
+            $settings = $app->getconf->get_global_config('domains');
+            if ($settings['use_domain_module'] == 'y') {
+                $client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
+                
+                $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($this->dataRecord['domain']);
+                if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+                    $sql .= "AND sys_groupid =" . $client_group_id;
+                }
+                $domain_check = $app->db->queryOneRecord($sql);
+                if(!$domain_check) {
+                    // invalid domain selected
+                    $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
+                } else {
+                    $this->dataRecord['domain'] = $domain_check['domain'];
+                }
             }
         }
 
