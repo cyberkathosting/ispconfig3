@@ -2784,7 +2784,6 @@ class remoting {
 		$this->oldDataRecord = $old_rec;
 		$this->id = $primary_id;
 		$this->dataRecord = $params;
-		$app->log('Executed updateQueryExecute, raising events now if any: ' . $event_identifier, LOGLEVEL_DEBUG);
 		
 		$app->db->query($sql);
 		
@@ -2794,6 +2793,7 @@ class remoting {
 		}
 		
 		$affected_rows = $app->db->affectedRows();
+		$app->log('Executed updateQueryExecute, raising events now if any: ' . $event_identifier, LOGLEVEL_DEBUG);
 		
 		if($event_identifier != '') $app->plugin->raiseEvent($event_identifier,$this);
 		
