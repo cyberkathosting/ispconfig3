@@ -1079,7 +1079,7 @@ class remoting {
 					return false;
 			}
             if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
-			$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params);
+			$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params, 'client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_update');
 			
 			$app->remoting_lib->ispconfig_sysuser_update($params,$client_id);
 			
@@ -2784,6 +2784,7 @@ class remoting {
 		$this->oldDataRecord = $old_rec;
 		$this->id = $primary_id;
 		$this->dataRecord = $params;
+		$app->log('Executed updateQueryExecute, raising events now if any: ' . $event_identifier, LOGLEVEL_DEBUG);
 		
 		$app->db->query($sql);
 		
@@ -2823,6 +2824,7 @@ class remoting {
 		$this->oldDataRecord = $old_rec;
 		$this->id = $primary_id;
 		$this->dataRecord = $old_rec;
+		$app->log('Executed deleteQuery, raising events now if any: ' . $event_identifier, LOGLEVEL_DEBUG);
 		//$this->dataRecord = $params;
 		
 		//* Get the SQL query
