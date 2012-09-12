@@ -74,7 +74,8 @@ class validate_datetime
 	 */
 	function _get_timestamp_value($field_value)
 	{
-		$second = 0;
+		if(!is_array($field_value)) return 0;
+        $second = 0;
 		$filtered_values = array_map(create_function('$item','return (int)$item;'), $field_value);
 		extract($filtered_values, EXTR_OVERWRITE);
 		
@@ -93,6 +94,7 @@ class validate_datetime
 	 */
 	function not_empty($field_name, $field_value, $validator)
 	{
+        if(!is_array($field_value)) return $this->_get_error($validator['errmsg']);
 		extract($field_value);
 		if ( !($day > 0 && $month > 0 && $year > 0) ) {
 			return $this->_get_error($validator['errmsg']);
