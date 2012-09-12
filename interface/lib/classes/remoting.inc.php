@@ -1255,6 +1255,8 @@ class remoting {
 	//* Add a record
 	public function sites_database_add($session_id, $client_id, $params)
     {
+        global $app;
+        
 		if(!$this->checkPerm($session_id, 'sites_database_add')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -1277,6 +1279,8 @@ class remoting {
 	//* Update a record
 	public function sites_database_update($session_id, $client_id, $primary_id, $params)
     {
+        global $app;
+        
 		if(!$this->checkPerm($session_id, 'sites_database_update')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -1298,6 +1302,7 @@ class remoting {
 	//* Delete a record
 	public function sites_database_delete($session_id, $primary_id)
     {
+        global $app;
 		if(!$this->checkPerm($session_id, 'sites_database_delete')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;

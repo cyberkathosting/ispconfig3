@@ -400,7 +400,7 @@ class tform {
                                                                 $selected = ($k == $val)?' SELECTED':'';
 																if(!empty($this->wordbook[$v]))
 																	$v = $this->wordbook[$v];
-                                                                $out .= "<option value='$k'$selected>$v</option>\r\n";
+                                                                $out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
                                                         }
                                                 }
                                                 $new_record[$key] = $out;

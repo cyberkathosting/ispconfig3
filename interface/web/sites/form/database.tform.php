@@ -83,7 +83,7 @@ $form["tabs"]['database'] = array (
 										'keyfield'=> 'domain_id',
 										'valuefield'=> 'domain'
 									 ),
-			'value'		=> array('0' => $app->tform->lng('select_site_txt'))
+			'value'		=> array('0' => 'select_site_txt')
 		),
 		'type' => array (
 			'datatype'	=> 'VARCHAR',
@@ -115,7 +115,7 @@ $form["tabs"]['database'] = array (
 										'keyfield'=> 'database_user_id',
 										'valuefield'=> 'database_user'
 									 ),
-			'value'		=> array('0' => $app->tform->lng('select_dbuser_txt'))
+			'value'		=> array('0' => 'select_dbuser_txt')
 		),
 		'database_ro_user_id' => array (
 			'datatype'	=> 'INTEGER',
@@ -126,7 +126,7 @@ $form["tabs"]['database'] = array (
 										'keyfield'=> 'database_user_id',
 										'valuefield'=> 'database_user'
 									 ),
-			'value'		=> array('0' => $app->tform->lng('no_dbuser_txt'))
+			'value'		=> array('0' => 'no_dbuser_txt')
 		),
 		'database_charset' => array (
 			'datatype'	=> 'VARCHAR',
