@@ -750,6 +750,55 @@ function is_ispconfig_ssl_enabled() {
 	}
 }
 
+/** 
+  Function to find the hash file for timezone detection
+  (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
+*/
+function find_hash_file($hash, $dir, $basedir = '') {
+    $res = opendir($dir);
+    if(!$res) return false;
+    
+    if(substr($dir, -1) === '/') $dir = substr($dir, 0, strlen($dir) - 1);
+    if($basedir === '') $basedir = $dir;
+    
+    while($cur = readdir($res)) {
+        if($cur == '.' || $cur == '..') continue;
+        $entry = $dir.'/'.$cur;
+        if(is_dir($entry)) {
+            $result = find_hash_file($hash, $entry, $basedir);
+            if($result !== false) return $result;
+        } elseif(md5_file($entry) === $hash) {
+            $entry = substr($entry, strlen($basedir));
+            if(substr($entry, 0, 7) === '/posix/') $entry = substr($entry, 7);
+            return $entry;
+        }
+    }
+    closedir($res);
+    return false;
+}
+
+/** 
+  Function to get the timezone of the Linux system
+  (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
+*/
+function get_system_timezone() {
+	if(is_link('/etc/localtime')) {
+		$timezone = readlink('/etc/localtime');
+		$timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
+		if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
+	} else {
+		$hash = md5_file('/etc/localtime');
+		$timezone = find_hash_file($hash, '/usr/share/zoneinfo');
+	}
+
+	if(!$timezone) {
+		exec('date +%Z', $tzinfo);
+		$timezone = $tzinfo[0];
+	}
+
+	return $timezone;
+}
+
 
 
 ?>

@@ -104,16 +104,7 @@ $inst->find_installed_apps();
 
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en','de'), 'en');
-
-exec('date +%z', $tmp_out);
-$tmp_zone = intval($tmp_out[0]);
-if(substr($tmp_out[0],0,1) == '+') {
-	$conf['timezone'] = 'Etc/GMT+'.$tmp_zone;
-} else {
-	$conf['timezone'] = 'Etc/GMT-'.$tmp_zone;
-}
-unset($tmp_out);
-unset($tmp_zone);
+$conf['timezone'] = get_system_timezone();
 
 //* Set defaukt theme
 $conf['theme'] = 'default';
