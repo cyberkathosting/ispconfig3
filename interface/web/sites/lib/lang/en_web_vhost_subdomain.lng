@@ -48,6 +48,7 @@ $wb["apache_directives_txt"] = 'Apache Directives';
 $wb["domain_error_empty"] = 'Domain is empty.';
 $wb["domain_error_unique"] = 'There is already a website or sub / aliasdomain with this domain name.';
 $wb["domain_error_regex"] = 'Domain name invalid.';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 $wb["hd_quota_error_empty"] = 'Harddisk quota is 0 or empty.';
 $wb["traffic_quota_error_empty"] = 'Traffic quota is empty.';
 $wb["error_ssl_state_empty"] = 'SSL State is empty.';

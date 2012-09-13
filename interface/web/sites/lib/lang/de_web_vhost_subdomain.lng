@@ -42,6 +42,7 @@ $wb['apache_directives_txt'] = 'Apache Direktiven';
 $wb['domain_error_empty'] = 'Domain ist leer.';
 $wb['domain_error_unique'] = 'Domain muss eindeutig sein';
 $wb['domain_error_regex'] = 'Domainname ungültig.';
+$wb['domain_error_wildcard'] = 'Wildcard Subdomains sind nicht erlaubt.';
 $wb['hd_quota_error_empty'] = 'Harddisk Quota ist leer.';
 $wb['traffic_quota_error_empty'] = 'Traffic Quota ist leer.';
 $wb['errordocs_txt'] = 'Eigene Fehlerseiten';
