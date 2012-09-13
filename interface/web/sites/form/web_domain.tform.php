@@ -212,6 +212,11 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'www',
+            'validators'    => array (  0 => array (    'type'  => 'CUSTOM',
+                                                        'class' => 'validate_domain',
+                                                        'function' => 'web_domain_autosub',
+                                                        'errmsg'=> 'domain_error_autosub'),
+                                    ),
 			'value'		=> ($wildcard_available ? array('none' => 'none_txt', 'www' => 'www.', '*' => '*.') : array('none' => 'none_txt', 'www' => 'www.'))
 		),
 		'ssl' => array (

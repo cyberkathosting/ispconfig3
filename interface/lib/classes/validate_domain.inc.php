@@ -79,6 +79,25 @@ class validate_domain {
         if(!$result) return $this->get_error('domain_error_unique');
     }
     
+    /* Validator function for checking the auto subdomain of a web/aliasdomain */
+    function web_domain_autosub($field_name, $field_value, $validator) {
+        global $app;
+        if(empty($field_value) || $field_name != 'subdomain') return; // none set
+        
+        $check_domain = $_POST['domain'];
+        $app->uses('ini_parser,getconf');
+        $settings = $app->getconf->get_global_config('domains');
+        if ($settings['use_domain_module'] == 'y') {
+            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($check_domain);
+            $domain_check = $app->db->queryOneRecord($sql);
+            if(!$domain_check) return;
+            $check_domain = $domain_check['domain'];
+        }
+        
+        $result = $this->_check_unique($field_value . '.' . $check_domain, true);
+        if(!$result) return $this->get_error('domain_error_autosub');
+    }
+    
     /* internal validator function to match regexp */
     function _regex_validate($domain_name, $allow_wildcard = false) {
         $pattern = '/^' . ($allow_wildcard == true ? '(\*\.)?' : '') . '[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,30}$/';
@@ -86,14 +105,16 @@ class validate_domain {
     }
     
     /* check if the domain hostname is unique (keep in mind the auto subdomains!) */
-    function _check_unique($domain_name) {
+    function _check_unique($domain_name, $only_domain = false) {
         global $app;
         
         $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($app->tform->primary_id));
         if($check['cnt'] > 0) return false;
         
-        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($app->tform->primary_id));
-        if($check['cnt'] > 0) return false;
+        if($only_domain == false) {
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($app->tform->primary_id));
+            if($check['cnt'] > 0) return false;
+        }
         
         return true;
     }
