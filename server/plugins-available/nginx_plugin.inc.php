@@ -966,7 +966,7 @@ class nginx_plugin {
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
 					'rewrite_target' 	=> $data['new']['redirect_path'],
 					'rewrite_exclude'	=> $rewrite_exclude);
@@ -987,7 +987,7 @@ class nginx_plugin {
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^' . $this->_rewrite_quote('www.'.$data['new']['domain']),
 							'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
 							'rewrite_target' 	=> $data['new']['redirect_path'],
 							'rewrite_exclude'	=> $rewrite_exclude);
@@ -1009,7 +1009,7 @@ class nginx_plugin {
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> $data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
 						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
 						'rewrite_target' 	=> $data['new']['redirect_path'],
 						'rewrite_exclude'	=> $rewrite_exclude);
@@ -1031,7 +1031,7 @@ class nginx_plugin {
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
 					'rewrite_target' 	=> $data['new']['redirect_path'],
 					'rewrite_exclude'	=> $rewrite_exclude);
@@ -1107,7 +1107,7 @@ class nginx_plugin {
 								unset($tmp_redirect_path);
 								unset($tmp_redirect_path_parts);
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($alias['domain']),
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 								'rewrite_target' 	=> $alias['redirect_path'],
 								'rewrite_exclude'	=> $rewrite_exclude);
@@ -1128,7 +1128,7 @@ class nginx_plugin {
 								unset($tmp_redirect_path);
 								unset($tmp_redirect_path_parts);
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^' . $this->_rewrite_quote('www.'.$alias['domain']),
 									'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 									'rewrite_target' 	=> $alias['redirect_path'],
 									'rewrite_exclude'	=> $rewrite_exclude);
@@ -1150,7 +1150,7 @@ class nginx_plugin {
 								unset($tmp_redirect_path);
 								unset($tmp_redirect_path_parts);
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)' . $this->_rewrite_quote($alias['domain']),
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 								'rewrite_target' 	=> $alias['redirect_path'],
 								'rewrite_exclude'	=> $rewrite_exclude);
@@ -1172,7 +1172,9 @@ class nginx_plugin {
 								unset($tmp_redirect_path);
 								unset($tmp_redirect_path_parts);
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+                            if(substr($alias['domain'], 0, 2) === '*.') $domain_rule = '(^|\.)'.$this->_rewrite_quote($alias['domain']);
+                            else $domain_rule = '^'.$this->_rewrite_quote($alias['domain']);
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> $domain_rule,
 							'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 							'rewrite_target' 	=> $alias['redirect_path'],
 							'rewrite_exclude'	=> $rewrite_exclude);
@@ -2163,7 +2165,10 @@ class nginx_plugin {
 
 		return symlink($cfrom, $to);
 	}
-
+    
+    private function _rewrite_quote($string) {
+        return str_replace(array('.', '*', '?', '+'), array('\\.', '\\*', '\\?', '\\+'), $string);
+    }
 
 } // end class
 

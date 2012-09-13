@@ -884,23 +884,23 @@ class apache2_plugin {
 
 			switch($data['new']['subdomain']) {
 				case 'www':
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
 						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 						'rewrite_target' 	=> $rewrite_target,
 						'rewrite_target_ssl' => $rewrite_target_ssl);
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^' . $this->_rewrite_quote('www.'.$data['new']['domain']),
 							'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 							'rewrite_target' 	=> $rewrite_target,
 							'rewrite_target_ssl' => $rewrite_target_ssl);
 					break;
 				case '*':
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
 						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 						'rewrite_target' 	=> $rewrite_target,
 						'rewrite_target_ssl' => $rewrite_target_ssl);
 					break;
 				default:
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$data['new']['domain'],
+					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
 						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 						'rewrite_target' 	=> $rewrite_target,
 						'rewrite_target_ssl' => $rewrite_target_ssl);
@@ -965,23 +965,25 @@ class apache2_plugin {
 					
 					switch($alias['subdomain']) {
 						case 'www':
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($alias['domain']),
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
 								'rewrite_target' 	=> $rewrite_target,
 								'rewrite_target_ssl' => $rewrite_target_ssl);
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^www.'.$alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^' . $this->_rewrite_quote('www.'.$alias['domain']),
 									'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
 									'rewrite_target' 	=> $rewrite_target,
 									'rewrite_target_ssl' => $rewrite_target_ssl);
 							break;
 						case '*':
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$alias['domain'],
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$this->_rewrite_quote($alias['domain']),
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
 								'rewrite_target' 	=> $rewrite_target,
 								'rewrite_target_ssl' => $rewrite_target_ssl);
 							break;
 						default:
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$alias['domain'],
+                            if(substr($alias['domain'], 0, 2) === '*.') $domain_rule = '(^|\.)'.$this->_rewrite_quote($alias['domain']);
+                            else $domain_rule = '^'.$this->_rewrite_quote($alias['domain']);
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> $domain_rule,
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
 								'rewrite_target' 	=> $rewrite_target,
 								'rewrite_target_ssl' => $rewrite_target_ssl);
@@ -2561,6 +2563,10 @@ class apache2_plugin {
 		return symlink($cfrom, $to);
 	}
 
+    private function _rewrite_quote($string) {
+        return str_replace(array('.', '*', '?', '+'), array('\\.', '\\*', '\\?', '\\+'), $string);
+    }
+    
 } // end class
 
 ?>
