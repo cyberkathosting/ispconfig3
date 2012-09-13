@@ -207,7 +207,7 @@ class page_action extends tform_actions {
 		
     $sys_config = $app->getconf->get_global_config('mail');
     if($sys_config["enable_custom_login"] == "y") {
-        if(!isset($_POST["login"])) $this->dataRecord["login"] = $this->dataRecord["email"];
+        if(!isset($_POST["login"]) || $_POST["login"] == '') $this->dataRecord["login"] = $this->dataRecord["email"];
         elseif(strpos($_POST["login"], '@') !== false && $_POST["login"] != $this->dataRecord["email"]) $app->tform->errorMessage .= $app->tform->lng("error_login_email_txt")."<br>";
 		} else {
         $this->dataRecord["login"] = isset($this->dataRecord["email"]) ? $this->dataRecord["email"] : '';
