@@ -34,7 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class functions {
 	
 
-	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '') {
+	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '', $from_name = '') {
 		global $app,$conf;
 		
 		if($conf['demo_mode'] == true) $app->error("Mail sending disabled in demo mode.");
@@ -45,7 +45,7 @@ class functions {
 			$mail_config['use_smtp'] = true;
 			$app->ispcmail->setOptions($mail_config);
 		}
-		$app->ispcmail->setSender($from);
+		$app->ispcmail->setSender($from, $from_name);
 		$app->ispcmail->setSubject($subject);
 		$app->ispcmail->setMailText($text);
 		
