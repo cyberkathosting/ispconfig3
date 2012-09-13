@@ -981,7 +981,7 @@ class apache2_plugin {
 								'rewrite_target_ssl' => $rewrite_target_ssl);
 							break;
 						default:
-                            if(substr($alias['domain'], 0, 2) === '*.') $domain_rule = '(^|\.)'.$this->_rewrite_quote($alias['domain']);
+                            if(substr($alias['domain'], 0, 2) === '*.') $domain_rule = '(^|\.)'.$this->_rewrite_quote(substr($alias['domain'], 2));
                             else $domain_rule = '^'.$this->_rewrite_quote($alias['domain']);
 							$rewrite_rules[] = array(	'rewrite_domain' 	=> $domain_rule,
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
