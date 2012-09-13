@@ -108,7 +108,7 @@ class page_action extends tform_actions {
 		$this->dataRecord["spam_delete_score_int"] 		= $_POST["spam_delete_score_int"] * 100;
 		
 		// Changing mailbox_id to maildir
-		$sql = "SELECT maildir FROM mail_box WHERE mailbox_id = '".intval($_POST["spam_redirect_maildir"])."' AND ".$app->tform->getAuthSQL('r');
+		$sql = "SELECT maildir FROM mail_box WHERE mailbox_id = '".$app->functions->intval($_POST["spam_redirect_maildir"])."' AND ".$app->tform->getAuthSQL('r');
 		$mailbox = $app->db->queryOneRecord($sql);
 		$this->dataRecord["spam_redirect_maildir"] = $mailbox["maildir"];
 		

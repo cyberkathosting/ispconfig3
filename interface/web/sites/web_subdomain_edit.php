@@ -113,7 +113,7 @@ class page_action extends tform_actions {
 		} else {
         
             // Get the record of the parent domain
-            $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+            $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
             
             // remove the parent domain part of the domain name before we show it in the text field.
             $this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"],'',$this->dataRecord["domain"]);
@@ -128,13 +128,13 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
         // Get the record of the parent domain
-        $parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+        $parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
         
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
             // get the record of the domain module domain
-            $domain = $app->db->queryOneRecord("SELECT * FROM domain WHERE domain_id = ".intval($this->dataRecord["sel_domain"]));
+            $domain = $app->db->queryOneRecord("SELECT * FROM domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["sel_domain"]));
             if(!$domain) {
                 $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
             } else {
@@ -159,7 +159,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-		$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+		$app->db->query('UPDATE web_domain SET sys_groupid = '.$app->functions->intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
 		
 	}
 	
@@ -170,7 +170,7 @@ class page_action extends tform_actions {
 		if($this->dataRecord['parent_domain_id'] != $this->oldDataRecord['parent_domain_id']) {
 			
 			//* Update the domain owner
-			$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+			$app->db->query('UPDATE web_domain SET sys_groupid = '.$app->functions->intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
 			
 			//* Update the old website, so that the vhost alias gets removed
 			//* We force the update by inserting a transaction record without changes manually.

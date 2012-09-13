@@ -38,13 +38,13 @@ $app->auth->check_module_permissions('mail');
 if (!isset($_GET['id'])){
     die ("No E-Mail selected!");
 }
-$emailId = intval($_GET['id']);
+$emailId = $app->functions->intval($_GET['id']);
 
 /*
  * Get the data to connect to the database
  */
 $dbData = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = " . $emailId);
-$serverId = intval($dbData['server_id']);
+$serverId = $app->functions->intval($dbData['server_id']);
 if ($serverId == 0){
     die ("No E-Mail - Server found!");
 }

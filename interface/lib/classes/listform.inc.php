@@ -194,14 +194,14 @@ class listform {
         global $app, $conf;
         
         //* Add Global Limit from selectbox
-        if(!empty($_POST['search_limit']) AND intval($_POST['search_limit'])){
-			$_SESSION['search']['limit'] = intval($_POST['search_limit']);
+        if(!empty($_POST['search_limit']) AND $app->functions->intval($_POST['search_limit'])){
+			$_SESSION['search']['limit'] = $app->functions->intval($_POST['search_limit']);
 		}
 
         //* Get Config variables
         $list_name          = $this->listDef['name'];
         $search_prefix      = $this->listDef['search_prefix'];
-        $records_per_page   = (empty($_SESSION['search']['limit']) ? intval($this->listDef['records_per_page']) : intval($_SESSION['search']['limit'])) ;
+        $records_per_page   = (empty($_SESSION['search']['limit']) ? $app->functions->intval($this->listDef['records_per_page']) : $app->functions->intval($_SESSION['search']['limit'])) ;
         $table              = $this->listDef['table'];
 
         //* set PAGE to zero, if in session not set
@@ -210,14 +210,14 @@ class listform {
         }
 
         //* set PAGE to worth request variable "PAGE" - ? setze page auf wert der request variablen "page"
-        if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = intval($_REQUEST["page"]);
+        if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = $app->functions->intval($_REQUEST["page"]);
 
         //* PAGE to 0 set, if look for themselves ?  page auf 0 setzen, wenn suche sich ge�ndert hat.
         if($this->searchChanged == 1) $_SESSION['search'][$list_name]['page'] = 0;
 
-        $sql_von = intval($_SESSION['search'][$list_name]['page'] * $records_per_page);
+        $sql_von = $app->functions->intval($_SESSION['search'][$list_name]['page'] * $records_per_page);
         $record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table WHERE $sql_where");
-        $pages = intval(($record_count['anzahl'] - 1) / $records_per_page);
+        $pages = $app->functions->intval(($record_count['anzahl'] - 1) / $records_per_page);
 
 
         $vars['list_file']      = $_SESSION['s']['module']['name'].'/'.$this->listDef['file'];
@@ -331,7 +331,7 @@ class listform {
                         break;
 
                     case 'INTEGER':
-                        $record[$key] = intval($record[$key]);
+                        $record[$key] = $app->functions->intval($record[$key]);
                         break;
 
                     case 'DOUBLE':
@@ -387,7 +387,7 @@ class listform {
                         break;
 
                     case 'INTEGER':
-                        $record[$key] = intval($record[$key]);
+                        $record[$key] = $app->functions->intval($record[$key]);
                         break;
 
                     case 'DOUBLE':

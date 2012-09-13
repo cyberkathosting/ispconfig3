@@ -269,7 +269,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'web_php_options' => implode(',', $phpopts),
                             'limit_web_aliasdomain' => get_limit($limits, $entry['id'], 'max_dom_aliases', -1),
                             'limit_web_subdomain' => get_limit($limits, $entry['id'], 'max_subdom', -1),
-                            'limit_ftp_user' => (string)(intval(get_limit($limits, $entry['id'], 'max_subftp_users', -2)) + 1),
+                            'limit_ftp_user' => (string)($app->functions->intval(get_limit($limits, $entry['id'], 'max_subftp_users', -2)) + 1),
                             'limit_shell_user' => 0,
                             'ssh_chroot' => 'no,jailkit',
                             'limit_webdav_user' => get_limit($limits, $entry['id'], 'max_wu', 0),

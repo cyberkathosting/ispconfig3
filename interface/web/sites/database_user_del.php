@@ -60,12 +60,12 @@ class page_action extends tform_actions {
 		global $app; $conf;
 		
 		//* Update all records that belog to this user
-        $records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $app->db->datalogUpdate('web_database','database_user_id=NULL','database_id', $rec['database_id']);
             
         }
-        $records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $app->db->datalogUpdate('web_database','database_ro_user_id=NULL','database_id', $rec['database_id']);
         }

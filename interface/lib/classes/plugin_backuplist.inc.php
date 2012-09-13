@@ -53,7 +53,7 @@ class plugin_backuplist extends plugin_base {
 				$error = '';
 				
 				if(isset($_GET['backup_action'])) {
-					$backup_id = intval($_GET['backup_id']);
+					$backup_id = $app->functions->intval($_GET['backup_id']);
 					
 					if($_GET['backup_action'] == 'download' && $backup_id > 0) {
 						$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_download' AND action_param = '$backup_id'";

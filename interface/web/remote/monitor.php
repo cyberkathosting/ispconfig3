@@ -13,7 +13,7 @@ header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
 
 $type = addslashes($_GET['type']);
 $token = addslashes($_GET['token']);
-$server_id = intval($_GET['server']);
+$server_id = $app->functions->intval($_GET['server']);
 
 $app->uses('getconf');
 $interface_config = $app->getconf->get_global_config('misc');

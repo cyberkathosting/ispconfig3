@@ -39,11 +39,11 @@ class vm_openvz_plugin {
 		// make sure that the record belongs to the clinet group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
 		}
 		
@@ -80,11 +80,11 @@ class vm_openvz_plugin {
 		// make sure that the record belongs to the clinet group and not the admin group when a admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
 		}
 		

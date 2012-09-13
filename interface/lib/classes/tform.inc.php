@@ -54,14 +54,14 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *        SEPARATOR
 *        - separator char used for fileds with multiple values
 *
-*        Hint: The auto increment (ID) filed of the table has not be be definied eoarately.
+*        Hint: The auto increment (ID) filed of the table has not be be definied separately.
 *
 */
 
 class tform {
 
         /**
-        * Table definition (array)
+        * Definition of the database table (array)
         * @var tableDef
         */
         var $tableDef;
@@ -79,25 +79,25 @@ class tform {
         var $table_name;
 
         /**
-        * Enable debigging
+        * Debug Variable
         * @var debug
         */
         var $debug = 0;
 
         /**
-        * name of the primary field of the datbase table (string)
+        * name of the primary field of the database table (string)
         * @var table_index
         */
         var $table_index;
 
         /**
-        * contains the error message
+        * contains the error messages
         * @var errorMessage
         */
         var $errorMessage = '';
 
         var $dateformat = "d.m.Y";
-    	var $formDef;
+    	var $formDef = array();
         var $wordbook;
         var $module;
         var $primary_id;
@@ -124,7 +124,7 @@ class tform {
     function loadFormDef($file,$module = '') {
                 global $app,$conf;
 
-                include_once($file);
+                include($file);
                 $this->formDef = $form;
 
                 $this->module = $module;
@@ -169,7 +169,7 @@ class tform {
 				if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
                 $new_record = '';
 				$table_idx = $this->formDef['db_table_idx'];
-				if(isset($record[$table_idx])) $new_record[$table_idx] = intval($record[$table_idx ]);
+				if(isset($record[$table_idx])) $new_record[$table_idx] = $app->functions->intval($record[$table_idx ]);
 				
 				if(is_array($record)) {
 						foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
@@ -202,7 +202,7 @@ class tform {
                                 break;
 
                                 case 'INTEGER':
-                                        $new_record[$key] = intval($record[$key]);
+                                        $new_record[$key] = $app->functions->intval($record[$key]);
                                 break;
 
                                 case 'DOUBLE':
@@ -224,7 +224,7 @@ class tform {
         }
 
         /**
-        * Get the key => value array of a form filed from a datasource definitiom
+        * Get the key => value array of a form filled from a datasource definitiom
         *
         * @param field = array with field definition
         * @param record = Dataset as array
@@ -247,7 +247,6 @@ class tform {
                         $table_idx = $this->formDef['db_table_idx'];
 						
 						$tmp_recordid = (isset($record[$table_idx]))?$record[$table_idx]:0;
-						//$tmp_recordid = intval($this->primary_id);
                         $querystring = str_replace("{RECORDID}",$tmp_recordid,$querystring);
 						unset($tmp_recordid);
 						
@@ -678,7 +677,7 @@ class tform {
 										}
                                 break;
                                 case 'INTEGER':
-                                        $new_record[$key] = (isset($record[$key]))?$record[$key]:0;
+                                        $new_record[$key] = (isset($record[$key]))?$app->functions->intval($record[$key]):0;
                                         //if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
@@ -863,7 +862,7 @@ class tform {
 											}
                                         }
 									} else {
-                                        $tmpval = intval($field_value);
+                                        $tmpval = $app->functions->intval($field_value);
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
@@ -976,7 +975,7 @@ class tform {
         }
 
         /**
-        * Create the SQL staement.
+        * Create SQL statement
         *
         * @param record = Datensatz als Array
         * @param action = INSERT oder UPDATE

@@ -49,7 +49,7 @@ include($lng_file);
 $app->tpl->setVar($wb);
 
 if(isset($_POST['connected'])) {
-	$connected = intval($_POST['connected']);
+	$connected = $app->functions->intval($_POST['connected']);
 	if($connected == 0) {
 
 		//* Try to connect to remote server
@@ -142,9 +142,9 @@ function start_domain_import($mail_domain) {
 	global $app, $conf, $client, $msg, $error, $remote_session_id;
 	
 	//* Get the user and groupid for the new records
-	$sys_groupid = intval($_POST['client_group_id']);
+	$sys_groupid = $app->functions->intval($_POST['client_group_id']);
 	$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $sys_groupid");
-	$sys_userid = intval($tmp['userid']);
+	$sys_userid = $app->functions->intval($tmp['userid']);
 	unset($tmp);
 	if($sys_groupid == 0) $error .= 'Inavlid groupid<br />';
 	if($sys_userid == 0) $error .= 'Inavlid Userid<br />';

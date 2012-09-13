@@ -104,7 +104,7 @@ class page_action extends tform_actions {
 		}
 		
         // Get the record of the parent domain
-        $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+        $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
         
         // Set fixed values
         $this->dataRecord["server_id"] = $parent_domain["server_id"];
@@ -114,7 +114,7 @@ class page_action extends tform_actions {
         if(preg_match("'^http(s)?:\/\/'i", $command)) {
             $this->dataRecord["type"] = 'url';
         } else {
-            $domain_owner = $app->db->queryOneRecord("SELECT limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".intval($parent_domain["sys_groupid"]));
+            $domain_owner = $app->db->queryOneRecord("SELECT limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$app->functions->intval($parent_domain["sys_groupid"]));
             if($domain_owner["limit_cron_type"] == 'full') $this->dataRecord["type"] = 'full';
             else $this->dataRecord["type"] = 'chrooted';
         }
@@ -176,7 +176,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-        $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+        $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
         $server_id = $web["server_id"];
         
         // The cron shall be owned by the same group then the website

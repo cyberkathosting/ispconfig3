@@ -43,16 +43,16 @@ class sites_web_domain_plugin {
         // make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
         // also make sure that the user can not delete domain created by a admin
         if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
-            $client_group_id = intval($page_form->dataRecord["client_group_id"]);
+            $client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
             $app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$page_form->id);
         }
         if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {
-            $client_group_id = intval($page_form->dataRecord["client_group_id"]);
+            $client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
             $app->db->query("UPDATE web_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$page_form->id);
         }
         // Get configuration for the web system
         $app->uses("getconf");        
-        $web_config = $app->getconf->get_server_config(intval($page_form->dataRecord['server_id']),'web');            
+        $web_config = $app->getconf->get_server_config($app->functions->intval($page_form->dataRecord['server_id']),'web');            
         $document_root = str_replace("[website_id]",$page_form->id,$web_config["website_path"]);
 		$document_root = str_replace("[website_idhash_1]",$this->id_hash($page_form->id,1),$document_root);
 		$document_root = str_replace("[website_idhash_2]",$this->id_hash($page_form->id,1),$document_root);
@@ -63,11 +63,11 @@ class sites_web_domain_plugin {
         if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {                    
             $client_group_id = $_SESSION["s"]["user"]["default_group"];
             $client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = $client_group_id");
-            $client_id = intval($client["client_id"]);
+            $client_id = $app->functions->intval($client["client_id"]);
         } else {                
-            //$client_id = intval($this->dataRecord["client_group_id"]);
-            $client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($page_form->dataRecord["client_group_id"]));
-            $client_id = intval($client["client_id"]);
+            //$client_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+            $client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".$app->functions->intval($page_form->dataRecord["client_group_id"]));
+            $client_id = $app->functions->intval($client["client_id"]);
         }
 
         // Set the values for document_root, system_user and system_group

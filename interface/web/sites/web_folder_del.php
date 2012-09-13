@@ -56,7 +56,7 @@ class page_action extends tform_actions {
 		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
 		
 		// Delete all users that belong to this folder.
-		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".intval($this->id)."'");
+		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$app->functions->intval($this->id)."'");
 		foreach($records as $rec) {
 			$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec['web_folder_user_id']);
 		}

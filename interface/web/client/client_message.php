@@ -59,8 +59,8 @@ if(isset($_POST) && count($_POST) > 1) {
 	
 	//* Send message
 	if($error == '') {
-		if(intval($_POST['recipient']) > 0){
-			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".intval($_POST['recipient'])." AND ".$app->tform->getAuthSQL('r'));
+		if($app->functions->intval($_POST['recipient']) > 0){
+			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".$app->functions->intval($_POST['recipient'])." AND ".$app->tform->getAuthSQL('r'));
 			if(isset($circle['client_ids']) && $circle['client_ids'] != ''){
 				$tmp_client_ids = explode(',',$circle['client_ids']);
 				$where = array();
@@ -77,7 +77,7 @@ if(isset($_POST) && count($_POST) > 1) {
 			if($_SESSION["s"]["user"]["typ"] == 'admin'){
 				$sql = "SELECT * FROM client WHERE email != ''";
 			} else {
-				$client_id = intval($_SESSION['s']['user']['client_id']);
+				$client_id = $app->functions->intval($_SESSION['s']['user']['client_id']);
 				if($client_id == 0) die('Invalid Client ID.');
 				$sql = "SELECT * FROM client WHERE email != '' AND parent_client_id = '$client_id'";
 			}
@@ -113,7 +113,7 @@ if(isset($_POST) && count($_POST) > 1) {
 } else {
 	// pre-fill Sender field with reseller's email address
 	if($_SESSION["s"]["user"]["typ"] != 'admin'){
-		$client_id = intval($_SESSION['s']['user']['client_id']);
+		$client_id = $app->functions->intval($_SESSION['s']['user']['client_id']);
 		if($client_id > 0){
 			$sql = "SELECT email FROM client WHERE client_id = ".$client_id;
 			$client = $app->db->queryOneRecord($sql);
@@ -123,12 +123,12 @@ if(isset($_POST) && count($_POST) > 1) {
 }
 
 // Recipient Drop-Down
-$recipient = '<option value="0"'.(intval($_POST['recipient']) == 0 ? ' selected="selected"' : '').'>'.($_SESSION["s"]["user"]["typ"] == 'admin'? $wb['all_clients_resellers_txt'] : $wb['all_clients_txt']).'</option>';
+$recipient = '<option value="0"'.($app->functions->intval($_POST['recipient']) == 0 ? ' selected="selected"' : '').'>'.($_SESSION["s"]["user"]["typ"] == 'admin'? $wb['all_clients_resellers_txt'] : $wb['all_clients_txt']).'</option>';
 $sql = "SELECT * FROM client_circle WHERE active = 'y' AND ".$app->tform->getAuthSQL('r');
 $circles = $app->db->queryAllRecords($sql);
 if(is_array($circles) && !empty($circles)){
 	foreach($circles as $circle){
-		$recipient .= '<option value="'.$circle['circle_id'].'"'.(intval($_POST['recipient']) == $circle['circle_id'] ? ' selected="selected"' : '').'>'.$circle['circle_name'].'</option>';
+		$recipient .= '<option value="'.$circle['circle_id'].'"'.($app->functions->intval($_POST['recipient']) == $circle['circle_id'] ? ' selected="selected"' : '').'>'.$circle['circle_name'].'</option>';
 	}
 }
 $app->tpl->setVar('recipient',$recipient);

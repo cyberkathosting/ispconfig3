@@ -74,7 +74,7 @@ class tools_sites {
             }
         }
         
-        $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . intval($client_group_id));
+        $tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $app->functions->intval($client_group_id));
         $clientName = $tmp['name'];
         if ($clientName == "") $clientName = 'default';
         $clientName = $this->convertClientName($clientName);
@@ -100,7 +100,7 @@ class tools_sites {
                 $client_group_id = 0;
             }
         }
-        $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . intval($client_group_id));
+        $tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $app->functions->intval($client_group_id));
         $clientID = $tmp['client_id'];
         if ($clientID == '') $clientID = '0';
         return $clientID;

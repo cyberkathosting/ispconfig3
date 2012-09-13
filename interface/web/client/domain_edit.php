@@ -142,7 +142,7 @@ class page_action extends tform_actions {
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
 	}

@@ -55,7 +55,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Get the record of the parent domain
-		$parent_domain = $app->db->queryOneRecord("select server_id FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+		$parent_domain = $app->db->queryOneRecord("select server_id FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
 		
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];

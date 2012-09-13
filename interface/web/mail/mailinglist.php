@@ -38,13 +38,13 @@ $app->auth->check_module_permissions('mail');
 if (!isset($_GET['id'])){
     die ("No List selected!");
 }
-$listId = intval($_GET['id']);
+$listId = $app->functions->intval($_GET['id']);
 
 /*
  * Get the data to connect to the database
  */
 $dbData = $app->db->queryAllRecords("SELECT server_id, listname FROM mail_mailinglist WHERE mailinglist_id = " . $listId);
-$serverId = intval($dbData[0]['server_id']);
+$serverId = $app->functions->intval($dbData[0]['server_id']);
 if ($serverId == 0){
     die ("No List - Server found!");
 }

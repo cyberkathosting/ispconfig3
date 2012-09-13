@@ -36,8 +36,8 @@ $app->auth->check_module_permissions('sites');
 
 $app->uses('getconf');
 
-$server_id = intval($_GET["server_id"]);
-$web_id = intval($_GET["web_id"]);
+$server_id = $app->functions->intval($_GET["server_id"]);
+$web_id = $app->functions->intval($_GET["web_id"]);
 $php_type = $_GET["php_type"];
 $type = $_GET["type"];
 
@@ -104,7 +104,7 @@ $type = $_GET["type"];
 		$result = array();
 		
 		// ipv4
-		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 		$result[] = $app->functions->suggest_ips('IPv4');
 
 		$json = $app->functions->json_encode($result);
@@ -114,7 +114,7 @@ $type = $_GET["type"];
 		$result = array();
 		
 		// ipv6
-		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".intval($_SESSION['s']['user']['client_id']).")");
+		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 		$result[] = $app->functions->suggest_ips('IPv6');
 		
 		$json = $app->functions->json_encode($result);

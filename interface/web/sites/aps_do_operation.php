@@ -50,15 +50,15 @@ if($_GET['action'] == 'change_status')
     if(!$gui->isValidPackageID($_GET['id'], true)) die($app->lng('Invalid ID'));
     
     // Change the existing status to the opposite
-    $get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = '".intval($_GET['id'])."';");
+    $get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = '".$app->functions->intval($_GET['id'])."';");
     if($get_status['package_status'] == strval(PACKAGE_LOCKED))
     {
-        $app->db->query("UPDATE aps_packages SET package_status = ".PACKAGE_ENABLED." WHERE id = '".intval($_GET['id'])."';");
+        $app->db->query("UPDATE aps_packages SET package_status = ".PACKAGE_ENABLED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
         echo '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>';
     }
     else
     {
-        $app->db->query("UPDATE aps_packages SET Package_status = ".PACKAGE_LOCKED." WHERE id = '".intval($_GET['id'])."';");
+        $app->db->query("UPDATE aps_packages SET Package_status = ".PACKAGE_LOCKED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
         echo '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>';
     }
 }

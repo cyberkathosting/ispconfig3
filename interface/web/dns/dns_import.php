@@ -44,13 +44,13 @@ $app->tpl->setInclude('content_tpl','templates/dns_import.htm');
 $app->load_language_file('/web/dns/lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng');
 
 // import variables
-$template_id = (isset($_POST['template_id']))?intval($_POST['template_id']):0;
-$sys_groupid = (isset($_POST['client_group_id']))?intval($_POST['client_group_id']):0;
+$template_id = (isset($_POST['template_id']))?$app->functions->intval($_POST['template_id']):0;
+$sys_groupid = (isset($_POST['client_group_id']))?$app->functions->intval($_POST['client_group_id']):0;
 $domain = (isset($_POST['domain'])&&!empty($_POST['domain']))?$_POST['domain']:NULL;
 
 // get the correct server_id
 if($_SESSION['s']['user']['typ'] == 'admin') {
-	$server_id = (isset($_POST['server_id']))?intval($_POST['server_id']):1;
+	$server_id = (isset($_POST['server_id']))?$app->functions->intval($_POST['server_id']):1;
 } else {
 	$client_group_id = $_SESSION["s"]["user"]["default_group"];
 	$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
@@ -129,7 +129,7 @@ $app->tpl->setVar($wb);
 if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'])){
 	$valid_zone_file = FALSE;
 	
-	$sql = "SELECT server_name FROM `server` WHERE server_id=".intval($server_id)." OR mirror_server_id=".intval($server_id)." ORDER BY server_name ASC";
+	$sql = "SELECT server_name FROM `server` WHERE server_id=".$app->functions->intval($server_id)." OR mirror_server_id=".$app->functions->intval($server_id)." ORDER BY server_name ASC";
 	$servers = $app->db->queryAllRecords($sql);
 	for ($i=0;$i<count($servers);$i++)
 	{
@@ -202,22 +202,22 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			$time_format = strtolower(substr($parts[1],-1));
 			switch ($time_format) {
 				case 's':
-					$soa['ttl'] = intval(substr($parts[1],0,-1));
+					$soa['ttl'] = $app->functions->intval(substr($parts[1],0,-1));
 					break;
 				case 'm':
-					$soa['ttl'] = intval(substr($parts[1],0,-1)) * 60;
+					$soa['ttl'] = $app->functions->intval(substr($parts[1],0,-1)) * 60;
 					break;
 				case 'h':
-					$soa['ttl'] = intval(substr($parts[1],0,-1)) * 3600;
+					$soa['ttl'] = $app->functions->intval(substr($parts[1],0,-1)) * 3600;
 					break;
 				case 'd':
-					$soa['ttl'] = intval(substr($parts[1],0,-1)) * 86400;
+					$soa['ttl'] = $app->functions->intval(substr($parts[1],0,-1)) * 86400;
 					break;
 				case 'w':
-					$soa['ttl'] = intval(substr($parts[1],0,-1)) * 604800;
+					$soa['ttl'] = $app->functions->intval(substr($parts[1],0,-1)) * 604800;
 					break;
 				default:
-					$soa['ttl'] = intval($parts[1]);
+					$soa['ttl'] = $app->functions->intval($parts[1]);
 			}
 			unset($time_format);
 		}
@@ -234,28 +234,28 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			$valid_zone_file = TRUE;
 		}
 		// SERIAL
-		if($i == ($soa_array_key + 1)) $soa['serial'] = intval($parts[0]);
+		if($i == ($soa_array_key + 1)) $soa['serial'] = $app->functions->intval($parts[0]);
 		// REFRESH
 		if($i == ($soa_array_key + 2)){
 			$time_format = strtolower(substr($parts[0],-1));
 			switch ($time_format) {
 				case 's':
-					$soa['refresh'] = intval(substr($parts[0],0,-1));
+					$soa['refresh'] = $app->functions->intval(substr($parts[0],0,-1));
 					break;
 				case 'm':
-					$soa['refresh'] = intval(substr($parts[0],0,-1)) * 60;
+					$soa['refresh'] = $app->functions->intval(substr($parts[0],0,-1)) * 60;
 					break;
 				case 'h':
-					$soa['refresh'] = intval(substr($parts[0],0,-1)) * 3600;
+					$soa['refresh'] = $app->functions->intval(substr($parts[0],0,-1)) * 3600;
 					break;
 				case 'd':
-					$soa['refresh'] = intval(substr($parts[0],0,-1)) * 86400;
+					$soa['refresh'] = $app->functions->intval(substr($parts[0],0,-1)) * 86400;
 					break;
 				case 'w':
-					$soa['refresh'] = intval(substr($parts[0],0,-1)) * 604800;
+					$soa['refresh'] = $app->functions->intval(substr($parts[0],0,-1)) * 604800;
 					break;
 				default:
-					$soa['refresh'] = intval($parts[0]);
+					$soa['refresh'] = $app->functions->intval($parts[0]);
 			}
 			unset($time_format);
 		}
@@ -264,22 +264,22 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			$time_format = strtolower(substr($parts[0],-1));
 			switch ($time_format) {
 				case 's':
-					$soa['retry'] = intval(substr($parts[0],0,-1));
+					$soa['retry'] = $app->functions->intval(substr($parts[0],0,-1));
 					break;
 				case 'm':
-					$soa['retry'] = intval(substr($parts[0],0,-1)) * 60;
+					$soa['retry'] = $app->functions->intval(substr($parts[0],0,-1)) * 60;
 					break;
 				case 'h':
-					$soa['retry'] = intval(substr($parts[0],0,-1)) * 3600;
+					$soa['retry'] = $app->functions->intval(substr($parts[0],0,-1)) * 3600;
 					break;
 				case 'd':
-					$soa['retry'] = intval(substr($parts[0],0,-1)) * 86400;
+					$soa['retry'] = $app->functions->intval(substr($parts[0],0,-1)) * 86400;
 					break;
 				case 'w':
-					$soa['retry'] = intval(substr($parts[0],0,-1)) * 604800;
+					$soa['retry'] = $app->functions->intval(substr($parts[0],0,-1)) * 604800;
 					break;
 				default:
-					$soa['retry'] = intval($parts[0]);
+					$soa['retry'] = $app->functions->intval($parts[0]);
 			}
 			unset($time_format);
 		}
@@ -288,22 +288,22 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			$time_format = strtolower(substr($parts[0],-1));
 			switch ($time_format) {
 				case 's':
-					$soa['expire'] = intval(substr($parts[0],0,-1));
+					$soa['expire'] = $app->functions->intval(substr($parts[0],0,-1));
 					break;
 				case 'm':
-					$soa['expire'] = intval(substr($parts[0],0,-1)) * 60;
+					$soa['expire'] = $app->functions->intval(substr($parts[0],0,-1)) * 60;
 					break;
 				case 'h':
-					$soa['expire'] = intval(substr($parts[0],0,-1)) * 3600;
+					$soa['expire'] = $app->functions->intval(substr($parts[0],0,-1)) * 3600;
 					break;
 				case 'd':
-					$soa['expire'] = intval(substr($parts[0],0,-1)) * 86400;
+					$soa['expire'] = $app->functions->intval(substr($parts[0],0,-1)) * 86400;
 					break;
 				case 'w':
-					$soa['expire'] = intval(substr($parts[0],0,-1)) * 604800;
+					$soa['expire'] = $app->functions->intval(substr($parts[0],0,-1)) * 604800;
 					break;
 				default:
-					$soa['expire'] = intval($parts[0]);
+					$soa['expire'] = $app->functions->intval($parts[0]);
 			}
 			unset($time_format);
 		}
@@ -312,22 +312,22 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			$time_format = strtolower(substr($parts[0],-1));
 			switch ($time_format) {
 				case 's':
-					$soa['minimum'] = intval(substr($parts[0],0,-1));
+					$soa['minimum'] = $app->functions->intval(substr($parts[0],0,-1));
 					break;
 				case 'm':
-					$soa['minimum'] = intval(substr($parts[0],0,-1)) * 60;
+					$soa['minimum'] = $app->functions->intval(substr($parts[0],0,-1)) * 60;
 					break;
 				case 'h':
-					$soa['minimum'] = intval(substr($parts[0],0,-1)) * 3600;
+					$soa['minimum'] = $app->functions->intval(substr($parts[0],0,-1)) * 3600;
 					break;
 				case 'd':
-					$soa['minimum'] = intval(substr($parts[0],0,-1)) * 86400;
+					$soa['minimum'] = $app->functions->intval(substr($parts[0],0,-1)) * 86400;
 					break;
 				case 'w':
-					$soa['minimum'] = intval(substr($parts[0],0,-1)) * 604800;
+					$soa['minimum'] = $app->functions->intval(substr($parts[0],0,-1)) * 604800;
 					break;
 				default:
-					$soa['minimum'] = intval($parts[0]);
+					$soa['minimum'] = $app->functions->intval($parts[0]);
 			}
 			unset($time_format);
 		}
@@ -358,14 +358,14 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 					$dns_rr[$r]['name'] = $parts[0];
 				}
 				if(is_numeric($parts[1])){
-					$dns_rr[$r]['ttl'] = intval($parts[1]);
+					$dns_rr[$r]['ttl'] = $app->functions->intval($parts[1]);
 				} else {
 					$dns_rr[$r]['ttl'] = $soa['ttl'];
 				}
 				switch ($resource_type) {
 					case 'mx':
 					case 'srv':
-						$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
+						$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
 						$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 						break;
 					case 'txt':
@@ -385,11 +385,11 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 					$pkey = 3;
 					$dns_rr[$r]['type'] = $resource_type;
 					$dns_rr[$r]['name'] = $parts[0];
-					$dns_rr[$r]['ttl'] = intval($parts[1]);
+					$dns_rr[$r]['ttl'] = $app->functions->intval($parts[1]);
 					switch ($resource_type) {
 						case 'mx':
 						case 'srv':
-							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
+							$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 							break;
 						case 'txt':
@@ -413,7 +413,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 					switch ($resource_type) {
 						case 'mx':
 						case 'srv':
-							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
+							$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 							break;
 						case 'txt':
@@ -433,11 +433,11 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 					$pkey = 2;
 					$dns_rr[$r]['type'] = $resource_type;
 					$dns_rr[$r]['name'] = $parts[0];
-					$dns_rr[$r]['ttl'] = intval($parts[1]);
+					$dns_rr[$r]['ttl'] = $app->functions->intval($parts[1]);
 					switch ($resource_type) {
 						case 'mx':
 						case 'srv':
-							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
+							$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 							break;
 						case 'txt':
@@ -463,7 +463,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 					switch ($resource_type) {
 						case 'mx':
 						case 'srv':
-							$dns_rr[$r]['aux'] = intval($parts[$pkey+1]);
+							$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
 							$dns_rr[$r]['data'] = implode(' ',array_slice($parts, $pkey+2));
 							break;
 						case 'txt':
@@ -634,7 +634,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 	$minimum = $app->db->quote($soa['minimum']);
 	$ttl = $app->db->quote($soa['ttl']);
 	$xfer = $app->db->quote('');
-	$serial = $app->db->quote(intval($soa['serial'])+1);
+	$serial = $app->db->quote($app->functions->intval($soa['serial'])+1);
 	//print_r($soa);
 	//die();
 	if($valid_zone_file){

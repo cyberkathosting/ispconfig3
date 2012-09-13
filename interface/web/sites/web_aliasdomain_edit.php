@@ -124,9 +124,9 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
-			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			
-            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($this->dataRecord['domain']);
+            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($this->dataRecord['domain']);
 			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
 				$sql .= "AND sys_groupid =" . $client_group_id;
 			}
@@ -140,7 +140,7 @@ class page_action extends tform_actions {
         }
         
 		// Get the record of the parent domain
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
 		
 		// Set a few fixed values
 		$this->dataRecord["type"] = 'alias';
@@ -158,7 +158,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		
-		$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+		$app->db->query('UPDATE web_domain SET sys_groupid = '.$app->functions->intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
 		
 	}
 	
@@ -169,7 +169,7 @@ class page_action extends tform_actions {
 		if($this->dataRecord['parent_domain_id'] != $this->oldDataRecord['parent_domain_id']) {
 			
 			//* Update the domain owner
-			$app->db->query('UPDATE web_domain SET sys_groupid = '.intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+			$app->db->query('UPDATE web_domain SET sys_groupid = '.$app->functions->intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
 			
 			//* Update the old website, so that the vhost alias gets removed
 			//* We force the update by inserting a transaction record without changes manually.

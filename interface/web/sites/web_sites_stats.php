@@ -70,10 +70,10 @@ class list_action extends listform_actions {
     {
 		global $app;
 		
-		$app->tpl->setVar('sum_this_month',number_format(intval($this->sum_this_month), 0, '.', ' '));
-		$app->tpl->setVar('sum_this_year',number_format(intval($this->sum_this_year), 0, '.', ' '));
-		$app->tpl->setVar('sum_last_month',number_format(intval($this->sum_last_month), 0, '.', ' '));
-		$app->tpl->setVar('sum_last_year',number_format(intval($this->sum_last_year), 0, '.', ' '));
+		$app->tpl->setVar('sum_this_month',number_format($app->functions->intval($this->sum_this_month), 0, '.', ' '));
+		$app->tpl->setVar('sum_this_year',number_format($app->functions->intval($this->sum_this_year), 0, '.', ' '));
+		$app->tpl->setVar('sum_last_month',number_format($app->functions->intval($this->sum_last_month), 0, '.', ' '));
+		$app->tpl->setVar('sum_last_year',number_format($app->functions->intval($this->sum_last_year), 0, '.', ' '));
 		$app->tpl->setVar('sum_txt',$app->listform->lng('sum_txt'));
 		
 		$app->tpl_defaults();

@@ -138,7 +138,7 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
 			// When the record is inserted
@@ -187,13 +187,13 @@ class page_action extends tform_actions {
 		
 		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE id = ".$this->id);
 			// And we want to update all rr records too, that belong to this record
 			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE id = ".$this->id);
 			// And we want to update all rr records too, that belong to this record
 			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
@@ -230,13 +230,13 @@ class page_action extends tform_actions {
 		
 		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE id = ".$this->id);
 			// And we want to update all rr records too, that belong to this record
 			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE id = ".$this->id);
 			// And we want to update all rr records too, that belong to this record
 			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
@@ -244,7 +244,7 @@ class page_action extends tform_actions {
 		
 		//** When the client group has changed, change also the owner of the record if the owner is not the admin user
 		if($this->oldDataRecord["client_group_id"] != $this->dataRecord["client_group_id"] && $this->dataRecord["sys_userid"] != 1) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ".$client_group_id);
 			if($tmp["userid"] > 0) {
 				$app->db->query("UPDATE dns_soa SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);

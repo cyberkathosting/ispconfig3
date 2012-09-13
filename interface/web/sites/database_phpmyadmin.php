@@ -40,13 +40,13 @@ $app->auth->check_module_permissions('sites');
 if (!isset($_GET['id'])){
     die ("No DB selected!");
 }
-$databaseId = intval($_GET['id']);
+$databaseId = $app->functions->intval($_GET['id']);
 
 /*
  * Get the data to connect to the database
  */
 $dbData = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = " . $databaseId);
-$serverId = intval($dbData['server_id']);
+$serverId = $app->functions->intval($dbData['server_id']);
 if ($serverId == 0){
     die ("No DB-Server found!");
 }

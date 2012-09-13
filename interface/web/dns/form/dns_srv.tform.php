@@ -32,6 +32,7 @@
 
 
 */
+global $app;
 
 $form["title"] 			= "DNS SRV";
 $form["description"] 	= "";
@@ -69,7 +70,7 @@ $form["tabs"]['dns'] = array (
 		'zone' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'default'	=> @intval($_REQUEST["zone"]),
+			'default'	=> @$app->functions->intval($_REQUEST["zone"]),
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'

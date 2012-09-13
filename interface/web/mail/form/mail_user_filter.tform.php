@@ -32,6 +32,7 @@
 
 
 */
+global $app;
 
 $form["title"] 			= "Email filter";
 $form["description"] 	= "";
@@ -61,7 +62,7 @@ $form["tabs"]['filter'] = array (
 		'mailuser_id' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'default'	=> @intval($_REQUEST["mailuser_id"]),
+			'default'	=> @$app->functions->intval($_REQUEST["mailuser_id"]),
 			'value'		=> '',
 			'width'		=> '30',
 			'maxlength'	=> '255'

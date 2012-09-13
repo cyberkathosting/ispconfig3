@@ -159,9 +159,9 @@ class page_action extends tform_actions {
 			
 			// Check the quota and adjust
 			if(isset($_POST["quota"]) && $client["limit_mailquota"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
 				$mailquota = $tmp["mailquota"] / 1024 / 1024;
-				$new_mailbox_quota = intval($this->dataRecord["quota"]);
+				$new_mailbox_quota = $app->functions->intval($this->dataRecord["quota"]);
 				if(($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) || ($new_mailbox_quota == 0 && $client["limit_mailquota"] != -1)) {
 					$max_free_quota = $client["limit_mailquota"] - $mailquota;
 					$app->tform->errorMessage .= $app->tform->lng("limit_mailquota_txt").": ".$max_free_quota."<br>";
@@ -229,7 +229,7 @@ class page_action extends tform_actions {
 		$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
 		
 		// Spamfilter policy
-		$policy_id = intval($this->dataRecord["policy"]);
+		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
 			if($tmp_user["id"] > 0) {
@@ -265,7 +265,7 @@ class page_action extends tform_actions {
 			$app->db->query("UPDATE mail_user SET sys_groupid = ".$domain["sys_groupid"]." WHERE mailuser_id = ".$this->id);
 		
 			// Spamfilter policy
-			$policy_id = intval($this->dataRecord["policy"]);
+			$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {

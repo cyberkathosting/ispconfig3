@@ -53,7 +53,7 @@ class page_action extends tform_actions {
 		global $app; $conf;
 		
 		//* Delete all web folders
-        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             //* Delete all web folder users
 			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$rec['web_folder_id']."'");

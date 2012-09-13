@@ -81,7 +81,8 @@ class app {
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
 
-		$this->uses('auth,plugin,functions');
+        $this->uses('functions'); // we need this before all others!
+		$this->uses('auth,plugin');
 	}
 	
 	public function __destruct() {
@@ -119,7 +120,7 @@ class app {
 		if($priority >= $this->_conf['log_priority']) {
 			// $server_id = $conf["server_id"];
 			$server_id = 0;
-			$priority = intval($priority);
+			$priority = $this->functions->intval($priority);
 			$tstamp = time();
 			$msg = $this->db->quote('[INTERFACE]: '.$msg);
 			$this->db->query("INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ($server_id,0,$priority,$tstamp,'$msg')");

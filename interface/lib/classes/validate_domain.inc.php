@@ -88,7 +88,7 @@ class validate_domain {
         $app->uses('ini_parser,getconf');
         $settings = $app->getconf->get_global_config('domains');
         if ($settings['use_domain_module'] == 'y') {
-            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($check_domain);
+            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($check_domain);
             $domain_check = $app->db->queryOneRecord($sql);
             if(!$domain_check) return;
             $check_domain = $domain_check['domain'];
@@ -114,11 +114,11 @@ class validate_domain {
             $primary_id = $app->tform->primary_id;
         }
         
-        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($primary_id));
+        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
         if($check['cnt'] > 0) return false;
         
         if($only_domain == false) {
-            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($primary_id));
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
             if($check['cnt'] > 0) return false;
         }
         

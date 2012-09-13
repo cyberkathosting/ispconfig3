@@ -66,13 +66,13 @@ if(is_array($repos)) {
 					foreach($updates as $u) {
 						
 						$version_array = explode('.',$u['version']);
-						$v1 = intval($version_array[0]);
-						$v2 = intval($version_array[1]);
-						$v3 = intval($version_array[2]);
-						$v4 = intval($version_array[3]);
+						$v1 = $app->functions->intval($version_array[0]);
+						$v2 = $app->functions->intval($version_array[1]);
+						$v3 = $app->functions->intval($version_array[2]);
+						$v4 = $app->functions->intval($version_array[3]);
 						
 						$package_name = $app->db->quote($u['package_name']);
-						$software_repo_id = intval($repo['software_repo_id']);
+						$software_repo_id = $app->functions->intval($repo['software_repo_id']);
 						$update_url = $app->db->quote($u['url']);
 						$update_md5 = $app->db->quote($u['md5']);
 						$update_dependencies = (isset($u['dependencies']))?$app->db->quote($u['dependencies']):'';
@@ -101,8 +101,8 @@ if(is_array($repos)) {
 //* Install packages, if GET Request
 if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] != '' && $_GET['server_id'] > 0) {
 	$package_name = $app->db->quote($_GET['package']);
-	$server_id = intval($_GET['server_id']);
-	$software_update_id = intval($_GET['id']);
+	$server_id = $app->functions->intval($_GET['server_id']);
+	$software_update_id = $app->functions->intval($_GET['id']);
 	
 	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
 	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
@@ -130,7 +130,7 @@ GROUP BY software_update.software_update_id
 
 
 if(isset($_POST["server_id"]) && $_POST["server_id"] > 0) {
-	$server_id = intval($_POST["server_id"]);
+	$server_id = $app->functions->intval($_POST["server_id"]);
 } else {
 	$server_id = 1;
 }

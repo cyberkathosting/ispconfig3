@@ -150,7 +150,7 @@ function is_integer($value, $fieldname, $zero_allowed = 0){
 
   $error = '';
 
-  if(intval($value) != $value || !is_numeric($value)) $error .= $fieldname." ".$app->tform->wordbook['error_must_be_integer']."<br>\r\n";
+  if($app->functions->intval($value, true) != $value || !is_numeric($value)) $error .= $fieldname." ".$app->tform->wordbook['error_must_be_integer']."<br>\r\n";
   if($value > 2147483647) $error .= $fieldname." ".$app->tform->wordbook['error_must_not_be_greater_than_2147483647']."<br>\r\n";
   if(!$zero_allowed){
     if($value <= 0) $error .= $fieldname." ".$app->tform->wordbook['error_must_be_positive']."<br>\r\n";
@@ -268,7 +268,7 @@ function increase_serial($serial){
 
   // increase serial
   $serial_date = substr($serial, 0, 8);
-  $count = intval(substr($serial, 8, 2));
+  $count = $app->functions->intval(substr($serial, 8, 2));
   $current_date = date("Ymd");
   if($serial_date >= $current_date){
     $count += 1;

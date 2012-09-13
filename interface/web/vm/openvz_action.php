@@ -11,7 +11,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('vm');
 
 $action = (isset($_POST['action']) && $_POST['action'] != '')?$_POST['action']:'show';
-$vm_id = intval($_REQUEST['id']);
+$vm_id = $app->functions->intval($_REQUEST['id']);
 $error_msg = '';
 $notify_msg = '';
 

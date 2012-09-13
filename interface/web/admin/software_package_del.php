@@ -35,7 +35,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('admin');
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
-$software_update_inst_id = intval($_GET['software_update_inst_id']);
+$software_update_inst_id = $app->functions->intval($_GET['software_update_inst_id']);
 
 if($software_update_inst_id > 0) {	
 	$app->db->datalogDelete('software_update_inst', 'software_update_inst_id', $software_update_inst_id);

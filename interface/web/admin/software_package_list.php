@@ -53,7 +53,7 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 				
 				$package_title = $app->db->quote($p['title']);
 				$package_description = $app->db->quote($p['description']);
-				$software_repo_id = intval($repo['software_repo_id']);
+				$software_repo_id = $app->functions->intval($repo['software_repo_id']);
 				$package_type = $app->db->quote($p['type']);
 				$package_installable = $app->db->quote($p['installable']);
 				$package_requires_db = $app->db->quote($p['requires_db']);
@@ -86,13 +86,13 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
                     foreach($updates as $u) {
                         
                         $version_array = explode('.',$u['version']);
-                        $v1 = intval($version_array[0]);
-                        $v2 = intval($version_array[1]);
-                        $v3 = intval($version_array[2]);
-                        $v4 = intval($version_array[3]);
+                        $v1 = $app->functions->intval($version_array[0]);
+                        $v2 = $app->functions->intval($version_array[1]);
+                        $v3 = $app->functions->intval($version_array[2]);
+                        $v4 = $app->functions->intval($version_array[3]);
                         
                         $package_name = $app->db->quote($u['package_name']);
-                        $software_repo_id = intval($repo['software_repo_id']);
+                        $software_repo_id = $app->functions->intval($repo['software_repo_id']);
                         $update_url = $app->db->quote($u['url']);
                         $update_md5 = $app->db->quote($u['md5']);
                         $update_dependencies = (isset($u['dependencies']))?$app->db->quote($u['dependencies']):'';
@@ -124,7 +124,7 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 /*
 if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] != '' && $_GET['server_id'] > 0) {
 	$package_name = $app->db->quote($_GET['package']);
-	$server_id = intval($_GET['server_id']);
+	$server_id = $app->functions->intval($_GET['server_id']);
 	$sql = "SELECT software_update_id, package_name, update_title FROM software_update WHERE type = 'full' AND package_name = '$package_name' ORDER BY v1 DESC, v2 DESC, v3 DESC, v4 DESC LIMIT 0,1";
 	$tmp = $app->db->queryOneRecord($sql);
 	$software_update_id = $tmp['software_update_id'];

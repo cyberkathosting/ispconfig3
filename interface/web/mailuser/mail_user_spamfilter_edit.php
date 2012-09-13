@@ -76,7 +76,7 @@ class page_action extends tform_actions {
 		$domain = $app->db->queryOneRecord("SELECT sys_userid, sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($email_domain)."'");
 		
 		// Spamfilter policy
-		$policy_id = intval($this->dataRecord["policy"]);
+		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($rec["email"])."'");
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {

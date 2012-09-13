@@ -42,7 +42,7 @@ $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl','templates/show_log.htm');
 
 // Importing the GET values
-$refresh = (isset($_GET["refresh"]))?intval($_GET["refresh"]):0;
+$refresh = (isset($_GET["refresh"]))?$app->functions->intval($_GET["refresh"]):0;
 $logParam = $_GET["log"];
 
 /* Get some translations */

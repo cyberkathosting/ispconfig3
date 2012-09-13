@@ -124,8 +124,8 @@ class mail_user_filter_plugin {
 		global $app,$conf;
 		
 		$app->uses("getconf");
-		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".intval($page_form->dataRecord["mailuser_id"]));
-		$mail_config = $app->getconf->get_server_config(intval($mailuser_rec["server_id"]),'mail');
+		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".$app->functions->intval($page_form->dataRecord["mailuser_id"]));
+		$mail_config = $app->getconf->get_server_config($app->functions->intval($mailuser_rec["server_id"]),'mail');
 		
 		if($mail_config['mail_filter_syntax'] == 'sieve') {
 			

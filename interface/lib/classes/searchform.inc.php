@@ -177,7 +177,7 @@ class searchform {
 
         $sql_von = $_SESSION['search'][$list_name]['page'] * $records_per_page;
         $record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table WHERE $sql_where");
-        $pages = intval(($record_count['anzahl'] - 1) / $records_per_page);
+        $pages = $app->functions->intval(($record_count['anzahl'] - 1) / $records_per_page);
 
         $vars['list_file']      = $this->listDef['file'];
         $vars['page']           = $_SESSION['search'][$list_name]['page'];
@@ -264,6 +264,7 @@ class searchform {
 
     public function decode($record)
     {
+        global $app;
         if(is_array($record)) {
             foreach($this->listDef['item'] as $field) {
                 $key = $field['field'];
@@ -276,7 +277,7 @@ class searchform {
                         break;
     
                     case 'INTEGER':
-                        $record[$key] = intval($record[$key]);
+                        $record[$key] = $app->functions->intval($record[$key]);
                         break;
     
                     case 'DOUBLE':
@@ -324,7 +325,7 @@ class searchform {
                         break;
 
                     case 'INTEGER':
-                        $record[$key] = intval($record[$key]);
+                        $record[$key] = $app->functions->intval($record[$key]);
                         break;
 
                     case 'DOUBLE':

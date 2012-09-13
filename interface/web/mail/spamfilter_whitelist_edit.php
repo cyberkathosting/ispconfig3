@@ -103,7 +103,7 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 		
 		// Select and set the server_id so it matches the server_id of the spa,filter_users record
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM spamfilter_users WHERE id = ".intval($this->dataRecord["rid"]));
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM spamfilter_users WHERE id = ".$app->functions->intval($this->dataRecord["rid"]));
 		$this->dataRecord["server_id"] = $tmp["server_id"];
 		unset($tmp);
 		

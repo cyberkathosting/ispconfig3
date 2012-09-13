@@ -70,7 +70,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Get the parent mail_user record
-		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".intval($_REQUEST["mailuser_id"])."' AND ".$app->tform->getAuthSQL('r'));
+		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".$app->functions->intval($_REQUEST["mailuser_id"])."' AND ".$app->tform->getAuthSQL('r'));
 		
 		// Check if Domain belongs to user
 		if($mailuser["mailuser_id"] != $_POST["mailuser_id"]) $app->tform->errorMessage .= $app->tform->wordbook["no_mailuser_perm"];
@@ -147,8 +147,8 @@ class page_action extends tform_actions {
 		global $app,$conf;
 		
 		$app->uses("getconf");
-		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".intval($this->dataRecord["mailuser_id"]));
-		$mail_config = $app->getconf->get_server_config(intval($mailuser_rec["server_id"]),'mail');
+		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".$app->functions->intval($this->dataRecord["mailuser_id"]));
+		$mail_config = $app->getconf->get_server_config($app->functions->intval($mailuser_rec["server_id"]),'mail');
 		
 		if($mail_config['mail_filter_syntax'] == 'sieve') {
 			

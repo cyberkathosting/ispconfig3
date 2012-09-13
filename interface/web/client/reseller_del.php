@@ -57,7 +57,7 @@ class page_action extends tform_actions {
 		
 		if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 		
-		$client_id = intval($this->dataRecord['client_id']);
+		$client_id = $app->functions->intval($this->dataRecord['client_id']);
 		
 		$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE parent_client_id = ".$client_id);
 		if($tmp["number"] > 0) $app->error($app->lng('error_has_clients'));
@@ -67,13 +67,13 @@ class page_action extends tform_actions {
 	function onAfterDelete() {
 		global $app, $conf;
 		
-		$client_id = intval($this->dataRecord['client_id']);
+		$client_id = $app->functions->intval($this->dataRecord['client_id']);
 		
 		if($client_id > 0) {
 			// TODO: Delete all records (sub-clients, mail, web, etc....)  of this client.
 			
 			// remove the group of the client from the resellers group
-			$parent_client_id = intval($this->dataRecord['parent_client_id']);
+			$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
 			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
 			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
 			$app->auth->remove_group_from_user($parent_user['userid'],$client_group['groupid']);

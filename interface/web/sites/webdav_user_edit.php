@@ -101,7 +101,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		/* Get the record of the parent domain */
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
 
 		/*
 		 * Set a few fixed values
@@ -143,7 +143,7 @@ class page_action extends tform_actions {
 			/*
 			*  Get the data of the domain, owning the webdav user
 			*/
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 			/* The server is the server of the domain */
 			$this->dataRecord["server_id"] = $web["server_id"];
 			/* The Webdav user shall be owned by the same group then the website */
@@ -164,7 +164,7 @@ class page_action extends tform_actions {
 		 * we can not change the username and the dir, so get the "old" - data from the db
 		 * and set it
 		*/
-		$data = $app->db->queryOneRecord("SELECT * FROM webdav_user WHERE webdav_user_id = ".intval($this->id));
+		$data = $app->db->queryOneRecord("SELECT * FROM webdav_user WHERE webdav_user_id = ".$app->functions->intval($this->id));
 		$this->dataRecord["username"] = $data['username'];
 		$this->dataRecord["dir"]      = $data['dir'];
 		$passwordOld = $data['password'];

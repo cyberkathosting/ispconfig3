@@ -71,7 +71,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Get the parent mail_user record
-		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".intval($_SESSION['s']['user']['mailuser_id'])."'");
+		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".$app->functions->intval($_SESSION['s']['user']['mailuser_id'])."'");
 				
 		// Set the mailuser_id
 		$this->dataRecord["mailuser_id"] = $mailuser["mailuser_id"];

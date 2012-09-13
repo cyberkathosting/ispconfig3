@@ -189,9 +189,9 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
-			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			
-            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . intval($this->dataRecord['domain']);
+            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($this->dataRecord['domain']);
 			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
 				$sql .= "AND sys_groupid =" . $client_group_id;
 			}
@@ -213,7 +213,7 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain_id = ".intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain_id = ".$app->functions->intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
 				// When the record is inserted
@@ -247,16 +247,16 @@ class page_action extends tform_actions {
 		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
 
 		// Spamfilter policy
-		$policy_id = intval($this->dataRecord["policy"]);
+		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
 			if($tmp_user["id"] > 0) {
@@ -307,20 +307,20 @@ class page_action extends tform_actions {
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
 			$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
 			$app->db->query("UPDATE mail_domain SET sys_userid = $client_user_id, sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
 			$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
 			$app->db->query("UPDATE mail_domain SET sys_userid = $client_user_id, sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
 		}
 
 		// Spamfilter policy
-		$policy_id = intval($this->dataRecord["policy"]);
+		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {

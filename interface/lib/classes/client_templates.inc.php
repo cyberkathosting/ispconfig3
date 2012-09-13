@@ -15,7 +15,7 @@ class client_templates {
         /*
          * Get the master-template for the client
          */
-        $sql = "SELECT template_master, template_additional FROM client WHERE client_id = " . intval($clientId);
+        $sql = "SELECT template_master, template_additional FROM client WHERE client_id = " . $app->functions->intval($clientId);
         $record = $app->db->queryOneRecord($sql);
         $masterTemplateId = $record['template_master'];
         $additionalTemplateStr = $record['template_additional'];
@@ -24,7 +24,7 @@ class client_templates {
          * if the master-Template is custom there is NO changing
          */
         if ($masterTemplateId > 0){
-            $sql = "SELECT * FROM client_template WHERE template_id = " . intval($masterTemplateId);
+            $sql = "SELECT * FROM client_template WHERE template_id = " . $app->functions->intval($masterTemplateId);
             $limits = $app->db->queryOneRecord($sql);
         } else {
             // if there is no master template it makes NO SENSE adding sub templates.
@@ -40,7 +40,7 @@ class client_templates {
         $addTpl = explode('/', $additionalTemplateStr);
         foreach ($addTpl as $item){
             if (trim($item) != ''){
-                $sql = "SELECT * FROM client_template WHERE template_id = " . intval($item);
+                $sql = "SELECT * FROM client_template WHERE template_id = " . $app->functions->intval($item);
                 $addLimits = $app->db->queryOneRecord($sql);
                 /* maybe the template is deleted in the meantime */
                 if (is_array($addLimits)){
@@ -115,7 +115,7 @@ class client_templates {
             }
         }
         if($update != '') {
-            $sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . intval($clientId);
+            $sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . $app->functions->intval($clientId);
             $app->db->query($sql);
         }
     }

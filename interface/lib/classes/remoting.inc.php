@@ -1023,11 +1023,11 @@ class remoting {
 			return false;
 		}
 		
-		$sys_userid = intval($sys_userid);
+		$sys_userid = $app->functions->intval($sys_userid);
 		
 		$rec = $app->db->queryOneRecord("SELECT client_id FROM sys_user WHERE userid = ".$sys_userid);
 		if(isset($rec['client_id'])) {
-			return intval($rec['client_id']);
+			return $app->functions->intval($rec['client_id']);
 		} else {
 			$this->server->fault('no_client_found', 'There is no sysuser account for this client ID.');
 			return false;
@@ -1043,11 +1043,11 @@ class remoting {
 			return false;
 		}
 		
-		$client_id = intval($client_id);
+		$client_id = $app->functions->intval($client_id);
 		
 		$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client_id);
 		if(isset($rec['groupid'])) {
-			return intval($rec['groupid']);
+			return $app->functions->intval($rec['groupid']);
 		} else {
 			$this->server->fault('no_group_found', 'There is no group for this client ID.');
 			return false;
@@ -1112,12 +1112,12 @@ class remoting {
         	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
-        $client_id = intval($client_id);
+        $client_id = $app->functions->intval($client_id);
 	$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
 
 	$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
 		$tables_array = explode(',',$tables);
-		$client_group_id = intval($client_group['groupid']);
+		$client_group_id = $app->functions->intval($client_group['groupid']);
 		
 		$table_list = array();
 		if($client_group_id > 1) {
@@ -1133,7 +1133,7 @@ class remoting {
 
 	if($client_id > 0) {			
 			// remove the group of the client from the resellers group
-			$parent_client_id = intval($this->dataRecord['parent_client_id']);
+			$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
 			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
 			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
 			$app->auth->remove_group_from_user($parent_user['userid'],$client_group['groupid']);
@@ -1147,7 +1147,7 @@ class remoting {
 			// Delete all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
 			$tables_array = explode(',',$tables);
-			$client_group_id = intval($client_group['groupid']);
+			$client_group_id = $app->functions->intval($client_group['groupid']);
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
@@ -1507,7 +1507,7 @@ class remoting {
 		}
 		
 		if(!isset($params['client_group_id']) or (isset($params['client_group_id']) && empty($params['client_group_id']))) {
-			$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($client_id));
+			$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client_id));
 			$params['client_group_id'] = $rec['groupid'];
 		}
 		
@@ -1769,7 +1769,7 @@ class remoting {
 		}
 		
         // Delete all users that belong to this folder. - taken from web_folder_delete.php
-		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".intval($primary_id)."'");
+		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$app->functions->intval($primary_id)."'");
 		foreach($records as $rec) {
 			$this->deleteQuery('../sites/form/web_folder_user.tform.php',$rec['web_folder_user_id']);
 			//$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec['web_folder_user_id']);
@@ -1874,7 +1874,7 @@ class remoting {
         	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
-        $group_id = intval($group_id);
+        $group_id = $app->functions->intval($group_id);
         $sql = "SELECT domain_id, domain FROM domain WHERE sys_groupid  = $group_id ";
         $all = $app->db->queryAllRecords($sql);
         return $all;
@@ -1892,7 +1892,7 @@ class remoting {
             return false;
 		}
 
-		$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM client WHERE client_id = ".intval($client_id));
+		$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM client WHERE client_id = ".$app->functions->intval($client_id));
 		$server_id = $client["default_dnsserver"];
 		$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = '$template_id'");
 		$fields = explode(',',$template_record['fields']);
@@ -1959,7 +1959,7 @@ class remoting {
 		
 		if($error == '') {
 			// Insert the soa record
-			$tmp = $app->db->queryOneRecord("SELECT userid,default_group FROM sys_user WHERE client_id = ".intval($client_id));
+			$tmp = $app->db->queryOneRecord("SELECT userid,default_group FROM sys_user WHERE client_id = ".$app->functions->intval($client_id));
 			$sys_userid = $tmp['userid'];
 			$sys_groupid = $tmp['default_group'];
 			unset($tmp);
@@ -2024,7 +2024,7 @@ class remoting {
 
         $rec = $app->db->queryOneRecord("SELECT id FROM dns_soa WHERE origin like '".$origin.'%');
         if(isset($rec['id'])) {
-            return intval($rec['id']);
+            return $app->functions->intval($rec['id']);
         } else {
             $this->server->fault('no_domain_found', 'There is no domain ID with informed domain name.');
             return false;
@@ -2909,11 +2909,11 @@ class remoting {
               $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
               return false;
         }
-        $sys_userid  = intval($sys_userid);        
+        $sys_userid  = $app->functions->intval($sys_userid);        
         $sys_groupid = explode(',', $sys_groupid);
         $new_group = array();
         foreach($sys_groupid as $group_id) {
-			$new_group[] = intval( $group_id);
+			$new_group[] = $app->functions->intval( $group_id);
         }
         $group_list = implode(',', $new_group);
 		$sql ="SELECT domain, domain_id, document_root, active FROM web_domain WHERE ( (sys_userid = $sys_userid  AND sys_perm_user LIKE '%r%') OR (sys_groupid IN ($group_list) AND sys_perm_group LIKE '%r%') OR  sys_perm_other LIKE '%r%') AND type = 'vhost'";
@@ -2947,7 +2947,7 @@ class remoting {
         	} else {
         		$status = 'n';
         	}
-	        $sql = "UPDATE web_domain SET active = '$status' WHERE domain_id = ".intval($primary_id);	        
+	        $sql = "UPDATE web_domain SET active = '$status' WHERE domain_id = ".$app->functions->intval($primary_id);	        
 	        $app->db->query($sql);
 	        $result = $app->db->affectedRows();	
 	         return $result;
@@ -3017,7 +3017,7 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
         }
-        $client_id = intval($client_id);
+        $client_id = $app->functions->intval($client_id);
         $client = $app->db->queryOneRecord("SELECT client_id FROM client WHERE client_id = ".$client_id);
         if($client['client_id'] > 0) {
             $new_password = $app->db->quote($new_password);
@@ -3080,7 +3080,7 @@ class remoting {
         	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
-        $client_id = intval($client_id);
+        $client_id = $app->functions->intval($client_id);
         $sql = "SELECT d.database_id, d.database_name, d.database_user_id, d.database_ro_user_id, du.database_user, du.database_password FROM web_database d LEFT JOIN web_database_user du ON (du.database_user_id = d.database_user_id) INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id";
 		$all = $app->db->queryAllRecords($sql);
         return $all;
@@ -3113,8 +3113,8 @@ class remoting {
             return false;
         }        
         if (!empty($client_id) && !empty($server_id)) {
-        	$server_id      = intval($server_id);
-        	$client_id      = intval($client_id);
+        	$server_id      = $app->functions->intval($server_id);
+        	$client_id      = $app->functions->intval($client_id);
     	    $sql            = "SELECT id, origin FROM dns_soa d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id AND server_id = $server_id";
         	$result         = $app->db->queryAllRecords($sql);
         	return          $result;
@@ -3134,7 +3134,7 @@ class remoting {
 			 $this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
-        $sql    = "SELECT * FROM dns_rr WHERE zone = ".intval($zone_id);;
+        $sql    = "SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($zone_id);;
 		$result = $app->db->queryAllRecords($sql);
         return $result;
    }
@@ -3159,7 +3159,7 @@ class remoting {
 	    	} else {
 	    		$status = 'N';
 	    	}
-	        $sql = "UPDATE dns_soa SET active = '$status' WHERE id = ".intval($primary_id);
+	        $sql = "UPDATE dns_soa SET active = '$status' WHERE id = ".$app->functions->intval($primary_id);
 	        $app->db->query($sql);
 	        $result = $app->db->affectedRows();
 	        return $result;
@@ -3181,7 +3181,7 @@ class remoting {
 	    	} else {
 	    		$status = 'n';
 	    	}
-	        $sql = "UPDATE mail_domain SET active = '$status' WHERE domain_id = ".intval($primary_id);
+	        $sql = "UPDATE mail_domain SET active = '$status' WHERE domain_id = ".$app->functions->intval($primary_id);
 	        $app->db->query($sql);
 	        $result = $app->db->affectedRows();
 	        return $result;
@@ -3308,7 +3308,7 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$server_id = intval($server_id);
+		$server_id = $app->functions->intval($server_id);
 		
 		if($server_id > 0) {
 			$tmp = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = $server_id LIMIT 0,1");
@@ -3380,9 +3380,9 @@ class remoting {
 		}
 		
 		if (!empty($client_id)) {
-        	$client_id      = intval($client_id);
+        	$client_id      = $app->functions->intval($client_id);
 			$tmp 			= $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
-    	    $sql            = "SELECT * FROM openvz_vm WHERE sys_groupid = ".intval($tmp['groupid']);
+    	    $sql            = "SELECT * FROM openvz_vm WHERE sys_groupid = ".$app->functions->intval($tmp['groupid']);
         	$result         = $app->db->queryAllRecords($sql);
         	return          $result;
         }
@@ -3410,8 +3410,8 @@ class remoting {
 		}
 		
 		
-		$template_id = intval($template_id);
-		$ostemplate_id = intval($ostemplate_id);
+		$template_id = $app->functions->intval($template_id);
+		$ostemplate_id = $app->functions->intval($ostemplate_id);
 		
 		//* Verify parameters
 		if($template_id == 0) {

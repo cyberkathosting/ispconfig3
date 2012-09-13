@@ -56,49 +56,49 @@ class page_action extends tform_actions {
 		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
 		
 		//* Delete all records that belog to this zone.
-		$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE parent_domain_id = '".intval($this->id)."' AND type != 'vhost'");
+		$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE parent_domain_id = '".$app->functions->intval($this->id)."' AND type != 'vhost'");
 		foreach($records as $rec) {
 			$app->db->datalogDelete('web_domain','domain_id',$rec['domain_id']);
 		}
 		
 		//* Delete all records that belog to this zone.
-		$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = '".intval($this->id)."'");
+		$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
 		foreach($records as $rec) {
 			$app->db->datalogDelete('ftp_user','ftp_user_id',$rec['ftp_user_id']);
 		}
 		
 		//* Delete all records that belog to this web.
-		$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = '".intval($this->id)."'");
+		$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
 		foreach($records as $rec) {
 			$app->db->datalogDelete('shell_user','shell_user_id',$rec['shell_user_id']);
 		}
         
         //* Delete all records that belog to this web.
-        $records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $app->db->datalogDelete('cron','id',$rec['id']);
         }
 		
 		//* Delete all records that belog to this web.
-        $records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $app->db->datalogDelete('cron','id',$rec['id']);
         }
 		
 		//* Delete all records that belog to this web
-        $records = $app->db->queryAllRecords("SELECT webdav_user_id FROM webdav_user WHERE parent_domain_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT webdav_user_id FROM webdav_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $app->db->datalogDelete('webdav_user','webdav_user_id',$rec['webdav_user_id']);
         }
 		
 		//* Delete all records that belog to this web
-        $records = $app->db->queryAllRecords("SELECT backup_id FROM web_backup WHERE parent_domain_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT backup_id FROM web_backup WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $app->db->datalogDelete('web_backup','backup_id',$rec['backup_id']);
         }
 		
 		//* Delete all web folders
-        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             //* Delete all web folder users
 			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$rec['web_folder_id']."'");

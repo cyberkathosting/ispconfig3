@@ -37,6 +37,7 @@
 
 
 */
+global $app;
 
 $form["title"] 			= "Mailbox";
 $form["description"] 	= "";
@@ -280,7 +281,7 @@ $form["tabs"]['filter_records'] = array (
          	'class'   => 'plugin_listview',
      		'options' => array(
 				'listdef' => 'list/mail_user_filter.list.php',
-				'sqlextwhere' => "mailuser_id = ".@intval(@$_REQUEST['id']),
+				'sqlextwhere' => "mailuser_id = ".@$app->functions->intval(@$_REQUEST['id']),
 				'sql_order_by' => "ORDER BY rulename"
 			)
         )

@@ -164,18 +164,18 @@ class page_action extends tform_actions {
 		//* to his groups, so he can administrate the records of this client.
 		if($_SESSION['s']['user']['typ'] == 'user') {
 			$app->auth->add_group_to_user($_SESSION['s']['user']['userid'],$groupid);
-			$app->db->query("UPDATE client SET parent_client_id = ".intval($_SESSION['s']['user']['client_id'])." WHERE client_id = ".$this->id);
+			$app->db->query("UPDATE client SET parent_client_id = ".$app->functions->intval($_SESSION['s']['user']['client_id'])." WHERE client_id = ".$this->id);
 		}
 		
 		//* Set the default servers
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE mail_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_mailserver = intval($tmp['server_id']);
+		$default_mailserver = $app->functions->intval($tmp['server_id']);
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE web_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_webserver = intval($tmp['server_id']);
+		$default_webserver = $app->functions->intval($tmp['server_id']);
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE dns_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_dnsserver = intval($tmp['server_id']);
+		$default_dnsserver = $app->functions->intval($tmp['server_id']);
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_dbserver = intval($tmp['server_id']);
+		$default_dbserver = $app->functions->intval($tmp['server_id']);
 		
 		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);

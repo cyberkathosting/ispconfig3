@@ -42,12 +42,12 @@ $app->tpl->setInclude('content_tpl','templates/dns_wizard.htm');
 $app->load_language_file('/web/dns/lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng');
 
 // import variables
-$template_id = (isset($_POST['template_id']))?intval($_POST['template_id']):0;
-$sys_groupid = (isset($_POST['client_group_id']))?intval($_POST['client_group_id']):0;
+$template_id = (isset($_POST['template_id']))?$app->functions->intval($_POST['template_id']):0;
+$sys_groupid = (isset($_POST['client_group_id']))?$app->functions->intval($_POST['client_group_id']):0;
 
 // get the correct server_id
 if($_SESSION['s']['user']['typ'] == 'admin') {
-	$server_id = (isset($_POST['server_id']))?intval($_POST['server_id']):1;
+	$server_id = (isset($_POST['server_id']))?$app->functions->intval($_POST['server_id']):1;
 } else {
 	$client_group_id = $_SESSION["s"]["user"]["default_group"];
 	$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
@@ -145,9 +145,9 @@ if($_POST['create'] == 1) {
 	
 	// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
 	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($_POST['client_group_id'])) {
-		$sys_groupid = intval($_POST['client_group_id']);
+		$sys_groupid = $app->functions->intval($_POST['client_group_id']);
 	} elseif($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($_POST['client_group_id'])) {
-		$sys_groupid = intval($_POST['client_group_id']);
+		$sys_groupid = $app->functions->intval($_POST['client_group_id']);
 	} else {
 		$sys_groupid = $_SESSION["s"]["user"]["default_group"];
 	}

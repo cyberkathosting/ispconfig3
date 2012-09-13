@@ -210,7 +210,7 @@ class ApsGUIController extends ApsBase
 		
 		//* Get server config of the web server
 		$this->app->uses("getconf");
-		$web_config = $this->app->getconf->get_server_config(intval($websrv["server_id"]),'web');
+		$web_config = $this->app->getconf->get_server_config($app->functions->intval($websrv["server_id"]),'web');
 			
 		//* Set mysql mode to php-fcgi and enable suexec in website on apache servers
 		if($web_config['server_type'] == 'apache') {
@@ -239,7 +239,7 @@ class ApsGUIController extends ApsBase
 			$client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$websrv['sys_groupid']);
 			if(is_array($client) && $client['default_dbserver'] > 0 && $client['default_dbserver'] != $websrv['server_id']) {
 				$mysql_db_server_id =  $client['default_dbserver'];
-				$dbserver_config = $web_config = $app->getconf->get_server_config(intval($mysql_db_server_id),'server');
+				$dbserver_config = $web_config = $app->getconf->get_server_config($app->functions->intval($mysql_db_server_id),'server');
 				$mysql_db_host = $dbserver_config['ip_address'];
 				$mysql_db_remote_access = 'y';
 				$mysql_db_remote_ips = $dbserver_config['ip_address'];
@@ -322,7 +322,7 @@ class ApsGUIController extends ApsBase
 		if($tmp['database_id'] > 0) $this->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
 		
         $database_user = $tmp['database_user_id'];
-        $tmp = $this->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . intval($database_user) . "' OR `database_ro_user_id` = '" . intval($database_user) . "'");
+        $tmp = $this->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . $app->functions->intval($database_user) . "' OR `database_ro_user_id` = '" . $app->functions->intval($database_user) . "'");
         if($tmp['cnt'] < 1) $this->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
         
 		$this->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
@@ -449,6 +449,8 @@ class ApsGUIController extends ApsBase
      */
     public function validateInstallerInput($postinput, $pkg_details, $domains, $settings = array())
     {
+        global $app;
+        
         $ret = array();
         $input = array(); 
         $error = array();
@@ -566,12 +568,12 @@ class ApsGUIController extends ApsBase
             {
                 if($setting['SettingType'] == 'string' || $setting['SettingType'] == 'password')
                 {
-                    if(intval($setting['SettingMinLength']) != 0 
-                    && strlen($postinput[$setting_id]) < intval($setting['SettingMinLength']))
+                    if($app->functions->intval($setting['SettingMinLength'], true) != 0 
+                    && strlen($postinput[$setting_id]) < $app->functions->intval($setting['SettingMinLength'], true))
                         $temp_errstr = sprintf($this->app->lng('error_short_value_for'), $setting['setting_name']);
                         
-                    if(intval($setting['SettingMaxLength']) != 0 
-                    && strlen($postinput[$setting_id]) > intval($setting['SettingMaxLength']))
+                    if($app->functions->intval($setting['SettingMaxLength'], true) != 0 
+                    && strlen($postinput[$setting_id]) > $app->functions->intval($setting['SettingMaxLength'], true))
                         $temp_errstr = sprintf($this->app->lng('error_long_value_for'), $setting['setting_name']);
 
                     if(isset($setting['SettingRegex'])

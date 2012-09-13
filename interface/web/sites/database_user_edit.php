@@ -184,11 +184,11 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
 		}
 	}
@@ -197,17 +197,17 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = intval($this->dataRecord["client_group_id"]);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
 		}
         
         $old_rec = $app->db->queryOneRecord("SELECT * FROM web_database_user WHERE database_user_id = '".$this->id."'");
         
-        $records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".intval($this->id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".intval($this->id)."'");
+        $records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".$app->functions->intval($this->id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $new_rec = $this->dataRecord;
             $new_rec['server_id'] = $rec['server_id'];

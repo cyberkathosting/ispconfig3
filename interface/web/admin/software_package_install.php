@@ -38,7 +38,7 @@ $app->auth->check_module_permissions('admin');
 if(!$app->auth->is_admin()) die('only allowed for administrators.');
 
 $package_name = $app->db->quote($_REQUEST['package']);
-$install_server_id = intval($_REQUEST['server_id']);
+$install_server_id = $app->functions->intval($_REQUEST['server_id']);
 $install_key = $app->db->quote(trim($_REQUEST['install_key']));
 
 $package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = '$package_name'");

@@ -35,8 +35,8 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 $app->uses('getconf');
 
-$server_id = intval($_GET["server_id"]);
-$client_group_id = intval($_GET["client_group_id"]);
+$server_id = $app->functions->intval($_GET["server_id"]);
+$client_group_id = $app->functions->intval($_GET["client_group_id"]);
 $ip_type = $app->db->quote($_GET['ip_type']);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION['s']['user']['userid'])) {

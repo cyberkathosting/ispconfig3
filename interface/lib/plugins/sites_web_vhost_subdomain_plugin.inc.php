@@ -47,9 +47,9 @@ class sites_web_vhost_subdomain_plugin {
 		// Get configuration for the web system
         $app->uses("getconf");        
 		$web_rec = $app->tform->getDataRecord($page_form->id);
-        $web_config = $app->getconf->get_server_config(intval($web_rec['server_id']),'web');            
+        $web_config = $app->getconf->get_server_config($app->functions->intval($web_rec['server_id']),'web');            
         
-        $parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = '" . intval($web_rec['parent_domain_id']) . "'");
+        $parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = '" . $app->functions->intval($web_rec['parent_domain_id']) . "'");
         
 		// Set the values for document_root, system_user and system_group
 		$system_user = $app->db->quote($parent_domain['system_user']);
@@ -61,7 +61,7 @@ class sites_web_vhost_subdomain_plugin {
 		$php_open_basedir = $app->db->quote(str_replace("[website_domain]",$web_rec['domain'],$php_open_basedir));
 		$htaccess_allow_override = $app->db->quote($parent_domain['allow_override']);
 
-		$sql = "UPDATE web_domain SET sys_groupid = ".intval($parent_domain['sys_groupid']).",system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$page_form->id;
+		$sql = "UPDATE web_domain SET sys_groupid = ".$app->functions->intval($parent_domain['sys_groupid']).",system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$page_form->id;
 		$app->db->query($sql);
 	}
 }              	

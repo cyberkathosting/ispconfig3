@@ -37,7 +37,7 @@ class getconf {
 
 		if(!isset($this->config[$server_id])) {
 			$app->uses('ini_parser');
-			$server_id = intval($server_id);
+			$server_id = $app->functions->intval($server_id);
 			$server = $app->db->queryOneRecord('SELECT config FROM server WHERE server_id = '.$server_id);
 			$this->config[$server_id] = $app->ini_parser->parse_ini_string(stripslashes($server['config']));
 		}

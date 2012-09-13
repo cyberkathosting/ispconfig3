@@ -95,7 +95,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Get the record of the parent domain
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".intval(@$this->dataRecord["parent_domain_id"]));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
 		
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
@@ -127,7 +127,7 @@ class page_action extends tform_actions {
 		function onAfterInsert() {
 		global $app, $conf;
 		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 		$server_id = $web["server_id"];
 		$dir = $web["document_root"];
 		$uid = $web["system_user"];
@@ -162,7 +162,7 @@ class page_action extends tform_actions {
 		
 		//* When the site of the FTP user has been changed
 		if(isset($this->dataRecord['parent_domain_id']) && $this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 			$server_id = $web["server_id"];
 			$dir = $web["document_root"];
 			$uid = $web["system_user"];

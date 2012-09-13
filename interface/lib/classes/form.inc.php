@@ -140,6 +140,7 @@ class form {
 	* @return record
 	*/
 	function decode($record) {
+        global $app;
 		if(is_array($record)) {
 			foreach($record as $key => $val) {
 				switch ($this->tableDef[$key]['datatype']) {
@@ -154,7 +155,7 @@ class form {
 				break;
 				
 				case 'INTEGER':
-					$new_record[$key] = intval($val);
+					$new_record[$key] = $app->functions->intval($val);
 				break;
 				
 				case 'DOUBLE':
@@ -306,7 +307,7 @@ class form {
 					}
 				break;
 				case 'INTEGER':
-					$new_record[$key] = intval($val);
+					$new_record[$key] = $app->functions->intval($val);
 				break;
 				case 'DOUBLE':
 					$new_record[$key] = $app->db->quote($val);

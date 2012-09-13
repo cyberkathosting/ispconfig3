@@ -49,7 +49,7 @@ class tform_actions {
                 $app->tform->loadFormDef($tform_def_file);
 				
 				// Importing ID
-                $this->id = (isset($_REQUEST["id"]))?intval($_REQUEST["id"]):0;
+                $this->id = (isset($_REQUEST["id"]))?$app->functions->intval($_REQUEST["id"]):0;
 				
 				// show print version of the form
 				if(isset($_GET["print_form"]) && $_GET["print_form"] == 1) {
@@ -291,7 +291,7 @@ class tform_actions {
                 $app->tform->loadFormDef($tform_def_file);
 
                 // importing ID
-                $this->id = intval($_REQUEST["id"]);
+                $this->id = $app->functions->intval($_REQUEST["id"]);
 
                 if($this->id > 0) {
 

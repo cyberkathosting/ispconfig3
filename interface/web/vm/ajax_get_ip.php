@@ -34,7 +34,7 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('vm');
 
-$server_id = intval($_GET["server_id"]);
+$server_id = $app->functions->intval($_GET["server_id"]);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 

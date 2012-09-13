@@ -148,7 +148,7 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = ".intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = ".$app->functions->intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
 				// When the record is inserted
@@ -321,7 +321,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 		
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $web['sys_groupid'];
@@ -337,7 +337,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($this->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 		
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $web['sys_groupid'];

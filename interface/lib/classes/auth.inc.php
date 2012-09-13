@@ -47,7 +47,7 @@ class auth {
 	public function has_clients($userid) {
 		global $app, $conf;
 		
-		$userid = intval($userid);
+		$userid = $app->functions->intval($userid);
 		$client = $app->db->queryOneRecord("SELECT client.limit_client FROM sys_user, client WHERE sys_user.userid = $userid AND sys_user.client_id = client.client_id");
 		if($client['limit_client'] > 0) {
 			return true;
@@ -60,8 +60,8 @@ class auth {
 	public function add_group_to_user($userid,$groupid) {
 		global $app;
 		
-		$userid = intval($userid);
-		$groupid = intval($groupid);
+		$userid = $app->functions->intval($userid);
+		$groupid = $app->functions->intval($groupid);
 		
 		if($userid > 0 && $groupid > 0) {
 			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = $userid");
@@ -98,8 +98,8 @@ class auth {
 	public function remove_group_from_user($userid,$groupid) {
 		global $app;
 		
-		$userid = intval($userid);
-		$groupid = intval($groupid);
+		$userid = $app->functions->intval($userid);
+		$groupid = $app->functions->intval($groupid);
 		
 		if($userid > 0 && $groupid > 0) {
 			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = $userid");

@@ -37,39 +37,37 @@ Copyright (c) Tri-Plex technology
 /**
 * Formularbehandlung
 *
-* Funktionen zur Umwandlung von Formulardaten
-* sowie zum vorbereiten von HTML und SQL
-* Ausgaben
+* Functions to validate, display and save form values
 *
-*        Tabellendefinition
+*        Database table field definitions
 *
-*        Datentypen:
-*        - INTEGER (Wandelt Ausdr�cke in Int um)
+*        Datatypes:
+*        - INTEGER (Converts data to int automatically)
 *        - DOUBLE
-*        - CURRENCY (Formatiert Zahlen nach W�hrungsnotation)
-*        - VARCHAR (kein weiterer Format Check)
-*        - DATE (Datumsformat, Timestamp Umwandlung)
+*        - CURRENCY (Formats digits in currency notation)
+*        - VARCHAR (No format check)
+*        - DATE (Date format, converts from and to UNIX timestamps automatically)
 *
 *        Formtype:
-*        - TEXT (normales Textfeld)
-*        - PASSWORD (Feldinhalt wird nicht angezeigt)
-*        - SELECT (Gibt Werte als option Feld aus)
-*        - MULTIPLE (Select-Feld mit nehreren Werten)
+*        - TEXT (Normal text field)
+*        - PASSWORD (password field, the content will not be displayed again to the user)
+*        - SELECT (Option fiield)
+*        - MULTIPLE (Allows selection of multiple values)
 *
 *        VALUE:
-*        - Wert oder Array
+*        - Value or array
 *
 *        SEPARATOR
-*        - Trennzeichen f�r multiple Felder
+*        - separator char used for fileds with multiple values
 *
-*        Hinweis:
-*        Das ID-Feld ist nicht bei den Table Values einzuf�gen.
+*        Hint: The auto increment (ID) filed of the table has not be be definied separately.
+*
 */
 
 class remoting_lib {
 	
         /**
-        * Definition of the database atble (array)
+        * Definition of the database table (array)
         * @var tableDef
         */
         private $tableDef;
@@ -141,7 +139,7 @@ class remoting_lib {
 		function loadUserProfile($client_id = 0) {
 			global $app,$conf;
 
-			$client_id = intval($client_id);
+			$client_id = $app->functions->intval($client_id);
             
 			if($client_id == 0) {
 				$this->sys_username         = 'admin';
@@ -176,7 +174,8 @@ class remoting_lib {
 
 
         /**
-        * Converts data in human readable form
+        * Converts the data in the array to human readable format
+        * Datatype conversion e.g. to show the data in lists
         *
         * @param record
         * @return record
@@ -208,13 +207,7 @@ class remoting_lib {
                                 break;
 
                                 case 'INTEGER':
-										//* We use + 0 to force the string to be a number as 
-										//* intval return value is too limited on 32bit systems
-                                        if(intval($record[$key]) == 2147483647) {
-											$new_record[$key] = $record[$key] + 0;
-										} else {
-											$new_record[$key] = intval($record[$key]);
-										}
+                                        $new_record[$key] = $app->functions->intval($record[$key]);
                                 break;
 
                                 case 'DOUBLE':
@@ -222,7 +215,7 @@ class remoting_lib {
                                 break;
 
                                 case 'CURRENCY':
-                                        $new_record[$key] = number_format($record[$key], 2, ',', '');
+                                        $new_record[$key] = $app->functions->currency_format($record[$key]);
                                 break;
 
                                 default:
@@ -263,7 +256,7 @@ class remoting_lib {
 						unset($tmp_recordid);
 						
                         $querystring = str_replace("{AUTHSQL}",$this->getAuthSQL('r'),$querystring);
-
+						
                         // Getting the records
                         $tmp_records = $app->db->queryAllRecords($querystring);
                         if($app->db->errorMessage != '') die($app->db->errorMessage);
@@ -285,7 +278,7 @@ class remoting_lib {
                                 $app->uses($datasource_class);
                                 $values = $app->$datasource_class->$datasource_function($field, $record);
                         } else {
-                                $this->errorMessage .= "Custom datasource class or function is empty<br>\r\n";
+                                $this->errorMessage .= "Custom datasource class or function is empty<br />\r\n";
                         }
                 }
 
@@ -294,29 +287,39 @@ class remoting_lib {
         }
 
         /**
-        * Converts the data in a format to store it in the database table
+        /**
+        * Rewrite the record data to be stored in the database
+        * and check values with regular expressions.
         *
         * @param record = Datensatz als Array
         * @return record
         */
-        function encode($record) {
+        function encode($record,$dbencode = true) {
 		global $app;
                 if(is_array($record)) {
                         foreach($this->formDef['fields'] as $key => $field) {
 
-                                if(isset($field['validators']) && is_array($field['validators'])) $this->validateField($key, (isset($record[$key]))?$record[$key]:'', $field['validators']);
+								//* Apply filter to record value
+                                if(isset($field['filters']) && is_array($field['filters'])) {
+									$record[$key] = $this->filterField($key, (isset($record[$key]))?$record[$key]:'', $field['filters'], 'SAVE');
+								}
+								
+								//* Validate record value
+								if(isset($field['validators']) && is_array($field['validators'])) {
+									$this->validateField($key, (isset($record[$key]))?$record[$key]:'', $field['validators']);
+								}
 
                                 switch ($field['datatype']) {
                                 case 'VARCHAR':
                                         if(!@is_array($record[$key])) {
-                                                $new_record[$key] = (isset($record[$key]))?$app->db->quote($record[$key]):'';
+												$new_record[$key] = (isset($record[$key]))?$record[$key]:'';
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
                                 break;
                                 case 'TEXT':
                                         if(!is_array($record[$key])) {
-                                                $new_record[$key] = $app->db->quote($record[$key]);
+                                                $new_record[$key] = $record[$key];
                                         } else {
                                                 $new_record[$key] = implode($field['separator'],$record[$key]);
                                         }
@@ -348,12 +351,12 @@ class remoting_lib {
 										}
                                 break;
                                 case 'INTEGER':
-                                        $new_record[$key] = (isset($record[$key]))?intval($record[$key]):0;
+                                        $new_record[$key] = (isset($record[$key]))?$app->functions->intval($record[$key]):0;
                                         //if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
                                 case 'DOUBLE':
-                                        $new_record[$key] = $app->db->quote($record[$key]);
+                                        $new_record[$key] = $record[$key];
                                 break;
                                 case 'CURRENCY':
                                         $new_record[$key] = str_replace(",",".",$record[$key]);
@@ -381,11 +384,61 @@ class remoting_lib {
                                                 $this->errorMessage .= $errmsg."\r\n";
                                         }
                                 }
-
-
+								
+								//* Add slashes to all records, when we encode data which shall be inserted into mysql.
+								if($dbencode == true) $new_record[$key] = $app->db->quote($new_record[$key]);
                         }
                 }
                 return $new_record;
+        }
+		
+		/**
+        * process the filters for a given field.
+        *
+        * @param field_name = Name of the field
+        * @param field_value = value of the field
+        * @param filters = Array of filters
+		* @param filter_event = 'SAVE'or 'SHOW'
+        * @return record
+        */
+
+        function filterField($field_name, $field_value, $filters, $filter_event) {
+
+			global $app;
+			$returnval = $field_value;
+				
+			//* Loop trough all filters
+			foreach($filters as $filter) {
+				if($filter['event'] == $filter_event) {
+					switch ($filter['type']) {
+						case 'TOLOWER':
+							$returnval = strtolower($field_value);
+						break;
+						case 'TOUPPER':
+							$returnval = strtoupper($field_value);
+						break;
+						case 'IDNTOASCII':
+							if(function_exists('idn_to_ascii')) {
+								$returnval = idn_to_ascii($field_value);
+							} else {
+								$returnval = $field_value;
+							}
+						break;
+						case 'IDNTOUTF8':
+							if(function_exists('idn_to_utf8')) {
+								$returnval = idn_to_utf8($field_value);
+							} else {
+								$returnval = $field_value;
+							}
+						break;
+						default:
+							$this->errorMessage .= "Unknown Filter: ".$filter['type'];
+						break;
+					}
+				}
+			}
+
+			return $returnval;
         }
 
         /**
@@ -453,7 +506,7 @@ class remoting_lib {
                                 break;
                                 case 'ISEMAIL':
                                     if(function_exists('filter_var')) {
-										if(!filter_var($field_value, FILTER_VALIDATE_EMAIL)) {
+										if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
 											$errmsg = $validator['errmsg'];
                                             if(isset($this->wordbook[$errmsg])) {
                                                 $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
@@ -474,16 +527,16 @@ class remoting_lib {
                                 break;
                                 case 'ISINT':
 									if(function_exists('filter_var')) {
-										if($vield_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
+										if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
 											$errmsg = $validator['errmsg'];
-                                            if(isset($this->wordbook[$errmsg])) {
+											if(isset($this->wordbook[$errmsg])) {
                                                 $this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
 											} else {
 												$this->errorMessage .= $errmsg."<br />\r\n";
 											}
                                         }
 									} else {
-                                        $tmpval = intval($field_value);
+                                        $tmpval = $app->functions->intval($field_value);
                                         if($tmpval === 0 and !empty($field_value)) {
                                                 $errmsg = $validator['errmsg'];
                                                 if(isset($this->wordbook[$errmsg])) {
@@ -610,14 +663,14 @@ class remoting_lib {
                 $this->action = $action;
                 $this->primary_id = $primary_id;
 
-                $record = $this->encode($record,$tab);
+                $record = $this->encode($record,true);
                 $sql_insert_key = '';
                 $sql_insert_val = '';
                 $sql_update = '';
 
-                if(!is_array($this->formDef)) $app->error("No form definition found.");
+                if(!is_array($this->formDef)) $app->error("Form definition not found.");
 
-                // gehe durch alle Felder des Tabs
+                // go trough all fields of the tab
                 if(is_array($record)) {
                 foreach($this->formDef['fields'] as $key => $field) {
                                 // Wenn es kein leeres Passwortfeld ist
@@ -637,6 +690,7 @@ class remoting_lib {
                                                                 $record[$key] = md5(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         }
+														
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
                                                         $sql_insert_key .= "`$key`, ";
 														if($record[$key] == '') {
@@ -651,7 +705,6 @@ class remoting_lib {
                                                         $sql_insert_val .= "'".$record[$key]."', ";
                                                 }
                                         } else {
-										
                                                 if($field['formtype'] == 'PASSWORD') {
 														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
                                                                 $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
@@ -664,6 +717,7 @@ class remoting_lib {
                                                                 $record[$key] = md5(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         }
+                                                        
                                                 } elseif ($field['formtype'] == 'CHECKBOX') {
 														if($record[$key] == '') {
 															// if a checkbox is not set, we set it to the unchecked value
@@ -685,7 +739,7 @@ class remoting_lib {
         }
 
 
-
+                // Add backticks for incomplete table names
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
                 } else {
@@ -695,7 +749,7 @@ class remoting_lib {
 
                 if($action == "INSERT") {
                         if($this->formDef['auth'] == 'yes') {
-                                // Setze User und Gruppe
+                                // Set user and group
                                 $sql_insert_key .= "`sys_userid`, ";
                                 $sql_insert_val .= ($this->formDef["auth_preset"]["userid"] > 0)?"'".$this->formDef["auth_preset"]["userid"]."', ":"'".$this->sys_userid."', ";
                                 $sql_insert_key .= "`sys_groupid`, ";
@@ -785,7 +839,7 @@ class remoting_lib {
 			$usertheme = $app->db->quote($params["usertheme"]);
 			$type = 'user';
 			$active = 1;
-			$insert_id = intval($insert_id);
+			$insert_id = $app->functions->intval($insert_id);
 			$language = $app->db->quote($params["language"]);
 			$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('$username','','$insert_id')", 'groupid');
 			$groups = $groupid;
@@ -799,7 +853,7 @@ class remoting_lib {
 			global $app;
 			$username = $app->db->quote($params["username"]);
 			$clear_password = $app->db->quote($params["password"]);
-			$client_id = intval($client_id);
+			$client_id = $app->functions->intval($client_id);
 			$password = $app->auth->crypt_password(stripslashes($clear_password));
 			if ($clear_password) $pwstring = ", passwort = '$password'"; else $pwstring ="" ;
 			$sql = "UPDATE sys_user set username = '$username' $pwstring WHERE client_id = $client_id";
@@ -808,7 +862,7 @@ class remoting_lib {
 		
 		function ispconfig_sysuser_delete($client_id){
 			global $app;
-			$client_id = intval($client_id);
+			$client_id = $app->functions->intval($client_id);
 			$sql = "DELETE FROM sys_user WHERE client_id = $client_id";
 			$app->db->query($sql);
 			$sql = "DELETE FROM sys_group WHERE client_id = $client_id";
@@ -820,8 +874,9 @@ class remoting_lib {
 				
 				$app->db->datalogSave($this->formDef['db_table'], $action, $this->formDef['db_table_idx'], $primary_id, $record_old, $record_new);
 				return true;
+				
 				/*
-
+                // Add backticks for incomplete table names.
                 if(stristr($this->formDef['db_table'],'.')) {
                         $escape = '';
                 } else {
