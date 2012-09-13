@@ -108,11 +108,17 @@ class validate_domain {
     function _check_unique($domain_name, $only_domain = false) {
         global $app;
         
-        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($app->tform->primary_id));
+        if(isset($app->remoting_lib->primary_id)) {
+            $primary_id = $app->remoting_lib->primary_id;
+        } else {
+            $primary_id = $app->tform->primary_id;
+        }
+        
+        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($primary_id));
         if($check['cnt'] > 0) return false;
         
         if($only_domain == false) {
-            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($app->tform->primary_id));
+            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . intval($primary_id));
             if($check['cnt'] > 0) return false;
         }
         
