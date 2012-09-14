@@ -227,12 +227,12 @@ class shelluser_jailkit_plugin {
 				$tpl->setVar('home_dir',$this->_get_home_dir(""));
 				
 				$bashrc = escapeshellcmd($this->data['new']['dir']).'/etc/bash.bashrc';
-				if(@is_file($bashrc)) unlink($bashrc);
+				if(@is_file($bashrc) || @is_link($bashrc)) unlink($bashrc);
 				
 				file_put_contents($bashrc,$tpl->grab());
 				unset($tpl);
 				
-				$this->app->log("Added bashrc scrpt : ".$bashrc,LOGLEVEL_DEBUG);
+				$this->app->log("Added bashrc script : ".$bashrc,LOGLEVEL_DEBUG);
 				
 				$tpl = new tpl();
 				$tpl->newTemplate("motd.master");
@@ -240,7 +240,7 @@ class shelluser_jailkit_plugin {
 				$tpl->setVar('domain',$web['domain']);
 				
 				$motd = escapeshellcmd($this->data['new']['dir']).'/var/run/motd';
-				if(@is_file($motd)) unlink($motd);
+				if(@is_file($motd) || @is_link($motd)) unlink($motd);
 				
 				file_put_contents($motd,$tpl->grab());
 				
