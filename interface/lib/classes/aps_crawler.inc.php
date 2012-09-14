@@ -200,7 +200,7 @@ class ApsCrawler extends ApsBase
      * A method to build query URLs out of a list of vendors
      *
     */
-    private function formatVendorCallback(&$array_item, $key)
+    private function formatVendorCallback($array_item, $key)
     {
         $array_item = str_replace(' ', '%20', $array_item);
         $array_item = str_replace('http://', '', $array_item);
@@ -274,7 +274,7 @@ class ApsCrawler extends ApsBase
                         // Find out a (possibly) existing package version
                         $ex_ver = '';
                         array_walk($existing_apps, 
-                            create_function('$v, $k, $ex_ver', 'if($v["Name"] == "'.$app_name.'") $ex_ver = $v["CurrentVersion"];'), &$ex_ver);
+                            create_function('$v, $k, $ex_ver', 'if($v["Name"] == "'.$app_name.'") $ex_ver = $v["CurrentVersion"];'), $ex_ver);
                         
                         $new_ver = $app_version.'-'.$app_release;
                         $local_intf_folder = $this->interface_pkg_dir.'/'.$app_name.'-'.$new_ver.'.app.zip/';
