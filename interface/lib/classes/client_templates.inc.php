@@ -44,11 +44,14 @@ class client_templates {
             if (trim($item) != ''){
                 $sql = "SELECT * FROM client_template WHERE template_id = " . $app->functions->intval($item);
                 $addLimits = $app->db->queryOneRecord($sql);
+                $app->log('Template processing subtemplate ' . $item . ' for client ' . $clientId, LOGLEVEL_DEBUG);
                 /* maybe the template is deleted in the meantime */
                 if (is_array($addLimits)){
                     foreach($addLimits as $k => $v){
                         /* we can remove this condition, but it is easier to debug with it (don't add ids and other non-limit values) */
-                        if (strpos($k, 'limit') !== false){
+                        if (strpos($k, 'limit') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
+                            $app->log('Template processing key ' . $k . ' for client ' . $clientId, LOGLEVEL_DEBUG);
+
                             /* process the numerical limits */
                             if (is_numeric($v)){
                                 /* switch for special cases */
@@ -84,7 +87,7 @@ class client_templates {
                                         $limits_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"],$limits[$k]);
                                     }
                                     $additional_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"],$v);
-
+                                    $app->log('Template processing key ' . $k . ' type CHECKBOXARRAY, lim / add: ' . implode(',', $limits_values) . ' / ' . implode(',', $additional_values) . ' for client ' . $clientId, LOGLEVEL_DEBUG);
                                     /* unification of limits_values (master template) and additional_values (additional template) */
                                     $limits_unified = array();
                                     foreach($form["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
@@ -92,7 +95,21 @@ class client_templates {
                                     }
                                     $limits[$k] = implode($form["tabs"]["limits"]["fields"][$k]["separator"],$limits_unified);
                                 break;
-                                
+                                case 'CHECKBOX':
+                                    if($k == 'force_suexec') {
+                                        // 'n' is less limited than y
+                                        if (!isset($limits[$k])){
+                                            $limits[$k] = 'y';
+                                        }
+                                        if($limits[$k] == 'n' || $v == 'n') $limits[$k] = 'n';
+                                    } else {
+                                        // 'y' is less limited than n
+                                        if (!isset($limits[$k])){
+                                            $limits[$k] = 'n';
+                                        }
+                                        if($limits[$k] == 'y' || $v == 'y') $limits[$k] = 'y';
+                                    }
+                                break;
                                 case 'SELECT':
                                     $limit_values = array_keys($form["tabs"]["limits"]["fields"][$k]["value"]);
                                     /* choose the lower index of the two SELECT items */
@@ -116,6 +133,7 @@ class client_templates {
                 $update .= '`' . $k . "`='" . $v . "'";
             }
         }
+        $app->log('Template processed for client ' . $clientId . ', update string: ' . $update, LOGLEVEL_DEBUG);
         if($update != '') {
             $sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . $app->functions->intval($clientId);
             $app->db->query($sql);
