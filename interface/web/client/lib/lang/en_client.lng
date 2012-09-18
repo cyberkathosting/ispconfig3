@@ -123,6 +123,7 @@ $wb["web_php_options_notempty"] = 'No PHP option(s) selected. Select at least on
 $wb["ssh_chroot_notempty"] = 'No SSH chroot option selected. Select at least one SSH option.';
 $wb["username_error_collision"] = 'The username may not start with the word -web- or -web- followed by a number.';
 $wb["bank_account_number_txt"] = 'Bank account no.';
+$wb["bank_account_owner_txt"] = 'Bank account owner';
 $wb["bank_code_txt"] = 'Bank code';
 $wb["bank_name_txt"] = 'Bank name';
 $wb["bank_account_iban_txt"] = 'IBAN';

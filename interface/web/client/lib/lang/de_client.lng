@@ -120,6 +120,7 @@ $wb['web_php_options_notempty'] = 'Keine PHP-Option ausgewählt. Wähle mindeste
 $wb['ssh_chroot_notempty'] = 'Keine SSH chroot-Option ausgewählt. Wähle mindestens eine SSH-Option.';
 $wb['username_error_collision'] = 'Der Benutzername sollte nicht mit dem Wort -web- oder -web- gefolgt von einer Nummer anfangen.';
 $wb['bank_account_number_txt'] = 'Kontonr.';
+$wb["bank_account_owner_txt"] = 'Kontoinhaber';
 $wb['bank_code_txt'] = 'BLZ';
 $wb['bank_name_txt'] = 'Bank';
 $wb['bank_account_iban_txt'] = 'IBAN';

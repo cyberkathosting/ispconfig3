@@ -160,6 +160,7 @@ CREATE TABLE `client` (
   `internet` varchar(255) NOT NULL,
   `icq` varchar(16) DEFAULT NULL,
   `notes` text,
+  `bank_account_owner` varchar(255) DEFAULT NULL,
   `bank_account_number` varchar(255) DEFAULT NULL,
   `bank_code` varchar(255) DEFAULT NULL,
   `bank_name` varchar(255) DEFAULT NULL,

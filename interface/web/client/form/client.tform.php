@@ -339,6 +339,17 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'bank_account_owner' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 		'bank_account_number' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',

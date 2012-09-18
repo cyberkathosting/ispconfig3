@@ -304,7 +304,7 @@ class page_action extends tform_actions {
                 
                 $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($this->dataRecord['sel_domain']);
                 if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-                    $sql .= "AND sys_groupid =" . $client_group_id;
+                    $sql .= " AND sys_groupid =" . $client_group_id;
                 }
                 $domain_check = $app->db->queryOneRecord($sql);
                 if(!$domain_check) {
