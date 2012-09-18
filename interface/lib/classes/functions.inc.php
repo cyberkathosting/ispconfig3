@@ -117,9 +117,11 @@ class functions {
 		return $out;
 	}
 	
-	public function currency_format($number) {
+	public function currency_format($number, $view = '') {
 		global $app;
-		$number_format_decimals = (int)$app->lng('number_format_decimals');
+		if($view != '') $number_format_decimals = (int)$app->lng('number_format_decimals_'.$view);
+        if(!$number_format_decimals) $number_format_decimals = (int)$app->lng('number_format_decimals');
+        
 		$number_format_dec_point = $app->lng('number_format_dec_point');
 		$number_format_thousands_sep = $app->lng('number_format_thousands_sep');
 		if($number_format_thousands_sep == 'number_format_thousands_sep') $number_format_thousands_sep = '';
