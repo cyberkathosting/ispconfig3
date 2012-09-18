@@ -12,6 +12,8 @@ class client_templates {
 	function apply_client_templates($clientId) {
         global $app;
         
+        include('../client/form/client.tform.php');
+        
         /*
          * Get the master-template for the client
          */
@@ -71,7 +73,7 @@ class client_templates {
                             }
                             /* process the string limits (CHECKBOXARRAY, SELECT etc.) */
                             elseif (is_string($v)){
-                                switch ($app->tform->formDef["tabs"]["limits"]["fields"][$k]['formtype']){
+                                switch ($form["tabs"]["limits"]["fields"][$k]['formtype']){
                                 case 'CHECKBOXARRAY':
                                     if (!isset($limits[$k])){
                                         $limits[$k] = array();
@@ -79,20 +81,20 @@ class client_templates {
 
                                     $limits_values = $limits[$k];
                                     if (is_string($limits[$k])){
-                                        $limits_values = explode($app->tform->formDef["tabs"]["limits"]["fields"][$k]["separator"],$limits[$k]);
+                                        $limits_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"],$limits[$k]);
                                     }
-                                    $additional_values = explode($app->tform->formDef["tabs"]["limits"]["fields"][$k]["separator"],$v);
+                                    $additional_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"],$v);
 
                                     /* unification of limits_values (master template) and additional_values (additional template) */
                                     $limits_unified = array();
-                                    foreach($app->tform->formDef["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
+                                    foreach($form["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
                                         if (in_array($key,$limits_values) || in_array($key,$additional_values)) $limits_unified[] = $key;
                                     }
-                                    $limits[$k] = implode($app->tform->formDef["tabs"]["limits"]["fields"][$k]["separator"],$limits_unified);
+                                    $limits[$k] = implode($form["tabs"]["limits"]["fields"][$k]["separator"],$limits_unified);
                                 break;
                                 
                                 case 'SELECT':
-                                    $limit_values = array_keys($app->tform->formDef["tabs"]["limits"]["fields"][$k]["value"]);
+                                    $limit_values = array_keys($form["tabs"]["limits"]["fields"][$k]["value"]);
                                     /* choose the lower index of the two SELECT items */
                                     $limits[$k] = $limit_values[min(array_search($limits[$k], $limit_values), array_search($v, $limit_values))];
                                 break;
@@ -118,5 +120,6 @@ class client_templates {
             $sql = 'UPDATE client SET ' . $update . " WHERE client_id = " . $app->functions->intval($clientId);
             $app->db->query($sql);
         }
+        unset($form);
     }
 }
