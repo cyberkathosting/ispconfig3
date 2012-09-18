@@ -302,14 +302,14 @@ function loadMenus() {
 
 }
 
-function changeTab(tab,target) {
+function changeTab(tab,target,force) {
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
     
     var idel = jQuery('form#pageForm').find('[name="id"]');
     var id = null;
     if(idel.length > 0) id = idel.val();
-    if(tabChangeDiscard == 'y') {
+    if(tabChangeDiscard == 'y' && !force) {
         if((idel.length < 1 || id) && (pageFormChanged == false || window.confirm(tabChangeDiscardTxt))) {
             var next_tab = tab;
             if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
