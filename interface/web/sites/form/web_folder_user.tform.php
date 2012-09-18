@@ -50,7 +50,7 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$auth_sql = $app->tform->getAuthSQL('r', 'web_domain');
+$auth_sql = (isset($app->tform) ? $app->tform->getAuthSQL('r', 'web_domain') : '1');
 
 $form["tabs"]['user'] = array (
 	'title' 	=> "Folder",
