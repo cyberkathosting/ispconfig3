@@ -548,8 +548,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             }
         }
         
-        // subdomains in plesk are real vhosts, so we have to treat them like domains
-        // they have no maildomain entry
+        // subdomains in plesk are real vhosts, so we have to treat them as vhostsubdomains
         $subdomains = $exdb->queryAllRecords("SELECT d.id, d.dom_id, d.name, d.displayName, d.sys_user_id, d.ssi, d.php, d.cgi, d.perl, d.python, d.fastcgi, d.miva, d.coldfusion, d.asp, d.asp_dot_net, d.ssl, d.same_ssl, d.php_handler_type, d.www_root, d.maintenance_mode, d.certificate_id FROM subdomains as d");
         $subdomain_ids = array();
         $subdomain_roots = array();
@@ -613,7 +612,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             //'ipv6_address' => '',
                             'domain' => $entry['name'] . '.' . $parent_domain['name'],
                             'type' => 'vhost', // can be vhost or alias
-                            'parent_domain_id' => '', // only if alias
+                            'parent_domain_id' => $domain_ids[$entry['dom_id']],
                             'vhost_type' => 'name', // or ip (-based)
                             'hd_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'disk_space', -1)),
                             'traffic_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'max_traffic', -1)),
@@ -655,10 +654,10 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $new_id = $old_domain['domain_id'];
                 $params = array_merge($old_domain, $params);
                 $msg .= "Found domain with id " . $new_id . ", updating it.<br />";
-                $ok = $importer->sites_web_domain_update($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $new_id, $params);
+                $ok = $importer->sites_web_vhost_subdomain_update($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $new_id, $params);
                 //if(!$ok) $new_id = false;
             } else {
-                $new_id = $importer->sites_web_domain_add($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $params, true); // read only...
+                $new_id = $importer->sites_web_vhost_subdomain_add($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $params, true); // read only...
             }
             
             $subdomain_ids[$entry['id']] = $new_id;
@@ -827,23 +826,42 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         unset($dns_records);
         
         
-        /* web_folder creation is missing in the remoting lib
+        $folder_ids = array();
+        /* web_folder creation*/
         $protected_dirs = $exdb->queryAllRecords("SELECT id, non_ssl, ssl, cgi_bin, realm, path, dom_id FROM protected_dirs");
         foreach($protected_dirs as $entry) {
-            $params = 
+            $params = array('server_id' => $server_id,
+                            'parent_domain_id' => $domain_ids[$entry['dom_id']],
+                            'path' => $entry['path'],
+                            'active' => 'y');
+            $folder_id = 0;
+            $check = $app->db->queryOneRecord('SELECT * FROM `web_folder` WHERE `parent_domain_id` = \'' . $domain_ids[$entry['dom_id']] . '\' AND `path` = \'' . $app->db->quote($entry['path']));
+            if($check) {
+                $importer->sites_web_folder_update($session_id, $client_id, $check['web_folder_id'], array_merge($check, $params));
+                $folder_id = $check['web_folder_id'];
+            } else {
+                $folder_id = $importer->sites_web_folder_add($session_id, $client_id, $params);
+            }
             
-            $new_id = $importer->sites
+            $msg .= 'Created / updated HTTP AUTH folder: ' . $entry['path'] . '<br />';
+            $folder_ids[$entry['id']] = $folder_id;
         }
         
-        $pd_users = $exdb->queryAllRecords("SELECT id, login, account_id, pd_id FROM pd_users");
+        $pd_users = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.pd_id, a.password FROM pd_users as u INNER JOIN accounts as a ON (a.id = u.account_id)");
         foreach($protected_dirs as $entry) {
-            $params = 
+            $params = array('server_id' => $server_id,
+                            'web_folder_id' => $folder_ids[$entry['id']],
+                            'username' => $entry['login'],
+                            'password' => $entry['password'],
+                            'active' => 'y');
             
-            $new_id = $importer->sites
+            $check = $app->db->queryOneRecord('SELECT * FROM `web_folder_user` WHERE `web_folder_id` = ? AND `username` = ?', $folder_id, $entry['login']);
+            if($check) {
+                if($dry_run == false) $importer->sites_web_folder_user_update($session_id, $client_id, $check['web_folder_user_id'], array_merge($check, $params));
+            } else {
+                if($dry_run == false) $importer->sites_web_folder_user_add($session_id, $client_id, $params);
+            }
         }
-        
-        
-        */
         
         /*$web_users = $exdb->queryAllRecords("SELECT id, dom_id, sys_user_id, ssi, php, cgi, perl, python, fastcgi, asp, asp_dot_net FROM web_users");
         foreach($web_users as $entry) {
@@ -959,7 +977,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'login' => strtolower($entry['mail_name'] . "@" . $parent_domain['name']),
                             'password' => $entry['password'],
                             'name' => $entry[''],
-                            'quota' => byte_to_mbyte(($entry['mbox_quota'] == -1 ? 0 : $entry['mbox_quota'])),
+                            'quota' => ($entry['mbox_quota'] == -1 ? 0 : $entry['mbox_quota']), // in bytes!
                             'cc' => $entry['redir_addr'],
                             'maildir' => $maildir,
                             'homedir' => $mail_config["homedir_path"],
@@ -1077,8 +1095,49 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         
         //$client_traffic = $exdb->queryAllRecords("SELECT t.cl_id, t.date, t.http_in, t.http_out, t.ftp_in, t.ftp_out, t.smtp_in, t.smtp_out, t.pop3_imap_in, t.pop3_imap_out FROM ClientsTraffic as t");
         
-        $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id FROM databases as d");
+        $db_userids = array();
+        
         $db_users  = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.db_id, a.password, a.type as `pwtype` FROM db_users as u LEFT JOIN accounts as a ON (a.id = u.account_id)");
+        foreach($db_users as $db_user) {
+            // database user
+            $params = array('server_id' => $server_id,
+                            'database_user' => $db_user['login'],
+                            'database_password' => $db_user['password']);
+            $check = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user` = \'' . $app->db->quote($db_user['login']) . '\'');
+            $db_user_id = 0;
+            if($check) {
+                $importer->sites_database_user_update($session_id, $client_id, $check['database_user_id'], array_merge($check, $params));
+                $db_user_id = $check['database_user_id'];
+            } else {
+                $db_user_id = $api->sites_database_user_add($session_id, $client_id, $params);
+            }
+            
+            if(!isset($db_userids[$db_user['db_id']])) $db_userids[$db_user['db_id']] = $db_user_id;
+            print 'Created / updated database user: ' . $db_user['login'] . NL;
+        }
+            
+        $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id FROM databases as d");
+        foreach($databases as $database) {
+            $params = array('server_id' => $server_id,
+                            'parent_domain_id' => $domain_ids[$database['dom_id']],
+                            'type' => 'mysql',
+                            'database_name' => $database['name'],
+                            'database_user_id' => $db_userids[$database['id']],
+                            'database_ro_user_id' => 0,
+                            'database_charset' => 'utf8',
+                            'remote_access' => 'n',
+                            'active' => 'y',
+                            'remote_ips' => '');
+            
+            $check = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_name` = \'' . $app->db->quote($database['name']) . '\'');
+            if($check) {
+                $importer->sites_database_update($session_id, $client_id, $check['database_id'], array_merge($check, $params));
+            } else {
+                $importer->sites_database_add($session_id, $client_id, $params);
+            }
+            
+            print 'Created / updated database: ' . $database['name'] . NL;
+         }
         
         // do we need table disk_usage for import? i think we don't
         
