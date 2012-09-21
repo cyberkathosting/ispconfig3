@@ -54,6 +54,7 @@ class ispcmail {
     private $mime_boundary;
     private $body = '';
     private $_mail_sender = '';
+    private $_sent_mails = 0;
     /**#@-*/
     
     /**
@@ -95,6 +96,10 @@ class ispcmail {
      * If you want to use tls/ssl specify it here
      */
     private $smtp_crypt = ''; // tls or ssl
+    /**
+     * How many mails should be sent via one single smtp connection
+     */
+    private $smtp_max_mails = 20;
     /**#@-*/
     
     public function __construct($options = array()) {
@@ -105,7 +110,7 @@ class ispcmail {
         $this->attachments = array();
         
         $this->headers['MIME-Version'] = '1.0';
-        $this->setOptions($options);
+        if(is_array($options) && count($options) > 0) $this->setOptions($options);
     }
     
     public function __destruct() {
@@ -138,6 +143,10 @@ class ispcmail {
             case 'smtp_pass':
                 $this->smtp_pass = $value;
                 break;
+            case 'smtp_max_mails':
+                $this->smtp_max_mails = intval($value);
+                if($this->smtp_max_mails < 1) $this->smtp_max_mails = 1;
+                break;
             case 'use_smtp':
                 $this->use_smtp = ($value == true ? true : false);
                 if($value == true) $this->_crlf = "\r\n";
@@ -152,8 +161,12 @@ class ispcmail {
         }
     }
     
+    /** Detect the helo string if none given
+     * 
+     */
     private function detectHelo() {
-        if(isset($_SERVER['SERVER_NAME'])) $this->smtp_helo = $_SERVER['SERVER_NAME'];
+        if(isset($_SERVER['HTTP_HOST'])) $this->smtp_helo = $_SERVER['HTTP_HOST'];
+        elseif(isset($_SERVER['SERVER_NAME'])) $this->smtp_helo = $_SERVER['SERVER_NAME'];
         else $this->smtp_helo = php_uname('n');
         if($this->smtp_helo == '') $this->smtp_helo = 'localhost';
     }
@@ -211,6 +224,9 @@ class ispcmail {
      * @param string $value value to set in header field
      */
     public function setHeader($header, $value) {
+        if(strtolower($header) == 'bcc') $header = 'Bcc';
+        elseif(strtolower($header) == 'cc') $header = 'Cc';
+        elseif(strtolower($header) == 'from') $header = 'From';
         $this->headers["$header"] = $value;
     }
     
@@ -224,7 +240,10 @@ class ispcmail {
      * @return string header value
      */
     public function getHeader($header) {
-        return $this->headers["$header"];
+        if(strtolower($header) == 'bcc') $header = 'Bcc';
+        elseif(strtolower($header) == 'cc') $header = 'Cc';
+        elseif(strtolower($header) == 'from') $header = 'From';
+        return (isset($this->headers["$header"]) ? $this->headers["$header"] : '');
     }
     
     /**
@@ -388,7 +407,7 @@ class ispcmail {
         
         if (isset($this->body)) {
             // Add message ID header
-            $message_id = sprintf('<%s.%s@%s>', base_convert(time(), 10, 36), base_convert(rand(), 10, 36), !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+            $message_id = sprintf('<%s.%s@%s>', base_convert(time(), 10, 36), base_convert(rand(), 10, 36), $this->smtp_helo != '' ? $this->smtp_helo : $this->detectHelo());
             $this->headers['Message-ID'] = $message_id;
             return true;
         } else {
@@ -489,7 +508,7 @@ class ispcmail {
 
         // Get flat representation of headers
         foreach ($this->headers as $name => $value) {
-            if(strtolower($name) == 'to') continue; // never add the To header
+            if(strtolower($name) == 'to' || strtolower($name) == 'cc' || strtolower($name) == 'bcc') continue; // never add the To header
             $headers[] = $name . ': ' . $this->_encodeHeader($value, $this->mail_charset);
         }
         
@@ -499,6 +518,15 @@ class ispcmail {
                 if(!$result) return false;
             }
             foreach($recipients as $recipname => $recip) {
+                if($this->_sent_mails >= $this->smtp_max_mails) {
+                    // close connection to smtp and reconnect
+                    $this->_sent_mails = 0;
+                    $this->_smtp_close();
+                    $result = $this->_smtp_login();
+                    if(!$result) return false;
+                }
+                $this->_sent_mails += 1;
+                
                 $recipname = trim(str_replace('"', '', $recipname));
                 $recip = $this->_encodeHeader($recip, $this->mail_charset);
                 $recipname = $this->_encodeHeader($recipname, $this->mail_charset);
@@ -519,8 +547,10 @@ class ispcmail {
                 if($recipname && !is_numeric($recipname)) $this->setHeader('To', $recipname . ' <' . $recip . '>');
                 else $this->setHeader('To', $recip);
                 
-                
-                $mail_content = 'To: ' . $this->getHeader('To') . $this->_crlf . 'Subject: ' . $enc_subject . $this->_crlf;
+                $mail_content = 'To: ' . $this->getHeader('To') . $this->_crlf;
+                if($this->getHeader('Bcc') != '') $mail_content .= 'Bcc: ' . $this->_encodeHeader($this->getHeader('Bcc'), $this->mail_charset) . $this->_crlf;
+                if($this->getHeader('Cc') != '') $mail_content .= 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset) . $this->_crlf;
+                $mail_content .= 'Subject: ' . $enc_subject . $this->_crlf;
                 $mail_content .= implode($this->_crlf, $headers) . $this->_crlf . $this->_crlf . $this->body;
                 
                 fputs($this->_smtp_conn, $mail_content . $this->_crlf . '.' . $this->_crlf);
@@ -530,6 +560,8 @@ class ispcmail {
                 $result = true;
             }
         } else {
+            if($this->getHeader('Bcc') != '') $headers[] = 'Bcc: ' . $this->_encodeHeader($this->getHeader('Bcc'), $this->mail_charset);
+            if($this->getHeader('Cc') != '') $headers[] = 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset);
             $rec_string = '';
             foreach($recipients as $recipname => $recip) {
                 $recipname = trim(str_replace('"', '', $recipname));
@@ -579,6 +611,7 @@ class ispcmail {
         $this->use_smtp = false;
         $this->smtp_crypt = false;
         $this->mail_charset = 'UTF-8';
+        $this->_sent_mails = 0;
         return;
     }
 }
