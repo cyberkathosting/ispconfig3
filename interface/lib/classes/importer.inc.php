@@ -41,7 +41,10 @@ class fakeserver {
     }
     
     public function getFault() {
-        return $this->faultMessage . ' (' . $this->faultText . ')';
+        $ret = $this->faultMessage . ' (' . $this->faultText . ')';
+        $this->faultMessage = null;
+        $this->faultText = null;
+        return $ret;
     }
 }
 

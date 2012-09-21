@@ -560,6 +560,25 @@ class ispcmail {
      */
     public function finish() {
         if($this->use_smtp == true) $this->_smtp_close();
+        
+        $rand = md5(microtime());
+        $this->mime_boundary = '==Multipart_Boundary_x' . $rand . 'x';
+        
+        $this->headers = array();
+        $this->attachments = array();
+        $this->text_part = '';
+        $this->html_part = '';
+        
+        $this->headers['MIME-Version'] = '1.0';
+        
+        $this->smtp_helo = '';
+        $this->smtp_host = '';
+        $this->smtp_port = '';
+        $this->smtp_user = '';
+        $this->smtp_pass = '';
+        $this->use_smtp = false;
+        $this->smtp_crypt = false;
+        $this->mail_charset = 'UTF-8';
         return;
     }
 }

@@ -461,10 +461,10 @@ public function toLower($record) {
 
     function tableInfo($table_name) {
 
-      global $go_api,$go_info;
+      global $go_api,$go_info,$app;
       // Tabellenfelder einlesen
 
-      if($rows = $go_api->db->queryAllRecords('SHOW FIELDS FROM '.$table_name)){
+      if($rows = $app->db->queryAllRecords('SHOW FIELDS FROM '.$table_name)){
 	foreach($rows as $row) {
 	  $name = $row[0];
 	  $default = $row[4];

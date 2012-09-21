@@ -130,7 +130,7 @@ $app->auth->check_module_permissions('admin');
 //* This is only allowed for administrators
 if(!$app->auth->is_admin()) die('only allowed for administrators.');
 
-$app->uses('tpl');
+$app->uses('tpl,getconf');
 $app->load('importer');
 
 $app->tpl->newTemplate('form.tpl.htm');
@@ -176,7 +176,6 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
     $session_id = 'ISPC3'; // set dummy session id for remoting lib
     $msg .= 'importer object created...<br />';
 	
-    
     // import on server
 	$server_id = 1;
 	
@@ -218,7 +217,6 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                     $msg .= $entry['login'] . ' existed, updating id ' . $old_client['client_id'] . '<br />';                    
                 }
             }
-            
             $params = array(
                             'company_name' => $entry['cname'],
                             'contact_name' => $entry['pname'],
@@ -265,7 +263,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'limit_spamfilter_policy' => 0,
                             //'default_webserver' => '',
                             'limit_web_domain' => get_limit($limits, $entry['id'], 'max_site', -1),
-                            'limit_web_quota' => get_limit($limits, $entry['id'], 'disk_space', -1),
+                            'limit_web_quota' => intval(get_limit($limits, $entry['id'], 'disk_space', -1)),
                             'web_php_options' => implode(',', $phpopts),
                             'limit_web_aliasdomain' => get_limit($limits, $entry['id'], 'max_dom_aliases', -1),
                             'limit_web_subdomain' => get_limit($limits, $entry['id'], 'max_subdom', -1),
@@ -283,7 +281,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'limit_cron' => 0,
                             'limit_cron_type' => 'url',
                             'limit_cron_frequency' => '5',
-                            'limit_traffic_quota' => get_limit($limits, $entry['id'], 'max_traffic', -1),
+                            'limit_traffic_quota' => intval(get_limit($limits, $entry['id'], 'max_traffic', -1)),
                             'limit_openvz_vm' => 0,
                             'limit_openvz_vm_template_id' => ''
                             );
@@ -356,7 +354,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 /* TODO: unknown type */
             }
             
-            $hosting = $exdb->queryOneRecord("SELECT h.dom_id, h.sys_user_id, h.ip_address_id, h.real_traffic, h.fp, h.fp_ssl, h.fp_enable, h.fp_adm, h.fp_pass, h.ssi, h.php, h.php_safe_mode, h.cgi, h.perl, h.python, h.fastcgi, h.miva, h.coldfusion, h.asp, h.asp_dot_net, h.ssl, h.webstat, h.same_ssl, h.traffic_bandwidth, h.max_connection, h.php_handler_type, h.www_root, h.maintenance_mode, h.certificate_id, s.login, s.account_id, s.home, s.shell, s.quota, s.mapped_to, a.password, a.type as `pwtype` FROM hosting as h LEFT JOIN sys_users as s ON (s.id = h.sys_user_id) LEFT JOIN accounts as a ON (s.account_id = a.id) WHERE h.dom_id = '" . $entry['id'] . "'");
+            $hosting = $exdb->queryOneRecord("SELECT h.dom_id, h.sys_user_id, h.ip_address_id, h.real_traffic, h.fp, h.fp_ssl, h.fp_enable, h.fp_adm, h.fp_pass, h.ssi, h.php, h.cgi, h.perl, h.python, h.fastcgi, h.miva, h.coldfusion, h.asp, h.asp_dot_net, h.ssl, h.webstat, h.same_ssl, h.traffic_bandwidth, h.max_connection, h.php_handler_type, h.www_root, h.maintenance_mode, h.certificate_id, s.login, s.account_id, s.home, s.shell, s.quota, s.mapped_to, a.password, a.type as `pwtype` FROM hosting as h LEFT JOIN sys_users as s ON (s.id = h.sys_user_id) LEFT JOIN accounts as a ON (s.account_id = a.id) WHERE h.dom_id = '" . $entry['id'] . "'");
             if($hosting['sys_user_id']) {
                 $dom_ftp_users[] = array('id' => 0,
                                          'dom_id' => $hosting['dom_id'],
@@ -391,7 +389,6 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
              * traffic_bandwidth
              * max_connections
              */
-            
             $params = array(
                             'server_id' => $server_id,
                             'ip_address' => '*',
@@ -437,12 +434,13 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             
             // find already inserted domain
             $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '" . $entry['name'] . "'");
+            if(!$old_domain) $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE CONCAT(subdomain, '.', domain) = '" . $entry['name'] . "'");
             if($old_domain) {
                 $new_id = $old_domain['domain_id'];
                 $msg .= "Found domain with id " . $new_id . ", updating it.<br />";
                 $params = array_merge($old_domain, $params);
                 $ok = $importer->sites_web_domain_update($session_id, $plesk_ispc_ids[$entry['cl_id']], $new_id, $params);
-                //if(!$ok) $new_id = false;
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->sites_web_domain_add($session_id, $plesk_ispc_ids[$entry['cl_id']], $params, true); // read only...
             }
@@ -457,7 +455,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $msg .= "Domain " . $entry['id'] . " (" . $entry['name'] . ") could not be inserted.<br />";
                 $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
-                $msg .= "Domain" . $entry['id'] . " (" . $entry['name'] . ") inserted.<br />";
+                $msg .= "Domain " . $entry['id'] . " (" . $entry['name'] . ") inserted -> " . $new_id . ".<br />";
             }
             
             // add domain to mail domains too
@@ -472,18 +470,19 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $params = array_merge($old_domain, $params);
                 $msg .= "Found maildomain with id " . $new_id . ", updating it.<br />";
                 $ok = $importer->mail_domain_update($session_id, $plesk_ispc_ids[$entry['cl_id']], $new_id, $params);
-                //if(!$ok) $new_id = false;
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
+                $msg .= "Inserting new maildomain " . $entry['name'] . ".<br />";
                 $new_id = $importer->mail_domain_add($session_id, $plesk_ispc_ids[$entry['cl_id']], $params);
             }
             
             $maildomain_ids[$entry['id']] = $new_id;
             if($new_id === false) {
                 //something went wrong here...
-                $msg .= "Maildomain " . $entry['id'] . " (" . $entry['name'] . ") could not be inserted.<br />";
+                $msg .= "Maildomain (" . $entry['name'] . ") could not be inserted.<br />";
                 $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
-                $msg .= "Maildomain " . $entry['id'] . " (" . $entry['name'] . ") inserted.<br />";
+                $msg .= "Maildomain " . $new_id . " (" . $entry['name'] . ") inserted.<br />";
             }
 
         }
@@ -502,12 +501,13 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             );
             
             $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '" . $entry['name'] . "'");
+            if(!$old_domain) $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE CONCAT(subdomain, '.', domain) = '" . $entry['name'] . "'");
             if($old_domain) {
                 $new_id = $old_domain['domain_id'];
                 $params = array_merge($old_domain, $params);
                 $msg .= "Found domain with id " . $new_id . ", updating it.<br />";
                 $ok = $importer->sites_web_aliasdomain_update($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $new_id, $params);
-                //if(!$ok) $new_id = false;
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->sites_web_aliasdomain_add($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $params);
             }
@@ -533,7 +533,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $params = array_merge($old_domain, $params);
                 $msg .= "Found mail domain with id " . $new_id . ", updating it.<br />";
                 $ok = $importer->sites_web_aliasdomain_update($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $new_id, $params);
-                //if(!$ok) $new_id = false;
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->mail_domain_add($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $params);
             }
@@ -584,7 +584,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 /* TODO: unknown type */
             }
             
-            $hosting = $exdb->queryOneRecord("SELECT h.dom_id, h.sys_user_id, h.ip_address_id, h.real_traffic, h.fp, h.fp_ssl, h.fp_enable, h.fp_adm, h.fp_pass, h.ssi, h.php, h.php_safe_mode, h.cgi, h.perl, h.python, h.fastcgi, h.miva, h.coldfusion, h.asp, h.asp_dot_net, h.ssl, h.webstat, h.same_ssl, h.traffic_bandwidth, h.max_connection, h.php_handler_type, h.www_root, h.maintenance_mode, h.certificate_id FROM hosting as h WHERE h.dom_id = '" . $entry['dom_id'] . "'");
+            $hosting = $exdb->queryOneRecord("SELECT h.dom_id, h.sys_user_id, h.ip_address_id, h.real_traffic, h.fp, h.fp_ssl, h.fp_enable, h.fp_adm, h.fp_pass, h.ssi, h.php, h.cgi, h.perl, h.python, h.fastcgi, h.miva, h.coldfusion, h.asp, h.asp_dot_net, h.ssl, h.webstat, h.same_ssl, h.traffic_bandwidth, h.max_connection, h.php_handler_type, h.www_root, h.maintenance_mode, h.certificate_id FROM hosting as h WHERE h.dom_id = '" . $entry['dom_id'] . "'");
             $hosting = array_merge($hosting, $entry); //settings from subdomain override parent settings
             
             $phpmode = 'no';
@@ -611,7 +611,8 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'ip_address' => '*',
                             //'ipv6_address' => '',
                             'domain' => $entry['name'] . '.' . $parent_domain['name'],
-                            'type' => 'vhost', // can be vhost or alias
+                            'web_folder' => $entry['www_root'],
+                            'type' => 'vhostsubdomain', // can be vhost or alias
                             'parent_domain_id' => $domain_ids[$entry['dom_id']],
                             'vhost_type' => 'name', // or ip (-based)
                             'hd_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'disk_space', -1)),
@@ -620,7 +621,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'ssi' => yes_no(get_option($hosting, 'ssi', 'false') === 'true' ? 1 : 0),
                             'suexec' => yes_no(1), // does plesk use this?!
                             'errordocs' => get_option($options, 'apacheErrorDocs', 'false') === 'true' ? 1 : 0,
-                            'subdomain' => 'www', // plesk always uses this option
+                            'subdomain' => '', // plesk always uses this option
                             'ssl' => yes_no(get_option($hosting, 'ssl', 'false') === 'true' ? 1 : 0),
                             'php' => $phpmode,
                             'fastcgi_php_version' => '', // plesk has no different php versions
@@ -650,12 +651,13 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             );
 
             $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '" . $entry['name'] . '.' . $parent_domain['name'] . "'");
+            if(!$old_domain) $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE CONCAT(subdomain, '.', domain) = '" . $entry['name'] . "'");
             if($old_domain) {
                 $new_id = $old_domain['domain_id'];
                 $params = array_merge($old_domain, $params);
                 $msg .= "Found domain with id " . $new_id . ", updating it.<br />";
                 $ok = $importer->sites_web_vhost_subdomain_update($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $new_id, $params);
-                //if(!$ok) $new_id = false;
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->sites_web_vhost_subdomain_add($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $params, true); // read only...
             }
@@ -673,7 +675,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         }
         
         // dns have to be done AFTER domains due to missing client info
-        
+        /*
         $dns_zone_ids = array();
         $dns_zone_serials = array();
         $dns_zones = $exdb->queryAllRecords("SELECT d.id, d.name, d.displayName, d.status, d.email, d.type, d.ttl, d.ttl_unit, d.refresh, d.refresh_unit, d.retry, d.retry_unit, d.expire, d.expire_unit, d.minimum, d.minimum_unit, d.serial_format, d.serial FROM dns_zone as d");
@@ -707,7 +709,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             if($old_id) {
                 $new_id = $old_id;
                 $ok = $importer->dns_zone_update($session_id, $client_id, $old_id, $params);
-                //if(!$ok) {
+                /if($ok === false) {
                 //    $msg .= "DNS " . $entry['id'] . " (" . $entry['name'] . ") could not be updated.<br />";
                 //    $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 //} else {
@@ -727,10 +729,10 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             $dns_zone_serials[$entry['id']] = $entry['serial'];
         }
         unset($dns_zones);
-        
+        */
         /* types:
          * PTR, NS, A, CNAME, MX, TXT, AAAA
-         */
+         *//*
         $dns_records = $exdb->queryAllRecords("SELECT d.id, d.dns_zone_id, d.type, d.displayHost, d.host, d.displayVal, d.val, d.opt, d.time_stamp FROM dns_recs as d");
         foreach($dns_records as $entry) {
             $dns_id = (array_key_exists($entry['dns_zone_id'], $dns_zone_ids) ? $dns_zone_ids[$entry['dns_zone_id']] : 0);
@@ -767,49 +769,49 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $params['aux'] = $entry['opt'];
                 if($old_id) {
                     $ok = $importer->dns_mx_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_mx_add($session_id, $client_id, $params);
                 }
             } elseif($entry['type'] === 'PTR') {
                 if($old_id) {
                     $ok = $importer->dns_ptr_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_ptr_add($session_id, $client_id, $params);
                 }
             } elseif($entry['type'] === 'A') {
                 if($old_id) {
                     $ok = $importer->dns_a_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_a_add($session_id, $client_id, $params);
                 }
             } elseif($entry['type'] === 'AAAA') {
                 if($old_id) {
                     $ok = $importer->dns_aaaa_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_aaaa_add($session_id, $client_id, $params);
                 }
             } elseif($entry['type'] === 'TXT') {
                 if($old_id) {
                     $ok = $importer->dns_txt_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_txt_add($session_id, $client_id, $params);
                 }
             } elseif($entry['type'] === 'CNAME') {
                 if($old_id) {
                     $ok = $importer->dns_cname_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_cname_add($session_id, $client_id, $params);
                 }
             } elseif($entry['type'] === 'NS') {
                 if($old_id) {
                     $ok = $importer->dns_ns_update($session_id, $client_id, $old_id, $params);
-                    if($ok) $new_id = $old_id;
+                    if($ok !== false) $new_id = $old_id;
                 } else {
                     $new_id = $importer->dns_ns_add($session_id, $client_id, $params);
                 }
@@ -817,49 +819,58 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             if($new_id === false) {
                 //something went wrong here...
                 $msg .= "DNS " . $entry['id'] . " (" . $entry['name'] . ") could not be inserted/updated.<br />";
-                $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
+                $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />" . var_export($params, true) . '<br />';
             } else {
                 $msg .= "DNS " . $entry['id'] . " (" . $entry['name'] . ") inserted/updated.<br />";
             }
             
         }
         unset($dns_records);
-        
+        */
         
         $folder_ids = array();
         /* web_folder creation*/
-        $protected_dirs = $exdb->queryAllRecords("SELECT id, non_ssl, ssl, cgi_bin, realm, path, dom_id FROM protected_dirs");
+        $protected_dirs = $exdb->queryAllRecords("SELECT `id`, `non_ssl`, `ssl`, `cgi_bin`, `realm`, `path`, `dom_id` FROM protected_dirs");
         foreach($protected_dirs as $entry) {
+            if($entry['path'] == 'plesk-stat') continue;
+            
             $params = array('server_id' => $server_id,
                             'parent_domain_id' => $domain_ids[$entry['dom_id']],
                             'path' => $entry['path'],
                             'active' => 'y');
             $folder_id = 0;
-            $check = $app->db->queryOneRecord('SELECT * FROM `web_folder` WHERE `parent_domain_id` = \'' . $domain_ids[$entry['dom_id']] . '\' AND `path` = \'' . $app->db->quote($entry['path']));
+            $check = $app->db->queryOneRecord('SELECT * FROM `web_folder` WHERE `parent_domain_id` = \'' . $domain_ids[$entry['dom_id']] . '\' AND `path` = \'' . $app->db->quote($entry['path']) . '\'');
             if($check) {
-                $importer->sites_web_folder_update($session_id, $client_id, $check['web_folder_id'], array_merge($check, $params));
+                $ok = $importer->sites_web_folder_update($session_id, $client_id, $check['web_folder_id'], array_merge($check, $params));
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 $folder_id = $check['web_folder_id'];
+                $msg .= 'Updated HTTP AUTH folder (' . $folder_id . '): ' . $entry['path'] . '<br />';
             } else {
                 $folder_id = $importer->sites_web_folder_add($session_id, $client_id, $params);
+                $msg .= 'Created HTTP AUTH folder (' . $folder_id . '): ' . $entry['path'] . '<br />';
+                if(!$folder_id) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />" . var_export($params, true) . '<br />';
             }
             
-            $msg .= 'Created / updated HTTP AUTH folder: ' . $entry['path'] . '<br />';
             $folder_ids[$entry['id']] = $folder_id;
         }
         
         $pd_users = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.pd_id, a.password FROM pd_users as u INNER JOIN accounts as a ON (a.id = u.account_id)");
         foreach($protected_dirs as $entry) {
             $params = array('server_id' => $server_id,
-                            'web_folder_id' => $folder_ids[$entry['id']],
+                            'web_folder_id' => $folder_ids[$entry['pd_id']],
                             'username' => $entry['login'],
                             'password' => $entry['password'],
                             'active' => 'y');
             
-            $check = $app->db->queryOneRecord('SELECT * FROM `web_folder_user` WHERE `web_folder_id` = ? AND `username` = ?', $folder_id, $entry['login']);
+            $check = $app->db->queryOneRecord('SELECT * FROM `web_folder_user` WHERE `web_folder_id` = ' . intval($folder_ids[$entry['pd_id']]) . ' AND `username` = \'' . $entry['login'] . '\'');
             if($check) {
-                if($dry_run == false) $importer->sites_web_folder_user_update($session_id, $client_id, $check['web_folder_user_id'], array_merge($check, $params));
+                $ok = $importer->sites_web_folder_user_update($session_id, $client_id, $check['web_folder_user_id'], array_merge($check, $params));
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
+                $msg .= 'Updated HTTP AUTH folder user  (' . $fu_id . '): ' . $entry['login'] . '<br />';
             } else {
-                if($dry_run == false) $importer->sites_web_folder_user_add($session_id, $client_id, $params);
+                $fu_id = $importer->sites_web_folder_user_add($session_id, $client_id, $params);
+                $msg .= 'Created HTTP AUTH folder user  (' . $fu_id . '): ' . $entry['login'] . '<br />';
+                if(!$fu_id) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />" . var_export($params, true) . '<br />';
             }
         }
         
@@ -912,7 +923,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'active' => yes_no(1),
                             'uid' => $uid,
                             'gid' => $gid,
-                            'dir' => $document_root,
+                            'dir' => $document_root . (substr($document_root, -1) !== '/' ? '/' : ''),
                             'sys_groupid' => $sys_groupid
                             //'quota_files' => $entry[''],
                             //'ul_ratio' => $entry[''],
@@ -928,7 +939,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 } else {
                     $new_id = $old_ftp['ftp_user_id'];
                     $ok = $importer->sites_ftp_user_update($session_id, $client_id, $new_id, $params);
-                    //if(!$ok) $new_id = false;
+                    if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 }
             } else {
                 $new_id = $importer->sites_ftp_user_add($session_id, $client_id, $params);
@@ -1001,7 +1012,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 if($old_mail) {
                     $new_id = $old_mail['mailuser_id'];
                     $ok = $importer->mail_user_update($session_id, $client_id, $new_id, $params);
-                    //if(!$ok) $new_id = false;
+                    if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 } else {
                     $new_id = $importer->mail_user_add($session_id, $client_id, $params);
                 }
@@ -1031,7 +1042,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 if($old_mail) {
                     $new_id = $old_mail['forwarding_id'];
                     $ok = $importer->mail_forward_update($session_id, $client_id, $new_id, $params);
-                    //if(!$ok) $new_id = false;
+                    if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 } else {
                     $new_id = $importer->mail_forward_add($session_id, $client_id, $params);
                 }
@@ -1070,7 +1081,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             if($old_mail) {
                 $new_id = $old_mail['forwarding_id'];
                 $ok = $importer->mail_alias_update($session_id, $client_id, $new_id, $params);
-                //if(!$ok) $new_id = false;
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->mail_alias_add($session_id, $client_id, $params);
             }
@@ -1106,17 +1117,18 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             $check = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user` = \'' . $app->db->quote($db_user['login']) . '\'');
             $db_user_id = 0;
             if($check) {
-                $importer->sites_database_user_update($session_id, $client_id, $check['database_user_id'], array_merge($check, $params));
+                $ok = $importer->sites_database_user_update($session_id, $client_id, $check['database_user_id'], array_merge($check, $params));
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 $db_user_id = $check['database_user_id'];
             } else {
-                $db_user_id = $api->sites_database_user_add($session_id, $client_id, $params);
+                $db_user_id = $importer->sites_database_user_add($session_id, $client_id, $params);
             }
             
             if(!isset($db_userids[$db_user['db_id']])) $db_userids[$db_user['db_id']] = $db_user_id;
-            print 'Created / updated database user: ' . $db_user['login'] . NL;
+            $msg .= 'Created / updated database user: ' . $db_user['login'] . '<br />';
         }
             
-        $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id FROM databases as d");
+        $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id FROM `data_bases` as d");
         foreach($databases as $database) {
             $params = array('server_id' => $server_id,
                             'parent_domain_id' => $domain_ids[$database['dom_id']],
@@ -1131,12 +1143,13 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             
             $check = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_name` = \'' . $app->db->quote($database['name']) . '\'');
             if($check) {
-                $importer->sites_database_update($session_id, $client_id, $check['database_id'], array_merge($check, $params));
+                $ok = $importer->sites_database_update($session_id, $client_id, $check['database_id'], array_merge($check, $params));
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $importer->sites_database_add($session_id, $client_id, $params);
             }
             
-            print 'Created / updated database: ' . $database['name'] . NL;
+            $msg .= 'Created / updated database: ' . $database['name'] . '<br />';
          }
         
         // do we need table disk_usage for import? i think we don't
