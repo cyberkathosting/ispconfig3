@@ -492,6 +492,9 @@ class ispcmail {
     public function send($recipients) {
         if(!is_array($recipients)) $recipients = array($recipients);
         
+        if($this->use_smtp == true) $this->_crlf = "\r\n";
+        else $this->_crlf = "\n";
+        
         $this->create();
         
         $subject = '';
@@ -547,10 +550,10 @@ class ispcmail {
                 if($recipname && !is_numeric($recipname)) $this->setHeader('To', $recipname . ' <' . $recip . '>');
                 else $this->setHeader('To', $recip);
                 
-                $mail_content = 'To: ' . $this->getHeader('To') . $this->_crlf;
+                $mail_content = 'Subject: ' . $enc_subject . $this->_crlf;
+                $mail_content .= 'To: ' . $this->getHeader('To') . $this->_crlf;
                 if($this->getHeader('Bcc') != '') $mail_content .= 'Bcc: ' . $this->_encodeHeader($this->getHeader('Bcc'), $this->mail_charset) . $this->_crlf;
                 if($this->getHeader('Cc') != '') $mail_content .= 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset) . $this->_crlf;
-                $mail_content .= 'Subject: ' . $enc_subject . $this->_crlf;
                 $mail_content .= implode($this->_crlf, $headers) . $this->_crlf . $this->_crlf . $this->body;
                 
                 fputs($this->_smtp_conn, $mail_content . $this->_crlf . '.' . $this->_crlf);
