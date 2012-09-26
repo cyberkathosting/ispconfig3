@@ -59,6 +59,9 @@ $liste["item"][] = array(	'field'		=> "active",
 
 $liste["item"][] = array(	'field'		=> "source",
 							'datatype'	=> "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
 							'prefix'	=> "%",
@@ -68,6 +71,9 @@ $liste["item"][] = array(	'field'		=> "source",
 
 $liste["item"][] = array(	'field'		=> "destination",
 							'datatype'	=> "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
 							'prefix'	=> "%",

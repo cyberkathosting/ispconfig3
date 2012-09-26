@@ -418,18 +418,10 @@ class remoting_lib {
 							$returnval = strtoupper($field_value);
 						break;
 						case 'IDNTOASCII':
-							if(function_exists('idn_to_ascii')) {
-								$returnval = idn_to_ascii($field_value);
-							} else {
-								$returnval = $field_value;
-							}
+							$returnval = $app->functions->idn_encode($field_value);
 						break;
 						case 'IDNTOUTF8':
-							if(function_exists('idn_to_utf8')) {
-								$returnval = idn_to_utf8($field_value);
-							} else {
-								$returnval = $field_value;
-							}
+							$returnval = $app->functions->idn_decode($field_value);
 						break;
 						default:
 							$this->errorMessage .= "Unknown Filter: ".$filter['type'];

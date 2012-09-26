@@ -32,7 +32,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //* This class is loaded automatically by the ispconfig framework.
 
 class functions {
-	
+	var $idn_converter = null;
+    var $idn_converter_name = '';
 
 	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '', $from_name = '') {
 		global $app,$conf;
@@ -309,6 +310,72 @@ class functions {
         } else {
             return intval($string);
         }
+    }
+    
+    /** IDN converter wrapper.
+     * all converter classes should be placed in ISPC_CLASS_PATH.'/idn/'
+     */
+    public function idn_encode($domain) {
+        if($domain == '') return '';
+        if(preg_match('/^[0-9\.]+$/', $domain)) return $domain; // may be an ip address - anyway does not need to bee encoded
+        
+        // get domain and user part if it is an email
+        $user_part = false;
+        if(strpos($domain, '@') !== false) {
+            $user_part = substr($domain, 0, strrpos($domain, '@'));
+            $domain = substr($domain, strrpos($domain, '@') + 1);
+        }
+        
+        if(function_exists('idn_to_ascii')) {
+            $domain = idn_to_ascii($domain);
+        } elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
+             /* use idna class:
+             * @author  Matthias Sommerfeld <mso@phlylabs.de>
+             * @copyright 2004-2011 phlyLabs Berlin, http://phlylabs.de
+             * @version 0.8.0 2011-03-11
+             */
+            
+            if(!is_object($this->idn_converter) || $this->idn_converter_name != 'idna_convert.class') {
+                include_once(ISPC_CLASS_PATH.'/idn/idna_convert.class.php');
+                $this->idn_converter = new idna_convert(array('idn_version' => 2008));
+                $this->idn_converter_name = 'idna_convert.class';
+            }
+            $domain = $this->idn_converter->encode($domain);
+        }
+        
+        if($user_part !== false) return $user_part . '@' . $domain;
+        else return $domain;
+    }
+    
+    public function idn_decode($domain) {
+        if($domain == '') return '';
+        if(preg_match('/^[0-9\.]+$/', $domain)) return $domain; // may be an ip address - anyway does not need to bee decoded
+        
+        // get domain and user part if it is an email
+        $user_part = false;
+        if(strpos($domain, '@') !== false) {
+            $user_part = substr($domain, 0, strrpos($domain, '@'));
+            $domain = substr($domain, strrpos($domain, '@') + 1);
+        }
+        if(function_exists('idn_to_utf8')) {
+            $domain = idn_to_utf8($domain);
+        } elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
+             /* use idna class:
+             * @author  Matthias Sommerfeld <mso@phlylabs.de>
+             * @copyright 2004-2011 phlyLabs Berlin, http://phlylabs.de
+             * @version 0.8.0 2011-03-11
+             */
+            
+            if(!is_object($this->idn_converter) || $this->idn_converter_name != 'idna_convert.class') {
+                include_once(ISPC_CLASS_PATH.'/idn/idna_convert.class.php');
+                $this->idn_converter = new idna_convert(array('idn_version' => 2008));
+                $this->idn_converter_name = 'idna_convert.class';
+            }
+            $domain = $this->idn_converter->decode($domain);
+        }
+        
+        if($user_part !== false) return $user_part . '@' . $domain;
+        else return $domain;
     }
 		
 }

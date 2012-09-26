@@ -252,7 +252,7 @@ class page_action extends tform_actions {
 						$domain_select .= " selected";
                         $selected_domain = $domain['domain'];
 					}
-					$domain_select .= ">" . $domain['domain'] . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
 				}
 			}
 			else {

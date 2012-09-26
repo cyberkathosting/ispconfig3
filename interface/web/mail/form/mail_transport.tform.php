@@ -77,6 +77,13 @@ $form["tabs"]['transport'] = array (
 		'domain' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

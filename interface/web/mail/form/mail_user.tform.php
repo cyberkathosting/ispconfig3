@@ -75,6 +75,13 @@ $form["tabs"]['mailuser'] = array (
 		'email' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
 														'errmsg'=> 'email_error_isemail'),
 										1 => array (	'type'	=> 'UNIQUE',
@@ -136,6 +143,13 @@ $form["tabs"]['mailuser'] = array (
 		'cc' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
 														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}$/i',
 														'errmsg'=> 'cc_error_isemail'),

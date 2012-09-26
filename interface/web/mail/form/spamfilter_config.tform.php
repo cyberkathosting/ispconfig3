@@ -95,6 +95,13 @@ $form["tabs"]['server'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'default'	=> 'server1.domain.tld',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'hostname_error_empty'),
 									),

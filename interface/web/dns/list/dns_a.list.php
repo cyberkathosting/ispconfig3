@@ -74,6 +74,9 @@ $liste["item"][] = array(	'field'		=> "server_id",
 
 $liste["item"][] = array(	'field'		=> "zone",
 							'datatype'	=> "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
 							'formtype'	=> "SELECT",
 							'op'		=> "like",
 							'prefix'	=> "%",

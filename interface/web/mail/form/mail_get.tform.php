@@ -84,6 +84,13 @@ $form["tabs"]['mailget'] = array (
 		'source_server' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'source_server_error_isempty'),
 										1 => array (	'type'	=> 'REGEX',
@@ -134,6 +141,13 @@ $form["tabs"]['mailget'] = array (
 		'destination' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'			=> 'SQL',
 										'querystring' 	=> 'SELECT email FROM mail_user WHERE {AUTHSQL} ORDER BY email',

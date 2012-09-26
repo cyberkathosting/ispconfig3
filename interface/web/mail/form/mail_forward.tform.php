@@ -74,6 +74,13 @@ $form["tabs"]['forward'] = array (
 		'source' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'ISEMAIL',
 														'errmsg'=> 'email_error_isemail'),
 									),
@@ -86,6 +93,13 @@ $form["tabs"]['forward'] = array (
 		'destination' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

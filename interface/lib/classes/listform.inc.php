@@ -291,6 +291,11 @@ class listform {
         if(is_array($record) && count($record) > 0 && is_array($this->listDef['item'])) {
             foreach($this->listDef['item'] as $field){
                 $key = $field['field'];
+                //* Apply filter to record value.
+                if(isset($field['filters']) && is_array($field['filters'])) {
+                    $app->uses('tform');
+                    $record[$key] = $app->tform->filterField($key, (isset($record[$key]))?$record[$key]:'', $field['filters'], 'SHOW');
+                }
 				if(isset($record[$key])) {
                 	switch ($field['datatype']){
                     case 'VARCHAR':

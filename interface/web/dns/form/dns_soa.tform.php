@@ -83,6 +83,13 @@ $form["tabs"]['dns_soa'] = array (
 		'origin' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'origin_error_empty'),
 										1 => array (	'type'	=> 'UNIQUE',
@@ -100,6 +107,13 @@ $form["tabs"]['dns_soa'] = array (
 		'ns' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
 														'regex' => '/^[\w\.\-]{1,255}$/',
 														'errmsg'=> 'ns_error_regex'),
@@ -113,6 +127,13 @@ $form["tabs"]['dns_soa'] = array (
 		'mbox' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'mbox_error_empty'),
 										1 => array (	'type'	=> 'REGEX',

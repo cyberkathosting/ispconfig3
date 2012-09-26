@@ -629,7 +629,6 @@ class tform {
                                 if(isset($field['filters']) && is_array($field['filters'])) {
 									$record[$key] = $this->filterField($key, (isset($record[$key]))?$record[$key]:'', $field['filters'], 'SAVE');
 								}
-								
 								//* Validate record value
 								if(isset($field['validators']) && is_array($field['validators'])) {
 									$this->validateField($key, (isset($record[$key]))?$record[$key]:'', $field['validators']);
@@ -738,24 +737,16 @@ class tform {
 				if($filter['event'] == $filter_event) {
 					switch ($filter['type']) {
 						case 'TOLOWER':
-							$returnval = strtolower($field_value);
+							$returnval = strtolower($returnval);
 						break;
 						case 'TOUPPER':
-							$returnval = strtoupper($field_value);
+							$returnval = strtoupper($returnval);
 						break;
 						case 'IDNTOASCII':
-							if(function_exists('idn_to_ascii')) {
-								$returnval = idn_to_ascii($field_value);
-							} else {
-								$returnval = $field_value;
-							}
+							$returnval = $app->functions->idn_encode($returnval);
 						break;
 						case 'IDNTOUTF8':
-							if(function_exists('idn_to_utf8')) {
-								$returnval = idn_to_utf8($field_value);
-							} else {
-								$returnval = $field_value;
-							}
+							$returnval = $app->functions->idn_decode($returnval);
 						break;
 						default:
 							$this->errorMessage .= "Unknown Filter: ".$filter['type'];
@@ -763,8 +754,7 @@ class tform {
 					}
 				}
 			}
-
-			return $returnval;
+            return $returnval;
         }
 
         /**

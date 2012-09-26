@@ -47,6 +47,9 @@ $liste["auth"]				= "yes";
 
 $liste["item"][] = array(   'field'     => "email",
                             'datatype'  => "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
                             'formtype'  => "TEXT",
                             'op'        => "like",
                             'prefix'    => "%",

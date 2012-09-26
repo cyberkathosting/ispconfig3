@@ -212,6 +212,13 @@ $form["tabs"]['mail'] = array (
 		),
 		'admin_mail' => array (
 			'datatype'	=> 'VARCHAR',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
 			'value'		=> '',
@@ -234,6 +241,13 @@ $form["tabs"]['mail'] = array (
 		),
 		'smtp_host' => array (
 			'datatype'	=> 'VARCHAR',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'formtype'	=> 'TEXT',
 			'default'	=> '',
 			'value'		=> '',

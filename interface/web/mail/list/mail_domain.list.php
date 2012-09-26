@@ -95,6 +95,9 @@ $liste["item"][] = array(	'field'		=> "server_id",
 
 $liste["item"][] = array(	'field'		=> "domain",
 							'datatype'	=> "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
 							'prefix'	=> "%",

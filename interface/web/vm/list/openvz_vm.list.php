@@ -109,6 +109,9 @@ $liste["item"][] = array(	'field'		=> "template_id",
 							
 $liste["item"][] = array(	'field'		=> "hostname",
 							'datatype'	=> "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
 							'prefix'	=> "%",

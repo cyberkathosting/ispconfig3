@@ -91,6 +91,9 @@ $liste["item"][] = array(	'field'		=> "source_username",
 
 $liste["item"][] = array(	'field'		=> "destination",
 							'datatype'	=> "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
 							'formtype'	=> "TEXT",
 							'op'		=> "like",
 							'prefix'	=> "%",
