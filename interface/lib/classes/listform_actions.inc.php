@@ -248,6 +248,12 @@ class listform_actions {
 		    $order_by_sql = "GROUP BY mailuser_id ".$order_by_sql;
 		  }
 		}
+		
+		if($this->SQLExtSelect != '') {
+			if(substr($this->SQLExtSelect,0,1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect; 
+			$extselect .= $this->SQLExtSelect;
+		}
+
 		return 'SELECT '.$app->listform->listDef['table'].'.*'.$extselect.' FROM '.$app->listform->listDef['table']."$join WHERE $sql_where $order_by_sql $limit_sql";
 	}
 	
