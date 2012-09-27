@@ -288,7 +288,6 @@ class page_action extends tform_actions {
 		$this->dataRecord["ipv6_address"] = $parent_domain["ipv6_address"];
 		$this->dataRecord["client_group_id"] = $parent_domain["client_group_id"];
 		$this->dataRecord["vhost_type"] = 'name';
-		$this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
 
 		$this->parent_domain_record = $parent_domain;
         
@@ -328,6 +327,8 @@ class page_action extends tform_actions {
             if($check && $check['cnt'] > 0) {
                 $app->tform->errorMessage .= $app->tform->lng("web_folder_unique_txt")."<br>";
             }
+        } else {
+            $this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
         }
         
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
