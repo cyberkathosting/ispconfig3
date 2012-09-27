@@ -257,7 +257,10 @@
 </tmpl_if>
 <tmpl_loop name="redirects">
 		RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]
-	RewriteCond %{REQUEST_URI} !^/webdav/
+<tmpl_if name="rewrite_is_url" op="==" value="n">
+		RewriteCond %{REQUEST_URI} !^/webdav/
+		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
+</tmpl_if>
 		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
 </tmpl_loop>
 </tmpl_if>
