@@ -61,6 +61,9 @@ $liste["item"][] = array(   'field'     => "email",
 
 $liste["item"][] = array(   'field'     => "login",
                             'datatype'  => "VARCHAR",
+                            'filters'   => array( 0 => array( 'event' => 'SHOW',
+                                                              'type' => 'IDNTOUTF8')
+                                                ),
                             'formtype'  => "TEXT",
                             'op'        => "like",
                             'prefix'    => "%",

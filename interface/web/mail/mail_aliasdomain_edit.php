@@ -69,8 +69,8 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 		
-		$source_domain = substr($this->dataRecord["source"],1);
-		$destination_domain = substr($this->dataRecord["destination"],1);
+		$source_domain = $app->functions->idn_decode(substr($this->dataRecord["source"],1));
+		$destination_domain = $app->functions->idn_decode(substr($this->dataRecord["destination"],1));
 		
 		// Getting Domains of the user
 		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
@@ -80,6 +80,7 @@ class page_action extends tform_actions {
 		$destination_select = '';
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
+                $domain['domain'] = $app->functions->idn_decode($domain['domain']);
 				$selected = ($domain["domain"] == @$source_domain)?'SELECTED':'';
 				$source_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
 				$selected = ($domain["domain"] == @$destination_domain)?'SELECTED':'';
@@ -96,12 +97,12 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// Check if source Domain belongs to user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["source"])."' AND ".$app->tform->getAuthSQL('r'));
-		if($domain["domain"] != $_POST["source"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["source"]))."' AND ".$app->tform->getAuthSQL('r'));
+		if($domain["domain"] != $app->functions->idn_encode($_POST["source"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		
 		// Check if the destination domain belongs to the user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["destination"])."' AND ".$app->tform->getAuthSQL('r'));
-		if($domain["domain"] != $_POST["destination"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
+		if($domain["domain"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
@@ -127,7 +128,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 		
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($_POST["destination"])."' AND ".$app->tform->getAuthSQL('r'));
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
 		$app->db->query("update mail_forwarding SET sys_groupid = ".$domain['sys_groupid']." WHERE forwarding_id = ".$this->id);
 		
 	}
