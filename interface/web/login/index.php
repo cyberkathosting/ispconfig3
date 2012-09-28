@@ -195,6 +195,18 @@ class login_index {
 
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
+                                    $menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';
+
+                                    if (is_dir($menu_dir)) {
+                                        if ($dh = opendir($menu_dir)) {
+                                            //** Go through all files in the menu dir
+                                            while (($file = readdir($dh)) !== false) {
+                                                if ($file != '.' && $file != '..' && substr($file, -9, 9) == '.menu.php' && $file != 'dns_resync.menu.php') {
+                                                    include_once($menu_dir . '/' . $file);
+                                                }
+                                            }
+                                        }
+                                    }
 									$_SESSION['s']['module'] = $module;
 								}
                                 
