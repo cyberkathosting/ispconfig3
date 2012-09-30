@@ -95,7 +95,7 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 #ssl_listen =
 
 # SSL/TLS support: yes, no, required. <doc/wiki/SSL.txt>
-ssl = no
+ssl = yes
 
 # PEM encoded X.509 SSL/TLS certificate and private key. They're opened before
 # dropping root privileges, so keep the key file unreadable by anyone but
