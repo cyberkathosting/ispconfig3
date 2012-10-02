@@ -665,6 +665,9 @@ if($backup_dir != '') {
 				unset($dir_handle);
 
 				//* Remove backupdir symlink and create as directory instead
+				$app->uses('system');
+				$app->system->web_folder_protection($web_path,false);
+				
 				if(is_link($web_path.'/backup')) {
 					unlink($web_path.'/backup');
 				}
@@ -673,6 +676,8 @@ if($backup_dir != '') {
 					chown($web_path.'/backup', $rec['system_user']);
 					chgrp($web_path.'/backup', $rec['system_group']);
 				}
+				
+				$app->system->web_folder_protection($web_path,true);
 
 			}
 
