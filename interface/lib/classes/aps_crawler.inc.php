@@ -200,11 +200,12 @@ class ApsCrawler extends ApsBase
      * A method to build query URLs out of a list of vendors
      *
     */
-    private function formatVendorCallback($array_item, $key)
+    private function formatVendorCallback($array_item)
     {
         $array_item = str_replace(' ', '%20', $array_item);
         $array_item = str_replace('http://', '', $array_item);
         $array_item = '/'.$this->aps_version.'.atom?vendor='.$array_item.'&pageSize=100';
+		return($array_item);
     }
     
     /**
@@ -227,7 +228,12 @@ class ApsCrawler extends ApsBase
             if(!$vendors) throw new Exception('Unable to fetch vendors. Aborting');
 
             // Format all vendors for further processing (i.e. typo3.org -> /1.atom?vendor=typo3.org&pageSize=100
-            array_walk($vendors, array($this, 'formatVendorCallback'));
+            //array_walk($vendors, array($this, 'formatVendorCallback'));
+			if(is_array($vendors)) {
+				foreach($vendors as $key => $array_item) {
+					$vendors[$key] = $this->formatVendorCallback($array_item);
+				}
+			}
             
             // Process all vendors in chunks of 50 entries
             $vendor_chunks = array_chunk($vendors, 50);
@@ -273,9 +279,16 @@ class ApsCrawler extends ApsBase
                         
                         // Find out a (possibly) existing package version
                         $ex_ver = '';
+						/*
                         array_walk($existing_apps, 
-                            create_function('$v, $k, $ex_ver', 'if($v["Name"] == "'.$app_name.'") $ex_ver = $v["CurrentVersion"];'), $ex_ver);
-                        
+                            create_function('$v, $k, $ex_ver', 'if($v["Name"] == "'.$app_name.'") $ex_ver = $v["CurrentVersion"];'), &$ex_ver);
+                        */
+						if(is_array($existing_apps)) {
+							foreach($existing_apps as $k => $v) {
+								if($v["Name"] == $app_name) $ex_ver = $v["CurrentVersion"];
+							}
+						}
+						
                         $new_ver = $app_version.'-'.$app_release;
                         $local_intf_folder = $this->interface_pkg_dir.'/'.$app_name.'-'.$new_ver.'.app.zip/';
 
