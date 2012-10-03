@@ -1792,7 +1792,11 @@ class nginx_plugin {
 		}
 		
 		if(is_file($data['new']['document_root']."/" . $web_folder . "/stats/index.html")) $app->system->unlink($data['new']['document_root']."/" . $web_folder . "/stats/index.html");
-		$app->system->copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+		if(file_exists("/usr/local/ispconfig/server/conf-custom/awstats_index.php.master")) {
+			$app->system->copy("/usr/local/ispconfig/server/conf-custom/awstats_index.php.master",$data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+		} else {
+			$app->system->copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+		}
 	}
 	
 	//* Delete the awstats configuration file

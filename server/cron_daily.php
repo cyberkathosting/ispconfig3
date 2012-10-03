@@ -39,7 +39,7 @@ $conf['server_id'] = intval($conf['server_id']);
 
 
 // Load required base-classes
-$app->uses('ini_parser,file,services,getconf');
+$app->uses('ini_parser,file,services,getconf,system');
 
 
 #######################################################################################################
@@ -238,7 +238,13 @@ HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
 		exec($command);
 		if(is_file($rec['document_root'].'/'.$web_folder.'/stats/index.html')) unlink($rec['document_root'].'/'.$web_folder.'/stats/index.html');
 		rename($rec['document_root'].'/'.$web_folder.'/stats/awstats.'.$domain.'.html',$rec['document_root'].'/'.$web_folder.'/stats/awsindex.html');
-		if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$rec['document_root']."/".$web_folder."/stats/index.php");
+		if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
+			if(file_exists("/usr/local/ispconfig/server/conf-custom/awstats_index.php.master")) {
+				copy("/usr/local/ispconfig/server/conf-custom/awstats_index.php.master",$rec['document_root']."/".$web_folder."/stats/index.php");
+			} else {
+				copy("/usr/local/ispconfig/server/conf/awstats_index.php.master",$rec['document_root']."/".$web_folder."/stats/index.php");
+			}
+		}
 
 		$app->log('Created awstats statistics with command: '.$command,LOGLEVEL_DEBUG);
 	} else {
