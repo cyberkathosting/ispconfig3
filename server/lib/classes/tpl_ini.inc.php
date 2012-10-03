@@ -43,7 +43,7 @@ if (!defined('vlibIniClassLoaded')) {
     class vlibIni {
 
         /** config vars for vlibTemplate */
-        function vlibTemplate () {
+        public static function vlibTemplate () {
         	
         	global $conf;
 			
@@ -104,7 +104,7 @@ if (!defined('vlibIniClassLoaded')) {
 
 
         /** config vars for vlibDate */
-        function vlibDate () {
+        public function vlibDate () {
 
             return array(
                         'DEFAULT_LANG' => 'de'                     // default language for the date displays
