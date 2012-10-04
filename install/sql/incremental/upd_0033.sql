@@ -1,4 +1,4 @@
-﻿CREATE TABLE IF NOT EXISTS `client_circle` (
+CREATE TABLE IF NOT EXISTS `client_circle` (
   `circle_id` int(11) NOT NULL AUTO_INCREMENT,
   `sys_userid` int(11) NOT NULL DEFAULT '0',
   `sys_groupid` int(11) NOT NULL DEFAULT '0',

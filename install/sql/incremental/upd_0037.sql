@@ -1,4 +1,4 @@
-﻿-- --------------------------------------------------------
+-- --------------------------------------------------------
 
 ALTER TABLE `client` ADD `limit_cgi` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `web_php_options`,
                      ADD `limit_ssi` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `limit_cgi`,
