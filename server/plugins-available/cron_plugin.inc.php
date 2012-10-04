@@ -217,10 +217,10 @@ class cron_plugin {
                 }
                 
                 if($job['type'] == 'chrooted') {
-                    $chr_cron_content .= $command . "\t#{$job['domain']}\n";
+                    $chr_cron_content .= $command . " #{$job['domain']}\n";
                     $chr_cmd_count++;
                 } else {
-                    $cron_content .= $command . "\t#{$job['domain']}\n";
+                    $cron_content .= $command . " #{$job['domain']}\n";
                     $cmd_count++;
                 }
             }
