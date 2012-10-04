@@ -1908,27 +1908,31 @@ class nginx_plugin {
 			$ini_settings = explode("\n", $custom_php_ini_settings);
 			if(is_array($ini_settings) && !empty($ini_settings)){
 				foreach($ini_settings as $ini_setting){
-						list($key, $value) = explode('=', $ini_setting);
-						if($value){
-							$value = trim($value);
-							$key = trim($key);
-							switch (strtolower($value)) {
-								case '0':
-									// PHP-FPM might complain about invalid boolean value if you use 0
-									$value = 'off';
-								case '1':
-								case 'on':
-								case 'off':
-								case 'true':
-								case 'false':
-								case 'yes':
-								case 'no':
-									$final_php_ini_settings[] = array('ini_setting' => 'php_admin_flag['.$key.'] = '.$value);
-									break;
-								default:
-									$final_php_ini_settings[] = array('ini_setting' => 'php_admin_value['.$key.'] = '.$value);
-							}
+					$ini_setting = trim($ini_setting);
+					if(substr($ini_setting,0,1) == ';') continue;
+					if(substr($ini_setting,0,1) == '#') continue;
+					if(substr($ini_setting,0,2) == '//') continue;
+					list($key, $value) = explode('=', $ini_setting);
+					if($value){
+						$value = trim($value);
+						$key = trim($key);
+						switch (strtolower($value)) {
+							case '0':
+								// PHP-FPM might complain about invalid boolean value if you use 0
+								$value = 'off';
+							case '1':
+							case 'on':
+							case 'off':
+							case 'true':
+							case 'false':
+							case 'yes':
+							case 'no':
+								$final_php_ini_settings[] = array('ini_setting' => 'php_admin_flag['.$key.'] = '.$value);
+								break;
+							default:
+								$final_php_ini_settings[] = array('ini_setting' => 'php_admin_value['.$key.'] = '.$value);
 						}
+					}
 				}
 			}
 		}
