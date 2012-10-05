@@ -221,7 +221,7 @@ CREATE TABLE `client` (
   `language` char(2) NOT NULL DEFAULT 'en',
   `usertheme` varchar(32) NOT NULL DEFAULT 'default',
   `template_master` int(11) unsigned NOT NULL DEFAULT '0',
-  `template_additional` varchar(255) NOT NULL DEFAULT '',
+  `template_additional` text NOT NULL DEFAULT '',
   `created_at` bigint(20) DEFAULT NULL,
   `id_rsa` varchar(2000) NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
