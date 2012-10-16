@@ -1,12 +1,12 @@
 <?php
 $wb['select_server_txt'] = 'Server auswählen';
 $wb['btn_do_txt'] = 'Aktion ausführen';
-$wb['do_osupdate_caption'] = 'Betriebssystem-Update auf entferntem Server ausführen';
+$wb['do_osupdate_caption'] = 'Betriebssystem Update auf entferntem Server ausführen';
 $wb['do_osupdate_desc'] = 'Diese Aktion wird ein aptitude -y upgrade auf dem ausgewählten Server ausführen.<br><br><strong>DIES GESCHIEHT AUF IHRE EIGENE VERANTWORTUNG!</strong>';
-$wb['do_ispcupdate_caption'] = 'ISPConfig 3 - Update auf entferntem Server ausführen';
-$wb['do_ispcupdate_desc'] = 'Diese Aktion wird ein Update des ISPConfig3-Systems auf Ihrem ausgewählten Server ausführen.<br><br><strong>DIES GESCHIEHT AUF IHRE EIGENE VERANTWORTUNG!</strong>';
+$wb['do_ispcupdate_caption'] = 'ISPConfig 3 Update auf entferntem Server ausführen';
+$wb['do_ispcupdate_desc'] = 'Diese Aktion wird ein Update des ISPConfig 3 Systems auf Ihrem ausgewählten Server ausführen.<br><br><strong>DIES GESCHIEHT AUF IHRE EIGENE VERANTWORTUNG!</strong>';
 $wb['action_scheduled'] = 'Die Aktion wurde zur Ausführung vorgemerkt';
 $wb['select_all_server'] = 'Alle Server';
-$wb['ispconfig_update_title'] = 'ISPConfig Update-Anweisungen';
+$wb['ispconfig_update_title'] = 'ISPConfig 3 Update Anweisungen';
 $wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Click here for detailed update instructins</a>';
 ?>

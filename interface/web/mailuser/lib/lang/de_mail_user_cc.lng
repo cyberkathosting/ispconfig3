@@ -1,7 +1,7 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Kopie an E-Mail-Adresse senden';
+$wb['mailbox_cc_txt'] = 'Kopie an E-Mail Adresse senden';
 $wb['cc_txt'] = 'Kopie senden an';
 $wb['email_txt'] = 'E-Mail';
-$wb['cc_error_isemail'] = 'E-Mail-Adresse ungültig im -Kopie senden an- Feld';
-$wb['email_is_cc_error'] = 'E-Mail-Adresse and \"Kopie senden an\"-Adresse dürfen nicht identisch sein.';
+$wb['cc_error_isemail'] = 'E-Mail Adresse ungültig im -Kopie senden an- Feld';
+$wb['email_is_cc_error'] = 'E-Mail Adresse und ';
 ?>

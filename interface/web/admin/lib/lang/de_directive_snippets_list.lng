@@ -1,7 +1,7 @@
 <?php
-$wb["list_head_txt"] = 'Direcktiven-Schnipsel';
-$wb["active_txt"] = 'Aktiv';
-$wb["name_txt"] = 'Name des Schnipsels';
-$wb["type_txt"] = 'Typ';
-$wb["add_new_record_txt"] = 'Direcktiven-Schnipsel hinzufügen';
+$wb['list_head_txt'] = 'Direcktiven Schnipsel';
+$wb['active_txt'] = 'Aktiv';
+$wb['name_txt'] = 'Name des Schnipsels';
+$wb['type_txt'] = 'Typ';
+$wb['add_new_record_txt'] = 'Direcktiven Schnipsel hinzufügen';
 ?>

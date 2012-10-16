@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Cron Jobs';
+$wb['list_head_txt'] = 'Cronjobs';
 $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['run_min_txt'] = 'Minute';
@@ -8,6 +8,6 @@ $wb['run_mday_txt'] = 'Tag des Monats';
 $wb['run_month_txt'] = 'Monat';
 $wb['run_wday_txt'] = 'Tag der Woche';
 $wb['command_txt'] = 'Befehl';
-$wb['add_new_cron_txt'] = 'Neuen Cron Job anlegen';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['add_new_cron_txt'] = 'Neuen Cronjob anlegen';
+$wb['parent_domain_id_txt'] = 'Webseite';
 ?>

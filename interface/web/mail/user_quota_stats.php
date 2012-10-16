@@ -23,7 +23,13 @@ $tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type 
 $monitor_data = array();
 if(is_array($tmp_rec)) {
 	foreach ($tmp_rec as $tmp_mon) {
-		$monitor_data = array_merge_recursive($monitor_data,unserialize($app->db->unquote($tmp_mon['data'])));
+		//$monitor_data = array_merge_recursive($monitor_data,unserialize($app->db->unquote($tmp_mon['data'])));
+		$tmp_array = unserialize($app->db->unquote($tmp_mon['data']));
+		if(is_array($tmp_array)) {
+			foreach($tmp_array as $username => $data) {
+				$monitor_data[$username]['used'] += $data['used'];
+			}
+		}
 	}
 }
 

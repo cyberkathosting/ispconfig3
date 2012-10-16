@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Kundenkreise';
-$wb['circle_id_txt'] = 'Kreis-ID';
+$wb['circle_id_txt'] = 'Kreis ID';
 $wb['circle_name_txt'] = 'Kreisname';
 $wb['description_txt'] = 'Beschreibung';
 $wb['add_new_record_txt'] = 'Kreis hinzufügen';

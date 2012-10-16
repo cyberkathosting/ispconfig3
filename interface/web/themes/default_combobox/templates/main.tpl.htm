@@ -95,12 +95,23 @@
 			});
 			
 			jQuery('.ttip').tipsy({live: true, gravity: 'ne', html: true});
+			
+			tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled>';
+            tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled>';
+            tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
+            tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
 		});
 
 		jQuery(document).bind("change", function(event) {
-			if (jQuery(".panel #Filter").length > 0 && event.target.localName == 'select') {
-				jQuery(".panel #Filter").trigger('click');
-			}
+			var elName = event.target.localName;
+            if (jQuery(".panel #Filter").length > 0 && elName == 'select') {
+                event.preventDefault();
+                jQuery(".panel #Filter").trigger('click');
+            }
+            if(elName == 'select' || elName == 'input' || elName == 'textarea') {
+                // set marker that something was changed
+                pageFormChanged = true;
+            }
 		});
 
 		jQuery(".ui-autocomplete a").live("click", function(event) {
@@ -112,11 +123,13 @@
 		jQuery(document).bind("keypress", function(event) {
 			//Use jQuery submit with keypress Enter in panel filterbar
 			if (event.which == '13' && jQuery(".panel #Filter").length > 0) {
+				event.preventDefault();
 				jQuery(".panel #Filter").trigger('click');
 			}
 			//Use jQuery submit with keypress Enter in forms
-			if (event.which == '13' && jQuery(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea') {
-				jQuery(".pnl_formsarea button.positive:first").trigger('click');
+			if (event.which == '13' && jQuery(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && jQuery(event.target).is(':input')) {
+				event.preventDefault();
+				jQuery(".pnl_formsarea button.positive:first").not("[disabled='disabled']").trigger('click');
 			}
 		});
 

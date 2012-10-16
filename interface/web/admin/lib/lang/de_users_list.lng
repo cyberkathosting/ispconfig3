@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Benutzer';
 $wb['username_txt'] = 'Benutzername';
-$wb['client_id_txt'] = 'User ID';
+$wb['client_id_txt'] = 'Benutzer ID';
 $wb['active_txt'] = 'Aktiv';
 $wb['groups_txt'] = 'Gruppen';
 $wb['add_new_record_txt'] = 'Neuen Benutzer hinzufügen';

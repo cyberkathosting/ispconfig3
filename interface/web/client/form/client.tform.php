@@ -292,6 +292,10 @@ $form["tabs"]['address'] = array (
                                   2 => array( 'event' => 'SAVE',
                                               'type' => 'TOLOWER')
                                 ),
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}$/i',
+														'errmsg'=> 'email_error_isemail'),
+									),
 			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',

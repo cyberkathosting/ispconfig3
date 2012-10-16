@@ -9,6 +9,10 @@ var tabChangeWarningTxt = '';
 var tabChangeDiscardTxt = '';
 var tabChangeWarning = false;
 var tabChangeDiscard = false;
+var requestsRunning = 0;
+var indicatorPaddingH = -1;
+var indicatorPaddingW = -1;
+var indicatorCompleted = false;
 redirect = '';
 
 function reportError(request) {
@@ -19,6 +23,41 @@ function reportError(request) {
 	/*alert(request);*/
 }
 
+function showLoadIndicator() {
+    requestsRunning += 1;
+    
+    if(requestsRunning < 2) {
+        var indicator = jQuery('#ajaxloader');
+        if(indicator.length < 1) {
+            indicator = jQuery('<div id="ajaxloader" style="display: none;"></div>');
+            indicator.appendTo('body');
+        }
+        var parent = jQuery('#content');
+        if(parent.length < 1) return;
+        indicatorCompleted = false;
+        
+        var atx = parent.offset().left + 150; //((parent.outerWidth(true) - indicator.outerWidth(true)) / 2);
+        var aty = parent.offset().top + 150;
+        indicator.css( {'left': atx, 'top': aty } ).fadeIn('fast', function() {
+            // check if loader should be hidden immediately
+            indicatorCompleted = true;
+            if(requestsRunning < 1) $(this).fadeOut('fast', function() { $(this).hide();});
+        });
+    }
+}
+
+function hideLoadIndicator() {
+    requestsRunning -= 1;
+    if(requestsRunning < 1) {
+        requestsRunning = 0; // just for the case...
+        if(indicatorCompleted == true) jQuery('#ajaxloader').fadeOut('fast', function() { jQuery('#ajaxloader').hide(); } );
+    }
+}
+
+function onAfterContentLoad() {
+    $('#pageContent').find("select").combobox();
+}
+
 function loadContentRefresh(pagename) {
 	
   if(document.getElementById('refreshinterval').value > 0) {
@@ -26,11 +65,17 @@ function loadContentRefresh(pagename) {
 											url: pagename,
 											data: "refresh="+document.getElementById('refreshinterval').value,
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
+                                                hideLoadIndicator();
 												jQuery('#pageContent').html(jqXHR.responseText);
+                                                onAfterContentLoad();
                                                 pageFormChanged = false;
 											},
 											error: function() {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful.'+pagename);
 											}
 										});
@@ -43,6 +88,9 @@ function capp(module, redirect) {
 											url: "capp.php", 
 											data: "mod="+module+((redirect != undefined) ? '&redirect='+redirect : ''),
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText != '') {
 													if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
@@ -56,8 +104,10 @@ function capp(module, redirect) {
 													}
 												}
 												loadMenus();
+                                                hideLoadIndicator();
 											},
 											error: function() {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful.'+module);
 											}
 									});
@@ -80,6 +130,9 @@ function submitLoginForm(formname) {
 											url: "content.php",
 											data: jQuery('#'+formname).serialize(),
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -92,11 +145,14 @@ function submitLoginForm(formname) {
 													document.location.href = 'index.php';
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    onAfterContentLoad();
                                                     pageFormChanged = false;
 												}
 												loadMenus();
+                                                hideLoadIndicator();
 											},
 											error: function() {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful.110');
 											}
 									});
@@ -115,6 +171,9 @@ function submitForm(formname,target) {
 											url: target,
 											data: jQuery('#'+formname).serialize(),
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(':');
@@ -124,10 +183,13 @@ function submitForm(formname,target) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    onAfterContentLoad();
                                                     pageFormChanged = false;
 												}
+                                                hideLoadIndicator();
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
+                                                hideLoadIndicator();
 												var parts = jqXHR.responseText.split(':');
 												reportError('Ajax Request was not successful. 111');
 											}
@@ -147,6 +209,9 @@ function submitFormConfirm(formname,target,confirmation) {
 											url: target,
 											data: jQuery('#'+formname).serialize(),
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
 												if(successMessage) alert(successMessage);
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
@@ -157,10 +222,13 @@ function submitFormConfirm(formname,target,confirmation) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    onAfterContentLoad();
                                                     pageFormChanged = false;
 												}
+                                                hideLoadIndicator();
 											},
 											error: function(jqXHR, textStatus, errorThrown) {
+                                                hideLoadIndicator();
 												var parts = jqXHR.responseText.split(':');
 												reportError('Ajax Request was not successful. 111');
 											}
@@ -216,7 +284,7 @@ function loadContent(pagename) {
                                             data: (params ? params : null),
 											dataType: "html",
 											beforeSend: function() {
-												jQuery('#pageContent').html('<div id="ajaxloader"><img src="themes/default/images/ajax-loader.gif" /></div>');
+												showLoadIndicator();
 											},
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
@@ -232,10 +300,13 @@ function loadContent(pagename) {
 													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
 													
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    onAfterContentLoad();
                                                     pageFormChanged = false;
 												}
+                                                hideLoadIndicator();
 											},
 											error: function() {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful. 113');
 											}
 									});
@@ -247,16 +318,22 @@ function loadInitContent() {
 											url: "content.php",
 											data: "s_mod=login&s_pg=index",
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
 												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 													var parts = jqXHR.responseText.split(":");
 													loadContent(parts[1]);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
+                                                    onAfterContentLoad();
                                                     pageFormChanged = false;
 												}
+                                                hideLoadIndicator();
 											},
 											error: function() {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful. 114');
 											}
 										});
@@ -280,10 +357,15 @@ function loadMenus() {
 											url: "nav.php",
 											data: "nav=side",
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
+                                                hideLoadIndicator();
 												jQuery('#sideNav').html(jqXHR.responseText);
 											},
 											error: function() {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful. 115');
 											}
 									});
@@ -292,10 +374,15 @@ function loadMenus() {
 											url: "nav.php",
 											data: "nav=top",
 											dataType: "html",
+											beforeSend: function() {
+												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
+                                                hideLoadIndicator();
 												jQuery('#topNav').html(jqXHR.responseText);
 											},
 											error: function(o) {
+                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful. 116');
 											}
 								});
@@ -348,10 +435,15 @@ function loadContentInto(elementid,pagename) {
   var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
 											dataType: "html",
+											beforeSend: function() {
+//												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
+//                                                hideLoadIndicator();
 												jQuery('#'+elementid).html(jqXHR.responseText);
 											},
 											error: function() {
+//                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful. 118');
 											}
 										});
@@ -361,7 +453,11 @@ function loadOptionInto(elementid,pagename) {
 	var pageContentObject2 = jQuery.ajax({	type: "GET", 
 											url: pagename,
 											dataType: "html",
+											beforeSend: function() {
+//												showLoadIndicator();
+											},
 											success: function(data, textStatus, jqXHR) {
+//                                                hideLoadIndicator();
 												var teste = jqXHR.responseText;
 												var elemente = teste.split('#');
 												el=document.getElementById(elementid);
@@ -375,6 +471,7 @@ function loadOptionInto(elementid,pagename) {
 												}
 											},
 											error: function() {
+//                                                hideLoadIndicator();
 												reportError('Ajax Request was not successful. 119');
 											}
 										});

@@ -2,7 +2,7 @@
 $wb['Email Alias'] = 'E-Mail Alias';
 $wb['Email Blacklist'] = 'E-Mail Blacklist';
 $wb['Blacklist'] = 'Blacklist';
-$wb['Mail Content Filter'] = 'Mail Inhaltsfilter';
+$wb['Mail Content Filter'] = 'E-Mail Inhaltsfilter';
 $wb['Filter'] = 'Filter';
 $wb['Mail Domain'] = 'E-Mail Domain';
 $wb['Domain'] = 'Domain';
@@ -25,7 +25,7 @@ $wb['Server'] = 'Server';
 $wb['Spamfilter policy'] = 'Spamfilter Richtlinie';
 $wb['Policy'] = 'Richtlinie';
 $wb['Quarantine'] = 'Quarantäne';
-$wb['Tag-Level'] = 'Tag-Level';
+$wb['Tag-Level'] = 'Tag Level';
 $wb['Other'] = 'Andere';
 $wb['Spamfilter users'] = 'Spamfilter Benutzer';
 $wb['Users'] = 'Benutzer';

@@ -4,6 +4,6 @@ $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['priority_txt'] = 'Priorität';
 $wb['rid_txt'] = 'Benutzer';
-$wb['email_txt'] = 'Blacklisted E-Mail-Adressen';
+$wb['email_txt'] = 'Blacklisted E-Mail Adressen';
 $wb['add_new_record_txt'] = 'Blacklist Eintrag hinzufügen';
 ?>

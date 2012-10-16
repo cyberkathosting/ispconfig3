@@ -9,6 +9,6 @@ $wb['Version'] = 'Version';
 $wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
 $wb['FAQ Sections'] = 'FAQ Kategorie';
 $wb['Manage Sections'] = 'Kategorien verwalten';
-$wb['Add a Question & Answer Pair'] = 'Neues Frage-Antwort-Paar hinzufügen';
+$wb['Add a Question & Answer Pair'] = 'Neues Frage/Antwort Paar hinzufügen';
 $wb['Manage Questions'] = 'Fragen verwalten';
 ?>

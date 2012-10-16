@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'Ordner';
 $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['parent_domain_id_txt'] = 'Webseite';
 $wb['path_txt'] = 'Pfad';
 ?>

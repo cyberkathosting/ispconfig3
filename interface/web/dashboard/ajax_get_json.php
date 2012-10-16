@@ -55,7 +55,16 @@ $type = $_GET["type"];
 		$result[] = _search('client', 'reseller', "AND limit_client != 0");
 		
 		// web sites
-		$result[] = _search('sites', 'web_domain');
+		$result[] = _search('sites', 'web_domain', "AND type = 'vhost'");
+		
+		// subdomains
+		$result[] = _search('sites', 'web_subdomain', "AND type = 'subdomain'");
+		
+		// web site aliases
+		$result[] = _search('sites', 'web_aliasdomain', "AND type = 'alias'");
+		
+		// vhostsubdomains
+		$result[] = _search('sites', 'web_vhost_subdomain', "AND type = 'vhostsubdomain'");
 		
 		// FTP users
 		$result[] = _search('sites', 'ftp_user');

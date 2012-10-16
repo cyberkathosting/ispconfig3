@@ -19,7 +19,7 @@ server {
 		
 <tmpl_if name='seo_redirect_enabled'>
         if ($http_host = "<tmpl_var name='seo_redirect_origin_domain'>") {
-            rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri permanent;
+            rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_if>
 		

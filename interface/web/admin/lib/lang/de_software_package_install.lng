@@ -1,6 +1,6 @@
 <?php
 $wb['head_txt'] = 'Softwarepaket installieren';
-$wb['install_key_txt'] = 'Installations-Key eingeben';
+$wb['install_key_txt'] = 'Installations Key eingeben';
 $wb['btn_save_txt'] = 'Installation starten';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 ?>

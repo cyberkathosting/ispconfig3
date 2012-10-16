@@ -1,5 +1,5 @@
 <?php
-$wb['faq_section_name_txt'] = 'Kategorie-Name';
+$wb['faq_section_name_txt'] = 'Kategorie Name';
 $wb['faq_delete_txt'] = 'Löschen';
 $wb['faq_edit_txt'] = 'Bearbeiten';
 $wb['faq_sections_txt'] = 'Kategorie';

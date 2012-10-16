@@ -55,6 +55,7 @@ class ispcmail {
     private $body = '';
     private $_mail_sender = '';
     private $_sent_mails = 0;
+    private $user_agent = 'ISPConfig/3 (Mailer Class)';
     /**#@-*/
     
     /**
@@ -100,6 +101,22 @@ class ispcmail {
      * How many mails should be sent via one single smtp connection
      */
     private $smtp_max_mails = 20;
+    /**
+     * Should the mail be signed
+     */
+    private $sign_email = false;
+    /**
+     * The cert and key to use for email signing
+     */
+    private $sign_key = '';
+    private $sign_key_pass = '';
+    private $sign_cert = '';
+    private $sign_bundle = '';
+    private $_is_signed = false;
+    /**
+     * get disposition notification
+     */
+    private $notification = false;
     /**#@-*/
     
     public function __construct($options = array()) {
@@ -110,6 +127,7 @@ class ispcmail {
         $this->attachments = array();
         
         $this->headers['MIME-Version'] = '1.0';
+        $this->headers['User-Agent'] = $this->user_agent;
         if(is_array($options) && count($options) > 0) $this->setOptions($options);
     }
     
@@ -155,8 +173,26 @@ class ispcmail {
                 if($value != 'ssl' && $value != 'tls') $value = '';
                 $this->smtp_crypt = $value;
                 break;
+            case 'sign_email':
+                $this->sign_email = ($value == true ? true : false);
+                break;
+            case 'sign_key':
+                $this->sign_key = $value;
+                break;
+            case 'sign_key_pass':
+                $this->sign_key_pass = $value;
+                break;
+            case 'sign_cert':
+                $this->sign_cert = $value;
+                break;
+            case 'sign_bundle':
+                $this->sign_bundle = $value;
+                break;
             case 'mail_charset':
                 $this->mail_charset = $value;
+                break;
+            case 'notify':
+                $this->notification = ($value == true ? true : false);
                 break;
         }
     }
@@ -394,7 +430,8 @@ class ispcmail {
                     $this->body .= "--{$this->mime_boundary}\n" .
                                    "Content-Type: " . $att['type'] . ";\n" .
                                    " name=\"" . $att['filename'] . "\"\n" .
-                                   "Content-Transfer-Encoding: base64\n\n" .
+                                   "Content-Transfer-Encoding: base64\n" . 
+                                   "Content-Disposition: attachment;\n\n" .
                                    chunk_split(base64_encode($att['content'])) . "\n\n";
                 }
             }
@@ -413,6 +450,44 @@ class ispcmail {
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Function to sign an email body
+     */
+    private function sign() {
+        if($this->sign_email == false || $this->sign_key == '' || $this->sign_cert == '') return false;
+        if(function_exists('openssl_pkcs7_sign') == false) return false;
+        
+        $tmpin = tempnam(sys_get_temp_dir(), 'sign');
+        $tmpout = tempnam(sys_get_temp_dir(), 'sign');
+        if(!file_exists($tmpin) || !is_writable($tmpin)) return false;
+        
+        file_put_contents($tmpin, 'Content-Type: ' . $this->getHeader('Content-Type') . "\n\n" . $this->body);
+        $tmpf_key = tempnam(sys_get_temp_dir(), 'sign');
+        file_put_contents($tmpf_key, $this->sign_key);
+        $tmpf_cert = tempnam(sys_get_temp_dir(), 'sign');
+        file_put_contents($tmpf_cert, $this->sign_cert);
+        if($this->sign_bundle != '')  {
+            $tmpf_bundle = tempnam(sys_get_temp_dir(), 'sign');
+            file_put_contents($tmpf_bundle, $this->sign_bundle);
+            openssl_pkcs7_sign($tmpin, $tmpout, 'file://' . realpath($tmpf_cert), array('file://' . realpath($tmpf_key), $this->sign_key_pass), array(), PKCS7_DETACHED, realpath($tmpf_bundle));
+        } else {
+            openssl_pkcs7_sign($tmpin, $tmpout, 'file://' . realpath($tmpf_cert), array('file://' . realpath($tmpf_key), $this->sign_key_pass), array());
+        }
+        unlink($tmpin);
+        unlink($tmpf_cert);
+        unlink($tmpf_key);
+        if(file_exists($tmpf_bundle)) unlink($tmpf_bundle);
+        
+        if(!file_exists($tmpout) || !is_readable($tmpout)) return false;
+        $this->body = file_get_contents($tmpout);
+        unlink($tmpout);
+        
+        unset($this->headers['Content-Type']);
+        unset($this->headers['MIME-Version']);
+        
+        $this->_is_signed = true;
     }
     
     /**
@@ -496,6 +571,7 @@ class ispcmail {
         else $this->_crlf = "\n";
         
         $this->create();
+        if($this->sign_email == true) $this->sign();
         
         $subject = '';
         if (!empty($this->headers['Subject'])) {
@@ -505,6 +581,8 @@ class ispcmail {
             $enc_subject = $this->_encodeHeader($subject, $this->mail_charset);
             unset($this->headers['Subject']);
         }
+        
+        if($this->notification == true) $this->setHeader('Disposition-Notification-To', $this->getHeader('From'));
         
         unset($this->headers['To']); // always reset the To header to prevent from sending to multiple users at once
         $this->headers['Date'] = date('r'); //date('D, d M Y H:i:s O');
@@ -554,7 +632,7 @@ class ispcmail {
                 $mail_content .= 'To: ' . $this->getHeader('To') . $this->_crlf;
                 if($this->getHeader('Bcc') != '') $mail_content .= 'Bcc: ' . $this->_encodeHeader($this->getHeader('Bcc'), $this->mail_charset) . $this->_crlf;
                 if($this->getHeader('Cc') != '') $mail_content .= 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset) . $this->_crlf;
-                $mail_content .= implode($this->_crlf, $headers) . $this->_crlf . $this->_crlf . $this->body;
+                $mail_content .= implode($this->_crlf, $headers) . $this->_crlf . ($this->_is_signed == false ? $this->_crlf : '') . $this->body;
                 
                 fputs($this->_smtp_conn, $mail_content . $this->_crlf . '.' . $this->_crlf);
                 $response = fgets($this->_smtp_conn, 515);
@@ -605,6 +683,7 @@ class ispcmail {
         $this->html_part = '';
         
         $this->headers['MIME-Version'] = '1.0';
+        $this->headers['User-Agent'] = $this->user_agent;
         
         $this->smtp_helo = '';
         $this->smtp_host = '';
@@ -615,6 +694,7 @@ class ispcmail {
         $this->smtp_crypt = false;
         $this->mail_charset = 'UTF-8';
         $this->_sent_mails = 0;
+        
         return;
     }
 }

@@ -1,7 +1,7 @@
 <?php
-$wb['tpl_default_head_txt'] = 'Default Theme Einstellungen';
-$wb['tpl_default_desc_txt'] = 'Passe default-theme-spezifische Optionen an';
-$wb["no_settings_txt"] = 'Es gibt keine Einstellmöglichkeiten für das default Theme.';
+$wb['no_settings_txt'] = 'Es gibt keine Einstellmöglichkeiten für das default Design.';
 $wb['btn_start_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Zurück';
+$wb['list_head_txt'] = 'Standard Design Einstellungen';
+$wb['list_desc_txt'] = 'Spezielle Optionen des standard Designs ändern';
 ?>

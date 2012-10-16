@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Whitelist E-Mail-Adresse';
+$wb['source_txt'] = 'Whitelist E-Mail Adresse';
 $wb['recipient_txt'] = 'Empfänger';
 $wb['active_txt'] = 'Aktiv';
-$wb['source_error_notempty'] = 'E-Mail-Adresse ist leer.';
+$wb['source_error_notempty'] = 'E-Mail Adresse ist leer.';
 $wb['type_txt'] = 'Typ';
-$wb['limit_mailfilter_txt'] = 'Die maximale Anzahl an E-Mail-Filtern für ihr Konto wurde erreicht.';
+$wb['limit_mailfilter_txt'] = 'Die maximale Anzahl an E-Mail Filtern für ihr Konto wurde erreicht.';
 ?>

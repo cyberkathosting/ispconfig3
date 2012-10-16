@@ -4,5 +4,5 @@ $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['server_name_txt'] = 'Servername';
 $wb['email_txt'] = 'E-Mail';
-$wb['add_new_record_txt'] = 'Neuen Spamfilter-Eintrag hinzufügen';
+$wb['add_new_record_txt'] = 'Neuen Spamfilter Eintrag hinzufügen';
 ?>
