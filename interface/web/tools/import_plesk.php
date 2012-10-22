@@ -318,7 +318,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         
         $web_config = $app->getconf->get_server_config($server_id,'web');
         
-        $domains = $exdb->queryAllRecords("SELECT d.id, d.cr_date, d.name, d.displayName, d.dns_zone_id, d.status, d.htype, d.real_size, d.cl_id, d.limits_id, d.params_id, d.guid, d.overuse, d.gl_filter, d.vendor_id, d.webspace_id, d.webspace_status, d.permissions_id, d.external_id FROM domains as d");
+        $domains = $exdb->queryAllRecords("SELECT d.id, d.cr_date, d.name, d.displayName, d.dns_zone_id, d.status, d.htype, d.real_size, d.cl_id, d.limits_id, d.params_id, d.guid, d.overuse, d.gl_filter, d.vendor_id, d.webspace_id, d.webspace_status, d.permissions_id, d.external_id FROM domains as d WHERE d.parentDomainId = 0");
         $dom_ftp_users = array();
         $domain_ids = array();
         $domain_roots = array();
@@ -548,11 +548,138 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             }
         }
         
-        // subdomains in plesk are real vhosts, so we have to treat them as vhostsubdomains
-        $subdomains = $exdb->queryAllRecords("SELECT d.id, d.dom_id, d.name, d.displayName, d.sys_user_id, d.ssi, d.php, d.cgi, d.perl, d.python, d.fastcgi, d.miva, d.coldfusion, d.asp, d.asp_dot_net, d.ssl, d.same_ssl, d.php_handler_type, d.www_root, d.maintenance_mode, d.certificate_id FROM subdomains as d");
         $subdomain_ids = array();
         $subdomain_roots = array();
         $subdomain_owners = array();
+        
+        $subdomains = $exdb->queryAllRecords("SELECT d.id, d.cr_date, d.name, d.displayName, d.dns_zone_id, d.status, d.htype, d.real_size, d.cl_id, d.limits_id, d.params_id, d.guid, d.overuse, d.gl_filter, d.vendor_id, d.webspace_id, d.webspace_status, d.permissions_id, d.external_id, d.parentDomainId FROM domains as d WHERE d.parentDomainId != 0");
+        foreach($subdomains as $entry) {
+            $res = $exdb->query("SELECT d.dom_id, d.param, d.val FROM dom_param as d WHERE d.dom_id = '" . $entry['id'] . "'");
+            $options = array();
+            while($opt = $exdb->nextRecord()) {
+                $options[$opt['param']] = $opt['val'];
+            }
+            
+            $parent_domain = $exdb->queryOneRecord("SELECT d.id, d.cl_id, d.name FROM domains as d WHERE d.id = '" . $entry['parentDomainId'] . "'");
+            $redir_type = '';
+            $redir_path = '';
+            
+            if($entry['htype'] === 'std_fwd') {
+                // redirection
+                $redir = $exdb->queryOneRecord("SELECT f.dom_id, f.ip_address_id, f.redirect FROM forwarding as f WHERE f.dom_id = '" . $entry['id'] . "'");
+                $redir_type = 'R,L';
+                $redir_path = $redir['redirect'];
+            } elseif($entry['htype'] === 'vrt_hst') {
+                // default virtual hosting (vhost)
+            } else {
+                /* TODO: unknown type */
+            }
+            
+            $hosting = $exdb->queryOneRecord("SELECT h.dom_id, h.sys_user_id, h.ip_address_id, h.real_traffic, h.fp, h.fp_ssl, h.fp_enable, h.fp_adm, h.fp_pass, h.ssi, h.php, h.cgi, h.perl, h.python, h.fastcgi, h.miva, h.coldfusion, h.asp, h.asp_dot_net, h.ssl, h.webstat, h.same_ssl, h.traffic_bandwidth, h.max_connection, h.php_handler_type, h.www_root, h.maintenance_mode, h.certificate_id, s.login, s.account_id, s.home, s.shell, s.quota, s.mapped_to, a.password, a.type as `pwtype` FROM hosting as h LEFT JOIN sys_users as s ON (s.id = h.sys_user_id) LEFT JOIN accounts as a ON (s.account_id = a.id) WHERE h.dom_id = '" . $entry['id'] . "'");
+            if($hosting['sys_user_id']) {
+                $dom_ftp_users[] = array('id' => 0,
+                                         'dom_id' => $hosting['dom_id'],
+                                         'sys_user_id' => $hosting['sys_user_id'],
+                                         'login' => $hosting['login'],
+                                         'account_id' => $hosting['account_id'],
+                                         'home' => $hosting['home'],
+                                         'shell' => $hosting['shell'],
+                                         'quota' => $hosting['quota'],
+                                         'mapped_to' => $hosting['mapped_to'],
+                                         'password' => $hosting['password'],
+                                         'pwtype' => $hosting['pwtype']
+                                        );
+            }
+            
+            $phpmode = 'no';
+            if(get_option($hosting, 'php', 'false') === 'true') {
+                $mode = get_option($hosting, 'php_handler_type', 'module');
+                if($mode === 'module') $phpmode = 'mod';
+                else $phpmode = 'fast-cgi';
+                /* TODO: what other options could be in "php_handler_type"? */
+            }
+            /* TODO: plesk offers some more options:
+             * sys_user_id -> owner of files?
+             * ip_address_id - needed?
+             * fp - frontpage extensions
+             * miva - ?
+             * coldfusion
+             * asp
+             * asp_dot_net
+             * traffic_bandwidth
+             * max_connections
+             */
+            
+            $params = array(
+                            'server_id' => $server_id,
+                            'ip_address' => '*',
+                            //'ipv6_address' => '',
+                            'domain' => $entry['name'] . '.' . $parent_domain['name'],
+                            'web_folder' => $entry['www_root'],
+                            'type' => 'vhostsubdomain', // can be vhost or alias
+                            'parent_domain_id' => $domain_ids[$entry['dom_id']],
+                            'vhost_type' => 'name', // or ip (-based)
+                            'hd_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'disk_space', -1)),
+                            'traffic_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'max_traffic', -1)),
+                            'cgi' => yes_no(get_option($hosting, 'cgi', 'false') === 'true' ? 1 : 0),
+                            'ssi' => yes_no(get_option($hosting, 'ssi', 'false') === 'true' ? 1 : 0),
+                            'suexec' => yes_no(1), // does plesk use this?!
+                            'errordocs' => get_option($options, 'apacheErrorDocs', 'false') === 'true' ? 1 : 0,
+                            'subdomain' => '', // plesk always uses this option
+                            'ssl' => yes_no(get_option($hosting, 'ssl', 'false') === 'true' ? 1 : 0),
+                            'php' => $phpmode,
+                            'fastcgi_php_version' => '', // plesk has no different php versions
+                            'ruby' => yes_no(0), // plesk has no ruby support
+                            'python' => yes_no(get_option($hosting, 'python', 'false') === 'true' ? 1 : 0),
+                            'active' => yes_no(($entry['status'] == 0 && get_option($hosting, 'maintenance_mode', 'false') !== 'true') ? 1 : 0),
+                            'redirect_type' => $redir_type,
+                            'redirect_path' => $redir_path,
+                            'seo_redirect' => '',
+                            'ssl_state' => $entry[''],
+                            'ssl_locality' => $entry[''],
+                            'ssl_organisation' => $entry[''],
+                            'ssl_organisation_unit' => $entry[''],
+                            'ssl_country' => $entry[''],
+                            'ssl_domain' => $entry[''],
+                            'ssl_request' => $entry[''],
+                            'ssl_cert' => $entry[''],
+                            'ssl_bundle' => $entry[''],
+                            'ssl_action' => $entry[''],
+                            'stats_password' => '',
+                            'stats_type' => get_option($hosting, 'webstat', 'webalizer') === 'awstats' ? 'awstats' : 'webalizer',
+                            'backup_interval' => 'none',
+                            'backup_copies' => 1,
+                            'allow_override' => 'All',
+                            'pm_process_idle_timeout' => 10,
+                            'pm_max_requests' => 0
+                            );
+
+            $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '" . $entry['name'] . "'");
+            if(!$old_domain) $old_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE CONCAT(subdomain, '.', domain) = '" . $entry['name'] . "'");
+            if($old_domain) {
+                $new_id = $old_domain['domain_id'];
+                $params = array_merge($old_domain, $params);
+                $msg .= "Found domain with id " . $new_id . ", updating it.<br />";
+                $ok = $importer->sites_web_vhost_subdomain_update($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $new_id, $params);
+                if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
+            } else {
+                $new_id = $importer->sites_web_vhost_subdomain_add($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $params, true); // read only...
+            }
+            
+            $subdomain_ids[$entry['id']] = $new_id;
+            $subdomain_roots[$entry['id']] = $entry['www_root'];
+            $subdomain_owners[$entry['id']] = $entry['cl_id'];
+            if($new_id === false) {
+                //something went wrong here...
+                $msg .= "Subdomain " . $entry['id'] . " (" . $entry['name'] . ") could not be inserted.<br />";
+                $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
+            } else {
+                $msg .= "Subdomain " . $entry['id'] . " (" . $entry['name'] . ") inserted.<br />";
+            }
+        }
+        
+        // subdomains in plesk are real vhosts, so we have to treat them as vhostsubdomains
+        $subdomains = $exdb->queryAllRecords("SELECT d.id, d.dom_id, d.name, d.displayName, d.sys_user_id, d.ssi, d.php, d.cgi, d.perl, d.python, d.fastcgi, d.miva, d.coldfusion, d.asp, d.asp_dot_net, d.ssl, d.same_ssl, d.php_handler_type, d.www_root, d.maintenance_mode, d.certificate_id FROM subdomains as d");
         foreach($subdomains as $entry) {
             $res = $exdb->query("SELECT d.dom_id, d.param, d.val FROM dom_param as d WHERE d.dom_id = '" . $entry['dom_id'] . "'");
             $options = array();
