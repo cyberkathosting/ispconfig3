@@ -101,6 +101,7 @@ function DateTime_SetValues(datetime_id, date_obj)
 		unit_obj = $("#"+ datetime_id + "_" + unit_name);
 		if (unit_obj.val() !== null) {
 			unit_obj.val(unit_value);
+            unit_obj.change();
 		}
 	});
 }

@@ -8,3 +8,4 @@ $wb['mbox_txt'] = 'E-Mail';
 $wb['add_new_record_txt'] = 'Neue DNS Zone (SOA) hinzufügen';
 $wb['add_new_record_wizard_txt'] = 'Neue DNS Zone per Assistent hinzufügen';
 ?>
+

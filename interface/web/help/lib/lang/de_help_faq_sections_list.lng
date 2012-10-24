@@ -6,3 +6,4 @@ $wb['faq_sections_txt'] = 'Kategorie';
 $wb['faq_faq_sections_txt'] = 'FAQ Kategorie';
 $wb['faq_new_section_txt'] = 'Neue Kategorie hinzufügen';
 ?>
+

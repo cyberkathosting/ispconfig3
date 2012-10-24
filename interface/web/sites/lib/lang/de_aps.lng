@@ -28,7 +28,7 @@ $wb['installation_txt'] = 'Installation';
 $wb['install_location_txt'] = 'Installationsort';
 $wb['btn_install_txt'] = 'Installieren';
 $wb['btn_cancel_txt'] = 'Abbrechen';
-$wb['acceptance_txt'] = 'Lizenzvereinbarung';
+$wb['acceptance_txt'] = 'Lizenzvereinbarung akzeptieren';
 $wb['acceptance_text_txt'] = 'Ja, ich habe die Lizenzvereinbarung gelesen und akzeptiere sie.';
 $wb['install_language_txt'] = 'Sprache der Oberfläche';
 $wb['new_database_password_txt'] = 'Datenbank Passwort';
@@ -55,3 +55,4 @@ $wb['installation_success_txt'] = 'Installiert';
 $wb['installation_remove_txt'] = 'Deinstallation vorgemerkt';
 $wb['packagelist_update_finished_txt'] = 'APS Paketlistenupdate beendet.';
 ?>
+

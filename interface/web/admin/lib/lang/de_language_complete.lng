@@ -5,3 +5,4 @@ $wb['language_select_txt'] = 'Sprache auswählen';
 $wb['btn_save_txt'] = 'Dateien jetzt zusammenführen';
 $wb['btn_cancel_txt'] = 'Zurück';
 ?>
+

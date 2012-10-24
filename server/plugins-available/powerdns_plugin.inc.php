@@ -135,7 +135,7 @@ class powerdns_plugin {
 		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
 		$serial_id = $serial["serial"];
 		$app->db->query("INSERT INTO powerdns.domains (name, type, notified_serial, ispconfig_id) VALUES ('$origin', 'MASTER', $serial_id, $ispconfig_id)");
-		$zone_id = mysql_insert_id();
+		$zone_id = $app->db->insertID();
 		if(substr($data["new"]["ns"], -1) == '.'){
 			$ns = substr($data["new"]["ns"], 0, -1);
 		} else {
@@ -228,7 +228,7 @@ class powerdns_plugin {
 		$app->db->query("INSERT INTO powerdns.domains (name, type, master, ispconfig_id) VALUES ('$origin', 'SLAVE', '$master_ns', $ispconfig_id)");
 
 		//$app->db->query("INSERT INTO powerdns.domains (name, type, ispconfig_id) VALUES ('$origin', 'NATIVE', $ispconfig_id)");
-		$zone_id = mysql_insert_id();
+		$zone_id = $app->db->insertID();
 
         //* Reload powerdns nameserver
         $app->services->restartServiceDelayed('powerdns','reload');
@@ -250,7 +250,7 @@ class powerdns_plugin {
 		
 		    	$app->db->query("UPDATE powerdns.domains SET name = '$origin', type = 'SLAVE', master = '$master_ns' WHERE ispconfig_id=$ispconfig_id AND type = 'SLAVE'");
 				//$app->db->query("INSERT INTO powerdns.domains (name, type, ispconfig_id) VALUES ('$origin', 'NATIVE', $ispconfig_id)");
-		    	$zone_id = mysql_insert_id();
+		    	$zone_id = $app->db->insertID();
 
     			$zone = $app->db->queryOneRecord("SELECT * FROM powerdns.domains WHERE ispconfig_id = ".$ispconfig_id." AND type = 'SLAVE'");
     			$zone_id = $zone["id"];

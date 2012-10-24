@@ -142,7 +142,7 @@ class cron_plugin {
         }
 		
 		// make temp directory writable for the apache and website users
-		chmod(escapeshellcmd($parent_domain["document_root"].'/tmp'), 0777);
+		$app->system->chmod(escapeshellcmd($parent_domain["document_root"].'/tmp'), 0777);
 		
         /** TODO READ CRON MASTER **/
         
@@ -234,19 +234,19 @@ class cron_plugin {
         }
         
         if($cmd_count > 0) {
-            file_put_contents($cron_file, $cron_content);
+            $app->system->file_put_contents($cron_file, $cron_content);
             $app->log("Wrote Cron file $cron_file with content:\n$cron_content",LOGLEVEL_DEBUG);
         } else {
-            @unlink($cron_file);
+            $app->system->unlink($cron_file);
             $app->log("Deleted Cron file $cron_file",LOGLEVEL_DEBUG);
         }
         
         $cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_chrooted_'.$this->parent_domain["system_user"]);
         if($chr_cmd_count > 0) {
-            file_put_contents($cron_file, $chr_cron_content);
+            $app->system->file_put_contents($cron_file, $chr_cron_content);
             $app->log("Wrote Cron file $cron_file with content:\n$chr_cron_content",LOGLEVEL_DEBUG);
         } else {
-            @unlink($cron_file);
+            $app->system->unlink($cron_file);
             $app->log("Deleted Cron file $cron_file",LOGLEVEL_DEBUG);
         }
         

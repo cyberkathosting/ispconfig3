@@ -14,3 +14,4 @@ $wb['ostemplate_name_error'] = 'Der Name des OSTemplates enthält ungültige Zei
 $wb['ostemplate_name_unique_error'] = 'Es existiert bereits ein OSTemplate mit diesem Namen.';
 $wb['ostemplate_exec_txt'] = 'Der Befehl um das OSTemplate zu erstellen wurde an den VM-Host gesendet. Es kann einige Minuten dauern bis das OSTemplate verfügbar ist.';
 ?>
+

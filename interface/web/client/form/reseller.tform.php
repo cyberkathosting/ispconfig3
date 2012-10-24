@@ -61,7 +61,7 @@ $handle = @opendir(ISPC_THEMES_PATH);
 while ($file = @readdir ($handle)) {
     if (substr($file, 0, 1) != '.') {
         if(@is_dir(ISPC_THEMES_PATH."/$file")) {
-			if($file == 'default' || (@file_exists(ISPC_THEMES_PATH."/$file/ISPC_VERSION") && trim(@file_get_contents(ISPC_THEMES_PATH."/$file/ISPC_VERSION")) == ISPC_APP_VERSION)) {
+			if(!file_exists(ISPC_THEMES_PATH."/$file/ispconfig_version") || (@file_exists(ISPC_THEMES_PATH."/$file/ispconfig_version") && trim(@file_get_contents(ISPC_THEMES_PATH."/$file/ispconfig_version")) == ISPC_APP_VERSION)) {
                 $themes_list[$file] = $file;
             }
         }
@@ -118,6 +118,10 @@ $form["tabs"]['address'] = array (
 		'customer_no' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
+														'errmsg'=> 'customer_no_error_unique',
+														'allowempty' => 'y'),
+									),
 			'default'	=> '',
 			'value'		=> '',
 			'separator'	=> '',

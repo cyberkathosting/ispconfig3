@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Kontaktperson Feld leer';
 $wb['data_error_regex'] = 'Kontaktperson Format ungültig';
 ?>
+

@@ -7,3 +7,4 @@ $wb['ip_error_wrong'] = 'Bitte tragen Sie eine gültige IPv4-Adresse ein.';
 $wb['ip_error_unique'] = 'Diese IP-Adresse existiert bereits.';
 $wb['IP address'] = 'IP-Adresse';
 ?>
+

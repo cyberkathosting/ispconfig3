@@ -27,7 +27,7 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
- 
+
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
 $app->load('aps_guicontroller');
@@ -72,6 +72,7 @@ else if($_GET['action'] == 'delete_instance')
         $cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
         $client_id = $cid['client_id'];
     }
+	
     // Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
     if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
     
@@ -79,8 +80,7 @@ else if($_GET['action'] == 'delete_instance')
     $check = $app->db->queryOneRecord("SELECT id FROM aps_instances 
         WHERE id = ".$app->db->quote($_GET['id'])." AND 
         (instance_status = ".INSTANCE_SUCCESS." OR instance_status = ".INSTANCE_ERROR.");");
-    if(!empty($check)) $gui->deleteInstance($_GET['id']);
-    
+    if($check['id'] > 0) $gui->deleteInstance($_GET['id']);
     echo $app->lng('Installation_remove');
 }
 else if($_GET['action'] == 'reinstall_instance')

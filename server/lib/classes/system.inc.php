@@ -709,6 +709,19 @@ class system{
 		return copy($file1,$file2);
 	}
 	
+	function touch($file, $allow_symlink = false){
+	  global $app;
+	  if($allow_symlink == false && @file_exists($file) && $this->checkpath($file) == false) {
+		$this->unlink($file);
+	  }
+	  if(@touch($file)) {
+			return true;
+	  } else {
+			$app->log("touch failed: $file",LOGLEVEL_DEBUG);
+			return false;
+	  }
+	}
+	
 	function checkpath($path) {
 		$path = trim($path);
 		//* We allow only absolute paths

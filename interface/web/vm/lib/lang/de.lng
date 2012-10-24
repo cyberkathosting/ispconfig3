@@ -5,3 +5,4 @@ $wb['VM Templates'] = 'VM-Templates';
 $wb['IP addresses'] = 'IP-Adressen';
 $wb['OpenVZ'] = 'OpenVZ';
 ?>
+

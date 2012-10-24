@@ -1,14 +1,15 @@
 <?php
-$wb['email_txt'] = 'E-Mail Adresse';
-$wb['destination_txt'] = 'Ziel';
-$wb['active_txt'] = 'Aktiv';
-$wb['email_error_isemail'] = 'E-Mail Adresse ist ungültig';
-$wb['email_error_unique'] = 'Doppelte E-Mail Adresse.';
-$wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
-$wb['destination_error_isemail'] = 'Zieladresse ist ungültig.';
-$wb['limit_mailalias_txt'] = 'Die maximale Anzahl an E-Mail Aliases für ihr Konto wurde erreicht.';
-$wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine Mailbox mit dieser E-Mail Adresse.';
-$wb['domain_txt'] = 'Domain';
-$wb['duplicate_email_alias_txt'] = 'Dieser E-Mail Alias existiert bereits.';
-$wb['source_txt'] = 'Alias';
+$wb['email_txt'] = "E-Mail Adresse";
+$wb['destination_txt'] = "Ziel";
+$wb['active_txt'] = "Aktiv";
+$wb['email_error_isemail'] = "E-Mail Adresse ist ungültig";
+$wb['email_error_unique'] = "Doppelte E-Mail Adresse.";
+$wb['no_domain_perm'] = "Sie haben keine Berechtigung für diese Domain.";
+$wb['destination_error_isemail'] = "Zieladresse ist ungültig.";
+$wb['limit_mailalias_txt'] = "Die maximale Anzahl an E-Mail Aliasen für Ihr Konto wurde erreicht.";
+$wb['duplicate_mailbox_txt'] = "Es existiert bereits eineE-Mail Konto mit dieser E-Mail Adresse.";
+$wb['domain_txt'] = "Domain";
+$wb['duplicate_email_alias_txt'] = "Dieser E-Mail Alias existiert bereits.";
+$wb['source_txt'] = "Alias";
 ?>
+

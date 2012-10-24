@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Hole E-Mails von externem POP3 / IMAP Server';
-$wb['active_txt'] = 'Aktiv';
-$wb['server_id_txt'] = 'Server';
-$wb['source_server_txt'] = 'Externer Server';
-$wb['source_username_txt'] = 'Benutzername';
-$wb['destination_txt'] = 'Ziel';
-$wb['add_new_record_txt'] = 'Neues Konto hinzufügen';
+$wb['list_head_txt'] = "E-Mails von externem POP3 / IMAP Server abholen";
+$wb['active_txt'] = "Aktiv";
+$wb['server_id_txt'] = "Server";
+$wb['source_server_txt'] = "Externer Server";
+$wb['source_username_txt'] = "Benutzername";
+$wb['destination_txt'] = "Ziel";
+$wb['add_new_record_txt'] = "Neues Konto hinzufügen";
 ?>
+

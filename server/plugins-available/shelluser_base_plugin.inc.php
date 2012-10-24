@@ -107,10 +107,10 @@ class shelluser_base_plugin {
 				$this->_setup_ssh_rsa();
 				
 				//* Create .bash_history file
-				touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
-				chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
-				chown(escapeshellcmd($data['new']['dir']).'/.bash_history', escapeshellcmd($data['new']['username']));
-				chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history', escapeshellcmd($data['new']['pgroup']));
+				$app->system->touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
+				$app->system->chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
+				$app->system->chown(escapeshellcmd($data['new']['dir']).'/.bash_history', $data['new']['username']);
+				$app->system->chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history', $data['new']['pgroup']);
 				
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
@@ -174,10 +174,10 @@ class shelluser_base_plugin {
 					
 					//* Create .bash_history file
 					if(!is_file($data['new']['dir']).'/.bash_history') {
-						touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
-						chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
-						chown(escapeshellcmd($data['new']['dir']).'/.bash_history',escapeshellcmd($data['new']['username']));
-						chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history',escapeshellcmd($data['new']['pgroup']));
+						$app->system->touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
+						$app->system->chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
+						$app->system->chown(escapeshellcmd($data['new']['dir']).'/.bash_history',escapeshellcmd($data['new']['username']));
+						$app->system->chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history',escapeshellcmd($data['new']['pgroup']));
 					}
 					
 				} else {
@@ -248,19 +248,20 @@ class shelluser_base_plugin {
 			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
 			
 			// use the public key that has been generated
-			$userkey = file_get_contents('/tmp/id_rsa.pub');
+			$userkey = $app->system->file_get_contents('/tmp/id_rsa.pub');
 			
 			// save keypair in client table
-			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".$userkey."' WHERE client_id = ".$id);
+			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote($app->system->file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote($userkey)."' WHERE client_id = ".$id);
 			
-			exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+			$app->system->unlink('/tmp/id_rsa');
+			$app->system->unlink('/tmp/id_rsa.pub');
 			$this->app->log("ssh-rsa keypair generated for ".$username,LOGLEVEL_DEBUG);
 		};
 
 		if (!file_exists($sshkeys)){
 			// add root's key
 			$app->file->mkdirs($sshdir, '0700');
-			if(is_file('/root/.ssh/authorized_keys')) file_put_contents($sshkeys, file_get_contents('/root/.ssh/authorized_keys'));
+			if(is_file('/root/.ssh/authorized_keys')) $app->system->file_put_contents($sshkeys, $app->system->file_get_contents('/root/.ssh/authorized_keys'));
 		
 			// Remove duplicate keys
 			$existing_keys = @file($sshkeys);
@@ -275,7 +276,7 @@ class shelluser_base_plugin {
 			$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
 			
 			// add the user's key
-			file_put_contents($sshkeys, $final_keys);
+			$app->system->file_put_contents($sshkeys, $final_keys);
 			$app->file->remove_blank_lines($sshkeys);
 			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys,LOGLEVEL_DEBUG);
 		}
@@ -309,7 +310,7 @@ class shelluser_base_plugin {
 		$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
 			
 		// add the custom key 
-		file_put_contents($sshkeys, $final_keys);
+		$app->system->file_put_contents($sshkeys, $final_keys);
 		$app->file->remove_blank_lines($sshkeys);
 		$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
 		

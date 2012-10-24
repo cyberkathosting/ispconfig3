@@ -1,18 +1,19 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Typ';
-$wb['source_server_txt'] = 'POP3/IMAP Server';
-$wb['source_username_txt'] = 'Benutzername';
-$wb['source_password_txt'] = 'Passwort';
-$wb['source_delete_txt'] = 'E-Mails nach Empfang löschen';
-$wb['destination_txt'] = 'Ziel';
-$wb['active_txt'] = 'Aktiv';
-$wb['limit_fetchmail_txt'] = 'Die maximale Anzahl an Fetchmail Einträgen für Ihr Konto wurde erreicht.';
-$wb['source_server_error_isempty'] = 'Server ist leer.';
-$wb['source_username_error_isempty'] = 'Benutzername ist leer.';
-$wb['source_password_error_isempty'] = 'Passwort ist leer.';
-$wb['destination_error_isemail'] = 'Kein Ziel gewählt.';
-$wb['source_server_error_regex'] = 'POP3/IMAP Server ist kein gültiger Domainname.';
-$wb['source_read_all_txt'] = 'Alle E-Mails abrufen (inkl. bereits gelesene E-Mails)';
-$wb['error_delete_read_all_combination'] = 'Unzulässige Kombination von Optionen. Sie können ';
+$wb['server_id_txt'] = "Server";
+$wb['type_txt'] = "Typ";
+$wb['source_server_txt'] = "POP3/IMAP Server";
+$wb['source_username_txt'] = "Benutzername";
+$wb['source_password_txt'] = "Passwort";
+$wb['source_delete_txt'] = "E-Mails nach Empfang löschen";
+$wb['destination_txt'] = "Ziel";
+$wb['active_txt'] = "Aktiv";
+$wb['limit_fetchmail_txt'] = "Die maximale Anzahl an Sammelkonto Einträgen für Ihr Konto wurde erreicht.";
+$wb['source_server_error_isempty'] = "Server ist leer.";
+$wb['source_username_error_isempty'] = "Benutzername ist leer.";
+$wb['source_password_error_isempty'] = "Passwort ist leer.";
+$wb['destination_error_isemail'] = "Kein Ziel gewählt.";
+$wb['source_server_error_regex'] = "POP3/IMAP Server ist kein gültiger Domainname.";
+$wb['source_read_all_txt'] = "Alle E-Mails abrufen (inkl. bereits gelesene E-Mails)";
+$wb['error_delete_read_all_combination'] = "Unzulässige Kombination von Optionen. Sie können ";
 ?>
+

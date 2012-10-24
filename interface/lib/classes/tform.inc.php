@@ -799,7 +799,9 @@ class tform {
                                         }
                                 break;
                                 case 'UNIQUE':
-                                        if($this->action == 'NEW') {
+										if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
+										if($validator['allowempty'] == 'n' || ($validator['allowempty'] == 'y' && $field_value != '')){
+											if($this->action == 'NEW') {
                                                 $num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
@@ -809,7 +811,7 @@ class tform {
 															$this->errorMessage .= $errmsg."<br />\r\n";
 														}
                                                 }
-                                        } else {
+											} else {
                                                 $num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."' AND ".$this->formDef['db_table_idx']." != ".$this->primary_id);
                                                 if($num_rec["number"] > 0) {
                                                         $errmsg = $validator['errmsg'];
@@ -819,7 +821,8 @@ class tform {
 															$this->errorMessage .= $errmsg."<br />\r\n";
 														}
                                                 }
-                                        }
+											}
+										}
                                 break;
                                 case 'NOTEMPTY':
                                         if(empty($field_value)) {

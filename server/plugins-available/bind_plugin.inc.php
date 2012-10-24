@@ -39,7 +39,7 @@ class bind_plugin {
 	function onInstall() {
 		global $conf;
 		
-		if(isset($conf['bind']['installed']) && $conf['bind']['installed'] == true) {
+		if(isset($conf['bind']['installed']) && $conf['bind']['installed'] == true && @is_link('/usr/local/ispconfig/server/mods-enabled/dns_module.inc.php')) {
 			return true;
 		} else {
 			return false;

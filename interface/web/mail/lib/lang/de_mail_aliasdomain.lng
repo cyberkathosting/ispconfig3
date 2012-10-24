@@ -1,11 +1,12 @@
 <?php
-$wb['source_txt'] = 'Quelle';
-$wb['destination_txt'] = 'Ziel';
-$wb['active_txt'] = 'Aktiv';
-$wb['no_domain_perm'] = 'Sie haben keine Rechte für diese Domain.';
-$wb['limit_mailaliasdomain_txt'] = 'Die maximale Anzahl an E-Mail Alias Domains für ihr Konto wurde erreicht.';
-$wb['source_destination_identical_txt'] = 'Quell- und Ziel Domain sind identisch.';
-$wb['source_error_empty'] = 'Quell Domain ist leer.';
-$wb['source_error_unique'] = 'Quell Domain duplizieren.';
-$wb['source_error_regex'] = 'Ungültiger Quell Domainname.';
+$wb['source_txt'] = "Quelle";
+$wb['destination_txt'] = "Ziel";
+$wb['active_txt'] = "Aktiv";
+$wb['no_domain_perm'] = "Sie haben keine Rechte für diese Domain.";
+$wb['limit_mailaliasdomain_txt'] = "Die maximale Anzahl an E-Mail Alias Domains für Ihr Konto wurde erreicht.";
+$wb['source_destination_identical_txt'] = "Quell- und Ziel Domain sind identisch.";
+$wb['source_error_empty'] = "Quell Domain ist leer.";
+$wb['source_error_unique'] = "Quell Domain duplizieren.";
+$wb['source_error_regex'] = "Ungültiger Quell Domainname.";
 ?>
+

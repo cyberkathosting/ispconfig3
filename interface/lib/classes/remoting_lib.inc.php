@@ -113,6 +113,7 @@ class remoting_lib {
 		var $sys_userid;
 		var $sys_default_group;
 		var $sys_groups;
+		var $client_id;
 
 		
 		//* Load the form definition from file.
@@ -136,12 +137,12 @@ class remoting_lib {
         }
 		
 		//* Load the user profile
-		function loadUserProfile($client_id = 0) {
+		function loadUserProfile($client_id_param = 0) {
 			global $app,$conf;
 
-			$client_id = $app->functions->intval($client_id);
+			$this->client_id = $app->functions->intval($client_id_param);
             
-			if($client_id == 0) {
+			if($this->client_id == 0) {
 				$this->sys_username         = 'admin';
 				$this->sys_userid            = 1;
 				$this->sys_default_group     = 1;
@@ -758,7 +759,12 @@ class remoting_lib {
                         $sql = "INSERT INTO ".$escape.$this->formDef['db_table'].$escape." ($sql_insert_key) VALUES ($sql_insert_val)";
                 } else {
                         if($primary_id != 0) {
-                                $sql_update = substr($sql_update,0,-2);
+                                // update client permissions only if client_id > 0
+								if($this->formDef['auth'] == 'yes' && $this->client_id > 0) {
+									$sql_update .= '`sys_userid` = '.$this->sys_userid.', ';
+									$sql_update .= '`sys_groupid` = '.$this->sys_default_group.', ';
+								}
+								$sql_update = substr($sql_update,0,-2);
                                 $sql = "UPDATE ".$escape.$this->formDef['db_table'].$escape." SET ".$sql_update." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
                                 if($sql_ext_where != '') $sql .= " and ".$sql_ext_where;
                         } else {

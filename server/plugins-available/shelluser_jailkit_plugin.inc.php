@@ -80,7 +80,7 @@ class shelluser_jailkit_plugin {
 		 	*/
 			if ($data['new']['chroot'] == "jailkit")
 			{
-				$app->system->web_folder_protection($web['document_root'],false);
+				
 				
 				// load the server configuration options
 				$app->uses("getconf");
@@ -89,6 +89,8 @@ class shelluser_jailkit_plugin {
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				
 				$this->_update_website_security_level();
+				
+				$app->system->web_folder_protection($web['document_root'],false);
 			
 				$this->_setup_jailkit_chroot();
 				
@@ -131,7 +133,6 @@ class shelluser_jailkit_plugin {
 		 	*/
 			if ($data['new']['chroot'] == "jailkit")
 			{
-				$app->system->web_folder_protection($web['document_root'],false);
 				
 				// load the server configuration options
 				$app->uses("getconf");
@@ -140,6 +141,8 @@ class shelluser_jailkit_plugin {
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				
 				$this->_update_website_security_level();
+				
+				$app->system->web_folder_protection($web['document_root'],false);
 			
 				$this->_setup_jailkit_chroot();
 				$this->_add_jailkit_user();
@@ -201,6 +204,8 @@ class shelluser_jailkit_plugin {
 	
 	function _setup_jailkit_chroot()
 	{
+			global $app;
+			
 			//check if the chroot environment is created yet if not create it with a list of program sections from the config
 			if (!is_dir($this->data['new']['dir'].'/etc/jailkit'))
 			{
@@ -242,7 +247,7 @@ class shelluser_jailkit_plugin {
 				$motd = escapeshellcmd($this->data['new']['dir']).'/var/run/motd';
 				if(@is_file($motd) || @is_link($motd)) unlink($motd);
 				
-				file_put_contents($motd,$tpl->grab());
+				$app->system->file_put_contents($motd,$tpl->grab());
 				
 			}
 	}
@@ -315,14 +320,14 @@ class shelluser_jailkit_plugin {
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 						
 			if(!is_dir($this->data['new']['dir'].$jailkit_chroot_userhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), 0755, true);
-			chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['username']);
-			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['pgroup']);
+			$app->system->chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['username']);
+			$app->system->chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 			
 			if(!is_dir($this->data['new']['dir'].$jailkit_chroot_puserhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), 0755, true);
-			chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['puser']);
-			chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
+			$app->system->chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['puser']);
+			$app->system->chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
 				
 			$this->app->log("Added jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome,LOGLEVEL_DEBUG);
 			
@@ -387,19 +392,20 @@ class shelluser_jailkit_plugin {
 			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
 			
 			// use the public key that has been generated
-			$userkey = file_get_contents('/tmp/id_rsa.pub');
+			$userkey = $app->system->file_get_contents('/tmp/id_rsa.pub');
 			
 			// save keypair in client table
-			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".file_get_contents('/tmp/id_rsa')."', ssh_rsa = '".$userkey."' WHERE client_id = ".$id);
+			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote($app->system->file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote($userkey)."' WHERE client_id = ".$id);
 
-			exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+			$app->system->unlink('/tmp/id_rsa');
+			$app->system->unlink('/tmp/id_rsa.pub');
 			$this->app->log("ssh-rsa keypair generated for ".$username,LOGLEVEL_DEBUG);
 		};
 		
 		if (!file_exists($sshkeys)){
 			// add root's key
 			$app->file->mkdirs($sshdir, '0755');
-			if(is_file('/root/.ssh/authorized_keys')) file_put_contents($sshkeys, file_get_contents('/root/.ssh/authorized_keys'));
+			if(is_file('/root/.ssh/authorized_keys')) $app->system->file_put_contents($sshkeys, $app->system->file_get_contents('/root/.ssh/authorized_keys'));
 		
 			// Remove duplicate keys
 			$existing_keys = @file($sshkeys);
@@ -447,7 +453,7 @@ class shelluser_jailkit_plugin {
 		$final_keys = implode("\n", array_flip(array_flip($new_final_keys_arr)));
 			
 		// add the custom key 
-		file_put_contents($sshkeys, $final_keys);
+		$app->system->file_put_contents($sshkeys, $final_keys);
 		$app->file->remove_blank_lines($sshkeys);
 		$this->app->log("ssh-rsa key updated in ".$sshkeys,LOGLEVEL_DEBUG);
 		

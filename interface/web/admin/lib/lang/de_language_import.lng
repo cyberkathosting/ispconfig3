@@ -6,3 +6,4 @@ $wb['language_overwrite_txt'] = 'Datei überschreiben, falls diese schon existie
 $wb['btn_cancel_txt'] = 'Zurück';
 $wb['ignore_version_txt'] = 'ISPConfig Versionsüberprüfung überspringen';
 ?>
+

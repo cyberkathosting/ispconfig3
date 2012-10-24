@@ -8,3 +8,4 @@ $wb['country_txt'] = 'Land';
 $wb['add_new_record_txt'] = 'Kunden hinzufügen';
 $wb['username_txt'] = 'Benutzername';
 ?>
+

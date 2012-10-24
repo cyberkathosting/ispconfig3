@@ -41,3 +41,4 @@ $wb['redirect_error_regex'] = 'Ungültiger redirect Pfad. Gültige Pfade sind be
 $wb['no_redirect_txt'] = 'Kein Redirect';
 $wb['no_flag_txt'] = 'Kein Flag';
 ?>
+

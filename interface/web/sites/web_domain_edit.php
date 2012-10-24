@@ -80,6 +80,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$app->tpl->setVar("server_id_value", $client['default_webserver']);
 		}
+        $app->tform->formDef['tabs']['domain']['readonly'] = false;
 
 		parent::onShowNew();
 	}

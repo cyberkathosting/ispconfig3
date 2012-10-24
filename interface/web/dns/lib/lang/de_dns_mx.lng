@@ -14,3 +14,4 @@ $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Mailserver Hostname ist leer';
 $wb['data_error_regex'] = 'Mailserver Hostname Format ist ungültig';
 ?>
+

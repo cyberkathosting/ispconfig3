@@ -306,7 +306,8 @@ class ApsGUIController extends ApsBase
      */
     public function deleteInstance($instanceid)
     {
-        /*
+        global $app;
+		/*
 		$this->db->query("UPDATE aps_instances SET instance_status = ".INSTANCE_REMOVE." WHERE id = ".$instanceid.";");
         
         $webserver_id = $this->getInstanceDataForDatalog($instanceid);
@@ -325,7 +326,8 @@ class ApsGUIController extends ApsBase
         $tmp = $this->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . $app->functions->intval($database_user) . "' OR `database_ro_user_id` = '" . $app->functions->intval($database_user) . "'");
         if($tmp['cnt'] < 1) $this->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
         
-		$this->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
+		$app->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
+
     }
     
     /**

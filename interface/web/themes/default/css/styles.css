@@ -667,6 +667,7 @@ input.button:focus,
 .buttons button[type]{
     padding:5px 10px 5px 7px; /* Firefox */
     line-height:17px; /* Safari */
+    white-space: nowrap;
 }
 *:first-child+html button[type]{
     padding:4px 10px 3px 7px; /* IE7 */
@@ -836,6 +837,12 @@ div[class^=country-] {
     height: 20px;
     width: 26px;
 }
+li[class^=country-] {
+    background-image: url("../icons/flags_sprite.png");
+    background-repeat: no-repeat;
+    text-indent: 24px;
+}
+li[class^=country-] a.ui-state-hover { background: transparent; }
 div[class^=country-] span {
     display: none;
 }
@@ -1444,7 +1451,7 @@ span.icons16-empty {
     width:16px;
     height:16px;
     cursor:pointer;
-    background: url("../icons/x16_sprite.png") no-repeat center center transparent;
+    background: url("../icons/x16_sprite.png") no-repeat -2px -42px transparent;
     float:right;
     display:inline;
     position:relative;
@@ -1771,7 +1778,7 @@ p.value {
 }
 .ui-widget { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
-ul.ui-autocomplete { max-height: 250px; overflow-y: auto; }
+ul.ui-autocomplete { max-height: 250px; overflow-y: auto; min-width: 50px;}
 .ui-combobox { position: relative; display: inline-block; margin-right: 17px; }
 .ui-combobox-toggle { position: absolute !important; top: 0; bottom: 0; margin-left: -1px; padding: 1px !important; background: none repeat scroll 0 0 #FFFFFF !important; border: 1px solid #DFDFDF !important;}
 .ui-combobox-input { background: none repeat scroll 0 0 #FFFFFF !important; border: 1px solid #DFDFDF !important; padding: 1px; font-weight: normal !important; }

@@ -30,11 +30,17 @@ if header :contains "X-Spam-Flag" "YES" {
   stop;
 }
 
+<tmpl_if name="autoresponder_date_limit">
 if allof(currentdate :value "ge" "iso8601" "<tmpl_var name='start_date'>", currentdate :value "le" "iso8601" "<tmpl_var name='end_date'>") {
+</tmpl_if>
+
 vacation  :days 1
   :subject "<tmpl_var name='autoresponder_subject'>"
   <tmpl_var name='addresses'>
   "<tmpl_var name='autoresponder_text'>";
+
+<tmpl_if name="autoresponder_date_limit">
 }
+</tmpl_if>
 </tmpl_if>
 

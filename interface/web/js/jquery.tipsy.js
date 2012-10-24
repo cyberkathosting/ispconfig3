@@ -249,18 +249,18 @@
             var elheight = this.element.height();
             var input,
                 self = this,
-                select = this.element.hide(),
+                select = this.element,
                 selected = select.children( ":selected" ),
                 value = selected.val() ? selected.text() : "",
                 wrapper = this.wrapper = $( "<span>" )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
 
-            input = $( "<input>" )
-                .appendTo( wrapper )
+            input = $( "<input>" ).css( { "width": (select.is(':visible') ? (elwidth > 15 ? elwidth - 15 : 1) : 350), "height": (elheight > 0 ? elheight : 16) });
+            select.hide();
+            input.appendTo( wrapper )
                 .val( value )
                 .addClass( "ui-state-default ui-combobox-input" )
-                .css( { "width": (elwidth > 15 ? elwidth - 15 : 1), "height": elheight })
                 .autocomplete({
                     delay: 0,
                     minLength: 0,
@@ -269,7 +269,7 @@
                         response( select.children( "option" ).map(function() {
                             var text = $( this ).text();
                             //if ( this.value && ( !request.term || matcher.test(text) ) )
-                            if ( !request.term || matcher.test(text) )
+                            if ( (!request.term || matcher.test(text)) && $(this).css('display') != 'none' )
                                 return {
                                     label: (text == "" ? "&nbsp;" : text.replace(
                                         new RegExp(
@@ -278,6 +278,7 @@
                                             ")(?![^<>]*>)(?![^&;]+;)", "gi"
                                         ), "<strong>$1</strong>" )),
                                     value: text,
+                                    class: (select.hasClass('flags') ? 'country-' + $(this).val().toUpperCase() : $(this).attr('class')),
                                     option: this
                                 };
                         }) );
@@ -291,6 +292,8 @@
                             select.onchange( { target: select } );
                         } else if($(select).attr('onchange')) {
                             eval($(select).attr('onchange'));
+                        } else {
+                            if(!ui.item.internal) $(select).change();
                         }
                         if (jQuery(".panel #Filter").length > 0) {
                             jQuery(".panel #Filter").trigger('click');
@@ -302,7 +305,7 @@
                                 matchtext = $(this).val();
                                 valid = false;
                             select.children( "option" ).each(function() {
-                                if( ($(this).text() == "" && matchtext == "") || $( this ).text().match( matcher ) ) {
+                                if( (($(this).text() == "" && matchtext == "") || $( this ).text().match( matcher )) && $(this).css('display') != 'none' ) {
                                     select.val($(this).val());
                                     this.selected = valid = true;
                                     return false;
@@ -326,7 +329,7 @@
                             valid = false,
                             selected = false;
                         select.children( "option" ).each(function() {
-                            if( ($(this).val() == "" && matchtext == "") || $( this ).text().match( matcher ) ) {
+                            if( (($(this).val() == "" && matchtext == "") || $( this ).text().match( matcher )) && $(this).css('display') != 'none' ) {
                                 valid = true;
                                 selected = $(this);
                                 return false;
@@ -334,17 +337,36 @@
                         });
                         if(!valid) return false;
                         
-                        $(this).autocomplete('option','select').call($(this), event, { item: { option: selected.get(0) } });
+                        $(this).autocomplete('option','select').call($(this), event, { item: { option: selected.get(0), internal: true } });
                     }
                 })
                 .addClass( "ui-widget ui-widget-content ui-corner-left" );
+            if(select.hasClass('flags')) input.addClass('flags');
 
             input.data( "autocomplete" )._renderItem = function( ul, item ) {
-                return $( "<li></li>" )
+                var el = $( "<li></li>" )
                     .data( "item.autocomplete", item )
                     .append( "<a>" + item.label + "</a>" )
                     .appendTo( ul );
+                if(item.class) el.addClass(item.class);
+                return el;
             };
+            select.change(function(e) {
+                var matcher = new RegExp( "" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "", "i" ),
+                    matchtext = $(this).val();
+                    valid = false,
+                    selected = false;
+                select.children( "option" ).each(function() {
+                    if( (($(this).val() == "" && matchtext == "") || $( this ).text().match( matcher )) && $(this).css('display') != 'none' ) {
+                        valid = true;
+                        selected = $(this);
+                        return false;
+                    }
+                });
+                if(!valid) return false;
+                
+                input.val($(this).val()).autocomplete('option','select').call(input, (e ? e : {target: select}), { item: { option: selected.get(0), internal: true } });
+            });
 
             $( "<a>" )
                 .attr( "tabIndex", -1 )
@@ -358,7 +380,7 @@
                 })
                 .removeClass( "ui-corner-all" )
                 .addClass( "ui-corner-right ui-combobox-toggle" )
-                .css( { "width": 15, "height": elheight })
+                .css( { "width": 15, "height": (elheight > 0 ? elheight : 16) })
                 .click(function() {
                     // close if already visible
                     if ( input.autocomplete( "widget" ).is( ":visible" ) ) {

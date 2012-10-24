@@ -41,10 +41,10 @@
                             <td class="tbl_col_instancestatus"><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
                             <td class="tbl_col_buttons">
                                 <tmpl_if name='delete_possible'>
-                                    <a class="button icons16 icoDelete" href="javascript:if(window.confirm('{tmpl_var name='pkg_delete_confirmation'}')){ loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}'); }"><span>{tmpl_var name='delete_txt'}</span></a>
+                                    <a class="button icons16 icoDelete" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span>{tmpl_var name='delete_txt'}</span></a>
                                 </tmpl_if>
                                 <tmpl_if name='reinstall_possible'>
-                                    <a class="button icons16 icoEdit" href="javascript:if(window.confirm('{tmpl_var name='pkg_reinstall_confirmation'}')){ loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=reinstall_instance&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}'); }"><span>{tmpl_var name='reinstall_txt'}</span></a>
+                                    <a class="button icons16 icoEdit" href="javascript: del_record('sites/aps_do_operation.php?action=reinstall_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span>{tmpl_var name='reinstall_txt'}</span></a>
                                 </tmpl_if>
                             </td>        
                         </tr>

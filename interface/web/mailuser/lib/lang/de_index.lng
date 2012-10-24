@@ -1,12 +1,13 @@
 <?php
-$wb['page_head_txt'] = 'Mailbox Einstellungen';
-$wb['page_desc_txt'] = 'Hier können Sie die Einstellungen des E-Mail Kontos ändern.';
-$wb['email_txt'] = 'E-Mail Adresse';
-$wb['login_txt'] = 'Login';
-$wb['server_address_txt'] = 'Mailserver Adresse';
-$wb['cc_txt'] = 'Kopie senden an (CC)';
-$wb['quota_txt'] = 'Mailbox Größe';
-$wb['unlimited_txt'] = 'Unlimitiert';
-$wb['mb_txt'] = 'MB';
-$wb['none_txt'] = 'Niemanden';
+$wb['page_head_txt'] = "E-Mail Konten Einstellungen";
+$wb['page_desc_txt'] = "Hier können Sie die Einstellungen des E-Mail Kontos ändern.";
+$wb['email_txt'] = "E-Mail Adresse";
+$wb['login_txt'] = "Login";
+$wb['server_address_txt'] = "E-Mailserver Adresse";
+$wb['cc_txt'] = "Kopie senden an (CC)";
+$wb['quota_txt'] = "E-Mail Kontogröße";
+$wb['unlimited_txt'] = "Unlimitiert";
+$wb['mb_txt'] = "MB";
+$wb['none_txt'] = "Niemanden";
 ?>
+

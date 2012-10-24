@@ -61,7 +61,7 @@ class backup_plugin {
 		global $app,$conf;
 		
 		$backup_id = intval($data);
-		$backup = $app->db->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = $backup_id");
+		$backup = $app->dbmaster->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = $backup_id");
 		
 		if(is_array($backup)) {
 		

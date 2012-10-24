@@ -115,7 +115,7 @@ class nginx_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 
 		//* Create a SSL Certificate
-		if($data['new']['ssl_action'] == 'create') {
+		if($data['new']['ssl_action'] == 'create' && $conf['mirror_server_id'] == 0) {
 		
 			$this->ssl_certificate_changed = true;
 			

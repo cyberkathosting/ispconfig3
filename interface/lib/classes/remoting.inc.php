@@ -1261,6 +1261,13 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		//* Check for duplicates
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$app->db->quote($params['database_name'])."' AND server_id = '".intval($params["server_id"])."'");
+		if($tmp['dbnum'] > 0) {
+			$this->server->fault('database_name_error_unique', 'There is already a database with that name on the same server.');
+			return false;
+		}
 
         $sql = $this->insertQueryPrepare('../sites/form/database.tform.php', $client_id, $params);
         if($sql !== false) {

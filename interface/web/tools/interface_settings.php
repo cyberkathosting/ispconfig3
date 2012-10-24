@@ -104,7 +104,7 @@ class page_action extends tform_actions {
         
         if($this->dataRecord['app_theme'] != 'default') {
             $tmp_path = ISPC_THEMES_PATH."/".$this->dataRecord['app_theme'];
-            if(!@is_dir($tmp_path) || !@file_exists($tmp_path."/ISPC_VERSION") || trim(file_get_contents($tmp_path."/ISPC_VERSION")) != ISPC_APP_VERSION) {
+            if(!@is_dir($tmp_path) || (@file_exists($tmp_path."/ispconfig_version") && trim(file_get_contents($tmp_path."/ispconfig_version")) != ISPC_APP_VERSION)) {
                 // fall back to default theme if this one is not compatible with current ispc version
                 $this->dataRecord['app_theme'] = 'default';
             }

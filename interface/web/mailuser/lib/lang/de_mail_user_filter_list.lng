@@ -6,3 +6,4 @@ $wb['page_txt'] = 'Seite';
 $wb['page_of_txt'] = 'von';
 $wb['delete_confirmation'] = 'Möchten Sie die E-Mail Filter Regel wirklich löschen?';
 ?>
+

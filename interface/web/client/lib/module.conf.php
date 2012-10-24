@@ -82,6 +82,7 @@ if ($settings['use_domain_module'] == 'y') {
 	unset($items);
 }
 
+/*
 if($_SESSION["s"]["user"]["typ"] == 'admin'){
 $items[] = array(   'title' 	=> "Interface Settings",
                     'target' 	=> 'content',
@@ -95,4 +96,5 @@ $module["nav"][] = array(   'title'	=> 'Reseller Panel',
 
 unset($items);
 }
+*/
 ?>

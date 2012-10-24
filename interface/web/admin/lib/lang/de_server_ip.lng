@@ -9,3 +9,4 @@ $wb['ip_type_txt'] = 'Typ';
 $wb['virtualhost_port_txt'] = 'HTTP Ports';
 $wb['error_port_syntax'] = 'Ungültige Zeichen im Ports Feld. Bitte geben Sie nur komma-separierte Nummern an. Beispiel: 80,443';
 ?>
+

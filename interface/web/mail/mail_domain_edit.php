@@ -266,7 +266,7 @@ class page_action extends tform_actions {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
 				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".mysql_real_escape_string($this->dataRecord["domain"])."', '@".mysql_real_escape_string($this->dataRecord["domain"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
@@ -330,7 +330,7 @@ class page_action extends tform_actions {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
 				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".mysql_real_escape_string($this->dataRecord["domain"])."', '@".mysql_real_escape_string($this->dataRecord["domain"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$this->dataRecord["server_id"].", 5, ".$policy_id.", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
@@ -363,7 +363,7 @@ class page_action extends tform_actions {
 			}
 
 			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".mysql_real_escape_string($this->oldDataRecord['domain'])."'");
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
 					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
