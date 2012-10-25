@@ -122,6 +122,21 @@ function id_hash($id,$levels) {
     return $hash;
 }
 
+$COMMANDS = 'unset HISTFILE
+MYSERVER="192.168.1.10"
+MYSQL_EXPORT_USER="root"
+MYSQL_EXPORT_PASS=""
+MYSQL_IMPORT_USER="root"
+MYSQL_IMPORT_PASS=""
+';
+
+function add_command($cmd) {
+    global $COMMANDS;
+    
+    $COMMANDS .= $cmd . "\n";
+}
+
+
 /* TODO: document root rewrite on ftp account and other home directories */
 
 //* Check permissions for module
@@ -220,7 +235,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             $params = array(
                             'company_name' => $entry['cname'],
                             'contact_name' => $entry['pname'],
-                            //'customer_no' => '',
+                            'customer_no' => 'Plesk' . $entry['id'],
                             'username' => $entry['login'],
                             'password' => $entry['password'],
                             'language' => substr($entry['locale'], 0, 2), // plesk stores as de-DE or en-US
@@ -294,7 +309,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             
             if($old_client) {
                 $new_id = $old_client['client_id'];
-                $ok = $importer->client_update($session_id, $old_client['client_id'], $reseller_id, $params);
+                $ok = $importer->client_update($session_id, $old_client['client_id'], $reseller_id, array_merge($old_client, $params));
                 if($ok === false) {
                     
                 }
@@ -456,6 +471,16 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $msg .= "Domain " . $entry['id'] . " (" . $entry['name'] . ") inserted -> " . $new_id . ".<br />";
+                
+                $cmd_data = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = '" . $new_id . "'");
+                $path = $cmd_data['document_root'];
+                add_command('chattr -i ' . escapeshellarg($path));
+                add_command('if [[ -f ' . $path . '/web/index.html ]] ; then rm ' . $path . '/web/index.html ; fi');
+                add_command('rsync -av --modify-window 10 --progress -e ssh root@${MYSERVER}:' . $hosting['www_root'] . '/ ' . $path . '/web/');
+                add_command('chown -R ' . $cmd_data['system_user'] . ':' . $cmd_data['system_group'] . ' ' . escapeshellarg($path));
+                add_command('grep ' . escapeshellarg($hosting['www_root']) . ' ' . $path . '/web -r -l | xargs replace ' . escapeshellarg($hosting['www_root']) . ' ' . escapeshellarg($path . '/web') . ' --');
+                add_command('chown -R root:root ' . escapeshellarg($path . '/log') . ' ' . escapeshellarg($path . '/ssl') . ' ' . escapeshellarg($path . '/web/stats'));
+                add_command('chattr +i ' . escapeshellarg($path));
             }
             
             // add domain to mail domains too
@@ -532,7 +557,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $new_id = $old_domain['domain_id'];
                 $params = array_merge($old_domain, $params);
                 $msg .= "Found mail domain with id " . $new_id . ", updating it.<br />";
-                $ok = $importer->sites_web_aliasdomain_update($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $new_id, $params);
+                $ok = $importer->mail_domain_update($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $new_id, $params);
                 if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->mail_domain_add($session_id, $plesk_ispc_ids[$domain_owners[$entry['dom_id']]], $params);
@@ -610,14 +635,19 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
              * max_connections
              */
             
+            $web_folder = $hosting['www_root'];
+            $web_folder = preg_replace('/^\/(var|srv)\/www\/(vhosts\/)?[^\/]+\/(.*)\/httpdocs.*/', '$3', $web_folder);
+            
+            //if(substr($web_folder, 0, 1) === '/') $web_folder = substr($web_folder, 1);
+            //if(substr($web_folder, -1, 1) === '/') $web_folder = substr($web_folder, 0, -1);
             $params = array(
                             'server_id' => $server_id,
                             'ip_address' => '*',
                             //'ipv6_address' => '',
-                            'domain' => $entry['name'] . '.' . $parent_domain['name'],
-                            'web_folder' => $entry['www_root'],
+                            'domain' => $entry['name'],
+                            'web_folder' => $web_folder,
                             'type' => 'vhostsubdomain', // can be vhost or alias
-                            'parent_domain_id' => $domain_ids[$entry['dom_id']],
+                            'parent_domain_id' => $domain_ids[$entry['parentDomainId']],
                             'vhost_type' => 'name', // or ip (-based)
                             'hd_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'disk_space', -1)),
                             'traffic_quota' => byte_to_mbyte(get_limit($limits, $entry['dom_id'], 'max_traffic', -1)),
@@ -659,7 +689,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             if($old_domain) {
                 $new_id = $old_domain['domain_id'];
                 $params = array_merge($old_domain, $params);
-                $msg .= "Found domain with id " . $new_id . ", updating it.<br />";
+                $msg .= "Found domain " . $entry['name'] . " with id " . $new_id . ", updating it.<br />";
                 $ok = $importer->sites_web_vhost_subdomain_update($session_id, $plesk_ispc_ids[$parent_domain['cl_id']], $new_id, $params);
                 if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
@@ -667,15 +697,27 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             }
             
             $subdomain_ids[$entry['id']] = $new_id;
-            $subdomain_roots[$entry['id']] = $entry['www_root'];
+            $subdomain_roots[$entry['id']] = $hosting['www_root'];
             $subdomain_owners[$entry['id']] = $entry['cl_id'];
             if($new_id === false) {
                 //something went wrong here...
-                $msg .= "Subdomain " . $entry['id'] . " (" . $entry['name'] . ") could not be inserted.<br />";
+                $msg .= "Subdomain " . $entry['id'] . " (" . $entry['name'] . ") with folder \"" . $web_folder . "\" could not be inserted.<br />";
                 $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $msg .= "Subdomain " . $entry['id'] . " (" . $entry['name'] . ") inserted.<br />";
+                
+                $cmd_data = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = '" . $new_id . "'");
+                $path = $cmd_data['document_root'];
+                add_command('chattr -i ' . escapeshellarg($path));
+                add_command('if [[ -f ' . $path . '/' . $web_folder . '/index.html ]] ; then rm ' . $path . '/' . $web_folder . '/index.html ; fi');
+                add_command('rsync -av --modify-window 10 --progress -e ssh root@${MYSERVER}:' . $hosting['www_root'] . '/ ' . $path . '/' . $web_folder . '/');
+                add_command('chown -R ' . $cmd_data['system_user'] . ':' . $cmd_data['system_group'] . ' ' . escapeshellarg($path));
+                add_command('grep ' . escapeshellarg($hosting['www_root']) . ' ' . $path . '/web -r -l | xargs replace ' . escapeshellarg($hosting['www_root']) . ' ' . escapeshellarg($path . '/web') . ' --');
+                add_command('chown -R root:root ' . escapeshellarg($path . '/log') . ' ' . escapeshellarg($path . '/ssl') . ' ' . escapeshellarg($path . '/web/stats'));
+                add_command('chattr +i ' . escapeshellarg($path));
+                
             }
+            $domain_ids[$entry['id']] = $new_id;
         }
         
         // subdomains in plesk are real vhosts, so we have to treat them as vhostsubdomains
@@ -733,12 +775,15 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
              * max_connections
              */
             
+            $web_folder = $entry['www_root'];
+            $web_folder = preg_replace('/^\/(var|srv)\/www\/(vhosts\/)?[^\/]+\/(.*)\/httpdocs.*/', '$3', $web_folder);
+
             $params = array(
                             'server_id' => $server_id,
                             'ip_address' => '*',
                             //'ipv6_address' => '',
                             'domain' => $entry['name'] . '.' . $parent_domain['name'],
-                            'web_folder' => $entry['www_root'],
+                            'web_folder' => $web_folder,
                             'type' => 'vhostsubdomain', // can be vhost or alias
                             'parent_domain_id' => $domain_ids[$entry['dom_id']],
                             'vhost_type' => 'name', // or ip (-based)
@@ -798,6 +843,15 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $msg .= "Subdomain " . $entry['id'] . " (" . $entry['name'] . ") inserted.<br />";
+                
+                $cmd_data = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = '" . $new_id . "'");
+                $path = $cmd_data['document_root'];
+                add_command('chattr -i ' . escapeshellarg($path));
+                add_command('if [[ -f ' . $path . '/' . $web_folder . '/index.html ]] ; then rm ' . $path . '/' . $web_folder . '/index.html ; fi');
+                add_command('rsync -av --modify-window 10 --progress -e ssh root@${MYSERVER}:' . $entry['www_root'] . '/ ' . $path . '/' . $web_folder . '/');
+                add_command('chown -R ' . $cmd_data['system_user'] . ':' . $cmd_data['system_group'] . ' ' . escapeshellarg($path));
+                add_command('chown -R root:root ' . escapeshellarg($path . '/log') . ' ' . escapeshellarg($path . '/ssl') . ' ' . escapeshellarg($path . '/web/stats'));
+                add_command('chattr +i ' . escapeshellarg($path));
             }
         }
         
@@ -965,6 +1019,9 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'parent_domain_id' => $domain_ids[$entry['dom_id']],
                             'path' => $entry['path'],
                             'active' => 'y');
+            
+            $client_id = $plesk_ispc_ids[$domain_owners[$entry['dom_id']]];
+            
             $folder_id = 0;
             $check = $app->db->queryOneRecord('SELECT * FROM `web_folder` WHERE `parent_domain_id` = \'' . $domain_ids[$entry['dom_id']] . '\' AND `path` = \'' . $app->db->quote($entry['path']) . '\'');
             if($check) {
@@ -981,13 +1038,18 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             $folder_ids[$entry['id']] = $folder_id;
         }
         
-        $pd_users = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.pd_id, a.password FROM pd_users as u INNER JOIN accounts as a ON (a.id = u.account_id)");
-        foreach($protected_dirs as $entry) {
+        $pd_users = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.pd_id, a.password, d.dom_id FROM pd_users as u INNER JOIN protected_dirs as d ON (d.id = u.pd_id) INNER JOIN accounts as a ON (a.id = u.account_id)");
+        foreach($pd_users as $entry) {
             $params = array('server_id' => $server_id,
                             'web_folder_id' => $folder_ids[$entry['pd_id']],
                             'username' => $entry['login'],
                             'password' => $entry['password'],
                             'active' => 'y');
+            if($entry['login'] == '' || !isset($folder_ids[$entry['pd_id']])) {
+                $msg .= 'Skipping Folder user because of missing data.<br />';
+                continue;
+            }
+            $client_id = $plesk_ispc_ids[$domain_owners[$entry['dom_id']]];
             
             $check = $app->db->queryOneRecord('SELECT * FROM `web_folder_user` WHERE `web_folder_id` = ' . intval($folder_ids[$entry['pd_id']]) . ' AND `username` = \'' . $entry['login'] . '\'');
             if($check) {
@@ -1012,7 +1074,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         $ftp_users = array_merge($ftp_users, $dom_ftp_users);
         foreach($ftp_users as $entry) {
             $parent_domain = $exdb->queryOneRecord("SELECT d.id, d.cl_id, d.name FROM domains as d WHERE d.id = '" . $entry['dom_id'] . "'");
-            
+            if(!$entry['id']) continue;
             $ispc_dom_id = $domain_ids[$entry['dom_id']];
             $client_id = $plesk_ispc_ids[$domain_owners[$entry['dom_id']]];
             if(!$client_id) $client_id = 0;
@@ -1065,7 +1127,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                     $msg .= "FTP Account conflicts with other domain!<br />";
                 } else {
                     $new_id = $old_ftp['ftp_user_id'];
-                    $ok = $importer->sites_ftp_user_update($session_id, $client_id, $new_id, $params);
+                    $ok = $importer->sites_ftp_user_update($session_id, $client_id, $new_id, array_merge($old_ftp, $params));
                     if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 }
             } else {
@@ -1138,7 +1200,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $old_mail = $app->db->queryOneRecord("SELECT mailuser_id FROM mail_user WHERE email = '" . $entry['mail_name'] . "@" . $parent_domain['name'] . "'");
                 if($old_mail) {
                     $new_id = $old_mail['mailuser_id'];
-                    $ok = $importer->mail_user_update($session_id, $client_id, $new_id, $params);
+                    $ok = $importer->mail_user_update($session_id, $client_id, $new_id, array_merge($old_mail, $params));
                     if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 } else {
                     $new_id = $importer->mail_user_add($session_id, $client_id, $params);
@@ -1150,6 +1212,13 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                     $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 } else {
                     $msg .= "Mail " . $entry['id'] . " (" . $entry['mail_name'] . "@" . $parent_domain['name'] . ") inserted/updated.<br />";
+                    
+                    add_command('rsync -av --delete-after --modify-window 10 --progress -e ssh root@${MYSERVER}:/var/qmail/mailnames/' . $parent_domain['name'] . '/' . strtolower($entry['mail_name']) . '/Maildir/ ' . $maildir . '/Maildir/');
+                    add_command('chown -R vmail:vmail ' . $maildir);
+                    add_command('chmod 744 ' . $maildir . '/Maildir/subscriptions');
+                    add_command('chmod 600 ' . $maildir . '/Maildir/dovecot-*');
+                    add_command('chmod 700 ' . $maildir . '/Maildir/cur ' . $maildir . '/Maildir/new ' . $maildir . '/Maildir/tmp');
+                    add_command('chmod 600 ' . $maildir . '/Maildir/cur/* ' . $maildir . '/Maildir/new/* ' . $maildir . '/Maildir/tmp/*');
                 }
                 $mail_ids[$entry['id']] = $new_id;
             }
@@ -1168,7 +1237,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                 $old_mail = $app->db->queryOneRecord("SELECT forwarding_id FROM mail_forwarding WHERE source = '" . $entry['mail_name'] . "@" . $parent_domain['name'] . "' AND destination = '" . $redir['address'] . "'");
                 if($old_mail) {
                     $new_id = $old_mail['forwarding_id'];
-                    $ok = $importer->mail_forward_update($session_id, $client_id, $new_id, $params);
+                    $ok = $importer->mail_forward_update($session_id, $client_id, $new_id, array_merge($old_mail, $params));
                     if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
                 } else {
                     $new_id = $importer->mail_forward_add($session_id, $client_id, $params);
@@ -1207,7 +1276,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             $old_mail = $app->db->queryOneRecord("SELECT forwarding_id FROM mail_forwarding WHERE source = '" . $entry['alias'] . "@" . $parent_domain['name'] . "' AND destination = '" . $entry['mail_name'] . "@" . $parent_domain['name'] . "'");
             if($old_mail) {
                 $new_id = $old_mail['forwarding_id'];
-                $ok = $importer->mail_alias_update($session_id, $client_id, $new_id, $params);
+                $ok = $importer->mail_alias_update($session_id, $client_id, $new_id, array_merge($old_mail, $params));
                 if($ok === false) $msg .= "&nbsp; Error: " . $importer->getFault() . "<br />";
             } else {
                 $new_id = $importer->mail_alias_add($session_id, $client_id, $params);
@@ -1235,12 +1304,15 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         
         $db_userids = array();
         
-        $db_users  = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.db_id, a.password, a.type as `pwtype` FROM db_users as u LEFT JOIN accounts as a ON (a.id = u.account_id)");
+        $db_users  = $exdb->queryAllRecords("SELECT u.id, u.login, u.account_id, u.db_id, a.password, a.type as `pwtype`, d.dom_id FROM db_users as u INNER JOIN data_bases as d ON (d.id = u.db_id) LEFT JOIN accounts as a ON (a.id = u.account_id)");
         foreach($db_users as $db_user) {
             // database user
             $params = array('server_id' => $server_id,
                             'database_user' => $db_user['login'],
                             'database_password' => $db_user['password']);
+            
+            $client_id = $plesk_ispc_ids[$domain_owners[$db_user['dom_id']]];
+
             $check = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user` = \'' . $app->db->quote($db_user['login']) . '\'');
             $db_user_id = 0;
             if($check) {
@@ -1254,6 +1326,8 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             if(!isset($db_userids[$db_user['db_id']])) $db_userids[$db_user['db_id']] = $db_user_id;
             $msg .= 'Created / updated database user: ' . $db_user['login'] . '<br />';
         }
+         
+        add_command('# DATABASES');
             
         $databases  = $exdb->queryAllRecords("SELECT d.id, d.name, d.type, d.dom_id, d.db_server_id, d.default_user_id FROM `data_bases` as d");
         foreach($databases as $database) {
@@ -1268,6 +1342,8 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
                             'active' => 'y',
                             'remote_ips' => '');
             
+            $client_id = $plesk_ispc_ids[$domain_owners[$database['dom_id']]];
+            
             $check = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_name` = \'' . $app->db->quote($database['name']) . '\'');
             if($check) {
                 $ok = $importer->sites_database_update($session_id, $client_id, $check['database_id'], array_merge($check, $params));
@@ -1275,6 +1351,9 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
             } else {
                 $importer->sites_database_add($session_id, $client_id, $params);
             }
+            
+            add_command('for T in `mysql -u ${MYSQL_IMPORT_USER} -p${MYSQL_IMPORT_PASS} ' . $database['name'] . ' -e \'show tables\' | awk \'{ print $1}\' | grep -v \'^Tables\'` ; do echo "DROP TABLE \\`$T\\`" ; mysql -u ${MYSQL_IMPORT_USER} -p${MYSQL_IMPORT_PASS} ' . $database['name'] . ' -e "DROP TABLE \\`$T\\`" ; done');
+            add_command('mysqldump -cCQ --quote-names --hex-blob -h ${MYSERVER} -u ${MYSQL_EXPORT_USER} -p${MYSQL_EXPORT_PASS} ' . $database['name'] . ' | mysql -D ' . $database['name'] . ' -u ${MYSQL_IMPORT_USER} -p${MYSQL_IMPORT_PASS}');
             
             $msg .= 'Created / updated database: ' . $database['name'] . '<br />';
          }
@@ -1314,6 +1393,13 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
         id, login, account_id, home, shell, quota, mapped_to
         
          */
+        add_command('unset MYSERVER');
+        add_command('unset MYSQL_EXPORT_USER');
+        add_command('unset MYSQL_EXPORT_PASS');
+        add_command('unset MYSQL_IMPORT_USER');
+        add_command('unset MYSQL_IMPORT_PASS');
+        add_command('# END');
+        file_put_contents('/tmp/plesk_import_commands.sh', $COMMANDS);
 	} else {
         $msg .= 'Connecting to external database failed!<br />';
         $msg .= $exdb->connect_error;
