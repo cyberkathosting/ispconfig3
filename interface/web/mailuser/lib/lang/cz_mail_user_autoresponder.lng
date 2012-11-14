@@ -1,13 +1,13 @@
 <?php
-$wb["mailbox_autoresponder_txt"] = 'Autoresponder';
-$wb["autoresponder_subject"] = 'Out of office reply';
-$wb["autoresponder_text_txt"] = 'Text';
-$wb["autoresponder_txt"] = 'Active';
-$wb["autoresponder_start_date_txt"] = 'Start on';
-$wb["autoresponder_start_date_isfuture"] = 'Start date cannot be in the past.';
-$wb["autoresponder_end_date_txt"] = 'End by';
-$wb["autoresponder_end_date_isgreater"] = 'End date must be set and be later than start date.';
-$wb['autoresponder_active'] = 'Enable the autoresponder';
-$wb['now_txt']='Now';
-$wb['autoresponder_subject_txt'] = 'Betreff';
+$wb['mailbox_autoresponder_txt'] = 'Automatická odpověď';
+$wb['autoresponder_subject'] = 'Oznámení o nepřítomnosti';
+$wb['autoresponder_text_txt'] = 'Text';
+$wb['autoresponder_txt'] = 'Aktivní';
+$wb['autoresponder_start_date_txt'] = 'Začít od';
+$wb['autoresponder_start_date_isfuture'] = 'Datum zahájení nesmí být v minulosti.';
+$wb['autoresponder_end_date_txt'] = 'Skončit';
+$wb['autoresponder_end_date_isgreater'] = 'Datum ukončení musí být nastaven a musí být pozdější než datum zahájení.';
+$wb['autoresponder_active'] = 'Povolit automatický odpovídač';
+$wb['now_txt'] = 'Nyní';
+$wb['autoresponder_subject_txt'] = 'Předmět e-mailu';
 ?>

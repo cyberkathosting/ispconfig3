@@ -103,7 +103,8 @@ class db extends mysqli
   }
 
   public function query($queryString) {
-    $this->queryId = parent::query($queryString);
+    parent::ping();
+	$this->queryId = parent::query($queryString);
     $this->updateError('DB::query('.$queryString.') -> mysqli_query');
     if(!$this->queryId) {
       return false;

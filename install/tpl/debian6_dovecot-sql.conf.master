@@ -14,5 +14,8 @@ connect = host={mysql_server_host} dbname={mysql_server_database} user={mysql_se
 default_pass_scheme = CRYPT
 
 password_query = SELECT password FROM mail_user WHERE login = '%u' AND disable%Ls = 'n'
-# user_query = SELECT email AS user, maildir AS home, CONCAT('*:storage=', quota , 'B') AS quota_rule FROM mail_user WHERE login = '%u' AND disable%Ls = 'n'
 user_query = SELECT email as user, maildir as home, CONCAT('maildir:', maildir, '/Maildir') as mail, uid, gid, CONCAT('*:storage=', quota, 'B') AS quota_rule, CONCAT(maildir, '/.sieve') as sieve FROM mail_user WHERE (login = '%u' OR email = '%u') AND disable%Ls = 'n'
+
+# The iterate_query is required for the doveadm command only and works only on dovecot 2 servers.
+# Do not enable it on Dovecot 1.x servers
+# iterate_query = SELECT email as user FROM mail_user

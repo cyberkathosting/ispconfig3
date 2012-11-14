@@ -133,4 +133,8 @@ $wb['force_suexec_txt'] = 'SuEXEC forced';
 $wb['limit_hterror_txt'] = 'Custom error docs available';
 $wb['limit_wildcard_txt'] = 'Wildcard subdomain available';
 $wb['limit_ssl_txt'] = 'SSL available';
+$wb['active_template_additional_txt'] = 'Active Addons';
+$wb['bank_account_owner_txt'] = 'Bank account owner';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['customer_no_error_unique'] = 'The customer no. must be unique (or empty).';
 ?>

@@ -4,7 +4,6 @@ $wb['Website'] = 'Website';
 $wb['Subdomain'] = 'Subdomein voor website';
 $wb['Aliasdomain'] = 'Aliasdomein voor website';
 $wb['Database'] = 'Databases';
-$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
 $wb['FTP-User'] = 'FTP-gebruiker';
 $wb['Webdav-User'] = 'Webdav-gebruiker';
@@ -26,4 +25,9 @@ $wb['Domain'] = 'Domain';
 $wb['Redirect'] = 'Redirect';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Sites';
+$wb['Database User'] = 'Database Users';
+$wb['APS Installer'] = 'APS Installer';
+$wb['Available packages'] = 'Available packages';
+$wb['Installed packages'] = 'Installed packages';
+$wb['Update Packagelist'] = 'Update Packagelist';
 ?>

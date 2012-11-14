@@ -7,4 +7,3 @@ $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Neue Secondary DNS Zone hinzufügen';
 $wb['eg_domain_tld'] = 'Format: domain.tld.';
 ?>
-

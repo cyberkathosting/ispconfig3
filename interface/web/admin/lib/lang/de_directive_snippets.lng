@@ -1,10 +1,9 @@
 <?php
-$wb['Directive Snippets'] = "Direktiven Schnipsel";
-$wb['name_txt'] = "Name des Schnipsels";
-$wb['type_txt'] = "Typ";
-$wb['snippet_txt'] = "Schnipsel";
-$wb['active_txt'] = "Aktiv";
-$wb['directive_snippets_name_empty'] = "Bitte geben Sie einen Namen für den Schnipsel an.";
-$wb['directive_snippets_name_error_unique'] = "Es existiert schon ein Direktiven-Schnipsel mit diesem Namen.";
+$wb['Directive Snippets'] = 'Direktiven Schnipsel';
+$wb['name_txt'] = 'Name des Schnipsels';
+$wb['type_txt'] = 'Typ';
+$wb['snippet_txt'] = 'Schnipsel';
+$wb['active_txt'] = 'Aktiv';
+$wb['directive_snippets_name_empty'] = 'Bitte geben Sie einen Namen für den Schnipsel an.';
+$wb['directive_snippets_name_error_unique'] = 'Es existiert schon ein Direktiven-Schnipsel mit diesem Namen.';
 ?>
-

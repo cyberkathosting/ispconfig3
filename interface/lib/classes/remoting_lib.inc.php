@@ -160,7 +160,7 @@ class remoting_lib {
 						}
 				}*/
 				
-				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = $client_id");
+				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = $this->client_id");
 				$this->sys_username         = $user['username'];
 				$this->sys_userid            = $user['userid'];
 				$this->sys_default_group     = $user['default_group'];
@@ -672,13 +672,13 @@ class remoting_lib {
                                         if($action == "INSERT") {
                                                 if($field['formtype'] == 'PASSWORD') {
                                                         $sql_insert_key .= "`$key`, ";
-                                                        if($field['encryption'] == 'CRYPT') {
+														if ((isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') || (isset($record['_ispconfig_pw_crypted']) && $record['_ispconfig_pw_crypted'] == 1)) {
+																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
+                                                        } elseif(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
 																$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
-														} elseif ($field['encryption'] == 'MYSQL') {
+														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
 																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
-														} elseif ($field['encryption'] == 'CLEARTEXT') {
-																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
@@ -699,14 +699,14 @@ class remoting_lib {
                                                 }
                                         } else {
                                                 if($field['formtype'] == 'PASSWORD') {
-														if(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
+														if ((isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') || (isset($record['_ispconfig_pw_crypted']) && $record['_ispconfig_pw_crypted'] == 1)) {
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
+                                                        } elseif(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
                                                                 $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
 																$sql_update .= "`$key` = PASSWORD('".$app->db->quote($record[$key])."'), ";
-														} elseif (isset($field['encryption']) && $field['encryption'] == 'CLEARTEXT') {
-																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
-                                                        } else {
+														} else {
                                                                 $record[$key] = md5(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
                                                         }
@@ -825,6 +825,10 @@ class remoting_lib {
 			} else {
 				$modules = $app->db->quote($params['modules']);
 			}
+			if(isset($params['limit_client']) && $params['limit_client'] > 0) {
+				$modules .= ',client';
+			}
+			
 			if(!isset($params['startmodule'])) {			
 				$startmodule = 'dashboard';
 			} else {						

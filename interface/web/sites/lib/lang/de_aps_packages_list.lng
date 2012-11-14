@@ -6,4 +6,3 @@ $wb['category_txt'] = 'Kategorie';
 $wb['status_txt'] = 'Verfügbar';
 $wb['filter_txt'] = 'Suche';
 ?>
-

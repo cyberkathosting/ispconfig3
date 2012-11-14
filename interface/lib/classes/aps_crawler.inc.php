@@ -54,6 +54,8 @@ class ApsCrawler extends ApsBase
      */
     private function checkRequirements()
     {
+        global $app;
+        
         try
         {
             // Check if allow_url_fopen is enabled
@@ -77,7 +79,7 @@ class ApsCrawler extends ApsBase
         }
         catch(Exception $e)
         {
-            $this->app->log($this->log_prefix.'Aborting execution because '.$e->getMessage(), LOGLEVEL_ERROR);
+            $app->log($this->log_prefix.'Aborting execution because '.$e->getMessage(), LOGLEVEL_ERROR);
             return false;
         }
     }
@@ -213,6 +215,8 @@ class ApsCrawler extends ApsBase
      */    
     public function startCrawler() 
     {
+        global $app;
+        
         try
         {
             // Make sure the requirements are given so that this script can execute
@@ -220,7 +224,7 @@ class ApsCrawler extends ApsBase
             if(!$req_ret) return false;
             
             // Execute the open task and first fetch all vendors (APS catalog API 1.1, p. 12)
-            $this->app->log($this->log_prefix.'Fetching data from '.$this->fetch_url);
+            $app->log($this->log_prefix.'Fetching data from '.$this->fetch_url);
 
             $vendor_page = $this->fetchPage('/all-app/'); //$vendor_page = $this->fetchPage('/'.$this->aps_version.'/');
             preg_match_all("/\<a href=\"(.+)\/\" class=\"vendor\"/i", $vendor_page, $matches);
@@ -242,7 +246,7 @@ class ApsCrawler extends ApsBase
             // Get all known apps from the database and the highest known version
             // Note: A dirty hack is used for numerical sorting of the VARCHAR field Version: +0 -> cast
             // A longer but typesafe way would be: ORDER BY CAST(REPLACE(Version, '.', '') AS UNSIGNED) DESC
-            $existing_apps = $this->db->queryAllRecords("SELECT * FROM (
+            $existing_apps = $app->db->queryAllRecords("SELECT * FROM (
                 SELECT name AS Name, CONCAT(version, '-', CAST(`release` AS CHAR)) AS CurrentVersion 
                 FROM aps_packages ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC
                 ) as Versions GROUP BY name");
@@ -325,14 +329,14 @@ class ApsCrawler extends ApsBase
                                     if(file_exists($old_folder)) $this->removeDirectory($old_folder);
                                     
 									/*
-                                    $this->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_OUTDATED."' WHERE name = '".
-                                        $this->db->quote($app_name)."' AND CONCAT(version, '-', CAST(`release` AS CHAR)) = '".
-                                        $this->db->quote($ex_ver)."';");
+                                    $app->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_OUTDATED."' WHERE name = '".
+                                        $app->db->quote($app_name)."' AND CONCAT(version, '-', CAST(`release` AS CHAR)) = '".
+                                        $app->db->quote($ex_ver)."';");
 									*/
-									$tmp = $this->db->queryOneRecord("SELECT id FROM aps_packages WHERE name = '".
-                                        $this->db->quote($app_name)."' AND CONCAT(version, '-', CAST(`release` AS CHAR)) = '".
-                                        $this->db->quote($ex_ver)."';");
-									$this->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_OUTDATED, 'id', $tmp['id']);
+									$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE name = '".
+                                        $app->db->quote($app_name)."' AND CONCAT(version, '-', CAST(`release` AS CHAR)) = '".
+                                        $app->db->quote($ex_ver)."';");
+									$app->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_OUTDATED, 'id', $tmp['id']);
 									unset($tmp);
                                 }
                                 
@@ -446,19 +450,19 @@ class ApsCrawler extends ApsBase
                     if($apps_to_dl_chunks[$i][$j]['filesize'] != 0 &&
                        $apps_to_dl_chunks[$i][$j]['filesize'] != filesize($apps_to_dl_chunks[$i][$j]['localtarget']))
                     {
-                            $this->app->log($this->log_prefix.' The filesize of the package "'.
+                            $app->log($this->log_prefix.' The filesize of the package "'.
                                 $apps_to_dl_chunks[$i][$j]['name'].'" is wrong. Download failure?', LOGLEVEL_WARN);
                     }
                 }
             }
             
-            $this->app->log($this->log_prefix.'Processed '.$apps_in_repo.
+            $app->log($this->log_prefix.'Processed '.$apps_in_repo.
                 ' apps from the repo. Downloaded '.$apps_updated.
                 ' updates, '.$apps_downloaded.' new apps');
         }
         catch(Exception $e)
         {
-            $this->app->log($this->log_prefix.$e->getMessage(), LOGLEVEL_ERROR);
+            $app->log($this->log_prefix.$e->getMessage(), LOGLEVEL_ERROR);
             return false;
         }
     }
@@ -472,6 +476,8 @@ class ApsCrawler extends ApsBase
      */
     public function parseFolderToDB()
     {
+        global $app;
+        
         try
         {
             // This method must be used in server mode
@@ -491,14 +497,14 @@ class ApsCrawler extends ApsBase
             
             // Get registered packages and mark non-existant packages with an error code to omit the install
             $existing_packages = array();
-            $path_query = $this->db->queryAllRecords('SELECT path AS Path FROM aps_packages;');
+            $path_query = $app->db->queryAllRecords('SELECT path AS Path FROM aps_packages;');
             foreach($path_query as $path) $existing_packages[] = $path['Path']; 
             $diff = array_diff($existing_packages, $pkg_list);
             foreach($diff as $todelete) {
-                /*$this->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_ERROR_NOMETA."' 
-                    WHERE path = '".$this->db->quote($todelete)."';");*/
-				$tmp = $this->db->queryOneRecord("SELECT id FROM aps_packages WHERE path = '".$this->db->quote($todelete)."';");
-				$this->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_ERROR_NOMETA, 'id', $tmp['id']);
+                /*$app->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_ERROR_NOMETA."' 
+                    WHERE path = '".$app->db->quote($todelete)."';");*/
+				$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE path = '".$app->db->quote($todelete)."';");
+				$app->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_ERROR_NOMETA, 'id', $tmp['id']);
 				unset($tmp);
 			}
             
@@ -510,7 +516,7 @@ class ApsCrawler extends ApsBase
                 $metafile = $this->interface_pkg_dir.'/'.$pkg.'/APP-META.xml';
                 if(!file_exists($metafile)) 
                 {
-                    $this->app->log($this->log_prefix.'Cannot read metadata from '.$pkg, LOGLEVEL_ERROR);
+                    $app->log($this->log_prefix.'Cannot read metadata from '.$pkg, LOGLEVEL_ERROR);
                     continue;
                 }
         
@@ -527,25 +533,25 @@ class ApsCrawler extends ApsBase
                 $pkg_release = parent::getXPathValue($sxe, 'release');
                 
 				/*
-                $this->db->query("INSERT INTO `aps_packages` 
+                $app->db->query("INSERT INTO `aps_packages` 
                     (`path`, `name`, `category`, `version`, `release`, `package_status`) VALUES 
-                    ('".$this->db->quote($pkg)."', '".$this->db->quote($pkg_name)."',
-                    '".$this->db->quote($pkg_category)."', '".$this->db->quote($pkg_version)."',
-                    ".$this->db->quote($pkg_release).", ".PACKAGE_ENABLED.");");
+                    ('".$app->db->quote($pkg)."', '".$app->db->quote($pkg_name)."',
+                    '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
+                    ".$app->db->quote($pkg_release).", ".PACKAGE_ENABLED.");");
 				*/
 				
 				$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_url`, `package_status`) VALUES 
-                    ('".$this->db->quote($pkg)."', '".$this->db->quote($pkg_name)."',
-                    '".$this->db->quote($pkg_category)."', '".$this->db->quote($pkg_version)."',
-                    ".$this->db->quote($pkg_release).", '".$this->db->quote($this->app_download_url_list[$pkg])."', ".PACKAGE_ENABLED.");";
+                    ('".$app->db->quote($pkg)."', '".$app->db->quote($pkg_name)."',
+                    '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
+                    ".$app->db->quote($pkg_release).", '".$app->db->quote($this->app_download_url_list[$pkg])."', ".PACKAGE_ENABLED.");";
 				
-				$this->app->db->datalogInsert('aps_packages', $insert_data, 'id');
+				$app->db->datalogInsert('aps_packages', $insert_data, 'id');
             }
         }
         catch(Exception $e)
         {
-            $this->app->log($this->log_prefix.$e->getMessage(), LOGLEVEL_ERROR);
-			$this->app->error($e->getMessage());
+            $app->log($this->log_prefix.$e->getMessage(), LOGLEVEL_ERROR);
+			$app->error($e->getMessage());
             return false;
         }
     }

@@ -15,6 +15,6 @@ $wb['mailuser_group_txt'] = 'Mail uživatel skupina';
 $wb['relayhost_txt'] = 'Relayhost';
 $wb['relayhost_user_txt'] = 'Relayhost uživatel';
 $wb['relayhost_password_txt'] = 'Relayhost heslo';
-$wb['mailbox_size_limit_txt'] = 'Limit velikosti mailboxut';
+$wb['mailbox_size_limit_txt'] = 'Limit velikosti e-mailové schránky';
 $wb['message_size_limit_txt'] = 'Limit velikosti zprávy';
 ?>

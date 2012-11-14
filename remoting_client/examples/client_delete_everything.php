@@ -21,7 +21,7 @@ try {
 	//* Delete client
 	$affected_rows = $client->client_delete_everything($session_id, $client_id);
 
-	echo "Client ".$client_id." has been deleted.<br>";
+	//echo "Client ".$client_id." has been deleted.<br>";
 	//print_r($affected_rows);
 	
 	if($client->logout($session_id)) {

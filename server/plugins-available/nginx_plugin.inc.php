@@ -920,123 +920,196 @@ class nginx_plugin {
 		}
 
 		// Set SEO Redirect
-		if($data['new']['seo_redirect'] != '' && ($data['new']['subdomain'] == 'www' || $data['new']['subdomain'] == '*')){
+		if($data['new']['seo_redirect'] != ''){
 			$vhost_data['seo_redirect_enabled'] = 1;
-			if($data['new']['seo_redirect'] == 'non_www_to_www'){
-				$vhost_data['seo_redirect_origin_domain'] = $data['new']['domain'];
-				$vhost_data['seo_redirect_target_domain'] = 'www.'.$data['new']['domain'];
-			}
-			if($data['new']['seo_redirect'] == 'www_to_non_www'){
-				$vhost_data['seo_redirect_origin_domain'] = 'www.'.$data['new']['domain'];
-				$vhost_data['seo_redirect_target_domain'] = $data['new']['domain'];
+			$tmp_seo_redirects = $this->get_seo_redirects($data['new']);
+			if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+				foreach($tmp_seo_redirects as $key => $val){
+					$vhost_data[$key] = $val;
+				}
+			} else {
+				$vhost_data['seo_redirect_enabled'] = 0;
 			}
 		} else {
 			$vhost_data['seo_redirect_enabled'] = 0;
 		}
 		
-		$tpl->setVar($vhost_data);
+		
 
 		// Rewrite rules
+		$own_rewrite_rules = array();
 		$rewrite_rules = array();
 		if($data['new']['redirect_type'] != '' && $data['new']['redirect_path'] != '') {
 			if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
-			if(substr($data['new']['redirect_path'],0,8) == '[scheme]') $data['new']['redirect_path'] = '$scheme'.substr($data['new']['redirect_path'],8);
-			
-			/* Disabled path extension
-			if($data['new']['redirect_type'] == 'no' && substr($data['new']['redirect_path'],0,4) != 'http') {
-				$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';
+			if(substr($data['new']['redirect_path'],0,8) == '[scheme]'){
+				if($data['new']['redirect_type'] != 'proxy'){
+					$data['new']['redirect_path'] = '$scheme'.substr($data['new']['redirect_path'],8);
+				} else {
+					$data['new']['redirect_path'] = 'http'.substr($data['new']['redirect_path'],8);
+				}
 			}
-			*/
+			
+			// Custom proxy directives
+			if($data['new']['redirect_type'] == 'proxy' && trim($data['new']['proxy_directives'] != '')){
+				$final_proxy_directives = array();
+				$proxy_directives = $data['new']['proxy_directives'];
+				// Make sure we only have Unix linebreaks
+				$proxy_directives = str_replace("\r\n", "\n", $proxy_directives);
+				$proxy_directives = str_replace("\r", "\n", $proxy_directives);
+				$proxy_directive_lines = explode("\n", $proxy_directives);
+				if(is_array($proxy_directive_lines) && !empty($proxy_directive_lines)){
+					foreach($proxy_directive_lines as $proxy_directive_line){
+						$final_proxy_directives[] = array('proxy_directive' => $proxy_directive_line);
+					}
+				}
+			} else {
+				$final_proxy_directives = false;
+			}
 
 			switch($data['new']['subdomain']) {
 				case 'www':
 					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
-						$rewrite_exclude = '(?!'.substr($data['new']['redirect_path'],0,-1).')';
+						if($data['new']['redirect_type'] == 'proxy'){
+							$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
+							$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'],0,-1);
+							break;
+						}
+						$rewrite_exclude = '(?!/\b('.substr($data['new']['redirect_path'],1,-1).(substr($data['new']['redirect_path'],1,-1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
 					} else { // URL - check if URL is local
 						$tmp_redirect_path = $data['new']['redirect_path'];
 						if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
 						$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-						if($tmp_redirect_path_parts['host'] == $data['new']['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
+						if(($tmp_redirect_path_parts['host'] == $data['new']['domain'] || $tmp_redirect_path_parts['host'] == 'www.'.$data['new']['domain']) && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
+							// URL is local
 							if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
 							if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-							$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
+							//$rewrite_exclude = '((?!'.$tmp_redirect_path_parts['path'].'))';
+							if($data['new']['redirect_type'] == 'proxy'){
+								$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
+								$vhost_data['web_document_root_www'] .= $tmp_redirect_path_parts['path'];
+								break;
+							} else {
+								$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'],1).(substr($tmp_redirect_path_parts['path'],1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+							}
 						} else {
-							$rewrite_exclude = '(.?)';
+							// external URL
+							$rewrite_exclude = '(.?)/';
+							if($data['new']['redirect_type'] == 'proxy'){
+								$vhost_data['use_proxy'] = 'y';
+								$rewrite_subdir = $tmp_redirect_path_parts['path'];
+								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+								if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+							}
 						}
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
-					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
-					'rewrite_target' 	=> $data['new']['redirect_path'],
-					'rewrite_exclude'	=> $rewrite_exclude);
-					
-					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
-						$rewrite_exclude = '(?!'.substr($data['new']['redirect_path'],0,-1).')';
-					} else { // URL - check if URL is local
-						$tmp_redirect_path = $data['new']['redirect_path'];
-						if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
-						$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-						if($tmp_redirect_path_parts['host'] == 'www.'.$data['new']['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
-							if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
-							if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-							$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
-						} else {
-							$rewrite_exclude = '(.?)';
-						}
-						unset($tmp_redirect_path);
-						unset($tmp_redirect_path_parts);
-					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^' . $this->_rewrite_quote('www.'.$data['new']['domain']),
-							'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
-							'rewrite_target' 	=> $data['new']['redirect_path'],
-							'rewrite_exclude'	=> $rewrite_exclude);
+					$own_rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
+						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
+						'rewrite_target' 	=> $data['new']['redirect_path'],
+						'rewrite_exclude'	=> $rewrite_exclude,
+						'rewrite_subdir'	=> $rewrite_subdir,
+						'proxy_directives'	=> $final_proxy_directives,
+						'use_rewrite'	=> ($data['new']['redirect_type'] == 'proxy' ? false:true),
+						'use_proxy'	=> ($data['new']['redirect_type'] == 'proxy' ? true:false));
 					break;
 				case '*':
 					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
-						$rewrite_exclude = '(?!'.substr($data['new']['redirect_path'],0,-1).')';
+						if($data['new']['redirect_type'] == 'proxy'){
+							$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
+							$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'],0,-1);
+							break;
+						}
+						$rewrite_exclude = '(?!/\b('.substr($data['new']['redirect_path'],1,-1).(substr($data['new']['redirect_path'],1,-1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
 					} else { // URL - check if URL is local
 						$tmp_redirect_path = $data['new']['redirect_path'];
 						if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
 						$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-						if(substr($tmp_redirect_path_parts['host'],-strlen($data['new']['domain'])) == $data['new']['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
+												
+						//if($is_serveralias && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
+						if($this->url_is_local($tmp_redirect_path_parts['host'], $data['new']['domain_id']) && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
+							// URL is local
 							if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
 							if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-							$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
+							//$rewrite_exclude = '((?!'.$tmp_redirect_path_parts['path'].'))';
+							if($data['new']['redirect_type'] == 'proxy'){
+								$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
+								$vhost_data['web_document_root_www'] .= $tmp_redirect_path_parts['path'];
+								break;
+							} else {
+								$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'],1).(substr($tmp_redirect_path_parts['path'],1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+							}
 						} else {
-							$rewrite_exclude = '(.?)';
+							// external URL
+							$rewrite_exclude = '(.?)/';
+							if($data['new']['redirect_type'] == 'proxy'){
+								$vhost_data['use_proxy'] = 'y';
+								$rewrite_subdir = $tmp_redirect_path_parts['path'];
+								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+								if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+							}
 						}
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
+					$own_rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
 						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
 						'rewrite_target' 	=> $data['new']['redirect_path'],
-						'rewrite_exclude'	=> $rewrite_exclude);
+						'rewrite_exclude'	=> $rewrite_exclude,
+						'rewrite_subdir'	=> $rewrite_subdir,
+						'proxy_directives'	=> $final_proxy_directives,
+						'use_rewrite'	=> ($data['new']['redirect_type'] == 'proxy' ? false:true),
+						'use_proxy'	=> ($data['new']['redirect_type'] == 'proxy' ? true:false));
 					break;
 				default:
 					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
-						$rewrite_exclude = '(?!'.substr($data['new']['redirect_path'],0,-1).')';
+						if($data['new']['redirect_type'] == 'proxy'){
+							$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
+							$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'],0,-1);
+							break;
+						}
+						$rewrite_exclude = '(?!/\b('.substr($data['new']['redirect_path'],1,-1).(substr($data['new']['redirect_path'],1,-1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
 					} else { // URL - check if URL is local
 						$tmp_redirect_path = $data['new']['redirect_path'];
 						if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
 						$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
 						if($tmp_redirect_path_parts['host'] == $data['new']['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
+							// URL is local
 							if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
 							if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-							$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
+							//$rewrite_exclude = '((?!'.$tmp_redirect_path_parts['path'].'))';
+							if($data['new']['redirect_type'] == 'proxy'){
+								$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
+								$vhost_data['web_document_root_www'] .= $tmp_redirect_path_parts['path'];
+								break;
+							} else {
+								$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'],1).(substr($tmp_redirect_path_parts['path'],1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+							}
 						} else {
-							$rewrite_exclude = '(.?)';
+							// external URL
+							$rewrite_exclude = '(.?)/';
+							if($data['new']['redirect_type'] == 'proxy'){
+								$vhost_data['use_proxy'] = 'y';
+								$rewrite_subdir = $tmp_redirect_path_parts['path'];
+								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+								if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+							}
 						}
 						unset($tmp_redirect_path);
 						unset($tmp_redirect_path_parts);
 					}
-					$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
-					'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
-					'rewrite_target' 	=> $data['new']['redirect_path'],
-					'rewrite_exclude'	=> $rewrite_exclude);
+					$own_rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($data['new']['domain']),
+						'rewrite_type' 		=> ($data['new']['redirect_type'] == 'no')?'':$data['new']['redirect_type'],
+						'rewrite_target' 	=> $data['new']['redirect_path'],
+						'rewrite_exclude'	=> $rewrite_exclude,
+						'rewrite_subdir'	=> $rewrite_subdir,
+						'proxy_directives'	=> $final_proxy_directives,
+						'use_rewrite'	=> ($data['new']['redirect_type'] == 'proxy' ? false:true),
+						'use_proxy'	=> ($data['new']['redirect_type'] == 'proxy' ? true:false));
 			}
 		}
+
+		$tpl->setVar($vhost_data);
 		
 		$server_alias = array();
 		
@@ -1054,8 +1127,6 @@ class nginx_plugin {
 			$server_alias[] .= $auto_alias.' ';
 		}
 		
-		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND type != 'vhostsubdomain'");
 		switch($data['new']['subdomain']) {
 			case 'www':
 				$server_alias[] = 'www.'.$data['new']['domain'].' ';
@@ -1064,120 +1135,214 @@ class nginx_plugin {
 				$server_alias[] = '*.'.$data['new']['domain'].' ';
 				break;
 		}
+
+		// get alias domains (co-domains and subdomains)
+		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND type != 'vhostsubdomain'");
+		$alias_seo_redirects = array();
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
-				switch($alias['subdomain']) {
-					case 'www':
-						$server_alias[] = 'www.'.$alias['domain'].' '.$alias['domain'].' ';
-						break;
-					case '*':
-						$server_alias[] = '*.'.$alias['domain'].' '.$alias['domain'].' ';
-						break;
-					default:
-						$server_alias[] = $alias['domain'].' ';
-						break;
+			
+				// Custom proxy directives
+				if($alias['redirect_type'] == 'proxy' && trim($alias['proxy_directives'] != '')){
+					$final_proxy_directives = array();
+					$proxy_directives = $alias['proxy_directives'];
+					// Make sure we only have Unix linebreaks
+					$proxy_directives = str_replace("\r\n", "\n", $proxy_directives);
+					$proxy_directives = str_replace("\r", "\n", $proxy_directives);
+					$proxy_directive_lines = explode("\n", $proxy_directives);
+					if(is_array($proxy_directive_lines) && !empty($proxy_directive_lines)){
+						foreach($proxy_directive_lines as $proxy_directive_line){
+							$final_proxy_directives[] = array('proxy_directive' => $proxy_directive_line);
+						}
+					}
+				} else {
+					$final_proxy_directives = false;
 				}
-				$app->log('Add server alias: '.$alias['domain'],LOGLEVEL_DEBUG);
+			
+				if($alias['redirect_type'] == '' || $alias['redirect_path'] == '') {
+					switch($alias['subdomain']) {
+						case 'www':
+							$server_alias[] = 'www.'.$alias['domain'].' '.$alias['domain'].' ';
+							break;
+						case '*':
+							$server_alias[] = '*.'.$alias['domain'].' '.$alias['domain'].' ';
+							break;
+						default:
+							$server_alias[] = $alias['domain'].' ';
+							break;
+					}
+					$app->log('Add server alias: '.$alias['domain'],LOGLEVEL_DEBUG);
+					
+					// Add SEO redirects for alias domains
+					if($alias['seo_redirect'] != '' && $data['new']['seo_redirect'] != '*_to_www_domain_tld' && $data['new']['seo_redirect'] != '*_to_domain_tld' && ($alias['type'] == 'alias' || ($alias['type'] == 'subdomain' && $data['new']['seo_redirect'] != '*_domain_tld_to_www_domain_tld' && $data['new']['seo_redirect'] != '*_domain_tld_to_domain_tld'))){
+						$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_');
+						if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+							$alias_seo_redirects[] = $tmp_seo_redirects;
+						}
+					}
+				}
+				
 				// Rewriting
 				if($alias['redirect_type'] != '' && $alias['redirect_path'] != '') {
 					if(substr($alias['redirect_path'],-1) != '/') $alias['redirect_path'] .= '/';
-					if(substr($alias['redirect_path'],0,8) == '[scheme]') $alias['redirect_path'] = '$scheme'.substr($alias['redirect_path'],8);	
-					
-					/* Disabled the path extension
-					if($data['new']['redirect_type'] == 'no' && substr($data['new']['redirect_path'],0,4) != 'http') {
-						$data['new']['redirect_path'] = $data['new']['document_root'].'/web'.realpath($data['new']['redirect_path']).'/';
+					if(substr($alias['redirect_path'],0,8) == '[scheme]'){
+						if($alias['redirect_type'] != 'proxy'){
+							$alias['redirect_path'] = '$scheme'.substr($alias['redirect_path'],8);
+						} else {
+							$alias['redirect_path'] = 'http'.substr($alias['redirect_path'],8);
+						}
 					}
-					*/
 					
 					switch($alias['subdomain']) {
 						case 'www':
 							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								$rewrite_exclude = '(?!'.substr($alias['redirect_path'],0,-1).')';
-							} else { // URL - check if URL is local
-								$tmp_redirect_path = $alias['redirect_path'];
-								if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
-								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-								if($tmp_redirect_path_parts['host'] == $alias['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
-									if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
-									if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-									$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
-								} else {
-									$rewrite_exclude = '(.?)';
+								if($alias['redirect_type'] == 'proxy'){
+									$rewrite_subdir = substr($alias['redirect_path'],1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
 								}
-								unset($tmp_redirect_path);
-								unset($tmp_redirect_path_parts);
+								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
+							} else {
+								if($alias['redirect_type'] == 'proxy'){
+									$tmp_redirect_path = $alias['redirect_path'];
+									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+									$rewrite_subdir = $tmp_redirect_path_parts['path'];
+									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								}
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^'.$this->_rewrite_quote($alias['domain']),
+							if($alias['redirect_type'] != 'proxy'){
+								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
+							}
+							// Add SEO redirects for alias domains
+							$alias_seo_redirects2 = array();
+							if($alias['seo_redirect'] != ''){
+								$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_', 'none');
+								if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+									$alias_seo_redirects2[] = $tmp_seo_redirects;
+								}
+							}
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'],
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 								'rewrite_target' 	=> $alias['redirect_path'],
-								'rewrite_exclude'	=> $rewrite_exclude);
+								'rewrite_subdir'	=> $rewrite_subdir,
+								'proxy_directives'	=> $final_proxy_directives,
+								'use_rewrite'	=> ($alias['redirect_type'] == 'proxy' ? false:true),
+								'use_proxy'	=> ($alias['redirect_type'] == 'proxy' ? true:false),
+								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
+								
 								
 							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								$rewrite_exclude = '(?!'.substr($alias['redirect_path'],0,-1).')';
-							} else { // URL - check if URL is local
-								$tmp_redirect_path = $alias['redirect_path'];
-								if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
-								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-								if($tmp_redirect_path_parts['host'] == 'www.'.$alias['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
-									if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
-									if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-									$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
-								} else {
-									$rewrite_exclude = '(.?)';
+								if($alias['redirect_type'] == 'proxy'){
+									$rewrite_subdir = substr($alias['redirect_path'],1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
 								}
-								unset($tmp_redirect_path);
-								unset($tmp_redirect_path_parts);
+								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
+							} else {
+								if($alias['redirect_type'] == 'proxy'){
+									$tmp_redirect_path = $alias['redirect_path'];
+									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+									$rewrite_subdir = $tmp_redirect_path_parts['path'];
+									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								}
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '^' . $this->_rewrite_quote('www.'.$alias['domain']),
-									'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
-									'rewrite_target' 	=> $alias['redirect_path'],
-									'rewrite_exclude'	=> $rewrite_exclude);
+							if($alias['redirect_type'] != 'proxy'){
+								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
+							}
+							// Add SEO redirects for alias domains
+							$alias_seo_redirects2 = array();
+							if($alias['seo_redirect'] != ''){
+								$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_', 'www');
+								if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+									$alias_seo_redirects2[] = $tmp_seo_redirects;
+								}
+							}
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> 'www.'.$alias['domain'],
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
+								'rewrite_target' 	=> $alias['redirect_path'],
+								'rewrite_subdir'	=> $rewrite_subdir,
+								'proxy_directives'	=> $final_proxy_directives,
+								'use_rewrite'	=> ($alias['redirect_type'] == 'proxy' ? false:true),
+								'use_proxy'	=> ($alias['redirect_type'] == 'proxy' ? true:false),
+								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
 							break;
 						case '*':
 							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								$rewrite_exclude = '(?!'.substr($alias['redirect_path'],0,-1).')';
-							} else { // URL - check if URL is local
-								$tmp_redirect_path = $alias['redirect_path'];
-								if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
-								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-								if(substr($tmp_redirect_path_parts['host'],-strlen($alias['domain'])) == $alias['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
-									if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
-									if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-									$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
-								} else {
-									$rewrite_exclude = '(.?)';
+								if($alias['redirect_type'] == 'proxy'){
+									$rewrite_subdir = substr($alias['redirect_path'],1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
 								}
-								unset($tmp_redirect_path);
-								unset($tmp_redirect_path_parts);
+								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
+							} else {
+								if($alias['redirect_type'] == 'proxy'){
+									$tmp_redirect_path = $alias['redirect_path'];
+									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+									$rewrite_subdir = $tmp_redirect_path_parts['path'];
+									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								}
 							}
-							$rewrite_rules[] = array(	'rewrite_domain' 	=> '(^|\.)' . $this->_rewrite_quote($alias['domain']),
+							if($alias['redirect_type'] != 'proxy'){
+								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
+							}
+							// Add SEO redirects for alias domains
+							$alias_seo_redirects2 = array();
+							if($alias['seo_redirect'] != ''){
+								$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_');
+								if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+									$alias_seo_redirects2[] = $tmp_seo_redirects;
+								}
+							}
+							$rewrite_rules[] = array(	'rewrite_domain' 	=> $alias['domain'].' *.'.$alias['domain'],
 								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
 								'rewrite_target' 	=> $alias['redirect_path'],
-								'rewrite_exclude'	=> $rewrite_exclude);
+								'rewrite_subdir'	=> $rewrite_subdir,
+								'proxy_directives'	=> $final_proxy_directives,
+								'use_rewrite'	=> ($alias['redirect_type'] == 'proxy' ? false:true),
+								'use_proxy'	=> ($alias['redirect_type'] == 'proxy' ? true:false),
+								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
 							break;
 						default:
 							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								$rewrite_exclude = '(?!'.substr($alias['redirect_path'],0,-1).')';
-							} else { // URL - check if URL is local
-								$tmp_redirect_path = $alias['redirect_path'];
-								if(substr($tmp_redirect_path,0,7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path,7);
-								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-								if($tmp_redirect_path_parts['host'] == $alias['domain'] && ($tmp_redirect_path_parts['port'] == '80' || $tmp_redirect_path_parts['port'] == '443' || !isset($tmp_redirect_path_parts['port']))){
-									if(substr($tmp_redirect_path_parts['path'],-1) == '/') $tmp_redirect_path_parts['path'] = substr($tmp_redirect_path_parts['path'],0,-1);
-									if(substr($tmp_redirect_path_parts['path'],0,1) != '/') $tmp_redirect_path_parts['path'] = '/'.$tmp_redirect_path_parts['path'];
-									$rewrite_exclude = '(?!'.$tmp_redirect_path_parts['path'].')';
-								} else {
-									$rewrite_exclude = '(.?)';
+								if($alias['redirect_type'] == 'proxy'){
+									$rewrite_subdir = substr($alias['redirect_path'],1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
 								}
-								unset($tmp_redirect_path);
-								unset($tmp_redirect_path_parts);
+								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
+							} else {
+								if($alias['redirect_type'] == 'proxy'){
+									$tmp_redirect_path = $alias['redirect_path'];
+									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+									$rewrite_subdir = $tmp_redirect_path_parts['path'];
+									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								}
 							}
-                            if(substr($alias['domain'], 0, 2) === '*.') $domain_rule = '(^|\.)'.$this->_rewrite_quote(substr($alias['domain'], 2));
-                            else $domain_rule = '^'.$this->_rewrite_quote($alias['domain']);
+							if($alias['redirect_type'] != 'proxy'){
+								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
+							}
+                            if(substr($alias['domain'], 0, 2) === '*.') $domain_rule = '*.'.substr($alias['domain'], 2);
+                            else $domain_rule = $alias['domain'];
+							// Add SEO redirects for alias domains
+							$alias_seo_redirects2 = array();
+							if($alias['seo_redirect'] != ''){
+								if(substr($alias['domain'], 0, 2) === '*.'){
+									$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_');
+								} else {
+									$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_', 'none');
+								}
+								if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+									$alias_seo_redirects2[] = $tmp_seo_redirects;
+								}
+							}
 							$rewrite_rules[] = array(	'rewrite_domain' 	=> $domain_rule,
-							'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
-							'rewrite_target' 	=> $alias['redirect_path'],
-							'rewrite_exclude'	=> $rewrite_exclude);
+								'rewrite_type' 		=> ($alias['redirect_type'] == 'no')?'':$alias['redirect_type'],
+								'rewrite_target' 	=> $alias['redirect_path'],
+								'rewrite_subdir'	=> $rewrite_subdir,
+								'proxy_directives'	=> $final_proxy_directives,
+								'use_rewrite'	=> ($alias['redirect_type'] == 'proxy' ? false:true),
+								'use_proxy'	=> ($alias['redirect_type'] == 'proxy' ? true:false),
+								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
 					}
 				}
 			}
@@ -1201,9 +1366,15 @@ class nginx_plugin {
 		if(count($rewrite_rules) > 0) {
 			$tpl->setLoop('redirects',$rewrite_rules);
 		}
+		if(count($own_rewrite_rules) > 0) {
+			$tpl->setLoop('own_redirects',$own_rewrite_rules);
+		}
+		if(count($alias_seo_redirects) > 0) {
+			$tpl->setLoop('alias_seo_redirects',$alias_seo_redirects);
+		}
 		
 		//* Create basic http auth for website statistics
-		$tpl->setVar('stats_auth_passwd_file', $data['new']['document_root']."/.htpasswd_stats");
+		$tpl->setVar('stats_auth_passwd_file', $data['new']['document_root']."/web/stats/.htpasswd_stats");
 		
 		// Create basic http auth for other directories
 		$basic_auth_locations = $this->_create_web_folder_auth_configuration($data['new']);
@@ -1271,11 +1442,11 @@ class nginx_plugin {
 		}
 		
 		// create password file for stats directory
-		if(!is_file($data['new']['document_root'].'/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
+		if(!is_file($data['new']['document_root'].'/web/stats/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
 			if(trim($data['new']['stats_password']) != '') {
 				$htp_file = 'admin:'.trim($data['new']['stats_password']);
-				$app->system->file_put_contents($data['new']['document_root'].'/.htpasswd_stats',$htp_file);
-				$app->system->chmod($data['new']['document_root'].'/.htpasswd_stats',0755);
+				$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats',$htp_file);
+				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats',0755);
 				unset($htp_file);
 			}
 		}
@@ -2043,9 +2214,12 @@ class nginx_plugin {
 			$locations = array();
 			$islocation = false;
 			$linecount = sizeof($lines);
+			$server_count = 0;
 
 			for($i=0;$i<$linecount;$i++){
 				$l = trim($lines[$i]);
+				if(substr($l, 0, 8) == 'server {') $server_count += 1;
+				if($server_count > 1) break;
 				if(substr($l, 0, 8) == 'location' && !$islocation){
 				
 					$islocation = true;
@@ -2149,6 +2323,7 @@ class nginx_plugin {
 	}
 	
 	public function create_relative_link($f, $t) {
+		global $app;
 		// $from already exists
 		$from = realpath($f);
 
@@ -2177,6 +2352,114 @@ class nginx_plugin {
     private function _rewrite_quote($string) {
         return str_replace(array('.', '*', '?', '+'), array('\\.', '\\*', '\\?', '\\+'), $string);
     }
+	
+	private function url_is_local($hostname, $domain_id){
+		global $app;
+
+		// ORDER BY clause makes sure wildcard subdomains (*) are listed last in the result array so that we can find direct matches first
+		$webs = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' ORDER BY subdomain ASC");
+		if(is_array($webs) && !empty($webs)){
+			foreach($webs as $web){
+				// web domain doesn't match hostname
+				if(substr($hostname,-strlen($web['domain'])) != $web['domain']) continue;
+				// own vhost and therefore server {} container of its own
+				//if($web['type'] == 'vhostsubdomain') continue;
+				// alias domains/subdomains using rewrites and therefore a server {} container of their own
+				//if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') continue;
+				
+				if($web['subdomain'] == '*'){
+					$pattern = '/\.?'.str_replace('.', '\.', $web['domain']).'$/i';
+				}
+				if($web['subdomain'] == 'none'){
+					if($web['domain'] == $hostname){
+						if($web['domain_id'] == $domain_id || $web['parent_domain_id'] == $domain_id){
+							// own vhost and therefore server {} container of its own
+							if($web['type'] == 'vhostsubdomain') return false;
+							// alias domains/subdomains using rewrites and therefore a server {} container of their own
+							if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') return false;
+							return true;
+						} else {
+							return false;
+						}
+					}
+					$pattern = '/^'.str_replace('.', '\.', $web['domain']).'$/i';
+				}
+				if($web['subdomain'] == 'www'){
+					if($web['domain'] == $hostname || $web['subdomain'].'.'.$web['domain'] == $hostname){
+						if($web['domain_id'] == $domain_id || $web['parent_domain_id'] == $domain_id){
+							// own vhost and therefore server {} container of its own
+							if($web['type'] == 'vhostsubdomain') return false;
+							// alias domains/subdomains using rewrites and therefore a server {} container of their own
+							if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') return false;
+							return true;
+						} else {
+							return false;
+						}
+					}
+					$pattern = '/^(www\.)?'.str_replace('.', '\.', $web['domain']).'$/i';
+				}
+				if(preg_match($pattern, $hostname)){
+					if($web['domain_id'] == $domain_id || $web['parent_domain_id'] == $domain_id){
+						// own vhost and therefore server {} container of its own
+						if($web['type'] == 'vhostsubdomain') return false;
+						// alias domains/subdomains using rewrites and therefore a server {} container of their own
+						if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') return false;
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private function get_seo_redirects($web, $prefix = '', $force_subdomain = false){
+		// $force_subdomain = 'none|www'
+		$seo_redirects = array();
+		
+		if(substr($web['domain'], 0, 2) === '*.') $web['subdomain'] = '*';
+		
+		if(($web['subdomain'] == 'www' || $web['subdomain'] == '*') && $force_subdomain != 'www'){
+			if($web['seo_redirect'] == 'non_www_to_www'){
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = $web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '=';
+			}
+			if($web['seo_redirect'] == '*_domain_tld_to_www_domain_tld'){
+				// ^(example\.com|(?!\bwww\b)\.example\.com)$
+				// ^(example\.com|((?:\w+(?:-\w+)*\.)*)((?!www\.)\w+(?:-\w+)*)(\.example\.com))$
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '^('.str_replace('.', '\.', $web['domain']).'|((?:\w+(?:-\w+)*\.)*)((?!www\.)\w+(?:-\w+)*)(\.'.str_replace('.', '\.', $web['domain']).'))$';
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '~*';
+			}
+			if($web['seo_redirect'] == '*_to_www_domain_tld'){
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '!=';
+			}
+		}
+		if($force_subdomain != 'none'){
+			if($web['seo_redirect'] == 'www_to_non_www'){
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '=';
+			}
+			if($web['seo_redirect'] == '*_domain_tld_to_domain_tld'){
+				// ^(.+)\.example\.com$
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '^(.+)\.'.str_replace('.', '\.', $web['domain']).'$';
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '~*';
+			}
+			if($web['seo_redirect'] == '*_to_domain_tld'){
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = $web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '!=';
+			}
+		}
+		return $seo_redirects;
+	}
 
 } // end class
 

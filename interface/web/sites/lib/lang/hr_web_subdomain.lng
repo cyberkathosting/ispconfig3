@@ -39,4 +39,5 @@ $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Neispravna  putanja redirekcije. Ispravne redirekcije su npr.: /test/ ili http://www.domena.tld/test/';
 $wb['no_redirect_txt'] = 'Bez redirekcije';
 $wb['no_flag_txt'] = 'Bez markiranja';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 ?>

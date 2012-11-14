@@ -40,8 +40,8 @@ $wb['DNS rp functions'] = 'Funkce DNS RP';
 $wb['DNS srv functions'] = 'Funkce DNS SRV';
 $wb['DNS txt functions'] = 'Funkce DNS TXT';
 $wb['Mail mailing list functions'] = 'Mail mailinglist functions';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generovat heslo';
+$wb['repeat_password_txt'] = 'Opakujte heslo';
+$wb['password_mismatch_txt'] = 'Hesla se neshodují.';
+$wb['password_match_txt'] = 'Hesla se shodují.';
 ?>

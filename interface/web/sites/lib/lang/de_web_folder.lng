@@ -5,4 +5,3 @@ $wb['path_txt'] = 'Pfad';
 $wb['active_txt'] = 'Aktiv';
 $wb['path_error_regex'] = 'Ungültiger Pfad.';
 ?>
-

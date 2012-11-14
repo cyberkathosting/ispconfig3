@@ -5,4 +5,5 @@ $wb['this_month_txt'] = 'Ebben a hónapban';
 $wb['last_month_txt'] = 'Előző hónapban';
 $wb['this_year_txt'] = 'Ebben az évben';
 $wb['last_year_txt'] = 'Előző évben';
+$wb['sum_txt'] = 'Sum';
 ?>

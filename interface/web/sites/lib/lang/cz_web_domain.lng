@@ -100,8 +100,13 @@ $wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
 $wb['pm_process_idle_timeout_error_regex'] = 'PHP-FPM pm.process_idle_timeout must be a positive integer value.';
 $wb['pm_max_requests_error_regex'] = 'PHP-FPM pm.max_requests must be an integer value >= 0.';
 $wb['pm_ondemand_hint_txt'] = 'Please note that you must have PHP version >= 5.3.9 in order to use the ondemand process manager. If you select ondemand for an older PHP version, PHP will not start anymore!';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generovat heslo';
+$wb['repeat_password_txt'] = 'Opakujte heslo';
+$wb['password_mismatch_txt'] = 'Hesla se neshodují.';
+$wb['password_match_txt'] = 'Hesla se shodují.';
+$wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
+$wb['domain_error_autosub'] = 'There is already a subdomain with these settings.';
+$wb['available_php_directive_snippets_txt'] = 'Available PHP Directive Snippets:';
+$wb['available_apache_directive_snippets_txt'] = 'Available Apache Directive Snippets:';
+$wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snippets:';
 ?>

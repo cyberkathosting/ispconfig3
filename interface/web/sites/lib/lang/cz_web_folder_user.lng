@@ -2,11 +2,11 @@
 $wb['web_folder_id_txt'] = 'Folder';
 $wb['username_txt'] = 'Username';
 $wb['password_txt'] = 'Password';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivní';
 $wb['folder_error_empty'] = 'No web folder selecetd.';
 $wb['password_strength_txt'] = 'Password strength';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generovat heslo';
+$wb['repeat_password_txt'] = 'Opakujte heslo';
+$wb['password_mismatch_txt'] = 'Hesla se neshodují.';
+$wb['password_match_txt'] = 'Hesla se shodují.';
 ?>

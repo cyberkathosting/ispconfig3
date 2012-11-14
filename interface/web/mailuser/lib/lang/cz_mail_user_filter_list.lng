@@ -1,8 +1,8 @@
 <?php
-$wb["list_head_txt"] = 'Email filter rules';
-$wb["rulename_txt"] = 'Name';
-$wb["add_new_record_txt"] = 'Add new Filter';
-$wb["page_txt"] = 'Page';
-$wb["page_of_txt"] = 'of';
-$wb["delete_confirmation"] = 'Do you really want to delete the mailfilter?';
+$wb['list_head_txt'] = 'E-mailová filtrovací pravidla';
+$wb['rulename_txt'] = 'Název pravidla';
+$wb['add_new_record_txt'] = 'Přidat nové pravidlo';
+$wb['page_txt'] = 'Stránka';
+$wb['page_of_txt'] = 'z';
+$wb['delete_confirmation'] = 'Opravdu chcete odstranit e-mail filter?';
 ?>

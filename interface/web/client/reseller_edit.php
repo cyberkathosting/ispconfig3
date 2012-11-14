@@ -190,7 +190,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		// username changed
-		if($conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = $app->db->quote($this->dataRecord["username"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
@@ -202,7 +202,7 @@ class page_action extends tform_actions {
 		}
 		
 		// password changed
-		if($conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = $app->db->quote($this->dataRecord["password"]);
 			$client_id = $this->id;
 			$salt="$1$";
@@ -217,7 +217,7 @@ class page_action extends tform_actions {
 		}
 		
 		// language changed
-		if($conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
 			$language = $app->db->quote($this->dataRecord["language"]);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET language = '$language' WHERE client_id = $client_id";
@@ -225,7 +225,7 @@ class page_action extends tform_actions {
 		}
 		
 		// ensure that a reseller is not converted to a client in demo mode when client_id <= 2
-		if($conf['demo_mode'] == true && $this->id <= 2) {
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] == true && $this->id <= 2) {
 			if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != -1) {
 				$app->db->query('UPDATE client set limit_client = -1 WHERE client_id = '.$this->id);
 			}

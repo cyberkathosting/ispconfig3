@@ -166,6 +166,7 @@ CREATE TABLE `client` (
   `bank_name` varchar(255) DEFAULT NULL,
   `bank_account_iban` varchar(255) DEFAULT NULL,
   `bank_account_swift` varchar(255) DEFAULT NULL,
+  `paypal_email` varchar(255) DEFAULT NULL,
   `default_mailserver` int(11) unsigned NOT NULL DEFAULT '1',
   `limit_maildomain` int(11) NOT NULL DEFAULT '-1',
   `limit_mailbox` int(11) NOT NULL DEFAULT '-1',
@@ -1750,6 +1751,7 @@ CREATE TABLE `web_domain` (
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   `fastcgi_php_version` varchar(255) DEFAULT NULL,
+  `proxy_directives` mediumtext,
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

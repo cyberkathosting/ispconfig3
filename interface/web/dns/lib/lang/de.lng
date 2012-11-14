@@ -20,4 +20,3 @@ $wb['Templates'] = 'Vorlagen';
 $wb['Secondary Zones'] = 'Secondary DNS Zonen';
 $wb['Import Zone File'] = 'Zone File Import';
 ?>
-

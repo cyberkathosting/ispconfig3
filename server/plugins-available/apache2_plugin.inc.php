@@ -849,15 +849,15 @@ class apache2_plugin {
 		//$vhost_data['document_root'] = $data['new']['document_root'].'/' . $web_folder;
 		
 		// Set SEO Redirect
-		if($data['new']['seo_redirect'] != '' && ($data['new']['subdomain'] == 'www' || $data['new']['subdomain'] == '*')){
+		if($data['new']['seo_redirect'] != ''){
 			$vhost_data['seo_redirect_enabled'] = 1;
-			if($data['new']['seo_redirect'] == 'non_www_to_www'){
-				$vhost_data['seo_redirect_origin_domain'] = $data['new']['domain'];
-				$vhost_data['seo_redirect_target_domain'] = 'www.'.$data['new']['domain'];
-			}
-			if($data['new']['seo_redirect'] == 'www_to_non_www'){
-				$vhost_data['seo_redirect_origin_domain'] = 'www.'.$data['new']['domain'];
-				$vhost_data['seo_redirect_target_domain'] = $data['new']['domain'];
+			$tmp_seo_redirects = $this->get_seo_redirects($data['new']);
+			if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+				foreach($tmp_seo_redirects as $key => $val){
+					$vhost_data[$key] = $val;
+				}
+			} else {
+				$vhost_data['seo_redirect_enabled'] = 0;
 			}
 		} else {
 			$vhost_data['seo_redirect_enabled'] = 0;
@@ -868,7 +868,7 @@ class apache2_plugin {
 		// Rewrite rules
 		$rewrite_rules = array();
 		if($data['new']['redirect_type'] != '' && $data['new']['redirect_path'] != '') {
-			if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
+			if(substr($data['new']['redirect_path'],-1) != '/' && !preg_match('/^(https?|\[scheme\]):\/\//', $data['new']['redirect_path'])) $data['new']['redirect_path'] .= '/';
 			if(substr($data['new']['redirect_path'],0,8) == '[scheme]'){
 				$rewrite_target = 'http'.substr($data['new']['redirect_path'],8);
 				$rewrite_target_ssl = 'https'.substr($data['new']['redirect_path'],8);
@@ -929,6 +929,7 @@ class apache2_plugin {
 		
 		// get alias domains (co-domains and subdomains)
 		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND type != 'vhostsubdomain'");
+		$alias_seo_redirects = array();
 		switch($data['new']['subdomain']) {
 			case 'www':
 				$server_alias[] .= 'www.'.$data['new']['domain'].' ';
@@ -951,9 +952,18 @@ class apache2_plugin {
 						break;
 				}
 				$app->log('Add server alias: '.$alias['domain'],LOGLEVEL_DEBUG);
+				
+				// Add SEO redirects for alias domains
+				if($alias['seo_redirect'] != '' && $data['new']['seo_redirect'] != '*_to_www_domain_tld' && $data['new']['seo_redirect'] != '*_to_domain_tld' && ($alias['type'] == 'alias' || ($alias['type'] == 'subdomain' && $data['new']['seo_redirect'] != '*_domain_tld_to_www_domain_tld' && $data['new']['seo_redirect'] != '*_domain_tld_to_domain_tld'))){
+					$tmp_seo_redirects = $this->get_seo_redirects($alias, 'alias_');
+					if(is_array($tmp_seo_redirects) && !empty($tmp_seo_redirects)){
+						$alias_seo_redirects[] = $tmp_seo_redirects;
+					}
+				}
+					
 				// Rewriting
 				if($alias['redirect_type'] != '' && $alias['redirect_path'] != '') {
-					if(substr($alias['redirect_path'],-1) != '/') $alias['redirect_path'] .= '/';
+					if(substr($alias['redirect_path'],-1) != '/' && !preg_match('/^(https?|\[scheme\]):\/\//', $data['new']['redirect_path'])) $alias['redirect_path'] .= '/';
 					if(substr($alias['redirect_path'],0,8) == '[scheme]'){
 						$rewrite_target = 'http'.substr($alias['redirect_path'],8);
 						$rewrite_target_ssl = 'https'.substr($alias['redirect_path'],8);
@@ -1017,10 +1027,14 @@ class apache2_plugin {
 			$tpl->setVar('alias','');
 		}
 
-		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0) {
+		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0) {
 			$tpl->setVar('rewrite_enabled',1);
 		} else {
 			$tpl->setVar('rewrite_enabled',0);
+		}
+		
+		if(count($alias_seo_redirects) > 0) {
+			$tpl->setLoop('alias_seo_redirects',$alias_seo_redirects);
 		}
 
 		//$tpl->setLoop('redirects',$rewrite_rules);
@@ -1098,6 +1112,7 @@ class apache2_plugin {
 			$tpl->setVar('fastcgi_starter_path',$fastcgi_starter_path);
 			$tpl->setVar('fastcgi_starter_script',$fastcgi_config['fastcgi_starter_script'].($data['new']['type'] == 'vhostsubdomain' ? '_web' . $data['new']['domain_id'] : ''));
 			$tpl->setVar('fastcgi_config_syntax',$fastcgi_config['fastcgi_config_syntax']);
+			$tpl->setVar('fastcgi_max_requests',$fastcgi_config['fastcgi_max_requests']);
 
 		} else {
 			//remove the php fastgi starter script if available
@@ -1342,19 +1357,19 @@ class apache2_plugin {
 		//* Create .htaccess and .htpasswd file for website statistics
 		if(!is_file($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess') or $data['old']['document_root'] != $data['new']['document_root']) {
 			if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdir($data['new']['document_root'].'/' . $web_folder . '/stats');
-			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data['new']['document_root']."/.htpasswd_stats\nrequire valid-user";
+			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data['new']['document_root']."/web/stats/.htpasswd_stats\nrequire valid-user";
 			$app->system->file_put_contents($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess',$ht_file);
 			$app->system->chmod($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess',0755);
 			unset($ht_file);
 		}
 
-		if(!is_file($data['new']['document_root'].'/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
+		if(!is_file($data['new']['document_root'].'/web/stats/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
 			if(trim($data['new']['stats_password']) != '') {
 				$htp_file = 'admin:'.trim($data['new']['stats_password']);
 				$app->system->web_folder_protection($data['new']['document_root'],false);
-				$app->system->file_put_contents($data['new']['document_root'].'/.htpasswd_stats',$htp_file);
+				$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats',$htp_file);
 				$app->system->web_folder_protection($data['new']['document_root'],true);
-				$app->system->chmod($data['new']['document_root'].'/.htpasswd_stats',0750);
+				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats',0750);
 				unset($htp_file);
 			}
 		}
@@ -1374,10 +1389,14 @@ class apache2_plugin {
 			$app->services->restartService('httpd','restart');
 			
 			// wait a few seconds, before we test the apache status again
+			$apache_online_status_after_restart = false;
 			sleep(2);
-		
+			for($i = 0; $i < 5; $i++) {
+				$apache_online_status_after_restart = $this->_checkTcp('localhost',80);
+				if($apache_online_status_after_restart) break;
+				sleep(1);
+			}
 			//* Check if apache restarted successfully if it was online before
-			$apache_online_status_after_restart = $this->_checkTcp('localhost',80);
 			$app->log('Apache online status after restart is: '.$apache_online_status_after_restart,LOGLEVEL_DEBUG);
 			if($apache_online_status_before_restart && !$apache_online_status_after_restart) {
 				$app->log('Apache did not restart after the configuration change for website '.$data['new']['domain'].' Reverting the configuration. Saved non-working config as '.$vhost_file.'.err',LOGLEVEL_WARN);
@@ -1526,8 +1545,63 @@ class apache2_plugin {
             if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
                 $docroot = escapeshellcmd($data['old']['document_root']);
                 if($docroot != '' && !stristr($docroot,'..')) {
-                    if($data['old']['type'] == 'vhost') exec('rm -rf '.$docroot);
-                    elseif(!stristr($data['old']['web_folder'], '..')) exec('rm -rf '.$docroot.'/'.$web_folder);
+                    if($data['old']['type'] == 'vhost') {
+                        // this is a vhost - we delete everything in here.
+                        exec('rm -rf '.$docroot);
+                    } elseif(!stristr($data['old']['web_folder'], '..')) {
+                        // this is a vhost subdomain
+                        // IMPORTANT: do some folder checks before we delete this!
+                        $do_delete = true;
+                        $delete_folder = preg_replace('/[\/]{2,}/', '/', $web_folder); // replace / occuring multiple times
+                        if(substr($delete_folder, 0, 1) === '/') $delete_folder = substr($delete_folder, 1);
+                        if(substr($delete_folder, -1) === '/') $delete_folder = substr($delete_folder, 0, -1);
+                        
+                        $path_elements = explode('/', $delete_folder);
+                        
+                        if($path_elements[0] == 'web' || $path_elements[0] === '') {
+                            // paths beginning with /web should NEVER EVER be deleted, empty paths should NEVER occur - but for safety reasons we check it here!
+                            // we use strict check as otherwise directories named '0' may not be deleted
+                            $do_delete = false;
+                        } else {
+                            // read all vhost subdomains with same parent domain
+                            $used_paths = array();
+                            $tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE type = 'vhostsubdomain' AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
+                            foreach($tmp as $tmprec) {
+                                // we normalize the folder entries because we need to compare them
+                                $tmp_folder = preg_replace('/[\/]{2,}/', '/', $tmprec['web_folder']); // replace / occuring multiple times
+                                if(substr($tmp_folder, 0, 1) === '/') $tmp_folder = substr($tmp_folder, 1);
+                                if(substr($tmp_folder, -1) === '/') $tmp_folder = substr($tmp_folder, 0, -1);
+                                
+                                // add this path and it's parent paths to used_paths array
+                                while(strpos($tmp_folder, '/') !== false) {
+                                    if(in_array($tmp_folder, $used_paths) == false) $used_paths[] = $tmp_folder;
+                                    $tmp_folder = substr($tmp_folder, 0, strrpos($tmp_folder, '/'));
+                                }
+                                if(in_array($tmp_folder, $used_paths) == false) $used_paths[] = $tmp_folder;
+                            }
+                            unset($tmp);
+                            
+                            // loop and check if the path is still used and stop at first used one
+                            // set do_delete to false so nothing gets deleted if the web_folder itself is still used
+                            $do_delete = false;
+                            while(count($path_elements) > 0) {
+                                $tmp_folder = implode('/', $path_elements);
+                                if(in_array($tmp_folder, $used_paths) == true) break;
+                                
+                                // this path is not used - set it as path to delete, strip the last element from the array and set do_delete to true
+                                $delete_folder = $tmp_folder;
+                                $do_delete = true;
+                                array_pop($path_elements);
+                            }
+                            unset($tmp_folder);
+                            unset($used_paths);
+                        }
+                        
+                        if($do_delete === true && $delete_folder !== '') exec('rm -rf '.$docroot.'/'.$delete_folder);
+                        
+                        unset($delete_folder);
+                        unset($path_elements);
+                    }
                 }
 			
                 //remove the php fastgi starter script if available
@@ -1581,7 +1655,7 @@ class apache2_plugin {
                         $tmp_symlink = str_replace('[website_domain]',$data['old']['domain'],$tmp_symlink);
                         // Remove trailing slash
                         if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
-                        // create the symlinks, if not exist
+                        // delete the symlink
                         if(is_link($tmp_symlink)) {
                             $app->system->unlink($tmp_symlink);
                             $app->log('Removing symlink: '.$tmp_symlink,LOGLEVEL_DEBUG);
@@ -2198,7 +2272,7 @@ class apache2_plugin {
 				$files = @scandir($webdavRoot);
 				if(is_array($files)) {
 				foreach($files as $file) {
-					if (substr($file, strlen($file) - strlen('.htdigest')) == '.htdigest' && preg_match("[a-zA-Z0-9\-_\.]",$file)) {
+					if (substr($file, strlen($file) - strlen('.htdigest')) == '.htdigest' && preg_match("/^[a-zA-Z0-9\-_\.]*$/",$file)) {
 						/*
 						 * found a htdigest - file, so add it to webdav
 						*/
@@ -2556,6 +2630,8 @@ class apache2_plugin {
 	}
 
 	public function create_relative_link($f, $t) {
+		global $app;
+		
 		// $from already exists
 		$from = realpath($f);
 
@@ -2588,6 +2664,49 @@ class apache2_plugin {
     private function _is_url($string) {
         return preg_match('/^(f|ht)tp(s)?:\/\//i', $string);
     }
+	
+	private function get_seo_redirects($web, $prefix = ''){
+		$seo_redirects = array();
+		
+		if(substr($web['domain'], 0, 2) === '*.') $web['subdomain'] = '*';
+		
+		if($web['subdomain'] == 'www' || $web['subdomain'] == '*'){
+			if($web['seo_redirect'] == 'non_www_to_www'){
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = str_replace('.', '\.', $web['domain']);
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '';
+			}
+			if($web['seo_redirect'] == '*_domain_tld_to_www_domain_tld'){
+				// ^(example\.com|(?!\bwww\b)\.example\.com)$
+				// ^(example\.com|((?:\w+(?:-\w+)*\.)*)((?!www\.)\w+(?:-\w+)*)(\.example\.com))$
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '('.str_replace('.', '\.', $web['domain']).'|((?:\w+(?:-\w+)*\.)*)((?!www\.)\w+(?:-\w+)*)(\.'.str_replace('.', '\.', $web['domain']).'))';
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '';
+			}
+			if($web['seo_redirect'] == '*_to_www_domain_tld'){
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www\.'.str_replace('.', '\.', $web['domain']);
+				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
+				$seo_redirects[$prefix.'seo_redirect_operator'] = '!';
+			}
+		}
+		if($web['seo_redirect'] == 'www_to_non_www'){
+			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www\.'.str_replace('.', '\.', $web['domain']);
+			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
+			$seo_redirects[$prefix.'seo_redirect_operator'] = '';
+		}
+		if($web['seo_redirect'] == '*_domain_tld_to_domain_tld'){
+			// ^(.+)\.example\.com$
+			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '(.+)\.'.str_replace('.', '\.', $web['domain']);
+			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
+			$seo_redirects[$prefix.'seo_redirect_operator'] = '';
+		}
+		if($web['seo_redirect'] == '*_to_domain_tld'){
+			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = str_replace('.', '\.', $web['domain']);
+			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
+			$seo_redirects[$prefix.'seo_redirect_operator'] = '!';
+		}
+		return $seo_redirects;
+	}
     
 } // end class
 

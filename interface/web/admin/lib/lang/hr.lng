@@ -46,4 +46,5 @@ $wb['Import'] = 'Importiraj';
 $wb['Remote Actions'] = 'Udaljene akcije';
 $wb['Do OS-Update'] = 'Nadogradnja sistema';
 $wb['Do ISPConfig-Update'] = 'Nadogradnja control panela';
+$wb['Directive Snippets'] = 'Directive Snippets';
 ?>

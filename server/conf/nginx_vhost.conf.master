@@ -18,18 +18,31 @@ server {
         root   <tmpl_var name='web_document_root_www'>;
 		
 <tmpl_if name='seo_redirect_enabled'>
-        if ($http_host = "<tmpl_var name='seo_redirect_origin_domain'>") {
+        if ($http_host <tmpl_var name='seo_redirect_operator'> "<tmpl_var name='seo_redirect_origin_domain'>") {
             rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_if>
-		
-<tmpl_loop name="redirects">		
-        if ($http_host ~* "<tmpl_var name='rewrite_domain'>$") {
-            #rewrite ^/(.+)$ <tmpl_var name='rewrite_target'>$1 <tmpl_var name='rewrite_type'>;
-            rewrite ^<tmpl_var name='rewrite_exclude'>/(.+)$ <tmpl_var name='rewrite_target'>$2 <tmpl_var name='rewrite_type'>;
+<tmpl_loop name="alias_seo_redirects">
+        if ($http_host <tmpl_var name='alias_seo_redirect_operator'> "<tmpl_var name='alias_seo_redirect_origin_domain'>") {
+            rewrite ^ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_loop>
-		
+
+<tmpl_loop name="own_redirects">
+<tmpl_if name='use_rewrite'>
+        rewrite ^<tmpl_var name='rewrite_exclude'>(.*)$ <tmpl_var name='rewrite_target'>$2 <tmpl_var name='rewrite_type'>;
+</tmpl_if>
+<tmpl_if name='use_proxy'>
+        location / {
+            proxy_pass <tmpl_var name='rewrite_target'>;
+            rewrite ^/<tmpl_var name='rewrite_subdir'>/(.*) /$1;
+<tmpl_loop name="proxy_directives">
+        <tmpl_var name='proxy_directive'>
+</tmpl_loop>
+        }
+</tmpl_if>
+</tmpl_loop>
+<tmpl_if name='use_proxy' op='!=' value='y'>		
         index index.html index.htm index.php index.cgi index.pl index.xhtml;
 		
 <tmpl_if name='ssi' op='==' value='y'>		
@@ -49,27 +62,35 @@ server {
         error_page 503 /error/503.html;
         recursive_error_pages on;
         location = /error/400.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/401.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/403.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/404.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/405.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/500.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/502.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
         location = /error/503.html {
+            <tmpl_var name='web_document_root_www_proxy'>
             internal;
         }
 </tmpl_if>
@@ -96,6 +117,7 @@ server {
         }
 		
         location /stats {
+            <tmpl_var name='web_document_root_www_proxy'>
             index index.html index.php;
             auth_basic "Members Only";
             auth_basic_user_file <tmpl_var name='stats_auth_passwd_file'>;
@@ -157,5 +179,44 @@ server {
                 }
         }
 </tmpl_loop>
-	
+</tmpl_if>	
 }
+
+<tmpl_loop name="redirects">
+server {
+        listen <tmpl_var name='ip_address'>:80;
+<tmpl_if name='ipv6_enabled'>
+        listen [<tmpl_var name='ipv6_address'>]:80;
+</tmpl_if>
+		
+<tmpl_if name='ssl_enabled'>
+        listen <tmpl_var name='ip_address'>:443 ssl;
+<tmpl_if name='ipv6_enabled'>
+        listen [<tmpl_var name='ipv6_address'>]:443 ssl;
+</tmpl_if>
+        ssl_certificate <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt;
+        ssl_certificate_key <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key;
+</tmpl_if>
+        
+        server_name <tmpl_var name='rewrite_domain'>;
+<tmpl_if name='alias_seo_redirects2'>
+<tmpl_loop name="alias_seo_redirects2">
+        if ($http_host <tmpl_var name='alias_seo_redirect_operator'> "<tmpl_var name='alias_seo_redirect_origin_domain'>") {
+            rewrite ^ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
+        }
+</tmpl_loop>
+</tmpl_if>
+<tmpl_if name='use_rewrite'>
+        rewrite ^ <tmpl_var name='rewrite_target'>$request_uri? <tmpl_var name='rewrite_type'>;
+</tmpl_if>
+<tmpl_if name='use_proxy'>
+        location / {
+            proxy_pass <tmpl_var name='rewrite_target'>;
+            rewrite ^/<tmpl_var name='rewrite_subdir'>/(.*) /$1;
+<tmpl_loop name="proxy_directives">
+        <tmpl_var name='proxy_directive'>
+</tmpl_loop>
+        }
+</tmpl_if>
+}
+</tmpl_loop>

@@ -5,4 +5,5 @@ $wb['this_month_txt'] = 'Deze maand';
 $wb['last_month_txt'] = 'Vorige maand';
 $wb['this_year_txt'] = 'Dit jaar';
 $wb['last_year_txt'] = 'Vorig jaar';
+$wb['sum_txt'] = 'Sum';
 ?>

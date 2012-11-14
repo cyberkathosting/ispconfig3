@@ -63,6 +63,7 @@ class ApsInstaller extends ApsBase
      */
     private function checkRequirements()
     {
+        global $app;
         try
         {
             // Check if exec() is not disabled
@@ -76,7 +77,7 @@ class ApsInstaller extends ApsBase
         }
         catch(Exception $e)
         {
-            $this->app->log('Aborting execution because '.$e->getMessage());
+            $app->log('Aborting execution because '.$e->getMessage(), 1);
             return false;
         }
     }
@@ -242,27 +243,30 @@ class ApsInstaller extends ApsBase
      */
     private function prepareLocation($task)
     {
+        global $app;
+        
         // Get the domain name to use for the installation
         // Would be possible in one query too, but we use 2 for easier debugging
-        $main_domain = $this->app->db->queryOneRecord("SELECT value FROM aps_instances_settings  
-            WHERE name = 'main_domain' AND instance_id = '".$this->db->quote($task['instance_id'])."';");
+        $main_domain = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings  
+            WHERE name = 'main_domain' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
         $this->domain = $main_domain['value'];
         
         // Get the document root
-        $domain_res = $this->app->db->queryOneRecord("SELECT document_root FROM web_domain 
-            WHERE domain = '".$this->db->quote($this->domain)."';");
+        $domain_res = $app->db->queryOneRecord("SELECT document_root, web_folder, type FROM web_domain 
+            WHERE domain = '".$app->db->quote($this->domain)."';");
         $this->document_root = $domain_res['document_root'];
         
         // Get the sub location
-        $location_res = $this->app->dbmaster->queryOneRecord("SELECT value FROM aps_instances_settings 
-            WHERE name = 'main_location' AND instance_id = '".$this->db->quote($task['instance_id'])."';");
+        $location_res = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings 
+            WHERE name = 'main_location' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
         $this->sublocation = $location_res['value'];
         
         // Make sure the document_root ends with /
         if(substr($this->document_root, -1) != '/') $this->document_root .= '/';
         
         // Attention: ISPConfig Special: web files are in subfolder 'web' -> append it:
-        $this->document_root .= 'web/';
+        if($domain_res['type'] == 'vhostsubdomain') $this->document_root .= $domain_res['web_folder'] . '/';
+        else $this->document_root .= 'web/';
 
         // If a subfolder is given, make sure it's path doesn't begin with / i.e. /phpbb
         if(substr($this->sublocation, 0, 1) == '/') $this->sublocation = substr($this->sublocation, 1);
@@ -285,6 +289,8 @@ class ApsInstaller extends ApsBase
      */
     private function prepareDatabase($task, $sxe)
     {
+        global $app;
+        
         $db_id = parent::getXPathValue($sxe, '//db:id');
         if(empty($db_id)) return; // No database needed
         
@@ -292,14 +298,14 @@ class ApsInstaller extends ApsBase
         // Set the database owner to the domain owner
         // ISPConfig identifies the owner by the sys_groupid (not sys_userid!)
         // so sys_userid can be set to any value
-        $perm = $this->app->db->queryOneRecord("SELECT sys_groupid, server_id FROM web_domain 
+        $perm = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM web_domain 
             WHERE domain = '".$this->domain."';");
         $task['sys_groupid'] = $perm['sys_groupid'];
         $serverid = $perm['server_id'];
                 
         // Get the database prefix and db user prefix 
-        $this->app->uses('getconf');
-        $global_config = $this->app->getconf->get_global_config('sites');
+        $app->uses('getconf');
+        $global_config = $app->getconf->get_global_config('sites');
         $dbname_prefix = str_replace('[CLIENTID]', '', $global_config['dbname_prefix']);
         $dbuser_prefix = str_replace('[CLIENTID]', '', $global_config['dbuser_prefix']);
         $this->dbhost = DB_HOST; // Taken from config.inc.php
@@ -307,47 +313,47 @@ class ApsInstaller extends ApsBase
         
         $this->newdb_name = $dbname_prefix.$task['CustomerID'].'aps'.$task['InstanceID'];
         $this->newdb_user = $dbuser_prefix.$task['CustomerID'].'aps'.$task['InstanceID'];
-        $dbpw_res = $this->app->dbmaster->queryOneRecord("SELECT Value FROM aps_instances_settings  
-            WHERE Name = 'main_database_password' AND InstanceID = '".$this->db->quote($task['InstanceID'])."';");
+        $dbpw_res = $app->db->queryOneRecord("SELECT Value FROM aps_instances_settings  
+            WHERE Name = 'main_database_password' AND InstanceID = '".$app->db->quote($task['InstanceID'])."';");
         $newdb_pw = $dbpw_res['Value'];
  
         // In any case delete an existing database (install and removal procedure)
-        $this->db->query('DROP DATABASE IF EXISTS `'.$this->db->quote($this->newdb_name).'`;');
+        $app->db->query('DROP DATABASE IF EXISTS `'.$app->db->quote($this->newdb_name).'`;');
         // Delete an already existing database with this name
-        $this->app->dbmaster->query("DELETE FROM web_database WHERE database_name = '".$this->db->quote($this->newdb_name)."';");
+        $app->db->query("DELETE FROM web_database WHERE database_name = '".$app->db->quote($this->newdb_name)."';");
         
         
         // Create the new database and assign it to a user
         if($this->handle_type == 'install')
         {
-            $this->db->query('CREATE DATABASE IF NOT EXISTS `'.$this->db->quote($this->newdb_name).'`;');
-            $this->db->query('GRANT ALL PRIVILEGES ON '.$this->db->quote($this->newdb_name).'.* TO '.$this->db->quote($this->newdb_user).'@'.$this->db->quote($this->dbhost).' IDENTIFIED BY \'password\';');
-            $this->db->query('SET PASSWORD FOR '.$this->db->quote($this->newdb_user).'@'.$this->db->quote($this->dbhost).' = PASSWORD(\''.$newdb_pw.'\');');
-            $this->db->query('FLUSH PRIVILEGES;');
+            $app->db->query('CREATE DATABASE IF NOT EXISTS `'.$app->db->quote($this->newdb_name).'`;');
+            $app->db->query('GRANT ALL PRIVILEGES ON '.$app->db->quote($this->newdb_name).'.* TO '.$app->db->quote($this->newdb_user).'@'.$app->db->quote($this->dbhost).' IDENTIFIED BY \'password\';');
+            $app->db->query('SET PASSWORD FOR '.$app->db->quote($this->newdb_user).'@'.$app->db->quote($this->dbhost).' = PASSWORD(\''.$newdb_pw.'\');');
+            $app->db->query('FLUSH PRIVILEGES;');
         
             // Add the new database to the customer databases
             // Assumes: charset = utf8
-            $this->app->dbmaster->query('INSERT INTO web_database (sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, 
+            $app->db->query('INSERT INTO web_database (sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, 
                 type, database_name, database_user, database_password, database_charset, remote_access, remote_ips, active) 
                 VALUES ('.$task['sys_userid'].', '.$task['sys_groupid'].', "'.$task['sys_perm_user'].'", "'.$task['sys_perm_group'].'", 
-                "'.$task['sys_perm_other'].'", '.$this->db->quote($serverid).', "mysql", "'.$this->db->quote($this->newdb_name).'", 
-                "'.$this->db->quote($this->newdb_user).'", "'.$this->db->quote($newdb_pw).'", "utf8", "n", "", "y");');
+                "'.$task['sys_perm_other'].'", '.$app->db->quote($serverid).', "mysql", "'.$app->db->quote($this->newdb_name).'", 
+                "'.$app->db->quote($this->newdb_user).'", "'.$app->db->quote($newdb_pw).'", "utf8", "n", "", "y");');
         }
 		*/
         
-        $mysqlver_res = $this->app->db->queryOneRecord('SELECT VERSION() as ver;');
+        $mysqlver_res = $app->db->queryOneRecord('SELECT VERSION() as ver;');
         $mysqlver = $mysqlver_res['ver'];
 		
-		$tmp = $this->app->dbmaster->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_password' AND instance_id = '".$this->db->quote($task['instance_id'])."';");
+		$tmp = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_password' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
         $newdb_pw = $tmp['value'];
 		
-		$tmp = $this->app->dbmaster->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_host' AND instance_id = '".$this->db->quote($task['instance_id'])."';");
+		$tmp = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_host' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
         $newdb_host = $tmp['value'];
 		
-		$tmp = $this->app->dbmaster->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_name' AND instance_id = '".$this->db->quote($task['instance_id'])."';");
+		$tmp = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_name' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
         $newdb_name = $tmp['value'];
 		
-		$tmp = $this->app->dbmaster->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_login' AND instance_id = '".$this->db->quote($task['instance_id'])."';");
+		$tmp = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_login' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
         $newdb_login = $tmp['value'];
         
         $this->putenv[] = 'DB_'.$db_id.'_TYPE=mysql';
@@ -368,6 +374,8 @@ class ApsInstaller extends ApsBase
      */
     private function prepareFiles($task, $sxe)
     {
+        global $app;
+        
         // Basically set the mapping for APS version 1.0, if not available -> newer way
         $mapping = $sxe->mapping;
         $mapping_path = $sxe->mapping['path'];
@@ -409,10 +417,10 @@ class ApsInstaller extends ApsBase
                 $this->processMappings($mapping, $mapping_url, $this->local_installpath);
             
                 // Set the appropriate file owner
-                $main_domain = $this->app->db->queryOneRecord("SELECT value FROM aps_instances_settings  
-                    WHERE name = 'main_domain' AND instance_id = '".$this->db->quote($task['instance_id'])."';");        
-                $owner_res = $this->db->queryOneRecord("SELECT system_user, system_group FROM web_domain  
-                        WHERE domain = '".$this->db->quote($main_domain['value'])."';");
+                $main_domain = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings  
+                    WHERE name = 'main_domain' AND instance_id = '".$app->db->quote($task['instance_id'])."';");        
+                $owner_res = $app->db->queryOneRecord("SELECT system_user, system_group FROM web_domain  
+                        WHERE domain = '".$app->db->quote($main_domain['value'])."';");
                 $this->file_owner_user = $owner_res['system_user']; 
                 $this->file_owner_group = $owner_res['system_group'];
                 exec('chown -R '.$this->file_owner_user.':'.$this->file_owner_group.' '.escapeshellarg($this->local_installpath));
@@ -420,9 +428,9 @@ class ApsInstaller extends ApsBase
         }
         catch(Exception $e)
         {
-            $this->app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_ERROR.'" 
-                WHERE id = "'.$this->db->quote($task['instance_id']).'";');
-            $this->app->log($e->getMessage());
+            $app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_ERROR.'" 
+                WHERE id = "'.$app->db->quote($task['instance_id']).'";');
+            $app->log($e->getMessage(), 1);
             return false;
         }
         
@@ -436,8 +444,10 @@ class ApsInstaller extends ApsBase
      */    
     private function prepareUserInputData($task)
     {
-        $userdata = $this->app->dbmaster->queryAllRecords("SELECT name, value FROM aps_instances_settings 
-            WHERE instance_id = '".$this->db->quote($task['instance_id'])."';");
+        global $app;
+        
+        $userdata = $app->db->queryAllRecords("SELECT name, value FROM aps_instances_settings 
+            WHERE instance_id = '".$app->db->quote($task['instance_id'])."';");
         if(empty($userdata)) return false;
         
         foreach($userdata as $data)
@@ -510,6 +520,8 @@ class ApsInstaller extends ApsBase
      */
     private function doInstallation($task, $sxe)
     {
+        global $app;
+        
         try
         {
             // Check if the install directory exists
@@ -546,15 +558,15 @@ class ApsInstaller extends ApsBase
                 // The install succeeded, chown newly created files too
                 exec('chown -R '.$this->file_owner_user.':'.$this->file_owner_group.' '.escapeshellarg($this->local_installpath));
                 
-                $this->app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_SUCCESS.'" 
-                    WHERE id = "'.$this->db->quote($task['instance_id']).'";');
+                $app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_SUCCESS.'" 
+                    WHERE id = "'.$app->db->quote($task['instance_id']).'";');
             }
         }
         catch(Exception $e)
         {
-            $this->app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_ERROR.'" 
-                WHERE id = "'.$this->db->quote($task['instance_id']).'";');
-            $this->app->log($e->getMessage());
+            $app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_ERROR.'" 
+                WHERE id = "'.$app->db->quote($task['instance_id']).'";');
+            $app->log($e->getMessage(), 1);
             return false;
         }
         
@@ -581,18 +593,20 @@ class ApsInstaller extends ApsBase
      */
     public function installHandler($instanceid, $type)
     {
+        global $app;
+        
         // Set the given handle type, currently supported: install, delete
         if($type == 'install' || $type == 'delete') $this->handle_type = $type;
         else return false;
         
         // Get all instance metadata
 		/*
-        $task = $this->app->db->queryOneRecord("SELECT * FROM aps_instances AS i 
+        $task = $app->db->queryOneRecord("SELECT * FROM aps_instances AS i 
             INNER JOIN aps_packages AS p ON i.package_id = p.id 
             INNER JOIN client AS c ON i.customer_id = c.client_id
             WHERE i.id = ".$instanceid.";");
 		*/
-		$task = $this->app->db->queryOneRecord("SELECT * FROM aps_instances AS i 
+		$task = $app->db->queryOneRecord("SELECT * FROM aps_instances AS i 
             INNER JOIN aps_packages AS p ON i.package_id = p.id
             WHERE i.id = ".$instanceid.";");
         if(!$task) return false;  // formerly: throw new Exception('The InstanceID doesn\'t exist.');
@@ -609,7 +623,7 @@ class ApsInstaller extends ApsBase
 			curl_setopt($ch, CURLOPT_TIMEOUT, 0);
 			curl_setopt($ch, CURLOPT_FAILONERROR, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);     
-			if(curl_exec($ch) === false) $this->app->log(curl_error ($ch),LOGLEVEL_DEBUG);
+			if(curl_exec($ch) === false) $app->log(curl_error ($ch),1);
 			fclose($fh);
 			curl_close($ch);
 		}
@@ -631,9 +645,9 @@ class ApsInstaller extends ApsBase
         // Check if the meta file is existing
         if(!$metafile)
         {
-            $this->app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_ERROR.'" 
-                WHERE id = "'.$this->db->quote($task['instance_id']).'";');
-            $this->app->log('Unable to find the meta data file of package '.$task['path']);
+            $app->dbmaster->query('UPDATE aps_instances SET instance_status = "'.INSTANCE_ERROR.'" 
+                WHERE id = "'.$app->db->quote($task['instance_id']).'";');
+            $app->log('Unable to find the meta data file of package '.$task['path'], 1);
             return false;
         }
         
@@ -665,8 +679,8 @@ class ApsInstaller extends ApsBase
         // Finally delete the instance entry + settings
         if($this->handle_type == 'delete')
         {
-            $this->app->dbmaster->query('DELETE FROM aps_instances WHERE id = "'.$this->db->quote($task['instance_id']).'";');
-            $this->app->dbmaster->query('DELETE FROM aps_instances_settings WHERE instance_id = "'.$this->db->quote($task['instance_id']).'";');
+            $app->db->query('DELETE FROM aps_instances WHERE id = "'.$app->db->quote($task['instance_id']).'";');
+            $app->db->query('DELETE FROM aps_instances_settings WHERE instance_id = "'.$app->db->quote($task['instance_id']).'";');
         }
         
         unset($sxe);

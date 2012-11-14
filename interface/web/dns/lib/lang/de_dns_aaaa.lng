@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'IPv6 Adresse ist leer';
 $wb['data_error_regex'] = 'IPv6 Adressen Format ist ungültig';
 ?>
-

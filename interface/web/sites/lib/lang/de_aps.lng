@@ -55,4 +55,3 @@ $wb['installation_success_txt'] = 'Installiert';
 $wb['installation_remove_txt'] = 'Deinstallation vorgemerkt';
 $wb['packagelist_update_finished_txt'] = 'APS Paketlistenupdate beendet.';
 ?>
-

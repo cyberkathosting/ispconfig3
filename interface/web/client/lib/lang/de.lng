@@ -23,4 +23,3 @@ $wb['error_domain_in webuse'] = 'Diese Domain kann nicht gelöscht werden, weil 
 $wb['error_client_can_not_add_domain'] = 'Sie können keine neue Domain anlegen';
 $wb['error_client_group_id_empty'] = 'Sie müssen ein Benutzerdefiniertes auswählen<br>';
 ?>
-

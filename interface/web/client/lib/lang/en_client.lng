@@ -140,4 +140,6 @@ $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['email_error_isemail'] = 'Please enter a valid email address.';
 $wb["customer_no_error_unique"] = 'The customer no. must be unique (or empty).';
+$wb['paypal_email_error_isemail'] = 'Please enter a valid PayPal email address.';
+$wb['paypal_email_txt'] = 'PayPal Email';
 ?>

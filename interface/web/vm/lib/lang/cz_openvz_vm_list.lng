@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Virtual server';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Hostserver';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
 $wb['template_id_txt'] = 'Template';

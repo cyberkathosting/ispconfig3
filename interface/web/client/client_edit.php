@@ -190,7 +190,7 @@ class page_action extends tform_actions {
 	 the data was successful updated in the database.
 	*/
 	function onAfterUpdate() {
-		global $app;
+		global $app, $conf;
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = $app->db->quote($this->dataRecord["username"]);

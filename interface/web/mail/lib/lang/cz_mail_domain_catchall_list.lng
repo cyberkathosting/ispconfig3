@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Email koš';
+$wb['list_head_txt'] = 'E-mailový koš';
 $wb['active_txt'] = 'Aktivní';
 $wb['source_txt'] = 'Zdroj';
-$wb['destination_txt'] = 'Cílová email adresa';
+$wb['destination_txt'] = 'Cílová e-mailová adresa';
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Doména';
-$wb['add_new_record_txt'] = 'Přidat koš';
+$wb['domain_txt'] = 'E-malová doména';
+$wb['add_new_record_txt'] = 'Přidat e-mailový koš';
 ?>

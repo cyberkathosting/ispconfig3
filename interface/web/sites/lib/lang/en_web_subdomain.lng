@@ -40,4 +40,6 @@ $wb["host_txt"] = 'Host';
 $wb["redirect_error_regex"] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
+$wb['proxy_directives_txt'] = 'Proxy Directives';
+$wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 ?>

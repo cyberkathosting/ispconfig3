@@ -132,4 +132,13 @@ $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['email_error_isemail'] = 'Please enter a valid email address.';
 $wb["customer_no_error_unique"] = 'The customer no. must be unique (or empty).';
+$wb['paypal_email_error_isemail'] = 'Please enter a valid PayPal email address.';
+$wb['paypal_email_txt'] = 'PayPal Email';
+$wb['company_id_txt'] = 'Company/Entrepreneur ID';
+$wb["bank_account_number_txt"] = 'Bank account no.';
+$wb["bank_account_owner_txt"] = 'Bank account owner';
+$wb["bank_code_txt"] = 'Bank code';
+$wb["bank_name_txt"] = 'Bank name';
+$wb["bank_account_iban_txt"] = 'IBAN';
+$wb["bank_account_swift_txt"] = 'BIC / Swift';
 ?>

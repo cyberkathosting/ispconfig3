@@ -250,12 +250,13 @@
             var input,
                 self = this,
                 select = this.element,
+                internal = false,
                 selected = select.children( ":selected" ),
                 value = selected.val() ? selected.text() : "",
                 wrapper = this.wrapper = $( "<span>" )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
-
+            
             input = $( "<input>" ).css( { "width": (select.is(':visible') ? (elwidth > 15 ? elwidth - 15 : 1) : 350), "height": (elheight > 0 ? elheight : 16) });
             select.hide();
             input.appendTo( wrapper )
@@ -277,8 +278,8 @@
                                             $.ui.autocomplete.escapeRegex(request.term) +
                                             ")(?![^<>]*>)(?![^&;]+;)", "gi"
                                         ), "<strong>$1</strong>" )),
-                                    value: text,
-                                    class: (select.hasClass('flags') ? 'country-' + $(this).val().toUpperCase() : $(this).attr('class')),
+                                    'value': (text ? text : ''),
+                                    'class': (select.hasClass('flags') ? 'country-' + ($(this).val() ? $(this).val().toUpperCase() : '') : $(this).attr('class')),
                                     option: this
                                 };
                         }) );
@@ -293,7 +294,10 @@
                         } else if($(select).attr('onchange')) {
                             eval($(select).attr('onchange'));
                         } else {
-                            if(!ui.item.internal) $(select).change();
+                            if(!ui.item.internal) {
+                                internal = true;
+                                $(select).change();
+                            }
                         }
                         if (jQuery(".panel #Filter").length > 0) {
                             jQuery(".panel #Filter").trigger('click');
@@ -340,7 +344,21 @@
                         $(this).autocomplete('option','select').call($(this), event, { item: { option: selected.get(0), internal: true } });
                     }
                 })
-                .addClass( "ui-widget ui-widget-content ui-corner-left" );
+                .addClass( "ui-widget ui-widget-content ui-corner-left" )
+                .click(function() {
+                    // close if already visible
+                    if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+                        //input.autocomplete( "close" );
+                        return;
+                    }
+
+                    // work around a bug (likely same cause as #5265)
+                    $( this ).blur();
+
+                    // pass empty string as value to search for, displaying all results
+                    input.autocomplete( "search", "" );
+                    input.focus();
+                });
             if(select.hasClass('flags')) input.addClass('flags');
 
             input.data( "autocomplete" )._renderItem = function( ul, item ) {
@@ -348,10 +366,14 @@
                     .data( "item.autocomplete", item )
                     .append( "<a>" + item.label + "</a>" )
                     .appendTo( ul );
-                if(item.class) el.addClass(item.class);
+                if(item && item['class'] && el) el.addClass(item['class']);
                 return el;
             };
             select.change(function(e) {
+                if(internal == true) {
+                    internal = false;
+                    return;
+                }
                 var matcher = new RegExp( "" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "", "i" ),
                     matchtext = $(this).val();
                     valid = false,

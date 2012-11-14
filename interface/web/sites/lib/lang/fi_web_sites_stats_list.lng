@@ -5,4 +5,5 @@ $wb['this_month_txt'] = 'Tässä kuussa';
 $wb['last_month_txt'] = 'Viime kuussa';
 $wb['this_year_txt'] = 'Tänä vuonna';
 $wb['last_year_txt'] = 'Viime vuonna';
+$wb['sum_txt'] = 'Sum';
 ?>

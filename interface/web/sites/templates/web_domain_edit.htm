@@ -231,12 +231,8 @@
     }
     
     <tmpl_if name="readonly_tab">
-        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').attr('disabled', 'disabled');
-        jQuery('div.tabbox_tabs').find('a').click(function() {
-               jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').removeAttr('disabled');
-        });
+        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').click(function(e) { e.preventDefault(); }).focus(function() { $(this).blur(); });
         jQuery('#dom-edit-submit').click(function() {
-               jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').removeAttr('disabled');
                submitForm('pageForm','sites/web_domain_edit.php');
         });
     <tmpl_else>

@@ -757,10 +757,11 @@ function is_ispconfig_ssl_enabled() {
 function find_hash_file($hash, $dir, $basedir = '') {
     $res = opendir($dir);
     if(!$res) return false;
-    
+   
+    if(substr($basedir, -1) === '/') $basedir = substr($basedir, 0, strlen($basedir) - 1);
     if(substr($dir, -1) === '/') $dir = substr($dir, 0, strlen($dir) - 1);
     if($basedir === '') $basedir = $dir;
-    
+   
     while($cur = readdir($res)) {
         if($cur == '.' || $cur == '..') continue;
         $entry = $dir.'/'.$cur;
@@ -768,7 +769,7 @@ function find_hash_file($hash, $dir, $basedir = '') {
             $result = find_hash_file($hash, $entry, $basedir);
             if($result !== false) return $result;
         } elseif(md5_file($entry) === $hash) {
-            $entry = substr($entry, strlen($basedir));
+            $entry = substr($entry, strlen($basedir) + 1);
             if(substr($entry, 0, 7) === '/posix/') $entry = substr($entry, 7);
             return $entry;
         }
@@ -782,23 +783,28 @@ function find_hash_file($hash, $dir, $basedir = '') {
   (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
 */
 function get_system_timezone() {
-	if(is_link('/etc/localtime')) {
-		$timezone = readlink('/etc/localtime');
-		$timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
-		if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
-	} else {
-		$hash = md5_file('/etc/localtime');
-		$timezone = find_hash_file($hash, '/usr/share/zoneinfo');
-	}
+    $timezone = false;
+    if(file_exists('/etc/timezone') && is_readable('/etc/timezone')) {
+        $timezone = trim(file_get_contents('/etc/timezone'));
+        if(file_exists('/usr/share/zoneinfo/' . $timezone) == false) $timezone = false;
+    }
+    
+    if(!$timezone && is_link('/etc/localtime')) {
+        $timezone = readlink('/etc/localtime');
+        $timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
+        if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
+    } elseif(!$timezone) {
+        $hash = md5_file('/etc/localtime');
+        $timezone = find_hash_file($hash, '/usr/share/zoneinfo');
+    }
 
-	if(!$timezone) {
-		exec('date +%Z', $tzinfo);
-		$timezone = $tzinfo[0];
-	}
+    if(!$timezone) {
+        exec('date +%Z', $tzinfo);
+        $timezone = $tzinfo[0];
+    }
 
-	return $timezone;
+    return $timezone;
 }
-
 
 
 ?>

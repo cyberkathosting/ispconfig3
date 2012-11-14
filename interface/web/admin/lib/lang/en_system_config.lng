@@ -41,4 +41,5 @@ $wb['smtp_port_txt'] = 'SMTP port';
 $wb['smtp_user_txt'] = 'SMTP user';
 $wb['smtp_pass_txt'] = 'SMTP password';
 $wb['smtp_crypt_txt'] = 'Use SSL/TLS encrypted connection for SMTP';
+$wb['phpmyadmin_url_error_regex'] = 'Invalid phpmyadmin URL';
 ?>

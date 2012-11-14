@@ -1,8 +1,7 @@
 <?php
-$wb['interface_head_txt'] = "Interface Einstellungen";
-$wb['interface_desc_txt'] = "Passen Sie die Benutzeroberfläche für sich an";
-$wb['language_txt'] = "Sprache";
-$wb['startmodule_txt'] = "Startmodul";
-$wb['app_theme_txt'] = "Design";
+$wb['interface_head_txt'] = 'Interface Einstellungen';
+$wb['interface_desc_txt'] = 'Passen Sie die Benutzeroberfläche für sich an';
+$wb['language_txt'] = 'Sprache';
+$wb['startmodule_txt'] = 'Startmodul';
+$wb['app_theme_txt'] = 'Design';
 ?>
-

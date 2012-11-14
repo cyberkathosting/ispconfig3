@@ -21,9 +21,13 @@ $wb['Web traffic'] = 'Уеб Трафик';
 $wb['Webdav-User'] = 'Webdav User';
 $wb['Webdav'] = 'Webdav';
 $wb['Website quota (Harddisk)'] = 'Уебсайт квота (Harddisk)';
-$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
 $wb['Folder'] = 'Protected Folders';
 $wb['Folder users'] = 'Protected Folder Users';
 $wb['Command Line'] = 'Command Line';
+$wb['Database User'] = 'Database Users';
+$wb['APS Installer'] = 'APS Installer';
+$wb['Available packages'] = 'Available packages';
+$wb['Installed packages'] = 'Installed packages';
+$wb['Update Packagelist'] = 'Update Packagelist';
 ?>

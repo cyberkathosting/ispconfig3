@@ -213,6 +213,12 @@ class app {
 		$this->tpl->setVar('app_title', $this->_conf['app_title']);
 		if(isset($_SESSION['s']['user'])) {
 			$this->tpl->setVar('app_version', $this->_conf['app_version']);
+            // get pending datalog changes
+            $datalog = $this->db->datalogStatus();
+            $this->tpl->setVar('datalog_changes_txt', $this->lng('datalog_changes_txt'));
+            $this->tpl->setVar('datalog_changes_end_txt', $this->lng('datalog_changes_end_txt'));
+            $this->tpl->setVar('datalog_changes_count', $datalog['count']);
+            $this->tpl->setLoop('datalog_changes', $datalog['entries']);
 		} else {
 			$this->tpl->setVar('app_version', '');
 		}

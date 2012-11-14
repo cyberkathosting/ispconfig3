@@ -104,4 +104,9 @@ $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['ssl_key_txt'] = 'SSL Key';
 $wb['perl_txt'] = 'Perl';
+$wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
+$wb['domain_error_autosub'] = 'There is already a subdomain with these settings.';
+$wb['available_php_directive_snippets_txt'] = 'Available PHP Directive Snippets:';
+$wb['available_apache_directive_snippets_txt'] = 'Available Apache Directive Snippets:';
+$wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snippets:';
 ?>

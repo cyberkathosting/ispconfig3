@@ -4,6 +4,22 @@
 <div class="panel panel_list_database">
 
     <div class="pnl_toolsarea">
+        <tmpl_if name='datalog_changes_count' op='>' value='0'>
+        <div>
+            <div class="systemmonitor-state state-info">
+                <div class="status"></div>
+                <div class="statusMsg">
+                    {tmpl_var name="datalog_changes_txt"}
+                    <ul>
+                    <tmpl_loop name="datalog_changes">
+                        <li><strong>{tmpl_var name="text"}:</strong> {tmpl_var name="count"}</li>
+                    </tmpl_loop>
+                    </ul>
+                    {tmpl_var name="datalog_changes_end_txt"}
+                </div>
+            </div><br />
+        </div>
+        </tmpl_if>
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
                 <button class="button iconstxt icoAdd" type="button" onclick="loadContent('sites/database_edit.php');">

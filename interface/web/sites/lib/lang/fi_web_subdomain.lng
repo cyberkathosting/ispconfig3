@@ -39,4 +39,5 @@ $wb['host_txt'] = 'Isäntäkone';
 $wb['redirect_error_regex'] = 'VIrheellinen edelleenohjausosoite. Kelvollisia ovat esimerkiksi: /testi/ tai http://www.domain.tld/testi/';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 ?>

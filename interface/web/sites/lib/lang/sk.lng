@@ -4,7 +4,6 @@ $wb['Website'] = 'Webstránky';
 $wb['Subdomain'] = 'Subdomény';
 $wb['Aliasdomain'] = 'Aliasdomény';
 $wb['Database'] = 'Databázy';
-$wb['Database Users'] = 'Database Users';
 $wb['Web Access'] = 'Web Access';
 $wb['FTP-User'] = 'FTP-uživateľ';
 $wb['Webdav-User'] = 'WebDAV-Users';
@@ -26,4 +25,9 @@ $wb['Domain'] = 'Webstránky';
 $wb['Redirect'] = 'Presmerovanie';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Stránky';
+$wb['Database User'] = 'Database Users';
+$wb['APS Installer'] = 'APS Installer';
+$wb['Available packages'] = 'Available packages';
+$wb['Installed packages'] = 'Installed packages';
+$wb['Update Packagelist'] = 'Update Packagelist';
 ?>

@@ -5,4 +5,5 @@ $wb['this_month_txt'] = 'Este mês';
 $wb['last_month_txt'] = 'Último mês';
 $wb['this_year_txt'] = 'Este ano';
 $wb['last_year_txt'] = 'Último ano';
+$wb['sum_txt'] = 'Sum';
 ?>

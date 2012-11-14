@@ -4,6 +4,22 @@
 <div class="panel panel_list_mail_user">
 
     <div class="pnl_toolsarea">
+        <tmpl_if name='datalog_changes_count' op='>' value='0'>
+        <div>
+            <div class="systemmonitor-state state-info">
+                <div class="status"></div>
+                <div class="statusMsg">
+                    {tmpl_var name="datalog_changes_txt"}
+                    <ul>
+                    <tmpl_loop name="datalog_changes">
+                        <li><strong>{tmpl_var name="text"}:</strong> {tmpl_var name="count"}</li>
+                    </tmpl_loop>
+                    </ul>
+                    {tmpl_var name="datalog_changes_end_txt"}
+                </div>
+            </div><br />
+        </div>
+        </tmpl_if>
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
                 <button class="button iconstxt icoAdd" type="button" onclick="loadContent('mail/mail_user_edit.php');">
@@ -26,8 +42,8 @@
                     </tr>
                     <tr class="filter">
                         <td class="tbl_col_email"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
-                                    <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
             <tmpl_if name="enable_custom_login"><td class="tbl_col_login"><input type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
+                        <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td class="tbl_col_autoresponder"><select name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
                         <td class="tbl_col_buttons">
                             <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>

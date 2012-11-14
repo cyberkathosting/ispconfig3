@@ -1,6 +1,6 @@
 <?php
-$wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zóny';
+$wb['DNS'] = 'Primární DNS';
+$wb['Zones'] = 'Primární DNS zóny';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -16,7 +16,7 @@ $wb['DNS TXT Record'] = 'DNS TXT záznam';
 $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'DNS průvodce';
 $wb['Add DNS Zone'] = 'Přidat DNS zónu';
-$wb['Templates'] = 'Šablony';
-$wb['Secondary Zones'] = 'Secondary Zones';
-$wb['Import Zone File'] = 'Import Zone File';
+$wb['Templates'] = 'Šablony DNS';
+$wb['Secondary Zones'] = 'Sekundární DNS zóny';
+$wb['Import Zone File'] = 'Importovat vybraný DNS zonový soubor';
 ?>

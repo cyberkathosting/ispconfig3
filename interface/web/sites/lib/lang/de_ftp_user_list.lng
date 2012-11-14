@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Domain';
 $wb['username_txt'] = 'Benutzername';
 $wb['add_new_record_txt'] = 'Neuen FTP Benutzer hinzufügen';
 ?>
-

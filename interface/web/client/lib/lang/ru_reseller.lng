@@ -128,4 +128,6 @@ $wb['generate_password_txt'] = 'Generate Password';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['customer_no_error_unique'] = 'The customer no. must be unique (or empty).';
 ?>

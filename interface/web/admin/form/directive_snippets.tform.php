@@ -81,7 +81,7 @@ $form["tabs"]['directive_snippets'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
-			'value'		=> array('apache' => 'Apache','nginx' => 'nginx','php' => 'PHP'),
+			'value'		=> array('apache' => 'Apache','nginx' => 'nginx','php' => 'PHP','proxy' => 'Proxy'),
 			'searchable' => 2
 		),
 		'snippet' => array (

@@ -197,12 +197,13 @@
 				FcgidIdleTimeout 300
 				FcgidProcessLifeTime 3600
 				# FcgidMaxProcesses 1000
+				FcgidMaxRequestsPerProcess <tmpl_var name='fastcgi_max_requests'>
 				FcgidMinProcessesPerClass 0
 				FcgidMaxProcessesPerClass 100
 				FcgidConnectTimeout 3
 				FcgidIOTimeout 360
 				FcgidBusyTimeout 300
-		FcgidMaxRequestLen 1073741824
+				FcgidMaxRequestLen 1073741824
 <tmpl_else>
 				IdleTimeout 300
 				ProcessLifeTime 3600
@@ -239,12 +240,12 @@
 			    </Directory>
                 AddHandler php5-fcgi .php
                 Action php5-fcgi /php5-fcgi
-				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}
+				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'} -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
 </tmpl_if>
 <tmpl_if name='use_socket'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'} -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
 </tmpl_if>
 		</IfModule>
 </tmpl_if>
@@ -252,9 +253,13 @@
 <tmpl_if name="rewrite_enabled">
 		RewriteEngine on
 <tmpl_if name='seo_redirect_enabled'>
-		RewriteCond %{HTTP_HOST} ^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
+		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_redirect_operator'>^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
 		RewriteRule ^(.*)$ http://<tmpl_var name='seo_redirect_target_domain'>$1 [R=301,L]
 </tmpl_if>
+<tmpl_loop name="alias_seo_redirects">
+		RewriteCond %{HTTP_HOST} <tmpl_var name='alias_seo_redirect_operator'>^<tmpl_var name='alias_seo_redirect_origin_domain'>$ [NC]
+		RewriteRule ^(.*)$ http://<tmpl_var name='alias_seo_redirect_target_domain'>$1 [R=301,L]
+</tmpl_loop>
 <tmpl_loop name="redirects">
 		RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]
 <tmpl_if name="rewrite_is_url" op="==" value="n">

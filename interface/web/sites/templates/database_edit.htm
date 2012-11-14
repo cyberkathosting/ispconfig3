@@ -97,6 +97,26 @@
 
 </div>
 <script language="JavaScript" type="text/javascript">
+    <tmpl_if name="is_admin">    
+    function reloadDatabaseUsers() {
+        var parentDomainId = jQuery('#parent_domain_id').val()
+        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : parentDomainId, 'type': 'getdatabaseusers'}, function(data) {
+            var options = '<option value=""></option>';
+            $.each(data, function(key, val) {
+                options += '<option value="'+key+'"'+ ($('#database_user_id').val() == key ? ' selected="selected"' : '') +'>'+val+'</option>';
+            });
+            $('#database_user_id').html(options).change();
+            
+            options = '<option value=""></option>';
+            $.each(data, function(key, val) {
+                options += '<option value="'+key+'"'+ ($('#database_ro_user_id').val() == key ? ' selected="selected"' : '') +'>'+val+'</option>';
+            });
+            $('#database_ro_user_id').html(options).change();
+        });
+    }
+    jQuery('#parent_domain_id').change(function() { reloadDatabaseUsers(); });
+    reloadDatabaseUsers();
+    </tmpl_if>
     jQuery('#remote_ips').ispconfigSearch({
         dataSrc: '/sites/ajax_get_json.php?type=get_ipv4',
         resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',

@@ -39,4 +39,5 @@ $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Η διαδρομή ανακατεύθυνσης δεν είναι έγκυρη. Έγκυρες διαδρομές είναι για παράδειγμα οι: /test/ ή http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'Χωρίς Ανακατεύθυνση';
 $wb['no_flag_txt'] = 'Χωρίς Σημαία';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 ?>

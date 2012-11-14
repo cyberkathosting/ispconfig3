@@ -1,7 +1,7 @@
 <?php
-$wb["interface_head_txt"] = 'Interface Settings';
-$wb["interface_desc_txt"] = 'Modify your interface';
-$wb["language_txt"] = 'Language';
-$wb["startmodule_txt"] = 'Startmodule';
-$wb["app_theme_txt"] = 'Design';
+$wb['interface_head_txt'] = 'Nastavení rozhraní';
+$wb['interface_desc_txt'] = 'Možnost úpravy rozhraní';
+$wb['language_txt'] = 'Jazyk';
+$wb['startmodule_txt'] = 'Výchozí modul po přihlášení';
+$wb['app_theme_txt'] = 'Výchozí grafické téma';
 ?>

@@ -364,7 +364,7 @@ class mysql_clientdb_plugin {
         }
         
         
-        if($data['old']['database_user'] == $data['new']['database_user'] && $data['old']['database_password'] == $data['new']['database_password']) {
+        if($data['old']['database_user'] == $data['new']['database_user'] && ($data['old']['database_password'] == $data['new']['database_password'] || $data['new']['database_password'] == '')) {
             return;
         }
         
@@ -390,7 +390,7 @@ class mysql_clientdb_plugin {
 				$app->log('Renaming MySQL user: '.$data['old']['database_user'].' to '.$data['new']['database_user'],LOGLEVEL_DEBUG);
 			}
 
-			if($data['new']['database_password'] != $data['old']['database_password']) {
+			if($data['new']['database_password'] != $data['old']['database_password'] && $data['new']['database_password'] != '') {
 				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = PASSWORD('".$link->escape_string($data['new']['database_password'])."');"); // is contained in clear text so PASSWORD() func is needed
 				$app->log('Changing MySQL user password for: '.$data['new']['database_user'].'@'.$db_host,LOGLEVEL_DEBUG);
 			}

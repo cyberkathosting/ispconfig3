@@ -77,6 +77,10 @@
                 <label for="nginx_directives">{tmpl_var name='nginx_directives_txt'}</label>
                 <textarea name="nginx_directives" id="nginx_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='nginx_directives'}</textarea>&nbsp;<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}
             </div>
+			<div class="ctrlHolder proxy">
+                <label for="proxy_directives">{tmpl_var name='proxy_directives_txt'}</label>
+                <textarea name="proxy_directives" id="proxy_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='proxy_directives'}</textarea>&nbsp;<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
+            </div>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
@@ -139,6 +143,13 @@
                 jQuery('.phpfpm').show();
             } else {
                 jQuery('.phpfpm').hide();
+            }
+        });
+		jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getredirecttype"}, function(data) {
+            if(data.redirecttype == "proxy"){
+                jQuery('.proxy').show();
+            } else {
+                jQuery('.proxy').hide();
             }
         });
     }

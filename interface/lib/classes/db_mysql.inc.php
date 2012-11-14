@@ -96,7 +96,8 @@ class db extends mysqli
   }
 
   public function query($queryString) {
-    $this->queryId = parent::query($queryString);
+    parent::ping();
+	$this->queryId = parent::query($queryString);
     $this->updateError('DB::query('.$queryString.') -> mysqli_query');
     if($this->errorNumber) debug_print_backtrace();
     if(!$this->queryId) {
@@ -317,6 +318,28 @@ public function toLower($record) {
 
       return true;
     }
+    
+    //* get the current datalog status for the specified login (or currently logged in user)
+    public function datalogStatus($login = '') {
+        global $app;
+        
+        $return = array('count' => 0, 'entries' => array());
+        if($_SESSION['s']['user']['typ'] == 'admin') return $return; // these information should not be displayed to admin users
+        
+        if($login == '' && isset($_SESSION['s']['user'])) {
+            $login = $_SESSION['s']['user']['username'];
+        }
+        
+        $result = $this->queryAllRecords("SELECT COUNT( * ) AS cnt, sys_datalog.action, sys_datalog.dbtable FROM sys_datalog, server WHERE server.server_id = sys_datalog.server_id AND sys_datalog.user = '" . $this->quote($login) . "' AND sys_datalog.datalog_id > server.updated GROUP BY sys_datalog.dbtable, sys_datalog.action");
+        foreach($result as $row) {
+            if(!$row['dbtable'] || in_array($row['dbtable'], array('aps_instances', 'aps_instances_settings', 'mail_access', 'mail_content_filter'))) continue; // ignore some entries, maybe more to come
+            $return['entries'][] = array('table' => $row['dbtable'], 'action' => $row['action'], 'count' => $row['cnt'], 'text' => $app->lng('datalog_status_' . $row['action'] . '_' . $row['dbtable']));
+            $return['count'] += $row['cnt'];
+        }
+        unset($result);
+        
+        return $return;
+    }
 
 
     public function freeResult($query) 
@@ -466,12 +489,21 @@ public function toLower($record) {
 
       if($rows = $app->db->queryAllRecords('SHOW FIELDS FROM '.$table_name)){
 	foreach($rows as $row) {
+	  /*
 	  $name = $row[0];
 	  $default = $row[4];
 	  $key = $row[3];
 	  $extra = $row[5];
 	  $isnull = $row[2];
 	  $type = $row[1];
+	  */
+	  
+	  $name = $row['Field'];
+	  $default = $row['Default'];
+	  $key = $row['Key'];
+	  $extra = $row['Extra'];
+	  $isnull = $row['Null'];
+	  $type = $row['Type'];
 
 
 	  $column = array();

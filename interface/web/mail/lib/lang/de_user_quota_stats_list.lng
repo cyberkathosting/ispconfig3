@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = "E-Mail Kontobeschränkung";
-$wb['quota_txt'] = "Verfügbarer Speicherplatz";
-$wb['name_txt'] = "Name";
-$wb['email_txt'] = "E-Mail Adresse";
-$wb['used_txt'] = "Verbrauchter Speicherplatz";
+$wb['list_head_txt'] = 'E-Mail Kontobeschränkung';
+$wb['quota_txt'] = 'Verfügbarer Speicherplatz';
+$wb['name_txt'] = 'Name';
+$wb['email_txt'] = 'E-Mail Adresse';
+$wb['used_txt'] = 'Verbrauchter Speicherplatz';
 ?>
-

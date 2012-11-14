@@ -141,6 +141,8 @@ class mail_user_filter_plugin {
 			$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
 			
 			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
+			$searchterm = str_replace('\\[','\\\\[',$searchterm);
+			$searchterm = str_replace('\\]','\\\\]',$searchterm);
 			
 			if($page_form->dataRecord["op"] == 'contains') {
 				$content .= ".*".$searchterm;

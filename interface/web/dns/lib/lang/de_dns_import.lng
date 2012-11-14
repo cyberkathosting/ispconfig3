@@ -12,4 +12,3 @@ $wb['domain_field_desc_txt'] = 'Kann freigelassen werden, falls der Dateiname od
 $wb['title'] = 'Zone File importieren';
 $wb['no_file_uploaded_error'] = 'Keine Datei hochgeladen';
 ?>
-

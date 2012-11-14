@@ -73,6 +73,6 @@ $liste["item"][] = array(	'field'		=> "type",
 							'prefix'	=> "",
 							'suffix'	=> "",
 							'width'		=> "",
-							'value'		=> array('apache' => 'Apache', 'nginx' => 'nginx', 'php' => 'PHP'));
+							'value'		=> array('apache' => 'Apache', 'nginx' => 'nginx', 'php' => 'PHP', 'proxy' => 'Proxy'));
 
 ?>

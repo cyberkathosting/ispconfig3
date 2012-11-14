@@ -3,7 +3,7 @@ $wb['template_id_txt'] = 'Šablona';
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Klient';
 $wb['btn_save_txt'] = 'Vytvořit DNS záznam';
-$wb['btn_cancel_txt'] = 'Storno';
+$wb['btn_cancel_txt'] = 'Zrušit';
 $wb['domain_txt'] = 'Doména';
 $wb['email_txt'] = 'Email';
 $wb['ns1_txt'] = 'NS 1';
@@ -33,4 +33,6 @@ $wb['globalsearch_noresults_text_txt'] = 'No results.';
 $wb['globalsearch_noresults_limit_txt'] = '0 results';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Search';
 $wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
+$wb['list_head_txt'] = 'DNS Zone Wizard';
+$wb['list_desc_txt'] = 'Create a DNS Zone via a wizard';
 ?>

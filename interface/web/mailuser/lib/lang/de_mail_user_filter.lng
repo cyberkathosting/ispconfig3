@@ -1,21 +1,20 @@
 <?php
-$wb['rulename_txt'] = "Name";
-$wb['action_txt'] = "Aktion";
-$wb['target_txt'] = "Verzeichnis";
-$wb['active_txt'] = "Aktiv";
-$wb['rulename_error_empty'] = "Name ist leer.";
-$wb['searchterm_is_empty'] = "Suchbegriff ist leer.";
-$wb['source_txt'] = "Quelle";
-$wb['target_error_regex'] = "Das Ziel darf nur die folgenden Zeichen enthalten: a-z, 0-9, -, ., _, und {space}";
-$wb['limit_mailfilter_txt'] = "Die max. Anzahl an E-Mailfiltern ist erreicht.";
-$wb['subject_txt'] = "Betreff";
-$wb['from_txt'] = "Von";
-$wb['to_txt'] = "An";
-$wb['contains_txt'] = "Enthält";
-$wb['is_txt'] = "Ist";
-$wb['begins_with_txt'] = "Startet mit";
-$wb['ends_with_txt'] = "Endet mit";
-$wb['move_to_txt'] = "Verschieben nach";
-$wb['delete_txt'] = "Löschen";
+$wb['rulename_txt'] = 'Name';
+$wb['action_txt'] = 'Aktion';
+$wb['target_txt'] = 'Verzeichnis';
+$wb['active_txt'] = 'Aktiv';
+$wb['rulename_error_empty'] = 'Name ist leer.';
+$wb['searchterm_is_empty'] = 'Suchbegriff ist leer.';
+$wb['source_txt'] = 'Quelle';
+$wb['target_error_regex'] = 'Das Ziel darf nur die folgenden Zeichen enthalten: a-z, 0-9, -, ., _, und {space}';
+$wb['limit_mailfilter_txt'] = 'Die max. Anzahl an E-Mailfiltern ist erreicht.';
+$wb['subject_txt'] = 'Betreff';
+$wb['from_txt'] = 'Von';
+$wb['to_txt'] = 'An';
+$wb['contains_txt'] = 'Enthält';
+$wb['is_txt'] = 'Ist';
+$wb['begins_with_txt'] = 'Startet mit';
+$wb['ends_with_txt'] = 'Endet mit';
+$wb['move_to_txt'] = 'Verschieben nach';
+$wb['delete_txt'] = 'Löschen';
 ?>
-

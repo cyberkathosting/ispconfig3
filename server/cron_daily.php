@@ -46,11 +46,15 @@ $app->uses('ini_parser,file,services,getconf,system');
 // store the mailbox statistics in the database
 #######################################################################################################
 
+$parse_mail_log = false;
 $sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
+if(count($records) > 0) $parse_mail_log = true;
+
 foreach($records as $rec) {
 	if(@is_file($rec['maildir'].'/ispconfig_mailsize')) {
-
+        $parse_mail_log = false;
+        
 		// rename file
 		rename($rec['maildir'].'/ispconfig_mailsize',$rec['maildir'].'/ispconfig_mailsize_save');
 
@@ -78,10 +82,165 @@ foreach($records as $rec) {
 			$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
 		}
 		$app->dbmaster->query($sql);
-		echo $sql;
+		//echo $sql;
 
 	}
 
+}
+
+if($parse_mail_log == true) {
+    $mailbox_traffic = array();
+    $mail_boxes = array();
+    $mail_rewrites = array(); // we need to read all mail aliases and forwards because the address in amavis is not always the mailbox address
+    
+    function parse_mail_log_line($line) {
+        //Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
+        
+        if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
+        
+        $timestamp = strtotime($matches[1]);
+        if(!$timestamp) return false;
+        
+        $to = array();
+        $recipients = explode(',', $matches[3]);
+        foreach($recipients as $recipient) {
+            $recipient = substr($recipient, 1, -1);
+            if(!$recipient || $recipient == $matches[2]) continue;
+            $to[] = $recipient;
+        }
+        
+        return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
+    }
+
+    function add_mailbox_traffic(&$traffic_array, $address, $traffic) {
+        global $mail_boxes, $mail_rewrites;
+        
+        $address = strtolower($address);
+        
+        if(in_array($address, $mail_boxes) == true) {
+            if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
+            $traffic_array[$address] += $traffic;
+        } elseif(array_key_exists($address, $mail_rewrites)) {
+            foreach($mail_rewrites[$address] as $address) {
+                if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
+                $traffic_array[$address] += $traffic;
+            }
+        } else {
+            // this is not a local address - skip it
+        }
+    }
+
+    $sql = "SELECT email FROM mail_user WHERE server_id = ".$conf['server_id'];
+    $records = $app->db->queryAllRecords($sql);
+    foreach($records as $record) {
+        $mail_boxes[] = $record['email'];
+    }
+    $sql = "SELECT source, destination FROM mail_forwarding WHERE server_id = ".$conf['server_id'];
+    $records = $app->db->queryAllRecords($sql);
+    foreach($records as $record) {
+        $targets = preg_split('/[\n,]+/', $record['destination']);
+        foreach($targets as $target) {
+            if(in_array($target, $mail_boxes)) {
+                if(isset($mail_rewrites[$record['source']])) $mail_rewrites[$record['source']][] = $target;
+                else $mail_rewrites[$record['source']] = array($target);
+            }
+        }
+    }
+    
+    $state_file = dirname(__FILE__) . '/mail_log_parser.state';
+    $prev_line = false;
+    $last_line = false;
+    $cur_line = false;
+    
+    if(file_exists($state_file)) {
+        $prev_line = parse_mail_log_line(trim(file_get_contents($state_file)));
+        //if($prev_line) echo "continuing from previous run, log position: " . $prev_line['message-id'] . " at " . strftime('%d.%m.%Y %H:%M:%S', $prev_line['timestamp']) . "\n";
+    }
+    
+    if(file_exists('/var/log/mail.log')) {
+        $fp = fopen('/var/log/mail.log', 'r');
+        //echo "Parsing mail.log...\n";
+        $l = 0;
+        while($line = fgets($fp, 8192)) {
+            $l++;
+            //if($l % 1000 == 0) echo "\rline $l";
+            $cur_line = parse_mail_log_line($line);
+            if(!$cur_line) continue;
+            
+            if($prev_line) {
+                // check if this line has to be processed
+                if($cur_line['timestamp'] < $prev_line['timestamp']) {
+                    $parse_mail_log = false; // we do not need to parse the second file!
+                    continue; // already processed
+                } elseif($cur_line['timestamp'] == $prev_line['timestamp'] && $cur_line['message-id'] == $prev_line['message-id']) {
+                    $parse_mail_log = false; // we do not need to parse the second file!
+                    $prev_line = false; // this line has already been processed but the next one has to be!
+                    continue;
+                }
+            }
+            
+            add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
+            foreach($cur_line['to'] as $to) {
+                add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
+            }
+            $last_line = $line; // store for the state file
+        }
+        fclose($fp);
+        //echo "\n";
+    }
+    
+    if($parse_mail_log == true && file_exists('/var/log/mail.log.1')) {
+        $fp = fopen('/var/log/mail.log.1', 'r');
+        //echo "Parsing mail.log.1...\n";
+        $l = 0;
+        while($line = fgets($fp, 8192)) {
+            $l++;
+            //if($l % 1000 == 0) echo "\rline $l";
+            $cur_line = parse_mail_log_line($line);
+            if(!$cur_line) continue;
+            
+            if($prev_line) {
+                // check if this line has to be processed
+                if($cur_line['timestamp'] < $prev_line['timestamp']) continue; // already processed
+                if($cur_line['timestamp'] == $prev_line['timestamp'] && $cur_line['message-id'] == $prev_line['message-id']) {
+                    $prev_line = false; // this line has already been processed but the next one has to be!
+                    continue;
+                }
+            }
+            
+            add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
+            foreach($cur_line['to'] as $to) {
+                add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
+            }
+        }
+        fclose($fp);
+        //echo "\n";
+    }
+    unset($mail_rewrites);
+    unset($mail_boxes);
+    
+    // Save the traffic stats in the sql database
+    $tstamp = date('Y-m');
+    $sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ".$conf['server_id'];
+    $records = $app->db->queryAllRecords($sql);
+    foreach($records as $rec) {
+        if(array_key_exists($rec['email'], $mailbox_traffic)) {
+            $sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
+            $tr = $app->dbmaster->queryOneRecord($sql);
+
+            $mail_traffic = $tr['traffic'] + $mailbox_traffic[$rec['email']];
+            if($tr['traffic_id'] > 0) {
+                $sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
+            } else {
+                $sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
+            }
+            $app->dbmaster->query($sql);
+            //echo $sql;
+        }
+    }
+    
+    unset($mailbox_traffic);
+    if($last_line) file_put_contents($state_file, $last_line);
 }
 
 #######################################################################################################
@@ -113,7 +272,7 @@ function setConfigVar( $filename, $varName, $varValue ) {
 }
 
 
-$sql = "SELECT domain_id, domain, document_root, web_folder, type FROM web_domain WHERE stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, web_folder, type FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 foreach($records as $rec) {
@@ -154,7 +313,7 @@ foreach($records as $rec) {
 // Create awstats statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group FROM web_domain WHERE stats_type = 'awstats' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'awstats' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -269,7 +428,7 @@ if(is_dir('/var/log/ispconfig/httpd')) exec('chmod +r /var/log/ispconfig/httpd/*
 // Manage and compress web logfiles and create traffic statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
 
@@ -478,7 +637,7 @@ if ($app->dbmaster == $app->db) {
 
 			//* get the traffic
 			$tmp = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) As total_traffic_bytes FROM web_traffic WHERE traffic_date like '$current_month%' AND hostname = '$domain'");
-			$web_traffic = (int)$tmp['total_traffic_bytes']/1024/1024;
+			$web_traffic = round($tmp['total_traffic_bytes']/1024/1024);
 
 			//* Website is over quota, we will disable it
 			/*if( ($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) ||
@@ -639,7 +798,7 @@ if($backup_dir != '') {
 				//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
 				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
 				$app->db->query($sql);
-				$app->dbmaster->query($sql);
+				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 				
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);
@@ -658,12 +817,13 @@ if($backup_dir != '') {
 				for ($n = $backup_copies; $n <= 10; $n++) {
 					if(isset($files[$n]) && is_file($web_backup_dir.'/'.$files[$n])) {
 						unlink($web_backup_dir.'/'.$files[$n]);
-						$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
-						$tmp = $app->dbmaster->queryOneRecord($sql);
+						//$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
+						//$tmp = $app->dbmaster->queryOneRecord($sql);
 						//$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
-						$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
+						//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
+						$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
 						$app->db->query($sql);
-						$app->dbmaster->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 					}
 				}
 
@@ -736,7 +896,7 @@ if($backup_dir != '') {
 				//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
 				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
 				$app->db->query($sql);
-				$app->dbmaster->query($sql);
+				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 
 				//* Remove the uncompressed file
 				unlink($db_backup_dir.'/'.$db_backup_file);
@@ -747,25 +907,28 @@ if($backup_dir != '') {
 				$dir_handle = dir($db_backup_dir);
 				$files = array();
 				while (false !== ($entry = $dir_handle->read())) {
-					if($entry != '.' && $entry != '..' && substr($entry,0,2) == 'db' && is_file($db_backup_dir.'/'.$entry)) {
-						$files[] = $entry;
+					if($entry != '.' && $entry != '..' && preg_match('/^db_(.*?)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql.gz$/', $entry, $matches) && is_file($db_backup_dir.'/'.$entry)) {
+                        if(array_key_exists($matches[1], $files) == false) $files[$matches[1]] = array();
+						$files[$matches[1]][] = $entry;
 					}
 				}
 				$dir_handle->close();
-
-				rsort($files);
-
-				for ($n = $backup_copies; $n <= 10; $n++) {
-					if(isset($files[$n]) && is_file($db_backup_dir.'/'.$files[$n])) {
-						unlink($db_backup_dir.'/'.$files[$n]);
-						$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
-						$tmp = $app->dbmaster->queryOneRecord($sql);
-						//$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
-						$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
-						$app->db->query($sql);
-						$app->dbmaster->query($sql);
-					}
-				}
+                
+                reset($files);
+                foreach($files as $db_name => $filelist) {
+                    rsort($filelist);
+                    for ($n = $backup_copies; $n <= 10; $n++) {
+                        if(isset($filelist[$n]) && is_file($db_backup_dir.'/'.$filelist[$n])) {
+                            unlink($db_backup_dir.'/'.$filelist[$n]);
+                            //$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($filelist[$n])."'";
+                            //$tmp = $app->dbmaster->queryOneRecord($sql);
+                            //$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
+							$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($filelist[$n])."'";
+                            $app->db->query($sql);
+                            if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+                        }
+                    }
+                }
 
 				unset($files);
 				unset($dir_handle);

@@ -39,4 +39,5 @@ $wb['host_txt'] = 'Alojamiento';
 $wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 ?>

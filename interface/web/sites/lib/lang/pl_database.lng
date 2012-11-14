@@ -37,4 +37,8 @@ $wb['globalsearch_noresults_text_txt'] = 'No results.';
 $wb['globalsearch_noresults_limit_txt'] = '0 results';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Search';
 $wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
+$wb['database_ro_user_txt'] = 'Read-only database user';
+$wb['optional_txt'] = 'optional';
+$wb['select_dbuser_txt'] = 'Select database user';
+$wb['no_dbuser_txt'] = 'None';
 ?>

@@ -46,4 +46,5 @@ $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Interface'] = 'Interface';
 $wb['Domains'] = 'Domains';
 $wb['Misc'] = 'Misc';
+$wb['Directive Snippets'] = 'Directive Snippets';
 ?>

@@ -39,4 +39,5 @@ $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Caminho de redirecionamento inválido. Exemplo de caminho válido: /test/ ou http://www.dominio.ext/test/';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 ?>

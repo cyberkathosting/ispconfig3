@@ -55,7 +55,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	$name = $tmp['contact_name'];
 }
 
-$welcome = sprintf($wb['welcome_user_txt'], htmlentities($name));
+$welcome = sprintf($wb['welcome_user_txt'], htmlentities($name, ENT_QUOTES, 'UTF-8'));
 $app->tpl->setVar('welcome_user', $welcome);
 
 

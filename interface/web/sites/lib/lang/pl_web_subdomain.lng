@@ -39,4 +39,5 @@ $wb['host_txt'] = 'Serwer';
 $wb['redirect_error_regex'] = 'Nieprawidłowa ścieżka przekierowania. Poprawne przekierowanie to np.: /test/ lub http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'Bez przekierowania';
 $wb['no_flag_txt'] = 'Bez flagi';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 ?>

@@ -7,4 +7,3 @@ $wb['faq_sections_txt'] = 'Kategorie';
 $wb['faq_faq_questions_txt'] = 'Frequently Asked Questions';
 $wb['faq_new_question_txt'] = 'Neues Frage/Antwort Paar hinzufügen';
 ?>
-

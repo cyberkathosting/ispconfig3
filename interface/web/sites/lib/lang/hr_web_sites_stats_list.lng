@@ -5,4 +5,5 @@ $wb['this_month_txt'] = 'Ovaj mjesec';
 $wb['last_month_txt'] = 'Prošli mjesec';
 $wb['this_year_txt'] = 'Ovu godinu';
 $wb['last_year_txt'] = 'Prošlu godinu';
+$wb['sum_txt'] = 'Sum';
 ?>

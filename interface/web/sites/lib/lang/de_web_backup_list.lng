@@ -13,4 +13,3 @@ $wb['restore_pending_txt'] = 'Es liegt bereits ein Backup Wiederherstellungs Job
 $wb['backup_type_mysql'] = 'MySQL Datenbank';
 $wb['backup_type_web'] = 'Webseiten Dateien';
 ?>
-

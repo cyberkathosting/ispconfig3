@@ -14,3 +14,6 @@ fi
 if [ -f /usr/local/ispconfig/interface/web/billing/cron/create_recurring_invoices_cron.php ]; then
         /usr/bin/php -q /usr/local/ispconfig/interface/web/billing/cron/create_recurring_invoices_cron.php
 fi
+if [ -f /usr/local/ispconfig/interface/web/billing/cron/recurring_items_reminders.php ]; then
+        /usr/bin/php -q /usr/local/ispconfig/interface/web/billing/cron/recurring_items_reminders.php
+fi

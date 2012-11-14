@@ -1,12 +1,11 @@
 <?php
-$wb['domain_txt'] = "Domain";
-$wb['destination_txt'] = "Ziel E-Mail";
-$wb['active_txt'] = "Aktiv";
-$wb['domain_error_unique'] = "Es besteht bereits ein Catchall Eintrag für diese Domain.";
-$wb['no_domain_perm'] = "Sie haben keine Berechtigung für diese Domain.";
-$wb['domain_error_regex'] = "Ungültiger Domainname oder ungültige Zeichen im Domainnamen.";
-$wb['limit_mailcatchall_txt'] = "Die maximale Anzahl an Catchall Einträgen für Ihr Konto wurde erreicht.";
-$wb['source_txt'] = "Quelle";
-$wb['destination_error_isemail'] = "Das Ziel ist keine gültige E-Mail Adresse.";
+$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Ziel E-Mail';
+$wb['active_txt'] = 'Aktiv';
+$wb['domain_error_unique'] = 'Es besteht bereits ein Catchall Eintrag für diese Domain.';
+$wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
+$wb['domain_error_regex'] = 'Ungültiger Domainname oder ungültige Zeichen im Domainnamen.';
+$wb['limit_mailcatchall_txt'] = 'Die maximale Anzahl an Catchall Einträgen für Ihr Konto wurde erreicht.';
+$wb['source_txt'] = 'Quelle';
+$wb['destination_error_isemail'] = 'Das Ziel ist keine gültige E-Mail Adresse.';
 ?>
-

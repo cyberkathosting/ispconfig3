@@ -43,9 +43,6 @@ define('PACKAGE_ERROR_NOMETA', 4);
 
 class ApsBase
 {
-    protected $app = null;
-    protected $db = null;
-    
     protected $log_prefix = '';
     protected $fetch_url = '';
     protected $aps_version = '';
@@ -63,9 +60,6 @@ class ApsBase
      */
     public function __construct($app, $log_prefix = 'APS: ', $interface_mode = false)
     {
-        $this->db = $app->db;
-        $this->app = $app;
-        
         $this->log_prefix = $log_prefix;
         $this->interface_mode = $interface_mode;
         $this->fetch_url = 'apscatalog.com';

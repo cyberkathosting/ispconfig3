@@ -4,4 +4,3 @@ $wb['faq_question_txt'] = 'Frage';
 $wb['faq_answer_txt'] = 'Antwort';
 $wb['faq_section_txt'] = 'Kategorie';
 ?>
-

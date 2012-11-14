@@ -11,4 +11,3 @@ $wb['resync_dns_txt'] = 'Resync DNS Einträge';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Zurück';
 ?>
-

@@ -158,16 +158,40 @@ class maildeliver_plugin {
 			//* Set alias addresses for autoresponder
 			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = '".$app->db->quote($data["new"]["email"])."'";
 			$records = $app->db->queryAllRecords($sql);
-			$addresses = '';
+			
+			$addresses = array();
+			$addresses[] = $data["new"]["email"];
 			if(is_array($records) && count($records) > 0) {
-				$addresses .= ':addresses ["'.$data["new"]["email"].'",';
 				foreach($records as $rec) {
-					$addresses .= '"'.$rec['source'].'",';
+					$addresses[] = $rec['source'];
 				}
-				$addresses = substr($addresses,0,-1);
-				$addresses .= ']';
 			}
-			$tpl->setVar('addresses',$addresses);
+			
+			$email_parts = explode('@',$data["new"]["email"]);
+			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = '@".$app->db->quote($email_parts[1])."'";
+			$records = $app->db->queryAllRecords($sql);
+			if(is_array($records) && count($records) > 0) {
+				foreach($records as $rec) {
+					$aliasdomain = substr($rec['source'],1);
+					foreach($addresses as $email) {
+						$email_parts = explode('@',$email);
+						$addresses[] = $email_parts[0].'@'.$aliasdomain;
+					}
+				}
+			}
+			
+			$address_str = '';
+			if(is_array($addresses) && count($addresses) > 0) {
+				$address_str .= ':addresses [';
+				foreach($addresses as $rec) {
+					$address_str .= '"'.$rec.'",';
+				}
+				$address_str = substr($address_str,0,-1);
+				$address_str .= ']';
+			}
+			
+			
+			$tpl->setVar('addresses',$address_str);
 			
 			file_put_contents($sieve_file,$tpl->grab());
 			

@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Email doména';
+$wb['list_head_txt'] = 'E-mail doména';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['add_new_record_txt'] = 'Přidat doménu';

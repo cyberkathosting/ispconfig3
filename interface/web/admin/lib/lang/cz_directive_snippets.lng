@@ -1,0 +1,9 @@
+<?php
+$wb['Directive Snippets'] = 'Directive Snippets';
+$wb['name_txt'] = 'Name of Snippet';
+$wb['type_txt'] = 'Type';
+$wb['snippet_txt'] = 'Snippet';
+$wb['active_txt'] = 'Aktivní';
+$wb['directive_snippets_name_empty'] = 'Please specify a name for the snippet.';
+$wb['directive_snippets_name_error_unique'] = 'There is already a directive snippet with this name.';
+?>

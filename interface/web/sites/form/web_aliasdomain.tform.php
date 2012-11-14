@@ -116,7 +116,7 @@ $form["tabs"]['domain'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'y',
-			'value'		=> array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L', 'R=301,L' => 'R=301,L', 'last' => 'last', 'break' => 'break', 'redirect' => 'redirect', 'permanent' => 'permanent')
+			'value'		=> array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L', 'R=301,L' => 'R=301,L', 'last' => 'last', 'break' => 'break', 'redirect' => 'redirect', 'permanent' => 'permanent', 'proxy' => 'proxy')
 		),
 		'redirect_path' => array (
 			'datatype'	=> 'VARCHAR',
@@ -141,6 +141,12 @@ $form["tabs"]['domain'] = array (
                                     ),
 			'value'		=> array('none' => 'none_txt', 'www' => 'www.', '*' => '*.')
 		),
+		'seo_redirect' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('' => 'no_redirect_txt', 'non_www_to_www' => 'domain.tld => www.domain.tld', 'www_to_non_www' => 'www.domain.tld => domain.tld', '*_domain_tld_to_domain_tld' => '*.doman.tld => domain.tld', '*_domain_tld_to_www_domain_tld' => '*.domain.tld => www.domain.tld', '*_to_domain_tld' => '* => domain.tld', '*_to_www_domain_tld' => '* => www.domain.tld')
+		),
 		'active' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
@@ -152,6 +158,33 @@ $form["tabs"]['domain'] = array (
 	##################################
 	)
 );
+
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+
+$form["tabs"]['advanced'] = array (
+	'title' 	=> "Options",
+	'width' 	=> 100,
+	'template' 	=> "templates/web_aliasdomain_advanced.htm",
+	'readonly'	=> false,
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'proxy_directives' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
+	##################################
+	# ENDE Datatable fields
+	##################################
+	)
+);
+
+}
 
 
 ?>

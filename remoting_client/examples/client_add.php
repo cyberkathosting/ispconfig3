@@ -15,7 +15,7 @@ try {
 	}
 	
 	//* Set the function parameters.
-	$random_rs_id = 1;
+	$reseller_id = 0; // this id has to be 0 if the client shall not be assigned to admin or if the client is a reseller
 	$params = array(
 			'company_name' => 'awesomecompany',
 			'contact_name' => 'name',
@@ -33,7 +33,7 @@ try {
 			'internet' => '',
 			'icq' => '111111111',
 			'notes' => 'awesome',
-			'dafault_mailserver' => 1,
+			'default_mailserver' => 1,
 			'limit_maildomain' => -1,
 			'limit_mailbox' => -1,
 			'limit_mailalias' => -1,
@@ -68,9 +68,9 @@ try {
 			'limit_cron_type' => 'url',
 			'limit_cron_frequency' => 5,
 			'limit_traffic_quota' => -1,
-			'limit_client' => 0,
+			'limit_client' => 0, // If this value is > 0, then the client is a reseller
 			'parent_client_id' => 0,
-			'username' => 'guy',
+			'username' => 'guy3',
 			'password' => 'brush',
 			'language' => 'en',
 			'usertheme' => 'default',
@@ -79,7 +79,7 @@ try {
 			'created_at' => 0
 			);
 	
-	$affected_rows = $client->client_add($session_id, $random_rs_id, $params);
+	$affected_rows = $client->client_add($session_id, $reseller_id, $params);
 	
 	echo "Client: ".$affected_rows."<br>";
 

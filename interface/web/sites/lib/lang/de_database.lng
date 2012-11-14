@@ -14,6 +14,7 @@ $wb['remote_ips_txt'] = 'Remote zugriff IP Adressen (mit Komma trennen, keine Ei
 $wb['database_remote_error_ips'] = 'Mindestens eine der eingegebenen IP Adressen ist ungültig.';
 $wb['client_txt'] = 'Kunde';
 $wb['active_txt'] = 'Aktiv';
+$wb['database_client_differs_txt'] = 'Der Kunde dieser Datenbank passt nicht zum Kunden des Datenbankusers.';
 $wb['database_name_error_empty'] = 'Datenbankname ist leer.';
 $wb['database_name_error_unique'] = 'Es existiert bereits eine Datenbank mit diesem Namen am Server. Um einen eindeutigen Namen zu erhalten können sie z.B. den Domainnamen vor dem Datenbanknamen verwenden.';
 $wb['database_name_error_regex'] = 'Ungültiger Datenbankname. Der Datenbankname darf die Zeichen: a-z, A-Z, 0-9 und den Unterstrich beinhalten. Länge: 2 - 64 Zeichen.';
@@ -42,4 +43,3 @@ $wb['globalsearch_noresults_limit_txt'] = '0 Treffer';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Suche';
 $wb['globalsearch_suggestions_text_txt'] = 'Vorschläge';
 ?>
-

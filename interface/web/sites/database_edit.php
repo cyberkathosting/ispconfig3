@@ -166,7 +166,22 @@ class page_action extends tform_actions {
 				}
 
 			}
-		}
+		} else {
+            // check if client of database parent domain is client of db user!
+            $web_group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
+            if($this->dataRecord['database_user_id']) {
+                $group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_user_id'])."'");
+                if($group['sys_groupid'] != $web_group['sys_groupid']) {
+                    $app->error($app->tform->wordbook['database_client_differs_txt']);
+                }
+            }
+            if($this->dataRecord['database_ro_user_id']) {
+                $group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_ro_user_id'])."'");
+                if($group['sys_groupid'] != $web_group['sys_groupid']) {
+                    $app->error($app->tform->wordbook['database_client_differs_txt']);
+                }
+            }
+        }
 
 
 		parent::onSubmit();

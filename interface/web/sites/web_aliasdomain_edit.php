@@ -112,7 +112,20 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("domain_option",$domain_select);
 		}
-
+		
+		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+			// Directive Snippets		
+			$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y'");
+			$proxy_directive_snippets_txt = '';
+			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
+				foreach($proxy_directive_snippets as $proxy_directive_snippet){
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$proxy_directive_snippet['snippet'].'</pre></a> ';
+				}
+			}
+			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
+			$app->tpl->setVar("proxy_directive_snippets_txt",$proxy_directive_snippets_txt);
+		}
+		
 		parent::onShowEnd();
 		
 	}

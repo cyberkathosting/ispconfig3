@@ -46,4 +46,5 @@ $wb['Import'] = 'インポート';
 $wb['Remote Actions'] = 'Remote Actions';
 $wb['Do OS-Update'] = 'Do OS-Update';
 $wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+$wb['Directive Snippets'] = 'Directive Snippets';
 ?>

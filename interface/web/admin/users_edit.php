@@ -66,6 +66,63 @@ class page_action extends tform_actions {
 		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
+		$this->oldDataRecord = $app->tform->getDataRecord($this->id);
+	}
+	
+	/*
+	 This function is called automatically right after
+	 the data was successful updated in the database.
+	*/
+	function onAfterUpdate() {
+		global $app, $conf;
+		
+		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ".$this->id);
+		$client_id = $client['client_id'];
+		$username = $app->db->quote($this->dataRecord["username"]);
+		$old_username = $app->db->quote($this->oldDataRecord['username']);
+
+		// username changed
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
+			$sql = "UPDATE client SET username = '$username' WHERE client_id = $client_id AND username = '$old_username'";
+			$app->db->query($sql);
+			$tmp = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = $client_id");
+			$app->db->datalogUpdate("sys_group", "name = '$username'", 'groupid', $tmp['groupid']);
+			unset($tmp);
+		}
+		
+		// password changed
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["passwort"]) && $this->dataRecord["passwort"] != '') {
+			$password = $app->db->quote($this->dataRecord["passwort"]);
+			$salt="$1$";
+			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+			for ($n=0;$n<8;$n++) {
+				$salt.=$base64_alphabet[mt_rand(0,63)];
+			}
+			$salt.="$";
+			$password = crypt(stripslashes($password),$salt);
+			$sql = "UPDATE client SET password = '$password' WHERE client_id = $client_id AND username = '$username'";
+			$app->db->query($sql);
+		}
+		
+		// language changed
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
+			$language = $app->db->quote($this->dataRecord["language"]);
+			$sql = "UPDATE client SET language = '$language' WHERE client_id = $client_id AND username = '$username'";
+			$app->db->query($sql);
+		}
+		
+		// reseller status changed
+		/*
+		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
+			$modules = $conf['interface_modules_enabled'];
+			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
+			$modules = $app->db->quote($modules);
+			$client_id = $this->id;
+			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
+			$app->db->query($sql);
+		}
+		*/
+		parent::onAfterUpdate();
 	}
 
 }

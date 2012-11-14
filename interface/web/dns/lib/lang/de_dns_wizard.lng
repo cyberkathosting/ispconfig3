@@ -36,4 +36,3 @@ $wb['globalsearch_noresults_limit_txt'] = '0 Treffer';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Suche';
 $wb['globalsearch_suggestions_text_txt'] = 'Vorschläge';
 ?>
-

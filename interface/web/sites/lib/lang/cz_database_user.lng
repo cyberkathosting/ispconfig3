@@ -1,0 +1,23 @@
+<?php
+$wb['database_user_txt'] = 'Uživatel databáze';
+$wb['database_password_txt'] = 'Heslo databazového uživatele';
+$wb['password_strength_txt'] = 'Bezpečnost hesla';
+$wb['client_txt'] = 'Klient';
+$wb['active_txt'] = 'Aktivní';
+$wb['database_user_error_empty'] = 'Uživatel databáze je prázdný.';
+$wb['database_user_error_unique'] = 'Uživatel databáze s tímto názvem již existuje na serveru. Musíte zadat jedinečný název, např. můžete předřadit své doménové jméno k uživatelskému jménu.';
+$wb['database_user_error_regex'] = 'Neplatné uživatelské jméno databáze. Uživatelské jméno může obsahovat tyto znaky: az, AZ, 0-9 a podtržítko. Délka: 2 až 64 znaků.';
+$wb['database_user_error_len'] = 'Jméno uživatele databáze - {user} - je příliš dlouhé. Max. délka jména uživatele databáze vč. prefixu může být 16 znaků.';
+$wb['btn_save_txt'] = 'Uložit';
+$wb['btn_cancel_txt'] = 'Zrušit';
+$wb['generate_password_txt'] = 'Generovat heslo';
+$wb['repeat_password_txt'] = 'Opakujte heslo';
+$wb['password_mismatch_txt'] = 'Hesla se neshodují.';
+$wb['password_match_txt'] = 'Hesla se shodují.';
+$wb['globalsearch_resultslimit_of_txt'] = 'of';
+$wb['globalsearch_resultslimit_results_txt'] = 'results';
+$wb['globalsearch_noresults_text_txt'] = 'No results.';
+$wb['globalsearch_noresults_limit_txt'] = '0 results';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
+$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
+?>

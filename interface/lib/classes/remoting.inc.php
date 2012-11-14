@@ -306,30 +306,52 @@ class remoting {
 	}
 	
 	
-	//* dodanie uzytkownika email
+	//* Add mail domain
 	public function mail_user_add($session_id, $client_id, $params){
+		global $app;
+		
 		if (!$this->checkPerm($session_id, 'mail_user_add')){
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		//* Check if mail domain exists
+		$email_parts = explode('@',$params['email']);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+		if($tmp['domain'] != $email_parts[1]) {
+			$this->server->fault('mail_domain_does_not_exist','Mail domain - '.$email_parts[1].' - does not exist.');
+			return false;
+		}
+		
 		$affected_rows = $this->insertQuery('../mail/form/mail_user.tform.php', $client_id, $params);
 		return $affected_rows;
 	}
 
-	//* edycja uzytkownika email	
+	//* Update mail user	
 	public function mail_user_update($session_id, $client_id, $primary_id, $params)
 	{
+		global $app;
+		
 		if (!$this->checkPerm($session_id, 'mail_user_update'))
 		{
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		//* Check if mail domain exists
+		$email_parts = explode('@',$params['email']);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+		if($tmp['domain'] != $email_parts[1]) {
+			$this->server->fault('mail_domain_does_not_exist','Mail domain - '.$email_parts[1].' - does not exist.');
+			return false;
+		}
+		
 		$affected_rows = $this->updateQuery('../mail/form/mail_user.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
 
 	
-	//*usuniecie uzytkownika emial
+	//* Delete mail user
 	public function mail_user_delete($session_id, $primary_id)
 	{
 		if (!$this->checkPerm($session_id, 'mail_user_delete'))
@@ -1108,61 +1130,56 @@ class remoting {
 	public function client_delete_everything($session_id, $client_id)
     {
         global $app, $conf;
+		
 		if(!$this->checkPerm($session_id, 'client_delete_everything')) {
         	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
-        $client_id = $app->functions->intval($client_id);
-	$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
+        
+		$client_id = $app->functions->intval($client_id);
 
-	$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
-		$tables_array = explode(',',$tables);
-		$client_group_id = $app->functions->intval($client_group['groupid']);
-		
-		$table_list = array();
-		if($client_group_id > 1) {
-			foreach($tables_array as $table) {
-				if($table != '') {
-					$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
-					$number = count($records);
-					if($number > 0) $table_list[] = array('table' => $table."(".$number.")");
-				}
-			}
-		}
-
-
-	if($client_id > 0) {			
-			// remove the group of the client from the resellers group
+		if($client_id > 0) {			
+			//* remove the group of the client from the resellers group
 			$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
 			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
 			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
 			$app->auth->remove_group_from_user($parent_user['userid'],$client_group['groupid']);
 			
-			// delete the group of the client
+			//* delete the group of the client
 			$app->db->query("DELETE FROM sys_group WHERE client_id = $client_id");
 			
-			// delete the sys user(s) of the client
+			//* delete the sys user(s) of the client
 			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
 			
-			// Delete all records (sub-clients, mail, web, etc....)  of this client.
+			//* Delete all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
 			$tables_array = explode(',',$tables);
 			$client_group_id = $app->functions->intval($client_group['groupid']);
+			
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
 						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
-						// find the primary ID of the table
+						//* find the primary ID of the table
 						$table_info = $app->db->tableInfo($table);
 						$index_field = '';
 						foreach($table_info as $tmp) {
 							if($tmp['option'] == 'primary') $index_field = $tmp['name'];
 						}
-						// Delete the records
+
+						//* Delete the records
 						if($index_field != '') {
 							if(is_array($records)) {
 								foreach($records as $rec) {
 									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
+									//* Delete traffic records that dont have a sys_groupid column
+									if($table == 'web_domain') {
+										$app->db->query("DELETE FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."'");
+									}
+									//* Delete mail_traffic records that dont have a sys_groupid
+									if($table == 'mail_user') {
+										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = '".$app->db->quote($rec['mailuser_id'])."'");
+									}
 								}
 							}
 						}
@@ -1171,21 +1188,15 @@ class remoting {
 				}
 			}
 			
-			
-			
 		}
         
-		if (!$this->checkPerm($session_id, 'client_delete'))
-			{
-					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
-					return false;
-			}
-			$affected_rows = $this->deleteQuery('../client/form/client.tform.php',$client_id);
-			
-			// $app->remoting_lib->ispconfig_sysuser_delete($client_id);
+		if (!$this->checkPerm($session_id, 'client_delete')) {
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../client/form/client.tform.php',$client_id);
 
-
-        return false;
+        return $affected_rows;
 	}
 	
 	// Website functions ---------------------------------------------------------------------------------------
@@ -2654,7 +2665,7 @@ class remoting {
 		$this->id = $insert_id;
 		$this->dataRecord = $params;
 		
-		$app->plugin->raiseEvent('client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_insert',$this);
+		$app->plugin->raiseEvent('client:' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . ':on_after_insert',$this);
 		
 		/*
 		if($app->db->errorMessage != '') {

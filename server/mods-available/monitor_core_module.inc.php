@@ -138,7 +138,7 @@ class monitor_core_module {
         /*
          * Insert the data into the database
          */
-        $sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+        $sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
                 'VALUES (' .
                 $res['server_id'] . ', ' .
                 "'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -163,7 +163,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -188,7 +188,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -213,7 +213,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -238,7 +238,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -263,7 +263,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -287,7 +287,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -311,7 +311,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -336,7 +336,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -361,7 +361,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -386,7 +386,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -424,7 +424,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -449,7 +449,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -474,7 +474,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -509,7 +509,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -534,7 +534,7 @@ class monitor_core_module {
         /*
          * Insert the data into the database
          */
-        $sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+        $sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
                 'VALUES (' .
                 $res['server_id'] . ', ' .
                 "'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -560,7 +560,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -585,7 +585,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -610,7 +610,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -635,7 +635,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -660,7 +660,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -685,7 +685,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -708,12 +708,12 @@ class monitor_core_module {
 		$res = $this->_tools->monitorISPCCronLog();
 		
 		//* Ensure that output is encoded so that it does not break the serialize
-		$res['data'] = htmlentities($res['data']);
+		if(is_array($res) && isset($res['data'])) $res['data'] = htmlentities($res['data']);
 
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -738,7 +738,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -763,7 +763,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .
@@ -788,7 +788,7 @@ class monitor_core_module {
 		/*
 		 * Insert the data into the database
 		 */
-		$sql = 'INSERT INTO monitor_data (server_id, type, created, data, state) ' .
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 				'VALUES (' .
 				$res['server_id'] . ', ' .
 				"'" . $app->dbmaster->quote($res['type']) . "', " .

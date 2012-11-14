@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'E-mailové schránky';
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'E-mail';
 $wb['autoresponder_txt'] = 'Automatická odpověď';
 $wb['add_new_record_txt'] = 'Přidat e-mailovou schránku';
 $wb['name_txt'] = 'Skutečný název';
-$wb['login_txt'] = 'Login';
+$wb['login_txt'] = 'Přihlášení';
 ?>

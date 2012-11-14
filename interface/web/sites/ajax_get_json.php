@@ -100,6 +100,15 @@ $type = $_GET["type"];
 		$json .= '"}';
 	}
 	
+	if($type == 'getredirecttype'){
+		$json = '{"redirecttype":"';
+		$sql = "SELECT redirect_type FROM web_domain WHERE domain_id = $web_id";
+		$redirect = $app->db->queryOneRecord($sql);
+		$json .= $redirect['redirect_type'];
+		unset($redirect);
+		$json .= '"}';
+	}
+	
 	if($type == 'get_ipv4'){		
 		$result = array();
 		
@@ -119,6 +128,26 @@ $type = $_GET["type"];
 		
 		$json = $app->functions->json_encode($result);
 	}
+    
+    if($type == 'getdatabaseusers') {
+		$json = '{';
+        
+		$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = $web_id";
+        $group = $app->db->queryOneRecord($sql);
+        if($group) {
+            $sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = '" . $group['sys_groupid'] . "'";
+            $records = $app->db->queryAllRecords($sql);
+            
+            foreach($records as $record) {
+                $json .= '"'.$record['database_user_id'].'": "'.$record['database_user'].'",';
+            }
+            unset($records);
+            unset($group);
+        }
+        
+        if(substr($json,-1) == ',') $json = substr($json,0,-1);
+		$json .= '}';
+    }
 
 //}
 

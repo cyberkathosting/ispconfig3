@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Database';
-$wb['active_txt'] = 'Active';
-$wb['remote_access_txt'] = 'Remote Access';
+$wb['list_head_txt'] = 'Databáze';
+$wb['active_txt'] = 'Aktivní';
+$wb['remote_access_txt'] = 'Vzdálený přístup';
 $wb['server_id_txt'] = 'Server';
-$wb['database_user_txt'] = 'Database user';
-$wb['database_name_txt'] = 'Database name';
-$wb['add_new_record_txt'] = 'Add new Database';
-$wb['sys_groupid_txt'] = 'Client';
+$wb['database_user_txt'] = 'Uživatel databáze';
+$wb['database_name_txt'] = 'Jméno databáze';
+$wb['add_new_record_txt'] = 'Přidat nové databáze';
+$wb['sys_groupid_txt'] = 'Klient';
 ?>

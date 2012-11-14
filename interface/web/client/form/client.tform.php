@@ -431,6 +431,29 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '10',
 			'cols'		=> '30'
 		),
+		'paypal_email' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}$/i',
+														'errmsg'=> 'paypal_email_error_isemail'),
+									),
+			'default'	=> '',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255',
+			'rows'		=> '',
+			'cols'		=> '',
+			'searchable' => 2
+		),
 	##################################
 	# END Datatable fields
 	##################################

@@ -864,9 +864,14 @@ class installer extends installer_base
 		exec("chmod -R 770 $install_dir/server/aps_packages");
 		
 	    //* make sure that the server config file (not the interface one) is only readable by the root user
-    	chmod($install_dir.'/server/lib/'.$configfile, 0600);
-		chown($install_dir.'/server/lib/'.$configfile, 'root');
-		chgrp($install_dir.'/server/lib/'.$configfile, 'root');
+		chmod($install_dir.'/server/lib/config.inc.php', 0600);
+		chown($install_dir.'/server/lib/config.inc.php', 'root');
+		chgrp($install_dir.'/server/lib/config.inc.php', 'root');
+		
+		//* Make sure thet the interface config file is readable by user ispconfig only
+		chmod($install_dir.'/interface/lib/config.inc.php', 0600);
+		chown($install_dir.'/interface/lib/config.inc.php', 'ispconfig');
+		chgrp($install_dir.'/interface/lib/config.inc.php', 'ispconfig');
 
 		chmod($install_dir.'/server/lib/remote_action.inc.php', 0600);
 		chown($install_dir.'/server/lib/remote_action.inc.php', 'root');

@@ -10,6 +10,10 @@ NameVirtualHost *:{vhost_port}
 <VirtualHost _default_:{vhost_port}>
   ServerAdmin webmaster@localhost
   
+  <FilesMatch "\.ph(p3?|tml)$">
+    SetHandler None
+  </FilesMatch>
+  
   <IfModule mod_fcgid.c>
     DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
@@ -23,18 +27,18 @@ NameVirtualHost *:{vhost_port}
     </Directory>
   </IfModule>
   
-  <IfModule mod_php5.c>
-    DocumentRoot /usr/local/ispconfig/interface/web/
-    AddType application/x-httpd-php .php
-    <Directory /usr/local/ispconfig/interface/web>
-      # php_admin_value open_basedir "/usr/local/ispconfig/interface:/usr/share:/tmp"
-      Options FollowSymLinks
-      AllowOverride None
-      Order allow,deny
-      Allow from all
-	  php_value magic_quotes_gpc        0
-    </Directory>
-  </IfModule>
+#  <IfModule mod_php5.c>
+#    DocumentRoot /usr/local/ispconfig/interface/web/
+#    AddType application/x-httpd-php .php
+#    <Directory /usr/local/ispconfig/interface/web>
+#      # php_admin_value open_basedir "/usr/local/ispconfig/interface:/usr/share:/tmp"
+#      Options FollowSymLinks
+#      AllowOverride None
+#      Order allow,deny
+#      Allow from all
+#	  php_value magic_quotes_gpc        0
+#    </Directory>
+#  </IfModule>
   
   # ErrorLog /var/log/apache2/error.log
   # CustomLog /var/log/apache2/access.log combined

@@ -33,8 +33,15 @@ class validate_autoresponder extends validate_datetime
 {
 	function start_date($field_name, $field_value, $validator)
 	{
+		# save field value for later use in end_date()
+		$this->start_date = $field_value;
+		
 		if ($this->_datetime_selected($field_value)) {
-			return $this->is_future($field_name, $field_value, $validator);
+			# We just require a start date be set
+			return;
+		}
+		if($_POST['autoresponder'] == 'y') {
+			return "No start date selected";
 		}
 	}
 	
@@ -42,7 +49,8 @@ class validate_autoresponder extends validate_datetime
 	{
 		global $app;
 		
-		$start_date = $app->tform_actions->dataRecord['autoresponder_start_date'];
+		$start_date = $this->start_date;
+		//$start_date = $app->tform_actions->dataRecord['autoresponder_start_date'];
 		
 		$_msg = $this->not_empty('autoresponder_start_date', $start_date, $validator);
 		if (!$_msg) // Start date set 

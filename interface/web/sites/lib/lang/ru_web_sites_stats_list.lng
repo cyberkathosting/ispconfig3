@@ -5,4 +5,5 @@ $wb['this_month_txt'] = 'Этот месяц';
 $wb['last_month_txt'] = 'Последний месяц';
 $wb['this_year_txt'] = 'Этот год';
 $wb['last_year_txt'] = 'Последний год';
+$wb['sum_txt'] = 'Sum';
 ?>

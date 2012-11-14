@@ -778,6 +778,9 @@ div.group-icon {
 .group-admin { background-position: 0 -380px; }
 .group-user { background-position: 0 -400px; }
 
+span.marked { color: #cc0000; }
+span.small { font-size: 0.9em; }
+
 #ajaxloader {
     position: absolute;
     width: 325px;
@@ -917,8 +920,9 @@ select.flags option[value=EC], select.flags option[value=ec], .country-EC {backg
 select.flags option[value=EE], select.flags option[value=ee], .country-EE {background-position:0 -1387px}
 select.flags option[value=EG], select.flags option[value=eg], .country-EG {background-position:0 -1409px}
 select.flags option[value=EH], select.flags option[value=eh], .country-EH {background-position:0 -1431px}
-select.flags option[value=ER], select.flags option[value=er], .country-ER {background-position:0 -1497px}
-select.flags option[value=ES], select.flags option[value=ET], select.flags option[value=es], select.flags option[value=et], .country-ES, .country-ET {background-position:0 -1519px}
+select.flags option[value=ER], select.flags option[value=er], .country-ER {background-position:0 -1475px}
+select.flags option[value=ES], select.flags option[value=es], .country-ES {background-position:0 -1497px}
+select.flags option[value=ET], select.flags option[value=ET], select.flags option[value=et], .country-ET {background-position:0 -1519px}
 select.flags option[value=FI], select.flags option[value=fi], .country-FI {background-position:0 -1585px}
 select.flags option[value=FJ], select.flags option[value=fj], .country-FJ {background-position:0 -1607px}
 select.flags option[value=FK], select.flags option[value=fk], .country-FK {background-position:0 -1629px}
@@ -1778,7 +1782,9 @@ p.value {
 }
 .ui-widget { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
-ul.ui-autocomplete { max-height: 250px; overflow-y: auto; min-width: 50px;}
+ul.ui-autocomplete { max-height: 250px; overflow-y: auto; min-width: 65px;}
 .ui-combobox { position: relative; display: inline-block; margin-right: 17px; }
 .ui-combobox-toggle { position: absolute !important; top: 0; bottom: 0; margin-left: -1px; padding: 1px !important; background: none repeat scroll 0 0 #FFFFFF !important; border: 1px solid #DFDFDF !important;}
 .ui-combobox-input { background: none repeat scroll 0 0 #FFFFFF !important; border: 1px solid #DFDFDF !important; padding: 1px; font-weight: normal !important; }
+.panel_install_package .ui-combobox { float: left; }
+.clear-float { clear: both; }

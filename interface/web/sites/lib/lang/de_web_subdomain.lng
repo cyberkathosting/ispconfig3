@@ -12,8 +12,8 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';
 $wb['type_txt'] = 'Typ';
 $wb['parent_domain_id_txt'] = 'Zugehörige Webseite';
-$wb['redirect_type_txt'] = 'Redirect Typ';
-$wb['redirect_path_txt'] = 'Redirect Pfad';
+$wb['redirect_type_txt'] = 'Weiterleitungstyp';
+$wb['redirect_path_txt'] = 'Weiterleitungspfad';
 $wb['active_txt'] = 'Aktiv';
 $wb['document_root_txt'] = 'Documentroot';
 $wb['system_user_txt'] = 'Linux Benutzer';
@@ -40,5 +40,6 @@ $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Ungültiger redirect Pfad. Gültige Pfade sind beispielsweise: /test/ oder http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'Kein Redirect';
 $wb['no_flag_txt'] = 'Kein Flag';
+$wb['proxy_directives_txt'] = 'Proxy Direktiven';
+$wb['available_proxy_directive_snippets_txt'] = 'Verfügbare Proxy Direktiven Schnipsel:';
 ?>
-

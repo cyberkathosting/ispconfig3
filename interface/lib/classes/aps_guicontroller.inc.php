@@ -87,11 +87,12 @@ class ApsGUIController extends ApsBase
      */
     private function getCustomerIDFromDomain($domain)
     {
+        global $app;
         $customerid = 0;
         
-        $customerdata = $this->db->queryOneRecord("SELECT client_id FROM sys_group, web_domain
+        $customerdata = $app->db->queryOneRecord("SELECT client_id FROM sys_group, web_domain
             WHERE web_domain.sys_groupid = sys_group.groupid 
-            AND web_domain.domain = '".$this->db->quote($domain)."';");
+            AND web_domain.domain = '".$app->db->quote($domain)."';");
         if(!empty($customerdata)) $customerid = $customerdata['client_id'];
         
         return $customerid;
@@ -106,18 +107,19 @@ class ApsGUIController extends ApsBase
      */
     private function getInstanceDataForDatalog($instanceid)
     {
+        global $app;
         $webserver_id = '';
         
-        $websrv = $this->db->queryOneRecord("SELECT server_id FROM web_domain 
+        $websrv = $app->db->queryOneRecord("SELECT server_id FROM web_domain 
             WHERE domain = (SELECT value FROM aps_instances_settings 
-                WHERE name = 'main_domain' AND instance_id = ".$this->db->quote($instanceid).");");
+                WHERE name = 'main_domain' AND instance_id = ".$app->db->quote($instanceid).");");
 
         // If $websrv is empty, an error has occured. Domain no longer existing? Settings table damaged?
         // Anyhow, remove this instance record because it's not useful at all
         if(empty($websrv)) 
         {
-            $this->db->query("DELETE FROM aps_instances WHERE id = ".$this->db->quote($instanceid).";");
-            $this->db->query("DELETE FROM aps_instances_settings WHERE instance_id = ".$this->db->quote($instanceid).";");
+            $app->db->query("DELETE FROM aps_instances WHERE id = ".$app->db->quote($instanceid).";");
+            $app->db->query("DELETE FROM aps_instances_settings WHERE instance_id = ".$app->db->quote($instanceid).";");
         }
         else $webserver_id = $websrv['server_id'];
         
@@ -133,12 +135,14 @@ class ApsGUIController extends ApsBase
      */ 
     public function getNewestPackageID($id)
     {
+        global $app;
+        
         if(preg_match('/^[0-9]+$/', $id) != 1) return 0;
         
-        $result = $this->db->queryOneRecord("SELECT id, name, 
+        $result = $app->db->queryOneRecord("SELECT id, name, 
             CONCAT(version, '-', CAST(`release` AS CHAR)) AS current_version 
             FROM aps_packages 
-            WHERE name = (SELECT name FROM aps_packages WHERE id = ".$this->db->quote($id).")  
+            WHERE name = (SELECT name FROM aps_packages WHERE id = ".$app->db->quote($id).")  
             ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC");
             
         if(!empty($result) && ($id != $result['id'])) return $result['id'];
@@ -155,13 +159,15 @@ class ApsGUIController extends ApsBase
      */
     public function isValidPackageID($id, $is_admin = false)
     {
+        global $app;
+        
          if(preg_match('/^[0-9]+$/', $id) != 1) return false;
          
          $sql_ext = (!$is_admin) ? 
             'package_status = '.PACKAGE_ENABLED.' AND' :  
             '(package_status = '.PACKAGE_ENABLED.' OR package_status = '.PACKAGE_LOCKED.') AND'; 
 
-         $result = $this->db->queryOneRecord("SELECT id FROM aps_packages WHERE ".$sql_ext." id = ".$this->db->quote($id).";");
+         $result = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE ".$sql_ext." id = ".$app->db->quote($id).";");
          if(!$result) return false;
          
          return true;
@@ -177,12 +183,14 @@ class ApsGUIController extends ApsBase
      */
     public function isValidInstanceID($id, $client_id, $is_admin = false)
     {
+        global $app;
+        
          if(preg_match('/^[0-9]+$/', $id) != 1) return false;
          
          // Only filter if not admin
-         $sql_ext = (!$is_admin) ? 'customer_id = '.$this->db->quote($client_id).' AND' : ''; 
+         $sql_ext = (!$is_admin) ? 'customer_id = '.$app->db->quote($client_id).' AND' : ''; 
 
-         $result = $this->db->queryOneRecord('SELECT id FROM aps_instances WHERE '.$sql_ext.' id = '.$this->db->quote($id).';');
+         $result = $app->db->queryOneRecord('SELECT id FROM aps_instances WHERE '.$sql_ext.' id = '.$app->db->quote($id).';');
          if(!$result) return false;
          
          return true;
@@ -202,15 +210,15 @@ class ApsGUIController extends ApsBase
 		$app->uses('tools_sites');
         
 		$webserver_id = 0;
-        $websrv = $this->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$this->db->quote($settings['main_domain'])."';");
+        $websrv = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$app->db->quote($settings['main_domain'])."';");
         if(!empty($websrv)) $webserver_id = $websrv['server_id'];
         $customerid = $this->getCustomerIDFromDomain($settings['main_domain']);
         
         if(empty($settings) || empty($webserver_id)) return false;
 		
 		//* Get server config of the web server
-		$this->app->uses("getconf");
-		$web_config = $this->app->getconf->get_server_config($app->functions->intval($websrv["server_id"]),'web');
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($app->functions->intval($websrv["server_id"]),'web');
 			
 		//* Set mysql mode to php-fcgi and enable suexec in website on apache servers
 		if($web_config['server_type'] == 'apache') {
@@ -220,7 +228,7 @@ class ApsGUIController extends ApsBase
 		}
 		
 		//* Create the MySQL database for the application
-		$pkg = $this->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$this->db->quote($packageid).';');
+		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$app->db->quote($packageid).';');
 		$metafile = $this->interface_pkg_dir.'/'.$pkg['path'].'/APP-META.xml';
 		$sxe = $this->readInMetaFile($metafile);
 		
@@ -235,30 +243,49 @@ class ApsGUIController extends ApsBase
 			$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $tmp);
 			unset($tmp);
 			
-			//* get the default database server of the client
-			$client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$websrv['sys_groupid']);
-			if(is_array($client) && $client['default_dbserver'] > 0 && $client['default_dbserver'] != $websrv['server_id']) {
-				$mysql_db_server_id =  $client['default_dbserver'];
-				$dbserver_config = $web_config = $app->getconf->get_server_config($app->functions->intval($mysql_db_server_id),'server');
-				$mysql_db_host = $dbserver_config['ip_address'];
-				$mysql_db_remote_access = 'y';
-				$mysql_db_remote_ips = $dbserver_config['ip_address'];
-			} else {
+            // get information if the webserver is a db server, too
+            $web_server = $app->db->queryOneRecord("SELECT server_id,server_name,db_server FROM server WHERE server_id  = ".$websrv['server_id']);
+            if($web_server['db_server'] == 1) {
+                // create database on "localhost" (webserver)
 				$mysql_db_server_id = $websrv['server_id'];
 				$mysql_db_host = 'localhost';
 				$mysql_db_remote_access = 'n';
 				$mysql_db_remote_ips = '';
-			}
+            } else {
+                //* get the default database server of the client
+                $client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$websrv['sys_groupid']);
+                if(is_array($client) && $client['default_dbserver'] > 0 && $client['default_dbserver'] != $websrv['server_id']) {
+                    $mysql_db_server_id =  $client['default_dbserver'];
+                    $dbserver_config = $web_config = $app->getconf->get_server_config($app->functions->intval($mysql_db_server_id),'server');
+                    $mysql_db_host = $dbserver_config['ip_address'];
+                    $mysql_db_remote_access = 'y';
+                    $webserver_config = $app->getconf->get_server_config($app->functions->intval($websrv['server_id']),'server');
+                    $mysql_db_remote_ips = $webserver_config['ip_address'];
+                } else {
+                    /* I left this in place for a fallback that should NEVER! happen.
+                     * if we reach this point it means that there is NO default db server for the client
+                     * AND the webserver has NO db service enabled.
+                     * We have to abort the aps installation here... so I added a return false
+                     * although this does not present any error message to the user.
+                     */
+                    return false;
+                    
+                    /*$mysql_db_server_id = $websrv['server_id'];
+                    $mysql_db_host = 'localhost';
+                    $mysql_db_remote_access = 'n';
+                    $mysql_db_remote_ips = '';*/
+                }
+            }
 			
-			//* Find a free db name for the app
+            //* Find a free db name for the app
 			for($n = 1; $n <= 1000; $n++) {
-				$mysql_db_name = $dbname_prefix.'aps'.$n;
+				$mysql_db_name = ($dbname_prefix != '' ? $dbname_prefix.'aps'.$n : uniqid('aps'));
 				$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = '".$app->db->quote($mysql_db_name)."'");
 				if($tmp['number'] == 0) break;
 			}
 			//* Find a free db username for the app
 			for($n = 1; $n <= 1000; $n++) {
-				$mysql_db_user = $dbuser_prefix.'aps'.$n;
+				$mysql_db_user = ($dbname_prefix != '' ? $dbname_prefix.'aps'.$n : uniqid('aps'));
 				$tmp = $app->db->queryOneRecord("SELECT count(database_user_id) as number FROM web_database_user WHERE database_user = '".$app->db->quote($mysql_db_user)."'");
 				if($tmp['number'] == 0) break;
 			}
@@ -283,14 +310,14 @@ class ApsGUIController extends ApsBase
 		}
 		
 		//* Insert new package instance
-		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `customer_id`, `package_id`, `instance_status`) VALUES (".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', ".$this->db->quote($webserver_id).",".$this->db->quote($customerid).", ".$this->db->quote($packageid).", ".INSTANCE_PENDING.")";
+		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `customer_id`, `package_id`, `instance_status`) VALUES (".$websrv['sys_userid'].", ".$websrv['sys_groupid'].", 'riud', '".$websrv['sys_perm_group']."', '', ".$app->db->quote($webserver_id).",".$app->db->quote($customerid).", ".$app->db->quote($packageid).", ".INSTANCE_PENDING.")";
 		$InstanceID = $app->db->datalogInsert('aps_instances', $insert_data, 'id');
 		
 		//* Insert all package settings
 		if(is_array($settings)) {
 			foreach($settings as $key => $value) {
-				$insert_data = "(server_id, instance_id, name, value) VALUES (".$this->db->quote($webserver_id).",".$this->db->quote($InstanceID).", '".$this->db->quote($key)."', '".$this->db->quote($value)."')";
-				$this->db->datalogInsert('aps_instances_settings', $insert_data, 'id');
+				$insert_data = "(server_id, instance_id, name, value) VALUES (".$app->db->quote($webserver_id).",".$app->db->quote($InstanceID).", '".$app->db->quote($key)."', '".$app->db->quote($value)."')";
+				$app->db->datalogInsert('aps_instances_settings', $insert_data, 'id');
 			}
 		}
 		
@@ -308,23 +335,23 @@ class ApsGUIController extends ApsBase
     {
         global $app;
 		/*
-		$this->db->query("UPDATE aps_instances SET instance_status = ".INSTANCE_REMOVE." WHERE id = ".$instanceid.";");
+		$app->db->query("UPDATE aps_instances SET instance_status = ".INSTANCE_REMOVE." WHERE id = ".$instanceid.";");
         
         $webserver_id = $this->getInstanceDataForDatalog($instanceid);
         if($webserver_id == '') return;
         
         // Create a sys_datalog entry for deletion
         $datalog = array('Instance_id' => $instanceid, 'server_id' => $webserver_id);
-        $this->db->datalogSave('aps', 'DELETE', 'id', $instanceid, array(), $datalog);
+        $app->db->datalogSave('aps', 'DELETE', 'id', $instanceid, array(), $datalog);
 		*/
 		
 		$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
-		$tmp = $this->db->queryOneRecord($sql);
-		if($tmp['database_id'] > 0) $this->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
+		$tmp = $app->db->queryOneRecord($sql);
+		if($tmp['database_id'] > 0) $app->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
 		
         $database_user = $tmp['database_user_id'];
-        $tmp = $this->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . $app->functions->intval($database_user) . "' OR `database_ro_user_id` = '" . $app->functions->intval($database_user) . "'");
-        if($tmp['cnt'] < 1) $this->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
+        $tmp = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . $app->functions->intval($database_user) . "' OR `database_ro_user_id` = '" . $app->functions->intval($database_user) . "'");
+        if($tmp['cnt'] < 1) $app->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
         
 		$app->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
 
@@ -338,22 +365,24 @@ class ApsGUIController extends ApsBase
      */
     public function reinstallInstance($instanceid)
     {
+        global $app;
+        
         /*
-		$this->db->query("UPDATE aps_instances SET instance_status = ".INSTANCE_INSTALL." WHERE id = ".$instanceid.";");
+		$app->db->query("UPDATE aps_instances SET instance_status = ".INSTANCE_INSTALL." WHERE id = ".$instanceid.";");
         
         $webserver_id = $this->getInstanceDataForDatalog($instanceid);
         if($webserver_id == '') return;
         
         // Create a sys_datalog entry for re-installation
         $datalog = array('instance_id' => $instanceid, 'server_id' => $webserver_id);
-        $this->db->datalogSave('aps', 'INSERT', 'id', $instanceid, array(), $datalog);
+        $app->db->datalogSave('aps', 'INSERT', 'id', $instanceid, array(), $datalog);
 		*/
 		
 		$sql = "SELECT web_database.database_id as database_id FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
-		$tmp = $this->db->queryOneRecord($sql);
-		if($tmp['database_id'] > 0) $this->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
+		$tmp = $app->db->queryOneRecord($sql);
+		if($tmp['database_id'] > 0) $app->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
 		
-		$this->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_INSTALL, 'id', $instanceid);
+		$app->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_INSTALL, 'id', $instanceid);
     }
 
     /**
@@ -364,7 +393,9 @@ class ApsGUIController extends ApsBase
      */
     public function getPackageSettings($id)    
     {
-        $pkg = $this->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$this->db->quote($id).';');
+        global $app;
+        
+        $pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$app->db->quote($id).';');
         
         // Load in meta file if existing and register its namespaces
         $metafile = $this->interface_pkg_dir.'/'.$pkg['path'].'/APP-META.xml';
@@ -460,10 +491,10 @@ class ApsGUIController extends ApsBase
         // Main domain (obligatory)
         if(isset($postinput['main_domain']))
         {
-            if(!in_array($postinput['main_domain'], $domains)) $error[] = $this->app->lng('error_main_domain');
+            if(!in_array($postinput['main_domain'], $domains)) $error[] = $app->lng('error_main_domain');
             else $input['main_domain'] = $postinput['main_domain'];
         }
-        else $error[] = $this->app->lng('error_main_domain'); 
+        else $error[] = $app->lng('error_main_domain'); 
         
         // Main location (not obligatory but must be supplied)
         if(isset($postinput['main_location']))
@@ -478,13 +509,13 @@ class ApsGUIController extends ApsBase
             $main_location = $this->secureLocation($main_location);
             // Only allow digits, words, / and -
             $main_location = preg_replace("/[^\d\w\/\-]/i", "", $main_location);
-            if($userinput && (strlen($main_location) == 0)) $temp_errstr = $this->app->lng('error_inv_main_location');
+            if($userinput && (strlen($main_location) == 0)) $temp_errstr = $app->lng('error_inv_main_location');
             
             // Find out document_root and make sure no apps are installed twice to one location
             if(in_array($postinput['main_domain'], $domains))
             {
-                $docroot = $this->db->queryOneRecord("SELECT document_root FROM web_domain 
-                    WHERE domain = '".$this->db->quote($postinput['main_domain'])."';");
+                $docroot = $app->db->queryOneRecord("SELECT document_root FROM web_domain 
+                    WHERE domain = '".$app->db->quote($postinput['main_domain'])."';");
                 $new_path = $docroot['document_root'];
                 if(substr($new_path, -1) != '/') $new_path .= '/';
                 $new_path .= $main_location;
@@ -496,16 +527,16 @@ class ApsGUIController extends ApsBase
                 // and get the corresponding document roots as well as the defined
                 // locations. If an existing doc_root + location matches with the
                 // new one -> error
-                $instance_domains = $this->db->queryAllRecords("SELECT instance_id, s.value AS domain 
+                $instance_domains = $app->db->queryAllRecords("SELECT instance_id, s.value AS domain 
                     FROM aps_instances AS i, aps_instances_settings AS s 
                     WHERE i.id = s.instance_id AND s.name = 'main_domain' 
-                        AND i.customer_id = '".$this->db->quote($customerid)."';");
+                        AND i.customer_id = '".$app->db->quote($customerid)."';");
                 for($i = 0; $i < count($instance_domains); $i++)
                 {
                     $used_path = '';
                     
-                    $doc_root = $this->db->queryOneRecord("SELECT document_root FROM web_domain 
-                        WHERE domain = '".$this->db->quote($instance_domains[$i]['domain'])."';");
+                    $doc_root = $app->db->queryOneRecord("SELECT document_root FROM web_domain 
+                        WHERE domain = '".$app->db->quote($instance_domains[$i]['domain'])."';");
 
                     // Probably the domain settings were changed later, so make sure the doc_root
                     // is not empty for further validation
@@ -514,34 +545,34 @@ class ApsGUIController extends ApsBase
                         $used_path = $docroot['document_root'];
                         if(substr($used_path, -1) != '/') $used_path .= '/';
                         
-                        $location_for_domain = $this->db->queryOneRecord("SELECT value 
+                        $location_for_domain = $app->db->queryOneRecord("SELECT value 
                             FROM aps_instances_settings WHERE name = 'main_location' 
-                            AND instance_id = '".$this->db->quote($instance_domains[$i]['instance_id'])."';");
+                            AND instance_id = '".$app->db->quote($instance_domains[$i]['instance_id'])."';");
                         
                         // The location might be empty but the DB return must not be false!
                         if($location_for_domain) $used_path .= $location_for_domain['value'];      
 
                         if($new_path == $used_path)
                         {
-                            $temp_errstr = $this->app->lng('error_used_location');
+                            $temp_errstr = $app->lng('error_used_location');
                             break;
                         }
                     }
                 }
             }
-            else $temp_errstr = $this->app->lng('error_main_domain');
+            else $temp_errstr = $app->lng('error_main_domain');
             
             if($temp_errstr == '') $input['main_location'] = htmlspecialchars($main_location);
             else $error[] = $temp_errstr;            
         }
-        else $error[] = $this->app->lng('error_no_main_location');
+        else $error[] = $app->lng('error_no_main_location');
         
         // License (the checkbox must be set)
         if(isset($pkg_details['License need agree']) 
         && $pkg_details['License need agree'] == 'true')
         {
             if(isset($postinput['license']) && $postinput['license'] == 'on') $input['license'] = 'true';
-            else $error[] = $this->app->lng('error_license_agreement');
+            else $error[] = $app->lng('error_license_agreement');
         } 
         
         // Database
@@ -550,12 +581,12 @@ class ApsGUIController extends ApsBase
         {
             if(isset($postinput['main_database_password']))
             {
-                if($postinput['main_database_password'] == '') $error[] = $this->app->lng('error_no_database_pw');
+                if($postinput['main_database_password'] == '') $error[] = $app->lng('error_no_database_pw');
                 else if(strlen($postinput['main_database_password']) > 8) 
                     $input['main_database_password'] = htmlspecialchars($postinput['main_database_password']);
-                else $error[] = $this->app->lng('error_short_database_pw');
+                else $error[] = $app->lng('error_short_database_pw');
             }
-            else $error[] = $this->app->lng('error_no_database_pw');
+            else $error[] = $app->lng('error_no_database_pw');
         }
         
         // Validate the package settings 
@@ -572,36 +603,36 @@ class ApsGUIController extends ApsBase
                 {
                     if($app->functions->intval($setting['SettingMinLength'], true) != 0 
                     && strlen($postinput[$setting_id]) < $app->functions->intval($setting['SettingMinLength'], true))
-                        $temp_errstr = sprintf($this->app->lng('error_short_value_for'), $setting['setting_name']);
+                        $temp_errstr = sprintf($app->lng('error_short_value_for'), $setting['setting_name']);
                         
                     if($app->functions->intval($setting['SettingMaxLength'], true) != 0 
                     && strlen($postinput[$setting_id]) > $app->functions->intval($setting['SettingMaxLength'], true))
-                        $temp_errstr = sprintf($this->app->lng('error_long_value_for'), $setting['setting_name']);
+                        $temp_errstr = sprintf($app->lng('error_long_value_for'), $setting['setting_name']);
 
                     if(isset($setting['SettingRegex'])
                     && !preg_match("/".$setting['SettingRegex']."/", $postinput[$setting_id]))
-                        $temp_errstr = sprintf($this->app->lng('error_inv_value_for'), $setting['setting_name']);
+                        $temp_errstr = sprintf($app->lng('error_inv_value_for'), $setting['setting_name']);
                 }
                 else if($setting['SettingType'] == 'email')
                 {
                     if(filter_var(strtolower($postinput[$setting_id]), FILTER_VALIDATE_EMAIL) === false)
-                        $temp_errstr = sprintf($this->app->lng('error_inv_email_for'), $setting['setting_name']);
+                        $temp_errstr = sprintf($app->lng('error_inv_email_for'), $setting['setting_name']);
                 }
                 else if($setting['SettingType'] == 'domain-name')
                 {
                     if(!preg_match("^(http|https)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*$", 
                         $postinput[$setting_id]))
-                    $temp_errstr = sprintf($this->app->lng('error_inv_domain_for'), $setting['setting_name']);    
+                    $temp_errstr = sprintf($app->lng('error_inv_domain_for'), $setting['setting_name']);    
                 }
                 else if($setting['SettingType'] == 'integer')
                 {
                     if(filter_var($postinput[$setting_id], FILTER_VALIDATE_INT) === false)
-                        $temp_errstr = sprintf($this->app->lng('error_inv_integer_for'), $setting['setting_name']);
+                        $temp_errstr = sprintf($app->lng('error_inv_integer_for'), $setting['setting_name']);
                 }
                 else if($setting['SettingType'] == 'float')
                 {
                     if(filter_var($postinput[$setting_id], FILTER_VALIDATE_FLOAT) === false)
-                        $temp_errstr = sprintf($this->app->lng('error_inv_float_for'), $setting['setting_name']);
+                        $temp_errstr = sprintf($app->lng('error_inv_float_for'), $setting['setting_name']);
                 }
                 else if($setting['SettingType'] == 'boolean')
                 {
@@ -618,13 +649,13 @@ class ApsGUIController extends ApsBase
                         if($setting['SettingChoices'][$i]['EnumID'] == $postinput[$setting_id])
                             $found = true;
                     }
-                    if(!$found) $temp_errstr = sprintf($this->app->lng('error_inv_value_for'), $setting['SettingName']);
+                    if(!$found) $temp_errstr = sprintf($app->lng('error_inv_value_for'), $setting['SettingName']);
                 }
                 
                 if($temp_errstr == '') $input[$setting_id] = $postinput[$setting_id];
                 else $error[] = $temp_errstr;
             }
-            else $error[] = sprintf($this->app->lng('error_no_value_for'), $setting['SettingName']);
+            else $error[] = sprintf($app->lng('error_no_value_for'), $setting['SettingName']);
         }
         
         $ret['input'] = $input;
@@ -641,7 +672,9 @@ class ApsGUIController extends ApsBase
      */
     public function getPackageDetails($id)
     {
-        $pkg = $this->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$this->db->quote($id).';');
+        global $app;
+        
+        $pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$app->db->quote($id).';');
         
         // Load in meta file if existing and register its namespaces
         $metafile = $this->interface_pkg_dir.'/'.$pkg['path'].'/APP-META.xml';

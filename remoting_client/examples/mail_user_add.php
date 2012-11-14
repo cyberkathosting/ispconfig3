@@ -25,7 +25,7 @@ try {
 			'uid' => 5000,
 			'gid' => 5000,
 			'maildir' => '/var/vmail/test.int/joe',
-			'quota' => 10000000000,
+			'quota' => 5242880,
 			'cc' => '',
 			'homedir' => '/var/vmail',
 			'autoresponder' => 'n',
