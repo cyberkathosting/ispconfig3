@@ -833,7 +833,21 @@ class nginx_plugin {
 		$vhost_data['web_basedir'] = $web_config['website_basedir'];
 		
 		// IPv6
-		if($data['new']['ipv6_address'] != '') $tpl->setVar('ipv6_enabled', 1);
+		if($data['new']['ipv6_address'] != ''){
+			$tpl->setVar('ipv6_enabled', 1);
+			if ($conf['serverconfig']['web']['vhost_rewrite_v6'] == 'y') {
+				if (isset($conf['serverconfig']['server']['v6_prefix']) && $conf['serverconfig']['server']['v6_prefix'] <> '') {
+					$explode_v6prefix=explode(':',$conf['serverconfig']['server']['v6_prefix']);
+					$explode_v6=explode(':',$data['new']['ipv6_address']);
+
+					for ( $i = 0; $i <= count($explode_v6prefix)-3; $i++ ) {
+				        $explode_v6[$i] = $explode_v6prefix[$i];
+					}
+					$data['new']['ipv6_address'] = implode(':',$explode_v6);
+					$vhost_data['ipv6_address'] = $data['new']['ipv6_address'];
+				}
+			}
+		}
 		
 		// PHP-FPM
 		// Support for multiple PHP versions
@@ -1619,8 +1633,63 @@ class nginx_plugin {
             if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
                 $docroot = escapeshellcmd($data['old']['document_root']);
                 if($docroot != '' && !stristr($docroot,'..')) {
-                    if($data['old']['type'] == 'vhost') exec('rm -rf '.$docroot);
-                    elseif(!stristr($data['old']['web_folder'], '..')) exec('rm -rf '.$docroot.'/'.$web_folder);
+                    if($data['old']['type'] == 'vhost') {
+                        // this is a vhost - we delete everything in here.
+                        exec('rm -rf '.$docroot);
+                    } elseif(!stristr($data['old']['web_folder'], '..')) {
+                        // this is a vhost subdomain
+                        // IMPORTANT: do some folder checks before we delete this!
+                        $do_delete = true;
+                        $delete_folder = preg_replace('/[\/]{2,}/', '/', $web_folder); // replace / occuring multiple times
+                        if(substr($delete_folder, 0, 1) === '/') $delete_folder = substr($delete_folder, 1);
+                        if(substr($delete_folder, -1) === '/') $delete_folder = substr($delete_folder, 0, -1);
+                        
+                        $path_elements = explode('/', $delete_folder);
+                        
+                        if($path_elements[0] == 'web' || $path_elements[0] === '') {
+                            // paths beginning with /web should NEVER EVER be deleted, empty paths should NEVER occur - but for safety reasons we check it here!
+                            // we use strict check as otherwise directories named '0' may not be deleted
+                            $do_delete = false;
+                        } else {
+                            // read all vhost subdomains with same parent domain
+                            $used_paths = array();
+                            $tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE type = 'vhostsubdomain' AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
+                            foreach($tmp as $tmprec) {
+                                // we normalize the folder entries because we need to compare them
+                                $tmp_folder = preg_replace('/[\/]{2,}/', '/', $tmprec['web_folder']); // replace / occuring multiple times
+                                if(substr($tmp_folder, 0, 1) === '/') $tmp_folder = substr($tmp_folder, 1);
+                                if(substr($tmp_folder, -1) === '/') $tmp_folder = substr($tmp_folder, 0, -1);
+                                
+                                // add this path and it's parent paths to used_paths array
+                                while(strpos($tmp_folder, '/') !== false) {
+                                    if(in_array($tmp_folder, $used_paths) == false) $used_paths[] = $tmp_folder;
+                                    $tmp_folder = substr($tmp_folder, 0, strrpos($tmp_folder, '/'));
+                                }
+                                if(in_array($tmp_folder, $used_paths) == false) $used_paths[] = $tmp_folder;
+                            }
+                            unset($tmp);
+                            
+                            // loop and check if the path is still used and stop at first used one
+                            // set do_delete to false so nothing gets deleted if the web_folder itself is still used
+                            $do_delete = false;
+                            while(count($path_elements) > 0) {
+                                $tmp_folder = implode('/', $path_elements);
+                                if(in_array($tmp_folder, $used_paths) == true) break;
+                                
+                                // this path is not used - set it as path to delete, strip the last element from the array and set do_delete to true
+                                $delete_folder = $tmp_folder;
+                                $do_delete = true;
+                                array_pop($path_elements);
+                            }
+                            unset($tmp_folder);
+                            unset($used_paths);
+                        }
+                        
+                        if($do_delete === true && $delete_folder !== '') exec('rm -rf '.$docroot.'/'.$delete_folder);
+                        
+                        unset($delete_folder);
+                        unset($path_elements);
+                    }
                 }
 			
                 //remove the php fastgi starter script if available

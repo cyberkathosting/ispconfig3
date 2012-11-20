@@ -86,6 +86,14 @@ $form["tabs"]['server'] = array(
 			'width' => '15',
 			'maxlength' => '255'
 		),
+		'v6_prefix' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+                        'validators' => array(0 => array('type' => 'ISV6PREFIX',
+                                        'errmsg' => 'v6_prefix_wrong'),
+                        ),
+		'default' => ''
+		),
 		'gateway' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -405,6 +413,16 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+
+'vhost_rewrite_v6' => array (
+'datatype' => 'VARCHAR',
+'formtype' => 'CHECKBOX',
+'default' => 'n',
+'value' => array(0 => 'n',1 => 'y')
+),
+
+
+
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

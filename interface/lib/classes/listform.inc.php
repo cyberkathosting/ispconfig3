@@ -243,21 +243,65 @@ class listform {
     public function getPagingHTML($vars)
     {
         global $app;
-        $content = '<a href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'">'
-                    .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_stop_180.png"></a> &nbsp; ';
+        
+        // we want to show at max 17 page numbers (8 left, current, 8 right)
+        $show_pages_count = 17;
+        
+        $show_pages = array(0); // first page
+        if($vars['pages'] > 0) $show_pages[] = $vars['pages']; // last page
+        for($p = $vars['page'] - 2; $p <= $vars['page'] + 2; $p++) { // surrounding pages
+            if($p > 0 && $p < $vars['pages']) $show_pages[] = $p;
+        }
+        
+        $l_start = $vars['page'] - 13;
+        $l_start -= ($l_start % 10) + 1;
+        $h_end = $vars['page'] + 23;
+        $h_end -= ($h_end % 10) + 1;
+        for($p = $l_start; $p <= $h_end; $p += 10) { // surrounding pages
+            if($p > 0 && $p < $vars['pages'] && !in_array($p, $show_pages, true) && count($show_pages) < $show_pages_count) $show_pages[] = $p;
+        }
+        
+        $l_start = $vars['page'] - 503;
+        $l_start -= ($l_start % 100) + 1;
+        $h_end = $vars['page'] + 603;
+        $h_end -= ($h_end % 100) + 1;
+        for($p = $l_start; $p <= $h_end; $p += 100) { // surrounding pages
+            if($p > 0 && $p < $vars['pages'] && !in_array($p, $show_pages, true) && count($show_pages) < $show_pages_count) $show_pages[] = $p;
+        }
+        
+        $l_start = $vars['page'] - 203;
+        $l_start -= ($l_start % 25) + 1;
+        $h_end = $vars['page'] + 228;
+        $h_end -= ($h_end % 25) + 1;
+        for($p = $l_start; $p <= $h_end; $p += 25) { // surrounding pages
+            if($p > 0 && $p < $vars['pages'] && abs($p - $vars['page']) > 30 && !in_array($p, $show_pages, true) && count($show_pages) < $show_pages_count) $show_pages[] = $p;
+        }
+        
+        sort($show_pages);
+        $show_pages = array_unique($show_pages);
+        
         //* Show Back 
         if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
-            $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
+        $content = '<a class="btn-page first-page" href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'">'
+                    .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_stop_180.png"></a> &nbsp; ';
+            $content .= '<a class="btn-page previous-page" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
                         .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_180.png"></a> &nbsp; ';
         }
-        $content .= ' '.$this->lng('page_txt').' '.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' &nbsp; ';
+        $content .= ' '.$this->lng('page_txt').' ';
+        $prev = -1;
+        foreach($show_pages as $p) {
+            if($prev != -1 && $p > $prev + 1) $content .= '<span class="page-spacer">...</span>';
+            $content .= '<a class="link-page' . ($p == $vars['page'] ? ' current-page' : '') . '" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$p.$vars['page_params']."');".'">'. ($p+1) .'</a>';
+            $prev = $p;
+        }
+        //.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' &nbsp; ';
         //* Show Next
         if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
-            $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
+            $content .= '<a class="btn-page next-page" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
                         .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow.png"></a> &nbsp; ';
-        }
-        $content .= '<a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'">'
+        $content .= '<a class="btn-page last-page" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'">'
                     .'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_stop.png"></a>';
+        }
         return $content;
     }
 		

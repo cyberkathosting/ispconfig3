@@ -369,6 +369,8 @@ class page_action extends tform_actions {
             
             
             $this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
+			if(substr($this->dataRecord['web_folder'], 0, 1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 1);
+			if(substr($this->dataRecord['web_folder'], -1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 0, -1);
             $forbidden_folders = array('', 'cgi-bin', 'log', 'private', 'ssl', 'tmp', 'webdav');
             $check_folder = strtolower($this->dataRecord['web_folder']);
             if(substr($check_folder, 0, 1) === '/') $check_folder = substr($check_folder, 1); // strip / at beginning to check against forbidden entries
@@ -377,10 +379,12 @@ class page_action extends tform_actions {
                 $app->tform->errorMessage .= $app->tform->lng("web_folder_invalid_txt")."<br>";
             }
             // check for duplicate folder usage
+			/*
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain' AND `parent_domain_id` = '" . $app->functions->intval($this->dataRecord['parent_domain_id']) . "' AND `web_folder` = '" . $app->db->quote($this->dataRecord['web_folder']) . "' AND `domain_id` != '" . $app->functions->intval($this->id) . "'");
             if($check && $check['cnt'] > 0) {
                 $app->tform->errorMessage .= $app->tform->lng("web_folder_unique_txt")."<br>";
             }
+			*/
         } else {
             $this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
         }

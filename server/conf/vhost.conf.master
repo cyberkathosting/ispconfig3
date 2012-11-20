@@ -266,7 +266,7 @@
 		RewriteCond %{REQUEST_URI} !^/webdav/
 		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
 </tmpl_if>
-		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'>$1  <tmpl_var name='rewrite_type'>
+		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_var name='rewrite_type'>
 </tmpl_loop>
 </tmpl_if>
 

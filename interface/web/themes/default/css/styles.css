@@ -1788,3 +1788,30 @@ ul.ui-autocomplete { max-height: 250px; overflow-y: auto; min-width: 65px;}
 .ui-combobox-input { background: none repeat scroll 0 0 #FFFFFF !important; border: 1px solid #DFDFDF !important; padding: 1px; font-weight: normal !important; }
 .panel_install_package .ui-combobox { float: left; }
 .clear-float { clear: both; }
+
+a.link-page, span.page-spacer {
+    display: inline-block;
+    text-align: center;
+    padding: 2px;
+    line-height: 16px;
+    text-decoration: none !important;
+    color: inherit !important;
+    min-width: 16px;
+}
+a.link-page {
+    border: 1px solid #FFFFFF;
+    margin: 0 5px;
+}
+
+a.link-page:hover {
+    background-color: #DFDFDF;
+}
+
+span.page-spacer {
+    margin: 0 -5px;
+}
+
+a.link-page.current-page {
+    background-color: #DFDFDF;
+    font-weight: bold;
+}
