@@ -686,6 +686,17 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '4000'
 		),
+		'php_ini_check_minutes' => array(
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '1',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'php_ini_check_minutes_error_empty'),
+			),
+			'value' => '',
+			'width' => '10',
+			'maxlength' => '255'
+		),
 		'nginx_cgi_socket' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

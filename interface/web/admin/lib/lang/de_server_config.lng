@@ -170,4 +170,7 @@ $wb['enable_ip_wildcard_txt'] = 'IP Adressen Wildcard (*) aktivieren';
 $wb['web_folder_protection_txt'] = 'Webverzeichnis unveränderlich machen (erweiterte Attribute)';
 $wb['overtraffic_notify_admin_txt'] = 'Überschreiten des Transfer Limits an den Administrator senden';
 $wb['overtraffic_notify_client_txt'] = 'Überschreiten des Transfer Limits an den Kunden senden';
+$wb['php_ini_check_minutes_txt'] = 'Pr&uuml;fe System php.ini Dateien auf &Auml;nderungen alle';
+$wb['php_ini_check_minutes_info_txt'] = 'Minute(n) (0 deaktiviert diese Funktion)';
+$wb['php_ini_check_minutes_error_empty'] = 'Der Wert f&uuml;r die Einstellung der php.ini Pr&uuml;fung ist ung&uuml;ltig.';
 ?>

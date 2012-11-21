@@ -173,4 +173,7 @@ $wb["overtraffic_notify_client_txt"] = 'Send overtraffic notification to client'
 $wb["v6_prefix_txt"] = 'IPv6 Prefix';
 $wb["vhost_rewrite_v6_txt"] = 'Rewrite IPv6 on Mirror';
 $wb["v6_prefix_wrong"] = 'Invalid v6 Netmask format.';
+$wb["php_ini_check_minutes_txt"] = 'Check system php.ini files for changes each';
+$wb["php_ini_check_minutes_info_txt"] = 'minutes (0 disables checking)';
+$wb['php_ini_check_minutes_error_empty'] = 'Invalid value for php.ini checking.';
 ?>

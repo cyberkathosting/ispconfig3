@@ -81,6 +81,7 @@ add_web_users_to_sshusers_group=y
 connect_userid_to_webid=n
 connect_userid_to_webid_start=10000
 web_folder_protection=y
+php_ini_check_minutes=1
 
 [dns]
 bind_user=root

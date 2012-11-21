@@ -79,6 +79,11 @@ class webserver_plugin {
         $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
         $fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
         
+        if($web_config['php_ini_check_minutes'] == 0 || @date('i') % $web_config['php_ini_check_minutes'] != 0) {
+            $app->log('Info: php.ini change checking not enabled or not in this minute: ' . $web_config['php_ini_check_minutes'],LOGLEVEL_DEBUG);
+            return; // do not process
+        }
+        
         //** add default php.ini files to check
         $check_files[] = array('file' => $web_config['php_ini_path_apache'],
                                'mode' => 'mod',
@@ -118,7 +123,12 @@ class webserver_plugin {
         $new_php_ini_md5 = array();
         $php_ini_md5 = array();
         $php_ini_changed = false;
-        if(file_exists(SCRIPT_PATH . '/php.ini.md5sum')) $php_ini_md5 = unserialize(base64_decode(trim($app->system->file_get_contents(SCRIPT_PATH . '/php.ini.md5sum'))));
+        $rewrite_ini_files = false;
+        
+        if(file_exists(SCRIPT_PATH . '/temp/php.ini.md5sum')) {
+            $rewrite_ini_files = true;
+            $php_ini_md5 = unserialize(base64_decode(trim($app->system->file_get_contents(SCRIPT_PATH . '/temp/php.ini.md5sum'))));
+        }
         if(!is_array($php_ini_md5)) $php_ini_md5 = array();
         
         $processed = array();
@@ -139,14 +149,14 @@ class webserver_plugin {
                 
                 $app->log('Info: PHP.ini changed: ' . $file_path . ', mode ' . $file['mode'] . ' vers ' . $file['php_version'] . '.',LOGLEVEL_DEBUG);
                 // raise action for this file
-                $app->plugins->raiseAction('php_ini_changed', $file);
+                if($rewrite_ini_files == true) $app->plugins->raiseAction('php_ini_changed', $file);
             }
             
             $new_php_ini_md5[$file_path] = $file_md5;
         }
         
         //** write new md5 sums if something changed
-        if($php_ini_changed == true) $app->system->file_put_contents(SCRIPT_PATH . '/php.ini.md5sum', base64_encode(serialize($new_php_ini_md5)));
+        if($php_ini_changed == true) $app->system->file_put_contents(SCRIPT_PATH . '/temp/php.ini.md5sum', base64_encode(serialize($new_php_ini_md5)));
         unset($new_php_ini_md5);
         unset($php_ini_md5);
         unset($processed);
