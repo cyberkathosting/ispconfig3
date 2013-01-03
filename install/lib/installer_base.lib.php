@@ -732,7 +732,7 @@ class installer_base {
 		if(!stristr($options,'dont-create-certs')) {
 			//* Create the SSL certificate
 			$command = 'cd '.$config_dir.'; '
-					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
+					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
 			exec($command);
 
 			$command = 'chmod o= '.$config_dir.'/smtpd.key';
