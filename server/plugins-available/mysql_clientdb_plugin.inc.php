@@ -164,6 +164,7 @@ class mysql_clientdb_plugin {
                 $host_list = '';
                 if($data['new']['remote_access'] == 'y') {
                     $host_list = $data['new']['remote_ips'];
+                    if($host_list == '') $host_list = '%';
                 }
                 if($host_list != '') $host_list .= ',';
                 $host_list .= 'localhost';
@@ -208,6 +209,7 @@ class mysql_clientdb_plugin {
             $host_list = '';
             if($data['new']['remote_access'] == 'y') {
                 $host_list = $data['new']['remote_ips'];
+                if($host_list == '') $host_list = '%';
             }
             if($host_list != '') $host_list .= ',';
             $host_list .= 'localhost';

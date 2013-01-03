@@ -6,10 +6,10 @@ $wb['web_server_txt'] = 'Servidor web';
 $wb['dns_server_txt'] = 'Servidor DNS';
 $wb['file_server_txt'] = 'Servidor de ficheros';
 $wb['db_server_txt'] = 'Servidor de bases de datos';
-$wb['vserver_server_txt'] = 'ServidorVirtual-Servidor';
+$wb['vserver_server_txt'] = 'Servidor-Virtual';
 $wb['active_txt'] = 'Activar';
-$wb['mirror_server_id_txt'] = 'Is mirror of Server';
-$wb['- None -'] = '- None -';
-$wb['proxy_server_txt'] = 'Proxy-Server';
-$wb['firewall_server_txt'] = 'Firewall-Server';
+$wb['mirror_server_id_txt'] = 'Es el espejo del Servidor';
+$wb['- None -'] = '- Ninguno -';
+$wb['proxy_server_txt'] = 'Servidor-Proxy';
+$wb['firewall_server_txt'] = 'Servidor-Cortafuegos';
 ?>

@@ -134,12 +134,12 @@ $form["tabs"]['mailuser'] = array (
 			'searchable' => 2
 		),
 		'quota' => array (
-			'datatype'	=> 'INTEGER',
+			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+			'validators'	=> array ( 	1 => array (	'type'	=> 'ISINT',
 														'errmsg'=> 'quota_error_isint'),
-										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^([0-9]*)$/',
+										0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^([0-9]{1,})$/',
 														'errmsg'=> 'quota_error_value'),
 									),
 			'default'	=> '-1',

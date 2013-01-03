@@ -166,8 +166,8 @@
             reloadFastcgiPHPVersions();
         });
     }
-    adjustForm();
-    reloadFastcgiPHPVersions();
+    adjustForm(true);
+    reloadFastcgiPHPVersions(true);
 		
     jQuery('#client_group_id').change(function(){
         clientGroupId = $(this).val();
@@ -179,6 +179,8 @@
     } else {
         jQuery('.fastcgi_php_version:visible').hide();
     }
+    //resetFormChanged();
+    
     jQuery('#php').change(function(){
         reloadFastcgiPHPVersions();
         if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm'){
@@ -188,7 +190,7 @@
         }
     });
 		
-    function adjustForm(){
+    function adjustForm(noFormChange){
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
             if(data.servertype == "nginx"){
                 var selected = jQuery('#php').val();
@@ -205,7 +207,8 @@
                 jQuery('#php option[value="mod"]').show();
                 jQuery('#php option[value="suphp"]').show();
             }
-            jQuery('#php').change();
+            if(noFormChange) resetFormChanged();
+            else jQuery('#php').change();
         });
     }
 		
@@ -214,7 +217,7 @@
         loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId);
     }
 		
-    function reloadFastcgiPHPVersions() {
+    function reloadFastcgiPHPVersions(noFormChange) {
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi"}, function(data) {
             var options = '<option value="">Default</option>';
             var phpfastcgiselected = '';
@@ -227,6 +230,7 @@
                 options += '<option value="'+key+'"'+phpfastcgiselected+'>'+val+'</option>';
             });
             $('#fastcgi_php_version').html(options).change();
+            if(noFormChange) resetFormChanged();
         });
     }
     

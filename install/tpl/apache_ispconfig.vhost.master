@@ -25,6 +25,7 @@ NameVirtualHost *:{vhost_port}
       Order allow,deny
       Allow from all
     </Directory>
+    IPCCommTimeout  7200
   </IfModule>
   
 #  <IfModule mod_php5.c>
@@ -52,6 +53,7 @@ NameVirtualHost *:{vhost_port}
   {ssl_comment}SSLEngine On
   {ssl_comment}SSLCertificateFile /usr/local/ispconfig/interface/ssl/ispserver.crt
   {ssl_comment}SSLCertificateKeyFile /usr/local/ispconfig/interface/ssl/ispserver.key
+  {ssl_bundle_comment}SSLCACertificateFile /usr/local/ispconfig/interface/ssl/ispserver.bundle
 
 </VirtualHost>
 

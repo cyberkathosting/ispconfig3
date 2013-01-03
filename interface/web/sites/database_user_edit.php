@@ -100,14 +100,11 @@ class page_action extends tform_actions {
         
 		if ($this->dataRecord['database_user'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("database_user", str_replace($dbuser_prefix , '', $this->dataRecord['database_user']));
+			$app->tpl->setVar("database_user", $app->tools_sites->removePrefix($this->dataRecord['database_user'], $this->dataRecord['database_user_prefix'], $dbuser_prefix));
 		}
 		
-		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$app->tpl->setVar("database_user_prefix", $global_config['dbuser_prefix']);
-		} else {
-			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
-		}
+    
+		$app->tpl->setVar("database_user_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_user_prefix'], $dbuser_prefix, $global_config['dbuser_prefix']));
 		
 		parent::onShowEnd();
 	}
@@ -128,6 +125,11 @@ class page_action extends tform_actions {
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 
+        $this->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_database_user WHERE database_user_id = '".$this->id."'");
+        
+        $dbuser_prefix = $app->tools_sites->getPrefix($this->oldDataRecord['database_user_prefix'], $dbuser_prefix);
+        $this->dataRecord['database_user_prefix'] = $dbuser_prefix;
+        
 		//* Database username shall not be empty
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
 
@@ -146,7 +148,6 @@ class page_action extends tform_actions {
 		}
 		
         $this->dataRecord['server_id'] = $conf['server_id'];
-        $this->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_database_user WHERE database_user_id = '".$this->id."'");
         
 		parent::onBeforeUpdate();
 	}
@@ -162,6 +163,8 @@ class page_action extends tform_actions {
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 		
+        $this->dataRecord['database_user_prefix'] = $dbuser_prefix;
+        
 		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}',$dbuser_prefix . $this->dataRecord['database_user'],$app->tform->wordbook["database_user_error_len"]).'<br />';
 		
 		//* Check database user against blacklist

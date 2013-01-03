@@ -93,6 +93,14 @@ $form["tabs"]['webdav'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
+		'username_prefix' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '25'
+		),
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'encryption' => 'CLEARTEXT', 

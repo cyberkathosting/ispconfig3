@@ -15,10 +15,11 @@ $items[] = array( 'title' 	=> 'PDNS Tupa',
 				  'target' 	=> 'content',
 				  'link'	=> 'tools/dns_import_tupa.php');
 
+/* not yet complete
 $items[] = array( 'title' 	=> 'Plesk',
 				  'target' 	=> 'content',
 				  'link'	=> 'tools/import_plesk.php');
-
+*/
 				  
 $module['nav'][] = array(	'title'	=> 'Import',
 							'open' 	=> 1,

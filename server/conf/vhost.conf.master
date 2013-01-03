@@ -234,7 +234,7 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='php-fpm'>
 		<IfModule mod_fastcgi.c>
-				<Directory /usr/lib/cgi-bin>
+				<Directory {tmpl_var name='document_root'}/cgi-bin>
 						Order allow,deny
 						Allow from all
 			    </Directory>

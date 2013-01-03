@@ -8,7 +8,7 @@ $wb['no_domain_perm'] = 'No tiene permiso para administrar este dominio';
 $wb['destination_error_isemail'] = 'La dirección de correo de destino no es válida';
 $wb['limit_mailalias_txt'] = 'Ha alcanzado el número máximo de alias de correo para esta cuenta';
 $wb['duplicate_mailbox_txt'] = 'Ya existe un buzón de correo con esta dirección';
-$wb['domain_txt'] = 'Domain';
-$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
+$wb['domain_txt'] = 'Dominio';
+$wb['duplicate_email_alias_txt'] = 'Este alais de correo ya existe.';
 $wb['source_txt'] = 'Alias';
 ?>

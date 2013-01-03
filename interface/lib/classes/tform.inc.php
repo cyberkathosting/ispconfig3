@@ -687,7 +687,7 @@ class tform {
 										}
                                 break;
                                 case 'INTEGER':
-                                        $new_record[$key] = (isset($record[$key]))?$app->functions->intval($record[$key]):0;
+										$new_record[$key] = (isset($record[$key]))?$app->functions->intval($record[$key]):0;
                                         //if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
                                         //if($key == 'refresh') die($record[$key]);
                                 break;
@@ -856,7 +856,7 @@ class tform {
 									}
                                 break;
                                 case 'ISINT':
-									if(function_exists('filter_var')) {
+									if(function_exists('filter_var') && $field_value < 2147483647) {
 										if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
 											$errmsg = $validator['errmsg'];
 											if(isset($this->wordbook[$errmsg])) {

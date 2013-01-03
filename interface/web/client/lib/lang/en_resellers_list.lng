@@ -6,4 +6,6 @@ $wb["contact_name_txt"] = 'Contact name';
 $wb["city_txt"] = 'City';
 $wb["country_txt"] = 'Country';
 $wb["add_new_record_txt"] = 'Add new reseller';
+$wb["customer_no_txt"] = 'Customer No.';
+$wb["username_txt"] = 'Username';
 ?>

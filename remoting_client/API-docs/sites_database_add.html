@@ -22,11 +22,14 @@
 <p class="margin"> server_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
 <p class="margin"> type&nbsp;&nbsp;(<span class="paratype">varchar(16)</span>)</p>
 <p class="margin"> database_name&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
-<p class="margin"> database_user&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
+<p class="margin"> database_user_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
+<p class="margin"> database_ro_user_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
 <p class="margin"> database_password&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
 <p class="margin"> database_charset&nbsp;&nbsp;(<span class="paratype">varchar(64)</span>)</p>
 <p class="margin"> remote_access&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
 <p class="margin"> remote_ips&nbsp;&nbsp;(<span class="paratype">text</span>)</p>
+<p class="margin"> backup_interval&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> backup_copies&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
 <p class="margin"> active&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
 <p class="headgrp">Output: </p> 
 <p class="margin"> Returns the ID of the newly added database.</p>

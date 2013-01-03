@@ -148,6 +148,26 @@ $type = $_GET["type"];
         if(substr($json,-1) == ',') $json = substr($json,0,-1);
 		$json .= '}';
     }
+	
+	if($type == 'get_use_combobox'){
+		$json = '{"usecombobox":"';
+		$use_combobox = 'y';
+		$server_config_array = $app->getconf->get_global_config();
+		if($server_config_array['misc']['use_combobox'] != 'y') $use_combobox = 'n';
+		$json .= $use_combobox;
+		unset($server_config_array);
+		$json .= '"}';
+	}
+	
+	if($type == 'get_use_loadindicator'){
+		$json = '{"useloadindicator":"';
+		$use_loadindicator = 'y';
+		$server_config_array = $app->getconf->get_global_config();
+		if($server_config_array['misc']['use_loadindicator'] != 'y') $use_loadindicator = 'n';
+		$json .= $use_loadindicator;
+		unset($server_config_array);
+		$json .= '"}';
+	}
 
 //}
 

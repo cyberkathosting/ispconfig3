@@ -1,8 +1,4 @@
 <?php
-$wb['error_user_password_empty'] = 'Nombre de usuario o contraseña vacía.';
-$wb['error_user_password_incorrect'] = 'Nombre de usuario o contraseña incorrecta.';
-$wb['error_user_blocked'] = 'El usuario está bloqueado.';
-$wb['error_user_too_many_logins'] = 'Demasiados errores de inicio de sesión. Por favor, vuélvalo a intentar dentro de 15 minutos.';
 $wb['pass_reset_txt'] = 'Se generará una nueva contraseña y se le enviará a la cuenta de correo indicada en su configuración.';
 $wb['pw_reset'] = 'La nueva contraseña ha sido generada y enviada a su cuenta de correo.';
 $wb['pw_error'] = 'El usuario o la cuenta de correo no coinciden.';
@@ -11,14 +7,18 @@ $wb['pw_reset_mail_msg'] = 'La contraseña de su cuenta de panel de control ISPC
 $wb['pw_reset_mail_title'] = 'La contraseña del panel de control ISPConfig 3 ha sido regenerada.';
 $wb['user_regex_error'] = 'El nombre de usuario contiene caracteres no permitidos o tiene más de 64 caracteres.';
 $wb['pw_error_length'] = 'La longitud de la contraseña es superior a 64 caracteres.';
+$wb['error_user_password_empty'] = 'Nombre de usuario o contraseña vacía.';
+$wb['error_user_password_incorrect'] = 'Nombre de usuario o contraseña incorrecta.';
+$wb['error_user_blocked'] = 'El usuario está bloqueado.';
+$wb['error_user_too_many_logins'] = 'Demasiados errores de inicio de sesión. Por favor, vuélvalo a intentar dentro de 15 minutos.';
 $wb['username_txt'] = 'Nombre de usuario';
 $wb['password_txt'] = 'Contraseña';
 $wb['login_button_txt'] = 'Iniciar sesión';
-$wb['pw_lost_txt'] = 'Password lost';
-$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 $wb['login_txt'] = 'Login';
+$wb['pw_lost_txt'] = 'Password lost';
 $wb['pw_reset_txt'] = 'Password reset';
 $wb['pw_button_txt'] = 'Resend password';
 $wb['email_txt'] = 'Email';
+$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 $wb['theme_not_compatible'] = 'The chosen theme is not compatible with the current ISPConfig version. Please check for a new version of the theme.<br />The default theme as been activated automatically.';
 ?>

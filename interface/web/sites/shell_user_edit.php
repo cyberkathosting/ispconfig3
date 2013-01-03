@@ -79,13 +79,10 @@ class page_action extends tform_actions {
 		
 		if ($this->dataRecord['username'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("username", preg_replace('/'.$shelluser_prefix.'/', '', $this->dataRecord['username'], 1));
+			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $shelluser_prefix));
 		}
-		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$app->tpl->setVar("username_prefix", $global_config['shelluser_prefix']);
-		} else {
-			$app->tpl->setVar("username_prefix", $shelluser_prefix);
-		}
+        
+        $app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $shelluser_prefix, $global_config['shelluser_prefix']));
 		
 		if($this->id > 0) {
 			//* we are editing a existing record
@@ -138,6 +135,7 @@ class page_action extends tform_actions {
 			$global_config = $app->getconf->get_global_config('sites');
 			$shelluser_prefix = $app->tools_sites->replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
 			
+            $this->dataRecord['username_prefix'] = $shelluser_prefix;
 			/* restrict the names */
 			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
 		}
@@ -184,6 +182,10 @@ class page_action extends tform_actions {
 			$global_config = $app->getconf->get_global_config('sites');
 			$shelluser_prefix = $app->tools_sites->replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
 			
+            $old_record = $app->tform->getDataRecord($this->id);
+            $shelluser_prefix = $app->tools_sites->getPrefix($old_record['username_prefix'], $shelluser_prefix);
+            $this->dataRecord['username_prefix'] = $shelluser_prefix;
+            
 			/* restrict the names */
 			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
 		}

@@ -289,3 +289,26 @@
     </div>
 
 </div>
+<script type="text/javascript">
+<!--
+function custom_template_selected() {
+    return ($('#template_master').val() == '0' ? true : false);
+}
+
+jQuery('div.panel_client')
+        .find('div.pnl_formsarea')
+        .find('fieldset')
+        .find('input,select,button')
+        .not('#template_master,#template_additional')
+        .click(function(e) {
+            if(custom_template_selected()) return true;
+            e.preventDefault();
+            alert('{tmpl_var name="err_msg_master_tpl_set"}');
+        })
+        .focus(function() {
+            if(custom_template_selected()) return true;
+            $(this).blur();
+        });
+
+//-->
+</script>

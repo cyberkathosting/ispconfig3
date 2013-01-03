@@ -1,11 +1,11 @@
 <?php
-$wb['template_name_txt'] = 'Template name';
-$wb['template_file_txt'] = 'Template filename';
-$wb['server_id_txt'] = 'Server';
-$wb['allservers_txt'] = 'Exists on all servers';
-$wb['active_txt'] = 'Active';
-$wb['description_txt'] = 'Description';
-$wb['template_name_error_empty'] = 'Template name is empty.';
-$wb['template_file_error_empty'] = 'Template filename is empty.';
-$wb['Template'] = 'Template';
+$wb['template_name_txt'] = 'Nombre de las plantillas';
+$wb['template_file_txt'] = 'Nombre de la plantila del archivo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['allservers_txt'] = 'Existe en todos los servidores';
+$wb['active_txt'] = 'Activar';
+$wb['description_txt'] = 'Descripción';
+$wb['template_name_error_empty'] = 'Nombre de la plantilla está vacía.';
+$wb['template_file_error_empty'] = 'Nombre de archivo de plantilla está vacía.';
+$wb['Template'] = 'Plantilla';
 ?>

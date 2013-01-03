@@ -1,6 +1,7 @@
 <?php
 
 $function_list['mail_domain_get,mail_domain_add,mail_domain_update,mail_domain_delete,mail_domain_set_status,mail_domain_get_by_domain'] = 'Mail domain functions';
+$function_list['mail_aliasdomain_get,mail_aliasdomain_add,mail_aliasdomain_update,mail_aliasdomain_delete'] = 'Mail domain alias functions';
 $function_list['mail_mailinglist_get,mail_mailinglist_add,mail_mailinglist_update,mail_mailinglist_delete'] = 'Mail mailinglist functions';
 $function_list['mail_user_get,mail_user_add,mail_user_update,mail_user_delete'] = 'Mail user functions';
 $function_list['mail_alias_get,mail_alias_add,mail_alias_update,mail_alias_delete'] = 'Mail alias functions';

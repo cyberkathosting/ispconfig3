@@ -929,6 +929,11 @@ class installer extends installer_base
 			} else {
 				$content = str_replace('{ssl_comment}', '#', $content);
 			}
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key') && is_file($install_dir.'/interface/ssl/ispserver.bundle')) {
+				$content = str_replace('{ssl_bundle_comment}', '', $content);
+			} else {
+				$content = str_replace('{ssl_bundle_comment}', '#', $content);
+			}
 		
 			$vhost_path = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
 			$this->write_config_file($vhost_path, $content);
@@ -954,11 +959,11 @@ class installer extends installer_base
 			$content = str_replace('{vhost_port}', $conf['nginx']['vhost_port'], $content);
 		
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
-				$content = str_replace('{ssl_on}', ' ssl', $content);
+				$content = str_replace('{ssl_on}', ' on', $content);
 				$content = str_replace('{ssl_comment}', '', $content);
 				$content = str_replace('{fastcgi_ssl}', 'on', $content);
 			} else {
-				$content = str_replace('{ssl_on}', '', $content);
+				$content = str_replace('{ssl_on}', ' off', $content);
 				$content = str_replace('{ssl_comment}', '#', $content);
 				$content = str_replace('{fastcgi_ssl}', 'off', $content);
 			}

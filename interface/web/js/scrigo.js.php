@@ -1,8 +1,12 @@
 <?php
 	session_start();
 	include('../../lib/config.inc.php');
+	require_once('../../lib/app.inc.php');
 	$lang = (isset($_SESSION['s']['language']) && $_SESSION['s']['language'] != '')?$_SESSION['s']['language']:'en';
 	include_once(ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$lang.'_strengthmeter.lng');
+	
+	$app->uses('ini_parser,getconf');
+	$server_config_array = $app->getconf->get_global_config();
 ?>
 var pageFormChanged = false;
 var tabChangeWarningTxt = '';
@@ -23,7 +27,14 @@ function reportError(request) {
 	/*alert(request);*/
 }
 
+function resetFormChanged() {
+    pageFormChanged = false;
+}
+
 function showLoadIndicator() {
+<?php
+if($server_config_array['misc']['use_loadindicator'] == 'y'){
+?>
     requestsRunning += 1;
     
     if(requestsRunning < 2) {
@@ -44,6 +55,9 @@ function showLoadIndicator() {
             if(requestsRunning < 1) $(this).fadeOut('fast', function() { $(this).hide();});
         });
     }
+<?php
+}
+?>
 }
 
 function hideLoadIndicator() {
@@ -55,7 +69,13 @@ function hideLoadIndicator() {
 }
 
 function onAfterContentLoad() {
+<?php
+if($server_config_array['misc']['use_combobox'] == 'y'){
+?>
     $('#pageContent').find("select").combobox();
+<?php
+}
+?>
 }
 
 function loadContentRefresh(pagename) {

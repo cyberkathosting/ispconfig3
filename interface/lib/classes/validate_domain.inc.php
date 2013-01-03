@@ -106,20 +106,171 @@ class validate_domain {
     
     /* check if the domain hostname is unique (keep in mind the auto subdomains!) */
     function _check_unique($domain_name, $only_domain = false) {
-        global $app;
+        global $app, $page;
         
         if(isset($app->remoting_lib->primary_id)) {
             $primary_id = $app->remoting_lib->primary_id;
+			$domain = $app->remoting_lib->dataRecord;
         } else {
             $primary_id = $app->tform->primary_id;
+			$domain = $page->dataRecord;
         }
+
+		if($domain['ip_address'] == '' || $domain['ipv6_address'] == ''){
+			if($domain['parent_domain_id'] > 0){
+				$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$domain['parent_domain_id']);
+			}
+		}
+		
+		// check if domain has alias/subdomains - if we move a web to another IP, make sure alias/subdomains are checked as well
+		$aliassubdomains = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$app->functions->intval($primary_id)." AND (type = 'alias' OR type = 'subdomain')");
+		$additional_sql1 = '';
+		$additional_sql2 = '';
+		if(is_array($aliassubdomains) && !empty($aliassubdomains)){
+			foreach($aliassubdomains as $aliassubdomain){
+				$additional_sql1 .= " OR `domain` = '".$app->db->quote($aliassubdomain['domain'])."'";
+				$additional_sql2 .= " OR CONCAT(`subdomain`, '.', `domain`) = '".$app->db->quote($aliassubdomain['domain'])."'";
+			}
+		}
+		
+        //$check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
+		//if($check['cnt'] > 0) return false;
+		
+		// we can have the same domain on different servers or different IPs, so we have to check for identical domains on the same IP (or wildcard IPs)
+		$checks = $app->db->queryAllRecords("SELECT * FROM `web_domain` WHERE (`domain` = '" . $app->db->quote($domain_name) . "'".$additional_sql1.") AND `server_id` = ".$domain['server_id']." AND `domain_id` != " . $app->functions->intval($primary_id).($additional_sql1 != '' ? " AND `parent_domain_id` != ".$app->functions->intval($primary_id) : ""));
+
+		if(is_array($checks) && !empty($checks)){
+			foreach($checks as $check){
+				if($domain['ip_address'] == '*') return false;
+				if($check['ip_address'] == '*') return false;
+				if($domain['ip_address'] != '' && $check['ip_address'] == $domain['ip_address']) return false;
+				if($domain['ipv6_address'] != '' && $check['ipv6_address'] == $domain['ipv6_address']) return false;
+				// if alias/subdomain: check IP addresses of parent domain
+				if($check['ip_address'] == '' || $check['ipv6_address'] == ''){
+					if($check['parent_domain_id'] > 0){
+						$check_parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ".$check['parent_domain_id']);
+					}
+				}
+					
+				if($domain['ip_address'] == '' && $check['ip_address'] != ''){
+					if(is_array($parent_domain) && !empty($parent_domain)){
+						if($parent_domain['ip_address'] == '*') return false;
+						if($parent_domain['ip_address'] != '' && $check['ip_address'] == $parent_domain['ip_address']) return false;
+					}
+				}
+				
+				if($domain['ip_address'] == '' && $check['ip_address'] == ''){
+					if($check['parent_domain_id'] > 0){
+						if(is_array($check_parent_domain) && !empty($check_parent_domain)){
+							if($check_parent_domain['ip_address'] == '*') return false;
+						}
+					}
+					if(is_array($parent_domain) && !empty($parent_domain)){
+						if($parent_domain['ip_address'] == '*') return false;
+						if($parent_domain['ip_address'] != '' && $check_parent_domain['ip_address'] == $parent_domain['ip_address']) return false;
+					}
+				}
+				
+				if($check['ip_address'] == '' && $domain['ip_address'] != ''){
+					if($check['parent_domain_id'] > 0){
+						if(is_array($check_parent_domain) && !empty($check_parent_domain)){
+							if($check_parent_domain['ip_address'] == '*') return false;
+							if($check_parent_domain['ip_address'] != '' && $check_parent_domain['ip_address'] == $domain['ip_address']) return false;
+						}
+					}
+				}
+				
+				if($domain['ipv6_address'] == '' && $check['ipv6_address'] != ''){
+					if(is_array($parent_domain) && !empty($parent_domain)){
+						if($parent_domain['ipv6_address'] != '' && $check['ipv6_address'] == $parent_domain['ipv6_address']) return false;
+					}
+				}
+				
+				if($domain['ipv6_address'] == '' && $check['ipv6_address'] == ''){
+					if(is_array($parent_domain) && !empty($parent_domain)){
+						if($parent_domain['ipv6_address'] != '' && $check_parent_domain['ipv6_address'] == $parent_domain['ipv6_address']) return false;
+					}
+				}
+				
+				if($check['ipv6_address'] == '' && $domain['ipv6_address'] != ''){
+					if($check['parent_domain_id'] > 0){
+						if(is_array($check_parent_domain) && !empty($check_parent_domain)){
+							if($check_parent_domain['ipv6_address'] != '' && $check_parent_domain['ipv6_address'] == $domain['ipv6_address']) return false;
+						}
+					}
+				}
+			}
+		}
         
-        $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `domain` = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
-        if($check['cnt'] > 0) return false;
         
         if($only_domain == false) {
-            $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
-            if($check['cnt'] > 0) return false;
+            //$check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
+			//if($check['cnt'] > 0) return false;
+			// we can have the same domain on different servers or different IPs, so we have to check for identical domains on the same IP (or wildcard IPs)
+			$checks = $app->db->queryAllRecords("SELECT * FROM `web_domain` WHERE (CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "'".$additional_sql2.") AND `server_id` = ".$domain['server_id']." AND `domain_id` != " . $app->functions->intval($primary_id).($additional_sql2 != '' ? " AND `parent_domain_id` != ".$app->functions->intval($primary_id) : ""));
+			if(is_array($checks) && !empty($checks)){
+				foreach($checks as $check){
+					if($domain['ip_address'] == '*') return false;
+					if($check['ip_address'] == '*') return false;
+					if($domain['ip_address'] != '' && $check['ip_address'] == $domain['ip_address']) return false;
+					if($domain['ipv6_address'] != '' && $check['ipv6_address'] == $domain['ipv6_address']) return false;
+					// if alias/subdomain: check IP addresses of parent domain
+					if($check['ip_address'] == '' || $check['ipv6_address'] == ''){
+						if($check['parent_domain_id'] > 0){
+							$check_parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ".$check['parent_domain_id']);
+						}
+					}
+					
+					if($domain['ip_address'] == '' && $check['ip_address'] != ''){
+						if(is_array($parent_domain) && !empty($parent_domain)){
+							if($parent_domain['ip_address'] == '*') return false;
+							if($parent_domain['ip_address'] != '' && $check['ip_address'] == $parent_domain['ip_address']) return false;
+						}
+					}
+				
+					if($domain['ip_address'] == '' && $check['ip_address'] == ''){
+						if($check['parent_domain_id'] > 0){
+							if(is_array($check_parent_domain) && !empty($check_parent_domain)){
+								if($check_parent_domain['ip_address'] == '*') return false;
+							}
+						}
+						if(is_array($parent_domain) && !empty($parent_domain)){
+							if($parent_domain['ip_address'] == '*') return false;
+							if($parent_domain['ip_address'] != '' && $check_parent_domain['ip_address'] == $parent_domain['ip_address']) return false;
+						}
+					}
+				
+					if($check['ip_address'] == '' && $domain['ip_address'] != ''){
+						if($check['parent_domain_id'] > 0){
+							if(is_array($check_parent_domain) && !empty($check_parent_domain)){
+								if($check_parent_domain['ip_address'] == '*') return false;
+								if($check_parent_domain['ip_address'] != '' && $check_parent_domain['ip_address'] == $domain['ip_address']) return false;
+							}
+						}
+					}
+				
+					if($domain['ipv6_address'] == '' && $check['ipv6_address'] != ''){
+						if(is_array($parent_domain) && !empty($parent_domain)){
+							if($parent_domain['ipv6_address'] != '' && $check['ipv6_address'] == $parent_domain['ipv6_address']) return false;
+						}
+					}
+				
+					if($domain['ipv6_address'] == '' && $check['ipv6_address'] == ''){
+						if(is_array($parent_domain) && !empty($parent_domain)){
+							if($parent_domain['ipv6_address'] != '' && $check_parent_domain['ipv6_address'] == $parent_domain['ipv6_address']) return false;
+						}
+					}
+				
+					if($check['ipv6_address'] == '' && $domain['ipv6_address'] != ''){
+						if($check['parent_domain_id'] > 0){
+							if(is_array($check_parent_domain) && !empty($check_parent_domain)){
+								if($check_parent_domain['ipv6_address'] != '' && $check_parent_domain['ipv6_address'] == $domain['ipv6_address']) return false;
+							}
+						}
+					}
+				}
+			}
+            
         }
         
         return true;

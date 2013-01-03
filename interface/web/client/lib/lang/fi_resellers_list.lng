@@ -6,4 +6,6 @@ $wb['contact_name_txt'] = 'Yhteyshenkilö';
 $wb['city_txt'] = 'Kaupunki';
 $wb['country_txt'] = 'Maa';
 $wb['add_new_record_txt'] = 'Lisää uusi jälleenmyyjä';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['username_txt'] = 'Username';
 ?>

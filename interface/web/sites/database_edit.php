@@ -116,14 +116,10 @@ class page_action extends tform_actions {
 		
 		if ($this->dataRecord['database_name'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("database_name", str_replace($dbname_prefix , '', $this->dataRecord['database_name']));
+			$app->tpl->setVar("database_name", $app->tools_sites->removePrefix($this->dataRecord['database_name'], $this->dataRecord['database_name_prefix'], $dbname_prefix));
 		}
-		
-		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$app->tpl->setVar("database_name_prefix", $global_config['dbname_prefix']);
-		} else {
-			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
-		}
+        
+        $app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
 		
 		if($this->id > 0) {
 			//* we are editing a existing record
@@ -200,6 +196,9 @@ class page_action extends tform_actions {
 		
 		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
+        $dbname_prefix = $app->tools_sites->getPrefix($old_record['database_name_prefix'], $dbname_prefix);
+        $this->dataRecord['database_name_prefix'] = $dbname_prefix;
+        
 		if($old_record["database_name"] != $dbname_prefix . $this->dataRecord["database_name"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
 		}
@@ -270,6 +269,7 @@ class page_action extends tform_actions {
 		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
+        $this->dataRecord['database_name_prefix'] = $dbname_prefix;
 		
 		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
 		

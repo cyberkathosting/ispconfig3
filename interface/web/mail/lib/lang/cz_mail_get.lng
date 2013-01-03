@@ -4,7 +4,7 @@ $wb['type_txt'] = 'Typ';
 $wb['source_server_txt'] = 'POP3/IMAP server';
 $wb['source_username_txt'] = 'Uživatelské jméno';
 $wb['source_password_txt'] = 'Heslo';
-$wb['source_delete_txt'] = 'Smazat emaily po obdržení';
+$wb['source_delete_txt'] = 'Smazat e-maily po obdržení';
 $wb['destination_txt'] = 'Cíl';
 $wb['active_txt'] = 'Aktivní';
 $wb['limit_fetchmail_txt'] = 'Dosažen maximální počet záznamů externího získávání emailů pro Váš účet.';
@@ -13,6 +13,6 @@ $wb['source_username_error_isempty'] = 'Uživatelské jméno je prázdné.';
 $wb['source_password_error_isempty'] = 'Heslo je prázdné.';
 $wb['destination_error_isemail'] = 'Nevybrán žádný cíl.';
 $wb['source_server_error_regex'] = 'POP3/IMAP server není validní doménový název.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
+$wb['source_read_all_txt'] = 'Načíst všechny e-maily (vč. přečtených)';
 $wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>

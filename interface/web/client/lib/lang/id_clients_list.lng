@@ -7,4 +7,5 @@ $wb['city_txt'] = 'Kota';
 $wb['country_txt'] = 'Negara';
 $wb['add_new_record_txt'] = 'Tambah Klien Baru';
 $wb['username_txt'] = 'Username';
+$wb['customer_no_txt'] = 'Customer No.';
 ?>

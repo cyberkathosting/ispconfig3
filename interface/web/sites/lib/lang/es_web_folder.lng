@@ -1,7 +1,7 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
-$wb['active_txt'] = 'Active';
-$wb['path_error_regex'] = 'Invalid folder path.';
+$wb['server_id_txt'] = 'Servidor';
+$wb['parent_domain_id_txt'] = 'Sitio web';
+$wb['path_txt'] = 'Ruta';
+$wb['active_txt'] = 'Activar';
+$wb['path_error_regex'] = 'Ruta del archivo invalida.';
 ?>

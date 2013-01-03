@@ -4,6 +4,6 @@ $wb['destination_txt'] = 'Correo de destino';
 $wb['active_txt'] = 'Activar';
 $wb['limit_mailforward_txt'] = 'Se ha alcanzado el número máximo de reenvíos para esta cuenta';
 $wb['duplicate_mailbox_txt'] = 'Ya existe un buzón de correo con esta dirección';
-$wb['domain_txt'] = 'Domain';
+$wb['domain_txt'] = 'Dominio';
 $wb['source_txt'] = 'Source Email';
 ?>

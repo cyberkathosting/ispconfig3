@@ -1,9 +1,9 @@
 <?php
-$wb['server_id_txt'] = 'Hostserver';
-$wb['ip_address_txt'] = 'IP address';
-$wb['vm_id_txt'] = 'Virtual server';
-$wb['reserved_txt'] = 'Reserved';
-$wb['ip_error_wrong'] = 'Please fill in a valid IPv4 address.';
-$wb['ip_error_unique'] = 'This IP address does already exist.';
-$wb['IP address'] = 'IP address';
+$wb['server_id_txt'] = 'Nombre de maquina del servidor';
+$wb['ip_address_txt'] = 'IP dirección';
+$wb['vm_id_txt'] = 'Servidor Virtual';
+$wb['reserved_txt'] = 'Reservado';
+$wb['ip_error_wrong'] = 'Por favor, rellene una direcciíón IPv4 válida.';
+$wb['ip_error_unique'] = 'Esta dirección IP no existe.';
+$wb['IP address'] = 'IP dirección';
 ?>

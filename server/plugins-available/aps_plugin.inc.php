@@ -69,6 +69,10 @@ class aps_plugin
     {
         global $app, $conf;
         
+		//* dont run the installer on a mirror server to prevent
+		//  that the pplication gets installed twice.
+		if($conf['mirror_server_id'] > 0) return true;
+		
 		$app->log("Starting APS install",LOGLEVEL_DEBUG);
         if(!isset($data['new']['id'])) return false;
         $instanceid = $data['new']['id'];

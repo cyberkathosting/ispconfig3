@@ -20,11 +20,13 @@ try {
 			'server_id' => 1,
 			'type' => 'mysql',
 			'database_name' => 'db_name2',
-			'database_user' => 'db_name2',
-			'database_password' => 'db_name2',
+			'database_user_id' => '1',
+			'database_ro_user_id' => '0',
 			'database_charset' => 'UTF8',
 			'remote_access' => 'y',
 			'remote_ips' => '',
+			'backup_interval' => 'none',
+			'backup_copies' => 1,
 			'active' => 'y'
 			);
 	

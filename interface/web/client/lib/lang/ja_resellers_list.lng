@@ -6,4 +6,6 @@ $wb['contact_name_txt'] = '担当者名';
 $wb['city_txt'] = '市区町村';
 $wb['country_txt'] = '国';
 $wb['add_new_record_txt'] = 'リセラーを追加する';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['username_txt'] = 'Username';
 ?>

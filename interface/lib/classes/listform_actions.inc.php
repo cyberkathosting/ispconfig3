@@ -142,7 +142,8 @@ class listform_actions {
 			if($_SESSION['s']['user']['typ'] == "admin") {
 				$sql_where = '';
 			} else {
-				$sql_where = $app->tform->getAuthSQL('r').' and';
+				$sql_where = $app->tform->getAuthSQL('r', $app->listform->listDef['table']).' and'; 
+                //$sql_where = $app->tform->getAuthSQL('r').' and';
 			}
 		}		
 		if($this->SQLExtWhere != '') {

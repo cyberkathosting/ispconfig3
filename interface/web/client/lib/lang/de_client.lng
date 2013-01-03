@@ -139,4 +139,5 @@ $wb['customer_no_error_unique'] = 'Die Kundennummer muß einzigartig sein (oder 
 $wb['email_error_isemail'] = 'Bitte geben Sie eine gültige Email-Adresse an.';
 $wb['paypal_email_error_isemail'] = 'Bitte geben Sie eine gültige PayPal-E-Mail-Adresse an.';
 $wb['paypal_email_txt'] = 'PayPal-E-Mail';
+$wb['err_msg_master_tpl_set'] = 'Die hier eingestellten Werte werden ignoriert, wenn als Mastervorlage nicht \"Custom\" gewählt ist.';
 ?>

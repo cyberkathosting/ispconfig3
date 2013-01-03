@@ -4,10 +4,10 @@ $wb['domain_txt'] = 'Doména';
 $wb['type_txt'] = 'Typ';
 $wb['active_txt'] = 'Aktivní';
 $wb['domain_error_empty'] = 'Doména je prázdná.';
-$wb['domain_error_unique'] = 'Dupolikování domény.';
+$wb['domain_error_unique'] = 'Duplikování domény.';
 $wb['domain_error_regex'] = 'Chybný název domény.';
 $wb['client_txt'] = 'Klient';
-$wb['limit_maildomain_txt'] = 'Dosažen maximální počet email domén pro Váš účet.';
-$wb['policy_txt'] = 'Spamfiltr';
+$wb['limit_maildomain_txt'] = 'Dosažen maximální počet e-mail domén pro Váš účet.';
+$wb['policy_txt'] = 'Spamový filter';
 $wb['no_policy'] = '- nepovoleno -';
 ?>

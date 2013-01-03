@@ -1,11 +1,11 @@
 <?php
 $wb['domain_txt'] = 'Doména';
-$wb['destination_txt'] = 'Popis';
+$wb['destination_txt'] = 'Cílová e-mailová adresa';
 $wb['active_txt'] = 'Aktivní';
-$wb['domain_error_unique'] = 'Pro tuto doménu již existuje koš.';
+$wb['domain_error_unique'] = 'Pro tuto doménu již existuje doménový koš.';
 $wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu.';
 $wb['domain_error_regex'] = 'Chybné doménové jméno nebo doména obsahuje chybné znaky.';
-$wb['limit_mailcatchall_txt'] = 'Dosažen maximální počet košů účtů pro Váš účet.';
-$wb['source_txt'] = 'Source';
-$wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['limit_mailcatchall_txt'] = 'Dosažen maximální počet doménových košů pro Váš účet.';
+$wb['source_txt'] = 'Zdroj';
+$wb['destination_error_isemail'] = 'Cílová e-mailová adresa není platná e-mailová adresa.';
 ?>

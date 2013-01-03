@@ -58,14 +58,16 @@ $liste["item"][] = array('field'    => 'version',
                          'width'    => '',
                          'value'    => '');
  
-$liste["item"][] = array('field'    => 'customer_name',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'TEXT',
-                         'op'       => 'LIKE',
-                         'prefix'   => '%',
-                         'suffix'   => '%',
+ /*
+$liste["item"][] = array('field'    => 'customer_id',
+                         'datatype' => 'INTEGER',
+                         'formtype' => 'SELECT',
+                         'op'       => '=',
+                         'prefix'   => '',
+                         'suffix'   => '',
                          'width'    => '',
                          'value'    => '');
+*/
                          
 $liste["item"][] = array('field'    => 'instance_status',
                          'datatype' => 'VARCHAR',

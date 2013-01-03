@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Folder';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
+$wb['list_head_txt'] = 'Carpeta';
+$wb['active_txt'] = 'Activar';
+$wb['server_id_txt'] = 'Servidor';
+$wb['parent_domain_id_txt'] = 'Sitio web';
+$wb['path_txt'] = 'Ruta';
 ?>

@@ -2,7 +2,7 @@
 $wb["server_id_txt"] = 'Server';
 $wb["origin_txt"] = 'DNS-Zone';
 $wb["secondary_zone_txt"] = 'Secondary DNS Zone';
-$wb["ns_txt"] = 'NS';
+$wb["ns_txt"] = 'NS (IP-address)';
 $wb["active_txt"] = 'Active';
 $wb["limit_dns_slave_zone_txt"] = 'The max. number of Secondary DNS zones for your account is reached.';
 $wb["client_txt"] = 'Client';

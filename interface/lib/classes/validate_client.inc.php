@@ -81,7 +81,8 @@ class validate_client {
 		  ($global_config['ftpuser_prefix'] == '[CLIENTNAME]' || 
 		   $global_config['ftpuser_prefix'] == '' ||
 		   $global_config['shelluser_prefix'] == '[CLIENTNAME]' ||
-		   $global_config['shelluser_prefix'] == '' )) {
+		   $global_config['shelluser_prefix'] == '' ) &&
+		   $global_config['client_username_web_check_disabled'] == 'n') {
 			$errmsg = $validator['errmsg'];
 			if(isset($app->tform->wordbook[$errmsg])) {
 				return $app->tform->wordbook[$errmsg]."<br>\r\n";

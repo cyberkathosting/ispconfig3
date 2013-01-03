@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zóna (SOA záznam)';
 $wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'Email';
+$wb['mbox_txt'] = 'E-mail';
 $wb['serial_txt'] = 'Serial';
 $wb['refresh_txt'] = 'Refresh';
 $wb['retry_txt'] = 'Retry';

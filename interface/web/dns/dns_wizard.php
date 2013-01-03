@@ -138,12 +138,12 @@ if($_POST['create'] == 1) {
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	
-	if(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/',$_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
-	if(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}[\.]{0,1}$/',$_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
-	if(isset($_POST['ns2']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}[\.]{0,1}$/',$_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
+	if(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,30}$/',$_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
+	if(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/',$_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
+	if(isset($_POST['ns2']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/',$_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
 	if(isset($_POST['email']) && !preg_match('/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z0-9\-]{2,30}$/i',$_POST['email'])) $error .= $app->lng('error_email_regex').'<br />';
 	
-	// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+	// make sure that the record belongs to the client group and not the admin group when admin inserts it
 	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($_POST['client_group_id'])) {
 		$sys_groupid = $app->functions->intval($_POST['client_group_id']);
 	} elseif($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($_POST['client_group_id'])) {

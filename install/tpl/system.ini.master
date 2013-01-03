@@ -22,6 +22,7 @@ webdavuser_prefix=[CLIENTNAME]
 dblist_phpmyadmin_link=y
 phpmyadmin_url=/phpmyadmin
 webftp_url=
+client_username_web_check_disabled=n
 
 [tools]
 
@@ -34,4 +35,8 @@ dashboard_atom_url_admin=http://www.ispconfig.org/atom
 dashboard_atom_url_reseller=http://www.ispconfig.org/atom
 dashboard_atom_url_client=http://www.ispconfig.org/atom
 monitor_key=
+tab_change_discard=n
+tab_change_warning=n
+use_loadindicator=y
+use_combobox=y
 maintenance_mode=n

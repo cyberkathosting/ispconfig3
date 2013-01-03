@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Virtual server';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Hostserver';
+$wb['list_head_txt'] = 'Servidor Virtual';
+$wb['active_txt'] = 'Activar';
+$wb['server_id_txt'] = 'Servidor del host';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
-$wb['template_id_txt'] = 'Template';
-$wb['hostname_txt'] = 'Hostname';
-$wb['ip_address_txt'] = 'IP address';
+$wb['template_id_txt'] = 'Plantilla';
+$wb['hostname_txt'] = 'Nombre del host';
+$wb['ip_address_txt'] = 'Dirección IP';
 $wb['veid_txt'] = 'VEID';
 ?>

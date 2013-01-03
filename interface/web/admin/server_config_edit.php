@@ -81,6 +81,16 @@ class page_action extends tform_actions {
 			$server_id = $this->id;
 		
 			$server_config_array = $app->getconf->get_server_config($server_id);
+			
+			foreach($app->tform->formDef['tabs'][$section]['fields'] as $key => $field) {
+				if ($field['formtype'] == 'CHECKBOX') {
+					if($this->dataRecord[$key] == '') {
+						// if a checkbox is not set, we set it to the unchecked value
+						$this->dataRecord[$key] = $field['value'][0];
+					}
+				}
+			}
+		
 			$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
 			$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		

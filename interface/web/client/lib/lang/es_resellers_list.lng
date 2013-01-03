@@ -6,4 +6,6 @@ $wb['contact_name_txt'] = 'Nombre de contacto';
 $wb['city_txt'] = 'Localidad';
 $wb['country_txt'] = 'País';
 $wb['add_new_record_txt'] = 'Añadir un nuevo revendedor';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['username_txt'] = 'Username';
 ?>

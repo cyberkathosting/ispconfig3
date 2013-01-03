@@ -303,7 +303,7 @@ class functions {
 	}
 
     public function intval($string, $force_numeric = false) {
-        if(intval($string) == 2147483647) {
+        if(intval($string) == 2147483647 || ($string > 0 && intval($string) < 0)) {
             if($force_numeric == true) return floatval($string);
             elseif(preg_match('/^([-]?)[0]*([1-9][0-9]*)([^0-9].*)*$/', $string, $match)) return $match[1].$match[2];
             else return 0;

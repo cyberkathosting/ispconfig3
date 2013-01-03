@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions');
+$app->uses('tpl,tform,tform_actions,tools_sites');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -393,7 +393,7 @@ class page_action extends tform_actions {
 
 		$ssl_domain_select = '';
 		$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$this->id);
-		$ssl_domains = array($tmp["domain"],'www.'.$tmp["domain"]);
+		$ssl_domains = array($tmp["domain"],'www.'.$tmp["domain"],'*.'.$tmp["domain"]);
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
@@ -425,16 +425,7 @@ class page_action extends tform_actions {
 			/*
 			 * The domain-module is in use.
 			*/
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			/*
-			 * The admin can select ALL domains, the user only the domains assigned to him
-			 */
-			$sql = "SELECT domain_id, domain FROM domain ";
-			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-				$sql .= "WHERE sys_groupid =" . $client_group_id;
-			}
-			$sql .= " ORDER BY domain";
-			$domains = $app->db->queryAllRecords($sql);
+			$domains = $app->tools_sites->getDomainModuleDomains();
 			$domain_select = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
 				/* We have domains in the list, so create the drop-down-list */
@@ -474,18 +465,12 @@ class page_action extends tform_actions {
             $app->uses('ini_parser,getconf');
             $settings = $app->getconf->get_global_config('domains');
             if ($settings['use_domain_module'] == 'y') {
-                $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-                
-                $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($this->dataRecord['domain']);
-                if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-                    $sql .= " AND sys_groupid =" . $client_group_id;
-                }
-                $domain_check = $app->db->queryOneRecord($sql);
+                $domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['domain']);
                 if(!$domain_check) {
                     // invalid domain selected
                     $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
                 } else {
-                    $this->dataRecord['domain'] = $domain_check['domain'];
+                    $this->dataRecord['domain'] = $domain_check;
                 }
             }
         }
@@ -508,7 +493,7 @@ class page_action extends tform_actions {
             if($client['limit_perl'] != 'y') $this->dataRecord['perl'] = '-';
             if($client['limit_ruby'] != 'y') $this->dataRecord['ruby'] = '-';
             if($client['limit_python'] != 'y') $this->dataRecord['python'] = '-';
-            if($client['force_suexec'] != 'n') $this->dataRecord['suexec'] = '-';
+            if($client['force_suexec'] == 'y') $this->dataRecord['suexec'] = 'y';
             if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
             if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
             if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
@@ -853,7 +838,13 @@ class page_action extends tform_actions {
 		
 		//* Set php_open_basedir if empty or domain or client has been changed
 		if(empty($web_rec['php_open_basedir']) ||
-		(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) ||
+		(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"])) {
+			$php_open_basedir = $web_rec['php_open_basedir'];
+			$php_open_basedir = str_replace($this->oldDataRecord['domain'],$web_rec['domain'],$php_open_basedir);
+			$sql = "UPDATE web_domain SET php_open_basedir = '$php_open_basedir' WHERE domain_id = ".$this->id;
+			$app->db->query($sql);
+		}
+		if(empty($web_rec['php_open_basedir']) ||
 		(isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"])) {
 			$document_root = $app->db->quote(str_replace("[client_id]",$client_id,$document_root));
 			$php_open_basedir = str_replace("[website_path]",$document_root,$web_config["php_open_basedir"]);

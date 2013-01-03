@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions');
+$app->uses('tpl,tform,tform_actions,tools_sites');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -81,16 +81,7 @@ class page_action extends tform_actions {
 			/*
 			 * The domain-module is in use.
 			*/
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			/*
-			 * The admin can select ALL domains, the user only the domains assigned to him
-			 */
-			$sql = "SELECT domain_id, domain FROM domain ";
-			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-				$sql .= "WHERE sys_groupid =" . $client_group_id;
-			}
-			$sql .= " ORDER BY domain";
-			$domains = $app->db->queryAllRecords($sql);
+			$domains = $app->tools_sites->getDomainModuleDomains();
 			$domain_select = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
 				/* We have domains in the list, so create the drop-down-list */
@@ -137,18 +128,12 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
-			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			
-            $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($this->dataRecord['domain']);
-			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-				$sql .= " AND sys_groupid =" . $client_group_id;
-			}
-			$domain_check = $app->db->queryOneRecord($sql);
+            $domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['domain']);
             if(!$domain_check) {
                 // invalid domain selected
                 $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
             } else {
-                $this->dataRecord['domain'] = $domain_check['domain'];
+                $this->dataRecord['domain'] = $domain_check;
             }
         }
         

@@ -41,4 +41,5 @@ $wb['database_ro_user_txt'] = 'Read-only database user';
 $wb['optional_txt'] = 'optional';
 $wb['select_dbuser_txt'] = 'Select database user';
 $wb['no_dbuser_txt'] = 'None';
+$wb['database_client_differs_txt'] = 'The client of the parent web and the database do not match.';
 ?>

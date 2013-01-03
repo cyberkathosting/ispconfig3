@@ -3,11 +3,11 @@ $wb['User Settings'] = 'Configuraciones del usuario';
 $wb['Settings'] = 'Configuraciones';
 $wb['ISPConfig Tools'] = 'Herramientas ISPConfig';
 $wb['Password and Language'] = 'Contraseña e Idioma';
-$wb['ispconfig_tools_note'] = 'Este módulo le permite cambiar la contraseña y el idioma y para iniciar una resincronización de los registros de DNS.';
+$wb['ispconfig_tools_note'] = 'Este módulo le permite cambiar la contraseña y el idioma e iniciar una resincronización de los registros DNS.';
 $wb['Resync'] = 'Resync';
-$wb['Sync Tools'] = 'Sync Tools';
-$wb['Import'] = 'Import';
-$wb['ISPConfig 3 mail'] = 'ISPConfig 3 mail';
+$wb['Sync Tools'] = 'Herramientas Sync';
+$wb['Import'] = 'Importar';
+$wb['ISPConfig 3 mail'] = 'Correo de ISPConfig 3';
 $wb['PDNS Tupa'] = 'PowerDNS Tupa';
 $wb['Interface'] = 'Interface';
 ?>

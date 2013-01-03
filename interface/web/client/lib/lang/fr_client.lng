@@ -133,4 +133,11 @@ $wb['generate_password_txt'] = 'Generate Password';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
+$wb['active_template_additional_txt'] = 'Active Addons';
+$wb['bank_account_owner_txt'] = 'Bank account owner';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['customer_no_error_unique'] = 'The customer no. must be unique (or empty).';
+$wb['paypal_email_error_isemail'] = 'Please enter a valid PayPal email address.';
+$wb['paypal_email_txt'] = 'PayPal Email';
+$wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \"custom\" is selected.';
 ?>

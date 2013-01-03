@@ -1,16 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['client_id_txt'] = 'Client';
-$wb['name_txt'] = 'PHP Name';
-$wb['Name'] = 'Name';
-$wb['FastCGI Settings'] = 'FastCGI Settings';
-$wb['PHP-FPM Settings'] = 'PHP-FPM Settings';
+$wb['client_id_txt'] = 'Klient';
+$wb['name_txt'] = 'Název PHP verze';
+$wb['Name'] = 'Název';
+$wb['FastCGI Settings'] = 'FastCGI nastavení';
+$wb['PHP-FPM Settings'] = 'PHP-FPM nastavení';
 $wb['Additional PHP Versions'] = 'Additional PHP Versions';
 $wb['Form to edit additional PHP versions'] = 'Form to edit additional PHP versions';
-$wb['server_php_name_error_empty'] = 'The Name field must not be empty.';
-$wb['php_fastcgi_binary_txt'] = 'Path to the PHP FastCGI binary';
-$wb['php_fastcgi_ini_dir_txt'] = 'Path to the php.ini directory';
-$wb['php_fpm_init_script_txt'] = 'Path to the PHP-FPM init script';
-$wb['php_fpm_ini_dir_txt'] = 'Path to the php.ini directory';
-$wb['php_fpm_pool_dir_txt'] = 'Path to the PHP-FPM pool directory';
+$wb['server_php_name_error_empty'] = 'Název pole nesmí být prázdné.';
+$wb['php_fastcgi_binary_txt'] = 'Cesta k binarnímu balíčku PHP FastCGI';
+$wb['php_fastcgi_ini_dir_txt'] = 'Cesta k adresáři ve kterém je  umístěn php.ini';
+$wb['php_fpm_init_script_txt'] = 'Cesta k PHP-FPM init skriptu';
+$wb['php_fpm_ini_dir_txt'] = 'Cesta k adresáři ve kterém je  umístěn php.ini';
+$wb['php_fpm_pool_dir_txt'] = 'Cesta k PHP-FPM společnému (pool) adresáři';
 ?>

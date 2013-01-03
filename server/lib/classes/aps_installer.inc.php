@@ -294,7 +294,8 @@ class ApsInstaller extends ApsBase
         $db_id = parent::getXPathValue($sxe, '//db:id');
         if(empty($db_id)) return; // No database needed
         
-		/*
+		/* WARNING: if this will ever be uncommented please check the updated prefix handling for user and db names!!!
+         * 
         // Set the database owner to the domain owner
         // ISPConfig identifies the owner by the sys_groupid (not sys_userid!)
         // so sys_userid can be set to any value

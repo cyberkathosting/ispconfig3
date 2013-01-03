@@ -6,4 +6,6 @@ $wb['contact_name_txt'] = 'Nama Kontak';
 $wb['city_txt'] = 'Kota';
 $wb['country_txt'] = 'Negara';
 $wb['add_new_record_txt'] = 'Tambah Reseller Baru';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['username_txt'] = 'Username';
 ?>

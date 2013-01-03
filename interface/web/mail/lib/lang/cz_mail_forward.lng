@@ -1,9 +1,9 @@
 <?php
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'E-mail';
 $wb['destination_txt'] = 'Cílový email';
 $wb['active_txt'] = 'Aktivní';
-$wb['limit_mailforward_txt'] = 'Dosažen maximální počet email předávání pro Váš účet.';
-$wb['duplicate_mailbox_txt'] = 'Mailbox s touto adresou již existuje';
+$wb['limit_mailforward_txt'] = 'Dosažen maximální počet e-mailových předávání pro Váš účet.';
+$wb['duplicate_mailbox_txt'] = 'Mailbox s touto e-mailovou adresou již existuje';
 $wb['domain_txt'] = 'Doména';
-$wb['source_txt'] = 'Source Email';
+$wb['source_txt'] = 'Zdrojový e-mail';
 ?>

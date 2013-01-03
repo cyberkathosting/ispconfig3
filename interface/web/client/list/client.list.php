@@ -72,7 +72,16 @@ $liste["item"][] = array(   'field'     => "contact_name",
                             'prefix'	=> "%",
                             'suffix'	=> "%",
                             'width'	=> "",
-                            'value'	=> "");  
+                            'value'	=> "");
+
+$liste["item"][] = array(   'field'     => "customer_no",
+                            'datatype'	=> "VARCHAR",
+                            'formtype'	=> "TEXT",
+                            'op'	=> "like",
+                            'prefix'	=> "%",
+                            'suffix'	=> "%",
+                            'width'	=> "",
+                            'value'	=> "");							
 
 $liste["item"][] = array(   'field'     => "username",
                             'datatype'	=> "VARCHAR",

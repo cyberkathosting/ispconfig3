@@ -7,4 +7,5 @@ $wb['city_txt'] = 'Град';
 $wb['country_txt'] = 'Държава';
 $wb['add_new_record_txt'] = 'Добави нов клиент';
 $wb['username_txt'] = 'Потребителско име';
+$wb['customer_no_txt'] = 'Customer No.';
 ?>

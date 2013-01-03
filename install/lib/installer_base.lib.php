@@ -1885,6 +1885,11 @@ class installer_base {
 			} else {
 				$content = str_replace('{ssl_comment}', '#', $content);
 			}
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key') && is_file($install_dir.'/interface/ssl/ispserver.bundle')) {
+				$content = str_replace('{ssl_bundle_comment}', '', $content);
+			} else {
+				$content = str_replace('{ssl_bundle_comment}', '#', $content);
+			}
 
 			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
 

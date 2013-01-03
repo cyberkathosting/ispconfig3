@@ -100,6 +100,14 @@ $form["tabs"]['ftp'] = array (
 			'maxlength'	=> '255',
 			'searchable' => 1
 		),
+		'username_prefix' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '25'
+		),
 		'password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',

@@ -36,8 +36,10 @@ $wb['domain_error_empty'] = 'El dominio está vacío.';
 $wb['domain_error_unique'] = 'El dominio debe ser único.';
 $wb['domain_error_regex'] = 'El nombre de dominio no es válido.';
 $wb['host_txt'] = 'Alojamiento';
-$wb['redirect_error_regex'] = 'Invalid redirect path. Valid redirects are for example: /test/ or http://www.domain.tld/test/';
-$wb['no_redirect_txt'] = 'No redirect';
+$wb['redirect_error_regex'] = 'Redirección no válida ruta. Redirecciones válidos son por ejemplo: /test/ or http://www.domain.tld/test/';
+$wb['no_redirect_txt'] = 'No redirigir';
 $wb['no_flag_txt'] = 'No flag';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
+$wb['proxy_directives_txt'] = 'Proxy Directives';
+$wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 ?>

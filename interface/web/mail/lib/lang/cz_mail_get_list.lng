@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Získávat emaily z externích POP3 / IMAP serverů';
+$wb['list_head_txt'] = 'Získávat e-maily z externích POP3 / IMAP serverů';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['source_server_txt'] = 'Externí server';

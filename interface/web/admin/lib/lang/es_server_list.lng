@@ -9,5 +9,5 @@ $wb['db_server_txt'] = 'BD';
 $wb['vserver_server_txt'] = 'VServer';
 $wb['add_new_record_txt'] = 'Añadir nuevo servidor';
 $wb['proxy_server_txt'] = 'Proxy';
-$wb['firewall_server_txt'] = 'Firewall';
+$wb['firewall_server_txt'] = 'Cortafuegos';
 ?>

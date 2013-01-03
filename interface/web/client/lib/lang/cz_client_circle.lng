@@ -1,5 +1,5 @@
 <?php
-$wb['Client Circle'] = 'Client Circle';
+$wb['Client Circle'] = 'Klient Circle';
 $wb['Circle'] = 'Circle';
 $wb['circle_txt'] = 'Circle';
 $wb['circle_name_txt'] = 'Circle Name';

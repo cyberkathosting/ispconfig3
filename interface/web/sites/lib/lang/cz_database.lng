@@ -41,4 +41,5 @@ $wb['database_ro_user_txt'] = 'Uživatel databáze - jen právo ke čtení';
 $wb['optional_txt'] = 'Volitelný';
 $wb['select_dbuser_txt'] = 'Vyberte uživatele databáze';
 $wb['no_dbuser_txt'] = 'Žádný';
+$wb['database_client_differs_txt'] = 'The client of the parent web and the database do not match.';
 ?>

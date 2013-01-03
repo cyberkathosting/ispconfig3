@@ -41,4 +41,9 @@ $wb['smtp_port_txt'] = 'SMTP Port';
 $wb['smtp_user_txt'] = 'SMTP Benutzer';
 $wb['smtp_pass_txt'] = 'SMTP Passwort';
 $wb['smtp_crypt_txt'] = 'SSL/TLS verschlüsselte Verbindung für SMTP';
+$wb['use_combobox_txt'] = 'jQuery UI Combobox benutzen';
+$wb['use_loadindicator_txt'] = 'Laden-Grafik anzeigen';
+$wb['f5_to_reload_js_txt'] = 'Wenn Sie den Wert ändern, müssen Sie F5 drücken, damit der Browser die JavaScript-Libraries neu lädt, oder Ihren Browser-Cache leeren.';
+$wb['phpmyadmin_url_error_regex'] = 'Falsche phpMyAdmin URL';
+$wb['client_username_web_check_disabled_txt'] = 'Deaktiviere die Kunden Benutzername Überprüfung für den Begriff <b>web<b>.';
 ?>

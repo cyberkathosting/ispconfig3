@@ -44,7 +44,6 @@ website_basedir=/var/www
 website_path=/var/www/clients/client[client_id]/web[website_id]
 website_symlinks=/var/www/[website_domain]/:/var/www/clients/client[client_id]/[website_domain]/
 website_symlinks_rel=n
-vhost_rewrite_v6=n
 vhost_conf_dir=/etc/apache2/sites-available
 vhost_conf_enabled_dir=/etc/apache2/sites-enabled
 nginx_vhost_conf_dir=/etc/nginx/sites-available

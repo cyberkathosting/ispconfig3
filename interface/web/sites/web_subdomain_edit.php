@@ -45,7 +45,7 @@ require_once('../../lib/app.inc.php');
 $app->auth->check_module_permissions('sites');
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions');
+$app->uses('tpl,tform,tform_actions,tools_sites');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
@@ -77,16 +77,7 @@ class page_action extends tform_actions {
 			/*
 			 * The domain-module is in use.
 			*/
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			/*
-			 * The admin can select ALL domains, the user only the domains assigned to him
-			 */
-			$sql = "SELECT domain_id, domain FROM domain ";
-			if ($_SESSION["s"]["user"]["typ"] != 'admin') {
-				$sql .= "WHERE sys_groupid =" . $client_group_id;
-			}
-			$sql .= " ORDER BY domain";
-			$domains = $app->db->queryAllRecords($sql);
+			$domains = $app->tools_sites->getDomainModuleDomains();
 			$domain_select = '';
             $selected_domain = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
@@ -147,11 +138,11 @@ class page_action extends tform_actions {
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
             // get the record of the domain module domain
-            $domain = $app->db->queryOneRecord("SELECT * FROM domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["sel_domain"]));
+            $domain = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['sel_domain']);
             if(!$domain) {
                 $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
             } else {
-                $this->dataRecord['domain'] = $this->dataRecord['domain'] . '.' . $domain['domain'];
+                $this->dataRecord['domain'] = $this->dataRecord['domain'] . '.' . $domain;
             }
         } else {
             $this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];

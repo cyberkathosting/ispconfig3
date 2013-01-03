@@ -244,6 +244,55 @@ class remoting {
 		return $affected_rows;
 	}
 	
+	//* Get alias details
+	public function mail_aliasdomain_get($session_id, $primary_id)
+    {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'mail_aliasdomain_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/mail_aliasdomain.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* aliasy email
+	public function mail_aliasdomain_add($session_id, $client_id, $params)
+	{
+		if (!$this->checkPerm($session_id, 'mail_aliasdomain_add'))
+		{
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->insertQuery('../mail/form/mail_aliasdomain.tform.php', $client_id, $params);
+		return $affected_rows;
+	}
+
+
+	public function mail_aliasdomain_update($session_id, $client_id, $primary_id, $params)
+	{
+			if (!$this->checkPerm($session_id, 'mail_aliasdomain_update'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->updateQuery('../mail/form/mail_aliasdomain.tform.php', $client_id, $primary_id, $params);
+			return $affected_rows;
+	}
+
+	public function mail_aliasdomain_delete($session_id, $primary_id)
+	{
+			if (!$this->checkPerm($session_id, 'mail_aliasdomain_delete'))
+			{
+					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+					return false;
+			}
+			$affected_rows = $this->deleteQuery('../mail/form/mail_aliasdomain.tform.php', $primary_id);
+			return $affected_rows;
+	}
+	
 	//* Get mail mailinglist details
 	public function mail_mailinglist_get($session_id, $primary_id)
     {
@@ -432,11 +481,21 @@ class remoting {
 	//* aliasy email
 	public function mail_alias_add($session_id, $client_id, $params)
 	{
+		global $app;
+		
 		if (!$this->checkPerm($session_id, 'mail_alias_add'))
 		{
 			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		//* Check if there is no active mailbox with this address
+		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = '".$app->db->quote($params["source"])."'");
+		if($tmp['number'] > 0) {
+			$this->server->fault('duplicate','There is already a mailbox with this email address.');
+		}
+		unset($tmp);
+		
 		$affected_rows = $this->insertQuery('../mail/form/mail_alias.tform.php', $client_id, $params);
 		return $affected_rows;
 	}
@@ -444,13 +503,23 @@ class remoting {
 
 	public function mail_alias_update($session_id, $client_id, $primary_id, $params)
 	{
-			if (!$this->checkPerm($session_id, 'mail_alias_update'))
-			{
-					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
-					return false;
-			}
-			$affected_rows = $this->updateQuery('../mail/form/mail_alias.tform.php', $client_id, $primary_id, $params);
-			return $affected_rows;
+		global $app;
+		
+		if (!$this->checkPerm($session_id, 'mail_alias_update'))
+		{
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+			
+			//* Check if there is no active mailbox with this address
+		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = '".$app->db->quote($params["source"])."'");
+		if($tmp['number'] > 0) {
+			$this->server->fault('duplicate','There is already a mailbox with this email address.');
+		}
+		unset($tmp);
+			
+		$affected_rows = $this->updateQuery('../mail/form/mail_alias.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
 	}
 
 	public function mail_alias_delete($session_id, $primary_id)
@@ -1363,23 +1432,56 @@ class remoting {
 	//* Update a record
 	public function sites_database_user_update($session_id, $client_id, $primary_id, $params)
     {
+        global $app;
+        
 		if(!$this->checkPerm($session_id, 'sites_database_user_update')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/database_user.tform.php');
+        $old_rec = $app->remoting_lib->getDataRecord($primary_id);
         
-		return $this->updateQuery('../sites/form/database_user.tform.php', $client_id, $primary_id, $params);
+		$result = $this->updateQuery('../sites/form/database_user.tform.php', $client_id, $primary_id, $params);
+        
+        $new_rec = $app->remoting_lib->getDataRecord($primary_id);
+        
+        $records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".$app->functions->intval($primary_id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($primary_id)."'");
+        foreach($records as $rec) {
+            $tmp_rec = $new_rec;
+            $tmp_rec['server_id'] = $rec['server_id'];
+            $app->remoting_lib->datalogSave('UPDATE', $primary_id, $old_rec, $tmp_rec);
+        }
+        unset($new_rec);
+        unset($old_rec);
+        unset($records);
+        
+        return $result;
  	}
 	
 	//* Delete a record
 	public function sites_database_user_delete($session_id, $primary_id)
     {
+        global $app;
+        
 		if(!$this->checkPerm($session_id, 'sites_database_user_delete')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
         
+        $app->db->datalogDelete('web_database_user', 'database_user_id', $primary_id);
 		$affected_rows = $this->deleteQuery('../sites/form/database_user.tform.php',$primary_id);
+        
+        $records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = '".$app->functions->intval($primary_id)."'");
+        foreach($records as $rec) {
+            $app->db->datalogUpdate('web_database','database_user_id=NULL','database_id', $rec['database_id']);
+            
+        }
+        $records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($primary_id)."'");
+        foreach($records as $rec) {
+            $app->db->datalogUpdate('web_database','database_ro_user_id=NULL','database_id', $rec['database_id']);
+        }
+        
 		return $affected_rows;
 	}
 	

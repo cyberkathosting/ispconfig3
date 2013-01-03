@@ -154,6 +154,12 @@ $form["tabs"]['sites'] = array (
 			'default'	=> 'n',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
+		'client_username_web_check_disabled' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
@@ -382,6 +388,18 @@ $form["tabs"]['misc'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',
 			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'use_loadindicator' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'y',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'use_combobox' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'y',
 			'value'		=> array(0 => 'n',1 => 'y')
 		),
 		'maintenance_mode' => array (

@@ -5,5 +5,5 @@ $wb['this_month_txt'] = 'Tento měsíc';
 $wb['last_month_txt'] = 'Minulý měsíc';
 $wb['this_year_txt'] = 'Tento rok';
 $wb['last_year_txt'] = 'Minulý rok';
-$wb['sum_txt'] = 'Sum';
+$wb['sum_txt'] = 'Součet';
 ?>

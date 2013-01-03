@@ -1,10 +1,10 @@
 <?php
 $wb['web_folder_id_txt'] = 'Folder';
 $wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
+$wb['password_txt'] = 'Heslo';
 $wb['active_txt'] = 'Aktivní';
 $wb['folder_error_empty'] = 'No web folder selecetd.';
-$wb['password_strength_txt'] = 'Password strength';
+$wb['password_strength_txt'] = 'Síla hesla';
 $wb['generate_password_txt'] = 'Generovat heslo';
 $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';

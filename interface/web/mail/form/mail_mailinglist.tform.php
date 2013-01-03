@@ -101,6 +101,8 @@ $form["tabs"]['mailinglist'] = array (
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'listname_error_empty'),
+										1 => array (	'type'	=> 'UNIQUE',
+														'errmsg'=> 'listname_error_unique'),
 									),
 			'default'	=> '',
 			'value'		=> '',

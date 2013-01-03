@@ -164,11 +164,15 @@ class nginx_plugin {
 
 			$rand_file = escapeshellcmd($rand_file);
 			$key_file = escapeshellcmd($key_file);
+			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') != false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$key_file2 = escapeshellcmd($key_file2);
+			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') != false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
+			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') != false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
 			$config_file = escapeshellcmd($ssl_cnf_file);
 			$crt_file = escapeshellcmd($crt_file);
+			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') != false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 				
@@ -435,8 +439,8 @@ class nginx_plugin {
 			
 			//* Create new base directory, if it does not exist yet
 			if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
-			//exec('mv '.$data['old']['document_root'].' '.$new_dir);
-			$app->system->rename($data['old']['document_root'],$new_dir);
+			exec('mv '.escapeshellarg($data['old']['document_root']).' '.escapeshellarg($new_dir));
+			//$app->system->rename($data['old']['document_root'],$new_dir);
 			$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);
 
 			// Handle the change in php_open_basedir
@@ -453,7 +457,12 @@ class nginx_plugin {
 			exec($command);
 
 			if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
-
+			
+			//* Change the log mount
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$app->system->removeLine('/etc/fstab',$fstab_line);
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
+			$app->system->replaceLine('/etc/fstab',$fstab_line,$fstab_line,1,1);
 
 		}
 
@@ -483,19 +492,26 @@ class nginx_plugin {
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/httpd/'.$data['old']['domain']);
 			if(is_link($data['old']['document_root'].'/'.$log_folder)) $app->system->unlink($data['old']['document_root'].'/'.$log_folder);
+		
+			//* remove old log mount
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$app->system->removeLine('/etc/fstab',$fstab_line);
+			
+			//* Unmount log directory
+			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 		}
 		
 		//* Create the log dir if nescessary and mount it
-        if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data['new']['domain']);
-		if(!is_dir($data['new']['document_root'].'/'.$log_folder) || is_link($data['new']['document_root'].'/'.$log_folder)) {
+		if(!is_dir($data['new']['document_root'].'/'.$log_folder) || !is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain']) || is_link($data['new']['document_root'].'/'.$log_folder)) {
 			if(is_link($data['new']['document_root'].'/'.$log_folder)) unlink($data['new']['document_root'].'/'.$log_folder);
+			if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data['new']['domain']);
 			$app->system->mkdirpath($data['new']['document_root'].'/'.$log_folder);
 			$app->system->chown($data['new']['document_root'].'/'.$log_folder,'root');
 			$app->system->chgrp($data['new']['document_root'].'/'.$log_folder,'root');
 			$app->system->chmod($data['new']['document_root'].'/'.$log_folder,0755);
 			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
 			//* add mountpoint to fstab
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind    0 0';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
 			$app->system->replaceLine('/etc/fstab',$fstab_line,$fstab_line,1,1);
 		}
 		
@@ -1593,7 +1609,7 @@ class nginx_plugin {
 		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 		
 		//* remove mountpoint from fstab
-		$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind    0 0';
+		$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
 		$app->system->removeLine('/etc/fstab',$fstab_line);
 
 		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {

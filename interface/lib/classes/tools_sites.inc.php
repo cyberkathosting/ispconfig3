@@ -54,7 +54,29 @@ class tools_sites {
         }
         return $name;
     }
-
+    
+    function removePrefix($name, $currentPrefix, $globalPrefix) {
+        if($name == "") return "";
+        
+        if($currentPrefix === '') return $name; // empty prefix, do not change name
+        if($currentPrefix === '#') $currentPrefix = $globalPrefix; // entry has no prefix set, maybe it was created before this function was introduced
+        
+        if($currentPrefix === '') return $name; // no current prefix and global prefix is empty -> nothing to remove here.
+        
+        return preg_replace('/^' . preg_quote($currentPrefix, '/') . '/', '', $name); // return name without prefix
+    }
+    
+    function getPrefix($currentPrefix, $userPrefix, $adminPrefix = false) {
+        global $app;
+        
+        if($currentPrefix !== '#') return $currentPrefix; // return the currently set prefix for this entry (# = no prefix set yet)
+        
+        if($adminPrefix === false) $adminPrefix = $userPrefix;
+        
+        if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) return $adminPrefix;
+        else return $userPrefix;
+    }
+    
     function getClientName($dataRecord) {
         global $app, $conf;
         if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -120,6 +142,33 @@ class tools_sites {
             }
         }
         return $res;
+    }
+    
+    function getDomainModuleDomains() {
+        global $app;
+        
+        $sql = "SELECT domain_id, domain FROM domain WHERE";
+        if ($_SESSION["s"]["user"]["typ"] == 'admin') {
+            $sql .= " 1";
+        } else {
+            $groups = ( $_SESSION["s"]["user"]["groups"] ) ? $_SESSION["s"]["user"]["groups"] : 0;
+            $sql .= " sys_groupid IN (".$groups.")";
+        }
+        $sql .= " ORDER BY domain";
+        return $app->db->queryAllRecords($sql);
+    }
+    
+    function checkDomainModuleDomain($domain_id) {
+        global $app;
+        
+        $sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($domain_id);
+        if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+            $groups = ( $_SESSION["s"]["user"]["groups"] ) ? $_SESSION["s"]["user"]["groups"] : 0;
+            $sql .= " AND sys_groupid IN (".$groups.")";
+        }
+        $domain = $app->db->queryOneRecord($sql);
+        if(!$domain || !$domain['domain_id']) return false;
+        return $domain['domain'];
     }
 }
 

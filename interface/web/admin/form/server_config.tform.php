@@ -413,7 +413,7 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-
+/*
 'vhost_rewrite_v6' => array (
 'datatype' => 'VARCHAR',
 'formtype' => 'CHECKBOX',
@@ -422,7 +422,7 @@ $form["tabs"]['web'] = array(
 ),
 
 
-
+*/
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

@@ -40,4 +40,6 @@ $wb['redirect_error_regex'] = 'Neplatná cesta přesměrování. Platné přesm�
 $wb['no_redirect_txt'] = 'Žádné přesměrování';
 $wb['no_flag_txt'] = 'Žádný příznak';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
+$wb['proxy_directives_txt'] = 'Proxy Directives';
+$wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 ?>

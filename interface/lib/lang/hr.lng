@@ -127,4 +127,7 @@ $wb['datalog_status_d_web_folder'] = 'Delete folder protection';
 $wb['datalog_status_i_web_folder_user'] = 'Create folder protection user';
 $wb['datalog_status_u_web_folder_user'] = 'Update folder protection user';
 $wb['datalog_status_d_web_folder_user'] = 'Delete folder protection user';
+$wb['datalog_status_i_spamfilter_users'] = 'Create spam filter settings';
+$wb['datalog_status_u_spamfilter_users'] = 'Update spam filter settings';
+$wb['datalog_status_d_spamfilter_users'] = 'Delete spam filter settings';
 ?>

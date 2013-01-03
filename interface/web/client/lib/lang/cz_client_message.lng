@@ -1,18 +1,18 @@
 <?php
-$wb['btn_send_txt'] = 'Send email';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['sender_txt'] = 'Sender email address';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['form_legend_client_txt'] = 'Send email message to all clients.';
-$wb['form_legend_admin_txt'] = 'Send email message to all clients and resellers.';
-$wb['sender_invalid_error'] = 'Sender email invalid.';
-$wb['subject_invalid_error'] = 'Subject is empty.';
-$wb['message_invalid_error'] = 'Message is empty.';
-$wb['email_sent_to_txt'] = 'Email sent to:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Recipient';
-$wb['all_clients_resellers_txt'] = 'All clients and resellers';
-$wb['all_clients_txt'] = 'All clients';
-$wb['variables_txt'] = 'Variables:';
+$wb['btn_send_txt'] = 'Odeslat e-mail';
+$wb['btn_cancel_txt'] = 'Zrušit';
+$wb['sender_txt'] = 'E-mailová adresa odesílatele';
+$wb['subject_txt'] = 'Předmět';
+$wb['message_txt'] = 'Zpráva';
+$wb['form_legend_client_txt'] = 'Poslat e-mailovou zprávu všem klientům.';
+$wb['form_legend_admin_txt'] = 'Poslat e-mailovou zprávu všem klientům a prodejcům.';
+$wb['sender_invalid_error'] = 'Odesílatel e-mailu je neplatný.';
+$wb['subject_invalid_error'] = 'Předmět je prázdný.';
+$wb['message_invalid_error'] = 'Zpráva je prázdný.';
+$wb['email_sent_to_txt'] = 'E-mail poslat na adresu:';
+$wb['page_head_txt'] = 'Poslat informace zákazníkovi';
+$wb['recipient_txt'] = 'Příjemce';
+$wb['all_clients_resellers_txt'] = 'Všichni klienti a prodejci';
+$wb['all_clients_txt'] = 'Všichni klienti';
+$wb['variables_txt'] = 'Výběr:';
 ?>

@@ -4,5 +4,5 @@ $wb['language_import_txt'] = 'Elija el fichero de idioma';
 $wb['btn_save_txt'] = 'Importar el fichero de idioma';
 $wb['language_overwrite_txt'] = 'Sobreescribir los ficheros, si existen';
 $wb['btn_cancel_txt'] = 'Atrás';
-$wb['ignore_version_txt'] = 'Skip ISPConfig version check';
+$wb['ignore_version_txt'] = 'Saltar comprobación de la versión ISPConfig';
 ?>

@@ -8,7 +8,7 @@ $wb['add_new_record_txt'] = 'Añadir nuevo alias de dominio';
 $wb['domain_error_empty'] = 'El dominio está vacío';
 $wb['domain_error_unique'] = 'El domino debe ser único';
 $wb['domain_error_regex'] = 'El nombre de dominio no es válido';
-$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_redirect_txt'] = 'No redirigir';
 $wb['no_flag_txt'] = 'No flag';
-$wb['none_txt'] = 'None';
+$wb['none_txt'] = 'Ninguno';
 ?>

@@ -686,7 +686,7 @@ if ($app->dbmaster == $app->db) {
 					}
 					
 					//* Send email to client
-					if($web_config['overtraffic_notify_admin'] == 'y') {
+					if($web_config['overtraffic_notify_client'] == 'y') {
 						$client_group_id = $rec["sys_groupid"];
 						$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 						if($client['email'] != '') {
@@ -873,10 +873,10 @@ if($backup_dir != '') {
 
 				$web_id = $rec['parent_domain_id'];
 				$db_backup_dir = $backup_dir.'/web'.$web_id;
-				if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
-				chmod($web_backup_dir, 0750);
-				chown($web_backup_dir, 'root');
-				chgrp($web_backup_dir, 'root');
+				if(!is_dir($db_backup_dir)) mkdir($db_backup_dir, 0750);
+				chmod($db_backup_dir, 0750);
+				chown($db_backup_dir, 'root');
+				chgrp($db_backup_dir, 'root');
 
 				//* Do the mysql database backup with mysqldump
 				$db_id = $rec['database_id'];

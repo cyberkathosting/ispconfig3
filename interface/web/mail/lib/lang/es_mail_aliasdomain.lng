@@ -1,7 +1,7 @@
 <?php
 $wb['source_txt'] = 'Origen';
 $wb['destination_txt'] = 'Destino';
-$wb['active_txt'] = 'Activa';
+$wb['active_txt'] = 'Activar';
 $wb['no_domain_perm'] = 'No tiene permisos para este dominio.';
 $wb['limit_mailaliasdomain_txt'] = 'El número máximo de dominios de alias de correo para su cuenta ha sido alcanzado.';
 $wb['source_destination_identical_txt'] = 'Dominio de origen y destino son el mismo.';

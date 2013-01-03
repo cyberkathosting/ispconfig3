@@ -39,4 +39,7 @@ $wb['traffic_quota_txt'] = 'Quota de trafic';
 $wb['redirect_error_regex'] = 'Chemin de redirection invalide. Exemples de redirections valides: /test/ ou http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'Aucune redirecton';
 $wb['no_flag_txt'] = 'Aucun flag';
+$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
+$wb['proxy_directives_txt'] = 'Proxy Directives';
+$wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 ?>

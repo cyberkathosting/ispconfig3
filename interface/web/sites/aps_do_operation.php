@@ -81,7 +81,8 @@ else if($_GET['action'] == 'delete_instance')
         WHERE id = ".$app->db->quote($_GET['id'])." AND 
         (instance_status = ".INSTANCE_SUCCESS." OR instance_status = ".INSTANCE_ERROR.");");
     if($check['id'] > 0) $gui->deleteInstance($_GET['id']);
-    echo $app->lng('Installation_remove');
+    //echo $app->lng('Installation_remove');
+	@header('Location:aps_installedpackages_list.php');
 }
 else if($_GET['action'] == 'reinstall_instance')
 {
@@ -105,6 +106,7 @@ else if($_GET['action'] == 'reinstall_instance')
     if(!$check) die('Check failed'); // normally this might not happen at all, so just die
     
     $gui->reinstallInstance($_GET['id']);
-    echo $app->lng('Installation_task');
+    //echo $app->lng('Installation_task');
+	@header('Location:aps_installedpackages_list.php');
 }
 ?>

@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'OpenVZ OSTemplate';
-$wb['active_txt'] = 'Active';
-$wb['template_name_txt'] = 'Template name';
-$wb['server_id_txt'] = 'Server';
-$wb['allservers_txt'] = 'Exists on all servers';
+$wb['active_txt'] = 'Activar';
+$wb['template_name_txt'] = 'Nombre de la plantilla';
+$wb['server_id_txt'] = 'Servidor';
+$wb['allservers_txt'] = 'Existe en todos los servidores';
 $wb['ostemplate_id_txt'] = 'ID';
 ?>

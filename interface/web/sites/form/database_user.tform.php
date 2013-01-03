@@ -91,6 +91,14 @@ $form["tabs"]['database_user'] = array (
 			'maxlength'	=> '255',
 			'searchable' => 1
 		),
+		'database_user_prefix' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '25'
+		),
 		'database_password' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
