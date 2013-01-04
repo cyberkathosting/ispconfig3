@@ -84,14 +84,25 @@ $form['auth_preset']['perm_other'] = '';
 //* Pick out modules
 //* TODO: limit to activated modules of the user
 $modules_list = array();
-$handle = @opendir(ISPC_WEB_PATH); 
-while ($file = @readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-        if(@is_dir(ISPC_WEB_PATH."/$file")) {
-            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login' && $file != 'designer' && $file != 'mailuser') {
-				$modules_list[$file] = $file;
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+	$handle = @opendir(ISPC_WEB_PATH); 
+	while ($file = @readdir ($handle)) { 
+		if ($file != '.' && $file != '..') {
+			if(@is_dir(ISPC_WEB_PATH."/$file")) {
+				if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login' && $file != 'designer' && $file != 'mailuser') {
+					$modules_list[$file] = $file;
+				}
 			}
-        }
+		}
+	}
+} else {
+	$modules = $conf['interface_modules_enabled'];
+	if($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+		$modules .= ',client';
+	}
+	$tmp = explode(',',$modules);
+	foreach($tmp as $m) {
+		$modules_list[$m] = $m;
 	}
 }
 
