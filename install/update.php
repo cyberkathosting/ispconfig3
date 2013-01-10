@@ -341,10 +341,15 @@ if($reconfigure_services_answer == 'yes') {
 
 	
 	if($conf['services']['firewall']) {
-		if($conf['bastille']['installed'] == true) {
+		if($conf['ufw']['installed'] == true) {
+			//* Configure Ubuntu Firewall
+			$conf['services']['firewall'] = true;
+			swriteln('Configuring Ubuntu Firewall');
+			$inst->configure_ufw_firewall();
+		} else {
 			//* Configure Bastille Firewall
 			swriteln('Configuring Bastille Firewall');
-			$inst->configure_firewall();
+			$inst->configure_bastille_firewall();
 		}
 	}
 	
@@ -426,7 +431,7 @@ if($reconfigure_services_answer == 'yes') {
 	}
 	
 	if($conf['services']['firewall']) {
-		//if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
+		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
 

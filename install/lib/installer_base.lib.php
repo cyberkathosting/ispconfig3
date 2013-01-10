@@ -132,7 +132,7 @@ class installer_base {
 		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
-		// if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
+		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
@@ -1349,7 +1349,6 @@ class installer_base {
 		exec('chown root:root '.$conf["squid"]["config_dir"].'/'.$configfile);
 	}
 
-	/*
 	public function configure_ufw_firewall()
 	{
 		$configfile = 'ufw.conf';
@@ -1359,9 +1358,8 @@ class installer_base {
 		exec('chmod 600 /etc/ufw/ufw.conf');
 		exec('chown root:root /etc/ufw/ufw.conf');
 	}
-	*/
 
-	public function configure_firewall() {
+	public function configure_bastille_firewall() {
 		global $conf;
 
 		$dist_init_scripts = $conf['init_scripts'];
