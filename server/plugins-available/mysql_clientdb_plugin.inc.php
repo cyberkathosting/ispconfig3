@@ -393,7 +393,7 @@ class mysql_clientdb_plugin {
 			}
 
 			if($data['new']['database_password'] != $data['old']['database_password'] && $data['new']['database_password'] != '') {
-				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = PASSWORD('".$link->escape_string($data['new']['database_password'])."');"); // is contained in clear text so PASSWORD() func is needed
+				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = '".$link->escape_string($data['new']['database_password'])."';");
 				$app->log('Changing MySQL user password for: '.$data['new']['database_user'].'@'.$db_host,LOGLEVEL_DEBUG);
 			}
         }

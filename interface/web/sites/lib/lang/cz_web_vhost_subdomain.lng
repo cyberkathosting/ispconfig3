@@ -20,7 +20,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['host_txt'] = 'Hostname';
 $wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
-$wb['type_txt'] = 'Type';
+$wb['type_txt'] = 'Verze';
 $wb['redirect_type_txt'] = 'Redirect Type';
 $wb['redirect_path_txt'] = 'Redirect Path';
 $wb['active_txt'] = 'Aktivní';
@@ -116,3 +116,5 @@ $wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snipp
 $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 ?>
+
+

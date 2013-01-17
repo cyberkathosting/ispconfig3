@@ -2,13 +2,15 @@
 $wb['email_txt'] = 'E-mail';
 $wb['destination_txt'] = 'Cíl';
 $wb['active_txt'] = 'Aktivní';
-$wb['email_error_isemail'] = 'Zadejte prosím platnou e-mailovou adresu.';
+$wb['email_error_isemail'] = 'E-mail adresa je chybná.';
 $wb['email_error_unique'] = 'Duplikování e-mail adresy.';
 $wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu.';
 $wb['destination_error_isemail'] = 'Cílová e-mail adresa je chybná.';
 $wb['limit_mailalias_txt'] = 'Dosažen maximální počet e-mail aliasů pro Váš účet.';
-$wb['duplicate_mailbox_txt'] = 'Mailbox s touto e-mail adresou již existuje';
+$wb['duplicate_mailbox_txt'] = 'Mailbox s touto adresou již existuje';
 $wb['domain_txt'] = 'Doména';
-$wb['duplicate_email_alias_txt'] = 'Tento e-mailový alias již existuje.';
+$wb['duplicate_email_alias_txt'] = 'Tento e-mail alias již existuje.';
 $wb['source_txt'] = 'Alias';
 ?>
+
+

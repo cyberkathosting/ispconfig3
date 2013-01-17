@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'OpenVZ šablona OS';
+$wb['list_head_txt'] = 'OpenVZ OSTemplate';
 $wb['active_txt'] = 'Aktivní';
-$wb['template_name_txt'] = 'Název šablony';
+$wb['template_name_txt'] = 'Template name';
 $wb['server_id_txt'] = 'Server';
-$wb['allservers_txt'] = 'Existuje na všech serverech';
+$wb['allservers_txt'] = 'Exists on all servers';
 $wb['ostemplate_id_txt'] = 'ID';
 ?>
+
+

@@ -1,7 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Sloučit jazykový soubor';
-$wb['list_desc_txt'] = 'Sloučit vybraný jazykový soubor s hlavním anglickým jazykovým souborem. <br />Toto přidá chybějící řetězce z anglického hlavního souboru do vybraného jazykového souboru. Odebere také zrušené řetezce. <br /> V nových verzích ISPConfigu vznikají nové moduly a položky, které chybějí ve starších jazykových souborech a takto je doplníte k překladu.';
+$wb['list_desc_txt'] = 'Sloučit vybraný jazykový soubor s hlavním anglickým jazykovým souborem. <br />Toto přidá chybějící řetězce z anglického hlavního souboru do vybraného jazykového souboru. <br /> V nových verzích ISPConfigu vznikají nové moduly a položky, které chybějí ve starších jazykových souborech a takto je doplníte k překladu.';
 $wb['language_select_txt'] = 'Vybrat jazyk k doplnění';
 $wb['btn_save_txt'] = 'Sloučit / doplnit jazykový soubor';
 $wb['btn_cancel_txt'] = 'Zpět';
 ?>
+
+

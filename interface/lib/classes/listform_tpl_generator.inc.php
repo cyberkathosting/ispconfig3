@@ -94,7 +94,7 @@ class listform_tpl_generator {
 		
 		$html .= "            <td class=\"tbl_col_buttons\">
               <div class=\"buttons icons16\">    
-                <a class=\"icons16 icoDelete\" href=\"javascript: del_record('".$module."/".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');\"><span>{tmpl_var name='delete_txt'}</span></a>
+                <a class=\"button icons16 icoDelete\" href=\"javascript: del_record('".$module."/".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');\"><span>{tmpl_var name='delete_txt'}</span></a>
               </div>
             </td>
           </tr>

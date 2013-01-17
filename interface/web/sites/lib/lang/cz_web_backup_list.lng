@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Existing backups';
 $wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
+$wb['backup_type_txt'] = 'Verze';
 $wb['filename_txt'] = 'Backup file';
 $wb['restore_backup_txt'] = 'Restore backup';
 $wb['download_backup_txt'] = 'Download backup';
@@ -13,3 +13,5 @@ $wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
 $wb['backup_type_mysql'] = 'MySQL Database';
 $wb['backup_type_web'] = 'Website files';
 ?>
+
+

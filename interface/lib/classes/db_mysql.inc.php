@@ -61,10 +61,9 @@ class db extends mysqli
     if ($this->connect_error) {
       $this->updateError('DB::__construct');
       return false;
+    } else {
+      $this->setCharacterEncoding();
     }
-    parent::query( 'SET NAMES '.$this->dbCharset); 
-    parent::query( "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
-
   }
 
   public function __destruct() {
@@ -89,14 +88,36 @@ class db extends mysqli
       // This right here will allow us to use the samefile for server & interface
       if($this->show_error_messages) {
 	echo $error_msg;
-      } else if(method_exists($app, 'log')) {
+      } else if(is_object($app) && method_exists($app, 'log')) {
 	$app->log($error_msg, LOGLEVEL_WARN);
       }
     }
   }
+  
+  private function setCharacterEncoding() {
+    parent::query( 'SET NAMES '.$this->dbCharset); 
+    parent::query( "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
+  }
 
   public function query($queryString) {
-    parent::ping();
+    $try = 0;
+    do {
+        $try++;
+        $ok = parent::ping();
+        if(!$ok) {
+            if(!parent::real_connect($this->dbHost, $this->dbUser, $this->dbPass,$this->dbName)) {
+                if($try > 9) {
+                    $this->updateError('DB::query -> reconnect');
+                    return false;
+                } else {
+                    sleep(1);
+                }
+            } else {
+                $this->setCharacterEncoding();
+                $ok = true;
+            }
+        }
+    } while($ok == false);
 	$this->queryId = parent::query($queryString);
     $this->updateError('DB::query('.$queryString.') -> mysqli_query');
     if($this->errorNumber) debug_print_backtrace();
@@ -184,10 +205,10 @@ public function toLower($record) {
     if(is_array($record_old) && count($record_old) > 0) {
       foreach($record_old as $key => $val) {
 	// if(!isset($record_new[$key]) || $record_new[$key] != $val) {
-	if($record_new[$key] != $val) {
+	if(@$record_new[$key] != $val) {
 	  // Record has changed
 	  $diffrec_full['old'][$key] = $val;
-	  $diffrec_full['new'][$key] = $record_new[$key];
+	  $diffrec_full['new'][$key] = @$record_new[$key];
 	  $diff_num++;
 	} else {
 	  $diffrec_full['old'][$key] = $val;

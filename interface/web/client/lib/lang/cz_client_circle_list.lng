@@ -1,10 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Client Circles';
-$wb['circle_id_txt'] = 'Circle ID';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['description_txt'] = 'Description';
-$wb['add_new_record_txt'] = 'Add new circle';
-$wb['filter_txt'] = 'Filter';
-$wb['delete_txt'] = 'Delete';
+$wb['list_head_txt'] = 'Skupiny klientů';
+$wb['circle_id_txt'] = 'ID skupiny';
+$wb['circle_name_txt'] = 'Název skupiny';
+$wb['description_txt'] = 'Popis';
+$wb['add_new_record_txt'] = 'Přidat novou skupinu';
+$wb['filter_txt'] = 'Filtr';
+$wb['delete_txt'] = 'Smazat';
 $wb['active_txt'] = 'Aktivní';
 ?>
+
+

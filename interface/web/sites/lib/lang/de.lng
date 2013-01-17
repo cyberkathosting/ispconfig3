@@ -30,4 +30,5 @@ $wb['APS Installer'] = 'APS Installationsassistent';
 $wb['Available packages'] = 'Verfügbare Pakete';
 $wb['Installed packages'] = 'Installierte Pakete';
 $wb['Update Packagelist'] = 'Paketliste aktualisieren';
+$wb['error_proxy_requires_url'] = 'Weiterleitungstyp "proxy" erfordert eine URL als Weiterleitungspfad.';
 ?>

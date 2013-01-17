@@ -1,9 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Relay adresát';
-$wb['recipient_txt'] = 'Adresát';
+$wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['active_txt'] = 'Aktivní';
 $wb['source_error_notempty'] = 'Adresa je prázdná.';
 $wb['type_txt'] = 'Typ';
-$wb['limit_mailfilter_txt'] = 'Dosažen maximální počet e-mailových filtrů pro Váš účet.';
+$wb['limit_mailfilter_txt'] = 'Dosažen maximální počet email filtrů pro Váš účet.';
 ?>
+
+

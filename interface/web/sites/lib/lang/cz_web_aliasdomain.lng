@@ -1,3 +1,5 @@
 <?php
-$wb['domain_txt'] = 'Alias domény';
+$wb['domain_txt'] = 'Aliasdomain';
 ?>
+
+

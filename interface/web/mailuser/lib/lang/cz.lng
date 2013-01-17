@@ -1,9 +1,11 @@
 <?php
 $wb['Email Account'] = 'E-mailový účet';
 $wb['Overview'] = 'Přehled';
+$wb['Password'] = 'Heslo';
 $wb['Autoresponder'] = 'Automatická odpověď';
 $wb['Send copy'] = 'Poslat kopii na e-mail';
 $wb['Spamfilter'] = 'Spamový filter';
 $wb['Email Filters'] = 'E-mailové filtry';
-$wb['Password'] = 'Heslo';
 ?>
+
+

@@ -6,3 +6,5 @@ $wb['language_new_hint_txt'] = '2 znakové ISO 639-1 jazykové kódy (Viz: http:
 $wb['btn_save_txt'] = 'Vytvořit novou jazykovou sadu souborů';
 $wb['btn_cancel_txt'] = 'Zpět';
 ?>
+
+

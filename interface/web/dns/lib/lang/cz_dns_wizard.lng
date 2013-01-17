@@ -18,21 +18,23 @@ $wb['error_expire_empty'] = 'Expire je prázdný.';
 $wb['error_minimum_empty'] = 'Minimum je prázdný.';
 $wb['error_ttl_empty'] = 'TTL je prázdný.';
 $wb['error_domain_empty'] = 'Doména je prázdná';
-$wb['error_ip_empty'] = 'IP je prázdná.';
+$wb['error_ip_empty'] = 'IP adresa je prázdná.';
 $wb['error_ns1_empty'] = 'NS1 je prázdný.';
 $wb['error_ns2_empty'] = 'NS2 je prázdný.';
-$wb['error_email_empty'] = 'EMail je prázdný.';
+$wb['error_email_empty'] = 'E-mail je prázdný.';
 $wb['error_domain_regex'] = 'Doména obsahuje neplatné znaky.';
 $wb['error_ns1_regex'] = 'NS1 obsahuje neplatné znaky.';
 $wb['error_ns2_regex'] = 'NS2 obsahuje neplatné znaky.';
-$wb['error_email_regex'] = 'Email neobsahuje platnou emailovou adresu.';
-$wb['dns_zone_txt'] = 'DNS Zóna';
+$wb['error_email_regex'] = 'E-mail neobsahuje platnou e-mailovou adresu.';
+$wb['dns_zone_txt'] = 'DNS zóna';
 $wb['globalsearch_resultslimit_of_txt'] = 'z';
 $wb['globalsearch_resultslimit_results_txt'] = 'výsledky';
 $wb['globalsearch_noresults_text_txt'] = 'Žádné výsledky.';
 $wb['globalsearch_noresults_limit_txt'] = '0 výsledků';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
-$wb['list_head_txt'] = 'DNS Průvodce vytvořením zóny';
-$wb['list_desc_txt'] = 'Vytvoření zóny DNS pomocí průvodce';
+$wb['list_head_txt'] = 'Průvodce vytvořením DNS zóny';
+$wb['list_desc_txt'] = 'Vytvoření DNS zóny pomocí průvodce';
 ?>
+
+

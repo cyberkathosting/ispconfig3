@@ -1,13 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Nainstalované balíčky';
-$wb['name_txt'] = 'Název';
-$wb['version_txt'] = 'Verze';
+$wb['list_head_txt'] = 'Installed packages';
+$wb['name_txt'] = 'Jméno';
+$wb['version_txt'] = 'Version';
 $wb['customer_txt'] = 'Klient';
 $wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Umístění instalace';
-$wb['pkg_delete_confirmation'] = 'Opravdu chcete smazat tuto instalaci ?';
-$wb['pkg_reinstall_confirmation'] = 'Opravdu chcete přeinstalovat tento balíček se stejným nastavením ?';
+$wb['install_location_txt'] = 'Install location';
+$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
+$wb['pkg_reinstall_confirmation'] = 'Do you really want to reinstall this package with the same settings?';
 $wb['filter_txt'] = 'Hledat';
-$wb['delete_txt'] = 'Vymazat';
-$wb['reinstall_txt'] = 'Přeinstalovat';
+$wb['delete_txt'] = 'Smazat';
+$wb['reinstall_txt'] = 'Reinstall';
 ?>
+
+

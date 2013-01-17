@@ -134,16 +134,18 @@ $wb['monitor_title_raidstate_txt'] = 'Stav pole RAID';
 $wb['monitor_title_rkhunterlog_txt'] = 'RKHunter log';
 $wb['monitor_title_fail2ban_txt'] = 'Fail2Ban log';
 $wb['monitor_updates_nosupport_txt'] = 'Vaše distribuce nepodporuje toto monitorování';
-$wb['monitor_nosupportedraid1_txt'] = 'V současné době, podporujeme nástroje mdadm nebo MPT-stav pro sledování sofwarových RAID polí.<br>Nemůžeme najít žádné z nich na serveru.<br><br>To znamená, že nemůžeme monitorovat váš RAID.';
-$wb['monitor_serverstate_beancounterok_txt'] = 'Soubor čítačů (limitů) je v pořádku';
+$wb['monitor_nosupportedraid1_txt'] = 'At the moment, we support mdadm or mpt-status for monitoring the RAID.<br>We cant find any of them at your server.<br><br>This means we can not support your RAID yet.';
+$wb['monitor_serverstate_beancounterok_txt'] = 'The beancounter is ok';
 $wb['monitor_serverstate_beancounterinfo_txt'] = 'There are vew failure in the beancounter';
-$wb['monitor_serverstate_beancounterwarning_txt'] = 'Některé čítače (limity) vykazují selhání.';
-$wb['monitor_serverstate_beancountercritical_txt'] = 'Existuje mnoho selhání čítačů (limitů)';
-$wb['monitor_serverstate_beancountererror_txt'] = 'Existuje příliš mnoho selhání čítačů (limitů)';
-$wb['monitor_title_beancounter_txt'] = 'OpenVz VE čítače (limity)';
+$wb['monitor_serverstate_beancounterwarning_txt'] = 'There are some failure in the beancounter';
+$wb['monitor_serverstate_beancountercritical_txt'] = 'There are many failure in the beancounter';
+$wb['monitor_serverstate_beancountererror_txt'] = 'There are too much failure in the beancounter';
+$wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'This server is not a OpenVz VE and has no beancounter information';
 $wb['monitor_title_iptables_txt'] = 'IPTables Pravidla';
 $wb['Show fail2ban-Log'] = 'Zobrazit Fail2Ban Log';
 $wb['Show IPTables'] = 'Zobrazit IPTables pravidla';
-$wb['Show OpenVz VE BeanCounter'] = 'Ukázat OpenVz VE čítače (limity)';
+$wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>
+
+

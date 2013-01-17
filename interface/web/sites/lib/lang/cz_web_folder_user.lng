@@ -10,3 +10,5 @@ $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 ?>
+
+

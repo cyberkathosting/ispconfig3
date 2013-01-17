@@ -25,9 +25,9 @@ $wb['Getmail'] = 'Getmail';
 $wb['Web'] = 'Web';
 $wb['FastCGI'] = 'FastCGI';
 $wb['Jailkit'] = 'Jailkit';
-$wb['Rescue'] = 'Monitorování';
+$wb['Rescue'] = 'Zachrána';
 $wb['Server IP addresses'] = 'IP adresy serveru';
-$wb['Additional PHP Versions'] = 'Další PHP verze';
+$wb['Additional PHP Versions'] = 'Další verze PHP';
 $wb['Firewall'] = 'Firewall';
 $wb['Interface'] = 'Rozhraní';
 $wb['Interface Config'] = 'Hlavní konfigurace';
@@ -48,3 +48,5 @@ $wb['Do OS-Update'] = 'Aktualizovat operační systém';
 $wb['Do ISPConfig-Update'] = 'Aktualizovat ISPConfig';
 $wb['Directive Snippets'] = 'Directive Snippets';
 ?>
+
+

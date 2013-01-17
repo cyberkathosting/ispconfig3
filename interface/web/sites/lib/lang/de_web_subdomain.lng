@@ -42,4 +42,5 @@ $wb['no_redirect_txt'] = 'Kein Redirect';
 $wb['no_flag_txt'] = 'Kein Flag';
 $wb['proxy_directives_txt'] = 'Proxy Direktiven';
 $wb['available_proxy_directive_snippets_txt'] = 'Verfügbare Proxy Direktiven Schnipsel:';
+$wb['error_proxy_requires_url'] = 'Weiterleitungstyp "proxy" erfordert eine URL als Weiterleitungspfad.';
 ?>

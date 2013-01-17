@@ -57,8 +57,10 @@
                     jQuery(".panel #Filter").trigger('click');
                 }
                 if(elName == 'select' || elName == 'input' || elName == 'textarea') {
-                    // set marker that something was changed
-                    pageFormChanged = true;
+                    if(jQuery(event.target).hasClass('no-page-form-change') == false) {
+                        // set marker that something was changed
+                        pageFormChanged = true;
+                    }
                 }
             });
             

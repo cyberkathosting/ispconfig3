@@ -4,7 +4,7 @@ $wb['ip_address_txt'] = 'IP adresa';
 $wb['netmask_txt'] = 'Maska';
 $wb['gateway_txt'] = 'Brána';
 $wb['hostname_txt'] = 'Hostname';
-$wb['nameservers_txt'] = 'Jmenné servery (DNS)';
+$wb['nameservers_txt'] = 'Jmenné servery';
 $wb['module_txt'] = 'Modul serveru';
 $wb['maildir_path_txt'] = 'Cesta k mail adresáři';
 $wb['homedir_path_txt'] = 'Cesta k domácímu adresáři';
@@ -18,3 +18,5 @@ $wb['relayhost_password_txt'] = 'Relayhost heslo';
 $wb['mailbox_size_limit_txt'] = 'Limit velikosti e-mailové schránky';
 $wb['message_size_limit_txt'] = 'Limit velikosti zprávy';
 ?>
+
+

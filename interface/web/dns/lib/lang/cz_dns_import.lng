@@ -12,3 +12,5 @@ $wb['title'] = 'Importovat soubory zón';
 $wb['no_file_uploaded_error'] = 'Nelze odeslat DNS zonový soubor';
 $wb['zone_file_import_txt'] = 'Importovat vybraný DNS zonový soubor';
 ?>
+
+

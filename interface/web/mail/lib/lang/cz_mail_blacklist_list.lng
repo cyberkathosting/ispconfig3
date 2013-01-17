@@ -2,9 +2,11 @@
 $wb['list_head_txt'] = 'E-mail černá listina';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Adresy na černé listině';
+$wb['source_txt'] = 'Adresy na černé lisitně';
 $wb['type_txt'] = 'Typ';
-$wb['recipient_txt'] = 'Adresát';
+$wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['add_new_record_txt'] = 'Přidat záznam na černou listinu';
 $wb['access_txt'] = 'Přístup';
 ?>
+
+

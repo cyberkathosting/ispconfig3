@@ -1,7 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Další PHP verze';
+$wb['list_head_txt'] = 'Další verze PHP';
 $wb['server_id_txt'] = 'Server';
 $wb['add_new_record_txt'] = 'Přidat novou verzi PHP';
 $wb['client_id_txt'] = 'Klient';
-$wb['name_txt'] = 'Název PHP verze';
+$wb['name_txt'] = 'Verze PHP';
 ?>
+
+

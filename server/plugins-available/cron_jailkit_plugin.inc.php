@@ -262,6 +262,8 @@ class cron_jailkit_plugin {
 	
 	function _add_jailkit_programs()
 	{
+		global $app;
+		
 		//copy over further programs and its libraries
 		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
 		$command .= ' '.escapeshellcmd($this->parent_domain['document_root']);
@@ -280,6 +282,8 @@ class cron_jailkit_plugin {
 	
 	function _add_jailkit_user()
 	{
+			global $app;
+			
 			//add the user to the chroot
             $jailkit_chroot_userhome = $this->_get_home_dir($this->parent_domain['system_user']);
 			

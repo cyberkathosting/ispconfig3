@@ -1,4 +1,5 @@
 <?php
+$wb['Client'] = 'Klient';
 $wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limity';
 $wb['Add Client'] = 'Přidat klienta';
@@ -7,19 +8,20 @@ $wb['Clients'] = 'Klienti';
 $wb['Edit Client-Templates'] = 'Upravit klientské šablony';
 $wb['Add Reseller'] = 'Přidat distributora';
 $wb['Edit Reseller'] = 'Upravit distributora';
-$wb['Resellers'] = 'Distributoři';
+$wb['Resellers'] = 'Distributoři (prodejci)';
 $wb['error_has_clients'] = 'Distributor má klienty. Nejdříve smažte tyto klienty.';
-$wb['add_additional_template_txt'] = 'Add additional template';
-$wb['delete_additional_template_txt'] = 'Delete additional template';
-$wb['Messaging'] = 'Messaging';
-$wb['Send email'] = 'Send Email';
-$wb['Edit Client Circle'] = 'Edit Client Circle';
-$wb['Domains'] = 'Domains';
+$wb['add_additional_template_txt'] = 'Přidat dodatečnou šablonu';
+$wb['delete_additional_template_txt'] = 'Smazat dodatečnou šablonu';
+$wb['Messaging'] = 'Odesílání zpráv';
+$wb['Send email'] = 'Odeslat e-mail';
+$wb['Edit Client Circle'] = 'Upravit skupinu klientů';
+$wb['Domains'] = 'Domény';
 $wb['domain_txt'] = 'Doména';
 $wb['client_txt'] = 'Klient';
-$wb['error_domain_in mailuse'] = 'This domain cannot be deleted, because it is in use as mail-domain';
-$wb['error_domain_in webuse'] = 'This domain cannot be deleted, because it is in use as web-domain';
-$wb['error_client_can_not_add_domain'] = 'You cannot add a new domain';
-$wb['error_client_group_id_empty'] = 'You have to select a customer<br>';
-$wb['Client'] = 'Client';
+$wb['error_domain_in mailuse'] = 'Tato doména nelze odstranit, protože je v používána jako poštovní doména';
+$wb['error_domain_in webuse'] = 'Tato doména nelze odstranit, protože je v používána jako webová doména';
+$wb['error_client_can_not_add_domain'] = 'Nemůžete přidat novou doménu';
+$wb['error_client_group_id_empty'] = 'Musíte vybrat zákazníka<br>';
 ?>
+
+

@@ -681,7 +681,9 @@ class remoting_lib {
 																$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-																$sql_insert_val .= "PASSWORD('".$app->db->quote($record[$key])."'), ";
+																$tmp = $app->db->queryOneRecord("SELECT PASSWORD('".$app->db->quote(stripslashes($record[$key]))."') as `crypted`");
+																$record[$key] = $tmp['crypted'];
+																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
                                                         } else {
                                                                 $record[$key] = md5(stripslashes($record[$key]));
 																$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
@@ -708,7 +710,9 @@ class remoting_lib {
                                                                 $record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 														} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-																$sql_update .= "`$key` = PASSWORD('".$app->db->quote($record[$key])."'), ";
+																$tmp = $app->db->queryOneRecord("SELECT PASSWORD('".$app->db->quote(stripslashes($record[$key]))."') as `crypted`");
+																$record[$key] = $tmp['crypted'];
+																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 														} else {
                                                                 $record[$key] = md5(stripslashes($record[$key]));
 																$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";

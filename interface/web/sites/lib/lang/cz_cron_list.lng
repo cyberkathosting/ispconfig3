@@ -9,5 +9,7 @@ $wb['run_month_txt'] = 'Měsíce';
 $wb['run_wday_txt'] = 'Dny týdne';
 $wb['command_txt'] = 'Příkaz';
 $wb['add_new_cron_txt'] = 'Přidat novou cron úlohu';
-$wb['parent_domain_id_txt'] = 'Webové stránky';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>
+
+

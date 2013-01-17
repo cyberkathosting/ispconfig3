@@ -14,10 +14,12 @@ $wb['generate_password_txt'] = 'Generovat heslo';
 $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
-$wb['globalsearch_resultslimit_of_txt'] = 'of';
-$wb['globalsearch_resultslimit_results_txt'] = 'results';
-$wb['globalsearch_noresults_text_txt'] = 'No results.';
-$wb['globalsearch_noresults_limit_txt'] = '0 results';
-$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
-$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
+$wb['globalsearch_resultslimit_of_txt'] = 'z';
+$wb['globalsearch_resultslimit_results_txt'] = 'výsledky';
+$wb['globalsearch_noresults_text_txt'] = 'Žádné výsledky.';
+$wb['globalsearch_noresults_limit_txt'] = '0 výsledků';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
+$wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 ?>
+
+

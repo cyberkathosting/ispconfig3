@@ -1,3 +1,5 @@
 <?php
-$wb['edit_txt'] = 'Upravit';
+$wb['edit_txt'] = 'Edit';
 ?>
+
+

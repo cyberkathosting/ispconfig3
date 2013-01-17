@@ -1,18 +1,20 @@
 <?php
-$wb['tpl_default_admin_head_txt'] = 'Global Default-Theme Settings';
+$wb['tpl_default_admin_head_txt'] = 'Globální nastavení výchozího grafického téma';
 $wb['tpl_default_admin_desc_txt'] = '';
 $wb['server_id_txt'] = 'Server';
 $wb['client_id_txt'] = 'Klient';
-$wb['name_txt'] = 'Název PHP verze';
-$wb['Name'] = 'Název';
+$wb['name_txt'] = 'Verze PHP';
+$wb['Name'] = 'Jméno';
 $wb['FastCGI Settings'] = 'FastCGI nastavení';
 $wb['PHP-FPM Settings'] = 'PHP-FPM nastavení';
 $wb['Additional PHP Versions'] = 'Další PHP verze';
-$wb['Form to edit additional PHP versions'] = 'Formulář pro úpravu další PHP verzí';
+$wb['Form to edit additional PHP versions'] = 'Formulář pro úpravu dalších PHP verzí';
 $wb['server_php_name_error_empty'] = 'Název pole nesmí být prázdné.';
-$wb['php_fastcgi_binary_txt'] = 'Cesta k binarnímu balíčku PHP FastCGI';
-$wb['php_fastcgi_ini_dir_txt'] = 'Cesta k adresáři ve kterém je  umístěn php.ini';
-$wb['php_fpm_init_script_txt'] = 'Cesta k PHP-FPM init skriptu';
-$wb['php_fpm_ini_dir_txt'] = 'Cesta k adresáři ve kterém je  umístěn php.ini';
-$wb['php_fpm_pool_dir_txt'] = 'Cesta k PHP-FPM společnému (pool) adresáři';
+$wb['php_fastcgi_binary_txt'] = 'Cesta k PHP FastCGI binary';
+$wb['php_fastcgi_ini_dir_txt'] = 'Cesta k php.ini adresáři';
+$wb['php_fpm_init_script_txt'] = 'Cesta k PHP-FPM init script';
+$wb['php_fpm_ini_dir_txt'] = 'Cesta k php.ini adresáři';
+$wb['php_fpm_pool_dir_txt'] = 'Cesta k PHP-FPM pool adresáři';
 ?>
+
+

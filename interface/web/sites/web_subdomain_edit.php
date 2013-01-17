@@ -147,6 +147,11 @@ class page_action extends tform_actions {
         } else {
             $this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
         }
+		
+		// nginx: if redirect type is proxy and redirect path is no URL, display error
+		if($this->dataRecord["redirect_type"] == 'proxy' && substr($this->dataRecord['redirect_path'],0,1) == '/'){
+			$app->tform->errorMessage .= $app->tform->lng("error_proxy_requires_url")."<br />";
+		}
         
 		// Set a few fixed values
 		$this->dataRecord["type"] = 'subdomain';

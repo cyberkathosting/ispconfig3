@@ -210,8 +210,14 @@ class apache2_plugin {
 			$this->ssl_certificate_changed = true;
 			
 			//* Rename files if they exist
-			if(file_exists($key_file)) $app->system->rename($key_file,$key_file.'.bak');
-			if(file_exists($key_file2)) $app->system->rename($key_file2,$key_file2.'.bak');
+			if(file_exists($key_file)){
+				$app->system->rename($key_file,$key_file.'.bak');
+				$app->system->chmod($key_file.'.bak',0400);
+			}
+			if(file_exists($key_file2)){
+				$app->system->rename($key_file2,$key_file2.'.bak');
+				$app->system->chmod($key_file2.'.bak',0400);
+			}
 			if(file_exists($csr_file)) $app->system->rename($csr_file,$csr_file.'.bak');
 			if(file_exists($crt_file)) $app->system->rename($crt_file,$crt_file.'.bak');
 			
@@ -283,6 +289,7 @@ class apache2_plugin {
 			
 			}
 
+			$app->system->chmod($key_file,0400);
 			$app->system->chmod($key_file2,0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
@@ -309,8 +316,14 @@ class apache2_plugin {
 			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
 			
 			//* Backup files
-			if(file_exists($key_file)) $app->system->copy($key_file,$key_file.'~');
-			if(file_exists($key_file2)) $app->system->copy($key_file2,$key_file2.'~');
+			if(file_exists($key_file)){
+				$app->system->copy($key_file,$key_file.'~');
+				$app->system->chmod($key_file.'~',0400);
+			}
+			if(file_exists($key_file2)){
+				$app->system->copy($key_file2,$key_file2.'~');
+				$app->system->chmod($key_file2.'~',0400);
+			}
 			if(file_exists($csr_file)) $app->system->copy($csr_file,$csr_file.'~');
 			if(file_exists($crt_file)) $app->system->copy($crt_file,$crt_file.'~');
 			if(file_exists($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'~');
@@ -1543,8 +1556,14 @@ class apache2_plugin {
 					$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 					
 					//* Backup the files that might have caused the error
-					if(is_file($key_file)) $app->system->copy($key_file,$key_file.'.err');
-					if(is_file($key_file2)) $app->system->copy($key_file2,$key_file2.'.err');
+					if(is_file($key_file)){
+						$app->system->copy($key_file,$key_file.'.err');
+						$app->system->chmod($key_file.'.err',0400);
+					}
+					if(is_file($key_file2)){
+						$app->system->copy($key_file2,$key_file2.'.err');
+						$app->system->chmod($key_file2.'.err',0400);
+					}
 					if(is_file($csr_file)) $app->system->copy($csr_file,$csr_file.'.err');
 					if(is_file($crt_file)) $app->system->copy($crt_file,$crt_file.'.err');
 					if(is_file($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'.err');

@@ -19,8 +19,8 @@ $wb['origin_error_empty'] = 'Zóna je prázdná.';
 $wb['origin_error_unique'] = 'Záznam pro tuto zónu již existuje.';
 $wb['origin_error_regex'] = 'Zóna má chybný formát.';
 $wb['ns_error_regex'] = 'NS má chybný formát.';
-$wb['mbox_error_empty'] = 'Email je prázdný.';
-$wb['mbox_error_regex'] = 'Email má chybný formát.';
+$wb['mbox_error_empty'] = 'E-mail je prázdný.';
+$wb['mbox_error_regex'] = 'E-mail má chybný formát.';
 $wb['also_notify_txt'] = 'Také upozornit';
 $wb['also_notify_error_regex'] = 'Prosím, použijte IP adresu.';
 $wb['update_acl_txt'] = 'Aktualizovat ACL';
@@ -35,3 +35,5 @@ $wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
 $wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+
+

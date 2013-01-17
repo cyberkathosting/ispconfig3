@@ -5,14 +5,16 @@ $wb['sender_txt'] = 'E-mailová adresa odesílatele';
 $wb['subject_txt'] = 'Předmět';
 $wb['message_txt'] = 'Zpráva';
 $wb['form_legend_client_txt'] = 'Poslat e-mailovou zprávu všem klientům.';
-$wb['form_legend_admin_txt'] = 'Poslat e-mailovou zprávu všem klientům a prodejcům.';
-$wb['sender_invalid_error'] = 'Odesílatel e-mailu je neplatný.';
+$wb['form_legend_admin_txt'] = 'Poslat e-mailovou zprávu všem klientům a distributorům (prodejcům).';
+$wb['sender_invalid_error'] = 'E-mail odesílatele je neplatný.';
 $wb['subject_invalid_error'] = 'Předmět je prázdný.';
-$wb['message_invalid_error'] = 'Zpráva je prázdný.';
-$wb['email_sent_to_txt'] = 'E-mail poslat na adresu:';
-$wb['page_head_txt'] = 'Poslat informace zákazníkovi';
-$wb['recipient_txt'] = 'Příjemce';
-$wb['all_clients_resellers_txt'] = 'Všichni klienti a prodejci';
+$wb['message_invalid_error'] = 'Zpráva je prázdná.';
+$wb['email_sent_to_txt'] = 'E-mail byl odeslán:';
+$wb['page_head_txt'] = 'Poslat informace zákazníkovi (klientovi)';
+$wb['recipient_txt'] = 'Příjemce (adresát)';
+$wb['all_clients_resellers_txt'] = 'Všichni klienti a distributoři (prodejci)';
 $wb['all_clients_txt'] = 'Všichni klienti';
-$wb['variables_txt'] = 'Výběr:';
+$wb['variables_txt'] = 'Výběr (možnosti):';
 ?>
+
+

@@ -1,15 +1,17 @@
 <?php
 $wb['config_txt'] = 'Konfigurace';
 $wb['server_name_txt'] = 'Název serveru';
-$wb['mail_server_txt'] = 'Poštovní server';
-$wb['web_server_txt'] = 'Webový server';
+$wb['mail_server_txt'] = 'Mail server';
+$wb['web_server_txt'] = 'Web server';
 $wb['dns_server_txt'] = 'DNS server';
 $wb['file_server_txt'] = 'Souborový server';
-$wb['db_server_txt'] = 'Databázový server';
-$wb['vserver_server_txt'] = 'Virtualizační server (Vserver)';
+$wb['db_server_txt'] = 'DB server';
+$wb['vserver_server_txt'] = 'VServer server';
 $wb['active_txt'] = 'Aktivní';
 $wb['mirror_server_id_txt'] = 'Je zrcadlem serveru';
 $wb['- None -'] = '- Žádný -';
 $wb['proxy_server_txt'] = 'Proxy-Server';
 $wb['firewall_server_txt'] = 'Firewall-Server';
 ?>
+
+

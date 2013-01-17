@@ -120,8 +120,14 @@ class nginx_plugin {
 			$this->ssl_certificate_changed = true;
 			
 			//* Rename files if they exist
-			if(file_exists($key_file)) $app->system->rename($key_file,$key_file.'.bak');
-			if(file_exists($key_file2)) $app->system->rename($key_file2,$key_file2.'.bak');
+			if(file_exists($key_file)){
+				$app->system->rename($key_file,$key_file.'.bak');
+				$app->system->chmod($key_file.'.bak',0400);
+			}
+			if(file_exists($key_file2)){
+				$app->system->rename($key_file2,$key_file2.'.bak');
+				$app->system->chmod($key_file2.'.bak',0400);
+			}
 			if(file_exists($csr_file)) $app->system->rename($csr_file,$csr_file.'.bak');
 			if(file_exists($crt_file)) $app->system->rename($crt_file,$crt_file.'.bak');
 			
@@ -193,6 +199,7 @@ class nginx_plugin {
 			
 			}
 
+			$app->system->chmod($key_file,0400);
 			$app->system->chmod($key_file2,0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
@@ -219,8 +226,14 @@ class nginx_plugin {
 			//$bundle_file = $ssl_dir.'/'.$domain.".bundle";
 			
 			//* Backup files
-			if(file_exists($key_file)) $app->system->copy($key_file,$key_file.'~');
-			if(file_exists($key_file2)) $app->system->copy($key_file2,$key_file2.'~');
+			if(file_exists($key_file)){
+				$app->system->copy($key_file,$key_file.'~');
+				$app->system->chmod($key_file.'~',0400);
+			}
+			if(file_exists($key_file2)){
+				$app->system->copy($key_file2,$key_file2.'~');
+				$app->system->chmod($key_file2.'~',0400);
+			}
 			if(file_exists($csr_file)) $app->system->copy($csr_file,$csr_file.'~');
 			if(file_exists($crt_file)) $app->system->copy($crt_file,$crt_file.'~');
 			//if(file_exists($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'~');
@@ -969,6 +982,7 @@ class nginx_plugin {
 		// Rewrite rules
 		$own_rewrite_rules = array();
 		$rewrite_rules = array();
+		$local_rewrite_rules = array();
 		if($data['new']['redirect_type'] != '' && $data['new']['redirect_path'] != '') {
 			if(substr($data['new']['redirect_path'],-1) != '/') $data['new']['redirect_path'] .= '/';
 			if(substr($data['new']['redirect_path'],0,8) == '[scheme]'){
@@ -998,6 +1012,7 @@ class nginx_plugin {
 
 			switch($data['new']['subdomain']) {
 				case 'www':
+					$exclude_own_hostname = '';
 					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
 						if($data['new']['redirect_type'] == 'proxy'){
 							$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
@@ -1020,6 +1035,7 @@ class nginx_plugin {
 								break;
 							} else {
 								$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'],1).(substr($tmp_redirect_path_parts['path'],1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+								$exclude_own_hostname = $tmp_redirect_path_parts['host'];
 							}
 						} else {
 							// external URL
@@ -1028,7 +1044,8 @@ class nginx_plugin {
 								$vhost_data['use_proxy'] = 'y';
 								$rewrite_subdir = $tmp_redirect_path_parts['path'];
 								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-								if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								if(substr($rewrite_subdir,-1) != '/') $rewrite_subdir .= '/';
+								if($rewrite_subdir == '/') $rewrite_subdir = '';
 							}
 						}
 						unset($tmp_redirect_path);
@@ -1039,11 +1056,13 @@ class nginx_plugin {
 						'rewrite_target' 	=> $data['new']['redirect_path'],
 						'rewrite_exclude'	=> $rewrite_exclude,
 						'rewrite_subdir'	=> $rewrite_subdir,
+						'exclude_own_hostname' => $exclude_own_hostname,
 						'proxy_directives'	=> $final_proxy_directives,
 						'use_rewrite'	=> ($data['new']['redirect_type'] == 'proxy' ? false:true),
 						'use_proxy'	=> ($data['new']['redirect_type'] == 'proxy' ? true:false));
 					break;
 				case '*':
+					$exclude_own_hostname = '';
 					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
 						if($data['new']['redirect_type'] == 'proxy'){
 							$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
@@ -1068,6 +1087,7 @@ class nginx_plugin {
 								break;
 							} else {
 								$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'],1).(substr($tmp_redirect_path_parts['path'],1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+								$exclude_own_hostname = $tmp_redirect_path_parts['host'];
 							}
 						} else {
 							// external URL
@@ -1076,7 +1096,8 @@ class nginx_plugin {
 								$vhost_data['use_proxy'] = 'y';
 								$rewrite_subdir = $tmp_redirect_path_parts['path'];
 								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-								if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								if(substr($rewrite_subdir,-1) != '/') $rewrite_subdir .= '/';
+								if($rewrite_subdir == '/') $rewrite_subdir = '';
 							}
 						}
 						unset($tmp_redirect_path);
@@ -1087,12 +1108,14 @@ class nginx_plugin {
 						'rewrite_target' 	=> $data['new']['redirect_path'],
 						'rewrite_exclude'	=> $rewrite_exclude,
 						'rewrite_subdir'	=> $rewrite_subdir,
+						'exclude_own_hostname' => $exclude_own_hostname,
 						'proxy_directives'	=> $final_proxy_directives,
 						'use_rewrite'	=> ($data['new']['redirect_type'] == 'proxy' ? false:true),
 						'use_proxy'	=> ($data['new']['redirect_type'] == 'proxy' ? true:false));
 					break;
 				default:
 					if(substr($data['new']['redirect_path'],0,1) == '/'){ // relative path
+						$exclude_own_hostname = '';
 						if($data['new']['redirect_type'] == 'proxy'){
 							$vhost_data['web_document_root_www_proxy'] = 'root '.$vhost_data['web_document_root_www'].';';
 							$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'],0,-1);
@@ -1114,6 +1137,7 @@ class nginx_plugin {
 								break;
 							} else {
 								$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'],1).(substr($tmp_redirect_path_parts['path'],1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+								$exclude_own_hostname = $tmp_redirect_path_parts['host'];
 							}
 						} else {
 							// external URL
@@ -1122,7 +1146,8 @@ class nginx_plugin {
 								$vhost_data['use_proxy'] = 'y';
 								$rewrite_subdir = $tmp_redirect_path_parts['path'];
 								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-								if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
+								if(substr($rewrite_subdir,-1) != '/') $rewrite_subdir .= '/';
+								if($rewrite_subdir == '/') $rewrite_subdir = '';
 							}
 						}
 						unset($tmp_redirect_path);
@@ -1133,6 +1158,7 @@ class nginx_plugin {
 						'rewrite_target' 	=> $data['new']['redirect_path'],
 						'rewrite_exclude'	=> $rewrite_exclude,
 						'rewrite_subdir'	=> $rewrite_subdir,
+						'exclude_own_hostname' => $exclude_own_hostname,
 						'proxy_directives'	=> $final_proxy_directives,
 						'use_rewrite'	=> ($data['new']['redirect_type'] == 'proxy' ? false:true),
 						'use_proxy'	=> ($data['new']['redirect_type'] == 'proxy' ? true:false));
@@ -1189,7 +1215,7 @@ class nginx_plugin {
 					$final_proxy_directives = false;
 				}
 			
-				if($alias['redirect_type'] == '' || $alias['redirect_path'] == '') {
+				if($alias['redirect_type'] == '' || $alias['redirect_path'] == '' || substr($alias['redirect_path'],0,1) == '/') {
 					switch($alias['subdomain']) {
 						case 'www':
 							$server_alias[] = 'www.'.$alias['domain'].' '.$alias['domain'].' ';
@@ -1212,8 +1238,44 @@ class nginx_plugin {
 					}
 				}
 				
-				// Rewriting
-				if($alias['redirect_type'] != '' && $alias['redirect_path'] != '') {
+				// Local Rewriting (inside vhost server {} container)
+				if($alias['redirect_type'] != '' && substr($alias['redirect_path'],0,1) == '/' && $alias['redirect_type'] != 'proxy') {  // proxy makes no sense with local path
+					if(substr($alias['redirect_path'],-1) != '/') $alias['redirect_path'] .= '/';
+					$rewrite_exclude = '(?!/\b('.substr($alias['redirect_path'],1,-1).(substr($alias['redirect_path'],1,-1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+					switch($alias['subdomain']) {
+						case 'www':
+							// example.com
+							$local_rewrite_rules[] = array(	'local_redirect_origin_domain' 	=> $alias['domain'],
+								'local_redirect_operator'	=> '=',
+								'local_redirect_exclude' => $rewrite_exclude,
+								'local_redirect_target' => $alias['redirect_path'],
+								'local_redirect_type' => ($alias['redirect_type'] == 'no')?'':$alias['redirect_type']);
+
+							// www.example.com
+							$local_rewrite_rules[] = array(	'local_redirect_origin_domain' 	=> 'www.'.$alias['domain'],
+								'local_redirect_operator'	=> '=',
+								'local_redirect_exclude' => $rewrite_exclude,
+								'local_redirect_target' => $alias['redirect_path'],
+								'local_redirect_type' => ($alias['redirect_type'] == 'no')?'':$alias['redirect_type']);
+							break;
+						case '*':
+							$local_rewrite_rules[] = array(	'local_redirect_origin_domain' 	=> '^('.str_replace('.', '\.', $alias['domain']).'|.+\.'.str_replace('.', '\.', $alias['domain']).')$',
+								'local_redirect_operator'	=> '~*',
+								'local_redirect_exclude' => $rewrite_exclude,
+								'local_redirect_target' => $alias['redirect_path'],
+								'local_redirect_type' => ($alias['redirect_type'] == 'no')?'':$alias['redirect_type']);
+							break;
+						default:
+							$local_rewrite_rules[] = array(	'local_redirect_origin_domain' 	=> $alias['domain'],
+								'local_redirect_operator'	=> '=',
+								'local_redirect_exclude' => $rewrite_exclude,
+								'local_redirect_target' => $alias['redirect_path'],
+								'local_redirect_type' => ($alias['redirect_type'] == 'no')?'':$alias['redirect_type']);
+					}
+				}
+				
+				// External Rewriting (extra server {} containers)
+				if($alias['redirect_type'] != '' && $alias['redirect_path'] != '' && substr($alias['redirect_path'],0,1) != '/') {
 					if(substr($alias['redirect_path'],-1) != '/') $alias['redirect_path'] .= '/';
 					if(substr($alias['redirect_path'],0,8) == '[scheme]'){
 						if($alias['redirect_type'] != 'proxy'){
@@ -1225,21 +1287,15 @@ class nginx_plugin {
 					
 					switch($alias['subdomain']) {
 						case 'www':
-							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								if($alias['redirect_type'] == 'proxy'){
-									$rewrite_subdir = substr($alias['redirect_path'],1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
-								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
-							} else {
-								if($alias['redirect_type'] == 'proxy'){
-									$tmp_redirect_path = $alias['redirect_path'];
-									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-									$rewrite_subdir = $tmp_redirect_path_parts['path'];
-									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
+							if($alias['redirect_type'] == 'proxy'){
+								$tmp_redirect_path = $alias['redirect_path'];
+								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+								$rewrite_subdir = $tmp_redirect_path_parts['path'];
+								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+								if(substr($rewrite_subdir,-1) != '/') $rewrite_subdir .= '/';
+								if($rewrite_subdir == '/') $rewrite_subdir = '';
 							}
+							
 							if($alias['redirect_type'] != 'proxy'){
 								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
 							}
@@ -1259,26 +1315,7 @@ class nginx_plugin {
 								'use_rewrite'	=> ($alias['redirect_type'] == 'proxy' ? false:true),
 								'use_proxy'	=> ($alias['redirect_type'] == 'proxy' ? true:false),
 								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
-								
-								
-							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								if($alias['redirect_type'] == 'proxy'){
-									$rewrite_subdir = substr($alias['redirect_path'],1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
-								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
-							} else {
-								if($alias['redirect_type'] == 'proxy'){
-									$tmp_redirect_path = $alias['redirect_path'];
-									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-									$rewrite_subdir = $tmp_redirect_path_parts['path'];
-									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
-							}
-							if($alias['redirect_type'] != 'proxy'){
-								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
-							}
+
 							// Add SEO redirects for alias domains
 							$alias_seo_redirects2 = array();
 							if($alias['seo_redirect'] != ''){
@@ -1297,21 +1334,15 @@ class nginx_plugin {
 								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
 							break;
 						case '*':
-							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								if($alias['redirect_type'] == 'proxy'){
-									$rewrite_subdir = substr($alias['redirect_path'],1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
-								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
-							} else {
-								if($alias['redirect_type'] == 'proxy'){
-									$tmp_redirect_path = $alias['redirect_path'];
-									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-									$rewrite_subdir = $tmp_redirect_path_parts['path'];
-									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
+							if($alias['redirect_type'] == 'proxy'){
+								$tmp_redirect_path = $alias['redirect_path'];
+								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+								$rewrite_subdir = $tmp_redirect_path_parts['path'];
+								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+								if(substr($rewrite_subdir,-1) != '/') $rewrite_subdir .= '/';
+								if($rewrite_subdir == '/') $rewrite_subdir = '';
 							}
+							
 							if($alias['redirect_type'] != 'proxy'){
 								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
 							}
@@ -1333,21 +1364,15 @@ class nginx_plugin {
 								'alias_seo_redirects2' => (count($alias_seo_redirects2) > 0 ? $alias_seo_redirects2 : false));
 							break;
 						default:
-							if(substr($alias['redirect_path'],0,1) == '/'){ // relative path
-								if($alias['redirect_type'] == 'proxy'){
-									$rewrite_subdir = substr($alias['redirect_path'],1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
-								$alias['redirect_path'] = ($alias['redirect_type'] == 'proxy'? 'http' : '$scheme').'://'.($vhost_data['seo_redirect_enabled'] ? $vhost_data['seo_redirect_target_domain'] : $data['new']['domain']).$alias['redirect_path'];
-							} else {
-								if($alias['redirect_type'] == 'proxy'){
-									$tmp_redirect_path = $alias['redirect_path'];
-									$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
-									$rewrite_subdir = $tmp_redirect_path_parts['path'];
-									if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
-									if(substr($rewrite_subdir,-1) == '/') $rewrite_subdir = substr($rewrite_subdir,0,-1);
-								}
+							if($alias['redirect_type'] == 'proxy'){
+								$tmp_redirect_path = $alias['redirect_path'];
+								$tmp_redirect_path_parts = parse_url($tmp_redirect_path);
+								$rewrite_subdir = $tmp_redirect_path_parts['path'];
+								if(substr($rewrite_subdir,0,1) == '/') $rewrite_subdir = substr($rewrite_subdir,1);
+								if(substr($rewrite_subdir,-1) != '/') $rewrite_subdir .= '/';
+								if($rewrite_subdir == '/') $rewrite_subdir = '';
 							}
+							
 							if($alias['redirect_type'] != 'proxy'){
 								if(substr($alias['redirect_path'],-1) == '/') $alias['redirect_path'] = substr($alias['redirect_path'],0,-1);
 							}
@@ -1398,6 +1423,9 @@ class nginx_plugin {
 		}
 		if(count($own_rewrite_rules) > 0) {
 			$tpl->setLoop('own_redirects',$own_rewrite_rules);
+		}
+		if(count($local_rewrite_rules) > 0) {
+			$tpl->setLoop('local_redirects',$local_rewrite_rules);
 		}
 		if(count($alias_seo_redirects) > 0) {
 			$tpl->setLoop('alias_seo_redirects',$alias_seo_redirects);
@@ -1523,8 +1551,14 @@ class nginx_plugin {
 					//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 					
 					//* Backup the files that might have caused the error
-					if(is_file($key_file)) $app->system->copy($key_file,$key_file.'.err');
-					if(is_file($key_file2)) $app->system->copy($key_file2,$key_file2.'.err');
+					if(is_file($key_file)){
+						$app->system->copy($key_file,$key_file.'.err');
+						$app->system->chmod($key_file.'.err',0400);
+					}
+					if(is_file($key_file2)){
+						$app->system->copy($key_file2,$key_file2.'.err');
+						$app->system->chmod($key_file2.'.err',0400);
+					}
 					if(is_file($csr_file)) $app->system->copy($csr_file,$csr_file.'.err');
 					if(is_file($crt_file)) $app->system->copy($crt_file,$crt_file.'.err');
 					//if(is_file($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'.err');
@@ -2294,8 +2328,35 @@ class nginx_plugin {
 
 		$lines = explode("\n", $vhost_conf);
 		
+		// if whole location block is in one line, split it up into multiple lines
 		if(is_array($lines) && !empty($lines)){
+			$linecount = sizeof($lines);
+			for($h=0;$h<$linecount;$h++){
+				$lines[$h] = rtrim($lines[$h]);
+				if(substr(ltrim($lines[$h]), 0, 8) == 'location' && strpos($lines[$h], '{') !== false && strpos($lines[$h], ';') !== false){
+					$lines[$h] = str_replace("{", "{\n", $lines[$h]);
+					$lines[$h] = str_replace(";", ";\n", $lines[$h]);
+					if(strpos($lines[$h], '##merge##') !== false){
+						$lines[$h] = str_replace('##merge##', '', $lines[$h]);
+						$lines[$h] = substr($lines[$h],0,strpos($lines[$h], '{')).' ##merge##'.substr($lines[$h],strpos($lines[$h], '{')+1);
+					}
+				}
+				if(substr(ltrim($lines[$h]), 0, 8) == 'location' && strpos($lines[$h], '{') !== false && strpos($lines[$h], '}') !== false && strpos($lines[$h], ';') === false){
+					$lines[$h] = str_replace("{", "{\n", $lines[$h]);
+					if(strpos($lines[$h], '##merge##') !== false){
+						$lines[$h] = str_replace('##merge##', '', $lines[$h]);
+						$lines[$h] = substr($lines[$h],0,strpos($lines[$h], '{')).' ##merge##'.substr($lines[$h],strpos($lines[$h], '{')+1);
+					}
+				}
+			}
+		}
+		$vhost_conf = implode("\n", $lines);
+		unset($lines);
+		unset($linecount);
 		
+		$lines = explode("\n", $vhost_conf);
+			
+		if(is_array($lines) && !empty($lines)){	
 			$locations = array();
 			$islocation = false;
 			$linecount = sizeof($lines);
@@ -2364,7 +2425,7 @@ class nginx_plugin {
 			$vhost_conf = implode("\n", $lines);
 		}
 		
-		return $vhost_conf;
+		return trim($vhost_conf);
 	}
 	
 	function client_delete($event_name,$data) {

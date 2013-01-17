@@ -1,9 +1,9 @@
 <?php
-$wb['limit_mailmailinglist_txt'] = 'Limit dosažen';
-$wb['domain_error_empty'] = 'Doména je prázdná.';
-$wb['listname_error_empty'] = 'Název seznamu je prázdný.';
-$wb['domain_error_regex'] = 'Neplatný název domény.';
-$wb['email_in_use_txt'] = 'E-mail je již použit';
+$wb['limit_mailmailinglist_txt'] = 'Limit reached';
+$wb['domain_error_empty'] = 'Domain is empty.';
+$wb['listname_error_empty'] = 'Listname is empty.';
+$wb['domain_error_regex'] = 'Invalid domain name.';
+$wb['email_in_use_txt'] = 'Email is in use';
 $wb['no_domain_perm'] = 'You have no permission for this domain.';
 $wb['password_strength_txt'] = 'Síla hesla';
 $wb['server_id_txt'] = 'Server';
@@ -19,3 +19,5 @@ $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['listname_error_unique'] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
 $wb['email_error_isemail'] = 'Email address is invalid.';
 ?>
+
+

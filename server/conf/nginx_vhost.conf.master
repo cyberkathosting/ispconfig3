@@ -27,15 +27,20 @@ server {
             rewrite ^ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_loop>
+<tmpl_loop name="local_redirects">
+        if ($http_host <tmpl_var name='local_redirect_operator'> "<tmpl_var name='local_redirect_origin_domain'>") {
+            rewrite ^<tmpl_var name='local_redirect_exclude'>(.*)$ <tmpl_var name='local_redirect_target'>$2 <tmpl_var name='local_redirect_type'>;
+        }
+</tmpl_loop>
 
 <tmpl_loop name="own_redirects">
 <tmpl_if name='use_rewrite'>
-        rewrite ^<tmpl_var name='rewrite_exclude'>(.*)$ <tmpl_var name='rewrite_target'>$2 <tmpl_var name='rewrite_type'>;
+        <tmpl_if name='exclude_own_hostname'>if ($http_host != "<tmpl_var name='exclude_own_hostname'>") { </tmpl_if>rewrite ^<tmpl_var name='rewrite_exclude'>(.*)$ <tmpl_var name='rewrite_target'>$2 <tmpl_var name='rewrite_type'>;<tmpl_if name='exclude_own_hostname'> }</tmpl_if>
 </tmpl_if>
 <tmpl_if name='use_proxy'>
         location / {
             proxy_pass <tmpl_var name='rewrite_target'>;
-            rewrite ^/<tmpl_var name='rewrite_subdir'>/(.*) /$1;
+            <tmpl_if name='rewrite_subdir'>rewrite ^/<tmpl_var name='rewrite_subdir'>(.*) /$1;</tmpl_if>
 <tmpl_loop name="proxy_directives">
         <tmpl_var name='proxy_directive'>
 </tmpl_loop>
@@ -143,7 +148,7 @@ server {
 </tmpl_if>
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_param PATH_INFO $fastcgi_script_name;
+            #fastcgi_param PATH_INFO $fastcgi_script_name;
             fastcgi_intercept_errors on;
         }
 </tmpl_else>
@@ -212,7 +217,7 @@ server {
 <tmpl_if name='use_proxy'>
         location / {
             proxy_pass <tmpl_var name='rewrite_target'>;
-            rewrite ^/<tmpl_var name='rewrite_subdir'>/(.*) /$1;
+            <tmpl_if name='rewrite_subdir'>rewrite ^/<tmpl_var name='rewrite_subdir'>(.*) /$1;</tmpl_if>
 <tmpl_loop name="proxy_directives">
         <tmpl_var name='proxy_directive'>
 </tmpl_loop>

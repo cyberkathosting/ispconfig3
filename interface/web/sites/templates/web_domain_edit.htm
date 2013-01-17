@@ -195,11 +195,13 @@
             if(data.servertype == "nginx"){
                 var selected = jQuery('#php').val();
                 jQuery('.apache').hide();
+                if(selected != "no" && selected != "php-fpm") {
+                    jQuery('#php option[value="php-fpm"]').attr('selected', 'selected').val('php-fpm');
+                }
                 jQuery('#php option[value="fast-cgi"]').hide();
                 jQuery('#php option[value="cgi"]').hide();
                 jQuery('#php option[value="mod"]').hide();
                 jQuery('#php option[value="suphp"]').hide();
-                if(selected != "no" && selected != "php-fpm") jQuery('#php option[value="php-fpm"]').attr('selected', 'selected');
             } else {
                 jQuery('.apache').show();
                 jQuery('#php option[value="fast-cgi"]').show();
@@ -207,8 +209,13 @@
                 jQuery('#php option[value="mod"]').show();
                 jQuery('#php option[value="suphp"]').show();
             }
-            if(noFormChange) resetFormChanged();
-            else jQuery('#php').change();
+            if(noFormChange) {
+                resetFormChanged();
+                jQuery('#php').addClass('no-page-form-change').change();
+                jQuery('#php').removeClass('no-page-form-change');
+            } else {
+                jQuery('#php').change();
+            }
         });
     }
 		

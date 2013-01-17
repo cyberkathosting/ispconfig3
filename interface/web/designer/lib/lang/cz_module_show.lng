@@ -2,7 +2,7 @@
 $wb['header_txt'] = 'Menu editor';
 $wb['title_txt'] = 'Title';
 $wb['name_txt'] = 'Module';
-$wb['delete_txt'] = 'Delete';
+$wb['delete_txt'] = 'Smazat';
 $wb['properties_txt'] = 'Properties';
 $wb['new_menu_txt'] = 'Menu new';
 $wb['edit_txt'] = 'Edit';
@@ -14,3 +14,5 @@ $wb['module_del_txt'] = 'Wollen Sie das Modul und alle im Modul angelegten Datei
 $wb['menu_del_txt'] = 'Wollen Sie das Menü mit allen Untereinträgen löschen?';
 $wb['item_del_txt'] = 'Wollen Sie den Menüeintrag löschen?';
 ?>
+
+
