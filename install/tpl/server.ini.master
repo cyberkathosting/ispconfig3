@@ -34,6 +34,7 @@ mailbox_size_limit=0
 message_size_limit=0
 mailbox_quota_stats=y
 realtime_blackhole_list=
+sendmail_path=/usr/sbin/sendmail
 
 [getmail]
 getmail_config_dir=/etc/getmail

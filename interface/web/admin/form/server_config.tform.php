@@ -321,6 +321,17 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'sendmail_path' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '/usr/sbin/sendmail',
+			'validators' => array(0 => array('type' => 'NOTEMPTY',
+					'errmsg' => 'sendmail_path_error_empty'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
