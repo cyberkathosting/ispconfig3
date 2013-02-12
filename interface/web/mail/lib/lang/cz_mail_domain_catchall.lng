@@ -10,4 +10,3 @@ $wb['source_txt'] = 'Zdroj';
 $wb['destination_error_isemail'] = 'Cílová e-mailová adresa není platná.';
 ?>
 
-

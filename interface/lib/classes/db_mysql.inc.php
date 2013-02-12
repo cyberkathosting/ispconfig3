@@ -45,6 +45,7 @@ class db extends mysqli
   public $errorMessage = '';	// last error message
   private $errorLocation = '';// last error location
   public $show_error_messages = true; // false in server, true in interface
+  private $isConnected = false; // needed to know if we have a valid mysqli object from the constructor
 
   // constructor
   public function __construct($prefix = '') {
@@ -58,12 +59,20 @@ class db extends mysqli
     $this->dbNewLink = $conf[$prefix.'db_new_link'];
     $this->dbClientFlags = $conf[$prefix.'db_client_flags'];
     parent::__construct($conf[$prefix.'db_host'], $conf[$prefix.'db_user'],$conf[$prefix.'db_password'],$conf[$prefix.'db_database']);
-    if ($this->connect_error) {
+    $try = 0;
+    while(!is_null($this->connect_error) && $try < 5) {
+      if($try > 0) sleep(1);
+      
+      $try++;
       $this->updateError('DB::__construct');
-      return false;
-    } else {
-      $this->setCharacterEncoding();
+      
+      parent::__construct($conf[$prefix.'db_host'], $conf[$prefix.'db_user'],$conf[$prefix.'db_password'],$conf[$prefix.'db_database']);
     }
+    
+    if(is_null($this->connect_error)) $this->isConnected = true;
+    else return false;
+    
+    $this->setCharacterEncoding();
   }
 
   public function __destruct() {
@@ -74,7 +83,7 @@ class db extends mysqli
   public function updateError($location) {
     global $app;
 
-    if($this->connect_error) {
+    if(!is_null($this->connect_error)) {
       $this->errorNumber = $this->connect_errno;
       $this->errorMessage = $this->connect_error;
     } else {
@@ -95,18 +104,20 @@ class db extends mysqli
   }
   
   private function setCharacterEncoding() {
+    if($this->isConnected == false) return false;
     parent::query( 'SET NAMES '.$this->dbCharset); 
     parent::query( "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
   }
 
   public function query($queryString) {
+    if($this->isConnected == false) return false;
     $try = 0;
     do {
         $try++;
-        $ok = parent::ping();
+        $ok = $this->ping();
         if(!$ok) {
-            if(!parent::real_connect($this->dbHost, $this->dbUser, $this->dbPass,$this->dbName)) {
-                if($try > 9) {
+            if(!$this->real_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
+                if($try > 4) {
                     $this->updateError('DB::query -> reconnect');
                     return false;
                 } else {
@@ -479,7 +490,7 @@ public function toLower($record) {
 
     // gibt Array mit Tabellennamen zur�ck
     public function getTables($database_name = '') {
-
+      if($this->isConnected == false) return false;
       if($database_name == '') $database_name = $this->dbName;
       $result = parent::query("SHOW TABLES FROM $database_name");
       for ($i = 0; $i < $result->num_rows; $i++) {

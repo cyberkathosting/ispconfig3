@@ -170,7 +170,4 @@ $wb['website_autoalias_txt'] = 'Website auto alias';
 $wb['website_autoalias_note_txt'] = 'Placeholders:';
 $wb['overtraffic_notify_admin_txt'] = 'Send overtraffic notification to admin';
 $wb['overtraffic_notify_client_txt'] = 'Send overtraffic notification to client';
-$wb['v6_prefix_txt'] = 'IPv6 Prefix';
-$wb['vhost_rewrite_v6_txt'] = 'Rewrite IPv6 on Mirror';
-$wb['v6_prefix_wrong'] = 'Invalid v6 Netmask format.';
 ?>

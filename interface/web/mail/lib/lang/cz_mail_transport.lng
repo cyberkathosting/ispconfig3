@@ -10,4 +10,3 @@ $wb['limit_mailrouting_txt'] = 'Dosažen maximální počet email směrování p
 $wb['transport_txt'] = 'Transport';
 ?>
 
-

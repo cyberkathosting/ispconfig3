@@ -495,6 +495,13 @@ foreach($records as $rec) {
 	exec('rm -f '.$logfile);
 }
 
+//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
+exec('hostname -f', $tmp_hostname);
+if($tmp_hostname[0] != '' && is_dir('/var/log/ispconfig/httpd/'.$tmp_hostname[0])) {
+	exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +30 -name '*.log' | xargs rm > /dev/null 2> /dev/null");
+}
+unset($tmp_hostname);
+
 #######################################################################################################
 // Rotate the ispconfig.log file
 #######################################################################################################

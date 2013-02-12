@@ -6,8 +6,7 @@ $wb['contact_name_txt'] = 'Název kontaktu';
 $wb['city_txt'] = 'Město';
 $wb['country_txt'] = 'Stát';
 $wb['add_new_record_txt'] = 'Přidat distributora';
-$wb['customer_no_txt'] = 'Customer No.';
-$wb['username_txt'] = 'Username';
+$wb['customer_no_txt'] = 'Zákaznické číslo';
+$wb['username_txt'] = 'Uživatelské jméno';
 ?>
-
 

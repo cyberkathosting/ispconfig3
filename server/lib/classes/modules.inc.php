@@ -183,13 +183,11 @@ class modules {
 				
 					if($replication_error == false) {
 						if(is_array($data['old']) || is_array($data['new'])) {
+							$app->db->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf['server_id']);
 							$this->raiseTableHook($d['dbtable'],$d['action'],$data);
 						} else {
 							$app->log('Data array was empty for datalog_id '.$d['datalog_id'],LOGLEVEL_WARN);
 						}
-						//$this->raiseTableHook($d["dbtable"],$d["action"],$data);
-						//$app->dbmaster->query("DELETE FROM sys_datalog WHERE datalog_id = ".$d["datalog_id"]);
-						//$app->log("Deleting sys_datalog ID ".$d["datalog_id"],LOGLEVEL_DEBUG);
 						$app->dbmaster->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf['server_id']);
 						$app->log('Processed datalog_id '.$d['datalog_id'],LOGLEVEL_DEBUG);
 					} else {

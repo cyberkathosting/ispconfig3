@@ -332,7 +332,17 @@ class apache2_plugin {
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file,$data["new"]["ssl_request"]);
 			if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file,$data["new"]["ssl_cert"]);
 			if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
-			if(trim($data["new"]["ssl_key"]) != '') $app->system->file_put_contents($key_file2,$data["new"]["ssl_key"]);
+			
+			//* Write the key file, if field is empty then import the key into the db
+			if(trim($data["new"]["ssl_key"]) != '') {
+				$app->system->file_put_contents($key_file2,$data["new"]["ssl_key"]);
+			} else {
+				$ssl_key2 = $app->db->quote($app->system->file_get_contents($key_file2));
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET ssl_key = '$ssl_key2' WHERE domain = '".$data['new']['domain']."'");
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET ssl_key = '$ssl_key2' WHERE domain = '".$data['new']['domain']."'");
+			}
 			
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
@@ -509,41 +519,45 @@ class apache2_plugin {
 			
 			//* Remove protection of old folders
 			$app->system->web_folder_protection($data['old']['document_root'],false);
+            
+            if($data["new"]["type"] != "vhostsubdomain") {
+                //* Move the site data
+                $tmp_docroot = explode('/',$data['new']['document_root']);
+                unset($tmp_docroot[count($tmp_docroot)-1]);
+                $new_dir = implode('/',$tmp_docroot);
 
-			//* Move the site data
-			$tmp_docroot = explode('/',$data['new']['document_root']);
-			unset($tmp_docroot[count($tmp_docroot)-1]);
-			$new_dir = implode('/',$tmp_docroot);
+                $tmp_docroot = explode('/',$data['old']['document_root']);
+                unset($tmp_docroot[count($tmp_docroot)-1]);
+                $old_dir = implode('/',$tmp_docroot);
 
-			$tmp_docroot = explode('/',$data['old']['document_root']);
-			unset($tmp_docroot[count($tmp_docroot)-1]);
-			$old_dir = implode('/',$tmp_docroot);
+                //* Check if there is already some data in the new docroot and rename it as we need a clean path to move the existing site to the new path
+                if(@is_dir($data['new']['document_root'])) {
+                    $app->system->web_folder_protection($data['new']['document_root'],false);
+                    $app->system->rename($data['new']['document_root'],$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
+                    $app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'),LOGLEVEL_DEBUG);
+                }
+                
+                //* Create new base directory, if it does not exist yet
+                if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
+                $app->system->web_folder_protection($data['old']['document_root'],false);
+                exec('mv '.escapeshellarg($data['old']['document_root']).' '.escapeshellarg($new_dir));
+                //$app->system->rename($data['old']['document_root'],$new_dir);
+                $app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);
 
-			//* Check if there is already some data in the new docroot and rename it as we need a clean path to move the existing site to the new path
-			if(@is_dir($data['new']['document_root'])) {
-				$app->system->rename($data['new']['document_root'],$data['new']['document_root'].'_bak_'.date('Y_m_d'));
-				$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d'),LOGLEVEL_DEBUG);
-			}
-			
-			//* Create new base directory, if it does not exist yet
-			if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
-			exec('mv '.escapeshellarg($data['old']['document_root']).' '.escapeshellarg($new_dir));
-			//$app->system->rename($data['old']['document_root'],$new_dir);
-			$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);
+                // Handle the change in php_open_basedir
+                $data['new']['php_open_basedir'] = str_replace($data['old']['document_root'],$data['new']['document_root'],$data['old']['php_open_basedir']);
 
-			// Handle the change in php_open_basedir
-			$data['new']['php_open_basedir'] = str_replace($data['old']['document_root'],$data['new']['document_root'],$data['old']['php_open_basedir']);
+                //* Change the owner of the website files to the new website owner
+                exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
 
-			//* Change the owner of the website files to the new website owner
-			exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
-
-			//* Change the home directory and group of the website user
-			$command = 'usermod';
-			$command .= ' --home '.escapeshellcmd($data['new']['document_root']);
-			$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
-			$command .= ' '.escapeshellcmd($data['new']['system_user']);
-			exec($command);
-
+                //* Change the home directory and group of the website user
+                $command = 'usermod';
+                $command .= ' --home '.escapeshellcmd($data['new']['document_root']);
+                $command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
+                $command .= ' '.escapeshellcmd($data['new']['system_user']);
+                exec($command);
+            }
+            
 			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 			
 			//* Change the log mount
@@ -911,6 +925,13 @@ class apache2_plugin {
 					$master_php_ini_path = $web_config['php_ini_path_cgi'];
 				}
 			}
+			
+			//* Add php.ini to the path in case that the master_php_ini_path is a directory
+			if($master_php_ini_path != '' && is_dir($master_php_ini_path) && is_file($master_php_ini_path.'/php.ini')) {
+				if(substr($master_php_ini_path,-1) == '/') $master_php_ini_path = substr($master_php_ini_path,0,-1);
+				$master_php_ini_path .= '/php.ini';
+			}
+			
 			if($master_php_ini_path != '' && substr($master_php_ini_path,-7) == 'php.ini' && is_file($master_php_ini_path)) {
 				$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
 			}
@@ -1197,6 +1218,7 @@ class apache2_plugin {
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_fastcgi_php = false;
 				list($custom_fastcgi_php_name, $custom_fastcgi_php_executable, $custom_fastcgi_php_ini_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
+				if(is_file($custom_fastcgi_php_ini_dir)) $custom_fastcgi_php_ini_dir = dirname($custom_fastcgi_php_ini_dir);
 				if(substr($custom_fastcgi_php_ini_dir,-1) != '/') $custom_fastcgi_php_ini_dir .= '/';
 			} else {
 				$default_fastcgi_php = true;
@@ -1506,7 +1528,7 @@ class apache2_plugin {
 				$app->system->web_folder_protection($data['new']['document_root'],false);
 				$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats',$htp_file);
 				$app->system->web_folder_protection($data['new']['document_root'],true);
-				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats',0750);
+				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats',0755);
 				unset($htp_file);
 			}
 		}
@@ -2743,6 +2765,17 @@ class apache2_plugin {
 			
 			$client_dir = $web_config['website_basedir'].'/clients/client'.$client_id;
 			if(is_dir($client_dir) && !stristr($client_dir,'..')) {
+				// remove symlinks from $client_dir
+				$files = array_diff(scandir($client_dir), array('.','..'));
+				if(is_array($files) && !empty($files)){
+					foreach($files as $file){
+						if(is_link($client_dir.'/'.$file)){
+							unlink($client_dir.'/'.$file);
+							$app->log('Removed symlink: '.$client_dir.'/'.$file,LOGLEVEL_DEBUG);
+						}
+					}
+				}
+				
 				@rmdir($client_dir);
 				$app->log('Removed client directory: '.$client_dir,LOGLEVEL_DEBUG);
 			}

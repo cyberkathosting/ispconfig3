@@ -45,7 +45,13 @@ if ($app->dbmaster->connect_error == NULL) {
 	
 	if(!is_array($server_db_record)) die('Unable to load the server configuration from database.');
 	
-	$conf['last_datalog_id'] = (int) $server_db_record['updated'];
+	//* Get the number of the last processed datalog_id, if the id of the local server 
+	//* is > then the one of the remote system, then use the local ID as we might not have
+	//* reached the remote server during the last run then.
+	$local_server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
+	$conf['last_datalog_id'] = (int) max($server_db_record['updated'],$local_server_db_record['updated']);
+	unset($local_server_db_record);
+	
 	$conf['mirror_server_id'] = (int) $server_db_record['mirror_server_id'];
 
 	// Load the ini_parser

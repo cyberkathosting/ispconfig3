@@ -49,6 +49,11 @@
                         </td>
                     </tr>
                 </tmpl_loop>
+                <tmpl_unless name="records">
+                    <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <td colspan="2">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                    </tr>
+                </tmpl_unless>
             </tbody>
             <tfoot>
                 <tr>

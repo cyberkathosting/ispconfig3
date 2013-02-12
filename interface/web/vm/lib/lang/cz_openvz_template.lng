@@ -25,7 +25,7 @@ $wb['hostname_txt'] = 'Hostname';
 $wb['nameserver_txt'] = 'Nameserver(s)';
 $wb['nameserver_desc_txt'] = '(separated by whitespace)';
 $wb['capability_txt'] = 'Capability';
-$wb['template_name_txt'] = 'Template name';
+$wb['template_name_txt'] = 'Název šablony';
 $wb['diskspace_txt'] = 'Diskspace';
 $wb['ram_txt'] = 'RAM (guaranteed)';
 $wb['ram_burst_txt'] = 'RAM (burst)';
@@ -88,8 +88,7 @@ $wb['numsiginfo_error_empty'] = 'Numsiginfo is empty.';
 $wb['dcachesize_error_empty'] = 'Dcachesize is empty.';
 $wb['numiptent_error_empty'] = 'Numiptent is empty.';
 $wb['swappages_error_empty'] = 'Swappages is empty.';
-$wb['Template'] = 'Template';
-$wb['Advanced'] = 'Advanced';
+$wb['Template'] = 'Šablona';
+$wb['Advanced'] = 'Pokročilý';
 ?>
-
 

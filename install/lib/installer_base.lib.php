@@ -566,6 +566,23 @@ class installer_base {
 				}
 			}
 		}
+		
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'virtual_to_transport.sh';
+		
+		//* Backup exiting virtual_to_transport.sh script
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
+		}
+		
+		copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+		chgrp($full_file_name,'list');
+		chmod($full_file_name,0750);
+		
+		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
+		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
+		
+		exec('/usr/lib/mailman/bin/genaliases');
 
 		$virtual_domains = '';
 		if($status == 'update')
@@ -681,7 +698,7 @@ class installer_base {
 				'smtpd_tls_security_level = may',
 				'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',
 				'smtpd_tls_key_file = '.$config_dir.'/smtpd.key',
-				'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
+				'transport_maps = hash:/var/lib/mailman/data/transport-mailman, proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
 				'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
 				'relay_recipient_maps = mysql:'.$config_dir.'/mysql-virtual_relayrecipientmaps.cf',
 				'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps',

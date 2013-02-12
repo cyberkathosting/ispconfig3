@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 	
 	
 	
-	function onAfterDelete() {
+	function onBeforeDelete() {
 		global $app, $conf;
 		
 		$client_id = $app->functions->intval($this->dataRecord['client_id']);

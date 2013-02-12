@@ -15,4 +15,3 @@ $wb['menu_del_txt'] = 'Wollen Sie das Menü mit allen Untereinträgen löschen?'
 $wb['item_del_txt'] = 'Wollen Sie den Menüeintrag löschen?';
 ?>
 
-

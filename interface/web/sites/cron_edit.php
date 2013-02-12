@@ -182,7 +182,7 @@ class page_action extends tform_actions {
         // The cron shall be owned by the same group then the website
         $sys_groupid = $web['sys_groupid'];
         
-        $sql = "UPDATE shell_user SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE id = ".$this->id;
+        $sql = "UPDATE cron SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE id = ".$this->id;
         $app->db->query($sql);
 	}
 	

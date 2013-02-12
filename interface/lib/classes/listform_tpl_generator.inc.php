@@ -59,10 +59,12 @@ class listform_tpl_generator {
 ';
 		
 		$lang["list_head_txt"] = $listDef["name"];
+      $colcount = 0;
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
 			$html .= "            <th class=\"tbl_col_".$key."\" scope=\"col\"><tmpl_var name=\"".$key."_txt\"></th>\n";
 			$lang[$key."_txt"] = $key;
+         $colcount++;
 		}
 		
 		$html .= '            <th class="tbl_col_buttons" scope="col">&nbsp;</th>
@@ -99,6 +101,11 @@ class listform_tpl_generator {
             </td>
           </tr>
           </tmpl_loop>
+          <tmpl_unless name=\"records\">
+              <tr class=\"tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>\">
+                  <td colspan=\"".$colcount."\">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+              </tr>
+          </tmpl_unless>
         </tbody>";
   $html .= '
         <tfoot>

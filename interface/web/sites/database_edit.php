@@ -206,6 +206,10 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_charset_change_txt"].'<br />';
 		}
 		
+        if(!$this->dataRecord['database_user_id']) {
+            $app->tform->errorMessage .= $app->tform->wordbook["database_user_missing_txt"].'<br />';
+        }
+        
 		//* Database username and database name shall not be empty
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
 		

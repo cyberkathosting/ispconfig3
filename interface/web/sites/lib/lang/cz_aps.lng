@@ -51,9 +51,8 @@ $wb['installation_task_txt'] = 'Instalace plánované';
 $wb['installation_error_txt'] = 'Chyba instalace';
 $wb['installation_success_txt'] = 'Nainstalované';
 $wb['installation_remove_txt'] = 'Odstranění plánu';
-$wb['packagelist_update_finished_txt'] = 'APS aktualizace balíčku dokončena.';
+$wb['packagelist_update_finished_txt'] = 'APS aktualizace seznamu balíčků dokončena.';
 $wb['btn_install_txt'] = 'Instalovat';
 $wb['btn_cancel_txt'] = 'Zrušit';
 ?>
-
 

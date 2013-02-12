@@ -60,7 +60,7 @@ class list_action extends listform_actions {
 		if($rec['used'] > 1024) {
 			$rec['used'] = round($rec['used'] / 1024,2).' MB';
 		} else {
-			$rec['used'] .= ' KB';
+			if ($rec['used'] != '') $rec['used'] .= ' KB';
 		}
 		
 		if($rec['soft'] > 1024) {
@@ -75,6 +75,8 @@ class list_action extends listform_actions {
 			$rec['hard'] .= ' KB';
 		}
 		
+		if($rec['soft'] == " KB") $rec['soft'] = $app->lng('unlimited');
+		if($rec['hard'] == " KB") $rec['hard'] = $app->lng('unlimited');
 		
 		
 		/*

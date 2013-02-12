@@ -8,4 +8,3 @@ $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Dosažen maximální počet email filtrů pro Váš účet.';
 ?>
 
-

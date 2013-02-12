@@ -37,4 +37,3 @@ $wb['message_size_limit_txt'] = 'Limit velikosti zprávy';
 $wb['banned_rulenames_txt'] = 'Název pravidel zabanované';
 ?>
 
-

@@ -15,4 +15,3 @@ $wb['ostemplate_name_unique_error'] = 'There is already a OSTemplate with that n
 $wb['ostemplate_exec_txt'] = 'The command to create a OSTemplate has been sent to the host server. It will take several minutes until the OSTemplate has been created.';
 ?>
 
-

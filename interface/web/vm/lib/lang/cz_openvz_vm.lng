@@ -11,7 +11,7 @@ $wb['nameserver_desc_txt'] = '(separated by whitespace)';
 $wb['capability_txt'] = 'Capability';
 $wb['server_id_txt'] = 'Hostserver';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
-$wb['template_id_txt'] = 'Template';
+$wb['template_id_txt'] = 'Šablona';
 $wb['ip_address_txt'] = 'IP address';
 $wb['hostname_txt'] = 'Hostname';
 $wb['vm_password_txt'] = 'VM Password';
@@ -36,7 +36,6 @@ $wb['cpu_limit_error_empty'] = 'CPU limit is empty.';
 $wb['io_priority_error_empty'] = 'I/O priority is empty.';
 $wb['template_nameserver_error_empty'] = 'Nameserver(s) is empty.';
 $wb['Virtual server'] = 'Virtual server';
-$wb['Advanced'] = 'Advanced';
+$wb['Advanced'] = 'Pokročilý';
 ?>
-
 

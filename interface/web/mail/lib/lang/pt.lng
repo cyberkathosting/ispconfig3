@@ -44,4 +44,5 @@ $wb['Content Filter'] = 'Filtros de Conteúdo';
 $wb['Global Filters'] = 'Filtros Globais';
 $wb['Domain Alias'] = 'Domínios Alias';
 $wb['Relay Recipients'] = 'Recipientes de Relay';
+$wb['Mailbox quota'] = 'Mailbox quota';
 ?>

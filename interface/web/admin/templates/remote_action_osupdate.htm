@@ -7,7 +7,7 @@
         <fieldset class="inlineLabels"><legend>{tmpl_var name='do_osupdate_caption'}</legend>
             <div class="ctrlHolder">
                 <label for="server_select">{tmpl_var name='select_server_txt'}</label>
-                <select name="server_select" id="server" class="selectInput" onchange="document.getElementById('OKMsg').style.visibility = 'hidden'; ">
+                <select name="server_select" id="server" class="selectInput" onchange="$('#OKMsg').hide(); ">
                     {tmpl_var name='server_option'}
                 </select>
             </div>

@@ -27,11 +27,12 @@ $wb['update_acl_txt'] = 'Update ACL';
 $wb['seconds_txt'] = 'Seconds';
 $wb['eg_domain_tld'] = 'e.g. domain.tld';
 $wb['eg_ns1_domain_tld'] = 'e.g. ns1.domain.tld';
-$wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld';
+$wb['eg_webmaster_domain_tld'] = 'e.g. webmaster@domain.tld (saved in zone file format, webmaster.domain.tld.)';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
 $wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
 $wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
 $wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
 $wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
 ?>

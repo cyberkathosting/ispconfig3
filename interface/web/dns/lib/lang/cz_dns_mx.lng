@@ -15,4 +15,3 @@ $wb['data_error_empty'] = 'Hostname mailserveru je prázdný';
 $wb['data_error_regex'] = 'Hostname mailserveru má chybný formát';
 ?>
 
-

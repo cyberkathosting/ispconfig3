@@ -133,15 +133,18 @@ if($_POST['create'] == 1) {
 	$error = '';
 	
 	if(isset($_POST['domain']) && $_POST['domain'] == '') $error .= $app->lng('error_domain_empty').'<br />';
+	elseif(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,30}$/',$_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
+
 	if(isset($_POST['ip']) && $_POST['ip'] == '') $error .= $app->lng('error_ip_empty').'<br />';
+
 	if(isset($_POST['ns1']) && $_POST['ns1'] == '') $error .= $app->lng('error_ns1_empty').'<br />';
+	elseif(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/',$_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
+
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
+	elseif(isset($_POST['ns2']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/',$_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
+
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
-	
-	if(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,30}$/',$_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
-	if(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/',$_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
-	if(isset($_POST['ns2']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/',$_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
-	if(isset($_POST['email']) && !preg_match('/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z0-9\-]{2,30}$/i',$_POST['email'])) $error .= $app->lng('error_email_regex').'<br />';
+	elseif(isset($_POST['email']) && !preg_match('/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z0-9\-]{2,30}$/i',$_POST['email'])) $error .= $app->lng('error_email_regex').'<br />';
 	
 	// make sure that the record belongs to the client group and not the admin group when admin inserts it
 	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($_POST['client_group_id'])) {

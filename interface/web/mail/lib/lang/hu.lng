@@ -44,4 +44,5 @@ $wb['Global Filters'] = 'Globális szűrők';
 $wb['Domain Alias'] = 'Domain Alias';
 $wb['Relay Recipients'] = 'Relay Recipients';
 $wb['Server'] = 'Server';
+$wb['Mailbox quota'] = 'Mailbox quota';
 ?>

@@ -1,0 +1,1 @@
+ALTER TABLE `client` CHANGE `web_php_options` `web_php_options` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm';

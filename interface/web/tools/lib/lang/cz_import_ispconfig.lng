@@ -22,4 +22,3 @@ $wb['import_user_filter_txt'] = 'Importovat uživatelský filter';
 $wb['import_spamfilter_txt'] = 'Importovat spamový filter';
 ?>
 
-

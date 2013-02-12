@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Webdav-User';
+$wb['list_head_txt'] = 'Webdav uživatel';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Username';
-$wb['add_new_record_txt'] = 'Add new Webdav-User';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
+$wb['username_txt'] = 'Uživatelské jméno';
+$wb['add_new_record_txt'] = 'Přidat nového WebDAV uživatele';
 ?>
-
 

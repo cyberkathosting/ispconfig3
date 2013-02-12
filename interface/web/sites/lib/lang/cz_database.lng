@@ -23,7 +23,7 @@ $wb['database_charset_change_txt'] = 'Znaková sada databáze nemůže být změ
 $wb['database_name_error_len'] = 'Název databáze - {db} - je příliš dlouhý. Maximální délka včetně prefixu je 64 znaků.';
 $wb['database_user_error_len'] = 'Jméno uživatele - {user}- je příliš dlouhé. Maximální délka včetně prefixu je 16 znaků.';
 $wb['parent_domain_id_txt'] = 'Přiřadit k web doméně';
-$wb['database_site_error_empty'] = 'Select the site to which the database belongs.';
+$wb['database_site_error_empty'] = 'Přiřaďte databázi k webové doméně.';
 $wb['select_site_txt'] = '- Vybrat web doménu -';
 $wb['btn_save_txt'] = 'Uložit';
 $wb['btn_cancel_txt'] = 'Zrušit';
@@ -41,7 +41,6 @@ $wb['database_ro_user_txt'] = 'Uživatel databáze - jen právo ke čtení';
 $wb['optional_txt'] = 'Volitelný';
 $wb['select_dbuser_txt'] = 'Vyberte uživatele databáze';
 $wb['no_dbuser_txt'] = 'Žádný';
-$wb['database_client_differs_txt'] = 'The client of the parent web and the database do not match.';
+$wb['database_client_differs_txt'] = 'Klient mateřského webu a databáze se neshodují.';
 ?>
-
 

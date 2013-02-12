@@ -44,4 +44,5 @@ $wb['Global Filters'] = 'Yleiset suodattimet';
 $wb['Server'] = 'Palvelin';
 $wb['Domain Alias'] = 'Aliasverkkotunnus';
 $wb['Relay Recipients'] = 'Välityksen vastaanottajat';
+$wb['Mailbox quota'] = 'Mailbox quota';
 ?>

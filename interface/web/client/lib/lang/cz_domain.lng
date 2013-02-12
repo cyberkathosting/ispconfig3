@@ -5,4 +5,3 @@ $wb['domain_error_regex'] = 'This domain-name is not allowed';
 $wb['Domain'] = 'Doména';
 ?>
 
-

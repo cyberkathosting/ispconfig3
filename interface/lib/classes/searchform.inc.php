@@ -208,6 +208,8 @@ class searchform {
         $content .= ' '.$app->lng('Page').' '.$vars['next_page'].' '.$app->lng('of').' '.$vars['max_pages'].' ';
         if($vars['show_page_next'] == 1){
             $content .= '<a href="'.$list_file.'?page='.$vars['next_page'].$page_params.'"><img src="../themes/iprg/images/btn_next.png" border="0"></a> &nbsp; ';
+        } else{
+            $content .= '&nbsp;';
         }
         $content .= '<a href="'.$list_file.'?page='.$vars['pages'].$page_params.'"> <img src="../themes/iprg/images/btn_right.png" border="0"></a>';
         return $content;

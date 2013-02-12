@@ -8,4 +8,3 @@ $wb['active_txt'] = 'Aktivní';
 $wb['pattern_error_empty'] = 'Vzor je prázdný.';
 ?>
 
-

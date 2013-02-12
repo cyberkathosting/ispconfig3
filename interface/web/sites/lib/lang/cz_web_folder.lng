@@ -1,9 +1,8 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
+$wb['path_txt'] = 'Cesta';
 $wb['active_txt'] = 'Aktivní';
-$wb['path_error_regex'] = 'Invalid folder path.';
+$wb['path_error_regex'] = 'Neplatná cesta ke složce.';
 ?>
-
 

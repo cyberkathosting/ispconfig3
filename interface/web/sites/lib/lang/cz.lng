@@ -26,11 +26,11 @@ $wb['Redirect'] = 'Přesměrování';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Stránky';
 $wb['Database User'] = 'Uživatelé databáze';
-$wb['APS Installer'] = 'APS Installer';
-$wb['Available packages'] = 'Available packages';
-$wb['Installed packages'] = 'Installed packages';
-$wb['Update Packagelist'] = 'Update Packagelist';
-$wb['Subdomain (Vhost)'] = 'Subdomain (Vhost)';
+$wb['APS Installer'] = 'APS instalátor';
+$wb['Available packages'] = 'Dostupné balíčky';
+$wb['Installed packages'] = 'Nainstalované balíčky';
+$wb['Update Packagelist'] = 'Aktualizace seznamu balíčků';
+$wb['Subdomain (Vhost)'] = 'Subdoména (Vhost)';
+$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
 ?>
-
 

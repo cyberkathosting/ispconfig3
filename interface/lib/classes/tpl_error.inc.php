@@ -31,7 +31,7 @@ class vlibTemplateError {
 |     DO NOT TOUCH ANYTHING IN THIS CLASS IT MAY NOT WORK OTHERWISE            |
 \-----------------------------------------------------------------------------*/
 
-    function raiseError ($code, $level = null, $extra=null) {
+    public static function raiseError ($code, $level = null, $extra=null) {
         if (!($level & error_reporting())&& $level != KILL) return; // binary AND checks for reporting level
 
         $error_codes = array(

@@ -8,8 +8,7 @@ $wb['domain_error_unique'] = 'Dupolikování domény.';
 $wb['domain_error_regex'] = 'Chybný název domény.';
 $wb['client_txt'] = 'Klient';
 $wb['limit_maildomain_txt'] = 'Dosažen maximální počet email domén pro Váš účet.';
-$wb['policy_txt'] = 'Spamfiltr';
+$wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 ?>
-
 

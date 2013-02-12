@@ -41,6 +41,24 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
         Allow from all
 </Directory>
 
+# Allow access to mailman on OpenSuSE
+<Directory /usr/lib/mailman/cgi-bin>
+        AllowOverride All
+		order allow,deny
+        allow from all
+</Directory>
+
+<Directory /usr/lib/mailman/icons>
+        order allow,deny
+        allow from all
+</Directory>
+
+<Directory /var/lib/mailman/archives/>
+        Options +FollowSymLinks
+        order allow,deny
+        allow from all
+</Directory>
+
 # allow path to awstats and alias for awstats icons
 <Directory /usr/share/awstats>
         Order allow,deny

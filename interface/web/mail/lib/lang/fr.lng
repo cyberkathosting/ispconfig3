@@ -44,4 +44,5 @@ $wb['Global Filters'] = 'Filtres globaux';
 $wb['Mailbox traffic'] = 'Trafic de la boite email';
 $wb['Domain Alias'] = 'Alias de domaine';
 $wb['Relay Recipients'] = 'Destinataires de relais';
+$wb['Mailbox quota'] = 'Mailbox quota';
 ?>

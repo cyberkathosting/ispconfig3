@@ -20,4 +20,3 @@ $wb['command_error_format'] = 'Chybná formát příkazu. V případě URL je po
 $wb['unknown_fieldtype_error'] = 'Bylp použito pole neznámého typu.';
 ?>
 
-

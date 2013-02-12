@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Spamfiltr';
+$wb['list_head_txt'] = 'Spamový filtr';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['server_name_txt'] = 'server_name';
 $wb['email_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Přidat nový záznam spamfiltru';
 ?>
-
 

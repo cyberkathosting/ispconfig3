@@ -17,4 +17,3 @@ $wb['menu_del_txt'] = 'Delete menu with all menuitems?';
 $wb['item_del_txt'] = 'Delete menuitem?';
 ?>
 
-

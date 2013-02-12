@@ -32,6 +32,8 @@ function resetFormChanged() {
 }
 
 function showLoadIndicator() {
+    document.body.style.cursor = 'wait';
+
 <?php
 if($server_config_array['misc']['use_loadindicator'] == 'y'){
 ?>
@@ -61,6 +63,8 @@ if($server_config_array['misc']['use_loadindicator'] == 'y'){
 }
 
 function hideLoadIndicator() {
+    document.body.style.cursor = '';
+
     requestsRunning -= 1;
     if(requestsRunning < 1) {
         requestsRunning = 0; // just for the case...

@@ -350,7 +350,7 @@ class page_action extends tform_actions {
 			$php_directive_snippets_txt = '';
 			if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
 					foreach($php_directive_snippets as $php_directive_snippet){
-						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$php_directive_snippet['snippet'].'</pre></a> ';
+						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a> ';
 					}
 			}
 			if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
@@ -361,7 +361,7 @@ class page_action extends tform_actions {
 				$apache_directive_snippets_txt = '';
 				if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
 						foreach($apache_directive_snippets as $apache_directive_snippet){
-							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$apache_directive_snippet['snippet'].'</pre></a> ';
+							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a> ';
 						}
 				}
 				if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
@@ -373,7 +373,7 @@ class page_action extends tform_actions {
 				$nginx_directive_snippets_txt = '';
 				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
 						foreach($nginx_directive_snippets as $nginx_directive_snippet){
-							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$nginx_directive_snippet['snippet'].'</pre></a> ';
+							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a> ';
 						}
 				}
 				if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
@@ -384,7 +384,7 @@ class page_action extends tform_actions {
 			$proxy_directive_snippets_txt = '';
 			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 					foreach($proxy_directive_snippets as $proxy_directive_snippet){
-						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$proxy_directive_snippet['snippet'].'</pre></a> ';
+						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a> ';
 					}
 			}
 			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -806,9 +806,18 @@ class page_action extends tform_actions {
 			unset($rec);
 			
 			//* Update all subdomains and alias domains
-			$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE parent_domain_id = ".$this->id);
+			$records = $app->db->queryAllRecords("SELECT domain_id, `domain`, `type`, `web_folder` FROM web_domain WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('web_domain', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'", 'domain_id', $rec['domain_id']);
+                $update_columns = "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'";
+                if($rec['type'] == 'vhostsubdomain') {
+                    $php_open_basedir = str_replace("[website_path]/web",$document_root.'/'.$rec['web_folder'],$web_config["php_open_basedir"]);
+                    $php_open_basedir = str_replace("[website_domain]/web",$rec['domain'].'/'.$rec['web_folder'],$php_open_basedir);
+                    $php_open_basedir = str_replace("[website_path]",$document_root,$php_open_basedir);
+                    $php_open_basedir = $app->db->quote(str_replace("[website_domain]",$rec['domain'],$php_open_basedir));
+
+                    $update_columns .= ", document_root = '".$document_root."', `php_open_basedir` = '".$php_open_basedir."'";
+                }
+				$app->db->datalogUpdate('web_domain', $update_columns, 'domain_id', $rec['domain_id']);
 			}
 			unset($records);
 			unset($rec);

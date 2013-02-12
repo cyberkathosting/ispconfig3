@@ -44,4 +44,5 @@ $wb['Content Filter'] = 'Penyaringan Konten';
 $wb['Global Filters'] = 'Penyaringan Global';
 $wb['Domain Alias'] = 'Alias Domain';
 $wb['Relay Recipients'] = 'Penerima Relay';
+$wb['Mailbox quota'] = 'Mailbox quota';
 ?>

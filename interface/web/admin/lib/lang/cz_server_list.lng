@@ -12,4 +12,3 @@ $wb['proxy_server_txt'] = 'Proxy';
 $wb['firewall_server_txt'] = 'Firewall';
 ?>
 
-

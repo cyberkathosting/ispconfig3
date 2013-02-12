@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Subdomains';
+$wb['list_head_txt'] = 'Subdomény';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['domain_txt'] = 'Subdomain';
-$wb['add_new_record_txt'] = 'Add new subdomain';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
+$wb['domain_txt'] = 'Subdoména';
+$wb['add_new_record_txt'] = 'Přidat novou poddoménu';
 ?>
-
 

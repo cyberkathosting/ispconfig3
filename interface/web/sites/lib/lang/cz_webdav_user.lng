@@ -1,8 +1,8 @@
 <?php
 $wb['dir_txt'] = 'Directory';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Username';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
+$wb['username_txt'] = 'Uživatelské jméno';
 $wb['password_txt'] = 'Heslo';
 $wb['password_strength_txt'] = 'Síla hesla';
 $wb['active_txt'] = 'Aktivní';
@@ -19,5 +19,4 @@ $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 ?>
-
 

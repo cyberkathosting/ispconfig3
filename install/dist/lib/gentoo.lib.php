@@ -97,7 +97,7 @@ class installer extends installer_base
 			'smtpd_tls_security_level = may',
 			'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',
 			'smtpd_tls_key_file = '.$config_dir.'/smtpd.key',
-			'transport_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
+			'transport_maps = hash:/var/lib/mailman/data/transport-mailman, proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
 			'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
 			'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps',
 			'smtpd_sender_restrictions = check_sender_access mysql:'.$config_dir.'/mysql-virtual_sender.cf',

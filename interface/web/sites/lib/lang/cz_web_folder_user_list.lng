@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Folder User';
+$wb['list_head_txt'] = 'Složka (adresář) uživatele';
 $wb['active_txt'] = 'Aktivní';
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
+$wb['web_folder_id_txt'] = 'Složka';
+$wb['username_txt'] = 'Uživatelské jméno';
 ?>
-
 

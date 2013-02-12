@@ -16,4 +16,3 @@ $wb['ipv4_form_txt'] = 'IPV4 formát, např. 1.2.3.4';
 $wb['secondary_zone_txt'] = 'Sekundární DNS zóna';
 ?>
 
-

@@ -42,4 +42,5 @@ $wb['globalsearch_noresults_text_txt'] = 'No results.';
 $wb['globalsearch_noresults_limit_txt'] = '0 results';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Search';
 $wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
+$wb['database_user_missing_txt'] = 'Please select a database user for this database.';
 ?>

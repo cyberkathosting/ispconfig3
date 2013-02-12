@@ -444,6 +444,7 @@ table.list {
 table.list thead th { font-size: 10px; }
 table.list tbody { border: 1px solid #d3d3d3 !important; }
 table.list tfoot td { text-align: center;  background: #f8f8f8 url("../images/lists_tfoot_bg.png") repeat-x bottom left;  padding: 24px 8px 8px 8px; }
+table.list .tbl_paging img { vertical-align: top; }
 table.list .tbl_row_even { background: #fcfcfc; }
 table.list .tbl_row_uneven { background: #f0f8ff; }
 table.list tr:hover { background: #fffacd; }
@@ -740,7 +741,27 @@ button.negative:hover {
 .iconstxt.icoRestore { background-position: 6px -1px; }
 
 /* Button with icon and without text */
-.icons16 span { display: none; }
+.icons16 { position: relative; }
+.icons16>span {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: opacity 1s linear;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -ms-transition: opacity 1s linear;
+    transition: opacity 1s linear;
+    position: absolute;
+    right: 23px;
+    top: -1px;
+    padding: 1px 2px;
+    border: 1px solid rgb(155,155,11);
+    background: rgb(255,255,111);
+    white-space: nowrap;
+}
+.icons16:hover>span {
+    opacity: 1.0;
+    visibility: visible;
+}
 a.icons16 {
     height: 18px;
     width: 18px;

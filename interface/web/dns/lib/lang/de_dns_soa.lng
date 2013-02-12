@@ -34,4 +34,5 @@ $wb['retry_range_error'] = 'Min. Refresh ist 60 Sekunden.';
 $wb['expire_range_error'] = 'Min. Expire ist 60 Sekunden.';
 $wb['minimum_range_error'] = 'Min. Minimum ist 60 Sekunden.';
 $wb['ttl_range_error'] = 'Min. TTL ist 60 Sekunden.';
+$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
 ?>

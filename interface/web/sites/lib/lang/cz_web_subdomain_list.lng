@@ -7,4 +7,3 @@ $wb['domain_txt'] = 'Subdoména';
 $wb['add_new_record_txt'] = 'Přidat subdoménu';
 ?>
 
-

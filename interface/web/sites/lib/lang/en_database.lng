@@ -24,6 +24,7 @@ $wb["database_user_error_unique"] = 'There is already a database user with this 
 $wb["database_user_error_regex"] = 'Invalid database user name. The username may contain these characters: a-z, A-Z, 0-9 and the underscore. Length: 2 - 64 characters.';
 $wb["limit_database_txt"] = 'The max. number of databases is reached.';
 $wb["database_name_change_txt"] = 'The database name can not be changed';
+$wb["database_user_missing_txt"] = 'Please select a database user for this database.';
 $wb["database_charset_change_txt"] = 'The database charset can not be changed';
 $wb["database_name_error_len"] = 'Database name - {db} - too long. The max. database name length incl. prefix is 64 chars.';
 $wb["database_user_error_len"] = 'Database username - {user} - too long. The max. database username length incl. prefix is 16 chars.';

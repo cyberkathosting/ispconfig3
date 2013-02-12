@@ -242,7 +242,7 @@
     }
     
     <tmpl_if name="readonly_tab">
-        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').click(function(e) { e.preventDefault(); }).focus(function() { $(this).blur(); });
+        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').bind('click mousedown', function(e) { e.preventDefault(); }).focus(function() { $(this).blur(); });
         jQuery('#dom-edit-submit').click(function() {
                submitForm('pageForm','sites/web_domain_edit.php');
         });

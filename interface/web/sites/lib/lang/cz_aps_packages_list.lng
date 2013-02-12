@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Available packages';
+$wb['list_head_txt'] = 'Dostupné balíčky';
 $wb['name_txt'] = 'Jméno';
-$wb['version_txt'] = 'Version';
-$wb['category_txt'] = 'Category';
-$wb['status_txt'] = 'Unlocked';
+$wb['version_txt'] = 'Verze';
+$wb['category_txt'] = 'Kategorie';
+$wb['status_txt'] = 'Odemčený';
 $wb['filter_txt'] = 'Hledat';
 ?>
-
 

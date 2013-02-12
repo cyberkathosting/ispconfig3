@@ -5,7 +5,6 @@ $wb['system_user_txt'] = 'Linuxový uživatel';
 $wb['used_txt'] = 'Využité místo';
 $wb['hard_txt'] = 'Tvrdý limit';
 $wb['soft_txt'] = 'Měkký limit';
-$wb['files_txt'] = 'Single files';
+$wb['files_txt'] = 'Jednotlivé soubory';
 ?>
-
 

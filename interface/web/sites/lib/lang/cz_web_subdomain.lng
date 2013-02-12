@@ -1,5 +1,5 @@
 <?php
-$wb['ssl_state_txt'] = 'Stav';
+$wb['ssl_state_txt'] = 'Stát';
 $wb['ssl_locality_txt'] = 'Lokalita';
 $wb['ssl_organisation_txt'] = 'Organizace';
 $wb['ssl_organisation_unit_txt'] = 'Organizační jednotka';
@@ -42,6 +42,6 @@ $wb['no_flag_txt'] = 'Žádný příznak';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
+$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
 ?>
-
 
