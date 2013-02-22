@@ -31,4 +31,3 @@ $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['username_error_collision'] = 'Uživatelské jméno nesmí být web nebo web a číslo.\\"';
 ?>
-

@@ -18,4 +18,5 @@ $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['listname_error_unique'] = 'Es beseht bereits eine Mailingliste mit diesem Namen auf dem Serverr. Bitte verwenden Sie einen anderen Mailinglistennamen.';
 $wb['email_error_isemail'] = 'Die E-Mail Adresse ist falsch.';
+$wb['mailinglist_txt'] = 'Mailingliste';
 ?>

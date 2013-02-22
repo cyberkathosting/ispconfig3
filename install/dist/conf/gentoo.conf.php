@@ -112,6 +112,7 @@ $conf['awstats']['buildstaticpages_pl'] = '/usr/bin/awstats_buildstaticpages.pl'
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php/cgi-php5';
 $conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
+$conf['fastcgi']['fastcgi_bin'] = '/usr/bin/php-cgi';
 
 //* Postfix
 $conf['postfix']['installed'] = false; // will be detected automatically during installation

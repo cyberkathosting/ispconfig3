@@ -7,4 +7,3 @@ $wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['add_new_record_txt'] = 'Přidat relay adresáta';
 $wb['access_txt'] = 'Přístup';
 ?>
-

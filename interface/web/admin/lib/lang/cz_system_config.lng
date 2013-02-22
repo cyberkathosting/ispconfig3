@@ -50,4 +50,3 @@ $wb['mailbox_show_autoresponder_tab_txt'] = 'Show Autoresponder tab in Mailbox d
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Show Mail Filter tab in Mailbox detail';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show Custom Rules tab in Mailbox detail';
 ?>
-

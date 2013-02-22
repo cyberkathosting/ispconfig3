@@ -268,6 +268,23 @@ class file{
        }
        return $passed;
     }
+	
+	function removeDirectory($dir){
+		//TODO: implement something to delete files/directories recursively that are owned by a certain user or group
+		if(is_dir($dir)){
+			$files = array_diff(scandir($dir), array('.','..'));
+			if(is_array($files) && !empty($files)){
+				foreach($files as $file){
+					if(is_dir($dir.'/'.$file)){
+						$this->removeDirectory($dir.'/'.$file);
+					} else {
+						@unlink($dir.'/'.$file);
+					}
+				}
+			}
+			@rmdir($dir);
+		}
+	}
 
 }
 ?>

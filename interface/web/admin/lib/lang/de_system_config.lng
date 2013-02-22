@@ -1,10 +1,10 @@
 <?php
 $wb['system_config_desc_txt'] = 'Systemkonfiguration';
 $wb['smtp_missing_admin_mail_txt'] = 'Bitte geben Sie die Administrator E-Mail und den Namen ein, wenn Sie SMTP Versand nutzen wollen.';
-$wb['warning'] = 'Bearbeiten Sie diese Werte sorgfältig! Entfernen Sie die Prefixe nicht auf Systemen mit mehr als einem Client.';
-$wb['tab_change_warning_txt'] = 'Tab Wechsel Warnung';
-$wb['tab_change_discard_txt'] = 'Verwerfe Änderungen bei Tab Wechsel';
-$wb['tab_change_warning_note_txt'] = 'Zeigt eine Warnung an, wenn der Tab in einem Formular gewechselt wird und Daten geändert wurden.';
+$wb['warning'] = 'Bearbeiten Sie diese Werte sorgfältig! Entfernen Sie die Präfixe nicht auf Systemen mit mehr als einem Kunden.';
+$wb['tab_change_warning_txt'] = 'Reiter Wechsel Warnung';
+$wb['tab_change_discard_txt'] = 'Verwerfe Änderungen bei Reiter Wechsel';
+$wb['tab_change_warning_note_txt'] = 'Zeigt eine Warnung an, wenn der Reiter in einem Formular gewechselt wird und Daten geändert wurden.';
 $wb['dbname_prefix_txt'] = 'Datenbank Namen Präfix';
 $wb['dbuser_prefix_txt'] = 'Datenbank Benutzer Präfix';
 $wb['shelluser_prefix_txt'] = 'Shell Benutzer Präfix';
@@ -35,15 +35,18 @@ $wb['admin_mail_txt'] = 'Administrator E-Mail';
 $wb['monitor_key_txt'] = 'ISPConfig Monitor App Passwort';
 $wb['admin_name_txt'] = 'Name des Administrators';
 $wb['maintenance_mode_txt'] = 'Wartungsmodus';
-$wb['smtp_enabled_txt'] = 'SMTP zum System Mailversand nutzen';
+$wb['smtp_enabled_txt'] = 'SMTP zum System E-Mailversand nutzen';
 $wb['smtp_host_txt'] = 'SMTP Server';
 $wb['smtp_port_txt'] = 'SMTP Port';
 $wb['smtp_user_txt'] = 'SMTP Benutzer';
 $wb['smtp_pass_txt'] = 'SMTP Passwort';
 $wb['smtp_crypt_txt'] = 'SSL/TLS verschlüsselte Verbindung für SMTP';
 $wb['use_combobox_txt'] = 'jQuery UI Combobox benutzen';
-$wb['use_loadindicator_txt'] = 'Laden-Grafik anzeigen';
-$wb['f5_to_reload_js_txt'] = 'Wenn Sie den Wert ändern, müssen Sie F5 drücken, damit der Browser die JavaScript-Libraries neu lädt, oder Ihren Browser-Cache leeren.';
+$wb['use_loadindicator_txt'] = 'Laden Grafik anzeigen';
+$wb['f5_to_reload_js_txt'] = 'Wenn Sie den Wert ändern, müssen Sie F5 drücken, damit der Browser die JavaScript Bibliotheken neu lädt, oder Ihren Browser Cache leeren.';
 $wb['phpmyadmin_url_error_regex'] = 'Falsche phpMyAdmin URL';
-$wb['client_username_web_check_disabled_txt'] = 'Deaktiviere die Kunden Benutzername Überprüfung für den Begriff <b>web<b>.';
+$wb['client_username_web_check_disabled_txt'] = 'Deaktiviere die Kunden Benutzernamen Überprüfung für den Begriff <b>web<b>.';
+$wb['mailbox_show_autoresponder_tab_txt'] = 'Zeige Autoresponder Reiter in E-Mail Kontodetails';
+$wb['mailbox_show_mail_filter_tab_txt'] = 'Zeige E-Mail Filter Reiter in E-Mail Kontodetails';
+$wb['mailbox_show_custom_rules_tab_txt'] = 'Zeige Benutzerregel Reiter in E-Mail Kontodetails';
 ?>

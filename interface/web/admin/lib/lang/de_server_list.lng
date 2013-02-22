@@ -1,13 +1,13 @@
 <?php
 $wb['list_head_txt'] = 'Server';
-$wb['server_name_txt'] = 'Name';
-$wb['mail_server_txt'] = 'Mail';
-$wb['web_server_txt'] = 'Web';
-$wb['dns_server_txt'] = 'DNS';
-$wb['file_server_txt'] = 'Datei';
-$wb['db_server_txt'] = 'DB';
-$wb['vserver_server_txt'] = 'VServer';
+$wb['server_name_txt'] = 'Servername';
+$wb['mail_server_txt'] = 'E-Mailserver';
+$wb['web_server_txt'] = 'Webserver';
+$wb['dns_server_txt'] = 'DNSserver';
+$wb['file_server_txt'] = 'Dateiserver';
+$wb['db_server_txt'] = 'Datenbankserver';
+$wb['vserver_server_txt'] = 'vServer';
 $wb['add_new_record_txt'] = 'Neuen Server hinzufügen';
-$wb['proxy_server_txt'] = 'Proxy';
-$wb['firewall_server_txt'] = 'Firewall';
+$wb['proxy_server_txt'] = 'Proxyserver';
+$wb['firewall_server_txt'] = 'Firewallserver';
 ?>

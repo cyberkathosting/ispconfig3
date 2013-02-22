@@ -266,6 +266,13 @@
                     </select>
                 </div>
             </div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='aps_limits_txt'}<em></em></div>
+            <div style="display:none;">
+                <div class="ctrlHolder">
+                    <label for="limit_aps">{tmpl_var name='limit_aps_txt'}</label>
+                    <input name="limit_aps" id="limit_aps" value="{tmpl_var name='limit_aps'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+                </div>
+            </div>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

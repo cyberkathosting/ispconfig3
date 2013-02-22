@@ -8,4 +8,3 @@ $wb['toolsarea_head_txt'] = 'Balíčky';
 $wb['repoupdate_txt'] = 'Aktualizace seznamu balíků';
 $wb['package_id_txt'] = 'místní App-ID';
 ?>
-

@@ -141,4 +141,3 @@ $wb['paypal_email_error_isemail'] = 'Zadejte prosím platnou PayPal e-mail addre
 $wb['paypal_email_txt'] = 'PayPal e-mail';
 $wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \\"custom\\" is selected.';
 ?>
-

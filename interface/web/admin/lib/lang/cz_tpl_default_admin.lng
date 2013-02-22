@@ -16,4 +16,3 @@ $wb['php_fpm_init_script_txt'] = 'Cesta k PHP-FPM init script';
 $wb['php_fpm_ini_dir_txt'] = 'Cesta k php.ini adresáři';
 $wb['php_fpm_pool_dir_txt'] = 'Cesta k PHP-FPM pool adresáři';
 ?>
-

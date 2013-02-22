@@ -1,10 +1,10 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'DNS Zone';
-$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
-$wb['ns_txt'] = 'NS (IP-Adresse)';
+$wb['secondary_zone_txt'] = 'Zweiter DNS Zone';
+$wb['ns_txt'] = 'NS (IP Adresse)';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_dns_slave_zone_txt'] = 'Die maximale Anzahl an Secondary DNS Zonen für Ihr Konto wurde erreicht.';
+$wb['limit_dns_slave_zone_txt'] = 'Die maximale Anzahl an Zweiter DNS Zonen für Ihr Konto wurde erreicht.';
 $wb['client_txt'] = 'Kunde';
 $wb['xfer_txt'] = 'Zonentransfer zu diesen IP Adressen erlauben (mit Komma getrennte Liste)';
 $wb['server_id_error_empty'] = 'Kein Server ausgewählt';

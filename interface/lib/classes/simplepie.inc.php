@@ -9304,7 +9304,7 @@ class SimplePie_Misc
 		die('Cached file for ' . $identifier_url . ' cannot be found.');
 	}
 
-	function fix_protocol($url, $http = 1)
+	public static function fix_protocol($url, $http = 1)
 	{
 		$url = SimplePie_Misc::normalize_url($url);
 		$parsed = SimplePie_Misc::parse_url($url);
@@ -9336,7 +9336,7 @@ class SimplePie_Misc
 		}
 	}
 
-	function parse_url($url)
+	public static function parse_url($url)
 	{
 		$iri = new SimplePie_IRI($url);
 		return array(
@@ -9359,7 +9359,7 @@ class SimplePie_Misc
 		return $iri->get_iri();
 	}
 
-	function normalize_url($url)
+	public static function normalize_url($url)
 	{
 		$iri = new SimplePie_IRI($url);
 		return $iri->get_iri();
@@ -9428,7 +9428,7 @@ class SimplePie_Misc
 		return strtr($string, $convert_table);
 	}
 
-	function change_encoding($data, $input, $output)
+	public static function change_encoding($data, $input, $output)
 	{
 		$input = SimplePie_Misc::encoding($input);
 		$output = SimplePie_Misc::encoding($output);
@@ -9469,7 +9469,7 @@ class SimplePie_Misc
 		}
 	}
 
-	function encoding($charset)
+	public static function encoding($charset)
 	{
 		// Normalization from UTS #22
 		switch (strtolower(preg_replace('/(?:[^a-zA-Z0-9]+|([^0-9])0+)/', '\1', $charset)))
@@ -10785,7 +10785,7 @@ class SimplePie_Misc
 		}
 	}
 
-	function get_curl_version()
+	public static function get_curl_version()
 	{
 		if (is_array($curl = curl_version()))
 		{
@@ -11245,7 +11245,7 @@ class SimplePie_Misc
 	 * @param string $data XML data
 	 * @return array Possible encodings
 	 */
-	function xml_encoding($data)
+	public static function xml_encoding($data)
 	{
 		// UTF-32 Big Endian BOM
 		if (substr($data, 0, 4) === "\x00\x00\xFE\xFF")

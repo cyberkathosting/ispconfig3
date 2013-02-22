@@ -14,4 +14,3 @@ $wb['data_error_empty'] = 'Cílový hostname je prázdný';
 $wb['data_error_regex'] = 'Cílový hostname má chybný formát';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 ?>
-

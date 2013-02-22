@@ -832,7 +832,7 @@ class page_action extends tform_actions {
 
 		}
 
-		//* If the domain name has been changed, we will have to change all subdomains
+		//* If the domain name has been changed, we will have to change all subdomains + APS instances
 		if(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
 			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE (type = 'subdomain' OR type = 'vhostsubdomain') AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
 			foreach($records as $rec) {
@@ -842,6 +842,18 @@ class page_action extends tform_actions {
 			unset($records);
 			unset($rec);
 			unset($subdomain);
+			
+			// Update APS instances
+			$records = $app->db->queryAllRecords("SELECT id, instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = '".$this->oldDataRecord["domain"]."'");
+			if(is_array($records) && !empty($records)){
+				foreach($records as $rec){
+					$app->db->datalogUpdate('aps_instances_settings', "value = '".$this->dataRecord["domain"]."'", 'id', $rec['id']);
+					// Reinstall of package needed?
+					//$app->db->datalogUpdate('aps_instances', "instance_status = '1'", 'id', $rec['instance_id']);
+				}
+			}
+			unset($records);
+			unset($rec);
 		}
 
 		//* Set allow_override if empty

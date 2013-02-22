@@ -202,7 +202,7 @@ class firewall_plugin {
 				$app->log('Reloading the firewall',LOGLEVEL_DEBUG);
 			} else {
 				//* Ensure that bastille firewall is stopped
-				exec($conf['init_scripts'] . '/' . 'bastille-firewall stop');
+				exec($conf['init_scripts'] . '/' . 'bastille-firewall stop 2>/dev/null');
 				if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 			
 				//* Start ufw firewall
@@ -255,11 +255,11 @@ class firewall_plugin {
 			if($app->system->is_installed('ufw')) {
 				exec('ufw disable');
 			}
-			exec($conf['init_scripts'] . '/' . 'bastille-firewall restart');
+			exec($conf['init_scripts'] . '/' . 'bastille-firewall restart 2>/dev/null');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d bastille-firewall defaults');
 			$app->log('Restarting the firewall',LOGLEVEL_DEBUG);
 		} else {
-			exec($conf['init_scripts'] . '/' . 'bastille-firewall stop');
+			exec($conf['init_scripts'] . '/' . 'bastille-firewall stop 2>/dev/null');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 			$app->log('Stopping the firewall',LOGLEVEL_DEBUG);
 		}
@@ -270,7 +270,7 @@ class firewall_plugin {
 	private function bastille_delete($event_name,$data) {
 		global $app, $conf;
 		
-		exec($conf['init_scripts'] . '/' . 'bastille-firewall stop');
+		exec($conf['init_scripts'] . '/' . 'bastille-firewall stop 2>/dev/null');
 		if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
 		$app->log('Stopping the firewall',LOGLEVEL_DEBUG);
 		

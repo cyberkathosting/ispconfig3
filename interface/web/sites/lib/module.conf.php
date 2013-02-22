@@ -132,6 +132,8 @@ $module["nav"][] = array(   'title' => 'Command Line',
 }
 
 // APS menu
+if($app->auth->get_client_limit($userid,'aps') != 0)
+{
 $items = array();
 
 $items[] = array(   'title'   => 'Available packages',
@@ -150,14 +152,14 @@ if($_SESSION['s']['user']['typ'] == 'admin')
 {
 $items[] = array(   'title'   => 'Update Packagelist',
                     'target'  => 'content',
-                    'link'    => 'sites/aps_cron_apscrawler_if.php',
+                    'link'    => 'sites/aps_update_packagelist.php',
                     'html_id' => 'aps_packagedetails_show');
 }
 
 $module['nav'][] = array(   'title' => 'APS Installer',
                             'open'  => 1,
                             'items' => $items);
-
+}
 
 // Statistics menu
 $items = array();

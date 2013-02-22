@@ -1,9 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Kundenkreise';
-$wb['circle_id_txt'] = 'Kreis ID';
-$wb['circle_name_txt'] = 'Kreisname';
+$wb['circle_id_txt'] = 'Kundenkreis ID';
+$wb['circle_name_txt'] = 'Kundenkreisname';
 $wb['description_txt'] = 'Beschreibung';
-$wb['add_new_record_txt'] = 'Kreis hinzufügen';
+$wb['add_new_record_txt'] = 'Kundenkreis hinzufügen';
 $wb['filter_txt'] = 'Filter';
 $wb['delete_txt'] = 'Löschen';
 $wb['active_txt'] = 'Aktiv';

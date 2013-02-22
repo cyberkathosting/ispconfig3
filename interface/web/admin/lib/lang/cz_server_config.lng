@@ -170,13 +170,4 @@ $wb['enable_ip_wildcard_txt'] = 'Aktivovat IP wildcard (*)';
 $wb['web_folder_protection_txt'] = 'Make web folders immutable (extended attributes)';
 $wb['overtraffic_notify_admin_txt'] = 'Při překročení limitu přenesených dat, poslat oznámení adminovi';
 $wb['overtraffic_notify_client_txt'] = 'Při překročení limitu přenesených dat, poslat oznámení klientovi';
-$wb['v6_prefix_txt'] = 'IPv6 Prefix';
-$wb['vhost_rewrite_v6_txt'] = 'Rewrite IPv6 on Mirror';
-$wb['v6_prefix_wrong'] = 'Invalid v6 Netmask format.';
-$wb['php_ini_check_minutes_txt'] = 'Check system php.ini files for changes each';
-$wb['php_ini_check_minutes_info_txt'] = 'minutes (0 disables checking)';
-$wb['php_ini_check_minutes_error_empty'] = 'Invalid value for php.ini checking.';
-$wb['sendmail_path_txt'] = 'Sendmail Path';
-$wb['sendmail_path_error_empty'] = 'Sendmail Path is empty.';
 ?>
-

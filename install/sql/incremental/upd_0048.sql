@@ -1,0 +1,1 @@
+ALTER TABLE `client` CHANGE `limit_aps` `limit_aps` INT( 11 ) NOT NULL DEFAULT '-1';

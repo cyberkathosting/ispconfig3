@@ -30,6 +30,79 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class installer extends installer_dist {
 
+	public function configure_mailman($status = 'insert') {
+		global $conf;
+
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'mm_cfg.py';
+		//* Backup exiting file
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'mm_cfg.py~');
+		}
+
+		// load files
+		$content = rf('tpl/mm_cfg.py.master');
+		$old_file = rf($full_file_name);
+
+		$old_options = array();
+		$lines = explode("\n", $old_file);
+		foreach ($lines as $line)
+		{
+			if (trim($line) != '' && substr($line, 0, 1) != '#')
+			{
+				@list($key, $value) = @explode("=", $line);
+				if (!empty($value))
+				{
+					$key = rtrim($key);
+					$old_options[$key] = trim($value);
+				}
+			}
+		}
+		
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'virtual_to_transport.sh';
+		
+		//* Backup exiting virtual_to_transport.sh script
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
+		}
+		
+		copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+		chgrp($full_file_name,'mailman');
+		chmod($full_file_name,0750);
+		
+		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
+		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
+		
+		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+
+		$virtual_domains = '';
+		if($status == 'update')
+		{
+			// create virtual_domains list
+			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
+
+			if(is_array($domainAll)) {
+			foreach($domainAll as $domain)
+			{
+				if ($domainAll[0]['domain'] == $domain['domain'])
+					$virtual_domains .= "'".$domain['domain']."'";
+				else
+					$virtual_domains .= ", '".$domain['domain']."'";
+			}
+			}
+		}
+		else
+			$virtual_domains = "' '";
+
+		$content = str_replace('{hostname}', $conf['hostname'], $content);
+		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = '';
+		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
+		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
+
+		wf($full_file_name, $content);
+	}
+
 	public function configure_amavis() {
 		global $conf;
 		

@@ -247,6 +247,7 @@ function updateDbAndIni() {
 	$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
 	$tpl_ini_array['fastcgi']['fastcgi_phpini_path'] = $conf['fastcgi']['fastcgi_phpini_path'];
 	$tpl_ini_array['fastcgi']['fastcgi_starter_path'] = $conf['fastcgi']['fastcgi_starter_path'];
+	$tpl_ini_array['fastcgi']['fastcgi_bin'] = $conf['fastcgi']['fastcgi_bin'];
 	$tpl_ini_array['server']['hostname'] = $conf['hostname'];
 	$tpl_ini_array['server']['ip_address'] = @gethostbyname($conf['hostname']);
 	$tpl_ini_array['web']['website_basedir'] = $conf['web']['website_basedir'];

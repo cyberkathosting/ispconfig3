@@ -85,4 +85,3 @@ $wb['cron_job_limits_txt'] = 'Cron pracovní limity';
 $wb['dns_limits_txt'] = 'DNS limity';
 $wb['virtualization_limits_txt'] = 'Virtualizace limity';
 ?>
-

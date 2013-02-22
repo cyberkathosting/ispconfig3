@@ -47,6 +47,28 @@
                 tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled>';
                 tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
                 tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
+				
+				// Store password in browser; works in Firefox, but not Chrome
+				$('#username').live("blur", function(){
+					if($('#dummy_username').val() == '' || $('#dummy_username').val() != $(this).val()){
+						$('#dummy_login').show();
+						$('#dummy_username').attr('value', $(this).val()).trigger('focus').trigger('blur');
+						$('#dummy_login').hide();
+					}
+					if($('#dummy_username').val() == $(this).val() && $(this).val() != ''){
+						$('#passwort').val($('#dummy_passwort').val());
+					} else {
+						$('#passwort').val('');
+					}
+					$('#passwort').focus();
+				});
+				
+				$('#username').live("keyup", function(){
+					$('#dummy_username').val('');
+					$('#dummy_passwort').val('');
+					$('#passwort').val('');
+				});
+				
             });
             
             
@@ -147,5 +169,14 @@
                 Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
             </footer><!-- end: footer -->
         </div>
+		
+<div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
+<form action="" method="post" target="dummy_login" id="dummy_login_form">
+<input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
+<input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
+<input type="submit" value="Login" id="dummy_submit"/>
+</form>
+<iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
+</div>
     </body>
 </html>

@@ -1537,6 +1537,12 @@ class system{
             return intval($string);
         }
     }
+	
+	function is_mounted($mountpoint){
+		$cmd = 'df 2>/dev/null | grep " '.$mountpoint.'$"';
+		exec($cmd, $output, $return_var);
+		return $return_var == 0 ? true : false; 
+	}
 
 }
 ?>

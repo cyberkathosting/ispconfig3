@@ -18,4 +18,5 @@ $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['listname_error_unique'] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
 $wb['email_error_isemail'] = 'Email address is invalid.';
+$wb['mailinglist_txt'] = 'Mailing list';
 ?>

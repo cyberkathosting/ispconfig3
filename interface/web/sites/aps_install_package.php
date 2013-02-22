@@ -37,7 +37,7 @@ $app->load('aps_guicontroller');
 $app->auth->check_module_permissions('sites');
 
 // Load needed classes
-$app->uses('tpl');
+$app->uses('tpl,tform');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl', 'templates/aps_install_package.htm');
 
@@ -46,6 +46,19 @@ $lngfile = 'lib/lang/'.$_SESSION['s']['language'].'_aps.lng';
 require_once($lngfile);
 $app->tpl->setVar($wb);
 $app->load_language_file('web/sites/'.$lngfile);
+
+// we will check only users, not admins
+if($_SESSION["s"]["user"]["typ"] == 'user') {		
+	$app->tform->formDef['db_table_idx'] = 'client_id';
+	$app->tform->formDef['db_table'] = 'client';
+	if(!$app->tform->checkClientLimit('limit_aps')) {
+		$app->error($app->lng("limit_aps_txt"));
+	}
+	if(!$app->tform->checkResellerLimit('limit_aps')) {
+		$app->error('Reseller: '.$wb["limit_aps_txt"]);
+	}		
+}
+
 
 $adminflag = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
 $gui = new ApsGUIController($app);
@@ -74,7 +87,7 @@ $domains = array();
 $domain_for_user = '';
 if(!$adminflag) $domain_for_user = "AND (sys_userid = '".$app->db->quote($_SESSION['s']['user']['userid'])."' 
     OR sys_groupid = '".$app->db->quote($_SESSION['s']['user']['userid'])."' )";
-$domains_assoc = $app->db->queryAllRecords("SELECT domain FROM web_domain WHERE document_root != '' ".$domain_for_user." ORDER BY domain;");
+$domains_assoc = $app->db->queryAllRecords("SELECT domain FROM web_domain WHERE document_root != '' AND (type = 'vhost' OR type = 'vhostsubdomain') AND active = 'y' ".$domain_for_user." ORDER BY domain;");
 if(!empty($domains_assoc)) foreach($domains_assoc as $domain) $domains[] = $domain['domain'];
 
 // If data has been submitted, validate it

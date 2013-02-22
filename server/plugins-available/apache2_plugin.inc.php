@@ -429,7 +429,7 @@ class apache2_plugin {
 		}
 
 		if($data['new']['document_root'] == '') {
-			$app->log('document_root not set',LOGLEVEL_WARN);
+			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') $app->log('document_root not set',LOGLEVEL_WARN);
 			return 0;
 		}
 		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
@@ -551,10 +551,10 @@ class apache2_plugin {
                 exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
 
                 //* Change the home directory and group of the website user
-                $command = 'usermod';
+                $command = 'killall -u '.escapeshellcmd($data['new']['system_user']).' && usermod';
                 $command .= ' --home '.escapeshellcmd($data['new']['document_root']);
                 $command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
-                $command .= ' '.escapeshellcmd($data['new']['system_user']);
+                $command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
                 exec($command);
             }
             
@@ -790,7 +790,7 @@ class apache2_plugin {
 				if($web_config['add_web_users_to_sshusers_group'] == 'y') {
 					$command = 'usermod';
 					$command .= ' --groups sshusers';
-					$command .= ' '.escapeshellcmd($data['new']['system_user']);
+					$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
 					$this->_exec($command);
 				}
 
@@ -1179,10 +1179,6 @@ class apache2_plugin {
 		} else {
 			$tpl->setVar('rewrite_enabled',0);
 		}
-		
-		if(count($alias_seo_redirects) > 0) {
-			$tpl->setLoop('alias_seo_redirects',$alias_seo_redirects);
-		}
 
 		//$tpl->setLoop('redirects',$rewrite_rules);
 
@@ -1395,12 +1391,12 @@ class apache2_plugin {
 		//* create empty vhost array
 		$vhosts = array();
 		
-		//* Add vhost for ipv4 IP	
-		if(count($rewrite_rules) > 0){
-			$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80, 'redirects' => $rewrite_rules);
-		} else {
-			$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80);
-		}
+		//* Add vhost for ipv4 IP
+		$tmp_vhost_arr = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80);
+		if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
+		if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
+		$vhosts[] = $tmp_vhost_arr;
+		unset($tmp_vhost_arr);
 		
 		//* Add vhost for ipv4 IP with SSL
 		$ssl_dir = $data['new']['document_root'].'/ssl';
@@ -1409,11 +1405,11 @@ class apache2_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		
 		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
-			if(count($rewrite_rules) > 0){
-				$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443', 'redirects' => $rewrite_rules);
-			} else {
-				$vhosts[] = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443');
-			}
+			$tmp_vhost_arr = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443');
+			if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
+			if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
+			$vhosts[] = $tmp_vhost_arr;
+			unset($tmp_vhost_arr);
 			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
 		}
 		
@@ -1430,20 +1426,20 @@ class apache2_plugin {
 				$data['new']['ipv6_address'] = implode(':',$explode_v6);
 			}
 		}
-			if(count($rewrite_rules) > 0){
-				$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80, 'redirects' => $rewrite_rules);
-			} else {
-				$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80);
-			}
+			
+			$tmp_vhost_arr = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80);
+			if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
+			if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
+			$vhosts[] = $tmp_vhost_arr;
+			unset($tmp_vhost_arr);
 		
 			//* Add vhost for ipv6 IP with SSL
 			if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
-				
-				if(count($rewrite_rules) > 0){
-					$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443', 'redirects' => $rewrite_rules);
-				} else {
-					$vhosts[] = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443');
-				}
+				$tmp_vhost_arr = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443');
+				if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
+				if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
+				$vhosts[] = $tmp_vhost_arr;
+				unset($tmp_vhost_arr);
 				$app->log('Enable SSL for IPv6: '.$domain,LOGLEVEL_DEBUG);
 			}
 		}
@@ -1646,7 +1642,7 @@ class apache2_plugin {
 		$app->uses('system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		
-		$app->system->web_folder_protection($data['old']['document_root'],false);
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') $app->system->web_folder_protection($data['old']['document_root'],false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
@@ -1660,18 +1656,71 @@ class apache2_plugin {
         $web_folder = '';
         if($data['old']['type'] == 'vhostsubdomain') {
             $tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
-            $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
-            if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
-            $web_folder = $data['old']['web_folder'];
-            $log_folder .= '/' . $subdomain_host;
+			if($tmp['domain'] != ''){
+				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
+			} else {
+				// get log folder from /etc/fstab
+				/*
+				$bind_mounts = $app->system->file_get_contents('/etc/fstab');
+				$bind_mount_lines = explode("\n", $bind_mounts);
+				if(is_array($bind_mount_lines) && !empty($bind_mount_lines)){
+					foreach($bind_mount_lines as $bind_mount_line){
+						$bind_mount_line = preg_replace('/\s+/', ' ', $bind_mount_line);
+						$bind_mount_parts = explode(' ', $bind_mount_line);
+						if(is_array($bind_mount_parts) && !empty($bind_mount_parts)){
+							if($bind_mount_parts[0] == '/var/log/ispconfig/httpd/'.$data['old']['domain'] && $bind_mount_parts[2] == 'none' && strpos($bind_mount_parts[3], 'bind') !== false){
+								$subdomain_host = str_replace($data['old']['document_root'].'/log/', '', $bind_mount_parts[1]);
+							}
+						}
+					}
+				}
+				*/
+				// we are deleting the parent domain, so we can delete everything in the log directory
+				$subdomain_hosts = array();
+				$files = array_diff(scandir($data['old']['document_root'].'/'.$log_folder), array('.','..'));
+				if(is_array($files) && !empty($files)){
+					foreach($files as $file){
+						if(is_dir($data['old']['document_root'].'/'.$log_folder.'/'.$file)){
+							$subdomain_hosts[] = $file;
+						}
+					}
+				}
+			}
+            if(is_array($subdomain_hosts) && !empty($subdomain_hosts)){
+				$log_folders = array();
+				foreach($subdomain_hosts as $subdomain_host){
+					$log_folders[] = $log_folder.'/'.$subdomain_host;
+				}
+			} else {
+				if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
+				$log_folder .= '/' . $subdomain_host;
+			}
+			$web_folder = $data['old']['web_folder'];
             unset($tmp);
+			unset($subdomain_hosts);
 		}
         
-		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain'){
+			if(is_array($log_folders) && !empty($log_folders)){
+				foreach($log_folders as $log_folder){
+					if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+				}
+			} else {
+				if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+			}
+		}
 		
 		//* remove mountpoint from fstab
-		$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
-		$app->system->removeLine('/etc/fstab',$fstab_line);
+		if(is_array($log_folders) && !empty($log_folders)){
+			foreach($log_folders as $log_folder){
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+				$app->system->removeLine('/etc/fstab',$fstab_line);
+			}
+		} else {
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$app->system->removeLine('/etc/fstab',$fstab_line);
+		}
+		unset($log_folders);
 
 		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
@@ -1837,8 +1886,8 @@ class apache2_plugin {
             
             if($data['old']['type'] == 'vhost') {
                 //delete the web user
-                $command = 'userdel';
-                $command .= ' '.$data['old']['system_user'];
+                $command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' && userdel';
+                $command .= ' '.escapeshellcmd($data['old']['system_user']);
                 exec($command);
                 if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
                 

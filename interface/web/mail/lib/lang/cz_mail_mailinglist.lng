@@ -18,5 +18,5 @@ $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['listname_error_unique'] = 'Na serveru je již shodný \\"název seznamu\\". Prosím, vyberte si jiný \\"název seznamu\\".';
 $wb['email_error_isemail'] = 'E-mailová adresa je neplatná.';
+$wb['mailinglist_txt'] = 'Mailing list';
 ?>
-

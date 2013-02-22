@@ -347,7 +347,7 @@ class nginx_plugin {
 		}
 
 		if($data['new']['document_root'] == '') {
-			$app->log('document_root not set',LOGLEVEL_WARN);
+			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') $app->log('document_root not set',LOGLEVEL_WARN);
 			return 0;
 		}
 		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
@@ -435,41 +435,43 @@ class nginx_plugin {
 				}
 			}
 
-			//* Move the site data
-			$tmp_docroot = explode('/',$data['new']['document_root']);
-			unset($tmp_docroot[count($tmp_docroot)-1]);
-			$new_dir = implode('/',$tmp_docroot);
+			if($data["new"]["type"] != "vhostsubdomain") {
+				//* Move the site data
+				$tmp_docroot = explode('/',$data['new']['document_root']);
+				unset($tmp_docroot[count($tmp_docroot)-1]);
+				$new_dir = implode('/',$tmp_docroot);
 
-			$tmp_docroot = explode('/',$data['old']['document_root']);
-			unset($tmp_docroot[count($tmp_docroot)-1]);
-			$old_dir = implode('/',$tmp_docroot);
+				$tmp_docroot = explode('/',$data['old']['document_root']);
+				unset($tmp_docroot[count($tmp_docroot)-1]);
+				$old_dir = implode('/',$tmp_docroot);
 
-			//* Check if there is already some data in the new docroot and rename it as we need a clean path to move the existing site to the new path
-			if(@is_dir($data['new']['document_root'])) {
-				$app->system->web_folder_protection($data['new']['document_root'],false);
-				$app->system->rename($data['new']['document_root'],$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
-				$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'),LOGLEVEL_DEBUG);
-			}
+				//* Check if there is already some data in the new docroot and rename it as we need a clean path to move the existing site to the new path
+				if(@is_dir($data['new']['document_root'])) {
+					$app->system->web_folder_protection($data['new']['document_root'],false);
+					$app->system->rename($data['new']['document_root'],$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
+					$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'),LOGLEVEL_DEBUG);
+				}
 			
-			//* Create new base directory, if it does not exist yet
-			if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
-			$app->system->web_folder_protection($data['old']['document_root'],false);
-			exec('mv '.escapeshellarg($data['old']['document_root']).' '.escapeshellarg($new_dir));
-			//$app->system->rename($data['old']['document_root'],$new_dir);
-			$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);
+				//* Create new base directory, if it does not exist yet
+				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
+				$app->system->web_folder_protection($data['old']['document_root'],false);
+				exec('mv '.escapeshellarg($data['old']['document_root']).' '.escapeshellarg($new_dir));
+				//$app->system->rename($data['old']['document_root'],$new_dir);
+				$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir,LOGLEVEL_DEBUG);
 
-			// Handle the change in php_open_basedir
-			$data['new']['php_open_basedir'] = str_replace($data['old']['document_root'],$data['new']['document_root'],$data['old']['php_open_basedir']);
+				// Handle the change in php_open_basedir
+				$data['new']['php_open_basedir'] = str_replace($data['old']['document_root'],$data['new']['document_root'],$data['old']['php_open_basedir']);
 
-			//* Change the owner of the website files to the new website owner
-			exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
+				//* Change the owner of the website files to the new website owner
+				exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
 
-			//* Change the home directory and group of the website user
-			$command = 'usermod';
-			$command .= ' --home '.escapeshellcmd($data['new']['document_root']);
-			$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
-			$command .= ' '.escapeshellcmd($data['new']['system_user']);
-			exec($command);
+				//* Change the home directory and group of the website user
+				$command = 'killall -u '.escapeshellcmd($data['new']['system_user']).' && usermod';
+				$command .= ' --home '.escapeshellcmd($data['new']['document_root']);
+				$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
+				$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
+				exec($command);
+			}
 
 			if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 			
@@ -703,7 +705,7 @@ class nginx_plugin {
 				if($web_config['add_web_users_to_sshusers_group'] == 'y') {
 					$command = 'usermod';
 					$command .= ' --groups sshusers';
-					$command .= ' '.escapeshellcmd($data['new']['system_user']);
+					$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
 					$this->_exec($command);
 				}
 
@@ -1621,7 +1623,7 @@ class nginx_plugin {
 		$app->uses('system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		
-		$app->system->web_folder_protection($data['old']['document_root'],false);
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') $app->system->web_folder_protection($data['old']['document_root'],false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
@@ -1635,18 +1637,71 @@ class nginx_plugin {
         $web_folder = '';
         if($data['old']['type'] == 'vhostsubdomain') {
             $tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
-            $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
-            if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
-            $web_folder = $data['old']['web_folder'];
-            $log_folder .= '/' . $subdomain_host;
+			if($tmp['domain'] != ''){
+				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
+			} else {
+				// get log folder from /etc/fstab
+				/*
+				$bind_mounts = $app->system->file_get_contents('/etc/fstab');
+				$bind_mount_lines = explode("\n", $bind_mounts);
+				if(is_array($bind_mount_lines) && !empty($bind_mount_lines)){
+					foreach($bind_mount_lines as $bind_mount_line){
+						$bind_mount_line = preg_replace('/\s+/', ' ', $bind_mount_line);
+						$bind_mount_parts = explode(' ', $bind_mount_line);
+						if(is_array($bind_mount_parts) && !empty($bind_mount_parts)){
+							if($bind_mount_parts[0] == '/var/log/ispconfig/httpd/'.$data['old']['domain'] && $bind_mount_parts[2] == 'none' && strpos($bind_mount_parts[3], 'bind') !== false){
+								$subdomain_host = str_replace($data['old']['document_root'].'/log/', '', $bind_mount_parts[1]);
+							}
+						}
+					}
+				}
+				*/
+				// we are deleting the parent domain, so we can delete everything in the log directory
+				$subdomain_hosts = array();
+				$files = array_diff(scandir($data['old']['document_root'].'/'.$log_folder), array('.','..'));
+				if(is_array($files) && !empty($files)){
+					foreach($files as $file){
+						if(is_dir($data['old']['document_root'].'/'.$log_folder.'/'.$file)){
+							$subdomain_hosts[] = $file;
+						}
+					}
+				}
+			}
+			if(is_array($subdomain_hosts) && !empty($subdomain_hosts)){
+				$log_folders = array();
+				foreach($subdomain_hosts as $subdomain_host){
+					$log_folders[] = $log_folder.'/'.$subdomain_host;
+				}
+			} else {
+				if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
+				$log_folder .= '/' . $subdomain_host;
+			}
+			$web_folder = $data['old']['web_folder'];
             unset($tmp);
+			unset($subdomain_hosts);
 		}
         
-		exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain'){
+			if(is_array($log_folders) && !empty($log_folders)){
+				foreach($log_folders as $log_folder){
+					if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+				}
+			} else {
+				if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+			}
+		}
 		
 		//* remove mountpoint from fstab
-		$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
-		$app->system->removeLine('/etc/fstab',$fstab_line);
+		if(is_array($log_folders) && !empty($log_folders)){
+			foreach($log_folders as $log_folder){
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+				$app->system->removeLine('/etc/fstab',$fstab_line);
+			}
+		} else {
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$app->system->removeLine('/etc/fstab',$fstab_line);
+		}
+		unset($log_folders);
 
 		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
@@ -1815,8 +1870,8 @@ class nginx_plugin {
             
             if($data['old']['type'] == 'vhost') {
                 //delete the web user
-                $command = 'userdel';
-                $command .= ' '.$data['old']['system_user'];
+                $command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' && userdel';
+                $command .= ' '.escapeshellcmd($data['old']['system_user']);
                 exec($command);
                 if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
                 
@@ -2326,6 +2381,15 @@ class nginx_plugin {
 		}
 	}
 	
+	private function nginx_replace($matches){
+		$location = 'location'.($matches[1] != '' ? ' '.$matches[1] : '').' '.$matches[2].' '.$matches[3];
+		if($matches[4] == '##merge##' || $matches[7] == '##merge##') $location .= ' ##merge##';
+		$location .= "\n";
+		$location .= $matches[5]."\n";
+		$location .= $matches[6];
+		return $location;
+	}
+	
 	private function nginx_merge_locations($vhost_conf){
 
 		$lines = explode("\n", $vhost_conf);
@@ -2335,6 +2399,7 @@ class nginx_plugin {
 			$linecount = sizeof($lines);
 			for($h=0;$h<$linecount;$h++){
 				$lines[$h] = rtrim($lines[$h]);
+				/*
 				if(substr(ltrim($lines[$h]), 0, 8) == 'location' && strpos($lines[$h], '{') !== false && strpos($lines[$h], ';') !== false){
 					$lines[$h] = str_replace("{", "{\n", $lines[$h]);
 					$lines[$h] = str_replace(";", ";\n", $lines[$h]);
@@ -2350,6 +2415,9 @@ class nginx_plugin {
 						$lines[$h] = substr($lines[$h],0,strpos($lines[$h], '{')).' ##merge##'.substr($lines[$h],strpos($lines[$h], '{')+1);
 					}
 				}
+				*/
+				$pattern = '/^[^\S\n]*location[^\S\n]+(?:(.+)[^\S\n]+)?(.+)[^\S\n]*(\{)[^\S\n]*(##merge##)?[^\S\n]*(.+)[^\S\n]*(\})[^\S\n]*(##merge##)?[^\S\n]*$/';
+				$lines[$h] = preg_replace_callback($pattern, array($this, 'nginx_replace') ,$lines[$h]);
 			}
 		}
 		$vhost_conf = implode("\n", $lines);

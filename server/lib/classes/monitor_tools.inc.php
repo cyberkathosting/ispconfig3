@@ -302,7 +302,7 @@ class monitor_tools {
 		$state = 'ok';
 
 		//* Fetch the data for all users
-		$dfData = shell_exec('repquota -au');
+		$dfData = shell_exec('repquota -au 2>/dev/null');
 
 		//* Split into array
 		$df = explode("\n", $dfData);
@@ -330,7 +330,7 @@ class monitor_tools {
 		}
 
 		//** Fetch the data for all users
-		$dfData = shell_exec('repquota -ag');
+		$dfData = shell_exec('repquota -ag 2>/dev/null');
 
 		//* split into array
 		$df = explode("\n", $dfData);
@@ -485,7 +485,7 @@ class monitor_tools {
 		$state = 'ok';
 
 		/** Fetch the data of ALL devices into a array (needed for monitoring!) */
-		$dfData = shell_exec('df -hT');
+		$dfData = shell_exec('df -hT 2>/dev/null');
 
 		// split into array
 		$df = explode("\n", $dfData);
@@ -1309,7 +1309,7 @@ class monitor_tools {
 				system('which iptables', $retval); // Debian, Ubuntu, Fedora
 				if ($retval === 0) {
 						/*  Get the data of the log */
-						$data['output'] = '<h2>iptables -S (ipv4)</h2>'.shell_exec('iptables -S');
+						$data['output'] = '<h2>iptables -S (ipv4)</h2>'.shell_exec('iptables -S 2>/dev/null');
 
 						/*
 						 * At this moment, there is no state (maybe later)
@@ -1325,7 +1325,7 @@ class monitor_tools {
 				system('which ip6tables', $retval); // Debian, Ubuntu, Fedora
 				if ($retval === 0) {
 						/*  Get the data of the log */
-						$data['output'] .= '<br><h2>ip6tables -S (ipv6)</h2>'.shell_exec('ip6tables -S');
+						$data['output'] .= '<br><h2>ip6tables -S (ipv6)</h2>'.shell_exec('ip6tables -S 2>/dev/null');
 
 						/*
 						 * At this moment, there is no state (maybe later)

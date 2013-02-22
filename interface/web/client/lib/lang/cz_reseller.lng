@@ -140,4 +140,3 @@ $wb['bank_name_txt'] = 'Název banky';
 $wb['bank_account_iban_txt'] = 'IBAN';
 $wb['bank_account_swift_txt'] = 'BIC / Swift';
 ?>
-

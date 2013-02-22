@@ -7,4 +7,3 @@ $wb['hard_txt'] = 'Tvrdý limit';
 $wb['soft_txt'] = 'Měkký limit';
 $wb['files_txt'] = 'Jednotlivé soubory';
 ?>
-

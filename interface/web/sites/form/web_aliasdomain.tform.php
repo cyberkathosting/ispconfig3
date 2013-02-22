@@ -40,7 +40,7 @@
 
 $form["title"] 			= "Web Aliasdomain";
 $form["description"] 	= "";
-$form["name"] 			= "web_domain";
+$form["name"] 			= "web_aliasdomain";
 $form["action"]			= "web_aliasdomain_edit.php";
 $form["db_table"]		= "web_domain";
 $form["db_table_idx"]	= "domain_id";

@@ -114,7 +114,7 @@ class shelluser_base_plugin {
 				
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
-					$command = 'usermod -s /bin/false -L '.escapeshellcmd($data['new']['username']);
+					$command = 'usermod -s /bin/false -L '.escapeshellcmd($data['new']['username']).' 2>/dev/null';
 					exec($command);
 					$app->log("Disabling shelluser temporarily: ".$command,LOGLEVEL_DEBUG);
 				}
@@ -204,8 +204,7 @@ class shelluser_base_plugin {
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
 					$command = 'userdel -f';
-					$command .= ' '.escapeshellcmd($data['old']['username']);
-			
+					$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 					exec($command);
 					$app->log("Deleted shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
 				}

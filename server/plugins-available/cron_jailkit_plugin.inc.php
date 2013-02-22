@@ -124,7 +124,7 @@ class cron_jailkit_plugin {
 				
 				$this->_add_jailkit_user();
 				
-				$command .= 'usermod -U '.escapeshellcmd($parent_domain["system_user"]);
+				$command .= 'usermod -U '.escapeshellcmd($parent_domain["system_user"]).' 2>/dev/null';
 				exec($command);
 				
 				$this->_update_website_security_level();
@@ -223,7 +223,7 @@ class cron_jailkit_plugin {
 				$command = '/usr/local/ispconfig/server/scripts/create_jailkit_chroot.sh';
 				$command .= ' '.escapeshellcmd($this->parent_domain['document_root']);
 				$command .= ' \''.$this->jailkit_config['jailkit_chroot_app_sections'].'\'';
-				exec($command);
+				exec($command.' 2>/dev/null');
 				
 				$this->app->log("Added jailkit chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
@@ -268,14 +268,14 @@ class cron_jailkit_plugin {
 		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
 		$command .= ' '.escapeshellcmd($this->parent_domain['document_root']);
 		$command .= ' \''.$this->jailkit_config['jailkit_chroot_app_programs'].'\'';
-		exec($command);
+		exec($command.' 2>/dev/null');
 		
 		$this->app->log("Added programs to jailkit chroot with command: ".$command,LOGLEVEL_DEBUG);
         
         $command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
         $command .= ' '.escapeshellcmd($this->parent_domain['document_root']);
         $command .= ' \''.$this->jailkit_config['jailkit_chroot_cron_programs'].'\'';
-        exec($command);
+        exec($command.' 2>/dev/null');
         
         $this->app->log("Added cron programs to jailkit chroot with command: ".$command,LOGLEVEL_DEBUG);
 	}
@@ -299,7 +299,7 @@ class cron_jailkit_plugin {
 			$command .= ' '.escapeshellcmd($this->parent_domain['document_root']);
 			$command .= ' '.$jailkit_chroot_userhome;
 			$command .= ' '.escapeshellcmd("/bin/bash");
-			exec($command);
+			exec($command.' 2>/dev/null');
 				
 			$this->app->log("Added jailkit user to chroot with command: ".$command,LOGLEVEL_DEBUG);
 				

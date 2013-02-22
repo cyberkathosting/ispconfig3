@@ -149,7 +149,12 @@ function submitLoginForm(formname) {
     if(passwordObj.value == ''){
         passwordObj.focus();
         return;
-    }   
+    }
+	
+	$('#dummy_username').val(userNameObj.value);
+	$('#dummy_passwort').val(passwordObj.value);
+	$('#dummy_login_form').submit();
+
 	var submitFormObj = jQuery.ajax({		type: "POST", 
 											url: "content.php",
 											data: jQuery('#'+formname).serialize(),

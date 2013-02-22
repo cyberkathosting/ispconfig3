@@ -55,4 +55,3 @@ $wb['packagelist_update_finished_txt'] = 'APS aktualizace seznamu balíčků dok
 $wb['btn_install_txt'] = 'Instalovat';
 $wb['btn_cancel_txt'] = 'Zrušit';
 ?>
-

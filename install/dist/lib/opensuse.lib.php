@@ -29,6 +29,79 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
+
+	public function configure_mailman($status = 'insert') {
+		global $conf;
+
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'mm_cfg.py';
+		//* Backup exiting file
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'mm_cfg.py~');
+		}
+
+		// load files
+		$content = rf('tpl/mm_cfg.py.master');
+		$old_file = rf($full_file_name);
+
+		$old_options = array();
+		$lines = explode("\n", $old_file);
+		foreach ($lines as $line)
+		{
+			if (trim($line) != '' && substr($line, 0, 1) != '#')
+			{
+				@list($key, $value) = @explode("=", $line);
+				if (!empty($value))
+				{
+					$key = rtrim($key);
+					$old_options[$key] = trim($value);
+				}
+			}
+		}
+		
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'virtual_to_transport.sh';
+		
+		//* Backup exiting virtual_to_transport.sh script
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
+		}
+		
+		copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+		chgrp($full_file_name,'mailman');
+		chmod($full_file_name,0750);
+		
+		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
+		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
+		
+		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+
+		$virtual_domains = '';
+		if($status == 'update')
+		{
+			// create virtual_domains list
+			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
+
+			if(is_array($domainAll)) {
+			foreach($domainAll as $domain)
+			{
+				if ($domainAll[0]['domain'] == $domain['domain'])
+					$virtual_domains .= "'".$domain['domain']."'";
+				else
+					$virtual_domains .= ", '".$domain['domain']."'";
+			}
+			}
+		}
+		else
+			$virtual_domains = "' '";
+
+		$content = str_replace('{hostname}', $conf['hostname'], $content);
+		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = '';
+		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
+		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
+
+		wf($full_file_name, $content);
+	}
 	
 	function configure_postfix($options = '')
     {
@@ -607,6 +680,24 @@ class installer_dist extends installer_base {
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		
+		// create PHP-FPM pool dir
+		exec('mkdir -p '.$conf['nginx']['php_fpm_pool_dir']);
+		
+		$content = rf('/etc/php5/fpm/php-fpm.conf');
+		if(stripos($content, 'include=/etc/php5/fpm/pool.d/*.conf') === false){
+			af('/etc/php5/fpm/php-fpm.conf',"\ninclude=/etc/php5/fpm/pool.d/*.conf");
+		}
+		unset($content);
+		if(!@is_file($conf['nginx']['php_fpm_ini_path'])){
+			if(@is_file('/etc/php5/cli/php.ini')){
+				exec('cp -f /etc/php5/cli/php.ini '.$conf['nginx']['php_fpm_ini_path']);
+			} elseif(@is_file('/etc/php5/fastcgi/php.ini')){
+				exec('cp -f /etc/php5/fastcgi/php.ini '.$conf['nginx']['php_fpm_ini_path']);
+			} elseif(@is_file('/etc/php5/apache2/php.ini')){
+				exec('cp -f /etc/php5/apache2/php.ini '.$conf['nginx']['php_fpm_ini_path']);
+			}
+		}
+		
 	}
 	
 	public function configure_nginx(){
@@ -988,8 +1079,11 @@ class installer_dist extends installer_base {
 			wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
 			if(!is_file('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
+				$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
+				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
+				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
 				exec('mkdir -p /srv/www/php-fcgi-scripts/ispconfig');
-				exec('cp tpl/apache_ispconfig_fcgi_starter.master /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+				wf('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', $content);
 				exec('chmod +x /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 				exec('ln -s /usr/local/ispconfig/interface/web /srv/www/ispconfig');
 				exec('chown -R ispconfig:ispconfig /srv/www/php-fcgi-scripts/ispconfig');

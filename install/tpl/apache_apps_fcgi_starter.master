@@ -1,6 +1,6 @@
 #!/bin/sh
-PHPRC=/etc/php5/cgi/
+PHPRC={fastcgi_phpini_path}
 export PHPRC
 export PHP_FCGI_MAX_REQUESTS=5000
 export PHP_FCGI_CHILDREN=1
-exec /usr/lib/cgi-bin/php -d magic_quotes_gpc=off
+exec {fastcgi_bin} -d magic_quotes_gpc=off

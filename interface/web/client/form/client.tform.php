@@ -1039,6 +1039,20 @@ $form["tabs"]['limits'] = array (
 									 ),
 			'value'		=> array(0 => ' ')
 		),
+		'limit_aps' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'ISINT',
+														'errmsg'=> 'limit_aps_error_notint'),
+									),
+			'default'	=> '-1',
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
 	##################################
 	# END Datatable fields
 	##################################

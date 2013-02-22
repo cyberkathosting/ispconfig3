@@ -25,9 +25,9 @@ CHROOT_P_USER_HOMEDIR=$6
 jk_jailuser -n -s $CHROOT_SHELL -j $CHROOT_HOMEDIR $CHROOT_USERNAME
 
 ### Reconfigure the chroot home directory for the user ###
-usermod --home=$CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR $CHROOT_USERNAME
+usermod --home=$CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR $CHROOT_USERNAME 2>/dev/null
 
 ### We have to reconfigure the chroot home directory for the parent user ###
 if [ "$CHROOT_P_USER" != "" ]; then
-  usermod --home=$CHROOT_HOMEDIR/.$CHROOT_P_USER_HOMEDIR $CHROOT_P_USER
+  usermod --home=$CHROOT_HOMEDIR/.$CHROOT_P_USER_HOMEDIR $CHROOT_P_USER 2>/dev/null
 fi

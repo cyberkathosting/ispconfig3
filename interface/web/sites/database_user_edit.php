@@ -208,11 +208,15 @@ class page_action extends tform_actions {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
 		}
+		
+		$password = $app->db->queryOneRecord("SELECT database_password FROM web_database_user WHERE database_user_id = ".$this->id);
         
         $records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".$app->functions->intval($this->id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($this->id)."'");
         foreach($records as $rec) {
             $new_rec = $this->dataRecord;
             $new_rec['server_id'] = $rec['server_id'];
+			// Make sure to store the password in encrypted form in sys_datalog
+			$new_rec['database_password'] = $password['database_password'];
             $app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->id, $this->oldDataRecord, $new_rec);
         }
         unset($new_rec);

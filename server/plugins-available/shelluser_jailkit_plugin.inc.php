@@ -104,7 +104,7 @@ class shelluser_jailkit_plugin {
 				$app->system->usermod($data['new']['username'], 0, 0, '', '/usr/sbin/jk_chrootsh', '', '');
 				
 				//* Unlock user
-				$command = 'usermod -U '.escapeshellcmd($data['new']['username']);
+				$command = 'usermod -U '.escapeshellcmd($data['new']['username']).' 2>/dev/null';
 				exec($command);
 				
 				$this->_update_website_security_level();
@@ -188,7 +188,7 @@ class shelluser_jailkit_plugin {
 			
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
 				$command = 'userdel -f';
-				$command .= ' '.escapeshellcmd($data['old']['username']);
+				$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 				exec($command);
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome,LOGLEVEL_DEBUG);
 			}
@@ -212,7 +212,7 @@ class shelluser_jailkit_plugin {
 				$command = '/usr/local/ispconfig/server/scripts/create_jailkit_chroot.sh';
 				$command .= ' '.escapeshellcmd($this->data['new']['dir']);
 				$command .= ' \''.$this->jailkit_config['jailkit_chroot_app_sections'].'\'';
-				exec($command);
+				exec($command.' 2>/dev/null');
 				
 				$this->app->log("Added jailkit chroot with command: ".$command,LOGLEVEL_DEBUG);
 				
@@ -258,7 +258,7 @@ class shelluser_jailkit_plugin {
 		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
 		$command .= ' '.escapeshellcmd($this->data['new']['dir']);
 		$command .= ' \''.$this->jailkit_config['jailkit_chroot_app_programs'].'\'';
-		exec($command);
+		exec($command.' 2>/dev/null');
 		
 		$this->app->log("Added programs to jailkit chroot with command: ".$command,LOGLEVEL_DEBUG);
 	}
@@ -290,7 +290,7 @@ class shelluser_jailkit_plugin {
 			$command .= ' '.escapeshellcmd($this->data['new']['shell']);
 			$command .= ' '.$this->data['new']['puser'];
 			$command .= ' '.$jailkit_chroot_puserhome;
-			exec($command);
+			exec($command.' 2>/dev/null');
 			
 			//* Change the homedir of the shell user and parent user
 			//* We have to do this manually as the usermod command fails 

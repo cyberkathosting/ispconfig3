@@ -5,5 +5,5 @@ $wb['Password'] = 'Passwort';
 $wb['Autoresponder'] = 'Autoresponder';
 $wb['Send copy'] = 'Kopie senden an';
 $wb['Spamfilter'] = 'Spamfilter';
-$wb['Email Filters'] = 'E-Mail Filter';
+$wb['Email Filters'] = 'E-Mailfilter';
 ?>

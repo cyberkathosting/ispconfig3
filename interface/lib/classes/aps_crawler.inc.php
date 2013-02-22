@@ -35,7 +35,7 @@ require_once('aps_base.inc.php');
 class ApsCrawler extends ApsBase
 {
    
-   public $app_download_url_list = array();
+   //public $app_download_url_list = array();
    
    /**
     * Constructor
@@ -98,7 +98,7 @@ class ApsCrawler extends ApsBase
             foreach($files as $file)
             {
                 if($file != '.' && $file != '..')
-                    if(filetype($dir.'/'.$file) == 'dir') rrmdir($dir.'/'.$file); 
+                    if(filetype($dir.'/'.$file) == 'dir') $this->removeDirectory($dir.'/'.$file); 
                     else @unlink($dir.'/'.$file);
             }
             reset($files);
@@ -216,7 +216,7 @@ class ApsCrawler extends ApsBase
     public function startCrawler() 
     {
         global $app;
-        
+
         try
         {
             // Make sure the requirements are given so that this script can execute
@@ -297,13 +297,8 @@ class ApsCrawler extends ApsBase
                         $local_intf_folder = $this->interface_pkg_dir.'/'.$app_name.'-'.$new_ver.'.app.zip/';
 
                         // Proceed if a newer or at least equal version has been found with server mode or 
-                        // interface mode is activated and there's no valid APP-META.xml existing yet
-                        if((!$this->interface_mode && version_compare($new_ver, $ex_ver) >= 0)
-                         || ($this->interface_mode 
-                              && (!file_exists($local_intf_folder.'APP-META.xml') || filesize($local_intf_folder.'APP-META.xml') == 0)
-                            )
-                        )
-                        {
+                        // interface mode is activated and there are no valid APP-META.xml and PKG_URL existing yet
+                        if((!$this->interface_mode && version_compare($new_ver, $ex_ver) >= 0) || ($this->interface_mode && (!file_exists($local_intf_folder.'APP-META.xml') || filesize($local_intf_folder.'APP-META.xml') == 0 || !file_exists($local_intf_folder.'PKG_URL') || filesize($local_intf_folder.'PKG_URL') == 0))){
                             // Check if we already have an old version of this app
                             if(!empty($ex_ver) && version_compare($new_ver, $ex_ver) == 1) $apps_updated++; 
 
@@ -311,8 +306,7 @@ class ApsCrawler extends ApsBase
                             $app_filesize = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@length");
                             $app_metafile = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='meta']/@href");
 							
-							$this->app_download_url_list[$app_name.'-'.$new_ver.'.app.zip'] = $app_dl;
-
+							//$this->app_download_url_list[$app_name.'-'.$new_ver.'.app.zip'] = $app_dl;
                             // Skip ASP.net packages because they can't be used at all
                             $asp_handler = parent::getXPathValue($sxe, '//aspnet:handler');
                             $asp_permissions = parent::getXPathValue($sxe, '//aspnet:permissions');
@@ -342,6 +336,9 @@ class ApsCrawler extends ApsBase
                                 
                                 // Create the local folder if not yet existing
                                 if(!file_exists($local_intf_folder)) @mkdir($local_intf_folder, 0777, true);
+								
+								// Save the package URL in an extra file because it's not part of the APP-META.xml file
+								@file_put_contents($local_intf_folder.'PKG_URL', $app_dl);
                                 
                                 // Download the meta file
                                 $local_metafile = $local_intf_folder.'APP-META.xml';
@@ -480,7 +477,7 @@ class ApsCrawler extends ApsBase
         
         try
         {
-            // This method must be used in server mode
+            // This method must be used in interface mode
             if(!$this->interface_mode) return false; 
             
             $pkg_list = array();
@@ -531,6 +528,8 @@ class ApsCrawler extends ApsBase
                 $pkg_category = parent::getXPathValue($sxe, '//category');
                 $pkg_version = parent::getXPathValue($sxe, 'version');
                 $pkg_release = parent::getXPathValue($sxe, 'release');
+				//$pkg_url = $this->app_download_url_list[$pkg];
+				$pkg_url = @file_get_contents($this->interface_pkg_dir.'/'.$pkg.'/PKG_URL');
                 
 				/*
                 $app->db->query("INSERT INTO `aps_packages` 
@@ -539,14 +538,48 @@ class ApsCrawler extends ApsBase
                     '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
                     ".$app->db->quote($pkg_release).", ".PACKAGE_ENABLED.");");
 				*/
-				
-				$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_url`, `package_status`) VALUES 
+				// Insert only if data is complete
+				if($pkg != '' && $pkg_name != '' && $pkg_category != '' && $pkg_version != '' && $pkg_release != '' && $pkg_url){
+					$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_url`, `package_status`) VALUES 
                     ('".$app->db->quote($pkg)."', '".$app->db->quote($pkg_name)."',
                     '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
-                    ".$app->db->quote($pkg_release).", '".$app->db->quote($this->app_download_url_list[$pkg])."', ".PACKAGE_ENABLED.");";
+                    ".$app->db->quote($pkg_release).", '".$app->db->quote($pkg_url)."', ".PACKAGE_ENABLED.");";
 				
-				$app->db->datalogInsert('aps_packages', $insert_data, 'id');
+					$app->db->datalogInsert('aps_packages', $insert_data, 'id');
+				} else {
+					if(file_exists($this->interface_pkg_dir.'/'.$pkg)) $this->removeDirectory($this->interface_pkg_dir.'/'.$pkg);
+				}
             }
+        }
+        catch(Exception $e)
+        {
+            $app->log($this->log_prefix.$e->getMessage(), LOGLEVEL_ERROR);
+			$app->error($e->getMessage());
+            return false;
+        }
+    }
+	
+	/**
+     * Add missing package URLs to database
+     */
+    public function fixURLs()
+    {
+        global $app;
+        
+        try
+        {
+            // This method must be used in interface mode
+            if(!$this->interface_mode) return false; 
+            
+            $incomplete_pkgs = $app->db->queryAllRecords("SELECT * FROM aps_packages WHERE package_url = ''");
+			if(is_array($incomplete_pkgs) && !empty($incomplete_pkgs)){
+				foreach($incomplete_pkgs as $incomplete_pkg){
+					$pkg_url = @file_get_contents($this->interface_pkg_dir.'/'.$incomplete_pkg['path'].'/PKG_URL');
+					if($pkg_url != ''){
+						$app->db->datalogUpdate('aps_packages', "package_url = '".$pkg_url."'", 'id', $incomplete_pkg['id']);
+					}
+				}
+			}
         }
         catch(Exception $e)
         {

@@ -612,8 +612,12 @@ class installer extends installer_base
 		
 			if ( !is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter') ) 
 			{
+				$content = rf('tpl/apache_apps_fcgi_starter.master');
+				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
+				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
 				mkdir($conf['web']['website_basedir'].'/php-fcgi-scripts/apps', 0755, true);
-				copy('tpl/apache_apps_fcgi_starter.master',$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
+				//copy('tpl/apache_apps_fcgi_starter.master',$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
+				wf($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter', $content);
 				exec('chmod +x '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
 				exec('chown -R ispapps:ispapps '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
 			
@@ -938,13 +942,15 @@ class installer extends installer_base
 			$vhost_path = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';
 			$this->write_config_file($vhost_path, $content);
 		
-			if (!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) 
-			{
+			if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
+				$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
+				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
+				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
 				mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
-				copy('tpl/apache_ispconfig_fcgi_starter.master', '/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
+				wf('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', $content);
 				exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 				chmod('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', 0755);
-				symlink($install_dir.'/interface/web', '/var/www/ispconfig');
+				symlink($install_dir.'/interface/web','/var/www/ispconfig');
 				exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
 			}
 		}
