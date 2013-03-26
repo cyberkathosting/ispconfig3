@@ -7,3 +7,4 @@ $wb['faq_sections_txt'] = 'Sekcja';
 $wb['faq_faq_questions_txt'] = 'Pomoc Techniczna';
 $wb['faq_new_question_txt'] = 'Dodaj nowe pytanie i odpowiedź';
 ?>
+

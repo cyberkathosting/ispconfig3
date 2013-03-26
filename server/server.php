@@ -196,8 +196,8 @@ if ($needStartCore) {
 	$app->uses('modules,plugins,file,services');
 	// Load the modules that are im the mods-core folder
 	$app->modules->loadModules('core');
-	// Load the plugins that are in the plugins-core folder
-	$app->plugins->loadPlugins('core');
+	// Load the plugins that are in the f folder
+	//$app->plugins->loadPlugins('core');
 }
 
 

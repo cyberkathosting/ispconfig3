@@ -3,3 +3,5 @@ $wb['list_head_txt'] = 'OpenVZ Virtual Machine Template';
 $wb['active_txt'] = 'Aktivní';
 $wb['template_name_txt'] = 'Název šablony';
 ?>
+
+

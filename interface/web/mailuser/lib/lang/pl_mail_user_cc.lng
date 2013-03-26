@@ -1,7 +1,8 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Send copy to email address';
-$wb['cc_txt'] = 'Send copy to';
-$wb['email_txt'] = 'Email';
-$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
-$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
+$wb['mailbox_cc_txt'] = 'Wyślij kopię na inny adres e-mail';
+$wb['cc_txt'] = 'Wyślij kopię do';
+$wb['email_txt'] = 'E-mail';
+$wb['cc_error_isemail'] = 'Adres e-mail jest niepoprawny w polu -Wyślij kopię do-';
+$wb['email_is_cc_error'] = 'Adres e-mail i adres do wysyłki kopii nie mogą być takie same.';
 ?>
+

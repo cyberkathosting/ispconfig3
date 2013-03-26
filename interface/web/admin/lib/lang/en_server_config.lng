@@ -176,6 +176,7 @@ $wb["v6_prefix_wrong"] = 'Invalid v6 Netmask format.';
 $wb["php_ini_check_minutes_txt"] = 'Check system php.ini files for changes each';
 $wb["php_ini_check_minutes_info_txt"] = 'minutes (0 disables checking)';
 $wb['php_ini_check_minutes_error_empty'] = 'Invalid value for php.ini checking.';
+$wb["rbl_error_regex"] = 'Please specify valid RBL hostnames.';
 $wb["sendmail_path_txt"] = 'Sendmail Path';
 $wb["sendmail_path_error_empty"] = 'Sendmail Path is empty.';
 ?>

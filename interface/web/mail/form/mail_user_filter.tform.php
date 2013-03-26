@@ -112,7 +112,7 @@ $form["tabs"]['filter'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-zA-Z0-9\.\-\_\ ]{0,100}$/',
+														'regex' => '/^[\p{Latin}0-9\.\-\_\ ]{0,100}$/u',
 														'errmsg'=> 'target_error_regex'),
 									),
 			'default'	=> '',

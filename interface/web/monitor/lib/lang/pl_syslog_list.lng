@@ -5,3 +5,4 @@ $wb['server_id_txt'] = 'Serwer';
 $wb['loglevel_txt'] = 'Poziom logowania';
 $wb['message_txt'] = 'Wiadomość';
 ?>
+

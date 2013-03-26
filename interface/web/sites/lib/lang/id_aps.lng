@@ -54,4 +54,5 @@ $wb['installation_remove_txt'] = 'Removal planned';
 $wb['packagelist_update_finished_txt'] = 'APS Packagelist update finished.';
 $wb['btn_install_txt'] = 'Install';
 $wb['btn_cancel_txt'] = 'Cancel';
+$wb['limit_aps_txt'] = 'The max. number of APS instances for your account is reached.';
 ?>

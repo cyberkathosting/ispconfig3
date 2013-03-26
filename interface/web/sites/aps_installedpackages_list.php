@@ -90,7 +90,7 @@ $query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,
                  aps_instances.instance_status AS instance_status, aps_packages.name AS package_name, 
                  aps_packages.version AS package_version, aps_packages.release AS package_release, 
                  aps_packages.package_status AS package_status, 
-              CONCAT ((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
+              CONCAT((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
                  '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id)) 
                   AS install_location  
           FROM aps_instances, aps_packages, client 
@@ -101,7 +101,7 @@ $query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,
 				 aps_instances.instance_status AS instance_status, aps_packages.name AS package_name, 
                  aps_packages.version AS package_version, aps_packages.release AS package_release, 
                  aps_packages.package_status AS package_status, 
-              CONCAT ((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
+              CONCAT((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
                  '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id)) 
                   AS install_location  
           FROM aps_instances, aps_packages, sys_group 

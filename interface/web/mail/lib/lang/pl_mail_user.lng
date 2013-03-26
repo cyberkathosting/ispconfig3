@@ -18,7 +18,7 @@ $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Zezwól na odbiór poczty';
 $wb['access_txt'] = 'Możliwy dostęp';
 $wb['policy_txt'] = 'Filtr spamu';
-$wb['no_policy'] = '- nie dostępny -';
+$wb['no_policy'] = '- brak polityki -';
 $wb['limit_mailbox_txt'] = 'Maksymalna ilość skrzynek pocztowych dla Twojego konta została przekroczona.';
 $wb['limit_mailquota_txt'] = 'Maksymalna pojemność skrzynki pocztowej została przekroczona. Maksymalne dostępne miejsce w MB to: ';
 $wb['disableimap_txt'] = 'Wyłącz IMAP';
@@ -41,10 +41,11 @@ $wb['login_error_unique'] = 'Login jest już w użyciu.';
 $wb['login_error_regex'] = 'Poprawne znaki to A-Z, a-z, 0-9, ., _ oraz -.';
 $wb['login_txt'] = 'Login (opcjonalnie)';
 $wb['error_login_email_txt'] = 'Ten login nie jest poprawny. Proszę wpisać inny lub użyć adresu e-mail jako loginu.';
-$wb['autoresponder_subject_txt'] = 'Email Subject';
-$wb['autoresponder_subject'] = 'Out of office reply';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['autoresponder_subject_txt'] = 'Temat wiadomości';
+$wb['autoresponder_subject'] = 'Odpowiedź - poza biurem - ';
+$wb['generate_password_txt'] = 'Generuj hasło';
+$wb['repeat_password_txt'] = 'Powtórz hasło';
+$wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
+$wb['password_match_txt'] = 'Hasła pasują';
 ?>
+

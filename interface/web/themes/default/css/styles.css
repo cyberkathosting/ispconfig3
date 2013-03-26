@@ -384,6 +384,8 @@ table.list .tbl_col_limit {
 }
 .pnl_listarea th[class^="tbl_col"] { cursor:pointer; }
 .pnl_listarea th[class^="tbl_col"]:hover { background-position:0 -15px!important; }
+.pnl_listarea th.tbl_col_nosort { cursor:default; }
+.pnl_listarea th.tbl_col_nosort:hover { background-position:0 0!important; }
 
 .pageForm_description { font-size: 12px; }
 

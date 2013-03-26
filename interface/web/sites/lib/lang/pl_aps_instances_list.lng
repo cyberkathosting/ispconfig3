@@ -1,13 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Installed packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['customer_txt'] = 'Client';
+$wb['list_head_txt'] = 'Zainstalowane aplikacje';
+$wb['name_txt'] = 'Nazwa';
+$wb['version_txt'] = 'Wersja';
+$wb['customer_txt'] = 'Klient';
 $wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Install location';
-$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['pkg_reinstall_confirmation'] = 'Do you really want to reinstall this package with the same settings?';
-$wb['filter_txt'] = 'Search';
-$wb['delete_txt'] = 'Delete';
-$wb['reinstall_txt'] = 'Reinstall';
+$wb['install_location_txt'] = 'Lokalizacja instalacji';
+$wb['pkg_delete_confirmation'] = 'Na pewno chcesz usunąć tę instalację?';
+$wb['pkg_reinstall_confirmation'] = 'Na pewno chcesz przeinstalować ten pakiet z tymi samymi ustawieniami?';
+$wb['filter_txt'] = 'Szukaj';
+$wb['delete_txt'] = 'Usuń';
+$wb['reinstall_txt'] = 'Przeinstaluj';
 ?>
+

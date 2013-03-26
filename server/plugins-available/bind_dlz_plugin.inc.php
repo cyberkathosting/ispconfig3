@@ -125,13 +125,13 @@ class bind_dlz_plugin {
 
 		$ttl = $data["new"]["ttl"];
 		
-		$_db = clone $app->db;
-		$_db->dbName = 'named';
+		//$_db = clone $app->db;
+		//$_db->dbName = 'named';
 		
-		$_db->query("INSERT INTO records (zone, ttl, type, primary_ns, resp_contact, serial, refresh, retry, expire, minimum, ispconfig_id) VALUES ".
+		$app->db->query("INSERT INTO named.records (zone, ttl, type, primary_ns, resp_contact, serial, refresh, retry, expire, minimum, ispconfig_id) VALUES ".
 						"('$origin', $ttl, 'SOA', '{$data["new"]["ns"]}', '{$data["new"]["mbox"]}', '{$serial["serial"]}', '{$serial["refresh"]}'," . 
 						"'{$serial["retry"]}', '{$serial["expire"]}', '{$serial["minimum"]}', $ispconfig_id)");
-		unset($_db);	
+		//unset($_db);	
 	}
 	
 	function soa_update($event_name,$data)
@@ -153,13 +153,13 @@ class bind_dlz_plugin {
 
 				$ttl = $data["new"]["ttl"];
 				
-				$_db = clone $app->db;
-				$_db->dbName = 'named';
+				//$_db = clone $app->db;
+				//$_db->dbName = 'named';
 		
-				$_db->query("UPDATE records SET zone = '$origin', ttl = $ttl, primary_ns = '{$data["new"]["ns"]}', resp_contact = '{$data["new"]["mbox"]}', ".
+				$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, primary_ns = '{$data["new"]["ns"]}', resp_contact = '{$data["new"]["mbox"]}', ".
 								"serial = '{$serial["serial"]}', refresh = '{$serial["refresh"]}', retry = '{$serial["retry"]}', expire = '{$serial["expire"]}', ".
 								"minimum = '{$serial["minimum"]}' WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
-				unset($_db);
+				//unset($_db);
 			} 
 			else 
 			{
@@ -185,11 +185,11 @@ class bind_dlz_plugin {
 	{
 		global $app, $conf;
 		
-		$_db = clone $app->db;
-		$_db->dbName = 'named';
+		//$_db = clone $app->db;
+		//$_db->dbName = 'named';
 		
-		$_db->query("DELETE FROM records WHERE ispconfig_id = {$data["old"]["id"]}");
-		unset($_db);	
+		$app->db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]}");
+		//unset($_db);	
 	}
 	
 	function rr_insert($event_name,$data)
@@ -246,18 +246,18 @@ class bind_dlz_plugin {
 		
 		$ttl = $data["new"]["ttl"];
 		
-		$_db = clone $app->db;
-		$_db->dbName = 'named';
+		//$_db = clone $app->db;
+		//$_db->dbName = 'named';
 		
 		if ($type == 'MX') {
-			$_db->query("INSERT INTO records (zone, ttl, type, host, mx_priority, data, ispconfig_id)".
+			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, mx_priority, data, ispconfig_id)".
 			" VALUES ('$origin', $ttl, '$type', '$name', {$data["new"]["aux"]}, '$content', $ispconfig_id)");
 		} else {
-			$_db->query("INSERT INTO records (zone, ttl, type, host, data, ispconfig_id)".
+			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, data, ispconfig_id)".
 			" VALUES ('$origin', $ttl, '$type', '$name', '$content', $ispconfig_id)");
 		}
 
-		unset($_db);
+		//unset($_db);
 	}
 	
 	function rr_update($event_name,$data)
@@ -321,18 +321,18 @@ class bind_dlz_plugin {
 				$ttl = $data["new"]["ttl"];
 				$prio = (int)$data["new"]["aux"];
 				
-				$_db = clone $app->db;
-				$_db->dbName = 'named';
+				//$_db = clone $app->db;
+				//$_db->dbName = 'named';
 				
 				if ($type == 'MX') {
-					$_db->query("UPDATE records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', mx_priority = $prio, ".
+					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', mx_priority = $prio, ".
 					"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
 				} else {
-					$_db->query("UPDATE records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', ".
+					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', ".
 					"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
 				}
 				
-				unset($_db);
+				//unset($_db);
 			} else {
 				$this->rr_insert($event_name,$data);
 			}
@@ -342,11 +342,11 @@ class bind_dlz_plugin {
 	function rr_delete($event_name,$data) {
 		global $app, $conf;
 		
-		$_db = clone $app->db;
-		$_db->dbName = 'named';
+		//$_db = clone $app->db;
+		//$_db->dbName = 'named';
 				
-		$_db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]} AND type != 'SOA'");
-		unset($_db);
+		$app->db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]} AND type != 'SOA'");
+		//unset($_db);
 	}
 } // end class
 ?>

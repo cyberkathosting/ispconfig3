@@ -317,6 +317,10 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '',
+			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
+														'regex' => '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(,\s*(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))*$/',
+														'errmsg'=> 'rbl_error_regex'),
+									),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -431,8 +435,6 @@ $form["tabs"]['web'] = array(
 'default' => 'n',
 'value' => array(0 => 'n',1 => 'y')
 ),
-
-
 */
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',

@@ -103,7 +103,7 @@ class page_action extends tform_actions {
 			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
 			
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
+			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".intval($client['default_webserver']));
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
@@ -123,7 +123,7 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -142,10 +142,10 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver'])." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
 			}
 			if($this->dataRecord['php'] == 'fast-cgi'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver'])." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -177,7 +177,7 @@ class page_action extends tform_actions {
 			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
 			
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
+			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".intval($client['default_webserver']));
 			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
@@ -196,7 +196,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id",$client_select);
 
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -211,7 +211,7 @@ class page_action extends tform_actions {
 			unset($ips);
 			
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -230,10 +230,10 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver'])." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
 			}
 			if($this->dataRecord['php'] == 'fast-cgi') {
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver'])." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -311,11 +311,11 @@ class page_action extends tform_actions {
 					$this->dataRecord["server_id"] = $tmp["server_id"];
 					unset($tmp);
 				}
-				$server_id = @$this->dataRecord["server_id"];
+				$server_id = intval(@$this->dataRecord["server_id"]);
 			} else {
 				// Get the first server ID
 				$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
-				$server_id = $tmp['server_id'];
+				$server_id = intval($tmp['server_id']);
 			}
 			
 			//* get global web config
@@ -552,7 +552,7 @@ class page_action extends tform_actions {
             
 			//* Check the website quota of the client
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
 				$webquota = $tmp["webquota"];
 				$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
 				if(($webquota + $new_web_quota > $client["limit_web_quota"]) || ($new_web_quota < 0 && $client["limit_web_quota"] >= 0)) {
@@ -588,7 +588,7 @@ class page_action extends tform_actions {
 
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
 					$webquota = $tmp["webquota"];
 					$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
 					if(($webquota + $new_web_quota > $reseller["limit_web_quota"]) || ($new_web_quota < 0 && $reseller["limit_web_quota"] >= 0)) {

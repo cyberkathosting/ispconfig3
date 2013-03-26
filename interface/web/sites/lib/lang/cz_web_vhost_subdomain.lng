@@ -21,8 +21,8 @@ $wb['domain_txt'] = 'Doména';
 $wb['host_txt'] = 'Hostname';
 $wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
 $wb['type_txt'] = 'Verze';
-$wb['redirect_type_txt'] = 'Redirect Type';
-$wb['redirect_path_txt'] = 'Redirect Path';
+$wb['redirect_type_txt'] = 'Typ přesměrování';
+$wb['redirect_path_txt'] = 'Cesta přesměrování';
 $wb['active_txt'] = 'Aktivní';
 $wb['document_root_txt'] = 'Documentroot';
 $wb['system_user_txt'] = 'Linux User';
@@ -46,7 +46,7 @@ $wb['limit_web_subdomain_txt'] = 'The max. number of web subdomains for your acc
 $wb['apache_directives_txt'] = 'Apache Directives';
 $wb['domain_error_empty'] = 'Doména je prázdná.';
 $wb['domain_error_unique'] = 'There is already a website or sub / aliasdomain with this domain name.';
-$wb['domain_error_regex'] = 'Domain name invalid.';
+$wb['domain_error_regex'] = 'Neplatné doménové jméno.';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 $wb['hd_quota_error_empty'] = 'Harddisk quota is 0 or empty.';
 $wb['traffic_quota_error_empty'] = 'Traffic quota is empty.';
@@ -116,3 +116,5 @@ $wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snipp
 $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 ?>
+
+

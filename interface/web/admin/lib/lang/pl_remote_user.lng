@@ -40,8 +40,9 @@ $wb['DNS rp functions'] = 'Funkcje rekordu RP DNS';
 $wb['DNS srv functions'] = 'Funkcje rekordu SRV DNS';
 $wb['DNS txt functions'] = 'Funkcje rekordu TXT DNS';
 $wb['Mail mailing list functions'] = 'Funkcje listy mailingowej';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generuj hasło';
+$wb['repeat_password_txt'] = 'Powtórz hasło';
+$wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
+$wb['password_match_txt'] = 'Hasła pasują';
 ?>
+

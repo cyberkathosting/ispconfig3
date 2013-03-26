@@ -6,3 +6,5 @@ $wb['email_txt'] = 'Email (vzor)';
 $wb['fullname_txt'] = 'Název';
 $wb['local_txt'] = 'Lokální';
 ?>
+
+

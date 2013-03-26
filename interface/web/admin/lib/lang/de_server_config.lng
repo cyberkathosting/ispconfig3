@@ -173,6 +173,7 @@ $wb['overtraffic_notify_client_txt'] = 'Überschreiten des Transfer Limits an de
 $wb['php_ini_check_minutes_txt'] = 'Pr&uuml;fe System php.ini Dateien auf &Auml;nderungen alle';
 $wb['php_ini_check_minutes_info_txt'] = 'Minute(n) (0 deaktiviert diese Funktion)';
 $wb['php_ini_check_minutes_error_empty'] = 'Der Wert f&uuml;r die Einstellung der php.ini Pr&uuml;fung ist ung&uuml;ltig.';
+$wb["rbl_error_regex"] = 'Bitte geben Sie gültige RBL-Hostnamen an.';
 $wb["sendmail_path_txt"] = 'Pfad zu Sendmail';
 $wb["sendmail_path_error_empty"] = 'Sendmail Pfad ist leer.';
 ?>

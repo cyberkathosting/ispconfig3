@@ -7,4 +7,5 @@ $wb['action_txt'] = 'Actie';
 $wb['toolsarea_head_txt'] = 'Pakketten';
 $wb['repoupdate_txt'] = 'Update pakketlijst';
 $wb['package_id_txt'] = 'locaal App-ID';
+$wb['no_packages_txt'] = 'No packages available';
 ?>

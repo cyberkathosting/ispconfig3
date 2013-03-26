@@ -1,15 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore backup';
-$wb['download_backup_txt'] = 'Download backup';
-$wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['list_head_txt'] = 'Dostępne kopie zapasowe';
+$wb['date_txt'] = 'Data';
+$wb['backup_type_txt'] = 'Rodzaj';
+$wb['filename_txt'] = 'Plik kopii';
+$wb['restore_backup_txt'] = 'Przywróć kopię';
+$wb['download_backup_txt'] = 'Pobierz kopię';
+$wb['download_info_txt'] = 'Plik kopii będzie dostępny do pobrania w folderze backup strony w przeciągu kilku minut.';
+$wb['restore_info_txt'] = 'Rozpoczęło się odtwarzanie z kopii plików strony. Proces ten może zająć kilka minut.';
+$wb['restore_confirm_txt'] = 'Przywrócenie danych z kopii zapasowej zastąpi wszystkie obecnie istniejące pliki. Czy na pewno chcesz to zrobić?';
+$wb['download_pending_txt'] = 'Trwa już jedno zadanie pobrania kopii.';
+$wb['restore_pending_txt'] = 'Trwa już jedno zadanie przywrócenia danych z kopii.';
+$wb['backup_type_mysql'] = 'Baza MySQL';
+$wb['backup_type_web'] = 'Pliki strony';
 ?>
+

@@ -7,4 +7,7 @@ $wb['action_txt'] = 'Akce';
 $wb['toolsarea_head_txt'] = 'Balíčky';
 $wb['repoupdate_txt'] = 'Aktualizace seznamu balíků';
 $wb['package_id_txt'] = 'místní App-ID';
+$wb['no_packages_txt'] = 'Žádné balíčky nejsou k dispozici';
 ?>
+
+

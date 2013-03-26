@@ -1,11 +1,11 @@
 <?php
 $wb['error_user_password_empty'] = 'Uživatelské jméno nebo heslo je prázdné.';
 $wb['error_user_password_incorrect'] = 'Uživatelské jméno nebo heslo je špatně.';
-$wb['error_user_blocked'] = 'Uživatel blokován.';
-$wb['error_user_too_many_logins'] = 'Příliš mnoho nesprávných přihlášení, zkuste to za 15 minut znova';
+$wb['error_user_blocked'] = 'Uživatel je blokován.';
+$wb['error_user_too_many_logins'] = 'Příliš mnoho nesprávných přihlášení, zkuste to za 15 minut znovu';
 $wb['pass_reset_txt'] = 'Bude Vám vygenerováno a zasláno nové heslo na e-mail, pokud Vaše adresa zadaná níže odpovídá adrese ve Vašem klientském nastavení.';
 $wb['pw_reset'] = 'Heslo bylo resetováno a zasláno na Váš e-mail.';
-$wb['pw_error'] = 'Uživatelské jméno nebo e-mail neodpovídá.';
+$wb['pw_error'] = 'Uživatelské jméno nebo e-mail nesouhlasí.';
 $wb['pw_error_noinput'] = 'Prosím zadejte uživatelské jméno a e-mail.';
 $wb['pw_reset_mail_msg'] = 'Vaše heslo do ISPConfigu bylo resetováno. Nové heslo je: ';
 $wb['pw_reset_mail_title'] = 'Heslo do ISPConfigu bylo resetováno.';
@@ -22,3 +22,5 @@ $wb['pw_button_txt'] = 'Znovu odeslat heslo';
 $wb['email_txt'] = 'E-mail';
 $wb['theme_not_compatible'] = 'Zvolené téma není kompatibilní s aktuální verzí ISPConfig. Zkontrolujte prosím, zda není nová verze tématu.<br />Výchozí motiv byl aktivován automaticky.';
 ?>
+
+

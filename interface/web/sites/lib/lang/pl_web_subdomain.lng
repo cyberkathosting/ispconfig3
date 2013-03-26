@@ -39,8 +39,9 @@ $wb['host_txt'] = 'Serwer';
 $wb['redirect_error_regex'] = 'Nieprawidłowa ścieżka przekierowania. Poprawne przekierowanie to np.: /test/ lub http://www.domain.tld/test/';
 $wb['no_redirect_txt'] = 'Bez przekierowania';
 $wb['no_flag_txt'] = 'Bez flagi';
-$wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
-$wb['proxy_directives_txt'] = 'Proxy Directives';
-$wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
-$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
+$wb['domain_error_wildcard'] = 'Subdomeny typu wildcard nie są dozwolone';
+$wb['proxy_directives_txt'] = 'Dyrektywy Proxy';
+$wb['available_proxy_directive_snippets_txt'] = 'Dostępne konfiguracje dodatkowe Proxy';
+$wb['error_proxy_requires_url'] = 'Rodzaj przekierowania ';
 ?>
+

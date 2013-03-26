@@ -6,10 +6,11 @@ $wb['zone_txt'] = 'Strefa';
 $wb['name_txt'] = 'Nazwa';
 $wb['data_txt'] = 'Data';
 $wb['aux_txt'] = 'Priorytet';
-$wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Typ';
 $wb['add_new_record_txt'] = 'Dodaj nowy rekord A DNS';
 $wb['page_txt'] = 'Strona';
 $wb['page_of_txt'] = 'z';
 $wb['delete_confirmation'] = 'Czy jesteś pewny, że chcesz usunąć ten wpis?';
+$wb['ttl_txt'] = 'TTL';
 ?>
+

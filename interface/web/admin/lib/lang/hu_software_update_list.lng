@@ -5,4 +5,5 @@ $wb['update_title_txt'] = 'Frissítés';
 $wb['version_txt'] = 'Verzió';
 $wb['action_txt'] = 'Művelet';
 $wb['server_select_txt'] = 'Válasszon szervert';
+$wb['no_updates_txt'] = 'No updates available';
 ?>

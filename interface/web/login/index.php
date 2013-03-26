@@ -213,7 +213,7 @@ class login_index {
                                 // check if the user theme is valid
                                 if($_SESSION['s']['user']['theme'] != 'default') {
                                     $tmp_path = ISPC_THEMES_PATH."/".$_SESSION['s']['user']['theme'];
-                                    if(!@is_dir($tmp_path) || !@file_exists($tmp_path."/ISPC_VERSION") || trim(file_get_contents($tmp_path."/ISPC_VERSION")) != ISPC_APP_VERSION) {
+                                    if(!@is_dir($tmp_path) || !@file_exists($tmp_path."/ispconfig_version") || trim(file_get_contents($tmp_path."/ispconfig_version")) != ISPC_APP_VERSION) {
                                         // fall back to default theme if this one is not compatible with current ispc version
                                         $_SESSION['s']['user']['theme'] = 'default';
                                         $_SESSION['s']['theme'] = 'default';

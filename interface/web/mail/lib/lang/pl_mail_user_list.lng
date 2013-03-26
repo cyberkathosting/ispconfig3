@@ -6,3 +6,4 @@ $wb['add_new_record_txt'] = 'Dodaj nową skrzynkę pocztową';
 $wb['name_txt'] = 'Nazwa rzeczywista';
 $wb['login_txt'] = 'Login';
 ?>
+

@@ -211,7 +211,7 @@ class page_action extends tform_actions {
                 if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
                 $app->tpl->setVar("proxy_directive_snippets_txt",$proxy_directive_snippets_txt);
             }
-        
+            
 			//* Admin: If the logged in user is admin
 		} else {
 
@@ -410,6 +410,10 @@ class page_action extends tform_actions {
             if(in_array($check_folder, $forbidden_folders)) {
                 $app->tform->errorMessage .= $app->tform->lng("web_folder_invalid_txt")."<br>";
             }
+			
+			// vhostsubdomains do not have a quota of their own
+			$this->dataRecord["hd_quota"] = 0;
+			
             // check for duplicate folder usage
 			/*
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain' AND `parent_domain_id` = '" . $app->functions->intval($this->dataRecord['parent_domain_id']) . "' AND `web_folder` = '" . $app->db->quote($this->dataRecord['web_folder']) . "' AND `domain_id` != '" . $app->functions->intval($this->id) . "'");
@@ -431,26 +435,10 @@ class page_action extends tform_actions {
             if($client['limit_perl'] != 'y') $this->dataRecord['perl'] = '-';
             if($client['limit_ruby'] != 'y') $this->dataRecord['ruby'] = '-';
             if($client['limit_python'] != 'y') $this->dataRecord['python'] = '-';
-            if($client['force_suexec'] != 'n') $this->dataRecord['suexec'] = '-';
+            if($client['force_suexec'] != 'n') $this->dataRecord['suexec'] = 'y';
             if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
             if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
             if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
-            
-			//* Check the website quota of the client
-			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
-				$webquota = $tmp["webquota"];
-				$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
-				if(($webquota + $new_web_quota > $client["limit_web_quota"]) || ($new_web_quota < 0 && $client["limit_web_quota"] >= 0)) {
-					$max_free_quota = floor($client["limit_web_quota"] - $webquota);
-					if($max_free_quota < 0) $max_free_quota = 0;
-					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota." MB<br>";
-					// Set the quota field to the max free space
-					$this->dataRecord["hd_quota"] = $max_free_quota;
-				}
-				unset($tmp);
-				unset($tmp_quota);
-			}
 
 			//* Check the traffic quota of the client
 			if(isset($_POST["traffic_quota"]) && $client["limit_traffic_quota"] > 0) {
@@ -471,22 +459,6 @@ class page_action extends tform_actions {
 			if($client['parent_client_id'] > 0) {
 				// Get the limits of the reseller
 				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
-
-				//* Check the website quota of the client
-				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
-					$webquota = $tmp["webquota"];
-					$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
-					if(($webquota + $new_web_quota > $reseller["limit_web_quota"]) || ($new_web_quota < 0 && $reseller["limit_web_quota"] >= 0)) {
-						$max_free_quota = floor($reseller["limit_web_quota"] - $webquota);
-						if($max_free_quota < 0) $max_free_quota = 0;
-						$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_free_txt").": ".$max_free_quota." MB<br>";
-						// Set the quota field to the max free space
-						$this->dataRecord["hd_quota"] = $max_free_quota;
-					}
-					unset($tmp);
-					unset($tmp_quota);
-				}
 
 				//* Check the traffic quota of the client
 				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0) {

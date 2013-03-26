@@ -4,7 +4,7 @@ $wb['Message'] = 'Wiadomość';
 $wb['Send message'] = 'Wyślij wiadomość';
 $wb['View messages'] = 'Pokaż wiadomość';
 $wb['Support'] = 'Pomoc';
-$wb['About ISPConfig'] = 'O ISPConfig';
+$wb['About ISPConfig'] = 'Informacje o ISPConfig';
 $wb['Version'] = 'Wersja';
 $wb['Frequently Asked Questions'] = 'Pomoc Techniczna';
 $wb['FAQ Sections'] = 'Sekcje FAQ';
@@ -12,3 +12,4 @@ $wb['Manage Sections'] = 'Zarządzaj sekcjami';
 $wb['Add a Question & Answer Pair'] = 'Dodaj nowe pytanie i odpowiedź';
 $wb['Manage Questions'] = 'Zarządzaj pytaniami';
 ?>
+

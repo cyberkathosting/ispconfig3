@@ -466,7 +466,7 @@ class nginx_plugin {
 				exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
 
 				//* Change the home directory and group of the website user
-				$command = 'killall -u '.escapeshellcmd($data['new']['system_user']).' && usermod';
+				$command = 'killall -u '.escapeshellcmd($data['new']['system_user']).' ; usermod';
 				$command .= ' --home '.escapeshellcmd($data['new']['document_root']);
 				$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
 				$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
@@ -655,8 +655,8 @@ class nginx_plugin {
 			exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.$error_page_path);
 		}  // end copy error docs
 
-		// Set the quota for the user
-		if($username != '' && $app->system->is_user($username)) {
+		// Set the quota for the user, but only for vhosts, not vhostsubdomains
+		if($username != '' && $app->system->is_user($username) && $data['new']['type'] == 'vhost') {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
@@ -1684,10 +1684,12 @@ class nginx_plugin {
 		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain'){
 			if(is_array($log_folders) && !empty($log_folders)){
 				foreach($log_folders as $log_folder){
-					if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+					//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+					exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				}
 			} else {
-				if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+				//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
 		}
 		
@@ -1867,10 +1869,10 @@ class nginx_plugin {
             $vhost_logfile_dir = escapeshellcmd('/var/log/ispconfig/httpd/'.$data['old']['domain']);
             if($data['old']['domain'] != '' && !stristr($vhost_logfile_dir,'..')) exec('rm -rf '.$vhost_logfile_dir);
             $app->log('Removing website logfile directory: '.$vhost_logfile_dir,LOGLEVEL_DEBUG);
-            
+
             if($data['old']['type'] == 'vhost') {
                 //delete the web user
-                $command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' && userdel';
+                $command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' ; userdel';
                 $command .= ' '.escapeshellcmd($data['old']['system_user']);
                 exec($command);
                 if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);

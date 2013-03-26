@@ -81,7 +81,12 @@ class apps_vhost_plugin {
 				
 		if($web_config['server_type'] == 'apache'){
 			// Dont just copy over the virtualhost template but add some custom settings
-			$content = file_get_contents($conf["rootpath"]."/conf/apache_apps.vhost.master");
+			if(file_exists($conf["rootpath"]."/conf-custom/apache_apps.vhost.master")) {
+				$content = file_get_contents($conf["rootpath"]."/conf-custom/apache_apps.vhost.master");
+			} else {
+				$content = file_get_contents($conf["rootpath"]."/conf/apache_apps.vhost.master");
+			}
+			
 		
 			$vhost_conf_dir = $web_config['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $web_config['vhost_conf_enabled_dir'];
@@ -110,7 +115,11 @@ class apps_vhost_plugin {
 		
 		if($web_config['server_type'] == 'nginx'){
 			// Dont just copy over the virtualhost template but add some custom settings
-			$content = file_get_contents($conf["rootpath"]."/conf/nginx_apps.vhost.master");
+			if(file_exists($conf["rootpath"]."/conf-custom/nginx_apps.vhost.master")) {
+				$content = file_get_contents($conf["rootpath"]."/conf-custom/nginx_apps.vhost.master");
+			} else {
+				$content = file_get_contents($conf["rootpath"]."/conf/nginx_apps.vhost.master");
+			}
 		
 			$vhost_conf_dir = $web_config['nginx_vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $web_config['nginx_vhost_conf_enabled_dir'];
@@ -153,7 +162,12 @@ class apps_vhost_plugin {
 			
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
-			$fpm_content = file_get_contents($conf["rootpath"]."/conf/apps_php_fpm_pool.conf.master");
+			if(file_exists($conf["rootpath"]."/conf-custom/apps_php_fpm_pool.conf.master")) {
+				$fpm_content = file_get_contents($conf["rootpath"]."/conf-custom/apps_php_fpm_pool.conf.master");
+			} else {
+				$fpm_content = file_get_contents($conf["rootpath"]."/conf/apps_php_fpm_pool.conf.master");
+			}
+			
 			$fpm_content = str_replace('{fpm_pool}', 'apps', $fpm_content);
 			//$fpm_content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $fpm_content);
 			$fpm_content = str_replace('{fpm_socket}', $fpm_socket, $fpm_content);

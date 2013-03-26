@@ -2,11 +2,13 @@
 $wb['select_server_txt'] = 'Zvolit server';
 $wb['btn_do_txt'] = 'Provést akci';
 $wb['do_osupdate_caption'] = 'Aktualizace operačního systému na vzdáleném serveru.';
-$wb['do_osupdate_desc'] = 'Tato akce provede \\"aptitude -y\\" aktualizaci na vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
+$wb['do_osupdate_desc'] = 'Tato akce provede "aptitude -y" aktualizaci na vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
 $wb['do_ispcupdate_caption'] = 'Provedení ISPConfig 3 - aktualizace na vzdáleném serveru';
-$wb['do_ispcupdate_desc'] = 'Tato akce provede \\"ISPConfig 3\\" aktualizaci na vašem vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
+$wb['do_ispcupdate_desc'] = 'Tato akce provede "ISPConfig 3" aktualizaci na vašem vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
 $wb['action_scheduled'] = 'Akce je naplánována na provedení';
 $wb['select_all_server'] = 'Všechny servery';
 $wb['ispconfig_update_title'] = 'ISPConfig pokyny k aktualizaci';
 $wb['ispconfig_update_text'] = 'Přihlaste se jako uživatel root na terminal (shell) serveru a proveďte příkaz<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />spustí se ISPConfig aktualizace.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Klikněte zde pro podrobnější informace o provedení aktualizace</a>';
 ?>
+
+

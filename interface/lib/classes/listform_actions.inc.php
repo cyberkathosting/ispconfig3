@@ -149,7 +149,7 @@ class listform_actions {
 		if($this->SQLExtWhere != '') {
 			$sql_where .= ' '.$this->SQLExtWhere.' and';
 		}
-
+		
 		$sql_where = $app->listform->getSearchSQL($sql_where);
 		$app->tpl->setVar($app->listform->searchValues);
 		
@@ -171,8 +171,15 @@ class listform_actions {
 		    $order_by_sql = str_replace('client_id','c.contact_name',$order_by_sql);
 		  } elseif($order == 'parent_domain_id'){
 		    $join .= ' LEFT JOIN web_domain as wd ON '.$app->listform->listDef['table'].'.parent_domain_id = wd.domain_id ';
-		    $order_by_sql = str_replace('parent_domain_id','wd.domain',$order_by_sql);
-		    $sql_where = str_replace('type',$app->listform->listDef['table'].'.type',$sql_where);
+			//$order_by_sql = str_replace(' domain', ' '.$app->listform->listDef['table'].'.domain',$order_by_sql);
+		    //$order_by_sql = str_replace('parent_domain_id','wd.domain',$order_by_sql);
+			$order_by_sql = preg_replace('@( |,|^)(domain)( |,|$)@', '$1'.$app->listform->listDef['table'].'.$2$3', $order_by_sql);
+			$order_by_sql = preg_replace('@( |,|^)(parent_domain_id)( |,|$)@', '$1wd.domain$3', $order_by_sql);
+			
+		    //$sql_where = str_replace('type',$app->listform->listDef['table'].'.type',$sql_where);
+			//$sql_where = str_replace(' domain',' '.$app->listform->listDef['table'].'.domain',$sql_where);
+			$sql_where = preg_replace('@( |,|^)(type)( |,|$)@', '$1'.$app->listform->listDef['table'].'.$2$3', $sql_where);
+			$sql_where = preg_replace('@( |,|^)(domain)( |,|$)@', '$1'.$app->listform->listDef['table'].'.$2$3', $sql_where);
 		  } elseif($order == 'sys_groupid'){
 		    $join .= ' LEFT JOIN sys_group as sg ON '.$app->listform->listDef['table'].'.sys_groupid = sg.groupid ';
 		    $order_by_sql = str_replace('sys_groupid','sg.name',$order_by_sql);

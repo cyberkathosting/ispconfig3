@@ -96,7 +96,9 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 		}
 	}
 } else {
-	$modules = $conf['interface_modules_enabled'];
+	$tmp = $app->db->queryOneRecord("SELECT * FROM sys_user where username = '".$_SESSION["s"]["user"]['username']."'");
+	$modules = $tmp['modules'];
+	//$modules = $conf['interface_modules_enabled'];
 	if($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		$modules .= ',client';
 	}

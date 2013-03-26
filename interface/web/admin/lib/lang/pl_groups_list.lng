@@ -5,3 +5,4 @@ $wb['name_txt'] = 'Grupa';
 $wb['add_new_record_txt'] = 'Dodaj nową grupę';
 $wb['warning_txt'] = '<b>OSTRZEŻENIE:</b> Nie modyfikuj żadnych ustawień użytkownika w tym miejscu. Użyj ustawień Klienta lub Resellera w module Klient. Modyfikacja ustawień użytkownika lub grupy tutaj grozi utratą danych!';
 ?>
+

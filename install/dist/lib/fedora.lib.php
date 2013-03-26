@@ -1024,7 +1024,7 @@ class installer_dist extends installer_base {
 		
 			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink
-			if($this->is_update == false) {
+			//if($this->is_update == false) {
 				if(@is_link("$vhost_conf_enabled_dir/ispconfig.vhost")) unlink("$vhost_conf_enabled_dir/ispconfig.vhost");
 				if(!@is_link("$vhost_conf_enabled_dir/000-ispconfig.vhost")) {
 					exec("ln -s $vhost_conf_dir/ispconfig.vhost $vhost_conf_enabled_dir/000-ispconfig.vhost");
@@ -1039,17 +1039,17 @@ class installer_dist extends installer_base {
 			
 				replaceLine('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter','PHPRC=','PHPRC=/etc/',0,0);
 				*/
-				if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
+				//if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
 					$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
 					$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 					$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
-					exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
+					if(!is_dir('/var/www/php-fcgi-scripts/ispconfig')) exec('mkdir -p /var/www/php-fcgi-scripts/ispconfig');
 					wf('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', $content);
 					exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-					exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
+					if(!is_link('/var/www/ispconfig')) exec('ln -s /usr/local/ispconfig/interface/web /var/www/ispconfig');
 					exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
-				}
-			}
+				//}
+			//}
 		}
 		
 		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -1228,7 +1228,7 @@ class installer_dist extends installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 		
 			$cron_jobs = array(
-                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /dev/null'
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
@@ -1247,7 +1247,7 @@ class installer_dist extends installer_base {
 		}
 		
 		exec('touch /var/log/ispconfig/cron.log');
-		exec('chmod 666 /var/log/ispconfig/cron.log');
+		exec('chmod 660 /var/log/ispconfig/cron.log');
 	}
 
 }

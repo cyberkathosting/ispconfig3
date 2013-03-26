@@ -44,7 +44,7 @@ class db extends mysqli
   private $errorNumber = 0;	// last error number
   public $errorMessage = '';	// last error message
   private $errorLocation = '';// last error location
-  public $show_error_messages = true; // false in server, true in interface
+  public $show_error_messages = false; // false in server, true in interface
   private $isConnected = false; // needed to know if we have a valid mysqli object from the constructor
 
   // constructor
@@ -60,7 +60,8 @@ class db extends mysqli
     $this->dbClientFlags = $conf[$prefix.'db_client_flags'];
     parent::__construct($conf[$prefix.'db_host'], $conf[$prefix.'db_user'],$conf[$prefix.'db_password'],$conf[$prefix.'db_database']);
     $try = 0;
-    while(!is_null($this->connect_error) && $try < 5) {
+    //while(!is_null($this->connect_error) && $try < 5) {
+	while(mysqli_connect_error() && $try < 5) {
       if($try > 0) sleep(1);
       
       $try++;
@@ -69,7 +70,9 @@ class db extends mysqli
       parent::__construct($conf[$prefix.'db_host'], $conf[$prefix.'db_user'],$conf[$prefix.'db_password'],$conf[$prefix.'db_database']);
     }
     
-    if(is_null($this->connect_error)) $this->isConnected = true;
+    //if(is_null($this->connect_error)) $this->isConnected = true;
+    //else return false;
+	if(!mysqli_connect_error()) $this->isConnected = true;
     else return false;
     
     $this->setCharacterEncoding();
@@ -81,8 +84,9 @@ class db extends mysqli
 
   // error handler
   public function updateError($location) {
-    global $app;
+    global $app, $conf;
 
+	/*
     if(!is_null($this->connect_error)) {
       $this->errorNumber = $this->connect_errno;
       $this->errorMessage = $this->connect_error;
@@ -90,15 +94,24 @@ class db extends mysqli
       $this->errorNumber = $this->errno;
       $this->errorMessage = $this->error;
     }
+	*/
+	if(mysqli_connect_error()) {
+      $this->errorNumber = mysqli_connect_errno();
+      $this->errorMessage = mysqli_connect_error();
+    } else {
+      $this->errorNumber = mysqli_errno($this);
+      $this->errorMessage = mysqli_error($this);
+    }
+
 
     $this->errorLocation = $location;
     if($this->errorNumber) {
       $error_msg = $this->errorLocation .' '. $this->errorMessage;
-      // This right here will allow us to use the samefile for server & interface
-      if($this->show_error_messages) {
-	echo $error_msg;
+      // This right here will allow us to use the same file for server & interface
+      if($this->show_error_messages && $conf['demo_mode'] === false) {
+		echo $error_msg;
       } else if(is_object($app) && method_exists($app, 'log')) {
-	$app->log($error_msg, LOGLEVEL_WARN);
+		$app->log($error_msg, LOGLEVEL_WARN);
       }
     }
   }
@@ -110,7 +123,8 @@ class db extends mysqli
   }
 
   public function query($queryString) {
-    if($this->isConnected == false) return false;
+    global $conf;
+	if($this->isConnected == false) return false;
     $try = 0;
     do {
         $try++;
@@ -131,7 +145,7 @@ class db extends mysqli
     } while($ok == false);
 	$this->queryId = parent::query($queryString);
     $this->updateError('DB::query('.$queryString.') -> mysqli_query');
-    if($this->errorNumber) debug_print_backtrace();
+    if($this->errorNumber && $conf['demo_mode'] === false) debug_print_backtrace();
     if(!$this->queryId) {
       return false;
     }
@@ -176,11 +190,11 @@ class db extends mysqli
 
   // returns number of rows returned by the last select query
   public function numRows() {
-    return $this->queryId->num_rows;
+    return intval($this->queryId->num_rows);
   }
   
   public function affectedRows() {
-	return $this->queryId->affected_rows;
+	return intval($this->queryId->affected_rows);
   }
 
   // returns mySQL insert id

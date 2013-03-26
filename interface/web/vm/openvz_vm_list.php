@@ -47,7 +47,7 @@ $app->auth->check_module_permissions('vm');
 $app->uses('listform_actions');
 
 // $app->listform_actions->SQLOrderBy = 'ORDER BY company_name, contact_name, client_id';
-// $app->listform_actions->SQLExtWhere = "limit_client = 0";
+//$app->listform_actions->SQLExtWhere = "";
 $app->listform_actions->onLoad();
 
 

@@ -6,3 +6,4 @@ $wb['header_txt'] = 'Parametry nawigacyjne';
 $wb['save_txt'] = 'Zapisz';
 $wb['cancel_txt'] = 'Usuń';
 ?>
+

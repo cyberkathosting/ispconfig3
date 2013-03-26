@@ -5,4 +5,5 @@ $wb['update_title_txt'] = 'Обновить';
 $wb['version_txt'] = 'Версия';
 $wb['action_txt'] = 'Действие';
 $wb['server_select_txt'] = 'Выберите сервер';
+$wb['no_updates_txt'] = 'No updates available';
 ?>

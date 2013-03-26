@@ -9,7 +9,7 @@ $wb['email_txt'] = 'E-mail';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP adresa';
-$wb['error_origin_empty'] = 'Origin je prázdný.';
+$wb['error_origin_empty'] = 'Zdroj je prázdný.';
 $wb['error_ns_empty'] = 'NS je prázdný.';
 $wb['error_mbox_empty'] = 'Mbox je prázdný.';
 $wb['error_refresh_empty'] = 'Refresh je prázdný.';
@@ -36,3 +36,5 @@ $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 $wb['list_head_txt'] = 'Průvodce vytvořením DNS zóny';
 $wb['list_desc_txt'] = 'Vytvoření DNS zóny pomocí průvodce';
 ?>
+
+

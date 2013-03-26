@@ -567,23 +567,6 @@ class installer_base {
 				}
 			}
 		}
-		
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'virtual_to_transport.sh';
-		
-		//* Backup exiting virtual_to_transport.sh script
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
-		}
-		
-		copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
-		chgrp($full_file_name,'list');
-		chmod($full_file_name,0750);
-		
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-		
-		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
 
 		$virtual_domains = '';
 		if($status == 'update')
@@ -608,8 +591,27 @@ class installer_base {
 		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = '';
 		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
 		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
-
+		
 		wf($full_file_name, $content);
+		
+		//* Write virtual_to_transport.sh script
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'virtual_to_transport.sh';
+		
+		//* Backup exiting virtual_to_transport.sh script
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
+		}
+		
+		if(is_dir('/etc/mailman')) {
+			copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+			chgrp($full_file_name,'list');
+			chmod($full_file_name,0750);
+		}
+		
+		//* Create aliasaes
+		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		
 	}
 
 	public function configure_postfix($options = '') {
@@ -732,11 +734,13 @@ class installer_base {
 		touch($config_dir.'/body_checks');
 
 		//* Create the mailman files
-		exec('mkdir -p /var/lib/mailman/data');
+		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
 		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
 		exec('postalias /var/lib/mailman/data/aliases');
 		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
 		exec('postmap /var/lib/mailman/data/virtual-mailman');
+		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
+		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 
 		//* Make a backup copy of the main.cf file
 		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
@@ -1921,16 +1925,16 @@ class installer_base {
 					symlink($vhost_conf_dir.'/ispconfig.vhost',$vhost_conf_enabled_dir.'/000-ispconfig.vhost');
 				}
 			}
-			if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
+			//if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
 				$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
 				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
-				mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
+				@mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
 				wf('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', $content);
 				exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
-				symlink($install_dir.'/interface/web','/var/www/ispconfig');
+				@symlink($install_dir.'/interface/web','/var/www/ispconfig');
 				exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
-			}
+			//}
 		}
 
 		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -2116,7 +2120,7 @@ class installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 
 			$cron_jobs = array(
-					'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> '.$conf['ispconfig_log_dir'].'/cron.log'
+					'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /dev/null'
 			);
 
 			// remove existing ispconfig cronjobs, in case the syntax has changed
@@ -2135,7 +2139,7 @@ class installer_base {
 		}
 
 		touch($conf['ispconfig_log_dir'].'/cron.log');
-		chmod($conf['ispconfig_log_dir'].'/cron.log', 0666);
+		chmod($conf['ispconfig_log_dir'].'/cron.log', 0660);
 
 	}
 

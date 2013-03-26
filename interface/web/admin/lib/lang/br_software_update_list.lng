@@ -5,4 +5,5 @@ $wb['installed_txt'] = 'Ações';
 $wb['update_title_txt'] = 'Atualizar';
 $wb['version_txt'] = 'Versão';
 $wb['action_txt'] = 'Ação';
+$wb['no_updates_txt'] = 'No updates available';
 ?>

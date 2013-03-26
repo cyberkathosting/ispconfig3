@@ -140,4 +140,9 @@ $wb['customer_no_error_unique'] = 'Zákaznické číslo musí být jedinečné (
 $wb['paypal_email_error_isemail'] = 'Zadejte prosím platnou PayPal e-mail addresu.';
 $wb['paypal_email_txt'] = 'PayPal e-mail';
 $wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \\"custom\\" is selected.';
+$wb['aps_limits_txt'] = 'APS Installer Limits';
+$wb['limit_aps_txt'] = 'Max. number of APS instances';
+$wb['limit_aps_error_notint'] = 'The APS instances limit must be a number.';
 ?>
+
+

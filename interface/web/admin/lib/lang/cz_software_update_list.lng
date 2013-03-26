@@ -5,4 +5,7 @@ $wb['installed_txt'] = 'Akce';
 $wb['update_title_txt'] = 'Aktualizovat';
 $wb['version_txt'] = 'Verze';
 $wb['action_txt'] = 'Akce';
+$wb['no_updates_txt'] = 'Žádné aktualizace nejsou k dispozici';
 ?>
+
+

@@ -610,8 +610,8 @@ class installer extends installer_base
 		
 			$this->write_config_file("$vhost_conf_dir/apps.vhost", $content);
 		
-			if ( !is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter') ) 
-			{
+			//if ( !is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter') ) 
+			//{
 				$content = rf('tpl/apache_apps_fcgi_starter.master');
 				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
@@ -621,7 +621,7 @@ class installer extends installer_base
 				exec('chmod +x '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter');
 				exec('chown -R ispapps:ispapps '.$conf['web']['website_basedir'].'/php-fcgi-scripts/apps');
 			
-			}
+			//}
 		}
 		if($conf['nginx']['installed'] == true){
 			$apps_vhost_user = escapeshellcmd($conf['web']['apps_vhost_user']);
@@ -946,11 +946,11 @@ class installer extends installer_base
 				$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
 				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
-				mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
+				@mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
 				wf('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', $content);
 				exec('chmod +x /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 				chmod('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', 0755);
-				symlink($install_dir.'/interface/web','/var/www/ispconfig');
+				@symlink($install_dir.'/interface/web','/var/www/ispconfig');
 				exec('chown -R ispconfig:ispconfig /var/www/php-fcgi-scripts/ispconfig');
 			}
 		}

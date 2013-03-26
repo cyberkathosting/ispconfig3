@@ -29,9 +29,9 @@ if(!$hf_section)
 $app->listform_actions->SQLExtWhere = "hf_section = $hf_section";
 
 
-$res = $app->db->queryOneRecord("SELECT hfs_name FROM help_faq_sections WHERE hfs_id=$hf_section");
+if($hf_section) $res = $app->db->queryOneRecord("SELECT hfs_name FROM help_faq_sections WHERE hfs_id=$hf_section");
 // Start the form rendering and action ahndling
 echo "<h2>FAQ: ".$res['hfs_name']."</h2>";
-$app->listform_actions->onLoad();
+if($hf_section) $app->listform_actions->onLoad();
 
 ?>

@@ -12,11 +12,12 @@ $wb['listname_txt'] = 'Nazwa listy';
 $wb['client_txt'] = 'Klient';
 $wb['email_txt'] = 'Email';
 $wb['password_txt'] = 'Hasło';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['listname_error_unique'] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['mailinglist_txt'] = 'Mailing list';
+$wb['mailinglist_txt'] = 'Lista Mailingowa';
+$wb['generate_password_txt'] = 'Generuj hasło';
+$wb['repeat_password_txt'] = 'Powtórz hasło';
+$wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
+$wb['password_match_txt'] = 'Hasła pasują';
+$wb['listname_error_unique'] = 'Isnieje już lista mailingowa o tej nazwie, wybierz inną nazwę listy.';
+$wb['email_error_isemail'] = 'Adres e-mail jest nieprawidłowy';
 ?>
+

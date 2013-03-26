@@ -29,10 +29,12 @@ $wb['eg_domain_tld'] = 'např. domena.cz';
 $wb['eg_ns1_domain_tld'] = 'např. ns1.domena.cz';
 $wb['eg_webmaster_domain_tld'] = 'např. webmaster@domena.cz';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'Doménu není možné měnit. Prosím, kontaktujte svého správce, pokud chcete změnit název domény.';
-$wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
-$wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
-$wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
-$wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
+$wb['refresh_range_error'] = 'Min. čas obnovení je 60 sekund.';
+$wb['retry_range_error'] = 'Min. čas nového opakování je 60 sekund.';
+$wb['expire_range_error'] = 'Min. expirační doba je 60 sekund.';
+$wb['minimum_range_error'] = 'Minimální doba je 60 sekund.';
+$wb['ttl_range_error'] = 'Min. TTL čas je 60 sekund.';
+$wb['xfer_error_regex'] = 'Také oznámí: Prosím, použijte IP adresu.';
 ?>
+
+

@@ -7,3 +7,5 @@ $wb['duplicate_mailbox_txt'] = 'Mailbox s touto adresou již existuje';
 $wb['domain_txt'] = 'Doména';
 $wb['source_txt'] = 'Zdrojový e-mail';
 ?>
+
+

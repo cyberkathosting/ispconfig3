@@ -61,7 +61,8 @@ class db extends mysqli
 
     parent::__construct($this->dbHost, $this->dbUser, $this->dbPass,$this->dbName);
     $try = 0;
-    while(!is_null($this->connect_error) && $try < 10) {
+    //while(!is_null($this->connect_error) && $try < 10) {
+	while(mysqli_connect_error() && $try < 10) {
       if($try > 8) sleep(5);
       elseif($try > 0) sleep(1);
       
@@ -71,7 +72,8 @@ class db extends mysqli
       parent::__construct($this->dbHost, $this->dbUser, $this->dbPass,$this->dbName);
     }
     
-    if(is_null($this->connect_error)) $this->isConnected = true;
+    //if(is_null($this->connect_error)) $this->isConnected = true;
+	if(!mysqli_connect_error()) $this->isConnected = true;
     
     $this->setCharacterEncoding();
   }
@@ -89,12 +91,21 @@ class db extends mysqli
   public function updateError($location) {
     global $app;
 
+	/*
     if(!is_null($this->connect_error)) {
       $this->errorNumber = $this->connect_errno;
       $this->errorMessage = $this->connect_error;
     } else {
       $this->errorNumber = $this->errno;
       $this->errorMessage = $this->error;
+    }
+	*/
+	if(mysqli_connect_error()) {
+      $this->errorNumber = mysqli_connect_errno();
+      $this->errorMessage = mysqli_connect_error();
+    } else {
+      $this->errorNumber = mysqli_errno($this);
+      $this->errorMessage = mysqli_error($this);
     }
 
     $this->errorLocation = $location;

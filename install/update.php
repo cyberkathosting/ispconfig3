@@ -129,7 +129,7 @@ $do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in 
 if($do_backup == 'yes') {
 	
 	//* Create the backup directory
-	$backup_path = '/var/backup/ispconfig_'.date('Y-m-d_H-i');
+	$backup_path = '/var/backup/ispconfig_'.@date('Y-m-d_H-i');
 	$conf['backup_path'] = $backup_path;
 	exec("mkdir -p $backup_path");
 	exec("chown root:root $backup_path");

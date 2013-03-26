@@ -11,7 +11,8 @@ $wb['origin_error_empty'] = 'Strefa jest pusta';
 $wb['origin_error_unique'] = 'Jest już rekord w tej strefie.';
 $wb['origin_error_regex'] = 'Strefa ma niepoprawny format.';
 $wb['ns_error_regex'] = 'NS ma niepoprawny format.';
-$wb['eg_domain_tld'] = 'e.g. domain.tld.';
-$wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
-$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
+$wb['eg_domain_tld'] = 'np. domena.pl.';
+$wb['ipv4_form_txt'] = 'notacja IPv4 - np. 127.0.0.1';
+$wb['secondary_zone_txt'] = 'Zapasowa Strefa DNS';
 ?>
+

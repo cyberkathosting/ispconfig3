@@ -132,16 +132,16 @@ $wb['vlogger_config_dir_error_empty'] = 'Config directory is empty.';
 $wb['cron_init_script_error_empty'] = 'Cron init script name is empty.';
 $wb['crontab_dir_error_empty'] = 'Path for individual crontabs is empty.';
 $wb['cron_wget_error_empty'] = 'Path to wget program is empty.';
-$wb['php_fpm_init_script_txt'] = 'PHP-FPM init script';
-$wb['php_fpm_init_script_error_empty'] = 'PHP-FPM init script is empty.';
-$wb['php_fpm_ini_path_txt'] = 'PHP-FPM php.ini path';
-$wb['php_fpm_ini_path_error_empty'] = 'PHP-FPM php.ini path is empty.';
-$wb['php_fpm_pool_dir_txt'] = 'PHP-FPM pool directory';
-$wb['php_fpm_pool_dir_error_empty'] = 'PHP-FPM pool directory is empty.';
+$wb['php_fpm_init_script_txt'] = 'PHP-FPM název init skriptu';
+$wb['php_fpm_init_script_error_empty'] = 'PHP-FPM název init skriptu je prázdny';
+$wb['php_fpm_ini_path_txt'] = 'PHP-FPM cesta k php.ini';
+$wb['php_fpm_ini_path_error_empty'] = 'PHP-FPM cesta k php.ini je prázdná';
+$wb['php_fpm_pool_dir_txt'] = 'PHP-FPM adresář pro pool';
+$wb['php_fpm_pool_dir_error_empty'] = 'PHP-FPM adresář pro pool je prázdny.';
 $wb['php_fpm_start_port_txt'] = 'PHP-FPM start port';
 $wb['php_fpm_start_port_error_empty'] = 'PHP-FPM start port is empty.';
-$wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
-$wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM socket directory is empty.';
+$wb['php_fpm_socket_dir_txt'] = 'PHP-FPM adresář pro socket';
+$wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM adresář pro socket je prázdny.';
 $wb['try_rescue_txt'] = 'Povolit monitorování služeb a restartovat při selhání';
 $wb['do_not_try_rescue_mysql_txt'] = 'Zakázat MySQL monitorování';
 $wb['do_not_try_rescue_mail_txt'] = 'Zakázat E-mail monitorování';
@@ -171,3 +171,5 @@ $wb['web_folder_protection_txt'] = 'Make web folders immutable (extended attribu
 $wb['overtraffic_notify_admin_txt'] = 'Při překročení limitu přenesených dat, poslat oznámení adminovi';
 $wb['overtraffic_notify_client_txt'] = 'Při překročení limitu přenesených dat, poslat oznámení klientovi';
 ?>
+
+

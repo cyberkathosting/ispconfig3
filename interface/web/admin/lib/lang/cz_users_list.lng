@@ -7,3 +7,5 @@ $wb['add_new_record_txt'] = 'Přidat uživatele';
 $wb['warning_txt'] = '<b>VAROVÁNÍ:</b> Zde neupravujte uživatelská nastavení. Užijte klientská a distributorská nastavení v klientském modulu. Úprava uživatelů nebo skupin zde může způsobit ztrátu dat!';
 $wb['groups_txt'] = 'Skupiny';
 ?>
+
+

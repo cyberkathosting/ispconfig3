@@ -20,10 +20,11 @@ $wb['parent_domain_id_error_empty'] = 'Nie wybrano żadnej strony www.';
 $wb['puser_txt'] = 'Nazwa użytkownika strony www';
 $wb['pgroup_txt'] = 'Nazwa grupy strony www';
 $wb['ssh_rsa_txt'] = 'Klucz publiczny SSH-RSA (dla logowania po kluczu)';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['dir_dot_error'] = 'Znaki .. w ścieżce nie są dozwolone';
+$wb['dir_slashdot_error'] = 'Znaki ./ w ścieżce nie są dozwolone';
+$wb['generate_password_txt'] = 'Generuj hasło';
+$wb['repeat_password_txt'] = 'Powtórz hasło';
+$wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
+$wb['password_match_txt'] = 'Hasła pasują';
 ?>
+

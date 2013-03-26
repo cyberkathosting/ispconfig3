@@ -43,7 +43,7 @@ class plugins {
 		global $app,$conf;
 
 		$subPath = 'plugins-enabled';
-		if ($type == 'core') $subPath = 'plugins-core';
+		//if ($type == 'core') $subPath = 'plugins-core';
 		
 		$plugins_dir = $conf['rootpath'].$conf['fs_div'].$subPath.$conf['fs_div'];
 		$tmp_plugins = array();

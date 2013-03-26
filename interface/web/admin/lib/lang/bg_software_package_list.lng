@@ -7,4 +7,5 @@ $wb['action_txt'] = 'Действие';
 $wb['toolsarea_head_txt'] = 'Пакети';
 $wb['repoupdate_txt'] = 'Обновяване на пакетите ';
 $wb['package_id_txt'] = 'local App-ID';
+$wb['no_packages_txt'] = 'No packages available';
 ?>

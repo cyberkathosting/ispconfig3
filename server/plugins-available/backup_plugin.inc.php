@@ -87,8 +87,10 @@ class backup_plugin {
 				include('lib/mysql_clientdb.conf');
 				
 				if(file_exists($backup_dir.'/'.$backup['filename'])) {
-					$parts = explode('_',$backup['filename']);
-					$db_name = $parts[1];
+					//$parts = explode('_',$backup['filename']);
+					//$db_name = $parts[1];
+					preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql\.gz$@', $backup['filename'], $matches);
+					$db_name = $matches[1];
 					$command = "gunzip --stdout ".escapeshellarg($backup_dir.'/'.$backup['filename'])." | mysql -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' '".$db_name."'";
 					exec($command);
 				}

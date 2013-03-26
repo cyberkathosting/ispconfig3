@@ -6,3 +6,5 @@ $wb['language_overwrite_txt'] = 'Přepsat soubor, pokud existuje.';
 $wb['btn_cancel_txt'] = 'Zpět';
 $wb['ignore_version_txt'] = 'Přeskočit kontrolu verze ISPConfigu.';
 ?>
+
+

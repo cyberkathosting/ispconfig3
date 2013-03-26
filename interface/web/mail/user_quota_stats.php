@@ -27,7 +27,7 @@ if(is_array($tmp_rec)) {
 		$tmp_array = unserialize($app->db->unquote($tmp_mon['data']));
 		if(is_array($tmp_array)) {
 			foreach($tmp_array as $username => $data) {
-				$monitor_data[$username]['used'] += $data['used'];
+				if(!$monitor_data[$username]['used']) $monitor_data[$username]['used'] = $data['used'];
 			}
 		}
 	}

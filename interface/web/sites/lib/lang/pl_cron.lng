@@ -19,3 +19,4 @@ $wb['run_wday_error_format'] = 'Niepoprawny format dni w tygodniu.';
 $wb['command_error_format'] = 'Niepoprawny format polecenia. W zbiorze url może być tylko adres http/https który ma pozwolenie.';
 $wb['unknown_fieldtype_error'] = 'Został użyty niepoprawny format pola.';
 ?>
+

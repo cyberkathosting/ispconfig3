@@ -26,13 +26,14 @@ $wb['error_domain_regex'] = 'Domena zawiera niepoprawne znaki.';
 $wb['error_ns1_regex'] = 'NS1 zawiera niepoprawne znaki.';
 $wb['error_ns2_regex'] = 'NS2 zawiera niepoprawne znaki.';
 $wb['error_email_regex'] = 'Pole E-mail nie zawiera poprawnego adresu e-mail.';
-$wb['dns_zone_txt'] = 'DNS Zone';
-$wb['globalsearch_resultslimit_of_txt'] = 'of';
-$wb['globalsearch_resultslimit_results_txt'] = 'results';
-$wb['globalsearch_noresults_text_txt'] = 'No results.';
-$wb['globalsearch_noresults_limit_txt'] = '0 results';
-$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
-$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
-$wb['list_head_txt'] = 'DNS Zone Wizard';
-$wb['list_desc_txt'] = 'Create a DNS Zone via a wizard';
+$wb['list_head_txt'] = 'Kreator Stref DNS';
+$wb['list_desc_txt'] = 'Utwórz strefę DNS za pomocą Kreatora';
+$wb['dns_zone_txt'] = 'Strefa DNS';
+$wb['globalsearch_resultslimit_of_txt'] = 'z';
+$wb['globalsearch_resultslimit_results_txt'] = 'wyników';
+$wb['globalsearch_noresults_text_txt'] = 'Brak wyników';
+$wb['globalsearch_noresults_limit_txt'] = '0 wyników';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Szukaj';
+$wb['globalsearch_suggestions_text_txt'] = 'Sugestie';
 ?>
+

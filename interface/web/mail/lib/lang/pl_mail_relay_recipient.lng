@@ -7,3 +7,4 @@ $wb['source_error_notempty'] = 'Adres jest pusty.';
 $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Maksymalna ilość filtrów e-mail dla Twojego konta została przekroczona.';
 ?>
+

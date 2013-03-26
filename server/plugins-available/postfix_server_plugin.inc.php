@@ -80,6 +80,7 @@ class postfix_server_plugin {
 		
 		// get the config
 		$app->uses("getconf");
+		$old_ini_data = $app->ini_parser->parse_ini_string($data['old']['config']);
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		
 		copy('/etc/postfix/main.cf','/etc/postfix/main.cf~');
@@ -107,18 +108,23 @@ class postfix_server_plugin {
 			exec("postconf -e 'relayhost ='");
 		}
 
-		if($mail_config['realtime_blackhole_list'] != '') {
-			$rbl_hosts = explode(",",str_replace(" ", "", $mail_config['realtime_blackhole_list']));
+		if($mail_config['realtime_blackhole_list'] != $old_ini_data['mail']['realtime_blackhole_list']) {
+			$rbl_hosts = trim(preg_replace('/\s+/', '', $mail_config['realtime_blackhole_list']));
+			if($rbl_hosts != ''){
+				$rbl_hosts = explode(",", $rbl_hosts);
+			}
 			$options = explode(", ", exec("postconf -h smtpd_recipient_restrictions"));
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_rbl_client/', $value)) {
 					$new_options[] = $value;
 				}
 			}
-			foreach ($rbl_hosts as $key => $value) {
-				$new_options[] = "reject_rbl_client ".$value;
+			if(is_array($rbl_hosts) && !empty($rbl_hosts)){
+				foreach ($rbl_hosts as $key => $value) {
+					$value = trim($value);
+					if($value != '') $new_options[] = "reject_rbl_client ".$value;
+				}
 			}
-			
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 		}
 

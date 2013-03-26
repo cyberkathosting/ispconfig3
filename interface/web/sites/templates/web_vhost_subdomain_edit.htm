@@ -34,10 +34,6 @@
                 <input name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" size="30" maxlength="100" type="text" class="textInput formLengthHalf"<tmpl_if name='fixed_folder' op='==' value='y'> readonly="readonly"</tmpl_if> />
             </div>
             <div class="ctrlHolder">
-                <label for="hd_quota">{tmpl_var name='hd_quota_txt'}</label>
-                <input name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" />&nbsp;MB
-            </div>
-            <div class="ctrlHolder">
                 <label for="traffic_quota">{tmpl_var name='traffic_quota_txt'}</label>
                 <input name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" />&nbsp;MB <tmpl_var name='traffic_quota_exceeded_txt'>
             </div>

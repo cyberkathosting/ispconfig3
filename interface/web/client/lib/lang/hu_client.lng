@@ -140,4 +140,7 @@ $wb['customer_no_error_unique'] = 'The customer no. must be unique (or empty).';
 $wb['paypal_email_error_isemail'] = 'Please enter a valid PayPal email address.';
 $wb['paypal_email_txt'] = 'PayPal Email';
 $wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \\"custom\\" is selected.';
+$wb['aps_limits_txt'] = 'APS Installer Limits';
+$wb['limit_aps_txt'] = 'Max. number of APS instances';
+$wb['limit_aps_error_notint'] = 'The APS instances limit must be a number.';
 ?>

@@ -1,4 +1,3 @@
-
 <div class="pnl_toolsarea">
         <tmpl_if name='datalog_changes_count' op='>' value='0'>
         <div>
@@ -16,7 +15,7 @@
             </div><br />
         </div>
         </tmpl_if>
-    <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
+    <fieldset style="margin-top:20px;margin-bottom:20px;"><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
         <div class="buttons">
             <button class="button iconstxt icoAdd" type="button" onclick="loadContent('mail/mail_user_filter_edit.php?mailuser_id={tmpl_var name='parent_id'}');">
                 <span>{tmpl_var name="add_new_record_txt"}</span>

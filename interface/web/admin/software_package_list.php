@@ -146,7 +146,7 @@ $app->tpl->setInclude('content_tpl','templates/software_package_list.htm');
 
 $servers = $app->db->queryAllRecords('SELECT server_id, server_name FROM server ORDER BY server_name');
 $packages = $app->db->queryAllRecords('SELECT * FROM software_package');
-if(is_array($packages)) {
+if(is_array($packages) && count($packages) > 0) {
 	foreach($packages as $key => $p) {
 		$installed_txt = '';
 		foreach($servers as $s) {
@@ -169,9 +169,12 @@ if(is_array($packages)) {
 				}
 			}
 		}
-		$packages[$key]['software_update_inst_id'] = $inst['software_update_inst_id'];
+		$packages[$key]['software_update_inst_id'] = intval($inst['software_update_inst_id']);
 		$packages[$key]['installed'] = $installed_txt;
 	}
+	$app->tpl->setVar('has_packages',1);
+} else {
+	$app->tpl->setVar('has_packages',0);
 }
 
 

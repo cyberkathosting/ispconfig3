@@ -170,13 +170,7 @@ $form["tabs"]['domain'] = array (
 		'hd_quota' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'hd_quota_error_empty'),
-										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^(\-1|[0-9]{1,10})$/',
-														'errmsg'=> 'hd_quota_error_regex'),
-									),
-			'default'	=> '-1',
+			'default'	=> '0',
 			'value'		=> '',
 			'width'		=> '7',
 			'maxlength'	=> '7'

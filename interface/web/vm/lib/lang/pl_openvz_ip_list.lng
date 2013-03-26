@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'OpenVZ IP addresses';
-$wb['server_id_txt'] = 'Server';
-$wb['ip_address_txt'] = 'IP address';
-$wb['reserved_txt'] = 'Reserved';
+$wb['list_head_txt'] = 'Adresy IP OpenVZ';
+$wb['server_id_txt'] = 'Serwer';
+$wb['ip_address_txt'] = 'Adresy IP';
+$wb['reserved_txt'] = 'Zarezerwowany';
 $wb['vm_id_txt'] = 'VM';
 ?>
+

@@ -167,19 +167,30 @@ class maildeliver_plugin {
 				}
 			}
 			
+            $app->log("Found " . count($addresses) . " addresses.",LOGLEVEL_DEBUG);
+            
+            $alias_addresses = array();
+            
 			$email_parts = explode('@',$data["new"]["email"]);
 			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = '@".$app->db->quote($email_parts[1])."'";
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records) && count($records) > 0) {
+                $app->log("Found " . count($records) . " records (aliasdomains).",LOGLEVEL_DEBUG);
 				foreach($records as $rec) {
 					$aliasdomain = substr($rec['source'],1);
 					foreach($addresses as $email) {
 						$email_parts = explode('@',$email);
-						$addresses[] = $email_parts[0].'@'.$aliasdomain;
+						$alias_addresses[] = $email_parts[0].'@'.$aliasdomain;
 					}
 				}
 			}
 			
+            $app->log("Found " . count($addresses) . " addresses at all.",LOGLEVEL_DEBUG);
+            
+            $addresses = array_unique(array_merge($addresses, $alias_addresses));
+            
+            $app->log("Found " . count($addresses) . " unique addresses at all.",LOGLEVEL_DEBUG);
+            
 			$address_str = '';
 			if(is_array($addresses) && count($addresses) > 0) {
 				$address_str .= ':addresses [';

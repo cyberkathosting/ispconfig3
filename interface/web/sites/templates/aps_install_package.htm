@@ -49,7 +49,7 @@
         <input type="hidden" name="install" value="0" />
         <div class="buttonHolder buttons">
             <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');"><span>{tmpl_var name='btn_install_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('aps/availablepackages_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/aps_availablepackages_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
         </div>
     </div>
     

@@ -7,4 +7,5 @@ $wb['action_txt'] = 'Aktif';
 $wb['toolsarea_head_txt'] = 'Paket';
 $wb['repoupdate_txt'] = 'Mutakhirkan daftar paket';
 $wb['package_id_txt'] = 'App-ID lokal';
+$wb['no_packages_txt'] = 'No packages available';
 ?>

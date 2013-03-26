@@ -100,7 +100,7 @@ $wb['monitor_serverstate_mailqhigher_txt'] = 'Mailq jest za bardzo obciążony';
 $wb['monitor_serverstate_mailqhighest_txt'] = 'Mailq jest krytycznie przeciążony';
 $wb['monitor_serverstate_mailqunknown_txt'] = 'Mailq: ???';
 $wb['monitor_serverstate_raidok_txt'] = 'RAID działa poprawnie';
-$wb['monitor_serverstate_raidresync_txt'] = 'RAID nie jest z synchronizowany';
+$wb['monitor_serverstate_raidresync_txt'] = 'RAID nie jest zsynchronizowany';
 $wb['monitor_serverstate_raidfault_txt'] = 'RAID ma jeden niesprawny dysk. Wymień go najszybciej jak to możliwe!';
 $wb['monitor_serverstate_raiderror_txt'] = 'RAID nie włączy się już więcej';
 $wb['monitor_serverstate_raidunknown_txt'] = 'Stan RAID: ???';
@@ -144,6 +144,7 @@ $wb['monitor_title_beancounter_txt'] = 'OpenVz VE BeanCounter';
 $wb['monitor_beancounter_nosupport_txt'] = 'Ten serwer nie jest serwerem OpenVz VE i nie posiada informacji o beancounterach';
 $wb['monitor_title_iptables_txt'] = 'Reguły IPTables';
 $wb['Show fail2ban-Log'] = 'Pokaż log fail2ban';
-$wb['Show IPTables'] = 'Pokaż IPTables';
+$wb['Show IPTables'] = 'Pokaż reguły IPTables';
 $wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>
+

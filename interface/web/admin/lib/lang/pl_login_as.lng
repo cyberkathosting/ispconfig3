@@ -1,11 +1,12 @@
 <?php
-$wb['login_1_txt'] = 'Do you want to login as user';
-$wb['login_2_txt'] = 'If you do so, you can \"go back\" by clicking at logout.';
-$wb['btn_yes_txt'] = 'Yes, login as Client';
-$wb['btn_back_txt'] = 'No, back to list';
-$wb['udp_port_help_txt'] = 'Separated by comma';
-$wb['active_txt'] = 'Active';
-$wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
-$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \":\" and \",\".';
-$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \":\" and \",\".';
+$wb['login_1_txt'] = 'Czy chcesz zalogować się jako użytkownik';
+$wb['login_2_txt'] = 'Po zalogowaniu będziesz mógł wrócić tutaj wylogowując się.';
+$wb['btn_yes_txt'] = 'Tak, zaloguj jako Klienta';
+$wb['btn_back_txt'] = 'Nie, wracam do listy';
+$wb['udp_port_help_txt'] = 'Rozdzielone przecinkami';
+$wb['active_txt'] = 'Aktywny';
+$wb['firewall_error_unique'] = 'Istnieje już wpis firewalla dla tego serwera.';
+$wb['tcp_ports_error_regex'] = 'Niedozwolony znam w definicji portu TCP. Dozwolone są liczby, dwukropek i przecinek (: i ,)';
+$wb['udp_ports_error_regex'] = 'Niedozwolony znam w definicji portu UDP. Dozwolone są liczby, dwukropek i przecinek (: i ,)';
 ?>
+

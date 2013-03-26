@@ -248,11 +248,24 @@ class page_action extends tform_actions {
             // we need remote access rights for this server, so get it's ip address
             $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
             if($server_config['ip_address']!='') {
+				/*
                 if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
                 $this->dataRecord['remote_access'] = 'y';
                 if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
                     $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
                 }
+				*/
+				
+				if($this->dataRecord['remote_access'] != 'y'){
+					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
+					$this->dataRecord['remote_access'] = 'y';
+				} else {
+					if($this->dataRecord['remote_ips'] != ''){
+						if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
+							$this->dataRecord['remote_ips'] .= ',' . $server_config['ip_address'];
+						}
+					}
+				}
             }
         }
         
@@ -299,11 +312,24 @@ class page_action extends tform_actions {
             // we need remote access rights for this server, so get it's ip address
             $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
             if($server_config['ip_address']!='') {
+				/*
                 if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
                 $this->dataRecord['remote_access'] = 'y';
                 if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
                     $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
                 }
+				*/
+				
+				if($this->dataRecord['remote_access'] != 'y'){
+					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
+					$this->dataRecord['remote_access'] = 'y';
+				} else {
+					if($this->dataRecord['remote_ips'] != ''){
+						if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
+							$this->dataRecord['remote_ips'] .= ',' . $server_config['ip_address'];
+						}
+					}
+				}
             }
         }
         

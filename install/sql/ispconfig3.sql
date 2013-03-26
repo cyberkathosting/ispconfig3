@@ -296,7 +296,7 @@ CREATE TABLE `client_template` (
   `limit_shell_user` int(11) NOT NULL default '0',
   `ssh_chroot` varchar(255) NOT NULL DEFAULT 'no',
   `limit_webdav_user` int(11) NOT NULL default '0',
-  `limit_aps` int(11) NOT NULL DEFAULT '0',
+  `limit_aps` int(11) NOT NULL DEFAULT '-1',
   `limit_dns_zone` int(11) NOT NULL default '-1',
   `limit_dns_slave_zone` int(11) NOT NULL default '-1',
   `limit_dns_record` int(11) NOT NULL default '-1',
@@ -2169,6 +2169,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.1');
 
 SET FOREIGN_KEY_CHECKS = 1;

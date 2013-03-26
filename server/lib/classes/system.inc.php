@@ -1539,7 +1539,8 @@ class system{
     }
 	
 	function is_mounted($mountpoint){
-		$cmd = 'df 2>/dev/null | grep " '.$mountpoint.'$"';
+		//$cmd = 'df 2>/dev/null | grep " '.$mountpoint.'$"';
+		$cmd = 'mount 2>/dev/null | grep " on '.$mountpoint.' type "';
 		exec($cmd, $output, $return_var);
 		return $return_var == 0 ? true : false; 
 	}

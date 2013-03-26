@@ -20,6 +20,6 @@ INSERT INTO `sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (N
 -- --------------------------------------------------------
 
 ALTER TABLE  `web_domain` ADD  `ssl_key` MEDIUMTEXT NOT NULL AFTER  `ssl_bundle`;
-ALTER TABLE  `mail_user` ADD  `disabledoveadm` enum('n','y') NOT NULL default 'n' AFTER  `disablelda`
+ALTER TABLE  `mail_user` ADD  `disabledoveadm` enum('n','y') NOT NULL default 'n' AFTER  `disablelda`;
 
 

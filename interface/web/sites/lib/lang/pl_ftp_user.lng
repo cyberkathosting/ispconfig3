@@ -25,10 +25,11 @@ $wb['directory_error_empty'] = 'Element docelowy jest pusty.';
 $wb['directory_error_notinweb'] = 'Katalog nie jest wewnątrz katalogu root www.';
 $wb['parent_domain_id_error_empty'] = 'Nie wybrano żadnej strony www.';
 $wb['quota_size_error_regex'] = 'Quota: wpisz -1 dla wartości bez limitu lub liczbę > 0';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['dir_dot_error'] = 'Znaki .. nie są dozwolone w ścieżce';
+$wb['dir_slashdot_error'] = 'Znaki ./ nie są dozwolone w ścieżce';
+$wb['generate_password_txt'] = 'Generuj hasło';
+$wb['repeat_password_txt'] = 'Powtórz hasło';
+$wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
+$wb['password_match_txt'] = 'Hasła pasują';
 ?>
+

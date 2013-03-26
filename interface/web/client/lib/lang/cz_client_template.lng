@@ -84,4 +84,9 @@ $wb['database_limits_txt'] = 'Databázové limity';
 $wb['cron_job_limits_txt'] = 'Cron pracovní limity';
 $wb['dns_limits_txt'] = 'DNS limity';
 $wb['virtualization_limits_txt'] = 'Virtualizace limity';
+$wb['aps_limits_txt'] = 'APS Installer Limits';
+$wb['limit_aps_txt'] = 'Max. number of APS instances';
+$wb['limit_aps_error_notint'] = 'The APS instances limit must be a number.';
 ?>
+
+

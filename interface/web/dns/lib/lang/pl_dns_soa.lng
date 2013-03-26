@@ -27,12 +27,13 @@ $wb['update_acl_txt'] = 'Zaktualizuj ACL';
 $wb['seconds_txt'] = 'Sekund';
 $wb['eg_domain_tld'] = 'np. domena.pl';
 $wb['eg_ns1_domain_tld'] = 'np. ns1.domena.pl';
-$wb['eg_webmaster_domain_tld'] = 'np. webmaster@domena.pl';
-$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
-$wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
-$wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
-$wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
-$wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
+$wb['eg_webmaster_domain_tld'] = 'np. webmaster.domena.pl';
+$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'Domena nie może być zmieniona. Prześlij prośbę o zmianę do Administratora.';
+$wb['xfer_error_regex'] = 'Także powiadom: Proszę użyć adresu IP';
+$wb['refresh_range_error'] = 'Min. czas odświeżania wynosi 60 sekund';
+$wb['retry_range_error'] = 'Min. czas powtórzenia wynosi 60 sekund';
+$wb['expire_range_error'] = 'Min. czas przedawnienia wynosi 60 sekund';
+$wb['minimum_range_error'] = 'Min. czas minimalny wynosi 60 sekund';
+$wb['ttl_range_error'] = 'Min. czas TTL wynosi 60 sekund';
 ?>
+

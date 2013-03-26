@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Directive Snippets';
-$wb['active_txt'] = 'Active';
-$wb['name_txt'] = 'Name of Snippet';
-$wb['type_txt'] = 'Type';
-$wb['add_new_record_txt'] = 'Add Directive Snippet';
+$wb['list_head_txt'] = 'Zestawy dyrektyw';
+$wb['active_txt'] = 'Aktywne';
+$wb['name_txt'] = 'Nazwa zestawu';
+$wb['type_txt'] = 'Rodzaj';
+$wb['add_new_record_txt'] = 'Dodaj nowy zestaw dyrektyw';
 ?>
+

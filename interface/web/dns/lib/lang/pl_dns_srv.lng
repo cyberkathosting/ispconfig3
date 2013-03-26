@@ -3,9 +3,6 @@ $wb['server_id_txt'] = 'Serwer';
 $wb['zone_txt'] = 'Strefa';
 $wb['name_txt'] = 'Nazwa serwera';
 $wb['type_txt'] = 'typ';
-$wb['target_txt'] = 'Target';
-$wb['weight_txt'] = 'Weight';
-$wb['port_txt'] = 'Port';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktywny';
 $wb['limit_dns_record_txt'] = 'Maksymalna ilość wpisów DNS dla Twojego konta została przekroczona.';
@@ -16,4 +13,8 @@ $wb['data_error_empty'] = 'Wpis serwera jest pusty';
 $wb['data_error_regex'] = 'Wpis serwera ma niepoprawny format';
 $wb['srv_error_regex'] = 'Niepoprawny format rekordu serwera. Rekord serwera musi zawierać 3 łańcuchy znakowe oddzielone spacjami.';
 $wb['aux_txt'] = 'Priorytet';
+$wb['target_txt'] = 'Cel';
+$wb['weight_txt'] = 'Waga';
+$wb['port_txt'] = 'Port';
 ?>
+

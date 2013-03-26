@@ -4,5 +4,6 @@ $wb['sender_id_txt'] = 'ID nadawcy';
 $wb['subject_txt'] = 'Temat';
 $wb['message_txt'] = 'Wiadomość';
 $wb['tstamp_txt'] = 'Kalendarz';
-$wb['reply_txt'] = 'Reply';
+$wb['reply_txt'] = 'Odpowiedź';
 ?>
+

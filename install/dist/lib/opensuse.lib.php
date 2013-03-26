@@ -1078,7 +1078,7 @@ class installer_dist extends installer_base {
 		
 			wf("$vhost_conf_dir/ispconfig.vhost", $content);
 		
-			if(!is_file('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
+			//if(!is_file('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
 				$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
 				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
@@ -1088,7 +1088,7 @@ class installer_dist extends installer_base {
 				exec('ln -s /usr/local/ispconfig/interface/web /srv/www/ispconfig');
 				exec('chown -R ispconfig:ispconfig /srv/www/php-fcgi-scripts/ispconfig');
 			
-			}
+			//}
 		
 			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink
@@ -1280,7 +1280,7 @@ class installer_dist extends installer_base {
 			$existing_cron_jobs = file('crontab.txt');
 		
 			$cron_jobs = array(
-                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /var/log/ispconfig/cron.log'
+                '*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /dev/null'
             );
 		
 			// remove existing ispconfig cronjobs, in case the syntax has changed
@@ -1299,7 +1299,7 @@ class installer_dist extends installer_base {
 		}
 		
 		exec('touch /var/log/ispconfig/cron.log');
-		exec('chmod 666 /var/log/ispconfig/cron.log');
+		exec('chmod 660 /var/log/ispconfig/cron.log');
 	}
 
 }

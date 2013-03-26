@@ -130,23 +130,21 @@ $type = $_GET["type"];
 	}
     
     if($type == 'getdatabaseusers') {
-		$json = '{';
-        
+        $json = '{}';
+		
 		$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = $web_id";
         $group = $app->db->queryOneRecord($sql);
         if($group) {
             $sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = '" . $group['sys_groupid'] . "'";
             $records = $app->db->queryAllRecords($sql);
             
+			$tmp_array = array();
             foreach($records as $record) {
-                $json .= '"'.$record['database_user_id'].'": "'.$record['database_user'].'",';
+				$tmp_array[$record['database_user_id']] = $record['database_user'];
             }
-            unset($records);
-            unset($group);
+			$json = $app->functions->json_encode($tmp_array);
+            unset($records, $group, $tmp_array);
         }
-        
-        if(substr($json,-1) == ',') $json = substr($json,0,-1);
-		$json .= '}';
     }
 	
 	if($type == 'get_use_combobox'){

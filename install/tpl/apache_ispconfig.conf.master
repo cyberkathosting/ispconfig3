@@ -50,3 +50,5 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 
 Alias /awstats-icon "/usr/share/awstats/icon"
 
+NameVirtualHost *:80
+NameVirtualHost *:443

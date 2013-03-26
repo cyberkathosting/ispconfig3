@@ -1,18 +1,19 @@
 <?php
-$wb['btn_send_txt'] = 'Send email';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['sender_txt'] = 'Sender email address';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['form_legend_client_txt'] = 'Send email message to all clients.';
-$wb['form_legend_admin_txt'] = 'Send email message to all clients and resellers.';
-$wb['sender_invalid_error'] = 'Sender email invalid.';
-$wb['subject_invalid_error'] = 'Subject is empty.';
-$wb['message_invalid_error'] = 'Message is empty.';
-$wb['email_sent_to_txt'] = 'Email sent to:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Recipient';
-$wb['all_clients_resellers_txt'] = 'All clients and resellers';
-$wb['all_clients_txt'] = 'All clients';
-$wb['variables_txt'] = 'Variables:';
+$wb['btn_send_txt'] = 'Wyślij wiadomość';
+$wb['btn_cancel_txt'] = 'Anuluj';
+$wb['sender_txt'] = 'Adres nadawcy';
+$wb['subject_txt'] = 'Temat';
+$wb['message_txt'] = 'Wiadomość';
+$wb['form_legend_client_txt'] = 'Wyślij wiadomość do wszystkich klientów';
+$wb['form_legend_admin_txt'] = 'Wyślij wiadomość do wszystkich klientów i sprzedawców';
+$wb['sender_invalid_error'] = 'Adres nadawcy jest nieprawidłowy.';
+$wb['subject_invalid_error'] = 'Temat jest pusty!';
+$wb['message_invalid_error'] = 'Wiadomość jest pusta.';
+$wb['email_sent_to_txt'] = 'Email wysłany do:';
+$wb['page_head_txt'] = 'Wyślij informację dla klienta';
+$wb['recipient_txt'] = 'Odbiorca';
+$wb['all_clients_resellers_txt'] = 'Wszyscy klienci i resellerzy';
+$wb['all_clients_txt'] = 'Wszyscy klienci';
+$wb['variables_txt'] = 'Zmienne:';
 ?>
+

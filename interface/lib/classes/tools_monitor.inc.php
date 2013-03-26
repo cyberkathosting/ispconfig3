@@ -465,7 +465,7 @@ class tools_monitor {
                 $html .= '<p>Problem, there are no rules listed for the server</p>';
             }
             else {
-                $html = nl2br($data['output']);
+                $html .= nl2br($data['output']);
             }
             $html .= '</div></div>';
         } else {
