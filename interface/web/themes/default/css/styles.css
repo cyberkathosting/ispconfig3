@@ -438,6 +438,9 @@ table.list .tbl_col_limit {
     font-family: Consolas, "Lucida Console", "Courier New", monospace;
     font-size: 0.9em;
 }
+.codeview .logerror { background: rgb(255,0,0); }
+.codeview .logwarn { background: rgb(255,204,0); }
+.codeview .loginfo { background: rgb(153,204,255); }
 /* Lists */
 table.list {
     width: 100%;
