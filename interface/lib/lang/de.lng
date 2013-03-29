@@ -70,6 +70,7 @@ $wb['monthnamesshort_nov'] = 'Nov';
 $wb['monthnamesshort_dec'] = 'Dez';
 $wb['datepicker_nextText'] = 'Vor';
 $wb['datepicker_prevText'] = 'Zurück';
+$wb['activeuser_txt'] = 'Angemeldet als:';
 $wb['logout_txt'] = 'Abmelden';
 $wb['submit_confirmation'] = 'Wollen Sie diese Aktion wirlich ausführen?';
 $wb['globalsearch_resultslimit_of_txt'] = 'von';

@@ -522,9 +522,9 @@ div.icoDevice {
     margin: 5px;
     background: url("../icons/device_sprite.png") no-repeat transparent;
 }
-.systemmonitor-server div.icoDevice { background-position: 0 0; }
-.systemmonitor-ve div.icoDevice { background-position: -64px 0; }
-.systemmonitor-network div.icoDevice { background-position: -128px 0; }
+.systemmonitor-server div.icoDevice { background-position: 0 -128px; }
+.systemmonitor-ve div.icoDevice { background-position: 0 -64px; }
+.systemmonitor-network div.icoDevice { background-position: 0 0px; }
 div.statusDevice,
 div.statusMsg { float: left; }
 div.statusMsg p { 
@@ -600,17 +600,17 @@ div.status {
     width:60px;
     text-decoration: none;
 }
-.dashboard-modules.tools a { background-position: 12px -9px; }
-.dashboard-modules.admin a { background-position: 12px -73px; }
-.dashboard-modules.sites a { background-position: 12px -520px; }
-.dashboard-modules.monitor a { background-position: 13px -585px; }
-.dashboard-modules.help a { background-position: 13px -716px; }
-.dashboard-modules.mail a { background-position: 12px -776px; }
-.dashboard-modules.vm a { background-position: 14px -842px; }
-.dashboard-modules.domain a { background-position: 12px -905px; }
-.dashboard-modules.dns a { background-position: 12px -970px; }
-.dashboard-modules.client a { background-position: 13px -1096px; }
-.dashboard-modules.billing a { background-position: 14px -1162px; }
+.dashboard-modules.tools a { background-position: 14px -8px; }
+.dashboard-modules.admin a { background-position: 14px -72px; }
+.dashboard-modules.sites a { background-position: 14px -520px; }
+.dashboard-modules.monitor a { background-position: 14px -584px; }
+.dashboard-modules.help a { background-position: 14px -712px; }
+.dashboard-modules.mail a { background-position: 14px -776px; }
+.dashboard-modules.vm a { background-position: 14px -840px; }
+.dashboard-modules.domain a { background-position: 14px -904px; }
+.dashboard-modules.dns a { background-position: 14px -968px; }
+.dashboard-modules.client a { background-position: 14px -1096px; }
+.dashboard-modules.billing a { background-position: 14px -116px; }
 
 .panel_dashboard h2 { font-size:20px; }
 
@@ -737,13 +737,13 @@ button.negative:hover {
 /* Button with icon and text */
 .iconstxt { background: url("../icons/button_sprite.png") no-repeat transparent; }
 .iconstxt span { padding-left: 20px; font-weight: bold; }
-.iconstxt.icoPositive { background-position: 6px -130px; }
-.iconstxt.icoNegative { background-position: 6px -98px; }
-.iconstxt.icoAdd { background-position: 6px -66px; }
-.iconstxt.icoKey { background-position: 6px -1px; }
-.iconstxt.icoDelete { background-position: 6px -34px; }
-.iconstxt.icoDownload { background-position: 6px -1px; }
-.iconstxt.icoRestore { background-position: 6px -1px; }
+.iconstxt.icoPositive { background-position: 0px -136px; }
+.iconstxt.icoNegative { background-position: 0px -104px; }
+.iconstxt.icoAdd { background-position: 0px -72px; }
+.iconstxt.icoKey { background-position: 0px -8px; }
+.iconstxt.icoDelete { background-position: 0px -40px; }
+.iconstxt.icoDownload { background-position: 0px -8px; }
+.iconstxt.icoRestore { background-position: 0px -8px; }
 
 /* Button with icon and without text */
 .icons16 { position: relative; }
