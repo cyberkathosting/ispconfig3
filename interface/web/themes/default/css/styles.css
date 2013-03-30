@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700,300);
 
 /* 
@@ -111,7 +110,8 @@ header {
     color: #faf0e6;
     padding: 15px 2em 5px 20px;
     background: #20AAE5;
-        border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
+    min-height: 54px;
 }
 header h1 {
     font-size:2.5em;
@@ -132,6 +132,8 @@ header span {
     text-align: right;
 }
 #topsubnav a { 
+    display: inline-block;
+    min-height: 20px;
     color: #f0f8ff;
     font-weight: normal;
     background:transparent;
@@ -401,7 +403,7 @@ table.list .tbl_col_limit {
 .pageForm_description { font-size: 12px; }
 
 /* Tab-Box */
-.tabbox_tabs { border-bottom: 1px solid #d3d3d3; }
+.tabbox_tabs { border-bottom: 1px solid #d3d3d3; margin-top: 2em; }
 .tabbox_tabs ul {
     list-style: none;
     padding: 0;
@@ -409,14 +411,17 @@ table.list .tbl_col_limit {
 }
 .tabbox_tabs li {
     display: inline;
+    line-height: 35px;
     margin: 0 2px 0 0;
 }
 .tabbox_tabs a {
-    padding: 0 1em;
+    font-size: 16px;
+    padding: 9px 1em;
     text-decoration: none;
     color: black;
-    background: #d3d3d3;
+    background: linear-gradient(to bottom, #F7F7F5, #E0DED8) repeat scroll 0 0 #C7C2BA;
     border: 1px solid #d3d3d3;
+    border-radius: 6px 6px 0 0;
 }
 .tabbox_tabs a:hover {
     background: #fc0;
@@ -772,7 +777,7 @@ button.negative:hover {
 .iconstxt.icoNegative:before { background-position: 0px -104px; }
 .iconstxt.icoAdd:before { background-position: 0px -72px; }
 .iconstxt.icoKey:before { background-position: 0px -8px; }
-.iconstxt.icoDelet:beforee { background-position: 0px -40px; }
+.iconstxt.icoDelete:before { background-position: 0px -40px; }
 .iconstxt.icoDownload:before { background-position: 0px -8px; }
 .iconstxt.icoRestore:before { background-position: 0px -8px; }
 
@@ -887,7 +892,7 @@ a[href $="#logout"] {
 
 a[href $="#usersettings"] {
     padding-left: 24px;
-    background: url("../icons/x16_sprite.png") no-repeat left -440px transparent !important;
+    background: url("../icons/x16_sprite.png") no-repeat left -442px transparent !important;
 }
 
 /* Select Menu with Images */
@@ -1259,7 +1264,7 @@ div.gs-container * {
 div.gs-container input {
     background: url("../icons/x16_sprite.png") no-repeat 2px -119px #FFFFFF;
     height:20px;
-    border:1px solid #444;
+    border:1px solid #fff;
     padding:0 22px 2px;
     color:#444;
     -moz-border-radius:5px;
