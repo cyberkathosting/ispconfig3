@@ -96,6 +96,17 @@ header, #nav, #main, footer {
     border-radius: 8px;
     box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.05) inset, 0 0 18px rgba(0, 0, 0, 0.5);
 }
+#page.loginpage {
+    width: 400px !important;
+    min-width: 400px !important;
+    min-height: 300px !important;
+    background-color: #ffffff;
+    text-align:left;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.05) inset, 0 0 18px rgba(0, 0, 0, 0.5);
+}
 .skip, .hideme, .print {
     height: 1px;
     left: -1000em;
@@ -314,7 +325,12 @@ header span {
     margin-right: 0;
     padding: 0px 10px 10px 20px;
 }
-
+.loginpage #content { 
+    margin-left: 0px; 
+    margin-right: 0;
+    padding: 0px;
+}
+ 
 /* footer
 -------------------------------------------------------------- */
 
@@ -1164,7 +1180,7 @@ select.flags option[value=ZW], select.flags option[value=zw], .country-ZW {backg
 
 .panel_login {
     max-width: 80%;
-    min-width: 680px;
+    min-width: 400px;
 }
 div.subsectiontoggle {
     border:1px solid #ccc;
@@ -1785,6 +1801,9 @@ p.value {
 
 .uniForm .inlineLabels label,
 .uniForm .inlineLabels .label{ width: 20%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
+
+.loginpage .uniForm .inlineLabels label,
+.loginpage .uniForm .inlineLabels .label{ width: 40%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
 
 .uniForm .inlineLabels .textInput,
 .uniForm .inlineLabels .fileUpload{ width: 35%; /* <- Required property */ }
