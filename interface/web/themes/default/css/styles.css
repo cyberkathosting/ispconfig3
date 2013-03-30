@@ -87,8 +87,9 @@ header, #nav, #main, footer {
 }
 #page {
     min-width: 980px;
+    min-height: 820px;
     max-width: 80%;
-    background: #fff;
+    background-color: #ffffff;
     text-align:left;
     margin: 0 auto;
     padding: 10px;
@@ -203,8 +204,7 @@ header span {
 /* main
 -------------------------------------------------------------- */
 #main { 
-    background: #fff;
-    padding: 1em 0;
+    padding: 1em 0 0 0;
 }
 
 /* main/sideNav + submenu
