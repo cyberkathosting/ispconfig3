@@ -163,19 +163,20 @@
                 <!-- end: #content -->
             </section>
             <!-- end: #main -->
-            <!-- begin: footer -->
-            <footer>
-                Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
-            </footer><!-- end: footer -->
         </div>
-		
-<div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
-<form action="" method="post" target="dummy_login" id="dummy_login_form">
-<input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
-<input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
-<input type="submit" value="Login" id="dummy_submit"/>
-</form>
-<iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
-</div>
+        <!-- begin: footer -->
+        <footer>
+            Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
+        </footer>
+        <!-- end: footer -->
+
+        <div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
+            <form action="" method="post" target="dummy_login" id="dummy_login_form">
+                <input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
+                <input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
+                <input type="submit" value="Login" id="dummy_submit"/>
+            </form>
+            <iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
+        </div>
     </body>
 </html>

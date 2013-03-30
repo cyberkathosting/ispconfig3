@@ -319,21 +319,17 @@ header span {
 -------------------------------------------------------------- */
 
 footer { 
-    color:#666; 
-    background: #f9f9f9;
-    padding: 10px 20px;
-    border-top: 5px #efefef solid;
+    color:#F2F2F2; 
+    padding: 1em;
     font-size: 0.8em;
     text-align: center;
 }
 footer a {
-    color: #999;
-    background:transparent;
+    color: #fff;
     font-weight: bold;
 }
 footer a:hover, footer a:active {
-    color: #4D87C7; 
-    background-color: transparent; 
+    color: #444444; 
     text-decoration:underline;
 }
 
