@@ -455,7 +455,7 @@ table.list .tbl_col_limit {
     font-family: Consolas, "Lucida Console", "Courier New", monospace;
     font-size: 0.9em;
 }
-.codeview .logerror { background: rgb(255,0,0); }
+.codeview .logerror { background: rgb(255,0,0); color: #fff; }
 .codeview .logwarn { background: rgb(255,204,0); }
 .codeview .loginfo { background: rgb(153,204,255); }
 
@@ -492,6 +492,7 @@ table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal;overflow:vis
 }
 
 /* Systemmonitor */
+.systemmonitor,
 .systemmonitor-server,
 .systemmonitor-ve,
 .systemmonitor-state {
