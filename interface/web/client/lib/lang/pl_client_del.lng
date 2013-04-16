@@ -4,4 +4,3 @@ $wb['delete_explanation'] = 'Ta akcja usunie następującą liczbę rekordów po
 $wb['btn_save_txt'] = 'Usuń klienta';
 $wb['btn_cancel_txt'] = 'Anuluj bez usuwania klienta';
 ?>
-

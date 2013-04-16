@@ -5,5 +5,3 @@ $wb['path_txt'] = 'Cesta';
 $wb['active_txt'] = 'Aktivní';
 $wb['path_error_regex'] = 'Neplatná cesta ke složce.';
 ?>
-
-

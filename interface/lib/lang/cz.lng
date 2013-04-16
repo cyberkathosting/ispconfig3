@@ -132,5 +132,3 @@ $wb['datalog_status_u_web_folder_user'] = 'Aktualizace nastavení uživatele pro
 $wb['datalog_status_d_web_folder_user'] = 'Odstranění uživatele pro adresáře chráněné heslem';
 $wb['login_as_txt'] = 'Přihlaste se jako';
 ?>
-
-

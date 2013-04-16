@@ -6,5 +6,3 @@ $wb['parent_domain_id_txt'] = 'Webové stránky';
 $wb['username_txt'] = 'Uživatelské jméno';
 $wb['add_new_record_txt'] = 'Přidat nového WebDAV uživatele';
 ?>
-
-

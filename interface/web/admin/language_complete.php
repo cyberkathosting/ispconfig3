@@ -138,7 +138,7 @@ function merge_langfile($langfile,$masterfile) {
 		$file_content = "<?php\n";
 		foreach($wb as $key => $val) {
 			$val = str_replace("'","\\'",$val);
-			$val = str_replace('"','\\"',$val);
+			$val = str_replace('"','\"',$val);
 			$file_content .= '$wb['."'$key'".'] = '."'$val';\n";
 		}
 		$file_content .= "?>\n";

@@ -7,4 +7,3 @@ $wb['banned_files_lover_txt'] = 'Przyjmuj zablokowane pliki';
 $wb['bad_header_lover_txt'] = 'Przyjmuj złe nagłowki';
 $wb['add_new_record_txt'] = 'Dodaj wpis plityki';
 ?>
-

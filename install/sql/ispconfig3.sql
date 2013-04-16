@@ -418,7 +418,7 @@ CREATE TABLE `dns_slave` (
   `active` enum('N','Y') NOT NULL,
   `xfer` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `origin` (`origin`),
+  UNIQUE KEY `slave` (`origin`,`server_id`),
   KEY `active` (`active`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1631,6 +1631,7 @@ CREATE TABLE `web_backup` (
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
+  `filesize` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -2169,6 +2170,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.1');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.2');
 
 SET FOREIGN_KEY_CHECKS = 1;

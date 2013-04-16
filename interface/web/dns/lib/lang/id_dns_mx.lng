@@ -13,4 +13,5 @@ $wb['name_error_empty'] = 'Nama Host kosong.';
 $wb['name_error_regex'] = 'Format Nama Host salah.';
 $wb['data_error_empty'] = 'Nama Host Server Mail kosong';
 $wb['data_error_regex'] = 'Format Nama Host Server Mail tidak valid';
+$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 ?>

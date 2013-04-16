@@ -170,5 +170,5 @@ $wb['enable_ip_wildcard_txt'] = 'Enable IP wildcard (*)';
 $wb['web_folder_protection_txt'] = 'Make web folders immutable (extended attributes)';
 $wb['overtraffic_notify_admin_txt'] = 'Prześlij informacje o przekroczeniu transferu do admina';
 $wb['overtraffic_notify_client_txt'] = 'Prześlij informacje o przekroczeniu transferu do klienta';
+$wb['rbl_error_regex'] = 'Please specify valid RBL hostnames.';
 ?>
-

@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'DNS Zone';
-$wb['secondary_zone_txt'] = 'Zweiter DNS Zone';
+$wb['origin_txt'] = 'DNS-Zone';
+$wb['secondary_zone_txt'] = 'Slave DNS-Zone';
 $wb['ns_txt'] = 'NS (IP Adresse)';
 $wb['active_txt'] = 'Aktiv';
 $wb['limit_dns_slave_zone_txt'] = 'Die maximale Anzahl an Zweiter DNS Zonen für Ihr Konto wurde erreicht.';

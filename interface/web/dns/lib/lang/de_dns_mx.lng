@@ -13,5 +13,5 @@ $wb['name_error_empty'] = 'Der Hostname ist leer.';
 $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Mailserver Hostname ist leer';
 $wb['data_error_regex'] = 'Mailserver Hostname Format ist ungültig';
-$wb["duplicate_mx_record_txt"] = 'Doppelter MX-Eintrag.';
+$wb['duplicate_mx_record_txt'] = 'Doppelter MX-Eintrag.';
 ?>

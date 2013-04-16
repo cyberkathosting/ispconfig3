@@ -33,4 +33,3 @@ $wb['Update Packagelist'] = 'Uaktualnij listę pakietów';
 $wb['Subdomain (Vhost)'] = 'Subdomena (Vhost)';
 $wb['error_proxy_requires_url'] = 'Rodzaj przekierowania ';
 ?>
-

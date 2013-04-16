@@ -59,22 +59,8 @@ class installer_dist extends installer_base {
 			}
 		}
 		
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'virtual_to_transport.sh';
-		
-		//* Backup exiting virtual_to_transport.sh script
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
-		}
-		
-		copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
-		chgrp($full_file_name,'mailman');
-		chmod($full_file_name,0750);
-		
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-		
-		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
 
 		$virtual_domains = '';
 		if($status == 'update')
@@ -101,6 +87,24 @@ class installer_dist extends installer_base {
 		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
 
 		wf($full_file_name, $content);
+		
+		//* Write virtual_to_transport.sh script
+		$config_dir = $conf['mailman']['config_dir'].'/';
+		$full_file_name = $config_dir.'virtual_to_transport.sh';
+		
+		//* Backup exiting virtual_to_transport.sh script
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
+		}
+		
+		if(is_dir('/etc/mailman')) {
+			copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+			chgrp($full_file_name,'mailman');
+			chmod($full_file_name,0750);
+		}
+		
+		//* Create aliasaes
+		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
 	}
 	
 	function configure_postfix($options = '')
@@ -218,6 +222,14 @@ class installer_dist extends installer_base {
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
 		
+		//* Create the mailman files
+		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
+		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
+		exec('postalias /var/lib/mailman/data/aliases');
+		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
+		exec('postmap /var/lib/mailman/data/virtual-mailman');
+		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
+		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 		
 		//* Make a backup copy of the main.cf file
 		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');

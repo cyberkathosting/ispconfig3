@@ -13,4 +13,5 @@ $wb['name_error_empty'] = 'Le nom d\'hôte est vide.';
 $wb['name_error_regex'] = 'Le format du nom d\'hôte est invalide.';
 $wb['data_error_empty'] = 'Le nom d\'hôte du serveur mail est vide';
 $wb['data_error_regex'] = 'Le format du nom d\'hôte du serveur mail est invalide';
+$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 ?>

@@ -9,4 +9,3 @@ $wb['firewall_error_unique'] = 'Istnieje już wpis firewalla dla tego serwera.';
 $wb['tcp_ports_error_regex'] = 'Niedozwolony znam w definicji portu TCP. Dozwolone są liczby, dwukropek i przecinek (: i ,)';
 $wb['udp_ports_error_regex'] = 'Niedozwolony znam w definicji portu UDP. Dozwolone są liczby, dwukropek i przecinek (: i ,)';
 ?>
-

@@ -3,5 +3,3 @@ $wb['list_head_txt'] = 'Uživatelé databáze';
 $wb['database_user_txt'] = 'Uživatelé databáze';
 $wb['add_new_record_txt'] = 'Přidat nového uživatele databáze';
 ?>
-
-

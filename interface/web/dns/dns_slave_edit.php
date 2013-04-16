@@ -158,6 +158,17 @@ class page_action extends tform_actions {
 		parent::onSubmit();
 	}
 	
+	function onInsert() {
+		global $app, $conf;
+		
+		// Check if record is existing already
+		$duplicate_slave = $app->db->queryOneRecord("SELECT * FROM dns_slave WHERE origin = '".$this->dataRecord["origin"]."' AND server_id = ".$app->functions->intval($this->dataRecord["server_id"])." AND ".$app->tform->getAuthSQL('r'));
+		
+		if(is_array($duplicate_slave) && !empty($duplicate_slave)) $app->error($app->tform->wordbook["origin_error_unique"]);
+		
+		parent::onInsert();
+	}
+	
 	function onAfterInsert() {
 		global $app, $conf;
 		

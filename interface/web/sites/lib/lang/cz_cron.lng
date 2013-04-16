@@ -19,5 +19,3 @@ $wb['run_wday_error_format'] = 'Chybný formát pro dny týdne.';
 $wb['command_error_format'] = 'Chybná formát příkazu. V případě URL je povoleno volání pouze http/https.';
 $wb['unknown_fieldtype_error'] = 'Bylp použito pole neznámého typu.';
 ?>
-
-

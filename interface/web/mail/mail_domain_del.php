@@ -59,8 +59,8 @@ class page_action extends tform_actions {
 		// Before we delete the email domain,
 		// we will delete all depending records.
 		
-		// Delete all forwardings where the osurce or destination belongs to this domain
-		$records = $app->db->queryAllRecords("SELECT forwarding_id as id FROM mail_forwarding WHERE source like '%@".$app->db->quote($domain)."' OR (destination like '%@".$app->db->quote($domain)."' AND type != 'forward'");
+		// Delete all forwardings where the source or destination belongs to this domain
+		$records = $app->db->queryAllRecords("SELECT forwarding_id as id FROM mail_forwarding WHERE source like '%@".$app->db->quote($domain)."' OR (destination like '%@".$app->db->quote($domain)."' AND type != 'forward')");
 		foreach($records as $rec) {
 			$app->db->datalogDelete('mail_forwarding','forwarding_id',$rec['id']);
 		}

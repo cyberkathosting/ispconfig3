@@ -17,5 +17,3 @@ $wb['data_error_regex'] = 'Záznam serveru má chybný formát';
 $wb['srv_error_regex'] = 'Neplatný formát záznamu serveru. Záznam serveru musí­ obsahovat 3 textové řetězce oddělené mezerami.';
 $wb['aux_txt'] = 'Priority';
 ?>
-
-

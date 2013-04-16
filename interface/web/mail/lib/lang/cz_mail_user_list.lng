@@ -6,5 +6,3 @@ $wb['add_new_record_txt'] = 'Přidat e-mailovou schránku';
 $wb['name_txt'] = 'Skutečný název';
 $wb['login_txt'] = 'Přihlášení';
 ?>
-
-

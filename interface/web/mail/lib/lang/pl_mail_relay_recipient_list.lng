@@ -7,4 +7,3 @@ $wb['recipient_txt'] = 'Odbiorca';
 $wb['add_new_record_txt'] = 'Dodaj nowego odbiorcę przekierowania';
 $wb['access_txt'] = 'dostęp';
 ?>
-

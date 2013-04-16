@@ -272,15 +272,24 @@ function setConfigVar( $filename, $varName, $varValue ) {
 }
 
 
-$sql = "SELECT domain_id, domain, document_root, web_folder, type FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, web_folder, type, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 foreach($records as $rec) {
 	//$yesterday = date('Ymd',time() - 86400);
 	$yesterday = date('Ymd',strtotime("-1 day", time()));
-	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
+	
+    $log_folder = 'log';
+    if($rec['type'] == 'vhostsubdomain') {
+        $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
+        $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
+        if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
+        $log_folder .= '/' . $subdomain_host;
+        unset($tmp);
+    }
+    $logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
-		$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log.gz');
+		$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz');
 		if(!@is_file($logfile)) {
 			continue;
 		}
@@ -313,7 +322,7 @@ foreach($records as $rec) {
 // Create awstats statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'awstats' AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'awstats' AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 
 $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -321,9 +330,18 @@ $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 foreach($records as $rec) {
 	//$yesterday = date('Ymd',time() - 86400);
 	$yesterday = date('Ymd',strtotime("-1 day", time()));
-	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log');
+	
+    $log_folder = 'log';
+    if($rec['type'] == 'vhostsubdomain') {
+        $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
+        $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
+        if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
+        $log_folder .= '/' . $subdomain_host;
+        unset($tmp);
+    }
+    $logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log');
 	if(!@is_file($logfile)) {
-		$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday.'-access.log.gz');
+		$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz');
 		if(!@is_file($logfile)) {
 			continue;
 		}
@@ -428,13 +446,23 @@ if(is_dir('/var/log/ispconfig/httpd')) exec('chmod +r /var/log/ispconfig/httpd/*
 // Manage and compress web logfiles and create traffic statistics
 #######################################################################################################
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') AND server_id = ".$conf['server_id'];
+$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') AND server_id = ".$conf['server_id'];
 $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
 
 	//* create traffic statistics based on yesterdays access log file
 	$yesterday = date('Ymd',time() - 86400);
-	$logfile = $rec['document_root'].'/log/'.$yesterday.'-access.log';
+	
+    $log_folder = 'log';
+    if($rec['type'] == 'vhostsubdomain') {
+        $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
+        $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
+        if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
+        $log_folder .= '/' . $subdomain_host;
+        unset($tmp);
+    }
+    
+    $logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 	$total_bytes = 0;
 
 	$handle = @fopen($logfile, "r");
@@ -462,7 +490,7 @@ foreach($records as $rec) {
 	}
 
 	$yesterday2 = date('Ymd',time() - 86400*2);
-	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$yesterday2.'-access.log');
+	$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday2.'-access.log');
 
 	//* Compress logfile
 	if(@is_file($logfile)) {
@@ -472,7 +500,7 @@ foreach($records as $rec) {
 	}
 
 	// rotate and compress the error.log when it exceeds a size of 10 MB
-	$logfile = escapeshellcmd($rec['document_root'].'/log/error.log');
+	$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
 	if(is_file($logfile) && filesize($logfile) > 10000000) {
 		exec("gzip -c $logfile > $logfile.1.gz");
 		exec("cat /dev/null > $logfile");
@@ -480,7 +508,7 @@ foreach($records as $rec) {
 
 	// delete logfiles after 30 days
 	$month_ago = date('Ymd',time() - 86400 * 30);
-	$logfile = escapeshellcmd($rec['document_root'].'/log/'.$month_ago.'-access.log.gz');
+	$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$month_ago.'-access.log.gz');
 	if(@is_file($logfile)) {
 		unlink($logfile);
 	}
@@ -488,10 +516,10 @@ foreach($records as $rec) {
 	//* Delete older Log files, in case that we missed them before due to serverdowntimes.
 	$datepart = date('Ym',time() - 86400 * 31 * 2);
 
-	$logfile = escapeshellcmd($rec['document_root']).'/log/'.$datepart.'*-access.log.gz';
+	$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log.gz';
 	exec('rm -f '.$logfile);
 
-	$logfile = escapeshellcmd($rec['document_root']).'/log/'.$datepart.'*-access.log';
+	$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log';
 	exec('rm -f '.$logfile);
 }
 
@@ -741,6 +769,11 @@ if ($app->dbmaster == $app->db) {
 #######################################################################################################
 // Create website backups
 #######################################################################################################
+function formatBytes($size, $precision = 2) {
+	$base=log($size)/log(1024);
+	$suffixes=array('','k','M','G','T');   
+    	return round(pow(1024,$base-floor($base)),$precision).$suffixes[floor($base)];
+}
 
 $server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 $backup_dir = $server_config['backup_dir'];
@@ -803,7 +836,11 @@ if($backup_dir != '') {
 				//* Insert web backup record in database
 				//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
 				//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
+
+
+
+
+				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."','".formatBytes(filesize($web_backup_dir.'/'.$web_backup_file))."')";
 				$app->db->query($sql);
 				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 				

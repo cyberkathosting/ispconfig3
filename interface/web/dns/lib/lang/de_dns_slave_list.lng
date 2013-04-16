@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Zweiter DNS Zonen';
+$wb['list_head_txt'] = 'Slave DNS-Zonen';
 $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zone';
 $wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Neue Zweiter DNS Zone hinzufügen';
+$wb['add_new_record_txt'] = 'Neue Slave DNS-Zone hinzufügen';
 $wb['eg_domain_tld'] = 'Format: domain.tld.';
 ?>

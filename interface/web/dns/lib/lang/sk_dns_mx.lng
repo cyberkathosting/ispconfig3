@@ -13,4 +13,5 @@ $wb['name_error_empty'] = 'Hostname je prázdny.';
 $wb['name_error_regex'] = 'Hostname má zlý formát.';
 $wb['data_error_empty'] = 'Hostname mailserveru je prázdny';
 $wb['data_error_regex'] = 'Hostname mailserveru má neplatný formát';
+$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 ?>

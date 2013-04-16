@@ -6,4 +6,3 @@ $wb['destination_txt'] = 'Element docelowy';
 $wb['email_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Dodaj nowe przekierowanie E-mail';
 ?>
-

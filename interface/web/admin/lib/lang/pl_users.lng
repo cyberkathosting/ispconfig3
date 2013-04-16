@@ -31,4 +31,3 @@ $wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
 $wb['password_match_txt'] = 'Hasła pasują';
 $wb['username_error_collision'] = 'Nazwa użytkownika nie może być web lub web z numerem.';
 ?>
-

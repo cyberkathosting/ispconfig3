@@ -111,5 +111,5 @@ $wb['available_apache_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw Apa
 $wb['available_nginx_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw nginx:';
 $wb['proxy_directives_txt'] = 'Dyrektywy Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw Proxy:';
+$wb['no_server_error'] = 'No server selected.';
 ?>
-

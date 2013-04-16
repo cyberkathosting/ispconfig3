@@ -7,4 +7,3 @@ $wb['client_id_txt'] = 'User ID';
 $wb['active_txt'] = 'Aktywny';
 $wb['groups_txt'] = 'Grupy';
 ?>
-

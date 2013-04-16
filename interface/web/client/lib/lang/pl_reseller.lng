@@ -143,4 +143,3 @@ $wb['aps_limits_txt'] = 'Limit instalacji APS';
 $wb['limit_aps_txt'] = 'Maks. liczba instancji APS';
 $wb['limit_aps_error_notint'] = 'Limit instancji APS musi być liczbą';
 ?>
-

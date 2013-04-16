@@ -7,5 +7,3 @@ $wb['faq_sections_txt'] = 'Sekce';
 $wb['faq_faq_questions_txt'] = 'Často kladené dotazy';
 $wb['faq_new_question_txt'] = 'Přidat nový dotaz';
 ?>
-
-

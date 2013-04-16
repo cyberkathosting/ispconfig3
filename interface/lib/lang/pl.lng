@@ -132,4 +132,3 @@ $wb['datalog_status_u_web_folder_user'] = 'Edytuj konto zabezpieczonego folderu'
 $wb['datalog_status_d_web_folder_user'] = 'Usuń konto zabezpieczonego folderu';
 $wb['login_as_txt'] = 'Zaloguj jako';
 ?>
-

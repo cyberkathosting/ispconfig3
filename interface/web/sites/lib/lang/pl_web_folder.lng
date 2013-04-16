@@ -5,4 +5,3 @@ $wb['path_txt'] = 'Ścieżka';
 $wb['active_txt'] = 'Aktywny';
 $wb['path_error_regex'] = 'Nieprawidłowa ścieżka katalogu.';
 ?>
-

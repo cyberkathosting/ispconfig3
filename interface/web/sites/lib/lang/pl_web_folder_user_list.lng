@@ -4,4 +4,3 @@ $wb['active_txt'] = 'Aktywny';
 $wb['web_folder_id_txt'] = 'Katalog';
 $wb['username_txt'] = 'Login';
 ?>
-

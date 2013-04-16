@@ -13,4 +13,5 @@ $wb['name_error_empty'] = 'Hostname este vid';
 $wb['name_error_regex'] = 'Hostname  format gresit.';
 $wb['data_error_empty'] = 'Mailserver hostname necompletat.';
 $wb['data_error_regex'] = 'Mailserver hostname format invalid';
+$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 ?>

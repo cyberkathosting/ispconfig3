@@ -18,4 +18,3 @@ $wb['ends_with_txt'] = 'Ends with';
 $wb['move_to_txt'] = 'Move to';
 $wb['delete_txt'] = 'Delete';
 ?>
-

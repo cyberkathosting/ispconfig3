@@ -44,4 +44,3 @@ $wb['globalsearch_noresults_limit_txt'] = '0 wyników';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Szukaj';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugestie';
 ?>
-

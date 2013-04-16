@@ -11,4 +11,3 @@ $wb['add_new_record_txt'] = 'Dodaj nowy serwer';
 $wb['proxy_server_txt'] = 'Proxy';
 $wb['firewall_server_txt'] = 'Firewall';
 ?>
-

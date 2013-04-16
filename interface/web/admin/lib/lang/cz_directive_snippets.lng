@@ -7,5 +7,3 @@ $wb['active_txt'] = 'Aktivní';
 $wb['directive_snippets_name_empty'] = 'Please specify a name for the snippet.';
 $wb['directive_snippets_name_error_unique'] = 'There is already a directive snippet with this name.';
 ?>
-
-
