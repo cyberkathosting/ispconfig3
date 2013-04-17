@@ -938,7 +938,10 @@ if($backup_dir != '') {
 				//* Insert web backup record in database
 				//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
 				//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+                // $sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz','".formatBytes(filesize($db_backup_dir.'/'.$db_backup_file))."')";
+
+				
 				$app->db->query($sql);
 				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 
