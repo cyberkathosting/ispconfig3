@@ -105,7 +105,7 @@
                         alert("Error creating XMLHTTP-instance");
                         return false;
                 } else {
-                        request.open('POST', '/mail/mail_domain_dkim_create.php', true);
+                        request.open('POST', 'mail/mail_domain_dkim_create.php', true);
                         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         request.send('domain='+value+'&action='+action+'&pkey='+privatekey);
                         request.onreadystatechange = interpretRequest;
