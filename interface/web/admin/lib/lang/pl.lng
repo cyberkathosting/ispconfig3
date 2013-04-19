@@ -48,3 +48,4 @@ $wb['Interface'] = 'Interfejs';
 $wb['Domains'] = 'Domeny';
 $wb['Misc'] = 'Różne';
 ?>
+

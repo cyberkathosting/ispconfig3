@@ -13,5 +13,4 @@ $wb['name_error_empty'] = 'Имя узла пустое';
 $wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
 $wb['data_error_empty'] = 'Mailserver имя узла пустое';
 $wb['data_error_regex'] = 'Mailserver имя узла в неправильном формате';
-$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 ?>

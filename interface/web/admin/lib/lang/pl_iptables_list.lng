@@ -13,3 +13,4 @@ $wb['source_ip_txt'] = 'Adres źródłowy';
 $wb['active_txt'] = 'Aktywny';
 $wb['iptables_error_unique'] = 'Istnieje już wpis firewalla dla tego serwera.';
 ?>
+

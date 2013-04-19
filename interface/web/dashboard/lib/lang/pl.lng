@@ -2,3 +2,4 @@
 $wb['welcome_user_txt'] = 'Witaj %s';
 $wb['available_modules_txt'] = 'Dostępne moduły';
 ?>
+

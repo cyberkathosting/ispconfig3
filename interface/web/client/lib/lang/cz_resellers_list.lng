@@ -9,3 +9,5 @@ $wb['add_new_record_txt'] = 'Přidat distributora';
 $wb['customer_no_txt'] = 'Zákaznické číslo';
 $wb['username_txt'] = 'Uživatelské jméno';
 ?>
+
+

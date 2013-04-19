@@ -13,3 +13,4 @@ $wb['page_of_txt'] = 'z';
 $wb['delete_confirmation'] = 'Czy jesteś pewny, że chcesz usunąć ten wpis?';
 $wb['ttl_txt'] = 'TTL';
 ?>
+

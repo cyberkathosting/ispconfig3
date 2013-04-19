@@ -162,8 +162,8 @@ class shelluser_base_plugin {
 					exec($command);
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					*/
-					//$groupinfo = $app->system->posix_getgrnam($data['new']['pgroup']);
-					$app->system->usermod($data['old']['username'],0, $app->system->getgid($data['new']['pgroup']), $data['new']['dir'], $data['new']['shell'], $data['new']['password'], $data['new']['username']);
+					$groupinfo = posix_getgrnam($data['new']['pgroup']);
+					$app->system->usermod($data['old']['username'],0, $groupinfo[gid], $data['new']['dir'], $data['new']['shell'], $data['new']['password'], $data['new']['username']);
 					$app->log("Updated shelluser: ".$data['old']['username'],LOGLEVEL_DEBUG);
 									
 					// call the ssh-rsa update function

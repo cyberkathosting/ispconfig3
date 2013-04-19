@@ -56,3 +56,4 @@ $wb['btn_install_txt'] = 'Instaluj';
 $wb['btn_cancel_txt'] = 'Anuluj';
 $wb['limit_aps_txt'] = 'Maksymalna liczba instancji APS dla Twojego konta została wyczerpana.';
 ?>
+

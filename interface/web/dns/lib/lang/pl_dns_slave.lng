@@ -15,3 +15,4 @@ $wb['eg_domain_tld'] = 'np. domena.pl.';
 $wb['ipv4_form_txt'] = 'notacja IPv4 - np. 127.0.0.1';
 $wb['secondary_zone_txt'] = 'Zapasowa Strefa DNS';
 ?>
+

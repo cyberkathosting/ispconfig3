@@ -129,20 +129,18 @@ if(isset($record['data'])) {
   $logDataHtml = '';
   /* set css class for each line of log, depending on key words in each line */
   foreach($logData as $val) {
-    if (strpos(strtolower($val), 'fatal') !== FALSE) {
+    if (strpos($val, 'ERROR') !== FALSE) {
       $logDataHtml .= "<div class='logerror'>$val</div>";   
-    } elseif (strpos(strtolower($val), 'error') !== FALSE) {
-      $logDataHtml .= "<div class='logerror'>$val</div>"; 
-    } elseif (strpos(strtolower($val), 'warn') !== FALSE) {
+    } elseif (strpos($val, 'WARN') !== FALSE) {
       $logDataHtml .= "<div class='logwarn'>$val</div>";   
-    } elseif (strpos(strtolower($val), 'info') !== FALSE) {
+    } elseif (strpos($val, 'INFO') !== FALSE) {
       $logDataHtml .= "<div class='loginfo'>$val</div>";   
     } else {
       $logDataHtml .= "<div class='log'>$val</div>";   
     }
   }
-  
-	$app->tpl->setVar("log_data", $logDataHtml);
+
+	$app->tpl->setVar("log_data", $logData);
 } else {
 	$app->tpl->setVar("log_data", $app->lng("no_logdata_txt"));
 }

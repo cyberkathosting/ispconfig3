@@ -20,3 +20,4 @@ $wb['Templates'] = 'Szablony';
 $wb['Secondary Zones'] = 'Strefy Zapasowe';
 $wb['Import Zone File'] = 'Import pliku Strefy';
 ?>
+

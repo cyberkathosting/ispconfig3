@@ -8,3 +8,5 @@ $wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['add_new_record_txt'] = 'Přidat záznam na černou listinu';
 $wb['access_txt'] = 'Přístup';
 ?>
+
+

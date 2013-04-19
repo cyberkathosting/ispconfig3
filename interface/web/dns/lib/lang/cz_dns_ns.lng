@@ -13,3 +13,5 @@ $wb['name_error_regex'] = 'Zóna má chybný formát.';
 $wb['data_error_empty'] = 'Jmenný server je prázdný';
 $wb['data_error_regex'] = 'Jmenný server má chybný formát';
 ?>
+
+

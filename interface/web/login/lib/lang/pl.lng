@@ -22,3 +22,4 @@ $wb['email_txt'] = 'E-mail';
 $wb['error_maintenance_mode'] = 'Ta instalacja ISPConfig jest aktualnie w trakcje modernizacji. Wracamy niebawem - proszę o cierpliwość.';
 $wb['theme_not_compatible'] = 'Wybrany temat nie jest kompatybilny z aktualną wersją ISPConfig. Proszę wybrać nową wersję tematu.<br />Został aktywowany automatycznie domyślny temat.';
 ?>
+

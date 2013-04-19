@@ -91,11 +91,9 @@ $form["tabs"]['dns_slave'] = array (
                                 ),
 			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
 														'errmsg'=> 'origin_error_empty'),
-										/*
 										1 => array (	'type'	=> 'UNIQUE',
 														'errmsg'=> 'origin_error_unique'),
-										*/
-										1 => array (	'type'	=> 'REGEX',
+										2 => array (	'type'	=> 'REGEX',
 														'regex' => '/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,10}[\.]{0,1}$/',
 														'errmsg'=> 'origin_error_regex'),
 									),

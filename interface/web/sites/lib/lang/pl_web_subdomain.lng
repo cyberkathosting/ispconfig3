@@ -44,3 +44,4 @@ $wb['proxy_directives_txt'] = 'Dyrektywy Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Dostępne konfiguracje dodatkowe Proxy';
 $wb['error_proxy_requires_url'] = 'Rodzaj przekierowania ';
 ?>
+

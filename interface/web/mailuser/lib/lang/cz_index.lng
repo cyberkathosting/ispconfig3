@@ -10,3 +10,5 @@ $wb['unlimited_txt'] = 'Neomezený';
 $wb['mb_txt'] = 'MB';
 $wb['none_txt'] = 'Nenastaveno';
 ?>
+
+

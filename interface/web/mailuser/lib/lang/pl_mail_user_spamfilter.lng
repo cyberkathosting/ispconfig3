@@ -5,3 +5,4 @@ $wb['email_txt'] = 'E-mail';
 $wb['no_policy'] = '- nie włączony -';
 $wb['policy_txt'] = 'Polityka';
 ?>
+

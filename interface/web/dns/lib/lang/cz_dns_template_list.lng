@@ -4,3 +4,5 @@ $wb['visible_txt'] = 'Viditelný';
 $wb['name_txt'] = 'Název';
 $wb['add_new_record_txt'] = 'Přidat záznam';
 ?>
+
+

@@ -42,7 +42,6 @@ $wb['top_menu_dashboard'] = 'Home';
 $wb['top_menu_vm'] = 'VServer';
 $wb['toolsarea_head_txt'] = 'Tools';
 $wb['latest_news_txt'] = 'Latest news';
-$wb['activeuser_txt'] = 'Logged in as:';
 $wb['logout_txt'] = "Logout";
 $wb['daynamesmin_su'] = "Su";
 $wb['daynamesmin_mo'] = "Mo";

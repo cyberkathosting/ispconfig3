@@ -119,17 +119,6 @@ class page_action extends tform_actions {
 		parent::onInsert();
 	}
 	
-	function onUpdate() {
-		global $app, $conf;
-		
-		// Check if record is existing already
-		$duplicate_mx = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($this->dataRecord["zone"])." AND name = '".$this->dataRecord["name"]."' AND type = '".$this->dataRecord["type"]."' AND data = '".$this->dataRecord["data"]."' AND id != ".$app->functions->intval($this->dataRecord["id"])." AND ".$app->tform->getAuthSQL('r'));
-		
-		if(is_array($duplicate_mx) && !empty($duplicate_mx)) $app->error($app->tform->wordbook["duplicate_mx_record_txt"]);
-		
-		parent::onUpdate();
-	}
-	
 	function onAfterInsert() {
 		global $app, $conf;
 		

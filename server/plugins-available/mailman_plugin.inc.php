@@ -74,7 +74,7 @@ class mailman_plugin {
 		$this->update_config();
 		
 		exec("nohup /usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
-		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
+		
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 		
 		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));

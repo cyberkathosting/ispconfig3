@@ -26,7 +26,6 @@ NameVirtualHost *:{vhost_port}
       Allow from all
     </Directory>
     IPCCommTimeout  7200
-	MaxRequestLen 15728640
   </IfModule>
   
   <IfModule mpm_itk_module>

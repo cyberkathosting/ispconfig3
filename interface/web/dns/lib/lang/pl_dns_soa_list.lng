@@ -8,3 +8,4 @@ $wb['mbox_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Dodaj nową strefę DNS (SOA)';
 $wb['add_new_record_wizard_txt'] = 'Dodaj nową strefę DNS za pomocą Kreatora';
 ?>
+

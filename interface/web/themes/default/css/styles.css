@@ -1,6 +1,4 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700,300);
-
 /* 
     Document   : styles.css
     Created on : 06.07.2012, 12:21:59
@@ -19,12 +17,11 @@
 }
 html * { font-size: 100.01% }
 body {
-    font-family: Ubuntu, "Trebuchet MS", sans-serif;
+    font-family: "Trebuchet MS", sans-serif;
     font-size: 75.00%; 
     color: #444;
-    background: #93A0B0; /* gradient replacement for IE */
-    background: radial-gradient(circle farthest-corner at center center , #A1ACBB, #93A0B0 70%) repeat scroll 0 0 #93A0B0;
-    margin: 10px 0 10em 0;
+    background: url("../images/screen_bg.png") repeat-x top left fixed #EEEEEE;
+    padding: 10px 0;
 }
 ul, ol, dl { line-height: 1.5em; margin: 0 0 1em 1em }
 li { margin-left: 1.5em; line-height: 1.5em }
@@ -54,17 +51,17 @@ textarea, pre, tt, code {
 }
 
 h1,h2,h3,h4,h5,h6 { 
-    font-family: Ubuntu, "Trebuchet MS", sans-serif;
+    font-family: "Trebuchet MS", sans-serif;
     font-weight:bold; 
     color:#666;
     margin: 0 0 0.25em 0; 
 }
-h1 { font-size: 200%; }                        /* 24px */
-h2 { font-size: 200%; color: #4D4F53; }        /* 24px */
-h3 { font-size: 150%; }                        /* 18px */
-h4 { font-size: 133.33%; }                     /* 16px */
-h5 { font-size: 116.67%; }                     /* 14px */
-h6 { font-size: 116.67%; font-style:italic; }  /* 14px */
+h1 { font-size: 200% }                        /* 24px */
+h2 { font-size: 200% }                        /* 24px */
+h3 { font-size: 150% }                        /* 18px */
+h4 { font-size: 133.33% }                     /* 16px */
+h5 { font-size: 116.67% }                     /* 14px */
+h6 { font-size: 116.67%; font-style:italic }  /* 14px */
 
 p { line-height: 1.5em; margin: 0 0 1em 0; }
 
@@ -74,7 +71,7 @@ blockquote { margin: 0 0 1em 1.5em }
 strong,b { font-weight: bold }
 em,i { font-style:italic }
 
-pre, code { font-family: Consolas, "Lucida Console", "Courier New", monospace; font-size: 1.1em; }
+pre, code { font-family: monospace; font-size: 1.1em; }
 
 acronym, abbr {
     letter-spacing: .07em;
@@ -87,25 +84,11 @@ header, #nav, #main, footer {
 }
 #page {
     min-width: 980px;
-    min-height: 820px;
     max-width: 80%;
-    background-color: #ffffff;
+    background: #fff;
     text-align:left;
     margin: 0 auto;
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.05) inset, 0 0 18px rgba(0, 0, 0, 0.5);
-}
-#page.loginpage {
-    width: 400px !important;
-    min-width: 400px !important;
-    min-height: 300px !important;
-    background-color: #ffffff;
-    text-align:left;
-    margin: 0 auto;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.05) inset, 0 0 18px rgba(0, 0, 0, 0.5);
 }
 .skip, .hideme, .print {
     height: 1px;
@@ -121,9 +104,7 @@ header {
     position: relative;
     color: #faf0e6;
     padding: 15px 2em 5px 20px;
-    background: #20AAE5;
-    border-radius: 8px 8px 0 0;
-    min-height: 54px;
+    background: url("../images/header_bg.png") repeat-x top left #9a9a9a;
 }
 header h1 {
     font-size:2.5em;
@@ -144,8 +125,6 @@ header span {
     text-align: right;
 }
 #topsubnav a { 
-    display: inline-block;
-    min-height: 20px;
     color: #f0f8ff;
     font-weight: normal;
     background:transparent;
@@ -163,28 +142,24 @@ header span {
 #topNav ul {
     list-style: none;
     padding: 0 0 0 20px;
-    border-radius: 0 0 8px 8px;
     margin: 0;
-    background: #243942; /* gradient replacement for IE */
-    background: linear-gradient(to bottom, #243942, #22373F 50%, #1D2E35 50%, #1B2B32) repeat scroll 0 0 #243942;
+    background: #9a9a9a
 }
 
 #topNav ul li {
     display: inline;
-    margin: 0 -2px 0 -1px;
+    margin: 0 2px 0 0;
 }
 
 #topNav a {
-    background: url("../icons/x32_sprite.png") no-repeat;
-    color:#D0D9DE;
+    background: url("../icons/x32_sprite.png") no-repeat #D3D3D3;
+    color:black;
     display:inline-block;
     height:20px;
     padding-top:37px;
     text-align:center;
     text-decoration:none;
     min-width:78px;
-    border-left: 1px solid #191919;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #topNav a:hover {
@@ -193,7 +168,9 @@ header span {
 }
 
 #topNav #topNav_current a {
-    background-color: #3E4E55;
+    font-weight: bold;
+    color: black;
+    background-color: #ffffff;
 }
 .topnav-tools { background-position: 22px -10px !important; }
 .topnav-admin { background-position: 22px -74px !important; }
@@ -215,7 +192,8 @@ header span {
 /* main
 -------------------------------------------------------------- */
 #main { 
-    padding: 1em 0 0 0;
+    background: #fff;
+    padding: 1em 0;
 }
 
 /* main/sideNav + submenu
@@ -245,7 +223,6 @@ header span {
     margin:0;
     padding: 0;
     font-size:0.9em;
-    background: linear-gradient(to bottom, #F7F7F5, #FFFEF8) repeat scroll 0 0 #C7C2BA;
 }
 
 #submenu a,
@@ -254,6 +231,7 @@ header span {
     width: 90%;
     padding: 2px 0px 2px 10%;
     text-decoration: none;
+    background-color:#fff;
     color: #444;
     border-bottom: 1px #eee solid;
 }
@@ -264,14 +242,17 @@ header span {
     padding: 0px;
     font-weight: bold;
     color: #444;
+    background-color: #fff;
     border-top: 2px #888 solid;
     font-size: 1.1em;
 }
 
 #submenu li.title a {
-    background: #E0DED8; /* gradient replacement for IE */
-    background: linear-gradient(to bottom, #F7F7F5, #E0DED8) repeat scroll 0 0 #C7C2BA;
+    background-color: #f0f8ff;
     color: #444;
+}
+#submenu li.title a:hover {
+    color: white;
 }
 
 #submenu li span {
@@ -296,6 +277,7 @@ header span {
 #submenu li a {
     width: 90%;
     padding-left: 10%;
+    background-color:#fff;
     color: #444;
 }
 #submenu li a:focus,
@@ -303,12 +285,6 @@ header span {
 #submenu li a:active {
     background-color:#f63;
     color: #fff;
-}
-
-#submenu li.title a:focus,
-#submenu li.title a:hover,
-#submenu li.title a:active {
-    color: #f63;
 }
 
 /* Form-Elements in the Menu*/
@@ -324,28 +300,28 @@ header span {
     margin-left: 200px; 
     margin-right: 0;
     padding: 0px 10px 10px 20px;
+    border-left: 1px #ddd solid;
 }
-.loginpage #content { 
-    margin-left: 0px; 
-    margin-right: 0;
-    padding: 0px;
-}
- 
+
 /* footer
 -------------------------------------------------------------- */
 
 footer { 
-    color:#F2F2F2; 
-    padding: 1em;
+    color:#666; 
+    background: #f9f9f9;
+    padding: 10px 20px;
+    border-top: 5px #efefef solid;
     font-size: 0.8em;
     text-align: center;
 }
 footer a {
-    color: #fff;
+    color: #999;
+    background:transparent;
     font-weight: bold;
 }
 footer a:hover, footer a:active {
-    color: #444444; 
+    color: #4D87C7; 
+    background-color: transparent; 
     text-decoration:underline;
 }
 
@@ -379,8 +355,7 @@ td {
     text-align:left;
 }
 thead th {
-    background: #505968; /* gradient replacement for IE */
-    background: linear-gradient(to bottom, #707A84, #505968) repeat scroll 0 0 #505968;
+    background: #444 url("../images/lists_thead_bg.png") repeat-x;
     color: #fff;
 }
 tbody th {
@@ -415,7 +390,7 @@ table.list .tbl_col_limit {
 .pageForm_description { font-size: 12px; }
 
 /* Tab-Box */
-.tabbox_tabs { border-bottom: 1px solid #d3d3d3; margin-top: 2em; }
+.tabbox_tabs { border-bottom: 1px solid #d3d3d3; }
 .tabbox_tabs ul {
     list-style: none;
     padding: 0;
@@ -423,17 +398,14 @@ table.list .tbl_col_limit {
 }
 .tabbox_tabs li {
     display: inline;
-    line-height: 35px;
     margin: 0 2px 0 0;
 }
 .tabbox_tabs a {
-    font-size: 16px;
-    padding: 9px 1em;
+    padding: 0 1em;
     text-decoration: none;
     color: black;
-    background: linear-gradient(to bottom, #F7F7F5, #E0DED8) repeat scroll 0 0 #C7C2BA;
+    background: #d3d3d3;
     border: 1px solid #d3d3d3;
-    border-radius: 6px 6px 0 0;
 }
 .tabbox_tabs a:hover {
     background: #fc0;
@@ -453,8 +425,7 @@ table.list .tbl_col_limit {
     color: #6299c5;
 }
 .pnl_formarea fieldset {
-    font-weight: normal;
-    font-family: Consolas, "Lucida Console", "Courier New", monospace;
+    font-weight: bold;
 }
 /* hide line and legend when inside tabbed content */
 #tabbox_content * .pnl_toolsarea fieldset, #tabbox_content * .pnl_listarea fieldset, #tabbox_content * .pnl_formsarea fieldset { border: none !important; }
@@ -467,23 +438,17 @@ table.list .tbl_col_limit {
     font-family: Consolas, "Lucida Console", "Courier New", monospace;
     font-size: 0.9em;
 }
-.codeview .logerror { background: rgb(255,0,0); color: #fff; }
+.codeview .logerror { background: rgb(255,0,0); }
 .codeview .logwarn { background: rgb(255,204,0); }
 .codeview .loginfo { background: rgb(153,204,255); }
-
 /* Lists */
 table.list {
     width: 100%;
     border: 1px solid #d3d3d3 !important;
-    box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.05) inset, 0 0 6px rgba(0, 0, 0, 0.2);
 }
 table.list thead th { font-size: 10px; }
 table.list tbody { border: 1px solid #d3d3d3 !important; }
-table.list tfoot td { 
-  text-align: center;  
-  background: #F2F2F2; /* gradient replacement for IE */
-  background: linear-gradient(to bottom, white, #DEDEDE) repeat scroll 0 0 #F2F2F2; 
-  padding: 24px 8px 8px 8px; }
+table.list tfoot td { text-align: center;  background: #f8f8f8 url("../images/lists_tfoot_bg.png") repeat-x bottom left;  padding: 24px 8px 8px 8px; }
 table.list .tbl_paging img { vertical-align: top; }
 table.list .tbl_row_even { background: #fcfcfc; }
 table.list .tbl_row_uneven { background: #f0f8ff; }
@@ -504,7 +469,6 @@ table.list td.tbl_col_buttons { word-wrap:normal;white-space:normal;overflow:vis
 }
 
 /* Systemmonitor */
-.systemmonitor,
 .systemmonitor-server,
 .systemmonitor-ve,
 .systemmonitor-state {
@@ -558,9 +522,9 @@ div.icoDevice {
     margin: 5px;
     background: url("../icons/device_sprite.png") no-repeat transparent;
 }
-.systemmonitor-server div.icoDevice { background-position: 0 -128px; }
-.systemmonitor-ve div.icoDevice { background-position: 0 -64px; }
-.systemmonitor-network div.icoDevice { background-position: 0 0px; }
+.systemmonitor-server div.icoDevice { background-position: 0 0; }
+.systemmonitor-ve div.icoDevice { background-position: -64px 0; }
+.systemmonitor-network div.icoDevice { background-position: -128px 0; }
 div.statusDevice,
 div.statusMsg { float: left; }
 div.statusMsg p { 
@@ -618,11 +582,9 @@ div.status {
     float:left;
     width:60px;
     height: 60px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    background: #F8F8F1; /* gradient replacement for IE */
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.15)) repeat scroll center 5px transparent;
-    margin:0 12px 12px 0;
+    border:1px dotted #888888;
+    background-color: #cccccc;
+    margin:10px;
     background-position: center 5px;
     background-repeat: no-repeat;
     text-align: center;
@@ -632,25 +594,25 @@ div.status {
     background: url("../icons/x32_sprite.png") no-repeat transparent;
     color:Black;
     display:block;
-    font-size:80%;
+    font-weight:bold;
     height:30px;
     padding-top:42px;
     width:60px;
     text-decoration: none;
 }
-.dashboard-modules.tools a { background-position: 14px -8px; }
-.dashboard-modules.admin a { background-position: 14px -72px; }
-.dashboard-modules.sites a { background-position: 14px -520px; }
-.dashboard-modules.monitor a { background-position: 14px -584px; }
-.dashboard-modules.help a { background-position: 14px -712px; }
-.dashboard-modules.mail a { background-position: 14px -776px; }
-.dashboard-modules.vm a { background-position: 14px -840px; }
-.dashboard-modules.domain a { background-position: 14px -904px; }
-.dashboard-modules.dns a { background-position: 14px -968px; }
-.dashboard-modules.client a { background-position: 14px -1096px; }
-.dashboard-modules.billing a { background-position: 14px -116px; }
+.dashboard-modules.tools a { background-position: 12px -9px; }
+.dashboard-modules.admin a { background-position: 12px -73px; }
+.dashboard-modules.sites a { background-position: 12px -520px; }
+.dashboard-modules.monitor a { background-position: 13px -585px; }
+.dashboard-modules.help a { background-position: 13px -716px; }
+.dashboard-modules.mail a { background-position: 12px -776px; }
+.dashboard-modules.vm a { background-position: 14px -842px; }
+.dashboard-modules.domain a { background-position: 12px -905px; }
+.dashboard-modules.dns a { background-position: 12px -970px; }
+.dashboard-modules.client a { background-position: 13px -1096px; }
+.dashboard-modules.billing a { background-position: 14px -1162px; }
 
-.panel_dashboard h2 { font-size:20px; font-weight: 400; padding: 1em 0; }
+.panel_dashboard h2 { font-size:20px; }
 
 /* Image-Replacement */
 .swap { background-repeat:no-repeat; }
@@ -691,15 +653,13 @@ a.button,
     text-shadow: 0px 1px 1px #fff;
     border: 1px solid #c6c6c6;
     border-radius: 4px;
-    background: #F2F2F2; /* gradient replacement for IE */
-    background: linear-gradient(to bottom, white, #DEDEDE) repeat scroll 0 0 #F2F2F2;
+    background-color: #f7f7f7;
     box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
     -o-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
     -webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
     -moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
     text-decoration: none;
 }
-
 a.button:focus,
 input.button:focus,
 .buttons button:focus {
@@ -732,9 +692,8 @@ input.button:focus,
 /* BUTTONS STANDARD */
 button:hover,
 .buttons a:hover {
-    background: #BFCFD8; /* gradient replacement for IE */
-    background: linear-gradient(to bottom, white, #BFCFD8) repeat scroll 0 0 #f63;
-    border:1px solid #336699;
+    background-color:#dff4ff;
+    border:1px solid #c2e1ef;
     color:#336699;
 }
 .buttons a:active {
@@ -749,7 +708,7 @@ button.positive,
 .buttons a.positive:hover,
 button.positive:hover {
     background-color:#E6EFC2;
-    border:1px solid #529214;
+    border:1px solid #C6D880;
     color:#529214;
 }
 .buttons a.positive:active {
@@ -766,7 +725,7 @@ button.negative {
 .buttons a.negative:hover,
 button.negative:hover {
     background-color:#fbe3e4;
-    border:1px solid #d12f19;
+    border:1px solid #fbc2c4;
     color:#d12f19;
 }
 .buttons a.negative:active {
@@ -776,23 +735,15 @@ button.negative:hover {
 }
 
 /* Button with icon and text */
-.iconstxt:before { 
-  background: url("../icons/button_sprite.png") no-repeat transparent; 
-  content: "";
-  display: inline-block;
-  height: 16px;
-  margin-right: 7px;
-  vertical-align: top;
-  width: 16px;
-}
-.iconstxt span:before { padding-left: 20px; font-weight: bold; }
-.iconstxt.icoPositive:before { background-position: 0px -136px; }
-.iconstxt.icoNegative:before { background-position: 0px -104px; }
-.iconstxt.icoAdd:before { background-position: 0px -72px; }
-.iconstxt.icoKey:before { background-position: 0px -8px; }
-.iconstxt.icoDelete:before { background-position: 0px -40px; }
-.iconstxt.icoDownload:before { background-position: 0px -8px; }
-.iconstxt.icoRestore:before { background-position: 0px -8px; }
+.iconstxt { background: url("../icons/button_sprite.png") no-repeat transparent; }
+.iconstxt span { padding-left: 20px; font-weight: bold; }
+.iconstxt.icoPositive { background-position: 6px -130px; }
+.iconstxt.icoNegative { background-position: 6px -98px; }
+.iconstxt.icoAdd { background-position: 6px -66px; }
+.iconstxt.icoKey { background-position: 6px -1px; }
+.iconstxt.icoDelete { background-position: 6px -34px; }
+.iconstxt.icoDownload { background-position: 6px -1px; }
+.iconstxt.icoRestore { background-position: 6px -1px; }
 
 /* Button with icon and without text */
 .icons16 { position: relative; }
@@ -899,13 +850,8 @@ input#refresh, input#retry, input#expire, input#minimum, input#ttl { width: 50px
 /* --- */
 
 a[href $="#logout"] {
-    padding-left: 24px;
-    background: url("../icons/x16_sprite.png") no-repeat left -142px transparent !important;
-}
-
-a[href $="#usersettings"] {
-    padding-left: 24px;
-    background: url("../icons/x16_sprite.png") no-repeat left -442px transparent !important;
+    padding-right: 20px;
+    background: url("../icons/x16_sprite.png") no-repeat right -143px transparent !important;
 }
 
 /* Select Menu with Images */
@@ -1180,7 +1126,7 @@ select.flags option[value=ZW], select.flags option[value=zw], .country-ZW {backg
 
 .panel_login {
     max-width: 80%;
-    min-width: 400px;
+    min-width: 680px;
 }
 div.subsectiontoggle {
     border:1px solid #ccc;
@@ -1277,7 +1223,7 @@ div.gs-container * {
 div.gs-container input {
     background: url("../icons/x16_sprite.png") no-repeat 2px -119px #FFFFFF;
     height:20px;
-    border:1px solid #fff;
+    border:1px solid #444;
     padding:0 22px 2px;
     color:#444;
     -moz-border-radius:5px;
@@ -1734,17 +1680,16 @@ p.value {
 
 /* Generals */
 .uniForm fieldset{}
-.uniForm fieldset legend{ color: #675C53; font-weight: 400; font-size: 1.5em; margin: 0; padding: 0.5em 0; }
+.uniForm fieldset legend{ color: #333; font-weight: bold; font-size: 100%; margin: 0; padding: 1.5em 1.5em 1.5em 0; }
 
 /* This is the main unit that contains our form elements */
 .uniForm .ctrlHolder{ padding: 3px; border-bottom: 1px dotted #dfdfdf; }
 
 .uniForm .buttonHolder{ 
     text-align: left; 
-    background: #CEDEEF;
+    background: #CEDEEF url("../images/buttonHolder_bg.gif") no-repeat right;
     margin: 3em 0 1em;
     padding: 8px;
-    border-radius: 4px;
 }
 .uniForm .resetButton{ float: left; }
 .uniForm .primaryAction{ font-weight: bold; }
@@ -1801,9 +1746,6 @@ p.value {
 
 .uniForm .inlineLabels label,
 .uniForm .inlineLabels .label{ width: 20%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
-
-.loginpage .uniForm .inlineLabels label,
-.loginpage .uniForm .inlineLabels .label{ width: 40%; /* <- Required property */ margin: .3em 2% 0 0; /* <- Required property */ }
 
 .uniForm .inlineLabels .textInput,
 .uniForm .inlineLabels .fileUpload{ width: 35%; /* <- Required property */ }
@@ -1864,8 +1806,8 @@ p.value {
     background-color:#FFFFFF;
     color:#000000;
 }
-.ui-widget { font-family: Ubuntu, "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Ubuntu, "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
+.ui-widget { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Trebuchet MS", Arial, sans-serif; font-size: 100%; }
 ul.ui-autocomplete { max-height: 250px; overflow-y: auto; min-width: 85px;}
 .ui-combobox { position: relative; display: inline-block; margin-right: 17px; }
 .ui-combobox-toggle { position: absolute !important; top: 0; bottom: 0; margin-left: -1px; padding: 1px !important; background: none repeat scroll 0 0 #FFFFFF !important; border: 1px solid #DFDFDF !important;}
@@ -1876,16 +1818,15 @@ ul.ui-autocomplete { max-height: 250px; overflow-y: auto; min-width: 85px;}
 a.link-page, span.page-spacer {
     display: inline-block;
     text-align: center;
-    padding: 0 2px 2px 2px;
+    padding: 2px;
     line-height: 16px;
     text-decoration: none !important;
+    color: inherit !important;
     min-width: 16px;
 }
 a.link-page {
-    border: 1px solid #C7C2BA;
-    border-radius: 4px;
+    border: 1px solid #FFFFFF;
     margin: 0 5px;
-    background: #fff;
 }
 
 a.link-page:hover {
@@ -1897,8 +1838,6 @@ span.page-spacer {
 }
 
 a.link-page.current-page {
-    background-color: #EC7A08;
+    background-color: #DFDFDF;
     font-weight: bold;
-    border-color: #f63;
-    color: #fff;
 }

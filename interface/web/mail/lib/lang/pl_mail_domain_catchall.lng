@@ -9,3 +9,4 @@ $wb['limit_mailcatchall_txt'] = 'Maksymalna ilość kont e-mail catchall dla Two
 $wb['source_txt'] = 'Źródło';
 $wb['destination_error_isemail'] = 'Cel nie jest poprawnym adresem email.';
 ?>
+

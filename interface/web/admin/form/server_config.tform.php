@@ -211,19 +211,6 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-                'dkim_path' => array(
-                        'datatype' => 'VARCHAR',
-                        'formtype' => 'TEXT',
-                        'default' => '/var/db/dkim',
-                        'validators'    => array (  0 => array ('type'  => 'CUSTOM',
-                                                                'class' => 'validate_dkim',
-                                                                'function' => 'check_dkim_path',
-                                                                'errmsg'=> 'dkim_path_error'),
-                                                 ),
-                        'value' => '',
-                        'width' => '40',
-                        'maxlength' => '255'
-                ),
 		'pop3_imap_daemon' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',

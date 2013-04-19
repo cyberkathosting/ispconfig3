@@ -16,3 +16,4 @@ $wb['all_clients_resellers_txt'] = 'Wszyscy klienci i resellerzy';
 $wb['all_clients_txt'] = 'Wszyscy klienci';
 $wb['variables_txt'] = 'Zmienne:';
 ?>
+

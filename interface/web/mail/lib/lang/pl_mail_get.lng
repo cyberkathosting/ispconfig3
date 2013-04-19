@@ -16,3 +16,4 @@ $wb['source_server_error_regex'] = 'Serwer Pop3/Imap nie jest poprawną nazwą d
 $wb['source_read_all_txt'] = 'Pobierz wszystkie maile (razem z przeczytanymi)';
 $wb['error_delete_read_all_combination'] = 'Nieprawidłowa kombinacja opcji. Nie możesz użyć jednocześnie opcji Delete emails after retrieval = no razem z Retrieve all emails = yes';
 ?>
+

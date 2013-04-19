@@ -4,3 +4,5 @@ $wb['database_user_txt'] = 'Uživatel databáze';
 $wb['add_new_record_txt'] = 'Vytvořit nového uživatele databáze';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>
+
+

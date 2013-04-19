@@ -5,3 +5,4 @@ $wb['name_txt'] = 'Nazwa zestawu';
 $wb['type_txt'] = 'Rodzaj';
 $wb['add_new_record_txt'] = 'Dodaj nowy zestaw dyrektyw';
 ?>
+

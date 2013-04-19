@@ -56,3 +56,5 @@ $wb['btn_install_txt'] = 'Instalovat';
 $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['limit_aps_txt'] = 'The max. number of APS instances for your account is reached.';
 ?>
+
+

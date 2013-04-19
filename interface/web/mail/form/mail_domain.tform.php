@@ -98,33 +98,6 @@ $form["tabs"]['domain'] = array (
 			'maxlength'	=> '255',
 			'searchable' => 1
 		),
-                'dkim' => array (
-                        'datatype'      => 'VARCHAR',
-                        'formtype'      => 'CHECKBOX',
-                        'default'       => 'n',
-                        'value'         => array(0 => 'n',1 => 'y')
-                ),
-                'dkim_private' => array (
-                        'datatype'      => 'TEXT',
-                        'formtype'      => 'TEXTAREA',
-                        'default'       => '',
-                        'value'         => '',
-                        'cols'          => '30',
-                        'rows'          => '10',
-                        'validators'    => array (  0 => array ('type'  => 'CUSTOM',
-                                                                'class' => 'validate_dkim',
-                                                                'function' => 'check_private_key',
-                                                                'errmsg'=> 'dkim_private_key_error'),
-                                    ),
-                ),
-                'dkim_public' => array (
-                        'datatype'      => 'TEXT',
-                        'formtype'      => 'TEXTAREA',
-                        'default'       => '',
-                        'value'         => '',
-                        'cols'          => '30',
-                        'rows'          => '10'
-                ),
 		'active' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'CHECKBOX',

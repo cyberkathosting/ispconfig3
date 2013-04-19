@@ -7,3 +7,4 @@ $wb['hard_txt'] = 'Limit twardy';
 $wb['soft_txt'] = 'Limit miękki';
 $wb['files_txt'] = 'Pojedyncze pliki';
 ?>
+

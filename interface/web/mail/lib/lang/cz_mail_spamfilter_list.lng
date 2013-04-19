@@ -6,3 +6,5 @@ $wb['server_name_txt'] = 'server_name';
 $wb['email_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Přidat nový záznam spamfiltru';
 ?>
+
+

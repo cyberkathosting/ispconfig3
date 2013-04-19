@@ -137,11 +137,12 @@
                     <a class="skip" href="#content" title="skip link">Skip to the content</a><span class="hideme">.</span>
                     <!-- end: skip link navigation -->
                     <tmpl_if name="cpuser">
-                        <tmpl_var name="activeuser_txt"> <a href="#usersettings" onclick="loadContent('tools/user_settings.php');"><tmpl_var name="cpuser"></a> <a href="#logout" onclick="loadContent('login/logout.php');"><tmpl_var name="logout_txt"></a>
+                        <a href="#logout" onclick="loadContent('login/logout.php');"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>-->
                         <tmpl_if name='usertype' op='==' value='normaluser'><input type="text" id="globalsearch" size="25" value="" /></tmpl_if>
                     </tmpl_if>
                 </nav>
                 <h1 id="ir-HeaderLogo" class="swap" style="background-image:url('{tmpl_var name='app_logo'}');"><span>ISPConfig 3</span></h1>
+                <span>hosting control panel</span>
             </header>
             <!-- end: header -->
             <a id="navigation" name="navigation"></a><!-- skiplink anchor: navigation -->
@@ -163,20 +164,19 @@
                 <!-- end: #content -->
             </section>
             <!-- end: #main -->
+            <!-- begin: footer -->
+            <footer>
+                Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
+            </footer><!-- end: footer -->
         </div>
-        <!-- begin: footer -->
-        <footer>
-            Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
-        </footer>
-        <!-- end: footer -->
-
-        <div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
-            <form action="" method="post" target="dummy_login" id="dummy_login_form">
-                <input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
-                <input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
-                <input type="submit" value="Login" id="dummy_submit"/>
-            </form>
-            <iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
-        </div>
+		
+<div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
+<form action="" method="post" target="dummy_login" id="dummy_login_form">
+<input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
+<input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
+<input type="submit" value="Login" id="dummy_submit"/>
+</form>
+<iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
+</div>
     </body>
 </html>

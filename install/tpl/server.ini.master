@@ -21,7 +21,6 @@ backup_mode=rootgz
 module=postfix_mysql
 maildir_path=/var/vmail/[domain]/[localpart]
 homedir_path=/var/vmail
-dkim_path=/etc/postfix/dkim
 pop3_imap_daemon=courier
 mail_filter_syntax=maildrop
 mailuser_uid=5000

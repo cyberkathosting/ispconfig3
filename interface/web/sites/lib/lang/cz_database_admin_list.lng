@@ -8,3 +8,5 @@ $wb['database_name_txt'] = 'Jméno databáze';
 $wb['add_new_record_txt'] = 'Přidat nové databáze';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>
+
+

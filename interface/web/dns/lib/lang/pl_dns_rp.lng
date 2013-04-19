@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Nazwa serwera ma zły format.';
 $wb['data_error_empty'] = 'Musisz podać osobę odpowiedzialna.';
 $wb['data_error_regex'] = 'Nazwa osoby odpowiedzialnej ma niepoprawny format.';
 ?>
+

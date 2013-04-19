@@ -6,3 +6,4 @@ $wb['page_txt'] = 'Strona';
 $wb['page_of_txt'] = 'z';
 $wb['delete_confirmation'] = 'Na pewno chcesz skasować ten filtr poczty?';
 ?>
+
