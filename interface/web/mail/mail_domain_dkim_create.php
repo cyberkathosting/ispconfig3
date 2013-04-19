@@ -36,6 +36,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */ 
 
 require_once('../../lib/config.inc.php');
+require_once('../../lib/app.inc.php');
+
+//* Check permissions for module
+$app->auth->check_module_permissions('mail');
 
 header('Content-Type: text/xml; charset=utf-8');
 header('Cache-Control: must-revalidate, pre-check=0, no-store, no-cache, max-age=0, post-check=0');
