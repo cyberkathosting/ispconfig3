@@ -38,4 +38,3 @@ $wb['template_nameserver_error_empty'] = 'Nameserver(s) is empty.';
 $wb['Virtual server'] = 'Virtual server';
 $wb['Advanced'] = 'Advanced';
 ?>
-

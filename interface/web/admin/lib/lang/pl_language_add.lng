@@ -6,4 +6,3 @@ $wb['language_new_hint_txt'] = '2 znakowe kodowanie języka ISO 639-1 (Zobacz ht
 $wb['btn_save_txt'] = 'Utwórz nowy zbiór plików z językami';
 $wb['btn_cancel_txt'] = 'Wróć';
 ?>
-

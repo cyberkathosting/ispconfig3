@@ -7,5 +7,3 @@ $wb['priority_txt'] = 'Priorita';
 $wb['active_txt'] = 'Aktivní';
 $wb['limit_spamfilter_wblist_txt'] = 'Dosažen maximální počet záznamů pro bílou / černou listinu pro Váš účet.';
 ?>
-
-

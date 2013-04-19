@@ -111,4 +111,5 @@ $wb['available_apache_directive_snippets_txt'] = 'Verfügbare Apache Direktiven 
 $wb['available_nginx_directive_snippets_txt'] = 'Verfügbare nginx Direktiven Schnipsel:';
 $wb['proxy_directives_txt'] = 'Proxy Direktiven';
 $wb['available_proxy_directive_snippets_txt'] = 'Verfügbare Proxy Direktiven Schnipsel:';
+$wb['no_server_error'] = 'No server selected.';
 ?>

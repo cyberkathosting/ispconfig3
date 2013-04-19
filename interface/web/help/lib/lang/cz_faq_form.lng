@@ -4,5 +4,3 @@ $wb['faq_question_txt'] = 'Otázka';
 $wb['faq_answer_txt'] = 'Odpověď';
 $wb['faq_section_txt'] = 'Sekce';
 ?>
-
-

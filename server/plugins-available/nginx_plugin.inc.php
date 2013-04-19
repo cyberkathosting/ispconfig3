@@ -831,7 +831,7 @@ class nginx_plugin {
 		if(!is_dir($web_config['website_basedir'].'/conf')) mkdir($web_config['website_basedir'].'/conf');
 		if(trim($data['new']['custom_php_ini']) != '') {
 			$has_custom_php_ini = true;
-			if(!is_dir($custom_php_ini_dir)) $app->system->mkdir($custom_php_ini_dir);
+			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
 			$php_ini_content = '';
 			if($data['new']['php'] == 'mod') {
 				$master_php_ini_path = $web_config['php_ini_path_apache'];

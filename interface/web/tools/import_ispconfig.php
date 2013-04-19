@@ -149,6 +149,12 @@ function start_domain_import($mail_domain) {
 	if($sys_groupid == 0) $error .= 'Inavlid groupid<br />';
 	if($sys_userid == 0) $error .= 'Inavlid Userid<br />';
 	
+	//* Get the mail server ID
+	$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE mail_server = 1 LIMIT 0,1");
+	$server_id = intval($tmp['server_id']);
+	unset($tmp);
+	if($server_id == 0) $server_id = 1;
+	
 	//* get the mail domain record
 	$mail_domain_rec = $client->mail_domain_get($remote_session_id, array('domain' => $mail_domain));
 	if(is_array($mail_domain_rec)) {
@@ -160,6 +166,7 @@ function start_domain_import($mail_domain) {
 		//* Change the record owner and remove the index field
 		$mail_domain_rec['sys_userid'] = $sys_userid;
 		$mail_domain_rec['sys_groupid'] = $sys_groupid;
+		$mail_domain_rec['server_id'] = $server_id;
 		unset($mail_domain_rec['domain_id']);
 		
 		//* Insert domain if no error occurred
@@ -181,6 +188,7 @@ function start_domain_import($mail_domain) {
 						//* Prepare record
 						$mail_user['sys_userid'] = $sys_userid;
 						$mail_user['sys_groupid'] = $sys_groupid;
+						$mail_user['server_id'] = $server_id;
 						$remote_mailuser_id = $mail_user['mailuser_id'];
 						unset($mail_user['mailuser_id']);
 						if(!isset($_POST['import_user_filter'])) $mail_user['custom_mailfilter'] = '';
@@ -199,6 +207,7 @@ function start_domain_import($mail_domain) {
 									$mail_user_filter['sys_userid'] = $sys_userid;
 									$mail_user_filter['sys_groupid'] = $sys_groupid;
 									$mail_user_filter['mailuser_id'] = $local_mailuser_id;
+									$mail_user_filter['server_id'] = $server_id;
 									unset($mail_user_filter['filter_id']);
 									
 									//* Insert record in DB
@@ -224,6 +233,7 @@ function start_domain_import($mail_domain) {
 					if($tmp['number'] == 0) {
 						$mail_alias['sys_userid'] = $sys_userid;
 						$mail_alias['sys_groupid'] = $sys_groupid;
+						$mail_alias['server_id'] = $server_id;
 						unset($mail_alias['forwarding_id']);
 						$app->db->datalogInsert('mail_forwarding', $mail_alias, 'forwarding_id');
 						$msg .= "Imported email alias ".$mail_alias['source']."<br />";
@@ -244,6 +254,7 @@ function start_domain_import($mail_domain) {
 					if($tmp['number'] == 0) {
 						$mail_alias['sys_userid'] = $sys_userid;
 						$mail_alias['sys_groupid'] = $sys_groupid;
+						$mail_alias['server_id'] = $server_id;
 						unset($mail_alias['forwarding_id']);
 						$app->db->datalogInsert('mail_forwarding', $mail_alias, 'forwarding_id');
 						$msg .= "Imported email aliasdomain ".$mail_alias['source']."<br />";
@@ -264,6 +275,7 @@ function start_domain_import($mail_domain) {
 					if($tmp['number'] == 0) {
 						$mail_forward['sys_userid'] = $sys_userid;
 						$mail_forward['sys_groupid'] = $sys_groupid;
+						$mail_forward['server_id'] = $server_id;
 						unset($mail_forward['forwarding_id']);
 						$app->db->datalogInsert('mail_forwarding', $mail_forward, 'forwarding_id');
 						$msg .= "Imported email forward ".$mail_forward['source']."<br />";
@@ -284,6 +296,7 @@ function start_domain_import($mail_domain) {
 					if($tmp['number'] == 0) {
 						$mail_spamfilter['sys_userid'] = $sys_userid;
 						$mail_spamfilter['sys_groupid'] = $sys_groupid;
+						$mail_spamfilter['server_id'] = $server_id;
 						unset($mail_spamfilter['id']);
 						$app->db->datalogInsert('spamfilter_users', $mail_spamfilter, 'id');
 						$msg .= "Imported spamfilter user ".$mail_spamfilter['email']."<br />";

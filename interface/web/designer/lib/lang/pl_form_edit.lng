@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Stały użytkownik';
 $wb['auth_preset_perm_group_txt'] = 'Stała grupa';
 $wb['auth_preset_perm_other_txt'] = 'Stała inna';
 ?>
-

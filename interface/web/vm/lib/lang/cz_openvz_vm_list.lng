@@ -8,5 +8,3 @@ $wb['hostname_txt'] = 'Hostname';
 $wb['ip_address_txt'] = 'IP address';
 $wb['veid_txt'] = 'VEID';
 ?>
-
-

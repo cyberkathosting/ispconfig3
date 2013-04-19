@@ -147,4 +147,3 @@ $wb['Show fail2ban-Log'] = 'Pokaż log fail2ban';
 $wb['Show IPTables'] = 'Pokaż reguły IPTables';
 $wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
 ?>
-

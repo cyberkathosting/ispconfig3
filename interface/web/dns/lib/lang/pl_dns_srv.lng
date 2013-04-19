@@ -17,4 +17,3 @@ $wb['target_txt'] = 'Cel';
 $wb['weight_txt'] = 'Waga';
 $wb['port_txt'] = 'Port';
 ?>
-

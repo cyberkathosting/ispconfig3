@@ -10,4 +10,3 @@ $wb['repeat_password_txt'] = 'Powtórz hasło';
 $wb['password_mismatch_txt'] = 'Hasła się nie zgadzają';
 $wb['password_match_txt'] = 'Hasła się zgadzają';
 ?>
-

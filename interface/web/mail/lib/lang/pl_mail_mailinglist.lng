@@ -20,4 +20,3 @@ $wb['password_match_txt'] = 'Hasła pasują';
 $wb['listname_error_unique'] = 'Isnieje już lista mailingowa o tej nazwie, wybierz inną nazwę listy.';
 $wb['email_error_isemail'] = 'Adres e-mail jest nieprawidłowy';
 ?>
-

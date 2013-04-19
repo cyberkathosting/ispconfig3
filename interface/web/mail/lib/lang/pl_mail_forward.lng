@@ -7,4 +7,3 @@ $wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa o podanym adresi
 $wb['domain_txt'] = 'Domena';
 $wb['source_txt'] = 'E-mail źródłowy';
 ?>
-

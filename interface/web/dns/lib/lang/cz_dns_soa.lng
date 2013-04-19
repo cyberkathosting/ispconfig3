@@ -36,5 +36,3 @@ $wb['minimum_range_error'] = 'Minimální doba je 60 sekund.';
 $wb['ttl_range_error'] = 'Min. TTL čas je 60 sekund.';
 $wb['xfer_error_regex'] = 'Také oznámí: Prosím, použijte IP adresu.';
 ?>
-
-

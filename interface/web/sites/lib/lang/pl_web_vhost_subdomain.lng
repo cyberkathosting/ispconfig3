@@ -116,4 +116,3 @@ $wb['available_nginx_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw ngin
 $wb['proxy_directives_txt'] = 'Dyrektywy Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw Proxy:';
 ?>
-

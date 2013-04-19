@@ -7,5 +7,3 @@ $wb['client_ids_txt'] = 'Klienti/Distributoři';
 $wb['description_txt'] = 'Popis';
 $wb['active_txt'] = 'Aktivní';
 ?>
-
-

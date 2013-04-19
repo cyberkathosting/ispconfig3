@@ -6,5 +6,3 @@ $wb['message_txt'] = 'Zpráva';
 $wb['tstamp_txt'] = 'Časové razítko';
 $wb['reply_txt'] = 'Odpovědět';
 ?>
-
-

@@ -13,4 +13,3 @@ $wb['restore_pending_txt'] = 'Trwa już jedno zadanie przywrócenia danych z kop
 $wb['backup_type_mysql'] = 'Baza MySQL';
 $wb['backup_type_web'] = 'Pliki strony';
 ?>
-

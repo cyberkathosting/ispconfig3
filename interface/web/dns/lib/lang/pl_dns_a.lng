@@ -14,4 +14,3 @@ $wb['data_error_empty'] = 'Adres IP jest pusty.';
 $wb['data_error_regex'] = 'Adres IP ma niepoprawny format.';
 $wb['data_error_duplicate'] = 'Duplikat wpisu A.';
 ?>
-

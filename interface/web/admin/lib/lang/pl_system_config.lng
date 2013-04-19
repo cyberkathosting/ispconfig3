@@ -50,4 +50,3 @@ $wb['mailbox_show_autoresponder_tab_txt'] = 'Pokaż zakładkę autorespondera w 
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Pokaż zakładkę filtra email w szczegółach konta email.';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Pokaż zakładkę własnych filtrów email w szczegółach konta email.';
 ?>
-

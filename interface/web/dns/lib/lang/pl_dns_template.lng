@@ -4,4 +4,3 @@ $wb['fields_txt'] = 'Pola';
 $wb['template_txt'] = 'Szablon';
 $wb['visible_txt'] = 'Widoczność';
 ?>
-

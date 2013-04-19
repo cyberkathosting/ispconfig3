@@ -352,9 +352,6 @@
                         return;
                     }
 
-                    // work around a bug (likely same cause as #5265)
-                    $( this ).blur();
-
                     // pass empty string as value to search for, displaying all results
                     input.autocomplete( "search", "" );
                     input.focus();

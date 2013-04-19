@@ -4,5 +4,3 @@ $wb['delete_explanation'] = 'Tato akce smaže následující počet záznamů p�
 $wb['btn_save_txt'] = 'Smazat klienta';
 $wb['btn_cancel_txt'] = 'Zrušit bez smazání klienta';
 ?>
-
-

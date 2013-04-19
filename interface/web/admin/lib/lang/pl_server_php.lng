@@ -14,4 +14,3 @@ $wb['php_fpm_init_script_txt'] = 'Ścieżka do skryptu inicjującego PHP-FPM';
 $wb['php_fpm_ini_dir_txt'] = 'Ścieżka do katalogu php.ini';
 $wb['php_fpm_pool_dir_txt'] = 'Ścieżka do katalogu pool PHP-FPM';
 ?>
-

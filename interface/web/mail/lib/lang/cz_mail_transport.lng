@@ -9,5 +9,3 @@ $wb['active_txt'] = 'Aktivní';
 $wb['limit_mailrouting_txt'] = 'Dosažen maximální počet email směrování pro Váš účet.';
 $wb['transport_txt'] = 'Transport';
 ?>
-
-
