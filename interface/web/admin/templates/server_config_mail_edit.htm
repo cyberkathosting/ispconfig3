@@ -20,6 +20,10 @@
                 <input name="homedir_path" id="homedir_path" value="{tmpl_var name='homedir_path'}" size="40" maxlength="255" type="text" class="textInput" />
             </div>
             <div class="ctrlHolder">
+                <label for="dkim_path">{tmpl_var name='dkim_path_txt'}</label>
+                <input name="dkim_path" id="dkim_path" value="{tmpl_var name='dkim_path'}" size="40" maxlength="255" type="text" class="textInput" />
+            </div>
+            <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='pop3_imap_daemon_txt'}</p>
                 <div class="multiField">
                     <select name="pop3_imap_daemon" id="pop3_imap_daemon" class="selectInput">
