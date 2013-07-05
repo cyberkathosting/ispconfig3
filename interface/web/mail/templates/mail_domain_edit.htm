@@ -72,10 +72,11 @@
                 <textarea name="dkim_private" id="dkim_private" rows='10' cols='30'>{tmpl_var name='dkim_private'}</textarea>
 <a href="javascript:setRequest('create','{tmpl_var name='domain'}')">{tmpl_var name='dkim_generate_txt'}</a>
               </div>
-              <div class="ctrlHolder">
-                <label for="dkim_dns">{tmpl_var name='dkim_dns_txt'}</label>
-                <textarea name="dkim_dns" id="dkim_dns" rows='10' cols='30'>{tmpl_var name='dkim_dns'}</textarea>
+		<div class="ctrlHolder">
+                <label for="dkim_public">{tmpl_var name='dkim_public_txt'}</label>
+                <textarea name="dkim_public" id="dkim_public" rows='5' cols='30' readonly>{tmpl_var name='dkim_public'}</textarea>
               </div>
+
             </div>
         </fieldset>
 
@@ -89,44 +90,4 @@
     </div>
 
 </div>
-<script language="JavaScript" type="text/javascript">
-        var request = false;
-
-        function setRequest(action,value,privatekey) {
-                if (window.XMLHttpRequest) {request = new XMLHttpRequest();}
-                else if (window.ActiveXObject) {
-                        try {request = new ActiveXObject('Msxml2.XMLHTTP');}
-                        catch (e) {
-                                try {request = new ActiveXObject('Microsoft.XMLHTTP');}
-                                catch (e) {}
-                        }
-                }
-                if (!request) {
-                        alert("Error creating XMLHTTP-instance");
-                        return false;
-                } else {
-                        request.open('POST', 'mail/mail_domain_dkim_create.php', true);
-                        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        request.send('domain='+value+'&action='+action+'&pkey='+privatekey);
-                        request.onreadystatechange = interpretRequest;
-                }
-        }
-
-        function interpretRequest() {
-                switch (request.readyState) {
-                        case 4:
-                                if (request.status != 200) {alert("Request done but NOK\nError:"+request.status);}
-                                else {
-                                        document.getElementsByName('dkim_private')[0].value = request.responseXML.getElementsByTagName('privatekey')[0].firstChild.nodeValue;
-                                        document.getElementsByName('dkim_dns')[0].value = request.responseXML.getElementsByTagName('dnsrecord')[0].firstChild.nodeValue;
-                                }
-                                break;
-                        default:
-                                break;
-                }
-        }
-
-var serverType = jQuery('#dkim_private').val();
-setRequest('show','{tmpl_var name="domain"}',serverType);
-</script>
-
+<script language="JavaScript" type="text/javascript" src="js/mail_domain_dkim.js"></script>

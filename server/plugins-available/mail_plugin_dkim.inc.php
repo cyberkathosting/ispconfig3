@@ -1,10 +1,6 @@
 <?php
 
 /*
-todo:
-- DNS interaction
-*/
-/*
 Copyright (c) 2007 - 2013, Till Brehm, projektfarm Gmbh
 Copyright (c) 2013, Florian Schaal, info@schaal-24.de
 All rights reserved.
@@ -67,9 +63,6 @@ class mail_plugin_dkim {
 		$app->plugins->registerEvent('mail_domain_delete',$this->plugin_name,'domain_dkim_delete');
 		$app->plugins->registerEvent('mail_domain_insert',$this->plugin_name,'domain_dkim_insert');
 		$app->plugins->registerEvent('mail_domain_update',$this->plugin_name,'domain_dkim_update');
-
-                // Register service
-                $app->services->registerService('amavisd','mail_module','restartAmavisd');
 	}
 
         /*
@@ -78,7 +71,8 @@ class mail_plugin_dkim {
 	function get_amavis_config() {
 		$pos_config=array(
 			'/etc/amavisd.conf',
-			'/etc/amavisd.conf/50-user'
+			'/etc/amavisd.conf/50-user',
+			'/etc/amavis/conf.d/50-user'
 		);
 		$amavis_configfile='';
                 foreach($pos_config as $conf) {
@@ -114,10 +108,6 @@ class mail_plugin_dkim {
 			$app->log('Unable to write DKIM settings; Check your config!',LOGLEVEL_ERROR);
 			$check=false;
 		}
-		if (!$check) {
-               		$app->db->query("UPDATE mail_domain SET dkim = 'n' WHERE domain = '".$data['new']['domain']."'");
-               		$app->dbmaster->query("UPDATE mail_domain SET dkim = 'n' WHERE domain = '".$data['new']['domain']."'");
-		}
 		return $check;
 	}
         
@@ -128,13 +118,12 @@ class mail_plugin_dkim {
 		global $app,$conf;
 		$initfile=$conf['init_scripts'].'/amavis';
 		$app->log('Restarting amavis.',LOGLEVEL_DEBUG);
-		exec($conf['init_scripts'].'/amavis restart',$output);
+		exec(escapeshellarg($conf['init_scripts']).escapeshellarg('/amavis').' restart',$output);
 		foreach($output as $logline) $app->log($logline,LOGLEVEL_DEBUG);
 	}
 
 	/*
                 This function writes the keyfiles (public and private)
-                The public-key is always created and stored into the db and local key-file
         */
 	function write_dkim_key($key_file,$key_value,$key_domain) {
                 global $app,$mailconfig;
@@ -143,17 +132,13 @@ class mail_plugin_dkim {
 			$app->log('Saved DKIM Private-key to '.$key_file.'.private',LOGLEVEL_DEBUG);
 			$success=true;
 			/* now we get the DKIM Public-key */
-			exec('cat "'.$key_file.'.private'.'"|openssl rsa -pubout',$pubkey,$result);
+			exec('cat '.escapeshellarg($key_file.'.private').'|openssl rsa -pubout',$pubkey,$result);
 			$public_key='';
 			foreach($pubkey as $values) $public_key=$public_key.$values."\n";
 			/* save the DKIM Public-key in dkim-dir */
 			if (!file_put_contents($key_file.'.public',$public_key) === false) 
 				$app->log('Saved DKIM Public to '.$key_domain.'.',LOGLEVEL_DEBUG);
 			else $app->log('Unable to save DKIM Public to '.$key_domain.'.',LOGLEVEL_WARNING);
-			/* store the private-key to the databse(s) */
-			$app->log('Store the DKIM Public-key in database.',LOGLEVEL_DEBUG);
-       	     		$app->db->query("UPDATE mail_domain SET dkim_public = '".$public_key."' WHERE domain = '".$ky_domain."'");
-   	     		$app->dbmaster->query("UPDATE mail_domain SET dkim_public = '".$public_key."' WHERE domain = '".$key_domain."'");
 		} 
 		return $success;
 	}
@@ -164,11 +149,11 @@ class mail_plugin_dkim {
 	function remove_dkim_key($key_file,$key_domain) {
 		global $app;
 		if (file_exists($key_file.'.private')) {
-			exec('rm -f '.$key_file.'.private');
+			exec('rm -f '.escapeshellarg($key_file.'.private'));
 			$app->log('Deleted the DKIM Private-key for '.$key_domain.'.',LOGLEVEL_DEBUG);
 		} else $app->log('Unable to delete the DKIM Private-key for '.$key_domain.' (not found).',LOGLEVEL_DEBUG);
 		if (file_exists($key_file.'.public')) {
-			exec('rm -f '.$key_file.'.public');
+			exec('rm -f '.escapeshellarg($key_file.'.public'));
 			$app->log('Deleted the DKIM Public-key for '.$key_domain.'.',LOGLEVEL_DEBUG);
 		} else $app->log('Unable to delete the DKIM Public-key for '.$key_domain.' (not found).',LOGLEVEL_DEBUG);
 	}
@@ -219,9 +204,7 @@ class mail_plugin_dkim {
 		if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'],$data['new']['dkim_private'],$data['new']['domain'])) {
 	       	        $this->add_to_amavis($data['new']['domain']);
 		} else {
-			$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is now disabled for the domain.',LOGLEVEL_ERROR);
-               		$app->db->query("UPDATE mail_domain SET dkim = 'n' WHERE domain = '".$data['new']['domain']."'");
-               		$app->dbmaster->query("UPDATE mail_domain SET dkim = 'n' WHERE domain = '".$data['new']['domain']."'");
+			$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.',LOGLEVEL_ERROR);
 		}
 	}
 
@@ -247,9 +230,6 @@ class mail_plugin_dkim {
 
 	function domain_dkim_insert($event_name,$data) {
 		if (isset($data['new']['dkim']) && $data['new']['dkim']=='y' && $this->check_system($data)) {
-			/* if the domain is already defined, remove from amavis */
-			$this->remove_from_amavis($data['new']['domain']);
-//			$this->remove_from_amavis("dkim_key('".$data['new']['domain']."', 'default', '".$mail_config['dkim_path']."/".$data['new']['domain'].".private');\n",$data['new']['domain']);
 			$this->add_dkim($data);
 		}
 	}

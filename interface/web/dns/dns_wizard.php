@@ -176,6 +176,14 @@ if($_POST['create'] == 1) {
 	if($_POST['ns1'] != '') $tpl_content = str_replace('{NS1}',$_POST['ns1'],$tpl_content);
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}',$_POST['ns2'],$tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}',$_POST['email'],$tpl_content);
+	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/',$_POST['domain'])) {
+		$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = '".$app->db->quote($_POST['domain'])."' AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'));		
+		if ($public_key!='') {
+			$dns_record=str_replace(array("\r\n", "\n", "\r","-----BEGIN PUBLIC KEY-----","-----END PUBLIC KEY-----"),'',$public_key['dkim_public']);
+			$tpl_content = str_replace('{DKIM}','TXT|default._domainkey.'.$_POST['domain'].'.|v=DKIM1; t=s; p='.$dns_record,$tpl_content);
+		} 
+	}
+
 	
 	// Parse the template
 	$tpl_rows = explode("\n",$tpl_content);

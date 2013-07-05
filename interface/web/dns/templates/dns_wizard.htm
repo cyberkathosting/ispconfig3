@@ -67,6 +67,11 @@
                     <input name="email" id="email" value="{tmpl_var name='email'}" size="30" maxlength="255" type="text" class="textInput" />
                 </div>
             </tmpl_if>
+            <tmpl_if name="DKIM_VISIBLE">
+		    <label for="dkim">{tmpl_var name='dkim_txt'}</label>
+                    <input name="dkim" type="hidden" maxlength="255" type="text"/>
+            </tmpl_if>
+
         </fieldset>
             
         <input type="hidden" name="create" value="0" />

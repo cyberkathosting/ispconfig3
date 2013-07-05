@@ -29,14 +29,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /*
-	This script is invoked by the java-script in interface/web/mail/templates/mail_domain_edit.htm
-	when generating the DKIM Private-key.
+	This script is invoked by interface/web/mail/templates/mail_domain_edit.htm
+	to generate or show the DKIM Private-key.
 
-	return DKIM Private-Key and DNS-record
+	returns DKIM Private-Key and DKIM Public-Key
 */ 
 
 require_once('../../lib/config.inc.php');
 require_once('../../lib/app.inc.php');
+require_once('../../lib/classes/validate_dkim.inc.php');
+
+$validate_dkim=new validate_dkim ();
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -60,35 +63,37 @@ function getRealPOST() {
     return $vars;
 }
 
-function dns_record() {
-	global $private_key;
-	$public_key='';
-	exec('echo "'.$private_key.'"|openssl rsa -pubout -outform PEM',$pubkey,$result);
-	$pubkey=array_diff($pubkey,array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----'));	
-	foreach($pubkey as $values) $public_key=$public_key.$values."\n";
-	$dns_record="HOSTNAME: default._domainkey.".$_POST['domain'].".\n\nTEXT: v=DKIM1; t=s; p=".$public_key;
-	return $dns_record;
+function pub_key($pubkey) {
+        $public_key='';
+        foreach($pubkey as $values) $public_key=$public_key.$values."\n";
+        return $public_key;
 }
-
 $_POST=getRealPOST();
 
 switch ($_POST['action']) {
 	case 'create':	/* create DKIM Private-key */
-		exec("openssl rand -out /usr/local/ispconfig/server/temp/random-data.bin 4096",$output,$result);
-		exec("openssl genrsa -rand /usr/local/ispconfig/server/temp/random-data.bin 1024",$privkey,$result);
+		exec('openssl rand -out /usr/local/ispconfig/server/temp/random-data.bin 4096',$output,$result);
+		exec('openssl genrsa -rand /usr/local/ispconfig/server/temp/random-data.bin 1024',$privkey,$result);
 		unlink("/usr/local/ispconfig/server/temp/random-data.bin");
 		$private_key='';
 		foreach($privkey as $values) $private_key=$private_key.$values."\n";
-		$dns_record=dns_record();
+		if($validate_dkim->validate_post('private',$private_key)) { /* validate the $_POST-value */
+			exec('echo '.escapeshellarg($private_key).'|openssl rsa -pubout -outform PEM',$pubkey,$result);
+			$public_key=pub_key($pubkey);
+		} else { $public_key='invalid key'; }
 	break;
 	case 'show': /* show the DNS-Record onLoad */
 		$private_key=$_POST['pkey'];
-		$dns_record=dns_record();
+		if($validate_dkim->validate_post('private',$private_key)) { /* validate the $_POST-value */
+			/* get the public-key */
+			exec('echo '.escapeshellarg($private_key).'|openssl rsa -pubout -outform PEM',$pubkey,$result);
+			$public_key=pub_key($pubkey);
+		} else { $public_key='invalid key'; }
 	break;
 }
 echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 echo "<formatname>\n";
 echo "<privatekey>".$private_key."</privatekey>\n";
-echo "<dnsrecord>".$dns_record."</dnsrecord>\n";
+echo "<publickey>".$public_key."</publickey>\n";
 echo "</formatname>\n";
 ?>

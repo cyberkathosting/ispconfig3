@@ -45,7 +45,7 @@ class validate_dkim {
 		$dkim_enabled=$_POST['dkim'];
 		if ($dkim_enabled == 'y') {
 			if (empty($field_value)) return $this->get_error($validator['errmsg']);
-			exec('echo "'.$field_value.'"|openssl rsa -check',$output,$result);
+			exec('echo '.escapeshellarg($field_value).'|openssl rsa -check',$output,$result);
 			if($result != 0) return $this->get_error($validator['errmsg']);
 		}
 	}
@@ -57,4 +57,23 @@ class validate_dkim {
 			return $this->get_error($validator['errmsg']);
 	}
 
+	/* Check function for DNS-Template */
+	function check_template($field_name, $field_value, $validator) {
+		$dkim=false;
+		foreach($field_value as $field ) { if($field == 'DKIM') $dkim=true; }
+		if ($dkim && $field_value[0]!='DOMAIN') return $this->get_error($validator['errmsg']);
+	}
+
+	/* Validator function for $_POST */
+	function validate_post($key,$value) {
+		switch ($key) {
+			case 'public':	
+				if (preg_match("/(^-----BEGIN PUBLIC KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,221}(-----END PUBLIC KEY-----(\n|\r)$)/",$value) === 1) { return true; } else { return false; }
+			break;
+			case 'private':
+				if (preg_match("/(^-----BEGIN RSA PRIVATE KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,850}(-----END RSA PRIVATE KEY-----(\n|\r)$)/",$value) === 1) { return true; } else { return false; }
+			break;
+		}
+	}	
 }
+
