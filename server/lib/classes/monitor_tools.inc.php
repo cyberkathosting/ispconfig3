@@ -897,7 +897,7 @@ class monitor_tools {
 			/*
 			 * Fetch the output
 			 */
-			$data['output'] = shell_exec('apt-get -s -q dist-upgrade');
+			$data['output'] = shell_exec('apt-get -s -qq dist-upgrade');
 		} elseif (file_exists('/etc/gentoo-release')) {
 
 			/*
