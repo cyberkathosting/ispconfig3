@@ -783,9 +783,9 @@ class remoting_lib {
                 } else {
                         if($primary_id != 0) {
                                 // update client permissions only if client_id > 0
-								if($this->formDef['auth'] == 'yes' && $this->client_id > 0) {
-									$sql_update .= '`sys_userid` = "'.$this->sys_userid.'", ';
-									$sql_update .= '`sys_groupid` = "'.$this->sys_default_group.'", ';
+								if($this->formDef['auth'] == 'yes' && $this->client_id > 0 && $this->sys_userid > 0 && $this->sys_default_group > 0) {
+									$sql_update .= '`sys_userid` = '.$this->sys_userid.', ';
+									$sql_update .= '`sys_groupid` = '.$this->sys_default_group.', ';
 								}
 								$sql_update = substr($sql_update,0,-2);
                                 $sql = "UPDATE ".$escape.$this->formDef['db_table'].$escape." SET ".$sql_update." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
