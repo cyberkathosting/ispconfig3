@@ -102,28 +102,31 @@ class app {
         function log($msg, $priority = 0) {
 				
 		global $conf;
+		
+		switch ($priority) {
+			case 0:
+				$priority_txt = 'DEBUG';
+				break;
+			case 1:
+				$priority_txt = 'WARNING';
+				break;
+			case 2:
+				$priority_txt = 'ERROR';
+				break;
+		}
+		$log_msg = @date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg;
 
 		if($priority >= $conf['log_priority']) {
                         //if (is_writable($conf["log_file"])) {
                             if (!$fp = fopen ($conf['log_file'], 'a')) {
                                 die('Unable to open logfile.');
                             }
-						switch ($priority) {
-							case 0:
-								$priority_txt = 'DEBUG';
-								break;
-							case 1:
-								$priority_txt = 'WARNING';
-								break;
-							case 2:
-								$priority_txt = 'ERROR';
-								break;
-						}
 							
-                            if (!fwrite($fp, @date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\r\n")) {
+                            if (!fwrite($fp, $log_msg."\r\n")) {
                                 die('Unable to write to logfile.');
                             }
-				echo @date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg."\n";
+				
+				echo $log_msg."\n";
 				fclose($fp);
 
 					// Log to database
@@ -149,8 +152,24 @@ class app {
                         //} else {
                         //    die("Unable to write to logfile.");
                         //}
+					
+    
                 } // if
+				
+				if($priority >= $conf['admin_notify_priority'] && $conf['admin_mail'] != '') {
+					// send notification to admin
+					$mailBody = $log_msg;
+					$mailSubject = substr($log_msg,0,50).'...';
+					$mailHeaders      = "MIME-Version: 1.0" . "\n";
+					$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+					$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+					$mailHeaders     .= "From: ". $conf['admin_mail'] . "\n";
+					$mailHeaders     .= "Reply-To: ". $conf['admin_mail'] . "\n";
+
+					mail($conf['admin_mail'], $mailSubject, $mailBody, $mailHeaders);
+				}
         } // func
+		
 
         /*
          0 = DEBUG

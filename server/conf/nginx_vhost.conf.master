@@ -170,6 +170,10 @@ server {
         }
 </tmpl_if>
 
+<tmpl_loop name="rewrite_rules">
+        <tmpl_var name='rewrite_rule'>
+</tmpl_loop>
+
 <tmpl_loop name="nginx_directives">
         <tmpl_var name='nginx_directive'>
 </tmpl_loop>

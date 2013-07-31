@@ -5,4 +5,11 @@ $wb['subject_txt'] = 'Betreff';
 $wb['message_txt'] = 'Nachricht';
 $wb['tstamp_txt'] = 'Zeitpunkt';
 $wb['reply_txt'] = 'Antworten';
+$wb['date_txt'] = 'Datum';
+$wb['support_request_subject_txt'] = 'Supportanfrage';
+$wb['support_request_txt'] = 'Sie haben eine Supportanfrage erhalten. Bitte antworten Sie nicht auf diese Email, sondern bearbeiten Sie die Supportanfrage in ISPConfig.';
+$wb['answer_to_support_request_txt'] = 'Sie haben eine Antwort auf Ihre Supportanfrage erhalten. Bitte antworten Sie nicht auf diese Email, sondern bearbeiten Sie die Nachricht in ISPConfig.';
+$wb['answer_to_support_request_sent_txt'] = 'Ihre Antwort auf die Supportanfrage ist verschickt worden. Bitte antworten Sie nicht auf diese Email.';
+$wb['support_request_sent_txt'] = 'Ihre Supportanfrage ist verschickt worden. Bitte antworten Sie nicht auf diese Email.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'Die Nachricht konnte nicht verschickt werden, da die Empfänger- und/oder die Sender-Email-Adresse nicht gültig ist.';
 ?>

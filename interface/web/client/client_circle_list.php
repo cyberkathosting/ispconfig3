@@ -17,7 +17,7 @@ $app->auth->check_module_permissions('client');
 
 $app->uses('listform_actions');
 
-$app->listform_actions->SQLOrderBy = 'ORDER BY circle_name, circle_id';
+$app->listform_actions->SQLOrderBy = 'ORDER BY client_circle.circle_name, client_circle.circle_id';
 $app->listform_actions->onLoad();
 
 

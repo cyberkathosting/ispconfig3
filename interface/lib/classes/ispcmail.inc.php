@@ -414,16 +414,22 @@ class ispcmail {
             $this->body = "This is a multi-part message in MIME format.\n\n";
             
             if($text) {
-                $this->body .= "--{$this->mime_boundary}\n" .
+                /*$this->body .= "--{$this->mime_boundary}\n" .
                               "Content-Type:text/plain; charset=\"" . strtolower($this->mail_charset) . "\"\n" .
-                              "Content-Transfer-Encoding: 7bit\n\n" . $this->text_part . "\n\n";
-            }
+                              "Content-Transfer-Encoding: 7bit\n\n" . $this->text_part . "\n\n";*/
+				$this->body .= "--{$this->mime_boundary}\n" .
+                              "Content-Type:text/plain; charset=\"UTF-8\"\n" .
+                              "Content-Transfer-Encoding: 8bit\n\n" . $this->text_part . "\n\n";
+			}
             
             if($html) {
-                $this->body .= "--{$this->mime_boundary}\n" .
+                /*$this->body .= "--{$this->mime_boundary}\n" .
                                "Content-Type:text/html; charset=\"" . strtolower($this->mail_charset) . "\"\n" . 
-                               "Content-Transfer-Encoding: 7bit\n\n" . $this->html_part . "\n\n";
-            }
+                               "Content-Transfer-Encoding: 7bit\n\n" . $this->html_part . "\n\n";*/
+				$this->body .= "--{$this->mime_boundary}\n" .
+                              "Content-Type:text/html; charset=\"UTF-8\"\n" .
+                              "Content-Transfer-Encoding: 8bit\n\n" . $this->html_part . "\n\n";
+			}
             
             if($attach) {
                 foreach($this->attachments as $att) {
@@ -490,17 +496,42 @@ class ispcmail {
         $this->_is_signed = true;
     }
     
+    private function _char_to_hex($matches) {
+        return '=' . strtoupper(dechex(ord($matches[1])));
+    }
+    
     /**
     * Function to encode a header if necessary
     * according to RFC2047
     * @access private
     */
     private function _encodeHeader($input, $charset = 'ISO-8859-1') {
-        preg_match_all('/(\s?\w*[\x80-\xFF]+\w*\s?)/', $input, $matches);
-        foreach ($matches[1] as $value) {
-            $replacement = preg_replace('/([\x20\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
-            $input = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $input);
-        }
+		preg_match_all('/(\s?\w*[\x80-\xFF]+\w*\s?)/', $input, $matches);
+		foreach ($matches[1] as $value) {
+			$replacement = preg_replace_callback('/([\x20\x80-\xFF])/', array($this, '_char_to_hex'), $value);
+			$input = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $input);
+		}
+        
+        return $input;
+    }
+	
+	/**
+    * Function to encode the subject if necessary
+    * according to RFC2047
+    * @access private
+    */
+    private function _encodeSubject($input, $charset = 'ISO-8859-1') {
+        /*
+		if($charset == 'UTF-8' && function_exists('imap_8bit')) {
+			$input = "=?utf-8?Q?" . imap_8bit($input) . "?=";
+		} else {
+			preg_match_all('/(\s?\w*[\x80-\xFF]+\w*\s?)/', $input, $matches);
+			foreach ($matches[1] as $value) {
+				$replacement = preg_replace('/([\x20\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
+				$input = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $input);
+			}
+		}*/
+		$input='=?UTF-8?B?'.base64_encode($input).'?=';
         
         return $input;
     }
@@ -578,7 +609,8 @@ class ispcmail {
             //$subject = $this->_encodeHeader($this->headers['Subject'], $this->mail_charset);
             $subject = $this->headers['Subject'];
             
-            $enc_subject = $this->_encodeHeader($subject, $this->mail_charset);
+            //$enc_subject = $this->_encodeHeader($subject, $this->mail_charset);
+			$enc_subject = $this->_encodeSubject($subject, $this->mail_charset);
             unset($this->headers['Subject']);
         }
         

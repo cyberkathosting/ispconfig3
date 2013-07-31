@@ -65,13 +65,13 @@ $web_config = $app->getconf->get_server_config($serverId,'web');
 if($global_config['phpmyadmin_url'] != '') {
 	$phpmyadmin_url = $global_config['phpmyadmin_url'];
 	$phpmyadmin_url = str_replace(array('[SERVERNAME]', '[DATABASENAME]'),array($serverData['server_name'], $dbData['database_name']),$phpmyadmin_url);
-	header('Location:'.$phpmyadmin_url);
+	header('Location: '.$phpmyadmin_url);
 } else {
 	isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
 	if($web_config['server_type'] == 'nginx') {
-		header('location:' . $http . '://' . $serverData['server_name'] . ':8081/phpmyadmin');
+		header('Location: http://' . $serverData['server_name'] . ':8081/phpmyadmin');
 	} else {
-		header('location:' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
+		header('Location: ' . $http . '://' . $serverData['server_name'] . '/phpmyadmin');
 	}
 }
 exit;

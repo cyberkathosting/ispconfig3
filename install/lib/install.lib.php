@@ -160,7 +160,7 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'6.0') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'7.0') || strstr(trim(file_get_contents('/etc/debian_version')),'7.1') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 			$distname = 'Debian';
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
@@ -343,6 +343,12 @@ function mkdirs($strPath, $mode = '0755'){
 		return $ret_val;
 	}
 	return false;
+}
+
+function rfsel($file, $file2) {
+    clearstatcache();
+    if(is_file($file)) return rf($file);
+    else return rf($file2);
 }
 
 function rf($file){

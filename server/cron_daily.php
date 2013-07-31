@@ -247,7 +247,7 @@ if($parse_mail_log == true) {
 // Create webalizer statistics
 #######################################################################################################
 
-function setConfigVar( $filename, $varName, $varValue ) {
+function setConfigVar( $filename, $varName, $varValue, $append = 0 ) {
 	if($lines = @file($filename)) {
 		$out = '';
 		$found = 0;
@@ -641,6 +641,64 @@ if ($app->dbmaster == $app->db) {
 	}
 }
 
+#########
+// function for sending notification emails
+#########
+function send_notification_email($template, $placeholders, $recipients) {
+    global $conf;
+    
+    if(!is_array($recipients) || count($recipients) < 1) return false;
+    if(!is_array($placeholders)) $placeholders = array();
+    
+    if(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt')) {
+        $lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt');
+    } elseif(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt')) {
+        $lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt');
+    } elseif(file_exists($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt')) {
+        $lines = file($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt');
+    } else {
+        $lines = file($conf['rootpath'].'/conf/mail/' . $template . '_en.txt');
+    }
+    
+    //* get mail headers, subject and body
+    $mailHeaders = '';
+    $mailBody = '';
+    $mailSubject = '';
+    $inHeader = true;
+    for($l = 0; $l < count($lines); $l++) {
+        if($lines[$l] == '') {
+            $inHeader = false;
+            continue;
+        }
+        if($inHeader == true) {
+            $parts = explode(':', $lines[$l], 2);
+            if(strtolower($parts[0]) == 'subject') $mailSubject = trim($parts[1]);
+            unset($parts);
+            $mailHeaders .= trim($lines[$l]) . "\n";
+        } else {
+            $mailBody .= trim($lines[$l]) . "\n";
+        }
+    }
+    $mailBody = trim($mailBody);
+    
+    //* Replace placeholders
+    $mailHeaders = strtr($mailHeaders, $placeholders);
+    $mailSubject = strtr($mailSubject, $placeholders);
+    $mailBody = strtr($mailBody, $placeholders);
+    
+    for($r = 0; $r < count($recipients); $r++) {
+        mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
+    }
+
+    unset($mailSubject);
+    unset($mailHeaders);
+    unset($mailBody);
+    unset($lines);
+    
+    return true;
+}
+
+
 #######################################################################################################
 // enforce traffic quota (run only on the "master-server")
 #######################################################################################################
@@ -683,41 +741,15 @@ if ($app->dbmaster == $app->db) {
 				$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.',LOGLEVEL_DEBUG);
 				
 				//* Send traffic notifications
-				if($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y') {
-					
-					if(file_exists($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_'.$conf['language'].'.txt')) {
-						$lines = file($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_'.$conf['language'].'.txt');
-					} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_en.txt')) {
-						$lines = file($conf['rootpath'].'/conf-custom/mail/web_traffic_notification_en.txt');
-					} elseif(file_exists($conf['rootpath'].'/conf/mail/web_traffic_notification_'.$conf['language'].'.txt')) {
-						$lines = file($conf['rootpath'].'/conf/mail/web_traffic_notification_'.$conf['language'].'.txt');
-					} else {
-						$lines = file($conf['rootpath'].'/conf/mail/web_traffic_notification_en.txt');
-					}
-					
-					//* Get subject
-					$parts = explode(':',trim($lines[0]));
-					unset($parts[0]);
-					$traffic_mail_subject  = implode(':',$parts);
-					unset($lines[0]);
-		
-					//* Get message
-					$traffic_mail_message = trim(implode($lines));
-					unset($tmp);
-					
-					//* Replace placeholders
-					$traffic_mail_message = str_replace('{domain}',$rec['domain'],$traffic_mail_message);
-						
-					$mailHeaders      = "MIME-Version: 1.0" . "\n";
-					$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
-					$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
-					$mailHeaders     .= "From: ". $global_config['admin_mail'] . "\n";
-					$mailHeaders     .= "Reply-To: ". $global_config['admin_mail'] . "\n";
-					$mailSubject      = "=?utf-8?B?".base64_encode($traffic_mail_subject)."?=";
-					
-					//* send email to admin
+				if($rec['traffic_quota_lock'] != 'y' && ($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y')) {
+                    
+                    $placeholders = array('{domain}' => $rec['domain'],
+                                          '{admin_mail}' => $global_config['admin_mail']);
+                    
+					$recipients = array();
+                    //* send email to admin
 					if($global_config['admin_mail'] != '' && $web_config['overtraffic_notify_admin'] == 'y') {
-						mail($global_config['admin_mail'], $mailSubject, $traffic_mail_message, $mailHeaders);
+						$recipients[] = $global_config['admin_mail'];
 					}
 					
 					//* Send email to client
@@ -725,10 +757,11 @@ if ($app->dbmaster == $app->db) {
 						$client_group_id = $rec["sys_groupid"];
 						$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 						if($client['email'] != '') {
-							mail($client['email'], $mailSubject, $traffic_mail_message, $mailHeaders);
+							$recipients[] = $client['email'];
 						}
 					}
-					
+                    
+                    send_notification_email('web_traffic_notification', $placeholders, $recipients);
 				}
 				
 				
@@ -743,6 +776,283 @@ if ($app->dbmaster == $app->db) {
 	}
 
 
+}
+
+
+#######################################################################################################
+// send website quota warnings by email
+#######################################################################################################
+
+if ($app->dbmaster == $app->db) {
+
+	$global_config = $app->getconf->get_global_config('mail');
+
+	//* Check website disk quota
+	$sql = "SELECT domain_id,sys_groupid,domain,system_user,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain')";
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records) && !empty($records)) {
+	
+		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
+		$monitor_data = array();
+		if(is_array($tmp_rec)) {
+			foreach ($tmp_rec as $tmp_mon) {
+				$monitor_data = array_merge_recursive($monitor_data,unserialize($app->db->unquote($tmp_mon['data'])));
+			}
+		}
+		
+		foreach($records as $rec) {
+
+			//$web_hd_quota = $rec['hd_quota'];
+			$domain = $rec['domain'];
+			
+			$username = $rec['system_user'];
+			$rec['used'] = $monitor_data['user'][$username]['used'];
+			$rec['soft'] = $monitor_data['user'][$username]['soft'];
+			$rec['hard'] = $monitor_data['user'][$username]['hard'];
+			$rec['files'] = $monitor_data['user'][$username]['files'];
+				
+			if (!is_numeric($rec['used'])){
+				if ($rec['used'][0] > $rec['used'][1]){
+					$rec['used'] = $rec['used'][0];
+				} else {
+					$rec['used'] = $rec['used'][1];
+				}
+			}
+			if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
+			if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
+			if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];
+				
+			// used space ratio
+			if($rec['soft'] > 0){
+				$used_ratio = $rec['used']/$rec['soft'];
+			} else {
+				$used_ratio = 0;
+			}
+			
+			$rec['ratio'] = number_format($used_ratio * 100, 2, '.', '').'%';
+		
+			if($rec['used'] > 1024) {
+				$rec['used'] = round($rec['used'] / 1024,2).' MB';
+			} else {
+				if ($rec['used'] != '') $rec['used'] .= ' KB';
+			}
+		
+			if($rec['soft'] > 1024) {
+				$rec['soft'] = round($rec['soft'] / 1024,2).' MB';
+			} elseif($rec['soft'] == 0){
+				$rec['soft'] = '----';
+			} else {
+				$rec['soft'] .= ' KB';
+			}
+		
+			if($rec['hard'] > 1024) {
+				$rec['hard'] = round($rec['hard'] / 1024,2).' MB';
+			} elseif($rec['hard'] == 0){
+				$rec['hard'] = '----';
+			} else {
+				$rec['hard'] .= ' KB';
+			}
+			
+			// send notifications only if 90% or more of the quota are used
+			if($used_ratio < 0.9) {
+                // reset notification date
+                if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = NULL", 'domain_id', $rec['domain_id']);
+                
+                // send notification - everything ok again
+                if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y')) {
+                    $placeholders = array('{domain}' => $rec['domain'],
+                                          '{admin_mail}' => $global_config['admin_mail'],
+                                          '{used}' => $rec['used'],
+                                          '{soft}' => $rec['soft'],
+                                          '{hard}' => $rec['hard'],
+                                          '{ratio}' => $rec['ratio']);
+
+                    $recipients = array();
+                    
+                    //* send email to admin
+                    if($global_config['admin_mail'] != '' && $web_config['overquota_notify_admin'] == 'y') {
+                        $recipients[] = $global_config['admin_mail'];
+                    }
+                    
+                    //* Send email to client
+                    if($web_config['overquota_notify_client'] == 'y') {
+                        $client_group_id = $rec["sys_groupid"];
+                        $client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+                        if($client['email'] != '') {
+                            $recipients[] = $client['email'];
+                        }
+                    }
+                    send_notification_email('web_quota_ok_notification', $placeholders, $recipients);
+                }
+                
+                continue;
+            }
+            
+            // could a notification be sent?
+            $send_notification = false;
+            if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
+            elseif($web_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $web_config['overquota_notify_freq']) $send_notification = true;
+            
+			//* Send quota notifications
+			if(($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y') && $send_notification == true) {
+				$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
+                
+                $placeholders = array('{domain}' => $rec['domain'],
+                                      '{admin_mail}' => $global_config['admin_mail'],
+                                      '{used}' => $rec['used'],
+                                      '{soft}' => $rec['soft'],
+                                      '{hard}' => $rec['hard'],
+                                      '{ratio}' => $rec['ratio']);
+
+                $recipients = array();
+                
+                //* send email to admin
+                if($global_config['admin_mail'] != '' && $web_config['overquota_notify_admin'] == 'y') {
+                    $recipients[] = $global_config['admin_mail'];
+                }
+                
+                //* Send email to client
+                if($web_config['overquota_notify_client'] == 'y') {
+                    $client_group_id = $rec["sys_groupid"];
+                    $client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+                    if($client['email'] != '') {
+                        $recipients[] = $client['email'];
+                    }
+                }
+                send_notification_email('web_quota_notification', $placeholders, $recipients);
+			}
+		}
+	}
+}
+
+
+#######################################################################################################
+// send mail quota warnings by email
+#######################################################################################################
+
+if ($app->dbmaster == $app->db) {
+
+	$global_config = $app->getconf->get_global_config('mail');
+	$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+
+	//* Check email quota
+	$sql = "SELECT mailuser_id,sys_groupid,email,name,quota,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM mail_user";
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records) && !empty($records)) {
+	
+		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'email_quota' ORDER BY created DESC");
+		$monitor_data = array();
+		if(is_array($tmp_rec)) {
+			foreach ($tmp_rec as $tmp_mon) {
+				//$monitor_data = array_merge_recursive($monitor_data,unserialize($app->db->unquote($tmp_mon['data'])));
+				$tmp_array = unserialize($app->db->unquote($tmp_mon['data']));
+				if(is_array($tmp_array)) {
+					foreach($tmp_array as $username => $data) {
+						if(@!$monitor_data[$username]['used']) $monitor_data[$username]['used'] = $data['used'];
+					}
+				}
+			}
+		}
+		
+		foreach($records as $rec) {
+
+			$email = $rec['email'];
+		
+			$rec['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
+		
+			if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
+				
+			// used space ratio
+			if($rec['quota'] > 0){
+				$used_ratio = $rec['used']/$rec['quota'];
+			} else {
+				$used_ratio = 0;
+			}
+			
+			$rec['ratio'] = number_format($used_ratio * 100, 2, '.', '').'%';
+			
+			if($rec['quota'] > 0){
+				$rec['quota'] = round($rec['quota'] / 1048576,4).' MB';
+			} else {
+				$rec['quota'] = '----';
+			}
+
+			if($rec['used'] < 1544000) {
+				$rec['used'] = round($rec['used'] / 1024,4).' KB';
+			} else {
+				$rec['used'] = round($rec['used'] / 1048576,4).' MB';
+			} 
+			
+			// send notifications only if 90% or more of the quota are used
+			if($used_ratio < 0.9) {
+                // reset notification date
+                if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = NULL", 'mailuser_id', $rec['mailuser_id']);
+
+                // send notification - everything ok again
+                if($rec['last_quota_notification'] && $mail_config['overquota_notify_onok'] == 'y' && ($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y')) {
+                    $placeholders = array('{email}' => $rec['email'],
+                              '{admin_mail}' => $global_config['admin_mail'],
+                              '{used}' => $rec['used'],
+                              '{name}' => $rec['name'],
+                              '{quota}' => $rec['quota'],
+                              '{ratio}' => $rec['ratio']);
+        
+                    $recipients = array();
+                    //* send email to admin
+                    if($global_config['admin_mail'] != '' && $mail_config['overquota_notify_admin'] == 'y') {
+                        $recipients[] = $global_config['admin_mail'];
+                    }
+                    
+                    //* Send email to client
+                    if($mail_config['overquota_notify_client'] == 'y') {
+                        $client_group_id = $rec["sys_groupid"];
+                        $client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+                        if($client['email'] != '') {
+                            $recipients[] = $client['email'];
+                        }
+                    }
+                    
+                    send_notification_email('mail_quota_ok_notification', $placeholders, $recipients);
+                }
+
+                continue;
+            }
+				
+			//* Send quota notifications
+            // could a notification be sent?
+            $send_notification = false;
+            if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
+            elseif($mail_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $mail_config['overquota_notify_freq']) $send_notification = true;
+            
+            if(($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y') && $send_notification == true) {
+				$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
+                
+                $placeholders = array('{email}' => $rec['email'],
+                          '{admin_mail}' => $global_config['admin_mail'],
+                          '{used}' => $rec['used'],
+                          '{name}' => $rec['name'],
+                          '{quota}' => $rec['quota'],
+                          '{ratio}' => $rec['ratio']);
+    
+                $recipients = array();
+                //* send email to admin
+                if($global_config['admin_mail'] != '' && $mail_config['overquota_notify_admin'] == 'y') {
+                    $recipients[] = $global_config['admin_mail'];
+                }
+                
+                //* Send email to client
+                if($mail_config['overquota_notify_client'] == 'y') {
+                    $client_group_id = $rec["sys_groupid"];
+                    $client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+                    if($client['email'] != '') {
+                        $recipients[] = $client['email'];
+                    }
+                }
+                
+                send_notification_email('mail_quota_notification', $placeholders, $recipients);
+			}	
+		}
+	}
 }
 
 
@@ -822,24 +1132,27 @@ if($backup_dir != '') {
 				if($backup_mode == 'userzip') {
 					//* Create a .zip backup as web user and include also files owned by apache / nginx user
 					$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.zip';
-					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b /tmp --exclude=backup\* --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@');
-					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b /tmp --exclude=backup\* --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@');
+					exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b /tmp --exclude=backup\* --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
+					if($retval == 0) exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b /tmp --exclude=backup\* --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
 				} else {
 					//* Create a tar.gz backup as root user
 					$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
-					exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=backup\* --directory '.escapeshellarg($web_path).' .');
+					exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=backup\* --directory '.escapeshellarg($web_path).' .', $tmp_output, $retval);
 				}
-				chown($web_backup_dir.'/'.$web_backup_file, 'root');
-				chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
-				chmod($web_backup_dir.'/'.$web_backup_file, 0750);
+				if($retval == 0){
+					chown($web_backup_dir.'/'.$web_backup_file, 'root');
+					chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
+					chmod($web_backup_dir.'/'.$web_backup_file, 0750);
 
-				//* Insert web backup record in database
-				//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
-				//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-
-				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."','".formatBytes(filesize($web_backup_dir.'/'.$web_backup_file))."')";
-				$app->db->query($sql);
-				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+					//* Insert web backup record in database
+					//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
+					//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
+					$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
+					$app->db->query($sql);
+					if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+				} else {
+					if(is_file($web_backup_dir.'/'.$web_backup_file)) unlink($web_backup_dir.'/'.$web_backup_file);
+				}
 				
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);
@@ -924,23 +1237,28 @@ if($backup_dir != '') {
 				$db_name = $rec['database_name'];
 				$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
 				$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
-				exec($command);
+				exec($command, $tmp_output, $retval);
 
 				//* Compress the backup with gzip
-				exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'");
-				chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
-				chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
-				chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
+				if($retval == 0) exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
+				
+				if($retval == 0){
+					chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
+					chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
+					chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
 
-				//* Insert web backup record in database
-				//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-				//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-				$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-				$app->db->query($sql);
-				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+					//* Insert web backup record in database
+					//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+					//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
+					$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+					$app->db->query($sql);
+					if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 
+				} else {
+					if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')) unlink($db_backup_dir.'/'.$db_backup_file.'.gz');
+				}
 				//* Remove the uncompressed file
-				unlink($db_backup_dir.'/'.$db_backup_file);
+				if(is_file($db_backup_dir.'/'.$db_backup_file)) unlink($db_backup_dir.'/'.$db_backup_file);
 
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);

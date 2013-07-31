@@ -48,7 +48,7 @@ if($_SESSION["s"]["user"]["typ"] != 'admin') die('permission denied');
 $app->uses('listform_actions');
 
 // $app->listform_actions->SQLExtWhere = "limit_client = 0";
-$app->listform_actions->SQLOrderBy = 'ORDER BY server_id,ip_address';
+$app->listform_actions->SQLOrderBy = 'ORDER BY openvz_ip.server_id, openvz_ip.ip_address';
 $app->listform_actions->onLoad();
 
 

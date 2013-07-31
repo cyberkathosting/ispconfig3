@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Webseiten-Speicherhinweis
+
+Ihre Webseite {domain} hat den verfügbaren Speicherplatz (nahezu) ausgeschöpft.
+
+Webseite:						{domain}
+Belegter Speicherplatz:					{used}
+Verfügbarer Speicherplatz:				{soft}
+Verfügbarer Speicherplatz (hard quota):			{hard}
+Belegter Speicher in %:					{ratio}

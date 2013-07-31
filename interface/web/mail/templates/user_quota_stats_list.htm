@@ -9,8 +9,9 @@
                     <tr class="caption">
                         <th class="tbl_col_email" scope="col"><tmpl_var name="email_txt"></th>
                         <th class="tbl_col_name" scope="col"><tmpl_var name="name_txt"></th>
-                        <th class="tbl_col_used tbl_col_nosort" scope="col"><tmpl_var name="used_txt"></th>
+                        <th class="tbl_col_used_sort" scope="col"><tmpl_var name="used_txt"></th>
                         <th class="tbl_col_quota" scope="col"><tmpl_var name="quota_txt"></th>
+                        <th class="tbl_col_percentage_sort" scope="col"><tmpl_var name="percentage_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr class="filter">
@@ -18,6 +19,7 @@
                         <td class="tbl_col_name"><input type="text" name="search_system_user" value="{tmpl_var name='search_name'}" /></td>
                         <td class="tbl_col_used">&nbsp;</td>
                         <td class="tbl_col_quota">&nbsp;</td>
+                        <td class="tbl_col_percentage">&nbsp;</td>
                         <td class="tbl_col_buttons">
                             <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
                         </td>
@@ -30,18 +32,19 @@
                             <td class="tbl_col_name"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="name"}</a></td>
                             <td class="tbl_col_used"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="used"}</a></td>
                             <td class="tbl_col_quota"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="quota"}</a></td>
+                            <td class="tbl_col_percentage"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="percentage"}</a></td>
                             <td class="tbl_col_buttons"></td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">
                         <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td colspan="5">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                            <td colspan="6">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                         </tr>
                     </tmpl_unless>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="5"><tmpl_var name="paging"></td>
+                        <td class="tbl_footer tbl_paging" colspan="6"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>

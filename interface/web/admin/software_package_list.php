@@ -181,7 +181,8 @@ if(is_array($packages) && count($packages) > 0) {
 
 $app->tpl->setLoop('records',$packages);
 
-include_once('lib/lang/en_software_package_list.lng');
+$language = (isset($_SESSION['s']['language']))?$_SESSION['s']['language']:$conf['language'];
+include_once('lib/lang/'.$language.'_software_package_list.lng');
 $app->tpl->setVar($wb);
 
 

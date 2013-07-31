@@ -1,0 +1,6 @@
+<?php
+$wb['package_title_txt'] = 'Paket-Titel';
+$wb['package_key_txt'] = 'Paket-Key';
+$wb['Software Package'] = 'Software-Paket';
+$wb['Modify software package details'] = 'Software-Paket-Einstellungen bearbeiten';
+?>

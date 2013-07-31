@@ -2137,12 +2137,12 @@ class remoting {
             return false;
         }
         
-        if (preg_match('/^[a-z0-9][a-z0-9\-]+[a-z0-9](\.[a-z]{2,4})+$/i', $origin)) {
+        if(!preg_match('/^[a-z0-9][a-z0-9\-]+[a-z0-9](\.[a-z]{2,4})+$/i', $origin)){
             $this->server->fault('no_domain_found', 'Invalid domain name.');
             return false;
         }
 
-        $rec = $app->db->queryOneRecord("SELECT id FROM dns_soa WHERE origin like '".$origin.'%');
+        $rec = $app->db->queryOneRecord("SELECT id FROM dns_soa WHERE origin like '".$origin."%'");
         if(isset($rec['id'])) {
             return $app->functions->intval($rec['id']);
         } else {

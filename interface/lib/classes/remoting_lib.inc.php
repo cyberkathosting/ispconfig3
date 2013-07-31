@@ -817,7 +817,8 @@ class remoting_lib {
 			if(@is_numeric($primary_id)) {
 				$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
             	return $app->db->queryOneRecord($sql);
-			} elseif (@is_array($primary_id)) {
+			} elseif (@is_array($primary_id) || @is_object($primary_id)) {
+                if(@is_object($primary_id)) $primary_id = get_object_vars($primary_id); // do not use cast (array)xxx because it returns private and protected properties!
 				$sql_offset = 0;
                 $sql_limit = 0;
                 $sql_where = '';

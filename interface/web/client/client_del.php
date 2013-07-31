@@ -97,6 +97,7 @@ class page_action extends tform_actions {
 		}
 		
 		$app->tpl->setVar('id',$this->id);
+		$app->tpl->setVar('number_records',$number);
 		$app->tpl->setLoop('records', $table_list);
 		
 		//* load language file 

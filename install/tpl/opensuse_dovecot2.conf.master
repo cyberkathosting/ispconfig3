@@ -31,6 +31,10 @@ service auth {
   }
   user = root
 }
+service imap-login {
+  client_limit = 1000
+  process_limit = 500
+}
 protocol imap {
   mail_plugins = quota imap_quota
 }

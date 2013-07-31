@@ -192,12 +192,12 @@ if (!defined('vlibTemplateClassLoaded')) {
             if (is_array($k)) {
                 foreach($k as $key => $value){
                     $key = ($this->OPTIONS['CASELESS']) ? strtolower(trim($key)) : trim($key);
-                    if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
+                    if (preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
                         $this->_vars[$key] = $value;
                     }
                 }
             } else {
-                if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
+                if (preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
                     if ($this->OPTIONS['CASELESS']) $k = strtolower($k);
                     $this->_vars[trim($k)] = $v;
                 } else {
@@ -243,7 +243,7 @@ if (!defined('vlibTemplateClassLoaded')) {
             for ($i = 0; $i < $num_args; $i++) {
                 $var = func_get_arg($i);
                 if ($this->OPTIONS['CASELESS']) $var = strtolower($var);
-                if (!preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $var)) continue;
+                if (!preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $var)) continue;
                 unset($this->_vars[$var]);
             }
             return true;
@@ -300,12 +300,14 @@ if (!defined('vlibTemplateClassLoaded')) {
          */
         public function setLoop($k, $v)
         {
-            if (is_array($v) && preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k)) {
+            if (is_array($v) && preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $k)) {
                 $k = ($this->OPTIONS['CASELESS']) ? strtolower(trim($k)) : trim($k);
                 $this->_arrvars[$k] = array();
                 if ($this->OPTIONS['SET_LOOP_VAR'] && !empty($v)) $this->setvar($k, 1);
                 if (($this->_arrvars[$k] = $this->_arrayBuild($v)) == false) {
                     vlibTemplateError::raiseError('VT_WARNING_INVALID_ARR', WARNING, $k);
+                } else {
+                    $this->vars['_'.$k.'_num'] = count($v);
                 }
             }
             return true;
@@ -849,8 +851,8 @@ if (!defined('vlibTemplateClassLoaded')) {
                 $regex.=    '[\"\']?';
                 $regex.= ')?\s*';
                 $regex.= '(?:>|\/>|}|-->){1}';
-                $regex.= '([\r\n|\n|\r])?/ie';
-                $data = preg_replace($regex,"\$this->_parseTag(array('\\0','\\1','\\2','\\3','\\4','\\5','\\6','\\7','\\8','\\9'));",$data);
+                $regex.= '([\r\n|\n|\r])?/i';
+                $data = preg_replace_callback($regex, array($this, _parseTag), $data);
 
                 if ($this->_cache) { // add cache if need be
                     $this->_createCache($data);

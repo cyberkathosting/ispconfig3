@@ -52,7 +52,7 @@ class page_action extends tform_actions {
 		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
         
         $app->uses('sites_database_plugin');
-        $app->sites_database_plugin->processDatabaseDelete($this->id);
+        //$app->sites_database_plugin->processDatabaseDelete($this->id);
 	}
 }
 

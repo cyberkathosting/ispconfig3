@@ -86,9 +86,17 @@ class installer extends installer_base {
 		
 		//* Copy dovecot configuration file
 		if($dovecot_version == 2) {
-			copy('tpl/debian6_dovecot2.conf.master',$config_dir.'/'.$configfile);
+            if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master')) {
+                copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
+            } else {
+                copy('tpl/debian6_dovecot2.conf.master',$config_dir.'/'.$configfile);
+            }
 		} else {
-			copy('tpl/debian6_dovecot.conf.master',$config_dir.'/'.$configfile);
+            if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
+                copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
+            } else {
+                copy('tpl/debian6_dovecot.conf.master',$config_dir.'/'.$configfile);
+            }
 		}
 		
 		//* dovecot-sql.conf
@@ -97,7 +105,7 @@ class installer extends installer_base {
 			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
 			chmod($config_dir.'/'.$configfile.'~', 0400);
 		}
-		$content = rf('tpl/debian6_dovecot-sql.conf.master');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot-sql.conf.master', 'tpl/debian6_dovecot-sql.conf.master');
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);

@@ -146,4 +146,10 @@ $wb['monitor_title_iptables_txt'] = 'IPTables Regeln';
 $wb['Show fail2ban-Log'] = 'Fail2ban Protokoll anzeigen';
 $wb['Show IPTables'] = 'IPTables anzeigen';
 $wb['Show OpenVz VE BeanCounter'] = 'OpenVz VE BeanCounter anzeigen';
+$wb['Show Monit'] = 'Monit anzeigen';
+$wb['no_monit_url_defined_txt'] = 'Keine Monit-URL definiert.';
+$wb['no_permissions_to_view_monit_txt'] = 'Sie haben nicht die Berechtigung, auf Monit zuzugreifen.';
+$wb['Show Munin'] = 'Munin anzeigen';
+$wb['no_munin_url_defined_txt'] = 'Keine Munin-URL definiert.';
+$wb['no_permissions_to_view_munin_txt'] = 'Sie haben nicht die Berechtigung, auf Munin zuzugreifen.';
 ?>

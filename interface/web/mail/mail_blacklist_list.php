@@ -16,7 +16,7 @@ $list_def_file = "list/mail_blacklist.list.php";
 $app->auth->check_module_permissions('mail');
 
 $app->uses('listform_actions');
-$app->listform_actions->SQLExtWhere = "access = 'REJECT'";
+$app->listform_actions->SQLExtWhere = "mail_access.access = 'REJECT'";
 
 $app->listform_actions->onLoad();
 

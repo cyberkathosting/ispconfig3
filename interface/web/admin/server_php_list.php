@@ -46,7 +46,7 @@ $app->auth->check_module_permissions('admin');
 
 $app->uses('listform_actions');
 
-$app->listform_actions->SQLOrderBy = "ORDER BY server_id, name";
+$app->listform_actions->SQLOrderBy = "ORDER BY server_php.server_id, server_php.name";
 
 $app->listform_actions->onLoad();
 

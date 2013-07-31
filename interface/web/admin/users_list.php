@@ -45,7 +45,7 @@ $list_def_file = "list/users.list.php";
 $app->auth->check_module_permissions('admin');
 
 $app->uses('listform_actions');
-$app->listform_actions->SQLOrderBy = 'ORDER BY username';
+$app->listform_actions->SQLOrderBy = 'ORDER BY sys_user.username';
 $app->listform_actions->onLoad();
 
 

@@ -101,8 +101,8 @@ $wb['limit_client_error_positive'] = 'Die Anzahl an Kunden muss > 0 sein';
 $wb['limit_web_quota_txt'] = 'Speicherplatzbeschränkung';
 $wb['limit_traffic_quota_txt'] = 'Transfervolumenbeschränkung';
 $wb['limit_trafficquota_error_notint'] = 'Transfervolumenbeschränkung muss eine Zahl sein.';
-$wb['limit_dns_slave_zone_txt'] = 'Max. Anzahl an Zweiter DNS Zonen';
-$wb['limit_dns_slave_zone_error_notint'] = 'Das Zweiter DNS Zonen Limit muss eine Zahl sein.';
+$wb['limit_dns_slave_zone_txt'] = 'Max. Anzahl an Secondary DNS Zonen';
+$wb['limit_dns_slave_zone_error_notint'] = 'Das Secondary DNS Zonen Limit muss eine Zahl sein.';
 $wb['limit_dns_record_error_notint'] = 'Das DNS Eintrag Limit muss eine Zahl sein.';
 $wb['customer_no_txt'] = 'Kundennummer';
 $wb['vat_id_txt'] = 'USt-ID';
@@ -142,4 +142,5 @@ $wb['bank_account_swift_txt'] = 'BIC';
 $wb['aps_limits_txt'] = 'APS Installationsassistent Limits';
 $wb['limit_aps_txt'] = 'Max. Anzahl an APS-Instanzen';
 $wb['limit_aps_error_notint'] = 'Das APS Instanzen Limit muss eine Zahl sein.';
+$wb['default_slave_dnsserver_txt'] = 'Standard Secondary DNS Server';
 ?>

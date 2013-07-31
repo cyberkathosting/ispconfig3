@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"] 			= "Software Repository";
-$form["description"] 	= "Software Repositoy which may contain addons or updates";
+$form["description"] 	= "Software Repository which may contain addons or updates";
 $form["name"] 			= "software_repo";
 $form["action"]			= "software_repo_edit.php";
 $form["db_table"]		= "software_repo";

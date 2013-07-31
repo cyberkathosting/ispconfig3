@@ -42,6 +42,7 @@ class list_action extends listform_actions {
 		$username = $rec['system_user'];
 		
 		$rec['used'] = $monitor_data['user'][$username]['used'];
+		$rec['used_sort'] = $rec['used'];
 		$rec['soft'] = $monitor_data['user'][$username]['soft'];
 		$rec['hard'] = $monitor_data['user'][$username]['hard'];
 		$rec['files'] = $monitor_data['user'][$username]['files'];
@@ -95,8 +96,8 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLExtWhere = "type = 'vhost'";
-$list->SQLOrderBy = 'ORDER BY domain';
+$list->SQLExtWhere = "web_domain.type = 'vhost'";
+$list->SQLOrderBy = 'ORDER BY web_domain.domain';
 $list->onLoad();
 
 

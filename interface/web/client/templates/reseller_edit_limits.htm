@@ -244,6 +244,12 @@
                     <label for="limit_dns_zone">{tmpl_var name='limit_dns_zone_txt'}</label>
                     <input name="limit_dns_zone" id="limit_dns_zone" value="{tmpl_var name='limit_dns_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
+				<div class="ctrlHolder">
+                    <label for="default_slave_dnsserver">{tmpl_var name='default_slave_dnsserver_txt'}</label>
+                    <select name="default_slave_dnsserver" id="default_slave_dnsserver" class="selectInput">
+                        {tmpl_var name='default_slave_dnsserver'}
+                    </select>
+                </div>
                 <div class="ctrlHolder">
                     <label for="limit_dns_slave_zone">{tmpl_var name='limit_dns_slave_zone_txt'}</label>
                     <input name="limit_dns_slave_zone" id="limit_dns_slave_zone" value="{tmpl_var name='limit_dns_slave_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />

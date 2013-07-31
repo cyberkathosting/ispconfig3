@@ -44,7 +44,7 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLOrderBy = 'ORDER BY email';
+$list->SQLOrderBy = 'ORDER BY mail_user.email';
 $list->onLoad();
 
 

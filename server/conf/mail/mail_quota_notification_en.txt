@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Mailbox quota notification
+
+The mailbox {email} is near or over quota.
+
+Mailbox:			{email}
+Name:				{name}
+Used space:			{used}
+Quota:				{quota}
+Usage ratio:			{ratio}

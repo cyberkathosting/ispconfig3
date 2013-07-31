@@ -132,7 +132,7 @@ class monitor_tools {
 				$distver = 'Squeeze/Sid';
 				$distid = 'debian60';
 				$distbaseid = 'debian';
-			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || strstr(trim(file_get_contents('/etc/debian_version')), '7.1') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 				$distname = 'Debian';
 				$distver = 'Wheezy/Sid';
 				$distid = 'debian60';
@@ -473,7 +473,7 @@ class monitor_tools {
 	}
 
 	public function monitorDiskUsage() {
-		global $conf;
+		global $app,$conf;
 
 		/* the id of the server as int */
 		$server_id = intval($conf['server_id']);
@@ -485,7 +485,10 @@ class monitor_tools {
 		$state = 'ok';
 
 		/** Fetch the data of ALL devices into a array (needed for monitoring!) */
-		$dfData = shell_exec('df -hT 2>/dev/null');
+		//$dfData = shell_exec('df -hT 2>/dev/null');
+		$app->uses('getconf');
+        $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+        $dfData = shell_exec('df -hT|grep -v "'.$web_config['website_basedir'].'/" 2>/dev/null');
 
 		// split into array
 		$df = explode("\n", $dfData);

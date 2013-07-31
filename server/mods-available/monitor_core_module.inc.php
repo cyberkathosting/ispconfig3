@@ -37,6 +37,8 @@ class monitor_core_module {
 	var $actions_available = array();
 	/** The Tools */
 	private $_tools = null;
+    //** time the script was called
+    private $_run_time = null;
 
 	/**
 	 * This function is called during ispconfig installation to determine
@@ -52,11 +54,14 @@ class monitor_core_module {
 	 */
 	public function onLoad() {
 		global $app;
-
+        
+        //* store the running time
+        $this->_run_time = time();
+        
 		/*
 		 * Do the monitor every n minutes and write the result to the db
 		 */
-		$min = @date('i');
+		$min = @date('i', $this->_run_time);
 		if (($min % $this->interval) == 0) {
 			$this->_doMonitor();
 		}
@@ -122,7 +127,7 @@ class monitor_core_module {
         /*
 		 *  This monitoring is expensive, so do it only every 15 minutes
 		 */
-		$min = @date('i');
+		$min = @date('i', $this->_run_time);
 		if ($min % 15 != 0) return;
 		
 		$app->uses('getconf');
@@ -404,7 +409,7 @@ class monitor_core_module {
 		/*
 		 *  This monitoring is expensive, so do it only once an hour
 		 */
-		$min = @date('i');
+		$min = @date('i', $this->_run_time);
 		if ($min != 0)
 			return;
 
@@ -419,7 +424,8 @@ class monitor_core_module {
 		$res = $this->_tools->monitorSystemUpdate();
 		
 		//* Ensure that output is encoded so that it does not break the serialize
-		$res['data']['output'] = htmlentities($res['data']['output']);
+		//$res['data']['output'] = htmlentities($res['data']['output']);
+		$res['data']['output'] = htmlentities($res['data']['output'],ENT_QUOTES,'UTF-8');
 
 		/*
 		 * Insert the data into the database
@@ -492,8 +498,8 @@ class monitor_core_module {
 		/*
 		 *  This monitoring is expensive, so do it only once a day
 		 */
-		$min = @date('i');
-		$hour = @date('H');
+		$min = @date('i', $this->_run_time);
+		$hour = @date('H', $this->_run_time);
 		if (!($min == 0 && $hour == 23))
 			return;
 		/*

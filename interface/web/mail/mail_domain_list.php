@@ -21,7 +21,7 @@ $app->uses('listform_actions');
 // Limit the results to alias domains
 // $app->listform_actions->SQLExtWhere = "type = 'local'";
 
-$app->listform_actions->SQLOrderBy = 'ORDER BY domain';
+$app->listform_actions->SQLOrderBy = 'ORDER BY mail_domain.domain';
 $app->listform_actions->onLoad();
 
 

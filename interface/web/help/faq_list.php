@@ -26,7 +26,7 @@ if(!$hf_section)
 	$res = $app->db->queryOneRecord("SELECT MIN(hfs_id) AS min_id FROM help_faq_sections");
 	$hf_section = $res['min_id'];
 }
-$app->listform_actions->SQLExtWhere = "hf_section = $hf_section";
+$app->listform_actions->SQLExtWhere = "help_faq.hf_section = $hf_section";
 
 
 if($hf_section) $res = $app->db->queryOneRecord("SELECT hfs_name FROM help_faq_sections WHERE hfs_id=$hf_section");

@@ -50,4 +50,6 @@ $wb['mailbox_show_autoresponder_tab_txt'] = 'Zeige Autoresponder Reiter in E-Mai
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Zeige E-Mail Filter Reiter in E-Mail Kontodetails';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Zeige Benutzerregel Reiter in E-Mail Kontodetails';$wb['webmail_url_error_regex'] = 'Falsche Webmail URL';
 $wb['reseller_can_use_options_txt'] = 'Reseller können den Optionen Reiter bei Webseiten verwenden';
+$wb['phpmyadmin_url_note_txt'] = 'Platzhalter:';
+$wb['webmail_url_note_txt'] = 'Platzhalter:';
 ?>

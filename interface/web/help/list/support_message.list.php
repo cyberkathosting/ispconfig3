@@ -57,6 +57,15 @@ $liste['item'][] = array(	'field'		=> 'subject',
 							'suffix'	=> '%',
 							'width'		=> '',
 							'value'		=> '');
+							
+$liste['item'][] = array(	'field'		=> 'tstamp',
+							'datatype'	=> 'DATETIMETSTAMP',
+							'formtype'	=> 'TEXT',
+							'op'		=> '=',
+							'prefix'	=> '',
+							'suffix'	=> '',
+							'width'		=> '',
+							'value'		=> '');
 
 
 ?>

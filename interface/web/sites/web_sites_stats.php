@@ -79,11 +79,97 @@ class list_action extends listform_actions {
 		$app->tpl_defaults();
 		$app->tpl->pparse();
 	}
+	
+	function getQueryString() {
+		global $app;
+		$sql_where = '';
+
+		//* Generate the search sql
+		if($app->listform->listDef['auth'] != 'no') {
+			if($_SESSION['s']['user']['typ'] == "admin") {
+				$sql_where = '';
+			} else {
+				$sql_where = $app->tform->getAuthSQL('r', $app->listform->listDef['table']).' and'; 
+                //$sql_where = $app->tform->getAuthSQL('r').' and';
+			}
+		}		
+		if($this->SQLExtWhere != '') {
+			$sql_where .= ' '.$this->SQLExtWhere.' and';
+		}
+		
+		$sql_where = $app->listform->getSearchSQL($sql_where);
+		if($app->listform->listDef['join_sql']) $sql_where .= ' AND '.$app->listform->listDef['join_sql'];
+		$app->tpl->setVar($app->listform->searchValues);
+		
+		$order_by_sql = $this->SQLOrderBy;
+
+		//* Generate SQL for paging
+		$limit_sql = $app->listform->getPagingSQL($sql_where);
+		$app->tpl->setVar('paging',$app->listform->pagingHTML);
+
+		$extselect = '';
+		$join = '';
+		
+		if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
+		  $order = str_replace(' DESC','',$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']);
+		  list($tmp_table, $order) = explode('.', $order);
+		  if($order == 'web_traffic_last_month'){
+		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+		    $tmp_month = date('m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
+		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_last_month','calctraffic',$order_by_sql);
+		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
+		  } elseif($order == 'web_traffic_this_month'){
+		    $tmp_year = date('Y');
+		    $tmp_month = date('m');
+		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
+		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_this_month','calctraffic',$order_by_sql);
+		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
+		  } elseif($order == 'web_traffic_last_year'){
+		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
+		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_last_year','calctraffic',$order_by_sql);
+		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
+		  } elseif($order == 'web_traffic_this_year'){
+		    $tmp_year = date('Y');
+		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
+		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_this_year','calctraffic',$order_by_sql);
+		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
+		  }
+		}
+		
+		if($this->SQLExtSelect != '') {
+			if(substr($this->SQLExtSelect,0,1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect; 
+			$extselect .= $this->SQLExtSelect;
+		}
+		
+		$table_selects = array();
+		$table_selects[] = trim($app->listform->listDef['table']).'.*';
+		$app->listform->listDef['additional_tables'] = trim($app->listform->listDef['additional_tables']);
+		if($app->listform->listDef['additional_tables'] != ''){
+			$additional_tables = explode(',', $app->listform->listDef['additional_tables']);
+			foreach($additional_tables as $additional_table){
+				$table_selects[] = trim($additional_table).'.*';
+			}
+		}
+		$select = implode(', ', $table_selects);
+
+		$sql = 'SELECT '.$select.$extselect.' FROM '.$app->listform->listDef['table'].($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')."$join WHERE $sql_where $order_by_sql $limit_sql";
+		return $sql;
+	}
 }
 
 $list = new list_action;
-$list->SQLExtWhere = "(type = 'vhost' or type = 'vhostsubdomain')";
-$list->SQLOrderBy = 'ORDER BY domain';
+$list->SQLExtWhere = "(web_domain.type = 'vhost' or web_domain.type = 'vhostsubdomain')";
+$list->SQLOrderBy = 'ORDER BY web_domain.domain';
 $list->onLoad();
 
 

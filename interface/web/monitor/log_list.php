@@ -47,7 +47,7 @@ $app->auth->check_module_permissions('monitor');
 $app->uses('listform_actions');
 //$app->listform_actions->SQLExtWhere = "wb = 'W'";
 
-$app->listform_actions->SQLOrderBy = "ORDER BY tstamp DESC, syslog_id DESC";
+$app->listform_actions->SQLOrderBy = "ORDER BY sys_log.tstamp DESC, sys_log.syslog_id DESC";
 
 $app->listform_actions->onLoad();
 

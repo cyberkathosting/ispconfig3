@@ -53,7 +53,12 @@ class page_action extends tform_actions {
 		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
         
         $old_record = $app->tform->getDataRecord($this->id);
-        $app->db->datalogDelete('web_database_user', 'database_user_id', $this->id);
+        
+        /* we cannot use datalogDelete here, as we need to set server_id to 0 */
+        $app->db->query("DELETE FROM `web_database_user` WHERE $index_field = '$index_value'");
+        $new_rec = array();
+        $old_record['server_id'] = 0;
+        $app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $this->id, $old_record, $new_rec);
     }
     
     function onAfterDelete() { // this has to be done on AFTER delete, because we need the db user still in the database when the server plugin processes the datalog

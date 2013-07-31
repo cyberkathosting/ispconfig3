@@ -14,8 +14,15 @@ hostname=server1.domain.tld
 nameservers=8.8.8.8,8.8.4.4
 firewall=bastille
 loglevel=2
+admin_notify_events=1
 backup_dir=/var/backup
 backup_mode=rootgz
+monit_url=
+monit_user=
+monit_password=
+munin_url=
+munin_user=
+munin_password=
 
 [mail]
 module=postfix_mysql
@@ -35,6 +42,10 @@ mailbox_size_limit=0
 message_size_limit=0
 mailbox_quota_stats=y
 realtime_blackhole_list=
+overquota_notify_admin=y
+overquota_notify_client=y
+overquota_notify_freq=7
+overquota_notify_onok=n
 sendmail_path=/usr/sbin/sendmail
 
 [getmail]
@@ -58,7 +69,7 @@ nginx_group=www-data
 apps_vhost_port=8081
 apps_vhost_ip=_default_
 apps_vhost_servername=
-php_open_basedir=[website_path]/web:[website_path]/private:[website_path]/tmp:/var/www/[website_domain]/web:/srv/www/[website_domain]/web:/usr/share/php5:/usr/share/php:/tmp:/usr/share/phpmyadmin:/etc/phpmyadmin:/var/lib/phpmyadmin:/usr/share/php
+php_open_basedir=[website_path]/web:[website_path]/private:[website_path]/tmp:/var/www/[website_domain]/web:/srv/www/[website_domain]/web:/usr/share/php5:/usr/share/php:/tmp:/usr/share/phpmyadmin:/etc/phpmyadmin:/var/lib/phpmyadmin
 htaccess_allow_override=All
 awstats_conf_dir=/etc/awstats
 awstats_data_dir=/var/lib/awstats
@@ -82,8 +93,12 @@ add_web_users_to_sshusers_group=y
 connect_userid_to_webid=n
 connect_userid_to_webid_start=10000
 web_folder_protection=y
-php_ini_check_minutes=1
-
+<<<<<<< .minephp_ini_check_minutes=1
+=======overquota_notify_admin=y
+overquota_notify_client=y
+overquota_notify_freq=7
+overquota_notify_onok=n
+>>>>>>> .theirs
 [dns]
 bind_user=root
 bind_group=bind

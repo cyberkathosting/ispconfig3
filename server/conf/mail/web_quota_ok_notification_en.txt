@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Website quota ok
+
+The website {domain} is no longer near or over quota.
+
+Domain: 		{domain}
+Used space:		{used}
+Soft limit:		{soft}
+Hard limit:		{hard}
+Usage ratio:		{ratio}

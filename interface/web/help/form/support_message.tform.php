@@ -71,7 +71,7 @@ $form["tabs"]['message'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> $sm_default_recipient_id,
 			'datasource'	=> array ( 	'type'			=> 'SQL',
-										'querystring' 	=> "SELECT sys_user.userid, CONCAT(sys_user.username,' :: ',client.company_name,' :: ',client.contact_name) as contactname FROM sys_user, client WHERE sys_user.userid != 1 AND sys_user.client_id = client.client_id AND $authsql ORDER BY sys_user.username",
+										'querystring' 	=> "SELECT sys_user.userid, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_user, client WHERE sys_user.userid != 1 AND sys_user.client_id = client.client_id AND $authsql ORDER BY sys_user.username",
 										'keyfield'		=> 'userid',
 										'valuefield'	=> 'contactname'
 									 ),

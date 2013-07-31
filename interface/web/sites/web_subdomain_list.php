@@ -47,8 +47,8 @@ $app->auth->check_module_permissions('sites');
 $app->uses('listform_actions');
 
 // Limit the results to alias domains
-$app->listform_actions->SQLExtWhere = "type = 'subdomain'";
-$app->listform_actions->SQLOrderBy = 'ORDER BY domain';
+$app->listform_actions->SQLExtWhere = "web_domain.type = 'subdomain'";
+$app->listform_actions->SQLOrderBy = 'ORDER BY web_domain.domain';
 $app->listform_actions->onLoad();
 
 

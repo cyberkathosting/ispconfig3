@@ -36,7 +36,27 @@ class listform_actions {
 	public $SQLExtWhere = '';
 	public $SQLOrderBy = '';
 	public $SQLExtSelect = '';
-	
+	private $sortKeys;
+    
+    private function _sort($aOne, $aTwo) {
+        if(!is_array($aOne) || !is_array($aTwo)) return 0;
+        
+        if(!is_array($this->sortKeys)) $this->sortKeys = array($this->sortKeys);
+        foreach($this->sortKeys as $sKey => $sDir) {
+            if(is_numeric($sKey)) {
+                $sKey = $sDir;
+                $sDir = 'ASC';
+            }
+            $a = $aOne[$sKey];
+            $b = $aTwo[$sKey];
+            if(is_string($a)) $a = strtolower($a);
+            if(is_string($b)) $b = strtolower($b);
+            if($a < $b) return ($sDir == 'DESC' ? 1 : -1);
+            elseif($a > $b) return ($sDir == 'DESC' ? -1 : 1);
+        }
+        return 0;
+    }
+    
 	public function onLoad()
     {
 		global $app, $conf, $list_def_file;
@@ -59,28 +79,49 @@ class listform_actions {
 		
 		//* Manipulate order by for sorting / Every list has a stored value
 		//* Against notice error
-		if(!isset($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
-		  $_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = '';
+		if(!isset($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
+		  $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = '';
 		}
-
+        
+        $php_sort = false;
+        
 		if(!empty($_GET['orderby'])){
 		  $order = str_replace('tbl_col_','',$_GET['orderby']);
+		  
 		  //* Check the css class submited value
 		  if (preg_match("/^[a-z\_]{1,}$/",$order)) {
-		    if($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] == $order){
-		      $_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order.' DESC';
+            
+            if(isset($app->listform->listDef['phpsort']) && is_array($app->listform->listDef['phpsort']) && in_array($order, $app->listform->listDef['phpsort'])) {
+                $php_sort = true;
+            } else {
+                // prepend correct table
+                $prepend_table = $app->listform->listDef['table'];
+                if(trim($app->listform->listDef['additional_tables']) != '' && is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
+                    foreach($app->listform->listDef['item'] as $field) {
+                        if($field['field'] == $order && $field['table'] != ''){
+                            $prepend_table = $field['table'];
+                            break;
+                        }
+                    }
+                }
+                $order = $prepend_table.'.'.$order;
+            }
+			
+		    if($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] == $order){
+				$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order.' DESC';
 		    } else {
-		      $_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order;
+				$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order;
 		    }
+            $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php'] = $php_sort;
 		  }
 		}
 
 		// If a manuel oder by like customers isset the sorting will be infront
-		if(!empty($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
-		  if(empty($this->SQLOrderBy)){
-		    $this->SQLOrderBy = "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
+		if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']) && !$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']){
+          if(empty($this->SQLOrderBy)){
+		    $this->SQLOrderBy = "ORDER BY ".$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
 		  } else {
-		    $this->SQLOrderBy = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'].', ',$this->SQLOrderBy);
+		    $this->SQLOrderBy = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'].', ',$this->SQLOrderBy);
 		  }
 		}
 		
@@ -95,7 +136,18 @@ class listform_actions {
 				$records_new[] = $this->prepareDataRow($rec);
 			}
 		}
-
+        
+        if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']) && $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']) {
+            $order_by = $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
+            $order_dir = 'ASC';
+            if(substr($order_by, -5) === ' DESC') {
+                $order_by = substr($order_by, 0, -5);
+                $order_dir = 'DESC';
+            }
+            $this->sortKeys = array($order_by => $order_dir);
+            uasort($records_new, array($this, '_sort'));
+        }
+        
 		$app->tpl->setLoop('records',$records_new);
 
 		$this->onShow();
@@ -133,7 +185,7 @@ class listform_actions {
 		return $rec;
 	}
 	
-	private function getQueryString() {
+	public function getQueryString() {
 		global $app;
 		$sql_where = '';
 
@@ -151,6 +203,7 @@ class listform_actions {
 		}
 		
 		$sql_where = $app->listform->getSearchSQL($sql_where);
+		if($app->listform->listDef['join_sql']) $sql_where .= ' AND '.$app->listform->listDef['join_sql'];
 		$app->tpl->setVar($app->listform->searchValues);
 		
 		$order_by_sql = $this->SQLOrderBy;
@@ -161,109 +214,26 @@ class listform_actions {
 
 		$extselect = '';
 		$join = '';
-		if(!empty($_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
-		  $order = str_replace(' DESC','',$_SESSION['search'][$app->listform->listDef["name"].$app->listform->listDef['table']]['order']);
-		  if($order == 'server_id' && $app->listform->listDef['table'] != 'server'){
-		    $join .= ' LEFT JOIN server as s ON '.$app->listform->listDef['table'].'.server_id = s.server_id ';
-		    $order_by_sql = str_replace('server_id','s.server_name',$order_by_sql);
-		  } elseif($order == 'client_id' && $app->listform->listDef['table'] != 'client'){
-		    $join .= ' LEFT JOIN client as c ON '.$app->listform->listDef['table'].'.client_id = c.client_id ';
-		    $order_by_sql = str_replace('client_id','c.contact_name',$order_by_sql);
-		  } elseif($order == 'parent_domain_id'){
-		    $join .= ' LEFT JOIN web_domain as wd ON '.$app->listform->listDef['table'].'.parent_domain_id = wd.domain_id ';
-			//$order_by_sql = str_replace(' domain', ' '.$app->listform->listDef['table'].'.domain',$order_by_sql);
-		    //$order_by_sql = str_replace('parent_domain_id','wd.domain',$order_by_sql);
-			$order_by_sql = preg_replace('@( |,|^)(domain)( |,|$)@', '$1'.$app->listform->listDef['table'].'.$2$3', $order_by_sql);
-			$order_by_sql = preg_replace('@( |,|^)(parent_domain_id)( |,|$)@', '$1wd.domain$3', $order_by_sql);
-			
-		    //$sql_where = str_replace('type',$app->listform->listDef['table'].'.type',$sql_where);
-			//$sql_where = str_replace(' domain',' '.$app->listform->listDef['table'].'.domain',$sql_where);
-			$sql_where = preg_replace('@( |,|^)(type)( |,|$)@', '$1'.$app->listform->listDef['table'].'.$2$3', $sql_where);
-			$sql_where = preg_replace('@( |,|^)(domain)( |,|$)@', '$1'.$app->listform->listDef['table'].'.$2$3', $sql_where);
-		  } elseif($order == 'sys_groupid'){
-		    $join .= ' LEFT JOIN sys_group as sg ON '.$app->listform->listDef['table'].'.sys_groupid = sg.groupid ';
-		    $order_by_sql = str_replace('sys_groupid','sg.name',$order_by_sql);
-		  } elseif($order == 'rid'){
-		    $join .= ' LEFT JOIN spamfilter_users as su ON '.$app->listform->listDef['table'].'.rid = su.id ';
-		    $order_by_sql = str_replace('rid','su.email',$order_by_sql);
-		  } elseif($order == 'policy_id'){
-		    $join .= ' LEFT JOIN spamfilter_policy as sp ON '.$app->listform->listDef['table'].'.policy_id = sp.id ';
-		    $order_by_sql = str_replace('policy_id','sp.policy_name',$order_by_sql);
-		  } elseif($order == 'web_folder_id'){
-		    $join .= ' LEFT JOIN web_folder as wf ON '.$app->listform->listDef['table'].'.web_folder_id = wf.web_folder_id ';
-		    $order_by_sql = str_replace('web_folder_id','wf.path',$order_by_sql);
-		  } elseif($order == 'ostemplate_id' && $app->listform->listDef['table'] != 'openvz_ostemplate'){
-		    $join .= ' LEFT JOIN openvz_ostemplate as oo ON '.$app->listform->listDef['table'].'.ostemplate_id = oo.ostemplate_id ';
-		    $order_by_sql = str_replace('ostemplate_id','oo.template_name',$order_by_sql);
-		  } elseif($order == 'template_id' && $app->listform->listDef['table'] != 'openvz_template'){
-		    $join .= ' LEFT JOIN openvz_template as ot ON '.$app->listform->listDef['table'].'.template_id = ot.template_id ';
-		    $order_by_sql = str_replace('template_id','ot.template_name',$order_by_sql);
-		  } elseif($order == 'sender_id' && $app->listform->listDef['table'] != 'sys_user'){
-		    $join .= ' LEFT JOIN sys_user as su ON '.$app->listform->listDef['table'].'.sender_id = su.userid ';
-		    $order_by_sql = str_replace('sender_id','su.username',$order_by_sql);
-		  } elseif($order == 'web_traffic_last_month'){
-		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $tmp_month = date('m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
-		    $order_by_sql = str_replace('web_traffic_last_month','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'web_traffic_this_month'){
-		    $tmp_year = date('Y');
-		    $tmp_month = date('m');
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
-		    $order_by_sql = str_replace('web_traffic_this_month','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'web_traffic_last_year'){
-		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
-		    $order_by_sql = str_replace('web_traffic_last_year','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'web_traffic_this_year'){
-		    $tmp_year = date('Y');
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
-		    $order_by_sql = str_replace('web_traffic_this_year','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'mail_traffic_last_month'){
-		    $tmp_date = date('Y-m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
-		    $sql_where .= " AND mt.month like '$tmp_date%'";
-		    $order_by_sql = str_replace('mail_traffic_last_month','traffic',$order_by_sql);
-		  } elseif($order == 'mail_traffic_this_month'){
-		    $tmp_date = date('Y-m');
-		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
-		    $sql_where .= " AND mt.month like '$tmp_date%'";
-		    $order_by_sql = str_replace('mail_traffic_this_month','traffic',$order_by_sql);
-		  } elseif($order == 'mail_traffic_last_year'){
-		    $tmp_date = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $extselect .= ', SUM(mt.traffic) as calctraffic';
-		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
-		    $sql_where .= " AND mt.month like '$tmp_date%'";;
-		    $order_by_sql = str_replace('mail_traffic_last_year','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY mailuser_id ".$order_by_sql;
-		  } elseif($order == 'mail_traffic_this_year'){
-		    $tmp_date = date('Y');
-		    $extselect .= ', SUM(mt.traffic) as calctraffic';
-		    $join .= ' INNER JOIN mail_traffic as mt ON '.$app->listform->listDef['table'].'.mailuser_id = mt.mailuser_id ';
-		    $sql_where .= " AND mt.month like '$tmp_date%'";
-		    $order_by_sql = str_replace('mail_traffic_this_year','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY mailuser_id ".$order_by_sql;
-		  }
-		}
 		
 		if($this->SQLExtSelect != '') {
 			if(substr($this->SQLExtSelect,0,1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect; 
 			$extselect .= $this->SQLExtSelect;
 		}
+		
+		$table_selects = array();
+		$table_selects[] = trim($app->listform->listDef['table']).'.*';
+		$app->listform->listDef['additional_tables'] = trim($app->listform->listDef['additional_tables']);
+		if($app->listform->listDef['additional_tables'] != ''){
+			$additional_tables = explode(',', $app->listform->listDef['additional_tables']);
+			foreach($additional_tables as $additional_table){
+				$table_selects[] = trim($additional_table).'.*';
+			}
+		}
+		$select = implode(', ', $table_selects);
 
-		return 'SELECT '.$app->listform->listDef['table'].'.*'.$extselect.' FROM '.$app->listform->listDef['table']."$join WHERE $sql_where $order_by_sql $limit_sql";
+		$sql = 'SELECT '.$select.$extselect.' FROM '.$app->listform->listDef['table'].($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')."$join WHERE $sql_where $order_by_sql $limit_sql";
+		//echo $sql;
+		return $sql;
 	}
 	
 	

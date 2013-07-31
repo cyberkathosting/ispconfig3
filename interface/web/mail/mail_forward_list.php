@@ -18,7 +18,7 @@ $app->auth->check_module_permissions('mail');
 $app->uses('listform_actions');
 
 // Limit the results to alias domains
-$app->listform_actions->SQLExtWhere = "type = 'forward'";
+$app->listform_actions->SQLExtWhere = "mail_forwarding.type = 'forward'";
 
 $app->listform_actions->onLoad();
 

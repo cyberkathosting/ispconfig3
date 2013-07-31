@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include('../../lib/config.inc.php');
+    header('Content-Type: text/javascript; charset=utf-8'); // the config file sets the content type header so we have to override it here!
 	require_once('../../lib/app.inc.php');
 	$lang = (isset($_SESSION['s']['language']) && $_SESSION['s']['language'] != '')?$_SESSION['s']['language']:'en';
 	include_once(ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$lang.'_strengthmeter.lng');

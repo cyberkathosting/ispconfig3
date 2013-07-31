@@ -1,0 +1,8 @@
+<?php
+$wb["mailquota_txt"] = 'Mailbox-Speicherplatz';
+$wb["email_txt"] = 'E-Mail-Adresse';
+$wb["name_txt"] = 'Name';
+$wb["used_txt"] = 'Verwendet';
+$wb["quota_txt"] = 'Verfügbar';
+$wb["no_email_accounts_txt"] = 'Kein E-Mail-Konto gefunden.';
+?>

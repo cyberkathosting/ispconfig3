@@ -371,20 +371,21 @@
                     internal = false;
                     return;
                 }
-                var matcher = new RegExp( "" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "", "i" ),
-                    matchtext = $(this).val();
+                var matchtext = $(this).val().toLowerCase();
                     valid = false,
-                    selected = false;
+                    selected = false,
+                    selected_val = "";
                 select.children( "option" ).each(function() {
-                    if( (($(this).val() == "" && matchtext == "") || $( this ).text().match( matcher )) && $(this).css('display') != 'none' ) {
+                    if( (($(this).val() == "" && matchtext == "") || $( this ).val().toLowerCase() == matchtext) && $(this).css('display') != 'none' ) {
                         valid = true;
                         selected = $(this);
+                        selected_val = $(this).text();
                         return false;
                     }
                 });
                 if(!valid) return false;
                 
-                input.val($(this).val()).autocomplete('option','select').call(input, (e ? e : {target: select}), { item: { option: selected.get(0), internal: true } });
+                input.val(selected_val).autocomplete('option','select').call(input, (e ? e : {target: select}), { item: { option: selected.get(0), internal: true } });
             });
 
             $( "<a>" )

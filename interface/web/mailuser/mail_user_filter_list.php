@@ -24,7 +24,7 @@ class list_action extends listform_actions {
 
 $list = new list_action;
 
-$list->SQLExtWhere = "mailuser_id = ".$_SESSION['s']['user']['mailuser_id'];
+$list->SQLExtWhere = "mail_user_filter.mailuser_id = ".$_SESSION['s']['user']['mailuser_id'];
 
 $list->onLoad();
 

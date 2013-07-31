@@ -103,6 +103,11 @@ class bind_plugin {
 			$tpl->setVar($zone);
 		
 			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
+			if(is_array($records) && !empty($records)){
+				for($i=0;$i<sizeof($records);$i++){
+					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
+				}
+			}
 			$tpl->setLoop('zones',$records);
 			
 			//TODO : change this when distribution information has been integrated into server record

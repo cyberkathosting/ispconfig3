@@ -81,6 +81,12 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("ar_active", '');
 		}
 		
+		if($this->dataRecord['autoresponder_subject'] == '') {
+			$app->tpl->setVar('autoresponder_subject', $app->tform->lng('autoresponder_subject'));
+		} else {
+			$app->tpl->setVar('autoresponder_subject', $this->dataRecord['autoresponder_subject']);
+		}
+        
 		parent::onShowEnd();
 	}
 	

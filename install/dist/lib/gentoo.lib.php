@@ -81,35 +81,15 @@ class installer extends installer_base
 		}
 
 		//* These postconf commands will be executed on installation and update
-		$postconf_commands = array (
-			'virtual_alias_domains =',
-			'virtual_alias_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_forwardings.cf, mysql:'.$config_dir.'/mysql-virtual_email2email.cf',
-			'virtual_mailbox_domains = proxy:mysql:'.$config_dir.'/mysql-virtual_domains.cf',
-			'virtual_mailbox_maps = proxy:mysql:'.$config_dir.'/mysql-virtual_mailboxes.cf',
-			'virtual_mailbox_base = '.$cf['vmail_mailbox_base'],
-			'virtual_uid_maps = static:'.$cf['vmail_userid'],
-			'virtual_gid_maps = static:'.$cf['vmail_groupid'],
-			'smtpd_sasl_auth_enable = yes',
-			'broken_sasl_auth_clients = yes',
-			'smtpd_sasl_authenticated_header = yes',
-			'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, check_recipient_access mysql:'.$config_dir.'/mysql-virtual_recipient.cf, reject_unauth_destination',
-			'smtpd_use_tls = yes',
-			'smtpd_tls_security_level = may',
-			'smtpd_tls_cert_file = '.$config_dir.'/smtpd.cert',
-			'smtpd_tls_key_file = '.$config_dir.'/smtpd.key',
-			'transport_maps = hash:/var/lib/mailman/data/transport-mailman, proxy:mysql:'.$config_dir.'/mysql-virtual_transports.cf',
-			'relay_domains = mysql:'.$config_dir.'/mysql-virtual_relaydomains.cf',
-			'proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $virtual_mailbox_limit_maps',
-			'smtpd_sender_restrictions = check_sender_access mysql:'.$config_dir.'/mysql-virtual_sender.cf',
-			'smtpd_client_restrictions = check_client_access mysql:'.$config_dir.'/mysql-virtual_client.cf',
-			'maildrop_destination_concurrency_limit = 1',
-			'maildrop_destination_recipient_limit   = 1',
-			'virtual_transport = maildrop',
-			'header_checks = regexp:'.$config_dir.'/header_checks',
-			'mime_header_checks = regexp:'.$config_dir.'/mime_header_checks',
-			'nested_header_checks = regexp:'.$config_dir.'/nested_header_checks',
-			'body_checks = regexp:'.$config_dir.'/body_checks'
-		);
+        $postconf_placeholders = array('{config_dir}' => $config_dir,
+                                       '{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
+                                       '{vmail_userid}' => $cf['vmail_userid'],
+                                       '{vmail_groupid}' => $cf['vmail_groupid'],
+                                       '{rbl_list}' => $rbl_list);
+        
+        $postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/gentoo_postfix.conf.master', 'tpl/gentoo_postfix.conf.master');
+        $postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
+        $postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines
 		
 		//* These postconf commands will be executed on installation only
 		if($this->is_update == false) {
@@ -165,7 +145,7 @@ class installer extends installer_base
 		$this->write_config_file($configfile, $content);
 		
 		//* Writing the Maildrop mailfilter file
-		$content = rf('tpl/mailfilter.master');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailfilter.master', 'tpl/mailfilter.master');
 		$content = str_replace('{dist_postfix_vmail_mailbox_base}', $cf['vmail_mailbox_base'], $content);
 		
 		$this->write_config_file($cf['vmail_mailbox_base'].'/.mailfilter', $content);
@@ -612,7 +592,7 @@ class installer extends installer_base
 		
 			//if ( !is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter') ) 
 			//{
-				$content = rf('tpl/apache_apps_fcgi_starter.master');
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_apps_fcgi_starter.master', 'tpl/apache_apps_fcgi_starter.master');
 				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
 				mkdir($conf['web']['website_basedir'].'/php-fcgi-scripts/apps', 0755, true);
@@ -652,7 +632,7 @@ class installer extends installer_base
 			$apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '')?'_':$conf['web']['apps_vhost_servername'];
 
 			// Dont just copy over the virtualhost template but add some custom settings
-			$content = rf('tpl/nginx_apps.vhost.master');
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/nginx_apps.vhost.master', 'tpl/nginx_apps.vhost.master');
 			
 			if($conf['web']['apps_vhost_ip'] == '_default_'){
 				$apps_vhost_ip = '';
@@ -678,7 +658,7 @@ class installer extends installer_base
 			
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
-			$content = rf('tpl/apps_php_fpm_pool.conf.master');
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apps_php_fpm_pool.conf.master', 'tpl/apps_php_fpm_pool.conf.master');
 			$content = str_replace('{fpm_pool}', 'apps', $content);
 			//$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
@@ -943,7 +923,7 @@ class installer extends installer_base
 			$this->write_config_file($vhost_path, $content);
 		
 			if(!is_file('/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
-				$content = rf('tpl/apache_ispconfig_fcgi_starter.master');
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_ispconfig_fcgi_starter.master', 'tpl/apache_ispconfig_fcgi_starter.master');
 				$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 				$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
 				@mkdir('/var/www/php-fcgi-scripts/ispconfig', 0755, true);
@@ -961,7 +941,7 @@ class installer extends installer_base
 			$vhost_conf_enabled_dir = $conf['nginx']['vhost_conf_enabled_dir'];
 
 			// Dont just copy over the virtualhost template but add some custom settings
-			$content = rf('tpl/nginx_ispconfig.vhost.master');
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/nginx_ispconfig.vhost.master', 'tpl/nginx_ispconfig.vhost.master');
 			$content = str_replace('{vhost_port}', $conf['nginx']['vhost_port'], $content);
 		
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
@@ -988,7 +968,7 @@ class installer extends installer_base
 			
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
-			$content = rf('tpl/php_fpm_pool.conf.master');
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/php_fpm_pool.conf.master', 'tpl/php_fpm_pool.conf.master');
 			$content = str_replace('{fpm_pool}', 'ispconfig', $content);
 			//$content = str_replace('{fpm_port}', $conf['nginx']['php_fpm_start_port'], $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);

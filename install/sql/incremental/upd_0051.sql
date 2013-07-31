@@ -1,0 +1,2 @@
+UPDATE `country` SET `iso` = 'RS', `name` = 'SERBIA', `printable_name` = 'Serbia', `iso3` = 'SRB', `numcode` = 381 WHERE `iso` = 'CS';
+INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`) VALUES ('ME', 'MONTENEGRO', 'Montenegro', 'MNE', 382);

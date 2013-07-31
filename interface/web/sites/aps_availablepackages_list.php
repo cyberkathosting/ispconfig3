@@ -42,10 +42,10 @@ $app->auth->check_module_permissions('sites');
 // Load needed classes
 $app->uses('tpl,listform_actions');
 
-$app->listform_actions->SQLOrderBy = 'ORDER BY name, version';
+$app->listform_actions->SQLOrderBy = 'ORDER BY aps_packages.name, aps_packages.version';
 // Show only unlocked packages to clients and (un-)lockable packages to admins
-if($_SESSION['s']['user']['typ'] != 'admin') $app->listform_actions->SQLExtWhere = 'package_status = '.PACKAGE_ENABLED;
-else $app->listform_actions->SQLExtWhere = '(package_status = '.PACKAGE_ENABLED.' OR package_status = '.PACKAGE_LOCKED.')';
+if($_SESSION['s']['user']['typ'] != 'admin') $app->listform_actions->SQLExtWhere = 'aps_packages.package_status = '.PACKAGE_ENABLED;
+else $app->listform_actions->SQLExtWhere = '(aps_packages.package_status = '.PACKAGE_ENABLED.' OR aps_packages.package_status = '.PACKAGE_LOCKED.')';
 
 // Get package amount
 $pkg_count = $app->db->queryOneRecord("SELECT COUNT(*) FROM aps_packages");

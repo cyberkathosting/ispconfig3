@@ -264,6 +264,10 @@ class page_action extends tform_actions {
 						if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
 							$this->dataRecord['remote_ips'] .= ',' . $server_config['ip_address'];
 						}
+                        $tmp = preg_split('/\s*,\s*/', $this->dataRecord['remote_ips']);
+                        $tmp = array_unique($tmp);
+                        $this->dataRecord['remote_ips'] = implode(',', $tmp);
+                        unset($tmp);
 					}
 				}
             }
@@ -328,6 +332,10 @@ class page_action extends tform_actions {
 						if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
 							$this->dataRecord['remote_ips'] .= ',' . $server_config['ip_address'];
 						}
+                        $tmp = preg_split('/\s*,\s*/', $this->dataRecord['remote_ips']);
+                        $tmp = array_unique($tmp);
+                        $this->dataRecord['remote_ips'] = implode(',', $tmp);
+                        unset($tmp);
 					}
 				}
             }
@@ -341,7 +349,7 @@ class page_action extends tform_actions {
         
         $app->uses('sites_database_plugin');
         
-        $app->sites_database_plugin->processDatabaseInsert($this);
+        //$app->sites_database_plugin->processDatabaseInsert($this);
         
         $app->db->query($sql);
         if($app->db->errorMessage != '') die($app->db->errorMessage);
@@ -355,7 +363,7 @@ class page_action extends tform_actions {
         if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(),$this->id)) {
             
             $app->uses('sites_database_plugin');
-            $app->sites_database_plugin->processDatabaseUpdate($this);
+            //$app->sites_database_plugin->processDatabaseUpdate($this);
 
             $app->db->query($sql);
             if($app->db->errorMessage != '') die($app->db->errorMessage);

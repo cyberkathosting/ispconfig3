@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: E-Mail Kontobelegungshinweis
+
+Ihr E-Mail Konto {email} hat den verfügbaren Speicherplatz (nahezu) ausgeschöpft.
+
+E-Mail Konto: 			{email}
+Name:				{name}
+Belegter Speicher:		{used}
+Verfügbarer Speicher:		{quota}
+Belegt:				{ratio}

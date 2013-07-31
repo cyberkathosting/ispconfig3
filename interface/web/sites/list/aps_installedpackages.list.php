@@ -29,8 +29,15 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $liste['name'] = 'aps_instances'; // Name of the list
-$liste['table'] = 'aps_instances,aps_packages'; // Database table
+$liste['table'] = 'aps_instances'; // Database table
 $liste['table_idx'] = 'id'; // Table index
+
+// if multiple tables are involved, list the additional tables here (comma separated)
+$liste["additional_tables"] = "aps_packages";
+
+// if multiple tables are involved, specify sql to join these tables
+$liste["join_sql"] = " aps_instances.package_id = aps_packages.id";
+
 $liste["search_prefix"] = 'search_'; // Search field prefix
 $liste['records_per_page'] = 15; // Records per page
 $liste['file'] = 'aps_installedpackages_list.php'; // Script file for this list
@@ -47,7 +54,8 @@ $liste["item"][] = array('field'    => 'name',
                          'prefix'   => '%',
                          'suffix'   => '%',
                          'width'    => '',
-                         'value'    => '');
+                         'value'    => '',
+						 'table'	=> 'aps_packages');
  
 $liste["item"][] = array('field'    => 'version',
                          'datatype' => 'VARCHAR',
@@ -56,7 +64,8 @@ $liste["item"][] = array('field'    => 'version',
                          'prefix'   => '%',
                          'suffix'   => '%',
                          'width'    => '',
-                         'value'    => '');
+                         'value'    => '',
+						 'table'	=> 'aps_packages');
  
  /*
 $liste["item"][] = array('field'    => 'customer_id',
@@ -79,5 +88,6 @@ $liste["item"][] = array('field'    => 'instance_status',
                          'value'    => array(INSTANCE_INSTALL => $app->lng('Installation_task'),
                                              INSTANCE_ERROR => $app->lng('Installation_error'),
                                              INSTANCE_SUCCESS => $app->lng('Installation_success'),
-                                             INSTANCE_REMOVE => $app->lng('Installation_remove'))); 
+                                             INSTANCE_REMOVE => $app->lng('Installation_remove')),
+						 'table'	=> 'aps_instances'); 
 ?>

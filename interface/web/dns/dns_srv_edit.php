@@ -77,18 +77,10 @@ class page_action extends tform_actions {
 
 		// Split the 3 parts of the SRV Record apart
 		$split = explode(' ', $this->dataRecord['data']);
-
-		// Weight
-		$this->dataRecord['weight'] = $split[0];
-
-		// Port
-		$this->dataRecord['port'] = $split[1];
-
-		// Target
-		$this->dataRecord['target'] = $split[2];
-
-		// Bind the new datarecord to the template
-		$app->tpl->setVar($this->dataRecord);
+		
+		$app->tpl->setVar('weight', $split[0]);
+		$app->tpl->setVar('port', $split[1]);
+		$app->tpl->setVar('target', $split[2]);
 
 		parent::onShowEnd();
 	}

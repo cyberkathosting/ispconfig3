@@ -104,15 +104,15 @@ class getmail_plugin {
 			
 				// Shall emails be deleted after retrieval
 				if($data["new"]["source_delete"] == 'y') {
-					$tpl = str_replace('{DELETE}','1',$tpl);
+					$tpl = str_replace('{DELETE}','true',$tpl);
 				} else {
-					$tpl = str_replace('{DELETE}','0',$tpl);
+					$tpl = str_replace('{DELETE}','false',$tpl);
 				}
 
 				if($data["new"]["read_all"] == 'y') {
-					$tpl = str_replace('{READ_ALL}', '1', $tpl);
+					$tpl = str_replace('{READ_ALL}', 'true', $tpl);
 				} else {
-					$tpl = str_replace('{READ_ALL}', '0', $tpl);
+					$tpl = str_replace('{READ_ALL}', 'false', $tpl);
 				}
 				
 				// Set the data retriever

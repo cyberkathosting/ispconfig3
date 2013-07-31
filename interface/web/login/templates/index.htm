@@ -26,7 +26,8 @@
         <input type="hidden" name="s_pg" value="index" />
 
         <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoKey" type="button" value="{tmpl_var name="add_new_record_txt"}" onclick="submitLoginForm('pageForm');"><span>{tmpl_var name='login_button_txt'}</span></button>
+            <button class="positive iconstxt icoKey" type="button" value="{tmpl_var name='add_new_record_txt'}" onclick="submitLoginForm('pageForm');"><span>{tmpl_var name='login_button_txt'}</span></button>
+            <button class="negative iconstxt icoKey" type="button" value="{tmpl_var name='pw_lost_txt'}" onclick="loadContent('login/password_reset.php');"><span>{tmpl_var name='pw_lost_txt'}</span></button>
         </div>
     </div>
 

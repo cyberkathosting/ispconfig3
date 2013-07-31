@@ -55,14 +55,21 @@ $app->uses('getconf');
 $global_config = $app->getconf->get_global_config('mail');
 
 if($global_config['webmail_url'] != '') {
-	header('Location:' . $global_config['webmail_url']);
+	$webmail_url = $global_config['webmail_url'];
+	$webmail_url = str_replace('[SERVERNAME]', $serverData['server_name'], $webmail_url);
+	header('Location:' . $webmail_url);
 } else {
 
 /*
  * We only redirect to the login-form, so there is no need, to check any rights
  */
 	isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
-	header('Location:' . $http . '://' . $serverData['server_name'] . '/webmail');
+	if($web_config['server_type'] == 'nginx') {
+		header('Location: http://' . $serverData['server_name'] . ':8081/webmail');
+	} else {
+		header('Location: ' . $http . '://' . $serverData['server_name'] . '/webmail');
+	}
+	isset($_SERVER['HTTPS'])? $http = 'https' : $http = 'http';
 }
 exit;
 ?>

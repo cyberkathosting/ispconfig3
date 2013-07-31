@@ -68,7 +68,7 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLOrderBy = 'ORDER BY username';
+$list->SQLOrderBy = 'ORDER BY ftp_user.username';
 $list->onLoad();
 
 

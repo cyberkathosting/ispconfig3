@@ -49,7 +49,7 @@ $app->uses('listform_actions');
 // Limit the results to alias domains
 //$app->listform_actions->SQLExtWhere = "type = 'subdomain'";
 
-$app->listform_actions->SQLOrderBy = 'ORDER BY username';
+$app->listform_actions->SQLOrderBy = 'ORDER BY shell_user.username';
 $app->listform_actions->onLoad();
 
 

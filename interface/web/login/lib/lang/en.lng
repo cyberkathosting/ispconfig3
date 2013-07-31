@@ -22,6 +22,7 @@ $wb['pw_lost_txt']	= "Password lost";
 $wb['pw_reset_txt']	= "Password reset";
 $wb['pw_button_txt']	= "Resend password";
 $wb['email_txt']	= "Email";
+$wb['back_txt'] = 'Back';
 
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
 

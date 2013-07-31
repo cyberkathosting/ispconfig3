@@ -58,7 +58,7 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLOrderBy = 'ORDER BY database_user';
+$list->SQLOrderBy = 'ORDER BY web_database_user.database_user';
 $list->onLoad();
 
 

@@ -52,8 +52,8 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLExtWhere = "type = 'vhost' AND parent_domain_id = '0'";
-$list->SQLOrderBy = 'ORDER BY domain';
+$list->SQLExtWhere = "web_domain.type = 'vhost' AND web_domain.parent_domain_id = '0'";
+$list->SQLOrderBy = 'ORDER BY web_domain.domain';
 $list->onLoad();
 
 ?>

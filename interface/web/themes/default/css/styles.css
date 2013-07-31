@@ -153,6 +153,8 @@ header span {
 
 #topNav a {
     background: url("../icons/x32_sprite.png") no-repeat #D3D3D3;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
     color:black;
     display:inline-block;
     height:20px;
@@ -438,9 +440,6 @@ table.list .tbl_col_limit {
     font-family: Consolas, "Lucida Console", "Courier New", monospace;
     font-size: 0.9em;
 }
-.codeview .logerror { background: rgb(255,0,0); }
-.codeview .logwarn { background: rgb(255,204,0); }
-.codeview .loginfo { background: rgb(153,204,255); }
 /* Lists */
 table.list {
     width: 100%;
@@ -583,6 +582,7 @@ div.status {
     width:60px;
     height: 60px;
     border:1px dotted #888888;
+    border-radius:5px;
     background-color: #cccccc;
     margin:10px;
     background-position: center 5px;
@@ -832,7 +832,7 @@ span.small { font-size: 0.9em; }
 .selectInput.formLengthLimit { width: 85px !important; }
 .formLengthDate { width: 75px !important; }
 .formLengthIPv4 { width: 125px !important; }
-.formLengthIPv6 { width: 100% !important; }
+.formLengthIPv6 { }
 .formLengthEmailUser { width: 30% !important; }
 .formLengthEmailDomain { width: 30% !important; }
 .formLengthHalf { width: 15% !important; }
@@ -1840,4 +1840,27 @@ span.page-spacer {
 a.link-page.current-page {
     background-color: #DFDFDF;
     font-weight: bold;
+}
+
+.command {
+    padding: 1em;
+    border: 1px dashed #2f6fab;
+    color: black;
+    background-color: #f9f9f9;
+    line-height: 1.1em;
+    font-family: Courier New, Courier, mono;
+    font-size: 12px;
+    font-style: italic;
+}
+.system {
+    color: black;
+    font-family: Courier New, Courier, mono;
+    font-size: 12px;
+    font-style: italic;
+}
+.highlight {
+    color: #FF0000;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 12px;
+    text-decoration: underline;
 }

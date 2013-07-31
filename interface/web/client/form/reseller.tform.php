@@ -894,6 +894,17 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
+		'default_slave_dnsserver' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'SQL',
+										'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+										'keyfield'=> 'server_id',
+										'valuefield'=> 'server_name'
+									 ),
+			'value'		=> ''
+		),
                 'limit_dns_slave_zone' => array (
                         'datatype'      => 'INTEGER',
                         'formtype'      => 'TEXT',

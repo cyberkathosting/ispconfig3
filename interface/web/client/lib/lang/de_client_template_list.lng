@@ -2,4 +2,5 @@
 $wb['list_head_txt'] = 'Kundenvorlagen';
 $wb['template_type_txt'] = 'Typ';
 $wb['template_name_txt'] = 'Vorlagenname';
+$wb['template_id_txt'] = 'Template ID';
 ?>

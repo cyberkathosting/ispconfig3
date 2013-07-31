@@ -4,14 +4,18 @@
 <div class="panel panel_client_del">
 
     <div class="pnl_formsarea">
-
+		
         <div id="OKMsg">
+			<tmpl_if name='number_records'>
             <tmpl_var name="delete_explanation">:<br /><br />
                 <tmpl_loop name="records">
                     <tmpl_var name="table">, 
                 </tmpl_loop>
+			</tmpl_else>
+				<tmpl_var name="confirm_client_delete_txt">
+			</tmpl_if>
         </div>
-
+		
         <input type="checkbox" name="confirm" value="yes" /> <b><tmpl_var name="confirm_action_txt"></b>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

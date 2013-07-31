@@ -16,9 +16,9 @@ $list_def_file = "list/dns_slave.list.php";
 $app->auth->check_module_permissions('dns');
 
 $app->uses('listform_actions');
-// $app->listform_actions->SQLExtWhere = "access = 'REJECT'";
+// $app->listform_actions->SQLExtWhere = "dns_slave.access = 'REJECT'";
 
-$app->listform_actions->SQLOrderBy = 'ORDER BY origin';
+$app->listform_actions->SQLOrderBy = 'ORDER BY dns_slave.origin';
 $app->listform_actions->onLoad();
 
 

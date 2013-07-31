@@ -1,0 +1,8 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Traffic-Warnung
+
+Ihre Webseite {domain} hat den verfügbaren Traffic ausgeschöpft und wurde vorrübergehend deaktiviert.

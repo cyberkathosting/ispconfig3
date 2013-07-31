@@ -85,9 +85,27 @@
                 <label for="realtime_blackhole_list">{tmpl_var name='realtime_blackhole_list_txt'}</label>
                 <input name="realtime_blackhole_list" id="realtime_blackhole_list" value="{tmpl_var name='realtime_blackhole_list'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='realtime_blackhole_list_note_txt'}
             </div>
+			<div class="ctrlHolder">
+                <p class="label">{tmpl_var name='overquota_notify_admin_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='overquota_notify_admin'}
+                </div>
+            </div>
             <div class="ctrlHolder">
-                <label for="sendmail_path">{tmpl_var name='sendmail_path_txt'}</label>
-                <input name="sendmail_path" id="sendmail_path" value="{tmpl_var name='sendmail_path'}" size="40" maxlength="255" type="text" class="textInput" />
+                <p class="label">{tmpl_var name='overquota_notify_client_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='overquota_notify_client'}
+                </div>
+            </div>
+            <div class="ctrlHolder">
+                <label for="overquota_notify_freq">{tmpl_var name='overquota_notify_freq_txt'}</label>
+                <input name="overquota_notify_freq" id="overquota_notify_freq" value="{tmpl_var name='overquota_notify_freq'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='overquota_notify_freq_note_txt'}
+            </div>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='overquota_notify_onok_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='overquota_notify_onok'}
+                </div>
             </div>
         </fieldset>
             

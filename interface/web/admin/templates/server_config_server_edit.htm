@@ -48,6 +48,12 @@
                     {tmpl_var name='loglevel'}
                 </select>
             </div>
+			<div class="ctrlHolder">
+                <label for="admin_notify_events">{tmpl_var name='admin_notify_events_txt'}</label>
+                <select name="admin_notify_events" id="admin_notify_events" class="selectInput">
+                    {tmpl_var name='admin_notify_events'}
+                </select>
+            </div>
             <div class="ctrlHolder">
                 <label for="backup_dir">{tmpl_var name='backup_dir_txt'}</label>
                 <input name="backup_dir" id="backup_dir" value="{tmpl_var name='backup_dir'}" size="40" maxlength="255" type="text" class="textInput" />
@@ -57,6 +63,30 @@
                 <select name="backup_mode" id="backup_mode" class="selectInput">
                     {tmpl_var name='backup_mode'}
                 </select>
+            </div>
+			<div class="ctrlHolder">
+                <label for="monit_url">{tmpl_var name='monit_url_txt'}</label>
+                <input name="monit_url" id="monit_url" value="{tmpl_var name='monit_url'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='monit_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
+            </div>
+			<div class="ctrlHolder">
+                <label for="monit_user">{tmpl_var name='monit_user_txt'}</label>
+                <input name="monit_user" id="monit_user" value="{tmpl_var name='monit_user'}" size="40" maxlength="255" type="text" class="textInput" />
+            </div>
+			<div class="ctrlHolder">
+                <label for="monit_password">{tmpl_var name='monit_password_txt'}</label>
+                <input name="monit_password" id="monit_password" value="{tmpl_var name='monit_password'}" size="40" maxlength="255" type="text" class="textInput" />
+            </div>
+			<div class="ctrlHolder">
+                <label for="munin_url">{tmpl_var name='munin_url_txt'}</label>
+                <input name="munin_url" id="munin_url" value="{tmpl_var name='munin_url'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='munin_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
+            </div>
+			<div class="ctrlHolder">
+                <label for="munin_user">{tmpl_var name='munin_user_txt'}</label>
+                <input name="munin_user" id="munin_user" value="{tmpl_var name='munin_user'}" size="40" maxlength="255" type="text" class="textInput" />
+            </div>
+			<div class="ctrlHolder">
+                <label for="munin_password">{tmpl_var name='munin_password_txt'}</label>
+                <input name="munin_password" id="munin_password" value="{tmpl_var name='munin_password'}" size="40" maxlength="255" type="text" class="textInput" />
             </div>
         </fieldset>
             

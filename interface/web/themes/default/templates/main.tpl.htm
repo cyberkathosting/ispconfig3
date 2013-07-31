@@ -50,6 +50,9 @@
 				
 				// Store password in browser; works in Firefox, but not Chrome
 				$('#username').live("blur", function(){
+					if($('#username').val() == '') {
+						return true;
+					}
 					if($('#dummy_username').val() == '' || $('#dummy_username').val() != $(this).val()){
 						$('#dummy_login').show();
 						$('#dummy_username').attr('value', $(this).val()).trigger('focus').trigger('blur');

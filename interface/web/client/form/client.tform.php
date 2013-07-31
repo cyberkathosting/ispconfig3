@@ -899,20 +899,31 @@ $form["tabs"]['limits'] = array (
 			'rows'		=> '',
 			'cols'		=> ''
 		),
-                'limit_dns_slave_zone' => array (
-                        'datatype'      => 'INTEGER',
-                        'formtype'      => 'TEXT',
-                        'validators'    => array (      0 => array (    'type'  => 'ISINT',
+		'default_slave_dnsserver' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'SELECT',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'client_servers'
+									 ),
+			'value'		=> '',
+			'name'		=> 'default_slave_dnsserver'
+		),
+		'limit_dns_slave_zone' => array (
+            'datatype'      => 'INTEGER',
+            'formtype'      => 'TEXT',
+            'validators'    => array (      0 => array (    'type'  => 'ISINT',
                                                                                                                 'errmsg'=> 'limit_dns_slave_zone_error_notint'),
                                                                         ),
-                        'default'       => '-1',
-                        'value'         => '',
-                        'separator'     => '',
-                        'width'         => '10',
-                        'maxlength'     => '10',
-                        'rows'          => '',
-                        'cols'          => ''
-                ),
+            'default'       => '-1',
+            'value'         => '',
+            'separator'     => '',
+            'width'         => '10',
+            'maxlength'     => '10',
+            'rows'          => '',
+            'cols'          => ''
+        ),
 		'limit_dns_record' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',

@@ -1,0 +1,10 @@
+<h2><tmpl_var name="list_head_txt"></h2>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<div class="panel panel_system">
+<tmpl_if name='munin_url'>
+    <iframe src="{tmpl_var name='munin_url'}" width="100%" height="1000" frameborder="0" style="overflow:visible;"></iframe>
+<tmpl_else>
+	<div id="errorMsg"><h3>ERROR</h3><ol><li>{tmpl_var name="no_munin_url_defined_txt"} {tmpl_var name="no_permissions_to_view_munin_txt"}<br></li></ol></div>
+</tmpl_if>
+</div>

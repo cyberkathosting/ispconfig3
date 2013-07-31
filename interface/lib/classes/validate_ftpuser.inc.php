@@ -47,7 +47,7 @@ class validate_ftpuser {
         
         
         $ftp_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM ftp_user WHERE ftp_user_id = '".$app->db->quote($app->tform->primary_id)."'");
-        if(!$ftp_data["parent_domain_id"]) {
+        if(!is_array($ftp_data) || $ftp_data["parent_domain_id"] < 1) {
             $errmsg = $validator['errmsg'];
             if(isset($app->tform->wordbook[$errmsg])) {
                 return $app->tform->wordbook[$errmsg]."<br>\r\n";
@@ -57,7 +57,7 @@ class validate_ftpuser {
         }
         
         $domain_data = $app->db->queryOneRecord("SELECT domain_id, document_root FROM web_domain WHERE domain_id = '".$app->db->quote($ftp_data["parent_domain_id"])."'");
-        if(!$domain_data["domain_id"]) {
+        if(!is_array($domain_data) || $domain_data["domain_id"] < 1) {
             $errmsg = $validator['errmsg'];
             if(isset($app->tform->wordbook[$errmsg])) {
                 return $app->tform->wordbook[$errmsg]."<br>\r\n";
@@ -75,6 +75,9 @@ class validate_ftpuser {
 		
 		if(stristr($field_value,'..') or stristr($field_value,'./') or stristr($field_value,'/.')) $is_ok = false;
         
+		//* Final check if docroot path of website is >= 5 chars
+		if(strlen($doc_root) < 5) $is_ok = false;
+		
         if($is_ok == false) {
             $errmsg = $validator['errmsg'];
             if(isset($app->tform->wordbook[$errmsg])) {

@@ -16,7 +16,7 @@ $list_def_file = "list/spamfilter_whitelist.list.php";
 $app->auth->check_module_permissions('mail');
 
 $app->uses('listform_actions');
-$app->listform_actions->SQLExtWhere = "wb = 'W'";
+$app->listform_actions->SQLExtWhere = "spamfilter_wblist.wb = 'W'";
 
 $app->listform_actions->onLoad();
 

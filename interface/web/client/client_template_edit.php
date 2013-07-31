@@ -81,7 +81,7 @@ class page_action extends tform_actions {
 		if ($this->dataRecord["template_type"] == 'm'){
 			$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
 		} else {
-			$sql = "SELECT client_id FROM client WHERE template_additional LIKE '%/" . $this->id . "/%'";
+			$sql = "SELECT client_id FROM client WHERE template_additional LIKE '%/" . $this->id . "/%' OR template_additional LIKE '" . $this->id . "/%' OR template_additional LIKE '%/" . $this->id . "'";
 		}
 		$clients = $app->db->queryAllRecords($sql);
 		if (is_array($clients)){

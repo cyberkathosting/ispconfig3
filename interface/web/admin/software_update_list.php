@@ -211,7 +211,8 @@ if(is_array($updates)) {
 
 $app->tpl->setLoop('records',$records_out);
 
-include_once('lib/lang/en_software_update_list.lng');
+$language = (isset($_SESSION['s']['language']))?$_SESSION['s']['language']:$conf['language'];
+include_once('lib/lang/'.$language.'_software_update_list.lng');
 $app->tpl->setVar($wb);
 
 

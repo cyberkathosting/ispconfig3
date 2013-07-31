@@ -130,10 +130,21 @@ class functions {
 	}
 	
 	public function get_ispconfig_url() {
+		global $app;
+		
 		$url = (stristr($_SERVER['SERVER_PROTOCOL'],'HTTPS') || stristr($_SERVER['HTTPS'],'on'))?'https':'http';
-		$url .= '://'.$_SERVER['SERVER_NAME'];
-		if($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
-			$url .= ':'.$_SERVER['SERVER_PORT'];
+		if($_SERVER['SERVER_NAME'] != '_') {
+			$url .= '://'.$_SERVER['SERVER_NAME'];
+			if($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
+				$url .= ':'.$_SERVER['SERVER_PORT'];
+			}
+		} else {
+			$app->uses("getconf");
+			$server_config = $app->getconf->get_server_config(1,'server');
+			$url .= '://'.$server_config['hostname'];
+			if($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
+				$url .= ':'.$_SERVER['SERVER_PORT'];
+			}
 		}
 		return $url;
 	}

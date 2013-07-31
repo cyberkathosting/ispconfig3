@@ -21,7 +21,7 @@
                         <th class="tbl_col_installed" scope="col"><tmpl_var name="installed_txt"></th>
                         <th class="tbl_col_package_title" scope="col"><tmpl_var name="package_title_txt"></th>
                         <th class="tbl_col_package_description" scope="col"><tmpl_var name="package_description_txt"></th>
-                        <th class="tbl_col_package_description" scope="col"><tmpl_var name="package_id_txt"></th>
+                        <th class="tbl_col_package_id" scope="col"><tmpl_var name="package_id_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
                 </thead>
@@ -32,8 +32,9 @@
                             <td class="tbl_col_installed">{tmpl_var name="installed"}</td>
                             <td class="tbl_col_package_title">{tmpl_var name="package_title"}</td>
                             <td class="tbl_col_package_description">{tmpl_var name="package_description"}</td>
-                            <td class="tbl_col_package_description">ispapp{tmpl_var name="package_id"}</td>
-                            <td class="tbl_col_buttons">
+                            <td class="tbl_col_package_id">ispapp{tmpl_var name="package_id"}</td>
+							<td class="tbl_col_buttons">
+								<a class="button icons16 icoEdit" href="javascript: loadContent('admin/software_package_edit.php?id={tmpl_var name='package_id'}');"><span>{tmpl_var name='edit_txt'}</span></a>
                                 <a class="button icons16 icoDelete" href="javascript: del_record('admin/software_package_del.php?software_update_inst_id={tmpl_var name='software_update_inst_id'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
                             </td>
                         </tr>

@@ -50,16 +50,24 @@ class list_action extends listform_actions {
 		$rec['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
 		
 		if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
+		
+		if($rec['quota'] == 0){
+			$rec['quota'] = $app->lng('unlimited');
+            $rec['percentage'] = '';
+            $rec['percentage_sort'] = 0;
+		} else {
+            $rec['percentage'] = round(100 * $rec['used'] / $rec['quota']) . '%';
+			$rec['percentage_sort'] = round(100 * $rec['used'] / $rec['quota']);
+			$rec['quota'] = round($rec['quota'] / 1048576,4).' MB';
+		}
 
-        $rec['quota'] = round($rec['quota'] / 1048576,2).' MB';
-		if($rec['quota'] == "0 MB") $rec['quota'] = $app->lng('unlimited');
 
-
+        $rec['used_sort'] = $rec['used'];
         if($rec['used'] < 1544000) {
-            $rec['used'] = round($rec['used'] / 1024,2).' KB';
+            $rec['used'] = round($rec['used'] / 1024,4).' KB';
         } else {
-            $rec['used'] = round($rec['used'] / 1048576,2).' MB';
-        }   
+            $rec['used'] = round($rec['used'] / 1048576,4).' MB';
+        }
 
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];

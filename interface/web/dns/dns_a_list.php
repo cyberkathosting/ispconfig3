@@ -16,7 +16,7 @@ $list_def_file = "list/dns_a.list.php";
 $app->auth->check_module_permissions('dns');
 
 $app->uses('listform_actions');
-$app->listform_actions->SQLExtWhere = "type = 'A'";
+$app->listform_actions->SQLExtWhere = "dns_rr.type = 'A'";
 
 $app->listform_actions->onLoad();
 

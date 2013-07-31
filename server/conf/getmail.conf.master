@@ -1,6 +1,6 @@
 [options]
 # message_log = /var/log/getmail.log
-message_log_syslog = 1
+message_log_syslog = true
 delete = {DELETE}
 read_all = {READ_ALL}
 

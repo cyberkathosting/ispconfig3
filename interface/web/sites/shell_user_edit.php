@@ -121,7 +121,7 @@ class page_action extends tform_actions {
 		$blacklist = file(ISPC_LIB_PATH.'/shelluser_blacklist');
 		foreach($blacklist as $line) {
 			if(strtolower(trim($line)) == strtolower(trim($this->dataRecord['username']))){
-				$app->tform->errorMessage .= 'The username is not allowed.';
+				$app->tform->errorMessage .= $app->tform->lng('username_not_allowed_txt');
 			}
 		}
 		unset($blacklist);
@@ -138,6 +138,8 @@ class page_action extends tform_actions {
             $this->dataRecord['username_prefix'] = $shelluser_prefix;
 			/* restrict the names */
 			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
+			
+			if(strlen($this->dataRecord['username']) > 32) $app->tform->errorMessage .= $app->tform->lng("username_must_not_exceed_32_chars_txt");
 		}
 		parent::onBeforeInsert();
 	}
@@ -166,7 +168,7 @@ class page_action extends tform_actions {
 		$blacklist = file(ISPC_LIB_PATH.'/shelluser_blacklist');
 		foreach($blacklist as $line) {
 			if(strtolower(trim($line)) == strtolower(trim($this->dataRecord['username']))){
-				$app->tform->errorMessage .= 'The username is not allowed.';
+				$app->tform->errorMessage .= $app->tform->lng('username_not_allowed_txt');
 			}
 		}
 		unset($blacklist);
@@ -188,6 +190,8 @@ class page_action extends tform_actions {
             
 			/* restrict the names */
 			$this->dataRecord['username'] = $shelluser_prefix . $this->dataRecord['username'];
+			
+			if(strlen($this->dataRecord['username']) > 32) $app->tform->errorMessage .= $app->tform->lng("username_must_not_exceed_32_chars_txt");
 		}
 	}
 	

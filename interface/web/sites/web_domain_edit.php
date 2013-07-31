@@ -171,7 +171,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			//* Get global web config
 			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
@@ -182,15 +182,15 @@ class page_action extends tform_actions {
 			unset($tmp);
 
 			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY sys_group.name";
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY sys_group.name";
 			$records = $app->db->queryAllRecords($sql);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['name'].' :: '.$client['contactname'].'</option>';
+			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$rec[groupid]' $selected>$rec[name] :: $rec[contactname]</option>\r\n";
+					$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
@@ -377,7 +377,7 @@ class page_action extends tform_actions {
 			unset($php_records);
 
 			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(client.company_name,' :: ',client.contact_name) as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = "<option value='0'></option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -385,7 +385,7 @@ class page_action extends tform_actions {
 				foreach( $clients as $client) {
 					//$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name] :: $client[contactname]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id",$client_select);
@@ -661,7 +661,15 @@ class page_action extends tform_actions {
 		
 		//* get the server config for this server
 		$app->uses("getconf");
-		$web_config = $app->getconf->get_server_config($app->functions->intval(isset($this->dataRecord["server_id"]) ? $this->dataRecord["server_id"] : 0),'web');
+		if($this->id > 0){
+			$web_rec = $app->tform->getDataRecord($this->id);
+			$server_id = $web_rec["server_id"];
+		} else {
+			// Get the first server ID
+			$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
+			$server_id = intval($tmp['server_id']);
+		}
+		$web_config = $app->getconf->get_server_config($app->functions->intval(isset($this->dataRecord["server_id"]) ? $this->dataRecord["server_id"] : $server_id),'web');
 		//* Check for duplicate ssl certs per IP if SNI is disabled
 		if(isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y' && $web_config['enable_sni'] != 'y') {
 			$sql = "SELECT count(domain_id) as number FROM web_domain WHERE `ssl` = 'y' AND ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."' and domain_id != ".$this->id;
@@ -675,6 +683,59 @@ class page_action extends tform_actions {
 		
 			} else {
 				$app->tform->errorMessage .= $app->tform->lng("error_php_fpm_pm_settings_txt").'<br>';
+			}
+		}
+		
+		// Check rewrite rules
+		$server_type = $web_config['server_type'];
+		
+		if($server_type == 'nginx' && isset($this->dataRecord['rewrite_rules']) && trim($this->dataRecord['rewrite_rules']) != '') {
+			$rewrite_rules = trim($this->dataRecord['rewrite_rules']);
+			$rewrites_are_valid = true;
+			// use this counter to make sure all curly brackets are properly closed
+			$if_level = 0;
+			// Make sure we only have Unix linebreaks
+			$rewrite_rules = str_replace("\r\n", "\n", $rewrite_rules);
+			$rewrite_rules = str_replace("\r", "\n", $rewrite_rules);
+			$rewrite_rule_lines = explode("\n", $rewrite_rules);
+			if(is_array($rewrite_rule_lines) && !empty($rewrite_rule_lines)){
+				foreach($rewrite_rule_lines as $rewrite_rule_line){
+					// rewrite
+					if(preg_match('@^\s*rewrite\s+(^/)?\S+(\$)?\s+\S+(\s+(last|break|redirect|permanent|))?\s*;\s*$@', $rewrite_rule_line)) continue;
+					// if
+					if(preg_match('@^\s*if\s+\(\s*\$\S+(\s+(\!?(=|~|~\*))\s+(\S+|\".+\"))?\s*\)\s*\{\s*$@', $rewrite_rule_line)){
+						$if_level += 1;
+						continue;
+					}
+					// if - check for files, directories, etc.
+					if(preg_match('@^\s*if\s+\(\s*\!?-(f|d|e|x)\s+\S+\s*\)\s*\{\s*$@', $rewrite_rule_line)){
+						$if_level += 1;
+						continue;
+					}
+					// break
+					if(preg_match('@^\s*break\s*;\s*$@', $rewrite_rule_line)){
+						$if_level += 1;
+						continue;
+					}
+					// return code [ text ]
+					if(preg_match('@^\s*return\s+\d\d\d.*;\s*$@', $rewrite_rule_line)) continue;
+					// return code URL
+					// return URL
+					if(preg_match('@^\s*return(\s+\d\d\d)?\s+(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*\@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*\s*;\s*$@', $rewrite_rule_line)) continue;
+					// set
+					if(preg_match('@^\s*set\s+\$\S+\s+\S+\s*;\s*$@', $rewrite_rule_line)) continue;
+					// closing curly bracket
+					if(trim($rewrite_rule_line) == '}'){
+						$if_level -= 1;
+						continue;
+					}
+					$rewrites_are_valid = false;
+					break;
+				}
+			}
+			
+			if(!$rewrites_are_valid || $if_level != 0){
+				$app->tform->errorMessage .= $app->tform->lng("invalid_rewrite_rules_txt").'<br>';
 			}
 		}
 

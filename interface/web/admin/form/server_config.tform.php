@@ -150,6 +150,14 @@ $form["tabs"]['server'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'admin_notify_events' => array(
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'value' => array('3' => 'no_notifications_txt', '0' => 'Debug', '1' => 'Warnings', '2' => 'Errors'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'backup_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -166,6 +174,62 @@ $form["tabs"]['server'] = array(
 			'formtype' => 'SELECT',
 			'default' => 'userzip',
 			'value' => array('userzip' => 'backup_mode_userzip', 'rootgz' => 'backup_mode_rootgz'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'monit_url' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+                                                                'errmsg'=> 'monit_url_error_regex'),
+                                                ),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'monit_user' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'monit_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'munin_url' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+                                                                'errmsg'=> 'munin_url_error_regex'),
+                                                ),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'munin_user' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'munin_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
 		),
@@ -331,23 +395,38 @@ $form["tabs"]['mail'] = array(
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(,\s*(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))*$/',
+														'regex' => '/^((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(,\s*(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))*)?$/',
 														'errmsg'=> 'rbl_error_regex'),
 									),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
 		),
-		'sendmail_path' => array(
+		'overquota_notify_admin' => array(
 			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'overquota_notify_client' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'overquota_notify_freq' => array(
+			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
-			'default' => '/usr/sbin/sendmail',
-			'validators' => array(0 => array('type' => 'NOTEMPTY',
-					'errmsg' => 'sendmail_path_error_empty'),
-			),
+			'default' => '7',
 			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
+            'width' => '20',
+            'maxlength' => '255'
+		),
+		'overquota_notify_onok' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 	##################################
 	# ENDE Datatable fields
@@ -561,6 +640,32 @@ $form["tabs"]['web'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'overquota_notify_admin' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'overquota_notify_client' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'overquota_notify_freq' => array(
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '7',
+			'value' => '',
+            'width' => '20',
+            'maxlength' => '255'
+		),
+		'overquota_notify_onok' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'user' => array(

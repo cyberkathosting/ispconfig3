@@ -62,9 +62,19 @@ if ($app->dbmaster->connect_error == NULL) {
 
 	// Set the loglevel
 	$conf['log_priority'] = intval($conf['serverconfig']['server']['loglevel']);
+	
+	// Set level from which admin should be notified by email
+	if(!isset($conf['serverconfig']['server']['admin_notify_events']) || $conf['serverconfig']['server']['admin_notify_events'] == '') $conf['serverconfig']['server']['admin_notify_events'] = 3;
+	$conf['admin_notify_priority'] = intval($conf['serverconfig']['server']['admin_notify_events']);
 
 	// we do not need this variable anymore
 	unset($server_db_record);
+	
+	// retrieve admin email address for notifications
+	$sys_ini = $app->dbmaster->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
+	$conf['sys_ini'] = $app->ini_parser->parse_ini_string(stripslashes($sys_ini['config']));
+	$conf['admin_mail'] = $conf['sys_ini']['mail']['admin_mail'];
+	unset($sys_ini);
 	
 	/*
 	 * Save the rescue-config, maybe we need it (because the database is down)

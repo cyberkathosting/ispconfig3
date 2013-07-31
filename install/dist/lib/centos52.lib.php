@@ -41,7 +41,7 @@ class installer extends installer_dist {
 		}
 
 		// load files
-		$content = rf('tpl/mm_cfg.py.master');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mm_cfg.py.master', 'tpl/mm_cfg.py.master');
 		$old_file = rf($full_file_name);
 
 		$old_options = array();
@@ -67,7 +67,11 @@ class installer extends installer_dist {
 			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
 		}
 		
-		copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+        if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
+            copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
+        } else {
+            copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
+        }
 		chgrp($full_file_name,'mailman');
 		chmod($full_file_name,0750);
 		
@@ -110,7 +114,7 @@ class installer extends installer_dist {
 		$configfile = 'fedora_amavisd_conf';
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
-		$content = rf("tpl/".$configfile.".master");
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/".$configfile.".master");
 		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
 		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
@@ -142,7 +146,7 @@ class installer extends installer_dist {
 		// Only add the content if we had not addded it before
 		if(!stristr($content,"127.0.0.1:10025")) {
 			unset($content);
-			$content = rf("tpl/master_cf_amavis.master");
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', "tpl/master_cf_amavis.master");
 			af($conf["postfix"]["config_dir"].'/master.cf',$content);
 		}
 		unset($content);

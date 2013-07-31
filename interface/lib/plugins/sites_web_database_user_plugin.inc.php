@@ -27,7 +27,7 @@ class sites_web_database_user_plugin {
         global $app, $conf;   
         
         // make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
-        // also make sure that the user can not delete domain created by a admin
+        // also make sure that the user can not delete entry created by an admin
         if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
             $client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
             $app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE database_user_id = ".$page_form->id);
@@ -36,6 +36,6 @@ class sites_web_database_user_plugin {
             $client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
             $app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$page_form->id);
         }
-        $app->db->query("UPDATE web_database_user SET server_id = '" . $app->functions->intval($conf['server_id']) . "' WHERE database_user_id = ".$page_form->id);
+        //$app->db->query("UPDATE web_database_user SET server_id = '" . $app->functions->intval($conf['server_id']) . "' WHERE database_user_id = ".$page_form->id);
 	}
 }              	
