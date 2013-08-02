@@ -89,7 +89,7 @@ class monitor_core_module {
 		$this->_tools = new monitor_tools();
 
 		/*
-		 * Calls the single Monitoring steps 
+		 * Calls the single Monitoring steps
 		 */
 		$this->_monitorEmailQuota();
 		$this->_monitorHDQuota();
@@ -117,6 +117,7 @@ class monitor_core_module {
 		$this->_monitorRaid();
 		$this->_monitorRkHunter();
 		$this->_monitorFail2ban();
+		$this->_monitorMongoDB();
 		$this->_monitorIPTables();
 		$this->_monitorSysLog();
 	}
@@ -129,12 +130,12 @@ class monitor_core_module {
 		 */
 		$min = @date('i', $this->_run_time);
 		if ($min % 15 != 0) return;
-		
+
 		$app->uses('getconf');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		if($mail_config['mailbox_quota_stats'] == 'n') return;
-		
-		
+
+
 		/*
          * First we get the Monitoring-data from the tools
          */
@@ -422,7 +423,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorSystemUpdate();
-		
+
 		//* Ensure that output is encoded so that it does not break the serialize
 		//$res['data']['output'] = htmlentities($res['data']['output']);
 		$res['data']['output'] = htmlentities($res['data']['output'],ENT_QUOTES,'UTF-8');
@@ -536,6 +537,31 @@ class monitor_core_module {
          * First we get the Monitoring-data from the tools
          */
         $res = $this->_tools->monitorFail2ban();
+
+        /*
+         * Insert the data into the database
+         */
+        $sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
+                'VALUES (' .
+                $res['server_id'] . ', ' .
+                "'" . $app->dbmaster->quote($res['type']) . "', " .
+                'UNIX_TIMESTAMP(), ' .
+                "'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+                "'" . $res['state'] . "'" .
+                ')';
+        $app->dbmaster->query($sql);
+
+        /* The new data is written, now we can delete the old one */
+        $this->_delOldRecords($res['type'], $res['server_id']);
+    }
+
+	private function _monitorMongoDB() {
+	global $app;
+
+        /*
+         * First we get the Monitoring-data from the tools
+         */
+        $res = $this->_tools->monitorMongoDB();
 
         /*
          * Insert the data into the database
@@ -712,7 +738,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorISPCCronLog();
-		
+
 		//* Ensure that output is encoded so that it does not break the serialize
 		if(is_array($res) && isset($res['data'])) $res['data'] = htmlentities($res['data']);
 
@@ -820,10 +846,10 @@ class monitor_core_module {
 		// $now = time();
 		// $old = $now - (4 * 60); // 4 minutes
 		$old = 'UNIX_TIMESTAMP() - 240';
-		
+
 		/*
 		 * ATTENTION if i do NOT pay attention of the server id, i delete all data (of the type)
-		 * of ALL servers. This means, if i have a multiserver-environment and a server has a 
+		 * of ALL servers. This means, if i have a multiserver-environment and a server has a
 		 * time not synced with the others (for example, all server has 11:00 and ONE server has
 		 * 10:45) then the actual data of this server (with the time-stamp 10:45) get lost
 		 * even though it is the NEWEST data of this server. To avoid this i HAVE to include

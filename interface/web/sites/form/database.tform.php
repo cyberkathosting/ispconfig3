@@ -29,7 +29,7 @@
 	Hint:
 	The ID field of the database table is not part of the datafield definition.
 	The ID field must be always auto incement (int or bigint).
-	
+
 	Search:
 	- searchable = 1 or searchable = 2 include the field in the search
 	- searchable = 1: this field will be the title of the search result
@@ -89,7 +89,10 @@ $form["tabs"]['database'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'SELECT',
 			'default'	=> 'y',
-			'value'		=> array('mysql' => 'MySQL')
+			'value'		=> array(
+			                  'mongo' => 'MongoDB',
+			                  'mysql' => 'MySQL'
+			               )
 		),
 		'database_name' => array (
 			'datatype'	=> 'VARCHAR',

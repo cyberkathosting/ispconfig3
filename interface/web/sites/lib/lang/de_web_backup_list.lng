@@ -10,6 +10,7 @@ $wb['restore_info_txt'] = 'Die Wiederherstellung des Backups hat begonnen. Diese
 $wb['restore_confirm_txt'] = 'Die Wiederherstellung wird existierende Dateien in Ihrer Website überschreiben. Möchten Sie dieses Backup wirklich zurückspielen?';
 $wb['download_pending_txt'] = 'Es liegt bereits ein Backup Download Job an.';
 $wb['restore_pending_txt'] = 'Es liegt bereits ein Backup Wiederherstellungs Job an.';
+$wb['backup_type_mongodb'] = 'MongoDB Datenbank';
 $wb['backup_type_mysql'] = 'MySQL Datenbank';
 $wb['backup_type_web'] = 'Webseiten Dateien';
 ?>

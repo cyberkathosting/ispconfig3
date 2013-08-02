@@ -146,6 +146,7 @@ $wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM Socket Verzeichnis ist leer.';
 $wb['fastcgi_config_syntax_txt'] = 'FastCGI Konfigurations Syntax';
 $wb['try_rescue_txt'] = 'Aktiviere Service Monitoring und Neustart bei Unerreichbarkeit';
 $wb['do_not_try_rescue_httpd_txt'] = 'Deaktiviere HTTPD Monitoring';
+$wb['do_not_try_rescue_mongodb_txt'] = 'Deaktiviere MongoDB Monitoring';
 $wb['do_not_try_rescue_mysql_txt'] = 'Deaktiviere MySQL Monitoring';
 $wb['do_not_try_rescue_mail_txt'] = 'Deaktiviere E-Mail Monitoring';
 $wb['rescue_description_txt'] = '<b>Information:</b> Falls Sie MySQL stoppen möchten, wählen Sie die Funktion \'Deaktiviere MySQL Monitoring\' und warten Sie 2 bis 3 Minuten. Wenn Sie nicht 2 bis 3 Miunten warten wird ISPConfig versuchen MySQL wieder zu starten.';

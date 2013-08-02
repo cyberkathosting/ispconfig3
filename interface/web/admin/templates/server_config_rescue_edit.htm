@@ -18,6 +18,12 @@
                 </div>
             </div>
             <div class="ctrlHolder">
+                <p class="label" style="width:300px">{tmpl_var name='do_not_try_rescue_mongodb_txt'}</p>
+                <div class="multiField" style="width:100px">
+                    {tmpl_var name='do_not_try_rescue_mongodb'}
+                </div>
+            </div>
+            <div class="ctrlHolder">
                 <p class="label" style="width:300px">{tmpl_var name='do_not_try_rescue_mysql_txt'}</p>
                 <div class="multiField" style="width:100px">
                     {tmpl_var name='do_not_try_rescue_mysql'}
@@ -30,15 +36,15 @@
                 </div>
             </div>
         </fieldset>
-            
+
         <tmpl_var name="rescue_description_txt">
-            
+
             <input type="hidden" name="id" value="{tmpl_var name='id'}">
-                
+
             <div class="buttonHolder buttons">
                 <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
                 <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
             </div>
     </div>
-  
+
 </div>

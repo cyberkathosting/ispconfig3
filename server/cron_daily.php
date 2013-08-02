@@ -54,7 +54,7 @@ if(count($records) > 0) $parse_mail_log = true;
 foreach($records as $rec) {
 	if(@is_file($rec['maildir'].'/ispconfig_mailsize')) {
         $parse_mail_log = false;
-        
+
 		// rename file
 		rename($rec['maildir'].'/ispconfig_mailsize',$rec['maildir'].'/ispconfig_mailsize_save');
 
@@ -92,15 +92,15 @@ if($parse_mail_log == true) {
     $mailbox_traffic = array();
     $mail_boxes = array();
     $mail_rewrites = array(); // we need to read all mail aliases and forwards because the address in amavis is not always the mailbox address
-    
+
     function parse_mail_log_line($line) {
         //Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
-        
+
         if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
-        
+
         $timestamp = strtotime($matches[1]);
         if(!$timestamp) return false;
-        
+
         $to = array();
         $recipients = explode(',', $matches[3]);
         foreach($recipients as $recipient) {
@@ -108,15 +108,15 @@ if($parse_mail_log == true) {
             if(!$recipient || $recipient == $matches[2]) continue;
             $to[] = $recipient;
         }
-        
+
         return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
     }
 
     function add_mailbox_traffic(&$traffic_array, $address, $traffic) {
         global $mail_boxes, $mail_rewrites;
-        
+
         $address = strtolower($address);
-        
+
         if(in_array($address, $mail_boxes) == true) {
             if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
             $traffic_array[$address] += $traffic;
@@ -146,17 +146,17 @@ if($parse_mail_log == true) {
             }
         }
     }
-    
+
     $state_file = dirname(__FILE__) . '/mail_log_parser.state';
     $prev_line = false;
     $last_line = false;
     $cur_line = false;
-    
+
     if(file_exists($state_file)) {
         $prev_line = parse_mail_log_line(trim(file_get_contents($state_file)));
         //if($prev_line) echo "continuing from previous run, log position: " . $prev_line['message-id'] . " at " . strftime('%d.%m.%Y %H:%M:%S', $prev_line['timestamp']) . "\n";
     }
-    
+
     if(file_exists('/var/log/mail.log')) {
         $fp = fopen('/var/log/mail.log', 'r');
         //echo "Parsing mail.log...\n";
@@ -166,7 +166,7 @@ if($parse_mail_log == true) {
             //if($l % 1000 == 0) echo "\rline $l";
             $cur_line = parse_mail_log_line($line);
             if(!$cur_line) continue;
-            
+
             if($prev_line) {
                 // check if this line has to be processed
                 if($cur_line['timestamp'] < $prev_line['timestamp']) {
@@ -178,7 +178,7 @@ if($parse_mail_log == true) {
                     continue;
                 }
             }
-            
+
             add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
             foreach($cur_line['to'] as $to) {
                 add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
@@ -188,7 +188,7 @@ if($parse_mail_log == true) {
         fclose($fp);
         //echo "\n";
     }
-    
+
     if($parse_mail_log == true && file_exists('/var/log/mail.log.1')) {
         $fp = fopen('/var/log/mail.log.1', 'r');
         //echo "Parsing mail.log.1...\n";
@@ -198,7 +198,7 @@ if($parse_mail_log == true) {
             //if($l % 1000 == 0) echo "\rline $l";
             $cur_line = parse_mail_log_line($line);
             if(!$cur_line) continue;
-            
+
             if($prev_line) {
                 // check if this line has to be processed
                 if($cur_line['timestamp'] < $prev_line['timestamp']) continue; // already processed
@@ -207,7 +207,7 @@ if($parse_mail_log == true) {
                     continue;
                 }
             }
-            
+
             add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
             foreach($cur_line['to'] as $to) {
                 add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
@@ -218,7 +218,7 @@ if($parse_mail_log == true) {
     }
     unset($mail_rewrites);
     unset($mail_boxes);
-    
+
     // Save the traffic stats in the sql database
     $tstamp = date('Y-m');
     $sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ".$conf['server_id'];
@@ -238,7 +238,7 @@ if($parse_mail_log == true) {
             //echo $sql;
         }
     }
-    
+
     unset($mailbox_traffic);
     if($last_line) file_put_contents($state_file, $last_line);
 }
@@ -278,7 +278,7 @@ $records = $app->db->queryAllRecords($sql);
 foreach($records as $rec) {
 	//$yesterday = date('Ymd',time() - 86400);
 	$yesterday = date('Ymd',strtotime("-1 day", time()));
-	
+
     $log_folder = 'log';
     if($rec['type'] == 'vhostsubdomain') {
         $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
@@ -330,7 +330,7 @@ $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 foreach($records as $rec) {
 	//$yesterday = date('Ymd',time() - 86400);
 	$yesterday = date('Ymd',strtotime("-1 day", time()));
-	
+
     $log_folder = 'log';
     if($rec['type'] == 'vhostsubdomain') {
         $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
@@ -452,7 +452,7 @@ foreach($records as $rec) {
 
 	//* create traffic statistics based on yesterdays access log file
 	$yesterday = date('Ymd',time() - 86400);
-	
+
     $log_folder = 'log';
     if($rec['type'] == 'vhostsubdomain') {
         $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
@@ -461,7 +461,7 @@ foreach($records as $rec) {
         $log_folder .= '/' . $subdomain_host;
         unset($tmp);
     }
-    
+
     $logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 	$total_bytes = 0;
 
@@ -646,10 +646,10 @@ if ($app->dbmaster == $app->db) {
 #########
 function send_notification_email($template, $placeholders, $recipients) {
     global $conf;
-    
+
     if(!is_array($recipients) || count($recipients) < 1) return false;
     if(!is_array($placeholders)) $placeholders = array();
-    
+
     if(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt')) {
         $lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt');
     } elseif(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt')) {
@@ -659,7 +659,7 @@ function send_notification_email($template, $placeholders, $recipients) {
     } else {
         $lines = file($conf['rootpath'].'/conf/mail/' . $template . '_en.txt');
     }
-    
+
     //* get mail headers, subject and body
     $mailHeaders = '';
     $mailBody = '';
@@ -680,12 +680,12 @@ function send_notification_email($template, $placeholders, $recipients) {
         }
     }
     $mailBody = trim($mailBody);
-    
+
     //* Replace placeholders
     $mailHeaders = strtr($mailHeaders, $placeholders);
     $mailSubject = strtr($mailSubject, $placeholders);
     $mailBody = strtr($mailBody, $placeholders);
-    
+
     for($r = 0; $r < count($recipients); $r++) {
         mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
     }
@@ -694,7 +694,7 @@ function send_notification_email($template, $placeholders, $recipients) {
     unset($mailHeaders);
     unset($mailBody);
     unset($lines);
-    
+
     return true;
 }
 
@@ -706,7 +706,7 @@ function send_notification_email($template, $placeholders, $recipients) {
 if ($app->dbmaster == $app->db) {
 
 	$global_config = $app->getconf->get_global_config('mail');
-	
+
 	$current_month = date('Y-m');
 
 	//* Check website traffic quota
@@ -739,19 +739,19 @@ if ($app->dbmaster == $app->db) {
 			if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
 				$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
 				$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.',LOGLEVEL_DEBUG);
-				
+
 				//* Send traffic notifications
 				if($rec['traffic_quota_lock'] != 'y' && ($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y')) {
-                    
-                    $placeholders = array('{domain}' => $rec['domain'],
-                                          '{admin_mail}' => $global_config['admin_mail']);
-                    
+
+					$placeholders = array('{domain}' => $rec['domain'],
+										  '{admin_mail}' => $global_config['admin_mail']);
+
 					$recipients = array();
-                    //* send email to admin
+					//* send email to admin
 					if($global_config['admin_mail'] != '' && $web_config['overtraffic_notify_admin'] == 'y') {
 						$recipients[] = $global_config['admin_mail'];
 					}
-					
+
 					//* Send email to client
 					if($web_config['overtraffic_notify_client'] == 'y') {
 						$client_group_id = $rec["sys_groupid"];
@@ -760,11 +760,10 @@ if ($app->dbmaster == $app->db) {
 							$recipients[] = $client['email'];
 						}
 					}
-                    
-                    send_notification_email('web_traffic_notification', $placeholders, $recipients);
+
+					send_notification_email('web_traffic_notification', $placeholders, $recipients);
 				}
-				
-				
+
 			} else {
 				//* unlock the website, if traffic is lower then quota
 				if($rec['traffic_quota_lock'] == 'y') {
@@ -791,7 +790,7 @@ if ($app->dbmaster == $app->db) {
 	$sql = "SELECT domain_id,sys_groupid,domain,system_user,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain')";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records) && !empty($records)) {
-	
+
 		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
 		$monitor_data = array();
 		if(is_array($tmp_rec)) {
@@ -799,18 +798,18 @@ if ($app->dbmaster == $app->db) {
 				$monitor_data = array_merge_recursive($monitor_data,unserialize($app->db->unquote($tmp_mon['data'])));
 			}
 		}
-		
+
 		foreach($records as $rec) {
 
 			//$web_hd_quota = $rec['hd_quota'];
 			$domain = $rec['domain'];
-			
+
 			$username = $rec['system_user'];
 			$rec['used'] = $monitor_data['user'][$username]['used'];
 			$rec['soft'] = $monitor_data['user'][$username]['soft'];
 			$rec['hard'] = $monitor_data['user'][$username]['hard'];
 			$rec['files'] = $monitor_data['user'][$username]['files'];
-				
+
 			if (!is_numeric($rec['used'])){
 				if ($rec['used'][0] > $rec['used'][1]){
 					$rec['used'] = $rec['used'][0];
@@ -821,22 +820,22 @@ if ($app->dbmaster == $app->db) {
 			if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 			if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
 			if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];
-				
+
 			// used space ratio
 			if($rec['soft'] > 0){
 				$used_ratio = $rec['used']/$rec['soft'];
 			} else {
 				$used_ratio = 0;
 			}
-			
+
 			$rec['ratio'] = number_format($used_ratio * 100, 2, '.', '').'%';
-		
+
 			if($rec['used'] > 1024) {
 				$rec['used'] = round($rec['used'] / 1024,2).' MB';
 			} else {
 				if ($rec['used'] != '') $rec['used'] .= ' KB';
 			}
-		
+
 			if($rec['soft'] > 1024) {
 				$rec['soft'] = round($rec['soft'] / 1024,2).' MB';
 			} elseif($rec['soft'] == 0){
@@ -844,7 +843,7 @@ if ($app->dbmaster == $app->db) {
 			} else {
 				$rec['soft'] .= ' KB';
 			}
-		
+
 			if($rec['hard'] > 1024) {
 				$rec['hard'] = round($rec['hard'] / 1024,2).' MB';
 			} elseif($rec['hard'] == 0){
@@ -852,12 +851,12 @@ if ($app->dbmaster == $app->db) {
 			} else {
 				$rec['hard'] .= ' KB';
 			}
-			
+
 			// send notifications only if 90% or more of the quota are used
 			if($used_ratio < 0.9) {
                 // reset notification date
                 if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = NULL", 'domain_id', $rec['domain_id']);
-                
+
                 // send notification - everything ok again
                 if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y')) {
                     $placeholders = array('{domain}' => $rec['domain'],
@@ -868,12 +867,12 @@ if ($app->dbmaster == $app->db) {
                                           '{ratio}' => $rec['ratio']);
 
                     $recipients = array();
-                    
+
                     //* send email to admin
                     if($global_config['admin_mail'] != '' && $web_config['overquota_notify_admin'] == 'y') {
                         $recipients[] = $global_config['admin_mail'];
                     }
-                    
+
                     //* Send email to client
                     if($web_config['overquota_notify_client'] == 'y') {
                         $client_group_id = $rec["sys_groupid"];
@@ -884,19 +883,19 @@ if ($app->dbmaster == $app->db) {
                     }
                     send_notification_email('web_quota_ok_notification', $placeholders, $recipients);
                 }
-                
+
                 continue;
             }
-            
+
             // could a notification be sent?
             $send_notification = false;
             if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
             elseif($web_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $web_config['overquota_notify_freq']) $send_notification = true;
-            
+
 			//* Send quota notifications
 			if(($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y') && $send_notification == true) {
 				$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
-                
+
                 $placeholders = array('{domain}' => $rec['domain'],
                                       '{admin_mail}' => $global_config['admin_mail'],
                                       '{used}' => $rec['used'],
@@ -905,12 +904,12 @@ if ($app->dbmaster == $app->db) {
                                       '{ratio}' => $rec['ratio']);
 
                 $recipients = array();
-                
+
                 //* send email to admin
                 if($global_config['admin_mail'] != '' && $web_config['overquota_notify_admin'] == 'y') {
                     $recipients[] = $global_config['admin_mail'];
                 }
-                
+
                 //* Send email to client
                 if($web_config['overquota_notify_client'] == 'y') {
                     $client_group_id = $rec["sys_groupid"];
@@ -939,7 +938,7 @@ if ($app->dbmaster == $app->db) {
 	$sql = "SELECT mailuser_id,sys_groupid,email,name,quota,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM mail_user";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records) && !empty($records)) {
-	
+
 		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'email_quota' ORDER BY created DESC");
 		$monitor_data = array();
 		if(is_array($tmp_rec)) {
@@ -953,24 +952,24 @@ if ($app->dbmaster == $app->db) {
 				}
 			}
 		}
-		
+
 		foreach($records as $rec) {
 
 			$email = $rec['email'];
-		
+
 			$rec['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
-		
+
 			if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
-				
+
 			// used space ratio
 			if($rec['quota'] > 0){
 				$used_ratio = $rec['used']/$rec['quota'];
 			} else {
 				$used_ratio = 0;
 			}
-			
+
 			$rec['ratio'] = number_format($used_ratio * 100, 2, '.', '').'%';
-			
+
 			if($rec['quota'] > 0){
 				$rec['quota'] = round($rec['quota'] / 1048576,4).' MB';
 			} else {
@@ -981,8 +980,8 @@ if ($app->dbmaster == $app->db) {
 				$rec['used'] = round($rec['used'] / 1024,4).' KB';
 			} else {
 				$rec['used'] = round($rec['used'] / 1048576,4).' MB';
-			} 
-			
+			}
+
 			// send notifications only if 90% or more of the quota are used
 			if($used_ratio < 0.9) {
                 // reset notification date
@@ -996,13 +995,13 @@ if ($app->dbmaster == $app->db) {
                               '{name}' => $rec['name'],
                               '{quota}' => $rec['quota'],
                               '{ratio}' => $rec['ratio']);
-        
+
                     $recipients = array();
                     //* send email to admin
                     if($global_config['admin_mail'] != '' && $mail_config['overquota_notify_admin'] == 'y') {
                         $recipients[] = $global_config['admin_mail'];
                     }
-                    
+
                     //* Send email to client
                     if($mail_config['overquota_notify_client'] == 'y') {
                         $client_group_id = $rec["sys_groupid"];
@@ -1011,35 +1010,35 @@ if ($app->dbmaster == $app->db) {
                             $recipients[] = $client['email'];
                         }
                     }
-                    
+
                     send_notification_email('mail_quota_ok_notification', $placeholders, $recipients);
                 }
 
                 continue;
             }
-				
+
 			//* Send quota notifications
             // could a notification be sent?
             $send_notification = false;
             if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
             elseif($mail_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $mail_config['overquota_notify_freq']) $send_notification = true;
-            
+
             if(($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y') && $send_notification == true) {
 				$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
-                
+
                 $placeholders = array('{email}' => $rec['email'],
                           '{admin_mail}' => $global_config['admin_mail'],
                           '{used}' => $rec['used'],
                           '{name}' => $rec['name'],
                           '{quota}' => $rec['quota'],
                           '{ratio}' => $rec['ratio']);
-    
+
                 $recipients = array();
                 //* send email to admin
                 if($global_config['admin_mail'] != '' && $mail_config['overquota_notify_admin'] == 'y') {
                     $recipients[] = $global_config['admin_mail'];
                 }
-                
+
                 //* Send email to client
                 if($mail_config['overquota_notify_client'] == 'y') {
                     $client_group_id = $rec["sys_groupid"];
@@ -1048,9 +1047,9 @@ if ($app->dbmaster == $app->db) {
                         $recipients[] = $client['email'];
                     }
                 }
-                
+
                 send_notification_email('mail_quota_notification', $placeholders, $recipients);
-			}	
+			}
 		}
 	}
 }
@@ -1081,7 +1080,7 @@ if ($app->dbmaster == $app->db) {
 #######################################################################################################
 function formatBytes($size, $precision = 2) {
 	$base=log($size)/log(1024);
-	$suffixes=array('','k','M','G','T');   
+	$suffixes=array('','k','M','G','T');
     	return round(pow(1024,$base-floor($base)),$precision).$suffixes[floor($base)];
 }
 
@@ -1153,7 +1152,7 @@ if($backup_dir != '') {
 				} else {
 					if(is_file($web_backup_dir.'/'.$web_backup_file)) unlink($web_backup_dir.'/'.$web_backup_file);
 				}
-				
+
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);
 
@@ -1187,7 +1186,7 @@ if($backup_dir != '') {
 				//* Remove backupdir symlink and create as directory instead
 				$app->uses('system');
 				$app->system->web_folder_protection($web_path,false);
-				
+
 				if(is_link($web_path.'/backup')) {
 					unlink($web_path.'/backup');
 				}
@@ -1196,7 +1195,7 @@ if($backup_dir != '') {
 					chown($web_path.'/backup', $rec['system_user']);
 					chgrp($web_path.'/backup', $rec['system_group']);
 				}
-				
+
 				$app->system->web_folder_protection($web_path,true);
 
 			}
@@ -1232,33 +1231,72 @@ if($backup_dir != '') {
 				chown($db_backup_dir, 'root');
 				chgrp($db_backup_dir, 'root');
 
-				//* Do the mysql database backup with mysqldump
+				//* Do the mysql database backup with mysqldump or mongodump
 				$db_id = $rec['database_id'];
 				$db_name = $rec['database_name'];
-				$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
-				$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
-				exec($command, $tmp_output, $retval);
 
-				//* Compress the backup with gzip
-				if($retval == 0) exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
-				
-				if($retval == 0){
-					chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
-					chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
-					chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
+				if ($rec['type'] == 'mysql') {
+					$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
+					$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
+					exec($command, $tmp_output, $retval);
 
-					//* Insert web backup record in database
-					//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-					//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-					$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-					$app->db->query($sql);
-					if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+					//* Compress the backup with gzip
+					if($retval == 0) exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
 
-				} else {
-					if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')) unlink($db_backup_dir.'/'.$db_backup_file.'.gz');
+					if($retval == 0){
+						chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
+						chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
+						chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
+
+						//* Insert web backup record in database
+						//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+						//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
+						$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+						$app->db->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+
+					} else {
+						if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')) unlink($db_backup_dir.'/'.$db_backup_file.'.gz');
+					}
+					//* Remove the uncompressed file
+					if(is_file($db_backup_dir.'/'.$db_backup_file)) unlink($db_backup_dir.'/'.$db_backup_file);
+				} else if ($rec['type'] == 'mongo') {
+					$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i');
+
+					try {
+						$connection = new MongoClient("mongodb://root:123456@127.0.0.1:27017/admin");
+						$db = $connection->selectDB($db_name);
+						// exclude not supported by mongodump, only get user collections
+						$collections = $db->getCollectionNames(false);
+
+						foreach ($collections as $collection) {
+							// mongodump -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d <db> -c <table> -o /tmp/test
+							$command = "mongodump -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d ".escapeshellcmd($db_name)." -c ".escapeshellcmd($collection)." -o ".escapeshellcmd($db_backup_dir.'/'.$db_backup_file);
+							exec($command);
+						}
+
+						if (is_dir(escapeshellcmd($db_backup_dir.'/'.$db_backup_file))) {
+							//* Compress the backup with gzip
+							exec("cd ".escapeshellcmd($db_backup_dir)." && tar -pczf ".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".tar.gz ".escapeshellcmd($db_backup_file));
+							chmod($db_backup_dir.'/'.$db_backup_file.'.tar.gz', 0750);
+							chown($db_backup_dir.'/'.$db_backup_file.'.tar.gz', fileowner($db_backup_dir));
+							chgrp($db_backup_dir.'/'.$db_backup_file.'.tar.gz', filegroup($db_backup_dir));
+
+							//* Insert web backup record in database
+							$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mongodb','rootgz',".time().",'".$app->db->quote($db_backup_file).".tar.gz')";
+							$app->db->query($sql);
+
+							if ($app->db->dbHost != $app->dbmaster->dbHost) {
+								$app->dbmaster->query($sql);
+							}
+
+							//* Remove the uncompressed file
+							exec("rm -rf ".escapeshellcmd($db_backup_dir.'/'.$db_backup_file));
+						}
+					} catch (MongoConnnectionException $e) {
+						// connecting to MongoDB failed - cannot create backup
+					}
 				}
-				//* Remove the uncompressed file
-				if(is_file($db_backup_dir.'/'.$db_backup_file)) unlink($db_backup_dir.'/'.$db_backup_file);
 
 				//* Remove old backups
 				$backup_copies = intval($rec['backup_copies']);
@@ -1266,13 +1304,13 @@ if($backup_dir != '') {
 				$dir_handle = dir($db_backup_dir);
 				$files = array();
 				while (false !== ($entry = $dir_handle->read())) {
-					if($entry != '.' && $entry != '..' && preg_match('/^db_(.*?)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql.gz$/', $entry, $matches) && is_file($db_backup_dir.'/'.$entry)) {
+					if($entry != '.' && $entry != '..' && (preg_match('/^db_(.*?)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql.gz$/', $entry, $matches) || preg_match('/^db_(.*?)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.tar.gz$/', $entry, $matches)) && is_file($db_backup_dir.'/'.$entry)) {
                         if(array_key_exists($matches[1], $files) == false) $files[$matches[1]] = array();
 						$files[$matches[1]][] = $entry;
 					}
 				}
 				$dir_handle->close();
-                
+
                 reset($files);
                 foreach($files as $db_name => $filelist) {
                     rsort($filelist);
